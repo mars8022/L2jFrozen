@@ -249,8 +249,8 @@ public class EnterWorld extends L2GameClientPacket
 		SystemMessage sm = new SystemMessage(SystemMessageId.WELCOME_TO_LINEAGE);
 		sendPacket(sm);
 		
-		activeChar.sendMessage(getText("0KHQv9Cw0YHQuNCx0L4g0LfQsCDQuNGB0L/QvtC70YzQt9C+0LLQsNC90LjQtSDRgdCx0L7RgNC60LggT3BlbiBUZWFtIQ==\n"));
-		activeChar.sendMessage(getText("0KDQsNC30LvQuNGH0L3Ri9C1INC00L7Qv9C+0LvQvdC10L3QuNGPINC00LvRjyDRgdC10YDQstC10YDQsCDQvNC+0LbQvdC+INC90LDQudGC0Lgg0L3QsCDRgdCw0LnRgtC1IHd3dy5sMm1heGkucnU=\n"));
+		//activeChar.sendMessage(getText("0KHQv9Cw0YHQuNCx0L4g0LfQsCDQuNGB0L/QvtC70YzQt9C+0LLQsNC90LjQtSDRgdCx0L7RgNC60LggT3BlbiBUZWFtIQ==\n"));
+		//activeChar.sendMessage(getText("0KDQsNC30LvQuNGH0L3Ri9C1INC00L7Qv9C+0LvQvdC10L3QuNGPINC00LvRjyDRgdC10YDQstC10YDQsCDQvNC+0LbQvdC+INC90LDQudGC0Lgg0L3QsCDRgdCw0LnRgtC1IHd3dy5sMm1heGkucnU=\n"));
 		
 		SevenSigns.getInstance().sendCurrentPeriodMsg(activeChar);
 		Announcements.getInstance().showAnnouncements(activeChar);

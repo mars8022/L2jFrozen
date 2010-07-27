@@ -164,14 +164,16 @@ public abstract class ClanHallSiege
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM cch_guards Where npc_templateid between ? and ? ORDER BY id");
-			statement.setInt(1, 35633);
+			/*statement.setInt(1, 35633);
 			statement.setInt(2, 35634);
 			statement.setInt(3, 35635);
 			statement.setInt(4, 35636);
 			statement.setInt(5, 35637);
 			statement.setInt(6, LIDIA);
 			statement.setInt(7, MINION1);
-			statement.setInt(8, MINION2);
+			statement.setInt(8, MINION2);*/
+			statement.setInt(1, 35629);
+			statement.setInt(2, 35637);
 			ResultSet rset = statement.executeQuery();
 			L2Spawn spawnDat;
 			L2NpcTemplate template1;
@@ -294,7 +296,7 @@ public abstract class ClanHallSiege
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM cch_guards Where npc_templateid between ? and ? ORDER BY id");
-			statement.setInt(1, 35411);
+			/*statement.setInt(1, 35411);
 			statement.setInt(2, 35412);
 			statement.setInt(3, 35413);
 			statement.setInt(4, 35414);
@@ -302,7 +304,9 @@ public abstract class ClanHallSiege
 			statement.setInt(6, 35416);
 			statement.setInt(1, GUSTAV);
 			statement.setInt(2, GMINION1);
-			statement.setInt(3, GMINION2);
+			statement.setInt(3, GMINION2);*/
+			statement.setInt(1, 35409);
+			statement.setInt(2, 35416);
 			ResultSet rset = statement.executeQuery();
 			L2Spawn spawnDat;
 			L2NpcTemplate template1;
