@@ -24,7 +24,7 @@
 		<fail unless="JDK6.present" message="JDK 6 or greater is required." />
 	</target>
 
-	<target name="init" depends="clean, verifyRequirements" description="Create the output directories.">
+	<target name="init" depends="verifyRequirements" description="Create the output directories.">
 		<mkdir dir="${build}" />
 		<mkdir dir="${build.classes}" />
 		<mkdir dir="${build.dist}" />
@@ -166,7 +166,6 @@
 			</fileset>
 		</copy>
 
-		<zip destfile="${build}/SERVER.zip" basedir="${build.dist}" />
 	</target>
 
 	<target name="version" 
@@ -204,4 +203,9 @@
 	<target name="clean" description="Remove the output directories">
 		<delete dir="${build}" />
 	</target>
+	
+		<target name="zip" description="Zip Dist Folder" depends="dist">
+				<zip destfile="${build}/SERVER.zip" basedir="${build.dist}" />
+			</target>
+	
 </project>
