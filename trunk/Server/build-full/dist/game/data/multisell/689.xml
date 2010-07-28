@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!-- Created with Lineage II - Multisell Manager -->
+<!-- © 2007 by tReXpert -->
+
+<list maintainEnchantment="true">
+
+  <!-- Crystal Scroll: Enchant Armor (Grade B) -->
+  <item id="1">
+    <ingredient id="57" count="10000000"/>
+    <production id="950" count="1"/>
+  </item>
+
+  <!-- Crystal Scroll: Enchant Armor (Grade A) -->
+  <item id="2">
+    <ingredient id="57" count="10000000"/>
+    <production id="732" count="1"/>
+  </item>
+
+  <!-- Crystal Scroll: Enchant Armor (Grade S) -->
+  <item id="3">
+    <ingredient id="57" count="10000000"/>
+    <production id="962" count="1"/>
+  </item>
+
+  <!-- Crystal Scroll: Enchant Weapon (Grade B) -->
+  <item id="4">
+    <ingredient id="57" count="10000000"/>
+    <production id="949" count="1"/>
+  </item>
+
+  <!-- Crystal Scroll: Enchant Weapon (Grade A) -->
+  <item id="5">
+    <ingredient id="57" count="10000000"/>
+    <production id="731" count="1"/>
+  </item>
+
+  <!-- Crystal Scroll: Enchant Weapon (Grade S) -->
+  <item id="6">
+    <ingredient id="57" count="10000000"/>
+    <production id="961" count="1"/>
+  </item>
+
+
+</list>
