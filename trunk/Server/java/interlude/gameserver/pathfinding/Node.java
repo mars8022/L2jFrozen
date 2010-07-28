@@ -19,7 +19,7 @@ package interlude.gameserver.pathfinding;
  */
 public class Node
 {
-	private final AbstractNodeLoc _loc;
+	private AbstractNodeLoc _loc;
 	private final int _neighborsIdx;
 	private Node[] _neighbors;
 	private Node _parent;
@@ -65,6 +65,11 @@ public class Node
 		return _loc;
 	}
 
+	public void setLoc(AbstractNodeLoc l)
+	{
+		_loc = l;
+	}
+	
 	public short getCost()
 	{
 		return _cost;

@@ -163,4 +163,20 @@ public class GeoData
 	{
 		return false;
 	}
+	
+	public short getHeightAndNSWE(int x, int y, int z)
+	{
+		return (short)((z << 1) | 15);
+	}
+	
+	public boolean hasGeo(int x, int y)
+	{
+		return false;
+	}
+	
+	public boolean canMoveFromToTarget(int x, int y, int z, int tx, int ty, int tz, int instanceId)
+	{
+		return true;
+	}
+	
 }

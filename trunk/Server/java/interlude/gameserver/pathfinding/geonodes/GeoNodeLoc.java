@@ -24,7 +24,7 @@ public class GeoNodeLoc extends AbstractNodeLoc
 {
 	private final short _x;
 	private final short _y;
-	private final short _z;
+	private short _z;
 
 	public GeoNodeLoc(short x, short y, short z)
 	{
@@ -71,4 +71,12 @@ public class GeoNodeLoc extends AbstractNodeLoc
 	{
 		return _y;
 	}
+
+	@Override
+	public void setZ(short z) {
+		_z = z;
+	}
+	
+	
+	
 }

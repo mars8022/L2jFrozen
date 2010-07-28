@@ -114,11 +114,11 @@ public class RequestAuthLogin extends L2LoginClientPacket
 					client.setSessionKey(lc.assignSessionKeyToClient(_user, client));
 					if (Config.SHOW_LICENCE)
 					{
-						client.sendPacket(new LoginOk(getClient().getSessionKey()));
+						client.sendPacket(new LoginOk(client.getSessionKey()));
 					}
 					else
 					{
-						getClient().sendPacket(new ServerList(getClient()));
+						client.sendPacket(new ServerList(client));
 					}
 					break;
 				case INVALID_PASSWORD:
@@ -154,6 +154,10 @@ public class RequestAuthLogin extends L2LoginClientPacket
 						{
 							gsi.getGameServerThread().kickPlayer(_user);
 						}
+					}
+				default:
+					if(Config.DEBUG){
+						_log.info("not defined case");
 					}
 			}
 		}

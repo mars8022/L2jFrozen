@@ -503,6 +503,15 @@ public final class Config
     public static long KNOWNLIST_UPDATE_INTERVAL;
 	public static boolean ACCEPT_GEOEDITOR_CONN;
 	
+	public static float LOW_WEIGHT;
+	public static float MEDIUM_WEIGHT;
+	public static float HIGH_WEIGHT;
+	public static boolean ADVANCED_DIAGONAL_STRATEGY;
+	public static float DIAGONAL_WEIGHT;
+	public static String PATHFIND_BUFFERS;
+	public static boolean DEBUG_PATH;
+	public static int MAX_POSTFILTER_PASSES;
+	
 	// buff multiplayer
 	public static float BUFF_TIME_MULTIPLIER;
 	public static float SPIRIT_TIME_MULTIPLIER;

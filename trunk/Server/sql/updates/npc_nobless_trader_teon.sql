@@ -1,0 +1,2 @@
+﻿delete from custom_npc where id = 66666;
+insert into `custom_npc` values (66666, 31739, 'NoblessTrader', 1, 'L2Frozen', 1, 'NPC.a_common_peopleB_MHuman', 8.00, 22.00, 70, 'male', 'L2Npc', 40, 3862, 1493, 11.85, 2.78, 40, 43, 30, 21, 20, 10, 0, 0, 1314, 470, 780, 382, 278, 0, 333, 4202, 0, 0, 55, 132, '', 0, 1, 0, 'LAST_HIT', 0, 0, 0, 'fighter');

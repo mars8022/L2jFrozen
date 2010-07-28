@@ -23,7 +23,7 @@ public class NodeLoc extends AbstractNodeLoc
 {
 	private final int _x;
 	private final int _y;
-	private final short _z;
+	private short _z;
 
 	public NodeLoc(int x, int y, short z)
 	{
@@ -65,8 +65,7 @@ public class NodeLoc extends AbstractNodeLoc
 	@Override
 	public short getNodeX()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (short)_x;
 	}
 
 	/**
@@ -75,7 +74,13 @@ public class NodeLoc extends AbstractNodeLoc
 	@Override
 	public short getNodeY()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (short)_y;
 	}
+
+	@Override
+	public void setZ(short z) {
+		_z = z;
+	}
+	
+	
 }

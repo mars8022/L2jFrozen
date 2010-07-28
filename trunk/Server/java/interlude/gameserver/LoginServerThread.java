@@ -338,6 +338,12 @@ public class LoginServerThread extends Thread
 							KickPlayer kp = new KickPlayer(decrypt);
 							doKickPlayer(kp.getAccount());
 							break;
+						default:
+							if (Config.DEBUG)
+							{
+								_log.warning("Case not defined!!");
+								
+							}
 					}
 				}
 			}
