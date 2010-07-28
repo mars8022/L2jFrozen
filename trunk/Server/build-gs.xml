@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Heaven-GS" default="dist" basedir=".">
+<project name="L2Frozen-GS" default="dist" basedir=".">
     
     <property name="src" location="java"/>
     <property name="lib" location="lib"/>
@@ -137,6 +137,12 @@
             </fileset>
         </copy>
     	
+    	<copy todir="${build.dist}">
+            <fileset dir="dist">
+                <include name="Start_*.sh"/>
+            </fileset>
+        </copy>
+    	
 		<fixcrlf 	srcdir="${build.dist.game}"
 					eol="lf"
 					eof="remove"
@@ -175,8 +181,7 @@
 			</fileset>
         </copy>
 
-        <zip destfile="${build}/GameServer.zip"
-             basedir="${build.dist}" />
+        
     </target>   
     
 	<target name="version" 
@@ -211,10 +216,14 @@
 </concat>
 </target>
 	
-    
-    <target name="clean"
-            description="Remove the output directories">
+	<target name="clean"
+	            description="Remove the output directories">
 
-        <delete dir="${build}"/>
-    </target>
+	        <delete dir="${build}"/>
+	    </target>
+    
+    <target name="zip" description="Zip Dist Folder" depends="dist">
+		<zip destfile="${build}/GameServer.zip" basedir="${build.dist}" />
+	</target>
+    
 </project>

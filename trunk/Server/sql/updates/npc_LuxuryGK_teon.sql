@@ -1,5 +1,4 @@
-﻿-- Note for L2JFree users : Luxury Gatekeeper is already in table `custom_npc`
-
+﻿
 DELETE FROM `custom_npc` WHERE `id`='7077';
 
 INSERT INTO `custom_npc` VALUES

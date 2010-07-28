@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project name="L2Open-DP" default="dist" basedir=".">
+<project name="L2Frozen-DP" default="export" basedir=".">
 
   <property name="build" location="build-dp"/>
   <property name="build.dist" location="${build}/dist"/>
@@ -17,7 +17,7 @@
     </target>
 
     <target name="export"
-      depends="version"
+    	depends="init"
       description="Syncronizes build space contents with project.">
       <sync todir="${build.dist.game}/data">
          <fileset dir="${basedir}/data">
@@ -33,7 +33,6 @@
            <exclude name="pathnode/**"/>
            <include name="**/*.*"/>
          </fileset>
-      </sync>
       </sync>
       <sync todir="${build.dist.sql}">
          <fileset dir="${basedir}/sql">
@@ -73,4 +72,5 @@
 	<target name="clean" description="Remove the output directories">
       <delete dir="${build}"/>
     </target>
+    	
 </project>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="L2Open Full" default="dist" basedir=".">
+<project name="L2Frozen Full" default="dist" basedir=".">
 	<property name="src" location="java" />
 	<property name="lib" location="lib" />
 	<property name="build" location="build-full" />
@@ -139,6 +139,13 @@
 				<include name="hibernate.cfg.xml" />
 			</fileset>
 		</copy>
+		
+		<copy todir="${build.dist}">
+            <fileset dir="dist">
+                <include name="Start_*.sh"/>
+            </fileset>
+        </copy>
+		
 		<fixcrlf srcdir="${build.dist.game}" eol="lf" eof="remove" includes="**/*.sh" />
 		<fixcrlf srcdir="${build.dist.login}" eol="lf" eof="remove" includes="**/*.sh" />
 		<fixcrlf srcdir="${build.dist.game}" eol="crlf" eof="remove" includes="**/*.bat" />
@@ -166,7 +173,6 @@
 			</fileset>
 		</copy>
 
-		<zip destfile="${build}/SERVER.zip" basedir="${build.dist}" />
 	</target>
 
 	<target name="version" 
@@ -204,4 +210,9 @@
 	<target name="clean" description="Remove the output directories">
 		<delete dir="${build}" />
 	</target>
+	
+	<target name="zip" description="Zip Dist Folder" depends="dist">
+		<zip destfile="${build}/SERVER.zip" basedir="${build.dist}" />
+	</target>
+	
 </project>
