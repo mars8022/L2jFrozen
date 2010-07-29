@@ -969,22 +969,22 @@
   <for>
   </for>
  </skill>
-<skill id="445" levels="1" name="Mirage"> 
- <set name="hitTime" val="2000"/> 
- <set name="magicLvl" val="79"/> 
- <set name="mpConsume" val="43"/> 
- <set name="operateType" val="OP_ACTIVE"/> 
- <set name="reuseDelay" val="250000"/> 
- <set name="skillType" val="BUFF"/> 
- <set name="target" val="TARGET_ONE"/> 
- 
-<for><effect
-   	count="1" name="RemoveTarget" time="1" val="0">
-</effect>
-	<effect name="ChanceSkillTrigger" time="60" triggeredId="5144"
-		chanceType="ON_ATTACKED" activationChance="30" val="0">
-	</effect>
-</for></skill>
+<skill id="445" levels="1" name="Mirage">
+  <set name="castRange" val="-1"/>
+  <set name="effectRange" val="-1"/>
+  <set name="hitTime" val="2000"/>
+  <set name="magicLvl" val="79"/>
+  <set name="mpConsume" val="43"/>
+  <set name="operateType" val="OP_ACTIVE"/>
+  <set name="reuseDelay" val="300000"/>
+  <set name="skillType" val="BUFF"/>
+  <set name="target" val="TARGET_SELF"/>
+  <set name="triggeredId" val="5144"/>
+  <set name="triggeredLevel" val="1"/>
+  <for>
+    <effect count="1" name="BestowSkill" time="60" val="0"/>
+  </for>
+</skill>
 <skill id="446" levels="1" name="Dodge">
  <!--
   Allows you to temporarily evade a melee attack skill.

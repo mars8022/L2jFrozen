@@ -24,45 +24,52 @@ import interlude.gameserver.skills.Env;
 */
 final class EffectBestowSkill extends L2Effect
 {
-	public EffectBestowSkill(Env env, EffectTemplate template)
-	{
-		super(env, template);
-	}
-	/**
-	* @see interlude.gameserver.model.L2Effect#getEffectType()
-	*/
-	@Override
-	public EffectType getEffectType()
-	{
-		return EffectType.BUFF;
-	}
-	/**
-	* @see interlude.gameserver.model.L2Effect#onstart()
-	*/
-	public void onstart()
-	{
-		L2Skill tempSkill = SkillTable.getInstance().getInfo(getSkill().getTriggeredId(), getSkill().getTriggeredLevel());
-		if (tempSkill != null)
-		{
-			getEffected().addSkill(tempSkill);
-			return;
-		}
-		return;
-	}
-	/**
-	* @see interlude.gameserver.model.L2Effect#onExit()
-	*/
-	@Override
-	public void onExit()
-	{
-		getEffected().removeSkill(getSkill().getTriggeredId());
-	}
-	/**
-	* @see interlude.gameserver.model.L2Effect#onActionTime()
-	*/
-	@Override
-	public boolean onActionTime()
-	{
-		return false;
-	}
+public EffectBestowSkill(Env env, EffectTemplate template)
+{
+super(env, template);
+}
+
+/**
+* @see net.sf.l2j.gameserver.model.L2Effect#getEffectType()
+*/
+@Override
+public EffectType getEffectType()
+{
+return EffectType.BUFF;
+}
+
+/**
+* @see net.sf.l2j.gameserver.model.L2Effect#onstart()
+*/
+@Override
+public void onStart()
+{
+L2Skill tempSkill = SkillTable.getInstance().getInfo(getSkill().getTriggeredId(), getSkill().getTriggeredLevel());
+if (tempSkill != null)
+{
+	System.out.println(getEffected().getName()+" Triggered Skill: "+tempSkill.getName());
+getEffected().addSkill(tempSkill);
+return;
+}
+return;
+}
+
+/**
+* @see net.sf.l2j.gameserver.model.L2Effect#onExit()
+*/
+@Override
+public void onExit()
+{
+getEffected().removeSkill(getSkill().getTriggeredId());
+System.out.println(getEffected().getName()+" Removed Triggered Skill: "+getSkill().getName());
+}
+
+/**
+* @see net.sf.l2j.gameserver.model.L2Effect#onActionTime()
+*/
+@Override
+public boolean onActionTime()
+{
+return false;
+}
 }

@@ -85,7 +85,7 @@ public abstract class L2Skill implements IChanceSkillTrigger
 
 	public static enum SkillOpType
 	{
-		OP_PASSIVE, OP_ACTIVE, OP_TOGGLE
+		OP_PASSIVE, OP_ACTIVE, OP_TOGGLE, OP_CHANCE
 	}
 
 	/** Target types of skills : SELF, PARTY, CLAN, PET... */
@@ -431,10 +431,10 @@ public abstract class L2Skill implements IChanceSkillTrigger
 		_triggeredId = set.getInteger("triggeredId", 0);
 		_triggeredLevel = set.getInteger("triggeredLevel", 0);
         _chanceType = set.getString("chanceType", "");
-        if (_chanceType != "" && !_chanceType.isEmpty())
+        if ((_chanceType != "" && !_chanceType.isEmpty()) || _operateType == SkillOpType.OP_CHANCE)
 			_chanceCondition = ChanceCondition.parse(set);
 
-		_forceId = set.getInteger("forceId", 0);
+        _forceId = set.getInteger("forceId", 0);
 		_isHeroSkill = HeroSkillTable.isHeroSkill(_id);
 		_baseCritRate = set.getInteger("baseCritRate", _skillType == SkillType.PDAM || _skillType == SkillType.BLOW ? 0 : -1);
 		_lethalEffect1 = set.getInteger("lethal1", 0);
@@ -910,8 +910,10 @@ public abstract class L2Skill implements IChanceSkillTrigger
 
 	public final boolean isChance()
 	{
-        return _chanceCondition != null && isPassive();
+        return (_chanceCondition != null && isPassive()) || _operateType == SkillOpType.OP_CHANCE;
+    	
 	}
+	
 
     public boolean triggersChanceSkill()
     {

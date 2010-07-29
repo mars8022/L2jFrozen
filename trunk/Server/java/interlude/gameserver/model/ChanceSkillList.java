@@ -19,6 +19,7 @@ import interlude.gameserver.datatables.SkillTable;
 import interlude.gameserver.handler.ISkillHandler;
 import interlude.gameserver.handler.SkillHandler;
 import interlude.gameserver.model.L2Skill.SkillType;
+import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.network.serverpackets.MagicSkillLaunched;
 import interlude.gameserver.network.serverpackets.MagicSkillUser;
 import interlude.gameserver.skills.effects.EffectChanceSkillTrigger;
@@ -135,6 +136,13 @@ public class ChanceSkillList extends FastMap<IChanceSkillTrigger, ChanceConditio
 			    ISkillHandler handler = SkillHandler.getInstance().getSkillHandler(skill.getSkillType());
 			    L2Object[] targets = skill.getTargetList(_owner, false);
 
+			    if(targets==null){
+			    	
+			    	targets = new L2Object[1];
+			    	targets[0] = target;
+			    	
+			    }
+			    
 			    _owner.broadcastPacket(new MagicSkillLaunched(_owner, skill.getDisplayId(), skill.getLevel(), targets));
 			    _owner.broadcastPacket(new MagicSkillUser(_owner, (L2Character)targets[0], skill.getDisplayId(), skill.getLevel(), 0, 0));
 
