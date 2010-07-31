@@ -62,6 +62,8 @@
   <set name="effectRange" val="-1"/>
   <set name="buffDuration" val="15000"/>
   <set name="isPotion" val="true"/>
+  <set name="reuseDelay" val="0"/>
+  <set name="hitTime" val="0"/>
   <for>
   </for>
 </skill>

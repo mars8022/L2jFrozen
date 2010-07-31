@@ -224,7 +224,7 @@ class Quest (JQuest) :
    if not st : return
    qs = st.getPlayer().getQuestState(qnTutorial)
    if not qs : return
-   Ex = int(qs.get("Ex"))
+   Ex = qs.getInt("Ex")
    if qs != None :
       if Ex in [0,1] :
          st.playTutorialVoice("tutorial_voice_011")

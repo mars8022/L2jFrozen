@@ -1,0 +1,4 @@
+#the hexID to auth into login
+#Fri Jul 30 20:26:21 CEST 2010
+HexID=-54912caf0705230fd43d16a5975f103f
+ServerID=3
