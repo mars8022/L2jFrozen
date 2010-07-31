@@ -79,6 +79,13 @@ public class ScrollOfEscape implements IItemHandler
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
 			return;
 		}
+		
+		if(Config.ALLOW_SOE_IN_PVP && activeChar.getPvpFlag() != 0)
+		{
+			activeChar.sendMessage("You Can't Use SOE In PvP!");
+			return;
+		}
+		
 		// Check to see if the player is in a festival.
 		if (activeChar.isFestivalParticipant())
 		{

@@ -82,7 +82,9 @@ public class L2BufferInstance extends L2FolkInstance
 				L2Character target = player;
 				if (targettype.equalsIgnoreCase("pet")) {
 					target = player.getPet();
-				} else if (target != null)
+				}
+
+				if (target != null)
 				{
 					for (L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
 					{

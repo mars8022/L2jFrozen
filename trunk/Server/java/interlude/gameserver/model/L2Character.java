@@ -1566,8 +1566,10 @@ public abstract class L2Character extends L2Object
 				SetupGauge sg = new SetupGauge(SetupGauge.BLUE, hitTime);
 				sendPacket(sg);
 			}
-			// Disable all skills during the casting
-			disableAllSkills();
+			// Disable all skills during the casting (not true for Mp and CP Potions
+			if(skill.getId()!=2005 && skill.getId()!=2166)
+				disableAllSkills();
+			
 			if (_skillCast != null)
 			{
 				_skillCast.cancel(true);

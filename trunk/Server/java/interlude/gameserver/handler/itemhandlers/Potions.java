@@ -132,7 +132,13 @@ public class Potions implements IItemHandler
 				res = usePotion(activeChar, 2003, 1);
 				break;
 			case 728: // mana_potion, xml: 2005
+				res = usePotion(activeChar, 2005, 1);
+				break;
+
+			/*case 728: // mana_potion, xml: 2005
 			{
+				if(!isEffectReplaceable(activeChar, L2Effect.EffectType.MANA_HEAL_OVER_TIME, itemId))
+					return;
 				activeChar.setCurrentMp(Config.MANA_POTION_RES + activeChar.getCurrentMp());
 				StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
 				su.addAttribute(StatusUpdate.CUR_MP, (int) activeChar.getCurrentMp());
@@ -146,7 +152,7 @@ public class Potions implements IItemHandler
 				activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 			}
 				return;
-				// HEALING AND SPEED POTIONS
+			*/	// HEALING AND SPEED POTIONS
 			case 65: // red_potion, xml: 2001
 				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.HEAL_OVER_TIME, itemId)) {
 					return;
@@ -340,7 +346,13 @@ public class Potions implements IItemHandler
 					playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 				}
 				return;
-			case 5591:
+			case 5591: // CP
+				res = usePotion(activeChar, 2166, 1);
+				break;
+			case 5592: // Greater CP
+				res = usePotion(activeChar, 2166, 2);
+				break;
+			/*case 5591:
 				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.COMBAT_POINT_HEAL_OVER_TIME, itemId)) {
 					return;
 				}
@@ -380,6 +392,7 @@ public class Potions implements IItemHandler
 					activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 				}
 				return;
+			*/
 			case 6035: // Magic Haste Potion, xml: 2169
 			{
 				L2Skill skill;
@@ -619,7 +632,7 @@ public class Potions implements IItemHandler
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	private boolean isEffectReplaceable(L2PcInstance activeChar, Enum effectType, int itemId)
 	{
 		L2Effect[] effects = activeChar.getAllEffects();

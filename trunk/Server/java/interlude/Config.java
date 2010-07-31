@@ -618,6 +618,8 @@ public final class Config
 	public static int PVP_NORMAL_TIME;
 	public static int PVP_PVP_TIME;
 
+	public static boolean ALLOW_SOE_IN_PVP;
+	
 	// Rate control
 	public static float RATE_XP;
 	public static float RATE_SP;
@@ -2631,6 +2633,8 @@ public final class Config
 					}
 					PVP_NORMAL_TIME = Integer.parseInt(pvpSettings.getProperty("PvPVsNormalTime", "15000"));
 					PVP_PVP_TIME = Integer.parseInt(pvpSettings.getProperty("PvPVsPvPTime", "30000"));
+					
+					ALLOW_SOE_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AllowSoeInPVP", "True"));
 				}
 				catch (Exception e)
 				{
