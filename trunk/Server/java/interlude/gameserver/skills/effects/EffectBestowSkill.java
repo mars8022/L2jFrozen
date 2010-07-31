@@ -47,7 +47,6 @@ public void onStart()
 L2Skill tempSkill = SkillTable.getInstance().getInfo(getSkill().getTriggeredId(), getSkill().getTriggeredLevel());
 if (tempSkill != null)
 {
-	System.out.println(getEffected().getName()+" Triggered Skill: "+tempSkill.getName());
 getEffected().addSkill(tempSkill);
 return;
 }
@@ -61,7 +60,6 @@ return;
 public void onExit()
 {
 getEffected().removeSkill(getSkill().getTriggeredId());
-System.out.println(getEffected().getName()+" Removed Triggered Skill: "+getSkill().getName());
 }
 
 /**

@@ -137,7 +137,8 @@ public class Potions implements IItemHandler
 				StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
 				su.addAttribute(StatusUpdate.CUR_MP, (int) activeChar.getCurrentMp());
 				activeChar.sendPacket(su);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2005, 1, 0, 0);
+				L2Skill skill = SkillTable.getInstance().getInfo(2005, 1);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2005, 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -155,7 +156,7 @@ public class Potions implements IItemHandler
 					skill = SkillTable.getInstance().getInfo(2001, 1);
 					activeChar.stopSkillEffects(skill.getId());
 					skill.getEffects(activeChar, activeChar);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -172,7 +173,7 @@ public class Potions implements IItemHandler
 					skill = SkillTable.getInstance().getInfo(2002, 1);
 					activeChar.stopSkillEffects(skill.getId());
 					skill.getEffects(activeChar, activeChar);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -189,7 +190,7 @@ public class Potions implements IItemHandler
 					skill = SkillTable.getInstance().getInfo(2032, 1);
 					activeChar.stopSkillEffects(skill.getId());
 					skill.getEffects(activeChar, activeChar);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1,skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -203,7 +204,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2011, 1);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -217,7 +218,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2012, 1);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -235,7 +236,7 @@ public class Potions implements IItemHandler
 					skill = SkillTable.getInstance().getInfo(2031, 1);
 					activeChar.stopSkillEffects(skill.getId());
 					skill.getEffects(activeChar, activeChar);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -252,7 +253,7 @@ public class Potions implements IItemHandler
 					skill = SkillTable.getInstance().getInfo(2032, 1);
 					activeChar.stopSkillEffects(skill.getId());
 					skill.getEffects(activeChar, activeChar);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -266,7 +267,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2033, 1);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -280,7 +281,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2034, 1);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -294,7 +295,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2035, 1);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -311,7 +312,7 @@ public class Potions implements IItemHandler
 					skill = SkillTable.getInstance().getInfo(2037, 1);
 					activeChar.stopSkillEffects(skill.getId());
 					skill.getEffects(activeChar, activeChar);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -328,7 +329,10 @@ public class Potions implements IItemHandler
 					StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
 					su.addAttribute(StatusUpdate.CUR_HP, (int) activeChar.getCurrentHp());
 					activeChar.sendPacket(su);
-					MagicSkillUser MSU = new MagicSkillUser(playable, playable, 2038, 1, 0, 0);
+					L2Skill skill;
+					skill = SkillTable.getInstance().getInfo(2038, 1);
+					
+					MagicSkillUser MSU = new MagicSkillUser(playable, playable, 2038, 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addSkillName(2038);
@@ -345,7 +349,10 @@ public class Potions implements IItemHandler
 					StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
 					su.addAttribute(StatusUpdate.CUR_CP, (int) activeChar.getCurrentCp());
 					activeChar.sendPacket(su);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2166, 1, 0, 0);
+					L2Skill skill;
+					skill = SkillTable.getInstance().getInfo(2166, 1);
+					
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2166, 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -362,7 +369,10 @@ public class Potions implements IItemHandler
 					StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
 					su.addAttribute(StatusUpdate.CUR_CP, (int) activeChar.getCurrentCp());
 					activeChar.sendPacket(su);
-					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2166, 2, 0, 0);
+					L2Skill skill;
+					skill = SkillTable.getInstance().getInfo(2166, 2);
+					
+					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2166, 2, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 					sm.addItemName(itemId);
@@ -376,7 +386,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2169, 1);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
@@ -390,7 +400,7 @@ public class Potions implements IItemHandler
 				skill = SkillTable.getInstance().getInfo(2169, 2);
 				activeChar.stopSkillEffects(skill.getId());
 				skill.getEffects(activeChar, activeChar);
-				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 2, 0, 0);
+				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, skill.getId(), 2, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 				sm.addItemName(itemId);
