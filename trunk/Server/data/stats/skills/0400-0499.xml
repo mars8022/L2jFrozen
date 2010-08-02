@@ -630,6 +630,7 @@
   </for>
 </skill>
 <skill id="425" levels="1" name="Hawk Spirit Totem">
+  <set name="weaponsAllowed" val="1024"/>
   <set name="mpConsume" val="34"/>
   <set name="power" val="0.0"/>
   <set name="target" val="TARGET_SELF"/>
@@ -939,6 +940,7 @@
   </for>
 </skill>
 <skill id="443" levels="1" name="Force Barrier">
+  <set name="weaponsAllowed" val="1024"/>
   <set name="mpConsume" val="72"/>
   <set name="power" val="0.0"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1093,6 +1095,7 @@
   <table name="#charges"> 2 3 </table>
   <table name="#spd"> 1.25 1.58 </table>
   <table name="#mpConsume"> 29 32 </table>
+  <set name="weaponsAllowed" val="512"/>
   <set name="hitTime" val="1000"/>
   <set name="reuseDelay" val="75000"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1366,6 +1369,7 @@
   <table name="#charges"> 2 3 </table>
   <table name="#mpConsume"> 20 35 </table>
   <table name="#buffEffects"> 1201 1201;1160 </table>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="castRange" val="-1"/>
   <set name="hitTime" val="1000"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1376,6 +1380,9 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="exitBuffs" val="#buffEffects"/>
   <set name="skillType" val="EXITBUFFS"/>
+  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
+    <using kind="Fist,Dual Fist"/>
+  </cond>
   <for>
   </for>
 </skill>

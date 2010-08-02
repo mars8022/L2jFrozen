@@ -446,7 +446,8 @@
   <set name="effectNpcId" val="13025"/>
   <set name="offensive" val="True"/>
   <set name="effectId" val="5130"/>
-  <set name="element" val="2"/>
+  <set name="element" val="0"/> <!-- Fire -->
+  <set name="elementPower" val="20"/>
   <set name="isMagic" val="true"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8876"/>
@@ -475,8 +476,9 @@
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="magicLvl" val="80"/>
-  <set name="offensive" val="True"/>
-  <set name="element" val="1"/>
+  <set name="offensive" val="true"/>
+  <set name="element" val="2"/> <!-- Wind -->
+  <set name="elementPower" val="20"/>
   <set name="effectNpcId" val="13025"/>
   <set name="effectId" val="5132"/>
   <set name="isMagic" val="true"/>
@@ -506,11 +508,13 @@
   <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
+  <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13025"/>
   <set name="offensive" val="True"/>
   <set name="effectId" val="5131"/>
-  <set name="element" val="3"/>
+  <set name="element" val="1"/> <!-- Water -->
+  <set name="elementPower" val="20"/>
   <set name="isMagic" val="true"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8876"/>
@@ -525,16 +529,24 @@
   </for> 
 </skill>
 <skill id="1422" levels="1" name="Day of Doom">
-<!--
-  Needs to be finished.
-  Target is set to TARGET_NONE, skillType to NOTDONE for server compatability.
-  Description(s):
-      Generates a signet that produces a strong curse that decreases all abilities. Applies to all targets within the affected area. The effect disappears if you leave the area. Level 3 or higher Spell Force required. Consumes 1 Magic Symbol.
--->
-  <set name="target" val="TARGET_NONE"/>
-  <set name="skillType" val="NOTDONE"/>
-  <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
+  <!-- Done by BoDiE - Needs to be Finished
+    Creates a seal that casts a powerful curse that decreases all the abilities of nearby enemies.
+    The seal's effect disappears upon leaving the area. Consumes 1 Magic Symbol.
+  -->
+  <set name="mpConsume" val="89"/>
+  <set name="target" val="TARGET_SELF"/>
+  <set name="skillType" val="BUFF"/>
+  <set name="staticReuse" val="true"/>
+  <set name="operateType" val="OP_ACTIVE"/>
+  <set name="hitTime" val="7000"/>
+  <set name="reuseDelay" val="900000"/>
+  <set name="skillRadius" val="200"/>
+  <set name="itemConsumeId" val="8876"/>
+  <set name="itemConsumeCount" val="1"/>
+  <set name="castRange" val="900"/>
+  <cond msg="3 Spell Forces required.">
+  	<player spell_force="3"/>
+  </cond>
   <for>
   </for>
 </skill>
@@ -552,11 +564,13 @@
   <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
+  <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13025"/>
   <set name="offensive" val="True"/>
   <set name="effectId" val="5133"/>
-  <set name="element" val="6"/>
+  <set name="element" val="5"/> <!-- Dark -->
+  <set name="elementPower" val="20"/>
   <set name="isMagic" val="true"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8876"/>
@@ -584,6 +598,7 @@
   <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
+  <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13020"/>
   <set name="effectId" val="5134"/>

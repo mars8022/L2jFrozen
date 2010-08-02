@@ -230,6 +230,7 @@
   </for>
 </skill>
 <skill id="109" levels="1" name="Ogre Spirit Totem">
+  <set name="weaponsAllowed" val="1024"/>
   <set name="mpConsume" val="21"/>
   <set name="power" val="0.0"/>
   <set name="target" val="TARGET_SELF"/>
