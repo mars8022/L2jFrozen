@@ -28,6 +28,7 @@ import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.model.item.Inventory;
 import interlude.gameserver.network.SystemMessageId;
 import interlude.gameserver.network.serverpackets.ActionFailed;
+import interlude.gameserver.network.serverpackets.EtcStatusUpdate;
 import interlude.gameserver.network.serverpackets.InventoryUpdate;
 import interlude.gameserver.network.serverpackets.ItemList;
 import interlude.gameserver.network.serverpackets.ShowCalculator;
@@ -345,6 +346,12 @@ public final class UseItem extends L2GameClientPacket
 				old = activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
 
 			activeChar.checkSSMatch(item, old);
+			
+			if(old != null && old.isAugmented())
+			{
+				old.getAugmentation().removeBonus(activeChar);
+			}
+			
 			if (isEquiped)
 			{
 				if (item.getEnchantLevel() > 0)
@@ -452,10 +459,14 @@ public final class UseItem extends L2GameClientPacket
 			if (item.getItem().getType2() == L2Item.TYPE2_WEAPON)
 				activeChar.checkIfWeaponIsAllowed();
 
+			activeChar.abortAttack();
+			activeChar.sendPacket(new EtcStatusUpdate(activeChar));
+			
+
 			InventoryUpdate iu = new InventoryUpdate();
 			iu.addItems(Arrays.asList(items));
 			activeChar.sendPacket(iu);
-			activeChar.abortAttack();
+			//activeChar.abortAttack();
 			activeChar.broadcastUserInfo();
 		}
 		else
