@@ -101,13 +101,27 @@ public abstract class Inventory extends ItemContainer
 
 			L2PcInstance owner = (L2PcInstance) getOwner();
 			// If player equip Formal Wear unequip weapons and abort cast/attack
-			if (item.getItemId() == 6408)
+			if (item.getItemId() == 6408){
 				owner.setIsWearingFormalWear(true);
+				if(owner.isCastingNow())
+				{
+					owner.abortCast();
+				}
+				if(owner.isAttackingNow())
+				{
+					owner.abortAttack();
+				}
+				unEquipItemInSlot(PAPERDOLL_RHAND);
+				unEquipItemInSlot(PAPERDOLL_LHAND);
+				unEquipItemInSlot(PAPERDOLL_LRHAND);
+			}
 			else
 			{
 				if (!owner.isWearingFormalWear())
 					return;
 			}
+			
+			owner = null;
 		}
 	}
 
@@ -175,6 +189,24 @@ public abstract class Inventory extends ItemContainer
 				L2ItemInstance arrow = getPaperdollItem(PAPERDOLL_LHAND);
 				if (arrow != null)
 					setPaperdollItem(PAPERDOLL_LHAND, null);
+					
+				L2PcInstance player = null;
+				L2Skill skill = null;
+				if(item.getItemId() == 9140)
+				{
+					if(getOwner() instanceof L2PcInstance)
+					{
+						player = (L2PcInstance) getOwner();
+
+						skill = SkillTable.getInstance().getInfo(3261, 1);
+						player.removeSkill(skill);
+						player.sendSkillList();
+
+						skill = null;
+					}
+				}
+
+				arrow = null;
 			}
 		}
 
@@ -191,6 +223,24 @@ public abstract class Inventory extends ItemContainer
 				L2ItemInstance arrow = findArrowForBow(item.getItem());
 				if (arrow != null)
 					setPaperdollItem(PAPERDOLL_LHAND, arrow);
+					
+				L2PcInstance player = null;
+				L2Skill skill = null;
+				if(item.getItemId() == 9140)
+				{
+					if(getOwner() instanceof L2PcInstance)
+					{
+						player = (L2PcInstance) getOwner();
+
+						skill = SkillTable.getInstance().getInfo(3261, 1);
+						player.addSkill(skill, false);
+						player.sendSkillList();
+
+						skill = null;
+					}
+				}
+
+				arrow = null;
 			}
 		}
 	}
@@ -240,6 +290,7 @@ public abstract class Inventory extends ItemContainer
 					player.removeSkill(SkillTable.getInstance().getInfo(3260, 1), false);
 					player.removeSkill(SkillTable.getInstance().getInfo(3261, 1), false);
 					player.removeSkill(SkillTable.getInstance().getInfo(3262, 1), false);
+					player.sendSkillList();
 				}
 			}
 			else if (it instanceof L2Armor)
@@ -255,6 +306,10 @@ public abstract class Inventory extends ItemContainer
 				player.removeSkill(enchant4Skill, false);
 				player.sendSkillList();
 			}
+			
+			player = null;
+			passiveSkill = null;
+			enchant4Skill = null;
 		}
 
 		public void notifyEquiped(int slot, L2ItemInstance item)
@@ -283,6 +338,7 @@ public abstract class Inventory extends ItemContainer
 					player.addSkill(SkillTable.getInstance().getInfo(3260, 1), false);
 					player.addSkill(SkillTable.getInstance().getInfo(3261, 1), false);
 					player.addSkill(SkillTable.getInstance().getInfo(3262, 1), false);
+					player.sendSkillList();
 				}
 			}
 			else if (it instanceof L2Armor)
@@ -298,6 +354,11 @@ public abstract class Inventory extends ItemContainer
 				player.addSkill(enchant4Skill, false);
 				player.sendSkillList();
 			}
+			
+			passiveSkill = null;
+			enchant4Skill = null;
+			player = null;
+			
 		}
 	}
 
@@ -354,8 +415,12 @@ public abstract class Inventory extends ItemContainer
 								player.sendSkillList();
 							} else
 								_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getEnchant6skillId() + ".");
+						
+							skille = null;
 						}
 					}
+					
+					skill = null;
 				}
 			}
 			else if (armorSet.containShield(item.getItemId()))
@@ -754,6 +819,13 @@ public abstract class Inventory extends ItemContainer
 
 					listener.notifyUnequiped(slot, old);
 				}
+				
+				if(old.isAugmented())
+				{
+					if(getOwner() != null && getOwner() instanceof L2PcInstance)
+						old.getAugmentation().removeBonus((L2PcInstance)getOwner());
+				}
+				
 				old.updateDatabase();
 			}
 			// Add new item in slot of paperdoll
@@ -1047,6 +1119,7 @@ public abstract class Inventory extends ItemContainer
 				}
 				else
 					setPaperdollItem(PAPERDOLL_RHAND, null);
+				
 				setPaperdollItem(PAPERDOLL_RHAND, item);
 				setPaperdollItem(PAPERDOLL_LRHAND, item);
 				break;

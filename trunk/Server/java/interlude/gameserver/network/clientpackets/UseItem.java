@@ -18,12 +18,14 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 import interlude.Config;
+import interlude.gameserver.ai.CtrlIntention;
 import interlude.gameserver.datatables.SkillTable;
 import interlude.gameserver.handler.IItemHandler;
 import interlude.gameserver.handler.ItemHandler;
 import interlude.gameserver.instancemanager.CastleManager;
 import interlude.gameserver.model.L2Clan;
 import interlude.gameserver.model.L2ItemInstance;
+import interlude.gameserver.model.L2Object;
 import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.model.item.Inventory;
 import interlude.gameserver.network.SystemMessageId;
@@ -256,7 +258,7 @@ public final class UseItem extends L2GameClientPacket
 
 			int bodyPart = item.getItem().getBodyPart();
 			// Prevent player to remove the weapon on special conditions
-			if ((activeChar.isAttackingNow() || activeChar.isCastingNow() || activeChar.isMounted() || activeChar._inEventCTF && activeChar._haveFlagCTF) && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND))
+			if ((/*activeChar.isAttackingNow() || */activeChar.isCastingNow() || activeChar.isMounted() || activeChar._inEventCTF && activeChar._haveFlagCTF) && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND))
 			{
 				if (activeChar._inEventCTF && activeChar._haveFlagCTF)
 					activeChar.sendMessage("This item can not be equipped when you have the flag.");
@@ -337,6 +339,15 @@ public final class UseItem extends L2GameClientPacket
 			if (activeChar.isInOlympiadMode() && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND) && (item.getItemId() >= 6611 && item.getItemId() <= 6621 || item.getItemId() == 6842))
 				return;
 
+			if(activeChar.isMoving() && activeChar.isAttackingNow() && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND))
+			{
+				L2Object target = activeChar.getTarget();
+				activeChar.setTarget(null);
+				activeChar.stopMove(null);
+				activeChar.setTarget(target);
+				activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK);
+			}
+			
 			// Equip or unEquip
 			L2ItemInstance[] items = null;
 			boolean isEquiped = item.isEquipped();
@@ -351,7 +362,7 @@ public final class UseItem extends L2GameClientPacket
 			{
 				old.getAugmentation().removeBonus(activeChar);
 			}
-			
+
 			if (isEquiped)
 			{
 				if (item.getEnchantLevel() > 0)
@@ -379,8 +390,30 @@ public final class UseItem extends L2GameClientPacket
 						activeChar.removeSkill(SkillTable.getInstance().getInfo(3260, 0));
 						activeChar.removeSkill(SkillTable.getInstance().getInfo(3262, 0));
 				}
-				int slot = activeChar.getInventory().getSlotFromItem(item);
-				items = activeChar.getInventory().unEquipItemInBodySlotAndRecord(slot);
+				
+				switch(item.getEquipSlot())
+				{
+					case 1:
+						bodyPart = L2Item.SLOT_L_EAR;
+						break;
+					case 2:
+						bodyPart = L2Item.SLOT_R_EAR;
+						break;
+					case 4:
+						bodyPart = L2Item.SLOT_L_FINGER;
+						break;
+					case 5:
+						bodyPart = L2Item.SLOT_R_FINGER;
+						break;
+					default:
+						break;
+				}
+
+				items = activeChar.getInventory().unEquipItemInBodySlotAndRecord(bodyPart);
+				
+				/*int slot = activeChar.getInventory().getSlotFromItem(item);
+				items = activeChar.getInventory().unEquipItemInBodySlotAndRecord(slot);*/
+				
 			}
 			else
 			{
