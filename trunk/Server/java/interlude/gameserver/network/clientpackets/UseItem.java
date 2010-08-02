@@ -489,6 +489,8 @@ public final class UseItem extends L2GameClientPacket
 			}
 			sm = null;
 			activeChar.refreshExpertisePenalty();
+			activeChar.refreshMasteryPenality();
+			
 			if (item.getItem().getType2() == L2Item.TYPE2_WEAPON)
 				activeChar.checkIfWeaponIsAllowed();
 

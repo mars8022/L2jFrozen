@@ -932,8 +932,10 @@ public abstract class Inventory extends ItemContainer
 		try
 		{
 			unEquipItemInBodySlot(slot);
-			if (getOwner() instanceof L2PcInstance)
+			if (getOwner() instanceof L2PcInstance){
 				((L2PcInstance) getOwner()).refreshExpertisePenalty();
+				((L2PcInstance) getOwner()).refreshMasteryPenality();
+			}
 		}
 		finally
 		{
@@ -967,8 +969,10 @@ public abstract class Inventory extends ItemContainer
 		try
 		{
 			unEquipItemInSlot(slot);
-			if (getOwner() instanceof L2PcInstance)
+			if (getOwner() instanceof L2PcInstance){
 				((L2PcInstance) getOwner()).refreshExpertisePenalty();
+				((L2PcInstance) getOwner()).refreshMasteryPenality();
+			}
 		}
 		finally
 		{

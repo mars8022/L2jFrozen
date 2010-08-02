@@ -54,7 +54,7 @@ public class EtcStatusUpdate extends L2GameServerPacket
 		// all
 		// chat
 		writeD(0x00); // 1 = danger area
-		writeD(Math.min(_activeChar.getExpertisePenalty(), 1)); // 1 = grade penalty
+		writeD(Math.min(_activeChar.getExpertisePenalty()+_activeChar.getMasteryPenalty(), 1)); // 1 = grade penalty
 		writeD(_activeChar.getCharmOfCourage() ? 1 : 0); // 1 = charm of
 		// courage (no
 		// xp loss in

@@ -416,6 +416,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 			character.standUp(); // standing is default
 			character.refreshOverloaded();
 			character.refreshExpertisePenalty();
+			character.refreshMasteryPenality();
 			character.sendPacket(new UserInfo(character));
 			character.broadcastKarma();
 			character.setOnlineStatus(true);

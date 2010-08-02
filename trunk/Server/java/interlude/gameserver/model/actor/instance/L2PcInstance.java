@@ -339,6 +339,12 @@ public final class L2PcInstance extends L2PlayableInstance
 	private ScheduledFuture<?> _punishTask;
 	private int _pcBangPoints = 0;
 
+	//mastery penality
+	private boolean _heavy_mastery = false;
+	private boolean _light_mastery = false;
+	private boolean _robe_mastery = false;
+	private int _masteryPenalty = 0;
+	
 	public enum PunishLevel
 	{
 		NONE(0, ""), CHAT(1, "chat banned"), JAIL(2, "jailed"), CHAR(3, "banned"), ACC(4, "banned");
@@ -1787,6 +1793,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		return _expertisePenalty;
 	}
 
+	public int getMasteryPenalty()
+	{
+		return _masteryPenalty;
+	}
+	
 	public int getWeightPenalty()
 	{
 		if (_dietMode)
@@ -1834,6 +1845,65 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 	}
 
+	public void refreshMasteryPenality()
+	{
+		if (!Config.MASTERY_PENALTY || this.getLevel()<=Config.LEVEL_TO_GET_PENALITY)
+			return;
+		
+		int newMasteryPenalty = 0;
+		
+		for(L2ItemInstance item : getInventory().getItems())
+		{
+			if(item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
+			{
+				L2Armor armor_item = (L2Armor) item.getItem();
+				
+				switch(armor_item.getItemType()){
+					
+					case HEAVY:{
+						
+						if(!_heavy_mastery)
+							newMasteryPenalty++;
+					}
+					break;
+					case LIGHT:{
+						
+						if(!_light_mastery)
+							newMasteryPenalty++;
+					}
+					break;
+					case MAGIC:{
+						
+						if(!_robe_mastery)
+							newMasteryPenalty++;
+						
+					}
+					break;
+
+				}
+			}
+		}
+
+		if(_masteryPenalty!=newMasteryPenalty){
+			
+			if(newMasteryPenalty > 0)
+			{
+				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
+			}
+			else
+			{
+				super.removeSkill(getKnownSkill(4267));
+			}
+			
+			sendPacket(new EtcStatusUpdate(this));
+			_masteryPenalty = newMasteryPenalty;
+			
+		}
+		
+		
+	}
+	
+	
 	public void refreshExpertisePenalty()
 	{
 		if (!Config.DISABLE_GRADE_PENALTIES)
@@ -1873,7 +1943,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Iterate through all effects currently on the character.
 		for (L2Effect currenteffect : getAllEffects())
 		{
+			
 			L2Skill effectSkill = currenteffect.getSkill();
+			if (Config.DEBUG)
+				_log.info("   |Analizing Effect Type " + currenteffect.getEffectType() + " of skill "+effectSkill.getName());
+
 			if (currenteffect.getSkill().isToggle() && !Config.TOGGLE_WEAPON_ALLOWED)
 				currenteffect.exit();
 			else if (!effectSkill.isOffensive() && !(effectSkill.getTargetType() == SkillTargetType.TARGET_PARTY && effectSkill.getSkillType() == SkillType.BUFF))
@@ -2154,6 +2228,28 @@ public final class L2PcInstance extends L2PlayableInstance
 		// This function gets called on login, so not such a bad place to check weight
 		refreshOverloaded(); // Update the overloaded status of the L2PcInstance
 		refreshExpertisePenalty(); // Update the expertise status of the L2PcInstance
+		
+		
+		L2Skill[] char_skills = this.getAllSkills();
+		
+		for(L2Skill actual_skill : char_skills){
+			
+			if(actual_skill.getName().contains("Heavy Armor Mastery")){
+				_heavy_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Light Armor Mastery")){
+				_light_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Robe Mastery")){
+				_robe_mastery = true;
+			}
+			
+		}
+		
+		refreshMasteryPenality();
+		
 	}
 
 	/**
@@ -6118,7 +6214,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void updateAndBroadcastStatus(int broadcastType)
 	{
 		refreshOverloaded();
+		
 		refreshExpertisePenalty();
+		
 		// Send a Server->Client packet UserInfo to this L2PcInstance and
 		// CharInfo to all L2PcInstance in its _KnownPlayers (broadcast)
 		if (broadcastType == 1) {
@@ -9558,6 +9656,26 @@ public final class L2PcInstance extends L2PlayableInstance
 		broadcastUserInfo();
 		refreshOverloaded();
 		refreshExpertisePenalty();
+		
+		L2Skill[] char_skills = this.getAllSkills();
+		
+		for(L2Skill actual_skill : char_skills){
+			
+			if(actual_skill.getName().contains("Heavy Armor Mastery")){
+				_heavy_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Light Armor Mastery")){
+				_light_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Robe Mastery")){
+				_robe_mastery = true;
+			}
+			
+		}
+		
+		refreshMasteryPenality();
 		// Clear resurrect xp calculation
 		setExpBeforeDeath(0);
 		_shortCuts.restore();

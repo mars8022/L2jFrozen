@@ -830,6 +830,9 @@ public final class Config
 	public static boolean DISABLE_GRADE_PENALTIES;
 	public static boolean DISABLE_WEIGHT_PENALTIES;
 
+	public static boolean MASTERY_PENALTY;
+	public static int LEVEL_TO_GET_PENALITY;
+	
 	public static boolean DONATOR_DELETE_RENTED_ITEMS;
 	public static int DONATOR_NAME_COLOR;
 	public static boolean DONATOR_ITEMS;
@@ -2572,6 +2575,10 @@ public final class Config
 					ALLOW_PK_REWARD = Boolean.parseBoolean(OpenCustom.getProperty("AllowPkRewardSystem", "False"));
 					PK_REWARD_ITEM = Integer.parseInt(OpenCustom.getProperty("PkRewardItem", "57"));
 					PK_REWARD_COUNT = Integer.parseInt(OpenCustom.getProperty("PkRewardAmount", "1"));
+				
+					MASTERY_PENALTY = Boolean.parseBoolean(OpenCustom.getProperty("EnableMasteryPenalties", "True"));
+					LEVEL_TO_GET_PENALITY = Integer.parseInt(OpenCustom.getProperty("LevelToGetMasteryPenalities", "20"));
+					
 				}
 				catch (Exception e)
 				{

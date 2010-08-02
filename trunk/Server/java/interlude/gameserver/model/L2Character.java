@@ -4690,9 +4690,9 @@ public abstract class L2Character extends L2Object
 			dz = z - curZ;
 			distance = Math.sqrt(dx * dx + dy * dy);
 		}
-		if (Config.DEBUG) {
+		/*if (Config.DEBUG) {
 			_log.fine("distance to target:" + distance);
-		}
+		}*/
 		// Define movement angles needed
 		// ^
 		// | X (x,y)
@@ -4896,9 +4896,9 @@ public abstract class L2Character extends L2Object
 		int heading = (int) (Math.atan2(-sin, -cos) * 10430.378350470452724949566316381);
 		heading += 32768;
 		setHeading(heading);
-		if (Config.DEBUG)
+		/*if (Config.DEBUG)
 			_log.fine("dist:" + distance + "speed:" + speed + " ttt:" + m._ticksToMove + " dx:" + (int) m._xSpeedTicks + " dy:" + (int) m._ySpeedTicks + " heading:" + heading);
-
+		 */
 		m._xDestination = x;
 		m._yDestination = y;
 		m._zDestination = z; // this is what was requested from client
@@ -4907,9 +4907,9 @@ public abstract class L2Character extends L2Object
 		m._xMoveFrom = curX;
 		m._yMoveFrom = curY;
 		m._zMoveFrom = curZ;
-		if (Config.DEBUG)
+		/*if (Config.DEBUG)
 			_log.fine("time to target:" + m._ticksToMove);
-
+		*/
 		// Set the L2Character _move object to MoveData object
 		_move = m;
 		// Add the L2Character to movingObjects of the GameTimeController
@@ -6428,7 +6428,7 @@ public abstract class L2Character extends L2Object
 	public void disableAllSkills()
 	{
 		if (Config.DEBUG)
-			_log.fine("all skills disabled");
+			_log.fine("Character: "+this.getName()+" - all skills disabled");
 
 		_allSkillsDisabled = true;
 	}
@@ -6440,7 +6440,7 @@ public abstract class L2Character extends L2Object
 	public void enableAllSkills()
 	{
 		if (Config.DEBUG)
-			_log.fine("all skills enabled");
+			_log.fine("Character: "+this.getName()+" - all skills enabled");
 
 		_allSkillsDisabled = false;
 		setIsCastingNow(false);

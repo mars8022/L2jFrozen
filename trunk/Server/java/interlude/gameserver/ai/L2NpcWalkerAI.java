@@ -25,7 +25,7 @@ import interlude.gameserver.model.actor.instance.L2NpcWalkerInstance;
 
 public class L2NpcWalkerAI extends L2CharacterAI implements Runnable
 {
-	private static final int DEFAULT_MOVE_DELAY = 0;
+	private static final int DEFAULT_MOVE_DELAY = 10000; //10 secs
 	private long _nextMoveTime;
 	private boolean _walkingToNextPoint = false;
 	/**
@@ -120,11 +120,11 @@ public class L2NpcWalkerAI extends L2CharacterAI implements Runnable
 			// time in millis
 			long delay = _route.get(_currentPos).getDelay() * 1000;
 			// sleeps between each move
-			if (delay <= 0)
+			if (delay < 0)
 			{
 				delay = DEFAULT_MOVE_DELAY;
 				if (Config.DEVELOPER) {
-					_log.warning("Wrong Delay Set in Npc Walker Functions = " + delay + " secs, using default delay: " + DEFAULT_MOVE_DELAY + " secs instead.");
+					_log.warning("Wrong Delay Set in Npc Walker Functions = " + _route.get(_currentPos).getDelay() * 1000 + " millisecs, using default delay: " + DEFAULT_MOVE_DELAY + " secs instead.");
 				}
 			}
 			_nextMoveTime = System.currentTimeMillis() + delay;

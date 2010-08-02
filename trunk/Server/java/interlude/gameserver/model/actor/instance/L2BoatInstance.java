@@ -244,9 +244,9 @@ public class L2BoatInstance extends L2Character
 		final int dx = x - curX;
 		final int dy = y - curY;
 		double distance = Math.sqrt(dx * dx + dy * dy);
-		if (Config.DEBUG) {
+		/*if (Config.DEBUG) {
 			_logBoat.fine("distance to target:" + distance);
-		}
+		}*/
 		// Define movement angles needed
 		// ^
 		// | X (x,y)
@@ -273,9 +273,9 @@ public class L2BoatInstance extends L2Character
 		int heading = (int) (Math.atan2(-sin, -cos) * 10430.378350470452724949566316381);
 		heading += 32768;
 		getPosition().setHeading(heading);
-		if (Config.DEBUG) {
+		/*if (Config.DEBUG) {
 			_logBoat.fine("dist:" + distance + "speed:" + speed + " ttt:" + m._ticksToMove + " dx:" + (int) m._xSpeedTicks + " dy:" + (int) m._ySpeedTicks + " heading:" + heading);
-		}
+		}*/
 		m._xDestination = x;
 		m._yDestination = y;
 		m._zDestination = z; // this is what was requested from client
@@ -289,9 +289,9 @@ public class L2BoatInstance extends L2Character
 		if (m._ticksToMove < 1) {
 			m._ticksToMove = 1;
 		}
-		if (Config.DEBUG) {
+		/*if (Config.DEBUG) {
 			_logBoat.fine("time to target:" + m._ticksToMove);
-		}
+		}*/
 		// Set the L2Character _move object to MoveData object
 		_move = m;
 		// Add the L2Character to movingObjects of the GameTimeController
