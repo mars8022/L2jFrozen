@@ -15,7 +15,7 @@ REM ------------------------------------------------------------------------
 
 REM -------------------------------------
 REM Default parameters for a basic server.
-java -Dfile.encoding=UTF-8 -Xmx512m -cp ./libs/*;l2open-game.jar interlude.gameserver.GameServer
+java -Dfile.encoding=UTF-8 -Xmx1024m -cp ./libs/*;l2open-game.jar interlude.gameserver.GameServer
 REM
 REM If you have a big server and lots of memory, you could experiment for example with
 REM java -server -Xmx1536m -Xms1024m -Xmn512m -XX:PermSize=256m -XX:SurvivorRatio=8 -Xnoclassgc -XX:+AggressiveOpts

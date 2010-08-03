@@ -703,6 +703,7 @@
   Description(s):
       none
 -->
+  <set name="weaponsAllowed" val="32"/>
   <set name="target" val="TARGET_NONE"/>
   <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
