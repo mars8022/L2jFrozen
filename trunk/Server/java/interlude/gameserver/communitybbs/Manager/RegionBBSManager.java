@@ -391,10 +391,14 @@ public class RegionBBSManager extends BaseBBSManager
 			htmlCode.append(trOpen);
 			htmlCode.append(tdOpen + L2World.getInstance().getAllVisibleObjectsCount() + " Object count</td>");
 			htmlCode.append(trClose);
+			/*
 			htmlCode.append(trOpen);
 			htmlCode.append(tdOpen + getOnlineCount("gm") + " Player(s) Online</td>");
 			htmlCode.append(trClose);
+			*/
 			htmlCode.append("</table>");
+			
+			/*
 			htmlCode.append("<table border=0>");
 			htmlCode.append("<tr><td><table border=0>");
 			int cell = 0;
@@ -460,6 +464,7 @@ public class RegionBBSManager extends BaseBBSManager
 				htmlCode.append("</tr>");
 				htmlCode.append("</table>");
 			}
+			*/
 			htmlCode.append("</body></html>");
 			communityPage.put("gm", htmlCode.toString());
 			htmlCode = new TextBuilder("<html><body><br>");
@@ -495,11 +500,14 @@ public class RegionBBSManager extends BaseBBSManager
 			htmlCode.append(trOpen);
 			htmlCode.append("<td><img src=\"sek.cbui355\" width=600 height=1><br></td>");
 			htmlCode.append(trClose);
+			/*
 			htmlCode.append(trOpen);
 			htmlCode.append(tdOpen + getOnlineCount("pl") + " Player(s) Online</td>");
 			htmlCode.append(trClose);
+			*/
 			htmlCode.append("</table>");
-			htmlCode.append("<table border=0>");
+			
+			/*htmlCode.append("<table border=0>");
 			htmlCode.append("<tr><td><table border=0>");
 			cell = 0;
 			for (L2PcInstance player : getOnlinePlayers(page))
@@ -568,6 +576,7 @@ public class RegionBBSManager extends BaseBBSManager
 				htmlCode.append("</tr>");
 				htmlCode.append("</table>");
 			}
+			*/
 			htmlCode.append("</body></html>");
 			communityPage.put("pl", htmlCode.toString());
 			_communityPages.put(page, communityPage);
