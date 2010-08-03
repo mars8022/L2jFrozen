@@ -906,21 +906,23 @@
   </for>
 </skill>
 <skill id="441" levels="1" name="Force Meditation">
-   <set name="num_charges" val="5"/>  
-  <set name="charge_skill_id" val="8"/>
-  <set name="weaponsAllowed" val="512"/>
-  <set name="negateId" val="441"/>
-  <set name="hitTime" val="2000"/>
-  <set name="numCharges" val="3"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="reuseDelay" val="1200000"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- checked mpConsume, regMp, regHp -->
+  <set name="mpConsume" val="34"/>
   <set name="target" val="TARGET_SELF"/>
-  <for>
-    <effect name="ImmobileUntilAttacked" time="60" val="0">
-      <mul order="0x30" stat="pDef" val="0.2"/>
-     </effect>
-  </for>
+  <set name="reuseDelay" val="300000"/>
+  <set name="hitTime" val="2000"/>
+  <set name="skillType" val="BUFF"/>
+  <set name="isMagic" val="true"/>
+  <set name="operateType" val="OP_ACTIVE"/>
+  <set name="num_charges" val="3"/>
+  <set name="charge_skill_id" val="50"/>
+    <for>
+      <effect count="1" name="ImmobileUntilAttacked" time="30" val="0">
+        <mul order="0x30" stat="pDef" val="0.2"/>
+        <mul order="0x30" stat="regMp" val="10"/>
+        <mul order="0x30" stat="regHp" val="15"/>
+      </effect>
+    </for>
 </skill>
 <skill id="442" levels="1" name="Sonic Barrier">
   <set name="num_charges" val="5"/>  
