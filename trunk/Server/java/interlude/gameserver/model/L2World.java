@@ -40,19 +40,45 @@ public final class L2World
 	private static Logger _log = Logger.getLogger(L2World.class.getName());
 	/*
 	 * biteshift, defines number of regions note, shifting by 15 will result in regions corresponding to map tiles shifting by 12 divides one tile to 8x8 regions
-	 */
+	 
+	
 	public static final int SHIFT_BY = 12;
-	/** Map dimensions */
+	*/
+	/** Map dimensions 
 	public static final int MAP_MIN_X = -131072;
 	public static final int MAP_MAX_X = 228608;
 	public static final int MAP_MIN_Y = -262144;
 	public static final int MAP_MAX_Y = 262144;
+	*/
+	/** calculated offset used so top left region is 0,0 
+	public static final int OFFSET_X = Math.abs(MAP_MIN_X >> SHIFT_BY);
+	public static final int OFFSET_Y = Math.abs(MAP_MIN_Y >> SHIFT_BY);
+	*/
+	/** number of regions 
+	private static final int REGIONS_X = (MAP_MAX_X >> SHIFT_BY) + OFFSET_X;
+	private static final int REGIONS_Y = (MAP_MAX_Y >> SHIFT_BY) + OFFSET_Y;
+	*/
+	
+	public static final int SHIFT_BY = 12;
+	
+	/** Map dimensions */
+	public static final int MAP_MIN_X = (Config.WORLD_X_MIN - 20) << 15;
+	public static final int MAP_MAX_X = (Config.WORLD_X_MAX - 19) << 15;
+	public static final int MAP_MIN_Y = (Config.WORLD_Y_MIN - 18) << 15;
+	public static final int MAP_MAX_Y = (Config.WORLD_Y_MAX - 17) << 15;
+
+	public static final int WORLD_SIZE_X = Config.WORLD_X_MAX - Config.WORLD_X_MIN + 1;
+	public static final int WORLD_SIZE_Y = Config.WORLD_Y_MAX - Config.WORLD_Y_MIN + 1;
+
 	/** calculated offset used so top left region is 0,0 */
 	public static final int OFFSET_X = Math.abs(MAP_MIN_X >> SHIFT_BY);
 	public static final int OFFSET_Y = Math.abs(MAP_MIN_Y >> SHIFT_BY);
+	
 	/** number of regions */
 	private static final int REGIONS_X = (MAP_MAX_X >> SHIFT_BY) + OFFSET_X;
 	private static final int REGIONS_Y = (MAP_MAX_Y >> SHIFT_BY) + OFFSET_Y;
+	
+	
 	// private FastMap<String, L2PcInstance> _allGms;
 	/** HashMap(String Player name, L2PcInstance) containing all the players in game */
 	private Map<String, L2PcInstance> _allPlayers;
@@ -65,6 +91,9 @@ public final class L2World
 	private static final L2World _instance = new L2World();
 	private L2WorldRegion[][] _worldRegions;
 
+	
+	
+	
 	/**
 	 * Constructor of L2World.<BR>
 	 * <BR>

@@ -14,15 +14,9 @@
  */
 package interlude.gameserver.pathfinding.cellnodes;
 
-import interlude.Config;
-import interlude.gameserver.GeoData;
-import interlude.gameserver.idfactory.IdFactory;
-import interlude.gameserver.model.L2ItemInstance;
-import interlude.gameserver.model.L2World;
+import interlude.gameserver.pathfinding.AbstractNode;
 import interlude.gameserver.pathfinding.AbstractNodeLoc;
-import interlude.gameserver.pathfinding.Node;
 import interlude.gameserver.pathfinding.PathFinding;
-import interlude.gameserver.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +26,12 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import interlude.Config;
+import interlude.gameserver.GeoData;
+import interlude.gameserver.idfactory.IdFactory;
+import interlude.gameserver.model.L2ItemInstance;
+import interlude.gameserver.model.L2World;
+import interlude.gameserver.util.StringUtil;
 
 
 /**
@@ -86,7 +86,7 @@ public class CellPathFinding extends PathFinding
 	}
 
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.PathFinding#PathNodesExist(short)
+	 * @see interlude.gameserver.pathfinding.PathFinding#PathNodesExist(short)
 	 */
 	@Override
 	public boolean pathNodesExist(short regionoffset)
@@ -95,9 +95,9 @@ public class CellPathFinding extends PathFinding
 	}
 	
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.PathFinding#FindPath(int, int, short, int, int, short)
+	 * @see interlude.gameserver.pathfinding.PathFinding#FindPath(int, int, short, int, int, short)
 	 */
-	//@Override
+	@Override
 	public List<AbstractNodeLoc> findPath(int x, int y, int z, int tx, int ty, int tz, int instanceId, boolean playable)
 	{
 		int gx = (x - L2World.MAP_MIN_X) >> 4;
@@ -233,8 +233,7 @@ public class CellPathFinding extends PathFinding
 		return path;
 	}
 
-	//
-	public FastList<AbstractNodeLoc> constructPath(Node node)
+	private FastList<AbstractNodeLoc> constructPath(AbstractNode node)
 	{
 		FastList<AbstractNodeLoc> path = new FastList<AbstractNodeLoc>();
 		int previousDirectionX = Integer.MIN_VALUE;
@@ -371,7 +370,7 @@ public class CellPathFinding extends PathFinding
 		}
 	}
 
-	//@Override
+	@Override
 	public String[] getStat()
 	{
 		final String[] result = new String[_allBuffers.length + 1];
@@ -400,20 +399,4 @@ public class CellPathFinding extends PathFinding
 	{
 		protected static final CellPathFinding _instance = new CellPathFinding();
 	}
-
-	@Override
-	public List<AbstractNodeLoc> findPath(int gx, int gy, short z, int gtx,
-			int gtz, short tz) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Node[] readNeighbors(short nodeX, short nodeY, int idx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
 }

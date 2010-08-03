@@ -3,12 +3,12 @@
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,29 +22,32 @@ import interlude.gameserver.model.Location;
 import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.util.Point3D;
 
+
 /**
- * @author -Nemesiss-
+ *
+ * @author  -Nemesiss-
  */
 public class GeoData
 {
 	private static Logger _log = Logger.getLogger(GeoData.class.getName());
-	private static GeoData _instance;
-
+	
+	protected GeoData()
+	{
+	}
+	
+	private GeoData(final boolean disabled)
+	{
+		if (disabled)
+		{
+			_log.info("Geodata Engine: Disabled.");
+		}
+	}
+	
 	public static GeoData getInstance()
 	{
-		if (_instance == null)
-		{
-			if (Config.GEODATA > 0) {
-				_instance = GeoEngine.getInstance();
-			} else
-			{
-				_instance = new GeoData();
-				_log.info("Geodata Engine: Disabled.");
-			}
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
-
+	
 	// Public Methods
 	/**
 	 * @param x
@@ -55,7 +58,7 @@ public class GeoData
 	{
 		return 0;
 	}
-
+	
 	/**
 	 * @param x
 	 * @param y
@@ -66,7 +69,7 @@ public class GeoData
 	{
 		return (short) z;
 	}
-
+	
 	/**
 	 * @param x
 	 * @param y
@@ -79,7 +82,7 @@ public class GeoData
 	{
 		return (short) zmin;
 	}
-
+	
 	/**
 	 * @param x
 	 * @param y
@@ -89,36 +92,43 @@ public class GeoData
 	{
 		return "";
 	}
-
+	
 	/**
 	 * @param cha
 	 * @param target
-	 * @return true if cha can see target (LOS)
+	 * @return True if cha can see target (LOS)
 	 */
 	public boolean canSeeTarget(L2Object cha, L2Object target)
 	{
-		// If geo is off do simple check :]
-		// Don't allow casting on players on different dungeon lvls etc
-		return Math.abs(target.getZ() - cha.getZ()) < 1000;
+		//If geo is off do simple check :]
+		//Don't allow casting on players on different dungeon lvls etc
+		return (Math.abs(target.getZ() - cha.getZ()) < 1000);
 	}
-
+	
 	public boolean canSeeTarget(L2Object cha, Point3D worldPosition)
+	{
+		//If geo is off do simple check :]
+		//Don't allow casting on players on different dungeon lvls etc
+		return Math.abs(worldPosition.getZ() - cha.getZ()) < 1000;
+	}
+	
+	public boolean canSeeTarget(int x, int y, int z, int tx, int ty, int tz)
 	{
 		// If geo is off do simple check :]
 		// Don't allow casting on players on different dungeon lvls etc
-		return Math.abs(worldPosition.getZ() - cha.getZ()) < 1000;
+		return (Math.abs(z - tz) < 1000);
 	}
-
+	
 	/**
 	 * @param cha
 	 * @param target
-	 * @return true if cha can see target (LOS) and send usful info to PC
+	 * @return True if cha can see target (LOS) and send usful info to PC
 	 */
 	public boolean canSeeTargetDebug(L2PcInstance gm, L2Object target)
 	{
 		return true;
 	}
-
+	
 	/**
 	 * @param x
 	 * @param y
@@ -130,6 +140,11 @@ public class GeoData
 		return 15;
 	}
 
+	public short getHeightAndNSWE(int x, int y, int z)
+	{
+		return (short)((z << 1) | 15);
+	}
+
 	/**
 	 * @param x
 	 * @param y
@@ -137,41 +152,12 @@ public class GeoData
 	 * @param tx
 	 * @param ty
 	 * @param tz
-	 * @return Last Location (x,y,z) where player can walk - just befor wall
+	 * @param instanceId
+	 * @return Last Location (x,y,z) where player can walk - just before wall
 	 */
-	public Location moveCheck(int x, int y, int z, int tx, int ty, int tz)
+	public Location moveCheck(int x, int y, int z, int tx, int ty, int tz, int instanceId)
 	{
 		return new Location(tx, ty, tz);
-	}
-
-	/**
-	 * @param gm
-	 * @param comment
-	 */
-	public void addGeoDataBug(L2PcInstance gm, String comment)
-	{
-		// Do Nothing
-	}
-
-	public static void unloadGeodata(byte rx, byte ry)
-	{
-	}
-
-	@Deprecated
-	// TODO: cleanup?
-	public static boolean loadGeodataFile(byte rx, byte ry)
-	{
-		return false;
-	}
-	
-	public short getHeightAndNSWE(int x, int y, int z)
-	{
-		return (short)((z << 1) | 15);
-	}
-	
-	public boolean hasGeo(int x, int y)
-	{
-		return false;
 	}
 	
 	public boolean canMoveFromToTarget(int x, int y, int z, int tx, int ty, int tz, int instanceId)
@@ -179,4 +165,33 @@ public class GeoData
 		return true;
 	}
 	
+	/**
+	 * @param gm
+	 * @param comment
+	 */
+	public void addGeoDataBug(L2PcInstance gm, String comment)
+	{
+		//Do Nothing
+	}
+	
+	public static void unloadGeodata(byte rx, byte ry)
+	{
+		
+	}
+	
+	public static boolean loadGeodataFile(byte rx, byte ry)
+	{
+		return false;
+	}
+	
+	public boolean hasGeo(int x, int y)
+	{
+		return false;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final GeoData _instance = Config.GEODATA > 0 ? GeoEngine.getInstance() : new GeoData(true);
+	}
 }

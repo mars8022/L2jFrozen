@@ -27,6 +27,9 @@ import java.util.logging.Logger;
 
 import org.python.modules.math;
 
+import interlude.gameserver.model.Location;
+import interlude.gameserver.pathfinding.PathFinding;
+
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import javolution.util.FastTable;
@@ -4783,7 +4786,7 @@ public abstract class L2Character extends L2Object
 						onDecay();
 					return;
 				}
-				Location destiny = GeoData.getInstance().moveCheck(curX, curY, curZ, x, y, z);
+				Location destiny = GeoData.getInstance().moveCheck(curX, curY, curZ, x, y, z, getInstanceId());
 				// location different if destination wasn't reached (or just z coord is different)
 				x = destiny.getX();
 				y = destiny.getY();
@@ -4804,8 +4807,8 @@ public abstract class L2Character extends L2Object
 				{
 					int gx = curX - L2World.MAP_MIN_X >> 4;
 					int gy = curY - L2World.MAP_MIN_Y >> 4;
-					m.geoPath = GeoPathFinding.getInstance().findPath(gx, gy, (short) curZ, gtx, gty, (short) originalZ);
-					if (m.geoPath == null || m.geoPath.size() < 2) // No
+					m.geoPath = PathFinding.getInstance().findPath(curX, curY, curZ, originalX, originalY, originalZ, getInstanceId(), this instanceof L2PcInstance);
+                	if (m.geoPath == null || m.geoPath.size() < 2) // No
 					// path
 					// found
 					{
@@ -4839,7 +4842,7 @@ public abstract class L2Character extends L2Object
 						y = m.geoPath.get(m.onGeodataPathIndex).getY();
 						z = m.geoPath.get(m.onGeodataPathIndex).getZ();
 						// check for doors in the route
-						if (DoorTable.getInstance().checkIfDoorsBetween(curX, curY, curZ, x, y, z))
+						if (DoorTable.getInstance().checkIfDoorsBetween(curX, curY, curZ, x, y, z, getInstanceId()))
 						{
 							m.geoPath = null;
 							getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
@@ -4847,7 +4850,7 @@ public abstract class L2Character extends L2Object
 						}
 						for (int i = 0; i < m.geoPath.size() - 1; i++)
 						{
-							if (DoorTable.getInstance().checkIfDoorsBetween(m.geoPath.get(i), m.geoPath.get(i + 1)))
+							if (DoorTable.getInstance().checkIfDoorsBetween(m.geoPath.get(i), m.geoPath.get(i + 1), getInstanceId()))
 							{
 								m.geoPath = null;
 								getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);

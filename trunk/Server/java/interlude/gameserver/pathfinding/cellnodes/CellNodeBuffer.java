@@ -14,12 +14,11 @@
  */
 package interlude.gameserver.pathfinding.cellnodes;
 
-import interlude.Config;
-
 import java.util.concurrent.locks.ReentrantLock;
 
 import javolution.util.FastList;
 
+import interlude.Config;
 
 /**
  * 

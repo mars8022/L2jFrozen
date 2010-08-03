@@ -1148,6 +1148,12 @@ public final class Config
 	public static float RWHO_PRIV_STORE_FACTOR;
 	public static int RWHO_ARRAY[] = new int[13];
 	         
+	public static int WORLD_X_MIN;
+	public static int WORLD_X_MAX;
+	public static int WORLD_Y_MIN;
+	public static int WORLD_Y_MAX;
+	public static boolean GEODATA_CELLFINDING;
+	
 	public static void load()
 	{
 		if (Server.serverMode == Server.MODE_GAMESERVER)
@@ -1729,6 +1735,21 @@ public final class Config
 					MINIMUN_UPDATE_TIME = Integer.parseInt(optionsSettings.getProperty("MinimumUpdateTime", "500"));
 					CHECK_KNOWN = Boolean.parseBoolean(optionsSettings.getProperty("CheckKnownList", "False"));
 					KNOWNLIST_FORGET_DELAY = Integer.parseInt(optionsSettings.getProperty("KnownListForgetDelay", "10000"));
+				
+					WORLD_X_MIN = Integer.parseInt(optionsSettings.getProperty("WorldXMin", "11"));
+					WORLD_X_MAX = Integer.parseInt(optionsSettings.getProperty("WorldXMax", "26"));
+					WORLD_Y_MIN = Integer.parseInt(optionsSettings.getProperty("WorldYMin", "10"));
+					WORLD_Y_MAX = Integer.parseInt(optionsSettings.getProperty("WorldYMax", "26"));
+					GEODATA_CELLFINDING = Boolean.parseBoolean(optionsSettings.getProperty("CellPathFinding", "False"));
+					
+					PATHFIND_BUFFERS = optionsSettings.getProperty("PathFindBuffers", "100x6;128x6;192x6;256x4;320x4;384x4;500x2");
+					LOW_WEIGHT = Float.parseFloat(optionsSettings.getProperty("LowWeight", "0.5"));
+					MEDIUM_WEIGHT = Float.parseFloat(optionsSettings.getProperty("MediumWeight", "2"));
+					HIGH_WEIGHT = Float.parseFloat(optionsSettings.getProperty("HighWeight", "3"));
+					ADVANCED_DIAGONAL_STRATEGY = Boolean.parseBoolean(optionsSettings.getProperty("AdvancedDiagonalStrategy", "True"));
+					DIAGONAL_WEIGHT = Float.parseFloat(optionsSettings.getProperty("DiagonalWeight", "0.707"));
+					MAX_POSTFILTER_PASSES = Integer.parseInt(optionsSettings.getProperty("MaxPostfilterPasses", "3"));
+					DEBUG_PATH = Boolean.parseBoolean(optionsSettings.getProperty("DebugPath", "False"));
 				}
 				catch (Exception e)
 				{

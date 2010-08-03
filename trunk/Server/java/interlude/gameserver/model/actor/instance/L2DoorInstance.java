@@ -77,6 +77,13 @@ public class L2DoorInstance extends L2Character {
 	private int _rangeXMax = 0;
 	private int _rangeYMax = 0;
 	private int _rangeZMax = 0;
+	
+	// these variables assist in see-through calculation only
+	private int _A = 0;
+	private int _B = 0;
+	private int _C = 0;
+	private int _D = 0;
+	
 	protected final int _doorId;
 	protected final String _name;
 	private int _open;
@@ -607,6 +614,11 @@ public class L2DoorInstance extends L2Character {
 		_rangeXMax = xMax;
 		_rangeYMax = yMax;
 		_rangeZMax = zMax;
+		
+		_A = _rangeYMax * (_rangeZMax - _rangeZMin) + _rangeYMin * (_rangeZMin - _rangeZMax);
+		_B = _rangeZMin * (_rangeXMax - _rangeXMin) + _rangeZMax * (_rangeXMin - _rangeXMax);
+		_C = _rangeXMin * (_rangeYMax - _rangeYMin) + _rangeXMin * (_rangeYMin - _rangeYMax);
+		_D = -1 * (_rangeXMin * (_rangeYMax * _rangeZMax - _rangeYMin * _rangeZMax) + _rangeXMax * (_rangeYMin * _rangeZMin - _rangeYMin * _rangeZMax) + _rangeXMin * (_rangeYMin * _rangeZMax - _rangeYMax * _rangeZMin));
 	}
 
 	public int getMapRegion() {
@@ -625,5 +637,26 @@ public class L2DoorInstance extends L2Character {
 			}
 		}
 		return result;
+	}
+	
+
+	public int getA()
+	{
+		return _A;
+	}
+	
+	public int getB()
+	{
+		return _B;
+	}
+	
+	public int getC()
+	{
+		return _C;
+	}
+	
+	public int getD()
+	{
+		return _D;
 	}
 }

@@ -42,7 +42,7 @@ import javax.script.SimpleScriptContext;
 import javolution.util.FastMap;
 import interlude.Config;
 
-//import com.l2jserver.script.jython.JythonScriptEngine;
+//import interlude.script.jython.JythonScriptEngine;
 /**
  * Caches script engines and provides funcionality for executing and managing scripts.<BR>
  *

@@ -13,11 +13,10 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package interlude.gameserver.pathfinding.cellnodes;
+import interlude.gameserver.pathfinding.AbstractNodeLoc;
 
 import interlude.gameserver.GeoData;
 import interlude.gameserver.model.L2World;
-import interlude.gameserver.pathfinding.AbstractNodeLoc;
-
 
 /**
  *
@@ -49,7 +48,7 @@ public class NodeLoc extends AbstractNodeLoc
 	}
 
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.AbstractNodeLoc#getX()
+	 * @see interlude.gameserver.pathfinding.AbstractNodeLoc#getX()
 	 */
 	@Override
 	public int getX()
@@ -58,7 +57,7 @@ public class NodeLoc extends AbstractNodeLoc
 	}
 
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.AbstractNodeLoc#getY()
+	 * @see interlude.gameserver.pathfinding.AbstractNodeLoc#getY()
 	 */
 	@Override
 	public int getY()
@@ -67,7 +66,7 @@ public class NodeLoc extends AbstractNodeLoc
 	}
 
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.AbstractNodeLoc#getZ()
+	 * @see interlude.gameserver.pathfinding.AbstractNodeLoc#getZ()
 	 */
 	@Override
 	public short getZ()
@@ -83,21 +82,21 @@ public class NodeLoc extends AbstractNodeLoc
 	}
 	
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.AbstractNodeLoc#getNodeX()
+	 * @see interlude.gameserver.pathfinding.AbstractNodeLoc#getNodeX()
 	 */
 	@Override
-	public short getNodeX()
+	public int getNodeX()
 	{
-		return (short)_x;
+		return _x;
 	}
 
 	/**
-	 * @see com.l2jserver.gameserver.pathfinding.AbstractNodeLoc#getNodeY()
+	 * @see interlude.gameserver.pathfinding.AbstractNodeLoc#getNodeY()
 	 */
 	@Override
-	public short getNodeY()
+	public int getNodeY()
 	{
-		return (short)_y;
+		return _y;
 	}
 
 	/**

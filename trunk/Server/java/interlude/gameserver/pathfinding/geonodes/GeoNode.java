@@ -12,57 +12,46 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package interlude.gameserver.pathfinding.cellnodes;
+package interlude.gameserver.pathfinding.geonodes;
 
 import interlude.gameserver.pathfinding.AbstractNode;
 import interlude.gameserver.pathfinding.AbstractNodeLoc;
 
-public class CellNode extends AbstractNode
+/**
+ *
+ * @author -Nemesiss-
+ */
+public class GeoNode extends AbstractNode
 {
-	private CellNode _next = null;
-	private boolean _isInUse = true;
-	private float _cost = -1000;
+	private final int _neighborsIdx;
+	private short _cost;
+	private GeoNode[] _neighbors;
 
-	public CellNode(AbstractNodeLoc loc)
+	public GeoNode(AbstractNodeLoc Loc, int Neighbors_idx)
 	{
-		super(loc);
+		super(Loc);
+		_neighborsIdx = Neighbors_idx;
 	}
 
-	public boolean isInUse()
-	{
-		return _isInUse;
-	}
-
-	public void setInUse()
-	{
-		_isInUse = true;
-	}
-
-	public CellNode getNext()
-	{
-		return _next;
-	}
-
-	public void setNext(CellNode next)
-	{
-		_next = next;
-	}
-
-	public float getCost()
+	public short getCost()
 	{
 		return _cost;
 	}
 
-	public void setCost(double cost)
+	public void setCost(int cost)
 	{
-		_cost = (float)cost;
+		_cost = (short)cost;
 	}
 
-	public void free()
+	public GeoNode[] getNeighbors()
 	{
-		setParent(null);
-		_cost = -1000;
-		_isInUse = false;
-		_next = null;
+		return _neighbors;
 	}
+
+	public void attachNeighbors()
+	{
+		if(getLoc() == null) _neighbors = null;
+		else _neighbors = GeoPathFinding.getInstance().readNeighbors(this, _neighborsIdx);
+	}
+	
 }

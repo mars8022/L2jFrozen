@@ -4,7 +4,7 @@ import interlude.gameserver.cache.HtmCache;
 import interlude.gameserver.handler.IVoicedCommandHandler;
 import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.network.serverpackets.NpcHtmlMessage;
-//for GF\GE  com.l2jserver
+//for GF\GE  interlude
 
 public class buff implements IVoicedCommandHandler
 {
