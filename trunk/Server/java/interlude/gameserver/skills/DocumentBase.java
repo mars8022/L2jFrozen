@@ -245,7 +245,8 @@ abstract class DocumentBase
 				if (1199 < time && time < 1501) time = (int)((float)time * Config.BUFF_TIME_MULTIPLIER);
                     else
 				if (299 < time && time < 481) time = (int)((float)time * Config.SPIRIT_TIME_MULTIPLIER);
-		
+					else
+				if (119 < time && time < 286) time = (int)((float)time * Config.SUMMON_TIME_MULTIPLIER);
 		boolean self = false;
 		if (attrs.getNamedItem("self") != null)
 		{

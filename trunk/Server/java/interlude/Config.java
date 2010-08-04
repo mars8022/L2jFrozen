@@ -515,6 +515,7 @@ public final class Config
 	// buff multiplayer
 	public static float BUFF_TIME_MULTIPLIER;
 	public static float SPIRIT_TIME_MULTIPLIER;
+	public static float SUMMON_TIME_MULTIPLIER;
 	public static float DANCE_TIME_MULTIPLIER;
 
 
@@ -2496,6 +2497,7 @@ public final class Config
 					FLYING_WYVERN_DURING_SIEGE = Boolean.parseBoolean(OpenCustom.getProperty("FlyingWyvernDuringSiege", "False"));
 					ENDLESS_SOUL_SHOTS = Boolean.parseBoolean(OpenCustom.getProperty("EndlessSoulShots", "False"));
 					SPIRIT_TIME_MULTIPLIER = Float.parseFloat(OpenCustom.getProperty("SpiritMultiplier", "1"));
+					SUMMON_TIME_MULTIPLIER = Float.parseFloat(OpenCustom.getProperty("SummonMultiplier", "1"));
 					BUFF_TIME_MULTIPLIER = Float.parseFloat(OpenCustom.getProperty("BuffMultiplier", "1"));
 					DANCE_TIME_MULTIPLIER = Float.parseFloat(OpenCustom.getProperty("DanceTimeMultiplier", "1"));					
 					ES_SP_BOOK_NEEDED = Boolean.parseBoolean(OpenCustom.getProperty("EnchantSkillSpBookNeeded", "True"));
