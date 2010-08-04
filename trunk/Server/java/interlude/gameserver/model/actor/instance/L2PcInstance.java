@@ -1850,6 +1850,28 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (!Config.MASTERY_PENALTY || this.getLevel()<=Config.LEVEL_TO_GET_PENALITY)
 			return;
 		
+		_heavy_mastery = false;
+		_light_mastery = false;
+		_robe_mastery = false;
+		
+		L2Skill[] char_skills = this.getAllSkills();
+		
+		for(L2Skill actual_skill : char_skills){
+			
+			if(actual_skill.getName().contains("Heavy Armor Mastery")){
+				_heavy_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Light Armor Mastery")){
+				_light_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Robe Mastery")){
+				_robe_mastery = true;
+			}
+			
+		}
+		
 		int newMasteryPenalty = 0;
 		
 		for(L2ItemInstance item : getInventory().getItems())
@@ -2228,26 +2250,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		// This function gets called on login, so not such a bad place to check weight
 		refreshOverloaded(); // Update the overloaded status of the L2PcInstance
 		refreshExpertisePenalty(); // Update the expertise status of the L2PcInstance
-		
-		
-		L2Skill[] char_skills = this.getAllSkills();
-		
-		for(L2Skill actual_skill : char_skills){
-			
-			if(actual_skill.getName().contains("Heavy Armor Mastery")){
-				_heavy_mastery = true;
-			}
-			
-			if(actual_skill.getName().contains("Light Armor Mastery")){
-				_light_mastery = true;
-			}
-			
-			if(actual_skill.getName().contains("Robe Mastery")){
-				_robe_mastery = true;
-			}
-			
-		}
-		
 		refreshMasteryPenality();
 		
 	}
@@ -9656,26 +9658,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		broadcastUserInfo();
 		refreshOverloaded();
 		refreshExpertisePenalty();
-		
-		L2Skill[] char_skills = this.getAllSkills();
-		
-		for(L2Skill actual_skill : char_skills){
-			
-			if(actual_skill.getName().contains("Heavy Armor Mastery")){
-				_heavy_mastery = true;
-			}
-			
-			if(actual_skill.getName().contains("Light Armor Mastery")){
-				_light_mastery = true;
-			}
-			
-			if(actual_skill.getName().contains("Robe Mastery")){
-				_robe_mastery = true;
-			}
-			
-		}
-		
 		refreshMasteryPenality();
+		
 		// Clear resurrect xp calculation
 		setExpBeforeDeath(0);
 		_shortCuts.restore();
