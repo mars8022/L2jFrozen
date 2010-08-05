@@ -14,10 +14,13 @@
  */
 package interlude.gameserver.network.clientpackets;
 
+import java.util.logging.Logger;
+
 import interlude.Config;
 import interlude.gameserver.model.TradeList;
 import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.network.SystemMessageId;
+import interlude.gameserver.network.serverpackets.ActionFailed;
 import interlude.gameserver.network.serverpackets.PrivateStoreManageListSell;
 import interlude.gameserver.network.serverpackets.PrivateStoreMsgSell;
 import interlude.gameserver.network.serverpackets.SystemMessage;
@@ -31,8 +34,7 @@ import interlude.gameserver.util.Util;
 public class SetPrivateStoreListSell extends L2GameClientPacket
 {
 	private static final String _C__74_SETPRIVATESTORELISTSELL = "[C] 74 SetPrivateStoreListSell";
-	// private static Logger _log =
-	// Logger.getLogger(SetPrivateStoreListSell.class.getName());
+	private static Logger _log = Logger.getLogger(SetPrivateStoreListSell.class.getName());
 	private int _count;
 	private boolean _packageSale;
 	private int[] _items; // count * 3
@@ -88,11 +90,17 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 			int price = _items[i * 3 + 2];
 			if (price <= 0)
 			{
+				/*
 				String msgErr = "[SetPrivateStoreListSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit (use PHX), ban this player!";
 				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				*/
 				_count = 0;
 				_items = null;
-				player.closeNetConnection(); // kick
+				//player.closeNetConnection(); // kick
+				
+				_log.warning("ATTENTION: Player "+player.getName()+" tried an overflow exploit (use PHX)!!");
+				player.sendMessage("You are trying an overflow exploit (use PHX)! The Admin/GM will contact you soon.."); // message
+				player.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 			tradeList.addItem(objectId, count, price);

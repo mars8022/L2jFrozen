@@ -820,9 +820,13 @@ public class FourSepulchersManager
 			default:
 				if (!player.isGM())
 				{
-					_log.warning("Player " + player.getName() + "(" + player.getObjectId() + ") tried to cheat in four sepulchers.");
+					_log.warning("ATTENTION: Player "+player.getName()+" tried to cheat in four sepulchers!!");
+					player.sendMessage("You tried to cheat in four sepulchers! The Admin/GM will contact you soon.."); // message
+					
+					/*_log.warning("Player " + player.getName() + "(" + player.getObjectId() + ") tried to cheat in four sepulchers.");
 					Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " tried to enter four sepulchers with invalid npc id.", Config.DEFAULT_PUNISH);
 					player.closeNetConnection(); // kick
+					*/
 					return;
 				}
 				return;

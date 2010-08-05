@@ -110,9 +110,11 @@ public class L2CastleWarehouseInstance extends L2FolkInstance
 	{
 		if (player.getActiveEnchantItem() != null)
 		{
-			_log.info("Player " + player.getName() + " trying to use enchant exploit, ban this player!");
+			player.sendPacket(new SystemMessage(SystemMessageId.INAPPROPRIATE_ENCHANT_CONDITION));
+        	return;
+			/*_log.info("Player " + player.getName() + " trying to use enchant exploit, ban this player!");
 			player.closeNetConnection();
-			return;
+			return;*/
 		}
 		if (command.startsWith("WithdrawP")) {
 			showRetrieveWindow(player);

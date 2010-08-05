@@ -65,8 +65,11 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 			int price = readD();
 			if (count > Integer.MAX_VALUE || count < 0)
 			{
-				String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
-				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				//String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
+				//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				_log.warning("ATTENTION: Player "+getClient().getActiveChar().getName()+" tried an overflow exploit!!");
+				getClient().getActiveChar().sendMessage("You are trying an overflow exploit! The Admin/GM will contact you soon.."); // message
+				getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
 				_count = 0;
 				_items = null;
 				return;
@@ -76,8 +79,12 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		}
 		if (priceTotal < 0 || priceTotal > Integer.MAX_VALUE)
 		{
-			String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
-			Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+			_log.warning("ATTENTION: Player "+getClient().getActiveChar().getName()+" tried an overflow exploit!!");
+			getClient().getActiveChar().sendMessage("You are trying an overflow exploit! The Admin/GM will contact you soon.."); // message
+			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
+			
+			//String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
+			//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
 			_count = 0;
 			_items = null;
 			return;

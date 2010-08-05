@@ -631,6 +631,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	/** Herbs Task Time * */
 	private int _herbstask = 0;
 
+	public int _active_boxes = -1;
+	
 	/** Task for Herbs */
 	public class HerbTask implements Runnable
 	{
@@ -1082,7 +1084,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void logout()
 	{
+		if(_active_boxes!=-1) //normal logout
+			this.decreaseBoxes();
+			
 		closeNetConnection();
+	
 	}
 
 	/**
@@ -10190,7 +10196,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (cmd.startsWith(bp))
 				return true;
 		}
-		_log.warning("[L2PcInstance] player [" + getName() + "] sent invalid bypass '" + cmd + "', ban this player!");
+		_log.warning("ATTENTION: [L2PcInstance] player [" + getName() + "] sent invalid bypass '" + cmd + "'!");
 		return false;
 	}
 
@@ -10250,7 +10256,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (bp.equals(cmd))
 				return true;
 		}
-		_log.warning("[L2PcInstance] player [" + getName() + "] sent invalid link '" + cmd + "', ban this player!");
+		_log.warning("[L2PcInstance] player [" + getName() + "] sent invalid link '" + cmd + "'!");
 		return false;
 	}
 
@@ -12591,5 +12597,120 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
         // finally, after passing all conditions
         return true;
+	}
+	
+	
+	/**
+	 * check if local player can make multibox and also refresh local boxes instances number
+	 * @return
+	 */
+	public boolean checkMultiBox(){
+		
+		boolean output = true;
+		
+		int boxes_number = 1; //this one
+		
+		if(getClient()!=null && !getClient().getConnection().isClosed()){
+			
+			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
+			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
+			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
+
+			for(L2PcInstance player : players)
+			{
+				if(player != null)
+				{
+					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()){
+						
+						String ip = player.getClient().getConnection().getInetAddress().getHostAddress();
+						if(thisip.equals(ip) && this != player && player != null)
+						{
+							if(!Config.ALLOW_DUALBOX){
+								
+								output=false;
+							
+							}else{
+								
+								boxes_number++;
+								
+								if(boxes_number>Config.ALLOWED_BOXES){
+									output = false;
+								}
+							}
+						}
+					}
+						
+					
+				}
+			}
+		}
+		
+		if(output){
+			_active_boxes = boxes_number;
+		}
+		
+		return output;
+	}
+	
+	/**
+	 * increase active boxes number for local player and other boxer for same ip
+	 * @return
+	 */
+	public void refreshOtherBoxes(){
+		
+		if(getClient()!=null && !getClient().getConnection().isClosed()){
+			
+			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
+			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
+			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
+
+			for(L2PcInstance player : players)
+			{
+				if(player != null)
+				{
+					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()){
+						
+						String ip = player.getClient().getConnection().getInetAddress().getHostAddress();
+						if(thisip.equals(ip) && this != player && player != null)
+						{
+							player._active_boxes = _active_boxes;
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * descrease active boxes number for local player and other boxer for same ip
+	 * @return
+	 */
+	public void decreaseBoxes(){
+		
+		_active_boxes=_active_boxes-1;
+		
+		if(getClient()!=null && !getClient().getConnection().isClosed()){
+			
+			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
+			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
+			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
+
+			for(L2PcInstance player : players)
+			{
+				if(player != null)
+				{
+					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()){
+						
+						String ip = player.getClient().getConnection().getInetAddress().getHostAddress();
+						if(thisip.equals(ip) && this != player && player != null)
+						{
+							player._active_boxes = _active_boxes;
+						}
+					}
+				}
+			}
+		}
+		
 	}
 }

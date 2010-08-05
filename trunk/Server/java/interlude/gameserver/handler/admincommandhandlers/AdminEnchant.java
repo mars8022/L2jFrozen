@@ -14,6 +14,8 @@
  */
 package interlude.gameserver.handler.admincommandhandlers;
 
+import java.util.logging.Logger;
+
 import interlude.Config;
 import interlude.gameserver.handler.IAdminCommandHandler;
 import interlude.gameserver.model.L2ItemInstance;
@@ -22,6 +24,7 @@ import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.model.entity.GmAudit;
 import interlude.gameserver.model.item.Inventory;
 import interlude.gameserver.network.SystemMessageId;
+import interlude.gameserver.network.serverpackets.ActionFailed;
 import interlude.gameserver.network.serverpackets.CharInfo;
 import interlude.gameserver.network.serverpackets.InventoryUpdate;
 import interlude.gameserver.network.serverpackets.SystemMessage;
@@ -35,8 +38,8 @@ import interlude.gameserver.util.Util;
  */
 public class AdminEnchant implements IAdminCommandHandler
 {
-	// private static Logger _log =
-	// Logger.getLogger(AdminEnchant.class.getName());
+	private static Logger _log = Logger.getLogger(AdminEnchant.class.getName());
+	
 	private static final String[] ADMIN_COMMANDS = { "admin_seteh",// 6
 			"admin_setec",// 10
 			"admin_seteg",// 9
@@ -142,10 +145,13 @@ public class AdminEnchant implements IAdminCommandHandler
 						L2PcInstance player = (L2PcInstance) target;
 						if(ench > Config.GM_OVER_ENCHANT && Config.GM_OVER_ENCHANT !=0 && !player.isGM())
 						{
-							player.sendMessage("A GM tried to overenchant you. You will both be banned.");
-							Util.handleIllegalPlayerAction(player,"The player "+player.getName()+" has been edited. BAN!", Config.DEFAULT_PUNISH);
-							activeChar.sendMessage("You tried to overenchant somebody. You will both be banned.");
-							Util.handleIllegalPlayerAction(activeChar,"The GM "+activeChar.getName()+" has overenchanted the player "+player.getName()+". BAN!", Config.DEFAULT_PUNISH);;
+							_log.warning("ATTENTION: GM "+activeChar.getName()+" tried to overenchant Player "+player.getName()+" !!");
+							player.sendMessage("A GM tried to overenchant you. Admin/Head GM will contact you soon..");
+							activeChar.sendMessage("You tried to overenchant somebody. Admin/Head GM will contact you soon..");
+							return false;
+							//Util.handleIllegalPlayerAction(player,"The player "+player.getName()+" has been edited. BAN!", Config.DEFAULT_PUNISH);
+							//activeChar.sendMessage("You tried to overenchant somebody. You will both be banned.");
+							//Util.handleIllegalPlayerAction(activeChar,"The GM "+activeChar.getName()+" has overenchanted the player "+player.getName()+". BAN!", Config.DEFAULT_PUNISH);;
 						} else {
 							setEnchant(activeChar, ench, armorType);
 						}

@@ -1139,6 +1139,17 @@ public class L2Attackable extends L2NpcInstance
 	 */
 	private RewardItem calculateRewardItem(L2PcInstance lastAttacker, L2DropData drop, int levelModifier, boolean isSweep)
 	{
+		
+		if((Config.HIGH_RATE_SERVER_DROPS && !drop.isQuestDrop() && drop.getItemId()!=57)){ //it's not adena-->check if drop has an epic jewel
+			
+			//ant queen,orfen,core,frintezza,baium,antharas,valakas,zaken,stones
+			if(drop.getItemId()==6660 || drop.getItemId()==6661 || drop.getItemId()==6662 || drop.getItemId()==8191 || drop.getItemId()==6658 || drop.getItemId()==6656 || drop.getItemId()==6657 || drop.getItemId()==6659 || (drop.getItemId()>=6360 && drop.getItemId()<=6362) || (drop.getItemId()>=8723 && drop.getItemId()<=8762)){
+				//if epic jewel, seal stones or life stone, continue
+			}else
+				return null;
+			
+		}
+
 		// Get default drop chance
 		float dropChance = drop.getChance();
 		int deepBlueDrop = 1;
@@ -1321,6 +1332,29 @@ public class L2Attackable extends L2NpcInstance
 		{
 			return null;
 		}
+		
+		if((Config.HIGH_RATE_SERVER_DROPS && categoryDrops.getCategoryType()!=0)){ //it's not adena-->check if drop is quest or is an epic jewel
+			
+			boolean to_drop = false;
+			
+			FastList<L2DropData> drops = categoryDrops.getAllDrops();
+			
+			for(L2DropData dd : drops){
+				
+				//quest_drop,ant queen,orfen,core,frintezza,baium,antharas,valakas,zaken, seal Stones, life stones
+				if(dd.isQuestDrop() || dd.getItemId()==6660 || dd.getItemId()==6661 || dd.getItemId()==6662 || dd.getItemId()==8191 || dd.getItemId()==6658 || dd.getItemId()==6656 || dd.getItemId()==6657 || dd.getItemId()==6659 || (dd.getItemId()>=6360 && dd.getItemId()<=6362) || (dd.getItemId()>=8723 && dd.getItemId()<=8762) ){
+					//if epic jewel, return just 1 from raid
+					to_drop = true;
+				}
+				
+			}
+			
+			if(!to_drop){
+				return null;
+			}
+			
+		}
+		
 		// Get default drop chance for the category (that's the sum of chances
 		// for all items in the category)
 		// keep track of the base category chance as it'll be used later, if an

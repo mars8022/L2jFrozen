@@ -80,7 +80,7 @@ public class ScrollOfEscape implements IItemHandler
 			return;
 		}
 		
-		if(Config.ALLOW_SOE_IN_PVP && activeChar.getPvpFlag() != 0)
+		if(!Config.ALLOW_SOE_IN_PVP && (activeChar.isInDuel() || activeChar.getPvpFlag() != 0 ))
 		{
 			activeChar.sendMessage("You Can't Use SOE In PvP!");
 			return;

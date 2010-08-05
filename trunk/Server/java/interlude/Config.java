@@ -1018,6 +1018,7 @@ public final class Config
 	public static boolean CUSTOM_MERCHANT_TABLES;
 	public static int OLY_ENCHANT_LIMIT;
 	public static boolean OLYMPIAD_ALLOW_AUTO_SS;
+	public static boolean ALLOW_DUALBOX_OLY;
 	public static boolean OLYMPIAD_GIVE_ACUMEN_MAGES;
 	public static boolean OLYMPIAD_GIVE_HASTE_FIGHTERS;
 	public static int OLYMPIAD_ACUMEN_LVL;
@@ -1154,6 +1155,11 @@ public final class Config
 	public static int WORLD_Y_MIN;
 	public static int WORLD_Y_MAX;
 	public static boolean GEODATA_CELLFINDING;
+	
+	public static boolean ALLOW_DUALBOX;
+	public static int ALLOWED_BOXES;
+	public static boolean HIGH_RATE_SERVER_DROPS;
+	
 	
 	public static void load()
 	{
@@ -1751,6 +1757,10 @@ public final class Config
 					DIAGONAL_WEIGHT = Float.parseFloat(optionsSettings.getProperty("DiagonalWeight", "0.707"));
 					MAX_POSTFILTER_PASSES = Integer.parseInt(optionsSettings.getProperty("MaxPostfilterPasses", "3"));
 					DEBUG_PATH = Boolean.parseBoolean(optionsSettings.getProperty("DebugPath", "False"));
+				
+					ALLOWED_BOXES = Integer.parseInt(optionsSettings.getProperty("AllowedBoxes", "2"));
+					ALLOW_DUALBOX = Boolean.parseBoolean(optionsSettings.getProperty("AllowDualBox", "True"));
+					
 				}
 				catch (Exception e)
 				{
@@ -2039,6 +2049,7 @@ public final class Config
 					OLYMPIAD_ACUMEN_LVL = Integer.parseInt(OlympiadSettings.getProperty("OlympiadAcumenLvl", "1"));
 					OLYMPIAD_HASTE_LVL = Integer.parseInt(OlympiadSettings.getProperty("OlympiadHasteLvl", "2"));
 					OLY_ENCHANT_LIMIT = Integer.parseInt(OlympiadSettings.getProperty("OlyMaxEnchant", "-1"));
+					ALLOW_DUALBOX_OLY = Boolean.parseBoolean(OlympiadSettings.getProperty("OlympiadAllowDualbox", "True"));
 				}
 				catch (Exception e)
 				{
@@ -2601,6 +2612,8 @@ public final class Config
 				
 					MASTERY_PENALTY = Boolean.parseBoolean(OpenCustom.getProperty("EnableMasteryPenalties", "True"));
 					LEVEL_TO_GET_PENALITY = Integer.parseInt(OpenCustom.getProperty("LevelToGetMasteryPenalities", "20"));
+					
+					HIGH_RATE_SERVER_DROPS = Boolean.parseBoolean(OpenCustom.getProperty("HighRateServerDrops", "False"));
 					
 				}
 				catch (Exception e)

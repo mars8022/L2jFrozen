@@ -122,23 +122,32 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		{
 			if (ir.getCount() > Integer.MAX_VALUE || ir.getCount() < 0)
 			{
-				String msgErr = "[RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
-				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
-				player.closeNetConnection(); // kick
+				String msgErr = "ATTENTION: [RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried an overflow exploit...";
+				//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				//player.closeNetConnection(); // kick
+				_log.warning(msgErr);
+				player.sendMessage("You are trying an overflow exploit. Admin/GM Will contact you soon...");
+				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 			TradeItem sellersItem = storeList.getItem(ir.getObjectId());
 			if (sellersItem == null)
 			{
-				String msgErr = "[RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried to buy an item not sold in a private store (buy), ban this player!";
-				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
-				player.closeNetConnection(); // kick
+				String msgErr = "ATTENTION: [RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried to buy an item not sold in a private store (buy)...";
+				//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				//player.closeNetConnection(); // kick
+				_log.warning(msgErr);
+				player.sendMessage("You are trying to buy an item not sold in a private store (buy). Admin/GM Will contact you soon...");
+				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 			if (ir.getPrice() != sellersItem.getPrice())
 			{
-				String msgErr = "[RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried to change the seller's price in a private store (buy), ban this player!";
-				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				String msgErr = "ATTENTION: [RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried to change the seller's price in a private store (buy)...";
+				//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				_log.warning(msgErr);
+				player.sendMessage("You are trying to change the seller's price in a private store (buy). Admin/GM Will contact you soon...");
+				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 			priceTotal += ir.getPrice() * ir.getCount();
@@ -147,24 +156,29 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		// TradeList mechanics
 		if (priceTotal < 0 || priceTotal > Integer.MAX_VALUE)
 		{
-			String msgErr = "[RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
-			Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
-			player.closeNetConnection(); // kick
+			String msgErr = "ATTENTION: [RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried an overflow exploit...";
+			//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+			//player.closeNetConnection(); // kick
+			_log.warning(msgErr);
+			player.sendMessage("You are trying an overflow exploit. Admin/GM Will contact you soon...");
+			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		if (player.getAdena() < priceTotal)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
-			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		if (storePlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_PACKAGE_SELL)
 		{
 			if (storeList.getItemCount() > _count)
 			{
-				String msgErr = "[RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried to buy less items then sold by package-sell, ban this player for bot-usage!";
-				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
-				player.closeNetConnection(); // kick
+				String msgErr = "ATTENTION: [RequestPrivateStoreBuy] player " + getClient().getActiveChar().getName() + " tried to buy less items then sold by package-sell...";
+				//Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
+				//player.closeNetConnection(); // kick
+				_log.warning(msgErr);
+				player.sendMessage("You are trying to buy less items then sold by package-sell. Admin/GM Will contact you soon...");
+				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 		}

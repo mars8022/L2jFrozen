@@ -122,6 +122,12 @@ public class EnterWorld extends L2GameClientPacket
 			getClient().getConnection().close(null);
 			return;
 		}
+		
+		if(!activeChar.checkMultiBox()){ //means that it's not ok multiBox situation, so logout
+			activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
+			activeChar.logout();
+		}
+		
 		if (L2World.getInstance().findObject(activeChar.getObjectId()) != null)
 		{
 			if (Config.DEBUG)

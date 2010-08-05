@@ -82,8 +82,11 @@ public final class RequestDropItem extends L2GameClientPacket
 			{
 				if (item.getEnchantLevel() > Config.ENCHANT_MAX_ALLOWED_WEAPON && !activeChar.isGM())
 				{
-					activeChar.sendMessage("You have been kicked for using an item wich is over enchanted!"); // message
-					activeChar.closeNetConnection(); // kick
+					_log.warning("ATTENTION: Player "+activeChar.getName()+" item id "+item.getItemId()+" is overenchanted!!");
+					activeChar.sendMessage("Your item is over enchanted! The Admin/GM will contact you soon.."); // message
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+					//activeChar.sendMessage("You have been kicked for using an item wich is over enchanted!"); // message
+					//activeChar.closeNetConnection(); // kick
 					return;
 				}
 				break;
@@ -92,8 +95,11 @@ public final class RequestDropItem extends L2GameClientPacket
 			{
 				if (item.getEnchantLevel() > Config.ENCHANT_MAX_ALLOWED_ARMOR && !activeChar.isGM())
 				{
-					activeChar.sendMessage("You have been kicked for using an item wich is over enchanted!"); // message
-					activeChar.closeNetConnection(); // kick
+					_log.warning("ATTENTION: Player "+activeChar.getName()+" item id "+item.getItemId()+" is overenchanted!!");
+					activeChar.sendMessage("Your item is over enchanted! The Admin/GM will contact you soon.."); // message
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+					//activeChar.sendMessage("You have been kicked for using an item wich is over enchanted!"); // message
+					//activeChar.closeNetConnection(); // kick
 					return;
 				}
 				break;
@@ -102,8 +108,11 @@ public final class RequestDropItem extends L2GameClientPacket
 			{
 				if (item.getEnchantLevel() > Config.ENCHANT_MAX_ALLOWED_JEWELRY && !activeChar.isGM())
 				{
-					activeChar.sendMessage("You have been kicked for using an item wich is over enchanted!"); // message
-					activeChar.closeNetConnection(); // kick
+					_log.warning("ATTENTION: Player "+activeChar.getName()+" item id "+item.getItemId()+" is overenchanted!!");
+					activeChar.sendMessage("Your item is over enchanted! The Admin/GM will contact you soon.."); // message
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+					//activeChar.sendMessage("You have been kicked for using an item wich is over enchanted!"); // message
+					//activeChar.closeNetConnection(); // kick
 					return;
 				}
 				break;
@@ -126,14 +135,20 @@ public final class RequestDropItem extends L2GameClientPacket
 		}
 		if (_count <= 0)
 		{
-			Util.handleIllegalPlayerAction(activeChar, "[RequestDropItem] count <= 0! ban! oid: " + _objectId + " owner: " + activeChar.getName(), Config.DEFAULT_PUNISH);
-			activeChar.closeNetConnection(); // kick
+			_log.warning("ATTENTION: Player "+activeChar.getName()+" is trying to discard an item id "+item.getItemId()+" that he has not!!");
+			activeChar.sendMessage("You have not that item! The Admin/GM will contact you soon.."); // message
+			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+			//Util.handleIllegalPlayerAction(activeChar, "[RequestDropItem] count <= 0! ban! oid: " + _objectId + " owner: " + activeChar.getName(), Config.DEFAULT_PUNISH);
+			//activeChar.closeNetConnection(); // kick
 			return;
 		}
 		if (!item.isStackable() && _count > 1)
 		{
-			Util.handleIllegalPlayerAction(activeChar, "[RequestDropItem] count > 1 but item is not stackable! ban! oid: " + _objectId + " owner: " + activeChar.getName(), Config.DEFAULT_PUNISH);
-			activeChar.closeNetConnection(); // kick
+			_log.warning("ATTENTION: Player "+activeChar.getName()+" is trying to discard an item id "+item.getItemId()+" with count>1 but it's stackable!!");
+			activeChar.sendMessage("The item is stackable and count > 1 ! The Admin/GM will contact you soon.."); // message
+			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+			//Util.handleIllegalPlayerAction(activeChar, "[RequestDropItem] count > 1 but item is not stackable! ban! oid: " + _objectId + " owner: " + activeChar.getName(), Config.DEFAULT_PUNISH);
+			//activeChar.closeNetConnection(); // kick
 			return;
 		}
 		if (Config.GM_DISABLE_TRANSACTION && activeChar.getAccessLevel() >= Config.GM_TRANSACTION_MIN && activeChar.getAccessLevel() <= Config.GM_TRANSACTION_MAX)

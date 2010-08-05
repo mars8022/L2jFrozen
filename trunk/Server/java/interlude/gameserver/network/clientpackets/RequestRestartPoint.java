@@ -223,9 +223,10 @@ public final class RequestRestartPoint extends L2GameClientPacket
 			activeChar.broadcastPacket(new Revive(activeChar));
 			return;
 		}
-		else if (!activeChar.isAlikeDead())
+		else if (!activeChar.isAlikeDead() && !activeChar.isGM())
 		{
-			_log.warning("Living player [" + activeChar.getName() + "] called RestartPointPacket! Ban this player!");
+			_log.warning("ATTENTION: Living player [" + activeChar.getName() + "] called RestartPointPacket!");
+			activeChar.sendMessage("You cant call RestartPointPacket if you are not Dead or in FakeDeath. Admin/GM will contact you soon");
 			return;
 		}
 		if (activeChar.inClanEvent || activeChar.inPartyEvent || activeChar.inSoloEvent)

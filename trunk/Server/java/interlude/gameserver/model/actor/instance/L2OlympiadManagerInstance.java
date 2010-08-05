@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+import interlude.Config;
 import interlude.gameserver.model.L2ItemInstance;
 import interlude.gameserver.model.L2Multisell;
 import interlude.gameserver.model.olympiad.Olympiad;
@@ -122,10 +123,18 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
                     }
                     break;
                 case 4:
-                    Olympiad.getInstance().registerNoble(player, false);
+                	if(player._active_boxes>1 && !Config.ALLOW_DUALBOX_OLY){
+						player.sendMessage("Dual Box not allowed in Olympiad Event");
+						break;
+					}else
+						Olympiad.getInstance().registerNoble(player, false);
                     break;
                 case 5:
-                    Olympiad.getInstance().registerNoble(player, true);
+                	if(player._active_boxes>1 && !Config.ALLOW_DUALBOX_OLY){
+						player.sendMessage("Dual Box not allowed in Olympiad Event");
+						break;
+					}else
+						Olympiad.getInstance().registerNoble(player, true);
                     break;
                 case 6:
                     int passes = Olympiad.getInstance().getNoblessePasses(player.getObjectId());
