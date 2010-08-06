@@ -380,6 +380,7 @@ $MYG < ../sql/ctf_teams.sql &> /dev/null
 $MYG < ../sql/dm.sql &> /dev/null
 $MYG < ../sql/forced_updates.sql &> /dev/null
 newbie_helper
+custom_helper
 }
 
 finish(){
@@ -415,6 +416,32 @@ while :
   done 
 }
 
+custom_helper(){
+while :
+  do
+   echo ""
+   echo -ne "If you're not that skilled applying changes within 'custom' folder, i can try to do it for you (y). If you wish to do it on your own, choose (n). Should i parse updates files? (Y/n)"
+   read NOB
+   if [ "$NOB" == "Y" -o "$NOB" == "y" -o "$NOB" == "" ]; then
+     echo ""
+     echo "There we go, it may take some time..."
+     echo "updates parser results. Last run: "`date` >database_installer.log
+     for file in $(ls ../sql/custom/*sql);do
+        echo $file|cut -d/ -f4 >> database_installer.log
+        $MYG < $file 2>> database_installer.log
+	if [ $? -eq 0 ];then
+	    echo "no errors">> database_installer.log
+	fi    
+	done
+     echo ""
+     echo "Log available at $(pwd)/database_installer.log"
+     echo ""
+     break
+   elif [ "$NOB" == "n" -o "$NOB" == "N" ]; then 
+     break
+   fi
+  done 
+}
 
 clear
 load_config $1
