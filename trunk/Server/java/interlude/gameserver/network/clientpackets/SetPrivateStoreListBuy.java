@@ -15,9 +15,11 @@
 package interlude.gameserver.network.clientpackets;
 
 import interlude.Config;
+import interlude.gameserver.model.L2Character;
 import interlude.gameserver.model.TradeList;
 import interlude.gameserver.model.actor.instance.L2PcInstance;
 import interlude.gameserver.network.SystemMessageId;
+import interlude.gameserver.network.serverpackets.ActionFailed;
 import interlude.gameserver.network.serverpackets.PrivateStoreManageListBuy;
 import interlude.gameserver.network.serverpackets.PrivateStoreMsgBuy;
 import interlude.gameserver.network.serverpackets.SystemMessage;
@@ -108,6 +110,16 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(new SystemMessage(SystemMessageId.THE_PURCHASE_PRICE_IS_HIGHER_THAN_MONEY));
 			return;
 		}
+		
+		// Prevents player to start selling inside a No Peace/Jail zone.
+		if ((!player.isInsideZone(L2Character.ZONE_PEACE)) || (player.isInsideZone(L2Character.ZONE_JAIL)))
+		{
+			player.sendMessage("You cannot open a Private Workshop here.");
+			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+			player.broadcastUserInfo();
+			return;
+		}
+		
 		player.sitDown();
 		player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_BUY);
 		player.broadcastUserInfo();

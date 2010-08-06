@@ -1506,9 +1506,26 @@ public abstract class L2Character extends L2Object
 		_castEndTime = 10 + GameTimeController.getGameTicks() + (coolTime + hitTime) / GameTimeController.MILLIS_IN_TICK;
 		_castInterruptTime = -2 + GameTimeController.getGameTicks() + hitTime / GameTimeController.MILLIS_IN_TICK;
 		// Init the reuse time of the skill
-		int reuseDelay = (int) (skill.getReuseDelay() * getStat().getMReuseRate(skill));
-		reuseDelay *= 333.0 / (skill.isMagic() ? getMAtkSpd() / Config.SK_MAG : getPAtkSpd() / Config.SK_FIG);
+		//int reuseDelay = (int) (skill.getReuseDelay() * getStat().getMReuseRate(skill));
+		//reuseDelay *= 333.0 / (skill.isMagic() ? getMAtkSpd() / Config.SK_MAG : getPAtkSpd() / Config.SK_FIG);
 		// Skill reuse check
+		int reuseDelay = skill.getReuseDelay();
+
+		if(!skill.isStaticReuse())
+		{
+			if(skill.isMagic())
+			{
+				reuseDelay *= getStat().getMReuseRate(skill);
+			}
+			else
+			{
+				reuseDelay *= getStat().getPReuseRate(skill);
+			}
+
+			reuseDelay *= 333.0 / (skill.isMagic() ? getMAtkSpd() / Config.SK_MAG : getPAtkSpd() / Config.SK_FIG);
+			
+		}
+		
 		if (reuseDelay > 30000)
 			addTimeStamp(skill.getId(), reuseDelay);
 
@@ -1556,7 +1573,31 @@ public abstract class L2Character extends L2Object
 		if (this instanceof L2PcInstance && magicId != 1312)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
-			sm.addSkillName(magicId, skill.getLevel());
+			
+			switch(magicId){
+				case 2003:{ //mana drug
+					sm.addItemName(726);
+				}
+				break;
+				case 2005:{ //mana potion
+					sm.addItemName(728);
+				}
+				break;
+				case 2166:{ //cp
+					
+					if(level==1){ //normal
+						sm.addItemName(5591);
+					}else{ //great
+						sm.addItemName(5592);
+					}
+				}
+				break;
+				default:{
+					sm.addSkillName(magicId, skill.getLevel());
+				}
+			
+			}
+			
 			sendPacket(sm);
 		}
 		// launch the magic in hitTime milliseconds
@@ -1569,8 +1610,10 @@ public abstract class L2Character extends L2Object
 				SetupGauge sg = new SetupGauge(SetupGauge.BLUE, hitTime);
 				sendPacket(sg);
 			}
-			// Disable all skills during the casting
-			disableAllSkills();
+		
+			// Disable all skills during the casting if not potion
+			if(!skill.isPotion())
+				disableAllSkills();
 			
 			if (_skillCast != null)
 			{

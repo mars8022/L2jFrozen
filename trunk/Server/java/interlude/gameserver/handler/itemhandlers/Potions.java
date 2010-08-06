@@ -131,7 +131,7 @@ public class Potions implements IItemHandler
 			case 726: // mana drug, xml: 2003
 				res = usePotion(activeChar, 2003, 1);
 				break;
-			case 728: // mana_potion, xml: 2005
+			/*case 728: // mana_potion, xml: 2005
 			{
 				if(!isEffectReplaceable(activeChar, L2Effect.EffectType.MANA_HEAL_OVER_TIME, itemId))
 					return;
@@ -140,6 +140,9 @@ public class Potions implements IItemHandler
 				su.addAttribute(StatusUpdate.CUR_MP, (int) activeChar.getCurrentMp());
 				activeChar.sendPacket(su);
 				L2Skill skill = SkillTable.getInstance().getInfo(2005, 1);
+				if (skill.getReuseDelay() > 10)
+						disableSkill(skill.getId(), skill.getReuseDelay());
+					
 				MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2005, 1, skill.getHitTime(), skill.getReuseDelay());
 				activeChar.broadcastPacket(MSU);
 				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
@@ -148,6 +151,14 @@ public class Potions implements IItemHandler
 				activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 			}
 				return;
+				*/
+			case 728: // mana_potion, xml: 2005 //scoria solution
+				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.MANA_HEAL_OVER_TIME, itemId)) {
+					return;
+				}
+				res = usePotion(activeChar, 2005, 1);
+				break;
+
 				// HEALING AND SPEED POTIONS
 			case 65: // red_potion, xml: 2001
 				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.HEAL_OVER_TIME, itemId)) {
@@ -342,7 +353,7 @@ public class Potions implements IItemHandler
 					playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 				}
 				return;
-			case 5591:
+			/*case 5591:
 				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.COMBAT_POINT_HEAL_OVER_TIME, itemId)) {
 					return;
 				}
@@ -353,7 +364,8 @@ public class Potions implements IItemHandler
 					activeChar.sendPacket(su);
 					L2Skill skill;
 					skill = SkillTable.getInstance().getInfo(2166, 1);
-					
+					if (skill.getReuseDelay() > 10)
+						disableSkill(skill.getId(), skill.getReuseDelay());
 					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2166, 1, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
 					SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
@@ -373,6 +385,8 @@ public class Potions implements IItemHandler
 					activeChar.sendPacket(su);
 					L2Skill skill;
 					skill = SkillTable.getInstance().getInfo(2166, 2);
+					if (skill.getReuseDelay() > 10)
+						disableSkill(skill.getId(), skill.getReuseDelay());
 					
 					MagicSkillUser MSU = new MagicSkillUser(activeChar, activeChar, 2166, 2, skill.getHitTime(), skill.getReuseDelay());
 					activeChar.broadcastPacket(MSU);
@@ -382,7 +396,19 @@ public class Potions implements IItemHandler
 					activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 				}
 				return;
-			
+			*/
+			case 5591: // CP //scoria solution
+				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.COMBAT_POINT_HEAL_OVER_TIME, itemId)) {
+					return;
+				}
+				res = usePotion(activeChar, 2166, 1);
+				break;
+			case 5592: // Greater CP
+				if (!isEffectReplaceable(activeChar, L2Effect.EffectType.COMBAT_POINT_HEAL_OVER_TIME, itemId)) {
+					return;
+				}
+				res = usePotion(activeChar, 2166, 2);
+				break;
 			case 6035: // Magic Haste Potion, xml: 2169
 			{
 				L2Skill skill;
@@ -647,7 +673,7 @@ public class Potions implements IItemHandler
 
 	public boolean usePotion(L2PcInstance activeChar, int magicId, int level)
 	{
-		if (activeChar.isAllSkillsDisabled())
+		if (activeChar.isAllSkillsDisabled() && magicId!=2005 && magicId!=2166) //to prevent cancel casting for mp/cp potions
 		{
 			ActionFailed af = ActionFailed.STATIC_PACKET;
 			activeChar.sendPacket(af);

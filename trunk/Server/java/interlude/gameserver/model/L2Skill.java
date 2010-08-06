@@ -356,6 +356,8 @@ public abstract class L2Skill implements IChanceSkillTrigger
 	private final float _pvpMulti;
 	private final boolean _canBeReflected;	
 
+	private final boolean _staticReuse;
+	
 	/*
 	 * Augmentation Skill Type 0 - Both 1 - Physical 2 - Magic 3 - Critical (unsupported now) 4 - You under attack (unsupported now)
 	 */
@@ -450,6 +452,8 @@ public abstract class L2Skill implements IChanceSkillTrigger
 		String canLearn = set.getString("canLearn", null);
        _canBeReflected = set.getBool("canBeReflected", true);
 
+       _staticReuse = set.getBool("staticReuse", false);
+       
 		if (canLearn == null) 
 			_canLearn = null;
 
@@ -2494,5 +2498,13 @@ public abstract class L2Skill implements IChanceSkillTrigger
 	public boolean canBeReflected()
 	{
 		return _canBeReflected;
+	}
+	
+	/**
+	 * @return Returns true to set static reuse.
+	 */
+	public final boolean isStaticReuse()
+	{
+		return _staticReuse;
 	}
 }

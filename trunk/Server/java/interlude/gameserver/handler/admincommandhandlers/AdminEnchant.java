@@ -142,6 +142,12 @@ public class AdminEnchant implements IAdminCommandHandler
 					else
 					{
 						L2Object target = activeChar.getTarget();
+						
+						if(!(target instanceof L2PcInstance)){
+							activeChar.sendMessage("You can enchant only Characters items.");
+							return false;
+						}
+						
 						L2PcInstance player = (L2PcInstance) target;
 						if(ench > Config.GM_OVER_ENCHANT && Config.GM_OVER_ENCHANT !=0 && !player.isGM())
 						{

@@ -160,6 +160,9 @@ public class MultiSellChoose extends L2GameClientPacket
 						_ingredientsList = null;
 						return;
 					}
+					if (ItemTable.getInstance().createDummyItem(e.getItemId()).isStackable())
+						_enchantment = 0;
+					
 					ex.setItemCount(ex.getItemCount() + e.getItemCount());
 					newIng = false;
 				}
@@ -193,7 +196,7 @@ public class MultiSellChoose extends L2GameClientPacket
 				_ingredientsList = null;
 				return;
 			}
-			if (e.getItemId() != 65336)
+			if (e.getItemId() != 500000)
 			{
 				// if this is not a list that maintains enchantment, check the
 				// count of all items that have the given id.
@@ -232,7 +235,7 @@ public class MultiSellChoose extends L2GameClientPacket
 		/** All ok, remove items and add final product */
 		for (MultiSellIngredient e : entry.getIngredients())
 		{
-			if (e.getItemId() != 65336)
+			if (e.getItemId() != 500000)
 			{
 				L2ItemInstance itemToTake = inv.getItemByItemId(e.getItemId()); // initialize
 				// and
@@ -248,7 +251,13 @@ public class MultiSellChoose extends L2GameClientPacket
 					// will be aborted and if any
 					// items already tanken will not be returned back to
 					// inventory!
-					_log.severe("Character: " + player.getName() + " is trying to cheat in multisell, merchatnt id:" + merchant.getNpcId());
+					_log.severe("Character: " + player.getName() + " is trying to cheat in multisell, merchant id:" + merchant.getNpcId());
+					return;
+				}
+				if (itemToTake.isWear()) {
+					//Player trying to buy something from the Multisell store
+					//with an item that's just being used from the Wear option from merchants.
+					_log.severe("Character: " + player.getName() + " is trying to cheat in multisell, merchant id:" + merchant.getNpcId());
 					return;
 				}
 				if (Config.ALT_BLACKSMITH_USE_RECIPES || !e.getMantainIngredient())
@@ -367,7 +376,7 @@ public class MultiSellChoose extends L2GameClientPacket
 						{
 							product.setAugmentation(new L2Augmentation(product, augmentation.get(i).getAugmentationId(), augmentation.get(i).getSkill(), true));
 						}
-						product.setEnchantLevel(e.getEnchantmentLevel());
+						product.setEnchantLevel(_enchantment);
 					}
 				}
 			}

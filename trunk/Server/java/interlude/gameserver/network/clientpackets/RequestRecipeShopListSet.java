@@ -18,7 +18,9 @@ import interlude.Config;
 import interlude.gameserver.model.L2ManufactureItem;
 import interlude.gameserver.model.L2ManufactureList;
 import interlude.gameserver.model.actor.instance.L2PcInstance;
+import interlude.gameserver.model.L2Character;
 import interlude.gameserver.network.SystemMessageId;
+import interlude.gameserver.network.serverpackets.ActionFailed;
 import interlude.gameserver.network.serverpackets.RecipeShopMsg;
 import interlude.gameserver.network.serverpackets.SystemMessage;
 
@@ -70,6 +72,16 @@ public final class RequestRecipeShopListSet extends L2GameClientPacket
 			player.broadcastUserInfo();
 			player.standUp();
 		}
+		
+		// Prevents player to start selling inside a No Peace/Jail zone.
+		if ((!player.isInsideZone(L2Character.ZONE_PEACE)) || (player.isInsideZone(L2Character.ZONE_JAIL)))
+		{
+			player.sendMessage("You cannot open a Private Workshop here.");
+			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+			player.broadcastUserInfo();
+			return;
+		}
+		
 		else
 		{
 			L2ManufactureList createList = new L2ManufactureList();
