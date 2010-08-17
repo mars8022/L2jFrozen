@@ -1,0 +1,1 @@
+print "start loading Group template AI"
