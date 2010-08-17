@@ -150,6 +150,10 @@ public class L2BufferInstance extends L2FolkInstance
 		// handles creation
 		else if (currentCommand.startsWith("createscheme"))
 		{
+			if(!st.hasMoreTokens()){
+				return;
+			}
+			
 			String name = st.nextToken();
 			if (name.length() > 14)
 			{

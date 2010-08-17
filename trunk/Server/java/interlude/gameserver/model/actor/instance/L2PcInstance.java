@@ -1880,38 +1880,46 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		int newMasteryPenalty = 0;
 		
-		for(L2ItemInstance item : getInventory().getItems())
-		{
-			if(item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
+		if(_heavy_mastery==false && _light_mastery==false && _light_mastery ==false){ //not completed 1st class transfer or not acquired yet the mastery skills
+			
+			newMasteryPenalty = 0;
+		
+		}else{
+			
+			for(L2ItemInstance item : getInventory().getItems())
 			{
-				L2Armor armor_item = (L2Armor) item.getItem();
-				
-				switch(armor_item.getItemType()){
+				if(item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
+				{
+					L2Armor armor_item = (L2Armor) item.getItem();
 					
-					case HEAVY:{
+					switch(armor_item.getItemType()){
 						
-						if(!_heavy_mastery)
-							newMasteryPenalty++;
-					}
-					break;
-					case LIGHT:{
-						
-						if(!_light_mastery)
-							newMasteryPenalty++;
-					}
-					break;
-					case MAGIC:{
-						
-						if(!_robe_mastery)
-							newMasteryPenalty++;
-						
-					}
-					break;
+						case HEAVY:{
+							
+							if(!_heavy_mastery)
+								newMasteryPenalty++;
+						}
+						break;
+						case LIGHT:{
+							
+							if(!_light_mastery)
+								newMasteryPenalty++;
+						}
+						break;
+						case MAGIC:{
+							
+							if(!_robe_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
 
+					}
 				}
 			}
-		}
 
+		}
+		
 		if(_masteryPenalty!=newMasteryPenalty){
 			
 			if(newMasteryPenalty > 0)
