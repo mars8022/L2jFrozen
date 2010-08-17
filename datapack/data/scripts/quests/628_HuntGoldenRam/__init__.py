@@ -1,11 +1,11 @@
 #Hunt of the Golden Ram Mercenary Force
 # Made by Polo - Have fun!..... fix & addition by t0rm3nt0r and LEX
 import sys
-from com.l2scoria import Config 
-from com.l2scoria.gameserver.datatables import SkillTable
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen import Config 
+from com.l2jfrozen.gameserver.datatables import SkillTable
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn = "628_HuntGoldenRam"
 

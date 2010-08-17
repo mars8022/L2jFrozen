@@ -1,15 +1,15 @@
 from java.lang import System
 
-from com.l2scoria.gameserver.ai import CtrlIntention
-from com.l2scoria.gameserver.datatables.csv import DoorTable
-from com.l2scoria.gameserver.managers import GrandBossManager
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.network.serverpackets import CreatureSay
-from com.l2scoria.gameserver.network.serverpackets import PlaySound
-from com.l2scoria.gameserver.network.serverpackets import SocialAction
-from com.l2scoria.gameserver.network.serverpackets import SpecialCamera
-from com.l2scoria.util.random import Rnd
+from com.l2jfrozen.gameserver.ai import CtrlIntention
+from com.l2jfrozen.gameserver.datatables.csv import DoorTable
+from com.l2jfrozen.gameserver.managers import GrandBossManager
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.network.serverpackets import CreatureSay
+from com.l2jfrozen.gameserver.network.serverpackets import PlaySound
+from com.l2jfrozen.gameserver.network.serverpackets import SocialAction
+from com.l2jfrozen.gameserver.network.serverpackets import SpecialCamera
+from com.l2jfrozen.util.random import Rnd
 
 # Halisha and Frintezza
 Halisha1 = 100200

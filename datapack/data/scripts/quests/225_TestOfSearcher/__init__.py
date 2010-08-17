@@ -5,9 +5,9 @@
 # Version 0.6  - updated by Kerberos on 2007.11.15
 # Visit http://forum.l2jdp.com for more details
 import sys
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn = "225_TestOfSearcher"
 

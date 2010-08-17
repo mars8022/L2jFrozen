@@ -2,11 +2,11 @@
 # this script is part of the Official L2J Datapack Project.
 # Visit http://forum.l2jdp.com for more details.
 import sys
-from com.l2scoria.gameserver.ai import CtrlIntention
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.model.actor.position import L2CharPosition
+from com.l2jfrozen.gameserver.ai import CtrlIntention
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.position import L2CharPosition
 
 qn = "21_HiddenTruth"
 

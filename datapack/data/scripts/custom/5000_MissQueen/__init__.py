@@ -1,9 +1,9 @@
 #Jython-based miss queen implementation v0.1
 #written by DrLecter, based in Eduu, biti and Newbie contributions.
 import sys
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn = "5000_MissQueen"
 

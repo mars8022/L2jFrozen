@@ -1,15 +1,8 @@
 @echo off
-title L2-GOF: Login Server Console
+title L2J-Frozen: Login Server Console
 :start
 
-REM ----------- Set Class Paths and Calls setenv.bat -----------------
-SET OLDCLASSPATH=%CLASSPATH%
-call setlog.bat
-REM ------------------------------------------------------------------
-
-java -Dfile.encoding=UTF8 -Xmx128m -XX:+UseParallelGC -XX:+AggressiveOpts com.l2scoria.loginserver.L2LoginServer
-
-SET CLASSPATH=%OLDCLASSPATH%
+java -Dfile.encoding=UTF8 -Xmx128m -XX:+UseParallelGC -XX:+AggressiveOpts -cp ./lib/*;l2jfrozen-core.jar com.l2jfrozen.loginserver.L2LoginServer
 
 if ERRORLEVEL 2 goto restart
 if ERRORLEVEL 1 goto error

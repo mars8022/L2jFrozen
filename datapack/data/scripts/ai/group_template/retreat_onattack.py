@@ -1,10 +1,10 @@
 import sys
-from com.l2scoria.gameserver.ai import CtrlIntention
-from com.l2scoria.gameserver.model.actor.position import L2CharPosition
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.network.serverpackets import CreatureSay
-from com.l2scoria.util.random import Rnd
+from com.l2jfrozen.gameserver.ai import CtrlIntention
+from com.l2jfrozen.gameserver.model.actor.position import L2CharPosition
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.network.serverpackets import CreatureSay
+from com.l2jfrozen.util.random import Rnd
 
 # flee onAttack (current version is rather fear than retreat)
 # ToDo: find a way to check position instead of using a timer to stop fleeing

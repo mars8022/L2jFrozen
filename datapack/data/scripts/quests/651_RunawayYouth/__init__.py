@@ -1,9 +1,9 @@
 # Made by Polo & DrLecter
 import sys
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.network.serverpackets import MagicSkillUser
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.network.serverpackets import MagicSkillUser
 
 qn = "651_RunawayYouth"
 

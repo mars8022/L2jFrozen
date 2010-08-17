@@ -1,9 +1,9 @@
 # Created by Ham Wong on 2007.02.28
 import sys
 
-from com.l2scoria.gameserver.model.quest        import State
-from com.l2scoria.gameserver.model.quest        import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.quest        import State
+from com.l2jfrozen.gameserver.model.quest        import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn = "2000_NoblesseTeleport"
 #print "2000. Noblesse Teleport"

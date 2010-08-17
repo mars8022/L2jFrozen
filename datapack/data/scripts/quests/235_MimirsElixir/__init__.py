@@ -1,9 +1,9 @@
 # Mimir's Elixir version 0.1 
 # by Fulminus
 import sys
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 #Quest info
 qn = "235_MimirsElixir"
 QUEST_NUMBER,QUEST_NAME,QUEST_DESCRIPTION = 235,"MimirsElixir","Mimir's Elixir"

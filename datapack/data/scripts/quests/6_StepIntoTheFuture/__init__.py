@@ -1,9 +1,9 @@
 # Created by CubicVirtuoso
 # Any problems feel free to drop by #l2j-datapack on irc.freenode.net
 import sys
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn = "6_StepIntoTheFuture"
 

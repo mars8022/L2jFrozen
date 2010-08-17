@@ -1,9 +1,9 @@
 # By Deniska Spectr
 import sys
-from com.l2scoria.gameserver.model.actor.instance import L2PcInstance
-from com.l2scoria.gameserver.model.quest          import State
-from com.l2scoria.gameserver.model.quest          import QuestState
-from com.l2scoria.gameserver.model.quest.jython   import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.instance import L2PcInstance
+from com.l2jfrozen.gameserver.model.quest          import State
+from com.l2jfrozen.gameserver.model.quest          import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython   import QuestJython as JQuest
 qn = "2211_HuntingGroundsTeleport"
 #print "2211. Hunting Grounds Teleport"
 GLUDIN_DAWN,GLUDIO_DAWN,DION_DAWN,GIRAN_DAWN,HEINE_DAWN,OREN_DAWN,ADEN_DAWN,\

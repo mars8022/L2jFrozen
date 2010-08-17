@@ -10,14 +10,14 @@ set DateT=%date%
 
 REM Configurate database connection loginserver
 set lsuser=root
-set lspass=
-set lsdb=l2jdb
+set lspass=root
+set lsdb=loginserver_beta
 set lshost=localhost
 
 REM Configurate database connection Gameserver
 set gsuser=root
-set gspass=
-set gsdb=l2jdb
+set gspass=root
+set gsdb=gameserver_beta
 set gshost=localhost
 REM ############################################
 
@@ -29,7 +29,7 @@ set mysqlPath="%mysqlBinPath%\mysql"
 cls
 echo. ---------------------------------------------------------------------
 echo.
-echo.   L2-Gof Team - Database Login Server`s 
+echo.   L2-Frozen Team - Database Login Server`s 
 echo. _____________________________________________________________________
 echo.
 echo.   1 - Full install database loginserver`s.
@@ -65,7 +65,7 @@ goto :Step2
 @cls
 echo. ---------------------------------------------------------------------
 echo.
-echo.   L2-Gof Team - database operation about gameserver
+echo.   L2-Frozen Team - database operation about gameserver
 echo. _____________________________________________________________________
 echo.
 echo.   1 - Full Install Gameserver Database`s.

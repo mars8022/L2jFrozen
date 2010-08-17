@@ -1,10 +1,10 @@
 # Newbie Travel Token Teleport - by DrLecter
 import sys
 
-from com.l2scoria.gameserver.model.actor.instance import      L2PcInstance
-from com.l2scoria.gameserver.model.quest        import State
-from com.l2scoria.gameserver.model.quest        import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.instance import      L2PcInstance
+from com.l2jfrozen.gameserver.model.quest        import State
+from com.l2jfrozen.gameserver.model.quest        import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 qn = "1104_NewbieTravelToken"
 #print "1104. Newbie Travel Token"
 TOKEN = 8542
