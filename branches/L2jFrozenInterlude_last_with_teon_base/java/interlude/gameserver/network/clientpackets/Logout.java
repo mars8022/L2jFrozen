@@ -1,0 +1,171 @@
+/*
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package interlude.gameserver.network.clientpackets;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Logger;
+
+import interlude.Config;
+import interlude.L2DatabaseFactory;
+import interlude.gameserver.SevenSignsFestival;
+import interlude.gameserver.communitybbs.Manager.RegionBBSManager;
+import interlude.gameserver.datatables.SkillTable;
+import interlude.gameserver.model.L2Party;
+import interlude.gameserver.model.L2World;
+import interlude.gameserver.model.actor.instance.L2PcInstance;
+import interlude.gameserver.model.olympiad.Olympiad;
+import interlude.gameserver.network.SystemMessageId;
+import interlude.gameserver.network.serverpackets.ActionFailed;
+import interlude.gameserver.network.serverpackets.FriendList;
+import interlude.gameserver.network.serverpackets.SystemMessage;
+import interlude.gameserver.taskmanager.AttackStanceTaskManager;
+
+/**
+ * This class ...
+ *
+ * @version $Revision: 1.9.4.3 $ $Date: 2005/03/27 15:29:30 $
+ */
+public final class Logout extends L2GameClientPacket
+{
+	private static final String _C__09_LOGOUT = "[C] 09 Logout";
+	private static Logger _log = Logger.getLogger(Logout.class.getName());
+
+	@Override
+	protected void readImpl()
+	{
+	}
+
+	@Override
+	protected void runImpl()
+	{
+		// Dont allow leaving if player is fighting
+		L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
+		{
+			return;
+		}
+		player.getInventory().updateDatabase();
+		if (AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !player.isGM())
+		{
+			if (Config.DEBUG)
+			{
+				_log.fine("Player " + player.getName() + " tried to logout while fighting");
+			}
+			player.sendPacket(new SystemMessage(SystemMessageId.CANT_LOGOUT_WHILE_FIGHTING));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		if (player.atEvent)
+		{
+			player.sendPacket(SystemMessage.sendString("A superior power doesn't allow you to leave the event"));
+			return;
+		}
+		if (player.isInFunEvent())
+		{
+			player.sendPacket(SystemMessage.sendString("You cant logout in event"));
+			return;
+			}
+		if (player.isAway())
+		{
+			player.sendMessage("You can't restart in Away mode.");
+			return;
+		}
+		if (player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
+		{
+			player.sendMessage("You cant logout in olympiad mode");
+			return;
+		}
+		// Prevent player from logging out if they are a festival participant
+		// and it is in progress, otherwise notify party members that the player
+		// is not longer a participant.
+		if (player.isFestivalParticipant())
+		{
+			if (SevenSignsFestival.getInstance().isFestivalInitialized())
+			{
+				player.sendMessage("You cannot log out while you are a participant in a festival.");
+				return;
+			}
+			L2Party playerParty = player.getParty();
+			if (playerParty != null)
+			{
+				player.getParty().broadcastToPartyMembers(SystemMessage.sendString(player.getName() + " has been removed from the upcoming festival."));
+			}
+		}
+		if (player.isFlying())
+		{
+			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+		}
+		
+		if ((player.isInStoreMode() && Config.ALLOW_OFFLINE_TRADE) || (player.isInCraftMode() && Config.ALLOW_OFFLINE_CRAFT)){
+			player.closeNetConnection();
+			return;
+		}
+		
+		RegionBBSManager.getInstance().changeCommunityBoard();
+		player.deleteMe();
+		notifyFriends(player);
+	}
+
+	private void notifyFriends(L2PcInstance cha)
+	{
+		java.sql.Connection con = null;
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement statement;
+			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=?");
+			statement.setInt(1, cha.getObjectId());
+			ResultSet rset = statement.executeQuery();
+			L2PcInstance friend;
+			String friendName;
+			while (rset.next())
+			{
+				friendName = rset.getString("friend_name");
+				friend = L2World.getInstance().getPlayer(friendName);
+				if (friend != null) // friend logged in.
+				{
+					friend.sendPacket(new FriendList(friend));
+				}
+			}
+			rset.close();
+			statement.close();
+		}
+		catch (Exception e)
+		{
+			_log.warning("could not restore friend data:" + e);
+		}
+		finally
+		{
+			try
+			{
+				con.close();
+			}
+			catch (Exception e)
+			{
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see interlude.gameserver.network.clientpackets.ClientBasePacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return _C__09_LOGOUT;
+	}
+}
