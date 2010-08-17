@@ -1,0 +1,10 @@
+#Sat May 01 21:40:13 MSD 2010
+eclipse.preferences.version=1
+encoding//head-src/com/l2scoria/gameserver/GameServer.java=UTF-8
+encoding//head-src/com/l2scoria/gameserver/ai/special=UTF-8
+encoding//head-src/com/l2scoria/gameserver/geo=UTF-8
+encoding//head-src/com/l2scoria/gameserver/handler=UTF-8
+encoding//head-src/com/l2scoria/gameserver/thread/daemons/DeadlockDetector.java=UTF-8
+encoding//java/com/l2scoria/gameserver/Announcements.java=UTF-8
+encoding//java/com/l2scoria/stack/GeneralStack.java=UTF-8
+encoding/<project>=UTF-8
