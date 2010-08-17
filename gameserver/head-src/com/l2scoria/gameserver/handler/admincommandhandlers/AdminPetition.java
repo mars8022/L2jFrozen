@@ -1,0 +1,123 @@
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+package com.l2scoria.gameserver.handler.admincommandhandlers;
+
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+import com.l2scoria.Config;
+import com.l2scoria.gameserver.datatables.sql.AdminCommandAccessRights;
+import com.l2scoria.gameserver.handler.IAdminCommandHandler;
+import com.l2scoria.gameserver.managers.PetitionManager;
+import com.l2scoria.gameserver.model.actor.instance.L2PcInstance;
+import com.l2scoria.gameserver.network.SystemMessageId;
+import com.l2scoria.gameserver.network.serverpackets.SystemMessage;
+
+/**
+ * This class handles commands for GMs to respond to petitions.
+ * 
+ * @author Tempy
+ */
+public class AdminPetition implements IAdminCommandHandler
+{
+	private static final String[] ADMIN_COMMANDS =
+	{
+			"admin_view_petitions", "admin_view_petition", "admin_accept_petition", "admin_reject_petition", "admin_reset_petitions"
+	};
+
+	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	{
+		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
+
+		if(Config.GMAUDIT)
+		{
+			Logger _logAudit = Logger.getLogger("gmaudit");
+			LogRecord record = new LogRecord(Level.INFO, command);
+			record.setParameters(new Object[]
+			{
+					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
+			});
+			_logAudit.log(record);
+		}
+
+		int petitionId = -1;
+
+		try
+		{
+			petitionId = Integer.parseInt(command.split(" ")[1]);
+		}
+		catch(Exception e)
+		{
+			//ignore
+		}
+
+		if(command.equals("admin_view_petitions"))
+		{
+			PetitionManager.getInstance().sendPendingPetitionList(activeChar);
+		}
+		else if(command.startsWith("admin_view_petition"))
+		{
+			PetitionManager.getInstance().viewPetition(activeChar, petitionId);
+		}
+		else if(command.startsWith("admin_accept_petition"))
+		{
+			if(PetitionManager.getInstance().isPlayerInConsultation(activeChar))
+			{
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.ONLY_ONE_ACTIVE_PETITION_AT_TIME));
+				return true;
+			}
+
+			if(PetitionManager.getInstance().isPetitionInProcess(petitionId))
+			{
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.PETITION_UNDER_PROCESS));
+				return true;
+			}
+
+			if(!PetitionManager.getInstance().acceptPetition(activeChar, petitionId))
+			{
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.NOT_UNDER_PETITION_CONSULTATION));
+			}
+		}
+		else if(command.startsWith("admin_reject_petition"))
+		{
+			if(!PetitionManager.getInstance().rejectPetition(activeChar, petitionId))
+			{
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.FAILED_CANCEL_PETITION_TRY_LATER));
+			}
+		}
+		else if(command.equals("admin_reset_petitions"))
+		{
+			if(PetitionManager.getInstance().isPetitionInProcess())
+			{
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.PETITION_UNDER_PROCESS));
+				return false;
+			}
+
+			PetitionManager.getInstance().clearPendingPetitions();
+		}
+		return true;
+	}
+
+	public String[] getAdminCommandList()
+	{
+		return ADMIN_COMMANDS;
+	}
+
+}
