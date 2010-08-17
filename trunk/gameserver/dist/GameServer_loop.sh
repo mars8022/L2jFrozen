@@ -13,6 +13,6 @@ do
         [ -f log/java0.log.0 ] && mv log/java0.log.0 "log/`date +%Y-%m-%d_%H-%M-%S`_java.log"
         [ -f log/stdout.log ] &&  mv log/stdout.log "log/`date +%Y-%m-%d_%H-%M-%S`_stdout.log"
         [ -f log/chat.log ] && mv log/chat.log "log/`date +%Y-%m-%d_%H:%M:%S`-chat.log"
-        java -Dfile.encoding=UTF-8 -Xms512m -Xmx2048m -XX:+UseParallelGC -XX:+AggressiveOpts -cp lib/*:lib/l2scoria-core-3.jar com.l2scoria.gameserver.GameServer > log/stdout.log 2>&1
+        java -Dfile.encoding=UTF-8 -Xms512m -Xmx2048m -XX:+UseParallelGC -XX:+AggressiveOpts -cp lib/*:l2jfrozen-core.jar com.l2jfrozen.gameserver.GameServer > log/stdout.log 2>&1
         sleep 10;
 done

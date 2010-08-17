@@ -1,6 +1,0 @@
-REM  MMOCore
-SET CLASSPATH=%CLASSPATH%;./lib/*
-
-REM for configuration
-SET CLASSPATH=%CLASSPATH%;./config/
-SET CLASSPATH=%CLASSPATH%;.

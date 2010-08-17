@@ -1,12 +1,12 @@
 #Made by Kerb
 import sys
 from java.lang import System
-from com.l2scoria import Config
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.network.serverpackets import CreatureSay
-from com.l2scoria.util.random import Rnd
+from com.l2jfrozen import Config
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.network.serverpackets import CreatureSay
+from com.l2jfrozen.util.random import Rnd
 
 qn = "625_TheFinestIngredientsPart2"
 #Npcs

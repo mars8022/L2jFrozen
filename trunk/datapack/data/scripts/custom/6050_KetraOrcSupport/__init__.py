@@ -1,12 +1,12 @@
 # Created by Emperorc
 # Finished by Kerberos_20 10/23/07
 import sys
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.datatables import SkillTable
-from com.l2scoria.gameserver.network.serverpackets import WareHouseWithdrawalList
-from com.l2scoria.gameserver.network.serverpackets import ActionFailed
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.datatables import SkillTable
+from com.l2jfrozen.gameserver.network.serverpackets import WareHouseWithdrawalList
+from com.l2jfrozen.gameserver.network.serverpackets import ActionFailed
 
 qn = "6050_KetraOrcSupport"
 

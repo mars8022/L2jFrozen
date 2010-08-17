@@ -3,10 +3,10 @@
 # v1.1 Done by BiTi
 
 import sys
-from com.l2scoria.gameserver.model.actor.instance import L2PcInstance
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.instance import L2PcInstance
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 qn = "1630_PaganTeleporters"
 #print "1630. Pagan Teleporters"
 NPCS=[32034,32036,32039,32040]

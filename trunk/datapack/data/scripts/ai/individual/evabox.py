@@ -1,10 +1,10 @@
 # By Evil33t
 import sys
-from com.l2scoria.gameserver.datatables.sql import ItemTable
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.util.random import Rnd
+from com.l2jfrozen.gameserver.datatables.sql import ItemTable
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.util.random import Rnd
 
 KISS_OF_EVA = [1073,3141,3252]
 BOX = 32342

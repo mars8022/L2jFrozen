@@ -1,10 +1,10 @@
 # Originally created by Ham Wong on 2007.03.07 #
 import sys
 
-from com.l2scoria.gameserver.model.actor.instance import L2PcInstance
-from com.l2scoria.gameserver.model.quest          import State
-from com.l2scoria.gameserver.model.quest          import QuestState
-from com.l2scoria.gameserver.model.quest.jython   import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.instance import L2PcInstance
+from com.l2jfrozen.gameserver.model.quest          import State
+from com.l2jfrozen.gameserver.model.quest          import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython   import QuestJython as JQuest
 qn = "1103_OracleTeleport"
 #print "1103. Oracle Teleport"
 TOWN_DAWN = [31078,31079,31080,31081,31083,31084,31082,31692,31694,31997,31168]

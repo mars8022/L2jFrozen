@@ -1,11 +1,11 @@
-# Author ProGramMoS, Scoria Dev
+﻿# Author ProGramMoS, Scoria Dev
 # Version 0.2b
 import sys
-from com.l2scoria.gameserver.model.actor.instance import L2PcInstance
-from com.l2scoria.util.database import L2DatabaseFactory
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.instance import L2PcInstance
+from com.l2jfrozen.util.database import L2DatabaseFactory
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn = "8871_gve"
 
@@ -20,7 +20,7 @@ qn = "8871_gve"
 #  st.getPlayer.isEvil() - возврашает true если мы за "зло"
 #
 # Для запуска этого квеста используется этот класс:
-#  com.l2scoria.gameserver.mode -> GvE -> CreateCharacter(L2PcInstance player)
+#  com.l2jfrozen.gameserver.mode -> GvE -> CreateCharacter(L2PcInstance player)
 #
 # Так же не забываем, что у нас сохраняется статус фракции в БД
 #

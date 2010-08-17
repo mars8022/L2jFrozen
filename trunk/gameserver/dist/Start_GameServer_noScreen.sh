@@ -1,3 +1,3 @@
-cd L2Jscoria-Game
+cd gameserver
 screen -AmdS gameserver ./GameServer_loop.sh
 cd ..

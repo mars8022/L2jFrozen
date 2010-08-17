@@ -1,11 +1,11 @@
 import sys
 import time
 
-from com.l2scoria.gameserver.ai import CtrlIntention
-from com.l2scoria.gameserver.model.quest import State
-from com.l2scoria.gameserver.model.quest import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
-from com.l2scoria.gameserver.network.serverpackets import CreatureSay
+from com.l2jfrozen.gameserver.ai import CtrlIntention
+from com.l2jfrozen.gameserver.model.quest import State
+from com.l2jfrozen.gameserver.model.quest import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.network.serverpackets import CreatureSay
 
 qn = "25_HidingBehindTheTruth"
 

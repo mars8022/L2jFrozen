@@ -1,25 +1,20 @@
 @echo off
 title GameServer Console
 :start
-echo Starting L2J-Scoria Core Game Server.
-echo Official website : http://la2.100nt.ru
+echo Starting L2J-Frozen Core Game Server.
+echo Official website : http://www.l2frozenreborn.com
 echo Enjoy by server core. Bee happy!
 echo ------------------------------
 echo.
-REM ----------- Set Class Paths and Calls setenv.bat -----------------
-SET OLDCLASSPATH=%CLASSPATH%
-call setgame.bat
-REM ------------------------------------------------------------------
+
 
 REM -------------------------------------
 REM Default parameters for a basic server.
-java -Dfile.encoding=UTF8 -server -Xmx1024m -Xms512m -Xmn256m -XX:PermSize=128m -XX:SurvivorRatio=8 -Xnoclassgc -XX:+AggressiveOpts com.l2scoria.gameserver.GameServer
+java -Dfile.encoding=UTF8 -server -Xmx1024m -Xms512m -Xmn256m -XX:PermSize=128m -XX:SurvivorRatio=8 -Xnoclassgc -XX:+AggressiveOpts -cp ./lib/*;l2jfrozen-core.jar com.l2jfrozen.gameserver.GameServer
 REM
 REM If you have a big server and lots of memory, you could experiment for example with
 REM java -server -Xmx1536m -Xms1024m -Xmn512m -XX:PermSize=256m -XX:SurvivorRatio=8 -Xnoclassgc -XX:+AggressiveOpts
 REM -------------------------------------
-
-SET CLASSPATH=%OLDCLASSPATH%
 
 if ERRORLEVEL 7 goto telldown
 if ERRORLEVEL 6 goto tellrestart
@@ -32,40 +27,40 @@ goto end
 :tellrestart
 echo.
 echo Telnet server Restart ...
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo.
 goto start
 :taskrestart
 echo.
 echo Auto Task Restart ...
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo.
 goto start
 :restart
 echo.
 echo Admin Restart ...
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo.
 goto start
 :taskdown
 echo .
 echo Server terminated (Auto task)
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo .
 :telldown
 echo .
 echo Server terminated (Telnet)
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo .
 :error
 echo.
 echo Server terminated abnormaly
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo.
 :end
 echo.
 echo server terminated
-echo Send you bug to : http://la2.100nt.ru
+echo Send you bug to : http://www.l2frozenreborn.com
 echo.
 :question
 set choix=q

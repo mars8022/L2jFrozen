@@ -3,10 +3,10 @@
 #
 import sys
 
-from com.l2scoria.gameserver.model.actor.instance import      L2PcInstance
-from com.l2scoria.gameserver.model.quest        import State
-from com.l2scoria.gameserver.model.quest        import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.model.actor.instance import      L2PcInstance
+from com.l2jfrozen.gameserver.model.quest        import State
+from com.l2jfrozen.gameserver.model.quest        import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 qn = "1100_teleport_with_charm"
 
 #print "1100. Teleport with charm"

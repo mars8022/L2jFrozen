@@ -1,9 +1,9 @@
 # Made by Edge
 import sys
-from com.l2scoria import Config
-from com.l2scoria.gameserver.model.quest        import State
-from com.l2scoria.gameserver.model.quest        import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen import Config
+from com.l2jfrozen.gameserver.model.quest        import State
+from com.l2jfrozen.gameserver.model.quest        import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 qn = "646_SignsOfRevolt"
 
 #NPC

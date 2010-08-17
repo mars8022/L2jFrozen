@@ -3,12 +3,12 @@
 # v0.1.r0 2005.12.05
 
 import sys
-from com.l2scoria.gameserver.datatables         import SkillTable
-from com.l2scoria.gameserver.network.serverpackets      import CreatureSay 
-from com.l2scoria.gameserver.network.serverpackets      import MagicSkillUser
-from com.l2scoria.gameserver.model.quest        import State
-from com.l2scoria.gameserver.model.quest        import QuestState
-from com.l2scoria.gameserver.model.quest.jython import QuestJython as JQuest
+from com.l2jfrozen.gameserver.datatables         import SkillTable
+from com.l2jfrozen.gameserver.network.serverpackets      import CreatureSay 
+from com.l2jfrozen.gameserver.network.serverpackets      import MagicSkillUser
+from com.l2jfrozen.gameserver.model.quest        import State
+from com.l2jfrozen.gameserver.model.quest        import QuestState
+from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
 qn="501_ProofOfClanAlliance"
 qd="Proof of Clan Alliance"

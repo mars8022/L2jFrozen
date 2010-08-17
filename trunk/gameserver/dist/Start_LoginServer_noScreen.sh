@@ -1,3 +1,3 @@
-cd L2Jscoria-Login
+cd loginserver
 screen -AmdS loginserver ./LoginServer_loop.sh
 cd ..
