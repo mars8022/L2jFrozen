@@ -1089,6 +1089,7 @@ public abstract class Inventory extends ItemContainer
 			if(getOwner() instanceof L2PcInstance)
 			{
 				((L2PcInstance) getOwner()).refreshExpertisePenalty();
+				((L2PcInstance) getOwner()).refreshMasteryPenality();
 			}
 		}
 		finally
@@ -1129,6 +1130,7 @@ public abstract class Inventory extends ItemContainer
 			if(getOwner() instanceof L2PcInstance)
 			{
 				((L2PcInstance) getOwner()).refreshExpertisePenalty();
+				((L2PcInstance) getOwner()).refreshMasteryPenality();
 			}
 		}
 		finally

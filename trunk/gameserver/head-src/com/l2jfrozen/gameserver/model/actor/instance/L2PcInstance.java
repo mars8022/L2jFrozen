@@ -730,9 +730,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	private int _expertiseIndex; // index in EXPERTISE_LEVELS
 	private int _expertisePenalty = 0;
 	
-	private boolean heavy_mastery = false;
-	private boolean light_mastery = false;
-	private boolean robe_mastery = false;
+	private boolean _heavy_mastery = false;
+	private boolean _light_mastery = false;
+	private boolean _robe_mastery = false;
 	private int _masteryPenalty = 0;
 
 	private L2ItemInstance _activeEnchantItem = null;
@@ -2248,40 +2248,70 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (!Config.MASTERY_PENALTY || this.getLevel()<=Config.LEVEL_TO_GET_PENALITY)
 			return;
 		
+		_heavy_mastery = false;
+		_light_mastery = false;
+		_robe_mastery = false;
+		
+		L2Skill[] char_skills = this.getAllSkills();
+		
+		for(L2Skill actual_skill : char_skills){
+			
+			if(actual_skill.getName().contains("Heavy Armor Mastery")){
+				_heavy_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Light Armor Mastery")){
+				_light_mastery = true;
+			}
+			
+			if(actual_skill.getName().contains("Robe Mastery")){
+				_robe_mastery = true;
+			}
+			
+		}
+		
 		int newMasteryPenalty = 0;
 		
-		for(L2ItemInstance item : getInventory().getItems())
-		{
-			if(item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
+		if(_heavy_mastery==false && _light_mastery==false && _light_mastery ==false){ //not completed 1st class transfer or not acquired yet the mastery skills
+			
+			newMasteryPenalty = 0;
+		
+		}else{
+			
+			for(L2ItemInstance item : getInventory().getItems())
 			{
-				L2Armor armor_item = (L2Armor) item.getItem();
-				
-				switch(armor_item.getItemType()){
+				if(item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
+				{
+					L2Armor armor_item = (L2Armor) item.getItem();
 					
-					case HEAVY:{
+					switch(armor_item.getItemType()){
 						
-						if(!heavy_mastery)
-							newMasteryPenalty++;
-					}
-					break;
-					case LIGHT:{
-						
-						if(!light_mastery)
-							newMasteryPenalty++;
-					}
-					break;
-					case MAGIC:{
-						
-						if(!robe_mastery)
-							newMasteryPenalty++;
-						
-					}
-					break;
+						case HEAVY:{
+							
+							if(!_heavy_mastery)
+								newMasteryPenalty++;
+						}
+						break;
+						case LIGHT:{
+							
+							if(!_light_mastery)
+								newMasteryPenalty++;
+						}
+						break;
+						case MAGIC:{
+							
+							if(!_robe_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
 
+					}
 				}
 			}
-		}
 
+		}
+		
 		if(_masteryPenalty!=newMasteryPenalty){
 			
 			if(newMasteryPenalty > 0)
@@ -2685,24 +2715,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		refreshOverloaded(); // Update the overloaded status of the L2PcInstance
 
 		refreshExpertisePenalty(); // Update the expertise status of the L2PcInstance
-		
-		L2Skill[] char_skills = this.getAllSkills();
-		
-		for(L2Skill actual_skill : char_skills){
-			
-			if(actual_skill.getName().contains("Heavy Armor Mastery")){
-				heavy_mastery = true;
-			}
-			
-			if(actual_skill.getName().contains("Light Armor Mastery")){
-				light_mastery = true;
-			}
-			
-			if(actual_skill.getName().contains("Robe Mastery")){
-				robe_mastery = true;
-			}
-			
-		}
 		
 		refreshMasteryPenality();
 		
@@ -11627,7 +11639,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		broadcastUserInfo();
 		refreshOverloaded();
 		refreshExpertisePenalty();
-
+		refreshMasteryPenality();
+		
 		// Clear resurrect xp calculation
 		setExpBeforeDeath(0);
 		_macroses.restore();
