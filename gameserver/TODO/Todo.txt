@@ -23,3 +23,9 @@
 	   
 	c) Quests: someone say that L2Scoria quest engine doesn't work properly, it must be verified by players
 	   and if something is wrong we could substitute with l2jteon or other.  
+	   
+	   
+BUGS and Petitions:
+
+Bluff doesn't enter
+TvT Potions not allowed, but they work (maybe because the potion here is as a skill...)
