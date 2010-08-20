@@ -270,7 +270,7 @@ public class Antharas extends Quest implements Runnable
 				{
 					if(status == DORMANT) //РїСЂРѕРІРµСЂРєР°: РІС‹Р·РІР°Р»Рё РђРЅС‚Р°СЂР°СЃР°? Р°РєС‚РёРІРёСЂСѓРµРј "РІС‹Р·С‹РІР°Р»РєСѓ РђРЅС‚Р°СЂР°СЃР°"
 					{
-						player.getInventory().destroyItemByItemId("Antarath", STONE, 1, player, player.getTarget());
+						player.getQuestState("antharas").takeItems(STONE, 1);
 						GrandBossManager.getInstance().getZone(177615, 114941, -7709).allowPlayerEntry(player, 30);
 						player.teleToLocation(177615, 114941, -7709);
 						GrandBossManager.getInstance().setBossStatus(ANTHARAS, WAITING);
@@ -278,7 +278,7 @@ public class Antharas extends Quest implements Runnable
 					}
 					else if(status == WAITING)
 					{
-						player.getInventory().destroyItemByItemId("Antarath", STONE, 1, player, player.getTarget());
+						player.getQuestState("antharas").takeItems(STONE, 1);
 						GrandBossManager.getInstance().getZone(177615, 114941, -7709).allowPlayerEntry(player, 30);
 						player.teleToLocation(177615, 114941, -7709);
 					}
