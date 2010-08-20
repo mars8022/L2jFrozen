@@ -48,6 +48,7 @@ DROP TABLE IF EXISTS custom_etcitem;
 DROP TABLE IF EXISTS custom_merchant_buylists;
 DROP TABLE IF EXISTS custom_merchant_shopids;
 DROP TABLE IF EXISTS custom_npc;
+DROP TABLE IF EXISTS custom_notspawned;
 DROP TABLE IF EXISTS custom_spawnlist;
 DROP TABLE IF EXISTS custom_weapon;
 DROP TABLE IF EXISTS dimensional_rift;
