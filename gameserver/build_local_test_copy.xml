@@ -233,8 +233,8 @@
     		</fileset>
     	</copy>
     	
-    	<copy todir="${build.dist.game}/config/gof">
-    	    <fileset dir="config/gof">
+    	<copy todir="${build.dist.game}/config/frozen">
+    	    <fileset dir="config/frozen">
     	    	<include name="*.properties"/>
     	    </fileset>
     	</copy>
