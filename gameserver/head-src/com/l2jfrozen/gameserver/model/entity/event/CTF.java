@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
@@ -74,6 +75,7 @@ public class CTF
 	public static boolean _joining = false,
 						  _teleport = false,
 						  _started = false,
+						  _aborted = false,
 						  _sitForced = false;
 	public static L2Spawn _npcSpawn;
 	public static int _npcId = 0,
@@ -102,6 +104,8 @@ public class CTF
 						eventCenterY=0,
 						eventCenterZ=0,
 						eventOffset=0;
+	
+	public static long _intervalBetweenMatchs = 0;
 
 	public static void showFlagHtml(L2PcInstance eventPlayer, String objectId, String teamName)
 	{
@@ -1085,6 +1089,7 @@ public class CTF
 
 	public static void autoEvent()
 	{
+		/*
 		if(startAutoJoin())
 		{
 			if(_joinTime > 0) waiter(_joinTime * 60 * 1000); // Minutes for join event
@@ -1107,6 +1112,60 @@ public class CTF
 				abortEvent();
 			}
 		}
+		*/
+		
+		_log.info("Starting CTF!");
+		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
+		if (startAutoJoin())
+		{
+			if (_joinTime > 0)
+				waiter(_joinTime * 60 * 1000); // minutes for join event
+			else if (_joinTime <= 0)
+			{
+				_log.info("CTF: join time <=0 aborting event.");
+				abortEvent();
+				return;
+			}
+			if (teleportAutoStart())
+			{
+				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
+				if (startAutoEvent())
+				{
+					_log.debug("CTF: waiting.....minutes for event time " + CTF._eventTime);
+
+					waiter(_eventTime * 60 * 1000); // minutes for event time
+					finishEvent();
+
+					_log.info("CTF: waiting... delay for final messages ");
+					waiter(60000);//just a give a delay delay for final messages
+					sendFinalMessages();
+
+					if (!_started && !_aborted){ //if is not already started and it's not aborted
+						
+						_log.info("CTF: waiting.....delay for restart event  " + CTF.getIntervalBetweenMatchs() + " minutes.");
+						waiter(60000);//just a give a delay to next restart
+
+						try
+						{
+							restartEvent();
+						}
+						catch (Exception e)
+						{
+							_log.error("Error while tying to Restart Event", e);
+							e.printStackTrace();
+						}
+						
+					}
+						
+				}
+			}
+			else
+			{
+				abortEvent();
+				restartEvent();
+			}
+		}
+		
 	}
 
 	private static void waiter(long interval)
@@ -1263,6 +1322,7 @@ public class CTF
 		}
 
 		_started = false;
+		_aborted = false;
 		unspawnEventNpc();
 		unspawnAllFlags();
 		processTopTeam();
@@ -1270,7 +1330,7 @@ public class CTF
 		if(_topScore != 0)
 			playKneelAnimation(_topTeam);
 		
-		if(Config.TVT_ANNOUNCE_TEAM_STATS)
+		if(Config.CTF_ANNOUNCE_TEAM_STATS)
 		{
 			Announcements(_eventName + " Team Statistics:");
 			for(String team : _teams)
@@ -1505,6 +1565,7 @@ public class CTF
 		_teleport = false;
 		_started = false;
 		_sitForced = false;
+		_aborted = false;
 		_npcId = 0;
 		_npcX = 0;
 		_npcY = 0;
@@ -1552,6 +1613,7 @@ public class CTF
 				_eventTime = rs.getInt("eventTime");
 				_minPlayers = rs.getInt("minPlayers");
 				_maxPlayers = rs.getInt("maxPlayers");
+				_intervalBetweenMatchs = rs.getLong("delayForNextEvent");
 			}
 			statement.close();
 
@@ -1617,7 +1679,7 @@ public class CTF
 			statement.execute();
 			statement.close();
 
-			statement = con.prepareStatement("INSERT INTO ctf (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, npcHeading, rewardId, rewardAmount, teamsCount, joinTime, eventTime, minPlayers, maxPlayers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");  
+			statement = con.prepareStatement("INSERT INTO ctf (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, npcHeading, rewardId, rewardAmount, teamsCount, joinTime, eventTime, minPlayers, maxPlayers,delayForNextEvent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");  
 			statement.setString(1, _eventName);
 			statement.setString(2, _eventDesc);
 			statement.setString(3, _joiningLocationName);
@@ -1635,6 +1697,7 @@ public class CTF
 			statement.setInt(15, _eventTime);
 			statement.setInt(16, _minPlayers);
 			statement.setInt(17, _maxPlayers);
+			statement.setLong(18, _intervalBetweenMatchs);
 			statement.execute();
 			statement.close();
 
@@ -1700,7 +1763,7 @@ public class CTF
 					replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
 				}
 			}
-			else if(eventPlayer.isCursedWeaponEquiped() && !Config.TVT_JOIN_CURSED)
+			else if(eventPlayer.isCursedWeaponEquiped() && !Config.CTF_JOIN_CURSED)
 			{
 				replyMSG.append("<font color=\"FFFF00\">You can't participate to this event with a cursed Weapon.</font><br>");
 			}
@@ -1851,7 +1914,7 @@ public class CTF
 			return false;
 		}
 
-		if(eventPlayer._inEventTvT || eventPlayer._inEventDM)
+		if(eventPlayer._inEventCTF || eventPlayer._inEventDM)
 		{
 			eventPlayer.sendMessage("You already participated in another event!"); 
 			return false;
@@ -1877,7 +1940,7 @@ public class CTF
 			return false;
 		}
 
-		if(TvT._savePlayers.contains(eventPlayer.getName())) 
+		if(CTF._savePlayers.contains(eventPlayer.getName())) 
 		{
 			eventPlayer.sendMessage("You already participated in another event!"); 
 			return false;
@@ -2158,5 +2221,56 @@ public class CTF
 			_player.getZ() > eventCenterZ-eventOffset && _player.getZ() < eventCenterZ+eventOffset))
 			return true;
 		return false;
+	}
+	
+	/**
+	 * just an announcer to send termination messages
+	 *
+	 */
+	public static void sendFinalMessages()
+	{
+		if (!_started && !_aborted)
+			Announcements.getInstance().announceToAll("CTF: Thank you For Participating At, " + "CTF Event.");
+	}
+	
+	/**
+	 * returns the interval between each event
+	 * @return
+	 */
+	public static int getIntervalBetweenMatchs()
+	{
+		long actualTime = System.currentTimeMillis();
+		long totalTime = actualTime + _intervalBetweenMatchs;
+		long interval = totalTime - actualTime;
+		int seconds = (int) (interval / 1000);
+
+		return Math.round(seconds / 60);
+	}
+	
+	/**
+	 * Restarts Event
+	 * checks if event was aborted. and if true cancels restart task
+	 */
+	public synchronized static void restartEvent()
+	{
+		_log.info("CTF: Event has been restarted...");
+		_joining = false;
+		_started = false;
+		_aborted = false;
+		long delay = _intervalBetweenMatchs;
+
+		Announcements.getInstance().announceToAll("CTF: joining period will be avaible again in " + getIntervalBetweenMatchs() + " minute(s)!");
+
+		waiter(delay);
+
+		try
+		{
+			autoEvent(); //start a new event
+		}
+		catch (Exception e)
+		{
+			_log.fatal("CTF: Error While Trying to restart Event...", e);
+			e.printStackTrace();
+		}
 	}
 }

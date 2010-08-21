@@ -24,6 +24,7 @@ import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class AdminCTFEngine implements IAdminCommandHandler
@@ -187,6 +188,12 @@ public class AdminCTFEngine implements IAdminCommandHandler
 				CTF._eventTime = Integer.valueOf(command.substring(20));
 				showMainPage(activeChar);
 			}
+			
+			else if(command.startsWith("admin_ctf_interval "))
+			{
+				CTF._intervalBetweenMatchs= Integer.valueOf(command.substring(20));
+				showMainPage(activeChar);
+			}
 
 			else if(command.startsWith("admin_ctf_team_add "))
 			{
@@ -334,6 +341,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 		replyMSG.append("</tr></table><br><table><tr>");
 		replyMSG.append("<td width=\"100\"><button value=\"Join Time\" action=\"bypass -h admin_ctf_jointime $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Event Time\" action=\"bypass -h admin_ctf_eventtime $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
+		replyMSG.append("<td width=\"100\"><button value=\"Interval Time\" action=\"bypass -h admin_ctf_interval $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><br><table><tr>");
 		replyMSG.append("<td width=\"100\"><button value=\"Team Add\" action=\"bypass -h admin_ctf_team_add $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Team Color\" action=\"bypass -h admin_ctf_team_color $input1 $input2\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");

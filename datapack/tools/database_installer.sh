@@ -268,10 +268,12 @@ $MYG < ../sql/auction.sql &> /dev/null
 $MYG < ../sql/auction_bid.sql &> /dev/null
 $MYG < ../sql/auction_watch.sql &> /dev/null
 $MYG < ../sql/augmentations.sql &> /dev/null
+$MYG < ../sql/auto_announcements.sql &> /dev/null
 $MYG < ../sql/auto_chat.sql &> /dev/null
 $MYG < ../sql/auto_chat_text.sql &> /dev/null
 $MYG < ../sql/boxaccess.sql &> /dev/null
 $MYG < ../sql/boxes.sql &> /dev/null
+$MYG < ../sql/buff_templates.sql &> /dev/null
 $MYG < ../sql/castle.sql &> /dev/null
 $MYG < ../sql/castle_door.sql &> /dev/null
 $MYG < ../sql/castle_doorupgrade.sql &> /dev/null
@@ -316,6 +318,7 @@ $MYG < ../sql/custom_notspawned.sql &> /dev/null
 $MYG < ../sql/dimensional_rift.sql &> /dev/null
 $MYG < ../sql/droplist.sql &> /dev/null
 $MYG < ../sql/enchant_skill_trees.sql &> /dev/null
+$MYG < ../sql/engrave.sql &> /dev/null
 $MYG < ../sql/etcitem.sql &> /dev/null
 $MYG < ../sql/fish.sql &> /dev/null
 $MYG < ../sql/fishing_skill_trees.sql &> /dev/null
@@ -376,7 +379,6 @@ $MYG < ../sql/custom_spawnlist_clear.sql &> /dev/null
 $MYG < ../sql/four_sepulchers_spawnlist.sql &> /dev/null
 $MYG < ../sql/vanhalter_spawnlist.sql &> /dev/null
 $MYG < ../sql/clanhall_siege.sql &> /dev/null
-$MYG < ../sql/powerpak.sql &> /dev/null
 $MYG < ../sql/max_poly.sql &> /dev/null
 $MYG < ../sql/vip.sql &> /dev/null
 $MYG < ../sql/ctf.sql &> /dev/null

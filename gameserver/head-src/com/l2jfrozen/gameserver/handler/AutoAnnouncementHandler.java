@@ -82,6 +82,7 @@ public class AutoAnnouncementHandler
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			//ignore
 		}
 		finally
@@ -119,6 +120,7 @@ public class AutoAnnouncementHandler
 		replyMSG.append("<br><br>");
 		replyMSG.append("<center>Delay: <edit var=\"delay\" width=70></center>");
 		replyMSG.append("<center>Note: Time in Seconds 60s = 1 min.</center>");
+		replyMSG.append("<center>Note2: Minimum Time is 30 Seconds.</center>");
 		replyMSG.append("<br><br>");
 		replyMSG.append("<center><table><tr><td>");
 		replyMSG.append("<button value=\"Add\" action=\"bypass -h admin_add_autoannouncement $delay $new_autoannouncement\" width=60 " + "height=15 back=\"L2UI_ct1.button_df\" fore=\"L2UI_ct1.button_df\"></td><td>");
