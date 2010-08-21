@@ -15,3 +15,7 @@ CREATE TABLE `ctf_teams` (
   `flagZ` int(11) NOT NULL default '0',
   PRIMARY KEY (`teamId`)
 ) DEFAULT CHARSET=utf8;
+
+INSERT INTO `ctf_teams` (`teamId`, `teamName`, `teamX`, `teamY`, `teamZ`, `teamColor`, `flagX`, `flagY`, `flagZ`) VALUES
+(0, 'Blu', 87357, -145722, -1288, 16711680, 87358, -145979, -1291),
+(1, 'red', 87351, -139984, -1536, 255, 87359, -139584, -1536);

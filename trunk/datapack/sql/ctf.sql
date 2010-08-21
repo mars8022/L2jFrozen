@@ -22,3 +22,6 @@ CREATE TABLE `ctf` (
   `minPlayers` int(4) NOT NULL default '0',
   `maxPlayers` int(4) NOT NULL default '0'
 ) DEFAULT CHARSET=utf8;
+
+INSERT INTO `ctf` (`eventName`, `eventDesc`, `joiningLocation`, `minlvl`, `maxlvl`, `npcId`, `npcX`, `npcY`, `npcZ`, `npcHeading`, `rewardId`, `rewardAmount`, `teamsCount`, `joinTime`, `eventTime`, `minPlayers`, `maxPlayers`, `delayForNextEvent`) VALUES
+('Capture the flag', 'CTF', 'Giran', 1, 80, 70011, 82580, 148552, -3468, 16972, 8752, 1, 2, 5, 5, 2, 50, 300000);

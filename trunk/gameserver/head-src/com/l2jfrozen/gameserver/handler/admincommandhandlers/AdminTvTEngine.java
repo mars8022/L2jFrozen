@@ -117,6 +117,11 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			TvT._eventTime = Integer.valueOf(command.substring(20));
 			showMainPage(activeChar);
 		}
+		else if(command.startsWith("admin_tvt_interval "))
+		{
+			TvT._intervalBetweenMatchs= Integer.valueOf(command.substring(20));
+			showMainPage(activeChar);
+		}
 		else if(command.startsWith("admin_tvt_team_add "))
 		{
 			String teamName = command.substring(19);
@@ -257,6 +262,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		replyMSG.append("</tr></table><br><table><tr>");
 		replyMSG.append("<td width=\"100\"><button value=\"Join Time\" action=\"bypass -h admin_tvt_jointime $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Event Time\" action=\"bypass -h admin_tvt_eventtime $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
+		replyMSG.append("<td width=\"100\"><button value=\"Interval Time\" action=\"bypass -h admin_tvt_interval $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><br><table><tr>");
 		replyMSG.append("<td width=\"100\"><button value=\"Team Add\" action=\"bypass -h admin_tvt_team_add $input1\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Team Color\" action=\"bypass -h admin_tvt_team_color $input1 $input2\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
@@ -291,6 +297,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		replyMSG.append("Max Players:&nbsp;<font color=\"00FF00\">" + TvT._maxPlayers + "</font><br><br>");
 		replyMSG.append("Joining Time:&nbsp;<font color=\"00FF00\">" + TvT._joinTime + "</font><br>");
 		replyMSG.append("Event Timer:&nbsp;<font color=\"00FF00\">" + TvT._eventTime + "</font><br><br>");
+		replyMSG.append("Interval Time:&nbsp;<font color=\"00FF00\">" + TvT._intervalBetweenMatchs + "</font><br><br>");
 		replyMSG.append("Current teams:<br1>");
 		replyMSG.append("<center><table border=\"0\">");
 
