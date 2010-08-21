@@ -810,7 +810,8 @@ INSERT INTO teleport VALUES
 ('Rune Artefacts Room',60032,10133,-49152,997,0,0),
 ('Rune Out of the Castle',60033,19118,-49136,-1266,0,0);
 
---powerpack
+-- powerpack
+
 INSERT INTO `teleport` VALUES ('ForbiddenPath', '2022', '112893', '84529', '-6541', '0', '0');
 INSERT INTO `teleport` VALUES ('DarkOmen', '2021', '-20706', '13484', '-4901', '0', '0');
 INSERT INTO `teleport` VALUES ('Witch', '2020', '139339', '79682', '-5429', '0', '0');
