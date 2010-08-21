@@ -311,7 +311,6 @@ $MYG < ../sql/custom_etcitem.sql &> /dev/null
 $MYG < ../sql/custom_merchant_buylists.sql &> /dev/null
 $MYG < ../sql/custom_merchant_shopids.sql &> /dev/null
 $MYG < ../sql/custom_npc.sql &> /dev/null
-$MYG < ../sql/custom_spawnlist.sql &> /dev/null
 $MYG < ../sql/custom_teleport.sql&> /dev/null
 $MYG < ../sql/custom_weapon.sql &> /dev/null
 $MYG < ../sql/custom_notspawned.sql &> /dev/null
@@ -375,7 +374,7 @@ $MYG < ../sql/fort_doorupgrade.sql &> /dev/null
 $MYG < ../sql/fort_siege_guards.sql &> /dev/null
 $MYG < ../sql/fort.sql &> /dev/null
 $MYG < ../sql/fortsiege_clans.sql &> /dev/null
-$MYG < ../sql/custom_spawnlist_clear.sql &> /dev/null
+$MYG < ../sql/custom_spawnlist.sql &> /dev/null
 $MYG < ../sql/four_sepulchers_spawnlist.sql &> /dev/null
 $MYG < ../sql/vanhalter_spawnlist.sql &> /dev/null
 $MYG < ../sql/clanhall_siege.sql &> /dev/null
@@ -405,36 +404,28 @@ cstinstall(){
 while :
   do
    echo ""
-   echo -ne "Do you want to make another backup of GSDB before applying custom contents? (y/N): "
-   read LSB
-   if [ "$LSB" == "Y" -o "$LSB" == "y" ]; then
-     echo "Making a backup of the default gameserver tables."
-     $MYSQLDUMPPATH --add-drop-table -h $GSDBHOST -u $GSUSER --password=$GSPASS $GSDB > custom_backup.sql 2> /dev/null
-     if [ $? -ne 0 ];then
+   echo -ne "If you're not that skilled applying changes within 'custom' folder, i can try to do it for you (y). If you wish to do it on your own, choose (n). Should i parse updates files? (Y/n)"
+   read NOB
+   if [ "$NOB" == "Y" -o "$NOB" == "y" -o "$NOB" == "" ]; then
      echo ""
-     echo "There was a problem accesing your GS database, server down?."
-     exit 1
-     fi
+     echo "There we go, it may take some time..."
+     echo "custom parser results. Last run: "`date` >database_installer.log
+     for file in $(ls ../sql/customs/*sql);do
+        echo $file|cut -d/ -f4 >> database_installer.log
+        $MYG < $file 2>> database_installer.log
+	if [ $? -eq 0 ];then
+	    echo "no errors">> database_installer.log
+	fi    
+	done
+     echo ""
+     echo "Log available at $(pwd)/database_installer.log"
+     echo ""
      break
-   elif [ "$LSB" == "n" -o "$LSB" == "N" -o "$LSB" == "" ]; then 
+   elif [ "$NOB" == "n" -o "$NOB" == "N" ]; then 
      break
    fi
   done 
-echo "Installing custom content."
-for custom in $(ls ../sql/custom/*.sql);do 
-$MYG < $custom &> /dev/null
-done
-# L2J mods that needed extra tables to work properly, should be 
-# listed here. To do so copy & paste the following 6 lines and
-# change them properly:
-# MOD: Wedding.
-  echo -ne "Install "Wedding Mod" tables? (y/N): "
-  read modprompt
-  if [ "$modprompt" == "Y" -o "$LSB" == "y" ]; then
-		$MYG < ../sql/mods/mods_wedding.sql &> /dev/null
-	fi
-
-finish
+  finish
 }
 
 finish(){

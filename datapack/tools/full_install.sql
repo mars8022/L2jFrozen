@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS access_levels;
 DROP TABLE IF EXISTS account_data;
 DROP TABLE IF EXISTS admin_command_access_rights;
 DROP TABLE IF EXISTS armor;
+DROP TABLE IF EXISTS armorsets;
 DROP TABLE IF EXISTS auction;
 DROP TABLE IF EXISTS auction_bid;
 DROP TABLE IF EXISTS auction_watch;

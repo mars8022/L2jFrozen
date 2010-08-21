@@ -49,8 +49,8 @@
       <copy todir="${build.dist.sql}">
          <fileset dir="${basedir}/sql">
             <include name="*.*"/>
-            <include name="experimental/*.*"/>
-            <include name="updates/*.*"/>
+            <include name="customs/*.*"/>
+         	<include name="updates/*.*"/>
          </fileset>
       </copy>
       <copy todir="${build.dist.tools}">

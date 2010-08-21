@@ -20,7 +20,8 @@ CREATE TABLE `ctf` (
   `joinTime` int(11) NOT NULL default '0',
   `eventTime` int(11) NOT NULL default '0',
   `minPlayers` int(4) NOT NULL default '0',
-  `maxPlayers` int(4) NOT NULL default '0'
+  `maxPlayers` int(4) NOT NULL default '0',
+  `delayForNextEvent` BIGINT NOT NULL DEFAULT '0'
 ) DEFAULT CHARSET=utf8;
 
 INSERT INTO `ctf` (`eventName`, `eventDesc`, `joiningLocation`, `minlvl`, `maxlvl`, `npcId`, `npcX`, `npcY`, `npcZ`, `npcHeading`, `rewardId`, `rewardAmount`, `teamsCount`, `joinTime`, `eventTime`, `minPlayers`, `maxPlayers`, `delayForNextEvent`) VALUES
