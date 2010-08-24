@@ -279,6 +279,10 @@ public class AdminSpawn implements IAdminCommandHandler
 			spawn.setHeading(activeChar.getHeading());
 			spawn.setRespawnDelay(respawnTime);
 
+			if(Config.SAVE_GMSPAWN_ON_CUSTOM){
+				spawn.setCustom(true);
+			}
+			
 			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()))
 			{
 				activeChar.sendMessage("You cannot spawn another instance of " + template1.name + ".");
