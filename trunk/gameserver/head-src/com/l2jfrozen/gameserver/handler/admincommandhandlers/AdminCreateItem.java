@@ -46,8 +46,10 @@ public class AdminCreateItem implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
 		if(Config.GMAUDIT)
 		{
 			Logger _logAudit = Logger.getLogger("gmaudit");
@@ -128,7 +130,12 @@ public class AdminCreateItem implements IAdminCommandHandler
 		{
 			if(activeChar.getTarget() instanceof L2PcInstance)
 			{
-				Player = (L2PcInstance) activeChar.getTarget();
+				if(activeChar.getAccessLevel().getLevel()>0 && activeChar.getAccessLevel().getLevel()<3){
+					Player = (L2PcInstance) activeChar.getTarget();
+				}else{
+					activeChar.sendMessage("You have not right to create item on another player");
+					return;
+				}
 			}
 			else
 			{

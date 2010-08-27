@@ -49,11 +49,10 @@ public class AdminZone implements IAdminCommandHandler
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 
-		if(activeChar == null)
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
-
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		}
+		
 		if(Config.GMAUDIT)
 		{
 			Logger _logAudit = Logger.getLogger("gmaudit");

@@ -91,6 +91,16 @@ public class AdminCommandAccessRights
 		return _instance == null ? (_instance = new AdminCommandAccessRights()) : _instance;
 	}
 
+	public int accessRightForCommand(String command){
+		int out = -1;
+		
+		if(_adminCommandAccessRights.containsKey(command)){
+			out = _adminCommandAccessRights.get(command);
+		}
+		
+		return out;
+	}
+	
 	public boolean hasAccess(String adminCommand, AccessLevel accessLevel)
 	{
 		if(accessLevel.getLevel() <= 0)

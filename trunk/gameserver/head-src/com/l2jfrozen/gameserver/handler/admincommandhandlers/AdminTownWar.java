@@ -29,8 +29,12 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -53,6 +57,21 @@ public class AdminTownWar implements IAdminCommandHandler
 	}
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
+		if(Config.GMAUDIT)
+		{
+			Logger _logAudit = Logger.getLogger("gmaudit");
+			LogRecord record = new LogRecord(Level.INFO, command);
+			record.setParameters(new Object[]
+			{
+					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
+			});
+			_logAudit.log(record);
+		}
+		
 		if(command.startsWith("admin_townwar_start"))
 		{
 			startTW(activeChar);

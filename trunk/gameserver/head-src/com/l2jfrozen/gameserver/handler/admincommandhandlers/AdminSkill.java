@@ -68,8 +68,10 @@ public class AdminSkill implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
 		if(Config.GMAUDIT)
 		{
 			Logger _logAudit = Logger.getLogger("gmaudit");
@@ -508,7 +510,13 @@ public class AdminSkill implements IAdminCommandHandler
 
 		if(target instanceof L2PcInstance)
 		{
-			player = (L2PcInstance) target;
+			if(target==activeChar || (target!=activeChar && activeChar.getAccessLevel().getLevel()<3)) 
+				player = (L2PcInstance) target;
+			else{
+				showMainPage(activeChar);
+				activeChar.sendPacket(SystemMessage.sendString("You have not right to add skills to other players"));
+				return;
+			}
 		}
 		else
 		{

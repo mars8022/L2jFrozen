@@ -69,6 +69,12 @@ public final class RequestDropItem extends L2GameClientPacket
 		if(activeChar == null || activeChar.isDead())
 			return;
 
+		if(activeChar.isGM() && activeChar.getAccessLevel().getLevel()>2){ //just head gm and admin can drop items on the ground
+			sendPacket(SystemMessage.sendString("You have not right to discard anything from inventory"));
+			return;
+		}
+		
+		
 		L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
 		if(item == null || _count == 0 || !activeChar.validateItemManipulation(_objectId, "drop") || !Config.ALLOW_DISCARDITEM && !activeChar.isGM() || (!item.isDropable() && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)))
 		{

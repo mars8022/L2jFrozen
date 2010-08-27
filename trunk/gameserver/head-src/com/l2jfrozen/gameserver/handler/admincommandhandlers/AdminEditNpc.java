@@ -44,6 +44,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2BoxInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
@@ -78,8 +79,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
 		if(Config.GMAUDIT)
 		{
 			Logger _logAudit = Logger.getLogger("gmaudit");
@@ -112,24 +115,38 @@ public class AdminEditNpc implements IAdminCommandHandler
 
 			args = null;
 		}
-		else if(command.startsWith("admin_edit_npc "))
+		else if(command.startsWith("admin_edit_npc ") || command.equals("admin_edit_npc"))
 		{
-			try
-			{
-				String[] commandSplit = command.split(" ");
+			if(command.startsWith("admin_edit_npc ")){
+				try
+				{
+					String[] commandSplit = command.split(" ");
 
-				int npcId = Integer.valueOf(commandSplit[1]);
+					int npcId = Integer.valueOf(commandSplit[1]);
 
-				L2NpcTemplate npc = NpcTable.getInstance().getTemplate(npcId);
-				Show_Npc_Property(activeChar, npc);
+					L2NpcTemplate npc = NpcTable.getInstance().getTemplate(npcId);
+					Show_Npc_Property(activeChar, npc);
 
-				commandSplit = null;
-				npc = null;
+					commandSplit = null;
+					npc = null;
+				}
+				catch(Exception e)
+				{
+					activeChar.sendMessage("Wrong usage: //edit_npc <npcId>");
+				}
+			}else{
+				if(activeChar.getTarget() instanceof L2NpcInstance){
+					
+					int npcId = Integer.valueOf(((L2NpcInstance) activeChar.getTarget()).getNpcId());
+
+					L2NpcTemplate npc = NpcTable.getInstance().getTemplate(npcId);
+					Show_Npc_Property(activeChar, npc);
+
+					npc = null;
+					
+				}
 			}
-			catch(Exception e)
-			{
-				activeChar.sendMessage("Wrong usage: //edit_npc <npcId>");
-			}
+			
 		}
 		else if(command.startsWith("admin_show_droplist "))
 		{
