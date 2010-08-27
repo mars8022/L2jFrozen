@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS `access_levels` (
 
 INSERT IGNORE INTO `access_levels` VALUES 
 (1, 'Master Access', '0099FF', 1, '0099FF', 0, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(2, 'Head GM', '00FFFF', 1, '00FFFF', 0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-(3, 'Event GM', '00FFFF', 1, '00FFFF', 0, 1, 0, 1, 0, 1, 0, 0, 0, 0),
+(2, 'Head GM', '00FFFF', 1, '00FFFF', 0, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(3, 'Event GM', '00FFFF', 1, '00FFFF', 0, 1, 1, 1, 0, 1, 0, 0, 0, 0),
 (4, 'Support GM', '00FFFF', 1, '00FFFF', 0, 1, 0, 1, 0, 1, 0, 0, 0, 0),
 (5, 'General GM', '00FFFF', 1, '00FFFF', 0, 1, 0, 1, 0, 1, 0, 0, 0, 0),
 (6, 'Test GM', 'FFFFFF', 1, 'FFFFFF', 0, 0, 0, 1, 0, 1, 0, 0, 0, 0);

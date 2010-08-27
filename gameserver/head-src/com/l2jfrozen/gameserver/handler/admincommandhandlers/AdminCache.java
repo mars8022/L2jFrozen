@@ -60,8 +60,10 @@ public class AdminCache implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
 		if(Config.GMAUDIT)
 		{
 			Logger _logAudit = Logger.getLogger("gmaudit");
@@ -90,6 +92,7 @@ public class AdminCache implements IAdminCommandHandler
 		switch(commandEnum)
 		{
 			case admin_cache_htm_reload:
+			case admin_cache_htm_rebuild:
 				HtmCache.getInstance().reload(Config.DATAPACK_ROOT);
 				activeChar.sendMessage("Cache[HTML]: " + HtmCache.getInstance().getMemoryUsage() + " MB on " + HtmCache.getInstance().getLoadedFiles() + " file(s) loaded.");
 				break;
@@ -130,6 +133,7 @@ public class AdminCache implements IAdminCommandHandler
 				break;
 
 			case admin_cache_crest_rebuild:
+			case admin_cache_crest_reload:
 				CrestCache.getInstance().reload();
 				activeChar.sendMessage("Cache[Crest]: " + String.format("%.3f", CrestCache.getInstance().getMemoryUsage()) + " megabytes on " + CrestCache.getInstance().getLoadedFiles() + " files loaded");
 				break;

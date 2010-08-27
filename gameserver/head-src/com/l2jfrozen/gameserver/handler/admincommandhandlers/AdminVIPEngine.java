@@ -17,8 +17,13 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
 import javolution.text.TextBuilder;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -43,8 +48,21 @@ public class AdminVIPEngine implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
+		if(Config.GMAUDIT)
+		{
+			Logger _logAudit = Logger.getLogger("gmaudit");
+			LogRecord record = new LogRecord(Level.INFO, command);
+			record.setParameters(new Object[]
+			{
+					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
+			});
+			_logAudit.log(record);
+		}
+		
 		if(command.equals("admin_vip"))
 			showMainPage(activeChar);
 

@@ -18,12 +18,18 @@
  */
 package com.l2jfrozen.gameserver.handler;
 
+import java.util.Arrays;
+
 import javolution.util.FastMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import sun.misc.Sort;
+
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.AccessLevel;
+import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAdmin;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAnnouncements;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBBS;
@@ -182,7 +188,27 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminHero());
 		registerAdminCommandHandler(new AdminNoble());
 		registerAdminCommandHandler(new AdminBuffs());
+		//ATTENTION: adding new command handlers, you have to change the
+		//sql file containing the access levels rights
+		
 		_log.info("AdminCommandHandler: Loaded " + _datatable.size() + " handlers.");
+		
+		if(Config.DEBUG)
+		{
+			String[] commands = new String[_datatable.keySet().size()];
+			
+			commands = _datatable.keySet().toArray(commands);
+			
+			Arrays.sort(commands);
+			
+			for(String command : commands){
+				if(AdminCommandAccessRights.getInstance().accessRightForCommand(command)<0){
+					_log.info("ATTENTION: admin command "+command+" has not an access right");
+				}
+			}
+			
+		}
+		
 	}
 
 	public void registerAdminCommandHandler(IAdminCommandHandler handler)
@@ -192,7 +218,7 @@ public class AdminCommandHandler
 		{
 			if(_log.isDebugEnabled() || Config.DEBUG)
 			{
-				_log.debug("Adding handler for command " + element);
+				_log.info("Adding handler for command " + element);
 			}
 
 			if(_datatable.keySet().contains(new String(element)))
@@ -218,7 +244,7 @@ public class AdminCommandHandler
 
 		if(_log.isDebugEnabled() || Config.DEBUG)
 		{
-			_log.debug("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
+			_log.info("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
 		}
 
 		return _datatable.get(command);

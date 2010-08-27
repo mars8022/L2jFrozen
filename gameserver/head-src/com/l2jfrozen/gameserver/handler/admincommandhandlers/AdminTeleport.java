@@ -64,8 +64,6 @@ public class AdminTeleport implements IAdminCommandHandler
 			"admin_teleport_character",
 			"admin_recall",
 			"admin_walk",
-			"teleportto",
-			"recall",
 			"admin_recall_npc",
 			"admin_gonorth",
 			"admin_gosouth",
@@ -79,8 +77,10 @@ public class AdminTeleport implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel());
-
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
+		
 		if(Config.GMAUDIT)
 		{
 			Logger _logAudit = Logger.getLogger("gmaudit");
