@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<list>
+<item id='9720' name="Leg of Shelob">
+  <for>
+    <set val='334' order='0x08' stat='pAtk'/>
+    <set val='152' order='0x08' stat='mAtk'/>
+    <set val='8' order='0x08' stat='rCrit'/>
+    <set val='325' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9721' name="Morgoth's Unholy Sword">
+  <for>
+    <set val='325' order='0x08' stat='pAtk'/>
+    <set val='152' order='0x08' stat='mAtk'/>
+    <set val='8' order='0x08' stat='rCrit'/>
+    <set val='379' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9722' name="Morgul Stiletto of Chaos">
+  <for>
+    <set val='271' order='0x08' stat='pAtk'/>
+    <set val='148' order='0x08' stat='mAtk'/>
+    <set val='12' order='0x08' stat='rCrit'/>
+    <set val='433' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9723' name="Grishnakh's Vampiric Cleaver">
+  <for>
+    <set val='316' order='0x08' stat='pAtk'/>
+    <set val='149' order='0x08' stat='mAtk'/>
+    <set val='4' order='0x08' stat='rCrit'/>
+    <set val='379' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9724' name="Azog's Double Battle-Axe">
+  <for>
+    <set val='381' order='0x08' stat='pAtk'/>
+    <set val='151' order='0x08' stat='mAtk'/>
+    <set val='4' order='0x08' stat='rCrit'/>
+    <set val='325' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9725' name="Morgul Venom Bow">
+  <for>
+    <set val='624' order='0x08' stat='pAtk'/>
+    <set val='147' order='0x08' stat='mAtk'/>
+    <set val='12' order='0x08' stat='rCrit'/>
+    <set val='298' order='0x08' stat='pAtkSpd'/>
+    <set val='11' order='0x08' stat='MpConsume'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9726' name="Sauron's Rod">
+  <for>
+    <set val='285' order='0x08' stat='pAtk'/>
+    <set val='202' order='0x08' stat='mAtk'/>
+    <set val='4' order='0x08' stat='rCrit'/>
+    <set val='379' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9727' name="Claws of the Wraith">
+  <for>
+    <set val='374' order='0x08' stat='pAtk'/>
+    <set val='152' order='0x08' stat='mAtk'/>
+    <set val='4' order='0x08' stat='rCrit'/>
+    <set val='325' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9728' name="Staff of the Nazgul">
+  <for>
+    <set val='294' order='0x08' stat='pAtk'/>
+    <set val='208' order='0x08' stat='mAtk'/>
+    <set val='4' order='0x08' stat='rCrit'/>
+    <set val='325' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+<item id='9729' name="Morgoth's Unholy Blades">
+  <for>
+    <set val='382' order='0x08' stat='pAtk'/>
+    <set val='159' order='0x08' stat='mAtk'/>
+    <set val='8' order='0x08' stat='rCrit'/>
+    <set val='325' order='0x08' stat='pAtkSpd'/>
+    <mul val='1.03' order='0x30' stat='absorbDam'/>
+    <enchant val='0' order='0x0C' stat='pAtk'/>
+    <enchant val='0' order='0x0C' stat='mAtk'/>
+  </for>
+</item>
+</list>
