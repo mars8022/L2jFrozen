@@ -65,7 +65,7 @@
   </item>
   <!-- Blessed Scroll of Escape for 150000 Ancient Adena -->
   <item id="12">
-    <ingredient id="5575" count="150000"/>
+    <ingredient id="5575" count="1500000"/>
     <production id="1538" count="1"/>
   </item>
   <!-- Blessed Scroll of Resurrection for 400000 Ancient Adena -->

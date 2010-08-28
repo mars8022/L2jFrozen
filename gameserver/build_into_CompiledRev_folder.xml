@@ -9,7 +9,8 @@
     
     <property name="src" location="head-src"/>
     <property name="lib" location="lib"/>
-    <property name="build" location="compiled_revision"/>
+	<property file="build_into_CompiledRev_folder.properties"/>
+	<property name="build" location="${compiled_rev_destination_folder}"/>
     <property name="build.classes" location="${build}/classes"/>
     <property name="build.dist" location="${build}/dist"/>
 	<property name="build.dist.login" location="${build.dist}/loginserver"/>
@@ -17,7 +18,7 @@
 	<property name="build.dist.game" location="${build.dist}/gameserver"/>
 	<property name="build.dist.game.lib" location="${build.dist.game}/lib"/>
 	<property name="properties-file" location="${build.dist.game}/config/version/l2jfrozen-server.properties"/>
-    
+	
     <path id="classpath">
         <fileset dir="${lib}">
         	<include name="*.jar" />
@@ -233,7 +234,7 @@
     		</fileset>
     	</copy>
     	
-		<copy todir="${build.dist.game}/config/powerpak/webservices">
+    	<copy todir="${build.dist.game}/config/powerpak/webservices">
     	    <fileset dir="config/powerpak/webservices">
     	    	<include name="*.*"/>
     	    </fileset>
@@ -303,10 +304,7 @@
     		</fileset>
     	</copy>
 
-        <!--zip destfile="${build}/L2Jscoria_GameServer.zip"
-             basedir="${build.dist}" /-->
-    	
-    	<delete dir="${build.classes}"/>
+        <delete dir="${build.classes}"/>
     	<delete file="${build}/l2jfrozen-core.jar"/>
     	
     </target>   

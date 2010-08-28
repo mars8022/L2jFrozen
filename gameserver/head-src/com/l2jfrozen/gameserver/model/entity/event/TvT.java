@@ -75,7 +75,7 @@ public class TvT
 		if(_started || _teleport)
 		{
 			_playersShuffle.remove(playerToKick);
-			playerToKick._inEventTvT = false;
+			//playerToKick._inEventTvT = false;
 			removePlayer(playerToKick);
 			if(playerToKick.isOnline() != 0)
 			{
@@ -1584,8 +1584,8 @@ public class TvT
 	{
 		if(player._inEventTvT)
 		{
-			if(!_joining)
-			{
+			//if(!_joining)
+			//{
 				player.getAppearance().setNameColor(player._originalNameColorTvT);
 				player.setTitle(player._originalTitleTvT);
 				player.setKarma(player._originalKarmaTvT);
@@ -1595,7 +1595,7 @@ public class TvT
 						player.setTeam(0);// clear aura :P
 				}
 				player.broadcastUserInfo();
-			}
+			//}
 			player._teamNameTvT = new String();
 			player._countTvTkills = 0;
 			player._inEventTvT = false;

@@ -203,8 +203,11 @@ public final class L2NpcTemplate extends L2CharTemplate
 		else
 		{
 			// if the category doesn't already exist, create it first
-			synchronized (_categories)
-			{
+			//synchronized (_categories)
+			//{
+				if(this.getNpcId()==18342 && categoryType==0)
+					System.out.println("adding adena category drop to gremlin");
+				
 				boolean catExists = false;
 				for(L2DropCategory cat : _categories)
 					// if the category exists, add the drop to this category.
@@ -221,7 +224,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 					cat.addDropData(drop, type.equalsIgnoreCase("L2RaidBoss") || type.equalsIgnoreCase("L2GrandBoss"));
 					_categories.add(cat);
 				}
-			}
+			//}
 		}
 	}
 

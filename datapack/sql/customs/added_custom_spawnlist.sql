@@ -3,7 +3,7 @@
 --
 
 
-INSERT INTO `custom_spawnlist` VALUES
+INSERT ignore INTO `custom_spawnlist` VALUES
 
 -- GM SHOPS
 (1, 'Gm Shop', 1, 53, 82211, 148608, -3467, 0, 0, 1, 300, 0, 0),
@@ -106,9 +106,9 @@ INSERT INTO `custom_spawnlist` VALUES
 (80, 'Nobless Trader', 1, 66666, 111303, 219593, -3671, 0, 0, 15690, 300, 0, 0),
 (81, 'Nobless Trader', 1, 66666, 83684, 147990, -3405, 0, 0, 30710, 300, 0, 0);
 
---------------------------
+-- ------------------------
 -- TO DE-COMMENT to Enable
---------------------------
+-- ------------------------
 
 /* Pollen Event
 (82, 'classmaster_E', 1, 31255, 45036, 48384, -3060, 0, 0, 11274, 15, 0, 0),

@@ -114,13 +114,13 @@
 
   <!-- Mana Potion -->
   <item id="19">
-    <ingredient id="57" count="10000"/>
+    <ingredient id="57" count="500000"/>
     <production id="728" count="1"/>
   </item>
 
   <!-- Greater Healing Potion -->
   <item id="20">
-    <ingredient id="57" count="10000"/>
+    <ingredient id="57" count="300000"/>
     <production id="1539" count="1"/>
   </item>
 

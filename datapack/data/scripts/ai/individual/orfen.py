@@ -71,7 +71,7 @@ class orfen(JQuest) :
 
     def onKill(self,npc,player,isPet):
         self.FirstAttacked = False
-        respawnTime = long((19 + Rnd.get(8)) * 3600000)
+        respawnTime = long(Config.ORFEN_RESP_FIRST + Rnd.get(Config.ORFEN_RESP_SECOND)) * 3600000
         GrandBossManager.getInstance().setBossStatus(ORFEN,DEAD)
         self.startQuestTimer("orfen_spawn", respawnTime, None, None)
         info = GrandBossManager.getInstance().getStatsSet(ORFEN)

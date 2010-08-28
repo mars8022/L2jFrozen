@@ -4,7 +4,7 @@
 
   <!-- Greater Healing Potion for 1080 Ancient Adena  -->
   <item id="1">
-    <ingredient id="5575" count="1080"/>
+    <ingredient id="5575" count="108000"/>
     <production id="1539" count="1"/>
     <ingredient id="57" count="900" isTaxIngredient="true"/>
   </item>
@@ -18,35 +18,35 @@
 
   <!-- Greater Haste Potion for 3600 Ancient Adena  -->
   <item id="3">
-    <ingredient id="5575" count="3600"/>
+    <ingredient id="5575" count="360000"/>
     <production id="1374" count="1"/>
     <ingredient id="57" count="3000" isTaxIngredient="true"/>
   </item>
 
   <!-- Greater Swift Attack Potion for 7200 Ancient Adena -->
   <item id="4">
-    <ingredient id="5575" count="7200"/>
+    <ingredient id="5575" count="72000"/>
     <production id="1375" count="1"/>
     <ingredient id="57" count="6000" isTaxIngredient="true"/>
   </item>
 
   <!-- Greater Magic Haste Potion for 7200 Ancient Adena  -->
   <item id="5">
-    <ingredient id="5575" count="7200"/>
+    <ingredient id="5575" count="72000"/>
     <production id="6036" count="1"/>
     <ingredient id="57" count="6000" isTaxIngredient="true"/>
   </item>
 
   <!-- CP Potion for 240 Ancient Adena  -->
   <item id="6">
-    <ingredient id="5575" count="240"/>
+    <ingredient id="5575" count="240000"/>
     <production id="5591" count="1"/>
     <ingredient id="57" count="200" isTaxIngredient="true"/>
   </item>
 
   <!-- Greater CP Potion for 600 Ancient Adena -->
   <item id="7">
-    <ingredient id="5575" count="600"/>
+    <ingredient id="5575" count="600000"/>
     <production id="5592" count="1"/>
     <ingredient id="57" count="500" isTaxIngredient="true"/>
   </item>

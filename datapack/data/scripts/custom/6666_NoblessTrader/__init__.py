@@ -11,6 +11,7 @@ qn = "6666_NoblessTrader"
 
 NPC=[66666]
 NOBLESS_TIARA=7694
+GOLD_BAR=3470
 QuestId     = 6666
 QuestName   = "NoblessTrade"
 QuestDesc   = "custom"
@@ -25,15 +26,17 @@ class Quest (JQuest) :
 	def onEvent(self,event,st):
                htmltext = "<html><head><body>I have nothing to say you</body></html>"
                cond = st.getInt("cond")
+               count=st.getQuestItemsCount(GOLD_BAR)
                if event == "31739-3.htm" :
                    if cond == 0 and st.getPlayer().isSubClassActive() :
-                       if st.getPlayer().getLevel() >= 50 :
+                       if st.getPlayer().getLevel() >= 70 and count > 1:
                             htmltext=event
                             st.set("cond","0")
                             st.getPlayer().setNoble(True)
                             st.giveItems(NOBLESS_TIARA,1)
                             st.playSound("ItemSound.quest_finish")
                             st.setState(COMPLETED)
+                            st.takeItems(GOLD_BAR,2)
                        else :
                             htmltext="31739-2.htm"
                             st.exitQuest(1)

@@ -3067,13 +3067,22 @@ public final class Config
 	public static int BAIUM_SLEEP;
 	public static int BAIUM_RESP_FIRST;
 	public static int BAIUM_RESP_SECOND;
+	
 	public static int CORE_RESP_MINION;
 	public static int CORE_RESP_FIRST;
 	public static int CORE_RESP_SECOND;
+	public static int CORE_LEVEL;
+	public static int CORE_RING_CHANCE;
+	
 	public static int QA_RESP_NURSE;
 	public static int QA_RESP_ROYAL;
 	public static int QA_RESP_FIRST;
 	public static int QA_RESP_SECOND;
+	public static int QA_LEVEL;
+	public static int QA_RING_CHANCE;
+	
+	public static float LEVEL_DIFF_MULTIPLIER;
+	
 	public static int HPH_FIXINTERVALOFHALTER;
 	public static int HPH_RANDOMINTERVALOFHALTER;
 	public static int HPH_APPTIMEOFHALTER;
@@ -3084,6 +3093,19 @@ public final class Config
 	public static int HPH_INTERVALOFDOOROFALTER;
 	public static int HPH_TIMEOFLOCKUPDOOROFALTAR;
 
+	public static int ZAKEN_RESP_FIRST;
+	public static int ZAKEN_RESP_SECOND;
+	public static int ZAKEN_LEVEL;
+	public static int ZAKEN_EARRING_CHANCE;
+	
+	public static int ORFEN_RESP_FIRST;
+	public static int ORFEN_RESP_SECOND;
+	public static int ORFEN_LEVEL;
+	public static int ORFEN_EARRING_CHANCE;
+	
+	public static int VALAKAS_RESP_FIRST;
+	public static int VALAKAS_RESP_SECOND;
+	
 	//============================================================
 	public static void loadBossConfig()
 	{
@@ -3111,13 +3133,36 @@ public final class Config
 			CORE_RESP_MINION = Integer.parseInt(bossSettings.getProperty("CoreRespMinion", "60"));
 			CORE_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("CoreRespFirst", "37"));
 			CORE_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("CoreRespSecond", "42"));
+			CORE_LEVEL = Integer.parseInt(bossSettings.getProperty("CoreLevel", "0"));
+			CORE_RING_CHANCE = Integer.parseInt(bossSettings.getProperty("CoreRingChance", "0"));
 			//============================================================
 			//Queen Ant
 			QA_RESP_NURSE = Integer.parseInt(bossSettings.getProperty("QueenAntRespNurse", "60"));
 			QA_RESP_ROYAL = Integer.parseInt(bossSettings.getProperty("QueenAntRespRoyal", "120"));
 			QA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("QueenAntRespFirst", "19"));
 			QA_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("QueenAntRespSecond", "35"));
+			QA_LEVEL = Integer.parseInt(bossSettings.getProperty("QALevel", "0"));
+			QA_RING_CHANCE = Integer.parseInt(bossSettings.getProperty("QARingChance", "0"));
 			//============================================================
+			//ZAKEN
+			ZAKEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ZakenRespFirst", "60"));
+			ZAKEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ZakenRespSecond", "8"));
+			ZAKEN_LEVEL = Integer.parseInt(bossSettings.getProperty("ZakenLevel", "0"));
+			ZAKEN_EARRING_CHANCE = Integer.parseInt(bossSettings.getProperty("ZakenEarringChance", "0"));
+			//============================================================
+			//ORFEN
+			ORFEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("OrfenRespFirst", "20"));
+			ORFEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("OrfenRespSecond", "8"));
+			ORFEN_LEVEL = Integer.parseInt(bossSettings.getProperty("OrfenLevel", "0"));
+			ORFEN_EARRING_CHANCE = Integer.parseInt(bossSettings.getProperty("OrfenEarringChance", "0"));
+			//============================================================
+			//VALAKAS
+			VALAKAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ValakasRespFirst", "192"));
+			VALAKAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ValakasRespSecond", "44"));
+			//============================================================
+			
+			LEVEL_DIFF_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplier", "0.8"));
+			
 			//High Priestess van Halter
 			HPH_FIXINTERVALOFHALTER = Integer.parseInt(bossSettings.getProperty("FixIntervalOfHalter", "172800"));
 			if(HPH_FIXINTERVALOFHALTER < 300 || HPH_FIXINTERVALOFHALTER > 864000)
