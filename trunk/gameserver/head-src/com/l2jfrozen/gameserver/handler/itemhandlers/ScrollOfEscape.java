@@ -135,11 +135,12 @@ public class ScrollOfEscape implements IItemHandler
 			return;
 		}
 
-		if(GrandBossManager.getInstance().getZone(activeChar) != null && !activeChar.isGM())
+		//not usefull
+		/*if(GrandBossManager.getInstance().getZone(activeChar) != null && !activeChar.isGM())
 		{
 			activeChar.sendMessage("You Can't Use SOE In Grand boss zone!");
 			return;
-		}
+		}*/
 
 		// Check to see if player is on olympiad
 		if(activeChar.isInOlympiadMode())
@@ -148,7 +149,7 @@ public class ScrollOfEscape implements IItemHandler
 			return;
 		}
 
-		if(Config.ALLOW_SOE_IN_PVP && activeChar.getPvpFlag() != 0)
+		if(!Config.ALLOW_SOE_IN_PVP && activeChar.getPvpFlag() != 0)
 		{
 			activeChar.sendMessage("You Can't Use SOE In PvP!");
 			return;

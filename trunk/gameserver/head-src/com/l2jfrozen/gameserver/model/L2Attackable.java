@@ -1241,6 +1241,7 @@ public class L2Attackable extends L2NpcInstance
 	 */
 	private RewardItem calculateRewardItem(L2PcInstance lastAttacker, L2DropData drop, int levelModifier, boolean isSweep)
 	{
+		// Get default drop chance
 		if((Config.HIGH_RATE_SERVER_DROPS && !drop.isQuestDrop() && drop.getItemId()!=57)){ //it's not adena-->check if drop has an epic jewel
 			
 			//ant queen,orfen,core,frintezza,baium,antharas,valakas,zaken,stones
@@ -1250,9 +1251,43 @@ public class L2Attackable extends L2NpcInstance
 				return null;
 			
 		}
-		// Get default drop chance
-		float dropChance = drop.getChance();
-
+		
+		float dropChance = 0;
+		
+		switch(drop.getItemId()){
+			case 6662:{ //core ring
+				if(Config.CORE_RING_CHANCE>0)
+					dropChance = ((float) 10000*Config.CORE_RING_CHANCE);
+				else
+					dropChance = drop.getChance();
+			}
+			break;
+			case 6661:{ //orfen earring
+				if(Config.ORFEN_EARRING_CHANCE>0)
+					dropChance = ((float) 10000*Config.ORFEN_EARRING_CHANCE);
+				else
+					dropChance = drop.getChance();
+			}
+			break;
+			case 6659:{ //zaken earring
+				if(Config.ZAKEN_EARRING_CHANCE>0)
+					dropChance = ((float) 10000*Config.ZAKEN_EARRING_CHANCE);
+				else
+					dropChance = drop.getChance();
+			}
+			break;
+			case 6660:{ //aq ring
+				if(Config.QA_RING_CHANCE>0)
+					dropChance = ((float) 10000*Config.QA_RING_CHANCE);
+				else
+					dropChance = drop.getChance();
+			}
+			break;
+			default:{
+				dropChance = drop.getChance();
+			}
+		}
+		
 		int deepBlueDrop = 1;
 
 		if(Config.DEEPBLUE_DROP_RULES)
@@ -1305,6 +1340,8 @@ public class L2Attackable extends L2NpcInstance
 					dropChance *= Config.DONATOR_ADENA_RATE;
 				}
 			}
+			
+			
 		}
 		else if(isSweep)
 		{
@@ -1482,6 +1519,7 @@ public class L2Attackable extends L2NpcInstance
 		int basecategoryDropChance = categoryDrops.getCategoryChance();
 		int categoryDropChance = basecategoryDropChance;
 
+		
 		int deepBlueDrop = 1;
 
 		if(Config.DEEPBLUE_DROP_RULES)
@@ -1531,6 +1569,7 @@ public class L2Attackable extends L2NpcInstance
 		// Round drop chance
 		categoryDropChance = Math.round(categoryDropChance);
 
+		
 		// Set our limits for chance of drop
 		if(categoryDropChance < 1)
 		{
@@ -1557,8 +1596,43 @@ public class L2Attackable extends L2NpcInstance
 			// At least 1 item will be dropped for sure.  So the chance will be adjusted to 100%
 			// if smaller.
 
-			int dropChance = drop.getChance();
-
+			//int dropChance = drop.getChance();
+			int dropChance = 0;
+			
+			switch(drop.getItemId()){
+				case 6662:{ //core ring
+					if(Config.CORE_RING_CHANCE>0)
+						dropChance = ((int) 10000*Config.CORE_RING_CHANCE);
+					else
+						dropChance = drop.getChance();
+				}
+				break;
+				case 6661:{ //orfen earring
+					if(Config.ORFEN_EARRING_CHANCE>0)
+						dropChance = ((int) 10000*Config.ORFEN_EARRING_CHANCE);
+					else
+						dropChance = drop.getChance();
+				}
+				break;
+				case 6659:{ //zaken earring
+					if(Config.ZAKEN_EARRING_CHANCE>0)
+						dropChance = ((int) 10000*Config.ZAKEN_EARRING_CHANCE);
+					else
+						dropChance = drop.getChance();
+				}
+				break;
+				case 6660:{ //aq ring
+					if(Config.QA_RING_CHANCE>0)
+						dropChance = ((int) 10000*Config.QA_RING_CHANCE);
+					else
+						dropChance = drop.getChance();
+				}
+				break;
+				default:{
+					dropChance = drop.getChance();
+				}
+			}
+			
 			if(drop.getItemId() == 57)
 			{
 				if(this instanceof L2RaidBossInstance)
@@ -1581,6 +1655,7 @@ public class L2Attackable extends L2NpcInstance
 						dropChance *= Config.DONATOR_ADENA_RATE;
 					}
 				}
+				
 			}
 			else
 			{
@@ -1628,7 +1703,7 @@ public class L2Attackable extends L2NpcInstance
 			// Count and chance adjustment for high rate servers
 			if(dropChance > L2DropData.MAX_CHANCE && !Config.PRECISE_DROP_CALCULATION)
 			{
-				int multiplier = dropChance / L2DropData.MAX_CHANCE;
+				int multiplier = ((int)dropChance) / L2DropData.MAX_CHANCE;
 
 				if(min < max)
 				{

@@ -1,6 +1,6 @@
 ﻿delete from custom_armor where item_id in (9416,9421,9422,9423,9424,9425,9428,9429,9430,9431,9432,9437,9438,9439,9440);
 
-INSERT INTO `custom_armor` VALUES
+INSERT ignore INTO `custom_armor` VALUES
 ('9416', 'Dynasty Plate', 'chest', 'false', 'heavy', '7620', 's', '0', '-1', '219', '0', '0', '0',   '0','true', 'true', 'true', 'true', '0', '0'),
 ('9421', 'Dynasty Gaiters', 'legs', 'false', 'heavy', '3260',  's', '0', '-1', '137', '0', '0', '0',   '0','true', 'true', 'true', 'true', '0', '0'),
 ('9422', 'Dynasty Helm', 'head', 'false', 'none', '550',  's', '0', '-1', '89', '0', '0', '0',   '0','true', 'true', 'true', 'true', '0', '0'),
@@ -19,7 +19,7 @@ INSERT INTO `custom_armor` VALUES
 
 delete from custom_armorsets where id in (52,53,54);
 
-INSERT INTO `custom_armorsets` VALUES
+INSERT ignore INTO `custom_armorsets` VALUES
 ('52', '9416', '9421', '9422', '9423', '9424', '9051', '0', '0', '3623'),
 ('53', '9425', '9428', '9429', '9430', '9431', '9050', '0', '0', '3624'),
 ('54', '9432', '9437', '9438', '9439', '9440', '9052', '0', '0', '3625');

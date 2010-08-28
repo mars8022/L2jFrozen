@@ -289,7 +289,7 @@ public class NpcTable
 
 						npcDat.addDropData(dropDat, category);
 						cCount++;
-						dropDat = null;
+						//dropDat = null;
 					}
 					dropData.close();
 					dropData = null;
@@ -336,11 +336,11 @@ public class NpcTable
 					dropDat.setMinDrop(dropData.getInt("min"));
 					dropDat.setMaxDrop(dropData.getInt("max"));
 					dropDat.setChance(dropData.getInt("chance"));
-
+					
 					int category = dropData.getInt("category");
 
 					npcDat.addDropData(dropDat, category);
-					dropDat = null;
+					//dropDat = null;
 				}
 
 				dropData.close();
@@ -401,6 +401,56 @@ public class NpcTable
 				{
 					int raidId = minionData.getInt("boss_id");
 
+					//we need to set the minion level to custom Raid one if present
+					switch(raidId){
+						case 29001:{ //queenAnt
+							
+							if(Config.QA_LEVEL>0){
+								int minion_id = minionData.getInt("minion_id");
+								L2NpcTemplate minion_data = _npcs.get(minion_id);
+								minion_data.getStatsSet().set("level", Config.QA_LEVEL);
+								_npcs.put(minion_id, minion_data);
+							}
+							
+						}
+						break;
+						case 29022:{ //zaken
+							
+							if(Config.ZAKEN_LEVEL>0){
+								int minion_id = minionData.getInt("minion_id");
+								L2NpcTemplate minion_data = _npcs.get(minion_id);
+								minion_data.getStatsSet().set("level", Config.ZAKEN_LEVEL);
+								_npcs.put(minion_id, minion_data);
+							}
+							
+						}
+						break;
+						case 29014:{ //orfen
+							
+							if(Config.ORFEN_LEVEL>0){
+								int minion_id = minionData.getInt("minion_id");
+								L2NpcTemplate minion_data = _npcs.get(minion_id);
+								minion_data.getStatsSet().set("level", Config.ORFEN_LEVEL);
+								_npcs.put(minion_id, minion_data);
+								System.out.println("id: "+minion_id+" name: "+minion_data.getStatsSet().getString("name")+" level: "+minion_data.getStatsSet().getString("level"));
+								
+							}
+							
+						}
+						break;
+						case 29006:{ //core
+							
+							if(Config.CORE_LEVEL>0){
+								int minion_id = minionData.getInt("minion_id");
+								L2NpcTemplate minion_data = _npcs.get(minion_id);
+								minion_data.getStatsSet().set("level", Config.CORE_LEVEL);
+								_npcs.put(minion_id, minion_data);
+							}
+							
+						}
+						break;
+					}
+					
 					npcDat = _npcs.get(raidId);
 					minionDat = new L2MinionData();
 
@@ -410,6 +460,7 @@ public class NpcTable
 					npcDat.addRaidData(minionDat);
 					cnt++;
 					minionDat = null;
+					
 				}
 
 				minionData.close();
@@ -448,8 +499,68 @@ public class NpcTable
 			npcDat.set("npcId", id);
 			npcDat.set("idTemplate", NpcData.getInt("idTemplate"));
 
-			int level = NpcData.getInt("level");
-
+			//Level: for special bosses could be different
+			int level = 0;
+			float diff = 0; //difference between setted value and retail one
+			
+			switch(id){
+				case 29001:
+				case 29002:
+				case 29003:
+				case 29004:
+				case 29005:{ //queenAnt and minions
+					
+					if(Config.QA_LEVEL>0){
+						diff = Config.QA_LEVEL - NpcData.getInt("level");
+						level = Config.QA_LEVEL;
+					}else
+						level = NpcData.getInt("level");
+					
+				}
+				break;
+				case 29022:{ //zaken
+					
+					if(Config.ZAKEN_LEVEL>0){
+						diff = Config.ZAKEN_LEVEL - NpcData.getInt("level");
+						level = Config.ZAKEN_LEVEL;
+					}
+					else
+						level = NpcData.getInt("level");
+					
+				}
+				break;
+				case 29014:
+				case 29015:
+				case 29016:
+				case 29017:
+				case 29018:{ //orfen and minions
+					
+					if(Config.ORFEN_LEVEL>0){
+						diff = Config.ORFEN_LEVEL - NpcData.getInt("level");
+						level = Config.ORFEN_LEVEL;
+					}else
+						level = NpcData.getInt("level");
+					
+				}
+				break;
+				case 29006:
+				case 29007:
+				case 29008:
+				case 290011:{ //core and minions
+					
+					if(Config.CORE_LEVEL>0){
+						diff = Config.CORE_LEVEL - NpcData.getInt("level");
+						level = Config.CORE_LEVEL;
+					}else
+						level = NpcData.getInt("level");
+					
+				}
+				break;
+				default:{
+					level = NpcData.getInt("level");
+				}
+			}
+			
 			npcDat.set("level", level);
 			npcDat.set("jClass", NpcData.getString("class"));
 
@@ -467,10 +578,44 @@ public class NpcTable
 			npcDat.set("sex", NpcData.getString("sex"));
 			npcDat.set("type", NpcData.getString("type"));
 			npcDat.set("baseAtkRange", NpcData.getInt("attackrange"));
-			npcDat.set("rewardExp", NpcData.getInt("exp"));
-			npcDat.set("rewardSp", NpcData.getInt("sp"));
-			npcDat.set("basePAtkSpd", NpcData.getInt("atkspd"));
-			npcDat.set("baseMAtkSpd", NpcData.getInt("matkspd"));
+			
+			if(diff>0){ //means that there is level customization
+				
+				double multi_value = (((diff/10)*(Config.LEVEL_DIFF_MULTIPLIER)));  //allow to increase the power of a value
+																  //that for example, at 40 diff levels is
+																  //equal to
+																  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
+				
+				npcDat.set("rewardExp", (int) NpcData.getInt("exp")*multi_value );
+				npcDat.set("rewardSp", (int) NpcData.getInt("sp")*multi_value);
+				npcDat.set("basePAtkSpd", (int) NpcData.getInt("atkspd")*multi_value);
+				npcDat.set("baseMAtkSpd", (int) NpcData.getInt("matkspd")*multi_value);
+				npcDat.set("baseHpMax", (int) NpcData.getInt("hp")*multi_value);
+				npcDat.set("baseMpMax",(int)  NpcData.getInt("mp")*multi_value);
+				npcDat.set("baseHpReg", (int) NpcData.getFloat("hpreg")*multi_value > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
+				npcDat.set("baseMpReg",(int)  NpcData.getFloat("mpreg")*multi_value > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
+				npcDat.set("basePAtk", (int) NpcData.getInt("patk")*multi_value);
+				npcDat.set("basePDef", (int) NpcData.getInt("pdef")*multi_value);
+				npcDat.set("baseMAtk", (int) NpcData.getInt("matk")*multi_value);
+				npcDat.set("baseMDef", (int) NpcData.getInt("mdef")*multi_value);
+			
+			}else{
+				
+				npcDat.set("rewardExp", NpcData.getInt("exp"));
+				npcDat.set("rewardSp", NpcData.getInt("sp"));
+				npcDat.set("basePAtkSpd", NpcData.getInt("atkspd"));
+				npcDat.set("baseMAtkSpd", NpcData.getInt("matkspd"));
+				npcDat.set("baseHpMax", NpcData.getInt("hp"));
+				npcDat.set("baseMpMax", NpcData.getInt("mp"));
+				npcDat.set("baseHpReg", NpcData.getFloat("hpreg") > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
+				npcDat.set("baseMpReg", NpcData.getFloat("mpreg") > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
+				npcDat.set("basePAtk", NpcData.getInt("patk"));
+				npcDat.set("basePDef", NpcData.getInt("pdef"));
+				npcDat.set("baseMAtk", NpcData.getInt("matk"));
+				npcDat.set("baseMDef", NpcData.getInt("mdef"));
+				
+			}
+			
 			npcDat.set("aggroRange", NpcData.getInt("aggro"));
 			npcDat.set("rhand", NpcData.getInt("rhand"));
 			npcDat.set("lhand", NpcData.getInt("lhand"));
@@ -486,16 +631,8 @@ public class NpcTable
 			npcDat.set("baseWIT", NpcData.getInt("wit"));
 			npcDat.set("baseMEN", NpcData.getInt("men"));
 
-			npcDat.set("baseHpMax", NpcData.getInt("hp"));
 			npcDat.set("baseCpMax", 0);
-			npcDat.set("baseMpMax", NpcData.getInt("mp"));
-			npcDat.set("baseHpReg", NpcData.getFloat("hpreg") > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
-			npcDat.set("baseMpReg", NpcData.getFloat("mpreg") > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
-			npcDat.set("basePAtk", NpcData.getInt("patk"));
-			npcDat.set("basePDef", NpcData.getInt("pdef"));
-			npcDat.set("baseMAtk", NpcData.getInt("matk"));
-			npcDat.set("baseMDef", NpcData.getInt("mdef"));
-
+			
 			npcDat.set("factionId", NpcData.getString("faction_id"));
 			npcDat.set("factionRange", NpcData.getInt("faction_range"));
 

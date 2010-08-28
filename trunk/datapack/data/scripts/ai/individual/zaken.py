@@ -1,5 +1,6 @@
 import sys
 from com.l2jfrozen.gameserver import GameTimeController
+from com.l2jfrozen import Config
 from com.l2jfrozen.gameserver.ai import CtrlIntention
 from com.l2jfrozen.gameserver.datatables.csv import DoorTable
 from com.l2jfrozen.gameserver.datatables import SkillTable
@@ -131,7 +132,7 @@ class zaken (JQuest) :
  def onKill(self,npc,player,isPet):
    self.deleteGlobalQuestVar("underattack")
    self.cancelQuestTimer("tpchk",npc,None)
-   respawnTime = long((32 + Rnd.get(16)) * 3600000)
+   respawnTime = long(Config.ZAKEN_RESP_FIRST + Rnd.get(Config.ZAKEN_RESP_SECOND)) * 3600000
    self.saveGlobalQuestVar("ubit", "1")
    self.saveGlobalQuestVar("respawn", str(System.currentTimeMillis() + respawnTime))
    self.startQuestTimer("resp", respawnTime, None, None)

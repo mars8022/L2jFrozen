@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -38,6 +40,9 @@ import com.l2jfrozen.gameserver.managers.Manager;
 import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
+import com.l2jfrozen.gameserver.script.faenor.FaenorScriptEngine;
+import com.l2jfrozen.gameserver.scripting.CompiledScriptCache;
+import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
 
 /**
  * @author KidZor
@@ -163,6 +168,50 @@ public class AdminReload implements IAdminCommandHandler
 					activeChar.sendMessage("AugmentationData reloaded.");
 					activeChar.sendMessage("HelperBuffTable reloaded.");
 				}
+				else if (type.startsWith("scripts"))
+                {
+                        try
+                        {
+                                File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
+                                if (!Config.ALT_DEV_NO_QUESTS)
+                                        L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
+                        }
+                        catch (IOException ioe)
+                        {
+                                activeChar.sendMessage("Failed loading scripts.cfg, no script going to be loaded");
+                                ioe.printStackTrace();
+                        }
+                        try
+                        {
+                                CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
+                                if (compiledScriptCache == null)
+                                {
+                                        activeChar.sendMessage("Compiled Scripts Cache is disabled.");
+                                }
+                                else
+                                {
+                                        compiledScriptCache.purge();
+                                        if (compiledScriptCache.isModified())
+                                        {
+                                                compiledScriptCache.save();
+                                                activeChar.sendMessage("Compiled Scripts Cache was saved.");
+                                        }
+                                        else
+                                        {
+                                                activeChar.sendMessage("Compiled Scripts Cache is up-to-date.");
+                                        }
+                                }
+                        }
+                        catch (IOException e)
+                        {
+                                activeChar.sendMessage( "Failed to store Compiled Scripts Cache.");
+                                e.printStackTrace();
+                        }
+                        QuestManager.getInstance().reloadAllQuests();
+                        QuestManager.getInstance().report();
+                        FaenorScriptEngine.getInstance().reloadPackages();
+                        
+                }
 
 				type = null;
 			}

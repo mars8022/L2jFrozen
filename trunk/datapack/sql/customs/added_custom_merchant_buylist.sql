@@ -2,7 +2,7 @@
 -- Dumping data for table `merchant_buylists`
 --
 
-INSERT INTO `custom_merchant_buylists` VALUES 
+INSERT ignore INTO `custom_merchant_buylists` VALUES 
 ('6902', '12900', '135566', '1', '-1', '1', '0', '0'),
 ('1829', '500', '135566', '2', '5', '2', '0', '0'),
 ('5169', '300', '135566', '3', '5', '3', '0', '0'),
@@ -95,7 +95,7 @@ INSERT INTO `custom_merchant_buylists` VALUES
 ('5858', '100000', '235584', '3', '3', '1', '0', '0'),
 ('5169', '300', '235584', '4', '10', '1', '0', '0'),
 ('7129', '35000', '235584', '5', '1', '1', '0', '0');
-INSERT INTO `custom_merchant_buylists` VALUES 
+INSERT ignore INTO `custom_merchant_buylists` VALUES 
 ('7130', '35000', '235584', '6', '1', '1', '0', '0'),
 ('6902', '12900', '235586', '1', '-1', '0', '0', '0'),
 ('1829', '500', '235586', '2', '5', '1', '0', '0'),
@@ -345,7 +345,7 @@ INSERT INTO `custom_merchant_buylists` VALUES
 ('6935', '600', '335580', '9', '1', '1', '0', '0'),
 ('6936', '1200', '335580', '10', '1', '1', '0', '0'),
 ('6938', '1200', '335580', '11', '1', '1', '0', '0');
-INSERT INTO `custom_merchant_buylists` VALUES 
+INSERT ignore INTO `custom_merchant_buylists` VALUES 
 ('6921', '250', '335580', '12', '1', '1', '0', '0'),
 ('6923', '100000', '335580', '13', '1', '1', '0', '0'),
 ('7691', '100000', '335580', '14', '1', '1', '0', '0'),

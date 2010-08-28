@@ -31,12 +31,12 @@ import com.l2jfrozen.gameserver.ai.special.Hallate;
 import com.l2jfrozen.gameserver.ai.special.IceFairySirra;
 import com.l2jfrozen.gameserver.ai.special.Kernon;
 import com.l2jfrozen.gameserver.ai.special.Monastery;
+import com.l2jfrozen.gameserver.ai.special.Orfen;
 import com.l2jfrozen.gameserver.ai.special.QueenAnt;
 import com.l2jfrozen.gameserver.ai.special.SummonMinions;
 import com.l2jfrozen.gameserver.ai.special.Transform;
 import com.l2jfrozen.gameserver.ai.special.VanHalter;
 import com.l2jfrozen.gameserver.ai.special.VarkaKetraAlly;
-import com.l2jfrozen.gameserver.ai.special.Zaken;
 import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -87,7 +87,7 @@ public class AILoader
 		ThreadPoolManager.getInstance().scheduleAi(new VarkaKetraAlly(-1, "Varka Ketra Ally", "ai"), 1600);
 		_log.info(" - Barakiel");
 		ThreadPoolManager.getInstance().scheduleAi(new Barakiel(-1, "Barakiel", "ai"), 1700);
-		//_log.info(" - Zaken");
-		//ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1800);
+		_log.info(" - Orfen");
+		ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
 	}
 }

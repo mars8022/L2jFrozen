@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <project name="L2jFrozen_DataPack" default="export" basedir=".">
   <description>
-  	This script will build the L2jFrozen_DataPack.
-  	        
-  	        $Author: L2jFrozen $
-  	        $Date: (th, 17 aug 2010) $
-  	        $Revision: 1 $  
+        This script will build the L2jFrozen_DataPack.
+        
+        $Author: L2jFrozen $
+        $Date: (th, 17 aug 2010) $
+        $Revision: 1 $  
         
         This program is opensource
 
   </description>
 
-	<property name="build" location="compiled_revision"/>
+	<property file="build_into_CompiledRev_folder.properties"/>
+	<property name="build" location="${compiled_rev_destination_folder}"/>
 	<property name="build.dist" location="${build}/dist"/>
   <property name="build.dist.game" location="${build.dist}/gameserver"/>
   <property name="build.dist.login" location="${build.dist}/loginserver"/>
@@ -30,7 +31,7 @@
     <target name="export"
       depends="version"
       description="Syncronizes build space contents with project.">
-      <sync todir="${build.dist.game}/data">
+      <copy todir="${build.dist.game}/data">
          <fileset dir="${basedir}/data">
            <exclude name=".project"/>
            <exclude name="log/**"/>
@@ -44,15 +45,16 @@
            <exclude name="pathnode/**"/>
            <include name="**/*.*"/>
          </fileset>
-      </sync>
-      <sync todir="${build.dist.sql}">
+      </copy>
+      <copy todir="${build.dist.sql}">
          <fileset dir="${basedir}/sql">
             <include name="*.*"/>
-         	<include name="customs/*.*"/>
+            <include name="customs/*.*"/>
+         	<include name="customs_zones/*.*"/>
          	<include name="updates/*.*"/>
          </fileset>
-      </sync>
-      <sync todir="${build.dist.tools}">
+      </copy>
+      <copy todir="${build.dist.tools}">
          <fileset dir="${basedir}/tools">
            <include name="*.*"/>
            <exclude name="database_installer.rc"/>
@@ -60,21 +62,21 @@
            <exclude name="*.log"/>
            <exclude name="*backup.sql"/>
          </fileset>
-      </sync>
-      <sync todir="${build.dist.login}">
+      </copy>
+      <copy todir="${build.dist.login}">
         <fileset dir="${build.dist.game}/data">
           <include name="servername.xml"/>
         </fileset>
-      </sync>
+      </copy>
    </target>  
 
-    <target name="zip"
+    <target name="dist"
           depends="export"
           description="Creates a ZIP file. Suitable for distribution but building takes longer. See dist-deflate for faster builds.">
       <zip destfile="${build}/L2JFrozen_DataPack.zip" basedir="${build.dist}" update="true"/>
     </target>
 
-    <target name="zip-deflate"
+    <target name="dist-deflate"
           depends="export"
           description="Creates a datapack ZIP file with NO compression (bigger ZIP file but faster than regular dist target)">
       <zip destfile="${build}/L2JFrozen_DataPack-nocompress.zip" basedir="${build.dist}" update="true" compress="false"/>

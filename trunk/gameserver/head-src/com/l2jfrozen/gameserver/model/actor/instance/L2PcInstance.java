@@ -51,6 +51,7 @@ import com.l2jfrozen.gameserver.cache.WarehouseCacheManager;
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
+import com.l2jfrozen.gameserver.datatables.ClanLeaderSkillTable;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.NobleSkillTable;
@@ -617,6 +618,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	private boolean _newbie;
 
 	private boolean _noble = false;
+	private boolean _clanLeader = false;
 	private boolean _hero = false;
 	private boolean _donator = false;
 
@@ -2740,6 +2742,12 @@ public final class L2PcInstance extends L2PlayableInstance
 			setIsHero(true);
 		}
 
+		// Add clan leader skills if clanleader
+		if(isClanLeader())
+		{
+			setClanLeader(true);
+		}
+		
 		// Add clan skills
 		if(getClan() != null && getClan().getReputationScore() >= 0)
 		{
@@ -6865,6 +6873,13 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 
 		_clanId = clan.getClanId();
+		
+		// Add clan leader skills if clanleader
+		if(isClanLeader())
+		{
+			setClanLeader(true);
+		}
+		
 	}
 
 	/**
@@ -11114,6 +11129,27 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 		_noble = val;
+
+		sendSkillList();
+	}
+	
+	public void setClanLeader(boolean val)
+	{
+		if(val)
+		{
+			for(L2Skill s : ClanLeaderSkillTable.getInstance().GetClanLeaderSkills())
+			{
+				addSkill(s, false); //Dont Save Noble skills to Sql
+			}
+		}
+		else
+		{
+			for(L2Skill s : ClanLeaderSkillTable.getInstance().GetClanLeaderSkills())
+			{
+				super.removeSkill(s); //Just Remove skills without deleting from Sql
+			}
+		}
+		_clanLeader = val;
 
 		sendSkillList();
 	}

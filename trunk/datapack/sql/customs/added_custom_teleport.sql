@@ -1,5 +1,5 @@
 
-INSERT INTO `custom_teleport` VALUES 
+INSERT ignore INTO `custom_teleport` VALUES 
 ('Dark Elven Village', 50001, 9745, 15606, -4574, 15000, 0),
 ('Dwarven Village', 50002, 115113, -178212, -901, 15000, 0),
 ('Elven Village', 50003, 46934, 51467, -2977, 15000, 0),

@@ -1,4 +1,5 @@
 import sys
+from com.l2jfrozen import Config
 from com.l2jfrozen.gameserver.ai import CtrlIntention
 from com.l2jfrozen.gameserver.datatables import SkillTable
 from com.l2jfrozen.gameserver.datatables.csv import DoorTable
@@ -292,7 +293,7 @@ class Valakas(JQuest) :
      self.addSpawn(31859,213001,-114890,-1635,0,False,900000)
      self.deleteGlobalQuestVar("lasthit")
      self.deleteGlobalQuestVar("underattack")
-     respawnTime = long((192 + Rnd.get(144)) * 3600000)
+     respawnTime = long(Config.VALAKAS_RESP_FIRST + Rnd.get(Config.VALAKAS_RESP_SECOND)) * 3600000
      self.saveGlobalQuestVar("ubit", "1")
      self.saveGlobalQuestVar("respawn", str(System.currentTimeMillis() + respawnTime))
      self.startQuestTimer("resp", respawnTime, None, None)

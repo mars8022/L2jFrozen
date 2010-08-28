@@ -64,7 +64,7 @@ public class Core extends Quest implements Runnable
 	public Core(int id, String name, String descr)
 	{
 		super(id, name, descr);
-
+		
 		int[] mobs =
 		{
 				CORE, DEATH_KNIGHT, DOOM_WRAITH, SUSCEPTOR
