@@ -50,7 +50,7 @@
          <fileset dir="${basedir}/sql">
             <include name="*.*"/>
             <include name="customs/*.*"/>
-         	<include name="customs_zones/*.*"/>
+         	<include name="custom_zones/*.*"/>
          	<include name="updates/*.*"/>
          </fileset>
       </copy>
