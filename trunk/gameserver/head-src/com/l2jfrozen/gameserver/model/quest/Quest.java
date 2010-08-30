@@ -903,7 +903,7 @@ public class Quest extends ManagedScript
 
 				if(q == null)
 				{
-					_log.finer("Unknown quest " + questId + " for player " + player.getName());
+					_log.info("Unknown quest " + questId + " for player " + player.getName());
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());

@@ -7777,9 +7777,14 @@ public final class L2PcInstance extends L2PlayableInstance
 
 				player.setChatBanTimer(rset.getLong("banchat_time"));
 				player.updateChatBanState();
-				player.getAppearance().setNameColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("name_color")).toString()).intValue());
-				player.getAppearance().setTitleColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("title_color")).toString()).intValue());
-
+				
+				try{
+					player.getAppearance().setNameColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("name_color")).toString()).intValue());
+					player.getAppearance().setTitleColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("title_color")).toString()).intValue());
+				}catch(Exception e){
+					//leave them as default
+				}
+				
 				CursedWeaponsManager.getInstance().checkPlayer(player);
 
 				player.setAllianceWithVarkaKetra(rset.getInt("varka_ketra_ally"));
