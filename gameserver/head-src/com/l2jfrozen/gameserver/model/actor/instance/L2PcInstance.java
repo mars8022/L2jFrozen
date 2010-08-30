@@ -7836,7 +7836,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.severe("Could not restore char data: " + e);
+			_log.severe("Could not restore char data: ");
+			e.printStackTrace();
 		}
 		finally
 		{
