@@ -1323,10 +1323,12 @@ public final class L2ItemInstance extends L2Object
 			_storedInDb = true;
 			statement.close();
 			statement = null;
+			
 		}
 		catch(Exception e)
 		{
 			_log.log(Level.SEVERE, "Could not insert item " + getObjectId() + " into DB: Reason: " + "Duplicate itemId");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -1373,6 +1375,7 @@ public final class L2ItemInstance extends L2Object
 		catch(Exception e)
 		{
 			_log.log(Level.SEVERE, "Could not delete item " + getObjectId() + " in DB:", e);
+			e.printStackTrace();
 		}
 		finally
 		{
