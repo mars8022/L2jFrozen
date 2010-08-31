@@ -1,0 +1,11 @@
+﻿<list>
+	<deny>
+		<ip>10.255.255.255</ip>
+		<!-- time in unix format or -1 for infinity -->
+		<duration>-1</duration>
+	</deny>
+	<deny>
+		<ip>10.254.254.*</ip>
+		<duration>-1</duration>
+	</deny>
+</list>
