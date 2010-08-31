@@ -168,51 +168,36 @@ public class AdminReload implements IAdminCommandHandler
 					activeChar.sendMessage("AugmentationData reloaded.");
 					activeChar.sendMessage("HelperBuffTable reloaded.");
 				}
-				else if (type.startsWith("scripts"))
+				else if (type.startsWith("scripts_custom"))
                 {
                         try
                         {
-                                File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
-                                if (!Config.ALT_DEV_NO_QUESTS)
-                                        L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
+                        	File custom_scripts_dir = new File(Config.DATAPACK_ROOT + "/data/scripts/custom");
+                        	L2ScriptEngineManager.getInstance().executeAllScriptsInDirectory(custom_scripts_dir, true, 3);
+                        	
                         }
-                        catch (IOException ioe)
+                        catch (Exception ioe)
                         {
-                                activeChar.sendMessage("Failed loading scripts.cfg, no script going to be loaded");
+                                activeChar.sendMessage("Failed loading "+ Config.DATAPACK_ROOT + "/data/scripts/custom scripts, no script going to be loaded");
                                 ioe.printStackTrace();
                         }
-                        try
-                        {
-                                CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
-                                if (compiledScriptCache == null)
-                                {
-                                        activeChar.sendMessage("Compiled Scripts Cache is disabled.");
-                                }
-                                else
-                                {
-                                        compiledScriptCache.purge();
-                                        if (compiledScriptCache.isModified())
-                                        {
-                                                compiledScriptCache.save();
-                                                activeChar.sendMessage("Compiled Scripts Cache was saved.");
-                                        }
-                                        else
-                                        {
-                                                activeChar.sendMessage("Compiled Scripts Cache is up-to-date.");
-                                        }
-                                }
-                        }
-                        catch (IOException e)
-                        {
-                                activeChar.sendMessage( "Failed to store Compiled Scripts Cache.");
-                                e.printStackTrace();
-                        }
-                        QuestManager.getInstance().reloadAllQuests();
-                        QuestManager.getInstance().report();
-                        FaenorScriptEngine.getInstance().reloadPackages();
                         
                 }
-
+				else if (type.startsWith("scripts_feanor"))
+                {
+                        try
+                        {
+                        	FaenorScriptEngine.getInstance().reloadPackages();
+                            
+                        }
+                        catch (Exception ioe)
+                        {
+                                activeChar.sendMessage("Failed loading feanor scripts, no script going to be loaded");
+                                ioe.printStackTrace();
+                        }
+                        
+                }
+				
 				type = null;
 			}
 			catch(Exception e)
