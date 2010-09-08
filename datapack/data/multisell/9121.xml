@@ -141,5 +141,23 @@
     <ingredient id="57" count="3000000"/>
     <production id="6347" count="1"/>
   </item>
+  
+  <!-- Deadman's Staff - Magic Regeneration -->
+  <item id="24">
+    <ingredient id="57" count="3000000"/>
+    <production id="4888" count="1"/>
+  </item>
+
+  <!-- Deadman's Staff - Mental Shield -->
+  <item id="25">
+    <ingredient id="57" count="3000000"/>
+    <production id="4889" count="1"/>
+  </item>
+
+  <!-- Deadman's Staff - Deadman's Staff - Magic Hold -->
+  <item id="26">
+    <ingredient id="57" count="3000000"/>
+    <production id="4890" count="1"/>
+  </item>
 
 </list>
