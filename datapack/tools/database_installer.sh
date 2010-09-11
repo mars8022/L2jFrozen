@@ -379,6 +379,7 @@ $MYG < ../sql/four_sepulchers_spawnlist.sql &> /dev/null
 $MYG < ../sql/vanhalter_spawnlist.sql &> /dev/null
 $MYG < ../sql/clanhall_siege.sql &> /dev/null
 $MYG < ../sql/max_poly.sql &> /dev/null
+$MYG < ../sql/npc_to_pc_polymorph.sql &> /dev/null
 $MYG < ../sql/vip.sql &> /dev/null
 $MYG < ../sql/ctf.sql &> /dev/null
 $MYG < ../sql/ctf_teams.sql &> /dev/null
