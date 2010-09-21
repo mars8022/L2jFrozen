@@ -23,12 +23,15 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
+import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -112,6 +115,9 @@ public class EnterWorld extends L2GameClientPacket
 	private static final String _C__03_ENTERWORLD = "[C] 03 EnterWorld";
 	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
 
+	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+		
+	
 	public TaskPriority getPriority()
 	{
 		return TaskPriority.PR_URGENT;
@@ -250,6 +256,7 @@ public class EnterWorld extends L2GameClientPacket
 					}
 					
 			
+				
 		//restores custom status
 		activeChar.restoreCustomStatus();
 
@@ -595,6 +602,16 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.sendPacket(np);
 			activeChar.sendPacket(na);
 		}
+		
+		int t = GameTimeController.getInstance().getGameTime();
+		String h = "" + (t / 60) % 24;
+		String m;
+		if (t % 60 < 10)
+			m = "0" + t % 60;
+		else
+			m = "" + t % 60;
+        activeChar.sendMessage("SVR time is " + fmt.format(new Date(System.currentTimeMillis())));		
+
 	}
 
 	private void ColorSystem(L2PcInstance activeChar)
