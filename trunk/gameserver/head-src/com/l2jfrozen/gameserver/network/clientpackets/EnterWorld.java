@@ -74,6 +74,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.Die;
 import com.l2jfrozen.gameserver.network.serverpackets.Earthquake;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ExStorageMaxCount;
 import com.l2jfrozen.gameserver.network.serverpackets.FriendList;
 import com.l2jfrozen.gameserver.network.serverpackets.HennaInfo;
@@ -219,6 +220,36 @@ public class EnterWorld extends L2GameClientPacket
 			L2Event.restoreAndTeleChar(activeChar);
 		}
 
+		
+				for (L2ItemInstance i : activeChar.getInventory().getItems())
+					{
+						if (!activeChar.isGM())
+						{	
+							if (i.isEquipable())
+							{	
+						   if (i.getEnchantLevel() > 11)
+						   {
+							   
+							//Delete Item Over enchanted
+							activeChar.getInventory().destroyItem(null, i, activeChar, null);
+							//Message to Player
+			                activeChar.sendMessage("[Server]:You have Items over enchanted you will be kikked!");
+							activeChar.sendMessage("[Server]:Item becames +1, but you will be Banned!");
+							activeChar.sendMessage("[Server]:Respect the rules of the Server.");
+							//Message with screen
+							sendPacket(new ExShowScreenMessage(" You have item Overenchanted, Kicked! ", 6000));
+			                //Punishment e log in audit
+							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " have item > 6 ", Config.DEFAULT_PUNISH);
+								   
+				            //Log in console
+							_log.info("#### ATTENCTION ####");
+							_log.info(i+" item has been removed from "+activeChar);
+			                }
+							}
+						}
+					}
+					
+			
 		//restores custom status
 		activeChar.restoreCustomStatus();
 

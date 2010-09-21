@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.FloodProtector;
+import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * This class ...
@@ -292,6 +293,16 @@ public final class UseItem extends L2GameClientPacket
 				return;
 			}
 
+		    // If Player isn't Gm and have Enchant item > 10 he will be jailed!
+			 if (!activeChar.isGM() && item.getEnchantLevel() > 11)
+		    {
+             activeChar.sendMessage("You have been kicked for using an item over +11!");
+			 Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " have item Overenchanted ", Config.DEFAULT_PUNISH);
+			 activeChar.closeNetConnection();
+			 return;
+	        }  			 
+			
+			
 			int bodyPart = item.getItem().getBodyPart();
 			// Prevent player to remove the weapon on special conditions
 			if((/*activeChar.isAttackingNow() || */activeChar.isCastingNow() || activeChar.isMounted() || (activeChar._inEventCTF && activeChar._haveFlagCTF)) && ((bodyPart == L2Item.SLOT_LR_HAND) || (bodyPart == L2Item.SLOT_L_HAND) || (bodyPart == L2Item.SLOT_R_HAND)))
