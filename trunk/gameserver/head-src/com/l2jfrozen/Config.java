@@ -518,6 +518,8 @@ public final class Config
 	public static int FS_TIME_WARMUP;
 	public static int FS_PARTY_MEMBER_COUNT;
 	public static boolean ALLOW_QUAKE_SYSTEM;
+	
+	public static int MAX_ITEM_ENCHANT_KICK;
 
 	//============================================================
 	public static void loadOtherConfig()
@@ -543,7 +545,8 @@ public final class Config
 			INVENTORY_MAXIMUM_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForDwarf", "100"));
 			INVENTORY_MAXIMUM_GM = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForGMPlayer", "250"));
 			MAX_ITEM_IN_PACKET = Math.max(INVENTORY_MAXIMUM_NO_DWARF, Math.max(INVENTORY_MAXIMUM_DWARF, INVENTORY_MAXIMUM_GM));
-
+			MAX_ITEM_ENCHANT_KICK = Integer.parseInt(otherSettings.getProperty("EnchantKick", "11"));
+			
 			/* Inventory slots limits */
 			WAREHOUSE_SLOTS_NO_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumWarehouseSlotsForNoDwarf", "100"));
 			WAREHOUSE_SLOTS_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumWarehouseSlotsForDwarf", "120"));
