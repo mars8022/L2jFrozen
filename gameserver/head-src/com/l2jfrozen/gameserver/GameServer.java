@@ -173,7 +173,6 @@ public class GameServer
 		L2DatabaseFactory.getInstance();
 
 
-//test
 		Util.printSection("Threads");
 		ThreadPoolManager.getInstance();
 		if(Config.DEADLOCKCHECK_INTIAL_TIME > 0)
