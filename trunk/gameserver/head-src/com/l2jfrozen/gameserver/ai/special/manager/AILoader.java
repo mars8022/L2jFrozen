@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.gameserver.ai.special.Antharas;
 import com.l2jfrozen.gameserver.ai.special.Baium;
 import com.l2jfrozen.gameserver.ai.special.Barakiel;
+import com.l2jfrozen.gameserver.ai.special.BossRespawn;
 import com.l2jfrozen.gameserver.ai.special.Core;
 import com.l2jfrozen.gameserver.ai.special.FairyTrees;
 import com.l2jfrozen.gameserver.ai.special.Golkonda;
@@ -37,6 +38,7 @@ import com.l2jfrozen.gameserver.ai.special.SummonMinions;
 import com.l2jfrozen.gameserver.ai.special.Transform;
 import com.l2jfrozen.gameserver.ai.special.VanHalter;
 import com.l2jfrozen.gameserver.ai.special.VarkaKetraAlly;
+import com.l2jfrozen.gameserver.ai.special.Zaken;
 import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -89,5 +91,9 @@ public class AILoader
 		ThreadPoolManager.getInstance().scheduleAi(new Barakiel(-1, "Barakiel", "ai"), 1700);
 		_log.info(" - Orfen");
 		ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
+		_log.info(" - Zaken");
+		ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
+		//_log.info(" - BossManager");
+		//ThreadPoolManager.getInstance().scheduleAi(new BossRespawn(-1, "BossRespawn", "ai"), 2000);
 	}
 }
