@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.handler.custom.CustomBypassHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffHandler;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable;
+import com.l2jfrozen.gameserver.powerpak.RaidInfo.RaidInfoHandler;
 import com.l2jfrozen.gameserver.powerpak.Servers.WebServer;
 import com.l2jfrozen.gameserver.powerpak.engrave.EngraveManager;
 import com.l2jfrozen.gameserver.powerpak.globalGK.GKHandler;
@@ -133,6 +134,11 @@ public class PowerPak
 			{
 				XMLRPCServer.getInstance();
 			}
+			
+			System.out.println("Raid Info:");
+			RaidInfoHandler handler = new RaidInfoHandler();
+			CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
+			System.out.println("...Enabled");
 		}
 	}
 
