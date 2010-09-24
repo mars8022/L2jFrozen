@@ -48,7 +48,7 @@ goto Step1
 :MonasteryInstall
 
 echo *** Installing Monastery Custom Zone ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/monastery_custom_zone.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/monastery_custom_zone.sql
 echo *** Done ***
 
 goto Step1
@@ -58,7 +58,7 @@ goto Step1
 :ACMInstall
 
 echo *** Installing ACM Custom Zone ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/acm_custom_zone.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/acm_custom_zone.sql
 echo *** Done ***
 
 goto Step1
@@ -68,7 +68,7 @@ goto Step1
 :ImperialTombInstall
 
 echo *** Installing Imperial Custom Zone ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/imperial_custom_zone.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/imperial_custom_zone.sql
 echo *** Done ***
 
 goto Step1
@@ -78,15 +78,15 @@ goto Step1
 :FullInstall
 
 echo *** Installing Monastery Custom Zone ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/monastery_custom_zone.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/monastery_custom_zone.sql
 echo *** Done ***
 
 echo *** Installing ACM Custom Zone ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/acm_custom_zone.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/acm_custom_zone.sql
 echo *** Done ***
 
 echo *** Installing Imperial Custom Zone ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/imperial_custom_zone.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/imperial_custom_zone.sql
 echo *** Done ***
 
 goto Step1
@@ -96,7 +96,7 @@ goto Step1
 :Revert
 
 echo *** Reverting Custom Zones to retail ***
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_zones/restore_retail_drops_npcs.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../../sql/custom_zones/restore_retail_drops_npcs.sql
 echo *** Done ***
 
 goto Step1
