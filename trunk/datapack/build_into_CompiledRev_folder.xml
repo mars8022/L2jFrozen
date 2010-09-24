@@ -57,6 +57,7 @@
       <copy todir="${build.dist.tools}">
          <fileset dir="${basedir}/tools">
            <include name="*.*"/>
+           <include name="custom/*.*"/>
            <exclude name="database_installer.rc"/>
            <exclude name="*.txt"/>
            <exclude name="*.log"/>

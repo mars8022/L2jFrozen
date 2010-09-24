@@ -124,34 +124,34 @@ esac
 
 monastery(){
 echo "*** Installing Monastery Custom Zone ***"
-$MYG < ../sql/custom_zones/monastery_custom_zone.sql &> /dev/null
+$MYG < ../../sql/custom_zones/monastery_custom_zone.sql &> /dev/null
 echo "*** Done ***"
 asktype
 }
 
 acm(){
 echo "echo *** Installing ACM Custom Zone ***"
-$MYG < ../sql/custom_zones/acm_custom_zone.sql &> /dev/null
+$MYG < ../../sql/custom_zones/acm_custom_zone.sql &> /dev/null
 echo "*** Done ***"
 asktype
 }
 
 imperial(){
 echo "*** Installing Imperial Custom Zone ***"
-$MYG < ../sql/custom_zones/imperial_custom_zone.sql &> /dev/null
+$MYG < ../../sql/custom_zones/imperial_custom_zone.sql &> /dev/null
 echo "*** Done ***"
 asktype
 }
 
 every(){
 echo "*** Installing Monastery Custom Zone ***"
-$MYG < ../sql/custom_zones/monastery_custom_zone.sql &> /dev/null
+$MYG < ../../sql/custom_zones/monastery_custom_zone.sql &> /dev/null
 echo "*** Done ***"
 echo "echo *** Installing ACM Custom Zone ***"
-$MYG < ../sql/custom_zones/acm_custom_zone.sql &> /dev/null
+$MYG < ../../sql/custom_zones/acm_custom_zone.sql &> /dev/null
 echo "*** Done ***"
 echo "*** Installing Imperial Custom Zone ***"
-$MYG < ../sql/custom_zones/imperial_custom_zone.sql &> /dev/null
+$MYG < ../../sql/custom_zones/imperial_custom_zone.sql &> /dev/null
 echo "*** Done ***"
 asktype
 }

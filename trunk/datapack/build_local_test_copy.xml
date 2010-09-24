@@ -61,6 +61,7 @@
            <exclude name="*.txt"/>
            <exclude name="*.log"/>
            <exclude name="*backup.sql"/>
+           <include name="custom/*.*"/>
          </fileset>
       </copy>
       <copy todir="${build.dist.login}">
