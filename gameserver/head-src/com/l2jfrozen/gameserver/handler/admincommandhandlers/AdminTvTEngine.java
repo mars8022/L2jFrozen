@@ -44,7 +44,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 	{ "admin_tvt", "admin_tvt_name", "admin_tvt_desc", "admin_tvt_join_loc", "admin_tvt_minlvl", "admin_tvt_maxlvl", "admin_tvt_npc", "admin_tvt_npc_pos", "admin_tvt_reward",
 			"admin_tvt_reward_amount", "admin_tvt_team_add", "admin_tvt_team_remove", "admin_tvt_team_pos", "admin_tvt_team_color", "admin_tvt_join", "admin_tvt_teleport", "admin_tvt_start",
 			"admin_tvt_abort", "admin_tvt_finish", "admin_tvt_sit", "admin_tvt_dump", "admin_tvt_save", "admin_tvt_load", "admin_tvt_jointime", "admin_tvt_eventtime", "admin_tvt_autoevent",
-			"admin_tvt_minplayers", "admin_tvt_maxplayers", "admin_tvtkick" };
+			"admin_tvt_minplayers", "admin_tvt_maxplayers", "admin_tvtkick","admin_tvt_interval" };
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
