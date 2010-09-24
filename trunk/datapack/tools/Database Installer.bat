@@ -29,21 +29,19 @@ set mysqlPath="%mysqlBinPath%\mysql"
 cls
 echo. ---------------------------------------------------------------------
 echo.
-echo.   L2-Frozen Team - Database Login Server`s 
+echo.   L2-Frozen Team - Database Login Server
 echo. _____________________________________________________________________
 echo.
 echo.   1 - Full install database loginserver`s.
 echo.   2 - Skip install loginserver db, go to install gamserver databases
-echo.   3 - Customs Install
-echo.   4 - Exit from installer
+echo.   3 - Exit from installer
 echo. ---------------------------------------------------------------------
 
 set Step1prompt=x
 set /p Step1prompt= Please enter values :
 if /i %Step1prompt%==1 goto LoginInstall
 if /i %Step1prompt%==2 goto Step2
-if /i %Step1prompt%==3 goto addinstall
-if /i %Step1prompt%==4 goto fullend
+if /i %Step1prompt%==3 goto fullend
 goto Step1
 
 
@@ -69,13 +67,19 @@ echo.   L2-Frozen Team - database operation about gameserver
 echo. _____________________________________________________________________
 echo.
 echo.   1 - Full Install Gameserver Database`s.
-echo.   2 - Exit.
+echo.   2 - Customs NPCs Install
+echo.   3 - Customs NPCs Spawn Install
+echo.   4 - Customs Items Install
+echo.   5 - Exit.
 echo. ---------------------------------------------------------------------
 
 set Step2prompt=x
 set /p Step2prompt= Please, put value:
 if /i %Step2prompt%==1 goto fullinstall
-if /i %Step2prompt%==2 goto fullend
+if /i %Step1prompt%==2 goto addnpcs
+if /i %Step1prompt%==3 goto addspawns
+if /i %Step1prompt%==4 goto additems
+if /i %Step2prompt%==5 goto fullend
 goto Step2
 
 :fullinstall
@@ -414,15 +418,41 @@ echo GameServer Database %title%.
 pause
 goto :Step1
 
-:addinstall
+:addnpcs
+
+echo.
+echo Put in database custom NPCs...
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_merchant_buylist.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_npc.sql
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_teleport.sql
+echo custom NPCs loaded with no-error. Greet!!!
+pause
+:end
+echo.
+echo Installed Sucessfull.
+echo.
+pause
+goto :Step1
+
+:addspawns
+
+echo.
+echo Put in database custom NPCs Spawnlist...
+%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_spawnlist.sql
+echo custom NPCs Spawnlist loaded with no-error. Greet!!!
+pause
+:end
+echo.
+echo Installed Sucessfull.
+echo.
+pause
+goto :Step1
+
+:additems
 
 echo.
 echo Put in database spawn GmShop, Classmaster and other customs...
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_etcitem.sql
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_merchant_buylist.sql
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_npc.sql
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_spawnlist.sql
-%mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/added_custom_teleport.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/DynastyArmor_SQL_OK.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/Epic_MaskAndShield_SQL_OK.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/customs/Gold_Bar_Item_OK.sql

@@ -390,15 +390,45 @@ newbie_helper
 custom(){
 echo ""
 echo ""
-echo -ne "Install custom gameserver DB tables: (y) yes or (n) no or (q) quit?"
+echo -ne "Install custom gameserver DB tables: (i) custom Items, (n) custom NPCs, (s) custom NPCs Spawns, (f) full customs, (q) Quit"
 read ASKCS
 case "$ASKCS" in
-	"y"|"Y") cstinstall;;
-	"n"|"N") finish;;
+	"i"|"I") citemsinstall;;
+	"n"|"N") cnpcsinstall;;
+	"s"|"S") cspawnsinstall;;
+	"f"|"F") cstinstall;;
 	"q"|"Q") finish;;
 	*) custom;;
 esac
 finish
+}
+
+citemsinstall(){
+echo "Put in database custom Items..."
+$MYG < ../sql/customs/added_custom_etcitem.sql &> /dev/null
+$MYG < ../sql/customs/DynastyArmor_SQL_OK.sql &> /dev/null
+$MYG < ../sql/customs/Epic_MaskAndShield_SQL_OK.sql &> /dev/null
+$MYG < ../sql/customs/Gold_Bar_Item_OK.sql &> /dev/null
+$MYG < ../sql/customs/Mordor_Weapons_SQL_OK.sql &> /dev/null
+$MYG < ../sql/customs/Wings_SQL_OK.sql &> /dev/null
+echo "custom Items loaded with no-error. Greet!!!"
+custom
+}
+
+cnpcsinstall(){
+echo "Put in database custom NPCs..."
+$MYG < ../sql/customs/added_custom_merchant_buylist.sql &> /dev/null
+$MYG < ../sql/customs/added_custom_npc.sql &> /dev/null
+$MYG < ../sql/customs/added_custom_teleport.sql &> /dev/null
+echo "custom NPCs loaded with no-error. Greet!!!"
+custom
+}
+
+cspawnsinstall(){
+echo "Put in database custom NPCs spawns..."
+$MYG < ../sql/customs/added_custom_spawnlist.sql &> /dev/null
+echo "custom NPCs spawns loaded with no-error. Greet!!!"
+custom
 }
 
 cstinstall(){
