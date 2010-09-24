@@ -1,0 +1,9 @@
+Items
+
+1) Install Database Customs via database install script
+2) Copy the data/customs into data/stats
+
+
+Zones
+
+1) install Custom Zones drops

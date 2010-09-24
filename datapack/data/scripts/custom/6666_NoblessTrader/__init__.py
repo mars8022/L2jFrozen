@@ -17,7 +17,7 @@ QuestName   = "NoblessTrade"
 QuestDesc   = "custom"
 InitialHtml = "31739-1.htm"
 
-print "importing custom: 6666_NoblessTrader"
+print "Nobless Trader (66666) Enabled..."
 
 class Quest (JQuest) :
 
