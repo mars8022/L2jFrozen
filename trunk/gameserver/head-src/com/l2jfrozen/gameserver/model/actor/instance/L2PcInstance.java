@@ -2194,7 +2194,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(Config.DISABLE_WEIGHT_PENALTY)
 		{
-			;
+			setIsOverloaded(false);
+			return;
 		}
 		else
 		{

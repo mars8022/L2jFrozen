@@ -159,5 +159,22 @@
     <ingredient id="57" count="3000000"/>
     <production id="4890" count="1"/>
   </item>
+  <!-- Cursed Dagger [Crit. Bleed] -->
+  <item id="27">
+    <ingredient id="57" count="3000000"/>
+    <production id="4759" count="1"/>
+  </item>
+
+  <!-- Cursed Dagger [Critical Poison] -->
+  <item id="28">
+    <ingredient id="57" count="3000000"/>
+    <production id="4760" count="1"/>
+  </item>
+
+  <!-- Cursed Dagger [Rsk. Haste] -->
+  <item id="29">
+    <ingredient id="57" count="3000000"/>
+    <production id="4761" count="1"/>
+  </item>
 
 </list>
