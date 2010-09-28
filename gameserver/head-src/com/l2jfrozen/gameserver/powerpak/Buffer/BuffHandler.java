@@ -152,10 +152,18 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			if(player.getTarget() instanceof L2NpcInstance)
 			{
 				buffer = (L2NpcInstance)player.getTarget();
-				if(buffer.getTemplate().getNpcId()!=50018)
+				if(buffer.getTemplate().getNpcId()!=50019)
 					buffer=null;
 			}
+		
+		//Possible fix to Buffer - 1
+		if (buffer == null)
+			return;
 
+		//Possible fix to Buffer - 2
+		if (!player.isInsideRadius(buffer, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+			return;
+		
 		if(parameters.contains("Pet")){
 			if(player.getPet()==null){
 				return;
