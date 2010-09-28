@@ -45,28 +45,28 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 	{
 		String msg = null;
 		if(activeChar.isSitting())
-			msg = "Гейткипер не доступен когда вы сидите";
+			msg = "Can't use Gatekeeper when sitting";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("ALL"))
-			msg = "Гейткипер не доступен в данной зоне";
+			msg = "Gatekeeper is not available in this area";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
-			msg = "Гейткипер не доступен с проклятым оружием"; 
+			msg = "Can't use Gatekeeper with Cursed Weapon"; 
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
-			msg = "Гейткипер не доступен во время боя";
+			msg = "Gatekeeper is not available during the battle";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
-			msg = "Гейткипер не доступен в катакомбах и некрополисах";
+			msg = "Gatekeeper is not available in the catacombs and necropolis";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
-				msg = "Гейткипер не доступен в данной зоне";
+			msg = "Gatekeeper is not available in this area";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
-			msg = "Гейткипер не доступен в данной зоне";
+			msg = "Gatekeeper is not available in this area";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
-			msg = "Гейткипер не доступен в данной зоне";
+			msg = "Gatekeeper is not available in this area";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
-			msg = "Гейткипер не доступен в данной зоне";
+			msg = "Gatekeeper is not available in this area";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("OLYMPIAD") && activeChar.isInOlympiadMode())
-			msg = "Гейткипер не доступен в данной зоне";
+			msg = "Gatekeeper is not available in Olympiad";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("EVENT") && 
 				activeChar._inEvent )
-			msg = "Гейткипер не доступен на эвенте";
+			msg = "Gatekeeper is not available in this event";
 
 		if(msg!=null)
 			activeChar.sendMessage(msg);

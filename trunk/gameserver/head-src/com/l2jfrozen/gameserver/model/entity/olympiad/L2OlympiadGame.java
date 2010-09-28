@@ -328,7 +328,14 @@ class L2OlympiadGame extends Olympiad
 					ExAutoSoulShot atk = new ExAutoSoulShot(itemId, 0);
 					player.sendPacket(atk);
 				}
+				
+				// TODO: enable skills with cool time <= 15 minutes
+				for (L2Skill skill : player.getAllSkills())
+					if (skill.getReuseDelay() <= 900000)
+						player.enableSkill(skill.getId());
+				
 				player.sendSkillList();
+				player.updateEffectIcons();
 			}
 			catch(Exception e)
 			{
