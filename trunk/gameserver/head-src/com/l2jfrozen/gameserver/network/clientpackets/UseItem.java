@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
 import com.l2jfrozen.gameserver.managers.CastleManager;
@@ -454,6 +455,15 @@ public final class UseItem extends L2GameClientPacket
 						break;
 				}
 
+				//remove cupid's bow skills on unequip
+				if (item.isCupidBow()) {
+					if (item.getItemId() == 9140)
+						activeChar.removeSkill(SkillTable.getInstance().getInfo(3261, 1));
+					else
+						activeChar.removeSkill(SkillTable.getInstance().getInfo(3260, 0));
+						activeChar.removeSkill(SkillTable.getInstance().getInfo(3262, 0));
+				}
+				
 				items = activeChar.getInventory().unEquipItemInBodySlotAndRecord(bodyPart);
 			}
 			else
@@ -514,6 +524,17 @@ public final class UseItem extends L2GameClientPacket
 					item.getAugmentation().applyBoni(activeChar);
 				}
 
+				// Apply cupid's bow skills on equip
+				if (item.isCupidBow())
+				{
+					if (item.getItemId() == 9140)
+						activeChar.addSkill(SkillTable.getInstance().getInfo(3261, 1));
+					else
+						activeChar.addSkill(SkillTable.getInstance().getInfo(3260, 0));
+
+					activeChar.addSkill(SkillTable.getInstance().getInfo(3262, 0));
+				}
+				
 				items = activeChar.getInventory().equipItemAndRecord(item);
 
 				// Consume mana - will start a task if required; returns if item is not a shadow item
