@@ -447,7 +447,15 @@ public final class L2ItemInstance extends L2Object
 	{
 		return _dropTime;
 	}
-
+	
+	//Cupid's bow
+	public boolean isCupidBow()
+	{
+		if (getItemId() == 9140 || getItemId() == 9141)
+			return true;
+		return false;
+	}
+	
 	public boolean isWear()
 	{
 		return _wear;
