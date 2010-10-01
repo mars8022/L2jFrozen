@@ -26,3 +26,5 @@ values
 INSERT INTO `custom_npc` VALUES 
 (93000, 30705, 'Boss Manager', 1, 'Raid Info', 1, 'NPC.e_fighterguild_teacher_MOrc', 8.00, 28.50, 70, 'male', 'L2Npc', 40, 3862, 1493, 11.85, 2.78, 40, 43, 30, 21, 20, 10, 0, 0, 1314, 470, 780, 382, 278, 0, 333, 0, 0, 0, 55, 132, '', 0, 1, 0, 'LAST_HIT');
 
+INSERT INTO `custom_npc` VALUES 
+(54, 21654, 'Necromancer of Destruction', 1, 'Equip Manager', 1, 'Monster.vale_master_20_bi', 14.50, 48.00, 80, 'male', 'L2Merchant', 40, 4608, 1896, 67.15, 3.09, 40, 43, 30, 21, 20, 10, 8042, 913, 1863, 587, 1182, 477, 278, 150, 333, 0, 0, 0, 77, 154, 'fire_clan', 300, 0, 0, 'LAST_HIT');
