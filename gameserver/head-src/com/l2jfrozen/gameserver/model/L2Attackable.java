@@ -1927,7 +1927,7 @@ public class L2Attackable extends L2NpcInstance
 					}
 
 					// Broadcast message if RaidBoss was defeated
-					if(this instanceof L2RaidBossInstance)
+					if(this instanceof L2RaidBossInstance || this instanceof L2GrandBossInstance  )
 					{
 						SystemMessage sm;
 						sm = new SystemMessage(SystemMessageId.S1_DIED_DROPPED_S3_S2);

@@ -397,59 +397,10 @@ public class NpcTable
 				L2NpcTemplate npcDat = null;
 				int cnt = 0;
 
+				
 				while(minionData.next())
 				{
 					int raidId = minionData.getInt("boss_id");
-
-					//we need to set the minion level to custom Raid one if present
-					switch(raidId){
-						case 29001:{ //queenAnt
-							
-							if(Config.QA_LEVEL>0){
-								int minion_id = minionData.getInt("minion_id");
-								L2NpcTemplate minion_data = _npcs.get(minion_id);
-								minion_data.getStatsSet().set("level", Config.QA_LEVEL);
-								_npcs.put(minion_id, minion_data);
-							}
-							
-						}
-						break;
-						case 29022:{ //zaken
-							
-							if(Config.ZAKEN_LEVEL>0){
-								int minion_id = minionData.getInt("minion_id");
-								L2NpcTemplate minion_data = _npcs.get(minion_id);
-								minion_data.getStatsSet().set("level", Config.ZAKEN_LEVEL);
-								_npcs.put(minion_id, minion_data);
-							}
-							
-						}
-						break;
-						case 29014:{ //orfen
-							
-							if(Config.ORFEN_LEVEL>0){
-								int minion_id = minionData.getInt("minion_id");
-								L2NpcTemplate minion_data = _npcs.get(minion_id);
-								minion_data.getStatsSet().set("level", Config.ORFEN_LEVEL);
-								_npcs.put(minion_id, minion_data);
-								System.out.println("id: "+minion_id+" name: "+minion_data.getStatsSet().getString("name")+" level: "+minion_data.getStatsSet().getString("level"));
-								
-							}
-							
-						}
-						break;
-						case 29006:{ //core
-							
-							if(Config.CORE_LEVEL>0){
-								int minion_id = minionData.getInt("minion_id");
-								L2NpcTemplate minion_data = _npcs.get(minion_id);
-								minion_data.getStatsSet().set("level", Config.CORE_LEVEL);
-								_npcs.put(minion_id, minion_data);
-							}
-							
-						}
-						break;
-					}
 					
 					npcDat = _npcs.get(raidId);
 					minionDat = new L2MinionData();

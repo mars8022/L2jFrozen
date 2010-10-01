@@ -909,6 +909,8 @@ public final class Config
 	public static boolean MASTERY_PENALTY;
 	public static int LEVEL_TO_GET_PENALITY;
 	
+	public static int ACTIVE_AUGMENTS_START_REUSE_TIME;
+	
 	//============================================================
 	public static void loadAltConfig()
 	{
@@ -1025,6 +1027,10 @@ public final class Config
 			EXPERTISE_PENALTY = Boolean.parseBoolean(altSettings.getProperty("ExpertisePenality", "true"));
 			MASTERY_PENALTY = Boolean.parseBoolean(altSettings.getProperty("MasteryPenality", "true"));
 			LEVEL_TO_GET_PENALITY = Integer.parseInt(altSettings.getProperty("LevelToGetPenalty", "20"));
+		
+			/** augmentation start reuse time **/
+			ACTIVE_AUGMENTS_START_REUSE_TIME = Integer.parseInt(altSettings.getProperty("AugmStartReuseTime", "0"));
+			
 		}
 		catch(Exception e)
 		{
