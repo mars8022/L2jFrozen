@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!-- Custom Shop -->
+
+<list>
+<!-- Damascus -->
+  <item id="1">
+    <ingredient id="6673" count="1"/>
+    <production id="4717" count="1"/>
+    <production id="674" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Valhalla -->
+  <item id="2">
+    <ingredient id="6673" count="1"/>
+    <production id="7722" count="1"/>
+    <production id="674" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Great Sword -->
+  <item id="3">
+    <ingredient id="6673" count="1"/>
+    <production id="4725" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Samurai Dual -->
+  <item id="4">
+    <ingredient id="6673" count="1"/>
+    <production id="2626" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Kris -->
+  <item id="5">
+    <ingredient id="6673" count="1"/>
+    <production id="4778" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Bow of Peril -->
+  <item id="6">
+    <ingredient id="6673" count="1"/>
+    <production id="4828" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+<production id="1343" count="1000"/>
+  </item>
+
+<!-- Bellion Cestus -->
+  <item id="7">
+    <ingredient id="6673" count="1"/>
+    <production id="4806" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Lance -->
+  <item id="8">
+    <ingredient id="6673" count="1"/>
+    <production id="4859" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+<!-- Art of Battle Axe -->
+  <item id="9">
+    <ingredient id="6673" count="1"/>
+    <production id="4755" count="1"/>
+    <production id="674" count="1"/>
+<production id="1465" count="5000"/>
+<production id="3950" count="3000"/>
+  </item>
+
+</list>
