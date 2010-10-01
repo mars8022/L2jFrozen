@@ -130,59 +130,51 @@
   
   <!-- Blooded Fabric -->
   <item id="14">
-    <ingredient id="57" count="2000000000"/>
-    <ingredient id="11112" count="10"/>
+    <ingredient id="5575" count="50000000"/>
     <production id="4295" count="1"/>
   </item>
 
   <!-- Portal Stone -->
   <item id="15">
-    <ingredient id="57" count="2000000000"/>
-    <ingredient id="11112" count="10"/>
+    <ingredient id="5575" count="50000000"/>
     <production id="3865" count="1"/>
   </item> 
   
   <!-- Floating Stone -->
   <item id="16">
-    <ingredient id="57" count="2000000000"/>
-    <ingredient id="11112" count="10"/>
+    <ingredient id="5575" count="50000000"/>
     <production id="7267" count="1"/>
   </item>
 
   <!-- Top ls 70 -->
   <item id="17">
-    <ingredient id="11112" count="2"/>
+    <ingredient id="5575" count="3000000"/>
     <production id="8761" count="1"/>
   </item> 
   
   <!-- High ls 70 -->
   <item id="18">
-    <ingredient id="11112" count="2"/>
+    <ingredient id="5575" count="3000000"/>
     <production id="8751" count="1"/>
   </item>
 
   <!-- Top ls 76 -->
   <item id="19">
-    <ingredient id="11115" count="3"/>
+    <ingredient id="5575" count="5000000"/>
     <production id="8762" count="1"/>
   </item> 
   
   <!-- High ls 76 -->
   <item id="20">
-    <ingredient id="11115" count="2"/>
+    <ingredient id="5575" count="5000000"/>
     <production id="8752" count="1"/>
   </item>
 
   <!-- Stryder -->
   <item id="21">
     <ingredient id="57" count="100000000"/>
-    <ingredient id="11115" count="2"/>
+    <ingredient id="5575" count="5000000"/>
     <ingredient id="4422" count="1"/>
   </item>
-  <!-- Gold Token -->
-  <item id="22">
-    <ingredient id="57" count="1000000000"/>
-    <ingredient id="11115" count="10"/>
-    <production id="11112" count="1"/>
-  </item>
+  
 </list>
