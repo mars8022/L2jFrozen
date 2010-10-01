@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!-- Custom Shop -->
+
+<list>
+<!-- Armor of Doom Heavy -->
+  <item id="1">
+    <ingredient id="4355" count="1"/>
+    <production id="11386" count="1"/>
+    <production id="5738" count="1"/>
+<production id="11379" count="1"/>
+<production id="11387" count="1"/>
+<production id="728" count="100"/>
+  </item>
+
+<!-- Armor of Doom Light -->
+  <item id="2">
+    <ingredient id="4355" count="1"/>
+    <production id="11388" count="1"/>
+    <production id="11383" count="1"/>
+<production id="11380" count="1"/>
+<production id="12982" count="1"/>
+<production id="728" count="100"/>
+</item>
+
+<!-- Armor of Avadon Robe -->
+  <item id="3">
+    <ingredient id="4355" count="1"/>
+    <production id="11369" count="1"/>
+    <production id="11372" count="1"/>
+<production id="11367" count="1"/>
+<production id="2415" count="1"/>
+<production id="728" count="100"/>
+  </item>
+
+<!-- Armor of Blue Wolf Heavy -->
+  <item id="4">
+    <ingredient id="4355" count="1"/>
+    <production id="358" count="1"/>
+    <production id="2380" count="1"/>
+<production id="5718" count="1"/>
+<production id="5734" count="1"/>
+<production id="2416" count="1"/>
+<production id="728" count="100"/>
+  </item>
+
+<!-- Armor of Blue Wolf Light -->
+  <item id="5">
+    <ingredient id="4355" count="1"/>
+    <production id="2391" count="1"/>
+    <production id="5719" count="1"/>
+<production id="5735" count="1"/>
+<production id="2416" count="1"/>
+<production id="728" count="100"/>
+  </item>
+
+</list>
+
+
+
+
