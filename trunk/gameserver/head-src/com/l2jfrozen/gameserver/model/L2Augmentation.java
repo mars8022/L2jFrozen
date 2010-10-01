@@ -20,11 +20,13 @@ package com.l2jfrozen.gameserver.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.xml.AugmentationData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -212,7 +214,14 @@ public final class L2Augmentation
 		// add the skill if any
 		if(_skill != null)
 		{
+			
 			player.addSkill(_skill);
+			
+			if(_skill.isActive() && Config.ACTIVE_AUGMENTS_START_REUSE_TIME>0){
+				player.disableSkill(_skill.getId(), Config.ACTIVE_AUGMENTS_START_REUSE_TIME);
+				player.addTimeStamp(_skill.getId(), Config.ACTIVE_AUGMENTS_START_REUSE_TIME);
+			}
+			
 			player.sendSkillList();
 		}
 	}
