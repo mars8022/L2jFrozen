@@ -24,16 +24,19 @@ import java.util.Vector;
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
@@ -120,7 +123,10 @@ public class DM
 
 		_joining = true;
 		spawnEventNpc(activeChar);
-		Announcements.getInstance().announceToAll(_eventName + "(DM): Joinable in " + _joiningLocationName + "!");
+		Announcements("Death Match!");
+		Announcements("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements("Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements("Joinable in " + _joiningLocationName + "!");
 	}
 
 	private static boolean startJoinOk()
@@ -173,7 +179,7 @@ public class DM
 			return;
 
 		_joining = false;
-		Announcements.getInstance().announceToAll(_eventName + "(DM): Teleport to team spot in 20 seconds!");
+		Announcements(_eventName + "(DM): Teleport to team spot in 20 seconds!");
 
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -232,7 +238,7 @@ public class DM
 
 		_teleport = false;
 		sit();
-		Announcements.getInstance().announceToAll(_eventName + "(DM): Started. Go to kill your enemies!");
+		Announcements(_eventName + "(DM): Started. Go to kill your enemies!");
 		_started = true;
 	}
 
@@ -283,10 +289,10 @@ public class DM
 		processTopPlayer();
 
 		if(_topKills == 0)
-			Announcements.getInstance().announceToAll(_eventName + "(DM): No players win the match(nobody killed).");
+			Announcements(_eventName + "(DM): No players win the match(nobody killed).");
 		else
 		{
-			Announcements.getInstance().announceToAll(_eventName + "(DM): " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+			Announcements(_eventName + "(DM): " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
 			rewardPlayer(activeChar);
 		}
 
@@ -345,7 +351,7 @@ public class DM
 		_teleport = false;
 		_started = false;
 		unspawnEventNpc();
-		Announcements.getInstance().announceToAll(_eventName + "(DM): Match aborted!");
+		Announcements(_eventName + "(DM): Match aborted!");
 		teleportFinish();
 	}
 
@@ -719,9 +725,32 @@ public class DM
 		SpawnTable.getInstance().deleteSpawn(_npcSpawn, true);
 	}
 
+	// Collored Announcements 8D for CTF
+	public static void Announcements(String announce)
+	{
+		CreatureSay cs = new CreatureSay(0, 18, "", "Announcements: "+announce);
+		if(!_started && !_teleport)
+			for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+			{
+				if(player != null)
+					if(player.isOnline()!=0)
+						player.sendPacket(cs);
+			}
+		else
+		{
+			if(_players!=null && !_players.isEmpty())
+				for(L2PcInstance player: _players)
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs);
+				}
+		}
+	}
+	
 	public static void teleportFinish()
 	{
-		Announcements.getInstance().announceToAll(_eventName + "(DM): Teleport back to participation NPC in 20 seconds!");
+		Announcements(_eventName + "(DM): Teleport back to participation NPC in 20 seconds!");
 
 		removeUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
