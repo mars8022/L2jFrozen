@@ -80,6 +80,7 @@ import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.CharStat;
 import com.l2jfrozen.gameserver.model.actor.status.CharStatus;
 import com.l2jfrozen.gameserver.model.entity.Duel;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -1867,7 +1868,10 @@ public abstract class L2Character extends L2Object
 		}
 		else
 		{
+			if (!DM._started)
+	      {
 			stopAllEffects();
+		  }
 		}
 
 		calculateRewards(killer);
