@@ -150,6 +150,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.ExDuelUpdateUserInfo;
@@ -159,6 +160,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadMode;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadUserInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ExPCCafePointInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ExSetCompassZoneCode;
+import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.FriendList;
 import com.l2jfrozen.gameserver.network.serverpackets.HennaInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
@@ -6028,34 +6030,94 @@ public final class L2PcInstance extends L2PlayableInstance
 		switch(quakeSystem)
 		{
 			case 4:
-				Announcements.getInstance().announceToAll("" + getName() + " is Dominating!");
+				CreatureSay cs = new CreatureSay(0, 15, "",  getName() + " is Dominating!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs);
+				}
 				break;
 			case 6:
-				Announcements.getInstance().announceToAll("" + getName() + " is on a Rampage!");
+				CreatureSay cs2 = new CreatureSay(0, 15, "",  getName() + " is on a Rampage!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs2);
+				}
 				break;
 			case 8:
-				Announcements.getInstance().announceToAll("" + getName() + " is on a Killing Spree!");
+				CreatureSay cs3 = new CreatureSay(0, 15, "",  getName() + " is on a Killing Spree!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs3);
+				}
 				break;
 			case 10:
-				Announcements.getInstance().announceToAll("" + getName() + " is on a Monster Kill!");
+				CreatureSay cs4 = new CreatureSay(0, 15, "",  getName() + " is on a Monster Kill!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs4);
+				}
 				break;
 			case 12:
-				Announcements.getInstance().announceToAll("" + getName() + " is Unstoppable!");
+				CreatureSay cs5 = new CreatureSay(0, 15, "",  getName() + " is Unstoppable!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs5);
+				}
 				break;
 			case 14:
-				Announcements.getInstance().announceToAll("" + getName() + " is on an Ultra Kill!");
+				CreatureSay cs6 = new CreatureSay(0, 15, "",  getName() + " is on an Ultra Kill!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs6);
+				}
 				break;
 			case 16:
-				Announcements.getInstance().announceToAll("" + getName() + " God Blessed!");
+				CreatureSay cs7 = new CreatureSay(0, 15, "",  getName() + " God Blessed!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs7);
+				}
 				break;
 			case 18:
-				Announcements.getInstance().announceToAll("" + getName() + " is Wicked Sick!");
+				CreatureSay cs8 = new CreatureSay(0, 15, "",  getName() + " is Wicked Sick!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs8);
+				}
 				break;
 			case 20:
-				Announcements.getInstance().announceToAll("" + getName() + " is on a Ludricrous Kill!");
+				CreatureSay cs9 = new CreatureSay(0, 15, "",  getName() + " is on a Ludricrous Kill!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs9);
+				}
 				break;
 			case 24:
-				Announcements.getInstance().announceToAll("" + getName() + " is GodLike!");
+				CreatureSay cs10 = new CreatureSay(0, 15, "",  getName() + " is GodLike!"); // 8D
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							player.sendPacket(cs10);
+				}
 			default:
 				;
 		}
@@ -13883,18 +13945,20 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(pcrit)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT));
+			sendPacket(new ExShowScreenMessage("Critical Hit! "+damage, 3000));
 		}
 
 		if(mcrit)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT_MAGIC));
+			sendPacket(new ExShowScreenMessage("Critical Magic! "+damage, 3000));
 		}
 
 		if(isInOlympiadMode() && target instanceof L2PcInstance && ((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == getOlympiadGameId())
 		{
 			dmgDealt += damage;
 		}
-
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.YOU_DID_S1_DMG);
 		sm.addNumber(damage);
 		sendPacket(sm);
