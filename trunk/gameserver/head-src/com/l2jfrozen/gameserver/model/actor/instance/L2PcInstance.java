@@ -6016,7 +6016,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		 // Increase the kill count for a special hero aura
 		 heroConsecutiveKillCount++;
 		
-		 // If heroConsecutiveKillCount > 4 (5+ kills) give hero aura
+		 // If heroConsecutiveKillCount > 29 give hero aura
 		 if(heroConsecutiveKillCount > 29)
 	     {
 			 CreatureSay cs = new CreatureSay(0, 18, "", getName()+" became War Legend with 30 PvP!!");
@@ -6025,8 +6025,8 @@ public final class L2PcInstance extends L2PlayableInstance
 						if(player != null)
 							if(player.isOnline()!=0)
 								player.sendPacket(cs);
-			 
-					}
+					
+					 }	
 		 setHeroAura(true);
 		 
 		 }
@@ -13992,13 +13992,13 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(pcrit)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT));
-			sendPacket(new ExShowScreenMessage("Critical Hit! "+damage, 3000));
+
 		}
 
 		if(mcrit)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT_MAGIC));
-			sendPacket(new ExShowScreenMessage("Critical Magic! "+damage, 3000));
+			
 		}
 
 		if(isInOlympiadMode() && target instanceof L2PcInstance && ((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == getOlympiadGameId())
