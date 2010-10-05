@@ -482,6 +482,14 @@ public final class Config
 	public static float RAID_MAX_RESPAWN_MULTIPLIER;
 	public static int STARTING_ADENA;
 	public static int STARTING_AA;
+	
+	/** Configuration to allow custom items to be given on character creation */
+	public static boolean CUSTOM_STARTER_ITEMS_ENABLED;
+	/**
+	 * This allows the administrator to set up additional items for players to start off with, items are put in the format: id,count;id,count;id,count
+	 */
+	public static List<int[]> CUSTOM_STARTER_ITEMS = new FastList<int[]>();
+	
 	public static boolean DEEPBLUE_DROP_RULES;
 	public static int UNSTUCK_INTERVAL;
 	public static int DEATH_PENALTY_CHANCE;
@@ -570,6 +578,34 @@ public final class Config
 
 			STARTING_ADENA = Integer.parseInt(otherSettings.getProperty("StartingAdena", "100"));
 			STARTING_AA = Integer.parseInt(otherSettings.getProperty("StartingAncientAdena", "0"));
+			
+			CUSTOM_STARTER_ITEMS_ENABLED = Boolean.parseBoolean(otherSettings.getProperty("CustomStarterItemsEnabled", "False"));
+			if (Config.CUSTOM_STARTER_ITEMS_ENABLED)
+			{
+				String[] propertySplit = otherSettings.getProperty("CustomStarterItems", "0,0").split(";");
+				for (String starteritems : propertySplit)
+				{
+					String[] starteritemsSplit = starteritems.split(",");
+					if (starteritemsSplit.length != 2)
+					{
+						CUSTOM_STARTER_ITEMS_ENABLED = false;
+						//System.out.println("StarterItems[Config.load()]: invalid config property -> starter items \"" + starteritems + "\"");
+					} else
+						try
+						{
+							CUSTOM_STARTER_ITEMS.add(new int[] { Integer.parseInt(starteritemsSplit[0]), Integer.parseInt(starteritemsSplit[1]) });
+						}
+						catch (NumberFormatException nfe)
+						{
+							if (!starteritems.equals(""))
+							{
+								CUSTOM_STARTER_ITEMS_ENABLED = false;
+								//System.out.println("StarterItems[Config.load()]: invalid config property -> starter items \"" + starteritems + "\"");
+							}
+						}
+				}
+			}
+			
 			UNSTUCK_INTERVAL = Integer.parseInt(otherSettings.getProperty("UnstuckInterval", "300"));
 
 			/* Player protection after teleport or login */

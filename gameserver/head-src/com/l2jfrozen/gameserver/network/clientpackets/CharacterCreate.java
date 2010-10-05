@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.CharNameTable;
@@ -34,6 +33,7 @@ import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.model.L2ShortCut;
 import com.l2jfrozen.gameserver.model.L2SkillLearn;
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.PcInventory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.base.Experience;
@@ -208,6 +208,22 @@ public final class CharacterCreate extends L2GameClientPacket
 		{
 			newChar.addAncientAdena("Init", Config.STARTING_AA, null, false);
 		}
+		
+		if(Config.CUSTOM_STARTER_ITEMS_ENABLED){
+			for (int[] startingItems : Config.CUSTOM_STARTER_ITEMS)
+			{
+				if (newChar == null)
+					continue;
+				
+				PcInventory inv = newChar.getInventory();
+				if (ItemTable.getInstance().createDummyItem(startingItems[0]).isStackable())
+					inv.addItem("Starter Items", startingItems[0], startingItems[1], newChar, null);
+				else
+					for (int i = 0; i < startingItems[1]; i++)
+						inv.addItem("Starter Items", startingItems[0], 1, newChar, null);
+			}
+		}
+		
 
 		if(Config.SPAWN_CHAR)
 		{
