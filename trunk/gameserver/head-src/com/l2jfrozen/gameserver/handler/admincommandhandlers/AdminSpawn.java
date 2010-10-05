@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.datatables.sql.TeleportLocationTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -285,7 +286,7 @@ public class AdminSpawn implements IAdminCommandHandler
 				spawn.setCustom(true);
 			}
 			
-			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()))
+			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) || GrandBossManager.getInstance().getStatsSet(spawn.getNpcid())!=null)
 			{
 				activeChar.sendMessage("You cannot spawn another instance of " + template1.name + ".");
 			}
