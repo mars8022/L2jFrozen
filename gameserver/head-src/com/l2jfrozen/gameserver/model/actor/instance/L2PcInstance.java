@@ -489,6 +489,12 @@ public final class L2PcInstance extends L2PlayableInstance
 	private long _jailTimer = 0;
 	private ScheduledFuture<?> _jailTask;
 
+	 /** Special hero aura values */
+	 private int heroConsecutiveKillCount = 0;
+	 private boolean isPermaHero = false;
+	 private boolean isPVPHero = false;
+	 
+	
 	/** character away mode **/
 	private boolean _isAway = false;
 	public int _originalTitleColorAway;
@@ -2454,6 +2460,13 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void setPvpKills(int pvpKills)
 	{
 		_pvpKills = pvpKills;
+		
+		 // Set hero aura if pvp kills > 100
+		 if (pvpKills > 100)
+		 {
+		 isPermaHero = true;
+		 setHeroAura(true);
+		 } 
 	}
 
 	/**
@@ -5420,7 +5433,9 @@ public final class L2PcInstance extends L2PlayableInstance
 				castle = null;
 			}
 		}
-
+		
+		 
+		
 		if(killer != null)
 		{
 			L2PcInstance pk = null;
@@ -5998,6 +6013,25 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Add karma to attacker and increase its PK counter
 		setPvpKills(getPvpKills() + 1);
 
+		 // Increase the kill count for a special hero aura
+		 heroConsecutiveKillCount++;
+		
+		 // If heroConsecutiveKillCount > 4 (5+ kills) give hero aura
+		 if(heroConsecutiveKillCount > 5)
+	     {
+			 CreatureSay cs = new CreatureSay(0, 18, "", getName()+" became War Legend!!");
+					for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+					{
+						if(player != null)
+							if(player.isOnline()!=0)
+								player.sendPacket(cs);
+			 
+					}
+		 setHeroAura(true);
+		 
+		 }
+		 
+		
 		if(Config.PVPEXPSP_SYSTEM)
 		{
 			addExpAndSp(Config.ADD_EXP, Config.ADD_SP);
@@ -10913,6 +10947,19 @@ public final class L2PcInstance extends L2PlayableInstance
 		return _blockList;
 	}
 
+	
+	 public void setHeroAura (boolean heroAura)
+	 {
+	 isPVPHero = heroAura;
+	 return;
+	 }
+	
+	 public boolean getIsPVPHero()
+	 {
+	 return isPVPHero;
+	 }
+	 
+	
 	public int getCount()
 	{
 
