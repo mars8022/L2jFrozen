@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.powerpak;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.CommunityBoard;
+import com.l2jfrozen.gameserver.datatables.BufferSkillsTable;
+import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.handler.VoicedCommandHandler;
 import com.l2jfrozen.gameserver.handler.custom.CustomBypassHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -74,7 +76,8 @@ public class PowerPak
 					
 				}
 				
-				
+				BufferSkillsTable.getInstance();
+				CharSchemesTable.getInstance();
 				
 				System.out.println("...Enabled");
 			}
