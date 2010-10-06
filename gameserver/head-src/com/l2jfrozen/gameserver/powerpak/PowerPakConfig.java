@@ -53,6 +53,11 @@ public class PowerPakConfig
 	public static int BUFFER_PRICE;
 	public static boolean BUFFER_USEBBS;
 
+	public static int NPCBUFFER_MAX_SCHEMES;
+	public static int NPCBUFFER_MAX_SKILLS;
+	public static boolean NPCBUFFER_STORE_SCHEMES;
+	public static int NPCBUFFER_STATIC_BUFF_COST;
+	
 	public static boolean XMLRPC_ENABLED;
 	public static int XMLRPC_PORT;
 	public static String XMLRPC_HOST;
@@ -169,6 +174,11 @@ public class PowerPakConfig
 			BUFFER_PRICE = Integer.parseInt(p.getProperty("BufferPrice", "-1"));
 			BUFFER_USEBBS = Boolean.parseBoolean(p.getProperty("BufferUseBBS", "true"));
 
+			NPCBUFFER_MAX_SCHEMES = Integer.parseInt(p.getProperty("NPCBufferMaxSchemesPerChar", "4"));
+			NPCBUFFER_MAX_SKILLS = Integer.parseInt(p.getProperty("NPCBufferMaxSkllsperScheme", "24"));
+			NPCBUFFER_STORE_SCHEMES = Boolean.parseBoolean(p.getProperty("NPCBufferStoreSchemes", "True"));
+			NPCBUFFER_STATIC_BUFF_COST = Integer.parseInt(p.getProperty("NPCBufferStaticCostPerBuff", "-1"));
+			
 			GLOBALGK_ENABDLED = Boolean.parseBoolean(p.getProperty("GKEnabled", "true"));
 			GLOBALGK_COMMAND = p.getProperty("GKCommand", "teleport");
 			GLOBALGK_TIMEOUT = Integer.parseInt(p.getProperty("GKTimeout", "10"));
