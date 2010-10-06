@@ -87,6 +87,7 @@ DROP TABLE IF EXISTS merchant_shopids;
 DROP TABLE IF EXISTS merchants;
 DROP TABLE IF EXISTS minions;
 DROP TABLE IF EXISTS mods_wedding;
+DROP TABLE IF EXISTS mods_buffer;
 DROP TABLE IF EXISTS npc;
 DROP TABLE IF EXISTS npcskills;
 DROP TABLE IF EXISTS olympiad_nobles;

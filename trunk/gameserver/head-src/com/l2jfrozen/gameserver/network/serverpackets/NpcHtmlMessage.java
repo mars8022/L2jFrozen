@@ -178,5 +178,9 @@ public class NpcHtmlMessage extends L2GameServerPacket
 	{
 		return _S__1B_NPCHTMLMESSAGE;
 	}
+	
+	public String getContent(){
+		return _html;
+	}
 
 }

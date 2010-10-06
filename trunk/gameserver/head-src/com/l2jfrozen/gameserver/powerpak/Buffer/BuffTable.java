@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javolution.util.FastList;
@@ -119,11 +121,31 @@ public class BuffTable
 
 	public ArrayList<Buff> getBuffsForName(String name)
 	{
-		return _buffs.get(name);
+		if(name==null || name.equals("all")){
+			ArrayList<Buff> output = new ArrayList<Buff>();
+			for(ArrayList<Buff> actual:_buffs.values()){
+				output.addAll(actual);
+			}
+			return output;
+		}else{
+			ArrayList<Buff> output = new ArrayList<Buff>();
+			if(_buffs.get(name)!=null){
+				output = _buffs.get(name);
+			}
+			
+			return output;
+		}
 	}
 	
 	public ArrayList<Buff> getBuffsForID(Integer id)
 	{
 		return _buffs_by_id.get(id);
 	}
+	
+	public Iterator<String> skill_groups(){
+		
+		return _buffs.keySet().iterator();
+		
+	}
+	
 }
