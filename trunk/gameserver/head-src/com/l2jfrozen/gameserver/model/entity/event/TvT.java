@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
+import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
@@ -44,7 +45,7 @@ import com.l2jfrozen.util.random.Rnd;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class TvT
+public class TvT implements EventTask
 {
 	private final static Log _log = LogFactory.getLog(TvT.class.getName());
 	public static String _eventName = new String(), _eventDesc = new String(), _topTeam = new String(), _joiningLocationName = new String();
@@ -58,6 +59,15 @@ public class TvT
 	public static int _npcId = 0, _npcX = 0, _npcY = 0, _npcZ = 0, _npcHeading = 0, _rewardId = 0, _rewardAmount = 0, _topKills = 0, _minlvl = 0, _maxlvl = 0, _joinTime = 0, _eventTime = 0, _minPlayers = 0, _maxPlayers = 0;
 	
 	public static long _intervalBetweenMatchs = 0;
+	
+	private static String startEventTime;
+	
+	private TvT(){
+	}
+	
+	public static TvT getNewInstance(){
+		return new TvT();
+	}
 	
 	public static void kickPlayerFromTvt(L2PcInstance playerToKick)
 	{
@@ -515,12 +525,13 @@ public class TvT
 	{
 		if(_inProgress)
 		{
-			activeChar.sendMessage("A TvT event is already in progress, try abort.");
+			if(activeChar!=null)
+				activeChar.sendMessage("A TvT event is already in progress, try abort.");
 			return;
 		}
 		if(!startEventOk())
 		{
-			if(_log.isDebugEnabled())
+			if(_log.isDebugEnabled() && activeChar!=null)
 				_log.debug("TvT Engine[startEvent(" + activeChar.getName() + ")]: startEventOk() = false");
 			return;
 		}
@@ -575,7 +586,7 @@ public class TvT
 		
 		_log.info("Starting TvT!");
 		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
-		if (startAutoJoin())
+		if (startAutoJoin() && !_aborted)
 		{
 			if (_joinTime > 0)
 				waiter(_joinTime * 60 * 1000); // minutes for join event
@@ -585,7 +596,7 @@ public class TvT
 				abortEvent();
 				return;
 			}
-			if (teleportAutoStart())
+			if (teleportAutoStart() && !_aborted)
 			{
 				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
 				if (startAutoEvent())
@@ -606,7 +617,8 @@ public class TvT
 
 						try
 						{
-							restartEvent();
+							if(!_aborted)
+								restartEvent();
 						}
 						catch (Exception e)
 						{
@@ -618,10 +630,11 @@ public class TvT
 						
 				}
 			}
-			else
-			{
+			else if(!_aborted){
+			
 				abortEvent();
 				restartEvent();
+				
 			}
 		}
 		/*
@@ -649,6 +662,36 @@ public class TvT
 			}
 		}
 		*/
+		
+	}
+	
+	//start without restart
+	public static void eventOnceStart(){
+		
+		if(startAutoJoin() && !_aborted)
+		{
+			if(_joinTime > 0)
+				waiter(_joinTime * 60 * 1000); // minutes for join event
+			else if(_joinTime <= 0)
+			{
+				abortEvent();
+				return;
+			}
+			if(teleportAutoStart() && !_aborted)
+			{
+				waiter(1 * 60 * 1000); // 1 min wait time untill start fight after teleported
+				if(startAutoEvent() && !_aborted)
+				{
+					waiter(_eventTime * 60 * 1000); // minutes for event time
+					finishEvent();
+				}
+			}
+			else if(!_aborted)
+			{
+				abortEvent();
+			}
+		}
+		
 	}
 	
 	/**
@@ -670,7 +713,11 @@ public class TvT
 
 		try
 		{
-			autoEvent(); //start a new event
+			if(!_aborted)
+				autoEvent(); //start a new event
+			else
+				Announcements.getInstance().announceToAll("TvT: next event aborted!");
+				
 		}
 		catch (Exception e)
 		{
@@ -684,7 +731,7 @@ public class TvT
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);
 
-		while(startWaiterTime + interval > System.currentTimeMillis())
+		while(startWaiterTime + interval > System.currentTimeMillis() && !_aborted)
 		{
 			seconds--; // here because we don't want to see two time announce at the same time
 
@@ -1892,4 +1939,28 @@ public class TvT
 
 		return Math.round(seconds / 60);
 	}
+
+	public void setEventStartTime(String newTime){
+		startEventTime = newTime;
+	}
+
+	@Override
+	public String getEventIdentifier()
+	{
+		return _eventName;
+	}
+
+	@Override
+	public void notifyEventStart()
+	{
+		System.out.println("Event notification start");
+		TvT.eventOnceStart();
+	}
+
+	@Override
+	public String getEventStartTime()
+	{
+		return startEventTime;
+	}
+	
 }

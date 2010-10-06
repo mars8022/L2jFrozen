@@ -129,7 +129,7 @@ public class DM
 		Announcements("Joinable in " + _joiningLocationName + "!");
 	}
 
-	private static boolean startJoinOk()
+	public static boolean startJoinOk()
 	{
 		if(_started || _teleport || _joining || _eventName.equals("") ||
 			_joiningLocationName.equals("") || _eventDesc.equals("") || _npcId == 0 ||
