@@ -139,17 +139,35 @@ public class EventManager
 			_log.error("registerTvT: TvT Event is not setted Properly");
 		}
 		
-		TvT newInstance = TvT.getNewInstance();
-		System.out.println("reg.time: "+TVT_TIMES_LIST.get(0));
-		newInstance.setEventStartTime(TVT_TIMES_LIST.get(0));
-		EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
+		//clear all tvt
+		EventsGlobalTask.getInstance().clearEventTasksByEventName(TvT._eventName);
+		
+		for(String time:TVT_TIMES_LIST){
+			
+			TvT newInstance = TvT.getNewInstance();
+			System.out.println("registerTvT: reg.time: "+time);
+			newInstance.setEventStartTime(time);
+			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
+			
+		}
+		
 		
 	}
 	
 	private static void registerCTF(){
+		
 		CTF.loadData();
 		if(!CTF.startJoinOk()){
 			_log.error("registerCTF: CTF Event is not setted Properly");
+		}
+		
+		for(String time:CTF_TIMES_LIST){
+			
+			CTF newInstance = CTF.getNewInstance();
+			System.out.println("registerCTF: reg.time: "+time);
+			newInstance.setEventStartTime(time);
+			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
+			
 		}
 		
 	}
@@ -160,6 +178,14 @@ public class EventManager
 			_log.error("registerDM: DM Event is not setted Properly");
 		}
 		
+		for(String time:DM_TIMES_LIST){
+			
+			DM newInstance = DM.getNewInstance();
+			System.out.println("registerDM: reg.time: "+time);
+			newInstance.setEventStartTime(time);
+			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
+			
+		}
 	}
 	
 }

@@ -60,7 +60,7 @@ public class TvT implements EventTask
 	
 	public static long _intervalBetweenMatchs = 0;
 	
-	private static String startEventTime;
+	private String startEventTime;
 	
 	private TvT(){
 	}
@@ -578,6 +578,7 @@ public class TvT implements EventTask
 
 		Announcements.getInstance().announceToAll(_eventName + ": Started. Go to kill your enemies!");
 		_started = true;
+		_inProgress = true;
 		return true;
 	}
 
@@ -599,7 +600,7 @@ public class TvT implements EventTask
 			if (teleportAutoStart() && !_aborted)
 			{
 				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
-				if (startAutoEvent())
+				if (startAutoEvent() && !_aborted)
 				{
 					_log.debug("TvT: waiting.....minutes for event time " + TvT._eventTime);
 
@@ -890,6 +891,7 @@ public class TvT implements EventTask
 		}
 
 		_started = false;
+		_aborted = false;
 		unspawnEventNpc();
 		processTopTeam();
 		L2PcInstance bestKiller = findBestKiller(_players);
@@ -1457,6 +1459,8 @@ public class TvT implements EventTask
 						removePlayer(player);
 					if(_playersShuffle.size() == 0 || _playersShuffle.isEmpty())
 						break;
+						
+					
 				}
 			}
 		}
@@ -1951,10 +1955,10 @@ public class TvT implements EventTask
 	}
 
 	@Override
-	public void notifyEventStart()
+	public void run()
 	{
-		System.out.println("Event notification start");
-		TvT.eventOnceStart();
+		System.out.println("TvT: Event notification start");
+		eventOnceStart();
 	}
 
 	@Override

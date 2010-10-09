@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
+import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
@@ -54,7 +55,7 @@ import com.l2jfrozen.util.random.Rnd;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class CTF
+public class CTF implements EventTask
 {
 	private final static Log _log = LogFactory.getLog(CTF.class.getName());	
 	private static int _FlagNPC = 35062, _FLAG_IN_HAND_ITEM_ID = 6718;
@@ -107,6 +108,8 @@ public class CTF
 	
 	public static long _intervalBetweenMatchs = 0;
 
+	private String startEventTime;
+	
 	public static void showFlagHtml(L2PcInstance eventPlayer, String objectId, String teamName)
 	{
 		if(eventPlayer == null)
@@ -1116,7 +1119,7 @@ public class CTF
 		
 		_log.info("Starting CTF!");
 		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
-		if (startAutoJoin())
+		if (startAutoJoin() && !_aborted)
 		{
 			if (_joinTime > 0)
 				waiter(_joinTime * 60 * 1000); // minutes for join event
@@ -1126,10 +1129,10 @@ public class CTF
 				abortEvent();
 				return;
 			}
-			if (teleportAutoStart())
+			if (teleportAutoStart() && !_aborted)
 			{
 				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
-				if (startAutoEvent())
+				if (startAutoEvent() && !_aborted)
 				{
 					_log.debug("CTF: waiting.....minutes for event time " + CTF._eventTime);
 
@@ -1147,7 +1150,8 @@ public class CTF
 
 						try
 						{
-							restartEvent();
+							if(!_aborted)
+								restartEvent();
 						}
 						catch (Exception e)
 						{
@@ -1159,10 +1163,39 @@ public class CTF
 						
 				}
 			}
-			else
+			else if(!_aborted)
 			{
 				abortEvent();
 				restartEvent();
+			}
+		}
+		
+	}
+	
+	//start without restart
+	public static void eventOnceStart(){
+		
+		if(startAutoJoin() && !_aborted)
+		{
+			if(_joinTime > 0)
+				waiter(_joinTime * 60 * 1000); // minutes for join event
+			else if(_joinTime <= 0)
+			{
+				abortEvent();
+				return;
+			}
+			if(teleportAutoStart() && !_aborted)
+			{
+				waiter(1 * 60 * 1000); // 1 min wait time untill start fight after teleported
+				if(startAutoEvent() && !_aborted)
+				{
+					waiter(_eventTime * 60 * 1000); // minutes for event time
+					finishEvent();
+				}
+			}
+			else if(!_aborted)
+			{
+				abortEvent();
 			}
 		}
 		
@@ -2272,5 +2305,35 @@ public class CTF
 			_log.fatal("CTF: Error While Trying to restart Event...", e);
 			e.printStackTrace();
 		}
+	}
+	
+	private CTF(){
+	}
+	
+	public static CTF getNewInstance(){
+		return new CTF();
+	}
+
+	@Override
+	public void run()
+	{
+		System.out.println("CTF: Event notification start");
+		eventOnceStart();
+	}
+
+	@Override
+	public String getEventIdentifier()
+	{
+		return _eventName;
+	}
+
+	@Override
+	public String getEventStartTime()
+	{
+		return startEventTime;
+	}
+	
+	public void setEventStartTime(String newTime){
+		startEventTime = newTime;
 	}
 }
