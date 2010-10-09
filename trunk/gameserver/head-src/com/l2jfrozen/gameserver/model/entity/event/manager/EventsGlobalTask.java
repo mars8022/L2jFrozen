@@ -236,7 +236,7 @@ public class EventsGlobalTask implements Runnable
 		
 		String currentTime = hourStr+":"+minStr;
 		
-		System.out.println("Current Time: "+currentTime);
+		//System.out.println("Current Time: "+currentTime);
 		ArrayList<EventTask> registeredEventsAtCurrentTime = time_to_tasks.get(currentTime);
 		
 		if(registeredEventsAtCurrentTime!=null){
