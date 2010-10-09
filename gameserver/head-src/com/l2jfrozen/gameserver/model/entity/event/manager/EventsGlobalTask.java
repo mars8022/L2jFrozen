@@ -21,9 +21,12 @@ package com.l2jfrozen.gameserver.model.entity.event.manager;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * 
@@ -36,19 +39,16 @@ public class EventsGlobalTask implements Runnable
 	
 	private static EventsGlobalTask instance;
 	
-	private Thread local_thread;
 	private boolean destroy = false;
 	
-	private Hashtable<String, ArrayList<EventTask>> time_to_events = new Hashtable<String,ArrayList<EventTask>>();  //time is in hour-minutes 
-	private Hashtable<String, String> event_to_time = new Hashtable<String,String>(); //time is in hour-minutes
-
+	private Hashtable<String, ArrayList<EventTask>> time_to_tasks = new Hashtable<String,ArrayList<EventTask>>();  //time is in hh:mm 
+	private Hashtable<String, ArrayList<EventTask>> eventid_to_tasks = new Hashtable<String,ArrayList<EventTask>>();
 	
 	
 	private EventsGlobalTask(){
 		
-		local_thread = new Thread(this);
-		local_thread.start();
-		
+		ThreadPoolManager.getInstance().scheduleGeneral(this, 5000);
+	
 	}
 	
 	public static EventsGlobalTask getInstance(){
@@ -71,82 +71,112 @@ public class EventsGlobalTask implements Runnable
 			
 		}
 		
-		//remove previous save
-		if(event_to_time.get(event.getEventIdentifier())!=null){
+		ArrayList<EventTask> savedTasksForTime = time_to_tasks.get(event.getEventStartTime());
+		ArrayList<EventTask> savedTasksForId = eventid_to_tasks.get(event.getEventIdentifier());
+		
+		if(savedTasksForTime!=null){
 			
-			String old_time = event_to_time.remove(event.getEventIdentifier());
-			
-			ArrayList<EventTask> savedTaks = time_to_events.get(old_time);
-			
-			for(EventTask actual:savedTaks){
-				if(actual.getEventIdentifier().equals(event.getEventIdentifier())){
-						savedTaks.remove(actual);
-						break;
-				}
+			if(!savedTasksForTime.contains(event)){
+				savedTasksForTime.add(event);
 			}
 			
-			time_to_events.put(old_time, savedTaks);
+		}else{
+		
+			savedTasksForTime = new ArrayList<EventTask>();
+			savedTasksForTime.add(event);
 			
 		}
 		
-		ArrayList<EventTask> savedTaks;
+		time_to_tasks.put(event.getEventStartTime(), savedTasksForTime);
 		
-		if(time_to_events.get(event.getEventStartTime())==null){
-			savedTaks = new ArrayList<EventTask>();
+		if(savedTasksForId!=null){
+			
+			if(!savedTasksForId.contains(event)){
+				savedTasksForId.add(event);
+			}
+			
 		}else{
-			savedTaks = time_to_events.get(event.getEventStartTime());
+		
+			savedTasksForId = new ArrayList<EventTask>();
+			savedTasksForId.add(event);
+			
 		}
 		
-		savedTaks.add(event);
+		eventid_to_tasks.put(event.getEventIdentifier(), savedTasksForId);
 		
-		time_to_events.put(event.getEventStartTime(), savedTaks);
-		event_to_time.put(event.getEventIdentifier(), event.getEventStartTime());
 		
 		System.out.println("Added Event: "+event.getEventIdentifier());
 		
-	}
-	
-	public void registerEventTasks(EventTask event){ //register more then 1 task for event, based on multitimes
-		
-		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
-				event.getEventStartTime()==null || event.getEventStartTime().equals("")){
+		//check Info
+		for(String time:time_to_tasks.keySet()){
 			
-			_log.error("registerEventTasks: eventTask must be not null as its identifier and startTime ");
-			return;
+			System.out.println("--Time: "+time);
+			ArrayList<EventTask> tasks = time_to_tasks.get(time);
 			
-		}
-		/*
-		//remove previous save
-		if(event_to_time.get(event.getEventIdentifier())!=null){
+			Iterator<EventTask> taskIt = tasks.iterator();
 			
-			String old_time = event_to_time.remove(event.getEventIdentifier());
-			
-			ArrayList<EventTask> savedTaks = time_to_events.get(old_time);
-			
-			for(EventTask actual:savedTaks){
-				if(actual.getEventIdentifier().equals(event.getEventIdentifier())){
-						savedTaks.remove(actual);
-						break;
-				}
+			while(taskIt.hasNext()){
+				EventTask actual_event = taskIt.next();
+				System.out.println("	--Registered Event: "+actual_event.getEventIdentifier());
 			}
 			
-			time_to_events.put(old_time, savedTaks);
+		}
+		
+		for(String event_id:eventid_to_tasks.keySet()){
+			
+			System.out.println("--Event: "+event_id);
+			ArrayList<EventTask> times = eventid_to_tasks.get(event_id);
+			
+			Iterator<EventTask> timesIt = times.iterator();
+			
+			while(timesIt.hasNext()){
+				EventTask actual_time = timesIt.next();
+				System.out.println("	--Registered Time: "+actual_time.getEventStartTime());
+			}
 			
 		}
 		
-		ArrayList<EventTask> savedTaks;
+	}
+	
+	public void clearEventTasksByEventName(String eventId){
 		
-		if(time_to_events.get(event.getEventStartTime())==null){
-			savedTaks = new ArrayList<EventTask>();
-		}else{
-			savedTaks = time_to_events.get(event.getEventStartTime());
+		if(eventId==null){
+			_log.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			return;
 		}
 		
-		savedTaks.add(event);
+		if(eventId.equalsIgnoreCase("all")){
+			
+			time_to_tasks.clear();
+			eventid_to_tasks.clear();
+			
+		}else{
+			
+			ArrayList<EventTask> oldTasksForId = eventid_to_tasks.get(eventId);
+			
+			if(oldTasksForId!=null){
+				
+				for(EventTask actual:oldTasksForId){
+					
+					ArrayList<EventTask> oldTasksForTime = time_to_tasks.get(actual.getEventStartTime());
+					
+					if(oldTasksForTime!=null){
+						
+						oldTasksForTime.remove(actual);
+						
+						time_to_tasks.put(actual.getEventStartTime(),oldTasksForTime);
+						
+					}
+					
+					
+				}
+				
+				eventid_to_tasks.remove(eventId);
+				
+			}
 		
-		time_to_events.put(event.getEventStartTime(), savedTaks);
-		event_to_time.put(event.getEventIdentifier(), event.getEventStartTime());
-		*/
+		}
+		
 	}
 	
 	public void deleteEventTask(EventTask event){
@@ -159,36 +189,29 @@ public class EventsGlobalTask implements Runnable
 			
 		}
 		
-		if(this.time_to_events.size()<0){
+		if(this.time_to_tasks.size()<0){
 			return;
 		}
 		
-		String oldNotificationTime = event_to_time.remove(event.getEventIdentifier());
-		if(oldNotificationTime!=null)
-			time_to_events.remove(oldNotificationTime);
+		ArrayList<EventTask> oldTasksForId = eventid_to_tasks.get(event.getEventIdentifier());
+		ArrayList<EventTask> oldTasksForTime = time_to_tasks.get(event.getEventStartTime());
 		
-	}
-	
-	public void deleteEventsAtTime(String time){
-		
-		if(this.time_to_events.size()<0){
-			return;
+		if(oldTasksForId!=null){
+			oldTasksForId.remove(event);
+			eventid_to_tasks.put(event.getEventIdentifier(), oldTasksForId);
 		}
 		
-		ArrayList<EventTask> registeredEventsAtTime = time_to_events.get(time);
-		
-		if(registeredEventsAtTime!=null){
-			for(EventTask actualEvent: registeredEventsAtTime){
-				deleteEventTask(actualEvent);
-			}
-			
+		if(oldTasksForTime!=null){
+			oldTasksForTime.remove(event);
+			time_to_tasks.put(event.getEventStartTime(), oldTasksForTime);
 		}
+		
 		
 	}
 	
 	private void checkRegisteredEvents(){
 		
-		if(this.time_to_events.size()<0){
+		if(this.time_to_tasks.size()<0){
 			return;
 		}
 		
@@ -214,12 +237,12 @@ public class EventsGlobalTask implements Runnable
 		String currentTime = hourStr+":"+minStr;
 		
 		System.out.println("Current Time: "+currentTime);
-		ArrayList<EventTask> registeredEventsAtCurrentTime = time_to_events.get(currentTime);
+		ArrayList<EventTask> registeredEventsAtCurrentTime = time_to_tasks.get(currentTime);
 		
 		if(registeredEventsAtCurrentTime!=null){
 			for(EventTask actualEvent: registeredEventsAtCurrentTime){
 				
-				actualEvent.notifyEventStart();
+				ThreadPoolManager.getInstance().scheduleGeneral(actualEvent, 5000);
 				
 			}
 		}
@@ -227,13 +250,9 @@ public class EventsGlobalTask implements Runnable
 	
 	public void destroyLocalInstance(){
 		destroy = true;
-		local_thread.getThreadGroup().destroy();
 		instance = null;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	public void run()
 	{

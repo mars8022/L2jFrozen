@@ -160,7 +160,7 @@ public class AdminDMEngine implements IAdminCommandHandler
 
 		else if(command.equals("admin_dmevent_finish"))
 		{
-			DM.finishEvent(activeChar);
+			DM.finishEvent();
 			showMainPage(activeChar);
 		}
 

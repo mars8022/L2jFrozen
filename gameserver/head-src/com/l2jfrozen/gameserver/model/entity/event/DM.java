@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
+import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
@@ -47,7 +48,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DM
+public class DM implements EventTask
 {   
 	private final static Log _log = LogFactory.getLog(DM.class.getName());
 	public static String _eventName = new String(),
@@ -58,6 +59,8 @@ public class DM
 	public static boolean _joining = false,
 						  _teleport = false,
 						  _started = false,
+						  _aborted = false,
+						  _inProgress  = false,
 						  _sitForced = false;
 	public static L2Spawn _npcSpawn;
 	public static L2PcInstance _topPlayer;
@@ -65,21 +68,39 @@ public class DM
 					  _npcX = 0,
 					  _npcY = 0,
 					  _npcZ = 0,
+					  _npcHeading = 0,
 					  _rewardId = 0,
 					  _rewardAmount = 0,
+					  _joinTime = 0,
+					  _eventTime = 0,
 					  _topKills = 0,
 					  _minlvl = 0,
 					  _maxlvl = 0,
 					  _playerColors = 0,
 					  _playerX = 0,
 					  _playerY = 0,
-					  _playerZ = 0;
+					  _playerZ = 0,
+					  _minPlayers = 0,
+					  _maxPlayers = 0;
+	
+	public static long _intervalBetweenMatchs = 0;
 
+	private String startEventTime;
+
+	private DM(){
+		
+	}
+	
+	public static DM getNewInstance(){
+		return new DM();
+	}
+	
 	public static void setNpcPos(L2PcInstance activeChar)
 	{
 		_npcX = activeChar.getX();
 		_npcY = activeChar.getY();
 		_npcZ = activeChar.getZ();
+		_npcHeading = activeChar.getHeading();
 	}
 
 	public static boolean checkMaxLevel(int maxlvl)
@@ -128,13 +149,30 @@ public class DM
 		Announcements("Recruiting levels: " + _minlvl + " to " + _maxlvl);
 		Announcements("Joinable in " + _joiningLocationName + "!");
 	}
+	
+	public static boolean startAutoJoin()
+	{
+		if(!startJoinOk())
+		{
+			if(_log.isDebugEnabled())_log.debug("DM Engine[startAutoJoin()]: startAutoJoin() = false");
+			return false;
+		}
+
+		_joining = true;
+		spawnEventNpc(null);
+		Announcements("Death Match!");
+		Announcements("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements("Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements("Joinable in " + _joiningLocationName + "!");
+		return true;
+	}
 
 	public static boolean startJoinOk()
 	{
 		if(_started || _teleport || _joining || _eventName.equals("") ||
 			_joiningLocationName.equals("") || _eventDesc.equals("") || _npcId == 0 ||
-			_npcX == 0 || _npcY == 0 || _npcZ == 0 || _rewardId == 0 || _rewardAmount == 0 ||
-			_playerX == 0 || _playerY == 0 || _playerZ == 0)
+			_npcX == 0 || _npcY == 0 || _npcZ == 0 || _npcHeading == 0 || _rewardId == 0 || _rewardAmount == 0 ||
+			 _joinTime == 0 || _eventTime == 0 || _playerX == 0 || _playerY == 0 || _playerZ == 0)
 			return false;
 
 		return true;
@@ -152,7 +190,7 @@ public class DM
 			_npcSpawn.setLocy(_npcY);
 			_npcSpawn.setLocz(_npcZ);
 			_npcSpawn.setAmount(1);
-			_npcSpawn.setHeading(activeChar.getHeading());
+			_npcSpawn.setHeading(_npcHeading);
 			_npcSpawn.setRespawnDelay(1);
 
 			SpawnTable.getInstance().addNewSpawn(_npcSpawn, false);
@@ -169,7 +207,11 @@ public class DM
 		}
 		catch(Exception e)
 		{
-			if(_log.isDebugEnabled())_log.debug("DM Engine[spawnEventNpc(" + activeChar.getName() + ")]: exception: " + e.getMessage());
+			if(_log.isDebugEnabled())
+				if(activeChar!=null)
+					_log.debug("DM Engine[spawnEventNpc(" + activeChar.getName() + ")]: exception: " + e.getMessage());
+				else
+					_log.debug("DM Engine[spawnEventNpc(null)]: exception: " + e.getMessage());
 		}
 	}
 
@@ -178,6 +220,16 @@ public class DM
 		if(!_joining || _started || _teleport)
 			return;
 
+		if(checkMinPlayers(_players.size()))
+		{
+			removeOfflinePlayers();
+		}
+		else if(!checkMinPlayers(_players.size()))
+		{
+			Announcements.getInstance().announceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+			return;
+		}
+		
 		_joining = false;
 		Announcements(_eventName + "(DM): Teleport to team spot in 20 seconds!");
 
@@ -227,9 +279,100 @@ public class DM
 		}, 20000);
 		_teleport = true;
 	}
+	
+	/** returns true if participated players is higher or equal then minimum needed players */
+	public static boolean checkMinPlayers(int players)
+	{
+		if(_minPlayers <= players)
+			return true;
+
+		return false;
+	}
+	
+	/** returns true if max players is higher or equal then participated players */
+	public static boolean checkMaxPlayers(int players)
+	{
+		if(_maxPlayers > players)
+			return true;
+
+		return false;
+	}
+	
+	public static boolean teleportAutoStart()
+	{
+		if(!_joining || _started || _teleport)
+			return true;
+		
+		if(checkMinPlayers(_players.size()))
+		{
+			removeOfflinePlayers();
+		}
+		else if(!checkMinPlayers(_players.size()))
+		{
+			Announcements.getInstance().announceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+			return false;
+		}
+
+		_joining = false;
+		Announcements(_eventName + "(DM): Teleport to team spot in 20 seconds!");
+
+		setUserData();
+		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+		{
+			public void run()
+			{
+				DM.sit();
+
+				for(L2PcInstance player : DM._players)
+				{
+					if(player !=  null)
+					{
+						if(Config.DM_ON_START_UNSUMMON_PET)
+						{
+							//Remove Summon's buffs
+							if(player.getPet() != null)
+							{
+								L2Summon summon = player.getPet();
+								for(L2Effect e : summon.getAllEffects())
+									e.exit();
+
+								if(summon instanceof L2PetInstance)
+									summon.unSummon(player);
+							}
+						}
+
+						if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
+						{
+							for(L2Effect e : player.getAllEffects())
+							{
+								if(e != null) e.exit();
+							}
+						}
+
+						// Remove player from his party
+						if(player.getParty() != null)
+						{
+							L2Party party = player.getParty();
+							party.removePartyMember(player);
+						}
+						player.teleToLocation(_playerX, _playerY, _playerZ);
+					}
+				}
+			}
+		}, 20000);
+		_teleport = true;
+		return true;
+	}
 
 	public static void startEvent(L2PcInstance activeChar)
 	{
+		if(_inProgress)
+		{
+			if(activeChar!=null)
+				activeChar.sendMessage("A DM event is already in progress, try abort.");
+			return;
+		}
+		
 		if(!startEventOk())
 		{
 			if(_log.isDebugEnabled())_log.debug("DM Engine[startEvent(" + activeChar.getName() + ")]: startEventOk() = false");
@@ -240,6 +383,255 @@ public class DM
 		sit();
 		Announcements(_eventName + "(DM): Started. Go to kill your enemies!");
 		_started = true;
+		_inProgress = true;
+	}
+	
+	public static boolean startAutoEvent()
+	{
+		
+		if(!startEventOk())
+		{
+			if(_log.isDebugEnabled())_log.debug("DM Engine[startAutoEvent()]: startEventOk() = false");
+			return true;
+		}
+
+		_teleport = false;
+		sit();
+		Announcements(_eventName + "(DM): Started. Go to kill your enemies!");
+		_started = true;
+		_inProgress = true;
+		return true;
+	}
+
+	public static void autoEvent()
+	{
+		
+		_log.info("Starting DM!");
+		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
+		if (startAutoJoin() && !_aborted)
+		{
+			if (_joinTime > 0)
+				waiter(_joinTime * 60 * 1000); // minutes for join event
+			else if (_joinTime <= 0)
+			{
+				_log.info("DM: join time <=0 aborting event.");
+				abortEvent();
+				return;
+			}
+			if (teleportAutoStart() && !_aborted)
+			{
+				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
+				if (startAutoEvent() && !_aborted)
+				{
+					_log.debug("DM: waiting.....minutes for event time " + DM._eventTime);
+
+					waiter(_eventTime * 60 * 1000); // minutes for event time
+					finishEvent();
+
+					_log.info("DM: waiting... delay for final messages ");
+					waiter(60000);//just a give a delay delay for final messages
+					sendFinalMessages();
+
+					if (!_started && !_aborted){ //if is not already started and it's not aborted
+						
+						_log.info("DM: waiting.....delay for restart event  " + DM.getIntervalBetweenMatchs() + " minutes.");
+						waiter(60000);//just a give a delay to next restart
+
+						try
+						{
+							if(!_aborted)
+								restartEvent();
+						}
+						catch (Exception e)
+						{
+							_log.error("Error while tying to Restart Event", e);
+							e.printStackTrace();
+						}
+						
+					}
+						
+				}
+			}
+			else if(!_aborted){
+			
+				abortEvent();
+				restartEvent();
+				
+			}
+		}
+	}
+	
+	//start without restart
+	public static void eventOnceStart(){
+		
+		if(startAutoJoin() && !_aborted)
+		{
+			if(_joinTime > 0)
+				waiter(_joinTime * 60 * 1000); // minutes for join event
+			else if(_joinTime <= 0)
+			{
+				abortEvent();
+				return;
+			}
+			if(teleportAutoStart() && !_aborted)
+			{
+				waiter(1 * 60 * 1000); // 1 min wait time untill start fight after teleported
+				if(startAutoEvent() && !_aborted)
+				{
+					waiter(_eventTime * 60 * 1000); // minutes for event time
+					finishEvent();
+				}
+			}
+			else if(!_aborted)
+			{
+				abortEvent();
+			}
+		}
+		
+	}
+	
+	private static void waiter(long interval)
+	{
+		long startWaiterTime = System.currentTimeMillis();
+		int seconds = (int) (interval / 1000);
+
+		while(startWaiterTime + interval > System.currentTimeMillis() && !_aborted)
+		{
+			seconds--; // here because we don't want to see two time announce at the same time
+
+			if(_joining || _started || _teleport)
+			{
+				switch(seconds)
+				{
+					case 3600: // 1 hour left
+						if(_joining)
+						{
+							Announcements.getInstance().announceToAll(_eventName + ": Joinable in " + _joiningLocationName + "!");
+							Announcements.getInstance().announceToAll("DM: " + seconds / 60 / 60 + " hour(s) till registration close!");
+						}
+						else if(_started)
+							Announcements.getInstance().announceToAll("DM: " + seconds / 60 / 60 + " hour(s) till event finish!");
+
+						break;
+					case 1800: // 30 minutes left
+					case 900: // 15 minutes left
+					case 600: // 10 minutes left
+					case 300: // 5 minutes left
+					case 240: // 4 minutes left
+					case 180: // 3 minutes left
+					case 120: // 2 minutes left
+					case 60: // 1 minute left
+						if(_joining)
+						{
+							removeOfflinePlayers();
+							Announcements.getInstance().announceToAll(_eventName + ": Joinable in " + _joiningLocationName + "!");
+							Announcements.getInstance().announceToAll("DM: " + seconds / 60 + " minute(s) till registration close!");
+						}
+						else if(_started)
+							Announcements.getInstance().announceToAll("DM: " + seconds / 60 + " minute(s) till event finish!");
+
+						break;
+					case 30: // 30 seconds left
+					case 15: // 15 seconds left
+					case 10: // 10 seconds left
+					case 3: // 3 seconds left
+					case 2: // 2 seconds left
+					case 1: // 1 seconds left
+						if(_joining)
+							Announcements.getInstance().announceToAll("DM: " + seconds + " second(s) till registration close!");
+						else if(_teleport)
+							Announcements.getInstance().announceToAll("DM: " + seconds + " seconds(s) till start fight!");
+						else if(_started)
+							Announcements.getInstance().announceToAll("DM: " + seconds + " second(s) till event finish!");
+
+						break;
+				}
+			}
+
+			long startOneSecondWaiterStartTime = System.currentTimeMillis();
+
+			// only the try catch with Thread.sleep(1000) give bad countdown on high wait times
+			while(startOneSecondWaiterStartTime + 1000 > System.currentTimeMillis())
+			{
+				try
+				{
+					Thread.sleep(1);
+				}
+				catch(InterruptedException ie)
+				{
+				}
+			}
+		}
+	}
+	
+	public static void removeOfflinePlayers()
+	{
+		try
+		{
+			if(_players == null)
+				return;
+			else if(_players.isEmpty())
+				return;
+			else if(_players.size() > 0)
+			{
+				for(L2PcInstance player : _players)
+				{
+					if(player == null)
+						_players.remove(player);					
+					else if(player.isOnline() == 0 || player.isInJail())
+						removePlayer(player);
+					if(_players.size() == 0 || _players.isEmpty())
+						break;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			_log.error(e.getMessage(), e);
+			return;
+		}
+	}
+	/**
+	 * Restarts Event
+	 * checks if event was aborted. and if true cancels restart task
+	 */
+	public synchronized static void restartEvent()
+	{
+		_log.info("DM: Event has been restarted...");
+		_joining = false;
+		_started = false;
+		_inProgress = false;
+		_aborted = false;
+		long delay = _intervalBetweenMatchs;
+
+		Announcements.getInstance().announceToAll("DM: joining period will be avaible again in " + getIntervalBetweenMatchs() + " minute(s)!");
+
+		waiter(delay);
+
+		try
+		{
+			if(!_aborted)
+				autoEvent(); //start a new event
+			else
+				Announcements.getInstance().announceToAll("DM: next event aborted!");
+				
+		}
+		catch (Exception e)
+		{
+			_log.fatal("DM: Error While Trying to restart Event...", e);
+			e.printStackTrace();
+		}
+	}
+
+	
+	public static void setJoinTime(int time)
+	{
+		_joinTime = time;
+	}
+
+	public static void setEventTime(int time)
+	{
+		_eventTime = time;
 	}
 
 	private static boolean startEventOk()
@@ -276,15 +668,16 @@ public class DM
 		}
 	}
 
-	public static void finishEvent(L2PcInstance activeChar)
+	public static void finishEvent()
 	{
 		if(!finishEventOk())
 		{
-			if(_log.isDebugEnabled())_log.debug("DM Engine[finishEvent(" + activeChar.getName() + ")]: finishEventOk() = false");
+			if(_log.isDebugEnabled())_log.debug("DM Engine[finishEvent()]: finishEventOk() = false");
 			return;
 		}
 
 		_started = false;
+		_aborted = false;
 		unspawnEventNpc();
 		processTopPlayer();
 
@@ -293,7 +686,7 @@ public class DM
 		else
 		{
 			Announcements(_eventName + "(DM): " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
-			rewardPlayer(activeChar);
+			rewardPlayer();
 		}
 
 		teleportFinish();
@@ -303,6 +696,8 @@ public class DM
 	{
 		if(!_started)
 			return false;
+		
+		_inProgress = false;
 
 		return true;
 	}
@@ -319,7 +714,7 @@ public class DM
 		}
 	}
 
-	public static void rewardPlayer(L2PcInstance activeChar)
+	public static void rewardPlayer()
 	{
 		if(_topPlayer != null)
 		{
@@ -350,6 +745,8 @@ public class DM
 		_joining = false;
 		_teleport = false;
 		_started = false;
+		_inProgress = false;
+		_aborted = true;
 		unspawnEventNpc();
 		Announcements(_eventName + "(DM): Match aborted!");
 		teleportFinish();
@@ -462,8 +859,11 @@ public class DM
 		_npcX = 0;
 		_npcY = 0;
 		_npcZ = 0;
+		_npcHeading = 0;
 		_rewardId = 0;
 		_rewardAmount = 0;
+		_joinTime = 0;
+		_eventTime = 0;
 		_topKills = 0;
 		_minlvl = 0;
 		_maxlvl = 0;
@@ -471,7 +871,10 @@ public class DM
 		_playerX = 0;
 		_playerY = 0;
 		_playerZ = 0;
-
+		_intervalBetweenMatchs = 0;
+		_minPlayers = 0;
+		_maxPlayers = 0;
+		
 		java.sql.Connection con = null;
 		try
 		{
@@ -494,13 +897,18 @@ public class DM
 				_npcX = rs.getInt("npcX");
 				_npcY = rs.getInt("npcY");
 				_npcZ = rs.getInt("npcZ");
+				_npcHeading = rs.getInt("npcHeading");
 				_rewardId = rs.getInt("rewardId");
 				_rewardAmount = rs.getInt("rewardAmount");
+				_joinTime = rs.getInt("joinTime");
+				_eventTime = rs.getInt("eventTime");
+				_minPlayers = rs.getInt("minPlayers");
+				_maxPlayers = rs.getInt("maxPlayers");
 				_playerColors = rs.getInt("color");
 				_playerX = rs.getInt("playerX");
 				_playerY = rs.getInt("playerY");
 				_playerZ = rs.getInt("playerZ");
-
+				_intervalBetweenMatchs = rs.getInt("delayForNextEvent");
 			}
 			statement.close();
 
@@ -533,7 +941,7 @@ public class DM
 			statement.execute();
 			statement.close();
 
-			statement = con.prepareStatement("INSERT INTO dm (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, rewardId, rewardAmount, color, playerX, playerY, playerZ ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");  
+			statement = con.prepareStatement("INSERT INTO dm (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, npcHeading, rewardId, rewardAmount, joinTime, eventTime, minPlayers, maxPlayers, color, playerX, playerY, playerZ, delayForNextEvent ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");  
 			statement.setString(1, _eventName);
 			statement.setString(2, _eventDesc);
 			statement.setString(3, _joiningLocationName);
@@ -543,12 +951,18 @@ public class DM
 			statement.setInt(7, _npcX);
 			statement.setInt(8, _npcY);
 			statement.setInt(9, _npcZ);
-			statement.setInt(10, _rewardId);
-			statement.setInt(11, _rewardAmount);
-			statement.setInt(12, _playerColors);
-			statement.setInt(13, _playerX);
-			statement.setInt(14, _playerY);
-			statement.setInt(15, _playerZ);
+			statement.setInt(10, _npcHeading);
+			statement.setInt(11, _rewardId);
+			statement.setInt(12, _rewardAmount);
+			statement.setInt(13, _joinTime);
+			statement.setInt(14, _eventTime);
+			statement.setInt(15, _minPlayers);
+			statement.setInt(16, _maxPlayers);
+			statement.setInt(17, _playerColors);
+			statement.setInt(18, _playerX);
+			statement.setInt(19, _playerY);
+			statement.setInt(20, _playerZ);
+			statement.setLong(21, _intervalBetweenMatchs);
 			statement.execute();
 			statement.close();
 		}
@@ -582,6 +996,16 @@ public class DM
 
 			if(!_started && !_joining)
 				replyMSG.append("<center>Wait till the admin/gm start the participation.</center>");
+			else if(!checkMaxPlayers(_players.size())){
+				
+				if(!DM._started)
+				{
+					replyMSG.append("Currently participated: <font color=\"00FF00\">" + _players.size() + ".</font><br>");
+					replyMSG.append("Max players: <font color=\"00FF00\">" + _maxPlayers + "</font><br><br>");
+					replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
+				}
+				
+			}
 			else if(!_started && _joining && eventPlayer.getLevel()>=_minlvl && eventPlayer.getLevel()<=_maxlvl)
 			{
 				if(_players.contains(eventPlayer))
@@ -690,10 +1114,18 @@ public class DM
 		}
 	}
 
+	
 	public static void removePlayer(L2PcInstance player)
 	{
-		if(player != null)
+		if(player != null && player._inEventDM)
 		{
+			player.getAppearance().setNameColor(player._originalNameColorDM);
+			player.setKarma(player._originalKarmaDM);
+			player.broadcastUserInfo();
+			
+			player._countDMkills = 0;
+			player._inEventDM = false;
+
 			_players.remove(player);
 		}
 	}
@@ -766,4 +1198,52 @@ public class DM
 			}
 		}, 20000);
 	}
+	
+	/**
+	 * just an announcer to send termination messages
+	 *
+	 */
+	public static void sendFinalMessages()
+	{
+		if (!_started && !_aborted)
+			Announcements.getInstance().announceToAll("DM: Thank you For Participating At, " + "DM Event.");
+	}
+
+	/**
+	 * returns the interval between each event
+	 * @return
+	 */
+	public static int getIntervalBetweenMatchs()
+	{
+		long actualTime = System.currentTimeMillis();
+		long totalTime = actualTime + _intervalBetweenMatchs;
+		long interval = totalTime - actualTime;
+		int seconds = (int) (interval / 1000);
+
+		return Math.round(seconds / 60);
+	}
+
+	public void setEventStartTime(String newTime){
+		startEventTime = newTime;
+	}
+
+	@Override
+	public String getEventIdentifier()
+	{
+		return _eventName;
+	}
+
+	@Override
+	public void run()
+	{
+		System.out.println("DM: Event notification start");
+		eventOnceStart();
+	}
+
+	@Override
+	public String getEventStartTime()
+	{
+		return startEventTime;
+	}
+	
 }
