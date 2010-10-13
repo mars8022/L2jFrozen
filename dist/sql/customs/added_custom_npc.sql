@@ -28,3 +28,6 @@ INSERT INTO `custom_npc` VALUES
 
 INSERT INTO `custom_npc` VALUES 
 (54, 21654, 'Necromancer of Destruction', 1, 'Equip Manager', 1, 'Monster.vale_master_20_bi', 14.50, 48.00, 80, 'male', 'L2Merchant', 40, 4608, 1896, 67.15, 3.09, 40, 43, 30, 21, 20, 10, 8042, 913, 1863, 587, 1182, 477, 278, 150, 333, 0, 0, 0, 77, 154, 'fire_clan', 300, 0, 0, 'LAST_HIT');
+
+insert into custom_npc values 
+(50020, 30298, 'Augmenter', 1, 'L2Frozen', 1, 'NPC.a_smith_MDwarf', 7.00, 16.50, 70, 'male', 'L2Trainer', 40, 3862, 1493, 11.85, 2.78, 40, 43, 30, 21, 20, 10, 0, 0, 1314, 470, 780, 382, 278, 0, 333, 89, 0, 0, 55, 132, '', 0, 1, 0, 'LAST_HIT');
