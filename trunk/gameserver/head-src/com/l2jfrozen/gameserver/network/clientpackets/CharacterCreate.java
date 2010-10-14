@@ -209,21 +209,34 @@ public final class CharacterCreate extends L2GameClientPacket
 			newChar.addAncientAdena("Init", Config.STARTING_AA, null, false);
 		}
 		
-		if(Config.CUSTOM_STARTER_ITEMS_ENABLED){
-			for (int[] startingItems : Config.CUSTOM_STARTER_ITEMS)
-			{
-				if (newChar == null)
-					continue;
-				
-				PcInventory inv = newChar.getInventory();
-				if (ItemTable.getInstance().createDummyItem(startingItems[0]).isStackable())
-					inv.addItem("Starter Items", startingItems[0], startingItems[1], newChar, null);
-				else
-					for (int i = 0; i < startingItems[1]; i++)
-						inv.addItem("Starter Items", startingItems[0], 1, newChar, null);
+		if(Config.CUSTOM_STARTER_ITEMS_ENABLED)
+		{
+			if (newChar.isMageClass()) {
+				for (int[] reward : Config.STARTING_CUSTOM_ITEMS_M) {
+					if (ItemTable.getInstance().createDummyItem(reward[0]).isStackable()) {
+						newChar.getInventory().addItem("Starter Items Mage", reward[0], reward[1], newChar, null);
+					}
+					else {
+						for (int i = 0; i < reward[1]; ++i) {
+							newChar.getInventory().addItem("Starter Items Mage", reward[0], 1, newChar, null);
+						}
+					}
+				}
+			}
+			else {
+				for (int[] reward : Config.STARTING_CUSTOM_ITEMS_F)
+				{
+					if (ItemTable.getInstance().createDummyItem(reward[0]).isStackable()) {
+						newChar.getInventory().addItem("Starter Items Fighter", reward[0], reward[1], newChar, null);
+					}
+					else {
+						for (int i = 0; i < reward[1]; ++i) {
+							newChar.getInventory().addItem("Starter Items Fighter", reward[0], 1, newChar, null);
+						}
+					}
+				}
 			}
 		}
-		
 
 		if(Config.SPAWN_CHAR)
 		{
