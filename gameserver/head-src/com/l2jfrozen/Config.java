@@ -485,10 +485,8 @@ public final class Config
 	
 	/** Configuration to allow custom items to be given on character creation */
 	public static boolean CUSTOM_STARTER_ITEMS_ENABLED;
-	/**
-	 * This allows the administrator to set up additional items for players to start off with, items are put in the format: id,count;id,count;id,count
-	 */
-	public static List<int[]> CUSTOM_STARTER_ITEMS = new FastList<int[]>();
+	public static List<int[]> STARTING_CUSTOM_ITEMS_F = new ArrayList<int[]>();
+	public static List<int[]> STARTING_CUSTOM_ITEMS_M = new ArrayList<int[]>();
 	
 	public static boolean DEEPBLUE_DROP_RULES;
 	public static int UNSTUCK_INTERVAL;
@@ -582,27 +580,44 @@ public final class Config
 			CUSTOM_STARTER_ITEMS_ENABLED = Boolean.parseBoolean(otherSettings.getProperty("CustomStarterItemsEnabled", "False"));
 			if (Config.CUSTOM_STARTER_ITEMS_ENABLED)
 			{
-				String[] propertySplit = otherSettings.getProperty("CustomStarterItems", "0,0").split(";");
-				for (String starteritems : propertySplit)
+				String[] propertySplit = otherSettings.getProperty("StartingCustomItemsMage", "57,0").split(";");
+				for (String reward : propertySplit)
 				{
-					String[] starteritemsSplit = starteritems.split(",");
-					if (starteritemsSplit.length != 2)
+					String[] rewardSplit = reward.split(",");
+					if (rewardSplit.length != 2)
+						_log.warning("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
+					else
 					{
-						CUSTOM_STARTER_ITEMS_ENABLED = false;
-						//System.out.println("StarterItems[Config.load()]: invalid config property -> starter items \"" + starteritems + "\"");
-					} else
 						try
 						{
-							CUSTOM_STARTER_ITEMS.add(new int[] { Integer.parseInt(starteritemsSplit[0]), Integer.parseInt(starteritemsSplit[1]) });
+							STARTING_CUSTOM_ITEMS_M.add(new int[]{Integer.parseInt(rewardSplit[0]), Integer.parseInt(rewardSplit[1])});
 						}
 						catch (NumberFormatException nfe)
 						{
-							if (!starteritems.equals(""))
-							{
-								CUSTOM_STARTER_ITEMS_ENABLED = false;
-								//System.out.println("StarterItems[Config.load()]: invalid config property -> starter items \"" + starteritems + "\"");
-							}
+							if (!reward.isEmpty())
+								_log.warning("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
 						}
+					}
+				}
+				
+				propertySplit = otherSettings.getProperty("StartingCustomItemsFighter", "57,0").split(";");
+				for (String reward : propertySplit)
+				{
+					String[] rewardSplit = reward.split(",");
+					if (rewardSplit.length != 2)
+						_log.warning("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
+					else
+					{
+						try
+						{
+							STARTING_CUSTOM_ITEMS_F.add(new int[]{Integer.parseInt(rewardSplit[0]), Integer.parseInt(rewardSplit[1])});
+						}
+						catch (NumberFormatException nfe)
+						{
+							if (!reward.isEmpty())
+								_log.warning("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
+						}
+					}
 				}
 			}
 			
