@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javolution.util.FastList;
+import javolution.util.FastMap;
 
 import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -52,6 +53,9 @@ public class PowerPakConfig
 	public static String BUFFER_COMMAND;
 	public static int BUFFER_PRICE;
 	public static boolean BUFFER_USEBBS;
+	
+	public static FastMap<Integer, Integer> FIGHTER_SKILL_LIST;
+	public static FastMap<Integer, Integer> MAGE_SKILL_LIST;
 
 	public static int NPCBUFFER_MAX_SCHEMES;
 	public static int NPCBUFFER_MAX_SKILLS;
@@ -174,6 +178,61 @@ public class PowerPakConfig
 			BUFFER_PRICE = Integer.parseInt(p.getProperty("BufferPrice", "-1"));
 			BUFFER_USEBBS = Boolean.parseBoolean(p.getProperty("BufferUseBBS", "true"));
 
+			FIGHTER_SKILL_LIST = new FastMap<Integer, Integer>();
+			MAGE_SKILL_LIST = new FastMap<Integer, Integer>();
+
+			String[] fPropertySplit;
+			fPropertySplit = p.getProperty("FighterSkillList", "").split(";");
+
+			String[] mPropertySplit;
+			mPropertySplit = p.getProperty("MageSkillList", "").split(";");
+
+			for(String skill : fPropertySplit)
+			{
+				String[] skillSplit = skill.split(",");
+				if(skillSplit.length != 2)
+				{
+					System.out.println("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skill + "\"");
+				}
+				else
+				{
+					try
+					{
+						FIGHTER_SKILL_LIST.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
+					}
+					catch(NumberFormatException nfe)
+					{
+						if(!skill.equals(""))
+						{
+							System.out.println("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
+						}
+					}
+				}
+			}
+			
+			for(String skill : mPropertySplit)
+			{
+				String[] skillSplit = skill.split(",");
+				if(skillSplit.length != 2)
+				{
+					System.out.println("[MageSkillList]: invalid config property -> MageSkillList \"" + skill + "\"");
+				}
+				else
+				{
+					try
+					{
+						MAGE_SKILL_LIST.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
+					}
+					catch(NumberFormatException nfe)
+					{
+						if(!skill.equals(""))
+						{
+							System.out.println("[MageSkillList]: invalid config property -> MageSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
+						}
+					}
+				}
+			}
+			
 			NPCBUFFER_MAX_SCHEMES = Integer.parseInt(p.getProperty("NPCBufferMaxSchemesPerChar", "4"));
 			NPCBUFFER_MAX_SKILLS = Integer.parseInt(p.getProperty("NPCBufferMaxSkllsperScheme", "24"));
 			NPCBUFFER_STORE_SCHEMES = Boolean.parseBoolean(p.getProperty("NPCBufferStoreSchemes", "True"));
