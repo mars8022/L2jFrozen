@@ -549,6 +549,70 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				showManageSchemeWindow(player);
 			}
 		}
+		//predefined buffs
+		else if (currentCommand.startsWith("fighterbuff") || currentCommand.startsWith("magebuff"))
+		{
+			
+			ArrayList<L2Skill> skills_to_buff = new ArrayList<L2Skill>();
+			if(currentCommand.startsWith("magebuff")){
+				
+				for(int skillId:PowerPakConfig.MAGE_SKILL_LIST.keySet()){
+					
+					L2Skill skill = SkillTable.getInstance().getInfo(skillId, PowerPakConfig.MAGE_SKILL_LIST.get(skillId));
+					if(skill!=null)
+					{
+						skills_to_buff.add(skill);
+					}
+					
+				}
+				
+			}else{
+				
+				for(int skillId:PowerPakConfig.FIGHTER_SKILL_LIST.keySet()){
+					
+					L2Skill skill = SkillTable.getInstance().getInfo(skillId, PowerPakConfig.FIGHTER_SKILL_LIST.get(skillId));
+					if(skill!=null)
+					{
+						skills_to_buff.add(skill);
+					}
+					
+				}
+				
+			}
+			
+			
+			String targettype = "";
+			if(st.hasMoreTokens())
+				targettype = st.nextToken();
+			
+			int cost = 0;
+			if(PowerPakConfig.BUFFER_PRICE>0)
+				cost = PowerPakConfig.BUFFER_PRICE*skills_to_buff.size();
+			
+			if (cost == 0 || cost <= player.getInventory().getAdena())
+			{
+				L2Character target = player;
+				if (targettype.equalsIgnoreCase("pet"))
+					target = player.getPet();
+				else if (target != null)
+				{
+					for (L2Skill sk : skills_to_buff)
+						sk.getEffects(target, target);
+					player.reduceAdena("NPC Buffer", cost, null, true);
+				}
+				else
+				{
+					player.sendMessage("Incorrect Pet");
+					
+				}
+			}
+			else
+			{
+				player.sendMessage("Not enough adena");
+				
+			}
+			
+		}
 	}
 
 	private static String [] _BBSCommand = {"bbsbuff"};

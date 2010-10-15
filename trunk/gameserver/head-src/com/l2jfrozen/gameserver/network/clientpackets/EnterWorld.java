@@ -28,12 +28,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Logger;
 
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
+import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -93,6 +95,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
 import com.l2jfrozen.gameserver.network.serverpackets.SignsSky;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
+import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.FloodProtector;
@@ -495,6 +498,10 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
 			activeChar.logout();
 		}
+		
+		// NPCBuffer
+		if (PowerPakConfig.BUFFER_ENABLED)
+			CharSchemesTable.getInstance().onPlayerLogin(activeChar.getObjectId());
 		
 		
 		Hellows(activeChar, sm);

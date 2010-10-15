@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
@@ -620,6 +621,8 @@ public class Shutdown extends Thread
 		// Save all global (non-player specific) Quest data that needs to persist after reboot
 		QuestManager.getInstance().save();
 
+		CharSchemesTable.getInstance().onServerShutdown();
+		
 		//Save items on ground before closing
 		if(Config.SAVE_DROPPED_ITEM)
 		{
