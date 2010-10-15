@@ -1,4 +1,4 @@
-﻿-- -----------------------------------------------
+-- -----------------------------------------------
 -- Table structure for admin_command_access_rights
 -- -----------------------------------------------
 DROP TABLE IF EXISTS admin_command_access_rights;
