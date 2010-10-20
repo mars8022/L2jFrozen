@@ -2148,9 +2148,17 @@ public abstract class L2Skill
 							}
 
 							//check if allow interference is allowed if player is not on event but target is on event
-							if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE)))
+							if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE)) && !player.isGM())
 							{
 								if((newTarget._inEventTvT && !player._inEventTvT) || (!newTarget._inEventTvT && player._inEventTvT))
+								{
+									continue;
+								}
+								if((newTarget._inEventCTF && !player._inEventCTF) || (!newTarget._inEventCTF && player._inEventCTF))
+								{
+									continue;
+								}
+								if((newTarget._inEventDM && !player._inEventDM) || (!newTarget._inEventDM && player._inEventDM))
 								{
 									continue;
 								}

@@ -1,5 +1,5 @@
 @echo off
-title GameServer Console
+title L2J-Frozen: Game Server Console
 :start
 echo Starting L2J-Frozen Core Game Server.
 echo Official website : http://www.l2frozenreborn.com
