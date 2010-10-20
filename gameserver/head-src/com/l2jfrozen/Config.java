@@ -1888,6 +1888,10 @@ public final class Config
 	public static boolean DM_ON_START_REMOVE_ALL_EFFECTS;
 	public static boolean DM_ON_START_UNSUMMON_PET;
 	public static long DM_REVIVE_DELAY;
+	public static boolean DM_COMMAND;
+	public static boolean DM_ENABLE_KILL_REWARD;
+	public static int DM_KILL_REWARD_ID;
+	public static int DM_KILL_REWARD_AMOUNT;
 
 	//============================================================
 	public static void loadDMConfig()
@@ -1912,6 +1916,11 @@ public final class Config
 			{
 				DM_REVIVE_DELAY = 1000; //can't be set less then 1 second
 			}
+			DM_COMMAND = Boolean.parseBoolean(DMSettings.getProperty("DMCommand", "False"));
+			DM_ENABLE_KILL_REWARD = Boolean.parseBoolean(DMSettings.getProperty("DMEnableKillReward", "False"));
+			DM_KILL_REWARD_ID = Integer.parseInt(DMSettings.getProperty("DMKillRewardID", "6392"));
+			DM_KILL_REWARD_AMOUNT = Integer.parseInt(DMSettings.getProperty("DMKillRewardAmount", "1"));
+			
 
 		}
 		catch(Exception e)
@@ -1932,6 +1941,7 @@ public final class Config
 	public static boolean CTF_JOIN_CURSED;
 	public static boolean CTF_REVIVE_RECOVERY;
 	public static boolean CTF_COMMAND;
+	public static boolean CTF_AURA;
 
 	//============================================================
 	public static void loadCTFConfig()
@@ -1955,6 +1965,7 @@ public final class Config
 			CTF_JOIN_CURSED = Boolean.parseBoolean(CTFSettings.getProperty("CTFJoinWithCursedWeapon", "True"));
 			CTF_REVIVE_RECOVERY = Boolean.parseBoolean(CTFSettings.getProperty("CTFReviveRecovery", "False"));
 			CTF_COMMAND = Boolean.parseBoolean(CTFSettings.getProperty("CTFCommand", "True"));
+			CTF_AURA = Boolean.parseBoolean(CTFSettings.getProperty("CTFAura", "True"));
 
 		}
 		catch(Exception e)

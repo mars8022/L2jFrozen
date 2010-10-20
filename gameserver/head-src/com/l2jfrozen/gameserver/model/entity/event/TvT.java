@@ -1439,6 +1439,7 @@ public class TvT implements EventTask
 
 		player._inEventTvT = true;
 		player._countTvTkills = 0;
+		player.sendMessage("TvT: You successfully registered for the Team Vs Team event.");
 	}
 
 	public static void removeOfflinePlayers()
@@ -1620,12 +1621,12 @@ public class TvT implements EventTask
 
 			player.getAppearance().setNameColor(_teamColors.get(_teams.indexOf(player._teamNameTvT)));
 			player.setKarma(0);
-			player.broadcastUserInfo();
 			if(Config.TVT_AURA)
 			{
 				if(_teams.size() >= 2)
 					player.setTeam(_teams.indexOf(player._teamNameTvT) + 1);
 			}
+			player.broadcastUserInfo();
 			player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameTvT)), _teamsY.get(_teams.indexOf(player._teamNameTvT)), _teamsZ.get(_teams
 					.indexOf(player._teamNameTvT)));
 		}
@@ -1832,24 +1833,6 @@ public class TvT implements EventTask
 			return;
 
 		_teamPlayersCount.set(index, teamPlayersCount);
-	}
-
-	public static Vector<TvTTeam> getSotedTvTTeams()
-	{
-		Vector tvtTeams = new Vector();
-		for(String name : _teams) 
-		{
-			tvtTeams.add(new TvTTeam(name, teamKillsCount(name)));
-		}
-		for(int i = 0; i < tvtTeams.size(); ++i)
-		for(int j = tvtTeams.size() - 1; j >= i + 1; --j)
-		if(((TvTTeam)tvtTeams.get(j)).killCount > ((TvTTeam)tvtTeams.get(j - 1)).killCount)
-		{
-			TvTTeam tmp = (TvTTeam)tvtTeams.get(j);
-			tvtTeams.set(j, tvtTeams.get(j - 1));
-			tvtTeams.set(j - 1, tmp);
-		}
-		return tvtTeams;
 	}
 
 	public static class TvTTeam

@@ -44,10 +44,7 @@ public class Die extends L2GameServerPacket
 	private int _charObjId;
 	private boolean _fake;
 	private boolean _sweepable;
-	private boolean _inFunEvent;
-	private boolean _inEventCTF;
-	private boolean _inEventDM;
-	private boolean _inEventTvT;
+	private boolean _canTeleport;
 	private AccessLevel _access = AccessLevels._userAccessLevel;
 	private com.l2jfrozen.gameserver.model.L2Clan _clan;
 	L2Character _activeChar;
@@ -63,7 +60,11 @@ public class Die extends L2GameServerPacket
 			L2PcInstance player = (L2PcInstance) cha;
 			_access = player.getAccessLevel();
 			_clan = player.getClan();
-			_inFunEvent = player.isInFunEvent();
+			_canTeleport = !((TvT._started && player._inEventTvT)
+							|| (DM._started && player._inEventDM)
+							|| (CTF._started && player._inEventCTF)
+							|| player.isInFunEvent()
+							|| player.isPendingRevive());
 		}
 		_charObjId = cha.getObjectId();
 		_fake = !cha.isDead();
@@ -77,23 +78,23 @@ public class Die extends L2GameServerPacket
 	@Override
 	protected final void writeImpl()
 	{
-		if(_fake || _inEventCTF || _inEventDM || _inEventTvT)
+		if(_fake)
 			return;
 
 		writeC(0x06);
 
 		writeD(_charObjId);
 		// NOTE:
-		// 6d 00 00 00 00 - to nearest village
+		// 6d 00 00 00 00 - to nearest village	
 		// 6d 01 00 00 00 - to hide away
 		// 6d 02 00 00 00 - to castle
 		// 6d 03 00 00 00 - to siege HQ
 		// sweepable
 		// 6d 04 00 00 00 - FIXED
 
-		writeD(0x01);
+		writeD(_canTeleport ? 0x01 : 0);   // 6d 00 00 00 00 - to nearest village
 
-		if(_clan != null)
+		if(_canTeleport && _clan != null)
 		{
 			L2SiegeClan siegeClan = null;
 			Boolean isInDefense = false;

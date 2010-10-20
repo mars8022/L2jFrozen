@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.CTFCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Online;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.TvTCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.DMCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.farmpvp;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stat;
@@ -78,6 +79,11 @@ public class VoicedCommandHandler
 		if(Config.TVT_COMMAND)
 		{
 			registerVoicedCommandHandler(new TvTCmd());
+		}
+		
+		if(Config.DM_COMMAND)
+		{
+			registerVoicedCommandHandler(new DMCmd());
 		}
 
 		if(Config.CHAR_REPAIR)

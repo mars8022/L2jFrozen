@@ -144,10 +144,10 @@ public class DM implements EventTask
 
 		_joining = true;
 		spawnEventNpc(activeChar);
-		Announcements("Death Match!");
-		Announcements("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
-		Announcements("Recruiting levels: " + _minlvl + " to " + _maxlvl);
-		Announcements("Joinable in " + _joiningLocationName + "!");
+		Announcements.getInstance().announceToAll("Death Match!");
+		Announcements.getInstance().announceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements.getInstance().announceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements.getInstance().announceToAll("Joinable in " + _joiningLocationName + "!");
 	}
 	
 	public static boolean startAutoJoin()
@@ -160,10 +160,11 @@ public class DM implements EventTask
 
 		_joining = true;
 		spawnEventNpc(null);
-		Announcements("Death Match!");
-		Announcements("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
-		Announcements("Recruiting levels: " + _minlvl + " to " + _maxlvl);
-		Announcements("Joinable in " + _joiningLocationName + "!");
+		Announcements.getInstance().announceToAll("Death Match!");
+		Announcements.getInstance().announceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements.getInstance().announceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements.getInstance().announceToAll("Joinable in " + _joiningLocationName + " or by command .dmjoin!");
+		Announcements.getInstance().announceToAll("To leave .dmleave! DM Info .dminfo!");
 		return true;
 	}
 
@@ -231,7 +232,7 @@ public class DM implements EventTask
 		}
 		
 		_joining = false;
-		Announcements(_eventName + "(DM): Teleport to team spot in 20 seconds!");
+		Announcements.getInstance().announceToAll(_eventName + "(DM): Teleport to team spot in 20 seconds!");
 
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -314,7 +315,7 @@ public class DM implements EventTask
 		}
 
 		_joining = false;
-		Announcements(_eventName + "(DM): Teleport to team spot in 20 seconds!");
+		Announcements.getInstance().announceToAll(_eventName + "(DM): Teleport to team spot in 20 seconds!");
 
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -363,7 +364,7 @@ public class DM implements EventTask
 		_teleport = true;
 		return true;
 	}
-
+	
 	public static void startEvent(L2PcInstance activeChar)
 	{
 		if(_inProgress)
@@ -381,7 +382,7 @@ public class DM implements EventTask
 
 		_teleport = false;
 		sit();
-		Announcements(_eventName + "(DM): Started. Go to kill your enemies!");
+		Announcements.getInstance().announceToAll(_eventName + "(DM): Started. Go to kill your enemies!");
 		_started = true;
 		_inProgress = true;
 	}
@@ -397,7 +398,7 @@ public class DM implements EventTask
 
 		_teleport = false;
 		sit();
-		Announcements(_eventName + "(DM): Started. Go to kill your enemies!");
+		Announcements.getInstance().announceToAll(_eventName + "(DM): Started. Go to kill your enemies!");
 		_started = true;
 		_inProgress = true;
 		return true;
@@ -682,10 +683,10 @@ public class DM implements EventTask
 		processTopPlayer();
 
 		if(_topKills == 0)
-			Announcements(_eventName + "(DM): No players win the match(nobody killed).");
+			Announcements.getInstance().announceToAll(_eventName + "(DM): No players win the match(nobody killed).");
 		else
 		{
-			Announcements(_eventName + "(DM): " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+			Announcements.getInstance().announceToAll(_eventName + "(DM): " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
 			rewardPlayer();
 		}
 
@@ -748,7 +749,7 @@ public class DM implements EventTask
 		_inProgress = false;
 		_aborted = true;
 		unspawnEventNpc();
-		Announcements(_eventName + "(DM): Match aborted!");
+		Announcements.getInstance().announceToAll(_eventName + "(DM): Match aborted!");
 		teleportFinish();
 	}
 
@@ -1061,6 +1062,7 @@ public class DM implements EventTask
 		player._inEventDM = true;
 		player._countDMkills = 0;
 		_savePlayers.add(player.getName());
+		player.sendMessage("DM: You successfully registered for the DeathMatch event.");
 	}
 
 	public static boolean addPlayerOk(L2PcInstance eventPlayer)
@@ -1156,33 +1158,10 @@ public class DM implements EventTask
 		_npcSpawn.stopRespawn();
 		SpawnTable.getInstance().deleteSpawn(_npcSpawn, true);
 	}
-
-	// Collored Announcements 8D for CTF
-	public static void Announcements(String announce)
-	{
-		CreatureSay cs = new CreatureSay(0, 18, "", "Announcements: "+announce);
-		if(!_started && !_teleport)
-			for(L2PcInstance player: L2World.getInstance().getAllPlayers())
-			{
-				if(player != null)
-					if(player.isOnline()!=0)
-						player.sendPacket(cs);
-			}
-		else
-		{
-			if(_players!=null && !_players.isEmpty())
-				for(L2PcInstance player: _players)
-				{
-					if(player != null)
-						if(player.isOnline()!=0)
-							player.sendPacket(cs);
-				}
-		}
-	}
 	
 	public static void teleportFinish()
 	{
-		Announcements(_eventName + "(DM): Teleport back to participation NPC in 20 seconds!");
+		Announcements.getInstance().announceToAll(_eventName + "(DM): Teleport back to participation NPC in 20 seconds!");
 
 		removeUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
