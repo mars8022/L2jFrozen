@@ -4280,17 +4280,17 @@ public final class L2PcInstance extends L2PlayableInstance
         {
             if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
             {
-                player.sendPacket(new ActionFailed());
+                player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
             }
             else if ((_inEventCTF && !player._inEventCTF) || (!_inEventCTF && player._inEventCTF))
             {
-                player.sendPacket(new ActionFailed());
+                player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
             }
             else if ((_inEventDM && !player._inEventDM) || (!_inEventDM && player._inEventDM))
             {
-                player.sendPacket(new ActionFailed());
+                player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
             }
         }
