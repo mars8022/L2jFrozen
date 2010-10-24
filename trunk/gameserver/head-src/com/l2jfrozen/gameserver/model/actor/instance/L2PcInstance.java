@@ -4649,23 +4649,23 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			if(pvpKillAmount >= Config.PVP_AMOUNT1 && pvpKillAmount < Config.PVP_AMOUNT2)
 			{
-				getAppearance().setNameColor(Config.NAME_COLOR_FOR_PVP_AMOUNT1);
+				getAppearance().setTitleColor(Config.NAME_COLOR_FOR_PVP_AMOUNT1);
 			}
 			else if(pvpKillAmount >= Config.PVP_AMOUNT2 && pvpKillAmount < Config.PVP_AMOUNT3)
 			{
-				getAppearance().setNameColor(Config.NAME_COLOR_FOR_PVP_AMOUNT2);
+				getAppearance().setTitleColor(Config.NAME_COLOR_FOR_PVP_AMOUNT2);
 			}
 			else if(pvpKillAmount >= Config.PVP_AMOUNT3 && pvpKillAmount < Config.PVP_AMOUNT4)
 			{
-				getAppearance().setNameColor(Config.NAME_COLOR_FOR_PVP_AMOUNT3);
+				getAppearance().setTitleColor(Config.NAME_COLOR_FOR_PVP_AMOUNT3);
 			}
 			else if(pvpKillAmount >= Config.PVP_AMOUNT4 && pvpKillAmount < Config.PVP_AMOUNT5)
 			{
-				getAppearance().setNameColor(Config.NAME_COLOR_FOR_PVP_AMOUNT4);
+				getAppearance().setTitleColor(Config.NAME_COLOR_FOR_PVP_AMOUNT4);
 			}
 			else if(pvpKillAmount >= Config.PVP_AMOUNT5)
 			{
-				getAppearance().setNameColor(Config.NAME_COLOR_FOR_PVP_AMOUNT5);
+				getAppearance().setTitleColor(Config.NAME_COLOR_FOR_PVP_AMOUNT5);
 			}
 		}
 	}
