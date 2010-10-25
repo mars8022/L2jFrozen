@@ -332,7 +332,7 @@ public class VIP
 		}
 
 		_joining = true;
-		Announcements.getInstance().announceToAll("Vip event has started.Use .vipjoin to join or .vipleave to leave.");
+		Announcements.getInstance().gameAnnounceToAll("Vip event has started.Use .vipjoin to join or .vipleave to leave.");
 		spawnJoinNPC();
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -348,8 +348,8 @@ public class VIP
 
 	public static void startEvent()
 	{
-		Announcements.getInstance().announceToAll("Registration for the VIP event involving " + _teamName + " has ended.");
-		Announcements.getInstance().announceToAll("Players will be teleported to their locations in 20 seconds.");
+		Announcements.getInstance().gameAnnounceToAll("Registration for the VIP event involving " + _teamName + " has ended.");
+		Announcements.getInstance().gameAnnounceToAll("Players will be teleported to their locations in 20 seconds.");
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
@@ -358,16 +358,16 @@ public class VIP
 				teleportPlayers();
 				chooseVIP();
 				setUserData();
-				Announcements.getInstance().announceToAll("Players have been teleported for the VIP event.");
-				Announcements.getInstance().announceToAll("VIP event will start in 20 seconds.");
+				Announcements.getInstance().gameAnnounceToAll("Players have been teleported for the VIP event.");
+				Announcements.getInstance().gameAnnounceToAll("VIP event will start in 20 seconds.");
 				spawnEndNPC();
 
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 				{
 					public void run()
 					{
-						Announcements.getInstance().announceToAll("VIP event has started. " + _teamName + "'s VIP must get to the starter city and talk with " + getNPCName(_endNPC, null) + ". The opposing team must kill the VIP. All players except the VIP will respawn at their current locations.");
-						Announcements.getInstance().announceToAll("VIP event will end if the " + _teamName + " team makes it to their town or when " + _time/1000/60 + " mins have elapsed.");
+						Announcements.getInstance().gameAnnounceToAll("VIP event has started. " + _teamName + "'s VIP must get to the starter city and talk with " + getNPCName(_endNPC, null) + ". The opposing team must kill the VIP. All players except the VIP will respawn at their current locations.");
+						Announcements.getInstance().gameAnnounceToAll("VIP event will end if the " + _teamName + " team makes it to their town or when " + _time/1000/60 + " mins have elapsed.");
 						VIP.sit();
 
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -393,7 +393,7 @@ public class VIP
 
 		_started = false;
 		unspawnEventNpcs();
-		Announcements.getInstance().announceToAll("The VIP has died. The opposing team has won.");
+		Announcements.getInstance().gameAnnounceToAll("The VIP has died. The opposing team has won.");
 		rewardNotVIP();
 		teleportFinish();
 	}
@@ -408,7 +408,7 @@ public class VIP
 
 		_started = false;
 		unspawnEventNpcs();
-		Announcements.getInstance().announceToAll("The time has run out and the " + _teamName + "'s have not made it to their goal. Everybody on the opposing team wins.");
+		Announcements.getInstance().gameAnnounceToAll("The time has run out and the " + _teamName + "'s have not made it to their goal. Everybody on the opposing team wins.");
 		rewardNotVIP();
 		teleportFinish();
 	}
@@ -475,7 +475,7 @@ public class VIP
 
 		_started = false;
 		unspawnEventNpcs();
-		Announcements.getInstance().announceToAll("The VIP has made it to the goal. " + _teamName + " has won. Everybody on that team wins.");
+		Announcements.getInstance().gameAnnounceToAll("The VIP has made it to the goal. " + _teamName + " has won. Everybody on that team wins.");
 		rewardVIP();
 		teleportFinish();
 	}
@@ -616,7 +616,7 @@ public class VIP
 
 	public static void teleportFinish()
 	{
-		Announcements.getInstance().announceToAll("Teleporting VIP players back to the Registration area in 20 seconds.");
+		Announcements.getInstance().gameAnnounceToAll("Teleporting VIP players back to the Registration area in 20 seconds.");
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
