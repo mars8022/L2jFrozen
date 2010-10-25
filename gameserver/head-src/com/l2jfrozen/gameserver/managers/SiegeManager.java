@@ -78,6 +78,8 @@ public class SiegeManager
 	private int _siegeClanMinLevel = 4; // Changeable in siege.config
 	private int _siegeLength = 120; // Time in minute. Changeable in siege.config
 
+	private boolean _teleport_to_siege = false;
+	private boolean _teleport_to_siege_town = false;
 	//private List<Siege> _sieges;
 
 	// =========================================================
@@ -211,6 +213,10 @@ public class SiegeManager
 			_siegeClanMinLevel = Integer.decode(siegeSettings.getProperty("SiegeClanMinLevel", "4"));
 			_siegeLength = Integer.decode(siegeSettings.getProperty("SiegeLength", "120"));
 
+			// Siege Teleports
+			_teleport_to_siege = Boolean.parseBoolean(siegeSettings.getProperty("AllowTeleportToSiege", "false"));
+			_teleport_to_siege_town = Boolean.parseBoolean(siegeSettings.getProperty("AllowTeleportToSiegeTown", "false"));
+			
 			// Siege spawns settings
 			_controlTowerSpawnList = new FastMap<Integer, FastList<SiegeSpawn>>();
 			_artefactSpawnList = new FastMap<Integer, FastList<SiegeSpawn>>();
@@ -379,6 +385,22 @@ public class SiegeManager
 			_sieges.add(castle.getSiege());
 		}
 		return _sieges;
+	}
+	
+	/**
+	 * @return the _teleport_to_siege
+	 */
+	public boolean is_teleport_to_siege_allowed()
+	{
+		return _teleport_to_siege;
+	}
+
+	/**
+	 * @return the _teleport_to_siege_town
+	 */
+	public boolean is_teleport_to_siege_town_allowed()
+	{
+		return _teleport_to_siege_town;
 	}
 
 	public class SiegeSpawn

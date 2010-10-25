@@ -2983,6 +2983,13 @@ public final class Config
 	public static float ALT_DAGGER_DMG_VS_ROBE;
 	// Alternative damage for dagger skills VS light
 	public static float ALT_DAGGER_DMG_VS_LIGHT;
+	
+	public static boolean ALLOW_RAID_LETHAL,
+						  ALLOW_LETHAL_PROTECTION_MOBS;
+	
+	public static String LETHAL_PROTECTED_MOBS;
+	public static FastList<Integer> LIST_LETHAL_PROTECTED_MOBS = new FastList<Integer>();
+	
 
 	public static float MAGIC_CRITICAL_POWER;
 	
@@ -3057,6 +3064,19 @@ public final class Config
 			ALT_DAGGER_DMG_VS_LIGHT = Float.parseFloat(PHYSICSSetting.getProperty("DaggerVSLight", "2.00"));
 			RUN_SPD_BOOST = Integer.parseInt(PHYSICSSetting.getProperty("RunSpeedBoost", "0"));
 			MAX_RUN_SPEED = Integer.parseInt(PHYSICSSetting.getProperty("MaxRunSpeed", "250"));
+			
+			ALLOW_RAID_LETHAL = Boolean.parseBoolean(PHYSICSSetting.getProperty("AllowLethalOnRaids", "False"));
+			
+			ALLOW_LETHAL_PROTECTION_MOBS = Boolean.parseBoolean(PHYSICSSetting.getProperty("AllowLethalProtectionMobs", "False"));
+			
+			LETHAL_PROTECTED_MOBS = PHYSICSSetting.getProperty("LethalProtectedMobs", "");
+			
+			LIST_LETHAL_PROTECTED_MOBS = new FastList<Integer>();
+			for(String id : LETHAL_PROTECTED_MOBS.split(","))
+			{
+				LIST_LETHAL_PROTECTED_MOBS.add(Integer.parseInt(id));
+			}
+			
 		}
 		catch(Exception e)
 		{
