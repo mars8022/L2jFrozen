@@ -878,4 +878,22 @@ public class VIP
 		activeChar._originalKarmaVIP = activeChar.getKarma();
 		activeChar._inEventVIP = true;
 	}
+	
+	public static void onDisconnect(L2PcInstance player){
+		
+		if(player._inEventTvT){
+			
+			player.getAppearance().setNameColor(player._originalNameColourVIP);
+			player.setKarma(player._originalKarmaVIP);
+			player.broadcastUserInfo();
+			player._inEventVIP = false;
+			player._isTheVIP = false;
+			player._isNotVIP = false;
+			player._isVIP = false;
+			if(player !=  null) 
+				player.teleToLocation(_startX, _startY, _startZ);
+			
+		}
+		
+	}
 }

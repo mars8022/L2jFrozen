@@ -41,7 +41,11 @@ import com.l2jfrozen.gameserver.model.CharSelectInfoPackage;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.L2Event;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.LeaveWorld;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
@@ -661,6 +665,18 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 
 						L2Event.connectionLossData.put(player.getName(), data);
 						data = null;
+					}else{
+						
+						if(player._inEventCTF){
+							CTF.onDisconnect(player);
+						}else if(player._inEventDM){
+							DM.onDisconnect(player);
+						}else if(player._inEventTvT){
+							TvT.onDisconnect(player);
+						}else if(player._inEventVIP){
+							VIP.onDisconnect(player);
+						}
+						
 					}
 
 					if(player.isFlying())

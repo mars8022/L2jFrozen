@@ -1636,8 +1636,7 @@ public class TvT implements EventTask
 	{
 		if(player._inEventTvT)
 		{
-			//if(!_joining)
-			//{
+			if(!_joining){
 				player.getAppearance().setNameColor(player._originalNameColorTvT);
 				player.setTitle(player._originalTitleTvT);
 				player.setKarma(player._originalKarmaTvT);
@@ -1647,7 +1646,7 @@ public class TvT implements EventTask
 						player.setTeam(0);// clear aura :P
 				}
 				player.broadcastUserInfo();
-			//}
+			}
 			player._teamNameTvT = new String();
 			player._countTvTkills = 0;
 			player._inEventTvT = false;
@@ -1948,6 +1947,18 @@ public class TvT implements EventTask
 	public String getEventStartTime()
 	{
 		return startEventTime;
+	}
+	
+	public static void onDisconnect(L2PcInstance player){
+		
+		if(player._inEventTvT){
+			
+			removePlayer(player);
+			if(player !=  null)
+				player.teleToLocation(_npcX, _npcY, _npcZ);
+			
+		}
+		
 	}
 	
 }
