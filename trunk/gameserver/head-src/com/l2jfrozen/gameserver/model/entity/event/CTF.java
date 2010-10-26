@@ -2352,4 +2352,17 @@ public class CTF implements EventTask
 	public void setEventStartTime(String newTime){
 		startEventTime = newTime;
 	}
+	
+	public static void onDisconnect(L2PcInstance player){
+		
+		if(player._inEventCTF){
+			
+			removePlayer(player);
+			if(player !=  null)
+				player.teleToLocation(_npcX, _npcY, _npcZ);
+			
+		}
+		
+	}
+
 }

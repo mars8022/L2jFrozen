@@ -1225,4 +1225,16 @@ public class DM implements EventTask
 		return startEventTime;
 	}
 	
+	public static void onDisconnect(L2PcInstance player){
+		
+		if(player._inEventDM){
+			
+			removePlayer(player);
+			if(player !=  null)
+				player.teleToLocation(_npcX, _npcY, _npcZ);
+			
+		}
+		
+	}
+	
 }
