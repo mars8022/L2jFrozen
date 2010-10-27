@@ -83,6 +83,7 @@ public class VoicedCommandHandler
 		
 		if(Config.DM_COMMAND)
 		{
+			System.out.println("DMCmd registered");
 			registerVoicedCommandHandler(new DMCmd());
 		}
 

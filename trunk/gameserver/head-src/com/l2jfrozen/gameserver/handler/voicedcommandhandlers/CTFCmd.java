@@ -100,7 +100,7 @@ public class CTFCmd implements IVoicedCommandHandler
 		{
 			activeChar.sendMessage("Your participation in the CTF event has been approved.");
 			CTF.addPlayer(activeChar,"");
-			return false;
+			return true;
 		}
 	}
 

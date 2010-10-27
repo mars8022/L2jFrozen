@@ -49,11 +49,13 @@ public class DMCmd implements IVoicedCommandHandler
 
 	public boolean JoinDM (L2PcInstance activeChar)
 	{
+		System.out.println("DMCmd:Into join");
 		if(activeChar == null)
 		{
 			return false;
 		}
-
+		System.out.println("DMCmd:activechar not null");
+		
 		if(!DM._joining)
 		{
 			activeChar.sendMessage("There is no DeathMatch Event in progress.");
@@ -98,7 +100,7 @@ public class DMCmd implements IVoicedCommandHandler
 		{
 			activeChar.sendMessage("Your participation in the DeathMatch event has been approved.");
 			DM.addPlayer(activeChar);
-			return false;
+			return true;
 		}
 	}
 

@@ -143,6 +143,7 @@ public class DM implements EventTask
 		}
 
 		_joining = true;
+		_inProgress = true;
 		spawnEventNpc(activeChar);
 		Announcements.getInstance().gameAnnounceToAll("Death Match!");
 		Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
@@ -159,6 +160,7 @@ public class DM implements EventTask
 		}
 
 		_joining = true;
+		_inProgress = true;
 		spawnEventNpc(null);
 		Announcements.getInstance().gameAnnounceToAll("Death Match!");
 		Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
@@ -367,13 +369,6 @@ public class DM implements EventTask
 	
 	public static void startEvent(L2PcInstance activeChar)
 	{
-		if(_inProgress)
-		{
-			if(activeChar!=null)
-				activeChar.sendMessage("A DM event is already in progress, try abort.");
-			return;
-		}
-		
 		if(!startEventOk())
 		{
 			if(_log.isDebugEnabled())_log.debug("DM Engine[startEvent(" + activeChar.getName() + ")]: startEventOk() = false");
@@ -384,7 +379,6 @@ public class DM implements EventTask
 		sit();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Started. Go to kill your enemies!");
 		_started = true;
-		_inProgress = true;
 	}
 	
 	public static boolean startAutoEvent()
@@ -400,7 +394,6 @@ public class DM implements EventTask
 		sit();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Started. Go to kill your enemies!");
 		_started = true;
-		_inProgress = true;
 		return true;
 	}
 
@@ -746,7 +739,6 @@ public class DM implements EventTask
 		_joining = false;
 		_teleport = false;
 		_started = false;
-		_inProgress = false;
 		_aborted = true;
 		unspawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Match aborted!");
@@ -1144,6 +1136,7 @@ public class DM implements EventTask
 		_joining = false;
 		_teleport = false;
 		_started = false;
+		_inProgress = false;
 		_sitForced = false;
 		_topKills = 0;
 		_players = new Vector<L2PcInstance>();

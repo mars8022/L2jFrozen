@@ -77,6 +77,7 @@ public class CTF implements EventTask
 						  _teleport = false,
 						  _started = false,
 						  _aborted = false,
+						  _inProgress  = false,
 						  _sitForced = false;
 	public static L2Spawn _npcSpawn;
 	public static int _npcId = 0,
@@ -780,6 +781,7 @@ public class CTF implements EventTask
 				return;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		spawnEventNpc(activeChar);
 		Announcements.getInstance().gameAnnounceToAll("Capture The Flag!");
@@ -798,6 +800,7 @@ public class CTF implements EventTask
 				return;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll("Capture The Flag!");
@@ -815,6 +818,7 @@ public class CTF implements EventTask
 				return false;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll("Capture The Flag!");
@@ -1404,6 +1408,8 @@ public class CTF implements EventTask
 		if(!_started)
 			return false;
 
+		_inProgress = false;
+		
 		return true;
 	}
 
@@ -1604,6 +1610,7 @@ public class CTF implements EventTask
 		_started = false;
 		_sitForced = false;
 		_aborted = false;
+		_inProgress = false;
 		_npcId = 0;
 		_npcX = 0;
 		_npcY = 0;
@@ -2306,6 +2313,7 @@ public class CTF implements EventTask
 		_joining = false;
 		_started = false;
 		_aborted = false;
+		_inProgress = false;
 		long delay = _intervalBetweenMatchs;
 
 		Announcements.getInstance().gameAnnounceToAll("CTF: joining period will be avaible again in " + getIntervalBetweenMatchs() + " minute(s)!");

@@ -405,7 +405,8 @@ public class AdminCTFEngine implements IAdminCommandHandler
 		replyMSG.append("<center><font color=\"LEVEL\">[CTF Engine]</font></center><br><br><br>");
 
 		replyMSG.append("<table><tr>");
-		if(!CTF._joining && !CTF._started && !CTF._teleport)
+		//if(!CTF._joining && !CTF._started && !CTF._teleport)
+		if(!CTF._inProgress)
 			replyMSG.append("<td width=\"100\"><button value=\"Edit\" action=\"bypass -h admin_ctf_edit\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Control\" action=\"bypass -h admin_ctf_control\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><br>");
@@ -460,13 +461,15 @@ public class AdminCTFEngine implements IAdminCommandHandler
 			replyMSG.append("<button value=\"Tele->Flag\" action=\"bypass -h admin_ctf_tele_flag "+ team +"\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\">");
 			replyMSG.append("</td></tr><tr><td>");
 			replyMSG.append(CTF._flagsX.get(CTF._teams.indexOf(team)) + ", " + CTF._flagsY.get(CTF._teams.indexOf(team)) + ", " + CTF._flagsZ.get(CTF._teams.indexOf(team))+"</td></tr>");
-			if(!CTF._joining && !CTF._started && !CTF._teleport)
+			//if(!CTF._joining && !CTF._started && !CTF._teleport)
+			if(!CTF._inProgress)	
 				replyMSG.append("<tr><td width=\"60\"><button value=\"Remove\" action=\"bypass -h admin_ctf_team_remove " + team + "\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td></tr><tr></tr>");
 		}
 
 		replyMSG.append("</table></center>");
 
-		if(!CTF._joining && !CTF._started && !CTF._teleport)
+		//if(!CTF._joining && !CTF._started && !CTF._teleport)
+		if(!CTF._inProgress)
 		{
 			if(CTF.startJoinOk())
 			{

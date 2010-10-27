@@ -169,25 +169,29 @@ public class Potions implements IItemHandler
 		else
 			return;
 
-		if(activeChar._inEventTvT && TvT._started && !Config.TVT_ALLOW_POTIONS)
+		//if(activeChar._inEventTvT && TvT._started && !Config.TVT_ALLOW_POTIONS)
+		if(activeChar._inEventTvT && TvT._inProgress && !Config.TVT_ALLOW_POTIONS)
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
-		if(activeChar._inEventDM && DM._started && !Config.DM_ALLOW_POTIONS)
+		//if(activeChar._inEventDM && DM._started && !Config.DM_ALLOW_POTIONS)
+		if(activeChar._inEventDM && DM._inProgress && !Config.DM_ALLOW_POTIONS)
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
-		if(activeChar._inEventCTF && CTF._started && !Config.CTF_ALLOW_POTIONS)
+		//if(activeChar._inEventCTF && CTF._started && !Config.CTF_ALLOW_POTIONS)
+		if(activeChar._inEventCTF && CTF._inProgress && !Config.CTF_ALLOW_POTIONS)
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
-		if(activeChar._inEventVIP && VIP._started)
+		//if(activeChar._inEventVIP && VIP._started)
+		if(activeChar._inEventVIP && VIP._inProgress)
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
