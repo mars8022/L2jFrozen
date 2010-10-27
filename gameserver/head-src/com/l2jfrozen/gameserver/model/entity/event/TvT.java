@@ -53,7 +53,7 @@ public class TvT implements EventTask
 	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>(), _playersShuffle = new Vector<L2PcInstance>();
 	public static Vector<Integer> _teamPlayersCount = new Vector<Integer>(), _teamKillsCount = new Vector<Integer>(), _teamColors = new Vector<Integer>(), _teamsX = new Vector<Integer>(),
 			_teamsY = new Vector<Integer>(), _teamsZ = new Vector<Integer>();
-	public static boolean _joining = false, _teleport = false, _started = false, _aborted = false, _sitForced = false;
+	public static boolean _joining = false, _teleport = false, _started = false, _aborted = false, _sitForced = false, _inProgress= true;
 	public static L2Spawn _npcSpawn;
 
 	public static int _npcId = 0, _npcX = 0, _npcY = 0, _npcZ = 0, _npcHeading = 0, _rewardId = 0, _rewardAmount = 0, _topKills = 0, _minlvl = 0, _maxlvl = 0, _joinTime = 0, _eventTime = 0, _minPlayers = 0, _maxPlayers = 0;
@@ -255,6 +255,7 @@ public class TvT implements EventTask
 			return;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		spawnEventNpc(activeChar);
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "!");
@@ -275,6 +276,7 @@ public class TvT implements EventTask
 			return;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "!");
@@ -294,6 +296,7 @@ public class TvT implements EventTask
 			return false;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "!");
@@ -523,12 +526,7 @@ public class TvT implements EventTask
 
 	public static void startEvent(L2PcInstance activeChar)
 	{
-		if(_inProgress)
-		{
-			if(activeChar!=null)
-				activeChar.sendMessage("A TvT event is already in progress, try abort.");
-			return;
-		}
+		
 		if(!startEventOk())
 		{
 			if(_log.isDebugEnabled() && activeChar!=null)
@@ -546,7 +544,6 @@ public class TvT implements EventTask
 
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Started. Go to kill your enemies!");
 		_started = true;
-		_inProgress = true;
 	}
 
 	public static void setJoinTime(int time)
@@ -578,7 +575,6 @@ public class TvT implements EventTask
 
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Started. Go to kill your enemies!");
 		_started = true;
-		_inProgress = true;
 		return true;
 	}
 
@@ -1019,7 +1015,6 @@ public class TvT implements EventTask
 		_joining = false;
 		_teleport = false;
 		_started = false;
-		_inProgress = false;
 		_aborted = true;
 		unspawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Match aborted!");
@@ -1695,7 +1690,8 @@ public class TvT implements EventTask
 		_playersShuffle = new Vector<L2PcInstance>();
 		_savePlayers = new Vector<String>();
 		_savePlayerTeams = new Vector<String>();
-
+		_inProgress = false;
+		
 	}
 
 	public static void unspawnEventNpc()
@@ -1861,8 +1857,6 @@ public class TvT implements EventTask
 			this.name = name;
 		}
 	}
-
-	private static  boolean  _inProgress  = false;
 
 	private static void closeFortDoors()
 	{

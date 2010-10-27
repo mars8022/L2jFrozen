@@ -1931,7 +1931,8 @@ public abstract class L2Skill
 						}
 
 						//check if allow interference is allowed if player is not on event but target is on event
-						if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE)) && !player.isGM())
+						//if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE)) && !player.isGM())
+						if(((TvT._inProgress && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._inProgress && !Config.CTF_ALLOW_INTERFERENCE) || (DM._inProgress && !Config.DM_ALLOW_INTERFERENCE))/* && !player.isGM()*/)
 						{
 							if((partyMember._inEventTvT && !player._inEventTvT) || (!partyMember._inEventTvT && player._inEventTvT))
 							{
@@ -2148,7 +2149,8 @@ public abstract class L2Skill
 							}
 
 							//check if allow interference is allowed if player is not on event but target is on event
-							if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE)) && !player.isGM())
+							//if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE)) && !player.isGM())
+							if(((TvT._inProgress && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._inProgress && !Config.CTF_ALLOW_INTERFERENCE) || (DM._inProgress && !Config.DM_ALLOW_INTERFERENCE))/* && !player.isGM()*/)
 							{
 								if((newTarget._inEventTvT && !player._inEventTvT) || (!newTarget._inEventTvT && player._inEventTvT))
 								{

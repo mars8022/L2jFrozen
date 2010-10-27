@@ -64,6 +64,7 @@ public class VIP
 
 	public static boolean 	_started = false,
 							_joining = false,
+							_inProgress= true,
 							_sitForced = false;
 
 	public static L2Spawn	_endSpawn, _joinSpawn;
@@ -331,6 +332,7 @@ public class VIP
 			return;
 		}
 
+		_inProgress = true;
 		_joining = true;
 		Announcements.getInstance().gameAnnounceToAll("Vip event has started.Use .vipjoin to join or .vipleave to leave.");
 		spawnJoinNPC();
@@ -644,6 +646,7 @@ public class VIP
 		_time = _winners = _endNPC = _joinNPC = _delay = _endX = _endY = _endZ = _startX = _startY = _startZ = _joinX = _joinY = _joinZ = _team = 0;
 		_vipReward = _vipRewardAmount = _notVipReward = _notVipRewardAmount = _theVipReward = _theVipRewardAmount = 0;
 		_started = _joining = _sitForced = false;
+		_inProgress = false;
 		_teamName = _joinArea = "";
 
 		for(L2PcInstance player : _playersVIP)

@@ -25,7 +25,10 @@ import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -138,15 +141,15 @@ public final class RequestRestart extends L2GameClientPacket
 			}
 		}
 
+
+		if(player._inEventCTF || player._inEventDM || player._inEventTvT || player._inEventVIP){
+			player.sendMessage("You can't restart in Event.");
+			return;
+		}
+		
 		if(player.isFlying())
 		{
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
-		}
-
-		if(player._inEventTvT && TvT._started)
-		{
-			player.sendMessage("You can't restart in TvT.");
-			return;
 		}
 
 		L2GameClient client = getClient();
