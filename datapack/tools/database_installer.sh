@@ -285,6 +285,7 @@ $MYG < ../sql/character_raid_points.sql &> /dev/null
 $MYG < ../sql/character_friends.sql &> /dev/null
 $MYG < ../sql/character_hennas.sql &> /dev/null
 $MYG < ../sql/character_macroses.sql &> /dev/null
+$MYG < ../sql/character_offline_trade.sql &> /dev/null
 $MYG < ../sql/character_quests.sql &> /dev/null
 $MYG < ../sql/character_recipebook.sql &> /dev/null
 $MYG < ../sql/character_recommends.sql &> /dev/null
