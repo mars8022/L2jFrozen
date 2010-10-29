@@ -216,7 +216,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 
 	public void sendPacket(L2GameServerPacket gsp)
 	{
-		getConnection().sendPacket(gsp);
+		if(getConnection()!=null)
+			getConnection().sendPacket(gsp);
 		gsp.runImpl();
 	}
 
@@ -522,7 +523,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 
 	public void close(L2GameServerPacket gsp)
 	{
-		getConnection().close(gsp);
+		if(getConnection()!=null)
+			getConnection().close(gsp);
 
 	}
 

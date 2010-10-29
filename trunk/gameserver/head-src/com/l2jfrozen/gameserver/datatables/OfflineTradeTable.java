@@ -109,6 +109,7 @@ public class OfflineTradeTable
 								title = pc.getSellList().getTitle();
 								for (TradeItem i : pc.getSellList().getItems())
 								{
+									//System.out.println( "OfflineTradersTable[storeTradeItems()]: Saving item: " + i.getObjectId());
 									stm_items.setInt(1, pc.getObjectId());
 									stm_items.setInt(2, i.getObjectId());
 									stm_items.setLong(3, i.getCount());
@@ -118,6 +119,7 @@ public class OfflineTradeTable
 								}
 								break;
 							case L2PcInstance.STORE_PRIVATE_MANUFACTURE:
+								
 								if (!Config.OFFLINE_CRAFT_ENABLE)
 									continue;
 								title = pc.getCreateList().getStoreName();
@@ -130,6 +132,8 @@ public class OfflineTradeTable
 									stm_items.executeUpdate();
 									stm_items.clearParameters();
 								}
+							default:
+								System.out.println( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 						}
 						stm.setString(4, title);
 						stm.executeUpdate();
