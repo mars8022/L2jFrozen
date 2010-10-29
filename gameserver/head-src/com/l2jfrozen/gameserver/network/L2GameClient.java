@@ -698,6 +698,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 							player.getAppearance().setNameColor(Config.OFFLINE_NAME_COLOR);
 							player.broadcastUserInfo();
 						}
+						
+						if (player.getOfflineStartTime() == 0)
+							player.setOfflineStartTime(System.currentTimeMillis());
+						
 						return;
 					}
 

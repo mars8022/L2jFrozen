@@ -38,6 +38,7 @@ import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.NobleSkillTable;
+import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.csv.ExtractableItemsData;
@@ -522,6 +523,8 @@ public class GameServer
 		Util.printSection("EventManager...");
 		EventManager.getInstance().startEventRegistration();
 		
+		if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && Config.RESTORE_OFFLINERS)
+			OfflineTradeTable.restoreOfflineTraders(); 
 		
 		Util.printSection("Info");
 		_log.info("Operating System: " + Util.getOSName() + " " + Util.getOSVersion() + " " + Util.getOSArch());

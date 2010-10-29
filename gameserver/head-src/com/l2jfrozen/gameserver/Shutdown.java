@@ -18,11 +18,14 @@
  */
 package com.l2jfrozen.gameserver;
 
+import java.util.logging.Level;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
+import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
@@ -582,6 +585,16 @@ public class Shutdown extends Thread
 		{
 			_log.error("", t);
 		}
+
+		try
+        {
+           if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && Config.RESTORE_OFFLINERS)
+              OfflineTradeTable.storeOffliners();
+        }
+        catch (Throwable t)
+        {
+        	_log.error("Error saving offline shops.",t);
+        }
 
 		// we cannt abort shutdown anymore, so i removed the "if"
 		disconnectAllCharacters();

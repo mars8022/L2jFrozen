@@ -836,6 +836,8 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	private boolean _isTradeOff = false;
 
+	private long _offlineShopStart = 0;
+	
 	/** Herbs Task Time **/
 	private int _herbstask = 0;
 
@@ -6916,6 +6918,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void setPrivateStoreType(int type)
 	{
 		_privatestore = type;
+		
+		if (Config.OFFLINE_DISCONNECT_FINISHED && _privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
+			logout();
 	}
 
 	/**
@@ -14674,4 +14679,13 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 	}
 	
+	public long getOfflineStartTime()
+	{
+		return _offlineShopStart;
+	}
+
+	public void setOfflineStartTime(long time)
+	{
+		_offlineShopStart = time;
+	}
 }
