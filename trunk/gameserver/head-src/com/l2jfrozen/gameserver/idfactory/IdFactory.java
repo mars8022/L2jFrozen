@@ -62,6 +62,8 @@ public abstract class IdFactory
 			"UPDATE itemsonground         SET object_id = ?   WHERE object_id = ?",
 			"UPDATE auction_bid          SET bidderId = ?      WHERE bidderId = ?",
 			"UPDATE auction_watch        SET charObjId = ?     WHERE charObjId = ?",
+			"UPDATE character_offline_trade SET charId = ?     WHERE charId = ?",
+			"UPDATE character_offline_trade_items SET charId = ? WHERE charId = ?",
 			"UPDATE clanhall             SET ownerId = ?       WHERE ownerId = ?"
 	};
 
@@ -197,6 +199,9 @@ public abstract class IdFactory
 			cleanCount += stmt.executeUpdate("DELETE FROM topic WHERE topic.topic_forum_id NOT IN (SELECT forum_id FROM forums);");
 			cleanCount += stmt.executeUpdate("DELETE FROM posts WHERE posts.post_forum_id NOT IN (SELECT forum_id FROM forums);");
 
+			cleanCount += stmt.executeUpdate("DELETE FROM character_offline_trade WHERE character_offline_trade.charId NOT IN (SELECT charId FROM characters);");
+			cleanCount += stmt.executeUpdate("DELETE FROM character_offline_trade_items WHERE character_offline_trade_items.charId NOT IN (SELECT charId FROM characters);");
+			
 			stmt.close();
 			_log.info("Cleaned " + cleanCount + " elements from database.");
 			stmt = null;

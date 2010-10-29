@@ -120,6 +120,8 @@ public final class Logout extends L2GameClientPacket
 		if(player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE || player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)
 		{
 			player.closeNetConnection();
+			if (player.getOfflineStartTime() == 0)
+				player.setOfflineStartTime(System.currentTimeMillis());
 			return;
 		}
 
