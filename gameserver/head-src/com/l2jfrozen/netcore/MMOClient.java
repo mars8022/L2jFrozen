@@ -27,7 +27,9 @@ public abstract class MMOClient<T extends MMOConnection>
     public MMOClient(T con)
     {
         this.setConnection(con);
-        con.setClient(this);
+        
+        if(con!=null)
+        	con.setClient(this);
     }
     
     protected void setConnection(T con)
@@ -42,12 +44,14 @@ public abstract class MMOClient<T extends MMOConnection>
     
     public void closeNow()
     {
-        this.getConnection().closeNow();
+    	if(_connection!=null)
+    		this.getConnection().closeNow();
     }
     
     public void closeLater()
     {
-        this.getConnection().closeLater();
+    	if(_connection!=null)
+    		this.getConnection().closeLater();
     }
     
     public abstract boolean decrypt(ByteBuffer buf, int size);

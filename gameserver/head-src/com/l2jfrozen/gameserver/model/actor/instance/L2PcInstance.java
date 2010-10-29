@@ -979,7 +979,10 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	public String getAccountName()
 	{
-		return getClient().getAccountName();
+		if(getClient()!=null)
+			return getClient().getAccountName();
+		else
+			return _accountName;
 	}
 
 	public Map<Integer, String> getAccountChars()
@@ -6880,7 +6883,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	}
 
 	/**
-	 * Return the _buyList object of the L2PcInstance.<BR>
+	 * Return the _sellList object of the L2PcInstance.<BR>
 	 * <BR>
 	 */
 	public TradeList getSellList()
@@ -14575,7 +14578,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		int boxes_number = 1; //this one
 		
-		if(getClient()!=null && !getClient().getConnection().isClosed()){
+		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
