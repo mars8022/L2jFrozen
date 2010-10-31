@@ -33,6 +33,8 @@ DROP TABLE IF EXISTS character_skills_save;
 DROP TABLE IF EXISTS character_subclasses;
 DROP TABLE IF EXISTS characters;
 DROP TABLE IF EXISTS characters_custom_data;
+DROP TABLE IF EXISTS character_offline_trade;
+DROP TABLE IF EXISTS character_offline_trade_items;
 DROP TABLE IF EXISTS clan_data;
 DROP TABLE IF EXISTS clan_privs;
 DROP TABLE IF EXISTS clan_skills;
