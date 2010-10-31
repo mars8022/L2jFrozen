@@ -27,8 +27,10 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
+import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class AdminCTFEngine implements IAdminCommandHandler
@@ -71,22 +73,31 @@ public class AdminCTFEngine implements IAdminCommandHandler
 
 			else if(command.startsWith("admin_ctf_name "))
 			{
-				CTF._eventName = command.substring(15);
-				showMainPage(activeChar);
+				if(CTF.set_eventName(command.substring(15)))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			}
 
 			else if(command.startsWith("admin_ctf_desc "))
 			{
-				CTF._eventDesc = command.substring(15);
-				showMainPage(activeChar);
+				if(CTF.set_eventDesc(command.substring(15)))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_minlvl "))
 			{
 				if (!CTF.checkMinLevel(Integer.valueOf(command.substring(17))))
 					return false;
-				CTF._minlvl = Integer.valueOf(command.substring(17));
-				showMainPage(activeChar);
+				
+				if(CTF.set_minlvl(Integer.valueOf(command.substring(15))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_team_flag "))
@@ -117,7 +128,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 
 			else if(command.equals("admin_ctf_tele_npc"))
 			{
-				activeChar.teleToLocation(CTF._npcX, CTF._npcY, CTF._npcZ);
+				activeChar.teleToLocation(CTF.get_npcLocation(),false);
 				showMainPage(activeChar);
 			}
 
@@ -147,32 +158,48 @@ public class AdminCTFEngine implements IAdminCommandHandler
 			{
 				if(!CTF.checkMaxLevel(Integer.valueOf(command.substring(17))))
 					return false;
-				CTF._maxlvl = Integer.valueOf(command.substring(17));
-				showMainPage(activeChar);
+				
+				if(CTF.set_maxlvl(Integer.valueOf(command.substring(17))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_minplayers "))
 			{
-				CTF._minPlayers = Integer.valueOf(command.substring(21));
-				showMainPage(activeChar);
+				if(CTF.set_minPlayers(Integer.valueOf(command.substring(21))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_maxplayers "))
 			{
-				CTF._maxPlayers = Integer.valueOf(command.substring(21));
-				showMainPage(activeChar);
+				if(CTF.set_maxPlayers(Integer.valueOf(command.substring(21))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_join_loc "))
 			{
-				CTF._joiningLocationName = command.substring(19);
-				showMainPage(activeChar);
+				if(CTF.set_joiningLocationName(command.substring(19)))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_npc "))
 			{
-				CTF._npcId = Integer.valueOf(command.substring(14));
-				showMainPage(activeChar);
+				if(CTF.set_npcId(Integer.valueOf(command.substring(14))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.equals("admin_ctf_npc_pos"))
@@ -183,32 +210,47 @@ public class AdminCTFEngine implements IAdminCommandHandler
 
 			else if(command.startsWith("admin_ctf_reward "))
 			{
-				CTF._rewardId = Integer.valueOf(command.substring(17));
-				showMainPage(activeChar);
+				if(CTF.set_rewardId(Integer.valueOf(command.substring(17))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_reward_amount "))
 			{
-				CTF._rewardAmount = Integer.valueOf(command.substring(24));
-				showMainPage(activeChar);
+				if(CTF.set_rewardAmount(Integer.valueOf(command.substring(24))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_jointime "))
 			{
-				CTF._joinTime = Integer.valueOf(command.substring(19));
-				showMainPage(activeChar);
+				if(CTF.set_joinTime(Integer.valueOf(command.substring(19))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_eventtime "))
 			{
-				CTF._eventTime = Integer.valueOf(command.substring(20));
-				showMainPage(activeChar);
+				if(CTF.set_eventTime(Integer.valueOf(command.substring(20))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 			
 			else if(command.startsWith("admin_ctf_interval "))
 			{
-				CTF._intervalBetweenMatchs= Integer.valueOf(command.substring(20));
-				showMainPage(activeChar);
+				if(CTF.set_intervalBetweenMatchs(Integer.valueOf(command.substring(20))))
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				
 			}
 
 			else if(command.startsWith("admin_ctf_team_add "))
@@ -253,20 +295,25 @@ public class AdminCTFEngine implements IAdminCommandHandler
 	
 			else if(command.equals("admin_ctf_join"))
 			{
-				CTF.startJoin(activeChar);
-				showMainPage(activeChar);
+				if(CTF.startJoin())
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot startJoin, check log for info..");
 			}
 
 			else if(command.equals("admin_ctf_teleport"))
 			{
-				CTF.teleportStart();
+				CTF.startTeleport();
 				showMainPage(activeChar);
 			}
 
 			else if(command.equals("admin_ctf_start"))
 			{
-				CTF.startEvent(activeChar);
-				showMainPage(activeChar);
+				if(CTF.startEvent())
+					showMainPage(activeChar);
+				else
+					activeChar.sendMessage("Cannot startEvent, check log for info..");
+				
 			}
 
 			else if(command.equals("admin_ctf_abort"))
@@ -296,11 +343,12 @@ public class AdminCTFEngine implements IAdminCommandHandler
 
 			else if(command.equals("admin_ctf_autoevent"))
 			{
-				if(CTF._joinTime>0 && CTF._eventTime>0)
+				if(CTF.get_joinTime()>0 && CTF.get_eventTime()>0){
 					CTF.autoEvent();
-				else
-					activeChar.sendMessage("Wrong usege: join time or event time invallid.");
-				showMainPage(activeChar);
+					showMainPage(activeChar);
+				}else
+					activeChar.sendMessage("Cannot perform requested operation, times not defined");
+			
 			}
 
 			else if(command.equals("admin_ctf_save"))
@@ -406,29 +454,32 @@ public class AdminCTFEngine implements IAdminCommandHandler
 
 		replyMSG.append("<table><tr>");
 		//if(!CTF._joining && !CTF._started && !CTF._teleport)
-		if(!CTF._inProgress)
+		if(!CTF.checkInProgress())
 			replyMSG.append("<td width=\"100\"><button value=\"Edit\" action=\"bypass -h admin_ctf_edit\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Control\" action=\"bypass -h admin_ctf_control\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><br>");
 
 		replyMSG.append("<br><font color=\"LEVEL\">Current event...</font><br1>");
-		replyMSG.append("Name:&nbsp;<font color=\"00FF00\">" + CTF._eventName + "</font><br1>");
-		replyMSG.append("Description:&nbsp;<font color=\"00FF00\">" + CTF._eventDesc + "</font><br1>");
-		replyMSG.append("Joining location name:&nbsp;<font color=\"00FF00\">" + CTF._joiningLocationName + "</font><br1>");
-		replyMSG.append("Joining NPC ID:&nbsp;<font color=\"00FF00\">" + CTF._npcId + " on pos " + CTF._npcX + "," + CTF._npcY + "," + CTF._npcZ + "</font><br1>");
+		replyMSG.append("Name:&nbsp;<font color=\"00FF00\">" + CTF.get_eventName() + "</font><br1>");
+		replyMSG.append("Description:&nbsp;<font color=\"00FF00\">" + CTF.get_eventDesc() + "</font><br1>");
+		replyMSG.append("Joining location name:&nbsp;<font color=\"00FF00\">" + CTF.get_joiningLocationName() + "</font><br1>");
+		
+		Location npc_loc = CTF.get_npcLocation();
+		
+		replyMSG.append("Joining NPC ID:&nbsp;<font color=\"00FF00\">" + CTF.get_npcId() + " on pos " + npc_loc._x + "," + npc_loc._y + "," + npc_loc._z + "</font><br1>");
 		replyMSG.append("<button value=\"Tele->NPC\" action=\"bypass -h admin_ctf_tele_npc\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><br>");
-		replyMSG.append("Reward ID:&nbsp;<font color=\"00FF00\">" + CTF._rewardId + "</font><br1>");
-		if(ItemTable.getInstance().getTemplate(CTF._rewardId) != null)
-			replyMSG.append("Reward Item:&nbsp;<font color=\"00FF00\">" +  ItemTable.getInstance().getTemplate(CTF._rewardId).getName() + "</font><br1>");
+		replyMSG.append("Reward ID:&nbsp;<font color=\"00FF00\">" + CTF.get_rewardId() + "</font><br1>");
+		if(ItemTable.getInstance().getTemplate(CTF.get_rewardId()) != null)
+			replyMSG.append("Reward Item:&nbsp;<font color=\"00FF00\">" +  ItemTable.getInstance().getTemplate(CTF.get_rewardId()).getName() + "</font><br1>");
 		else
 			replyMSG.append("Reward Item:&nbsp;<font color=\"00FF00\">(unknown)</font><br1>");
-		replyMSG.append("Reward Amount:&nbsp;<font color=\"00FF00\">" + CTF._rewardAmount + "</font><br>");
-		replyMSG.append("Min lvl:&nbsp;<font color=\"00FF00\">" + CTF._minlvl + "</font><br1>");
-		replyMSG.append("Max lvl:&nbsp;<font color=\"00FF00\">" + CTF._maxlvl + "</font><br><br>");
-		replyMSG.append("Min Players:&nbsp;<font color=\"00FF00\">" + CTF._minPlayers + "</font><br1>");
-		replyMSG.append("Max Players:&nbsp;<font color=\"00FF00\">" + CTF._maxPlayers + "</font><br>");
-		replyMSG.append("Joining Time:&nbsp;<font color=\"00FF00\">" + CTF._joinTime + "</font><br1>");
-		replyMSG.append("Event Time:&nbsp;<font color=\"00FF00\">" + CTF._eventTime + "</font><br>");
+		replyMSG.append("Reward Amount:&nbsp;<font color=\"00FF00\">" + CTF.get_rewardAmount() + "</font><br>");
+		replyMSG.append("Min lvl:&nbsp;<font color=\"00FF00\">" + CTF.get_minlvl() + "</font><br1>");
+		replyMSG.append("Max lvl:&nbsp;<font color=\"00FF00\">" + CTF.get_maxlvl() + "</font><br><br>");
+		replyMSG.append("Min Players:&nbsp;<font color=\"00FF00\">" + CTF.get_minPlayers() + "</font><br1>");
+		replyMSG.append("Max Players:&nbsp;<font color=\"00FF00\">" + CTF.get_maxPlayers()+ "</font><br>");
+		replyMSG.append("Joining Time:&nbsp;<font color=\"00FF00\">" + CTF.get_joinTime() + "</font><br1>");
+		replyMSG.append("Event Time:&nbsp;<font color=\"00FF00\">" + CTF.get_eventTime() + "</font><br>");
 		if(CTF._teams != null && !CTF._teams.isEmpty())
 			replyMSG.append("<font color=\"LEVEL\">Current teams:</font><br1>");
 		replyMSG.append("<center><table border=\"0\">");
@@ -441,7 +492,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 				replyMSG.append("&nbsp;(" + CTF.teamPlayersCount(team) + " joined)");
 			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
 			{
-				if(CTF._teleport || CTF._started)
+				if(CTF.is_teleport() || CTF.is_started())
 					replyMSG.append("&nbsp;(" + CTF.teamPlayersCount(team) + " in)");
 			}
 			replyMSG.append("</td></tr><tr><td>");
@@ -462,16 +513,16 @@ public class AdminCTFEngine implements IAdminCommandHandler
 			replyMSG.append("</td></tr><tr><td>");
 			replyMSG.append(CTF._flagsX.get(CTF._teams.indexOf(team)) + ", " + CTF._flagsY.get(CTF._teams.indexOf(team)) + ", " + CTF._flagsZ.get(CTF._teams.indexOf(team))+"</td></tr>");
 			//if(!CTF._joining && !CTF._started && !CTF._teleport)
-			if(!CTF._inProgress)	
+			if(!CTF.checkInProgress())	
 				replyMSG.append("<tr><td width=\"60\"><button value=\"Remove\" action=\"bypass -h admin_ctf_team_remove " + team + "\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td></tr><tr></tr>");
 		}
 
 		replyMSG.append("</table></center>");
 
 		//if(!CTF._joining && !CTF._started && !CTF._teleport)
-		if(!CTF._inProgress)
+		if(!CTF.checkInProgress())
 		{
-			if(CTF.startJoinOk())
+			if(CTF.checkStartJoinOk())
 			{
 				replyMSG.append("<br1>");
 				replyMSG.append("Event is now set up. Press JOIN to start the registration.<br1>");
@@ -485,7 +536,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 				replyMSG.append("<br>");
 			}
 		}
-		else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !CTF._started)
+		else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !CTF.is_started())
 		{
 			replyMSG.append("<br1>");
 			replyMSG.append(CTF._playersShuffle.size() + " players participating. Waiting to shuffle in teams(done on teleport)!");

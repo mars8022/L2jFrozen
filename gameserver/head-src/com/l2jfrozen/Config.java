@@ -3011,6 +3011,7 @@ public final class Config
 	public static float CONFUSION_CHANCE_MODIFIER;
 	public static float DEBUFF_CHANCE_MODIFIER;
 	public static float BUFF_CHANCE_MODIFIER;
+	public static boolean SEND_SKILLS_CHANCE_TO_PLAYERS;
 	
 	//============================================================
 	public static void loadPHYSICSConfig()
@@ -3085,6 +3086,7 @@ public final class Config
 				LIST_LETHAL_PROTECTED_MOBS.add(Integer.parseInt(id));
 			}
 			
+			SEND_SKILLS_CHANCE_TO_PLAYERS = Boolean.parseBoolean(PHYSICSSetting.getProperty("SendSkillsChanceToPlayers", "False"));
 		}
 		catch(Exception e)
 		{

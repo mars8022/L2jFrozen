@@ -160,7 +160,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					{
 						String teamName = _command.substring(endOfId + 1).substring(16);
 
-						if(TvT._joining)
+						if(TvT.is_joining())
 						{
 							TvT.addPlayer(activeChar, teamName);
 						}
@@ -172,7 +172,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 
 					else if(_command.substring(endOfId + 1).startsWith("tvt_player_leave"))
 					{
-						if(TvT._joining)
+						if(TvT.is_joining())
 						{
 							TvT.removePlayer(activeChar);
 						}
@@ -184,7 +184,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 
 					else if(_command.substring(endOfId+1).startsWith("dmevent_player_join"))
 					{
-						if(DM._joining)
+						if(DM.is_joining())
 							DM.addPlayer(activeChar);
 						else
 							activeChar.sendMessage("The event is already started. You can't join now!");
@@ -192,7 +192,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 
 					else if(_command.substring(endOfId+1).startsWith("dmevent_player_leave"))
 					{
-						if(DM._joining)
+						if(DM.is_joining())
 							DM.removePlayer(activeChar);
 						else
 							activeChar.sendMessage("The event is already started. You can't leave now!");
@@ -201,7 +201,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					else if(_command.substring(endOfId+1).startsWith("ctf_player_join "))
 					{
 						String teamName = _command.substring(endOfId+1).substring(16);
-						if(CTF._joining)
+						if(CTF.is_joining())
 							CTF.addPlayer(activeChar, teamName);
 						else
 							activeChar.sendMessage("The event is already started. You can't join now!");
@@ -209,7 +209,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 
 					else if(_command.substring(endOfId+1).startsWith("ctf_player_leave"))
 					{
-						if(CTF._joining)
+						if(CTF.is_joining())
 							CTF.removePlayer(activeChar);
 						else
 							activeChar.sendMessage("The event is already started. You can't leave now!");

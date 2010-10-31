@@ -773,7 +773,7 @@ public class L2NpcInstance extends L2Character
 					}
 					else if(_isCTF_throneSpawn)
 					{
-						CTF.CheckRestoreFlags();
+						CTF.checkRestoreFlags();
 					}
 					else if(this._isEventVIPNPC)
 					{

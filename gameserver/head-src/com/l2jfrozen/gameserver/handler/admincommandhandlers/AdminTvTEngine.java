@@ -32,7 +32,10 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
@@ -67,47 +70,73 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			showMainPage(activeChar);
 		else if(command.startsWith("admin_tvt_name "))
 		{
-			TvT._eventName = command.substring(15);
-			showMainPage(activeChar);
+			if(TvT.set_eventName(command.substring(15)))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_desc "))
 		{
-			TvT._eventDesc = command.substring(15);
-			showMainPage(activeChar);
+			if(TvT.set_eventDesc(command.substring(15)))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_minlvl "))
 		{
 			if(!TvT.checkMinLevel(Integer.valueOf(command.substring(17))))
 				return false;
-			TvT._minlvl = Integer.valueOf(command.substring(17));
-			showMainPage(activeChar);
+			
+			if(TvT.set_minlvl(Integer.valueOf(command.substring(17))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_maxlvl "))
 		{
 			if(!TvT.checkMaxLevel(Integer.valueOf(command.substring(17))))
 				return false;
-			TvT._maxlvl = Integer.valueOf(command.substring(17));
-			showMainPage(activeChar);
+			
+			if(TvT.set_maxlvl(Integer.valueOf(command.substring(17))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_minplayers "))
 		{
-			TvT._minPlayers = Integer.valueOf(command.substring(21));
-			showMainPage(activeChar);
+			if(TvT.set_minPlayers(Integer.valueOf(command.substring(21))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_maxplayers "))
 		{
-			TvT._maxPlayers = Integer.valueOf(command.substring(21));
-			showMainPage(activeChar);
+			if(TvT.set_maxPlayers(Integer.valueOf(command.substring(21))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_join_loc "))
 		{
-			TvT._joiningLocationName = command.substring(19);
-			showMainPage(activeChar);
+			if(TvT.set_joiningLocationName(command.substring(19)))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_npc "))
 		{
-			TvT._npcId = Integer.valueOf(command.substring(14));
-			showMainPage(activeChar);
+			if(TvT.set_npcId(Integer.valueOf(command.substring(14))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.equals("admin_tvt_npc_pos"))
 		{
@@ -116,28 +145,43 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		}
 		else if(command.startsWith("admin_tvt_reward "))
 		{
-			TvT._rewardId = Integer.valueOf(command.substring(17));
-			showMainPage(activeChar);
+			if(TvT.set_rewardId(Integer.valueOf(command.substring(17))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_reward_amount "))
 		{
-			TvT._rewardAmount = Integer.valueOf(command.substring(24));
-			showMainPage(activeChar);
+			if(TvT.set_rewardAmount(Integer.valueOf(command.substring(24))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_jointime "))
 		{
-			TvT._joinTime = Integer.valueOf(command.substring(19));
-			showMainPage(activeChar);
+			if(TvT.set_joinTime(Integer.valueOf(command.substring(19))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_eventtime "))
 		{
-			TvT._eventTime = Integer.valueOf(command.substring(20));
-			showMainPage(activeChar);
+			if(TvT.set_eventTime(Integer.valueOf(command.substring(20))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_interval "))
 		{
-			TvT._intervalBetweenMatchs= Integer.valueOf(command.substring(20));
-			showMainPage(activeChar);
+			if(TvT.set_intervalBetweenMatchs(Integer.valueOf(command.substring(20))))
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			
 		}
 		else if(command.startsWith("admin_tvt_team_add "))
 		{
@@ -177,18 +221,22 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		}
 		else if(command.equals("admin_tvt_join"))
 		{
-			TvT.startJoin(activeChar);
-			showMainPage(activeChar);
+			if(TvT.startJoin())
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot startJoin, check log for info..");
 		}
 		else if(command.equals("admin_tvt_teleport"))
 		{
-			TvT.teleportStart();
+			TvT.startTeleport();
 			showMainPage(activeChar);
 		}
 		else if(command.equals("admin_tvt_start"))
 		{
-			TvT.startEvent(activeChar);
-			showMainPage(activeChar);
+			if(TvT.startEvent())
+				showMainPage(activeChar);
+			else
+				activeChar.sendMessage("Cannot startEvent, check log for info..");
 		}
 		else if(command.equals("admin_tvt_abort"))
 		{
@@ -213,7 +261,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		}
 		else if(command.equals("admin_tvt_autoevent"))
 		{
-			if(TvT._joinTime > 0 && TvT._eventTime > 0)
+			if(TvT.get_joinTime() > 0 && TvT.get_eventTime() > 0)
 				TvT.autoEvent();
 			else
 				activeChar.sendMessage("Wrong usege: join time or event time invallid.");
@@ -302,19 +350,22 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		replyMSG.append("<td width=\"100\"><button value=\"Auto Event\" action=\"bypass -h admin_tvt_autoevent\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><br><br>");
 		replyMSG.append("Current event:<br1>");
-		replyMSG.append("Name:&nbsp;<font color=\"00FF00\">" + TvT._eventName + "</font><br1>");
-		replyMSG.append("Description:&nbsp;<font color=\"00FF00\">" + TvT._eventDesc + "</font><br1>");
-		replyMSG.append("Joining location name:&nbsp;<font color=\"00FF00\">" + TvT._joiningLocationName + "</font><br1>");
-		replyMSG.append("Joining NPC ID:&nbsp;<font color=\"00FF00\">" + TvT._npcId + " on pos " + TvT._npcX + "," + TvT._npcY + "," + TvT._npcZ + "</font><br1>");
-		replyMSG.append("Reward ID:&nbsp;<font color=\"00FF00\">" + TvT._rewardId + "</font><br1>");
-		replyMSG.append("Reward Amount:&nbsp;<font color=\"00FF00\">" + TvT._rewardAmount + "</font><br><br>");
-		replyMSG.append("Min lvl:&nbsp;<font color=\"00FF00\">" + TvT._minlvl + "</font><br>");
-		replyMSG.append("Max lvl:&nbsp;<font color=\"00FF00\">" + TvT._maxlvl + "</font><br><br>");
-		replyMSG.append("Min Players:&nbsp;<font color=\"00FF00\">" + TvT._minPlayers + "</font><br>");
-		replyMSG.append("Max Players:&nbsp;<font color=\"00FF00\">" + TvT._maxPlayers + "</font><br><br>");
-		replyMSG.append("Joining Time:&nbsp;<font color=\"00FF00\">" + TvT._joinTime + "</font><br>");
-		replyMSG.append("Event Timer:&nbsp;<font color=\"00FF00\">" + TvT._eventTime + "</font><br><br>");
-		replyMSG.append("Interval Time:&nbsp;<font color=\"00FF00\">" + TvT._intervalBetweenMatchs + "</font><br><br>");
+		replyMSG.append("Name:&nbsp;<font color=\"00FF00\">" + TvT.get_eventName() + "</font><br1>");
+		replyMSG.append("Description:&nbsp;<font color=\"00FF00\">" + TvT.get_eventDesc() + "</font><br1>");
+		replyMSG.append("Joining location name:&nbsp;<font color=\"00FF00\">" + TvT.get_joiningLocationName() + "</font><br1>");
+		
+		Location npc_loc = TvT.get_npcLocation();
+		
+		replyMSG.append("Joining NPC ID:&nbsp;<font color=\"00FF00\">" + TvT.get_npcId()+ " on pos " + npc_loc._x + "," + npc_loc._y + "," + npc_loc._z + "</font><br1>");
+		replyMSG.append("Reward ID:&nbsp;<font color=\"00FF00\">" + TvT.get_rewardId() + "</font><br1>");
+		replyMSG.append("Reward Amount:&nbsp;<font color=\"00FF00\">" + TvT.get_rewardAmount() + "</font><br><br>");
+		replyMSG.append("Min lvl:&nbsp;<font color=\"00FF00\">" + TvT.get_minlvl() + "</font><br>");
+		replyMSG.append("Max lvl:&nbsp;<font color=\"00FF00\">" + TvT.get_maxlvl() + "</font><br><br>");
+		replyMSG.append("Min Players:&nbsp;<font color=\"00FF00\">" + TvT.get_minPlayers() + "</font><br>");
+		replyMSG.append("Max Players:&nbsp;<font color=\"00FF00\">" + TvT.get_maxPlayers() + "</font><br><br>");
+		replyMSG.append("Joining Time:&nbsp;<font color=\"00FF00\">" + TvT.get_joinTime() + "</font><br>");
+		replyMSG.append("Event Timer:&nbsp;<font color=\"00FF00\">" + TvT.get_eventTime() + "</font><br><br>");
+		replyMSG.append("Interval Time:&nbsp;<font color=\"00FF00\">" + TvT.get_intervalBetweenMatchs() + "</font><br><br>");
 		replyMSG.append("Current teams:<br1>");
 		replyMSG.append("<center><table border=\"0\">");
 
@@ -326,7 +377,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 				replyMSG.append("&nbsp;(" + TvT.teamPlayersCount(team) + " joined)");
 			else if(Config.TVT_EVEN_TEAMS.equals("SHUFFLE"))
 			{
-				if(TvT._teleport || TvT._started)
+				if(TvT.is_teleport() || TvT.is_started())
 					replyMSG.append("&nbsp;(" + TvT.teamPlayersCount(team) + " in)");
 			}
 
@@ -342,7 +393,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 
 		if(Config.TVT_EVEN_TEAMS.equals("SHUFFLE"))
 		{
-			if(!TvT._started)
+			if(!TvT.is_started())
 			{
 				replyMSG.append("<br1>");
 				replyMSG.append(TvT._playersShuffle.size() + " players participating. Waiting to shuffle in teams(done on teleport)!");

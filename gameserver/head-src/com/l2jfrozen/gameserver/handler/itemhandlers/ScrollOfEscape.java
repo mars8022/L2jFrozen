@@ -112,21 +112,21 @@ public class ScrollOfEscape implements IItemHandler
 		}
 
 		//if(activeChar._inEventTvT && TvT._started)
-		if(activeChar._inEventTvT && TvT._inProgress)
+		if(activeChar._inEventTvT && TvT.checkInProgress())
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in TvT.");
 			return;
 		}
 
 		//if(activeChar._inEventDM && DM._started)
-		if(activeChar._inEventDM && DM._inProgress)
+		if(activeChar._inEventDM && DM.checkInProgress())
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in DM.");
 			return;
 		}
 
 		//if(activeChar._inEventCTF && CTF._started)
-		if(activeChar._inEventCTF && CTF._inProgress)
+		if(activeChar._inEventCTF && CTF.checkInProgress())
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in CTF.");
 			return;

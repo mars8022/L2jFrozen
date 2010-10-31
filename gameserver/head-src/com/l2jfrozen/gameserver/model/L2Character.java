@@ -1868,7 +1868,7 @@ public abstract class L2Character extends L2Object
 		}
 		else
 		{
-			if (!DM._started)
+			if (!DM.is_started())
 	      {
 			stopAllEffects();
 		  }
