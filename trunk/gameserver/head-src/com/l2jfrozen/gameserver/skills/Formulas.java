@@ -2134,6 +2134,10 @@ public final class Formulas
 		{
 			System.out.println(skill.getName() + ": " + value + ", " + statmodifier + ", " + lvlmodifier + ", " + resmodifier + ", " + ((int) (Math.pow((double) attacker.getMAtk(target, skill) / target.getMDef(attacker, skill), 0.2) * 100) - 100) + ", " + ssmodifier + " ==> " + rate);
 		}
+		
+		if(attacker instanceof L2PcInstance && Config.SEND_SKILLS_CHANCE_TO_PLAYERS)
+			((L2PcInstance) attacker).sendMessage("Skill "+skill.getName()+" Chance: " + rate + "%");
+		
 		return Rnd.get(100) < rate;
 	}
 

@@ -56,12 +56,12 @@ public class DMCmd implements IVoicedCommandHandler
 		}
 		System.out.println("DMCmd:activechar not null");
 		
-		if(!DM._joining)
+		if(!DM.is_joining())
 		{
 			activeChar.sendMessage("There is no DeathMatch Event in progress.");
 			return false;
 		}
-		else if(DM._joining && activeChar._inEventDM)
+		else if(DM.is_joining() && activeChar._inEventDM)
 		{
 			activeChar.sendMessage("You are already registered.");
 			return false;
@@ -76,12 +76,12 @@ public class DMCmd implements IVoicedCommandHandler
 			activeChar.sendMessage("You are not allowed to participate to the event because you are in Olympiad.");
 			return false;
 		}
-		else if(activeChar.getLevel() < DM._minlvl)
+		else if(activeChar.getLevel() < DM.get_minlvl())
 		{
 			activeChar.sendMessage("You are not allowed to participate to the event because your level is too low.");
 			return false;
 		}
-		else if(activeChar.getLevel() > DM._maxlvl)
+		else if(activeChar.getLevel() > DM.get_maxlvl())
 		{
 			activeChar.sendMessage("You are not allowed to participate to the event because your level is too high.");
 			return false;
@@ -91,7 +91,7 @@ public class DMCmd implements IVoicedCommandHandler
 			activeChar.sendMessage("You are not allowed to participate to the event because you have Karma.");
 			return false;
 		}
-		else if(DM._teleport || DM._started)
+		else if(DM.is_teleport() || DM.is_started())
 		{
 			activeChar.sendMessage("DeathMatch Event registration period is over. You can't register now.");
 			return false;
@@ -111,17 +111,17 @@ public class DMCmd implements IVoicedCommandHandler
 			return false;
 		}
 
-		if(!DM._joining)
+		if(!DM.is_joining())
 		{
 			activeChar.sendMessage("There is no DeathMatch Event in progress.");
 			return false;
 		}
-		else if((DM._teleport || DM._started) && activeChar._inEventDM)
+		else if((DM.is_teleport() || DM.is_started()) && activeChar._inEventDM)
 		{
 			activeChar.sendMessage("You can not leave now because DeathMatch event has started.");
 			return false;
 		}
-		else if(DM._joining && !activeChar._inEventDM)
+		else if(DM.is_joining() && !activeChar._inEventDM)
 		{
 			activeChar.sendMessage("You aren't registered in the DeathMatch Event.");
 			return false;
@@ -140,12 +140,12 @@ public class DMCmd implements IVoicedCommandHandler
 			return false;
 		}
 
-		if(!DM._joining)
+		if(!DM.is_joining())
 		{
 			activeChar.sendMessage("There is no DeathMatch Event in progress.");
 			return false;
 		}
-		else if(DM._teleport || DM._started)
+		else if(DM.is_teleport() || DM.is_started())
 		{
 			activeChar.sendMessage("I can't provide you this info. Command available only in joining period.");
 			return false;
@@ -155,16 +155,16 @@ public class DMCmd implements IVoicedCommandHandler
 			if(DM._players.size() == 1)
 			{
 				activeChar.sendMessage("There is " + DM._players.size() + " player participating in this event.");
-				activeChar.sendMessage("Reward: " + DM._rewardAmount + " " + ItemTable.getInstance().getTemplate(DM._rewardId).getName()+ " !");
-				activeChar.sendMessage("Player Min lvl: " + DM._minlvl + ".");
-				activeChar.sendMessage("Player Max lvl: " + DM._maxlvl + ".");
+				activeChar.sendMessage("Reward: " + DM.get_rewardAmount() + " " + ItemTable.getInstance().getTemplate(DM.get_rewardId()).getName()+ " !");
+				activeChar.sendMessage("Player Min lvl: " + DM.get_minlvl() + ".");
+				activeChar.sendMessage("Player Max lvl: " + DM.get_maxlvl() + ".");
 			}
 			else
 			{
 				activeChar.sendMessage("There are " + DM._players.size() + " players participating in this event.");
-				activeChar.sendMessage("Reward: " + DM._rewardAmount + " " + ItemTable.getInstance().getTemplate(DM._rewardId).getName()+ " !");
-				activeChar.sendMessage("Player Min lvl: " + DM._minlvl + ".");
-				activeChar.sendMessage("Player Max lvl: " + DM._maxlvl + ".");
+				activeChar.sendMessage("Reward: " + DM.get_rewardAmount() + " " + ItemTable.getInstance().getTemplate(DM.get_rewardId()).getName()+ " !");
+				activeChar.sendMessage("Player Min lvl: " + DM.get_minlvl() + ".");
+				activeChar.sendMessage("Player Max lvl: " + DM.get_maxlvl() + ".");
 			}
 			return true;
 		}

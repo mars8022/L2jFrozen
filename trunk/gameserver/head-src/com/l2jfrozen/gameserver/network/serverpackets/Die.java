@@ -60,9 +60,9 @@ public class Die extends L2GameServerPacket
 			L2PcInstance player = (L2PcInstance) cha;
 			_access = player.getAccessLevel();
 			_clan = player.getClan();
-			_canTeleport = !((TvT._started && player._inEventTvT)
-							|| (DM._started && player._inEventDM)
-							|| (CTF._started && player._inEventCTF)
+			_canTeleport = !((TvT.is_started() && player._inEventTvT)
+							|| (DM.is_started() && player._inEventDM)
+							|| (CTF.is_started() && player._inEventCTF)
 							|| player.isInFunEvent()
 							|| player.isPendingRevive());
 		}

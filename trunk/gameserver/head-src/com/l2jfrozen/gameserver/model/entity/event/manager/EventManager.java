@@ -135,12 +135,12 @@ public class EventManager
 	private static void registerTvT(){
 		
 		TvT.loadData();
-		if(!TvT.startJoinOk()){
+		if(!TvT.checkStartJoinOk()){
 			_log.error("registerTvT: TvT Event is not setted Properly");
 		}
 		
 		//clear all tvt
-		EventsGlobalTask.getInstance().clearEventTasksByEventName(TvT._eventName);
+		EventsGlobalTask.getInstance().clearEventTasksByEventName(TvT.get_eventName());
 		
 		for(String time:TVT_TIMES_LIST){
 			
@@ -157,9 +157,13 @@ public class EventManager
 	private static void registerCTF(){
 		
 		CTF.loadData();
-		if(!CTF.startJoinOk()){
+		if(!CTF.checkStartJoinOk()){
 			_log.error("registerCTF: CTF Event is not setted Properly");
 		}
+		
+		//clear all tvt
+		EventsGlobalTask.getInstance().clearEventTasksByEventName(CTF.get_eventName());
+		
 		
 		for(String time:CTF_TIMES_LIST){
 			
@@ -174,9 +178,13 @@ public class EventManager
 	
 	private static void registerDM(){
 		DM.loadData();
-		if(!DM.startJoinOk()){
+		if(!DM.checkStartJoinOk()){
 			_log.error("registerDM: DM Event is not setted Properly");
 		}
+		
+		//clear all tvt
+		EventsGlobalTask.getInstance().clearEventTasksByEventName(DM.get_eventName());
+		
 		
 		for(String time:DM_TIMES_LIST){
 			

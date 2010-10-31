@@ -3066,7 +3066,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up ...");
 		}
-		else if(TvT._sitForced && _inEventTvT || CTF._sitForced && _inEventCTF || DM._sitForced && _inEventDM)
+		else if(TvT.is_sitForced() && _inEventTvT || CTF.is_sitForced() && _inEventCTF || DM.is_sitForced() && _inEventDM)
 		{
 			sendMessage("The Admin/GM handle if you sit or stand in this match!");
 		}
@@ -4282,7 +4282,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void onAction(L2PcInstance player)
 	{
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
-		if ((TvT._inProgress && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._inProgress && !Config.CTF_ALLOW_INTERFERENCE) || (DM._inProgress && !Config.DM_ALLOW_INTERFERENCE))
+		if ((TvT.checkInProgress() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.checkInProgress() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.checkInProgress() && !Config.DM_ALLOW_INTERFERENCE))
 	    {
             if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
             {
@@ -4337,7 +4337,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				// Check if this L2PcInstance is autoAttackable
 				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
-				if (isAutoAttackable(player) || (player._inEventTvT && TvT._inProgress) || (player._inEventCTF && CTF._inProgress) || (player._inEventDM && DM._inProgress) || (player._inEventVIP && VIP._inProgress))
+				if (isAutoAttackable(player) || (player._inEventTvT && TvT.checkInProgress()) || (player._inEventCTF && CTF.checkInProgress()) || (player._inEventDM && DM.checkInProgress()) || (player._inEventVIP && VIP._inProgress))
 				{
 					if(Config.ALLOW_CHAR_KILL_PROTECT)
 					{
@@ -4479,7 +4479,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public boolean isInFunEvent()
 	{
 		//return (atEvent || (TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP));
-		return (atEvent || (TvT._inProgress && _inEventTvT) || (DM._inProgress && _inEventDM) || (CTF._inProgress && _inEventCTF) || (VIP._inProgress && _inEventVIP));
+		return (atEvent || (TvT.checkInProgress() && _inEventTvT) || (DM.checkInProgress() && _inEventDM) || (CTF.checkInProgress() && _inEventCTF) || (VIP._inProgress && _inEventVIP));
 	}
 
 	/**
@@ -5464,7 +5464,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			if((killer instanceof L2PcInstance && ((L2PcInstance) killer)._inEventTvT) && _inEventTvT)
 			{
-				if(TvT._teleport || TvT._started)
+				if(TvT.is_teleport() || TvT.is_started())
 				{
 					if(!(((L2PcInstance) killer)._teamNameTvT.equals(_teamNameTvT)))
 					{
@@ -5496,7 +5496,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
             else if (_inEventTvT)
             {
-                if (TvT._teleport || TvT._started)
+                if (TvT.is_teleport() || TvT.is_started())
                 {
                     sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
                     ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -5512,7 +5512,7 @@ public final class L2PcInstance extends L2PlayableInstance
             }
 			else if(_inEventCTF)
 			{
-				if(CTF._teleport || CTF._started)
+				if(CTF.is_teleport() || CTF.is_started())
 				{
 					sendMessage("You will be revived and teleported to team flag in 20 seconds!");
 					if(_haveFlagCTF)
@@ -5529,7 +5529,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else if((killer instanceof L2PcInstance && ((L2PcInstance)killer)._inEventDM) && _inEventDM)
 			{
-				if(DM._teleport || DM._started)
+				if(DM.is_teleport() || DM.is_started())
 				{
 					((L2PcInstance)killer)._countDMkills++;
 					
@@ -5542,7 +5542,8 @@ public final class L2PcInstance extends L2PlayableInstance
 					{
 						public void run()
 						{
-							teleToLocation(DM._playerX, DM._playerY, DM._playerZ, false);
+							Location p_loc = DM.get_playersSpawnLocation();
+							teleToLocation(p_loc._x, p_loc._y, p_loc._z, false);
 							doRevive();
 						}
 					}, 20000);
@@ -5550,14 +5551,15 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else if(_inEventDM)
 			{
-				if(DM._teleport || DM._started)
+				if(DM.is_teleport() || DM.is_started())
 				{
 					sendMessage("You will be revived and teleported to spot in 20 seconds!");
 					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 					{
 						public void run()
 						{
-							teleToLocation(DM._playerX, DM._playerY, DM._playerZ, false);
+							Location players_loc = DM.get_playersSpawnLocation();
+							teleToLocation(players_loc._x, players_loc._y, players_loc._z, false);
 							doRevive();
 						}
 					}, 20000);
@@ -5693,12 +5695,12 @@ public final class L2PcInstance extends L2PlayableInstance
 		CTF.removeFlagFromPlayer(this);
 		broadcastUserInfo();
 		_haveFlagCTF = false;
-		CTF.Announcements(CTF._eventName + "(CTF): " + _teamNameHaveFlagCTF + "'s flag returned.");
+		Announcements.getInstance().gameAnnounceToAll(CTF.get_eventName() + "(CTF): " + _teamNameHaveFlagCTF + "'s flag returned.");
 	}
 
 	private void onDieDropItem(L2Character killer)
 	{
-		if(atEvent || (TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP) || killer == null)
+		if(atEvent || (TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP) || killer == null)
 			return;
 
 		if(getKarma() <= 0 && killer instanceof L2PcInstance && ((L2PcInstance) killer).getClan() != null && getClan() != null && ((L2PcInstance) killer).getClan().isAtWarWith(getClanId()))
@@ -6022,7 +6024,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 
-		if((TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP)) 
+		if((TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP)) 
 			return;
 
 		// Add karma to attacker and increase its PK counter
@@ -6273,7 +6275,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void increasePkKillsAndKarma(int targLVL)
 	{
-		if((TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP))
+		if((TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP))
 			return;
 
 		int baseKarma = Config.KARMA_MIN_KARMA;
@@ -6422,7 +6424,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	public void updatePvPStatus()
 	{
-		if((TvT._started && _inEventTvT) || (CTF._started && _inEventCTF) || (DM._started && _inEventDM) || (VIP._started && _inEventVIP))
+		if((TvT.is_started() && _inEventTvT) || (CTF.is_started() && _inEventCTF) || (DM.is_started() && _inEventDM) || (VIP._started && _inEventVIP))
 			return;
 
 		if(isInsideZone(ZONE_PVP))
@@ -6452,7 +6454,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(player_target == null)
 			return;
 
-		if((TvT._started && _inEventTvT && player_target._inEventTvT) || (DM._started && _inEventDM && player_target._inEventDM) || (CTF._started && _inEventCTF && player_target._inEventCTF) || (VIP._started && _inEventVIP && player_target._inEventVIP))
+		if((TvT.is_started() && _inEventTvT && player_target._inEventTvT) || (DM.is_started() && _inEventDM && player_target._inEventDM) || (CTF.is_started() && _inEventCTF && player_target._inEventCTF) || (VIP._started && _inEventVIP && player_target._inEventVIP))
 			return;
 
 		if(isInDuel() && player_target.getDuelId() == getDuelId())
@@ -9778,7 +9780,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(skill.isOffensive())
 		{
 			//if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._inProgress) || !(_inEventCTF && CTF._inProgress)	|| !(_inEventDM && DM._inProgress) || !(_inEventVIP && VIP._inProgress)))
+			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.checkInProgress()) || !(_inEventCTF && CTF.checkInProgress())	|| !(_inEventDM && DM.checkInProgress()) || !(_inEventVIP && VIP._inProgress)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
 				{
@@ -9803,7 +9805,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Check if the target is attackable
 			//if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._inProgress) || !(_inEventCTF && CTF._inProgress)	|| !(_inEventDM && DM._inProgress) || !(_inEventVIP && VIP._inProgress)))
+			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.checkInProgress()) || !(_inEventCTF && CTF.checkInProgress())	|| !(_inEventDM && DM.checkInProgress()) || !(_inEventVIP && VIP._inProgress)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
 				{
@@ -9815,7 +9817,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Check if a Forced ATTACK is in progress on non-attackable target
 			//if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._started) && !(_inEventDM && DM._started) && !(_inEventCTF && CTF._started) && !(_inEventVIP && VIP._started)
-			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._inProgress) && !(_inEventDM && DM._inProgress) && !(_inEventCTF && CTF._inProgress) && !(_inEventVIP && VIP._inProgress)
+			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT.checkInProgress()) && !(_inEventDM && DM.checkInProgress()) && !(_inEventCTF && CTF.checkInProgress()) && !(_inEventVIP && VIP._inProgress)
 					&& sklTargetType != SkillTargetType.TARGET_AURA
 					&& sklTargetType != SkillTargetType.TARGET_CLAN
 					&& sklTargetType != SkillTargetType.TARGET_ALLY
@@ -10032,7 +10034,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				character = (L2PcInstance) target;
 			}
 
-			if ((_inEventTvT && TvT._started) || (_inEventDM && DM._started) || (_inEventCTF && CTF._started) || (_inEventVIP && VIP._started))
+			if ((_inEventTvT && TvT.is_started()) || (_inEventDM && DM.is_started()) || (_inEventCTF && CTF.is_started()) || (_inEventVIP && VIP._started))
 				return true;
 
 			// check for PC->PC Pvp status
@@ -12125,7 +12127,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 
-		if((_inEventTvT && TvT._started && Config.TVT_REVIVE_RECOVERY) || (_inEventCTF && CTF._started && Config.CTF_REVIVE_RECOVERY))
+		if((_inEventTvT && TvT.is_started() && Config.TVT_REVIVE_RECOVERY) || (_inEventCTF && CTF.is_started() && Config.CTF_REVIVE_RECOVERY))
 		{
 			getStatus().setCurrentHp(getMaxHp());
 			getStatus().setCurrentMp(getMaxMp());

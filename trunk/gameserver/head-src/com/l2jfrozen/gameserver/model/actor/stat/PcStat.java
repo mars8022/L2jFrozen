@@ -234,7 +234,7 @@ public class PcStat extends PlayableStat
 
 		if(getActiveChar().isInFunEvent())
 		{
-			if(getActiveChar()._inEventTvT && TvT._maxlvl == getLevel() && !TvT._started)
+			if(getActiveChar()._inEventTvT && TvT.get_maxlvl() == getLevel() && !TvT.is_started())
 				TvT.removePlayer(getActiveChar());
 			getActiveChar().sendMessage("Your event sign up was canceled.");
 		}

@@ -115,7 +115,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 		{
 			L2Item template = ItemTable.getInstance().getTemplate(id);
 
-			if(!template.isStackable())
+			if(template!=null && !template.isStackable())
 			{
 				activeChar.sendMessage("This item does not stack - Creation aborted.");
 				return;
