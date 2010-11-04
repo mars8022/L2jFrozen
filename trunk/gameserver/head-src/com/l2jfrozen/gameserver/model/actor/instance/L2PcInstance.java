@@ -5534,9 +5534,16 @@ public final class L2PcInstance extends L2PlayableInstance
 					((L2PcInstance)killer)._countDMkills++;
 					
 					//TODO: DM Event Reward
-					if (Config.DM_ENABLE_KILL_REWARD)
-							((L2PcInstance)killer).getInventory().addItem("DM Kill Reward", Config.DM_KILL_REWARD_ID, Config.DM_KILL_REWARD_AMOUNT, this, null);
-					
+					if (Config.DM_ENABLE_KILL_REWARD){
+						
+						L2Item reward = ItemTable.getInstance().getTemplate(Config.DM_KILL_REWARD_ID);
+						
+						((L2PcInstance)killer).getInventory().addItem("DM Kill Reward", Config.DM_KILL_REWARD_ID, Config.DM_KILL_REWARD_AMOUNT, this, null);
+						((L2PcInstance)killer).sendMessage("You have earned " + Config.DM_KILL_REWARD_AMOUNT + " item(s) of ID " + reward.getName() + ".");
+						
+						reward = null;
+						
+					}
 					sendMessage("You will be revived and teleported to spot in 20 seconds!");
 					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 					{
@@ -5962,9 +5969,12 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.PVP_REWARD_ENABLED)
 				{
 					int item = Config.PVP_REWORD_ID;
+					L2Item reward = ItemTable.getInstance().getTemplate(item);
+					
 					int amount = Config.PVP_REWORD_AMOUNT;
+					
 					getInventory().addItem("Winning PvP", Config.PVP_REWORD_ID, Config.PVP_REWORD_AMOUNT, this, null);
-					sendMessage("You have earned " + amount + " item(s) of ID " + item + ".");
+					sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
 				}
 
 				if(!Config.FORCE_INVENTORY_UPDATE)
@@ -5982,9 +5992,10 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.PK_REWARD_ENABLED)
 				{
 					int item = Config.PK_REWORD_ID;
+					L2Item reward = ItemTable.getInstance().getTemplate(item);
 					int amount = Config.PK_REWORD_AMOUNT;
 					getInventory().addItem("Winning PK", Config.PK_REWORD_ID, Config.PK_REWORD_AMOUNT, this, null);
-					sendMessage("You have earned " + amount + " item(s) of ID " + item + ".");
+					sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
 				}
 
 				if(!Config.FORCE_INVENTORY_UPDATE)
