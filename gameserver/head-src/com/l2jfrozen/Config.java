@@ -2484,6 +2484,9 @@ public final class Config
 	public static int ENCHANT_WEAPON_MAX;
 	public static int ENCHANT_ARMOR_MAX;
 	public static int ENCHANT_JEWELRY_MAX;
+	
+	public static int CRYSTAL_ENCHANT_MAX;
+	public static int CRYSTAL_ENCHANT_MIN;
 
 	// Dwarf bonus
 	public static boolean ENABLE_DWARF_ENCHANT_BONUS;
@@ -2750,6 +2753,11 @@ public final class Config
 			ENCHANT_WEAPON_MAX = Integer.parseInt(ENCHANTSetting.getProperty("EnchantWeaponMax", "25"));
 			ENCHANT_ARMOR_MAX = Integer.parseInt(ENCHANTSetting.getProperty("EnchantArmorMax", "25"));
 			ENCHANT_JEWELRY_MAX = Integer.parseInt(ENCHANTSetting.getProperty("EnchantJewelryMax", "25"));
+
+			
+			/** CRYSTAL SCROLL enchant limits **/
+			CRYSTAL_ENCHANT_MIN = Integer.parseInt(ENCHANTSetting.getProperty("CrystalEnchantMax", "20"));
+			CRYSTAL_ENCHANT_MAX = Integer.parseInt(ENCHANTSetting.getProperty("CrystalEnchantMin", "0"));
 
 			/** bonus for dwarf **/
 			ENABLE_DWARF_ENCHANT_BONUS = Boolean.parseBoolean(ENCHANTSetting.getProperty("EnableDwarfEnchantBonus", "False"));

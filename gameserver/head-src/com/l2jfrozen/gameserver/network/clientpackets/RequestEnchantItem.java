@@ -286,6 +286,8 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			return;
 		}
 
+		boolean crystal_scroll = false;
+		
 		// Get the scroll type - Yesod
 		if(scroll.getItemId() >= 6569 && scroll.getItemId() <= 6578)
 		{
@@ -297,6 +299,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				if(scroll.getItemId() == crystalscroll)
 				{
 					blessedScroll = true;
+					crystal_scroll = true;
 					break;
 				}
 		}
@@ -308,6 +311,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 
 		int chance = 0;
 		int maxEnchantLevel = 0;
+		int minEnchantLevel = 0;
 
 		if(item.getItem().getType2() == L2Item.TYPE2_WEAPON)
 		{
@@ -353,7 +357,8 @@ public final class RequestEnchantItem extends L2GameClientPacket
 					{
 						chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
 					}
-					maxEnchantLevel = Config.ENCHANT_WEAPON_MAX;
+					minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
+					maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
 				}
 			}
 		}
@@ -401,7 +406,8 @@ public final class RequestEnchantItem extends L2GameClientPacket
 					{
 						chance = Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
 					}
-					maxEnchantLevel = Config.ENCHANT_ARMOR_MAX;
+					minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
+					maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
 				}
 			}
 		}
@@ -449,12 +455,13 @@ public final class RequestEnchantItem extends L2GameClientPacket
 					{
 						chance = Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
 					}
-					maxEnchantLevel = Config.ENCHANT_JEWELRY_MAX;
+					minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
+					maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
 				}
 			}
 		}
 
-		if(item.getEnchantLevel() >= maxEnchantLevel && maxEnchantLevel != 0)
+		if((item.getEnchantLevel() >= maxEnchantLevel && maxEnchantLevel != 0) || (minEnchantLevel != 0 && (item.getEnchantLevel())!=minEnchantLevel) )
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INAPPROPRIATE_ENCHANT_CONDITION));
 			return;
@@ -481,8 +488,6 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				rndValue -= Config.DWARF_ENCHANT_BONUS;
 			}
 
-		// by Azagthtot Р Р°СЃСЃС‡РµС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРіРѕ С€Р°РЅСЃР° С‚РѕС‡РєРё 
-		// Р—Р°РєР»Р°РґРєР° РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ "С‚РѕС‡РёР»СЊРЅС‹С… РєР°РјРЅРµР№" Рё РїСЂРѕС‡РµРіРѕ Р±РѕРЅСѓСЃР° Рє С‚РѕС‡РєРµ
 		Object aChance = item.fireEvent("calcEnchantChance", new Object[chance]);
 		if(aChance != null)
 		{

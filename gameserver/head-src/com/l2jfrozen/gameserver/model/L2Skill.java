@@ -1730,6 +1730,36 @@ public abstract class L2Skill
 
 						if(src != null) // caster is l2playableinstance and exists
 						{
+							//check for Events
+							if(obj instanceof L2PcInstance){
+								
+								L2PcInstance trg = (L2PcInstance) obj;
+								if(trg == src)
+								{
+									continue;
+								}
+								
+								//if src is in event and trg not OR viceversa:
+								//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+								if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+									continue;
+								}
+								
+							}else if(obj instanceof L2Summon){
+								
+								L2PcInstance trg = ((L2Summon) obj).getOwner();
+								if(trg == src)
+								{
+									continue;
+								}
+								
+								//if src is in event and trg not OR viceversa:
+								//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+								if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+									continue;
+								}
+								
+							}
 
 							if(obj instanceof L2PcInstance)
 							{
@@ -1860,6 +1890,16 @@ public abstract class L2Skill
 
 				int radius = getSkillRadius();
 
+				L2PcInstance src = null;
+				if(activeChar instanceof L2PcInstance)
+				{
+					src = (L2PcInstance) activeChar;
+				}
+				else if(activeChar instanceof L2Summon)
+				{
+					src = ((L2Summon) activeChar).getOwner();
+				}
+				
 				for(L2Object obj : activeChar.getKnownList().getKnownObjects().values())
 				{
 					if(obj == null)
@@ -1872,6 +1912,37 @@ public abstract class L2Skill
 						continue;
 					}
 
+					//check for Events
+					if(obj instanceof L2PcInstance){
+						
+						L2PcInstance trg = (L2PcInstance) obj;
+						if(trg == src)
+						{
+							continue;
+						}
+						
+						//if src is in event and trg not OR viceversa:
+						//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+						if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+							continue;
+						}
+						
+					}else if(obj instanceof L2Summon){
+						
+						L2PcInstance trg = ((L2Summon) obj).getOwner();
+						if(trg == src)
+						{
+							continue;
+						}
+						
+						//if src is in event and trg not OR viceversa:
+						//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+						if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+							continue;
+						}
+						
+					}
+					
 					if(obj instanceof L2Attackable && obj != target)
 					{
 						targetList.add((L2Character) obj);
@@ -1950,6 +2021,24 @@ public abstract class L2Skill
 
 						if(!partyMember.isDead() && Util.checkIfInRange(getSkillRadius(), activeChar, partyMember, true))
 						{
+							L2PcInstance src = null;
+							if(activeChar instanceof L2PcInstance)
+							{
+								src = (L2PcInstance) activeChar;
+							}
+							else if(activeChar instanceof L2Summon)
+							{
+								src = ((L2Summon) activeChar).getOwner();
+							}
+							
+							L2PcInstance trg = partyMember;
+							
+							//if src is in event and trg not OR viceversa:
+							//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+							if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+								continue;
+							}
+							
 							targetList.add(partyMember);
 
 							if(partyMember.getPet() != null && !partyMember.getPet().isDead())
@@ -2032,6 +2121,16 @@ public abstract class L2Skill
 							};
 					}
 
+					L2PcInstance src = null;
+					if(activeChar instanceof L2PcInstance)
+					{
+						src = (L2PcInstance) activeChar;
+					}
+					else if(activeChar instanceof L2Summon)
+					{
+						src = ((L2Summon) activeChar).getOwner();
+					}
+					
 					if(clan != null)
 					{
 						// Get all visible objects in a spheric area near the L2Character
@@ -2051,6 +2150,38 @@ public abstract class L2Skill
 							if(player.isInDuel() && (player.getDuelId() != ((L2PcInstance) newTarget).getDuelId() || player.getParty() != null && !player.getParty().getPartyMembers().contains(newTarget)))
 							{
 								continue;
+							}
+							
+							
+							//check for Events
+							if(newTarget instanceof L2PcInstance){
+								
+								L2PcInstance trg = (L2PcInstance) newTarget;
+								if(trg == src)
+								{
+									continue;
+								}
+								
+								//if src is in event and trg not OR viceversa:
+								//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+								if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+									continue;
+								}
+								
+							}else if(newTarget instanceof L2Summon){
+								
+								L2PcInstance trg = ((L2Summon) newTarget).getOwner();
+								if(trg == src)
+								{
+									continue;
+								}
+								
+								//if src is in event and trg not OR viceversa:
+								//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+								if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+									continue;
+								}
+								
 							}
 
 							L2Summon pet = ((L2PcInstance) newTarget).getPet();
@@ -2147,10 +2278,22 @@ public abstract class L2Skill
 							{
 								continue;
 							}
+							
+							L2PcInstance trg = newTarget;
+							L2PcInstance src = player;
 
+							//if src is in event and trg not OR viceversa:
+							//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+							if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+								continue;
+							}
+
+							
+							/*
 							//check if allow interference is allowed if player is not on event but target is on event
 							//if(((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE)) && !player.isGM())
-							if(((TvT.checkInProgress() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.checkInProgress() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.checkInProgress() && !Config.DM_ALLOW_INTERFERENCE))/* && !player.isGM()*/)
+
+							if(((TvT.checkInProgress() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._inProgress && !Config.CTF_ALLOW_INTERFERENCE) || (DM._inProgress && !Config.DM_ALLOW_INTERFERENCE)))
 							{
 								if((newTarget._inEventTvT && !player._inEventTvT) || (!newTarget._inEventTvT && player._inEventTvT))
 								{
@@ -2165,6 +2308,7 @@ public abstract class L2Skill
 									continue;
 								}
 							}
+							*/
 
 							L2Summon pet = newTarget.getPet();
 							if(pet != null && Util.checkIfInRange(radius, activeChar, pet, true) && !onlyFirst && (targetType == SkillTargetType.TARGET_CORPSE_CLAN && pet.isDead() || targetType == SkillTargetType.TARGET_CLAN && !pet.isDead()) && player.checkPvpSkill(newTarget, this))
@@ -2457,6 +2601,18 @@ public abstract class L2Skill
 							}
 						}
 
+						//check for Events
+						if(trg == src)
+						{
+							continue;
+						}
+						
+						//if src is in event and trg not OR viceversa:
+						//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+						if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
+							continue;
+						}
+						
 						targetList.add((L2Character) obj);
 					}
 				}
