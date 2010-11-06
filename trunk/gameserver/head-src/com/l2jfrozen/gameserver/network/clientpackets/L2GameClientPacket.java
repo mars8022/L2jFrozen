@@ -63,7 +63,7 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch(Throwable t)
 		{
-			_log.severe("Client: " + getClient().toString() + " - Failed reading: " + getType() + " - L2Scoria Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
+			_log.severe("Client: " + getClient().toString() + " - Failed reading: " + getType() + " - L2JFrozenInterlude Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
 			t.printStackTrace();
 		}
 
@@ -110,7 +110,7 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch(Throwable t)
 		{
-			_log.severe("Client: " + getClient().toString() + " - Failed running: " + getType() + " - L2Scoria Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
+			_log.severe("Client: " + getClient().toString() + " - Failed running: " + getType() + " - L2JFrozenInterlude Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
 			t.printStackTrace();
 		}
 	}
