@@ -6935,8 +6935,19 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_privatestore = type;
 		
-		if (Config.OFFLINE_DISCONNECT_FINISHED && _privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
-			logout();
+		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
+		{
+			getAppearance().setNameColor(_accessLevel.getNameColor());
+			if (Config.OFFLINE_DISCONNECT_FINISHED) {
+				this.store();
+				this.deleteMe();
+				
+				if(this.getClient() != null)
+				{
+					this.getClient().setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
+				}
+			}
+		}
 	}
 
 	/**

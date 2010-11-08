@@ -370,23 +370,39 @@ public final class L2World
 
 			if(tmp != null && tmp != player)
 			{
-				_log.warning("Duplicate character!? Closing both characters (" + player.getName() + ")");
-				L2GameClient client = player.getClient();
-				player.store(); // Store character
-				player.deleteMe();
-				client.setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
-				client = tmp.getClient();
-				tmp.store(); // Store character and items
-				tmp.deleteMe();
-
-				if(client != null)
+				if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && tmp.isOffline())
 				{
-					client.setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
+					_log.warning("Offline: Duplicate character!? Closing offline character (" + tmp.getName() + ")");
+					tmp.store(); // Store character and items
+					tmp.logout();
+					
+					if(tmp.getClient() != null)
+					{
+						tmp.getClient().setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
+					}
+					
+					tmp = null;
 				}
+				else
+				{
+					_log.warning("EnterWorld: Duplicate character!? Closing both characters (" + player.getName() + ")");
+					L2GameClient client = player.getClient();
+					player.store(); // Store character
+					player.deleteMe();
+					client.setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
+					client = tmp.getClient();
+					tmp.store(); // Store character and items
+					tmp.deleteMe();
+					
+					if(client != null)
+					{
+						client.setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
+					}
 
-				tmp = null;
-
-				return;
+					tmp = null;
+					
+					return;
+				}
 			}
 			/////////////////////////
 
@@ -395,7 +411,7 @@ public final class L2World
 				//L2PcInstance tmp = _allPlayers.get(player.getName().toLowerCase());
 				if(tmp != null)
 				{
-					_log.warning("Duplicate character!? Closing both characters (" + player.getName() + ")");
+					_log.warning("Teleporting: Duplicate character!? Closing both characters (" + player.getName() + ")");
 					player.closeNetConnection();
 					tmp.closeNetConnection();
 					return;
