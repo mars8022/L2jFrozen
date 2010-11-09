@@ -35,11 +35,11 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  * <br>
  * <strong>Quick Summary:</strong><br>
  * This engine will grant the player special bonus skills at the cost of reseting him to level 1.<br>
- * The -USER- can set up to 3 Rebirths, the skills received and their respective levels, and the item and price of each
+ * The -USER- can set up to X Rebirths, the skills received and their respective levels, and the item and price of each
  * rebirth.<br>
  * PLAYER's information is stored in an SQL Db under the table name: REBIRTH_MANAGER.<br>
  * 
- * @author <strong>JStar</strong>
+ * @author <strong>Beetle and Shyla</strong>
  */
 public class L2Rebirth
 {
@@ -86,7 +86,7 @@ public class L2Rebirth
 			int currBirth = getRebirthLevel(player); //Returns the player's current birth level
 
 			//Don't send html if player is already at max rebirth count.
-			if(currBirth >= 3)
+			if(currBirth >= Config.REBIRTH_MAX)
 			{
 				player.sendMessage("You are currently at your maximum rebirth count!");
 				return;
@@ -135,31 +135,24 @@ public class L2Rebirth
 		int itemNeeded = 0;
 		int itemAmount = 0;
 
-		if(currBirth >= 3)
+		if(currBirth >= Config.REBIRTH_MAX)
 		{
 			player.sendMessage("You are currently at your maximum rebirth count!");
 			return;
 		}
 
 		//Get the requirements
-		switch(currBirth)
-		{
-			case 0:
-				itemNeeded = Config.REBIRTH_ITEM1_NEEDED;
-				itemAmount = Config.REBIRTH_ITEM1_AMOUNT;
+		int loopBirth = 0;
+		for(String readItems : Config.REBIRTH_ITEM_PRICE) {
+			String[] currItem = readItems.split(",");
+			if (loopBirth == currBirth) {
+				itemNeeded = Integer.parseInt(currItem[0]);
+				itemAmount = Integer.parseInt(currItem[1]);
 				break;
-
-			case 1:
-				itemNeeded = Config.REBIRTH_ITEM2_NEEDED;
-				itemAmount = Config.REBIRTH_ITEM2_AMOUNT;
-				break;
-
-			case 2:
-				itemNeeded = Config.REBIRTH_ITEM3_NEEDED;
-				itemAmount = Config.REBIRTH_ITEM3_AMOUNT;
-				break;
+			}
+			loopBirth++;
 		}
-
+		
 		//Their is an item required
 		if(itemNeeded != 0)
 		{
@@ -235,7 +228,7 @@ public class L2Rebirth
 		}
 
 		//Player has the required items, so we're going to take them!
-		player.getInventory().destroyItemByItemId("Rebrith Engine", itemId, itemAmount, player, null);
+		player.getInventory().destroyItemByItemId("Rebirth Engine", itemId, itemAmount, player, null);
 		player.sendMessage("Removed " + itemAmount + " " + itemName + " from your inventory!");
 
 		itemName = null;
@@ -291,37 +284,28 @@ public class L2Rebirth
 
 		//Player is a Mage.
 		if(mage)
-		{
-			switch(rebirthLevel)
-			{
-				case 1:
-					skill = SkillTable.getInstance().getInfo(Config.REBIRTH_MAGE_SKILL1_ID, Config.REBIRTH_MAGE_SKILL1_LEVEL);
+		{	
+			int loopBirth = 0;
+			for(String readSkill : Config.REBIRTH_MAGE_SKILL) {
+				String[] currSkill = readSkill.split(",");
+				if (loopBirth == rebirthLevel) {
+					skill = SkillTable.getInstance().getInfo(Integer.parseInt(currSkill[0]), Integer.parseInt(currSkill[1]));
 					break;
-
-				case 2:
-					skill = SkillTable.getInstance().getInfo(Config.REBIRTH_MAGE_SKILL2_ID, Config.REBIRTH_MAGE_SKILL2_LEVEL);
-					break;
-
-				case 3:
-					skill = SkillTable.getInstance().getInfo(Config.REBIRTH_MAGE_SKILL3_ID, Config.REBIRTH_MAGE_SKILL3_LEVEL);
-					break;
+				}
+				loopBirth++;
 			}
 		}
 		//Player is a Fighter.
 		else
 		{
-			switch(rebirthLevel)
-			{
-				case 1:
-					skill = SkillTable.getInstance().getInfo(Config.REBIRTH_FIGHTER_SKILL1_ID, Config.REBIRTH_FIGHTER_SKILL1_LEVEL);
+			int loopBirth = 0;
+			for(String readSkill : Config.REBIRTH_FIGHTER_SKILL) {
+				String[] currSkill = readSkill.split(",");
+				if (loopBirth == rebirthLevel) {
+					skill = SkillTable.getInstance().getInfo(Integer.parseInt(currSkill[0]), Integer.parseInt(currSkill[1]));
 					break;
-
-				case 2:
-					skill = SkillTable.getInstance().getInfo(Config.REBIRTH_FIGHTER_SKILL2_ID, Config.REBIRTH_FIGHTER_SKILL2_LEVEL);
-
-				case 3:
-					skill = SkillTable.getInstance().getInfo(Config.REBIRTH_FIGHTER_SKILL3_ID, Config.REBIRTH_FIGHTER_SKILL3_LEVEL);
-					break;
+				}
+				loopBirth++;
 			}
 		}
 		return skill;

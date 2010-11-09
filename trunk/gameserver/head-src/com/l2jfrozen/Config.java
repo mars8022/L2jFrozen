@@ -1492,25 +1492,11 @@ public final class Config
 	}
 
 	//============================================================
-	public static int REBIRTH_MAGE_SKILL1_ID;
-	public static int REBIRTH_MAGE_SKILL1_LEVEL;
-	public static int REBIRTH_MAGE_SKILL2_ID;
-	public static int REBIRTH_MAGE_SKILL2_LEVEL;
-	public static int REBIRTH_MAGE_SKILL3_ID;
-	public static int REBIRTH_MAGE_SKILL3_LEVEL;
-	public static int REBIRTH_FIGHTER_SKILL1_ID;
-	public static int REBIRTH_FIGHTER_SKILL1_LEVEL;
-	public static int REBIRTH_FIGHTER_SKILL2_ID;
-	public static int REBIRTH_FIGHTER_SKILL2_LEVEL;
-	public static int REBIRTH_FIGHTER_SKILL3_ID;
-	public static int REBIRTH_FIGHTER_SKILL3_LEVEL;
+	public static String[] REBIRTH_ITEM_PRICE;
+	public static String[] REBIRTH_MAGE_SKILL;
+	public static String[] REBIRTH_FIGHTER_SKILL;
 	public static int REBIRTH_MIN_LEVEL;
-	public static int REBIRTH_ITEM1_NEEDED;
-	public static int REBIRTH_ITEM1_AMOUNT;
-	public static int REBIRTH_ITEM2_NEEDED;
-	public static int REBIRTH_ITEM2_AMOUNT;
-	public static int REBIRTH_ITEM3_NEEDED;
-	public static int REBIRTH_ITEM3_AMOUNT;
+	public static int REBIRTH_MAX;
 
 	//============================================================
 	public static void loadREBIRTHConfig()
@@ -1525,26 +1511,11 @@ public final class Config
 			is.close();
 
 			REBIRTH_MIN_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MIN_LEVEL", "80"));
-			REBIRTH_ITEM1_NEEDED = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_ITEM1_NEEDED", "0"));
-			REBIRTH_ITEM1_AMOUNT = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_ITEM1_AMOUNT", "0"));
-			REBIRTH_ITEM2_NEEDED = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_ITEM2_NEEDED", "0"));
-			REBIRTH_ITEM2_AMOUNT = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_ITEM2_AMOUNT", "0"));
-			REBIRTH_ITEM3_NEEDED = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_ITEM3_NEEDED", "0"));
-			REBIRTH_ITEM3_AMOUNT = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_ITEM3_AMOUNT", "0"));
-
-			REBIRTH_MAGE_SKILL1_ID = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL1_ID", "0"));
-			REBIRTH_MAGE_SKILL1_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL1_LEVEL", "0"));
-			REBIRTH_MAGE_SKILL2_ID = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL2_ID", "0"));
-			REBIRTH_MAGE_SKILL2_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL2_LEVEL", "0"));
-			REBIRTH_MAGE_SKILL3_ID = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL3_ID", "0"));
-			REBIRTH_MAGE_SKILL3_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL3_LEVEL", "0"));
-			REBIRTH_FIGHTER_SKILL1_ID = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL1_ID", "0"));
-			REBIRTH_FIGHTER_SKILL1_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL1_LEVEL", "0"));
-			REBIRTH_FIGHTER_SKILL2_ID = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL2_ID", "0"));
-			REBIRTH_FIGHTER_SKILL2_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL2_LEVEL", "0"));
-			REBIRTH_FIGHTER_SKILL3_ID = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL3_ID", "0"));
-			REBIRTH_FIGHTER_SKILL3_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL3_LEVEL", "0"));
-
+			REBIRTH_MAX = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAX", "3"));
+			
+			REBIRTH_ITEM_PRICE = REBIRTHSettings.getProperty("REBIRTH_ITEM_PRICE", "").split(";");
+			REBIRTH_MAGE_SKILL = REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL", "").split(";");
+			REBIRTH_FIGHTER_SKILL = REBIRTHSettings.getProperty("REBIRTH_FIGHTER_SKILL", "").split(";");
 		}
 		catch(Exception e)
 		{
