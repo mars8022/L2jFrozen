@@ -211,6 +211,7 @@ public class L2Rebirth
 	public void displayCongrats(L2PcInstance player)
 	{
 		//Victory Social Action.
+		player.setTarget(player);
 		player.broadcastPacket(new SocialAction(player.getObjectId(), 3));
 		player.sendMessage("Congratulations " + player.getName() + ". You have been REBORN!");
 	}
@@ -288,7 +289,7 @@ public class L2Rebirth
 			int loopBirth = 0;
 			for(String readSkill : Config.REBIRTH_MAGE_SKILL) {
 				String[] currSkill = readSkill.split(",");
-				if (loopBirth == rebirthLevel) {
+				if (loopBirth == (rebirthLevel-1)) {
 					skill = SkillTable.getInstance().getInfo(Integer.parseInt(currSkill[0]), Integer.parseInt(currSkill[1]));
 					break;
 				}
@@ -301,7 +302,7 @@ public class L2Rebirth
 			int loopBirth = 0;
 			for(String readSkill : Config.REBIRTH_FIGHTER_SKILL) {
 				String[] currSkill = readSkill.split(",");
-				if (loopBirth == rebirthLevel) {
+				if (loopBirth == (rebirthLevel-1)) {
 					skill = SkillTable.getInstance().getInfo(Integer.parseInt(currSkill[0]), Integer.parseInt(currSkill[1]));
 					break;
 				}
