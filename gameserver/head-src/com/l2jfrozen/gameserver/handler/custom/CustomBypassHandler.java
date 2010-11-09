@@ -40,9 +40,7 @@ public class CustomBypassHandler
 	{
 		_handlers = new FastMap<String, ICustomByPassHandler>();
 
-		// By Azagthtot РћР±СЂР°Р±РѕС‚РєР° multi-extract Р°Р№С‚РµРјРѕРІ.
 		registerCustomBypassHandler(new ExtractableByPassHandler());
-		//Do Nothing ^_-
 	}
 
 	/** Receives the non-static instance of the RebirthManager. */
@@ -57,9 +55,7 @@ public class CustomBypassHandler
 	}
 
 	/**
-	 * Azagthtot Р РµРіРёСЃС‚СЂР°С†РёСЏ РѕР±СЂР°Р±РѕС‚С‡РёРєР° custom_xxx
-	 * 
-	 * @param handler as ICustomByPassHandler- РѕР±СЂР°Р±РѕС‚С‡РёРє xxx bypass РєРѕРјР°РЅРґС‹.
+	 * @param handler as ICustomByPassHandler
 	 */
 	public void registerCustomBypassHandler(ICustomByPassHandler handler)
 	{
