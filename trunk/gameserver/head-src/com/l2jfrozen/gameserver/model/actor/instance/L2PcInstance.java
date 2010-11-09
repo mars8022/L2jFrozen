@@ -4282,7 +4282,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void onAction(L2PcInstance player)
 	{
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
-		if ((TvT.checkInProgress() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.checkInProgress() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.checkInProgress() && !Config.DM_ALLOW_INTERFERENCE))
+		if ((TvT.is_inProgress() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.is_inProgress() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.is_inProgress() && !Config.DM_ALLOW_INTERFERENCE))
 	    {
             if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
             {
@@ -4337,7 +4337,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				// Check if this L2PcInstance is autoAttackable
 				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
-				if (isAutoAttackable(player) || (player._inEventTvT && TvT.checkInProgress()) || (player._inEventCTF && CTF.checkInProgress()) || (player._inEventDM && DM.checkInProgress()) || (player._inEventVIP && VIP._inProgress))
+				if (isAutoAttackable(player) || (player._inEventTvT && TvT.is_inProgress()) || (player._inEventCTF && CTF.is_inProgress()) || (player._inEventDM && DM.is_inProgress()) || (player._inEventVIP && VIP._inProgress))
 				{
 					if(Config.ALLOW_CHAR_KILL_PROTECT)
 					{
@@ -4479,7 +4479,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public boolean isInFunEvent()
 	{
 		//return (atEvent || (TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP));
-		return (atEvent || (TvT.checkInProgress() && _inEventTvT) || (DM.checkInProgress() && _inEventDM) || (CTF.checkInProgress() && _inEventCTF) || (VIP._inProgress && _inEventVIP));
+		return (atEvent || (TvT.is_inProgress() && _inEventTvT) || (DM.is_inProgress() && _inEventDM) || (CTF.is_inProgress() && _inEventCTF) || (VIP._inProgress && _inEventVIP));
 	}
 
 	/**
@@ -9802,7 +9802,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(skill.isOffensive())
 		{
 			//if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.checkInProgress()) || !(_inEventCTF && CTF.checkInProgress())	|| !(_inEventDM && DM.checkInProgress()) || !(_inEventVIP && VIP._inProgress)))
+			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_inProgress()) || !(_inEventCTF && CTF.is_inProgress())	|| !(_inEventDM && DM.is_inProgress()) || !(_inEventVIP && VIP._inProgress)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
 				{
@@ -9827,7 +9827,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Check if the target is attackable
 			//if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.checkInProgress()) || !(_inEventCTF && CTF.checkInProgress())	|| !(_inEventDM && DM.checkInProgress()) || !(_inEventVIP && VIP._inProgress)))
+			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_inProgress()) || !(_inEventCTF && CTF.is_inProgress())	|| !(_inEventDM && DM.is_inProgress()) || !(_inEventVIP && VIP._inProgress)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
 				{
@@ -9839,7 +9839,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Check if a Forced ATTACK is in progress on non-attackable target
 			//if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._started) && !(_inEventDM && DM._started) && !(_inEventCTF && CTF._started) && !(_inEventVIP && VIP._started)
-			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT.checkInProgress()) && !(_inEventDM && DM.checkInProgress()) && !(_inEventCTF && CTF.checkInProgress()) && !(_inEventVIP && VIP._inProgress)
+			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT.is_inProgress()) && !(_inEventDM && DM.is_inProgress()) && !(_inEventCTF && CTF.is_inProgress()) && !(_inEventVIP && VIP._inProgress)
 					&& sklTargetType != SkillTargetType.TARGET_AURA
 					&& sklTargetType != SkillTargetType.TARGET_CLAN
 					&& sklTargetType != SkillTargetType.TARGET_ALLY

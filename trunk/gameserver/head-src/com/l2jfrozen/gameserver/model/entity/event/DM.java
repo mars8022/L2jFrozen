@@ -1,20 +1,4 @@
-/* This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
- */
+
 package com.l2jfrozen.gameserver.model.entity.event;
 
 import java.sql.PreparedStatement;
@@ -23,6 +7,9 @@ import java.util.Vector;
 
 import javolution.text.TextBuilder;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -30,7 +17,6 @@ import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -38,16 +24,12 @@ import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class DM implements EventTask
 {   
@@ -56,17 +38,16 @@ public class DM implements EventTask
 	private static String _eventName = new String(),
 						 _eventDesc = new String(),
 						 _joiningLocationName = new String();
-	
+
 	private static L2Spawn _npcSpawn;
-	
+
 	private static boolean _joining = false,
 						  _teleport = false,
 						  _started = false,
 						  _aborted = false,
 						  _sitForced = false,
 						  _inProgress  = false;
-	
-	
+
 	private static int _npcId = 0,
 					  _npcX = 0,
 					  _npcY = 0,
@@ -74,25 +55,28 @@ public class DM implements EventTask
 					  _npcHeading = 0,
 					  _rewardId = 0,
 					  _rewardAmount = 0,
-					  _joinTime = 0,
-					  _eventTime = 0,
-					  _topKills = 0,
 					  _minlvl = 0,
 					  _maxlvl = 0,
+					  _joinTime = 0,
+					  _eventTime = 0,
+					  _minPlayers = 0,
+					  _maxPlayers = 0,
+					  _topKills = 0,
 					  _playerColors = 0,
 					  _playerX = 0,
 					  _playerY = 0,
-					  _playerZ = 0,
-					  _minPlayers = 0,
-					  _maxPlayers = 0;
+					  _playerZ = 0;
 	
 	private static long _intervalBetweenMatchs = 0;
-
+	
 	private String startEventTime;
+	
+	private static boolean _teamEvent = true; //TODO to be integrated
 
+	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();  
+	
 	public static L2PcInstance _topPlayer;
 	public static Vector<String> _savePlayers = new Vector<String>();
-	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();  
 	
 	private DM(){
 	}
@@ -114,7 +98,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_eventName(String _eventName)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._eventName = _eventName;
 			return true;
 		}
@@ -136,7 +120,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_eventDesc(String _eventDesc)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._eventDesc = _eventDesc;
 			return true;
 		}
@@ -158,7 +142,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_joiningLocationName(String _joiningLocationName)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._joiningLocationName = _joiningLocationName;
 			return true;
 		}
@@ -181,7 +165,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_npcId(int _npcId)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._npcId = _npcId;
 			return true;
 		}
@@ -199,13 +183,6 @@ public class DM implements EventTask
 		
 	}
 
-	public static Location get_playersSpawnLocation()
-	{
-		Location npc_loc = new Location(_playerX,_playerY,_playerZ,0);
-		
-		return npc_loc;
-		
-	}
 	/**
 	 * @return the _rewardId
 	 */
@@ -219,7 +196,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_rewardId(int _rewardId)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._rewardId = _rewardId;
 			return true;
 		}
@@ -242,7 +219,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_rewardAmount(int _rewardAmount)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._rewardAmount = _rewardAmount;
 			return true;
 		}
@@ -265,7 +242,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_minlvl(int _minlvl)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._minlvl = _minlvl;
 			return true;
 		}
@@ -288,7 +265,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_maxlvl(int _maxlvl)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._maxlvl = _maxlvl;
 			return true;
 		}
@@ -311,7 +288,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_joinTime(int _joinTime)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._joinTime = _joinTime;
 			return true;
 		}
@@ -334,7 +311,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_eventTime(int _eventTime)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._eventTime = _eventTime;
 			return true;
 		}
@@ -357,7 +334,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_minPlayers(int _minPlayers)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._minPlayers = _minPlayers;
 			return true;
 		}
@@ -380,7 +357,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_maxPlayers(int _maxPlayers)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._maxPlayers = _maxPlayers;
 			return true;
 		}
@@ -403,7 +380,7 @@ public class DM implements EventTask
 	 */
 	public static boolean set_intervalBetweenMatchs(long _intervalBetweenMatchs)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			DM._intervalBetweenMatchs = _intervalBetweenMatchs;
 			return true;
 		}
@@ -426,7 +403,7 @@ public class DM implements EventTask
 	 */
 	public boolean setStartEventTime(String startEventTime)
 	{
-		if(!checkInProgress()){
+		if(!is_inProgress()){
 			this.startEventTime = startEventTime;
 			return true;
 		}
@@ -434,29 +411,6 @@ public class DM implements EventTask
 			return false;
 		
 		
-	}
-
-	
-	/**
-	 * @return the _playerColors
-	 */
-	public static int get_playerColors()
-	{
-		return _playerColors;
-	}
-
-	/**
-	 * @param _playerColors the _playerColors to set
-	 */
-	public static boolean set_playerColors(int _playerColors)
-	{
-		if(!checkInProgress()){
-			DM._playerColors = _playerColors;
-			return true;
-		}
-		else
-			return false;
-
 	}
 
 	/**
@@ -507,8 +461,6 @@ public class DM implements EventTask
 		return _inProgress;
 	}
 	
-	
-
 	public static boolean checkMaxLevel(int maxlvl)
 	{
 		if(_minlvl >= maxlvl)
@@ -547,16 +499,53 @@ public class DM implements EventTask
 	{
 		if(_started || _teleport || _joining || _eventName.equals("") ||
 			_joiningLocationName.equals("") || _eventDesc.equals("") || _npcId == 0 ||
-			_npcX == 0 || _npcY == 0 || _npcZ == 0 || _npcHeading == 0 || _rewardId == 0 || _rewardAmount == 0 ||
-			 _joinTime == 0 || _eventTime == 0 || _playerX == 0 || _playerY == 0 || _playerZ == 0)
+			_npcX == 0 || _npcY == 0 || _npcZ == 0 || _rewardId == 0 || _rewardAmount == 0)
 			return false;
-
+		
+		if(_teamEvent){
+			checkStartJoinTeamInfo();
+		}else{
+			checkStartJoinPlayerInfo();
+		}
+		
+		if(!checkOptionalEventStartJoinOk())
+			return false;
+		
 		return true;
+		
 	}
 
-	public static boolean checkInProgress()
-	{
-		return _inProgress;
+	private static boolean checkStartJoinTeamInfo(){
+			
+		//TODO be integrated
+		return true;
+		
+	}
+	
+	private static boolean checkStartJoinPlayerInfo(){
+		
+		if(_playerX == 0 || _playerY == 0 || _playerZ == 0 || _playerColors == 0){
+			return false;
+		}
+		
+		return true;
+		
+	}
+
+	private static boolean checkAutoEventStartJoinOk(){
+		
+		if(_joinTime == 0 || _eventTime == 0){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private static boolean checkOptionalEventStartJoinOk(){
+		
+		//TODO be integrated
+		return true;
+		
 	}
 	
 	public static void setNpcPos(L2PcInstance activeChar)
@@ -566,7 +555,7 @@ public class DM implements EventTask
 		_npcZ = activeChar.getZ();
 		_npcHeading = activeChar.getHeading();
 	}
-
+	
 	private static void spawnEventNpc()
 	{
 		L2NpcTemplate tmpl = NpcTable.getInstance().getTemplate(_npcId);
@@ -587,7 +576,7 @@ public class DM implements EventTask
 			_npcSpawn.init();
 			_npcSpawn.getLastSpawn().getStatus().setCurrentHp(999999999);
 			_npcSpawn.getLastSpawn().setTitle(_eventName);
-			_npcSpawn.getLastSpawn()._isEventMobDM = true;
+			_npcSpawn.getLastSpawn().isEventMob = true;
 			_npcSpawn.getLastSpawn().isAggressive();
 			_npcSpawn.getLastSpawn().decayMe();
 			_npcSpawn.getLastSpawn().spawnMe(_npcSpawn.getLastSpawn().getX(), _npcSpawn.getLastSpawn().getY(), _npcSpawn.getLastSpawn().getZ());
@@ -596,77 +585,97 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
-			if(_log.isDebugEnabled())
-				_log.debug("DM Engine[spawnEventNpc(null)]: exception: " + e.getMessage());
+			_log.error(_eventName+" Engine[spawnEventNpc(exception: " + e.getMessage());
 		}
 	}
-	
-	public static void unspawnEventNpc()
+
+	private static void unspawnEventNpc()
 	{
-		if(_npcSpawn == null)
+		if(_npcSpawn == null || _npcSpawn.getLastSpawn()==null)
 			return;
 
 		_npcSpawn.getLastSpawn().deleteMe();
 		_npcSpawn.stopRespawn();
 		SpawnTable.getInstance().deleteSpawn(_npcSpawn, true);
 	}
-	
+
 	public static boolean startJoin()
 	{
 		if(!checkStartJoinOk())
 		{
-			if(_log.isDebugEnabled())_log.debug("DM Engine[startJoin()]: checkStartJoinOk() = false");
+			if(_log.isDebugEnabled())
+				_log.debug(_eventName+" Engine[startJoin]: startJoinOk() = false");
 			return false;
 		}
 
-		_joining = true;
 		_inProgress = true;
-		
+		_joining = true;
 		spawnEventNpc();
-		
-		Announcements.getInstance().gameAnnounceToAll("Death Match!");
-		Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements.getInstance().gameAnnounceToAll(_eventName + "!");
+		if(Config.DM_ANNOUNCE_REWARD)
+			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
 		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
-		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName + " or by command .dmjoin!");
-		Announcements.getInstance().gameAnnounceToAll("To leave .dmleave! DM Info .dminfo!");
+		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName);
+		
+		if(Config.DM_COMMAND)
+			Announcements.getInstance().gameAnnounceToAll(" or by command .dmjoin! To leave .dmleave! For Info .dminfo!");
+		
 		return true;
 	}
 
 	public static boolean startTeleport()
 	{
 		if(!_joining || _started || _teleport)
-			return true;
-		
+			return false;
+
 		removeOfflinePlayers();
 		
-		if(!checkMinPlayers(_players.size()))
-		{
-			Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-			return false;
+		if(_teamEvent){
+			
+			/*if(Config.EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size()))
+			{
+				shuffleTeams();
+			}
+			else if(Config.EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
+			{
+				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+				return false;
+			}*/
+			
+		}else{
+			
+			if(!checkMinPlayers(_players.size()))
+			{
+				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				return false;
+			}
+			
 		}
 
 		_joining = false;
-		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Teleport to team spot in 20 seconds!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Teleport to team spot in 20 seconds!");
 
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
 			public void run()
 			{
-				DM.sit();
+				sit();
+				afterTeleportOperations();
 
-				for(L2PcInstance player : DM._players)
+				for(L2PcInstance player : _players)
 				{
-					if(player !=  null)
+					if(player != null)
 					{
 						if(Config.DM_ON_START_UNSUMMON_PET)
 						{
-							//Remove Summon's buffs
+							// Remove Summon's buffs
 							if(player.getPet() != null)
 							{
 								L2Summon summon = player.getPet();
 								for(L2Effect e : summon.getAllEffects())
-									e.exit();
+									if(e != null)
+										e.exit();
 
 								if(summon instanceof L2PetInstance)
 									summon.unSummon(player);
@@ -677,7 +686,8 @@ public class DM implements EventTask
 						{
 							for(L2Effect e : player.getAllEffects())
 							{
-								if(e != null) e.exit();
+								if(e != null)
+									e.exit();
 							}
 						}
 
@@ -687,7 +697,13 @@ public class DM implements EventTask
 							L2Party party = player.getParty();
 							party.removePartyMember(player);
 						}
-						player.teleToLocation(_playerX, _playerY, _playerZ);
+						
+						if(_teamEvent){
+							//player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
+							
+						}else{
+							player.teleToLocation(_playerX, _playerY, _playerZ);
+						}
 					}
 				}
 			}
@@ -695,38 +711,201 @@ public class DM implements EventTask
 		_teleport = true;
 		return true;
 	}
+
+	private static void afterTeleportOperations(){
+		
+	}
 	
 	public static boolean startEvent()
 	{
 		if(!startEventOk())
 		{
-			if(_log.isDebugEnabled())_log.debug("DM Engine[startAutoEvent()]: startEventOk() = false");
-			return true;
+			if(_log.isDebugEnabled())
+				_log.debug(_eventName+" Engine[startEvent()]: startEventOk() = false");
+			return false;
 		}
 
 		_teleport = false;
 		
 		sit();
 		
-		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Started. Go to kill your enemies!");
+		afterStartOperations();
 		
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Started. Go to kill your enemies!");
 		_started = true;
 		
 		return true;
 	}
 
+	private static void afterStartOperations(){
+	
+	}
+	
+	/**
+	 * Restarts Event
+	 * checks if event was aborted. and if true cancels restart task
+	 */
+	public synchronized static void restartEvent()
+	{
+		_log.info(_eventName+": Event has been restarted...");
+		_joining = false;
+		_started = false;
+		_inProgress = false;
+		_aborted = false;
+		long delay = _intervalBetweenMatchs;
+
+		Announcements.getInstance().gameAnnounceToAll(_eventName+": joining period will be avaible again in " + _intervalBetweenMatchs + " minute(s)!");
+
+		waiter(delay);
+
+		try
+		{
+			if(!_aborted)
+				autoEvent(); //start a new event
+			else
+				Announcements.getInstance().gameAnnounceToAll(_eventName+": next event aborted!");
+				
+		}
+		catch (Exception e)
+		{
+			_log.fatal(_eventName+": Error While Trying to restart Event...", e);
+			e.printStackTrace();
+		}
+	}
+	
+	public static void finishEvent()
+	{
+		if(!finishEventOk())
+		{
+			if(_log.isDebugEnabled())
+				_log.debug(_eventName+" Engine[finishEvent]: finishEventOk() = false");
+			return;
+		}
+
+		_started = false;
+		_aborted = false;
+		unspawnEventNpc();
+		
+		afterFinishOperations();
+		
+		if(_teamEvent)
+			processTopTeam();
+		else
+			processTopPlayer();
+
+		if(_topKills == 0)
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": No players win the match(nobody killed).");
+		else
+		{
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+			rewardPlayer();
+		}
+
+		teleportFinish();
+	}
+	
+	private static void afterFinishOperations(){
+		
+	}
+	
+	public static void abortEvent()
+	{
+		if(!_joining && !_teleport && !_started)
+			return;
+		
+		if(_joining && !_teleport && !_started)
+		{
+			unspawnEventNpc();
+			cleanDM();
+			_joining = false;
+			_inProgress = false;
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Match aborted!");
+			return;
+		}
+		_joining = false;
+		_teleport = false;
+		_started = false;
+		_aborted = true;
+		unspawnEventNpc();
+		
+		afterFinish();
+		
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Match aborted!");
+		teleportFinish();
+	}
+	
+	private static void afterFinish(){
+		
+	}
+	
+	public static void teleportFinish()
+	{
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Teleport back to participation NPC in 20 seconds!");
+
+		removeUserData();
+		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+		{
+			public void run()
+			{
+				for(L2PcInstance player : _players)
+				{
+					if(player != null)
+					{
+						if(player.isOnline() != 0)
+							player.teleToLocation(_npcX, _npcY, _npcZ, false);
+						else
+						{
+							java.sql.Connection con = null;
+							try
+							{
+								con = L2DatabaseFactory.getInstance().getConnection();
+
+								PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
+								statement.setInt(1, _npcX);
+								statement.setInt(2, _npcY);
+								statement.setInt(3, _npcZ);
+								statement.setString(4, player.getName());
+								statement.execute();
+								statement.close();
+							}
+							catch(Exception e)
+							{
+								_log.error(e.getMessage(), e);
+								return;
+							}
+							finally
+							{
+								try
+								{
+									if(con != null)
+									{
+										con.close();
+									}
+								}
+								catch(Exception e)
+								{
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}
+				cleanDM();
+			}
+		}, 20000);
+	}
+
 	public static void autoEvent()
 	{
-		
-		_log.info("Starting DM!");
+		_log.info("Starting "+_eventName+"!");
 		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
-		if (startJoin() && !_aborted)
+		if (checkAutoEventStartJoinOk() && startJoin() && !_aborted)
 		{
 			if (_joinTime > 0)
 				waiter(_joinTime * 60 * 1000); // minutes for join event
 			else if (_joinTime <= 0)
 			{
-				_log.info("DM: join time <=0 aborting event.");
+				_log.info(_eventName+": join time <=0 aborting event.");
 				abortEvent();
 				return;
 			}
@@ -735,18 +914,18 @@ public class DM implements EventTask
 				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
 				if (startEvent() && !_aborted)
 				{
-					_log.debug("DM: waiting.....minutes for event time " + DM._eventTime);
+					_log.debug(_eventName+": waiting.....minutes for event time " + _eventTime);
 
 					waiter(_eventTime * 60 * 1000); // minutes for event time
 					finishEvent();
 
-					_log.info("DM: waiting... delay for final messages ");
+					_log.info(_eventName+": waiting... delay for final messages ");
 					waiter(60000);//just a give a delay delay for final messages
 					sendFinalMessages();
 
 					if (!_started && !_aborted){ //if is not already started and it's not aborted
 						
-						_log.info("DM: waiting.....delay for restart event  " + DM.getIntervalBetweenMatchs() + " minutes.");
+						_log.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatchs + " minutes.");
 						waiter(60000);//just a give a delay to next restart
 
 						try
@@ -801,7 +980,7 @@ public class DM implements EventTask
 		}
 		
 	}
-	
+
 	private static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
@@ -809,7 +988,7 @@ public class DM implements EventTask
 
 		while(startWaiterTime + interval > System.currentTimeMillis() && !_aborted)
 		{
-			seconds--; // here because we don't want to see two time announce at the same time
+			seconds--; // Here because we don't want to see two time announce at the same time
 
 			if(_joining || _started || _teleport)
 			{
@@ -821,10 +1000,10 @@ public class DM implements EventTask
 						if(_joining)
 						{
 							Announcements.getInstance().gameAnnounceToAll(_eventName + ": Joinable in " + _joiningLocationName + "!");
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds / 60 / 60 + " hour(s) till registration close!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds / 60 / 60 + " hour(s) till registration close!");
 						}
 						else if(_started)
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds / 60 / 60 + " hour(s) till event finish!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds / 60 / 60 + " hour(s) till event finish!");
 
 						break;
 					case 1800: // 30 minutes left
@@ -840,10 +1019,10 @@ public class DM implements EventTask
 						if(_joining)
 						{
 							Announcements.getInstance().gameAnnounceToAll(_eventName + ": Joinable in " + _joiningLocationName + "!");
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds / 60 + " minute(s) till registration close!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds / 60 + " minute(s) till registration close!");
 						}
 						else if(_started)
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds / 60 + " minute(s) till event finish!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds / 60 + " minute(s) till event finish!");
 
 						break;
 					case 30: // 30 seconds left
@@ -855,11 +1034,11 @@ public class DM implements EventTask
 						removeOfflinePlayers();
 						
 						if(_joining)
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds + " second(s) till registration close!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds + " second(s) till registration close!");
 						else if(_teleport)
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds + " seconds(s) till start fight!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds + " seconds(s) till start fight!");
 						else if(_started)
-							Announcements.getInstance().gameAnnounceToAll("DM: " + seconds + " second(s) till event finish!");
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds + " second(s) till event finish!");
 
 						break;
 				}
@@ -867,7 +1046,7 @@ public class DM implements EventTask
 
 			long startOneSecondWaiterStartTime = System.currentTimeMillis();
 
-			// only the try catch with Thread.sleep(1000) give bad countdown on high wait times
+			// Only the try catch with Thread.sleep(1000) give bad countdown on high wait times
 			while(startOneSecondWaiterStartTime + 1000 > System.currentTimeMillis())
 			{
 				try
@@ -881,182 +1060,6 @@ public class DM implements EventTask
 		}
 	}
 	
-	public static void removeOfflinePlayers()
-	{
-		try
-		{
-			if(_players == null)
-				return;
-			else if(_players.isEmpty())
-				return;
-			else if(_players.size() > 0)
-			{
-				for(L2PcInstance player : _players)
-				{
-					if(player == null)
-						_players.remove(player);					
-					else if(player.isOnline() == 0 || player.isInJail())
-						removePlayer(player);
-					if(_players.size() == 0 || _players.isEmpty())
-						break;
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			_log.error(e.getMessage(), e);
-			return;
-		}
-	}
-	/**
-	 * Restarts Event
-	 * checks if event was aborted. and if true cancels restart task
-	 */
-	public synchronized static void restartEvent()
-	{
-		_log.info("DM: Event has been restarted...");
-		_joining = false;
-		_started = false;
-		_inProgress = false;
-		_aborted = false;
-		long delay = _intervalBetweenMatchs;
-
-		Announcements.getInstance().gameAnnounceToAll("DM: joining period will be avaible again in " + getIntervalBetweenMatchs() + " minute(s)!");
-
-		waiter(delay);
-
-		try
-		{
-			if(!_aborted)
-				autoEvent(); //start a new event
-			else
-				Announcements.getInstance().gameAnnounceToAll("DM: next event aborted!");
-				
-		}
-		catch (Exception e)
-		{
-			_log.fatal("DM: Error While Trying to restart Event...", e);
-			e.printStackTrace();
-		}
-	}
-
-	private static boolean startEventOk()
-	{
-		if(_joining || !_teleport || _started)
-			return false;
-
-		return true;
-	}
-
-	public static void setUserData()
-	{
-		for(L2PcInstance player : _players)
-		{
-			player._originalNameColorDM = player.getAppearance().getNameColor();
-			player._originalKarmaDM = player.getKarma();
-			player._inEventDM = true;
-			player._countDMkills = 0;
-			player.getAppearance().setNameColor(_playerColors);
-			player.setKarma(0);
-			player.broadcastUserInfo();
-		}
-	}
-
-	public static void removeUserData()
-	{
-		for(L2PcInstance player : _players)
-		{
-			player.getAppearance().setNameColor(player._originalNameColorDM);
-			player.setKarma(player._originalKarmaDM);
-			player._inEventDM = false;
-			player._countDMkills = 0;
-			player.broadcastUserInfo();
-		}
-	}
-
-	public static void finishEvent()
-	{
-		if(!finishEventOk())
-		{
-			if(_log.isDebugEnabled())_log.debug("DM Engine[finishEvent()]: finishEventOk() = false");
-			return;
-		}
-
-		_started = false;
-		_aborted = false;
-		unspawnEventNpc();
-		processTopPlayer();
-
-		if(_topKills == 0)
-			Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): No players win the match(nobody killed).");
-		else
-		{
-			Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
-			rewardPlayer();
-		}
-
-		teleportFinish();
-	}
-
-	private static boolean finishEventOk()
-	{
-		if(!_started)
-			return false;
-		
-		_inProgress = false;
-
-		return true;
-	}
-
-	public static void processTopPlayer()
-	{
-		for(L2PcInstance player : _players)
-		{
-			if(player._countDMkills > _topKills)
-			{
-				_topPlayer = player;
-				_topKills = player._countDMkills;
-			}
-		}
-	}
-
-	public static void rewardPlayer()
-	{
-		if(_topPlayer != null)
-		{
-			_topPlayer.addItem("DM Event: " + _eventName, _rewardId, _rewardAmount, _topPlayer, true);
-
-			StatusUpdate su = new StatusUpdate(_topPlayer.getObjectId());
-			su.addAttribute(StatusUpdate.CUR_LOAD, _topPlayer.getCurrentLoad());
-			_topPlayer.sendPacket(su);
-
-			NpcHtmlMessage nhm = new NpcHtmlMessage(5);
-			TextBuilder replyMSG = new TextBuilder("");
-
-			replyMSG.append("<html><body>You won the event. Look in your inventory for the reward.</body></html>");
-
-			nhm.setHtml(replyMSG.toString());
-			_topPlayer.sendPacket(nhm);
-
-			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
-			_topPlayer.sendPacket( ActionFailed.STATIC_PACKET );
-		}
-	}
-
-	public static void abortEvent()
-	{
-		if(!_joining && !_teleport && !_started)
-			return;
-
-		_joining = false;
-		_teleport = false;
-		_started = false;
-		_aborted = true;
-		unspawnEventNpc();
-		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Match aborted!");
-		teleportFinish();
-	}
-
 	public static void sit()
 	{
 		if(_sitForced)
@@ -1086,41 +1089,135 @@ public class DM implements EventTask
 		}
 	}
 
+	public static void removeOfflinePlayers()
+	{
+		try
+		{
+			if(_players == null)
+				return;
+			else if(_players.isEmpty())
+				return;
+			else if(_players.size() > 0)
+			{
+				for(L2PcInstance player : _players)
+				{
+					if(player == null)
+						_players.remove(player);					
+					else if(player.isOnline() == 0 || player.isInJail())
+						removePlayer(player);
+					if(_players.size() == 0 || _players.isEmpty())
+						break;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			_log.error(e.getMessage(), e);
+			return;
+		}
+	}
+	
+	private static boolean startEventOk()
+	{
+		if(_joining || !_teleport || _started)
+			return false;
+
+		return true;
+	}
+	
+	private static boolean finishEventOk()
+	{
+		if(!_started)
+			return false;
+
+		return true;
+	}
+
+	private static boolean addPlayerOk(L2PcInstance eventPlayer)
+	{
+		if(eventPlayer._inEventDM)
+		{
+			eventPlayer.sendMessage("You already participated in the event!");
+			return false;
+		}
+
+		if(eventPlayer._inEventTvT || eventPlayer._inEventCTF)
+		{
+			eventPlayer.sendMessage("You already participated to another event!"); 
+			return false;
+		}
+		
+		for(L2PcInstance player: _players)
+		{
+			if(player.getObjectId()==eventPlayer.getObjectId())
+			{
+				eventPlayer.sendMessage("You already participated in the event!"); 
+				return false;
+			}
+			else if(player.getName()==eventPlayer.getName())
+			{
+				eventPlayer.sendMessage("You already participated in the event!"); 
+				return false;
+			}
+		}
+
+		if(_players.contains(eventPlayer))
+		{
+			eventPlayer.sendMessage("You already participated in the event!");
+			return false;
+		}
+		return true;
+	}
+	
+	public static void setUserData()
+	{
+		for(L2PcInstance player : _players)
+		{
+			player._originalNameColorDM = player.getAppearance().getNameColor();
+			player._originalKarmaDM = player.getKarma();
+			player._inEventDM = true;
+			player._countDMkills = 0;
+			player.getAppearance().setNameColor(_playerColors);
+			player.setKarma(0);
+			player.broadcastUserInfo();
+		}
+	}
+
 	public static void dumpData()
 	{
-		System.out.println("");
-		System.out.println("");
+		_log.info("");
+		_log.info("");
 
 		if(!_joining && !_teleport && !_started)
 		{
-			System.out.println("<<---------------------------------->>");
-			System.out.println(">> DM Engine infos dump (INACTIVE) <<");
-			System.out.println("<<--^----^^-----^----^^------^^----->>");
+			_log.info("<<---------------------------------->>");
+			_log.info(">> "+_eventName + " Engine infos dump (INACTIVE) <<");
+			_log.info("<<--^----^^-----^----^^------^^----->>");
 		}
 		else if(_joining && !_teleport && !_started)
 		{
-			System.out.println("<<--------------------------------->>");
-			System.out.println(">> DM Engine infos dump (JOINING) <<");
-			System.out.println("<<--^----^^-----^----^^------^----->>");
+			_log.info("<<--------------------------------->>");
+			_log.info(">> "+_eventName + " Engine infos dump (JOINING) <<");
+			_log.info("<<--^----^^-----^----^^------^----->>");
 		}
 		else if(!_joining && _teleport && !_started)
 		{
-			System.out.println("<<---------------------------------->>");
-			System.out.println(">> DM Engine infos dump (TELEPORT) <<");
-			System.out.println("<<--^----^^-----^----^^------^^----->>");
+			_log.info("<<---------------------------------->>");
+			_log.info(">> "+_eventName + " Engine infos dump (TELEPORT) <<");
+			_log.info("<<--^----^^-----^----^^------^^----->>");
 		}
 		else if(!_joining && !_teleport && _started)
 		{
-			System.out.println("<<--------------------------------->>");
-			System.out.println(">> DM Engine infos dump (STARTED) <<");
-			System.out.println("<<--^----^^-----^----^^------^----->>");
+			_log.info("<<--------------------------------->>");
+			_log.info(">> "+_eventName + " Engine infos dump (STARTED) <<");
+			_log.info("<<--^----^^-----^----^^------^----->>");
 		}
 
-		System.out.println("Name: " + _eventName);
-		System.out.println("Desc: " + _eventDesc);
-		System.out.println("Join location: " + _joiningLocationName);
-		System.out.println("Min lvl: " + _minlvl);
-		System.out.println("Max lvl: " + _maxlvl);
+		_log.info("Name: " + _eventName);
+		_log.info("Desc: " + _eventDesc);
+		_log.info("Join location: " + _joiningLocationName);
+		_log.info("Min lvl: " + _minlvl);
+		_log.info("Max lvl: " + _maxlvl);
 
 		System.out.println("");
 		System.out.println("##################################");
@@ -1143,10 +1240,17 @@ public class DM implements EventTask
 		for(String player : _savePlayers)
 			System.out.println("Name: " + player );
 
-		System.out.println("");
-		System.out.println("");
+		_log.info("");
+		_log.info("");
+		
+		dumpLocalEventInfo();
+		
 	}
 
+	private static void dumpLocalEventInfo(){
+		
+	}
+	
 	public static void loadData()
 	{
 		_eventName = new String();
@@ -1154,12 +1258,16 @@ public class DM implements EventTask
 		_joiningLocationName = new String();
 		_savePlayers = new Vector<String>();
 		_players = new Vector<L2PcInstance>();
+		
 		_topPlayer = null;
 		_npcSpawn = null;
 		_joining = false;
 		_teleport = false;
 		_started = false;
 		_sitForced = false;
+		_aborted = false;
+		_inProgress = false;
+		
 		_npcId = 0;
 		_npcX = 0;
 		_npcY = 0;
@@ -1167,18 +1275,19 @@ public class DM implements EventTask
 		_npcHeading = 0;
 		_rewardId = 0;
 		_rewardAmount = 0;
-		_joinTime = 0;
-		_eventTime = 0;
 		_topKills = 0;
 		_minlvl = 0;
 		_maxlvl = 0;
+		_joinTime = 0;
+		_eventTime = 0;
+		_minPlayers = 0;
+		_maxPlayers = 0;
+		_intervalBetweenMatchs = 0;
 		_playerColors = 0;
 		_playerX = 0;
 		_playerY = 0;
 		_playerZ = 0;
-		_intervalBetweenMatchs = 0;
-		_minPlayers = 0;
-		_maxPlayers = 0;
+		
 		
 		java.sql.Connection con = null;
 		try
@@ -1355,14 +1464,7 @@ public class DM implements EventTask
 			_log.error("DM Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}
-
-	public static void setPlayersPos(L2PcInstance activeChar)
-	{
-		_playerX = activeChar.getX();
-		_playerY = activeChar.getY();
-		_playerZ = activeChar.getZ();
-	}
-
+	
 	public static void addPlayer(L2PcInstance player)
 	{
 		if(!addPlayerOk(player))
@@ -1376,58 +1478,6 @@ public class DM implements EventTask
 		player.sendMessage("DM: You successfully registered for the DeathMatch event.");
 	}
 
-	public static boolean addPlayerOk(L2PcInstance eventPlayer)
-	{
-		if(eventPlayer._inEventTvT)
-		{
-			eventPlayer.sendMessage("You already participated to another event!"); 
-			return false;
-		}
-
-		if(eventPlayer._inEventCTF)
-		{
-			eventPlayer.sendMessage("You already participated to another event!"); 
-			return false;
-		}
-
-		if(eventPlayer._inEventDM)
-		{
-			eventPlayer.sendMessage("You already participated in the event!"); 
-			return false;
-		}
-		return true;
-	}
-
-	public static synchronized void addDisconnectedPlayer(L2PcInstance player)
-	{
-		if(!_players.contains(player) && _savePlayers.contains(player.getName()))
-		{
-			if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
-			{
-				for(L2Effect e : player.getAllEffects())
-				{
-					if(e != null)
-						e.exit();
-				}
-			}
-
-			_players.add(player);
-
-			player._originalNameColorDM = player.getAppearance().getNameColor();
-			player._originalKarmaDM = player.getKarma();
-			player._inEventDM = true;
-			player._countDMkills = 0;
-			if(_teleport || _started)
-			{
-				player.getAppearance().setNameColor(_playerColors);
-				player.setKarma(0);
-				player.broadcastUserInfo();
-				player.teleToLocation(_playerX, _playerY , _playerZ);
-			}
-		}
-	}
-
-	
 	public static void removePlayer(L2PcInstance player)
 	{
 		if(player != null && player._inEventDM)
@@ -1460,26 +1510,129 @@ public class DM implements EventTask
 		_topKills = 0;
 		_players = new Vector<L2PcInstance>();
 	}
-
-	public static void teleportFinish()
+	
+	public static synchronized void addDisconnectedPlayer(L2PcInstance player)
 	{
-		Announcements.getInstance().gameAnnounceToAll(_eventName + "(DM): Teleport back to participation NPC in 20 seconds!");
-
-		removeUserData();
-		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+		if(!_players.contains(player) && _savePlayers.contains(player.getName()))
 		{
-			public void run()
+			if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
 			{
-				for(L2PcInstance player : _players)
+				for(L2Effect e : player.getAllEffects())
 				{
-					if(player !=  null)
-						player.teleToLocation(_npcX, _npcY, _npcZ);
-				} 
-				cleanDM();
+					if(e != null)
+						e.exit();
+				}
 			}
-		}, 20000);
+
+			_players.add(player);
+
+			player._originalNameColorDM = player.getAppearance().getNameColor();
+			player._originalKarmaDM = player.getKarma();
+			player._inEventDM = true;
+			player._countDMkills = 0;
+			if(_teleport || _started)
+			{
+				player.getAppearance().setNameColor(_playerColors);
+				player.setKarma(0);
+				player.broadcastUserInfo();
+				player.teleToLocation(_playerX, _playerY , _playerZ);
+			}
+		}
+	}
+
+
+	
+	/**
+	 * @return the _playerColors
+	 */
+	public static int get_playerColors()
+	{
+		return _playerColors;
+	}
+
+	/**
+	 * @param _playerColors the _playerColors to set
+	 */
+	public static boolean set_playerColors(int _playerColors)
+	{
+		if(!is_inProgress()){
+			DM._playerColors = _playerColors;
+			return true;
+		}
+		else
+			return false;
+
+	}
+
+	public static void rewardPlayer()
+	{
+		if(_topPlayer != null)
+		{
+			_topPlayer.addItem("DM Event: " + _eventName, _rewardId, _rewardAmount, _topPlayer, true);
+
+			StatusUpdate su = new StatusUpdate(_topPlayer.getObjectId());
+			su.addAttribute(StatusUpdate.CUR_LOAD, _topPlayer.getCurrentLoad());
+			_topPlayer.sendPacket(su);
+
+			NpcHtmlMessage nhm = new NpcHtmlMessage(5);
+			TextBuilder replyMSG = new TextBuilder("");
+
+			replyMSG.append("<html><body>You won the event. Look in your inventory for the reward.</body></html>");
+
+			nhm.setHtml(replyMSG.toString());
+			_topPlayer.sendPacket(nhm);
+
+			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+			_topPlayer.sendPacket( ActionFailed.STATIC_PACKET );
+		}
 	}
 	
+	private static void processTopPlayer()
+	{
+		for(L2PcInstance player : _players)
+		{
+			if(player._countDMkills > _topKills)
+			{
+				_topPlayer = player;
+				_topKills = player._countDMkills;
+			}
+		}
+	}
+	
+	private static void processTopTeam()
+	{
+		
+	}
+
+	public static Location get_playersSpawnLocation()
+	{
+		Location npc_loc = new Location(_playerX,_playerY,_playerZ,0);
+		
+		return npc_loc;
+		
+	}
+	
+	public static void setPlayersPos(L2PcInstance activeChar)
+	{
+		_playerX = activeChar.getX();
+		_playerY = activeChar.getY();
+		_playerZ = activeChar.getZ();
+	}
+	
+	
+
+	public static void removeUserData()
+	{
+		for(L2PcInstance player : _players)
+		{
+			player.getAppearance().setNameColor(player._originalNameColorDM);
+			player.setKarma(player._originalKarmaDM);
+			player._inEventDM = false;
+			player._countDMkills = 0;
+			player.broadcastUserInfo();
+		}
+	}
+
 	/**
 	 * just an announcer to send termination messages
 	 *
