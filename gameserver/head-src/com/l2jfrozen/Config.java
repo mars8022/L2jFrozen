@@ -1871,6 +1871,7 @@ public final class Config
 	public static boolean DM_ENABLE_KILL_REWARD;
 	public static int DM_KILL_REWARD_ID;
 	public static int DM_KILL_REWARD_AMOUNT;
+	public static boolean DM_ANNOUNCE_REWARD;
 
 	//============================================================
 	public static void loadDMConfig()
@@ -1900,7 +1901,8 @@ public final class Config
 			DM_KILL_REWARD_ID = Integer.parseInt(DMSettings.getProperty("DMKillRewardID", "6392"));
 			DM_KILL_REWARD_AMOUNT = Integer.parseInt(DMSettings.getProperty("DMKillRewardAmount", "1"));
 			
-
+			DM_ANNOUNCE_REWARD = Boolean.parseBoolean(DMSettings.getProperty("DMAnnounceReward", "False"));
+			
 		}
 		catch(Exception e)
 		{
@@ -1917,6 +1919,7 @@ public final class Config
 	public static boolean CTF_ON_START_REMOVE_ALL_EFFECTS;
 	public static boolean CTF_ON_START_UNSUMMON_PET;
 	public static boolean CTF_ANNOUNCE_TEAM_STATS;
+	public static boolean CTF_ANNOUNCE_REWARD;
 	public static boolean CTF_JOIN_CURSED;
 	public static boolean CTF_REVIVE_RECOVERY;
 	public static boolean CTF_COMMAND;
@@ -1941,6 +1944,7 @@ public final class Config
 			CTF_ON_START_REMOVE_ALL_EFFECTS = Boolean.parseBoolean(CTFSettings.getProperty("CTFOnStartRemoveAllEffects", "True"));
 			CTF_ON_START_UNSUMMON_PET = Boolean.parseBoolean(CTFSettings.getProperty("CTFOnStartUnsummonPet", "True"));
 			CTF_ANNOUNCE_TEAM_STATS = Boolean.parseBoolean(CTFSettings.getProperty("CTFAnnounceTeamStats", "False"));
+			CTF_ANNOUNCE_REWARD = Boolean.parseBoolean(CTFSettings.getProperty("CTFAnnounceReward", "False"));
 			CTF_JOIN_CURSED = Boolean.parseBoolean(CTFSettings.getProperty("CTFJoinWithCursedWeapon", "True"));
 			CTF_REVIVE_RECOVERY = Boolean.parseBoolean(CTFSettings.getProperty("CTFReviveRecovery", "False"));
 			CTF_COMMAND = Boolean.parseBoolean(CTFSettings.getProperty("CTFCommand", "True"));
