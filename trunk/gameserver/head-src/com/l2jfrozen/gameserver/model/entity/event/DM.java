@@ -503,9 +503,11 @@ public class DM implements EventTask
 			return false;
 		
 		if(_teamEvent){
-			checkStartJoinTeamInfo();
+			if(!checkStartJoinTeamInfo())
+				return false;
 		}else{
-			checkStartJoinPlayerInfo();
+			if(!checkStartJoinPlayerInfo())
+				return false;
 		}
 		
 		if(!checkOptionalEventStartJoinOk())
@@ -576,7 +578,7 @@ public class DM implements EventTask
 			_npcSpawn.init();
 			_npcSpawn.getLastSpawn().getStatus().setCurrentHp(999999999);
 			_npcSpawn.getLastSpawn().setTitle(_eventName);
-			_npcSpawn.getLastSpawn().isEventMob = true;
+			_npcSpawn.getLastSpawn()._isEventMobDM = true;
 			_npcSpawn.getLastSpawn().isAggressive();
 			_npcSpawn.getLastSpawn().decayMe();
 			_npcSpawn.getLastSpawn().spawnMe(_npcSpawn.getLastSpawn().getX(), _npcSpawn.getLastSpawn().getY(), _npcSpawn.getLastSpawn().getZ());
@@ -1402,6 +1404,78 @@ public class DM implements EventTask
 		{
 			NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 
+			TextBuilder replyMSG = new TextBuilder("<html><title>"+_eventName+"</title><body>");
+			replyMSG.append("<center><img src=\"L2UI_CH3.herotower_deco\" width=256 height=32></center><br1>");
+			replyMSG.append("<center><font color=\"3366CC\">Current event:</font></center><br1>");
+			replyMSG.append("<center>Name:&nbsp;<font color=\"00FF00\">" + _eventName + "</font></center><br1>");
+			replyMSG.append("<center>Description:&nbsp;<font color=\"00FF00\">" + _eventDesc + "</font></center><br><br>");
+
+			if(!_started && !_joining)
+				replyMSG.append("<center>Wait till the admin/gm start the participation.</center>");
+			else if(!checkMaxPlayers(_players.size()))
+			{
+				if(!_started)
+				{
+					replyMSG.append("Currently participated: <font color=\"00FF00\">" + _players.size() + ".</font><br>");
+					replyMSG.append("Max players: <font color=\"00FF00\">" + _maxPlayers + "</font><br><br>");
+					replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
+				}
+			}
+			else if(eventPlayer.isCursedWeaponEquiped() && !Config.DM_JOIN_CURSED)
+			{
+				replyMSG.append("<font color=\"FFFF00\">You can't participate to this event with a cursed Weapon.</font><br>");
+			}
+			else if(!_started && _joining && eventPlayer.getLevel()>=_minlvl && eventPlayer.getLevel()<=_maxlvl)
+			{
+				if(_players.contains(eventPlayer) )
+				{
+					replyMSG.append("<center><font color=\"3366CC\">You participated already!</font></center><br><br>");
+						
+					replyMSG.append("<table border=\"0\"><tr>");
+					replyMSG.append("<td width=\"200\">Wait till event start or</td>");
+					replyMSG.append("<td width=\"60\"><center><button value=\"remove\" action=\"bypass -h npc_" + objectId + "_dmevent_player_leave\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></td>");
+					replyMSG.append("<td width=\"100\">your participation!</td>");
+					replyMSG.append("</tr></table>");
+				}
+				else
+				{
+					replyMSG.append("<center><font color=\"3366CC\">You want to participate in the event?</font></center><br>");
+					replyMSG.append("<center><td width=\"200\">Min lvl: <font color=\"00FF00\">" + _minlvl + "</font></center></td><br>");
+					replyMSG.append("<center><td width=\"200\">Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font></center></td><br><br>");
+					replyMSG.append("<center><button value=\"Join\" action=\"bypass -h npc_" + objectId + "_dmevent_player_join\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center><br>");
+
+					
+				}
+			}
+			else if(_started && !_joining)
+				replyMSG.append("<center>"+_eventName+" match is in progress.</center>");
+			else if(eventPlayer.getLevel() < _minlvl || eventPlayer.getLevel() > _maxlvl)
+			{
+				replyMSG.append("Your lvl: <font color=\"00FF00\">" + eventPlayer.getLevel() + "</font><br>");
+				replyMSG.append("Min lvl: <font color=\"00FF00\">" + _minlvl + "</font><br>");
+				replyMSG.append("Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font><br><br>");
+				replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
+			}
+
+			replyMSG.append("</body></html>");
+			adminReply.setHtml(replyMSG.toString());
+			eventPlayer.sendPacket(adminReply);
+
+			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+			eventPlayer.sendPacket( ActionFailed.STATIC_PACKET );
+		}
+		catch(Exception e)
+		{
+			_log.error(_eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
+		}
+	}
+/*
+	public static void showEventHtml(L2PcInstance eventPlayer, String objectId)
+	{
+		try
+		{
+			NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
+
 			TextBuilder replyMSG = new TextBuilder("<html><body>");
 			replyMSG.append("DM Match<br><br><br>");
 			replyMSG.append("Current event...<br1>");
@@ -1443,12 +1517,12 @@ public class DM implements EventTask
 				}
 			}
 			else if(_started && !_joining)
-				replyMSG.append("<center>DM match is in progress.</center>");
-			else if(eventPlayer.getLevel()<_minlvl || eventPlayer.getLevel()>_maxlvl )
+				replyMSG.append("<center>"+_eventName+" match is in progress.</center>");
+			else if(eventPlayer.getLevel() < _minlvl || eventPlayer.getLevel() > _maxlvl)
 			{
-				replyMSG.append("Your lvl : <font color=\"00FF00\">" + eventPlayer.getLevel() +"</font><br>");
-				replyMSG.append("Admin set min lvl : <font color=\"00FF00\">" + _minlvl + "</font><br>");
-				replyMSG.append("Admin set max lvl : <font color=\"00FF00\">" + _maxlvl + "</font><br><br>");
+				replyMSG.append("Your lvl: <font color=\"00FF00\">" + eventPlayer.getLevel() + "</font><br>");
+				replyMSG.append("Min lvl: <font color=\"00FF00\">" + _minlvl + "</font><br>");
+				replyMSG.append("Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font><br><br>");
 				replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
 			}
 
@@ -1461,9 +1535,10 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
-			_log.error("DM Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
+			_log.error(_eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}
+	*/
 	
 	public static void addPlayer(L2PcInstance player)
 	{

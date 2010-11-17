@@ -585,7 +585,7 @@ public class TvT implements EventTask
 			_npcSpawn.init();
 			_npcSpawn.getLastSpawn().getStatus().setCurrentHp(999999999);
 			_npcSpawn.getLastSpawn().setTitle(_eventName);
-			_npcSpawn.getLastSpawn().isEventMob = true;
+			_npcSpawn.getLastSpawn()._isEventMobTvT= true;
 			_npcSpawn.getLastSpawn().isAggressive();
 			_npcSpawn.getLastSpawn().decayMe();
 			_npcSpawn.getLastSpawn().spawnMe(_npcSpawn.getLastSpawn().getX(), _npcSpawn.getLastSpawn().getY(), _npcSpawn.getLastSpawn().getZ());
@@ -623,8 +623,8 @@ public class TvT implements EventTask
 		Announcements.getInstance().gameAnnounceToAll(_eventName + "!");
 		if(Config.TVT_ANNOUNCE_REWARD)
 			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
-		Announcements.getInstance().gameAnnounceToAll("Recruiting levels " + _minlvl + " to " + _maxlvl);
-		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName + "");
+		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName);
 		
 		if(Config.TVT_COMMAND)
 			Announcements.getInstance().gameAnnounceToAll(" or by command .tvtjoin! To leave .tvtleave! For Info .tvtinfo!");
@@ -741,7 +741,7 @@ public class TvT implements EventTask
 		_aborted = false;
 		long delay = _intervalBetweenMatchs;
 
-		Announcements.getInstance().gameAnnounceToAll(_eventName+": joining period will be avaible again in " + getIntervalBetweenMatchs() + " minute(s)!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName+": joining period will be avaible again in " + _intervalBetweenMatchs + " minute(s)!");
 
 		waiter(delay);
 

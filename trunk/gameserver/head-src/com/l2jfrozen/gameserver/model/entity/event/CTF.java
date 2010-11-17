@@ -535,9 +535,11 @@ public class CTF implements EventTask
 			return false;
 		
 		if(_teamEvent){
-			checkStartJoinTeamInfo();
+			if(!checkStartJoinTeamInfo())
+				return false;
 		}else{
-			checkStartJoinPlayerInfo();
+			if(!checkStartJoinPlayerInfo())
+				return false;
 		}
 		
 		if(!checkOptionalEventStartJoinOk())
@@ -619,7 +621,7 @@ public class CTF implements EventTask
 			_npcSpawn.init();
 			_npcSpawn.getLastSpawn().getStatus().setCurrentHp(999999999);
 			_npcSpawn.getLastSpawn().setTitle(_eventName);
-			_npcSpawn.getLastSpawn().isEventMob = true;
+			_npcSpawn.getLastSpawn()._isEventMobCTF = true;
 			_npcSpawn.getLastSpawn().isAggressive();
 			_npcSpawn.getLastSpawn().decayMe();
 			_npcSpawn.getLastSpawn().spawnMe(_npcSpawn.getLastSpawn().getX(), _npcSpawn.getLastSpawn().getY(), _npcSpawn.getLastSpawn().getZ());
