@@ -42,7 +42,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 		"admin_ctf_npc", "admin_ctf_npc_pos",
 		"admin_ctf_reward", "admin_ctf_reward_amount",
 		"admin_ctf_team_add", "admin_ctf_team_remove", "admin_ctf_team_pos", "admin_ctf_team_color","admin_ctf_team_flag",
-		"admin_ctf_join", "admin_ctf_teleport", "admin_ctf_start", "admin_ctf_abort", "admin_ctf_finish",
+		"admin_ctf_join", "admin_ctf_teleport", "admin_ctf_start", "admin_ctf_startevent", "admin_ctf_abort", "admin_ctf_finish",
 		"admin_ctf_sit", "admin_ctf_dump", "admin_ctf_save", "admin_ctf_load", "admin_ctf_jointime", 
 		"admin_ctf_eventtime", "admin_ctf_autoevent","admin_ctf_minplayers","admin_ctf_maxplayers"
 	};
@@ -316,6 +316,13 @@ public class AdminCTFEngine implements IAdminCommandHandler
 				
 			}
 
+			else if(command.equals("admin_ctf_startevent"))
+			{
+				CTF.eventOnceStart();
+				showMainPage(activeChar);
+				
+			}
+			
 			else if(command.equals("admin_ctf_abort"))
 			{
 				activeChar.sendMessage("Aborting event");
@@ -429,6 +436,9 @@ public class AdminCTFEngine implements IAdminCommandHandler
 		replyMSG.append("<td width=\"100\"><button value=\"Join\" action=\"bypass -h admin_ctf_join\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Teleport\" action=\"bypass -h admin_ctf_teleport\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Start\" action=\"bypass -h admin_ctf_start\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
+		replyMSG.append("</tr></table><table><tr>");
+		replyMSG.append("<table border=\"0\"><tr>");
+		replyMSG.append("<td width=\"100\"><button value=\"StartEventOnceTime\" action=\"bypass -h admin_ctf_startevent\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><table><tr>");
 		replyMSG.append("<td width=\"100\"><button value=\"Abort\" action=\"bypass -h admin_ctf_abort\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Finish\" action=\"bypass -h admin_ctf_finish\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");

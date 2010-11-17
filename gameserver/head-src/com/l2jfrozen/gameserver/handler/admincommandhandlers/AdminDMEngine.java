@@ -39,7 +39,7 @@ public class AdminDMEngine implements IAdminCommandHandler
 		"admin_dmevent", "admin_dmevent_name", "admin_dmevent_desc", "admin_dmevent_join_loc",
 		"admin_dmevent_minlvl", "admin_dmevent_maxlvl", "admin_dmevent_npc", "admin_dmevent_npc_pos",
 		"admin_dmevent_reward", "admin_dmevent_reward_amount", "admin_dmevent_spawnpos", "admin_dmevent_color",
-		"admin_dmevent_join", "admin_dmevent_teleport", "admin_dmevent_start", "admin_dmevent_abort", "admin_dmevent_finish",
+		"admin_dmevent_join", "admin_dmevent_teleport", "admin_dmevent_start", "admin_dmevent_startevent", "admin_dmevent_abort", "admin_dmevent_finish",
 		"admin_dmevent_sit", "admin_dmevent_dump", "admin_dmevent_save", "admin_dmevent_load"
 	};
 
@@ -186,6 +186,13 @@ public class AdminDMEngine implements IAdminCommandHandler
 				activeChar.sendMessage("Cannot startEvent, check log for info..");
 			
 		}
+		
+		else if(command.equals("admin_dmevent_startevent"))
+		{
+			DM.startEvent();
+			showMainPage(activeChar);
+			
+		}
 
 		else if(command.equals("admin_dmevent_abort"))
 		{
@@ -257,6 +264,9 @@ public class AdminDMEngine implements IAdminCommandHandler
 		replyMSG.append("<td width=\"100\"><button value=\"Join\" action=\"bypass -h admin_dmevent_join\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Teleport\" action=\"bypass -h admin_dmevent_teleport\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Start\" action=\"bypass -h admin_dmevent_start\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
+		replyMSG.append("</tr></table><table><tr>");
+		replyMSG.append("</tr></table><table><br><br><tr>");
+		replyMSG.append("<td width=\"100\"><button value=\"StartEventOnceTime\" action=\"bypass -h admin_dmevent_startevent\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("</tr></table><table><tr>");
 		replyMSG.append("<td width=\"100\"><button value=\"Abort\" action=\"bypass -h admin_dmevent_abort\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		replyMSG.append("<td width=\"100\"><button value=\"Finish\" action=\"bypass -h admin_dmevent_finish\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");

@@ -331,7 +331,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							buffer.setBusy(true);
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(player);
-							buffer.doCast(skill);
+							//buffer.doCast(skill);
+							skill.getEffects(buffer, player);
 							buffer.setBusy(false);
 						} else
 							skill.getEffects(player, player);
@@ -401,10 +402,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							buffer.setBusy(true);
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(player.getPet());
-							buffer.doCast(skill);
+							skill.getEffects(buffer, player.getPet());
+							//buffer.doCast(skill);
 							buffer.setBusy(false);
 						} else
-							skill.getEffects(player.getPet(), player.getPet());
+							skill.getEffects(buffer, player.getPet());
 					}
 					try
 					{
