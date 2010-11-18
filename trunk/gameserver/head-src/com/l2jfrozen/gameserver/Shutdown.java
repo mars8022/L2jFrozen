@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver;
 
-import java.util.logging.Level;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

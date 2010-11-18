@@ -21,7 +21,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.skills.Stats;
 
 /**
- * @author programmos, scoria dev
+ * @author programmos
  */
 
 public class NpcStat extends CharStat

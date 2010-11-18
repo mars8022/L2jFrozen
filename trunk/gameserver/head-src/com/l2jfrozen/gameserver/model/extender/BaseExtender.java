@@ -26,7 +26,6 @@ import com.l2jfrozen.gameserver.model.L2Object;
  */
 public class BaseExtender
 {
-	// Р‘Р°Р·РѕРІС‹Рµ С‚РёРїС‹ СЌРІРµРЅС‚РѕРІ. Р’ РєРѕРјРјРµРЅС‚Р°СЂРёСЏС… - РїР°СЂР°РјРµС‚СЂС‹
 	public enum EventType
 	{
 		LOAD("load"), // null
@@ -51,12 +50,8 @@ public class BaseExtender
 	}
 
 	/**
-	 * РњРѕР¶РµС‚ Р»Рё РґР°РЅРЅС‹Р№ СЌРєСЃС‚РµРЅРґРµСЂ Р±С‹С‚СЊ СЃРѕР·РґР°РЅ РґР»СЏ РѕР±СЉРµРєС‚Р°<br>
-	 * 
-	 * @param object as L2Object РѕР±СЉРµРєС‚, РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ РёРґРµС‚ Р·Р°РїСЂРѕСЃ<br>
+	 * @param object as L2Object<br>
 	 * @return as boolean<br>
-	 *         Р’РќРРњРђРќРР•! Р”Р°РЅРЅС‹Р№ РјРµС‚РѕРґ РІС‹Р·С‹РІР°РµС‚СЃСЏ РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ L2Object!!!<br>
-	 *         Р’СЃРµ С‡С‚Рѕ РјС‹ РёРјРµРµРј - СЌС‚Рѕ РєРѕСЂСЂРµРєС‚РЅС‹Р№ ObjectId
 	 */
 	public static boolean canCreateFor(L2Object object)
 	{
@@ -67,10 +62,7 @@ public class BaseExtender
 	private BaseExtender _next = null;
 
 	/**
-	 * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ<br>
-	 * <br>
-	 * 
-	 * @param owner - L2Object РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕР·РґР°РЅ СЌРєСЃС‚РµРЅРґРµСЂ
+	 * @param owner - L2Object
 	 */
 	public BaseExtender(L2Object owner)
 	{
@@ -78,10 +70,7 @@ public class BaseExtender
 	}
 
 	/**
-	 * РџРѕР»СѓС‡РёС‚СЊ РІР»Р°РґРµР»СЊС†Р° СЂР°СЃС€РёСЂРµРЅРёСЏ<br>
-	 * <br>
-	 * 
-	 * @return as Object - РІР»Р°РґРµР»РµС† СЂР°СЃС€РёСЂРµРЅРёСЏ
+	 * @return as Object
 	 */
 	public L2Object getOwner()
 	{
@@ -89,15 +78,12 @@ public class BaseExtender
 	}
 
 	/**
-	 * onEvent - РњРµС‚РѕРґ, РІС‹Р·С‹РІР°РµРјС‹Р№ РїСЂРё РІРѕР·РЅРёРєРЅРѕРІРµРЅРёРё СЃРѕР±С‹С‚РёСЏ<br>
-	 * Р’РЎР•Р“Р”Рђ РІС‹Р·С‹РІР°Р№С‚Рµ super.onEvent(event,params);<BR>
+	 * onEvent - super.onEvent(event,params);<BR>
 	 * <BR>
 	 * 
-	 * @param event as String - РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРѕР±С‹С‚РёСЏ<br>
-	 * @param params as Object[]- РїР°СЂР°РјРµС‚СЂС‹, РїРµСЂРµРґР°РІР°РµРјС‹Рµ РІ СЃРѕР±С‹С‚РёРµ<br>
-	 * @return as Object - РµСЃР»Рё СЌРІРµРЅС‚ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РєР°С‡РµСЃС‚РІРµ С…РµРЅРґР»РµСЂР° С‚Рѕ РїСЂРё
-	 *         РІРѕР·РІСЂР°С‚Рµ<br>
-	 *         РЅРµ null СЃС‡РёС‚Р°РµС‚СЃСЏ РґРµР№СЃС‚РІРёРµ РїРµСЂРµС…РІР°С‡РµРЅРЅС‹Рј
+	 * @param event as String<br>
+	 * @param params as Object[]<br>
+	 * @return as Object
 	 */
 	public Object onEvent(final String event, Object... params)
 	{
@@ -108,11 +94,8 @@ public class BaseExtender
 	}
 
 	/**
-	 * РџРѕРёСЃРє СЌРєСЃС‚РµРЅРґРµСЂР° РїРѕ РєРѕСЂС‚РѕРєРѕРјСѓ РёРјРµРЅРё РєР»Р°СЃСЃР°<br>
-	 * <br>
-	 * 
-	 * @param simpleClassName as String - РёРјСЏ РєР»Р°СЃСЃР°-СЂР°СЃС€РёСЂРµРЅРёСЏ<br>
-	 * @return as BaseExtender - СЂР°СЃС€РёСЂРµРЅРёРµ РёР»Рё null
+	 * @param simpleClassName as String<br>
+	 * @return as BaseExtender - null
 	 */
 	public BaseExtender getExtender(final String simpleClassName)
 	{
@@ -135,11 +118,7 @@ public class BaseExtender
 		return _next;
 	}
 	/**
-	 * Р”РѕР±Р°РІРёС‚СЊ СЌРєСЃС‚РµРЅРґРµСЂ РІ С†РµРїРѕС‡РєСѓ<br>
-	 * РќРµ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РїСЂСЏРјРѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ, СЃРј. L2Object.addExtender()<br>
-	 * <br>
-	 * 
-	 * @param newExtender as BaseExtender - РЅРѕРІС‹Р№ СЌРєСЃС‚РµРЅРґРµСЂ
+	 * @param newExtender as BaseExtender
 	 */
 	public void addExtender(BaseExtender newExtender)
 	{

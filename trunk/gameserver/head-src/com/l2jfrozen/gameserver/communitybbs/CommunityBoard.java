@@ -60,10 +60,7 @@ public class CommunityBoard
 
 	/**
 	 * by Azagthtot<br>
-	 * <br>
-	 * РћР±СЂР°Р±РѕС‚РєР° РєР°СЃС‚РѕРјРЅС‹С… _bbs РєРѕРјРјР°РЅРґ С‡РµСЂРµР· RequestByPassToServer<br>
-	 * 
-	 * @param handler as IBBSHandler - РѕР±СЂР°Р±РѕС‚С‡РёРє РєР°СЃС‚РѕРјРЅС‹С… РєРѕРјРјР°РЅРґ
+	 * @param handler as IBBSHandler
 	 */
 	public void registerBBSHandler(IBBSHandler handler)
 	{
@@ -74,12 +71,9 @@ public class CommunityBoard
 	}
 
 	/**
-	 * by Azagthtot - РЎРќРђР§РђР›Рђ РїСЂРѕРІРµСЂСЏРµРј РєР°СЃС‚РѕРјРЅС‹Р№ С…Р°РЅРґР»РµСЂ, РїРѕС‚РѕРј СЋР·Р°РµРј
-	 * РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє<br>
-	 * <br>
-	 * 
-	 * @param client - Р®Р·РµСЂ С‚РёРїРѕ<br>
-	 * @param command - РєРѕРјР°РЅРґР° СЃ РїРµСЂРµС„РёРєСЃРѕРј _bbs
+	 * by Azagthtot<br>
+	 * @param client<br>
+	 * @param command _bbs
 	 */
 	public void handleCommands(L2GameClient client, String command)
 	{

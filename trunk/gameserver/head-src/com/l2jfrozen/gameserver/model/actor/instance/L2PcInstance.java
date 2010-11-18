@@ -160,7 +160,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadMode;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadUserInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ExPCCafePointInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ExSetCompassZoneCode;
-import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.FriendList;
 import com.l2jfrozen.gameserver.network.serverpackets.HennaInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
@@ -5935,7 +5934,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 			}
 		}
-		if(target instanceof L2PcInstance && Config.ANNOUNCE_ALL_KILL || !_inEventDM)
+		if(target instanceof L2PcInstance && Config.ANNOUNCE_ALL_KILL)
 		{
 			Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 		}

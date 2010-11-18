@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  * It inherits all methods from L2NpcInstance. <br>
  * <br>
  * 
- * @original author Rayan RPG for L2Emu Project
+ * @original author Rayan RPG
  * @since 819
  */
 public class L2NpcWalkerInstance extends L2NpcInstance

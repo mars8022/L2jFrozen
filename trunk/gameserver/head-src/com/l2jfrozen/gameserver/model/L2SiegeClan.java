@@ -119,7 +119,7 @@ public class L2SiegeClan
 	}
 
 	// =========================================================
-	// Proeprty
+	// Property
 	public final int getClanId()
 	{
 		return _clanId;

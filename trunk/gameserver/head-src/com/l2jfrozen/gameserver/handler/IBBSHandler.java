@@ -21,24 +21,19 @@ package com.l2jfrozen.gameserver.handler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * РљР°СЃС‚РѕРјРЅС‹Р№ РѕР±СЂР°Р±РѕС‚С‡РёРє Р±РѕСЂРґС‹<br>
- * 
  * @author Azagthtot
  */
 public interface IBBSHandler
 {
 	/**
-	 * @return as String [] - РЎРїРёСЃРѕРє РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјС‹С… РєРѕРјРјР°РЅРґ (Р±РµР· РїСЂРµС„РёРєСЃР° _bbs)
+	 * @return as String [] _bbs)
 	 */
 	public String[] getBBSCommands();
 
 	/**
-	 * РћР±СЂР°Р±РѕС‚РєР° РєРѕРјРјР°РЅРґС‹<br>
-	 * <br>
-	 * 
-	 * @param command as String - РєРѕРјРјР°РЅРґР° Р±РµР· РїСЂРµС„РёРєСЃР° _bbs<br>
-	 * @param activeChar as L2PcInstance - С‚РѕС‚ СѓСЂРѕРґ, С‡С‚Рѕ РЅР°Р¶Р°Р» Alt+B<br>
-	 * @param params as String - РїР°СЂР°РјРµС‚СЂС‹, РѕРїСЂРµРґРµР»РµРЅРЅС‹Рµ РїРѕСЃР»Рµ РїСЂРѕР±РµР»Р°
+	 * @param command as String - _bbs<br>
+	 * @param activeChar as L2PcInstance - Alt+B<br>
+	 * @param params as String -
 	 */
 	public void handleCommand(String command, L2PcInstance activeChar, String params);
 }

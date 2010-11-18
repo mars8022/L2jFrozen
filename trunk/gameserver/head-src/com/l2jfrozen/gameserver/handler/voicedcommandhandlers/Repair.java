@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * <B><U>User Character .repair voicecommand - SL2 L2JEmu</U></B><BR><BR>
+ * <B><U>User Character .repair voicecommand </U></B><BR><BR>
  *
  * 
  * <U>NOTICE:</U> Voice command .repair that when used, allows player to

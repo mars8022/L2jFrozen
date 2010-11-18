@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 /**
  * An olympiad stadium
  * 
- * @author L2Scoria
+ * @author L2JFrozen
  */
 public class L2OlympiadStadiumZone extends L2ZoneType
 {

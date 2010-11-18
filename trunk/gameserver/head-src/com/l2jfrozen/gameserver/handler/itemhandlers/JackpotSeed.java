@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
- * @author Scoria dev.
+ * @author l2jfrozen dev.
  */
 
 public class JackpotSeed implements IItemHandler

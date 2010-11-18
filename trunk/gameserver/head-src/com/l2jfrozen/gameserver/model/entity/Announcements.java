@@ -44,7 +44,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.script.DateRange;
 
 /**
- * 
  * @author ProGramMoS
  * @version 1.6
  */

@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

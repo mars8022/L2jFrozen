@@ -58,7 +58,7 @@ import com.l2jfrozen.gameserver.util.Util;
  * This class ...
  * 
  * @version $Revision: 1.4.2.3.2.8 $ $Date: 2009/04/13 02:10:41 $
- * @author programmos, scoria dev
+ * @author programmos
  */
 public final class L2VillageMasterInstance extends L2FolkInstance
 {

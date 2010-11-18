@@ -45,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 /**
  * Seven Signs Engine TODO: - Implementation of the Seal of Strife for sieges.
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class SevenSigns
 {

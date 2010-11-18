@@ -386,7 +386,6 @@ public abstract class L2Object
 	 * <BR>
 	 * <li>Create Door</li> <li>Spawn : Monster, Minion, CTs, Summon...</li><BR>
 	 */
-	@SuppressWarnings("static-access")
 	public final void spawnMe()
 	{
 		if(Config.ASSERT)
@@ -415,7 +414,6 @@ public abstract class L2Object
 		onSpawn();
 	}
 
-	@SuppressWarnings("static-access")
 	public final void spawnMe(int x, int y, int z)
 	{
 		if(Config.ASSERT)

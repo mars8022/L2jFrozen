@@ -20,7 +20,7 @@ import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * @author L2Dot
+ * @author L2JFrozen
  */
 public class version implements IVoicedCommandHandler
 {

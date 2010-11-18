@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.util.Broadcast;
  * This class ...
  * 
  * @version $Revision: 1.1.2.1.3 $ $Date: 2009/04/13 03:10:07 $
- * @author programmos, scoria dev
+ * @author programmos
  */
 
 public class SpiritShot implements IItemHandler

@@ -27,10 +27,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
- * Р­РєСЃС‚РµРЅРґРµСЂ РђР.<br>
- * <br>
- * <font color=red>РўР Р•Р‘РЈР•РўРЎРЇ РџРћР”РљР›Р®Р§РРўР¬ Р”Р•Р™РЎРўР’РРЇ!</font>
- * 
  * @author programmos
  */
 public class AIExtend implements Runnable
@@ -39,7 +35,7 @@ public class AIExtend implements Runnable
 	private int _idCharacter;
 
 	/**
-	 * @param id РР” СЃСѓС‰РµСЃС‚РІР°
+	 * @param id
 	 */
 	public void addAI(int id)
 	{
@@ -58,16 +54,16 @@ public class AIExtend implements Runnable
 		/** a person came within the Npc/Mob's range */
 		ON_AGGRO_RANGE_ENTER(true),
 
-		/** OnSpawn РґРµР№СЃС‚РІРёРµ РїСЂРё СЃРїР°СѓРЅРµ РјРѕР±Р° */
+		/** OnSpawn */
 		ON_SPAWN(true),
 
-		/** OnSkillUse РґРµР№СЃС‚РІРёРµ РїСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё СЃРєРёР»Р»Р° (MOB_TARGETED_BY_SKILL) */
+		/** OnSkillUse (MOB_TARGETED_BY_SKILL) */
 		ON_SKILL_USE(true),
 
-		/** OnKill РґРµР№СЃС‚РІРёРµ РїСЂРё СѓР±РёР№СЃС‚РІРµ (MOBKILLED) */
+		/** OnKill (MOBKILLED) */
 		ON_KILL(true),
 
-		/** OnAttack РґРµР№СЃС‚РІРёРµ РїСЂРё Р°С‚Р°РєРµ (MOBGOTATTACKED) */
+		/** OnAttack (MOBGOTATTACKED) */
 		ON_ATTACK(true);
 
 		private boolean _isRegistred;
@@ -90,9 +86,7 @@ public class AIExtend implements Runnable
 	}
 
 	/**
-	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РР” СЃСѓС‰РµСЃС‚РІР° РєРѕС‚РѕСЂРѕРјСѓ РґР°РЅС‹ "РјРѕР·РіРё".
-	 * 
-	 * @return РР”
+	 * @return idCharacter
 	 */
 	public int getID()
 	{

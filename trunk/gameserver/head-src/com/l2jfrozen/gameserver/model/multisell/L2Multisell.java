@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 /**
  * Multisell list manager
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class L2Multisell
 {

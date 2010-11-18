@@ -29,9 +29,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  * <b>This class handles Admin mass commands:</b><br>
  * <br>
  * 
- * @author Rayan RPG
- * @Project L2Emu Project!
- * @since 4193
+ * @author Rayan
  */
 public class AdminMassControl implements IAdminCommandHandler
 {

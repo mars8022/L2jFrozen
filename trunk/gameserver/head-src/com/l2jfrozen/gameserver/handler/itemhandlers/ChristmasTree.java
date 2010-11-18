@@ -47,7 +47,6 @@ public class ChristmasTree implements IItemHandler
 			13007
 	};
 
-	@SuppressWarnings("static-access")
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar = (L2PcInstance) playable;

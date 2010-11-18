@@ -32,8 +32,6 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 
 /**
- * 
- * 
  * @author Shyla
  */
 public class EventManager

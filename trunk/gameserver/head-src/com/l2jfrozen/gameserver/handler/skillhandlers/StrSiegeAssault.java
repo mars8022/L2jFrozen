@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 
 /**
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class StrSiegeAssault implements ISkillHandler
 {
