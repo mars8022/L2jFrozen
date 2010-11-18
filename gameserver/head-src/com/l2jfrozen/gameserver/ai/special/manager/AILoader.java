@@ -42,8 +42,6 @@ import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
- * РћР±С‰РёР№ Р·Р°РіСЂСѓР·С‡РёРє РґР»СЏ AI
- * 
  * @author qwerty
  */
 

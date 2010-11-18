@@ -25,10 +25,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 
-/**
- *
- *
- */
 public class castle implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =

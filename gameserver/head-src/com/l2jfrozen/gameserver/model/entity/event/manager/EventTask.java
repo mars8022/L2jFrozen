@@ -19,8 +19,6 @@
 package com.l2jfrozen.gameserver.model.entity.event.manager;
 
 /**
- * 
- * 
  * @author Shyla
  */
 public interface EventTask extends Runnable

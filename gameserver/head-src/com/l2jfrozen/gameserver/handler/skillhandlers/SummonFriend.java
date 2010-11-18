@@ -32,12 +32,11 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
- * @authors L2Scoria
+ * @authors L2JFrozen
  */
 public class SummonFriend implements ISkillHandler
 {
@@ -56,12 +55,27 @@ public class SummonFriend implements ISkillHandler
 			return;
 		}
 
-		if(activePlayer._inEventTvT)
-		{
-			activePlayer.sendMessage("You cannot use this skill in TvT.");
-			return;
+		if (activePlayer._inEvent) {
+			activePlayer.sendMessage("You cannot use this skill in Event.");
+			return;			
 		}
-
+		if (activePlayer._inEventCTF) {
+			activePlayer.sendMessage("You cannot use this skill in Event.");
+			return;			
+		}
+		if (activePlayer._inEventDM) {
+			activePlayer.sendMessage("You cannot use this skill in Event.");
+			return;			
+		}
+		if (activePlayer._inEventTvT) {
+			activePlayer.sendMessage("You cannot use this skill in Event.");
+			return;			
+		}
+		if (activePlayer._inEventVIP) {
+			activePlayer.sendMessage("You cannot use this skill in Event.");
+			return;			
+		}
+		
 		// Checks summoner not in arenas, siege zones, jail
 		if(activePlayer.isInsideZone(L2Character.ZONE_PVP))
 		{
@@ -129,7 +143,27 @@ public class SummonFriend implements ISkillHandler
 						continue;
 					}
 					
-					if(targetChar._inEventTvT)
+					if (targetChar._inEvent)
+					{
+						targetChar.sendMessage("You cannot use this skill in a Event.");
+						return;
+					}
+					if (targetChar._inEventCTF)
+					{
+						targetChar.sendMessage("You cannot use this skill in a Event.");
+						return;
+					}
+					if (targetChar._inEventDM)
+					{
+						targetChar.sendMessage("You cannot use this skill in a Event.");
+						return;
+					}
+					if (targetChar._inEventTvT)
+					{
+						targetChar.sendMessage("You cannot use this skill in a Event.");
+						return;
+					}
+					if (targetChar._inEventVIP)
 					{
 						targetChar.sendMessage("You cannot use this skill in a Event.");
 						return;

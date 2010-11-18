@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 /**
  * This class handles all siege commands: Todo: change the class name, and neaten it up
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class AdminFortSiege implements IAdminCommandHandler
 {

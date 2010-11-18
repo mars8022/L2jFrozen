@@ -720,6 +720,8 @@ public class RegionBBSManager extends BaseBBSManager
 		}
 	}
 
+	/*
+	 * Never used
 	private int getOnlineCount(String type)
 	{
 		if(type.equalsIgnoreCase("gm"))
@@ -732,7 +734,8 @@ public class RegionBBSManager extends BaseBBSManager
 	{
 		return _onlinePlayers.get(page);
 	}
-
+	*/
+	
 	public String getCommunityPage(int page, String type)
 	{
 		if(_communityPages.get(page) != null)

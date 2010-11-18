@@ -27,10 +27,6 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
-/**
- *
- *
- */
 public class stats implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =

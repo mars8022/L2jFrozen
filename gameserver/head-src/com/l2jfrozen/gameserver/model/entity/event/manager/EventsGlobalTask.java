@@ -29,8 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
- * 
- * 
  * @author Shyla
  */
 public class EventsGlobalTask implements Runnable

@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * @author: MHard - L2EmuRT DevTeam
+ * @author MHard
  */
 public abstract class ClanHallSiege
 {

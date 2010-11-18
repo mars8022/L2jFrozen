@@ -109,7 +109,6 @@ import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.Hero;
 import com.l2jfrozen.gameserver.model.entity.MonsterRace;
 import com.l2jfrozen.gameserver.model.entity.event.manager.EventManager;
-import com.l2jfrozen.gameserver.model.entity.event.manager.EventsGlobalTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;

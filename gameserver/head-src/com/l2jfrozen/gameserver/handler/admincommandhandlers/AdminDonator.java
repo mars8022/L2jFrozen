@@ -37,9 +37,6 @@ import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
-/**
- *L2Scoria
- **/
 public class AdminDonator implements IAdminCommandHandler
 {
 	private static String[] ADMIN_COMMANDS =

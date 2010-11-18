@@ -124,7 +124,7 @@ public class LoginController
 
 	private LoginController() throws GeneralSecurityException
 	{
-		Util.printSection("LoginContoller");
+		Util.printSection("LoginController");
 
 		_hackProtection = new FastMap<InetAddress, FailedLoginAttempt>();
 

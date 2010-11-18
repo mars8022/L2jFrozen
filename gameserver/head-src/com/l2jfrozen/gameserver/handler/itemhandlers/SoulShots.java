@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.util.Broadcast;
  * This class ...
  * 
  * @version $Revision: 1.2.4.5 $ $Date: 2009/04/13 03:12:07 $
- * @author programmos, scoria dev
+ * @author programmos
  */
 
 public class SoulShots implements IItemHandler

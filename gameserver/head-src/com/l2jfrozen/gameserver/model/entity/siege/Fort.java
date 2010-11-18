@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * @author programmos, scoria dev
+ * @author programmos
  */
 
 public class Fort

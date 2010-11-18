@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * @author programmos, sword dev
+ * @author programmos
  */
 
 public class FortSiege

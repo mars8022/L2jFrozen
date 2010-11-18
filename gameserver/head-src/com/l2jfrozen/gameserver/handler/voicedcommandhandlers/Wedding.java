@@ -21,7 +21,6 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
@@ -31,7 +30,7 @@ import com.l2jfrozen.gameserver.util.Broadcast;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * @author L2Scoria
+ * @author L2JFrozen
  */
 public class Wedding implements IVoicedCommandHandler
 {

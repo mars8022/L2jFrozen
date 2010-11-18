@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
- * @author Kerberos moded for Scoria by Bobi
+ * @author Kerberos
  */
 
 public class L2TownPetInstance extends L2NpcInstance

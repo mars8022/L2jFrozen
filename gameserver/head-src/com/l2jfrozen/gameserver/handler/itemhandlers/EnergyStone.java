@@ -34,7 +34,6 @@ import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.l2skills.L2SkillCharge;
 
 /**
- * @author l2jserver
  * @author ProGramMoS
  */
 public class EnergyStone implements IItemHandler

@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
- * @author programmos, sword dev
+ * @author programmos
  */
 public class Blow implements ISkillHandler
 {

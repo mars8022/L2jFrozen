@@ -18,8 +18,6 @@ import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
-import com.l2jfrozen.gameserver.model.zone.L2ZoneManager;
-import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 
 public class CTFCmd implements IVoicedCommandHandler
 {

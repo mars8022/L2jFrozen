@@ -17,9 +17,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,8 +24,6 @@ import java.util.List;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.crypt.Base64;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
 import com.l2jfrozen.gameserver.model.L2Object;

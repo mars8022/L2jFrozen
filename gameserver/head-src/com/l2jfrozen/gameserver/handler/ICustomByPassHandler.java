@@ -21,14 +21,12 @@ package com.l2jfrozen.gameserver.handler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * РћР±СЂР°Р±РѕС‚РєР° РєСЃС‚РѕРјРЅС‹С… bypass РєРѕРјРјР°РЅРґ С‡РµСЂРµР· bypas -h custom_xxxx<br>
- * 
  * @author Azagthtot
  */
 public interface ICustomByPassHandler
 {
 	/**
-	 * @return as String - СЃРїРёСЃРѕРє
+	 * @return as String -
 	 */
 	public String[] getByPassCommands();
 

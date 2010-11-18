@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 /**
  * A castle zone
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class L2FortZone extends L2ZoneType
 {

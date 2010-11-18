@@ -25,7 +25,6 @@ import com.l2jfrozen.gameserver.model.base.Race;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
- *
  * @author Velvet
  */
 public class L2MaxPolyModel

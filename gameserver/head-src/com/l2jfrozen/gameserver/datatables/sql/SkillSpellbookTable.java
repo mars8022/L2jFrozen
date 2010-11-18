@@ -30,8 +30,6 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * РўСЂРµР±СѓРµС‚СЃСЏ РїРµСЂРµРґРµР»Р°С‚СЊ РїРѕРґ csv
- * 
  * @author l2jserver
  */
 public class SkillSpellbookTable

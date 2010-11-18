@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2CommanderInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * @author programmos, scoria dev
+ * @author programmos
  */
 
 public class CommanderKnownList extends AttackableKnownList
