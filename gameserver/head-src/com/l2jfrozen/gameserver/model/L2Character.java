@@ -1049,6 +1049,8 @@ public abstract class L2Character extends L2Object
 		// Check if hit isn't missed
 		if(!hitted)
 		{
+			//MAJAX fix
+			sendPacket(new SystemMessage(SystemMessageId.MISSED_TARGET));
 			// Abort the attack of the L2Character and send Server->Client ActionFailed packet
 			abortAttack();
 		}
@@ -4985,7 +4987,8 @@ public abstract class L2Character extends L2Object
 		}
 		
 		broadcastPacket(new StopMove(this));
-		broadcastPacket(new ValidateLocation(this));
+		//MAJAX fix
+		//broadcastPacket(new ValidateLocation(this));
 
 		if(updateKnownObjects)
 		{
