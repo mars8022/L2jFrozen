@@ -460,8 +460,8 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				}
 			}
 		}
-
-		if((item.getEnchantLevel() >= maxEnchantLevel && maxEnchantLevel != 0) || (minEnchantLevel != 0 && (item.getEnchantLevel()) < minEnchantLevel) )
+		
+		if((maxEnchantLevel != 0 && item.getEnchantLevel() >= maxEnchantLevel) || (item.getEnchantLevel()) < minEnchantLevel) 
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INAPPROPRIATE_ENCHANT_CONDITION));
 			return;
