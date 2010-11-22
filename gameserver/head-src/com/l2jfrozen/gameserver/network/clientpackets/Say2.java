@@ -132,6 +132,7 @@ public final class Say2 extends L2GameClientPacket
 							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 10));
 							
 						if ((_text.equalsIgnoreCase("yes") 
+								|| _text.equalsIgnoreCase("si")
 								|| _text.equalsIgnoreCase("yep"))
 								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
 							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 6));
