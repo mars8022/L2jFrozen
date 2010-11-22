@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
+import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.powerpak.PowerPak;
 import com.l2jfrozen.gameserver.util.FloodProtector;
@@ -111,8 +112,38 @@ public final class Say2 extends L2GameClientPacket
 			_log.warning("Say2: Invalid type: " + _type);
 			return;
 		}
-
 		L2PcInstance activeChar = getClient().getActiveChar();
+		
+				if ((_text.equalsIgnoreCase("hello") 
+								|| _text.equalsIgnoreCase("hey") 
+								|| _text.equalsIgnoreCase("aloha") 
+								|| _text.equalsIgnoreCase("alo") 
+								|| _text.equalsIgnoreCase("ciao")
+								|| _text.equalsIgnoreCase("hi"))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 2));
+						
+						if ((_text.equalsIgnoreCase("lol") 
+								|| _text.equalsIgnoreCase("haha") 
+								|| _text.equalsIgnoreCase("xaxa") 
+								|| _text.equalsIgnoreCase("ghgh")
+								|| _text.equalsIgnoreCase("jaja"))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 10));
+							
+						if ((_text.equalsIgnoreCase("yes") 
+								|| _text.equalsIgnoreCase("yep"))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 6));
+						
+						if ((_text.equalsIgnoreCase("no") 
+								|| _text.equalsIgnoreCase("nop") 
+								|| _text.equalsIgnoreCase("nope"))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 5));
+					
+		
+		
 
 		if(activeChar == null)
 		{
