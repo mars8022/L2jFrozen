@@ -71,7 +71,7 @@ public class DM implements EventTask
 	
 	private String startEventTime;
 	
-	private static boolean _teamEvent = true; //TODO to be integrated
+	private static boolean _teamEvent = false; //TODO to be integrated
 
 	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();  
 	
