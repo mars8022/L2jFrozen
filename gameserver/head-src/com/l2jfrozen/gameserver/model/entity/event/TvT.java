@@ -513,9 +513,11 @@ public class TvT implements EventTask
 			return false;
 		
 		if(_teamEvent){
-			checkStartJoinTeamInfo();
+			if(!checkStartJoinTeamInfo())
+				return false;
 		}else{
-			checkStartJoinPlayerInfo();
+			if(!checkStartJoinPlayerInfo())
+				return false;
 		}
 		
 		if(!checkOptionalEventStartJoinOk())
@@ -717,9 +719,9 @@ public class TvT implements EventTask
 		
 		sit();
 
-		if(Config.TVT_OPEN_FORT_DOORS)
+		if(Config.TVT_CLOSE_FORT_DOORS)
 		{
-			openFortDoors();
+			closeFortDoors();
 		}
 
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Started. Go to kill your enemies!");
@@ -1137,9 +1139,9 @@ public class TvT implements EventTask
 		if(!_started)
 			return false;
 		
-		if(Config.TVT_CLOSE_FORT_DOORS)
+		if(Config.TVT_OPEN_FORT_DOORS)
 		{
-			closeFortDoors();
+			openFortDoors();
 		}
 
 		return true;
