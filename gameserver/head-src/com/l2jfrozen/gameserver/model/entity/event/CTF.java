@@ -2726,11 +2726,15 @@ public class CTF implements EventTask
 	{
 		if(_teams==null || _flagSpawns==null || _teamsX==null || _teamsY==null || _teamsZ==null)
 			return;
-		int division = _teams.size()*2,pos=0;
+		int division = _teams.size()*2,
+			pos=0;
 		int[] locX = new int[division], locY = new int[division], locZ = new int[division];
 		// Get all coordinates inorder to create a polygon:
 		for(L2Spawn flag : _flagSpawns)
 		{		
+			if(flag==null)
+				continue;
+			
 			locX[pos]=flag.getLocx();
 			locY[pos]=flag.getLocy();
 			locZ[pos]=flag.getLocz();
