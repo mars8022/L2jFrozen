@@ -524,7 +524,6 @@ public class TvT implements EventTask
 			return false;
 		
 		return true;
-		
 	}
 
 	private static boolean checkStartJoinTeamInfo(){
@@ -774,49 +773,68 @@ public class TvT implements EventTask
 		_started = false;
 		_aborted = false;
 		unspawnEventNpc();
-		processTopTeam();
-		L2PcInstance bestKiller = findBestKiller(_players);
-		L2PcInstance looser = findLooser(_players);
+		
+		afterFinishOperations();
+		
+		if(_teamEvent){
+			processTopTeam();
+			L2PcInstance bestKiller = findBestKiller(_players);
+			L2PcInstance looser = findLooser(_players);
 
-		if(_topKills == 0)
-			Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team wins the match(nobody killed).");
-		else
-		{
-			Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topTeam + "'s win the match! " + _topKills + " kills.");
-			rewardTeam(_topTeam, bestKiller, looser);
-			playKneelAnimation(_topTeam);
+			if(_topKills != 0){
+				
+				playKneelAnimation(_topTeam);
+				
+				if(Config.TVT_ANNOUNCE_TEAM_STATS)
+				{
+					Announcements.getInstance().gameAnnounceToAll(_eventName + " Team Statistics:");
+					for(String team : _teams)
+					{
+						int _kills = teamKillsCount(team);
+						Announcements.getInstance().gameAnnounceToAll("Team: " + team + " - Kills: " + _kills);
+					}
+
+					if(bestKiller != null)
+					{
+						Announcements.getInstance().gameAnnounceToAll("Top killer: " + bestKiller.getName() + " - Kills: " + bestKiller._countTvTkills);
+					}
+					if((looser != null) && (!looser.equals(bestKiller)))
+					{
+						Announcements.getInstance().gameAnnounceToAll("Top looser: " + looser.getName() + " - Dies: " + looser._countTvTdies);
+					}
+				}
+				
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topTeam + "'s win the match! " + _topKills + " kills.");
+				rewardTeam(_topTeam, bestKiller, looser);
+				
+			}else{
+				
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team wins the match(nobody killed).");
+				
+			}
+			
+		}else{
+			processTopPlayer();
 		}
-
-		if(Config.TVT_ANNOUNCE_TEAM_STATS)
-		{
-			Announcements.getInstance().gameAnnounceToAll(_eventName + " Team Statistics:");
-			for(String team : _teams)
-			{
-				int _kills = teamKillsCount(team);
-				Announcements.getInstance().gameAnnounceToAll("Team: " + team + " - Kills: " + _kills);
-			}
-
-			if(bestKiller != null)
-			{
-				Announcements.getInstance().gameAnnounceToAll("Top killer: " + bestKiller.getName() + " - Kills: " + bestKiller._countTvTkills);
-			}
-			if((looser != null) && (!looser.equals(bestKiller)))
-			{
-				Announcements.getInstance().gameAnnounceToAll("Top looser: " + looser.getName() + " - Dies: " + looser._countTvTdies);
-			}
-		}
+		
 		teleportFinish();
+	}
+	
+	private static void afterFinishOperations(){
+		
 	}
 	
 	public static void abortEvent()
 	{
 		if(!_joining && !_teleport && !_started)
 			return;
+		
 		if(_joining && !_teleport && !_started)
 		{
 			unspawnEventNpc();
 			cleanTvT();
 			_joining = false;
+			_inProgress = false;
 			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Match aborted!");
 			return;
 		}
@@ -1542,7 +1560,7 @@ public class TvT implements EventTask
 				replyMSG.append("<center>Wait till the admin/gm start the participation.</center>");
 			else if(Config.TVT_EVEN_TEAMS.equals("SHUFFLE") && !checkMaxPlayers(_playersShuffle.size()))
 			{
-				if(!TvT._started)
+				if(!_started)
 				{
 					replyMSG.append("Currently participated: <font color=\"00FF00\">" + _playersShuffle.size() + ".</font><br>");
 					replyMSG.append("Max players: <font color=\"00FF00\">" + _maxPlayers + "</font><br><br>");
@@ -1671,6 +1689,8 @@ public class TvT implements EventTask
 			}
 			else if(Config.TVT_EVEN_TEAMS.equals("SHUFFLE") && (!_playersShuffle.isEmpty() && _playersShuffle.contains(player)))
 				_playersShuffle.remove(player);
+			
+			player.sendMessage("Your participation in the TvT event has been removed.");
 		}
 	}
 

@@ -790,19 +790,24 @@ public class DM implements EventTask
 		
 		afterFinishOperations();
 		
-		if(_teamEvent)
+		if(_teamEvent){
 			processTopTeam();
-		else
+			
+		}else{
 			processTopPlayer();
-
-		if(_topKills == 0)
-			Announcements.getInstance().gameAnnounceToAll(_eventName + ": No players win the match(nobody killed).");
-		else
-		{
-			Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
-			rewardPlayer();
+			
+			if(_topKills != 0){
+				
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+				rewardPlayer();
+			}else{
+				
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No players win the match(nobody killed).");
+			
+			}
+			
 		}
-
+		
 		teleportFinish();
 	}
 	
@@ -1565,6 +1570,9 @@ public class DM implements EventTask
 			player._inEventDM = false;
 
 			_players.remove(player);
+			
+			player.sendMessage("Your participation in the DeathMatch event has been removed.");
+			
 		}
 	}
 

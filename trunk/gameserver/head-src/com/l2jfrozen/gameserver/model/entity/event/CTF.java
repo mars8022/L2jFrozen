@@ -842,23 +842,35 @@ public class CTF implements EventTask
 		
 		afterFinishOperations();
 		
-		if(_teamEvent)
+		if(_teamEvent){
 			processTopTeam();
-		else
-			processTopPlayer();
-		
-		if(_topScore != 0)
-			playKneelAnimation(_topTeam);
-		
-		if(Config.CTF_ANNOUNCE_TEAM_STATS)
-		{
-			Announcements.getInstance().gameAnnounceToAll(_eventName + " Team Statistics:");
-			for(String team : _teams)
-			{
-				int _flags_ = teamPointsCount(team);
-				Announcements.getInstance().gameAnnounceToAll("Team: " + team + " - Flags taken: " + _flags_);
+			
+			if(_topScore != 0){
+				
+				playKneelAnimation(_topTeam);
+				
+				if(Config.CTF_ANNOUNCE_TEAM_STATS)
+				{
+					Announcements.getInstance().gameAnnounceToAll(_eventName + " Team Statistics:");
+					for(String team : _teams)
+					{
+						int _flags_ = teamPointsCount(team);
+						Announcements.getInstance().gameAnnounceToAll("Team: " + team + " - Flags taken: " + _flags_);
+					}
+				}
+				
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
+				rewardTeam(_topTeam);
+			}else{
+				
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team win the match(nobody killed).");
+				
 			}
+			
+		}else{
+			processTopPlayer();
 		}
+		
 		teleportFinish();
 	}
 	
@@ -1645,7 +1657,7 @@ public class CTF implements EventTask
 				replyMSG.append("<center>Wait till the admin/gm start the participation.</center>");
 			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMaxPlayers(_playersShuffle.size()))
 			{
-				if(!CTF._started)
+				if(!_started)
 				{
 					replyMSG.append("Currently participated: <font color=\"00FF00\">" + _playersShuffle.size() + ".</font><br>");
 					replyMSG.append("Max players: <font color=\"00FF00\">" + _maxPlayers + "</font><br><br>");
@@ -1698,7 +1710,7 @@ public class CTF implements EventTask
 
 						replyMSG.append("</center><br>");
 
-						replyMSG.append("<center><button value=\"Join Event\" action=\"bypass -h npc_" + objectId + "_tvt_player_join eventShuffle\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center>");
+						replyMSG.append("<center><button value=\"Join Event\" action=\"bypass -h npc_" + objectId + "_ctf_player_join eventShuffle\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center>");
 						replyMSG.append("<center><font color=\"3366CC\">Teams will be reandomly generated!</font></center><br>");
 						replyMSG.append("<center>Joined Players:</font> <font color=\"LEVEL\">" + _playersShuffle.size() + "</center></font><br>");
 						replyMSG.append("<center>Reward: <font color=\"LEVEL\">" + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName()+ "</center></font>");
@@ -1774,6 +1786,8 @@ public class CTF implements EventTask
 			}
 			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && (!_playersShuffle.isEmpty() && _playersShuffle.contains(player)))
 				_playersShuffle.remove(player);
+			
+			player.sendMessage("Your participation in the CTF event has been removed.");
 		}
 	}
 	
@@ -2504,7 +2518,8 @@ public class CTF implements EventTask
 			}
 			catch(Exception e)
 			{
-				_log.info("CTF Engine[spawnAllFlags()]: exception: " + e.getStackTrace());
+				_log.info("CTF Engine[spawnAllFlags()]: exception: ");
+				e.printStackTrace();
 			}
 		}
 	}
@@ -2533,9 +2548,10 @@ public class CTF implements EventTask
 			}
 			_throneSpawns.removeAllElements();
 		}
-		catch(Throwable t)
+		catch(Exception e)
 		{
-			return;
+			_log.info("CTF Engine[unspawnAllFlags()]: exception: ");
+			e.printStackTrace();
 		}
 	}
 
@@ -2576,7 +2592,8 @@ public class CTF implements EventTask
 		}
 		catch(Exception e)
 		{
-			_log.info("CTF Engine[spawnFlag(" + teamName + ")]: exception: " + e.getStackTrace());
+			_log.info("CTF Engine[spawnFlag(" + teamName + ")]: exception: ");
+			e.printStackTrace();
 		}
 	}
 
@@ -2638,6 +2655,7 @@ public class CTF implements EventTask
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			return;
 		}
 	}
@@ -2668,8 +2686,11 @@ public class CTF implements EventTask
 				}
 			}
 		}
-		catch(Throwable t)
-		{}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return;
+		}
 	}
 
 

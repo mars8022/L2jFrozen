@@ -340,7 +340,8 @@ public class SelectorThread<T extends MMOClient> extends Thread
         }
         catch (IOException e)
         {
-        	_log.error("", e);
+        	//too many outputs on logs
+        	//_log.error("", e);
         }
 
         if (result > 0)
