@@ -3136,6 +3136,7 @@ public final class Config
 	}
 
 	//============================================================
+	public static boolean ENABLE_ANTHARAS_SCRIPT;
 	public static int ANTHARAS_CLOSE;
 	public static int ANTHARAS_SLEEP;
 	public static int ANTHARAS_RESP_FIRST;
@@ -3144,12 +3145,16 @@ public final class Config
 	public static int BAIUM_RESP_FIRST;
 	public static int BAIUM_RESP_SECOND;
 	
+	public static boolean ENABLE_BAIUM_SCRIPT;
+	
+	public static boolean ENABLE_CORE_SCRIPT;
 	public static int CORE_RESP_MINION;
 	public static int CORE_RESP_FIRST;
 	public static int CORE_RESP_SECOND;
 	public static int CORE_LEVEL;
 	public static int CORE_RING_CHANCE;
 	
+	public static boolean ENABLE_QA_SCRIPT;
 	public static int QA_RESP_NURSE;
 	public static int QA_RESP_ROYAL;
 	public static int QA_RESP_FIRST;
@@ -3169,11 +3174,13 @@ public final class Config
 	public static int HPH_INTERVALOFDOOROFALTER;
 	public static int HPH_TIMEOFLOCKUPDOOROFALTAR;
 
+	public static boolean ENABLE_ZAKEN_SCRIPT;
 	public static int ZAKEN_RESP_FIRST;
 	public static int ZAKEN_RESP_SECOND;
 	public static int ZAKEN_LEVEL;
 	public static int ZAKEN_EARRING_CHANCE;
 	
+	public static boolean ENABLE_ORFEN_SCRIPT;
 	public static int ORFEN_RESP_FIRST;
 	public static int ORFEN_RESP_SECOND;
 	public static int ORFEN_LEVEL;
@@ -3195,17 +3202,20 @@ public final class Config
 			is.close();
 			//============================================================
 			//Antharas
+			ENABLE_ANTHARAS_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableAntharasScript", "False"));
 			ANTHARAS_CLOSE = Integer.parseInt(bossSettings.getProperty("AntharasClose", "1200"));
 			ANTHARAS_SLEEP = Integer.parseInt(bossSettings.getProperty("AntharasSleep", "900"));
 			ANTHARAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("AntharasRespFirst", "192"));
 			ANTHARAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("AntharasRespSecond", "145"));
 			//============================================================
 			//Baium
+			ENABLE_BAIUM_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableBaiumScript", "False"));
 			BAIUM_SLEEP = Integer.parseInt(bossSettings.getProperty("BaiumSleep", "1800"));
 			BAIUM_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("BaiumRespFirst", "121"));
 			BAIUM_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("BaiumRespSecond", "8"));
 			//============================================================
 			//Core
+			ENABLE_CORE_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableCoreScript", "False"));
 			CORE_RESP_MINION = Integer.parseInt(bossSettings.getProperty("CoreRespMinion", "60"));
 			CORE_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("CoreRespFirst", "37"));
 			CORE_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("CoreRespSecond", "42"));
@@ -3213,6 +3223,7 @@ public final class Config
 			CORE_RING_CHANCE = Integer.parseInt(bossSettings.getProperty("CoreRingChance", "0"));
 			//============================================================
 			//Queen Ant
+			ENABLE_QA_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableQAScript", "False"));
 			QA_RESP_NURSE = Integer.parseInt(bossSettings.getProperty("QueenAntRespNurse", "60"));
 			QA_RESP_ROYAL = Integer.parseInt(bossSettings.getProperty("QueenAntRespRoyal", "120"));
 			QA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("QueenAntRespFirst", "19"));
@@ -3221,12 +3232,14 @@ public final class Config
 			QA_RING_CHANCE = Integer.parseInt(bossSettings.getProperty("QARingChance", "0"));
 			//============================================================
 			//ZAKEN
+			ENABLE_ZAKEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableZakenScript", "False"));
 			ZAKEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ZakenRespFirst", "60"));
 			ZAKEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ZakenRespSecond", "8"));
 			ZAKEN_LEVEL = Integer.parseInt(bossSettings.getProperty("ZakenLevel", "0"));
 			ZAKEN_EARRING_CHANCE = Integer.parseInt(bossSettings.getProperty("ZakenEarringChance", "0"));
 			//============================================================
 			//ORFEN
+			ENABLE_ORFEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableOrfenScript", "False"));
 			ORFEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("OrfenRespFirst", "20"));
 			ORFEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("OrfenRespSecond", "8"));
 			ORFEN_LEVEL = Integer.parseInt(bossSettings.getProperty("OrfenLevel", "0"));

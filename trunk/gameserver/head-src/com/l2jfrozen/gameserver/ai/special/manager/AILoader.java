@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.special.Antharas;
 import com.l2jfrozen.gameserver.ai.special.Baium;
 import com.l2jfrozen.gameserver.ai.special.Barakiel;
@@ -52,14 +53,23 @@ public class AILoader
 	public static void init()
 	{
 		_log.info("AI load:");
-		_log.info(" - Antharas");
-		ThreadPoolManager.getInstance().scheduleAi(new Antharas(-1, "antharas", "ai"), 100);
-		_log.info(" - Baium");
-		ThreadPoolManager.getInstance().scheduleAi(new Baium(-1, "baium", "ai"), 200);
-		_log.info(" - Core");
-		ThreadPoolManager.getInstance().scheduleAi(new Core(-1, "core", "ai"), 300);
-		_log.info(" - Queen Ant");
-		ThreadPoolManager.getInstance().scheduleAi(new QueenAnt(-1, "queen_ant", "ai"), 400);
+		if(Config.ENABLE_ANTHARAS_SCRIPT){
+			_log.info(" - Antharas");
+			ThreadPoolManager.getInstance().scheduleAi(new Antharas(-1, "antharas", "ai"), 100);
+		}
+		if(Config.ENABLE_BAIUM_SCRIPT){
+			_log.info(" - Baium");
+			ThreadPoolManager.getInstance().scheduleAi(new Baium(-1, "baium", "ai"), 200);
+		}
+		if(Config.ENABLE_CORE_SCRIPT){
+			_log.info(" - Core");
+			ThreadPoolManager.getInstance().scheduleAi(new Core(-1, "core", "ai"), 300);
+			
+		}
+		if(Config.ENABLE_QA_SCRIPT){
+			_log.info(" - Queen Ant");
+			ThreadPoolManager.getInstance().scheduleAi(new QueenAnt(-1, "queen_ant", "ai"), 400);
+		}
 		_log.info(" - Van Halter");
 		ThreadPoolManager.getInstance().scheduleAi(new VanHalter(-1, "vanhalter", "ai"), 500);
 		_log.info(" - Gordon");
@@ -86,10 +96,15 @@ public class AILoader
 		ThreadPoolManager.getInstance().scheduleAi(new VarkaKetraAlly(-1, "Varka Ketra Ally", "ai"), 1600);
 		_log.info(" - Barakiel");
 		ThreadPoolManager.getInstance().scheduleAi(new Barakiel(-1, "Barakiel", "ai"), 1700);
-		_log.info(" - Orfen");
-		ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
-		_log.info(" - Zaken");
-		ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
+		
+		if(Config.ENABLE_ORFEN_SCRIPT){
+			_log.info(" - Orfen");
+			ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
+		}
+		if(Config.ENABLE_ZAKEN_SCRIPT){
+			_log.info(" - Zaken");
+			ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
+		}
 		
 	}
 }
