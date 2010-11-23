@@ -126,7 +126,6 @@ public class CTFCmd implements IVoicedCommandHandler
 		}
 		else
 		{
-			activeChar.sendMessage("Your participation in the CTF event has been removed.");
 			CTF.removePlayer(activeChar);
 			return true;
 		}

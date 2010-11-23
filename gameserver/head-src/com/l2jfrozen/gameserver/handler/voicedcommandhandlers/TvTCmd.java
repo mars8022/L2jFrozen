@@ -126,7 +126,6 @@ public class TvTCmd implements IVoicedCommandHandler
 		}
 		else
 		{
-			activeChar.sendMessage("Your participation in the TvT event has been removed.");
 			TvT.removePlayer(activeChar);
 			return true;
 		}

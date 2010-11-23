@@ -548,7 +548,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	@Override
 	public void onForcedDisconnection()
 	{
-		_log.info("Client " + toString() + " disconnected abnormally.");
+		_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
 		L2PcInstance player = getActiveChar();
 		if(player != null) {
 			if(player.isFlying())
