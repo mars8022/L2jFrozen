@@ -2870,6 +2870,7 @@ public final class Config
 	public static boolean ALLOW_DUALBOX;
 	public static int ALLOWED_BOXES;
 	public static boolean ALLOW_DUALBOX_OLY;
+	public static boolean ALLOW_DUALBOX_EVENT;
 	//============================================================
 	public static void loadPOtherConfig()
 	{
@@ -2896,6 +2897,7 @@ public final class Config
 			BYPASS_VALIDATION = Boolean.parseBoolean(POtherSetting.getProperty("BypassValidation", "True"));
 
 			ALLOW_DUALBOX_OLY = Boolean.parseBoolean(POtherSetting.getProperty("AllowDualBoxInOly", "True"));
+			ALLOW_DUALBOX_EVENT = Boolean.parseBoolean(POtherSetting.getProperty("AllowDualBoxInEvent", "True"));
 			ALLOWED_BOXES = Integer.parseInt(POtherSetting.getProperty("AllowedBoxes", "2"));
 			ALLOW_DUALBOX = Boolean.parseBoolean(POtherSetting.getProperty("AllowDualBox", "True"));
 			

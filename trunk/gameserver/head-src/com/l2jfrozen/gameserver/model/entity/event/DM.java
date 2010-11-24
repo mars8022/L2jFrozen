@@ -1154,6 +1154,11 @@ public class DM implements EventTask
 			return false;
 		}
 		
+		if(eventPlayer._active_boxes>1 && !Config.ALLOW_DUALBOX_EVENT){
+			eventPlayer.sendMessage("Dual Box not allowed in Events");
+			return false;
+		}
+		
 		for(L2PcInstance player: _players)
 		{
 			if(player.getObjectId()==eventPlayer.getObjectId())
