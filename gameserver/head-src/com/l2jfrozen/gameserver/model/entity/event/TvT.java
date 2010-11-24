@@ -1190,6 +1190,12 @@ public class TvT implements EventTask
 			return false;
 		}
 		
+		if(eventPlayer.isInOlympiadMode())
+		{
+			eventPlayer.sendMessage("You already participated in Olympiad!"); 
+			return false;
+		}
+		
 		if(eventPlayer._active_boxes>1 && !Config.ALLOW_DUALBOX_EVENT){
 			eventPlayer.sendMessage("Dual Box not allowed in Events");
 			return false;
