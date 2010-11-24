@@ -431,9 +431,9 @@ public class Olympiad
 			return false;
 		}
 
-		if(noble._inEventTvT)
+		if(noble._inEventTvT || noble._inEventDM || noble._inEventCTF)
 		{
-			noble.sendMessage("You can't participate to Olympiad. You are in TvT now.");
+			noble.sendMessage("You can't participate to Olympiad. You are in Event now.");
 			return false;
 		}
 
