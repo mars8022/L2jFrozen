@@ -656,7 +656,7 @@ public class CTF implements EventTask
 		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
-		Announcements.getInstance().gameAnnounceToAll(_eventName + "!");
+		Announcements.getInstance().gameAnnounceToAll("Event: " + _eventName + "!");
 		if(Config.CTF_ANNOUNCE_REWARD)
 			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
 		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
