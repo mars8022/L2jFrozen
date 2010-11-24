@@ -17,6 +17,10 @@ insert ignore into `custom_npc` (`id`, `idTemplate`, `name`, `serverSideName`, `
 values
 ('66666',32130, 'Looney the Cat', 1, 'Nobless Trader', 1, 'Monster3.king_of_cat', 6.00, 16.01, 70, 'male', 'L2Npc', 40, 3862, 1493, 11.85, 2.78, 40, 43, 30, 21, 20, 10, 0, 0, 1314, 470, 780, 382, 278, 0, 333, 0, 0, 0, 88, 132, '', 0, 0, 0);
 
+insert ignore into `custom_npc` (`id`, `idTemplate`, `name`, `serverSideName`, `title`, `serverSideTitle`, `class`, `collision_radius`, `collision_height`, `level`, `sex`, `type`, `attackrange`, `hp`, `mp`, `hpreg`, `mpreg`, `str`, `con`, `dex`, `int`, `wit`, `men`, `exp`, `sp`, `patk`, `pdef`, `matk`, `mdef`, `atkspd`, `aggro`, `matkspd`, `rhand`, `lhand`, `armor`, `walkspd`, `runspd`, `faction_id`, `faction_range`, `isUndead`, `absorb_level`) 
+values
+('66667',32130, 'Fragola the Cat', 1, 'Clan Manager', 1, 'Monster3.king_of_cat', 6.00, 16.01, 70, 'male', 'L2Npc', 40, 3862, 1493, 11.85, 2.78, 40, 43, 30, 21, 20, 10, 0, 0, 1314, 470, 780, 382, 278, 0, 333, 0, 0, 0, 88, 132, '', 0, 0, 0);
+
 INSERT ignore INTO custom_npc
 values
 (53, 20830, 'Angelic Shop', 1, 'L2 Frozen', 1, 'Monster.angel', 13.50, 36.50, 72, 'male', 'L2Merchant', 40, 4013, 1565, 53.72, 3.09, 40, 43, 30, 21, 20, 10, 0, 0, 1710, 406, 849, 399, 278, 500, 333, 148, 0, 0, 33, 187, 'tower_guard_clan', 400, 0, 10, 'LAST_HIT'), 
