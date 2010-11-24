@@ -14,6 +14,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
+import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Party;
@@ -25,6 +26,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
+import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
@@ -539,6 +542,14 @@ public class CTF implements EventTask
 				return false;
 		}else{
 			if(!checkStartJoinPlayerInfo())
+				return false;
+		}
+		
+		if(Olympiad.getInstance().inCompPeriod())
+			return false;
+		
+		for(Castle castle:CastleManager.getInstance().getCastles()){
+			if(castle!=null && castle.getSiege()!=null && castle.getSiege().getIsInProgress())
 				return false;
 		}
 		
