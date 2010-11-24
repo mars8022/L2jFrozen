@@ -2387,7 +2387,7 @@ public final class Config
 	public static List<Integer> LIST_OLY_RESTRICTED_ITEMS = new FastList<Integer>();
 	public static OlympiadPeriod ALT_OLY_PERIOD;
 	public static int ALT_OLY_PERIOD_MULTIPLIER;
-	
+	public static boolean ALLOW_EVENTS_DURING_OLY;
 	//============================================================
 	public static void loadOlympConfig()
 	{
@@ -2424,6 +2424,10 @@ public final class Config
 			}
 			ALT_OLY_PERIOD = OlympiadPeriod.valueOf(OLYMPSetting.getProperty("AltOlyPeriod", "MONTH"));
 			ALT_OLY_PERIOD_MULTIPLIER = Integer.parseInt(OLYMPSetting.getProperty("AltOlyPeriodMultiplier", "1"));
+			
+			ALLOW_EVENTS_DURING_OLY = Boolean.parseBoolean(OLYMPSetting.getProperty("AllowEventsDuringOly", "False"));
+			
+			
 		}
 		catch(Exception e)
 		{
