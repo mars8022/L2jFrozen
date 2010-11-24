@@ -29,7 +29,7 @@ class Quest (JQuest) :
                count=st.getQuestItemsCount(REQUESTED_ITEM)
                if event == "66667-clanOk.htm" :
                    if st.getPlayer().isClanLeader() and st.getPlayer().getClan().getLevel()<8:
-                       if st.getPlayer().isNoble() and count > REQUESTED_AMOUNT:
+                       if st.getPlayer().isNoble() and count >= REQUESTED_AMOUNT:
                             htmltext=event
                             st.getPlayer().getClan().changeLevel(8)
                             st.playSound("ItemSound.quest_finish")
@@ -44,7 +44,7 @@ class Quest (JQuest) :
                    if st.getPlayer().isClanLeader() and st.getPlayer().getClan().getLevel() >= 5 and st.getPlayer().getClan().getReputationScore() < NEW_REP_SCORE :
                        if st.getPlayer().isNoble() and count > REQUESTED_AMOUNT:
                             htmltext=event
-                            st.getPlayer().getClan().setReputationScore(NEW_REP_SCORE, true);
+                            st.getPlayer().getClan().setReputationScore(NEW_REP_SCORE, 1);
                             st.playSound("ItemSound.quest_finish")
                             st.takeItems(REQUESTED_ITEM,REQUESTED_AMOUNT)
                        else :
@@ -64,7 +64,7 @@ class Quest (JQuest) :
            if id == CREATED :
                htmltext="66667-1.htm"
            elif id == COMPLETED :
-               htmltext = "<html><head><body>This quest has already been completed.</body></html>"
+               htmltext = "<html><head><body>This quest have already been completed.</body></html>"
            else :
                st.exitQuest(1)
            return htmltext
@@ -72,6 +72,9 @@ class Quest (JQuest) :
 
 QUEST = Quest(6667,qn,"custom")
 CREATED     = State('Start', QUEST)
+STARTING    = State('Starting', QUEST)
+STARTED     = State('Started', QUEST)
+COMPLETED   = State('Completed', QUEST)
 QUEST.setInitialState(CREATED)
 
 for npcId in NPC:
