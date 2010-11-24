@@ -79,12 +79,19 @@ public class NpcHtmlMessage extends L2GameServerPacket
 
 	public void setHtml(String text)
 	{
+		if(text==null){
+			_log.warning("Html is null! this will crash the client!");
+			_html = "<html><body></body></html>";
+			return;
+		}
+		
 		if(text.length() > 8192)
 		{
 			_log.warning("Html is too long! this will crash the client!");
 			_html = "<html><body>Html was too long,<br>Try to use DB for this action</body></html>";
 			return;
 		}
+		
 		_html = text; // html code must not exceed 8192 bytes
 	}
 
