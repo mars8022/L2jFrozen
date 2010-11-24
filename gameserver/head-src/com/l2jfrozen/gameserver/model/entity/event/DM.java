@@ -513,7 +513,7 @@ public class DM implements EventTask
 				return false;
 		}
 		
-		if(Olympiad.getInstance().inCompPeriod())
+		if(!Config.ALLOW_EVENTS_DURING_OLY && Olympiad.getInstance().inCompPeriod())
 			return false;
 		
 

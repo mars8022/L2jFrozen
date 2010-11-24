@@ -92,11 +92,11 @@ public class Heal implements ISkillHandler
 				continue;
 
 			// Player can't heal rb config
-			if(!Config.PLAYERS_CAN_HEAL_RB && player.isGM() && target instanceof L2RaidBossInstance)
+			if(!Config.PLAYERS_CAN_HEAL_RB && player!=null && player.isGM() && target instanceof L2RaidBossInstance)
 				continue;
 
 			// Player can't heal rb config
-			if(!Config.PLAYERS_CAN_HEAL_RB && player.isGM() && target instanceof L2GrandBossInstance)
+			if(!Config.PLAYERS_CAN_HEAL_RB && player!=null && player.isGM() && target instanceof L2GrandBossInstance)
 				continue;
 
 			// Player holding a cursed weapon can't be healed and can't heal
