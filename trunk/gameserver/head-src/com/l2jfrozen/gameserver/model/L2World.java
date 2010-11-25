@@ -373,6 +373,8 @@ public final class L2World
 				if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && tmp.isOffline())
 				{
 					_log.warning("Offline: Duplicate character!? Closing offline character (" + tmp.getName() + ")");
+					if(tmp._originalNameColorOffline!=0)
+						tmp.getAppearance().setNameColor(tmp._originalNameColorOffline);
 					tmp.store(); // Store character and items
 					tmp.logout();
 					
