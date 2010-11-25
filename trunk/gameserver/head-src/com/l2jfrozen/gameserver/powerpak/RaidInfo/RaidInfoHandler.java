@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.powerpak.RaidInfo;
 
 import javolution.text.TextBuilder;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
@@ -40,8 +41,6 @@ public class RaidInfoHandler implements ICustomByPassHandler
 
 	private static final String [] _BYPASSCMD = {"raidinfo"};
 	
-	private static final int[] BOSSES = {29001, 29006, 29014, 29019, 29020, 29022, 29028, 29045};
-
 	@Override
 	public String[] getByPassCommands()
 	{
@@ -71,7 +70,7 @@ public class RaidInfoHandler implements ICustomByPassHandler
 		tb.append("<html><title>Grand Boss Info By Dleogr</title><body><br><center>");
 		tb.append("<img src=\"L2UI_CH3.herotower_deco\" width=256 height=32><br><br>");
 
-		for(int boss : BOSSES)
+		for(int boss : Config.RAID_INFO_IDS_LIST)
 		{
 			String name = NpcTable.getInstance().getTemplate(boss).getName();
 			StatsSet actual_boss_stat = GrandBossManager.getInstance().getStatsSet(boss);
