@@ -28,10 +28,6 @@ import com.l2jfrozen.gameserver.thread.L2Thread;
 import com.l2jfrozen.util.Util;
 
 /**
- * РџРѕРёСЃРє РјРµСЂС‚РІС‹С… РїРѕС‚РѕРєРѕРІ.<br>
- * <br>
- * 
- * @author l2j-free
  * @author ProGramMoS
  * @version 0.4 Stable
  */

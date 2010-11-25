@@ -24,8 +24,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author mkizub TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author mkizub
  */
 final class EffectFakeDeath extends L2Effect
 {

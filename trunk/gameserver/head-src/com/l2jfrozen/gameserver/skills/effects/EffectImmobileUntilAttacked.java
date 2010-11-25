@@ -20,7 +20,7 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author programmos, sword dev
+ * @author programmos
  */
 public class EffectImmobileUntilAttacked extends L2Effect
 {

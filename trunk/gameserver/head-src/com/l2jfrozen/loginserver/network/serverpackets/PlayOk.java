@@ -21,7 +21,7 @@ package com.l2jfrozen.loginserver.network.serverpackets;
 import com.l2jfrozen.loginserver.SessionKey;
 
 /**
- *
+ * L2JFrozen
  */
 public final class PlayOk extends L2LoginServerPacket
 {

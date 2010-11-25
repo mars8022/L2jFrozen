@@ -79,8 +79,7 @@ import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
- * @author mkizub TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author mkizub
  */
 abstract class DocumentBase
 {

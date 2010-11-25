@@ -21,9 +21,7 @@ package com.l2jfrozen.gameserver.util.sql;
 import java.sql.Connection;
 
 /**
- * 
- * 
- * @author Nick
+ * @author L2JFrozen
  */
 public interface SQLQuery
 {

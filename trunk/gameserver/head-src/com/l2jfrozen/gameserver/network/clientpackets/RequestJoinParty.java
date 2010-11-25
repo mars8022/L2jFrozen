@@ -64,11 +64,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 			return;
 		}
 		
-		if ((requestor._inEventDM) || (target._inEventDM)
-			|| (requestor._inEventCTF) || (target._inEventCTF)
-			|| (requestor._inEventTvT) || (target._inEventTvT)
-			|| (requestor._inEvent) || (target._inEvent)
-			|| (requestor._inEventVIP) || (target._inEventVIP)) 
+		if (requestor._inEventDM)
 		{
 			requestor.sendMessage("You are in Event, you can't invite players in party!");
 			return;

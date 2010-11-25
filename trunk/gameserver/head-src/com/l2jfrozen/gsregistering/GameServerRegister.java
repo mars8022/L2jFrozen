@@ -25,7 +25,6 @@ import java.util.Map;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
-import com.l2jfrozen.gameserver.powerpak.xmlrpc.Server;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -50,7 +49,7 @@ public class GameServerRegister
 			System.exit(1);
 		}
 		GameServerTable gameServerTable = GameServerTable.getInstance();
-		System.out.println("Welcome to L2Frozen GameServer Regitering");
+		System.out.println("Welcome to L2JFrozen GameServer Regitering");
 		System.out.println("Enter The id of the server you want to register");
 		System.out.println("Type 'help' to get a list of ids.");
 		System.out.println("Type 'clean' to unregister all currently registered gameservers on this LoginServer.");

@@ -21,7 +21,7 @@ import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
 /**
- * @author ProGramMoS, scoria dev Lets drink to code!
+ * @author ProGramMoS, Lets drink to code!
  */
 public class AuditFilter implements Filter
 {

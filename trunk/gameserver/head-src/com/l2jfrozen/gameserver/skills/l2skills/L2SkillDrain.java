@@ -44,7 +44,6 @@ public class L2SkillDrain extends L2Skill
 		_absorbAbs = set.getInteger("absorbAbs", 0);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void useSkill(L2Character activeChar, L2Object[] targets)
 	{

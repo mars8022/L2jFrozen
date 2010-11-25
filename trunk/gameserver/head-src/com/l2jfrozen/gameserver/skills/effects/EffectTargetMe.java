@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author eX1steam scoria dev team
+ * @author eX1steam L2JFrozen
  */
 public class EffectTargetMe extends L2Effect
 {

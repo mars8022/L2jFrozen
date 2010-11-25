@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author l2jfrozen dev
+ * @author L2JFrozen dev
  */
 
 class EffectDamOverTime extends L2Effect

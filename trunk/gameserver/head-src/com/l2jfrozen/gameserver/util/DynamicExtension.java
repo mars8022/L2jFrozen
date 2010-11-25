@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * extension loader for l2j
+ * extension loader for L2JFrozen
  * 
  * @author galun
  * @version $Id: DynamicExtension.java,v 1.3 2006/05/14 17:19:39 galun Exp $

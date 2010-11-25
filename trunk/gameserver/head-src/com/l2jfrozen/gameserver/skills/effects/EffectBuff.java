@@ -22,8 +22,7 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author ProGramMoS, scoria dev TODO To change the template for this generated type comment go to Window - Preferences
- *         - Java - Code Style - Code Templates
+ * @author ProGramMoS, L2JFrozen
  */
 final class EffectBuff extends L2Effect
 {

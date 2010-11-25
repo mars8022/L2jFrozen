@@ -55,7 +55,7 @@ import com.l2jfrozen.util.random.Rnd;
 /**
  * Global calculations, can be modified by server admins
  * 
- * @author l2jfrozen dev
+ * @author L2JFrozen dev
  */
 public final class Formulas
 {

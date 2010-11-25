@@ -29,8 +29,7 @@ import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
 import com.l2jfrozen.gameserver.skills.funcs.Lambda;
 
 /**
- * @author mkizub TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author mkizub
  */
 public final class EffectTemplate
 {

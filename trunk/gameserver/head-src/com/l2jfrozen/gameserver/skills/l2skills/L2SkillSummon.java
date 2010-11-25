@@ -93,7 +93,6 @@ public class L2SkillSummon extends L2Skill
 		return super.checkCondition(activeChar, null, false);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void useSkill(L2Character caster, L2Object[] targets)
 	{

@@ -9,7 +9,6 @@ import java.util.List;
 import javolution.util.FastList;
 
 /**
- * @author l2j-free
  * @author ProGramMoS
  */
 

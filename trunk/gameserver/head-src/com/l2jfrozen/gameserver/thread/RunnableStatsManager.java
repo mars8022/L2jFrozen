@@ -7,7 +7,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
- * @author l2j-free
  * @author ProGramMoS
  */
 

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 
 /**
- * @author ProGramMoS, scoria dev
+ * @author ProGramMoS
  */
 public class ItemLogHandler extends FileHandler
 {

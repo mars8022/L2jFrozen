@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author eX1steam, l2jfrozen
+ * @author eX1steam, L2JFrozen
  */
 public class EffectProtectionBlessing extends L2Effect
 {
