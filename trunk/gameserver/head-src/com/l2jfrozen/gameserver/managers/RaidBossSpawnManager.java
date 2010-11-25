@@ -569,4 +569,9 @@ public class RaidBossSpawnManager
 		_storedInfo.clear();
 		_spawns.clear();
 	}
+	
+	public StatsSet getStatsSet(int bossId)
+	{
+		return _storedInfo.get(bossId);
+	}
 }

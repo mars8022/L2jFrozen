@@ -24,6 +24,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
+import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -65,13 +66,16 @@ public class RaidInfoHandler implements ICustomByPassHandler
 	private static void sendInfo(L2PcInstance activeChar)
 	{
 		TextBuilder tb = new TextBuilder();
-		tb.append("<html><title>Grand Boss Info By Dleogr</title><body><br><center>");
+		tb.append("<html><title>Grand Boss Info</title><body><br><center>");
 		tb.append("<img src=\"L2UI_CH3.herotower_deco\" width=256 height=32><br><br>");
 
 		for(int boss : Config.RAID_INFO_IDS_LIST)
 		{
 			String name = NpcTable.getInstance().getTemplate(boss).getName();
 			StatsSet actual_boss_stat = GrandBossManager.getInstance().getStatsSet(boss);
+			
+			if(actual_boss_stat==null)
+				actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss);
 			
 			long delay = 0;
 			
