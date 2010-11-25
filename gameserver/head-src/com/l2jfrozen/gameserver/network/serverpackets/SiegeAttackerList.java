@@ -18,9 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-//import java.util.Calendar; //signed time related
-//import java.util.logging.Logger;
-
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2SiegeClan;

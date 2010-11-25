@@ -151,10 +151,10 @@ public class EngraveQuest extends Quest
 				}
 			}
 			htm = HtmCache.getInstance().getHtm("data/html/default/50018-4.htm");
-			String caption = "Выберите предмет для нанесения гравировки";
+			String caption = "Select a subject for drawing engraving";
 			if(PowerPakConfig.ENGRAVE_PRICE > 0 && PowerPakConfig.ENGRAVE_PRICE_ITEM > 0)
 			{
-				caption += "<br1>Это будет стоить вам <font color=\"LEVEL\">" + PowerPakConfig.ENGRAVE_PRICE + " " + ItemTable.getInstance().getTemplate(PowerPakConfig.ENGRAVE_PRICE_ITEM).getName() + "</font>";
+				caption += "<br1>It will cost you <font color=\"LEVEL\">" + PowerPakConfig.ENGRAVE_PRICE + " " + ItemTable.getInstance().getTemplate(PowerPakConfig.ENGRAVE_PRICE_ITEM).getName() + "</font>";
 
 				L2ItemInstance it = player.getInventory().getItemByItemId(PowerPakConfig.ENGRAVE_PRICE_ITEM);
 				if(it == null || it.getCount() < PowerPakConfig.ENGRAVE_PRICE)
@@ -193,7 +193,7 @@ public class EngraveQuest extends Quest
 				}
 			}
 			htm = HtmCache.getInstance().getHtm("data/html/default/50018-4.htm");
-			htm = htm.replace("%caption%", "Выберите предмет для снятия гравировки:");
+			htm = htm.replace("%caption%", "Select the item to remove the engraving:");
 			htm = htm.replace("%list%", buildList(player, startwith, "remove", "clear", new CondChecker() {
 				public boolean check(L2ItemInstance item, L2PcInstance player)
 				{
@@ -224,8 +224,8 @@ public class EngraveQuest extends Quest
 			if(iinfo == null)
 				return htm;
 			htm = HtmCache.getInstance().getHtm("data/html/default/50018-4.htm");
-			htm = htm.replace("%caption%", "История <font color=\"LEVEL\">" + ItemTable.getInstance().getTemplate(iinfo[1]).getName() + "</font>");
-			String list = "<table width=300><tr><td>Дата</td><td>Действие</td><td>От кого</td><td>Кому</td></tr>";
+			htm = htm.replace("%caption%", "History <font color=\"LEVEL\">" + ItemTable.getInstance().getTemplate(iinfo[1]).getName() + "</font>");
+			String list = "<table width=300><tr><td>Date</td><td>Action</td><td>From</td><td>Who</td></tr>";
 			for(String s : EngraveManager.getInstance().getLog(objectId))
 			{
 				list += s;
@@ -272,7 +272,7 @@ public class EngraveQuest extends Quest
 			{
 				list += "<br><center><a action=\"bypass -h Quest 8008_Engrave trace_" + i + "\">More</a></center>";
 			}
-			htm = htm.replace("%caption%", "Предметы, гравированные вами<br1>");
+			htm = htm.replace("%caption%", "Objects, engraved by you<br1>");
 			htm = htm.replace("%list%", list);
 		}
 		return htm;

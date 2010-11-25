@@ -1,5 +1,9 @@
 package com.l2jfrozen.gameserver.powerpak;
 
+/**
+ * L2JFrozen
+ */
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

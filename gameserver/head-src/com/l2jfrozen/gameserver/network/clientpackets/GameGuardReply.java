@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  *         E....7..........
  */
 
-// By Azagthtot РќР°С‡РЅРµРј СЂРµР°Р»РёР·Р°С†РёСЋ РєР»РёРµРЅС‚СЃРєРѕР№ Р·Р°С‰РёС‚С‹.... С…РµС…
+// By Azagthtot
 
 public class GameGuardReply extends L2GameClientPacket
 {
@@ -36,10 +36,10 @@ public class GameGuardReply extends L2GameClientPacket
 	@Override
 	protected void readImpl()
 	{
-		_reply[0] = readD(); // 32 Р±РёС‚Р° РґР»СЏ РєР»СЋС‡Р° СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚Рё СЃРµСЂРІРµСЂР° РЅР°Рј С…РІР°С‚РёС‚
-		_reply[1] = readD(); // РЎРѕР»РµРЅРёРµ... Р·Р°Р±РёРІР°РµРј СЌС‚РѕС‚ int С‡РµРј СѓРіРѕРґРЅРѕ, СЃРєСЂС‹РІР°РµРј РїР°РєРµС‚С‹
-		_reply[2] = readD(); // РЈРќРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєР»РёРµРЅС‚Р° 
-		_reply[3] = readD(); // РџРѕСЃРѕР»РµРЅРѕРµ РїРѕР»Рµ, РЅРѕ 4-С‹Р№ Р±РёС‚ РІ 1 РѕР·РЅР°С‡РµС‚ С‡С‚Рѕ Р·Р°РїСѓС‰РµРЅ РЅРµС…РѕСЂРѕС€РёРє Рё РєР»РёРµРЅС‚Р° РЅР°РґРѕ РєР°Р·РЅРёС‚СЊ
+		_reply[0] = readD();
+		_reply[1] = readD();
+		_reply[2] = readD();
+		_reply[3] = readD();
 	}
 
 	@Override

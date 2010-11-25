@@ -114,7 +114,7 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 				{
 					if(player.getAdena() < PowerPakConfig.GLOBALGK_PRICE)
 					{
-						player.sendMessage("У вас не хватает аден для оплаты услуги");
+						player.sendMessage("You do not have enough adena to pay for services");
 						return;
 					}
 					player.reduceAdena("teleport", PowerPakConfig.GLOBALGK_PRICE, null, true);
@@ -127,7 +127,7 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 					{
 						if(player.getAdena()< tpPoint.getPrice())
 						{
-							player.sendMessage("У вас не хватает аден для оплаты услуги");
+							player.sendMessage("You do not have enough adena to pay for services");
 							return;
 						}
 						player.reduceAdena("teleport", tpPoint.getPrice(), null, true);
@@ -145,11 +145,11 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 					return;
 				}
 				else 
-					player.sendMessage("Телепорта с ID  "+locId+" не существует в базе");
+					player.sendMessage("Teleport, with ID "+locId+" does not exist in the database");
 			}
 			catch(Exception e)
 			{
-				player.sendMessage("Ошибка... возможно вы читер..");
+				player.sendMessage("Error... maybe you cheat..");
 			}
 		} 
 		else if(parameters.startsWith("Chat"))

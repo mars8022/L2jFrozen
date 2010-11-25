@@ -18,7 +18,7 @@
 package com.l2jfrozen.gameserver.network;
 
 /**
- * @author l2jfrozen dev
+ * @author L2JFrozen dev
  */
 public enum SystemMessageId
 {

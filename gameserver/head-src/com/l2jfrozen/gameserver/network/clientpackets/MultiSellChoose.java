@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.util.FloodProtector;
 
 /**
- * @author programmos, sword developers
+ * @author programmos
  */
 
 public class MultiSellChoose extends L2GameClientPacket

@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.model.extender.BaseExtender;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 
 /**
- * @author Nick
+ * @author L2JFrozen
  */
 public class EngraveExtender extends BaseExtender
 {
@@ -65,7 +65,7 @@ public class EngraveExtender extends BaseExtender
 				{
 					if(owner != null)
 					{
-						owner.sendMessage("Вы не можете уничтожить предмет гравированный не вами");
+						owner.sendMessage("You can not destroy the object you are not engraved.");
 					}
 					return true;
 				}

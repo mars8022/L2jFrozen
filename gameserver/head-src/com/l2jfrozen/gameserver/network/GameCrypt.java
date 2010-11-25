@@ -11,7 +11,7 @@
 package com.l2jfrozen.gameserver.network;
 
 /**
- * @author l2jfrozen
+ * @author L2JFrozen
  */
 public class GameCrypt
 {

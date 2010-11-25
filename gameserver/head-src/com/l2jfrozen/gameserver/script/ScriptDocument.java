@@ -29,8 +29,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- *
- *
+ * L2JFrozen
  */
 public class ScriptDocument
 {

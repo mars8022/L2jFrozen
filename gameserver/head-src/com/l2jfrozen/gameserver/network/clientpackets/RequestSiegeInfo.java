@@ -1,8 +1,10 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-/*
- * l2jfrozen dev
- */
+ /**
+  * @author L2JFrozen
+  *
+  */
+
 public class RequestSiegeInfo extends L2GameClientPacket
 {
 

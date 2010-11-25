@@ -1820,6 +1820,7 @@ public final class Config
 	public static boolean GM_TRADE_RESTRICTED_ITEMS;
 	public static boolean GM_RESTART_FIGHTING;
 	public static boolean PM_MESSAGE_ON_START;
+	public static boolean SERVER_TIME_ON_START;
 	public static String PM_SERVER_NAME;
 	public static String PM_TEXT1;
 	public static String PM_TEXT2;
@@ -1843,6 +1844,7 @@ public final class Config
 			GM_TRADE_RESTRICTED_ITEMS = Boolean.parseBoolean(frozenSettings.getProperty("GMTradeRestrictedItems", "False"));
 			GM_RESTART_FIGHTING = Boolean.parseBoolean(frozenSettings.getProperty("GMRestartFighting", "False"));
 			PM_MESSAGE_ON_START = Boolean.parseBoolean(frozenSettings.getProperty("PMWelcomeShow", "False"));
+			SERVER_TIME_ON_START = Boolean.parseBoolean(frozenSettings.getProperty("ShowServerTimeOnStart", "False"));
 			PM_SERVER_NAME  = frozenSettings.getProperty("PMServerName", "L2-Frozen");
 			PM_TEXT1  = frozenSettings.getProperty("PMText1", "Have Fun and Nice Stay on");
 			PM_TEXT2  = frozenSettings.getProperty("PMText2", "Vote for us every 24h");

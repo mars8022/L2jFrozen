@@ -43,7 +43,7 @@ import com.l2jfrozen.util.Util;
  * Note: If for a given exception a packet needs to be handled on more then one state, then it should be added to all
  * these states.
  * 
- * @author l2jfrozen
+ * @author L2JFrozen
  */
 
 public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, IClientFactory<L2GameClient>, IMMOExecutor<L2GameClient>

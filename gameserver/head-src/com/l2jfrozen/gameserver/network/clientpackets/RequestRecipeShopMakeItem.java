@@ -26,8 +26,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
- * @author Administrator TODO To change the template for this generated type comment go to Window - Preferences - Java -
- *         Code Style - Code Templates
+ * @author L2JFrozen
  */
 public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 {

@@ -22,8 +22,7 @@ import com.l2jfrozen.gameserver.RecipeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * @author Administrator TODO To change the template for this generated type comment go to Window - Preferences - Java -
- *         Code Style - Code Templates
+ * @author L2JFrozen
  */
 public final class RequestRecipeItemMakeSelf extends L2GameClientPacket
 {

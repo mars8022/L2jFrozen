@@ -24,7 +24,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -32,8 +31,6 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
-import com.l2jfrozen.gameserver.GameTimeController;
-import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -451,48 +448,6 @@ public class EnterWorld extends L2GameClientPacket
 				L2ClassMasterInstance.ClassMaster.onAction(activeChar);
 			}
 		}
-
-		/*
-		if(activeChar.getClient()!=null && !activeChar.getClient().getConnection().isClosed()){
-			
-			String thisip = activeChar.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
-			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
-			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
-
-			for(L2PcInstance player : players)
-			{
-				if(player != null)
-				{
-					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()){
-						
-						String ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
-						if(thisip.equals(ip) && activeChar != player && player != null)
-						{
-							if(!Config.ALLOW_DUALBOX){
-								
-								activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
-								activeChar.logout();
-							
-							}else{
-								
-								if(player._active_boxes<Config.ALLOWED_BOXES){
-									
-									player._active_boxes = player._active_boxes+1;
-									activeChar._active_boxes = player._active_boxes;
-									
-								}else{
-									activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
-									activeChar.logout();
-								}
-								
-							}
-						}
-					}
-						
-					
-				}
-			}
-		}*/
 		
 		if(!activeChar.checkMultiBox()){ //means that it's not ok multiBox situation, so logout
 			activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
@@ -610,14 +565,9 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.sendPacket(na);
 		}
 		
-		int t = GameTimeController.getInstance().getGameTime();
-		String h = "" + (t / 60) % 24;
-		String m;
-		if (t % 60 < 10)
-			m = "0" + t % 60;
-		else
-			m = "" + t % 60;
-        activeChar.sendMessage("SVR time is " + fmt.format(new Date(System.currentTimeMillis())));		
+		if(Config.SERVER_TIME_ON_START) {
+			activeChar.sendMessage("SVR time is " + fmt.format(new Date(System.currentTimeMillis())));
+		}
 
 	}
 

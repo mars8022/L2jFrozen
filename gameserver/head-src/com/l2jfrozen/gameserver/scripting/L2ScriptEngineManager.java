@@ -28,9 +28,6 @@ import java.io.InputStreamReader;
 import java.io.InvalidClassException;
 import java.io.LineNumberReader;
 import java.io.ObjectInputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -49,13 +46,11 @@ import javax.script.SimpleScriptContext;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.crypt.Base64;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jserver.script.jython.JythonScriptEngine;
 
 /**
- * Caches script engines and provides funcionality for executing and managing scripts.<BR>
+ * Caches script engines and provides functionality for executing and managing scripts.<BR>
  * 
  * @author KenM
  */

@@ -119,7 +119,7 @@ public class SMSOnline implements HttpHandler {
 		if(params.getRequestMethod().equalsIgnoreCase("GET")) {
 			FastMap<String, String> query = new FastMap<String, String>();
 			StringBuffer response = new StringBuffer();
-			// Разбираем параметры, переданные в GET запросе.
+			// Parse the parameters passed in the GET request.
 			StringTokenizer st = new StringTokenizer(params.getRequestURI().getQuery(),"&");
 			while(st.hasMoreTokens()) {
 				String token = st.nextToken();
@@ -128,7 +128,7 @@ public class SMSOnline implements HttpHandler {
 					String param = token.substring(0,iPos).toLowerCase();
 					String value = token.substring(iPos+1);
 
-					// Та самая замена, о которой написано выше.
+					// That is the replacement of which is written above.
 					if(value!=null && value.length()>0) {
 						if(value.charAt(0)=='+')
 							value = "+"+URLDecoder.decode(value.substring(1),"UTF-8");

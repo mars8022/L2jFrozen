@@ -10,7 +10,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
-
+/**
+ * L2JFrozen
+ */
 public class L2Utils {
 	public static interface IItemFilter {
 		public boolean isCanShow(L2ItemInstance item);

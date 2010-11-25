@@ -11,9 +11,6 @@ import javolution.util.FastList;
  */
 public class Instruments extends Properties
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override

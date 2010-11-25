@@ -39,8 +39,7 @@ import com.l2jfrozen.gameserver.script.Expression;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
- * @author Luis Arias TODO To change the template for this generated type comment go to Window - Preferences - Java -
- *         Code Style - Code Templates
+ * @author Luis Arias
  */
 public class FaenorInterface implements EngineInterface
 {

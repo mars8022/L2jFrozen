@@ -29,7 +29,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class Server
 {
 	/**
-	 * Оставлен для совместимости с PowerPak
+	 * Retained for compatibility with PowerPak
 	 */
 	public int addItem(String key, String charName, String itemId, String count, String message)
 	{
@@ -37,13 +37,13 @@ public class Server
 	}
 
 	/**
-	 * Добавить предмет игроку<br>
+	 * Add item to the player<br>
 	 * 
-	 * @param charName as String - имя персонажа<br>
-	 * @param itemId as String - ID предмета<br>
-	 * @param count as String - количество<br>
-	 * @param message as String - сообщение<br>
-	 * @return as Integer - 0 - выполено, -1 SQL ошибка -2 нет чара -3 прочие ошибки
+	 * @param charName as String - character name <br>
+	 * @param itemId as String - ID subject <br>
+	 * @param count as String - the number of <br>
+	 * @param message as String - message <br>
+	 * @return as Integer - 0 - satisfied, -1 SQL error -2 -3 Character no other errors
 	 */
 	public int addItemToCharacter(String charName, String itemId, String count, String message)
 	{
@@ -97,10 +97,10 @@ public class Server
 	}
 
 	/**
-	 * Получить список всех игроков on-line<br>
+	 * Get a list of all the players on-line<br>
 	 * <br>
 	 * 
-	 * @return as String - Список всех игроков онлайн<br>
+	 * @return as String - A list of all online players<br>
 	 */
 	public String getOnLine()
 	{

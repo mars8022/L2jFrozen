@@ -27,8 +27,7 @@ import java.util.zip.ZipFile;
 import javolution.util.FastList;
 
 /**
- * @author Luis Arias TODO To change the template for this generated type comment go to Window - Preferences - Java -
- *         Code Style - Code Templates
+ * @author Luis Arias
  */
 public class ScriptPackage
 {
