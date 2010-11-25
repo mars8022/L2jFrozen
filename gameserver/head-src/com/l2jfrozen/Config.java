@@ -3195,6 +3195,10 @@ public final class Config
 	public static int VALAKAS_RESP_FIRST;
 	public static int VALAKAS_RESP_SECOND;
 	
+	public static String RAID_INFO_IDS;
+	public static FastList<Integer> RAID_INFO_IDS_LIST = new FastList<Integer>();
+	
+	
 	//============================================================
 	public static void loadBossConfig()
 	{
@@ -3257,6 +3261,13 @@ public final class Config
 			//============================================================
 			
 			LEVEL_DIFF_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplier", "0.8"));
+			
+			RAID_INFO_IDS = bossSettings.getProperty("RaidInfoIDs", "");
+			RAID_INFO_IDS_LIST = new FastList<Integer>();
+			for(String id : RAID_INFO_IDS.split(","))
+			{
+				RAID_INFO_IDS_LIST.add(Integer.parseInt(id));
+			}
 			
 			//High Priestess van Halter
 			HPH_FIXINTERVALOFHALTER = Integer.parseInt(bossSettings.getProperty("FixIntervalOfHalter", "172800"));
