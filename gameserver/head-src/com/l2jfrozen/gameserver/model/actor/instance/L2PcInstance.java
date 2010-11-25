@@ -836,6 +836,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	private boolean _isTradeOff = false;
 
 	private long _offlineShopStart = 0;
+
+	public int _originalNameColorOffline = 0;
 	
 	/** Herbs Task Time **/
 	private int _herbstask = 0;
