@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author programmos, sword dev & l2jfrozen dev
+ * @author programmos, L2JFrozen
  */
 public class EffectRemoveTarget extends L2Effect
 {

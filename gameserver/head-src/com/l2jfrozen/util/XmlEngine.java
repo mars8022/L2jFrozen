@@ -34,8 +34,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * 
- * 
  * @author programmos
  */
 public abstract class XmlEngine

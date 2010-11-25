@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.GameTimeController;
 /**
  * Flood protector
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class FloodProtector
 {

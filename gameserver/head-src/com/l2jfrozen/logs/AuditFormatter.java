@@ -25,7 +25,7 @@ import java.util.logging.LogRecord;
 import javolution.text.TextBuilder;
 
 /**
- * @author ProGramMoS, scoria dev Lets drink to code!
+ * @author ProGramMoS, Lets drink to code!
  */
 public class AuditFormatter extends Formatter
 {

@@ -22,7 +22,7 @@ import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
 /**
- * @author ProGramMoS, scoria dev
+ * @author ProGramMoS
  */
 
 public class ErrorFilter implements Filter

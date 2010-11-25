@@ -21,8 +21,6 @@ package com.l2jfrozen.util.random;
 import com.l2jfrozen.gameserver.model.Location;
 
 /**
- * $
- * 
  * @author Balancer
  */
 public class Rnd

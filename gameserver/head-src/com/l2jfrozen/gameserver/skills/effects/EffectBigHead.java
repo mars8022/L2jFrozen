@@ -14,7 +14,7 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author l2jfrozen dev
+ * @author L2JFrozen dev
  */
 public class EffectBigHead extends L2Effect
 {

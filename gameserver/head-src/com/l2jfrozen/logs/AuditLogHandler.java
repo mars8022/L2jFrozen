@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 
 /**
- * @author ProGramMoS, scoria dev Lets drink to code!
+ * @author ProGramMoS, Lets drink to code!
  */
 public class AuditLogHandler extends FileHandler
 {

@@ -54,7 +54,6 @@ public class L2SkillElemental extends L2Skill
 		}
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void useSkill(L2Character activeChar, L2Object[] targets)
 	{

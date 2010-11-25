@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 
 /**
- * @author ProGramMoS, eX1steam, l2jfrozen An Env object is just a class to pass parameters to a calculator such as
+ * @author ProGramMoS, eX1steam, L2JFrozen An Env object is just a class to pass parameters to a calculator such as
  *         L2PcInstance, L2ItemInstance, Initial value.
  */
 

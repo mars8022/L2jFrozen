@@ -23,8 +23,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author eX1steam scoria dev team TODO To change the template for this generated type comment go to Window -
- *         Preferences - Java - Code Style - Code Templates
+ * @author eX1steam L2JFrozen
  */
 public class ConditionTargetPvp extends Condition
 {

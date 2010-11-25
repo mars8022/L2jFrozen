@@ -29,9 +29,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * 
- * 
- * @author Nick
+ * @author L2JFrozen
  */
 public class SQLQueue implements Runnable
 {

@@ -29,7 +29,7 @@ import javolution.text.TextBuilder;
  * This class ...
  * 
  * @version $Revision: 1.1.4.1 $ $Date: 2005/03/27 15:30:08 $
- * @author ProGramMoS, scoria dev
+ * @author ProGramMoS
  */
 
 public class FileLogFormatter extends Formatter

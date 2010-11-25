@@ -36,8 +36,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 
 /**
- * @author PrioGramMoS, l2jfrozen TODO To change the template for this generated type comment go to Window - Preferences
- *         - Java - Code Style - Code Templates
+ * @author PrioGramMoS, L2JFrozen
  */
 public class SkillsEngine
 {

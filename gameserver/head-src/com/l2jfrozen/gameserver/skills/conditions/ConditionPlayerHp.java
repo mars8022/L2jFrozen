@@ -21,8 +21,7 @@ package com.l2jfrozen.gameserver.skills.conditions;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author mr TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style
- *         - Code Templates
+ * @author mr
  */
 public class ConditionPlayerHp extends Condition
 {

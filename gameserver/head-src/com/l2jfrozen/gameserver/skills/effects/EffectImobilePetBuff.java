@@ -24,8 +24,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
- * @author demonia TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author demonia
  */
 final class EffectImobilePetBuff extends L2Effect
 {

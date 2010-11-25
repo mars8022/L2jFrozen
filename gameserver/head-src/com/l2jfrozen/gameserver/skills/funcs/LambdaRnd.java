@@ -22,8 +22,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
- * @author mkizub TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author mkizub
  */
 public final class LambdaRnd extends Lambda
 {
