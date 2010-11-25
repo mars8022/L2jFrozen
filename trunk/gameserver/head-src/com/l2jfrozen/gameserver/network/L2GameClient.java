@@ -60,7 +60,7 @@ import com.l2jfrozen.netcore.MMOConnection;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * @author l2jfrozen dev
+ * @author L2JFrozen dev
  */
 
 public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>

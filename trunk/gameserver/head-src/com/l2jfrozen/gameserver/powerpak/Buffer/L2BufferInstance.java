@@ -18,15 +18,11 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable.Buff;
-
-import javolution.util.FastList;
 
 public class L2BufferInstance
 {

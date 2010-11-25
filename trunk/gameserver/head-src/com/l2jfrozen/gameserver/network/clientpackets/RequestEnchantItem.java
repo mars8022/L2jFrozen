@@ -33,7 +33,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
@@ -285,8 +284,6 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INAPPROPRIATE_ENCHANT_CONDITION));
 			return;
 		}
-
-		boolean crystal_scroll = false;
 		
 		// Get the scroll type - Yesod
 		if(scroll.getItemId() >= 6569 && scroll.getItemId() <= 6578)
@@ -299,7 +296,6 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				if(scroll.getItemId() == crystalscroll)
 				{
 					blessedScroll = true;
-					crystal_scroll = true;
 					break;
 				}
 		}

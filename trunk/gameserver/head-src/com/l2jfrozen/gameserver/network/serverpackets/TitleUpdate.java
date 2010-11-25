@@ -20,7 +20,7 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * @author devScarlet
+ * @author L2JFrozen
  */
 public class TitleUpdate extends L2GameServerPacket
 {

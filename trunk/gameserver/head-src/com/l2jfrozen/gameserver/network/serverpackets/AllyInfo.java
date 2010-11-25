@@ -23,8 +23,6 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 
-/**
- */
 public class AllyInfo extends L2GameServerPacket
 {
 	//private static Logger _log = Logger.getLogger(AllyInfo.class.getName());

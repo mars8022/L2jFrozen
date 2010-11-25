@@ -30,10 +30,11 @@ import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.ClanHall;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.Revive;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -44,7 +45,7 @@ import com.l2jfrozen.gameserver.util.Util;
  * This class ...
  * 
  * @version $Revision: 1.7.3 $ $Date: 2009/04/29 13:54:30 $
- * @author programmos, scoria dev
+ * @author programmos
  */
 public final class RequestRestartPoint extends L2GameClientPacket
 {
@@ -71,10 +72,9 @@ public final class RequestRestartPoint extends L2GameClientPacket
 
 		public void run()
 		{
-			//if(activeChar._inEventTvT && TvT._started)
-			if(activeChar._inEventTvT && TvT.is_inProgress())
+			if((activeChar._inEventTvT && TvT.is_inProgress()) || (activeChar._inEventDM && DM.is_inProgress()) || (activeChar._inEventCTF && CTF.is_inProgress()))
 			{
-				activeChar.sendMessage("You can't restart in TVT!");
+				activeChar.sendMessage("You can't restart in Event!");
 				return;
 			}
 			try

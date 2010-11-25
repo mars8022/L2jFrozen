@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
  * S = AllyLeaderName<BR>
  * d = AllyCrestID<BR>
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public final class FortSiegeDefenderList extends L2GameServerPacket
 {

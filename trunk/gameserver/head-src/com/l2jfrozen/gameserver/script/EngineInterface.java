@@ -36,8 +36,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 
 /**
- * @author Luis Arias TODO To change the template for this generated type comment go to Window - Preferences - Java -
- *         Code Style - Code Templates
+ * @author Luis Arias
  */
 public interface EngineInterface
 {

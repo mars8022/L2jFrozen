@@ -25,7 +25,6 @@ import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinParty;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -55,19 +54,23 @@ public final class RequestJoinParty extends L2GameClientPacket
 	{
 		L2PcInstance requestor = getClient().getActiveChar();
 		L2PcInstance target = L2World.getInstance().getPlayer(_name);
-
-		        if (requestor._inEventDM )
-			       {
-			           requestor.sendMessage("You are in Event, you can't invite players in party!");
-			           return;
-		          }
 		
 		if(requestor == null)
 			return;
-
+        
 		if(target == null)
 		{
 			requestor.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
+			return;
+		}
+		
+		if ((requestor._inEventDM) || (target._inEventDM)
+			|| (requestor._inEventCTF) || (target._inEventCTF)
+			|| (requestor._inEventTvT) || (target._inEventTvT)
+			|| (requestor._inEvent) || (target._inEvent)
+			|| (requestor._inEventVIP) || (target._inEventVIP)) 
+		{
+			requestor.sendMessage("You are in Event, you can't invite players in party!");
 			return;
 		}
 

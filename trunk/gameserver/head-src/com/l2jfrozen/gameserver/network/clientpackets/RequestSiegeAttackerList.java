@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SiegeAttackerList;
  * This class ...
  * 
  * @version $Revision: 1.3.5 $ $Date: 2009/04/28 13:41:30 $
- * @author programmos, scoria dev
+ * @author programmos
  */
 public final class RequestSiegeAttackerList extends L2GameClientPacket
 {

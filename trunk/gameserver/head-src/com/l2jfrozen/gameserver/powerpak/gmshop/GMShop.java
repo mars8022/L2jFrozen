@@ -31,9 +31,7 @@ import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 /**
- * 
- * 
- * @author Nick
+ * @author L2JFrozen
  */
 public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBSHandler
 {
@@ -49,30 +47,30 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	{
 		String msg = null;
 		if(activeChar.isSitting())
-			msg = "GMShop не доступен когда вы сидите";
+			msg = "GMShop not available when you sit";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ALL"))
-			msg = "GMShop не доступен в данной зоне";
+			msg = "GMShop not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
-			msg = "GMShop не доступен с проклятым оружием"; 
+			msg = "GMShop not available with the cursed sword"; 
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
-			msg = "GMShop не доступен во время боя";
+			msg = "GMShop not available during the battle";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
-			msg = "GMShop не доступен в катакомбах и некрополисах";
+			msg = "GMShop not available in the catacombs and necropolis";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
-				msg = "GMShop не доступен в данной зоне";
+				msg = "GMShop not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
-			msg = "GMShop не доступен в данной зоне";
+			msg = "GMShop not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
-			msg = "GMShop не доступен в данной зоне";
+			msg = "GMShop not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
-			msg = "GMShop не доступен в данной зоне";
+			msg = "GMShop not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("OLYMPIAD") && (activeChar.isInOlympiadMode() ||
 				activeChar.isInsideZone(L2Character.ZONE_OLY) || Olympiad.getInstance().isRegistered(activeChar) ||
 				Olympiad.getInstance().isRegisteredInComp(activeChar))) 
-			msg = "GMShop не доступен на Великой Олимпиаде";
+			msg = "GMShop not available at Olympiad";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("EVENT") && 
 				(activeChar._inEvent))
-			msg = "GMShop не доступен на эвенте";
+			msg = "GMShop not available at the opening event";
 		
 		if(msg!=null)
 			activeChar.sendMessage(msg);
@@ -114,7 +112,7 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	 		try {
 	 			L2Multisell.getInstance().SeparateAndSend(Integer.parseInt(parameters.substring(9).trim()), player, false, 0);
 	 		} catch(Exception e) {
-	 			player.sendMessage("Данный список не существует");
+	 			player.sendMessage("This list does not exist");
 	 		}
 	 	}
 	 	else if(parameters.startsWith("Chat"))

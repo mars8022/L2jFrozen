@@ -19,17 +19,13 @@
 package com.l2jfrozen.gameserver.powerpak.Buffer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
 import com.l2jfrozen.gameserver.datatables.BufferSkillsTable;
@@ -50,8 +46,6 @@ import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable.Buff;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 /**
- * 
- * 
  * @author Nick
  */
 public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler, IBBSHandler
@@ -110,7 +104,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				Olympiad.getInstance().isRegisteredInComp(activeChar))) 
 			msg = "Buffer is not available in Olympiad";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("EVENT") && 
-				(activeChar._inEvent))
+				(activeChar.isInFunEvent()))
 			msg = "Buffer is not available in this event";
 		
 		if(msg!=null)

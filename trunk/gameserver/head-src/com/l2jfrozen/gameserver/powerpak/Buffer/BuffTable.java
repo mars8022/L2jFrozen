@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -142,10 +140,8 @@ public class BuffTable
 		return _buffs_by_id.get(id);
 	}
 	
-	public Iterator<String> skill_groups(){
-		
+	public Iterator<String> skill_groups()
+	{	
 		return _buffs.keySet().iterator();
-		
 	}
-	
 }

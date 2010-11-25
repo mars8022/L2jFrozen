@@ -29,7 +29,7 @@ import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 
 /**
- * @author Nick
+ * @author L2JFrozen
  */
 public class XMLRPCServer
 {

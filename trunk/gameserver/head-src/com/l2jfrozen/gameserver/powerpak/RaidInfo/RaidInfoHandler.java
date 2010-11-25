@@ -30,8 +30,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
- * 
- * 
  * @author Enzo
  */
 public class RaidInfoHandler implements ICustomByPassHandler
@@ -103,8 +101,4 @@ public class RaidInfoHandler implements ICustomByPassHandler
 		activeChar.sendPacket(msg);
 		
 	}
-
-	
-	
-
 }

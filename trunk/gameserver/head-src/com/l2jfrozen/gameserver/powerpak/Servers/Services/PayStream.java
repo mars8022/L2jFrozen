@@ -28,15 +28,15 @@ public class PayStream implements HttpHandler
 {
 
 	private static Log _log = LogFactory.getLog("webServer");
-	// Признак, что все параметры прочитаны, и хэндлер может быть создан
+	// An indication that all options are read, and the handler can be created
 
-	// Ключ безопасности - определяется в лисном кабинете paystream
+	// Security Key - defined in the study Lisnoe paystream
 	private static String _KEY;
-	// Префикс SMS
+	// Prefix SMS
 	private static String _SMSPrefix;
-	// ID предмета, даваемого в качестве награды
+	// ID object, given by a reward
 	private static int _item;
-	// Список номеров и количества награды для номера. Формат номер:количество[;номер:количество...]
+	// The list of numbers and quantities awards for a number. Format: count [; number: the number ...]
 	private static Map<Integer, Integer> _bonuses = new FastMap<Integer, Integer>();
 
 	private static String _MessageOK;
@@ -44,7 +44,7 @@ public class PayStream implements HttpHandler
 	private static String _UserMessage;
 
 	public PayStream() throws Exception {
-		// Разбираем конфиг, который лежит в config/powerpak/webservices/paystream.properties
+		// Parse the config, which lies in the config / powerpak / webservices / paystream.properties
 			L2Properties p = new L2Properties("./config/powerpak/webservices/paystream.properties");
 			_KEY = p.getProperty("SecurityKey","");
 			_item = Integer.parseInt(p.getProperty("RewardItem","0"));
@@ -90,7 +90,7 @@ public class PayStream implements HttpHandler
 		public void execute(Connection con) {
 			try
 			{
-				// Сохраняем результат в БД, заодно проверяем не повторно ли нас дергает пэйстрим.
+				// Stores the result in the database, at the same time check to see whether we re pulling peystrim.
 				PreparedStatement stm = con.prepareStatement("insert into paystream select ?,?,?,?,?,?,? from "+
 															 " characters where not exists (select * from  paystream where msgid=?) limit 1");
 				stm.setString(1, _params.get("smsid"));
@@ -101,7 +101,7 @@ public class PayStream implements HttpHandler
 				stm.setString(5, _charName);
 				stm.setFloat(6,Float.parseFloat(_params.get("cost")));
 				stm.setString(7, _params.get("currency"));
-				boolean isOk = stm.executeUpdate() > 0; // Да, надо добавить айтем юзеру.
+				boolean isOk = stm.executeUpdate() > 0; // Yes, I must add a user to aytemov.
 				if(isOk && _char!=null) {
 					_char.addItem("donate", _item, _count, null, true);
 					if(_char.isOnline()!=0 && _UserMessage.length()>0)
@@ -123,18 +123,18 @@ public class PayStream implements HttpHandler
 	}
 	@Override
 	public void handle(HttpExchange params) throws IOException {
-		/* !!!! ВНИМАНИЕ !!!!
-		 * Paystream поддерживает префиксы начинающиеся с символа +
-		 * HttpServer уже декодирует из UrlEncode getQuery(), однако,
-		 * он НЕ декодирует + как пробел. В результате получается "кривая" строка
-		 * +перфикс+имя_чара
-		 * Это не верно, т.к. строка доджна быть +префикс имя_чара
-		 * 
+		/* !! WARNING!
+		* Paystream supports prefixes beginning with a +
+		* HttpServer already decodes from UrlEncode getQuery (), however,
+		* It does not decode + as space. The result is a "curve" line
+		+ + Perfiks imya_chara
+		* This is not true, because Line dodzhna be + prefix imya_chara
+		*
 		*/
 		if(params.getRequestMethod().equalsIgnoreCase("GET")) {
 			FastMap<String, String> query = new FastMap<String, String>();
 			StringBuffer response = new StringBuffer();
-			// Разбираем параметры, переданные в GET запросе.
+			// Parse the parameters passed in the GET request
 			StringTokenizer st = new StringTokenizer(params.getRequestURI().getQuery(),"&");
 			while(st.hasMoreTokens()) {
 				String token = st.nextToken();
@@ -143,7 +143,7 @@ public class PayStream implements HttpHandler
 					String param = token.substring(0,iPos).toLowerCase();
 					String value = token.substring(iPos+1);
 
-					// Та самая замена, о которой написано выше.
+					// That is the replacement of which is written above..
 					if(value!=null && value.length()>0) {
 						if(value.charAt(0)=='+')
 							value = "+"+URLDecoder.decode(value.substring(1),"UTF-8");
@@ -154,9 +154,9 @@ public class PayStream implements HttpHandler
 				}
 			}
 
-			// Проверяем есть ли секретный ключ и наш ли он а так же другие обязательные параметры
+			// Check whether there is a secret key and our Do it as well as other required parameters.
 			if(query.get("skey")!=null && query.get("skey").equals(_KEY) && query.get("num")!=null) {
-				String SMSText = query.get("msg"); // Берем текст SMS-ки
+				String SMSText = query.get("msg"); // Take the text of the SMS
 				if(SMSText!=null) {
 					int iPos = SMSText.indexOf(" ");
 					if(iPos !=-1) {
@@ -164,13 +164,13 @@ public class PayStream implements HttpHandler
 						String charName = SMSText.substring(iPos+1).trim();
 						boolean prefixOk = _SMSPrefix.length()>0?prefix.equals(_SMSPrefix):true;
 						if(prefixOk)
-						{ // Проверяем на совпадение префикс (на всякий случай)
+						{ // Checked for a match prefix (just in case)
 							try 
 							{
 								Integer amount = _bonuses.get(Integer.parseInt(query.get("num")));
-								if(amount==null)  // Указан ли наш номер в списке?
-									amount = 1;   // Нет, выдаем один айтем
-								response.append("status: reply\n\n"); // Заголовок, который по требованию PayStream надо вернуть
+								if(amount==null) // Indicate whether our number is on the list?
+									amount = 1;  // No, the issue one aytemov
+								response.append("status: reply\n\n"); // Header that the request should be returned to PayStream
 								L2PcInstance pc = L2World.getInstance().getPlayer(charName);
 								if(pc==null )
 									pc = L2Utils.loadPlayer(charName);

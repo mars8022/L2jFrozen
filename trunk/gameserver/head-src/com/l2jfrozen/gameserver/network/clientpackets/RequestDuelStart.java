@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 /**
  * Format:(ch) Sd
  * 
- * @author L2Scoria
+ * @author L2JFrozen
  */
 public final class RequestDuelStart extends L2GameClientPacket
 {

@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
  * d = Siege time (seconds) (0 for selectable)<BR>
  * d = (UNKNOW) Siege Time Select Related?
  * 
- * @author programmos, scoria dev
+ * @author programmos
  */
 public class FortressSiegeInfo extends L2GameServerPacket
 {
