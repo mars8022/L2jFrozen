@@ -40,8 +40,9 @@ import javax.crypto.Cipher;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64; 
+//import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Encoder;
 
 import com.l2jfrozen.Config;
 
@@ -216,8 +217,14 @@ public class RSA
 		// Get the bytes of the key
 		byte[] keyBytes = key.getEncoded();
 		// Convert key to BASE64 encoded string
-		BASE64Encoder b64 = new BASE64Encoder();
-		return b64.encode(keyBytes);
+		
+		//BASE64Encoder b64 = new BASE64Encoder();
+		//return b64.encode(keyBytes);
+		Base64 encoder = new Base64();
+		String result ="";
+		result += encoder.encode (keyBytes); 
+		
+		return result;
 	}
 
 	/**
@@ -229,9 +236,16 @@ public class RSA
 	 */
 	public static PrivateKey getPrivateKeyFromString(String key) throws Exception
 	{
-		KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+		/*
 		BASE64Decoder b64 = new BASE64Decoder();
 		EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(b64.decodeBuffer(key));
+		*/
+		byte[] result = null; 
+		Base64 decoder = new Base64(); 
+	 	result = decoder.decode (key.getBytes());
+	 	EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(result);
+	 	
+	 	KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
 		PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
 		return privateKey;
 	}
@@ -245,9 +259,15 @@ public class RSA
 	 */
 	public static PublicKey getPublicKeyFromString(String key) throws Exception
 	{
-		BASE64Decoder b64 = new BASE64Decoder();
-		KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
-		EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(b64.decodeBuffer(key));
+		//BASE64Decoder b64 = new BASE64Decoder();
+		//EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(b64.decodeBuffer(key));
+		
+		byte[] result = null; 
+		Base64 decoder = new Base64(); 
+	 	result = decoder.decode (key.getBytes());
+	 	EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(result);
+	 	
+	 	KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
 		PublicKey publicKey = keyFactory.generatePublic(publicKeySpec);
 		return publicKey;
 	}
@@ -260,8 +280,12 @@ public class RSA
 	 */
 	private static String encodeBASE64(byte[] bytes)
 	{
-
-		return Base64.encodeBytes(bytes);
+		Base64 encoder = new Base64();
+		String result ="";
+		result += encoder.encode (bytes); 
+		return result; 
+		
+		//return Base64.encodeBytes(bytes);
 	}
 
 	/**
@@ -273,8 +297,12 @@ public class RSA
 	 */
 	private static byte[] decodeBASE64(String text) throws IOException
 	{
-
-		return Base64.decode(text);
+		byte[] result = null; 
+		Base64 decoder = new Base64(); 
+	 	result = decoder.decode (text.getBytes());
+	 	return result;
+	 	
+		//return Base64.decode(text);
 	}
 
 	/**
