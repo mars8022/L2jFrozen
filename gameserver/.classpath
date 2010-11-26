@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="lib/ws-commons-util-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-common-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-server-3.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
