@@ -1190,7 +1190,7 @@ public class TvT implements EventTask
 			return false;
 		}
 		
-		if(eventPlayer.isInOlympiadMode())
+		if(Olympiad.getInstance().isRegistered(eventPlayer) || eventPlayer.isInOlympiadMode())
 		{
 			eventPlayer.sendMessage("You already participated in Olympiad!"); 
 			return false;
