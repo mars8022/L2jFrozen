@@ -72,15 +72,21 @@ public class RaidInfoHandler implements ICustomByPassHandler
 		for(int boss : Config.RAID_INFO_IDS_LIST)
 		{
 			String name = NpcTable.getInstance().getTemplate(boss).getName();
-			StatsSet actual_boss_stat = GrandBossManager.getInstance().getStatsSet(boss);
 			
-			if(actual_boss_stat==null)
-				actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss);
-			
+			StatsSet actual_boss_stat = null;
+			GrandBossManager.getInstance().getStatsSet(boss);
 			long delay = 0;
 			
-			if(actual_boss_stat!=null)
-				delay = actual_boss_stat.getLong("respawn_time");
+			if(NpcTable.getInstance().getTemplate(boss).type.equals("L2RaidBoss")){
+				actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss);
+				if(actual_boss_stat!=null)
+					delay = actual_boss_stat.getLong("respawnTime");
+			}else if(NpcTable.getInstance().getTemplate(boss).type.equals("L2GrandBoss")){
+				actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss);
+				if(actual_boss_stat!=null)
+					delay = actual_boss_stat.getLong("respawn_time");
+			}else
+				continue;
 			
 			if (delay <= System.currentTimeMillis())
 			{
