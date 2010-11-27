@@ -501,6 +501,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			showManageSchemeWindow(player);
 		else if (currentCommand.startsWith("createscheme"))
 		{
+			if(!st.hasMoreTokens()){
+				player.sendMessage("Error: Specify Schema Name!");
+				showManageSchemeWindow(player);
+			}
+			
 			String name = st.nextToken();
 			if (name.length() > 14)
 			{
@@ -528,6 +533,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		// handles deletion
 		else if (currentCommand.startsWith("deletescheme"))
 		{
+			if(!st.hasMoreTokens()){
+				player.sendMessage("Error: Specify Schema Name!");
+				showManageSchemeWindow(player);
+			}
+			
 			String name = st.nextToken();
 			if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) != null && CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).containsKey(name))
 			{
@@ -538,6 +548,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		// handles cleanning
 		else if (currentCommand.startsWith("clearscheme"))
 		{
+			if(!st.hasMoreTokens()){
+				player.sendMessage("Error: Specify Schema Name!");
+				showManageSchemeWindow(player);
+			}
+			
 			String name = st.nextToken();
 			if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) != null && CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).containsKey(name))
 			{
