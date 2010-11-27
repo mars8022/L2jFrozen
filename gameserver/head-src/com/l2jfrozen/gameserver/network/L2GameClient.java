@@ -554,6 +554,16 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 			if(player.isFlying())
 				player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 			
+			if(player._inEventCTF){
+				CTF.onDisconnect(player);
+			}else if(player._inEventDM){
+				DM.onDisconnect(player);
+			}else if(player._inEventTvT){
+				TvT.onDisconnect(player);
+			}else if(player._inEventVIP){
+				VIP.onDisconnect(player);
+			}
+			
 			player.deleteMe();
 
 			try {
