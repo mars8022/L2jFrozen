@@ -4283,7 +4283,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void onAction(L2PcInstance player)
 	{
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
-		if ((TvT.is_inProgress() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.is_inProgress() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.is_inProgress() && !Config.DM_ALLOW_INTERFERENCE))
+		if ((TvT.is_started() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.is_started() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.is_started() && !Config.DM_ALLOW_INTERFERENCE))
 	    {
             if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
             {
@@ -4480,7 +4480,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public boolean isInFunEvent()
 	{
 		//return (atEvent || (TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP));
-		return (atEvent || (TvT.is_inProgress() && _inEventTvT) || (DM.is_inProgress() && _inEventDM) || (CTF.is_inProgress() && _inEventCTF) || (VIP._inProgress && _inEventVIP));
+		return (atEvent || (TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP));
 	}
 
 	/**
