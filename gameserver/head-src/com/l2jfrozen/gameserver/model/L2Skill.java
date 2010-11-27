@@ -2612,7 +2612,7 @@ public abstract class L2Skill
 						
 						//if src is in event and trg not OR viceversa:
 						//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
-						if(src!=null)
+						if(src!=null && trg!=null)
 							if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
 								continue;
 							}
