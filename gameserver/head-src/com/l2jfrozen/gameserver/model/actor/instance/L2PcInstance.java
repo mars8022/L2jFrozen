@@ -5839,7 +5839,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(!(target instanceof L2PlayableInstance))
 			return;
 
-		if (_inEventCTF || _inEventTvT || _inEventVIP || _inEventDM)
+		if ((_inEventCTF && CTF.is_started()) || (_inEventTvT && TvT.is_started()) || (_inEventVIP && VIP._started) || (_inEventDM && DM.is_started()))
 			return;
 
 		if(isCursedWeaponEquipped())
@@ -5919,7 +5919,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 
 			// 'No war' or 'One way war' -> 'Normal PK'
-			if(!_inEventTvT || !_inEventCTF || !_inEventVIP || !_inEventDM) {
+			if(!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started()) || !(_inEventVIP && VIP._started) || !(_inEventDM && DM.is_started())) {
 				if(targetPlayer.getKarma() > 0) // Target player has karma
 				{
 					if(Config.KARMA_AWARD_PK_KILL)
@@ -5947,12 +5947,12 @@ public final class L2PcInstance extends L2PlayableInstance
 			Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 		}
 
-		if(targetPlayer.getObjectId() == _lastKill && (count < Config.REWORD_PROTECT - 1 || Config.REWORD_PROTECT == 0) || !_inEventDM)
+		if(targetPlayer.getObjectId() == _lastKill && (count < Config.REWORD_PROTECT - 1 || Config.REWORD_PROTECT == 0) || !(_inEventDM && DM.is_started()))
 		{
 			count += 1;
 			addItemReword(targetPlayer);
 		}
-		else if(targetPlayer.getObjectId() != _lastKill || !_inEventDM)
+		else if(targetPlayer.getObjectId() != _lastKill || !(_inEventDM && DM.is_started()))
 		{
 			count = 0;
 			_lastKill = targetPlayer.getObjectId();
@@ -6557,7 +6557,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		// Calculate the Experience loss
 		long lostExp = 0;
-		if(!atEvent && !_inEventTvT && !_inEventDM && !_inEventCTF && !_inEventVIP)
+		if(!atEvent && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started))
 			if(lvl < Experience.MAX_LEVEL)
 			{
 				lostExp = Math.round((getStat().getExpForLevel(lvl + 1) - getStat().getExpForLevel(lvl)) * percentLost / 100);
@@ -9809,7 +9809,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(skill.isOffensive())
 		{
 			//if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_inProgress()) || !(_inEventCTF && CTF.is_inProgress())	|| !(_inEventDM && DM.is_inProgress()) || !(_inEventVIP && VIP._inProgress)))
+			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
 				{
@@ -9834,7 +9834,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Check if the target is attackable
 			//if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_inProgress()) || !(_inEventCTF && CTF.is_inProgress())	|| !(_inEventDM && DM.is_inProgress()) || !(_inEventVIP && VIP._inProgress)))
+			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
 				{
@@ -9846,7 +9846,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Check if a Forced ATTACK is in progress on non-attackable target
 			//if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._started) && !(_inEventDM && DM._started) && !(_inEventCTF && CTF._started) && !(_inEventVIP && VIP._started)
-			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT.is_inProgress()) && !(_inEventDM && DM.is_inProgress()) && !(_inEventCTF && CTF.is_inProgress()) && !(_inEventVIP && VIP._inProgress)
+			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started)
 					&& sklTargetType != SkillTargetType.TARGET_AURA
 					&& sklTargetType != SkillTargetType.TARGET_CLAN
 					&& sklTargetType != SkillTargetType.TARGET_ALLY

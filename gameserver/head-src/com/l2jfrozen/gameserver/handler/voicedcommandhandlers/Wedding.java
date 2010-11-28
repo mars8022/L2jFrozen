@@ -20,6 +20,10 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
@@ -337,22 +341,22 @@ public class Wedding implements IVoicedCommandHandler
 			activeChar.sendMessage("You are in an event.");
 			return false;
 		}
-		if(activeChar._inEventTvT)
+		if(activeChar._inEventTvT && TvT.is_started())
 		{
 			activeChar.sendMessage("You may not use go to love in TvT.");
 			return false;
 		}
-		if(activeChar._inEventCTF)
+		if(activeChar._inEventCTF && CTF.is_started())
 		{
 			activeChar.sendMessage("You may not use go to love in CTF.");
 			return false;
 		}
-		if(activeChar._inEventDM)
+		if(activeChar._inEventDM && DM.is_started())
 		{
 			activeChar.sendMessage("You may not use go to love in DM.");
 			return false;
 		}
-		if(activeChar._inEventVIP)
+		if(activeChar._inEventVIP && VIP._started)
 		{
 			activeChar.sendMessage("You may not use go to love in VIP.");
 			return false;
