@@ -1744,6 +1744,7 @@ public class DM implements EventTask
 		for(L2PcInstance player : _players)
 		{
 			player.getAppearance().setNameColor(player._originalNameColorDM);
+			player.setTitle(player._originalTitleDM);
 			player.setKarma(player._originalKarmaDM);
 			player._inEventDM = false;
 			player._countDMkills = 0;

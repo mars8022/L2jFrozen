@@ -72,7 +72,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 
 		public void run()
 		{
-			if((activeChar._inEventTvT && TvT.is_inProgress()) || (activeChar._inEventDM && DM.is_inProgress()) || (activeChar._inEventCTF && CTF.is_inProgress()))
+			if((activeChar._inEventTvT && TvT.is_started()) || (activeChar._inEventDM && DM.is_started()) || (activeChar._inEventCTF && CTF.is_started()))
 			{
 				activeChar.sendMessage("You can't restart in Event!");
 				return;

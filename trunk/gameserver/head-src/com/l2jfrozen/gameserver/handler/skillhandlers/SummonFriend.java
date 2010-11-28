@@ -31,6 +31,10 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
@@ -59,19 +63,19 @@ public class SummonFriend implements ISkillHandler
 			activePlayer.sendMessage("You cannot use this skill in Event.");
 			return;			
 		}
-		if (activePlayer._inEventCTF) {
+		if (activePlayer._inEventCTF && CTF.is_started()) {
 			activePlayer.sendMessage("You cannot use this skill in Event.");
 			return;			
 		}
-		if (activePlayer._inEventDM) {
+		if (activePlayer._inEventDM && DM.is_started()) {
 			activePlayer.sendMessage("You cannot use this skill in Event.");
 			return;			
 		}
-		if (activePlayer._inEventTvT) {
+		if (activePlayer._inEventTvT && TvT.is_started()) {
 			activePlayer.sendMessage("You cannot use this skill in Event.");
 			return;			
 		}
-		if (activePlayer._inEventVIP) {
+		if (activePlayer._inEventVIP && VIP._started) {
 			activePlayer.sendMessage("You cannot use this skill in Event.");
 			return;			
 		}
