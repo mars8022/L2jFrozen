@@ -1874,7 +1874,8 @@ public final class Config
 	public static int DM_KILL_REWARD_ID;
 	public static int DM_KILL_REWARD_AMOUNT;
 	public static boolean DM_ANNOUNCE_REWARD;
-
+	public static boolean DM_REVIVE_RECOVERY;
+	
 	//============================================================
 	public static void loadDMConfig()
 	{
@@ -1898,6 +1899,9 @@ public final class Config
 			{
 				DM_REVIVE_DELAY = 1000; //can't be set less then 1 second
 			}
+			
+			DM_REVIVE_RECOVERY = Boolean.parseBoolean(DMSettings.getProperty("DMReviveRecovery", "False"));
+			
 			DM_COMMAND = Boolean.parseBoolean(DMSettings.getProperty("DMCommand", "False"));
 			DM_ENABLE_KILL_REWARD = Boolean.parseBoolean(DMSettings.getProperty("DMEnableKillReward", "False"));
 			DM_KILL_REWARD_ID = Integer.parseInt(DMSettings.getProperty("DMKillRewardID", "6392"));

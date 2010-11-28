@@ -634,6 +634,8 @@ public class DM implements EventTask
 		if(Config.DM_COMMAND)
 			Announcements.getInstance().gameAnnounceToAll(" or by command .dmjoin! To leave .dmleave! For Info .dminfo!");
 		
+		Announcements.getInstance().gameAnnounceToAll("FULL BUFF Event: be ready with your buffs, they won't be deleted!!!");
+		
 		return true;
 	}
 
@@ -711,6 +713,8 @@ public class DM implements EventTask
 							L2Party party = player.getParty();
 							party.removePartyMember(player);
 						}
+						
+						player.setTitle("Kills: " + player._countDMkills);
 						
 						if(_teamEvent){
 							//player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
@@ -1586,6 +1590,7 @@ public class DM implements EventTask
 		if(player != null && player._inEventDM)
 		{
 			player.getAppearance().setNameColor(player._originalNameColorDM);
+			player.setTitle(player._originalTitleDM);
 			player.setKarma(player._originalKarmaDM);
 			player.broadcastUserInfo();
 			
@@ -1633,6 +1638,7 @@ public class DM implements EventTask
 			_players.add(player);
 
 			player._originalNameColorDM = player.getAppearance().getNameColor();
+			player._originalTitleDM = player.getTitle();
 			player._originalKarmaDM = player.getKarma();
 			player._inEventDM = true;
 			player._countDMkills = 0;
