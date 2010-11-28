@@ -1411,6 +1411,8 @@ public final class Config
 	public static long TVT_REVIVE_DELAY;
 	public static boolean TVT_OPEN_FORT_DOORS;
 	public static boolean TVT_CLOSE_FORT_DOORS;
+	public static boolean TVT_OPEN_ADEN_COLOSSEUM_DOORS;
+	public static boolean TVT_CLOSE_ADEN_COLOSSEUM_DOORS;
 	public static int TVT_TOP_KILLER_REWARD;
 	public static int TVT_TOP_KILLER_QTY;
 	public static boolean TVT_AURA;
@@ -1443,7 +1445,9 @@ public final class Config
 			if(TVT_REVIVE_DELAY < 1000)
 				TVT_REVIVE_DELAY = 1000; //can't be set less then 1 second
 			TVT_OPEN_FORT_DOORS = Boolean.parseBoolean(TVTSettings.getProperty("TvTOpenFortDoors", "False"));
-			TVT_CLOSE_FORT_DOORS = Boolean.parseBoolean(TVTSettings.getProperty("TvTCloseFortDors", "False"));
+			TVT_CLOSE_FORT_DOORS = Boolean.parseBoolean(TVTSettings.getProperty("TvTCloseFortDoors", "False"));
+			TVT_OPEN_ADEN_COLOSSEUM_DOORS = Boolean.parseBoolean(TVTSettings.getProperty("TvTOpenAdenColosseumDoors", "False"));
+			TVT_CLOSE_ADEN_COLOSSEUM_DOORS = Boolean.parseBoolean(TVTSettings.getProperty("TvTCloseAdenColosseumDoors", "False"));
 			TVT_TOP_KILLER_REWARD = Integer.parseInt(TVTSettings.getProperty("TvTTopKillerRewardId", "5575"));
 			TVT_TOP_KILLER_QTY = Integer.parseInt(TVTSettings.getProperty("TvTTopKillerRewardQty", "2000000"));
 			TVT_AURA = Boolean.parseBoolean(TVTSettings.getProperty("TvTAura", "False"));
@@ -1875,6 +1879,7 @@ public final class Config
 	public static int DM_KILL_REWARD_AMOUNT;
 	public static boolean DM_ANNOUNCE_REWARD;
 	public static boolean DM_REVIVE_RECOVERY;
+	public static int DM_SPAWN_OFFSET;
 	
 	//============================================================
 	public static void loadDMConfig()
@@ -1908,6 +1913,7 @@ public final class Config
 			DM_KILL_REWARD_AMOUNT = Integer.parseInt(DMSettings.getProperty("DMKillRewardAmount", "1"));
 			
 			DM_ANNOUNCE_REWARD = Boolean.parseBoolean(DMSettings.getProperty("DMAnnounceReward", "False"));
+			DM_SPAWN_OFFSET = Integer.parseInt(DMSettings.getProperty("DMSpawnOffset", "100"));
 			
 		}
 		catch(Exception e)

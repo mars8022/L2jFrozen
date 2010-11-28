@@ -733,6 +733,11 @@ public class TvT implements EventTask
 		{
 			closeFortDoors();
 		}
+		
+		if(Config.TVT_CLOSE_ADEN_COLOSSEUM_DOORS)
+		{
+			closeAdenColosseumDoors();
+		}
 
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Started. Go to kill your enemies!");
 		_started = true;
@@ -1171,6 +1176,11 @@ public class TvT implements EventTask
 		if(Config.TVT_OPEN_FORT_DOORS)
 		{
 			openFortDoors();
+		}
+		
+		if(Config.TVT_OPEN_ADEN_COLOSSEUM_DOORS)
+		{
+			openAdenColosseumDoors();
 		}
 
 		return true;
@@ -2319,6 +2329,28 @@ public class TvT implements EventTask
 		DoorTable.getInstance().getDoor(23170009).openMe();
 		DoorTable.getInstance().getDoor(23170010).openMe();
 		DoorTable.getInstance().getDoor(23170011).openMe();
+
+	}
+	
+	private static void closeAdenColosseumDoors()
+	{
+		DoorTable.getInstance().getDoor(24190002).closeMe();
+		DoorTable.getInstance().getDoor(24190003).closeMe();
+
+		try
+		{
+			Thread.sleep(20);
+		}
+		catch(InterruptedException ie)
+		{
+			_log.fatal("Error, " + ie.getMessage());
+		}
+	}
+
+	private static void openAdenColosseumDoors()
+	{
+		DoorTable.getInstance().getDoor(24190002).openMe();
+		DoorTable.getInstance().getDoor(24190003).openMe();
 
 	}
 	
