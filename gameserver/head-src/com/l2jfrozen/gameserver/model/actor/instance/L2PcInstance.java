@@ -530,6 +530,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public Future _posCheckerCTF = null;
 
 	/** DM Engine parameters */
+	public String _originalTitleDM;
 	public int _originalNameColorDM,
 	_countDMkills,
 	_originalKarmaDM;
@@ -4285,12 +4286,12 @@ public final class L2PcInstance extends L2PlayableInstance
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
 		if ((TvT.is_started() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.is_started() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.is_started() && !Config.DM_ALLOW_INTERFERENCE))
 	    {
-            if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
+            if ((_inEventTvT && (!player._inEventTvT || player._teamNameTvT.equals(_teamNameTvT)) ) || (!_inEventTvT && player._inEventTvT))
             {
                 player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
             }
-            else if ((_inEventCTF && !player._inEventCTF) || (!_inEventCTF && player._inEventCTF))
+            else if ((_inEventCTF && (!player._inEventCTF || player._teamNameCTF.equals(_teamNameCTF))) || (!_inEventCTF && player._inEventCTF))
             {
                 player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
@@ -4338,7 +4339,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				// Check if this L2PcInstance is autoAttackable
 				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
-				if (isAutoAttackable(player) || (player._inEventTvT && TvT.is_inProgress()) || (player._inEventCTF && CTF.is_inProgress()) || (player._inEventDM && DM.is_inProgress()) || (player._inEventVIP && VIP._inProgress))
+				if (isAutoAttackable(player) || (player._inEventTvT && TvT.is_started()) || (player._inEventCTF && CTF.is_started()) || (player._inEventDM && DM.is_started()) || (player._inEventVIP && VIP._started))
 				{
 					if(Config.ALLOW_CHAR_KILL_PROTECT)
 					{
@@ -5533,8 +5534,12 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(DM.is_teleport() || DM.is_started())
 				{
 					((L2PcInstance)killer)._countDMkills++;
+					PlaySound ps;
+					ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
+					((L2PcInstance)killer).setTitle("Kills: " + ((L2PcInstance)killer)._countDMkills);
+					((L2PcInstance) killer).sendPacket(ps);
+					((L2PcInstance)killer).broadcastUserInfo();
 					
-					//TODO: DM Event Reward
 					if (Config.DM_ENABLE_KILL_REWARD){
 						
 						L2Item reward = ItemTable.getInstance().getTemplate(Config.DM_KILL_REWARD_ID);
@@ -5545,6 +5550,7 @@ public final class L2PcInstance extends L2PlayableInstance
 						reward = null;
 						
 					}
+					
 					sendMessage("You will be revived and teleported to spot in 20 seconds!");
 					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 					{
@@ -5554,7 +5560,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							teleToLocation(p_loc._x, p_loc._y, p_loc._z, false);
 							doRevive();
 						}
-					}, 20000);
+					}, Config.DM_REVIVE_DELAY);
 				}
 			}
 			else if(_inEventDM)
@@ -12150,7 +12156,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 
-		if((_inEventTvT && TvT.is_started() && Config.TVT_REVIVE_RECOVERY) || (_inEventCTF && CTF.is_started() && Config.CTF_REVIVE_RECOVERY))
+		if((_inEventTvT && TvT.is_started() && Config.TVT_REVIVE_RECOVERY) || (_inEventCTF && CTF.is_started() && Config.CTF_REVIVE_RECOVERY) || (_inEventDM && DM.is_started() && Config.DM_REVIVE_RECOVERY))
 		{
 			getStatus().setCurrentHp(getMaxHp());
 			getStatus().setCurrentMp(getMaxMp());
@@ -14613,7 +14619,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if(player != null)
 				{
-					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()){
+					if(!player.isOffline() && player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed()){
 						
 						String ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 						if(thisip.equals(ip) && this != player && player != null)
