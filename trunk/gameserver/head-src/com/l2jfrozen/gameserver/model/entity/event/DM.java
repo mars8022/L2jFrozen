@@ -33,6 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.l2jfrozen.util.random.Rnd;
 
 public class DM implements EventTask
 {   
@@ -720,7 +721,8 @@ public class DM implements EventTask
 							//player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
 							
 						}else{
-							player.teleToLocation(_playerX, _playerY, _playerZ);
+							int offset = Config.DM_SPAWN_OFFSET;
+							player.teleToLocation(_playerX+Rnd.get(offset), _playerY+Rnd.get(offset), _playerZ);
 						}
 					}
 				}
@@ -1589,10 +1591,14 @@ public class DM implements EventTask
 	{
 		if(player != null && player._inEventDM)
 		{
-			player.getAppearance().setNameColor(player._originalNameColorDM);
-			player.setTitle(player._originalTitleDM);
-			player.setKarma(player._originalKarmaDM);
-			player.broadcastUserInfo();
+			if(!_joining)
+			{
+				player.getAppearance().setNameColor(player._originalNameColorDM);
+				player.setTitle(player._originalTitleDM);
+				player.setKarma(player._originalKarmaDM);
+				player.broadcastUserInfo();
+				
+			}
 			
 			player._countDMkills = 0;
 			player._inEventDM = false;
@@ -1647,7 +1653,7 @@ public class DM implements EventTask
 				player.getAppearance().setNameColor(_playerColors);
 				player.setKarma(0);
 				player.broadcastUserInfo();
-				player.teleToLocation(_playerX, _playerY , _playerZ);
+				player.teleToLocation(_playerX+Rnd.get(Config.DM_SPAWN_OFFSET), _playerY+Rnd.get(Config.DM_SPAWN_OFFSET), _playerZ);
 			}
 		}
 	}
