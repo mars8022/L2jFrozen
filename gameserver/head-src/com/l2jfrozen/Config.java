@@ -934,6 +934,7 @@ public final class Config
 	public static boolean ALT_GAME_KARMA_PLAYER_CAN_TELEPORT;
 	public static boolean ALT_GAME_KARMA_PLAYER_CAN_TRADE;
 	public static boolean ALT_GAME_KARMA_PLAYER_CAN_USE_WAREHOUSE;
+	public static boolean ALT_KARMA_TELEPORT_TO_FLORAN;
 	public static byte BUFFS_MAX_AMOUNT;
 	public static byte DEBUFFS_MAX_AMOUNT;
 	public static boolean AUTO_LEARN_DIVINE_INSPIRATION;
@@ -2310,7 +2311,7 @@ public final class Config
 			ALT_GAME_KARMA_PLAYER_CAN_TELEPORT = Boolean.valueOf(pvpSettings.getProperty("AltKarmaPlayerCanTeleport", "true"));
 			ALT_GAME_KARMA_PLAYER_CAN_TRADE = Boolean.valueOf(pvpSettings.getProperty("AltKarmaPlayerCanTrade", "true"));
 			ALT_GAME_KARMA_PLAYER_CAN_USE_WAREHOUSE = Boolean.valueOf(pvpSettings.getProperty("AltKarmaPlayerCanUseWareHouse", "true"));
-
+			ALT_KARMA_TELEPORT_TO_FLORAN = Boolean.valueOf(pvpSettings.getProperty("AltKarmaTeleportToFloran", "true"));
 			/** Custom Reword **/
 			PVP_REWARD_ENABLED = Boolean.valueOf(pvpSettings.getProperty("PvpRewardEnabled", "false"));
 			PVP_REWORD_ID = Integer.parseInt(pvpSettings.getProperty("PvpRewardItemId", "6392"));

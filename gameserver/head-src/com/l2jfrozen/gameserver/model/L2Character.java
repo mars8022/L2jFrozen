@@ -2418,7 +2418,7 @@ public abstract class L2Character extends L2Object
 	 * <li>this instanceof L2Character</li><BR>
 	 * <BR
 	 */
-	protected final void setTemplate(L2CharTemplate template)
+	protected synchronized final void setTemplate(L2CharTemplate template)
 	{
 		_template = template;
 	}
@@ -6615,7 +6615,7 @@ public abstract class L2Character extends L2Object
 	 * @param skill The L2Skill to remove from the L2Character
 	 * @return The L2Skill removed
 	 */
-	public L2Skill removeSkill(L2Skill skill)
+	public synchronized L2Skill removeSkill(L2Skill skill)
 	{
 		if(skill == null)
 			return null;
