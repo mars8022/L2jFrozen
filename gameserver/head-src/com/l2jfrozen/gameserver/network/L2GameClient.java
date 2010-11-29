@@ -705,6 +705,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 					{
 						player.setOffline(true);
 						player.leaveParty();
+						player.store();
 						if(Config.OFFLINE_SET_NAME_COLOR)
 						{
 							player._originalNameColorOffline=player.getAppearance().getNameColor();
