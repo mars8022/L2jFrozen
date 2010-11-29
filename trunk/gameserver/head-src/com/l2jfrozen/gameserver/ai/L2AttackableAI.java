@@ -640,7 +640,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 					}
 
 					// Check if the L2Object is inside the Faction Range of the actor
-					if(_actor.isInsideRadius(npc, npc.getFactionRange(), true, false) && npc != null && _actor != null && npc.getAI() != null && GeoData.getInstance().canSeeTarget(_actor, npc) && Math.abs(getAttackTarget().getZ() - npc.getZ()) < 600 && _actor.getAttackByList().contains(getAttackTarget()) && (npc.getAI()._intention == CtrlIntention.AI_INTENTION_IDLE || npc.getAI()._intention == CtrlIntention.AI_INTENTION_ACTIVE))
+					if(_actor != null && npc != null && _actor.isInsideRadius(npc, npc.getFactionRange(), true, false) && npc.getAI() != null && GeoData.getInstance().canSeeTarget(_actor, npc) && Math.abs(getAttackTarget().getZ() - npc.getZ()) < 600 && _actor.getAttackByList().contains(getAttackTarget()) && (npc.getAI()._intention == CtrlIntention.AI_INTENTION_IDLE || npc.getAI()._intention == CtrlIntention.AI_INTENTION_ACTIVE))
 					{
 						if(getAttackTarget() instanceof L2PcInstance && getAttackTarget().isInParty() && getAttackTarget().getParty().isInDimensionalRift())
 						{
@@ -655,7 +655,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 						// Notify the L2Object AI with EVT_AGGRESSION
 						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, getAttackTarget(), 1);
 					}
-					if(_actor.isInsideRadius(npc, npc.getFactionRange(), true, false) && npc != null && _actor != null && npc.getAI() != null && GeoData.getInstance().canSeeTarget(_actor, npc) && Math.abs(getAttackTarget().getZ() - npc.getZ()) < 500 && _actor.getAttackByList().contains(getAttackTarget()))
+					if(_actor != null && npc != null && getAttackTarget()!=null && _actor.getAttackByList()!=null && _actor.isInsideRadius(npc, npc.getFactionRange(), true, false) && npc.getAI() != null && GeoData.getInstance().canSeeTarget(_actor, npc) && Math.abs(getAttackTarget().getZ() - npc.getZ()) < 500 && _actor.getAttackByList().contains(getAttackTarget()))
 					{
 						if(getAttackTarget() instanceof L2PcInstance || getAttackTarget() instanceof L2Summon)
 						{

@@ -81,6 +81,9 @@ public class OfflineTradeTable
 				{
 					if ((pc.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_NONE) && (pc.isOffline()))
 					{
+						if(pc._originalNameColorOffline!=0)
+							pc.getAppearance().setNameColor(pc._originalNameColorOffline);
+						
 						stm.setInt(1, pc.getObjectId()); //Char Id
 						stm.setLong(2, pc.getOfflineStartTime());
 						stm.setInt(3, pc.getPrivateStoreType()); //store type

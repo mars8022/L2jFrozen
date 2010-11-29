@@ -590,7 +590,7 @@ public class TradeList
 
 			if(item == null || titem.getCount() < 1)
 			{
-				_log.warning(_owner.getName() + ": Invalid Item in TradeList");
+				//_log.warning(_owner.getName() + ": Invalid Item in TradeList");
 				return false;
 			}
 

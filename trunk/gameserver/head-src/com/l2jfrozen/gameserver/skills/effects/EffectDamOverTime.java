@@ -56,6 +56,8 @@ class EffectDamOverTime extends L2Effect
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_HP);
 				getEffected().sendPacket(sm);
+				getEffected().removeEffect(this);
+				this.exit();
 				return false;
 			}
 

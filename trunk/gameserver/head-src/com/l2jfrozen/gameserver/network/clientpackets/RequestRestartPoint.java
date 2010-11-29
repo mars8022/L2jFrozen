@@ -201,11 +201,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 							break;
 
 						default:
-							if(Config.SPAWN_CHAR)
-							{
-								loc = new Location(Config.SPAWN_X, Config.SPAWN_Y, Config.SPAWN_Z);
-							}else
-								loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);
+							loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);	
 							break;
 					}
 					
