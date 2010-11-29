@@ -2656,7 +2656,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T give other free skills (SP needed = 0)</B></FONT><BR>
 	 * <BR>
 	 */
-	public void rewardSkills()
+	public synchronized void rewardSkills()
 	{
 		// Get the Level of the L2PcInstance
 		int lvl = getLevel();
@@ -2751,7 +2751,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Regive all skills which aren't saved to database, like Noble, Hero, Clan Skills<BR>
 	 * <BR>
 	 */
-	private void regiveTemporarySkills()
+	private synchronized void regiveTemporarySkills()
 	{
 		// Do not call this on enterworld or char load
 
@@ -4286,12 +4286,12 @@ public final class L2PcInstance extends L2PlayableInstance
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
 		if ((TvT.is_started() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.is_started() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.is_started() && !Config.DM_ALLOW_INTERFERENCE))
 	    {
-            if ((_inEventTvT && (!player._inEventTvT || player._teamNameTvT.equals(_teamNameTvT)) ) || (!_inEventTvT && player._inEventTvT))
+            if ((_inEventTvT && !player._inEventTvT)  || (!_inEventTvT && player._inEventTvT))
             {
                 player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
             }
-            else if ((_inEventCTF && (!player._inEventCTF || player._teamNameCTF.equals(_teamNameCTF))) || (!_inEventCTF && player._inEventCTF))
+            else if ((_inEventCTF && !player._inEventCTF) || (!_inEventCTF && player._inEventCTF))
             {
                 player.sendPacket(ActionFailed.STATIC_PACKET);
                 return;
@@ -4337,6 +4337,19 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else
 			{
+				if (TvT.is_started() || CTF.is_started())
+			    {
+		            if ((_inEventTvT && player._teamNameTvT.equals(_teamNameTvT)))
+		            {
+		                player.sendPacket(ActionFailed.STATIC_PACKET);
+		                return;
+		            }
+		            else if ((_inEventCTF && player._teamNameCTF.equals(_teamNameCTF)))
+		            {
+		                player.sendPacket(ActionFailed.STATIC_PACKET);
+		                return;
+		            }
+		        }
 				// Check if this L2PcInstance is autoAttackable
 				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
 				if (isAutoAttackable(player) || (player._inEventTvT && TvT.is_started()) || (player._inEventCTF && CTF.is_started()) || (player._inEventDM && DM.is_started()) || (player._inEventVIP && VIP._started))
@@ -6944,7 +6957,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
 		{
-			getAppearance().setNameColor(this._originalNameColorOffline);
+			if(this._originalNameColorOffline!=0)
+				getAppearance().setNameColor(this._originalNameColorOffline);
+			else
+				getAppearance().setNameColor(_accessLevel.getNameColor());
+			
 			this.store();
 			if (Config.OFFLINE_DISCONNECT_FINISHED) {
 				this.deleteMe();
@@ -8788,7 +8805,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Retrieve from the database all skills of this L2PcInstance and add them to _skills.<BR>
 	 * <BR>
 	 */
-	public void restoreSkills()
+	public synchronized void restoreSkills()
 	{
 		Connection con = null;
 
@@ -11643,7 +11660,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		return _classIndex;
 	}
 
-	private void setClassTemplate(int classId)
+	private synchronized void setClassTemplate(int classId)
 	{
 		_activeClass = classId;
 
@@ -11719,6 +11736,15 @@ public final class L2PcInstance extends L2PlayableInstance
 		 */
 		store();
 
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch(InterruptedException e1)
+		{
+			//nothing
+		}
+		
 		if(classIndex == 0)
 		{
 			setClassTemplate(getBaseClass());
@@ -11781,11 +11807,15 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 
-		for(L2Skill oldSkill : getAllSkills())
-		{
-			super.removeSkill(oldSkill);
-		}
+		synchronized (getAllSkills()){
+			
+			for(L2Skill oldSkill : getAllSkills())
+			{
+				super.removeSkill(oldSkill);
+			}
 
+		}
+		
 		// Yesod: Rebind CursedWeapon passive.
 		if(isCursedWeaponEquiped())
 		{

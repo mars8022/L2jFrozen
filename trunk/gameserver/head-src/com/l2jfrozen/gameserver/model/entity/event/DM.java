@@ -1776,7 +1776,7 @@ public class DM implements EventTask
 
 	public static Location get_playersSpawnLocation()
 	{
-		Location npc_loc = new Location(_playerX,_playerY,_playerZ,0);
+		Location npc_loc = new Location(_playerX+Rnd.get(Config.DM_SPAWN_OFFSET),_playerY+Rnd.get(Config.DM_SPAWN_OFFSET),_playerZ,0);
 		
 		return npc_loc;
 		
