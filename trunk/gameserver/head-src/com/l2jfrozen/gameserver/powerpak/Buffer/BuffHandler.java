@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.powerpak.Buffer;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javolution.text.TextBuilder;
@@ -504,9 +505,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			if(!st.hasMoreTokens()){
 				player.sendMessage("Error: Specify Schema Name!");
 				showManageSchemeWindow(player);
+				return;
 			}
 			
-			String name = st.nextToken();
+			String name = st.nextToken();;
+			
 			if (name.length() > 14)
 			{
 				player.sendMessage("Error: Scheme's name must contain up to 14 chars without any spaces");
@@ -536,6 +539,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			if(!st.hasMoreTokens()){
 				player.sendMessage("Error: Specify Schema Name!");
 				showManageSchemeWindow(player);
+				return;
 			}
 			
 			String name = st.nextToken();
@@ -551,6 +555,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			if(!st.hasMoreTokens()){
 				player.sendMessage("Error: Specify Schema Name!");
 				showManageSchemeWindow(player);
+				return;
 			}
 			
 			String name = st.nextToken();
