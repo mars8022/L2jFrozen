@@ -6944,9 +6944,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
 		{
-			getAppearance().setNameColor(_accessLevel.getNameColor());
+			getAppearance().setNameColor(this._originalNameColorOffline);
+			this.store();
 			if (Config.OFFLINE_DISCONNECT_FINISHED) {
-				this.store();
 				this.deleteMe();
 				
 				if(this.getClient() != null)
