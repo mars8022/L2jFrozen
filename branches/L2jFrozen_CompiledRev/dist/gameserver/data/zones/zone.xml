@@ -233,10 +233,11 @@
 		<spawn X='17577' Y='170128' Z='-3534'/>
 		<spawn X='19737' Y='170976' Z='-3583'/>
 	</zone>
-	<zone id='11037' type='Town' shape='Cuboid' minZ='-3500' maxZ='-3400'>
+<zone id='11037' type='Town' shape='Cuboid' minZ='-3500' maxZ='-3400'>
 		<stat name='name' val='Primeval Isle'/>
 		<stat name='townId' val='19'/>
 		<stat name='taxById' val='8'/>
+		<stat name='noPeace' val='true'/>
 		<spawn X='10468' Y='-24569' Z='-3645'/>
 		<spawn X='10928' Y='-24641' Z='-3643'/>
 		<spawn X='8480' Y='-23706' Z='-3727'/>
