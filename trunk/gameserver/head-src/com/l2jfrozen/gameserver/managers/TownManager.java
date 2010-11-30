@@ -157,8 +157,7 @@ public class TownManager
 			if(temp.getTownId() == townId)
 				return temp;
 
-		//if no other town, spawn is Giran
-		return getTown(11);
+		return null;
 	}
 
 	/**
@@ -175,7 +174,6 @@ public class TownManager
 			if(temp.isInsideZone(x, y, z))
 				return temp;
 		
-		//if no other town, spawn is Giran
-		return getTown(11);
+		return null;
 	}
 }
