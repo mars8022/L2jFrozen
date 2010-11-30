@@ -6946,7 +6946,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * <BR>
 	 * <B><U> Values </U> :</B><BR>
 	 * <BR>
-	 * <li>0 : STORE_PRIVATE_NONE</li> <li>1 : STORE_PRIVATE_SELL</li> <li>2 : sellmanage</li><BR>
+	 * <li>0 : STORE_PRIVATE_NONE</li> 
+	 * <li>1 : STORE_PRIVATE_SELL</li> 
+	 * <li>2 : sellmanage</li><BR>
 	 * <li>3 : STORE_PRIVATE_BUY</li><BR>
 	 * <li>4 : buymanage</li><BR>
 	 * <li>5 : STORE_PRIVATE_MANUFACTURE</li><BR>
