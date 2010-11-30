@@ -188,8 +188,10 @@ public class OfflineTradeTable
 					Calendar cal = Calendar.getInstance();
 					cal.setTimeInMillis(time);
 					cal.roll(Calendar.DAY_OF_YEAR, Config.OFFLINE_MAX_DAYS);
-					if (cal.getTimeInMillis() <= System.currentTimeMillis())
+					if (cal.getTimeInMillis() <= System.currentTimeMillis()){
+						_log.info("Offline trader with id "+rs.getInt("charId")+" finished time to sell his items");
 						continue;
+					}
 				}
 
 				int type = rs.getInt("type");
@@ -241,6 +243,8 @@ public class OfflineTradeTable
 							player.setCreateList(createList);
 							player.getCreateList().setStoreName(rs.getString("title"));
 							break;
+						default:
+							_log.info("Offline trader "+player.getName()+" finished to sell his items");
 					}
 					items.close();
 					stm_items.close();
