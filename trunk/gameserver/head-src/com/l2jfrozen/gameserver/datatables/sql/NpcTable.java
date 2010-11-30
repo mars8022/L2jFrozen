@@ -453,13 +453,15 @@ public class NpcTable
 			//Level: for special bosses could be different
 			int level = 0;
 			float diff = 0; //difference between setted value and retail one
+			boolean minion = true;
 			
 			switch(id){
-				case 29001:
-				case 29002:
+				case 29001://queenAnt
+					minion = false;
+				case 29002: // and minions
 				case 29003:
 				case 29004:
-				case 29005:{ //queenAnt and minions
+				case 29005:{
 					
 					if(Config.QA_LEVEL>0){
 						diff = Config.QA_LEVEL - NpcData.getInt("level");
@@ -480,11 +482,12 @@ public class NpcTable
 					
 				}
 				break;
-				case 29014:
-				case 29015:
+				case 29014://orfen 
+					minion = false;
+				case 29015: //and minions
 				case 29016:
 				case 29017:
-				case 29018:{ //orfen and minions
+				case 29018:{
 					
 					if(Config.ORFEN_LEVEL>0){
 						diff = Config.ORFEN_LEVEL - NpcData.getInt("level");
@@ -494,10 +497,11 @@ public class NpcTable
 					
 				}
 				break;
-				case 29006:
-				case 29007:
+				case 29006: //core
+					minion = false;
+				case 29007: //and minions
 				case 29008:
-				case 290011:{ //core and minions
+				case 290011:{
 					
 					if(Config.CORE_LEVEL>0){
 						diff = Config.CORE_LEVEL - NpcData.getInt("level");
@@ -532,11 +536,20 @@ public class NpcTable
 			
 			if(diff>0){ //means that there is level customization
 				
-				double multi_value = (((diff/10)*(Config.LEVEL_DIFF_MULTIPLIER)));  //allow to increase the power of a value
-																  //that for example, at 40 diff levels is
-																  //equal to
-																  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
+				double multi_value = 0;
 				
+				if(minion){
+					multi_value = (((diff/10)*(Config.LEVEL_DIFF_MULTIPLIER_MINION)));  //allow to increase the power of a value
+					  //that for example, at 40 diff levels is
+					  //equal to
+					  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
+				}else{
+					multi_value = (((diff/10)*(Config.LEVEL_DIFF_MULTIPLIER)));  //allow to increase the power of a value
+					  //that for example, at 40 diff levels is
+					  //equal to
+					  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
+				}
+					
 				npcDat.set("rewardExp", (int) NpcData.getInt("exp")*multi_value );
 				npcDat.set("rewardSp", (int) NpcData.getInt("sp")*multi_value);
 				npcDat.set("basePAtkSpd", (int) NpcData.getInt("atkspd")*multi_value);

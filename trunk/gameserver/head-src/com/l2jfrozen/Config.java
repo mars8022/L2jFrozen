@@ -3155,6 +3155,7 @@ public final class Config
 	}
 
 	//============================================================
+	public static boolean ALLOW_DIRECT_TP_TO_BOSS_ROOM;
 	public static boolean ENABLE_ANTHARAS_SCRIPT;
 	public static int ANTHARAS_CLOSE;
 	public static int ANTHARAS_SLEEP;
@@ -3182,6 +3183,7 @@ public final class Config
 	public static int QA_RING_CHANCE;
 	
 	public static float LEVEL_DIFF_MULTIPLIER;
+	public static float LEVEL_DIFF_MULTIPLIER_MINION;
 	
 	public static int HPH_FIXINTERVALOFHALTER;
 	public static int HPH_RANDOMINTERVALOFHALTER;
@@ -3224,6 +3226,7 @@ public final class Config
 			bossSettings.load(is);
 			is.close();
 			//============================================================
+			ALLOW_DIRECT_TP_TO_BOSS_ROOM = Boolean.valueOf(bossSettings.getProperty("AllowDirectTeleportToBossRoom", "False"));
 			//Antharas
 			ENABLE_ANTHARAS_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableAntharasScript", "False"));
 			ANTHARAS_CLOSE = Integer.parseInt(bossSettings.getProperty("AntharasClose", "1200"));
@@ -3274,6 +3277,7 @@ public final class Config
 			//============================================================
 			
 			LEVEL_DIFF_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplier", "0.8"));
+			LEVEL_DIFF_MULTIPLIER_MINION = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplierMinion", "0.5"));
 			
 			RAID_INFO_IDS = bossSettings.getProperty("RaidInfoIDs", "");
 			RAID_INFO_IDS_LIST = new FastList<Integer>();

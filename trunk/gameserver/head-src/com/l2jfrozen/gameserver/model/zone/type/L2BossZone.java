@@ -16,6 +16,7 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -99,7 +100,7 @@ public class L2BossZone extends L2ZoneType
 				//Thread.dumpStack();
 				L2PcInstance player = (L2PcInstance) character;
 
-				if(player.isGM())
+				if(player.isGM() || Config.ALLOW_DIRECT_TP_TO_BOSS_ROOM)
 				{
 					player.sendMessage("You entered " + _zoneName);
 					return;
