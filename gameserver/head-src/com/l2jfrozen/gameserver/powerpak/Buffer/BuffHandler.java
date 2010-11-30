@@ -330,7 +330,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							skill.getEffects(buffer, player);
 							buffer.setBusy(false);
 						} else
-							skill.getEffects(player, player);
+							skill.getEffects(buffer, player);
 					}
 					try
 					{
@@ -445,20 +445,32 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				if (targettype.equalsIgnoreCase("pet"))
 					target = player.getPet();
 				
-				//else if (target != null)
-				//{
-					for (L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
-						sk.getEffects(target, target);
-					player.reduceAdena("NPC Buffer", cost, null, true);
-				//}
-				/*else
+				if (target != null)
 				{
-					player.sendMessage("Incorrect Pet");
+					for (L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
+						if(buffer!=null)
+						{
+							buffer.setBusy(true);
+							buffer.setCurrentMp(buffer.getMaxMp());
+							buffer.setTarget(target);
+							//buffer.doCast(skill);
+							sk.getEffects(buffer, target);
+							buffer.setBusy(false);
+						} else
+							sk.getEffects(buffer, target);
+					
+						//sk.getEffects(buffer, target);
+					
+					player.reduceAdena("NPC Buffer", cost, null, true);
+				
+				}else
+				{
+					player.sendMessage("Incorrect Target");
 					// go to main menu
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(PARENT_DIR + "menu.htm");
 					sendHtmlMessage(player, html);
-				}*/
+				}
 			}
 			else
 			{
