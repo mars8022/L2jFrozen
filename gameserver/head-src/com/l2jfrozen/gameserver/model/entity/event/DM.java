@@ -720,8 +720,8 @@ public class DM implements EventTask
 								party.removePartyMember(player);
 							}
 							
-							player._originalTitleDM = player.getTitle();
-							player.setTitle("Kills: " + player._countDMkills);
+							//player._originalTitleDM = player.getTitle();
+							//player.setTitle("Kills: " + player._countDMkills);
 							
 							if(_teamEvent){
 								//player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
@@ -1235,6 +1235,8 @@ public class DM implements EventTask
 			{
 				player._originalNameColorDM = player.getAppearance().getNameColor();
 				player._originalKarmaDM = player.getKarma();
+				player._originalTitleDM = player.getTitle();
+				player.setTitle("Kills: " + player._countDMkills);
 				player._inEventDM = true;
 				player._countDMkills = 0;
 				player.getAppearance().setNameColor(_playerColors);
@@ -1697,6 +1699,7 @@ public class DM implements EventTask
 				player._countDMkills = 0;
 				if(_teleport || _started)
 				{
+					player.setTitle("Kills: " + player._countDMkills);
 					player.getAppearance().setNameColor(_playerColors);
 					player.setKarma(0);
 					player.broadcastUserInfo();
