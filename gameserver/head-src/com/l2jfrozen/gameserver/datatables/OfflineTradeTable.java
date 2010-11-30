@@ -81,8 +81,8 @@ public class OfflineTradeTable
 				{
 					if ((pc.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_NONE) && (pc.isOffline()))
 					{
-						if(pc._originalNameColorOffline!=0)
-							pc.getAppearance().setNameColor(pc._originalNameColorOffline);
+						//if(pc._originalNameColorOffline!=0)
+						//	pc.getAppearance().setNameColor(pc._originalNameColorOffline);
 						
 						stm.setInt(1, pc.getObjectId()); //Char Id
 						stm.setLong(2, pc.getOfflineStartTime());
@@ -250,8 +250,10 @@ public class OfflineTradeTable
 					stm_items.close();
 
 					player.sitDown();
-					if (Config.OFFLINE_SET_NAME_COLOR)
+					if (Config.OFFLINE_SET_NAME_COLOR){
+						player._originalNameColorOffline = player.getAppearance().getNameColor();
 						player.getAppearance().setNameColor(Config.OFFLINE_NAME_COLOR);
+					}
 					player.setPrivateStoreType(type);
 					player.setOnlineStatus(true);
 					player.restoreEffects();
