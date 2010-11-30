@@ -207,7 +207,7 @@ public class Baium extends Quest implements Runnable
 			return "<html><body>Angelic Vortex:<br>You may not enter while admin disabled this zone</body></html>";
 		if(npcId == STONE_BAIUM && GrandBossManager.getInstance().getBossStatus(LIVE_BAIUM) == ASLEEP)
 		{
-			if(_Zone.isPlayerAllowed(player))
+			if(Config.ALLOW_DIRECT_TP_TO_BOSS_ROOM || _Zone.isPlayerAllowed(player))
 			{
 				// once Baium is awaken, no more people may enter until he dies, the server reboots, or 
 				// 30 minutes pass with no attacks made against Baium.
