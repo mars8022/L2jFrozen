@@ -444,20 +444,21 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				L2Character target = player;
 				if (targettype.equalsIgnoreCase("pet"))
 					target = player.getPet();
-				else if (target != null)
-				{
+				
+				//else if (target != null)
+				//{
 					for (L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
 						sk.getEffects(target, target);
 					player.reduceAdena("NPC Buffer", cost, null, true);
-				}
-				else
+				//}
+				/*else
 				{
 					player.sendMessage("Incorrect Pet");
 					// go to main menu
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(PARENT_DIR + "menu.htm");
 					sendHtmlMessage(player, html);
-				}
+				}*/
 			}
 			else
 			{
