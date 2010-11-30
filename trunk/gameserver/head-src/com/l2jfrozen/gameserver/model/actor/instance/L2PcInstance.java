@@ -6959,11 +6959,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
 		{
-			if(this._originalNameColorOffline!=0)
+			/*if(this._originalNameColorOffline!=0)
 				getAppearance().setNameColor(this._originalNameColorOffline);
 			else
 				getAppearance().setNameColor(_accessLevel.getNameColor());
-			
+			*/
 			this.store();
 			if (Config.OFFLINE_DISCONNECT_FINISHED) {
 				this.deleteMe();
@@ -8364,7 +8364,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			/////
 			statement.setInt(57, getPcBangScore());
 			statement.setLong(58, getChatBanTimer());
-			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
+
+			//TODO allow different colors support to players store
+			//statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
+			statement.setString(59, StringToHex(Integer.toHexString(_accessLevel.getNameColor()).toUpperCase()));
 			statement.setString(60, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
 
 			statement.setInt(61, getObjectId());
