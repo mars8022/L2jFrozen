@@ -57,6 +57,7 @@ public class FService
 	public static final String PHYSICS_CONFIGURATION_FILE = "./config/functions/physics.properties";
 	public static final String PVP_CONFIG_FILE = "./config/functions/pvp.properties";
 	public static final String POWERPAK_FILE = "./config/functions/powerpak.properties";
+	public static final String CLASS_DAMAGES_FILE = "./config/functions/classDamages.properties";
 
 	//protected
 	public static final String PROTECT_FLOOD_CONFIG_FILE = "./config/protected/flood.properties";

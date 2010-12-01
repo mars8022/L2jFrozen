@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
+import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -1303,6 +1304,10 @@ public final class Formulas
 				}
 			}
 		}
+		
+		if(Config.ENABLE_CLASS_DAMAGES && attacker instanceof L2PcInstance && target instanceof L2PcInstance)
+			damage = damage*ClassDamageManager.getDamageMultiplier((L2PcInstance) attacker, (L2PcInstance) target);
+		
 		return damage < 1 ? 1. : damage;
 	}
 
@@ -1577,6 +1582,9 @@ public final class Formulas
 			damage = damage * Config.ALT_NPC_PHYSICAL_DAMAGE_MULTI;
 		}
 
+		if(Config.ENABLE_CLASS_DAMAGES && attacker instanceof L2PcInstance && target instanceof L2PcInstance)
+			damage = damage*ClassDamageManager.getDamageMultiplier((L2PcInstance) attacker, (L2PcInstance) target);
+		
 		return damage;
 	}
 
@@ -1712,6 +1720,9 @@ public final class Formulas
 			}
 		}
 
+		if(Config.ENABLE_CLASS_DAMAGES && attacker instanceof L2PcInstance && target instanceof L2PcInstance)
+			damage = damage*ClassDamageManager.getDamageMultiplier((L2PcInstance) attacker, (L2PcInstance) target);
+		
 		return damage;
 	}
 
