@@ -6065,8 +6065,12 @@ public final class L2PcInstance extends L2PlayableInstance
 		 heroConsecutiveKillCount++;
 		
 		 // If heroConsecutiveKillCount == 30 give hero aura
-		 if(heroConsecutiveKillCount == 30)
+		 if(heroConsecutiveKillCount > 29)
 	     {
+			 setHeroAura(true);
+			 
+			 if(heroConsecutiveKillCount == 30)
+			 {
 			 CreatureSay cs = new CreatureSay(0, 18, "", getName()+" became War Legend with 30 PvP!!");
 					for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 					{
@@ -6075,7 +6079,7 @@ public final class L2PcInstance extends L2PlayableInstance
 								player.sendPacket(cs);
 					
 					 }	
-		 setHeroAura(true);
+			 }
 		 
 		 }
 		 
