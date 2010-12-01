@@ -520,9 +520,6 @@ public class GameServer
 			System.out.println("Powerpack is Disabled");
 		}
 		
-		if(Config.ENABLE_CLASS_DAMAGES)
-			ClassDamageManager.loadConfig();
-
 		Util.printSection("EventManager...");
 		EventManager.getInstance().startEventRegistration();
 		
