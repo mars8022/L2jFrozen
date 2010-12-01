@@ -85,6 +85,7 @@ import com.l2jfrozen.gameserver.managers.BoatManager;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
+import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.managers.CoupleManager;
 import com.l2jfrozen.gameserver.managers.CrownManager;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
@@ -518,6 +519,9 @@ public class GameServer
 		{
 			System.out.println("Powerpack is Disabled");
 		}
+		
+		if(Config.ENABLE_CLASS_DAMAGES)
+			ClassDamageManager.loadConfig();
 
 		Util.printSection("EventManager...");
 		EventManager.getInstance().startEventRegistration();

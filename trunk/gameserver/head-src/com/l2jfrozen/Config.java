@@ -3006,6 +3006,7 @@ public final class Config
 	public static float DEBUFF_CHANCE_MODIFIER;
 	public static float BUFF_CHANCE_MODIFIER;
 	public static boolean SEND_SKILLS_CHANCE_TO_PLAYERS;
+	public static boolean ENABLE_CLASS_DAMAGES;
 	
 	//============================================================
 	public static void loadPHYSICSConfig()
@@ -3019,6 +3020,8 @@ public final class Config
 			PHYSICSSetting.load(is);
 			is.close();
 
+			ENABLE_CLASS_DAMAGES = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettings", "true"));
+			
 			BLOW_ATTACK_FRONT = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackFront", "50"));
 			BLOW_ATTACK_SIDE = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackSide", "60"));
 			BLOW_ATTACK_BEHIND = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackBehind", "70"));
