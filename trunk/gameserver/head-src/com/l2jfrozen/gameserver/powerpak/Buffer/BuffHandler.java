@@ -623,7 +623,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				L2Character target = player;
 				if (targettype.equalsIgnoreCase("pet"))
 					target = player.getPet();
-				else if (target != null)
+
+				if (target != null)
 				{
 					for (L2Skill sk : skills_to_buff)
 						sk.getEffects(target, target);
@@ -632,7 +633,6 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				else
 				{
 					player.sendMessage("Incorrect Pet");
-					
 				}
 			}
 			else
