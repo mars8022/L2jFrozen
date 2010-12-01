@@ -3380,11 +3380,19 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if(item.getCount() > 1)
 				{
-					SystemMessage sm = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1_S2);
-					sm.addItemName(item.getItemId());
-					sm.addNumber(item.getCount());
-					sendPacket(sm);
-					sm = null;
+					if(item.isStackable() && !Config.MULTIPLE_ITEM_DROP){
+						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1);
+						sm.addItemName(item.getItemId());
+						sendPacket(sm);
+						sm = null;
+					}else{
+						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1_S2);
+						sm.addItemName(item.getItemId());
+						sm.addNumber(item.getCount());
+						sendPacket(sm);
+						sm = null;
+					}
+					
 				}
 				else if(item.getEnchantLevel() > 0)
 				{
