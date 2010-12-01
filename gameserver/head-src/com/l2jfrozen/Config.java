@@ -38,6 +38,7 @@ import javolution.text.TypeFormat;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
 import com.l2jfrozen.gameserver.services.FService;
 import com.l2jfrozen.gameserver.services.Instruments;
@@ -3021,6 +3022,9 @@ public final class Config
 			is.close();
 
 			ENABLE_CLASS_DAMAGES = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettings", "true"));
+			
+			if(ENABLE_CLASS_DAMAGES)
+				ClassDamageManager.loadConfig();
 			
 			BLOW_ATTACK_FRONT = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackFront", "50"));
 			BLOW_ATTACK_SIDE = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackSide", "60"));
