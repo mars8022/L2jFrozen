@@ -6064,8 +6064,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		 // Increase the kill count for a special hero aura
 		 heroConsecutiveKillCount++;
 		
-		 // If heroConsecutiveKillCount > 29 give hero aura
-		 if(heroConsecutiveKillCount > 29)
+		 // If heroConsecutiveKillCount == 30 give hero aura
+		 if(heroConsecutiveKillCount == 30)
 	     {
 			 CreatureSay cs = new CreatureSay(0, 18, "", getName()+" became War Legend with 30 PvP!!");
 					for(L2PcInstance player: L2World.getInstance().getAllPlayers())
