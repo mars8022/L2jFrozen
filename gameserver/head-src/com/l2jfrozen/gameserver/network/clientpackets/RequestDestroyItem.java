@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -64,6 +65,16 @@ public final class RequestDestroyItem extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
+		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_DROP))
+		{
+			if(Config.DEBUG)
+			{
+				_log.warning("Player " + activeChar.getName() + " has performed destroy too fast");
+			}
+			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+			return;
+		}
+		
 		if(_count <= 0)
 		{
 			if(_count < 0)
