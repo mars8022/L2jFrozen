@@ -183,7 +183,7 @@ public class ClassDamageManager
 		
 		double output = attackerMulti*attackedMulti;
 		
-		return output < 1 ? 1. : output;
+		return output;
 		
 	}
 	
