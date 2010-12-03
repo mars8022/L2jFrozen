@@ -549,10 +549,12 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	public void onForcedDisconnection()
 	{
 		_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
+		_log.log(Level.WARNING, "Character disconnected at Loc X:"+getActiveChar().getX()+" Y:"+getActiveChar().getY()+" Z:"+getActiveChar().getZ());
 		L2PcInstance player = getActiveChar();
 		if(player != null) {
 			if(player.isFlying())
 				player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+			
 			
 			if(player._inEventCTF){
 				CTF.onDisconnect(player);

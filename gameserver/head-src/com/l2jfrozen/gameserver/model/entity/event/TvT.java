@@ -823,9 +823,35 @@ public class TvT implements EventTask
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topTeam + "'s win the match! " + _topKills + " kills.");
 				rewardTeam(_topTeam, bestKiller, looser);
 				
+				if(Config.TVT_STATS_LOGGER)
+				{
+					_log.info("**** "+_eventName+" ****");
+					_log.info(_eventName + " Team Statistics:");
+					for(String team : _teams)
+					{
+						int _kills = teamKillsCount(team);
+						_log.info("Team: " + team + " - Kills: " + _kills);
+					}
+
+					if(bestKiller != null)
+					{
+						_log.info("Top killer: " + bestKiller.getName() + " - Kills: " + bestKiller._countTvTkills);
+					}
+					if((looser != null) && (!looser.equals(bestKiller)))
+					{
+						_log.info("Top looser: " + looser.getName() + " - Dies: " + looser._countTvTdies);
+					}
+					
+					_log.info(_eventName + ": " + _topTeam + "'s win the match! " + _topKills + " kills.");
+					
+				}
+				
 			}else{
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team wins the match(nobody killed).");
+				
+				if(Config.TVT_STATS_LOGGER)
+					_log.info(_eventName + ": No team wins the match(nobody killed).");
 				
 			}
 			

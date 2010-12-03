@@ -872,9 +872,28 @@ public class CTF implements EventTask
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
 				rewardTeam(_topTeam);
+				
+				if(Config.CTF_STATS_LOGGER){
+					
+					_log.info("**** "+_eventName+" ****");
+					_log.info(_eventName + " Team Statistics:");
+					for(String team : _teams)
+					{
+						int _flags_ = teamPointsCount(team);
+						_log.info("Team: " + team + " - Flags taken: " + _flags_);
+					}
+					
+					_log.info(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
+					
+				}
+				
+				
 			}else{
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team win the match(nobody killed).");
+				
+				if(Config.CTF_STATS_LOGGER)
+					_log.info(_eventName + ": No team win the match(nobody took flags).");
 				
 			}
 			
