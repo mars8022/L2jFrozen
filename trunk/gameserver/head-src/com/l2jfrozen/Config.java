@@ -1418,7 +1418,8 @@ public final class Config
 	public static int TVT_TOP_KILLER_REWARD;
 	public static int TVT_TOP_KILLER_QTY;
 	public static boolean TVT_AURA;
-
+	public static boolean TVT_STATS_LOGGER;
+	
 	//============================================================
 	public static void loadTVTConfig()
 	{
@@ -1453,6 +1454,7 @@ public final class Config
 			TVT_TOP_KILLER_REWARD = Integer.parseInt(TVTSettings.getProperty("TvTTopKillerRewardId", "5575"));
 			TVT_TOP_KILLER_QTY = Integer.parseInt(TVTSettings.getProperty("TvTTopKillerRewardQty", "2000000"));
 			TVT_AURA = Boolean.parseBoolean(TVTSettings.getProperty("TvTAura", "False"));
+			TVT_STATS_LOGGER = Boolean.parseBoolean(TVTSettings.getProperty("TvTStatsLogger", "true"));
 		}
 		catch(Exception e)
 		{
@@ -1882,6 +1884,7 @@ public final class Config
 	public static boolean DM_ANNOUNCE_REWARD;
 	public static boolean DM_REVIVE_RECOVERY;
 	public static int DM_SPAWN_OFFSET;
+	public static boolean DM_STATS_LOGGER;
 	
 	//============================================================
 	public static void loadDMConfig()
@@ -1917,6 +1920,7 @@ public final class Config
 			DM_ANNOUNCE_REWARD = Boolean.parseBoolean(DMSettings.getProperty("DMAnnounceReward", "False"));
 			DM_SPAWN_OFFSET = Integer.parseInt(DMSettings.getProperty("DMSpawnOffset", "100"));
 			
+			DM_STATS_LOGGER = Boolean.parseBoolean(DMSettings.getProperty("DMStatsLogger", "true"));
 		}
 		catch(Exception e)
 		{
@@ -1938,7 +1942,8 @@ public final class Config
 	public static boolean CTF_REVIVE_RECOVERY;
 	public static boolean CTF_COMMAND;
 	public static boolean CTF_AURA;
-
+	public static boolean CTF_STATS_LOGGER;
+	
 	//============================================================
 	public static void loadCTFConfig()
 	{
@@ -1964,6 +1969,7 @@ public final class Config
 			CTF_COMMAND = Boolean.parseBoolean(CTFSettings.getProperty("CTFCommand", "True"));
 			CTF_AURA = Boolean.parseBoolean(CTFSettings.getProperty("CTFAura", "True"));
 
+			CTF_STATS_LOGGER = Boolean.parseBoolean(CTFSettings.getProperty("CTFStatsLogger", "true"));
 		}
 		catch(Exception e)
 		{
@@ -3008,6 +3014,7 @@ public final class Config
 	public static float BUFF_CHANCE_MODIFIER;
 	public static boolean SEND_SKILLS_CHANCE_TO_PLAYERS;
 	public static boolean ENABLE_CLASS_DAMAGES;
+	public static boolean ENABLE_CLASS_DAMAGES_LOGGER;
 	
 	//============================================================
 	public static void loadPHYSICSConfig()
@@ -3022,7 +3029,7 @@ public final class Config
 			is.close();
 
 			ENABLE_CLASS_DAMAGES = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettings", "true"));
-			
+			ENABLE_CLASS_DAMAGES_LOGGER = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesLogger", "true"));
 			if(ENABLE_CLASS_DAMAGES)
 				ClassDamageManager.loadConfig();
 			

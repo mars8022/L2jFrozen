@@ -827,10 +827,18 @@ public class DM implements EventTask
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
 				rewardPlayer();
+				
+				if(Config.DM_STATS_LOGGER){
+					_log.info("**** "+_eventName+" ****");
+					_log.info(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+				}
+				
 			}else{
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No players win the match(nobody killed).");
-			
+				if(Config.DM_STATS_LOGGER)
+					_log.info(_eventName + ": No players win the match(nobody killed).");
+				
 			}
 			
 		}

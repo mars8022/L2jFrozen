@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.services.FService;
@@ -182,6 +183,14 @@ public class ClassDamageManager
 			attackerMulti = getClassDamageByFighter(attacked.getClassId().getId());
 		
 		double output = attackerMulti*attackedMulti;
+		
+		if(Config.ENABLE_CLASS_DAMAGES_LOGGER){
+			_log.info("ClassDamageManager -");
+			_log.info("ClassDamageManager - Attacker: "+attacker.getName()+" Class: "+getNameById(attacker.getClassId().getId())+" isMage: "+attacker.isMageClass()+" mult: "+attackerMulti);
+			_log.info("ClassDamageManager - Attacked: "+attacked.getName()+" Class: "+getNameById(attacked.getClassId().getId())+" isMage: "+attacked.isMageClass()+" mult: "+attackedMulti);
+			_log.info("ClassDamageManager - FinalMultiplier: "+output);
+			_log.info("ClassDamageManager -");
+		}
 		
 		return output;
 		
