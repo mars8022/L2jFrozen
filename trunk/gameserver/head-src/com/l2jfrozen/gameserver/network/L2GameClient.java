@@ -35,6 +35,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.managers.AwayManager;
 import com.l2jfrozen.gameserver.model.CharSelectInfoPackage;
@@ -549,7 +550,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	public void onForcedDisconnection()
 	{
 		_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
-		_log.log(Level.WARNING, "Character disconnected at Loc X:"+getActiveChar().getX()+" Y:"+getActiveChar().getY()+" Z:"+getActiveChar().getZ());
+		_log.log(Level.WARNING, "Character disconnected at Loc X:"+getActiveChar().getX()+" Y:"+getActiveChar().getY()+" Z:"+getActiveChar().getZ());_log.log(Level.WARNING, "Character disconnected at Loc X:"+getActiveChar().getX()+" Y:"+getActiveChar().getY()+" Z:"+getActiveChar().getZ());
+		_log.log(Level.WARNING, "Character disconnected in (closest) zone: "+MapRegionTable.getInstance().getClosestTownName(getActiveChar()));
 		L2PcInstance player = getActiveChar();
 		if(player != null) {
 			if(player.isFlying())
