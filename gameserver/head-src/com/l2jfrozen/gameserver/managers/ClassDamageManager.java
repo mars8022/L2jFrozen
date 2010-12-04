@@ -88,6 +88,8 @@ public class ClassDamageManager
 				}else if(type.equals("ByMage")){
 					damage_by_mage.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string, "1.0")));
 				}
+				//System.out.println("class: "+class_name+" key: "+key_string+" classid: "+class_id);
+				//System.out.println("multiplier: "+Double.parseDouble(scriptSetting.getProperty(key_string)));
 				
 			}
 			
@@ -100,6 +102,12 @@ public class ClassDamageManager
 			throw new Error("Failed to Load " + SCRIPT + " File.");
 		}
 		
+		
+		
+	}
+	
+	public static void main(String[] args){
+		ClassDamageManager.loadConfig();
 	}
 	
 	public static double getClassDamageToMage(int id){
@@ -186,8 +194,8 @@ public class ClassDamageManager
 		
 		if(Config.ENABLE_CLASS_DAMAGES_LOGGER){
 			_log.info("ClassDamageManager -");
-			_log.info("ClassDamageManager - Attacker: "+attacker.getName()+" Class: "+getNameById(attacker.getClassId().getId())+" isMage: "+attacker.isMageClass()+" mult: "+attackerMulti);
-			_log.info("ClassDamageManager - Attacked: "+attacked.getName()+" Class: "+getNameById(attacked.getClassId().getId())+" isMage: "+attacked.isMageClass()+" mult: "+attackedMulti);
+			_log.info("ClassDamageManager - Attacker: "+attacker.getName()+" Class: "+getNameById(attacker.getClassId().getId())+" ClassId: "+attacker.getClassId().getId()+" isMage: "+attacker.isMageClass()+" mult: "+attackerMulti);
+			_log.info("ClassDamageManager - Attacked: "+attacked.getName()+" Class: "+getNameById(attacked.getClassId().getId())+" ClassId: "+attacked.getClassId().getId()+" isMage: "+attacked.isMageClass()+" mult: "+attackedMulti);
 			_log.info("ClassDamageManager - FinalMultiplier: "+output);
 			_log.info("ClassDamageManager -");
 		}

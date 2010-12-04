@@ -534,51 +534,98 @@ public class NpcTable
 			npcDat.set("type", NpcData.getString("type"));
 			npcDat.set("baseAtkRange", NpcData.getInt("attackrange"));
 			
-			if(diff>0){ //means that there is level customization
-				
-				double multi_value = 0;
-				
-				if(minion){
-					multi_value = (((diff/10)*(Config.LEVEL_DIFF_MULTIPLIER_MINION)));  //allow to increase the power of a value
-					  //that for example, at 40 diff levels is
-					  //equal to
-					  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
-				}else{
-					multi_value = (((diff/10)*(Config.LEVEL_DIFF_MULTIPLIER)));  //allow to increase the power of a value
-					  //that for example, at 40 diff levels is
-					  //equal to
-					  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
-				}
-					
-				npcDat.set("rewardExp", (int) NpcData.getInt("exp")*multi_value );
-				npcDat.set("rewardSp", (int) NpcData.getInt("sp")*multi_value);
-				npcDat.set("basePAtkSpd", (int) NpcData.getInt("atkspd")*multi_value);
-				npcDat.set("baseMAtkSpd", (int) NpcData.getInt("matkspd")*multi_value);
-				npcDat.set("baseHpMax", (int) NpcData.getInt("hp")*multi_value);
-				npcDat.set("baseMpMax",(int)  NpcData.getInt("mp")*multi_value);
-				npcDat.set("baseHpReg", (int) NpcData.getFloat("hpreg")*multi_value > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
-				npcDat.set("baseMpReg",(int)  NpcData.getFloat("mpreg")*multi_value > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
-				npcDat.set("basePAtk", (int) NpcData.getInt("patk")*multi_value);
-				npcDat.set("basePDef", (int) NpcData.getInt("pdef")*multi_value);
-				npcDat.set("baseMAtk", (int) NpcData.getInt("matk")*multi_value);
-				npcDat.set("baseMDef", (int) NpcData.getInt("mdef")*multi_value);
+			//BOSS POWER CHANGES
+			double multi_value = 1;
 			
+			if(diff>=15){ //means that there is level customization
+				multi_value = multi_value*(diff/10);
+			}else if(diff>0 && diff<15){
+				multi_value = multi_value+(diff/10);
+			}
+			
+			if(minion){
+				multi_value = multi_value*Config.LEVEL_DIFF_MULTIPLIER_MINION;  //allow to increase the power of a value
+				  //that for example, at 40 diff levels is
+				  //equal to
+				  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
 			}else{
 				
-				npcDat.set("rewardExp", NpcData.getInt("exp"));
-				npcDat.set("rewardSp", NpcData.getInt("sp"));
-				npcDat.set("basePAtkSpd", NpcData.getInt("atkspd"));
-				npcDat.set("baseMAtkSpd", NpcData.getInt("matkspd"));
-				npcDat.set("baseHpMax", NpcData.getInt("hp"));
-				npcDat.set("baseMpMax", NpcData.getInt("mp"));
-				npcDat.set("baseHpReg", NpcData.getFloat("hpreg") > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
-				npcDat.set("baseMpReg", NpcData.getFloat("mpreg") > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
-				npcDat.set("basePAtk", NpcData.getInt("patk"));
-				npcDat.set("basePDef", NpcData.getInt("pdef"));
-				npcDat.set("baseMAtk", NpcData.getInt("matk"));
-				npcDat.set("baseMDef", NpcData.getInt("mdef"));
+				switch(id){
+					case 29001:{//queenAnt
+						
+						if(Config.QA_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.QA_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					case 29022:{ //zaken
+						
+						if(Config.ZAKEN_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.ZAKEN_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					case 29014:{//orfen
+						
+						if(Config.ORFEN_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.ORFEN_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					case 29006:{ //core
+						
+						if(Config.CORE_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.CORE_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					case 29019:{ //antharas
+					
+						if(Config.ANTHARAS_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.ANTHARAS_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					case 29028:{ //valakas
+						
+						if(Config.VALAKAS_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.VALAKAS_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					case 29020:{ //baium
+						
+						if(Config.BAIUM_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.BAIUM_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
+					default:{
+						level = NpcData.getInt("level");
+					}
+				}
 				
 			}
+			
+			npcDat.set("rewardExp", (int) NpcData.getInt("exp")*multi_value );
+			npcDat.set("rewardSp", (int) NpcData.getInt("sp")*multi_value);
+			npcDat.set("basePAtkSpd", (int) NpcData.getInt("atkspd")*multi_value);
+			npcDat.set("baseMAtkSpd", (int) NpcData.getInt("matkspd")*multi_value);
+			npcDat.set("baseHpMax", (int) NpcData.getInt("hp")*multi_value);
+			npcDat.set("baseMpMax",(int)  NpcData.getInt("mp")*multi_value);
+			npcDat.set("baseHpReg", (int) NpcData.getFloat("hpreg")*multi_value > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
+			npcDat.set("baseMpReg",(int)  NpcData.getFloat("mpreg")*multi_value > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
+			npcDat.set("basePAtk", (int) NpcData.getInt("patk")*multi_value);
+			npcDat.set("basePDef", (int) NpcData.getInt("pdef")*multi_value);
+			npcDat.set("baseMAtk", (int) NpcData.getInt("matk")*multi_value);
+			npcDat.set("baseMDef", (int) NpcData.getInt("mdef")*multi_value);
 			
 			npcDat.set("aggroRange", NpcData.getInt("aggro"));
 			npcDat.set("rhand", NpcData.getInt("rhand"));
