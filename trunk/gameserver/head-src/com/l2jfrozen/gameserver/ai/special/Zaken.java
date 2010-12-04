@@ -244,7 +244,7 @@ public class Zaken extends Quest implements Runnable
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
 			GrandBossManager.getInstance().setBossStatus(ZAKEN, DEAD);
 
-			long respawnTime = (long) Config.ZAKEN_RESP_FIRST + Rnd.get(Config.ZAKEN_RESP_SECOND) * 3600000;
+			long respawnTime = (long) (Config.ZAKEN_RESP_FIRST + Rnd.get(Config.ZAKEN_RESP_SECOND)) * 3600000;
 			
 			cancelQuestTimer("ZAKEN_TP_CHAR", npc, null);
 			startQuestTimer("ZAKEN_SPAWN", respawnTime, null, null);

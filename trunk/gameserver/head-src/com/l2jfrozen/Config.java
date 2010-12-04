@@ -3014,6 +3014,7 @@ public final class Config
 	public static float BUFF_CHANCE_MODIFIER;
 	public static boolean SEND_SKILLS_CHANCE_TO_PLAYERS;
 	public static boolean ENABLE_CLASS_DAMAGES;
+	public static boolean ENABLE_CLASS_DAMAGES_IN_OLY;
 	public static boolean ENABLE_CLASS_DAMAGES_LOGGER;
 	
 	//============================================================
@@ -3029,6 +3030,7 @@ public final class Config
 			is.close();
 
 			ENABLE_CLASS_DAMAGES = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettings", "true"));
+			ENABLE_CLASS_DAMAGES = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettingsInOly", "true"));
 			ENABLE_CLASS_DAMAGES_LOGGER = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesLogger", "true"));
 			if(ENABLE_CLASS_DAMAGES)
 				ClassDamageManager.loadConfig();
@@ -3175,10 +3177,12 @@ public final class Config
 	public static int ANTHARAS_SLEEP;
 	public static int ANTHARAS_RESP_FIRST;
 	public static int ANTHARAS_RESP_SECOND;
+	public static float ANTHARAS_POWER_MULTIPLIER;
+	
 	public static int BAIUM_SLEEP;
 	public static int BAIUM_RESP_FIRST;
 	public static int BAIUM_RESP_SECOND;
-	
+	public static float BAIUM_POWER_MULTIPLIER;
 	public static boolean ENABLE_BAIUM_SCRIPT;
 	
 	public static boolean ENABLE_CORE_SCRIPT;
@@ -3187,6 +3191,7 @@ public final class Config
 	public static int CORE_RESP_SECOND;
 	public static int CORE_LEVEL;
 	public static int CORE_RING_CHANCE;
+	public static float CORE_POWER_MULTIPLIER;
 	
 	public static boolean ENABLE_QA_SCRIPT;
 	public static int QA_RESP_NURSE;
@@ -3195,8 +3200,8 @@ public final class Config
 	public static int QA_RESP_SECOND;
 	public static int QA_LEVEL;
 	public static int QA_RING_CHANCE;
+	public static float QA_POWER_MULTIPLIER;
 	
-	public static float LEVEL_DIFF_MULTIPLIER;
 	public static float LEVEL_DIFF_MULTIPLIER_MINION;
 	
 	public static int HPH_FIXINTERVALOFHALTER;
@@ -3214,15 +3219,18 @@ public final class Config
 	public static int ZAKEN_RESP_SECOND;
 	public static int ZAKEN_LEVEL;
 	public static int ZAKEN_EARRING_CHANCE;
+	public static float ZAKEN_POWER_MULTIPLIER;
 	
 	public static boolean ENABLE_ORFEN_SCRIPT;
 	public static int ORFEN_RESP_FIRST;
 	public static int ORFEN_RESP_SECOND;
 	public static int ORFEN_LEVEL;
 	public static int ORFEN_EARRING_CHANCE;
+	public static float ORFEN_POWER_MULTIPLIER;
 	
 	public static int VALAKAS_RESP_FIRST;
 	public static int VALAKAS_RESP_SECOND;
+	public static float VALAKAS_POWER_MULTIPLIER;
 	
 	public static String RAID_INFO_IDS;
 	public static FastList<Integer> RAID_INFO_IDS_LIST = new FastList<Integer>();
@@ -3247,12 +3255,14 @@ public final class Config
 			ANTHARAS_SLEEP = Integer.parseInt(bossSettings.getProperty("AntharasSleep", "900"));
 			ANTHARAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("AntharasRespFirst", "192"));
 			ANTHARAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("AntharasRespSecond", "145"));
+			ANTHARAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("AntharasPowerMultiplier", "1.0"));
 			//============================================================
 			//Baium
 			ENABLE_BAIUM_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableBaiumScript", "False"));
 			BAIUM_SLEEP = Integer.parseInt(bossSettings.getProperty("BaiumSleep", "1800"));
 			BAIUM_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("BaiumRespFirst", "121"));
 			BAIUM_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("BaiumRespSecond", "8"));
+			BAIUM_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("BaiumPowerMultiplier", "1.0"));
 			//============================================================
 			//Core
 			ENABLE_CORE_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableCoreScript", "False"));
@@ -3261,6 +3271,7 @@ public final class Config
 			CORE_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("CoreRespSecond", "42"));
 			CORE_LEVEL = Integer.parseInt(bossSettings.getProperty("CoreLevel", "0"));
 			CORE_RING_CHANCE = Integer.parseInt(bossSettings.getProperty("CoreRingChance", "0"));
+			CORE_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("CorePowerMultiplier", "1.0"));
 			//============================================================
 			//Queen Ant
 			ENABLE_QA_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableQAScript", "False"));
@@ -3270,6 +3281,7 @@ public final class Config
 			QA_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("QueenAntRespSecond", "35"));
 			QA_LEVEL = Integer.parseInt(bossSettings.getProperty("QALevel", "0"));
 			QA_RING_CHANCE = Integer.parseInt(bossSettings.getProperty("QARingChance", "0"));
+			QA_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("QueenAntPowerMultiplier", "1.0"));
 			//============================================================
 			//ZAKEN
 			ENABLE_ZAKEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableZakenScript", "False"));
@@ -3277,6 +3289,7 @@ public final class Config
 			ZAKEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ZakenRespSecond", "8"));
 			ZAKEN_LEVEL = Integer.parseInt(bossSettings.getProperty("ZakenLevel", "0"));
 			ZAKEN_EARRING_CHANCE = Integer.parseInt(bossSettings.getProperty("ZakenEarringChance", "0"));
+			ZAKEN_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ZakenPowerMultiplier", "1.0"));
 			//============================================================
 			//ORFEN
 			ENABLE_ORFEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableOrfenScript", "False"));
@@ -3284,13 +3297,14 @@ public final class Config
 			ORFEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("OrfenRespSecond", "8"));
 			ORFEN_LEVEL = Integer.parseInt(bossSettings.getProperty("OrfenLevel", "0"));
 			ORFEN_EARRING_CHANCE = Integer.parseInt(bossSettings.getProperty("OrfenEarringChance", "0"));
+			ORFEN_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("OrfenPowerMultiplier", "1.0"));
 			//============================================================
 			//VALAKAS
 			VALAKAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ValakasRespFirst", "192"));
 			VALAKAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ValakasRespSecond", "44"));
+			VALAKAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ValakasPowerMultiplier", "1.0"));
 			//============================================================
 			
-			LEVEL_DIFF_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplier", "0.8"));
 			LEVEL_DIFF_MULTIPLIER_MINION = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplierMinion", "0.5"));
 			
 			RAID_INFO_IDS = bossSettings.getProperty("RaidInfoIDs", "");
