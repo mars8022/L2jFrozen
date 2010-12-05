@@ -695,6 +695,9 @@ public class CTF implements EventTask
 			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
 			{
 				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+				if(Config.CTF_STATS_LOGGER)
+					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+				
 				return false;
 			}
 			
@@ -703,6 +706,8 @@ public class CTF implements EventTask
 			if(!checkMinPlayers(_players.size()))
 			{
 				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				if(Config.CTF_STATS_LOGGER)
+					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
 				return false;
 			}
 			

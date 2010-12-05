@@ -658,6 +658,9 @@ public class TvT implements EventTask
 		else if(Config.TVT_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
 		{
 			Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+			if(Config.CTF_STATS_LOGGER)
+				_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+			
 			return false;
 		}
 

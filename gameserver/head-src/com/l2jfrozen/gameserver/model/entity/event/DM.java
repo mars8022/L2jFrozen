@@ -665,6 +665,9 @@ public class DM implements EventTask
 				if(!checkMinPlayers(_players.size()))
 				{
 					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+					if(Config.DM_STATS_LOGGER)
+						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+					
 					return false;
 				}
 			}
@@ -1665,6 +1668,45 @@ public class DM implements EventTask
 
 	public static void cleanDM()
 	{
+		for(L2PcInstance player : _players)
+		{
+			if(player != null)
+			{
+				
+				cleanEventPlayer(player);
+				
+				removePlayer(player);
+				if(_savePlayers.contains(player.getName()))
+					_savePlayers.remove(player.getName());
+				player._inEventDM = false;
+			}
+		}
+		
+		_topKills = 0;
+		_players = new Vector<L2PcInstance>();
+		_savePlayers = new Vector<String>();
+		_topPlayer = null;
+		
+		cleanLocalEventInfo();
+		
+		_inProgress = false;
+		
+		loadData();
+	}
+	
+	private static void cleanLocalEventInfo(){
+		
+		//nothing
+	}
+
+	private static void cleanEventPlayer(L2PcInstance player){
+		
+		//nothing
+		
+	}
+	/*
+	public static void cleanDM()
+	{
 		synchronized (_players){
 			for(L2PcInstance player : _players)
 			{
@@ -1683,6 +1725,7 @@ public class DM implements EventTask
 		}
 		
 	}
+	*/
 	
 	public static synchronized void addDisconnectedPlayer(L2PcInstance player)
 	{
