@@ -113,6 +113,10 @@ public class RaidBossSpawnManager
 					spawnDat.setRespawnMaxDelay(rset.getInt("respawn_max_delay"));
 					respawnTime = rset.getLong("respawn_time");
 
+					StatsSet info = new StatsSet();
+					info.set("respawnTime", respawnTime);
+					_storedInfo.put(rset.getInt("boss_id"), info);
+					
 					addNewSpawn(spawnDat, respawnTime, rset.getDouble("currentHP"), rset.getDouble("currentMP"), false);
 
 					spawnDat = null;

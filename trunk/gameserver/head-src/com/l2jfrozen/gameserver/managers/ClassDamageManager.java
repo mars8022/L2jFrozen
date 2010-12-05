@@ -80,13 +80,13 @@ public class ClassDamageManager
 				name_to_id.put(class_name, class_id);
 				
 				if(type.equals("ToFighter")){
-					damage_to_fighter.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string, "1.0")));
+					damage_to_fighter.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string)));
 				}else if(type.equals("ToMage")){
-					damage_to_mage.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string, "1.0")));
+					damage_to_mage.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string)));
 				}else if(type.equals("ByFighter")){
-					damage_by_fighter.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string, "1.0")));
+					damage_by_fighter.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string)));
 				}else if(type.equals("ByMage")){
-					damage_by_mage.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string, "1.0")));
+					damage_by_mage.put(class_id, Double.parseDouble(scriptSetting.getProperty(key_string)));
 				}
 				//System.out.println("class: "+class_name+" key: "+key_string+" classid: "+class_id);
 				//System.out.println("multiplier: "+Double.parseDouble(scriptSetting.getProperty(key_string)));
@@ -95,6 +95,13 @@ public class ClassDamageManager
 			
 			_log.info("Loaded "+id_to_name.size()+" classes Damages configurations");
 			
+			/*int class_id = 114;
+			System.out.println("class: "+id_to_name.get(class_id)+" classid: "+class_id);
+			System.out.println("multiplier to fighter: "+damage_to_fighter.get(class_id));
+			System.out.println("multiplier to mage: "+damage_to_mage.get(class_id));
+			System.out.println("multiplier by fighter: "+damage_by_fighter.get(class_id));
+			System.out.println("multiplier by mage: "+damage_by_mage.get(class_id));
+			*/
 		}
 		catch(Exception e)
 		{
@@ -188,7 +195,7 @@ public class ClassDamageManager
 		if(attacker.isMageClass())
 			attackedMulti = getClassDamageByMage(attacked.getClassId().getId());
 		else
-			attackerMulti = getClassDamageByFighter(attacked.getClassId().getId());
+			attackedMulti = getClassDamageByFighter(attacked.getClassId().getId());
 		
 		double output = attackerMulti*attackedMulti;
 		
