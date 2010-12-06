@@ -1617,7 +1617,7 @@ public abstract class L2Character extends L2Object
 		// Calculate altered Cast Speed due to BSpS/SpS
 		L2ItemInstance weaponInst = getActiveWeaponInstance();
 
-		if(weaponInst != null && skill.isMagic() && !forceBuff && skill.getTargetType() != SkillTargetType.TARGET_SELF && !skill.isStaticHitTime())
+		if(weaponInst != null && skill.isMagic() && !forceBuff && skill.getTargetType() != SkillTargetType.TARGET_SELF && !skill.isStaticHitTime() && !skill.isPotion())
 		{
 			if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT || weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
 			{
@@ -1745,8 +1745,8 @@ public abstract class L2Character extends L2Object
 				sg = null;
 			}
 
-			// Disable all skills during the casting (not for mppotions)
-			if(skill.getId()!=2005)
+			// Disable all skills during the casting
+			if(!skill.isPotion())
 				disableAllSkills();
 
 			if(_skillCast != null)
@@ -1981,7 +1981,7 @@ public abstract class L2Character extends L2Object
 			return;
 
 		// Check if the L2Character can cast
-		if(isAllSkillsDisabled())
+		if(!skill.isPotion() && isAllSkillsDisabled())
 			// must be checked by caller
 			return;
 

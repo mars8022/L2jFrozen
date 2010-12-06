@@ -203,11 +203,11 @@ public class Potions implements IItemHandler
 			return;
 		}
 
-		if(activeChar.isAllSkillsDisabled())
+		/*if(activeChar.isAllSkillsDisabled())
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
-		}
+		}*/
 
 		if(!Config.ALLOW_POTS_IN_PVP && (activeChar.isInDuel() || activeChar.getPvpFlag() != 0))
 		{
