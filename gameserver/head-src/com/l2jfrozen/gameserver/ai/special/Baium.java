@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestTimer;
 import com.l2jfrozen.gameserver.model.quest.State;
@@ -108,6 +109,10 @@ public class Baium extends Quest implements Runnable
 				// the time has already expired while the server was offline.  Delete the saved time and
 				// immediately spawn the stone-baium.  Also the state need not be changed from ASLEEP
 				addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0);
+				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
+				}
 				GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, ASLEEP);
 			}
 		}
@@ -120,6 +125,10 @@ public class Baium extends Quest implements Runnable
 			final int hp = info.getInteger("currentHP");
 			final int mp = info.getInteger("currentMP");
 			L2GrandBossInstance baium = (L2GrandBossInstance) addSpawn(LIVE_BAIUM, loc_x, loc_y, loc_z, heading, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss " + baium.getName() + " spawned in world.");
+			}
 			GrandBossManager.getInstance().addBoss(baium);
 			final L2NpcInstance _baium = baium;
 			_baium.setCurrentHpMp(hp, mp);
@@ -130,6 +139,10 @@ public class Baium extends Quest implements Runnable
 		else
 		{
 			addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
+			}
 		}
 	}
 
@@ -140,6 +153,10 @@ public class Baium extends Quest implements Runnable
 		{
 			GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, ASLEEP);
 			addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
+			}
 		}
 		else if(event.equalsIgnoreCase("skill_range") && npc != null)
 		{

@@ -964,6 +964,17 @@ public final class Config
 	
 	public static int ACTIVE_AUGMENTS_START_REUSE_TIME;
 	
+	public static boolean NPC_ATTACKABLE;
+	public static List<Integer> INVUL_NPC_LIST;
+	/** Config for activeChar Attack Npcs in the list */
+	public static boolean DISABLE_ATTACK_NPC_TYPE;
+	/**
+	 * Allows or dis-allows the option for NPC types that won't allow casting
+	 */
+	public static String ALLOWED_NPC_TYPES;
+	/** List of NPC types that won't allow casting */
+	public static FastList<String> LIST_ALLOWED_NPC_TYPES = new FastList<String>();
+	
 	//============================================================
 	public static void loadAltConfig()
 	{
@@ -1084,6 +1095,28 @@ public final class Config
 			/** augmentation start reuse time **/
 			ACTIVE_AUGMENTS_START_REUSE_TIME = Integer.parseInt(altSettings.getProperty("AugmStartReuseTime", "0"));
 			
+			INVUL_NPC_LIST = new FastList<Integer>();
+			String t = altSettings.getProperty("InvulNpcList", "30001-32132,35092-35103,35142-35146,35176-35187,35218-35232,35261-35278,35308-35319,35352-35367,35382-35407,35417-35427,35433-35469,35497-35513,35544-35587,35600-35617,35623-35628,35638-35640,35644,35645,50007,70010,99999");
+			String as[];
+			int k = (as = t.split(",")).length;
+			for (int j = 0; j < k; j++)
+			{
+				String t2 = as[j];
+				if (t2.contains("-"))
+				{
+					int a1 = Integer.parseInt(t2.split("-")[0]);
+					int a2 = Integer.parseInt(t2.split("-")[1]);
+					for (int i = a1; i <= a2; i++)
+						INVUL_NPC_LIST.add(Integer.valueOf(i));
+				} else
+					INVUL_NPC_LIST.add(Integer.valueOf(Integer.parseInt(t2)));
+			}
+			DISABLE_ATTACK_NPC_TYPE = Boolean.parseBoolean(altSettings.getProperty("DisableAttackToNpcs", "False"));
+			ALLOWED_NPC_TYPES = altSettings.getProperty("AllowedNPCTypes");
+			LIST_ALLOWED_NPC_TYPES = new FastList<String>();
+			for (String npc_type : ALLOWED_NPC_TYPES.split(","))
+				LIST_ALLOWED_NPC_TYPES.add(npc_type);
+			NPC_ATTACKABLE = Boolean.parseBoolean(altSettings.getProperty("NpcAttackable", "False"));
 		}
 		catch(Exception e)
 		{

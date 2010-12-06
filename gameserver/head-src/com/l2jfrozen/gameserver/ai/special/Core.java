@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
@@ -91,6 +92,10 @@ public class Core extends Quest implements Runnable
 			{
 				// the time has already expired while the server was offline. Immediately spawn Core.
 				L2GrandBossInstance core = (L2GrandBossInstance) addSpawn(CORE, 17726, 108915, -6480, 0, false, 0);
+				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + core.getName() + " spawned in world.");
+				}
 				GrandBossManager.getInstance().setBossStatus(CORE, ALIVE);
 				spawnBoss(core);
 			}
@@ -111,6 +116,10 @@ public class Core extends Quest implements Runnable
 			L2GrandBossInstance core = (L2GrandBossInstance) addSpawn(CORE,loc_x,loc_y,loc_z,heading,false,0);
 			core.setCurrentHpMp(hp,mp);*/
 			L2GrandBossInstance core = (L2GrandBossInstance) addSpawn(CORE, 17726, 108915, -6480, 0, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss " + core.getName() + " spawned in world.");
+			}
 			spawnBoss(core);
 		}
 	}
@@ -128,6 +137,10 @@ public class Core extends Quest implements Runnable
 		if(event.equalsIgnoreCase("core_unlock"))
 		{
 			L2GrandBossInstance core = (L2GrandBossInstance) addSpawn(CORE, 17726, 108915, -6480, 0, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss " + core.getName() + " spawned in world.");
+			}
 			GrandBossManager.getInstance().setBossStatus(CORE, ALIVE);
 			spawnBoss(core);
 		}
