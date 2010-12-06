@@ -859,6 +859,20 @@ public abstract class L2Character extends L2Object
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			
+			if (target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
+			{
+				String mobtype = ((L2NpcInstance) target).getTemplate().type;
+				if (!Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
+				{
+					SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+					sm.addString("Npc Protection No Attack Allowed!");
+					((L2PcInstance) this).sendPacket(sm);
+					((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+			}
+			
 		}
 
 		// Get the active weapon instance (always equiped in the right hand)
@@ -8265,6 +8279,10 @@ public abstract class L2Character extends L2Object
 
 	public void reduceCurrentHp(double i, L2Character attacker, boolean awake)
 	{
+		if (this instanceof L2NpcInstance)
+			if (Config.INVUL_NPC_LIST.contains(Integer.valueOf(((L2NpcInstance) this).getNpcId())))
+				return;
+		
 		if(Config.L2JMOD_CHAMPION_ENABLE && isChampion() && Config.L2JMOD_CHAMPION_HP != 0)
 		{
 			getStatus().reduceHp(i / Config.L2JMOD_CHAMPION_HP, attacker, awake);

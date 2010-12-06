@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
@@ -91,6 +92,10 @@ public class QueenAnt extends Quest implements Runnable
     			else
     			{
     				queen = (L2GrandBossInstance) addSpawn(QUEEN,  -21610, 181594, -5734 ,0, false, 0);
+    				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+    				{
+    					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
+    				}
     				GrandBossManager.getInstance().setBossStatus(QUEEN, LIVE);
     				GrandBossManager.getInstance().addBoss(queen);
     				spawnBoss(queen);
@@ -106,6 +111,10 @@ public class QueenAnt extends Quest implements Runnable
     			int hp = info.getInteger("currentHP");
     			int mp = info.getInteger("currentMP");
     			queen = (L2GrandBossInstance) addSpawn(QUEEN, loc_x, loc_y, loc_z, heading, false, 0);
+    			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
+				}
     			GrandBossManager.getInstance().addBoss(queen);
     			queen.setCurrentHpMp(hp, mp);
     			spawnBoss(queen);
@@ -114,6 +123,10 @@ public class QueenAnt extends Quest implements Runnable
         	default:{
         		
         		queen = (L2GrandBossInstance) addSpawn(QUEEN,  -21610, 181594, -5734 ,0, false, 0);
+        		if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
+				}
 				GrandBossManager.getInstance().setBossStatus(QUEEN, LIVE);
 				GrandBossManager.getInstance().addBoss(queen);
 				spawnBoss(queen);
@@ -154,6 +167,10 @@ public class QueenAnt extends Quest implements Runnable
 			case QUEEN_SPAWN:{
 				
 				queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734,0, false, 0);
+				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
+				}
 				GrandBossManager.getInstance().setBossStatus(QUEEN, LIVE);
 				GrandBossManager.getInstance().addBoss(queen);
 				spawnBoss(queen);

@@ -27,6 +27,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.State;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
@@ -87,6 +88,10 @@ public class Antharas extends Quest implements Runnable
 			else
 			{
 				antharas = (L2GrandBossInstance) addSpawn(ANTHARAS, 185708, 114298, -8221, 32768, false, 0);
+				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + antharas.getName() + " spawned in world.");
+				}
 				GrandBossManager.getInstance().setBossStatus(ANTHARAS, DORMANT);
 				antharas.broadcastPacket(new Earthquake(185708, 114298, -8221, 20, 10));
 				GrandBossManager.getInstance().addBoss(antharas);
@@ -101,6 +106,10 @@ public class Antharas extends Quest implements Runnable
 			int hp = info.getInteger("currentHP");
 			int mp = info.getInteger("currentMP");
 			antharas = (L2GrandBossInstance) addSpawn(ANTHARAS, loc_x, loc_y, loc_z, heading, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss " + antharas.getName() + " spawned in world.");
+			}
 			GrandBossManager.getInstance().addBoss(antharas);
 			antharas.setCurrentHpMp(hp, mp);
 			_LastAction = System.currentTimeMillis();
@@ -110,6 +119,10 @@ public class Antharas extends Quest implements Runnable
 		else
 		{
 			antharas = (L2GrandBossInstance) addSpawn(ANTHARAS, 185708, 114298, -8221, 32768, false, 0);
+			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			{
+				Announcements.getInstance().announceToAll("Raid boss " + antharas.getName() + " spawned in world.");
+			}
 			antharas.broadcastPacket(new Earthquake(185708, 114298, -8221, 20, 10));
 			GrandBossManager.getInstance().addBoss(antharas);
 			if(status == WAITING)
@@ -214,6 +227,10 @@ public class Antharas extends Quest implements Runnable
 			if(event.equalsIgnoreCase("antharas_unlock"))
 			{
 				antharas = (L2GrandBossInstance) addSpawn(ANTHARAS, 185708, 114298, -8221, 32768, false, 0);
+				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + antharas.getName() + " spawned in world.");
+				}
 				GrandBossManager.getInstance().addBoss(antharas);
 				GrandBossManager.getInstance().setBossStatus(ANTHARAS, DORMANT);
 				antharas.broadcastPacket(new Earthquake(185708, 114298, -8221, 20, 10));

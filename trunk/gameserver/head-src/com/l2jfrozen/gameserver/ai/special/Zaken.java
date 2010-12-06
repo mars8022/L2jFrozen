@@ -27,6 +27,7 @@ import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.templates.StatsSet;
@@ -72,6 +73,10 @@ public class Zaken extends Quest implements Runnable
     			{
     				deleteGlobalQuestVar("underattack");
     				zaken = (L2GrandBossInstance) addSpawn(ZAKEN, 55312, 219168, -3223,0, false, 0);
+    				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+    				{
+    					Announcements.getInstance().announceToAll("Raid boss " + zaken.getName() + " spawned in world.");
+    				}
     				GrandBossManager.getInstance().setBossStatus(ZAKEN, LIVE);
     				GrandBossManager.getInstance().addBoss(zaken);
     				startQuestTimer("ZAKEN_TP_CHAR",600000,zaken,null);
@@ -87,6 +92,10 @@ public class Zaken extends Quest implements Runnable
     			int hp = info.getInteger("currentHP");
     			int mp = info.getInteger("currentMP");
     			zaken = (L2GrandBossInstance) addSpawn(ZAKEN, loc_x, loc_y, loc_z, heading, false, 0);
+    			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + zaken.getName() + " spawned in world.");
+				}
     			GrandBossManager.getInstance().addBoss(zaken);
     			zaken.setCurrentHpMp(hp, mp);
     			startQuestTimer("ZAKEN_TP_CHAR",600000,zaken,null);
@@ -96,6 +105,10 @@ public class Zaken extends Quest implements Runnable
         		
         		deleteGlobalQuestVar("underattack");
         		zaken = (L2GrandBossInstance) addSpawn(ZAKEN, 55312, 219168, -3223,0, false, 0);
+        		if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + zaken.getName() + " spawned in world.");
+				}
         		GrandBossManager.getInstance().setBossStatus(ZAKEN, LIVE);
         		GrandBossManager.getInstance().addBoss(zaken);
         		startQuestTimer("ZAKEN_TP_CHAR",600000,zaken,null);
@@ -115,6 +128,10 @@ public class Zaken extends Quest implements Runnable
 
 				deleteGlobalQuestVar("underattack");
 				zaken = (L2GrandBossInstance) addSpawn(ZAKEN,55606,218755,-3251,30000,false,0);
+				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + zaken.getName() + " spawned in world.");
+				}
 				GrandBossManager.getInstance().setBossStatus(ZAKEN, LIVE);
 				GrandBossManager.getInstance().addBoss(zaken);
 				startQuestTimer("ZAKEN_TP_CHAR",600000,zaken,null);

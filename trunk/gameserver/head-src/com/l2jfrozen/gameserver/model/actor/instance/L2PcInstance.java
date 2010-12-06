@@ -5985,9 +5985,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	private void addItemReword(L2PcInstance targetPlayer)
 	{
-		
-		
-	    //Anti FARM Clan - Ally
+		//Anti FARM Clan - Ally
         if((getClanId() > 0 && targetPlayer.getClanId() > 0 && getClanId() == targetPlayer.getClanId()) || (getAllyId() > 0 && targetPlayer.getAllyId() > 0 && getAllyId() == targetPlayer.getAllyId()))
         {
         this.sendMessage("Farm is punishable with Ban! Don't kill your friends!");
@@ -6014,19 +6012,7 @@ public final class L2PcInstance extends L2PlayableInstance
           }        
         }
 
-        //Anti FARM same Ip 
-        String ip1 = this.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
-        String ip2 = targetPlayer.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
-
-        if (ip1.equals(ip2))
-        {
-        this.sendMessage("Farm is punishable with Ban! Don't kill your Box!");
-        _log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
-        return;
-        }
-		
-		
-		//IP check
+        //IP check
 		if(targetPlayer.getClient()!=null)
 		if(targetPlayer.getClient().getConnection().getSocketChannel().socket().getInetAddress() != getClient().getConnection().getSocketChannel().socket().getInetAddress())
 		{
@@ -6076,6 +6062,12 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 			}
 
+		}else{
+			
+			 this.sendMessage("Farm is punishable with Ban! Don't kill your Box!");
+	        _log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
+	        
+			
 		}
 	}
 

@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.templates.StatsSet;
@@ -75,6 +76,10 @@ public class Orfen extends Quest implements Runnable
     			else
     			{
     				orfen = (L2GrandBossInstance) addSpawn(ORFEN, 55024,17368,-5412,0, false, 0);
+    				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+    				{
+    					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
+    				}
     				GrandBossManager.getInstance().setBossStatus(ORFEN, LIVE);
     				GrandBossManager.getInstance().addBoss(orfen);
     			}
@@ -89,6 +94,10 @@ public class Orfen extends Quest implements Runnable
     			int hp = info.getInteger("currentHP");
     			int mp = info.getInteger("currentMP");
     			orfen = (L2GrandBossInstance) addSpawn(ORFEN, loc_x, loc_y, loc_z, heading, false, 0);
+    			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
+				}
     			GrandBossManager.getInstance().addBoss(orfen);
     			orfen.setCurrentHpMp(hp, mp);
         	}
@@ -96,6 +105,10 @@ public class Orfen extends Quest implements Runnable
         	default:{
         		
         		orfen = (L2GrandBossInstance) addSpawn(ORFEN, 55024,17368,-5412,0, false, 0);
+        		if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+				{
+					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
+				}
         		GrandBossManager.getInstance().setBossStatus(ORFEN, LIVE);
         		GrandBossManager.getInstance().addBoss(orfen);
     			
@@ -122,6 +135,10 @@ public class Orfen extends Quest implements Runnable
 				case ORFEN_SPAWN:{
 					
 					orfen = (L2GrandBossInstance) addSpawn(ORFEN, 55024,17368,-5412,0, false, 0);
+					if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+    				{
+    					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
+    				}
 					GrandBossManager.getInstance().setBossStatus(ORFEN, LIVE);
 					GrandBossManager.getInstance().addBoss(orfen);
 					
