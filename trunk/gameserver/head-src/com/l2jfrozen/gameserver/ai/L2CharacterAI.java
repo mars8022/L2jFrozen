@@ -257,7 +257,7 @@ public class L2CharacterAI extends AbstractAI
 			return;
 		}
 
-		if(_actor.isAllSkillsDisabled())
+		if(_actor.isAllSkillsDisabled() && !skill.isPotion())
 		{
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();

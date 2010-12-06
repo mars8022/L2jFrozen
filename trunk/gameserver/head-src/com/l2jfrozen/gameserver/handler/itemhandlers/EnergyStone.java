@@ -68,13 +68,13 @@ public class EnergyStone implements IItemHandler
 		if(classid == 2 || classid == 48 || classid == 88 || classid == 114)
 		{
 
-			if(activeChar.isAllSkillsDisabled())
+			/*if(activeChar.isAllSkillsDisabled())
 			{
 				ActionFailed af = ActionFailed.STATIC_PACKET;
 				activeChar.sendPacket(af);
 				af = null;
 				return;
-			}
+			}*/
 
 			if(activeChar.isSitting())
 			{
