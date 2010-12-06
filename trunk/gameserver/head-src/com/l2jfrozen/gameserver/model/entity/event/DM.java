@@ -887,7 +887,7 @@ public class DM implements EventTask
 	{
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Teleport back to participation NPC in 20 seconds!");
 
-		removeUserData();
+		//removeUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
 			public void run()
@@ -1645,7 +1645,8 @@ public class DM implements EventTask
 	{
 		if(player != null && player._inEventDM)
 		{
-			if(!_joining)
+			if(!_joining && player._originalTitleDM!=null) //added condition to check if already changed title 
+				 											//(so already called teleport function and setUserData)
 			{
 				player.getAppearance().setNameColor(player._originalNameColorDM);
 				player.setTitle(player._originalTitleDM);
@@ -1654,6 +1655,10 @@ public class DM implements EventTask
 				
 			}
 			
+			//after remove, all event data must be cleaned in player
+			player._originalNameColorDM=0;
+			player._originalTitleDM=null;
+			player._originalKarmaDM=0;
 			player._countDMkills = 0;
 			player._inEventDM = false;
 

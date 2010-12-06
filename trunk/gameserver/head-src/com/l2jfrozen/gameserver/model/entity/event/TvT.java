@@ -1727,7 +1727,8 @@ public class TvT implements EventTask
 	{
 		if(player._inEventTvT)
 		{
-			if(!_joining)
+			if(!_joining && player._originalTitleTvT!=null) //added condition to check if already changed title 
+															 //(so already called teleport function and setUserData)
 			{
 				player.getAppearance().setNameColor(player._originalNameColorTvT);
 				player.setTitle(player._originalTitleTvT);
@@ -1739,6 +1740,11 @@ public class TvT implements EventTask
 				}
 				player.broadcastUserInfo();
 			}
+			
+			//after remove, all event data must be cleaned in player
+			player._originalNameColorTvT = 0;
+			player._originalTitleTvT = null;
+			player._originalKarmaTvT=0;
 			player._teamNameTvT = new String();
 			player._countTvTkills = 0;
 			player._inEventTvT = false;
