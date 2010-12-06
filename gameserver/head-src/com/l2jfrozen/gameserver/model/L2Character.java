@@ -1459,7 +1459,7 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
-		if(isSkillDisabled(skill.getId()))
+		if(isSkillDisabled(skill.getId()) && !skill.isPotion())
 		{
 			if(this instanceof L2PcInstance)
 			{
@@ -2426,6 +2426,9 @@ public abstract class L2Character extends L2Object
 	/** Return the Title of the L2Character. */
 	public final String getTitle()
 	{
+		if(_title == null)
+			return "";
+		
 		return _title;
 	}
 
@@ -7407,10 +7410,6 @@ public abstract class L2Character extends L2Object
 	 */
 	public boolean isSkillDisabled(int skillId)
 	{
-		if(skillId==2005){
-			return false;
-		}
-		
 		if(isAllSkillsDisabled())
 			return true;
 

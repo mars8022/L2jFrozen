@@ -25,6 +25,10 @@ import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
@@ -61,25 +65,25 @@ public class Escape implements IUserCommandHandler
 			return false;
 		}
 
-		if(activeChar._inEventTvT)
+		if(activeChar._inEventTvT && TvT.is_started())
 		{
 			activeChar.sendMessage("You may not use an escape skill in TvT.");
 			return false;
 		}
 
-		if(activeChar._inEventCTF)
+		if(activeChar._inEventCTF && CTF.is_started())
 		{
 			activeChar.sendMessage("You may not use an escape skill in CTF.");
 			return false;
 		}
 
-		if(activeChar._inEventDM)
+		if(activeChar._inEventDM && DM.is_started())
 		{
 			activeChar.sendMessage("You may not use an escape skill in DM.");
 			return false;
 		}
 
-		if(activeChar._inEventVIP)
+		if(activeChar._inEventVIP && VIP._started)
 		{
 			activeChar.sendMessage("You may not use an escape skill in VIP.");
 			return false;
@@ -156,6 +160,11 @@ public class Escape implements IUserCommandHandler
 
 			try
 			{
+				if(_activeChar.getKarma()>0 && Config.ALT_KARMA_TELEPORT_TO_FLORAN){
+					_activeChar.teleToLocation(17836, 170178, -3507, true); // Floran
+					return;
+				}
+				
 				_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 			}
 			catch(Throwable e)

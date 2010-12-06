@@ -515,14 +515,14 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** TvT Engine parameters */
 	public String  _teamNameTvT, _originalTitleTvT;
-	public int _originalNameColorTvT, _countTvTkills, _countTvTdies, _originalKarmaTvT;
+	public int _originalNameColorTvT = 0, _countTvTkills, _countTvTdies, _originalKarmaTvT;
 	public boolean _inEventTvT = false;
 
 	/** CTF Engine parameters */
 	public String _teamNameCTF,
 	_teamNameHaveFlagCTF,
 	_originalTitleCTF;
-	public int _originalNameColorCTF,
+	public int _originalNameColorCTF = 0,
 	_originalKarmaCTF,
 	_countCTFflags;
 	public boolean _inEventCTF = false,
@@ -531,7 +531,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	/** DM Engine parameters */
 	public String _originalTitleDM;
-	public int _originalNameColorDM,
+	public int _originalNameColorDM = 0,
 	_countDMkills,
 	_originalKarmaDM;
 	public boolean _inEventDM = false;

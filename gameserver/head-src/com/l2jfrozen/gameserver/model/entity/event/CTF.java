@@ -1809,7 +1809,9 @@ public class CTF implements EventTask
 	{
 		if(player._inEventCTF)
 		{
-			if(!_joining)
+			if(!_joining&& player._originalTitleCTF!=null) //added condition to check if already changed title
+															//(so already called teleport function and setUserData)
+				
 			{
 				player.getAppearance().setNameColor(player._originalNameColorCTF);
 				player.setTitle(player._originalTitleCTF);
@@ -1821,9 +1823,15 @@ public class CTF implements EventTask
 				}
 				player.broadcastUserInfo();
 			}
+			
+			//after remove, all event data must be cleaned in player
+			player._originalNameColorCTF = 0;
+			player._originalTitleCTF = null;
+			player._originalKarmaCTF=0;
 			player._teamNameCTF = new String();
 			player._countCTFflags = 0;
 			player._inEventCTF = false;
+			
 			
 			if((Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE")) && _players.contains(player))
 			{
