@@ -100,6 +100,16 @@ public class PowerPakConfig
 
 	public static String L2TOPDEMON_PREFIX;
 	
+	//Vote Reward System Configs
+	public static int VOTES_FOR_REWARD;
+	
+	public static String VOTES_REWARDS;
+	public static String VOTES_SITE_URL;
+	public static FastMap<Integer, Integer> VOTES_REWARDS_LIST;
+	
+	public static int VOTES_SYSYEM_INITIAL_DELAY;
+	public static int VOTES_SYSYEM_STEP_DELAY;
+	
 	public static void load()
 	{
 		try
@@ -286,6 +296,27 @@ public class PowerPakConfig
 			WEBSERVER_HOST = p.getProperty("WebServerHost","localhost");
 			WEBSERVER_PORT = Integer.parseInt(p.getProperty("WebServerPort","8080"));
 			
+			VOTES_FOR_REWARD = Integer.parseInt(p.getProperty("VotesRequiredForReward", "100"));
+			VOTES_SYSYEM_INITIAL_DELAY = Integer.parseInt(p.getProperty("VotesSystemInitialDelay", "60000"));
+			VOTES_SYSYEM_STEP_DELAY = Integer.parseInt(p.getProperty("VotesSystemStepDelay", "1800000"));
+			VOTES_SITE_URL = p.getProperty("VotesSiteUrl", "");
+			VOTES_REWARDS = p.getProperty("VotesRewards", "");
+			VOTES_REWARDS_LIST = new FastMap<Integer, Integer>();
+			
+			String[] splitted_VOTES_REWARDS = VOTES_REWARDS.split(";");
+			
+			for(String reward:splitted_VOTES_REWARDS){
+				
+				String[] item_count = reward.split(",");
+				
+				if(item_count.length != 2)
+				{
+					System.out.println("[VotesRewards]: invalid config property -> VotesRewards \"" + VOTES_REWARDS + "\"");
+				}
+				else
+					VOTES_REWARDS_LIST.put(Integer.parseInt(item_count[0]), Integer.parseInt(item_count[1]));
+				
+			}
 			
 		}
 		catch(Exception e)
