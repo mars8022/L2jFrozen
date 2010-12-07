@@ -1473,7 +1473,7 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
-		if(isSkillDisabled(skill.getId()) && !skill.isPotion())
+		if(isSkillDisabled(skill.getId()))
 		{
 			if(this instanceof L2PcInstance)
 			{
@@ -1653,7 +1653,7 @@ public abstract class L2Character extends L2Object
 			sendPacket(sm);
 			sm = null;
 		}
-		else if(!skill.isStaticReuse())
+		else if(!skill.isStaticReuse() && !skill.isPotion())
 		{
 			if(skill.isMagic())
 			{
@@ -7424,7 +7424,9 @@ public abstract class L2Character extends L2Object
 	 */
 	public boolean isSkillDisabled(int skillId)
 	{
-		if(isAllSkillsDisabled())
+		L2Skill skill = SkillTable.getInstance().getInfo(skillId, 1);
+		
+		if(isAllSkillsDisabled() && !skill.isPotion())
 			return true;
 
 		if(_disabledSkills == null)

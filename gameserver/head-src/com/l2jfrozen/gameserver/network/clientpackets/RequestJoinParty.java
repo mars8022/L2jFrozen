@@ -25,6 +25,9 @@ import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinParty;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -64,14 +67,14 @@ public final class RequestJoinParty extends L2GameClientPacket
 			return;
 		}
 		
-		if (requestor._inEventDM || target._inEventDM)
+		if ((requestor._inEventDM && DM.is_started()) || (target._inEventDM && DM.is_started()))
 		{
 			requestor.sendMessage("You can't invite that player in party!");
 			return;
 		}
 		
-		if ((requestor._inEventTvT && !target._inEventTvT) || (!requestor._inEventTvT && target._inEventTvT) ||
-				(requestor._inEventCTF && !target._inEventCTF) || (!requestor._inEventCTF && target._inEventCTF))
+		if ((requestor._inEventTvT && !target._inEventTvT && TvT.is_started()) || (!requestor._inEventTvT && target._inEventTvT && TvT.is_started()) ||
+				(requestor._inEventCTF && !target._inEventCTF && CTF.is_started()) || (!requestor._inEventCTF && target._inEventCTF && CTF.is_started()))
 		{
 			requestor.sendMessage("You can't invite that player in party: you or your target are in Event");
 			return;
