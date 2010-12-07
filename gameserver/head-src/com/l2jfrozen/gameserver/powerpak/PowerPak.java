@@ -25,6 +25,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.CommunityBoard;
 import com.l2jfrozen.gameserver.datatables.BufferSkillsTable;
 import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
+import com.l2jfrozen.gameserver.handler.AutoVoteRewardHandler;
 import com.l2jfrozen.gameserver.handler.VoicedCommandHandler;
 import com.l2jfrozen.gameserver.handler.custom.CustomBypassHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -145,6 +146,9 @@ public class PowerPak
 			RaidInfoHandler handler = new RaidInfoHandler();
 			CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
 			System.out.println("...Enabled");
+			
+			//Vote Reward System
+			AutoVoteRewardHandler.getInstance();
 		}
 	}
 

@@ -74,6 +74,7 @@ import com.l2jfrozen.gameserver.geo.geoeditorcon.GeoEditorListener;
 import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
 import com.l2jfrozen.gameserver.handler.AdminCommandHandler;
 import com.l2jfrozen.gameserver.handler.AutoAnnouncementHandler;
+import com.l2jfrozen.gameserver.handler.AutoVoteRewardHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.handler.UserCommandHandler;
@@ -386,6 +387,7 @@ public class GameServer
 		UserCommandHandler.getInstance();
 		VoicedCommandHandler.getInstance();
 
+		
 		System.out.println("AutoChatHandler : Loaded " + AutoChatHandler.getInstance().size() + " handlers in total.");
 		System.out.println("AutoSpawnHandler : Loaded " + AutoSpawn.getInstance().size() + " handlers in total.");
 
