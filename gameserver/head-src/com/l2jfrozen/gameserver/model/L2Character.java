@@ -866,7 +866,7 @@ public abstract class L2Character extends L2Object
 				if (!Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
 				{
 					SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-					sm.addString("Npc Protection No Attack Allowed!");
+					sm.addString("Npc Protection - No Attack Allowed!");
 					((L2PcInstance) this).sendPacket(sm);
 					((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -1579,6 +1579,19 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
+		if (target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
+		{
+			String mobtype = ((L2NpcInstance) target).getTemplate().type;
+			if (!Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+				sm.addString("Npc Protection - No Attack Allowed!");
+				((L2PcInstance) this).sendPacket(sm);
+				((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+		}
+		
 		setLastSkillCast(skill);
 
 		// Get the Identifier of the skill
