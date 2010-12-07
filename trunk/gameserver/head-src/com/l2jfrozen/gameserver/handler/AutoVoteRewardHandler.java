@@ -17,11 +17,13 @@ import com.l2jfrozen.Config;
 
 public class AutoVoteRewardHandler
 {
-	private int lastVoteCount = 0;
+	private int votesCount = 0;
 
 	private AutoVoteRewardHandler()
 	{
 		System.out.println("Vote Reward System Initiated.");
+		int votes = getVotes();
+		setVoteCount(votes);
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoReward(), PowerPakConfig.VOTES_SYSYEM_INITIAL_DELAY, PowerPakConfig.VOTES_SYSYEM_STEP_DELAY);
 	}
 
@@ -31,7 +33,7 @@ public class AutoVoteRewardHandler
 		{
 			int votes = getVotes();
 			System.out.println("Server Votes: " + votes);
-			if (votes != 0 && getLastVoteCount() != 0 && votes >= getLastVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
+			if (votes != 0 && getVoteCount() != 0 && votes >= getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
 				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
 
@@ -52,13 +54,17 @@ public class AutoVoteRewardHandler
 
 					}
 				}
-				setLastVoteCount(getLastVoteCount() + PowerPakConfig.VOTES_FOR_REWARD);
+				setVoteCount(getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD);
 			}
-			Announcements.getInstance().announceToAll("Actual Votes: " + votes + " Next Reward at " + (getLastVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes.");
-			if (getLastVoteCount() == 0)
+			
+			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
+			
+			Announcements.getInstance().gameAnnounceToAll("Actual HOPZONE Votes are " + votes + "...");
+			Announcements.getInstance().gameAnnounceToAll("Next Reward in "+minutes+" minutes at " + (getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
+			/*if (getLastVoteCount() == 0)
 			{
-				setLastVoteCount(votes);
-			}
+				setInitialVoteCount(votes);
+			}*/
 		}
 	}
 
@@ -103,14 +109,14 @@ public class AutoVoteRewardHandler
 		return 0;
 	}
 
-	private void setLastVoteCount(int voteCount)
+	private void setVoteCount(int voteCount)
 	{
-		lastVoteCount = voteCount;
+		votesCount = voteCount;
 	}
 
-	private int getLastVoteCount()
+	private int getVoteCount()
 	{
-		return lastVoteCount;
+		return votesCount;
 	}
 
 	public static AutoVoteRewardHandler getInstance()
