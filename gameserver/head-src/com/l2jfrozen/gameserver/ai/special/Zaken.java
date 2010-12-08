@@ -239,7 +239,7 @@ public class Zaken extends Quest implements Runnable
 				}
 
 			}else if(nowHp < (maxHp*0.25)){
-				int chh = (Rnd.get(20));
+				int chh = (Rnd.get(30));
 				if (chh < 1){
 					npc.setTarget(npc);
 					npc.doCast(SkillTable.getInstance().getInfo(4222,1));

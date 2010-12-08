@@ -2305,6 +2305,9 @@ public final class Config
 	public static String PVP_TITLE_PREFIX;
 	public static String PK_TITLE_PREFIX;
 
+	public static boolean WAR_LEGEND_AURA;
+	public static int KILLS_TO_GET_WAR_LEGEND_AURA;
+	
 	//============================================================
 	public static void loadPvpConfig()
 	{
@@ -2410,6 +2413,9 @@ public final class Config
 			PVP_PK_TITLE = Boolean.parseBoolean(pvpSettings.getProperty("PvpPkTitle", "False"));
 			PVP_TITLE_PREFIX = pvpSettings.getProperty("PvPTitlePrefix", " ");
 			PK_TITLE_PREFIX = pvpSettings.getProperty("PkTitlePrefix", " | ");
+			
+			WAR_LEGEND_AURA = Boolean.parseBoolean(pvpSettings.getProperty("WarLegendAura", "False"));
+			KILLS_TO_GET_WAR_LEGEND_AURA = Integer.parseInt(pvpSettings.getProperty("KillsToGetWarLegendAura", "30"));
 		}
 		catch(Exception e)
 		{

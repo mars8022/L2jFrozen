@@ -162,6 +162,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 		int itemType2 = item.getItem().getType2();
 		boolean enchantItem = false;
 		boolean blessedScroll = false;
+		boolean crystalScroll = false;
 		int crystalId = 0;
 
 		/** pretty code ;D */
@@ -295,7 +296,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			for(int crystalscroll : CRYSTAL_SCROLLS)
 				if(scroll.getItemId() == crystalscroll)
 				{
-					blessedScroll = true;
+					crystalScroll = true;
 					break;
 				}
 		}
@@ -524,8 +525,13 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			}
 			else
 			{
-				if(!blessedScroll)
-				{
+				if(crystalScroll){
+					sm = SystemMessage.sendString("Failed in Crystal Enchant. The enchant value of the item become "+Config.CRYSTAL_ENCHANT_MIN);
+					activeChar.sendPacket(sm);
+				}else if(blessedScroll){
+					sm = new SystemMessage(SystemMessageId.BLESSED_ENCHANT_FAILED);
+					activeChar.sendPacket(sm);
+				}else{
 					if(item.getEnchantLevel() > 0)
 					{
 						sm = new SystemMessage(SystemMessageId.ENCHANTMENT_FAILED_S1_S2_EVAPORATED);
@@ -540,13 +546,8 @@ public final class RequestEnchantItem extends L2GameClientPacket
 						activeChar.sendPacket(sm);
 					}
 				}
-				else
-				{
-					sm = new SystemMessage(SystemMessageId.BLESSED_ENCHANT_FAILED);
-					activeChar.sendPacket(sm);
-				}
-
-				if(!blessedScroll)
+				
+				if(!blessedScroll && !crystalScroll)
 				{
 					if(item.getEnchantLevel() > 0)
 					{
@@ -586,8 +587,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 					{
 						count = 1;
 					}
-					// by Azahthtot Р—Р°РєР»Р°РґРєР° РґР»СЏ РјР°РЅСЊСЏРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅРµ С…РѕС‚СЏС‚  Р»РѕРјР°С‚СЊ С€РјРѕС‚
-					// РёР»Рё Р¶Рµ РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РїСЂРµРґРјРµС‚Р°. onEvent РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ !null
+					
 					if(item.fireEvent("enchantFail", new Object[]
 					{}) != null)
 						return;
@@ -633,8 +633,15 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				}
 				else
 				{
-					item.setEnchantLevel(Config.BREAK_ENCHANT);
-					item.updateDatabase();
+					if(blessedScroll){
+						item.setEnchantLevel(Config.BREAK_ENCHANT);
+						item.updateDatabase();
+					}else if(crystalScroll){
+						item.setEnchantLevel(Config.CRYSTAL_ENCHANT_MIN);
+						item.updateDatabase();
+					}
+					
+					
 				}
 			}
 		}
