@@ -2470,12 +2470,12 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_pvpKills = pvpKills;
 		
-		 // Set hero aura if pvp kills > 100
+		 /*// Set hero aura if pvp kills > 100
 		 if (pvpKills > 100)
 		 {
 		 isPermaHero = true;
 		 setHeroAura(true);
-		 } 
+		 }*/ 
 	}
 
 	/**
@@ -6106,22 +6106,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		 heroConsecutiveKillCount++;
 		
 		 // If heroConsecutiveKillCount == 30 give hero aura
-		 if(heroConsecutiveKillCount > 29)
+		 if(heroConsecutiveKillCount >= Config.KILLS_TO_GET_WAR_LEGEND_AURA && Config.WAR_LEGEND_AURA)
 	     {
 			 setHeroAura(true);
+			 Announcements.getInstance().gameAnnounceToAll(getName()+" became War Legend with "+Config.KILLS_TO_GET_WAR_LEGEND_AURA+" PvP!!");
 			 
-			 if(heroConsecutiveKillCount == 30)
-			 {
-			 CreatureSay cs = new CreatureSay(0, 18, "", getName()+" became War Legend with 30 PvP!!");
-					for(L2PcInstance player: L2World.getInstance().getAllPlayers())
-					{
-						if(player != null)
-							if(player.isOnline()!=0)
-								player.sendPacket(cs);
-					
-					 }	
-			 }
-		 
 		 }
 		 
 		
@@ -11074,13 +11063,13 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	 public void setHeroAura (boolean heroAura)
 	 {
-	 isPVPHero = heroAura;
-	 return;
+		 isPVPHero = heroAura;
+		 return;
 	 }
 	
 	 public boolean getIsPVPHero()
 	 {
-	 return isPVPHero;
+		 return isPVPHero;			
 	 }
 	 
 	
