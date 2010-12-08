@@ -5720,6 +5720,13 @@ public final class L2PcInstance extends L2PlayableInstance
 		stopWaterTask();
 		quakeSystem = 0;
         
+		//leave war legend aura if enabled
+		heroConsecutiveKillCount=0;
+		if(Config.WAR_LEGEND_AURA && !_hero && isPVPHero){
+			setHeroAura(false);
+			this.sendMessage("You leaved War Legend State");
+		}
+		
 		return true;
 	}
 
@@ -6106,10 +6113,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		 heroConsecutiveKillCount++;
 		
 		 // If heroConsecutiveKillCount == 30 give hero aura
-		 if(heroConsecutiveKillCount >= Config.KILLS_TO_GET_WAR_LEGEND_AURA && Config.WAR_LEGEND_AURA)
+		 if(heroConsecutiveKillCount == Config.KILLS_TO_GET_WAR_LEGEND_AURA && Config.WAR_LEGEND_AURA)
 	     {
 			 setHeroAura(true);
-			 Announcements.getInstance().gameAnnounceToAll(getName()+" became War Legend with "+Config.KILLS_TO_GET_WAR_LEGEND_AURA+" PvP!!");
+			 Announcements.getInstance().gameAnnounceToAll(getName()+" becames War Legend with "+Config.KILLS_TO_GET_WAR_LEGEND_AURA+" PvP!!");
 			 
 		 }
 		 
