@@ -453,16 +453,16 @@ public class NpcTable
 			//Level: for special bosses could be different
 			int level = 0;
 			float diff = 0; //difference between setted value and retail one
-			boolean minion = true;
+			boolean minion = false;
 			
 			switch(id){
-				case 29001://queenAnt
-					minion = false;
 				case 29002: // and minions
 				case 29003:
 				case 29004:
-				case 29005:{
-					
+				case 29005:
+					minion = true;
+				case 29001://queenAnt
+				{
 					if(Config.QA_LEVEL>0){
 						diff = Config.QA_LEVEL - NpcData.getInt("level");
 						level = Config.QA_LEVEL;
@@ -482,12 +482,13 @@ public class NpcTable
 					
 				}
 				break;
-				case 29014://orfen 
-					minion = false;
 				case 29015: //and minions
 				case 29016:
 				case 29017:
-				case 29018:{
+				case 29018:
+					minion = true;
+				case 29014://orfen 
+				{
 					
 					if(Config.ORFEN_LEVEL>0){
 						diff = Config.ORFEN_LEVEL - NpcData.getInt("level");
@@ -497,11 +498,12 @@ public class NpcTable
 					
 				}
 				break;
-				case 29006: //core
-					minion = false;
 				case 29007: //and minions
 				case 29008:
-				case 290011:{
+				case 290011:
+					minion = true;
+				case 29006: //core
+				{
 					
 					if(Config.CORE_LEVEL>0){
 						diff = Config.CORE_LEVEL - NpcData.getInt("level");
