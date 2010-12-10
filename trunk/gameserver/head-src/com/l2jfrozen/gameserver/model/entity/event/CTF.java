@@ -3,6 +3,7 @@ package com.l2jfrozen.gameserver.model.entity.event;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Vector;
 
 import javolution.text.TextBuilder;
@@ -20,6 +21,7 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2Radar;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -1279,8 +1281,20 @@ public class CTF implements EventTask
 		}
 		
 		if(eventPlayer._active_boxes>1 && !Config.ALLOW_DUALBOX_EVENT){
-			eventPlayer.sendMessage("Dual Box not allowed in Events");
-			return false;
+			
+			List<String> players_in_boxes = eventPlayer.active_boxes_characters;
+			
+			for(String character_name: players_in_boxes){
+				L2PcInstance player = L2World.getInstance().getPlayer(character_name);
+				
+				if(player._inEventCTF){
+					eventPlayer.sendMessage("You already participated in event with another char!"); 
+					return false;
+				}
+			}
+			
+			/*eventPlayer.sendMessage("Dual Box not allowed in Events");
+			return false;*/
 		}
 		
 		for(L2PcInstance player: _players)

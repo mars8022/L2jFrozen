@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -250,6 +251,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public int _originalNameColourVIP, _originalKarmaVIP;
 
 	public int _active_boxes = -1;
+	public List<String> active_boxes_characters = new ArrayList<String>();
 	
 	/**
 	 * UPDATE characters SET
@@ -3166,6 +3168,15 @@ public final class L2PcInstance extends L2PlayableInstance
 	public int getAdena()
 	{
 		return _inventory.getAdena();
+	}
+	
+	/**
+	 * Return the Item amount of the L2PcInstance.<BR>
+	 * <BR>
+	 */
+	public int getItemCount(int itemId, int enchantLevel)
+	{
+		return _inventory.getInventoryItemCount(itemId, enchantLevel);
 	}
 
 	/**
@@ -14685,6 +14696,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		int boxes_number = 1; //this one
 		
+		if(!this.active_boxes_characters.contains(this.getName()))
+			this.active_boxes_characters.add(this.getName());
+		
 		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
@@ -14710,12 +14724,12 @@ public final class L2PcInstance extends L2PlayableInstance
 								
 								if(boxes_number>Config.ALLOWED_BOXES){
 									output = false;
-								}
+								}else
+									this.active_boxes_characters.add(player.getName());
+								
 							}
 						}
 					}
-						
-					
 				}
 			}
 		}
@@ -14749,6 +14763,9 @@ public final class L2PcInstance extends L2PlayableInstance
 						if(thisip.equals(ip) && this != player && player != null)
 						{
 							player._active_boxes = _active_boxes;
+							if(!player.active_boxes_characters.contains(this.getName())){
+								player.active_boxes_characters.add(this.getName());
+							}
 						}
 					}
 				}
@@ -14764,6 +14781,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void decreaseBoxes(){
 		
 		_active_boxes=_active_boxes-1;
+		active_boxes_characters.remove(this.getName());
 		
 		if(getClient()!=null && !getClient().getConnection().isClosed()){
 			
@@ -14781,6 +14799,7 @@ public final class L2PcInstance extends L2PlayableInstance
 						if(thisip.equals(ip) && this != player && player != null)
 						{
 							player._active_boxes = _active_boxes;
+							player.active_boxes_characters.remove(this.getName());
 						}
 					}
 				}

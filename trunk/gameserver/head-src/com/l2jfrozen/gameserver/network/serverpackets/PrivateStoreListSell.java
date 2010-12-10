@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MerchantInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -42,7 +43,12 @@ public class PrivateStoreListSell extends L2GameServerPacket
 	{
 		_activeChar = player;
 		_storePlayer = storePlayer;
-		_playerAdena = _activeChar.getAdena();
+		
+		if(Config.SELL_BY_ITEM)
+			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
+		else
+			_playerAdena = _activeChar.getAdena();
+		
 		_items = _storePlayer.getSellList().getItems();
 		_packageSale = _storePlayer.getSellList().isPackaged();
 	}
@@ -52,7 +58,12 @@ public class PrivateStoreListSell extends L2GameServerPacket
 	public PrivateStoreListSell(L2PcInstance player, L2MerchantInstance storeMerchant)
 	{
 		_activeChar = player;
-		_playerAdena = _activeChar.getAdena();
+		
+		if(Config.SELL_BY_ITEM)
+			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
+		else
+			_playerAdena = _activeChar.getAdena();
+		
 		_items = _storePlayer.getSellList().getItems();
 		_packageSale = _storePlayer.getSellList().isPackaged();
 	}

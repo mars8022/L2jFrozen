@@ -975,6 +975,9 @@ public final class Config
 	/** List of NPC types that won't allow casting */
 	public static FastList<String> LIST_ALLOWED_NPC_TYPES = new FastList<String>();
 	
+	public static boolean SELL_BY_ITEM;
+	public static int SELL_ITEM;
+	
 	//============================================================
 	public static void loadAltConfig()
 	{
@@ -1117,6 +1120,10 @@ public final class Config
 			for (String npc_type : ALLOWED_NPC_TYPES.split(","))
 				LIST_ALLOWED_NPC_TYPES.add(npc_type);
 			NPC_ATTACKABLE = Boolean.parseBoolean(altSettings.getProperty("NpcAttackable", "False"));
+		
+			SELL_BY_ITEM = Boolean.parseBoolean(altSettings.getProperty("SellByItem", "False"));
+			SELL_ITEM = Integer.parseInt(altSettings.getProperty("SellItem", "57"));
+			
 		}
 		catch(Exception e)
 		{
