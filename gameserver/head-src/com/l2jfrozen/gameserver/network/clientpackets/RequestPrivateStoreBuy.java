@@ -139,12 +139,22 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 			Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
 			return;
 		}
-
-		if(player.getAdena() < priceTotal)
-		{
-			sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
-			sendPacket(ActionFailed.STATIC_PACKET);
-			return;
+		
+		if(Config.SELL_BY_ITEM){
+			if(player.getItemCount(Config.SELL_ITEM, -1) < priceTotal)
+			{
+				sendPacket(SystemMessage.sendString("You do not have needed items to buy"));
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
+		}else{
+			if(player.getAdena() < priceTotal)
+			{
+				sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
 		}
 
 		if(storePlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_PACKAGE_SELL)

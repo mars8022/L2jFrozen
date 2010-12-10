@@ -845,19 +845,37 @@ public class TradeList
 		InventoryUpdate ownerIU = new InventoryUpdate();
 		InventoryUpdate playerIU = new InventoryUpdate();
 
-		// Transfer adena
-		if(price > playerInventory.getAdena())
-		{
-			lock();
-			return false;
+		if(Config.SELL_BY_ITEM){
+			// Transfer Item
+			if(price > playerInventory.getInventoryItemCount(Config.SELL_ITEM, -1))
+			{
+				lock();
+				return false;
+			}
+
+			L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
+			playerInventory.destroyItem("PrivateStore", item.getObjectId(), price, player, _owner);
+			playerIU.addItem(item);
+			ownerInventory.addItem("PrivateStore", item.getObjectId(), price, _owner, player);
+			ownerIU.addItem(ownerInventory.getItemByItemId(Config.SELL_ITEM));
+			
+		}else{
+			// Transfer adena
+			if(price > playerInventory.getAdena())
+			{
+				lock();
+				return false;
+			}
+
+			L2ItemInstance adenaItem = playerInventory.getAdenaInstance();
+			playerInventory.reduceAdena("PrivateStore", price, player, _owner);
+			playerIU.addItem(adenaItem);
+			ownerInventory.addAdena("PrivateStore", price, _owner, player);
+			ownerIU.addItem(ownerInventory.getAdenaInstance());
+
 		}
-
-		L2ItemInstance adenaItem = playerInventory.getAdenaInstance();
-		playerInventory.reduceAdena("PrivateStore", price, player, _owner);
-		playerIU.addItem(adenaItem);
-		ownerInventory.addAdena("PrivateStore", price, _owner, player);
-		ownerIU.addItem(ownerInventory.getAdenaInstance());
-
+		
+		
 		// Transfer items
 		for(ItemRequest item : items)
 		{
@@ -944,7 +962,7 @@ public class TradeList
 
 		ownerIU = null;
 		playerIU = null;
-		adenaItem = null;
+		//adenaItem = null;
 		ownerInventory = null;
 		playerInventory = null;
 
