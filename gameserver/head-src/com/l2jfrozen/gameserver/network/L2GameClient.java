@@ -707,6 +707,11 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 						AwayManager.getInstance().extraBack(player);
 					}
 
+					//Decrease boxes number
+					if(player._active_boxes!=-1)
+						player.decreaseBoxes();
+					
+					
 					if(player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE || player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)
 					{
 						player.setOffline(true);

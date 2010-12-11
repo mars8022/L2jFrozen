@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
@@ -39,7 +40,12 @@ public class PrivateStoreListBuy extends L2GameServerPacket
 	{
 		_storePlayer = storePlayer;
 		_activeChar = player;
-		_playerAdena = _activeChar.getAdena();
+		
+		if(Config.SELL_BY_ITEM)
+			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
+		else
+			_playerAdena = _activeChar.getAdena();
+		
 		_storePlayer.getSellList().updateItems(); // Update SellList for case inventory content has changed
 		_items = _storePlayer.getBuyList().getAvailableItems(_activeChar.getInventory());
 	}

@@ -148,6 +148,11 @@ public final class RequestRestart extends L2GameClientPacket
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 		}
 
+		//delete box from the world
+		if(player._active_boxes!=-1){
+			player.decreaseBoxes();
+		}
+		
 		L2GameClient client = getClient();
 
 		// detach the client from the char so that the connection isnt closed in the deleteMe

@@ -130,13 +130,22 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 		}
 
 		// Check for available funds
-		if(cost > player.getAdena() || cost <= 0)
-		{
-			player.sendPacket(new PrivateStoreManageListBuy(player));
-			player.sendPacket(new SystemMessage(SystemMessageId.THE_PURCHASE_PRICE_IS_HIGHER_THAN_MONEY));
-			return;
+		if(Config.SELL_BY_ITEM){
+			if(cost > player.getItemCount(Config.SELL_ITEM, -1) || cost <= 0)
+			{
+				player.sendPacket(new PrivateStoreManageListBuy(player));
+				player.sendPacket(new SystemMessage(SystemMessageId.THE_PURCHASE_PRICE_IS_HIGHER_THAN_MONEY));
+				return;
+			}
+		}else{
+			if(cost > player.getAdena() || cost <= 0)
+			{
+				player.sendPacket(new PrivateStoreManageListBuy(player));
+				player.sendPacket(new SystemMessage(SystemMessageId.THE_PURCHASE_PRICE_IS_HIGHER_THAN_MONEY));
+				return;
+			}
 		}
-
+		
 		player.sitDown();
 		player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_BUY);
 		player.broadcastUserInfo();
