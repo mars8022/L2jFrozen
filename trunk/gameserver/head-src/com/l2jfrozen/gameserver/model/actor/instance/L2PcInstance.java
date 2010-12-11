@@ -14744,12 +14744,12 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			refreshOtherBoxes();
 		}
-		
+		/*
 		System.out.println("Player "+getName()+" has this boxes");
 		for(String name:active_boxes_characters){
 			System.out.println("*** "+name+" ***");
 		}
-		
+		*/
 		return output;
 	}
 	
@@ -14776,12 +14776,12 @@ public final class L2PcInstance extends L2PlayableInstance
 						{
 							player._active_boxes = _active_boxes;
 							player.active_boxes_characters = active_boxes_characters;
-							
+							/*
 							System.out.println("Player "+player.getName()+" has this boxes");
 							for(String name:player.active_boxes_characters){
 								System.out.println("*** "+name+" ***");
 							}
-							
+							*/
 						}
 					}
 				}
@@ -14829,12 +14829,12 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 		*/
-		
+		/*
 		System.out.println("Player "+getName()+" has this boxes");
 		for(String name:active_boxes_characters){
 			System.out.println("*** "+name+" ***");
 		}
-		
+		*/
 	}
 	
 	public long getOfflineStartTime()
