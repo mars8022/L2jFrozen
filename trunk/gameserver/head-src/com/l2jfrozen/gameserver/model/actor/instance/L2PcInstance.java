@@ -14696,9 +14696,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		int boxes_number = 1; //this one
 		
-		if(!this.active_boxes_characters.contains(this.getName()))
-			this.active_boxes_characters.add(this.getName());
-		
 		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
@@ -14717,16 +14714,17 @@ public final class L2PcInstance extends L2PlayableInstance
 							if(!Config.ALLOW_DUALBOX){
 								
 								output=false;
-							
+								break;
+								
 							}else{
 								
-								boxes_number++;
-								
-								if(boxes_number>Config.ALLOWED_BOXES){
+								if(boxes_number+1>Config.ALLOWED_BOXES){ //actual count+actual player one
 									output = false;
-								}else
+									break;
+								}else{
+									boxes_number++;
 									this.active_boxes_characters.add(player.getName());
-								
+								}
 							}
 						}
 					}
@@ -14736,6 +14734,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(output){
 			_active_boxes = boxes_number;
+			if(!this.active_boxes_characters.contains(this.getName()))
+				this.active_boxes_characters.add(this.getName());
+			
 		}
 		
 		return output;
