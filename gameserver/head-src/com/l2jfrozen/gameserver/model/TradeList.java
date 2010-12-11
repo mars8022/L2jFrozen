@@ -849,15 +849,67 @@ public class TradeList
 			// Transfer Item
 			if(price > playerInventory.getInventoryItemCount(Config.SELL_ITEM, -1))
 			{
+				System.out.println("price > playerInventory.getInventoryItemCount(Config.SELL_ITEM, -1)");
+				lock();
+				return false;
+			}
+			
+			L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
+			
+			// Check if requested item is available for manipulation
+			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), price, "sell");
+			if(oldItem == null)
+			{
+				System.out.println("old item null");
 				lock();
 				return false;
 			}
 
-			L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
+			// Proceed with item transfer
+			L2ItemInstance newItem = playerInventory.transferItem("PrivateStore", item.getObjectId(), price, ownerInventory, player, _owner);
+			if(newItem == null){
+				System.out.println("new item null");
+				return false;
+			}
+			
+			// Add changes to inventory update packets
+			if(oldItem.getCount() > 0 && oldItem != newItem)
+			{
+				playerIU.addModifiedItem(oldItem);
+			}
+			else
+			{
+				playerIU.addRemovedItem(oldItem);
+			}
+
+			if(newItem.getCount() > item.getCount())
+			{
+				ownerIU.addModifiedItem(newItem);
+			}
+			else
+			{
+				ownerIU.addNewItem(newItem);
+			}
+
+			// Send messages about the transaction to both players
+			SystemMessage msg = SystemMessage.sendString("You obtained "+price+" "+item.getName());
+			_owner.sendPacket(msg);
+			msg = null;
+			
+			SystemMessage msg2 = SystemMessage.sendString("You spent "+price+" "+item.getName());
+			player.sendPacket(msg2);
+			msg = null;
+
+			newItem = null;
+			oldItem = null;
+
+			/*L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
 			playerInventory.destroyItem("PrivateStore", item.getObjectId(), price, player, _owner);
 			playerIU.addItem(item);
-			ownerInventory.addItem("PrivateStore", item.getObjectId(), price, _owner, player);
+			L2ItemInstance item2 = ownerInventory.getItemByItemId(Config.SELL_ITEM);
+			ownerInventory.addItem("PrivateStore", item2.getObjectId(), price, _owner, player);
 			ownerIU.addItem(ownerInventory.getItemByItemId(Config.SELL_ITEM));
+			*/
 			
 		}else{
 			// Transfer adena
