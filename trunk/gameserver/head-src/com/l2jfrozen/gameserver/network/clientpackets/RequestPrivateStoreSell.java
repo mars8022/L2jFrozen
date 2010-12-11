@@ -26,7 +26,9 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
@@ -117,14 +119,28 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 			return;
 		}
 
-		if(storePlayer.getAdena() < _price)
-		{
-			sendPacket(ActionFailed.STATIC_PACKET);
-			storePlayer.sendMessage("You have not enough adena, canceling PrivateBuy.");
-			storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
-			storePlayer.broadcastUserInfo();
-			return;
+		if(Config.SELL_BY_ITEM){
+			if(storePlayer.getItemCount(Config.SELL_ITEM, -1) < _price)
+			{
+				sendPacket(ActionFailed.STATIC_PACKET);
+				sendPacket(SystemMessage.sendString("You have not enough items to buy, canceling PrivateBuy"));
+				storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+				storePlayer.broadcastUserInfo();
+				return;
+			}
+			
+		}else{
+			if(storePlayer.getAdena() < _price)
+			{
+				sendPacket(ActionFailed.STATIC_PACKET);
+				storePlayer.sendMessage("You have not enough adena, canceling PrivateBuy.");
+				storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+				storePlayer.broadcastUserInfo();
+				return;
+			}
 		}
+		
+		
 
 		if(!storeList.PrivateStoreSell(player, _items, _price))
 		{

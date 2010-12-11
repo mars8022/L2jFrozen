@@ -892,11 +892,11 @@ public class TradeList
 			}
 
 			// Send messages about the transaction to both players
-			SystemMessage msg = SystemMessage.sendString("You obtained "+price+" "+item.getName());
+			SystemMessage msg = SystemMessage.sendString("You obtained "+price+" "+item.getItemName());
 			_owner.sendPacket(msg);
 			msg = null;
 			
-			SystemMessage msg2 = SystemMessage.sendString("You spent "+price+" "+item.getName());
+			SystemMessage msg2 = SystemMessage.sendString("You spent "+price+" "+item.getItemName());
 			player.sendPacket(msg2);
 			msg = null;
 
@@ -1140,21 +1140,80 @@ public class TradeList
 			oldItem = null;
 		}
 
-		// Transfer adena
-		if(price > ownerInventory.getAdena())
-			return false;
+		if(Config.SELL_BY_ITEM){
+			// Transfer Item
+			if(price > ownerInventory.getInventoryItemCount(Config.SELL_ITEM, -1))
+			{
+				lock();
+				return false;
+			}
+			
+			L2ItemInstance item = ownerInventory.getItemByItemId(Config.SELL_ITEM);
+			
+			// Check if requested item is available for manipulation
+			L2ItemInstance oldItem = _owner.checkItemManipulation(item.getObjectId(), price, "sell");
+			if(oldItem == null)
+			{
+				lock();
+				return false;
+			}
 
-		L2ItemInstance adenaItem = ownerInventory.getAdenaInstance();
-		ownerInventory.reduceAdena("PrivateStore", price, _owner, player);
-		ownerIU.addItem(adenaItem);
-		playerInventory.addAdena("PrivateStore", price, player, _owner);
-		playerIU.addItem(playerInventory.getAdenaInstance());
+			// Proceed with item transfer
+			L2ItemInstance newItem = ownerInventory.transferItem("PrivateStore", item.getObjectId(), price, playerInventory,_owner, player);
+			if(newItem == null){
+				return false;
+			}
+			
+			// Add changes to inventory update packets
+			if(oldItem.getCount() > 0 && oldItem != newItem)
+			{
+				ownerIU.addModifiedItem(oldItem);
+			}
+			else
+			{
+				ownerIU.addRemovedItem(oldItem);
+			}
+
+			if(newItem.getCount() > item.getCount())
+			{
+				playerIU.addModifiedItem(newItem);
+			}
+			else
+			{
+				playerIU.addNewItem(newItem);
+			}
+
+			// Send messages about the transaction to both players
+			SystemMessage msg = SystemMessage.sendString("You obtained "+price+" "+item.getItemName());
+			player.sendPacket(msg);
+			msg = null;
+			
+			SystemMessage msg2 = SystemMessage.sendString("You spent "+price+" "+item.getItemName());
+			_owner.sendPacket(msg2);
+			msg = null;
+
+			newItem = null;
+			oldItem = null;
+
+		}else{
+			
+			// Transfer adena
+			if(price > ownerInventory.getAdena())
+				return false;
+
+			L2ItemInstance adenaItem = ownerInventory.getAdenaInstance();
+			ownerInventory.reduceAdena("PrivateStore", price, _owner, player);
+			ownerIU.addItem(adenaItem);
+			playerInventory.addAdena("PrivateStore", price, player, _owner);
+			playerIU.addItem(playerInventory.getAdenaInstance());
+
+		}
+		
 
 		// Send inventory update packet
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 
-		adenaItem = null;
 		ownerIU = null;
 		playerIU = null;
 		ownerInventory = null;

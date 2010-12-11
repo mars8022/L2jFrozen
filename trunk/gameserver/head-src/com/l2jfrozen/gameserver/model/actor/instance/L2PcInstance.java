@@ -1318,9 +1318,11 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 		}
 		
+		/*
 		if(_active_boxes!=-1){ //normal logout
 			this.decreaseBoxes();
 		}
+		*/
 		/*
 		_active_boxes = _active_boxes-1;
 		if(getClient()!=null && !getClient().getConnection().isClosed()){
@@ -14694,7 +14696,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		boolean output = true;
 		
-		int boxes_number = 1; //this one
+		int boxes_number = 0; //this one
+		List<String> active_boxes = new ArrayList<String>();
 		
 		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
 			
@@ -14706,7 +14709,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if(player != null)
 				{
-					if(!player.isOffline() && player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed()){
+					if(!player.isOffline() && player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed() && !player.getName().equals(this.getName())){
 						
 						String ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 						if(thisip.equals(ip) && this != player && player != null)
@@ -14723,7 +14726,7 @@ public final class L2PcInstance extends L2PlayableInstance
 									break;
 								}else{
 									boxes_number++;
-									this.active_boxes_characters.add(player.getName());
+									active_boxes.add(player.getName());
 								}
 							}
 						}
@@ -14733,10 +14736,18 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		
 		if(output){
-			_active_boxes = boxes_number;
-			if(!this.active_boxes_characters.contains(this.getName()))
-				this.active_boxes_characters.add(this.getName());
-			
+			_active_boxes = boxes_number+1; //current number of boxes+this one
+			if(!active_boxes.contains(this.getName())){
+				active_boxes.add(this.getName());
+				
+				this.active_boxes_characters = active_boxes;
+			}
+			refreshOtherBoxes();
+		}
+		
+		System.out.println("Player "+getName()+" has this boxes");
+		for(String name:active_boxes_characters){
+			System.out.println("*** "+name+" ***");
 		}
 		
 		return output;
@@ -14758,15 +14769,19 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if(player != null)
 				{
-					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()){
+					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()  && !player.getName().equals(this.getName())){
 						
 						String ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 						if(thisip.equals(ip) && this != player && player != null)
 						{
 							player._active_boxes = _active_boxes;
-							if(!player.active_boxes_characters.contains(this.getName())){
-								player.active_boxes_characters.add(this.getName());
+							player.active_boxes_characters = active_boxes_characters;
+							
+							System.out.println("Player "+player.getName()+" has this boxes");
+							for(String name:player.active_boxes_characters){
+								System.out.println("*** "+name+" ***");
 							}
+							
 						}
 					}
 				}
@@ -14784,6 +14799,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		_active_boxes=_active_boxes-1;
 		active_boxes_characters.remove(this.getName());
 		
+		refreshOtherBoxes();
+		/*
 		if(getClient()!=null && !getClient().getConnection().isClosed()){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
@@ -14800,11 +14817,22 @@ public final class L2PcInstance extends L2PlayableInstance
 						if(thisip.equals(ip) && this != player && player != null)
 						{
 							player._active_boxes = _active_boxes;
-							player.active_boxes_characters.remove(this.getName());
+							player.active_boxes_characters = active_boxes_characters;
+							
+							System.out.println("Player "+player.getName()+" has this boxes");
+							for(String name:player.active_boxes_characters){
+								System.out.println("*** "+name+" ***");
+							}
 						}
 					}
 				}
 			}
+		}
+		*/
+		
+		System.out.println("Player "+getName()+" has this boxes");
+		for(String name:active_boxes_characters){
+			System.out.println("*** "+name+" ***");
 		}
 		
 	}
