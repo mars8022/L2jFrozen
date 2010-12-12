@@ -90,17 +90,17 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		if(!(storePlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL || storePlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_PACKAGE_SELL))
 			return;
 
-		TradeList storeList = storePlayer.getSellList();
-
-		if(storeList == null)
-			return;
-
 		if(!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Unsufficient privileges.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
+		
+		TradeList storeList = storePlayer.getSellList();
+
+		if(storeList == null)
+			return;
 
 		// FIXME: this check should be (and most probabliy is) done in the TradeList mechanics
 		long priceTotal = 0;

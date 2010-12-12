@@ -18,8 +18,10 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreManageListSell;
 
 /**
@@ -72,6 +74,11 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 				player.standUp();
 			}
 
+			if(Config.SELL_BY_ITEM){
+				CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+				player.sendPacket(cs11);
+			}
+			
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_SELL + 1);
 			player.sendPacket(new PrivateStoreManageListSell(player));
 		}
