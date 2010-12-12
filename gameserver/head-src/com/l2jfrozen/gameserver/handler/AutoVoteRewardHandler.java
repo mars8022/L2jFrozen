@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import com.l2jfrozen.gameserver.model.L2World;
@@ -18,7 +20,8 @@ import com.l2jfrozen.Config;
 public class AutoVoteRewardHandler
 {
 	private int votesCount = 0;
-
+	private List<String> already_rewarded;
+	
 	private AutoVoteRewardHandler()
 	{
 		System.out.println("Vote Reward System Initiated.");
@@ -35,6 +38,8 @@ public class AutoVoteRewardHandler
 			System.out.println("Server Votes: " + votes);
 			if (votes != 0 && getVoteCount() != 0 && votes >= getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
+				already_rewarded = new ArrayList<String>();
+				
 				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
 
 				//L2ItemInstance item;
@@ -42,16 +47,19 @@ public class AutoVoteRewardHandler
 				{
 					if (player != null)
 					{
-						Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
-						for (Integer i : items)
-						{
-							//item = player.getInventory().getItemByItemId(i);
+						if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
+							
+							Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
+							for (Integer i : items)
+							{
+								//item = player.getInventory().getItemByItemId(i);
 
-							//TODO: check on maxstack for item
-							player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
+								//TODO: check on maxstack for item
+								player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
 
+							}
+							
 						}
-
 					}
 				}
 				setVoteCount(getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD);
@@ -68,6 +76,24 @@ public class AutoVoteRewardHandler
 		}
 	}
 
+	private boolean checkSingleBox(L2PcInstance player){
+		
+		if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed()){
+			
+			String playerip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
+			
+			if(already_rewarded.contains(playerip))
+				return false;
+			else{
+				already_rewarded.add(playerip);
+				return true;
+			}
+		}
+		
+		//if no connection (maybe offline shop) dnt reward
+		return false;
+	}
+	
 	private int getVotes()
 	{
 		URL url = null;
