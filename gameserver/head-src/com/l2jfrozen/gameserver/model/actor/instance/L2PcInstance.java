@@ -6166,6 +6166,20 @@ public final class L2PcInstance extends L2PlayableInstance
 		switch(quakeSystem)
 		{
 			case 4:
+				CreatureSay cs11 = new CreatureSay(0, 15, "",  getName() + " 4 consecutive kill! Only gm."); // 8D
+				if(isGM())
+				{					
+							sendPacket(cs11);
+				}
+				break;
+			case 5:
+				CreatureSay cs12 = new CreatureSay(0, 15, "",  getName() + " 4 consecutive kill! Only Gm."); // 8D
+				if(isGM())
+				{					
+							sendPacket(cs12);
+				}
+				break;
+			case 6:
 				CreatureSay cs = new CreatureSay(0, 15, "",  getName() + " is Dominating!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6174,7 +6188,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs);
 				}
 				break;
-			case 6:
+			case 9:
 				CreatureSay cs2 = new CreatureSay(0, 15, "",  getName() + " is on a Rampage!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6183,7 +6197,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs2);
 				}
 				break;
-			case 8:
+			case 14:
 				CreatureSay cs3 = new CreatureSay(0, 15, "",  getName() + " is on a Killing Spree!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6192,7 +6206,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs3);
 				}
 				break;
-			case 10:
+			case 18:
 				CreatureSay cs4 = new CreatureSay(0, 15, "",  getName() + " is on a Monster Kill!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6201,7 +6215,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs4);
 				}
 				break;
-			case 12:
+			case 22:
 				CreatureSay cs5 = new CreatureSay(0, 15, "",  getName() + " is Unstoppable!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6210,7 +6224,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs5);
 				}
 				break;
-			case 14:
+			case 25:
 				CreatureSay cs6 = new CreatureSay(0, 15, "",  getName() + " is on an Ultra Kill!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6219,7 +6233,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs6);
 				}
 				break;
-			case 16:
+			case 28:
 				CreatureSay cs7 = new CreatureSay(0, 15, "",  getName() + " God Blessed!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6228,7 +6242,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs7);
 				}
 				break;
-			case 18:
+			case 32:
 				CreatureSay cs8 = new CreatureSay(0, 15, "",  getName() + " is Wicked Sick!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6237,7 +6251,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs8);
 				}
 				break;
-			case 20:
+			case 35:
 				CreatureSay cs9 = new CreatureSay(0, 15, "",  getName() + " is on a Ludricrous Kill!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
@@ -6246,7 +6260,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							player.sendPacket(cs9);
 				}
 				break;
-			case 24:
+			case 40:
 				CreatureSay cs10 = new CreatureSay(0, 15, "",  getName() + " is GodLike!"); // 8D
 				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 				{
