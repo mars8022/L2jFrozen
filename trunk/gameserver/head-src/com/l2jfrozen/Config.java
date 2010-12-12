@@ -525,6 +525,7 @@ public final class Config
 	public static int FS_TIME_WARMUP;
 	public static int FS_PARTY_MEMBER_COUNT;
 	public static boolean ALLOW_QUAKE_SYSTEM;
+	public static boolean ENABLE_ANTI_PVP_FARM_MSG;
 	
 	public static int MAX_ITEM_ENCHANT_KICK;
 
@@ -737,6 +738,7 @@ public final class Config
 			}
 
 			ALLOW_QUAKE_SYSTEM = Boolean.parseBoolean(otherSettings.getProperty("AllowQuakeSystem", "False"));
+			ENABLE_ANTI_PVP_FARM_MSG = Boolean.parseBoolean(otherSettings.getProperty("EnableAntiPvpFarmMsg", "False"));
 		}
 		catch(Exception e)
 		{
