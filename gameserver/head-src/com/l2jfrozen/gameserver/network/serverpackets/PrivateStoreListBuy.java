@@ -41,13 +41,16 @@ public class PrivateStoreListBuy extends L2GameServerPacket
 		_storePlayer = storePlayer;
 		_activeChar = player;
 		
-		if(Config.SELL_BY_ITEM)
+		if(Config.SELL_BY_ITEM){
+			CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+			_activeChar.sendPacket(cs11);
 			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
-		else
+		}else
 			_playerAdena = _activeChar.getAdena();
 		
 		_storePlayer.getSellList().updateItems(); // Update SellList for case inventory content has changed
 		_items = _storePlayer.getBuyList().getAvailableItems(_activeChar.getInventory());
+		
 	}
 
 	@Override

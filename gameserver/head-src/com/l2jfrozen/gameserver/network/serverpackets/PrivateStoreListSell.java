@@ -44,9 +44,11 @@ public class PrivateStoreListSell extends L2GameServerPacket
 		_activeChar = player;
 		_storePlayer = storePlayer;
 		
-		if(Config.SELL_BY_ITEM)
+		if(Config.SELL_BY_ITEM){
+			CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+			_activeChar.sendPacket(cs11);
 			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
-		else
+		}else
 			_playerAdena = _activeChar.getAdena();
 		
 		_items = _storePlayer.getSellList().getItems();
@@ -59,9 +61,11 @@ public class PrivateStoreListSell extends L2GameServerPacket
 	{
 		_activeChar = player;
 		
-		if(Config.SELL_BY_ITEM)
+		if(Config.SELL_BY_ITEM){
+			CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+			_activeChar.sendPacket(cs11);
 			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
-		else
+		}else
 			_playerAdena = _activeChar.getAdena();
 		
 		_items = _storePlayer.getSellList().getItems();
