@@ -6167,16 +6167,28 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			case 4:
 				CreatureSay cs11 = new CreatureSay(0, 15, "",  getName() + " 4 consecutive kill! Only gm."); // 8D
-				if(isGM())
-				{					
-							sendPacket(cs11);
+				
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							if(player.isGM())
+							{					
+								player.sendPacket(cs11);
+							}
 				}
 				break;
 			case 5:
 				CreatureSay cs12 = new CreatureSay(0, 15, "",  getName() + " 4 consecutive kill! Only Gm."); // 8D
-				if(isGM())
-				{					
-							sendPacket(cs12);
+				
+				for(L2PcInstance player: L2World.getInstance().getAllPlayers())
+				{
+					if(player != null)
+						if(player.isOnline()!=0)
+							if(player.isGM())
+							{					
+								player.sendPacket(cs12);
+							}
 				}
 				break;
 			case 6:
