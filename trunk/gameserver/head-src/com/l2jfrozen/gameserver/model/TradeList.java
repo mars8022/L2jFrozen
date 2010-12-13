@@ -856,6 +856,12 @@ public class TradeList
 			
 			L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
 			
+			if(item==null){
+				System.out.println("item null");
+				lock();
+				return false;
+			}
+			
 			// Check if requested item is available for manipulation
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), price, "sell");
 			if(oldItem == null)
@@ -1149,6 +1155,13 @@ public class TradeList
 			}
 			
 			L2ItemInstance item = ownerInventory.getItemByItemId(Config.SELL_ITEM);
+			
+			if(item==null){
+				System.out.println("item null");
+				lock();
+				return false;
+			}
+			
 			
 			// Check if requested item is available for manipulation
 			L2ItemInstance oldItem = _owner.checkItemManipulation(item.getObjectId(), price, "sell");
