@@ -11782,6 +11782,12 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized boolean setActiveClass(int classIndex)
 	{
+		if(isInCombat()){
+			sendMessage("Impossible switch class if in combat");
+			sendPacket( ActionFailed.STATIC_PACKET );
+			return false;
+		}
+			
 		L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
 
 		if(rhand != null)
