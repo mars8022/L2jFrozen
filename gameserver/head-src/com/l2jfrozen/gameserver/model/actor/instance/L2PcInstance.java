@@ -11782,7 +11782,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized boolean setActiveClass(int classIndex)
 	{
-		if(isInCombat() || getAI().getIntention() == CtrlIntention.AI_INTENTION_ATTACK){
+		if(isInCombat() || this.getAI().getIntention() == CtrlIntention.AI_INTENTION_ATTACK){
 			sendMessage("Impossible switch class if in combat");
 			sendPacket( ActionFailed.STATIC_PACKET );
 			return false;
@@ -11839,7 +11839,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 		}
 		catch(InterruptedException e1)
 		{
@@ -11941,6 +11941,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		restoreSkills();
 		regiveTemporarySkills();
 		rewardSkills();
+		
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch(InterruptedException e1)
+		{
+			//nothing
+		}
+		
+		checkAllowedSkills();
 
 		sendPacket(new EtcStatusUpdate(this));
 
