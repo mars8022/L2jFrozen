@@ -8416,7 +8416,13 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setLong(33, getDeleteTimer());
 			statement.setString(34, getTitle());
 			statement.setInt(35, getAccessLevel().getLevel());
-			statement.setInt(36, _isOffline ? 0 : isOnline()); //TODO
+			
+			if(_isOffline || isOnline()==1){ //in offline mode or online
+				statement.setInt(36, 1);
+			}else
+				statement.setInt(36, isOnline());
+			
+			//statement.setInt(36, _isOffline ? 0 : isOnline()); 
 			statement.setInt(37, isIn7sDungeon() ? 1 : 0);
 			statement.setInt(38, getClanPrivileges());
 			statement.setInt(39, getWantsPeace());
