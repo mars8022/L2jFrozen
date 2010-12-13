@@ -3,6 +3,7 @@ package com.l2jfrozen.gameserver.model.entity.event;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -81,7 +82,7 @@ public class DM implements EventTask
 
 	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();  
 	
-	public static L2PcInstance _topPlayer;
+	public static List<L2PcInstance> _topPlayers = new ArrayList<L2PcInstance>();
 	public static Vector<String> _savePlayers = new Vector<String>();
 	
 	private DM(){
@@ -830,12 +831,16 @@ public class DM implements EventTask
 			
 			if(_topKills != 0){
 				
-				Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+				String winners = "";
+				for(L2PcInstance winner:_topPlayers){
+					winners = winners+" "+winner.getName();
+				}
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + winners + " win the match! " + _topKills + " kills.");
 				rewardPlayer();
 				
 				if(Config.DM_STATS_LOGGER){
 					_log.info("**** "+_eventName+" ****");
-					_log.info(_eventName + ": " + _topPlayer.getName() + " wins the match! " + _topKills + " kills.");
+					_log.info(_eventName + ": " + winners + " win the match! " + _topKills + " kills.");
 				}
 				
 			}else{
@@ -889,7 +894,7 @@ public class DM implements EventTask
 	{
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Teleport back to participation NPC in 20 seconds!");
 
-		//removeUserData();
+		removeUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
 			public void run()
@@ -941,7 +946,6 @@ public class DM implements EventTask
 					}
 					
 				}
-				
 				cleanDM();
 			}
 		}, 20000);
@@ -1157,7 +1161,7 @@ public class DM implements EventTask
 					{
 						if(player == null)
 							_players.remove(player);					
-						else if(player.isOnline() == 0 || player.isInJail())
+						else if(player.isOnline() == 0 || player.isInJail() || player.isOffline())
 							removePlayer(player);
 						if(_players.size() == 0 || _players.isEmpty())
 							break;
@@ -1260,11 +1264,9 @@ public class DM implements EventTask
 				player._originalNameColorDM = player.getAppearance().getNameColor();
 				player._originalKarmaDM = player.getKarma();
 				player._originalTitleDM = player.getTitle();
-				player.setTitle("Kills: " + player._countDMkills);
-				player._inEventDM = true;
-				player._countDMkills = 0;
 				player.getAppearance().setNameColor(_playerColors);
 				player.setKarma(0);
+				player.setTitle("Kills: " + player._countDMkills);
 				player.broadcastUserInfo();
 			}
 		}
@@ -1353,7 +1355,7 @@ public class DM implements EventTask
 		}
 		
 		
-		_topPlayer = null;
+		_topPlayers = new ArrayList<L2PcInstance>();
 		_npcSpawn = null;
 		_joining = false;
 		_teleport = false;
@@ -1646,8 +1648,6 @@ public class DM implements EventTask
 			_players.add(player);
 		}
 		
-		player._originalNameColorDM = player.getAppearance().getNameColor();
-		player._originalKarmaDM = player.getKarma();
 		player._inEventDM = true;
 		player._countDMkills = 0;
 		_savePlayers.add(player.getName());
@@ -1658,12 +1658,11 @@ public class DM implements EventTask
 	{
 		if(player != null && player._inEventDM)
 		{
-			if(!_joining && player._originalTitleDM!=null) //added condition to check if already changed title 
-				 											//(so already called teleport function and setUserData)
-			{
+			if(!_joining){
 				player.getAppearance().setNameColor(player._originalNameColorDM);
 				player.setTitle(player._originalTitleDM);
 				player.setKarma(player._originalKarmaDM);
+				
 				player.broadcastUserInfo();
 				
 			}
@@ -1703,7 +1702,7 @@ public class DM implements EventTask
 		_topKills = 0;
 		_players = new Vector<L2PcInstance>();
 		_savePlayers = new Vector<String>();
-		_topPlayer = null;
+		_topPlayers = new ArrayList<L2PcInstance>();
 		
 		cleanLocalEventInfo();
 		
@@ -1805,7 +1804,28 @@ public class DM implements EventTask
 
 	public static void rewardPlayer()
 	{
-		if(_topPlayer != null)
+		if(_topPlayers.size()>0){
+			
+			for(L2PcInstance _topPlayer: _topPlayers){
+				_topPlayer.addItem("DM Event: " + _eventName, _rewardId, _rewardAmount, _topPlayer, true);
+
+				StatusUpdate su = new StatusUpdate(_topPlayer.getObjectId());
+				su.addAttribute(StatusUpdate.CUR_LOAD, _topPlayer.getCurrentLoad());
+				_topPlayer.sendPacket(su);
+
+				NpcHtmlMessage nhm = new NpcHtmlMessage(5);
+				TextBuilder replyMSG = new TextBuilder("");
+
+				replyMSG.append("<html><body>You won the event. Look in your inventory for the reward.</body></html>");
+
+				nhm.setHtml(replyMSG.toString());
+				_topPlayer.sendPacket(nhm);
+
+				// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+				_topPlayer.sendPacket( ActionFailed.STATIC_PACKET );
+			}
+		}
+		/*if(_topPlayer != null)
 		{
 			_topPlayer.addItem("DM Event: " + _eventName, _rewardId, _rewardAmount, _topPlayer, true);
 
@@ -1823,7 +1843,7 @@ public class DM implements EventTask
 
 			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 			_topPlayer.sendPacket( ActionFailed.STATIC_PACKET );
-		}
+		}*/
 	}
 	
 	private static void processTopPlayer()
@@ -1831,9 +1851,10 @@ public class DM implements EventTask
 		synchronized (_players){
 			for(L2PcInstance player : _players)
 			{
-				if(player._countDMkills > _topKills)
+				if(player._countDMkills >= _topKills)
 				{
-					_topPlayer = player;
+					if(!_topPlayers.contains(player))
+						_topPlayers.add(player);
 					_topKills = player._countDMkills;
 				}
 			}
@@ -1876,7 +1897,6 @@ public class DM implements EventTask
 				player.broadcastUserInfo();
 			}
 		}
-		
 	}
 
 	/**
