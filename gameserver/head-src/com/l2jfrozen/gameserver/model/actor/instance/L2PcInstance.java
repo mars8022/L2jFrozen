@@ -11782,7 +11782,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized boolean setActiveClass(int classIndex)
 	{
-		if(isInCombat()){
+		if(isInCombat() || getAI().getIntention() == CtrlIntention.AI_INTENTION_ATTACK){
 			sendMessage("Impossible switch class if in combat");
 			sendPacket( ActionFailed.STATIC_PACKET );
 			return false;

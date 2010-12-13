@@ -219,7 +219,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 			{
 				case 1: // Add Subclass - Initial
 					// Avoid giving player an option to add a new sub class, if they have three already.
-					if(player.getTotalSubClasses() == 3)
+					if(player.getTotalSubClasses() == Config.ALLOWED_SUBCLASS)
 					{
 						player.sendMessage("You can now only change one of your current sub classes.");
 						return;
@@ -302,7 +302,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 * classes then disallow them to change to their most recently added sub-class choice.
 					 */
 
-					if(player._inEventTvT)
+					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't add a subclass while in an event.");
 						return;
@@ -394,7 +394,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 * Note: paramOne = classIndex
 					 */
 
-					if(player._inEventTvT)
+					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't change subclass while in an event.");
 						return;
