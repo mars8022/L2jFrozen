@@ -653,7 +653,8 @@ public class Quest extends ManagedScript
 	 */
 	public boolean showError(L2Character object, Throwable t)
 	{
-		_log.log(Level.WARNING, getScriptFile().getAbsolutePath(), t);
+		if(getScriptFile()!=null)
+			_log.log(Level.WARNING, getScriptFile().getAbsolutePath(), t);
 
 		if(object == null)
 			return false;
