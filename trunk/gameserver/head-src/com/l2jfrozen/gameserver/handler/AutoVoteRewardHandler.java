@@ -45,7 +45,7 @@ public class AutoVoteRewardHandler
 			}
 			
 			System.out.println("Server Votes: " + votes);
-			if (votes != 0 && getVoteCount() != 0 && votes >= getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
+			if (votes != 0 && votes >= getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
 				already_rewarded = new ArrayList<String>();
 				
@@ -71,7 +71,7 @@ public class AutoVoteRewardHandler
 						}
 					}
 				}
-				setVoteCount(getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD);
+				setVoteCount(votes);
 			}
 			
 			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
