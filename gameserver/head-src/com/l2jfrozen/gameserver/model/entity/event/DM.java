@@ -1851,11 +1851,15 @@ public class DM implements EventTask
 		synchronized (_players){
 			for(L2PcInstance player : _players)
 			{
-				if(player._countDMkills >= _topKills)
+				if(player._countDMkills > _topKills)
 				{
+					_topPlayers.clear();
+					_topPlayers.add(player);
+					_topKills = player._countDMkills;
+					
+				}else if(player._countDMkills == _topKills){
 					if(!_topPlayers.contains(player))
 						_topPlayers.add(player);
-					_topKills = player._countDMkills;
 				}
 			}
 		}
