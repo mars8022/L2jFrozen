@@ -34,7 +34,13 @@ public class AutoVoteRewardHandler
 	{
 		public void run()
 		{
-			int votes = getVotes();
+			int votes = 0;
+			if(PowerPakConfig.VOTES_SITE_URL.contains("l2topzone.com")){
+				votes = getVotesTopZone();
+			}else if(PowerPakConfig.VOTES_SITE_URL.contains("l2.hopzone.net")){
+				votes = getVotes();
+			}
+			
 			System.out.println("Server Votes: " + votes);
 			if (votes != 0 && getVoteCount() != 0 && votes >= getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
@@ -135,6 +141,50 @@ public class AutoVoteRewardHandler
 		return 0;
 	}
 
+	private int getVotesTopZone()
+	{
+		URL url = null;
+		InputStreamReader isr = null;
+		BufferedReader in = null;
+		try
+		{
+			url = new URL(PowerPakConfig.VOTES_SITE_URL);
+			isr = new InputStreamReader(url.openStream());
+			in = new BufferedReader(isr);
+			String inputLine;
+			while ((inputLine = in.readLine()) != null)
+			{
+				if (inputLine.contains("Votes"))
+				{
+					String votesLine = in.readLine() ;
+					
+					return Integer.valueOf(votesLine.split(">")[5].replace("</font", ""));
+					
+				}
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				in.close();
+			}
+			catch (IOException e)
+			{}
+			try
+			{
+				isr.close();
+			}
+			catch (IOException e)
+			{}
+		}
+		return 0;
+	}
+	
 	private void setVoteCount(int voteCount)
 	{
 		votesCount = voteCount;
