@@ -1685,22 +1685,24 @@ public class DM implements EventTask
 
 	public static void cleanDM()
 	{
-		for(L2PcInstance player : _players)
-		{
-			if(player != null)
+		synchronized (_players){
+			for(L2PcInstance player : _players)
 			{
-				
-				cleanEventPlayer(player);
-				
-				removePlayer(player);
-				if(_savePlayers.contains(player.getName()))
-					_savePlayers.remove(player.getName());
-				player._inEventDM = false;
+				if(player != null)
+				{
+					
+					cleanEventPlayer(player);
+					
+					removePlayer(player);
+					if(_savePlayers.contains(player.getName()))
+						_savePlayers.remove(player.getName());
+					player._inEventDM = false;
+				}
 			}
+			_players = new Vector<L2PcInstance>();
 		}
 		
 		_topKills = 0;
-		_players = new Vector<L2PcInstance>();
 		_savePlayers = new Vector<String>();
 		_topPlayers = new ArrayList<L2PcInstance>();
 		
