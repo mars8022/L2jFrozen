@@ -32,6 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Stats;
@@ -92,12 +93,15 @@ public class Heal implements ISkillHandler
 				continue;
 
 			// Player can't heal rb config
-			if(!Config.PLAYERS_CAN_HEAL_RB && player!=null && !player.isGM() && target instanceof L2RaidBossInstance)
+			if(!Config.PLAYERS_CAN_HEAL_RB && player!=null && !player.isGM() && target instanceof L2RaidBossInstance){
+				player.sendPacket( ActionFailed.STATIC_PACKET );
 				continue;
-
+			}
 			// Player can't heal rb config
-			if(!Config.PLAYERS_CAN_HEAL_RB && player!=null && !player.isGM() && target instanceof L2GrandBossInstance)
+			if(!Config.PLAYERS_CAN_HEAL_RB && player!=null && !player.isGM() && target instanceof L2GrandBossInstance){
+				player.sendPacket( ActionFailed.STATIC_PACKET );
 				continue;
+			}
 
 			// Player holding a cursed weapon can't be healed and can't heal
 			if(target != activeChar)

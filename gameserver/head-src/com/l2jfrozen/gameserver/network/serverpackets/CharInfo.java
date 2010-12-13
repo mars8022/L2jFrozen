@@ -317,10 +317,12 @@ public class CharInfo extends L2GameServerPacket
 			writeC(_activeChar.getPrivateStoreType()); //  1 - sellshop
 
 			writeH(_activeChar.getCubics().size());
-			for(int id : _activeChar.getCubics().keySet())
-			{
-				writeH(id);
-			}
+			
+			if(_activeChar.getCubics().size()>0 && _activeChar.getCubics().keySet()!=null && _activeChar.getCubics().keySet().size()>0)
+				for(int id : _activeChar.getCubics().keySet())
+				{
+					writeH(id);
+				}
 
 			writeC(0x00); // find party members
 
