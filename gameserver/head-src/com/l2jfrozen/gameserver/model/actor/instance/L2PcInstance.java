@@ -14789,7 +14789,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void refreshOtherBoxes(){
 		
-		if(getClient()!=null && !getClient().getConnection().isClosed()){
+		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
@@ -14797,9 +14797,9 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			for(L2PcInstance player : players)
 			{
-				if(player != null)
+				if(player != null && !player.isOffline())
 				{
-					if(player.getClient()!=null && !player.getClient().getConnection().isClosed()  && !player.getName().equals(this.getName())){
+					if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed()  && !player.getName().equals(this.getName())){
 						
 						String ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 						if(thisip.equals(ip) && this != player && player != null)

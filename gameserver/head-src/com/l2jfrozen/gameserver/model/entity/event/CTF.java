@@ -877,8 +877,13 @@ public class CTF implements EventTask
 					}
 				}
 				
-				Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
+				if(_topTeam!=null){
+					Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
+				}else{
+					Announcements.getInstance().gameAnnounceToAll(_eventName + ": The event finished with a TIE: " + _topScore + " flags taken by each team!");
+				}
 				rewardTeam(_topTeam);
+				
 				
 				if(Config.CTF_STATS_LOGGER){
 					
@@ -1209,7 +1214,7 @@ public class CTF implements EventTask
 				{
 					if(player == null)
 						_playersShuffle.remove(player);					
-					else if(player.isOnline() == 0 || player.isInJail())
+					else if(player.isOnline() == 0 || player.isInJail() || player.isOffline())
 						removePlayer(player);
 					if(_playersShuffle.size() == 0 || _playersShuffle.isEmpty())
 						break;
@@ -1378,6 +1383,9 @@ public class CTF implements EventTask
 	{
 		for(L2PcInstance player : _players)
 		{
+			player._originalNameColorCTF = player.getAppearance().getNameColor();
+			player._originalKarmaCTF = player.getKarma();
+			player._originalTitleCTF = player.getTitle();
 			player.getAppearance().setNameColor(_teamColors.get(_teams.indexOf(player._teamNameCTF)));
 			player.setKarma(0);
 			if(Config.CTF_AURA)
@@ -1823,10 +1831,7 @@ public class CTF implements EventTask
 	{
 		if(player._inEventCTF)
 		{
-			if(!_joining&& player._originalTitleCTF!=null) //added condition to check if already changed title
-															//(so already called teleport function and setUserData)
-				
-			{
+			if(!_joining){
 				player.getAppearance().setNameColor(player._originalNameColorCTF);
 				player.setTitle(player._originalTitleCTF);
 				player.setKarma(player._originalKarmaCTF);
@@ -1991,10 +1996,7 @@ public class CTF implements EventTask
 			int playerToAddIndex = Rnd.nextInt(_playersShuffle.size());
 			L2PcInstance player=null;
 			player = _playersShuffle.get(playerToAddIndex);
-			player._originalNameColorCTF = player.getAppearance().getNameColor();
-			player._originalTitleCTF = player.getTitle();
-			player._originalKarmaCTF = player.getKarma();
-
+			
 			_players.add(player);
 			_players.get(playersCount)._teamNameCTF = _teams.get(teamCount);
 			_savePlayers.add(_players.get(playersCount).getName());
@@ -2033,6 +2035,51 @@ public class CTF implements EventTask
 	{
 		for(L2PcInstance player : _players)
 		{
+			if(player != null && (player.isOnline() != 0) && (player._inEventCTF == true)){
+				
+				if(teamName!=null && (player._teamNameCTF.equals(teamName)) ){
+					
+					player.addItem(_eventName+" Event: " + _eventName, _rewardId, _rewardAmount, player, true);
+
+					NpcHtmlMessage nhm = new NpcHtmlMessage(5);
+					TextBuilder replyMSG = new TextBuilder("");
+
+					replyMSG.append("<html><body>");
+					replyMSG.append("<font color=\"FFFF00\">Your team wins the event. Look in your inventory for the reward.</font>");
+					replyMSG.append("</body></html>");
+
+					nhm.setHtml(replyMSG.toString());
+					player.sendPacket(nhm);
+
+					// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+					player.sendPacket( ActionFailed.STATIC_PACKET );
+					
+				}else if(teamName==null ){ //TIE
+					
+					int minus_reward = _rewardAmount/2;
+					
+					player.addItem(_eventName+" Event: " + _eventName, _rewardId, minus_reward, player, true);
+
+					NpcHtmlMessage nhm = new NpcHtmlMessage(5);
+					TextBuilder replyMSG = new TextBuilder("");
+
+					replyMSG.append("<html><body>");
+					replyMSG.append("<font color=\"FFFF00\">Your team had a tie in the event. Look in your inventory for the reward.</font>");
+					replyMSG.append("</body></html>");
+
+					nhm.setHtml(replyMSG.toString());
+					player.sendPacket(nhm);
+
+					// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+					player.sendPacket( ActionFailed.STATIC_PACKET );
+					
+				}
+			}
+		}
+		
+		/*
+		for(L2PcInstance player : _players)
+		{
 			if(player != null && (player.isOnline() != 0) && (player._inEventCTF == true) && (player._teamNameCTF.equals(teamName)))
 			{
 				
@@ -2052,7 +2099,7 @@ public class CTF implements EventTask
 					player.sendPacket( ActionFailed.STATIC_PACKET );
 			
 			}
-		}
+		}*/
 	}
 
 	private static void processTopPlayer()
