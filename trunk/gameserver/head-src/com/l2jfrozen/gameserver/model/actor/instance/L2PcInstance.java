@@ -11557,7 +11557,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized boolean addSubClass(int classId, int classIndex)
 	{
-		if(getTotalSubClasses() == 3 || classIndex == 0)
+		if(getTotalSubClasses() == Config.ALLOWED_SUBCLASS || classIndex == 0)
 			return false;
 
 		if(getSubClasses().containsKey(classIndex))

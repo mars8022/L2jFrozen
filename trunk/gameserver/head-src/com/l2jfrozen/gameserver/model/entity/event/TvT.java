@@ -1243,14 +1243,15 @@ public class TvT implements EventTask
 		if(eventPlayer._active_boxes>1 && !Config.ALLOW_DUALBOX_EVENT){
 			List<String> players_in_boxes = eventPlayer.active_boxes_characters;
 			
-			for(String character_name: players_in_boxes){
-				L2PcInstance player = L2World.getInstance().getPlayer(character_name);
-				
-				if(player._inEventTvT){
-					eventPlayer.sendMessage("You already participated in event with another char!"); 
-					return false;
+			if(players_in_boxes!=null && players_in_boxes.size()>1)
+				for(String character_name: players_in_boxes){
+					L2PcInstance player = L2World.getInstance().getPlayer(character_name);
+					
+					if(player!=null && player._inEventTvT){
+						eventPlayer.sendMessage("You already participated in event with another char!"); 
+						return false;
+					}
 				}
-			}
 			
 			/*eventPlayer.sendMessage("Dual Box not allowed in Events");
 			return false;*/

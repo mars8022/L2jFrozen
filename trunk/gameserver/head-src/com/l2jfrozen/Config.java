@@ -979,6 +979,7 @@ public final class Config
 	
 	public static boolean SELL_BY_ITEM;
 	public static int SELL_ITEM;
+	public static int ALLOWED_SUBCLASS;
 	
 	//============================================================
 	public static void loadAltConfig()
@@ -1126,6 +1127,7 @@ public final class Config
 			SELL_BY_ITEM = Boolean.parseBoolean(altSettings.getProperty("SellByItem", "False"));
 			SELL_ITEM = Integer.parseInt(altSettings.getProperty("SellItem", "57"));
 			
+			ALLOWED_SUBCLASS = Integer.parseInt(altSettings.getProperty("AllowedSubclass", "3"));
 		}
 		catch(Exception e)
 		{

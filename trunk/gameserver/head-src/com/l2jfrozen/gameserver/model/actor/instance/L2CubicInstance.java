@@ -157,7 +157,8 @@ public class L2CubicInstance
 		_target = null;
 		if(_actionTask != null)
 		{
-			_actionTask.cancel(true);
+			if(!_actionTask.isCancelled())
+				_actionTask.cancel(true);
 			_actionTask = null;
 		}
 	}
@@ -183,7 +184,7 @@ public class L2CubicInstance
 
 		public void run()
 		{
-			if(_owner.isDead() || _target.isDead() || _owner.getTarget() != _target)
+			if(_owner.isDead() || _target.isDead() || _owner.getTarget() != _target || _owner.isOffline() || ( _target instanceof L2PcInstance && ((L2PcInstance)_target).isOffline()))
 			{
 				stopAction();
 				if(_owner.isDead())

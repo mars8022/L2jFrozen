@@ -144,7 +144,7 @@ public class AdminBan implements IAdminCommandHandler
 					plyr.closeNetConnection();
 					activeChar.sendMessage("Account " + account_name + " banned.");
 					if(Config.ANNOUNCE_TRY_BANNED_ACCOUNT) {
-					Announcements.getInstance().announceToAll("Administrator has banned account " + account_name + "forever");
+					Announcements.getInstance().announceToAll("Administrator has banned player " + plyr.getName() + "forever");
 					}
 				}
 				break;
