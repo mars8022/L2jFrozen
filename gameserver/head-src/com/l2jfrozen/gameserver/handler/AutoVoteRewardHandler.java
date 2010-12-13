@@ -35,9 +35,12 @@ public class AutoVoteRewardHandler
 		public void run()
 		{
 			int votes = 0;
+			String site = "";
 			if(PowerPakConfig.VOTES_SITE_URL.contains("l2topzone.com")){
+				site = "TOPZONE";
 				votes = getVotesTopZone();
 			}else if(PowerPakConfig.VOTES_SITE_URL.contains("l2.hopzone.net")){
+				site = "HOPZONE";
 				votes = getVotes();
 			}
 			
@@ -73,7 +76,7 @@ public class AutoVoteRewardHandler
 			
 			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
 			
-			Announcements.getInstance().gameAnnounceToAll("Actual HOPZONE Votes are " + votes + "...");
+			Announcements.getInstance().gameAnnounceToAll("Actual "+site+" Votes are " + votes + "...");
 			Announcements.getInstance().gameAnnounceToAll("Next Reward in "+minutes+" minutes at " + (getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
 			/*if (getLastVoteCount() == 0)
 			{
