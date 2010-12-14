@@ -39,6 +39,7 @@ public class AutoVoteRewardHandler
 		{
 			int topzone_votes = getTopZoneVotes();
 			int hopzone_votes = getHopZoneVotes();
+			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
 			
 			/*
 			String topzone = "";
@@ -51,8 +52,8 @@ public class AutoVoteRewardHandler
 			}
 			*/
 			
-			System.out.println("Server TOPZONE Votes: " + topzone_votes);
-			System.out.println("Server HOPZONE Votes: " + hopzone_votes);
+			System.out.println("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
+			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual HOPZONE Votes are " + hopzone_votes + "...");
 			
 			if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
@@ -60,6 +61,8 @@ public class AutoVoteRewardHandler
 				
 				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
 
+				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
+				
 				//L2ItemInstance item;
 				for (L2PcInstance player : pls)
 				{
@@ -82,6 +85,19 @@ public class AutoVoteRewardHandler
 				}
 				setHopZoneVoteCount(hopzone_votes);
 			}
+			Announcements.getInstance().gameAnnounceToAll("Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+			
+			if(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
+				try
+				{
+					Thread.sleep(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/2);
+				}
+				catch(InterruptedException e)
+				{
+				}
+			
+			System.out.println("Server TOPZONE Votes: " + topzone_votes);
+			Announcements.getInstance().gameAnnounceToAll("Actual TOPZONE Votes are " + topzone_votes + "...");
 			
 			if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
@@ -89,6 +105,8 @@ public class AutoVoteRewardHandler
 				
 				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
 
+				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
+				
 				//L2ItemInstance item;
 				for (L2PcInstance player : pls)
 				{
@@ -112,16 +130,8 @@ public class AutoVoteRewardHandler
 				setTopZoneVoteCount(topzone_votes);
 			}
 			
-			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
+			Announcements.getInstance().gameAnnounceToAll("Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
 			
-			Announcements.getInstance().gameAnnounceToAll("Actual HOPZONE Votes are " + hopzone_votes + "...");
-			Announcements.getInstance().gameAnnounceToAll("Actual TOPZONE Votes are " + topzone_votes + "...");
-			Announcements.getInstance().gameAnnounceToAll("Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
-			Announcements.getInstance().gameAnnounceToAll("Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
-			/*if (getLastVoteCount() == 0)
-			{
-				setInitialVoteCount(votes);
-			}*/
 		}
 	}
 
