@@ -248,6 +248,7 @@
   <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="#aggro"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
+
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rCrit" stackType="rCrit">
@@ -870,7 +871,7 @@
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="56"/>
   <set name="magicLvl" val="77"/>
-  <set name="power" val="80"/>
+  <set name="power" val="27"/>
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="120000"/>
@@ -966,7 +967,7 @@
   <set name="mpInitialConsume" val="21"/>
   <set name="mpConsume" val="84"/>
   <set name="magicLvl" val="77"/>
-  <set name="power" val="140"/>
+  <set name="power" val="120"/>
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="6000"/>
@@ -1137,6 +1138,7 @@
   <set name="itemConsumeCount" val="10"/>
   <set name="hitTime" val="4000"/>
   <set name="reuseDelay" val="300000"/>
+
   <set name="target" val="TARGET_PET"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1579,7 +1581,7 @@
   <set name="mpInitialConsume" val="22"/>
   <set name="mpConsume" val="85"/>
   <set name="magicLvl" val="78"/>
-  <set name="power" val="40"/>
+  <set name="power" val="28"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="300"/>
@@ -1815,7 +1817,7 @@
   <set name="hitTime" val="6000"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="250"/>
-  <set name="power" val="20"/>
+  <set name="power" val="15"/>
   <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="500"/>
@@ -2093,7 +2095,7 @@
   <table name="#mpConsume">27 28 28 29 30 32 33 33 34 35</table>
   <set name="mpConsume" val="#mpConsume"/>
   <!-- <set name="save" val="2"/> -->
-  <set name="power" val="80"/>
+  <set name="power" val="50"/>
   <set name="lvlDepend" val="2"/>
   <!-- reuse delay should be "nearly instant" -->
   <set name="reuseDelay" val="5000"/>
