@@ -85,7 +85,7 @@ public class AutoVoteRewardHandler
 				}
 				setHopZoneVoteCount(hopzone_votes);
 			}
-			Announcements.getInstance().gameAnnounceToAll("Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
 			
 			if(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
 				try
@@ -97,7 +97,7 @@ public class AutoVoteRewardHandler
 				}
 			
 			System.out.println("Server TOPZONE Votes: " + topzone_votes);
-			Announcements.getInstance().gameAnnounceToAll("Actual TOPZONE Votes are " + topzone_votes + "...");
+			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
 			
 			if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
@@ -130,7 +130,7 @@ public class AutoVoteRewardHandler
 				setTopZoneVoteCount(topzone_votes);
 			}
 			
-			Announcements.getInstance().gameAnnounceToAll("Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
 			
 		}
 	}
