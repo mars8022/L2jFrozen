@@ -213,6 +213,21 @@ public class AdminTeleport implements IAdminCommandHandler
 				//ignore
 			}
 		}
+		else if(command.startsWith("admin_teleporttonpc ")) //TODO
+		{
+			try
+			{
+				String targetName = command.substring(17);
+				L2PcInstance player = L2World.getInstance().getPlayer(targetName);
+				teleportToCharacter(activeChar, player);
+				targetName = null;
+				player = null;
+			}
+			catch(StringIndexOutOfBoundsException e)
+			{
+				//ignore
+			}
+		}
 		else if(command.startsWith("admin_recall "))
 		{
 			try
@@ -454,12 +469,14 @@ public class AdminTeleport implements IAdminCommandHandler
 	private void teleportToCharacter(L2PcInstance activeChar, L2Object target)
 	{
 		L2PcInstance player = null;
-
+		L2NpcInstance npc = null;
+		
 		if(target != null && target instanceof L2PcInstance)
 		{
 			player = (L2PcInstance) target;
-		}
-		else
+		}else if(target != null && target instanceof L2NpcInstance){
+			npc = (L2NpcInstance) target;
+		}else
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			return;
@@ -469,7 +486,7 @@ public class AdminTeleport implements IAdminCommandHandler
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_ON_YOURSELF));
 		}
-		else
+		else if(player!=null)
 		{
 			int x = player.getX();
 			int y = player.getY();
@@ -480,8 +497,20 @@ public class AdminTeleport implements IAdminCommandHandler
 
 			activeChar.sendMessage("You have teleported to character " + player.getName() + ".");
 		}
+		else if(npc!=null)
+		{
+			int x = npc.getX();
+			int y = npc.getY();
+			int z = npc.getZ();
+
+			activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+			activeChar.teleToLocation(x, y, z, true);
+
+			activeChar.sendMessage("You have teleported to npc " + npc.getName() + ".");
+		}
 
 		player = null;
+		npc = null;
 	}
 
 	private void recallNPC(L2PcInstance activeChar)

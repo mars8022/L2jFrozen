@@ -688,33 +688,35 @@ public class CTF implements EventTask
 
 		removeOfflinePlayers();
 		
-		if(_teamEvent){
-			
-			if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size()))
-			{
-				shuffleTeams();
-			}
-			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
-			{
-				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
-				if(Config.CTF_STATS_LOGGER)
-					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+		synchronized(_players){
+			if(_teamEvent){
 				
-				return false;
+				if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size()))
+				{
+					shuffleTeams();
+				}
+				else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
+				{
+					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+					if(Config.CTF_STATS_LOGGER)
+						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+					
+					return false;
+				}
+				
+			}else{
+				
+				if(!checkMinPlayers(_players.size()))
+				{
+					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+					if(Config.CTF_STATS_LOGGER)
+						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+					return false;
+				}
+				
 			}
-			
-		}else{
-			
-			if(!checkMinPlayers(_players.size()))
-			{
-				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-				if(Config.CTF_STATS_LOGGER)
-					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-				return false;
-			}
-			
 		}
-
+		
 		_joining = false;
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Teleport to team spot in 20 seconds!");
 
@@ -726,49 +728,52 @@ public class CTF implements EventTask
 				sit();
 				afterTeleportOperations();
 
-				for(L2PcInstance player : _players)
-				{
-					if(player != null)
+				synchronized(_players){
+					for(L2PcInstance player : _players)
 					{
-						if(Config.CTF_ON_START_UNSUMMON_PET)
+						if(player != null)
 						{
-							// Remove Summon's buffs
-							if(player.getPet() != null)
+							if(Config.CTF_ON_START_UNSUMMON_PET)
 							{
-								L2Summon summon = player.getPet();
-								for(L2Effect e : summon.getAllEffects())
+								// Remove Summon's buffs
+								if(player.getPet() != null)
+								{
+									L2Summon summon = player.getPet();
+									for(L2Effect e : summon.getAllEffects())
+										if(e != null)
+											e.exit();
+
+									if(summon instanceof L2PetInstance)
+										summon.unSummon(player);
+								}
+							}
+
+							if(Config.CTF_ON_START_REMOVE_ALL_EFFECTS)
+							{
+								for(L2Effect e : player.getAllEffects())
+								{
 									if(e != null)
 										e.exit();
-
-								if(summon instanceof L2PetInstance)
-									summon.unSummon(player);
+								}
 							}
-						}
 
-						if(Config.CTF_ON_START_REMOVE_ALL_EFFECTS)
-						{
-							for(L2Effect e : player.getAllEffects())
+							// Remove player from his party
+							if(player.getParty() != null)
 							{
-								if(e != null)
-									e.exit();
+								L2Party party = player.getParty();
+								party.removePartyMember(player);
 							}
-						}
 
-						// Remove player from his party
-						if(player.getParty() != null)
-						{
-							L2Party party = player.getParty();
-							party.removePartyMember(player);
-						}
-
-						if(_teamEvent){
-							player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
-							
-						}else{
-							//player.teleToLocation(_playerX, _playerY, _playerZ);
+							if(_teamEvent){
+								player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
+								
+							}else{
+								//player.teleToLocation(_playerX, _playerY, _playerZ);
+							}
 						}
 					}
 				}
+				
 			}
 		}, 20000);
 		_teleport = true;
@@ -793,6 +798,7 @@ public class CTF implements EventTask
 		_teleport = false;
 		
 		sit();
+		removeParties();
 		
 		afterStartOperations();
 		
@@ -802,14 +808,30 @@ public class CTF implements EventTask
 		return true;
 	}
 
+	private static void removeParties(){
+		synchronized(_players){
+			for(L2PcInstance player : _players)
+			{
+				if(player.getParty() != null)
+				{
+					L2Party party = player.getParty();
+					party.removePartyMember(player);
+				}
+			}
+		}
+	}
+	
 	private static void afterStartOperations(){
 		
-		for(L2PcInstance player : _players)
-			if(player != null)
-			{
-				player._teamNameHaveFlagCTF=null;
-				player._haveFlagCTF = false;
-			}
+		synchronized(_players){
+			for(L2PcInstance player : _players)
+				if(player != null)
+				{
+					player._teamNameHaveFlagCTF=null;
+					player._haveFlagCTF = false;
+				}
+			
+		}
 		
 	}
 	
@@ -960,49 +982,52 @@ public class CTF implements EventTask
 		{
 			public void run()
 			{
-				for(L2PcInstance player : _players)
-				{
-					if(player != null)
+				synchronized(_players){
+					for(L2PcInstance player : _players)
 					{
-						if(player.isOnline() != 0)
-							player.teleToLocation(_npcX, _npcY, _npcZ, false);
-						else
+						if(player != null)
 						{
-							java.sql.Connection con = null;
-							try
+							if(player.isOnline() != 0)
+								player.teleToLocation(_npcX, _npcY, _npcZ, false);
+							else
 							{
-								con = L2DatabaseFactory.getInstance().getConnection();
-
-								PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
-								statement.setInt(1, _npcX);
-								statement.setInt(2, _npcY);
-								statement.setInt(3, _npcZ);
-								statement.setString(4, player.getName());
-								statement.execute();
-								statement.close();
-							}
-							catch(Exception e)
-							{
-								_log.error(e.getMessage(), e);
-								return;
-							}
-							finally
-							{
+								java.sql.Connection con = null;
 								try
 								{
-									if(con != null)
-									{
-										con.close();
-									}
+									con = L2DatabaseFactory.getInstance().getConnection();
+
+									PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
+									statement.setInt(1, _npcX);
+									statement.setInt(2, _npcY);
+									statement.setInt(3, _npcZ);
+									statement.setString(4, player.getName());
+									statement.execute();
+									statement.close();
 								}
 								catch(Exception e)
 								{
-									e.printStackTrace();
+									_log.error(e.getMessage(), e);
+									return;
+								}
+								finally
+								{
+									try
+									{
+										if(con != null)
+										{
+											con.close();
+										}
+									}
+									catch(Exception e)
+									{
+										e.printStackTrace();
+									}
 								}
 							}
 						}
 					}
 				}
+				
 				cleanCTF();
 			}
 		}, 20000);
@@ -1180,26 +1205,29 @@ public class CTF implements EventTask
 		else
 			_sitForced = true;
 
-		for(L2PcInstance player : _players)
-		{
-			if(player != null)
+		synchronized(_players){
+			for(L2PcInstance player : _players)
 			{
-				if(_sitForced)
+				if(player != null)
 				{
-					player.stopMove(null, false);
-					player.abortAttack();
-					player.abortCast();
+					if(_sitForced)
+					{
+						player.stopMove(null, false);
+						player.abortAttack();
+						player.abortCast();
 
-					if(!player.isSitting())
-						player.sitDown();
-				}
-				else
-				{
-					if(player.isSitting())
-						player.standUp();
+						if(!player.isSitting())
+							player.sitDown();
+					}
+					else
+					{
+						if(player.isSitting())
+							player.standUp();
+					}
 				}
 			}
 		}
+		
 	}
 
 	public static void removeOfflinePlayers()
@@ -1302,25 +1330,28 @@ public class CTF implements EventTask
 			return false;*/
 		}
 		
-		for(L2PcInstance player: _players)
-		{
-			if(player.getObjectId()==eventPlayer.getObjectId())
+		synchronized(_players){
+			for(L2PcInstance player: _players)
 			{
-				eventPlayer.sendMessage("You already participated in the event!"); 
-				return false;
+				if(player.getObjectId()==eventPlayer.getObjectId())
+				{
+					eventPlayer.sendMessage("You already participated in the event!"); 
+					return false;
+				}
+				else if(player.getName()==eventPlayer.getName())
+				{
+					eventPlayer.sendMessage("You already participated in the event!"); 
+					return false;
+				}
 			}
-			else if(player.getName()==eventPlayer.getName())
-			{
-				eventPlayer.sendMessage("You already participated in the event!"); 
-				return false;
-			}
-		}
 
-		if(_players.contains(eventPlayer))
-		{
-			eventPlayer.sendMessage("You already participated in the event!");
-			return false;
+			if(_players.contains(eventPlayer))
+			{
+				eventPlayer.sendMessage("You already participated in the event!");
+				return false;
+			}
 		}
+		
 
 		if(CTF._savePlayers.contains(eventPlayer.getName())) 
 		{
@@ -1381,20 +1412,23 @@ public class CTF implements EventTask
 	
 	public static void setUserData()
 	{
-		for(L2PcInstance player : _players)
-		{
-			player._originalNameColorCTF = player.getAppearance().getNameColor();
-			player._originalKarmaCTF = player.getKarma();
-			player._originalTitleCTF = player.getTitle();
-			player.getAppearance().setNameColor(_teamColors.get(_teams.indexOf(player._teamNameCTF)));
-			player.setKarma(0);
-			if(Config.CTF_AURA)
+		synchronized(_players){
+			for(L2PcInstance player : _players)
 			{
-				if(_teams.size() >= 2)
-					player.setTeam(_teams.indexOf(player._teamNameCTF) + 1);
+				player._originalNameColorCTF = player.getAppearance().getNameColor();
+				player._originalKarmaCTF = player.getKarma();
+				player._originalTitleCTF = player.getTitle();
+				player.getAppearance().setNameColor(_teamColors.get(_teams.indexOf(player._teamNameCTF)));
+				player.setKarma(0);
+				if(Config.CTF_AURA)
+				{
+					if(_teams.size() >= 2)
+						player.setTeam(_teams.indexOf(player._teamNameCTF) + 1);
+				}
+				player.broadcastUserInfo();
 			}
-			player.broadcastUserInfo();
 		}
+		
 	}
 
 	public static void dumpData()
@@ -1459,12 +1493,15 @@ public class CTF implements EventTask
 		_log.info("# _players(Vector<L2PcInstance>) #");
 		_log.info("##################################");
 
-		for(L2PcInstance player : _players)
-		{
-			if(player != null)
-				_log.info("Name: " + player.getName() + "   Team: " + player._teamNameCTF + "  Flags :" + player._countCTFflags);
-		}
+		synchronized(_players){
+			for(L2PcInstance player : _players)
+			{
+				if(player != null)
+					_log.info("Name: " + player.getName() + "   Team: " + player._teamNameCTF + "  Flags :" + player._countCTFflags);
+			}
 
+		}
+		
 		_log.info("");
 		_log.info("#####################################################################");
 		_log.info("# _savePlayers(Vector<String>) and _savePlayerTeams(Vector<String>) #");
@@ -1500,7 +1537,10 @@ public class CTF implements EventTask
 		_eventDesc = new String();
 		_joiningLocationName = new String();
 		_savePlayers = new Vector<String>();
-		_players = new Vector<L2PcInstance>();
+		synchronized(_players){
+			_players = new Vector<L2PcInstance>();
+		}
+		
 		
 		_topTeam = new String();
 		_teams = new Vector<String>();
@@ -1738,52 +1778,55 @@ public class CTF implements EventTask
 			}
 			else if(!_started && _joining && eventPlayer.getLevel()>=_minlvl && eventPlayer.getLevel()<=_maxlvl)
 			{
-				if(_players.contains(eventPlayer) || _playersShuffle.contains(eventPlayer) || checkShufflePlayers(eventPlayer))
-				{
-					if(Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE"))
-						replyMSG.append("You participated already in team <font color=\"LEVEL\">" + eventPlayer._teamNameCTF + "</font><br><br>");
-					else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
-						replyMSG.append("<center><font color=\"3366CC\">You participated already!</font></center><br><br>");
-						
-					replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + _playersShuffle.size() + "</font></center><br>");
-
-					replyMSG.append("<center><font color=\"3366CC\">Wait till event start or remove your participation!</font><center>");
-					replyMSG.append("<center><button value=\"Remove\" action=\"bypass -h npc_" + objectId+ "_ctf_player_leave\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center>");
-				}
-				else
-				{
-					replyMSG.append("<center><font color=\"3366CC\">You want to participate in the event?</font></center><br>");
-					replyMSG.append("<center><td width=\"200\">Min lvl: <font color=\"00FF00\">" + _minlvl + "</font></center></td><br>");
-					replyMSG.append("<center><td width=\"200\">Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font></center></td><br><br>");
-					replyMSG.append("<center><font color=\"3366CC\">Teams:</font></center><br>");
-
-					if(Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE"))
+				synchronized(_players){
+					if(_players.contains(eventPlayer) || _playersShuffle.contains(eventPlayer) || checkShufflePlayers(eventPlayer))
 					{
-						replyMSG.append("<center><table border=\"0\">");
+						if(Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE"))
+							replyMSG.append("You participated already in team <font color=\"LEVEL\">" + eventPlayer._teamNameCTF + "</font><br><br>");
+						else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
+							replyMSG.append("<center><font color=\"3366CC\">You participated already!</font></center><br><br>");
+							
+						replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + _playersShuffle.size() + "</font></center><br>");
 
-						for(String team : _teams)
+						replyMSG.append("<center><font color=\"3366CC\">Wait till event start or remove your participation!</font><center>");
+						replyMSG.append("<center><button value=\"Remove\" action=\"bypass -h npc_" + objectId+ "_ctf_player_leave\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center>");
+					}
+					else
+					{
+						replyMSG.append("<center><font color=\"3366CC\">You want to participate in the event?</font></center><br>");
+						replyMSG.append("<center><td width=\"200\">Min lvl: <font color=\"00FF00\">" + _minlvl + "</font></center></td><br>");
+						replyMSG.append("<center><td width=\"200\">Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font></center></td><br><br>");
+						replyMSG.append("<center><font color=\"3366CC\">Teams:</font></center><br>");
+
+						if(Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE"))
 						{
-							replyMSG.append("<tr><td width=\"100\"><font color=\"LEVEL\">" + team + "</font>&nbsp;(" + teamPlayersCount(team) + " joined)</td>");
-							replyMSG.append("<center><td width=\"60\"><button value=\"Join\" action=\"bypass -h npc_" + objectId + "_ctf_player_join " + team
-									+ "\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center></td></tr>");
+							replyMSG.append("<center><table border=\"0\">");
+
+							for(String team : _teams)
+							{
+								replyMSG.append("<tr><td width=\"100\"><font color=\"LEVEL\">" + team + "</font>&nbsp;(" + teamPlayersCount(team) + " joined)</td>");
+								replyMSG.append("<center><td width=\"60\"><button value=\"Join\" action=\"bypass -h npc_" + objectId + "_ctf_player_join " + team
+										+ "\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center></td></tr>");
+							}
+							replyMSG.append("</table></center>");
 						}
-						replyMSG.append("</table></center>");
-					}
-					else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
-					{
-						replyMSG.append("<center>");
+						else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
+						{
+							replyMSG.append("<center>");
 
-						for(String team : _teams)
-							replyMSG.append("<tr><td width=\"100\"><font color=\"LEVEL\">" + team + "</font> &nbsp;</td>");
+							for(String team : _teams)
+								replyMSG.append("<tr><td width=\"100\"><font color=\"LEVEL\">" + team + "</font> &nbsp;</td>");
 
-						replyMSG.append("</center><br>");
+							replyMSG.append("</center><br>");
 
-						replyMSG.append("<center><button value=\"Join Event\" action=\"bypass -h npc_" + objectId + "_ctf_player_join eventShuffle\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center>");
-						replyMSG.append("<center><font color=\"3366CC\">Teams will be reandomly generated!</font></center><br>");
-						replyMSG.append("<center>Joined Players:</font> <font color=\"LEVEL\">" + _playersShuffle.size() + "</center></font><br>");
-						replyMSG.append("<center>Reward: <font color=\"LEVEL\">" + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName()+ "</center></font>");
+							replyMSG.append("<center><button value=\"Join Event\" action=\"bypass -h npc_" + objectId + "_ctf_player_join eventShuffle\" width=85 height=21 back=\"L2UI_ch3.Btn1_normalOn\" fore=\"L2UI_ch3.Btn1_normal\"></center>");
+							replyMSG.append("<center><font color=\"3366CC\">Teams will be reandomly generated!</font></center><br>");
+							replyMSG.append("<center>Joined Players:</font> <font color=\"LEVEL\">" + _playersShuffle.size() + "</center></font><br>");
+							replyMSG.append("<center>Reward: <font color=\"LEVEL\">" + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName()+ "</center></font>");
+						}
 					}
 				}
+				
 			}
 			else if(_started && !_joining)
 				replyMSG.append("<center>"+_eventName+" match is in progress.</center>");
@@ -1813,14 +1856,17 @@ public class CTF implements EventTask
 		if(!addPlayerOk(teamName, player))
 			return;
 		
-		if(Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE"))
-		{
-			player._teamNameCTF = teamName;
-			_players.add(player);
-			setTeamPlayersCount(teamName, teamPlayersCount(teamName)+1);
+		synchronized(_players){
+			if(Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE"))
+			{
+				player._teamNameCTF = teamName;
+				_players.add(player);
+				setTeamPlayersCount(teamName, teamPlayersCount(teamName)+1);
+			}
+			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
+				_playersShuffle.add(player);
+			
 		}
-		else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
-			_playersShuffle.add(player);
 		
 		player._inEventCTF = true;
 		player._countCTFflags = 0;
@@ -1851,14 +1897,16 @@ public class CTF implements EventTask
 			player._countCTFflags = 0;
 			player._inEventCTF = false;
 			
-			
-			if((Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE")) && _players.contains(player))
-			{
-				setTeamPlayersCount(player._teamNameCTF, teamPlayersCount(player._teamNameCTF)-1);
-				_players.remove(player);
+			synchronized(_players){
+				if((Config.CTF_EVEN_TEAMS.equals("NO") || Config.CTF_EVEN_TEAMS.equals("BALANCE")) && _players.contains(player))
+				{
+					setTeamPlayersCount(player._teamNameCTF, teamPlayersCount(player._teamNameCTF)-1);
+					_players.remove(player);
+				}
+				else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && (!_playersShuffle.isEmpty() && _playersShuffle.contains(player)))
+					_playersShuffle.remove(player);
+				
 			}
-			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && (!_playersShuffle.isEmpty() && _playersShuffle.contains(player)))
-				_playersShuffle.remove(player);
 			
 			player.sendMessage("Your participation in the CTF event has been removed.");
 		}
@@ -1866,19 +1914,22 @@ public class CTF implements EventTask
 	
 	public static void cleanCTF()
 	{
-		for(L2PcInstance player : _players)
-		{
-			if(player != null)
+		synchronized(_players){
+			for(L2PcInstance player : _players)
 			{
-				
-				cleanEventPlayer(player);
-				
-				removePlayer(player);
-				if(_savePlayers.contains(player.getName()))
-					_savePlayers.remove(player.getName());
-				player._inEventCTF = false;
+				if(player != null)
+				{
+					
+					cleanEventPlayer(player);
+					
+					removePlayer(player);
+					if(_savePlayers.contains(player.getName()))
+						_savePlayers.remove(player.getName());
+					player._inEventCTF = false;
+				}
 			}
 		}
+		
 		if(_playersShuffle != null && !_playersShuffle.isEmpty())
 		{
 			for(L2PcInstance player : _playersShuffle)
@@ -1891,7 +1942,10 @@ public class CTF implements EventTask
 		
 		_topScore = 0;
 		_topTeam = new String();
-		_players = new Vector<L2PcInstance>();
+		synchronized(_players){
+			_players = new Vector<L2PcInstance>();
+		}
+		
 		_playersShuffle = new Vector<L2PcInstance>();
 		_savePlayers = new Vector<String>();
 		_savePlayerTeams = new Vector<String>();
@@ -1939,25 +1993,28 @@ public class CTF implements EventTask
 
 			player._teamNameCTF = _savePlayerTeams.get(_savePlayers.indexOf(player.getName()));
 			
-			for(L2PcInstance p : _players)
-			{
-				if(p == null)
+			synchronized(_players){
+				for(L2PcInstance p : _players)
 				{
-					continue;
-				}
-				//check by name incase player got new objectId
-				else if(p.getName().equals(player.getName()))
-				{
-					player._originalNameColorCTF = player.getAppearance().getNameColor();
-					player._originalTitleCTF = player.getTitle();
-					player._originalKarmaCTF = player.getKarma();
-					player._inEventCTF = true;
-					player._countCTFflags = p._countCTFflags;
-					_players.remove(p); //removing old object id from vector
-					_players.add(player); //adding new objectId to vector
-					break;
+					if(p == null)
+					{
+						continue;
+					}
+					//check by name incase player got new objectId
+					else if(p.getName().equals(player.getName()))
+					{
+						player._originalNameColorCTF = player.getAppearance().getNameColor();
+						player._originalTitleCTF = player.getTitle();
+						player._originalKarmaCTF = player.getKarma();
+						player._inEventCTF = true;
+						player._countCTFflags = p._countCTFflags;
+						_players.remove(p); //removing old object id from vector
+						_players.add(player); //adding new objectId to vector
+						break;
+					}
 				}
 			}
+			
 
 			player.getAppearance().setNameColor(_teamColors.get(_teams.indexOf(player._teamNameCTF)));
 			player.setKarma(0);
@@ -1987,95 +2044,107 @@ public class CTF implements EventTask
 	{
 		int teamCount = 0,
 			playersCount = 0;
+		
+		synchronized(_players){
+			for(;;)
+			{
+				if(_playersShuffle.isEmpty())
+					break;
 
-		for(;;)
-		{
-			if(_playersShuffle.isEmpty())
-				break;
+				int playerToAddIndex = Rnd.nextInt(_playersShuffle.size());
+				L2PcInstance player=null;
+				player = _playersShuffle.get(playerToAddIndex);
+				
+				
+					_players.add(player);
+					_players.get(playersCount)._teamNameCTF = _teams.get(teamCount);
+					_savePlayers.add(_players.get(playersCount).getName());
+					_savePlayerTeams.add(_teams.get(teamCount));
+					playersCount++;
 
-			int playerToAddIndex = Rnd.nextInt(_playersShuffle.size());
-			L2PcInstance player=null;
-			player = _playersShuffle.get(playerToAddIndex);
-			
-			_players.add(player);
-			_players.get(playersCount)._teamNameCTF = _teams.get(teamCount);
-			_savePlayers.add(_players.get(playersCount).getName());
-			_savePlayerTeams.add(_teams.get(teamCount));
-			playersCount++;
+				
+				if(teamCount == _teams.size()-1)
+					teamCount = 0;
+				else
+					teamCount++;
 
-			if(teamCount == _teams.size()-1)
-				teamCount = 0;
-			else
-				teamCount++;
-
-			_playersShuffle.remove(playerToAddIndex);
+				_playersShuffle.remove(playerToAddIndex);
+			}
 		}
+			
+		
 	}
 
 	// Show loosers and winners animations
 	public static void playKneelAnimation(String teamName)
 	{
-		for(L2PcInstance player : _players)
-		{
-			if(player != null)
+		synchronized(_players){
+			for(L2PcInstance player : _players)
 			{
-				if(!player._teamNameCTF.equals(teamName))
+				if(player != null)
 				{
-					player.broadcastPacket(new SocialAction(player.getObjectId(), 7));
-				}
-				else if(player._teamNameCTF.equals(teamName))
-				{
-					player.broadcastPacket(new SocialAction(player.getObjectId(), 3));
+					if(!player._teamNameCTF.equals(teamName))
+					{
+						player.broadcastPacket(new SocialAction(player.getObjectId(), 7));
+					}
+					else if(player._teamNameCTF.equals(teamName))
+					{
+						player.broadcastPacket(new SocialAction(player.getObjectId(), 3));
+					}
 				}
 			}
 		}
+		
 	}
 
 	public static void rewardTeam(String teamName)
 	{
-		for(L2PcInstance player : _players)
-		{
-			if(player != null && (player.isOnline() != 0) && (player._inEventCTF == true)){
-				
-				if(teamName!=null && (player._teamNameCTF.equals(teamName)) ){
+		synchronized(_players){
+			for(L2PcInstance player : _players)
+			{
+				if(player != null && (player.isOnline() != 0) && (player._inEventCTF == true)){
 					
-					player.addItem(_eventName+" Event: " + _eventName, _rewardId, _rewardAmount, player, true);
+					if(teamName!=null && (player._teamNameCTF.equals(teamName)) ){
+						
+						player.addItem(_eventName+" Event: " + _eventName, _rewardId, _rewardAmount, player, true);
 
-					NpcHtmlMessage nhm = new NpcHtmlMessage(5);
-					TextBuilder replyMSG = new TextBuilder("");
+						NpcHtmlMessage nhm = new NpcHtmlMessage(5);
+						TextBuilder replyMSG = new TextBuilder("");
 
-					replyMSG.append("<html><body>");
-					replyMSG.append("<font color=\"FFFF00\">Your team wins the event. Look in your inventory for the reward.</font>");
-					replyMSG.append("</body></html>");
+						replyMSG.append("<html><body>");
+						replyMSG.append("<font color=\"FFFF00\">Your team wins the event. Look in your inventory for the reward.</font>");
+						replyMSG.append("</body></html>");
 
-					nhm.setHtml(replyMSG.toString());
-					player.sendPacket(nhm);
+						nhm.setHtml(replyMSG.toString());
+						player.sendPacket(nhm);
 
-					// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
-					player.sendPacket( ActionFailed.STATIC_PACKET );
-					
-				}else if(teamName==null ){ //TIE
-					
-					int minus_reward = _rewardAmount/2;
-					
-					player.addItem(_eventName+" Event: " + _eventName, _rewardId, minus_reward, player, true);
+						// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+						player.sendPacket( ActionFailed.STATIC_PACKET );
+						
+					}else if(teamName==null ){ //TIE
+						
+						int minus_reward = _rewardAmount/2;
+						
+						player.addItem(_eventName+" Event: " + _eventName, _rewardId, minus_reward, player, true);
 
-					NpcHtmlMessage nhm = new NpcHtmlMessage(5);
-					TextBuilder replyMSG = new TextBuilder("");
+						NpcHtmlMessage nhm = new NpcHtmlMessage(5);
+						TextBuilder replyMSG = new TextBuilder("");
 
-					replyMSG.append("<html><body>");
-					replyMSG.append("<font color=\"FFFF00\">Your team had a tie in the event. Look in your inventory for the reward.</font>");
-					replyMSG.append("</body></html>");
+						replyMSG.append("<html><body>");
+						replyMSG.append("<font color=\"FFFF00\">Your team had a tie in the event. Look in your inventory for the reward.</font>");
+						replyMSG.append("</body></html>");
 
-					nhm.setHtml(replyMSG.toString());
-					player.sendPacket(nhm);
+						nhm.setHtml(replyMSG.toString());
+						player.sendPacket(nhm);
 
-					// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
-					player.sendPacket( ActionFailed.STATIC_PACKET );
-					
+						// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+						player.sendPacket( ActionFailed.STATIC_PACKET );
+						
+					}
 				}
 			}
 		}
+		
 		
 		/*
 		for(L2PcInstance player : _players)
@@ -2454,28 +2523,31 @@ public class CTF implements EventTask
 		Vector<Integer> teamsTakenFlag = new Vector<Integer>();
 		try
 		{
-			for(L2PcInstance player : _players)
-			{
-				if(player != null)
+			synchronized(_players){
+				for(L2PcInstance player : _players)
 				{
-					if(player.isOnline() == 0 && player._haveFlagCTF){ // logged off with a flag in his hands
-						Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player.getName() + " logged off with a CTF flag!");
-						player._haveFlagCTF = false;
-						if(_teams.indexOf(player._teamNameHaveFlagCTF)>=0)
-							if(_flagsTaken.get(_teams.indexOf(player._teamNameHaveFlagCTF)))
-							{
-								_flagsTaken.set(_teams.indexOf(player._teamNameHaveFlagCTF), false);
-								spawnFlag(player._teamNameHaveFlagCTF);
-								Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player._teamNameHaveFlagCTF + " flag now returned to place.");
-							}
-						removeFlagFromPlayer(player);
-						player._teamNameHaveFlagCTF = null;
-						return;
+					if(player != null)
+					{
+						if(player.isOnline() == 0 && player._haveFlagCTF){ // logged off with a flag in his hands
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player.getName() + " logged off with a CTF flag!");
+							player._haveFlagCTF = false;
+							if(_teams.indexOf(player._teamNameHaveFlagCTF)>=0)
+								if(_flagsTaken.get(_teams.indexOf(player._teamNameHaveFlagCTF)))
+								{
+									_flagsTaken.set(_teams.indexOf(player._teamNameHaveFlagCTF), false);
+									spawnFlag(player._teamNameHaveFlagCTF);
+									Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player._teamNameHaveFlagCTF + " flag now returned to place.");
+								}
+							removeFlagFromPlayer(player);
+							player._teamNameHaveFlagCTF = null;
+							return;
+						}
+						else if(player._haveFlagCTF)
+							teamsTakenFlag.add(_teams.indexOf(player._teamNameHaveFlagCTF));
 					}
-					else if(player._haveFlagCTF)
-						teamsTakenFlag.add(_teams.indexOf(player._teamNameHaveFlagCTF));
 				}
 			}
+			
 			// Go over the list of ALL teams
 			for(String team : _teams)
 			{
@@ -2492,29 +2564,32 @@ public class CTF implements EventTask
 				}
 			}
 			// Check if a player ran away from the event holding a flag:
-			for(L2PcInstance player : _players)
-			{
-				if(player!=null && player._haveFlagCTF)
+			synchronized(_players){
+				for(L2PcInstance player : _players)
 				{
-					if(isOutsideCTFArea(player))
+					if(player!=null && player._haveFlagCTF)
 					{
-						Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player.getName() + " escaped from the event holding a flag!");
-						player._haveFlagCTF = false;
-						if(_teams.indexOf(player._teamNameHaveFlagCTF)>=0)
-							if(_flagsTaken.get(_teams.indexOf(player._teamNameHaveFlagCTF)))
-							{
-								_flagsTaken.set(_teams.indexOf(player._teamNameHaveFlagCTF), false);
-								spawnFlag(player._teamNameHaveFlagCTF);
-								Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player._teamNameHaveFlagCTF + " flag now returned to place.");
-							}
-						removeFlagFromPlayer(player);
-						player._teamNameHaveFlagCTF = null;
-						player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
-						player.sendMessage("You have been returned to your team spawn");
-						return;
+						if(isOutsideCTFArea(player))
+						{
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player.getName() + " escaped from the event holding a flag!");
+							player._haveFlagCTF = false;
+							if(_teams.indexOf(player._teamNameHaveFlagCTF)>=0)
+								if(_flagsTaken.get(_teams.indexOf(player._teamNameHaveFlagCTF)))
+								{
+									_flagsTaken.set(_teams.indexOf(player._teamNameHaveFlagCTF), false);
+									spawnFlag(player._teamNameHaveFlagCTF);
+									Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + player._teamNameHaveFlagCTF + " flag now returned to place.");
+								}
+							removeFlagFromPlayer(player);
+							player._teamNameHaveFlagCTF = null;
+							player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
+							player.sendMessage("You have been returned to your team spawn");
+							return;
+						}
 					}
 				}
 			}
+			
 		}
 		catch(Exception e)
 		{
@@ -2779,27 +2854,30 @@ public class CTF implements EventTask
 	{
 		try
 		{
-			for(L2PcInstance player : _players)
-			{
-				if(player!=null && player.isOnline()!=0)
+			synchronized(_players){
+				for(L2PcInstance player : _players)
 				{
-					if(player._teamNameCTF.equals(ourFlag)){
-						player.sendMessage(hasFlag.getName()+" took your flag!");
-						if(player._haveFlagCTF)
-						{
-							player.sendMessage("You can not return the flag to headquarters, until your flag is returned to it's place.");
-							player.sendPacket(new RadarControl(1, 1, player.getX(), player.getY(), player.getZ()));
-						}
-						else
-						{
-							player.sendPacket(new RadarControl(0, 1, hasFlag.getX(), hasFlag.getY(), hasFlag.getZ()));
-							L2Radar rdr = new L2Radar(player);
-							L2Radar.RadarOnPlayer radar = rdr.new RadarOnPlayer(hasFlag,player);
-							ThreadPoolManager.getInstance().scheduleGeneral(radar, 10000+Rnd.get(30000));
+					if(player!=null && player.isOnline()!=0)
+					{
+						if(player._teamNameCTF.equals(ourFlag)){
+							player.sendMessage(hasFlag.getName()+" took your flag!");
+							if(player._haveFlagCTF)
+							{
+								player.sendMessage("You can not return the flag to headquarters, until your flag is returned to it's place.");
+								player.sendPacket(new RadarControl(1, 1, player.getX(), player.getY(), player.getZ()));
+							}
+							else
+							{
+								player.sendPacket(new RadarControl(0, 1, hasFlag.getX(), hasFlag.getY(), hasFlag.getZ()));
+								L2Radar rdr = new L2Radar(player);
+								L2Radar.RadarOnPlayer radar = rdr.new RadarOnPlayer(hasFlag,player);
+								ThreadPoolManager.getInstance().scheduleGeneral(radar, 10000+Rnd.get(30000));
+							}
 						}
 					}
 				}
 			}
+			
 		}
 		catch(Exception e)
 		{

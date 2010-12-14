@@ -104,7 +104,8 @@ public class PowerPakConfig
 	public static int VOTES_FOR_REWARD;
 	
 	public static String VOTES_REWARDS;
-	public static String VOTES_SITE_URL;
+	public static String VOTES_SITE_TOPZONE_URL;
+	public static String VOTES_SITE_HOPZONE_URL;
 	public static FastMap<Integer, Integer> VOTES_REWARDS_LIST;
 	
 	public static int VOTES_SYSYEM_INITIAL_DELAY;
@@ -299,7 +300,8 @@ public class PowerPakConfig
 			VOTES_FOR_REWARD = Integer.parseInt(p.getProperty("VotesRequiredForReward", "100"));
 			VOTES_SYSYEM_INITIAL_DELAY = Integer.parseInt(p.getProperty("VotesSystemInitialDelay", "60000"));
 			VOTES_SYSYEM_STEP_DELAY = Integer.parseInt(p.getProperty("VotesSystemStepDelay", "1800000"));
-			VOTES_SITE_URL = p.getProperty("VotesSiteUrl", "");
+			VOTES_SITE_HOPZONE_URL = p.getProperty("VotesSiteHopZoneUrl", "");
+			VOTES_SITE_TOPZONE_URL = p.getProperty("VotesSiteTopZoneUrl", "");
 			VOTES_REWARDS = p.getProperty("VotesRewards", "");
 			VOTES_REWARDS_LIST = new FastMap<Integer, Integer>();
 			

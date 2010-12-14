@@ -24,6 +24,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
@@ -763,6 +764,7 @@ public class DM implements EventTask
 		_teleport = false;
 		
 		sit();
+		removeParties();
 		
 		afterStartOperations();
 		
@@ -772,6 +774,19 @@ public class DM implements EventTask
 		return true;
 	}
 
+	private static void removeParties(){
+		synchronized(_players){
+			for(L2PcInstance player : _players)
+			{
+				if(player.getParty() != null)
+				{
+					L2Party party = player.getParty();
+					party.removePartyMember(player);
+				}
+			}
+		}
+	}
+	
 	private static void afterStartOperations(){
 	
 	}
@@ -1228,6 +1243,16 @@ public class DM implements EventTask
 			
 			/*eventPlayer.sendMessage("Dual Box not allowed in Events");
 			return false;*/
+		}
+		
+		if(!Config.DM_ALLOW_HEALER_CLASSES && (
+				eventPlayer.getClassId() == ClassId.cardinal || 
+				eventPlayer.getClassId() == ClassId.evaSaint || 
+				eventPlayer.getClassId() == ClassId.shillienSaint)){
+			
+			eventPlayer.sendMessage("You cant join with Healer Class!"); 
+			return false;
+			
 		}
 		
 		synchronized (_players){

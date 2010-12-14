@@ -857,7 +857,7 @@ public class TradeList
 			L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
 			
 			if(item==null){
-				System.out.println("item null");
+				System.out.println("Buyer Medals are null");
 				lock();
 				return false;
 			}
@@ -866,7 +866,7 @@ public class TradeList
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), price, "sell");
 			if(oldItem == null)
 			{
-				System.out.println("old item null");
+				System.out.println("Buyer old medals null");
 				lock();
 				return false;
 			}
@@ -874,7 +874,7 @@ public class TradeList
 			// Proceed with item transfer
 			L2ItemInstance newItem = playerInventory.transferItem("PrivateStore", item.getObjectId(), price, ownerInventory, player, _owner);
 			if(newItem == null){
-				System.out.println("new item null");
+				System.out.println("Buyer new medals null");
 				return false;
 			}
 			

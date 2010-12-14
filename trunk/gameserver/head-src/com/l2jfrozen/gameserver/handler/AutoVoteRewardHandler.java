@@ -19,14 +19,17 @@ import com.l2jfrozen.Config;
 
 public class AutoVoteRewardHandler
 {
-	private int votesCount = 0;
+	private int hopzoneVotesCount = 0;
+	private int topzoneVotesCount = 0;
 	private List<String> already_rewarded;
 	
 	private AutoVoteRewardHandler()
 	{
 		System.out.println("Vote Reward System Initiated.");
-		int votes = getVotes();
-		setVoteCount(votes);
+		int hopzone_votes = getHopZoneVotes();
+		setHopZoneVoteCount(hopzone_votes);
+		int topzone_votes = getTopZoneVotes();
+		setTopZoneVoteCount(topzone_votes);
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoReward(), PowerPakConfig.VOTES_SYSYEM_INITIAL_DELAY, PowerPakConfig.VOTES_SYSYEM_STEP_DELAY);
 	}
 
@@ -34,8 +37,11 @@ public class AutoVoteRewardHandler
 	{
 		public void run()
 		{
-			int votes = 0;
-			String site = "";
+			int topzone_votes = getTopZoneVotes();
+			int hopzone_votes = getHopZoneVotes();
+			
+			/*
+			String topzone = "";
 			if(PowerPakConfig.VOTES_SITE_URL.contains("l2topzone.com")){
 				site = "TOPZONE";
 				votes = getVotesTopZone();
@@ -43,9 +49,12 @@ public class AutoVoteRewardHandler
 				site = "HOPZONE";
 				votes = getVotes();
 			}
+			*/
 			
-			System.out.println("Server Votes: " + votes);
-			if (votes != 0 && votes >= getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
+			System.out.println("Server TOPZONE Votes: " + topzone_votes);
+			System.out.println("Server HOPZONE Votes: " + hopzone_votes);
+			
+			if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 			{
 				already_rewarded = new ArrayList<String>();
 				
@@ -71,13 +80,44 @@ public class AutoVoteRewardHandler
 						}
 					}
 				}
-				setVoteCount(votes);
+				setHopZoneVoteCount(hopzone_votes);
+			}
+			
+			if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
+			{
+				already_rewarded = new ArrayList<String>();
+				
+				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
+
+				//L2ItemInstance item;
+				for (L2PcInstance player : pls)
+				{
+					if (player != null)
+					{
+						if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
+							
+							Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
+							for (Integer i : items)
+							{
+								//item = player.getInventory().getItemByItemId(i);
+
+								//TODO: check on maxstack for item
+								player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
+
+							}
+							
+						}
+					}
+				}
+				setTopZoneVoteCount(topzone_votes);
 			}
 			
 			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
 			
-			Announcements.getInstance().gameAnnounceToAll("Actual "+site+" Votes are " + votes + "...");
-			Announcements.getInstance().gameAnnounceToAll("Next Reward in "+minutes+" minutes at " + (getVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
+			Announcements.getInstance().gameAnnounceToAll("Actual HOPZONE Votes are " + hopzone_votes + "...");
+			Announcements.getInstance().gameAnnounceToAll("Actual TOPZONE Votes are " + topzone_votes + "...");
+			Announcements.getInstance().gameAnnounceToAll("Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
+			Announcements.getInstance().gameAnnounceToAll("Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes ;)");
 			/*if (getLastVoteCount() == 0)
 			{
 				setInitialVoteCount(votes);
@@ -103,14 +143,14 @@ public class AutoVoteRewardHandler
 		return false;
 	}
 	
-	private int getVotes()
+	private int getHopZoneVotes()
 	{
 		URL url = null;
 		InputStreamReader isr = null;
 		BufferedReader in = null;
 		try
 		{
-			url = new URL(PowerPakConfig.VOTES_SITE_URL);
+			url = new URL(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
 			isr = new InputStreamReader(url.openStream());
 			in = new BufferedReader(isr);
 			String inputLine;
@@ -144,14 +184,14 @@ public class AutoVoteRewardHandler
 		return 0;
 	}
 
-	private int getVotesTopZone()
+	private int getTopZoneVotes()
 	{
 		URL url = null;
 		InputStreamReader isr = null;
 		BufferedReader in = null;
 		try
 		{
-			url = new URL(PowerPakConfig.VOTES_SITE_URL);
+			url = new URL(PowerPakConfig.VOTES_SITE_TOPZONE_URL);
 			isr = new InputStreamReader(url.openStream());
 			in = new BufferedReader(isr);
 			String inputLine;
@@ -188,19 +228,30 @@ public class AutoVoteRewardHandler
 		return 0;
 	}
 	
-	private void setVoteCount(int voteCount)
+	private void setHopZoneVoteCount(int voteCount)
 	{
-		votesCount = voteCount;
+		hopzoneVotesCount = voteCount;
 	}
 
-	private int getVoteCount()
+	private int getHopZoneVoteCount()
 	{
-		return votesCount;
+		return hopzoneVotesCount;
 	}
 
+	private void setTopZoneVoteCount(int voteCount)
+	{
+		topzoneVotesCount = voteCount;
+	}
+
+	private int getTopZoneVoteCount()
+	{
+		return topzoneVotesCount;
+	}
+	
 	public static AutoVoteRewardHandler getInstance()
 	{
-		if(PowerPakConfig.VOTES_SITE_URL != null && !PowerPakConfig.VOTES_SITE_URL.equals(""))
+		if(PowerPakConfig.VOTES_SITE_HOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_HOPZONE_URL.equals("") &&
+				PowerPakConfig.VOTES_SITE_TOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_TOPZONE_URL.equals(""))
 			return SingletonHolder._instance;
 		else
 			return null;
