@@ -1929,6 +1929,7 @@ public final class Config
 	public static boolean DM_REVIVE_RECOVERY;
 	public static int DM_SPAWN_OFFSET;
 	public static boolean DM_STATS_LOGGER;
+	public static boolean DM_ALLOW_HEALER_CLASSES;
 	
 	//============================================================
 	public static void loadDMConfig()
@@ -1965,6 +1966,8 @@ public final class Config
 			DM_SPAWN_OFFSET = Integer.parseInt(DMSettings.getProperty("DMSpawnOffset", "100"));
 			
 			DM_STATS_LOGGER = Boolean.parseBoolean(DMSettings.getProperty("DMStatsLogger", "true"));
+			
+			DM_ALLOW_HEALER_CLASSES = Boolean.parseBoolean(DMSettings.getProperty("DMAllowedHealerClasses", "true"));
 		}
 		catch(Exception e)
 		{

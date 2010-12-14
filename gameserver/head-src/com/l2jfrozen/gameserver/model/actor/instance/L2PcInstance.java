@@ -3072,7 +3072,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up ...");
 		}
-		else if(TvT.is_sitForced() && _inEventTvT || CTF.is_sitForced() && _inEventCTF || DM.is_sitForced() && _inEventDM)
+		else if((TvT.is_sitForced() && _inEventTvT) || (CTF.is_sitForced() && _inEventCTF) || (DM.is_sitForced() && _inEventDM))
 		{
 			sendMessage("The Admin/GM handle if you sit or stand in this match!");
 		}
