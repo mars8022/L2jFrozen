@@ -324,7 +324,7 @@
 <skill id="4216" levels="1" name="Scatter Enemy">
   <!-- Zaken skills - teleport PC -->
   <set name="magicLvl" val="60"/>
-  <set name="reuseDelay" val="8000"/>
+  <set name="reuseDelay" val="400000"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="coolTime" val="100"/>
   <set name="hitTime" val="2900"/>
@@ -333,7 +333,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="800"/>
   <set name="effectRange" val="1300"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="400000"/>
   <for>
   </for>
 </skill>
@@ -430,7 +430,7 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="500"/>
   <set name="skillType" val="ZAKENSELF"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="reuseDelay" val="859000"/>
   <set name="mpConsume" val="100"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="-1"/>
@@ -1196,15 +1196,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <mul order="0x30" stat="pAtkSpd" val="#rate"/>
-    <mul order="0x30" stat="mAtkSpd" val="#rate"/>
-    <mul order="0x30" stat="rEvas" val="#rate"/>
-    <mul order="0x30" stat="rExp" val="#rate"/>
-    <mul order="0x30" stat="runSpd" val="#rate"/>
-    <mul order="0x30" stat="regHp" val="#rate"/>
-    <mul order="0x30" stat="regCp" val="#rate"/>
-    <mul order="0x30" stat="regMp" val="#rate"/>
-    <sub order="0x40" stat="accCombat" val="20"/>
+ <mul order="0x30" stat="pDef" val="0.1"/>
   </for>
 </skill>
 <skill id="4268" levels="1" name="Danger Area">

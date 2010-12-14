@@ -542,7 +542,7 @@
   <set name="power" val="70"/>
   <set name="mpConsume" val="145"/>
   <set name="effectPoint" val="950"/>
-  <set name="magiclvl" val="80"/>
+  <set name="magiclvl" val="130"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="1"/>
   <set name="reuseDelay" val="30000"/>

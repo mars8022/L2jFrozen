@@ -19,8 +19,8 @@
   <set name="target" val="TARGET_UNDEAD"/>
   <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="lethal1" val="40"/>
-  <set name="lethal2" val="40"/>
+  <set name="lethal1" val="0"/>
+  <set name="lethal2" val="0"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <set name="isMagic" val="true"/>
