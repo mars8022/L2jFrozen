@@ -4358,23 +4358,26 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else
 			{
-				if (TvT.is_started() || CTF.is_started())
+				if (TvT.is_started())
 			    {
 		            if ((_inEventTvT && player._teamNameTvT.equals(_teamNameTvT)))
 		            {
 		                player.sendPacket(ActionFailed.STATIC_PACKET);
 		                return;
 		            }
-		            else if ((_inEventCTF && player._teamNameCTF.equals(_teamNameCTF)))
+		        }
+				
+				if(CTF.is_started()){
+					if ((_inEventCTF && player._teamNameCTF.equals(_teamNameCTF)))
 		            {
 		                player.sendPacket(ActionFailed.STATIC_PACKET);
 		                return;
 		            }
-		        }
+				}
 				// Check if this L2PcInstance is autoAttackable
 				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
-				if (isAutoAttackable(player) || (player._inEventTvT && TvT.is_started()) || (player._inEventCTF && CTF.is_started()) || (player._inEventDM && DM.is_started()) || (player._inEventVIP && VIP._started))
-				{
+				if (isAutoAttackable(player)) {
+					
 					if(Config.ALLOW_CHAR_KILL_PROTECT)
 					{
 						Siege siege = SiegeManager.getInstance().getSiege(player);
@@ -9535,6 +9538,15 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(isInsideZone(ZONE_PVP) && ((L2PcInstance) attacker).isInsideZone(ZONE_PVP))
 				return true;
 
+			//checks for events
+			if(!( (_inEventTvT && ((L2PcInstance) attacker)._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(((L2PcInstance) attacker)._teamNameTvT)) 
+					|| (_inEventCTF && ((L2PcInstance) attacker)._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(((L2PcInstance) attacker)._teamNameCTF)) 
+					|| (_inEventDM && ((L2PcInstance) attacker)._inEventDM && DM.is_started()) 
+					|| (_inEventVIP && ((L2PcInstance) attacker)._inEventVIP && VIP._started)))
+				{
+					return false;
+				}
+			
 			if(getClan() != null)
 			{
 				Siege siege = SiegeManager.getInstance().getSiege(getX(), getY(), getZ());
@@ -9576,6 +9588,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(getClan() != null && ((L2PcInstance) attacker).getClan() != null && getClan().isAtWarWith(((L2PcInstance) attacker).getClanId()) && getWantsPeace() == 0 && ((L2PcInstance) attacker).getWantsPeace() == 0 && !isAcademyMember())
 					return true;
 			}
+			
 		}
 		else if(attacker instanceof L2SiegeGuardInstance)
 		{
