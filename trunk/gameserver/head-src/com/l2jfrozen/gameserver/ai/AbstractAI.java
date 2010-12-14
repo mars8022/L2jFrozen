@@ -359,7 +359,7 @@ abstract class AbstractAI implements Ctrl
 	 */
 	public final void notifyEvent(CtrlEvent evt, Object arg0, Object arg1)
 	{
-		if(!_actor.isVisible() || !_actor.hasAI())
+		if(!_actor.isVisible() || !_actor.hasAI() || (_actor instanceof L2PcInstance && ((L2PcInstance)_actor).isOffline()))
 			return;
 
 		/*
