@@ -621,11 +621,16 @@ class L2OlympiadGame extends Olympiad
 		String result = "";
 
 		// if players crashed, search if they've relogged
-		_playerOne = L2World.getInstance().getPlayer(_playerOneName);
+		L2PcInstance new_one = L2World.getInstance().getPlayer(_playerOneName);
+		if(new_one!=null)
+			_playerOne = new_one;
 		_players.set(0, _playerOne);
-		_playerTwo = L2World.getInstance().getPlayer(_playerTwoName);
+		
+		L2PcInstance new_two = L2World.getInstance().getPlayer(_playerTwoName);
+		if(new_two!=null)
+			_playerTwo = new_two;
 		_players.set(1, _playerTwo);
-
+		
 		switch(_type)
 		{
 			case NON_CLASSED:
@@ -638,7 +643,7 @@ class L2OlympiadGame extends Olympiad
 				break;
 		}
 
-		if(_playerTwo.isOnline() == 0 || playerTwoHp == 0 && playerOneHp != 0 || _playerOne.dmgDealt > _playerTwo.dmgDealt && playerTwoHp != 0 && playerOneHp != 0)
+		if(_playerTwo == null || _playerTwo.isOnline() == 0 || playerTwoHp == 0 && _playerOne != null && playerOneHp != 0 || _playerOne.dmgDealt > _playerTwo.dmgDealt && playerTwoHp != 0 && playerOneHp != 0)
 		{
 			int pointDiff;
 			if(playerOnePoints > playerTwoPoints)
