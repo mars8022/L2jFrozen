@@ -86,6 +86,8 @@ public class AutoVoteRewardHandler
 				setHopZoneVoteCount(hopzone_votes);
 			}
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+			//site web
+			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] www.l2frozenreborn.com");
 			
 			if(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
 				try
@@ -131,7 +133,8 @@ public class AutoVoteRewardHandler
 			}
 			
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
-			
+			//site web
+			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] www.l2frozenreborn.com");
 		}
 	}
 
