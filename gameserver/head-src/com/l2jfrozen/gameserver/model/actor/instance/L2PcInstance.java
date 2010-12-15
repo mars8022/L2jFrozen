@@ -366,7 +366,14 @@ public final class L2PcInstance extends L2PlayableInstance
 					return;
 				}
 			}
-
+			
+			//during teleport phase, players cant do any attack
+			if((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM)){
+				sendPacket(ActionFailed.STATIC_PACKET);
+                return;
+			}
+			
+			
 			super.doAttack(target);
 
 			// cancel the recent fake-death protection instantly if the player attacks or casts spells
@@ -4305,7 +4312,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void onAction(L2PcInstance player)
 	{
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
-		if ((TvT.is_started() && !Config.TVT_ALLOW_INTERFERENCE) || (CTF.is_started() && !Config.CTF_ALLOW_INTERFERENCE) || (DM.is_started() && !Config.DM_ALLOW_INTERFERENCE))
+		if (((TvT.is_started() || TvT.is_teleport())  && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
 	    {
             if ((_inEventTvT && !player._inEventTvT)  || (!_inEventTvT && player._inEventTvT))
             {
@@ -4358,11 +4365,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else
 			{
+				//during teleport phase, players cant do any attack
+				if((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM)){
+					player.sendPacket(ActionFailed.STATIC_PACKET);
+	                return;
+				}
+				
 				if (TvT.is_started())
 			    {
 		            if ((_inEventTvT && player._teamNameTvT.equals(_teamNameTvT)))
 		            {
-		                player.sendPacket(ActionFailed.STATIC_PACKET);
+		            	player.sendPacket(ActionFailed.STATIC_PACKET);
 		                return;
 		            }
 		        }
@@ -9544,13 +9557,14 @@ public final class L2PcInstance extends L2PlayableInstance
 				return true;
 
 			//checks for events
-			if(!( (_inEventTvT && ((L2PcInstance) attacker)._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(((L2PcInstance) attacker)._teamNameTvT)) 
+			/*if(!( (_inEventTvT && ((L2PcInstance) attacker)._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(((L2PcInstance) attacker)._teamNameTvT)) 
 					|| (_inEventCTF && ((L2PcInstance) attacker)._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(((L2PcInstance) attacker)._teamNameCTF)) 
 					|| (_inEventDM && ((L2PcInstance) attacker)._inEventDM && DM.is_started()) 
 					|| (_inEventVIP && ((L2PcInstance) attacker)._inEventVIP && VIP._started)))
 				{
 					return false;
 				}
+			*/
 			
 			if(getClan() != null)
 			{
