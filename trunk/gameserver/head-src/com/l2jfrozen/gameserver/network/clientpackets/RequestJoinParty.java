@@ -67,14 +67,14 @@ public final class RequestJoinParty extends L2GameClientPacket
 			return;
 		}
 		
-		if ((requestor._inEventDM && DM.is_started()) || (target._inEventDM && DM.is_started()))
+		if ((requestor._inEventDM && (DM.is_teleport() || DM.is_started())) || (target._inEventDM && (DM.is_teleport() || DM.is_started())))
 		{
 			requestor.sendMessage("You can't invite that player in party!");
 			return;
 		}
 		
-		if ((requestor._inEventTvT && !target._inEventTvT && TvT.is_started()) || (!requestor._inEventTvT && target._inEventTvT && TvT.is_started()) ||
-				(requestor._inEventCTF && !target._inEventCTF && CTF.is_started()) || (!requestor._inEventCTF && target._inEventCTF && CTF.is_started()))
+		if ((requestor._inEventTvT && !target._inEventTvT && (TvT.is_started() || TvT.is_teleport())) || (!requestor._inEventTvT && target._inEventTvT && (TvT.is_started() || TvT.is_teleport())) ||
+				(requestor._inEventCTF && !target._inEventCTF && (CTF.is_started() || CTF.is_teleport())) || (!requestor._inEventCTF && target._inEventCTF &&(CTF.is_started() || CTF.is_teleport())))
 		{
 			requestor.sendMessage("You can't invite that player in party: you or your target are in Event");
 			return;

@@ -798,7 +798,6 @@ public class CTF implements EventTask
 		_teleport = false;
 		
 		sit();
-		removeParties();
 		
 		afterStartOperations();
 		
@@ -808,19 +807,6 @@ public class CTF implements EventTask
 		return true;
 	}
 
-	private static void removeParties(){
-		synchronized(_players){
-			for(L2PcInstance player : _players)
-			{
-				if(player.getParty() != null)
-				{
-					L2Party party = player.getParty();
-					party.removePartyMember(player);
-				}
-			}
-		}
-	}
-	
 	private static void afterStartOperations(){
 		
 		synchronized(_players){
