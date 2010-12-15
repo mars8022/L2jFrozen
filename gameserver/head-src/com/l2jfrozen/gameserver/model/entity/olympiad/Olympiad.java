@@ -1301,6 +1301,9 @@ public class Olympiad
 	{
 		boolean result = false;
 
+		if(player == null)
+			return false;
+		
 		if(_nonClassBasedRegisters != null && _nonClassBasedRegisters.contains(player))
 		{
 			result = true;
@@ -1319,7 +1322,7 @@ public class Olympiad
 			{
 				for(L2OlympiadGame game : _manager.getOlympiadGames().values())
 				{
-					if(game._playerOne.getObjectId() == player.getObjectId() || game._playerTwo.getObjectId() == player.getObjectId())
+					if(game._playerOne!= null && game._playerOne.getObjectId() == player.getObjectId() || game._playerTwo!=null && game._playerTwo.getObjectId() == player.getObjectId())
 					{
 						result = true;
 						break;

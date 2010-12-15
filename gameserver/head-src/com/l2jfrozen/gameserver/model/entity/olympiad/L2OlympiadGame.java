@@ -643,7 +643,7 @@ class L2OlympiadGame extends Olympiad
 				break;
 		}
 
-		if(_playerTwo == null || _playerTwo.isOnline() == 0 || playerTwoHp == 0 && _playerOne != null && playerOneHp != 0 || _playerOne.dmgDealt > _playerTwo.dmgDealt && playerTwoHp != 0 && playerOneHp != 0)
+		if(_playerOne !=null && (_playerTwo == null) || ((_playerTwo!=null && _playerTwo.isOnline() == 0 && _playerOne.isOnline() == 1) || (playerTwoHp == 0 && playerOneHp != 0) || (_playerTwo!=null && _playerOne.dmgDealt > _playerTwo.dmgDealt && playerTwoHp != 0 && playerOneHp != 0)))
 		{
 			int pointDiff;
 			if(playerOnePoints > playerTwoPoints)
@@ -684,7 +684,7 @@ class L2OlympiadGame extends Olympiad
 				//null
 			}
 		}
-		else if(_playerOne.isOnline() == 0 || playerOneHp == 0 && playerTwoHp != 0 || _playerTwo.dmgDealt > _playerOne.dmgDealt && playerOneHp != 0 && playerTwoHp != 0)
+		else if(_playerTwo !=null && (_playerOne == null) || ((_playerOne!=null && _playerOne.isOnline() == 0 && _playerTwo.isOnline() == 1) || (playerOneHp == 0 && playerTwoHp != 0) || (_playerOne!=null && _playerTwo.dmgDealt > _playerOne.dmgDealt && playerOneHp != 0 && playerTwoHp != 0)))
 		{
 			int pointDiff;
 			if(playerTwoPoints > playerOnePoints)

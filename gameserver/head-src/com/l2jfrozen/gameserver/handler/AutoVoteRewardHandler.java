@@ -13,9 +13,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
-import com.l2jfrozen.Config;
 
 public class AutoVoteRewardHandler
 {
@@ -87,7 +85,7 @@ public class AutoVoteRewardHandler
 			}
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
 			//site web
-			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] www.l2frozenreborn.com");
+			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
 			
 			if(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
 				try
@@ -98,7 +96,7 @@ public class AutoVoteRewardHandler
 				{
 				}
 			
-			System.out.println("Server TOPZONE Votes: " + topzone_votes);
+			System.out.println("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
 			
 			if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
@@ -134,7 +132,8 @@ public class AutoVoteRewardHandler
 			
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
 			//site web
-			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] www.l2frozenreborn.com");
+			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
+			
 		}
 	}
 
