@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.object.L2ObjectMap;
+import com.l2jfrozen.util.object.L2ObjectSet;
 
 /**
  * This class ...
@@ -618,25 +619,30 @@ public final class L2World
 		for(int i = 0; i < regions.size(); i++)
 		{
 			// Go through visible objects of the selected region
-			for(L2Object _object : regions.get(i).getVisibleObjects())
-			{
-				if(_object == null)
+			L2ObjectSet<L2Object> actual_objectSet = null;
+			if(regions.get(i)!=null)
+				actual_objectSet = regions.get(i).getVisibleObjects();
+			
+			if(actual_objectSet!=null && actual_objectSet.size()>0)
+				for(L2Object _object :actual_objectSet)
 				{
-					continue;
+					if(_object == null)
+					{
+						continue;
+					}
+	
+					if(_object.equals(object))
+					{
+						continue; // skip our own character
+					}
+	
+					if(!_object.isVisible())
+					{
+						continue; // skip dying objects
+					}
+	
+					result.add(_object);
 				}
-
-				if(_object.equals(object))
-				{
-					continue; // skip our own character
-				}
-
-				if(!_object.isVisible())
-				{
-					continue; // skip dying objects
-				}
-
-				result.add(_object);
-			}
 		}
 
 		reg = null;
