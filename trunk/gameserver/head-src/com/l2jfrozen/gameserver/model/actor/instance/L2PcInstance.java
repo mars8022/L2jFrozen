@@ -8286,6 +8286,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		catch(Exception e)
 		{
 			_log.warning("Could not store recipe book data: " + e);
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -8332,6 +8333,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		catch(Exception e)
 		{
 			_log.warning("Could not restore recipe book data:" + e);
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -8470,7 +8472,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not store char base data: " + e);
+			_log.warning("Could not store char base data: ");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -8509,6 +8512,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		catch(Exception e)
 		{
 			_log.warning("Could not store sub class data for " + getName() + ": " + e);
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -8600,6 +8604,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		catch(Exception e)
 		{
 			_log.warning("Could not store char effect data: " + e);
+			e.printStackTrace();
 		}
 		finally
 		{
