@@ -735,8 +735,7 @@ public class TvT implements EventTask
 		_teleport = false;
 		
 		sit();
-		removeParties();
-
+		
 		if(Config.TVT_CLOSE_FORT_DOORS)
 		{
 			closeFortDoors();
@@ -753,18 +752,6 @@ public class TvT implements EventTask
 		return true;
 	}
 
-	private static void removeParties(){
-		synchronized(_players){
-			for(L2PcInstance player : _players)
-			{
-				if(player.getParty() != null)
-				{
-					L2Party party = player.getParty();
-					party.removePartyMember(player);
-				}
-			}
-		}
-	}
 	/**
 	 * Restarts Event
 	 * checks if event was aborted. and if true cancels restart task
