@@ -849,8 +849,8 @@ public class TradeList
 			// Transfer Item
 			if(price > playerInventory.getInventoryItemCount(Config.SELL_ITEM, -1))
 			{
-				System.out.println("price > playerInventory.getInventoryItemCount(Config.SELL_ITEM, -1)");
-				lock();
+				//no useful lock to seller
+				//lock();
 				return false;
 			}
 			
@@ -858,7 +858,8 @@ public class TradeList
 			
 			if(item==null){
 				System.out.println("Buyer Medals are null");
-				lock();
+				//no useful lock to seller
+				//lock();
 				return false;
 			}
 			
@@ -867,7 +868,8 @@ public class TradeList
 			if(oldItem == null)
 			{
 				System.out.println("Buyer old medals null");
-				lock();
+				//no useful lock to seller
+				//lock();
 				return false;
 			}
 

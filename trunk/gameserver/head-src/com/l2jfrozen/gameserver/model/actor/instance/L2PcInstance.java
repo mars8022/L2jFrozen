@@ -4312,6 +4312,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void onAction(L2PcInstance player)
 	{
         //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
+		//no Interaction with not participant to events
 		if (((TvT.is_started() || TvT.is_teleport())  && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
 	    {
             if ((_inEventTvT && !player._inEventTvT)  || (!_inEventTvT && player._inEventTvT))
@@ -4365,6 +4366,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else
 			{
+				/*
 				//during teleport phase, players cant do any attack
 				if((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM)){
 					player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -4387,6 +4389,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		                return;
 		            }
 				}
+				*/
 				// Check if this L2PcInstance is autoAttackable
 				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
 				if (isAutoAttackable(player)) {

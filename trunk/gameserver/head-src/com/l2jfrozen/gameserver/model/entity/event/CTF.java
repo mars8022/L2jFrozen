@@ -765,7 +765,8 @@ public class CTF implements EventTask
 							}
 
 							if(_teamEvent){
-								player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
+								int offset = Config.CTF_SPAWN_OFFSET;
+								player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF))+Rnd.get(offset), _teamsY.get(_teams.indexOf(player._teamNameCTF))+Rnd.get(offset), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
 								
 							}else{
 								//player.teleToLocation(_playerX, _playerY, _playerZ);
@@ -910,10 +911,12 @@ public class CTF implements EventTask
 				
 			}else{
 				
-				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team win the match(nobody killed).");
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": The event finished with a TIE: No team wins the match(nobody took flags)!");
 				
 				if(Config.CTF_STATS_LOGGER)
 					_log.info(_eventName + ": No team win the match(nobody took flags).");
+				
+				rewardTeam(_topTeam);
 				
 			}
 			
@@ -2011,7 +2014,8 @@ public class CTF implements EventTask
 			}
 			player.broadcastUserInfo();
 			
-			player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
+			int offset = Config.CTF_SPAWN_OFFSET;
+			player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF))+Rnd.get(offset), _teamsY.get(_teams.indexOf(player._teamNameCTF))+Rnd.get(offset), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
 			
 			afterAddDisconnectedPlayerOperations(player);
 			
@@ -2109,7 +2113,11 @@ public class CTF implements EventTask
 						
 					}else if(teamName==null ){ //TIE
 						
-						int minus_reward = _rewardAmount/2;
+						int minus_reward = 0;
+						if(_topScore!=0)
+							minus_reward = _rewardAmount/2;
+						else //nobody took flags
+							minus_reward = _rewardAmount/4;
 						
 						player.addItem(_eventName+" Event: " + _eventName, _rewardId, minus_reward, player, true);
 

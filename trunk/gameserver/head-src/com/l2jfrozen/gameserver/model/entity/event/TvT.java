@@ -860,11 +860,18 @@ public class TvT implements EventTask
 					
 				}else{
 					
-					Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team wins the match(nobody killed).");
+					Announcements.getInstance().gameAnnounceToAll(_eventName + ": The event finished with a TIE: No team wins the match(nobody killed)!");
+				
+					if(Config.TVT_STATS_LOGGER)
+						_log.info(_eventName + ": No team win the match(nobody killed).");
+					
+					rewardTeam(_topTeam, bestKiller, looser);
+					
+					/*Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team wins the match(nobody killed).");
 					
 					if(Config.TVT_STATS_LOGGER)
 						_log.info(_eventName + ": No team wins the match(nobody killed).");
-					
+					*/
 				}
 			}
 		}else{
@@ -2013,7 +2020,11 @@ public class TvT implements EventTask
 						
 					}else if(teamName==null ){ //TIE
 						
-						int minus_reward = _rewardAmount/2;
+						int minus_reward = 0;
+						if(_topKills!=0)
+							minus_reward = _rewardAmount/2;
+						else //nobody killed
+							minus_reward = _rewardAmount/4;
 						
 						player.addItem(_eventName+" Event: " + _eventName, _rewardId, minus_reward, player, true);
 
