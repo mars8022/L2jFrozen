@@ -1529,6 +1529,7 @@ public class DM implements EventTask
 			replyMSG.append("<center><font color=\"3366CC\">Current event:</font></center><br1>");
 			replyMSG.append("<center>Name:&nbsp;<font color=\"00FF00\">" + _eventName + "</font></center><br1>");
 			replyMSG.append("<center>Description:&nbsp;<font color=\"00FF00\">" + _eventDesc + "</font></center><br><br>");
+			replyMSG.append("<center>Event Type:&nbsp;<font color=\"00FF00\"> Full Buff Event!!! </font></center><br><br>");
 
 			synchronized (_players){
 				
@@ -1553,6 +1554,7 @@ public class DM implements EventTask
 					{
 						replyMSG.append("<center><font color=\"3366CC\">You participated already!</font></center><br><br>");
 							
+						replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + _players.size() + "</font></center><br>");
 						replyMSG.append("<table border=\"0\"><tr>");
 						replyMSG.append("<td width=\"200\">Wait till event start or</td>");
 						replyMSG.append("<td width=\"60\"><center><button value=\"remove\" action=\"bypass -h npc_" + objectId + "_dmevent_player_leave\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></td>");
@@ -1561,6 +1563,7 @@ public class DM implements EventTask
 					}
 					else
 					{
+						replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + _players.size() + "</font></center><br>");
 						replyMSG.append("<center><font color=\"3366CC\">You want to participate in the event?</font></center><br>");
 						replyMSG.append("<center><td width=\"200\">Min lvl: <font color=\"00FF00\">" + _minlvl + "</font></center></td><br>");
 						replyMSG.append("<center><td width=\"200\">Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font></center></td><br><br>");
