@@ -14336,7 +14336,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	public long getChatBanTimer()
 	{
-		if(_chatBanned)
+		if(_chatBanned && _chatBanTask!=null)
 		{
 			long delay = _chatBanTask.getDelay(TimeUnit.MILLISECONDS);
 			if(delay >= 0L)

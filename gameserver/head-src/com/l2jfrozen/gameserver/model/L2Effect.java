@@ -389,7 +389,8 @@ public abstract class L2Effect
 		if(_currentFuture != null)
 		{
 			// Cancel the task
-			_currentFuture.cancel(false);
+			if(!_currentFuture.isCancelled())
+				_currentFuture.cancel(false);
 			_currentFuture = null;
 			_currentTask = null;
 
