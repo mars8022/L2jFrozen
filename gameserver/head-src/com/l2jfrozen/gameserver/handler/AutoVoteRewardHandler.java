@@ -64,7 +64,7 @@ public class AutoVoteRewardHandler
 				//L2ItemInstance item;
 				for (L2PcInstance player : pls)
 				{
-					if (player != null)
+					if (player != null && !player.isOffline())
 					{
 						if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
 							
@@ -110,7 +110,7 @@ public class AutoVoteRewardHandler
 				//L2ItemInstance item;
 				for (L2PcInstance player : pls)
 				{
-					if (player != null)
+					if (player != null && !player.isOffline())
 					{
 						if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
 							
@@ -139,7 +139,7 @@ public class AutoVoteRewardHandler
 
 	private boolean checkSingleBox(L2PcInstance player){
 		
-		if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed()){
+		if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed() && !player.isOffline()){
 			
 			String playerip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 			

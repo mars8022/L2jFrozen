@@ -1990,6 +1990,7 @@ public final class Config
 	public static boolean CTF_COMMAND;
 	public static boolean CTF_AURA;
 	public static boolean CTF_STATS_LOGGER;
+	public static int CTF_SPAWN_OFFSET;
 	
 	//============================================================
 	public static void loadCTFConfig()
@@ -2017,6 +2018,9 @@ public final class Config
 			CTF_AURA = Boolean.parseBoolean(CTFSettings.getProperty("CTFAura", "True"));
 
 			CTF_STATS_LOGGER = Boolean.parseBoolean(CTFSettings.getProperty("CTFStatsLogger", "true"));
+			
+			CTF_SPAWN_OFFSET = Integer.parseInt(CTFSettings.getProperty("CTFSpawnOffset", "100"));
+			
 		}
 		catch(Exception e)
 		{
