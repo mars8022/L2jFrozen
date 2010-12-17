@@ -336,6 +336,8 @@ public class L2Attackable extends L2NpcInstance
 	/** Have this L2Attackable to reward Exp and SP on Die? **/
 	private boolean _mustGiveExpSp;
 
+	public L2Character _mostHated;
+	
 	/**
 	 * Constructor of L2Attackable (use L2Character and L2NpcInstance constructor).<BR>
 	 * <BR>
@@ -1174,7 +1176,7 @@ public class L2Attackable extends L2NpcInstance
 				{
 					continue;
 				}
-
+				
 				if(ai._attacker.isAlikeDead() || !getKnownList().knowsObject(ai._attacker) || !ai._attacker.isVisible() || ai._attacker instanceof L2PcInstance && ((L2PcInstance)ai._attacker).isOffline())
 				{
 					ai._hate = 0;
@@ -1187,6 +1189,10 @@ public class L2Attackable extends L2NpcInstance
 				}
 			}
 		}
+		
+		if(mostHated!=null)
+			_mostHated = mostHated;
+		
 		return mostHated;
 	}
 
@@ -1194,12 +1200,14 @@ public class L2Attackable extends L2NpcInstance
 	 * useful to give correctly the item to players
 	 * @return
 	 */
+	/*
 	public L2Character getMostDamager(){
+	
 		
 		if(getAggroListRP().isEmpty() || isAlikeDead())
 			return null;
 
-		L2Character mostDamager = null;
+		//L2Character mostDamager = null;
 
 		int maxDamage = 0;
 
@@ -1221,15 +1229,15 @@ public class L2Attackable extends L2NpcInstance
 
 				if(ai._damage > maxDamage)
 				{
-					mostDamager = ai._attacker;
+					_mostDamager = ai._attacker;
 					maxDamage = ai._damage;
 				}
 			}
 		}
-		return mostDamager;
+		return _mostDamager;
 		
 	}
-	
+	*/
 	/**
 	 * Return the hate level of the L2Attackable against this L2Character contained in _aggroList.<BR>
 	 * <BR>
