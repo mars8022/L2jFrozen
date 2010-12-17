@@ -1000,6 +1000,9 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="triggeredId" val="5144"/>
   <set name="triggeredLevel" val="1"/>
+  <cond msg="An equipped dagger weapon is required to use this skill.">
+    <using kind="Dagger"/>
+  </cond>
   <for>
     <effect count="1" name="BestowSkill" time="60" val="0"/>
   </for>
