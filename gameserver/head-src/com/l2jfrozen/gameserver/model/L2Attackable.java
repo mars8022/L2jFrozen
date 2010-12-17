@@ -1175,7 +1175,7 @@ public class L2Attackable extends L2NpcInstance
 					continue;
 				}
 
-				if(ai._attacker.isAlikeDead() || !getKnownList().knowsObject(ai._attacker) || !ai._attacker.isVisible())
+				if(ai._attacker.isAlikeDead() || !getKnownList().knowsObject(ai._attacker) || !ai._attacker.isVisible() || ai._attacker instanceof L2PcInstance && ((L2PcInstance)ai._attacker).isOffline())
 				{
 					ai._hate = 0;
 				}
@@ -1190,6 +1190,46 @@ public class L2Attackable extends L2NpcInstance
 		return mostHated;
 	}
 
+	/**
+	 * useful to give correctly the item to players
+	 * @return
+	 */
+	public L2Character getMostDamager(){
+		
+		if(getAggroListRP().isEmpty() || isAlikeDead())
+			return null;
+
+		L2Character mostDamager = null;
+
+		int maxDamage = 0;
+
+		// While Interating over This Map Removing Object is Not Allowed
+		synchronized (getAggroList())
+		{
+			// Go through the aggroList of the L2Attackable
+			for(AggroInfo ai : getAggroListRP().values())
+			{
+				if(ai == null)
+				{
+					continue;
+				}
+
+				if(ai._attacker.isAlikeDead() || !getKnownList().knowsObject(ai._attacker) || !ai._attacker.isVisible() || ai._attacker instanceof L2PcInstance && ((L2PcInstance)ai._attacker).isOffline() )
+				{
+					ai._damage = 0;
+				}
+
+				if(ai._damage > maxDamage)
+				{
+					mostDamager = ai._attacker;
+					maxDamage = ai._damage;
+				}
+			}
+		}
+		return mostDamager;
+		
+	}
+	
 	/**
 	 * Return the hate level of the L2Attackable against this L2Character contained in _aggroList.<BR>
 	 * <BR>
