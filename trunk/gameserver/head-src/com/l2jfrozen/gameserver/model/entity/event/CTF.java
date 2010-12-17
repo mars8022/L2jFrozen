@@ -1141,7 +1141,7 @@ public class CTF implements EventTask
 					case 180: // 3 minutes left
 					case 120: // 2 minutes left
 					case 60: // 1 minute left
-						removeOfflinePlayers();
+						//removeOfflinePlayers();
 						
 						if(_joining)
 						{
@@ -1155,10 +1155,10 @@ public class CTF implements EventTask
 					case 30: // 30 seconds left
 					case 15: // 15 seconds left
 					case 10: // 10 seconds left
+						removeOfflinePlayers();
 					case 3: // 3 seconds left
 					case 2: // 2 seconds left
 					case 1: // 1 seconds left
-						removeOfflinePlayers();
 						
 						if(_joining)
 							Announcements.getInstance().gameAnnounceToAll(_eventName + ": " + seconds + " second(s) till registration close!");

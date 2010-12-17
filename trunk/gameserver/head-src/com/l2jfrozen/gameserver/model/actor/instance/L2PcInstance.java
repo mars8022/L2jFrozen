@@ -5973,6 +5973,7 @@ public final class L2PcInstance extends L2PlayableInstance
 						{
 							Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 						}
+						addItemReword(targetPlayer);
 						return;
 					}
 				}
@@ -14787,7 +14788,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		int boxes_number = 0; //this one
 		List<String> active_boxes = new ArrayList<String>();
 		
-		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
+		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()  && getClient().getConnection().getSocketChannel()!=null && getClient().getConnection().getSocketChannel().socket().getInetAddress()!=null ){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
@@ -14797,7 +14798,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if(player != null)
 				{
-					if(!player.isOffline() && player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed() && !player.getName().equals(this.getName())){
+					if(!player.isOffline() && player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed()  && player.getClient().getConnection().getSocketChannel()!=null && player.getClient().getConnection().getSocketChannel().socket().getInetAddress()!=null  && !player.getName().equals(this.getName())){
 						
 						String ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 						if(thisip.equals(ip) && this != player && player != null)
@@ -14847,7 +14848,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void refreshOtherBoxes(){
 		
-		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed()){
+		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed() && getClient().getConnection().getSocketChannel()!=null && getClient().getConnection().getSocketChannel().socket().getInetAddress()!=null ){
 			
 			String thisip = getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
 			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();

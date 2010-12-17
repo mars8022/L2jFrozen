@@ -349,6 +349,9 @@ class OlympiadGameTask extends Olympiad implements Runnable
 				{
 					e.printStackTrace();
 				}
+				
+				//TO be checked
+				saveNobleData();
 				_game = null;
 			}
 		}
