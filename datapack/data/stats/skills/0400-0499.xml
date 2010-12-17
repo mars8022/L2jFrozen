@@ -24,7 +24,7 @@
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
   <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="40"/>
+  <set name="effectPower" val="60"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <for>
@@ -74,7 +74,7 @@
   <table name="#mpConsume">25 27 28 29 30 31 32 33 34 34</table>
   <set name="mpConsume" val="#mpConsume"/>
   <!-- <set name="save" val="5"/> -->
-  <set name="power" val="80"/>
+  <set name="power" val="125"/>
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="16000"/>
@@ -98,7 +98,7 @@
   <table name="#mpConsume">25 27 28 29 30 31 32 33 34 34</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="power" val="80"/>
+  <set name="power" val="100"/>
   <set name="reuseDelay" val="16000"/>
   <set name="hitTime" val="2000"/>
   <set name="skillType" val="ROOT"/>
@@ -260,8 +260,8 @@
   <set name="reuseDelay" val="90000"/>
   <set name="hitTime" val="1300"/>
   <set name="skillType" val="BLOW"/>
-  <set name="lethal1" val="5"/>
-  <set name="lethal2" val="2"/>
+  <set name="lethal1" val="0"/>
+  <set name="lethal2" val="0"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
@@ -1000,6 +1000,9 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="triggeredId" val="5144"/>
   <set name="triggeredLevel" val="1"/>
+  <cond msg="An equipped dagger weapon is required to use this skill.">
+    <using kind="Dagger"/>
+  </cond>
   <for>
     <effect count="1" name="BestowSkill" time="60" val="0"/>
   </for>
@@ -1164,7 +1167,7 @@ Description(s):
   <table name="#spd">1.25 1.58</table>
   <table name="#mpConsume">29 32</table>
   <set name="hitTime" val="1000"/>
-  <set name="reuseDelay" val="75000"/>
+  <set name="reuseDelay" val="32516"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="charge_skill_id" val="8"/>
   <set name="num_charges" val="#charges"/>

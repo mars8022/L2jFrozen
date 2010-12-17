@@ -416,6 +416,7 @@
   <set name="power" val="435"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="HEAL"/>
+  <set name="reuseDelay" val="60000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>

@@ -92,7 +92,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <!-- <set name="save" val="5"/> -->
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="40"/>
+  <set name="power" val="30"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="200"/>
@@ -966,7 +966,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="40"/>
+  <set name="power" val="10"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="10000"/>
   <set name="hitTime" val="4000"/>
@@ -993,7 +993,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <!-- <set name="save" val="4"/> -->
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="20"/>
+  <set name="power" val="5"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="150000"/>
