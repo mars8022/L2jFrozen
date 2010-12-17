@@ -1903,17 +1903,18 @@ public abstract class L2Character extends L2Object
 		  }
 		}
 
-		//if killer is the same then the most damager
-		L2Character mostDamager = null;
+		//if killer is the same then the most damager/hated
+		L2Character mostHated = null;
 		if(this instanceof L2Attackable){
-			mostDamager = ((L2Attackable)this).getMostDamager();
+			mostHated = ((L2Attackable)this)._mostHated;
 		}
 		
-		if(mostDamager!=null && isInsideRadius(mostDamager, 200, false, false))
-			calculateRewards(mostDamager);
-		else
+		if(mostHated!=null && isInsideRadius(mostHated, 200, false, false)){
+			calculateRewards(mostHated);
+		}else{
 			calculateRewards(killer);
-
+		}
+		
 		// Send the Server->Client packet StatusUpdate with current HP and MP to all other L2PcInstance to inform
 		broadcastStatusUpdate();
 
