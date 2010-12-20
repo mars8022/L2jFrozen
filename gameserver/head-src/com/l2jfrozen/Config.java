@@ -981,6 +981,9 @@ public final class Config
 	public static int SELL_ITEM;
 	public static int ALLOWED_SUBCLASS;
 	
+	public static String DISABLE_BOW_CLASSES_STRING;
+	public static FastList<Integer> DISABLE_BOW_CLASSES = new FastList<Integer>();
+	
 	//============================================================
 	public static void loadAltConfig()
 	{
@@ -1128,6 +1131,7 @@ public final class Config
 			SELL_ITEM = Integer.parseInt(altSettings.getProperty("SellItem", "57"));
 			
 			ALLOWED_SUBCLASS = Integer.parseInt(altSettings.getProperty("AllowedSubclass", "3"));
+			
 		}
 		catch(Exception e)
 		{
@@ -3073,6 +3077,7 @@ public final class Config
 	public static boolean ENABLE_CLASS_DAMAGES;
 	public static boolean ENABLE_CLASS_DAMAGES_IN_OLY;
 	public static boolean ENABLE_CLASS_DAMAGES_LOGGER;
+	public static boolean LEAVE_BUFFS_ON_DIE;
 	
 	//============================================================
 	public static void loadPHYSICSConfig()
@@ -3154,6 +3159,13 @@ public final class Config
 			}
 			
 			SEND_SKILLS_CHANCE_TO_PLAYERS = Boolean.parseBoolean(PHYSICSSetting.getProperty("SendSkillsChanceToPlayers", "False"));
+		
+			DISABLE_BOW_CLASSES_STRING = PHYSICSSetting.getProperty("DisableBowForClasses", "");
+			DISABLE_BOW_CLASSES = new FastList<Integer>();
+			for (String class_id : DISABLE_BOW_CLASSES_STRING.split(","))
+				DISABLE_BOW_CLASSES.add(Integer.parseInt(class_id));
+			
+			LEAVE_BUFFS_ON_DIE = Boolean.parseBoolean(PHYSICSSetting.getProperty("LeaveBuffsOnDie", "True"));
 		}
 		catch(Exception e)
 		{
