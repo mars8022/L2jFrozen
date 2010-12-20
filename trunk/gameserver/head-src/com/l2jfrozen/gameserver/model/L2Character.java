@@ -1897,7 +1897,7 @@ public abstract class L2Character extends L2Object
 		}
 		else
 		{
-			if (!DM.is_started())
+			if (!DM.is_started() && Config.LEAVE_BUFFS_ON_DIE)
 	      {
 			stopAllEffects();
 		  }

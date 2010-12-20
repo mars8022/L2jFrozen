@@ -468,6 +468,16 @@ public final class UseItem extends L2GameClientPacket
 			}
 			else
 			{
+				if(item.getItem() instanceof L2Weapon && ((L2Weapon)item.getItem()).getItemType() == L2WeaponType.BOW){
+					
+					if(Config.DISABLE_BOW_CLASSES.contains(activeChar.getClassId().getId())){
+						activeChar.sendMessage("This item can not be equipped by your class");
+						activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+						return;
+					}
+					
+				}
+				
 				int tempBodyPart = item.getItem().getBodyPart();
 				L2ItemInstance tempItem = activeChar.getInventory().getPaperdollItemByL2ItemId(tempBodyPart);
 
