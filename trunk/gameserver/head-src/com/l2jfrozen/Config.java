@@ -3162,9 +3162,11 @@ public final class Config
 		
 			DISABLE_BOW_CLASSES_STRING = PHYSICSSetting.getProperty("DisableBowForClasses", "");
 			DISABLE_BOW_CLASSES = new FastList<Integer>();
-			for (String class_id : DISABLE_BOW_CLASSES_STRING.split(","))
-				DISABLE_BOW_CLASSES.add(Integer.parseInt(class_id));
-			
+			for (String class_id : DISABLE_BOW_CLASSES_STRING.split(",")){
+				if(!class_id.equals(""))
+					DISABLE_BOW_CLASSES.add(Integer.parseInt(class_id));
+			}
+				
 			LEAVE_BUFFS_ON_DIE = Boolean.parseBoolean(PHYSICSSetting.getProperty("LeaveBuffsOnDie", "True"));
 		}
 		catch(Exception e)
