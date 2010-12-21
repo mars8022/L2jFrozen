@@ -294,15 +294,14 @@ public final class UseItem extends L2GameClientPacket
 				return;
 			}
 
-		    // If Player isn't Gm and have Enchant item > 10 he will be jailed!
-			 if (!activeChar.isGM() && item.getEnchantLevel() > Config.MAX_ITEM_ENCHANT_KICK)
+			//SECURE FIX - Anti Overenchant Cheat!!
+			if (!activeChar.isGM() && item.getEnchantLevel() > Config.MAX_ITEM_ENCHANT_KICK)
 		    {
-             activeChar.sendMessage("You have been kicked for using an item over +11!");
-			 Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " have item Overenchanted ", Config.DEFAULT_PUNISH);
+             activeChar.sendMessage("You have been kicked for using an item overenchanted!");
+			 Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! Kicked ", Config.DEFAULT_PUNISH);
 			 activeChar.closeNetConnection();
 			 return;
-	        }  			 
-			
+	        }  			 					 
 			
 			int bodyPart = item.getItem().getBodyPart();
 			// Prevent player to remove the weapon on special conditions
