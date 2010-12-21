@@ -199,7 +199,10 @@ public final class QuestState
 	 */
 	public String getStateId()
 	{
-		return getState().getName();
+		if(getState()!=null)
+			return getState().getName();
+		else
+			return "Created";
 	}
 
 	/**
