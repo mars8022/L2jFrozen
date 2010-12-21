@@ -332,6 +332,9 @@ public class L2ClanMember
 	{
 		int pledgeClass = 0;
 
+		if(player==null)
+			return pledgeClass;
+		
 		L2Clan clan = player.getClan();
 
 		if(clan != null)

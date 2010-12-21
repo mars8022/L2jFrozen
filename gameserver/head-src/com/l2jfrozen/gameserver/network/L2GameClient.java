@@ -34,6 +34,7 @@ import javolution.util.FastList;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
+import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -717,6 +718,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 						player.setOffline(true);
 						player.leaveParty();
 						player.store();
+						
 						if(Config.OFFLINE_SET_NAME_COLOR)
 						{
 							player._originalNameColorOffline=player.getAppearance().getNameColor();
@@ -727,11 +729,15 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 						if (player.getOfflineStartTime() == 0)
 							player.setOfflineStartTime(System.currentTimeMillis());
 						
+						OfflineTradeTable.storeOffliner(player);
+						
 						return;
 					}
 
 					// notify the world about our disconnect
 					player.deleteMe();
+					
+					//double store operation
 					player.store();
 
 					try
@@ -740,8 +746,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 					}
 					catch(Exception e2)
 					{
-						/* ignore any problems here */
+						//
 					}
+					
 				}
 
 				setActiveChar(null);
