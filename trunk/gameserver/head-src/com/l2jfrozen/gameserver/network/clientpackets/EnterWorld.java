@@ -226,35 +226,31 @@ public class EnterWorld extends L2GameClientPacket
 			L2Event.restoreAndTeleChar(activeChar);
 		}
 
-		
-				for (L2ItemInstance i : activeChar.getInventory().getItems())
-					{
-						if (!activeChar.isGM())
+		    //SECURE FIX - Anti Overenchant Cheat!!
+			for (L2ItemInstance i : activeChar.getInventory().getItems())
+				{
+				 if (!activeChar.isGM())
+				   {	
+					 if (i.isEquipable())
 						{	
-							if (i.isEquipable())
-							{	
-						   if (i.getEnchantLevel() > Config.MAX_ITEM_ENCHANT_KICK)
-						   {
-							   
+						  if (i.getEnchantLevel() > Config.MAX_ITEM_ENCHANT_KICK)
+						   {							   
 							//Delete Item Over enchanted
 							activeChar.getInventory().destroyItem(null, i, activeChar, null);
 							//Message to Player
 			                activeChar.sendMessage("[Server]:You have Items over enchanted you will be kikked!");
-							activeChar.sendMessage("[Server]:Item becames +1, but you will be Banned!");
 							activeChar.sendMessage("[Server]:Respect the rules of the Server.");
 							//Message with screen
 							sendPacket(new ExShowScreenMessage(" You have item Overenchanted, Kicked! ", 6000));
 			                //Punishment e log in audit
-							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " have item > 6 ", Config.DEFAULT_PUNISH);
-								   
+							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! Kicked! ", Config.DEFAULT_PUNISH);						   
 				            //Log in console
 							_log.info("#### ATTENCTION ####");
 							_log.info(i+" item has been removed from "+activeChar);
 			                }
-							}
 						}
 					}
-					
+				}
 			
 				
 		//restores custom status
