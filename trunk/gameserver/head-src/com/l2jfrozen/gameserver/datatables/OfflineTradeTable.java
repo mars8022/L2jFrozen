@@ -35,8 +35,10 @@ import java.sql.ResultSet;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2ManufactureItem;
 import com.l2jfrozen.gameserver.model.L2ManufactureList;
+import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList.TradeItem;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
@@ -52,11 +54,17 @@ public class OfflineTradeTable
 	//SQL DEFINITIONS
 	private static final String SAVE_OFFLINE_STATUS = "INSERT INTO character_offline_trade (`charId`,`time`,`type`,`title`) VALUES (?,?,?,?)";
 	private static final String SAVE_ITEMS = "INSERT INTO character_offline_trade_items (`charId`,`item`,`count`,`price`) VALUES (?,?,?,?)";
+	private static final String UPDATE_ITEMS = "UPDATE character_offline_trade_items SET item=?,count=? WHERE charId=?";
+	private static final String DELETE_OFFLINE_TABLE_ITEMS = "delete from character_offline_trade_items where charId=? and item not in (?)";
+	private static final String DELETE_OFFLINE_TABLE_ALL_ITEMS = "delete from character_offline_trade_items where charId=?";
+	private static final String DELETE_OFFLINE_TRADER = "DELETE FROM character_offline_trade where charId=?";
 	private static final String CLEAR_OFFLINE_TABLE = "DELETE FROM character_offline_trade";
 	private static final String CLEAR_OFFLINE_TABLE_ITEMS = "DELETE FROM character_offline_trade_items";
 	private static final String LOAD_OFFLINE_STATUS = "SELECT * FROM character_offline_trade";
 	private static final String LOAD_OFFLINE_ITEMS = "SELECT * FROM character_offline_trade_items WHERE charId = ?";
 
+	//called when server will go off, different from storeOffliner because
+	//of store of normal sellers/buyers also if not in offline mode
 	public static void storeOffliners()
 	{
 		Connection con = null;
@@ -74,16 +82,13 @@ public class OfflineTradeTable
 			stm = con.prepareStatement(SAVE_OFFLINE_STATUS);
 			PreparedStatement stm_items = con.prepareStatement(SAVE_ITEMS);
 
-			//TextBuilder items = TextBuilder.newInstance();
 			for (L2PcInstance pc : L2World.getInstance().getAllPlayers())
 			{
 				try
 				{
-					if ((pc.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_NONE) && (pc.isOffline()))
+					//without second check, server will store all guys that are in shop mode
+					if ((pc.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_NONE)/* && (pc.isOffline())*/)
 					{
-						//if(pc._originalNameColorOffline!=0)
-						//	pc.getAppearance().setNameColor(pc._originalNameColorOffline);
-						
 						stm.setInt(1, pc.getObjectId()); //Char Id
 						stm.setLong(2, pc.getOfflineStartTime());
 						stm.setInt(3, pc.getPrivateStoreType()); //store type
@@ -112,7 +117,6 @@ public class OfflineTradeTable
 								title = pc.getSellList().getTitle();
 								for (TradeItem i : pc.getSellList().getItems())
 								{
-									//System.out.println( "OfflineTradersTable[storeTradeItems()]: Saving item: " + i.getObjectId());
 									stm_items.setInt(1, pc.getObjectId());
 									stm_items.setInt(2, i.getObjectId());
 									stm_items.setLong(3, i.getCount());
@@ -136,7 +140,7 @@ public class OfflineTradeTable
 									stm_items.clearParameters();
 								}
 							default:
-								System.out.println( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
+								_log.info( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 						}
 						stm.setString(4, title);
 						stm.executeUpdate();
@@ -270,12 +274,14 @@ public class OfflineTradeTable
 			rs.close();
 			stm.close();
 			_log.info("Loaded: " +nTraders+ " offline trader(s)");
+			/*
 			stm = con.prepareStatement(CLEAR_OFFLINE_TABLE);
 			stm.execute();
 			stm.close();
 			stm = con.prepareStatement(CLEAR_OFFLINE_TABLE_ITEMS);
 			stm.execute();
 			stm.close();
+			*/
 		}
 		catch (Exception e)
 		{
@@ -293,4 +299,238 @@ public class OfflineTradeTable
 			}
 		}
 	}
+	
+	public static void storeOffliner(L2PcInstance pc)
+	{
+		if ((pc.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE) || (!pc.isOffline()))
+			return;
+		
+		Connection con = null;
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement stm = con.prepareStatement(DELETE_OFFLINE_TABLE_ALL_ITEMS);
+			stm.setInt(1, pc.getObjectId());
+			stm.execute();
+			stm.clearParameters();
+			stm.close();
+			stm = con.prepareStatement(DELETE_OFFLINE_TRADER);
+			stm.setInt(1, pc.getObjectId());
+			stm.execute();
+			stm.clearParameters();
+			stm.close();
+
+			con.setAutoCommit(false); // avoid halfway done
+			stm = con.prepareStatement(SAVE_OFFLINE_STATUS);
+			PreparedStatement stm_items = con.prepareStatement(SAVE_ITEMS);
+
+			try
+			{
+				
+				stm.setInt(1, pc.getObjectId()); //Char Id
+				stm.setLong(2, pc.getOfflineStartTime());
+				stm.setInt(3, pc.getPrivateStoreType()); //store type
+				String title = null;
+
+				switch (pc.getPrivateStoreType())
+				{
+					case L2PcInstance.STORE_PRIVATE_BUY:
+						if (!Config.OFFLINE_TRADE_ENABLE)
+							break;
+						title = pc.getBuyList().getTitle();
+						for (TradeItem i : pc.getBuyList().getItems())
+						{
+							stm_items.setInt(1, pc.getObjectId());
+							stm_items.setInt(2, i.getItem().getItemId());
+							stm_items.setLong(3, i.getCount());
+							stm_items.setLong(4, i.getPrice());
+							stm_items.executeUpdate();
+							stm_items.clearParameters();
+						}
+						break;
+					case L2PcInstance.STORE_PRIVATE_SELL:
+					case L2PcInstance.STORE_PRIVATE_PACKAGE_SELL:
+						if (!Config.OFFLINE_TRADE_ENABLE)
+							break;
+						title = pc.getSellList().getTitle();
+						for (TradeItem i : pc.getSellList().getItems())
+						{
+							stm_items.setInt(1, pc.getObjectId());
+							stm_items.setInt(2, i.getObjectId());
+							stm_items.setLong(3, i.getCount());
+							stm_items.setLong(4, i.getPrice());
+							stm_items.executeUpdate();
+							stm_items.clearParameters();
+						}
+						break;
+					case L2PcInstance.STORE_PRIVATE_MANUFACTURE:
+						
+						if (!Config.OFFLINE_CRAFT_ENABLE)
+							break;
+						title = pc.getCreateList().getStoreName();
+						for (L2ManufactureItem i : pc.getCreateList().getList())
+						{
+							stm_items.setInt(1, pc.getObjectId());
+							stm_items.setInt(2, i.getRecipeId());
+							stm_items.setLong(3, 0);
+							stm_items.setLong(4, i.getCost());
+							stm_items.executeUpdate();
+							stm_items.clearParameters();
+						}
+					default:
+						_log.info( "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
+				}
+				stm.setString(4, title);
+				stm.executeUpdate();
+				stm.clearParameters();
+				con.commit(); // flush
+			}
+			catch (Exception e)
+			{
+				_log.log(Level.WARNING, "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
+			}
+			
+			stm.close();
+			stm_items.close();
+			_log.info("Offline trader "+pc.getName()+" stored.");
+		}
+		catch (Exception e)
+		{
+			_log.log(Level.WARNING,"OfflineTradersTable[storeOffliner()]: Error while saving offline traders: " + e,e);
+		}
+		finally
+		{
+			try
+			{
+				con.close();
+			}
+			catch (Exception e)
+			{
+
+			}
+		}
+	}
+	
+	/*
+	public static void dataStoreRefresh(L2PcInstance pc)
+	{
+		if(pc==null || !pc.isOffline())
+			return;
+		
+			
+		Connection con = null;
+		PreparedStatement stm_items;
+
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			con.setAutoCommit(false); // avoid halfway done
+			stm_items = con.prepareStatement(UPDATE_ITEMS);
+			
+			switch (pc.getPrivateStoreType())
+			{
+				case L2PcInstance.STORE_PRIVATE_BUY:
+					if (!Config.OFFLINE_TRADE_ENABLE)
+						break;
+					
+					String buying_items = "";
+					
+					for (TradeItem i : pc.getBuyList().getItems())
+					{
+						stm_items.setInt(1, pc.getObjectId());
+						stm_items.setInt(2, i.getItem().getItemId());
+						stm_items.setLong(3, i.getCount());
+						stm_items.setLong(4, i.getPrice());
+						stm_items.executeUpdate();
+						stm_items.clearParameters();
+
+						if(!buying_items.equals(""))
+							buying_items = buying_items+","+i.getItem().getItemId();
+						else
+							buying_items = ""+i.getItem().getItemId();
+					}
+					
+					PreparedStatement delete_buy_stmt = con.prepareStatement(DELETE_OFFLINE_TABLE_ITEMS);
+					delete_buy_stmt.setInt(1, pc.getObjectId());
+					delete_buy_stmt.setString(2, buying_items);
+					delete_buy_stmt.executeUpdate();
+					delete_buy_stmt.clearParameters();
+					
+					break;
+				case L2PcInstance.STORE_PRIVATE_SELL:
+				case L2PcInstance.STORE_PRIVATE_PACKAGE_SELL:
+					if (!Config.OFFLINE_TRADE_ENABLE)
+						break;
+
+					String selling_items = "";
+					
+					for (TradeItem i : pc.getSellList().getItems())
+					{
+						stm_items.setInt(1, pc.getObjectId());
+						stm_items.setInt(2, i.getObjectId());
+						stm_items.setLong(3, i.getCount());
+						stm_items.setLong(4, i.getPrice());
+						stm_items.executeUpdate();
+						stm_items.clearParameters();
+						
+						if(!selling_items.equals(""))
+							selling_items = selling_items+","+i.getItem().getItemId();
+						else
+							selling_items = ""+i.getItem().getItemId();
+						
+					}
+					
+					PreparedStatement delete_sell_stmt = con.prepareStatement(DELETE_OFFLINE_TABLE_ITEMS);
+					delete_sell_stmt.setInt(1, pc.getObjectId());
+					delete_sell_stmt.setString(2, selling_items);
+					delete_sell_stmt.executeUpdate();
+					delete_sell_stmt.clearParameters();
+					
+					break;
+				case L2PcInstance.STORE_PRIVATE_MANUFACTURE:
+					
+					if (!Config.OFFLINE_CRAFT_ENABLE)
+						break;
+					
+					for (L2ManufactureItem i : pc.getCreateList().getList())
+					{
+						stm_items.setInt(1, pc.getObjectId());
+						stm_items.setInt(2, i.getRecipeId());
+						stm_items.setLong(3, 0);
+						stm_items.setLong(4, i.getCost());
+						stm_items.executeUpdate();
+						stm_items.clearParameters();
+						
+					}
+					
+				case L2PcInstance.STORE_PRIVATE_NONE:
+					_log.info("Offline trader "+pc.getName()+" finished to sell/buy his items");
+					
+					PreparedStatement delete_stmt = con.prepareStatement(DELETE_OFFLINE_TRADER);
+					delete_stmt.setInt(1, pc.getObjectId());
+					delete_stmt.executeUpdate();
+					delete_stmt.clearParameters();
+					
+					break;
+					
+				default:
+					_log.info( "OfflineTradersTable[dataStoreRefresh()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
+			}
+
+			con.commit(); // flush
+		}
+		catch (Exception e)
+		{
+			_log.log(Level.WARNING, "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
+		}
+		finally
+		{
+			try { con.close(); 
+			
+			} catch(Exception e) { }
+			con = null;
+		}
+		
+	}
+	*/
 }

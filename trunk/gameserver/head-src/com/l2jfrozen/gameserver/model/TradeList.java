@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -1020,6 +1021,9 @@ public class TradeList
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 
+		if(_owner.isOffline())
+			OfflineTradeTable.storeOffliner(_owner);
+		
 		ownerIU = null;
 		playerIU = null;
 		//adenaItem = null;
@@ -1229,6 +1233,9 @@ public class TradeList
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 
+		if(_owner.isOffline())
+			OfflineTradeTable.storeOffliner(_owner);
+		
 		ownerIU = null;
 		playerIU = null;
 		ownerInventory = null;

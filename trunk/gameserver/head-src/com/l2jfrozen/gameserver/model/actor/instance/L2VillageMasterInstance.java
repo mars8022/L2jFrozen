@@ -840,14 +840,19 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		subPledge.setLeaderName(leaderName);
 		clan.updateSubPledgeInDB(subPledge.getId());
 		L2ClanMember leaderSubPledge = clan.getClanMember(leaderName);
-		leaderSubPledge.getPlayerInstance().setPledgeClass(leaderSubPledge.calculatePledgeClass(leaderSubPledge.getPlayerInstance()));
-		leaderSubPledge.getPlayerInstance().sendPacket(new UserInfo(leaderSubPledge.getPlayerInstance()));
-		clan.broadcastClanStatus();
-		SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_BEEN_SELECTED_AS_CAPTAIN_OF_S2);
-		sm.addString(leaderName);
-		sm.addString(clanName);
-		clan.broadcastToOnlineMembers(sm);
-		sm = null;
+		
+		if(leaderSubPledge.getPlayerInstance()!=null){
+		
+			leaderSubPledge.getPlayerInstance().setPledgeClass(leaderSubPledge.calculatePledgeClass(leaderSubPledge.getPlayerInstance()));
+			leaderSubPledge.getPlayerInstance().sendPacket(new UserInfo(leaderSubPledge.getPlayerInstance()));
+			clan.broadcastClanStatus();
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_BEEN_SELECTED_AS_CAPTAIN_OF_S2);
+			sm.addString(leaderName);
+			sm.addString(clanName);
+			clan.broadcastToOnlineMembers(sm);
+			sm = null;
+		}
+	
 		clan = null;
 		subPledge = null;
 		leaderSubPledge = null;
