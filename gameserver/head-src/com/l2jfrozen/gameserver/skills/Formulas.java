@@ -1775,9 +1775,72 @@ public final class Formulas
 	}
 
 	/** Calcul value of lethal chance */
-	public final double calcLethal(L2Character activeChar, L2Character target, int baseLethal)
+	public final static double calcLethal(L2Character activeChar, L2Character target, int baseLethal)
 	{
 		return activeChar.calcStat(Stats.LETHAL_RATE, (baseLethal * (double) activeChar.getLevel() / target.getLevel()), target, null);
+	}
+	
+	public static final boolean calcLethalHit(L2Character activeChar, L2Character target, L2Skill skill)
+	{
+		if((target.isRaid() && Config.ALLOW_RAID_LETHAL) || (!target.isRaid() && !(target instanceof L2DoorInstance) && !(Config.ALLOW_LETHAL_PROTECTION_MOBS && target instanceof L2NpcInstance && (Config.LIST_LETHAL_PROTECTED_MOBS.contains(((L2NpcInstance) target).getNpcId())))))
+			
+		if ((!target.isRaid() || Config.ALLOW_RAID_LETHAL)
+				&& !(target instanceof L2DoorInstance)
+				&& !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062)
+				&& !(Config.ALLOW_LETHAL_PROTECTION_MOBS && target instanceof L2NpcInstance && (Config.LIST_LETHAL_PROTECTED_MOBS.contains(((L2NpcInstance) target).getNpcId()))))
+		{
+			//activeChar.sendMessage(Double.toString(chance));
+			//activeChar.sendMessage(Double.toString(calcLethal(activeChar, target, skill.getLethalChance2(),skill.getMagicLevel())));
+			//activeChar.sendMessage(Double.toString(calcLethal(activeChar, target, skill.getLethalChance1(),skill.getMagicLevel())));
+			
+			// 2nd lethal effect activate (cp,hp to 1 or if target is npc then hp to 1)
+			if (skill.getLethalChance2() > 0 && Rnd.get(1000) < calcLethal(activeChar, target, skill.getLethalChance2()))
+			{
+				if (target instanceof L2NpcInstance)
+					target.reduceCurrentHp(target.getCurrentHp() - 1, activeChar);
+				else if (target instanceof L2PcInstance) // If is a active player set his HP and CP to 1
+				{
+					L2PcInstance player = (L2PcInstance) target;
+					if (!player.isInvul())
+					{
+						if (!(activeChar instanceof L2PcInstance &&
+								(((L2PcInstance)activeChar).isGM() && !((L2PcInstance)activeChar).getAccessLevel().canGiveDamage())))
+						{
+							player.setCurrentHp(1);
+							player.setCurrentCp(1);
+							player.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE_SUCCESSFUL));
+						}
+					}
+				}
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
+			}
+			else if (skill.getLethalChance1() > 0 && Rnd.get(1000) < calcLethal(activeChar, target, skill.getLethalChance1()))
+			{
+				if (target instanceof L2PcInstance)
+				{
+					L2PcInstance player = (L2PcInstance) target;
+					if (!player.isInvul())
+					{
+						if (!(activeChar instanceof L2PcInstance &&
+								(((L2PcInstance)activeChar).isGM() && !((L2PcInstance)activeChar).getAccessLevel().canGiveDamage())))
+						{
+							player.setCurrentCp(1); // Set CP to 1
+							player.sendPacket(SystemMessage.sendString("Combat points disappear when hit with a half kill skill"));
+						}
+					}
+				}
+				//TODO: remove half kill since SYSMsg got changed.
+				/*else if (target instanceof L2Npc) // If is a monster remove first damage and after 50% of current hp
+                    target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar, skill);*/
+				
+			}
+			else
+				return false;
+		}
+		else
+			return false;
+		
+		return true;
 	}
 
 	public final static boolean calcMCrit(double mRate)
