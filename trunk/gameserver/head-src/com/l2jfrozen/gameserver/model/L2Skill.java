@@ -3081,4 +3081,9 @@ public abstract class L2Skill
 	{
 		return "" + _name + "[id=" + _id + ",lvl=" + _level + "]";
 	}
+	
+	public boolean hasSelfEffects()
+	{
+		return (_effectTemplatesSelf != null && _effectTemplatesSelf.length > 0);
+	}
 }

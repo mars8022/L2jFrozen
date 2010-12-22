@@ -1,33 +1,32 @@
-/* This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+/*
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -38,89 +37,139 @@ import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.Util;
-import com.l2jfrozen.util.random.Rnd;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
+
 
 /**
- * @author programmos
+ *
+ * @author  Steuf-Shyla
  */
 public class Blow implements ISkillHandler
 {
-	private static final SkillType[] SKILL_IDS = { SkillType.BLOW };
-
-	private int _successChance;
-
-	/*
-	public final static int FRONT = 50;
-	public final static int SIDE = 60;
-	public final static int BEHIND = 70;
-	*/
-
+	private static final Logger _logDamage = Logger.getLogger("damage");
+	
+	private static final SkillType[] SKILL_IDS =
+	{
+		SkillType.BLOW
+	};
+	
+	public final static byte FRONT = 50;
+	public final static byte SIDE = 60;
+	public final static byte BEHIND = 70;
+	
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
-		if(activeChar.isAlikeDead())
+		if (activeChar.isAlikeDead())
 			return;
-
-		for(L2Object target2 : targets)
+		for (L2Character target: (L2Character[]) targets)
 		{
-			L2Character target = (L2Character) target2;
-			if(target.isAlikeDead())
+			if (target.isAlikeDead())
 				continue;
-
-			// Calculate skill evasion
-			Formulas.getInstance();
-			if(Formulas.calcPhysicalSkillEvasion(target, skill))
-			{
-				activeChar.sendPacket(new SystemMessage(SystemMessageId.ATTACK_FAILED));
-				continue;
-			}
-			// Calculate vengeance
-			if(target.vengeanceSkill(skill))
-			{
-				target = activeChar;
-			}
-
-			if(activeChar.isBehindTarget())
-				_successChance = Config.BLOW_ATTACK_BEHIND;
-			else if(activeChar.isFrontTarget())
-				_successChance = Config.BLOW_ATTACK_FRONT;
-			else
-				_successChance = Config.BLOW_ATTACK_SIDE;
-
+			
+			// Check firstly if target dodges skill
+			final boolean skillIsEvaded = Formulas.calcPhysicalSkillEvasion(target, skill);
+			
+			byte _successChance = SIDE;
+			
+			if (activeChar.isBehindTarget())
+				_successChance = BEHIND;
+			else if (activeChar.isFront(target))
+				_successChance = FRONT;
+			
+			
 			//If skill requires Crit or skill requires behind,
 			//calculate chance based on DEX, Position and on self BUFF
-			if(((skill.getCondition() & L2Skill.COND_BEHIND) != 0) && _successChance == Config.BLOW_ATTACK_BEHIND || ((skill.getCondition() & L2Skill.COND_CRIT) != 0) && Formulas.getInstance().calcBlow(activeChar, target, _successChance))
+			boolean success = true;
+			if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0)
+				success = (_successChance == BEHIND);
+			if ((skill.getCondition() & L2Skill.COND_CRIT) != 0)
+				success = (success && Formulas.getInstance().calcBlow(activeChar, target, _successChance));
+			if (!skillIsEvaded && success)
 			{
-				if(skill.hasEffects())
+				//no reflection implemented
+				//final byte reflect = Formulas.getInstance().calcSkillReflect(target, skill);
+				
+				if (skill.hasEffects())
 				{
-					if(target.reflectSkill(skill))
+					/*if (reflect == Formulas.getInstance().SKILL_REFLECT_SUCCEED)
 					{
 						activeChar.stopSkillEffects(skill.getId());
-						skill.getEffects(null, activeChar);
+						skill.getEffects(target, activeChar);
 						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
-						sm.addSkillName(skill.getId());
+						sm.addSkillName(skill);
 						activeChar.sendPacket(sm);
-						sm = null;
 					}
+					else
+					{*/
+						//no shield reflection 
+						//final byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
+						target.stopSkillEffects(skill.getId());
+						//if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, shld, false, false, true))
+						if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, false, false, true))
+						{
+							//skill.getEffects(activeChar, target, new Env(shld, false, false, false));
+							skill.getEffects(activeChar, target);
+							SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
+							sm.addSkillName(skill);
+							target.sendPacket(sm);
+						}
+						else
+						{
+							SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
+							sm.addSkillName(skill);
+							activeChar.sendPacket(sm);
+						}
+					//}
 				}
 				L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
-				boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() == L2WeaponType.DAGGER);
+				boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && (weapon.getItemType() == L2WeaponType.DAGGER ));
+				
+				//byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
 				boolean shld = Formulas.getInstance().calcShldUse(activeChar, target);
-
+				
 				// Crit rate base crit rate for skill, modified with STR bonus
 				boolean crit = false;
+				
+				//if (Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar), target))
 				if(Formulas.getInstance().calcCrit(skill.getBaseCritRate() * 10 * Formulas.getInstance().getSTRBonus(activeChar)))
 					crit = true;
-
 				double damage = (int) Formulas.getInstance().calcBlowDamage(activeChar, target, skill, shld, soul);
-				if(crit)
+				
+				/*
+				if (skill.getMaxSoulConsumeCount() > 0 && activeChar instanceof L2PcInstance)
+				{
+					switch (((L2PcInstance) activeChar).getSouls())
+					{
+						case 0:
+							break;
+						case 1:
+							damage *= 1.10;
+							break;
+						case 2:
+							damage *= 1.12;
+							break;
+						case 3:
+							damage *= 1.15;
+							break;
+						case 4:
+							damage *= 1.18;
+							break;
+						default:
+							damage *= 1.20;
+							break;
+					}
+				}
+				*/
+				
+				if (crit)
 				{
 					damage *= 2;
 					// Vicious Stance is special after C5, and only for BLOW skills
 					// Adds directly to damage
 					L2Effect vicious = activeChar.getFirstEffect(312);
-					if(vicious != null && damage > 1)
+					if (vicious != null && damage > 1)
 					{
-						for(Func func : vicious.getStatFuncs())
+						for (Func func : vicious.getStatFuncs())
 						{
 							Env env = new Env();
 							env.player = activeChar;
@@ -129,123 +178,123 @@ public class Blow implements ISkillHandler
 							env.value = damage;
 							func.calc(env);
 							damage = (int) env.value;
-
-							env = null;
 						}
 					}
 				}
-
-				if(soul && weapon != null)
+				
+				if (soul)
 					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-
-				weapon = null;
-
-				if(skill.getDmgDirectlyToHP() && target instanceof L2PcInstance)
+				
+				if (skill.getDmgDirectlyToHP() && target instanceof L2PcInstance)
 				{
-					L2PcInstance player = (L2PcInstance) target;
-					if(!player.isInvul())
+					final L2Character[] ts = {target, activeChar};
+					
+					/*
+					 * This loop iterates over previous array but, if skill damage is not reflected
+					 * it stops on first iteration (target) and misses activeChar
+					 */
+					for (L2Character targ : ts)
 					{
-						// Check and calculate transfered damage 
-						L2Summon summon = player.getPet();
-						if(summon != null && summon instanceof L2SummonInstance && Util.checkIfInRange(900, player, summon, true))
-						{
-							int tDmg = (int) damage * (int) player.getStat().calcStat(Stats.TRANSFER_DAMAGE_PERCENT, 0, null, null) / 100;
-
-							// Only transfer dmg up to current HP, it should not be killed 
-							if(summon.getCurrentHp() < tDmg)
-								tDmg = (int) summon.getCurrentHp() - 1;
-							if(tDmg > 0)
+						L2PcInstance player = (L2PcInstance) targ;
+						if (!player.isInvul()) {
+							// Check and calculate transfered damage
+							L2Summon summon = player.getPet();
+							if (summon instanceof L2SummonInstance && Util.checkIfInRange(900, player, summon, true))
 							{
-								summon.reduceCurrentHp(tDmg, activeChar);
-								damage -= tDmg;
-							}
-							summon = null;
-						}
-						if(damage >= player.getCurrentHp())
-						{
-							if(player.isInDuel())
-								player.setCurrentHp(1);
-							else
-							{
-								player.setCurrentHp(0);
-								if(player.isInOlympiadMode())
+								int tDmg = (int) damage * (int) player.getStat().calcStat(Stats.TRANSFER_DAMAGE_PERCENT, 0, null, null) / 100;
+								
+								// Only transfer dmg up to current HP, it should
+								// not be killed
+								if (summon.getCurrentHp() < tDmg)
+									tDmg = (int) summon.getCurrentHp() - 1;
+								if (tDmg > 0)
 								{
-									player.abortAttack();
-									player.abortCast();
-									player.getStatus().stopHpMpRegeneration();
+									summon.reduceCurrentHp(tDmg, activeChar);
+									damage -= tDmg;
 								}
-								else
-									player.doDie(activeChar);
 							}
+							if (damage >= player.getCurrentHp())
+							{
+								if (player.isInDuel())
+									player.setCurrentHp(1);
+								else
+								{
+									player.setCurrentHp(0);
+									if (player.isInOlympiadMode())
+									{
+										player.abortAttack();
+										player.abortCast();
+										player.getStatus().stopHpMpRegeneration();
+										//player.setIsDead(true);
+										player.setIsPendingRevive(true);
+										if (player.getPet() != null)
+											player.getPet().getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE,null);
+									}
+									else
+										player.doDie(activeChar);
+								}
+							}
+							else
+								player.setCurrentHp(player.getCurrentHp() - damage);
 						}
-						else
-							player.setCurrentHp(player.getCurrentHp() - damage);
-					}
-					SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
-					smsg.addString(activeChar.getName());
-					smsg.addNumber((int) damage);
-					player.sendPacket(smsg);
-					smsg = null;
-
-					player = null;
-				}
+						SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
+						smsg.addString(activeChar.getName());
+						smsg.addNumber((int) damage);
+						player.sendPacket(smsg);
+						
+						// stop if no vengeance, so only target will be effected
+						//if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) == 0)
+						//	break;
+					} // end for
+				} // end skill directlyToHp check
 				else
+				{
 					target.reduceCurrentHp(damage, activeChar);
-
+					
+					// vengeance reflected damage
+					//if ((reflect & Formulas.getInstance().SKILL_REFLECT_VENGEANCE) != 0)
+					//	activeChar.reduceCurrentHp(damage, target, skill);
+				}
+				
+				// Manage attack or cast break of the target (calculating rate, sending message...)
+				if (!target.isRaid() && Formulas.calcAtkBreak(target, damage))
+				{
+					target.breakAttack();
+					target.breakCast();
+				}
 				if(activeChar instanceof L2PcInstance)
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT));
-				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_DID_S1_DMG);
-				sm.addNumber((int) damage);
-				activeChar.sendPacket(sm);
-				sm = null;
+				{
+					L2PcInstance activePlayer = (L2PcInstance) activeChar;
+					
+					activePlayer.sendDamageMessage(target, (int)damage, false, true, false);
+				}
 			}
-			//Possibility of a lethal strike
-			if((target.isRaid() && Config.ALLOW_RAID_LETHAL) || (!target.isRaid() && !(target instanceof L2DoorInstance) && !(Config.ALLOW_LETHAL_PROTECTION_MOBS && target instanceof L2NpcInstance && (Config.LIST_LETHAL_PROTECTED_MOBS.contains(((L2NpcInstance) target).getNpcId())))))
-			//if((!target.isRaid()) && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 21436))
+			
+			// Sending system messages
+			if (skillIsEvaded)
 			{
-				int chance = Rnd.get(100);
-				//2nd lethal effect activate (cp,hp to 1 or if target is npc then hp to 1)
-				if(skill.getLethalChance2() > 0 && chance < Formulas.getInstance().calcLethal(activeChar, target, skill.getLethalChance2()))
+				if (target instanceof L2PcInstance)
 				{
-					if(target instanceof L2NpcInstance)
-						target.reduceCurrentHp(target.getCurrentHp() - 1, activeChar);
-					else if(target instanceof L2PcInstance) // If is a active player set his HP and CP to 1
-					{
-						L2PcInstance player = (L2PcInstance) target;
-						if(!player.isInvul())
-						{
-							player.setCurrentHp(1);
-							player.setCurrentCp(1);
-							player = null;
-						}
-					}
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
-				}
-				else if(skill.getLethalChance1() > 0 && chance < Formulas.getInstance().calcLethal(activeChar, target, skill.getLethalChance1()))
-				{
-					if(target instanceof L2PcInstance)
-					{
-						L2PcInstance player = (L2PcInstance) target;
-						if(!player.isInvul())
-							player.setCurrentCp(1); // Set CP to 1
-						player = null;
-					}
-					else if(target instanceof L2NpcInstance) // If is a monster remove first damage and after 50% of current hp
-						target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar);
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
+					SystemMessage sm = new SystemMessage(SystemMessageId.AVOIDED_S1S_ATTACK);
+					sm.addString(activeChar.getName());
+					((L2PcInstance) target).sendPacket(sm);
 				}
 			}
-
-			L2Effect effect = activeChar.getFirstEffect(skill.getId());
+			
+			//Possibility of a lethal strike
+			Formulas.getInstance().calcLethalHit(activeChar, target, skill);
+			
 			//Self Effect
-			if(effect != null && effect.isSelfEffect())
-				effect.exit();
-			skill.getEffectsSelf(activeChar);
-
-			effect = null;
+			if (skill.hasSelfEffects())
+			{
+				final L2Effect effect = activeChar.getFirstEffect(skill.getId());
+				if (effect != null && effect.isSelfEffect())
+					effect.exit();
+				skill.getEffectsSelf(activeChar);
+			}
 		}
 	}
-
+	
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;
