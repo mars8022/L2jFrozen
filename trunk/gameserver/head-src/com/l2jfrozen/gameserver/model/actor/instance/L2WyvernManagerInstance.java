@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.entity.ClanHall;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
@@ -219,8 +220,10 @@ public class L2WyvernManagerInstance extends L2CastleChamberlainInstance
 		else if(super.getCastle() != null && super.getCastle().getCastleId() > 0)
 		{
 			if(player.getClan() != null)
-			{
-				if(super.getCastle().getSiege().getIsInProgress())
+			{			
+				// Checks if player is in Sieage Zone, he can't use wyvern!!
+				if(super.isInsideZone(L2Character.ZONE_SIEGE)||		
+				super.getCastle().getSiege().getIsInProgress())
 					return COND_BUSY_BECAUSE_OF_SIEGE; // Busy because of siege
 				else if(super.getCastle().getOwnerId() == player.getClanId() // Clan owns castle
 						&& player.isClanLeader()) // Leader of clan
