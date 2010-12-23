@@ -80,6 +80,13 @@ public class SummonFriend implements ISkillHandler
 			return;			
 		}
 		
+		// Checks summoner not in siege zone
+		if(activeChar.isInsideZone(L2Character.ZONE_SIEGE))
+		{
+			((L2PcInstance) activeChar).sendMessage("You cannot summon in siege zone.");
+			return;
+		}
+		
 		// Checks summoner not in arenas, siege zones, jail
 		if(activePlayer.isInsideZone(L2Character.ZONE_PVP))
 		{

@@ -55,6 +55,13 @@ public class Recall implements ISkillHandler
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
 					return;
 				}
+				
+				// Checks summoner not in siege zone
+				if(activeChar.isInsideZone(L2Character.ZONE_SIEGE))
+				{
+					((L2PcInstance) activeChar).sendMessage("You cannot summon in siege zone.");
+					return;
+				}
 
 				if(activeChar.isInsideZone(L2Character.ZONE_PVP))
 				{
