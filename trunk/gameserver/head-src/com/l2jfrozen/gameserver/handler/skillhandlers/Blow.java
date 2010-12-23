@@ -195,15 +195,17 @@ public class Blow implements ISkillHandler
 				
 				if (skill.getDmgDirectlyToHP() && target instanceof L2PcInstance)
 				{
-					final L2Character[] ts = {target, activeChar};
+					//no vegeange implementation
+					//final L2Character[] ts = {target, activeChar};
 					
 					/*
 					 * This loop iterates over previous array but, if skill damage is not reflected
 					 * it stops on first iteration (target) and misses activeChar
 					 */
-					for (L2Character targ : ts)
-					{
-						L2PcInstance player = (L2PcInstance) targ;
+					//for (L2Character targ : ts)
+					//{
+						//L2PcInstance player = (L2PcInstance) targ;
+						L2PcInstance player = (L2PcInstance)target;
 						if (!player.isInvul()) {
 							// Check and calculate transfered damage
 							L2Summon summon = player.getPet();
@@ -253,7 +255,7 @@ public class Blow implements ISkillHandler
 						// stop if no vengeance, so only target will be effected
 						//if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) == 0)
 						//	break;
-					} // end for
+					//} // end for
 				} // end skill directlyToHp check
 				else
 				{
