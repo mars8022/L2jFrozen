@@ -26,10 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.model.BlockList;
@@ -42,12 +38,17 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+
 public class RegionBBSManager extends BaseBBSManager
 {
 	private static Logger _logChat = Logger.getLogger("chat");
 
 	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd(java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd(java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
 	public void parsecmd(String command, L2PcInstance activeChar)
@@ -106,7 +107,7 @@ public class RegionBBSManager extends BaseBBSManager
 	private String version()
 	{
 		if(Config.SHOW_SERVER_VERSION)
-			return "L2Frozen ";
+			return "L2Scoria ";
 		return "";
 	}
 
@@ -208,9 +209,9 @@ public class RegionBBSManager extends BaseBBSManager
 	}
 
 	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(
+	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(
 	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, 
-	 * com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 * com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
@@ -274,7 +275,7 @@ public class RegionBBSManager extends BaseBBSManager
 
 				ar3 = ar3.replaceAll("\\\\n", "");
 
-				if(receiver != null && !BlockList.isBlocked(receiver, activeChar))
+				if(!BlockList.isBlocked(receiver, activeChar))
 				{
 					if(!receiver.getMessageRefusal())
 					{
@@ -475,17 +476,14 @@ public class RegionBBSManager extends BaseBBSManager
 			htmlCode.append(tdOpen + L2World.getInstance().getAllVisibleObjectsCount() + " Object count</td>");
 			htmlCode.append(trClose);
 
-			/*
 			htmlCode.append(trOpen);
 			htmlCode.append(tdOpen + getOnlineCount("gm") + " Player(s) Online</td>");
 			htmlCode.append(trClose);
-			*/
 			htmlCode.append("</table>");
 
 			htmlCode.append("<table border=0>");
 			htmlCode.append("<tr><td><table border=0>");
 
-			/*
 			int cell = 0;
 
 			for(L2PcInstance player : getOnlinePlayers(page))
@@ -566,9 +564,7 @@ public class RegionBBSManager extends BaseBBSManager
 				htmlCode.append("</tr>");
 				htmlCode.append("</table>");
 			}
-			
-			*/
-			
+
 			htmlCode.append("</body></html>");
 
 			communityPage.put("gm", htmlCode.toString());
@@ -615,16 +611,14 @@ public class RegionBBSManager extends BaseBBSManager
 			htmlCode.append("<td><img src=\"sek.cbui355\" width=600 height=1><br></td>");
 			htmlCode.append(trClose);
 
-			/*
 			htmlCode.append(trOpen);
 			htmlCode.append(tdOpen + getOnlineCount("pl") + " Player(s) Online</td>");
 			htmlCode.append(trClose);
 			htmlCode.append("</table>");
-			*/
+
 			htmlCode.append("<table border=0>");
 			htmlCode.append("<tr><td><table border=0>");
 
-			/*
 			cell = 0;
 			for(L2PcInstance player : getOnlinePlayers(page))
 			{
@@ -708,8 +702,7 @@ public class RegionBBSManager extends BaseBBSManager
 				htmlCode.append("</tr>");
 				htmlCode.append("</table>");
 			}
-			*/
-			
+
 			htmlCode.append("</body></html>");
 
 			communityPage.put("pl", htmlCode.toString());
@@ -720,27 +713,22 @@ public class RegionBBSManager extends BaseBBSManager
 		}
 	}
 
-	/*
-	 * Never used
 	private int getOnlineCount(String type)
 	{
 		if(type.equalsIgnoreCase("gm"))
 			return _onlineCountGm;
-		else
-			return _onlineCount;
+		return _onlineCount;
 	}
 
 	private FastList<L2PcInstance> getOnlinePlayers(int page)
 	{
 		return _onlinePlayers.get(page);
 	}
-	*/
-	
+
 	public String getCommunityPage(int page, String type)
 	{
 		if(_communityPages.get(page) != null)
 			return _communityPages.get(page).get(type);
-		else
-			return null;
+		return null;
 	}
 }

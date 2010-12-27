@@ -23,7 +23,11 @@ import com.l2jfrozen.gameserver.handler.IBBSHandler;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -71,6 +75,15 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("EVENT") && 
 				(activeChar._inEvent))
 			msg = "GMShop not available at the opening event";
+		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("TVT") && 
+				activeChar._inEventTvT && TvT.is_started() )
+			msg = "Gatekeeper is not available in TVT";
+		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CTF") && 
+				activeChar._inEventCTF && CTF.is_started() )
+			msg = "Gatekeeper is not available in CTF";
+		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DM") && 
+				activeChar._inEventDM && DM.is_started() )
+			msg = "Gatekeeper is not available in DM";
 		
 		if(msg!=null)
 			activeChar.sendMessage(msg);
@@ -81,20 +94,26 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String params)
 	{
-		if(activeChar==null) return false;
-		if(!checkAllowed(activeChar)) return false;
-		String index = "";
-		if(params!=null && params.length()!=0)
-			if(!params.equals("0"))
-				index= "-"+params; 
-		String text = HtmCache.getInstance().getHtm("data/html/gmshop/gmshop"+index+".htm");
-		activeChar.sendPacket(new NpcHtmlMessage(5,text)); 
+		if(activeChar==null) 
+			return false;
+		if(!checkAllowed(activeChar)) 
+			return false;
+		
+		if(command.compareTo(PowerPakConfig.GMSHOP_COMMAND)==0)
+		{
+			String index = "";
+			if(params!=null && params.length()!=0)
+				if(!params.equals("0"))
+					index= "-"+params; 
+			String text = HtmCache.getInstance().getHtm("data/html/gmshop/gmshop"+index+".htm");
+			NpcHtmlMessage htm = new NpcHtmlMessage(activeChar.getLastQuestNpcObject());
+			htm.setHtml(text);
+			activeChar.sendPacket(htm);
+		}
+		
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.ICustomByPassHandler#getByPassCommands()
-	 */
 	private static String [] _CMD =  {"gmshop"};
 	@Override
 	public String[] getByPassCommands()
@@ -105,9 +124,35 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	@Override
 	public void handleCommand(String command, L2PcInstance player, String parameters)
 	{
-		if(player==null) return;
-	 	if(parameters ==null || parameters.length()==0) return;
-	 	if(!checkAllowed(player)) return;
+		if(player==null) 
+			return;
+	 	if(parameters ==null || parameters.length()==0) 
+	 		return;
+	 	if(!checkAllowed(player)) 
+	 		return;
+	 	
+	 	if(!PowerPakConfig.GMSHOP_USEBBS && !PowerPakConfig.GMSHOP_USECOMMAND){
+			
+			L2NpcInstance gmshopnpc = null; 
+			
+			if(player.getTarget()!=null)
+				if(player.getTarget() instanceof L2NpcInstance)
+				{
+					gmshopnpc = (L2NpcInstance)player.getTarget();
+					if(gmshopnpc.getTemplate().getNpcId()!=PowerPakConfig.GMSHOP_NPC)
+						gmshopnpc=null;
+				}
+			
+			//Possible fix to Buffer - 1
+			if (gmshopnpc == null)
+				return;
+
+			//Possible fix to Buffer - 2
+			if (!player.isInsideRadius(gmshopnpc, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+				return;
+			
+		}//else (voice and bbs)
+		
 	 	if(parameters.startsWith("multisell")) {
 	 		try {
 	 			L2Multisell.getInstance().SeparateAndSend(Integer.parseInt(parameters.substring(9).trim()), player, false, 0);
@@ -117,6 +162,7 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	 	}
 	 	else if(parameters.startsWith("Chat"))
 	 		useVoicedCommand("",player,parameters.substring(4).trim());
+	 			
 	}
 
 	@Override

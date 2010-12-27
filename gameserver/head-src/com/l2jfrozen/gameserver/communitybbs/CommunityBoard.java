@@ -20,8 +20,6 @@ package com.l2jfrozen.gameserver.communitybbs;
 
 import java.util.Map;
 
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
@@ -36,6 +34,9 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+
+import javolution.util.FastMap;
+
 
 public class CommunityBoard
 {
@@ -60,7 +61,10 @@ public class CommunityBoard
 
 	/**
 	 * by Azagthtot<br>
-	 * @param handler as IBBSHandler
+	 * <br>
+	 * РћР±СЂР°Р±РѕС‚РєР° РєР°СЃС‚РѕРјРЅС‹С… _bbs РєРѕРјРјР°РЅРґ С‡РµСЂРµР· RequestByPassToServer<br>
+	 * 
+	 * @param handler as IBBSHandler - РѕР±СЂР°Р±РѕС‚С‡РёРє РєР°СЃС‚РѕРјРЅС‹С… РєРѕРјРјР°РЅРґ
 	 */
 	public void registerBBSHandler(IBBSHandler handler)
 	{
@@ -71,9 +75,12 @@ public class CommunityBoard
 	}
 
 	/**
-	 * by Azagthtot<br>
-	 * @param client<br>
-	 * @param command _bbs
+	 * by Azagthtot - РЎРќРђР§РђР›Рђ РїСЂРѕРІРµСЂСЏРµРј РєР°СЃС‚РѕРјРЅС‹Р№ С…Р°РЅРґР»РµСЂ, РїРѕС‚РѕРј СЋР·Р°РµРј
+	 * РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє<br>
+	 * <br>
+	 * 
+	 * @param client - Р®Р·РµСЂ С‚РёРїРѕ<br>
+	 * @param command - РєРѕРјР°РЅРґР° СЃ РїРµСЂРµС„РёРєСЃРѕРј _bbs
 	 */
 	public void handleCommands(L2GameClient client, String command)
 	{
