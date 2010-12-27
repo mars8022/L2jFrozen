@@ -3028,6 +3028,11 @@ public final class Config
 	public static int BLOW_ATTACK_FRONT;
 	public static int BLOW_ATTACK_SIDE;
 	public static int BLOW_ATTACK_BEHIND;
+	
+	public static int BACKSTAB_ATTACK_FRONT;
+	public static int BACKSTAB_ATTACK_SIDE;
+	public static int BACKSTAB_ATTACK_BEHIND;
+	
 
 	public static int MAX_PATK_SPEED;
 	public static int MAX_MATK_SPEED;
@@ -3100,7 +3105,11 @@ public final class Config
 			BLOW_ATTACK_FRONT = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackFront", "50"));
 			BLOW_ATTACK_SIDE = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackSide", "60"));
 			BLOW_ATTACK_BEHIND = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackBehind", "70"));
-
+			
+			BACKSTAB_ATTACK_FRONT = TypeFormat.parseInt(PHYSICSSetting.getProperty("BackstabAttackFront", "0"));
+			BACKSTAB_ATTACK_SIDE = TypeFormat.parseInt(PHYSICSSetting.getProperty("BackstabAttackSide", "0"));
+			BACKSTAB_ATTACK_BEHIND = TypeFormat.parseInt(PHYSICSSetting.getProperty("BackstabAttackBehind", "70"));
+			
 			// Max patk speed and matk speed
 			MAX_PATK_SPEED = Integer.parseInt(PHYSICSSetting.getProperty("MaxPAtkSpeed", "1500"));
 			MAX_MATK_SPEED = Integer.parseInt(PHYSICSSetting.getProperty("MaxMAtkSpeed", "1999"));
