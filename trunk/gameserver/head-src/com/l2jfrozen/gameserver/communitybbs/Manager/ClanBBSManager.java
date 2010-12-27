@@ -20,13 +20,13 @@ package com.l2jfrozen.gameserver.communitybbs.Manager;
 
 import java.util.StringTokenizer;
 
-import javolution.text.TextBuilder;
-
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+
+import javolution.text.TextBuilder;
 
 public class ClanBBSManager extends BaseBBSManager
 {
@@ -336,7 +336,7 @@ public class ClanBBSManager extends BaseBBSManager
 	}
 
 	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)

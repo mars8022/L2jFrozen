@@ -25,16 +25,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.BB.Post;
 import com.l2jfrozen.gameserver.communitybbs.BB.Topic;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
+
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
 
 public class TopicBBSManager extends BaseBBSManager
 {
@@ -97,9 +97,9 @@ public class TopicBBSManager extends BaseBBSManager
 	}
 
 	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite
+	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite
 	 * (java.lang.String, java.lang.String, java.lang.String, java.lang.String, 
-	 * java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 * java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
@@ -178,8 +178,8 @@ public class TopicBBSManager extends BaseBBSManager
 	}
 
 	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd
-	 * (java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd
+	 * (java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
 	public void parsecmd(String command, L2PcInstance activeChar)

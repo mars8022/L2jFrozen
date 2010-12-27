@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.powerpak.Buffer;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javolution.text.TextBuilder;
@@ -40,6 +39,9 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
@@ -107,6 +109,15 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("EVENT") && 
 				(activeChar.isInFunEvent()))
 			msg = "Buffer is not available in this event";
+		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("TVT") && 
+				activeChar._inEventTvT && TvT.is_started() )
+			msg = "Gatekeeper is not available in TVT";
+		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CTF") && 
+				activeChar._inEventCTF && CTF.is_started() )
+			msg = "Gatekeeper is not available in CTF";
+		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("DM") && 
+				activeChar._inEventDM && DM.is_started() )
+			msg = "Gatekeeper is not available in DM";
 		
 		if(msg!=null)
 			activeChar.sendMessage(msg);
@@ -127,7 +138,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		if(command.compareTo(PowerPakConfig.BUFFER_COMMAND)==0)
 		{
 			NpcHtmlMessage htm = new NpcHtmlMessage(activeChar.getLastQuestNpcObject());
-			String text = HtmCache.getInstance().getHtm("data/html/default/50019.htm");
+			String text = HtmCache.getInstance().getHtm("data/html/default/"+PowerPakConfig.BUFFER_NPC+".htm");
 			htm.setHtml(text);
 			activeChar.sendPacket(htm);
 		}
@@ -152,21 +163,26 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			return;
 
 		L2NpcInstance buffer = null;
-		if(player.getTarget()!=null)
-			if(player.getTarget() instanceof L2NpcInstance)
-			{
-				buffer = (L2NpcInstance)player.getTarget();
-				if(buffer.getTemplate().getNpcId()!=50019)
-					buffer=null;
-			}
 		
-		//Possible fix to Buffer - 1
-		if (buffer == null)
-			return;
+		if(!PowerPakConfig.BUFFER_USEBBS && !PowerPakConfig.BUFFER_USECOMMAND){
+			
+			if(player.getTarget()!=null)
+				if(player.getTarget() instanceof L2NpcInstance)
+				{
+					buffer = (L2NpcInstance)player.getTarget();
+					if(buffer.getTemplate().getNpcId()!=PowerPakConfig.BUFFER_NPC)
+						buffer=null;
+				}
+			
+			//Possible fix to Buffer - 1
+			if (buffer == null)
+				return;
 
-		//Possible fix to Buffer - 2
-		if (!player.isInsideRadius(buffer, L2NpcInstance.INTERACTION_DISTANCE, false, false))
-			return;
+			//Possible fix to Buffer - 2
+			if (!player.isInsideRadius(buffer, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+				return;
+			
+		}//if buffer is null means that buffer will be applied directly (voice and bbs)
 		
 		if(parameters.contains("Pet")){
 			if(player.getPet()==null){
@@ -330,7 +346,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							skill.getEffects(buffer, player);
 							buffer.setBusy(false);
 						} else
-							skill.getEffects(buffer, player);
+							skill.getEffects(player, player);
 					}
 					try
 					{
@@ -401,7 +417,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							//buffer.doCast(skill);
 							buffer.setBusy(false);
 						} else
-							skill.getEffects(buffer, player.getPet());
+							skill.getEffects(player, player.getPet());
 					}
 					try
 					{
@@ -457,7 +473,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							sk.getEffects(buffer, target);
 							buffer.setBusy(false);
 						} else
-							sk.getEffects(buffer, target);
+							sk.getEffects(target, target);
 					
 						//sk.getEffects(buffer, target);
 					

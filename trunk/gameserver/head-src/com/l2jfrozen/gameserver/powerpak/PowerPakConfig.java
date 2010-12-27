@@ -48,11 +48,13 @@ public class PowerPakConfig
 	public static ArrayList<Integer> ENGRAVE_EXCLUDED_ITEMS = new ArrayList<Integer>();
 	public static ArrayList<Integer> ENGRAVE_ALLOW_GRADE = new ArrayList<Integer>();
 
+	public static int BUFFER_NPC;
 	public static boolean BUFFER_ENABLED;
 	public static List<String> BUFFER_EXCLUDE_ON = new FastList<String>();
 	public static String BUFFER_COMMAND;
 	public static int BUFFER_PRICE;
 	public static boolean BUFFER_USEBBS;
+	public static boolean BUFFER_USECOMMAND;
 	
 	public static FastMap<Integer, Integer> FIGHTER_SKILL_LIST;
 	public static FastMap<Integer, Integer> MAGE_SKILL_LIST;
@@ -69,14 +71,18 @@ public class PowerPakConfig
 	public static List<String> GLOBALGK_EXCLUDE_ON;
 	public static boolean GLOBALGK_ENABDLED;
 	public static boolean GLOBALGK_USEBBS;
+	public static int GLOBALGK_NPC;
 	public static int GLOBALGK_PRICE;
 	public static int GLOBALGK_TIMEOUT;
 	public static String GLOBALGK_COMMAND;
+	public static boolean GLOBALGK_USECOMMAND;
 
+	public static int GMSHOP_NPC;
 	public static boolean GMSHOP_ENABLED;
 	public static boolean GMSHOP_USEBBS;
 	public static String GMSHOP_COMMAND;
 	public static List<String> GMSHOP_EXCLUDE_ON;
+	public static boolean GMSHOP_USECOMMAND;
 
 	public static boolean WEBSERVER_ENABLED;
 	public static int WEBSERVER_PORT;
@@ -181,15 +187,17 @@ public class PowerPakConfig
 				ENGRAVE_ALLOW_GRADE.add(L2Item.CRYSTAL_S);
 			}
 
-			BUFFER_ENABLED = Boolean.parseBoolean(p.getProperty("BufferEnabled", "true"));
+			BUFFER_ENABLED = Boolean.parseBoolean(p.getProperty("BufferEnabled", "false"));
 			StringTokenizer st = new StringTokenizer(p.getProperty("BufferExcludeOn", ""), " ");
 			while(st.hasMoreTokens())
 			{
 				BUFFER_EXCLUDE_ON.add(st.nextToken());
 			}
 			BUFFER_COMMAND = p.getProperty("BufferCommand", "buffme");
+			BUFFER_NPC = Integer.parseInt(p.getProperty("BufferNpcId", "50019"));
 			BUFFER_PRICE = Integer.parseInt(p.getProperty("BufferPrice", "-1"));
-			BUFFER_USEBBS = Boolean.parseBoolean(p.getProperty("BufferUseBBS", "true"));
+			BUFFER_USEBBS = Boolean.parseBoolean(p.getProperty("BufferUseBBS", "false"));
+			BUFFER_USECOMMAND = Boolean.parseBoolean(p.getProperty("BufferUseCommand", "false"));
 
 			FIGHTER_SKILL_LIST = new FastMap<Integer, Integer>();
 			MAGE_SKILL_LIST = new FastMap<Integer, Integer>();
@@ -251,7 +259,8 @@ public class PowerPakConfig
 			NPCBUFFER_STORE_SCHEMES = Boolean.parseBoolean(p.getProperty("NPCBufferStoreSchemes", "True"));
 			NPCBUFFER_STATIC_BUFF_COST = Integer.parseInt(p.getProperty("NPCBufferStaticCostPerBuff", "-1"));
 			
-			GLOBALGK_ENABDLED = Boolean.parseBoolean(p.getProperty("GKEnabled", "true"));
+			GLOBALGK_NPC = Integer.parseInt(p.getProperty("GKNpcId", "7077"));
+			GLOBALGK_ENABDLED = Boolean.parseBoolean(p.getProperty("GKEnabled", "false"));
 			GLOBALGK_COMMAND = p.getProperty("GKCommand", "teleport");
 			GLOBALGK_TIMEOUT = Integer.parseInt(p.getProperty("GKTimeout", "10"));
 			if(GLOBALGK_TIMEOUT < 1)
@@ -259,6 +268,7 @@ public class PowerPakConfig
 				GLOBALGK_TIMEOUT = 1;
 			}
 			GLOBALGK_PRICE = Integer.parseInt(p.getProperty("GKPrice", "-1"));
+			GLOBALGK_USECOMMAND = Boolean.parseBoolean(p.getProperty("GKUseCommand", "false"));
 			GLOBALGK_USEBBS = Boolean.parseBoolean(p.getProperty("GKUseBBS", "true"));
 			GLOBALGK_EXCLUDE_ON = new FastList<String>();
 			st = new StringTokenizer(p.getProperty("GKExcludeOn", ""), " ");
@@ -267,9 +277,11 @@ public class PowerPakConfig
 				GLOBALGK_EXCLUDE_ON.add(st.nextToken().toUpperCase());
 			}
 
-			GMSHOP_ENABLED = Boolean.parseBoolean(p.getProperty("GMShopEnabled","true"));
+			GMSHOP_NPC = Integer.parseInt(p.getProperty("GMShopNpcId", "53"));
+			GMSHOP_ENABLED = Boolean.parseBoolean(p.getProperty("GMShopEnabled","false"));
 			GMSHOP_COMMAND = p.getProperty("GMShopCommand", "gmshop");
-			GMSHOP_USEBBS = Boolean.parseBoolean(p.getProperty("GMShopUseBBS","true"));
+			GMSHOP_USEBBS = Boolean.parseBoolean(p.getProperty("GMShopUseBBS","false"));
+			GMSHOP_USECOMMAND = Boolean.parseBoolean(p.getProperty("GMShopUseCommand","false"));
 			GMSHOP_EXCLUDE_ON = new FastList<String>();
 			st = new StringTokenizer(p.getProperty("GMShopExcludeOn", ""), " ");
 			while(st.hasMoreTokens())

@@ -9,7 +9,11 @@ import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2TeleportLocation;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
@@ -64,9 +68,16 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 			msg = "Gatekeeper is not available in this area";
 		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("OLYMPIAD") && activeChar.isInOlympiadMode())
 			msg = "Gatekeeper is not available in Olympiad";
-		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("EVENT") && 
-				activeChar._inEvent )
-			msg = "Gatekeeper is not available in this event";
+		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("TVT") && 
+				activeChar._inEventTvT && TvT.is_started() )
+			msg = "Gatekeeper is not available in TVT";
+		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("CTF") && 
+				activeChar._inEventCTF && CTF.is_started() )
+			msg = "Gatekeeper is not available in CTF";
+		else if(PowerPakConfig.GLOBALGK_EXCLUDE_ON.contains("DM") && 
+				activeChar._inEventDM && DM.is_started() )
+			msg = "Gatekeeper is not available in DM";
+		
 
 		if(msg!=null)
 			activeChar.sendMessage(msg);
@@ -83,8 +94,14 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 		if(!checkAllowed(player))
 			return false;
 
-		String text = HtmCache.getInstance().getHtm("data/html/gatekeeper/70023.htm");
-		player.sendPacket(new NpcHtmlMessage(5,text));
+		if(cmd.compareTo(PowerPakConfig.GLOBALGK_COMMAND)==0)
+		{
+			NpcHtmlMessage htm = new NpcHtmlMessage(player.getLastQuestNpcObject());
+			String text = HtmCache.getInstance().getHtm("data/html/gatekeeper/70023.htm");
+			htm.setHtml(text);
+			player.sendPacket(htm);
+		}
+		
 		return false;
 	}
 
@@ -105,6 +122,28 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 		if(!checkAllowed(player))
 			return;
 
+		if(!PowerPakConfig.GLOBALGK_USEBBS && !PowerPakConfig.GLOBALGK_USECOMMAND){
+			
+			L2NpcInstance gknpc = null; 
+			
+			if(player.getTarget()!=null)
+				if(player.getTarget() instanceof L2NpcInstance)
+				{
+					gknpc = (L2NpcInstance)player.getTarget();
+					if(gknpc.getTemplate().getNpcId()!=PowerPakConfig.GLOBALGK_NPC)
+						gknpc=null;
+				}
+			
+			//Possible fix to Buffer - 1
+			if (gknpc == null)
+				return;
+
+			//Possible fix to Buffer - 2
+			if (!player.isInsideRadius(gknpc, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+				return;
+			
+		}//else (voice and bbs)
+		
 		String htm = "70023";
 		if(parameters.startsWith("goto"))
 		{
@@ -136,7 +175,7 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 					player.setTarget(player);
 					player.disableAllSkills();
 					MagicSkillUser u = new MagicSkillUser(player, 1050, 1, unstuckTimer, 0);
-					Broadcast.toSelfAndKnownPlayersInRadius(player, u, 810000/*900*/);
+					Broadcast.toSelfAndKnownPlayersInRadius(player, u, 810000);
 					SetupGauge sg = new SetupGauge(0, unstuckTimer);
 					player.sendPacket(sg);
 					EscapeFinalizer e = new EscapeFinalizer(player,tpPoint);
@@ -169,7 +208,7 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 		else
 			player.sendPacket(new NpcHtmlMessage(5,text));
 		return;
-
+		
 	}
 
 	@Override

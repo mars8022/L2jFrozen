@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExFishingHpRegen;
 import com.l2jfrozen.gameserver.network.serverpackets.ExFishingStartCombat;
+import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -101,7 +102,7 @@ public class L2Fishing implements Runnable
 
 		ExFishingStartCombat efsc = new ExFishingStartCombat(_fisher, _time, _fishMaxHp, _mode, _lureType, _deceptiveMode);
 		_fisher.broadcastPacket(efsc);
-
+		_fisher.sendPacket(new PlaySound(1, "SF_S_01", 0, 0, 0, 0, 0));
 		// Succeeded in getting a bite
 		_fisher.sendPacket(new SystemMessage(SystemMessageId.GOT_A_BITE));
 
@@ -141,13 +142,15 @@ public class L2Fishing implements Runnable
 
 	public synchronized void doDie(boolean win)
 	{
-		_fishAiTask.cancel(false);
-		_fishAiTask = null;
-
-		if(_fisher == null)
-			return;
-
-		if(win)
+		if (_fishAiTask != null)
+		{
+			_fishAiTask.cancel(false);
+			_fishAiTask = null;
+		}
+		
+		if (_fisher == null) return;
+		
+		if (win)
 		{
 			int check = Rnd.get(100);
 			if(check <= 5)
@@ -424,6 +427,7 @@ public class L2Fishing implements Runnable
 				npcid = 18325;
 				break;
 			case 8:
+			case 9:
 				npcid = 18326;
 				break;
 			default:
