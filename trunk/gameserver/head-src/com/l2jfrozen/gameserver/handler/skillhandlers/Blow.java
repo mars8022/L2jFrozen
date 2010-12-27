@@ -53,9 +53,11 @@ public class Blow implements ISkillHandler
 		SkillType.BLOW
 	};
 	
+	/*
 	public final static byte FRONT = 50;
 	public final static byte SIDE = 60;
 	public final static byte BEHIND = 70;
+	*/
 	
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
@@ -99,8 +101,15 @@ public class Blow implements ISkillHandler
 			//If skill requires Crit or skill requires behind,
 			//calculate chance based on DEX, Position and on self BUFF
 			boolean success = true;
-			if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0)
-				success = (_successChance == BEHIND);
+			if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0){
+				if(skill.getName().equals("Backstab")){
+					success = (_successChance == Config.BACKSTAB_ATTACK_BEHIND);
+				}else{
+					success = (_successChance == Config.BLOW_ATTACK_BEHIND);
+				}
+				
+			}
+				
 			if ((skill.getCondition() & L2Skill.COND_CRIT) != 0)
 				success = (success && Formulas.getInstance().calcBlow(activeChar, target, _successChance));
 			if (!skillIsEvaded && success)
