@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
+import com.l2jfrozen.gameserver.templates.L2WeaponType;
 
 public class FishingSkill implements ISkillHandler
 {
@@ -66,7 +67,7 @@ public class FishingSkill implements ISkillHandler
 
 		L2Weapon weaponItem = player.getActiveWeaponItem();
 		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-		if(weaponInst == null || weaponItem == null)
+		if(weaponInst == null || weaponItem == null || weaponItem.getItemType() != L2WeaponType.ROD)
 			return;
 
 		int SS = 1;
