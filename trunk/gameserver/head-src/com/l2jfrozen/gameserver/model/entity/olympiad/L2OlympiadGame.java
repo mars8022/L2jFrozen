@@ -336,6 +336,8 @@ class L2OlympiadGame extends Olympiad
 				
 				player.sendSkillList();
 				player.updateEffectIcons();
+				
+				player.setPvpFlag(0);
 			}
 			catch(Exception e)
 			{
