@@ -3,6 +3,6 @@
 	<classpathentry excluding="**/.svn/*|.svn" kind="src" path="data/scripts"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="JUNIT_HOME/junit.jar" sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.0.0/src/org.junit_3.8.1/junitsrc.zip"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/L2jFrozen_GameServer_CB"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/L2jFrozen_GameServer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
