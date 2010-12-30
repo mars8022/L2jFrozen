@@ -6057,25 +6057,25 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(targetPlayer.getClient().getConnection().getSocketChannel().socket().getInetAddress() != getClient().getConnection().getSocketChannel().socket().getInetAddress())
 		{
 
-			if(targetPlayer.getKarma() > 0 || targetPlayer.getPvpFlag() >= 0)
+			if(/*targetPlayer.getKarma() > 0 || */targetPlayer.getPvpFlag() >= 0)
 			{
 				// Reward PVP win by giving them an Incarnadine Coin, 
 				// Description: Winning PvP, item Id: 6392, Count: 1, medal: this, Reference: none
 				if(Config.PVP_REWARD_ENABLED)
 				{
-					int item = Config.PVP_REWORD_ID;
+					int item = Config.PVP_REWARD_ID;
 					L2Item reward = ItemTable.getInstance().getTemplate(item);
 					
-					int amount = Config.PVP_REWORD_AMOUNT;
+					int amount = Config.PVP_REWARD_AMOUNT;
 					
-					getInventory().addItem("Winning PvP", Config.PVP_REWORD_ID, Config.PVP_REWORD_AMOUNT, this, null);
+					getInventory().addItem("Winning PvP", Config.PVP_REWARD_ID, Config.PVP_REWARD_AMOUNT, this, null);
 					sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
 				}
 
 				if(!Config.FORCE_INVENTORY_UPDATE)
 				{
 					InventoryUpdate iu = new InventoryUpdate();
-					iu.addItem(_inventory.getItemByItemId(Config.PVP_REWORD_ID));
+					iu.addItem(_inventory.getItemByItemId(Config.PVP_REWARD_ID));
 					sendPacket(iu);
 					iu = null;
 				}
@@ -6086,17 +6086,17 @@ public final class L2PcInstance extends L2PlayableInstance
 				// Description: Winning PK, item Id: 6392, Count: 1, medal: this, Reference: none
 				if(Config.PK_REWARD_ENABLED)
 				{
-					int item = Config.PK_REWORD_ID;
+					int item = Config.PK_REWARD_ID;
 					L2Item reward = ItemTable.getInstance().getTemplate(item);
-					int amount = Config.PK_REWORD_AMOUNT;
-					getInventory().addItem("Winning PK", Config.PK_REWORD_ID, Config.PK_REWORD_AMOUNT, this, null);
+					int amount = Config.PK_REWARD_AMOUNT;
+					getInventory().addItem("Winning PK", Config.PK_REWARD_ID, Config.PK_REWARD_AMOUNT, this, null);
 					sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
 				}
 
 				if(!Config.FORCE_INVENTORY_UPDATE)
 				{
 					InventoryUpdate iu = new InventoryUpdate();
-					iu.addItem(_inventory.getItemByItemId(Config.PK_REWORD_ID));
+					iu.addItem(_inventory.getItemByItemId(Config.PK_REWARD_ID));
 					sendPacket(iu);
 					iu = null;
 				}
