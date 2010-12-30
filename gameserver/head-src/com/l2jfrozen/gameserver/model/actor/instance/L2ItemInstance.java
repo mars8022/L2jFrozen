@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -1333,10 +1334,19 @@ public final class L2ItemInstance extends L2Object
 			statement = null;
 			
 		}
-		catch(Exception e)
+		catch(SQLException  e)
 		{
-			_log.log(Level.SEVERE, "Could not insert item " + getObjectId() + " into DB: Reason: " + "Duplicate itemId");
-			e.printStackTrace();
+			//unique Index or Duplicate Exception
+			if(e.getErrorCode()==-9 || e.getErrorCode()==-803){
+				
+				_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getName());
+				updateInDb();
+			
+			}else{
+				_log.log(Level.SEVERE, "Could not insert item " + getObjectId() + " into DB: Reason: " + "Duplicate itemId");
+				e.printStackTrace();
+			}
+		
 		}
 		finally
 		{
