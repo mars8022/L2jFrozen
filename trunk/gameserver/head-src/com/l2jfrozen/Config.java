@@ -527,8 +527,7 @@ public final class Config
 	public static boolean ALLOW_QUAKE_SYSTEM;
 	public static boolean ENABLE_ANTI_PVP_FARM_MSG;
 	
-	public static int MAX_ITEM_ENCHANT_KICK;
-
+	
 	//============================================================
 	public static void loadOtherConfig()
 	{
@@ -553,15 +552,12 @@ public final class Config
 			INVENTORY_MAXIMUM_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForDwarf", "100"));
 			INVENTORY_MAXIMUM_GM = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForGMPlayer", "250"));
 			MAX_ITEM_IN_PACKET = Math.max(INVENTORY_MAXIMUM_NO_DWARF, Math.max(INVENTORY_MAXIMUM_DWARF, INVENTORY_MAXIMUM_GM));
-			MAX_ITEM_ENCHANT_KICK = Integer.parseInt(otherSettings.getProperty("EnchantKick", "11"));
 			
 			/* Inventory slots limits */
 			WAREHOUSE_SLOTS_NO_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumWarehouseSlotsForNoDwarf", "100"));
 			WAREHOUSE_SLOTS_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumWarehouseSlotsForDwarf", "120"));
 			WAREHOUSE_SLOTS_CLAN = Integer.parseInt(otherSettings.getProperty("MaximumWarehouseSlotsForClan", "150"));
 			FREIGHT_SLOTS = Integer.parseInt(otherSettings.getProperty("MaximumFreightSlots", "20"));
-
-			GM_OVER_ENCHANT = Integer.parseInt(otherSettings.getProperty("GMOverEnchant", "0"));
 
 			/* If different from 100 (ie 100%) heal rate is modified acordingly */
 			HP_REGEN_MULTIPLIER = Double.parseDouble(otherSettings.getProperty("HpRegenMultiplier", "100")) / 100;
@@ -2041,7 +2037,6 @@ public final class Config
 	public static boolean ANNOUNCE_TO_ALL_SPAWN_RB;
 	public static boolean ANNOUNCE_TRY_BANNED_ACCOUNT;
 	public static String ALT_Server_Name;
-	public static int GM_OVER_ENCHANT;
 	public static boolean DONATOR_NAME_COLOR_ENABLED;
 	public static int DONATOR_NAME_COLOR;
 	public static int DONATOR_TITLE_COLOR;
@@ -2566,6 +2561,10 @@ public final class Config
 	/** Olympiad max enchant limitation */
 	public static int ALT_OLY_ENCHANT_LIMIT;
 	public static int BREAK_ENCHANT;
+	
+	public static int GM_OVER_ENCHANT;
+	public static int MAX_ITEM_ENCHANT_KICK;
+
 
 	//============================================================
 	public static void loadEnchantConfig()
@@ -2841,6 +2840,10 @@ public final class Config
 			CUSTOM_ENCHANT_VALUE = Integer.parseInt(ENCHANTSetting.getProperty("CustomEnchantValue", "1"));
 			ALT_OLY_ENCHANT_LIMIT = Integer.parseInt(ENCHANTSetting.getProperty("AltOlyMaxEnchant", "-1"));
 			BREAK_ENCHANT = Integer.valueOf(ENCHANTSetting.getProperty("BreakEnchant", "0"));
+		
+			MAX_ITEM_ENCHANT_KICK = Integer.parseInt(ENCHANTSetting.getProperty("EnchantKick", "0"));
+			GM_OVER_ENCHANT = Integer.parseInt(ENCHANTSetting.getProperty("GMOverEnchant", "0"));
+
 		}
 		catch(Exception e)
 		{

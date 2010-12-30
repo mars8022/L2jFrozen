@@ -312,150 +312,202 @@ public final class RequestEnchantItem extends L2GameClientPacket
 
 		if(item.getItem().getType2() == L2Item.TYPE2_WEAPON)
 		{
-			for(int normalweaponscroll : NORMAL_WEAPON_SCROLLS)
-			{
-				if(scroll.getItemId() == normalweaponscroll)
+			if(blessedScroll){
+				
+				for(int blessedweaponscroll : BLESSED_WEAPON_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.NORMAL_WEAPON_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == blessedweaponscroll)
 					{
-						chance = Config.NORMAL_WEAPON_ENCHANT_LEVEL.get(Config.NORMAL_WEAPON_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.BLESS_WEAPON_ENCHANT_LEVEL.size())
+						{
+							chance = Config.BLESS_WEAPON_ENCHANT_LEVEL.get(Config.BLESS_WEAPON_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.BLESS_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						maxEnchantLevel = Config.ENCHANT_WEAPON_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.NORMAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					maxEnchantLevel = Config.ENCHANT_WEAPON_MAX;
 				}
-			}
-			for(int blessedweaponscroll : BLESSED_WEAPON_SCROLLS)
-			{
-				if(scroll.getItemId() == blessedweaponscroll)
+				
+			}else if(crystalScroll){
+				
+				for(int crystalweaponscroll : CRYSTAL_WEAPON_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.BLESS_WEAPON_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == crystalweaponscroll)
 					{
-						chance = Config.BLESS_WEAPON_ENCHANT_LEVEL.get(Config.BLESS_WEAPON_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size())
+						{
+							chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
+						maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
+						
+						break;
+						
 					}
-					else
-					{
-						chance = Config.BLESS_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					maxEnchantLevel = Config.ENCHANT_WEAPON_MAX;
 				}
-			}
-			for(int crystalweaponscroll : CRYSTAL_WEAPON_SCROLLS)
-			{
-				if(scroll.getItemId() == crystalweaponscroll)
+				
+			}else{ //normal scrolls
+				
+				for(int normalweaponscroll : NORMAL_WEAPON_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == normalweaponscroll)
 					{
-						chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.NORMAL_WEAPON_ENCHANT_LEVEL.size())
+						{
+							chance = Config.NORMAL_WEAPON_ENCHANT_LEVEL.get(Config.NORMAL_WEAPON_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.NORMAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						maxEnchantLevel = Config.ENCHANT_WEAPON_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
-					maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
 				}
+				
 			}
+			
 		}
 		else if(item.getItem().getType2() == L2Item.TYPE2_SHIELD_ARMOR)
 		{
-			for(int normalarmorscroll : NORMAL_ARMOR_SCROLLS)
-			{
-				if(scroll.getItemId() == normalarmorscroll)
+			if(blessedScroll){
+				
+				for(int blessedarmorscroll : BLESSED_ARMOR_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.NORMAL_ARMOR_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == blessedarmorscroll)
 					{
-						chance = Config.NORMAL_ARMOR_ENCHANT_LEVEL.get(Config.NORMAL_ARMOR_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.BLESS_ARMOR_ENCHANT_LEVEL.size())
+						{
+							chance = Config.BLESS_ARMOR_ENCHANT_LEVEL.get(Config.BLESS_ARMOR_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.BLESS_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						maxEnchantLevel = Config.ENCHANT_ARMOR_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.NORMAL_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					maxEnchantLevel = Config.ENCHANT_ARMOR_MAX;
 				}
-			}
-			for(int blessedarmorscroll : BLESSED_ARMOR_SCROLLS)
-			{
-				if(scroll.getItemId() == blessedarmorscroll)
+				
+			}else if(crystalScroll){
+				
+				for(int crystalarmorscroll : CRYSTAL_ARMOR_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.BLESS_ARMOR_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == crystalarmorscroll)
 					{
-						chance = Config.BLESS_ARMOR_ENCHANT_LEVEL.get(Config.BLESS_ARMOR_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size())
+						{
+							chance = Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.get(Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
+						maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.BLESS_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					maxEnchantLevel = Config.ENCHANT_ARMOR_MAX;
 				}
-			}
-			for(int crystalarmorscroll : CRYSTAL_ARMOR_SCROLLS)
-			{
-				if(scroll.getItemId() == crystalarmorscroll)
+				
+			}else{ //normal scrolls
+				
+				for(int normalarmorscroll : NORMAL_ARMOR_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == normalarmorscroll)
 					{
-						chance = Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.get(Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.NORMAL_ARMOR_ENCHANT_LEVEL.size())
+						{
+							chance = Config.NORMAL_ARMOR_ENCHANT_LEVEL.get(Config.NORMAL_ARMOR_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.NORMAL_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						maxEnchantLevel = Config.ENCHANT_ARMOR_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
-					maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
 				}
+				
 			}
+			
 		}
 		else if(item.getItem().getType2() == L2Item.TYPE2_ACCESSORY)
 		{
-			for(int normaljewelscroll : NORMAL_ARMOR_SCROLLS)
-			{
-				if(scroll.getItemId() == normaljewelscroll)
+			if(blessedScroll){
+				
+				for(int blessedjewelscroll : BLESSED_ARMOR_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == blessedjewelscroll)
 					{
-						chance = Config.NORMAL_JEWELRY_ENCHANT_LEVEL.get(Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.BLESS_JEWELRY_ENCHANT_LEVEL.size())
+						{
+							chance = Config.BLESS_JEWELRY_ENCHANT_LEVEL.get(Config.BLESS_JEWELRY_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.BLESS_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						maxEnchantLevel = Config.ENCHANT_JEWELRY_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.NORMAL_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					maxEnchantLevel = Config.ENCHANT_JEWELRY_MAX;
 				}
-			}
-			for(int blessedjewelscroll : BLESSED_ARMOR_SCROLLS)
-			{
-				if(scroll.getItemId() == blessedjewelscroll)
+				
+			}else if(crystalScroll){
+				
+				for(int crystaljewelscroll : CRYSTAL_ARMOR_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.BLESS_JEWELRY_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == crystaljewelscroll)
 					{
-						chance = Config.BLESS_JEWELRY_ENCHANT_LEVEL.get(Config.BLESS_JEWELRY_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size())
+						{
+							chance = Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.get(Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
+						maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.BLESS_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					maxEnchantLevel = Config.ENCHANT_JEWELRY_MAX;
 				}
-			}
-			for(int crystaljewelscroll : CRYSTAL_ARMOR_SCROLLS)
-			{
-				if(scroll.getItemId() == crystaljewelscroll)
+				
+			}else{
+				
+				for(int normaljewelscroll : NORMAL_ARMOR_SCROLLS)
 				{
-					if(item.getEnchantLevel() + 1 > Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size())
+					if(scroll.getItemId() == normaljewelscroll)
 					{
-						chance = Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.get(Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size());
+						if(item.getEnchantLevel() + 1 > Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size())
+						{
+							chance = Config.NORMAL_JEWELRY_ENCHANT_LEVEL.get(Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size());
+						}
+						else
+						{
+							chance = Config.NORMAL_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+						}
+						maxEnchantLevel = Config.ENCHANT_JEWELRY_MAX;
+						
+						break;
 					}
-					else
-					{
-						chance = Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
-					}
-					minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
-					maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
 				}
+				
 			}
+			
 		}
 		
 		if((maxEnchantLevel != 0 && item.getEnchantLevel() >= maxEnchantLevel) || (item.getEnchantLevel()) < minEnchantLevel) 

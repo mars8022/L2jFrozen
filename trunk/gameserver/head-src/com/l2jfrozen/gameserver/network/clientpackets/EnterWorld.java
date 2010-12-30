@@ -226,7 +226,8 @@ public class EnterWorld extends L2GameClientPacket
 			L2Event.restoreAndTeleChar(activeChar);
 		}
 
-		    //SECURE FIX - Anti Overenchant Cheat!!
+		//SECURE FIX - Anti Overenchant Cheat!!
+		if(Config.MAX_ITEM_ENCHANT_KICK >0)
 			for (L2ItemInstance i : activeChar.getInventory().getItems())
 				{
 				 if (!activeChar.isGM())
