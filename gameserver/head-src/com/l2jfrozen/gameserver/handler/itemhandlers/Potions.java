@@ -540,6 +540,7 @@ public class Potions implements IItemHandler
 					// It would be faster to check if its > 10 but that would screw custom pot durations...
 					if(e.getTaskTime() > e.getSkill().getBuffDuration() * 67 / 100000)
 						return true;
+					System.out.println("isEffectReplaceable");
 					SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
 					sm.addItemName(itemId);
 					activeChar.sendPacket(sm);
