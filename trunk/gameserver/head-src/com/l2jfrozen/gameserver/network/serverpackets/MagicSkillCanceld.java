@@ -31,7 +31,6 @@ public class MagicSkillCanceld extends L2GameServerPacket
 
 	public MagicSkillCanceld(int objectId)
 	{
-		System.out.println("MagicSkillCanceld");
 		_objectId = objectId;
 	}
 
