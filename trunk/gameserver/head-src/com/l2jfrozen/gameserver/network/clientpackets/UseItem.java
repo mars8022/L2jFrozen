@@ -305,7 +305,7 @@ public final class UseItem extends L2GameClientPacket
 			
 			int bodyPart = item.getItem().getBodyPart();
 			// Prevent player to remove the weapon on special conditions
-			if((/*activeChar.isAttackingNow() || */activeChar.isCastingNow() || activeChar.isMounted() || (activeChar._inEventCTF && activeChar._haveFlagCTF)) && ((bodyPart == L2Item.SLOT_LR_HAND) || (bodyPart == L2Item.SLOT_L_HAND) || (bodyPart == L2Item.SLOT_R_HAND)))
+			if((/*activeChar.isAttackingNow() || */activeChar.isCastingNow()  || activeChar.isCastingPotionNow() || activeChar.isMounted() || (activeChar._inEventCTF && activeChar._haveFlagCTF)) && ((bodyPart == L2Item.SLOT_LR_HAND) || (bodyPart == L2Item.SLOT_L_HAND) || (bodyPart == L2Item.SLOT_R_HAND)))
 			{
 				if(activeChar._inEventCTF && activeChar._haveFlagCTF)
 					activeChar.sendMessage("This item can not be equipped when you have the flag.");

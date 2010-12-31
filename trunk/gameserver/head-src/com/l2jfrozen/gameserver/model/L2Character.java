@@ -2269,7 +2269,7 @@ public abstract class L2Character extends L2Object
 	/** Return True if the L2Character can't move (stun, root, sleep, overload, paralyzed). */
 	public boolean isMovementDisabled()
 	{
-		return isStunned() || isRooted() || isSleeping() || isOverloaded() || isParalyzed() || isImobilised() || isFakeDeath() || isFallsdown();
+		return isCastingNow() || isStunned() || isRooted() || isSleeping() || isOverloaded() || isParalyzed() || isImobilised() || isFakeDeath() || isFallsdown();
 	}
 
 	/** Return True if the L2Character can be controlled by the player (confused, afraid). */
@@ -4859,7 +4859,19 @@ public abstract class L2Character extends L2Object
 	 */
 	public final void abortCast()
 	{
-		if(isCastingNow())
+		if(isCastingPotionNow()){
+			
+			_castPotionEndTime = 0;
+			_castPotionInterruptTime = 0;
+
+			if(_potionCast != null)
+			{
+				_potionCast.cancel(true);
+				_potionCast = null;
+			}
+			
+			
+		}else if(isCastingNow())
 		{
 			_castEndTime = 0;
 			_castInterruptTime = 0;
@@ -4870,21 +4882,6 @@ public abstract class L2Character extends L2Object
 				_skillCast = null;
 			}
 
-		}else if(isCastingPotionNow()){
-			
-			_castPotionEndTime = 0;
-			_castPotionInterruptTime = 0;
-
-			if(_potionCast != null)
-			{
-				_potionCast.cancel(true);
-				_potionCast = null;
-			}
-
-		}
-			
-		if(isCastingNow() || isCastingPotionNow()){
-			
 			if(getForceBuff() != null)
 			{
 				getForceBuff().onCastAbort();
@@ -4899,6 +4896,7 @@ public abstract class L2Character extends L2Object
 
 			broadcastPacket(new MagicSkillCanceld(getObjectId())); // broadcast packet to stop animations client-side
 			sendPacket(ActionFailed.STATIC_PACKET); // send an "action failed" packet to the caster
+			
 		}
 	}
 
