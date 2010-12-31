@@ -89,7 +89,7 @@ public class RequestUnEquipItem extends L2GameClientPacket
 			return;
 		}
 
-		if(/*activeChar.isAttackingNow() || */activeChar.isCastingNow())
+		if(/*activeChar.isAttackingNow() || */activeChar.isCastingNow() || activeChar.isCastingPotionNow())
 			return;
 
 		if(activeChar.isMoving() && activeChar.isAttackingNow() && (_slot == L2Item.SLOT_LR_HAND || _slot == L2Item.SLOT_L_HAND || _slot == L2Item.SLOT_R_HAND))

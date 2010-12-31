@@ -66,7 +66,7 @@ public final class RequestGiveItemToPet extends L2GameClientPacket
 			return;
 		}
 
-		if(player.isCastingNow())
+		if(player.isCastingNow()|| player.isCastingPotionNow())
 		{
 			return;
 		}

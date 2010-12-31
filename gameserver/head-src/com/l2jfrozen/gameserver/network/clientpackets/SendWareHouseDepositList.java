@@ -104,7 +104,7 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 			return;
 		}
 
-		if(player.isCastingNow())
+		if(player.isCastingNow() || player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;

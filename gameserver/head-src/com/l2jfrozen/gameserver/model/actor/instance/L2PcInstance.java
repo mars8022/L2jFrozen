@@ -3523,7 +3523,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			//Auto use herbs - autoloot
 			if(ItemTable.getInstance().createDummyItem(itemId).getItemType() == L2EtcItemType.HERB) //If item is herb dont add it to iv :]
 			{
-				if(!isCastingNow())
+				if(!isCastingNow() && !isCastingPotionNow())
 				{
 					L2ItemInstance herb = new L2ItemInstance(_charId, itemId);
 					IItemHandler handler = ItemHandler.getInstance().getItemHandler(herb.getItemId());

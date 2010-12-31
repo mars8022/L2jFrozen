@@ -91,7 +91,7 @@ public class MultiSellChoose extends L2GameClientPacket
 			return;
 		}
 
-		if(player.isCastingNow())
+		if(player.isCastingNow()|| player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;

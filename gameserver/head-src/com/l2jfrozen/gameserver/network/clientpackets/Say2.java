@@ -120,7 +120,10 @@ public final class Say2 extends L2GameClientPacket
 								|| _text.equalsIgnoreCase("alo") 
 								|| _text.equalsIgnoreCase("ciao")
 								|| _text.equalsIgnoreCase("hi"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+								&& (!activeChar.isRunning() 
+										|| !activeChar.isAttackingNow() 
+										|| !activeChar.isCastingNow()
+										|| !activeChar.isCastingPotionNow()))
 							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 2));
 						
 						if ((_text.equalsIgnoreCase("lol") 
@@ -128,19 +131,19 @@ public final class Say2 extends L2GameClientPacket
 								|| _text.equalsIgnoreCase("xaxa") 
 								|| _text.equalsIgnoreCase("ghgh")
 								|| _text.equalsIgnoreCase("jaja"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow() || !activeChar.isCastingPotionNow()))
 							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 10));
 							
 						if ((_text.equalsIgnoreCase("yes") 
 								|| _text.equalsIgnoreCase("si")
 								|| _text.equalsIgnoreCase("yep"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()|| !activeChar.isCastingPotionNow()))
 							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 6));
 						
 						if ((_text.equalsIgnoreCase("no") 
 								|| _text.equalsIgnoreCase("nop") 
 								|| _text.equalsIgnoreCase("nope"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()))
+								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()|| !activeChar.isCastingPotionNow()))
 							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 5));
 					
 		

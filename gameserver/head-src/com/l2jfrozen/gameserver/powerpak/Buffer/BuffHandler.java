@@ -84,7 +84,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		String msg = null;
 		if(activeChar.isSitting())
 			msg = "Can't use buffer when sitting";
-		else if(activeChar.isCastingNow())
+		else if(activeChar.isCastingNow()  || activeChar.isCastingPotionNow())
 			msg = "Can't use buffer when casting";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("ALL"))
 			msg = "Buffer is not available in this area";

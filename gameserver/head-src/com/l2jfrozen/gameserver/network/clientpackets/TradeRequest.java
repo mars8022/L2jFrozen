@@ -95,7 +95,7 @@ public final class TradeRequest extends L2GameClientPacket
 			return;
 		}
 
-		if(partner.isCastingNow())
+		if(partner.isCastingNow() || partner.isCastingPotionNow())
 		{
 			player.sendMessage("You can't Request a Trade when partner Casting Now");
 			return;
@@ -161,7 +161,7 @@ public final class TradeRequest extends L2GameClientPacket
 			return;
 		}
 
-		if(player.isCastingNow())
+		if(player.isCastingNow()  || player.isCastingPotionNow())
 		{
 			player.sendMessage("You can't Request a Trade when you Casting");
 			return;
