@@ -7573,6 +7573,20 @@ public abstract class L2Character extends L2Object
 		if(_disabledSkills == null)
 			return false;
 
+		if(this instanceof L2PcInstance){
+			L2PcInstance activeChar = (L2PcInstance) this;
+			
+			if((skill.getSkillType()==SkillType.PUMPING || skill.getSkillType()==SkillType.REELING) && !activeChar.isFishing()){
+				activeChar.sendMessage("You can use fishing skills just while fishing");
+				return true;
+			}
+			
+			if(skill.getSkillType()==SkillType.FISHING && (activeChar.getActiveWeaponItem() == null || activeChar.getActiveWeaponItem().getItemType()!=L2WeaponType.ROD)){
+				activeChar.sendMessage("You can use fishing skill just with Rod Weapon");
+				return true;
+			}
+		}
+
 		return _disabledSkills.contains(skillId);
 	}
 
