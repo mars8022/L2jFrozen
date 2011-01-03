@@ -288,7 +288,7 @@ public final class UseItem extends L2GameClientPacket
 		if(item.isEquipable())
 		{
 			// No unequipping/equipping while the player is in special conditions
-			if(activeChar.isStunned() || activeChar.isSleeping() || activeChar.isParalyzed() || activeChar.isAlikeDead())
+			if(activeChar.isFishing() || activeChar.isStunned() || activeChar.isSleeping() || activeChar.isParalyzed() || activeChar.isAlikeDead())
 			{
 				activeChar.sendMessage("Your status does not allow you to do that.");
 				return;

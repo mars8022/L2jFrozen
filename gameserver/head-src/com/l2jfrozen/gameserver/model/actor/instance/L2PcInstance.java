@@ -9738,7 +9738,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		// If a skill is currently being used, queue this one if this is not the same
 		// Note that this check is currently imperfect: getCurrentSkill() isn't always null when a skill has
 		// failed to cast, or the casting is not yet in progress when this is rechecked
-		if(getCurrentSkill() != null && isCastingNow())
+		if(getCurrentSkill() != null && (isCastingNow() || isCastingPotionNow()))
 		{
 			// Check if new skill different from current skill in progress
 			if(skill.getId() == getCurrentSkill().getSkillId())

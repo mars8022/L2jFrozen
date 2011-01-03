@@ -18,8 +18,12 @@
  */
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -51,7 +55,50 @@ public class Potions implements IItemHandler
 {
 	protected static final Logger _log = Logger.getLogger(Potions.class.getName());
 	private int _herbstask = 0;
-
+	
+	private static FastMap<Integer,PotionsSkills> potions = new FastMap<Integer,PotionsSkills>();
+	
+	private static void loadPotions(){
+		
+		for(PotionsSkills actual_potion: PotionsSkills.values()){
+			
+			potions.put(actual_potion.potion_id, actual_potion);
+		
+		}
+	}
+	
+	public static PotionsSkills get_skills_for_potion(Integer potion_id){
+		
+		if(potions.isEmpty())
+			loadPotions();
+		
+		return potions.get(potion_id);
+		
+	}
+	
+	public static List<Integer> get_potions_for_skill(Integer skill_id, Integer skill_level){
+		
+		if(potions.isEmpty())
+			loadPotions();
+		
+		List<Integer> output_potions = new ArrayList<Integer>();
+		
+		for(Integer actual_potion_item: potions.keySet()){
+			
+			FastMap<Integer,Integer> actual_item_skills = null;
+			if(potions.get(actual_potion_item)!=null)
+				actual_item_skills = potions.get(actual_potion_item).skills;
+			
+			if(actual_item_skills!=null && actual_item_skills.get(skill_id)!=null && actual_item_skills.get(skill_id)==skill_level){
+				output_potions.add(actual_potion_item);
+			}
+			
+		}
+		
+		return output_potions;
+		
+	}
+	
 	/** Task for Herbs */
 	private class HerbTask implements Runnable
 	{
@@ -517,10 +564,13 @@ public class Potions implements IItemHandler
 
 		activeChar = null;
 
+		/*
 		if(res)
 		{
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
+		*/
+		
 	}
 
 	private boolean isEffectReplaceable(L2PcInstance activeChar, Enum<EffectType> effectType, int itemId)
@@ -583,5 +633,159 @@ public class Potions implements IItemHandler
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;
+	}
+	
+	public static void delete_Potion_Item (L2PlayableInstance playable, Integer skill_id, Integer skill_level){
+		
+		L2PcInstance activeChar;
+		
+		if(playable instanceof L2PcInstance)
+		{
+			activeChar = (L2PcInstance) playable;
+		}
+		else if(playable instanceof L2PetInstance)
+		{
+			activeChar = ((L2PetInstance) playable).getOwner();
+		}
+		else
+			return;
+		
+		List<Integer> possible_potions = Potions.get_potions_for_skill(skill_id, skill_level);
+		
+		if(!possible_potions.isEmpty()){
+			
+			for(Integer potion: possible_potions){
+				if(activeChar.getInventory().getInventoryItemCount(potion, 0)>0){
+					
+					L2ItemInstance item = activeChar.getInventory().getItemByItemId(potion);
+					activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
+					
+				}else{
+					_log.log(Level.WARNING, "Attention: player "+activeChar.getName()+" has not potions "+potion+"!");
+				}
+			}
+			
+		}else{
+			_log.log(Level.WARNING, "Attention: Can't destroy potion for skill "+skill_id+" level "+skill_level);
+		}
+		
+	}
+	
+	enum PotionsSkills{
+		
+		mana_drug( 726, 2003, 1),
+		mana_potion( 728, 2005, 1),
+		red_potion( 65, 2001, 1),
+		healing_drug(725,  2002, 1),
+		healing_potion_ring(727,  2032, 1),
+		quick_step_potion (734, 2011, 1),
+		swift_attack_potion (735,2012, 1),
+		lesser_healing_potion (1060,2031, 1),
+		beginner_s_potion (1073,  2031, 1),
+		healing_potion (1061,  2032, 1),
+		haste_potion (1062,  2011, 1),
+		adv_quick_step_potion (1374, 2034, 1),
+		adv_swift_attack_potion (1375, 2035, 1),
+		greater_healing_potion (1539, 2037, 1),
+		quick_healing_potion(1540, 2038, 1),
+		Rice_Cake (5283, 2136, 1),
+		CP (5591, 2166, 1),
+		Greater_CP (5592, 2166, 2),
+		Magic_Haste_Potion (6035,  2169, 1),
+		Greater_Magic_Haste_Potion (6036,  2169, 2),
+		elixir_of_Life_nog(8622,2287, 1),
+		elixir_of_Life_d(8623,2287, 2),
+		elixir_of_Life_c(8624,2287, 3),
+		elixir_of_Life_b(8625,2287, 4),
+		elixir_of_Life_a(8626,2287, 5),
+		elixir_of_Life_s(8627,2287, 6),
+		elixir_of_Strength_nog(8628, 2288, 1),
+		elixir_of_Strength_d(8629, 2288, 2),
+		elixir_of_Strength_c(8630, 2288, 3),
+		elixir_of_Strength_b(8631, 2288, 4),
+		elixir_of_Strength_a(8632, 2288, 5),
+		elixir_of_Strength_s(8633, 2288, 6),
+		elixir_of_cp_nog(8634,2289, 1),
+		elixir_of_cp_d(8635,2289, 2),
+		elixir_of_cp_c(8636,2289, 3),
+		elixir_of_cp_b(8637,2289, 4),
+		elixir_of_cp_a(8638,2289, 5),
+		elixir_of_cp_s(8639,2289, 6),
+		Amulet_Protection_of_Valakas(6652, 2231, 1),
+		Amulet_Flames_of_Valakas_1 (6653, 2233, 1),
+		Amulet_Flames_of_Valakas_2 (6654, 2233, 1),
+		Amulet_Slay_Valakas (6655, 2232, 1),
+		Herb_of_Life (8600, 2278, 1),
+		Greater_Herb_of_Life (8601, 2278, 2),
+		Superior_Herb_of_Life (8602, 2278, 3),
+		Herb_of_Mana (8603, 2279, 1),
+		Greater_Herb_of_Mane (8604, 2279, 2),
+		Superior_Herb_of_Mane (8605, 2279, 3),
+		Herb_of_Strength (8606, 2280, 1),
+		Herb_of_Magic (8607, 2281, 1),
+		Herb_of_Atk_Spd (8608, 2282, 1),
+		Herb_of_Casting_Spd (8609, 2283, 1),
+		Herb_of_Critical_Attack (8610, 2284, 1),
+		Herb_of_Speed (8611, 2285, 1),
+		
+		Herb_of_Warrior (8612, new Integer[]{2280,2282,2284},new Integer[]{1,1,1}),
+		Herb_of_Mystic (8613, new Integer[]{2281,2283},new Integer[]{1,1}),
+		Herb_of_Recovery (8614, new Integer[]{2278,2279},new Integer[]{3,3}),
+		
+		Fisherman_s_Potion_Green (8193, 2274, 1),
+		Fisherman_s_Potion_Jade (8194, 2274, 2),
+		Fisherman_s_Potion_Blue (8195, 2274, 3),
+		Fisherman_s_Potion_Yellow (8196, 2274, 4),
+		Fisherman_s_Potion_Orange (8197, 2274, 5),
+		Fisherman_s_Potion_Purple (8198, 2274, 6),
+		Fisherman_s_Potion_Red (8199, 2274, 7),
+		Fisherman_s_Potion_White (8200, 2274, 8),
+		Fisherman_s_Potion_Black (8201, 2274, 9),
+		Fishing_Potion (8202, 2275, 1);
+			
+		public Integer potion_id;
+		public FastMap<Integer, Integer> skills = new FastMap<Integer, Integer>();
+		
+		private PotionsSkills(int potion_item, int skill_identifier , int skill_level){
+			//FastMap<Integer, Integer> skills = new FastMap<Integer, Integer>();
+			skills.put(skill_identifier, skill_level);
+			//potion_id_skills.put(potion_item, skills);
+			potion_id=potion_item;
+		}
+		
+		private PotionsSkills(int potion_item, Integer[] skill_identifiers , Integer[] skill_levels){
+			//FastMap<Integer, Integer> skills = new FastMap<Integer, Integer>();
+			for(int i = 0;i<skill_identifiers.length;i++){
+				skills.put(skill_identifiers[i], skill_levels[i]); //each skill of a particular potion
+																   //can have just 1 level, not more
+			}
+			potion_id=potion_item;
+			//potion_id_skills.put(potion_item, skills);
+		}
+		
+		/*
+		public final FastMap<Integer,Integer> get_skills_for_potion(Integer potion_id){
+			
+			return potion_id_skills.get(potion_id);
+			
+		}
+		
+		public final List<Integer> get_potions_for_skill(Integer skill_id, Integer skill_level){
+			
+			List<Integer> output_potions = new ArrayList<Integer>();
+			
+			for(Integer actual_potion_item: potion_id_skills.keySet()){
+				FastMap<Integer,Integer> actual_item_skills = potion_id_skills.get(actual_potion_item);
+				
+				if(actual_item_skills!=null && actual_item_skills.get(skill_id)!=null && actual_item_skills.get(skill_id)==skill_level){
+					output_potions.add(actual_potion_item);
+				}
+				
+			}
+			
+			return output_potions;
+			
+		}
+		*/
 	}
 }
