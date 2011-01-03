@@ -48,6 +48,7 @@ import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
+import com.l2jfrozen.gameserver.handler.itemhandlers.Potions;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
@@ -4859,19 +4860,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public final void abortCast()
 	{
-		if(isCastingPotionNow()){
-			
-			_castPotionEndTime = 0;
-			_castPotionInterruptTime = 0;
-
-			if(_potionCast != null)
-			{
-				_potionCast.cancel(true);
-				_potionCast = null;
-			}
-			
-			
-		}else if(isCastingNow())
+	    if(isCastingNow())
 		{
 			_castEndTime = 0;
 			_castInterruptTime = 0;
@@ -4898,6 +4887,19 @@ public abstract class L2Character extends L2Object
 			sendPacket(ActionFailed.STATIC_PACKET); // send an "action failed" packet to the caster
 			
 		}
+	    /*can't abort potion cast
+	    if(isCastingPotionNow()){
+			
+			_castPotionEndTime = 0;
+			_castPotionInterruptTime = 0;
+
+			if(_potionCast != null)
+			{
+				_potionCast.cancel(true);
+				_potionCast = null;
+			}
+		}
+	    */
 	}
 
 	/**
@@ -7182,7 +7184,7 @@ public abstract class L2Character extends L2Object
 				_castInterruptTime = 0;
 				return;
 			}
-		}else{
+		}/*else{
 			if(!isCastingPotionNow())
 			{
 				_potionCast = null;
@@ -7194,7 +7196,7 @@ public abstract class L2Character extends L2Object
 				_castPotionInterruptTime = 0;
 				return;
 			}
-		}
+		}*/
 
 		// Get the display identifier of the skill
 		int magicId = skill.getDisplayId();
@@ -7387,7 +7389,6 @@ public abstract class L2Character extends L2Object
 			_castEndTime = 0;
 			_castInterruptTime = 0;
 			
-		}
 			enableAllSkills();
 
 			//if the skill has changed the character's state to something other than STATE_CASTING
@@ -7446,7 +7447,7 @@ public abstract class L2Character extends L2Object
 				queuedSkill = null;
 			}
 			
-		
+		}
 	
 	}
 
@@ -7907,6 +7908,10 @@ public abstract class L2Character extends L2Object
 			else
 			{
 				skill.useSkill(this, targets);
+			}
+			
+			if(skill.isPotion()){ //if the skill is a potion, must delete the potion item
+				Potions.delete_Potion_Item((L2PlayableInstance) this, skill.getId(), skill.getLevel());
 			}
 
 			if(this instanceof L2PcInstance || this instanceof L2Summon)
