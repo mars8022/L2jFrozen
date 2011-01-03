@@ -42,9 +42,7 @@ public class AdminDMEngine implements IAdminCommandHandler
 		"admin_dmevent_join", "admin_dmevent_teleport", "admin_dmevent_start", "admin_dmevent_startevent", "admin_dmevent_abort", "admin_dmevent_finish",
 		"admin_dmevent_sit", "admin_dmevent_dump", "admin_dmevent_save", "admin_dmevent_load"
 	};
-
-	private static final int REQUIRED_LEVEL = 100;
-
+	
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
