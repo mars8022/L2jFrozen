@@ -240,6 +240,18 @@ public final class L2Augmentation
 			if(_skill.isPassive())
 			{
 				player.removeSkill(_skill);
+				
+				// Iterate through all effects currently on the character.
+				for(L2Effect currenteffect : player.getAllEffects())
+				{
+					L2Skill effectSkill = currenteffect.getSkill();
+
+					if(effectSkill.getId() == _skill.getId())
+					{
+						player.sendMessage("You feel the power of " + effectSkill.getName() + " leaving yourself.");
+						currenteffect.exit();
+					}
+				}
 			}
 			else
 			{
@@ -248,17 +260,7 @@ public final class L2Augmentation
 
 			player.sendSkillList();
 
-			// Iterate through all effects currently on the character.
-			for(L2Effect currenteffect : player.getAllEffects())
-			{
-				L2Skill effectSkill = currenteffect.getSkill();
-
-				if(effectSkill.getId() == _skill.getId())
-				{
-					player.sendMessage("You feel the power of " + effectSkill.getName() + " leaving yourself.");
-					currenteffect.exit();
-				}
-			}
+			
 		}
 	}
 }
