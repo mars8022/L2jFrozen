@@ -51,7 +51,6 @@ import com.l2jfrozen.gameserver.scripting.ScriptManager;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-
 /**
  * @author Luis Arias
  */
@@ -309,7 +308,7 @@ public class Quest extends ManagedScript
 	 * @param npc: npc associated with this timer (can be null)
 	 * @param player: player associated with this timer (can be null)
 	 */
-	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player)
+	/*public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player)
 	{
 		// Add quest timer if timer doesn't already exist
 		FastList<QuestTimer> timers = getQuestTimers(name);
@@ -333,7 +332,44 @@ public class Quest extends ManagedScript
 		}
 		// ignore the startQuestTimer in all other cases (timer is already started)
 	}
-
+*/
+	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player)
+	{
+		startQuestTimer(name, time, npc, player, false);
+	}
+	
+	/**
+	 * Add a timer to the quest, if it doesn't exist already.  If the timer is repeatable,
+	 * it will auto-fire automatically, at a fixed rate, until explicitly canceled.
+	 * @param name: name of the timer (also passed back as "event" in onAdvEvent)
+	 * @param time: time in ms for when to fire the timer
+	 * @param npc:  npc associated with this timer (can be null)
+	 * @param player: player associated with this timer (can be null)
+	 * @param repeatable: indicates if the timer is repeatable or one-time.
+	 */
+	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player, boolean repeating)
+	{
+		// Add quest timer if timer doesn't already exist
+		FastList<QuestTimer> timers = getQuestTimers(name);
+		// no timer exists with the same name, at all
+		if (timers == null)
+		{
+			timers = new FastList<QuestTimer>();
+			timers.add(new QuestTimer(this, name, time, npc, player, repeating));
+			_allEventTimers.put(name, timers);
+		}
+		// a timer with this name exists, but may not be for the same set of npc and player
+		else
+		{
+			// if there exists a timer with this name, allow the timer only if the [npc, player] set is unique
+			// nulls act as wildcards
+			if (getQuestTimer(name, npc, player) == null)
+			{
+				timers.add(new QuestTimer(this, name, time, npc, player, repeating));
+			}
+		}
+	}
+	
 	public QuestTimer getQuestTimer(String name, L2NpcInstance npc, L2PcInstance player)
 	{
 		FastList<QuestTimer> qt = _allEventTimers.get(name);
@@ -1590,5 +1626,40 @@ public class Quest extends ManagedScript
 	public String getScriptName()
 	{
 		return getName();
+	}
+	
+	/**
+	 * This is used to register all monsters contained in mobs for a particular script<BR>
+	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method register ID for all QuestEventTypes<BR>
+	 * Do not use for group_template AIs</B></FONT><BR>
+	 * @param mobs
+	 * @see #registerMobs(int[], QuestEventType...)
+	 */
+	public void registerMobs(int[] mobs)
+	{
+		for (int id : mobs)
+		{
+			addEventId(id, QuestEventType.ON_ATTACK);
+			addEventId(id, QuestEventType.ON_KILL);
+			addEventId(id, QuestEventType.ON_SPAWN);
+			addEventId(id, QuestEventType.ON_SPELL_FINISHED);
+			addEventId(id, QuestEventType.ON_FACTION_CALL);
+			addEventId(id, QuestEventType.ON_AGGRO_RANGE_ENTER);
+		}
+	}
+	
+	public void cancelQuestTimers(String name)
+	{
+		FastList<QuestTimer> timers = getQuestTimers(name);
+		if (timers == null)
+			return;
+		
+		for (QuestTimer timer : timers)
+		{
+			if (timer != null)
+			{
+				timer.cancel();
+			}
+		}
 	}
 }

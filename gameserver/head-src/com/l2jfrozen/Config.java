@@ -3315,6 +3315,11 @@ public final class Config
 	public static int VALAKAS_RESP_SECOND;
 	public static float VALAKAS_POWER_MULTIPLIER;
 	
+	public static boolean ENABLE_FRINTEZZA_SCRIPT;
+	public static int FRINTEZZA_RESP_FIRST;
+	public static int FRINTEZZA_RESP_SECOND;
+	public static float FRINTEZZA_POWER_MULTIPLIER;
+	
 	public static String RAID_INFO_IDS;
 	public static FastList<Integer> RAID_INFO_IDS_LIST = new FastList<Integer>();
 	
@@ -3386,6 +3391,12 @@ public final class Config
 			VALAKAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ValakasRespFirst", "192"));
 			VALAKAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ValakasRespSecond", "44"));
 			VALAKAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ValakasPowerMultiplier", "1.0"));
+			//============================================================
+			//FRINTEZZA
+			ENABLE_FRINTEZZA_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableFrintezzaScript", "False"));
+			FRINTEZZA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("FrintezzaRespFirst", "48"));
+			FRINTEZZA_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("FrintezzaRespSecond", "8"));
+			FRINTEZZA_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("FrintezzaPowerMultiplier", "1.0"));
 			//============================================================
 			
 			LEVEL_DIFF_MULTIPLIER_MINION = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplierMinion", "0.5"));

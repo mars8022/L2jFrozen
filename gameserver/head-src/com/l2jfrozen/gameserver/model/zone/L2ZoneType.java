@@ -24,6 +24,7 @@ import org.w3c.dom.Node;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 
 /**
  * Abstract base class for any zone type Handles basic operations
@@ -334,4 +335,24 @@ public abstract class L2ZoneType
 
 	protected abstract void onReviveInside(L2Character character);
 
+	/**
+	 * Broadcasts packet to all players inside the zone
+	 */
+	public void broadcastPacket(L2GameServerPacket packet)
+	{
+		if (_characterList.isEmpty())
+			return;
+		
+		for (L2Character character : _characterList.values())
+		{
+			if (character instanceof L2PcInstance)
+				character.sendPacket(packet);
+		}
+	}
+	
+	public FastMap<Integer, L2Character> getCharactersInside()
+	{
+		return _characterList;
+	}
+	
 }

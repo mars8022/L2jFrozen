@@ -105,6 +105,10 @@ public class AILoader
 			_log.info(" - Zaken");
 			ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
 		}
+		if(Config.ENABLE_FRINTEZZA_SCRIPT){
+			_log.info(" - Frintezza");
+			ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Frintezza", "ai"), 2000);
+		}
 		
 	}
 }

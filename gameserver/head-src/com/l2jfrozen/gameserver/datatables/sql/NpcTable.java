@@ -609,6 +609,14 @@ public class NpcTable
 						
 					}
 					break;
+					case 29045:{ //frintezza
+						
+						if(Config.FRINTEZZA_POWER_MULTIPLIER>0){
+							multi_value = multi_value*Config.FRINTEZZA_POWER_MULTIPLIER;
+						}
+						
+					}
+					break;
 					default:{
 						level = NpcData.getInt("level");
 					}

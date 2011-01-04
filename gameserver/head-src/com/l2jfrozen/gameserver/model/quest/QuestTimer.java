@@ -61,6 +61,29 @@ public class QuestTimer
 
 	// =========================================================
 	// Constructor
+	public QuestTimer(Quest quest, String name, long time, L2NpcInstance npc, L2PcInstance player, boolean repeating)
+	{
+		_name = name;
+		_quest = quest;
+		_player = player;
+		_npc = npc;
+		_isRepeating = repeating;
+		if (repeating)
+			_schedular = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ScheduleTimerTask(), time, time); // Prepare auto end task
+		else
+			_schedular = ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleTimerTask(), time); // Prepare auto end task
+	}
+	
+	public QuestTimer(Quest quest, String name, long time, L2NpcInstance npc, L2PcInstance player)
+	{
+		this(quest, name, time, npc, player, false);
+	}
+	
+	public QuestTimer(QuestState qs, String name, long time)
+	{
+		this(qs.getQuest(), name, time, null, qs.getPlayer(), false);
+	}
+	/*
 	public QuestTimer(Quest quest, String name, long time, L2NpcInstance npc, L2PcInstance player)
 	{
 		_name = name;
@@ -78,7 +101,7 @@ public class QuestTimer
 		_npc = null;
 		_schedular = ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleTimerTask(), time); // Prepare auto end task
 	}
-
+*/
 	// =========================================================
 	// Method - Public
 	public void cancel()
