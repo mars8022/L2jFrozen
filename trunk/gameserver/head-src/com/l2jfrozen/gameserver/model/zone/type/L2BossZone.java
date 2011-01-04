@@ -14,12 +14,15 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
+import java.util.Map;
+
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.util.L2FastList;
@@ -281,4 +284,24 @@ public class L2BossZone extends L2ZoneType
 	@Override
 	protected void onReviveInside(L2Character character)
 	{}
+	
+	public void updateKnownList(L2NpcInstance npc)
+	{
+		if (_characterList == null || _characterList.isEmpty())
+			return;
+		
+		Map<Integer, L2PcInstance> npcKnownPlayers = npc.getKnownList().getKnownPlayers();
+		for (L2Character character : _characterList.values())
+		{
+			if (character == null)
+				continue;
+			if (character instanceof L2PcInstance)
+			{
+				L2PcInstance player = (L2PcInstance) character;
+				if (player.isOnline()==1 && !player.isOffline())
+					npcKnownPlayers.put(player.getObjectId(), player);
+			}
+		}
+		return;
+	}
 }
