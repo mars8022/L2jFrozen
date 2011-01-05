@@ -739,9 +739,22 @@ public class AdminEditChar implements IAdminCommandHandler
 
 	private void listCharacters(L2PcInstance activeChar, int page)
 	{
-		Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
-		L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
-		allPlayers = null;
+		Collection<L2PcInstance> allPlayers_with_offlines = L2World.getInstance().getAllPlayers();
+		
+		List<L2PcInstance> online_players_list = new ArrayList<L2PcInstance>();
+		
+		for(L2PcInstance actual_player: allPlayers_with_offlines)
+			if(actual_player!=null && actual_player.isOnline()==1 && !actual_player.isOffline())
+				online_players_list.add(actual_player);
+			else if(actual_player==null)
+				_log.debug("listCharacters: found player null into L2World Instance..");
+			else if(actual_player.isOnline()==0)
+				_log.debug("listCharacters: player "+actual_player.getName()+" not online into L2World Instance..");
+			else if(actual_player.isOffline())
+				_log.debug("listCharacters: player "+actual_player.getName()+" offline into L2World Instance..");
+		
+		L2PcInstance[] players = online_players_list.toArray(new L2PcInstance[online_players_list.size()]);
+		online_players_list = null;
 
 		int MaxCharactersPerPage = 20;
 		int MaxPages = players.length / MaxCharactersPerPage;

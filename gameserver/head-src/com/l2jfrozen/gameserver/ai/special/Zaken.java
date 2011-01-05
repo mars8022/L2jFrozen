@@ -61,6 +61,8 @@ public class Zaken extends Quest implements Runnable
         addEventId(ZAKEN, Quest.QuestEventType.ON_KILL);
 		addEventId(ZAKEN, Quest.QuestEventType.ON_ATTACK);
 		
+		startQuestTimer("ZAKEN_OPEN_DOOR",  30000, null, null);
+		
 		switch(status){
         	case DEAD:{
         		
