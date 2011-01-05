@@ -6057,10 +6057,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(targetPlayer.getClient().getConnection().getSocketChannel().socket().getInetAddress() != getClient().getConnection().getSocketChannel().socket().getInetAddress())
 		{
 
-			if(/*targetPlayer.getKarma() > 0 || */targetPlayer.getPvpFlag() >= 0)
+			if(targetPlayer.getKarma() > 0 || targetPlayer.getPvpFlag() > 0) //killing target pk or in pvp
 			{
-				// Reward PVP win by giving them an Incarnadine Coin, 
-				// Description: Winning PvP, item Id: 6392, Count: 1, medal: this, Reference: none
 				if(Config.PVP_REWARD_ENABLED)
 				{
 					int item = Config.PVP_REWARD_ID;
@@ -6080,10 +6078,8 @@ public final class L2PcInstance extends L2PlayableInstance
 					iu = null;
 				}
 			}
-			else
+			else //target is not pk and not in pvp ---> PK KILL
 			{
-				// Reward PK win by giving them an Incarnadine Coin, 
-				// Description: Winning PK, item Id: 6392, Count: 1, medal: this, Reference: none
 				if(Config.PK_REWARD_ENABLED)
 				{
 					int item = Config.PK_REWARD_ID;
@@ -14935,4 +14931,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_offlineShopStart = time;
 	}
+	
+	
+	
 }
