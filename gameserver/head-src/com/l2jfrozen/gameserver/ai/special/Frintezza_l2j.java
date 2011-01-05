@@ -453,25 +453,25 @@ public class Frintezza_l2j extends Quest implements Runnable
 			
 			_frintezzaDummy = addSpawn(29052,174240,-89805,-5022,16048,false,0);
 			_frintezzaDummy.setIsInvul(true);
-			_frintezzaDummy.setIsParalyzed(true);
+			_frintezzaDummy.setIsImobilised(true);
 			
 			_overheadDummy = addSpawn(29052,174232,-88020,-5110,16384,false,0);
 			_overheadDummy.setIsInvul(true);
-			_overheadDummy.setIsParalyzed(true);
+			_overheadDummy.setIsImobilised(true);
 			_overheadDummy.setCollisionHeight(600);
 			_Zone.broadcastPacket(new NpcInfo(_overheadDummy, null));
 			
 			_portraitDummy1 = addSpawn(29052, 172450, -87890, -5100, 16048,false,0);
-			_portraitDummy1.setIsParalyzed(true);
+			_portraitDummy1.setIsImobilised(true);
 			_portraitDummy1.setIsInvul(true);
 			
 			_portraitDummy3 = addSpawn(29052, 176012, -87890, -5100, 16048,false,0);
-			_portraitDummy3.setIsParalyzed(true);
+			_portraitDummy3.setIsImobilised(true);
 			_portraitDummy3.setIsInvul(true);
 			
 			_scarletDummy = addSpawn(29053,174232,-88020,-5110,16384,false,0);
 			_scarletDummy.setIsInvul(true);
-			_scarletDummy.setIsParalyzed(true);
+			_scarletDummy.setIsImobilised(true);
 			
 			startQuestTimer("stop_pc", 0, npc, null);
 			startQuestTimer("camera_2", 1000, _overheadDummy, null);
@@ -492,28 +492,28 @@ public class Frintezza_l2j extends Quest implements Runnable
 			
 			frintezza = (L2GrandBossInstance) addSpawn(FRINTEZZA,174240,-89805,-5022,16048,false,0);
 			GrandBossManager.getInstance().addBoss(frintezza);
-			frintezza.setIsParalyzed(true);
+			frintezza.setIsImobilised(true);
 			frintezza.setIsInvul(true);
 			frintezza.disableAllSkills();
 			_Zone.updateKnownList(frintezza);
 			
 			demon2 = (L2MonsterInstance) addSpawn(29051, 175876, -88713, -5100, 28205,false,0);
-			demon2.setIsParalyzed(true);
+			demon2.setIsImobilised(true);
 			demon2.disableAllSkills();
 			_Zone.updateKnownList(demon2);
 			
 			demon3 = (L2MonsterInstance) addSpawn(29051, 172608, -88702, -5100, 64817,false,0);
-			demon3.setIsParalyzed(true);
+			demon3.setIsImobilised(true);
 			demon3.disableAllSkills();
 			_Zone.updateKnownList(demon3);
 			
 			demon1 = (L2MonsterInstance) addSpawn(29050, 175833, -87165, -5100, 35048,false,0);
-			demon1.setIsParalyzed(true);
+			demon1.setIsImobilised(true);
 			demon1.disableAllSkills();
 			_Zone.updateKnownList(demon1);
 			
 			demon4 = (L2MonsterInstance) addSpawn(29050, 172634, -87165, -5100, 57730,false,0);
-			demon4.setIsParalyzed(true);
+			demon4.setIsImobilised(true);
 			demon4.disableAllSkills();
 			_Zone.updateKnownList(demon4);
 			
@@ -641,7 +641,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			
 			weakScarlet = (L2GrandBossInstance) addSpawn(29046, 174232, -88020, -5110, 16384, false, 0);
 			weakScarlet.setIsInvul(true);
-			weakScarlet.setIsParalyzed(true);
+			weakScarlet.setIsImobilised(true);
 			weakScarlet.disableAllSkills();
 			_Zone.updateKnownList(weakScarlet);
 			activeScarlet = weakScarlet;
@@ -671,22 +671,22 @@ public class Frintezza_l2j extends Quest implements Runnable
 		else if (event.equalsIgnoreCase("camera_22"))
 		{
 			portrait2 = (L2MonsterInstance) addSpawn(29049, 175876, -88713, -5000, 28205,false,0);
-			portrait2.setIsParalyzed(true);
+			portrait2.setIsImobilised(true);
 			portrait2.disableAllSkills();
 			_Zone.updateKnownList(portrait2);
 			
 			portrait3 = (L2MonsterInstance) addSpawn(29049, 172608, -88702, -5000, 64817,false,0);
-			portrait3.setIsParalyzed(true);
+			portrait3.setIsImobilised(true);
 			portrait3.disableAllSkills();
 			_Zone.updateKnownList(portrait3);
 			
 			portrait1 = (L2MonsterInstance) addSpawn(29048, 175833, -87165, -5000, 35048,false,0);
-			portrait1.setIsParalyzed(true);
+			portrait1.setIsImobilised(true);
 			portrait1.disableAllSkills();
 			_Zone.updateKnownList(portrait1);
 			
 			portrait4 = (L2MonsterInstance) addSpawn(29048, 172634, -87165, -5000, 57730,false,0);
-			portrait4.setIsParalyzed(true);
+			portrait4.setIsImobilised(true);
 			portrait4.disableAllSkills();
 			_Zone.updateKnownList(portrait4);
 			
@@ -703,24 +703,24 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		else if (event.equalsIgnoreCase("camera_23"))
 		{
-			demon1.setIsParalyzed(false);
-			demon2.setIsParalyzed(false);
-			demon3.setIsParalyzed(false);
-			demon4.setIsParalyzed(false);
+			demon1.setIsImobilised(false);
+			demon2.setIsImobilised(false);
+			demon3.setIsImobilised(false);
+			demon4.setIsImobilised(false);
 			demon1.enableAllSkills();
 			demon2.enableAllSkills();
 			demon3.enableAllSkills();
 			demon4.enableAllSkills();
-			portrait1.setIsParalyzed(false);
-			portrait2.setIsParalyzed(false);
-			portrait3.setIsParalyzed(false);
-			portrait4.setIsParalyzed(false);
+			portrait1.setIsImobilised(false);
+			portrait2.setIsImobilised(false);
+			portrait3.setIsImobilised(false);
+			portrait4.setIsImobilised(false);
 			portrait1.enableAllSkills();
 			portrait2.enableAllSkills();
 			portrait3.enableAllSkills();
 			portrait4.enableAllSkills();
 			weakScarlet.setIsInvul(false);
-			weakScarlet.setIsParalyzed(false);
+			weakScarlet.setIsImobilised(false);
 			weakScarlet.enableAllSkills();
 			weakScarlet.setRunning();
 			
@@ -738,7 +738,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				cha.disableAllSkills();
 				cha.setTarget(null);
 				cha.stopMove(null);
-				cha.setIsParalyzed(true);
+				cha.setIsImobilised(true);
 				cha.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 			}
 		}
@@ -757,7 +757,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				if (cha != frintezza)
 				{
 					cha.enableAllSkills();
-					cha.setIsParalyzed(false);
+					cha.setIsImobilised(false);
 				}
 			}
 		}
@@ -822,7 +822,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			activeScarlet = null;
 			weakScarlet = (L2GrandBossInstance) addSpawn(29046, _Scarlet_x, _Scarlet_y, _Scarlet_z, _Scarlet_h, false,0);
 			weakScarlet.setIsInvul(true);
-			weakScarlet.setIsParalyzed(true);
+			weakScarlet.setIsImobilised(true);
 			weakScarlet.disableAllSkills();
 			weakScarlet.setRHandId(7903);
 			_Zone.updateKnownList(weakScarlet);
@@ -867,7 +867,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 		{
 			strongScarlet = (L2GrandBossInstance) addSpawn(SCARLET2, reverseXFix(_Scarlet_x), reverseYFix(_Scarlet_y), reverseZFix(_Scarlet_z), _Scarlet_h, false,0);
 			strongScarlet.setIsInvul(true);
-			strongScarlet.setIsParalyzed(true);
+			strongScarlet.setIsImobilised(true);
 			strongScarlet.disableAllSkills();
 			_Zone.updateKnownList(strongScarlet);
 			activeScarlet = strongScarlet;
@@ -991,7 +991,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 						cha.abortCast();
 						cha.disableAllSkills();
 						cha.stopMove(null);
-						cha.setIsParalyzed(true);
+						cha.setIsImobilised(true);
 						cha.setIsParalyzed(true);
 						cha.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 						skill.getEffects(frintezza, cha);
@@ -1011,7 +1011,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 					cha.stopAbnormalEffect(L2Character.ABNORMAL_EFFECT_DANCE_STUNNED);
 					cha.stopAbnormalEffect(L2Character.ABNORMAL_EFFECT_FLOATING_ROOT);
 					cha.enableAllSkills();
-					cha.setIsParalyzed(false);
+					cha.setIsImobilised(false);
 					cha.setIsParalyzed(false);
 				}
 			}
@@ -1137,7 +1137,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 							cha.abortCast();
 							cha.disableAllSkills();
 							cha.stopMove(null);
-							cha.setIsParalyzed(true);
+							cha.setIsImobilised(true);
 							cha.setIsParalyzed(true);
 							cha.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 							cha.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_FLOATING_ROOT);
