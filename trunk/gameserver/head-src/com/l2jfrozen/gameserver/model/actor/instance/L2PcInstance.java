@@ -6321,8 +6321,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setString(1, killer);
 			statement.setString(2, killed);
 			ResultSet rset = statement.executeQuery();
-			rset.next();
-			kills = rset.getInt("kills");
+			if(rset.getRow()>0){
+				rset.next();
+				kills = rset.getInt("kills");
+			}
 			rset.close();
 			statement.close();
 			statement = null;
@@ -6330,8 +6332,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(SQLException e)
 		{
-			System.out.println("Could not check pkKills, got: " + e.getMessage());
-			System.out.println("This appears after the first kill.");
+			e.printStackTrace();
+			//System.out.println("Could not check pkKills, got: " + e.getMessage());
+			//System.out.println("This appears after the first kill.");
 		}
 		finally
 		{
