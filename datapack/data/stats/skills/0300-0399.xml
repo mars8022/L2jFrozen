@@ -638,7 +638,6 @@
       </add>
       <mul order="0x30" stat="runSpd" val="1.4"/>
     </effect>
-    <effect count="1" name="Stun" time="3" val="0" stackOrder="1" stackType="Stun"/> 
     <effect count="1" name="Bluff" time="1" val="0"/> 
   </for>
 </skill>
