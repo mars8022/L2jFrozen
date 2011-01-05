@@ -41,6 +41,9 @@ public class ChannelLeave implements IUserCommandHandler
 		if(id != COMMAND_IDS[0])
 			return false;
 
+		if(activeChar==null)
+			return false;
+		
 		if(activeChar.isInParty())
 		{
 			if(activeChar.getParty().isLeader(activeChar) && activeChar.getParty().isInCommandChannel())

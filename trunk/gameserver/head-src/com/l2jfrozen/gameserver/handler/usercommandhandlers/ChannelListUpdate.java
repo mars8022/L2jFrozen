@@ -40,8 +40,15 @@ public class ChannelListUpdate implements IUserCommandHandler
 		if(id != COMMAND_IDS[0])
 			return false;
 
-		L2CommandChannel channel = activeChar.getParty().getCommandChannel();
-
+		if(activeChar==null)
+			return false;
+				
+		L2CommandChannel channel = null;
+		if(activeChar.isInParty() && activeChar.getParty().isInCommandChannel())
+			channel = activeChar.getParty().getCommandChannel();
+		else
+			return false;
+		
 		activeChar.sendMessage("================");
 		activeChar.sendMessage("Command Channel Information is not fully implemented now.");
 		activeChar.sendMessage("There are " + channel.getPartys().size() + " Party's in the Channel.");

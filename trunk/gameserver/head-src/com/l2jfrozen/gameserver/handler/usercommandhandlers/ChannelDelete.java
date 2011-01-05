@@ -40,7 +40,7 @@ public class ChannelDelete implements IUserCommandHandler
 		if(id != COMMAND_IDS[0])
 			return false;
 
-		if(activeChar.isInParty())
+		if(activeChar!=null && activeChar.isInParty())
 		{
 			if(activeChar.getParty().isLeader(activeChar) && activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
 			{
