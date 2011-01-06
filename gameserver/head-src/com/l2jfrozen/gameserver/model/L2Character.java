@@ -179,6 +179,8 @@ public abstract class L2Character extends L2Object
 	private boolean _isSleeping = false; // Cannot move/attack until sleep timed out or monster is attacked
 	private boolean _isStunned = false; // Cannot move/attack until stun timed out
 	private boolean _isBetrayed = false; // Betrayed by own summon
+	private boolean _isBlockBuff = false; //Got blocked buff bar
+	private boolean _isBlockDebuff = false; //Got blocked debuff bar
 	protected boolean _isTeleporting = false;
 	//private L2Character _lastBuffer							  = null;
 	protected boolean _isInvul = false;
@@ -2235,6 +2237,38 @@ public abstract class L2Character extends L2Object
 	public void setIsImobilised(boolean value)
 	{
 		_isImobilised = value;
+	}
+
+	/**
+	 * @return the _isBlockBuff
+	 */
+	public boolean isBlockBuff()
+	{
+		return _isBlockBuff;
+	}
+
+	/**
+	 * @param blockBuff the _isBlockBuff to set
+	 */
+	public void setBlockBuff(boolean blockBuff)
+	{
+		_isBlockBuff = blockBuff;
+	}
+
+	/**
+	 * @return the _isBlockDebuff
+	 */
+	public boolean isBlockDebuff()
+	{
+		return _isBlockDebuff;
+	}
+
+	/**
+	 * @param blockDebuff the _isBlockDebuff to set
+	 */
+	public void setBlockDebuff(boolean blockDebuff)
+	{
+		_isBlockDebuff = blockDebuff;
 	}
 
 	public final boolean isKilledAlready()
@@ -7639,6 +7673,10 @@ public abstract class L2Character extends L2Object
 				{
 					// Set some values inside target's instance for later use
 					L2Character player = (L2Character) target;
+					
+					if(skill.getEffectType() == L2Skill.SkillType.BUFF)
+						if(player.isBlockBuff())
+							continue;
 
 					L2Weapon activeWeapon = getActiveWeaponItem();
 					// Launch weapon Special ability skill effect if available

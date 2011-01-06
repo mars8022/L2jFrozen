@@ -103,7 +103,9 @@ public abstract class L2Effect
 		MEDITATION,
 		BLOW,
 		FUSION,
-		CANCEL
+		CANCEL,
+		BLOCK_BUFF,
+		BLOCK_DEBUFF
 	}
 
 	private static final Func[] _emptyFunctionSet = new Func[0];
