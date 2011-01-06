@@ -2881,6 +2881,9 @@ public abstract class L2Skill
 
 		if(effector != effected && effected.isInvul())
 			return _emptyEffectSet;
+		
+		if(getSkillType() == SkillType.BUFF && effector != effected && effected.isBlockBuff())
+			return _emptyEffectSet;
 
 		List<L2Effect> effects = new FastList<L2Effect>();
 
