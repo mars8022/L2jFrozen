@@ -249,6 +249,115 @@ public final class L2PcInstance extends L2PlayableInstance
 	public boolean _isVIP = false, _inEventVIP = false, _isNotVIP = false, _isTheVIP = false;
 
 	public int _originalNameColourVIP, _originalKarmaVIP;
+	
+	private long _voteTimestamp = 0;
+
+	/**
+	 * @return the _voteTimestamp
+	 */
+	public long getVoteTimestamp()
+	{
+		return _voteTimestamp;
+	}
+
+	/**
+	 * @param timestamp the _voteTimestamp to set
+	 */
+	public void setVoteTimestamp(long timestamp)
+	{
+		_voteTimestamp = timestamp;
+	}
+	
+	public int getVotePoints()
+	{
+		Connection con = null;
+		int votePoints = 0;
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement statement;
+			statement = con.prepareStatement("select votePoints from accounts where login=?");
+			statement.setString(1, _accountName);
+			
+
+			ResultSet rset = statement.executeQuery();
+			while(rset.next())
+			{
+				votePoints = rset.getInt("votePoints");
+			}
+			rset.close();
+			rset = null;
+			statement.close();
+			statement = null;
+		}
+		catch(Exception e)
+		{
+			//I like big tits (. )( .) too :D
+		}
+		finally
+		{
+			try { con.close(); } catch(Exception e) { }
+			con = null;
+		}
+		return votePoints;
+	}
+	
+	public void setVotePoints(int points)
+	{
+		Connection con = null;
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement statement;
+			statement = con.prepareStatement("update accounts set votePoints="+points+" where login='"+_accountName+"'");	
+			statement.execute();
+			statement.close();
+			statement = null;
+		}
+		catch(Exception e)
+		{
+			//I like big tits (. )( .) too :D
+		}
+		finally
+		{
+			try { con.close(); } catch(Exception e) { }
+			con = null;
+		}
+	}
+	
+	public int getVoteTime()
+	{
+		Connection con = null;
+		int lastVote = 0;
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement statement;
+			statement = con.prepareStatement("select lastVote from accounts where login=?");
+			statement.setString(1, _accountName);
+			
+
+			ResultSet rset = statement.executeQuery();
+			while(rset.next())
+			{
+				lastVote = rset.getInt("lastVote");
+			}
+			rset.close();
+			rset = null;
+			statement.close();
+			statement = null;
+		}
+		catch(Exception e)
+		{
+			//I like big tits (. )( .) too :D
+		}
+		finally
+		{
+			try { con.close(); } catch(Exception e) { }
+			con = null;
+		}
+		return lastVote;
+	}
 
 	public int _active_boxes = -1;
 	public List<String> active_boxes_characters = new ArrayList<String>();

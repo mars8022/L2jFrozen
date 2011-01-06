@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.farmpvp;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stat;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stats;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.version;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Voting;
 
 /**
  * This class ...
@@ -66,6 +67,8 @@ public class VoicedCommandHandler
 		_datatable = new FastMap<String, IVoicedCommandHandler>();
 		registerVoicedCommandHandler(new stats());
 
+		registerVoicedCommandHandler( new Voting());
+		
 		if(Config.BANKING_SYSTEM_ENABLED)
 		{
 			registerVoicedCommandHandler(new Banking());
