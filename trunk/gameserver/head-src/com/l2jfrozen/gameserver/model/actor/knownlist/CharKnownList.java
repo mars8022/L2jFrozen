@@ -192,7 +192,7 @@ public class CharKnownList extends ObjectKnownList
 	{
 		if(_knownPlayers == null)
 		{
-			_knownPlayers = new FastMap<Integer, L2PcInstance>().setShared(true);
+			_knownPlayers = new FastMap<Integer, L2PcInstance>().shared();
 		}
 
 		return _knownPlayers;
@@ -202,7 +202,7 @@ public class CharKnownList extends ObjectKnownList
 	{
 		if(_knownRelations == null)
 		{
-			_knownRelations = new FastMap<Integer, Integer>().setShared(true);
+			_knownRelations = new FastMap<Integer, Integer>().shared();
 		}
 
 		return _knownRelations;

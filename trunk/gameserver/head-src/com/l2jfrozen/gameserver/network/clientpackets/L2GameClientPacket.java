@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -57,14 +58,18 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch(BufferUnderflowException e)
 		{
-			if(getClient()!=null)
+			getClient().onBufferUnderflow();
+			
+			/*
+			 * if(getClient()!=null)
 				getClient().closeNow();
 			_log.severe("Client: " + getClient().toString() + " - Buffer underflow and has been kicked");
+			*/
 		}
 		catch(Throwable t)
 		{
-			_log.severe("Client: " + getClient().toString() + " - Failed reading: " + getType() + " - L2JFrozenInterlude Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
-			t.printStackTrace();
+			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
+			
 		}
 
 		return false;
@@ -76,43 +81,24 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 	public void run()
 	{
 		try
-		{
-			// flood protection
-			if(GameTimeController.getGameTicks() - getClient().packetsSentStartTick > 10)
-			{
-				getClient().packetsSentStartTick = GameTimeController.getGameTicks();
-				getClient().packetsSentInSec = 0;
-			}
-			else
-			{
-				getClient().packetsSentInSec++;
-				if(getClient().packetsSentInSec > FloodProtector.PROTECTED_ACTIVE_PACKETS)
-				{
-					if(getClient().packetsSentInSec < FloodProtector.PROTECTED_ACTIVE_PACKETS2)
-					{
-						sendPacket(ActionFailed.STATIC_PACKET);
-					}
-					return;
-				}
-			}
-
+		{	
 			runImpl();
-			if(this instanceof MoveBackwardToLocation || this instanceof AttackRequest || this instanceof RequestMagicSkillUse)
-			// could include pickup and talk too, but less is better
-			{
-				// Removes onspawn protection - player has faster computer than
-				// average
-				if(getClient().getActiveChar() != null)
-				{
-					getClient().getActiveChar().onActionRequest();
-				}
-			}
+			
+            if (this instanceof MoveBackwardToLocation || this instanceof AttackRequest || this instanceof RequestMagicSkillUse)
+            {
+            	// Removes onspawn protection
+            	if (getClient().getActiveChar() != null)
+            		getClient().getActiveChar().onActionRequest();
+            }
 		}
-		catch(Throwable t)
+		catch (Throwable t)
 		{
-			_log.severe("Client: " + getClient().toString() + " - Failed running: " + getType() + " - L2JFrozenInterlude Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
-			t.printStackTrace();
+			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
+			
+			if (this instanceof EnterWorld)
+				getClient().closeNow();
 		}
+		
 	}
 
 	protected abstract void runImpl();

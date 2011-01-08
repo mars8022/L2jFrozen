@@ -19,48 +19,29 @@ package com.l2jfrozen.netcore;
 
 import java.nio.ByteBuffer;
 
-public abstract class MMOClient<T extends MMOConnection>
+/**
+ * @author KenM
+ * 
+ */
+public abstract class MMOClient<T extends MMOConnection<?>>
 {
-    private T _connection;
-    
-    @SuppressWarnings("unchecked")
-    public MMOClient(T con)
-    {
-        this.setConnection(con);
-        
-        if(con!=null)
-        	con.setClient(this);
-    }
-    
-    protected void setConnection(T con)
-    {
-        _connection = con;
-    }
-    
-    public T getConnection()
-    {
-        return _connection;
-    }
-    
-    public void closeNow()
-    {
-    	if(_connection!=null)
-    		this.getConnection().closeNow();
-    }
-    
-    public void closeLater()
-    {
-    	if(_connection!=null)
-    		this.getConnection().closeLater();
-    }
-    
-    public abstract boolean decrypt(ByteBuffer buf, int size);
-    
-    public abstract boolean encrypt(ByteBuffer buf, int size);
-    
-    protected void onDisconection()
-    {}
-    
-    protected void onForcedDisconnection()
-    {}
+	private final T _con;
+	
+	public MMOClient(final T con)
+	{
+		_con = con;
+	}
+	
+	public T getConnection()
+	{
+		return _con;
+	}
+	
+	public abstract boolean decrypt(final ByteBuffer buf, final int size);
+	
+	public abstract boolean encrypt(final ByteBuffer buf, final int size);
+	
+	protected abstract void onDisconnection();
+	
+	protected abstract void onForcedDisconnection();
 }

@@ -17,7 +17,11 @@
  */
 package com.l2jfrozen.netcore;
 
-public interface IMMOExecutor<T extends MMOClient>
+/**
+ * @author KenM
+ * 
+ */
+public interface IMMOExecutor<T extends MMOClient<?>>
 {
-    public void execute(ReceivablePacket<T> packet);
+	public void execute(ReceivablePacket<T> packet);
 }

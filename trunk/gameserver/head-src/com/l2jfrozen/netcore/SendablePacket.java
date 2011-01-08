@@ -17,70 +17,70 @@
  */
 package com.l2jfrozen.netcore;
 
-import com.l2jfrozen.netcore.SelectorConfig.HeaderSize;
-
-public abstract class SendablePacket<T extends MMOClient> extends AbstractPacket<T>
+/**
+ * @author KenM
+ * 
+ */
+public abstract class SendablePacket<T extends MMOClient<?>> extends AbstractPacket<T>
 {
-    protected void writeC(int data)
-    {
-        this.getByteBuffer().put((byte) data);
-    }
-    
-    protected void writeF(double value)
-    {
-        this.getByteBuffer().putDouble(value);
-    }
-    
-    protected void writeH(int value)
-    {
-        this.getByteBuffer().putShort((short) value);
-    }
-    
-    protected void writeD(int value)
-    {
-        this.getByteBuffer().putInt(value);
-    }
-    
-    protected void writeQ(long value)
-    {
-        this.getByteBuffer().putLong(value);
-    }
-    
-    protected void writeB(byte[] data)
-    {
-        this.getByteBuffer().put(data);
-    }
-    
-    protected void writeS(CharSequence charSequence)
-    {
-        if(charSequence == null)
-        {
-            charSequence = "";
-        }
-        
-        int length = charSequence.length();
-        for(int i = 0; i < length; i++)
-        {
-            this.getByteBuffer().putChar(charSequence.charAt(i));
-        }
-        this.getByteBuffer().putChar('\000');
-    }
-    
-    protected abstract void write();
-    
-    protected void writeHeader(HeaderSize ht, int pos)
-    {
-        switch(ht)
-        {
-            case BYTE_HEADER:
-                this.getByteBuffer().put(pos, (byte) this.getByteBuffer().position());
-                break;
-            case SHORT_HEADER:
-                this.getByteBuffer().putShort(pos, (short) this.getByteBuffer().position());
-                break;
-            case INT_HEADER:
-                this.getByteBuffer().putInt(pos, this.getByteBuffer().position());
-                break;
-        }
-    }
+	protected final void putInt(final int value)
+	{
+		_buf.putInt(value);
+	}
+	
+	protected final void putDouble(final double value)
+	{
+		_buf.putDouble(value);
+	}
+	
+	protected final void putFloat(final float value)
+	{
+		_buf.putFloat(value);
+	}
+	
+	protected final void writeC(final int data)
+	{
+		_buf.put((byte) data);
+	}
+	
+	protected final void writeF(final double value)
+	{
+		_buf.putDouble(value);
+	}
+	
+	protected final void writeH(final int value)
+	{
+		_buf.putShort((short) value);
+	}
+	
+	protected final void writeD(final int value)
+	{
+		_buf.putInt(value);
+	}
+	
+	protected final void writeQ(final long value)
+	{
+		_buf.putLong(value);
+	}
+	
+	protected final void writeB(final byte[] data)
+	{
+		_buf.put(data);
+	}
+	
+	protected final void writeS(final String text)
+	{
+		if (text != null)
+		{
+			final int len = text.length();
+			for (int i = 0; i < len; i++)
+			{
+				_buf.putChar(text.charAt(i));
+			}
+		}
+		
+		_buf.putChar('\000');
+	}
+	
+	protected abstract void write();
 }

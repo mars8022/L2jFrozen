@@ -45,7 +45,7 @@ public class SpawnTable
 
 	private static final SpawnTable _instance = new SpawnTable();
 
-	private Map<Integer, L2Spawn> _spawntable = new FastMap<Integer, L2Spawn>().setShared(true);
+	private Map<Integer, L2Spawn> _spawntable = new FastMap<Integer, L2Spawn>().shared();
 	private int _npcSpawnCount;
 	private int _customSpawnCount;
 

@@ -17,80 +17,83 @@
  */
 package com.l2jfrozen.netcore;
 
-import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
 
-import javolution.text.TextBuilder;
-
-public abstract class ReceivablePacket<T extends MMOClient> extends AbstractPacket<T> implements Runnable
+/**
+ * @author KenM
+ * 
+ */
+public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractPacket<T> implements Runnable
 {
-    protected ReceivablePacket()
-    {}
-    
-    protected int getAvaliableBytes()
-    {
-        return this.getByteBuffer().remaining();
-    }
-    
-    protected abstract boolean read();
-    
-    public abstract void run();
-    
-    protected void readB(byte[] dst)
-    {
-        this.getByteBuffer().get(dst);
-    }
-    
-    protected void readB(byte[] dst, int offset, int len)
-    {
-        this.getByteBuffer().get(dst, offset, len);
-    }
-    
-    protected int readC()
-    {
-    	int forCatch = 0;
-    	try
-		{	
-    		forCatch = this.getByteBuffer().get() & 0xFF;
-    	}
-		catch(BufferUnderflowException e)
+	NioNetStringBuffer _sbuf;
+	
+	protected ReceivablePacket()
+	{
+		
+	}
+	
+	protected abstract boolean read();
+	
+	public abstract void run();
+	
+	protected final void readB(final byte[] dst)
+	{
+		_buf.get(dst);
+	}
+	
+	protected final void readB(final byte[] dst, final int offset, final int len)
+	{
+		_buf.get(dst, offset, len);
+	}
+	
+	protected final int readC()
+	{
+		return _buf.get() & 0xFF;
+	}
+	
+	protected final int readH()
+	{
+		return _buf.getShort() & 0xFFFF;
+	}
+	
+	protected final int readD()
+	{
+		return _buf.getInt();
+	}
+	
+	protected final long readQ()
+	{
+		return _buf.getLong();
+	}
+	
+	protected final double readF()
+	{
+		return _buf.getDouble();
+	}
+	
+	protected final String readS()
+	{
+		_sbuf.clear();
+		
+		char ch;
+		while ((ch = _buf.getChar()) != 0)
 		{
-			this._client.getConnection().getClient().closeNow();
+			_sbuf.append(ch);
 		}
-    	
-        return forCatch;
-    }
-    
-    protected int readH()
-    {
-        return this.getByteBuffer().getShort() & 0xFFFF;
-    }
-    
-    protected int readD()
-    {
-        return this.getByteBuffer().getInt();
-    }
-    
-    protected long readQ()
-    {
-        return this.getByteBuffer().getLong();
-    }
-    
-    protected double readF()
-    {
-        return this.getByteBuffer().getDouble();
-    }
-    
-    protected String readS()
-    {
-        TextBuilder tb = TextBuilder.newInstance();
-        char ch;
-        
-        while((ch = this.getByteBuffer().getChar()) != 0)
-        {
-            tb.append(ch);
-        }
-        String str = tb.stringValue();
-        TextBuilder.recycle(tb);
-        return str;
-    }
+		
+		return _sbuf.toString();
+	}
+	
+	/**
+	 * packet forge purpose
+	 * @param data
+	 * @param client
+	 * @param sBuffer
+	 */
+	public void setBuffers(ByteBuffer data, T client, NioNetStringBuffer sBuffer)
+	{
+		_buf = data;
+		_client = client;
+		_sbuf = sBuffer;
+	}
 }

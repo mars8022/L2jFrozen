@@ -264,7 +264,7 @@ public class L2Attackable extends L2NpcInstance
 	 * The table containing all autoAttackable L2Character in its Aggro Range and L2Character that attacked the
 	 * L2Attackable This Map is Thread Safe, but Removing Object While Interating Over It Will Result NPE
 	 */
-	private FastMap<L2Character, AggroInfo> _aggroList = new FastMap<L2Character, AggroInfo>().setShared(true);
+	private FastMap<L2Character, AggroInfo> _aggroList = new FastMap<L2Character, AggroInfo>().shared();
 
 	/** Use this to Read or Put Object to this Map */
 	public final FastMap<L2Character, AggroInfo> getAggroListRP()
@@ -326,12 +326,13 @@ public class L2Attackable extends L2NpcInstance
 	/** First CommandChannel who attacked the L2Attackable and meet the requirements **/
 	private L2CommandChannel _firstCommandChannelAttacked = null;
 	private CommandChannelTimer _commandChannelTimer = null;
-
+	private long _commandChannelLastAttack = 0;
+	
 	/** True if a Soul Crystal was successfuly used on the L2Attackable */
 	private boolean _absorbed;
 
 	/** The table containing all L2PcInstance that successfuly absorbed the soul of this L2Attackable */
-	private FastMap<L2PcInstance, AbsorberInfo> _absorbersList = new FastMap<L2PcInstance, AbsorberInfo>().setShared(true);
+	private FastMap<L2PcInstance, AbsorberInfo> _absorbersList = new FastMap<L2PcInstance, AbsorberInfo>().shared();
 
 	/** Have this L2Attackable to reward Exp and SP on Die? **/
 	private boolean _mustGiveExpSp;
@@ -443,6 +444,32 @@ public class L2Attackable extends L2NpcInstance
 		        return;
 		*/
 
+		if (isRaid() && attacker != null && attacker.getParty() != null
+				&& attacker.getParty().isInCommandChannel() && attacker.getParty().getCommandChannel().meetRaidWarCondition(this))
+		{
+			if (_firstCommandChannelAttacked == null) //looting right isn't set
+			{
+				synchronized (this)
+				{
+					if (_firstCommandChannelAttacked == null)
+					{
+						_firstCommandChannelAttacked = attacker.getParty().getCommandChannel();
+						if (_firstCommandChannelAttacked != null)
+						{
+							_commandChannelTimer = new CommandChannelTimer(this);
+							_commandChannelLastAttack = System.currentTimeMillis();
+							ThreadPoolManager.getInstance().scheduleGeneral(_commandChannelTimer, 10000); // check for last attack
+							_firstCommandChannelAttacked.broadcastToChannelMembers(new CreatureSay(0, Say2.PARTYROOM_ALL, "", "You have looting rights!")); //TODO: retail msg
+						}
+					}
+				}
+			}
+			else if (attacker.getParty().getCommandChannel().equals(_firstCommandChannelAttacked)) //is in same channel
+			{
+				_commandChannelLastAttack = System.currentTimeMillis(); // update last attack time
+			}
+		}
+		/*
 		// CommandChannel
 		if(_commandChannelTimer == null && isRaid() && attacker != null)
 		{
@@ -454,7 +481,7 @@ public class L2Attackable extends L2NpcInstance
 				_firstCommandChannelAttacked.broadcastToChannelMembers(new CreatureSay(0, Say2.PARTYROOM_ALL, "", "You have looting rights!"));
 			}
 		}
-
+		 */
 		if(isEventMob)
 			return;
 
@@ -623,7 +650,7 @@ public class L2Attackable extends L2NpcInstance
 	protected void calculateRewards(L2Character lastAttacker)
 	{
 		// Creates an empty list of rewards
-		FastMap<L2Character, RewardInfo> rewards = new FastMap<L2Character, RewardInfo>().setShared(true);
+		FastMap<L2Character, RewardInfo> rewards = new FastMap<L2Character, RewardInfo>().shared();
 
 		try
 		{
@@ -3216,39 +3243,38 @@ public class L2Attackable extends L2NpcInstance
 		_firstCommandChannelAttacked = firstCommandChannelAttacked;
 	}
 
-	private class CommandChannelTimer implements Runnable
+	public long getCommandChannelLastAttack()
+	{
+		return _commandChannelLastAttack;
+	}
+
+	public void setCommandChannelLastAttack(long channelLastAttack)
+	{
+		_commandChannelLastAttack = channelLastAttack;
+	}
+	
+	private static class CommandChannelTimer implements Runnable
 	{
 		private L2Attackable _monster;
-		private L2CommandChannel _channel;
-
-		public CommandChannelTimer(L2Attackable monster, L2CommandChannel channel)
+		
+		public CommandChannelTimer(L2Attackable monster)
 		{
 			_monster = monster;
-			_channel = channel;
 		}
-
+		
 		/**
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run()
 		{
-			_monster.setCommandChannelTimer(null);
-			_monster.setFirstCommandChannelAttacked(null);
-
-			for(L2Character player : _monster.getAggroListRP().keySet())
+			if ((System.currentTimeMillis() - _monster.getCommandChannelLastAttack()) > 900000)
 			{
-				if(player.isInParty() && player.getParty().isInCommandChannel())
-				{
-					if(player.getParty().getCommandChannel().equals(_channel))
-					{
-						// if a player which is in first attacked CommandChannel, restart the timer ;)
-						_monster.setCommandChannelTimer(this);
-						_monster.setFirstCommandChannelAttacked(_channel);
-						ThreadPoolManager.getInstance().scheduleGeneral(this, 300000); // 5 min
-						break;
-					}
-				}
+				_monster.setCommandChannelTimer(null);
+				_monster.setFirstCommandChannelAttacked(null);
+				_monster.setCommandChannelLastAttack(0);
 			}
+			else
+				ThreadPoolManager.getInstance().scheduleGeneral(this, 10000); // 10sec
 		}
 	}
 }

@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.serverpackets.KeyPacket;
+import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.SendStatus;
 
 /**
@@ -52,7 +53,7 @@ public final class ProtocolVersion extends L2GameClientPacket
 			{
 				_log.info("Ping received");
 			}
-			getClient().closeNow();
+			getClient().close((L2GameServerPacket)null);
 		}
 		else if(_version == 65533 || _version == -3) //RWHO
 		{
@@ -66,7 +67,7 @@ public final class ProtocolVersion extends L2GameClientPacket
 		{
 			_log.info("Client: " + getClient().toString() + " -> Protocol Revision: " + _version + " is invalid. Minimum is " + Config.MIN_PROTOCOL_REVISION + " and Maximum is " + Config.MAX_PROTOCOL_REVISION + " are supported. Closing connection.");
 			_log.warning("Wrong Protocol Version " + _version);
-			getClient().closeNow();
+			getClient().close((L2GameServerPacket)null);
 		}
 		else
 		{

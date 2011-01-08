@@ -70,7 +70,7 @@ public class LoginController
 					if(now - cl.getConnectionStartTime() > Config.SESSION_TTL)
 					{
 //						_log.info("Closing "+cl.getIntetAddress()+" because idle time too long");
-						cl.closeNow();
+						cl.close(LoginFailReason.REASON_TEMP_PASS_EXPIRED);
 					}
 				}
 				catch(Exception e)
@@ -97,9 +97,9 @@ public class LoginController
 	protected FastList<L2LoginClient> _clients = new FastList<L2LoginClient>();
 
 	/** Authed Clients on LoginServer */
-	protected FastMap<String, L2LoginClient> _loginServerClients = new FastMap<String, L2LoginClient>().setShared(true);
+	protected FastMap<String, L2LoginClient> _loginServerClients = new FastMap<String, L2LoginClient>().shared();
 
-	private Map<InetAddress, BanInfo> _bannedIps = new FastMap<InetAddress, BanInfo>().setShared(true);
+	private Map<InetAddress, BanInfo> _bannedIps = new FastMap<InetAddress, BanInfo>().shared();
 
 	private Map<InetAddress, FailedLoginAttempt> _hackProtection;
 	protected ScrambledKeyPair[] _keyPairs;
@@ -209,7 +209,7 @@ public class LoginController
 		{
 			for(L2LoginClient cl : _clients) try
 			{
-				cl.closeNow();
+				cl.close(LoginFailReason.REASON_DUAL_BOX);
 			}
 			catch(Exception e)
 			{
@@ -613,7 +613,7 @@ public class LoginController
 	public boolean loginValid(String user, String password, L2LoginClient client)// throws HackingException
 	{
 		boolean ok = false;
-		InetAddress address = client.getConnection().getSocketChannel().socket().getInetAddress();
+		InetAddress address = client.getConnection().getInetAddress();
 		// log it anyway
 		Log.add("'" + (user == null ? "null" : user) + "' " + (address == null ? "null" : address.getHostAddress()), "logins_ip");
 

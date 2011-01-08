@@ -1087,7 +1087,7 @@ public class AdminEditChar implements IAdminCommandHandler
 		for(L2PcInstance player : players)
 		{
 			client = player.getClient();
-			ip = client.getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
+			ip = client.getConnection().getInetAddress().getHostAddress();
 
 			if(ipMap.get(ip) == null)
 			{
@@ -1156,7 +1156,7 @@ public class AdminEditChar implements IAdminCommandHandler
 
 		for(L2PcInstance player : players)
 		{
-			ip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
+			ip = player.getClient().getConnection().getInetAddress().getHostAddress();
 
 			if(ip.equals(IpAdress))
 			{
