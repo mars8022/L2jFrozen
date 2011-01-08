@@ -33,6 +33,7 @@ import java.util.Collection;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -207,8 +208,8 @@ public final class Util
 	public static double convertHeadingToDegree(int heading)
 	{
 		if(heading == 0)
-			return 360;
-		return 9.0 * heading / 1610.0; // = 360.0 * (heading / 64400.0)
+			return 360D;
+		return 9.0D * heading / 1610.0D; // = 360.0 * (heading / 64400.0)
 	}
 
 	/**
@@ -339,6 +340,47 @@ public final class Util
 	public static int convertMinutesToMiliseconds(int minutesToConvert)
 	{
 		return minutesToConvert * 60000;
+	}
+
+	public static int calculateHeadingFrom(L2Object obj1, L2Object obj2) {
+		return calculateHeadingFrom(obj1.getX(), obj1.getY(), obj2.getX(), obj2.getY());
+	}
+
+	public static int calculateHeadingFrom(int obj1X, int obj1Y, int obj2X, int obj2Y) {
+		return (int)(Math.atan2(obj1Y - obj2Y, obj1X - obj2X) * 10430.379999999999D + 32768.0D);
+	}
+
+	public static final int calculateHeadingFrom(double dx, double dy) {
+		double angleTarget = Math.toDegrees(Math.atan2(dy, dx));
+		if (angleTarget < 0.0D) angleTarget = 360.0D + angleTarget;
+		return (int)(angleTarget * 182.04444444399999D);
+	}
+
+
+	public static int calcCameraAngle(int heading)
+	{
+		int angle;
+		//int angle;
+		if (heading == 0)
+			angle = 360;
+		else {
+			angle = (int)(heading / 182.03999999999999D);
+		}
+		if (angle <= 90)
+			angle += 90;
+		else if ((angle > 90) && (angle <= 180))
+			angle -= 90;
+		else if ((angle > 180) && (angle <= 270))
+			angle += 90;
+		else if ((angle > 270) && (angle <= 360)) {
+			angle -= 90;
+		}
+		return angle;
+	}
+
+	public static int calcCameraAngle(L2NpcInstance target)
+	{
+		return calcCameraAngle(target.getHeading());
 	}
 
 }
