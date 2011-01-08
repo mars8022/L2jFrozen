@@ -141,7 +141,7 @@ public class AutoVoteRewardHandler
 		
 		if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed() && !player.isOffline()){
 			
-			String playerip = player.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
+			String playerip = player.getClient().getConnection().getInetAddress().getHostAddress();
 			
 			if(already_rewarded.contains(playerip))
 				return false;

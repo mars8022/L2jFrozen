@@ -84,7 +84,7 @@ public class GmListTable
 	private GmListTable()
 	{
 		_log.info("GmListTable: initalized.");
-		_gmList = new FastMap<L2PcInstance, Boolean>().setShared(true);
+		_gmList = new FastMap<L2PcInstance, Boolean>().shared();
 	}
 
 	/**

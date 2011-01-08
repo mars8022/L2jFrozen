@@ -145,7 +145,6 @@ public class NpcTable
 			{
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
 					PreparedStatement statement;
 					statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 					{
@@ -207,7 +206,6 @@ public class NpcTable
 			}
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
 				PreparedStatement statement = con.prepareStatement("SELECT npcid, skillid, level FROM npcskills");
 				ResultSet npcskills = statement.executeQuery();
 				L2NpcTemplate npcDat = null;

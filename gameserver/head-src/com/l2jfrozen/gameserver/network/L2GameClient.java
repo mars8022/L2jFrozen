@@ -23,6 +23,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.ReentrantLock;
@@ -48,8 +50,10 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.L2Event;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.LeaveWorld;
+import com.l2jfrozen.gameserver.network.serverpackets.ServerClose;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -59,13 +63,14 @@ import com.l2jfrozen.gameserver.util.EventData;
 import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
+import com.l2jfrozen.netcore.ReceivablePacket;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * @author L2JFrozen dev
  */
 
-public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
+public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> implements Runnable
 {
 	protected static final Logger _log = Logger.getLogger(L2GameClient.class.getName());
 
@@ -95,28 +100,36 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	private List<Integer> _charSlotMapping = new FastList<Integer>();
 
 	// Task
-	protected/*final*/ScheduledFuture<?> _autoSaveInDB;
 	private ScheduledFuture<?> _guardCheckTask = null;
 
+	protected ScheduledFuture _autoSaveInDB;
+	protected ScheduledFuture<?> _cleanupTask = null;
+	
+	private ClientStats _stats;
+	
 	// Crypt
 	public GameCrypt crypt;
 
 	// Flood protection
-	public byte packetsSentInSec = 0;
-	public int packetsSentStartTick = 0;
 	public long packetsNextSendTick = 0;
 
 	//unknownPacket protection  
 	private int unknownPacketCount = 0;
 	
 	private boolean _closenow = true;
+	private boolean _isDetached = false;
 
+	private final ArrayBlockingQueue<ReceivablePacket<L2GameClient>> _packetQueue;
+	private ReentrantLock _queueLock = new ReentrantLock();
+	
 	public L2GameClient(MMOConnection<L2GameClient> con)
 	{
 		super(con);
 		state = GameClientState.CONNECTED;
 		_connectionStartTime = System.currentTimeMillis();
 		crypt = new GameCrypt();
+		_stats = new ClientStats();
+		_packetQueue = new ArrayBlockingQueue<ReceivablePacket<L2GameClient>>(com.l2jfrozen.netcore.Config.CLIENT_PACKET_QUEUE_SIZE);
 		if(Config.AUTOSAVE_INITIAL_TIME > 0)
 			_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSave(activeChar), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
 		_guardCheckTask = nProtect.getInstance().startTask(this);
@@ -143,9 +156,18 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 
 	public void setState(GameClientState pState)
 	{
-		state = pState;
+		if (state != pState)
+		{
+			state = pState;
+			_packetQueue.clear();
+		}
 	}
 
+	public ClientStats getStats()
+	{
+		return _stats;
+	}
+	
 	public long getConnectionStartTime()
 	{
 		return _connectionStartTime;
@@ -218,11 +240,24 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 
 	public void sendPacket(L2GameServerPacket gsp)
 	{
+		if (_isDetached) 
+			return;
+		
 		if(getConnection()!=null)
 			getConnection().sendPacket(gsp);
 		gsp.runImpl();
 	}
 
+	public boolean isDetached()
+	{
+		return _isDetached;
+	}
+		
+	public void setDetached(boolean b)
+	{
+		_isDetached = b;
+	}
+	
 	/**
 	 * Method to handle character deletion
 	 * 
@@ -478,8 +513,26 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 
 	public L2PcInstance loadCharFromDisk(int charslot)
 	{
-		L2PcInstance character = L2PcInstance.load(getObjectIdForSlot(charslot));
+		//L2PcInstance character = L2PcInstance.load(getObjectIdForSlot(charslot));
 
+		final int objId = getObjectIdForSlot(charslot);
+		if (objId < 0)
+			return null;
+
+		L2PcInstance character = L2World.getInstance().getPlayer(objId);
+		if (character != null)
+		{
+			// exploit prevention, should not happens in normal way
+			_log.severe("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
+			if (character.getClient() != null)
+				character.getClient().closeNow();
+			else
+				character.deleteMe();
+			
+			return null;
+		}
+		
+		character = L2PcInstance.load(objId);
 		if(character != null)
 		{
 			//restoreInventory(character);
@@ -595,7 +648,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	}
 
 	@Override
-	public void onDisconection()
+	public void onDisconnection()
 	{
 		// no long running tasks here, do it async
 		try
@@ -610,6 +663,20 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	}
 
 	/**
+	 * Close client connection with {@link ServerClose} packet
+	 */
+	public void closeNow()
+	{
+		close(ServerClose.STATIC_PACKET);
+		synchronized (this)
+		{
+			if (_cleanupTask != null)
+				cancelCleanup();
+			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new DisconnectTask(), 0); //instant
+		}
+	}
+    
+	/**
 	 * Produces the best possible string representation of this client.
 	 */
 	@Override
@@ -617,7 +684,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 	{
 		try
 		{
-			InetAddress address = getConnection().getSocketChannel().socket().getInetAddress();
+			InetAddress address = getConnection().getInetAddress();
 			String ip = "N/A";
 
 			if(address == null)
@@ -648,7 +715,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 			return "[Character read failed due to disconnect]";
 		}
 	}
-
+	
 	class DisconnectTask implements Runnable
 	{
 
@@ -782,6 +849,152 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>>
 		{
 			unknownPacketCount = 0;
 			return false;
+		}
+	}
+	
+	
+	private boolean cancelCleanup()
+	{
+		Future<?> task = _cleanupTask;
+		if (task != null)
+		{
+			_cleanupTask = null;
+			return task.cancel(true);
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns false if client can receive packets.
+	 * True if detached, or flood detected, or queue overflow detected and queue still not empty.
+	 */
+	public boolean dropPacket()
+	{
+		if (_isDetached) // detached clients can't receive any packets
+			return true;
+		
+		// flood protection
+		if (getStats().countPacket(_packetQueue.size()))
+		{
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return true;
+		}
+		
+		return getStats().dropPacket();
+	}
+	
+	/**
+	 * Counts buffer underflow exceptions.
+	 */
+	public void onBufferUnderflow()
+	{
+		if (getStats().countUnderflowException())
+		{
+			_log.severe("Client " + toString() + " - Disconnected: Too many buffer underflow exceptions.");
+			closeNow();
+			return;
+		}
+		if (state == GameClientState.CONNECTED) // in CONNECTED state kick client immediately
+		{
+			if (com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+				_log.severe("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
+			closeNow();
+		}
+	}
+	
+	/**
+	 * Add packet to the queue and start worker thread if needed
+	 */
+	public void execute(ReceivablePacket<L2GameClient> packet)
+	{
+		if (getStats().countFloods())
+		{
+			_log.severe("Client " + toString() + " - Disconnected, too many floods:"+getStats().longFloods+" long and "+getStats().shortFloods+" short.");
+			closeNow();
+			return;
+		}
+		
+		if (!_packetQueue.offer(packet))
+		{
+			if (getStats().countQueueOverflow())
+			{
+				_log.severe("Client " + toString() + " - Disconnected, too many queue overflows.");
+				closeNow();
+			}
+			else
+				sendPacket(ActionFailed.STATIC_PACKET);
+			
+			return;
+		}
+		
+		if (_queueLock.isLocked()) // already processing
+			return;
+		
+		try
+		{
+			if (state == GameClientState.CONNECTED)
+			{
+				if (getStats().processedPackets > 3)
+				{
+					if (com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+						_log.severe("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
+					closeNow();
+					return;
+				}
+				
+				ThreadPoolManager.getInstance().executeIOPacket(this);
+			}
+			else
+				ThreadPoolManager.getInstance().executePacket(this);
+		}
+		catch (RejectedExecutionException e)
+		{
+			// if the server is shutdown we ignore
+			if (!ThreadPoolManager.getInstance().isShutdown())
+			{
+				_log.severe("Failed executing: "+packet.getClass().getSimpleName()+" for Client: "+toString());
+			}
+		}
+	}
+	
+	@Override
+	public void run()
+	{
+		if (!_queueLock.tryLock())
+			return;
+		
+		try
+		{
+			int count = 0;
+			while (true)
+			{
+				final ReceivablePacket<L2GameClient> packet = _packetQueue.poll();
+				if (packet == null) // queue is empty
+					return;
+				
+				if (_isDetached) // clear queue immediately after detach
+				{
+					_packetQueue.clear();
+					return;
+				}
+				
+				try
+				{
+					packet.run();
+				}
+				catch (Exception e)
+				{
+					_log.severe("Exception during execution "+packet.getClass().getSimpleName()+", client: "+toString()+","+e.getMessage());
+				}
+				
+				count++;
+				if (getStats().countBurst(count))
+					return;
+			}
+		}
+		finally
+		{
+			_queueLock.unlock();
 		}
 	}
 }

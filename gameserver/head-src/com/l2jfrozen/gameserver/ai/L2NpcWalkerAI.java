@@ -97,6 +97,9 @@ public class L2NpcWalkerAI extends L2CharacterAI implements Runnable
 	{
 		_log.warning("NpcWalker ID: " + getActor().getNpcId() + ": Blocked at rote position [" + _currentPos + "], coords: " + blocked_at_pos.x + ", " + blocked_at_pos.y + ", " + blocked_at_pos.z + ". Teleporting to next point");
 
+		if(_route.size()<=_currentPos)
+			return;
+		
 		int destinationX = _route.get(_currentPos).getMoveX();
 		int destinationY = _route.get(_currentPos).getMoveY();
 		int destinationZ = _route.get(_currentPos).getMoveZ();
@@ -107,6 +110,9 @@ public class L2NpcWalkerAI extends L2CharacterAI implements Runnable
 
 	private void checkArrived()
 	{
+		if(_route.size()<=_currentPos)
+			return;
+		
 		int destinationX = _route.get(_currentPos).getMoveX();
 		int destinationY = _route.get(_currentPos).getMoveY();
 		int destinationZ = _route.get(_currentPos).getMoveZ();
@@ -157,6 +163,9 @@ public class L2NpcWalkerAI extends L2CharacterAI implements Runnable
 			_currentPos = 0;
 		}
 
+		if(_route.size()<=_currentPos)
+			return;
+		
 		boolean moveType = _route.get(_currentPos).getRunning();
 
 		/**

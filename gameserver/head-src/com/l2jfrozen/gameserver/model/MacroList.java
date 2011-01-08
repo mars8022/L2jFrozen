@@ -188,7 +188,7 @@ public class MacroList
 		}
 		catch(Exception e)
 		{
-			_log.info("Player: " + _owner.getName() + " IP:" + _owner.getClient().getConnection().getSocketChannel().socket().getInetAddress().getHostAddress() + " try to use bug with macros");
+			_log.info("Player: " + _owner.getName() + " IP:" + _owner.getClient().getConnection().getInetAddress().getHostAddress() + " try to use bug with macros");
 			_log.log(Level.WARNING, "could not store macro:", e);
 		}
 		finally

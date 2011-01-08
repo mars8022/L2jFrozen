@@ -49,7 +49,7 @@ public abstract class L2ZoneType
 	protected L2ZoneType(int id)
 	{
 		_id = id;
-		_characterList = new FastMap<Integer, L2Character>().setShared(true);
+		_characterList = new FastMap<Integer, L2Character>().shared();
 
 		_checkAffected = false;
 

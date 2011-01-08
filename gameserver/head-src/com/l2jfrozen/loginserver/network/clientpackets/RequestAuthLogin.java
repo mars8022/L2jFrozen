@@ -75,7 +75,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 	@Override
 	public boolean readImpl()
 	{
-		if(getAvaliableBytes() >= 128)
+		if (super._buf.remaining() >= 128)
 		{
 			readB(_raw);
 			return true;
@@ -111,10 +111,10 @@ public class RequestAuthLogin extends L2LoginClientPacket
 
 		LoginController lc = LoginController.getInstance();
 		L2LoginClient client = getClient();
-		InetAddress address = getClient().getConnection().getSocketChannel().socket().getInetAddress();
+		InetAddress address = getClient().getConnection().getInetAddress();
 		if(address == null) {
 			_log.warning("Socket is not connected: " + client.getAccount());
-			client.closeNow();
+			client.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			return;
 		}
 		String addhost = address.getHostAddress();

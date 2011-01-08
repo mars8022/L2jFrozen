@@ -249,7 +249,7 @@ public class ObjectKnownList
 	{
 		if(_knownObjects == null)
 		{
-			_knownObjects = new FastMap<Integer, L2Object>().setShared(true);
+			_knownObjects = new FastMap<Integer, L2Object>().shared();
 		}
 
 		return _knownObjects;

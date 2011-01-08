@@ -22,7 +22,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Calendar;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -133,8 +136,9 @@ import com.l2jfrozen.gameserver.thread.daemons.PcPoint;
 import com.l2jfrozen.gameserver.util.DynamicExtension;
 import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.sql.SQLQueue;
-import com.l2jfrozen.netcore.SelectorServerConfig;
+import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
+import com.l2jfrozen.util.IPv4Filter;
 import com.l2jfrozen.util.Memory;
 import com.l2jfrozen.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -144,7 +148,8 @@ public class GameServer
 	private static Logger _log = Logger.getLogger("Loader");
 	private static SelectorThread<L2GameClient> _selectorThread;
 	private static LoginServerThread _loginThread;
-
+	private static L2GamePacketHandler _gamePacketHandler;
+	
 	public static final Calendar dateTimeServerStarted = Calendar.getInstance();
 
 	public static void main(String[] args) throws Exception
@@ -539,15 +544,46 @@ public class GameServer
 		Util.printSection("Status");
 		System.gc();
 
+		Util.printSection("Login");
 		_loginThread = LoginServerThread.getInstance();
 		_loginThread.start();
-		_loginThread = null;
-
-		SelectorServerConfig ssc = new SelectorServerConfig(Config.PORT_GAME);
-		L2GamePacketHandler gph = new L2GamePacketHandler();
-		_selectorThread = new SelectorThread<L2GameClient>(ssc, gph, gph, gph);
-		_selectorThread.openServerSocket();
+		
+		final SelectorConfig sc = new SelectorConfig();
+		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_READ_PER_PASS;
+		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_SEND_PER_PASS;
+		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.MMO_SELECTOR_SLEEP_TIME;
+		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.MMO_HELPER_BUFFER_COUNT;
+		
+		
+		_gamePacketHandler = new L2GamePacketHandler();
+		
+		_selectorThread = new SelectorThread<L2GameClient>(sc, _gamePacketHandler, _gamePacketHandler, _gamePacketHandler, new IPv4Filter());
+		
+		InetAddress bindAddress = null;
+		if (!Config.GAMESERVER_HOSTNAME.equals("*"))
+		{
+			try
+			{
+				bindAddress = InetAddress.getByName(Config.GAMESERVER_HOSTNAME);
+			}
+			catch (UnknownHostException e1)
+			{
+				_log.log(Level.SEVERE, "WARNING: The GameServer bind address is invalid, using all avaliable IPs. Reason: " + e1.getMessage(), e1);
+			}
+		}
+		
+		try
+		{
+			_selectorThread.openServerSocket(bindAddress, Config.PORT_GAME);
+		}
+		catch (IOException e)
+		{
+			_log.log(Level.SEVERE, "FATAL: Failed to open server socket. Reason: " + e.getMessage(), e);
+			System.exit(1);
+		}
 		_selectorThread.start();
+		
+		
 	}
 
 	public static SelectorThread<L2GameClient> getSelectorThread()

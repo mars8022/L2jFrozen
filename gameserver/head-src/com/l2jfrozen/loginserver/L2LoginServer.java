@@ -33,7 +33,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
-import com.l2jfrozen.netcore.SelectorServerConfig;
+import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
 import com.l2jfrozen.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -184,13 +184,17 @@ public class L2LoginServer
 			}
 		}
 
-		SelectorServerConfig ssc = new SelectorServerConfig(bindAddress, Config.PORT_LOGIN);
-		L2LoginPacketHandler loginPacketHandler = new L2LoginPacketHandler();
-		SelectorHelper sh = new SelectorHelper();
+		final SelectorConfig sc = new SelectorConfig();
+		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_READ_PER_PASS;
+		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_SEND_PER_PASS;
+		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.MMO_SELECTOR_SLEEP_TIME;
+		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.MMO_HELPER_BUFFER_COUNT;
+		
+		final L2LoginPacketHandler lph = new L2LoginPacketHandler();
+		final SelectorHelper sh = new SelectorHelper();
 		try
 		{
-			_selectorThread = new SelectorThread<L2LoginClient>(ssc, loginPacketHandler, sh, sh);
-			_selectorThread.setAcceptFilter(sh);
+			_selectorThread = new SelectorThread<L2LoginClient>(sc, sh, lph, sh, sh);
 		}
 		catch(IOException e)
 		{
@@ -224,7 +228,7 @@ public class L2LoginServer
 
 		try
 		{
-			_selectorThread.openServerSocket();
+			_selectorThread.openServerSocket(bindAddress, Config.PORT_LOGIN);
 		}
 		catch(IOException e)
 		{
@@ -240,9 +244,6 @@ public class L2LoginServer
 		_log.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
 
 		logFolder = null;
-		ssc = null;
-		loginPacketHandler = null;
-		sh = null;
 		bindAddress = null;
 	}
 

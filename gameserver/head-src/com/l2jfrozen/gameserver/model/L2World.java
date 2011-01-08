@@ -91,9 +91,9 @@ public final class L2World
 	private L2World()
 	{
 		//_allGms = new FastMap<String, L2PcInstance>();
-		_allPlayers = new FastMap<String, L2PcInstance>().setShared(true);
+		_allPlayers = new FastMap<String, L2PcInstance>().shared();
 
-		_petsInstance = new FastMap<Integer, L2PetInstance>().setShared(true);
+		_petsInstance = new FastMap<Integer, L2PetInstance>().shared();
 		_allObjects = L2ObjectMap.createL2ObjectMap();
 
 		initRegions();
@@ -268,6 +268,15 @@ public final class L2World
 	public L2PcInstance getPlayer(String name)
 	{
 		return _allPlayers.get(name.toLowerCase());
+	}
+	
+	public L2PcInstance getPlayer(int playerObjId)
+	{
+		for(L2PcInstance actual:_allPlayers.values())
+			if(actual.getObjectId()==playerObjId)
+				return actual;
+		
+		return null;
 	}
 
 	/**

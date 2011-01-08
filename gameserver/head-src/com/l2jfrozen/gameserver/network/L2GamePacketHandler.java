@@ -53,6 +53,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 	// implementation
 	public ReceivablePacket<L2GameClient> handlePacket(ByteBuffer buf, L2GameClient client)
 	{
+		if (client.dropPacket())
+			return null;
+		
 		int opcode = buf.get() & 0xFF;
 
 		ReceivablePacket<L2GameClient> msg = null;
@@ -61,17 +64,17 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 		switch(state)
 		{
 			case CONNECTED:
-				if(opcode == 0x00)
+				switch (opcode)
 				{
-					msg = new ProtocolVersion();
-				}
-				else if(opcode == 0x08)
-				{
-					msg = new AuthLogin();
-				}
-				else
-				{
-					printDebug(opcode, buf, state, client);
+					case 0x00:
+						msg = new ProtocolVersion();
+						break;
+					case 0x08:
+						msg = new AuthLogin();
+						break;
+					default:
+						printDebug(opcode, buf, state, client);
+						break;
 				}
 				break;
 			case AUTHED:
@@ -828,6 +831,14 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 	private void printDebug(int opcode, ByteBuffer buf, GameClientState state, L2GameClient client)
 	{
+		if(Config.ENABLE_UNK_PACKET_PROTECTION)
+		{
+			unknownPacketProtection(client);
+		}
+		
+		if (!com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+			return;
+		
 		//int size = buf.remaining();
 		int v = buf.remaining();
 
@@ -847,14 +858,19 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 		array = null;
 
-		if(Config.ENABLE_UNK_PACKET_PROTECTION)
-		{
-			unknownPacketProtection(client);
-		}
+		
 	}
 
 	private void printDebugDoubleOpcode(int opcode, int id2, ByteBuffer buf, GameClientState state, L2GameClient client)
 	{
+		if(Config.ENABLE_UNK_PACKET_PROTECTION)
+		{
+			unknownPacketProtection(client);
+		}
+		
+		if (!com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+			return;
+		
 		//int size = buf.remaining();
 		int v = buf.remaining();
 
@@ -874,13 +890,8 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 		array = null;
 
-		if(Config.ENABLE_UNK_PACKET_PROTECTION)
-		{
-			unknownPacketProtection(client);
-		}
 	}
 
-	// impl
 	public L2GameClient create(MMOConnection<L2GameClient> con)
 	{
 		return new L2GameClient(con);
@@ -888,25 +899,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 	public void execute(ReceivablePacket<L2GameClient> rp)
 	{
-		try
-		{
-			if(rp.getClient().getState() == GameClientState.IN_GAME)
-			{
-				ThreadPoolManager.getInstance().executePacket(rp);
-			}
-			else
-			{
-				ThreadPoolManager.getInstance().executeIOPacket(rp);
-			}
-		}
-		catch(RejectedExecutionException e)
-		{
-			// if the server is shutdown we ignore
-			if(!ThreadPoolManager.getInstance().isShutdown())
-			{
-				_log.severe("Failed executing: " + rp.getClass().getSimpleName() + " for Client: " + rp.getClient().toString());
-			}
-		}
+		rp.getClient().execute(rp);
 	}
 
 	private void unknownPacketProtection(L2GameClient client)

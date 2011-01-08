@@ -17,7 +17,11 @@
  */
 package com.l2jfrozen.netcore;
 
-public interface IClientFactory<T extends MMOClient>
+/**
+ * @author KenM
+ * 
+ */
+public interface IClientFactory<T extends MMOClient<?>>
 {
-    public T create(MMOConnection<T> con);
+	public T create(final MMOConnection<T> con);
 }

@@ -34,6 +34,7 @@ import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason
 import com.l2jfrozen.loginserver.network.serverpackets.PlayFail.PlayFailReason;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
+import com.l2jfrozen.netcore.SendablePacket;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
@@ -77,7 +78,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 	{
 		super(con);
 		_state = LoginClientState.CONNECTED;
-		final String ip = getConnection().getSocketChannel().socket().getInetAddress().getHostAddress();
+		final String ip = getConnection().getInetAddress().getHostAddress();
 		_ip = ip;
 		String[] localip = Config.NETWORK_IP_LIST.split(";");
 		for(String oneIp : localip)
@@ -121,7 +122,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		catch(IOException e)
 		{
 			e.printStackTrace();
-			closeNow();
+			super.getConnection().close((SendablePacket<L2LoginClient>)null);
 			return false;
 		}
 
@@ -130,7 +131,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 			byte[] dump = new byte[size];
 			System.arraycopy(buf.array(), buf.position(), dump, 0, size);
 			_log.warning("Wrong checksum from client: " + toString());
-			closeNow();
+			super.getConnection().close((SendablePacket<L2LoginClient>)null);
 			dump = null;
 		}
 
@@ -264,7 +265,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 	}
 
 	@Override
-	public void onDisconection()
+	public void onDisconnection()
 	{
 //		Closer.getInstance().close(this);
 		if(Config.DEBUG)
@@ -282,10 +283,16 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 	@Override
 	public String toString()
 	{
-		InetAddress address = getConnection().getSocketChannel().socket().getInetAddress();
+		InetAddress address = getConnection().getInetAddress();
 		if(getState() == LoginClientState.AUTHED_LOGIN)
 			return "[" + getAccount() + " (" + (address == null ? "disconnected" : address.getHostAddress()) + ")]";
 		else
 			return "[" + (address == null ? "disconnected" : address.getHostAddress()) + "]";
+	}
+	
+	@Override
+	protected void onForcedDisconnection()
+	{
+		// Empty
 	}
 }
