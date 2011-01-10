@@ -3317,8 +3317,7 @@ public final class Config
 	public static int VALAKAS_RESP_SECOND;
 	public static float VALAKAS_POWER_MULTIPLIER;
 	
-	public static boolean ENABLE_FRINTEZZA_SCRIPT_L2DC;
-	public static boolean ENABLE_FRINTEZZA_SCRIPT_L2J;
+	public static boolean ENABLE_FRINTEZZA_SCRIPT;
 	public static int FRINTEZZA_RESP_FIRST;
 	public static int FRINTEZZA_RESP_SECOND;
 	public static float FRINTEZZA_POWER_MULTIPLIER;
@@ -3396,8 +3395,7 @@ public final class Config
 			VALAKAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ValakasPowerMultiplier", "1.0"));
 			//============================================================
 			//FRINTEZZA
-			ENABLE_FRINTEZZA_SCRIPT_L2DC = Boolean.valueOf(bossSettings.getProperty("EnableFrintezzaScriptL2dc", "False"));
-			ENABLE_FRINTEZZA_SCRIPT_L2J = Boolean.valueOf(bossSettings.getProperty("EnableFrintezzaScriptL2j", "False"));
+			ENABLE_FRINTEZZA_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableFrintezzaScript", "False"));
 			FRINTEZZA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("FrintezzaRespFirst", "48"));
 			FRINTEZZA_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("FrintezzaRespSecond", "8"));
 			FRINTEZZA_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("FrintezzaPowerMultiplier", "1.0"));
