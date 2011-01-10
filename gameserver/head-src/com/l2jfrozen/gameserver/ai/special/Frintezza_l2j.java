@@ -639,15 +639,19 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.broadcastPacket(new SpecialCamera(_overheadDummy.getObjectId(), 600, 180, -25, 0, 10000));
 			_Zone.broadcastPacket(new MagicSkillUser(_scarletDummy,_overheadDummy, 5004, 1, 5800, 0));
 			
-			weakScarlet = (L2GrandBossInstance) addSpawn(29046, 174232, -88020, -5110, 16384, false, 0);
+			weakScarlet = (L2GrandBossInstance) addSpawn(SCARLET1, 174232, -88020, -5110, 16384, false, 0);
 			weakScarlet.setIsInvul(true);
 			weakScarlet.setIsImobilised(true);
 			weakScarlet.disableAllSkills();
 			_Zone.updateKnownList(weakScarlet);
 			activeScarlet = weakScarlet;
 			
+			/*
 			startQuestTimer("camera_19",  2400, _scarletDummy, null);
 			startQuestTimer("camera_19b", 5000, _scarletDummy, null);
+			*/
+			startQuestTimer("camera_19", 5500, _scarletDummy, null);
+			startQuestTimer("camera_19b", 5400, weakScarlet, null);
 		}
 		else if (event.equalsIgnoreCase("camera_19"))
 		{
@@ -820,7 +824,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			weakScarlet.deleteMe();
 			weakScarlet = null;
 			activeScarlet = null;
-			weakScarlet = (L2GrandBossInstance) addSpawn(29046, _Scarlet_x, _Scarlet_y, _Scarlet_z, _Scarlet_h, false,0);
+			weakScarlet = (L2GrandBossInstance) addSpawn(SCARLET1, _Scarlet_x, _Scarlet_y, _Scarlet_z, _Scarlet_h, false,0);
 			weakScarlet.setIsInvul(true);
 			weakScarlet.setIsImobilised(true);
 			weakScarlet.disableAllSkills();
@@ -875,7 +879,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.broadcastPacket(new SpecialCamera(strongScarlet.getObjectId(),450, _Angle, 12, 500, 14000));
 			
 			startQuestTimer("morph_14", 3000, strongScarlet, null);
-			startQuestTimer("loc_check", 60000, strongScarlet, null);
+			startQuestTimer("loc_check", 60000, strongScarlet, null, true);
 		}
 		else if (event.equalsIgnoreCase("morph_14"))
 		{

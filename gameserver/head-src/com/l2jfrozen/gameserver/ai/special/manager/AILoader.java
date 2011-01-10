@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.ai.special.Baium;
 import com.l2jfrozen.gameserver.ai.special.Barakiel;
 import com.l2jfrozen.gameserver.ai.special.Core;
 import com.l2jfrozen.gameserver.ai.special.FairyTrees;
-import com.l2jfrozen.gameserver.ai.special.Frintezza;
+import com.l2jfrozen.gameserver.ai.special.Frintezza_l2j;
 import com.l2jfrozen.gameserver.ai.special.Frintezza_l2j;
 import com.l2jfrozen.gameserver.ai.special.Golkonda;
 import com.l2jfrozen.gameserver.ai.special.Gordon;
@@ -108,13 +108,9 @@ public class AILoader
 			ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
 		}
 		
-		if(Config.ENABLE_FRINTEZZA_SCRIPT_L2DC){
-			_log.info(" - Frintezza-l2dc");
-			ThreadPoolManager.getInstance().scheduleAi(new Frintezza(-1, "Frintezza", "ai"), 2000);
-		}
-		else if(Config.ENABLE_FRINTEZZA_SCRIPT_L2J){
-			_log.info(" - Frintezza-L2j");
-			ThreadPoolManager.getInstance().scheduleAi(new Frintezza_l2j(-1, "Frintezza", "ai"), 2100);
+		if(Config.ENABLE_FRINTEZZA_SCRIPT){
+			_log.info(" - Frintezza");
+			ThreadPoolManager.getInstance().scheduleAi(new Frintezza_l2j(-1, "Frintezza", "ai"), 2000);
 		}
 		
 	}
