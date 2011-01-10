@@ -1549,6 +1549,7 @@ public final class Config
 	public static String[] REBIRTH_FIGHTER_SKILL;
 	public static int REBIRTH_MIN_LEVEL;
 	public static int REBIRTH_MAX;
+	public static int REBIRTH_RETURN_TO_LEVEL;
 
 	//============================================================
 	public static void loadREBIRTHConfig()
@@ -1564,6 +1565,7 @@ public final class Config
 
 			REBIRTH_MIN_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MIN_LEVEL", "80"));
 			REBIRTH_MAX = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAX", "3"));
+			REBIRTH_RETURN_TO_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_RETURN_TO_LEVEL", "1"));
 			
 			REBIRTH_ITEM_PRICE = REBIRTHSettings.getProperty("REBIRTH_ITEM_PRICE", "").split(";");
 			REBIRTH_MAGE_SKILL = REBIRTHSettings.getProperty("REBIRTH_MAGE_SKILL", "").split(";");

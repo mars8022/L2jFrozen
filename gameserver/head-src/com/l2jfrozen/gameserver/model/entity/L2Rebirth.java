@@ -172,8 +172,12 @@ public class L2Rebirth
 	{
 		try
 		{
+			//Protections
+			Integer returnToLevel = Config.REBIRTH_RETURN_TO_LEVEL;
+			if (returnToLevel < 1) returnToLevel = 1; if (returnToLevel > 80) returnToLevel = 80;
+			
 			//Set player to level 1.
-			player.removeExpAndSp(player.getExp() - Experience.getExp(1), 0);
+			player.removeExpAndSp(player.getExp() - Experience.getExp(returnToLevel), 0);
 			//Resets character to first class.
 			player.setClassId(player.getBaseClass());
 
@@ -200,6 +204,7 @@ public class L2Rebirth
 			grantRebirthSkills(player);
 			//Displays a congratulation message to the player.
 			displayCongrats(player);
+			returnToLevel = null;
 		}
 		catch(Exception e)
 		{
