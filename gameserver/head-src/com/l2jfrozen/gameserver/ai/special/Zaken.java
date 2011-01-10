@@ -164,7 +164,7 @@ public class Zaken extends Quest implements Runnable
 					startQuestTimer("ZAKEN_OPEN_DOOR",1800000,null,null);
 					startQuestTimer("ZAKEN_CLOSE_DOOR",300000,null,null);
 				}else {
-					startQuestTimer("ZAKEN_OPEN_DOOR",30000,null,null);
+					startQuestTimer("ZAKEN_OPEN_DOOR",30000,null,null); //check every 30 sec
 				}
 
 			}

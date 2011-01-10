@@ -29,6 +29,7 @@ import com.l2jfrozen.netcore.IClientFactory;
 import com.l2jfrozen.netcore.IMMOExecutor;
 import com.l2jfrozen.netcore.MMOConnection;
 import com.l2jfrozen.netcore.ReceivablePacket;
+import com.l2jfrozen.util.IPv4Filter;
 
 /**
  * @author ProGramMoS
@@ -37,10 +38,12 @@ import com.l2jfrozen.netcore.ReceivablePacket;
 public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFactory<L2LoginClient>, IAcceptFilter
 {
 	private ThreadPoolExecutor _generalPacketsThreadPool;
-
+	private IPv4Filter _ipv4filter;
+	
 	public SelectorHelper()
 	{
 		_generalPacketsThreadPool = new ThreadPoolExecutor(4, 6, 15L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		_ipv4filter = new IPv4Filter();
 	}
 
 	/**
@@ -67,7 +70,9 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 	 */
 	public boolean accept(SocketChannel sc)
 	{
-		return !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
+		//return !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
+		
+		return _ipv4filter.accept(sc) && !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
 	}
 
 }
