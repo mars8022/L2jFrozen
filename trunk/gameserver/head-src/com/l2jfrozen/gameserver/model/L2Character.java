@@ -7494,20 +7494,21 @@ public abstract class L2Character extends L2Object
 			{
 				if(((L2NpcTemplate) getTemplate()).getEventQuests(Quest.QuestEventType.ON_SPELL_FINISHED) != null)
 				{
-					L2PcInstance player;
+					L2PcInstance player=null;
 					if(target instanceof L2SummonInstance)
 					{
 						player = ((L2SummonInstance) target).getOwner();
 					}
-					else
+					else if(target instanceof L2PcInstance)
 					{
 						player = (L2PcInstance) target;
 					}
 
-					for(Quest quest : ((L2NpcTemplate) getTemplate()).getEventQuests(Quest.QuestEventType.ON_SPELL_FINISHED))
-					{
-						quest.notifySpellFinished(((L2NpcInstance) this), player, skill);
-					}
+					if(player!=null)
+						for(Quest quest : ((L2NpcTemplate) getTemplate()).getEventQuests(Quest.QuestEventType.ON_SPELL_FINISHED))
+						{
+							quest.notifySpellFinished(((L2NpcInstance) this), player, skill);
+						}
 				}
 			}
 			catch(Exception e)

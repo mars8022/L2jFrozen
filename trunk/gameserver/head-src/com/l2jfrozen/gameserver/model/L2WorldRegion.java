@@ -26,6 +26,9 @@ import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
+import com.l2jfrozen.gameserver.ai.L2FortSiegeGuardAI;
+import com.l2jfrozen.gameserver.ai.L2SiegeGuardAI;
+import com.l2jfrozen.gameserver.ai.L2SummonAI;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
@@ -207,7 +210,12 @@ public final class L2WorldRegion
 					mob.getAI().setIntention(com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE);
 
 					// stop the ai tasks
-					((L2AttackableAI) mob.getAI()).stopAITask();
+					if(mob.getAI() instanceof L2AttackableAI)
+						((L2AttackableAI) mob.getAI()).stopAITask();
+					else if(mob.getAI() instanceof L2FortSiegeGuardAI)
+						((L2FortSiegeGuardAI) mob.getAI()).stopAITask();
+					else if(mob.getAI() instanceof L2SiegeGuardAI)
+						((L2SiegeGuardAI) mob.getAI()).stopAITask();
 
 					// Stop HP/MP/CP Regeneration task
 					// try this: allow regen, but only until mob is 100% full...then stop
