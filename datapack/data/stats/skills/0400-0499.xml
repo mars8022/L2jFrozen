@@ -1406,6 +1406,7 @@ Description(s):
     <effect count="24" name="Signet" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="461" levels="2" name="Break Duress">
   <table name="#mpConsume">33 37</table>
   <table name="#magicLvl">60 66</table>
@@ -1414,8 +1415,8 @@ Description(s):
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="condition" val="128"/>
-  <set name="reuseDelay" val="600000"/>
-  <set name="hitTime" val="1667"/>
+  <set name="reuseDelay" val="4000"/>
+  <set name="hitTime" val="3000"/>
   <set name="skillType" val="NEGATE"/>
   <set name="negateStats" val="ROOT"/>
   <set name="operateType" val="OP_ACTIVE"/>
