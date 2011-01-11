@@ -537,6 +537,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="318" levels="1" name="Aegis Stance" enchantLevels1="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -612,6 +613,7 @@
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="321" levels="10" name="Blinding Blow">
   <table name="#mpConsume">67 68 69 70 71 72 73 74 75 76</table>
   <table name="#magicLvl">65 66 67 68 69 70 71 72 73 74</table>
@@ -633,10 +635,7 @@
   <set name="effectRange" val="400"/>
   <for>
     <effect self="1" count="1" name="Buff" time="15" val="0" stackOrder="40" stackType="SpeedUpS">
-      <add order="0x40" stat="rCrit" val="45">
-        <using kind="Dagger" skill="0321"/>
-      </add>
-      <mul order="0x30" stat="runSpd" val="1.4"/>
+      <add order="0x40" stat="runSpd" val="40"/>
     </effect>
     <effect count="1" name="Bluff" time="1" val="0"/> 
   </for>
@@ -1324,10 +1323,12 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="358" levels="1" name="Bluff">
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="35"/>
-  <set name="power" val="42"/>
+  <set name="power" val="40"/>
+  <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
   <set name="operateType" val="OP_ACTIVE"/>
