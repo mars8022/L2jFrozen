@@ -118,6 +118,7 @@ public class PowerPakConfig
 	public static int VOTES_SYSYEM_STEP_DELAY;
 	
 	public static String SERVER_WEB_SITE;
+	public static boolean AUTOVOTEREWARD_ENABLED;
 	
 	public static void load()
 	{
@@ -311,6 +312,7 @@ public class PowerPakConfig
 			WEBSERVER_HOST = p.getProperty("WebServerHost","localhost");
 			WEBSERVER_PORT = Integer.parseInt(p.getProperty("WebServerPort","8080"));
 			
+			AUTOVOTEREWARD_ENABLED = Boolean.parseBoolean(p.getProperty("VoteRewardSystem","true"));
 			VOTES_FOR_REWARD = Integer.parseInt(p.getProperty("VotesRequiredForReward", "100"));
 			VOTES_SYSYEM_INITIAL_DELAY = Integer.parseInt(p.getProperty("VotesSystemInitialDelay", "60000"));
 			VOTES_SYSYEM_STEP_DELAY = Integer.parseInt(p.getProperty("VotesSystemStepDelay", "1800000"));
