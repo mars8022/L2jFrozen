@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAdmin;
+import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAio;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAnnouncements;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBBS;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBan;
@@ -185,6 +186,7 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminHero());
 		registerAdminCommandHandler(new AdminNoble());
 		registerAdminCommandHandler(new AdminBuffs());
+		registerAdminCommandHandler(new AdminAio());
 		//ATTENTION: adding new command handlers, you have to change the
 		//sql file containing the access levels rights
 		

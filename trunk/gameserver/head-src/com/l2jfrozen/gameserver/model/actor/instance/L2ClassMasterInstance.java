@@ -113,7 +113,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 					default:
 						jobLevel = 4;
 				}
-
+				if(player.isAio())
+				{
+					player.sendMessage("Aio Buffers Can't Speak To Class Masters.");
+					return;
+				}
 				if(player.isGM())
 				{
 					showChatWindowChooseClass(player);

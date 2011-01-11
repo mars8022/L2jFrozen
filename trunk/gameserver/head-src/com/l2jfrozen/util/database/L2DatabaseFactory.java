@@ -244,4 +244,19 @@ public class L2DatabaseFactory
 	{
 		return _providerType;
 	}
+
+	public static void close(Connection con)
+	{
+		if (con == null)
+			return;
+		
+		try
+		{
+			con.close();
+		}
+		catch (SQLException e)
+		{
+			_log.log(Level.WARNING, "Failed to close database connection!", e);
+		}
+	}
 }

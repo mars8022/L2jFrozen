@@ -483,6 +483,12 @@ public final class Config
 	public static float RAID_MAX_RESPAWN_MULTIPLIER;
 	public static int STARTING_ADENA;
 	public static int STARTING_AA;
+	public static boolean ENABLE_AIO_SYSTEM;
+	public static Map<Integer, Integer> AIO_SKILLS;
+	public static boolean ALLOW_AIO_NCOLOR;
+	public static int AIO_NCOLOR;
+	public static boolean ALLOW_AIO_TCOLOR;
+	public static int AIO_TCOLOR;
 	
 	/** Configuration to allow custom items to be given on character creation */
 	public static boolean CUSTOM_STARTER_ITEMS_ENABLED;
@@ -571,7 +577,38 @@ public final class Config
 			RAID_MINION_RESPAWN_TIMER = Integer.parseInt(otherSettings.getProperty("RaidMinionRespawnTime", "300000"));
 			RAID_MIN_RESPAWN_MULTIPLIER = Float.parseFloat(otherSettings.getProperty("RaidMinRespawnMultiplier", "1.0"));
 			RAID_MAX_RESPAWN_MULTIPLIER = Float.parseFloat(otherSettings.getProperty("RaidMaxRespawnMultiplier", "1.0"));
-
+        	ENABLE_AIO_SYSTEM = Boolean.parseBoolean(otherSettings.getProperty("EnableAioSystem", "True"));
+        	ALLOW_AIO_NCOLOR = Boolean.parseBoolean(otherSettings.getProperty("AllowAioNameColor", "True"));
+        	AIO_NCOLOR = Integer.decode("0x" + otherSettings.getProperty("AioNameColor", "88AA88"));
+        	ALLOW_AIO_TCOLOR = Boolean.parseBoolean(otherSettings.getProperty("AllowAioTitleColor", "True"));
+        	AIO_TCOLOR = Integer.decode("0x" + otherSettings.getProperty("AioTitleColor", "88AA88"));
+        	if(ENABLE_AIO_SYSTEM) //create map if system is enabled
+        	{
+        		String[] AioSkillsSplit = otherSettings.getProperty("AioSkills", "").split(";");
+        		AIO_SKILLS = new FastMap<Integer, Integer>(AioSkillsSplit.length);
+        		for (String skill : AioSkillsSplit)
+        		{
+        			String[] skillSplit = skill.split(",");
+        			if (skillSplit.length != 2)
+        			{
+        				System.out.println("[Aio System]: invalid config property in extensions.properties -> AioSkills \"" + skill + "\"");
+        			}
+        			else
+        			{
+        				try
+        				{
+        					AIO_SKILLS.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
+        				}
+        				catch (NumberFormatException nfe)
+        				{
+        					if (!skill.equals(""))
+        					{
+        						System.out.println("[Aio System]: invalid config property in extensions.properties -> AioSkills \"" + skillSplit[0] + "\"" + skillSplit[1]);
+        					}
+        				}
+        			}
+        		}
+        	}       
 			STARTING_ADENA = Integer.parseInt(otherSettings.getProperty("StartingAdena", "100"));
 			STARTING_AA = Integer.parseInt(otherSettings.getProperty("StartingAncientAdena", "0"));
 			

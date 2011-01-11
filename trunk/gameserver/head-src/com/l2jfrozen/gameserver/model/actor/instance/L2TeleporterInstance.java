@@ -217,6 +217,11 @@ public final class L2TeleporterInstance extends L2FolkInstance
 				player.sendMessage("Don't run from PvP! You will be able to use the teleporter only after your flag is gone.");
 				return;
 			}
+			else if (player.isAio())
+			{
+				player.sendMessage("Aio Buffers are not allowed to use GateKeepers.");
+				return;
+			}
 			else if(!Config.ALT_GAME_KARMA_PLAYER_CAN_USE_GK && player.getKarma() > 0) //karma
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
