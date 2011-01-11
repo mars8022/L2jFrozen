@@ -1077,6 +1077,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="1056" levels="12" name="Cancellation">
   <table name="#mpConsume_Init">9 10 11 11 11 12 12 13 13 13 14 14</table>
   <table name="#mpConsume">35 38 41 43 44 46 48 49 51 52 53 55</table>
@@ -1084,7 +1085,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="6"/>
+  <set name="power" val="25"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="120000"/>
   <set name="hitTime" val="6000"/>
