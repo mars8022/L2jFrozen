@@ -2589,6 +2589,10 @@ public final class Config
 	public static int AUGMENTATION_MID_GLOW_CHANCE;
 	public static int AUGMENTATION_HIGH_GLOW_CHANCE;
 	public static int AUGMENTATION_TOP_GLOW_CHANCE;
+	
+	public static boolean DELETE_AUGM_PASSIVE_ON_CHANGE;
+	public static boolean DELETE_AUGM_ACTIVE_ON_CHANGE;
+	
 	// Enchant hero weapon
 	public static boolean ENCHANT_HERO_WEAPON;
 	// Soul crystal
@@ -2867,6 +2871,10 @@ public final class Config
 			AUGMENTATION_HIGH_GLOW_CHANCE = Integer.parseInt(ENCHANTSetting.getProperty("AugmentationHighGlowChance", "70"));
 			AUGMENTATION_TOP_GLOW_CHANCE = Integer.parseInt(ENCHANTSetting.getProperty("AugmentationTopGlowChance", "100"));
 
+			/** augmentation configs **/
+			DELETE_AUGM_PASSIVE_ON_CHANGE = Boolean.parseBoolean(ENCHANTSetting.getProperty("DeleteAgmentPassiveEffectOnChangeWep", "true"));
+			DELETE_AUGM_ACTIVE_ON_CHANGE = Boolean.parseBoolean(ENCHANTSetting.getProperty("DeleteAgmentActiveEffectOnChangeWep", "true"));
+			
 			/** enchant hero weapon **/
 			ENCHANT_HERO_WEAPON = Boolean.parseBoolean(ENCHANTSetting.getProperty("EnableEnchantHeroWeapons", "False"));
 
