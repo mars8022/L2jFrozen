@@ -84,6 +84,8 @@ CREATE TABLE IF NOT EXISTS characters (
   name_color varchar(8) NOT NULL DEFAULT 0x000000,
   title_color varchar(8) NOT NULL DEFAULT 0x000000,
   first_log INT DEFAULT 1,
+  aio decimal(1,0) NOT NULL DEFAULT 0,
+  aio_end decimal(20,0) NOT NULL DEFAULT 0,
   PRIMARY KEY  (obj_Id),
   KEY `clanid` (`clanid`)
 ) ;
