@@ -148,7 +148,8 @@ public class PowerPak
 			System.out.println("...Enabled");
 			
 			//Vote Reward System
-			AutoVoteRewardHandler.getInstance();
+			if(PowerPakConfig.AUTOVOTEREWARD_ENABLED)
+				AutoVoteRewardHandler.getInstance();
 		}
 	}
 
