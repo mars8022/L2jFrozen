@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="L2jFrozen_GameServer" default="dist" basedir=".">
+<project name="L2jFrozen_GameServer" default="dist-local" basedir=".">
     <description>
         This script will build the L2J-Frozen server. Thanks for Using our Pack.
         
         This program is opensource   
         
     </description>
-    
-    <property name="src" location="head-src"/>
-    <property name="lib" location="lib"/>
-	<property file="build_into_CompiledRev_folder.properties"/>
-	<property name="build" location="${compiled_rev_destination_folder}"/>
-    <property name="build.classes" location="${build}/classes"/>
-    <property name="build.dist" location="${build}/dist"/>
-	<property name="build.dist.login" location="${build.dist}/loginserver"/>
-	<property name="build.dist.login.lib" location="${build.dist.login}/lib"/>
-	<property name="build.dist.game" location="${build.dist}/gameserver"/>
-	<property name="build.dist.game.lib" location="${build.dist.game}/lib"/>
-	<property name="properties-file" location="${build.dist.game}/config/version/l2jfrozen-server.properties"/>
+	
+	<property file="build.properties" />
+	<property name="src" location="head-src"/>
+	<property name="src-lib" location="lib"/>
+	
+	<target name="prepare-test" description="Prepare the test folder property">
+
+		<property name="build" location="${test_destination_folder}" />
+
+	</target>
+
+	<target name="prepare-compiledRev" description="Prepare the compiledRev folder property">
+
+		<property name="build" location="${compiled_rev_destination_folder}" />
+
+	</target>
+
+	<target name="prepare-local" description="Prepare the local folder property">
+
+		<property name="build" location="build" />
+
+	</target>
+
+	<target name="prepare-final" description="Prepare the final folders properties">
+
+		<property name="build.classes" location="${build}/classes"/>
+		<property name="build.dist" location="${build}/dist"/>
+		<property name="build.dist.login" location="${build.dist}/loginserver"/>
+		<property name="build.dist.login.lib" location="${build.dist.login}/lib"/>
+		<property name="build.dist.game" location="${build.dist}/gameserver"/>
+		<property name="build.dist.game.lib" location="${build.dist.game}/lib"/>
+		<property name="properties-file" location="${build.dist.game}/config/version/l2jfrozen-server.properties"/>
+			
+	</target>
 	
     <path id="classpath">
-        <fileset dir="${lib}">
+        <fileset dir="${src-lib}">
         	<include name="*.jar" />
         </fileset>
     </path>   
@@ -87,7 +109,7 @@
     </target>
  
  
-    <target name="dist" depends="jar">
+    <target name="export" depends="jar">
     	
     	<copy todir="${build.dist.login}">
             <fileset dir="config/others">
@@ -336,10 +358,40 @@
      </concat>
     </target>
 	
-    
-    <target name="clean"
-            description="Remove the output directories">
-
-        <delete dir="${build}"/>
-    </target>
+	<target name="dist-local" depends="prepare-local,prepare-final,export" description="Create distribution files and Zip one into 'build' folder">
+		<zip destfile="${build}/L2JFrozen_GameServer.zip" basedir="${build.dist}" update="true" />
+	</target>
+		
+	<target name="dist-test" depends="prepare-test,prepare-final,export" description="Create distribution files into 'local_test_folder' folder: change it into build.properties">
+	</target>
+			
+	<target name="dist-compiledRev" depends="prepare-compiledRev,prepare-final,export" description="Create distribution files into 'compiledRev_folder' folder: change it into build.properties">
+	</target>
+		
+	<target name="dist-core" description="Generate core jar into 'build-core' folder">
+		<property name="build" location="build-core" />
+		<property name="build.classes" location="${build}/classes" />
+		<delete dir="${build.classes}"/>
+		<delete file="${build}/l2jfrozen-core.jar"/>
+		<mkdir dir="${build}" />
+		<mkdir dir="${build.classes}" />
+		<javac destdir="${build.classes}"
+	               optimize="on"
+	               debug="on"
+	               source="1.5"
+	               target="1.5"
+				   encoding="UTF-8"
+	               nowarn="off">
+				   
+			<src path="${src}"/>
+			<classpath refid="classpath"/>
+		</javac>
+	       
+		<jar destfile="${build}/l2jfrozen-core.jar">
+			<fileset dir="${build.classes}" />
+		</jar>
+			
+		<delete dir="${build.classes}"/>
+	</target>
+	
 </project>
