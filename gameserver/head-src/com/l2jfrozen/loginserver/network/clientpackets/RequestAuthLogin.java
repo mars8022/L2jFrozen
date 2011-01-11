@@ -137,17 +137,17 @@ public class RequestAuthLogin extends L2LoginClientPacket
 						getClient().sendPacket(new ServerList(getClient()));
 					}
 					if(Config.ENABLE_DDOS_PROTECTION_SYSTEM) {
-					String deny_comms = Config.DDOS_COMMAND_BLOCK;
-					deny_comms = deny_comms.replace("$IP", addhost);
+						String deny_comms = Config.DDOS_COMMAND_BLOCK;
+						deny_comms = deny_comms.replace("$IP", addhost);
 						try {
-						Runtime.getRuntime().exec(deny_comms);
+							Runtime.getRuntime().exec(deny_comms);
 							if(Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM) {
-						System.out.println("Accepted IP access GS by "+addhost);
-						System.out.println("Command is"+deny_comms);
+									System.out.println("Accepted IP access GS by "+addhost);
+									System.out.println("Command is"+deny_comms);
 							}
 						} catch(Exception e) {
-						System.out.println("Accepts by ip "+addhost+" no allowed");
-						System.out.println("Command is"+deny_comms);						
+							System.out.println("Accepts by ip "+addhost+" no allowed");
+							System.out.println("Command is"+deny_comms);						
 						}
 					}
 					

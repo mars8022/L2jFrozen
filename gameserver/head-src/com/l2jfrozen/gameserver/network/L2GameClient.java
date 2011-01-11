@@ -30,9 +30,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
@@ -523,7 +521,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if (character != null)
 		{
 			// exploit prevention, should not happens in normal way
-			_log.severe("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
+			if(Config.DEBUG)
+				_log.severe("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
 			if (character.getClient() != null)
 				character.getClient().closeNow();
 			else
@@ -672,7 +671,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		{
 			if (_cleanupTask != null)
 				cancelCleanup();
-			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new DisconnectTask(), 0); //instant
+			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new CleanupTask(), 0); //instant
 		}
 	}
     
@@ -715,6 +714,42 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			return "[Character read failed due to disconnect]";
 		}
 	}
+	
+	class CleanupTask implements Runnable
+	{
+		/**
+		 * @see java.lang.Runnable#run()
+		 */
+		public void run()
+		{
+			try
+			{
+				// we are going to manually save the char below thus we can force the cancel
+				if (_autoSaveInDB != null)
+					_autoSaveInDB.cancel(true);
+				
+				L2PcInstance player = L2GameClient.this.getActiveChar();
+				if (player != null) // this should only happen on connection loss
+				{
+					// prevent closing again
+					player.setClient(null);
+					
+					if (player.isOnline() == 1)
+						player.deleteMe();
+				}
+				L2GameClient.this.setActiveChar(null);
+			}
+			catch (Exception e1)
+			{
+				_log.log(Level.WARNING, "Error while cleanup client.", e1);
+			}
+			finally
+			{
+				LoginServerThread.getInstance().sendLogout(L2GameClient.this.getAccountName());
+			}
+		}
+	}
+	
 	
 	class DisconnectTask implements Runnable
 	{

@@ -981,4 +981,16 @@ public final class L2World
 		}
 		_log.info("All visible NPC's deleted.");
 	}
+	
+	public FastList<L2PcInstance> getAccountPlayers(String account_name){
+		
+		FastList<L2PcInstance> players_for_account = new FastList<L2PcInstance>();
+		
+		for(L2PcInstance actual:_allPlayers.values()){
+			if(actual.getAccountName().equals(account_name))
+				players_for_account.add(actual);
+		}
+		
+		return players_for_account;
+	}
 }
