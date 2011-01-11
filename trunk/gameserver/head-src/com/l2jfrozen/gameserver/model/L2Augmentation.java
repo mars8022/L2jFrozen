@@ -240,6 +240,13 @@ public final class L2Augmentation
 			if(_skill.isPassive())
 			{
 				player.removeSkill(_skill);
+			}
+			else
+			{
+				player.removeSkill(_skill, false);
+			}
+			
+			if((_skill.isPassive() && Config.DELETE_AUGM_PASSIVE_ON_CHANGE) || (_skill.isActive() && Config.DELETE_AUGM_ACTIVE_ON_CHANGE)){
 				
 				// Iterate through all effects currently on the character.
 				for(L2Effect currenteffect : player.getAllEffects())
@@ -252,10 +259,7 @@ public final class L2Augmentation
 						currenteffect.exit();
 					}
 				}
-			}
-			else
-			{
-				player.removeSkill(_skill, false);
+				
 			}
 
 			player.sendSkillList();

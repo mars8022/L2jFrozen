@@ -14191,6 +14191,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(hero > 0 && (hero_end == 0 || hero_end > System.currentTimeMillis()))
 			{
 				setIsHero(true);
+			}else{
+				//delete wings of destiny
+				destroyItem("HeroEnd", 6842, 1, null, false);
 			}
 
 			if(noble > 0)
