@@ -988,6 +988,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="445" levels="1" name="Mirage">
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
@@ -1007,6 +1008,7 @@
     <effect count="1" name="BestowSkill" time="60" val="0"/>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="446" levels="1" name="Dodge">
   <set name="mpConsume" val="29"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1014,7 +1016,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="isMagic" val="false"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="hitTime" val="1000"/>
+  <set name="hitTime" val="500"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>

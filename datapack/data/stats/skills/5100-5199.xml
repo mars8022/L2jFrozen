@@ -627,6 +627,7 @@
  	<add order="0x40" stat="rCrit" val="45"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5144" levels="1" name="Mirage">
   <set name="activationChance" val="30"/>
   <set name="castRange" val="900"/>

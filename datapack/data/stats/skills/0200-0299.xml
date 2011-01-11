@@ -1964,6 +1964,7 @@
     <effect count="0x7fffffff" name="ChameleonRest" abnormal="stealth" time="3" val="6"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="297" levels="2" name="Duelist Spirit">
   <table name="#pAtkSpd">1.08 1.12</table>
   <table name="#mpConsume">30 34</table>
@@ -1985,7 +1986,7 @@
       <mul order="0x30" stat="pAtkSpd" val="#pAtkSpd">
         <using kind="Dual Sword"/>
       </mul>
-      <mul order="0x30" stat="pvpPhysDmg" val="1.1">
+      <mul order="0x30" stat="pvpPhysDmg" val="1.10">
         <using kind="Dual Sword"/>
       </mul>
       <mul order="0x30" stat="pvpPhysSkillsDmg" val="1.25">
