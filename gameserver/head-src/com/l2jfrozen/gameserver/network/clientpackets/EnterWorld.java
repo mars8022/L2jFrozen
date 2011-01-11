@@ -23,7 +23,9 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -116,7 +118,8 @@ public class EnterWorld extends L2GameClientPacket
 	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
 
 	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
-		
+	long _daysleft;
+	SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy");
 	
 	public TaskPriority getPriority()
 	{
@@ -288,9 +291,8 @@ public class EnterWorld extends L2GameClientPacket
 
 		// check player skills
 		if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-		{
-			activeChar.checkAllowedSkills();
-		}
+	    if(!activeChar.isAio())
+	    		activeChar.checkAllowedSkills();
 
 		PetitionManager.getInstance().checkPetitionMessages(activeChar);
 
@@ -646,8 +648,53 @@ public class EnterWorld extends L2GameClientPacket
 		}
 
 		activeChar.updateNameTitleColor();
-	}
+		  
+		  
+		    if(Config.ALLOW_AIO_NCOLOR && activeChar.isAio())
+		       activeChar.getAppearance().setNameColor(Config.AIO_NCOLOR);
+		   
+		    if(Config.ALLOW_AIO_TCOLOR && activeChar.isAio())
+		       activeChar.getAppearance().setTitleColor(Config.AIO_TCOLOR);
+		     
+		    if(activeChar.isAio())
+		       onEnterAio(activeChar);
+		       
+		    sendPacket(new UserInfo(activeChar));
+		    sendPacket(new HennaInfo(activeChar));
+		    sendPacket(new FriendList(activeChar));
+		    sendPacket(new ItemList(activeChar, false));
+		    sendPacket(new ShortCutInit(activeChar));
+		    activeChar.broadcastUserInfo();
+		    activeChar.sendPacket(new EtcStatusUpdate(activeChar));
+		}
 
+	private void onEnterAio(L2PcInstance activeChar)
+	{
+		long now = Calendar.getInstance().getTimeInMillis();
+		long endDay = activeChar.getAioEndTime();
+		if(now > endDay)
+    	{
+    		activeChar.setAio(false);
+    		activeChar.setAioEndTime(0);
+    		activeChar.lostAioSkills();
+    		activeChar.sendMessage("Removed your Aio stats... period ends ");
+    	}
+    	else
+    	{
+    		Date dt = new Date(endDay);
+    		_daysleft = (endDay - now)/86400000;
+    		if(_daysleft > 30)
+    			activeChar.sendMessage("Aio period ends in " + df.format(dt) + ". enjoy the Game");
+    		else if(_daysleft > 0)
+    			activeChar.sendMessage("left " + (int)_daysleft + " for Aio period ends");
+    		else if(_daysleft < 1)
+    		{
+    			long hour = (endDay - now)/3600000;
+    			activeChar.sendMessage("left " + (int)hour + " hours to Aio period ends");
+    		}
+    	}
+	}
+		      
 	/**
 	 * @param activeChar
 	 */

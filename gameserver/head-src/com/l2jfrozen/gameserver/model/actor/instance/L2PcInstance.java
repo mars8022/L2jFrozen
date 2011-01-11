@@ -375,7 +375,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * =?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?
 	 * ,char_name=?,death_penalty_level=?,good=?,evil=?,gve_kills=? WHERE obj_id=?
 	 **/
-	private static final String UPDATE_CHARACTER = "UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,str=?,con=?,dex=?,_int=?,men=?,wit=?,face=?,hairStyle=?,hairColor=?,heading=?,x=?,y=?,z=?,exp=?,expBeforeDeath=?,sp=?,karma=?,pvpkills=?,pkkills=?,rec_have=?,rec_left=?,clanid=?,maxload=?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs=?,wantspeace=?,base_class=?,onlinetime=?,in_jail=?,jail_timer=?,newbie=?,nobless=?,power_grade=?,subpledge=?,last_recom_date=?,lvl_joined_academy=?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?,char_name=?,death_penalty_level=?,pc_point=?,banchat_time=?,name_color=?,title_color=? WHERE obj_id=?";
+	private static final String UPDATE_CHARACTER = "UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,str=?,con=?,dex=?,_int=?,men=?,wit=?,face=?,hairStyle=?,hairColor=?,heading=?,x=?,y=?,z=?,exp=?,expBeforeDeath=?,sp=?,karma=?,pvpkills=?,pkkills=?,rec_have=?,rec_left=?,clanid=?,maxload=?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs=?,wantspeace=?,base_class=?,onlinetime=?,in_jail=?,jail_timer=?,newbie=?,nobless=?,power_grade=?,subpledge=?,last_recom_date=?,lvl_joined_academy=?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?,char_name=?,death_penalty_level=?,pc_point=?,banchat_time=?,name_color=?,title_color=?,aio=?,aio_end=? WHERE obj_id=?";
 
 	/**
 	 * SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion,
@@ -387,7 +387,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,good,evil,gve_kills
 	 * FROM characters WHERE obj_id=?
 	 **/
-	private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point,banchat_time,name_color,title_color,first_log FROM characters WHERE obj_id=?";
+	private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point,banchat_time,name_color,title_color,first_log,aio,aio_end FROM characters WHERE obj_id=?";
 
 	private static final String STATUS_DATA_GET = "SELECT hero, noble, donator, hero_end_date FROM characters_custom_data WHERE obj_Id = ?";
 
@@ -618,7 +618,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	private boolean _isAway = false;
 	public int _originalTitleColorAway;
 	public String _originalTitleAway;
-
+	   
+	private boolean _isAio = false;
+	private long _aio_endTime = 0;
+	   
 	/** Event parameters */
 	public int eventX;
 	public int eventY;
@@ -7935,7 +7938,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement statement;
-			statement = con.prepareStatement("INSERT INTO characters " + "(account_name,obj_Id,char_name,level,maxHp,curHp,maxCp,curCp,maxMp,curMp," + "acc,crit,evasion,mAtk,mDef,mSpd,pAtk,pDef,pSpd,runSpd,walkSpd," + "str,con,dex,_int,men,wit,face,hairStyle,hairColor,sex," + "movement_multiplier,attack_speed_multiplier,colRad,colHeight," + "exp,sp,karma,pvpkills,pkkills,clanid,maxload,race,classid,deletetime," + "cancraft,title,accesslevel,online,isin7sdungeon,clan_privs,wantspeace," + "base_class,newbie,nobless,power_grade,last_recom_date,banchat_time,name_color,title_color) " + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			statement = con.prepareStatement("INSERT INTO characters " + "(account_name,obj_Id,char_name,level,maxHp,curHp,maxCp,curCp,maxMp,curMp," + "acc,crit,evasion,mAtk,mDef,mSpd,pAtk,pDef,pSpd,runSpd,walkSpd," + "str,con,dex,_int,men,wit,face,hairStyle,hairColor,sex," + "movement_multiplier,attack_speed_multiplier,colRad,colHeight," + "exp,sp,karma,pvpkills,pkkills,clanid,maxload,race,classid,deletetime," + "cancraft,title,accesslevel,online,isin7sdungeon,clan_privs,wantspeace," + "base_class,newbie,nobless,power_grade,last_recom_date,banchat_time,name_color,title_color) " + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			statement.setString(1, _accountName);
 			statement.setInt(2, getObjectId());
 			statement.setString(3, getName());
@@ -7996,7 +7999,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setLong(58, getChatBanTimer());
 			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
 			statement.setString(60, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
-
+	        statement.setInt(61, isAio() ? 1 :0);
+	        statement.setLong(62, 0);
+	                 
 			statement.executeUpdate();
 			statement.close();
 			statement = null;
@@ -8193,6 +8198,8 @@ public final class L2PcInstance extends L2PlayableInstance
 				player.setAllianceWithVarkaKetra(rset.getInt("varka_ketra_ally"));
 
 				player.setDeathPenaltyBuffLevel(rset.getInt("death_penalty_level"));
+                player.setAio(rset.getInt("aio") == 1 ? true : false);
+                player.setAioEndTime(rset.getLong("aio_end"));
 				// Add the L2PcInstance object in _allObjects
 				//L2World.getInstance().storeObject(player);
 
@@ -8616,7 +8623,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setString(59, StringToHex(Integer.toHexString(_accessLevel.getNameColor()).toUpperCase()));
 			statement.setString(60, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
 
-			statement.setInt(61, getObjectId());
+	        statement.setInt(61, isAio() ? 1 : 0);
+	        statement.setLong(62, getAioEndTime());
+	                     
+	        statement.setInt(63, getObjectId());
 			statement.execute();
 			statement.close();
 			statement = null;
@@ -15059,7 +15069,112 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		*/
 	}
+	   /** Aio System Start */
+	   public boolean isAio()
+	   {
+	      return _isAio;
+	   }
 	
+	   public void setAio(boolean val)
+	   {
+	      _isAio = val;
+	      
+	   }
+	
+	   public void rewardAioSkills()
+	   {
+	      L2Skill skill;
+	      for(Integer skillid : Config.AIO_SKILLS.keySet())
+	      {
+	         int skilllvl = Config.AIO_SKILLS.get(skillid);
+	         skill = SkillTable.getInstance().getInfo(skillid,skilllvl);
+	         if(skill != null)
+	         {
+	            addSkill(skill, true);
+	         }
+	      }
+	      sendMessage("GM give to you Aio's skills");
+	   }
+	
+	   public void lostAioSkills()
+	   {
+	      L2Skill skill;
+	      for(Integer skillid : Config.AIO_SKILLS.keySet())
+	      {
+	         int skilllvl = Config.AIO_SKILLS.get(skillid);
+	         skill = SkillTable.getInstance().getInfo(skillid,skilllvl);
+	         removeSkill(skill);
+	      }
+	   }
+	
+	  public void setAioEndTime(long val)
+	   {
+	      _aio_endTime = val;
+	   }
+	
+	   public void setEndTime(String process, int val)
+	   {
+	      if (val > 0)
+	      {
+	         long end_day;
+	         Calendar calendar = Calendar.getInstance();
+	         if (val >= 30)
+	         {
+	           while(val >= 30)
+	            {
+	               if(calendar.get(Calendar.MONTH)== 11)
+	                  calendar.roll(Calendar.YEAR, true);
+	               calendar.roll(Calendar.MONTH, true);
+	               val -= 30;
+	            }
+	         }
+	         if (val < 30 && val > 0)
+	         {
+	            while(val > 0)
+	            {
+	               if(calendar.get(Calendar.DATE)== 28 && calendar.get(Calendar.MONTH) == 1)
+	                  calendar.roll(Calendar.MONTH, true);         
+	               if(calendar.get(Calendar.DATE)== 30)
+	               {
+	                  if(calendar.get(Calendar.MONTH) == 11)
+	                     calendar.roll(Calendar.YEAR, true);
+	                  calendar.roll(Calendar.MONTH, true);
+	                  
+	               }
+	               calendar.roll(Calendar.DATE, true);
+	               val--;
+	            }
+	         }
+	
+	         end_day = calendar.getTimeInMillis();
+	         if(process.equals("aio"))
+	            _aio_endTime = end_day;
+	
+	         else
+	         {
+	            System.out.println("process "+ process + "no Known while try set end date");
+	            return;
+	         }
+	         Date dt = new Date(end_day);
+	         System.out.println(""+process +" end time for player " + getName() + " is " + dt);
+	      }
+	      else
+	      {
+	         if(process.equals("aio"))
+	            _aio_endTime = 0;
+	
+	         else
+	         {
+	            System.out.println("process "+ process + "no Known while try set end date");
+	           return;
+	  }
+	 }
+	}
+	
+	public long getAioEndTime()
+	{
+	return _aio_endTime;
+	}
 	public long getOfflineStartTime()
 	{
 		return _offlineShopStart;
