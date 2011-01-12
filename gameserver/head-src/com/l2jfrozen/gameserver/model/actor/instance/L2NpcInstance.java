@@ -89,7 +89,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
-import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable;
 import com.l2jfrozen.gameserver.powerpak.Buffer.L2BufferInstance;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
@@ -1441,11 +1440,10 @@ public class L2NpcInstance extends L2Character
 		else if(command.startsWith("RaidbossLvl_"))
 		{
 			int endOfId = command.indexOf('_', 5);
-			String id;
 			if(endOfId > 0)
-				id = command.substring(4, endOfId);
+				command.substring(4, endOfId);
 			else
-				id = command.substring(4);
+				command.substring(4);
 			try
 			{
 				if(command.substring(endOfId+1).startsWith("40"))

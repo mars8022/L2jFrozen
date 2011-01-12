@@ -35,10 +35,8 @@ import java.sql.ResultSet;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2ManufactureItem;
 import com.l2jfrozen.gameserver.model.L2ManufactureList;
-import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList.TradeItem;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
@@ -54,8 +52,6 @@ public class OfflineTradeTable
 	//SQL DEFINITIONS
 	private static final String SAVE_OFFLINE_STATUS = "INSERT INTO character_offline_trade (`charId`,`time`,`type`,`title`) VALUES (?,?,?,?)";
 	private static final String SAVE_ITEMS = "INSERT INTO character_offline_trade_items (`charId`,`item`,`count`,`price`) VALUES (?,?,?,?)";
-	private static final String UPDATE_ITEMS = "UPDATE character_offline_trade_items SET item=?,count=? WHERE charId=?";
-	private static final String DELETE_OFFLINE_TABLE_ITEMS = "delete from character_offline_trade_items where charId=? and item not in (?)";
 	private static final String DELETE_OFFLINE_TABLE_ALL_ITEMS = "delete from character_offline_trade_items where charId=?";
 	private static final String DELETE_OFFLINE_TRADER = "DELETE FROM character_offline_trade where charId=?";
 	private static final String CLEAR_OFFLINE_TABLE = "DELETE FROM character_offline_trade";

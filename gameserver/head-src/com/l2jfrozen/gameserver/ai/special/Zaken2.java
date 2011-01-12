@@ -24,7 +24,6 @@ import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -120,10 +119,6 @@ public class Zaken2 extends Quest implements Runnable
 			}
 		}, 2000L, 600000L);
 		
-		int[] mobs =
-		{
-				ZAKEN, doll_blader_b, vale_master_b, pirates_zombie_captain_b, pirates_zombie_b
-		};
 		addEventId(ZAKEN, Quest.QuestEventType.ON_KILL);
 		addEventId(ZAKEN, Quest.QuestEventType.ON_ATTACK);
 		

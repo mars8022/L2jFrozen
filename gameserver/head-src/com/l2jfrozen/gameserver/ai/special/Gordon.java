@@ -347,7 +347,7 @@ public class Gordon extends Quest implements Runnable
 			_isWalkTo = 1;
 			startQuestTimer("Start", 1000, npc, null);
 		}
-		return onSpawn(npc);
+		return super.onSpawn(npc);
 	}
 
 	@Override

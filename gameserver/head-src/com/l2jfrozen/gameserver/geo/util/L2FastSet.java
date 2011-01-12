@@ -49,9 +49,13 @@ public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
 		addAll(elements);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public L2FastSet<E> setShared(boolean isShared)
 	{
-		_map.setShared(isShared);
+		if(isShared)
+			_map.shared();
+		else
+			_map.setShared(false);
 		return this;
 	}
 	

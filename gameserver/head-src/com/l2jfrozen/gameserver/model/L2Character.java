@@ -112,7 +112,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.TargetUnselected;
 import com.l2jfrozen.gameserver.network.serverpackets.TeleportToLocation;
-import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
 import com.l2jfrozen.gameserver.skills.Calculator;
 import com.l2jfrozen.gameserver.skills.Formulas;
@@ -161,10 +160,6 @@ public abstract class L2Character extends L2Object
 	private boolean _isFakeDeath = false; // Fake death
 	private boolean _isFlying = false; // Is flying Wyvern?
 	private boolean _isFallsdown = false; // Falls down
-	private final int[] lastPosition =
-	{
-			0, 0, 0
-	};
 	private boolean _isMuted = false; // Cannot use magic
 	private boolean _isPsychicalMuted = false; // Cannot use psychical skills
 	private boolean _isKilledAlready = false;
@@ -737,7 +732,7 @@ public abstract class L2Character extends L2Object
 			setCurrentHp(1);
 		else
 			setCurrentHp(curHp - damage);
-		sendPacket(new SystemMessage(296).addNumber(damage)); //YOU_RECEIVED_S1_DAMAGE_FROM_TAKING_A_HIGH_FALL
+		sendPacket(new SystemMessage(SystemMessageId.FALL_DAMAGE_S1).addNumber(damage)); //YOU_RECEIVED_S1_DAMAGE_FROM_TAKING_A_HIGH_FALL
 	}
 
 	// =========================================================
@@ -4221,6 +4216,7 @@ public abstract class L2Character extends L2Object
 	
 	// set by the start of casting, in game ticks
 	private int _castPotionEndTime;
+	@SuppressWarnings("unused")
 	private int _castPotionInterruptTime;
 	
 	// set by the start of attack, in game ticks

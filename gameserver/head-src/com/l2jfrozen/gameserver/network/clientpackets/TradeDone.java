@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
-
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -35,8 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class TradeDone extends L2GameClientPacket
 {
 	private static final String _C__17_TRADEDONE = "[C] 17 TradeDone";
-	private static Logger _log = Logger.getLogger(TradeDone.class.getName());
-
+	
 	private int _response;
 
 	@Override

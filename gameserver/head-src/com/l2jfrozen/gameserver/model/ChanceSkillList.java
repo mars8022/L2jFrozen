@@ -34,7 +34,7 @@ public class ChanceSkillList extends FastMap<L2Skill, ChanceCondition>
 	public ChanceSkillList(L2Character owner)
 	{
 		super();
-		setShared(true);
+		shared();
 		_owner = owner;
 	}
 

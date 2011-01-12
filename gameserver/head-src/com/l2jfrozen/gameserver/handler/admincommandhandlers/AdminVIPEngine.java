@@ -27,7 +27,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
@@ -44,8 +43,6 @@ public class AdminVIPEngine implements IAdminCommandHandler
 		"admin_vip_thevipreward", "admin_vip_theviprewardamount",
 		"admin_vip_notvipreward", "admin_vip_notviprewardamount",
 	};
-
-	private static final int REQUIRED_LEVEL = 100;
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
@@ -383,11 +380,6 @@ public class AdminVIPEngine implements IAdminCommandHandler
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;
-	}
-
-	private boolean checkLevel(int level)
-	{
-		return (level >= REQUIRED_LEVEL);
 	}
 
 	public void showMainPage(L2PcInstance activeChar)

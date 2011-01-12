@@ -28,7 +28,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
 import com.l2jfrozen.gameserver.ai.L2FortSiegeGuardAI;
 import com.l2jfrozen.gameserver.ai.L2SiegeGuardAI;
-import com.l2jfrozen.gameserver.ai.L2SummonAI;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
