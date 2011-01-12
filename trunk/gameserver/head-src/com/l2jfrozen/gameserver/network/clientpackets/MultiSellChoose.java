@@ -397,7 +397,7 @@ public class MultiSellChoose extends L2GameClientPacket
 				else
 				{
 					player.reducePcBangScore(e.getItemCount() * _amount);
-					player.sendPacket(new SystemMessage(1709).addNumber(e.getItemCount())); //TODO: add this message to system message enum
+					player.sendPacket(new SystemMessage(SystemMessageId.USING_S1_PCPOINT).addNumber(e.getItemCount()));
 				}
 			}
 		}

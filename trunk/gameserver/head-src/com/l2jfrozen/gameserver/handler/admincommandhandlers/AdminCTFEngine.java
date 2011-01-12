@@ -30,7 +30,6 @@ import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
-import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class AdminCTFEngine implements IAdminCommandHandler
@@ -47,8 +46,6 @@ public class AdminCTFEngine implements IAdminCommandHandler
 		"admin_ctf_eventtime", "admin_ctf_autoevent","admin_ctf_minplayers","admin_ctf_maxplayers"
 	};
  
-	private static final int REQUIRED_LEVEL = 100;
-
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
@@ -379,11 +376,6 @@ public class AdminCTFEngine implements IAdminCommandHandler
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
-	}
-
-	private boolean checkLevel(int level) 
-	{
-		return (level >= REQUIRED_LEVEL);
 	}
 
 	public void showEditPage(L2PcInstance activeChar)

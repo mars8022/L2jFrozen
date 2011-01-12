@@ -100,7 +100,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	// Task
 	private ScheduledFuture<?> _guardCheckTask = null;
 
-	protected ScheduledFuture _autoSaveInDB;
+	protected ScheduledFuture<?> _autoSaveInDB;
 	protected ScheduledFuture<?> _cleanupTask = null;
 	
 	private ClientStats _stats;

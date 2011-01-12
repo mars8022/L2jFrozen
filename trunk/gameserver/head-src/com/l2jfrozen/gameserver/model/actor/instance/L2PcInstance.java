@@ -610,7 +610,6 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	 /** Special hero aura values */
 	 private int heroConsecutiveKillCount = 0;
-	 private boolean isPermaHero = false;
 	 private boolean isPVPHero = false;
 	 
 	
@@ -648,7 +647,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	_countCTFflags;
 	public boolean _inEventCTF = false,
 	_haveFlagCTF = false;
-	public Future _posCheckerCTF = null;
+	public Future<?> _posCheckerCTF = null;
 
 	/** DM Engine parameters */
 	public String _originalTitleDM;
@@ -749,7 +748,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	private boolean _newbie;
 
 	private boolean _noble = false;
-	private boolean _clanLeader = false;
 	private boolean _hero = false;
 	private boolean _donator = false;
 
@@ -1009,8 +1007,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	/** Quake System */
 	private int quakeSystem = 0;
 	
-	private int mastery_penalty = 0;
-
 	/** Skill casting information (used to queue when several skills are cast in a short time) **/
 	public class SkillDat
 	{
@@ -11614,8 +11610,6 @@ public final class L2PcInstance extends L2PlayableInstance
 				super.removeSkill(s); //Just Remove skills without deleting from Sql
 			}
 		}
-		_clanLeader = val;
-
 		sendSkillList();
 	}
 

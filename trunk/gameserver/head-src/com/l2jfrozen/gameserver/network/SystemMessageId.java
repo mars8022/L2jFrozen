@@ -4777,7 +4777,14 @@ public enum SystemMessageId
 	 * ID 1983<br>
 	 * Message: $S1
 	 */
-	S1(1983);
+	S1(1983),
+	
+	/**
+	* ID: 1709<br>
+	* Message: You are using $s1 point.
+	*/
+	USING_S1_PCPOINT(1709);
+
 
 	private int _id;
 

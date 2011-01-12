@@ -145,7 +145,8 @@ public class Continuous implements ISkillHandler
 			if(!target.isRaid() && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 			{
 				int chance = Rnd.get(100);
-				if(skill.getLethalChance2() > 0 && chance < Formulas.getInstance().calcLethal(activeChar, target, skill.getLethalChance2()))
+				Formulas.getInstance();
+				if(skill.getLethalChance2() > 0 && chance < Formulas.calcLethal(activeChar, target, skill.getLethalChance2()))
 				{
 					if(target instanceof L2NpcInstance)
 					{
@@ -153,12 +154,16 @@ public class Continuous implements ISkillHandler
 						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
 					}
 				}
-				else if(skill.getLethalChance1() > 0 && chance < Formulas.getInstance().calcLethal(activeChar, target, skill.getLethalChance1()))
+				else
 				{
-					if(target instanceof L2NpcInstance)
+					Formulas.getInstance();
+					if(skill.getLethalChance1() > 0 && chance < Formulas.calcLethal(activeChar, target, skill.getLethalChance1()))
 					{
-						target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar);
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
+						if(target instanceof L2NpcInstance)
+						{
+							target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar);
+							activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
+						}
 					}
 				}
 			}

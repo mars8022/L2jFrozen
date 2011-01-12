@@ -18,7 +18,6 @@
 package com.l2jfrozen.gameserver.network;
 
 import java.nio.ByteBuffer;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Logger;
 
 
@@ -26,7 +25,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.network.clientpackets.*;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.netcore.IClientFactory;
 import com.l2jfrozen.netcore.IMMOExecutor;
 import com.l2jfrozen.netcore.IPacketHandler;

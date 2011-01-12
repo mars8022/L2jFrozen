@@ -2151,7 +2151,7 @@ public class TvT implements EventTask
 
 	private static void removeTeamEventItems(String teamName){
 
-		int index = _teams.indexOf(teamName);
+		_teams.indexOf(teamName);
 		
 		//
 	}

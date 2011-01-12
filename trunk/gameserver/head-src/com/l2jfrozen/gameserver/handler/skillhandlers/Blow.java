@@ -14,10 +14,6 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -46,8 +42,6 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
  */
 public class Blow implements ISkillHandler
 {
-	private static final Logger _logDamage = Logger.getLogger("damage");
-	
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.BLOW
@@ -311,8 +305,9 @@ public class Blow implements ISkillHandler
 				}
 			}
 			
+			Formulas.getInstance();
 			//Possibility of a lethal strike
-			Formulas.getInstance().calcLethalHit(activeChar, target, skill);
+			Formulas.calcLethalHit(activeChar, target, skill);
 			
 			//Self Effect
 			if (skill.hasSelfEffects())

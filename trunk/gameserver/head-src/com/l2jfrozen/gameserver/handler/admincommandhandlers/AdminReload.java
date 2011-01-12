@@ -19,7 +19,6 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -41,7 +40,6 @@ import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
 import com.l2jfrozen.gameserver.script.faenor.FaenorScriptEngine;
-import com.l2jfrozen.gameserver.scripting.CompiledScriptCache;
 import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
 
 /**

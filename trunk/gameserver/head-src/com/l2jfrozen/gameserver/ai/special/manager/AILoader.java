@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.ai.special.Barakiel;
 import com.l2jfrozen.gameserver.ai.special.Core;
 import com.l2jfrozen.gameserver.ai.special.FairyTrees;
 import com.l2jfrozen.gameserver.ai.special.Frintezza_l2j;
-import com.l2jfrozen.gameserver.ai.special.Frintezza_l2j;
 import com.l2jfrozen.gameserver.ai.special.Golkonda;
 import com.l2jfrozen.gameserver.ai.special.Gordon;
 import com.l2jfrozen.gameserver.ai.special.Hallate;
