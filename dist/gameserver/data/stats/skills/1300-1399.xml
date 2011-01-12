@@ -867,11 +867,12 @@
   <for>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="1336" levels="1" name="Curse of Doom">
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="56"/>
   <set name="magicLvl" val="77"/>
-  <set name="power" val="27"/>
+  <set name="power" val="65"/>
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="120000"/>
@@ -883,9 +884,10 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="SilenceMagicPhysical" time="30" val="0" stackOrder="30" stackType="silence_all"/>
+    <effect count="1" name="SilenceMagicPhysical" time="10" val="0" stackOrder="30" stackType="silence_all"/>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="1337" levels="1" name="Curse of Abyss">
   <set name="mpInitialConsume" val="15"/>
   <set name="mpConsume" val="57"/>
@@ -894,14 +896,14 @@
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="hitTime" val="4000"/>
+  <set name="hitTime" val="5000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="Debuff" time="30" val="0">
+    <effect count="1" name="Debuff" time="15" val="0">
       <mul order="0x30" stat="runSpd" val="0.9"/>
       <sub order="0x40" stat="rEvas" val="6"/>
       <mul order="0x30" stat="pDef" val="0.7"/>
