@@ -628,8 +628,7 @@
   <set name="hitTime" val="1080"/>
   <set name="coolTime" val="720"/>
   <set name="skillType" val="BLOW"/>
-  <set name="lethal1" val="0"/>
-  <set name="lethal2" val="0"/>
+  <set name="lethal1" val="5"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
@@ -989,8 +988,9 @@
   <set name="lethal2" val="2"/>
   <set name="hitTime" val="4000"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="344" levels="1" name="Lethal Blow">
-  <set name="mpConsume" val="85"/>
+  <set name="mpConsume" val="77"/>
   <set name="weaponsAllowed" val="16"/>
   <set name="magicLvl" val="76"/>
   <set name="power" val="5773"/>
@@ -999,11 +999,10 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="reuseDelay" val="11250"/>
+  <set name="reuseDelay" val="16000"/>
   <set name="overHit" val="true"/>
   <set name="condition" val="16"/>
-  <set name="lethal1" val="0"/>
-  <set name="lethal2" val="0"/>
+  <set name="lethal1" val="5"/>
   <set name="hitTime" val="1800"/>
   <set name="baseCritRate" val="15"/>
 </skill>
