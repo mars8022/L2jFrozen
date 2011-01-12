@@ -750,6 +750,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4045" levels="1" name="Resist Full Magic Attack">
   <set name="magicLvl" val="50"/>
   <set name="target" val="TARGET_SELF"/>
@@ -758,11 +759,11 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <mul order="0x30" stat="rootVuln" val="0.1"/>
-    <mul order="0x30" stat="sleepVuln" val="0.1"/>
-    <mul order="0x30" stat="stunVuln" val="0.1"/>
+    <mul order="0x30" stat="rootVuln" val="0.0"/>
+    <mul order="0x30" stat="sleepVuln" val="0.0"/>
+    <mul order="0x30" stat="stunVuln" val="0.0"/>
     <mul order="0x30" stat="confusionVuln" val="0.0"/>
-    <mul order="0x30" stat="paralyzeVuln" val="0.1"/>
+    <mul order="0x30" stat="paralyzeVuln" val="0.0"/>
     <mul order="0x30" stat="derangementVuln" val="0.0"/>
   </for>
 </skill>
