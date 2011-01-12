@@ -246,6 +246,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="409" levels="10" name="Critical Blow" enchantLevels1="30" enchantLevels2="30">
   <table name="#ench1Power">3685 3718 3751 3784 3817 3850 3883 3916 3949 3982 4014 4047 4080 4113 4146 4179 4212 4245 4278 4311 4343 4376 4409 4442 4475 4508 4541 4574 4607 4640</table>
   <table name="#ench2MpConsume">74 73 72 70 69 68 67 65 64 63 62 60 59 58 57 55 54 53 51 50 49 48 46 45 44 43 41 40 39 38</table>
@@ -259,9 +260,9 @@
   <set name="condition" val="16"/>
   <set name="reuseDelay" val="90000"/>
   <set name="hitTime" val="1300"/>
+  <set name="coolTime" val="700"/>
   <set name="skillType" val="BLOW"/>
-  <set name="lethal1" val="0"/>
-  <set name="lethal2" val="0"/>
+  <set name="lethal1" val="5"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
