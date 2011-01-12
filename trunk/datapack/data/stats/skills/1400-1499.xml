@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
 <!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1400" levels="10" name="Turn Undead" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -19,15 +20,14 @@
   <set name="target" val="TARGET_UNDEAD"/>
   <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="lethal1" val="0"/>
-  <set name="lethal2" val="0"/>
+  <set name="lethal2" val="40"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <set name="isMagic" val="true"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <for>
-    <effect count="5" name="Fear" time="3" val="0"/>
+    <effect count="5" name="Fear" time="2" val="0"/>
   </for>
 </skill>
 <skill id="1401" levels="11" name="Major Heal" enchantLevels1="30" enchantLevels2="30">
