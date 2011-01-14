@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2PetData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -115,11 +116,17 @@ public class L2PetDataTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not load pets stats: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

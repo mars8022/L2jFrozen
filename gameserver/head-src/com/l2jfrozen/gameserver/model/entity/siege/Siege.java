@@ -26,6 +26,7 @@ import java.util.List;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -167,7 +168,10 @@ public class Siege
 				}
 			}
 			catch(Throwable t)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
 		}
 	}
 
@@ -237,7 +241,10 @@ public class Siege
 				}
 			}
 			catch(Throwable t)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
 		}
 	}
 
@@ -738,7 +745,10 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -764,7 +774,10 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1012,7 +1025,10 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1313,7 +1329,10 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1414,7 +1433,10 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1492,7 +1514,10 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

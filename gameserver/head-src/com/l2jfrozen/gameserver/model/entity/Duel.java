@@ -230,7 +230,10 @@ public class Duel
 				status = null;
 			}
 			catch(Throwable t)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
 		}
 	}
 
@@ -271,7 +274,8 @@ public class Duel
 			}
 			catch(Throwable t)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}
@@ -295,7 +299,8 @@ public class Duel
 			}
 			catch(Throwable t)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}

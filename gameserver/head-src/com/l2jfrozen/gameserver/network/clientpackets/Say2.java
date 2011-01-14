@@ -94,6 +94,9 @@ public final class Say2 extends L2GameClientPacket
 		}
 		catch(BufferUnderflowException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_type = CHAT_NAMES.length;
 		}
 		_target = _type == TELL ? readS() : null;

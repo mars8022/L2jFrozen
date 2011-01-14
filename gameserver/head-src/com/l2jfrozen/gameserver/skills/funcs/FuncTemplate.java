@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.skills.funcs;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
@@ -52,6 +53,9 @@ public final class FuncTemplate
 		}
 		catch(ClassNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new RuntimeException(e);
 		}
 		try

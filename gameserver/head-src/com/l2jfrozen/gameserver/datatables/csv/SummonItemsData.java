@@ -30,6 +30,7 @@ import java.util.Scanner;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2SummonItem;
 
 public class SummonItemsData
@@ -60,6 +61,9 @@ public class SummonItemsData
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("Summon items data: Can not find './data/summon_items.csv'");
 			return;
 		}
@@ -97,6 +101,9 @@ public class SummonItemsData
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println("Summon items data: Error in line " + lineCount + " -> incomplete/invalid data or wrong seperator!");
 				System.out.println("		" + line);
 				ok = false;

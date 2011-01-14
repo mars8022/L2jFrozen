@@ -1,5 +1,6 @@
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
@@ -129,11 +130,13 @@ public class L2CastleWarehouseInstance extends L2FolkInstance
 			}
 			catch(IndexOutOfBoundsException ioobe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
 			}
 			catch(NumberFormatException nfe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
 			}
 			showChatWindow(player, val);
 		}

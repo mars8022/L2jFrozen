@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.taskmanager.tasks;
 
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.taskmanager.Task;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager;
@@ -52,6 +53,9 @@ public class TaskOlympiadSave extends Task
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Olympiad System: Failed to save Olympiad configuration: " + e);
 		}
 	}

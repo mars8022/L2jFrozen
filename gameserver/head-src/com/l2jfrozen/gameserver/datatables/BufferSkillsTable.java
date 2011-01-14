@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -92,6 +93,10 @@ public class BufferSkillsTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.warning("Error while loading BufferSkillsTable at entry: " + "ID: " + id + ", Level: " + level + "Type: " + type);
 		}
 		finally
@@ -102,6 +107,10 @@ public class BufferSkillsTable
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				
 			}
 			_log.fine("BufferSkillsTable: Loaded " + count + " skills and " + typesCount + " types.");
 		}

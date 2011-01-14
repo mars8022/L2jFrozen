@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -78,6 +79,9 @@ public class CharSchemesTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error trying to load buff scheme from object id: " + objectId);
 		}
 		finally
@@ -88,6 +92,9 @@ public class CharSchemesTable
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -128,6 +135,9 @@ public class CharSchemesTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("CharSchemesTable: Error while trying to delete schemes");
 		}
 		finally
@@ -138,6 +148,9 @@ public class CharSchemesTable
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -177,6 +190,9 @@ public class CharSchemesTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("CharSchemesTable: Error while trying to delete schemes");
 		}
 		finally
@@ -187,6 +203,9 @@ public class CharSchemesTable
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 			System.out.println("CharSchemeTable: Saved " + String.valueOf(count + " scheme(s)"));
 		}

@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
@@ -258,11 +259,17 @@ public class CharTemplateTable
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("error while loading char templates " + e.getMessage());
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

@@ -32,6 +32,7 @@ import javolution.text.TextBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -120,7 +121,10 @@ public class L2Event
 						player = null;
 					}
 					catch(Exception e)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				}
 
 				temp = null;
@@ -150,7 +154,10 @@ public class L2Event
 					player = null;
 				}
 				catch(Exception e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			}
 
 			killers[i] = playerTemp;
@@ -197,6 +204,9 @@ public class L2Event
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error(e);
 		}
 	}
@@ -239,6 +249,9 @@ public class L2Event
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error(e);
 		}
 
@@ -298,6 +311,9 @@ public class L2Event
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error("error when signing in the event:" + e.getMessage(), e);
 		}
 	}
@@ -318,7 +334,10 @@ public class L2Event
 			player.atEvent = true;
 		}
 		catch(Exception e)
-		{}
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+			e.printStackTrace();
+		}
 	}
 
 	public static void restoreAndTeleChar(L2PcInstance target)
@@ -336,6 +355,9 @@ public class L2Event
 			target.atEvent = false;
 		}
 		catch(Exception e)
-		{}
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+		}
 	}
 }

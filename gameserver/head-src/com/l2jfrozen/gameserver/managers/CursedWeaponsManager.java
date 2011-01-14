@@ -199,10 +199,8 @@ public class CursedWeaponsManager
 		{
 			_log.log(Level.SEVERE, "Error parsing cursed weapons file.", e);
 
-			if(Config.DEBUG)
-			{
-				System.out.println("ERROR");
-			}
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			return;
 		}
 	}
@@ -257,15 +255,16 @@ public class CursedWeaponsManager
 		{
 			_log.warning("Could not restore CursedWeapons data: " + e);
 
-			if(Config.DEBUG)
-			{
-				System.out.println("ERROR");
-			}
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			return;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -352,7 +351,8 @@ public class CursedWeaponsManager
 				}
 				catch(SQLException sqlE)
 				{
-					//empty
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						sqlE.printStackTrace();
 				}
 			}
 		}
@@ -360,6 +360,9 @@ public class CursedWeaponsManager
 		{
 			_log.warning("Could not check CursedWeapons data: " + e);
 
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			if(Config.DEBUG)
 			{
 				System.out.println("ERROR");
@@ -370,11 +373,15 @@ public class CursedWeaponsManager
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			}
 			catch(Exception e)
 			{
-				//empty
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -518,11 +525,17 @@ public class CursedWeaponsManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("CursedWeaponsManager: Failed to remove data: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 
@@ -564,6 +577,8 @@ public class CursedWeaponsManager
 		catch(Exception e)
 		{
 			/***/
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 	}
 }

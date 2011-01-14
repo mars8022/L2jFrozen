@@ -16,6 +16,7 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.managers.FortManager;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -132,7 +133,10 @@ public class L2FortZone extends L2ZoneType
 					onEnter(character);
 				}
 				catch(NullPointerException e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			}
 		}
 		else
@@ -155,7 +159,10 @@ public class L2FortZone extends L2ZoneType
 					}
 				}
 				catch(NullPointerException e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			}
 		}
 	}

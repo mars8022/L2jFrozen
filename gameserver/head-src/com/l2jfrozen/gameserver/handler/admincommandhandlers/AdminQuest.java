@@ -100,6 +100,9 @@ public class AdminQuest implements IAdminCommandHandler
 				}
 				catch(NumberFormatException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					if(QuestManager.getInstance().reload(parts[1]))
 					{
 						activeChar.sendMessage("Quest Reloaded Successfully.");

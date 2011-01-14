@@ -193,6 +193,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Incorrect command arguments.");
 			return;
 		}
@@ -220,6 +223,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Incorrect command arguments.");
 			return;
 		}
@@ -247,6 +253,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Incorrect command arguments.");
 			return;
 		}
@@ -274,6 +283,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Incorrect command arguments.");
 			return;
 		}
@@ -301,6 +313,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Incorrect command arguments.");
 			return;
 		}
@@ -334,6 +349,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_create <group> <npcid> <count>");
 			return;
 		}
@@ -371,6 +389,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_remove <groupId>");
 			return;
 		}
@@ -418,12 +439,18 @@ public class AdminMobGroup implements IAdminCommandHandler
 			catch(Exception e)
 			{
 				// no position given
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 
 			cmdParams = null;
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_spawn <group> [ x y z ]");
 			return;
 		}
@@ -462,6 +489,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_unspawn <groupId>");
 			return;
 		}
@@ -492,6 +522,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_kill <groupId>");
 			return;
 		}
@@ -520,6 +553,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_casting <groupId>");
 			return;
 		}
@@ -550,6 +586,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_nomove <groupId> <on|off>");
 			return;
 		}
@@ -596,6 +635,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_attackgrp <groupId> <TargetGroupId>");
 			return;
 		}
@@ -635,6 +677,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_invul <groupId> <on|off>");
 			return;
 		}
@@ -687,6 +732,9 @@ public class AdminMobGroup implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Usage: //mobgroup_teleport <groupId> [playerName]");
 			return;
 		}

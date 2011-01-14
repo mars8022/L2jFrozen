@@ -77,11 +77,9 @@ public class AdminHeal implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				if(Config.DEVELOPER)
-				{
-					System.out.println("Heal error: " + e);
-				}
-
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 				sm.addString("Incorrect target/radius specified.");
 				activeChar.sendPacket(sm);

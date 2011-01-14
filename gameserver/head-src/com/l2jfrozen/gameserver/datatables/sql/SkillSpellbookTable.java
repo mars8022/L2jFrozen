@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -74,6 +75,9 @@ public class SkillSpellbookTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error while loading spellbook data: " + e);
 		}
 		finally
@@ -85,12 +89,16 @@ public class SkillSpellbookTable
 					con.close();
 				} catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}

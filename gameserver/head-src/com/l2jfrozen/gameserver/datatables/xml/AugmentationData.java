@@ -323,6 +323,9 @@ public class AugmentationData
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Error parsing augmentation_skillmap.xml.", e);
 
 			return;
@@ -420,6 +423,9 @@ public class AugmentationData
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "Error parsing augmentation_stats" + i + ".xml.", e);
 				return;
 			}

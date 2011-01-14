@@ -604,6 +604,9 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error(_eventName+" Engine[spawnEventNpc(exception: " + e.getMessage());
 		}
 	}
@@ -939,6 +942,9 @@ public class DM implements EventTask
 								}
 								catch(Exception e)
 								{
+									if(Config.ENABLE_ALL_EXCEPTIONS)
+										e.printStackTrace();
+									
 									_log.error(e.getMessage(), e);
 									return;
 								}
@@ -1126,6 +1132,8 @@ public class DM implements EventTask
 				}
 				catch(InterruptedException ie)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						ie.printStackTrace();
 				}
 			}
 		}
@@ -1187,6 +1195,9 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error(e.getMessage(), e);
 			return;
 		}
@@ -1451,6 +1462,8 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			_log.error("Exception: DM.loadData(): " + e.getMessage());
 		}
 		finally
@@ -1461,6 +1474,8 @@ public class DM implements EventTask
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -1504,6 +1519,9 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error("Exception: DM.saveData(): " + e.getMessage());
 		}
 		finally
@@ -1514,6 +1532,8 @@ public class DM implements EventTask
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -1594,6 +1614,9 @@ public class DM implements EventTask
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error(_eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}

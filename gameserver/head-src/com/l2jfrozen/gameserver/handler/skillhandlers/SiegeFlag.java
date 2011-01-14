@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -89,6 +90,9 @@ public class SiegeFlag implements ISkillHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			player.sendMessage("Error placing flag:" + e);
 		}
 

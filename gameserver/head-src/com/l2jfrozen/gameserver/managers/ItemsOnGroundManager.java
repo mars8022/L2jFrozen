@@ -113,7 +113,11 @@ public class ItemsOnGroundManager
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 			}
 		}
@@ -196,7 +200,11 @@ public class ItemsOnGroundManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 		if(Config.EMPTY_DROPPED_ITEM_TABLE_AFTER_LOAD)
@@ -253,6 +261,9 @@ public class ItemsOnGroundManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 			conn = null;
 		}
@@ -325,7 +336,11 @@ public class ItemsOnGroundManager
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
+					}
 					con = null;
 				}
 			}

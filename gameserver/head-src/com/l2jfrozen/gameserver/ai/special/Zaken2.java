@@ -106,6 +106,9 @@ public class Zaken2 extends Quest implements Runnable
 								}
 								catch (Throwable e)
 								{
+									if(Config.ENABLE_ALL_EXCEPTIONS)
+										e.printStackTrace();
+									
 									log.warning("Cannot close door ID: 21240006 " + e);
 								}
 							}
@@ -114,6 +117,9 @@ public class Zaken2 extends Quest implements Runnable
 				}
 				catch (Throwable e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					log.warning("Cannot open door ID: 21240006 " + e);
 				}
 			}

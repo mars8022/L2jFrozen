@@ -101,6 +101,9 @@ public class AdminKill implements IAdminCommandHandler
 						}
 						catch(NumberFormatException e)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
 							activeChar.sendMessage("Invalid radius.");
 							return false;
 						}
@@ -132,6 +135,9 @@ public class AdminKill implements IAdminCommandHandler
 					}
 					catch(NumberFormatException e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						activeChar.sendMessage("Usage: //kill <player_name | radius>");
 						return false;
 					}

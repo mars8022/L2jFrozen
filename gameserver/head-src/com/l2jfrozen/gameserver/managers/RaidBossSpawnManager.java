@@ -138,6 +138,9 @@ public class RaidBossSpawnManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("RaidBossSpawnManager: Couldnt load raidboss_spawnlist table");
 		}
 		catch(Exception e)
@@ -146,7 +149,11 @@ public class RaidBossSpawnManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -326,12 +333,19 @@ public class RaidBossSpawnManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// problem with storing spawn
 				_log.warning("RaidBossSpawnManager: Could not store raidboss #" + bossId + " in the DB:" + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 			}
 		}
@@ -382,12 +396,19 @@ public class RaidBossSpawnManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// problem with deleting spawn
 				_log.warning("RaidBossSpawnManager: Could not remove raidboss #" + bossId + " from DB: " + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 			}
 		}
@@ -435,11 +456,18 @@ public class RaidBossSpawnManager
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("RaidBossSpawnManager: Couldnt update raidboss_spawnlist table");
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 			}
 		}

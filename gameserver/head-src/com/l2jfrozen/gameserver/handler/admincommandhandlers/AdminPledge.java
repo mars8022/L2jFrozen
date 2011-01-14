@@ -98,7 +98,8 @@ public class AdminPledge implements IAdminCommandHandler
 			}
 			catch(NoSuchElementException nse)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nse.printStackTrace();
 			}
 
 			if(action.equals("create"))
@@ -192,6 +193,9 @@ public class AdminPledge implements IAdminCommandHandler
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("Usage: //pledge <rep> <number>");
 				}
 			}

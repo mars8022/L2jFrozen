@@ -130,11 +130,17 @@ public class AdminRepairChar implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "Could not repair char:", e);
 		}
 		finally
 		{
-			try {connection.close(); } catch(Exception e) { }
+			try {connection.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			connection = null;
 			cmd = null;
 			parts = null;

@@ -106,6 +106,9 @@ abstract class DocumentBase
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Error loading file " + _file, e);
 			return null;
 		}
@@ -116,6 +119,9 @@ abstract class DocumentBase
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Error in file " + _file, e);
 			return null;
 		}

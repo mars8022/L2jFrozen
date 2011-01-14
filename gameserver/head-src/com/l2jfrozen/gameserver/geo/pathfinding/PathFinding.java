@@ -306,6 +306,9 @@ public abstract class PathFinding
 				catch(Exception e)
 				{
 					// No Path found
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					return null;
 				}
 				if(node.equals(end)) //path found!

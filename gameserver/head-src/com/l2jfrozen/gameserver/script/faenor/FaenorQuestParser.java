@@ -24,6 +24,7 @@ import javax.script.ScriptContext;
 
 import org.w3c.dom.Node;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.script.Parser;
 import com.l2jfrozen.gameserver.script.ParserFactory;
 import com.l2jfrozen.gameserver.script.ScriptEngine;
@@ -106,6 +107,9 @@ public class FaenorQuestParser extends FaenorParser
 		}
 		catch(NullPointerException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new NullPointerException("Incorrect Drop Data");
 		}
 

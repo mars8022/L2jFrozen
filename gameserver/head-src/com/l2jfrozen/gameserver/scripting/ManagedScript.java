@@ -23,6 +23,8 @@ import java.io.FileNotFoundException;
 
 import javax.script.ScriptException;
 
+import com.l2jfrozen.Config;
+
 /**
  * Abstract class for classes that are meant to be implemented by scripts.<BR>
  * 
@@ -55,10 +57,16 @@ public abstract class ManagedScript
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 		catch(ScriptException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 	}

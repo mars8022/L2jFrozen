@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -173,7 +174,11 @@ public class FortSiegeManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 		return register;
@@ -239,6 +244,10 @@ public class FortSiegeManager
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
+						
 						_log.warning("Error while loading commander(s) for " + fort.getName() + " fort.");
 					}
 				}
@@ -267,6 +276,10 @@ public class FortSiegeManager
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
+						
 						_log.warning("Error while loading flag(s) for " + fort.getName() + " fort.");
 					}
 				}

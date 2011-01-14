@@ -308,6 +308,9 @@ public class L2SummonInstance extends L2Summon
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				if(Config.DEBUG)
 				{
 					log.warning("Summon of player [#" + _activeChar.getName() + "] has encountered item consumption errors: " + e);

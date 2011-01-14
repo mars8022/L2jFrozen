@@ -83,7 +83,8 @@ public class EngraveManager
 						}
 						catch(Exception e)
 						{
-							//null
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
 						}
 					}
 				}
@@ -124,6 +125,9 @@ public class EngraveManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warn("EngraveManager: Unable to store item log " + e);
 			}
 		}
@@ -155,6 +159,9 @@ public class EngraveManager
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warn("EngraveManager: Unable to store item log " + e);
 				}
 			}
@@ -231,6 +238,9 @@ public class EngraveManager
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warn("EngraveManager: Unable to store item log " + e);
 				}
 			}
@@ -257,6 +267,9 @@ public class EngraveManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warn("EngraveManager: Unable to cleanup " + e);
 			}
 		}

@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
@@ -246,6 +247,9 @@ public class L2CubicInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.log(Level.SEVERE, "", e);
 				}
 			}
@@ -362,7 +366,10 @@ public class L2CubicInstance
 				}
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 

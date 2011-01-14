@@ -31,6 +31,7 @@ import javolution.util.FastList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.L2NpcWalkerNode;
 
@@ -120,10 +121,16 @@ public class NpcWalkerRoutesTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("walker_routes.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e0.printStackTrace();
+			
 			_log.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
@@ -135,7 +142,9 @@ public class NpcWalkerRoutesTable
 			}
 			catch(Exception e1)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 			}
 		}
 

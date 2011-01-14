@@ -25,6 +25,7 @@ import javolution.util.FastMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -69,11 +70,17 @@ public class AdminCommandAccessRights
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("Admin Access Rights: Error loading from database:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

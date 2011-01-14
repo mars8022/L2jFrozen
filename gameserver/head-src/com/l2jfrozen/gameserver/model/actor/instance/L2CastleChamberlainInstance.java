@@ -316,7 +316,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 						}
 						catch(NoSuchElementException e)
 						{
-							//null
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
 						}
 						if(amount > 0 && (long) getCastle().getTreasury() + amount < Integer.MAX_VALUE)
 						{
@@ -338,7 +339,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 						}
 						catch(NoSuchElementException e)
 						{
-							//null
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
 						}
 						if(amount > 0)
 						{

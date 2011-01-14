@@ -147,6 +147,9 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println(e);
 			}
 
@@ -177,6 +180,9 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				tempBuffer = "";
 			}
 		}
@@ -196,6 +202,9 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println(e);
 			}
 
@@ -251,6 +260,9 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println(e);
 			}
 
@@ -666,13 +678,17 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				try
 				{
 					L2Event.participatingPlayers.remove(tempName2);
 				}
 				catch(Exception e2)
 				{
-					//ignore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e2.printStackTrace();
 				}
 			}
 		}
@@ -709,6 +725,9 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				L2Event.npcs.removeFirst();
 			}
 		}
@@ -729,7 +748,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -759,7 +779,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -779,7 +800,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -813,7 +835,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -846,7 +869,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -881,7 +905,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -942,7 +967,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -976,7 +1002,8 @@ public class AdminEventEngine implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 

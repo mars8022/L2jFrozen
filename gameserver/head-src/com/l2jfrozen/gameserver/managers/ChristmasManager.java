@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
@@ -374,7 +375,8 @@ public class ChristmasManager
 			}
 			catch(Throwable t)
 			{
-				//empty
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			if(_iterator >= last)
@@ -430,6 +432,8 @@ public class ChristmasManager
 					}
 					catch(Throwable t)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							t.printStackTrace();
 						continue;
 					}
 				}
@@ -477,7 +481,8 @@ public class ChristmasManager
 		}
 		catch(Throwable t)
 		{
-			//empty
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
 		}
 	}
 
@@ -535,7 +540,8 @@ public class ChristmasManager
 			}
 			catch(Throwable t)
 			{
-				//empty
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}
@@ -632,7 +638,8 @@ public class ChristmasManager
 			}
 			catch(Throwable t)
 			{
-				//empty
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}
@@ -704,7 +711,8 @@ public class ChristmasManager
 			}
 			catch(Throwable t)
 			{
-				//empty
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			if(_iterator >= last)

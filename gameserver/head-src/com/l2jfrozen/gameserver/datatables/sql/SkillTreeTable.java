@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2EnchantSkillLearn;
 import com.l2jfrozen.gameserver.model.L2PledgeSkillLearn;
@@ -191,6 +192,9 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Error while creating skill tree (Class ID " + classId + "):" + e);
 		}
 
@@ -246,6 +250,9 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Error while creating fishing skill table: " + e);
 		}
 
@@ -289,6 +296,9 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Error while creating enchant skill table: " + e);
 		}
 
@@ -328,11 +338,17 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Error while creating fishing skill table: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

@@ -1,5 +1,6 @@
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
@@ -79,9 +80,15 @@ public class L2CastleBlacksmithInstance extends L2FolkInstance
 					val = Integer.parseInt(command.substring(5));
 				}
 				catch(IndexOutOfBoundsException ioobe)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						ioobe.printStackTrace();
+				}
 				catch(NumberFormatException nfe)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nfe.printStackTrace();
+				}
 				showMessageWindow(player, val);
 			}
 			else

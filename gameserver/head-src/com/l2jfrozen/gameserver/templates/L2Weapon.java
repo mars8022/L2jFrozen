@@ -23,6 +23,7 @@ import java.util.List;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
@@ -447,7 +448,10 @@ public final class L2Weapon extends L2Item
 				}
 			}
 			catch(IOException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		if(effects.size() == 0)
 			return _emptyEffectSet;

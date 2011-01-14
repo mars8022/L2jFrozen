@@ -138,6 +138,9 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.severe("NPCTable: Error creating NPC table: " + e);
 			}
 
@@ -201,6 +204,9 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.severe("NPCTable: Error creating custom NPC table: " + e);
 				}
 			}
@@ -248,6 +254,9 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.severe("NPCTable: Error reading NPC skills table: " + e);
 			}
 
@@ -302,6 +311,9 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.severe("NPCTable: Error reading NPC CUSTOM drop data: " + e);
 				}
 			}
@@ -348,6 +360,9 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.severe("NPCTable: Error reading NPC drop data: " + e);
 			}
 
@@ -381,6 +396,9 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.severe("NPCTable: Error reading NPC trainer data: " + e);
 			}
 
@@ -420,12 +438,18 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.severe("Error loading minion data: " + e);
 			}
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -797,11 +821,17 @@ public class NpcTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("NPCTable: Could not reload data for NPC " + id + ": " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -850,11 +880,17 @@ public class NpcTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("NPCTable: Could not store new NPC data in database: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

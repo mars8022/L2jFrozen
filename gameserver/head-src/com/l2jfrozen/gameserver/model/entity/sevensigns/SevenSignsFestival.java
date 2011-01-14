@@ -1844,11 +1844,17 @@ public class SevenSignsFestival implements SpawnListener
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("SevenSignsFestival: Failed to load configuration: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1933,11 +1939,17 @@ public class SevenSignsFestival implements SpawnListener
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("SevenSignsFestival: Failed to save configuration: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -2062,11 +2074,17 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("could not get clan name of " + partyMemberName + ": " + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}
@@ -2149,7 +2167,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(NullPointerException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -2388,6 +2407,9 @@ public class SevenSignsFestival implements SpawnListener
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			currData = new StatsSet();
 			currData.set("score", 0);
 			currData.set("members", "");
@@ -2492,7 +2514,8 @@ public class SevenSignsFestival implements SpawnListener
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 			prevParticipants = null;
@@ -2729,7 +2752,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			// Clear past participants, they can no longer register their score if not done so already.
@@ -2779,7 +2803,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			elapsedTime = Config.ALT_FESTIVAL_FIRST_SPAWN;
@@ -2807,7 +2832,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			elapsedTime += Config.ALT_FESTIVAL_FIRST_SWARM - Config.ALT_FESTIVAL_FIRST_SPAWN;
@@ -2824,7 +2850,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			// Spawn an extra set of monsters (archers) on the free platforms with
@@ -2844,7 +2871,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			for(L2DarknessFestival festivalInst : _festivalInstances.values())
@@ -2861,7 +2889,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			// Spawn the festival chests, which enable the team to gain greater rewards
@@ -2881,7 +2910,8 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			// Participants can no longer opt to increase the challenge, as the festival will soon close.
@@ -3047,6 +3077,8 @@ public class SevenSignsFestival implements SpawnListener
 				catch(NullPointerException e)
 				{
 					// deleteMe handling should teleport party out in case of disconnect
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 
@@ -3079,6 +3111,9 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("SevenSignsFestival: Error while spawning Festival Witch ID " + _witchSpawn._npcId + ": " + e);
 			}
 
@@ -3247,6 +3282,9 @@ public class SevenSignsFestival implements SpawnListener
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("SevenSignsFestival: Error while spawning NPC ID " + currSpawn._npcId + ": " + e);
 					currSpawn = null;
 				}
@@ -3286,7 +3324,8 @@ public class SevenSignsFestival implements SpawnListener
 					}
 					catch(NullPointerException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 			}
@@ -3310,7 +3349,8 @@ public class SevenSignsFestival implements SpawnListener
 					}
 					catch(NullPointerException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 
@@ -3364,6 +3404,9 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// If an exception occurs, just move the player to the nearest town.
 				try
 				{
@@ -3372,7 +3415,8 @@ public class SevenSignsFestival implements SpawnListener
 				}
 				catch(NullPointerException e2)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e2.printStackTrace();
 				}
 			}
 		}

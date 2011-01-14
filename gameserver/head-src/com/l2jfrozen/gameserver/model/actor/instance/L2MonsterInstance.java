@@ -141,7 +141,10 @@ public class L2MonsterInstance extends L2Attackable
 				manageMinions();
 			}
 			catch(NullPointerException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 
 			switch(getTemplate().npcId)
 			{

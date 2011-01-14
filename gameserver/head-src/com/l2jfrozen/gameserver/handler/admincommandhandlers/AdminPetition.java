@@ -67,7 +67,9 @@ public class AdminPetition implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+
 		}
 
 		if(command.equals("admin_view_petitions"))

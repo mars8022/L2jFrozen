@@ -245,7 +245,9 @@ public final class RequestBypassToServer extends L2GameClientPacket
 				}
 				catch(NumberFormatException nfe)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nfe.printStackTrace();
+					
 				}
 			}
 			//	Draw a Symbol
@@ -322,6 +324,9 @@ public final class RequestBypassToServer extends L2GameClientPacket
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "Bad RequestBypassToServer: ", e);
 		}
 		//		finally

@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.model.quest;
 
 import java.util.concurrent.ScheduledFuture;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -44,7 +45,8 @@ public class QuestTimer
 			}
 			catch(Throwable t)
 			{
-				//not here
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}

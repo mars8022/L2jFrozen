@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.loginserver.network.clientpackets;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.security.GeneralSecurityException;
 import java.util.logging.Logger;
@@ -139,16 +140,22 @@ public class RequestAuthLogin extends L2LoginClientPacket
 					if(Config.ENABLE_DDOS_PROTECTION_SYSTEM) {
 						String deny_comms = Config.DDOS_COMMAND_BLOCK;
 						deny_comms = deny_comms.replace("$IP", addhost);
-						try {
+						
+						try
+						{
 							Runtime.getRuntime().exec(deny_comms);
 							if(Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM) {
-									System.out.println("Accepted IP access GS by "+addhost);
-									System.out.println("Command is"+deny_comms);
+								_log.info("Accepted IP access GS by "+addhost);
+								_log.info("Command is"+deny_comms);
 							}
-						} catch(Exception e) {
-							System.out.println("Accepts by ip "+addhost+" no allowed");
-							System.out.println("Command is"+deny_comms);						
+						
 						}
+						catch(IOException e1)
+						{
+							_log.info("Accepts by ip "+addhost+" no allowed");
+							_log.info("Command is"+deny_comms);	
+						}
+						
 					}
 					
 					break;
@@ -188,6 +195,9 @@ public class RequestAuthLogin extends L2LoginClientPacket
 		}
 		catch(HackingException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			lc.addBanForAddress(address, Config.LOGIN_BLOCK_AFTER_BAN * 1000);
 			_log.info("Banned (" + address + ") for " + Config.LOGIN_BLOCK_AFTER_BAN + " seconds, due to " + e.getConnects() + " incorrect login attempts.");
 			address = null;

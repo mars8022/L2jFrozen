@@ -587,6 +587,9 @@ public class CharStatus
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "RegenTask failed for " + getActiveChar().getName(), e);
 			}
 		}

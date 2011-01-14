@@ -115,7 +115,10 @@ public class FaenorScriptEngine extends ScriptEngine
 				zipPack.close();
 			}
 			catch(IOException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		/*for (ScriptDocument script : scripts)
 		 {

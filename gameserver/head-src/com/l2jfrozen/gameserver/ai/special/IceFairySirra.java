@@ -201,6 +201,9 @@ public class IceFairySirra extends Quest implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "IceFairySirraManager: Failed deleting mob.", e);
 			}
 		}
@@ -239,6 +242,9 @@ public class IceFairySirra extends Quest implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "IceFairySirraManager: Failed closing door", e);
 			}
 		}
@@ -262,6 +268,9 @@ public class IceFairySirra extends Quest implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "IceFairySirraManager: Failed closing door", e);
 			}
 		}
@@ -384,6 +393,9 @@ public class IceFairySirra extends Quest implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("IceFairySirraManager: Spawns could not be initialized: " + e);
 		}
 	}

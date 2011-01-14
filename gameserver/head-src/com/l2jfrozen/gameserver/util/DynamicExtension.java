@@ -26,6 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
+
 /**
  * extension loader for L2JFrozen
  * 
@@ -97,10 +99,16 @@ public class DynamicExtension
 		}
 		catch(FileNotFoundException ex)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ex.printStackTrace();
+			
 			_log.info(ex.getMessage() + ": no extensions to load");
 		}
 		catch(Exception ex)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ex.printStackTrace();
+			
 			_log.log(Level.WARNING, "could not load properties", ex);
 		}
 
@@ -149,6 +157,9 @@ public class DynamicExtension
 		}
 		catch(Exception ex)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ex.printStackTrace();
+			
 			_log.log(Level.WARNING, name, ex);
 			res = ex.toString();
 		}
@@ -218,6 +229,9 @@ public class DynamicExtension
 		}
 		catch(Exception ex)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ex.printStackTrace();
+			
 			_log.log(Level.WARNING, "could not unload " + className, ex);
 			res = ex.toString();
 		}

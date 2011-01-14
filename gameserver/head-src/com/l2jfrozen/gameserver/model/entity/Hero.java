@@ -246,7 +246,10 @@ public class Hero
 			}
 		}
 		finally {
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -362,7 +365,8 @@ public class Hero
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 
 				player = null;
@@ -477,11 +481,17 @@ public class Hero
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("could not get clan name of " + name + ": " + e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) {
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					con = null;
 				}
 			}
@@ -586,16 +596,18 @@ public class Hero
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Hero System: Couldnt update Heroes");
 
-			if(Config.DEBUG)
-			{
-				e.printStackTrace();
-			}
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -623,7 +635,10 @@ public class Hero
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

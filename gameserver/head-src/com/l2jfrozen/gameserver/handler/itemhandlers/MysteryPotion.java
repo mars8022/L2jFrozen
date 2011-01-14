@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -94,7 +95,8 @@ public class MysteryPotion implements IItemHandler
 			}
 			catch(Throwable t)
 			{
-				//empty
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}

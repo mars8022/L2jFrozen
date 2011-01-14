@@ -352,6 +352,9 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 		}
 		catch(NullPointerException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			//_log.warning("AttackableAI: Attack target is NULL.");
 			_actor.setTarget(null);
 			setIntention(AI_INTENTION_IDLE, null, null);

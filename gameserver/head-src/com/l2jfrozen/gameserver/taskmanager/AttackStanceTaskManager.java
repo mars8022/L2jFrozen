@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -108,6 +109,9 @@ public class AttackStanceTaskManager
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// TODO: Find out the reason for exception. Unless caught here, players remain in attack positions.
 				_log.warning(e.toString());
 			}

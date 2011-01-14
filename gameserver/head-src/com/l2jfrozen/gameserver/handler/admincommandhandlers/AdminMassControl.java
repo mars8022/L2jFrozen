@@ -97,7 +97,8 @@ public class AdminMassControl implements IAdminCommandHandler
 			}
 			catch(Exception ex)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ex.printStackTrace();
 			}
 		}
 

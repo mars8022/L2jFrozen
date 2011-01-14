@@ -22,11 +22,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
+import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -51,186 +53,241 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminAio implements IAdminCommandHandler
 {   
-private static String[] _adminCommands =
-{
-   "admin_setaio", "admin_removeaio"
-};
-private final static Logger _log = Logger.getLogger(AdminAio.class.getName());
+	private final static Logger _log = Logger.getLogger(AdminAio.class.getName());
 
-public boolean useAdminCommand(String command, L2PcInstance activeChar)
-{   
-   if (command.startsWith("admin_setaio"))
-   {
-      StringTokenizer str = new StringTokenizer(command);
-      L2Object target = activeChar.getTarget();
-      
-      L2PcInstance player = null;
-      SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-      
-      if (target != null && target instanceof L2PcInstance)
-         player = (L2PcInstance)target;
-      else
-         player = activeChar;
-                    
-      try
-      {
-         str.nextToken();
-         String time = str.nextToken();
-         if (str.hasMoreTokens())
-         {
-            String playername = time;
-            time = str.nextToken();
-            player = L2World.getInstance().getPlayer(playername);
-            doAio(activeChar, player, playername, time);
-         }
-         else
-         {
-            String playername = player.getName();
-            doAio(activeChar, player, playername, time);
-         }
-         if(!time.equals("0"))
-         {
-            sm.addString("You are now a Aio, Congratulations!");
-            player.sendPacket(sm);
-         }
-      }
-      catch(Exception e)
-      {
-         activeChar.sendMessage("Usage: //setaio <char_name> [time](in days)");
-      }
-      
-      player.broadcastUserInfo();
-      if(player.isAio())
-         return true;
-   }
-   else if(command.startsWith("admin_removeaio"))
-   {
-      StringTokenizer str = new StringTokenizer(command);
-      L2Object target = activeChar.getTarget();
-      
-      L2PcInstance player = null;
-      
-      if (target != null && target instanceof L2PcInstance)
-         player = (L2PcInstance)target;
-      else
-         player = activeChar;
-      
-      try
-      {
-         str.nextToken();
-         if (str.hasMoreTokens())
-         {
-            String playername = str.nextToken();
-            player = L2World.getInstance().getPlayer(playername);
-            removeAio(activeChar, player, playername);
-         }
-         else
-         {
-            String playername = player.getName();
-            removeAio(activeChar, player, playername);
-         }
-      }
-      catch(Exception e)
-      {
-         activeChar.sendMessage("Usage: //removeaio <char_name>");
-      }
-      player.broadcastUserInfo();
-      if(!player.isAio())
-         return true;   
-   }
-   return false;
-}
+	private static String[] _adminCommands =
+	{
+		"admin_setaio", "admin_removeaio"
+	};
+	
+	private enum CommandEnum
+	{
+		admin_setaio,
+		admin_removeaio
+	}
+	
+	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	{   
+		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+			return false;
+		}
 
-public void doAio(L2PcInstance activeChar, L2PcInstance _player, String _playername, String _time)
-{
-   int days = Integer.parseInt(_time);
-   if (_player == null)
-   {
-      activeChar.sendMessage("not found char" + _playername);
-      return;
-   }
-   
-   if(days > 0)
-   {
-      _player.setAio(true);
-      _player.setEndTime("aio", days);
-      _player.getStat().addExp(_player.getStat().getExpForLevel(81));
-      
-      Connection connection = null;
-      try
-      {
-         connection = L2DatabaseFactory.getInstance().getConnection();               
-         
-         PreparedStatement statement = connection.prepareStatement("UPDATE characters SET aio=1, aio_end=? WHERE obj_id=?");
-         statement.setLong(1, _player.getAioEndTime());
-         statement.setInt(2, _player.getObjectId());
-         statement.execute();
-         statement.close();
-         connection.close();
-         
-         if(Config.ALLOW_AIO_NCOLOR && activeChar.isAio())
-            _player.getAppearance().setNameColor(Config.AIO_NCOLOR);
-       
-         if(Config.ALLOW_AIO_TCOLOR && activeChar.isAio())
-            _player.getAppearance().setTitleColor(Config.AIO_TCOLOR);
-         
-         _player.rewardAioSkills();
-         _player.broadcastUserInfo();
-         _player.sendPacket(new EtcStatusUpdate(_player));
-         _player.sendSkillList();
-         GmListTable.broadcastMessageToGMs("GM "+ activeChar.getName()+ " set Aio stat for player "+ _playername + " for " + _time + " day(s)");
-      }
-      catch (Exception e)
-      {
-         _log.log(Level.WARNING,"could not set Aio stats to char:", e);
-      }
-      finally
-      {
-         L2DatabaseFactory.close(connection);
-      }
-   }
-   else
-   {
-      removeAio(activeChar, _player, _playername);
-   }
-}
+		if(Config.GMAUDIT)
+		{
+			Logger _logAudit = Logger.getLogger("gmaudit");
+			LogRecord record = new LogRecord(Level.INFO, command);
+			record.setParameters(new Object[]
+			                                {
+					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
+			                                });
+			_logAudit.log(record);
+		}
 
-public void removeAio(L2PcInstance activeChar, L2PcInstance _player, String _playername)
-{
-   _player.setAio(false);
-   _player.setAioEndTime(0);
-   
-   Connection connection = null;
-   try
-   {
-      connection = L2DatabaseFactory.getInstance().getConnection();               
-      
-      PreparedStatement statement = connection.prepareStatement("UPDATE characters SET Aio=0, Aio_end=0 WHERE obj_id=?");
-      statement.setInt(1, _player.getObjectId());
-      statement.execute();
-      statement.close();
-      connection.close();
-      
-      _player.lostAioSkills();
-      _player.getAppearance().setNameColor(0xFFFFFF);
-      _player.getAppearance().setTitleColor(0xFFFFFF);
-      _player.broadcastUserInfo();
-      _player.sendPacket(new EtcStatusUpdate(_player));
-      _player.sendSkillList();
-      GmListTable.broadcastMessageToGMs("GM "+activeChar.getName()+" remove Aio stat of player "+ _playername);
-   }
-   catch (Exception e)
-   {
-      _log.log(Level.WARNING,"could not remove Aio stats of char:", e);
-   }
-   finally
-   {
-      L2DatabaseFactory.close(connection);
-   }
-}
+		StringTokenizer st = new StringTokenizer(command);
+		
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
+			return false;
+		
+		switch(comm){
+			case admin_setaio:{
+				
+				boolean no_token = false;
+				
+				if(st.hasMoreTokens()){ //char_name not specified
+					
+					String char_name = st.nextToken();
 
-public String[] getAdminCommandList()
-{
-   return _adminCommands;
-}
+					L2PcInstance player = L2World.getInstance().getPlayer(char_name);
+					
+					if(player != null){
+						
+						if (st.hasMoreTokens()) //time
+						{
+							String time = st.nextToken();
+							
+							try{
+								int value = Integer.parseInt(time);
+								
+								if(value>0){
+									
+									doAio(activeChar, player, char_name, time);
+									
+									if(player.isAio())
+										return true;
+									
+								}else{
+									activeChar.sendMessage("Time must be bigger then 0!");
+									return false;
+								}
+								
+							}catch(NumberFormatException e){
+								activeChar.sendMessage("Time must be a number!");
+								return false;
+							}
+						
+						}else{
+							no_token = true;
+						}
+						
+					}else{
+						activeChar.sendMessage("Player must be online to set AIO status");
+						no_token = true;
+					}
+					
+				}else{
+					
+					no_token=true;
+					
+				}
+				
+				if(no_token){
+					activeChar.sendMessage("Usage: //setaio <char_name> [time](in days)");
+					return false;
+				}
+				
+			}
+			case admin_removeaio:{
+				
+				boolean no_token = false;
+				
+				if(st.hasMoreTokens()){ //char_name
+					
+					String char_name = st.nextToken();
+					
+					L2PcInstance player = L2World.getInstance().getPlayer(char_name);
+					
+					if(player!=null){
+						
+						removeAio(activeChar, player, char_name);
+						
+						if(!player.isAio())
+							return true;   
+						
+					}else{
+						
+						activeChar.sendMessage("Player must be online to remove AIO status");
+						no_token = true;
+					}
+					
+				}else{
+					no_token = true;
+				}
+				
+				if(no_token){
+					activeChar.sendMessage("Usage: //removeaio <char_name>");
+					return false;
+				}
+				
+				
+			}
+		}
+		
+		return true;
+		
+	}
+
+	public void doAio(L2PcInstance activeChar, L2PcInstance _player, String _playername, String _time)
+	{
+		int days = Integer.parseInt(_time);
+		if (_player == null)
+		{
+			activeChar.sendMessage("not found char" + _playername);
+			return;
+		}
+
+		if(days > 0)
+		{
+			_player.setAio(true);
+			_player.setEndTime("aio", days);
+			_player.getStat().addExp(_player.getStat().getExpForLevel(81));
+
+			Connection connection = null;
+			try
+			{
+				connection = L2DatabaseFactory.getInstance().getConnection();               
+
+				PreparedStatement statement = connection.prepareStatement("UPDATE characters SET aio=1, aio_end=? WHERE obj_id=?");
+				statement.setLong(1, _player.getAioEndTime());
+				statement.setInt(2, _player.getObjectId());
+				statement.execute();
+				statement.close();
+				connection.close();
+
+				if(Config.ALLOW_AIO_NCOLOR && activeChar.isAio())
+					_player.getAppearance().setNameColor(Config.AIO_NCOLOR);
+
+				if(Config.ALLOW_AIO_TCOLOR && activeChar.isAio())
+					_player.getAppearance().setTitleColor(Config.AIO_TCOLOR);
+
+				_player.rewardAioSkills();
+				_player.broadcastUserInfo();
+				_player.sendPacket(new EtcStatusUpdate(_player));
+				_player.sendSkillList();
+				GmListTable.broadcastMessageToGMs("GM "+ activeChar.getName()+ " set Aio stat for player "+ _playername + " for " + _time + " day(s)");
+				_player.sendMessage("You are now an Aio, Congratulations!");
+				_player.broadcastUserInfo();
+			}
+			catch (Exception e)
+			{
+				if(Config.DEBUG)
+					e.printStackTrace();
+
+				_log.log(Level.WARNING,"could not set Aio stats to char:", e);
+			}
+			finally
+			{
+				L2DatabaseFactory.close(connection);
+			}
+		}
+		else
+		{
+			removeAio(activeChar, _player, _playername);
+		}
+	}
+
+	public void removeAio(L2PcInstance activeChar, L2PcInstance _player, String _playername)
+	{
+		_player.setAio(false);
+		_player.setAioEndTime(0);
+
+		Connection connection = null;
+		try
+		{
+			connection = L2DatabaseFactory.getInstance().getConnection();               
+
+			PreparedStatement statement = connection.prepareStatement("UPDATE characters SET Aio=0, Aio_end=0 WHERE obj_id=?");
+			statement.setInt(1, _player.getObjectId());
+			statement.execute();
+			statement.close();
+			connection.close();
+
+			_player.lostAioSkills();
+			_player.getAppearance().setNameColor(0xFFFFFF);
+			_player.getAppearance().setTitleColor(0xFFFFFF);
+			_player.broadcastUserInfo();
+			_player.sendPacket(new EtcStatusUpdate(_player));
+			_player.sendSkillList();
+			GmListTable.broadcastMessageToGMs("GM "+activeChar.getName()+" remove Aio stat of player "+ _playername);
+			_player.sendMessage("Now You are not an Aio..");
+			_player.broadcastUserInfo();
+		}
+		catch (Exception e)
+		{
+			if(Config.DEBUG)
+				e.printStackTrace();
+
+			_log.log(Level.WARNING,"could not remove Aio stats of char:", e);
+		}
+		finally
+		{
+			L2DatabaseFactory.close(connection);
+		}
+	}
+
+	public String[] getAdminCommandList()
+	{
+		return _adminCommands;
+	}
 }

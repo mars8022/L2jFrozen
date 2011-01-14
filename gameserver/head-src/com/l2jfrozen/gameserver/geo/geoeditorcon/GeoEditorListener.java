@@ -55,6 +55,9 @@ public class GeoEditorListener extends Thread
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.fatal("Error creating geoeditor listener! ", e);
 			System.exit(1);
 		}
@@ -98,6 +101,9 @@ public class GeoEditorListener extends Thread
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.info("GeoEditorListener: ", e);
 			try
 			{
@@ -105,6 +111,9 @@ public class GeoEditorListener extends Thread
 			}
 			catch(Exception e2)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e2.printStackTrace();
+				
 			}
 		}
 		finally
@@ -115,6 +124,9 @@ public class GeoEditorListener extends Thread
 			}
 			catch(IOException io)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					io.printStackTrace();
+				
 				_log.info("", io);
 			}
 			_log.warn("GeoEditorListener Closed!");

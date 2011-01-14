@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.netcore.IAcceptFilter;
 
 
@@ -134,6 +135,9 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 			}
 			catch (InterruptedException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				return;
 			}
 		}

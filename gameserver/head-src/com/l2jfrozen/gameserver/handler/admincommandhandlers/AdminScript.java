@@ -82,6 +82,9 @@ public class AdminScript implements IAdminCommandHandler
 					}
 					catch(ScriptException e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						L2ScriptEngineManager.getInstance().reportScriptFileError(file, e);
 					}
 				}
@@ -92,7 +95,8 @@ public class AdminScript implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 			st = null;
 		}

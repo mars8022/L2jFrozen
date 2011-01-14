@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -94,6 +95,8 @@ public class AutoVoteRewardHandler
 				}
 				catch(InterruptedException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			
 			System.out.println("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
@@ -185,13 +188,19 @@ public class AutoVoteRewardHandler
 				in.close();
 			}
 			catch (IOException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			try
 			{
 				isr.close();
 			}
 			catch (IOException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		return 0;
 	}
@@ -229,13 +238,19 @@ public class AutoVoteRewardHandler
 				in.close();
 			}
 			catch (IOException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			try
 			{
 				isr.close();
 			}
 			catch (IOException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		return 0;
 	}

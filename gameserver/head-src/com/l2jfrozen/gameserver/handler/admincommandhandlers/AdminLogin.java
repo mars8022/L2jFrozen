@@ -92,6 +92,9 @@ public class AdminLogin implements IAdminCommandHandler
 				}
 				catch(NumberFormatException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("Max players must be a number.");
 				}
 

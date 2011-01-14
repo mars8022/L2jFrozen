@@ -117,7 +117,8 @@ public class AdminMenu implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_recall_party_menu"))
@@ -152,7 +153,8 @@ public class AdminMenu implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_recall_clan_menu"))
@@ -192,7 +194,8 @@ public class AdminMenu implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_goto_char_menu"))
@@ -207,7 +210,8 @@ public class AdminMenu implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.equals("admin_kill_menu"))
@@ -439,14 +443,15 @@ public class AdminMenu implements IAdminCommandHandler
 		{
 			_log.warning("Could not set accessLevel:" + e);
 
-			if(Config.DEBUG)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

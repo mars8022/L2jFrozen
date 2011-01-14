@@ -526,12 +526,20 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			// problem with initializing spawn, go to next one
 			_log.warning("FourSepulchersManager.LoadMysteriousBox: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -565,6 +573,10 @@ public class FourSepulchersManager extends GrandBossManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				
 				_log.warning("FourSepulchersManager.InitKeyBoxSpawns: Spawn could not be initialized: " + e);
 			}
 		}
@@ -640,12 +652,19 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			// problem with initializing spawn, go to next one
 			_log.warning("FourSepulchersManager.LoadPhysicalMonsters: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -718,12 +737,20 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			// problem with initializing spawn, go to next one
 			_log.warning("FourSepulchersManager.LoadMagicalMonsters: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -798,12 +825,20 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			// problem with initializing spawn, go to next one
 			_log.warning("FourSepulchersManager.LoadDukeMonsters: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -876,12 +911,20 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			// problem with initializing spawn, go to next one
 			_log.warning("FourSepulchersManager.LoadEmperorsGraveMonsters: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -918,6 +961,9 @@ public class FourSepulchersManager extends GrandBossManager
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("initLocationShadowSpawns:" + e.getMessage());
 				}
 			}
@@ -957,6 +1003,10 @@ public class FourSepulchersManager extends GrandBossManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				
 				_log.warning("FourSepulchersManager.InitExecutionerSpawns: Spawn could not be initialized: " + e);
 			}
 		}
@@ -1297,6 +1347,9 @@ public class FourSepulchersManager extends GrandBossManager
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						_log.warning("FourSepulchersManager.SpawnMonster: Spawn could not be initialized: " + e);
 					}
 
@@ -1529,6 +1582,9 @@ public class FourSepulchersManager extends GrandBossManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("deleteAllMobs: " + e.getMessage());
 			}
 		}
@@ -1553,6 +1609,9 @@ public class FourSepulchersManager extends GrandBossManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("Failed closing door " + doorId + " - " + e.getMessage());
 			}
 		}

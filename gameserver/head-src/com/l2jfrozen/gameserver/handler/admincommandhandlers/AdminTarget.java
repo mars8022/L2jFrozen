@@ -96,6 +96,9 @@ public class AdminTarget implements IAdminCommandHandler
 		}
 		catch(IndexOutOfBoundsException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("Please specify correct name.");
 			activeChar.sendPacket(sm);

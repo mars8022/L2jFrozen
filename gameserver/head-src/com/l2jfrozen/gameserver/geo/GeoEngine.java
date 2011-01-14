@@ -634,6 +634,9 @@ public final class GeoEngine extends GeoData
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 		try
@@ -724,6 +727,9 @@ public final class GeoEngine extends GeoData
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 		return true;

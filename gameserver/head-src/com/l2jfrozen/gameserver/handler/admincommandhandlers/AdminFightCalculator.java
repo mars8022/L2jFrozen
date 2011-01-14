@@ -89,7 +89,8 @@ public class AdminFightCalculator implements IAdminCommandHandler
 		}
 		catch(StringIndexOutOfBoundsException e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		return true;
 	}

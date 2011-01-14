@@ -172,6 +172,9 @@ public class L2DoorInstance extends L2Character
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				log.log(Level.SEVERE, "", e);
 			}
 		}
@@ -206,6 +209,9 @@ public class L2DoorInstance extends L2Character
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				log.warning("Could not auto open/close door ID " + _doorId + " (" + _name + ")");
 			}
 		}

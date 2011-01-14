@@ -17,6 +17,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -52,7 +53,8 @@ public class BalanceLife implements ISkillHandler
 		}
 		catch(Exception e)
 		{
-			//empty
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 
 		L2Character target = null;

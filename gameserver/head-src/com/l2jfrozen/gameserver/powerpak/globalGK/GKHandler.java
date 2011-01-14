@@ -1,5 +1,6 @@
 package com.l2jfrozen.gameserver.powerpak.globalGK;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
@@ -188,6 +189,9 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				player.sendMessage("Error... maybe you cheat..");
 			}
 		} 

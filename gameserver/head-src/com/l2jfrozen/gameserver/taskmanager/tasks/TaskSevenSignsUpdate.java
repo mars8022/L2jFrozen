@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.taskmanager.tasks;
 
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
 import com.l2jfrozen.gameserver.taskmanager.Task;
@@ -58,6 +59,9 @@ public class TaskSevenSignsUpdate extends Task
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("SevenSigns: Failed to save Seven Signs configuration: " + e);
 		}
 	}

@@ -91,6 +91,9 @@ public class ThreadPoolManager
 			}
 			catch (final Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				final Thread t = Thread.currentThread();
 				final UncaughtExceptionHandler h = t.getUncaughtExceptionHandler();
 				if (h != null)
@@ -147,6 +150,9 @@ public class ThreadPoolManager
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return null;
 		}
 	}
@@ -161,6 +167,9 @@ public class ThreadPoolManager
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return null; /* shutdown, ignore */
 		}
 	}
@@ -180,6 +189,9 @@ public class ThreadPoolManager
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return null; /* shutdown, ignore */
 		}
 	}
@@ -194,6 +206,9 @@ public class ThreadPoolManager
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return null; /* shutdown, ignore */
 		}
 	}
@@ -213,6 +228,9 @@ public class ThreadPoolManager
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return null; /* shutdown, ignore */
 		}
 	}
@@ -227,6 +245,9 @@ public class ThreadPoolManager
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return null; /* shutdown, ignore */
 		}
 	}
@@ -367,6 +388,9 @@ public class ThreadPoolManager
 		}
 		catch (InterruptedException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "", e);
 		}
 	}

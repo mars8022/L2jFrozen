@@ -274,7 +274,10 @@ public class Olympiad
 			e.printStackTrace();
 		}
 		finally {
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -385,6 +388,9 @@ public class Olympiad
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("Olympiad System: Failed to save Olympiad configuration: " + e);
 				}
 
@@ -709,13 +715,17 @@ public class Olympiad
 								}
 								catch(InterruptedException e)
 								{
-									//null
+									if(Config.ENABLE_ALL_EXCEPTIONS)
+										e.printStackTrace();
 								}
 							}
 							save();
 						}
 						catch(Exception e)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
 							_log.warning("Olympiad System: Failed to save Olympiad configuration: " + e);
 						}
 
@@ -774,6 +784,9 @@ public class Olympiad
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Olympiad System: Failed to save Olympiad configuration: " + e);
 		}
 
@@ -1159,11 +1172,17 @@ public class Olympiad
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Olympiad System: Couldn't save nobles info in db");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1206,11 +1225,17 @@ public class Olympiad
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Olympiad System: Couldn't  read heroes from db");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -1245,11 +1270,17 @@ public class Olympiad
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Olympiad System: Couldnt heros from db");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -1373,11 +1404,17 @@ public class Olympiad
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Olympiad System: Couldnt delete nobles from db");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

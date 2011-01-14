@@ -189,7 +189,10 @@ public class L2NpcInstance extends L2Character
 				startRandomAnimationTimer();
 			}
 			catch(Throwable t)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
 		}
 	}
 
@@ -1119,7 +1122,8 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(IndexOutOfBoundsException ioobe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
 			}
 			if(quest.length() == 0)
 			{
@@ -1139,11 +1143,13 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(IndexOutOfBoundsException ioobe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
 			}
 			catch(NumberFormatException nfe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
 			}
 			showChatWindow(player, val);
 		}
@@ -1181,11 +1187,13 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(IndexOutOfBoundsException ioobe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
 			}
 			catch(NumberFormatException nfe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
 			}
 			showChatWindow(player, val);
 		}
@@ -1198,11 +1206,13 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(IndexOutOfBoundsException ioobe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
 			}
 			catch(NumberFormatException nfe)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
 			}
 			if(val == 0)
 			{
@@ -1263,6 +1273,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1291,6 +1304,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1311,6 +1327,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1331,6 +1350,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1359,6 +1381,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1379,6 +1404,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1399,6 +1427,9 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				player.sendMessage("Wrong command parameters");
 			}
 		}
@@ -1412,7 +1443,8 @@ public class L2NpcInstance extends L2Character
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("ChangeRiftRoom"))
@@ -1461,7 +1493,10 @@ public class L2NpcInstance extends L2Character
 				else if(command.substring(endOfId+1).startsWith("70"))
 					L2RBManager.RaidbossLevel70(player);
 			}
-			catch(NumberFormatException nfe) {}
+			catch(NumberFormatException nfe) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+			}
 		}
 	}
 
@@ -2821,6 +2856,9 @@ public class L2NpcInstance extends L2Character
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.severe("deletedMe(): " + t);
 		}
 
@@ -2831,6 +2869,9 @@ public class L2NpcInstance extends L2Character
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.severe("deletedMe(): " + t);
 		}
 
@@ -2941,6 +2982,9 @@ public class L2NpcInstance extends L2Character
 		}
 		catch (NumberFormatException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			player.sendMessage("Buff ID doesn't exist");
 		}
 		if (_templateId > 0)

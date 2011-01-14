@@ -146,6 +146,9 @@ public class OfflineTradeTable
 				}
 				catch (Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.log(Level.WARNING, "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
 				}
 			}
@@ -155,6 +158,9 @@ public class OfflineTradeTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING,"OfflineTradersTable[storeTradeItems()]: Error while saving offline traders: " + e,e);
 		}
 		finally
@@ -165,7 +171,9 @@ public class OfflineTradeTable
 			}
 			catch (Exception e)
 			{
-
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -262,6 +270,10 @@ public class OfflineTradeTable
 				}
 				catch (Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+					
 					_log.log(Level.WARNING, "OfflineTradersTable[loadOffliners()]: Error loading trader: ",e);
 					if (player != null)
 						player.logout();
@@ -281,6 +293,10 @@ public class OfflineTradeTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.log(Level.WARNING, "OfflineTradersTable[loadOffliners()]: Error while loading offline traders: ",e);
 		}
 		finally
@@ -291,7 +307,9 @@ public class OfflineTradeTable
 			}
 			catch (Exception e)
 			{
-
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -383,6 +401,9 @@ public class OfflineTradeTable
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.WARNING, "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
 			}
 			
@@ -392,6 +413,9 @@ public class OfflineTradeTable
 		}
 		catch (Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING,"OfflineTradersTable[storeOffliner()]: Error while saving offline traders: " + e,e);
 		}
 		finally
@@ -402,7 +426,9 @@ public class OfflineTradeTable
 			}
 			catch (Exception e)
 			{
-
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -107,7 +108,10 @@ public class BuffTable
 			}
 			rs.close();
 			stm.close();
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			System.out.println("...Loaded " + _buffs_by_id.size() + " buff templates");
 		}
 		catch(Exception e)

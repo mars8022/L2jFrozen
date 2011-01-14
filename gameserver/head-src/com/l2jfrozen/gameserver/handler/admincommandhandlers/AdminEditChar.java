@@ -129,6 +129,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //character_info <player_name>");
 			}
 		}
@@ -144,6 +147,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			catch(StringIndexOutOfBoundsException e)
 			{
 				//Case of empty page number
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //show_characters <page_number>");
 			}
 		}
@@ -157,6 +163,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty character name
 				SystemMessage sm = new SystemMessage(SystemMessageId.GM_S1);
 				sm.addString("You didnt enter a character name to find.");
@@ -176,6 +185,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty or malformed IP number
 				activeChar.sendMessage("Usage: //find_ip <www.xxx.yyy.zzz>");
 				listCharacters(activeChar, 0);
@@ -190,7 +202,10 @@ public class AdminEditChar implements IAdminCommandHandler
 				multibox = Integer.parseInt(val);
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			findDualbox(activeChar, multibox);
 		}
 		else if(command.startsWith("admin_find_account"))
@@ -203,6 +218,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty or malformed player name
 				activeChar.sendMessage("Usage: //find_account <player_name>");
 				listCharacters(activeChar, 0);
@@ -228,7 +246,8 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_save_modifications"))
@@ -241,6 +260,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty character name
 				activeChar.sendMessage("Error while modifying character.");
 				listCharacters(activeChar, 0);
@@ -299,6 +321,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(NumberFormatException nfe)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 				activeChar.sendMessage("You must specify the number of recommendations to add.");
 			}
 		}
@@ -357,6 +382,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				AdminHelpPage.showSubMenuPage(activeChar, "charclasses.htm");
 			}
 		}
@@ -481,6 +509,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty character name
 				activeChar.sendMessage("Usage: //changename new_name_for_target");
 			}
@@ -536,6 +567,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{ //Case of empty color or invalid hex string
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //setcolor [color in HEX]");
 			}
 
@@ -601,6 +635,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.error("" + e.getMessage());
 			}
 
@@ -617,6 +654,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.error("" + e.getMessage());
 			}
 
@@ -634,6 +674,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.error("" + e.getMessage());
 			}
 			activeChar.getStatus().setCurrentMp(mp);
@@ -649,6 +692,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.error("" + e.getMessage());
 			}
 
@@ -680,6 +726,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.error("" + e.getMessage());
 			}
 
@@ -711,6 +760,9 @@ public class AdminEditChar implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.error("" + e.getMessage());
 			}
 
@@ -826,7 +878,8 @@ public class AdminEditChar implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);

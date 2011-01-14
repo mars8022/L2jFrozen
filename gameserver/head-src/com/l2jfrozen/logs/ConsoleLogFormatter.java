@@ -23,6 +23,8 @@ import java.io.StringWriter;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+import com.l2jfrozen.Config;
+
 import javolution.text.TextBuilder;
 
 /**
@@ -59,7 +61,9 @@ public class ConsoleLogFormatter extends Formatter
 			}
 			catch(Exception ex)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ex.printStackTrace();
+				
 			}
 		}
 

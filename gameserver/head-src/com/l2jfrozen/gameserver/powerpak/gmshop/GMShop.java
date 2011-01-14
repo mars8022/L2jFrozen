@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.powerpak.gmshop;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.handler.IBBSHandler;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
@@ -157,6 +158,9 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	 		try {
 	 			L2Multisell.getInstance().SeparateAndSend(Integer.parseInt(parameters.substring(9).trim()), player, false, 0);
 	 		} catch(Exception e) {
+	 			if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+	 			
 	 			player.sendMessage("This list does not exist");
 	 		}
 	 	}

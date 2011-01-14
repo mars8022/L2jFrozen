@@ -26,6 +26,7 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -97,6 +98,9 @@ abstract class AbstractAI implements Ctrl
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.WARNING, "", t);
 			}
 		}

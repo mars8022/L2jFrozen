@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.templates.L2HelperBuff;
 import com.l2jfrozen.gameserver.templates.StatsSet;
@@ -103,7 +104,10 @@ public class HelperBuffTable
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

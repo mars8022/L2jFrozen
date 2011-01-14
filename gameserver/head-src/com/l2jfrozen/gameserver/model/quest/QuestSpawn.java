@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.model.quest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -143,6 +144,9 @@ public final class QuestSpawn
 		}
 		catch(Exception e1)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
+			
 			_log.warning("Could not spawn Npc " + npcId);
 		}
 

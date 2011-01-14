@@ -337,12 +337,18 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Data error on update delete time of char: " + e);
 			return -1;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -374,11 +380,17 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Data error on restoring char: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -500,11 +512,17 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Data error on deleting char: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -523,12 +541,13 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			// exploit prevention, should not happens in normal way
 			if(Config.DEBUG)
 				_log.severe("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
+			
 			if (character.getClient() != null)
 				character.getClient().closeNow();
 			else
 				character.deleteMe();
 			
-			return null;
+			//return null;
 		}
 		
 		character = L2PcInstance.load(objId);
@@ -627,7 +646,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 
 			try {
 				player.store();
-			} catch(Exception e2) {}
+			} catch(Exception e2) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e2.printStackTrace();
+			}
 			L2World.getInstance().removeFromAllPlayers(player);
 			setActiveChar(null);
 			LoginServerThread.getInstance().sendLogout(getAccountName());
@@ -658,6 +680,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		catch(RejectedExecutionException e)
 		{
 			// server is closing
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 	}
 
@@ -711,6 +735,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch(NullPointerException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return "[Character read failed due to disconnect]";
 		}
 	}
@@ -741,6 +768,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			}
 			catch (Exception e1)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 				_log.log(Level.WARNING, "Error while cleanup client.", e1);
 			}
 			finally
@@ -848,7 +878,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					}
 					catch(Exception e2)
 					{
-						//
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e2.printStackTrace();
 					}
 					
 				}
@@ -859,6 +890,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			}
 			catch(Exception e1)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 				_log.log(Level.WARNING, "error while disconnecting client", e1);
 			}
 			finally
@@ -984,6 +1018,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch (RejectedExecutionException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			// if the server is shutdown we ignore
 			if (!ThreadPoolManager.getInstance().isShutdown())
 			{
@@ -1019,6 +1056,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				}
 				catch (Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.severe("Exception during execution "+packet.getClass().getSimpleName()+", client: "+toString()+","+e.getMessage());
 				}
 				

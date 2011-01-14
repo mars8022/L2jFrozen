@@ -115,12 +115,18 @@ public class AccessLevels
 				}
 				catch(NumberFormatException nfe)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nfe.printStackTrace();
+					
 					try
 					{
 						nameColor = Integer.decode("0xFFFFFF");
 					}
 					catch(NumberFormatException nfe2)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe2.printStackTrace();
+					}
 				}
 
 				try
@@ -130,12 +136,18 @@ public class AccessLevels
 				}
 				catch(NumberFormatException nfe)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nfe.printStackTrace();
+					
 					try
 					{
 						titleColor = Integer.decode("0x77FFFF");
 					}
 					catch(NumberFormatException nfe2)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe2.printStackTrace();
+					}
 				}
 
 				isGm = rset.getBoolean("isGm");
@@ -162,11 +174,17 @@ public class AccessLevels
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("AccessLevels: Error loading from database:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		_log.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");

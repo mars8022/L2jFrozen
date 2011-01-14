@@ -70,7 +70,10 @@ public class Heal implements ISkillHandler
 			handler = null;
 		}
 		catch(Exception e)
-		{}
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+		}
 
 		L2Character target = null;
 		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();

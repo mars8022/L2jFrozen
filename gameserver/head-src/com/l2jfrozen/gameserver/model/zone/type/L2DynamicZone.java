@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import java.util.concurrent.Future;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2WorldRegion;
@@ -74,7 +75,11 @@ public class L2DynamicZone extends L2ZoneType
 			_skill.getEffects(_owner, character);
 		}
 		catch(NullPointerException e)
-		{}
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+		}
 	}
 
 	@Override
@@ -110,7 +115,10 @@ public class L2DynamicZone extends L2ZoneType
 				member.stopSkillEffects(_skill.getId());
 			}
 			catch(NullPointerException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		_owner.stopSkillEffects(_skill.getId());
 

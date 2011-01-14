@@ -26,6 +26,7 @@ import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
 import com.l2jfrozen.gameserver.datatables.BufferSkillsTable;
@@ -354,7 +355,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 			}
@@ -425,7 +427,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 			}
@@ -505,7 +508,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			}
 			catch (Exception e)
 			{
-				// ignored...
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 			showEditSchemeWindow(player, skill_group, scheme_key);
 		}

@@ -23,6 +23,7 @@ import java.util.ConcurrentModificationException;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.L2Thread;
 
 
@@ -46,6 +47,9 @@ public abstract class ObjectPool<E>
 				catch(ConcurrentModificationException e)
 				{
 					// skip it
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 				}
 			}
 

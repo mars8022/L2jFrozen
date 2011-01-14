@@ -163,11 +163,17 @@ public class SpawnTable
 		catch(Exception e)
 		{
 			// problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("SpawnTable: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -262,11 +268,17 @@ public class SpawnTable
 			catch(Exception e)
 			{
 				// problem with initializing spawn, go to next one
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("CustomSpawnTable: Spawn could not be initialized: " + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 
@@ -314,11 +326,17 @@ public class SpawnTable
 			catch(Exception e)
 			{
 				// problem with storing spawn
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("SpawnTable: Could not store spawn in the DB:" + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}
@@ -348,11 +366,17 @@ public class SpawnTable
 				catch(Exception e)
 				{
 					// problem with inserting nospawn 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("SpawnTable: Spawn " + spawn.getId() + " could not be insert into DB: " + e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) {
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					con = null;
 				}
 			}
@@ -370,11 +394,17 @@ public class SpawnTable
 				catch(Exception e)
 				{
 					// problem with deleting spawn 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("SpawnTable: Spawn " + spawn.getId() + " could not be removed from DB: " + e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					con = null;
 				}
 			}

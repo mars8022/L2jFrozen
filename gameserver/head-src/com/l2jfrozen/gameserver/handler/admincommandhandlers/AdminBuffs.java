@@ -52,43 +52,24 @@ public class AdminBuffs implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 
-		StringTokenizer st = new StringTokenizer(command, " ");
+		StringTokenizer st = new StringTokenizer(command," ");
 
-		String[] wordList = command.split(" ");
-		CommandEnum comm;
-
-		try
-		{
-			comm = CommandEnum.valueOf(wordList[0]);
-		}
-		catch(Exception e)
-		{
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
 			return false;
-		}
-
-		CommandEnum commandEnum = comm;
-
-		switch(commandEnum)
+		
+		switch(comm)
 		{
 			case admin_getbuffs:
-				st = new StringTokenizer(command, " ");
-				command = st.nextToken();
-
 				if(st.hasMoreTokens())
 				{
 					L2PcInstance player = null;
 					String playername = st.nextToken();
 					st = null;
 
-					try
-					{
-						player = L2World.getInstance().getPlayer(playername);
-					}
-					catch(Exception e)
-					{
-						//ignore
-					}
-
+					player = L2World.getInstance().getPlayer(playername);
+					
 					if(player != null)
 					{
 						showBuffs(player, activeChar);
@@ -111,88 +92,141 @@ public class AdminBuffs implements IAdminCommandHandler
 				}
 				else
 					return true;
-
+				
 			case admin_stopbuff:
-				try
+				if(st.hasMoreTokens())
 				{
-					st = new StringTokenizer(command, " ");
-
-					st.nextToken();
 					String playername = st.nextToken();
 
-					int SkillId = Integer.parseInt(st.nextToken());
+					if(st.hasMoreTokens()){
+						
+						int SkillId = 0;
+						
+						try{
+							SkillId = Integer.parseInt(st.nextToken());
 
-					removeBuff(activeChar, playername, SkillId);
+						}catch(NumberFormatException e){
+						
+							
+							activeChar.sendMessage("Usage: //stopbuff <playername> [skillId] (skillId must be a number)");
+							return false;
+							
+						}
+						
+						if(SkillId>0)
+							removeBuff(activeChar, playername, SkillId);
+						else{
+							activeChar.sendMessage("Usage: //stopbuff <playername> [skillId] (skillId must be a number > 0)");
+							return false;
+						}
+						
+						st = null;
+						playername = null;
 
-					st = null;
-					playername = null;
-
-					return true;
-				}
-				catch(Exception e)
-				{
-					activeChar.sendMessage("Failed removing effect: " + e.getMessage());
+						return true;
+						
+						
+					}else{
+						
+						activeChar.sendMessage("Usage: //stopbuff <playername> [skillId]");
+						return false;
+						
+					}
+					
+					
+				}else{
+					
 					activeChar.sendMessage("Usage: //stopbuff <playername> [skillId]");
 					return false;
+					
 				}
-
+				
 			case admin_stopallbuffs:
-				st = new StringTokenizer(command, " ");
-				st.nextToken();
-				String playername = st.nextToken();
-
-				if(playername != null)
+				
+				if(st.hasMoreTokens())
 				{
-					removeAllBuffs(activeChar, playername);
-					playername = null;
-					st = null;
+					String playername = st.nextToken();
 
-					return true;
-				}
-				else
-				{
-					playername = null;
-					st = null;
+					if(playername != null)
+					{
+						removeAllBuffs(activeChar, playername);
+						playername = null;
+						st = null;
 
+						return true;
+					}
+					else
+					{
+						activeChar.sendMessage("Usage: //stopallbuffs <playername>");
+						
+						playername = null;
+						st = null;
+
+						return false;
+					}
+				}else{
+					
+					activeChar.sendMessage("Usage: //stopallbuffs <playername>");
 					return false;
+					
 				}
+				
 
 			case admin_areacancel:
-				st = new StringTokenizer(command, " ");
-				st.nextToken();
-				String val = st.nextToken();
 
-				try
+				if(st.hasMoreTokens())
 				{
-					int radius = Integer.parseInt(val);
+					String val = st.nextToken();
 
-					for(L2Character knownChar : activeChar.getKnownList().getKnownCharactersInRadius(radius))
+					int radius = 0;
+					
+					try
 					{
-						if(knownChar instanceof L2PcInstance && !knownChar.equals(activeChar))
-						{
-							knownChar.stopAllEffects();
-						}
+						radius = Integer.parseInt(val);
+
 					}
+					catch(NumberFormatException e)
+					{
+						activeChar.sendMessage("Usage: //areacancel <radius> (integer value > 0)");
+						st = null;
+						val = null;
 
-					activeChar.sendMessage("All effects canceled within raidus " + radius);
-					st = null;
-					val = null;
+						return false;
+					}
+					
 
-					return true;
-				}
-				catch(NumberFormatException e)
-				{
+					if(radius>0){
+						for(L2Character knownChar : activeChar.getKnownList().getKnownCharactersInRadius(radius))
+						{
+							if(knownChar instanceof L2PcInstance && !knownChar.equals(activeChar))
+							{
+								knownChar.stopAllEffects();
+							}
+						}
+
+						activeChar.sendMessage("All effects canceled within raidus " + radius);
+						st = null;
+						val = null;
+
+						return true;
+					}else{
+						activeChar.sendMessage("Usage: //areacancel <radius> (integer value > 0)");
+						st = null;
+						val = null;
+
+						return false;
+					}
+					
+				}else{
+					
 					activeChar.sendMessage("Usage: //areacancel <radius>");
-					st = null;
-					val = null;
-
 					return false;
+					
 				}
+				
 		}
 
-		wordList = null;
 		comm = null;
-		commandEnum = null;
 		st = null;
 
 		return true;
@@ -237,16 +271,7 @@ public class AdminBuffs implements IAdminCommandHandler
 
 	private void removeBuff(L2PcInstance remover, String playername, int SkillId)
 	{
-		L2PcInstance player = null;
-
-		try
-		{
-			player = L2World.getInstance().getPlayer(playername);
-		}
-		catch(Exception e)
-		{
-			//ignore
-		}
+		L2PcInstance player = L2World.getInstance().getPlayer(playername);
 
 		if(player != null && SkillId > 0)
 		{
@@ -269,17 +294,8 @@ public class AdminBuffs implements IAdminCommandHandler
 
 	private void removeAllBuffs(L2PcInstance remover, String playername)
 	{
-		L2PcInstance player = null;
-
-		try
-		{
-			player = L2World.getInstance().getPlayer(playername);
-		}
-		catch(Exception e)
-		{
-			//ignore
-		}
-
+		L2PcInstance player = L2World.getInstance().getPlayer(playername);
+		
 		if(player != null)
 		{
 			player.stopAllEffects();

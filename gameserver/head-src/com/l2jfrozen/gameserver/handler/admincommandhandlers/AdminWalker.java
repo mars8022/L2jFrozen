@@ -115,11 +115,15 @@ public class AdminWalker implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
-						//ignore
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 					finally {
 						if(con!=null)
-							try { con.close(); } catch(Exception e) { }
+							try { con.close(); } catch(Exception e) { 
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									e.printStackTrace();
+							}
 						con = null;
 					}
 
@@ -127,6 +131,9 @@ public class AdminWalker implements IAdminCommandHandler
 				}
 				catch(NumberFormatException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("The incorrect identifier");
 				}
 
@@ -215,11 +222,15 @@ public class AdminWalker implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

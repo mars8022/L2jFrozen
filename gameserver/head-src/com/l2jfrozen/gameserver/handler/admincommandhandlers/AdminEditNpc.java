@@ -132,6 +132,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("Wrong usage: //edit_npc <npcId>");
 				}
 			}else{
@@ -158,7 +161,8 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			if(npcId > 0)
@@ -211,7 +215,8 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_edit_drop "))
@@ -231,7 +236,8 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 				else if(st.countTokens() == 6)
@@ -249,6 +255,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						_log.fine("admin_edit_drop parements error: " + command);
 					}
 				}
@@ -261,6 +270,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //edit_drop <npc_id> <item_id> <category> [<min> <max> <chance>]");
 			}
 		}
@@ -284,7 +296,8 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
-						//ignore
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 
 					if(npcId > 0)
@@ -309,6 +322,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						_log.fine("admin_add_drop parements error: " + command);
 					}
 				}
@@ -321,6 +337,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //add_drop <npc_id> [<item_id> <category> <min> <max> <chance>]");
 			}
 		}
@@ -341,7 +360,8 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			if(npcId > 0)
@@ -391,6 +411,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						_log.info("box_access: " + e);
 					}
 				}
@@ -688,7 +711,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -711,7 +737,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -734,7 +763,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -766,7 +798,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return order;
@@ -1062,6 +1097,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error saving new npc value: " + e);
 		}
 
@@ -1163,11 +1201,15 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1261,7 +1303,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1301,11 +1346,15 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1344,11 +1393,15 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -1401,11 +1454,15 @@ public class AdminEditNpc implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

@@ -151,6 +151,9 @@ public class SummonItems implements IItemHandler
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("Target is not ingame.");
 				}
 
@@ -245,7 +248,10 @@ public class SummonItems implements IItemHandler
 				}
 			}
 			catch(Throwable e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 
@@ -269,7 +275,10 @@ public class SummonItems implements IItemHandler
 				_petSummon.setShowSummonAnimation(false);
 			}
 			catch(Throwable e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 

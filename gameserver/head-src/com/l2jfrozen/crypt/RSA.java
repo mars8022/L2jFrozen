@@ -109,7 +109,9 @@ public class RSA
 		}
 		catch(Exception e)
 		{
-			_log.warning(e.getMessage());
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw e;
 		}
 		return cipherText;
@@ -138,7 +140,9 @@ public class RSA
 		}
 		catch(Exception e)
 		{
-			_log.warning(e.getMessage());
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw e;
 		}
 		return encryptedText;
@@ -168,7 +172,9 @@ public class RSA
 		}
 		catch(Exception e)
 		{
-			_log.warning(e.getMessage());
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw e;
 		}
 		return dectyptedText;
@@ -199,7 +205,9 @@ public class RSA
 		}
 		catch(Exception e)
 		{
-			_log.warning(e.getMessage());
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw e;
 		}
 		return result;
@@ -388,7 +396,9 @@ public class RSA
 		}
 		catch(Exception e)
 		{
-			_log.warning(e.getMessage());
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw e;
 		}
 		finally
@@ -406,7 +416,9 @@ public class RSA
 			}
 			catch(Exception e)
 			{
-				// do nothing...
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			} // end of inner try, catch (Exception)...
 		}
 	}

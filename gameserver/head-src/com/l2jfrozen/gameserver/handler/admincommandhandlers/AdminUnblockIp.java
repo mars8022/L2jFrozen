@@ -84,6 +84,9 @@ public class AdminUnblockIp implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// Send syntax to the user
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 				sm.addString("Usage mode: //unblockip <ip>");

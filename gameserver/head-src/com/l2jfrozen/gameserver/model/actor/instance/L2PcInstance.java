@@ -292,11 +292,15 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			//I like big tits (. )( .) too :D
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return votePoints;
@@ -316,11 +320,15 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			//I like big tits (. )( .) too :D
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -349,11 +357,15 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			//I like big tits (. )( .) too :D
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return lastVote;
@@ -989,6 +1001,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.WARNING, "", t);
 			}
 		}
@@ -2207,11 +2222,18 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("could not update char recommendations:" + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 			}
 		}
@@ -6472,7 +6494,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		if(kills >= 1)
@@ -6494,11 +6519,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println("Could not update pkKills, got: " + e.getMessage());
 			}
 			finally
 			{
-				try {conect.close(); } catch(Exception e) { }
+				try {conect.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				conect = null;
 			}
 			sendMessage("You have been killed " + kills + " times by " + PlayerWhoKilled.getName() + ".");
@@ -6522,11 +6553,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println("Could not add pkKills, got: " + e.getMessage());
 			}
 			finally
 			{
-				try {conect2.close(); } catch(Exception e) { }
+				try {conect2.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				conect2 = null;
 			}
 			sendMessage("This is the first time you have been killed by " + PlayerWhoKilled.getName() + ".");
@@ -7851,11 +7888,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not set char online status:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -7877,11 +7920,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not set char isIn7sDungeon status:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -7910,6 +7959,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not set char first login:" + e);
 		}
 		finally
@@ -7919,7 +7971,10 @@ public final class L2PcInstance extends L2PlayableInstance
 				con.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 
@@ -8004,12 +8059,18 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Could not insert char data: " + e);
 			return false;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		_log.info("Created new character : " + getName() + " for account: " + _accountName);
@@ -8137,6 +8198,9 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.setBaseClass(activeClassId);
 				}
 
@@ -8186,6 +8250,9 @@ public final class L2PcInstance extends L2PlayableInstance
 					player.getAppearance().setNameColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("name_color")).toString()).intValue());
 					player.getAppearance().setTitleColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("title_color")).toString()).intValue());
 				}catch(Exception e){
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					//leave them as default
 				}
 				
@@ -8252,7 +8319,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -8353,7 +8423,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -8444,7 +8517,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -8491,7 +8567,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -8634,7 +8713,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -8673,7 +8755,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -8765,7 +8850,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -8872,11 +8960,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error could not delete skill: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -8944,11 +9038,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error could not store char skills: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -9138,11 +9238,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not restore character skills: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -9245,11 +9351,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not restore active effect data: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -9312,11 +9424,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not restore henna: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -9351,11 +9469,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not restore recommendations: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -9413,11 +9537,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not remove char henna: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -9482,11 +9612,17 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("could not save char henna: " + e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					con = null;
 				}
 
@@ -10797,7 +10933,8 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 				catch(Exception e)
 				{
-					//I like big (. )( .)
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 			else
@@ -11334,7 +11471,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -11762,12 +11902,18 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("WARNING: Could not add character sub class for " + getName() + ": " + e);
 			return false;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -11878,6 +12024,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not modify sub class for " + getName() + " to class index " + classIndex + ": " + e);
 
 			// This must be done in order to maintain data consistency.
@@ -11886,7 +12035,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -12017,7 +12169,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(InterruptedException e1)
 		{
-			//nothing
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
 		}
 		
 		if(classIndex == 0)
@@ -12032,6 +12185,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.info("Could not switch " + getName() + "'s sub class to class index " + classIndex + ": " + e);
 				return false;
 			}
@@ -12122,7 +12278,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(InterruptedException e1)
 		{
-			//nothing
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
 		}
 		
 		checkAllowedSkills();
@@ -12414,11 +12571,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("could not clear char recommendations: " + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}
@@ -13037,6 +13200,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13047,6 +13213,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13057,6 +13226,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13069,6 +13241,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13093,6 +13268,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13105,6 +13283,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
@@ -13118,6 +13299,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
@@ -13131,6 +13315,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}// returns pet to control item
 		}
@@ -13149,6 +13336,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
@@ -13173,6 +13363,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
@@ -13184,6 +13377,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13194,6 +13390,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13209,6 +13408,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13219,6 +13421,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
 
@@ -13289,11 +13494,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not restore friend data:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -14202,11 +14413,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error: could not restore char custom data info: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

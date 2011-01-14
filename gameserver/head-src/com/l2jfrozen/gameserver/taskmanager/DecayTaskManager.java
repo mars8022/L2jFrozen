@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -69,7 +70,10 @@ public class DecayTaskManager
 			_decayTasks.remove(actor);
 		}
 		catch(NoSuchElementException e)
-		{}
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+		}
 	}
 
 	private class DecayScheduler implements Runnable
@@ -107,6 +111,9 @@ public class DecayTaskManager
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// TODO: Find out the reason for exception. Unless caught here, mob decay would stop.
 				_log.warning(e.toString());
 			}

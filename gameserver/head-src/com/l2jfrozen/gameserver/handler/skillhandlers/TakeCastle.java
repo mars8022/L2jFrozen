@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.FortManager;
@@ -74,7 +75,8 @@ public class TakeCastle implements ISkillHandler
 		}
 		catch(Exception e)
 		{
-			//empty
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		player = null;
 		castle = null;

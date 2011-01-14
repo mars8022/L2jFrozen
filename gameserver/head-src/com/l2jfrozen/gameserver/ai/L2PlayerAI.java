@@ -28,6 +28,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Character.AIAccessor;
@@ -126,7 +127,10 @@ public class L2PlayerAI extends L2CharacterAI
 					cmd = _interuptedIntentions.pop();
 				}
 				catch(EmptyStackException ese)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						ese.printStackTrace();
+				}
 
 				/*
 				 if (Config.DEBUG)

@@ -791,11 +791,17 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						player.sendMessage("Invalid skill level!");
 					}
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid skill!");
 				}
 				return;

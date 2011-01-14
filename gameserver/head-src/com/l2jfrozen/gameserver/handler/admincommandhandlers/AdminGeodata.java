@@ -83,6 +83,9 @@ public class AdminGeodata implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 
@@ -197,6 +200,9 @@ public class AdminGeodata implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						activeChar.sendMessage("You have to write numbers of regions <regionX> <regionY>");
 					}
 				}
@@ -221,6 +227,9 @@ public class AdminGeodata implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						activeChar.sendMessage("You have to write numbers of regions <regionX> <regionY>");
 					}
 				}
@@ -234,6 +243,9 @@ public class AdminGeodata implements IAdminCommandHandler
 				}
 				catch(StringIndexOutOfBoundsException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("РџСЂРёРјРµСЂ: //admin_geo_bug РІР°С€ РєРѕРјРјРµРЅС‚Р°СЂРёР№ С‚СѓС‚");
 				}
 				break;

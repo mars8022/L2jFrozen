@@ -781,6 +781,9 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 		catch(NullPointerException e)
 		{
 			//_log.warning("AttackableAI: Attack target is NULL.");
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			setIntention(AI_INTENTION_ACTIVE);
 			return;
 		}

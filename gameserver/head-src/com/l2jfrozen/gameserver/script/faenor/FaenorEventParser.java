@@ -25,6 +25,7 @@ import javax.script.ScriptContext;
 
 import org.w3c.dom.Node;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.script.DateRange;
 import com.l2jfrozen.gameserver.script.IntList;
 import com.l2jfrozen.gameserver.script.Parser;
@@ -148,6 +149,9 @@ public class FaenorEventParser extends FaenorParser
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("ERROR(parseEventDrop):" + e.getMessage());
 		}
 	}

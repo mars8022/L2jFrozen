@@ -115,11 +115,17 @@ public class DoorTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_initialized = false;
 			_log.warning("door.csv is missing in data folder");
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_initialized = false;
 			_log.warning("error while creating door table " + e);
 		}
@@ -132,7 +138,9 @@ public class DoorTable
 			}
 			catch(Exception e1)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 			}
 		}
 	}
@@ -254,6 +262,9 @@ public class DoorTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Error in door data, ID:" + id);
 		}
 		door.setCurrentHpMp(door.getMaxHp(), door.getMaxMp());
@@ -323,6 +334,9 @@ public class DoorTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 

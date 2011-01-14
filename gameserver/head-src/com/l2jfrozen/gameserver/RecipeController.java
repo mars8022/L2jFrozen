@@ -407,7 +407,8 @@ public class RecipeController
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 					finally
 					{

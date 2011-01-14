@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.sun.net.httpserver.HttpHandler;
@@ -34,6 +35,9 @@ public class WebServer extends Thread {
 						handlers++;
 					}
 				} catch(Exception e ) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warn("WebServer: Error while creating handler "+contextHandlerName+" for '"+s.toString()+"': "+e);
 					continue;
 				}
@@ -46,6 +50,9 @@ public class WebServer extends Thread {
 				_log.info("WebServer: "+handlers+" context handler(s) registred");
 			}
 		} catch(Exception e) {
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("WebServer: Error "+e+" while staring");
 			_server = null;
 		}

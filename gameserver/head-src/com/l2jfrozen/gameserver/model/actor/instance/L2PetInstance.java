@@ -171,6 +171,9 @@ public class L2PetInstance extends L2Summon
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				if(Config.DEBUG)
 				{
 					_logPet.warning("Pet [#" + getObjectId() + "] a feed task error has occurred: " + e);
@@ -702,6 +705,9 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("Give all items error " + e);
 		}
 	}
@@ -722,6 +728,9 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("Error while giving item to owner: " + e);
 		}
 	}
@@ -762,6 +771,9 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("Error while destroying control item: " + e);
 		}
 
@@ -778,11 +790,17 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("could not delete pet:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -800,6 +818,9 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("Pet Drop Error: " + e);
 		}
 	}
@@ -898,12 +919,18 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("could not restore pet data: " + e);
 			return null;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -946,11 +973,17 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_logPet.warning("could not store pet data: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

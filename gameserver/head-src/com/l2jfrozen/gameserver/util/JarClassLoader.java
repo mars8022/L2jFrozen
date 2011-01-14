@@ -28,6 +28,8 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import com.l2jfrozen.Config;
+
 /**
  * This is a class loader for the dynamic extensions used by DynamicExtension class.
  * 
@@ -54,6 +56,9 @@ public class JarClassLoader extends ClassLoader
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new ClassNotFoundException(name);
 		}
 	}
@@ -83,6 +88,10 @@ public class JarClassLoader extends ClassLoader
 			}
 			catch(IOException e)
 			{
+				
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.WARNING, jarFile + ":" + e.toString(), e);
 				continue;
 			}

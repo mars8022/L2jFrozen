@@ -82,6 +82,9 @@ public class RecipeTable extends RecipeController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			if(lnr != null)
 			{
 				_log.log(Level.WARNING, "error while creating recipe controller in linenr: " + lnr.getLineNumber(), e);
@@ -101,7 +104,9 @@ public class RecipeTable extends RecipeController
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -178,6 +183,9 @@ public class RecipeTable extends RecipeController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Exception in RecipeController.parseList() - " + e);
 		}
 	}

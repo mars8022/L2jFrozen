@@ -24,6 +24,7 @@ import java.util.List;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -129,7 +130,9 @@ public class CastleManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();}
 			con = null;
 		}
 	}
@@ -327,6 +330,8 @@ public class CastleManager
 				catch(NullPointerException e)
 				{
 					// continue removing offline
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 			// else offline-player circlet removal
@@ -357,7 +362,10 @@ public class CastleManager
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}

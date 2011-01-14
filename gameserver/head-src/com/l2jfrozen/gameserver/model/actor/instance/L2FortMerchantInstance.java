@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 
 import java.util.StringTokenizer;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
@@ -98,9 +99,15 @@ public class L2FortMerchantInstance extends L2NpcWalkerInstance
 				val = Integer.parseInt(par);
 			}
 			catch(IndexOutOfBoundsException ioobe)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
+			}
 			catch(NumberFormatException nfe)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+			}
 			showMessageWindow(player, val);
 		}
 		else if(actualCommand.equalsIgnoreCase("showSiegeInfo"))

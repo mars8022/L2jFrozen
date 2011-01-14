@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 
@@ -78,6 +79,9 @@ public class MagicSkillLaunched extends L2GameServerPacket
 				}
 				catch(NullPointerException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					writeD(0); // untested
 				}
 			}
