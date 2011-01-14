@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.handler.skillhandlers;
 
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -76,6 +77,9 @@ public class SummonTreasureKey implements ISkillHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Error using skill summon Treasure Key:" + e);
 		}
 	}

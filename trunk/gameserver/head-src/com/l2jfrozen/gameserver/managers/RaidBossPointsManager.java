@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -87,15 +88,25 @@ public class RaidBossPointsManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("RaidPointsManager: Couldnt load raid points ");
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning(e.getMessage());
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -116,11 +127,18 @@ public class RaidBossPointsManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "could not update char raid points:", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 		}
 	}
 
@@ -186,11 +204,18 @@ public class RaidBossPointsManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "could not clean raid points: ", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 		}
 	}
 

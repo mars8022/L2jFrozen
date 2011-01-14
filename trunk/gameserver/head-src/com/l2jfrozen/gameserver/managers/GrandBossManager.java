@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
@@ -152,6 +153,9 @@ public class GrandBossManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("GrandBossManager: Could not load grandboss_data table");
 		}
 		catch(Exception e)
@@ -160,7 +164,11 @@ public class GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -214,7 +222,9 @@ public class GrandBossManager
 		catch(SQLException e)
 		{
 			_log.warning("GrandBossManager: Could not load grandboss_list table");
-			e.getMessage();
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 		catch(Exception e)
 		{
@@ -222,7 +232,11 @@ public class GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 
@@ -377,11 +391,19 @@ public class GrandBossManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.warning("GrandBossManager[fastStoreToDb]: Couldn't store grandbosses to database:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -457,11 +479,18 @@ public class GrandBossManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("GrandBossManager: Couldn't store grandbosses to database:" + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}

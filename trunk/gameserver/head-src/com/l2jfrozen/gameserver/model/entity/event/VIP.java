@@ -25,6 +25,7 @@ import java.util.Vector;
 
 import javolution.text.TextBuilder;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
@@ -146,6 +147,9 @@ public class VIP
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("Could not check End LOC for team" + _team + " got: " + e.getMessage());
 		}
 		finally
@@ -155,7 +159,10 @@ public class VIP
 				con.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 
 		try
@@ -174,6 +181,9 @@ public class VIP
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("Could not check Start LOC for team" + _team + " got: " + e.getMessage());
 		}
 		finally
@@ -183,7 +193,10 @@ public class VIP
 				con.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 
@@ -210,6 +223,9 @@ public class VIP
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("VIP Engine[endNPC(" + activeChar.getName() + ")]: exception: " + e.getMessage());
 		}
 	}
@@ -237,6 +253,9 @@ public class VIP
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("VIP Engine[joinNPC(" + activeChar.getName() + ")]: exception: " + e.getMessage());
 		}
 	}
@@ -258,6 +277,9 @@ public class VIP
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("VIP Engine[spawnEndNPC()]: exception: " + e.getMessage());
 		}
 	}
@@ -279,6 +301,9 @@ public class VIP
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("VIP Engine[spawnJoinNPC()]: exception: " + e.getMessage());
 		}
 	}
@@ -463,6 +488,9 @@ public class VIP
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("VIP(showJoinHTML(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}
@@ -860,6 +888,9 @@ public class VIP
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("VIP(showJoinHTML(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}

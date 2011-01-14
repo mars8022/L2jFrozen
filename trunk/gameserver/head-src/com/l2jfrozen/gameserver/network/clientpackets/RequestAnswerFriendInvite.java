@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -95,11 +96,17 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("could not add friend objectid: " + e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					con = null;
 				}
 			}
@@ -150,7 +157,10 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

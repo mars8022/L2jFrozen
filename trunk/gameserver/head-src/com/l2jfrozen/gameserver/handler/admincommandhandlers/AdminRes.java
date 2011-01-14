@@ -124,6 +124,9 @@ public class AdminRes implements IAdminCommandHandler
 				}
 				catch(NumberFormatException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("Enter a valid player name or radius.");
 					return;
 				}
@@ -181,6 +184,9 @@ public class AdminRes implements IAdminCommandHandler
 		}
 		catch(NumberFormatException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendMessage("Enter a valid radius.");
 			return;
 		}

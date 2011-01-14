@@ -33,6 +33,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import com.l2jfrozen.Config;
+
 /**
  * @author programmos
  */
@@ -61,6 +63,9 @@ public abstract class XmlEngine
 		}
 		catch(ParserConfigurationException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error("Error loading configure XML: " + _file.getName(), e);
 		}
 		catch(SAXException e)
@@ -69,6 +74,9 @@ public abstract class XmlEngine
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error("Error loading file: " + _file.getName(), e);
 		}
 		
@@ -78,6 +86,9 @@ public abstract class XmlEngine
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error("Error in file: " + _file.getName(), e);
 		}
 	}

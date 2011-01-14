@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.handler.custom;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
@@ -69,6 +70,9 @@ public class ExtractableByPassHandler implements ICustomByPassHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("ExtractableByPassHandler: Error while running ", e);
 		}
 

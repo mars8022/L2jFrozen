@@ -103,15 +103,20 @@ public class BoatManager
 				boat = null;
 			}
 
-			lnr = null;
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 //			_initialized = false;
 			_log.warning("boat.csv is missing in data folder");
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 //			_initialized = false;
 			_log.warning("error while creating boat table " + e);
 			e.printStackTrace();
@@ -124,8 +129,12 @@ public class BoatManager
 			}
 			catch(Exception e1)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
 				/* ignore problems */
 			}
+
+			lnr = null;
 		}
 	}
 

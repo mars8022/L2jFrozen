@@ -31,6 +31,7 @@ import java.util.Scanner;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2ExtractableItem;
 import com.l2jfrozen.gameserver.model.L2ExtractableProductItem;
 
@@ -63,6 +64,9 @@ public class ExtractableItemsData
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("Extractable items data: Can not find './data/extractable_items.csv'");
 			return;
 		}
@@ -95,6 +99,9 @@ public class ExtractableItemsData
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println("Extractable items data: Error in line " + lineCount + " -> invalid item id or wrong seperator after item id!");
 				System.out.println("		" + line);
 				ok = false;
@@ -136,6 +143,9 @@ public class ExtractableItemsData
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					System.out.println("Extractable items data: Error in line " + lineCount + " -> incomplete/invalid production data or wrong seperator!");
 					System.out.println("		" + line);
 					ok = false;

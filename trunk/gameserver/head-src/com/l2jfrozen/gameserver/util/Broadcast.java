@@ -113,7 +113,10 @@ public final class Broadcast
 				}
 			}
 			catch(NullPointerException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 

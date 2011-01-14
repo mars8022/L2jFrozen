@@ -129,6 +129,9 @@ public class L2NpcWalkerAI extends L2CharacterAI implements Runnable
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.info("L2NpcWalkerInstance: Error, " + e);
 				}
 			}

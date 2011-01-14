@@ -98,10 +98,16 @@ public class AdminTest implements IAdminCommandHandler
 			}
 			catch(NumberFormatException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Command format is //skill_test <ID>");
 			}
 			catch(NoSuchElementException nsee)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nsee.printStackTrace();
+				
 				activeChar.sendMessage("Command format is //skill_test <ID>");
 			}
 		}

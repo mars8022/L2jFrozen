@@ -601,7 +601,9 @@ public final class Config
         				}
         				catch (NumberFormatException nfe)
         				{
-        					if (!skill.equals(""))
+        					if(Config.ENABLE_ALL_EXCEPTIONS)
+    							nfe.printStackTrace();
+    						if (!skill.equals(""))
         					{
         						System.out.println("[Aio System]: invalid config property in extensions.properties -> AioSkills \"" + skillSplit[0] + "\"" + skillSplit[1]);
         					}
@@ -629,6 +631,8 @@ public final class Config
 						}
 						catch (NumberFormatException nfe)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								nfe.printStackTrace();
 							if (!reward.isEmpty())
 								_log.warning("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
 						}
@@ -649,6 +653,9 @@ public final class Config
 						}
 						catch (NumberFormatException nfe)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								nfe.printStackTrace();
+							
 							if (!reward.isEmpty())
 								_log.warning("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
 						}
@@ -728,6 +735,9 @@ public final class Config
 						}
 						catch(NumberFormatException nfe)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								nfe.printStackTrace();
+							
 							if(!skill.equals(""))
 							{
 								System.out.println("[SkillDurationList]: invalid config property -> SkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
@@ -1664,6 +1674,7 @@ public final class Config
 	public static boolean DEBUG;
 	public static boolean ASSERT;
 	public static boolean DEVELOPER;
+	public static boolean ENABLE_ALL_EXCEPTIONS = true;
 	public static boolean SERVER_LIST_TESTSERVER;
 	public static boolean SERVER_LIST_BRACKET;
 	public static boolean SERVER_LIST_CLOCK;
@@ -1711,6 +1722,7 @@ public final class Config
 			DEBUG = Boolean.parseBoolean(devSettings.getProperty("Debug", "false"));
 			ASSERT = Boolean.parseBoolean(devSettings.getProperty("Assert", "false"));
 			DEVELOPER = Boolean.parseBoolean(devSettings.getProperty("Developer", "false"));
+			ENABLE_ALL_EXCEPTIONS = Boolean.parseBoolean(devSettings.getProperty("EnableAllExceptionsLog", "false"));
 			SERVER_LIST_TESTSERVER = Boolean.parseBoolean(devSettings.getProperty("TestServer", "false"));
 			SERVER_LIST_BRACKET = Boolean.valueOf(devSettings.getProperty("ServerListBrackets", "false"));
 			SERVER_LIST_CLOCK = Boolean.valueOf(devSettings.getProperty("ServerListClock", "false"));
@@ -2637,6 +2649,8 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2661,6 +2675,8 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2685,6 +2701,8 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2709,6 +2727,8 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2733,6 +2753,8 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2757,6 +2779,8 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2781,6 +2805,10 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
+						
+						
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2805,6 +2833,9 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
+						
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -2829,6 +2860,9 @@ public final class Config
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
+						
 						if(!readData.equals(""))
 						{
 							System.out.println("invalid config property");
@@ -3571,6 +3605,9 @@ public final class Config
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Failed to load " + POWERPAK + " file");
 		}
 	}
@@ -3622,6 +3659,9 @@ public final class Config
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("Failed to Load " + EXTENDER_FILE + " File.");
 			}
 		}
@@ -3649,6 +3689,9 @@ public final class Config
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Failed to load " + DAEMONS + " file.");
 		}
 	}
@@ -3729,6 +3772,9 @@ public final class Config
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not load HexID file (" + HEXID_FILE + "). Hopefully login will give us one.");
 		}
 	}

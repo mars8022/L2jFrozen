@@ -332,6 +332,9 @@ public class L2Multisell
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "Error loading file " + f, e);
 			}
 			try
@@ -343,6 +346,9 @@ public class L2Multisell
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "Error in file " + f, e);
 			}
 		}

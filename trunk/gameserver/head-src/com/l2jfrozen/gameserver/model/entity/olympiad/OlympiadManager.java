@@ -60,7 +60,8 @@ class OlympiadManager extends Olympiad implements Runnable
 				}
 				catch(InterruptedException ex)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						ex.printStackTrace();
 				}
 				continue;
 			}
@@ -125,6 +126,9 @@ class OlympiadManager extends Olympiad implements Runnable
 							}
 							catch(Exception ex)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									ex.printStackTrace();
+								
 								if(_olympiadInstances.get(i) != null)
 								{
 									for(L2PcInstance player : _olympiadInstances.get(i).getPlayers())
@@ -157,6 +161,9 @@ class OlympiadManager extends Olympiad implements Runnable
 							}
 							catch(Exception ex)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									ex.printStackTrace();
+								
 								if(_olympiadInstances.get(i) != null)
 								{
 									for(L2PcInstance player : _olympiadInstances.get(i).getPlayers())
@@ -188,7 +195,8 @@ class OlympiadManager extends Olympiad implements Runnable
 				}
 				catch(InterruptedException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 			//wait 30 sec for !stress the server
@@ -198,7 +206,8 @@ class OlympiadManager extends Olympiad implements Runnable
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -213,7 +222,8 @@ class OlympiadManager extends Olympiad implements Runnable
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 			if(_gamesQueue.size() == 0)
 			{

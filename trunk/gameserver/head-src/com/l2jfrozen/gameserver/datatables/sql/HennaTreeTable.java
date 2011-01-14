@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2HennaInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
@@ -135,7 +136,10 @@ public class HennaTreeTable
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

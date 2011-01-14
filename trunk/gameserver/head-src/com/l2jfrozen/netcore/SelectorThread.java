@@ -29,6 +29,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
+import com.l2jfrozen.Config;
+
 import javolution.util.FastList;
 
 /**
@@ -217,6 +219,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		catch (IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			con.getClient().onForcedDisconnection();
 			closeConnectionImpl(key, con);
 		}
@@ -281,6 +286,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			catch (IOException e)
 			{
 				// error handling goes bellow
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 			
 			if (result > 0)
@@ -457,6 +465,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				catch (IOException e)
 				{
 					// error handling goes on the if bellow
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 				}
 			}
 		}
@@ -483,6 +494,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		catch (IOException e)
 		{
 			// error handling goes on the if bellow
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 		
 		// check if no error happened
@@ -616,6 +630,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			catch (IOException e)
 			{
 				// ignore, we are closing anyway
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 			finally
 			{
@@ -643,7 +660,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			}
 			catch (IOException e)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 		
@@ -653,7 +672,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		catch (IOException e)
 		{
-			// Ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 }

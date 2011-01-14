@@ -85,6 +85,9 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		}
 		catch(BufferUnderflowException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			// ignore for now
 			if(Config.L2WALKER_PROTEC)
 			{

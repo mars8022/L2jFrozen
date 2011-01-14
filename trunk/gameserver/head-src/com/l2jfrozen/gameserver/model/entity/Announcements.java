@@ -197,6 +197,9 @@ public class Announcements
 		}
 		catch(IOException e1)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Error reading announcements", e1);
 		}
 		finally
@@ -208,7 +211,8 @@ public class Announcements
 			}
 			catch(Exception e2)
 			{
-				// nothing
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e2.printStackTrace();
 			}
 		}
 	}
@@ -231,6 +235,9 @@ public class Announcements
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("saving the announcements file has failed: " + e);
 		}
 
@@ -288,6 +295,8 @@ public class Announcements
 		catch(StringIndexOutOfBoundsException e)
 		{
 			// empty message.. ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 	}
 }

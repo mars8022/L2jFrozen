@@ -139,11 +139,15 @@ public abstract class IdFactory
 		}
 		catch(SQLException e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try {con2.close(); } catch(SQLException e) { }
+			try {con2.close(); } catch(SQLException e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con2 = null;
 		}
 	}
@@ -208,11 +212,15 @@ public abstract class IdFactory
 		}
 		catch(SQLException e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try {conn.close(); } catch(SQLException e) {}
+			try {conn.close(); } catch(SQLException e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			conn = null;
 		}
 	}
@@ -239,7 +247,8 @@ public abstract class IdFactory
 			}
 			catch(SQLException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			s.executeUpdate("delete from itemsonground where object_id in (select object_id from items)");
@@ -277,7 +286,10 @@ public abstract class IdFactory
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

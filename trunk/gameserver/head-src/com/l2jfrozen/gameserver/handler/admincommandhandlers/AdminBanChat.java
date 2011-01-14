@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class handles following admin commands: - admin_banchat = Imposes a chat ban on the specified player/target. -
@@ -44,6 +47,12 @@ public class AdminBanChat implements IAdminCommandHandler
 	{
 			"admin_banchat", "admin_unbanchat"
 	};
+	
+	private enum CommandEnum
+	{
+		admin_banchat,
+		admin_unbanchat,
+	}
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
@@ -62,65 +71,131 @@ public class AdminBanChat implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 
-		String[] cmdParams = command.split(" ");
-		long banLength = -1;
-
-		L2Object targetObject = null;
-		L2PcInstance targetPlayer = null;
-
-		if(cmdParams.length > 1)
-		{
-			targetPlayer = L2World.getInstance().getPlayer(cmdParams[1]);
-
-			if(cmdParams.length > 2)
-			{
-				try
-				{
-					banLength = Integer.parseInt(cmdParams[2]) * 60L; // 60000L
-				}
-				catch(NumberFormatException nfe)
-				{
-					//ignore
-				}
-			}
-		}
-		else
-		{
-			if(activeChar.getTarget() != null)
-			{
-				targetObject = activeChar.getTarget();
-
-				if(targetObject != null && targetObject instanceof L2PcInstance)
-				{
-					targetPlayer = (L2PcInstance) targetObject;
-				}
-			}
-		}
-
-		cmdParams = null;
-		targetObject = null;
-
-		if(targetPlayer == null)
-		{
-			activeChar.sendMessage("Incorrect parameter or target.");
-
+		StringTokenizer st = new StringTokenizer(command);
+		
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
 			return false;
-		}
-
-		if(command.startsWith("admin_banchat"))
+		
+		String player = "";
+		L2PcInstance plyr = null;
+		
+		switch(comm)
 		{
-			activeChar.sendMessage(targetPlayer.getName() + " is now chat banned for " + banLength + " second.");
-			targetPlayer.setChatBanned(true, banLength * 1000L);
-		}
-		else if(command.startsWith("admin_unbanchat"))
-		{
-			activeChar.sendMessage(targetPlayer.getName() + "'s chat ban has now been lifted.");
-			targetPlayer.setChatBanned(false, 0);
-		}
+			case admin_banchat:{
+				
+				String time_s = "";
+				long time = 0;
+				
+				if(st.hasMoreTokens()){ //char_name specified
+					
+					player = st.nextToken();
+					plyr = L2World.getInstance().getPlayer(player);
+					
+				}else{ //just called //banchat with target --> infinite chat ban
+					
+					L2Object target = activeChar.getTarget();
 
-		targetPlayer = null;
+					if(target != null && target instanceof L2PcInstance)
+					{
+						plyr = (L2PcInstance) target;
+					}
+					else
+					{
+						activeChar.sendMessage("Usage: //banchat [char_name] (if none, target char gets banned) [TIME] (if none, infinite chat ban)");
+						return false;
+					}
 
-		return true;
+					target = null;
+					
+				}
+				
+				if(st.hasMoreTokens()){ //time
+					
+					time_s = st.nextToken();
+					
+					try
+					{
+						time = Integer.parseInt(time_s) * 60L; // 60000L
+					}
+					catch(NumberFormatException nfe)
+					{
+						activeChar.sendMessage("TIME must be a number");
+						return false;
+						
+					}
+					
+				}
+				
+				if(plyr != null && plyr.equals(activeChar))
+				{
+					plyr.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_ON_YOURSELF));
+					return false;
+				}
+				else if(plyr == null)
+				{
+					activeChar.sendMessage("Usage: //banchat [char_name] (if none, target char gets banned) [TIME] (if none, infinite chat ban)");
+					return false;
+					
+				}
+				else
+				{
+					activeChar.sendMessage(plyr.getName() + " is now chat banned for " + (time > 0 ? time + " seconds." : "ever!"));
+					plyr.setChatBanned(true, time * 1000L);
+					return true;
+				}
+				
+			}
+			case admin_unbanchat:{
+				
+				if(st.hasMoreTokens()){ //char_name specified
+					
+					player = st.nextToken();
+					plyr = L2World.getInstance().getPlayer(player);
+					
+				}else{ //just called //unbanchat with target
+					
+					L2Object target = activeChar.getTarget();
+
+					if(target != null && target instanceof L2PcInstance)
+					{
+						plyr = (L2PcInstance) target;
+					}
+					else
+					{
+						activeChar.sendMessage("Usage: //unbanchat [char_name] (if none, target char gets unbanned)");
+						return false;
+					}
+
+					target = null;
+					
+				}
+				
+				if(plyr != null && plyr.equals(activeChar))
+				{
+					plyr.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_ON_YOURSELF));
+					return false;
+				}
+				else if(plyr == null)
+				{
+					activeChar.sendMessage("Usage: //unbanchat [char_name] (if none, target char gets unbanned)");
+					return false;
+					
+				}
+				else
+				{
+					activeChar.sendMessage(plyr.getName() + "'s chat ban has now been lifted.");
+					plyr.setChatBanned(false, 0);
+					return true;
+				}
+				
+			}
+			default:{
+				return false;
+			}
+		}
+		
 	}
 
 	public String[] getAdminCommandList()

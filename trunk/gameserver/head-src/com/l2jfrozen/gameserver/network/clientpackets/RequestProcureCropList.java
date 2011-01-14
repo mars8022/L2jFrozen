@@ -152,6 +152,9 @@ public class RequestProcureCropList extends L2GameClientPacket
 			}
 			catch(NullPointerException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				continue;
 			}
 		}
@@ -196,6 +199,9 @@ public class RequestProcureCropList extends L2GameClientPacket
 			}
 			catch(NullPointerException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				continue;
 			}
 			if(crop == null || crop.getId() == 0 || crop.getPrice() == 0)

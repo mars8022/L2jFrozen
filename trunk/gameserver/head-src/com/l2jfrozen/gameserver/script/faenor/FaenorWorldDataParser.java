@@ -122,6 +122,9 @@ public class FaenorWorldDataParser extends FaenorParser
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			petData.petId = -1;
 			_log.warning("ERROR(parseStat):" + e.getMessage());
 		}

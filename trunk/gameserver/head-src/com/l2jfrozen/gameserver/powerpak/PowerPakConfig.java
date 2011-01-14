@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.templates.L2Item;
@@ -224,6 +225,9 @@ public class PowerPakConfig
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
+						
 						if(!skill.equals(""))
 						{
 							System.out.println("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
@@ -247,6 +251,9 @@ public class PowerPakConfig
 					}
 					catch(NumberFormatException nfe)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							nfe.printStackTrace();
+						
 						if(!skill.equals(""))
 						{
 							System.out.println("[MageSkillList]: invalid config property -> MageSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
@@ -340,6 +347,9 @@ public class PowerPakConfig
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.err.println("PowerPak: Unable to read  " + PP_CONFIG_FILE);
 		}
 	}

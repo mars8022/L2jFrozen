@@ -70,6 +70,9 @@ public class AdminShop implements IAdminCommandHandler
 			}
 			catch(IndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Please specify buylist.");
 			}
 		}
@@ -96,6 +99,9 @@ public class AdminShop implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("admin buylist failed:" + command);
 		}
 

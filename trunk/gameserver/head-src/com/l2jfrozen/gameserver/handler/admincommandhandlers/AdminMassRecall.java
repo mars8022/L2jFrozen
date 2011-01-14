@@ -70,6 +70,9 @@ public class AdminMassRecall implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Error in recallclan command.");
 			}
 		}
@@ -123,6 +126,9 @@ public class AdminMassRecall implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Error in recallally command.");
 			}
 		}
@@ -159,6 +165,9 @@ public class AdminMassRecall implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Error in recallparty command.");
 			}
 		}

@@ -97,7 +97,8 @@ public class AdminSkill implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_skill_list"))
@@ -114,7 +115,8 @@ public class AdminSkill implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_add_skill"))
@@ -132,6 +134,9 @@ public class AdminSkill implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //add_skill <skill_id> <level>");
 			}
 		}
@@ -152,6 +157,9 @@ public class AdminSkill implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //remove_skill <skill_id>");
 			}
 		}
@@ -206,6 +214,9 @@ public class AdminSkill implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //add_clan_skill <skill_id> <level>");
 			}
 		}
@@ -550,7 +561,8 @@ public class AdminSkill implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			if(skill != null)

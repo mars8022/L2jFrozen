@@ -22,6 +22,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
@@ -67,6 +68,9 @@ public final class EffectTemplate
 		}
 		catch(ClassNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new RuntimeException(e);
 		}
 		try
@@ -75,6 +79,9 @@ public final class EffectTemplate
 		}
 		catch(NoSuchMethodException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new RuntimeException(e);
 		}
 	}

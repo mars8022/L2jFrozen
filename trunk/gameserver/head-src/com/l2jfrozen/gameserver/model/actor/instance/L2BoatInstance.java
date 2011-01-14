@@ -164,10 +164,16 @@ public class L2BoatInstance extends L2Character
 			}
 			catch(FileNotFoundException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_logBoat.warning("boatpath.csv is missing in data folder");
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_logBoat.warning("error while creating boat table " + e);
 			}
 			finally
@@ -179,7 +185,8 @@ public class L2BoatInstance extends L2Character
 				}
 				catch(Exception e1)
 				{
-					/* ignore problems */
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e1.printStackTrace();
 				}
 			}
 		}

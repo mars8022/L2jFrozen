@@ -76,6 +76,9 @@ public final class CharacterDelete extends L2GameClientPacket
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Error:", e);
 
 		}

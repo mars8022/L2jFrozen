@@ -26,6 +26,7 @@ import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
@@ -265,7 +266,8 @@ public class EventsGlobalTask implements Runnable
 			}
 			catch(InterruptedException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 			
 		}

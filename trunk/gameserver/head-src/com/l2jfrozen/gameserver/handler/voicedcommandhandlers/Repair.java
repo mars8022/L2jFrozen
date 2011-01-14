@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -71,6 +72,9 @@ public class Repair implements IVoicedCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			repairChar = null;
 		}
 
@@ -244,6 +248,9 @@ public class Repair implements IVoicedCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("GameServer: could not repair character:" + e);
 		}
 		finally

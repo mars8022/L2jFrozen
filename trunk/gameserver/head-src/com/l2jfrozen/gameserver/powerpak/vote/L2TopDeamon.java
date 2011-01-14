@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledFuture;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.L2Utils;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
@@ -51,6 +52,9 @@ public class L2TopDeamon implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -76,6 +80,9 @@ public class L2TopDeamon implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, PowerPakConfig.L2TOPDEMON_POLLINTERVAL*60000);
 			Runtime.getRuntime().addShutdownHook(new Terminator());
@@ -83,6 +90,9 @@ public class L2TopDeamon implements Runnable
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.info("L2TopDeamon: Error connection to database: ",e);
 		}
 	}
@@ -172,6 +182,9 @@ public class L2TopDeamon implements Runnable
 			}
 		} catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.info("L2TopDeamon: Error while reading data",e);
 		}
 		return false;

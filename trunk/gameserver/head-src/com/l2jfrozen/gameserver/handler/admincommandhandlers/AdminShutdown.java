@@ -73,6 +73,9 @@ public class AdminShutdown implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				sendHtmlForm(activeChar);
 			}
 		}
@@ -86,6 +89,9 @@ public class AdminShutdown implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				sendHtmlForm(activeChar);
 			}
 		}

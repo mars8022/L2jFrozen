@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.l2jfrozen.Config;
+
 /**
  * Encodes and decodes to and from Base64 notation. The source is based on the work of Robert Harder
  * <p>
@@ -499,25 +501,37 @@ public class Base64
 				oos.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			try
 			{
 				gzos.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			try
 			{
 				b64os.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			try
 			{
 				baos.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		} // end finally
 
 		// Return value according to relevant encoding.
@@ -527,6 +541,9 @@ public class Base64
 		} // end try
 		catch(java.io.UnsupportedEncodingException uue)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				uue.printStackTrace();
+			
 			return new String(baos.toByteArray());
 		} // end catch
 
@@ -641,19 +658,28 @@ public class Base64
 					gzos.close();
 				}
 				catch(Exception e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				try
 				{
 					b64os.close();
 				}
 				catch(Exception e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				try
 				{
 					baos.close();
 				}
 				catch(Exception e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			} // end finally
 
 			// Return value according to relevant encoding.
@@ -663,6 +689,9 @@ public class Base64
 			} // end try
 			catch(java.io.UnsupportedEncodingException uue)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					uue.printStackTrace();
+				
 				return new String(baos.toByteArray());
 			} // end catch
 		} // end if: compress
@@ -703,6 +732,8 @@ public class Base64
 		} // end try
 		catch(java.io.UnsupportedEncodingException uue)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				uue.printStackTrace();
 			return new String(outBuff, 0, e);
 		} // end catch
 		// end else: don't compress
@@ -795,6 +826,9 @@ public class Base64
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				System.out.println("" + source[srcOffset] + ": " + DECODABET[source[srcOffset]]);
 				System.out.println("" + source[srcOffset + 1] + ": " + DECODABET[source[srcOffset + 1]]);
 				System.out.println("" + source[srcOffset + 2] + ": " + DECODABET[source[srcOffset + 2]]);
@@ -878,6 +912,9 @@ public class Base64
 		} // end try
 		catch(java.io.UnsupportedEncodingException uee)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				uee.printStackTrace();
+			
 			bytes = s.getBytes();
 		} // end catch
 		//</change>
@@ -919,6 +956,8 @@ public class Base64
 				catch(java.io.IOException e)
 				{
 					// Just return originally-decoded bytes
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				} // end catch
 				finally
 				{
@@ -927,19 +966,28 @@ public class Base64
 						baos.close();
 					}
 					catch(Exception e)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					try
 					{
 						gzis.close();
 					}
 					catch(Exception e)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					try
 					{
 						bais.close();
 					}
 					catch(Exception e)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				} // end finally
 
 			} // end if: gzipped
@@ -988,13 +1036,19 @@ public class Base64
 				bais.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			try
 			{
 				ois.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		} // end finally
 
 		return obj;
@@ -1097,6 +1151,9 @@ public class Base64
 						} // end try: read
 						catch(java.io.IOException e)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
 							// Only a problem if we got no data at all.
 							if(i == 0)
 								throw e;

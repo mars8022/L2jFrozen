@@ -115,6 +115,9 @@ public class L2DatabaseFactory
 		}
 		catch(SQLException x)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				x.printStackTrace();
+			
 			if(Config.DEBUG)
 			{
 				_log.fine("Database Connection FAILED");
@@ -124,6 +127,9 @@ public class L2DatabaseFactory
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			if(Config.DEBUG)
 			{
 				_log.fine("Database Connection FAILED");
@@ -162,6 +168,9 @@ public class L2DatabaseFactory
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.INFO, "", e);
 		}
 
@@ -171,6 +180,9 @@ public class L2DatabaseFactory
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.INFO, "", e);
 		}
 	}
@@ -223,6 +235,9 @@ public class L2DatabaseFactory
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
 			}
 		}
@@ -256,6 +271,9 @@ public class L2DatabaseFactory
 		}
 		catch (SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "Failed to close database connection!", e);
 		}
 	}

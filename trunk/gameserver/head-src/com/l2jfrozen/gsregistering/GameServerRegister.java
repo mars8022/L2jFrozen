@@ -127,6 +127,9 @@ public class GameServerRegister
 				}
 				catch (NumberFormatException nfe)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nfe.printStackTrace();
+					
 					System.out.println("Please, type a number or 'help'");
 				}
 			}
@@ -146,6 +149,9 @@ public class GameServerRegister
 		}
 		catch (SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("SQL error while cleaning registered servers: " + e);
 		}
 		finally
@@ -156,6 +162,8 @@ public class GameServerRegister
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 			try
 			{
@@ -163,6 +171,8 @@ public class GameServerRegister
 			}
 			catch (Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}

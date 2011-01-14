@@ -1,5 +1,6 @@
 package com.l2jfrozen.gameserver.powerpak.engrave;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -79,6 +80,9 @@ public class EngraveQuest extends Quest
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					return htm;
 				}
 			}
@@ -147,6 +151,9 @@ public class EngraveQuest extends Quest
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					return htm;
 				}
 			}
@@ -189,6 +196,9 @@ public class EngraveQuest extends Quest
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					return htm;
 				}
 			}
@@ -214,6 +224,9 @@ public class EngraveQuest extends Quest
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					return htm;
 				}
 			}
@@ -246,6 +259,9 @@ public class EngraveQuest extends Quest
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					return htm;
 				}
 			}

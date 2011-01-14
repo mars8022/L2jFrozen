@@ -29,6 +29,7 @@ import javax.script.ScriptContext;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.script.Parser;
 
 /**
@@ -62,6 +63,9 @@ public abstract class FaenorParser extends Parser
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			if(defaultValue != null)
 				return defaultValue;
 			throw new NullPointerException("FaenorParser: attribute " + e.getMessage());
@@ -81,7 +85,10 @@ public abstract class FaenorParser extends Parser
 			}
 		}
 		catch(Exception e)
-		{}
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+		}
 		if(defaultValue != null)
 			return defaultValue;
 		throw new NullPointerException();

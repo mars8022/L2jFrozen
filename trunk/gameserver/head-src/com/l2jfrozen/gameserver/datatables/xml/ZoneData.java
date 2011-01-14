@@ -365,6 +365,10 @@ public class ZoneData
 							}
 							catch(Exception e)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									e.printStackTrace();
+								
+								
 								_log.warning("ZoneData: Failed to load zone coordinates: " + e);
 							}
 
@@ -457,12 +461,20 @@ public class ZoneData
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.log(Level.SEVERE, "Error while loading zones.", e);
 			return;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 			worldRegions = null;
 		}

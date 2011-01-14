@@ -162,6 +162,9 @@ public class AdminSiege implements IAdminCommandHandler
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					activeChar.sendMessage("Usage: //add_guard npcId");
 				}
 			}

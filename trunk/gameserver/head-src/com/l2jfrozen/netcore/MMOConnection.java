@@ -26,6 +26,8 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.WritableByteChannel;
 
+import com.l2jfrozen.Config;
+
 /**
  * @author KenM
  * 
@@ -103,7 +105,9 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 			catch (CancelledKeyException e)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -240,7 +244,9 @@ public class MMOConnection<T extends MMOClient<?>>
 		}
 		catch (CancelledKeyException e)
 		{
-			// ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 		
 		//_closePacket = sp;

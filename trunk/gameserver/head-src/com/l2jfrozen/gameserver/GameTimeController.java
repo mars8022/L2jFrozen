@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -214,6 +215,9 @@ public class GameTimeController
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_error = e;
 			}
 		}
@@ -263,7 +267,8 @@ public class GameTimeController
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 		}

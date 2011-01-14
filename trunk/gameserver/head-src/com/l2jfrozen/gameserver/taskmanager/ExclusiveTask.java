@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.taskmanager;
 
 import java.util.concurrent.Future;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
@@ -117,7 +118,10 @@ public abstract class ExclusiveTask
 				wait();
 			}
 			catch(InterruptedException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 

@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
@@ -84,6 +85,9 @@ final class DocumentSkill extends DocumentBase
 		}
 		catch(RuntimeException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Error in table: " + name + " of Skill Id " + _currentSkill.id, e);
 			return "";
 		}
@@ -98,6 +102,9 @@ final class DocumentSkill extends DocumentBase
 		}
 		catch(RuntimeException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "wrong level count in skill Id " + _currentSkill.id, e);
 			return "";
 		}
@@ -384,6 +391,9 @@ final class DocumentSkill extends DocumentBase
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "Skill id=" + _currentSkill.sets[i].getEnum("skillType", SkillType.class).makeSkill(_currentSkill.sets[i]).getDisplayId() + "level" + _currentSkill.sets[i].getEnum("skillType", SkillType.class).makeSkill(_currentSkill.sets[i]).getLevel(), e);
 			}
 		}
@@ -398,6 +408,9 @@ final class DocumentSkill extends DocumentBase
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "Skill id=" + _currentSkill.enchsets1[i].getEnum("skillType", SkillType.class).makeSkill(_currentSkill.enchsets1[i]).getDisplayId() + " level=" + _currentSkill.enchsets1[i].getEnum("skillType", SkillType.class).makeSkill(_currentSkill.enchsets1[i]).getLevel(), e);
 			}
 		}
@@ -412,6 +425,9 @@ final class DocumentSkill extends DocumentBase
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "Skill id=" + _currentSkill.enchsets2[i].getEnum("skillType", SkillType.class).makeSkill(_currentSkill.enchsets2[i]).getDisplayId() + " level=" + _currentSkill.enchsets2[i].getEnum("skillType", SkillType.class).makeSkill(_currentSkill.enchsets2[i]).getLevel(), e);
 			}
 		}

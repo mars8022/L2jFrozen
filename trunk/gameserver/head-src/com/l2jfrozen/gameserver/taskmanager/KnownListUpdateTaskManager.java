@@ -2,6 +2,7 @@ package com.l2jfrozen.gameserver.taskmanager;
 
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -70,6 +71,9 @@ public class KnownListUpdateTaskManager
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning(e.toString());
 			}
 		}

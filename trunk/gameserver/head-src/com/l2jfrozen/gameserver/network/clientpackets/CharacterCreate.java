@@ -174,6 +174,9 @@ public final class CharacterCreate extends L2GameClientPacket
 		}
 		catch(PatternSyntaxException e) // case of illegal pattern
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("ERROR : Character name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}

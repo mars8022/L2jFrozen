@@ -71,7 +71,9 @@ public class RegionBBSManager extends BaseBBSManager
 			}
 			catch(NumberFormatException nfe)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+				
 			}
 
 			showOldCommunity(activeChar, page);
@@ -308,7 +310,9 @@ public class RegionBBSManager extends BaseBBSManager
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 
 			htmlCode = null;

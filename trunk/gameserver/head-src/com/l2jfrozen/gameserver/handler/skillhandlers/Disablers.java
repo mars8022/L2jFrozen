@@ -690,6 +690,9 @@ public class Disablers implements ISkillHandler
 								}
 								catch(IOException e)
 								{
+									if(Config.ENABLE_ALL_EXCEPTIONS)
+										e.printStackTrace();
+									
 									_log.log(Level.WARNING, "", e);
 								}
 								Healhandler = null;

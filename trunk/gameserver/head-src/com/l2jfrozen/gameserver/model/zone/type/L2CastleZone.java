@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -136,7 +137,8 @@ public class L2CastleZone extends L2ZoneType
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 		}
@@ -161,7 +163,8 @@ public class L2CastleZone extends L2ZoneType
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 		}

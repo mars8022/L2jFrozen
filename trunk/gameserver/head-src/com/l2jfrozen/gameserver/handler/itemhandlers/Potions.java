@@ -121,6 +121,9 @@ public class Potions implements IItemHandler
 			}
 			catch(Throwable t)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+				
 				_log.log(Level.WARNING, "", t);
 			}
 		}

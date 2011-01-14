@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ExQuestInfo;
@@ -62,6 +63,9 @@ public class L2AdventurerInstance extends L2FolkInstance
 			}
 			catch(NumberFormatException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("Invalid Bypass to Server command parameter.");
 			}
 		}

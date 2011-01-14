@@ -18,9 +18,12 @@
  */
 package com.l2jfrozen.crypt;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.ScheduledFuture;
+import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
@@ -33,6 +36,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
  */
 public class nProtect
 {
+	private static Logger _log = Logger.getLogger("nProtect");
+	
 	public static enum RestrictionType
 	{
 		RESTRICT_ENTER,RESTRICT_EVENT,RESTRICT_OLYMPIAD,RESTRICT_SIEGE
@@ -78,6 +83,9 @@ public class nProtect
 	protected Method _closeSession = null;
 	protected Method _sendGGQuery = null;
 	private static nProtect _instance = null;
+	
+	private static boolean enabled = false;
+	
 	public static nProtect getInstance()
 	{
 		if(_instance == null)
@@ -90,24 +98,42 @@ public class nProtect
 		Class<?> clazz=null;
 		try
 		{
-			try
-			{
-				clazz = Class.forName("com.scoria.protection.main");
-			} 
-			catch(ClassNotFoundException e)
-			{
-			}
+			clazz = Class.forName("com.scoria.protection.main");
+			
 			if(clazz!=null)
 			{
 				Method m = clazz.getMethod("init", nProtectAccessor.class);
-				if(m!=null)
+				if(m!=null){
 					m.invoke(null, new nProtectAccessor());
+					enabled = true;
+				}
 			}
+		} 
+		catch(ClassNotFoundException e)
+		{
+			_log.warning("ATTENTION: nProtect System will be not loaded due to ClassNotFoundException of 'com.scoria.protection.main' class" );
 		}
-		catch(Exception e)
+		catch(SecurityException e)
 		{
 			e.printStackTrace();
 		}
+		catch(NoSuchMethodException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch(InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
+		
 
 	}
 	
@@ -173,7 +199,8 @@ public class nProtect
 				}
 				catch(Exception e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 	}
 
@@ -190,4 +217,14 @@ public class nProtect
 		}
 		return true;
 	}
+
+	/**
+	 * @return the enabled
+	 */
+	public static boolean isEnabled()
+	{
+		return enabled;
+	}
+	
+	
 }

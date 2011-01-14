@@ -169,10 +169,8 @@ public class Escape implements IUserCommandHandler
 			}
 			catch(Throwable e)
 			{
-				if(Config.DEBUG)
-				{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				}
 			}
 		}
 	}

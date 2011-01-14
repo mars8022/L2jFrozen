@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadUserInfo;
@@ -214,7 +215,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 					//if(!proverkaDoTeleporta())
 					if(!checkStatus())
@@ -229,7 +231,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 
@@ -246,7 +249,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 				}
 				catch(InterruptedException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 				_game.removals();
 
@@ -266,7 +270,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 					if(i == 20)
 					{
@@ -277,7 +282,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 						}
 						catch(InterruptedException e)
 						{
-							//null
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
 						}
 					}
 				}
@@ -291,7 +297,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 
@@ -311,7 +318,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 						}
 						catch(NullPointerException e)
 						{
-							//null
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
 						}
 					}
 				}
@@ -331,7 +339,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 					}
 					catch(InterruptedException e)
 					{
-						//null
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
 					}
 				}
 				if(!checkStatus())
@@ -366,7 +375,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 		}
 		catch(Exception e)
 		{
-			//null
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 
 		if(toAll && _game._spectators != null)
@@ -379,7 +389,8 @@ class OlympiadGameTask extends Olympiad implements Runnable
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 		}

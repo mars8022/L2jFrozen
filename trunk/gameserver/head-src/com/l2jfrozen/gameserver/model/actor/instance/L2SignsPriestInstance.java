@@ -81,12 +81,18 @@ public class L2SignsPriestInstance extends L2FolkInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					try
 					{
 						cabal = Integer.parseInt(command.substring(13, 14).trim());
 					}
 					catch(Exception e2)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e2.printStackTrace();
+						
 						try
 						{
 							StringTokenizer st = new StringTokenizer(command.trim());
@@ -96,6 +102,9 @@ public class L2SignsPriestInstance extends L2FolkInstance
 						}
 						catch(Exception e3)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e3.printStackTrace();
+							
 							_log.warning("Failed to retrieve cabal from bypass command. NpcId: " + getNpcId() + "; Command: " + command);
 						}
 					}
@@ -362,11 +371,17 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					}
 					catch(NumberFormatException e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						showChatWindow(player, SevenSigns.SEVEN_SIGNS_HTML_PATH + "blkmrkt_3.htm");
 						break;
 					}
 					catch(StringIndexOutOfBoundsException e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						showChatWindow(player, SevenSigns.SEVEN_SIGNS_HTML_PATH + "blkmrkt_3.htm");
 						break;
 					}
@@ -445,6 +460,9 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						_log.warning("SevenSigns: Error occurred while teleporting player: " + e);
 					}
 					break;
@@ -517,6 +535,9 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					}
 					catch(Exception NumberFormatException)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							NumberFormatException.printStackTrace();
+						
 						player.sendMessage("You must enter an integer amount.");
 						break;
 					}

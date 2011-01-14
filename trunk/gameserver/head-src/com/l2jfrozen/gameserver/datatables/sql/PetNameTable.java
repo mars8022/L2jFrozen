@@ -79,11 +79,17 @@ public class PetNameTable
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not check existing petname:" + e.getMessage());
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return result;
@@ -103,6 +109,9 @@ public class PetNameTable
 		}
 		catch(PatternSyntaxException e) // case of illegal pattern
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("ERROR : Pet name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}

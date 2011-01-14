@@ -79,6 +79,9 @@ public final class RequestWearItem extends L2GameClientPacket
 			}
 			catch(Throwable e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.SEVERE, "", e);
 			}
 		}

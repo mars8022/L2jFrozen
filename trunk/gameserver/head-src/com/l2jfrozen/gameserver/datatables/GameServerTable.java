@@ -41,6 +41,7 @@ import javolution.xml.stream.XMLStreamConstants;
 import javolution.xml.stream.XMLStreamException;
 import javolution.xml.stream.XMLStreamReaderImpl;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.loginserver.GameServerThread;
 import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -136,6 +137,9 @@ public class GameServerTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("servername.xml could not be loaded: file not found");
 		}
 		catch(XMLStreamException xppe)
@@ -151,7 +155,9 @@ public class GameServerTable
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}
@@ -176,7 +182,11 @@ public class GameServerTable
 
 		rset.close();
 		statement.close();
-		try { con.close(); } catch(Exception e) { }
+		try { con.close(); } catch(Exception e) { 
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+		}
 		rset = null;
 		statement = null;
 		con = null;
@@ -251,6 +261,9 @@ public class GameServerTable
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("SQL error while saving gameserver: " + e);
 		}
 		finally
@@ -259,8 +272,16 @@ public class GameServerTable
 			{
 				statement.close();
 			}
-			catch(SQLException e){}
-			try { con.close(); } catch(Exception e) { }
+			catch(SQLException e){
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			statement = null;
 			con = null;
 		}

@@ -123,6 +123,9 @@ public class CrestCache
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("problem with crest bmp file " + e);
 				}
 				finally
@@ -134,7 +137,9 @@ public class CrestCache
 					}
 					catch(Exception e1)
 					{
-						//null;
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e1.printStackTrace();
+						
 					}
 				}
 			}
@@ -194,18 +199,27 @@ public class CrestCache
 				}
 				catch(SQLException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("could not update the crest id:" + e.getMessage());
 				}
 				finally
 				{
 					try
 					{
-						try { con.close(); } catch(Exception e) { }
+						try { con.close(); } catch(Exception e) {
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
+						}
 						con = null;
 					}
 					catch(Exception e)
 					{
-						//null;
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 					}
 				}
 
@@ -262,7 +276,9 @@ public class CrestCache
 		}
 		catch(Exception e)
 		{
-			//null;
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 
@@ -278,7 +294,9 @@ public class CrestCache
 		}
 		catch(Exception e)
 		{
-			//null;
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 
@@ -293,7 +311,9 @@ public class CrestCache
 		}
 		catch(Exception e)
 		{
-			//null;
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 
@@ -309,7 +329,9 @@ public class CrestCache
 		}
 		catch(Exception e)
 		{
-			//null;
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 
@@ -331,6 +353,10 @@ public class CrestCache
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.log(Level.INFO, "Error saving pledge crest" + crestFile + ":", e);
 			return false;
 		}
@@ -353,6 +379,10 @@ public class CrestCache
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.log(Level.INFO, "Error saving Large pledge crest" + crestFile + ":", e);
 			return false;
 		}
@@ -375,6 +405,9 @@ public class CrestCache
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+			e.printStackTrace();
+		
 			_log.log(Level.INFO, "Error saving ally crest" + crestFile + ":", e);
 			return false;
 		}

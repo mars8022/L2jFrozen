@@ -152,6 +152,9 @@ public class SevenSigns
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("SevenSigns: Failed to load configuration: " + e);
 		}
 
@@ -769,16 +772,25 @@ public class SevenSigns
 			statement.execute();
 
 			statement.close();
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("SevenSigns: Unable to load Seven Signs data from database: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -875,7 +887,10 @@ public class SevenSigns
 				statement.execute();
 
 				statement.close();
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 
 				if(Config.DEBUG)
 				{
@@ -888,11 +903,17 @@ public class SevenSigns
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("SevenSigns: Unable to save data to database: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -984,7 +1005,10 @@ public class SevenSigns
 				statement.execute();
 
 				statement.close();
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 
 				if(Config.DEBUG)
 				{
@@ -993,6 +1017,9 @@ public class SevenSigns
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.severe("SevenSigns: Failed to save data: " + e);
 			}
 			finally
@@ -1003,9 +1030,15 @@ public class SevenSigns
 					statement = null;
 				}
 				catch(Exception e)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}

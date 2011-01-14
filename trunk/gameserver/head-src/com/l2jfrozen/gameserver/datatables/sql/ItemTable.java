@@ -231,11 +231,17 @@ public class ItemTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "data error on item: ", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -298,11 +304,17 @@ public class ItemTable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.WARNING, "data error on custom_item: ", e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}
@@ -875,6 +887,9 @@ public class ItemTable
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			// this can happen if the item templates were not initialized
 		}
 
@@ -940,11 +955,17 @@ public class ItemTable
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.log(Level.WARNING, "could not delete pet objectid:", e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 					con = null;
 				}
 			}

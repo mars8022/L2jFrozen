@@ -186,6 +186,9 @@ public class GameServerThread extends Thread
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			String serverName = getServerId() != -1 ? "[" + getServerId() + "] " + GameServerTable.getInstance().getServerNameById(getServerId()) : "(" + _connectionIPAddress + ")";
 			String msg = "GameServer " + serverName + ": Connection lost: " + e.getMessage();
 			_log.info(msg);
@@ -496,6 +499,9 @@ public class GameServerThread extends Thread
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.finer("GameServerThread: Failed kicking banned server. Reason: " + e.getMessage());
 		}
 
@@ -505,6 +511,9 @@ public class GameServerThread extends Thread
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.finer("GameServerThread: Failed disconnecting banned server, server already disconnected.");
 		}
 
@@ -703,6 +712,9 @@ public class GameServerThread extends Thread
 			}
 			catch(UnknownHostException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("Couldn't resolve hostname \"" + gameExternalHost + "\"");
 			}
 		}
@@ -719,6 +731,9 @@ public class GameServerThread extends Thread
 			}
 			catch(UnknownHostException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("Couldn't resolve hostname \"" + gameInternalHost + "\"");
 			}
 		}

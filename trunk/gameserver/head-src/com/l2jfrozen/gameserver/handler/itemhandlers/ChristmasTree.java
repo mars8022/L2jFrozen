@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -93,6 +94,9 @@ public class ChristmasTree implements IItemHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("Target is not ingame.");
 			activeChar.sendPacket(sm);

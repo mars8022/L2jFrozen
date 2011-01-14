@@ -51,7 +51,10 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 				return;
 			}
 		}
-		catch(Exception e) {}
+		catch(Exception e) {
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+		}
 
 		QuestState qs = player.getQuestState("255_Tutorial");
 		if(qs != null)

@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.thread.daemons;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
@@ -69,6 +70,9 @@ public class AutoSave implements Runnable
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.error("Error saving player character: " + _player.getName(), e);
 				}
 			}
@@ -77,6 +81,9 @@ public class AutoSave implements Runnable
 		}
 		catch(Throwable e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error(e);
 		}
 	}

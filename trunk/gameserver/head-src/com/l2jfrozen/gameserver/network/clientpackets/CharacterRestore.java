@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
 
 /**
@@ -48,7 +49,8 @@ public final class CharacterRestore extends L2GameClientPacket
 		}
 		catch(Exception e)
 		{
-			//null
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 
 		CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);

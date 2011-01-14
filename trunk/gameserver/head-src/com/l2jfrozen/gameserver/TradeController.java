@@ -75,7 +75,8 @@ public class TradeController
 			}
 			catch(Throwable t)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}
@@ -124,6 +125,9 @@ public class TradeController
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.WARNING, "error while creating trade controller in linenr: " + lnr.getLineNumber(), e);
 			}
 			lnr = null;
@@ -247,6 +251,9 @@ public class TradeController
 						}
 						catch(Exception e)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
 							_log.warning("TradeController: Problem with buylist " + buy1.getListId() + " item " + itemId);
 						}
 						if(LimitedItem)
@@ -326,7 +333,10 @@ public class TradeController
 			}
 			finally
 			{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) {
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				con = null;
 			}
 			/*
@@ -440,6 +450,9 @@ public class TradeController
 							}
 							catch(Exception e)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									e.printStackTrace();
+								
 								_log.warning("TradeController: Problem with buylist " + buy1.getListId() + " item " + itemId);
 							}
 							if(LimitedItem)
@@ -520,7 +533,10 @@ public class TradeController
 				}
 				finally
 				{
-						try { con.close(); } catch(Exception e) { }
+						try { con.close(); } catch(Exception e) { 
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+						}
 					con = null;
 				}
 			}
@@ -616,11 +632,17 @@ public class TradeController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "TradeController: Could not update Timer save in Buylist");
 		}
 		finally
 		{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			con = null;
 		}
 	}
@@ -665,11 +687,16 @@ public class TradeController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			_log.log(Level.SEVERE, "TradeController: Could not store Count Item");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

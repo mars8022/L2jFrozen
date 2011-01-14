@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.netcore.ReceivablePacket;
@@ -48,12 +49,18 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch(BufferOverflowException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			if(getClient()!=null)
 				getClient().closeNow();
 			_log.severe("Client: " + getClient().toString() + " - Buffer overflow and has been kicked");
 		}
 		catch(BufferUnderflowException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			getClient().onBufferUnderflow();
 			
 			/*
@@ -64,6 +71,9 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
 			
 		}
@@ -89,6 +99,9 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch (Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
 			
 			if (this instanceof EnterWorld)

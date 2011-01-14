@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.templates.L2Henna;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 
@@ -108,10 +109,16 @@ public class HennaTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("./data/csv/henna.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e0.printStackTrace();
+			
 			_log.warning("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
@@ -123,7 +130,9 @@ public class HennaTable
 			}
 			catch(Exception e1)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 			}
 		}
 	}

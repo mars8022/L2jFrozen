@@ -111,13 +111,17 @@ public class AdminSpawn implements IAdminCommandHandler
 				}
 				catch(NoSuchElementException nsee)
 				{
-					//ignore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nsee.printStackTrace();
 				}
 
 				showMonsters(activeChar, level, from);
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				AdminHelpPage.showHelpPage(activeChar, "spawns.htm");
 			}
 
@@ -144,7 +148,8 @@ public class AdminSpawn implements IAdminCommandHandler
 				}
 				catch(NoSuchElementException nsee)
 				{
-					//ignore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						nsee.printStackTrace();
 				}
 
 				showNpcs(activeChar, letter, from);
@@ -153,6 +158,9 @@ public class AdminSpawn implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				AdminHelpPage.showHelpPage(activeChar, "npcs.htm");
 			}
 
@@ -194,6 +202,9 @@ public class AdminSpawn implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{ // Case of wrong or missing monster data
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				AdminHelpPage.showHelpPage(activeChar, "spawns.htm");
 			}
 
@@ -315,6 +326,9 @@ public class AdminSpawn implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_CANT_FOUND));
 		}
 

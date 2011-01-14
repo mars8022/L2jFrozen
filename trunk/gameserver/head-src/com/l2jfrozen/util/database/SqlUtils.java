@@ -22,6 +22,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
+
 public class SqlUtils
 {
 	private static Logger _log = Logger.getLogger(SqlUtils.class.getName());
@@ -84,7 +86,9 @@ public class SqlUtils
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 
@@ -146,7 +150,9 @@ public class SqlUtils
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 
@@ -210,7 +216,9 @@ public class SqlUtils
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 
@@ -235,6 +243,10 @@ public class SqlUtils
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			System.out.println("Optimization failed");
 		}
 		finally
@@ -242,7 +254,11 @@ public class SqlUtils
 			try
 			{
 				statement.close();
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 				statement = null;
 				GAME_QUICK_OPTIMIZE = null;
@@ -270,6 +286,9 @@ public class SqlUtils
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("Optimization failed");
 		}
 		finally
@@ -277,14 +296,20 @@ public class SqlUtils
 			try
 			{
 				statement.close();
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 				statement = null;
 				LOGIN_QUICK_OPTIMIZE = null;
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 	}

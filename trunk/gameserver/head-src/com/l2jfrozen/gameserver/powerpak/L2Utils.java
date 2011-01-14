@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -29,8 +30,13 @@ public class L2Utils {
 				result = L2PcInstance.load(r.getInt(1));
 			r.close();
 			stm.close();
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		} catch(SQLException e) {
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			result = null;
 		}
 		

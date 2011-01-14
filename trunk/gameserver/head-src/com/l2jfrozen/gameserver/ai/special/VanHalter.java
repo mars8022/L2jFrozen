@@ -224,6 +224,9 @@ public class VanHalter extends Quest implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager : " + e.getMessage() + " :" + e);
 		}
 
@@ -333,6 +336,9 @@ public class VanHalter extends Quest implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			// Problem with initializing spawn, go to next one
 			_log.warning("VanHalterManager.loadRoyalGuard: Spawn could not be initialized: " + e);
 		}
@@ -340,12 +346,21 @@ public class VanHalter extends Quest implements Runnable
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { 
+					con.close(); 
+				
+				} catch(Exception e) { 
+					
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -424,18 +439,30 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadTriolRevelation: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { 
+					con.close(); 
+					} 
+				catch(Exception e) { 
+					
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -517,18 +544,28 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadRoyalGuardCaptain: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { 
+					con.close(); 
+					} 
+				catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -607,18 +644,27 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadRoyalGuardHelper: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { 
+					con.close(); 
+					} catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -690,18 +736,25 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadGuardOfAltar: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -779,18 +832,25 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadVanHalter: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -859,18 +919,25 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadRitualOffering: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -940,18 +1007,25 @@ public class VanHalter extends Quest implements Runnable
 		catch(Exception e)
 		{
 			// Problem with initializing spawn, go to next one
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("VanHalterManager.loadRitualSacrifice: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) {
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//null;
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -1029,6 +1103,9 @@ public class VanHalter extends Quest implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning(e.getMessage() + " :" + e);
 			}
 		}
@@ -1106,6 +1183,9 @@ public class VanHalter extends Quest implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning(e.getMessage() + " :" + e);
 			}
 		}
@@ -1121,6 +1201,9 @@ public class VanHalter extends Quest implements Runnable
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning(e.getMessage() + " :" + e);
 			}
 		}

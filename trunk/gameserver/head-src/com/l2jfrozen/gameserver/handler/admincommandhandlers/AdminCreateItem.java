@@ -44,6 +44,12 @@ public class AdminCreateItem implements IAdminCommandHandler
 			"admin_itemcreate", "admin_create_item"
 	};
 
+	private enum CommandEnum
+	{
+		admin_itemcreate,
+		admin_create_item,
+	}
+
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
@@ -61,47 +67,82 @@ public class AdminCreateItem implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 
-		if(command.equals("admin_itemcreate"))
+		StringTokenizer st = new StringTokenizer(command);
+		
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
+			return false;
+		
+		switch(comm)
 		{
-			AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
-		}
-		else if(command.startsWith("admin_create_item"))
-		{
-			try
-			{
-				String val = command.substring(17);
-				StringTokenizer st = new StringTokenizer(val);
+			case admin_itemcreate:{
+				AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
+				return true;
+			}
+			case admin_create_item:
+				
+				if(st.hasMoreTokens()){
 
-				if(st.countTokens() == 2)
-				{
-					String id = st.nextToken();
-					int idval = Integer.parseInt(id);
-					String num = st.nextToken();
-					int numval = Integer.parseInt(num);
-					createItem(activeChar, idval, numval);
+					if(st.countTokens() == 2)
+					{
+						String id = st.nextToken();
+						String num = st.nextToken();
+						
+						int idval = 0; 
+						int numval = 0;
+						
+						try{
+							idval = Integer.parseInt(id);
+							numval = Integer.parseInt(num);
+						}catch(NumberFormatException e){
+							
+							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
+							return false;
+						}
+						
+						if(idval>0 && numval>0){
+							createItem(activeChar, idval, numval);
+							return true;
+						}else{
+							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
+							return false;
+						}
+					}
+					else if(st.countTokens() == 1)
+					{
+						String id = st.nextToken();
+						int idval = 0; 
+						
+						try{
+							idval = Integer.parseInt(id);
+						
+						}catch(NumberFormatException e){
+							
+							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
+							return false;
+						}
+
+						if(idval>0){
+							createItem(activeChar, idval, 1);
+							return true;
+						}else{
+							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
+							return false;
+						}
+					}
+
+				}else{
+					
+					activeChar.sendMessage("Usage: //itemcreate <itemId> [amount]");
+					return false;
 				}
-				else if(st.countTokens() == 1)
-				{
-					String id = st.nextToken();
-					int idval = Integer.parseInt(id);
-					createItem(activeChar, idval, 1);
-				}
-
-				val = null;
-				st = null;
+				
+			default:{
+				return false;
 			}
-			catch(StringIndexOutOfBoundsException e)
-			{
-				activeChar.sendMessage("Usage: //itemcreate <itemId> [amount]");
-			}
-			catch(NumberFormatException nfe)
-			{
-				activeChar.sendMessage("Specify a valid number.");
-			}
-
-			AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
 		}
-		return true;
+		
 	}
 
 	public String[] getAdminCommandList()

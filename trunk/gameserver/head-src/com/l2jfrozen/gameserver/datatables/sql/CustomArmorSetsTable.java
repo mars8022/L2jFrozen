@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ArmorSetsTable;
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -75,11 +76,17 @@ public final class CustomArmorSetsTable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.error("ArmorSetsTable: Error reading Custom ArmorSets table: " + e);
 		}
 		finally {
 			if(con != null)
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			con = null;
 		}
 	}

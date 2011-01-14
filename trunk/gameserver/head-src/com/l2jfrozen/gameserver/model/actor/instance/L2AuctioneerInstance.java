@@ -164,11 +164,17 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						player.sendMessage("Invalid bid!");
 					}
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid auction duration!");
 				}
 				return;
@@ -184,6 +190,9 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid auction");
 				}
 				return;
@@ -242,6 +251,9 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid auction!");
 				}
 
@@ -267,11 +279,17 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					catch(Exception e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						player.sendMessage("Invalid bid!");
 					}
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid auction!");
 				}
 
@@ -318,6 +336,9 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid auction!");
 				}
 				return;
@@ -655,6 +676,9 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					player.sendMessage("Invalid auction!");
 				}
 

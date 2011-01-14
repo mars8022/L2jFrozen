@@ -259,7 +259,8 @@ public class Shutdown extends Thread
 		}
 		catch(Throwable t)
 		{
-			// ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
 		}
 
 		if(this == _instance)
@@ -272,7 +273,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			// stop all threadpolls
@@ -282,7 +284,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			// last byebye, save all data and quit this server
@@ -295,7 +298,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			// saveData sends messages to exit players, so sgutdown selector after it
@@ -306,7 +310,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-				// ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			try
@@ -315,7 +320,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			// commit data, last chance
@@ -325,7 +331,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 
 			System.runFinalization();
@@ -518,6 +525,8 @@ public class Shutdown extends Thread
 				catch(Exception e)
 				{
 					// do nothing, we maybe are not connected to LS anymore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 
 				_secondsShut--;
@@ -533,7 +542,8 @@ public class Shutdown extends Thread
 		}
 		catch(InterruptedException e)
 		{
-			// this will never happen
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 	}
 
@@ -581,7 +591,8 @@ public class Shutdown extends Thread
 		}
 		catch(Throwable t)
 		{
-			_log.error("", t);
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
 		}
 
 		try
@@ -591,6 +602,9 @@ public class Shutdown extends Thread
         }
         catch (Throwable t)
         {
+        	if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+        	
         	_log.error("Error saving offline shops.",t);
         }
 
@@ -651,6 +665,8 @@ public class Shutdown extends Thread
 		catch(InterruptedException e)
 		{
 			//never happens :p
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 	}
 
@@ -674,7 +690,8 @@ public class Shutdown extends Thread
 			}
 			catch(Throwable t)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 		try
@@ -683,6 +700,9 @@ public class Shutdown extends Thread
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.error("", t);
 		}
 
@@ -695,6 +715,8 @@ public class Shutdown extends Thread
 			catch(Throwable t)
 			{
 				// just to make sure we try to kill the connection 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
 			}
 		}
 	}

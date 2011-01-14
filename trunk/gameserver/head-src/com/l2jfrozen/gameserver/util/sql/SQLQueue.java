@@ -25,6 +25,7 @@ import java.util.concurrent.ScheduledFuture;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -50,7 +51,8 @@ public class SQLQueue implements Runnable
 			_con = L2DatabaseFactory.getInstance().getConnection();
 			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, 60000);
 		} catch(SQLException e) {
-			
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		
 		
@@ -60,7 +62,10 @@ public class SQLQueue implements Runnable
 		_task.cancel(false);
 		if(!_isRuning && _query.size()>0) 
 			run();
-		try { _con.close(); } catch(Exception e) { }
+		try { _con.close(); } catch(Exception e) { 
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+		}
 	}
 	public void add(SQLQuery q) {
 		if(!_inShutdown)
@@ -76,7 +81,8 @@ public class SQLQueue implements Runnable
 				try {
 					q.execute(_con);
 				} catch(Exception e) {
-					
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 		}
@@ -85,7 +91,8 @@ public class SQLQueue implements Runnable
 			stm.execute();
 			stm.close();
 		} catch(Exception e) {
-			
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		_isRuning = false;
 	}

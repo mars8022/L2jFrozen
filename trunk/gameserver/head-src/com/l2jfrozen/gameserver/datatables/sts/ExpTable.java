@@ -27,6 +27,7 @@ import java.io.LineNumberReader;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.base.Experience;
 
 /**
@@ -83,11 +84,19 @@ public class ExpTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.warning("ExpTable is missing in sts folder");
 			System.exit(1);
 		}
 		catch(IOException e0)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e0.printStackTrace();
+			
+			
 			_log.warning("Error while creating exp table: " + e0.getMessage());
 			System.exit(1);
 		}
@@ -100,7 +109,9 @@ public class ExpTable
 			}
 			catch(Exception e1)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 			}
 		}
 	}

@@ -86,6 +86,9 @@ public class AdminMammon implements IAdminCommandHandler
 			}
 			catch(Exception NumberFormatException)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					NumberFormatException.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //mammon_find [teleportIndex] (where 1 = Blacksmith, 2 = Merchant)");
 			}
 
@@ -199,6 +202,9 @@ public class AdminMammon implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendPacket(SystemMessage.sendString("Command format is //list_spawns <npcId|npc_name> [tele_index]"));
 			}
 
@@ -216,6 +222,9 @@ public class AdminMammon implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Command format: //msg <SYSTEM_MSG_ID>");
 				return true;
 			}

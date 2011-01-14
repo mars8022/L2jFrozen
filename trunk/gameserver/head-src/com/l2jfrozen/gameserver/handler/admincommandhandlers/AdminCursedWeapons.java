@@ -96,6 +96,9 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 
@@ -220,13 +223,14 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 
 					if(cw1 == null)
 					{
-						activeChar.sendMessage("РќРµ РЅР°Р№РґРµРЅ ID.");
+						//activeChar.sendMessage("РќРµ РЅР°Р№РґРµРЅ ID.");
 						return false;
 					}
 				}
 				catch(Exception e)
 				{
-					//ignore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 
 				cw1.endOfLife();
@@ -265,13 +269,14 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 
 					if(cw1 == null)
 					{
-						activeChar.sendMessage("РќРµ РЅР°Р№РґРµРЅ ID.");
+						//activeChar.sendMessage("РќРµ РЅР°Р№РґРµРЅ ID.");
 						return false;
 					}
 				}
 				catch(Exception e)
 				{
-					//ignore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 
 				cw1.goTo(activeChar);
@@ -310,23 +315,24 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 
 					if(cw1 == null)
 					{
-						activeChar.sendMessage("РќРµ РЅР°Р№РґРµРЅ ID.");
+						//activeChar.sendMessage("РќРµ РЅР°Р№РґРµРЅ ID.");
 						return false;
 					}
 				}
 				catch(Exception e)
 				{
-					//ignore
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 
 				if(cw1 == null)
 				{
-					activeChar.sendMessage("РџСЂРёРјРµСЂ: //cw_add <РёРґ РёР»Рё РёРјСЏ>");
+					//activeChar.sendMessage("РџСЂРёРјРµСЂ: //cw_add <РёРґ РёР»Рё РёРјСЏ>");
 					return false;
 				}
 				else if(cw1.isActive())
 				{
-					activeChar.sendMessage("РџСЂРѕРєР»СЏС‚РѕРµ РѕСЂСѓР¶РµРµ Р°РєС‚РёРІРЅРѕ.");
+					//activeChar.sendMessage("РџСЂРѕРєР»СЏС‚РѕРµ РѕСЂСѓР¶РµРµ Р°РєС‚РёРІРЅРѕ.");
 				}
 				else
 				{

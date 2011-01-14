@@ -92,6 +92,9 @@ public class QuestManager extends ScriptManager<Quest>
 		}
 		catch(IOException ioe)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ioe.printStackTrace();
+			
 			_log.severe("Failed loading scripts.cfg, no script going to be loaded");
 		}
 	}

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.CharSelectInfoPackage;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -246,7 +247,10 @@ public class CharSelectInfo extends L2GameServerPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -281,7 +285,10 @@ public class CharSelectInfo extends L2GameServerPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -368,11 +375,17 @@ public class CharSelectInfo extends L2GameServerPacket
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("Could not restore augmentation info: " + e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 		}

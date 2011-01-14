@@ -147,6 +147,9 @@ public final class L2ScriptEngineManager
 		}
 		catch(ScriptException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.severe("Failed preconfiguring jython: " + e.getMessage());
 		}
 	}
@@ -204,6 +207,9 @@ public final class L2ScriptEngineManager
 						}
 						catch(ScriptException e)
 						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
 							reportScriptFileError(file, e);
 						}
 					}
@@ -267,6 +273,9 @@ public final class L2ScriptEngineManager
 					}
 					catch(ScriptException e)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						reportScriptFileError(file, e);
 						//e.printStackTrace();
 					}
@@ -298,14 +307,20 @@ public final class L2ScriptEngineManager
 				}
 				catch(InvalidClassException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 					_log.log(Level.SEVERE, "Failed loading Compiled Scripts Cache, invalid class (Possibly outdated).", e);
 				}
 				catch(IOException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 					_log.log(Level.SEVERE, "Failed loading Compiled Scripts Cache from file.", e);
 				}
 				catch(ClassNotFoundException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 					_log.log(Level.SEVERE, "Failed loading Compiled Scripts Cache, class not found.", e);
 				}
 				finally
@@ -315,7 +330,10 @@ public final class L2ScriptEngineManager
 						ois.close();
 					}
 					catch(Exception e)
-					{}
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				}
 				return new CompiledScriptCache();
 			}
@@ -530,7 +548,10 @@ public final class L2ScriptEngineManager
 					fos.close();
 				}
 				catch(Exception e1)
-				{}
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e1.printStackTrace();
+				}
 			}
 		}
 		else

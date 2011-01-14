@@ -116,10 +116,9 @@ public class L2LoginServer
 		{
 			_log.severe("FATAL: Failed initializing database. Reason: " + e.getMessage());
 
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}
@@ -131,10 +130,9 @@ public class L2LoginServer
 		catch(GeneralSecurityException e)
 		{
 			_log.severe("FATAL: Failed initializing LoginController. Reason: " + e.getMessage());
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}
@@ -147,10 +145,9 @@ public class L2LoginServer
 		{
 			_log.severe("FATAL: Failed to load GameServerTable. Reason: " + e.getMessage());
 
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}
@@ -158,10 +155,9 @@ public class L2LoginServer
 		{
 			_log.severe("FATAL: Failed to load GameServerTable. Reason: " + e.getMessage());
 
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}
@@ -177,10 +173,9 @@ public class L2LoginServer
 			{
 				_log.severe("WARNING: The LoginServer bind address is invalid, using all avaliable IPs. Reason: " + e1.getMessage());
 
-				if(Config.DEVELOPER)
-				{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e1.printStackTrace();
-				}
+				
 			}
 		}
 
@@ -200,10 +195,9 @@ public class L2LoginServer
 		{
 			_log.severe("FATAL: Failed to open Selector. Reason: " + e.getMessage());
 
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}
@@ -218,10 +212,9 @@ public class L2LoginServer
 		{
 			_log.severe("FATAL: Failed to start the Game Server Listener. Reason: " + e.getMessage());
 
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}
@@ -233,10 +226,9 @@ public class L2LoginServer
 		catch(IOException e)
 		{
 			_log.severe("FATAL: Failed to open server socket. Reason: " + e.getMessage());
-			if(Config.DEVELOPER)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
+			
 
 			System.exit(1);
 		}

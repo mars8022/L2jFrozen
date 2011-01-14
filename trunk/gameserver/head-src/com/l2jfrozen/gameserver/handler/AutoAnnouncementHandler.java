@@ -27,6 +27,7 @@ import javolution.util.FastMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -89,12 +90,16 @@ public class AutoAnnouncementHandler
 		{
 			try
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -208,11 +213,18 @@ public class AutoAnnouncementHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			
 			_log.fatal("System: Could Not Insert Auto Announcment into DataBase: Reason: " + "Duplicate Id");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return registerAnnouncement(nextId, announcementTexts, announcementDelay);
@@ -251,11 +263,15 @@ public class AutoAnnouncementHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return nextId;
@@ -320,11 +336,17 @@ public class AutoAnnouncementHandler
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.fatal("Could not Delete Auto Announcement in Database, Reason:", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

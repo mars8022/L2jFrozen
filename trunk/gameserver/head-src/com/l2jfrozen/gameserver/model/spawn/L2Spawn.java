@@ -130,6 +130,9 @@ public class L2Spawn
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.log(Level.WARNING, "", e);
 			}
 
@@ -525,6 +528,9 @@ public class L2Spawn
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.WARNING, "NPC " + _template.npcId + " class not found", e);
 		}
 		return mob;

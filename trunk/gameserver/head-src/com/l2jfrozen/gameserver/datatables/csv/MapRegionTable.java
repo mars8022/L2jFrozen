@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.ArenaManager;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
@@ -110,6 +111,9 @@ public class MapRegionTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("mapregion.csv is missing in data folder");
 		}
 		catch(NoSuchElementException e1)
@@ -131,7 +135,9 @@ public class MapRegionTable
 			}
 			catch(Exception e1)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 			}
 		}
 

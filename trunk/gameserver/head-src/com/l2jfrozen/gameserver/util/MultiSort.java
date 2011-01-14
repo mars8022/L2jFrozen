@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.l2jfrozen.Config;
+
 import javolution.util.FastList;
 
 /**
@@ -294,6 +296,8 @@ public class MultiSort
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			return false;
 		}
 	}

@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -159,6 +160,9 @@ public class AIExtend implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 		return true;
@@ -172,6 +176,8 @@ public class AIExtend implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -185,6 +191,8 @@ public class AIExtend implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			return false;
 		}
 
@@ -199,6 +207,8 @@ public class AIExtend implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -212,6 +222,9 @@ public class AIExtend implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 
@@ -226,6 +239,9 @@ public class AIExtend implements Runnable
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 

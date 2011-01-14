@@ -38,6 +38,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskOlympiadSave;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskRaidPointsReset;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskRecom;
@@ -108,11 +109,17 @@ public final class TaskManager
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning("cannot updated the Global Task " + id + ": " + e.getMessage());
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { }
+				try { con.close(); } catch(Exception e) { 
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
 				con = null;
 			}
 
@@ -246,7 +253,10 @@ public final class TaskManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -289,7 +299,10 @@ public final class TaskManager
 				_log.info("Task " + task.getId() + " is obsoleted.");
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		else if(type == TYPE_SPECIAL)
 		{
@@ -323,6 +336,8 @@ public final class TaskManager
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 				_log.warning("Bad parameter on task " + task.getId() + ": " + e.getMessage());
 				return false;
 			}
@@ -379,11 +394,16 @@ public final class TaskManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			_log.warning("cannot add the unique task: " + e.getMessage());
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 
@@ -418,11 +438,16 @@ public final class TaskManager
 		}
 		catch(SQLException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			_log.warning("cannot add the task:  " + e.getMessage());
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 

@@ -67,6 +67,9 @@ public class AdminLevel implements IAdminCommandHandler
 			}
 			catch(NumberFormatException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Wrong Number Format");
 			}
 		}
@@ -112,6 +115,9 @@ public class AdminLevel implements IAdminCommandHandler
 			}
 			catch(final NumberFormatException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("You must specify level between 1 and " + Experience.MAX_LEVEL + ".");
 				return false;
 			}

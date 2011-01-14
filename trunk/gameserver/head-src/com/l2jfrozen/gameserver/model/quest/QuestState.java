@@ -279,6 +279,9 @@ public final class QuestState
 				}
 				catch(Exception ex)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						ex.printStackTrace();
+					
 					previousVal = 0;
 				}
 
@@ -286,6 +289,9 @@ public final class QuestState
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.finer(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent: " + e);
 			}
 		}
@@ -453,6 +459,9 @@ public final class QuestState
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.finer(getPlayer().getName() + ": variable " + var + " isn't an integer: " + varint + e);
 			//TODO: comments
 			if(Config.AUTODELETE_INVALID_QUEST_DATA)

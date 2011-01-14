@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
 import com.l2jfrozen.gameserver.model.FishData;
 
@@ -112,10 +113,16 @@ public class FishTable
 		}
 		catch(FileNotFoundException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("fish.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e0.printStackTrace();
+		
 			_log.warning("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
@@ -127,7 +134,9 @@ public class FishTable
 			}
 			catch(Exception e1)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 			}
 		}
 		_log.config("FishTable: Loaded " + count + " Fishes.");

@@ -71,6 +71,8 @@ public class AdminHelpPage implements IAdminCommandHandler
 			catch(StringIndexOutOfBoundsException e)
 			{
 				//case of empty filename
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 

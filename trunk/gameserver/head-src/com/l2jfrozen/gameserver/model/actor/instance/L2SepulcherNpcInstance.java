@@ -326,9 +326,15 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 				val = Integer.parseInt(command.substring(5));
 			}
 			catch(IndexOutOfBoundsException ioobe)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioobe.printStackTrace();
+			}
 			catch(NumberFormatException nfe)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nfe.printStackTrace();
+			}
 			showChatWindow(player, val);
 		}
 		else if(command.startsWith("open_gate"))
@@ -413,6 +419,9 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warning(e.getMessage());
 			}
 		}

@@ -198,8 +198,11 @@ public class GameServer
 		HtmCache.getInstance();
 		CrestCache.getInstance();
 		L2ScriptEngineManager.getInstance();
+		
 		nProtect.getInstance();
-
+		if(nProtect.isEnabled())
+			_log.info("nProtect System Enabled");
+		
 		Util.printSection("World");
 		L2World.getInstance();
 		MapRegionTable.getInstance();
@@ -208,7 +211,7 @@ public class GameServer
 		AutoAnnouncementHandler.getInstance();
 		if(!IdFactory.getInstance().isInitialized())
 		{
-			System.out.println("Could not read object IDs from DB. Please Check Your Data.");
+			_log.info("Could not read object IDs from DB. Please Check Your Data.");
 			throw new Exception("Could not initialize the ID factory");
 		}
 		StaticObjects.getInstance();
@@ -220,7 +223,7 @@ public class GameServer
 		Util.printSection("Skills");
 		if(!SkillTable.getInstance().isInitialized())
 		{
-			System.out.println("Could not find the extraced files. Please Check Your Data.");
+			_log.info("Could not find the extraced files. Please Check Your Data.");
 			throw new Exception("Could not initialize the skill table");
 		}
 		SkillTreeTable.getInstance();
@@ -231,7 +234,7 @@ public class GameServer
 		Util.printSection("Items");
 		if(!ItemTable.getInstance().isInitialized())
 		{
-			System.out.println("Could not find the extraced files. Please Check Your Data.");
+			_log.info("Could not find the extraced files. Please Check Your Data.");
 			throw new Exception("Could not initialize the item table");
 		}
 		ArmorSetsTable.getInstance();
@@ -250,7 +253,7 @@ public class GameServer
 		NpcWalkerRoutesTable.getInstance().load();
 		if(!NpcTable.getInstance().isInitialized())
 		{
-			System.out.println("Could not find the extraced files. Please Check Your Data.");
+			_log.info("Could not find the extraced files. Please Check Your Data.");
 			throw new Exception("Could not initialize the npc table");
 		}
 
@@ -305,7 +308,7 @@ public class GameServer
 		}
 		else
 		{
-			System.out.println("Spawn: disable load.");
+			_log.info("Spawn: disable load.");
 		}
 		if(!Config.ALT_DEV_NO_RB)
 		{
@@ -315,7 +318,7 @@ public class GameServer
 		}
 		else
 		{
-			System.out.println("RaidBoss: disable load.");
+			_log.info("RaidBoss: disable load.");
 		}
 		DayNightSpawnManager.getInstance().notifyChangeMode();
 
@@ -391,8 +394,8 @@ public class GameServer
 		VoicedCommandHandler.getInstance();
 
 		
-		System.out.println("AutoChatHandler : Loaded " + AutoChatHandler.getInstance().size() + " handlers in total.");
-		System.out.println("AutoSpawnHandler : Loaded " + AutoSpawn.getInstance().size() + " handlers in total.");
+		_log.info("AutoChatHandler : Loaded " + AutoChatHandler.getInstance().size() + " handlers in total.");
+		_log.info("AutoSpawnHandler : Loaded " + AutoSpawn.getInstance().size() + " handlers in total.");
 
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());
 
@@ -422,11 +425,9 @@ public class GameServer
 		}
 		catch(NullPointerException e)
 		{
-			System.out.println("There is errors in your Door.csv file. Update door.csv");
-			if(Config.DEBUG)
-			{
+			_log.info("There is errors in your Door.csv file. Update door.csv");
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
 		}
 
 		Util.printSection("Quests");
@@ -435,7 +436,7 @@ public class GameServer
 			QuestManager.getInstance();
 		}
 		else
-			System.out.println("Quest: disable load.");
+			_log.info("Quest: disable load.");
 
 		Util.printSection("AI");
 		if(!Config.ALT_DEV_NO_AI)
@@ -444,7 +445,7 @@ public class GameServer
 		}
 		else
 		{
-			System.out.println("AI: disable load.");
+			_log.info("AI: disable load.");
 		}
 		
 		Util.printSection("Scripts");
@@ -455,28 +456,34 @@ public class GameServer
 		}
 		catch(IOException ioe)
 		{
-			System.out.println("Failed loading scripts.cfg, no script going to be loaded");
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ioe.printStackTrace();
+			
+			_log.info("Failed loading scripts.cfg, no script going to be loaded");
 		}
 		try
 		{
 			CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
 			if(compiledScriptCache == null)
-				System.out.println("Compiled Scripts Cache is disabled.");
+				_log.info("Compiled Scripts Cache is disabled.");
 			else
 			{
 				compiledScriptCache.purge();
 				if(compiledScriptCache.isModified())
 				{
 					compiledScriptCache.save();
-					System.out.println("Compiled Scripts Cache was saved.");
+					_log.info("Compiled Scripts Cache was saved.");
 				}
 				else
-					System.out.println("Compiled Scripts Cache is up-to-date.");
+					_log.info("Compiled Scripts Cache is up-to-date.");
 			}
 		}
 		catch(IOException e)
 		{
-			System.out.println("Failed to store Compiled Scripts Cache." + e);
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			_log.info("Failed to store Compiled Scripts Cache." + e);
 		}
 		QuestManager.getInstance().report();
 		if(!Config.ALT_DEV_NO_SCRIPT)
@@ -485,18 +492,21 @@ public class GameServer
 		}
 		else
 		{
-			System.out.println("Script: disable load.");
+			_log.info("Script: disable load.");
 		}
 
 		Util.printSection("Game Server");
-		System.out.println("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
+		_log.info("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
 		try
 		{
 			DynamicExtension.getInstance();
 		}
 		catch(Exception ex)
 		{
-			System.out.println("DynamicExtension could not be loaded and initialized" + ex);
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				ex.printStackTrace();
+			
+			_log.info("DynamicExtension could not be loaded and initialized" + ex);
 		}
 
 		Util.printSection("Custom Mods");
@@ -506,7 +516,7 @@ public class GameServer
 		}
 		else
 		{
-			System.out.println("Wedding Manager is Disabled");
+			_log.info("Wedding Manager is Disabled");
 		}
 		if(Config.SCORIA_ALLOW_AWAY_STATUS)
 		{
@@ -522,7 +532,7 @@ public class GameServer
 		}
 		else
 		{
-			System.out.println("Powerpack is Disabled");
+			_log.info("Powerpack is Disabled");
 		}
 		
 		Util.printSection("EventManager...");
@@ -566,6 +576,9 @@ public class GameServer
 			}
 			catch (UnknownHostException e1)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e1.printStackTrace();
+				
 				_log.log(Level.SEVERE, "WARNING: The GameServer bind address is invalid, using all avaliable IPs. Reason: " + e1.getMessage(), e1);
 			}
 		}
@@ -576,6 +589,9 @@ public class GameServer
 		}
 		catch (IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "FATAL: Failed to open server socket. Reason: " + e.getMessage(), e);
 			System.exit(1);
 		}

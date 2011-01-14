@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.io.File;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -75,46 +76,38 @@ public class AdminCache implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 
-		String[] wordList = command.split(" ");
-		CommandEnum comm;
+		StringTokenizer st = new StringTokenizer(command," ");
 
-		try
-		{
-			comm = CommandEnum.valueOf(wordList[0]);
-		}
-		catch(Exception e)
-		{
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
 			return false;
-		}
-
-		CommandEnum commandEnum = comm;
-
-		switch(commandEnum)
+		
+		switch(comm)
 		{
 			case admin_cache_htm_reload:
 			case admin_cache_htm_rebuild:
 				HtmCache.getInstance().reload(Config.DATAPACK_ROOT);
 				activeChar.sendMessage("Cache[HTML]: " + HtmCache.getInstance().getMemoryUsage() + " MB on " + HtmCache.getInstance().getLoadedFiles() + " file(s) loaded.");
-				break;
+				return true;
 
 			case admin_cache_reload_path:
-				try
-				{
-					String path = command.split(" ")[1];
+				if(st.hasMoreTokens()){
+					String path = st.nextToken();
 					HtmCache.getInstance().reloadPath(new File(Config.DATAPACK_ROOT, path));
 					activeChar.sendMessage("Cache[HTML]: " + HtmCache.getInstance().getMemoryUsage() + " MB in " + HtmCache.getInstance().getLoadedFiles() + " file(s) loaded.");
 					path = null;
-				}
-				catch(Exception e)
-				{
+					return true;
+				}else{
+					
 					activeChar.sendMessage("Usage: //cache_reload_path <path>");
+					return false;
 				}
-				break;
-
 			case admin_cache_reload_file:
-				try
-				{
-					String path = command.split(" ")[1];
+				
+				if(st.hasMoreTokens()){
+					
+					String path = st.nextToken();
 					if(HtmCache.getInstance().loadFile(new File(Config.DATAPACK_ROOT, path)) != null)
 					{
 						activeChar.sendMessage("Cache[HTML]: file was loaded");
@@ -125,30 +118,27 @@ public class AdminCache implements IAdminCommandHandler
 						activeChar.sendMessage("Cache[HTML]: file can't be loaded");
 						path = null;
 					}
-				}
-				catch(Exception e)
-				{
+					return true;
+				}else{
 					activeChar.sendMessage("Usage: //cache_reload_file <relative_path/file>");
+					return false;
 				}
-				break;
-
+				
 			case admin_cache_crest_rebuild:
 			case admin_cache_crest_reload:
 				CrestCache.getInstance().reload();
 				activeChar.sendMessage("Cache[Crest]: " + String.format("%.3f", CrestCache.getInstance().getMemoryUsage()) + " megabytes on " + CrestCache.getInstance().getLoadedFiles() + " files loaded");
-				break;
+				return true;
 
 			case admin_cache_crest_fix:
 				CrestCache.getInstance().convertOldPedgeFiles();
 				activeChar.sendMessage("Cache[Crest]: crests fixed");
-				break;
+				return true;
+			default:{
+				return false;
+			}
 		}
 
-		wordList = null;
-		comm = null;
-		commandEnum = null;
-
-		return true;
 	}
 
 	public String[] getAdminCommandList()

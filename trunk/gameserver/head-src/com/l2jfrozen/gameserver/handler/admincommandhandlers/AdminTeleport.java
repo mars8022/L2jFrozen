@@ -157,10 +157,8 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				if(Config.DEBUG)
-				{
-					_log.info("admin_walk: " + e);
-				}
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_move_to"))
@@ -174,6 +172,9 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty or missing coordinates
 				AdminHelpPage.showHelpPage(activeChar, "teleports.htm");
 			}
@@ -193,6 +194,9 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				//Case of empty coordinates
 				activeChar.sendMessage("Wrong or no Coordinates given.");
 				showTeleportCharWindow(activeChar); //back to character teleport
@@ -210,7 +214,8 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_teleporttonpc ")) //TODO
@@ -225,7 +230,8 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.startsWith("admin_recall "))
@@ -244,7 +250,8 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(command.equals("admin_tele"))
@@ -301,6 +308,9 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //go<north|south|east|west|up|down> [offset] (default 150)");
 			}
 		}
@@ -345,6 +355,9 @@ public class AdminTeleport implements IAdminCommandHandler
 		}
 		catch(NoSuchElementException nsee)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				nsee.printStackTrace();
+			
 			activeChar.sendMessage("Wrong or no Coordinates given.");
 		}
 	}
@@ -440,7 +453,8 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(NoSuchElementException nsee)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					nsee.printStackTrace();
 			}
 		}
 
@@ -578,6 +592,9 @@ public class AdminTeleport implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Target is not in game.");
 			}
 		}

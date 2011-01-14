@@ -45,6 +45,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminAdmin implements IAdminCommandHandler
 {
+	private static Logger _log = Logger.getLogger(AdminAdmin.class.getName());
+	
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_admin",
@@ -100,21 +103,14 @@ public class AdminAdmin implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 
-		String[] wordList = command.split(" ");
-		CommandEnum comm;
-
-		try
-		{
-			comm = CommandEnum.valueOf(wordList[0]);
-		}
-		catch(Exception e)
-		{
+		StringTokenizer st = new StringTokenizer(command);
+		
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
 			return false;
-		}
-
-		CommandEnum commandEnum = comm;
-
-		switch(commandEnum)
+		
+		switch(comm)
 		{
 			case admin_admin:
 			case admin_admin1:
@@ -123,31 +119,34 @@ public class AdminAdmin implements IAdminCommandHandler
 			case admin_admin4:
 			case admin_admin5:
 				showMainPage(activeChar, command);
-				break;
+				return true;
 
 			case admin_gmliston:
 				GmListTable.getInstance().showGm(activeChar);
 				activeChar.sendMessage("Registerd into gm list");
-				break;
+				return true;
 
 			case admin_gmlistoff:
 				GmListTable.getInstance().hideGm(activeChar);
 				activeChar.sendMessage("Removed from gm list");
-				break;
+				return true;
 
 			case admin_silence:
 				if(activeChar.getMessageRefusal()) // already in message refusal mode
 				{
 					activeChar.setMessageRefusal(false);
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.MESSAGE_ACCEPTANCE_MODE));
+					return true;
+
 				}
 				else
 				{
 					activeChar.setMessageRefusal(true);
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.MESSAGE_REFUSAL_MODE));
-				}
-				break;
+					return true;
 
+				}
+				
 			case admin_saveolymp:
 				try
 				{
@@ -157,10 +156,12 @@ public class AdminAdmin implements IAdminCommandHandler
 				catch(Exception e)
 				{
 					e.printStackTrace();
+					return false;
+
 				}
 
 				activeChar.sendMessage("Olympiad stuff saved!");
-				break;
+				return true;
 
 			case admin_manualhero:
 				try
@@ -170,17 +171,19 @@ public class AdminAdmin implements IAdminCommandHandler
 				catch(Exception e)
 				{
 					e.printStackTrace();
+					return false;
+
 				}
 
 				activeChar.sendMessage("Heroes formed!");
-				break;
+				return true;
 
-			case admin_diet:
-				try
-				{
-					StringTokenizer st = new StringTokenizer(command);
-					st.nextToken();
-
+			case admin_diet:{
+				
+				boolean no_token = false;
+				
+				if(st.hasMoreTokens()){
+					
 					if(st.nextToken().equalsIgnoreCase("on"))
 					{
 						activeChar.setDietMode(true);
@@ -191,11 +194,15 @@ public class AdminAdmin implements IAdminCommandHandler
 						activeChar.setDietMode(false);
 						activeChar.sendMessage("Diet mode off");
 					}
-
-					st = null;
+					
+				}else{
+					
+					no_token = true;
+					
 				}
-				catch(Exception ex)
-				{
+				
+				if(no_token){
+					
 					if(activeChar.getDietMode())
 					{
 						activeChar.setDietMode(false);
@@ -206,47 +213,52 @@ public class AdminAdmin implements IAdminCommandHandler
 						activeChar.setDietMode(true);
 						activeChar.sendMessage("Diet mode on");
 					}
+					
 				}
-				finally
-				{
-					activeChar.refreshOverloaded();
-				}
-				break;
+					
+				st = null;
+				activeChar.refreshOverloaded();
+				return true;
 
+			}
 			case admin_set:
-				StringTokenizer st = new StringTokenizer(command);
+				
+				boolean no_token = false;
+				
 				String[] cmd = st.nextToken().split("_");
+				
+				if(cmd!=null && cmd.length>1){
+					
+					if(st.hasMoreTokens()){
+						
+						String[] parameter = st.nextToken().split("=");
+						
+						if(parameter.length>1){
+							
+							String pName = parameter[0].trim();
+							String pValue = parameter[1].trim();
 
-				try
-				{
-					String[] parameter = st.nextToken().split("=");
-					String pName = parameter[0].trim();
-					String pValue = parameter[1].trim();
+							if(Config.setParameterValue(pName, pValue))
+							{
+								activeChar.sendMessage("parameter " + pName + " succesfully set to " + pValue);
+							}
+							else
+							{
+								activeChar.sendMessage("Invalid parameter!");
+								no_token = true;
+							}
 
-					if(Config.setParameterValue(pName, pValue))
-					{
-						activeChar.sendMessage("parameter " + pName + " succesfully set to " + pValue);
+							pName = null;
+							pValue = null;
+							
+						}else{
+							no_token = true;
+						}
+						
+						parameter = null;
+						
 					}
-					else
-					{
-						activeChar.sendMessage("Invalid parameter!");
-					}
-
-					parameter = null;
-					pName = null;
-					pValue = null;
-				}
-				catch(Exception e)
-				{
-					if(cmd.length == 2)
-					{
-						activeChar.sendMessage("Usage: //set parameter=vaue");
-					}
-				}
-				finally
-				{
-					st = null;
-
+					
 					if(cmd.length == 3)
 					{
 						if(cmd[2].equalsIgnoreCase("menu"))
@@ -258,15 +270,29 @@ public class AdminAdmin implements IAdminCommandHandler
 							AdminHelpPage.showHelpPage(activeChar, "mods_menu.htm");
 						}
 					}
+					
+				}else{
+					no_token = true;
 				}
-				break;
+				
+				cmd = null;
+				
+				if(no_token){
+					
+					activeChar.sendMessage("Usage: //set parameter=vaue");
+					return false;
+
+				}
+				
+				st = null;
+
+				return true;
+
+			default:{
+				return false;	
+			}
 		}
-
-		wordList = null;
-		comm = null;
-		commandEnum = null;
-
-		return true;
+		
 	}
 
 	/**
@@ -286,15 +312,25 @@ public class AdminAdmin implements IAdminCommandHandler
 		int mode = 0;
 		String filename = null;
 
-		try
-		{
-			mode = Integer.parseInt(command.substring(11));
+		if(command!=null && command.length()>11){
+			
+			String mode_s = command.substring(11);
+			
+			try
+			{
+				mode = Integer.parseInt(mode_s);
+				
+			}
+			catch(NumberFormatException e)
+			{
+				if(Config.DEBUG){
+					_log.warning("Impossible to parse to integer the string "+mode_s+", exception "+e.getMessage());
+				}
+				
+			}
+			
 		}
-
-		catch(Exception e)
-		{
-			//ignore
-		}
+		
 
 		switch(mode)
 		{

@@ -778,7 +778,10 @@ public final class L2ItemInstance extends L2Object
 				}
 			}
 			catch(Throwable t)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
 		}
 	}
 
@@ -1173,11 +1176,17 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Could not restore item " + objectId + " from DB:", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 		return inst;
@@ -1287,11 +1296,17 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.log(Level.SEVERE, "Could not update item " + getObjectId() + " in DB: Reason: " + "Duplicate itemId");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1336,6 +1351,9 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(SQLException  e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			//unique Index or Duplicate Exception
 			if(e.getErrorCode()==-9 || e.getErrorCode()==-803){
 				
@@ -1350,7 +1368,10 @@ public final class L2ItemInstance extends L2Object
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -1397,7 +1418,10 @@ public final class L2ItemInstance extends L2Object
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

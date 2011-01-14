@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.templates;
 
 import java.util.Map;
 
+import com.l2jfrozen.Config;
+
 import javolution.util.FastMap;
 
 /**
@@ -77,6 +79,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Boolean value required, but found: " + val);
 		}
 	}
@@ -102,6 +107,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Boolean value required, but found: " + val);
 		}
 	}
@@ -127,6 +135,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Byte value required, but found: " + val);
 		}
 	}
@@ -150,6 +161,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Byte value required, but found: " + val);
 		}
 	}
@@ -175,6 +189,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Short value required, but found: " + val);
 		}
 	}
@@ -198,6 +215,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Short value required, but found: " + val);
 		}
 	}
@@ -221,6 +241,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Integer value required, but found: " + val);
 		}
 	}
@@ -246,6 +269,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Integer value required, but found: " + val);
 		}
 	}
@@ -282,6 +308,9 @@ public final class StatsSet
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				throw new IllegalArgumentException("Integer value required, but found: " + val);
 			}
 		}
@@ -307,6 +336,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Integer value required, but found: " + val);
 		}
 	}
@@ -332,6 +364,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Integer value required, but found: " + val);
 		}
 	}
@@ -355,6 +390,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Float value required, but found: " + val);
 		}
 	}
@@ -380,6 +418,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Float value required, but found: " + val);
 		}
 	}
@@ -403,6 +444,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Float value required, but found: " + val);
 		}
 	}
@@ -428,6 +472,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Float value required, but found: " + val);
 		}
 	}
@@ -484,6 +531,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Enum value of type " + enumClass.getName() + "required, but found: " + val);
 		}
 	}
@@ -512,6 +562,9 @@ public final class StatsSet
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new IllegalArgumentException("Enum value of type " + enumClass.getName() + "required, but found: " + val);
 		}
 	}

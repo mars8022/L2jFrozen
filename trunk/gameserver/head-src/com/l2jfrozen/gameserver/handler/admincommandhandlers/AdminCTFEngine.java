@@ -17,6 +17,7 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -43,9 +44,21 @@ public class AdminCTFEngine implements IAdminCommandHandler
 		"admin_ctf_team_add", "admin_ctf_team_remove", "admin_ctf_team_pos", "admin_ctf_team_color","admin_ctf_team_flag",
 		"admin_ctf_join", "admin_ctf_teleport", "admin_ctf_start", "admin_ctf_startevent", "admin_ctf_abort", "admin_ctf_finish",
 		"admin_ctf_sit", "admin_ctf_dump", "admin_ctf_save", "admin_ctf_load", "admin_ctf_jointime", 
-		"admin_ctf_eventtime", "admin_ctf_autoevent","admin_ctf_minplayers","admin_ctf_maxplayers"
+		"admin_ctf_eventtime", "admin_ctf_autoevent","admin_ctf_minplayers","admin_ctf_maxplayers","admin_ctf_interval"
 	};
  
+	private enum CommandEnum
+	{
+		admin_ctf, admin_ctf_name, admin_ctf_desc, admin_ctf_join_loc,admin_ctf_edit,admin_ctf_control,
+		admin_ctf_minlvl, admin_ctf_maxlvl,admin_ctf_tele_npc,admin_ctf_tele_team, admin_ctf_tele_flag,
+		admin_ctf_npc, admin_ctf_npc_pos,
+		admin_ctf_reward, admin_ctf_reward_amount,
+		admin_ctf_team_add, admin_ctf_team_remove, admin_ctf_team_pos, admin_ctf_team_color,admin_ctf_team_flag,
+		admin_ctf_join, admin_ctf_teleport, admin_ctf_start, admin_ctf_startevent, admin_ctf_abort, admin_ctf_finish,
+		admin_ctf_sit, admin_ctf_dump, admin_ctf_save, admin_ctf_load, admin_ctf_jointime, 
+		admin_ctf_eventtime, admin_ctf_autoevent,admin_ctf_minplayers,admin_ctf_maxplayers,admin_ctf_interval
+	}
+	
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
@@ -63,314 +76,571 @@ public class AdminCTFEngine implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 		
-		try
+		StringTokenizer st = new StringTokenizer(command);
+		
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
+			return false;
+		
+		switch(comm)
 		{
-			if(command.equals("admin_ctf"))
+			case admin_ctf:{ 
 				showMainPage(activeChar);
-
-			else if(command.startsWith("admin_ctf_name "))
-			{
-				if(CTF.set_eventName(command.substring(15)))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				return true;
 			}
-
-			else if(command.startsWith("admin_ctf_desc "))
-			{
-				if(CTF.set_eventDesc(command.substring(15)))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			case admin_ctf_name:{ 
 				
-			}
-
-			else if(command.startsWith("admin_ctf_minlvl "))
-			{
-				if (!CTF.checkMinLevel(Integer.valueOf(command.substring(17))))
+				if(st.hasMoreTokens()){
+					
+					if(CTF.set_eventName(st.nextToken())){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+				}else{
+					activeChar.sendMessage("Usage: //ctf_name <event_name>");
 					return false;
-				
-				if(CTF.set_minlvl(Integer.valueOf(command.substring(15))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				}
 				
 			}
-
-			else if(command.startsWith("admin_ctf_team_flag "))
-			{
-				String[] params;
-
-				params = command.split(" ");
-				
-				if(params.length != 2)
-				{
-					activeChar.sendMessage("Wrong usge: //ctf_team_flag <teamName>");
+			case admin_ctf_desc:{ 
+				if(st.hasMoreTokens()){
+					
+					if(CTF.set_eventDesc(st.nextToken())){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_desc <event_descr>");
 					return false;
 				}
 
-				CTF.setTeamFlag(params[1], activeChar);
-				showMainPage(activeChar);
 			}
-
-			else if(command.equals("admin_ctf_edit"))
-			{
+			case admin_ctf_join_loc:
+				
+				if(st.hasMoreTokens()){
+					
+					if(CTF.set_joiningLocationName(st.nextToken())){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_join_loc <event_loc_name>");
+					return false;
+				}
+				
+			case admin_ctf_edit:{
 				showEditPage(activeChar);
+				return true;
 			}
-
-			else if(command.equals("admin_ctf_control"))
-			{
+			case admin_ctf_control:{
 				showControlPage(activeChar);
+				return true;
 			}
+			case admin_ctf_minlvl:
+				
+				if(st.hasMoreTokens()){
+					
+					String lvl_s = st.nextToken();
+					int lvl = 0; 
+					
+					try{
+						lvl = Integer.parseInt(lvl_s);
+					}catch (NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_minlvl <min_lvl_value>");
+						return false;
+					}
+					
+					if (!CTF.checkMinLevel(lvl)){
+						activeChar.sendMessage("Cannot perform requested operation, Min lvl must be lower then Max");
+						return false;
+					}
+						
+					if(CTF.set_minlvl(lvl)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_minlvl <min_lvl_value>");
+					return false;
+				}
+			case admin_ctf_maxlvl:
+				if(st.hasMoreTokens()){
+					
+					String lvl_s = st.nextToken();
+					int lvl = 0; 
+					
+					try{
+						lvl = Integer.parseInt(lvl_s);
+					}catch (NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_maxlvl <max_lvl_value>");
+						return false;
+					}
+					
+					if (!CTF.checkMaxLevel(lvl)){
+						activeChar.sendMessage("Cannot perform requested operation, Max lvl must be higher then Min");
+						return false;
+					}
+						
+					if(CTF.set_maxlvl(lvl)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_maxlvl <min_lvl_value>");
+					return false;
+				}
 
-			else if(command.equals("admin_ctf_tele_npc"))
-			{
+			case admin_ctf_tele_npc:{
 				activeChar.teleToLocation(CTF.get_npcLocation(),false);
 				showMainPage(activeChar);
 			}
-
-			else if(command.startsWith("admin_ctf_tele_team "))
-			{
-				for(String t : CTF._teams)
-					if(t.equals(command.substring(20)))
-					{
-						int index = CTF._teams.indexOf(t);
-						activeChar.teleToLocation(CTF._teamsX.get(index), CTF._teamsY.get(index), CTF._teamsZ.get(index));
+			case admin_ctf_tele_team:
+				if(st.hasMoreTokens()){
+					for(String team : CTF._teams){
+						if(team.equals(st.nextToken()))
+						{
+							int index = CTF._teams.indexOf(team);
+							activeChar.teleToLocation(CTF._teamsX.get(index), CTF._teamsY.get(index), CTF._teamsZ.get(index));
+							return true;
+						}
 					}
-				showMainPage(activeChar);
-			}
-
-			else if(command.startsWith("admin_ctf_tele_flag "))
-			{
-				for(String t : CTF._teams)
-					if(t.equals(command.substring(20)))
-					{
-						int index = CTF._teams.indexOf(t);
-						activeChar.teleToLocation(CTF._flagsX.get(index), CTF._flagsY.get(index), CTF._flagsZ.get(index));
-					}
-				showMainPage(activeChar);
-			}
-
-			else if(command.startsWith("admin_ctf_maxlvl "))
-			{
-				if(!CTF.checkMaxLevel(Integer.valueOf(command.substring(17))))
+					activeChar.sendMessage("Usage: //ctf_tele_team <team_name>");
+					showMainPage(activeChar);
 					return false;
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_tele_team <team_name>");
+					return false;
+				}
 				
-				if(CTF.set_maxlvl(Integer.valueOf(command.substring(17))))
+			case admin_ctf_tele_flag:
+				
+				if(st.hasMoreTokens()){
+					for(String team : CTF._teams){
+						if(team.equals(st.nextToken()))
+						{
+							int index = CTF._teams.indexOf(team);
+							activeChar.teleToLocation(CTF._flagsX.get(index), CTF._flagsY.get(index), CTF._flagsZ.get(index));
+							return true;
+						}
+					}
+					activeChar.sendMessage("Usage: //ctf_tele_flag <team_name>");
 					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+					return false;
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_tele_flag <team_name>");
+					return false;
+				}
 				
-			}
-
-			else if(command.startsWith("admin_ctf_minplayers "))
-			{
-				if(CTF.set_minPlayers(Integer.valueOf(command.substring(21))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+			case admin_ctf_npc:
 				
-			}
-
-			else if(command.startsWith("admin_ctf_maxplayers "))
-			{
-				if(CTF.set_maxPlayers(Integer.valueOf(command.substring(21))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				if(st.hasMoreTokens()){
+					
+					int id = 0;
+					
+					try{
+						id = Integer.valueOf(st.nextToken());
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_npc <npc_id>");
+						return false;
+					}
+					
+					if(CTF.set_npcId(id)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_npc <npc_id>");
+					return false;
+				}
 				
-			}
-
-			else if(command.startsWith("admin_ctf_join_loc "))
-			{
-				if(CTF.set_joiningLocationName(command.substring(19)))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
-				
-			}
-
-			else if(command.startsWith("admin_ctf_npc "))
-			{
-				if(CTF.set_npcId(Integer.valueOf(command.substring(14))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
-				
-			}
-
-			else if(command.equals("admin_ctf_npc_pos"))
-			{
+			case admin_ctf_npc_pos:
 				CTF.setNpcPos(activeChar);
 				showMainPage(activeChar);
-			}
-
-			else if(command.startsWith("admin_ctf_reward "))
-			{
-				if(CTF.set_rewardId(Integer.valueOf(command.substring(17))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
+				return true;
+			case admin_ctf_reward:
 				
-			}
-
-			else if(command.startsWith("admin_ctf_reward_amount "))
-			{
-				if(CTF.set_rewardAmount(Integer.valueOf(command.substring(24))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
-				
-			}
-
-			else if(command.startsWith("admin_ctf_jointime "))
-			{
-				if(CTF.set_joinTime(Integer.valueOf(command.substring(19))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
-				
-			}
-
-			else if(command.startsWith("admin_ctf_eventtime "))
-			{
-				if(CTF.set_eventTime(Integer.valueOf(command.substring(20))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
-				
-			}
-			
-			else if(command.startsWith("admin_ctf_interval "))
-			{
-				if(CTF.set_intervalBetweenMatchs(Integer.valueOf(command.substring(20))))
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot perform requested operation, event in progress");
-				
-			}
-
-			else if(command.startsWith("admin_ctf_team_add "))
-			{
-				String teamName = command.substring(19);
-				
-				CTF.addTeam(teamName);
-				showMainPage(activeChar);
-			}
-
-			else if(command.startsWith("admin_ctf_team_remove "))
-			{
-				String teamName = command.substring(22);
-
-				CTF.removeTeam(teamName);
-				showMainPage(activeChar);
-			}
-
-			else if(command.startsWith("admin_ctf_team_pos "))
-			{
-				String teamName = command.substring(19);
-
-				CTF.setTeamPos(teamName, activeChar);
-				showMainPage(activeChar);
-			}
-
-			else if(command.startsWith("admin_ctf_team_color "))
-			{
-				String[] params;
-
-				params = command.split(" ");
-				
-				if(params.length != 3)
-				{
-					activeChar.sendMessage("Wrong usege: //ctf_team_color <colorHex> <teamName>");
+				if(st.hasMoreTokens()){
+					
+					int id = 0;
+					
+					try{
+						id = Integer.valueOf(st.nextToken());
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_reward <reward_id>");
+						return false;
+					}
+					
+					if(CTF.set_rewardId(id)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_reward <reward_id>");
 					return false;
 				}
 
-				CTF.setTeamColor(command.substring(params[0].length()+params[1].length()+2), Integer.decode("0x" + params[1]));
-				showMainPage(activeChar);
-			}
-	
-			else if(command.equals("admin_ctf_join"))
-			{
-				if(CTF.startJoin())
-					showMainPage(activeChar);
-				else
-					activeChar.sendMessage("Cannot startJoin, check log for info..");
-			}
+			case admin_ctf_reward_amount:
+				
+				if(st.hasMoreTokens()){
+					
+					int amount = 0;
+					
+					try{
+						amount = Integer.valueOf(st.nextToken());
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_reward_amount <reward_amount>");
+						return false;
+					}
+					
+					if(CTF.set_rewardAmount(amount)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}else{
+					activeChar.sendMessage("Usage: //ctf_reward_amount <reward_amount>");
+					return false;
+				}
 
-			else if(command.equals("admin_ctf_teleport"))
-			{
+			case admin_ctf_team_add:
+				
+				if(st.hasMoreTokens()){
+					
+					CTF.addTeam(st.nextToken());
+					showMainPage(activeChar);
+					return true;
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_team_add <team_name>");
+					return false;
+				}
+				
+			case admin_ctf_team_remove:
+				
+				if(st.hasMoreTokens()){
+					
+					CTF.removeTeam(st.nextToken());
+					showMainPage(activeChar);
+					return true;
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_team_remove <team_name>");
+					return false;
+				}
+
+			case admin_ctf_team_pos:
+				
+				if(st.hasMoreTokens()){
+					
+					CTF.setTeamPos(st.nextToken(), activeChar);
+					showMainPage(activeChar);
+					return true;
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_team_pos <team_name>");
+					return false;
+				}
+
+			case admin_ctf_team_color:
+				
+				if(st.countTokens()==2){
+					
+					String color_s = st.nextToken();
+					
+					int color = 0;
+					
+					try{
+						
+						color = Integer.decode("0x" + color_s);
+						
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_team_color <colorHex> <teamName>");
+						return false;
+					}
+					
+					String team = st.nextToken();
+					
+					CTF.setTeamColor(team, color);
+					showMainPage(activeChar);
+					return true;
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_team_color <colorHex> <teamName>");
+					return false;
+				}
+
+			case admin_ctf_team_flag:
+				
+				if(st.hasMoreTokens()){
+					
+					CTF.setTeamFlag(st.nextToken(), activeChar);
+					showMainPage(activeChar);
+					return true;
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_team_flag <teamName>");
+					return false;
+				}
+
+				
+			case admin_ctf_join: 
+				if(CTF.startJoin()){
+					showMainPage(activeChar);
+					return true;
+				}else{
+					activeChar.sendMessage("Cannot startJoin, check log for info..");
+					return false;
+				}
+			case admin_ctf_teleport:
 				CTF.startTeleport();
 				showMainPage(activeChar);
-			}
-
-			else if(command.equals("admin_ctf_start"))
-			{
-				if(CTF.startEvent())
+				return true;
+			case admin_ctf_start:
+				if(CTF.startEvent()){
 					showMainPage(activeChar);
-				else
+					return true;
+				}else{
 					activeChar.sendMessage("Cannot startEvent, check log for info..");
-				
-			}
-
-			else if(command.equals("admin_ctf_startevent"))
-			{
+					return false;
+				}
+			
+			case admin_ctf_startevent:
 				CTF.eventOnceStart();
 				showMainPage(activeChar);
-				
-			}
+				return true;
 			
-			else if(command.equals("admin_ctf_abort"))
-			{
+			case admin_ctf_abort:
 				activeChar.sendMessage("Aborting event");
 				CTF.abortEvent();
 				showMainPage(activeChar);
-			}
-
-			else if(command.equals("admin_ctf_finish"))
-			{
+				return true;
+			case admin_ctf_finish:
 				CTF.finishEvent();
 				showMainPage(activeChar);
-			}
-
-			else if(command.equals("admin_ctf_sit"))
-			{
+				return true;
+			case admin_ctf_sit: 
 				CTF.sit();
 				showMainPage(activeChar);
-			}
-
-			else if(command.equals("admin_ctf_load"))
-			{
+				return true;
+			case admin_ctf_dump: 
+				CTF.dumpData();
+				return true;
+			
+			case admin_ctf_save: 
+				CTF.saveData();
+				showMainPage(activeChar);
+				return true;
+			case admin_ctf_load:
 				CTF.loadData();
 				showMainPage(activeChar);
-			}
+				return true;
+			case admin_ctf_jointime:
+				
+				if(st.hasMoreTokens()){
+					
+					String time_s = st.nextToken();
+					
+					int time = 0;
+					
+					try{
+						
+						time = Integer.parseInt(time_s);
+						
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_jointime <minutes>");
+						return false;
+					}
+					
+					if(CTF.set_joinTime(time)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_jointime <minutes>");
+					return false;
+				}
 
-			else if(command.equals("admin_ctf_autoevent"))
-			{
+				
+			
+			case admin_ctf_eventtime:
+				
+				if(st.hasMoreTokens()){
+					
+					String time_s = st.nextToken();
+					
+					int time = 0;
+					
+					try{
+						
+						time = Integer.parseInt(time_s);
+						
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_eventtime <minutes>");
+						return false;
+					}
+					
+					if(CTF.set_eventTime(time)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_eventtime <minutes>");
+					return false;
+				}
+			
+			case admin_ctf_autoevent:
 				if(CTF.get_joinTime()>0 && CTF.get_eventTime()>0){
 					CTF.autoEvent();
 					showMainPage(activeChar);
-				}else
+					return true;
+				}else{
 					activeChar.sendMessage("Cannot perform requested operation, times not defined");
+					return false;
+				}
+			case admin_ctf_interval:
+				
+				if(st.hasMoreTokens()){
+					
+					String time_s = st.nextToken();
+					
+					int time = 0;
+					
+					try{
+						
+						time = Integer.parseInt(time_s);
+						
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_interval <minutes>");
+						return false;
+					}
+					
+					if(CTF.set_intervalBetweenMatchs(time)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_interval <minutes>");
+					return false;
+				}
+				
+			case admin_ctf_minplayers:
+				
+				if(st.hasMoreTokens()){
+					
+					String min_s = st.nextToken();
+					
+					int min = 0;
+					
+					try{
+						
+						min = Integer.parseInt(min_s);
+						
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_minplayers <number>");
+						return false;
+					}
+					
+					if(CTF.set_minPlayers(min)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_minplayers <number>");
+					return false;
+				}
+				
+			case admin_ctf_maxplayers:
+				
+				if(st.hasMoreTokens()){
+					
+					String max_s = st.nextToken();
+					
+					int max = 0;
+					
+					try{
+						
+						max = Integer.parseInt(max_s);
+						
+					}catch(NumberFormatException e){
+						activeChar.sendMessage("Usage: //ctf_maxplayers <number>");
+						return false;
+					}
+					
+					if(CTF.set_maxPlayers(max)){
+						showMainPage(activeChar);
+						return true;
+					}else{
+						activeChar.sendMessage("Cannot perform requested operation, event in progress");
+						return false;
+					}
+					
+				}
+				else{
+					activeChar.sendMessage("Usage: //ctf_maxplayers <number>");
+					return false;
+				}
 			
-			}
-
-			else if(command.equals("admin_ctf_save"))
-			{
-				CTF.saveData();
-				showMainPage(activeChar);
-			}
-
-			else if(command.equals("admin_ctf_dump"))
-				CTF.dumpData();
-
-			return true;
+			default:
+				return false;
 		}
-		catch(Throwable t)
-		{
-			activeChar.sendMessage("The command was not used correctly");
-			return false;
-		}
+		
 	}
 
 	public String[] getAdminCommandList()

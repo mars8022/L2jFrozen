@@ -200,6 +200,9 @@ public class AdminReload implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage:  //reload <type>");
 			}
 

@@ -31,6 +31,9 @@ public final class StringTable
 		}
 		catch(IOException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 	public void load(FileInputStream inStream) throws IOException

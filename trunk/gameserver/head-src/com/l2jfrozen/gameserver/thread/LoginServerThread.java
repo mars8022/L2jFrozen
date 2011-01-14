@@ -233,6 +233,9 @@ public class LoginServerThread extends Thread
 
 							catch(GeneralSecurityException e)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									e.printStackTrace();
+								
 								_log.warning("Troubles while init the public key send by login");
 								break;
 							}
@@ -365,13 +368,14 @@ public class LoginServerThread extends Thread
 			}
 			catch(UnknownHostException e)
 			{
-				if(Config.DEBUG)
-				{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				}
 			}
 			catch(IOException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.info("Deconnected from Login, Trying to reconnect:");
 				_log.info(e.toString());
 			}
@@ -383,7 +387,8 @@ public class LoginServerThread extends Thread
 				}
 				catch(Exception e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 
@@ -393,7 +398,8 @@ public class LoginServerThread extends Thread
 			}
 			catch(InterruptedException e)
 			{
-				//
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -422,10 +428,8 @@ public class LoginServerThread extends Thread
 		{
 			_log.warning("Error while sending player auth request");
 
-			if(Config.DEBUG)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
 		}
 
 		par = null;
@@ -465,10 +469,8 @@ public class LoginServerThread extends Thread
 		{
 			_log.warning("Error while sending logout packet to login");
 
-			if(Config.DEBUG)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
 		}
 
 		pl = null;
@@ -488,10 +490,8 @@ public class LoginServerThread extends Thread
 		}
 		catch(IOException e)
 		{
-			if(Config.DEBUG)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
 		}
 
 		cal = null;
@@ -576,10 +576,8 @@ public class LoginServerThread extends Thread
 		}
 		catch(IOException e)
 		{
-			if(Config.DEBUG)
-			{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			}
 		}
 
 		ss = null;

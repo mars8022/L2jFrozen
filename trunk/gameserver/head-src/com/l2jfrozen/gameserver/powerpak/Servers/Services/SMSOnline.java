@@ -14,6 +14,7 @@ import javolution.util.FastMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.L2Utils;
@@ -62,6 +63,9 @@ public class SMSOnline implements HttpHandler {
 			}
 			catch(SQLException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_log.warn("WebServices: SMSOnline error updating database",e);
 				return;
 			}
@@ -105,12 +109,18 @@ public class SMSOnline implements HttpHandler {
 				}
 				catch(NumberFormatException e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					continue;
 				}
 			}
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("WebService: SMSOnline error reading config :",e);
 		}
 	}

@@ -172,6 +172,9 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Use: //earthquake <intensity> <duration>");
 			}
 		}
@@ -188,7 +191,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception ex)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ex.printStackTrace();
 			}
 		}
 
@@ -222,6 +226,9 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Target Npc before. Use: //npc_say");
 			}
 		}
@@ -237,7 +244,10 @@ public class AdminEffects implements IAdminCommandHandler
 				AdminHelpPage.showHelpPage(activeChar, "songs/songs" + command.substring(17) + ".htm");
 			}
 			catch(StringIndexOutOfBoundsException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();	
+			}
 		}
 
 		else if(command.startsWith("admin_play_sound"))
@@ -247,7 +257,10 @@ public class AdminEffects implements IAdminCommandHandler
 				playAdminSound(activeChar, command.substring(17));
 			}
 			catch(StringIndexOutOfBoundsException e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();	
+			}
 		}
 
 		else if(command.startsWith("admin_para ") || command.startsWith("admin_para_menu"))
@@ -286,7 +299,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			type = null;
@@ -311,7 +325,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -334,7 +349,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -350,7 +366,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -372,7 +389,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -394,7 +412,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -419,6 +438,9 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 				activeChar.sendMessage("Use //gmspeed value (0=off...4=max).");
 			}
 			finally
@@ -447,7 +469,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -469,7 +492,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -485,7 +509,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -519,7 +544,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -596,6 +622,9 @@ public class AdminEffects implements IAdminCommandHandler
 							}
 							catch(NumberFormatException nbe)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									nbe.printStackTrace();
+								
 								activeChar.sendMessage("Incorrect parameter");
 							}
 						}
@@ -638,10 +667,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				if(Config.DEBUG)
-				{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				}
 			}
 		}
 
@@ -664,7 +691,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 
@@ -714,6 +742,9 @@ public class AdminEffects implements IAdminCommandHandler
 							}
 							catch(NumberFormatException nbe)
 							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									nbe.printStackTrace();
+								
 								activeChar.sendMessage("Usage: //abnormal <hex_abnormal_mask> [player|radius]");
 							}
 						}
@@ -758,10 +789,8 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
-				if(Config.DEBUG)
-				{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				}
 			}
 		}
 
@@ -814,6 +843,9 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				activeChar.sendMessage("Usage: //effect skill [level | level hittime]");
 			}
 		}
@@ -890,7 +922,8 @@ public class AdminEffects implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		return true;
 	}

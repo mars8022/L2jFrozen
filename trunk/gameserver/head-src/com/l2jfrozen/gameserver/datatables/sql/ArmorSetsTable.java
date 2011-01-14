@@ -88,7 +88,8 @@ public class ArmorSetsTable
 		}
 		catch(Exception e)
 		{
-			//ignore
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		if(Config.CUSTOM_ARMORSETS_TABLE)
 		{

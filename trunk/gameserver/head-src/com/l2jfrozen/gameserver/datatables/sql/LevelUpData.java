@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2LvlupData;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -106,11 +107,17 @@ public class LevelUpData
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("error while creating Lvl up data table " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

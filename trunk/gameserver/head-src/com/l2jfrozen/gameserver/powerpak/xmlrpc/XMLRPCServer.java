@@ -25,6 +25,7 @@ import org.apache.xmlrpc.server.XmlRpcServer;
 import org.apache.xmlrpc.server.XmlRpcServerConfigImpl;
 import org.apache.xmlrpc.webserver.WebServer;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 
@@ -72,7 +73,8 @@ public class XMLRPCServer
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 
 			if(numServices > 0)
@@ -90,6 +92,9 @@ public class XMLRPCServer
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			System.out.println("...Error while starting " + e);
 		}
 	}

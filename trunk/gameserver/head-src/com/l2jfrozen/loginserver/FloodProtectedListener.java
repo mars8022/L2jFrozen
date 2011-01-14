@@ -108,6 +108,8 @@ public abstract class FloodProtectedListener extends Thread
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 				try
 				{
 					connection.close();
@@ -115,7 +117,9 @@ public abstract class FloodProtectedListener extends Thread
 				}
 				catch(Exception e2)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e2.printStackTrace();
+					
 				}
 				if(isInterrupted())
 				{
@@ -126,6 +130,9 @@ public abstract class FloodProtectedListener extends Thread
 					}
 					catch(IOException io)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
 						_log.log(Level.INFO, "", io);
 					}
 					break;

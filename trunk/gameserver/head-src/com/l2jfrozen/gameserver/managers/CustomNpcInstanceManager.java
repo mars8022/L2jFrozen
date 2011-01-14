@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -192,6 +193,9 @@ public final class CustomNpcInstanceManager
 					}
 					catch(Throwable t)
 					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							t.printStackTrace();
+						
 						_log.warning("Failed to load Npc Morph data for Object Id: " + ci.integerData[26] + " template: " + ci.integerData[25]);
 					}
 					ci = null;
@@ -205,11 +209,16 @@ public final class CustomNpcInstanceManager
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			/** _log.warning( "CustomNpcInstanceManager: Passed "); **/
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -312,11 +321,17 @@ public final class CustomNpcInstanceManager
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
 			_log.warning("Could not add Npc Morph info into the DB: ");
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}

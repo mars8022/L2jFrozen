@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.script;
 
 import java.util.Hashtable;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.script.faenor.FaenorInterface;
 
 /**
@@ -49,6 +50,9 @@ public class ScriptEngine
 			}
 			catch(ClassNotFoundException e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				// We'll throw an exception to indicate that
 				// the shape could not be created
 				throw new ParserNotCreatedException();

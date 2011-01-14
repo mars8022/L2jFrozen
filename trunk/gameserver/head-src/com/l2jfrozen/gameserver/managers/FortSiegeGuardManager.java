@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
@@ -114,11 +115,17 @@ public class FortSiegeGuardManager
 		}
 		catch(Exception e1)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
+			
 			_log.warning("Error deleting hired siege guard at " + x + ',' + y + ',' + z + ":" + e1);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 			con = null;
 		}
 	}
@@ -141,11 +148,17 @@ public class FortSiegeGuardManager
 		}
 		catch(Exception e1)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
 			_log.warning("Error deleting hired siege guard for fort " + getFort().getName() + ":" + e1);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -178,6 +191,10 @@ public class FortSiegeGuardManager
 		}
 		catch(Throwable t)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+			
+			
 			_log.warning("Error spawning siege guards for fort " + getFort().getName() + ":" + t.toString());
 		}
 	}
@@ -251,11 +268,19 @@ public class FortSiegeGuardManager
 		}
 		catch(Exception e1)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
+			
+			
 			_log.warning("Error loading siege guard for fort " + getFort().getName() + ":" + e1);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -292,11 +317,18 @@ public class FortSiegeGuardManager
 		}
 		catch(Exception e1)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e1.printStackTrace();
+			
 			_log.warning("Error adding siege guard for fort " + getFort().getName() + ":" + e1);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) {
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}

@@ -97,6 +97,9 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 				_aborted = true;
 				clearPlayers();
 			}
@@ -341,7 +344,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -410,6 +414,9 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(NullPointerException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 		return true;
@@ -436,7 +443,8 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
-			//null
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 	}
 
@@ -507,7 +515,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -529,6 +538,9 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			playerOneHp = 0;
 		}
 
@@ -542,6 +554,9 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			playerTwoHp = 0;
 		}
 
@@ -597,6 +612,9 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			playerOneHp = 0;
 		}
 
@@ -613,6 +631,9 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			playerTwoHp = 0;
 		}
 
@@ -683,7 +704,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else if(_playerTwo !=null && (_playerOne == null) || ((_playerOne!=null && _playerOne.isOnline() == 0 && _playerTwo.isOnline() == 1) || (playerOneHp == 0 && playerTwoHp != 0) || (_playerOne!=null && _playerTwo.dmgDealt > _playerOne.dmgDealt && playerOneHp != 0 && playerTwoHp != 0)))
@@ -724,7 +746,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		else
@@ -755,7 +778,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 		for(int i = 5; i > 0; i--)
@@ -769,7 +793,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(InterruptedException e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -813,7 +838,8 @@ class L2OlympiadGame extends Olympiad
 			}
 			catch(Exception e)
 			{
-				//null
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
 			}
 		}
 	}
@@ -856,6 +882,9 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_aborted = true;
 			return false;
 		}
@@ -930,7 +959,8 @@ class L2OlympiadGame extends Olympiad
 		}
 		catch(Exception e)
 		{
-			//null
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 
 		if(toAll && _spectators != null)
@@ -943,7 +973,8 @@ class L2OlympiadGame extends Olympiad
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
 				}
 			}
 		}

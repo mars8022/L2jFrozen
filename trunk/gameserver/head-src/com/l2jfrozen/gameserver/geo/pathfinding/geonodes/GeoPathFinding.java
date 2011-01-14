@@ -285,6 +285,9 @@ public final class GeoPathFinding extends PathFinding
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new Error("Failed to Load pn_index File.", e);
 		}
 		String line;
@@ -302,6 +305,9 @@ public final class GeoPathFinding extends PathFinding
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			throw new Error("Failed to Read pn_index File.", e);
 		}
 		finally
@@ -311,7 +317,11 @@ public final class GeoPathFinding extends PathFinding
 				lnr.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 		}
 	}
 
@@ -349,6 +359,9 @@ public final class GeoPathFinding extends PathFinding
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warn("Failed to Load PathNode File: "+fname+"\n", e);
 		}
 		finally
@@ -359,7 +372,11 @@ public final class GeoPathFinding extends PathFinding
 					roChannel.close();
 			}
 			catch(Exception e)
-			{}
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 		}
 
 	}

@@ -75,6 +75,9 @@ public class LoginController
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 				}
 				try
 				{ 
@@ -82,6 +85,9 @@ public class LoginController
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 				}
 			}
 		}
@@ -178,6 +184,9 @@ public class LoginController
 		Thread.sleep(10000);
 		} catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 	}
 
@@ -213,6 +222,9 @@ public class LoginController
 			}
 			catch(Exception e)
 			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 		}
 		synchronized (_clients)
@@ -232,6 +244,9 @@ public class LoginController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 		}
 		}
 	}
@@ -251,6 +266,8 @@ public class LoginController
 			_loginServerClients.remove(account);
 			
 		} catch(Exception e) {
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 			
 		}
 	}
@@ -387,6 +404,9 @@ public class LoginController
 		}
 		catch(UnknownHostException e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			return false;
 		}
 	}
@@ -511,11 +531,18 @@ public class LoginController
 				}
 				catch(Exception e)
 				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
 					_log.warning("Could not set lastServer: " + e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					try { con.close(); } catch(Exception e) { 
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+						
+					}
 					con = null;
 				}
 			}
@@ -541,11 +568,18 @@ public class LoginController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not set accessLevel: " + e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 	}
@@ -578,6 +612,9 @@ public class LoginController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("could not check gm state:" + e);
 			ok = false;
 		}
@@ -724,12 +761,19 @@ public class LoginController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			_log.warning("Could not check password:" + e);
 			ok = false;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 
@@ -799,6 +843,9 @@ public class LoginController
 		}
 		catch(Exception e)
 		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
 			// digest algo not found ??
 			// out of bounds should not be possible
 			_log.warning("could not check ban state:" + e);
@@ -806,7 +853,11 @@ public class LoginController
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			try { con.close(); } catch(Exception e) { 
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			con = null;
 		}
 
