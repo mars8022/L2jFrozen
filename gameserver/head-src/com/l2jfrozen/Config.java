@@ -2376,6 +2376,17 @@ public final class Config
 	public static boolean WAR_LEGEND_AURA;
 	public static int KILLS_TO_GET_WAR_LEGEND_AURA;
 	
+	public static boolean ANTI_FARM_ENABLED;
+	public static boolean ANTI_FARM_CLAN_ALLY_ENABLED;
+	public static boolean ANTI_FARM_LVL_DIFF_ENABLED;
+	public static int ANTI_FARM_MAX_LVL_DIFF;
+	public static boolean ANTI_FARM_PDEF_DIFF_ENABLED;
+	public static int ANTI_FARM_MAX_PDEF_DIFF;
+	public static boolean ANTI_FARM_PATK_DIFF_ENABLED;
+	public static int ANTI_FARM_MAX_PATK_DIFF;
+	public static boolean ANTI_FARM_PARTY_ENABLED;
+	public static boolean ANTI_FARM_IP_ENABLED;
+	
 	//============================================================
 	public static void loadPvpConfig()
 	{
@@ -2484,6 +2495,17 @@ public final class Config
 			
 			WAR_LEGEND_AURA = Boolean.parseBoolean(pvpSettings.getProperty("WarLegendAura", "False"));
 			KILLS_TO_GET_WAR_LEGEND_AURA = Integer.parseInt(pvpSettings.getProperty("KillsToGetWarLegendAura", "30"));
+		
+			ANTI_FARM_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmEnabled", "False"));
+			ANTI_FARM_CLAN_ALLY_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmClanAlly", "False"));
+			ANTI_FARM_LVL_DIFF_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmLvlDiff", "False"));
+			ANTI_FARM_MAX_LVL_DIFF = Integer.parseInt(pvpSettings.getProperty("AntiFarmMaxLvlDiff", "40"));
+			ANTI_FARM_PDEF_DIFF_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmPdefDiff", "False"));
+			ANTI_FARM_MAX_PDEF_DIFF = Integer.parseInt(pvpSettings.getProperty("AntiFarmMaxPdefDiff", "300"));
+			ANTI_FARM_PATK_DIFF_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmPatkDiff", "False"));
+			ANTI_FARM_MAX_PATK_DIFF = Integer.parseInt(pvpSettings.getProperty("AntiFarmMaxPatkDiff", "300"));
+			ANTI_FARM_PARTY_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmParty", "False"));
+			ANTI_FARM_IP_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmIP", "False"));
 		}
 		catch(Exception e)
 		{
