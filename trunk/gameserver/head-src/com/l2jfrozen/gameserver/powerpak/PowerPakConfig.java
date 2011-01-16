@@ -121,6 +121,8 @@ public class PowerPakConfig
 	public static String SERVER_WEB_SITE;
 	public static boolean AUTOVOTEREWARD_ENABLED;
 	
+	public static boolean ENABLE_SAY_SOCIAL_ACTIONS;
+	
 	public static void load()
 	{
 		try
@@ -344,6 +346,7 @@ public class PowerPakConfig
 				
 			}
 			
+			ENABLE_SAY_SOCIAL_ACTIONS = Boolean.parseBoolean(p.getProperty("EnableSocialSayActions","true"));
 		}
 		catch(Exception e)
 		{

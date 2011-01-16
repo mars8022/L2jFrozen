@@ -656,6 +656,11 @@ public class Potions implements IItemHandler
 		if(!possible_potions.isEmpty()){
 			
 			for(Integer potion: possible_potions){
+				
+				if(potion >= 8600 && potion <= 8614){ //herbs are directly destroyed
+					continue; 
+				}
+				
 				if(activeChar.getInventory().getInventoryItemCount(potion, 0)>0){
 					
 					L2ItemInstance item = activeChar.getInventory().getItemByItemId(potion);

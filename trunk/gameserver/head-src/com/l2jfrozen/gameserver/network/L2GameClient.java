@@ -544,10 +544,22 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			
 			if (character.getClient() != null)
 				character.getClient().closeNow();
-			else
+			else{
 				character.deleteMe();
+				
+				try
+				{
+					character.store();
+				}
+				catch(Exception e2)
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e2.printStackTrace();
+				}
+				
+			}
 			
-			//return null;
+			return null;
 		}
 		
 		character = L2PcInstance.load(objId);
@@ -644,9 +656,12 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			
 			player.deleteMe();
 
-			try {
+			try
+			{
 				player.store();
-			} catch(Exception e2) {
+			}
+			catch(Exception e2)
+			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e2.printStackTrace();
 			}
@@ -763,6 +778,18 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					
 					if (player.isOnline() == 1)
 						player.deleteMe();
+					
+					//double store operation
+					try
+					{
+						player.store();
+					}
+					catch(Exception e2)
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e2.printStackTrace();
+					}
+					
 				}
 				L2GameClient.this.setActiveChar(null);
 			}
@@ -869,9 +896,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					// notify the world about our disconnect
 					player.deleteMe();
 					
-					//double store operation
-					player.store();
-
+					//store operation
 					try
 					{
 						player.store();

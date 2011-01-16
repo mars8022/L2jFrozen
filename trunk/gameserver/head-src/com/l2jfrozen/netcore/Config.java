@@ -28,6 +28,8 @@ public class Config
 	public static int MMO_MAX_READ_PER_PASS				= 12;		// default 12
 	public static int MMO_HELPER_BUFFER_COUNT			= 20;		// default 20
 	
+	public static boolean ENABLE_MMOCORE_EXCEPTIONS = false;
+	
 	/** Client Packets Queue settings */
 	public static int CLIENT_PACKET_QUEUE_SIZE								= 14;	// default MMO_MAX_READ_PER_PASS + 2
 	public static int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE					= 13;	// default MMO_MAX_READ_PER_PASS + 1
@@ -75,6 +77,7 @@ public class Config
 			
 			PACKET_HANDLER_DEBUG 		= Boolean.parseBoolean(mmoSetting.getProperty("PacketHandlerDebug", "False"));
             
+			ENABLE_MMOCORE_EXCEPTIONS = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreExceptions", "False"));
 		}
 		catch(Exception e)
 		{

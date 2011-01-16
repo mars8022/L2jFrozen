@@ -29,7 +29,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-import com.l2jfrozen.Config;
 
 import javolution.util.FastList;
 
@@ -219,7 +218,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		catch (IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			con.getClient().onForcedDisconnection();
@@ -286,7 +285,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			catch (IOException e)
 			{
 				// error handling goes bellow
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -465,7 +464,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				catch (IOException e)
 				{
 					// error handling goes on the if bellow
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 						e.printStackTrace();
 					
 				}
@@ -494,7 +493,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		catch (IOException e)
 		{
 			// error handling goes on the if bellow
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 		}
@@ -630,7 +629,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			catch (IOException e)
 			{
 				// ignore, we are closing anyway
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -660,7 +659,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			}
 			catch (IOException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -672,7 +671,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		catch (IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(Config.ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 		}
