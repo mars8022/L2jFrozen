@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.powerpak.PowerPak;
+import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.util.FloodProtector;
 
 /**
@@ -117,41 +118,6 @@ public final class Say2 extends L2GameClientPacket
 		}
 		L2PcInstance activeChar = getClient().getActiveChar();
 		
-				if ((_text.equalsIgnoreCase("hello") 
-								|| _text.equalsIgnoreCase("hey") 
-								|| _text.equalsIgnoreCase("aloha") 
-								|| _text.equalsIgnoreCase("alo") 
-								|| _text.equalsIgnoreCase("ciao")
-								|| _text.equalsIgnoreCase("hi"))
-								&& (!activeChar.isRunning() 
-										|| !activeChar.isAttackingNow() 
-										|| !activeChar.isCastingNow()
-										|| !activeChar.isCastingPotionNow()))
-							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 2));
-						
-						if ((_text.equalsIgnoreCase("lol") 
-								|| _text.equalsIgnoreCase("haha") 
-								|| _text.equalsIgnoreCase("xaxa") 
-								|| _text.equalsIgnoreCase("ghgh")
-								|| _text.equalsIgnoreCase("jaja"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow() || !activeChar.isCastingPotionNow()))
-							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 10));
-							
-						if ((_text.equalsIgnoreCase("yes") 
-								|| _text.equalsIgnoreCase("si")
-								|| _text.equalsIgnoreCase("yep"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()|| !activeChar.isCastingPotionNow()))
-							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 6));
-						
-						if ((_text.equalsIgnoreCase("no") 
-								|| _text.equalsIgnoreCase("nop") 
-								|| _text.equalsIgnoreCase("nope"))
-								&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()|| !activeChar.isCastingPotionNow()))
-							activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 5));
-					
-		
-		
-
 		if(activeChar == null)
 		{
 			_log.warning("[Say2.java] Active Character is null.");
@@ -228,7 +194,43 @@ public final class Say2 extends L2GameClientPacket
 		{
 			checkText(activeChar);
 		}
-		// by Azagthtot РћР±СЂР°Р±РѕС‚РєР° С‡Р°С‚Р° РґР»СЏ РІРµР±-СЃР°Р№С‚Р°
+		
+		if(PowerPakConfig.ENABLE_SAY_SOCIAL_ACTIONS){
+			if ((_text.equalsIgnoreCase("hello") 
+					|| _text.equalsIgnoreCase("hey") 
+					|| _text.equalsIgnoreCase("aloha") 
+					|| _text.equalsIgnoreCase("alo") 
+					|| _text.equalsIgnoreCase("ciao")
+					|| _text.equalsIgnoreCase("hi"))
+					&& (!activeChar.isRunning() 
+							|| !activeChar.isAttackingNow() 
+							|| !activeChar.isCastingNow()
+							|| !activeChar.isCastingPotionNow()))
+				activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 2));
+			
+			if ((_text.equalsIgnoreCase("lol") 
+					|| _text.equalsIgnoreCase("haha") 
+					|| _text.equalsIgnoreCase("xaxa") 
+					|| _text.equalsIgnoreCase("ghgh")
+					|| _text.equalsIgnoreCase("jaja"))
+					&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow() || !activeChar.isCastingPotionNow()))
+				activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 10));
+				
+			if ((_text.equalsIgnoreCase("yes") 
+					|| _text.equalsIgnoreCase("si")
+					|| _text.equalsIgnoreCase("yep"))
+					&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()|| !activeChar.isCastingPotionNow()))
+				activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 6));
+			
+			if ((_text.equalsIgnoreCase("no") 
+					|| _text.equalsIgnoreCase("nop") 
+					|| _text.equalsIgnoreCase("nope"))
+					&& (!activeChar.isRunning() || !activeChar.isAttackingNow() || !activeChar.isCastingNow()|| !activeChar.isCastingPotionNow()))
+				activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 5));
+		
+		}
+		
+		// by Azagthtot
 		PowerPak.getInstance().chatHandler(activeChar, _type, _text);
 		//CreatureSay cs = new CreatureSay(activeChar.getObjectId(),_type, activeChar.getName(), _text);
 
