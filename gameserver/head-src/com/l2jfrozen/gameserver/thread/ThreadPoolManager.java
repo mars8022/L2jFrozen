@@ -254,27 +254,32 @@ public class ThreadPoolManager
 	
 	public void executePacket(Runnable pkt)
 	{
-		_generalPacketsThreadPool.execute(pkt);
+		if(!_generalPacketsThreadPool.isShutdown())
+			_generalPacketsThreadPool.execute(pkt);
 	}
 	
 	public void executeCommunityPacket(Runnable r)
 	{
-		_generalPacketsThreadPool.execute(r);
+		if(!_generalPacketsThreadPool.isShutdown())
+			_generalPacketsThreadPool.execute(r);
 	}
 	
 	public void executeIOPacket(Runnable pkt)
 	{
-		_ioPacketsThreadPool.execute(pkt);
+		if(!_ioPacketsThreadPool.isShutdown())
+			_ioPacketsThreadPool.execute(pkt);
 	}
 	
 	public void executeTask(Runnable r)
 	{
-		_generalThreadPool.execute(r);
+		if(!_generalThreadPool.isShutdown())
+			_generalThreadPool.execute(r);
 	}
 	
 	public void executeAi(Runnable r)
 	{
-		_aiScheduledThreadPool.execute(new RunnableWrapper(r));
+		if(!_aiScheduledThreadPool.isShutdown())
+			_aiScheduledThreadPool.execute(new RunnableWrapper(r));
 	}
 	
 	public String[] getStats()
