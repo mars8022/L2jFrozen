@@ -559,7 +559,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				
 			}
 			
-			return null;
+			//return null;
 		}
 		
 		character = L2PcInstance.load(objId);
