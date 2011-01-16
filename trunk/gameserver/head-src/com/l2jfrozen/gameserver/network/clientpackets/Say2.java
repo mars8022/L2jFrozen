@@ -301,60 +301,97 @@ public final class Say2 extends L2GameClientPacket
 					}
 					break;
 				case SHOUT:
-					if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
-					{
-						int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-						{
-							if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-							{
-								player.sendPacket(cs);
-							}
-						}
-					}
-					else if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("global"))
-					{
-						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-						{
-							player.sendPacket(cs);
-						}
-					}
-					break;
-				case TRADE:
-					if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
-					{
-						if(Config.TRADE_CHAT_IS_NOOBLE)
-						{
-							if(!activeChar.isNoble() && !activeChar.isGM())
-							{
-								activeChar.sendMessage("Only nobles can post in trade mass chat");
-								return;
-							}
-							for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-							{
-								player.sendPacket(cs);
-							}
-						}
-						else
-						{
-							for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-							{
-								player.sendPacket(cs);
-							}
-						}
-					}
-					else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
-					{
-						int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-						{
-							if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-							{
-								player.sendPacket(cs);
-							}
-						}
-					}
-					break;
+		               if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
+		               {
+		                  int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+		                  for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                  {
+		                     if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		               }
+		               else if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("global"))
+		               {
+		                  if(Config.GLOBAL_CHAT_WITH_PVP)
+		                  {
+		                     if(!(activeChar.getPvpKills() >= Config.GLOBAL_PVP_AMOUNT && !activeChar.isGM()))
+		                     {
+		                        activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT+ " pvp kills in order to speak in global chat");
+		                        return;
+		                     }
+		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		                  else
+		                  {
+		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		               }
+		               break;
+		            case TRADE:
+		               if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited") || Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
+		               {
+		                  if(Config.TRADE_CHAT_IS_NOOBLE)
+		                  {
+		                     if(!activeChar.isNoble() && !activeChar.isGM())
+		                     {
+		                        activeChar.sendMessage("Only nobles can post in trade mass chat");
+		                        return;
+		                     }
+		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		                  else
+		                  {
+		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		               }
+		               else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on"))
+		               {
+		                  if(Config.TRADE_CHAT_WITH_PVP)
+		                  {
+		                     if(!(activeChar.getPvpKills() >= Config.TRADE_PVP_AMOUNT && !activeChar.isGM()))
+		                     {
+		                        activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT+ "  pvp kills in order to speak in trade chat");
+		                        return;
+		                     }
+		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		                  else
+		                  {
+		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		               }
+		               else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
+		               {
+		                  int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+		                  for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                  {
+		                     if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+		                     {
+		                        player.sendPacket(cs);
+		                     }
+		                  }
+		               }
+		               break;
 				case ALL:
 					if(_text.startsWith("."))
 					{
