@@ -174,6 +174,7 @@
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="221" levels="1" name="Silent Move">
   <set name="mpConsume" val="7"/>
   <set name="target" val="TARGET_SELF"/>
