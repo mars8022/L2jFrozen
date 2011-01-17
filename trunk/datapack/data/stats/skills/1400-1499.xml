@@ -79,6 +79,7 @@
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1403" levels="1" name="Summon Friend">
   <set name="target" val="TARGET_PARTY_MEMBER"/>
   <set name="skillType" val="SUMMON_FRIEND"/>

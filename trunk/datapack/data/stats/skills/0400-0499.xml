@@ -317,6 +317,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="411" levels="3" name="Stealth" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -338,7 +339,7 @@
   <enchant1 name="mpConsume" val="#ench1Cost"/>
   <enchant2for>
     <effect count="1" name="SilentMove" abnormal="stealth" time="#ench2Time" val="0">
-      <mul order="0x30" stat="pAtk" val="0.85"/>
+      <mul order="0x30" stat="pAtk" val="0.55"/>
       <sub order="0x40" stat="accCombat" val="12"/>
       <sub order="0x40" stat="rEvas" val="4"/>
       <mul order="0x30" stat="pDef" val="0.85"/>
