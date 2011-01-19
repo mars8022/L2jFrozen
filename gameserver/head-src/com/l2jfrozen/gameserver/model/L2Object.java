@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.GetItem;
 
 /**
- * Mother class of all objects in the world wich ones is it possible to interact (PC, NPC, Item...)<BR>
+ * Mother class of all objects in the world which ones is it possible to interact (PC, NPC, Item...)<BR>
  * <BR>
  * L2Object :<BR>
  * <BR>
@@ -59,7 +59,7 @@ public abstract class L2Object
 
 	// =========================================================
 	// Constructor
-	// by Azagthtot СЂРµР°Р»РёР·Р°С†РёСЏ РјРµС…Р°РЅРёР·РјР° СЂР°СЃС€РёСЂРµРЅРёСЏ
+	// by Azagthtot
 	private BaseExtender _extender = null;
 
 	// =========================================================
@@ -68,7 +68,6 @@ public abstract class L2Object
 	public L2Object(int objectId)
 	{
 		_objectId = objectId;
-		// by Azagthtot СЃРѕР·РґР°РЅРёРµ pre-defined СЌРєСЃС‚РµРґРµСЂРѕРІ
 		if(Config.EXTENDERS.get(this.getClass().getName()) != null)
 		{
 			for(String className : Config.EXTENDERS.get(this.getClass().getName()))
@@ -101,15 +100,9 @@ public abstract class L2Object
 			}
 		}
 	}
-
-	// ===============================================
-	// by Azagthtot Р РµР°Р»РёР·Р°С†РёСЏ С„СѓРЅРєС†РёР№ СЂР°СЃС€РёСЂРµРЅРёСЏ
-
+	
 	/**
-	 * Р”РѕР±Р°РІРёС‚СЊ СЌРєСЃС‚РµРЅРґРµСЂ РІ С†РµРїРѕС‡РєСѓ РѕР±СЉРµРєС‚Сѓ<br>
-	 * <br>
-	 * 
-	 * @param newExtender as BaseExtender - РґРѕР±Р°РІР»СЏРµРјС‹Р№ СЌРєСЃС‚РµРЅРґРµСЂ
+	 * @param newExtender as BaseExtender
 	 */
 	public void addExtender(BaseExtender newExtender)
 	{
@@ -124,11 +117,8 @@ public abstract class L2Object
 	}
 
 	/**
-	 * РџРѕР»СѓС‡РёС‚СЊ СЌРєСЃС‚РµРЅРґРµСЂ РёР· С†РµРїРѕС‡РєРё РїРѕ РєРѕСЂРѕС‚РєРѕРјСѓ РёРјРµРЅРё РєР»Р°СЃСЃР°.<br>
-	 * <br>
-	 * 
-	 * @param simpleName as String - РєРѕСЂРѕС‚РєРѕРµ РёРјСЏ РєР»Р°СЃСЃР°<br>
-	 * @return as BaseExtender - РќР°Р№РґРµРЅРЅС‹Р№ СЌРєСЃС‚РµРЅРґРµСЂ РёР»Рё null<br>
+	 * @param simpleName as String<br>
+	 * @return as BaseExtender - null<br>
 	 */
 	public BaseExtender getExtender(final String simpleName)
 	{
@@ -139,14 +129,10 @@ public abstract class L2Object
 	}
 
 	/**
-	 * Р’С‹Р·РІР°С‚СЊ СЃРѕР±С‹С‚РёРµ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё СЌРєСЃС‚РµРЅРґРµСЂРѕРј<br>
-	 * <br>
 	 * 
-	 * @param event as String - СЃРѕР±С‹С‚РёРµ<br>
-	 * @param params - РїР°СЂР°РјРµС‚СЂС‹<br>
-	 * @return as Object - РµСЃР»Рё СЌРІРµРЅС‚ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РєР°С‡РµСЃС‚РІРµ С…РµРЅРґР»РµСЂР° С‚Рѕ РїСЂРё
-	 *         РІРѕР·РІСЂР°С‚Рµ<br>
-	 *         РЅРµ null СЃС‡РёС‚Р°РµС‚СЃСЏ РґРµР№СЃС‚РІРёРµ РїРµСЂРµС…РІР°С‡РµРЅРЅС‹Рј
+	 * @param event as String<br>
+	 * @param params<br>
+	 * @return as Object
 	 */
 	public Object fireEvent(final String event, Object... params)
 	{
@@ -280,7 +266,7 @@ public abstract class L2Object
 			getPosition().setWorldRegion(null);
 		}
 
-		// this can synchronize on others instancies, so it's out of
+		// this can synchronize on others instances, so it's out of
 		// synchronized, to avoid deadlocks
 		// Remove the L2Object from the world
 		L2World.getInstance().removeVisibleObject(this, reg);
@@ -406,7 +392,7 @@ public abstract class L2Object
 			getPosition().getWorldRegion().addVisibleObject(this);
 		}
 
-		// this can synchronize on others instancies, so it's out of
+		// this can synchronize on others instances, so it's out of
 		// synchronized, to avoid deadlocks
 		// Add the L2Object spawn in the world as a visible object
 		L2World.getInstance().addVisibleObject(this, getPosition().getWorldRegion(), null);
@@ -447,7 +433,7 @@ public abstract class L2Object
 			getPosition().setWorldRegion(L2World.getInstance().getRegion(getPosition().getWorldPosition()));
 		}
 
-		// these can synchronize on others instancies, so they're out of
+		// these can synchronize on others instances, so they're out of
 		// synchronized, to avoid deadlocks
 		// Add the L2Object spawn in the _allobjects of L2World
 		L2World.storeObject(this);
@@ -455,7 +441,7 @@ public abstract class L2Object
 		// Add the L2Object spawn to _visibleObjects and if necessary to _allplayers of its L2WorldRegion
 		getPosition().getWorldRegion().addVisibleObject(this);
 
-		// this can synchronize on others instancies, so it's out of
+		// this can synchronize on others instances, so it's out of
 		// synchronized, to avoid deadlocks
 		// Add the L2Object spawn in the world as a visible object
 		L2World.getInstance().addVisibleObject(this, getPosition().getWorldRegion(), null);
@@ -493,11 +479,11 @@ public abstract class L2Object
 	}
 
 	/**
-	 * Return the visibilty state of the L2Object. <BR>
+	 * Return the visibility state of the L2Object. <BR>
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
-	 * A L2Object is visble if <B>__IsVisible</B>=true and <B>_worldregion</B>!=null <BR>
+	 * A L2Object is visible if <B>__IsVisible</B>=true and <B>_worldregion</B>!=null <BR>
 	 * <BR>
 	 */
 	public final boolean isVisible()
@@ -576,7 +562,7 @@ public abstract class L2Object
 
 	/**
 	 * @return The id of the instance zone the object is in - id 0 is global since everything like dropped items, mobs,
-	 *         players can be in a instanciated area, it must be in l2object
+	 *         players can be in a instantiated area, it must be in l2object
 	 */
 	public int getInstanceId()
 	{
