@@ -280,7 +280,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4020" levels="1" name="Heal Queen Ant1">
+  <!-- Nurse Skill -->
   <set name="magicLvl" val="35"/>
   <set name="power" val="10845"/>
   <set name="target" val="TARGET_ONE"/>
@@ -294,6 +296,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4021" levels="1" name="Queen Ant">
   <!-- Queen Ant Skills -->
   <set name="magicLvl" val="40"/>
@@ -304,12 +307,12 @@
   <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="fireVuln" val="1.5"/>
-    <mul order="0x30" stat="waterVuln" val="0.5"/>
     <mul order="0x30" stat="bowWpnVuln" val="0.2"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4022" levels="1" name="Body Of Nurse Ant">
-  <!-- NOT USED IN C4 -->
+  <!-- This Skill Is Only For Description In The Client --> 
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -319,8 +322,9 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4023" levels="1" name="Body Of Royal Guard Ant">
-  <!-- NOT USED IN C4 -->
+  <!-- This Skill Is Only For Description In The Client --> 
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -330,10 +334,10 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4024" levels="1" name="Heal Queen Ant2">
   <set name="power" val="10845"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="effectPoint" val="100"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="HEAL"/>
   <set name="isMagic" val="true"/>

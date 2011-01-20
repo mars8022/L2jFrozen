@@ -450,6 +450,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1015" levels="15" name="Battle Heal">
   <table name="#mpConsume_Init">5 6 7 7 8 9 10 11 11 13 13 14 15 15 16</table>
   <table name="#mpConsume">20 22 25 28 32 35 39 41 43 49 52 53 57 59 62</table>
