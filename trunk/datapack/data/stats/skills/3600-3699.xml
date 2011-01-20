@@ -564,18 +564,15 @@
   <for>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="3632" name="Clan Gate" levels="1">
+  <!-- Active: Creates a gate that summons clan members. You cannot move while this skill is active. -->
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="10000"/>
   <set name="reuseDelay" val="1800000"/>
-  <set name="coolTime" val="6666"/>
-  <set name="isMagic" val="false"/>
   <set name="skillType" val="CLAN_GATE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="summonTotalLifeTime" val="180000"/>
-  <!-- <set name="summonTotalLifeTime" val="120000"/> Real 2 min. just for qwerty 3 min.-->
   <for>
     <effect count="1" name="ImobileBuff" time="120" val="0"/>
   </for>

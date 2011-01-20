@@ -658,6 +658,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="426" levels="1" name="Battle Force">
   <set name="mpInitialConsume" val="12"/>
   <set name="magicLvl" val="77"/>
@@ -674,6 +675,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="427" levels="1" name="Spell Force">
   <set name="mpInitialConsume" val="12"/>
   <set name="magicLvl" val="77"/>
