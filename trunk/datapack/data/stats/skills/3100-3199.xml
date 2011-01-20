@@ -351,7 +351,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#maxHp" stackType="MaxHPUpLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x40" stat="maxHp" val="#maxHp"/>
     </effect>
   </for>
@@ -374,7 +374,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <effect count="1" name="Buff" time="600" val="0" stackOrder="#maxHp" stackType="MaxHPUpLS">
+    <effect count="1" name="Buff" time="600" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="maxHp" val="#maxHp"/>
     </effect>
   </for>
@@ -396,7 +396,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <effect name="Buff" time="1200" count="1" val="0">
+    <effect name="Buff" time="1200" count="1" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="gainHp" val="#gainHp"/>
     </effect>
   </for>
@@ -436,7 +436,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#maxMp" stackType="MaxMPUpLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="maxMp" val="#maxMp"/>
     </effect>
   </for>
@@ -458,7 +458,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#maxMp" stackType="MPgainLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="gainMp" val="#maxMp"/>
     </effect>
   </for>
@@ -498,7 +498,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#maxCp" stackType="MaxCPUpLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x40" stat="maxCp" val="#maxCp"/>
     </effect>
   </for>
@@ -520,7 +520,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="pAtkLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="pAtk" val="#rate"/>
     </effect>
   </for>
@@ -542,7 +542,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="mAtkLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="mAtk" val="#rate"/>
     </effect>
   </for>
@@ -564,7 +564,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="pvpPhysDmg">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="pvpPhysDmg" val="#rate"/>
     </effect>
   </for>
@@ -586,7 +586,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="pDefLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="pDef" val="#rate"/>
     </effect>
   </for>
@@ -608,7 +608,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="mDefLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="mDef" val="#rate"/>
     </effect>
   </for>
@@ -654,7 +654,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="gainHp">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="gainHp" val="#rate"/>
     </effect>
   </for>
@@ -676,7 +676,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="rEvasLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <add order="0x30" stat="rEvas" val="#rate"/>
     </effect>
   </for>
@@ -698,7 +698,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="accCombatLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <add order="0x30" stat="accCombat" val="#rate"/>
     </effect>
   </for>
@@ -720,7 +720,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="rCritLS">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <basemul order="0x30" stat="rCrit" val="#rate"/>
     </effect>
   </for>
@@ -742,7 +742,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="mCritRate">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="mCritRate" val="#rate"/>
     </effect>
   </for>
@@ -764,7 +764,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="breath" val="#breath"/>
     </effect>
   </for>
@@ -850,7 +850,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect name="Buff" time="1200" count="1" val="0" stackOrder="#absorbDam" stackType="vampRage">
+    <effect name="Buff" time="1200" count="1" val="0" stackOrder="1" stackType="agument">
       <add order="0x40" stat="absorbDam" val="#absorbDam"/>
     </effect>
   </for>
@@ -1085,7 +1085,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#mpConsume" stackType="MPrate">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="PhysicalMpConsumeRate" val="#MpConsumeRate"/>
     </effect>
   </for>
@@ -1105,7 +1105,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#mpConsume" stackType="MPrate">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="PhysicalMpConsumeRate" val="#MpConsumeRate"/>
     </effect>
   </for>
@@ -1125,7 +1125,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#mpConsume" stackType="MPrate">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="PhysicalMpConsumeRate" val="#MpConsumeRate"/>
     </effect>
   </for>
@@ -1145,7 +1145,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#mpConsume" stackType="MPrate">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="PhysicalMpConsumeRate" val="#MpConsumeRate"/>
     </effect>
   </for>
@@ -1878,7 +1878,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
       <mul order="0x30" stat="pReuse" val="#pReuseRate"/>
     </effect>
   </for>
