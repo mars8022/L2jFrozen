@@ -282,7 +282,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4020" levels="1" name="Heal Queen Ant1">
-  <!-- Nurse Skill -->
+  <!-- Nurse Heal Skill -->
   <set name="magicLvl" val="35"/>
   <set name="power" val="10845"/>
   <set name="target" val="TARGET_ONE"/>
@@ -336,6 +336,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4024" levels="1" name="Heal Queen Ant2">
+  <!-- Nurse Heal Skill -->
   <set name="power" val="10845"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="3000"/>
