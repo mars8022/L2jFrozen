@@ -93,10 +93,11 @@ public class AdminAnnouncements implements IAdminCommandHandler
 		
 		StringTokenizer st = new StringTokenizer(command);
 		
+		String comm_s = st.nextToken();
 		String text = "";
 		int index = 0;
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		CommandEnum comm = CommandEnum.valueOf(comm_s);
 		
 		if(comm == null)
 			return false;
@@ -114,13 +115,19 @@ public class AdminAnnouncements implements IAdminCommandHandler
 				
 				if(st.hasMoreTokens()){
 					
-					text = st.nextToken();
-					
+					text = command.replace(comm_s+" ", "");
+					//text = st.nextToken();
 				}
 				
-				Announcements.getInstance().announceToAll(text);
+				if(!text.equals("")){
+					Announcements.getInstance().announceToAll(text);
+				}
 				Announcements.getInstance().listAnnouncements(activeChar);
 				return true;
+				/*
+				*/
+				
+				
 			case admin_announce_announcements:
 				for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 				{
@@ -132,12 +139,19 @@ public class AdminAnnouncements implements IAdminCommandHandler
 			case admin_add_announcement:
 				
 				if(st.hasMoreTokens()){
-					text = st.nextToken();
+					text = command.replace(comm_s+" ", "");
+					//text = st.nextToken();
 				}
 				
-				Announcements.getInstance().addAnnouncement(text);
-				Announcements.getInstance().listAnnouncements(activeChar);
-				return true;
+				if(!text.equals("")){
+					Announcements.getInstance().addAnnouncement(text);
+					Announcements.getInstance().listAnnouncements(activeChar);
+					return true;
+				}else{
+					activeChar.sendMessage("You cannot announce Empty message");
+					return false;
+				}
+				
 			case admin_del_announcement:
 				
 				if(st.hasMoreTokens()){

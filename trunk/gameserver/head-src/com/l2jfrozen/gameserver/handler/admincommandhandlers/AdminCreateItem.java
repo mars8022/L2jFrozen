@@ -47,7 +47,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 	private enum CommandEnum
 	{
 		admin_itemcreate,
-		admin_create_item,
+		admin_create_item
 	}
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
@@ -136,8 +136,9 @@ public class AdminCreateItem implements IAdminCommandHandler
 
 				}else{
 					
-					activeChar.sendMessage("Usage: //itemcreate <itemId> [amount]");
-					return false;
+					AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
+					//activeChar.sendMessage("Usage: //itemcreate <itemId> [amount]");
+					return true;
 				}
 				
 			default:{
