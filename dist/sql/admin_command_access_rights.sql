@@ -119,6 +119,7 @@ INSERT IGNORE INTO `admin_command_access_rights` VALUES
 ('admin_ctf_autoevent','3'),
 ('admin_ctf_minplayers','3'),
 ('admin_ctf_maxplayers','3'),
+('admin_ctf_interval','3'),
 
 -- Section: CursedWeapons
 ('admin_cw_info','2'),
@@ -624,4 +625,8 @@ INSERT IGNORE INTO `admin_command_access_rights` VALUES
 
 -- Section: Zone 
 ('admin_zone_check','2'),
-('admin_zone_reload','2');
+('admin_zone_reload','2'),
+
+-- Section: AIO
+('admin_setaio','2'),
+('admin_removeaio','2');
