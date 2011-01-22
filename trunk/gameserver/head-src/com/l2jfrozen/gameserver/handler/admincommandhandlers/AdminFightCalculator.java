@@ -57,6 +57,7 @@ public class AdminFightCalculator implements IAdminCommandHandler
 	//TODO: remove from gm list etc etc
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -71,6 +72,7 @@ public class AdminFightCalculator implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		try
 		{

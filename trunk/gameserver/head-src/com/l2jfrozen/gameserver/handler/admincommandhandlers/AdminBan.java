@@ -21,7 +21,6 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -66,6 +65,7 @@ public class AdminBan implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -80,7 +80,8 @@ public class AdminBan implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
-
+		*/
+		
 		StringTokenizer st = new StringTokenizer(command);
 		
 		String account_name = "";

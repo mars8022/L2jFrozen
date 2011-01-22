@@ -21,12 +21,10 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.sql.ArmorSetsTable;
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -37,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class CustomArmorSetsTable
 {
-	private static final Log _log = LogFactory.getLog(CustomArmorSetsTable.class);
+	protected static final Logger _log = Logger.getLogger(CustomArmorSetsTable.class.getName());
 	private static CustomArmorSetsTable _instance;
 	public static CustomArmorSetsTable getInstance() {
 		if(_instance == null)
@@ -79,7 +77,7 @@ public final class CustomArmorSetsTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("ArmorSetsTable: Error reading Custom ArmorSets table: " + e);
+			_log.log(Level.SEVERE,"ArmorSetsTable: Error reading Custom ArmorSets table: " + e);
 		}
 		finally {
 			if(con != null)

@@ -25,14 +25,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.L2NpcWalkerNode;
 
 /**
@@ -44,8 +42,8 @@ import com.l2jfrozen.gameserver.model.L2NpcWalkerNode;
  */
 public class NpcWalkerRoutesTable
 {
-	private final static Log _log = LogFactory.getLog(SpawnTable.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(NpcWalkerRoutesTable.class.getName());
+	
 	private static NpcWalkerRoutesTable _instance;
 
 	private FastList<L2NpcWalkerNode> _routes;
@@ -124,14 +122,14 @@ public class NpcWalkerRoutesTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("walker_routes.csv is missing in data folder");
+			_log.log(Level.WARNING,"walker_routes.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e0.printStackTrace();
 			
-			_log.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
+			_log.log(Level.WARNING,"Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
 		{
@@ -184,7 +182,7 @@ public class NpcWalkerRoutesTable
 		}
 		catch (Exception e) 
 		{
-			_log.fatal("WalkerRoutesTable: Error while loading Npc Walkers Routes: "+e.getMessage());
+			_log.log(Level.SEVERE, "WalkerRoutesTable: Error while loading Npc Walkers Routes: "+e.getMessage());
 		}
 		finally
 		{

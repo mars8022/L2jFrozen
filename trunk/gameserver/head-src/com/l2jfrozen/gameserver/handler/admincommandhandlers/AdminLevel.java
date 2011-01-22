@@ -28,6 +28,7 @@ public class AdminLevel implements IAdminCommandHandler
 	 */
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -42,6 +43,7 @@ public class AdminLevel implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		L2Object targetChar = activeChar.getTarget();
 		StringTokenizer st = new StringTokenizer(command, " ");

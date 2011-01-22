@@ -8,9 +8,8 @@ package com.l2jfrozen.gameserver.handler.itemhandlers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
@@ -28,8 +27,8 @@ public class HeroCustomItem implements IItemHandler
 	//null
 	}
 
-	private final static Log _log = LogFactory.getLog(HeroCustomItem.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(HeroCustomItem.class.getName());
+	
 	String INSERT_DATA = "REPLACE INTO characters_custom_data (obj_Id, char_name, hero, noble, donator, hero_end_date) VALUES (?,?,?,?,?,?)";
 
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
@@ -95,7 +94,7 @@ public class HeroCustomItem implements IItemHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Error: could not update database: ", e);
+			_log.log(Level.SEVERE, "Error: could not update database: ", e);
 		}
 		finally
 		{

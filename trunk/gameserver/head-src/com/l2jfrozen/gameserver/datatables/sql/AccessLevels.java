@@ -18,11 +18,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
@@ -34,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AccessLevels
 {
 	/** The logger<br> */
-	private final static Log _log = LogFactory.getLog(AccessLevels.class.getName());
+	protected static final Logger _log = Logger.getLogger(AccessLevels.class.getName());
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AccessLevels _instance = null;
 	/** Reserved master access level<br> */
@@ -95,17 +94,17 @@ public class AccessLevels
 
 				if(accessLevel == _userAccessLevelNum)
 				{
-					_log.warn("AccessLevels: Access level with name " + name + " is using reserved user access level " + _userAccessLevelNum + ". Ignoring it!");
+					_log.log(Level.WARNING,"AccessLevels: Access level with name " + name + " is using reserved user access level " + _userAccessLevelNum + ". Ignoring it!");
 					continue;
 				}
 				else if(accessLevel == _masterAccessLevelNum)
 				{
-					_log.warn("AccessLevels: Access level with name " + name + " is using reserved master access level " + _masterAccessLevelNum + ". Ignoring it!");
+					_log.log(Level.WARNING,"AccessLevels: Access level with name " + name + " is using reserved master access level " + _masterAccessLevelNum + ". Ignoring it!");
 					continue;
 				}
 				else if(accessLevel < 0)
 				{
-					_log.warn("AccessLevels: Access level with name " + name + " is using banned access level state(below 0). Ignoring it!");
+					_log.log(Level.WARNING,"AccessLevels: Access level with name " + name + " is using banned access level state(below 0). Ignoring it!");
 					continue;
 				}
 
@@ -177,7 +176,7 @@ public class AccessLevels
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("AccessLevels: Error loading from database:" + e);
+			_log.log(Level.WARNING,"AccessLevels: Error loading from database:" + e);
 		}
 		finally
 		{

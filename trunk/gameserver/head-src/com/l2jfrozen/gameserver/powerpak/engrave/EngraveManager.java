@@ -5,12 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -22,7 +21,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class EngraveManager
 {
 	private Connection _con = null;
-	private static Log _log = LogFactory.getLog(EngraveManager.class);
+	protected static final Logger _log = Logger.getLogger(EngraveManager.class.getName());
 	private static EngraveManager _instance = null;
 	public static boolean LOG_ITEMS = Config.LOG_ITEMS;
 	private PreparedStatement LOG_UPDATE;
@@ -102,7 +101,7 @@ public class EngraveManager
 		}
 		catch(Exception e)
 		{
-			_log.error("...Database error " + e);
+			_log.log(Level.SEVERE, "...Database error " + e);
 			e.printStackTrace();
 		}
 
@@ -128,7 +127,7 @@ public class EngraveManager
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warn("EngraveManager: Unable to store item log " + e);
+				_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
 			}
 		}
 		return result;
@@ -162,7 +161,7 @@ public class EngraveManager
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warn("EngraveManager: Unable to store item log " + e);
+					_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
 				}
 			}
 		}
@@ -241,7 +240,7 @@ public class EngraveManager
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warn("EngraveManager: Unable to store item log " + e);
+					_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
 				}
 			}
 		}
@@ -270,7 +269,7 @@ public class EngraveManager
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warn("EngraveManager: Unable to cleanup " + e);
+				_log.log(Level.WARNING, "EngraveManager: Unable to cleanup " + e);
 			}
 		}
 	}
@@ -313,7 +312,7 @@ public class EngraveManager
 			}
 			catch(Exception e)
 			{
-				_log.warn("EngraveManager: Unable to store item log " + e);
+				_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
 				e.printStackTrace();
 			}
 

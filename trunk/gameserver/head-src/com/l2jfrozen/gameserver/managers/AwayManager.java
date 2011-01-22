@@ -17,9 +17,7 @@ package com.l2jfrozen.gameserver.managers;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -33,7 +31,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public final class AwayManager
 {
-	private static final Log _log = LogFactory.getLog(AwayManager.class.getName());
+	protected static final Logger _log = Logger.getLogger(AwayManager.class.getName());
 	private static AwayManager _instance;
 	private Map<L2PcInstance, RestoreData> _awayPlayers;
 

@@ -21,14 +21,14 @@ package com.l2jfrozen.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import javolution.util.FastList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -40,7 +40,7 @@ import com.l2jfrozen.Config;
  */
 public abstract class XmlEngine
 {
-	private static final Log _log = LogFactory.getLog(XmlEngine.class);
+	protected static final Logger _log = Logger.getLogger(XmlEngine.class.getName());
 	
 	private File _file;
 	
@@ -66,7 +66,7 @@ public abstract class XmlEngine
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Error loading configure XML: " + _file.getName(), e);
+			_log.log(Level.SEVERE, "Error loading configure XML: " + _file.getName(), e);
 		}
 		catch(SAXException e)
 		{
@@ -77,7 +77,7 @@ public abstract class XmlEngine
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Error loading file: " + _file.getName(), e);
+			_log.log(Level.SEVERE, "Error loading file: " + _file.getName(), e);
 		}
 		
 		try
@@ -89,7 +89,7 @@ public abstract class XmlEngine
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Error in file: " + _file.getName(), e);
+			_log.log(Level.SEVERE, "Error in file: " + _file.getName(), e);
 		}
 	}
 	

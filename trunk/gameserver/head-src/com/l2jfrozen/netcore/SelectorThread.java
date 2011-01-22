@@ -29,7 +29,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-
 import javolution.util.FastList;
 
 /**

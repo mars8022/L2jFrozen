@@ -21,11 +21,10 @@ package com.l2jfrozen.gameserver.managers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -38,8 +37,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CoupleManager
 {
-	private static final Log _log = LogFactory.getLog(CoupleManager.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(CoupleManager.class.getName());
+	
 	// =========================================================
 	private static CoupleManager _instance;
 
@@ -99,7 +98,7 @@ public class CoupleManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Exception: CoupleManager.load(): " + e.getMessage(), e);
+			_log.log(Level.SEVERE, "Exception: CoupleManager.load(): " + e.getMessage(), e);
 		}
 		finally
 		{

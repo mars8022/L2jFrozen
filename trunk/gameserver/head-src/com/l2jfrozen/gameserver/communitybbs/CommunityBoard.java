@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.communitybbs;
 
 import java.util.Map;
 
+import javolution.util.FastMap;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
@@ -34,8 +36,6 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-
-import javolution.util.FastMap;
 
 
 public class CommunityBoard

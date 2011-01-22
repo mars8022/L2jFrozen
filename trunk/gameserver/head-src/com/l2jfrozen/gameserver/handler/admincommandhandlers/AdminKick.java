@@ -40,6 +40,7 @@ public class AdminKick implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -54,6 +55,7 @@ public class AdminKick implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		if(command.startsWith("admin_kick"))
 		{

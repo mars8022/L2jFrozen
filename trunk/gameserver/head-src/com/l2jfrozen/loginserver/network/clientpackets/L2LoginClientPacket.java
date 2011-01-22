@@ -19,7 +19,6 @@ package com.l2jfrozen.loginserver.network.clientpackets;
 
 import java.util.logging.Logger;
 
-
 import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.netcore.ReceivablePacket;
 

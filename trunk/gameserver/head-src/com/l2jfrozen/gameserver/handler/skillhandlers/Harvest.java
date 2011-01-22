@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -42,7 +41,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Harvest implements ISkillHandler
 {
-	private static Log _log = LogFactory.getLog(Harvest.class.getName());
+	protected static final Logger _log = Logger.getLogger(Harvest.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.HARVEST };
 
 	private L2PcInstance _activeChar;
@@ -61,7 +60,7 @@ public class Harvest implements ISkillHandler
 
 		if(targetList == null){ return; }
 
-		if(_log.isDebugEnabled())
+		if(Config.DEBUG)
 			_log.info("Casting harvest");
 
 		for(int index = 0; index < targetList.length; index++)

@@ -18,13 +18,15 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.AdminCommandHandler;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.util.GMAudit;
 
 /**
  * This class handles all GM commands triggered by //command
@@ -33,8 +35,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public final class SendBypassBuildCmd extends L2GameClientPacket
 {
-	private final static Log _log = LogFactory.getLog(SendBypassBuildCmd.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(SendBypassBuildCmd.class.getName());
+	
 	private static final String _C__5B_SENDBYPASSBUILDCMD = "[C] 5b SendBypassBuildCmd";
 	public final static int GM_MESSAGE = 9;
 	public final static int ANNOUNCEMENT = 10;
@@ -58,7 +60,7 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		if(!AdminCommandAccessRights.getInstance().hasAccess(_command, activeChar.getAccessLevel()))
 		{
 			activeChar.sendMessage("You don't have the access right to use this command!");
-			_log.warn("Character " + activeChar.getName() + " tried to use admin command " + _command + ", but doesn't have access to it!");
+			_log.log(Level.WARNING, "Character " + activeChar.getName() + " tried to use admin command " + _command + ", but doesn't have access to it!");
 			return;
 		}
 
@@ -68,12 +70,18 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		//if handler is valid we Audit and use else we notify in console.
 		if(ach != null)
 		{
+			if(Config.GMAUDIT)
+			{
+				GMAudit.auditGMAction(activeChar.getName()+" ["+activeChar.getObjectId()+"]", _command, (activeChar.getTarget() != null?activeChar.getTarget().getName():"no-target"));
+				
+			}
+			
 			ach.useAdminCommand(_command, activeChar);
 		}
 		else
 		{
 			activeChar.sendMessage("The command " + _command + " doesn't exists!");
-			_log.warn("No handler registered for admin command '" + _command + "'");
+			_log.log(Level.WARNING, "No handler registered for admin command '" + _command + "'");
 			return;
 		}
 	}

@@ -22,9 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Iterator;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -34,7 +33,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class EventsGlobalTask implements Runnable
 {
-	private final static Log _log = LogFactory.getLog(EventsGlobalTask.class.getName());
+	protected static final Logger _log = Logger.getLogger(EventsGlobalTask.class.getName());
 	
 	private static EventsGlobalTask instance;
 	
@@ -65,7 +64,7 @@ public class EventsGlobalTask implements Runnable
 		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
 				event.getEventStartTime()==null || event.getEventStartTime().equals("")){
 			
-			_log.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 			
 		}
@@ -140,7 +139,7 @@ public class EventsGlobalTask implements Runnable
 	public void clearEventTasksByEventName(String eventId){
 		
 		if(eventId==null){
-			_log.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 		}
 		
@@ -183,7 +182,7 @@ public class EventsGlobalTask implements Runnable
 		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
 				event.getEventStartTime() == null || event.getEventStartTime().equals("")){
 			
-			_log.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 			
 		}

@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AdminChristmas implements IAdminCommandHandler
 {
-	//private final static Log _log = LogFactory.getLog(AdminChristmas.class.getName());
+	//private final static Logger _log = LogFactory.getLog(AdminChristmas.class.getName());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -42,6 +42,7 @@ public class AdminChristmas implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -56,6 +57,8 @@ public class AdminChristmas implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
+
 
 		if(command.equals("admin_christmas_start"))
 		{

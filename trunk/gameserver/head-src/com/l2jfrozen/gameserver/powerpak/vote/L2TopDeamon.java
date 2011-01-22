@@ -9,9 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.concurrent.ScheduledFuture;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -32,8 +30,8 @@ public class L2TopDeamon implements Runnable
 			_instance = new L2TopDeamon();
 		return _instance;
 	}
-	private static Log _log = LogFactory.getLog(L2TopDeamon.class);
-	private ScheduledFuture<?> _task;
+	private static final Logger _log = Logger.getLogger(L2TopDeamon.class.getName());
+    private ScheduledFuture<?> _task;
 	private Timestamp _lastVote;
 	private boolean _firstRun = false;
 
@@ -93,7 +91,7 @@ public class L2TopDeamon implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("L2TopDeamon: Error connection to database: ",e);
+			_log.info("L2TopDeamon: Error connection to database: "+ e.getMessage());
 		}
 	}
 	private class VotesUpdate implements SQLQuery
@@ -185,7 +183,7 @@ public class L2TopDeamon implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("L2TopDeamon: Error while reading data",e);
+			_log.info("L2TopDeamon: Error while reading data"+ e);
 		}
 		return false;
 	}

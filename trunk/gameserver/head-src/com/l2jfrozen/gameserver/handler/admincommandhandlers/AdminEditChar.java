@@ -28,9 +28,6 @@ import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
@@ -55,8 +52,8 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class AdminEditChar implements IAdminCommandHandler
 {
-	private final static Log _log = LogFactory.getLog(AdminEditChar.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(AdminEditChar.class.getName());
+	
 	private static String[] ADMIN_COMMANDS =
 	{
 			"admin_changename", // changes char name
@@ -89,6 +86,7 @@ public class AdminEditChar implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -103,6 +101,7 @@ public class AdminEditChar implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		if(command.equals("admin_current_player"))
 		{
@@ -638,7 +637,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("" + e.getMessage());
+				_log.log(Level.SEVERE, "" + e.getMessage());
 			}
 
 			activeChar.getStatus().setCurrentCp(cp);
@@ -657,7 +656,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("" + e.getMessage());
+				_log.log(Level.SEVERE, "" + e.getMessage());
 			}
 
 			activeChar.getStatus().setCurrentHp(hp);
@@ -677,7 +676,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("" + e.getMessage());
+				_log.log(Level.SEVERE, "" + e.getMessage());
 			}
 			activeChar.getStatus().setCurrentMp(mp);
 		}
@@ -695,7 +694,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("" + e.getMessage());
+				_log.log(Level.SEVERE, "" + e.getMessage());
 			}
 
 			if(activeChar.getTarget() instanceof L2PcInstance)
@@ -729,7 +728,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("" + e.getMessage());
+				_log.log(Level.SEVERE, "" + e.getMessage());
 			}
 
 			if(activeChar.getTarget() instanceof L2PcInstance)
@@ -763,7 +762,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("" + e.getMessage());
+				_log.log(Level.SEVERE, "" + e.getMessage());
 			}
 
 			if(activeChar.getTarget() instanceof L2PcInstance)
@@ -799,11 +798,11 @@ public class AdminEditChar implements IAdminCommandHandler
 			if(actual_player!=null && actual_player.isOnline()==1 && !actual_player.isOffline())
 				online_players_list.add(actual_player);
 			else if(actual_player==null)
-				_log.debug("listCharacters: found player null into L2World Instance..");
+				_log.log(Level.WARNING, "listCharacters: found player null into L2World Instance..");
 			else if(actual_player.isOnline()==0)
-				_log.debug("listCharacters: player "+actual_player.getName()+" not online into L2World Instance..");
+				_log.log(Level.WARNING, "listCharacters: player "+actual_player.getName()+" not online into L2World Instance..");
 			else if(actual_player.isOffline())
-				_log.debug("listCharacters: player "+actual_player.getName()+" offline into L2World Instance..");
+				_log.log(Level.WARNING, "listCharacters: player "+actual_player.getName()+" offline into L2World Instance..");
 		
 		L2PcInstance[] players = online_players_list.toArray(new L2PcInstance[online_players_list.size()]);
 		online_players_list = null;
@@ -1036,9 +1035,9 @@ public class AdminEditChar implements IAdminCommandHandler
 		//Admin information
 		player.sendMessage("Changed stats of " + player.getName() + "." + "  HP: " + hpval + "  MP: " + mpval + "  CP: " + cpval + "  PvP: " + pvpflagval + " / " + pvpkillsval);
 
-		if(_log.isDebugEnabled() || Config.DEBUG)
+		if(Config.DEBUG)
 		{
-			_log.debug("[GM]" + activeChar.getName() + " changed stats of " + player.getName() + ". " + " HP: " + hpval + " MP: " + mpval + " CP: " + cpval + " PvP: " + pvpflagval + " / " + pvpkillsval);
+			_log.log(Level.WARNING, "[GM]" + activeChar.getName() + " changed stats of " + player.getName() + ". " + " HP: " + hpval + " MP: " + mpval + " CP: " + cpval + " PvP: " + pvpflagval + " / " + pvpkillsval);
 		}
 
 		showCharacterInfo(activeChar, null); //Back to start

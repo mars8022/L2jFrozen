@@ -18,8 +18,8 @@
  */
 package com.l2jfrozen.gameserver.thread.daemons;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AutoSave implements Runnable
 {
-	private static Log _log = LogFactory.getLog(AutoSave.class);
+	protected static final Logger _log = Logger.getLogger(AutoSave.class.getName());
 	
 	private L2PcInstance _player;
 	
@@ -73,7 +73,7 @@ public class AutoSave implements Runnable
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.error("Error saving player character: " + _player.getName(), e);
+					_log.log(Level.SEVERE, "Error saving player character: " + _player.getName(), e);
 				}
 			}
 
@@ -84,7 +84,7 @@ public class AutoSave implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(e);
+			_log.log(Level.SEVERE, e.getMessage());
 		}
 	}
 

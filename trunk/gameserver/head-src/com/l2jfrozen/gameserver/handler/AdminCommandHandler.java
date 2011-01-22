@@ -19,11 +19,10 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
@@ -102,8 +101,8 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminZone;
  */
 public class AdminCommandHandler
 {
-	private final static Log _log = LogFactory.getLog(AdminCommandHandler.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(AdminCommandHandler.class.getName());
+	
 	private static AdminCommandHandler _instance;
 
 	private FastMap<String, IAdminCommandHandler> _datatable;
@@ -215,14 +214,14 @@ public class AdminCommandHandler
 		String[] ids = handler.getAdminCommandList();
 		for(String element : ids)
 		{
-			if(_log.isDebugEnabled() || Config.DEBUG)
+			if(Config.DEBUG)
 			{
 				_log.info("Adding handler for command " + element);
 			}
 
 			if(_datatable.keySet().contains(new String(element)))
 			{
-				_log.warn("Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
+				_log.log(Level.WARNING, "Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
 			}
 			else
 			{
@@ -241,7 +240,7 @@ public class AdminCommandHandler
 			command = adminCommand.substring(0, adminCommand.indexOf(" "));
 		}
 
-		if(_log.isDebugEnabled() || Config.DEBUG)
+		if(Config.DEBUG)
 		{
 			_log.info("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
 		}

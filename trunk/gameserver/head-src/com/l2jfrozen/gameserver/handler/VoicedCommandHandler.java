@@ -28,16 +28,16 @@ import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Away;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Banking;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.CTFCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.DMCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Online;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.TvTCmd;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.DMCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Voting;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.farmpvp;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stat;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stats;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.version;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Voting;
 
 /**
  * This class ...

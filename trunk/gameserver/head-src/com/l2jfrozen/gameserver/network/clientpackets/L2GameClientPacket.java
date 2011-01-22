@@ -22,7 +22,6 @@ import java.nio.BufferUnderflowException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;

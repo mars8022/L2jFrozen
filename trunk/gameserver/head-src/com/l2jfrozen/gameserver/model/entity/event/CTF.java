@@ -5,11 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -46,7 +45,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class CTF implements EventTask
 {
-	private final static Log _log = LogFactory.getLog(CTF.class.getName());	
+	protected static final Logger _log = Logger.getLogger(CTF.class.getName());
 	
 	private static String _eventName = new String(),
 						 _eventDesc = new String(),
@@ -648,7 +647,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(_eventName+" Engine[spawnEventNpc(exception: " + e.getMessage());
+			_log.log(Level.SEVERE, _eventName+" Engine[spawnEventNpc(exception: " + e.getMessage());
 		}
 	}
 
@@ -666,8 +665,8 @@ public class CTF implements EventTask
 	{
 		if(!checkStartJoinOk())
 		{
-			if(_log.isDebugEnabled())
-				_log.debug(_eventName+" Engine[startJoin]: startJoinOk() = false");
+			if(Config.DEBUG)
+				_log.log(Level.WARNING, _eventName+" Engine[startJoin]: startJoinOk() = false");
 			return false;
 		}
 
@@ -796,8 +795,8 @@ public class CTF implements EventTask
 	{
 		if(!startEventOk())
 		{
-			if(_log.isDebugEnabled())
-				_log.debug(_eventName+" Engine[startEvent()]: startEventOk() = false");
+			if(Config.DEBUG)
+				_log.log(Level.WARNING, _eventName+" Engine[startEvent()]: startEventOk() = false");
 			return false;
 		}
 
@@ -854,7 +853,7 @@ public class CTF implements EventTask
 		}
 		catch (Exception e)
 		{
-			_log.fatal(_eventName+": Error While Trying to restart Event...", e);
+			_log.log(Level.SEVERE, _eventName+": Error While Trying to restart Event...", e);
 			e.printStackTrace();
 		}
 	}
@@ -863,8 +862,8 @@ public class CTF implements EventTask
 	{
 		if(!finishEventOk())
 		{
-			if(_log.isDebugEnabled())
-				_log.debug(_eventName+" Engine[finishEvent]: finishEventOk() = false");
+			if(Config.DEBUG)
+				_log.log(Level.WARNING, _eventName+" Engine[finishEvent]: finishEventOk() = false");
 			return;
 		}
 
@@ -1003,7 +1002,7 @@ public class CTF implements EventTask
 									if(Config.ENABLE_ALL_EXCEPTIONS)
 										e.printStackTrace();
 									
-									_log.error(e.getMessage(), e);
+									_log.log(Level.SEVERE, e.getMessage(), e);
 									return;
 								}
 								finally
@@ -1049,7 +1048,7 @@ public class CTF implements EventTask
 				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
 				if (startEvent() && !_aborted)
 				{
-					_log.debug(_eventName+": waiting.....minutes for event time " + _eventTime);
+					_log.log(Level.WARNING, _eventName+": waiting.....minutes for event time " + _eventTime);
 
 					waiter(_eventTime * 60 * 1000); // minutes for event time
 					finishEvent();
@@ -1070,7 +1069,7 @@ public class CTF implements EventTask
 						}
 						catch (Exception e)
 						{
-							_log.error("Error while tying to Restart Event", e);
+							_log.log(Level.SEVERE, "Error while tying to Restart Event", e);
 							e.printStackTrace();
 						}
 						
@@ -1253,7 +1252,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 			return;
 		}
 	}
@@ -1664,7 +1663,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Exception: loadData(): " + e.getMessage());
+			_log.log(Level.SEVERE, "Exception: loadData(): " + e.getMessage());
 		}
 		finally
 		{
@@ -1746,7 +1745,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Exception: saveData(): " + e.getMessage());
+			_log.log(Level.SEVERE, "Exception: saveData(): " + e.getMessage());
 		}
 		finally
 		{
@@ -1863,7 +1862,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(_eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
+			_log.log(Level.SEVERE, _eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}
 
@@ -2234,8 +2233,8 @@ public class CTF implements EventTask
 	{
 		if(is_inProgress())
 		{
-			if(_log.isDebugEnabled())
-				_log.debug(_eventName + " Engine[addTeam(" + teamName + ")]: checkTeamOk() = false");
+			if(Config.DEBUG)
+				_log.log(Level.WARNING, _eventName + " Engine[addTeam(" + teamName + ")]: checkTeamOk() = false");
 			return;
 		}
 
@@ -2264,15 +2263,15 @@ public class CTF implements EventTask
 	{
 		if(is_inProgress() || _teams.isEmpty())
 		{
-			if(_log.isDebugEnabled())
-				_log.debug(_eventName + " Engine[removeTeam(" + teamName + ")]: checkTeamOk() = false");
+			if(Config.DEBUG)
+				_log.log(Level.WARNING, _eventName + " Engine[removeTeam(" + teamName + ")]: checkTeamOk() = false");
 			return;
 		}
 
 		if(teamPlayersCount(teamName) > 0)
 		{
-			if(_log.isDebugEnabled())
-				_log.debug(_eventName + " Engine[removeTeam(" + teamName + ")]: teamPlayersCount(teamName) > 0");
+			if(Config.DEBUG)
+				_log.log(Level.WARNING, _eventName + " Engine[removeTeam(" + teamName + ")]: teamPlayersCount(teamName) > 0");
 			return;
 		}
 

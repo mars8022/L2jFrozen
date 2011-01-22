@@ -31,12 +31,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.util.StringUtil;
-
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.util.StringUtil;
 
 
 

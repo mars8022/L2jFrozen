@@ -110,9 +110,22 @@ public class GameServerThread extends Thread
 					break;
 				}
 
-				lengthLo = _in.read();
-				lengthHi = _in.read();
-				length = lengthHi * 256 + lengthLo;
+				try{
+					lengthLo = _in.read();
+					lengthHi = _in.read();
+					length = lengthHi * 256 + lengthLo;
+				}catch(IOException e)
+				{
+					lengthHi = -1;
+					/*
+					String serverName = getServerId() != -1 ? "[" + getServerId() + "] " + GameServerTable.getInstance().getServerNameById(getServerId()) : "(" + _connectionIPAddress + ")";
+					String msg = "GameServer " + serverName + ": Connection lost: " + e.getMessage();
+					_log.info(msg);
+					serverName = null;
+					msg = null;
+					*/
+				}
+				
 
 				if(lengthHi < 0 || _connection.isClosed())
 				{
