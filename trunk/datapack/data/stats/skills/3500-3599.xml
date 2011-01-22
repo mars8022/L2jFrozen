@@ -1361,20 +1361,20 @@
     <add order="0x40" stat="reflectSkillMagic" val="10"/> <!-- Reflect Skills 10% of the time -->
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3584" levels="1" name="Shock">
   <!-- Infinity Crusher Skill -->  
-  <set name="bestowed" val="true"/>
-  <set name="castRange" val="40"/>  
-  <set name="effectRange" val="400"/>
+  <set name="castRange" val="-1"/>  
+  <set name="effectRange" val="-1"/>
   <set name="isDebuff" val="true"/>
   <set name="lvlDepend" val="1"/>
   <set name="magicLvl" val="80"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="power" val="100"/> <!-- Base Land Rate -->
+  <set name="power" val="80"/>
   <set name="skillType" val="STUN"/>
   <set name="target" val="TARGET_ONE"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="2" stackType="Stun"/>
+    <effect count="1" name="Stun" time="9" val="0" stackOrder="2" stackType="Stun"/>
   </for>
 </skill>
 <skill id="3585" levels="1" name="Special Ability: Infinity Wing">
@@ -1439,20 +1439,20 @@
     <add order="0x40" stat="reflectSkillMagic" val="10"/> <!-- Reflect Skills 10% of the time -->
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3588" levels="1" name="Shock">
   <!-- Infinity Fang Skill -->  
-  <set name="bestowed" val="true"/>
-  <set name="castRange" val="40"/>  
-  <set name="effectRange" val="400"/>
+  <set name="castRange" val="-1"/>  
+  <set name="effectRange" val="-1"/>
   <set name="isDebuff" val="true"/>
   <set name="lvlDepend" val="1"/>
   <set name="magicLvl" val="80"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="power" val="100"/> <!-- Base Land Rate -->
+  <set name="power" val="80"/>
   <set name="skillType" val="STUN"/>
   <set name="target" val="TARGET_ONE"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="2" stackType="Stun"/>
+    <effect count="1" name="Stun" time="9" val="0" stackOrder="2" stackType="Stun"/>
   </for>
 </skill>
 <skill id="3589" levels="1" name="Special Ability: Infinity Stinger">
@@ -1482,16 +1482,16 @@
     <mul order="0x30" stat="absorbDam" val="1.02"/> <!-- Vampiric Rage effect 2% -->
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3590" levels="1" name="Silence">
   <!-- Infinity Stinger Skill -->  
-  <set name="bestowed" val="true"/>
-  <set name="castRange" val="40"/>  
-  <set name="effectRange" val="400"/>
+  <set name="castRange" val="-1"/>  
+  <set name="effectRange" val="-1"/>
   <set name="lvlDepend" val="1"/>
   <set name="isDebuff" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="power" val="100"/> <!-- Base Land Rate -->
+  <set name="power" val="80"/>
   <set name="skillType" val="MUTE"/>
   <set name="target" val="TARGET_ONE"/>
   <for>

@@ -1964,6 +1964,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1388" levels="3" name="Greater Might">
   <table name="#pAtk">1.04 1.07 1.1</table>
   <table name="#mpConsume">54 62 69</table>
@@ -1985,6 +1986,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1389" levels="3" name="Greater Shield">
   <!-- L2P still need to confirm pDef values -->
   <table name="#rate">1.05 1.1 1.15</table>
@@ -2007,9 +2009,10 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1390" levels="3" name="War Chant">
   <table name="#mpConsume">213 244 272</table>
-  <table name="#pAtk">1.1 1.15 1.2</table>
+  <table name="#pAtk">1.04 1.07 1.10</table>
   <table name="#spiritOre">4 8 12</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="itemConsumeId" val="3031"/>
@@ -2017,7 +2020,7 @@
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="2500"/>
   <set name="target" val="TARGET_PARTY"/>
-  <set name="skillRadius" val="900"/>
+  <set name="skillRadius" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="-1"/>
@@ -2029,6 +2032,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1391" levels="3" name="Earth Chant">
   <table name="#mpConsume">213 244 272</table>
   <table name="#pDef">1.05 1.1 1.15</table>
@@ -2039,7 +2043,7 @@
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="2500"/>
   <set name="target" val="TARGET_PARTY"/>
-  <set name="skillRadius" val="900"/>
+  <set name="skillRadius" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="-1"/>
