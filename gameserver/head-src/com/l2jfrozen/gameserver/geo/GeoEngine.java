@@ -853,7 +853,8 @@ public final class GeoEngine extends GeoData
 			short height = -1;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case1), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case1), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
 				return (short) z;
 			}
 			short temph = Short.MIN_VALUE;
@@ -928,7 +929,8 @@ public final class GeoEngine extends GeoData
 			short height =- 1;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case1), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case1), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
 				return (short) z;
 			}
 			short temph = Short.MAX_VALUE;
@@ -1007,7 +1009,8 @@ public final class GeoEngine extends GeoData
 			index++;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case2), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case2), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
 				return (short) zmin;
 			}
 			while(layers > 0)
@@ -1022,13 +1025,15 @@ public final class GeoEngine extends GeoData
 			}
 			if(temph > zmax + 200 || temph < zmin - 200)
 			{
-				_log.log(Level.WARNING,"SpawnHeight Error - Couldnt find correct layer to spawn NPC - GeoData or Spawnlist Bug!: zmin: " + zmin + " zmax: " + zmax + " value: " + temph + " SpawnId: " + spawnid + " at: " + geox + " : " + geoy);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"SpawnHeight Error - Couldnt find correct layer to spawn NPC - GeoData or Spawnlist Bug!: zmin: " + zmin + " zmax: " + zmax + " value: " + temph + " SpawnId: " + spawnid + " at: " + geox + " : " + geoy);
 				return (short) zmin;
 			}
 		}
 		if(temph > zmax + 1000 || temph < zmin - 1000)
 		{
-			_log.log(Level.WARNING,"SpawnHeight Error - Spawnlist z value is wrong or GeoData error: zmin: " + zmin + " zmax: " + zmax + " value: " + temph + " SpawnId: " + spawnid + " at: " + geox + " : " + geoy);
+			if(Config.DEBUG)
+				_log.log(Level.WARNING,"SpawnHeight Error - Spawnlist z value is wrong or GeoData error: zmin: " + zmin + " zmax: " + zmax + " value: " + temph + " SpawnId: " + spawnid + " at: " + geox + " : " + geoy);
 			return (short) zmin;
 		}
 		return temph;
@@ -1101,7 +1106,8 @@ public final class GeoEngine extends GeoData
 			short height = -1;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case3), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case3), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
 				return z;
 			}
 			short tempz = Short.MIN_VALUE;
@@ -1211,7 +1217,8 @@ public final class GeoEngine extends GeoData
 			short tempZ = -1;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case4), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case4), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
 				return false;
 			}
 			short upperHeight = Short.MAX_VALUE; // big positive value
@@ -1335,7 +1342,8 @@ public final class GeoEngine extends GeoData
 			short height = -1;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case5), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case5), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
 				return 15;
 			}
 			short tempz = Short.MIN_VALUE;
@@ -1480,7 +1488,8 @@ public final class GeoEngine extends GeoData
 			short height = -1;
 			if(layers <= 0 || layers > 125)
 			{
-				_log.log(Level.WARNING,"Broken geofile (case5), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
+				if(Config.DEBUG)
+					_log.log(Level.WARNING,"Broken geofile (case5), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
 				return null;
 			}
 			short tempz = Short.MIN_VALUE;
