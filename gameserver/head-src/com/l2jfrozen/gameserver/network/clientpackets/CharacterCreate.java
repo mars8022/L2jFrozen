@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.CharNameTable;
@@ -33,7 +34,6 @@ import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.model.L2ShortCut;
 import com.l2jfrozen.gameserver.model.L2SkillLearn;
 import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.PcInventory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.base.Experience;

@@ -20,12 +20,11 @@ import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -41,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AutoAnnouncementHandler
 {
-	protected static Log _log = LogFactory.getLog(AutoAnnouncementHandler.class.getName());
+	protected static final Logger _log = Logger.getLogger(AutoAnnouncementHandler.class.getName());
 	private static AutoAnnouncementHandler _instance;
 	private static final long DEFAULT_ANNOUNCEMENT_DELAY = 180000; // 3 mins by default
 	protected Map<Integer, AutoAnnouncementInstance> _registeredAnnouncements;
@@ -217,7 +216,7 @@ public class AutoAnnouncementHandler
 				e.printStackTrace();
 			
 			
-			_log.fatal("System: Could Not Insert Auto Announcment into DataBase: Reason: " + "Duplicate Id");
+			_log.log(Level.SEVERE, "System: Could Not Insert Auto Announcment into DataBase: Reason: " + "Duplicate Id");
 		}
 		finally
 		{
@@ -339,7 +338,7 @@ public class AutoAnnouncementHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.fatal("Could not Delete Auto Announcement in Database, Reason:", e);
+			_log.log(Level.SEVERE, "Could not Delete Auto Announcement in Database, Reason:", e);
 		}
 		finally
 		{

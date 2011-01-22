@@ -49,6 +49,7 @@ public class AdminZone implements IAdminCommandHandler
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -63,6 +64,7 @@ public class AdminZone implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		StringTokenizer st = new StringTokenizer(command, " ");
 		String actualCommand = st.nextToken(); // Get actual command

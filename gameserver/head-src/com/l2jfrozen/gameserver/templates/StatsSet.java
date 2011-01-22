@@ -20,9 +20,9 @@ package com.l2jfrozen.gameserver.templates;
 
 import java.util.Map;
 
-import com.l2jfrozen.Config;
-
 import javolution.util.FastMap;
+
+import com.l2jfrozen.Config;
 
 /**
  * @author mkizub <BR>

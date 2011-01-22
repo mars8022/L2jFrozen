@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.util.FloodProtector;
+import com.l2jfrozen.gameserver.util.GMAudit;
 
 /**
  * This class ...
@@ -119,6 +120,12 @@ public final class RequestBypassToServer extends L2GameClientPacket
 						_log.warning("Character " + activeChar.getName() + " tried to use admin command " + command + ", but doesn't have access to it!");
 					}
 					return;
+				}
+
+				if(Config.GMAUDIT)
+				{
+					GMAudit.auditGMAction(activeChar.getName()+" ["+activeChar.getObjectId()+"]", command, (activeChar.getTarget() != null?activeChar.getTarget().getName():"no-target"),_command.replace(command, ""));
+					
 				}
 
 				ach.useAdminCommand(_command, activeChar);

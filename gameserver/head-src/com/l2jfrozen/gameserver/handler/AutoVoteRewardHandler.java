@@ -11,10 +11,10 @@ import java.util.Set;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.entity.Announcements;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AutoVoteRewardHandler
 {

@@ -43,6 +43,7 @@ public class AdminRideWyvern implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -57,6 +58,7 @@ public class AdminRideWyvern implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		if(command.startsWith("admin_ride"))
 		{

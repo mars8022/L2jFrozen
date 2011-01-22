@@ -20,13 +20,13 @@ package com.l2jfrozen.gameserver.communitybbs.Manager;
 
 import java.util.StringTokenizer;
 
+import javolution.text.TextBuilder;
+
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-
-import javolution.text.TextBuilder;
 
 public class ClanBBSManager extends BaseBBSManager
 {

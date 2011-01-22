@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;

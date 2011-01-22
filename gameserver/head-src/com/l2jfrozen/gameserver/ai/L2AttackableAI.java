@@ -23,6 +23,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
 import java.util.concurrent.Future;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.sql.TerritoryTable;

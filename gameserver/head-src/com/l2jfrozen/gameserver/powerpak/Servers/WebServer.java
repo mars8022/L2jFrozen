@@ -2,9 +2,8 @@ package com.l2jfrozen.gameserver.powerpak.Servers;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
@@ -20,7 +19,7 @@ public class WebServer extends Thread {
 		return _instance;
 	}
 	private HttpServer _server;
-	private static Log _log = LogFactory.getLog("webServer");
+	protected static final Logger _log = Logger.getLogger(WebServer.class.getName());
 	private WebServer() {
 		if(PowerPakConfig.WEBSERVER_ENABLED) try {
 			int handlers = 0;
@@ -38,7 +37,7 @@ public class WebServer extends Thread {
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warn("WebServer: Error while creating handler "+contextHandlerName+" for '"+s.toString()+"': "+e);
+					_log.log(Level.WARNING, "WebServer: Error while creating handler "+contextHandlerName+" for '"+s.toString()+"': "+e);
 					continue;
 				}
 				
@@ -53,7 +52,7 @@ public class WebServer extends Thread {
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("WebServer: Error "+e+" while staring");
+			_log.log(Level.WARNING, "WebServer: Error "+e+" while staring");
 			_server = null;
 		}
 	}

@@ -590,7 +590,7 @@ public final class UseItem extends L2GameClientPacket
 		{
 			L2Weapon weaponItem = activeChar.getActiveWeaponItem();
 			int itemid = item.getItemId();
-			//_log.debug("item not equipable id:"+ item.getItemId());
+			//_log.log(Level.WARNING, "item not equipable id:"+ item.getItemId());
 			if(itemid == 4393)
 			{
 				activeChar.sendPacket(new ShowCalculator(4393));

@@ -21,12 +21,11 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2TradeList;
@@ -41,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TradeListTable
 {
-	private final static Log _log = LogFactory.getLog(TradeListTable.class.getName());
+	protected static final Logger _log = Logger.getLogger(TradeListTable.class.getName());
 	private static TradeListTable _instance;
 
 	private int _nextListId;
@@ -126,7 +125,7 @@ public class TradeListTable
 
 				if(!buylist.isGm() && NpcTable.getInstance().getTemplate(rset1.getInt("npc_id")) == null)
 				{
-					_log.warn("TradeListTable: Merchant id " + rset1.getString("npc_id") + " with " + (custom ? "custom " : "") + "buylist " + buylist.getListId() + " not exist.");
+					_log.log(Level.WARNING,"TradeListTable: Merchant id " + rset1.getString("npc_id") + " with " + (custom ? "custom " : "") + "buylist " + buylist.getListId() + " not exist.");
 				}
 
 				try
@@ -169,7 +168,7 @@ public class TradeListTable
 
 						if(!buylist.isGm() && buyItem.getReferencePrice() > _price)
 						{
-							_log.warn("TradeListTable: Reference price of item " + _itemId + " in  " + (custom ? "custom " : "") + "buylist " + buylist.getListId() + " higher then sell price.");
+							_log.log(Level.WARNING,"TradeListTable: Reference price of item " + _itemId + " in  " + (custom ? "custom " : "") + "buylist " + buylist.getListId() + " higher then sell price.");
 						}
 					}
 				}
@@ -179,7 +178,7 @@ public class TradeListTable
 						e.printStackTrace();
 					
 					
-					_log.warn("TradeListTable: Problem with " + (custom ? "custom " : "") + "buylist " + buylist.getListId() + " item " + _itemId + ".");
+					_log.log(Level.WARNING,"TradeListTable: Problem with " + (custom ? "custom " : "") + "buylist " + buylist.getListId() + " item " + _itemId + ".");
 				}
 
 				if(_itemCount > 0)
@@ -189,7 +188,7 @@ public class TradeListTable
 				}
 				else
 				{
-					_log.warn("TradeListTable: Empty " + (custom ? "custom " : "") + " buylist " + buylist.getListId() + ".");
+					_log.log(Level.WARNING,"TradeListTable: Empty " + (custom ? "custom " : "") + " buylist " + buylist.getListId() + ".");
 				}
 
 				statement.close();
@@ -237,7 +236,7 @@ public class TradeListTable
 			}
 			catch(Exception e)
 			{
-				_log.warn("TradeController: " + (custom ? "custom " : "") + "Could not restore Timer for Item count.");
+				_log.log(Level.WARNING,"TradeController: " + (custom ? "custom " : "") + "Could not restore Timer for Item count.");
 				e.printStackTrace();
 			}
 		}
@@ -248,7 +247,7 @@ public class TradeListTable
 			
 			
 			// problem with initializing buylists, go to next one
-			_log.warn("TradeListTable: " + (custom ? "custom " : "") + "Buylists could not be initialized.", e);
+			_log.log(Level.WARNING,"TradeListTable: " + (custom ? "custom " : "") + "Buylists could not be initialized.", e);
 		}
 		finally
 		{
@@ -331,7 +330,7 @@ public class TradeListTable
 				e.printStackTrace();
 			
 			
-			_log.fatal("TradeController: Could not update Timer save in Buylist");
+			_log.log(Level.SEVERE,"TradeController: Could not update Timer save in Buylist");
 		}
 		finally
 		{
@@ -388,7 +387,7 @@ public class TradeListTable
 				e.printStackTrace();
 			
 			
-			_log.fatal("TradeController: Could not store Count Item");
+			_log.log(Level.SEVERE,"TradeController: Could not store Count Item");
 		}
 		finally
 		{

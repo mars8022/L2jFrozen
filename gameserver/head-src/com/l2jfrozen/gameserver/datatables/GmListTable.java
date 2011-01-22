@@ -14,11 +14,11 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class GmListTable
 {
-	private final static Log _log = LogFactory.getLog(GmListTable.class.getName());
+	protected static final Logger _log = Logger.getLogger(GmListTable.class.getName());
 	private static GmListTable _instance;
 
 	/** Set(L2PcInstance>) containing all the GM in game */
@@ -92,9 +92,9 @@ public class GmListTable
 	 */
 	public void addGm(L2PcInstance player, boolean hidden)
 	{
-		if(_log.isDebugEnabled() || Config.DEBUG)
+		if( Config.DEBUG)
 		{
-			_log.debug("added gm: " + player.getName());
+			_log.log(Level.FINE, "added gm: " + player.getName());
 		}
 
 		_gmList.put(player, hidden);
@@ -102,11 +102,11 @@ public class GmListTable
 
 	public void deleteGm(L2PcInstance player)
 	{
-		if(_log.isDebugEnabled() || Config.DEBUG)
+		if(Config.DEBUG)
 		{
-			_log.debug("deleted gm: " + player.getName());
+			_log.log(Level.FINE, "deleted gm: " + player.getName());
 		}
-
+		
 		_gmList.remove(player);
 	}
 

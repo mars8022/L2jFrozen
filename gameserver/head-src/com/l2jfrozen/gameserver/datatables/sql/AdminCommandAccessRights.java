@@ -19,11 +19,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
@@ -35,8 +34,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AdminCommandAccessRights
 {
 	/** The logger<br> */
-	private final static Log _log = LogFactory.getLog(AdminCommandAccessRights.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(AdminCommandAccessRights.class.getName());
+	
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AdminCommandAccessRights _instance = null;
 
@@ -73,7 +72,7 @@ public class AdminCommandAccessRights
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("Admin Access Rights: Error loading from database:" + e);
+			_log.log(Level.WARNING,"Admin Access Rights: Error loading from database:" + e);
 		}
 		finally
 		{

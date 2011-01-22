@@ -44,6 +44,7 @@ public class AdminPetition implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -58,6 +59,7 @@ public class AdminPetition implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		int petitionId = -1;
 

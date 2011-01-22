@@ -54,6 +54,7 @@ public class AdminMammon implements IAdminCommandHandler
 	@SuppressWarnings("deprecation")
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -68,6 +69,7 @@ public class AdminMammon implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		int npcId = 0;
 		int teleportIndex = -1;

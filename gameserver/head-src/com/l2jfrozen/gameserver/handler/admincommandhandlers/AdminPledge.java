@@ -53,6 +53,7 @@ public class AdminPledge implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -67,6 +68,7 @@ public class AdminPledge implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		L2Object target = activeChar.getTarget();
 		L2PcInstance player = null;

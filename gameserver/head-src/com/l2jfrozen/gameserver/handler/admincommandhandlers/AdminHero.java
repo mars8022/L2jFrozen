@@ -24,9 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
@@ -46,10 +43,11 @@ public class AdminHero implements IAdminCommandHandler
 		"admin_sethero"
 	};
 
-	private final static Log _log = LogFactory.getLog(AdminHero.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(AdminHero.class.getName());
+	
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -64,6 +62,7 @@ public class AdminHero implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		if(activeChar == null)
 			return false;
@@ -198,7 +197,7 @@ public class AdminHero implements IAdminCommandHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error("Error: could not update database: ", e);
+			_log.log(Level.SEVERE, "Error: could not update database: ", e);
 		}
 		finally
 		{

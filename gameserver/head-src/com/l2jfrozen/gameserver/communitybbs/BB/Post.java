@@ -24,11 +24,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-
-import javolution.util.FastList;
 
 /**
  * @author Maktakien

@@ -20,11 +20,9 @@ package com.l2jfrozen.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This class ...
@@ -35,8 +33,8 @@ import org.apache.commons.logging.LogFactory;
 
 public class Util
 {
-	private final static Log _log = LogFactory.getLog(Util.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(Util.class.getName());
+	
 	public static boolean isInternalIP(String ipAddress)
 	{
 		return ipAddress.startsWith("192.168.") || ipAddress.startsWith("10.") || ipAddress.startsWith("127.0.0.1");

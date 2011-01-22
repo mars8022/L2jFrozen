@@ -34,9 +34,9 @@ import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 
+import javolution.util.FastCollection.Record;
 import javolution.util.FastList;
 import javolution.util.FastMap;
-import javolution.util.FastCollection.Record;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.Base64;

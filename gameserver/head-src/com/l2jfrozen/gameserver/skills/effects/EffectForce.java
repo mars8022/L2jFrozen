@@ -17,8 +17,7 @@
  */
 package com.l2jfrozen.gameserver.skills.effects;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -31,8 +30,8 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class EffectForce extends L2Effect
 {
-	static final Log _log = LogFactory.getLog(EffectForce.class.getName());
-
+	protected static final Logger _log = Logger.getLogger(EffectForce.class.getName());
+	
 	public int forces = 0;
 	private int _range = -1;
 

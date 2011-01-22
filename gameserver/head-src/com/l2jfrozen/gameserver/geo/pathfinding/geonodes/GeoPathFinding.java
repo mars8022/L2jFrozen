@@ -28,9 +28,8 @@ import java.nio.IntBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.StringTokenizer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.geo.GeoData;
@@ -44,7 +43,7 @@ import com.l2jfrozen.gameserver.model.Location;
 
 public final class GeoPathFinding extends PathFinding
 {
-	private static final Log _log = LogFactory.getLog(GeoPathFinding.class);
+	protected static final Logger _log = Logger.getLogger(GeoPathFinding.class.getName());
 	
 	private static final class SingletonHolder
 	{
@@ -235,7 +234,7 @@ public final class GeoPathFinding extends PathFinding
 		idx += layer * 10 + 1;//byte + layer*10byte
 		if(nodes < layer)
 		{
-			_log.warn("SmthWrong!");
+			_log.log(Level.WARNING, "SmthWrong!");
 		}
 		short node_z = pn.getShort(idx);
 		idx += 2;
@@ -362,7 +361,7 @@ public final class GeoPathFinding extends PathFinding
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("Failed to Load PathNode File: "+fname+"\n", e);
+			_log.log(Level.WARNING, "Failed to Load PathNode File: "+fname+"\n", e);
 		}
 		finally
 		{

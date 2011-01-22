@@ -26,16 +26,13 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
-import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * Give / Take Status Aio to Player
@@ -68,6 +65,7 @@ public class AdminAio implements IAdminCommandHandler
 	
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{   
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -82,6 +80,7 @@ public class AdminAio implements IAdminCommandHandler
 			                                });
 			_logAudit.log(record);
 		}
+		*/
 
 		StringTokenizer st = new StringTokenizer(command);
 		

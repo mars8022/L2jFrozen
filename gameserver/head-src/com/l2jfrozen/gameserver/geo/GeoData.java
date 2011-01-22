@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver.geo;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
@@ -31,7 +30,7 @@ import com.l2jfrozen.util.Point3D;
 
 public class GeoData
 {
-	protected static final Log _log = LogFactory.getLog(GeoData.class);
+	protected static final Logger _log = Logger.getLogger(GeoData.class.getName());
 	
 	private static final class SingletonHolder
 	{

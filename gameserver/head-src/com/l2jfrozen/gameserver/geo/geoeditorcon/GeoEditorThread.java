@@ -22,11 +22,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -34,8 +33,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class GeoEditorThread extends Thread
 {
-	private static Log				_log		= LogFactory.getLog(GeoEditorThread.class);
-
+	protected static final Logger _log = Logger.getLogger(GeoEditorThread.class.getName());
+	
 	private boolean					_working	= false;
 
 	private int						_mode		= 0;	// 0 - don't send coords, 1 - send each
@@ -125,14 +124,14 @@ public class GeoEditorThread extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("GeoEditor disconnected. ", e);
+			_log.log(Level.WARNING, "GeoEditor disconnected. ", e);
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		finally
 		{
@@ -173,7 +172,7 @@ public class GeoEditorThread extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("GeoEditor disconnected. ", e);
+			_log.log(Level.WARNING, "GeoEditor disconnected. ", e);
 			_working = false;
 		}
 		catch(Exception e)
@@ -181,7 +180,7 @@ public class GeoEditorThread extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 			try
 			{
 				_geSocket.close();
@@ -221,7 +220,7 @@ public class GeoEditorThread extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warn("GeoEditor disconnected. ", e);
+			_log.log(Level.WARNING, "GeoEditor disconnected. ", e);
 			_working = false;
 		}
 		catch(Exception e)
@@ -229,7 +228,7 @@ public class GeoEditorThread extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.error(e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 			try
 			{
 				_geSocket.close();

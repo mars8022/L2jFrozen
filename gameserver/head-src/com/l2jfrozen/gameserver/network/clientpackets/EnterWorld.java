@@ -28,7 +28,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
@@ -247,7 +246,7 @@ public class EnterWorld extends L2GameClientPacket
 							sendPacket(new ExShowScreenMessage(" You have item Overenchanted, Kicked! ", 6000));
 			                //Punishment e log in audit
 							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! Kicked! ", Config.DEFAULT_PUNISH);						   
-				            //Log in console
+				            //Logger in console
 							_log.info("#### ATTENCTION ####");
 							_log.info(i+" item has been removed from "+activeChar);
 			                }

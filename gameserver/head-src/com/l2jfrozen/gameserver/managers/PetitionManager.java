@@ -99,7 +99,7 @@ public final class PetitionManager
 		private PetitionState _state = PetitionState.Pending;
 		private String _content;
 
-		private List<CreatureSay> _messageLog = new FastList<CreatureSay>();
+		private List<CreatureSay> _messageLogger = new FastList<CreatureSay>();
 
 		private L2PcInstance _petitioner;
 		private L2PcInstance _responder;
@@ -120,12 +120,12 @@ public final class PetitionManager
 
 		protected boolean addLogMessage(CreatureSay cs)
 		{
-			return _messageLog.add(cs);
+			return _messageLogger.add(cs);
 		}
 
 		protected List<CreatureSay> getLogMessages()
 		{
-			return _messageLog;
+			return _messageLogger;
 		}
 
 		public boolean endPetitionConsultation(PetitionState endState)

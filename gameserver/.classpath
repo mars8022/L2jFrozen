@@ -4,19 +4,18 @@
 	<classpathentry excluding="**/.svn/*|.svn" kind="src" path="config"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="lib/javolution.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/jython.jar"/>
-	<classpathentry kind="lib" path="lib/c3p0-0.9.1.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/jython-engine.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-2.0b5.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-engine.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.8-bin.jar"/>
-	<classpathentry kind="lib" path="lib/bcprov-jdk16-144.jar"/>
-	<classpathentry kind="lib" path="lib/ws-commons-util-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0-0.9.2-pre1.jar"/>
+	<classpathentry kind="lib" path="lib/ecj-3.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/java-engine.jar"/>
+	<classpathentry kind="lib" path="lib/javolution-5.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jython-engine.jar"/>
+	<classpathentry kind="lib" path="lib/jython.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.14-bin.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-common-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-server-3.1.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/mchange-commons-0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

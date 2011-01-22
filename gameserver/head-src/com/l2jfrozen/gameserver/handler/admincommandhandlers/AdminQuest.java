@@ -50,6 +50,7 @@ public class AdminQuest implements IAdminCommandHandler
 	 */
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -64,6 +65,7 @@ public class AdminQuest implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		// syntax will either be:
 		//quest_reload <id>

@@ -22,7 +22,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
 import com.l2jfrozen.loginserver.network.serverpackets.Init;
 import com.l2jfrozen.netcore.IAcceptFilter;
 import com.l2jfrozen.netcore.IClientFactory;

@@ -21,16 +21,15 @@ package com.l2jfrozen.gameserver.geo.geoeditorcon;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 
 
 public class GeoEditorListener extends Thread
 {
-	private static final Log _log = LogFactory.getLog(GeoEditorListener.class);
+	protected static final Logger _log = Logger.getLogger(GeoEditorListener.class.getName());
 	
 	private static final int PORT = Config.GEOEDITOR_PORT;
 	
@@ -58,7 +57,7 @@ public class GeoEditorListener extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.fatal("Error creating geoeditor listener! ", e);
+			_log.log(Level.SEVERE, "Error creating geoeditor listener! ", e);
 			System.exit(1);
 		}
 		start();
@@ -90,7 +89,7 @@ public class GeoEditorListener extends Thread
 				connection = _serverSocket.accept();
 				if(_geoEditor != null && _geoEditor.isWorking())
 				{
-					_log.warn("Geoeditor already connected!");
+					_log.log(Level.WARNING, "Geoeditor already connected!");
 					connection.close();
 					continue;
 				}
@@ -104,7 +103,7 @@ public class GeoEditorListener extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("GeoEditorListener: ", e);
+			_log.log(Level.WARNING, "GeoEditorListener: ", e);
 			try
 			{
 				if(connection != null) connection.close();
@@ -127,9 +126,9 @@ public class GeoEditorListener extends Thread
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					io.printStackTrace();
 				
-				_log.info("", io);
+				_log.log(Level.WARNING, "", io);
 			}
-			_log.warn("GeoEditorListener Closed!");
+			_log.log(Level.WARNING, "GeoEditorListener Closed!");
 		}
 	}
 }

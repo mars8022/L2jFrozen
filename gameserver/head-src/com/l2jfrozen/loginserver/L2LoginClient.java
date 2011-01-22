@@ -23,14 +23,13 @@ import java.nio.ByteBuffer;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.logging.Logger;
 
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.LoginCrypt;
 import com.l2jfrozen.crypt.ScrambledKeyPair;
 import com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail;
-import com.l2jfrozen.loginserver.network.serverpackets.PlayFail;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
+import com.l2jfrozen.loginserver.network.serverpackets.PlayFail;
 import com.l2jfrozen.loginserver.network.serverpackets.PlayFail.PlayFailReason;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;

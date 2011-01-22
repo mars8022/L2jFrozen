@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -42,7 +42,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Sow implements ISkillHandler
 {
-	private static Log _log = LogFactory.getLog(Sow.class.getName());
+	protected static final Logger _log = Logger.getLogger(Sow.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.SOW };
 
 	private L2PcInstance _activeChar;
@@ -59,7 +59,7 @@ public class Sow implements ISkillHandler
 		L2Object[] targetList = skill.getTargetList(activeChar);
 		if(targetList == null){ return; }
 
-		if(_log.isDebugEnabled())
+		if(Config.DEBUG)
 			_log.info("Casting sow");
 
 		for(int index = 0; index < targetList.length; index++)

@@ -395,10 +395,10 @@ public final class L2ScriptEngineManager
 		if(Config.SCRIPT_ERROR_LOG)
 		{
 			String name = file.getAbsolutePath() + ".error.log";
-			File errorLog = new File(name);
-			if(errorLog.isFile())
+			File errorLogger = new File(name);
+			if(errorLogger.isFile())
 			{
-				errorLog.delete();
+				errorLogger.delete();
 			}
 		}
 

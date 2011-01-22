@@ -18,11 +18,10 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastSet;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.gameserver.thread.L2Thread;
 import com.l2jfrozen.util.Util;
@@ -34,7 +33,7 @@ import com.l2jfrozen.util.Util;
 
 public final class DeadlockDetector implements Runnable
 {
-	private static final Log _log = LogFactory.getLog(DeadlockDetector.class);
+	protected static final Logger _log = Logger.getLogger(DeadlockDetector.class.getName());
 	private final Set<Long> _logged = new FastSet<Long>();
 
 	private static DeadlockDetector _instance;
@@ -78,7 +77,7 @@ public final class DeadlockDetector implements Runnable
 			{
 				for(String line : L2Thread.getStats(thread))
 				{
-					_log.fatal(line);
+					_log.log(Level.SEVERE, line);
 				}
 			}
 

@@ -21,6 +21,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -33,7 +34,6 @@ import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.Util;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 
 
 /**

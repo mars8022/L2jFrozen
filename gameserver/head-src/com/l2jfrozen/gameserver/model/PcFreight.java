@@ -22,8 +22,8 @@ import java.util.List;
 import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class PcFreight extends ItemContainer
 {

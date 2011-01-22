@@ -47,6 +47,7 @@ public class AdminPForge implements IAdminCommandHandler
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
+		/*
 		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
 			return false;
 		}
@@ -61,6 +62,7 @@ public class AdminPForge implements IAdminCommandHandler
 			});
 			_logAudit.log(record);
 		}
+		*/
 
 		if(command.equals("admin_forge"))
 		{
