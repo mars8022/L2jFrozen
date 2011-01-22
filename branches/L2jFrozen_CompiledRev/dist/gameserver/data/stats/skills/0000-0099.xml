@@ -98,6 +98,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5" levels="31" name="Double Sonic Slash" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -134,10 +135,10 @@
   <set name="baseCritRate" val="15"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <!-- charge values -->
   <set name="num_charges" val="3"/>
   <set name="charge_skill_id" val="8"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="6" levels="37" name="Sonic Blaster" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -173,10 +174,10 @@
   <set name="baseCritRate" val="15"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <!-- charge values -->
   <set name="num_charges" val="2"/>
   <set name="charge_skill_id" val="8"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7" levels="28" name="Sonic Storm" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -212,7 +213,6 @@
   <set name="magicLvl" val="#magicLvl"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <!-- charge values -->
   <set name="itemConsumeId" val="5589"/>
   <set name="itemConsumeCount" val="3"/>
   <set name="num_charges" val="2"/>
@@ -236,6 +236,7 @@
     <effect count="1" name="Charge" time="600" val="1"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="9" levels="34" name="Sonic Buster" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -273,7 +274,6 @@
   <set name="baseCritRate" val="15"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <!-- charge values -->
   <set name="itemConsumeId" val="5589"/>
   <set name="itemConsumeCount" val="3"/>
   <set name="num_charges" val="2"/>
@@ -737,6 +737,7 @@
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="30" levels="37" name="Backstab" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -761,12 +762,12 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="condition" val="24"/> <!-- Behind/Crit -->
-  <set name="reuseDelay" val="11000"/>
+  <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="1080"/>
   <set name="coolTime" val="720"/>
   <set name="skillType" val="BLOW"/>
   <set name="baseCritRate" val="15"/>
-  <set name="lethal1" val="0"/>
+  <set name="lethal1" val="5"/>
   <set name="dmgDirectlyToHp" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
@@ -1418,6 +1419,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="78" levels="2" name="War Cry">
   <table name="#pAtk">1.2 1.25</table>
   <table name="#mpConsume">10 19</table>

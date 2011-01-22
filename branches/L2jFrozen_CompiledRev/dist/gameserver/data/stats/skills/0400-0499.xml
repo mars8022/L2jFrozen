@@ -246,6 +246,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="409" levels="10" name="Critical Blow" enchantLevels1="30" enchantLevels2="30">
   <table name="#ench1Power">3685 3718 3751 3784 3817 3850 3883 3916 3949 3982 4014 4047 4080 4113 4146 4179 4212 4245 4278 4311 4343 4376 4409 4442 4475 4508 4541 4574 4607 4640</table>
   <table name="#ench2MpConsume">74 73 72 70 69 68 67 65 64 63 62 60 59 58 57 55 54 53 51 50 49 48 46 45 44 43 41 40 39 38</table>
@@ -259,9 +260,9 @@
   <set name="condition" val="16"/>
   <set name="reuseDelay" val="90000"/>
   <set name="hitTime" val="1300"/>
+  <set name="coolTime" val="700"/>
   <set name="skillType" val="BLOW"/>
-  <set name="lethal1" val="0"/>
-  <set name="lethal2" val="0"/>
+  <set name="lethal1" val="5"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
@@ -316,6 +317,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="411" levels="3" name="Stealth" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -337,7 +339,7 @@
   <enchant1 name="mpConsume" val="#ench1Cost"/>
   <enchant2for>
     <effect count="1" name="SilentMove" abnormal="stealth" time="#ench2Time" val="0">
-      <mul order="0x30" stat="pAtk" val="0.85"/>
+      <mul order="0x30" stat="pAtk" val="0.55"/>
       <sub order="0x40" stat="accCombat" val="12"/>
       <sub order="0x40" stat="rEvas" val="4"/>
       <mul order="0x30" stat="pDef" val="0.85"/>
@@ -656,6 +658,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="426" levels="1" name="Battle Force">
   <set name="mpInitialConsume" val="12"/>
   <set name="magicLvl" val="77"/>
@@ -672,6 +675,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="427" levels="1" name="Spell Force">
   <set name="mpInitialConsume" val="12"/>
   <set name="magicLvl" val="77"/>
@@ -988,7 +992,7 @@
   <for>
   </for>
 </skill>
-<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<!-- Status:Incorrect reuse Pack:l2jfrozen author:Nefer -->
 <skill id="445" levels="1" name="Mirage">
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
@@ -1008,7 +1012,7 @@
     <effect count="1" name="BestowSkill" time="60" val="0"/>
   </for>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Incorrect effect reuse Pack:l2jfrozen author:Nefer -->
 <skill id="446" levels="1" name="Dodge">
   <set name="mpConsume" val="29"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1025,18 +1029,18 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Incorrect effect reuse Pack:l2jfrozen author:Nefer -->
 <skill id="447" levels="1" name="Counterattack">
   <set name="mpConsume" val="29"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="isMagic" val="false"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="hitTime" val="1000"/>
+  <set name="hitTime" val="500"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <effect name="Buff" time="7" count="1" val="0">
+    <effect name="Buff" time="10" count="1" val="0">
       <add order="0x40" stat="vengeanceSkillPhysic" val="100"/>
       <add order="0x40" stat="reflectDam" val="20"/> <!-- 20 -->
     </effect>

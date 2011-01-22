@@ -112,6 +112,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1105" levels="18" name="Madness">
   <table name="#mpConsume_Init">4 5 6 6 7 8 9 10 11 11 11 12 12 13 13 13 14 14</table>
   <table name="#mpConsume">16 18 21 24 28 31 35 38 41 43 44 46 48 49 51 52 53 55</table>
@@ -120,6 +121,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="power" val="20"/>
   <set name="reuseDelay" val="40000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="CONFUSE_MOB_ONLY"/>
@@ -846,7 +848,8 @@
     </effect>
   </for>
 </skill>
-  <skill id="1163" levels="14" name="Curse Discord">
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<skill id="1163" levels="14" name="Curse Discord">
     <table name="#mpInitialConsume">7 8 9 10 11 11 11 12 12 13 13 13 14 14</table>
     <table name="#mpConsume">28 31 35 38 41 43 44 46 48 49 51 52 53 55</table>
     <table name="#magicLvl">40 44 48 52 56 58 60 62 64 66 68 70 72 74</table>
@@ -855,7 +858,7 @@
     <set name="magicLvl" val="#magicLvl"/>
     <set name="power" val="20"/>
     <set name="target" val="TARGET_ONE"/>
-    <set name="reuseDelay" val="120000"/>
+    <set name="reuseDelay" val="40000"/>
     <set name="hitTime" val="4000"/>
     <set name="skillType" val="CONFUSE_MOB_ONLY"/>
     <set name="isMagic" val="true"/>
@@ -866,7 +869,7 @@
     <for>
       <effect count="5" name="ConfuseMob" time="4" val="0"/>
     </for>
-  </skill>
+</skill>
 <skill id="1164" levels="19" name="Curse: Weakness" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -959,6 +962,7 @@
     <effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1169" levels="14" name="Curse Fear">
   <table name="#mpConsume_Init">7 8 9 10 11 11 11 12 12 13 13 13 14 14</table>
   <table name="#mpConsume">28 31 35 38 41 43 44 46 48 49 51 52 53 55</table>
@@ -966,12 +970,13 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="10"/>
+  <set name="power" val="40"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="10000"/>
+  <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="FEAR"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
