@@ -185,7 +185,7 @@ public class L2CubicInstance
 
 		public void run()
 		{
-			if(_owner.isDead() || _target.isDead() || _owner.getTarget() != _target || _owner.isOffline() || ( _target instanceof L2PcInstance && ((L2PcInstance)_target).isOffline()))
+			if(_owner!=null && (_owner.isDead() || _owner.getTarget() != _target || _owner.isOffline() || _target==null || _target.isDead() || ( _target instanceof L2PcInstance && ((L2PcInstance)_target).isOffline())))
 			{
 				stopAction();
 				if(_owner.isDead())
