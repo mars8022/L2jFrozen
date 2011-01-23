@@ -59,7 +59,7 @@ public class Monastery_l2j extends Quest implements Runnable
 	{
 		if (Util.contains(mobs1,npc.getNpcId()) && !npc.isInCombat() && npc.getTarget() == null)
 		{
-			if (player.getActiveWeaponInstance() != null)
+			if (player.getActiveWeaponInstance() != null && !player.isSilentMoving())
 			{
 				npc.setTarget(player);
 				npc.broadcastPacket(new CreatureSay(npc.getObjectId(), 0, npc.getName(),  text[0]));
@@ -110,6 +110,11 @@ public class Monastery_l2j extends Quest implements Runnable
 				for (Object obj : characters)
 				{
 					L2PlayableInstance target = (L2PlayableInstance) (obj instanceof L2PcInstance ? obj : ((L2Summon) obj).getOwner());
+					
+					if(target.getActiveWeaponInstance() == null || (target instanceof L2PcInstance && ((L2PcInstance)target).isSilentMoving()) || (target instanceof L2Summon && ((L2Summon)target).getOwner().isSilentMoving())){
+						continue;
+					}
+					
 					if (target.getActiveWeaponInstance() != null && !npc.isInCombat() && npc.getTarget() == null)
 					{
 						npc.setTarget(target);
