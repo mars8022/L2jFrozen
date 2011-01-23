@@ -1735,6 +1735,23 @@ public class Quest extends ManagedScript
 		}
 	}
 	
+	/**
+	 * This is used to register all monsters contained in mobs for a particular script
+	 * event types defined in types.
+	 * @param mobs
+	 * @param types
+	 */
+	public void registerMobs(int[] mobs, QuestEventType... types)
+	{
+		for (int id : mobs)
+		{
+			for (QuestEventType type : types)
+			{
+				addEventId(id, type);
+			}
+		}
+	}
+	
 	public void cancelQuestTimers(String name)
 	{
 		FastList<QuestTimer> timers = getQuestTimers(name);

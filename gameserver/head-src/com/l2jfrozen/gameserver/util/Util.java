@@ -382,5 +382,17 @@ public final class Util
 	{
 		return calcCameraAngle(target.getHeading());
 	}
+	
+	public static boolean contains(int[] array, int obj)
+	{
+		for (int i = 0; i < array.length; i++)
+		{
+			if (array[i] == obj)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
