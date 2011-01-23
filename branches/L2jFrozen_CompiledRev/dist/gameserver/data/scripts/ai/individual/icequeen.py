@@ -109,14 +109,14 @@ class icequeen (JQuest) :
    if npcId == FR_GARDENER :
      self.startQuestTimer("buff",1,npc,player)
    if npcId == FR_SERVANT :
-     st.getPlayer().setTarget(self.IQ)
-     st.getPlayer().useMagic(SkillTable.getInstance().getInfo(4480,1),True,True)
+     player.setTarget(self.IQ)
+     player.useMagic(SkillTable.getInstance().getInfo(4480,1),True,True)
    if npcId == FR_DOG :
-     st.getPlayer().setTarget(self.IQ)
-     st.getPlayer().useMagic(SkillTable.getInstance().getInfo(4481,1),True,True)
+     player.setTarget(self.IQ)
+     player.useMagic(SkillTable.getInstance().getInfo(4481,1),True,True)
    if npcId == ICE_CAPTAIN :
-     st.getPlayer().setTarget(self.IQ)
-     st.getPlayer().useMagic(SkillTable.getInstance().getInfo(4482,1),True,True)
+     player.setTarget(self.IQ)
+     player.useMagic(SkillTable.getInstance().getInfo(4482,1),True,True)
    if npcId == ICE_QUEEEN :
      self.cancelQuestTimer("vkrovatku",npc,None)
    return
