@@ -720,6 +720,7 @@ public abstract class L2Character extends L2Object
 		teleToLocation(MapRegionTable.getInstance().getTeleToLocation(this, teleportWhere), true);
 	}
 
+	/*
 	// Fall Damage
 	public void Falling(int fallHeight)
 	{
@@ -734,7 +735,8 @@ public abstract class L2Character extends L2Object
 			setCurrentHp(curHp - damage);
 		sendPacket(new SystemMessage(SystemMessageId.FALL_DAMAGE_S1).addNumber(damage)); //YOU_RECEIVED_S1_DAMAGE_FROM_TAKING_A_HIGH_FALL
 	}
-
+*/
+	
 	// =========================================================
 	// Method - Private
 	/**

@@ -15414,5 +15414,66 @@ public final class L2PcInstance extends L2PlayableInstance
 	}
 	
 	
+	// during fall validations will be disabled for 10 ms.
+	private static final int FALLING_VALIDATION_DELAY = 10000;
+	private long _fallingTimestamp = 0;
+
+	
+	/**
+	 * Return true if character falling now
+	 * On the start of fall return false for correct coord sync !
+	 */
+	public final boolean isFalling(int z)
+	{
+		if (isDead()
+				|| isFlying()
+				|| isInvul() 
+				|| isInFunEvent()
+				|| isInsideZone(ZONE_WATER))
+			return false;
+		
+		if (System.currentTimeMillis() < _fallingTimestamp)
+			return true;
+
+		final int deltaZ = getZ() - z;
+		if (deltaZ <= getBaseTemplate().getFallHeight())
+			return false;
+
+		final int damage = (int)Formulas.calcFallDam(this, deltaZ);
+		if (damage > 0)
+		{
+			reduceCurrentHp(Math.min(damage, getCurrentHp() - 1), null, false);
+			sendPacket(new SystemMessage(SystemMessageId.FALL_DAMAGE_S1).addNumber(damage));
+		}
+
+		setFalling();
+
+		return false;
+	}
+	
+	/**
+	 * Set falling timestamp
+	 */
+	public final void setFalling()
+	{
+		_fallingTimestamp = System.currentTimeMillis() + FALLING_VALIDATION_DELAY;
+	}
+	
+	/** Previous coordinate sent to party in ValidatePosition **/
+	private Point3D _lastPartyPosition = new Point3D(0, 0, 0);
+	
+	public void setLastPartyPosition(int x, int y, int z)
+	{
+		_lastPartyPosition.setXYZ(x,y,z);
+	}
+
+	public int getLastPartyPositionDistance(int x, int y, int z)
+	{
+		double dx = (x - _lastPartyPosition.getX());
+		double dy = (y - _lastPartyPosition.getY());
+		double dz = (z - _lastPartyPosition.getZ());
+
+		return (int)Math.sqrt(dx*dx + dy*dy + dz*dz);
+	}
 	
 }
