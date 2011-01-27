@@ -20,15 +20,10 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.logging.Logger;
 
-import javolution.lang.MathLib;
-
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
-import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
@@ -418,13 +413,14 @@ public class ValidatePosition extends L2GameClientPacket
 	}
 	*/
 	
-	
+	/*
 	private void clientToServer(L2PcInstance player)
 	{
 		_x = player.getX();
 		_y = player.getY();
 		_z = player.getZ();
 	}
+	*/
 
 	@Override
 	public String getType()
