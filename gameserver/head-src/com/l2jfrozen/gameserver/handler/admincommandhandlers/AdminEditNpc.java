@@ -24,8 +24,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
@@ -34,7 +32,6 @@ import javolution.util.FastList;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.TradeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
-import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
