@@ -148,4 +148,10 @@ public class L2PcTemplate extends L2CharTemplate
 			Orc Mystic M 250
 		*/
 	}
+	
+
+	public final int getFallHeight()
+	{
+		return 333; // TODO: unhardcode it
+	}
 }

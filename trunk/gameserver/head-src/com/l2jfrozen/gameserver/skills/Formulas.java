@@ -2437,4 +2437,19 @@ public final class Formulas
 
 		return Rnd.get(100) < val;
 	}
+	
+	/**
+     * Calculate damage caused by falling
+     * @param cha
+     * @param fallHeight
+     * @return damage
+     */
+    public static double calcFallDam(L2Character cha, int fallHeight)
+    {
+    	if (!Config.FALL_DAMAGE || fallHeight < 0)
+    		return 0;
+    	final double damage = cha.calcStat(Stats.FALL, fallHeight * cha.getMaxHp() / 1000, null, null);
+		return damage;
+    }
+    
 }

@@ -25,6 +25,8 @@ import javolution.lang.MathLib;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
+import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
@@ -59,6 +61,182 @@ public class ValidatePosition extends L2GameClientPacket
 		_data = readD();
 	}
 
+	@Override
+	protected void runImpl()
+	{
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null
+				|| activeChar.isTeleporting()
+				|| activeChar.inObserverMode())
+			return;
+
+		final int realX = activeChar.getX();
+		final int realY = activeChar.getY();
+		int realZ = activeChar.getZ();
+
+		if (Config.DEVELOPER)
+		{
+			_log.fine("client pos: "+ _x + " "+ _y + " "+ _z +" head "+ _heading);
+			_log.fine("server pos: "+ realX + " "+realY+ " "+realZ +" head "+activeChar.getHeading());
+		}
+
+		if (_x == 0 && _y == 0) 
+		{
+			if (realX != 0) // in this case this seems like a client error
+				return;
+		}
+
+		int dx, dy, dz;
+		double diffSq;
+
+		if(activeChar.isInBoat()){
+			
+			dx = _x - realX;
+			dy = _y - realY;
+			diffSq = dx * dx + dy * dy;
+			
+			if((Config.COORD_SYNCHRONIZE & 2) == 2 && diffSq > 10000){
+				sendPacket(new ValidateLocationInVehicle(activeChar));
+			}else if (Config.COORD_SYNCHRONIZE == 4){
+				dz = _z - realZ;
+				activeChar.setXYZ(activeChar.getBoat().getX(), activeChar.getBoat().getY(), activeChar.getBoat().getZ());
+			}else if(Config.COORD_SYNCHRONIZE == -1){
+				
+				activeChar.setClientX(_x);
+				activeChar.setClientY(_y);
+				activeChar.setClientZ(_z);
+				activeChar.setClientHeading(_heading);
+
+				if(diffSq < 250000)
+				{
+					activeChar.setXYZ(realX, realY, _z);
+				}
+
+				int realHeading = activeChar.getHeading();
+
+				if(Config.DEBUG)
+				{
+					_log.fine("client pos: " + _x + " " + _y + " " + _z + " head " + _heading);
+					_log.fine("server pos: " + realX + " " + realY + " " + realZ + " head " + realHeading);
+				}
+
+				sendPacket(new ValidateLocationInVehicle(activeChar));	
+			}
+			
+			return;
+			
+		}
+		
+		/*
+		if (activeChar.isInBoat())
+		{
+			if (Config.COORD_SYNCHRONIZE == 2)
+			{
+				dx = _x - activeChar.getInVehiclePosition().getX();
+				dy = _y - activeChar.getInVehiclePosition().getY();
+				dz = _z - activeChar.getInVehiclePosition().getZ();
+				diffSq = (dx*dx + dy*dy);
+				if (diffSq > 250000)
+					sendPacket(new GetOnVehicle(activeChar.getObjectId(), _data, activeChar.getInVehiclePosition()));
+			}
+			return;
+		}
+		*/
+		
+		if (activeChar.isFalling(_z))
+			return; // disable validations during fall to avoid "jumping"
+
+		dx = _x - realX;
+		dy = _y - realY;
+		dz = _z - realZ;
+		diffSq = (dx*dx + dy*dy);
+
+		L2Party party = activeChar.getParty();
+		if(party != null && activeChar.getLastPartyPositionDistance(_x, _y, _z) > 150)
+		{
+			activeChar.setLastPartyPosition(_x, _y, _z);
+			party.broadcastToPartyMembers(activeChar,new PartyMemberPosition(activeChar));
+		}
+		
+		/*
+		if (Config.ACCEPT_GEOEDITOR_CONN)
+			if (GeoEditorListener.getInstance().getThread() != null  
+					&& GeoEditorListener.getInstance().getThread().isWorking()  
+					&& GeoEditorListener.getInstance().getThread().isSend(activeChar))
+				GeoEditorListener.getInstance().getThread().sendGmPosition(_x,_y,(short)_z);
+		 */
+		
+		if (activeChar.isFlying() || activeChar.isInsideZone(L2Character.ZONE_WATER))
+		{
+			activeChar.setXYZ(realX, realY, _z);
+			if (diffSq > 90000) // validate packet, may also cause z bounce if close to land
+				activeChar.sendPacket(new ValidateLocation(activeChar));
+			
+			if(Config.ALLOW_WATER)
+			{
+				activeChar.checkWaterState();
+			}
+			
+		}
+		else if (diffSq < 360000) // if too large, messes observation
+		{
+			if (Config.COORD_SYNCHRONIZE == -1) // Only Z coordinate synched to server, 
+												// mainly used when no geodata but can be used also with geodata
+			{
+				activeChar.setXYZ(realX,realY,_z);
+				return;
+			}
+			if (Config.COORD_SYNCHRONIZE == 1) // Trusting also client x,y coordinates (should not be used with geodata)
+			{
+				if (!activeChar.isMoving() 
+						|| !activeChar.validateMovementHeading(_heading)) // Heading changed on client = possible obstacle
+				{
+					// character is not moving, take coordinates from client
+					if (diffSq < 2500) // 50*50 - attack won't work fluently if even small differences are corrected
+						activeChar.setXYZ(realX, realY, _z);
+					else
+						activeChar.setXYZ(_x, _y, _z);
+				}
+				else
+					activeChar.setXYZ(realX, realY, _z);
+
+				activeChar.setHeading(_heading);
+				return;
+			}
+			// Sync 2 (or other), 
+			// intended for geodata. Sends a validation packet to client 
+			// when too far from server calculated true coordinate.
+			// Due to geodata/zone errors, some Z axis checks are made. (maybe a temporary solution)
+			// Important: this code part must work together with L2Character.updatePosition
+			if (Config.GEODATA > 0 && (diffSq > 250000 || Math.abs(dz) > 200))
+			{
+				//if ((_z - activeChar.getClientZ()) < 200 && Math.abs(activeChar.getLastServerPosition().getZ()-realZ) > 70)
+
+				if (Math.abs(dz) > 200
+						&& Math.abs(dz) < 1500
+						&& Math.abs(_z - activeChar.getClientZ()) < 800 )
+				{
+					activeChar.setXYZ(realX, realY, _z);
+					realZ = _z;
+				}
+				else
+				{
+					if (Config.DEVELOPER)
+						_log.info(activeChar.getName() + ": Synchronizing position Server --> Client");
+
+					activeChar.sendPacket(new ValidateLocation(activeChar));
+				}
+			}
+		}
+
+		activeChar.setClientX(_x);
+		activeChar.setClientY(_y);
+		activeChar.setClientZ(_z);
+		activeChar.setClientHeading(_heading); // No real need to validate heading.
+		activeChar.setLastServerPosition(realX, realY, realZ);
+	}
+	
+	/*
 	@Override
 	protected void runImpl()
 	{
@@ -176,7 +354,7 @@ public class ValidatePosition extends L2GameClientPacket
 							}
 							if(Config.FALL_DAMAGE)
 							{
-								activeChar.Falling((int)dz);
+								activeChar.isFalling((int)dz);
 							}
 						}
 						else if(activeChar.isMoving() && diffSq > activeChar.getStat().getMoveSpeed())
@@ -238,6 +416,8 @@ public class ValidatePosition extends L2GameClientPacket
 			activeChar.checkWaterState();
 		}
 	}
+	*/
+	
 	
 	private void clientToServer(L2PcInstance player)
 	{

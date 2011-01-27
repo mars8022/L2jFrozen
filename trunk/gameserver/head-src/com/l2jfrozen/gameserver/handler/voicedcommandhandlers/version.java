@@ -33,8 +33,8 @@ public class version implements IVoicedCommandHandler
 	{
 		if(command.equalsIgnoreCase("version"))
 		{
-			activeChar.sendMessage("L2Scoria core revision:        " + Config.SERVER_VERSION);
-			activeChar.sendMessage("L2Scoria datapack revision:    " + Config.DATAPACK_VERSION);
+			activeChar.sendMessage("L2jFrozen core revision:        " + Config.SERVER_VERSION);
+			activeChar.sendMessage("L2jFrozen datapack revision:    " + Config.DATAPACK_VERSION);
 		}
 		return true;
 	}
