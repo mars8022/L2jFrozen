@@ -86,7 +86,7 @@ public class DoorTable
 			doorData = null;
 
 			String line = null;
-			_log.warning("Searching clan halls doors:");
+			_log.info("Searching clan halls doors:");
 
 			while((line = lnr.readLine()) != null)
 			{

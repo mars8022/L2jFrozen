@@ -38,6 +38,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SepulcherMonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SepulcherNpcInstance;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
+import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -294,7 +295,12 @@ public class FourSepulchersManager extends GrandBossManager
 		for(int i = 31921; i < 31925; i++)
 		{
 			int[] Location = _startHallSpawns.get(i);
-			GrandBossManager.getInstance().getZone(Location[0], Location[1], Location[2]).oustAllPlayers();
+			if(Location!=null && Location.length==3){
+				L2BossZone zone = GrandBossManager.getInstance().getZone(Location[0], Location[1], Location[2]);
+				if(zone!=null)
+					zone.oustAllPlayers();
+			}
+			
 		}
 
 		deleteAllMobs();

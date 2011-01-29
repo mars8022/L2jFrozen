@@ -60,7 +60,7 @@ public class Away implements IVoicedCommandHandler
 			return false;
 		}
 
-		if(!activeChar.isInsideZone(ZONE_PEACE) && Config.SCORIA_AWAY_PEACE_ZONE)
+		if(!activeChar.isInsideZone(ZONE_PEACE) && Config.AWAY_PEACE_ZONE)
 		{
 			activeChar.sendMessage("You can only Away in peace zone.");
 			return false;

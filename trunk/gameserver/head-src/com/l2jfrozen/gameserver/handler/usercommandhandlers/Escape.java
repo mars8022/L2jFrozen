@@ -53,7 +53,7 @@ public class Escape implements IUserCommandHandler
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
 
-		if(activeChar.isCastingNow() || activeChar.isMovementDisabled() || activeChar.isMuted() || activeChar.isAlikeDead() || activeChar.isInOlympiadMode())
+		if(activeChar.isCastingNow() || activeChar.isAway()|| activeChar.isMovementDisabled() || activeChar.isMuted() || activeChar.isAlikeDead() || activeChar.isInOlympiadMode())
 			return false;
 
 		int unstuckTimer = activeChar.getAccessLevel().isGm() ? 1000 : Config.UNSTUCK_INTERVAL * 1000;
@@ -124,6 +124,7 @@ public class Escape implements IUserCommandHandler
 		activeChar.setTarget(activeChar);
 		activeChar.disableAllSkills();
 
+		activeChar.setIsImobilised(true);
 		MagicSkillUser msk = new MagicSkillUser(activeChar, 1050, 1, unstuckTimer, 0);
 		Broadcast.toSelfAndKnownPlayersInRadius(activeChar, msk, 810000/*900*/);
 		SetupGauge sg = new SetupGauge(0, unstuckTimer);
@@ -152,7 +153,7 @@ public class Escape implements IUserCommandHandler
 
 		public void run()
 		{
-			if(_activeChar.isDead())
+			if(_activeChar.isDead() || _activeChar.isAway() ||  _activeChar.isMovementDisabled())
 				return;
 
 			_activeChar.setIsIn7sDungeon(false);

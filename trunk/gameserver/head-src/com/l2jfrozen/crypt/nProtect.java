@@ -111,7 +111,8 @@ public class nProtect
 		} 
 		catch(ClassNotFoundException e)
 		{
-			_log.warning("ATTENTION: nProtect System will be not loaded due to ClassNotFoundException of 'com.scoria.protection.main' class" );
+			if(Config.DEBUG)
+				_log.warning("nProtect System will be not loaded due to ClassNotFoundException of 'com.scoria.protection.main' class" );
 		}
 		catch(SecurityException e)
 		{

@@ -700,6 +700,10 @@ public final class QuestState
 
 		if(item == null)
 			return;
+		
+		if(getPlayer().isProcessingTransaction()){
+			getPlayer().cancelActiveTrade();
+		}
 
 		// Tests on count value in order not to have negative value
 		if(count < 0 || count > item.getCount())

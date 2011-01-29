@@ -60,6 +60,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2EffectPointInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2FortSiegeGuardInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2FriendlyMobInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GuardInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MinionInstance;
@@ -67,6 +68,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcWalkerInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.SkillDat;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
@@ -1584,6 +1586,12 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
+		// Player can't heal rb config
+		if(!Config.PLAYERS_CAN_HEAL_RB && this instanceof L2PcInstance && !((L2PcInstance) this).isGM() && (target instanceof L2RaidBossInstance || target instanceof L2GrandBossInstance) && (skill.getSkillType() == SkillType.HEAL || skill.getSkillType() == SkillType.HEAL_PERCENT)){
+			this.sendPacket( ActionFailed.STATIC_PACKET );
+			return;
+		}
+		
 		if (this instanceof L2PcInstance && target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
 		{
 			String mobtype = ((L2NpcInstance) target).getTemplate().type;

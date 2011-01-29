@@ -47,12 +47,14 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 {
 	//private static Logger _log = Logger.getLogger(L2ClassMasterInstance.class.getName());
 
-	public static L2ClassMasterInstance ClassMaster = new L2ClassMasterInstance(31228, NpcTable.getInstance().getTemplate(31228));
+	/*public static L2ClassMasterInstance ClassMaster = new L2ClassMasterInstance(31228, NpcTable.getInstance().getTemplate(31228));
 	static
 	{
 		L2World.storeObject(ClassMaster);
-	}
+	}*/
 
+	private static L2ClassMasterInstance instance=null;
+	
 	/**
 	 * @param template
 	 */
@@ -61,6 +63,16 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		super(objectId, template);
 	}
 
+	public static L2ClassMasterInstance getInstance(){
+		
+		if(instance==null){
+			instance = new L2ClassMasterInstance(31228, NpcTable.getInstance().getTemplate(31228));
+			L2World.storeObject(instance);
+		}
+		
+		return instance;
+	}
+	
 	@Override
 	public void onAction(L2PcInstance player)
 	{
@@ -341,7 +353,26 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 			}
 
 			changeClass(player, val);
+			
+			try
+			{
+				Thread.sleep(2000);
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 			player.rewardSkills();
+			
+			try
+			{
+				Thread.sleep(2000);
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			player.checkAllowedSkills();
 
 			if(val >= 88)
 			{
