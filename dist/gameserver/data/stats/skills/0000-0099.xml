@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1" levels="37" name="Triple Slash" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
@@ -222,6 +222,7 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="8" levels="7" name="Sonic Focus">
   <table name="#val">1 2 3 4 5 6 7</table>
+  <set name="weaponsAllowed" val="512"/>
   <set name="mpConsume" val="5"/>
   <set name="hpConsume" val="25"/>
   <set name="power" val="#val"/>
@@ -1617,6 +1618,7 @@
     </effect>
   </enchant1for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="87" levels="1" name="Detect Animal Weakness">
   <set name="mpConsume" val="18"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1624,16 +1626,15 @@
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="379"/>
   <for>
     <effect count="1" name="Buff" time="600" val="0" stackOrder="1" stackType="detect_weakness">
-      <mul order="0x30" stat="pAtk-animals" val="1.2"/>
+      <mul order="0x30" stat="pAtk-animals" val="1.3"/>
       <target kind="animal"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="88" levels="1" name="Detect Dragon Weakness">
   <set name="mpConsume" val="27"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1641,16 +1642,15 @@
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="549"/>
   <for>
     <effect count="1" name="Buff" time="600" val="0" stackOrder="1" stackType="detect_weakness">
-      <mul order="0x30" stat="pAtk-dragons" val="1.2"/>
+      <mul order="0x30" stat="pAtk-dragons" val="1.3"/>
       <target kind="dragon"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="91" levels="2" name="Defense Aura">
   <table name="#mpConsume_Init">1 2</table>
   <table name="#mpConsume">4 8</table>
@@ -1664,8 +1664,6 @@
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="#aggro"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="#rate" stackType="pDef">
@@ -1840,6 +1838,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="98" levels="5" name="Sword Symphony">
   <table name="#mpConsume">120 133 142 152 160</table>
   <table name="#magicLvl">55 60 64 68 72</table>
@@ -1854,10 +1853,10 @@
   <set name="hitTime" val="2000"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="effectType" val="FEAR"/>
   <set name="effectPower" val="15"/>
+  <set name="isDebuff" val="true" />
+  <set name="overHit" val="true" />
   <for>
     <effect count="5" name="Fear" time="6" val="0"/>
   </for>

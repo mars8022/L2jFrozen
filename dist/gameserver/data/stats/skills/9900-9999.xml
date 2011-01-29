@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <list>
 <!-- Custom skills of l2jfrozen Pack author:Nefer -->
-
 <!-- Apella -->
 <skill id="9955" levels="1" name="Vampiric Rage">
   <table name="#mpConsume_Init"> 0 </table>

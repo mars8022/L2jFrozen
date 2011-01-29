@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by l2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="4500" levels="1" name="Treasure Chest - Level 27">
   <!-- This Skill Is Only For Description In The Client -->
   <set name="target" val="TARGET_SELF"/>

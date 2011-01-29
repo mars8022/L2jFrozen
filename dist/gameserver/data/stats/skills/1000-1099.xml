@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="1001" levels="10" name="Soul Cry">
   <table name="#patk-add">4.5 14 33.5 66.5 90.5 141.5 208.5 247 310 375.5</table>
   <table name="#mpRegen-sub">3 6 9 12 15 18 21 24 27 30</table>
