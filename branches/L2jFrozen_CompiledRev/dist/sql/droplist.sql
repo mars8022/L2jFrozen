@@ -28004,3 +28004,13 @@ INSERT INTO `droplist` VALUES
 ('12778','4661','1','1','16','100000'), -- Blue Soul Crystal - Stage 10
 ('12778','4650','1','1','17','100000'), -- Green Soul Crystal - Stage 10
 ('12778','4639','1','1','18','100000'); -- Red Soul Crystal - Stage 10
+
+-- Van Halter Drops
+INSERT INTO `droplist` VALUES ('29062', '7579', '1', '1', '0', '233500');
+INSERT INTO `droplist` VALUES ('29062', '960', '1', '1', '2', '320001');
+INSERT INTO `droplist` VALUES ('29062', '959', '1', '1', '3', '32001');
+INSERT INTO `droplist` VALUES ('29062', '6711', '12', '36', '4', '306300');
+INSERT INTO `droplist` VALUES ('29062', '7575', '1', '1', '5', '10050');
+INSERT INTO `droplist` VALUES ('29062', '8921', '1', '1', '6', '320001');
+INSERT INTO `droplist` VALUES ('29062', '6684', '1', '1', '7', '10000');
+INSERT INTO `droplist` VALUES ('29062', '6578', '1', '1', '9', '1000');
