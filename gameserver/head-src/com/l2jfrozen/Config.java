@@ -1835,11 +1835,11 @@ public final class Config
 
 	//============================================================
 	public static boolean SCORIA_ALLOW_AWAY_STATUS;
-	public static int SCORIA_AWAY_TIMER;
-	public static int SCORIA_BACK_TIMER;
-	public static int SCORIA_AWAY_TITLE_COLOR;
+	public static int AWAY_TIMER;
+	public static int BACK_TIMER;
+	public static int AWAY_TITLE_COLOR;
 	public static boolean SCORIA_AWAY_PLAYER_TAKE_AGGRO;
-	public static boolean SCORIA_AWAY_PEACE_ZONE;
+	public static boolean AWAY_PEACE_ZONE;
 
 	//============================================================
 	public static void loadAWAYConfig()
@@ -1856,10 +1856,10 @@ public final class Config
 			/** Away System **/
 			SCORIA_ALLOW_AWAY_STATUS = Boolean.parseBoolean(AWAYSettings.getProperty("AllowAwayStatus", "False"));
 			SCORIA_AWAY_PLAYER_TAKE_AGGRO = Boolean.parseBoolean(AWAYSettings.getProperty("AwayPlayerTakeAggro", "False"));
-			SCORIA_AWAY_TITLE_COLOR = Integer.decode("0x" + AWAYSettings.getProperty("AwayTitleColor", "0000FF"));
-			SCORIA_AWAY_TIMER = Integer.parseInt(AWAYSettings.getProperty("AwayTimer", "30"));
-			SCORIA_BACK_TIMER = Integer.parseInt(AWAYSettings.getProperty("BackTimer", "30"));
-			SCORIA_AWAY_PEACE_ZONE = Boolean.parseBoolean(AWAYSettings.getProperty("AwayOnlyInPeaceZone", "False"));
+			AWAY_TITLE_COLOR = Integer.decode("0x" + AWAYSettings.getProperty("AwayTitleColor", "0000FF"));
+			AWAY_TIMER = Integer.parseInt(AWAYSettings.getProperty("AwayTimer", "30"));
+			BACK_TIMER = Integer.parseInt(AWAYSettings.getProperty("BackTimer", "30"));
+			AWAY_PEACE_ZONE = Boolean.parseBoolean(AWAYSettings.getProperty("AwayOnlyInPeaceZone", "False"));
 
 		}
 		catch(Exception e)

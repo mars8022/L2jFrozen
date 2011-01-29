@@ -667,7 +667,8 @@ public class Potions implements IItemHandler
 					activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 					
 				}else{
-					_log.log(Level.WARNING, "Attention: player "+activeChar.getName()+" has not potions "+potion+"!");
+					if(Config.DEBUG)
+						_log.log(Level.WARNING, "Attention: player "+activeChar.getName()+" has not potions "+potion+"!");
 				}
 			}
 			

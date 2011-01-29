@@ -82,13 +82,13 @@ public final class AwayManager
 	public void setAway(L2PcInstance activeChar, String text)
 	{
 		activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 9));
-		activeChar.sendMessage("Your status is Away in " + Config.SCORIA_AWAY_TIMER + " Sec.");
+		activeChar.sendMessage("Your status is Away in " + Config.AWAY_TIMER + " Sec.");
 		activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-		SetupGauge sg = new SetupGauge(SetupGauge.BLUE, Config.SCORIA_AWAY_TIMER * 1000);
+		SetupGauge sg = new SetupGauge(SetupGauge.BLUE, Config.AWAY_TIMER * 1000);
 		activeChar.sendPacket(sg);
 		sg = null;
 		activeChar.setIsImobilised(true);
-		ThreadPoolManager.getInstance().scheduleGeneral(new setPlayerAwayTask(activeChar, text), Config.SCORIA_AWAY_TIMER * 1000);
+		ThreadPoolManager.getInstance().scheduleGeneral(new setPlayerAwayTask(activeChar, text), Config.AWAY_TIMER * 1000);
 	}
 
 	/**
@@ -96,11 +96,11 @@ public final class AwayManager
 	 */
 	public void setBack(L2PcInstance activeChar)
 	{
-		activeChar.sendMessage("You are back from Away Status in " + Config.SCORIA_BACK_TIMER + " Sec.");
-		SetupGauge sg = new SetupGauge(SetupGauge.BLUE, Config.SCORIA_BACK_TIMER * 1000);
+		activeChar.sendMessage("You are back from Away Status in " + Config.BACK_TIMER + " Sec.");
+		SetupGauge sg = new SetupGauge(SetupGauge.BLUE, Config.BACK_TIMER * 1000);
 		activeChar.sendPacket(sg);
 		sg = null;
-		ThreadPoolManager.getInstance().scheduleGeneral(new setPlayerBackTask(activeChar), Config.SCORIA_BACK_TIMER * 1000);
+		ThreadPoolManager.getInstance().scheduleGeneral(new setPlayerBackTask(activeChar), Config.BACK_TIMER * 1000);
 	}
 
 	public void extraBack(L2PcInstance activeChar)
@@ -155,7 +155,7 @@ public final class AwayManager
 				_activeChar.sendMessage("You are now Away *" + _awayText + "*");
 			}
 
-			_activeChar.getAppearance().setTitleColor(Config.SCORIA_AWAY_TITLE_COLOR);
+			_activeChar.getAppearance().setTitleColor(Config.AWAY_TITLE_COLOR);
 
 			if(_awayText.length() <= 1)
 			{

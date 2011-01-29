@@ -192,15 +192,15 @@ public class PcStat extends PlayableStat
 			ClassLevel lvlnow = PlayerClass.values()[getActiveChar().getClassId().getId()].getLevel();
 			if(getLevel() >= 20 && lvlnow == ClassLevel.First)
 			{
-				L2ClassMasterInstance.ClassMaster.onAction(getActiveChar());
+				L2ClassMasterInstance.getInstance().onAction(getActiveChar());
 			}
 			else if(getLevel() >= 40 && lvlnow == ClassLevel.Second)
 			{
-				L2ClassMasterInstance.ClassMaster.onAction(getActiveChar());
+				L2ClassMasterInstance.getInstance().onAction(getActiveChar());
 			}
 			else if(getLevel() >= 76 && lvlnow == ClassLevel.Third)
 			{
-				L2ClassMasterInstance.ClassMaster.onAction(getActiveChar());
+				L2ClassMasterInstance.getInstance().onAction(getActiveChar());
 			}
 
 			lvlnow = null;

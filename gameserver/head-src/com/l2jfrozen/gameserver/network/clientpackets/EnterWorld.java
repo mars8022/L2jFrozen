@@ -434,15 +434,15 @@ public class EnterWorld extends L2GameClientPacket
 
 			if(activeChar.getLevel() >= 20 && lvlnow == ClassLevel.First)
 			{
-				L2ClassMasterInstance.ClassMaster.onAction(activeChar);
+				L2ClassMasterInstance.getInstance().onAction(activeChar);
 			}
 			else if(activeChar.getLevel() >= 40 && lvlnow == ClassLevel.Second)
 			{
-				L2ClassMasterInstance.ClassMaster.onAction(activeChar);
+				L2ClassMasterInstance.getInstance().onAction(activeChar);
 			}
 			else if(activeChar.getLevel() >= 76 && lvlnow == ClassLevel.Third)
 			{
-				L2ClassMasterInstance.ClassMaster.onAction(activeChar);
+				L2ClassMasterInstance.getInstance().onAction(activeChar);
 			}
 		}
 		

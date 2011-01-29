@@ -94,17 +94,21 @@ public class AccessLevels
 
 				if(accessLevel == _userAccessLevelNum)
 				{
-					_log.log(Level.WARNING,"AccessLevels: Access level with name " + name + " is using reserved user access level " + _userAccessLevelNum + ". Ignoring it!");
+					if(Config.DEBUG)
+						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using reserved user access level " + _userAccessLevelNum + ". Ignoring it..");
+					
 					continue;
 				}
 				else if(accessLevel == _masterAccessLevelNum)
 				{
-					_log.log(Level.WARNING,"AccessLevels: Access level with name " + name + " is using reserved master access level " + _masterAccessLevelNum + ". Ignoring it!");
+					if(Config.DEBUG)
+						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using reserved master access level " + _masterAccessLevelNum + ". Ignoring it..");
 					continue;
 				}
 				else if(accessLevel < 0)
 				{
-					_log.log(Level.WARNING,"AccessLevels: Access level with name " + name + " is using banned access level state(below 0). Ignoring it!");
+					if(Config.DEBUG)
+						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using banned access level state(below 0). Ignoring it..");
 					continue;
 				}
 
@@ -186,7 +190,13 @@ public class AccessLevels
 			}
 			con = null;
 		}
-		_log.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");
+		//_log.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");
+		_log.info("AccessLevels: Master Access Level is " + _masterAccessLevelNum);
+		_log.info("AccessLevels: User Access Level is " + _userAccessLevelNum);
+		for(Integer actual:_accessLevels.keySet()){
+			AccessLevel actual_access = _accessLevels.get(actual);
+			_log.info("AccessLevels: "+actual_access.getName()+" Access Level is " + actual_access.getLevel());
+		}
 	}
 
 	/**

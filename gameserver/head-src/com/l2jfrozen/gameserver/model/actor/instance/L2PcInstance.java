@@ -6349,24 +6349,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		quakeSystem++;
 		switch(quakeSystem)
 		{
-			case 4:
-				if(Config.ENABLE_ANTI_PVP_FARM_MSG){
-					CreatureSay cs11 = new CreatureSay(0, 15, "",  getName() + " 4 consecutive kill! Only gm."); // 8D
-					
-					for(L2PcInstance player: L2World.getInstance().getAllPlayers())
-					{
-						if(player != null)
-							if(player.isOnline()!=0)
-								if(player.isGM())
-								{					
-									player.sendPacket(cs11);
-								}
-					}
-				}
-				break;
 			case 5:
 				if(Config.ENABLE_ANTI_PVP_FARM_MSG){
-					CreatureSay cs12 = new CreatureSay(0, 15, "",  getName() + " 4 consecutive kill! Only Gm."); // 8D
+					CreatureSay cs12 = new CreatureSay(0, 15, "",  getName() + " 5 consecutive kill! Only Gm."); // 8D
 					
 					for(L2PcInstance player: L2World.getInstance().getAllPlayers())
 					{
@@ -6515,7 +6500,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(kills >= 1)
 		{
 			kills++;
-			String UPDATE_PKKILLS = "UPDATE pkKills SET kills=? WHERE killerId=? AND killedID=?";
+			String UPDATE_PKKILLS = "UPDATE pkKills SET kills=? WHERE killerId=? AND killedId=?";
 			Connection conect = null;
 			try
 			{
@@ -9165,8 +9150,12 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(!foundskill)
 				{
 					removeSkill(skill);
-					sendMessage("Skill " + skill.getName() + " removed and gm informed!");
-					_log.warning("Cheater! - Character " + getName() + " of Account " + getAccountName() + " got skill " + skill.getName() + " removed!" + IllegalPlayerAction.PUNISH_KICK);
+					
+					if(Config.DEBUG){
+						//sendMessage("Skill " + skill.getName() + " removed and gm informed!");
+						_log.warning("Character " + getName() + " of Account " + getAccountName() + " got skill " + skill.getName() + ".. Removed!"/* + IllegalPlayerAction.PUNISH_KICK*/);
+					
+					}
 				}
 			}
 			skillTree = null;

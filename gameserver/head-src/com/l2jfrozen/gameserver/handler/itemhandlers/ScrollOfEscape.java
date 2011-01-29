@@ -247,10 +247,7 @@ public class ScrollOfEscape implements IItemHandler
 
 			try
 			{
-				if(_activeChar.getKarma()>0 && Config.ALT_KARMA_TELEPORT_TO_FLORAN){
-					_activeChar.teleToLocation(17836, 170178, -3507, true); // Floran
-					return;
-				}
+				
 				// escape to castle if own's one
 				if((_itemId == 1830 || _itemId == 5859) && CastleManager.getInstance().getCastleByOwner(_activeChar.getClan()) != null)
 				{
@@ -275,7 +272,10 @@ public class ScrollOfEscape implements IItemHandler
 					_activeChar.sendPacket(SystemMessage.sendString("Your clan does not own castle or fortress."));
 					return;
 				}
-				else
+				else if(_activeChar.getKarma()>0 && Config.ALT_KARMA_TELEPORT_TO_FLORAN){
+					_activeChar.teleToLocation(17836, 170178, -3507, true); // Floran
+					return;
+				}else
 				{
 					if(_itemId < 7117)
 					{
