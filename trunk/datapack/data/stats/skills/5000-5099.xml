@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="5000" levels="1" name="Alfred - Super Strike">
   <set name="mpConsume" val="212"/>
   <set name="power" val="4878"/>

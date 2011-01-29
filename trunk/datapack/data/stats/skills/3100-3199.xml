@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="3100" levels="10" name="Item Skill: Sleep">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>

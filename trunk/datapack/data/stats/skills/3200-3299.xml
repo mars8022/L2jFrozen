@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="3200" levels="3" name="Item Skill: Spell Refresh">
   <table name="#mpConsume">27 31 34</table>
   <table name="#mReuseRate">0.95 0.92 0.9</table>

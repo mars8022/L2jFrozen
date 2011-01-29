@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="1100" levels="2" name="Chill Flame">
   <table name="#magicLvl">7 14</table>
   <table name="#dmg">20 30</table>
