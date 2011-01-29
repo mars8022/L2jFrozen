@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="301" levels="5" name="Summon Big Boom" enchantLevels1="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -509,12 +509,11 @@
   <for>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="316" levels="1" name="Aegis">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <cond>
       <using kind="Shield"/>
@@ -601,6 +600,7 @@
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="320" levels="10" name="Wrath" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -608,21 +608,20 @@
   <table name="#ench2MpConsume">82 81 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53</table>
   <table name="#mpConsume">73 74 75 77 78 79 80 81 82 83</table>
   <table name="#magicLvl">65 66 67 68 69 70 71 72 73 74</table>
-  <table name="#CP">0.93 0.9 0.88 0.85 0.83 0.8 0.78 0.75 0.73 0.7</table>
+  <table name="#power">0.93 0.9 0.88 0.85 0.83 0.8 0.78 0.75 0.73 0.7</table>
   <table name="#ench1Power">0.7 0.69 0.68 0.67 0.66 0.65 0.64 0.63 0.62 0.61 0.61 0.6 0.59 0.58 0.57 0.56 0.55 0.54 0.53 0.52 0.52 0.51 0.5 0.49 0.48 0.47 0.46 0.45 0.44 0.43</table>
   <set name="weaponsAllowed" val="64"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="#CP"/>
+  <set name="power" val="#power"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="80"/>
-  <set name="overHit" val="true"/>
   <set name="reuseDelay" val="120000"/>
   <set name="hitTime" val="1080"/>
   <set name="coolTime" val="720"/>
   <set name="skillType" val="CPDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="60"/>
+  <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
@@ -643,6 +642,8 @@
   <set name="coolTime" val="720"/>
   <set name="skillType" val="BLOW"/>
   <set name="lethal1" val="5"/>
+  <set name="overHit" val="true" />
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
@@ -650,7 +651,7 @@
     <effect self="1" count="1" name="Buff" time="15" val="0" stackOrder="40" stackType="SpeedUpS">
       <add order="0x40" stat="runSpd" val="40"/>
     </effect>
-    <effect count="1" name="Bluff" time="1" val="0"/> 
+    <effect name="Bluff" val="0" effectPower="40" effectType="STUN"/> 
   </for>
 </skill>
 <skill id="322" levels="6" name="Shield Fortress" enchantLevels1="30" enchantLevels2="30">
@@ -1816,14 +1817,12 @@
     <mul order="0x30" stat="sleepVuln" val="#vuln"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="389" levels="3" name="Clan March">
   <table name="#runSpd">3 5 6</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="isMagic" val="true"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="minPledgeClass" val="7"/>
   <for>
     <add order="0x40" stat="runSpd" val="#runSpd"/>
@@ -1840,17 +1839,17 @@
     <mul order="0x30" stat="rExp" val="#expLost"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="391" levels="1" name="Clan Imperium">
   <!-- Gives authority to open up a command channel. Only affects Wise Man class and above. -->
   <set name="target" val="TARGET_NONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="minPledgeClass" val="4"/>
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="395" levels="1" name="Heroic Miracle">
   <set name="mpConsume" val="72"/>
   <set name="itemConsumeId" val="1785"/>
@@ -1858,25 +1857,19 @@
   <set name="hitTime" val="1000"/>
   <set name="reuseDelay" val="1200000"/>
   <set name="staticReuse" val="true"/>
-  <set name="power" val="80"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
-  <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <cond>
-      <using kind="Shield"/>
-    </cond>
     <effect name="Buff" time="30" count="1" val="0" stackOrder="1" stackType="hero">
       <add order="0x40" stat="pDef" val="5400"/>
       <add order="0x40" stat="mDef" val="4050"/>
       <add order="0x40" stat="runSpd" val="5"/>
-	  <mul order="0x30" stat="cancelVuln" val="0.9"/>
+	  <sub order="0x40" stat="cancelVuln" val="80"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="396" levels="1" name="Heroic Berserker">
   <set name="mpConsume" val="72"/>
   <set name="itemConsumeId" val="1785"/>
@@ -1884,24 +1877,23 @@
   <set name="hitTime" val="1000"/>
   <set name="reuseDelay" val="1200000"/>
   <set name="staticReuse" val="true"/>
-  <set name="power" val="80"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
-  <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect name="Buff" time="120" count="1" val="0" stackOrder="1" stackType="hero">
       <add order="0x40" stat="accCombat" val="8"/>
-      <sub order="0x40" stat="rEvas" val="8"/>
       <add order="0x40" stat="pAtk" val="500"/>
       <add order="0x40" stat="mAtk" val="500"/>
       <add order="0x40" stat="pAtkSpd" val="100"/>
       <add order="0x40" stat="mAtkSpd" val="100"/>
       <add order="0x40" stat="runSpd" val="20"/>
+      <sub order="0x40" stat="rEvas" val="8"/>
       <mul order="0x30" stat="pDef" val="0.75"/>
       <mul order="0x30" stat="mDef" val="0.75"/>
+      <sub order="0x40" stat="debuffVuln" val="100" />
+      <sub order="0x40" stat="cancelVuln" val="80" />
+	  <mul order="0x30" stat="gainHp" val="2" />
     </effect>
   </for>
 </skill>

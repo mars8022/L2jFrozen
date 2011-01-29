@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="4100" levels="12" name="NPC Prominence">
   <table name="#mpConsume">13 20 27 35 45 55 65 69 73 75 77 78</table>
   <table name="#power">18 26 38 52 68 85 102 110 116 122 126 129</table>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="2100" levels="1" name="Escape: 1 second">
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="1000"/>

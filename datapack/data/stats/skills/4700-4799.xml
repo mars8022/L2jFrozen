@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
-<!-- remake by L2Scoria,la2.100nt.ru -->
+<!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
 <skill id="4700" levels="13" name="Gift of Queen">
   <table name="#mpConsume">122 157 194 202 207 212 215 220 224 229 233 237 242</table>
   <table name="#pAtk">1.06 1.08 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1</table>
