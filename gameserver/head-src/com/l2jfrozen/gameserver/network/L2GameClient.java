@@ -645,6 +645,14 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			if(player.isFlying())
 				player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 			
+			if(player.isAway())
+			{
+				AwayManager.getInstance().extraBack(player);
+			}
+
+			//Decrease boxes number
+			if(player._active_boxes!=-1)
+				player.decreaseBoxes();
 			
 			if(player._inEventCTF){
 				CTF.onDisconnect(player);

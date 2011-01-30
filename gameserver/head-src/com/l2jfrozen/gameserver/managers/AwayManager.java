@@ -81,6 +81,7 @@ public final class AwayManager
 	 */
 	public void setAway(L2PcInstance activeChar, String text)
 	{
+		activeChar.set_awaying(true);
 		activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 9));
 		activeChar.sendMessage("Your status is Away in " + Config.AWAY_TIMER + " Sec.");
 		activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
@@ -169,6 +170,7 @@ public final class AwayManager
 			_activeChar.broadcastUserInfo();
 			_activeChar.setIsParalyzed(true);
 			_activeChar.setIsAway(true);
+			_activeChar.set_awaying(false);
 		}
 	}
 

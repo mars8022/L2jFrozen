@@ -625,6 +625,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 
 	
 	/** character away mode **/
+	private boolean _awaying = false;
 	private boolean _isAway = false;
 	public int _originalTitleColorAway;
 	public String _originalTitleAway;
@@ -6203,7 +6204,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}      
 			
 			//Anti FARM same Ip 
-			if(Config.ANTI_FARM_IP_ENABLED && targetPlayer.getClient()!=null && targetPlayer.getClient().getConnection().getInetAddress() == this.getClient().getConnection().getInetAddress())
+			if(Config.ANTI_FARM_IP_ENABLED && targetPlayer.getClient()!=null && targetPlayer.getClient().getConnection().getInetAddress().getHostAddress().equals(this.getClient().getConnection().getInetAddress().getHostAddress()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Don't kill your Box!"); 
 				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
@@ -15464,5 +15465,23 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		return (int)Math.sqrt(dx*dx + dy*dy + dz*dz);
 	}
+
+	/**
+	 * @return the _awaying
+	 */
+	public boolean isAwaying()
+	{
+		return _awaying;
+	}
+
+	/**
+	 * @param _awaying the _awaying to set
+	 */
+	public void set_awaying(boolean _awaying)
+	{
+		this._awaying = _awaying;
+	}
+	
+	
 	
 }
