@@ -54,7 +54,7 @@ public class Away implements IVoicedCommandHandler
 		Siege siege = SiegeManager.getInstance().getSiege(activeChar);
 
 		//check char is all ready in away mode
-		if(activeChar.isAway())
+		if(activeChar.isAway() || activeChar.isAwaying())
 		{
 			activeChar.sendMessage("You are already Away.");
 			return false;
@@ -125,9 +125,6 @@ public class Away implements IVoicedCommandHandler
 			activeChar.sendMessage("Player in PVP or with Karma can't use the Away command!");
 			return false;
 		}
-
-		if(activeChar.isImobilised())
-			return false;
 
 		if(text == null)
 		{

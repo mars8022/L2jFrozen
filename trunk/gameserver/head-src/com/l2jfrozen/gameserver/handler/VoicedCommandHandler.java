@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.CTFCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.DMCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Online;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair_mxc;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.TvTCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Voting;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
@@ -93,6 +94,7 @@ public class VoicedCommandHandler
 		if(Config.CHAR_REPAIR)
 		{
 			registerVoicedCommandHandler(new Repair());
+			registerVoicedCommandHandler(new Repair_mxc());
 		}
 
 		if(Config.L2JMOD_ALLOW_WEDDING)

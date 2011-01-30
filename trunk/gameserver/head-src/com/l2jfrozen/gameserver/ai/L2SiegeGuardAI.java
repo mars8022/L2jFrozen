@@ -643,15 +643,18 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 
 	private final void factionNotify()
 	{
+		L2Character actor = getActor();
+		L2Character target = getAttackTarget();
+		
 		// Call all L2Object of its Faction inside the Faction Range
-		if(((L2NpcInstance) _actor).getFactionId() == null || _attackTarget == null || _actor == null)
+		if(actor == null || target == null || ((L2NpcInstance) actor).getFactionId() == null )
 			return;
 
-		if(_attackTarget.isInvul())
+		if(target.isInvul())
 			return;
 
 		// Go through all L2Object that belong to its faction
-		for(L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(1000))
+		for(L2Character cha : actor.getKnownList().getKnownCharactersInRadius(1000))
 		{
 			if(cha == null)
 			{
@@ -665,7 +668,7 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 
 			L2NpcInstance npc = (L2NpcInstance) cha;
 
-			String faction_id = ((L2NpcInstance) _actor).getFactionId();
+			String faction_id = ((L2NpcInstance) actor).getFactionId();
 
 			if(faction_id != npc.getFactionId())
 			{
@@ -675,22 +678,25 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 			faction_id = null;
 
 			// Check if the L2Object is inside the Faction Range of the actor
-			if((npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE || npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_ACTIVE) && _actor.isInsideRadius(npc, npc.getFactionRange(), false, true) && npc.getTarget() == null && _attackTarget.isInsideRadius(npc, npc.getFactionRange(), false, true))
+			if(npc.getAI() !=null && (npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE 
+					|| npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_ACTIVE) 
+					&& actor.isInsideRadius(npc, npc.getFactionRange(), false, true) 
+					&& target.isInsideRadius(npc, npc.getFactionRange(), false, true))
 			{
 				if(Config.GEODATA > 0)
 				{
-					if(GeoData.getInstance().canSeeTarget(npc, _attackTarget))
+					if(GeoData.getInstance().canSeeTarget(npc, target))
 					{
 						// Notify the L2Object AI with EVT_AGGRESSION
-						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, _attackTarget, 1);
+						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, target, 1);
 					}
 				}
 				else
 				{
-					if(!npc.isDead() && Math.abs(_attackTarget.getZ() - npc.getZ()) < 600)
+					if(!npc.isDead() && Math.abs(target.getZ() - npc.getZ()) < 600)
 					{
 						// Notify the L2Object AI with EVT_AGGRESSION
-						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, _attackTarget, 1);
+						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, target, 1);
 					}
 				}
 			}
