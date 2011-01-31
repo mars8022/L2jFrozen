@@ -123,6 +123,9 @@ public class PowerPakConfig
 	
 	public static boolean ENABLE_SAY_SOCIAL_ACTIONS;
 	
+	public static boolean CHAR_REPAIR;
+	
+	
 	public static void load()
 	{
 		try
@@ -347,6 +350,9 @@ public class PowerPakConfig
 			}
 			
 			ENABLE_SAY_SOCIAL_ACTIONS = Boolean.parseBoolean(p.getProperty("EnableSocialSayActions","true"));
+		
+			CHAR_REPAIR = Boolean.parseBoolean(p.getProperty("CharacterRepair", "False"));
+			
 		}
 		catch(Exception e)
 		{

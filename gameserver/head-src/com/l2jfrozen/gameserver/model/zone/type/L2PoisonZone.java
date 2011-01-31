@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import java.util.concurrent.Future;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -158,7 +159,12 @@ public class L2PoisonZone extends L2ZoneType
 					{
 						if((temp instanceof L2PlayableInstance && getTargetType().equalsIgnoreCase("pc") || temp instanceof L2PcInstance && getTargetType().equalsIgnoreCase("pc_only") || temp instanceof L2MonsterInstance && getTargetType().equalsIgnoreCase("npc")) && Rnd.get(100) < getChance())
 						{
-							getSkill().getEffects(temp, temp);
+							L2Skill skill = null;
+							if((skill=getSkill())==null){
+								System.out.println("ATTENTION: error on zone with id "+getId());
+								System.out.println("Skill "+_skillId+","+_skillLvl+" not present between skills");
+							}else
+								skill.getEffects(temp, temp);
 						}
 					}
 				}
