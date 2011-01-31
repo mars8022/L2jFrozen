@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.handler.AutoVoteRewardHandler;
 import com.l2jfrozen.gameserver.handler.VoicedCommandHandler;
 import com.l2jfrozen.gameserver.handler.custom.CustomBypassHandler;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffHandler;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable;
@@ -146,6 +147,20 @@ public class PowerPak
 			RaidInfoHandler handler = new RaidInfoHandler();
 			CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
 			System.out.println("...Enabled");
+			
+			System.out.println("Self Char Repair:");
+			if(PowerPakConfig.CHAR_REPAIR)
+			{
+				Repair repair_handler = new Repair();
+				VoicedCommandHandler.getInstance().registerVoicedCommandHandler(repair_handler);
+				CustomBypassHandler.getInstance().registerCustomBypassHandler(repair_handler);
+				System.out.println("...Enabled");
+			}else{
+				System.out.println("...Disabled");
+			}
+
+			
+			
 			
 			//Vote Reward System
 			if(PowerPakConfig.AUTOVOTEREWARD_ENABLED)

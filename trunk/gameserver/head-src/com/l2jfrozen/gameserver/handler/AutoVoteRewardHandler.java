@@ -22,13 +22,23 @@ public class AutoVoteRewardHandler
 	private int topzoneVotesCount = 0;
 	private List<String> already_rewarded;
 	
+	private static boolean topzone = false;
+	private static boolean hopzone = false;
+	
 	private AutoVoteRewardHandler()
 	{
 		System.out.println("Vote Reward System Initiated.");
-		int hopzone_votes = getHopZoneVotes();
-		setHopZoneVoteCount(hopzone_votes);
-		int topzone_votes = getTopZoneVotes();
-		setTopZoneVoteCount(topzone_votes);
+		
+		if(hopzone){
+			int hopzone_votes = getHopZoneVotes();
+			setHopZoneVoteCount(hopzone_votes);
+		}
+		
+		if(topzone){
+			int topzone_votes = getTopZoneVotes();
+			setTopZoneVoteCount(topzone_votes);
+		}
+		
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoReward(), PowerPakConfig.VOTES_SYSYEM_INITIAL_DELAY, PowerPakConfig.VOTES_SYSYEM_STEP_DELAY);
 	}
 
@@ -36,59 +46,51 @@ public class AutoVoteRewardHandler
 	{
 		public void run()
 		{
-			int topzone_votes = getTopZoneVotes();
-			int hopzone_votes = getHopZoneVotes();
 			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
 			
-			/*
-			String topzone = "";
-			if(PowerPakConfig.VOTES_SITE_URL.contains("l2topzone.com")){
-				site = "TOPZONE";
-				votes = getVotesTopZone();
-			}else if(PowerPakConfig.VOTES_SITE_URL.contains("l2.hopzone.net")){
-				site = "HOPZONE";
-				votes = getVotes();
-			}
-			*/
-			
-			System.out.println("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
-			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual HOPZONE Votes are " + hopzone_votes + "...");
-			
-			if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
-			{
-				already_rewarded = new ArrayList<String>();
+			if(hopzone){
+				int hopzone_votes = getHopZoneVotes();
 				
-				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
-
-				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
+				System.out.println("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
+				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual HOPZONE Votes are " + hopzone_votes + "...");
 				
-				//L2ItemInstance item;
-				for (L2PcInstance player : pls)
+				if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 				{
-					if (player != null && !player.isOffline())
+					already_rewarded = new ArrayList<String>();
+					
+					Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
+
+					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
+					
+					//L2ItemInstance item;
+					for (L2PcInstance player : pls)
 					{
-						if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
-							
-							Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
-							for (Integer i : items)
-							{
-								//item = player.getInventory().getItemByItemId(i);
+						if (player != null && !player.isOffline())
+						{
+							if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
+								
+								Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
+								for (Integer i : items)
+								{
+									//item = player.getInventory().getItemByItemId(i);
 
-								//TODO: check on maxstack for item
-								player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
+									//TODO: check on maxstack for item
+									player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
 
+								}
+								
 							}
-							
 						}
 					}
+					setHopZoneVoteCount(hopzone_votes);
 				}
-				setHopZoneVoteCount(hopzone_votes);
+				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+				//site web
+				Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
+				
 			}
-			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
-			//site web
-			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
 			
-			if(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
+			if(topzone && hopzone && PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
 				try
 				{
 					Thread.sleep(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/2);
@@ -98,44 +100,49 @@ public class AutoVoteRewardHandler
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 				}
-			
-			System.out.println("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
-			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
-			
-			if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
-			{
-				already_rewarded = new ArrayList<String>();
 				
-				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
-
-				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
+			if(topzone){
+				int topzone_votes = getTopZoneVotes();
 				
-				//L2ItemInstance item;
-				for (L2PcInstance player : pls)
+				System.out.println("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
+				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
+				
+				if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 				{
-					if (player != null && !player.isOffline())
+					already_rewarded = new ArrayList<String>();
+					
+					Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
+
+					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
+					
+					//L2ItemInstance item;
+					for (L2PcInstance player : pls)
 					{
-						if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
-							
-							Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
-							for (Integer i : items)
-							{
-								//item = player.getInventory().getItemByItemId(i);
+						if (player != null && !player.isOffline())
+						{
+							if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
+								
+								Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
+								for (Integer i : items)
+								{
+									//item = player.getInventory().getItemByItemId(i);
 
-								//TODO: check on maxstack for item
-								player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
+									//TODO: check on maxstack for item
+									player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
 
+								}
+								
 							}
-							
 						}
 					}
+					setTopZoneVoteCount(topzone_votes);
 				}
-				setTopZoneVoteCount(topzone_votes);
+				
+				Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+				//site web
+				Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
+				
 			}
-			
-			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
-			//site web
-			Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
 			
 		}
 	}
@@ -277,8 +284,15 @@ public class AutoVoteRewardHandler
 	
 	public static AutoVoteRewardHandler getInstance()
 	{
-		if(PowerPakConfig.VOTES_SITE_HOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_HOPZONE_URL.equals("") &&
-				PowerPakConfig.VOTES_SITE_TOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_TOPZONE_URL.equals(""))
+		if(PowerPakConfig.VOTES_SITE_HOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_HOPZONE_URL.equals("")){
+			hopzone = true;
+		}
+		
+		if(PowerPakConfig.VOTES_SITE_TOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_TOPZONE_URL.equals("")){
+			topzone = true;
+		}
+		
+		if(topzone || hopzone)
 			return SingletonHolder._instance;
 		else
 			return null;

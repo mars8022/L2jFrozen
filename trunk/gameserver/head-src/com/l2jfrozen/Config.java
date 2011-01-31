@@ -1945,7 +1945,6 @@ public final class Config
 	public static String PM_SERVER_NAME;
 	public static String PM_TEXT1;
 	public static String PM_TEXT2;
-	public static boolean CHAR_REPAIR;
 	public static boolean PLAYERS_CAN_HEAL_RB;
 	public static int RBLOCKRAGE;
 	public static boolean NEW_PLAYER_EFFECT;
@@ -1969,7 +1968,6 @@ public final class Config
 			PM_SERVER_NAME  = frozenSettings.getProperty("PMServerName", "L2-Frozen");
 			PM_TEXT1  = frozenSettings.getProperty("PMText1", "Have Fun and Nice Stay on");
 			PM_TEXT2  = frozenSettings.getProperty("PMText2", "Vote for us every 24h");
-			CHAR_REPAIR = Boolean.parseBoolean(frozenSettings.getProperty("CharacterRepair", "False"));
 			PLAYERS_CAN_HEAL_RB = Boolean.parseBoolean(frozenSettings.getProperty("PlayersCanHealRb", "True"));
 			RBLOCKRAGE = Integer.parseInt(frozenSettings.getProperty("RBlockRage", "5000"));
 			NEW_PLAYER_EFFECT = Boolean.parseBoolean(frozenSettings.getProperty("NewPlayerEffect", "True"));
