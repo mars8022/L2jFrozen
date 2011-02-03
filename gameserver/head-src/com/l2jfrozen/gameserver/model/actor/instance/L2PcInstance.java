@@ -11873,6 +11873,44 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized boolean addSubClass(int classId, int classIndex)
 	{
+		//Anti stuck Skills/Augments
+		//Remove Chest
+		L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
+		if (chest != null)
+		{
+		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);
+		            
+		}
+		//Remove Item RHAND
+		L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+		if (rhand != null)
+		{
+		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);
+		            
+		}
+		//Remove Item LHAND        
+		L2ItemInstance lhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
+		if (lhand != null)
+		{
+		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(lhand.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);
+		            
+		}
+			
 		if(getTotalSubClasses() == Config.ALLOWED_SUBCLASS || classIndex == 0)
 			return false;
 
