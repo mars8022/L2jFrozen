@@ -81,6 +81,30 @@ public final class Logout extends L2GameClientPacket
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
+		
+		// Dont allow leaving if player is casting
+		if (player.isCastingNow() && !player.isGM())  
+		{  
+		 	player.sendMessage("Sorry, you are casting now.");  
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+		 	return; 
+		} 
+		
+		// Dont allow leaving if player is in combact
+		if (player.isInCombat() && !player.isGM())
+		{
+			player.sendMessage("You cannot log out.");  
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+		 	return; 
+		}
+		
+		// Dont allow leaving if player is teleporting
+		if (player.isTeleporting() && !player.isGM())
+		{
+			player.sendMessage("You cannot log out.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
 
 		if(player.atEvent)
 		{
