@@ -1042,16 +1042,15 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5053" levels="12" name="Castle DD Water">
   <table name="#mpConsume">7 10 14 18 23 28 33 35 37 38 39 39</table>
   <table name="#power">18 26 38 52 68 85 102 110 116 122 126 129</table>
   <table name="#magicLvl">10 20 30 40 50 60 70 75 80 85 90 95</table>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="element" val="3"/>
-  <set name="reuseDelay" val="3000"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
@@ -1059,8 +1058,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1500"/>
   <set name="effectRange" val="2100"/>
-  <for>
-  </for>
 </skill>
 <skill id="5054" levels="12" name="Castle Self AE Water">
   <table name="#mpConsume">7 10 14 18 23 28 33 35 37 38 39 39</table>

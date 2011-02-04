@@ -1297,6 +1297,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4077" levels="12" name="NPC Aura Burn">
   <table name="#mpConsume">13 20 27 35 45 55 65 69 73 75 77 78</table>
   <table name="#power">14 21 30 42 55 68 82 88 93 98 101 104</table>
@@ -1313,8 +1314,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="150"/>
   <set name="effectRange" val="650"/>
-  <for>
-  </for>
 </skill>
 <skill id="4078" levels="12" name="NPC Flamestrike">
   <table name="#mpConsume">18 29 40 53 68 83 98 104 109 113 115 117</table>
