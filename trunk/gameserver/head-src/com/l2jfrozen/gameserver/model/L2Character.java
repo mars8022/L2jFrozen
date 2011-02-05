@@ -1934,10 +1934,18 @@ public abstract class L2Character extends L2Object
 		}
 		else
 		{
-			if (!DM.is_started() && Config.LEAVE_BUFFS_ON_DIE)
-	      {
-			stopAllEffects();
-		  }
+			//to avoid DM Remove buffs on die
+			if((this instanceof L2PcInstance && ((L2PcInstance)this)._inEventDM && DM.is_started())){
+				
+				if(Config.DM_REMOVE_BUFFS_ON_DIE)
+					stopAllEffects();
+				
+			}
+			else if (Config.LEAVE_BUFFS_ON_DIE) //this means that the player is not in event dm or is not player 
+			{
+				stopAllEffects();
+			}
+			
 		}
 
 		//if killer is the same then the most damager/hated

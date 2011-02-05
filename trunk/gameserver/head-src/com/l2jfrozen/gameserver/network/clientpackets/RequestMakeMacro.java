@@ -114,9 +114,37 @@ public final class RequestMakeMacro extends L2GameClientPacket
 			return;
 		}
 		
+		//Security Check
+		for(L2MacroCmd command:_macro.commands){
+			
+			if(!checkSecurityOnCommand(command)){
+				
+				//Invalid macro. Refer to the Help file for instructions.
+				player.sendPacket(new SystemMessage(SystemMessageId.INVALID_MACRO));
+				player.sendMessage("SecurityCheck: not more then 2x ',' or 2x ';' in the same command");
+				return;
+				
+			}
+			
+		}
+		
 		player.registerMacro(_macro);
 	}
 
+	private boolean checkSecurityOnCommand(L2MacroCmd cmd){
+		
+		//not more then 2x ;
+		if(cmd.cmd!=null && cmd.cmd.split(";").length>2){
+			return false;
+		}
+		
+		//not more then 2x ,
+		if(cmd.cmd!=null && cmd.cmd.split(",").length>2){
+			return false;
+		}
+		
+		return true;
+	}
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
 	 */

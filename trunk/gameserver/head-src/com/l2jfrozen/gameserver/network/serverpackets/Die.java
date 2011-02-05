@@ -45,7 +45,7 @@ public class Die extends L2GameServerPacket
 	private boolean _fake;
 	private boolean _sweepable;
 	private boolean _canTeleport;
-	private AccessLevel _access = AccessLevels._userAccessLevel;
+	private AccessLevel _access = AccessLevels.getInstance()._userAccessLevel;
 	private com.l2jfrozen.gameserver.model.L2Clan _clan;
 	L2Character _activeChar;
 

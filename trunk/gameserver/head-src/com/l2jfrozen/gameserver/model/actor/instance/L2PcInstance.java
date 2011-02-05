@@ -7613,7 +7613,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean isAdministrator()
 	{
-		return getAccessLevel().getLevel() == AccessLevels._masterAccessLevelNum;
+		return getAccessLevel().getLevel() == Config.MASTERACCESS_LEVEL;
 	}
 
 	/**
@@ -7622,7 +7622,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean isUser()
 	{
-		return getAccessLevel().getLevel() == AccessLevels._userAccessLevelNum;
+		return getAccessLevel().getLevel() == Config.USERACCESS_LEVEL;
 	}
 
 	public boolean isNormalGm()
@@ -7713,14 +7713,14 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void setAccessLevel(int level)
 	{
-		if(level == AccessLevels._masterAccessLevelNum)
+		if(level == Config.MASTERACCESS_LEVEL)
 		{
 			_log.warning("Access level from the character " + getName() + " > 0");
-			_accessLevel = AccessLevels._masterAccessLevel;
+			_accessLevel = AccessLevels.getInstance()._masterAccessLevel;
 		}
-		else if(level == AccessLevels._userAccessLevelNum)
+		else if(level == Config.USERACCESS_LEVEL)
 		{
-			_accessLevel = AccessLevels._userAccessLevel;
+			_accessLevel = AccessLevels.getInstance()._userAccessLevel;
 		}
 		else
 		{
@@ -7736,7 +7736,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				else
 				{
 					_log.warning("Tried to set unregistered access level " + level + " to character " + getName() + ". Setting access level without privileges!");
-					_accessLevel = AccessLevels._userAccessLevel;
+					_accessLevel = AccessLevels.getInstance()._userAccessLevel;
 				}
 			}
 			else
@@ -7747,7 +7747,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			accessLevel = null;
 		}
 
-		if(_accessLevel != AccessLevels._userAccessLevel)
+		if(_accessLevel != AccessLevels.getInstance()._userAccessLevel)
 		{
 			//L2EMU_EDIT
 			if(getAccessLevel().useNameColor())
@@ -7775,10 +7775,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	public AccessLevel getAccessLevel()
 	{
 		if(Config.EVERYBODY_HAS_ADMIN_RIGHTS)
-			return AccessLevels._masterAccessLevel;
+			return AccessLevels.getInstance()._masterAccessLevel;
 		else if(_accessLevel == null)
 		{
-			setAccessLevel(AccessLevels._userAccessLevelNum);
+			setAccessLevel(Config.USERACCESS_LEVEL);
 		}
 		return _accessLevel;
 	}
@@ -8693,8 +8693,8 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			//TODO allow different colors support to players store
 			//statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
-			statement.setString(59, StringToHex(Integer.toHexString(_accessLevel.getNameColor()).toUpperCase()));
-			statement.setString(60, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
+			statement.setString(59, StringToHex(Integer.toHexString(getAccessLevel().getNameColor()).toUpperCase()));
+			statement.setString(60, StringToHex(Integer.toHexString(getAccessLevel().getTitleColor()).toUpperCase()));
 
 	        statement.setInt(61, isAio() ? 1 : 0);
 	        statement.setLong(62, getAioEndTime());

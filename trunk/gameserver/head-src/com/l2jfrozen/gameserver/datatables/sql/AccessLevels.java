@@ -37,19 +37,19 @@ public class AccessLevels
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AccessLevels _instance = null;
 	/** Reserved master access level<br> */
-	public static final int _masterAccessLevelNum = Config.MASTERACCESS_LEVEL;
+	//public static final int _masterAccessLevelNum = Config.MASTERACCESS_LEVEL;
 	/** The master access level which can use everything<br> */
 
 	//L2EMU_EDIT - Rayan -
-	public static AccessLevel _masterAccessLevel = new AccessLevel(_masterAccessLevelNum, "Master Access", Config.MASTERACCESS_NAME_COLOR, Config.MASTERACCESS_TITLE_COLOR, true, true, true, true, true, true, true, true, true, true, true);
+	public AccessLevel _masterAccessLevel;/* = new AccessLevel(_masterAccessLevelNum, "Master Access", Config.MASTERACCESS_NAME_COLOR, Config.MASTERACCESS_TITLE_COLOR, true, true, true, true, true, true, true, true, true, true, true);
 	//L2EMU_EDIT 
 
 	/** Reserved user access level<br> */
-	public static final int _userAccessLevelNum = 0;
+	//public static final int _userAccessLevelNum = 0;
 	/** The user access level which can do no administrative tasks<br> */
 
 	//L2EMU_EDIT - Rayan -
-	public static AccessLevel _userAccessLevel = new AccessLevel(_userAccessLevelNum, "User", Integer.decode("0xFFFFFF"), Integer.decode("0xFFFFFF"), false, false, false, true, false, true, true, true, true, true, false);
+	public AccessLevel _userAccessLevel;/* = new AccessLevel(_userAccessLevelNum, "User", Integer.decode("0xFFFFFF"), Integer.decode("0xFFFFFF"), false, false, false, true, false, true, true, true, true, true, false);
 	//L2EMU_EDIT
 
 	/** FastMap of access levels defined in database<br> */
@@ -60,6 +60,9 @@ public class AccessLevels
 	 */
 	private AccessLevels()
 	{
+		_masterAccessLevel = new AccessLevel(Config.MASTERACCESS_LEVEL, "Master Access", Config.MASTERACCESS_NAME_COLOR, Config.MASTERACCESS_TITLE_COLOR, true, true, true, true, true, true, true, true, true, true, true);
+		_userAccessLevel = new AccessLevel(Config.USERACCESS_LEVEL, "User", Integer.decode("0xFFFFFF"), Integer.decode("0xFFFFFF"), false, false, false, true, false, true, true, true, true, true, false);
+		 
 		Connection con = null;
 
 		try
@@ -92,17 +95,17 @@ public class AccessLevels
 				accessLevel = rset.getInt("accessLevel");
 				name = rset.getString("name");
 
-				if(accessLevel == _userAccessLevelNum)
+				if(accessLevel == Config.USERACCESS_LEVEL)
 				{
 					if(Config.DEBUG)
-						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using reserved user access level " + _userAccessLevelNum + ". Ignoring it..");
+						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using reserved user access level " + Config.USERACCESS_LEVEL + ". Ignoring it..");
 					
 					continue;
 				}
-				else if(accessLevel == _masterAccessLevelNum)
+				else if(accessLevel == Config.MASTERACCESS_LEVEL)
 				{
 					if(Config.DEBUG)
-						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using reserved master access level " + _masterAccessLevelNum + ". Ignoring it..");
+						_log.log(Level.INFO,"AccessLevels: Access level with name " + name + " is using reserved master access level " + Config.MASTERACCESS_LEVEL + ". Ignoring it..");
 					continue;
 				}
 				else if(accessLevel < 0)
@@ -191,8 +194,8 @@ public class AccessLevels
 			con = null;
 		}
 		//_log.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");
-		_log.info("AccessLevels: Master Access Level is " + _masterAccessLevelNum);
-		_log.info("AccessLevels: User Access Level is " + _userAccessLevelNum);
+		_log.info("AccessLevels: Master Access Level is " + Config.MASTERACCESS_LEVEL);
+		_log.info("AccessLevels: User Access Level is " + Config.USERACCESS_LEVEL);
 		for(Integer actual:_accessLevels.keySet()){
 			AccessLevel actual_access = _accessLevels.get(actual);
 			_log.info("AccessLevels: "+actual_access.getName()+" Access Level is " + actual_access.getLevel());
