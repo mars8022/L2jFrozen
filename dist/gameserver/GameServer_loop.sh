@@ -14,5 +14,6 @@ do
         [ -f log/stdout.log ] &&  mv log/stdout.log "log/`date +%Y-%m-%d_%H-%M-%S`_stdout.log"
         [ -f log/chat.log ] && mv log/chat.log "log/`date +%Y-%m-%d_%H:%M:%S`-chat.log"
         java -Dfile.encoding=UTF- -Xms2g -Xmx5g -Xmn512m -Xss128k -XX:PermSize=128m -XX:MaxPermSize=768m -XX:ParallelGCThreads=2 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing -XX:CMSIncrementalDutyCycleMin=0 -XX:CMSIncrementalDutyCycle=10 -XX:+CMSParallelRemarkEnabled -XX:SurvivorRatio=8 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=31 -XX:+AggressiveOpts -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:gc.txt -cp lib/*:l2jfrozen-core.jar com.l2jfrozen.gameserver.GameServer > log/stdout.log 2>&1
-        sleep 10;
+        err=$?
+        sleep 10
 done
