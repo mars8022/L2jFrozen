@@ -115,7 +115,7 @@ public class AdminCommandAccessRights
 		if(!accessLevel.isGm())
 			return false;
 
-		if(accessLevel.getLevel() == AccessLevels._masterAccessLevelNum)
+		if(accessLevel.getLevel() == Config.MASTERACCESS_LEVEL)
 			return true;
 
 		//L2EMU_ADD - Visor123  need parse command before check

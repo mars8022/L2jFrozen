@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -106,14 +107,50 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
 					break;
 				case 4:
 					if(player._active_boxes>1 && !Config.ALLOW_DUALBOX_OLY){
-						player.sendMessage("Dual Box not allowed in Olympiad Event");
+						
+						boolean already_in_oly = false;
+						
+						List<String> players_in_boxes = player.active_boxes_characters;
+						
+						if(players_in_boxes!=null && players_in_boxes.size()>1)
+							for(String character_name: players_in_boxes){
+								L2PcInstance actual_player = L2World.getInstance().getPlayer(character_name);
+								
+								if(actual_player!=null && actual_player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(actual_player)){
+									already_in_oly = true;
+									break;
+								}
+							}
+						
+						if(already_in_oly)
+							player.sendMessage("Dual Box not allowed in Olympiad Event");
+						else
+							Olympiad.getInstance().registerNoble(player, false);
 						break;
 					}else
 						Olympiad.getInstance().registerNoble(player, false);
 					break;
 				case 5:
 					if(player._active_boxes>1 && !Config.ALLOW_DUALBOX_OLY){
-						player.sendMessage("Dual Box not allowed in Olympiad Event");
+						
+						boolean already_in_oly = false;
+						
+						List<String> players_in_boxes = player.active_boxes_characters;
+						
+						if(players_in_boxes!=null && players_in_boxes.size()>1)
+							for(String character_name: players_in_boxes){
+								L2PcInstance actual_player = L2World.getInstance().getPlayer(character_name);
+								
+								if(actual_player!=null && actual_player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(actual_player)){
+									already_in_oly = true;
+									break;
+								}
+							}
+						
+						if(already_in_oly)
+							player.sendMessage("Dual Box not allowed in Olympiad Event");
+						else
+							Olympiad.getInstance().registerNoble(player, true);
 						break;
 					}else
 						Olympiad.getInstance().registerNoble(player, true);

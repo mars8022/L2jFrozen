@@ -308,13 +308,25 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 * If the character is less than level 75 on any of their previously chosen
 					 * classes then disallow them to change to their most recently added sub-class choice.
 					 */
-
+					// check player skills
+					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+					{
+						player.checkAllowedSkills();
+					}
+					
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't add a subclass while in an event.");
 						return;
 					}
 
+					//sub class exploit fix
+					if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_SUBCLASS))
+					{
+						player.sendMessage("You can change Subclass only every " + Config.PROTECTED_SUBCLASS_C + " Millisecond(s)");
+						return;
+					}
+					
 					if(player.getLevel() < 75)
 					{
 						player.sendMessage("You may not add a new sub class before you are level 75 on your previous class.");
@@ -387,6 +399,13 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						player.sendPacket(new SystemMessage(SystemMessageId.CLASS_TRANSFER)); // Transfer to new class.
 
 						className = null;
+						
+						// check player skills
+						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+						{
+							player.checkAllowedSkills();
+						}
+						
 					}
 					else
 					{
@@ -401,6 +420,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 * Note: paramOne = classIndex
 					 */
 
+					// check player skills
+					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+					{
+						player.checkAllowedSkills();
+					}
+					
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't change subclass while in an event.");
@@ -425,6 +450,13 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					content.append("Change Subclass:<br>Your active sub class is now a <font color=\"LEVEL\">" + CharTemplateTable.getClassNameById(player.getActiveClass()) + "</font>.");
 
 					player.sendPacket(new SystemMessage(SystemMessageId.SUBCLASS_TRANSFER_COMPLETED)); // Transfer completed.
+					
+					// check player skills
+					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+					{
+						player.checkAllowedSkills();
+					}
+					
 					break;
 				case 6: // Change/Cancel Subclass - Choice
 					content.append("Please choose a sub class to change to. If the one you are looking for is not here, " + "please seek out the appropriate master for that class.<br>" + "<font color=\"LEVEL\">Warning!</font> All classes and skills for this class will be removed.<br><br>");

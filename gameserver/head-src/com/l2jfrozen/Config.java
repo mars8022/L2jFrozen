@@ -59,6 +59,7 @@ public final class Config
 	public static boolean GM_STARTUP_INVULNERABLE;
 	public static boolean GM_ANNOUNCER_NAME;
 	public static int MASTERACCESS_LEVEL;
+	public static int USERACCESS_LEVEL;
 	public static int MASTERACCESS_NAME_COLOR;
 	public static int MASTERACCESS_TITLE_COLOR;
 
@@ -87,6 +88,7 @@ public final class Config
 			MASTERACCESS_LEVEL = Integer.parseInt(AccessSettings.getProperty("MasterAccessLevel", "1"));
 			MASTERACCESS_NAME_COLOR = Integer.decode("0x" + AccessSettings.getProperty("MasterNameColor", "00FF00"));
 			MASTERACCESS_TITLE_COLOR = Integer.decode("0x" + AccessSettings.getProperty("MasterTitleColor", "00FF00"));
+			USERACCESS_LEVEL = Integer.parseInt(AccessSettings.getProperty("UserAccessLevel", "0"));
 		}
 		catch(Exception e)
 		{
@@ -636,6 +638,7 @@ public final class Config
 			if (Config.CUSTOM_STARTER_ITEMS_ENABLED)
 			{
 				String[] propertySplit = otherSettings.getProperty("StartingCustomItemsMage", "57,0").split(";");
+				STARTING_CUSTOM_ITEMS_M.clear();
 				for (String reward : propertySplit)
 				{
 					String[] rewardSplit = reward.split(",");
@@ -658,6 +661,7 @@ public final class Config
 				}
 				
 				propertySplit = otherSettings.getProperty("StartingCustomItemsFighter", "57,0").split(";");
+				STARTING_CUSTOM_ITEMS_F.clear();
 				for (String reward : propertySplit)
 				{
 					String[] rewardSplit = reward.split(",");
@@ -1997,6 +2001,7 @@ public final class Config
 	public static int DM_SPAWN_OFFSET;
 	public static boolean DM_STATS_LOGGER;
 	public static boolean DM_ALLOW_HEALER_CLASSES;
+	public static boolean DM_REMOVE_BUFFS_ON_DIE;
 	
 	//============================================================
 	public static void loadDMConfig()
@@ -2035,6 +2040,10 @@ public final class Config
 			DM_STATS_LOGGER = Boolean.parseBoolean(DMSettings.getProperty("DMStatsLogger", "true"));
 			
 			DM_ALLOW_HEALER_CLASSES = Boolean.parseBoolean(DMSettings.getProperty("DMAllowedHealerClasses", "true"));
+		
+			DM_REMOVE_BUFFS_ON_DIE = Boolean.parseBoolean(DMSettings.getProperty("DMRemoveBuffsOnPlayerDie", "false"));
+			
+			
 		}
 		catch(Exception e)
 		{
