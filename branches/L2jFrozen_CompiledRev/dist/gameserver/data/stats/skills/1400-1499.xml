@@ -234,9 +234,10 @@
 	<effect count="1" name="PhoenixBless" time="3600" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1411" levels="1" name="Mystic Immunity">
-<!-- maybe need core sup -->
   <set name="mpConsume" val="73"/>
+  <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_PARTY_MEMBER"/>
   <set name="reuseDelay" val="600000"/>
   <set name="hitTime" val="4000"/>
@@ -245,19 +246,8 @@
   <set name="castRange" val="400"/>
   <set name="effecRange" val="900"/>
   <for>
-    <effect name="Buff" time="30" count="1" val="0">
-      <mul order="0x30" stat="rootVuln" val="0.7"/>
-      <mul order="0x30" stat="bleedVuln" val="0.7"/>
-      <mul order="0x30" stat="poisonVuln" val="0.7"/>
-      <mul order="0x30" stat="cancelVuln" val="0.7"/>
-      <mul order="0x30" stat="sleepVuln" val="0.7"/>
-      <mul order="0x30" stat="stunVuln" val="0.7"/>
-      <mul order="0x30" stat="confusionVuln" val="0.7"/>
-      <mul order="0x30" stat="paralyzeVuln" val="0.7"/>
-      <mul order="0x30" stat="movementVuln" val="0.7"/>
-      <mul order="0x30" stat="derangementVuln" val="0.7"/>
-      <mul order="0x30" stat="debuffVuln" val="0"/>
-      <mul order="0x30" stat="buffVuln" val="0"/>
+    <effect name="Buff" time="30" count="1" val="0" stackOrder="3" stackType="abnormal_invincibility">
+      <mul order="0x30" stat="debuffVuln" val="0.0"/>
     </effect>
   </for>
 </skill>
