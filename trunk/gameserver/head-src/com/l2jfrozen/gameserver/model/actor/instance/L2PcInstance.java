@@ -973,6 +973,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** Herbs Task Time **/
 	private int _herbstask = 0;
+	
+	private boolean _isLocked = false; 
 
 	/** Task for Herbs */
 	public class HerbTask implements Runnable
@@ -11430,7 +11432,16 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		return _blockList;
 	}
-
+	
+	public boolean isLocked()  
+    {  
+        return _isLocked;  
+    }  
+      
+    public void setLocked(boolean a)  
+    {  
+        _isLocked = a;  
+    }
 	
 	 public void setHeroAura (boolean heroAura)
 	 {
@@ -12189,6 +12200,24 @@ public final class L2PcInstance extends L2PlayableInstance
 			iu = null;
 			unequipped = null;
 		}
+		
+		L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
+
+		if(chest != null)
+		{
+			L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
+			InventoryUpdate iu = new InventoryUpdate();
+
+			for(L2ItemInstance element : unequipped)
+			{
+				iu.addModifiedItem(element);
+			}
+
+			sendPacket(iu);
+			chest = null;
+			iu = null;
+			unequipped = null;
+		}
 
 		// Delete a force buff upon class change.
 		//thank l2j-arhid
@@ -12311,6 +12340,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		restoreSkills();
 		regiveTemporarySkills();
 		rewardSkills();
+		if (Config.RESTORE_EFFECTS_ON_SUBCLASS_CHANGE)
+	    {
+	        restoreEffects();
+	    }
 		
 		try
 		{
