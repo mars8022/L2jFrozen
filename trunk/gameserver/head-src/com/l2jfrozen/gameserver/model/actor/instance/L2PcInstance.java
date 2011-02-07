@@ -1022,6 +1022,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	/** Quake System */
 	private int quakeSystem = 0;
 	
+	private boolean _isLocked = false;
+	
 	/** Skill casting information (used to queue when several skills are cast in a short time) **/
 	public class SkillDat
 	{
@@ -15538,6 +15540,13 @@ public final class L2PcInstance extends L2PlayableInstance
 		this._awaying = _awaying;
 	}
 	
-	
-	
+	public boolean isLocked()  
+    {  
+        return _isLocked;  
+    }  
+      
+    public void setLocked(boolean a)  
+    {  
+        _isLocked = a;  
+    }	
 }
