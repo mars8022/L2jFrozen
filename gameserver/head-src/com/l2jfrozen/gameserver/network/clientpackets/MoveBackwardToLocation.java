@@ -29,6 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
+import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
@@ -105,6 +106,12 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 
 		if(activeChar == null)
 			return;
+		//Move flood protection
+		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_MOVE_TO_LOCATION))
+		{
+			activeChar.sendMessage("You can move only every " + Config.PROTECTED_MOVE_TO_LOCATION_C + " Millisecond(s)");
+			return;
+		}
 
 		_curX = activeChar.getX();
 		_curY = activeChar.getY();

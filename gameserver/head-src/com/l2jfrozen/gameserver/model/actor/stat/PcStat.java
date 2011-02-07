@@ -182,6 +182,7 @@ public class PcStat extends PlayableStat
 	@Override
 	public final boolean addLevel(byte value)
 	{
+		getActiveChar().setLocked(true);
 		if(getLevel() + value > Experience.MAX_LEVEL - 1)
 			return false;
 
@@ -266,7 +267,7 @@ public class PcStat extends PlayableStat
 		getActiveChar().refreshExpertisePenalty();
 		// Send a Server->Client packet UserInfo to the L2PcInstance
 		getActiveChar().sendPacket(new UserInfo(getActiveChar()));
-
+		getActiveChar().setLocked(false);
 		return levelIncreased;
 	}
 

@@ -231,6 +231,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						player.sendMessage("You can now only change one of your current sub classes.");
 						return;
 					}
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 					subsAvailable = getAvailableSubClasses(player);
 
 					if(subsAvailable != null && !subsAvailable.isEmpty())
@@ -252,6 +257,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					content.append("Change Subclass:<br>");
 
 					final int baseClassId = player.getBaseClass();
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 
 					if(player.getSubClasses().isEmpty())
 					{
@@ -287,6 +297,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					}
 					break;
 				case 3: // Change/Cancel Subclass - Initial
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 					content.append("Change Subclass:<br>Which of the following sub classes would you like to change?<br>");
 					int classIndex = 1;
 
@@ -307,13 +322,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					/*
 					 * If the character is less than level 75 on any of their previously chosen
 					 * classes then disallow them to change to their most recently added sub-class choice.
-					 */
-					// check player skills
-					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-					{
-						player.checkAllowedSkills();
-					}
-					
+					 */		
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't add a subclass while in an event.");
@@ -394,17 +408,16 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						}
 
 						player.setActiveClass(player.getTotalSubClasses());
+						
+						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+						{
+							player.checkAllowedSkills();
+						}
 
 						content.append("Add Subclass:<br>The sub class of <font color=\"LEVEL\">" + className + "</font> has been added.");
 						player.sendPacket(new SystemMessage(SystemMessageId.CLASS_TRANSFER)); // Transfer to new class.
 
 						className = null;
-						
-						// check player skills
-						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-						{
-							player.checkAllowedSkills();
-						}
 						
 					}
 					else
@@ -419,13 +432,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 *
 					 * Note: paramOne = classIndex
 					 */
-
-					// check player skills
-					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-					{
-						player.checkAllowedSkills();
-					}
-					
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't change subclass while in an event.");
@@ -459,6 +470,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					
 					break;
 				case 6: // Change/Cancel Subclass - Choice
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 					content.append("Please choose a sub class to change to. If the one you are looking for is not here, " + "please seek out the appropriate master for that class.<br>" + "<font color=\"LEVEL\">Warning!</font> All classes and skills for this class will be removed.<br><br>");
 
 					subsAvailable = getAvailableSubClasses(player);
@@ -477,13 +493,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					}
 					break;
 				case 7: // Change Subclass - Action
-
-					// check player skills
-					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-					{
-						player.checkAllowedSkills();
-					}
-
+					if(player.isLocked())
+            		{
+            			player.sendMessage("Can't do it right now.");
+            			return;
+            		}
 					/*
 					 * Warning: the information about this subclass will be removed from the
 					 * subclass list even if false!
@@ -521,6 +535,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						 */
 
 						player.setActiveClass(0); // Also updates _classIndex plus switching _classid to baseclass.
+						
+						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+						{
+							player.checkAllowedSkills();
+						}
 
 						player.sendMessage("The sub class could not be added, you have been reverted to your base class.");
 						return;

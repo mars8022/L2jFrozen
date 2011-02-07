@@ -88,7 +88,8 @@ public class FloodProtector
 			////////////////////
 			Config.PROTECTED_ACTIVE_PACK_RETURN, // > return
 			Config.PROTECTED_ACTIVE_PACK_FAILED, // < action failed
-			Config.PROTECTED_USE_ITEM_C
+			Config.PROTECTED_USE_ITEM_C,
+			Config.PROTECTED_MOVE_TO_LOCATION_C
 	};
 
 	// =============================================================
@@ -111,6 +112,7 @@ public class FloodProtector
 	public static final int PROTECTED_ACTIVE_PACKETS2 = 15;
 	// =============================================================
 	public static final int PROTECTED_USE_ITEM = 16;
+	public static final int PROTECTED_MOVE_TO_LOCATION = 17;
 
 	// =============================================================
 	// Constructor
