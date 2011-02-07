@@ -213,7 +213,6 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Broadcast;
 import com.l2jfrozen.gameserver.util.FloodProtector;
-import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -12331,6 +12330,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		restoreSkills();
 		regiveTemporarySkills();
 		rewardSkills();
+		if (Config.ALT_RESTORE_EFFECTS_ON_SUBCLASS_CHANGE)
+        {
+            restoreEffects();
+        }
 		
 		try
 		{
