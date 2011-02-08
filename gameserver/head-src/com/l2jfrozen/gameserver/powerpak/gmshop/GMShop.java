@@ -52,39 +52,39 @@ public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBS
 	{
 		String msg = null;
 		if(activeChar.isSitting())
-			msg = "GMShop not available when you sit";
+			msg = "GMShop is not available when you sit";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ALL"))
-			msg = "GMShop not available in this area";
+			msg = "GMShop is not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
-			msg = "GMShop not available with the cursed sword"; 
+			msg = "GMShop is not available with the cursed sword"; 
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
-			msg = "GMShop not available during the battle";
+			msg = "GMShop is not available during the battle";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
-			msg = "GMShop not available in the catacombs and necropolis";
+			msg = "GMShop is not available in the catacombs and necropolis";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
-				msg = "GMShop not available in this area";
+				msg = "GMShop is not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
-			msg = "GMShop not available in this area";
+			msg = "GMShop is not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
-			msg = "GMShop not available in this area";
+			msg = "GMShop is not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
-			msg = "GMShop not available in this area";
+			msg = "GMShop is not available in this area";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("OLYMPIAD") && (activeChar.isInOlympiadMode() ||
 				activeChar.isInsideZone(L2Character.ZONE_OLY) || Olympiad.getInstance().isRegistered(activeChar) ||
 				Olympiad.getInstance().isRegisteredInComp(activeChar))) 
-			msg = "GMShop not available at Olympiad";
+			msg = "GMShop is not available at Olympiad";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("EVENT") && 
 				(activeChar._inEvent))
-			msg = "GMShop not available at the opening event";
+			msg = "GMShop is not available at the opening event";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("TVT") && 
 				activeChar._inEventTvT && TvT.is_started() )
-			msg = "Gatekeeper is not available in TVT";
+			msg = "GMShop is not available in TVT";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CTF") && 
 				activeChar._inEventCTF && CTF.is_started() )
-			msg = "Gatekeeper is not available in CTF";
+			msg = "GMShop is not available in CTF";
 		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DM") && 
 				activeChar._inEventDM && DM.is_started() )
-			msg = "Gatekeeper is not available in DM";
+			msg = "GMShop is not available in DM";
 		
 		if(msg!=null)
 			activeChar.sendMessage(msg);
