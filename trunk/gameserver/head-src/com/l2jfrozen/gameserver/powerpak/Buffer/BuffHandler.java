@@ -112,13 +112,13 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			msg = "Buffer is not available in this event";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("TVT") && 
 				activeChar._inEventTvT && TvT.is_started() )
-			msg = "Gatekeeper is not available in TVT";
+			msg = "Buffer is not available in TVT";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CTF") && 
 				activeChar._inEventCTF && CTF.is_started() )
-			msg = "Gatekeeper is not available in CTF";
+			msg = "Buffer is not available in CTF";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("DM") && 
 				activeChar._inEventDM && DM.is_started() )
-			msg = "Gatekeeper is not available in DM";
+			msg = "Buffer is not available in DM";
 		
 		if(msg!=null)
 			activeChar.sendMessage(msg);
