@@ -44,6 +44,11 @@ public class stat implements IVoicedCommandHandler
 				activeChar.sendMessage("You have no one targeted.");
 				return false;
 			}
+			if(activeChar.getTarget() == activeChar)
+			{
+				activeChar.sendMessage("You cannot request your stats.");
+				return false;
+			}
 
 			if(!(activeChar.getTarget() instanceof L2PcInstance))
 			{
@@ -71,7 +76,7 @@ public class stat implements IVoicedCommandHandler
 
 			replyMSG.append("<font color=\"FF0000\">Adena: " + targetp.getAdena() + "</font><br>");
 
-			if(activeChar.getInventory().getItemByItemId(6393) == null)
+			if(targetp.getInventory().getItemByItemId(6393) == null)
 			{
 				replyMSG.append("<font color=\"FF0000\">Medals : 0</font><br>");
 			}
@@ -80,7 +85,7 @@ public class stat implements IVoicedCommandHandler
 				replyMSG.append("<font color=\"FF0000\">Medals : " + targetp.getInventory().getItemByItemId(6393).getCount() + "</font><br>");
 			}
 
-			if(activeChar.getInventory().getItemByItemId(3470) == null)
+			if(targetp.getInventory().getItemByItemId(3470) == null)
 			{
 				replyMSG.append("<font color=\"FF0000\">Gold Bars : 0</font><br>");
 			}
@@ -93,7 +98,16 @@ public class stat implements IVoicedCommandHandler
 			replyMSG.append("<font color=\"FF0000\">PvP Flags: " + targetp.getPvpFlag() + "</font><br>");
 			replyMSG.append("<font color=\"FF0000\">PK Kills: " + targetp.getPkKills() + "</font><br>");
 			replyMSG.append("<font color=\"FF0000\">HP, CP, MP: " + targetp.getMaxHp() + ", " + targetp.getMaxCp() + ", " + targetp.getMaxMp() + "</font><br>");
-			replyMSG.append("<font color=\"FF0000\">Wep Enchant: " + targetp.getActiveWeaponInstance().getEnchantLevel() + "</font><br>");
+			
+			if (targetp.getActiveWeaponInstance() == null)
+			{
+				replyMSG.append("<font color=\"FF0000\">No Weapon!</font><br>");
+			}
+			else
+		    {			
+			    replyMSG.append("<font color=\"FF0000\">Wep Enchant: " + targetp.getActiveWeaponInstance().getEnchantLevel() + "</font><br>");
+			}
+			
 			replyMSG.append("<font color=\"00FF00\">=========>>" + targetp.getName() + "<<=========" + "</font><br>");
 			replyMSG.append("</center></body></html>");
 
