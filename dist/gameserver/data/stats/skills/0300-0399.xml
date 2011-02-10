@@ -861,13 +861,13 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="336" levels="1" name="Arcane Wisdom">
   <set name="mpConsume" val="36"/>
+  <set name="magicLvl" val="78"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="0x7fffffff" name="DamOverTime" time="3" val="150">
       <mul order="0x30" stat="mAtkSpd" val="0.9"/>
@@ -875,13 +875,13 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="337" levels="1" name="Arcane Power">
   <set name="mpConsume" val="36"/>
+  <set name="magicLvl" val="78"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="0x7fffffff" name="DamOverTime" time="3" val="150">
       <mul order="0x30" stat="MagicalMpConsumeRate" val="1.1"/>
