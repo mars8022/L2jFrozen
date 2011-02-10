@@ -11,7 +11,7 @@ CREATE TABLE `locations` (
   `proc` int(3) NOT NULL default '0',
   PRIMARY KEY  (`loc_id`,`loc_x`,`loc_y`),
   KEY `proc` (`proc`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Dumping data for table `locations`

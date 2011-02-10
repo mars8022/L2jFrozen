@@ -1364,6 +1364,7 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3584" levels="1" name="Shock">
   <!-- Infinity Crusher Skill -->  
+  <set name="bestowed" val="true"/>
   <set name="castRange" val="-1"/>  
   <set name="effectRange" val="-1"/>
   <set name="isDebuff" val="true"/>
@@ -1442,6 +1443,7 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3588" levels="1" name="Shock">
   <!-- Infinity Fang Skill -->  
+  <set name="bestowed" val="true"/>
   <set name="castRange" val="-1"/>  
   <set name="effectRange" val="-1"/>
   <set name="isDebuff" val="true"/>
@@ -1485,6 +1487,7 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3590" levels="1" name="Silence">
   <!-- Infinity Stinger Skill -->  
+  <set name="bestowed" val="true"/>
   <set name="castRange" val="-1"/>  
   <set name="effectRange" val="-1"/>
   <set name="lvlDepend" val="1"/>

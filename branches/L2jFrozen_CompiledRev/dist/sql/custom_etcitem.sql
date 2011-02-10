@@ -21,5 +21,5 @@ CREATE TABLE `custom_etcitem` (
   `oldname` varchar(100) NOT NULL default '',
   `oldtype` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`item_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

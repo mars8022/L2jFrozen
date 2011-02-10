@@ -19,4 +19,4 @@ CREATE TABLE `custom_spawnlist` (
   `periodOfDay` decimal(2,0) default '0',
   PRIMARY KEY  (id),
   KEY `key_npc_templateid` (`npc_templateid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

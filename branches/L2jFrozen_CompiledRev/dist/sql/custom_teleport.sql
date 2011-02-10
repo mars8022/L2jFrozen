@@ -11,4 +11,4 @@ CREATE TABLE custom_teleport (
   price decimal(6,0) default NULL,
   fornoble int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
