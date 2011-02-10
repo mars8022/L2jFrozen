@@ -2988,15 +2988,16 @@ public final class Config
 	public static int PROTECTED_HEROVOICE_C;
 	public static int PROTECTED_MULTISELL_C;
 	public static int PROTECTED_SUBCLASS_C;
-	public static int GLOBAL_CHAT_DELAY;
+	public static int PROTECTED_GLOBAL_CHAT_DELAY;
 	public static int PROTECTED_PARTY_ADD_MEMBER_C;
-	public static int PROTECTED_DROP_C;
+	public static int PROTECTED_DESTROY_DROP_C;
 	public static int PROTECTED_ENCHANT_C;
 	public static int PROTECTED_BANKING_SYSTEM_C;
 	public static int PROTECTED_WEREHOUSE_C;
 	public static int PROTECTED_CRAFT_C;
 	public static int PROTECTED_USE_ITEM_C;
 	public static int PROTECTED_MOVE_TO_LOCATION_C;
+	public static int PROTECTED_CHAT_DELAY_C;
 
 	//============================================================
 	public static void loadFloodConfig()
@@ -3015,15 +3016,16 @@ public final class Config
 			PROTECTED_HEROVOICE_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorHeroVoice", "50"));
 			PROTECTED_MULTISELL_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorMultisell", "50"));
 			PROTECTED_SUBCLASS_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorSubclass", "50"));
-			GLOBAL_CHAT_DELAY = Integer.parseInt(FloodSetting.getProperty("FloodProtectorGlobalChatDelay", "0"));
+			PROTECTED_GLOBAL_CHAT_DELAY = Integer.parseInt(FloodSetting.getProperty("FloodProtectorGlobalChatDelay", "0"));
 			PROTECTED_PARTY_ADD_MEMBER_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorPartyAddMember", "80"));
-			PROTECTED_DROP_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorDrop", "50"));
+			PROTECTED_DESTROY_DROP_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorDestroyDrop", "50"));
 			PROTECTED_ENCHANT_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorEnchant", "50"));
 			PROTECTED_BANKING_SYSTEM_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorBankingSystem", "50"));
 			PROTECTED_WEREHOUSE_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorWerehouse", "50"));
 			PROTECTED_CRAFT_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorCraft", "50"));
 			PROTECTED_USE_ITEM_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorUseItem", "10"));
-			PROTECTED_MOVE_TO_LOCATION_C  = Integer.parseInt(FloodSetting.getProperty("FloodProtectorMove", "1"));
+			PROTECTED_MOVE_TO_LOCATION_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorMove", "1"));
+			PROTECTED_CHAT_DELAY_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorChat", "20"));
 		}
 		catch(Exception e)
 		{

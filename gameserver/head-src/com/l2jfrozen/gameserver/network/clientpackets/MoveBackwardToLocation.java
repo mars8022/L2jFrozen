@@ -106,10 +106,11 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 
 		if(activeChar == null)
 			return;
+		
 		//Move flood protection
 		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_MOVE_TO_LOCATION))
 		{
-			activeChar.sendMessage("You can move only every " + Config.PROTECTED_MOVE_TO_LOCATION_C + " Millisecond(s)");
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 

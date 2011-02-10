@@ -72,11 +72,13 @@ public final class UseItem extends L2GameClientPacket
 			return;
 
 		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_USE_ITEM))
+		{
 			return;
+		}
 
 		if(activeChar.isStunned() || activeChar.isConfused() || activeChar.isAway() || activeChar.isParalyzed() || activeChar.isSleeping())
 		{
-			activeChar.sendMessage("You cannot Use Items Right Now.");
+			activeChar.sendMessage("You Cannot Use Items Right Now.");
 			return;
 		}
 

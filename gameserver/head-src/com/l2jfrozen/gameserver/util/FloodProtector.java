@@ -76,9 +76,9 @@ public class FloodProtector
 			Config.PROTECTED_MULTISELL_C,
 			Config.PROTECTED_SUBCLASS_C,
 			Config.PROTECTED_UNKNOWNPACKET_C,
-			Config.GLOBAL_CHAT_DELAY,
+			Config.PROTECTED_GLOBAL_CHAT_DELAY,
 			Config.PROTECTED_PARTY_ADD_MEMBER_C,
-			Config.PROTECTED_DROP_C,
+			Config.PROTECTED_DESTROY_DROP_C,
 			Config.PROTECTED_ENCHANT_C,
 			Config.PROTECTED_BANKING_SYSTEM_C,
 			Config.PROTECTED_WEREHOUSE_C,
@@ -89,7 +89,8 @@ public class FloodProtector
 			Config.PROTECTED_ACTIVE_PACK_RETURN, // > return
 			Config.PROTECTED_ACTIVE_PACK_FAILED, // < action failed
 			Config.PROTECTED_USE_ITEM_C,
-			Config.PROTECTED_MOVE_TO_LOCATION_C
+			Config.PROTECTED_MOVE_TO_LOCATION_C,
+			Config.PROTECTED_CHAT_DELAY_C
 	};
 
 	// =============================================================
@@ -102,7 +103,7 @@ public class FloodProtector
 	public static final int PROTECTED_UNKNOWNPACKET = 6;
 	public static final int PROTECTED_GLOBALCHAT = 7;
 	public static final int PROTECTED_PARTY_ADD_MEMBER = 8;
-	public static final int PROTECTED_DROP = 9;
+	public static final int PROTECTED_DESTROY_DROP = 9;
 	public static final int PROTECTED_ENCHANT = 10;
 	public static final int PROTECTED_BANKING_SYSTEM = 11;
 	public static final int PROTECTED_WEREHOUSE = 12;
@@ -113,6 +114,7 @@ public class FloodProtector
 	// =============================================================
 	public static final int PROTECTED_USE_ITEM = 16;
 	public static final int PROTECTED_MOVE_TO_LOCATION = 17;
+	public static final int PROTECTED_CHAT_DELAY = 18;
 
 	// =============================================================
 	// Constructor
@@ -171,7 +173,8 @@ public class FloodProtector
 	{
 		Entry<Integer, Integer[]> entry = _floodClient.getEntry(playerObjId);
 
-		if(entry==null){
+		if(entry==null)
+		{
 			this.registerNewPlayer(playerObjId);
 			entry = _floodClient.getEntry(playerObjId);
 		}

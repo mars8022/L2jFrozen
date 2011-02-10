@@ -116,11 +116,17 @@ public final class Say2 extends L2GameClientPacket
 			_log.warning("Say2: Invalid type: " + _type);
 			return;
 		}
+		
 		L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if(activeChar == null)
 		{
 			_log.warning("[Say2.java] Active Character is null.");
+			return;
+		}
+		
+		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_CHAT_DELAY))
+		{
 			return;
 		}
 
@@ -316,7 +322,7 @@ public final class Say2 extends L2GameClientPacket
 		               {
 		                  if(Config.GLOBAL_CHAT_WITH_PVP)
 		                  {
-		                     if(!(activeChar.getPvpKills() >= Config.GLOBAL_PVP_AMOUNT && !activeChar.isGM()))
+		                     if((activeChar.getPvpKills() <= Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
 		                     {
 		                        activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT+ " pvp kills in order to speak in global chat");
 		                        return;
@@ -342,7 +348,7 @@ public final class Say2 extends L2GameClientPacket
 		                  {
 		                     if(!activeChar.isNoble() && !activeChar.isGM())
 		                     {
-		                        activeChar.sendMessage("Only nobles can post in trade mass chat");
+		                        activeChar.sendMessage("Only Nobless Players Can Use This Chat");
 		                        return;
 		                     }
 		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
@@ -394,7 +400,7 @@ public final class Say2 extends L2GameClientPacket
 		               break;
 				case ALL:
 					if(_text.startsWith("."))
-					{
+					{	
 						StringTokenizer st = new StringTokenizer(_text);
 						IVoicedCommandHandler vch;
 						String command = "";
@@ -499,7 +505,7 @@ public final class Say2 extends L2GameClientPacket
 					{
 						if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_HEROVOICE))
 						{
-							activeChar.sendMessage("Action failed. Heroes are only able to speak in the global channel once every 10 seconds.");
+							activeChar.sendMessage("Heroes Are Able To Speak In The Global Channel Once Every 10 Seconds.");
 							return;
 						}
 						for(L2PcInstance player : L2World.getInstance().getAllPlayers())

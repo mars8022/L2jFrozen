@@ -98,13 +98,8 @@ public final class RequestDropItem extends L2GameClientPacket
 		if(CursedWeaponsManager.getInstance().isCursed(itemId))
 			return;
 
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_DROP))
+		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_DESTROY_DROP))
 		{
-			if(Config.DEBUG)
-			{
-				_log.warning("Player " + activeChar.getName() + " has performed drop too fast");
-			}
-			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
 			return;
 		}
 
