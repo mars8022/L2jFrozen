@@ -1988,6 +1988,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Cannot validate if not in  a world region (happens during teleport)
 		if(getWorldRegion() == null)
 			return;
+		
+		 if (Config.ALLOW_WATER)
+	         checkWaterState();
 
 		// This function is called very often from movement code
 		if(force)

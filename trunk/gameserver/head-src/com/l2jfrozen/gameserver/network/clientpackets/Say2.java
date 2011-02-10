@@ -362,7 +362,7 @@ public final class Say2 extends L2GameClientPacket
 		               {
 		                  if(Config.TRADE_CHAT_WITH_PVP)
 		                  {
-		                     if(!(activeChar.getPvpKills() >= Config.TRADE_PVP_AMOUNT && !activeChar.isGM()))
+		                     if((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
 		                     {
 		                        activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT+ "  pvp kills in order to speak in trade chat");
 		                        return;
