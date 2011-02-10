@@ -327,11 +327,18 @@ public class PcStat extends PlayableStat
 	@Override
 	public final int getLevel()
 	{
-		if(getActiveChar().isSubClassActive())
-			return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getLevel();
-
-		return super.getLevel();
-	}
+	       try
+	       {
+	           if (getActiveChar().isSubClassActive())
+	              return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getLevel();
+	              
+	           return super.getLevel();
+	       }
+	       catch(NullPointerException e)
+	       {
+	          return 0;
+	       }
+	    }
 
 	@Override
 	public final void setLevel(int value)
