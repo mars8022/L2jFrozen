@@ -25,20 +25,17 @@ import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Away;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Banking;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.AwayCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.BankingCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.CTFCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.DMCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Online;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Repair;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.TvTCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Voting;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.farmpvp;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stat;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.stats;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.version;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.FarmPvpCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.StatsCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.VersionCmd;
 
 /**
  * This class ...
@@ -66,13 +63,12 @@ public class VoicedCommandHandler
 	private VoicedCommandHandler()
 	{
 		_datatable = new FastMap<String, IVoicedCommandHandler>();
-		registerVoicedCommandHandler(new stats());
-
+		
 		registerVoicedCommandHandler( new Voting());
 		
 		if(Config.BANKING_SYSTEM_ENABLED)
 		{
-			registerVoicedCommandHandler(new Banking());
+			registerVoicedCommandHandler(new BankingCmd());
 		}
 
 		if(Config.CTF_COMMAND)
@@ -87,7 +83,6 @@ public class VoicedCommandHandler
 		
 		if(Config.DM_COMMAND)
 		{
-			System.out.println("DMCmd registered");
 			registerVoicedCommandHandler(new DMCmd());
 		}
 
@@ -96,24 +91,21 @@ public class VoicedCommandHandler
 			registerVoicedCommandHandler(new Wedding());
 		}
 
-		if(Config.ALLOW_STAT_VIEW)
-		{
-			registerVoicedCommandHandler(new stat());
-		}
+		registerVoicedCommandHandler(new StatsCmd());
 
 		if(Config.ALLOW_VERSION_COMMAND)
 		{
-			registerVoicedCommandHandler(new version());
+			registerVoicedCommandHandler(new VersionCmd());
 		}
 
-		if(Config.SCORIA_ALLOW_AWAY_STATUS)
+		if(Config.ALLOW_AWAY_STATUS)
 		{
-			registerVoicedCommandHandler(new Away());
+			registerVoicedCommandHandler(new AwayCmd());
 		}
 
 		if(Config.ALLOW_FARM1_COMMAND || Config.ALLOW_FARM2_COMMAND || Config.ALLOW_PVP1_COMMAND || Config.ALLOW_PVP2_COMMAND)
 		{
-			registerVoicedCommandHandler(new farmpvp());
+			registerVoicedCommandHandler(new FarmPvpCmd());
 		}
 
 		if(Config.ALLOW_ONLINE_VIEW)

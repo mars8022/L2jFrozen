@@ -32,7 +32,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ScheduledFuture;
@@ -1434,6 +1436,21 @@ public class Olympiad
 		OlympiadProperties.setProperty("ValdationEnd", String.valueOf(_validationEnd));
 		OlympiadProperties.setProperty("NextWeeklyChange", String.valueOf(_nextWeeklyChange));
 
+		GregorianCalendar gc = (GregorianCalendar) GregorianCalendar.getInstance();
+		gc.clear();
+		gc.setTimeInMillis(_nextWeeklyChange);
+		
+		OlympiadProperties.setProperty("NextWeeklyChange_DateFormat", DateFormat.getInstance().format(gc.getTime()));
+		//System.out.println("NextPoints: "+DateFormat.getInstance().format(gc.getTime()));
+		
+		gc.clear();
+		gc.setTimeInMillis(_olympiadEnd);
+		
+		OlympiadProperties.setProperty("OlympiadEnd_DateFormat", DateFormat.getInstance().format(gc.getTime()));
+		//System.out.println("NextOlyDate: "+DateFormat.getInstance().format(gc.getTime()));
+		
+		
+		
 		OlympiadProperties.store(fos, "Olympiad Properties");
 		fos.close();
 	}

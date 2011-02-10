@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.util.FloodProtector;
  * 
  * @author Ahmed
  */
-public class Banking implements IVoicedCommandHandler
+public class BankingCmd implements IVoicedCommandHandler
 {
 	private static String[] _voicedCommands =
 	{

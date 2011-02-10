@@ -1840,7 +1840,7 @@ public final class Config
 	}
 
 	//============================================================
-	public static boolean SCORIA_ALLOW_AWAY_STATUS;
+	public static boolean ALLOW_AWAY_STATUS;
 	public static int AWAY_TIMER;
 	public static int BACK_TIMER;
 	public static int AWAY_TITLE_COLOR;
@@ -1860,7 +1860,7 @@ public final class Config
 			is.close();
 
 			/** Away System **/
-			SCORIA_ALLOW_AWAY_STATUS = Boolean.parseBoolean(AWAYSettings.getProperty("AllowAwayStatus", "False"));
+			ALLOW_AWAY_STATUS = Boolean.parseBoolean(AWAYSettings.getProperty("AllowAwayStatus", "False"));
 			SCORIA_AWAY_PLAYER_TAKE_AGGRO = Boolean.parseBoolean(AWAYSettings.getProperty("AwayPlayerTakeAggro", "False"));
 			AWAY_TITLE_COLOR = Integer.decode("0x" + AWAYSettings.getProperty("AwayTitleColor", "0000FF"));
 			AWAY_TIMER = Integer.parseInt(AWAYSettings.getProperty("AwayTimer", "30"));
@@ -2131,7 +2131,8 @@ public final class Config
 	public static boolean CUSTOM_TELEPORT_TABLE = true;
 	public static boolean CUSTOM_DROPLIST_TABLE = true;
 	public static boolean CUSTOM_MERCHANT_TABLES = true;
-	public static boolean ALLOW_STAT_VIEW;
+	public static boolean ALLOW_SIMPLE_STATS_VIEW;
+	public static boolean ALLOW_DETAILED_STATS_VIEW;
 	public static boolean ALLOW_ONLINE_VIEW;
 	public static boolean WELCOME_HTM;
 	public static String ALLOWED_SKILLS;
@@ -2259,7 +2260,8 @@ public final class Config
 			DIFFERENT_Z_CHANGE_OBJECT = Integer.parseInt(L2ScoriaSettings.getProperty("DifferentZchangeObject", "650"));
 			DIFFERENT_Z_NEW_MOVIE = Integer.parseInt(L2ScoriaSettings.getProperty("DifferentZnewmovie", "1000"));
 
-			ALLOW_STAT_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowStatView", "False"));
+			ALLOW_SIMPLE_STATS_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowSimpleStatsView", "True"));
+			ALLOW_DETAILED_STATS_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowDetailedStatsView", "False"));
 			ALLOW_ONLINE_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowOnlineView", "False"));
 
 			KEEP_SUBCLASS_SKILLS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("KeepSubClassSkills", "False"));

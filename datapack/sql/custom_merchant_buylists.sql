@@ -12,4 +12,4 @@ CREATE TABLE custom_merchant_buylists (
   time INT NOT NULL DEFAULT '0',
   savetimer DECIMAL(20,0) NOT NULL DEFAULT '0',
   PRIMARY KEY  (shop_id,`order`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

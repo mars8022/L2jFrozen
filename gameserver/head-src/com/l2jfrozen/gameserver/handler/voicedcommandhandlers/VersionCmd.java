@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 /**
  * @author L2JFrozen
  */
-public class version implements IVoicedCommandHandler
+public class VersionCmd implements IVoicedCommandHandler
 {
 	private static String[] _voicedCommands =
 	{

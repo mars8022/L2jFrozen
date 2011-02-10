@@ -517,7 +517,7 @@ public class GameServer
 		{
 			_log.info("Wedding Manager is Disabled");
 		}
-		if(Config.SCORIA_ALLOW_AWAY_STATUS)
+		if(Config.ALLOW_AWAY_STATUS)
 		{
 			AwayManager.getInstance();
 		}

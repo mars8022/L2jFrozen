@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
-public class farmpvp implements IVoicedCommandHandler
+public class FarmPvpCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =
 	{
