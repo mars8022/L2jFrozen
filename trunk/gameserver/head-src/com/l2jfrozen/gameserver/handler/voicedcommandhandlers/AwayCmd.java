@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Siege;
 /**
  * @author Michiru
  */
-public class Away implements IVoicedCommandHandler
+public class AwayCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =
 	{
