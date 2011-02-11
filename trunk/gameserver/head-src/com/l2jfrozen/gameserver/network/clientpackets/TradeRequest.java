@@ -142,6 +142,18 @@ public final class TradeRequest extends L2GameClientPacket
 			player.sendMessage("You can't Request a Trade when partner Attacking Now");
 			return;
 		}
+		
+		if(partner.getPvpFlag() > 0)
+		{
+			player.sendMessage("You can't Request a Trade when target flagged.");
+			return;
+		}
+		
+		if(player.getPvpFlag() > 0)
+		{
+			player.sendMessage("You can't Request a Trade when you are flagged.");
+			return;
+		}
 
 		if(player.isStunned())
 		{
