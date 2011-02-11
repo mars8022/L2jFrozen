@@ -87,6 +87,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			msg = "Can't use buffer when sitting";
 		else if(activeChar.isCastingNow()  || activeChar.isCastingPotionNow())
 			msg = "Can't use buffer when casting";
+		else if(activeChar.isAlikeDead())
+			msg = "Can't use buffer while dead";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("ALL"))
 			msg = "Buffer is not available in this area";
 		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())

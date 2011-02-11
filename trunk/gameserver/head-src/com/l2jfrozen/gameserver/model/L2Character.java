@@ -1586,11 +1586,12 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
-		// Player can't heal rb config
-		if(!Config.PLAYERS_CAN_HEAL_RB && this instanceof L2PcInstance && !((L2PcInstance) this).isGM() && (target instanceof L2RaidBossInstance || target instanceof L2GrandBossInstance) && (skill.getSkillType() == SkillType.HEAL || skill.getSkillType() == SkillType.HEAL_PERCENT)){
-			this.sendPacket( ActionFailed.STATIC_PACKET );
-			return;
-		}
+		 // Player can't heal rb config
+		 if(!Config.PLAYERS_CAN_HEAL_RB && this!=null && !((L2PcInstance) this).isGM() && (target instanceof L2RaidBossInstance || target instanceof L2GrandBossInstance) && (skill.getSkillType() == SkillType.HEAL || skill.getSkillType() == SkillType.HEAL_PERCENT))
+		 {
+		  this.sendPacket( ActionFailed.STATIC_PACKET );
+		  return;
+		 }
 		
 		if (this instanceof L2PcInstance && target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
 		{
