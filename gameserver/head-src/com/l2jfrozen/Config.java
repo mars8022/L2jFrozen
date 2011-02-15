@@ -2506,7 +2506,7 @@ public final class Config
 			PVPEXPSP_SYSTEM = Boolean.parseBoolean(pvpSettings.getProperty("AllowAddExpSpAtPvP", "False"));
 			ADD_EXP = Integer.parseInt(pvpSettings.getProperty("AddExpAtPvp", "0"));
 			ADD_SP = Integer.parseInt(pvpSettings.getProperty("AddSpAtPvp", "0"));
-			ALLOW_SOE_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AllowLowLvlProtect", "False"));
+			ALLOW_SOE_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AltKarmaPlayerCanTeleport", "False"));
 			ALLOW_POTS_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AllowPotsInPvP", "True"));
 			/** Enable Pk Info mod. Displays number of times player has killed other */
 			ENABLE_PK_INFO = Boolean.valueOf(pvpSettings.getProperty("EnablePkInfo", "false"));
