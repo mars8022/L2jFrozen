@@ -290,6 +290,9 @@ public class Potions implements IItemHandler
 					return;
 				usePotion(activeChar, 2032, 1);
 				break;
+			case 733: // endeavor_potion
+				usePotion(activeChar, 2010, 1);
+				break;	
 			case 734: // quick_step_potion, xml: 2011
 				usePotion(activeChar, 2011, 1);
 				break;
@@ -324,6 +327,15 @@ public class Potions implements IItemHandler
 			case 1540: // quick_healing_potion, xml: 2038
 				usePotion(activeChar, 2038, 1);
 				break;
+			case 4667: // potion_of_critical_escape
+				usePotion(activeChar, 2074, 1);
+				break;	
+			case 4679: // bless of eva
+				usePotion(activeChar, 2076, 1);
+				break;
+			case 4680: // rsk_damage_shield_potion
+				usePotion(activeChar, 2077, 1);
+				break;				
 			case 5283: // Rice Cake, xml: 2136
 				if(!isEffectReplaceable(activeChar, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
@@ -696,6 +708,9 @@ public class Potions implements IItemHandler
 		greater_healing_potion (1539, 2037, 1),
 		quick_healing_potion(1540, 2038, 1),
 		bless_of_eva(4679, 2076, 1),
+		endeavor_potion(733, 2010, 1),
+		potion_of_critical_escape(4667, 2074, 1),
+		rsk_damage_shield_potion(4680, 2077, 1),
 		Rice_Cake (5283, 2136, 1),
 		CP (5591, 2166, 1),
 		Greater_CP (5592, 2166, 2),
