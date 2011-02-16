@@ -695,6 +695,7 @@ public class Potions implements IItemHandler
 		adv_swift_attack_potion (1375, 2035, 1),
 		greater_healing_potion (1539, 2037, 1),
 		quick_healing_potion(1540, 2038, 1),
+		bless_of_eva(4679, 2076, 1),
 		Rice_Cake (5283, 2136, 1),
 		CP (5591, 2166, 1),
 		Greater_CP (5592, 2166, 2),
