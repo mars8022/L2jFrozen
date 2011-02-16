@@ -479,9 +479,10 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2136" levels="1" name="Rice Cake">
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="itemConsumeCount" val="1" />
+  <set name="itemConsumeId" val="5283"/>
   <set name="magicLvl" val="1"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="power" val="3"/>

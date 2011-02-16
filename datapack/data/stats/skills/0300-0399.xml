@@ -716,12 +716,12 @@
   <set name="create_item_count" val="900"/>
   <set name="random_count" val="4"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="325" levels="1" name="Strider Siege Assault">
-  <!-- <table name="#itemConsumeCount">5</table> -->
-  <set name="mpConsume" val="168"/>
+  <set name="mpConsume" val="151"/>
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="5"/>
-  <set name="power" val="15005.0"/>
+  <set name="power" val="15005"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="1080"/>
   <set name="coolTime" val="720"/>
@@ -730,7 +730,7 @@
   <set name="skillType" val="STRSIEGEASSAULT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
-  <set name="effectRange" val="500"/>
+  <set name="effectRange" val="400"/>
 </skill>
 <skill id="326" levels="1" name="Build Advanced Headquarters">
   <set name="mpConsume" val="30"/>
