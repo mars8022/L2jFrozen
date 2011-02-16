@@ -1403,12 +1403,13 @@
     <effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="362" levels="1" name="Armor Crush">
   <set name="magicLvl" val="77"/>
   <set name="weaponsAllowed" val="18444"/>
   <set name="mpConsume" val="35"/>
   <set name="hpConsume" val="338"/>
-  <set name="power" val="2565"/>
+  <set name="power" val="3077"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1417,6 +1418,7 @@
   <set name="ignoreShld" val="true"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
+  <set name="coolTime" val="100" />
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
   <set name="effectType" val="STUN"/>

@@ -1181,14 +1181,14 @@
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="60" levels="1" name="Fake Death">
   <set name="mpConsume" val="200"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="FAKE_DEATH"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
   <for>
-    <effect count="0x7fffffff" name="FakeDeath" time="5" val="35"/>
+    <effect count="0x7fffffff" name="FakeDeath" time="3" val="30"/>
   </for>
 </skill>
 <skill id="61" levels="3" name="Cure Bleeding">
