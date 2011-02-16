@@ -833,6 +833,7 @@ public class Olympiad
 		switch(Config.ALT_OLY_PERIOD){
 			case DAY:{
 				currentTime.add(Calendar.DAY_OF_MONTH, Config.ALT_OLY_PERIOD_MULTIPLIER);
+				currentTime.add(Calendar.DAY_OF_MONTH, -1); //last day is for validation
 				
 				if(Config.ALT_OLY_PERIOD_MULTIPLIER>=14){
 					Calendar nextChange = Calendar.getInstance();
@@ -848,6 +849,7 @@ public class Olympiad
 			break;
 			case WEEK:{
 				currentTime.add(Calendar.WEEK_OF_MONTH, Config.ALT_OLY_PERIOD_MULTIPLIER);
+				currentTime.add(Calendar.DAY_OF_MONTH, -1); //last day is for validation
 				
 				if(Config.ALT_OLY_PERIOD_MULTIPLIER>1){
 					Calendar nextChange = Calendar.getInstance();
@@ -861,6 +863,8 @@ public class Olympiad
 			break;
 			case MONTH:{
 				currentTime.add(Calendar.MONTH, Config.ALT_OLY_PERIOD_MULTIPLIER);
+				currentTime.add(Calendar.DAY_OF_MONTH, -1); //last day is for validation
+				
 				Calendar nextChange = Calendar.getInstance();
 				_nextWeeklyChange = nextChange.getTimeInMillis() + WEEKLY_PERIOD;
 
@@ -1174,9 +1178,7 @@ public class Olympiad
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
+			e.printStackTrace();
 			_log.warning("Olympiad System: Couldn't save nobles info in db");
 		}
 		finally

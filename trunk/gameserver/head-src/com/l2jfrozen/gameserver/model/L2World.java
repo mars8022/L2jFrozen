@@ -969,7 +969,7 @@ public final class L2World
 			}
 		}
 
-		_log.config("L2World: (" + REGIONS_X + " by " + REGIONS_Y + ") World Region Grid set up.");
+		_log.config("L2World: ("+ REGIONS_X + "x" + REGIONS_Y +") World Region Grid set up.");
 
 	}
 

@@ -1385,7 +1385,21 @@ public final class L2PcInstance extends L2PlayableInstance
 	@Override
 	public final int getLevel()
 	{
-		return getStat().getLevel();
+		int level = getStat().getLevel();
+		
+		if(level == -1){
+			
+			L2PcInstance local_char = restore(this.getObjectId());
+			
+			if(local_char!=null)
+				level = local_char.getLevel();
+			
+		}
+			
+		if(level<0)
+			level = 1;
+		
+		return level;
 	}
 
 	/**
@@ -8790,7 +8804,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			// reuse delays for matching skills. 'restore_type'= 0.
 			for(L2Effect effect : getAllEffects())
 			{
-				if(effect != null && effect.getInUse() && !effect.getSkill().isToggle())
+				if(effect != null && effect.getInUse() 
+						&& !effect.getSkill().isToggle()
+						&& effect.getSkill().getSkillType() != SkillType.FORCE_BUFF)
 				{
 					int skillId = effect.getSkill().getId();
 					buff_index++;
@@ -8847,7 +8863,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not store char effect data: " + e);
+			_log.warning("Could not store char effect data: ");
 			e.printStackTrace();
 		}
 		finally

@@ -28,6 +28,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_MOVE_TO;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -40,6 +41,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
+import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * This class manages AI of L2Character.<BR>
@@ -463,6 +465,24 @@ public class L2CharacterAI extends AbstractAI
 			return;
 		}
 
+		if(object.getX() == 0 && object.getY() == 0) // TODO: Find the drop&spawn bug
+		{
+			L2Character player_char = getActor();
+			
+			if(player_char instanceof L2PcInstance){
+				L2PcInstance player = (L2PcInstance) player_char;
+				
+				_log.severe("ATTENTION: Player "+player.getName()+" is trying to use L2Phx Pickup Exploit");
+				player.sendMessage("You are trying to use L2Phx Pickup Exploit. GMs informed");
+				clientActionFailed();
+				Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " has used L2Phx Pickup Exploit! Kicked ", Config.DEFAULT_PUNISH);
+				player.closeNetConnection();
+				return;
+			}
+			
+			object.setXYZ(getActor().getX(), getActor().getY(), getActor().getZ() + 5);
+		}
+
 		// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
 		clientStopAutoAttack();
 
@@ -471,12 +491,7 @@ public class L2CharacterAI extends AbstractAI
 
 		// Set the AI pick up target
 		setTarget(object);
-		if(object.getX() == 0 && object.getY() == 0) // TODO: Find the drop&spawn bug
-		{
-			_log.warning("Object in coords 0,0 - using a temporary fix");
-			object.setXYZ(getActor().getX(), getActor().getY(), getActor().getZ() + 5);
-		}
-
+		
 		// Move the actor to Pawn server side AND client side by sending Server->Client packet MoveToPawn (broadcast)
 		moveToPawn(object, 20);
 	}

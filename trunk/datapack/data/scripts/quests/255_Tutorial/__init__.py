@@ -120,7 +120,7 @@ class Quest (JQuest) :
  
     def onAdvEvent(self,event,npc,player):
         st = player.getQuestState(qn)
-        classId = int(st.getPlayer().getClassId().getId())
+        classId = int(player.getClassId().getId())
         string = event[0:2]
         htmltext = ""
         # USER CONNECTED #
@@ -296,7 +296,7 @@ class Quest (JQuest) :
                       st.showQuestionMark(17)
                 elif playerLevel == 19 :
                    if st.getInt("lvl") < 19:
-                      race = st.getPlayer().getRace().ordinal()
+                      race = player.getRace().ordinal()
                       if race != 5 and player.getClassId().level() == 0 :
                          if classId in [0,10,18,25,31,38,44,49,52]:
                            #st.playTutorialVoice("tutorial_voice_???")
@@ -305,7 +305,7 @@ class Quest (JQuest) :
                            st.showQuestionMark(35)
                 elif playerLevel == 35 :
                    if st.getInt("lvl") < 35:
-                      race = st.getPlayer().getRace().ordinal()
+                      race = player.getRace().ordinal()
                       if race != 5 and player.getClassId().level() == 1 :
                          if classId in [1,4,7,11,15,19,22,26,29,32,35,39,42,45,47,50,54,56]:
                            #st.playTutorialVoice("tutorial_voice_???")
@@ -380,7 +380,7 @@ class Quest (JQuest) :
                 if classId in QMCb.keys():
                    htmltext = QMCb[classId]
             elif MarkId == 26 :
-                if st.getPlayer().getClassId().isMage() and classId != 49 :
+                if player.getClassId().isMage() and classId != 49 :
                     htmltext = "tutorial_newbie004b.htm"
                 else :
                     htmltext = "tutorial_newbie004a.htm"

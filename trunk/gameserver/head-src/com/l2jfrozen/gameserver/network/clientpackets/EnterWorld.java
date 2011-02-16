@@ -731,9 +731,12 @@ public class EnterWorld extends L2GameClientPacket
 	{
 		if(cha.getPartnerId() != 0)
 		{
-			L2PcInstance partner;
-			partner = (L2PcInstance) L2World.getInstance().findObject(cha.getPartnerId());
-
+			L2PcInstance partner = null;
+			
+			if(L2World.getInstance().findObject(cha.getPartnerId()) instanceof L2PcInstance){
+				partner = (L2PcInstance) L2World.getInstance().findObject(cha.getPartnerId());
+			}
+			
 			if(partner != null)
 			{
 				partner.sendMessage("Your Partner has logged in");

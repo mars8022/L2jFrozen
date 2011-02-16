@@ -1473,6 +1473,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public void doCast(L2Skill skill)
 	{
+		L2Character activeChar = this;
 		
 		if(skill == null)
 		{
@@ -1482,7 +1483,7 @@ public abstract class L2Character extends L2Object
 		
 		if(isSkillDisabled(skill.getId()))
 		{
-			if(this instanceof L2PcInstance)
+			if(activeChar instanceof L2PcInstance)
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
 				sm.addSkillName(skill.getId(), skill.getLevel());
@@ -1508,7 +1509,7 @@ public abstract class L2Character extends L2Object
 		}
 
 		// Can't use Hero and resurrect skills during Olympiad
-		if(this instanceof L2PcInstance && ((L2PcInstance) this).isInOlympiadMode() && (skill.isHeroSkill() || skill.getSkillType() == SkillType.RESURRECT))
+		if(activeChar instanceof L2PcInstance && ((L2PcInstance) activeChar).isInOlympiadMode() && (skill.isHeroSkill() || skill.getSkillType() == SkillType.RESURRECT))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.THIS_SKILL_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT);
 			sendPacket(sm);
@@ -1519,24 +1520,24 @@ public abstract class L2Character extends L2Object
 		//Recharge AutoSoulShot
 		if(skill.useSoulShot())
 		{
-			if(this instanceof L2PcInstance)
+			if(activeChar instanceof L2PcInstance)
 			{
-				((L2PcInstance) this).rechargeAutoSoulShot(true, false, false);
+				((L2PcInstance) activeChar).rechargeAutoSoulShot(true, false, false);
 			}
 			else if(this instanceof L2Summon)
 			{
-				((L2Summon) this).getOwner().rechargeAutoSoulShot(true, false, true);
+				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(true, false, true);
 			}
 		}
 		else if(skill.useSpiritShot())
 		{
-			if(this instanceof L2PcInstance)
+			if(activeChar instanceof L2PcInstance)
 			{
-				((L2PcInstance) this).rechargeAutoSoulShot(false, true, false);
+				((L2PcInstance) activeChar).rechargeAutoSoulShot(false, true, false);
 			}
-			else if(this instanceof L2Summon)
+			else if(activeChar instanceof L2Summon)
 			{
-				((L2Summon) this).getOwner().rechargeAutoSoulShot(false, true, true);
+				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(false, true, true);
 			}
 		}
 		//else if (skill.useFishShot())
@@ -1546,7 +1547,7 @@ public abstract class L2Character extends L2Object
 		//}
 
 		// Get all possible targets of the skill in a table in function of the skill target type
-		L2Object[] targets = skill.getTargetList(this);
+		L2Object[] targets = skill.getTargetList(activeChar);
 		// Set the target of the skill in function of Skill Type and Target Type
 		L2Character target = null;
 
@@ -1586,22 +1587,26 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
-		 // Player can't heal rb config
-		if(!Config.PLAYERS_CAN_HEAL_RB && this instanceof L2PcInstance && !((L2PcInstance) this).isGM() && (target instanceof L2RaidBossInstance || target instanceof L2GrandBossInstance) && (skill.getSkillType() == SkillType.HEAL || skill.getSkillType() == SkillType.HEAL_PERCENT))
+		// Player can't heal rb config
+		if(!Config.PLAYERS_CAN_HEAL_RB 
+				&& activeChar instanceof L2PcInstance 
+				&& !((L2PcInstance) activeChar).isGM() 
+				&& (target instanceof L2RaidBossInstance || target instanceof L2GrandBossInstance) 
+				&& (skill.getSkillType() == SkillType.HEAL || skill.getSkillType() == SkillType.HEAL_PERCENT))
 		{
 		  this.sendPacket( ActionFailed.STATIC_PACKET );
 		  return;
 		 }
 		
-		if (this instanceof L2PcInstance && target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
+		if (activeChar instanceof L2PcInstance && target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
 		{
 			String mobtype = ((L2NpcInstance) target).getTemplate().type;
 			if (!Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 				sm.addString("Npc Protection - No Attack Allowed!");
-				((L2PcInstance) this).sendPacket(sm);
-				((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
+				((L2PcInstance) activeChar).sendPacket(sm);
+				((L2PcInstance) activeChar).sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 		}
@@ -1636,11 +1641,11 @@ public abstract class L2Character extends L2Object
 		// Don't modify the skill time for FORCE_BUFF skills. The skill time for those skills represent the buff time.
 		if(!effectWhileCasting && !forceBuff && !skill.isStaticHitTime())
 		{
-			hitTime = Formulas.getInstance().calcMAtkSpd(this, skill, hitTime);
+			hitTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, hitTime);
 
 			if(coolTime > 0)
 			{
-				coolTime = Formulas.getInstance().calcMAtkSpd(this, skill, coolTime);
+				coolTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, coolTime);
 			}
 		}
 
@@ -1684,7 +1689,7 @@ public abstract class L2Character extends L2Object
 		//reuseDelay *= 333.0 / (skill.isMagic() ? getMAtkSpd() : getPAtkSpd());
 		int reuseDelay = skill.getReuseDelay();
 
-		if(this instanceof L2PcInstance && Formulas.getInstance().calcSkillMastery(this))
+		if(activeChar instanceof L2PcInstance && Formulas.getInstance().calcSkillMastery(activeChar))
 		{
 			reuseDelay = 0;
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
@@ -1717,7 +1722,7 @@ public abstract class L2Character extends L2Object
 		broadcastPacket(new MagicSkillUser(this, target, displayId, level, hitTime, reuseDelay));
 
 		// Send a system message USE_S1 to the L2Character
-		if(this instanceof L2PcInstance && magicId != 1312)
+		if(activeChar instanceof L2PcInstance && magicId != 1312)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 			if(magicId==2005)
@@ -1777,7 +1782,7 @@ public abstract class L2Character extends L2Object
 		if(hitTime > 210)
 		{
 			// Send a Server->Client packet SetupGauge with the color of the gauge and the casting time
-			if(this instanceof L2PcInstance && !forceBuff)
+			if(activeChar instanceof L2PcInstance && !forceBuff)
 			{
 				SetupGauge sg = new SetupGauge(SetupGauge.BLUE, hitTime);
 				sendPacket(sg);
