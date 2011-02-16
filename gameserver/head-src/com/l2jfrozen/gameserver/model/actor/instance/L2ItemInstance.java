@@ -1361,7 +1361,7 @@ public final class L2ItemInstance extends L2Object
 				updateInDb();
 			
 			}else{
-				_log.log(Level.SEVERE, "Could not insert item " + getObjectId() + " into DB: Reason: " + "Duplicate itemId");
+				//_log.log(Level.SEVERE, "Could not insert item " + getObjectId() + " into DB: Reason: " + "Duplicate itemId");
 				e.printStackTrace();
 			}
 		

@@ -206,16 +206,20 @@ public final class L2WorldRegion
 					mob.clearAggroList();
 					mob.getKnownList().removeAllKnownObjects();
 
-					mob.getAI().setIntention(com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE);
+					if(mob.getAI()!=null){
+						
+						mob.getAI().setIntention(com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE);
 
-					// stop the ai tasks
-					if(mob.getAI() instanceof L2AttackableAI)
-						((L2AttackableAI) mob.getAI()).stopAITask();
-					else if(mob.getAI() instanceof L2FortSiegeGuardAI)
-						((L2FortSiegeGuardAI) mob.getAI()).stopAITask();
-					else if(mob.getAI() instanceof L2SiegeGuardAI)
-						((L2SiegeGuardAI) mob.getAI()).stopAITask();
+						// stop the ai tasks
+						if(mob.getAI() instanceof L2AttackableAI)
+							((L2AttackableAI) mob.getAI()).stopAITask();
+						else if(mob.getAI() instanceof L2FortSiegeGuardAI)
+							((L2FortSiegeGuardAI) mob.getAI()).stopAITask();
+						else if(mob.getAI() instanceof L2SiegeGuardAI)
+							((L2SiegeGuardAI) mob.getAI()).stopAITask();
 
+					}
+					
 					// Stop HP/MP/CP Regeneration task
 					// try this: allow regen, but only until mob is 100% full...then stop
 					// it until the grid is made active.

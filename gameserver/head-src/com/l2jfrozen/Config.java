@@ -770,7 +770,7 @@ public final class Config
 			}
 
 			USE_SAY_FILTER = Boolean.parseBoolean(otherSettings.getProperty("UseChatFilter", "false"));
-			CHAT_FILTER_CHARS = otherSettings.getProperty("ChatFilterChars", "[I love Scoria]");
+			CHAT_FILTER_CHARS = otherSettings.getProperty("ChatFilterChars", "[I love L2jFrozen]");
 			CHAT_FILTER_PUNISHMENT = otherSettings.getProperty("ChatFilterPunishment", "off");
 			CHAT_FILTER_PUNISHMENT_PARAM1 = Integer.parseInt(otherSettings.getProperty("ChatFilterPunishmentParam1", "1"));
 			CHAT_FILTER_PUNISHMENT_PARAM2 = Integer.parseInt(otherSettings.getProperty("ChatFilterPunishmentParam2", "1000"));

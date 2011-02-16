@@ -42,19 +42,12 @@ public class SQLQueue implements Runnable
 	}
 	private FastList<SQLQuery> _query;
 	private ScheduledFuture<?> _task;
-	private Connection _con;
+	
 	private boolean _inShutdown;
 	private boolean _isRuning;
 	private SQLQueue() {
 		_query = new FastList<SQLQuery>();
-		try {
-			_con = L2DatabaseFactory.getInstance().getConnection();
-			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, 60000);
-		} catch(SQLException e) {
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-		}
-		
+		_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, 60000);
 		
 	}
 	public void shutdown() {
@@ -62,10 +55,7 @@ public class SQLQueue implements Runnable
 		_task.cancel(false);
 		if(!_isRuning && _query.size()>0) 
 			run();
-		try { _con.close(); } catch(Exception e) { 
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-		}
+		
 	}
 	public void add(SQLQuery q) {
 		if(!_inShutdown)
@@ -74,11 +64,14 @@ public class SQLQueue implements Runnable
 	@Override
 	public void run()
 	{
+		Connection _con = null;
 		_isRuning = true;
 		synchronized(_query) {
 			while(_query.size()>0) {
 				SQLQuery q = _query.removeFirst();
 				try {
+					_con = L2DatabaseFactory.getInstance().getConnection();
+					
 					q.execute(_con);
 				} catch(Exception e) {
 					if(Config.ENABLE_ALL_EXCEPTIONS)
@@ -90,6 +83,7 @@ public class SQLQueue implements Runnable
 			PreparedStatement stm = _con.prepareStatement("select * from characters where char_name is null");
 			stm.execute();
 			stm.close();
+			_con.close();
 		} catch(Exception e) {
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

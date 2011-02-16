@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class L2DatabaseFactory
@@ -232,6 +233,8 @@ public class L2DatabaseFactory
 			try
 			{
 				con = _source.getConnection();
+				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), 60000);
+				
 			}
 			catch(SQLException e)
 			{
@@ -275,6 +278,40 @@ public class L2DatabaseFactory
 				e.printStackTrace();
 			
 			_log.log(Level.WARNING, "Failed to close database connection!", e);
+		}
+	}
+	
+	private class ConnectionCloser implements Runnable
+	{
+		private Connection c ;
+		private RuntimeException exp;
+		
+		public ConnectionCloser(Connection con, RuntimeException e)
+		{
+			c = con;
+			exp = e;
+		}
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run()
+		{
+			try
+			{
+				if (c!=null && !c.isClosed())
+				{
+					_log.log(Level.WARNING, "Unclosed connection! Trace: " + exp.getStackTrace()[1], exp);
+					c.close();
+					
+				}
+			}
+			catch (SQLException e)
+			{
+				//the close operation could generate exception, but there is not any problem
+				//e.printStackTrace();
+			}
+			
 		}
 	}
 }

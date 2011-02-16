@@ -336,7 +336,7 @@ public class PcStat extends PlayableStat
 	       }
 	       catch(NullPointerException e)
 	       {
-	          return 0;
+	          return -1;
 	       }
 	    }
 

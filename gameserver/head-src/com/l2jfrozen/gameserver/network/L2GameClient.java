@@ -50,6 +50,7 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.L2Event;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.LeaveWorld;
@@ -664,6 +665,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				VIP.onDisconnect(player);
 			}
 			
+			if(Olympiad.getInstance().isRegistered(player)){
+				Olympiad.getInstance().unRegisterNoble(player);
+			}
+			
 			player.deleteMe();
 
 			try
@@ -875,6 +880,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					if(player.isAway())
 					{
 						AwayManager.getInstance().extraBack(player);
+					}
+					
+					if(Olympiad.getInstance().isRegistered(player)){
+						Olympiad.getInstance().unRegisterNoble(player);
 					}
 
 					//Decrease boxes number

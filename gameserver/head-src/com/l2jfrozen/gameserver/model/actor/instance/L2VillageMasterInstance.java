@@ -190,6 +190,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 				player.sendPacket(new SystemMessage(SystemMessageId.SUBCLASS_NO_CHANGE_OR_CREATE_WHILE_SKILL_IN_USE));
 				return;
 			}
+			
+			if(player.isInCombat()){
+			    player.sendMessage("You can't change Subclass when you are in combact.");
+			    return;
+			}
 
 			if(player.isCursedWeaponEquiped())
 			{

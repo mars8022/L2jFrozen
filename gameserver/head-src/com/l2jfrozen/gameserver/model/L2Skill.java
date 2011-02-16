@@ -1573,22 +1573,31 @@ public abstract class L2Skill
 									continue;
 								}
 
+								/*
 								if(src.isInOlympiadMode() && !src.isOlympiadStart())
 								{
 									continue;
 								}
 
+								
 								if(src.getParty() != null && ((L2PcInstance) obj).getParty() != null && src.getParty().getPartyLeaderOID() == ((L2PcInstance) obj).getParty().getPartyLeaderOID())
 								{
 									continue;
 								}
+								*/
 
 								if(!srcInArena && !(((L2Character) obj).isInsideZone(L2Character.ZONE_PVP) && !((L2Character) obj).isInsideZone(L2Character.ZONE_SIEGE)))
 								{
-									if(src.getClanId() != 0 && src.getClanId() == ((L2PcInstance) obj).getClanId())
+									if(checkPartyClan(src, obj))
 									{
 										continue;
 									}
+									
+									/*if(src.getClanId() != 0 && src.getClanId() == ((L2PcInstance) obj).getClanId())
+									{
+										continue;
+									}*/
+									
 									if(src.getAllyId() != 0 && src.getAllyId() == ((L2PcInstance) obj).getAllyId())
 									{
 										continue;
@@ -1608,22 +1617,30 @@ public abstract class L2Skill
 									continue;
 								}
 
+								/*
 								if(src.isInOlympiadMode() && !src.isOlympiadStart())
 								{
 									continue;
 								}
-
+								 */
+								
 								if(src.getParty() != null && trg.getParty() != null && src.getParty().getPartyLeaderOID() == trg.getParty().getPartyLeaderOID())
 								{
 									continue;
 								}
+								
 
 								if(!srcInArena && !(((L2Character) obj).isInsideZone(L2Character.ZONE_PVP) && !((L2Character) obj).isInsideZone(L2Character.ZONE_SIEGE)))
 								{
-									if(src.getClanId() != 0 && src.getClanId() == trg.getClanId())
+									/*if(src.getClanId() != 0 && src.getClanId() == trg.getClanId())
+									{
+										continue;
+									}*/
+									if(checkPartyClan(src, obj))
 									{
 										continue;
 									}
+									
 									if(src.getAllyId() != 0 && src.getAllyId() == trg.getAllyId())
 									{
 										continue;
@@ -1778,6 +1795,7 @@ public abstract class L2Skill
 								{
 									continue;
 								}
+								
 
 								if(trg.isInsideZone(L2Character.ZONE_PEACE))
 								{
@@ -1790,7 +1808,12 @@ public abstract class L2Skill
 									{
 										continue;
 									}
-
+									
+									if(checkPartyClan(src, obj))
+									{
+										continue;
+									}
+									/*
 									if(src.getClan() != null && trg.getClan() != null)
 									{
 										if(src.getClan().getClanId() == trg.getClan().getClanId())
@@ -1798,6 +1821,7 @@ public abstract class L2Skill
 											continue;
 										}
 									}
+									*/
 
 									if(!src.checkPvpSkill(obj, this))
 									{
@@ -1827,12 +1851,17 @@ public abstract class L2Skill
 										continue;
 									}
 
+									/*
 									if(src.getClan() != null && trg.getClan() != null)
 									{
 										if(src.getClan().getClanId() == trg.getClan().getClanId())
 										{
 											continue;
 										}
+									}*/
+									if(checkPartyClan(src, obj))
+									{
+										continue;
 									}
 
 									if(!src.checkPvpSkill(trg, this))
@@ -3066,6 +3095,21 @@ public abstract class L2Skill
 
 			if(activeCh.isInDuel() && targetChar.isInDuel() && activeCh.getDuelId() == targetChar.getDuelId())
 				return false;
+			
+			//if src is in event and trg not OR viceversa, the target must be not attackable
+			//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+			if( ((activeCh._inEvent || activeCh._inEventCTF || activeCh._inEventDM || activeCh._inEventTvT || activeCh._inEventVIP) && (!targetChar._inEvent && !targetChar._inEventCTF && !targetChar._inEventDM && !targetChar._inEventTvT && !targetChar._inEventVIP)) || ((targetChar._inEvent || targetChar._inEventCTF || targetChar._inEventDM || targetChar._inEventTvT || targetChar._inEventVIP) && (!activeCh._inEvent && !activeCh._inEventCTF && !activeCh._inEventDM && !activeCh._inEventTvT && !activeCh._inEventVIP))  ){
+				return true;
+			}
+			
+			if((activeCh._inEvent && targetChar._inEvent) || 
+					(activeCh._inEventDM && targetChar._inEventDM) || 
+					(activeCh._inEventTvT && targetChar._inEventTvT) ||
+					(activeCh._inEventCTF && targetChar._inEventCTF) ||
+					(activeCh._inEventVIP && targetChar._inEventVIP)){
+				
+				return false;
+			}
 
 			if(activeCh.getParty() != null && targetChar.getParty() != null && //Is in the same party???
 			activeCh.getParty().getPartyLeaderOID() == targetChar.getParty().getPartyLeaderOID())
