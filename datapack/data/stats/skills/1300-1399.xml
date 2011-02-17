@@ -1073,6 +1073,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1344" levels="1" name="Mass Warrior Bane">
   <set name="mpInitialConsume" val="25"/>
   <set name="mpConsume" val="80"/>
@@ -1080,32 +1081,25 @@
   <set name="power" val="40"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="200"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="reuseDelay" val="32000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="WARRIOR_BANE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1345" levels="1" name="Mass Mage Bane">
   <set name="mpInitialConsume" val="27"/>
   <set name="mpConsume" val="80"/>
   <set name="magicLvl" val="78"/>
-  <set name="power" val="30"/>
+  <set name="power" val="40"/>
   <set name="target" val="TARGET_AURA"/>
-  <set name="skillRadius" val="250"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="skillRadius" val="200"/>
+  <set name="reuseDelay" val="32000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MAGE_BANE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <skill id="1346" levels="1" name="Warrior Servitor">
   <set name="mpInitialConsume" val="14"/>
@@ -1223,38 +1217,37 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1350" levels="1" name="Warrior Bane">
   <set name="mpInitialConsume" val="20"/>
   <set name="mpConsume" val="50"/>
   <set name="magicLvl" val="76"/>
-  <set name="power" val="25"/>
+  <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="10000"/>
+  <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="WARRIOR_BANE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1351" levels="1" name="Mage Bane">
   <set name="mpInitialConsume" val="20"/>
   <set name="mpConsume" val="50"/>
   <set name="magicLvl" val="77"/>
-  <set name="power" val="25"/>
+  <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="10000"/>
+  <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MAGE_BANE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1352" levels="1" name="Elemental Protection">
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="56"/>
@@ -1269,13 +1262,14 @@
   <set name="aggroPoints" val="662"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <mul order="0x30" stat="waterVuln" val="0.8"/>
-      <mul order="0x30" stat="fireVuln" val="0.7"/>
-      <mul order="0x30" stat="windVuln" val="0.8"/>
-      <mul order="0x30" stat="earthVuln" val="0.8"/>
+      <sub order="0x40" stat="waterVuln" val="20"/>
+      <sub order="0x40" stat="fireVuln" val="20"/>
+      <sub order="0x40" stat="windVuln" val="20"/>
+      <sub order="0x40" stat="earthVuln" val="20"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1353" levels="1" name="Divine Protection">
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="56"/>
@@ -1289,8 +1283,8 @@
   <set name="aggroPoints" val="666"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <mul order="0x30" stat="darkVuln" val="0.7"/>
-      <mul order="0x30" stat="holyVuln" val="0.7"/>
+      <sub order="0x40" stat="darkVuln" val="30"/>
+      <sub order="0x40" stat="holyVuln" val="20"/>
     </effect>
   </for>
 </skill>
@@ -2054,10 +2048,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1392" levels="3" name="Holy Resistance">
   <table name="#mpConsume">54 62 69</table>
   <!-- L2P still need to confirm res values -->
-  <table name="#holyVuln">0.85 0.77 0.7</table>
+  <table name="#holyVuln">15 23 30</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="7000"/>
   <set name="hitTime" val="4000"/>
@@ -2069,14 +2064,14 @@
   <set name="isMagic" val="true"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <mul order="0x30" stat="holyVuln" val="#holyVuln"/>
+      <sub order="0x40" stat="holyVuln" val="#holyVuln"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1393" levels="3" name="Unholy Resistance">
   <table name="#mpConsume">54 62 69</table>
-  <!-- L2P still need to confirm res values -->
-  <table name="#darkVuln">0.85 0.77 0.7</table>
+  <table name="#darkVuln">15 23 30</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="7000"/>
   <set name="hitTime" val="4000"/>
@@ -2088,7 +2083,7 @@
   <set name="isMagic" val="true"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <mul order="0x30" stat="darkVuln" val="#darkVuln"/>
+      <sub order="0x40" stat="darkVuln" val="#darkVuln"/>
     </effect>
   </for>
 </skill>
