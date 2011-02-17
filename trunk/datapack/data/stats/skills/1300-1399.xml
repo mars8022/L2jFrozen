@@ -1262,10 +1262,10 @@
   <set name="aggroPoints" val="662"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <sub order="0x40" stat="waterVuln" val="20"/>
-      <sub order="0x40" stat="fireVuln" val="20"/>
-      <sub order="0x40" stat="windVuln" val="20"/>
-      <sub order="0x40" stat="earthVuln" val="20"/>
+      <mul order="0x30" stat="waterVuln" val="0.8"/>
+      <mul order="0x30" stat="fireVuln" val="0.8"/>
+      <mul order="0x30" stat="windVuln" val="0.8"/>
+      <mul order="0x30" stat="earthVuln" val="0.8"/>
     </effect>
   </for>
 </skill>
@@ -1283,8 +1283,8 @@
   <set name="aggroPoints" val="666"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <sub order="0x40" stat="darkVuln" val="30"/>
-      <sub order="0x40" stat="holyVuln" val="20"/>
+      <mul order="0x30" stat="darkVuln" val="0.7"/>
+      <mul order="0x30" stat="holyVuln" val="0.7"/>
     </effect>
   </for>
 </skill>
@@ -2052,7 +2052,7 @@
 <skill id="1392" levels="3" name="Holy Resistance">
   <table name="#mpConsume">54 62 69</table>
   <!-- L2P still need to confirm res values -->
-  <table name="#holyVuln">15 23 30</table>
+  <table name="#holyVuln">0.85 0.77 0.7</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="7000"/>
   <set name="hitTime" val="4000"/>
@@ -2064,14 +2064,14 @@
   <set name="isMagic" val="true"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <sub order="0x40" stat="holyVuln" val="#holyVuln"/>
+      <mul order="0x30" stat="holyVuln" val="#holyVuln"/>
     </effect>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1393" levels="3" name="Unholy Resistance">
   <table name="#mpConsume">54 62 69</table>
-  <table name="#darkVuln">15 23 30</table>
+  <table name="#darkVuln">0.85 0.77 0.7</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="7000"/>
   <set name="hitTime" val="4000"/>
@@ -2083,7 +2083,7 @@
   <set name="isMagic" val="true"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
-      <sub order="0x40" stat="darkVuln" val="#darkVuln"/>
+      <mul order="0x30" stat="darkVuln" val="#darkVuln"/>
     </effect>
   </for>
 </skill>
