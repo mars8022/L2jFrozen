@@ -1215,6 +1215,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1182" levels="3" name="Resist Aqua" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1228,7 +1229,7 @@
   <table name="#ench2MpConsume_Init">7 7 7 7 7 7 7 6 6 6 6 6 6 6 6 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4</table>
   <table name="#mpConsume_Init">5 7 8</table>
   <table name="#mpConsume">18 28 31</table>
-  <table name="#vuln">0.85 0.77 0.7</table>
+  <table name="#vuln">10 15 20</table>
   <table name="#aggro">243 379 418</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1245,12 +1246,12 @@
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="AquaAtr">
-      <mul order="0x30" stat="waterVuln" val="#vuln"/>
+      <sub order="0x40" stat="waterVuln" val="#vuln"/>
     </effect>
   </for>
   <enchant1for>
     <effect count="1" name="Buff" time="#ench1time" val="0" stackOrder="1" stackType="AquaAtr">
-      <mul order="0x30" stat="waterVuln" val="0.7"/>
+      <sub order="0x40" stat="waterVuln" val="20"/>
     </effect>
   </enchant1for>
 </skill>
@@ -1308,6 +1309,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1189" levels="3" name="Resist Wind" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1321,7 +1323,7 @@
   <table name="#ench2MpConsume_Init">7 7 7 7 7 7 7 6 6 6 6 6 6 6 6 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4</table>
   <table name="#mpConsume_Init">6 7 8</table>
   <table name="#mpConsume">24 28 31</table>
-  <table name="#vuln">0.85 0.77 0.7</table>
+  <table name="#vuln">10 15 20</table>
   <table name="#aggro">331 379 418</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1338,15 +1340,16 @@
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="WindAtr">
-      <mul order="0x30" stat="windVuln" val="#vuln"/>
+      <sub order="0x40" stat="windVuln" val="#vuln"/>
     </effect>
   </for>
   <enchant1for>
     <effect count="1" name="Buff" time="#ench1time" val="0" stackOrder="1" stackType="WindAtr">
-      <mul order="0x30" stat="windVuln" val="0.7"/>
+      <sub order="0x40" stat="windVuln" val="20"/>
     </effect>
   </enchant1for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1191" levels="3" name="Resist Fire" enchantLevels1="30" enchantLevels2="30">
   <table name="#ench1time">
   1240 1280 1320 1360 1400 1440 1480 1520 1560 1600
@@ -1357,7 +1360,7 @@
   <table name="#ench2MpConsume_Init">7 7 7 7 7 7 7 6 6 6 6 6 6 6 6 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4</table>
   <table name="#mpConsume_Init">6 7 8</table>
   <table name="#mpConsume">21 28 31</table>
-  <table name="#vuln">0.85 0.77 0.7</table>
+  <table name="#vuln">10 15 20</table>
   <table name="#aggro">285 379 418</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1374,12 +1377,12 @@
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="FireAtr">
-      <mul order="0x30" stat="fireVuln" val="#vuln"/>
+      <sub order="0x40" stat="fireVuln" val="#vuln"/>
     </effect>
   </for>
   <enchant1for>
     <effect count="1" name="Buff" time="#ench1time" val="0" stackOrder="1" stackType="FireAtr">
-      <mul order="0x30" stat="fireVuln" val="0.7"/>
+      <sub order="0x40" stat="fireVuln" val="20"/>
     </effect>
   </enchant1for>
 </skill>
