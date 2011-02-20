@@ -6524,6 +6524,15 @@ public abstract class L2Character extends L2Object
 		if(target == null)
 			return false;
 
+		if (target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
+		{
+			String mobtype = ((L2NpcInstance) target).getTemplate().type;
+			if (Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
+			{
+				return false;
+			}
+		}
+		
 		if(target instanceof L2MonsterInstance)
 			return false;
 

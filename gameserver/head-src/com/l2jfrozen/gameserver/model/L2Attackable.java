@@ -61,6 +61,7 @@ import com.l2jfrozen.gameserver.script.EventDroplist;
 import com.l2jfrozen.gameserver.script.EventDroplist.DateDrop;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
+import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
@@ -1991,7 +1992,9 @@ public class L2Attackable extends L2NpcInstance
 					// Check if the autoLoot mode is active
 					if(Config.AUTO_LOOT)
 					{
-						if((!Config.AUTO_LOOT_BOSS && this instanceof L2RaidBossInstance) || (!Config.AUTO_LOOT_BOSS && this instanceof L2GrandBossInstance))
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ) || (!Config.AUTO_LOOT_BOSS && this instanceof L2RaidBossInstance) || (!Config.AUTO_LOOT_BOSS && this instanceof L2GrandBossInstance))
 							DropItem(player, item);
 						else
 							player.doAutoLoot(this, item); // Give this or these Item(s) to the L2PcInstance that has killed the L2Attackable
@@ -2029,7 +2032,13 @@ public class L2Attackable extends L2NpcInstance
 			// Give this or these Item(s) to the L2PcInstance that has killed the L2Attackable
 			if(Config.AUTO_LOOT)
 			{
-				player.addItem("ChampionLoot", item.getItemId(), item.getCount(), this, true);
+				L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+				
+				if(!player.getInventory().validateCapacity(item_templ))
+					DropItem(player, item);
+				else
+					player.addItem("ChampionLoot", item.getItemId(), item.getCount(), this, true);
+					
 			}
 			else
 			{
@@ -2057,7 +2066,12 @@ public class L2Attackable extends L2NpcInstance
 
 				if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 				{
-					player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+					L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+					
+					if(!player.getInventory().validateCapacity(item_templ))
+						DropItem(player, item);
+					else
+						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 				}
 				else
 				{
@@ -2091,7 +2105,12 @@ public class L2Attackable extends L2NpcInstance
 
 						if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 						{
-							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+							L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+							
+							if(!player.getInventory().validateCapacity(item_templ))
+								DropItem(player, item);
+							else
+								player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 						}
 						else
 						{
@@ -2113,7 +2132,12 @@ public class L2Attackable extends L2NpcInstance
 
 				if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 				{
-					player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+					L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+					
+					if(!player.getInventory().validateCapacity(item_templ))
+						DropItem(player, item);
+					else
+						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 				}
 				else
 				{
@@ -2143,7 +2167,12 @@ public class L2Attackable extends L2NpcInstance
 
 						if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 						{
-							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+							L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+							
+							if(!player.getInventory().validateCapacity(item_templ))
+								DropItem(player, item);
+							else
+								player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 						}
 						else
 						{
@@ -2165,7 +2194,12 @@ public class L2Attackable extends L2NpcInstance
 
 				if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 				{
-					player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+					L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+					
+					if(!player.getInventory().validateCapacity(item_templ))
+						DropItem(player, item);
+					else
+						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 				}
 				else
 				{
@@ -2188,7 +2222,12 @@ public class L2Attackable extends L2NpcInstance
 
 					if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 					{
-						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ))
+							DropItem(player, item);
+						else
+							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 					}
 					else
 					{
@@ -2209,7 +2248,12 @@ public class L2Attackable extends L2NpcInstance
 
 					if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 					{
-						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ))
+							DropItem(player, item);
+						else
+							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 					}
 					else
 					{
@@ -2230,7 +2274,12 @@ public class L2Attackable extends L2NpcInstance
 
 					if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 					{
-						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ))
+							DropItem(player, item);
+						else
+							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 					}
 					else
 					{
@@ -2251,7 +2300,12 @@ public class L2Attackable extends L2NpcInstance
 
 					if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 					{
-						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ))
+							DropItem(player, item);
+						else
+							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 					}
 					else
 					{
@@ -2272,7 +2326,12 @@ public class L2Attackable extends L2NpcInstance
 
 					if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 					{
-						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ))
+							DropItem(player, item);
+						else
+							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 					}
 					else
 					{
@@ -2293,7 +2352,12 @@ public class L2Attackable extends L2NpcInstance
 
 					if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 					{
-						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+						
+						if(!player.getInventory().validateCapacity(item_templ))
+							DropItem(player, item);
+						else
+							player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 					}
 					else
 					{
@@ -2312,7 +2376,12 @@ public class L2Attackable extends L2NpcInstance
 
 				if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 				{
-					player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
+					L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+					
+					if(!player.getInventory().validateCapacity(item_templ))
+						DropItem(player, item);
+					else
+						player.addItem("Loot", item.getItemId(), item.getCount(), this, true);
 				}
 				else
 				{
@@ -2373,7 +2442,12 @@ public class L2Attackable extends L2NpcInstance
 
 				if(Config.AUTO_LOOT)
 				{
-					player.doAutoLoot(this, item); // Give this or these Item(s) to the L2PcInstance that has killed the L2Attackable
+					L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
+					
+					if(!player.getInventory().validateCapacity(item_templ))
+						DropItem(player, item);
+					else
+						player.doAutoLoot(this, item); // Give this or these Item(s) to the L2PcInstance that has killed the L2Attackable
 				}
 				else
 				{

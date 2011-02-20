@@ -8591,12 +8591,28 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 	}
 
+	public synchronized void store(boolean force)
+	{
+		//update client coords, if these look like true
+		if(!force && isInsideRadius(getClientX(), getClientY(), 1000, true))
+		{
+			setXYZ(getClientX(), getClientY(), getClientZ());
+		}
+
+		storeCharBase();
+		storeCharSub();
+		storeEffect();
+		storeRecipeBook();
+		fireEvent(EventType.STORE.name, (Object[]) null);
+	}
+	
 	/**
 	 * Update L2PcInstance stats in the characters table of the database.<BR>
 	 * <BR>
 	 */
 	public synchronized void store()
 	{
+		/*
 		//update client coords, if these look like true
 		if(isInsideRadius(getClientX(), getClientY(), 1000, true))
 		{
@@ -8608,6 +8624,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		storeEffect();
 		storeRecipeBook();
 		fireEvent(EventType.STORE.name, (Object[]) null);
+		*/
+		store(false);
 	}
 
 	private void storeCharBase()

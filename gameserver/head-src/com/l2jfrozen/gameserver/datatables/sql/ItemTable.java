@@ -800,7 +800,8 @@ public class ItemTable
 		// Create and Init the L2ItemInstance corresponding to the Item Identifier
 		L2ItemInstance item = new L2ItemInstance(IdFactory.getInstance().getNextId(), itemId);
 
-		if(process.equalsIgnoreCase("loot") && !Config.AUTO_LOOT)
+		//create loot schedule also if autoloot is enabled
+		if(process.equalsIgnoreCase("loot")/* && !Config.AUTO_LOOT*/)
 		{
 			ScheduledFuture<?> itemLootShedule;
 			long delay = 0;

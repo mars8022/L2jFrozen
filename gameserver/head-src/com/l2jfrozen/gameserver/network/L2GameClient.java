@@ -673,7 +673,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 
 			try
 			{
-				player.store();
+				//the force operation will allow to not save client position to prevent again criticals
+				//and stuck
+				player.store(true);
 			}
 			catch(Exception e2)
 			{
@@ -788,13 +790,16 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if (player != null) // this should only happen on connection loss
 				{
+					//Decrease boxes number
+					if(player._active_boxes!=-1)
+						player.decreaseBoxes();
+					
 					// prevent closing again
 					player.setClient(null);
 					
 					if (player.isOnline() == 1)
 						player.deleteMe();
 					
-					//double store operation
 					try
 					{
 						player.store();

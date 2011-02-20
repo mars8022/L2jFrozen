@@ -42,6 +42,7 @@ import com.l2jfrozen.gameserver.ai.special.Transform;
 import com.l2jfrozen.gameserver.ai.special.VanHalter;
 import com.l2jfrozen.gameserver.ai.special.VarkaKetraAlly;
 import com.l2jfrozen.gameserver.ai.special.Zaken;
+import com.l2jfrozen.gameserver.ai.special.Zaken2;
 import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -119,6 +120,9 @@ public class AILoader
 		if(Config.ENABLE_ZAKEN_SCRIPT){
 			_log.info(" - Zaken");
 			ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
+		}else if(Config.ENABLE_ZAKEN_L2J_SCRIPT){
+			_log.info(" - Zaken_l2j");
+			ThreadPoolManager.getInstance().scheduleAi(new Zaken2(-1, "Zaken", "ai"), 2100);
 		}
 		
 		if(Config.ENABLE_FRINTEZZA_SCRIPT){

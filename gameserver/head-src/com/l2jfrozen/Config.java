@@ -305,6 +305,7 @@ public final class Config
 	public static String DATABASE_PASSWORD;
 	public static int DATABASE_MAX_CONNECTIONS;
 	public static int DATABASE_TIMEOUT;
+	public static int DATABASE_CONNECTION_TIMEOUT;
 	public static int DATABASE_STATEMENT;
 	public static boolean RESERVE_HOST_ON_LOGIN = false;
 	public static boolean RWHO_LOG;
@@ -344,7 +345,8 @@ public final class Config
 
 			DATABASE_TIMEOUT = Integer.parseInt(serverSettings.getProperty("TimeOutConDb", "0"));
 			DATABASE_STATEMENT = Integer.parseInt(serverSettings.getProperty("MaximumDbStatement", "100"));
-
+			DATABASE_CONNECTION_TIMEOUT = Integer.parseInt(serverSettings.getProperty("SingleConnectionTimeOutDb", "120000"));
+			
 			DATAPACK_ROOT = new File(serverSettings.getProperty("DatapackRoot", ".")).getCanonicalFile();
 
 			Random ppc = new Random();
@@ -3435,6 +3437,7 @@ public final class Config
 	public static int HPH_TIMEOFLOCKUPDOOROFALTAR;
 
 	public static boolean ENABLE_ZAKEN_SCRIPT;
+	public static boolean ENABLE_ZAKEN_L2J_SCRIPT;
 	public static int ZAKEN_RESP_FIRST;
 	public static int ZAKEN_RESP_SECOND;
 	public static int ZAKEN_LEVEL;
@@ -3514,6 +3517,7 @@ public final class Config
 			//============================================================
 			//ZAKEN
 			ENABLE_ZAKEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableZakenScript", "True"));
+			ENABLE_ZAKEN_L2J_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableZakenL2jScript", "false"));
 			ZAKEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ZakenRespFirst", "60"));
 			ZAKEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ZakenRespSecond", "8"));
 			ZAKEN_LEVEL = Integer.parseInt(bossSettings.getProperty("ZakenLevel", "0"));
@@ -3910,6 +3914,7 @@ public final class Config
 			ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM = Boolean.parseBoolean(serverSettings.getProperty("Fulllog_mode_print", "false"));
 
 			DATABASE_TIMEOUT = Integer.parseInt(serverSettings.getProperty("TimeOutConDb", "0"));
+			DATABASE_CONNECTION_TIMEOUT = Integer.parseInt(serverSettings.getProperty("SingleConnectionTimeOutDb", "120000"));
 			DATABASE_STATEMENT = Integer.parseInt(serverSettings.getProperty("MaximumDbStatement", "100"));
 
 			SHOW_LICENCE = Boolean.parseBoolean(serverSettings.getProperty("ShowLicence", "false"));
@@ -3940,6 +3945,7 @@ public final class Config
 	//============================================================
 	public static List<String> BANS = new FastList<String>();
 
+	
 
 	//============================================================
 	public static void loadBanIPConfig()
