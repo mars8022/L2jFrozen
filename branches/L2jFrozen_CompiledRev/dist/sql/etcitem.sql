@@ -3516,7 +3516,7 @@ INSERT INTO `etcitem` VALUES ('4676', 'Medal of Victory', 'false', 'quest', '0',
 INSERT INTO `etcitem` VALUES ('4677', 'Potion of Critical Escape', 'false', 'potion', '120', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'potion_of_critical_escape', 'potion');
 INSERT INTO `etcitem` VALUES ('4678', 'Decrease Haste Potion', 'false', 'potion', '180', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'decrease_hate_potion', 'potion');
 INSERT INTO `etcitem` VALUES ('4679', 'Bless of Eva', 'false', 'potion', '180', 'stackable', 'none', '-1', '500', '0', 'true', 'true', 'true', 'true', 'bless_of_eva', 'potion');
-INSERT INTO `etcitem` VALUES ('4680', 'Potion of Revenge', 'false', 'potion', '180', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'rsk.damage_shield_potion', 'potion');
+INSERT INTO `etcitem` VALUES ('4680', 'Potion of Revenge', 'false', 'potion', '180', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'rsk_damage_shield_potion', 'potion');
 INSERT INTO `etcitem` VALUES ('4906', 'Spellbook: Solar Spark', 'false', 'spellbook', '120', 'normal', 'none', '-1', '900', '0', 'true', 'true', 'true', 'true', 'sb_solar_spark1', 'none');
 INSERT INTO `etcitem` VALUES ('4907', 'Spellbook: Solar Flare', 'false', 'spellbook', '120', 'normal', 'none', '-1', '900', '0', 'true', 'true', 'true', 'true', 'sb_solar_flare1', 'none');
 INSERT INTO `etcitem` VALUES ('4908', 'Spellbook: Shadow Spark', 'false', 'spellbook', '120', 'normal', 'none', '-1', '900', '0', 'true', 'true', 'true', 'true', 'sb_shadow_spark1', 'none');
