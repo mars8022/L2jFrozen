@@ -1306,6 +1306,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1355" levels="1" name="Prophecy of Water">
   <set name="mpInitialConsume" val="15"/>
   <set name="mpConsume" val="57"/>
@@ -1332,6 +1333,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1356" levels="1" name="Prophecy of Fire">
   <set name="mpInitialConsume" val="15"/>
   <set name="mpConsume" val="57"/>
@@ -1359,6 +1361,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1357" levels="1" name="Prophecy of Wind">
   <set name="mpInitialConsume" val="15"/>
   <set name="mpConsume" val="57"/>
@@ -1393,8 +1396,8 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1358" levels="1" name="Block Shield">
-  <!-- needs to remove pDef buffs on target -->
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="56"/>
   <!-- <set name="save" val="4"/> -->
@@ -1406,6 +1409,7 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
@@ -1415,8 +1419,8 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1359" levels="1" name="Block Wind Walk">
-  <!-- needs to remove speed buffs on target -->
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="56"/>
   <!-- <set name="save" val="4"/> -->
@@ -1428,6 +1432,7 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
@@ -1437,13 +1442,13 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1360" levels="1" name="Mass Block Shield">
-  <!-- needs to remove pDef buffs in target aura -->
   <set name="mpInitialConsume" val="21"/>
   <set name="mpConsume" val="84"/>
   <!-- <set name="save" val="5"/> -->
   <set name="magicLvl" val="77"/>
-  <set name="power" val="80"/>
+  <set name="power" val="40"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="200"/>
@@ -1451,22 +1456,21 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Buff" time="120" val="0" stackOrder="10" stackType="pDef">
       <mul order="0x30" stat="pDef" val="0.9"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1361" levels="1" name="Mass Block Wind Walk">
-  <!-- needs to remove speed buffs in target aura -->
   <set name="mpInitialConsume" val="22"/>
   <set name="mpConsume" val="85"/>
   <!-- <set name="save" val="5"/> -->
   <set name="magicLvl" val="78"/>
-  <set name="power" val="80"/>
+  <set name="power" val="40"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="200"/>
@@ -1474,9 +1478,8 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Buff" time="120" val="0" stackOrder="99" stackType="SpeedUp">
       <mul order="0x30" stat="runSpd" val="0.9"/>
@@ -1503,6 +1506,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1363" levels="1" name="Chant of Victory">
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="40"/>
@@ -1522,7 +1526,7 @@
     <effect count="1" name="Buff" time="300" val="0" stackOrder="1" stackType="CoV">
       <mul order="0x30" stat="pAtk" val="1.1"/>
       <mul order="0x30" stat="pDef" val="1.2"/>
-      <basemul order="0x30" stat="rCrit" val="0.2"/>
+      <mul order="0x30" stat="rCrit" val="1.2"/>
       <add order="0x40" stat="accCombat" val="4"/>
       <mul order="0x30" stat="pAtkSpd" val="1.2"/>
       <mul order="0x30" stat="mAtkSpd" val="1.2"/>
@@ -1573,23 +1577,23 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1366" levels="1" name="Seal of Despair">
   <set name="mpInitialConsume" val="22"/>
   <set name="mpConsume" val="85"/>
   <set name="magicLvl" val="78"/>
-  <set name="power" val="28"/>
+  <set name="power" val="40"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AURA"/>
-  <set name="skillRadius" val="300"/>
-  <set name="reuseDelay" val="20000"/>
+  <set name="skillRadius" val="200"/>
+  <set name="reuseDelay" val="120000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <effect count="1" name="Buff" time="120" val="0">
+    <effect count="1" name="Buff" time="30" val="0">
       <mul order="0x30" stat="pAtk" val="0.9"/>
       <mul order="0x30" stat="runSpd" val="0.8"/>
       <mul order="0x30" stat="mDef" val="0.7"/>
@@ -1690,45 +1694,44 @@
     <mul order="0x30" stat="mAtk" val="1.25"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1374" levels="1" name="Heroic Valor">
   <set name="mpConsume" val="289"/>
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="80"/>
-  <set name="power" val="80"/>
   <set name="hitTime" val="2500"/>
-  <set name="reuseDelay" val="1200000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="staticReuse" val="true"/>
   <set name="target" val="TARGET_ALLY"/>
   <set name="skillRadius" val="900"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="isMagic" val="true"/>
   <for>
     <effect count="1" name="Buff" time="120" val="0" stackOrder="1" stackType="hero">
       <add order="0x40" stat="pAtk" val="250"/>
       <add order="0x40" stat="pDef" val="500"/>
-      <mul order="0x30" stat="debuffVuln" val="0.9"/>
+      <sub order="0x40" stat="cancelVuln" val="40" />
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1375" levels="1" name="Heroic Grandeur">
   <set name="mpConsume" val="109"/>
   <set name="power" val="40"/>
   <set name="magicLvl" val="78"/>
-  <set name="lvlDepend" val="1"/>
+  <set name="lvlDepend" val="2"/>
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="80"/>
   <set name="hitTime" val="2500"/>
   <set name="reuseDelay" val="3600000"/>
+  <set name="staticReuse" val="true"/>
   <set name="target" val="TARGET_AURA"/>
-  <set name="skillRadius" val="250"/>
-  <set name="skillType" val="DEBUFF"/>
+  <set name="skillRadius" val="200"/>
+  <set name="skillType" val="MUTE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="1" name="Buff" time="30" val="0">
       <mul order="0x30" stat="mDef" val="0.5"/>
@@ -1740,23 +1743,24 @@
     <effect count="1" name="SilenceMagicPhysical" time="30" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1376" levels="1" name="Heroic Dread">
   <set name="mpConsume" val="109"/>
   <!-- <set name="save" val="2"/> -->
   <set name="power" val="40"/>
   <set name="magicLvl" val="78"/>
-  <set name="lvlDepend" val="1"/>
+  <set name="lvlDepend" val="2"/>
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="80"/>
   <set name="hitTime" val="2500"/>
   <set name="reuseDelay" val="3600000"/>
+  <set name="staticReuse" val="true"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="200"/>
-  <set name="skillType" val="DEBUFF"/>
+  <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="5" name="Fear" time="5" val="0">
       <add order="0x30" stat="runSpd" val="64"/>

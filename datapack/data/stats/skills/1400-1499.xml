@@ -268,6 +268,7 @@
     <effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1413" levels="1" name="Magnus' Chant">
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="40"/>
@@ -280,21 +281,15 @@
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Buff" time="300" val="0" stackOrder="1" stackType="CoV">
       <mul order="0x30" stat="regMp" val="1.5"/>
       <mul order="0x30" stat="mAtkSpd" val="1.2"/>
-      <mul order="0x30" stat="mDef" val="1.3"/>
+      <mul order="0x30" stat="mDef" val="1.2"/>
       <mul order="0x30" stat="mAtk" val="1.3"/>
       <mul order="0x30" stat="maxMp" val="1.2"/>
       <mul order="0x30" stat="MagicalMpConsumeRate" val="0.8"/>
-	  <mul order="0x30" stat="PhysicalMpConsumeRate" val="0.8"/>
-      <mul order="0x30" stat="waterVuln" val="0.9"/>
-      <mul order="0x30" stat="fireVuln" val="0.9"/>
-      <mul order="0x30" stat="windVuln" val="0.9"/>
-      <mul order="0x30" stat="earthVuln" val="0.9"/>
+      <mul order="0x30" stat="mCritRate" val="1.2"/>
     </effect>
   </for>
 </skill>
