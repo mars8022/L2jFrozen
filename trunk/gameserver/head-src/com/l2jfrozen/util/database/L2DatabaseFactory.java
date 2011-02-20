@@ -233,7 +233,7 @@ public class L2DatabaseFactory
 			try
 			{
 				con = _source.getConnection();
-				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), 60000);
+				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
 				
 			}
 			catch(SQLException e)

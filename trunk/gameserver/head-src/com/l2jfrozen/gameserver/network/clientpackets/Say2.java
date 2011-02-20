@@ -322,7 +322,7 @@ public final class Say2 extends L2GameClientPacket
 		               {
 		                  if(Config.GLOBAL_CHAT_WITH_PVP)
 		                  {
-		                     if((activeChar.getPvpKills() <= Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
+		                     if((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
 		                     {
 		                        activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT+ " pvp kills in order to speak in global chat");
 		                        return;

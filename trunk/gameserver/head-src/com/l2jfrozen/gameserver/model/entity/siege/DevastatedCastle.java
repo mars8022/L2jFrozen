@@ -26,8 +26,10 @@ package com.l2jfrozen.gameserver.model.entity.siege;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Logger;
 
@@ -141,10 +143,17 @@ public class DevastatedCastle
 		{
 			setCalendarForNextSiege();
 			long milliToSiege = getMilliToSiege();
-
+			
 			RunMessengerSpawn rms = new RunMessengerSpawn();
 			ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToSiege);
-			_log.info("Devastated Castle: " + milliToSiege / 1000 + " sec. until siege begin");
+			
+			long total_millis = System.currentTimeMillis() + milliToSiege;
+			
+			GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+			cal.setTimeInMillis(total_millis);
+			String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
+			
+			_log.info("Devastated Castle: siege will start the "+next_ch_siege_date);
 			rms = null;
 		}
 	}
