@@ -1604,6 +1604,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1367" levels="1" name="Seal of Disease">
 <!-- ONLY ENEMY ALIANCE DURING CLANWARS NOT FULL AREA -->
   <set name="mpInitialConsume" val="21"/>
@@ -1617,6 +1618,7 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
