@@ -64,29 +64,49 @@ public class SQLQueue implements Runnable
 	@Override
 	public void run()
 	{
-		Connection _con = null;
 		_isRuning = true;
 		synchronized(_query) {
 			while(_query.size()>0) {
 				SQLQuery q = _query.removeFirst();
+				Connection _con = null;
 				try {
 					_con = L2DatabaseFactory.getInstance().getConnection();
 					
 					q.execute(_con);
-				} catch(Exception e) {
+				} catch(SQLException e) {
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
+				}finally{
+					try{
+						if(_con!=null && !_con.isClosed()){
+							_con.close();
+						}
+					}catch(SQLException e){
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				}
 			}
 		}
+		Connection _con = null;
 		try {
+			_con = L2DatabaseFactory.getInstance().getConnection();
 			PreparedStatement stm = _con.prepareStatement("select * from characters where char_name is null");
 			stm.execute();
 			stm.close();
-			_con.close();
+			
 		} catch(Exception e) {
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
+		}finally{
+			try{
+				if(_con!=null && !_con.isClosed()){
+					_con.close();
+				}
+			}catch(SQLException e){
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 		_isRuning = false;
 	}
