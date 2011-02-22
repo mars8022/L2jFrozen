@@ -489,7 +489,7 @@
   <table name="#ench1Power">7710 7779 7848 7917 7986 8055 8123 8192 8261 8330 8399 8468 8537 8605 8674 8743 8812 8881 8950 9019 9088 9156 9225 9294 9363 9432 9501 9570 9639 9707</table>
   <set name="weaponsAllowed" val="18432"/>
   <set name="hpConsume" val="#hpConsume"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
@@ -963,6 +963,7 @@
 <skill id="342" levels="1" name="Touch of Death">
   <set name="hpConsume" val="1004"/>
   <set name="power" val="125"/>
+  <set name="save" val="4" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="magicLvl" val="78"/>
@@ -1160,6 +1161,7 @@
   <set name="weaponsAllowed" val="2"/>
   <set name="lvlDepend" val="2"/>
   <set name="power" val="120"/>
+  <set name="save" val="4" />
   <set name="mpConsume" val="18"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
@@ -1179,6 +1181,7 @@
   <set name="weaponsAllowed" val="2"/>
   <set name="lvlDepend" val="1"/>
   <set name="power" val="40"/>
+  <set name="save" val="3" />
   <set name="mpConsume" val="35"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="DEBUFF"/>
@@ -1198,6 +1201,7 @@
   <set name="weaponsAllowed" val="32"/>
   <set name="mpConsume" val="86"/>
   <set name="power" val="1973"/>
+  <set name="save" val="3" />
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
@@ -1324,6 +1328,7 @@
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="35"/>
   <set name="power" val="40"/>
+  <set name="save" val="3" />
   <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
@@ -1379,7 +1384,7 @@
   <set name="magicLvl" val="77"/>
   <set name="mpConsume" val="53"/>
   <set name="hpConsume" val="507"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="power" val="2072"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="ignoreShld" val="true"/>
@@ -1411,6 +1416,7 @@
   <set name="mpConsume" val="35"/>
   <set name="hpConsume" val="338"/>
   <set name="power" val="3077"/>
+  <set name="save" val="4" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1518,6 +1524,7 @@
   <set name="mpConsume" val="53"/>
   <set name="weaponsAllowed" val="512"/>
   <set name="power" val="40"/>
+  <set name="save" val="3" />
   <set name="skillRadius" val="150"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillType" val="PARALYZE"/>

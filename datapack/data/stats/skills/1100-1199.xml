@@ -8,7 +8,7 @@
   <table name="#mpConsume">12 18</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="2"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="power" val="70"/>
@@ -33,7 +33,7 @@
   <table name="#mpConsume">40 54</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="2"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="power" val="35"/>
@@ -60,7 +60,7 @@
   <table name="#power">16 22 29 36 46 51</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="2"/>
   <set name="power" val="#power"/>
@@ -91,7 +91,7 @@
   <table name="#magicLvl">40 44 48 52 56 58 60 62 64 66 68 70 72 74</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="5"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="60"/>
   <set name="lvlDepend" val="1"/>
@@ -140,7 +140,7 @@
   <table name="#magicLvl">20 30</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="2"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="70"/>
   <set name="lvlDepend" val="1"/>
@@ -165,7 +165,7 @@
   <table name="#mpConsume">77 92 113 122</table>
   <table name="#magicLvl">48 56 68 74</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="2"/> -->
+  <set name="save" val="3"/>
   <set name="power" val="60"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AURA"/>
@@ -828,7 +828,7 @@
   <table name="#ench1Power">80 81 82 82 83 84 84 85 86 86 87 88 88 89 90 90 91 92 92 93 94 94 95 96 96 97 98 98 99 100</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="5"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="80"/>
   <set name="lvlDepend" val="2"/>
@@ -884,7 +884,7 @@
   <table name="#ench1Power">80 81 82 82 83 84 84 85 86 86 87 88 88 89 90 90 91 92 92 93 94 94 95 96 96 97 98 98 99 100</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="6"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="80"/>
   <set name="lvlDepend" val="2"/>
@@ -915,7 +915,7 @@
   <table name="#lvl"> 3 4 5 6 7 8 </table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="4"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -944,7 +944,7 @@
   <table name="#lvl"> 1 3 4 5 6 7 8 </table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="4"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -972,6 +972,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="40"/>
+  <set name="save" val="3" />
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="4000"/>
@@ -1000,6 +1001,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="40"/>
+  <set name="save" val="3" />
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="150000"/>
@@ -1262,7 +1264,7 @@
   <table name="#magicLvl">44 52 64 74</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="2"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="70"/>
   <set name="lvlDepend" val="2"/>
@@ -1287,7 +1289,7 @@
   <table name="#power">8 9 11 13 14 16</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="2"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
