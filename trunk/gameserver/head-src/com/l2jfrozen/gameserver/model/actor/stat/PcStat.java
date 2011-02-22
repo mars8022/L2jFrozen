@@ -209,7 +209,7 @@ public class PcStat extends PlayableStat
 
 		if(levelIncreased)
 		{
-			if(getActiveChar().getLevel() >= 25 && getActiveChar().isNewbie())
+			if(getActiveChar().getLevel() >= 40 && getActiveChar().isNewbie())
 			{
 				getActiveChar().setNewbie(false);
 
