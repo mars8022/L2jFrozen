@@ -1013,6 +1013,7 @@ public final class Config
 	public static boolean ALLOW_REMOTE_CLASS_MASTERS;
 	public static boolean DONT_DESTROY_SS;
 	public static int MAX_LEVEL_NEWBIE;
+	public static int MAX_LEVEL_NEWBIE_STATUS;
 	public static int STANDARD_RESPAWN_DELAY;
 	public static int ALT_RECOMMENDATIONS_NUMBER;
 	public static int RAID_RANKING_1ST;
@@ -1149,7 +1150,10 @@ public final class Config
 
 			// Max level newbie
 			MAX_LEVEL_NEWBIE = Integer.parseInt(altSettings.getProperty("MaxLevelNewbie", "20"));
+			// Level when Char lost Newbie status
+			MAX_LEVEL_NEWBIE_STATUS = Integer.parseInt(altSettings.getProperty("MaxLevelNewbieStatus", "40"));
 
+			
 			STANDARD_RESPAWN_DELAY = Integer.parseInt(altSettings.getProperty("StandardRespawnDelay", "180"));
 			ALT_RECOMMENDATIONS_NUMBER = Integer.parseInt(altSettings.getProperty("AltMaxRecommendationNumber", "255"));
 
