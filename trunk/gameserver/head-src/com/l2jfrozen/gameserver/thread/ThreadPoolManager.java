@@ -143,6 +143,10 @@ public class ThreadPoolManager
 	
 	public ScheduledFuture<?> scheduleEffect(Runnable r, long delay)
 	{
+		if(_effectsScheduledThreadPool.isShutdown())
+			return null;
+		
+		
 		try
 		{
 			delay = ThreadPoolManager.validateDelay(delay);
@@ -159,6 +163,10 @@ public class ThreadPoolManager
 	
 	public ScheduledFuture<?> scheduleEffectAtFixedRate(Runnable r, long initial, long delay)
 	{
+		if(_effectsScheduledThreadPool.isShutdown())
+			return null;
+		
+		
 		try
 		{
 			delay = ThreadPoolManager.validateDelay(delay);
@@ -182,6 +190,9 @@ public class ThreadPoolManager
 	
 	public ScheduledFuture<?> scheduleGeneral(Runnable r, long delay)
 	{
+		if(_generalScheduledThreadPool.isShutdown())
+			return null;
+		
 		try
 		{
 			delay = ThreadPoolManager.validateDelay(delay);
@@ -198,6 +209,10 @@ public class ThreadPoolManager
 	
 	public ScheduledFuture<?> scheduleGeneralAtFixedRate(Runnable r, long initial, long delay)
 	{
+		if(_generalScheduledThreadPool.isShutdown())
+			return null;
+		
+		
 		try
 		{
 			delay = ThreadPoolManager.validateDelay(delay);
@@ -221,6 +236,10 @@ public class ThreadPoolManager
 	
 	public ScheduledFuture<?> scheduleAi(Runnable r, long delay)
 	{
+		if(_aiScheduledThreadPool.isShutdown())
+			return null;
+		
+		
 		try
 		{
 			delay = ThreadPoolManager.validateDelay(delay);
@@ -237,6 +256,9 @@ public class ThreadPoolManager
 	
 	public ScheduledFuture<?> scheduleAiAtFixedRate(Runnable r, long initial, long delay)
 	{
+		if(_aiScheduledThreadPool.isShutdown())
+			return null;
+		
 		try
 		{
 			delay = ThreadPoolManager.validateDelay(delay);

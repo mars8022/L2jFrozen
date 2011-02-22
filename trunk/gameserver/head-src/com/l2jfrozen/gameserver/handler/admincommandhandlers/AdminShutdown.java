@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameTimeController;
@@ -42,63 +43,83 @@ public class AdminShutdown implements IAdminCommandHandler
 			"admin_server_shutdown", "admin_server_restart", "admin_server_abort"
 	};
 
+	private enum CommandEnum
+	{
+		admin_server_shutdown,
+		admin_server_restart,
+		admin_server_abort
+	}
+	
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
+		StringTokenizer st = new StringTokenizer(command);
+		
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		
+		if(comm == null)
 			return false;
+		
+		switch(comm)
+		{
+			case admin_server_shutdown:{
+				
+				if(st.hasMoreTokens()){
+					
+					String secs = st.nextToken();
+					
+					try
+					{
+						int val = Integer.parseInt(secs);
+						serverShutdown(activeChar, val, false);
+						return true;
+					}
+					catch(StringIndexOutOfBoundsException e)
+					{
+						sendHtmlForm(activeChar);
+						return false;
+					}
+					
+				}else{
+					sendHtmlForm(activeChar);
+					return false;
+				}
+				
+				
+			}
+			case admin_server_restart:{
+				
+				if(st.hasMoreTokens()){
+					
+					String secs = st.nextToken();
+					
+					try
+					{
+						int val = Integer.parseInt(secs);
+						serverShutdown(activeChar, val, true);
+						return true;
+					}
+					catch(StringIndexOutOfBoundsException e)
+					{
+						sendHtmlForm(activeChar);
+						return false;
+					}
+					
+				}else{
+					sendHtmlForm(activeChar);
+					return false;
+				}
+				
+			}
+			case admin_server_abort:{
+				
+				serverAbort(activeChar);
+				return true;
+				
+			}
 		}
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.startsWith("admin_server_shutdown"))
-		{
-			try
-			{
-				int val = Integer.parseInt(command.substring(22));
-
-				serverShutdown(activeChar, val, false);
-			}
-			catch(StringIndexOutOfBoundsException e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				sendHtmlForm(activeChar);
-			}
-		}
-		else if(command.startsWith("admin_server_restart"))
-		{
-			try
-			{
-				int val = Integer.parseInt(command.substring(21));
-
-				serverShutdown(activeChar, val, true);
-			}
-			catch(StringIndexOutOfBoundsException e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				sendHtmlForm(activeChar);
-			}
-		}
-		else if(command.startsWith("admin_server_abort"))
-		{
-			serverAbort(activeChar);
-		}
-
-		return true;
+		return false;
+		
 	}
 
 	public String[] getAdminCommandList()

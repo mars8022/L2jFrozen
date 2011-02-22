@@ -213,11 +213,8 @@ public class GameTimeController
 					// SelectorThread most of all
 				}
 			}
-			catch(Exception e)
+			catch(InterruptedException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
 				_error = e;
 			}
 		}

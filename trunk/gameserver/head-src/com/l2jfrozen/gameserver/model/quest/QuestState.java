@@ -453,22 +453,27 @@ public final class QuestState
 	{
 		int varint = 0;
 
-		try
-		{
-			varint = Integer.parseInt(_vars.get(var));
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.finer(getPlayer().getName() + ": variable " + var + " isn't an integer: " + varint + e);
-			//TODO: comments
-			if(Config.AUTODELETE_INVALID_QUEST_DATA)
+		String var_value = "";
+		if((var_value = _vars.get(var))!=null){
+			try
 			{
-				exitQuest(true);
+				
+				varint = Integer.parseInt(_vars.get(var));
+			}
+			catch(Exception e)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				_log.finer(getPlayer().getName() + ": variable " + var + " isn't an integer: " + varint + e);
+				//TODO: comments
+				if(Config.AUTODELETE_INVALID_QUEST_DATA)
+				{
+					exitQuest(true);
+				}
 			}
 		}
+		
 
 		return varint;
 	}
