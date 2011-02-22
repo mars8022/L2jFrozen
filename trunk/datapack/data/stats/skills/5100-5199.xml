@@ -203,7 +203,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magiclvl" val="#magiclvl"/>
   <set name="activateRate" val="30"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="250"/>
@@ -268,7 +268,7 @@
   <table name="#magicLvl">62 66 70 74</table> <!-- guessed -->
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="ROOT"/>
@@ -506,7 +506,7 @@
   <set name="effectPoint" val="655"/>
   <set name="magiclvl" val="80"/>
   <set name="activateRate" val="60"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="300"/>
   <set name="reuseDelay" val="30000"/>
@@ -526,7 +526,7 @@
   <set name="effectPoint" val="950"/>
   <set name="magiclvl" val="80"/>
   <set name="mpConsume" val="95"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
   <set name="hitTime" val="1080"/>
@@ -562,7 +562,7 @@
   <set name="effectPoint" val="672"/>
   <set name="magiclvl" val="80"/>
   <set name="activateRate" val="35"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="200"/>
   <set name="reuseDelay" val="8000"/>

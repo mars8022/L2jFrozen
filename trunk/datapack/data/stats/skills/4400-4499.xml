@@ -1312,7 +1312,7 @@ if max = min resist
 <skill id="4480" levels="1" name="Ice Fairy Curse Gloom">
   <set name="mpConsume" val="117"/>
   <set name="magiclvl" val="85"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="15000"/>
@@ -1329,7 +1329,7 @@ if max = min resist
   </for>
 </skill>
 <skill id="4481" levels="1" name="Ice Fairy Hex">
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="mpConsume" val="117"/>
   <set name="magiclvl" val="85"/>
@@ -1349,7 +1349,7 @@ if max = min resist
   </for>
 </skill>
 <skill id="4482" levels="1" name="Ice Fairy Silence">
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="mpConsume" val="117"/>
   <set name="magiclvl" val="85"/>
@@ -1373,7 +1373,7 @@ if max = min resist
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magiclvl" val="#magiclvl"/>
   <set name="power" val="80"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="3300"/>
@@ -1414,7 +1414,7 @@ if max = min resist
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="80"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="1200"/>
@@ -1450,7 +1450,7 @@ if max = min resist
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="80"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="1200"/>
@@ -1473,7 +1473,7 @@ if max = min resist
   <set name="mpConsume_Init" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="80"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="2500"/>
