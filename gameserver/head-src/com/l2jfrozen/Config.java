@@ -3047,6 +3047,7 @@ public final class Config
 	public static int MAX_UNKNOWN_PACKETS;
 	public static int UNKNOWN_PACKETS_PUNiSHMENT;
 	public static boolean DEBUG_UNKNOWN_PACKETS;
+	public static boolean DEBUG_PACKETS;
 	public static int PROTECTED_UNKNOWNPACKET_C;
 
 	public static int PROTECTED_ACTIVE_PACK_RETURN;
@@ -3070,6 +3071,7 @@ public final class Config
 			ENABLE_UNK_PACKET_PROTECTION = Boolean.parseBoolean(PacketSetting.getProperty("UnknownPacketProtection", "true"));
 			MAX_UNKNOWN_PACKETS = Integer.parseInt(PacketSetting.getProperty("UnknownPacketsBeforeBan", "5"));
 			UNKNOWN_PACKETS_PUNiSHMENT = Integer.parseInt(PacketSetting.getProperty("UnknownPacketsPunishment", "2"));
+			DEBUG_PACKETS = Boolean.parseBoolean(PacketSetting.getProperty("DebugPackets", "false"));
 			DEBUG_UNKNOWN_PACKETS = Boolean.parseBoolean(PacketSetting.getProperty("UnknownDebugPackets", "false"));
 			PROTECTED_UNKNOWNPACKET_C = Integer.parseInt(PacketSetting.getProperty("UnknownFloodProtectorPacket", "50"));
 

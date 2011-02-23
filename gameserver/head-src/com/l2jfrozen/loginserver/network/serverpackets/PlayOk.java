@@ -43,4 +43,13 @@ public final class PlayOk extends L2LoginServerPacket
 		writeD(_playOk1);
 		writeD(_playOk2);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "PlayOk";
+	}
 }

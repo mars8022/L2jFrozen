@@ -95,7 +95,7 @@ public class SQLQueue implements Runnable
 			stm.execute();
 			stm.close();
 			
-		} catch(Exception e) {
+		} catch(SQLException e) {
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}finally{

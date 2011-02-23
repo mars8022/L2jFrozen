@@ -24,6 +24,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.network.clientpackets.*;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.IClientFactory;
 import com.l2jfrozen.netcore.IMMOExecutor;
 import com.l2jfrozen.netcore.IPacketHandler;
@@ -50,14 +51,22 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 	// implementation
 	public ReceivablePacket<L2GameClient> handlePacket(ByteBuffer buf, L2GameClient client)
 	{
-		if (client.dropPacket())
+		if (client.dropPacket()){
+			if(Config.DEBUG_PACKETS)
+				Log.add("Packet Dropped", "GamePacketsLog");
 			return null;
+		}
+		
 		
 		int opcode = buf.get() & 0xFF;
 
 		ReceivablePacket<L2GameClient> msg = null;
 		GameClientState state = client.getState();
 
+		if(Config.DEBUG_PACKETS){
+			Log.add("Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString(), "GamePacketsLog");
+		}
+		
 		switch(state)
 		{
 			case CONNECTED:

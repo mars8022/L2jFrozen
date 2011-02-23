@@ -26,11 +26,13 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.LoginCrypt;
 import com.l2jfrozen.crypt.ScrambledKeyPair;
+import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.loginserver.network.serverpackets.PlayFail;
 import com.l2jfrozen.loginserver.network.serverpackets.PlayFail.PlayFailReason;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
 import com.l2jfrozen.netcore.SendablePacket;
@@ -245,6 +247,12 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 
 	public void sendPacket(L2LoginServerPacket lsp)
 	{
+		if(Config.DEBUG_PACKETS){
+			
+			Log.add("[ServerPacket] SendingLoginServerPacket, Client: "+this.toString()+" Packet:"+lsp.getType(), "LoginServerPacketsLog");
+			
+		}
+		
 		getConnection().sendPacket(lsp);
 	}
 

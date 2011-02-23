@@ -55,4 +55,13 @@ public final class GGAuth extends L2LoginServerPacket
 		writeD(0x00);
 		writeD(0x00);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "GGAuth";
+	}
 }
