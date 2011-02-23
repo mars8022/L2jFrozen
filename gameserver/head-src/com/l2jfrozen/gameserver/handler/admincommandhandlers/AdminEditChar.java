@@ -55,6 +55,7 @@ public class AdminEditChar implements IAdminCommandHandler
 	private static String[] ADMIN_COMMANDS =
 	{
 			"admin_changename", // changes char name
+			"admin_setname", // changes char name
 			"admin_edit_character",
 			"admin_current_player",
 			"admin_nokarma",
@@ -439,7 +440,7 @@ public class AdminEditChar implements IAdminCommandHandler
 
 			val = null;
 		}
-		else if(command.startsWith("admin_changename"))
+		else if(command.startsWith("admin_changename") || command.startsWith("admin_setname"))
 		{
 			try
 			{
