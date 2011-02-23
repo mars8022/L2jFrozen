@@ -62,4 +62,15 @@ public final class PlayFail extends L2LoginServerPacket
 		writeC(0x06);
 		writeC(_reason.getCode());
 	}
+
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "PlayFail";
+	}
+	
+	
 }

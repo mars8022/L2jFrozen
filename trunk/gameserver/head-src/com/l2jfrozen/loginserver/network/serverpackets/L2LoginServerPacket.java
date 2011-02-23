@@ -25,4 +25,8 @@ import com.l2jfrozen.netcore.SendablePacket;
  * @author programmos
  */
 public abstract class L2LoginServerPacket extends SendablePacket<L2LoginClient>
-{}
+{
+
+	public abstract String getType();
+
+}

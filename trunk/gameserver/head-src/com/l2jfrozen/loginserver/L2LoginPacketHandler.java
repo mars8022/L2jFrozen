@@ -19,11 +19,13 @@ package com.l2jfrozen.loginserver;
 
 import java.nio.ByteBuffer;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.loginserver.L2LoginClient.LoginClientState;
 import com.l2jfrozen.loginserver.network.clientpackets.AuthGameGuard;
 import com.l2jfrozen.loginserver.network.clientpackets.RequestAuthLogin;
 import com.l2jfrozen.loginserver.network.clientpackets.RequestServerList;
 import com.l2jfrozen.loginserver.network.clientpackets.RequestServerLogin;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.IPacketHandler;
 import com.l2jfrozen.netcore.ReceivablePacket;
 
@@ -46,6 +48,10 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 		ReceivablePacket<L2LoginClient> packet = null;
 		LoginClientState state = client.getState();
 
+		if(Config.DEBUG_PACKETS){
+			Log.add("Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString(), "LoginPacketsLog");
+		}
+		
 		switch(state)
 		{
 			case CONNECTED:

@@ -64,4 +64,13 @@ public final class LoginFail extends L2LoginServerPacket
 		writeC(0x01);
 		writeD(_reason.getCode());
 	}
+
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "LoginFail";
+	}
 }

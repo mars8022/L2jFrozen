@@ -65,4 +65,13 @@ public final class Init extends L2LoginServerPacket
 		writeB(_blowfishKey); // BlowFish key
 		writeC(0x00); // null termination ;)
 	}
+
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "Init";
+	}
 }

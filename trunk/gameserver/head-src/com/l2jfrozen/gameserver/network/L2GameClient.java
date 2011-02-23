@@ -62,6 +62,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.AutoSave;
 import com.l2jfrozen.gameserver.util.EventData;
 import com.l2jfrozen.gameserver.util.FloodProtector;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
 import com.l2jfrozen.netcore.ReceivablePacket;
@@ -244,9 +245,17 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if (_isDetached) 
 			return;
 		
-		if(getConnection()!=null)
+		if(getConnection()!=null){
+			
+			if(Config.DEBUG_PACKETS){
+				
+				Log.add("[ServerPacket] SendingGameServerPacket, Client: "+this.toString()+" Packet:"+gsp.getType(), "GameServerPacketsLog");
+				
+			}
+			
 			getConnection().sendPacket(gsp);
-		gsp.runImpl();
+			gsp.runImpl();
+		}
 	}
 
 	public boolean isDetached()

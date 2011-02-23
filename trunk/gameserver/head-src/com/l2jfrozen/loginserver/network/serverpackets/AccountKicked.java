@@ -59,4 +59,13 @@ public final class AccountKicked extends L2LoginServerPacket
 		writeD(_reason);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "AccountKicked";
+	}
+
 }

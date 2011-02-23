@@ -50,4 +50,15 @@ public final class LoginOk extends L2LoginServerPacket
 		writeD(0x00);
 		writeB(new byte[16]);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
+	 */
+	@Override
+	public String getType()
+	{
+		return "LoginOk";
+	}
+	
+	
 }
