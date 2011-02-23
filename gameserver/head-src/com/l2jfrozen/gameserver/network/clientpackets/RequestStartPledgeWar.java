@@ -54,10 +54,7 @@ public final class RequestStartPledgeWar extends L2GameClientPacket
 
 		if(_clan.getLevel() < 3 || _clan.getMembersCount() < Config.ALT_CLAN_MEMBERS_FOR_WAR)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_WAR_DECLARED_IF_CLAN_LVL3_OR_15_MEMBER);
-			player.sendPacket(sm);
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			sm = null;
+			player.sendMessage("A Clan War can be declared only if the clan is level three or above, and the number of clan members is"+ Config.ALT_CLAN_MEMBERS_FOR_WAR +"or greater.");
 			return;
 		}
 		else if(!player.isClanLeader())
@@ -86,10 +83,7 @@ public final class RequestStartPledgeWar extends L2GameClientPacket
 		//else if(clan.getLevel() < 3)
 		else if(clan.getLevel() < 3 || clan.getMembersCount() < Config.ALT_CLAN_MEMBERS_FOR_WAR)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_WAR_DECLARED_IF_CLAN_LVL3_OR_15_MEMBER);
-			player.sendPacket(sm);
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			sm = null;
+			player.sendMessage("A Clan War can be declared only if the clan is level three or above, and the number of clan members is"+ Config.ALT_CLAN_MEMBERS_FOR_WAR +"or greater.");
 			return;
 		}
 		else if(_clan.isAtWarWith(clan.getClanId()))
