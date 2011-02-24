@@ -261,7 +261,7 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 		}
 
-		else if(command.startsWith("admin_para ") || command.startsWith("admin_para_menu"))
+		else if(command.startsWith("admin_para") || command.startsWith("admin_para_menu"))
 		{
 			String type = "1";
 			if(st.hasMoreTokens())
