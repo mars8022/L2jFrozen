@@ -2683,7 +2683,7 @@ public class L2NpcInstance extends L2Character
 			{
 				html.replace("_Quest", "_RentPet\">Rent Pet</a><br><a action=\"bypass -h npc_%objectId%_Quest");
 			}
-
+		html.replace("%playername%", player.getName());
 		html.replace("%objectId%", String.valueOf(getObjectId()));
 		html.replace("%festivalMins%", SevenSignsFestival.getInstance().getTimeToNextFestivalStart());
 		player.sendPacket(html);
