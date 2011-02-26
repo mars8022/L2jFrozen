@@ -466,7 +466,7 @@ public final class QuestState
 		int varint = 0;
 
 		String var_value = "";
-		if((var_value = _vars.get(var))!=null){
+		if(_vars!=null && (var_value = _vars.get(var))!=null){
 			try
 			{
 				
