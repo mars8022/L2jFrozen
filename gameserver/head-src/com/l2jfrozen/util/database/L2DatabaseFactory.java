@@ -248,6 +248,30 @@ public class L2DatabaseFactory
 		return con;
 	}
 
+	public Connection getConnection(long max_connection_time) throws SQLException 
+	{ 
+		Connection con = null;
+
+		while(con == null)
+		{
+			try
+			{
+				con = _source.getConnection();
+				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), max_connection_time);
+				
+			}
+			catch(SQLException e)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				_log.warning("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+			}
+		}
+
+		return con;
+	}
+	
 	public int getBusyConnectionCount() throws SQLException
 	{
 		return _source.getNumBusyConnectionsDefaultUser();

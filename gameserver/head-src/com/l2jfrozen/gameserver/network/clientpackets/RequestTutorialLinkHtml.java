@@ -28,10 +28,26 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 	private static final String _C__7B_REQUESTTUTORIALLINKHTML = "[C] 7b RequestTutorialLinkHtml";
 	String _bypass;
 
+	boolean protector_packet = false;
+	int answer_id = 0;
+	
 	@Override
 	protected void readImpl()
 	{
 		_bypass = readS();
+		
+		if(_bypass!=null){
+			
+			try
+			{
+				answer_id = Integer.parseInt(_bypass);
+				protector_packet = true;
+			}catch(NumberFormatException e){
+				//not bot protection packet
+			}
+			
+		}
+		
 	}
 
 	@Override
@@ -41,26 +57,26 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 		if(player == null)
 			return;
 
-		try
-		{
-			int Id = Integer.parseInt(_bypass);
-			if(Config.BOT_PROTECTOR && Id > 100000 && Id < 100006)
-			{
-				player.checkAnswer(Id);
+		if(protector_packet){
+			
+			if(Config.BOT_PROTECTOR && answer_id >= 100001 && answer_id <= 100005){
+				
+				player.checkAnswer(answer_id);
 				player.sendPacket(new TutorialCloseHtml());
 				return;
+				
 			}
+			
+		}else{
+			
+			QuestState qs = player.getQuestState("255_Tutorial");
+			if(qs != null)
+			{
+				qs.getQuest().notifyEvent(_bypass, null, player);
+			}
+			
 		}
-		catch(Exception e) {
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-		}
-
-		QuestState qs = player.getQuestState("255_Tutorial");
-		if(qs != null)
-		{
-			qs.getQuest().notifyEvent(_bypass, null, player);
-		}
+		
 	}
 
 	@Override

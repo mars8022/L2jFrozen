@@ -269,6 +269,12 @@ public final class RequestActionUse extends L2GameClientPacket
 						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
 						activeChar.sendPacket(msg);
 					}
+					else if(activeChar.isInFunEvent())
+					{
+						//A strider cannot be ridden while in event
+						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
+						activeChar.sendPacket(msg);
+					}
 					else if(activeChar.isSitting() || activeChar.isMoving())
 					{
 						//A strider can be ridden only when standing

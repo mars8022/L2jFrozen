@@ -73,6 +73,7 @@ public class UserInfo extends L2GameServerPacket
 		_swimRunSpd = _flRunSpd = _flyRunSpd = _runSpd;
 		_swimWalkSpd = _flWalkSpd = _flyWalkSpd = _walkSpd;
 		_relation = _activeChar.isClanLeader() ? 0x40 : 0;
+		
 		if(_activeChar.getSiegeState() == 1)
 		{
 			_relation |= 0x180;
@@ -122,7 +123,7 @@ public class UserInfo extends L2GameServerPacket
 		writeD(_activeChar.getCurrentLoad());
 		writeD(_activeChar.getMaxLoad());
 		
-		writeD(0x28); // FIXME: дальность оружия (PTS: nWeaponRange)
+		writeD(_activeChar.getActiveWeaponItem() != null ? 40 : 20); // 20 no weapon, 40 weapon equippe
 		
 		writeD(_activeChar.getInventory().getPaperdollObjectId(Inventory.PAPERDOLL_DHAIR));
 		writeD(_activeChar.getInventory().getPaperdollObjectId(Inventory.PAPERDOLL_REAR));
@@ -160,7 +161,6 @@ public class UserInfo extends L2GameServerPacket
 		writeD(_activeChar.getInventory().getPaperdollItemId(Inventory.PAPERDOLL_HAIR));
 		writeD(_activeChar.getInventory().getPaperdollItemId(Inventory.PAPERDOLL_FACE));
 
-		// НАЧАЛО АУГМЕНТАЦИИ
 		writeH(0x00);
 		writeH(0x00);
 		writeH(0x00);
@@ -193,8 +193,7 @@ public class UserInfo extends L2GameServerPacket
 		writeH(0x00);
 		writeH(0x00);
 		writeH(0x00);
-		// КОНЕЦ АУГМЕНТАЦИИ
-
+		
 		writeD(_activeChar.getPAtk(null));
 		writeD(_activeChar.getPAtkSpd());
 		writeD(_activeChar.getPDef(null));

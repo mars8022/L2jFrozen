@@ -4072,7 +4072,14 @@ public final class Config
 		else if(ServerType.serverMode == ServerType.MODE_LOGINSERVER)
 		{
 			loadLoginStartConfig();
+			// Load developer parameters
+			loadDevConfig();
 			loadBanIPConfig();
+			
+			// Protect
+			loadFloodConfig();
+			loadPacketConfig();
+			loadPOtherConfig();
 		}
 		else
 		{

@@ -185,8 +185,7 @@ public class GameTimeController
 		@Override
 		public void run()
 		{
-			try
-			{
+			
 				for(;;)
 				{
 					int _oldTicks = _gameTicks; // save old ticks value to avoid moving objects 2x in same tick
@@ -209,14 +208,16 @@ public class GameTimeController
 
 					//_log.finest("TICK: "+_gameTicks);
 
-					sleep(sleepTime); // hope other threads will have much more cpu time available now
+					try{
+						sleep(sleepTime); // hope other threads will have much more cpu time available now
+						
+					}catch(InterruptedException ie){
+						//nothing
+					}
 					// SelectorThread most of all
 				}
-			}
-			catch(InterruptedException e)
-			{
-				_error = e;
-			}
+			
+			
 		}
 	}
 

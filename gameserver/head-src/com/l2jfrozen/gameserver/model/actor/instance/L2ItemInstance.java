@@ -1029,6 +1029,9 @@ public final class L2ItemInstance extends L2Object
 	 */
 	public void updateDatabase()
 	{
+		//System.out.println("Item: "+getItemId()+" Loc: "+_loc.name()+" ExistInDb: "+_existsInDb+" owner: "+_ownerId);
+		
+		
 		if(isWear())
 			return;
 
@@ -1221,10 +1224,15 @@ public final class L2ItemInstance extends L2Object
 		if(Config.GEODATA > 0 && dropper != null)
 		{
 			Location dropDest = GeoData.getInstance().moveCheck(dropper.getX(), dropper.getY(), dropper.getZ(), x, y, z);
-			x = dropDest.getX();
-			y = dropDest.getY();
-			z = dropDest.getZ();
+			
+			if(dropDest != null && dropDest.getX()!=0 && dropDest.getY()!=0 ){
+				
+				x = dropDest.getX();
+				y = dropDest.getY();
+				z = dropDest.getZ();
 
+			}
+			
 			dropDest = null;
 		}
 
