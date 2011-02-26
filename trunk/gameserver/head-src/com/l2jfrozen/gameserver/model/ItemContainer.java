@@ -238,7 +238,7 @@ public abstract class ItemContainer
 	public L2ItemInstance addItem(String process, int itemId, int count, L2PcInstance actor, L2Object reference)
 	{
 		L2ItemInstance item = getItemByItemId(itemId);
-
+		
 		// If stackable item is found in inventory just add to current quantity
 		if(item != null && item.isStackable())
 		{
@@ -274,7 +274,12 @@ public abstract class ItemContainer
 
 				item = ItemTable.getInstance().createItem(process, itemId, template.isStackable() ? count : 1, actor, reference);
 				item.setOwnerId(getOwnerId());
-				item.setLocation(getBaseLocation());
+				
+				if(process.equals("AutoLoot")){
+					item.setLocation(ItemLocation.INVENTORY);
+				}else
+					item.setLocation(getBaseLocation());
+				
 				item.setLastChange(L2ItemInstance.ADDED);
 
 				// Add item in inventory

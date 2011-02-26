@@ -60,13 +60,19 @@ public class MaxCheatersTable
 	{
 		Connection con = null;
 		PreparedStatement st = null;
-
+		ResultSet rs = null;
+		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(240000);
 			st = con.prepareStatement(SQL_SELECT);
-			ResultSet rs = st.executeQuery();
-			restore(rs);
+			rs = st.executeQuery();
+			
+			if(rs!=null){
+				restore(rs);
+			}
+			
+			st.close();
 		}
 		catch(Exception e)
 		{
@@ -74,19 +80,29 @@ public class MaxCheatersTable
 		}
 		finally
 		{
-			if(con != null && st != null)
+			try
 			{
-				try
+				if(con != null && !con.isClosed())
 				{
-					con.close();
-					st.close();
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
+					
+					try
+					{
+						con.close();
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
+			catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
+		
+		
 	}
 
 	private void restore(ResultSet data) throws SQLException

@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -31,6 +32,7 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -1374,6 +1376,22 @@ public class TvT implements EventTask
 				{
 					if(_teams.size() >= 2)
 						player.setTeam(_teams.indexOf(player._teamNameTvT) + 1);
+				}
+				
+				if(player.isMounted()){
+					
+					if(player.setMountType(0))
+					{
+						if(player.isFlying())
+						{
+							player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+						}
+
+						Ride dismount = new Ride(player.getObjectId(), Ride.ACTION_DISMOUNT, 0);
+						player.broadcastPacket(dismount);
+						player.setMountObjectID(0);
+					}
+					
 				}
 				player.broadcastUserInfo();
 			}

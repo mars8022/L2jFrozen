@@ -258,42 +258,54 @@ public final class QuestState
 		// FastMap.put() returns previous value associated with specified key, or null if there was no mapping for key.
 		String old = _vars.put(var, val);
 
-		if(old != null)
-		{
-			Quest.updateQuestVarInDb(this, var, val);
-		}
-		else
-		{
-			Quest.createQuestVarInDb(this, var, val);
-		}
-
-		if(var == "cond")
+		int previousVal = 0;
+		
+		if(old != null && !old.equals(""))
 		{
 			try
 			{
-				int previousVal = 0;
-
-				try
-				{
-					previousVal = Integer.parseInt(old);
-				}
-				catch(Exception ex)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						ex.printStackTrace();
-					
-					previousVal = 0;
-				}
-
-				setCond(Integer.parseInt(val), previousVal);
+				previousVal = Integer.parseInt(old);
 			}
-			catch(Exception e)
+			catch(NumberFormatException e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.finer(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent: " + e);
+				//_log.info(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent: " + e);
+				
 			}
+			
+			Quest.updateQuestVarInDb(this, var, val);
+		}
+		else
+		{
+			previousVal = 0;
+			Quest.createQuestVarInDb(this, var, val);
+			
+		}
+
+		if(var == "cond")
+		{
+			
+			if(!val.equals("")){
+				
+				try
+				{
+					int value = Integer.parseInt(val);
+					setCond(value, previousVal);
+				}
+				catch(NumberFormatException e)
+				{
+					_log.info(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent... ");
+					e.printStackTrace();
+				}
+				
+			}else{
+				
+				_log.info(getPlayer().getName() + ", " + getQuestName() + " cond [null] is not an integer.  Value stored, but no packet was sent... ");
+				
+			}
+		
 		}
 
 		old = null;
@@ -458,15 +470,15 @@ public final class QuestState
 			try
 			{
 				
-				varint = Integer.parseInt(_vars.get(var));
+				varint = Integer.parseInt(var_value);
 			}
 			catch(Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.finer(getPlayer().getName() + ": variable " + var + " isn't an integer: " + varint + e);
-				//TODO: comments
+				_log.info(getPlayer().getName() + ": variable " + var + " isn't an integer: returned value will be " + varint + e);
+				
 				if(Config.AUTODELETE_INVALID_QUEST_DATA)
 				{
 					exitQuest(true);
@@ -474,7 +486,6 @@ public final class QuestState
 			}
 		}
 		
-
 		return varint;
 	}
 

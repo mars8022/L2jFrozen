@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
@@ -32,6 +33,7 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -667,17 +669,14 @@ public class DM implements EventTask
 			
 		}else{
 			
-			synchronized (_players){
-				if(!checkMinPlayers(_players.size()))
-				{
-					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-					if(Config.DM_STATS_LOGGER)
-						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-					
-					return false;
-				}
+			if(!checkMinPlayers(_players.size()))
+			{
+				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				if(Config.DM_STATS_LOGGER)
+					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				
+				return false;
 			}
-			
 			
 		}
 
@@ -1303,6 +1302,22 @@ public class DM implements EventTask
 				player.getAppearance().setNameColor(_playerColors);
 				player.setKarma(0);
 				player.setTitle("Kills: " + player._countDMkills);
+				
+				if(player.isMounted()){
+					
+					if(player.setMountType(0))
+					{
+						if(player.isFlying())
+						{
+							player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+						}
+
+						Ride dismount = new Ride(player.getObjectId(), Ride.ACTION_DISMOUNT, 0);
+						player.broadcastPacket(dismount);
+						player.setMountObjectID(0);
+					}
+					
+				}
 				player.broadcastUserInfo();
 			}
 		}

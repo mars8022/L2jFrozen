@@ -3725,7 +3725,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				su = null;
 
 				// If over capacity, drop the item
-				if(!isGM() && !_inventory.validateCapacity(0))
+				if(!isGM() && !_inventory.validateCapacity(item))
 				{
 					dropItem("InvDrop", item, null, true);
 				}
@@ -4178,29 +4178,28 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		item.dropMe(this, getClientX() + Rnd.get(50) - 25, getClientY() + Rnd.get(50) - 25, getClientZ() + 20);
 
-		if(Config.AUTODESTROY_ITEM_AFTER > 0 && Config.DESTROY_DROPPED_PLAYER_ITEM && !Config.LIST_PROTECTED_ITEMS.contains(item.getItemId()))
-		{
-			if(item.isEquipable() && Config.DESTROY_EQUIPABLE_PLAYER_ITEM || !item.isEquipable())
-			{
-				ItemsAutoDestroy.getInstance().addItem(item);
-			}
-		}
-		if(Config.DESTROY_DROPPED_PLAYER_ITEM)
-		{
-			if(!item.isEquipable() || item.isEquipable() && Config.DESTROY_EQUIPABLE_PLAYER_ITEM)
-			{
-				item.setProtected(false);
-			}
-			else
-			{
+		if(Config.DESTROY_DROPPED_PLAYER_ITEM
+				&& !Config.LIST_PROTECTED_ITEMS.contains(item.getItemId())){
+			
+			if(Config.AUTODESTROY_ITEM_AFTER > 0){ //autodestroy enabled
+			
+				if(item.isEquipable() && Config.DESTROY_EQUIPABLE_PLAYER_ITEM || !item.isEquipable())
+				{
+					ItemsAutoDestroy.getInstance().addItem(item);
+					item.setProtected(false);
+				}else{
+					item.setProtected(true);
+				}
+				
+			}else{
 				item.setProtected(true);
 			}
-		}
-		else
-		{
+			
+		}else{
 			item.setProtected(true);
+			
 		}
-
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
@@ -5105,11 +5104,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else if(item.getItemId() == 57)
 		{
-			addAdena("Loot", item.getCount(), target, true);
+			addAdena("AutoLoot", item.getCount(), target, true);
 		}
 		else
 		{
-			addItem("Loot", item.getItemId(), item.getCount(), target, true);
+			addItem("AutoLoot", item.getItemId(), item.getCount(), target, true);
 		}
 	}
 

@@ -21,10 +21,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.Shutdown;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -36,6 +38,10 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class CastleManager
 {
+	
+	protected static final Logger _log = Logger.getLogger(CastleManager.class.getName());
+	
+	
 	// =========================================================
 	private static CastleManager _instance;
 
@@ -43,7 +49,7 @@ public class CastleManager
 	{
 		if(_instance == null)
 		{
-			System.out.println("Initializing CastleManager");
+			_log.info("Initializing CastleManager");
 			_instance = new CastleManager();
 			_instance.load();
 		}
@@ -109,7 +115,7 @@ public class CastleManager
 			PreparedStatement statement;
 			ResultSet rs;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(240000);
 
 			statement = con.prepareStatement("Select id from castle order by id");
 			rs = statement.executeQuery();
@@ -121,16 +127,17 @@ public class CastleManager
 
 			statement.close();
 
-			System.out.println("Loaded: " + getCastles().size() + " castles");
+			_log.info("Loaded: " + getCastles().size() + " castles");
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: loadCastleData(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
+			try { 
+				con.close(); 
+			} catch(Exception e) {
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();}
 			con = null;
@@ -357,7 +364,7 @@ public class CastleManager
 			}
 			catch(Exception e)
 			{
-				System.out.println("Failed to remove castle circlets offline for player " + member.getName());
+				_log.info("Failed to remove castle circlets offline for player " + member.getName());
 				e.printStackTrace();
 			}
 			finally

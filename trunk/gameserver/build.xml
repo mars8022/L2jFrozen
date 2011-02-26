@@ -136,15 +136,6 @@
     	
     	<copy todir="${build.dist.login.lib}">
 			<fileset dir="${src}/../lib">
-				<!-- include name="c3p0-0.9.1.2.jar"/>
-				<include name="commons-logging-1.1.jar"/>
-				<include name="commons-lang-2.1.jar"/>
-				<include name="mysql-connector-java-5.1.8-bin.jar"/>
-				<include name="javolution.jar"/>
-				<include name="xmlrpc-common-3.1.2.jar"/>
-	        	<include name="xmlrpc-server-3.1.2.jar"/>
-	        	<include name="ws-commons-util-1.0.2.jar"/>
-				<include name="commons-logging-1.1.jar"/ -->
 				<include name="*.jar"/>
 				<include name="*.txt"/>
 			</fileset>
@@ -205,7 +196,8 @@
     	<mkdir dir="${build.dist.login}/config" />
     	<mkdir dir="${build.dist.login}/config/network" />
     	<mkdir dir="${build.dist.login}/config/protected" />
-    	
+    	<mkdir dir="${build.dist.login}/config/functions" />
+    	    	
     	<mkdir dir="${build.dist.game}/config/protected" />
     	<mkdir dir="${build.dist.game}/config/head" />
     	<mkdir dir="${build.dist.game}/config/functions" />
@@ -298,9 +290,17 @@
     	
     	<copy todir="${build.dist.login}/config/protected">
     		<fileset dir="config/protected">
-    			<include name="mmocore.properties"/>
+    			<include name="*.properties"/>
     		</fileset>
     	</copy>
+    	
+    	<copy todir="${build.dist.login}/config/functions">
+    	    <fileset dir="config/functions">
+    	    	<include name="developer.properties"/>
+    	    </fileset>
+    	</copy>
+    	    	
+    	
     	<!-- network ls -->
     	<copy todir="${build.dist.login}/config/network">
     		<fileset dir="config/network">

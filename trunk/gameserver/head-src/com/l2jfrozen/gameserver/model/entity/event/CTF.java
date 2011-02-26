@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
@@ -37,6 +38,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.RadarControl;
+import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -692,33 +694,31 @@ public class CTF implements EventTask
 
 		removeOfflinePlayers();
 		
-		synchronized(_players){
-			if(_teamEvent){
-				
-				if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size()))
-				{
-					shuffleTeams();
-				}
-				else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
-				{
-					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
-					if(Config.CTF_STATS_LOGGER)
-						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
-					
-					return false;
-				}
-				
-			}else{
-				
-				if(!checkMinPlayers(_players.size()))
-				{
-					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-					if(Config.CTF_STATS_LOGGER)
-						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
-					return false;
-				}
-				
+		if(_teamEvent){
+			
+			if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size()))
+			{
+				shuffleTeams();
 			}
+			else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
+			{
+				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+				if(Config.CTF_STATS_LOGGER)
+					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+				
+				return false;
+			}
+			
+		}else{
+			
+			if(!checkMinPlayers(_players.size()))
+			{
+				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				if(Config.CTF_STATS_LOGGER)
+					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				return false;
+			}
+			
 		}
 		
 		_joining = false;
@@ -1425,6 +1425,22 @@ public class CTF implements EventTask
 				{
 					if(_teams.size() >= 2)
 						player.setTeam(_teams.indexOf(player._teamNameCTF) + 1);
+				}
+				
+				if(player.isMounted()){
+					
+					if(player.setMountType(0))
+					{
+						if(player.isFlying())
+						{
+							player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+						}
+
+						Ride dismount = new Ride(player.getObjectId(), Ride.ACTION_DISMOUNT, 0);
+						player.broadcastPacket(dismount);
+						player.setMountObjectID(0);
+					}
+					
 				}
 				player.broadcastUserInfo();
 			}
