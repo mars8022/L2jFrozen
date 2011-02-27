@@ -94,41 +94,32 @@
 	<target name="dist-local" depends="prepare-local,prepare-final,export" description="Create distribution files and Zip one into 'build' folder">
 		<zip destfile="${build}/L2JFrozen_DataPack.zip" basedir="${build.dist}" update="true" />
 	</target>
-	
+
 	<target name="dist-test" depends="prepare-test,prepare-final,export" description="Create distribution files into 'local_test_folder' folder: change it into build.properties">
 	</target>
-		
+
 	<target name="dist-compiledRev" depends="prepare-compiledRev,prepare-final,export" description="Create distribution files into 'compiledRev_folder' folder: change it into build.properties">
 	</target>
-		
-	<target name="version" depends="init" description="Create l2jfrozen-datapack.properties file">
+
+
+	<target name="version" depends="init" description="Create Version file">
 
 		<tstamp>
-			<format property="build.tstamp" pattern="yyyyMMdd_HHmm" />
+			<format property="build.tstamp" pattern="dd-MM-yyyy hh:mm:ss aa" />
 		</tstamp>
 
-
-		<exec dir="." executable="svnversion" outputproperty="l2jfrozen.revision" failifexecutionfails="false">
+		<exec dir="." executable="./subversion/svnversion" outputproperty="l2jfrozen.revision" failifexecutionfails="false">
 			<arg line="-n ." />
 		</exec>
 
-		<concat destfile="${build.dist.game}/config/version/l2jfrozen-datapack.properties">
-		    	version=${l2jfrozen.revision}
-		    	builddate=${build.tstamp} 
-		        detailed info:
-		</concat>
-		
-		<concat destfile="${build.dist.game}/config/version/l2jfrozen-datapack.properties" append="true">
-			<filelist dir="${src}/../.svn/" files="entries" />
-			<filterchain>
-				<prefixlines prefix="          " />
-				<headfilter lines="8" skip="4" />
-				<tokenfilter>
-					<ignoreblank />
-				</tokenfilter>
-			</filterchain>
-		</concat>
-		
+		<concat destfile="${properties-file}">
+			      revision=${l2jfrozen.revision}
+			      builddate=${build.tstamp}
+		      	  repository=http://subversion.assembla.com/svn/L2jFrozenInterlude/trunk/datapack
+			  </concat>
+
+		<echo>L2jFrozen Datapack Revision: ${l2jfrozen.revision}</echo>
 	</target>
+
 
 </project>
