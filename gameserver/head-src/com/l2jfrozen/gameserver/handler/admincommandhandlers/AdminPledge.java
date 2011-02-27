@@ -18,10 +18,8 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Clan;

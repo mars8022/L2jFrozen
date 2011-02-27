@@ -14,10 +14,15 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
+
+import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -43,11 +48,6 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
-
-import javolution.util.FastList;
-
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
 
 

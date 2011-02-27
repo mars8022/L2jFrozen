@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import java.util.concurrent.Future;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;

@@ -26,10 +26,6 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.WritableByteChannel;
 
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket;
-import com.l2jfrozen.logs.Log;
-
 /**
  * @author KenM
  * 
