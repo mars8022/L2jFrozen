@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.LoginCrypt;
 import com.l2jfrozen.crypt.ScrambledKeyPair;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;

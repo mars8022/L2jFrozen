@@ -19,7 +19,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.gameserver.cache.HtmCache;

@@ -29,13 +29,13 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.AwayCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.BankingCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.CTFCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.DMCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.FarmPvpCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Online;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.StatsCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.TvTCmd;
+import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.VersionCmd;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Voting;
 import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.FarmPvpCmd;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.StatsCmd;
-import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.VersionCmd;
 
 /**
  * This class ...

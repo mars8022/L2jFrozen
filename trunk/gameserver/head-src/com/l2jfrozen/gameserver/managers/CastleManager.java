@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.Shutdown;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
 import com.l2jfrozen.gameserver.model.L2Object;

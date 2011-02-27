@@ -272,7 +272,7 @@ public class UserInfo extends L2GameServerPacket
 			writeH(id);
 		}
 
-		writeC(0x00); //FIXME: поиск партии (1-ищем партию)
+		writeC(0x00); //FIXME:
 
 		writeD(_activeChar.getAbnormalEffect());
 		writeC(0x00); //unk
