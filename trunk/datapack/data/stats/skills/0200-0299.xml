@@ -919,6 +919,7 @@
     </mul>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="260" levels="37" name="Hammer Crush" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -948,12 +949,12 @@
   <set name="effectRange" val="400"/>
   <set name="effectType" val="STUN"/>
   <set name="effectPower" val="50"/>
+  <set name="isDebuff" val="true" />
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
-	<effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list> 
 <!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="100" levels="15" name="Stun Attack">
   <table name="#mpConsume">20 21 21 22 23 23 25 26 27 29 29 30 32 33 34</table>
   <table name="#power">30 33 35 41 44 48 55 59 64 73 79 84 96 102 109</table>
@@ -23,10 +24,12 @@
   <set name="effectRange" val="400"/>
   <set name="effectType" val="STUN"/>
   <set name="effectPower" val="50"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="101" levels="40" name="Stunning Shot" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -54,7 +57,8 @@
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="40"/>
+  <set name="effectPower" val="50"/>
+  <set name="isDebuff" val="true" />
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
