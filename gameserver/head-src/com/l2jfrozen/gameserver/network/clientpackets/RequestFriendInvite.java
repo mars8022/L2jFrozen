@@ -72,12 +72,21 @@ public final class RequestFriendInvite extends L2GameClientPacket
 			sm = null;
 			return;
 		}
-		else if(friend == activeChar)
+		
+		if(friend == activeChar)
 		{
 			//You cannot add yourself to your own friend list.
 			sm = new SystemMessage(SystemMessageId.YOU_CANNOT_ADD_YOURSELF_TO_OWN_FRIEND_LIST);
 			activeChar.sendPacket(sm);
 			sm = null;
+			return;
+		}
+		
+		if(activeChar.isInCombat() || friend.isInCombat())
+		{
+		    sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
+		    activeChar.sendPacket(sm);
+		    sm = null;
 			return;
 		}
 
