@@ -1366,8 +1366,8 @@
     <effect count="1" name="Stun" time="2" val="0" stackOrder="1" stackType="Stun"/>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="4671" levels="1" name="AV - Teleport">
-  <set name="castRange" val="-1"/>
   <set name="magicLvl" val="40"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="target" val="TARGET_ONE"/>
@@ -1375,7 +1375,7 @@
   <!-- <set name="skillType" val="INSTANT_JUMP"/> -->
   <set name="castRange" val="1500"/>
   <set name="effectRange" val="2000"/>
-  <set name="reuseDelay" val="60000"/>
+  <set name="reuseDelay" val="6000"/>
   <for>
     <effect count="1" name="TargetMe" time="0" val="0"/>
   </for>

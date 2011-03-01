@@ -1688,12 +1688,12 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4192" levels="12" name="BOSS HP Drain">
   <table name="#mpConsume">12 29 39 53 67 83 97 103 108 112 115 116</table>
-  <table name="#power">18 21 23 26 29 32 35 39 42 45 49 52</table>
+  <table name="#power">16 23 32 44 56 69 81 86 91 94 97 99</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
@@ -1704,8 +1704,6 @@
   <set name="castRange" val="750"/>
   <set name="effectRange" val="1250"/>
   <set name="absorbPart" val="0.4"/> <!-- absorbs 40% of damage -->
-  <for>
-  </for>
 </skill>
 <skill id="4193" levels="12" name="BOSS Life Drain">
   <table name="#mpConsume">17 29 39 53 67 83 97 103 108 112 115 116</table>

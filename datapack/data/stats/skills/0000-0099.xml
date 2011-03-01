@@ -1231,6 +1231,7 @@
     <effect count="5" name="Fear" time="6" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="67" levels="7" name="Summon Life Cubic">
   <table name="#mpConsume_Init">8 9 10 11 12 13 14</table>
   <table name="#mpConsume">30 35 40 44 48 51 53</table>
@@ -1247,8 +1248,6 @@
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <!-- Summon-specific -->
   <set name="npcId" val="3"/>
   <set name="expPenalty" val="0.0"/>

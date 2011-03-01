@@ -864,20 +864,18 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4051" levels="16" name="Cubic Heal">
-  <table name="#power">201 241 281 314 339 361 382 400 420 440 460 480 500 520 540 560</table>
+  <table name="#power">201 241 281 314 339 361 382 390 398 405 413 418 422 426 430 434</table>
   <table name="#magicLvl">43 49 55 60 64 68 72 74 76 78 80 81 82 83 84 85</table>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="lvlDepend" val="1"/>
+  <set name="castRange" val="600" />
+  <set name="effectRange" val="1100" />
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="HEAL"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <skill id="4052" levels="15" name="Poison">
   <!-- Cubic skill -->

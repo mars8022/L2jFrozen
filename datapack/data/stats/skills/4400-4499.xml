@@ -1274,27 +1274,24 @@ if max = min resist
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4478" levels="1" name="Ice Fairy Aqua Splash">
+  <set name="magicLvl" val="64" />
   <set name="element" val="3"/> <!-- Water -->
   <set name="mpConsume" val="23"/>
-  <set name="power" val="225"/>
+  <set name="power" val="183"/>
   <set name="target" val="TARGET_AREA"/>
-  <set name="skillRadius" val="205"/>
+  <set name="skillRadius" val="200"/>
   <set name="reuseDelay" val="15000"/>
-  <set name="hitTime" val="3299"/>
+  <set name="hitTime" val="3300"/>
   <set name="element" val="3"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
-  <for>
-  </for>
+  <set name="effectRange" val="1200" />
 </skill>
 <skill id="4479" levels="1" name="Ice Fairy Resist Cold">
-<!--
-  Description(s):
-      Increases resistance to cold attacks. Effect 4.
--->
   <set name="mpConsume" val="39"/>
   <set name="power" val="269"/>
   <set name="target" val="TARGET_AREA"/>
@@ -1309,13 +1306,13 @@ if max = min resist
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4480" levels="1" name="Ice Fairy Curse Gloom">
-  <set name="mpConsume" val="117"/>
-  <set name="magiclvl" val="85"/>
+  <set name="magicLvl" val="64" />
   <set name="save" val="3"/>
-  <set name="power" val="80"/>
+  <set name="power" val="100"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="1200"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
@@ -1328,36 +1325,38 @@ if max = min resist
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4481" levels="1" name="Ice Fairy Hex">
+  <set name="magicLvl" val="64" />
   <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="mpConsume" val="117"/>
-  <set name="magiclvl" val="85"/>
-  <set name="activateRate" val="80"/>
-  <set name="power" val="80"/>
+  <set name="power" val="100"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="1200"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1000"/>
   <set name="effectRange" val="1500"/>
   <for>
-    <effect count="1" name="Buff" stackOrder="3" stackType="pDefDown" time="15" val="0">
-      <mul order="0x30" stat="pDef" val="0.77"/>
+    <effect count="1" name="Debuff" stackOrder="3" stackType="pDefDown" time="1800" val="0">
+      <mul order="0x30" stat="pDef" val="0.7"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4482" levels="1" name="Ice Fairy Silence">
   <set name="save" val="3"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="mpConsume" val="117"/>
   <set name="magiclvl" val="85"/>
-  <set name="power" val="80"/>
+  <set name="power" val="100"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="100"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1000"/>
   <set name="effectRange" val="1500"/>
