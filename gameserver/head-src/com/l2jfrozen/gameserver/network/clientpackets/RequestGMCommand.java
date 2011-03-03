@@ -60,10 +60,6 @@ public final class RequestGMCommand extends L2GameClientPacket
 		if(player == null || !getClient().getActiveChar().getAccessLevel().allowAltG())
 			return;
 
-		// player name was incorrect?
-		if(player == null)
-			return;
-
 		switch(_command)
 		{
 			case 1: // player status
