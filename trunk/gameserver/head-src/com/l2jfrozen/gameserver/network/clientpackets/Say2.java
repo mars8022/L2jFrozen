@@ -505,7 +505,7 @@ public final class Say2 extends L2GameClientPacket
 					{
 						if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_HEROVOICE))
 						{
-							activeChar.sendMessage("Heroes Are Able To Speak In The Global Channel Once Every 10 Seconds.");
+							activeChar.sendMessage("Heroes Are Able To Speak In The Global Channel Once Every " + Config.PROTECTED_HEROVOICE_C / 10 + " Seconds.");
 							return;
 						}
 						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
