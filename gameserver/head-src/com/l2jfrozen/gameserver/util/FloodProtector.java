@@ -76,7 +76,7 @@ public class FloodProtector
 			Config.PROTECTED_MULTISELL_C,
 			Config.PROTECTED_SUBCLASS_C,
 			Config.PROTECTED_UNKNOWNPACKET_C,
-			Config.PROTECTED_GLOBAL_CHAT_DELAY,
+			Config.PROTECTED_GLOBAL_CHAT_DELAY_C,
 			Config.PROTECTED_PARTY_ADD_MEMBER_C,
 			Config.PROTECTED_DESTROY_DROP_C,
 			Config.PROTECTED_ENCHANT_C,
@@ -89,8 +89,7 @@ public class FloodProtector
 			Config.PROTECTED_ACTIVE_PACK_RETURN, // > return
 			Config.PROTECTED_ACTIVE_PACK_FAILED, // < action failed
 			Config.PROTECTED_USE_ITEM_C,
-			Config.PROTECTED_MOVE_TO_LOCATION_C,
-			Config.PROTECTED_CHAT_DELAY_C
+			Config.PROTECTED_MOVE_TO_LOCATION_C
 	};
 
 	// =============================================================

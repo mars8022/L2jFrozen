@@ -500,17 +500,15 @@ public final class L2World
 	{
 		if(cha != null && !cha.isTeleporting())
 		{
+			if(Config.DEBUG)
+			{
+				_log.info("Removed player: "+cha.getName().toLowerCase());
+		    }
 			
-			L2PcInstance removed_player = _allPlayers.remove(cha.getName().toLowerCase());
-			
-			if(Config.DEBUG){
-				_log.info("Removed player: "+removed_player.getName().toLowerCase());
-			}
-			
-			removed_player = null;
-			
+			_allPlayers.remove(cha.getName().toLowerCase());	
 		}
 	}
+	
 
 	/**
 	 * Remove a L2Object from the world.<BR>
