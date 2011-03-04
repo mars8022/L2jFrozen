@@ -125,8 +125,9 @@ public final class Say2 extends L2GameClientPacket
 			return;
 		}
 		
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_CHAT_DELAY))
+		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_GLOBALCHAT))
 		{
+			activeChar.sendMessage("You can use chat every " + Config.PROTECTED_GLOBAL_CHAT_DELAY_C / 10 + " Seconds");
 			return;
 		}
 
