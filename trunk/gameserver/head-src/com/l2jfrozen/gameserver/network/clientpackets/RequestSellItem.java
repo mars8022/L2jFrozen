@@ -96,6 +96,12 @@ public final class RequestSellItem extends L2GameClientPacket
 		if(player == null)
 			return;
 
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("buy"))
+		{
+			player.sendMessage("You buying too fast.");
+			return;
+		}
+		
 		// Alt game - Karma punishment
 		if(!Config.ALT_GAME_KARMA_PLAYER_CAN_SHOP && player.getKarma() > 0)
 			return;

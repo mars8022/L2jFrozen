@@ -35,13 +35,14 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.PunishLevel;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.powerpak.PowerPak;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
-import com.l2jfrozen.gameserver.util.FloodProtector;
+import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * This class ...
@@ -125,18 +126,19 @@ public final class Say2 extends L2GameClientPacket
 			return;
 		}
 		
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_GLOBALCHAT))
+		if (!getClient().getFloodProtectors().getSayAction().tryPerformAction("Say2"))
 		{
-			activeChar.sendMessage("You can use chat every " + Config.PROTECTED_GLOBAL_CHAT_DELAY_C / 10 + " Seconds");
+			activeChar.sendMessage("You cannot speak too fast.");
 			return;
 		}
 
+		
 		if(activeChar.isCursedWeaponEquiped() && (_type == TRADE || _type == SHOUT))
 		{
 			activeChar.sendMessage("Shout and trade chatting cannot be used while possessing a cursed weapon.");
 			return;
 		}
-
+		
 		if(activeChar.isChatBanned() && !activeChar.isGM())
 		{
 			//if (_type == ALL || _type == SHOUT || _type == TRADE || _type == HERO_VOICE)
@@ -162,13 +164,12 @@ public final class Say2 extends L2GameClientPacket
 
 		if(_text.length() > Config.MAX_CHAT_LENGTH)
 		{
-			activeChar.setChatBanned(true, 1800 * 1000L);
 			if(Config.DEBUG)
 			{
 				_log.info("Say2: Msg Type = '" + _type + "' Text length more than " + Config.MAX_CHAT_LENGTH + " truncate them.");
 			}
 			_text = _text.substring(0, Config.MAX_CHAT_LENGTH);
-			return;
+			//return;
 		}
 
 		if(Config.LOG_CHAT)
@@ -194,6 +195,13 @@ public final class Say2 extends L2GameClientPacket
 			_logChat.log(record);
 		}
 
+
+		if (Config.L2WALKER_PROTEC && _type == TELL && checkBot(_text))
+		{
+			Util.handleIllegalPlayerAction(activeChar, "Client Emulator Detect: Player " + activeChar.getName() + " using l2walker.", Config.DEFAULT_PUNISH);
+			return;
+		}
+		
 		_text = _text.replaceAll("\\\\n", "");
 
 		// Say Filter implementation
@@ -308,6 +316,11 @@ public final class Say2 extends L2GameClientPacket
 					}
 					break;
 				case SHOUT:
+					
+					// Flood protect Say
+					if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
+						return;
+
 		               if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
 		               {
 		                  int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
@@ -504,11 +517,10 @@ public final class Say2 extends L2GameClientPacket
 					}
 					else if(activeChar.isHero())
 					{
-						if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_HEROVOICE))
-						{
-							activeChar.sendMessage("Heroes Are Able To Speak In The Global Channel Once Every " + Config.PROTECTED_HEROVOICE_C / 10 + " Seconds.");
+						// Flood protect Hero Voice
+						if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
 							return;
-						}
+
 						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 							if(!BlockList.isBlocked(player, activeChar))
 							{
@@ -519,6 +531,23 @@ public final class Say2 extends L2GameClientPacket
 			}
 		}
 	}
+	
+	private static final String[] WALKER_COMMAND_LIST = { "USESKILL", "USEITEM", "BUYITEM", "SELLITEM", "SAVEITEM", "LOADITEM", "MSG", "SET", "DELAY", "LABEL", "JMP", "CALL",
+		"RETURN", "MOVETO", "NPCSEL", "NPCDLG", "DLGSEL", "CHARSTATUS", "POSOUTRANGE", "POSINRANGE", "GOHOME", "SAY", "EXIT", "PAUSE", "STRINDLG", "STRNOTINDLG", "CHANGEWAITTYPE",
+		"FORCEATTACK", "ISMEMBER", "REQUESTJOINPARTY", "REQUESTOUTPARTY", "QUITPARTY", "MEMBERSTATUS", "CHARBUFFS", "ITEMCOUNT", "FOLLOWTELEPORT" };
+	
+	
+	
+	private boolean checkBot(String text)
+	{
+		for (String botCommand : WALKER_COMMAND_LIST)
+		{
+			if (text.startsWith(botCommand))
+				return true;
+		}
+		return false;
+	}
+	
 
 	private void checkText(L2PcInstance activeChar)
 	{
@@ -535,7 +564,7 @@ public final class Say2 extends L2GameClientPacket
 			{
 				if(Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("chat"))
 				{
-					activeChar.setChatBanned(true, Config.CHAT_FILTER_PUNISHMENT_PARAM1 * 60 * 1000L);
+					activeChar.setPunishLevel(PunishLevel.CHAT, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
 					activeChar.sendMessage("Administrator banned you chat from " + Config.CHAT_FILTER_PUNISHMENT_PARAM1 + " minutes");
 				}
 				else if(Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("karma"))
@@ -545,7 +574,7 @@ public final class Say2 extends L2GameClientPacket
 				}
 				else if(Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("jail"))
 				{
-					activeChar.setInJail(true, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
+					activeChar.setPunishLevel(PunishLevel.JAIL, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
 				}
 				_text = filteredText;
 			}

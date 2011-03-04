@@ -18,7 +18,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 
 /**
  * This class trades Gold Bars for Adena and vice versa.
@@ -39,12 +38,12 @@ public class BankingCmd implements IVoicedCommandHandler
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_BANKING_SYSTEM))
+		if (!activeChar.getClient().getFloodProtectors().getTransaction().tryPerformAction("bank"))
 		{
 			activeChar.sendMessage("You Cannot Use The Banking System So Fast!");
 			return true;
 		}
-
+		
 		if(command.equalsIgnoreCase("bank"))
 		{
 			activeChar.sendMessage(".deposit (" + Config.BANKING_SYSTEM_ADENA + " Adena = " + Config.BANKING_SYSTEM_GOLDBARS + " Goldbar) / .withdraw (" + Config.BANKING_SYSTEM_GOLDBARS + " Goldbar = " + Config.BANKING_SYSTEM_ADENA + " Adena)");

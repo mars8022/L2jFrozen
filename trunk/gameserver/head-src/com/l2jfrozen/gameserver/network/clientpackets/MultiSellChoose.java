@@ -41,7 +41,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 
 /**
  * @author programmos
@@ -72,6 +71,15 @@ public class MultiSellChoose extends L2GameClientPacket
 	@Override
 	public void runImpl()
 	{
+		
+		L2PcInstance player = getClient().getActiveChar();
+
+		if(player == null)
+			return;
+
+		if (!getClient().getFloodProtectors().getMultiSell().tryPerformAction("multisell choose"))
+			return;
+
 		if(_amount < 1 || _amount > 5000)
 			return;
 
@@ -80,17 +88,7 @@ public class MultiSellChoose extends L2GameClientPacket
 		if(list == null)
 			return;
 
-		L2PcInstance player = getClient().getActiveChar();
-
-		if(player == null)
-			return;
-
-		if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_MULTISELL))
-		{
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-
+		
 		if(player.isCastingNow()|| player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);

@@ -131,7 +131,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.DeadlockDetector;
 import com.l2jfrozen.gameserver.thread.daemons.PcPoint;
 import com.l2jfrozen.gameserver.util.DynamicExtension;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
@@ -330,7 +329,7 @@ public class GameServer
 		EventDroplist.getInstance();
 		AugmentationData.getInstance();
 		MonsterRace.getInstance();
-		FloodProtector.getInstance();
+		//FloodProtector.getInstance();
 		MercTicketManager.getInstance();
 		PetitionManager.getInstance();
 		CursedWeaponsManager.getInstance();
@@ -556,10 +555,10 @@ public class GameServer
 		_loginThread.start();
 		
 		final SelectorConfig sc = new SelectorConfig();
-		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_READ_PER_PASS;
-		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_SEND_PER_PASS;
-		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.MMO_SELECTOR_SLEEP_TIME;
-		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.MMO_HELPER_BUFFER_COUNT;
+		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.getInstance().MMO_MAX_READ_PER_PASS;
+		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.getInstance().MMO_MAX_SEND_PER_PASS;
+		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.getInstance().MMO_SELECTOR_SLEEP_TIME;
+		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.getInstance().MMO_HELPER_BUFFER_COUNT;
 		
 		
 		_gamePacketHandler = new L2GamePacketHandler();

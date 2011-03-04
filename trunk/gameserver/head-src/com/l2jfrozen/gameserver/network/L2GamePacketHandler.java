@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.network.clientpackets.*;
 import com.l2jfrozen.logs.Log;
@@ -49,16 +50,24 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 	private static final Logger _log = Logger.getLogger(L2GamePacketHandler.class.getName());
 
 	// implementation
-	public ReceivablePacket<L2GameClient> handlePacket(ByteBuffer buf, L2GameClient client)
+	public ReceivablePacket<L2GameClient> handlePacket(int opcode, int opcode2, ByteBuffer buf, L2GameClient client)
 	{
+		
 		if (client.dropPacket()){
 			if(Config.DEBUG_PACKETS)
 				Log.add("Packet Dropped", "GamePacketsLog");
 			return null;
 		}
 		
-		
-		int opcode = buf.get() & 0xFF;
+		//int opcode = buf.get() & 0xFF;
+		/*
+		if(!client.getFloodProtectors().getGenericAction().tryPerformAction(""+opcode)){
+			L2PcInstance activeChar = client.getActiveChar();
+			if(activeChar!=null){
+				activeChar.sendMessage("You are flooding server!!");
+			}
+		}
+		*/
 
 		ReceivablePacket<L2GameClient> msg = null;
 		GameClientState state = client.getState();
@@ -662,7 +671,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 
 					case 0xd0:
-						int id2 = -1;
+						/*int id2 = -1;
 						if(buf.remaining() >= 2)
 						{
 							id2 = buf.getShort() & 0xffff;
@@ -672,8 +681,14 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 							_log.warning("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
 							break;
 						}
-
-						switch(id2)
+*/
+						if(opcode2==-1)
+						{
+							_log.warning("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
+							break;
+						}
+						
+						switch(opcode2)
 						{
 							case 1:
 								msg = new RequestOustFromPartyRoom();
@@ -816,7 +831,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 								msg = new RequestDuelSurrender();
 								break;
 							default:
-								printDebugDoubleOpcode(opcode, id2, buf, state, client);
+								printDebugDoubleOpcode(opcode, opcode2, buf, state, client);
 								break;
 						}
 						break;
@@ -839,10 +854,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 	{
 		if(Config.ENABLE_UNK_PACKET_PROTECTION)
 		{
-			unknownPacketProtection(client);
+			 client.checkUnknownPackets();
 		}
 		
-		if (!com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+		if (!com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
 			return;
 		
 		//int size = buf.remaining();
@@ -871,10 +886,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 	{
 		if(Config.ENABLE_UNK_PACKET_PROTECTION)
 		{
-			unknownPacketProtection(client);
+			 client.checkUnknownPackets();
 		}
 		
-		if (!com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+		if (!com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
 			return;
 		
 		//int size = buf.remaining();
@@ -908,6 +923,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 		rp.getClient().execute(rp);
 	}
 
+	/*
 	private void unknownPacketProtection(L2GameClient client)
 	{
 		if(client.getActiveChar() != null && client.checkUnknownPackets())
@@ -953,4 +969,5 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				break;
 		}
 	}
+	*/
 }

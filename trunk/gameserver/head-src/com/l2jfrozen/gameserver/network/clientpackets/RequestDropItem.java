@@ -32,7 +32,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
@@ -74,6 +73,10 @@ public final class RequestDropItem extends L2GameClientPacket
 			return;
 		}
 		
+		// Flood protect drop to avoid packet lag
+		if (!getClient().getFloodProtectors().getDropItem().tryPerformAction("drop item"))
+			return;
+		
 		L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
 		
 		if(item == null || _count == 0 || !activeChar.validateItemManipulation(_objectId, "drop") || !Config.ALLOW_DISCARDITEM && !activeChar.isGM() || (!item.isDropable() && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)))
@@ -97,11 +100,6 @@ public final class RequestDropItem extends L2GameClientPacket
 		// Cursed Weapons cannot be dropped
 		if(CursedWeaponsManager.getInstance().isCursed(itemId))
 			return;
-
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_DESTROY_DROP))
-		{
-			return;
-		}
 
 		if(_count > item.getCount())
 		{

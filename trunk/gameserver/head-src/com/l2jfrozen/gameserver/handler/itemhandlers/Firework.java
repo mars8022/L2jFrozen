@@ -28,7 +28,6 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 
 /**
  * This class ...
@@ -52,7 +51,8 @@ public class Firework implements IItemHandler
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		int itemId = item.getItemId();
 
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_FIREWORK))
+
+		if (!activeChar.getFloodProtectors().getFirework().tryPerformAction("firework"))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
 			sm.addItemName(itemId);

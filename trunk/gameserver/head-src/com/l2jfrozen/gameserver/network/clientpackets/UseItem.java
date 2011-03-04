@@ -43,7 +43,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
@@ -71,11 +70,11 @@ public final class UseItem extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_USE_ITEM))
-		{
+		// Flood protect UseItem
+		if (!getClient().getFloodProtectors().getUseItem().tryPerformAction("use item"))
 			return;
-		}
 
+		
 		if(activeChar.isStunned() || activeChar.isConfused() || activeChar.isAway() || activeChar.isParalyzed() || activeChar.isSleeping())
 		{
 			activeChar.sendMessage("You Cannot Use Items Right Now.");

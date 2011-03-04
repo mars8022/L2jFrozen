@@ -56,6 +56,13 @@ public final class RequestGiveItemToPet extends L2GameClientPacket
 		if(player == null || !(player.getPet() instanceof L2PetInstance))
 			return;
 
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("giveitemtopet"))
+		{
+			player.sendMessage("You give items to pet too fast.");
+			return;
+		}
+
+		
 		// Alt game - Karma punishment
 		if(!Config.ALT_GAME_KARMA_PLAYER_CAN_TRADE && player.getKarma() > 0)
 			return;

@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.Dice;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Broadcast;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
@@ -51,6 +50,14 @@ public class RollingDice implements IItemHandler
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		int itemId = item.getItemId();
 
+		if (!activeChar.getFloodProtectors().getRollDice().tryPerformAction("RollDice"))
+		{
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+			sm.addItemName(itemId);
+			activeChar.sendPacket(sm);
+			return;
+		}
+		
 		if(activeChar.isInOlympiadMode())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
@@ -91,9 +98,6 @@ public class RollingDice implements IItemHandler
 	private int rollDice(L2PcInstance player)
 	{
 		// Check if the dice is ready
-		if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_ROLLDICE))
-			return 0;
-
 		return Rnd.get(1, 6);
 	}
 

@@ -62,6 +62,9 @@ public final class RequestHennaEquip extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("HennaEquip"))
+			return;
+
 		L2Henna template = HennaTable.getInstance().getTemplate(_symbolId);
 
 		if(template == null)

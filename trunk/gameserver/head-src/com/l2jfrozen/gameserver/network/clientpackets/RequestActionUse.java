@@ -297,6 +297,10 @@ public final class RequestActionUse extends L2GameClientPacket
 					{
 						if(!activeChar.disarmWeapons())
 							return;
+						
+						if (!activeChar.getFloodProtectors().getItemPetSummon().tryPerformAction("mount"))
+							return;
+						
 
 						Ride mount = new Ride(activeChar.getObjectId(), Ride.ACTION_MOUNT, pet.getTemplate().npcId);
 						activeChar.broadcastPacket(mount);

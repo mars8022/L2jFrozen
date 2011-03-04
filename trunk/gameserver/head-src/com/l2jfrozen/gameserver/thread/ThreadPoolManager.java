@@ -228,8 +228,8 @@ public class ThreadPoolManager
 		}
 	}
 	
-	@Deprecated
-	public boolean removeGeneral(RunnableScheduledFuture<?> r)
+	//@Deprecated
+	public boolean removeGeneral(Runnable r)
 	{
 		return _generalScheduledThreadPool.remove(r);
 	}

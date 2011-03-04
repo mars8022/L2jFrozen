@@ -31,7 +31,6 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAio;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAnnouncements;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBBS;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBan;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBanChat;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBuffs;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCTFEngine;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCache;
@@ -147,7 +146,7 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminChristmas());
 		registerAdminCommandHandler(new AdminBan());
 		registerAdminCommandHandler(new AdminPolymorph());
-		registerAdminCommandHandler(new AdminBanChat());
+		//registerAdminCommandHandler(new AdminBanChat());
 		registerAdminCommandHandler(new AdminReload());
 		registerAdminCommandHandler(new AdminKick());
 		registerAdminCommandHandler(new AdminMonsterRace());

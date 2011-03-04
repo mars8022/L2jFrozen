@@ -42,7 +42,6 @@ import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.GMAudit;
 
 /**
@@ -75,13 +74,9 @@ public final class RequestBypassToServer extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
-		//TODO
-		//Need only one of protection system...  
-		if(!FloodProtector.getInstance().tryPerformAction(activeChar.getObjectId(), FloodProtector.PROTECTED_BYPASS))
-		{
-			activeChar.sendPacket(new ActionFailed());
+		if (!getClient().getFloodProtectors().getServerBypass().tryPerformAction(_command))
 			return;
-		}
+		
 
 		try
 		{

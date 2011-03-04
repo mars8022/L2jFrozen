@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <project name="L2jFrozen_DataPack" default="dist-local" basedir=".">
 	<description>
-        This script will build the L2jFrozen_DataPack.
+        This script will build the L2J-Frozen DataPack. Thanks for Using our Pack.
         
-        $Author: L2jFrozen $
-        $Date: (th, 17 aug 2010) $
-        $Revision: 1 $  
+        This program is opensource   
         
-        This program is opensource
-
-  </description>
+    </description>
 
 	<property file="build.properties" />
 

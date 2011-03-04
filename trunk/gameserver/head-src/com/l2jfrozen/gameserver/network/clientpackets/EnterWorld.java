@@ -95,7 +95,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -145,7 +144,7 @@ public class EnterWorld extends L2GameClientPacket
 		}
 
 		// Register in flood protector
-		FloodProtector.getInstance().registerNewPlayer(activeChar.getObjectId());
+		//FloodProtector.getInstance().registerNewPlayer(activeChar.getObjectId());
 
 		if(L2World.getInstance().findObject(activeChar.getObjectId()) != null)
 		{
@@ -325,6 +324,8 @@ public class EnterWorld extends L2GameClientPacket
 		notifyClanMembers(activeChar);
 		notifySponsorOrApprentice(activeChar);
 
+		activeChar.setTarget(activeChar);
+		
 		activeChar.onPlayerEnter();
 
 		if(Config.PCB_ENABLE)

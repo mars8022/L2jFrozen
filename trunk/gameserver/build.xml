@@ -101,7 +101,6 @@
 		<copy todir="${build.dist.login}">
 			<fileset dir="config/others">
 				<include name="log.cfg" />
-				<include name="banned_ip.cfg" />
 				<include name="console.cfg" />
 				<include name="servername.xml" />
 			</fileset>
@@ -261,17 +260,15 @@
 			<fileset dir="config">
 				<include name="telnet.properties" />
 			</fileset>
+			<fileset dir="config/others">
+				<include name="banned_ip.cfg" />
+			</fileset>
 		</copy>
 
 		<copy todir="${build.dist.login}/config/protected">
 			<fileset dir="config/protected">
-				<include name="*.properties" />
-			</fileset>
-		</copy>
-
-		<copy todir="${build.dist.login}/config/functions">
-			<fileset dir="config/functions">
-				<include name="developer.properties" />
+				<include name="mmocore.properties" />
+				<include name="packets.properties" />
 			</fileset>
 		</copy>
 

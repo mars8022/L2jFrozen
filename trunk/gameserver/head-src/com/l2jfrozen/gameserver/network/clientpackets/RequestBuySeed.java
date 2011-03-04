@@ -93,6 +93,10 @@ public class RequestBuySeed extends L2GameClientPacket
 		if(player == null)
 			return;
 
+		if (!getClient().getFloodProtectors().getManor().tryPerformAction("BuySeed"))
+			return;
+
+		
 		if(_count < 1)
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);

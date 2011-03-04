@@ -29,6 +29,7 @@ import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinParty;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
@@ -60,6 +61,13 @@ public final class RequestJoinParty extends L2GameClientPacket
 		
 		if(requestor == null)
 			return;
+		
+		if (!getClient().getFloodProtectors().getPartyInvitation().tryPerformAction("PartyInvitation"))
+		{
+			requestor.sendMessage("You Cannot Invite into Party So Fast!");
+			return;
+		}
+		
         
 		if(target == null)
 		{
