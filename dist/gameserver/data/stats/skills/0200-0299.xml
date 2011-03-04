@@ -226,7 +226,7 @@
   <set name="weaponsAllowed" val="2580"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
@@ -919,6 +919,7 @@
     </mul>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="260" levels="37" name="Hammer Crush" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -931,7 +932,7 @@
   <table name="#ench2Power">2027 2045 2063 2081 2099 2117 2135 2153 2171 2190 2208 2226 2244 2262 2280 2298 2316 2334 2352 2371 2389 2407 2425 2443 2461 2479 2497 2515 2533 2552</table>
   <set name="weaponsAllowed" val="16392"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -948,12 +949,12 @@
   <set name="effectRange" val="400"/>
   <set name="effectType" val="STUN"/>
   <set name="effectPower" val="50"/>
+  <set name="isDebuff" val="true" />
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
-	<effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1545,7 +1546,7 @@
   <table name="#power">82 89 96 102 108</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="3"/> -->
+  <set name="save" val="3"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -1608,7 +1609,7 @@
   <table name="#ench2MpConsume">75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46</table>
   <table name="#ench2power">2027 2045 2063 2081 2099 2117 2135 2153 2171 2190 2208 2226 2244 2262 2280 2298 2316 2334 2352 2371 2389 2407 2425 2443 2461 2479 2497 2515 2533 2552</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <!-- <set name="save" val="4"/> -->
+  <set name="save" val="4"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
