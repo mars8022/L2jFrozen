@@ -51,7 +51,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
@@ -340,9 +339,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					}
 
 					//sub class exploit fix
-					if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_SUBCLASS))
+					if (!player.getFloodProtectors().getSubclass().tryPerformAction("add subclass"))
 					{
-						player.sendMessage("You can change Subclass only every " + Config.PROTECTED_SUBCLASS_C + " Millisecond(s)");
+						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
 						return;
 					}
 					
@@ -455,9 +454,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					}
 
 					//sub class exploit fix
-					if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_SUBCLASS))
+					if (!player.getFloodProtectors().getSubclass().tryPerformAction("change class"))
 					{
-						player.sendMessage("You can change Subclass only every " + Config.PROTECTED_SUBCLASS_C + " Millisecond(s)");
+						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
 						return;
 					}
 
@@ -508,10 +507,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 * subclass list even if false!
 					 */
 
-					if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_SUBCLASS))
+					if (!player.getFloodProtectors().getSubclass().tryPerformAction("change class"))
 					{
-						_log.warning("Player " + player.getName() + " has performed a subclass change too fast");
-						player.sendMessage("You can change Subclass only every " + Config.PROTECTED_SUBCLASS_C + " Millisecond(s)");
+						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
 						return;
 					}
 

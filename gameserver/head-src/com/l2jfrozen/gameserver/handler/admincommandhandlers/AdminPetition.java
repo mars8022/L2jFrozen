@@ -78,11 +78,7 @@ public class AdminPetition implements IAdminCommandHandler
 						return false;
 					}
 					
-				}else{
-					activeChar.sendMessage("Usage: //admin_view_petition petition_id");
-					return false;
 				}
-				
 				
 				PetitionManager.getInstance().viewPetition(activeChar, petitionId);
 				return true;
@@ -111,9 +107,6 @@ public class AdminPetition implements IAdminCommandHandler
 						return false;
 					}
 					
-				}else{
-					activeChar.sendMessage("Usage: //admin_accept_petition petition_id");
-					return false;
 				}
 				
 				if(PetitionManager.getInstance().isPetitionInProcess(petitionId))
@@ -147,11 +140,7 @@ public class AdminPetition implements IAdminCommandHandler
 						return false;
 					}
 					
-				}else{
-					activeChar.sendMessage("Usage: //admin_reject_petition petition_id");
-					return false;
 				}
-				
 				
 				if(!PetitionManager.getInstance().rejectPetition(activeChar, petitionId))
 				{

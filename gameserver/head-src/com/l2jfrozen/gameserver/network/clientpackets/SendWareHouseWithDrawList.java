@@ -34,7 +34,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
@@ -89,6 +88,12 @@ public final class SendWareHouseWithDrawList extends L2GameClientPacket
 		if(player == null)
 			return;
 
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("withdraw"))
+		{
+			player.sendMessage("You withdrawing items too fast.");
+			return;
+		}
+
 		ItemContainer warehouse = player.getActiveWarehouse();
 		if(warehouse == null)
 			return;
@@ -104,11 +109,6 @@ public final class SendWareHouseWithDrawList extends L2GameClientPacket
 			return;
 		}
 
-		if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_WEREHOUSE))
-		{
-			_log.warning("Player " + player.getName() + " has performed a werehouse action too fast");
-			return;
-		}
 
 		// Alt game - Karma punishment
 		if(!Config.ALT_GAME_KARMA_PLAYER_CAN_USE_WAREHOUSE && player.getKarma() > 0)

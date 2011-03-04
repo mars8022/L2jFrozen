@@ -67,6 +67,13 @@ public final class RequestCrystallizeItem extends L2GameClientPacket
 			_log.fine("RequestCrystalizeItem: activeChar was null");
 			return;
 		}
+		
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("crystallize"))
+		{
+			activeChar.sendMessage("You crystallizing too fast.");
+			return;
+		}
+		
 
 		if(_count <= 0)
 		{

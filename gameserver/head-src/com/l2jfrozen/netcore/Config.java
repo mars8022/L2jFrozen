@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javolution.text.TypeFormat;
+import javolution.util.FastList;
 
 public class Config
 {
@@ -20,28 +22,42 @@ public class Config
 	public int NETWORK_WRITE_BUFFER_SIZE;
 	public int NETWORK_HELPER_BUFFER_SIZE;
 	public int NETWORK_HELPER_BUFFER_COUNT;
-	public static boolean PACKET_HANDLER_DEBUG;
+	public boolean PACKET_HANDLER_DEBUG;
 
 	/** MMO settings */
-	public static int MMO_SELECTOR_SLEEP_TIME			= 20;		// default 20
-	public static int MMO_MAX_SEND_PER_PASS				= 12;		// default 12
-	public static int MMO_MAX_READ_PER_PASS				= 12;		// default 12
-	public static int MMO_HELPER_BUFFER_COUNT			= 20;		// default 20
+	public int MMO_SELECTOR_SLEEP_TIME			= 20;		// default 20
+	public int MMO_MAX_SEND_PER_PASS				= 12;		// default 12
+	public int MMO_MAX_READ_PER_PASS				= 12;		// default 12
+	public int MMO_HELPER_BUFFER_COUNT			= 20;		// default 20
 	
-	public static boolean ENABLE_MMOCORE_EXCEPTIONS = false;
+	public boolean ENABLE_MMOCORE_EXCEPTIONS = false;
+	public boolean ENABLE_MMOCORE_DEBUG = false;
+	public boolean ENABLE_MMOCORE_DEVELOP = false;
 	
 	/** Client Packets Queue settings */
-	public static int CLIENT_PACKET_QUEUE_SIZE								= 14;	// default MMO_MAX_READ_PER_PASS + 2
-	public static int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE					= 13;	// default MMO_MAX_READ_PER_PASS + 1
-	public static int CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND			= 80;	// default 80
-	public static int CLIENT_PACKET_QUEUE_MEASURE_INTERVAL					= 5;	// default 5
-	public static int CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND	= 40;	// default 40
-	public static int CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN				= 2;	// default 2
-	public static int CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN				= 1;	// default 1
-	public static int CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN			= 1;	// default 1
-	public static int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN				= 5;	// default 5
+	public int CLIENT_PACKET_QUEUE_SIZE								= 14;	// default MMO_MAX_READ_PER_PASS + 2
+	public int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE					= 13;	// default MMO_MAX_READ_PER_PASS + 1
+	public int CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND			= 80;	// default 80
+	public int CLIENT_PACKET_QUEUE_MEASURE_INTERVAL					= 5;	// default 5
+	public int CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND	= 40;	// default 40
+	public int CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN				= 2;	// default 2
+	public int CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN				= 1;	// default 1
+	public int CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN			= 1;	// default 1
+	public int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN				= 5;	// default 5
 	
-    
+	//Packets flooding Config
+	public int FLOOD_PACKET_PROTECTION_INTERVAL;
+	public boolean LOG_PACKET_FLOODING;
+	public int PACKET_FLOODING_PUNISHMENT_LIMIT;
+	public String PACKET_FLOODING_PUNISHMENT_TYPE;
+	
+	public String PROTECTED_OPCODES;
+	public FastList<Integer> GS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
+	public FastList<Integer> GS_LIST_PROTECTED_OPCODES2 = new FastList<Integer>();
+	public FastList<Integer> LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
+	
+	
+	
 	//============================================================
 	private static Config _instance;
 	public static Config getInstance()
@@ -75,9 +91,74 @@ public class Config
 			NETWORK_HELPER_BUFFER_SIZE = TypeFormat.parseInt(mmoSetting.getProperty("NetworkHelperBufferSize", "64"));
 			NETWORK_HELPER_BUFFER_COUNT = TypeFormat.parseInt(mmoSetting.getProperty("NetworkHelperBufferCount", "20"));
 			
-			PACKET_HANDLER_DEBUG 		= Boolean.parseBoolean(mmoSetting.getProperty("PacketHandlerDebug", "False"));
-            
 			ENABLE_MMOCORE_EXCEPTIONS = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreExceptions", "False"));
+			ENABLE_MMOCORE_DEBUG = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreDebug", "False"));
+			ENABLE_MMOCORE_DEVELOP = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreDevelop", "False"));
+			
+			PACKET_HANDLER_DEBUG = Boolean.parseBoolean(mmoSetting.getProperty("PacketHandlerDebug", "False"));
+            
+			//flooding protection
+			FLOOD_PACKET_PROTECTION_INTERVAL = Integer.parseInt(mmoSetting.getProperty("FloodPacketProtectionInterval", "1"));
+			LOG_PACKET_FLOODING = Boolean.parseBoolean(mmoSetting.getProperty("LogPacketFlooding", "false"));
+			PACKET_FLOODING_PUNISHMENT_LIMIT = Integer.parseInt(mmoSetting.getProperty("PacketFloodingPunishmentLimit", "15"));
+			PACKET_FLOODING_PUNISHMENT_TYPE = mmoSetting.getProperty("PacketFloodingPunishmentType", "kick");
+			
+			PROTECTED_OPCODES = mmoSetting.getProperty("ListOfProtectedOpCodes");
+			
+			LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
+			GS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
+			GS_LIST_PROTECTED_OPCODES2 = new FastList<Integer>();
+			
+			if(PROTECTED_OPCODES!=null && !PROTECTED_OPCODES.equals("")){
+				
+				StringTokenizer st = new StringTokenizer(PROTECTED_OPCODES,";");
+				
+				while(st.hasMoreTokens()){
+					
+					String token = st.nextToken();
+					
+					String[] token_splitted = null;
+						
+					if(token!=null && !token.equals("")){
+						token_splitted = token.split(",");
+					}else{
+						continue;
+					}
+					
+					if(token_splitted==null || token_splitted.length<2){
+						continue;
+					}
+					
+					String server = token_splitted[0];
+					
+					if(server.equalsIgnoreCase("g")){ //gameserver opcode
+						
+						String opcode1 = token_splitted[1].substring(2);
+						String opcode2 = "";
+						
+						if(token_splitted.length==3 && opcode1.equals("0xd0")){
+							opcode2 = token_splitted[2].substring(2);
+						}
+						
+						if(opcode1 != null && !opcode1.equals("")){
+							GS_LIST_PROTECTED_OPCODES.add(Integer.parseInt(opcode1,16));
+						}
+						
+						if(opcode2 != null && !opcode2.equals("")){
+							GS_LIST_PROTECTED_OPCODES2.add(Integer.parseInt(opcode2,16));
+						}
+						
+					}else if(server.equalsIgnoreCase("l")){ //login opcode
+						
+						LS_LIST_PROTECTED_OPCODES.add(Integer.parseInt(token_splitted[1].substring(2),16));
+						
+					}
+				
+				}
+				
+			}
+			
+
 		}
 		catch(Exception e)
 		{

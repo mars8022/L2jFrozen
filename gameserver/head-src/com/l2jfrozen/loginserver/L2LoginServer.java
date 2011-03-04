@@ -179,10 +179,10 @@ public class L2LoginServer
 		}
 
 		final SelectorConfig sc = new SelectorConfig();
-		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_READ_PER_PASS;
-		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.MMO_MAX_SEND_PER_PASS;
-		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.MMO_SELECTOR_SLEEP_TIME;
-		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.MMO_HELPER_BUFFER_COUNT;
+		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.getInstance().MMO_MAX_READ_PER_PASS;
+		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.getInstance().MMO_MAX_SEND_PER_PASS;
+		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.getInstance().MMO_SELECTOR_SLEEP_TIME;
+		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.getInstance().MMO_HELPER_BUFFER_COUNT;
 		
 		final L2LoginPacketHandler lph = new L2LoginPacketHandler();
 		final SelectorHelper sh = new SelectorHelper();
@@ -234,6 +234,9 @@ public class L2LoginServer
 		_selectorThread.start();
 		_log.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
 
+		//load bannedIps
+		Config.loadBanFile();
+		
 		logFolder = null;
 		bindAddress = null;
 	}

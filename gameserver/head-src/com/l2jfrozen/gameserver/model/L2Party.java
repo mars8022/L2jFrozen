@@ -42,7 +42,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Stats;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -302,12 +301,6 @@ public class L2Party
 	 */
 	public void addPartyMember(L2PcInstance player)
 	{
-		//TODO
-		if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_PARTY_ADD_MEMBER))
-		{
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
 
 		//sends new member party window for all members
 		//we do all actions before adding member to a list, this speeds things up a little

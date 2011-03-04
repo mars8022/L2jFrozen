@@ -34,7 +34,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
-import com.l2jfrozen.gameserver.util.FloodProtector;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
@@ -98,9 +97,9 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 		if(manager == null || !player.isInsideRadius(manager, L2NpcInstance.INTERACTION_DISTANCE, false, false))
 			return;
 
-		if(!FloodProtector.getInstance().tryPerformAction(player.getObjectId(), FloodProtector.PROTECTED_WEREHOUSE))
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("deposit"))
 		{
-			_log.warning("Player " + player.getName() + " has performed a werehouse action too fast");
+			player.sendMessage("You depositing items too fast.");
 			return;
 		}
 

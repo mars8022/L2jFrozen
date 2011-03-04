@@ -49,6 +49,13 @@ public final class TradeDone extends L2GameClientPacket
 		if(player == null)
 			return;
 
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("trade"))
+		{
+			player.sendMessage("You trading too fast.");
+			return;
+		}
+		
+		
 		TradeList trade = player.getActiveTradeList();
 		if(trade == null)
 		{

@@ -61,7 +61,7 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.AutoSave;
 import com.l2jfrozen.gameserver.util.EventData;
-import com.l2jfrozen.gameserver.util.FloodProtector;
+import com.l2jfrozen.gameserver.util.FloodProtectors;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
@@ -88,6 +88,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		AUTHED,
 		IN_GAME
 	};
+
+	// floodprotectors
+	private final FloodProtectors _floodProtectors = new FloodProtectors(this);
 
 	public GameClientState state;
 
@@ -131,7 +134,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		_connectionStartTime = System.currentTimeMillis();
 		crypt = new GameCrypt();
 		_stats = new ClientStats();
-		_packetQueue = new ArrayBlockingQueue<ReceivablePacket<L2GameClient>>(com.l2jfrozen.netcore.Config.CLIENT_PACKET_QUEUE_SIZE);
+		_packetQueue = new ArrayBlockingQueue<ReceivablePacket<L2GameClient>>(com.l2jfrozen.netcore.Config.getInstance().CLIENT_PACKET_QUEUE_SIZE);
 		if(Config.AUTOSAVE_INITIAL_TIME > 0)
 			_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSave(activeChar), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
 		_guardCheckTask = nProtect.getInstance().startTask(this);
@@ -960,10 +963,19 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 	}
 
-	//TODO
+	
+	
+	public FloodProtectors getFloodProtectors()
+	{
+		return _floodProtectors;
+	}
+	
 	public boolean checkUnknownPackets()
 	{
-		if(getActiveChar() != null && !FloodProtector.getInstance().tryPerformAction(getActiveChar().getObjectId(), FloodProtector.PROTECTED_UNKNOWNPACKET))
+		
+		L2PcInstance player = getActiveChar();
+		
+		if(player != null && !activeChar.getClient().getFloodProtectors().getUnknownPackets().tryPerformAction("check packet"))
 		{
 			unknownPacketCount++;
 			
@@ -1023,7 +1035,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		if (state == GameClientState.CONNECTED) // in CONNECTED state kick client immediately
 		{
-			if (com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+			if (com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
 				_log.severe("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
 			closeNow();
 		}
@@ -1063,7 +1075,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			{
 				if (getStats().processedPackets > 3)
 				{
-					if (com.l2jfrozen.netcore.Config.PACKET_HANDLER_DEBUG)
+					if (com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
 						_log.severe("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
 					closeNow();
 					return;

@@ -167,7 +167,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT accesslevel,in_jail FROM characters WHERE char_name=?");
+			
+			PreparedStatement statement = con.prepareStatement("SELECT accesslevel,punish_level FROM characters WHERE char_name=?");
 			statement.setString(1, repairChar);
 			ResultSet rset = statement.executeQuery();
 			if (rset.next())

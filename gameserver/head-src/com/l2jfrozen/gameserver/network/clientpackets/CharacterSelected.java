@@ -71,7 +71,11 @@ public class CharacterSelected extends L2GameClientPacket
 		// be a  [S]0x21 packet
 		// after playback is done, the client will not work correct and need to exit
 		//playLogFile(getConnection()); // try to play log file
+		
+		if (!getClient().getFloodProtectors().getCharacterSelect().tryPerformAction("CharacterSelect"))
+			return;
 
+		
 		// we should always be abble to acquire the lock
 		// but if we cant lock then nothing should be done (ie repeated packet)
 		if(getClient().getActiveCharLock().tryLock())

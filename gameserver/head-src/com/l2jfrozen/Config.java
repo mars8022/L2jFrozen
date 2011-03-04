@@ -21,17 +21,22 @@ package com.l2jfrozen;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javolution.text.TypeFormat;
@@ -42,6 +47,10 @@ import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
 import com.l2jfrozen.gameserver.services.FService;
 import com.l2jfrozen.gameserver.services.Instruments;
+import com.l2jfrozen.gameserver.util.FloodProtectorConfig;
+import com.l2jfrozen.loginserver.LoginController;
+import com.l2jfrozen.util.StringUtil;
+
 
 public final class Config
 {
@@ -2512,7 +2521,7 @@ public final class Config
 			PVPEXPSP_SYSTEM = Boolean.parseBoolean(pvpSettings.getProperty("AllowAddExpSpAtPvP", "False"));
 			ADD_EXP = Integer.parseInt(pvpSettings.getProperty("AddExpAtPvp", "0"));
 			ADD_SP = Integer.parseInt(pvpSettings.getProperty("AddSpAtPvp", "0"));
-			ALLOW_SOE_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AltKarmaPlayerCanTeleport", "False"));
+			ALLOW_SOE_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AllowSoEInPvP", "true"));
 			ALLOW_POTS_IN_PVP = Boolean.parseBoolean(pvpSettings.getProperty("AllowPotsInPvP", "True"));
 			/** Enable Pk Info mod. Displays number of times player has killed other */
 			ENABLE_PK_INFO = Boolean.valueOf(pvpSettings.getProperty("EnablePkInfo", "false"));
@@ -2990,22 +2999,32 @@ public final class Config
 		}
 	}
 
-	//============================================================
-	public static int FLOODPROTECTOR_INITIALSIZE;
-	public static int PROTECTED_BYPASS_C;
-	public static int PROTECTED_HEROVOICE_C;
-	public static int PROTECTED_MULTISELL_C;
-	public static int PROTECTED_SUBCLASS_C;
-	public static int PROTECTED_GLOBAL_CHAT_DELAY_C;
-	public static int PROTECTED_PARTY_ADD_MEMBER_C;
-	public static int PROTECTED_DESTROY_DROP_C;
-	public static int PROTECTED_ENCHANT_C;
-	public static int PROTECTED_BANKING_SYSTEM_C;
-	public static int PROTECTED_WEREHOUSE_C;
-	public static int PROTECTED_CRAFT_C;
-	public static int PROTECTED_USE_ITEM_C;
-	public static int PROTECTED_MOVE_TO_LOCATION_C;
+	//--------------------------------------------------
+	// FloodProtector Settings
+	//--------------------------------------------------
+	public static FloodProtectorConfig FLOOD_PROTECTOR_USE_ITEM;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_ROLL_DICE;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_FIREWORK;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_ITEM_PET_SUMMON;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_HERO_VOICE;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_GLOBAL_CHAT;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_SUBCLASS;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_DROP_ITEM;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_SERVER_BYPASS;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_MULTISELL;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_TRANSACTION;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_MANUFACTURE;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_MANOR;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_SENDMAIL;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_CHARACTER_SELECT;
 
+	public static FloodProtectorConfig FLOOD_PROTECTOR_UNKNOWN_PACKETS;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_PARTY_INVITATION;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_SAY_ACTION;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_MOVE_ACTION;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_GENERIC_ACTION;
+	
+	
 	//============================================================
 	public static void loadFloodConfig()
 	{
@@ -3013,31 +3032,127 @@ public final class Config
 
 		try
 		{
-			Properties FloodSetting = new Properties();
+			/*Properties FloodSetting = new Properties();
 			InputStream is = new FileInputStream(new File(PROTECT_FLOOD_CONFIG));
 			FloodSetting.load(is);
 			is.close();
-
-			FLOODPROTECTOR_INITIALSIZE = Integer.parseInt(FloodSetting.getProperty("FloodProtectorInitialSize", "50"));
-			PROTECTED_BYPASS_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorByPass", "4"));
-			PROTECTED_HEROVOICE_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorHeroVoice", "50"));
-			PROTECTED_MULTISELL_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorMultisell", "50"));
-			PROTECTED_SUBCLASS_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorSubclass", "50"));
-			PROTECTED_GLOBAL_CHAT_DELAY_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorGlobalChatDelay", "0"));
-			PROTECTED_PARTY_ADD_MEMBER_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorPartyAddMember", "80"));
-			PROTECTED_DESTROY_DROP_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorDestroyDrop", "50"));
-			PROTECTED_ENCHANT_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorEnchant", "50"));
-			PROTECTED_BANKING_SYSTEM_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorBankingSystem", "50"));
-			PROTECTED_WEREHOUSE_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorWerehouse", "50"));
-			PROTECTED_CRAFT_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorCraft", "50"));
-			PROTECTED_USE_ITEM_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorUseItem", "10"));
-			PROTECTED_MOVE_TO_LOCATION_C = Integer.parseInt(FloodSetting.getProperty("FloodProtectorMove", "1"));
+			 */
+			
+			FLOOD_PROTECTOR_USE_ITEM =
+				new FloodProtectorConfig("UseItemFloodProtector");
+			FLOOD_PROTECTOR_ROLL_DICE =
+				new FloodProtectorConfig("RollDiceFloodProtector");
+			FLOOD_PROTECTOR_FIREWORK =
+				new FloodProtectorConfig("FireworkFloodProtector");
+			FLOOD_PROTECTOR_ITEM_PET_SUMMON =
+				new FloodProtectorConfig("ItemPetSummonFloodProtector");
+			FLOOD_PROTECTOR_HERO_VOICE =
+				new FloodProtectorConfig("HeroVoiceFloodProtector");
+			FLOOD_PROTECTOR_GLOBAL_CHAT =
+				new FloodProtectorConfig("GlobalChatFloodProtector");
+			FLOOD_PROTECTOR_SUBCLASS =
+				new FloodProtectorConfig("SubclassFloodProtector");
+			FLOOD_PROTECTOR_DROP_ITEM =
+				new FloodProtectorConfig("DropItemFloodProtector");
+			FLOOD_PROTECTOR_SERVER_BYPASS =
+				new FloodProtectorConfig("ServerBypassFloodProtector");
+			FLOOD_PROTECTOR_MULTISELL =
+				new FloodProtectorConfig("MultiSellFloodProtector");
+			FLOOD_PROTECTOR_TRANSACTION =
+				new FloodProtectorConfig("TransactionFloodProtector");
+			FLOOD_PROTECTOR_MANUFACTURE =
+				new FloodProtectorConfig("ManufactureFloodProtector");
+			FLOOD_PROTECTOR_MANOR =
+				new FloodProtectorConfig("ManorFloodProtector");
+			FLOOD_PROTECTOR_SENDMAIL =
+				new FloodProtectorConfig("SendMailFloodProtector");
+			FLOOD_PROTECTOR_CHARACTER_SELECT =
+				new FloodProtectorConfig("CharacterSelectFloodProtector");
+			
+			FLOOD_PROTECTOR_UNKNOWN_PACKETS = 
+				new FloodProtectorConfig("UnknownPacketsFloodProtector");
+			FLOOD_PROTECTOR_PARTY_INVITATION = 
+				new FloodProtectorConfig("PartyInvitationFloodProtector");
+			FLOOD_PROTECTOR_SAY_ACTION = 
+				new FloodProtectorConfig("SayActionFloodProtector");
+			FLOOD_PROTECTOR_MOVE_ACTION = 
+				new FloodProtectorConfig("MoveActionFloodProtector");
+			FLOOD_PROTECTOR_GENERIC_ACTION = 
+				new FloodProtectorConfig("GenericActionFloodProtector",true);
+			
+			// Load FloodProtector L2Properties file
+			try
+			{
+				L2Properties security = new L2Properties();
+				FileInputStream is = new FileInputStream(new File(PROTECT_FLOOD_CONFIG));
+				security.load(is);
+				
+				loadFloodProtectorConfigs(security);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				throw new Error("Failed to Load "+PROTECT_FLOOD_CONFIG);
+			}
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			throw new Error("Failed to Load " + PROTECT_FLOOD_CONFIG + " File.");
 		}
+	}
+	
+	/**
+	 * Loads flood protector configurations.
+	 */
+	private static void loadFloodProtectorConfigs(final L2Properties properties)
+	{
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_USE_ITEM, "UseItem", "4");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_ROLL_DICE, "RollDice", "42");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_FIREWORK, "Firework", "42");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_ITEM_PET_SUMMON, "ItemPetSummon", "16");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_HERO_VOICE, "HeroVoice", "100");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_GLOBAL_CHAT, "GlobalChat", "5");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_SUBCLASS, "Subclass", "20");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_DROP_ITEM, "DropItem", "10");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_SERVER_BYPASS, "ServerBypass", "5");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MULTISELL, "MultiSell", "1");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_TRANSACTION, "Transaction", "10");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MANUFACTURE, "Manufacture", "3");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MANOR, "Manor", "30");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_SENDMAIL, "SendMail", "100");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_CHARACTER_SELECT, "CharacterSelect", "30");
+		
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_UNKNOWN_PACKETS, "UnknownPackets", "5");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_PARTY_INVITATION, "PartyInvitation", "30");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_SAY_ACTION, "SayAction", "100");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MOVE_ACTION, "MoveAction", "30");
+		
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_GENERIC_ACTION, "GenericAction", "5");
+		
+	}
+	
+	/**
+	 * Loads single flood protector configuration.
+	 * 
+	 * @param properties
+	 *            L2Properties file reader
+	 * @param config
+	 *            flood protector configuration instance
+	 * @param configString
+	 *            flood protector configuration string that determines for which flood protector
+	 *            configuration should be read
+	 * @param defaultInterval
+	 *            default flood protector interval
+	 */
+	private static void loadFloodProtectorConfig(final L2Properties properties, final FloodProtectorConfig config, final String configString, final String defaultInterval)
+	{
+		config.FLOOD_PROTECTION_INTERVAL = Integer.parseInt(properties.getProperty(StringUtil.concat("FloodProtector", configString, "Interval"), defaultInterval));
+		config.LOG_FLOODING = Boolean.parseBoolean(properties.getProperty(StringUtil.concat("FloodProtector", configString, "LogFlooding"), "False"));
+		config.PUNISHMENT_LIMIT = Integer.parseInt(properties.getProperty(StringUtil.concat("FloodProtector", configString, "PunishmentLimit"), "0"));
+		config.PUNISHMENT_TYPE = properties.getProperty(StringUtil.concat("FloodProtector", configString, "PunishmentType"), "none");
+		config.PUNISHMENT_TIME = Integer.parseInt(properties.getProperty(StringUtil.concat("FloodProtector", configString, "PunishmentTime"), "0"));
 	}
 
 	//============================================================
@@ -3952,7 +4067,7 @@ public final class Config
 	
 
 	//============================================================
-	public static void loadBanIPConfig()
+	/*public static void loadBanIPConfig()
 	{
 		final String BAN_IP_FILE = FService.BANNED_IP;
 
@@ -3969,6 +4084,103 @@ public final class Config
 		{
 			e.printStackTrace();
 			throw new Error("Failed to Load " + BAN_IP_FILE + " File.");
+		}
+	}*/
+	
+	public static void loadBanFile()
+	{
+		final String BAN_IP_FILE = FService.BANNED_IP;
+
+		File bannedFile = new File(BAN_IP_FILE);
+		if (bannedFile.exists() && bannedFile.isFile())
+		{
+			FileInputStream fis = null;
+			try
+			{
+				fis = new FileInputStream(bannedFile);
+			}
+			catch (FileNotFoundException e)
+			{
+				_log.log(Level.WARNING, "Failed to load banned IPs file (" + bannedFile.getName() + ") for reading. Reason: " + e.getMessage(), e);
+				return;
+			}
+			
+			LineNumberReader reader = null;
+			String line;
+			String[] parts;
+			try
+			{
+				reader = new LineNumberReader(new InputStreamReader(fis));
+				
+				while ((line = reader.readLine()) != null)
+				{
+					line = line.trim();
+					// check if this line isnt a comment line
+					if (line.length() > 0 && line.charAt(0) != '#')
+					{
+						// split comments if any
+						parts = line.split("#", 2);
+						
+						// discard comments in the line, if any
+						line = parts[0];
+						
+						parts = line.split(" ");
+						
+						String address = parts[0];
+						
+						long duration = 0;
+						
+						if (parts.length > 1)
+						{
+							try
+							{
+								duration = Long.parseLong(parts[1]);
+							}
+							catch (NumberFormatException e)
+							{
+								_log.warning("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
+								continue;
+							}
+						}
+						
+						try
+						{
+							LoginController.getInstance().addBanForAddress(address, duration);
+						}
+						catch (UnknownHostException e)
+						{
+							_log.warning("Skipped: Invalid address (" + parts[0] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
+						}
+					}
+				}
+			}
+			catch (IOException e)
+			{
+				_log.log(Level.WARNING, "Error while reading the bans file (" + bannedFile.getName() + "). Details: " + e.getMessage(), e);
+			}
+			finally
+			{
+				try
+				{
+					reader.close();
+				}
+				catch (Exception e)
+				{
+				}
+				
+				try
+				{
+					fis.close();
+				}
+				catch (Exception e)
+				{
+				}
+			}
+			_log.info("Loaded " + LoginController.getInstance().getBannedIps().size() + " IP Bans.");
+		}
+		else
+		{
+			_log.warning("IP Bans file (" + bannedFile.getName() + ") is missing or is a directory, skipped.");
 		}
 	}
 
@@ -4070,14 +4282,8 @@ public final class Config
 		else if(ServerType.serverMode == ServerType.MODE_LOGINSERVER)
 		{
 			loadLoginStartConfig();
-			// Load developer parameters
-			loadDevConfig();
-			loadBanIPConfig();
-			
-			// Protect
-			loadFloodConfig();
+			//loadBanFile();
 			loadPacketConfig();
-			loadPOtherConfig();
 		}
 		else
 		{

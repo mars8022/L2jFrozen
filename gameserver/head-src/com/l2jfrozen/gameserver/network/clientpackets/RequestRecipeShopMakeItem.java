@@ -53,6 +53,10 @@ public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
+		if (!getClient().getFloodProtectors().getManufacture().tryPerformAction("RecipeShopMake"))
+    		return;
+
+    	
 		L2PcInstance manufacturer = (L2PcInstance) L2World.getInstance().findObject(_id);
 		if(manufacturer == null)
 			return;

@@ -250,7 +250,7 @@ public final class ValidatePosition extends L2GameClientPacket
 		*/
 		
 		
-		if(Config.DEVELOPER){
+		if(Config.DEBUG){
 			
 			int realHeading = activeChar.getHeading();
 			_log.info("client pos: " + _x + " " + _y + " " + _z + " head " + _heading);

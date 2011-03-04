@@ -93,6 +93,13 @@ public final class RequestPackageSend extends L2GameClientPacket
 		}
 		else if(!player.getAccountChars().containsKey(_objectID))
 			return;
+		
+		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("deposit"))
+		{
+			player.sendMessage("You depositing items too fast.");
+			return;
+		}
+
 
 		PcFreight freight = target.getFreight();
 		player.setActiveWarehouse(freight);

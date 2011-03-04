@@ -104,7 +104,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 			catch (CancelledKeyException e)
 			{
-				if(Config.ENABLE_MMOCORE_EXCEPTIONS)
+				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -133,7 +133,11 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	final int read(final ByteBuffer buf) throws IOException
 	{
-		if(!isClosed() && _readableByteChannel!=null && _readableByteChannel.isOpen())
+		if(!isClosed() 
+				&& _readableByteChannel!=null 
+				&& _readableByteChannel.isOpen()
+				&& !_socket.isInputShutdown()
+				&& !_socket.isOutputShutdown())
 			return _readableByteChannel.read(buf);
 		else 
 			return -1;
@@ -240,14 +244,18 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 		}
 		
-		try
-		{
-			_selectionKey.interestOps(_selectionKey.interestOps() & ~SelectionKey.OP_WRITE);
-		}
-		catch (CancelledKeyException e)
-		{
-			if(Config.ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
+		if(_selectionKey.isValid() && _selectionKey.isConnectable()){
+			
+			try
+			{
+				_selectionKey.interestOps(_selectionKey.interestOps() & ~SelectionKey.OP_WRITE);
+			}
+			catch (CancelledKeyException e)
+			{
+				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+					e.printStackTrace();
+				
+			}
 			
 		}
 		

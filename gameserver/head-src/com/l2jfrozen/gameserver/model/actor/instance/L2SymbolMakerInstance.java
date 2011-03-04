@@ -52,6 +52,9 @@ public class L2SymbolMakerInstance extends L2FolkInstance
 		}
 		else if(command.startsWith("Remove "))
 		{
+			if (!player.getClient().getFloodProtectors().getTransaction().tryPerformAction("HennaRemove"))
+				return;
+
 			int slot = Integer.parseInt(command.substring(7));
 			player.removeHenna(slot);
 		}

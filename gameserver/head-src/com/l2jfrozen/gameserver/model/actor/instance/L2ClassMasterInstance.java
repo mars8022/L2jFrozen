@@ -244,6 +244,9 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		}
 		else if(command.startsWith("change_class"))
 		{
+			if (!player.getFloodProtectors().getServerBypass().tryPerformAction("changeclass"))
+				return;
+			
 			int val = Integer.parseInt(command.substring(13));
 
 			// Exploit prevention
@@ -356,24 +359,8 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 
 			changeClass(player, val);
 			
-			try
-			{
-				Thread.sleep(2000);
-			}
-			catch(InterruptedException e)
-			{
-				e.printStackTrace();
-			}
 			player.rewardSkills();
 			
-			try
-			{
-				Thread.sleep(2000);
-			}
-			catch(InterruptedException e)
-			{
-				e.printStackTrace();
-			}
 			player.checkAllowedSkills();
 
 			if(val >= 88)

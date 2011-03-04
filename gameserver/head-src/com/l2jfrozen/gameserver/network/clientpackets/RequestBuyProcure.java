@@ -91,6 +91,10 @@ public class RequestBuyProcure extends L2GameClientPacket
 		L2PcInstance player = getClient().getActiveChar();
 		if(player == null)
 			return;
+		
+		if (!getClient().getFloodProtectors().getManor().tryPerformAction("BuyProcure"))
+			return;
+
 
 		// Alt game - Karma punishment
 		if(!Config.ALT_GAME_KARMA_PLAYER_CAN_SHOP && player.getKarma() > 0)
