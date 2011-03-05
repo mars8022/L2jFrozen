@@ -323,6 +323,17 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					break;
 				case 4: // Add Subclass - Action (Subclass 4 x[x])
 					boolean allowAddition = true;
+										
+					try
+					{
+						Thread.sleep(2000);
+					}
+					catch(InterruptedException e1)
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e1.printStackTrace();
+					}
+					
 					/*
 					 * If the character is less than level 75 on any of their previously chosen
 					 * classes then disallow them to change to their most recently added sub-class choice.
@@ -497,6 +508,17 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					}
 					break;
 				case 7: // Change Subclass - Action
+					
+					try
+					{
+						Thread.sleep(2000);
+					}
+					catch(InterruptedException e1)
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e1.printStackTrace();
+					}
+					
 					if(player.isLocked())
             		{
             			player.sendMessage("Can't do it right now.");
