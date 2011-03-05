@@ -12287,16 +12287,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		 * _classId against applied 'classIndex'.
 		 */
 		store();
-
-		try
-		{
-			Thread.sleep(2000);
-		}
-		catch(InterruptedException e1)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e1.printStackTrace();
-		}
 		
 		if(classIndex == 0)
 		{
@@ -12400,16 +12390,6 @@ public final class L2PcInstance extends L2PlayableInstance
         {
             restoreEffects();
         }
-		
-		try
-		{
-			Thread.sleep(1000);
-		}
-		catch(InterruptedException e1)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e1.printStackTrace();
-		}
 		
 		checkAllowedSkills();
 
