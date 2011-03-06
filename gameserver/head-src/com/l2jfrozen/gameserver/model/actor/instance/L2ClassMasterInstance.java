@@ -243,10 +243,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 			}
 		}
 		else if(command.startsWith("change_class"))
-		{
-			if (!player.getFloodProtectors().getServerBypass().tryPerformAction("changeclass"))
-				return;
-			
+		{			
 			int val = Integer.parseInt(command.substring(13));
 
 			// Exploit prevention
