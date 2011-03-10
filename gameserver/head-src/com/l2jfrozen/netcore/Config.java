@@ -46,6 +46,7 @@ public class Config
 	public int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN				= 5;	// default 5
 	
 	//Packets flooding Config
+	public boolean DISABLE_FULL_PACKETS_FLOOD_PROTECTOR;
 	public int FLOOD_PACKET_PROTECTION_INTERVAL;
 	public boolean LOG_PACKET_FLOODING;
 	public int PACKET_FLOODING_PUNISHMENT_LIMIT;
@@ -98,6 +99,7 @@ public class Config
 			PACKET_HANDLER_DEBUG = Boolean.parseBoolean(mmoSetting.getProperty("PacketHandlerDebug", "False"));
             
 			//flooding protection
+			DISABLE_FULL_PACKETS_FLOOD_PROTECTOR = Boolean.parseBoolean(mmoSetting.getProperty("DisableOpCodesFloodProtector", "false"));
 			FLOOD_PACKET_PROTECTION_INTERVAL = Integer.parseInt(mmoSetting.getProperty("FloodPacketProtectionInterval", "1"));
 			LOG_PACKET_FLOODING = Boolean.parseBoolean(mmoSetting.getProperty("LogPacketFlooding", "false"));
 			PACKET_FLOODING_PUNISHMENT_LIMIT = Integer.parseInt(mmoSetting.getProperty("PacketFloodingPunishmentLimit", "15"));
