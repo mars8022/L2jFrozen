@@ -526,6 +526,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 	 */
 	private boolean tryPerformAction(final int opcode, final int opcode2, T client)
 	{
+		if(Config.getInstance().DISABLE_FULL_PACKETS_FLOOD_PROTECTOR){
+			return true;
+		}
 		//filter on opcodes
 		if(!isOpCodeToBeTested(opcode, opcode2, client instanceof L2LoginClient)){
 			return true;
@@ -619,8 +622,11 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				
 			}
 			
-			_nextGameTick = curTick + Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL;
-			clients_nextGameTick.get(account).put(opcode, _nextGameTick);
+			if(curTick == _nextGameTick){
+				_nextGameTick = curTick + Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL;
+				clients_nextGameTick.get(account).put(opcode, _nextGameTick);
+			}
+			
 			return true;
 			
 		}else{ //cur time more then checked one  --> restart opcode
