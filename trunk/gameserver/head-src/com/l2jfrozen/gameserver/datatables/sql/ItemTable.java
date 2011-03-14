@@ -26,9 +26,11 @@ import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.Item;
@@ -51,6 +53,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -61,8 +64,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ItemTable
 {
-	private static Logger _log = Logger.getLogger(ItemTable.class.getName());
-	private static Logger _logItems = Logger.getLogger("item");
+	private final static Logger _log = LoggerFactory.getLogger(ItemTable.class);
+	private final static java.util.logging.Logger _logItems = java.util.logging.Logger.getLogger("item");
 
 	private static final Map<String, Integer> _crystalTypes = new FastMap<String, Integer>();
 	private static final Map<String, L2WeaponType> _weaponTypes = new FastMap<String, L2WeaponType>();
@@ -70,11 +73,8 @@ public class ItemTable
 	private static final Map<String, Integer> _slots = new FastMap<String, Integer>();
 
 	private L2Item[] _allTemplates;
-	private Map<Integer, L2EtcItem> _etcItems;
-	private Map<Integer, L2Armor> _armors;
-	private Map<Integer, L2Weapon> _weapons;
 
-	private boolean _initialized = true;
+	private final boolean _initialized = true;
 
 	static
 	{
@@ -187,9 +187,9 @@ public class ItemTable
 	 */
 	public ItemTable()
 	{
-		_etcItems = new FastMap<Integer, L2EtcItem>();
-		_armors = new FastMap<Integer, L2Armor>();
-		_weapons = new FastMap<Integer, L2Weapon>();
+		Map<Integer, L2EtcItem> etcItems = new FastMap<Integer, L2EtcItem>();
+		Map<Integer, L2Armor> armors = new FastMap<Integer, L2Armor>();
+		Map<Integer, L2Weapon> weapons = new FastMap<Integer, L2Weapon>();
 
 		Connection con = null;
 		try
@@ -197,52 +197,40 @@ public class ItemTable
 			con = L2DatabaseFactory.getInstance().getConnection();
 			for(String selectQuery : SQL_ITEM_SELECTS)
 			{
-				PreparedStatement statement = con.prepareStatement(selectQuery);
-				ResultSet rset = statement.executeQuery();
+				final PreparedStatement statement = con.prepareStatement(selectQuery);
+				final ResultSet rset = statement.executeQuery();
 
 				// Add item in correct FastMap
 				while(rset.next())
 				{
 					if(selectQuery.endsWith("etcitem"))
 					{
-						Item newItem = readItem(rset);
+						final Item newItem = readItem(rset);
 						itemData.put(newItem.id, newItem);
-						newItem = null;
 					}
 					else if(selectQuery.endsWith("armor"))
 					{
-						Item newItem = readArmor(rset);
+						final Item newItem = readArmor(rset);
 						armorData.put(newItem.id, newItem);
-						newItem = null;
 					}
 					else if(selectQuery.endsWith("weapon"))
 					{
-						Item newItem = readWeapon(rset);
+						final Item newItem = readWeapon(rset);
 						weaponData.put(newItem.id, newItem);
-						newItem = null;
 					}
 				}
 
 				statement.close();
 				rset.close();
-				statement = null;
-				rset = null;
 			}
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.WARNING, "data error on item: ", e);
+			_log.error("data error on item", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		if(Config.CUSTOM_ITEM_TABLES)
@@ -252,15 +240,15 @@ public class ItemTable
 				con = L2DatabaseFactory.getInstance().getConnection();
 				for(String selectQuery : SQL_CUSTOM_ITEM_SELECTS)
 				{
-					PreparedStatement statement = con.prepareStatement(selectQuery);
-					ResultSet rset = statement.executeQuery();
+					final PreparedStatement statement = con.prepareStatement(selectQuery);
+					final ResultSet rset = statement.executeQuery();
 
 					// Add item in correct FastMap
 					while(rset.next())
 					{
 						if(selectQuery.endsWith("etcitem"))
 						{
-							Item newItem = readItem(rset);
+							final Item newItem = readItem(rset);
 
 							if(itemData.containsKey(newItem.id))
 							{
@@ -268,11 +256,10 @@ public class ItemTable
 							}
 
 							itemData.put(newItem.id, newItem);
-							newItem = null;
 						}
 						else if(selectQuery.endsWith("armor"))
 						{
-							Item newItem = readArmor(rset);
+							final Item newItem = readArmor(rset);
 
 							if(armorData.containsKey(newItem.id))
 							{
@@ -280,11 +267,10 @@ public class ItemTable
 							}
 
 							armorData.put(newItem.id, newItem);
-							newItem = null;
 						}
 						else if(selectQuery.endsWith("weapon"))
 						{
-							Item newItem = readWeapon(rset);
+							final Item newItem = readWeapon(rset);
 
 							if(weaponData.containsKey(newItem.id))
 							{
@@ -292,55 +278,45 @@ public class ItemTable
 							}
 
 							weaponData.put(newItem.id, newItem);
-							newItem = null;
 						}
 					}
 
 					statement.close();
 					rset.close();
-					statement = null;
-					rset = null;
 				}
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.log(Level.WARNING, "data error on custom_item: ", e);
+				_log.error("data error on custom_item", e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
+				CloseUtil.close(con);
 			}
 		}
 
 		for(L2Armor armor : SkillsEngine.getInstance().loadArmors(armorData))
 		{
-			_armors.put(armor.getItemId(), armor);
+			armors.put(armor.getItemId(), armor);
 		}
-		_log.config("ItemTable: Loaded " + _armors.size() + " Armors.");
+		_log.debug("ItemTable: Loaded " + armors.size() + " Armors.");
 
 		for(L2EtcItem item : SkillsEngine.getInstance().loadItems(itemData))
 		{
-			_etcItems.put(item.getItemId(), item);
+			etcItems.put(item.getItemId(), item);
 		}
-		_log.config("ItemTable: Loaded " + _etcItems.size() + " Items.");
+		_log.debug("ItemTable: Loaded " + etcItems.size() + " Items.");
 
 		for(L2Weapon weapon : SkillsEngine.getInstance().loadWeapons(weaponData))
 		{
-			_weapons.put(weapon.getItemId(), weapon);
+			weapons.put(weapon.getItemId(), weapon);
 		}
-		_log.config("ItemTable: Loaded " + _weapons.size() + " Weapons.");
+		_log.debug("ItemTable: Loaded " + weapons.size() + " Weapons.");
 
 		//fillEtcItemsTable();
 		//fillArmorsTable();
 		//FillWeaponsTable();
-		buildFastLookupTable();
+		buildFastLookupTable(armors, weapons, etcItems);
 	}
 
 	/**
@@ -595,7 +571,7 @@ public class ItemTable
 		}
 		else
 		{
-			_log.fine("unknown etcitem type:" + itemType);
+			_log.debug("unknown etcitem type:" + itemType);
 			item.type = L2EtcItemType.OTHER;
 		}
 		itemType = null;
@@ -615,7 +591,6 @@ public class ItemTable
 		{
 			item.set.set("stackable", false);
 		}
-		consume = null;
 
 		int crystal = _crystalTypes.get(rset.getString("crystal_type"));
 		item.set.set("crystal_type", crystal);
@@ -686,81 +661,56 @@ public class ItemTable
 	/**
 	 * Builds a variable in which all items are putting in in function of their ID.
 	 */
-	private void buildFastLookupTable()
+	private void buildFastLookupTable(Map<Integer, L2Armor> armors, Map<Integer, L2Weapon> weapons, Map<Integer, L2EtcItem> etcItems)
 	{
 		int highestId = 0;
 
 		// Get highest ID of item in armor FastMap, then in weapon FastMap, and finally in etcitem FastMap
-		for(Integer id : _armors.keySet())
+		for(L2Armor item : armors.values())
 		{
-			L2Armor item = _armors.get(id);
 			if(item.getItemId() > highestId)
 			{
 				highestId = item.getItemId();
 			}
-			id = null;
-			item = null;
 		}
 
-		for(Integer id : _weapons.keySet())
+		for(L2Weapon item : weapons.values())
 		{
-
-			L2Weapon item = _weapons.get(id);
 			if(item.getItemId() > highestId)
 			{
 				highestId = item.getItemId();
 			}
-			id = null;
-			item = null;
 		}
 
-		for(Integer id : _etcItems.keySet())
+		for(L2EtcItem item : etcItems.values())
 		{
-			L2EtcItem item = _etcItems.get(id);
 			if(item.getItemId() > highestId)
 			{
 				highestId = item.getItemId();
 			}
-			id = null;
-			item = null;
 		}
 
 		// Create a FastLookUp Table called _allTemplates of size : value of the highest item ID
-		if(Config.DEBUG)
-		{
-			_log.fine("highest item id used:" + highestId);
-		}
+		_log.debug("highest item id used: {}", highestId);
 
 		_allTemplates = new L2Item[highestId + 1];
 
 		// Insert armor item in Fast Look Up Table
-		for(Integer id : _armors.keySet())
+		for(int id : armors.keySet())
 		{
-			L2Armor item = _armors.get(id);
-			assert _allTemplates[id.intValue()] == null;
-			_allTemplates[id.intValue()] = item;
-			id = null;
-			item = null;
+			_allTemplates[id] = armors.get(id);
 		}
 
 		// Insert weapon item in Fast Look Up Table
-		for(Integer id : _weapons.keySet())
+		for(int id : weapons.keySet())
 		{
-			L2Weapon item = _weapons.get(id);
-			assert _allTemplates[id.intValue()] == null;
-			_allTemplates[id.intValue()] = item;
-			id = null;
-			item = null;
+			_allTemplates[id] = weapons.get(id);
 		}
 
 		// Insert etcItem item in Fast Look Up Table
-		for(Integer id : _etcItems.keySet())
+		for(int id : etcItems.keySet())
 		{
-			L2EtcItem item = _etcItems.get(id);
-			assert _allTemplates[id.intValue()] == null;
-			_allTemplates[id.intValue()] = item;
-			id = null;
-			item = null;
+			_allTemplates[id] = etcItems.get(id);
 		}
 	}
 
@@ -774,8 +724,7 @@ public class ItemTable
 	{
 		if(id > _allTemplates.length)
 			return null;
-		else
-			return _allTemplates[id];
+		return _allTemplates[id];
 	}
 
 	/**
@@ -826,13 +775,9 @@ public class ItemTable
 			}
 			itemLootShedule = ThreadPoolManager.getInstance().scheduleGeneral(new resetOwner(item), delay);
 			item.setItemLootShedule(itemLootShedule);
-			itemLootShedule = null;
 		}
 
-		if(Config.DEBUG)
-		{
-			_log.fine("ItemTable: Item created  oid:" + item.getObjectId() + " itemid:" + itemId);
-		}
+		_log.debug("ItemTable: Item created  oid: {} itemid: {}", item.getObjectId(), itemId);
 
 		// Add the L2ItemInstance object to _allObjects of L2world
 		L2World.storeObject(item);
@@ -852,7 +797,6 @@ public class ItemTable
 					item, actor, reference
 			});
 			_logItems.log(record);
-			record = null;
 		}
 
 		return item;
@@ -880,7 +824,6 @@ public class ItemTable
 			return null;
 
 		L2ItemInstance temp = new L2ItemInstance(0, item);
-		item = null;
 
 		try
 		{
@@ -896,7 +839,7 @@ public class ItemTable
 
 		if(temp.getItem() == null)
 		{
-			_log.warning("ItemTable: Item Template missing for Id: " + itemId);
+			_log.warn("ItemTable: Item Template missing for Id: {}", itemId);
 		}
 
 		return temp;
@@ -948,26 +891,18 @@ public class ItemTable
 				{
 					// Delete the pet in db
 					con = L2DatabaseFactory.getInstance().getConnection();
-					PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
+					final PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
 					statement.setInt(1, item.getObjectId());
 					statement.execute();
 					statement.close();
-					statement = null;
 				}
 				catch(Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-					_log.log(Level.WARNING, "could not delete pet objectid:", e);
+					_log.error("could not delete pet objectid", e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { 
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
-					con = null;
+					CloseUtil.close(con);
 				}
 			}
 		}
@@ -991,6 +926,7 @@ public class ItemTable
 			_item = item;
 		}
 
+		@Override
 		public void run()
 		{
 			_item.setOwnerId(0);

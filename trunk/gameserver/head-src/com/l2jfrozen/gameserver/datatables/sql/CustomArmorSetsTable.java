@@ -21,11 +21,12 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -35,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class CustomArmorSetsTable
 {
-	protected static final Logger _log = Logger.getLogger(CustomArmorSetsTable.class.getName());
+	private static final Logger _log = LoggerFactory.getLogger(CustomArmorSetsTable.class);
 	private static CustomArmorSetsTable _instance;
 	public static CustomArmorSetsTable getInstance() {
 		if(_instance == null)
@@ -49,8 +50,8 @@ public final class CustomArmorSetsTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM custom_armorsets");
-			ResultSet rset = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM custom_armorsets");
+			final ResultSet rset = statement.executeQuery();
 
 			while(rset.next())
 			{
@@ -65,27 +66,17 @@ public final class CustomArmorSetsTable
 				int enchant6skill = rset.getInt("enchant6skill");
 				ArmorSetsTable.getInstance().addObj(chest, new L2ArmorSet(chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill));
 			}
-			_log.info("ArmorSetsTable: Loaded custom armor sets.");
+			_log.debug("ArmorSetsTable: Loaded custom armor sets.");
 
 			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.SEVERE,"ArmorSetsTable: Error reading Custom ArmorSets table: " + e);
+			_log.error("ArmorSetsTable: Error reading Custom ArmorSets table", e);
 		}
 		finally {
-			if(con != null)
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

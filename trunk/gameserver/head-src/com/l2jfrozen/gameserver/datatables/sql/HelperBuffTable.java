@@ -22,14 +22,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.templates.L2HelperBuff;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -38,15 +40,14 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HelperBuffTable
 {
-
-	private static Logger _log = Logger.getLogger(HennaTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(HennaTable.class);
 
 	private static HelperBuffTable _instance;
 
 	/** The table containing all Buff of the Newbie Helper */
 	public List<L2HelperBuff> _helperBuff;
 
-	private boolean _initialized = true;
+	private final boolean _initialized = true;
 
 	/**
 	 * The player level since Newbie Helper can give the fisrt buff <BR>
@@ -90,8 +91,8 @@ public class HelperBuffTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT * FROM helper_buff_list");
-			ResultSet helperbuffdata = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT * FROM helper_buff_list");
+			final ResultSet helperbuffdata = statement.executeQuery();
 
 			fillHelperBuffTable(helperbuffdata);
 			helperbuffdata.close();
@@ -99,16 +100,11 @@ public class HelperBuffTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("Table helper_buff_list not found: Update your DataPack");
-			e.printStackTrace();
+			_log.error("Table helper_buff_list not found: Update your database", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 	}
@@ -118,7 +114,6 @@ public class HelperBuffTable
 	 */
 	private void fillHelperBuffTable(ResultSet HelperBuffData) throws Exception
 	{
-
 		while(HelperBuffData.next())
 		{
 			StatsSet helperBuffDat = new StatsSet();
@@ -162,7 +157,7 @@ public class HelperBuffTable
 			_helperBuff.add(template);
 		}
 
-		_log.config("Helper Buff Table: Loaded " + _helperBuff.size() + " Templates.");
+		_log.debug("Helper Buff Table: Loaded {} Templates.", _helperBuff.size());
 
 	}
 

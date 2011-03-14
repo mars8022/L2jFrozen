@@ -111,19 +111,16 @@ public class CastleManager
 		Connection con = null;
 		try
 		{
-			PreparedStatement statement;
-			ResultSet rs;
-
-			con = L2DatabaseFactory.getInstance().getConnection(240000);
-
-			statement = con.prepareStatement("Select id from castle order by id");
-			rs = statement.executeQuery();
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement statement = con.prepareStatement("Select id from castle order by id");
+			ResultSet rs = statement.executeQuery();
 
 			while(rs.next())
 			{
 				getCastles().add(new Castle(rs.getInt("id")));
 			}
 
+			rs.close();
 			statement.close();
 
 			_log.info("Loaded: " + getCastles().size() + " castles");

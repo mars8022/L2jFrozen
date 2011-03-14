@@ -22,13 +22,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.model.L2LvlupData;
 import com.l2jfrozen.gameserver.model.base.ClassId;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -52,11 +54,11 @@ public class LevelUpData
 	private static final String CP_BASE = "defaultcpbase";
 	private static final String CLASS_ID = "classid";
 
-	private static Logger _log = Logger.getLogger(LevelUpData.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(LevelUpData.class);
 
 	private static LevelUpData _instance;
 
-	private Map<Integer, L2LvlupData> _lvlTable;
+	private final Map<Integer, L2LvlupData> _lvlTable;
 
 	public static LevelUpData getInstance()
 	{
@@ -75,8 +77,8 @@ public class LevelUpData
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement(SELECT_ALL);
-			ResultSet rset = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement(SELECT_ALL);
+			final ResultSet rset = statement.executeQuery();
 			L2LvlupData lvlDat;
 
 			while(rset.next())
@@ -99,26 +101,16 @@ public class LevelUpData
 
 			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
-			lvlDat = null;
 
-			_log.config("LevelUpData: Loaded " + _lvlTable.size() + " Character Level Up Templates.");
+			_log.debug("LevelUpData: Loaded {} Character Level Up Templates.", _lvlTable.size());
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("error while creating Lvl up data table " + e);
+			_log.error("error while creating Lvl up data table", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

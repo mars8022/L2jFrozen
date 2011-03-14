@@ -22,15 +22,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -41,11 +44,11 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class SpawnTable
 {
-	private static Logger _log = Logger.getLogger(SpawnTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(SpawnTable.class);
 
 	private static final SpawnTable _instance = new SpawnTable();
 
-	private Map<Integer, L2Spawn> _spawntable = new FastMap<Integer, L2Spawn>().shared();
+	private final Map<Integer, L2Spawn> _spawntable = new FastMap<Integer, L2Spawn>().shared();
 	private int _npcSpawnCount;
 	private int _customSpawnCount;
 
@@ -152,37 +155,23 @@ public class SpawnTable
 				}
 				else
 				{
-					_log.warning("SpawnTable: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					_log.warn("SpawnTable: Data missing in NPC table for ID: {}.", rset.getInt("npc_templateid"));
 				}
 			}
 			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
 		}
 		catch(Exception e)
 		{
-			// problem with initializing spawn, go to next one
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("SpawnTable: Spawn could not be initialized: " + e);
+			_log.error("SpawnTable: Spawn could not be initialized", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
-		_log.config("SpawnTable: Loaded " + _spawntable.size() + " Npc Spawn Locations.");
-
-		if(Config.DEBUG)
-		{
-			_log.fine("SpawnTable: Spawning completed, total number of NPCs in the world: " + _npcSpawnCount);
-		}
+		_log.debug("SpawnTable: Loaded {} Npc Spawn Locations.", _spawntable.size());
+		_log.debug("SpawnTable: Spawning completed, total number of NPCs in the world: {}", _npcSpawnCount);
 
 		//-------------------------------Custom Spawnlist----------------------------//
 		if(Config.CUSTOM_SPAWNLIST_TABLE)
@@ -191,7 +180,7 @@ public class SpawnTable
 			{
 				con = L2DatabaseFactory.getInstance().getConnection();
 				
-				PreparedStatement statement;
+				final PreparedStatement statement;
 				
 				if(Config.DELETE_GMSPAWN_ON_CUSTOM)
 				{
@@ -203,7 +192,7 @@ public class SpawnTable
 				}
 
 				//PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay, loc_id, periodOfDay FROM custom_spawnlist ORDER BY id");
-				ResultSet rset = statement.executeQuery();
+				final ResultSet rset = statement.executeQuery();
 
 				L2Spawn spawnDat;
 				L2NpcTemplate template1;
@@ -241,8 +230,6 @@ public class SpawnTable
 
 							spawnDat.setLocation(loc_id);
 
-							template1 = null;
-
 							switch(rset.getInt("periodOfDay"))
 							{
 								case 0: // default
@@ -263,43 +250,27 @@ public class SpawnTable
 							{
 								_highestId = spawnDat.getId();
 							}
-
-							template1 = null;
 						}
 					}
 					else
 					{
-						_log.warning("CustomSpawnTable: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+						_log.warn("CustomSpawnTable: Data missing in NPC table for ID: {}.", rset.getInt("npc_templateid"));
 					}
 				}
 				statement.close();
 				rset.close();
-				statement = null;
-				rset = null;
 			}
 			catch(Exception e)
 			{
-				// problem with initializing spawn, go to next one
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.warning("CustomSpawnTable: Spawn could not be initialized: " + e);
+				_log.error("CustomSpawnTable: Spawn could not be initialized", e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
+				CloseUtil.close(con);
 			}
 
-			_log.config("CustomSpawnTable: Loaded " + _customSpawnCount + " Npc Spawn Locations.");
-
-			if(Config.DEBUG)
-			{
-				_log.fine("CustomSpawnTable: Spawning completed, total number of NPCs in the world: " + _customSpawnCount);
-			}
+			_log.debug("CustomSpawnTable: Loaded {} Npc Spawn Locations.", _customSpawnCount);
+			_log.debug("CustomSpawnTable: Spawning completed, total number of NPCs in the world: {}", _customSpawnCount);
 		}
 	}
 
@@ -321,7 +292,7 @@ public class SpawnTable
 			try
 			{
 				con = L2DatabaseFactory.getInstance().getConnection();
-				PreparedStatement statement = con.prepareStatement("INSERT INTO " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + "(id,count,npc_templateid,locx,locy,locz,heading,respawn_delay,loc_id) values(?,?,?,?,?,?,?,?,?)");
+				final PreparedStatement statement = con.prepareStatement("INSERT INTO " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + "(id,count,npc_templateid,locx,locy,locz,heading,respawn_delay,loc_id) values(?,?,?,?,?,?,?,?,?)");
 				statement.setInt(1, spawn.getId());
 				statement.setInt(2, spawn.getAmount());
 				statement.setInt(3, spawn.getNpcid());
@@ -333,23 +304,14 @@ public class SpawnTable
 				statement.setInt(9, spawn.getLocation());
 				statement.execute();
 				statement.close();
-				statement = null;
 			}
 			catch(Exception e)
 			{
-				// problem with storing spawn
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.warning("SpawnTable: Could not store spawn in the DB:" + e);
+				_log.error("SpawnTable: Could not store spawn in the DB", e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
+				CloseUtil.close(con);
 			}
 		}
 	}
@@ -373,23 +335,14 @@ public class SpawnTable
 					statement.setBoolean(2, spawn.isCustom());
 					statement.execute();
 					statement.close();
-					statement = null;
 				}
 				catch(Exception e)
 				{
-					// problem with inserting nospawn 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-					_log.warning("SpawnTable: Spawn " + spawn.getId() + " could not be insert into DB: " + e);
+					_log.error("SpawnTable: Spawn {} could not be insert into DB", spawn.getId(), e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) {
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
-					con = null;
+					CloseUtil.close(con);
 				}
 			}
 			else
@@ -397,27 +350,18 @@ public class SpawnTable
 				try
 				{
 					con = L2DatabaseFactory.getInstance().getConnection();
-					PreparedStatement statement = con.prepareStatement("DELETE FROM " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + " WHERE id=?");
+					final PreparedStatement statement = con.prepareStatement("DELETE FROM " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + " WHERE id=?");
 					statement.setInt(1, spawn.getId());
 					statement.execute();
 					statement.close();
-					statement = null;
 				}
 				catch(Exception e)
 				{
-					// problem with deleting spawn 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-					_log.warning("SpawnTable: Spawn " + spawn.getId() + " could not be removed from DB: " + e);
+					_log.error("SpawnTable: Spawn {} could not be removed from DB", spawn.getId(), e);
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { 
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
-					con = null;
+					CloseUtil.close(con);
 				}
 			}
 		}

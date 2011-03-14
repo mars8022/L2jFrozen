@@ -19,17 +19,20 @@
 package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Statement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class L2DatabaseFactory
 {
-	private static final Logger _log = Logger.getLogger(L2DatabaseFactory.class.getName());
+	private static final Logger _log = LoggerFactory.getLogger(L2DatabaseFactory.class);
 	
 	public static enum ProviderType
 	{
@@ -40,103 +43,70 @@ public class L2DatabaseFactory
 	// =========================================================
 	// Data Field
 	private static L2DatabaseFactory _instance;
-	private ProviderType _providerType;
-	private ComboPooledDataSource _source;
+	private final ProviderType _providerType;
+	private final BoneCP _source;
 
 	// =========================================================
 	// Constructor
 	public L2DatabaseFactory() throws SQLException
 	{
-		try
-		{
-			if(Config.DATABASE_MAX_CONNECTIONS < 10)
-			{
-				Config.DATABASE_MAX_CONNECTIONS = 10;
-				_log.warning("at least " + Config.DATABASE_MAX_CONNECTIONS + " db connections are required.");
-			}
-			_source = new ComboPooledDataSource();
-			_source.setDebugUnreturnedConnectionStackTraces(Config.DEBUG); //debug func
-			_source.setAutoCommitOnClose(true);
-
-			_source.setInitialPoolSize(10);
-			_source.setMinPoolSize(10);
-			_source.setMaxPoolSize(Config.DATABASE_MAX_CONNECTIONS);
-
-			_source.setAcquireRetryAttempts(0); // try to obtain connections indefinitely (0 = never quit)
-			_source.setAcquireRetryDelay(500); // 500 miliseconds wait before try to acquire connection again
-			_source.setCheckoutTimeout(Config.DATABASE_TIMEOUT); // 0 = wait indefinitely for new connection
-			// if pool is exhausted
-			_source.setAcquireIncrement(5); // if pool is exhausted, get 5 more connections at a time
-			// cause there is a "long" delay on acquire connection
-			// so taking more than one connection at once will make connection pooling
-			// more effective.
-
-			// this "connection_test_table" is automatically created if not already there
-			_source.setAutomaticTestTable("connection_test_table");
-			_source.setTestConnectionOnCheckin(false);
-
-			// testing OnCheckin used with IdleConnectionTestPeriod is faster than  testing on checkout
-
-			_source.setIdleConnectionTestPeriod(3600); // test idle connection every 60 sec
-			_source.setMaxIdleTime(0); // 0 = idle connections never expire
-			// *THANKS* to connection testing configured above
-			// but I prefer to disconnect all connections not used
-			// for more than 1 hour
-
-			// enables statement caching,  there is a "semi-bug" in c3p0 0.9.0 but in 0.9.0.2 and later it's fixed
-			_source.setMaxStatementsPerConnection(Config.DATABASE_STATEMENT);
-
-			_source.setBreakAfterAcquireFailure(false); // never fail if any way possible
-			// setting this to true will make
-			// c3p0 "crash" and refuse to work
-			// till restart thus making acquire
-			// errors "FATAL" ... we don't want that
-			// it should be possible to recover
-			_source.setDriverClass(Config.DATABASE_DRIVER);
-			_source.setJdbcUrl(Config.DATABASE_URL);
-			_source.setUser(Config.DATABASE_LOGIN);
-			_source.setPassword(Config.DATABASE_PASSWORD);
-
-			/* Test the connection */
-			_source.getConnection().close();
-
-			if(Config.DEBUG)
-			{
-				_log.fine("Database Connection Working");
-			}
-
-			if(Config.DATABASE_DRIVER.toLowerCase().contains("microsoft"))
-			{
-				_providerType = ProviderType.MsSql;
-			}
-			else
-			{
-				_providerType = ProviderType.MySql;
-			}
+		if (Config.DATABASE_MAX_CONNECTIONS < 10) {
+			Config.DATABASE_MAX_CONNECTIONS = 10;
+			_log.warn("at least {} db connections are required.", Config.DATABASE_MAX_CONNECTIONS);
 		}
-		catch(SQLException x)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				x.printStackTrace();
-			
-			if(Config.DEBUG)
-			{
-				_log.fine("Database Connection FAILED");
-			}
-			// rethrow the exception
+		
+		try {
+			Class.forName(Config.DATABASE_DRIVER);
+		} catch(Throwable e) {
+			throw new SQLException("Database driver not found!");
+		}
+		
+		//hard configure, maybe used config.setConfigFile(String)?
+		final BoneCPConfig config = new BoneCPConfig();
+		config.setJdbcUrl(Config.DATABASE_URL);
+		config.setUsername(Config.DATABASE_LOGIN);
+		config.setPassword(Config.DATABASE_PASSWORD);
+		config.setMinConnectionsPerPartition(10);
+		config.setMaxConnectionsPerPartition(Config.DATABASE_MAX_CONNECTIONS);
+		config.setAcquireRetryAttempts(0); // try to obtain connections indefinitely (0 = never quit)
+		config.setAcquireRetryDelay(500); // 500 miliseconds wait before try to acquire connection again
+		config.setIdleConnectionTestPeriod(3600);
+		config.setIdleMaxAge(0);
+		config.setStatementReleaseHelperThreads(3);
+		config.setStatementsCacheSize(2); //min value
+		config.setPartitionCount(Config.DATABASE_PARTITION_COUNT);
+		
+		// if pool is exhausted, get 5 more connections at a time cause there is a "long" delay on acquire connection
+		// so taking more than one connection at once will make connection pooling more effective.
+		config.setAcquireIncrement(5);
+		config.setConnectionTimeout(Config.DATABASE_TIMEOUT);
+		
+		try {
+			_source = new BoneCP(config);
+			testConnection();
+		} catch (SQLException x) {
 			throw x;
+		} catch (Exception e) {
+			throw new SQLException("could not init DB connection", e);
 		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(Config.DEBUG)
-			{
-				_log.fine("Database Connection FAILED");
-			}
-			throw new SQLException("could not init DB connection:" + e);
-		}
+		
+		if (Config.DATABASE_DRIVER.toLowerCase().contains("microsoft"))
+			_providerType = ProviderType.MsSql;
+		else
+			_providerType = ProviderType.MySql;
+	}
+	
+	private void testConnection() throws SQLException {
+		final Connection connect = _source.getConnection();
+		if(connect == null) throw new SQLException();
+		_log.debug("Connection successful");
+		final Statement statement = connect.createStatement();
+		final ResultSet resultSet = statement.executeQuery("SELECT count FROM spawnlist");
+		if(resultSet.next()) resultSet.getInt("count");
+		resultSet.close();
+		statement.close();
+		connect.close();
+		_log.debug("Database Connection Working");
 	}
 
 	// =========================================================
@@ -163,29 +133,7 @@ public class L2DatabaseFactory
 
 	public void shutdown()
 	{
-		try
-		{
-			_source.close();
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.INFO, "", e);
-		}
-
-		try
-		{
-			_source = null;
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.INFO, "", e);
-		}
+		_source.close();
 	}
 
 	public final String safetyString(String[] whatToCheck)
@@ -233,53 +181,47 @@ public class L2DatabaseFactory
 			try
 			{
 				con = _source.getConnection();
-				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
-				
+//				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
 			}
 			catch(SQLException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.warning("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
-			}
-		}
-
-		return con;
-	}
-
-	public Connection getConnection(long max_connection_time) throws SQLException 
-	{ 
-		Connection con = null;
-
-		while(con == null)
-		{
-			try
-			{
-				con = _source.getConnection();
-				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), max_connection_time);
-				
-			}
-			catch(SQLException e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.warning("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+				_log.error("L2DatabaseFactory: getConnection() failed, trying again", e);
 			}
 		}
 
 		return con;
 	}
 	
-	public int getBusyConnectionCount() throws SQLException
-	{
-		return _source.getNumBusyConnectionsDefaultUser();
+//	public Connection getConnection(long max_connection_time) throws SQLException 
+//	{ 
+//		Connection con = null;
+//
+//		while(con == null)
+//		{
+//			try
+//			{
+//				con = _source.getConnection();
+//				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), max_connection_time);
+//				
+//			}
+//			catch(SQLException e)
+//			{
+//				if(Config.ENABLE_ALL_EXCEPTIONS)
+//					e.printStackTrace();
+//				
+//				_log.warning("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+//			}
+//		}
+//
+//		return con;
+//	}
+	
+	public int getBusyConnectionCount() {
+		return _source.getTotalLeased();
 	}
 
-	public int getIdleConnectionCount() throws SQLException
-	{
-		return _source.getNumIdleConnectionsDefaultUser();
+	public int getIdleConnectionCount() {
+		return _source.getTotalFree();
 	}
 
 	public final ProviderType getProviderType()
@@ -298,44 +240,41 @@ public class L2DatabaseFactory
 		}
 		catch (SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.WARNING, "Failed to close database connection!", e);
+			_log.error("Failed to close database connection!", e);
 		}
 	}
-	
-	private class ConnectionCloser implements Runnable
-	{
-		private Connection c ;
-		private RuntimeException exp;
-		
-		public ConnectionCloser(Connection con, RuntimeException e)
-		{
-			c = con;
-			exp = e;
-		}
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run()
-		{
-			try
-			{
-				if (c!=null && !c.isClosed())
-				{
-					_log.log(Level.WARNING, "Unclosed connection! Trace: " + exp.getStackTrace()[1], exp);
-					c.close();
-					
-				}
-			}
-			catch (SQLException e)
-			{
-				//the close operation could generate exception, but there is not any problem
-				//e.printStackTrace();
-			}
-			
-		}
-	}
+
+//	private class ConnectionCloser implements Runnable
+//	{
+//		private final Connection c ;
+//		private final RuntimeException exp;
+//		
+//		public ConnectionCloser(Connection con, RuntimeException e)
+//		{
+//			c = con;
+//			exp = e;
+//		}
+//		/* (non-Javadoc)
+//		 * @see java.lang.Runnable#run()
+//		 */
+//		@Override
+//		public void run()
+//		{
+//			try
+//			{
+//				if (c!=null && !c.isClosed())
+//				{
+//					_log.log(Level.WARNING, "Unclosed connection! Trace: " + exp.getStackTrace()[1], exp);
+//					c.close();
+//					
+//				}
+//			}
+//			catch (SQLException e)
+//			{
+//				//the close operation could generate exception, but there is not any problem
+//				//e.printStackTrace();
+//			}
+//			
+//		}
+//	}
 }

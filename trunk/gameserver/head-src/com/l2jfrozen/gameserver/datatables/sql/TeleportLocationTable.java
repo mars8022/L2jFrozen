@@ -22,12 +22,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2TeleportLocation;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -37,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TeleportLocationTable
 {
-	private static Logger _log = Logger.getLogger(TeleportLocationTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(TeleportLocationTable.class);
 
 	private static TeleportLocationTable _instance;
 
@@ -66,8 +69,8 @@ public class TeleportLocationTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT Description, id, loc_x, loc_y, loc_z, price, fornoble FROM teleport");
-			ResultSet rset = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT Description, id, loc_x, loc_y, loc_z, price, fornoble FROM teleport");
+			final ResultSet rset = statement.executeQuery();
 			L2TeleportLocation teleport;
 
 			while(rset.next())
@@ -82,30 +85,20 @@ public class TeleportLocationTable
 				teleport.setIsForNoble(rset.getInt("fornoble") == 1);
 
 				_teleports.put(teleport.getTeleId(), teleport);
-				teleport = null;
 			}
 
 			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
 
-			_log.config("TeleportLocationTable: Loaded " + _teleports.size() + " Teleport Location Templates.");
+			_log.debug("TeleportLocationTable: Loaded {} Teleport Location Templates.", _teleports.size());
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("error while creating teleport table " + e);
+			_log.error("error while creating teleport table", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 		if(Config.CUSTOM_TELEPORT_TABLE)
 		{
@@ -128,36 +121,26 @@ public class TeleportLocationTable
 					teleport.setPrice(rset.getInt("price"));
 					teleport.setIsForNoble(rset.getInt("fornoble") == 1);
 					_teleports.put(teleport.getTeleId(), teleport);
-					teleport = null;
 				}
 
 				statement.close();
 				rset.close();
-				statement = null;
-				rset = null;
 
 				_cTeleCount = _teleports.size() - _cTeleCount;
 
 				if(_cTeleCount > 0)
 				{
-					_log.config("TeleportLocationTable: Loaded " + _cTeleCount + " Custom Teleport Location Templates.");
+					_log.debug("TeleportLocationTable: Loaded {} Custom Teleport Location Templates.", _cTeleCount);
 				}
 
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.warning("error while creating custom teleport table " + e);
+				_log.error("error while creating custom teleport table", e);
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
+				CloseUtil.close(con);
 			}
 		}
 	}

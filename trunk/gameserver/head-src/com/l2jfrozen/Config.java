@@ -315,7 +315,7 @@ public final class Config
 	public static int DATABASE_MAX_CONNECTIONS;
 	public static int DATABASE_TIMEOUT;
 	public static int DATABASE_CONNECTION_TIMEOUT;
-	public static int DATABASE_STATEMENT;
+	public static int DATABASE_PARTITION_COUNT;
 	public static boolean RESERVE_HOST_ON_LOGIN = false;
 	public static boolean RWHO_LOG;
 	public static int RWHO_FORCE_INC;
@@ -353,7 +353,7 @@ public final class Config
 			DATABASE_MAX_CONNECTIONS = Integer.parseInt(serverSettings.getProperty("MaximumDbConnections", "100"));
 
 			DATABASE_TIMEOUT = Integer.parseInt(serverSettings.getProperty("TimeOutConDb", "0"));
-			DATABASE_STATEMENT = Integer.parseInt(serverSettings.getProperty("MaximumDbStatement", "100"));
+			DATABASE_PARTITION_COUNT = Integer.parseInt(serverSettings.getProperty("PartitionCount", "6"));
 			DATABASE_CONNECTION_TIMEOUT = Integer.parseInt(serverSettings.getProperty("SingleConnectionTimeOutDb", "120000"));
 			
 			DATAPACK_ROOT = new File(serverSettings.getProperty("DatapackRoot", ".")).getCanonicalFile();
@@ -4034,7 +4034,7 @@ public final class Config
 
 			DATABASE_TIMEOUT = Integer.parseInt(serverSettings.getProperty("TimeOutConDb", "0"));
 			DATABASE_CONNECTION_TIMEOUT = Integer.parseInt(serverSettings.getProperty("SingleConnectionTimeOutDb", "120000"));
-			DATABASE_STATEMENT = Integer.parseInt(serverSettings.getProperty("MaximumDbStatement", "100"));
+			DATABASE_PARTITION_COUNT = Integer.parseInt(serverSettings.getProperty("PartitionCount", "4"));
 
 			SHOW_LICENCE = Boolean.parseBoolean(serverSettings.getProperty("ShowLicence", "false"));
 			IP_UPDATE_TIME = Integer.parseInt(serverSettings.getProperty("IpUpdateTime", "15"));
