@@ -157,23 +157,9 @@ public final class L2ItemInstance extends L2Object
 	 * @param objectId : int designating the ID of the object in the world
 	 * @param itemId : int designating the ID of the item
 	 */
-	public L2ItemInstance(int objectId, int itemId)
+	public L2ItemInstance(int objectId, int itemId) throws IllegalArgumentException
 	{
-		super(objectId);
-		super.setKnownList(new NullKnownList(this));
-
-		_itemId = itemId;
-		_item = ItemTable.getInstance().getTemplate(itemId);
-
-		if(_itemId == 0 || _item == null)
-			throw new IllegalArgumentException();
-
-		_count = 1;
-		_loc = ItemLocation.VOID;
-		_type1 = 0;
-		_type2 = 0;
-		_dropTime = 0;
-		_mana = _item.getDuration();
+		this(objectId, ItemTable.getInstance().getTemplate(itemId));
 	}
 
 	/**
@@ -182,17 +168,17 @@ public final class L2ItemInstance extends L2Object
 	 * @param objectId : int designating the ID of the object in the world
 	 * @param item : L2Item containing informations of the item
 	 */
-	public L2ItemInstance(int objectId, L2Item item)
+	public L2ItemInstance(int objectId, L2Item item) throws IllegalArgumentException
 	{
 		super(objectId);
+		
+		if(item == null)
+			throw new IllegalArgumentException();
+		
 		super.setKnownList(new NullKnownList(this));
 
 		_itemId = item.getItemId();
 		_item = item;
-
-		if(_itemId == 0 || _item == null)
-			throw new IllegalArgumentException();
-
 		_count = 1;
 		_loc = ItemLocation.VOID;
 		_mana = _item.getDuration();
@@ -760,13 +746,14 @@ public final class L2ItemInstance extends L2Object
 	 */
 	public class ScheduleConsumeManaTask implements Runnable
 	{
-		private L2ItemInstance _shadowItem;
+		private final L2ItemInstance _shadowItem;
 
 		public ScheduleConsumeManaTask(L2ItemInstance item)
 		{
 			_shadowItem = item;
 		}
 
+		@Override
 		public void run()
 		{
 			try

@@ -21,17 +21,19 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ArmorSetsTable
 {
-	private static Logger _log = Logger.getLogger(ArmorSetsTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(ArmorSetsTable.class);
 	private static ArmorSetsTable _instance;
 
 	public FastMap<Integer, L2ArmorSet> _armorSets;
@@ -56,12 +58,12 @@ public class ArmorSetsTable
 
 	private void loadData()
 	{
-		Connection con;
+		Connection con = null;
 		try
 		{
 				con = L2DatabaseFactory.getInstance().getConnection();
-				PreparedStatement statement = con.prepareStatement("SELECT id, chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM armorsets");
-				ResultSet rset = statement.executeQuery();
+				final PreparedStatement statement = con.prepareStatement("SELECT id, chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM armorsets");
+				final ResultSet rset = statement.executeQuery();
 
 				while(rset.next())
 				{
@@ -80,19 +82,16 @@ public class ArmorSetsTable
 					_cusArmorSets.put(id, new ArmorDummy(chest, legs, head, gloves, feet, skill_id, shield));
 				}
 
-				_log.config("Loaded: "+_armorSets.size()+" armor sets.");
+				_log.debug("Loaded: {} armor sets.", _armorSets.size());
 
 				rset.close();
 				statement.close();
-				con.close();
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-		}
-		if(Config.CUSTOM_ARMORSETS_TABLE)
-		{
+			_log.error(e.getMessage(), e);
+		} finally {
+			CloseUtil.close(con);
 		}
 	}
 

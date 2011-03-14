@@ -61,7 +61,7 @@
 
 	<target name="compile" depends="version" description="Compile the source.">
 
-		<javac destdir="${build.classes}" optimize="on" debug="on" source="1.5" target="1.5" encoding="utf-8" nowarn="off">
+		<javac destdir="${build.classes}" optimize="on" debug="on" source="1.6" target="1.6" encoding="utf-8" nowarn="off">
 			<src path="${src}" />
 			<classpath refid="classpath" />
 		</javac>
@@ -86,15 +86,6 @@
 		</copy>
 
 	</target>
-
-
-	<target name="compile.gcj" depends="jar" description="Build machine executable binary">
-
-		<exec dir="." executable="gcj" failifexecutionfails="false" os="linux:Linux:freebsd:FreeBSD">
-			<arg line="-O3 ${build.dist}/l2jfrozen-core.jar  -o ${build.dist}/l2jfrozen-core --main=com.l2scoria.Server" />
-		</exec>
-	</target>
-
 
 	<target name="export" depends="jar">
 
@@ -341,7 +332,7 @@
 		<delete file="${build}/l2jfrozen-core.jar" />
 		<mkdir dir="${build}" />
 		<mkdir dir="${build.classes}" />
-		<javac destdir="${build.classes}" optimize="on" debug="on" source="1.5" target="1.5" encoding="UTF-8" nowarn="off">
+		<javac destdir="${build.classes}" optimize="on" debug="on" source="1.6" target="1.6" encoding="UTF-8" nowarn="off">
 
 			<src path="${src}" />
 			<classpath refid="classpath" />

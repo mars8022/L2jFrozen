@@ -22,17 +22,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class PetNameTable
 {
-	private static Logger _log = Logger.getLogger(PetNameTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(PetNameTable.class);
 
 	private static PetNameTable _instance;
 
@@ -54,7 +57,7 @@ public class PetNameTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT name FROM pets p, items i WHERE p.item_obj_id = i.object_id AND name=? AND i.item_id IN (?)");
+			final PreparedStatement statement = con.prepareStatement("SELECT name FROM pets p, items i WHERE p.item_obj_id = i.object_id AND name=? AND i.item_id IN (?)");
 			statement.setString(1, name);
 
 			String cond = "";
@@ -68,29 +71,18 @@ public class PetNameTable
 				cond += it;
 			}
 			statement.setString(2, cond);
-			ResultSet rset = statement.executeQuery();
+			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
-
-			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
-			cond = null;
+			statement.close();
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("could not check existing petname:" + e.getMessage());
+			_log.error("could not check existing petname", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 		return result;
 	}
@@ -109,10 +101,7 @@ public class PetNameTable
 		}
 		catch(PatternSyntaxException e) // case of illegal pattern
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("ERROR : Pet name pattern of config is wrong!");
+			_log.warn("ERROR : Pet name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
 
@@ -122,9 +111,6 @@ public class PetNameTable
 		{
 			result = false;
 		}
-
-		pattern = null;
-		regexp = null;
 
 		return result;
 	}
@@ -141,8 +127,6 @@ public class PetNameTable
 				break;
 			}
 		}
-
-		chars = null;
 
 		return result;
 	}

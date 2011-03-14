@@ -19,13 +19,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -34,13 +36,13 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AdminCommandAccessRights
 {
 	/** The logger<br> */
-	protected static final Logger _log = Logger.getLogger(AdminCommandAccessRights.class.getName());
+	protected static final Logger _log = LoggerFactory.getLogger(AdminCommandAccessRights.class);
 	
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AdminCommandAccessRights _instance = null;
 
 	/** The access rights<br> */
-	private Map<String, Integer> _adminCommandAccessRights = new FastMap<String, Integer>();
+	private final Map<String, Integer> _adminCommandAccessRights = new FastMap<String, Integer>();
 
 	/**
 	 * Loads admin command access rights from database<br>
@@ -52,9 +54,8 @@ public class AdminCommandAccessRights
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM admin_command_access_rights");
-			ResultSet rset = stmt.executeQuery();
+			final PreparedStatement stmt = con.prepareStatement("SELECT * FROM admin_command_access_rights");
+			final ResultSet rset = stmt.executeQuery();
 			String adminCommand = null;
 			int accessLevels = 1;
 
@@ -69,21 +70,14 @@ public class AdminCommandAccessRights
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.WARNING,"Admin Access Rights: Error loading from database:" + e);
+			_log.error("Admin Access Rights: Error loading from database", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
-		_log.info("Admin Access Rights: Loaded " + _adminCommandAccessRights.size() + " Access Rigths from database.");
+		_log.debug("Admin Access Rights: Loaded {} Access Rigths from database.", _adminCommandAccessRights.size());
 	}
 
 	/**
@@ -134,7 +128,7 @@ public class AdminCommandAccessRights
 
 		if(acar == 0)
 		{
-			_log.info("Admin Access Rights: No rights defined for admin command " + command + ".");
+			_log.warn("Admin Access Rights: No rights defined for admin command {}.", command);
 			return false;
 		}
 		else if(acar >= accessLevel.getLevel())

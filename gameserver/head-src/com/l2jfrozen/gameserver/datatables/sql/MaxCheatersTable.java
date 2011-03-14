@@ -21,12 +21,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.model.L2MaxPolyModel;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -35,11 +38,11 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class MaxCheatersTable
 {
-	private FastMap<Integer, L2MaxPolyModel> _map;
-	private Logger _log = Logger.getLogger(MaxCheatersTable.class.getName());
+	private final FastMap<Integer, L2MaxPolyModel> _map;
+	private final static Logger _log = LoggerFactory.getLogger(MaxCheatersTable.class);
 	private static MaxCheatersTable _instance;
 
-	private String SQL_SELECT = "SELECT * from max_poly";
+	private final String SQL_SELECT = "SELECT * from max_poly";
 
 	public MaxCheatersTable()
 	{
@@ -59,50 +62,26 @@ public class MaxCheatersTable
 	private void load()
 	{
 		Connection con = null;
-		PreparedStatement st = null;
-		ResultSet rs = null;
 		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection(240000);
-			st = con.prepareStatement(SQL_SELECT);
-			rs = st.executeQuery();
+			con = L2DatabaseFactory.getInstance().getConnection();
+			final PreparedStatement st = con.prepareStatement(SQL_SELECT);
+			final ResultSet rs = st.executeQuery();
 			
-			if(rs!=null){
-				restore(rs);
-			}
+			restore(rs);
 			
+			rs.close();
 			st.close();
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		finally
 		{
-			try
-			{
-				if(con != null && !con.isClosed())
-				{
-					
-					try
-					{
-						con.close();
-					}
-					catch(Exception e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}
-			catch(SQLException e)
-			{
-				e.printStackTrace();
-			}
-			
+			CloseUtil.close(con);
 		}
-		
-		
 	}
 
 	private void restore(ResultSet data) throws SQLException
@@ -140,10 +119,10 @@ public class MaxCheatersTable
 			set.set("nameColor", data.getInt("nameColor"));
 			set.set("titleColor", data.getInt("titleColor"));
 
-			L2MaxPolyModel poly = new L2MaxPolyModel(set);
+			final L2MaxPolyModel poly = new L2MaxPolyModel(set);
 			_map.put(poly.getNpcId(), poly);// xD
 		}
-		_log.info("MaxCheatersTable Loaded: "+_map.size()+" npc to pc entry(s)");
+		_log.debug("MaxCheatersTable Loaded: {} npc to pc entry(s)", _map.size());
 	}
 
 	public L2MaxPolyModel getModelForID(int key)

@@ -22,12 +22,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javolution.util.FastMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -48,6 +50,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -57,11 +60,11 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanTable
 {
-	private static Logger _log = Logger.getLogger(ClanTable.class.getName());
+	private static Logger _log = LoggerFactory.getLogger(ClanTable.class);
 
 	private static ClanTable _instance;
 
-	private Map<Integer, L2Clan> _clans;
+	private final Map<Integer, L2Clan> _clans;
 
 	public static ClanTable getInstance()
 	{
@@ -115,8 +118,8 @@ public class ClanTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT clan_id FROM clan_data");
-			ResultSet result = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT clan_id FROM clan_data");
+			final ResultSet result = statement.executeQuery();
 
 			// Count the clans
 			int clanCount = 0;
@@ -138,25 +141,18 @@ public class ClanTable
 				}
 				clanCount++;
 			}
-//			result.close();
+			result.close();
 			statement.close();
-			statement = null;
-//			result = null;
 
-			_log.config("Restored " + clanCount + " clans from the database.");
+			_log.debug("Restored " + clanCount + " clans from the database.");
 		}
 		catch(Exception e)
 		{
-			_log.warning("data error on ClanTable: " + e);
-			e.printStackTrace();
+			_log.error("data error on ClanTable", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		restorewars();
@@ -168,9 +164,8 @@ public class ClanTable
 	 */
 	public L2Clan getClan(int clanId)
 	{
-		L2Clan clan = _clans.get(new Integer(clanId));
 
-		return clan;
+		return _clans.get(clanId);
 	}
 
 	public L2Clan getClanByName(String clanName)
@@ -195,10 +190,7 @@ public class ClanTable
 		if(null == player)
 			return null;
 
-		if(Config.DEBUG)
-		{
-			_log.fine(player.getObjectId() + "(" + player.getName() + ") requested a clan creation.");
-		}
+		_log.debug( "{}({}) requested a clan creation.", player.getObjectId(), player.getName());
 
 		if(10 > player.getLevel())
 		{
@@ -231,10 +223,7 @@ public class ClanTable
 		player.setPledgeClass(leader.calculatePledgeClass(player));
 		player.setClanPrivileges(L2Clan.CP_ALL);
 
-		if(Config.DEBUG)
-		{
-			_log.fine("New clan created: " + clan.getClanId() + " " + clan.getName());
-		}
+		_log.debug("New clan created: {} {}", clan.getClanId(), clan.getName());
 
 		_clans.put(new Integer(clan.getClanId()), clan);
 
@@ -244,8 +233,6 @@ public class ClanTable
 		player.sendPacket(new UserInfo(player));
 		player.sendPacket(new PledgeShowMemberListUpdate(player));
 		player.sendPacket(new SystemMessage(SystemMessageId.CLAN_CREATED));
-
-		leader = null;
 
 		return clan;
 	}
@@ -269,7 +256,6 @@ public class ClanTable
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_ALREADY_EXISTS);
 			sm.addString(clanName);
 			player.sendPacket(sm);
-			sm = null;
 			return false;
 		}
 
@@ -280,10 +266,7 @@ public class ClanTable
 		}
 		catch(PatternSyntaxException e) // case of illegal pattern
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("ERROR : Clan name pattern of config is wrong!");
+			_log.warn("ERROR: Clan name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
 
@@ -306,9 +289,8 @@ public class ClanTable
 			return;
 
 		L2PcInstance leader = null;
-		if(clan.getLeader()!=null)
+		if(clan.getLeader()!=null) {
 			leader = clan.getLeader().getPlayerInstance();
-		if(leader!=null) {
 			if(Config.CLAN_LEADER_COLOR_ENABLED && clan.getLevel() >= Config.CLAN_LEADER_COLOR_CLAN_LEVEL && leader != null)
 			{
 				if(Config.CLAN_LEADER_COLORED == 1)
@@ -355,8 +337,6 @@ public class ClanTable
 			clan.getWarehouse().destroyAllItems("ClanRemove", clan.getLeader().getPlayerInstance(), null);
 		}
 
-		leaderMember = null;
-
 		for(L2ClanMember member : clan.getMembers())
 		{
 			clan.removeClanMember(member.getName(), 0);
@@ -364,8 +344,6 @@ public class ClanTable
 
 		int leaderId = clan.getLeaderId();
 		int clanLvl = clan.getLevel();
-
-		clan = null;
 
 		_clans.remove(clanId);
 		IdFactory.getInstance().releaseId(clanId);
@@ -426,39 +404,27 @@ public class ClanTable
 					{
 						fort.removeOwner(clan);
 					}
-
-					owner = null;
 				}
-				fort = null;
 			}
 
-			if(Config.DEBUG)
-			{
-				_log.fine("clan removed in db: " + clanId);
-			}
+			_log.debug("clan removed in db: {}", clanId);
 			
 			statement.close();
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("error while removing clan in db " + e);
+			_log.error("error while removing clan in db", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
 	public void scheduleRemoveClan(final int clanId)
 	{
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			@Override
 			public void run()
 			{
 				if(getClan(clanId) == null)
@@ -496,37 +462,27 @@ public class ClanTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement;
-			statement = con.prepareStatement("REPLACE INTO clan_wars (clan1, clan2, wantspeace1, wantspeace2) VALUES(?,?,?,?)");
+			final PreparedStatement statement = con.prepareStatement("REPLACE INTO clan_wars (clan1, clan2, wantspeace1, wantspeace2) VALUES(?,?,?,?)");
 			statement.setInt(1, clanId1);
 			statement.setInt(2, clanId2);
 			statement.setInt(3, 0);
 			statement.setInt(4, 0);
 			statement.execute();
 			statement.close();
-			statement = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("could not store clans wars data:" + e);
+			_log.error("could not store clans wars data", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 		//SystemMessage msg = new SystemMessage(SystemMessageId.WAR_WITH_THE_S1_CLAN_HAS_BEGUN);
 
 		SystemMessage msg = new SystemMessage(SystemMessageId.CLAN_WAR_DECLARED_AGAINST_S1_IF_KILLED_LOSE_LOW_EXP);
 		msg.addString(clan2.getName());
 		clan1.broadcastToOnlineMembers(msg);
-		msg = null;
 
 		//msg = new SystemMessage(SystemMessageId.WAR_WITH_THE_S1_CLAN_HAS_BEGUN);
 		//msg.addString(clan1.getName());
@@ -536,10 +492,6 @@ public class ClanTable
 		msg = new SystemMessage(SystemMessageId.CLAN_S1_DECLARED_WAR);
 		msg.addString(clan1.getName());
 		clan2.broadcastToOnlineMembers(msg);
-
-		clan1 = null;
-		clan2 = null;
-		msg = null;
 	}
 
 	public void deleteclanswars(int clanId1, int clanId2)
@@ -567,8 +519,7 @@ public class ClanTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement;
-			statement = con.prepareStatement("DELETE FROM clan_wars WHERE clan1=? AND clan2=?");
+			PreparedStatement statement = con.prepareStatement("DELETE FROM clan_wars WHERE clan1=? AND clan2=?");
 			statement.setInt(1, clanId1);
 			statement.setInt(2, clanId2);
 			statement.execute();
@@ -579,42 +530,29 @@ public class ClanTable
 			//statement.execute();
 
 			statement.close();
-			statement = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("could not restore clans wars data:" + e);
+			_log.error("could not restore clans wars data", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 		//SystemMessage msg = new SystemMessage(SystemMessageId.WAR_WITH_THE_S1_CLAN_HAS_ENDED);
 
 		SystemMessage msg = new SystemMessage(SystemMessageId.WAR_AGAINST_S1_HAS_STOPPED);
 		msg.addString(clan2.getName());
 		clan1.broadcastToOnlineMembers(msg);
-		msg = null;
 
 		msg = new SystemMessage(SystemMessageId.CLAN_S1_HAS_DECIDED_TO_STOP);
 		msg.addString(clan1.getName());
 		clan2.broadcastToOnlineMembers(msg);
-		msg = null;
 
 		//msg = new SystemMessage(SystemMessageId.WAR_WITH_THE_S1_CLAN_HAS_ENDED);
 		//msg.addString(clan1.getName());
 		//clan2.broadcastToOnlineMembers(msg);
 		//msg = null;
-
-		clan1 = null;
-		clan2 = null;
 	}
 
 	public void checkSurrender(L2Clan clan1, L2Clan clan2)
@@ -643,8 +581,8 @@ public class ClanTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT clan1, clan2, wantspeace1, wantspeace2 FROM clan_wars");
-			ResultSet rset = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT clan1, clan2, wantspeace1, wantspeace2 FROM clan_wars");
+			final ResultSet rset = statement.executeQuery();
 
 			while(rset.next())
 			{
@@ -653,23 +591,14 @@ public class ClanTable
 			}
 			rset.close();
 			statement.close();
-			statement = null;
-			rset = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("could not restore clan wars data:" + e);
+			_log.error("could not restore clan wars data", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 }

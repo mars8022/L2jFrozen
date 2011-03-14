@@ -24,10 +24,12 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.InfoCache;
@@ -40,6 +42,7 @@ import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -49,11 +52,11 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class NpcTable
 {
-	private static Logger _log = Logger.getLogger(NpcTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(NpcTable.class);
 
 	private static NpcTable _instance;
 
-	private Map<Integer, L2NpcTemplate> _npcs;
+	private final Map<Integer, L2NpcTemplate> _npcs;
 	private boolean _initialized = false;
 
 	public static NpcTable getInstance()
@@ -79,10 +82,11 @@ public class NpcTable
 
 		try
 		{
+			PreparedStatement statement;
+
 			try
 			{
 				con = L2DatabaseFactory.getInstance().getConnection();
-				PreparedStatement statement;
 				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"id",
@@ -128,27 +132,19 @@ public class NpcTable
 						"absorb_level",
 						"absorb_type"
 				}) + " FROM npc");
-				ResultSet npcdata = statement.executeQuery();
-
+				final ResultSet npcdata = statement.executeQuery();
 				fillNpcTable(npcdata);
 				npcdata.close();
-				npcdata = null;
 				statement.close();
-				statement = null;
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("NPCTable: Error creating NPC table: " + e);
+				_log.error("NPCTable: Error creating NPC table", e);
 			}
 
 			if(Config.CUSTOM_NPC_TABLE)
-			{
 				try
 				{
-					PreparedStatement statement;
 					statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 					{
 							"id",
@@ -194,26 +190,19 @@ public class NpcTable
 							"absorb_level",
 							"absorb_type"
 					}) + " FROM custom_npc");
-					ResultSet npcdata = statement.executeQuery();
-
+					final ResultSet npcdata = statement.executeQuery();
 					fillNpcTable(npcdata);
 					npcdata.close();
-					npcdata = null;
 					statement.close();
-					statement = null;
 				}
 				catch(Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-					_log.severe("NPCTable: Error creating custom NPC table: " + e);
+					_log.error("NPCTable: Error creating custom NPC table", e);
 				}
-			}
 			try
 			{
-				PreparedStatement statement = con.prepareStatement("SELECT npcid, skillid, level FROM npcskills");
-				ResultSet npcskills = statement.executeQuery();
+				statement = con.prepareStatement("SELECT npcid, skillid, level FROM npcskills");
+				final ResultSet npcskills = statement.executeQuery();
 				L2NpcTemplate npcDat = null;
 				L2Skill npcSkill = null;
 
@@ -244,33 +233,24 @@ public class NpcTable
 					}
 
 					npcDat.addSkill(npcSkill);
-					npcSkill = null;
 				}
 
 				npcskills.close();
-				npcskills = null;
 				statement.close();
-				statement = null;
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("NPCTable: Error reading NPC skills table: " + e);
+				_log.error("NPCTable: Error reading NPC skills table", e);
 			}
 
 			if(Config.CUSTOM_DROPLIST_TABLE)
-			{
 				try
 				{
-					PreparedStatement statement2 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+					statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 					{
 							"mobId", "itemId", "min", "max", "category", "chance"
 					}) + " FROM custom_droplist ORDER BY mobId, chance DESC");
-					ResultSet dropData = statement2.executeQuery();
-					L2DropData dropDat = null;
-					L2NpcTemplate npcDat = null;
+					ResultSet dropData = statement.executeQuery();
 
 					int cCount = 0;
 
@@ -278,15 +258,15 @@ public class NpcTable
 					{
 						int mobId = dropData.getInt("mobId");
 
-						npcDat = _npcs.get(mobId);
+						L2NpcTemplate npcDat = _npcs.get(mobId);
 
 						if(npcDat == null)
 						{
-							_log.severe("NPCTable: CUSTOM DROPLIST No npc correlating with id : " + mobId);
+							_log.warn("NPCTable: CUSTOM DROPLIST No npc correlating with id: {}", mobId);
 							continue;
 						}
 
-						dropDat = new L2DropData();
+						L2DropData dropDat = new L2DropData();
 						dropDat.setItemId(dropData.getInt("itemId"));
 						dropDat.setMinDrop(dropData.getInt("min"));
 						dropDat.setMaxDrop(dropData.getInt("max"));
@@ -299,10 +279,8 @@ public class NpcTable
 						//dropDat = null;
 					}
 					dropData.close();
-					dropData = null;
-					statement2.close();
-					statement2 = null;
-					_log.info("CustomDropList : Added " + cCount + " custom droplist");
+					statement.close();
+					_log.debug("CustomDropList : Added {} custom droplist", cCount);
 
 					if(Config.ENABLE_CACHE_INFO)
 					{
@@ -311,20 +289,16 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-					_log.severe("NPCTable: Error reading NPC CUSTOM drop data: " + e);
+					_log.error("NPCTable: Error reading NPC CUSTOM drop data", e);
 				}
-			}
 
 			try
 			{
-				PreparedStatement statement2 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"mobId", "itemId", "min", "max", "category", "chance"
 				}) + " FROM droplist ORDER BY mobId, chance DESC");
-				ResultSet dropData = statement2.executeQuery();
+				ResultSet dropData = statement.executeQuery();
 				L2DropData dropDat = null;
 				L2NpcTemplate npcDat = null;
 
@@ -336,7 +310,7 @@ public class NpcTable
 
 					if(npcDat == null)
 					{
-						_log.severe("NPCTable: No npc correlating with id : " + mobId);
+						_log.warn("NPCTable: No npc correlating with id: {}", mobId);
 						continue;
 					}
 
@@ -346,7 +320,7 @@ public class NpcTable
 					dropDat.setMinDrop(dropData.getInt("min"));
 					dropDat.setMaxDrop(dropData.getInt("max"));
 					dropDat.setChance(dropData.getInt("chance"));
-					
+
 					int category = dropData.getInt("category");
 
 					npcDat.addDropData(dropDat, category);
@@ -354,25 +328,20 @@ public class NpcTable
 				}
 
 				dropData.close();
-				dropData = null;
-				statement2.close();
-				statement2 = null;
+				statement.close();
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("NPCTable: Error reading NPC drop data: " + e);
+				_log.error("NPCTable: Error reading NPC drop data", e);
 			}
 
 			try
 			{
-				PreparedStatement statement3 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"npc_id", "class_id"
 				}) + " FROM skill_learn");
-				ResultSet learndata = statement3.executeQuery();
+				final ResultSet learndata = statement.executeQuery();
 
 				while(learndata.next())
 				{
@@ -382,7 +351,7 @@ public class NpcTable
 
 					if(npc == null)
 					{
-						_log.warning("NPCTable: Error getting NPC template ID " + npcId + " while trying to load skill trainer data.");
+						_log.warn("NPCTable: Error getting NPC template ID {} while trying to load skill trainer data.", npcId);
 						continue;
 					}
 
@@ -390,67 +359,49 @@ public class NpcTable
 				}
 
 				learndata.close();
-				learndata = null;
-				statement3.close();
-				statement3 = null;
+				statement.close();
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("NPCTable: Error reading NPC trainer data: " + e);
+				_log.error("NPCTable: Error reading NPC trainer data", e);
 			}
 
 			try
 			{
-				PreparedStatement statement4 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"boss_id", "minion_id", "amount_min", "amount_max"
 				}) + " FROM minions");
-				ResultSet minionData = statement4.executeQuery();
+				ResultSet minionData = statement.executeQuery();
 				L2MinionData minionDat = null;
 				L2NpcTemplate npcDat = null;
 				int cnt = 0;
 
-				
 				while(minionData.next())
 				{
 					int raidId = minionData.getInt("boss_id");
-					
+
 					npcDat = _npcs.get(raidId);
 					minionDat = new L2MinionData();
-
 					minionDat.setMinionId(minionData.getInt("minion_id"));
 					minionDat.setAmountMin(minionData.getInt("amount_min"));
 					minionDat.setAmountMax(minionData.getInt("amount_max"));
 					npcDat.addRaidData(minionDat);
 					cnt++;
-					minionDat = null;
-					
 				}
 
 				minionData.close();
-				minionData = null;
-				statement4.close();
-				statement4 = null;
-				_log.config("NpcTable: Loaded " + cnt + " Minions.");
+				statement.close();
+				_log.debug("NpcTable: Loaded {} Minions.", cnt);
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("Error loading minion data: " + e);
+				_log.error("Error loading minion data", e);
 			}
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		_initialized = true;
@@ -464,11 +415,6 @@ public class NpcTable
 
 			int id = NpcData.getInt("id");
 
-			if(Config.ASSERT)
-			{
-				assert id < 1000000;
-			}
-
 			npcDat.set("npcId", id);
 			npcDat.set("idTemplate", NpcData.getInt("idTemplate"));
 
@@ -476,8 +422,9 @@ public class NpcTable
 			int level = 0;
 			float diff = 0; //difference between setted value and retail one
 			boolean minion = false;
-			
-			switch(id){
+
+			switch(id)
+			{
 				case 29002: // and minions
 				case 29003:
 				case 29004:
@@ -485,25 +432,29 @@ public class NpcTable
 					minion = true;
 				case 29001://queenAnt
 				{
-					if(Config.QA_LEVEL>0){
+					if(Config.QA_LEVEL > 0)
+					{
 						diff = Config.QA_LEVEL - NpcData.getInt("level");
 						level = Config.QA_LEVEL;
-					}else
+					}
+					else
 						level = NpcData.getInt("level");
-					
+
 				}
-				break;
-				case 29022:{ //zaken
-					
-					if(Config.ZAKEN_LEVEL>0){
+					break;
+				case 29022:
+				{ //zaken
+
+					if(Config.ZAKEN_LEVEL > 0)
+					{
 						diff = Config.ZAKEN_LEVEL - NpcData.getInt("level");
 						level = Config.ZAKEN_LEVEL;
 					}
 					else
 						level = NpcData.getInt("level");
-					
+
 				}
-				break;
+					break;
 				case 29015: //and minions
 				case 29016:
 				case 29017:
@@ -511,35 +462,40 @@ public class NpcTable
 					minion = true;
 				case 29014://orfen 
 				{
-					
-					if(Config.ORFEN_LEVEL>0){
+
+					if(Config.ORFEN_LEVEL > 0)
+					{
 						diff = Config.ORFEN_LEVEL - NpcData.getInt("level");
 						level = Config.ORFEN_LEVEL;
-					}else
+					}
+					else
 						level = NpcData.getInt("level");
-					
+
 				}
-				break;
+					break;
 				case 29007: //and minions
 				case 29008:
 				case 290011:
 					minion = true;
 				case 29006: //core
 				{
-					
-					if(Config.CORE_LEVEL>0){
+
+					if(Config.CORE_LEVEL > 0)
+					{
 						diff = Config.CORE_LEVEL - NpcData.getInt("level");
 						level = Config.CORE_LEVEL;
-					}else
+					}
+					else
 						level = NpcData.getInt("level");
-					
+
 				}
-				break;
-				default:{
+					break;
+				default:
+				{
 					level = NpcData.getInt("level");
 				}
 			}
-			
+
 			npcDat.set("level", level);
 			npcDat.set("jClass", NpcData.getString("class"));
 
@@ -557,108 +513,132 @@ public class NpcTable
 			npcDat.set("sex", NpcData.getString("sex"));
 			npcDat.set("type", NpcData.getString("type"));
 			npcDat.set("baseAtkRange", NpcData.getInt("attackrange"));
-			
+
 			//BOSS POWER CHANGES
 			double multi_value = 1;
-			
-			if(diff>=15){ //means that there is level customization
-				multi_value = multi_value*(diff/10);
-			}else if(diff>0 && diff<15){
-				multi_value = multi_value+(diff/10);
+
+			if(diff >= 15)
+			{ //means that there is level customization
+				multi_value = multi_value * (diff / 10);
 			}
-			
-			if(minion){
-				multi_value = multi_value*Config.LEVEL_DIFF_MULTIPLIER_MINION;  //allow to increase the power of a value
-				  //that for example, at 40 diff levels is
-				  //equal to
-				  //    value = ((40/10)*0.8) = 3,2 --> 220 % more
-			}else{
-				
-				switch(id){
-					case 29001:{//queenAnt
-						
-						if(Config.QA_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.QA_POWER_MULTIPLIER;
+			else if(diff > 0 && diff < 15)
+			{
+				multi_value = multi_value + (diff / 10);
+			}
+
+			if(minion)
+			{
+				multi_value = multi_value * Config.LEVEL_DIFF_MULTIPLIER_MINION; //allow to increase the power of a value
+				//that for example, at 40 diff levels is
+				//equal to
+				//    value = ((40/10)*0.8) = 3,2 --> 220 % more
+			}
+			else
+			{
+
+				switch(id)
+				{
+					case 29001:
+					{//queenAnt
+
+						if(Config.QA_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.QA_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29022:{ //zaken
-						
-						if(Config.ZAKEN_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.ZAKEN_POWER_MULTIPLIER;
+						break;
+					case 29022:
+					{ //zaken
+
+						if(Config.ZAKEN_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.ZAKEN_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29014:{//orfen
-						
-						if(Config.ORFEN_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.ORFEN_POWER_MULTIPLIER;
+						break;
+					case 29014:
+					{//orfen
+
+						if(Config.ORFEN_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.ORFEN_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29006:{ //core
-						
-						if(Config.CORE_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.CORE_POWER_MULTIPLIER;
+						break;
+					case 29006:
+					{ //core
+
+						if(Config.CORE_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.CORE_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29019:{ //antharas
-					
-						if(Config.ANTHARAS_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.ANTHARAS_POWER_MULTIPLIER;
+						break;
+					case 29019:
+					{ //antharas
+
+						if(Config.ANTHARAS_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.ANTHARAS_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29028:{ //valakas
-						
-						if(Config.VALAKAS_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.VALAKAS_POWER_MULTIPLIER;
+						break;
+					case 29028:
+					{ //valakas
+
+						if(Config.VALAKAS_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.VALAKAS_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29020:{ //baium
-						
-						if(Config.BAIUM_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.BAIUM_POWER_MULTIPLIER;
+						break;
+					case 29020:
+					{ //baium
+
+						if(Config.BAIUM_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.BAIUM_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					case 29045:{ //frintezza
-						
-						if(Config.FRINTEZZA_POWER_MULTIPLIER>0){
-							multi_value = multi_value*Config.FRINTEZZA_POWER_MULTIPLIER;
+						break;
+					case 29045:
+					{ //frintezza
+
+						if(Config.FRINTEZZA_POWER_MULTIPLIER > 0)
+						{
+							multi_value = multi_value * Config.FRINTEZZA_POWER_MULTIPLIER;
 						}
-						
+
 					}
-					break;
-					default:{
+						break;
+					default:
+					{
 						level = NpcData.getInt("level");
 					}
 				}
-				
+
 			}
-			
-			npcDat.set("rewardExp", (int) NpcData.getInt("exp")*multi_value );
-			npcDat.set("rewardSp", (int) NpcData.getInt("sp")*multi_value);
-			npcDat.set("basePAtkSpd", (int) NpcData.getInt("atkspd")*multi_value);
-			npcDat.set("baseMAtkSpd", (int) NpcData.getInt("matkspd")*multi_value);
-			npcDat.set("baseHpMax", (int) NpcData.getInt("hp")*multi_value);
-			npcDat.set("baseMpMax",(int)  NpcData.getInt("mp")*multi_value);
-			npcDat.set("baseHpReg", (int) NpcData.getFloat("hpreg")*multi_value > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
-			npcDat.set("baseMpReg",(int)  NpcData.getFloat("mpreg")*multi_value > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
-			npcDat.set("basePAtk", (int) NpcData.getInt("patk")*multi_value);
-			npcDat.set("basePDef", (int) NpcData.getInt("pdef")*multi_value);
-			npcDat.set("baseMAtk", (int) NpcData.getInt("matk")*multi_value);
-			npcDat.set("baseMDef", (int) NpcData.getInt("mdef")*multi_value);
-			
+
+			npcDat.set("rewardExp", NpcData.getInt("exp") * multi_value);
+			npcDat.set("rewardSp", NpcData.getInt("sp") * multi_value);
+			npcDat.set("basePAtkSpd", NpcData.getInt("atkspd") * multi_value);
+			npcDat.set("baseMAtkSpd", NpcData.getInt("matkspd") * multi_value);
+			npcDat.set("baseHpMax", NpcData.getInt("hp") * multi_value);
+			npcDat.set("baseMpMax", NpcData.getInt("mp") * multi_value);
+			npcDat.set("baseHpReg", (int) NpcData.getFloat("hpreg") * multi_value > 0 ? NpcData.getFloat("hpreg") : 1.5 + (level - 1) / 10.0);
+			npcDat.set("baseMpReg", (int) NpcData.getFloat("mpreg") * multi_value > 0 ? NpcData.getFloat("mpreg") : 0.9 + 0.3 * (level - 1) / 10.0);
+			npcDat.set("basePAtk", NpcData.getInt("patk") * multi_value);
+			npcDat.set("basePDef", NpcData.getInt("pdef") * multi_value);
+			npcDat.set("baseMAtk", NpcData.getInt("matk") * multi_value);
+			npcDat.set("baseMDef", NpcData.getInt("mdef") * multi_value);
+
 			npcDat.set("aggroRange", NpcData.getInt("aggro"));
 			npcDat.set("rhand", NpcData.getInt("rhand"));
 			npcDat.set("lhand", NpcData.getInt("lhand"));
@@ -675,7 +655,7 @@ public class NpcTable
 			npcDat.set("baseMEN", NpcData.getInt("men"));
 
 			npcDat.set("baseCpMax", 0);
-			
+
 			npcDat.set("factionId", NpcData.getString("faction_id"));
 			npcDat.set("factionRange", NpcData.getInt("faction_range"));
 
@@ -688,14 +668,10 @@ public class NpcTable
 			template.addVulnerability(Stats.BLUNT_WPN_VULN, 1);
 			template.addVulnerability(Stats.DAGGER_WPN_VULN, 1);
 
-			npcDat = null;
-
 			_npcs.put(id, template);
-
-			template = null;
 		}
 
-		_log.config("NpcTable: Loaded " + _npcs.size() + " Npc Templates.");
+		_log.debug("NpcTable: Loaded {} Npc Templates.", _npcs.size());
 	}
 
 	public void reloadNpc(int id)
@@ -719,8 +695,6 @@ public class NpcTable
 			{
 				categories.addAll(old.getDropData());
 			}
-
-			categories = null;
 			ClassId[] classIds = null;
 
 			if(old.getTeachInfo() != null)
@@ -735,11 +709,9 @@ public class NpcTable
 				minions.addAll(old.getMinionData());
 			}
 
-			old = null;
-
 			// reload the NPC base data
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+			final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 			{
 					"id",
 					"idTemplate",
@@ -785,12 +757,10 @@ public class NpcTable
 					"absorb_type"
 			}) + " FROM npc WHERE id=?");
 			st.setInt(1, id);
-			ResultSet rs = st.executeQuery();
+			final ResultSet rs = st.executeQuery();
 			fillNpcTable(rs);
 			rs.close();
-			rs = null;
 			st.close();
-			st = null;
 
 			// restore additional data from saved copy
 			L2NpcTemplate created = getTemplate(id);
@@ -799,8 +769,6 @@ public class NpcTable
 			{
 				created.addSkill(skill);
 			}
-
-			skills = null;
 
 			if(classIds != null)
 			{
@@ -814,25 +782,14 @@ public class NpcTable
 			{
 				created.addRaidData(minion);
 			}
-
-			created = null;
-			minions = null;
-			classIds = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("NPCTable: Could not reload data for NPC " + id + ": " + e);
+			_log.error("NPCTable: Could not reload data for NPC {}", id, e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -845,7 +802,6 @@ public class NpcTable
 	public void saveNpc(StatsSet npc)
 	{
 		Connection con = null;
-		String query = "";
 
 		try
 		{
@@ -870,28 +826,18 @@ public class NpcTable
 				}
 			}
 
-			query = "UPDATE npc SET " + values + " WHERE id = ?";
-			PreparedStatement statement = con.prepareStatement(query);
+			final PreparedStatement statement = con.prepareStatement("UPDATE npc SET " + values + " WHERE id = ?");
 			statement.setInt(1, npc.getInteger("npcId"));
 			statement.execute();
 			statement.close();
-			statement = null;
-			query = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("NPCTable: Could not store new NPC data in database: " + e);
+			_log.error("NPCTable: Could not store new NPC data in database", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

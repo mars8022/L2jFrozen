@@ -22,9 +22,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -34,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CharNameTable
 {
-	private static Logger _log = Logger.getLogger(CharNameTable.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(CharNameTable.class);
 
 	private static CharNameTable _instance;
 
@@ -55,30 +57,21 @@ public class CharNameTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT account_name FROM characters WHERE char_name=?");
+			final PreparedStatement statement = con.prepareStatement("SELECT account_name FROM characters WHERE char_name=?");
 			statement.setString(1, name);
-			ResultSet rset = statement.executeQuery();
+			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
 
 			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("could not check existing charname:" + e.getMessage());
+			_log.error("could not check existing charname", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 		return result;
 	}
@@ -91,9 +84,9 @@ public class CharNameTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT COUNT(char_name) FROM characters WHERE account_name=?");
+			final PreparedStatement statement = con.prepareStatement("SELECT COUNT(char_name) FROM characters WHERE account_name=?");
 			statement.setString(1, account);
-			ResultSet rset = statement.executeQuery();
+			final ResultSet rset = statement.executeQuery();
 
 			while(rset.next())
 			{
@@ -102,23 +95,14 @@ public class CharNameTable
 
 			statement.close();
 			rset.close();
-			statement = null;
-			rset = null;
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("could not check existing char number:" + e.getMessage());
+			_log.error("could not check existing char number", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		return number;

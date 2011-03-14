@@ -22,18 +22,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.model.L2PetData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class L2PetDataTable
 {
-	private static Logger _log = Logger.getLogger(L2PetInstance.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(L2PetInstance.class);
 	private static L2PetDataTable _instance;
 
 	//private static final int[] PET_LIST = { 12077, 12312, 12313, 12311, 12527, 12528, 12526 };
@@ -61,8 +63,8 @@ public class L2PetDataTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT typeID, level, expMax, hpMax, mpMax, patk, pdef, matk, mdef, acc, evasion, crit, speed, atk_speed, cast_speed, feedMax, feedbattle, feednormal, loadMax, hpregen, mpregen, owner_exp_taken FROM pets_stats");
-			ResultSet rset = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT typeID, level, expMax, hpMax, mpMax, patk, pdef, matk, mdef, acc, evasion, crit, speed, atk_speed, cast_speed, feedMax, feedbattle, feednormal, loadMax, hpregen, mpregen, owner_exp_taken FROM pets_stats");
+			final ResultSet rset = statement.executeQuery();
 
 			int petId, petLevel;
 
@@ -105,29 +107,18 @@ public class L2PetDataTable
 				}
 
 				_petTable.get(petId).put(petLevel, petData);
-
-				petData = null;
 			}
 
 			rset.close();
 			statement.close();
-			rset = null;
-			statement = null;
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("Could not load pets stats: " + e);
+			_log.error("Could not load pets stats", e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -140,13 +131,10 @@ public class L2PetDataTable
 			Map<Integer, L2PetData> statTable = new FastMap<Integer, L2PetData>();
 			statTable.put(petData.getPetLevel(), petData);
 			_petTable.put(petData.getPetID(), statTable);
-			statTable = null;
 			return;
 		}
 
 		h.put(petData.getPetLevel(), petData);
-
-		h = null;
 	}
 
 	public void addPetData(L2PetData[] petLevelsList)

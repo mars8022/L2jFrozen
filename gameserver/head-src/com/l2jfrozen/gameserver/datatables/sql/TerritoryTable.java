@@ -32,16 +32,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jfrozen.gameserver.TradeController;
 import com.l2jfrozen.gameserver.model.L2Territory;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class TerritoryTable
 {
-	private static Logger _log = Logger.getLogger(TradeController.class.getName());
+	private final static Logger _log = LoggerFactory.getLogger(TradeController.class);
 	private static final TerritoryTable _instance = new TerritoryTable();
 	private static Map<String, L2Territory> _territory;
 
@@ -75,12 +77,12 @@ public class TerritoryTable
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT loc_id, loc_x, loc_y, loc_zmin, loc_zmax, proc FROM `locations`");
-			ResultSet rset = statement.executeQuery();
+			final PreparedStatement statement = con.prepareStatement("SELECT loc_id, loc_x, loc_y, loc_zmin, loc_zmax, proc FROM `locations`");
+			final ResultSet rset = statement.executeQuery();
 
 			while(rset.next())
 			{
-				String terr = "sql_terr_" + rset.getString("loc_id");
+				final String terr = "sql_terr_" + rset.getString("loc_id");
 
 				if(_territory.get(terr) == null)
 				{
@@ -88,33 +90,20 @@ public class TerritoryTable
 					_territory.put(terr, t);
 				}
 				_territory.get(terr).add(rset.getInt("loc_x"), rset.getInt("loc_y"), rset.getInt("loc_zmin"), rset.getInt("loc_zmax"), rset.getInt("proc"));
-
-				terr = null;
 			}
 			
 			rset.close();
 			statement.close();
-			statement = null;
-			rset = null;
 		}
 		catch(Exception e1)
 		{
-			//problem with initializing spawn, go to next one
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e1.printStackTrace();
-			
-			_log.warning("locations couldnt be initialized:" + e1);
+			_log.error("locations couldnt be initialized", e1);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
-		_log.config("TerritoryTable: Loaded " + _territory.size() + " locations");
+		_log.debug("TerritoryTable: Loaded {} locations", _territory.size());
 	}
 }
