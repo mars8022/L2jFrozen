@@ -588,7 +588,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			
 			if (Config.getInstance().ENABLE_MMOCORE_DEBUG)
 			{
-				_log.info("-- called OpCode "+ opcode+ " ~"+ String.valueOf((Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK)+ " ms after previous command...");
+				_log.info("-- called OpCode "+ opcode+ " ~"+ String.valueOf((Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK)+ " ms after first command...");
 				_log.info("   total received packets with OpCode "+opcode+" into the Interval: "+command_count.get());
 			}
 			
@@ -622,7 +622,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				
 			}
 			
-			if(curTick == _nextGameTick){
+			if(curTick == _nextGameTick){ //if is the first time, just calculate the next game tick
 				_nextGameTick = curTick + Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL;
 				clients_nextGameTick.get(account).put(opcode, _nextGameTick);
 			}

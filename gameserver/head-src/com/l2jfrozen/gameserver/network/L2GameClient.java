@@ -963,8 +963,6 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 	}
 
-	
-	
 	public FloodProtectors getFloodProtectors()
 	{
 		return _floodProtectors;
@@ -975,7 +973,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		
 		L2PcInstance player = getActiveChar();
 		
-		if(player != null && !activeChar.getClient().getFloodProtectors().getUnknownPackets().tryPerformAction("check packet"))
+		if(player != null && _floodProtectors!=null && _floodProtectors.getUnknownPackets()!=null && !_floodProtectors.getUnknownPackets().tryPerformAction("check packet"))
 		{
 			unknownPacketCount++;
 			
