@@ -1385,6 +1385,15 @@ public abstract class L2Skill
 	 */
 	public final L2Object[] getTargetList(L2Character activeChar, boolean onlyFirst, L2Character target)
 	{
+		if( activeChar instanceof L2PcInstance  ){ //to avoid attacks during oly start period
+			
+			if(isOffensive() && (((L2PcInstance)activeChar).isInOlympiadMode() && !((L2PcInstance)activeChar).isOlympiadStart())){
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
+				return null;
+			}
+			
+		}
+
 		List<L2Character> targetList = new FastList<L2Character>();
 
 		// Get the target type of the skill

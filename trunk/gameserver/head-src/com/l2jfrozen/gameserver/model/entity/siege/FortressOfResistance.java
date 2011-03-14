@@ -26,7 +26,9 @@ package com.l2jfrozen.gameserver.model.entity.siege;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Logger;
 
@@ -39,6 +41,7 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
+import com.l2jfrozen.gameserver.model.entity.siege.DevastatedCastle.RunMessengerSpawn;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -123,6 +126,7 @@ public class FortressOfResistance
 
 		_clansDamageInfo = new FastMap<Integer, DamageInfo>();
 
+		/*
 		synchronized (this)
 		{
 			setCalendarForNextCaprture();
@@ -131,6 +135,24 @@ public class FortressOfResistance
 			RunMessengerSpawn rms = new RunMessengerSpawn();
 			ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToCapture);
 			_log.info("Fortress of Resistanse: " + milliToCapture / 1000 + " sec. to capture");
+		}
+		*/
+		synchronized (this)
+		{
+			setCalendarForNextCaprture();
+			long milliToCapture = getMilliToCapture();
+
+			RunMessengerSpawn rms = new RunMessengerSpawn();
+			ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToCapture);
+			
+			long total_millis = System.currentTimeMillis() + milliToCapture;
+			
+			GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+			cal.setTimeInMillis(total_millis);
+			String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
+			
+			_log.info("Fortress of Resistanse: siege will start the "+next_ch_siege_date);
+			rms = null;
 		}
 	}
 
