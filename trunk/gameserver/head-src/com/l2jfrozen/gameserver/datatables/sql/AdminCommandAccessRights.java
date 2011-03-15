@@ -90,6 +90,11 @@ public class AdminCommandAccessRights
 	{
 		return _instance == null ? (_instance = new AdminCommandAccessRights()) : _instance;
 	}
+	
+	public static void reload(){
+		_instance = null;
+		getInstance();
+	}
 
 	public int accessRightForCommand(String command){
 		int out = -1;

@@ -49,6 +49,11 @@ public class GmListTable
 		return _instance;
 	}
 
+	public static void reload(){
+		_instance = null;
+		getInstance();
+	}
+	
 	public FastList<L2PcInstance> getAllGms(boolean includeHidden)
 	{
 		FastList<L2PcInstance> tmpGmList = new FastList<L2PcInstance>();

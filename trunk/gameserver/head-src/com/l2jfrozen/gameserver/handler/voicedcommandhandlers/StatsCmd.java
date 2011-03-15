@@ -142,20 +142,39 @@ public class StatsCmd implements IVoicedCommandHandler
 					return false;
 				}
 				
-				L2PcInstance pc = L2World.getInstance().getPlayer(target);
+				if(activeChar.getTarget() == null)
+				{
+					activeChar.sendMessage("You have no one targeted.");
+					return false;
+				}
+				if(activeChar.getTarget() == activeChar)
+				{
+					activeChar.sendMessage("You cannot request your stats.");
+					return false;
+				}
 
-				if(pc != null)
+				if(!(activeChar.getTarget() instanceof L2PcInstance))
+				{
+					activeChar.sendMessage("You can only get the info of a player.");
+					return false;
+				}
+				
+				L2PcInstance targetp = (L2PcInstance) activeChar.getTarget();
+
+				//L2PcInstance pc = L2World.getInstance().getPlayer(target);
+
+				if(targetp != null)
 				{
 					NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 
 					TextBuilder replyMSG = new TextBuilder("<html><body>");
 
 					replyMSG.append("<center><font color=\"LEVEL\">[ L2J EVENT ENGINE ]</font></center><br>");
-					replyMSG.append("<br>Statistics for player <font color=\"LEVEL\">" + pc.getName() + "</font><br>");
-					replyMSG.append("Total kills <font color=\"FF0000\">" + pc.kills.size() + "</font><br>");
+					replyMSG.append("<br>Statistics for player <font color=\"LEVEL\">" + targetp.getName() + "</font><br>");
+					replyMSG.append("Total kills <font color=\"FF0000\">" + targetp.kills.size() + "</font><br>");
 					replyMSG.append("<br>Detailed list: <br>");
 
-					Iterator<String> it = pc.kills.iterator();
+					Iterator<String> it = targetp.kills.iterator();
 					while(it.hasNext())
 					{
 						replyMSG.append("<font color=\"FF0000\">" + it.next() + "</font><br>");

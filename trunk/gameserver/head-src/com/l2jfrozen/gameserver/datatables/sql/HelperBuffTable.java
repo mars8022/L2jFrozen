@@ -72,6 +72,11 @@ public class HelperBuffTable
 
 		return _instance;
 	}
+	
+	public static void reload(){
+		_instance = null;
+		getInstance();
+	}
 
 	/**
 	 * Create and Load the Newbie Helper Buff list from SQL Table helper_buff_list

@@ -228,4 +228,10 @@ public class AccessLevels
 			//L2EMU_ADD
 		}
 	}
+	
+	public static void reload(){
+		_instance = null;
+		getInstance();
+	}
+	
 }
