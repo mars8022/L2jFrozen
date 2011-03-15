@@ -75,6 +75,11 @@ public class ClanTable
 
 		return _instance;
 	}
+	
+	public static void reload(){
+		_instance = null;
+		getInstance();
+	}
 
 	public L2Clan[] getClans()
 	{

@@ -30,16 +30,16 @@ public class DatatablesManager
 
 	public static void reloadAll()
 	{
-		AccessLevels.getInstance();
-		AdminCommandAccessRights.getInstance();
-		GmListTable.getInstance();
-		AugmentationData.getInstance();
-		ClanTable.getInstance();
-		HelperBuffTable.getInstance();
+		AccessLevels.reload();
+		AdminCommandAccessRights.reload();
+		GmListTable.reload();
+		AugmentationData.reload();
+		ClanTable.reload();
+		HelperBuffTable.reload();
 	}
 
 	public static void LoadSTS()
 	{
-		ExpTable.getInstance();
+		ExpTable.getInstance().load();
 	}
 }

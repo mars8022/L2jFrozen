@@ -94,7 +94,7 @@ public class AugmentationData
 	// =========================================================
 	// Constructor
 	@SuppressWarnings("unchecked")
-	public AugmentationData()
+	private AugmentationData()
 	{
 		_log.info("Initializing AugmentationData.");
 
@@ -127,6 +127,11 @@ public class AugmentationData
 			}
 		}
 
+	}
+	
+	public static void reload(){
+		_instance = null;
+		getInstance();
 	}
 
 	// =========================================================

@@ -70,8 +70,14 @@ public class AdminShutdown implements IAdminCommandHandler
 					try
 					{
 						int val = Integer.parseInt(secs);
-						serverShutdown(activeChar, val, false);
-						return true;
+						
+						if(val>=0){
+							serverShutdown(activeChar, val, false);
+							return true;
+						}else{
+							activeChar.sendMessage("Negative Value is not allowed");
+							return false;
+						}
 					}
 					catch(StringIndexOutOfBoundsException e)
 					{
@@ -95,8 +101,16 @@ public class AdminShutdown implements IAdminCommandHandler
 					try
 					{
 						int val = Integer.parseInt(secs);
-						serverShutdown(activeChar, val, true);
-						return true;
+						
+						if(val>=0){
+							serverShutdown(activeChar, val, true);
+							return true;
+						}else{
+							activeChar.sendMessage("Negative Value is not allowed");
+							return false;
+						}
+						
+						
 					}
 					catch(StringIndexOutOfBoundsException e)
 					{
