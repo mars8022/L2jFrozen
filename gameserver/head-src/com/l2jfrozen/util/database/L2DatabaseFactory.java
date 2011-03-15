@@ -101,8 +101,8 @@ public class L2DatabaseFactory
 		if(connect == null) throw new SQLException();
 		_log.debug("Connection successful");
 		final Statement statement = connect.createStatement();
-		final ResultSet resultSet = statement.executeQuery("SELECT count FROM spawnlist");
-		if(resultSet.next()) resultSet.getInt("count");
+		final ResultSet resultSet = statement.executeQuery("SHOW TABLES");
+		resultSet.next();
 		resultSet.close();
 		statement.close();
 		connect.close();
