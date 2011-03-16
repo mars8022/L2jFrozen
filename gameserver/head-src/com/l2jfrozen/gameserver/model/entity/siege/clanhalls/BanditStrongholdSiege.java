@@ -15,7 +15,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.model.entity.siege;
+package com.l2jfrozen.gameserver.model.entity.siege.clanhalls;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -38,6 +38,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.ClanHall;
+import com.l2jfrozen.gameserver.model.entity.siege.ClanHallSiege;
 import com.l2jfrozen.gameserver.model.zone.type.L2ClanHallZone;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.taskmanager.ExclusiveTask;

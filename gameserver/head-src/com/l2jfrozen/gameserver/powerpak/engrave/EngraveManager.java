@@ -48,7 +48,7 @@ public class EngraveManager
 		_engravedItems = new FastMap<Integer, int[]>();
 		try
 		{
-			_con = L2DatabaseFactory.getInstance().getConnection();
+			_con = L2DatabaseFactory.getInstance().getConnection(false);
 			LOG_UPDATE = _con.prepareStatement("insert into engraved_log values(?,?,?,?,?,?)");
 			LOG_DELETE = _con.prepareStatement("delete from engraved_log where object_id=?");
 			ITEM_INSERT = _con.prepareStatement("insert into engraved_items values (?,?,?)");

@@ -104,19 +104,17 @@ public class CharInfo extends L2GameServerPacket
 	@Override
 	protected final void writeImpl()
 	{
-		boolean gmSeeInvis = false;
+		boolean receiver_is_gm = false;
 
-		if(_activeChar.getAppearance().getInvisible())
+		L2PcInstance tmp = getClient().getActiveChar();
+		if(tmp != null && tmp.isGM())
 		{
-			L2PcInstance tmp = getClient().getActiveChar();
-			if(tmp != null && tmp.isGM())
-			{
-				gmSeeInvis = true;
-			}
-			else
-				return;
+			receiver_is_gm = true;
 		}
-
+		
+		if(!receiver_is_gm && _activeChar.getAppearance().getInvisible())
+			return;
+		
 		if(_activeChar.getPoly().isMorphed())
 		{
 			L2NpcTemplate template = NpcTable.getInstance().getTemplate(_activeChar.getPoly().getPolyId());
@@ -154,18 +152,19 @@ public class CharInfo extends L2GameServerPacket
 				writeC(_activeChar.isInCombat() ? 1 : 0);
 				writeC(_activeChar.isAlikeDead() ? 1 : 0);
 
-				if(gmSeeInvis)
-				{
-					writeC(0);
-				}
-				else
-				{
-					writeC(_activeChar.getAppearance().getInvisible() ? 1 : 0); // invisible ?? 0=false  1=true   2=summoned (only works if model has a summon animation)
-				}
+				//if(gmSeeInvis)
+				//{
+				writeC(0); //if the charinfo is written means receiver can see the char
+				//}
+				//else
+				//{
+				//	writeC(_activeChar.getAppearance().getInvisible() ? 1 : 0); // invisible ?? 0=false  1=true   2=summoned (only works if model has a summon animation)
+				//}
 
 				writeS(_activeChar.getName());
 
-				if(gmSeeInvis)
+				if(_activeChar.getAppearance().getInvisible())
+				//if(gmSeeInvis)
 				{
 					writeS("Invisible");
 				}
@@ -178,7 +177,8 @@ public class CharInfo extends L2GameServerPacket
 				writeD(0);
 				writeD(0000); // hmm karma ??
 
-				if(gmSeeInvis)
+				if(_activeChar.getAppearance().getInvisible())
+				//if(gmSeeInvis)
 				{
 					writeD((_activeChar.getAbnormalEffect() | L2Character.ABNORMAL_EFFECT_STEALTH));
 				}
@@ -282,7 +282,8 @@ public class CharInfo extends L2GameServerPacket
 			writeD(_activeChar.getAppearance().getHairColor());
 			writeD(_activeChar.getAppearance().getFace());
 
-			if(gmSeeInvis)
+			if(_activeChar.getAppearance().getInvisible())
+			//if(gmSeeInvis)
 			{
 				writeS("Invisible");
 			}
@@ -304,14 +305,14 @@ public class CharInfo extends L2GameServerPacket
 			writeC(_activeChar.isInCombat() ? 1 : 0);
 			writeC(_activeChar.isAlikeDead() ? 1 : 0);
 
-			if(gmSeeInvis)
-			{
-				writeC(0);
-			}
-			else
-			{
-				writeC(_activeChar.getAppearance().getInvisible() ? 1 : 0); // invisible = 1  visible =0
-			}
+			//if(gmSeeInvis)
+			//{
+			writeC(0); //if the charinfo is written means receiver can see the char
+			//}
+			//else
+			//{
+			//	writeC(_activeChar.getAppearance().getInvisible() ? 1 : 0); // invisible = 1  visible =0
+			//}
 
 			writeC(_activeChar.getMountType()); // 1 on strider   2 on wyvern   0 no mount
 			writeC(_activeChar.getPrivateStoreType()); //  1 - sellshop
@@ -326,7 +327,8 @@ public class CharInfo extends L2GameServerPacket
 
 			writeC(0x00); // find party members
 
-			if(gmSeeInvis)
+			if(_activeChar.getAppearance().getInvisible())
+			//if(gmSeeInvis)
 			{
 				writeD((_activeChar.getAbnormalEffect() | L2Character.ABNORMAL_EFFECT_STEALTH));
 			}

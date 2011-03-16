@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class L2DatabaseFactory
 {
@@ -181,7 +182,7 @@ public class L2DatabaseFactory
 			try
 			{
 				con = _source.getConnection();
-//				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
+				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
 			}
 			catch(SQLException e)
 			{
@@ -192,29 +193,50 @@ public class L2DatabaseFactory
 		return con;
 	}
 	
-//	public Connection getConnection(long max_connection_time) throws SQLException 
-//	{ 
-//		Connection con = null;
-//
-//		while(con == null)
-//		{
-//			try
-//			{
-//				con = _source.getConnection();
-//				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), max_connection_time);
-//				
-//			}
-//			catch(SQLException e)
-//			{
-//				if(Config.ENABLE_ALL_EXCEPTIONS)
-//					e.printStackTrace();
-//				
-//				_log.warning("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
-//			}
-//		}
-//
-//		return con;
-//	}
+	public Connection getConnection(boolean checkclose) throws SQLException 
+	{ 
+		Connection con = null;
+
+		while(con == null)
+		{
+			try
+			{
+				con = _source.getConnection();
+				if(checkclose)
+					ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
+			}
+			catch(SQLException e)
+			{
+				_log.error("L2DatabaseFactory: getConnection() failed, trying again", e);
+			}
+		}
+
+		return con;
+	}
+	
+	public Connection getConnection(long max_connection_time) throws SQLException 
+	{ 
+		Connection con = null;
+
+		while(con == null)
+		{
+			try
+			{
+				con = _source.getConnection();
+				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), max_connection_time);
+				
+			}
+			catch(SQLException e)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				_log.error("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+			}
+		}
+
+		return con;
+	}
 	
 	public int getBusyConnectionCount() {
 		return _source.getTotalLeased();
@@ -244,37 +266,37 @@ public class L2DatabaseFactory
 		}
 	}
 
-//	private class ConnectionCloser implements Runnable
-//	{
-//		private final Connection c ;
-//		private final RuntimeException exp;
-//		
-//		public ConnectionCloser(Connection con, RuntimeException e)
-//		{
-//			c = con;
-//			exp = e;
-//		}
-//		/* (non-Javadoc)
-//		 * @see java.lang.Runnable#run()
-//		 */
-//		@Override
-//		public void run()
-//		{
-//			try
-//			{
-//				if (c!=null && !c.isClosed())
-//				{
-//					_log.log(Level.WARNING, "Unclosed connection! Trace: " + exp.getStackTrace()[1], exp);
-//					c.close();
-//					
-//				}
-//			}
-//			catch (SQLException e)
-//			{
-//				//the close operation could generate exception, but there is not any problem
-//				//e.printStackTrace();
-//			}
-//			
-//		}
-//	}
+	private class ConnectionCloser implements Runnable
+	{
+		private final Connection c ;
+		private final RuntimeException exp;
+		
+		public ConnectionCloser(Connection con, RuntimeException e)
+		{
+			c = con;
+			exp = e;
+		}
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run()
+		{
+			try
+			{
+				if (c!=null && !c.isClosed())
+				{
+					_log.error( "Unclosed connection! Trace: " + exp.getStackTrace()[1], exp);
+					c.close();
+					
+				}
+			}
+			catch (SQLException e)
+			{
+				//the close operation could generate exception, but there is not any problem
+				//e.printStackTrace();
+			}
+			
+		}
+	}
 }
