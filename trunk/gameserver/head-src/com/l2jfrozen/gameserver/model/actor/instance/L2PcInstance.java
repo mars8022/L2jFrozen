@@ -137,9 +137,9 @@ import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
-import com.l2jfrozen.gameserver.model.entity.siege.DevastatedCastle;
 import com.l2jfrozen.gameserver.model.entity.siege.FortSiege;
 import com.l2jfrozen.gameserver.model.entity.siege.Siege;
+import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
@@ -6490,7 +6490,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT kills FROM pkKills WHERE killerId=? AND killedId=?");
+			PreparedStatement statement = con.prepareStatement("SELECT kills FROM pkkills WHERE killerId=? AND killedId=?");
 			statement.setString(1, killer);
 			statement.setString(2, killed);
 			ResultSet rset = statement.executeQuery();
@@ -6520,7 +6520,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(kills >= 1)
 		{
 			kills++;
-			String UPDATE_PKKILLS = "UPDATE pkKills SET kills=? WHERE killerId=? AND killedId=?";
+			String UPDATE_PKKILLS = "UPDATE pkkills SET kills=? WHERE killerId=? AND killedId=?";
 			Connection conect = null;
 			try
 			{
@@ -6554,7 +6554,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else
 		{
-			String ADD_PKKILLS = "INSERT INTO pkKills (killerId,killedId,kills) VALUES (?,?,?)";
+			String ADD_PKKILLS = "INSERT INTO pkkills (killerId,killedId,kills) VALUES (?,?,?)";
 			Connection conect2 = null;
 			try
 			{

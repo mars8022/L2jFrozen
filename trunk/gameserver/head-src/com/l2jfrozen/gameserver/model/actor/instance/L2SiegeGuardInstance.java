@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.knownlist.SiegeGuardKnownList;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
-import com.l2jfrozen.gameserver.model.entity.siege.DevastatedCastle;
+import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;

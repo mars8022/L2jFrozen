@@ -306,7 +306,7 @@ public class Shutdown extends Thread
 			// saveData sends messages to exit players, so sgutdown selector after it
 			try
 			{
-				GameServer.getSelectorThread().setDaemon(true);
+				//GameServer.getSelectorThread().setDaemon(true);
 				GameServer.getSelectorThread().shutdown();
 				
 			}

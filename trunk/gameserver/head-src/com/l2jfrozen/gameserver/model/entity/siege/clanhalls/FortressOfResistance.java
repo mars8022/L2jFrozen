@@ -22,7 +22,7 @@
 *  v 2.1
 */
 
-package com.l2jfrozen.gameserver.model.entity.siege;
+package com.l2jfrozen.gameserver.model.entity.siege.clanhalls;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
-import com.l2jfrozen.gameserver.model.entity.siege.DevastatedCastle.RunMessengerSpawn;
+import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle.RunMessengerSpawn;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;

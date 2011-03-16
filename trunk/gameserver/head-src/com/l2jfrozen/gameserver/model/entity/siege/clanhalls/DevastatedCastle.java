@@ -22,7 +22,7 @@
  *  v 2.2
  */
 
-package com.l2jfrozen.gameserver.model.entity.siege;
+package com.l2jfrozen.gameserver.model.entity.siege.clanhalls;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -358,7 +358,10 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 			
 			player.rewardSkills();
 			
-			player.checkAllowedSkills();
+			if(!Config.ALT_GAME_SKILL_LEARN)
+			{
+				player.checkAllowedSkills();
+			}
 
 			if(val >= 88)
 			{
