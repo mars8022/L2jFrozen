@@ -27,6 +27,7 @@ import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -77,14 +78,9 @@ public class SQLQueue implements Runnable
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 				}finally{
-					try{
-						if(_con!=null && !_con.isClosed()){
-							_con.close();
-						}
-					}catch(SQLException e){
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
+					
+					CloseUtil.close(_con);
+					
 				}
 			}
 		}
@@ -99,14 +95,8 @@ public class SQLQueue implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}finally{
-			try{
-				if(_con!=null && !_con.isClosed()){
-					_con.close();
-				}
-			}catch(SQLException e){
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(_con);
+			
 		}
 		_isRuning = false;
 	}

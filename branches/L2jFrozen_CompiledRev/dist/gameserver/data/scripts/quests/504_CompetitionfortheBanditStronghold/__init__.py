@@ -1,5 +1,5 @@
 import sys
-from com.l2jfrozen.gameserver.model.entity.siege import BanditStrongholdSiege
+from com.l2jfrozen.gameserver.model.entity.siege.clanhalls import BanditStrongholdSiege
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
 from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
