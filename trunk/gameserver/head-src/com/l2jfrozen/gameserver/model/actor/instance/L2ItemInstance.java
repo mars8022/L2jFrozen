@@ -1087,6 +1087,7 @@ public final class L2ItemInstance extends L2Object
 					_log.severe("Item item_id=" + item_id + " not known, object_id=" + objectId);
 					rs.close();
 					statement.close();
+					CloseUtil.close(con);
 					return null;
 				}
 
@@ -1119,7 +1120,8 @@ public final class L2ItemInstance extends L2Object
 
 					rs.close();
 					statement.close();
-
+					CloseUtil.close(con);
+					
 					return null;
 				}
 				else if(inst._mana > 0 && inst.getLocation() == ItemLocation.PAPERDOLL)
@@ -1136,7 +1138,8 @@ public final class L2ItemInstance extends L2Object
 
 				rs.close();
 				statement.close();
-
+				CloseUtil.close(con);
+				
 				return null;
 			}
 
@@ -1174,11 +1177,8 @@ public final class L2ItemInstance extends L2Object
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
+			
 		}
 		return inst;
 	}
@@ -1267,7 +1267,7 @@ public final class L2ItemInstance extends L2Object
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE items SET owner_id=?,count=?,loc=?,loc_data=?,enchant_level=?,price_sell=?,price_buy=?,custom_type1=?,custom_type2=?,mana_left=? " + "WHERE object_id = ?");
 			statement.setInt(1, _ownerId);
 			statement.setInt(2, getCount());
@@ -1361,11 +1361,8 @@ public final class L2ItemInstance extends L2Object
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
+			
 		}
 	}
 

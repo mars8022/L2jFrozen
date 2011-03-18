@@ -287,7 +287,7 @@ public class L2DatabaseFactory
 				if (c!=null && !c.isClosed())
 				{
 					_log.error( "Unclosed connection! Trace: " + exp.getStackTrace()[1], exp);
-					c.close();
+					//c.close();
 					
 				}
 			}

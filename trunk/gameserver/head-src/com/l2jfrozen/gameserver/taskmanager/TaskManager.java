@@ -46,6 +46,7 @@ import com.l2jfrozen.gameserver.taskmanager.tasks.TaskRestart;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskSevenSignsUpdate;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskShutdown;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -366,9 +367,11 @@ public final class TaskManager
 	{
 		Connection con = null;
 
+		boolean output = false;
+		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(SQL_STATEMENTS[2]);
 			statement.setString(1, task);
 			ResultSet rset = statement.executeQuery();
@@ -390,7 +393,7 @@ public final class TaskManager
 			rset = null;
 			statement = null;
 
-			return true;
+			output = true;
 		}
 		catch(SQLException e)
 		{
@@ -400,14 +403,10 @@ public final class TaskManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
-		return false;
+		return output;
 	}
 
 	public static boolean addTask(String task, TaskTypes type, String param1, String param2, String param3)
@@ -419,9 +418,11 @@ public final class TaskManager
 	{
 		Connection con = null;
 
+		boolean output = false;
+		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(SQL_STATEMENTS[3]);
 			statement.setString(1, task);
 			statement.setString(2, type.toString());
@@ -434,7 +435,7 @@ public final class TaskManager
 			statement.close();
 			statement = null;
 			
-			return true;
+			output = true;
 		}
 		catch(SQLException e)
 		{
@@ -444,13 +445,9 @@ public final class TaskManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
-		return false;
+		return output;
 	}
 }
