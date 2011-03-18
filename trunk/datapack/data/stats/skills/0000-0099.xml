@@ -222,7 +222,6 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="8" levels="7" name="Sonic Focus">
   <table name="#val">1 2 3 4 5 6 7</table>
-  <set name="weaponsAllowed" val="512"/>
   <set name="mpConsume" val="5"/>
   <set name="hpConsume" val="25"/>
   <set name="power" val="#val"/>
@@ -233,6 +232,9 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="num_charges" val="#val"/>
   <set name="aggroPoints" val="200"/>
+  <cond msg="Dual Sword/Sword/Blunt required.">
+    <using kind="Dual Sword, Sword, Blunt"/>
+  </cond>
   <for>
     <effect count="1" name="Charge" time="600" val="1"/>
   </for>

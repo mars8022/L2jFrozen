@@ -87,11 +87,10 @@
   <set name="mpConsume" val="180"/>
   <set name="hitTime" val="15000"/>
   <set name="reuseDelay" val="20000"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="isMagic" val="true"/>
-  <for>
-  </for>
+  <set name="castRange" val="-2" />
+  <set name="effectRange" val="-2" />
+  <set name="skillRadius" val="-1" />
 </skill>
 <skill id="1404" levels="1" name="Word of Invitation">
   <set name="target" val="TARGET_PARTY"/>
