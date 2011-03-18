@@ -7942,11 +7942,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
+			
 		}
 	}
 
@@ -7981,15 +7978,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			
 		}
 	}
 
@@ -7999,6 +7989,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	private boolean createDb()
 	{
+		boolean output = false;
+		
 		Connection con = null;
 		try
 		{
@@ -8076,6 +8068,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.executeUpdate();
 			statement.close();
 			statement = null;
+			
+			output = true;
 		}
 		catch(Exception e)
 		{
@@ -8083,18 +8077,17 @@ public final class L2PcInstance extends L2PlayableInstance
 				e.printStackTrace();
 			
 			_log.severe("Could not insert char data: " + e);
-			return false;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
+			
 		}
-		_log.info("Created new character : " + getName() + " for account: " + _accountName);
-		return true;
+		
+		if(output)
+			_log.info("Created new character : " + getName() + " for account: " + _accountName);
+		
+		return output;
 	}
 
 	/**
@@ -8118,7 +8111,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		try
 		{
 			// Retrieve the L2PcInstance from the characters table of the database
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement(RESTORE_CHARACTER);
 			statement.setInt(1, objectId);
@@ -8347,11 +8340,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		return player;

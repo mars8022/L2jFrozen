@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class MercTicketManager
 {
-	protected static Logger _log = Logger.getLogger(CastleManager.class.getName());
+	protected static Logger _log = Logger.getLogger(MercTicketManager.class.getName());
 
 	// =========================================================
 	private static MercTicketManager _instance;
@@ -59,7 +60,7 @@ public class MercTicketManager
 		//CastleManager.getInstance();
 		if(_instance == null)
 		{
-			System.out.println("Initializing MercTicketManager");
+			_log.info("Initializing MercTicketManager");
 			_instance = new MercTicketManager();
 			_instance.load();
 		}
@@ -634,7 +635,7 @@ public class MercTicketManager
 			PreparedStatement statement;
 			ResultSet rs;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement("SELECT * FROM castle_siege_guards Where isHired = 1");
 			rs = statement.executeQuery();
 
@@ -686,21 +687,16 @@ public class MercTicketManager
 			rs.close();
 			rs = null;
 
-			System.out.println("Loaded: " + getDroppedTickets().size() + " Mercenary Tickets");
+			_log.info("Loaded: " + getDroppedTickets().size() + " Mercenary Tickets");
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: loadMercenaryData(): " + e.getMessage());
+			_log.info("Exception: loadMercenaryData(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

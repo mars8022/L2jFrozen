@@ -35,15 +35,15 @@ public class Config
 	public boolean ENABLE_MMOCORE_DEVELOP = false;
 	
 	/** Client Packets Queue settings */
-	public int CLIENT_PACKET_QUEUE_SIZE								= 14;	// default MMO_MAX_READ_PER_PASS + 2
-	public int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE					= 13;	// default MMO_MAX_READ_PER_PASS + 1
-	public int CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND			= 80;	// default 80
-	public int CLIENT_PACKET_QUEUE_MEASURE_INTERVAL					= 5;	// default 5
-	public int CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND	= 40;	// default 40
-	public int CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN				= 2;	// default 2
-	public int CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN				= 1;	// default 1
-	public int CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN			= 1;	// default 1
-	public int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN				= 5;	// default 5
+	public int CLIENT_PACKET_QUEUE_SIZE;	// default MMO_MAX_READ_PER_PASS + 2
+	public int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE;	// default MMO_MAX_READ_PER_PASS + 1
+	public int CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND;	// default 80
+	public int CLIENT_PACKET_QUEUE_MEASURE_INTERVAL;	// default 5
+	public int CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND;	// default 40
+	public int CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN;	// default 2
+	public int CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN;	// default 1
+	public int CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN;	// default 1
+	public int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN;	// default 5
 	
 	//Packets flooding Config
 	public boolean DISABLE_FULL_PACKETS_FLOOD_PROTECTOR;
@@ -105,6 +105,19 @@ public class Config
 			PACKET_FLOODING_PUNISHMENT_LIMIT = Integer.parseInt(mmoSetting.getProperty("PacketFloodingPunishmentLimit", "15"));
 			PACKET_FLOODING_PUNISHMENT_TYPE = mmoSetting.getProperty("PacketFloodingPunishmentType", "kick");
 			
+			//CLIENT-QUEUE-SETTINGS
+			CLIENT_PACKET_QUEUE_SIZE= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueSize", "14"));	// default MMO_MAX_READ_PER_PASS + 2
+			CLIENT_PACKET_QUEUE_MAX_BURST_SIZE= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxBurstSize", "13"));	// default MMO_MAX_READ_PER_PASS + 1
+			CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxPacketsPerSecond", "80"));	// default 80
+			CLIENT_PACKET_QUEUE_MEASURE_INTERVAL= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMeasureInterval", "5"));	// default 5
+			CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND	= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxAveragePacketsPerSecond", "40"));	// default 40
+			CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxFloodPerMin", "2"));	// default 2
+			CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueOverflowsPerMin", "1"));	// default 1
+			CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueUnderflowsPerMin", "1"));	// default 1
+			CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN	= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueUnknownPerMin", "5"));	// default 5
+			
+			
+			//OPCODES Flood Protector
 			PROTECTED_OPCODES = mmoSetting.getProperty("ListOfProtectedOpCodes");
 			
 			LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
