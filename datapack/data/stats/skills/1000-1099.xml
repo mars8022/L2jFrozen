@@ -468,8 +468,6 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <set name="aggroPoints" val="#aggro"/>
-  <for>
-  </for>
 </skill>
 <skill id="1016" levels="9" name="Resurrection">
   <table name="#mpConsume_Init">12 18 25 31 36 39 42 46 48</table>
@@ -1062,6 +1060,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1050" levels="2" name="Return">
   <table name="#mpConsume_Init">21 31</table>
   <table name="#mpConsume">84 122</table>
@@ -1074,10 +1073,6 @@
   <set name="skillType" val="RECALL"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="1056" levels="12" name="Cancellation">
@@ -1101,6 +1096,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1059" levels="3" name="Empower" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1130,7 +1126,7 @@
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="#mAtk" stackType="mAtk">
+    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1.75" stackType="mAtk">
       <mul order="0x30" stat="mAtk" val="#mAtk"/>
     </effect>
   </for>

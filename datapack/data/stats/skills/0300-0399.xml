@@ -354,13 +354,13 @@
     </effect>
   </enchant1for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="312" levels="20" name="Vicious Stance" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
   <enchant2 name="magicLvl" val="#enchantMagicLvl"/>
   <table name="#mpConsume_Init">4 5 5 6 7 7 8 9 9 10 10 11 11 12 12 13 13 13 14 14</table>
   <table name="#crit">35 48 64 84 109 139 166 196 229 266 306 349 379 410 443 475 509 542 576 609</table>
-  <!-- #val is calculated as 0.4 x magic level -->
   <table name="#val">8 9.6 11.2 12.8 14.4 16 17.2 18.4 19.6 20.8 22 23.2 24 24.8 25.6 26.4 27.2 28 28.8 29.6</table>
   <table name="#ench1MpConsume_Init">13 13 13 14 14 14 14 14 14 14 14 14 15 15 15 15 15 15 15 15 15 15 15 15 15 15 0 0 0 0</table>
   <table name="#ench1crit">615 620 626 631 637 642 648 653 659 664 670 675 681 686 692 697 702 708 713 719 724 730 735 741 746 752 757 763 768 774</table>
@@ -371,8 +371,6 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <enchant1 name="mpInitialConsume" val="#ench1MpConsume_Init"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>

@@ -78,6 +78,7 @@
     <mul order="0x30" stat="pvpMagicalDmg" val="#pvpDam"/> -->
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3603" levels="10" name="Demonic Sword Zariche">
   <table name="#maxCp">12 13 14 15 17 19 21 23 25 27</table>
   <table name="#pAtk">3 4.5 6 7.5 9 10.5 11 11.5 12 12.5</table>
@@ -87,10 +88,10 @@
   <table name="#runSpd">4 6 8 10 12 14 16 18 19 20</table>
   <table name="#accCombat">15 20 25 30 35 40 45 50 55 60</table>
   <set name="target" val="TARGET_SELF"/>
+  <set name="magicLvl" val="78" />
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <set name="isMagic" val="true"/>
-  <set name="castRange" val="-1"/>
   <set name="minPledgeClass" val="2"/>
   <for>
     <mul order="0x30" stat="maxCp" val="#maxCp"/>
@@ -508,12 +509,8 @@
       </effect>
     </for>
   </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3629" levels="10" name="Blood Sword Akamanah">
-<!--
-  Needs to be finished - below is a copy of 3603 Demon Sword Zariche
-  Description(s):
-      Lvl 1-10 - A demonic twin blade forged in blood by Gran Kain, the god of chaos. The blade dies over and over again when it touches the air, and it craves blood to forge it anew. It becomes stronger every time it is supplied with blood.
--->
   <table name="#maxCp">12 13 14 15 17 19 21 23 25 27</table>
   <table name="#pAtk">3 4.5 6 7.5 9 10.5 11 11.5 12 12.5</table>
   <table name="#mAtk">3 3.25 3.5 3.75 4 4.25 4.5 5 5.5 5.75</table>
@@ -539,30 +536,28 @@
 	<mul order="0x30" stat="regCp" val="20"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3630" levels="1" name="Void Burst">
-  <set name="mpConsume" val="200"/>
+  <set name="mpConsume" val="140"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="hitTime" val="2000"/>
-  <set name="reuseDelay" val="60000"/> <!-- Need check -->
+  <set name="reuseDelay" val="60000"/>
+  <set name="power" val="11500" />
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="skillRadius" val="200"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3631" levels="1" name="Void Flow">
-  <set name="mpConsume" val="200"/>
+  <set name="mpConsume" val="140"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="1900"/>
+  <set name="power" val="15000" />
   <set name="reuseDelay" val="60000"/> <!-- Need check -->
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="3632" name="Clan Gate" levels="1">
