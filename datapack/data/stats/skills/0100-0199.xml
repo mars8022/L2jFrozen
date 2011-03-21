@@ -1057,6 +1057,7 @@
     <player hp="5"/>
   </cond>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="190" levels="37" name="Fatal Strike" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1067,6 +1068,7 @@
   <table name="#power">615 654 694 737 781 827 875 924 976 1030 1085 1143 1202 1264 1327 1392 1459 1527 1597 1669 1743 1817 1894 1971 2050 2130 2211 2293 2375 2459 2542 2626 2710 2794 2878 2961 3044</table>
   <table name="#ench1Power">3077 3109 3142 3175 3207 3240 3272 3305 3337 3370 3403 3435 3468 3500 3533 3566 3598 3631 3663 3696 3729 3761 3794 3826 3859 3891 3924 3957 3989 4022</table>
   <table name="#ench2Power">3058 3073 3087 3101 3116 3130 3144 3159 3173 3187 3201 3216 3230 3244 3259 3273 3287 3302 3316 3330 3344 3359 3373 3387 3402 3416 3430 3445 3459 3473</table>
+  <set name="baseCritRate" val="15"/>
   <set name="weaponsAllowed" val="18444"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
@@ -1075,7 +1077,7 @@
   <set name="ignoreShld" val="true"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
-  <set name="reuseDelay" val="13000"/>
+  <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="1080"/>
   <set name="coolTime" val="720"/>
   <set name="skillType" val="PDAM"/>
@@ -1088,8 +1090,6 @@
   <cond msg="Sword/Blunt/Big Sword/Big Blunt required."> 
     <using kind="Sword, Blunt, Big Sword, Big Blunt"/> 
   </cond> 
-  <for> 
-  </for>
 </skill>
 <skill id="191" levels="6" name="Focus Mind">
   <table name="#regMp">1.1 1.5 1.9 2.3 2.7 3.1</table>
