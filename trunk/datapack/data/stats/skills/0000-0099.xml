@@ -282,13 +282,16 @@
   <set name="num_charges" val="2"/>
   <set name="charge_skill_id" val="8"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="10" levels="8" name="Summon Storm Cubic">
+  <table name="#magicLvl"> 40 46 52 58 62 66 70 74 </table>
   <table name="#mpConsume_Init">7 9 10 11 12 13 13 14</table>
   <table name="#mpConsume">28 33 38 43 46 49 52 55</table>
   <table name="#itemConsumeCount">5 6 8 9 11 12 13 14</table>
   <table name="#mAtk">282 434 644 919 1141 1394 1673 1975</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="itemConsumeId" val="1458"/>
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="target" val="TARGET_SELF"/>
@@ -300,8 +303,8 @@
   <!-- Summon-specific -->
   <set name="power" val="#mAtk"/>
   <set name="npcId" val="1"/>
-  <set name="activationtime" val="14"/>
-  <set name="activationchance" val="80"/>
+  <set name="activationtime" val="12"/>
+  <set name="activationchance" val="10"/>
   <set name="summonTotalLifeTime" val="900000"/>
   <set name="expPenalty" val="0.0"/>
   <set name="isCubic" val="true"/>
@@ -344,6 +347,7 @@
    <effect count="1" name="RemoveTarget" time="1" noicon="1" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="13" levels="1" name="Summon Siege Golem" enchantLevels1="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -353,16 +357,13 @@
   14758 14759 14760 14761 14762 14763 14764 14765 14766 14767
   </table>
   <set name="mpInitialConsume" val="530"/>
-  <set name="mpConsume" val="0"/>
   <set name="itemConsumeId" val="1459"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="itemConsumeCount" val="300"/>
   <set name="reuseDelay" val="20000"/>
-  <set name="hitTime" val="300000"/>
+  <set name="hitTime" val="180000"/>
   <set name="skillType" val="SUMMON"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <!-- Summon-specific -->
   <set name="itemConsumeIdOT" val="2131"/>
   <set name="itemConsumeCountOT" val="70"/>
@@ -467,6 +468,7 @@
   <set name="num_charges" val="2"/>
   <set name="charge_skill_id" val="50"/> <!-- Force Focus is the charger -->
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="18" levels="37" name="Aura of Hate" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -474,25 +476,26 @@
   <table name="#ench2MpConsume">101 100 99 98 97 96 95 94 93 92 91 90 89 88 87 86 85 84 83 82 81 80 79 78 77 76 75 74 73 72</table>
   <table name="#mpConsume">50 51 53 54 55 57 58 60 61 63 64 66 67 69 70 72 74 75 77 78 80 81 83 85 86 87 89 90 92 93 95 96 97 99 100 101 102</table>
   <table name="#magicLvl">38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74</table>
-  <table name="#power">1078 1107 1136 1166 1195 1224 1254 1283 1312 1342 1371 1400 1428 1457 1485 1513 1541 1568 1595 1621 1647 1672 1697 1721 1745 1768 1790 1811 1831 1851 1870 1888 1905 1921 1936 1950 1963</table>
-  <table name="#ench1Power">2008 2054 2099 2145 2190 2236 2281 2327 2372 2418 2463 2509 2554 2600 2645 2691 2736 2782 2827 2873 2918 2964 3009 3055 3100 3146 3191 3237 3282 3328</table>
+  <table name="#power">3594 3690 3787 3885 3982 4080 4178 4276 4374 4471 4568 4665 4761 4856 4950 5043 5135 5226 5316 5403 5490 5574 5657 5737 5815 5891 5965 6036 6104 6170 6232 6292 6349 6402 6452 6499 6542</table>
+  <table name="#ench1Power">6660 6739 6818 6897 6976 7055 7134 7213 7292 7371 7450 7529 7608 7687 7766 7845 7924 8003 8082 8161 8240 8319 8398 8477 8556 8635 8714 8793 8872 8951</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_AURA"/>
-  <set name="skillRadius" val="260"/>
+  <set name="staticReuse" val="true" />
+  <set name="skillRadius" val="200"/>
   <set name="reuseDelay" val="10000"/>
-  <set name="hitTime" val="1200"/>
+  <set name="hitTime" val="1000"/>
   <set name="skillType" val="AGGDAMAGE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="isDebuff" val="true" />
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <for>
     <effect count="1" name="TargetMe" time="1" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="19" levels="37" name="Double Shot" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -527,7 +530,7 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
-  <set name="reuseDelay" val="25000"/>
+  <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="3000"/>
   <set name="coolTime" val="1000"/>
   <set name="skillType" val="PDAM"/>
@@ -558,6 +561,7 @@
   <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="#aggro"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="22" levels="7" name="Summon Vampiric Cubic">
   <table name="#mpConsume_Init">8 9 10 11 12 13 14</table>
   <table name="#mpConsume">30 35 40 44 48 51 53</table>
@@ -580,8 +584,8 @@
   <!-- Summon-specific -->
   <set name="power" val="#mAtk"/>
   <set name="npcId" val="2"/>
-  <set name="activationtime" val="14"/>
-  <set name="activationchance" val="67"/>
+  <set name="activationtime" val="15"/>
+  <set name="activationchance" val="8"/>
   <set name="expPenalty" val="0.0"/>
   <set name="isCubic" val="true"/>
 </skill>
@@ -781,6 +785,7 @@
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="33" levels="8" name="Summon Phantom Cubic">
   <table name="#mpConsume_Init">7 9 10 11 12 13 13 14</table>
   <table name="#mpConsume">28 33 38 43 46 49 52 55</table>
@@ -798,13 +803,11 @@
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <!-- Summon-specific  -->
   <set name="power" val="#mAtk"/>
   <set name="npcId" val="5"/>
-  <set name="activationtime" val="14"/>
-  <set name="activationchance" val="55"/>
+  <set name="activationtime" val="8"/>
+  <set name="activationchance" val="30"/>
   <set name="expPenalty" val="0.0"/>
   <set name="isCubic" val="true"/>
 </skill>
