@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeOtherAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeOwnAdd;
+import com.l2jfrozen.gameserver.network.serverpackets.TradeUpdate;
 
 /**
  * This class ...
@@ -99,15 +100,23 @@ public final class AddTradeItem extends L2GameClientPacket
 			return;
 		}
 
+		//Java Emulator Security
+		if (player.getInventory().getItemByObjectId(_objectId) == null || _count <= 0)
+		{
+			_log.info("JES: Player " + player.getName() + " tried to trade exploit.");
+			return;
+		}
+		
 		TradeList.TradeItem item = trade.addItem(_objectId, _count);
-
+		
 		if(item == null)
 			return;
 
 		if(item.isAugmented())
 			return;
-
+		
 		player.sendPacket(new TradeOwnAdd(item));
+		player.sendPacket(new TradeUpdate(trade, player));
 		trade.getPartner().sendPacket(new TradeOtherAdd(item));
 	}
 

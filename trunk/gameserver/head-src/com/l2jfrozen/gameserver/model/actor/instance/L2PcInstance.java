@@ -194,6 +194,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.TargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.TitleUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.TradePressOtherOk;
+import com.l2jfrozen.gameserver.network.serverpackets.TradePressOwnOk;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeStart;
 import com.l2jfrozen.gameserver.network.serverpackets.TutorialShowHtml;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
@@ -7142,6 +7144,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		msg.addString(partner.getName());
 		sendPacket(msg);
 		msg = null;
+		partner.sendPacket(TradePressOwnOk.STATIC_PACKET);
+        sendPacket(TradePressOtherOk.STATIC_PACKET);
 	}
 
 	public void onTradeCancel(L2PcInstance partner)
