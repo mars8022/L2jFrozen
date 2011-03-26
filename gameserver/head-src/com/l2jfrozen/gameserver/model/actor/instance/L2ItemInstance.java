@@ -198,10 +198,7 @@ public final class L2ItemInstance extends L2Object
 	{
 		int oldOwner = _ownerId;
 		setOwnerId(owner_id);
-		fireEvent(EventType.SETOWNER.name, new Object[]
-		{
-				process, oldOwner
-		});
+		
 		if(Config.LOG_ITEMS)
 		{
 			LogRecord record = new LogRecord(Level.INFO, "CHANGE:" + process);
@@ -213,6 +210,11 @@ public final class L2ItemInstance extends L2Object
 			_logItems.log(record);
 			record = null;
 		}
+		
+		fireEvent(EventType.SETOWNER.name, new Object[]
+		                                      		{
+		                                      				process, oldOwner
+		                                      		});
 	}
 
 	/**
@@ -1158,13 +1160,6 @@ public final class L2ItemInstance extends L2Object
 
 			rs.close();
 			statement.close();
-			inst.fireEvent(EventType.LOAD.name, new Object[]
-			{
-				con
-			});
-			
-			rs.close();
-			statement.close();
 			rs = null;
 			statement = null;
 		}
@@ -1180,6 +1175,13 @@ public final class L2ItemInstance extends L2Object
 			CloseUtil.close(con);
 			
 		}
+		
+		if(inst!=null)
+			inst.fireEvent(EventType.LOAD.name, new Object[]
+		                                   			{
+		                                   				//con
+		                                   			});
+		
 		return inst;
 	}
 
@@ -1285,10 +1287,7 @@ public final class L2ItemInstance extends L2Object
 			_storedInDb = true;
 			statement.close();
 			statement = null;
-			fireEvent(EventType.STORE.name, new Object[]
-			{
-				con
-			});
+			
 		}
 		catch(Exception e)
 		{
@@ -1302,6 +1301,9 @@ public final class L2ItemInstance extends L2Object
 			CloseUtil.close(con);
 			
 		}
+		
+		if(_existsInDb)
+			fireEvent(EventType.STORE.name, (Object[]) null);
 	}
 
 	/**
@@ -1396,10 +1398,7 @@ public final class L2ItemInstance extends L2Object
 			_storedInDb = false;
 			statement.close();
 			statement = null;
-			fireEvent(EventType.DELETE.name, new Object[]
-			{
-				con
-			});
+			
 		}
 		catch(Exception e)
 		{
@@ -1408,12 +1407,11 @@ public final class L2ItemInstance extends L2Object
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
+		
+		if(!_existsInDb)
+			fireEvent(EventType.DELETE.name, (Object[])null);
 	}
 
 	/**

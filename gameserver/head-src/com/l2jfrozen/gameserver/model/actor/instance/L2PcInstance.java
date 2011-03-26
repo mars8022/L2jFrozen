@@ -8112,6 +8112,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		L2PcInstance player = null;
 		Connection con = null;
 
+		boolean finished = false;
+		
 		try
 		{
 			// Retrieve the L2PcInstance from the characters table of the database
@@ -8335,7 +8337,8 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Update the overloaded status of the L2PcInstance
 			player.refreshOverloaded();
-			player.fireEvent(EventType.LOAD.name, (Object[]) null);
+			
+			finished = true;
 		}
 		catch(Exception e)
 		{
@@ -8347,6 +8350,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			CloseUtil.close(con);
 		}
 
+		if(finished){
+			player.fireEvent(EventType.LOAD.name, (Object[]) null);
+		}
+		
 		return player;
 	}
 
@@ -9437,7 +9444,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(RESTORE_CHAR_HENNAS);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, getClassIndex());
@@ -9489,11 +9496,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		// Calculate Henna modifiers of this L2PcInstance
