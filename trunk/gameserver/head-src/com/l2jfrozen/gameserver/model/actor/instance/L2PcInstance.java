@@ -3634,7 +3634,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(count > 0)
 		{
 			// Sends message to client if requested
-			if(sendMessage && (!isCastingNow() && ItemTable.getInstance().createDummyItem(itemId).getItemType() == L2EtcItemType.HERB || ItemTable.getInstance().createDummyItem(itemId).getItemType() != L2EtcItemType.HERB))
+			if(sendMessage && (!isCastingNow() 
+					&& ItemTable.getInstance().createDummyItem(itemId).getItemType() == L2EtcItemType.HERB 
+					|| ItemTable.getInstance().createDummyItem(itemId).getItemType() != L2EtcItemType.HERB))
 			{
 				if(count > 1)
 				{
@@ -4689,6 +4691,16 @@ public final class L2PcInstance extends L2PlayableInstance
 		return (atEvent || (TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP));
 	}
 
+	public boolean isRegisteredInFunEvent(){
+		return (atEvent || (_inEventTvT) || (_inEventDM) || (_inEventCTF) || (_inEventVIP) || Olympiad.getInstance().isRegistered(this));
+	}
+	
+	//To Avoid Offensive skills when locked (during oly start or TODO other events start)
+	public boolean arePlayerOffensiveSkillsLocked(){
+		return isInOlympiadMode() && !isOlympiadStart();
+	}
+	
+	
 	/**
 	 * Returns true if cp update should be done, false if not
 	 * 
@@ -8654,7 +8666,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			int sp = getStat().getSp();
 			_classIndex = currentClassIndex;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			// Update base class
@@ -8772,11 +8784,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -8786,7 +8794,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			if(getTotalSubClasses() > 0)
@@ -8814,11 +8822,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -8830,7 +8834,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			// Delete all current stored effects for char to avoid dupe
@@ -8911,11 +8915,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -9005,7 +9005,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		try
 		{
 			// Remove or update a L2PcInstance skill from the character_skills table of the database
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			if(oldSkill != null)
@@ -9028,11 +9028,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		L2ShortCut[] allShortCuts = getAllShortCuts();
@@ -9067,7 +9063,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			if(oldSkill != null && newSkill != null)
@@ -9106,11 +9102,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -9239,7 +9231,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(!Config.KEEP_SUBCLASS_SKILLS)
 			{
 				// Retrieve all skills of this L2PcInstance from the database
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement(RESTORE_SKILLS_FOR_CHAR);
 				statement.setInt(1, getObjectId());
 				statement.setInt(2, getClassIndex());
@@ -9310,11 +9302,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -9328,7 +9316,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			ResultSet rset;
 
@@ -9423,11 +9411,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		updateEffectIcons();
