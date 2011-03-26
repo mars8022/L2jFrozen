@@ -32,6 +32,7 @@ import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -239,7 +240,7 @@ public class CharSelectInfo extends L2GameServerPacket
 
 			statement.close();
 
-			return characterList.toArray(new CharSelectInfoPackage[characterList.size()]);
+			
 		}
 		catch(Exception e)
 		{
@@ -247,14 +248,12 @@ public class CharSelectInfo extends L2GameServerPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
-		return new CharSelectInfoPackage[0];
+		return characterList.toArray(new CharSelectInfoPackage[characterList.size()]);
+		
+		//return new CharSelectInfoPackage[0];
 	}
 
 	private void loadCharacterSubclassInfo(CharSelectInfoPackage charInfopackage, int ObjectId, int activeClassId)
