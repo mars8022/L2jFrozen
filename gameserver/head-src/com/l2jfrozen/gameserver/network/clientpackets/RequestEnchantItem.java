@@ -318,7 +318,11 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == blessedweaponscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.BLESS_WEAPON_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.BLESS_WEAPON_ENCHANT_LEVEL.size()) //the hash has size equals to
+																							   //max enchant, so if the actual
+																							   //enchant level is equal or more then max
+																							   //then the enchant rate is equal to last
+																							   //enchant rate
 						{
 							chance = Config.BLESS_WEAPON_ENCHANT_LEVEL.get(Config.BLESS_WEAPON_ENCHANT_LEVEL.size());
 						}
@@ -338,7 +342,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == crystalweaponscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size())
 						{
 							chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size());
 						}
@@ -360,7 +364,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == normalweaponscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.NORMAL_WEAPON_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.NORMAL_WEAPON_ENCHANT_LEVEL.size())
 						{
 							chance = Config.NORMAL_WEAPON_ENCHANT_LEVEL.get(Config.NORMAL_WEAPON_ENCHANT_LEVEL.size());
 						}
@@ -385,7 +389,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == blessedarmorscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.BLESS_ARMOR_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.BLESS_ARMOR_ENCHANT_LEVEL.size())
 						{
 							chance = Config.BLESS_ARMOR_ENCHANT_LEVEL.get(Config.BLESS_ARMOR_ENCHANT_LEVEL.size());
 						}
@@ -405,7 +409,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == crystalarmorscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size())
 						{
 							chance = Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.get(Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size());
 						}
@@ -426,7 +430,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == normalarmorscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.NORMAL_ARMOR_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel()  >= Config.NORMAL_ARMOR_ENCHANT_LEVEL.size())
 						{
 							chance = Config.NORMAL_ARMOR_ENCHANT_LEVEL.get(Config.NORMAL_ARMOR_ENCHANT_LEVEL.size());
 						}
@@ -451,7 +455,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == blessedjewelscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.BLESS_JEWELRY_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.BLESS_JEWELRY_ENCHANT_LEVEL.size())
 						{
 							chance = Config.BLESS_JEWELRY_ENCHANT_LEVEL.get(Config.BLESS_JEWELRY_ENCHANT_LEVEL.size());
 						}
@@ -471,7 +475,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == crystaljewelscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size())
 						{
 							chance = Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.get(Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size());
 						}
@@ -492,7 +496,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == normaljewelscroll)
 					{
-						if(item.getEnchantLevel() + 1 >= Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size())
 						{
 							chance = Config.NORMAL_JEWELRY_ENCHANT_LEVEL.get(Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size());
 						}
