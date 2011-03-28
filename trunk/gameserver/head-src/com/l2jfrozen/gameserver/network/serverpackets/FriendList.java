@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -58,7 +59,7 @@ public class FriendList extends L2GameServerPacket
 		{
 			String sqlQuery = "SELECT friend_id, friend_name FROM character_friends WHERE " + "char_id=" + _activeChar.getObjectId() + " ORDER BY friend_name ASC";
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(sqlQuery);
 			ResultSet rset = statement.executeQuery(sqlQuery);
 
@@ -117,11 +118,7 @@ public class FriendList extends L2GameServerPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

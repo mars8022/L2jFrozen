@@ -96,6 +96,7 @@ import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -754,7 +755,7 @@ public class EnterWorld extends L2GameClientPacket
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=?");
 			statement.setInt(1, cha.getObjectId());
@@ -791,11 +792,7 @@ public class EnterWorld extends L2GameClientPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

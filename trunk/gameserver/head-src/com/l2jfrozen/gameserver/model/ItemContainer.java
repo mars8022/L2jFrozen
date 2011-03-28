@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2Item;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -633,7 +634,7 @@ public abstract class ItemContainer
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT object_id FROM items WHERE owner_id=? AND (loc=?) " + "ORDER BY object_id DESC");
 			statement.setInt(1, getOwnerId());
 			statement.setString(2, getBaseLocation().name());
@@ -667,7 +668,7 @@ public abstract class ItemContainer
 
 			inv.close();
 			statement.close();
-			refreshWeight();
+			
 
 			inv = null;
 			statement = null;
@@ -679,9 +680,10 @@ public abstract class ItemContainer
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
-			con = null;
+			CloseUtil.close(con);
 		}
+		
+		refreshWeight();
 	}
 
 	public boolean validateCapacity(int slots)

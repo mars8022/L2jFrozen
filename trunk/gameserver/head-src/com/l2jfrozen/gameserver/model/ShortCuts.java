@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -89,7 +90,7 @@ public class ShortCuts
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("REPLACE INTO character_shortcuts (char_obj_id,slot,page,type,shortcut_id,level,class_index) values(?,?,?,?,?,?,?)");
 			statement.setInt(1, _owner.getObjectId());
@@ -109,8 +110,7 @@ public class ShortCuts
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -208,7 +208,7 @@ public class ShortCuts
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT char_obj_id, slot, page, type, shortcut_id, level FROM character_shortcuts WHERE char_obj_id=? AND class_index=?");
 			statement.setInt(1, _owner.getObjectId());
 			statement.setInt(2, _owner.getClassIndex());
@@ -239,8 +239,7 @@ public class ShortCuts
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
-			con = null;
+			CloseUtil.close(con);
 		}
 
 		// verify shortcuts

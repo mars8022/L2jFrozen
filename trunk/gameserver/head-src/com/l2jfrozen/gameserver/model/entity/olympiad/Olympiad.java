@@ -53,6 +53,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -1255,7 +1256,7 @@ public class Olympiad
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			ResultSet rset;
 			statement = con.prepareStatement(GET_EACH_CLASS_LEADER);
@@ -1270,7 +1271,6 @@ public class Olympiad
 			statement.close();
 			rset.close();
 
-			return names;
 		}
 		catch(SQLException e)
 		{
@@ -1281,12 +1281,9 @@ public class Olympiad
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
+
 
 		return names;
 
