@@ -7911,7 +7911,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET online=?, lastAccess=? WHERE obj_id=?");
 			statement.setInt(1, isOnline());
 			statement.setLong(2, System.currentTimeMillis());
@@ -7940,7 +7940,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET isIn7sDungeon=?, lastAccess=? WHERE obj_id=?");
 			statement.setInt(1, isIn7sDungeon() ? 1 : 0);
 			statement.setLong(2, System.currentTimeMillis());
@@ -8574,7 +8574,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, type FROM character_recipebook WHERE char_id=?");
 			statement.setInt(1, getObjectId());
 			ResultSet rset = statement.executeQuery();
@@ -8607,11 +8607,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -14457,17 +14453,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			_log.info("restoring character status from database...");
 		}
 
+		int hero = 0;
+		int noble = 0;
+		int donator = 0;
+		long hero_end = 0;
+
 		Connection con = null;
 
 		try
 		{
 
-			int hero = 0;
-			int noble = 0;
-			int donator = 0;
-			long hero_end = 0;
-
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(STATUS_DATA_GET);
 			statement.setInt(1, getObjectId());
 
@@ -14485,23 +14481,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement = null;
 			rset = null;
 
-			if(hero > 0 && (hero_end == 0 || hero_end > System.currentTimeMillis()))
-			{
-				setIsHero(true);
-			}else{
-				//delete wings of destiny
-				destroyItem("HeroEnd", 6842, 1, null, false);
-			}
-
-			if(noble > 0)
-			{
-				setNoble(true);
-			}
-
-			if(donator > 0)
-			{
-				setDonator(true);
-			}
+			
 		}
 		catch(Exception e)
 		{
@@ -14512,11 +14492,25 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
+		}
+		
+		if(hero > 0 && (hero_end == 0 || hero_end > System.currentTimeMillis()))
+		{
+			setIsHero(true);
+		}else{
+			//delete wings of destiny
+			destroyItem("HeroEnd", 6842, 1, null, false);
+		}
+
+		if(noble > 0)
+		{
+			setNoble(true);
+		}
+
+		if(donator > 0)
+		{
+			setDonator(true);
 		}
 	}
 

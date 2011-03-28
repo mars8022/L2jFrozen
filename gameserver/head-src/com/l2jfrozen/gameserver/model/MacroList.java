@@ -34,6 +34,7 @@ import javolution.util.FastMap;
 import com.l2jfrozen.gameserver.model.L2Macro.L2MacroCmd;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.SendMacroList;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -154,7 +155,7 @@ public class MacroList
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("INSERT INTO character_macroses (char_obj_id,id,icon,name,descr,acronym,commands) values(?,?,?,?,?,?,?)");
 			statement.setInt(1, _owner.getObjectId());
@@ -193,8 +194,7 @@ public class MacroList
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
