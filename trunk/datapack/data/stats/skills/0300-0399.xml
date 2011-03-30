@@ -519,23 +519,21 @@
     <mul order="0x30" stat="pDef" val="1.1"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="317" levels="5" name="Focus Attack">
   <set name="weaponsAllowed" val="64"/>
   <table name="#mpConsume">18 22 27 31 34</table>
-  <!-- <table name="#crit">1.1 1.1 1.1 1.1 1.1</table> -->
-  <table name="#Accuracy">3 3 4 5 5</table>
-  <!-- <table name="#atkCountMax">1 1 1 1 1</table> -->
+  <table name="#Accuracy"> 2 3 4 5 6 </table>
+  <table name="#cAtk"> 1.1 1.15 1.2 1.25 1.3 </table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="12000"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="hitTime" val="2000"/>
   <for>
     <effect name="Buff" time="120" count="1" val="0">
-      <mul order="0x30" stat="cAtk" val="1.1">
+      <mul order="0x30" stat="cAtk" val="#cAtk">
         <using kind="Pole"/>
       </mul>
       <add order="0x40" stat="accCombat" val="#Accuracy">
@@ -686,28 +684,28 @@
     </effect>
   </enchant2for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="323" levels="1" name="Quiver of Arrow: Grade A">
   <set name="mpConsume" val="366"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="CREATE_ITEM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="isMagic" val="true"/>
   <set name="itemConsumeId" val="1461"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="create_item_id" val="1344"/>
   <set name="create_item_count" val="700"/>
   <set name="random_count" val="4"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="324" levels="1" name="Quiver of Arrow: Grade S">
   <set name="mpConsume" val="398"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="CREATE_ITEM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="isMagic" val="true"/>
   <set name="itemConsumeId" val="1462"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="create_item_id" val="1345"/>
@@ -730,6 +728,7 @@
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="326" levels="1" name="Build Advanced Headquarters">
   <set name="mpConsume" val="30"/>
   <set name="itemConsumeId" val="2131"/>
@@ -741,7 +740,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="advancedFlag" val="true"/>
   <set name="advancedMultiplier" val="2"/>
-  <!-- <set name="nextAction" val="none"/> -->
 </skill>
 <skill id="327" levels="1" name="Wyvern Aegis">
   <set name="mpConsume" val="69"/>
@@ -811,6 +809,7 @@
     <add order="0x40" stat="skillMastery" val="2"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="332" levels="1" name="Extra Inventory">
   <!-- Increases size of inventory. -->
   <set name="magicLvl" val="76"/>
@@ -818,7 +817,7 @@
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-    <add order="0x40" stat="inventoryLimit" val="10"/>
+    <add order="0x40" stat="inventoryLimit" val="1"/>
   </for>
 </skill>
 <skill id="333" levels="1" name="Extra Sell Inventory">
@@ -882,24 +881,23 @@
   <set name="operateType" val="OP_TOGGLE"/>
   <for>
     <effect count="0x7fffffff" name="DamOverTime" time="3" val="150">
-      <mul order="0x30" stat="MagicalMpConsumeRate" val="1.1"/>
+      <mul order="0x30" stat="MagicalMpConsumeRate" val="0.9"/>
       <mul order="0x30" stat="mAtk" val="1.3"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="338" levels="1" name="Arcane Agility">
   <set name="mpConsume" val="36"/>
+  <set name="magicLvl" val="78"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="0x7fffffff" name="DamOverTime" time="3" val="150">
       <mul order="0x30" stat="mAtkSpd" val="1.2"/>
       <mul order="0x30" stat="mReuse" val="0.9"/>
       <mul order="0x30" stat="MagicalMpConsumeRate" val="0.9"/>
-      <mul order="0x30" stat="PhysicalMpConsumeRate" val="0.9"/>
     </effect>
   </for>
 </skill>
