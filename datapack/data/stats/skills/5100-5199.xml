@@ -540,19 +540,22 @@
  	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5139" levels="1" name="Tidal Wave">
-  <set name="power" val="70"/>
-  <set name="mpConsume" val="145"/>
+  <set name="castRange" val="500" />
+  <set name="effectRange" val="1000" />
+  <set name="overHit" val="true" />
+  <set name="power" val="228"/>
+  <set name="mpConsume" val="322"/>
   <set name="effectPoint" val="950"/>
-  <set name="magiclvl" val="130"/>
-  <set name="target" val="TARGET_ONE"/>
+  <set name="magiclvl" val="80"/>
+  <set name="target" val="TARGET_AREA"/>
   <set name="element" val="1"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="reuseDelay" val="32000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="900"/>
   <!-- <set name="nextAction" val="none"/> -->
   <for>
   </for>
