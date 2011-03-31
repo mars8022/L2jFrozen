@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 
 public class SqlUtils
 {
@@ -54,6 +55,7 @@ public class SqlUtils
 		PreparedStatement statement = null;
 		ResultSet rset = null;
 
+		Connection con = null;
 		try
 		{
 			query = L2DatabaseFactory.getInstance().prepQuerySelect(new String[]
@@ -61,7 +63,9 @@ public class SqlUtils
 				resultField
 			}, tableName, whereClause, true);
 
-			statement = L2DatabaseFactory.getInstance().getConnection().prepareStatement(query);
+			
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			statement = con.prepareStatement(query);
 			rset = statement.executeQuery();
 
 			if(rset.next())
@@ -80,6 +84,7 @@ public class SqlUtils
 			{
 				rset.close();
 				statement.close();
+			
 				rset = null;
 				statement = null;
 				query = null;
@@ -90,6 +95,10 @@ public class SqlUtils
 					e.printStackTrace();
 				
 			}
+			
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 
 		return res;
@@ -103,13 +112,15 @@ public class SqlUtils
 		PreparedStatement statement = null;
 		ResultSet rset = null;
 
+		Connection con = null;
 		try
 		{
 			query = L2DatabaseFactory.getInstance().prepQuerySelect(new String[]
 			{
 				resultField
 			}, tableName, whereClause, false);
-			statement = L2DatabaseFactory.getInstance().getConnection().prepareStatement(query);
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			statement = con.prepareStatement(query);
 			rset = statement.executeQuery();
 
 			int rows = 0;
@@ -119,9 +130,11 @@ public class SqlUtils
 				rows++;
 			}
 
-			if(rows == 0)
+			if(rows == 0){
+				CloseUtil.close(con);
+				con = null;
 				return new Integer[0];
-
+			}
 			res = new Integer[rows - 1];
 
 			rset.first();
@@ -154,6 +167,10 @@ public class SqlUtils
 					e.printStackTrace();
 				
 			}
+			
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 
 		return res;
@@ -170,10 +187,12 @@ public class SqlUtils
 
 		Integer res[][] = null;
 
+		Connection con = null;
 		try
 		{
 			query = L2DatabaseFactory.getInstance().prepQuerySelect(resultFields, usedTables, whereClause, false);
-			statement = L2DatabaseFactory.getInstance().getConnection().prepareStatement(query);
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			statement = con.prepareStatement(query);
 			rset = statement.executeQuery();
 
 			int rows = 0;
@@ -220,6 +239,10 @@ public class SqlUtils
 					e.printStackTrace();
 				
 			}
+			
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 
 		_log.fine("Get all rows in query '" + query + "' in " + (System.currentTimeMillis() - start) + "ms");
@@ -237,7 +260,7 @@ public class SqlUtils
 		try
 		{
 			System.out.println("Optimization gameserver tables...");
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(GAME_QUICK_OPTIMIZE);
 			statement.execute();
 		}
@@ -254,12 +277,7 @@ public class SqlUtils
 			try
 			{
 				statement.close();
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
-				con = null;
+				
 				statement = null;
 				GAME_QUICK_OPTIMIZE = null;
 			}
@@ -267,6 +285,10 @@ public class SqlUtils
 			{
 				//ignore
 			}
+			
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 	}
 
@@ -280,7 +302,7 @@ public class SqlUtils
 		try
 		{
 			System.out.println("Optimization loginserver tables...");
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(LOGIN_QUICK_OPTIMIZE);
 			statement.execute();
 		}
@@ -296,12 +318,6 @@ public class SqlUtils
 			try
 			{
 				statement.close();
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
-				con = null;
 				statement = null;
 				LOGIN_QUICK_OPTIMIZE = null;
 			}
@@ -311,6 +327,10 @@ public class SqlUtils
 					e.printStackTrace();
 				
 			}
+			
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 	}
 }

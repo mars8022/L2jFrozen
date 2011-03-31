@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -327,7 +328,7 @@ public class L2Rebirth
 		try
 		{
 			ResultSet rset;
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM `rebirth_manager` WHERE playerId = ?");
 			statement.setInt(1, playerId);
 			rset = statement.executeQuery();
@@ -349,10 +350,7 @@ public class L2Rebirth
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		_playersRebirthInfo.put(playerId, rebirthCount);
@@ -364,7 +362,7 @@ public class L2Rebirth
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("INSERT INTO `rebirth_manager` (playerId,rebirthCount) VALUES (?,1)");
 			statement.setInt(1, player.getObjectId());
 			statement.execute();
@@ -379,10 +377,7 @@ public class L2Rebirth
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -395,7 +390,7 @@ public class L2Rebirth
 		{
 			int playerId = player.getObjectId();
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE `rebirth_manager` SET rebirthCount = ? WHERE playerId = ?");
 			statement.setInt(1, newRebirthCount);
 			statement.setInt(2, playerId);
@@ -410,10 +405,7 @@ public class L2Rebirth
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

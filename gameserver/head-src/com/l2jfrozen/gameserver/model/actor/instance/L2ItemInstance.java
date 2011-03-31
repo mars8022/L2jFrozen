@@ -1061,7 +1061,7 @@ public final class L2ItemInstance extends L2Object
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT owner_id, object_id, item_id, count, enchant_level, loc, loc_data, price_sell, price_buy, custom_type1, custom_type2, mana_left FROM items WHERE object_id = ?");
 			statement.setInt(1, objectId);
 			ResultSet rs = statement.executeQuery();

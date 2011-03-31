@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -943,7 +944,7 @@ public class TvT implements EventTask
 								java.sql.Connection con = null;
 								try
 								{
-									con = L2DatabaseFactory.getInstance().getConnection();
+									con = L2DatabaseFactory.getInstance().getConnection(false);
 
 									PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
 									statement.setInt(1, _npcX);
@@ -959,21 +960,11 @@ public class TvT implements EventTask
 										e.printStackTrace();
 									
 									_log.log(Level.SEVERE, e.getMessage(), e);
-									return;
 								}
 								finally
 								{
-									try
-									{
-										if(con != null)
-										{
-											con.close();
-										}
-									}
-									catch(Exception e)
-									{
-										e.printStackTrace();
-									}
+									CloseUtil.close(con);
+									con = null;
 								}
 							}
 						}
@@ -1537,7 +1528,7 @@ public class TvT implements EventTask
 			PreparedStatement statement;
 			ResultSet rs;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement("Select * from tvt");
 			rs = statement.executeQuery();
@@ -1603,15 +1594,8 @@ public class TvT implements EventTask
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 
@@ -1620,7 +1604,7 @@ public class TvT implements EventTask
 		java.sql.Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("Delete from tvt");
@@ -1657,8 +1641,11 @@ public class TvT implements EventTask
 			{
 				int index = _teams.indexOf(teamName);
 
-				if(index == -1)
+				if(index == -1){
+					CloseUtil.close(con);
+					con = null;
 					return;
+				}
 				statement = con.prepareStatement("INSERT INTO tvt_teams (teamId ,teamName, teamX, teamY, teamZ, teamColor) VALUES (?, ?, ?, ?, ?, ?)");
 				statement.setInt(1, index);
 				statement.setString(2, teamName);
@@ -1680,15 +1667,8 @@ public class TvT implements EventTask
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 

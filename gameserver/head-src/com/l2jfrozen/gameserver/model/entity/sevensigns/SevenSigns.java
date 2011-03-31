@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SignsSky;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -709,7 +710,7 @@ public class SevenSigns
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT char_obj_id, cabal, seal, red_stones, green_stones, blue_stones, " + "ancient_adena_amount, contribution_score FROM seven_signs");
 			ResultSet rset = statement.executeQuery();
 
@@ -772,10 +773,7 @@ public class SevenSigns
 			statement.execute();
 
 			statement.close();
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			
 
 		}
 		catch(SQLException e)
@@ -787,10 +785,7 @@ public class SevenSigns
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -818,7 +813,7 @@ public class SevenSigns
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = null;
 			
 			for(StatsSet sevenDat : _signsPlayerData.values())
@@ -887,11 +882,7 @@ public class SevenSigns
 				statement.execute();
 
 				statement.close();
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-
+				
 				if(Config.DEBUG)
 				{
 					_log.info("SevenSigns: Updated data in database.");
@@ -910,10 +901,7 @@ public class SevenSigns
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -997,7 +985,7 @@ public class SevenSigns
 			// Update data in database, as we have a new player signing up.
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				statement = con.prepareStatement("INSERT INTO seven_signs (char_obj_id, cabal, seal) VALUES (?,?,?)");
 				statement.setInt(1, charObjId);
 				statement.setString(2, getCabalShortName(chosenCabal));
@@ -1005,10 +993,7 @@ public class SevenSigns
 				statement.execute();
 
 				statement.close();
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				
 
 				if(Config.DEBUG)
 				{
@@ -1024,21 +1009,7 @@ public class SevenSigns
 			}
 			finally
 			{
-				try
-				{
-					statement.close();
-					statement = null;
-				}
-				catch(Exception e)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}

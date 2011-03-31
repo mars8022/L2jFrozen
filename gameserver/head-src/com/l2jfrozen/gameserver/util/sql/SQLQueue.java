@@ -71,7 +71,7 @@ public class SQLQueue implements Runnable
 				SQLQuery q = _query.removeFirst();
 				Connection _con = null;
 				try {
-					_con = L2DatabaseFactory.getInstance().getConnection();
+					_con = L2DatabaseFactory.getInstance().getConnection(false);
 					
 					q.execute(_con);
 				} catch(SQLException e) {
@@ -80,13 +80,13 @@ public class SQLQueue implements Runnable
 				}finally{
 					
 					CloseUtil.close(_con);
-					
+					_con = null;
 				}
 			}
 		}
 		Connection _con = null;
 		try {
-			_con = L2DatabaseFactory.getInstance().getConnection();
+			_con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stm = _con.prepareStatement("select * from characters where char_name is null");
 			stm.execute();
 			stm.close();
@@ -96,7 +96,7 @@ public class SQLQueue implements Runnable
 				e.printStackTrace();
 		}finally{
 			CloseUtil.close(_con);
-			
+			_con = null;
 		}
 		_isRuning = false;
 	}

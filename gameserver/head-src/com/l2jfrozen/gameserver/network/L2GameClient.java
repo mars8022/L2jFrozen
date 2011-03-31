@@ -66,6 +66,7 @@ import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
 import com.l2jfrozen.netcore.ReceivablePacket;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -287,10 +288,11 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			return -1;
 
 		Connection con = null;
+		byte answer = -1;
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT clanId from characters WHERE obj_Id=?");
 			statement.setInt(1, objid);
 			ResultSet rs = statement.executeQuery();
@@ -299,8 +301,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 
 			int clanId = rs.getInt(1);
 
-			byte answer = 0;
-
+			answer = 0;
+			
 			if(clanId != 0)
 			{
 				L2Clan clan = ClanTable.getInstance().getClan(clanId);
@@ -348,7 +350,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				rs = null;
 			}
 
-			return answer;
+			
 		}
 		catch(Exception e)
 		{
@@ -356,16 +358,16 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				e.printStackTrace();
 			
 			_log.warning("Data error on update delete time of char: " + e);
-			return -1;
+			
+			answer = -1;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
+		
+		return answer;
 	}
 
 	public void markRestoredChar(int charslot) throws Exception
@@ -386,7 +388,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET deletetime=0 WHERE obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
@@ -402,10 +404,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -419,7 +418,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("DELETE FROM character_friends WHERE char_id=? OR friend_id=?");
@@ -534,10 +533,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

@@ -30,6 +30,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -179,7 +180,7 @@ public class L2BoxInstance extends L2NpcInstance
 		boolean result = false;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement st = con.prepareStatement("SELECT spawn, charname FROM boxaccess WHERE charname=? AND spawn=?");
 			st.setString(1, player);
 			st.setInt(2, getSpawn().getId());
@@ -204,10 +205,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return result;
@@ -219,7 +217,7 @@ public class L2BoxInstance extends L2NpcInstance
 		List<String> acl = new FastList<String>();
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement st = con.prepareStatement(LIST_GRANT);
 			st.setInt(1, getSpawn().getId());
 			ResultSet rs = st.executeQuery();
@@ -242,10 +240,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return acl;
@@ -257,7 +252,7 @@ public class L2BoxInstance extends L2NpcInstance
 		boolean result = false;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			String _query;
 			if(what)
 			{
@@ -285,10 +280,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return result;
@@ -450,7 +442,7 @@ public class L2BoxInstance extends L2NpcInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection(); //FIXME: требуется убрать колонку enchant из таблицы boxes
+			con = L2DatabaseFactory.getInstance().getConnection(false); //FIXME: требуется убрать колонку enchant из таблицы boxes
 			PreparedStatement statement = con.prepareStatement("SELECT id, spawn, npcid, drawer, itemid, name, count, enchant FROM boxes where spawn=? and npcid=? and drawer=?");
 			statement.setInt(1, getSpawn().getId());
 			statement.setInt(2, getNpcId());
@@ -475,10 +467,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return it;
@@ -527,7 +516,7 @@ public class L2BoxInstance extends L2NpcInstance
 		   int foundCount = 0;
 		try
 		{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				if (item.isStackable())
 				{
 					PreparedStatement st2 = con.prepareStatement("SELECT id,count FROM boxes where spawn=? and npcid=? and drawer=? and itemid=?");
@@ -626,7 +615,7 @@ public class L2BoxInstance extends L2NpcInstance
 		bi.count = 0;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id,count,enchant FROM boxes WHERE spawn=? AND npcid=? AND drawer=? AND itemid=? AND count>=?");
 			statement.setInt(1, getSpawn().getId());
 			statement.setInt(2, getNpcId());

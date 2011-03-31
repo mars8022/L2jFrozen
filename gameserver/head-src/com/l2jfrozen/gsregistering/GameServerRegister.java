@@ -26,6 +26,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class GameServerRegister
@@ -142,7 +143,7 @@ public class GameServerRegister
 		PreparedStatement statement = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement("DELETE FROM gameservers");
 			statement.executeUpdate();
 			statement.close();
@@ -156,24 +157,8 @@ public class GameServerRegister
 		}
 		finally
 		{
-			try
-			{
-				statement.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 }

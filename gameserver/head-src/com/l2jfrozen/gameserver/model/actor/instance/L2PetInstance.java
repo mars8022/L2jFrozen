@@ -56,6 +56,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -781,7 +782,7 @@ public class L2PetInstance extends L2Summon
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
 			statement.setInt(1, getControlItemId());
 			statement.execute();
@@ -797,10 +798,7 @@ public class L2PetInstance extends L2Summon
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -869,9 +867,11 @@ public class L2PetInstance extends L2Summon
 	private static L2PetInstance restore(L2ItemInstance control, L2NpcTemplate template, L2PcInstance owner)
 	{
 		Connection con = null;
+		
+		L2PetInstance pet = null;
+		
 		try
 		{
-			L2PetInstance pet;
 			if(template.type.compareToIgnoreCase("L2BabyPet") == 0)
 			{
 				pet = new L2BabyPetInstance(IdFactory.getInstance().getNextId(), template, owner, control);
@@ -881,7 +881,7 @@ public class L2PetInstance extends L2Summon
 				pet = new L2PetInstance(IdFactory.getInstance().getNextId(), template, owner, control);
 			}
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT item_obj_id, name, level, curHp, curMp, exp, sp, karma, pkkills, fed FROM pets WHERE item_obj_id=?");
 			statement.setInt(1, control.getObjectId());
 			ResultSet rset = statement.executeQuery();
@@ -892,6 +892,9 @@ public class L2PetInstance extends L2Summon
 				rset = null;
 				statement = null;
 
+				CloseUtil.close(con);
+				con = null;
+				
 				return pet;
 			}
 
@@ -915,7 +918,6 @@ public class L2PetInstance extends L2Summon
 			rset = null;
 			statement = null;
 
-			return pet;
 		}
 		catch(Exception e)
 		{
@@ -923,16 +925,15 @@ public class L2PetInstance extends L2Summon
 				e.printStackTrace();
 			
 			_logPet.warning("could not restore pet data: " + e);
-			return null;
+		
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
+		
+		return pet;
 	}
 
 	@Override
@@ -954,7 +955,7 @@ public class L2PetInstance extends L2Summon
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(req);
 			statement.setString(1, getName());
 			statement.setInt(2, getStat().getLevel());
@@ -980,10 +981,7 @@ public class L2PetInstance extends L2Summon
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 

@@ -41,6 +41,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
@@ -136,7 +137,7 @@ public class CursedWeapon
 				Connection con = null;
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 
 					// Delete the item
 					PreparedStatement statement = con.prepareStatement("DELETE FROM items WHERE owner_id=? AND item_id=?");
@@ -182,7 +183,7 @@ public class CursedWeapon
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { }
+					CloseUtil.close(con);
 					con = null;
 				}
 			}
@@ -527,7 +528,7 @@ public class CursedWeapon
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			// Delete previous datas
 			PreparedStatement statement = con.prepareStatement("DELETE FROM cursed_weapons WHERE itemId = ?");
@@ -555,7 +556,7 @@ public class CursedWeapon
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

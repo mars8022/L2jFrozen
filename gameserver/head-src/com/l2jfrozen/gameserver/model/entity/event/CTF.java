@@ -42,6 +42,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -987,7 +988,7 @@ public class CTF implements EventTask
 								java.sql.Connection con = null;
 								try
 								{
-									con = L2DatabaseFactory.getInstance().getConnection();
+									con = L2DatabaseFactory.getInstance().getConnection(false);
 
 									PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
 									statement.setInt(1, _npcX);
@@ -1003,21 +1004,11 @@ public class CTF implements EventTask
 										e.printStackTrace();
 									
 									_log.log(Level.SEVERE, e.getMessage(), e);
-									return;
 								}
 								finally
 								{
-									try
-									{
-										if(con != null)
-										{
-											con.close();
-										}
-									}
-									catch(Exception e)
-									{
-										e.printStackTrace();
-									}
+									CloseUtil.close(con);
+									con = null;
 								}
 							}
 						}
@@ -1607,7 +1598,7 @@ public class CTF implements EventTask
 			PreparedStatement statement;
 			ResultSet rs;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement("Select * from ctf");
 			rs = statement.executeQuery();
@@ -1683,16 +1674,8 @@ public class CTF implements EventTask
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 
@@ -1701,7 +1684,7 @@ public class CTF implements EventTask
 		java.sql.Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("Delete from ctf");
@@ -1765,15 +1748,8 @@ public class CTF implements EventTask
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 

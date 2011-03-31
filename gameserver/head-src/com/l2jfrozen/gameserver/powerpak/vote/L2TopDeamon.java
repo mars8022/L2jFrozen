@@ -18,6 +18,7 @@ import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.sql.SQLQuery;
 import com.l2jfrozen.gameserver.util.sql.SQLQueue;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -59,39 +60,40 @@ public class L2TopDeamon implements Runnable
 	private L2TopDeamon()
 	{
 		_lastVote = null;
-		if(PowerPakConfig.L2TOPDEMON_ENABLED) try
+		if(PowerPakConfig.L2TOPDEMON_ENABLED)
 		{
-			Connection con = L2DatabaseFactory.getInstance().getConnection();
-			PreparedStatement stm = con.prepareStatement("select max(votedate) from l2votes");
-			ResultSet r = stm.executeQuery();
-			if(r.next())
-				_lastVote = r.getTimestamp(1);
-			if(_lastVote==null) {
-				_firstRun = true;
-				_lastVote =  new Timestamp(0);
-			}
-			r.close();
-			stm.close();
+			Connection con = null;
 			try
 			{
-				con.close();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
+				PreparedStatement stm = con.prepareStatement("select max(votedate) from l2votes");
+				ResultSet r = stm.executeQuery();
+				if(r.next())
+					_lastVote = r.getTimestamp(1);
+				if(_lastVote == null)
+				{
+					_firstRun = true;
+					_lastVote = new Timestamp(0);
+				}
+				r.close();
+				stm.close();
+				
+				_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, PowerPakConfig.L2TOPDEMON_POLLINTERVAL * 60000);
+				Runtime.getRuntime().addShutdownHook(new Terminator());
+				_log.info("L2TopDeamon: Started with poll interval " + PowerPakConfig.L2TOPDEMON_POLLINTERVAL + " minute(s)");
 			}
-			catch(Exception e)
+			catch(SQLException e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				
+
+				_log.info("L2TopDeamon: Error connection to database: " + e.getMessage());
 			}
-			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, PowerPakConfig.L2TOPDEMON_POLLINTERVAL*60000);
-			Runtime.getRuntime().addShutdownHook(new Terminator());
-			_log.info("L2TopDeamon: Started with poll interval "+PowerPakConfig.L2TOPDEMON_POLLINTERVAL+" minute(s)");
-		}
-		catch(SQLException e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.info("L2TopDeamon: Error connection to database: "+ e.getMessage());
+			finally
+			{
+				CloseUtil.close(con);
+				con = null;
+			}
 		}
 	}
 	private class VotesUpdate implements SQLQuery
