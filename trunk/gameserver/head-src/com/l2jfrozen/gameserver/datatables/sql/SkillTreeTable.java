@@ -134,7 +134,7 @@ public class SkillTreeTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT * FROM class_list ORDER BY id");
 			final ResultSet classlist = statement.executeQuery();
 
@@ -191,6 +191,7 @@ public class SkillTreeTable
 		{
 			_log.error("Error while creating skill tree (Class ID {}):", classId, e);
 		}
+		
 
 		_log.debug("SkillTreeTable: Loaded {} skills.", count);
 

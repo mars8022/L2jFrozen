@@ -76,7 +76,7 @@ public class LevelUpData
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement(SELECT_ALL);
 			final ResultSet rset = statement.executeQuery();
 			L2LvlupData lvlDat;

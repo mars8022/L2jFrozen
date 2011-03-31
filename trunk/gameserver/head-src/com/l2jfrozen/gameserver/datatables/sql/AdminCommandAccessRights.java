@@ -53,7 +53,7 @@ public class AdminCommandAccessRights
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement stmt = con.prepareStatement("SELECT * FROM admin_command_access_rights");
 			final ResultSet rset = stmt.executeQuery();
 			String adminCommand = null;

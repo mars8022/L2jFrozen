@@ -35,6 +35,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -59,7 +60,7 @@ public class CompactionIDFactory extends IdFactory
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			//con.createStatement().execute("drop table if exists tmp_obj_id");
 
 			int[] tmp_obj_ids = extractUsedObjectIDTable();
@@ -84,11 +85,9 @@ public class CompactionIDFactory extends IdFactory
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
+			
 		}
 	}
 

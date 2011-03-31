@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -60,7 +61,7 @@ public class AutoAnnouncementHandler
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement("SELECT * FROM auto_announcements ORDER BY id");
 			rs = statement.executeQuery();
@@ -87,19 +88,9 @@ public class AutoAnnouncementHandler
 		}
 		finally
 		{
-			try
-			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 	}
 
@@ -199,7 +190,7 @@ public class AutoAnnouncementHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("INSERT INTO auto_announcements (id,announcement,delay) " + "VALUES (?,?,?)");
 			statement.setInt(1, nextId);
 			statement.setString(2, announcementTexts);
@@ -220,11 +211,9 @@ public class AutoAnnouncementHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
+			
 		}
 		return registerAnnouncement(nextId, announcementTexts, announcementDelay);
 	}
@@ -240,7 +229,7 @@ public class AutoAnnouncementHandler
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement("SELECT id FROM auto_announcements ORDER BY id");
 			rs = statement.executeQuery();
@@ -267,11 +256,9 @@ public class AutoAnnouncementHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
+			
 		}
 		return nextId;
 	}
@@ -326,7 +313,7 @@ public class AutoAnnouncementHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM auto_announcements WHERE id=?");
 			statement.setInt(1, announcementInst.getDefaultId());
 			statement.executeUpdate();
@@ -342,11 +329,9 @@ public class AutoAnnouncementHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
+			
 		}
 
 		return removeAnnouncement(announcementInst);

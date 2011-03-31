@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -85,7 +86,7 @@ public class AdminRepairChar implements IAdminCommandHandler
 
 		try
 		{
-			connection = L2DatabaseFactory.getInstance().getConnection();
+			connection = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = connection.prepareStatement(cmd);
 			statement.setString(1, parts[1]);
 			statement.execute();
@@ -110,18 +111,16 @@ public class AdminRepairChar implements IAdminCommandHandler
 
 			if(objId == 0)
 			{
-				connection.close();
+				CloseUtil.close(connection);
 				return;
 			}
 
-			//connection = L2DatabaseFactory.getInstance().getConnection();
 			statement = connection.prepareStatement("DELETE FROM character_shortcuts WHERE char_obj_id=?");
 			statement.setInt(1, objId);
 			statement.execute();
 			statement.close();
 			statement = null;
 
-			//connection = L2DatabaseFactory.getInstance().getConnection();
 			statement = connection.prepareStatement("UPDATE items SET loc=\"INVENTORY\" WHERE owner_id=?");
 			statement.setInt(1, objId);
 			statement.execute();
@@ -137,10 +136,7 @@ public class AdminRepairChar implements IAdminCommandHandler
 		}
 		finally
 		{
-			try {connection.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(connection);
 			connection = null;
 			cmd = null;
 			parts = null;

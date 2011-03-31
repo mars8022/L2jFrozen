@@ -24,6 +24,7 @@ import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -70,7 +71,7 @@ public class BufferSkillsTable
 		int typesCount = 0;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(SQL_LOAD_SKILLS);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
@@ -101,17 +102,7 @@ public class BufferSkillsTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				
-			}
+			CloseUtil.close(con);
 			_log.fine("BufferSkillsTable: Loaded " + count + " skills and " + typesCount + " types.");
 		}
 		/*

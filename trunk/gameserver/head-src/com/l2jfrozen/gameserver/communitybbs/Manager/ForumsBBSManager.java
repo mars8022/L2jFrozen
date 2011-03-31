@@ -29,6 +29,7 @@ import javolution.util.FastList;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ForumsBBSManager extends BaseBBSManager
@@ -77,7 +78,7 @@ public class ForumsBBSManager extends BaseBBSManager
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT forum_id FROM forums WHERE forum_type=0");
 			ResultSet result = statement.executeQuery();
 			while(result.next())
@@ -98,13 +99,7 @@ public class ForumsBBSManager extends BaseBBSManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 

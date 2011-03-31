@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -90,7 +91,7 @@ public class RaidBossSpawnManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("SELECT * from raidboss_spawnlist ORDER BY boss_id");
 			ResultSet rset = statement.executeQuery();
@@ -149,11 +150,7 @@ public class RaidBossSpawnManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -316,7 +313,7 @@ public class RaidBossSpawnManager
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("INSERT INTO raidboss_spawnlist (boss_id,amount,loc_x,loc_y,loc_z,heading,respawn_time,currentHp,currentMp) values(?,?,?,?,?,?,?,?,?)");
 				statement.setInt(1, spawnDat.getNpcid());
 				statement.setInt(2, spawnDat.getAmount());
@@ -341,11 +338,7 @@ public class RaidBossSpawnManager
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}
@@ -387,7 +380,7 @@ public class RaidBossSpawnManager
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("DELETE FROM raidboss_spawnlist WHERE boss_id=?");
 				statement.setInt(1, bossId);
 				statement.execute();
@@ -404,11 +397,7 @@ public class RaidBossSpawnManager
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}
@@ -422,37 +411,34 @@ public class RaidBossSpawnManager
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 
 				L2RaidBossInstance boss = _bosses.get(bossId);
-				if(boss == null)
+				if(boss != null)
 				{
-					continue;
+					if(boss.getRaidStatus().equals(StatusEnum.ALIVE))
+					{
+						updateStatus(boss, false);
+					}
+
+					boss = null;
+
+					StatsSet info = _storedInfo.get(bossId);
+					if(info != null)
+					{
+						PreparedStatement statement = con.prepareStatement("UPDATE raidboss_spawnlist set respawn_time = ?, currentHP = ?, currentMP = ? where boss_id = ?");
+						statement.setLong(1, info.getLong("respawnTime"));
+						statement.setDouble(2, info.getDouble("currentHP"));
+						statement.setDouble(3, info.getDouble("currentMP"));
+						statement.setInt(4, bossId);
+						statement.execute();
+
+						statement.close();
+						statement = null;
+						info = null;
+					}
+
 				}
-
-				if(boss.getRaidStatus().equals(StatusEnum.ALIVE))
-				{
-					updateStatus(boss, false);
-				}
-
-				boss = null;
-
-				StatsSet info = _storedInfo.get(bossId);
-				if(info == null)
-				{
-					continue;
-				}
-
-				PreparedStatement statement = con.prepareStatement("UPDATE raidboss_spawnlist set respawn_time = ?, currentHP = ?, currentMP = ? where boss_id = ?");
-				statement.setLong(1, info.getLong("respawnTime"));
-				statement.setDouble(2, info.getDouble("currentHP"));
-				statement.setDouble(3, info.getDouble("currentMP"));
-				statement.setInt(4, bossId);
-				statement.execute();
-
-				statement.close();
-				statement = null;
-				info = null;
 			}
 			catch(SQLException e)
 			{
@@ -463,11 +449,7 @@ public class RaidBossSpawnManager
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}

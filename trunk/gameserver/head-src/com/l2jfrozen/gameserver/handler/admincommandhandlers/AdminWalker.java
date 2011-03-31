@@ -24,6 +24,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -84,7 +85,7 @@ public class AdminWalker implements IAdminCommandHandler
 					
 					try
 					{
-						con = L2DatabaseFactory.getInstance().getConnection();
+						con = L2DatabaseFactory.getInstance().getConnection(false);
 						PreparedStatement statement = con.prepareStatement("SELECT `route_id` FROM `walker_routes` WHERE `npc_id` = " + _npcid + ";");
 						ResultSet rset = statement.executeQuery();
 
@@ -95,7 +96,6 @@ public class AdminWalker implements IAdminCommandHandler
 						}
 						else
 						{
-							con = L2DatabaseFactory.getInstance().getConnection();
 							statement = con.prepareStatement("SELECT MAX(`route_id`) AS max FROM `walker_routes`;");
 							ResultSet rset1 = statement.executeQuery();
 
@@ -117,12 +117,8 @@ public class AdminWalker implements IAdminCommandHandler
 							e.printStackTrace();
 					}
 					finally {
-						if(con!=null)
-							try { con.close(); } catch(Exception e) { 
-								if(Config.ENABLE_ALL_EXCEPTIONS)
-									e.printStackTrace();
-							}
-						con = null;
+						CloseUtil.close(con);
+						
 					}
 
 					_point = 1;
@@ -186,7 +182,7 @@ public class AdminWalker implements IAdminCommandHandler
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			if(_text == "")
@@ -225,11 +221,8 @@ public class AdminWalker implements IAdminCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
+			
 		}
 	}
 

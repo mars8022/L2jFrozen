@@ -95,7 +95,7 @@ public class HelperBuffTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT * FROM helper_buff_list");
 			final ResultSet helperbuffdata = statement.executeQuery();
 

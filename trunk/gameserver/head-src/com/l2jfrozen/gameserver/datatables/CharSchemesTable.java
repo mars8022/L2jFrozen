@@ -25,6 +25,7 @@ import javolution.util.FastMap;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -57,7 +58,7 @@ public class CharSchemesTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(SQL_LOAD_SCHEME);
 			statement.setInt(1, objectId);
 			ResultSet rs = statement.executeQuery();
@@ -86,16 +87,8 @@ public class CharSchemesTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
+			
 		}
 	}
 
@@ -125,7 +118,7 @@ public class CharSchemesTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			for (FastMap.Entry<Integer, FastMap<String, FastList<L2Skill>>> e = _schemesTable.head(), end = _schemesTable.tail(); (e = e.getNext()) != end;)
 			{
 				PreparedStatement statement = con.prepareStatement(SQL_DELETE_SCHEME);
@@ -142,16 +135,8 @@ public class CharSchemesTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
+			
 		}
 	}
 
@@ -163,7 +148,7 @@ public class CharSchemesTable
 		int count = 0;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			// _schemesTable
 			for (FastMap.Entry<Integer, FastMap<String, FastList<L2Skill>>> e = _schemesTable.head(), end = _schemesTable.tail(); (e = e.getNext()) != end;)
 			{
@@ -197,16 +182,8 @@ public class CharSchemesTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
+			
 			System.out.println("CharSchemeTable: Saved " + String.valueOf(count + " scheme(s)"));
 		}
 	}

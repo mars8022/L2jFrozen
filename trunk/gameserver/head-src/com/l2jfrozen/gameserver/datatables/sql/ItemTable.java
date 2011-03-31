@@ -194,7 +194,7 @@ public class ItemTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			for(String selectQuery : SQL_ITEM_SELECTS)
 			{
 				final PreparedStatement statement = con.prepareStatement(selectQuery);
@@ -237,7 +237,7 @@ public class ItemTable
 		{
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				for(String selectQuery : SQL_CUSTOM_ITEM_SELECTS)
 				{
 					final PreparedStatement statement = con.prepareStatement(selectQuery);
@@ -890,7 +890,7 @@ public class ItemTable
 				try
 				{
 					// Delete the pet in db
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 					final PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
 					statement.setInt(1, item.getObjectId());
 					statement.execute();

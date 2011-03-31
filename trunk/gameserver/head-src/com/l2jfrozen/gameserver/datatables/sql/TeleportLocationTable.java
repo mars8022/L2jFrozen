@@ -68,7 +68,7 @@ public class TeleportLocationTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT Description, id, loc_x, loc_y, loc_z, price, fornoble FROM teleport");
 			final ResultSet rset = statement.executeQuery();
 			L2TeleportLocation teleport;
@@ -104,7 +104,7 @@ public class TeleportLocationTable
 		{
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("SELECT Description, id, loc_x, loc_y, loc_z, price, fornoble FROM custom_teleport");
 				ResultSet rset = statement.executeQuery();
 				L2TeleportLocation teleport;

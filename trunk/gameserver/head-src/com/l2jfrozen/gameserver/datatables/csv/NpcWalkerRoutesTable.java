@@ -149,7 +149,7 @@ public class NpcWalkerRoutesTable
 		/*
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT route_id, npc_id, move_point, chatText, move_x, move_y, move_z, delay, " +
 					"running FROM walker_routes");
 			ResultSet rset = statement.executeQuery();

@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -98,7 +99,7 @@ public class ItemsOnGroundManager
 					str = "update itemsonground set drop_time=? where drop_time=-1";
 				}
 
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement(str);
 				statement.setLong(1, System.currentTimeMillis());
 				statement.execute();
@@ -113,11 +114,7 @@ public class ItemsOnGroundManager
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}
@@ -128,7 +125,7 @@ public class ItemsOnGroundManager
 		{
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				Statement s = con.createStatement();
 				ResultSet result;
 				int count = 0;
@@ -200,11 +197,7 @@ public class ItemsOnGroundManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		if(Config.EMPTY_DROPPED_ITEM_TABLE_AFTER_LOAD)
@@ -242,7 +235,7 @@ public class ItemsOnGroundManager
 		Connection conn = null;
 		try
 		{
-			conn = L2DatabaseFactory.getInstance().getConnection();
+			conn = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement del = conn.prepareStatement("delete from itemsonground");
 			del.execute();
 			del.close();
@@ -255,16 +248,7 @@ public class ItemsOnGroundManager
 		}
 		finally
 		{
-			try
-			{
-				conn.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(conn);
 			conn = null;
 		}
 	}
@@ -299,7 +283,7 @@ public class ItemsOnGroundManager
 				Connection con = null;
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 					PreparedStatement statement = con.prepareStatement("insert into itemsonground(object_id,item_id,count,enchant_level,x,y,z,drop_time,equipable) values(?,?,?,?,?,?,?,?,?)");
 					statement.setInt(1, item.getObjectId());
 					statement.setInt(2, item.getItemId());
@@ -336,11 +320,7 @@ public class ItemsOnGroundManager
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { 
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-						
-					}
+					CloseUtil.close(con);
 					con = null;
 				}
 			}

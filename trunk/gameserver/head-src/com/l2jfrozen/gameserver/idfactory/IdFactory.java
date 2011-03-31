@@ -25,6 +25,7 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -129,7 +130,7 @@ public abstract class IdFactory
 		Connection con2 = null;
 		try
 		{
-			con2 = L2DatabaseFactory.getInstance().getConnection();
+			con2 = L2DatabaseFactory.getInstance().getConnection(false);
 			Statement s2 = con2.createStatement();
 			s2.executeUpdate("update characters set online=0");
 			_log.info("Updated characters online status.");
@@ -144,11 +145,9 @@ public abstract class IdFactory
 		}
 		finally
 		{
-			try {con2.close(); } catch(SQLException e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con2);
 			con2 = null;
+			
 		}
 	}
 
@@ -163,7 +162,7 @@ public abstract class IdFactory
 		{
 			int cleanCount = 0;
 
-			conn = L2DatabaseFactory.getInstance().getConnection();
+			conn = L2DatabaseFactory.getInstance().getConnection(false);
 			Statement stmt = conn.createStatement();
 			//Character related
 			cleanCount += stmt.executeUpdate("DELETE FROM character_friends WHERE character_friends.char_id NOT IN (SELECT obj_Id FROM characters);");
@@ -217,11 +216,9 @@ public abstract class IdFactory
 		}
 		finally
 		{
-			try {conn.close(); } catch(SQLException e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(conn);
 			conn = null;
+			
 		}
 	}
 
@@ -230,27 +227,20 @@ public abstract class IdFactory
 	 * @return
 	 * @throws SQLException
 	 */
-	protected int[] extractUsedObjectIDTable() throws SQLException
+	protected int[] extractUsedObjectIDTable()
 	{
 		Connection con = null;
 
+		int[] tmp_obj_ids = new int[0];
+		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			//create a temporary table
 			Statement s = con.createStatement();
-
-			try
-			{
-				s.executeUpdate("drop table temporaryObjectTable");
-			}
-			catch(SQLException e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-
+			s.executeUpdate("drop table temporaryObjectTable");
+			
 			s.executeUpdate("delete from itemsonground where object_id in (select object_id from items)");
 			s.executeUpdate("create table temporaryObjectTable" + " (object_id int NOT NULL PRIMARY KEY)");
 
@@ -264,7 +254,7 @@ public abstract class IdFactory
 
 			result.next();
 			int size = result.getInt(1);
-			int[] tmp_obj_ids = new int[size];
+			tmp_obj_ids = new int[size];
 			// System.out.println("tmp table size: " + tmp_obj_ids.length);
 			result.close();
 
@@ -282,16 +272,19 @@ public abstract class IdFactory
 			result = null;
 			s = null;
 
-			return tmp_obj_ids;
+		}catch(SQLException e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
+		
+
+		return tmp_obj_ids;
 	}
 
 	public boolean isInitialized()

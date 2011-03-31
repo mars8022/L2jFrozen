@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class EventPoint
@@ -34,7 +35,7 @@ public class EventPoint
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement st = con.prepareStatement("Select * From char_points where charId = ?");
 			st.setInt(1, getActiveChar().getObjectId());
 			ResultSet rst = st.executeQuery();
@@ -54,10 +55,7 @@ public class EventPoint
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -67,7 +65,7 @@ public class EventPoint
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement st = con.prepareStatement("Update char_points Set points = ? Where charId = ?");
 			st.setInt(1, _points);
 			st.setInt(2, getActiveChar().getObjectId());
@@ -81,10 +79,7 @@ public class EventPoint
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

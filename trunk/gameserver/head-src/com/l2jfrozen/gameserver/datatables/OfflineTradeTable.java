@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 
@@ -65,7 +66,7 @@ public class OfflineTradeTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stm = con.prepareStatement(CLEAR_OFFLINE_TABLE);
 			stm.execute();
 			stm.close();
@@ -164,16 +165,7 @@ public class OfflineTradeTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -184,7 +176,7 @@ public class OfflineTradeTable
 		int nTraders = 0;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stm = con.prepareStatement(LOAD_OFFLINE_STATUS);
 			ResultSet rs = stm.executeQuery();
 			while (rs.next())
@@ -300,16 +292,7 @@ public class OfflineTradeTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 		}
 	}
 	
@@ -321,7 +304,7 @@ public class OfflineTradeTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stm = con.prepareStatement(DELETE_OFFLINE_TABLE_ALL_ITEMS);
 			stm.setInt(1, pc.getObjectId());
 			stm.execute();
@@ -419,16 +402,7 @@ public class OfflineTradeTable
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 		}
 	}
 	
@@ -444,7 +418,7 @@ public class OfflineTradeTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			con.setAutoCommit(false); // avoid halfway done
 			stm_items = con.prepareStatement(UPDATE_ITEMS);
 			
