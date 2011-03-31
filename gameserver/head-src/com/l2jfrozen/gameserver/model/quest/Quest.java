@@ -1145,7 +1145,7 @@ public class Quest extends ManagedScript
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("SELECT value FROM quest_global_data WHERE quest_name = ? AND var = ?");
 			statement.setString(1, getName());
@@ -1171,11 +1171,7 @@ public class Quest extends ManagedScript
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 		return result;
 	}

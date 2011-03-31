@@ -45,6 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -488,7 +489,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay, key_npc_id FROM four_sepulchers_spawnlist Where spawntype = ? ORDER BY id");
 			statement.setInt(1, 0);
 			ResultSet rset = statement.executeQuery();
@@ -541,11 +542,7 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -599,7 +596,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement1 = con.prepareStatement("SELECT Distinct key_npc_id FROM four_sepulchers_spawnlist Where spawntype = ? ORDER BY key_npc_id");
 			statement1.setInt(1, 1);
@@ -666,11 +663,7 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -684,7 +677,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement1 = con.prepareStatement("SELECT Distinct key_npc_id FROM four_sepulchers_spawnlist Where spawntype = ? ORDER BY key_npc_id");
 			statement1.setInt(1, 2);
@@ -752,11 +745,7 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -771,7 +760,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement1 = con.prepareStatement("SELECT Distinct key_npc_id FROM four_sepulchers_spawnlist Where spawntype = ? ORDER BY key_npc_id");
 			statement1.setInt(1, 5);
@@ -840,11 +829,7 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -858,7 +843,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement1 = con.prepareStatement("SELECT Distinct key_npc_id FROM four_sepulchers_spawnlist Where spawntype = ? ORDER BY key_npc_id");
 			statement1.setInt(1, 6);
@@ -926,11 +911,7 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

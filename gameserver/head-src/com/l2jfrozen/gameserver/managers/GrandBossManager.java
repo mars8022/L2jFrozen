@@ -29,6 +29,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -116,7 +117,7 @@ public class GrandBossManager
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("SELECT * from grandboss_data ORDER BY boss_id");
 			ResultSet rset = statement.executeQuery();
@@ -164,11 +165,7 @@ public class GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -200,7 +197,7 @@ public class GrandBossManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("SELECT * from grandboss_list ORDER BY player_id");
 			ResultSet rset = statement.executeQuery();
@@ -232,11 +229,7 @@ public class GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -352,7 +345,7 @@ public class GrandBossManager
 		PreparedStatement statement = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			for(Integer bossId : _storedInfo.keySet())
 			{
@@ -399,11 +392,7 @@ public class GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -414,7 +403,7 @@ public class GrandBossManager
 		PreparedStatement statement = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement(DELETE_GRAND_BOSS_LIST);
 			statement.executeUpdate();
@@ -486,11 +475,7 @@ public class GrandBossManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

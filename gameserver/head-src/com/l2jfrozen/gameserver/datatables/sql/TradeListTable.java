@@ -90,7 +90,7 @@ public class TradeListTable
 		 */
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement1 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 			{
 					"shop_id", "npc_id"
@@ -282,7 +282,7 @@ public class TradeListTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE merchant_buylists SET savetimer =? WHERE time =?");
 			statement.setLong(1, timerSave);
 			statement.setInt(2, time);
@@ -308,7 +308,7 @@ public class TradeListTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			
 			for(L2TradeList list : _lists.values())

@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.util.GMAudit;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 
@@ -307,7 +308,7 @@ public class AdminBan implements IAdminCommandHandler {
 		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET punish_level=?, punish_timer=? WHERE char_name=?");
 			statement.setInt(1, level);
@@ -334,15 +335,7 @@ public class AdminBan implements IAdminCommandHandler {
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if (Config.DEBUG)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 	
@@ -351,7 +344,7 @@ public class AdminBan implements IAdminCommandHandler {
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=?, punish_level=?, punish_timer=? WHERE char_name=?");
 			statement.setInt(1, -114356);
@@ -378,15 +371,7 @@ public class AdminBan implements IAdminCommandHandler {
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if (Config.DEBUG)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 	
@@ -395,7 +380,7 @@ public class AdminBan implements IAdminCommandHandler {
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=?, punish_level=?, punish_timer=? WHERE char_name=?");
 			statement.setInt(1, 17836);
 			statement.setInt(2, 170178);
@@ -419,20 +404,14 @@ public class AdminBan implements IAdminCommandHandler {
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch (Exception e)
-			{
-				if (Config.DEBUG)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 	
 	private boolean changeCharAccessLevel(L2PcInstance targetPlayer, String player, L2PcInstance activeChar, int lvl)
 	{
+		boolean output = false;
+		
 		if (targetPlayer != null)
 		{
 			targetPlayer.setAccessLevel(lvl);
@@ -440,13 +419,16 @@ public class AdminBan implements IAdminCommandHandler {
 			targetPlayer.logout();
 			RegionBBSManager.getInstance().changeCommunityBoard();
 			activeChar.sendMessage("The character " + targetPlayer.getName() + " has now been banned.");
+			
+			output=true;
 		}
 		else
 		{
+			
 			Connection con = null;
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("UPDATE characters SET accesslevel=? WHERE char_name=?");
 				statement.setInt(1, lvl);
 				statement.setString(2, player);
@@ -456,24 +438,25 @@ public class AdminBan implements IAdminCommandHandler {
 				if (count == 0)
 				{
 					activeChar.sendMessage("Character not found or access level unaltered.");
-					return false;
 				}
-				else
+				else{
 					activeChar.sendMessage(player + " now has an access level of " + lvl);
+					output = true;
+					
+				}
 			}
 			catch (SQLException se)
 			{
 				activeChar.sendMessage("SQLException while changing character's access level");
 				if (Config.DEBUG)
 					se.printStackTrace();
-				return false;
 			}
 			finally
 			{
-				L2DatabaseFactory.close(con);
+				CloseUtil.close(con);
 			}
 		}
-		return true;
+		return output;
 	}
 	
 	public String[] getAdminCommandList() {

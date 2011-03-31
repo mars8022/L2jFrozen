@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -203,7 +204,7 @@ public class AdminAio implements IAdminCommandHandler
 			Connection connection = null;
 			try
 			{
-				connection = L2DatabaseFactory.getInstance().getConnection();               
+				connection = L2DatabaseFactory.getInstance().getConnection(false);               
 
 				PreparedStatement statement = connection.prepareStatement("UPDATE characters SET aio=1, aio_end=? WHERE obj_id=?");
 				statement.setLong(1, _player.getAioEndTime());
@@ -235,7 +236,7 @@ public class AdminAio implements IAdminCommandHandler
 			}
 			finally
 			{
-				L2DatabaseFactory.close(connection);
+				CloseUtil.close(connection);
 			}
 		}
 		else
@@ -252,7 +253,7 @@ public class AdminAio implements IAdminCommandHandler
 		Connection connection = null;
 		try
 		{
-			connection = L2DatabaseFactory.getInstance().getConnection();               
+			connection = L2DatabaseFactory.getInstance().getConnection(false);               
 
 			PreparedStatement statement = connection.prepareStatement("UPDATE characters SET Aio=0, Aio_end=0 WHERE obj_id=?");
 			statement.setInt(1, _player.getObjectId());
@@ -279,7 +280,7 @@ public class AdminAio implements IAdminCommandHandler
 		}
 		finally
 		{
-			L2DatabaseFactory.close(connection);
+			CloseUtil.close(connection);
 		}
 	}
 

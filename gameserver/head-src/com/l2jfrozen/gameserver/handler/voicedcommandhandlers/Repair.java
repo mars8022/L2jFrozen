@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 
@@ -84,7 +85,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT char_name FROM characters WHERE account_name=?");
 			statement.setString(1, repCharAcc);
 			ResultSet rset = statement.executeQuery();
@@ -100,19 +101,12 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		catch (SQLException e)
 		{
 			e.printStackTrace();
-			return result;
+			//return result;
 		}
 		finally
 		{
-			try
-			{
-				if (con != null)
-					con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 		return result;	
 	}
@@ -124,7 +118,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT account_name FROM characters WHERE char_name=?");
 			statement.setString(1, repairChar);
 			ResultSet rset = statement.executeQuery();
@@ -139,19 +133,11 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		catch (SQLException e)
 		{
 			e.printStackTrace();
-			return result;
 		}
 		finally
 		{
-			try
-			{
-				if (con != null)
-					con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 		if (activeChar.getAccountName().compareTo(repCharAcc)==0)
 			result=true;
@@ -166,7 +152,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			
 			PreparedStatement statement = con.prepareStatement("SELECT accesslevel,punish_level FROM characters WHERE char_name=?");
 			statement.setString(1, repairChar);
@@ -183,19 +169,11 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		catch (SQLException e)
 		{
 			e.printStackTrace();
-			return result;
 		}
 		finally
 		{
-			try
-			{
-				if (con != null)
-					con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 		if (repCharJail == 1 || accessLevel<0) // 0 norm, 1 chat ban, 2 jail, 3....
 			result=true;
@@ -209,7 +187,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT karma FROM characters WHERE char_name=?");
 			statement.setString(1, repairChar);
 			ResultSet rset = statement.executeQuery();
@@ -223,23 +201,15 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		catch (SQLException e)
 		{
 			e.printStackTrace();
-			return result;
 		}
 		finally
 		{
-			try
-			{
-				if (con != null)
-					con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 		if (repCharKarma > 0) 
 			result=true;
-	return result;
+		return result;
 	}
 
 	private boolean checkChar(L2PcInstance activeChar,String repairChar)
@@ -255,7 +225,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement;
 			statement = con.prepareStatement("SELECT obj_Id FROM characters WHERE char_name=?");
@@ -271,7 +241,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 			statement.close();
 			if (objId == 0)
 			{
-				con.close();
+				CloseUtil.close(con);
+				con = null;
 				return;
 			}
 			statement = con.prepareStatement("UPDATE characters SET x=17867, y=170259, z=-3503 WHERE obj_Id=?");
@@ -293,15 +264,9 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		}
 		finally
 		{
-			try
-			{
-				if (con != null)
-					con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
+			
 		}
 	}
 

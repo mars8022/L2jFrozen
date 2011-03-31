@@ -122,7 +122,7 @@ public class ClanTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT clan_id FROM clan_data");
 			final ResultSet result = statement.executeQuery();
 
@@ -356,7 +356,7 @@ public class ClanTable
 		try
 		{
 			if(con == null)
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM clan_data WHERE clan_id=?");
 			statement.setInt(1, clanId);
 			statement.execute();
@@ -466,7 +466,7 @@ public class ClanTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("REPLACE INTO clan_wars (clan1, clan2, wantspeace1, wantspeace2) VALUES(?,?,?,?)");
 			statement.setInt(1, clanId1);
 			statement.setInt(2, clanId2);
@@ -523,7 +523,7 @@ public class ClanTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM clan_wars WHERE clan1=? AND clan2=?");
 			statement.setInt(1, clanId1);
 			statement.setInt(2, clanId2);
@@ -585,7 +585,7 @@ public class ClanTable
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT clan1, clan2, wantspeace1, wantspeace2 FROM clan_wars");
 			final ResultSet rset = statement.executeQuery();
 

@@ -50,6 +50,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SpecialCamera;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -297,7 +298,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid between ? and ? ORDER BY id");
 			statement.setInt(1, 22175);
 			statement.setInt(2, 22176);
@@ -344,24 +345,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { 
-					con.close(); 
-				
-				} catch(Exception e) { 
-					
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -399,7 +383,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid between ? and ? ORDER BY id");
 			statement.setInt(1, 32058);
 			statement.setInt(2, 32068);
@@ -446,24 +430,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { 
-					con.close(); 
-					} 
-				catch(Exception e) { 
-					
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -505,7 +472,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid = ? ORDER BY id");
 			statement.setInt(1, 22188);
 			ResultSet rset = statement.executeQuery();
@@ -551,22 +518,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { 
-					con.close(); 
-					} 
-				catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -605,7 +557,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid = ? ORDER BY id");
 			statement.setInt(1, 22191);
 			ResultSet rset = statement.executeQuery();
@@ -651,21 +603,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { 
-					con.close(); 
-					} catch(Exception e) { 
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -697,7 +635,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid = ? ORDER BY id");
 			statement.setInt(1, 32051);
 			ResultSet rset = statement.executeQuery();
@@ -743,19 +681,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -793,7 +719,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid = ? ORDER BY id");
 			statement.setInt(1, 29062);
 			ResultSet rset = statement.executeQuery();
@@ -839,19 +765,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -880,7 +794,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid = ? ORDER BY id");
 			statement.setInt(1, 32038);
 			ResultSet rset = statement.executeQuery();
@@ -926,19 +840,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 
@@ -968,7 +870,7 @@ public class VanHalter extends Quest implements Runnable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, count, npc_templateid, locx, locy, locz, heading, respawn_delay FROM vanhalter_spawnlist Where npc_templateid = ? ORDER BY id");
 			statement.setInt(1, 22195);
 			ResultSet rset = statement.executeQuery();
@@ -1014,19 +916,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
-				con = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 		}
 	}
 

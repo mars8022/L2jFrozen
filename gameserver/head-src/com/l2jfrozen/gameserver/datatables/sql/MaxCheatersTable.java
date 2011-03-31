@@ -65,7 +65,7 @@ public class MaxCheatersTable
 		
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement st = con.prepareStatement(SQL_SELECT);
 			final ResultSet rs = st.executeQuery();
 			

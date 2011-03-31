@@ -86,7 +86,7 @@ public class NpcTable
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"id",
@@ -710,7 +710,7 @@ public class NpcTable
 			}
 
 			// reload the NPC base data
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 			{
 					"id",
@@ -805,7 +805,7 @@ public class NpcTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			Map<String, Object> set = npc.getSet();
 
 			String name = "";

@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -120,7 +121,7 @@ public final class CustomNpcInstanceManager
 		try
 		{
 			int count = 0;
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			for(String selectQuery : SQL_ITEM_SELECTS)
 			{
 				PreparedStatement statement = con.prepareStatement(selectQuery);
@@ -215,10 +216,7 @@ public final class CustomNpcInstanceManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -301,7 +299,7 @@ public final class CustomNpcInstanceManager
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(Query);
 			ResultSet rset = statement.executeQuery();
 
@@ -328,10 +326,7 @@ public final class CustomNpcInstanceManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

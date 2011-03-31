@@ -28,6 +28,7 @@ import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -77,7 +78,7 @@ public class Post
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("INSERT INTO posts (post_id,post_owner_name,post_ownerid,post_date,post_topic_id,post_forum_id,post_txt) values (?,?,?,?,?,?,?)");
 			statement.setInt(1, cp.postId);
 			statement.setString(2, cp.postOwner);
@@ -100,12 +101,7 @@ public class Post
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 
 	}
@@ -135,7 +131,7 @@ public class Post
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM posts WHERE post_forum_id=? AND post_topic_id=?");
 			statement.setInt(1, t.getForumID());
 			statement.setInt(2, t.getID());
@@ -149,12 +145,7 @@ public class Post
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -166,7 +157,7 @@ public class Post
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM posts WHERE post_forum_id=? AND post_topic_id=? ORDER BY post_id ASC");
 			statement.setInt(1, t.getForumID());
 			statement.setInt(2, t.getID());
@@ -197,13 +188,7 @@ public class Post
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 
@@ -216,7 +201,7 @@ public class Post
 		try
 		{
 			CPost cp = getCPost(i);
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE posts SET post_txt=? WHERE post_id=? AND post_topic_id=? AND post_forum_id=?");
 			statement.setString(1, cp.postTxt);
 			statement.setInt(2, cp.postId);
@@ -237,12 +222,7 @@ public class Post
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			con = null;
+			CloseUtil.close(con);
 		}
 	}
 }

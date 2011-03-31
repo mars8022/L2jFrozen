@@ -35,6 +35,7 @@ public final class CloseUtil
 	public static void close(Connection con) {
 		if(con != null) try {
 			con.close();
+			con=null;
 		} catch(Throwable e) {
 			_log.error(e.getMessage(), e);
 		}

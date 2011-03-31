@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Broadcast;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -203,7 +204,7 @@ public class Wedding implements IVoicedCommandHandler
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("SELECT friend_id FROM character_friends WHERE char_id=?");
 			statement.setInt(1, ptarget.getObjectId());
@@ -227,11 +228,9 @@ public class Wedding implements IVoicedCommandHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
+			
 		}
 
 		if(!FoundOnFriendList)

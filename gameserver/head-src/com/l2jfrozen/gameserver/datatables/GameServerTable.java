@@ -44,6 +44,7 @@ import javolution.xml.stream.XMLStreamReaderImpl;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.loginserver.GameServerThread;
 import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -162,35 +163,42 @@ public class GameServerTable
 		}
 	}
 
-	private void loadRegisteredGameServers() throws SQLException
+	private void loadRegisteredGameServers()
 	{
 		Connection con = null;
 		PreparedStatement statement = null;
 
-		int id;
-		con = L2DatabaseFactory.getInstance().getConnection();
-		statement = con.prepareStatement("SELECT * FROM gameservers");
-		ResultSet rset = statement.executeQuery();
-		GameServerInfo gsi;
+		try{
+			
+			int id;
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			statement = con.prepareStatement("SELECT * FROM gameservers");
+			ResultSet rset = statement.executeQuery();
+			GameServerInfo gsi;
 
-		while(rset.next())
-		{
-			id = rset.getInt("server_id");
-			gsi = new GameServerInfo(id, stringToHex(rset.getString("hexid")));
-			_gameServerTable.put(id, gsi);
-		}
+			while(rset.next())
+			{
+				id = rset.getInt("server_id");
+				gsi = new GameServerInfo(id, stringToHex(rset.getString("hexid")));
+				_gameServerTable.put(id, gsi);
+			}
 
-		rset.close();
-		statement.close();
-		try { con.close(); } catch(Exception e) { 
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
+			rset.close();
+			statement.close();
+			
+			rset = null;
+			statement = null;
+			gsi = null;
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			
+		}finally{
+			CloseUtil.close(con);
 			
 		}
-		rset = null;
-		statement = null;
-		con = null;
-		gsi = null;
+		
 	}
 
 	public Map<Integer, GameServerInfo> getRegisteredGameServers()
@@ -252,12 +260,16 @@ public class GameServerTable
 		PreparedStatement statement = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement("INSERT INTO gameservers (hexid,server_id,host) values (?,?,?)");
 			statement.setString(1, hexToString(hexId));
 			statement.setInt(2, id);
 			statement.setString(3, externalHost);
 			statement.executeUpdate();
+			
+			statement.close();
+			statement = null;
+			
 		}
 		catch(SQLException e)
 		{
@@ -268,22 +280,8 @@ public class GameServerTable
 		}
 		finally
 		{
-			try
-			{
-				statement.close();
-			}
-			catch(SQLException e){
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			statement = null;
-			con = null;
+			CloseUtil.close(con);
+			
 		}
 	}
 

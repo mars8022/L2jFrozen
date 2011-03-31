@@ -56,7 +56,7 @@ public class CharNameTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT account_name FROM characters WHERE char_name=?");
 			statement.setString(1, name);
 			final ResultSet rset = statement.executeQuery();
@@ -83,7 +83,7 @@ public class CharNameTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT COUNT(char_name) FROM characters WHERE account_name=?");
 			statement.setString(1, account);
 			final ResultSet rset = statement.executeQuery();

@@ -17,6 +17,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HeroCustomItem implements IItemHandler
@@ -76,7 +77,7 @@ public class HeroCustomItem implements IItemHandler
 			if(player == null)
 				return;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stmt = con.prepareStatement(INSERT_DATA);
 
 			stmt.setInt(1, player.getObjectId());
@@ -98,11 +99,8 @@ public class HeroCustomItem implements IItemHandler
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
+			
 			con = null;
 		}
 	}

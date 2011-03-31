@@ -68,7 +68,7 @@ public class AccessLevels
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement stmt = con.prepareStatement("SELECT * FROM `access_levels` ORDER BY `accessLevel` DESC");
 			final ResultSet rset = stmt.executeQuery();
 			int accessLevel = 0;

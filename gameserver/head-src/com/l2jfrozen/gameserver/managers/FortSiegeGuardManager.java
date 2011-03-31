@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -103,7 +104,7 @@ public class FortSiegeGuardManager
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("Delete From fort_siege_guards Where npcId = ? And x = ? AND y = ? AND z = ? AND isHired = 1");
 			statement.setInt(1, npcId);
 			statement.setInt(2, x);
@@ -122,10 +123,7 @@ public class FortSiegeGuardManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -139,7 +137,7 @@ public class FortSiegeGuardManager
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("Delete From fort_siege_guards Where fortId = ? And isHired = 1");
 			statement.setInt(1, getFort().getFortId());
 			statement.execute();
@@ -154,11 +152,7 @@ public class FortSiegeGuardManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -230,7 +224,7 @@ public class FortSiegeGuardManager
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM fort_siege_guards Where fortId = ? ");
 			statement.setInt(1, getFort().getFortId());
 			ResultSet rs = statement.executeQuery();
@@ -276,11 +270,7 @@ public class FortSiegeGuardManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -294,7 +284,7 @@ public class FortSiegeGuardManager
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("Insert Into fort_siege_guards (fortId, npcId, x, y, z, heading, respawnDelay, isHired) Values (?, ?, ?, ?, ?, ?, ?, ?)");
 			statement.setInt(1, getFort().getFortId());
 			statement.setInt(2, npcId);
@@ -324,11 +314,7 @@ public class FortSiegeGuardManager
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

@@ -78,7 +78,7 @@ public class SpawnTable
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			if(Config.DELETE_GMSPAWN_ON_CUSTOM)
@@ -178,7 +178,7 @@ public class SpawnTable
 		{
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				
 				final PreparedStatement statement;
 				
@@ -291,7 +291,7 @@ public class SpawnTable
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				final PreparedStatement statement = con.prepareStatement("INSERT INTO " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + "(id,count,npc_templateid,locx,locy,locz,heading,respawn_delay,loc_id) values(?,?,?,?,?,?,?,?,?)");
 				statement.setInt(1, spawn.getId());
 				statement.setInt(2, spawn.getAmount());
@@ -329,7 +329,7 @@ public class SpawnTable
 			{
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 					PreparedStatement statement = con.prepareStatement("Replace into custom_notspawned VALUES (?,?)");
 					statement.setInt(1, spawn.getId());
 					statement.setBoolean(2, spawn.isCustom());
@@ -349,7 +349,7 @@ public class SpawnTable
 			{
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 					final PreparedStatement statement = con.prepareStatement("DELETE FROM " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + " WHERE id=?");
 					statement.setInt(1, spawn.getId());
 					statement.execute();
