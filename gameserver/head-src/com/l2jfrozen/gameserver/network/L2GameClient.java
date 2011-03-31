@@ -662,6 +662,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			{
 				AwayManager.getInstance().extraBack(player);
 			}
+			if(player.isInParty())
+			{
+				player.getParty().removePartyMember(player);
+			}
 
 			//Decrease boxes number
 			if(player._active_boxes!=-1)
