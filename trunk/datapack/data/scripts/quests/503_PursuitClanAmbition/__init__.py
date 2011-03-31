@@ -62,7 +62,7 @@ DROPLIST = {
 
 def suscribe_members(st) :
   clan=st.getPlayer().getClan().getClanId()
-  con=L2DatabaseFactory.getInstance().getConnection()
+  con=L2DatabaseFactory.getInstance().getConnection(false)
   offline=con.prepareStatement("SELECT obj_Id FROM characters WHERE clanid=? AND online=0")
   offline.setInt(1, clan)
   rs=offline.executeQuery()
@@ -86,7 +86,7 @@ def suscribe_members(st) :
 
 def offlineMemberExit(st) :
   clan=st.getPlayer().getClan().getClanId()
-  con=L2DatabaseFactory.getInstance().getConnection()
+  con=L2DatabaseFactory.getInstance().getConnection(false)
   offline=con.prepareStatement("DELETE FROM character_quests WHERE name = ? and char_id IN (SELECT obj_id FROM characters WHERE clanId =? AND online=0")
   offline.setString(1, qn)
   offline.setInt(2, clan)
@@ -110,7 +110,7 @@ def getLeaderVar(st, var) :
   except :
     pass
   leaderId=st.getPlayer().getClan().getLeaderId()
-  con=L2DatabaseFactory.getInstance().getConnection()
+  con=L2DatabaseFactory.getInstance().getConnection(false)
   offline=con.prepareStatement("SELECT value FROM character_quests WHERE char_id=? AND var=? AND name=?")
   offline.setInt(1, leaderId)
   offline.setString(2, var)
@@ -140,7 +140,7 @@ def setLeaderVar(st, var, value) :
     leader.getQuestState(qn).set(var,value)
   else :
     leaderId=st.getPlayer().getClan().getLeaderId()
-    con=L2DatabaseFactory.getInstance().getConnection()
+    con=L2DatabaseFactory.getInstance().getConnection(false)
     offline=con.prepareStatement("UPDATE character_quests SET value=? WHERE char_id=? AND var=? AND name=?")
     offline.setString(1, value)
     offline.setInt(2, leaderId)
