@@ -42,6 +42,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class VIP
@@ -133,7 +134,7 @@ public class VIP
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT endx,endy,endz FROM VIPinfo WHERE teamID = " + _team);
 			ResultSet rset = statement.executeQuery();
 			rset.next();
@@ -154,20 +155,13 @@ public class VIP
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT startx,starty,startz FROM VIPinfo WHERE teamID = " + _team);
 			ResultSet rset = statement.executeQuery();
 			rset.next();
@@ -188,15 +182,8 @@ public class VIP
 		}
 		finally
 		{
-			try
-			{
-				con.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 

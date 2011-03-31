@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -159,7 +160,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 				}
 
 				// if it's a pet control item, delete the pet
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
 				statement.setInt(1, _objectId);
 				statement.execute();
@@ -176,10 +177,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}

@@ -29,6 +29,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -70,7 +71,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 		try
 		{
 			L2PcInstance friend = L2World.getInstance().getPlayer(_name);
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			ResultSet rset;
 			if(friend != null)
@@ -86,6 +87,8 @@ public final class RequestFriendDel extends L2GameClientPacket
 					sm = new SystemMessage(SystemMessageId.S1_NOT_ON_YOUR_FRIENDS_LIST);
 					sm.addString(_name);
 					activeChar.sendPacket(sm);
+					CloseUtil.close(con);
+					con = null;
 					return;
 				}
 			}
@@ -102,6 +105,8 @@ public final class RequestFriendDel extends L2GameClientPacket
 					sm = new SystemMessage(SystemMessageId.S1_NOT_ON_YOUR_FRIENDS_LIST);
 					sm.addString(_name);
 					activeChar.sendPacket(sm);
+					CloseUtil.close(con);
+					con = null;
 					return;
 				}
 			}
@@ -132,10 +137,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 

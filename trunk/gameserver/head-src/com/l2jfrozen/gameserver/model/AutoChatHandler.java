@@ -38,6 +38,7 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.model.spawn.SpawnListener;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -70,7 +71,7 @@ public class AutoChatHandler implements SpawnListener
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM auto_chat ORDER BY groupId ASC");
 			ResultSet rs = statement.executeQuery();
 			
@@ -120,7 +121,7 @@ public class AutoChatHandler implements SpawnListener
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

@@ -206,7 +206,7 @@ public class MacroList
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("DELETE FROM character_macroses WHERE char_obj_id=? AND id=?");
 			statement.setInt(1, _owner.getObjectId());
@@ -221,7 +221,7 @@ public class MacroList
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -232,7 +232,7 @@ public class MacroList
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT char_obj_id, id, icon, name, descr, acronym, commands FROM character_macroses WHERE char_obj_id=?");
 			statement.setInt(1, _owner.getObjectId());
 			ResultSet rset = statement.executeQuery();
@@ -295,7 +295,7 @@ public class MacroList
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

@@ -56,6 +56,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Siege
@@ -719,7 +720,7 @@ public class Siege
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM siege_clans WHERE castle_id=?");
 			statement.setInt(1, getCastle().getCastleId());
 			statement.execute();
@@ -745,10 +746,7 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -759,7 +757,7 @@ public class Siege
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM siege_clans WHERE castle_id=? and type = 2");
 			statement.setInt(1, getCastle().getCastleId());
 			statement.execute();
@@ -774,10 +772,7 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -1009,7 +1004,7 @@ public class Siege
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM siege_clans WHERE castle_id=? and clan_id=?");
 			statement.setInt(1, getCastle().getCastleId());
 			statement.setInt(2, clanId);
@@ -1025,10 +1020,7 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -1293,7 +1285,7 @@ public class Siege
 			PreparedStatement statement = null;
 			ResultSet rs = null;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement("SELECT clan_id,type FROM siege_clans where castle_id=?");
 			statement.setInt(1, getCastle().getCastleId());
@@ -1329,10 +1321,7 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -1417,7 +1406,7 @@ public class Siege
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("Update castle set siegeDate = ? where id = ?");
 			statement.setLong(1, getSiegeDate().getTimeInMillis());
 			statement.setInt(2, getCastle().getCastleId());
@@ -1433,10 +1422,7 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -1467,7 +1453,7 @@ public class Siege
 					return;
 			}
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			if(!isUpdateRegistration)
@@ -1514,10 +1500,7 @@ public class Siege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

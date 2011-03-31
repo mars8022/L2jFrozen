@@ -46,6 +46,7 @@ import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
 import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.logs.Log;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
@@ -519,7 +520,7 @@ public class LoginController
 				
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 
 					String stmt = "UPDATE accounts SET lastServer = ? WHERE login = ?";
 					PreparedStatement statement = con.prepareStatement(stmt);
@@ -538,11 +539,7 @@ public class LoginController
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { 
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-						
-					}
+					CloseUtil.close(con);
 					con = null;
 				}
 			}
@@ -556,7 +553,7 @@ public class LoginController
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			String stmt = "UPDATE accounts SET access_level=? WHERE login=?";
 			PreparedStatement statement = con.prepareStatement(stmt);
@@ -575,11 +572,7 @@ public class LoginController
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -590,7 +583,7 @@ public class LoginController
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT access_level FROM accounts WHERE login=?");
 			statement.setString(1, user);
 			ResultSet rset = statement.executeQuery();
@@ -620,7 +613,7 @@ public class LoginController
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 		return ok;
@@ -669,7 +662,7 @@ public class LoginController
 			int access = 0;
 			int lastServer = 1;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT password, access_level, lastServer FROM accounts WHERE login=?");
 			statement.setString(1, user);
 			ResultSet rset = statement.executeQuery();
@@ -714,13 +707,19 @@ public class LoginController
 						statement = null;
 
 						_log.info("Created new account : " + user + " on IP : " + address.getHostAddress());
+						CloseUtil.close(con);
+						con = null;
 						return true;
 
 					}
 					_log.warning("Invalid username creation/use attempt: " + user);
+					CloseUtil.close(con);
+					con = null;
 					return false;
 				}
 				_log.warning("Account missing for user " + user);
+				CloseUtil.close(con);
+				con = null;
 				return false;
 			}
 			else
@@ -729,6 +728,8 @@ public class LoginController
 				if(access < 0)
 				{
 					client.setAccessLevel(access);
+					CloseUtil.close(con);
+					con = null;
 					return false;
 				}
 
@@ -769,11 +770,7 @@ public class LoginController
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -821,7 +818,7 @@ public class LoginController
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT access_level FROM accounts WHERE login=?");
 			statement.setString(1, user);
 			ResultSet rset = statement.executeQuery();
@@ -853,11 +850,7 @@ public class LoginController
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 

@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Server
@@ -48,13 +49,15 @@ public class Server
 	 */
 	public int addItemToCharacter(String charName, String itemId, String count, String message)
 	{
+		int output = 0;
+		
 		L2PcInstance player = L2World.getInstance().getPlayer(charName);
 		if(player == null)
 		{
 			Connection con = null;
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement stm = con.prepareStatement("select obj_id from characters where char_name like ?");
 				stm.setString(1, charName);
 				ResultSet r = stm.executeQuery();
@@ -66,22 +69,22 @@ public class Server
 
 				r.close();
 				stm.close();
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				
 			}
 			catch(Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				return -1;
+				output = -1;
+			}finally{
+				CloseUtil.close(con);
+				con=null;
 			}
 		}
 
 		if(player == null)
-			return -2;
+			output = -2;
 
 		try
 		{
@@ -94,16 +97,17 @@ public class Server
 			{
 				player.sendMessage(message);
 			}
-			return 0;
+			output = 0;
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			return -3;
+			output = -3;
 		}
 
+		return output;
 	}
 
 	/**

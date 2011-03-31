@@ -45,6 +45,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle.Ru
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortressOfResistance
@@ -377,7 +378,7 @@ public class FortressOfResistance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("UPDATE clanhall SET paidUntil=?, paid=? WHERE id=?");
@@ -394,10 +395,7 @@ public class FortressOfResistance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

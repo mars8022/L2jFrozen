@@ -39,6 +39,7 @@ import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -146,7 +147,7 @@ public class TradeController
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement1 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"shop_id", "npc_id"
@@ -333,10 +334,7 @@ public class TradeController
 			}
 			finally
 			{
-					try { con.close(); } catch(Exception e) {
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
+				CloseUtil.close(con);
 				con = null;
 			}
 			/*
@@ -347,7 +345,7 @@ public class TradeController
 				try
 				{
 					int initialSize = _lists.size();
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 
 					PreparedStatement statement1 = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 					{
@@ -533,10 +531,7 @@ public class TradeController
 				}
 				finally
 				{
-						try { con.close(); } catch(Exception e) { 
-							if(Config.ENABLE_ALL_EXCEPTIONS)
-								e.printStackTrace();
-						}
+					CloseUtil.close(con);
 					con = null;
 				}
 			}
@@ -622,7 +617,7 @@ public class TradeController
 		long timerSave = System.currentTimeMillis() + (long) time * 60 * 60 * 1000;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE merchant_buylists SET savetimer =? WHERE time =?");
 			statement.setLong(1, timerSave);
 			statement.setInt(2, time);
@@ -639,10 +634,7 @@ public class TradeController
 		}
 		finally
 		{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -659,7 +651,7 @@ public class TradeController
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			for(L2TradeList list : _listsTaskItem.values())
 			{
@@ -693,10 +685,7 @@ public class TradeController
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

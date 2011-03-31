@@ -55,6 +55,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -1760,7 +1761,7 @@ public class SevenSignsFestival implements SpawnListener
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT festivalId, cabal, cycle, date, score, members FROM seven_signs_festival");
 			ResultSet rset = statement.executeQuery();
 
@@ -1851,10 +1852,7 @@ public class SevenSignsFestival implements SpawnListener
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -1877,7 +1875,7 @@ public class SevenSignsFestival implements SpawnListener
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = null;
 			
 			for(Map<Integer, StatsSet> currCycleData : _festivalData.values())
@@ -1946,10 +1944,7 @@ public class SevenSignsFestival implements SpawnListener
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -2041,7 +2036,7 @@ public class SevenSignsFestival implements SpawnListener
 
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement(GET_CLAN_NAME);
 				statement.setString(1, partyMemberName);
 				ResultSet rset = statement.executeQuery();
@@ -2081,10 +2076,7 @@ public class SevenSignsFestival implements SpawnListener
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}

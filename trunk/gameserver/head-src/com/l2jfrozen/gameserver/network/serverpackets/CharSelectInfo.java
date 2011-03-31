@@ -262,7 +262,7 @@ public class CharSelectInfo extends L2GameServerPacket
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT exp, sp, level FROM character_subclasses WHERE char_obj_id=? && class_id=? ORDER BY char_obj_id");
 			statement.setInt(1, ObjectId);
 			statement.setInt(2, activeClassId);
@@ -284,10 +284,7 @@ public class CharSelectInfo extends L2GameServerPacket
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -359,7 +356,7 @@ public class CharSelectInfo extends L2GameServerPacket
 			Connection con = null;
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("SELECT attributes FROM augmentations WHERE item_id=?");
 				statement.setInt(1, weaponObjId);
 				ResultSet result = statement.executeQuery();
@@ -381,10 +378,7 @@ public class CharSelectInfo extends L2GameServerPacket
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}

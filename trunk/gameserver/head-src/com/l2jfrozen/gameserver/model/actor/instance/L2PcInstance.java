@@ -276,7 +276,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		int votePoints = 0;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("select votePoints from accounts where login=?");
 			statement.setString(1, _accountName);
@@ -299,10 +299,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return votePoints;
@@ -313,7 +310,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("update accounts set votePoints="+points+" where login='"+_accountName+"'");	
 			statement.execute();
@@ -327,10 +324,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -341,7 +335,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		int lastVote = 0;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("select lastVote from accounts where login=?");
 			statement.setString(1, _accountName);
@@ -364,10 +358,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return lastVote;
@@ -2235,7 +2226,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			Connection con = null;
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement(ADD_CHAR_RECOM);
 				statement.setInt(1, getObjectId());
 				statement.setInt(2, target.getObjectId());
@@ -2252,11 +2243,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}
@@ -6504,7 +6491,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT kills FROM pkkills WHERE killerId=? AND killedId=?");
 			statement.setString(1, killer);
 			statement.setString(2, killed);
@@ -6526,10 +6513,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		if(kills >= 1)
@@ -6539,7 +6523,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			Connection conect = null;
 			try
 			{
-				conect = L2DatabaseFactory.getInstance().getConnection();
+				conect = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = conect.prepareStatement(UPDATE_PKKILLS);
 				statement.setInt(1, kills);
 				statement.setString(2, killer);
@@ -6558,10 +6542,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			finally
 			{
-				try {conect.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(conect);
 				conect = null;
 			}
 			sendMessage("You have been killed " + kills + " times by " + PlayerWhoKilled.getName() + ".");
@@ -6573,7 +6554,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			Connection conect2 = null;
 			try
 			{
-				conect2 = L2DatabaseFactory.getInstance().getConnection();
+				conect2 = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = conect2.prepareStatement(ADD_PKKILLS);
 				statement.setString(1, killer);
 				statement.setString(2, killed);
@@ -6592,10 +6573,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			finally
 			{
-				try {conect2.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(conect2);
 				conect2 = null;
 			}
 			sendMessage("This is the first time you have been killed by " + PlayerWhoKilled.getName() + ".");
@@ -7968,7 +7946,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET first_log=? WHERE obj_id=?");
 
 			int _fl;
@@ -7995,7 +7973,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		finally
 		{
 			CloseUtil.close(con);
-			
+			con = null;
 		}
 	}
 
@@ -8010,7 +7988,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("INSERT INTO characters " + "(account_name,obj_Id,char_name,level,maxHp,curHp,maxCp,curCp,maxMp,curMp," + "acc,crit,evasion,mAtk,mDef,mSpd,pAtk,pDef,pSpd,runSpd,walkSpd," + "str,con,dex,_int,men,wit,face,hairStyle,hairColor,sex," + "movement_multiplier,attack_speed_multiplier,colRad,colHeight," + "exp,sp,karma,pvpkills,pkkills,clanid,maxload,race,classid,deletetime," + "cancraft,title,accesslevel,online,isin7sdungeon,clan_privs,wantspeace," + "base_class,newbie,nobless,power_grade,last_recom_date"/*,banchat_time,*/+",name_color,title_color,aio,aio_end) " + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			statement.setString(1, _accountName);
@@ -8097,6 +8075,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		finally
 		{
 			CloseUtil.close(con);
+			con = null;
 			
 		}
 		
@@ -8432,7 +8411,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(RESTORE_CHAR_SUBCLASSES);
 			statement.setInt(1, player.getObjectId());
 
@@ -8463,10 +8442,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -8519,7 +8495,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM character_recipebook WHERE char_id=?");
 			statement.setInt(1, getObjectId());
 			statement.execute();
@@ -8557,10 +8533,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -9259,7 +9232,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			else
 			{
 				// Retrieve all skills of this L2PcInstance from the database
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement(RESTORE_SKILLS_FOR_CHAR_ALT_SUBCLASS);
 				statement.setInt(1, getObjectId());
 				ResultSet rset = statement.executeQuery();
@@ -9299,6 +9272,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		finally
 		{
 			CloseUtil.close(con);
+			con = null;
 		}
 	}
 
@@ -9494,7 +9468,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(RESTORE_CHAR_RECOMS);
 			statement.setInt(1, getObjectId());
 			ResultSet rset = statement.executeQuery();
@@ -9517,10 +9491,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -9567,7 +9538,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(DELETE_CHAR_HENNA);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, slot + 1);
@@ -9585,10 +9556,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -9641,7 +9609,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 				try
 				{
-					con = L2DatabaseFactory.getInstance().getConnection();
+					con = L2DatabaseFactory.getInstance().getConnection(false);
 					PreparedStatement statement = con.prepareStatement(ADD_CHAR_HENNA);
 					statement.setInt(1, getObjectId());
 					statement.setInt(2, henna.getSymbolId());
@@ -9660,10 +9628,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 				finally
 				{
-					try { con.close(); } catch(Exception e) { 
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
+					CloseUtil.close(con);
 					con = null;
 				}
 
@@ -11494,7 +11459,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(HERO_COUNT);
 			statement.setString(1, getName());
 			ResultSet rset = statement.executeQuery();
@@ -11514,10 +11479,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
@@ -11964,12 +11926,14 @@ public final class L2PcInstance extends L2PlayableInstance
 		newClass.setClassId(classId);
 		newClass.setClassIndex(classIndex);
 
+		boolean output = false;
+		
 		Connection con = null;
 
 		try
 		{
 			// Store the basic info about this new sub-class.
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(ADD_CHAR_SUBCLASS);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, newClass.getClassId());
@@ -11980,6 +11944,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.execute();
 			statement.close();
 			statement = null;
+			
+			output=true;
 		}
 		catch(Exception e)
 		{
@@ -11987,59 +11953,59 @@ public final class L2PcInstance extends L2PlayableInstance
 				e.printStackTrace();
 			
 			_log.warning("WARNING: Could not add character sub class for " + getName() + ": " + e);
-			return false;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
-		// Commit after database INSERT incase exception is thrown.
-		getSubClasses().put(newClass.getClassIndex(), newClass);
+		if(output){
+			
+			// Commit after database INSERT incase exception is thrown.
+			getSubClasses().put(newClass.getClassIndex(), newClass);
 
-		if(Config.DEBUG)
-		{
-			_log.info(getName() + " added class ID " + classId + " as a sub class at index " + classIndex + ".");
-		}
-
-		ClassId subTemplate = ClassId.values()[classId];
-		Collection<L2SkillLearn> skillTree = SkillTreeTable.getInstance().getAllowedSkills(subTemplate);
-		subTemplate = null;
-
-		if(skillTree == null)
-			return true;
-
-		Map<Integer, L2Skill> prevSkillList = new FastMap<Integer, L2Skill>();
-
-		for(L2SkillLearn skillInfo : skillTree)
-		{
-			if(skillInfo.getMinLevel() <= 40)
+			if(Config.DEBUG)
 			{
-				L2Skill prevSkill = prevSkillList.get(skillInfo.getId());
-				L2Skill newSkill = SkillTable.getInstance().getInfo(skillInfo.getId(), skillInfo.getLevel());
-
-				if(prevSkill != null && prevSkill.getLevel() > newSkill.getLevel())
-				{
-					continue;
-				}
-
-				prevSkillList.put(newSkill.getId(), newSkill);
-				storeSkill(newSkill, prevSkill, classIndex);
+				_log.info(getName() + " added class ID " + classId + " as a sub class at index " + classIndex + ".");
 			}
-		}
-		skillTree = null;
-		prevSkillList = null;
 
-		if(Config.DEBUG)
-		{
-			_log.info(getName() + " was given " + getAllSkills().length + " skills for their new sub class.");
-		}
+			ClassId subTemplate = ClassId.values()[classId];
+			Collection<L2SkillLearn> skillTree = SkillTreeTable.getInstance().getAllowedSkills(subTemplate);
+			subTemplate = null;
 
-		return true;
+			if(skillTree == null)
+				return true;
+
+			Map<Integer, L2Skill> prevSkillList = new FastMap<Integer, L2Skill>();
+
+			for(L2SkillLearn skillInfo : skillTree)
+			{
+				if(skillInfo.getMinLevel() <= 40)
+				{
+					L2Skill prevSkill = prevSkillList.get(skillInfo.getId());
+					L2Skill newSkill = SkillTable.getInstance().getInfo(skillInfo.getId(), skillInfo.getLevel());
+
+					if(prevSkill != null && prevSkill.getLevel() > newSkill.getLevel())
+					{
+						continue;
+					}
+
+					prevSkillList.put(newSkill.getId(), newSkill);
+					storeSkill(newSkill, prevSkill, classIndex);
+				}
+			}
+			skillTree = null;
+			prevSkillList = null;
+
+			if(Config.DEBUG)
+			{
+				_log.info(getName() + " was given " + getAllSkills().length + " skills for their new sub class.");
+			}
+
+		}
+		
+		return output;
 	}
 
 	/**
@@ -12059,12 +12025,14 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			_log.info(getName() + " has requested to modify sub class index " + classIndex + " from class ID " + oldClassId + " to " + newClassId + ".");
 		}
+		
+		boolean output = false;
 
 		Connection con = null;
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			// Remove all henna info stored for this sub-class.
@@ -12102,6 +12070,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.execute();
 			statement.close();
 			statement = null;
+			
+			output = true;
 		}
 		catch(Exception e)
 		{
@@ -12109,22 +12079,19 @@ public final class L2PcInstance extends L2PlayableInstance
 				e.printStackTrace();
 			
 			_log.warning("Could not modify sub class for " + getName() + " to class index " + classIndex + ": " + e);
-
-			// This must be done in order to maintain data consistency.
-			getSubClasses().remove(classIndex);
-			return false;
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 
 		getSubClasses().remove(classIndex);
-		return addSubClass(newClassId, classIndex);
+		
+		if(output){
+			return addSubClass(newClassId, classIndex);
+		}else
+			return false;
 	}
 
 	public boolean isSubClassActive()
@@ -12644,7 +12611,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			Connection con = null;
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement(DELETE_CHAR_RECOMS);
 				statement.setInt(1, getObjectId());
 				statement.execute();
@@ -12662,10 +12629,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}
@@ -13556,7 +13520,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=?");
 			statement.setInt(1, cha.getObjectId());
@@ -13587,10 +13551,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

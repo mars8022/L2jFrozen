@@ -15,6 +15,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class BuffTable
@@ -81,9 +82,10 @@ public class BuffTable
 	{
 		_buffs = new FastMap<String, ArrayList<Buff>>();
 		_buffs_by_id =  new FastMap<Integer, ArrayList<Buff>>();
+		Connection con = null;
 		try
 		{
-			Connection con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stm = con.prepareStatement("select name,skill_id,skill_level,skill_force,char_min_level,char_max_level,price_adena,id from buff_templates");
 			ResultSet rs = stm.executeQuery();
 			while(rs.next())
@@ -108,16 +110,15 @@ public class BuffTable
 			}
 			rs.close();
 			stm.close();
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
 			System.out.println("...Loaded " + _buffs_by_id.size() + " buff templates");
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			System.out.println("...Error while loading buffs. Please, check buff_templates table");
+		}finally{
+			CloseUtil.close(con);
+			con = null;
 		}
 	}
 

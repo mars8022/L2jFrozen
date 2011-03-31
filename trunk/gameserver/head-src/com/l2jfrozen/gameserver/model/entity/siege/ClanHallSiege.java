@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -42,7 +43,7 @@ public abstract class ClanHallSiege
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT siege_data FROM clanhall_siege WHERE id=?");
 			statement.setInt(1, ClanHallId);
 			ResultSet rs = statement.executeQuery();
@@ -62,10 +63,7 @@ public abstract class ClanHallSiege
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 		return res;
@@ -87,7 +85,7 @@ public abstract class ClanHallSiege
 			Connection con = null;
 			try
 			{
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement = con.prepareStatement("UPDATE clanhall_siege SET siege_data=? WHERE id = ?");
 				statement.setLong(1, getSiegeDate().getTimeInMillis());
 				statement.setInt(2, ClanHallId);
@@ -101,10 +99,7 @@ public abstract class ClanHallSiege
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}

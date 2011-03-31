@@ -33,6 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.funcs.FuncAdd;
 import com.l2jfrozen.gameserver.skills.funcs.LambdaConst;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -127,7 +128,7 @@ public final class L2Augmentation
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			PreparedStatement statement = con.prepareStatement("INSERT INTO augmentations (item_id,attributes,skill,level) VALUES (?,?,?,?)");
 			statement.setInt(1, _item.getObjectId());
@@ -154,7 +155,7 @@ public final class L2Augmentation
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -168,7 +169,7 @@ public final class L2Augmentation
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM augmentations WHERE item_id=?");
 			statement.setInt(1, _item.getObjectId());
 			statement.executeUpdate();
@@ -181,7 +182,7 @@ public final class L2Augmentation
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

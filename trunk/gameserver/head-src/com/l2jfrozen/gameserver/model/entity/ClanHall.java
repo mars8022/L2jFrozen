@@ -42,6 +42,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ClanHall
@@ -214,7 +215,7 @@ public class ClanHall
 			{
 				PreparedStatement statement;
 
-				con = L2DatabaseFactory.getInstance().getConnection();
+				con = L2DatabaseFactory.getInstance().getConnection(false);
 				if(newFunction)
 				{
 					statement = con.prepareStatement("INSERT INTO clanhall_functions (hall_id, type, lvl, lease, rate, endTime) VALUES (?,?,?,?,?,?)");
@@ -247,11 +248,7 @@ public class ClanHall
 			}
 			finally
 			{
-				try { con.close(); } catch(Exception e) { 
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-				}
+				CloseUtil.close(con);
 				con = null;
 			}
 		}
@@ -529,7 +526,7 @@ public class ClanHall
 		{
 			PreparedStatement statement;
 			ResultSet rs;
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement("Select * from clanhall_functions where hall_id = ?");
 			statement.setInt(1, getId());
 			rs = statement.executeQuery();
@@ -553,10 +550,7 @@ public class ClanHall
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -569,7 +563,7 @@ public class ClanHall
 		try
 		{
 			PreparedStatement statement;
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement("DELETE FROM clanhall_functions WHERE hall_id=? AND type=?");
 			statement.setInt(1, getId());
 			statement.setInt(2, functionType);
@@ -586,10 +580,7 @@ public class ClanHall
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -648,7 +639,7 @@ public class ClanHall
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("UPDATE clanhall SET ownerId=?, paidUntil=?, paid=? WHERE id=?");
@@ -666,10 +657,7 @@ public class ClanHall
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -787,7 +775,7 @@ public class ClanHall
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("Select * from castle_door where castleId = ?");
 			statement.setInt(1, getId());
 			ResultSet rs = statement.executeQuery();
@@ -816,10 +804,7 @@ public class ClanHall
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

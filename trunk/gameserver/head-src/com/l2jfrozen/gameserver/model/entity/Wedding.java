@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -59,7 +60,7 @@ public class Wedding
 			PreparedStatement statement;
 			ResultSet rs;
 
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 
 			statement = con.prepareStatement("Select * from mods_wedding where id = ?");
 			statement.setInt(1, _Id);
@@ -93,10 +94,7 @@ public class Wedding
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -119,7 +117,7 @@ public class Wedding
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			_Id = IdFactory.getInstance().getNextId();
@@ -147,10 +145,7 @@ public class Wedding
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { 
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -161,7 +156,7 @@ public class Wedding
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("UPDATE mods_wedding set married = ?, weddingDate = ?, coupleType = ? where id = ?");
@@ -187,10 +182,7 @@ public class Wedding
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -200,7 +192,7 @@ public class Wedding
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
 			statement = con.prepareStatement("DELETE FROM mods_wedding WHERE id=?");
@@ -218,10 +210,7 @@ public class Wedding
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) {
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			CloseUtil.close(con);
 			con = null;
 		}
 	}

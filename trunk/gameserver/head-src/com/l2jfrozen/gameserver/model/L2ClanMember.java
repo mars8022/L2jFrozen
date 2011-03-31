@@ -24,6 +24,7 @@ import java.sql.SQLException;
 
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -203,7 +204,7 @@ public class L2ClanMember
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET subpledge=? WHERE obj_id=?");
 			statement.setLong(1, _pledgeType);
 			statement.setInt(2, getObjectId());
@@ -213,11 +214,12 @@ public class L2ClanMember
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			//_log.warning("could not set char power_grade:"+e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -256,7 +258,7 @@ public class L2ClanMember
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET power_grade=? WHERE obj_id=?");
 			statement.setLong(1, _powerGrade);
 			statement.setInt(2, getObjectId());
@@ -265,11 +267,12 @@ public class L2ClanMember
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			//_log.warning("could not set char power_grade:"+e);
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
@@ -494,7 +497,7 @@ public class L2ClanMember
 
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection();
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET apprentice=?,sponsor=? WHERE obj_Id=?");
 			statement.setInt(1, apprentice);
 			statement.setInt(2, sponsor);
@@ -505,11 +508,12 @@ public class L2ClanMember
 		}
 		catch(SQLException e)
 		{
+			e.printStackTrace();
 			//_log.warning("could not set apprentice/sponsor:"+e.getMessage());
 		}
 		finally
 		{
-			try { con.close(); } catch(Exception e) { }
+			CloseUtil.close(con);
 			con = null;
 		}
 	}
