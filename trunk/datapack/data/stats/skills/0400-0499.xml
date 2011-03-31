@@ -210,12 +210,19 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="407" levels="10" name="Psycho Symphony">
+  <table name="#debuff"> 0.9 0.9 0.9 0.85 0.85 0.8 0.8 0.75 0.75 0.7 </table>
   <table name="#mpConsume">83 88 92 95 98 101 105 108 111 113</table>
   <table name="#power">22 26 28 30 33 35 38 40 43 45</table>
+  <table name="#magicLvl"> 55 58 60 62 64 66 68 70 72 74 </table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="save" val="3" />
+  <set name="magicLvl" val="#magicLvl" />
+  <set name="isDebuff" val="true" />
+  <set name="overHit" val="true" />
+  <set name="lvlDepend" val="1" />
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="150"/>
   <set name="SSBoost" val="2.0"/>
@@ -223,22 +230,26 @@
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Buff" time="30" val="0">
-      <mul order="0x30" stat="runSpd" val="0.5"/>
-      <mul order="0x30" stat="pAtkSpd" val="0.8"/>
-      <mul order="0x30" stat="mAtkSpd" val="0.8"/>
+      <mul order="0x30" stat="runSpd" val="#debuff"/>
+      <mul order="0x30" stat="pAtkSpd" val="#debuff"/>
+      <mul order="0x30" stat="mAtkSpd" val="#debuff"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="408" levels="10" name="Demonic Blade Dance">
+  <table name="#debuff"> 0.9 0.9 0.9 0.85 0.85 0.8 0.8 0.75 0.75 0.7 </table>
+  <table name="#magicLvl"> 55 58 60 62 64 66 68 70 72 74 </table> 
   <table name="#mpConsume">83 88 92 95 98 101 105 108 111 113</table>
-  <table name="#power">22 26 28 30 33 35 38 40 43 45</table>
+  <table name="#power"> 275 314 341 369 398 428 458 488 518 548 </table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="save" val="3" />
+  <set name="overHit" val="true" />
+  <set name="isDebuff" val="true" />
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="150"/>
   <set name="SSBoost" val="2.0"/>
@@ -246,13 +257,11 @@
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="weaponsAllowed" val="512"/>
   <for>
     <effect count="1" name="Buff" time="30" val="0">
-      <mul order="0x30" stat="mAtk" val="0.65"/>
-      <mul order="0x30" stat="pAtk" val="0.65"/>
+      <mul order="0x30" stat="mAtk" val="#debuff"/>
+      <mul order="0x30" stat="pAtk" val="#debuff"/>
     </effect>
   </for>
 </skill>
@@ -571,24 +580,20 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="421" levels="5" name="Fell Swoop">
   <table name="#mpConsume">27 29 31 33 34</table>
-  <!-- probably these values're incorrect -->
   <table name="#atkCountMax">1 2 3 4 5</table>
-  <table name="#pAtkRange">1.03 1.07 1.09 1.11 1.16</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="weaponsAllowed" val="64"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="75000"/>
   <set name="hitTime" val="2000"/>
   <for>
-    <effect count="1" name="Buff" time="60" val="0">
+    <effect count="1" name="Buff" time="120" val="0">
       <add order="0x40" stat="atkCountMax" val="#atkCountMax"/>
-	  <mul order="0x30" stat="pAtkRange" val="#pAtkRange"/>
 	</effect>
   </for>
 </skill>
@@ -642,16 +647,16 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="425" levels="1" name="Hawk Spirit Totem">
   <set name="weaponsAllowed" val="1024"/>
+  <set name="magicLvl" val="74" />
   <set name="mpConsume" val="34"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="300000"/>
   <set name="hitTime" val="2000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
     <using kind="Fist, Dual Fist"/>
   </cond>
@@ -660,7 +665,7 @@
       <add order="0x40" stat="rCrit" val="100">
 	    <using kind="Fist, Dual Fist"/>
 	  </add>
-	  <mul order="0x30" stat="cAtk" val="1.5"> <!-- L2calc says 1.3 -->
+	  <mul order="0x30" stat="cAtk" val="1.3">
 		<using kind="Fist, Dual Fist"/>
 	  </mul>
 	  <add order="0x40" stat="accCombat" val="6">
@@ -703,14 +708,13 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="428" levels="1" name="Inner Rhythm">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <mul order="0x30" stat="DanceMpConsumeRate" val="0.95"/>
+    <mul order="0x30" stat="DanceMpConsumeRate" val="0.9"/>
   </for>
 </skill>
 <skill id="429" levels="1" name="Knighthood">
@@ -746,6 +750,7 @@
     </mul>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="431" levels="1" name="Archery">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
@@ -754,11 +759,12 @@
     <add order="0x40" stat="pAtk" val="200">
       <using kind="Bow"/>
     </add>
-    <add order="0x40" stat="pAtkRange" val="100">
+    <add order="0x40" stat="pAtkRange" val="50">
       <using kind="Bow"/>
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="432" levels="1" name="Assassination">
   <set name="weaponsAllowed" val="16"/>
   <set name="target" val="TARGET_SELF"/>
@@ -768,48 +774,44 @@
     <add order="0x40" stat="pAtk" val="70">
       <using kind="Dagger"/>
     </add>
-    <mul order="0x30" stat="blowRate" val="1.06">
+    <mul order="0x30" stat="blowRate" val="1.03">
       <and>
         <player front="True"/>
       </and>
     </mul>
-    <mul order="0x30" stat="blowRate" val="1.06">
+    <mul order="0x30" stat="blowRate" val="1.03">
       <and>
         <player front="False"/>
         <player behind="False"/>
       </and>
     </mul>
-    <mul order="0x30" stat="blowRate" val="1.06">
+    <mul order="0x30" stat="blowRate" val="1.03">
       <and>
         <player behind="True"/>
       </and>
     </mul>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="433" levels="1" name="Arcane Roar">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <mul order="0x30" stat="fireVuln" val="0.97"/>
-    <mul order="0x30" stat="windVuln" val="0.97"/>
-    <mul order="0x30" stat="waterVuln" val="0.97"/>
-    <mul order="0x30" stat="earthVuln" val="0.97"/>
-    <mul order="0x30" stat="holyVuln" val="0.97"/>
-    <mul order="0x30" stat="darkVuln" val="0.97"/>
+    <mul order="0x30" stat="fireVuln" val="0.95"/>
+    <mul order="0x30" stat="windVuln" val="0.95"/>
+    <mul order="0x30" stat="waterVuln" val="0.95"/>
+    <mul order="0x30" stat="earthVuln" val="0.95"/>
     <mul order="0x30" stat="mAtk" val="1.03"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="434" levels="1" name="Necromancy">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <mul order="0x30" stat="darkVuln" val="0.97"/>
+    <mul order="0x30" stat="darkVuln" val="0.90"/>
     <mul order="0x30" stat="mAtk" val="1.03"/>
   </for>
 </skill>
@@ -849,26 +851,24 @@
     <mul order="0x30" stat="MagicalMpConsumeRate" val="0.95"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="437" levels="1" name="Song of Silence">
-<!--
-  Needs to be verified.
-  Description(s):
-      Sing the Song of Silence to temporarily disable all enemy physical and magical skills.
--->
   <set name="magicLvl" val="79"/>
   <set name="mpConsume" val="54"/>
+  <set name="lvlDepend" val="1" />
   <set name="skillRadius" val="150"/>
   <set name="save" val="3" />
   <set name="target" val="TARGET_AURA"/>
   <set name="skillType" val="MUTE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="power" val="60" />
+  <set name="isDebuff" val="true" />
   <set name="hitTime" val="2500"/>
-  <set name="reuseDelay" val="480000"/>
+  <set name="reuseDelay" val="150000"/>
+  <set name="aggroPoints" val="523" />
   <for>
-    <effect count="1" name="Mute" time="30" val="0"/>
-    <effect count="1" name="PsychicalMute" time="30" val="0"/>
+    <effect count="1" name="Mute" time="120" val="0"/>
+    <effect count="1" name="PsychicalMute" time="120" val="0"/>
   </for>
 </skill>
 <skill id="438" levels="1" name="Soul of the Phoenix">
@@ -894,17 +894,17 @@
     <effect count="1" name="PhoenixBless" time="1800" val="0"/>
   </for>
 </skill>
- <skill id="439" levels="1" name="Shield of Revenge">
-  <set name="mpConsume" val="87"/>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<skill id="439" levels="1" name="Shield of Revenge">
+  <set name="magicLvl" val="79"/>
+  <set name="mpConsume" val="78"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="reuseDelay" val="120000"/>
   <set name="hitTime" val="4000"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <effect count="1" name="Buff" time="15" val="0">
+    <effect count="1" name="Buff" time="120" val="0">
       <add order="0x40" stat="vengeanceSkillPhysic" val="100"/>
     </effect>
   </for>
