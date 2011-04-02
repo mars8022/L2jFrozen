@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
@@ -92,6 +93,9 @@ public final class RequestPackageSend extends L2GameClientPacket
 			return;
 		}
 		else if(!player.getAccountChars().containsKey(_objectID))
+			return;
+		
+		if(L2World.getInstance().getPlayer(_objectID) != null)
 			return;
 		
 		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("deposit"))
