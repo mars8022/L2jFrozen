@@ -1254,14 +1254,21 @@ public class AdminEditChar implements IAdminCommandHandler
 		Map<String, List<L2PcInstance>> ipMap = new HashMap<String, List<L2PcInstance>>();
 
 		String ip = "0.0.0.0";
-		L2GameClient client;
-
+		
 		final Map<String, Integer> dualboxIPs = new HashMap<String, Integer>();
 
 		for(L2PcInstance player : players)
 		{
-			client = player.getClient();
-			ip = client.getConnection().getInetAddress().getHostAddress();
+			if(player.getClient()==null
+					|| player.getClient().getConnection()==null
+					|| player.getClient().getConnection().getInetAddress()==null
+					|| player.getClient().getConnection().getInetAddress().getHostAddress()==null){
+				
+				continue;
+				
+			}
+			
+			ip = player.getClient().getConnection().getInetAddress().getHostAddress();
 
 			if(ipMap.get(ip) == null)
 			{
@@ -1330,6 +1337,15 @@ public class AdminEditChar implements IAdminCommandHandler
 
 		for(L2PcInstance player : players)
 		{
+			if(player.getClient()==null
+					|| player.getClient().getConnection()==null
+					|| player.getClient().getConnection().getInetAddress()==null
+					|| player.getClient().getConnection().getInetAddress().getHostAddress()==null){
+				
+				continue;
+				
+			}
+			
 			ip = player.getClient().getConnection().getInetAddress().getHostAddress();
 
 			if(ip.equals(IpAdress))
