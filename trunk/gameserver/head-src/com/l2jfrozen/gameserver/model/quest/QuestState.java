@@ -512,11 +512,18 @@ public final class QuestState
 	{
 		int count = 0;
 
-		for(L2ItemInstance item : getPlayer().getInventory().getItems())
-			if(item.getItemId() == itemId)
-			{
-				count += item.getCount();
-			}
+		if(getPlayer()!=null 
+				&& getPlayer().getInventory()!=null 
+				&& getPlayer().getInventory().getItems()!=null){
+			
+			for(L2ItemInstance item : getPlayer().getInventory().getItems())
+				if(item!=null && item.getItemId() == itemId)
+				{
+					count += item.getCount();
+				}
+			
+		}
+		
 
 		return count;
 	}

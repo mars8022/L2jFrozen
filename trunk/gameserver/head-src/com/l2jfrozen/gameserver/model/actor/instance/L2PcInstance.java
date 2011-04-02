@@ -14910,7 +14910,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	public boolean isTradeDisabled()
 	{
-		return _isTradeOff;
+		return _isTradeOff || isCastingNow();
 	}
 	
 	public void setTradeDisabled(boolean set)
