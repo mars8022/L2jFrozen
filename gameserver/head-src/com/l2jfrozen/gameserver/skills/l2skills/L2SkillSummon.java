@@ -104,6 +104,9 @@ public class L2SkillSummon extends L2Skill
 		if (!activeChar.getFloodProtectors().getItemPetSummon().tryPerformAction("summon"))
 			return;
 		
+		if(!checkCondition(activeChar))
+			return;
+		
 		if(_npcId == 0)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
