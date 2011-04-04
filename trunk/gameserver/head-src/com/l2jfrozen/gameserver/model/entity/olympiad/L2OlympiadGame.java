@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import com.l2jfrozen.Config;
@@ -34,10 +35,14 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadMode;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
+import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.L2FastList;
 
@@ -984,7 +989,84 @@ class L2OlympiadGame extends Olympiad
 	{
 		if(wpn != null && (wpn.getItemId() >= 6611 && wpn.getItemId() <= 6621 || wpn.getItemId() == 6842 || Config.LIST_OLY_RESTRICTED_ITEMS.contains(wpn.getItemId())))
 		{
+			SystemMessage sm = null;
+			
+			if(wpn.getEnchantLevel() > 0)
+			{
+				sm = new SystemMessage(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
+				sm.addNumber(wpn.getEnchantLevel());
+				sm.addItemName(wpn.getItemId());
+			}
+			else
+			{
+				sm = new SystemMessage(SystemMessageId.S1_DISARMED);
+				sm.addItemName(wpn.getItemId());
+			}
+
+			player.sendPacket(sm);
+
+			// Remove augementation bonus on unequipment
+			if(wpn.isAugmented())
+			{
+				wpn.getAugmentation().removeBoni(player);
+			}
+
+			//remove cupid's bow skills on unequip
+			if (wpn.isCupidBow()) {
+				if (wpn.getItemId() == 9140)
+					player.removeSkill(SkillTable.getInstance().getInfo(3261, 1));
+				else{
+					player.removeSkill(SkillTable.getInstance().getInfo(3260, 0));
+					player.removeSkill(SkillTable.getInstance().getInfo(3262, 0));
+				}
+			}
+			
+			//items = activeChar.getInventory().unEquipItemInBodySlotAndRecord(bodyPart);
+			
 			L2ItemInstance[] unequiped = player.getInventory().unEquipItemInBodySlotAndRecord(wpn.getItem().getBodyPart());
+			
+			sm = null;
+
+			player.refreshExpertisePenalty();
+			player.refreshMasteryPenality();
+
+			if(wpn.getItem().getType2() == L2Item.TYPE2_WEAPON)
+			{
+				player.checkIfWeaponIsAllowed();
+			}
+
+			player.abortAttack();
+
+			player.sendPacket(new EtcStatusUpdate(player));
+			// if an "invisible" item has changed (Jewels, helmet),
+			// we dont need to send broadcast packet to all other users
+			if(!((wpn.getItem().getBodyPart() & L2Item.SLOT_HEAD) > 0 
+					|| (wpn.getItem().getBodyPart() & L2Item.SLOT_NECK) > 0 
+					|| (wpn.getItem().getBodyPart() & L2Item.SLOT_L_EAR) > 0 
+					|| (wpn.getItem().getBodyPart() & L2Item.SLOT_R_EAR) > 0 
+					|| (wpn.getItem().getBodyPart() & L2Item.SLOT_L_FINGER) > 0 
+					|| (wpn.getItem().getBodyPart() & L2Item.SLOT_R_FINGER) > 0))
+			{
+				player.broadcastUserInfo();
+				InventoryUpdate iu = new InventoryUpdate();
+				iu.addItems(Arrays.asList(unequiped));
+				player.sendPacket(iu);
+			}
+			else if((wpn.getItem().getBodyPart() & L2Item.SLOT_HEAD) > 0)
+			{
+				InventoryUpdate iu = new InventoryUpdate();
+				iu.addItems(Arrays.asList(unequiped));
+				player.sendPacket(iu);
+				player.sendPacket(new UserInfo(player));
+			}
+			else
+			{
+				// because of complicated jewels problem i'm forced to resend the item list :(
+				player.sendPacket(new ItemList(player, true));
+				player.sendPacket(new UserInfo(player));
+			}
+			
+			/*
 			InventoryUpdate iu = new InventoryUpdate();
 			for(L2ItemInstance element : unequiped)
 			{
@@ -1012,6 +1094,7 @@ class L2OlympiadGame extends Olympiad
 				}
 				player.sendPacket(sm);
 			}
+			*/
 		}
 	}
 }
