@@ -26,6 +26,7 @@
     <effect count="15" name="DamOverTime" time="1" val="#dmg"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1101" levels="2" name="Blaze Quake">
   <table name="#magicLvl">25 35</table>
   <table name="#dmg">44 60</table>
@@ -44,9 +45,8 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <!-- retail value: 44 60/sec; stat update every time unit (2/3 sec) -->
     <effect count="15" name="DamOverTime" time="1" val="#dmg"/>
@@ -815,6 +815,7 @@
     <player hp="10"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1160" levels="15" name="Slow" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -824,7 +825,7 @@
   <table name="#mpConsume_Init">6 7 8 9 10 11 11 11 12 12 13 13 13 14 14</table>
   <table name="#mpConsume">24 28 31 35 38 41 43 44 46 48 49 51 52 53 55</table>
   <table name="#magicLvl">35 40 44 48 52 56 58 60 62 64 66 68 70 72 74</table>
-  <table name="#runSpd">0.7 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</table>
+  <table name="#runSpd">0.8 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7</table>
   <table name="#ench1Power">80 81 82 82 83 84 84 85 86 86 87 88 88 89 90 90 91 92 92 93 94 94 95 96 96 97 98 98 99 100</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -837,6 +838,7 @@
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
@@ -1195,11 +1197,12 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1181" levels="3" name="Flame Strike">
   <table name="#mpConsume_Init">6 7 8</table>
   <table name="#mpConsume">23 27 32</table>
   <table name="#magicLvl">20 25 30</table>
-  <table name="#power">13 16 19</table>
+  <table name="#power">13 14 14</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
@@ -1214,8 +1217,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="500"/>
   <set name="effectRange" val="1000"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1182" levels="3" name="Resist Aqua" enchantLevels1="30" enchantLevels2="30">
