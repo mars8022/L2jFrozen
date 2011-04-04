@@ -78,20 +78,19 @@ public class L2DatabaseFactory
 		config.setJdbcUrl(Config.DATABASE_URL);
 		config.setUsername(Config.DATABASE_LOGIN);
 		config.setPassword(Config.DATABASE_PASSWORD);
-		config.setMinConnectionsPerPartition(5);
+		config.setMinConnectionsPerPartition(3);
 		config.setMaxConnectionsPerPartition(Config.DATABASE_MAX_CONNECTIONS);
-		config.setAcquireIncrement(5);
+		config.setAcquireIncrement(3);
 		config.setAcquireRetryAttempts(0); // try to obtain connections indefinitely (0 = never quit)
 		config.setAcquireRetryDelay(500); // 500 miliseconds wait before try to acquire connection again
-		config.setIdleConnectionTestPeriod(3600);
-		config.setIdleMaxAge(0);
-		config.setStatementReleaseHelperThreads(3);
-		config.setStatementsCacheSize(2); //min value
+		config.setIdleConnectionTestPeriod(0);
+		config.setIdleMaxAge(60);
+		config.setStatementReleaseHelperThreads(4);
+		config.setStatementsCacheSize(0); //min value
 		config.setPartitionCount(Config.DATABASE_PARTITION_COUNT);
-		
+		config.setDisableConnectionTracking(true);
 		// if pool is exhausted, get 5 more connections at a time cause there is a "long" delay on acquire connection
 		// so taking more than one connection at once will make connection pooling more effective.
-		config.setAcquireIncrement(5);
 		config.setConnectionTimeout(Config.DATABASE_TIMEOUT);
 		
 		try {
