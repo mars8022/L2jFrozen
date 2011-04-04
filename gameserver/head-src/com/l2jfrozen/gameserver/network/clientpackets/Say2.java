@@ -356,29 +356,7 @@ public final class Say2 extends L2GameClientPacket
 		               }
 		               break;
 		            case TRADE:
-		               if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited") || Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
-		               {
-		                  if(Config.TRADE_CHAT_IS_NOOBLE)
-		                  {
-		                     if(!activeChar.isNoble() && !activeChar.isGM())
-		                     {
-		                        activeChar.sendMessage("Only Nobless Players Can Use This Chat");
-		                        return;
-		                     }
-		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		                  else
-		                  {
-		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		               }
-		               else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on"))
+		               if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on"))
 		               {
 		                  if(Config.TRADE_CHAT_WITH_PVP)
 		                  {
@@ -402,14 +380,38 @@ public final class Say2 extends L2GameClientPacket
 		               }
 		               else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
 		               {
-		                  int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-		                  for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                  {
-		                     if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
+		            	   
+						if(Config.TRADE_CHAT_IS_NOOBLE)
+						{
+							if(!activeChar.isNoble() && !activeChar.isGM())
+							{
+								activeChar.sendMessage("Only Nobless Players Can Use This Chat");
+								return;
+							}
+							
+							int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+							for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+							{
+								if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+								{
+									player.sendPacket(cs);
+								}
+							}
+							
+						}
+						else
+						{
+							int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+							for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+							{
+								if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+								{
+									player.sendPacket(cs);
+								}
+							}
+						}
+
+						
 		               }
 		               break;
 				case ALL:

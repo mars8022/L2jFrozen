@@ -459,9 +459,10 @@ public final class UseItem extends L2GameClientPacket
 				if (item.isCupidBow()) {
 					if (item.getItemId() == 9140)
 						activeChar.removeSkill(SkillTable.getInstance().getInfo(3261, 1));
-					else
+					else{
 						activeChar.removeSkill(SkillTable.getInstance().getInfo(3260, 0));
 						activeChar.removeSkill(SkillTable.getInstance().getInfo(3262, 0));
+					}
 				}
 				
 				items = activeChar.getInventory().unEquipItemInBodySlotAndRecord(bodyPart);
