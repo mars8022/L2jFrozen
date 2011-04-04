@@ -124,11 +124,11 @@ public class ClanHallManager
 				}
 				ch = null;
 			}
-			statement.close();
-			statement = null;
 			rs.close();
 			rs = null;
-
+			statement.close();
+			statement = null;
+			
 			System.out.println("Loaded: " + getClanHalls().size() + " clan halls");
 			System.out.println("Loaded: " + getFreeClanHalls().size() + " free clan halls");
 			_loaded = true;

@@ -4914,6 +4914,8 @@ public abstract class L2Character extends L2Object
 	 */
 	public final void abortCast()
 	{
+		abortCast(false);
+		/*
 	    if(isCastingNow())
 		{
 			_castEndTime = 0;
@@ -4956,6 +4958,54 @@ public abstract class L2Character extends L2Object
 	    */
 	}
 
+	/**
+	 * Abort the cast of the L2Character and send Server->Client MagicSkillCanceld/ActionFailed packet.<BR>
+	 * <BR>
+	 */
+	public final void abortCast(boolean force)
+	{
+	    if(isCastingNow() || force)
+		{
+			_castEndTime = 0;
+			_castInterruptTime = 0;
+
+			if(_skillCast != null)
+			{
+				_skillCast.cancel(true);
+				_skillCast = null;
+			}
+
+			if(getForceBuff() != null)
+			{
+				getForceBuff().onCastAbort();
+			}
+
+			// cancels the skill hit scheduled task
+			enableAllSkills(); // re-enables the skills
+			if(this instanceof L2PcInstance)
+			{
+				getAI().notifyEvent(CtrlEvent.EVT_FINISH_CASTING); // setting back previous intention
+			}
+
+			broadcastPacket(new MagicSkillCanceld(getObjectId())); // broadcast packet to stop animations client-side
+			sendPacket(ActionFailed.STATIC_PACKET); // send an "action failed" packet to the caster
+			
+		}
+	    /*can't abort potion cast
+	    if(isCastingPotionNow()){
+			
+			_castPotionEndTime = 0;
+			_castPotionInterruptTime = 0;
+
+			if(_potionCast != null)
+			{
+				_potionCast.cancel(true);
+				_potionCast = null;
+			}
+		}
+	    */
+	}
+	
 	/**
 	 * Update the position of the L2Character during a movement and return True if the movement is finished.<BR>
 	 * <BR>
