@@ -69,6 +69,9 @@ public final class TradeDone extends L2GameClientPacket
 		if(trade.isLocked())
 			return;
 
+		//abort cast anyway
+		player.abortCast(true);
+		
 		if(player.isCastingNow() || player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
