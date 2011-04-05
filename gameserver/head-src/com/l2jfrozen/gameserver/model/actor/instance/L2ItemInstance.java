@@ -1294,11 +1294,13 @@ public final class L2ItemInstance extends L2Object
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Could not update item " + getObjectId() + " in DB: Reason: " + "Duplicate itemId");
+			_log.log(Level.SEVERE, "Could not update item " + getObjectId() + " in DB: Reason: ");
+			e.printStackTrace();
 		}
 		finally
 		{
 			CloseUtil.close(con);
+			con=null;
 			
 		}
 		

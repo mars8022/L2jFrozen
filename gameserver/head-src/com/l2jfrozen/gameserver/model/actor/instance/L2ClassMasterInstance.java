@@ -136,7 +136,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 				{
 					showChatWindowChooseClass(player);
 				}
-				else if(level >= 20 && jobLevel == 1 || level >= 40 && jobLevel == 2 || level >= 76 && jobLevel == 3 || Config.CLASS_MASTER_STRIDER_UPDATE)
+				else if(level >= 20 && jobLevel == 1 && Config.ALLOW_CLASS_MASTERS_FIRST_CLASS || level >= 40 && jobLevel == 2 && Config.ALLOW_CLASS_MASTERS_SECOND_CLASS || level >= 76 && jobLevel == 3 && Config.ALLOW_CLASS_MASTERS_THIRD_CLASS || Config.CLASS_MASTER_STRIDER_UPDATE)
 				{
 					NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 					TextBuilder sb = new TextBuilder();
@@ -328,6 +328,15 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 			if(level < 76 && newJobLevel > 3)
 				return;
 			// -- prevention ends
+			
+			if(newJobLevel == 1 && !Config.ALLOW_CLASS_MASTERS_FIRST_CLASS)
+				return;
+
+			if(newJobLevel == 2 && !Config.ALLOW_CLASS_MASTERS_SECOND_CLASS)
+				return;
+
+			if(newJobLevel == 3 && !Config.ALLOW_CLASS_MASTERS_THIRD_CLASS)
+				return;
 
 			// check if player have all required items for class transfer
 			for(Integer _itemId : Config.CLASS_MASTER_SETTINGS.getRequireItems(jobLevel).keySet())

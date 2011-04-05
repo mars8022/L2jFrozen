@@ -588,8 +588,8 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			
 			if (Config.getInstance().ENABLE_MMOCORE_DEBUG)
 			{
-				_log.info("-- called OpCode "+ opcode+ " ~"+ String.valueOf((Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK)+ " ms after first command...");
-				_log.info("   total received packets with OpCode "+opcode+" into the Interval: "+command_count.get());
+				_log.info("-- called OpCode "+ Integer.toHexString(opcode)+ " ~"+ String.valueOf((Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK)+ " ms after first command...");
+				_log.info("   total received packets with OpCode "+Integer.toHexString(opcode)+" into the Interval: "+command_count.get());
 			}
 			
 			if (Config.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT > 0 && command_count.get() >= Config.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT  && Config.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE != null)
@@ -678,14 +678,14 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			L2LoginClient login_cl = (L2LoginClient) _client;
 			login_cl.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			
-			_log.warning("Player with account "+login_cl.getAccount() +" kicked for flooding with packet "+opcode);
+			_log.warning("Player with account "+login_cl.getAccount() +" kicked for flooding with packet "+Integer.toHexString(opcode));
 			
 		}else if(_client instanceof L2GameClient){
 			
 			L2GameClient game_cl = (L2GameClient) _client;
 			game_cl.closeNow();
 			
-			_log.warning("Player with account "+game_cl.accountName +" kicked for flooding with packet "+opcode);
+			_log.warning("Player with account "+game_cl.accountName +" kicked for flooding with packet "+Integer.toHexString(opcode));
 			
 		}
 		
@@ -703,7 +703,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			LoginController.getInstance().setAccountAccessLevel(login_cl.getAccount(), -100);
 			login_cl.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			
-			_log.warning("Player with account "+login_cl.getAccount() +" banned for flooding forever with packet "+opcode);
+			_log.warning("Player with account "+login_cl.getAccount() +" banned for flooding forever with packet "+Integer.toHexString(opcode));
 			
 		}else if(_client instanceof L2GameClient){
 			
@@ -713,7 +713,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			{
 				game_cl.getActiveChar().setPunishLevel(L2PcInstance.PunishLevel.ACC, 0);
 
-				_log.warning("Player "+game_cl.getActiveChar()+" of account "+game_cl.accountName +" banned forever for flooding with packet "+opcode);
+				_log.warning("Player "+game_cl.getActiveChar()+" of account "+game_cl.accountName +" banned forever for flooding with packet "+Integer.toHexString(opcode));
 
 				game_cl.getActiveChar().logout();
 			}
