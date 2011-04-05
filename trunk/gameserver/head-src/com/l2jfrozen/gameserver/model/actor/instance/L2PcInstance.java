@@ -6496,8 +6496,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setString(1, killer);
 			statement.setString(2, killed);
 			ResultSet rset = statement.executeQuery();
-			if(rset.getRow()>0){
-				rset.next();
+			if(rset!=null && rset.next()){
 				kills = rset.getInt("kills");
 			}
 			rset.close();

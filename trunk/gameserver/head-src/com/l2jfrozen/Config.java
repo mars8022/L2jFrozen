@@ -1006,6 +1006,11 @@ public final class Config
 	public static boolean FORCE_INVENTORY_UPDATE;
 	public static boolean ALLOW_GUARDS;
 	public static boolean ALLOW_CLASS_MASTERS;
+	
+	public static boolean ALLOW_CLASS_MASTERS_FIRST_CLASS;
+	public static boolean ALLOW_CLASS_MASTERS_SECOND_CLASS;
+	public static boolean ALLOW_CLASS_MASTERS_THIRD_CLASS;
+	
 	public static boolean CLASS_MASTER_STRIDER_UPDATE;
 	public static ClassMasterSettings CLASS_MASTER_SETTINGS;
 	public static boolean ALT_GAME_KARMA_PLAYER_CAN_BE_KILLED_IN_PEACEZONE;
@@ -1094,6 +1099,11 @@ public final class Config
 			CLASS_MASTER_STRIDER_UPDATE = Boolean.valueOf(altSettings.getProperty("AllowClassMastersStriderUpdate", "False"));
 			CLASS_MASTER_SETTINGS = new ClassMasterSettings(altSettings.getProperty("ConfigClassMaster"));
 			ALLOW_REMOTE_CLASS_MASTERS = Boolean.valueOf(altSettings.getProperty("AllowRemoteClassMasters", "False"));
+			
+			ALLOW_CLASS_MASTERS_FIRST_CLASS = Boolean.valueOf(altSettings.getProperty("AllowClassMastersFirstClass", "true"));
+			ALLOW_CLASS_MASTERS_SECOND_CLASS = Boolean.valueOf(altSettings.getProperty("AllowClassMastersSecondClass", "true"));
+			ALLOW_CLASS_MASTERS_THIRD_CLASS = Boolean.valueOf(altSettings.getProperty("AllowClassMastersThirdClass", "true"));
+			
 			ALT_GAME_FREIGHTS = Boolean.parseBoolean(altSettings.getProperty("AltGameFreights", "false"));
 			ALT_GAME_FREIGHT_PRICE = Integer.parseInt(altSettings.getProperty("AltGameFreightPrice", "1000"));
 			ALT_PARTY_RANGE = Integer.parseInt(altSettings.getProperty("AltPartyRange", "1600"));
