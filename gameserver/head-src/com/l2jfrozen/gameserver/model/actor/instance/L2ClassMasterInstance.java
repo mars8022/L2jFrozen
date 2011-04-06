@@ -142,7 +142,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 					TextBuilder sb = new TextBuilder();
 					sb.append("<html><title>Class Manager</title><body><center><img src=L2Font-e.replay_logo-e width=258 height=60><br><br><br><img src=L2UI_CH3.herotower_deco width=256 height=32></center><br><br>");
 
-					if(level >= 20 && jobLevel == 1 || level >= 40 && jobLevel == 2 || level >= 76 && jobLevel == 3)
+					if(level >= 20 && jobLevel == 1 && Config.ALLOW_CLASS_MASTERS_FIRST_CLASS || level >= 40 && jobLevel == 2 && Config.ALLOW_CLASS_MASTERS_SECOND_CLASS || level >= 76 && jobLevel == 3 && Config.ALLOW_CLASS_MASTERS_THIRD_CLASS)
 					{
 						sb.append("<font color=AAAAAA>Please choose from the list of classes below...</font><br><br>");
 
@@ -329,13 +329,13 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 				return;
 			// -- prevention ends
 			
-			if(newJobLevel == 1 && !Config.ALLOW_CLASS_MASTERS_FIRST_CLASS)
+			if(newJobLevel == 2 && !Config.ALLOW_CLASS_MASTERS_FIRST_CLASS)
 				return;
 
-			if(newJobLevel == 2 && !Config.ALLOW_CLASS_MASTERS_SECOND_CLASS)
+			if(newJobLevel == 3 && !Config.ALLOW_CLASS_MASTERS_SECOND_CLASS)
 				return;
 
-			if(newJobLevel == 3 && !Config.ALLOW_CLASS_MASTERS_THIRD_CLASS)
+			if(newJobLevel == 4 && !Config.ALLOW_CLASS_MASTERS_THIRD_CLASS)
 				return;
 
 			// check if player have all required items for class transfer
