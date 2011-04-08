@@ -1158,6 +1158,11 @@ public final class L2ItemInstance extends L2Object
 				inst._augmentation = new L2Augmentation(inst, rs.getInt("attributes"), rs.getInt("skill"), rs.getInt("level"), false);
 			}
 
+			inst.fireEvent(EventType.LOAD.name, new Object[]
+				                                   			{
+				                                   				con
+				                                   			});
+			
 			rs.close();
 			statement.close();
 			rs = null;
@@ -1173,14 +1178,8 @@ public final class L2ItemInstance extends L2Object
 		finally
 		{
 			CloseUtil.close(con);
-			
+			con = null;
 		}
-		
-		if(inst!=null)
-			inst.fireEvent(EventType.LOAD.name, new Object[]
-		                                   			{
-		                                   				//con
-		                                   			});
 		
 		return inst;
 	}
@@ -1288,6 +1287,11 @@ public final class L2ItemInstance extends L2Object
 			statement.close();
 			statement = null;
 			
+			fireEvent(EventType.STORE.name, new Object[]
+			                               			{
+			                               				con
+			                               			});
+			
 		}
 		catch(Exception e)
 		{
@@ -1304,8 +1308,8 @@ public final class L2ItemInstance extends L2Object
 			
 		}
 		
-		if(_existsInDb)
-			fireEvent(EventType.STORE.name, (Object[]) null);
+		//if(_existsInDb)
+		//	fireEvent(EventType.STORE.name, (Object[]) null);
 	}
 
 	/**
@@ -1400,7 +1404,10 @@ public final class L2ItemInstance extends L2Object
 			_storedInDb = false;
 			statement.close();
 			statement = null;
-			
+			fireEvent(EventType.DELETE.name, new Object[]
+			                                			{
+			                                				con
+			                                			});
 		}
 		catch(Exception e)
 		{
@@ -1410,10 +1417,11 @@ public final class L2ItemInstance extends L2Object
 		finally
 		{
 			CloseUtil.close(con);
+			con=null;
 		}
 		
-		if(!_existsInDb)
-			fireEvent(EventType.DELETE.name, (Object[])null);
+		//if(!_existsInDb)
+		//	fireEvent(EventType.DELETE.name, (Object[])null);
 	}
 
 	/**

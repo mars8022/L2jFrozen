@@ -86,7 +86,7 @@ public class MultiSellChoose extends L2GameClientPacket
 		L2NpcInstance merchant = player.getTarget() instanceof L2NpcInstance ? (L2NpcInstance) player.getTarget() : null;
 
 		//Possible fix to Multisell Radius
-		if (!player.isInsideRadius(merchant, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+		if (merchant==null || !player.isInsideRadius(merchant, L2NpcInstance.INTERACTION_DISTANCE, false, false))
 			return;
 		
 		MultiSellListContainer list = L2Multisell.getInstance().getList(_listId);
