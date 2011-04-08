@@ -51,6 +51,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 /**
  * This class manages items.
@@ -1044,6 +1045,7 @@ public final class L2ItemInstance extends L2Object
 			if(_loc == ItemLocation.VOID || _ownerId == 0)
 				return;
 
+			
 			insertIntoDb();
 		}
 	}
@@ -1158,11 +1160,6 @@ public final class L2ItemInstance extends L2Object
 				inst._augmentation = new L2Augmentation(inst, rs.getInt("attributes"), rs.getInt("skill"), rs.getInt("level"), false);
 			}
 
-			inst.fireEvent(EventType.LOAD.name, new Object[]
-				                                   			{
-				                                   				con
-				                                   			});
-			
 			rs.close();
 			statement.close();
 			rs = null;
@@ -1178,8 +1175,14 @@ public final class L2ItemInstance extends L2Object
 		finally
 		{
 			CloseUtil.close(con);
-			con = null;
+			
 		}
+		
+		if(inst!=null)
+			inst.fireEvent(EventType.LOAD.name, new Object[]
+		                                   			{
+		                                   				//con
+		                                   			});
 		
 		return inst;
 	}
@@ -1287,11 +1290,6 @@ public final class L2ItemInstance extends L2Object
 			statement.close();
 			statement = null;
 			
-			fireEvent(EventType.STORE.name, new Object[]
-			                               			{
-			                               				con
-			                               			});
-			
 		}
 		catch(Exception e)
 		{
@@ -1308,8 +1306,8 @@ public final class L2ItemInstance extends L2Object
 			
 		}
 		
-		//if(_existsInDb)
-		//	fireEvent(EventType.STORE.name, (Object[]) null);
+		if(_existsInDb)
+			fireEvent(EventType.STORE.name, (Object[]) null);
 	}
 
 	/**
@@ -1350,21 +1348,18 @@ public final class L2ItemInstance extends L2Object
 			statement = null;
 			
 		}
-		catch(SQLException  e)
+		catch(MySQLIntegrityConstraintViolationException  e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			//unique Index or Duplicate Exception
-			if(e.getErrorCode()==-9 || e.getErrorCode()==-803){
-				
-				_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getName());
-				updateInDb();
-			
-			}else{
-				//_log.log(Level.SEVERE, "Could not insert item " + getObjectId() + " into DB: Reason: " + "Duplicate itemId");
-				e.printStackTrace();
-			}
+			_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getName());
+			updateInDb();
+		
+		}
+		catch(SQLException  e)
+		{
+			e.printStackTrace();
 		
 		}
 		finally
@@ -1404,10 +1399,7 @@ public final class L2ItemInstance extends L2Object
 			_storedInDb = false;
 			statement.close();
 			statement = null;
-			fireEvent(EventType.DELETE.name, new Object[]
-			                                			{
-			                                				con
-			                                			});
+			
 		}
 		catch(Exception e)
 		{
@@ -1417,11 +1409,10 @@ public final class L2ItemInstance extends L2Object
 		finally
 		{
 			CloseUtil.close(con);
-			con=null;
 		}
 		
-		//if(!_existsInDb)
-		//	fireEvent(EventType.DELETE.name, (Object[])null);
+		if(!_existsInDb)
+			fireEvent(EventType.DELETE.name, (Object[])null);
 	}
 
 	/**
