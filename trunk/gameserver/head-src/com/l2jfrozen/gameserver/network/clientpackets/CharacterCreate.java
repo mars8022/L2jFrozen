@@ -95,15 +95,37 @@ public final class CharacterCreate extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		synchronized (CREATION_LOCK)
+
+		if(_name.length() < 3 || _name.length() > 16 || !Util.isAlphaNumeric(_name) || !isValidName(_name))
+		{
+			if(Config.DEBUG)
+			{
+				_log.fine("charname: " + _name + " is invalid. creation failed.");
+			}
+
+			CharCreateFail ccf = new CharCreateFail(CharCreateFail.REASON_16_ENG_CHARS);
+			sendPacket(ccf);
+			return;
+		}
+
+		if(Config.DEBUG)
+		{
+			_log.fine("charname: " + _name + " classId: " + _classId);
+		}
+
+		L2PcInstance newChar = null;
+		L2PcTemplate template = null;
+
+		/*
+		* Since checks for duplicate names are done using SQL,
+		* lock must be held until data is written to DB as well.
+		*/
+		synchronized (CharNameTable.getInstance())
 		{
 			if(CharNameTable.getInstance().accountCharNumber(getClient().getAccountName()) >= Config.MAX_CHARACTERS_NUMBER_PER_ACCOUNT && Config.MAX_CHARACTERS_NUMBER_PER_ACCOUNT != 0)
 			{
 				if(Config.DEBUG)
-				{
 					_log.fine("Max number of characters reached. Creation failed.");
-				}
-
 				CharCreateFail ccf = new CharCreateFail(CharCreateFail.REASON_TOO_MANY_CHARACTERS);
 				sendPacket(ccf);
 				return;
@@ -111,32 +133,16 @@ public final class CharacterCreate extends L2GameClientPacket
 			else if(CharNameTable.getInstance().doesCharNameExist(_name))
 			{
 				if(Config.DEBUG)
-				{
 					_log.fine("charname: " + _name + " already exists. creation failed.");
-				}
-
 				CharCreateFail ccf = new CharCreateFail(CharCreateFail.REASON_NAME_ALREADY_EXISTS);
 				sendPacket(ccf);
 				return;
 			}
-			else if(_name.length() < 3 || _name.length() > 16 || !Util.isAlphaNumeric(_name) || !isValidName(_name))
-			{
-				if(Config.DEBUG)
-				{
-					_log.fine("charname: " + _name + " is invalid. creation failed.");
-				}
 
-				CharCreateFail ccf = new CharCreateFail(CharCreateFail.REASON_16_ENG_CHARS);
-				sendPacket(ccf);
-				return;
-			}
+			template = CharTemplateTable.getInstance().getTemplate(_classId);
 
 			if(Config.DEBUG)
-			{
-				_log.fine("charname: " + _name + " classId: " + _classId);
-			}
-
-			L2PcTemplate template = CharTemplateTable.getInstance().getTemplate(_classId);
+				_log.fine("charname: " + _name + " classId: " + _classId + " template: " + template);
 
 			if(template == null || template.classBaseLevel > 1)
 			{
@@ -146,8 +152,8 @@ public final class CharacterCreate extends L2GameClientPacket
 			}
 
 			int objectId = IdFactory.getInstance().getNextId();
+			newChar = L2PcInstance.create(objectId, template, getClient().getAccountName(), _name, _hairStyle, _hairColor, _face, _sex != 0);
 
-			L2PcInstance newChar = L2PcInstance.create(objectId, template, getClient().getAccountName(), _name, _hairStyle, _hairColor, _face, _sex != 0);
 			newChar.setCurrentHp(template.baseHpMax);
 			newChar.setCurrentCp(template.baseCpMax);
 			newChar.setCurrentMp(template.baseMpMax);
@@ -158,7 +164,9 @@ public final class CharacterCreate extends L2GameClientPacket
 			sendPacket(cco);
 
 			initNewChar(getClient(), newChar);
+
 		}
+
 	}
 
 	private boolean isValidName(String text)
@@ -176,7 +184,7 @@ public final class CharacterCreate extends L2GameClientPacket
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			
+
 			_log.warning("ERROR : Character name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
@@ -211,29 +219,38 @@ public final class CharacterCreate extends L2GameClientPacket
 		{
 			newChar.addAncientAdena("Init", Config.STARTING_AA, null, false);
 		}
-		
+
 		if(Config.CUSTOM_STARTER_ITEMS_ENABLED)
 		{
-			if (newChar.isMageClass()) {
-				for (int[] reward : Config.STARTING_CUSTOM_ITEMS_M) {
-					if (ItemTable.getInstance().createDummyItem(reward[0]).isStackable()) {
+			if(newChar.isMageClass())
+			{
+				for(int[] reward : Config.STARTING_CUSTOM_ITEMS_M)
+				{
+					if(ItemTable.getInstance().createDummyItem(reward[0]).isStackable())
+					{
 						newChar.getInventory().addItem("Starter Items Mage", reward[0], reward[1], newChar, null);
 					}
-					else {
-						for (int i = 0; i < reward[1]; ++i) {
+					else
+					{
+						for(int i = 0; i < reward[1]; ++i)
+						{
 							newChar.getInventory().addItem("Starter Items Mage", reward[0], 1, newChar, null);
 						}
 					}
 				}
 			}
-			else {
-				for (int[] reward : Config.STARTING_CUSTOM_ITEMS_F)
+			else
+			{
+				for(int[] reward : Config.STARTING_CUSTOM_ITEMS_F)
 				{
-					if (ItemTable.getInstance().createDummyItem(reward[0]).isStackable()) {
+					if(ItemTable.getInstance().createDummyItem(reward[0]).isStackable())
+					{
 						newChar.getInventory().addItem("Starter Items Fighter", reward[0], reward[1], newChar, null);
 					}
-					else {
-						for (int i = 0; i < reward[1]; ++i) {
+					else
+					{
+						for(int i = 0; i < reward[1]; ++i)
+						{
 							newChar.getInventory().addItem("Starter Items Fighter", reward[0], 1, newChar, null);
 						}
 					}

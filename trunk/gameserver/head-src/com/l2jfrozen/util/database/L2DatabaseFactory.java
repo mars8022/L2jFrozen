@@ -51,8 +51,8 @@ public class L2DatabaseFactory
 	// Constructor
 	public L2DatabaseFactory() throws SQLException
 	{
-		if (Config.DATABASE_PARTITION_COUNT > 4){
-			Config.DATABASE_PARTITION_COUNT = 4;
+		if (Config.DATABASE_PARTITION_COUNT > 5){
+			Config.DATABASE_PARTITION_COUNT = 5;
 			_log.warn("max {} db connections partitions.", Config.DATABASE_PARTITION_COUNT);
 		}
 		
@@ -60,10 +60,10 @@ public class L2DatabaseFactory
 			Config.DATABASE_MAX_CONNECTIONS = 5;
 			_log.warn("at least {} db connections are required.", Config.DATABASE_MAX_CONNECTIONS);
 			
-		}else if (Config.DATABASE_MAX_CONNECTIONS * Config.DATABASE_PARTITION_COUNT > 40){
-			_log.warn("Max Connections number is higher then 40.. Using Partition 5 and Connection 10");
-			Config.DATABASE_MAX_CONNECTIONS = 10;
-			Config.DATABASE_PARTITION_COUNT = 4;
+		}else if (Config.DATABASE_MAX_CONNECTIONS * Config.DATABASE_PARTITION_COUNT > 60){
+			_log.warn("Max Connections number is higher then 60.. Using Partition 5 and Connection 12");
+			Config.DATABASE_MAX_CONNECTIONS = 12;
+			Config.DATABASE_PARTITION_COUNT = 5;
 		}
 		
 		
@@ -78,9 +78,9 @@ public class L2DatabaseFactory
 		config.setJdbcUrl(Config.DATABASE_URL);
 		config.setUsername(Config.DATABASE_LOGIN);
 		config.setPassword(Config.DATABASE_PASSWORD);
-		config.setMinConnectionsPerPartition(3);
+		config.setMinConnectionsPerPartition(5);
 		config.setMaxConnectionsPerPartition(Config.DATABASE_MAX_CONNECTIONS);
-		config.setAcquireIncrement(3);
+		config.setAcquireIncrement(5);
 		config.setAcquireRetryAttempts(0); // try to obtain connections indefinitely (0 = never quit)
 		config.setAcquireRetryDelay(500); // 500 miliseconds wait before try to acquire connection again
 		config.setIdleConnectionTestPeriod(0);

@@ -5876,7 +5876,10 @@ public abstract class L2Character extends L2Object
 	 */
 	public final boolean isInsideRadius(L2Object object, int radius, boolean checkZ, boolean strictCheck)
 	{
-		return isInsideRadius(object.getX(), object.getY(), object.getZ(), radius, checkZ, strictCheck);
+		if(object!=null)
+			return isInsideRadius(object.getX(), object.getY(), object.getZ(), radius, checkZ, strictCheck);
+		else
+			return false;
 	}
 
 	/**
@@ -8042,8 +8045,8 @@ public abstract class L2Character extends L2Object
 				skill.useSkill(this, targets);
 			}
 			
-			if(skill.isPotion()){ //if the skill is a potion, must delete the potion item
-				Potions.delete_Potion_Item((L2PlayableInstance) this, skill.getId(), skill.getLevel());
+			if(skill.isPotion() && this instanceof L2PcInstance){ //if the skill is a potion, must delete the potion item
+				Potions.delete_Potion_Item((L2PcInstance) this, skill.getId(), skill.getLevel());
 			}
 
 			if(this instanceof L2PcInstance || this instanceof L2Summon)
