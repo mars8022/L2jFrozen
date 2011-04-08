@@ -1353,7 +1353,8 @@ public final class L2ItemInstance extends L2Object
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getName());
+			if(Config.DEBUG)
+				_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getObjectId());
 			updateInDb();
 		
 		}

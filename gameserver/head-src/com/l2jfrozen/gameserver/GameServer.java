@@ -117,6 +117,7 @@ import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.BanditStrongholdSiege;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.FortressOfResistance;
+import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
 import com.l2jfrozen.gameserver.model.spawn.AutoSpawn;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.L2GamePacketHandler;
@@ -492,6 +493,9 @@ public class GameServer
 		{
 			_log.info("Script: disable load.");
 		}
+		
+		_log.info("Multisell: loading multisell data");
+		L2Multisell.getInstance();  
 
 		Util.printSection("Game Server");
 		_log.info("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
