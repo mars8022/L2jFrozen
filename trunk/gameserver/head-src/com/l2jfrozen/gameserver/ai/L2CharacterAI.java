@@ -39,6 +39,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 import com.l2jfrozen.gameserver.util.Util;
@@ -472,11 +473,8 @@ public class L2CharacterAI extends AbstractAI
 			if(player_char instanceof L2PcInstance){
 				L2PcInstance player = (L2PcInstance) player_char;
 				
-				_log.severe("ATTENTION: Player "+player.getName()+" is trying to use L2Phx Pickup Exploit");
-				player.sendMessage("You are trying to use L2Phx Pickup Exploit. GMs informed");
+				player.sendMessage("Action failed.");
 				clientActionFailed();
-				Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " has used L2Phx Pickup Exploit! Kicked ", Config.DEFAULT_PUNISH);
-				player.closeNetConnection();
 				return;
 			}
 			
