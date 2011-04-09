@@ -1,254 +1,301 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.geo;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
-import com.l2jfrozen.gameserver.geo.pathfinding.Node;
-import com.l2jfrozen.gameserver.geo.pathfinding.cellnodes.CellPathFinding;
-import com.l2jfrozen.gameserver.geo.util.L2Arrays;
-import com.l2jfrozen.gameserver.geo.util.LookupTable;
+import com.l2jfrozen.gameserver.geo.blocks.CompiledBlock;
+import com.l2jfrozen.gameserver.idfactory.IdFactory;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2FortSiegeGuardInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Point3D;
 
+/**
+ * 
+ * @author -Nemesiss-
+ * @author nameless
+ * @since 0.3.0
+ */
 
-public final class GeoEngine extends GeoData
-{
-	private final static byte _e = 1;
-	private final static byte _w = 2;
-	private final static byte _s = 4;
-	private final static byte _n = 8;
-	
-	private static final class SingletonHolder
-	{
-		private static final GeoEngine INSTANCE = new GeoEngine();
-	}
-	
-	public static GeoEngine getInstance()
-	{
-		return SingletonHolder.INSTANCE;
-	}
-	
-	private final LookupTable<MappedByteBuffer> _geodata = new LookupTable<MappedByteBuffer>();
-	private final LookupTable<IntBuffer> _geodataIndex = new LookupTable<IntBuffer>();
+final class GeoEngine extends GeoData {
+	private static final Log _log = LogFactory.getLog(GeoEngine.class);
+
+	protected final static byte EAST = 1, WEST = 2, SOUTH = 4, NORTH = 8, ALL = 15,
+								NONE = 0;
+
 	private BufferedOutputStream _geoBugsOut;
+	private final GeodataRepository geodata = new GeodataRepository();
 	
-	private GeoEngine()
-	{
+	private static GeoEngine _instance;
+	public static GeoEngine getInstance() {
+		return _instance != null ? _instance : (_instance = new GeoEngine());
+	}
+
+	public GeoEngine() {
 		nInitGeodata();
 	}
 
-	@Override
-	public short getType(int x, int y)
-	{
-		return nGetType((x - L2World.MAP_MIN_X) >> 4, (y - L2World.MAP_MIN_Y) >> 4);
+	private static class GeoFile implements FileFilter {
+		@Override
+		public boolean accept(File f) {
+			return !f.isHidden() && f.getName().endsWith(".l2j") && f.length() > 196608;
+		}
 	}
 
-	@Override
-	public short getHeight(int x, int y, int z)
-	{
-		return nGetHeight((x - L2World.MAP_MIN_X) >> 4,(y - L2World.MAP_MIN_Y) >> 4, z);
-	}
-
-	@Override
-	public short getSpawnHeight(int x, int y, int zmin, int zmax, int spawnid)
-	{
-		return nGetSpawnHeight((x - L2World.MAP_MIN_X) >> 4, (y - L2World.MAP_MIN_Y) >> 4, zmin, zmax, spawnid);
-	}
-
-	@Override
-	public String geoPosition(int x, int y)
-	{
-		int gx = (x - L2World.MAP_MIN_X) >> 4;
-		int gy = (y - L2World.MAP_MIN_Y) >> 4;
-		return "bx: " + getBlock(gx) + " by: " + getBlock(gy) + " cx: " + getCell(gx) + " cy: " + getCell(gy) + "  region offset: " + getRegionOffset(gx, gy);
-	}
-
-	@Override
-	public boolean canSeeTarget(L2Object cha, Point3D target)
-	{
-		if(DoorTable.getInstance().checkIfDoorsBetween(cha.getX(), cha.getY(), cha.getZ(), target.getX(), target.getY(), target.getZ()))
-			return false;
-		if(cha.getZ() >= target.getZ())
-			return canSeeTarget(cha.getX(), cha.getY(), cha.getZ(), target.getX(), target.getY(), target.getZ());
-		else
-			return canSeeTarget(target.getX(), target.getY(), target.getZ(), cha.getX(), cha.getY(), cha.getZ());
-	}
-
-	@Override
-	public boolean canSeeTarget(L2Object cha, L2Object target)
-	{
-		// To be able to see over fences and give the player the viewpoint
-		// game client has, all coordinates are lifted 45 from ground.
-		// Because of layer selection in LOS algorithm (it selects -45 there
-		// and some layers can be very close...) do not change this without
-		// changing the LOS code.
-		// Basically the +45 is character height. Raid bosses are naturally higher,
-		// dwarves shorter, but this should work relatively well.
-		// If this is going to be improved, use e.g.
-		// ((L2Character)cha).getTemplate().collisionHeight
-		int z = cha.getZ() + 45;
-		if(cha instanceof L2SiegeGuardInstance)
-			z += 30; // well they don't move closer to balcony fence at the moment :(
-		int z2 = target.getZ() + 45;
-		if(target instanceof L2DoorInstance)
-			return true; // door coordinates are hinge coords..
-		if(DoorTable.getInstance().checkIfDoorsBetween(cha.getX(), cha.getY(), z, target.getX(), target.getY(), z2))
-			return false;
-		if(target instanceof L2SiegeGuardInstance)
-			z2 += 30; // well they don't move closer to balcony fence at the moment :(
-		if(z >= z2)
-			return canSeeTarget(cha.getX(), cha.getY(), z, target.getX(), target.getY(), z2);
-		else
-			return canSeeTarget(target.getX(), target.getY(), z2, cha.getX(), cha.getY(), z);
-	}
-
-	@Override
-	public boolean canSeeTargetDebug(L2PcInstance gm, L2Object target)
-	{
-		// comments: see above
-		int z = gm.getZ() + 45;
-		int z2 = target.getZ() + 45;
-		if(target instanceof L2DoorInstance)
-		{
-			gm.sendMessage("door always true");
-			return true; // door coordinates are hinge coords..
+	private void nInitGeodata() {
+		_log.info("Loading geodata...");
+		File geoFolder = new File("./data/geodata");
+		if (!geoFolder.exists()) {
+			_log.warn("Geodata folder not found!");
+			return;
+		}
+		for (File geo : geoFolder.listFiles(new GeoFile())) {
+			final String name = geo.getName();
+			_log.debug(name);
+			final byte x = Byte.parseByte(name.substring(0, name.indexOf("_"))), y = Byte.parseByte(name.substring(name.indexOf("_") + 1, name.indexOf(".")));
+			try {
+				loadGeodataFile((short) ((x << 5) + y), geo);
+			} catch (Exception e) {
+				_log.warn("Failed to load geodata: " + x + " " + y, e);
+			}
 		}
 
-		if(z >= z2)
-			return canSeeDebug(gm, (gm.getX() - L2World.MAP_MIN_X) >> 4, (gm.getY() - L2World.MAP_MIN_Y) >> 4, z, (target.getX() - L2World.MAP_MIN_X) >> 4, (target.getY() - L2World.MAP_MIN_Y) >> 4, z2);
-		else
-			return canSeeDebug(gm, (target.getX() - L2World.MAP_MIN_X) >> 4, (target.getY() - L2World.MAP_MIN_Y) >> 4, z2, (gm.getX() - L2World.MAP_MIN_X) >> 4, (gm.getY() - L2World.MAP_MIN_Y) >> 4, z);
+		try {
+			_geoBugsOut = new BufferedOutputStream(new FileOutputStream("./data/geodata/geo_bugs.txt", true));
+		} catch (Exception e) {
+			_log.error("Failed to Load geo_bugs.txt File.", e);
+		}
+	}
+
+	/**
+	 * @param region
+	 * @param geo 
+	 * @throws Exception
+	 */
+	private void loadGeodataFile(short region, File geo) throws Exception {
+		FileChannel roChannel = null;
+		try {
+			// Create a read-only memory-mapped file
+			roChannel = new RandomAccessFile(geo, "r").getChannel();
+			MappedByteBuffer geoBuff = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, roChannel.size());
+			geoBuff.order(ByteOrder.LITTLE_ENDIAN);
+			geodata.load(geoBuff, region);
+			geoBuff.clear();
+		} finally {
+			CloseUtil.close(roChannel);
+		}
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.l2scoria.gameserver.geo.GeoData#unloadGeodata(byte, byte)
+	 */
+	@Override
+	public void unloadGeodata(byte x, byte y) {
+		geodata.unload((short) (((x - 10) << 5) + (y - 10)));
+	}
+
+	/**
+	 * Возвращает тип блока геодаты в данной ячейке:
+	 * 0 - short,
+	 * 1 - complex,
+	 * 2 - multilevel
+	 */
+	@Override
+	public int getType(int x, int y) {
+		final int x1 = x - L2World.MAP_MIN_X >> 4, y1 = y - L2World.MAP_MIN_Y >> 4;
+		return geodata.getBlock(getRegionOffset(x1, y1), getBlockOffset(x1, y1)).getType().ordinal();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.l2scoria.gameserver.geo.GeoData#getHeight(int, int, int)
+	 */
+	@Override
+	public short getHeight(int x, int y, int z) {
+		return nGetHeight(x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4, (short) z);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.l2scoria.gameserver.geo.GeoData#getSpawnHeight(int, int, int, int)
+	 */
+	@Override
+	public short getSpawnHeight(int x, int y, int zmin, int zmax) {
+		return nGetSpawnHeight(x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4, (short) zmin, (short) zmax);
 	}
 
 	@Override
-	public short getNSWE(int x, int y, int z)
-	{
-		return nGetNSWE((x - L2World.MAP_MIN_X) >> 4, (y - L2World.MAP_MIN_Y) >> 4, z);
+	public String geoPosition(int x, int y) {
+		int gx = x - L2World.MAP_MIN_X >> 4;
+		int gy = y - L2World.MAP_MIN_Y >> 4;
+		return "block offset: " + getBlockOffset(gx, gy) + " cell offset: " + getCellOffset(gx, gy) + "  region offset: "
+				+ getRegionOffset(gx, gy) + " block offset: " + getBlockOffset(gx, gy);
+	}
+
+	@Override
+	public boolean canSeeTarget(L2Object cha, Point3D target) {
+//		if (DoorTable.getInstance().checkIfDoorsBetween(cha.getX(), cha.getY(), cha.getZ(), target.getX(), target.getY(), target.getZ()))
+//			return false;
+
+		if (cha.getZ() >= target.getZ())
+			return canSeeTarget(cha.getX(), cha.getY(), cha.getZ(), target.getX(), target.getY(), target.getZ());
+		return canSeeTarget(target.getX(), target.getY(), target.getZ(), cha.getX(), cha.getY(), cha.getZ());
 	}
 	
+	/**
+	 * 
+	 * (non-Javadoc)
+	 * @see com.l2scoria.gameserver.geo.GeoData#canSeeTarget(com.l2scoria.gameserver.model.L2Object, com.l2scoria.gameserver.model.L2Object)
+	 */
 	@Override
-	public boolean canMoveFromToTarget(int x, int y, int z, int tx, int ty, int tz)
-	{
+	public boolean canSeeTarget(L2Object cha, L2Object target) {
+		int z = cha.getZ() + 45;
+		int z2 = target.getZ() + 45;
+
+		if (cha instanceof L2SiegeGuardInstance || cha instanceof L2FortSiegeGuardInstance)
+			z += 30;
+
+//		if (!(target instanceof L2DoorInstance)
+//				&& DoorTable.getInstance().checkIfDoorsBetween(cha.getX(), cha.getY(), z, target.getX(), target.getY(), z2))
+//			return false;
+
+		if (target instanceof L2DoorInstance)
+			return true;
+
+		if (target instanceof L2SiegeGuardInstance || target instanceof L2FortSiegeGuardInstance)
+			z2 += 30; // well they don't move closer to balcony fence at the moment :(
+		if (cha.getZ() >= target.getZ())
+			return canSeeTarget(cha.getX(), cha.getY(), z, target.getX(), target.getY(), z2);
+		return canSeeTarget(target.getX(), target.getY(), z2, cha.getX(), cha.getY(), z);
+	}
+
+	@Override
+	public short getNSWE(int x, int y, int z) {
+		return nGetNSWE(x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4, z);
+	}
+
+	@Override
+	public boolean canMoveFromToTarget(int x, int y, int z, int tx, int ty, int tz) {
 		Location destiny = moveCheck(x, y, z, tx, ty, tz);
-		return (destiny.getX() == tx && destiny.getY() == ty && destiny.getZ() == tz);
-	}
-	
-	@Override
-	public Location moveCheck(int x, int y, int z, int tx, int ty, int tz)
-	{
-		Location startpoint = new Location(x, y, z);
-		if(DoorTable.getInstance().checkIfDoorsBetween(x, y, z, tx, ty, tz))
-			return startpoint;
-
-		Location destiny = new Location(tx, ty, tz);
-		return moveCheck(startpoint, destiny, (x - L2World.MAP_MIN_X) >> 4, (y - L2World.MAP_MIN_Y) >> 4, z, (tx - L2World.MAP_MIN_X) >> 4, (ty - L2World.MAP_MIN_Y) >> 4, tz);
+		return (destiny.getX() == tx && destiny.getY() == ty && Math.abs(destiny.getZ() - tz) < 30);
 	}
 
 	@Override
-	public void addGeoDataBug(L2PcInstance gm, String comment)
-	{
-		int gx = (gm.getX() - L2World.MAP_MIN_X) >> 4;
-		int gy = (gm.getY() - L2World.MAP_MIN_Y) >> 4;
-		int bx = getBlock(gx);
-		int by = getBlock(gy);
-		int cx = getCell(gx);
-		int cy = getCell(gy);
-		int rx = (gx >> 11) + 10;
+	public Location moveCheck(int x, int y, int z, int tx, int ty, int tz) {
+//		if (DoorTable.getInstance().checkIfDoorsBetween(x, y, z, tx, ty, tz))
+//			return startpoint;
+
+		return moveCheck(new Location(x, y, z), new Location(tx, ty, tz), x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4, z,
+				tx - L2World.MAP_MIN_X >> 4, ty - L2World.MAP_MIN_Y >> 4, tz);
+	}
+
+	@Override
+	public void addGeoDataBug(L2PcInstance gm, String comment) {
+		int gx = gm.getX() - L2World.MAP_MIN_X >> 4;
+		int gy = gm.getY() - L2World.MAP_MIN_Y >> 4;
+		int boff = getBlockOffset(gx, gy);
+		int coff = getCellOffset(gx, gy);
+		int rx = (gx >> 11) + 15;
 		int ry = (gy >> 11) + 10;
-		String out = rx + ";" + ry + ";" + bx + ";" + by + ";" + cx + ";" + cy + ";" + gm.getZ() + ";" + comment + "\n";
-		try
-		{
+		String out = rx + ";" + ry + ";" + boff + ";" + coff + ";" + gm.getZ() + ";" + comment + "\n";
+		try {
 			_geoBugsOut.write(out.getBytes());
 			_geoBugsOut.flush();
 			gm.sendMessage("GeoData bug saved!");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+		} catch (Exception e) {
+			_log.error("", e);
 			gm.sendMessage("GeoData bug save Failed!");
 		}
 	}
 
 	@Override
-	public boolean canSeeTarget(int x, int y, int z, int tx, int ty, int tz)
-	{
-		return canSee((x - L2World.MAP_MIN_X) >> 4, (y - L2World.MAP_MIN_Y) >> 4, z, (tx - L2World.MAP_MIN_X) >> 4, (ty - L2World.MAP_MIN_Y) >> 4, tz);
+	public boolean canSeeTarget(int x, int y, int z, int tx, int ty, int tz) {
+		return canSee(x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4, z, tx - L2World.MAP_MIN_X >> 4, ty - L2World.MAP_MIN_Y >> 4, tz);
 	}
 
 	@Override
-	public boolean hasGeo(int x, int y)
-	{
-		int gx = (x - L2World.MAP_MIN_X) >> 4;
-		int gy = (y - L2World.MAP_MIN_Y) >> 4;
-		short region = getRegionOffset(gx, gy);
-
-		return _geodata.get(region) != null;
+	public boolean hasGeo(int x, int y) {
+		return geodata.hasGeodata(getRegionOffset(x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4));
 	}
 	
-	private boolean canSee(int x, int y, double z, int tx, int ty, int tz)
-	{
+	@Override public Location[] findPath(int x, int y, int z, int tx, int ty, int tz, L2Character player) {
+		if (!hasGeo(x, y) || !hasGeo(tx, ty)) return null;
+		final int nx = x - L2World.MAP_MIN_X >> 4, ny = y - L2World.MAP_MIN_Y >> 4;
+		final int ndx = tx - L2World.MAP_MIN_X >> 4, ndy = ty - L2World.MAP_MIN_Y >> 4;
+
+		return nFindPath(new Node(nx, ny, z), new Node(ndx, ndy, tz), player);
+	}
+	
+	@Override public void changeDoor(int x, int y, int z, boolean isOpen) {
+		nChangeDoor(x - L2World.MAP_MIN_X >> 4, y - L2World.MAP_MIN_Y >> 4, z, isOpen);
+	}
+
+	// Geodata Methods
+	private static short getRegionOffset(int x, int y) {
+		return (short) ((((x >> 11) + 16) << 5) + (y >> 11) + 10);
+	}
+
+	/**
+	 * (getBlock(x) << 3) + getBlock(y)
+	 */
+	private static int getBlockOffset(int x, int y) {
+		return (((x >> 3) % 256) << 8) + ((y >> 3) % 256);
+	}
+
+	private static int getCellOffset(int x, int y) {
+		//any cell = 0-7
+		return ((x % 8) << 3) + (y % 8);
+	}
+
+	private static int sign(int x) {
+		return x >= 0 ? 1 : -1;
+	}
+
+	protected boolean canSee(int x, int y, int z, int tx, int ty, int tz) {
 		int dx = (tx - x);
 		int dy = (ty - y);
-		final double dz = (tz - z);
+		final int dz = (tz - z);
 		final int distance2 = dx * dx + dy * dy;
 
-		if(distance2 > 90000) // (300*300) 300*16 = 4800 in world coord
-		{
-			//Avoid too long check
+		if (distance2 > 90000)
 			return false;
-		}
-		// very short checks: 9 => 144 world distance
-		// this ensures NLOS function has enough points to calculate,
-		// it might not work when distance is small and path vertical
-		else if(distance2 < 82)
-		{
-			// 150 should be too deep/high.
-			if(dz * dz > 22500)
-			{
-				short region = getRegionOffset(x, y);
-				// geodata is loaded for region and mobs should have correct Z coordinate...
-				// so there would likely be a floor in between the two
-				if(_geodata.get(region) != null)
-					return false;
-			}
-			return true;
-		}
+		else if (distance2 < 82)
+			return !(dz * dz > 22500 && geodata.hasGeodata(getRegionOffset(x, y)));
 
 		// Increment in Z coordinate when moving along X or Y axis
 		// and not straight to the target. This is done because
@@ -257,8 +304,8 @@ public final class GeoEngine extends GeoData
 		final int inc_y = sign(dy);
 		dx = Math.abs(dx);
 		dy = Math.abs(dy);
-		final double inc_z_directionx = dz * dx / (distance2);
-		final double inc_z_directiony = dz * dy / (distance2);
+		final int inc_z_directionx = dz * dx / (distance2);
+		final int inc_z_directiony = dz * dy / (distance2);
 
 		// next_* are used in NLOS check from x,y
 		int next_x = x;
@@ -266,226 +313,72 @@ public final class GeoEngine extends GeoData
 
 		// creates path to the target
 		// calculation stops when next_* == target
-		if(dx >= dy)// dy/dx <= 1
+		if (dx >= dy)// dy/dx <= 1
 		{
-			int delta_A = 2 * dy;
-			int d = delta_A - dx;
-			int delta_B = delta_A - 2 * dx;
+			final int delta_A = 2 * dy;
+			final int delta_B = delta_A - 2 * dx;
 
-			for(int i = 0; i < dx; i++)
-			{
+			for (int i = 0, d = delta_A - dx; i < dx; i++) {
 				x = next_x;
 				y = next_y;
-				if(d > 0)
-				{
-					d += delta_B;
-					next_x += inc_x;
-					z += inc_z_directionx;
-					if(!nLOS(x, y, (int) z, inc_x, 0, inc_z_directionx, tz, false))
-						return false;
-					next_y += inc_y;
-					z += inc_z_directiony;
-					//_log.warning("1: next_x:"+next_x+" next_y"+next_y);
-					if(!nLOS(next_x, y, (int) z, 0, inc_y, inc_z_directiony, tz, false))
-						return false;
-				}
-				else
-				{
-					d += delta_A;
-					next_x += inc_x;
-					//_log.warning("2: next_x:"+next_x+" next_y"+next_y);
-					z += inc_z_directionx;
-					if(!nLOS(x, y, (int) z, inc_x, 0, inc_z_directionx, tz, false))
-						return false;
-				}
-			}
-		}
-		else
-		{
-			int delta_A = 2*dx;
-			int d = delta_A - dy;
-			int delta_B = delta_A - 2 * dy;
-			for(int i = 0; i < dy; i++)
-			{
-				x = next_x;
-				y = next_y;
-				if(d > 0)
-				{
-					d += delta_B;
-					next_y += inc_y;
-					z += inc_z_directiony;
-					if(!nLOS(x, y, (int) z, 0, inc_y, inc_z_directiony, tz, false))
-						return false;
-					next_x += inc_x;
-					z += inc_z_directionx;
-					//_log.warning("3: next_x:"+next_x+" next_y"+next_y);
-					if(!nLOS(x, next_y, (int) z, inc_x, 0, inc_z_directionx, tz, false))
-						return false;
-				}
-				else
-				{
-					d += delta_A;
-					next_y += inc_y;
-					//_log.warning("4: next_x:"+next_x+" next_y"+next_y);
-					z += inc_z_directiony;
-					if(!nLOS(x, y, (int) z, 0, inc_y, inc_z_directiony, tz, false))
-						return false;
-				}
-			}
-		}
-		return true;
-	}
-	/*
-	 * Debug function for checking if there's a line of sight between
-	 * two coordinates.
-	 *
-	 * Creates points for line of sight check (x,y,z towards target) and
-	 * in each point, layer and movement checks are made with NLOS function.
-	 *
-	 * Coordinates here are geodata x,y but z coordinate is world coordinate
-	 */
-	private boolean canSeeDebug(L2PcInstance gm, int x, int y, double z, int tx, int ty, int tz)
-	{
-		int dx = (tx - x);
-		int dy = (ty - y);
-		final double dz = (tz - z);
-		final int distance2 = dx * dx + dy * dy;
+				next_x += inc_x;
+				z += inc_z_directionx;
 
-		if(distance2 > 90000) // (300*300) 300*16 = 4800 in world coord
-		{
-			//Avoid too long check
-			gm.sendMessage("dist > 300");
-			return false;
-		}
-		// very short checks: 9 => 144 world distance
-		// this ensures NLOS function has enough points to calculate,
-		// it might not work when distance is small and path vertical
-		else if(distance2 < 82)
-		{
-			// 150 should be too deep/high.
-			if(dz * dz > 22500)
-			{
-				short region = getRegionOffset(x, y);
-				// geodata is loaded for region and mobs should have correct Z coordinate...
-				// so there would likely be a floor in between the two
-				if(_geodata.get(region) != null)
+				if (!nLOS(x, y, z, inc_x, 0, inc_z_directionx, tz))
 					return false;
-			}
-			return true;
-		}
 
-		// Increment in Z coordinate when moving along X or Y axis
-		// and not straight to the target. This is done because
-		// calculation moves either in X or Y direction.
-		final int inc_x = sign(dx);
-		final int inc_y = sign(dy);
-		dx = Math.abs(dx);
-		dy = Math.abs(dy);
-		final double inc_z_directionx = dz * dx / (distance2);
-		final double inc_z_directiony = dz * dy / (distance2);
-
-		gm.sendMessage("Los: from X: " + x + "Y: " + y + "--->> X: " + tx + " Y: " + ty);
-
-		// next_* are used in NLOS check from x,y
-		int next_x = x;
-		int next_y = y;
-
-		// creates path to the target
-		// calculation stops when next_* == target
-		if(dx >= dy)// dy/dx <= 1
-		{
-			int delta_A = 2 * dy;
-			int d = delta_A - dx;
-			int delta_B = delta_A - 2 * dx;
-
-			for(int i = 0; i < dx; i++)
-			{
-				x = next_x;
-				y = next_y;
-				if(d > 0)
-				{
-					d += delta_B;
-					next_x += inc_x;
-					z += inc_z_directionx;
-					if(!nLOS(x, y, (int) z, inc_x, 0, inc_z_directionx, tz, true))
-						return false;
-					next_y += inc_y;
-					z += inc_z_directiony;
-					//_log.log(Level.WARNING, "1: next_x:"+next_x+" next_y"+next_y);
-					if(!nLOS(next_x, y, (int) z, 0, inc_y, inc_z_directiony, tz, true))
-						return false;
-				}
-				else
-				{
-					d += delta_A;
-					next_x += inc_x;
-					//_log.log(Level.WARNING, "2: next_x:"+next_x+" next_y"+next_y);
-					z += inc_z_directionx;
-					if(!nLOS(x, y, (int) z, inc_x, 0, inc_z_directionx, tz, true))
-						return false;
-				}
-			}
-		}
-		else
-		{
-			int delta_A = 2 * dx;
-			int d = delta_A - dy;
-			int delta_B = delta_A - 2 * dy;
-			for(int i = 0; i < dy; i++)
-			{
-				x = next_x;
-				y = next_y;
-				if(d > 0)
-				{
+				if (d > 0) {
 					d += delta_B;
 					next_y += inc_y;
 					z += inc_z_directiony;
-					if(!nLOS(x, y, (int) z, 0, inc_y, inc_z_directiony, tz, true))
+					if (!nLOS(next_x, y, z, 0, inc_y, inc_z_directiony, tz))
 						return false;
+				} else
+					d += delta_A;
+			}
+		} else {
+			final int delta_A = 2 * dx;
+			final int delta_B = delta_A - 2 * dy;
+			for (int i = 0, d = delta_A - dy; i < dy; i++) {
+				x = next_x;
+				y = next_y;
+				next_y += inc_y;
+				z += inc_z_directiony;
+
+				if (!nLOS(x, y, z, 0, inc_y, inc_z_directiony, tz))
+					return false;
+
+				if (d > 0) {
+					d += delta_B;
 					next_x += inc_x;
 					z += inc_z_directionx;
-					//_log.log(Level.WARNING, "3: next_x:"+next_x+" next_y"+next_y);
-					if(!nLOS(x, next_y, (int) z, inc_x, 0, inc_z_directionx, tz, true))
+					if (!nLOS(x, next_y, z, inc_x, 0, inc_z_directionx, tz))
 						return false;
-				}
-				else
-				{
+				} else
 					d += delta_A;
-					next_y += inc_y;
-					//_log.log(Level.WARNING, "4: next_x:"+next_x+" next_y"+next_y);
-					z += inc_z_directiony;
-					if(!nLOS(x, y, (int) z, 0, inc_y, inc_z_directiony, tz, true))
-						return false;
-				}
 			}
 		}
 		return true;
 	}
-	
-	/*
-	 *  MoveCheck
-	 */
-	private Location moveCheck(Location startpoint, Location destiny, int x, int y, double z, int tx, int ty, int tz)
-	{
+
+	private Location moveCheck(Location startpoint, Location destiny, int x, int y, int z, int tx, int ty, int tz) {
 		int dx = (tx - x);
 		int dy = (ty - y);
 		final int distance2 = dx * dx + dy * dy;
 
-		if(distance2 == 0)
+		if (distance2 == 0)
 			return destiny;
-		if(distance2 > 36100) // 190*190*16 = 3040 world coord
-		{
+		if (distance2 > 102400) {
 			// Avoid too long check
 			// Currently we calculate a middle point
 			// for wyvern users and otherwise for comfort
-			double divider = Math.sqrt((double) 30000 / distance2);
+			final double divider = Math.sqrt((double) 30000 / distance2);
 			tx = x + (int) (divider * dx);
 			ty = y + (int) (divider * dy);
 			int dz = (tz - startpoint.getZ());
 			tz = startpoint.getZ() + (int) (divider * dz);
 			dx = (tx - x);
 			dy = (ty - y);
-			//return startpoint;
 		}
 
 		// Increment in Z coordinate when moving along X or Y axis
@@ -496,1080 +389,497 @@ public final class GeoEngine extends GeoData
 		dx = Math.abs(dx);
 		dy = Math.abs(dy);
 
-		//gm.sendMessage("MoveCheck: from X: "+x+ "Y: "+y+ "--->> X: "+tx+" Y: "+ty);
-
 		// next_* are used in NcanMoveNext check from x,y
 		int next_x = x;
 		int next_y = y;
-		double tempz = z;
+		int tempz = z;
 
 		// creates path to the target, using only x or y direction
 		// calculation stops when next_* == target
-		if(dx >= dy)// dy/dx <= 1
+		if (dx >= dy)// dy/dx <= 1
 		{
-			int delta_A = 2 * dy;
+			final int delta_A = 2 * dy;
+			final int delta_B = delta_A - 2 * dx;
 			int d = delta_A - dx;
-			int delta_B = delta_A - 2 * dx;
-
-			for(int i = 0; i < dx; i++)
+			
+			for (int i = 0; i < dx; i++)
 			{
 				x = next_x;
 				y = next_y;
-				if(d > 0)
+				next_x += inc_x;
+				if (d > 0)
 				{
 					d += delta_B;
-					next_x += inc_x;
-					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
-					if(tempz == Double.MIN_VALUE)
-						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					tempz = nCanMoveNext(x, y, z, next_x, next_y, tz);
+					if (tempz == Short.MIN_VALUE)
+						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, z);
+					z = tempz;
 					next_y += inc_y;
-					//_log.warning("2: next_x:"+next_x+" next_y"+next_y);
-					tempz = nCanMoveNext(next_x, y, (int) z, next_x, next_y, tz);
-					if(tempz == Double.MIN_VALUE)
-						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					tempz = nCanMoveNext(next_x, y, z, next_x, next_y, tz);
+					if (tempz == Short.MIN_VALUE)
+						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, z);
+					z = tempz;
 				}
 				else
 				{
 					d += delta_A;
-					next_x += inc_x;
-					//_log.warning("3: next_x:"+next_x+" next_y"+next_y);
-					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
-					if(tempz == Double.MIN_VALUE)
-						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					tempz = nCanMoveNext(x, y, z, next_x, next_y, tz);
+					if (tempz == Short.MIN_VALUE)
+						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, z);
+					z = tempz;
 				}
 			}
-		}
-		else
-		{
-			int delta_A = 2 * dx;
+		} else {
+			final int delta_A = 2 * dx;
+			final int delta_B = delta_A - 2 * dy;
 			int d = delta_A - dy;
-			int delta_B = delta_A - 2 * dy;
-			for(int i = 0; i < dy; i++)
+			
+			for (int i = 0; i < dy; i++)
 			{
 				x = next_x;
 				y = next_y;
-				if(d > 0)
+				next_y += inc_y;
+				if (d > 0)
 				{
 					d += delta_B;
-					next_y += inc_y;
-					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
-					if(tempz == Double.MIN_VALUE)
-						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					tempz = nCanMoveNext(x, y, z, next_x, next_y, tz);
+					if (tempz == Short.MIN_VALUE)
+						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, z);
+					z = tempz;
 					next_x += inc_x;
-					//_log.warning("5: next_x:"+next_x+" next_y"+next_y);
-					tempz = nCanMoveNext(x, next_y, (int) z, next_x, next_y, tz);
-					if(tempz == Double.MIN_VALUE)
-						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					tempz = nCanMoveNext(x, next_y, z, next_x, next_y, tz);
+					if (tempz == Short.MIN_VALUE)
+						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, z);
+					z = tempz;
 				}
 				else
 				{
 					d += delta_A;
-					next_y += inc_y;
-					//_log.warning("6: next_x:"+next_x+" next_y"+next_y);
-					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
-					if(tempz == Double.MIN_VALUE)
-						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					tempz = nCanMoveNext(x, y, z, next_x, next_y, tz);
+					if (tempz == Short.MIN_VALUE)
+						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, z);
+					z = tempz;
 				}
 			}
 		}
-		if(z == startpoint.getZ()) // geodata hasn't modified Z in any coordinate, i.e. doesn't exist
-			return destiny;
-		else
-			return new Location(destiny.getX(), destiny.getY(), (int) z);
+		
+		return new Location(destiny.getX(), destiny.getY(), z);
 	}
 
-	private byte sign(int x)
-	{
-		if(x >= 0)
-			return +1;
-		else
-			return -1;
-	}
-
-	//GeoEngine
-	private void nInitGeodata()
-	{
-		BufferedReader lnr = null;
-		try
-		{
-			_log.info("Geo Engine: - Loading Geodata...");
-			File Data = new File(Config.DATAPACK_ROOT, "data/geodata/geo_index.txt");
-			if(!Data.exists())
-				return;
-
-			lnr = new BufferedReader(new FileReader(Data));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			throw new Error("Failed to Load geo_index File.");
-		}
-		String line;
-		try
-		{
-			while((line = lnr.readLine()) != null) {
-				if(line.trim().length() == 0)
-					continue;
-				StringTokenizer st = new StringTokenizer(line, "_");
-				byte rx = Byte.parseByte(st.nextToken());
-				byte ry = Byte.parseByte(st.nextToken());
-				loadGeodataFile(rx,ry);
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			throw new Error("Failed to Read geo_index File.");
-		}
-		finally
-		{
-			try
-			{
-				lnr.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-		}
-		try
-		{
-			File geo_bugs = new File(Config.DATAPACK_ROOT, "data/geodata/geo_bugs.txt");
-			_geoBugsOut = new BufferedOutputStream(new FileOutputStream(geo_bugs, true));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			throw new Error("Failed to Load geo_bugs.txt File.");
-		}
-	}
-	
-	@Override
-	public void unloadGeodata(byte rx, byte ry)
-	{
-		short regionoffset = (short) ((rx << 5) + ry);
-		_geodataIndex.set(regionoffset, null);
-		_geodata.set(regionoffset, null);
-	}
-	
-	@Override
-	public boolean loadGeodataFile(byte rx, byte ry)
-	{
-		String fname = "data/geodata/" + rx + "_" + ry + ".l2j";
-		short regionoffset = (short) ((rx << 5) + ry);
-		_log.info("Geo Engine: - Loading: " + fname + " -> region offset: " + regionoffset + "X: " + rx + " Y: " + ry);
-		File Geo = new File(Config.DATAPACK_ROOT, fname);
-		int size, index = 0, block = 0, flor = 0;
-		FileChannel roChannel = null;
-		try
-		{
-			// Create a read-only memory-mapped file
-			roChannel = new RandomAccessFile(Geo, "r").getChannel();
-			size = (int) roChannel.size();
-			MappedByteBuffer geo;
-			if(Config.FORCE_GEODATA) //Force O/S to Loads this buffer's content into physical memory.
-				//it is not guarantee, because the underlying operating system may have paged out some of the buffer's data
-				geo = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, size).load();
-			else
-				geo = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, size);
-			geo.order(ByteOrder.LITTLE_ENDIAN);
-
-			if(size > 196608)
-			{
-				// Indexing geo files, so we will know where each block starts
-				IntBuffer indexs = IntBuffer.allocate(65536);
-				while(block < 65536)
-				{
-					byte type = geo.get(index);
-					indexs.put(block,index);
-					block++;
-					index++;
-					if(type == 0)
-						index += 2; // 1x short
-					else if(type == 1)
-						index += 128; // 64 x short
-					else
-					{
-						for(int b = 0; b < 64; b++)
-						{
-							byte layers = geo.get(index);
-							index += (layers << 1) + 1;
-							if(layers > flor)
-								 flor = layers;
-						}
-					}
-				}
-				_geodataIndex.set(regionoffset, indexs);
-			}
-			_geodata.set(regionoffset,geo);
-
-			_log.info("Geo Engine: - Max Layers: " + flor + " Size: " + size + " Loaded: " + index);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			_log.log(Level.WARNING,"Failed to Load GeoFile at block: " + block + "\n");
-			return false;
-		}
-		finally
-		{
-			try
-			{
-				if(roChannel != null)
-					roChannel.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-		}
-		return true;
-	}
-
-	//Geodata Methods
-	/**
-	 * @param x
-	 * @param y
-	 * @return Region Offset
-	 */
-	private short getRegionOffset(int x, int y)
-	{
-		int rx = x >> 11; // =/(256 * 8)
-		int ry = y >> 11;
-		return (short)(((rx+16) << 5) + (ry+10));
-	}
-
-	/**
-	 * @param geo_pos
-	 * @return Block Index: 0-255
-	 */
-	private int getBlock(int geo_pos)
-	{
-		return (geo_pos >> 3) % 256;
-	}
-
-	/**
-	 * @param geo_pos
-	 * @return Cell Index: 0-7
-	 */
-	private int getCell(int geo_pos)
-	{
-		return geo_pos % 8;
-	}
-
-	//Geodata Functions
-
-	/**
-	 * @param x
-	 * @param y
-	 * @return Type of geo_block: 0-2
-	 */
-	private short nGetType(int x, int y)
-	{
-		short region = getRegionOffset(x, y);
-		int blockX = getBlock(x);
-		int blockY = getBlock(y);
-		int index = 0;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current geodata region
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return 0;
-		}
-		return geo.get(index);
-	}
-	/**
-	 * @param geox
-	 * @param geoy
-	 * @param z
-	 * @return Nearest Z
-	 */
-	private short nGetHeight(int geox, int geoy, int z)
-	{
-		short region = getRegionOffset(geox, geoy);
-		int blockX = getBlock(geox);
-		int blockY = getBlock(geoy);
-		int cellX, cellY, index;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return (short) z;
-		}
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0)//flat
-			return geo.getShort(index);
-		else if(type == 1)//complex
-		{
-			cellX = getCell(geox);
-			cellY = getCell(geoy);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			height = (short) (height & 0x0fff0);
-			height = (short) (height >> 1); //height / 2
-			return height;
-		}
-		else //multilevel
-		{
-			cellX = getCell(geox);
-			cellY = getCell(geoy);
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0)
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
-			}
-			byte layers = geo.get(index);
-			index++;
-			short height = -1;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case1), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
-				return (short) z;
-			}
-			short temph = Short.MIN_VALUE;
-			while(layers > 0)
-			{
-				height = geo.getShort(index);
-				height = (short) (height & 0x0fff0);
-				height = (short) (height >> 1); //height / 2
-				if((z-temph) * (z-temph) > (z-height) * (z-height))
-					temph = height;
-				layers--;
-				index += 2;
-			}
-			return temph;
-		}
-	}
-	
-	/**
-	 * @param geox
-	 * @param geoy
-	 * @param z
-	 * @return One layer higher Z than parameter Z
-	 */
-	private short nGetUpperHeight(int geox, int geoy, int z)
-	{
-		short region = getRegionOffset(geox, geoy);
-		int blockX = getBlock(geox);
-		int blockY = getBlock(geoy);
-		int cellX, cellY, index;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return (short) z;
-		}
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0)//flat
-			return geo.getShort(index);
-		else if(type == 1)//complex
-		{
-			cellX = getCell(geox);
-			cellY = getCell(geoy);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			height = (short) (height & 0x0fff0);
-			height = (short) (height >> 1); //height / 2
-			return height;
-		}
-		else //multilevel
-		{
-			cellX = getCell(geox);
-			cellY = getCell(geoy);
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0)
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
-			}
-			byte layers = geo.get(index);
-			index++;
-			short height =- 1;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case1), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
-				return (short) z;
-			}
-			short temph = Short.MAX_VALUE;
-			while(layers > 0) // from higher to lower
-			{
-				height = geo.getShort(index);
-				height = (short) (height & 0x0fff0);
-				height = (short) (height >> 1); //height / 2
-				if(height < z)
-					return temph;
-				temph = height;
-				layers--;
-				index += 2;
-			}
-			return temph;
-		}
-	}
-	
-	/**
-	 * @param geox
-	 * @param geoy
-	 * @param zmin
-	 * @param zmax
-	 * @return Z betwen zmin and zmax
-	 */
-	private short nGetSpawnHeight(int geox, int geoy, int zmin, int zmax, int spawnid)
-	{
-		short region = getRegionOffset(geox, geoy);
-		int blockX = getBlock(geox);
-		int blockY = getBlock(geoy);
-		int cellX, cellY, index;
-		short temph = Short.MIN_VALUE;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return (short) zmin;
-		}
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0)//flat
-			temph = geo.getShort(index);
-		else if(type == 1)//complex
-		{
-			cellX = getCell(geox);
-			cellY = getCell(geoy);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			height = (short) (height & 0x0fff0);
-			height = (short) (height >> 1); //height / 2
-			temph = height;
-		}
-		else//multilevel
-		{
-			cellX = getCell(geox);
-			cellY = getCell(geoy);
-			short height;
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0)
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
-			}
-			//Read current block type: 0-flat,1-complex,2-multilevel
-			byte layers = geo.get(index);
-			index++;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case2), region: " + region + " - invalid layer count: " + layers + " at: " + geox + " " + geoy);
-				return (short) zmin;
-			}
-			while(layers > 0)
-			{
-				height = geo.getShort(index);
-				height = (short) (height & 0x0fff0);
-				height = (short) (height >> 1); //height / 2
-				if((zmin-temph) * (zmin-temph) > (zmin-height) * (zmin-height))
-					temph = height;
-				layers--;
-				index += 2;
-			}
-			if(temph > zmax + 200 || temph < zmin - 200)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"SpawnHeight Error - Couldnt find correct layer to spawn NPC - GeoData or Spawnlist Bug!: zmin: " + zmin + " zmax: " + zmax + " value: " + temph + " SpawnId: " + spawnid + " at: " + geox + " : " + geoy);
-				return (short) zmin;
-			}
-		}
-		if(temph > zmax + 1000 || temph < zmin - 1000)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"SpawnHeight Error - Spawnlist z value is wrong or GeoData error: zmin: " + zmin + " zmax: " + zmax + " value: " + temph + " SpawnId: " + spawnid + " at: " + geox + " : " + geoy);
-			return (short) zmin;
-		}
-		return temph;
-	}
-	/**
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param tx
-	 * @param ty
-	 * @param tz
-	 * @return True if char can move to (tx,ty,tz)
-	 */
-	private double nCanMoveNext(int x, int y, int z, int tx, int ty, int tz)
-	{
-		short region = getRegionOffset(x, y);
-		int blockX = getBlock(x);
-		int blockY = getBlock(y);
-		int cellX, cellY;
-		short NSWE = 0;
-
-		int index = 0;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
+	protected short nGetHeight(int x, int y, short z) {
+		final short region = getRegionOffset(x, y);
+		if (!geodata.hasGeodata(region))
 			return z;
-		}
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0) //flat
-			return geo.getShort(index);
-		else if(type == 1) //complex
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			NSWE = (short) (height & 0x0F);
-			height = (short) (height & 0x0fff0);
-			height = (short) (height >> 1); //height / 2
-			if(checkNSWE(NSWE, x, y, tx, ty))
-				return height;
-			else
-				return Double.MIN_VALUE;
-		}
-		else //multilevel, type == 2
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0) // iterates (too many times?) to get to layer count
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
-			}
-			byte layers = geo.get(index);
-			//_log.log(Level.WARNING, "layers"+layers);
-			index++;
-			short height = -1;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case3), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
-				return z;
-			}
-			short tempz = Short.MIN_VALUE;
-			while(layers > 0)
-			{
-				height = geo.getShort(index);
-				height = (short) (height & 0x0fff0);
-				height = (short) (height >> 1); //height / 2
 
-				// searches the closest layer to current z coordinate
-				if((z-tempz) * (z-tempz) > (z-height) * (z-height))
-				{
-					//layercurr = layers;
-					tempz = height;
-					NSWE = geo.getShort(index);
-					NSWE = (short) (NSWE & 0x0F);
-				}
-				layers--;
-				index += 2;
-			}
-			if(checkNSWE(NSWE, x, y, tx, ty))
-				return tempz;
-			else
-				return Double.MIN_VALUE;
-		}
-	}
-	
-	/**
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param inc_x
-	 * @param inc_y
-	 * @param tz
-	 * @return True if Char can see target
-	 */
-	private boolean nLOS(int x, int y, int z, int inc_x, int inc_y, double inc_z, int tz, boolean debug)
-	{
-		short region = getRegionOffset(x, y);
-		int blockX = getBlock(x);
-		int blockY = getBlock(y);
-		int cellX, cellY;
-		short NSWE = 0;
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+		final int cell = getCellOffset(x, y);
+		switch (block.getType()) {
+		case FLAT:
+			return block.getHeight();
 
-		int index;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return true;
-		}
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0) //flat, movement and sight always possible
-		{
-			short height = geo.getShort(index);
-			if(debug)
-				_log.log(Level.WARNING,"flatheight:" + height);
-			if(z > height)
-				return inc_z > height;
-			else
-				return inc_z < height;
-		}
-		else if (type == 1) //complex
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			NSWE = (short) (height & 0x0F);
-			height = (short) (height & 0x0fff0);
-			height = (short) (height >> 1); //height / 2
-			if(!checkNSWE(NSWE, x, y, x + inc_x, y + inc_y))
-			{
-				if(debug)
-					_log.log(Level.WARNING,"height:" + height + " z" + z);
+		case COMPLEX:
+			return block.getHeight(cell);
 
-				return z >= nGetUpperHeight(x + inc_x, y + inc_y, height);
-			}
-			else
-				return true;
-		}
-		else //multilevel, type == 2
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0) // iterates (too many times?) to get to layer count
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
-			}
-			byte layers = geo.get(index);
-
-			index++;
-			short tempZ = -1;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case4), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
-				return false;
-			}
-			short upperHeight = Short.MAX_VALUE; // big positive value
-			short lowerHeight = Short.MIN_VALUE; // big negative value
-			byte temp_layers = layers;
-			boolean highestlayer = false;
-			while(temp_layers > 0) // from higher to lower
-			{
-				// reads tempZ for current layer, result in world z coordinate
-				tempZ = geo.getShort(index);
-				tempZ = (short) (tempZ & 0x0fff0);
-				tempZ = (short) (tempZ >> 1); //tempZ / 2
-
-				if(z > tempZ)
-				{
-					lowerHeight = tempZ;
-					NSWE = geo.getShort(index);
-					NSWE = (short) (NSWE & 0x0F);
-					break;
-				}
-				else
-				{
-					highestlayer = false;
-					upperHeight = tempZ;
-				}
-				
-				temp_layers--;
-				index += 2;
-			}
-			if(debug)
-				_log.log(Level.WARNING,"z:" + z + " x: " + cellX + " y:" + cellY + " la " + layers + " lo:" + lowerHeight + " up:" + upperHeight);
-			// Check if LOS goes under a layer/floor
-			// clearly under layer but not too much under
-			// lowerheight here only for geodata bug checking, layers very close? maybe could be removed
-			if((z - upperHeight) < -10 && (z - upperHeight) > inc_z - 10 && (z - lowerHeight) > 40)
-			{
-				if(debug)
-					_log.log(Level.WARNING,"false, incz" + inc_z);
-				return false;
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell);
+			if(layers == 0) return block.getHeight(cell, layers);
+			short height = Short.MIN_VALUE;
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if (Math.abs(z - height) >= Math.abs(z - temp))
+					height = temp;
 			}
 			
-			// or there's a fence/wall ahead when we're not on highest layer
-			if(!highestlayer)
-			{
-				//a probable wall, there's movement block and layers above you
-				if(!checkNSWE(NSWE, x, y, x + inc_x, y + inc_y)) // cannot move
-				{
-					if(debug)
-						_log.log(Level.WARNING,"block and next in x" + inc_x + " y" + inc_y + " is:" + nGetUpperHeight(x + inc_x, y + inc_y, lowerHeight));
-					// check one inc_x inc_y further, for the height there
-					return z >= nGetUpperHeight(x + inc_x, y + inc_y, lowerHeight);
-				}
-				else
-					return true;
-			}
-			if(!checkNSWE(NSWE, x, y, x + inc_x, y + inc_y))
-			{
-				// check one inc_x inc_y further, for the height there
-				return z >= nGetUpperHeight(x + inc_x, y + inc_y, lowerHeight);
-			}
-			else
-				return true;
+			return height;
 		}
+		return z;
 	}
 	
 	/**
+	 * @return One layer higher Z than parameter Z
+	 */
+	private short nGetUpperHeight(int x, int y, short z) {
+		final short region = getRegionOffset(x, y);
+
+		if (!geodata.hasGeodata(region))
+			return z;
+
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+		final int cell = getCellOffset(x, y);
+		switch (block.getType()) {
+		case FLAT:
+			return block.getHeight();
+
+		case COMPLEX:
+			return block.getHeight(cell);
+
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell);
+			if(layers == 0) return block.getHeight(cell, layers);
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if (temp < z)
+					return temp;
+			}
+			return z;
+		}
+		return z;
+	}
+
+	/**
+	 * @return Z betwen zmin and zmax
+	 */
+	private short nGetSpawnHeight(int x, int y, short zmin, short zmax) {
+		final short region = getRegionOffset(x, y);
+
+		if (!geodata.hasGeodata(region))
+			return zmin;
+
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+		final int cell = getCellOffset(x, y);
+		short height = Short.MIN_VALUE;
+		switch (block.getType()) {
+		case FLAT:
+			height = block.getHeight();
+			return height > zmax + 1000 || height < zmin - 1000 ? zmin : height;
+
+		case COMPLEX:
+			height = block.getHeight(cell);
+			return height > zmax + 1000 || height < zmin - 1000 ? zmin : height;
+
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell);
+			if(layers == 0) return block.getHeight(cell, layers);
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if (Math.abs(zmin - height) > Math.abs(zmin - temp))
+					height = temp;
+			}
+
+			return height > zmax + 1000 || height < zmin - 1000 ? zmin : height;
+		}
+
+		return zmin;
+	}
+
+	/**
+	 * Height if char can move to (tx,ty,tz), or Short.MIN_VALUE
+	 * @return
+	 */
+	private int nCanMoveNext(int x, int y, int z, int tx, int ty, int tz) {
+		final short region = getRegionOffset(x, y);
+
+		if (!geodata.hasGeodata(region))
+			return z;
+
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+
+		short height = Short.MIN_VALUE;
+		byte NSWE = NONE;
+		final int cell = getCellOffset(x, y);
+		switch (block.getType()) {
+		case FLAT:
+			return block.getHeight();
+
+		case COMPLEX:
+			NSWE = block.getNSWE(cell);
+			height = block.getHeight(cell);
+			return checkNSWE(NSWE, x, y, tx, ty) ? height : Short.MIN_VALUE;
+
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell);
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if(Math.abs(z - height) > Math.abs(z - temp)) {
+					height = temp;
+					NSWE = block.getNSWE(cell, layers);
+				}
+			}
+			return checkNSWE(NSWE, x, y, tx, ty) ? height : Short.MIN_VALUE;
+		}
+
+		return z;
+	}
+
+	/**
+	 * @return True if Char can see target
+	 */
+	private boolean nLOS(int x, int y, int z, int inc_x, int inc_y, int inc_z, int tz) {
+		final short region = getRegionOffset(x, y);
+
+		if (!geodata.hasGeodata(region))
+			return true;
+
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+
+		byte NSWE = ALL;
+		short height = Short.MAX_VALUE;
+		final int cell = getCellOffset(x, y);
+		switch (block.getType()) {
+		case FLAT:
+			height = block.getHeight();
+			return z > height ? z + inc_z > height : z + inc_z < height;
+
+		case COMPLEX:
+			height = block.getHeight(cell);
+			NSWE = block.getNSWE(cell);
+			return !checkNSWE(NSWE, x, y, x + inc_x, y + inc_y) ? !(z >= nGetUpperHeight(x + inc_x, y + inc_y, height)) : true;
+
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell);
+			short lowHeight = Short.MIN_VALUE;
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if (z > temp) {
+					lowHeight = temp;
+					NSWE = block.getNSWE(cell, layers);
+					break;
+				}
+				height = temp;
+			}
+			
+			return ((z - height) < -10 && (z - height) > inc_z - 20 && (z - lowHeight) > 40) ? false : !checkNSWE(NSWE, x, y, x + inc_x, y + inc_y) ? !(z < nGetUpperHeight(x + inc_x, y + inc_y, lowHeight)) : true;
+		}
+		return true;
+	}
+
+	/**
+	 * @return NSWE: 0-15
+	 */
+	protected byte nGetNSWE(int x, int y, int z) {
+		final short region = getRegionOffset(x, y);
+
+		if (!geodata.hasGeodata(region))
+			return ALL;
+
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+		final int cell = getCellOffset(x, y);
+		switch (block.getType()) {
+		case FLAT:
+			return ALL;
+
+		case COMPLEX:
+			return block.getNSWE(cell);
+
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell);
+			if(layers == 0) return block.getNSWE(cell, layers);
+			byte NSWE = NONE;
+			short height = Short.MIN_VALUE;
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if (Math.abs(z - height) > Math.abs(z - temp)) {
+					height = temp;
+					NSWE = block.getNSWE(cell, layers);
+				}
+			}
+
+			return NSWE;
+		}
+		return NONE;
+	}
+
+	/**
+	 * Change door open/close status
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @return NSWE: 0-15
+	 * @param isOpen
 	 */
-	private short nGetNSWE(int x, int y, int z)
-	{
-		short region = getRegionOffset(x, y);
-		int blockX = getBlock(x);
-		int blockY = getBlock(y);
-		int cellX, cellY;
-		short NSWE = 0;
-
-		int index = 0;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return 15;
-		}
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0)//flat
-			return 15;
-		else if(type == 1)//complex
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			NSWE = (short) (height & 0x0F);
-		}
-		else//multilevel
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0)
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
+	private void nChangeDoor(int x, int y, int z, boolean isOpen) {
+		final short region = getRegionOffset(x, y);
+		if(!geodata.hasGeodata(region)) return;
+		final CompiledBlock block = geodata.getBlock(region, getBlockOffset(x, y));
+		final int cell = getCellOffset(x, y);
+		switch (block.getType()) {
+		case COMPLEX:
+			block.changeDoor(cell, isOpen);
+			break;
+			
+		case MULTILEVEL:
+			byte layers = block.getLayers(cell), currLayer = NONE;
+			if(layers == 0) {
+				block.changeDoor(cell, layers, isOpen);
+				break;
 			}
-			byte layers = geo.get(index);
-			index++;
-			short height = -1;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case5), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
-				return 15;
-			}
-			short tempz = Short.MIN_VALUE;
-			while(layers > 0)
-			{
-				height = geo.getShort(index);
-				height = (short) (height & 0x0fff0);
-				height = (short) (height >> 1); //height / 2
-
-				if((z-tempz) * (z-tempz) > (z-height) * (z-height))
-				{
-					tempz = height;
-					NSWE = geo.get(index);
-					NSWE = (short) (NSWE & 0x0F);
+			short height = Short.MIN_VALUE;
+			for (short temp; layers > -1; layers--) {
+				temp = block.getHeight(cell, layers);
+				if (Math.abs(z - height) > Math.abs(z - temp)) {
+					height = temp;
+					currLayer = layers;
 				}
-				layers--;
-				index += 2;
 			}
+			block.changeDoor(cell, currLayer, isOpen);
+			break;
 		}
-		return NSWE;
 	}
+
+	/**
+	 * Pathfinding by the modified algorithm A *. <br>
+	 * Differences from classical A*:
+	 * <li> Using the direction of wave
+	 * <li> Used assignment of a priority to each point
+	 * <li> Used diagonal points
+	 * 
+	 * @param start start node
+	 * @param end end node
+	 * @return path or null (path not found or path is not exist)
+	 */
+	private Location[] nFindPath(Node start, Node end, L2Character player) {
+		final List<Node> visited = new ArrayList<Node>();
+		final LinkedList<Node> to_visit = new LinkedList<Node>();
+		to_visit.add(start);
+		visited.add(start);
+		final int targetx = end.getNodeX(),
+		targety = end.getNodeY(),
+		targetz = end.getZ();
 	
-	/**
-	 * @param n
-	 * @return NSWE: 0-15
-	 */
-	@Override
-	public Node[] getNeighbors(Node n)
-	{
-		Node newNode;
-		int x = n.getNodeX();
-		int y = n.getNodeY();
-		int parentdirection = 0;
-		if(n.getParent() != null) // check for not adding parent again
-		{
-			if(n.getParent().getNodeX() > x) parentdirection = 1;
-			if(n.getParent().getNodeX() < x) parentdirection = -1;
-			if(n.getParent().getNodeY() > y) parentdirection = 2;
-			if(n.getParent().getNodeY() < y) parentdirection = -2;
-		}
-		short z = n.getZ();
-		short region = getRegionOffset(x, y);
-		int blockX = getBlock(x);
-		int blockY = getBlock(y);
-		int cellX, cellY;
-		short NSWE = 0;
-		int index = 0;
-		//Geodata without index - it is just empty so index can be calculated on the fly
-		if(_geodataIndex.get(region) == null)
-			index = ((blockX << 8) + blockY) * 3;
-		//Get Index for current block of current region geodata
-		else
-			index = _geodataIndex.get(region).get((blockX << 8) + blockY);
-		//Buffer that Contains current Region GeoData
-		ByteBuffer geo = _geodata.get(region);
-		if(geo == null)
-		{
-			if(Config.DEBUG)
-				_log.log(Level.WARNING,"Geo Region - Region Offset: " + region + " dosnt exist!!");
-			return null;
-		}
-		
-		final Node[] Neighbors = new Node[4];
-		int arrayIndex = 0;
-		
-		//Read current block type: 0-flat,1-complex,2-multilevel
-		byte type = geo.get(index);
-		index++;
-		if(type == 0)//flat
-		{
-			short height = geo.getShort(index);
-			n.setZ(height);
-			if(parentdirection != 1)
-			{
-				newNode = CellPathFinding.getInstance().readNode(x + 1, y, height);
-				//newNode.setCost(0);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != 2)
-			{
-				newNode = CellPathFinding.getInstance().readNode(x, y + 1, height);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != -2)
-			{
-				newNode = CellPathFinding.getInstance().readNode(x, y - 1, height);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != -1)
-			{
-				newNode = CellPathFinding.getInstance().readNode(x - 1, y, height);
-				Neighbors[arrayIndex++] = newNode;
+		int dx, dy, dz;
+		boolean added;
+	
+		Node node;
+		for(int i = 0; i < Config.PATHFIND_DISTANCE; i++) {
+			node = to_visit.pollFirst();
+			if(node == null) return null;
+			if (node.equals(end)) return constructPath(node, player);
+			 
+			node.attachNeighbors();
+			
+			for (Node n : node.getNeighbors()) {
+				if(n == null) break;
+				if (visited.contains(n)) continue;
+				if(Math.abs(n.getZ() - n.getParent().getZ()) > 150) continue;
+				
+				added = false;
+				dx = targetx - n.getNodeX();
+				dy = targety - n.getNodeY();
+				dz = targetz - n.getZ();
+				n.setCost((int) Math.sqrt(dx * dx + dy * dy + dz * dz)); //distance and node priority, old priority math: short dx * dx + dy * dy + dz / 2 * dz
+				for (int index = 0; index < to_visit.size(); index++)
+					if(n.getCost() < to_visit.get(index).getCost()) {
+						to_visit.add(index, n);
+						added = true;
+						break;
+					}
+				if (!added)
+					to_visit.addLast(n);
+				visited.add(n);
 			}
 		}
-		else if(type == 1)//complex
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			index += ((cellX << 3) + cellY) << 1;
-			short height = geo.getShort(index);
-			NSWE = (short) (height & 0x0F);
-			height = (short) (height & 0x0fff0);
-			height = (short)(height >> 1); //height / 2
-			n.setZ(height);
-			if(NSWE != 15 && parentdirection != 0)
-				return null; // no node with a block will be used
-			if(parentdirection != 1 && checkNSWE(NSWE, x, y, x + 1, y))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x + 1, y, height);
-				//newNode.setCost(basecost+50);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != 2 && checkNSWE(NSWE, x, y, x, y + 1))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x, y + 1, height);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != -2 && checkNSWE(NSWE, x, y, x, y - 1))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x, y - 1, height);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != -1 && checkNSWE(NSWE, x, y, x - 1, y))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x-1, y, height);
-				Neighbors[arrayIndex++] = newNode;
-			}
-		}
-		else//multilevel
-		{
-			cellX = getCell(x);
-			cellY = getCell(y);
-			int offset = (cellX << 3) + cellY;
-			while(offset > 0)
-			{
-				byte lc = geo.get(index);
-				index += (lc << 1) + 1;
-				offset--;
-			}
-			byte layers = geo.get(index);
-			index++;
-			short height = -1;
-			if(layers <= 0 || layers > 125)
-			{
-				if(Config.DEBUG)
-					_log.log(Level.WARNING,"Broken geofile (case5), region: " + region + " - invalid layer count: " + layers + " at: " + x + " " + y);
-				return null;
-			}
-			short tempz = Short.MIN_VALUE;
-			while(layers > 0)
-			{
-				height = geo.getShort(index);
-				height = (short) (height & 0x0fff0);
-				height = (short) (height >> 1); //height / 2
-
-				if((z-tempz) * (z-tempz) > (z-height) * (z-height))
-				{
-					tempz = height;
-					NSWE = geo.get(index);
-					NSWE = (short) (NSWE & 0x0F);
-				}
-				layers--;
-				index += 2;
-			}
-			n.setZ(tempz);
-			if(NSWE != 15 && parentdirection != 0)
-				return null; // no node with a block will be used
-			if(parentdirection != 1 && checkNSWE(NSWE, x, y, x + 1, y))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x+1,y,tempz);
-				//newNode.setCost(basecost+50);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != 2 && checkNSWE(NSWE, x, y, x, y + 1))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x, y + 1, tempz);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != -2 && checkNSWE(NSWE, x, y, x, y - 1))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x, y - 1, tempz);
-				Neighbors[arrayIndex++] = newNode;
-			}
-			if(parentdirection != -1 && checkNSWE(NSWE, x, y, x - 1, y))
-			{
-				newNode = CellPathFinding.getInstance().readNode(x - 1, y, tempz);
-				Neighbors[arrayIndex++] = newNode;
-			}
-		}
-		
-		return L2Arrays.compact(Neighbors);
+	
+		return null;
 	}
 
 	/**
-	 * @param NSWE
-	 * @param x
-	 * @param y
-	 * @param tx
-	 * @param ty
 	 * @return True if NSWE dont block given direction
 	 */
-	private boolean checkNSWE(short NSWE, int x, int y, int tx, int ty)
-	{
-		//Check NSWE
-		if(NSWE == 15)
-		   return true;
-		if(tx > x)//E
-		{
-			if((NSWE & _e) == 0)
-				return false;
-		}
-		else if(tx < x)//W
-		{
-			if((NSWE & _w) == 0)
-				return false;
-		}
-		if(ty > y)//S
-		{
-			if((NSWE & _s) == 0)
-				return false;
-		}
-		else if(ty < y)//N
-		{
-			if((NSWE & _n) == 0)
-				return false;
-		}
+	protected static boolean checkNSWE(byte NSWE, int x, int y, int tx, int ty) {
+		if (NSWE == ALL) return true;
+		if(NSWE == NONE) return false;
+		if(tx > x) {
+			if ((NSWE & EAST) == 0) return false;
+		} else if (tx < x) if((NSWE & WEST) == NONE)
+			return false;
+		if (ty > y) { 
+			if((NSWE & SOUTH) == 0) return false;
+		} else if (ty < y) if((NSWE & NORTH) == NONE)
+			return false;
 		return true;
+	}
+	
+	private final static List<L2ItemInstance> debugPath = Config.DEBUG ? new ArrayList<L2ItemInstance>() : null;
+	private Location[] constructPath(final Node node, L2Character player) {
+		final LinkedList<Location> path = new LinkedList<Location>();
+		int previousdirectionx = Integer.MIN_VALUE, previousdirectiony = Integer.MIN_VALUE;
+		int directionx, directiony, directionz;
+		
+		boolean addNextNode = true;
+		for(Node nextNode = node; nextNode.getParent() != null; nextNode = nextNode.getParent()) {
+			if(!addNextNode) {
+				addNextNode = true;
+				continue;
+			}
+			if (!Node.ENABLE_DIAGONAL_FIND && nextNode.getParent().getParent() != null) {
+				directionx = nextNode.getNodeX() - nextNode.getParent().getParent().getNodeX();
+				directiony = nextNode.getNodeY() - nextNode.getParent().getParent().getNodeY();
+				if(Math.abs(directiony) != Math.abs(directiony)) {
+					directionx = nextNode.getNodeX() - nextNode.getParent().getNodeX();
+					directiony = nextNode.getNodeY() - nextNode.getParent().getNodeY();
+				}
+			} else {
+				directionx = nextNode.getNodeX() - nextNode.getParent().getNodeX();
+				directiony = nextNode.getNodeY() - nextNode.getParent().getNodeY();
+			}
+			
+			directionz = nextNode.getZ() - nextNode.getParent().getZ();
+			
+			if(nextNode.getParent().getParent() != null && 
+				((nextNode.getNodeX() == nextNode.getParent().getNodeX() && nextNode.getNodeX() == nextNode.getParent().getParent().getX()) ||
+				(nextNode.getNodeY() == nextNode.getParent().getNodeY() && nextNode.getNodeY() == nextNode.getParent().getParent().getY()))) {
+				addNextNode = false;
+			}
+			
+			if (directionx != previousdirectionx || directiony != previousdirectiony || directionz > 30) {
+				previousdirectionx = directionx;
+				previousdirectiony = directiony;
+				path.addFirst(nextNode.getLocation());
+			} else addNextNode = true;
+		}
+		
+		if(Config.DEBUG && player != null && player.charIsGM()) {
+			for(L2ItemInstance item : debugPath)
+				item.decayMe();
+			debugPath.clear();
+			for(Location loc : path) {
+				final L2ItemInstance item = new L2ItemInstance(IdFactory.getInstance().getNextId(), 57);
+				item.dropMe(null, loc.getX(), loc.getY(), loc.getZ());
+				debugPath.add(item);
+			}
+		}
+		
+		if(path.size() > 2) pathSmoothing(path, player);
+		
+		if(Config.DEBUG && player != null && player.charIsGM()) {
+			for(Location loc : path) {
+				final L2ItemInstance item = new L2ItemInstance(IdFactory.getInstance().getNextId(), 735);
+        		item.dropMe(null, loc.getX(), loc.getY(), loc.getZ());
+        		debugPath.add(item);
+			}
+		}
+		return path.toArray(new Location[path.size()]);
+	}
+
+	/**
+	 * Check on passableness 3х points ({@link #canMoveFromToTarget(int, int, int, int, int, int) canMoveFromToTarget})
+	 *  if its possible to pass - deleted 2 point.<br>
+	 * 
+	 * @param path
+	 */
+	private void pathSmoothing(List<Location> path, L2Character player) {
+		Location start, check, end;
+		boolean isSmoothind;
+		int i = 0;
+		do {
+			isSmoothind = false;
+    		for(int index = 0, size = path.size(); index < size - 2;) {
+    			start = path.get(index);
+    			check = path.get(index+1);
+    			end = path.get(index+2);
+    			if((start.getX() == end.getX() && check.getX() == end.getX()) || (start.getY() == end.getY() && check.getY() == end.getY())) {
+    				isSmoothind = true;
+        			path.remove(index+1);
+        			size--;
+            		continue;
+        		}
+        		if(!canMoveFromToTarget(start.getX(), start.getY(), start.getZ(), end.getX(), end.getY(), end.getZ())) {
+        			index++;
+        			continue;
+        		}
+        		isSmoothind = true;
+    			path.remove(index+1);
+    			size--;
+    		}
+		} while(player != null && i++ < Config.PATHFIND_SMOOTHING_LEVEL && path.size() > 2 && isSmoothind);
 	}
 }

@@ -40,12 +40,9 @@ import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
-import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable.TeleportWhereType;
 import com.l2jfrozen.gameserver.geo.GeoData;
-import com.l2jfrozen.gameserver.geo.pathfinding.Node;
-import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.handler.itemhandlers.Potions;
@@ -4215,9 +4212,8 @@ public abstract class L2Character extends L2Object
 		public double _zAccurate;
 		public int _heading;
 
-		public boolean disregardingGeodata;
 		public int onGeodataPathIndex;
-		public Node[] geoPath;
+		public Location[] geoPath;
 		public int geoPathAccurateTx;
 		public int geoPathAccurateTy;
 		public int geoPathGtx;
@@ -5083,10 +5079,10 @@ public abstract class L2Character extends L2Object
 			dy = m._yDestination - m._yAccurate;
 		}
 		// Z coordinate will follow geodata or client values
-		if(Config.GEODATA > 0 && Config.COORD_SYNCHRONIZE == 2 && !isFlying() && !isInsideZone(L2Character.ZONE_WATER) && !m.disregardingGeodata && GameTimeController.getGameTicks() % 10 == 0 // once a second to reduce possible cpu load
+		if(Config.GEODATA > 0 && Config.COORD_SYNCHRONIZE == 2 && !isFlying() && !isInsideZone(L2Character.ZONE_WATER) && GameTimeController.getGameTicks() % 10 == 0 // once a second to reduce possible cpu load
 			&& !(this instanceof L2BoatInstance))
 		{
-			short geoHeight = GeoData.getInstance().getSpawnHeight(xPrev, yPrev, zPrev - 30, zPrev + 30, getObjectId());
+			short geoHeight = GeoData.getInstance().getSpawnHeight(xPrev, yPrev, zPrev - 30, zPrev + 30);
 			dz = m._zDestination - geoHeight;
 			// quite a big difference, compare to validatePosition packet
 			if(this instanceof L2PcInstance && Math.abs(((L2PcInstance) this).getClientZ() - geoHeight) > 200 && Math.abs(((L2PcInstance) this).getClientZ() - geoHeight) < 1500)
@@ -5468,7 +5464,6 @@ public abstract class L2Character extends L2Object
 		// GEODATA MOVEMENT CHECKS AND PATHFINDING
 
 		m.onGeodataPathIndex = -1; // Initialize not on geodata path
-		m.disregardingGeodata = false;
 		//Р»РµС‚Р°СЋС‰РёРµ РѕР±СЊРµРєС‚С‹ РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РїСЂРѕРІРµСЂРµРЅС‹, С‚Р°Рє Р¶Рµ РїР»Р°РІР°СЋС‰РёРµ, РѕР±СЊРµРєС‚С‹ РЅР° РѕСЃР°РґРµ (СЃР»РёС€РєРѕРј Р±РѕР»СЊС€Р°СЏ РґРёСЃС‚Р°РЅС†РёСЏ) Рё С…РѕРґСЏС‰РёРµ РќРџР¦
 		if(Config.GEODATA > 0 && !isFlying() && (!isInsideZone(ZONE_WATER) || isInsideZone(ZONE_SIEGE)) && !(this instanceof L2NpcWalkerInstance))
 		{
@@ -5482,23 +5477,13 @@ public abstract class L2Character extends L2Object
 			// Movement checks:
 			// when geodata == 2, for all characters except mobs returning home (could be changed later to teleport if pathfinding fails)
 			// when geodata == 1, for l2playableinstance and l2riftinstance only
-			if(Config.GEODATA >0 && !(this instanceof L2Attackable && ((L2Attackable) this).isReturningToSpawnPoint()) || this instanceof L2PcInstance || this instanceof L2Summon && !(getAI().getIntention() == AI_INTENTION_FOLLOW) || this instanceof L2RiftInvaderInstance || isAfraid())
+			if(Config.GEODATA == 2 && !(this instanceof L2Attackable && ((L2Attackable) this).isReturningToSpawnPoint()) || this instanceof L2PcInstance || this instanceof L2Summon && !(getAI().getIntention() == AI_INTENTION_FOLLOW) || this instanceof L2RiftInvaderInstance || isAfraid())
 			{
 				if(isOnGeodataPath())
 				{
-					try
-					{
-						if(gtx == _move.geoPathGtx && gty == _move.geoPathGty)
-							return;
-						else
-						{
-							_move.onGeodataPathIndex = -1; // Set not on geodata path
-						}
-					}
-					catch(NullPointerException e)
-					{
-						//null
-					}
+					if(gtx == _move.geoPathGtx && gty == _move.geoPathGty)
+						return;
+					_move.onGeodataPathIndex = -1; // Set not on geodata path
 				}
 
 				if(curX < L2World.MAP_MIN_X || curX > L2World.MAP_MAX_X || curY < L2World.MAP_MIN_Y || curY > L2World.MAP_MAX_Y)
@@ -5508,6 +5493,7 @@ public abstract class L2Character extends L2Object
 					getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 					if(this instanceof L2PcInstance)
 					{
+						teleToLocation(MapRegionTable.TeleportWhereType.Town);
 						((L2PcInstance) this).deleteMe();
 					}
 					else
@@ -5528,29 +5514,25 @@ public abstract class L2Character extends L2Object
 			// Pathfinding checks. Only when geodata setting is 2, the LoS check gives shorter result
 			// than the original movement was and the LoS gives a shorter distance than 2000
 			// This way of detecting need for pathfinding could be changed.
-			if( !(this instanceof L2PcInstance) && Config.GEODATA == 2 && originalDistance - distance > 100 && distance < 2000 && !isAfraid())
+			if(Config.GEODATA == 2 && originalDistance - distance > 30 && distance < 2000 && !isAfraid())
 			{
 				// Path calculation
 				// Overrides previous movement check
 				if(this instanceof L2PlayableInstance || isInCombat() || this instanceof L2MinionInstance)
 				{
-					//int gx = (curX - L2World.MAP_MIN_X) >> 4;
-					//int gy = (curY - L2World.MAP_MIN_Y) >> 4;
-
-					m.geoPath = PathFinding.getInstance().findPath(curX, curY, curZ, originalX, originalY, originalZ);
+					m.geoPath = GeoData.getInstance().findPath(curX, curY, curZ, originalX, originalY, originalZ, this instanceof L2PcInstance ? this : null);
 					if(m.geoPath == null || m.geoPath.length < 2) // No path found
 					{
 						// Even though there's no path found (remember geonodes aren't perfect), 
 						// the mob is attacking and right now we set it so that the mob will go
 						// after target anyway, is dz is small enough. Summons will follow their masters no matter what.
-						if(/*this instanceof L2PcInstance || */!(this instanceof L2PlayableInstance) && Math.abs(z - curZ) > 140 || this instanceof L2Summon && !((L2Summon) this).getFollowStatus())
+						if(this instanceof L2PcInstance || !(this instanceof L2PlayableInstance) && Math.abs(z - curZ) > 140 || this instanceof L2Summon && !((L2Summon) this).getFollowStatus())
 						{
 							getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 							return;
 						}
 						else
 						{
-							m.disregardingGeodata = true;
 							x = originalX;
 							y = originalY;
 							z = originalZ;
@@ -5570,22 +5552,22 @@ public abstract class L2Character extends L2Object
 						z = m.geoPath[m.onGeodataPathIndex].getZ();
 
 						// check for doors in the route
-						if(DoorTable.getInstance().checkIfDoorsBetween(curX, curY, curZ, x, y, z))
-						{
-							m.geoPath = null;
-							getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-							return;
-						}
+//						if(DoorTable.getInstance().checkIfDoorsBetween(curX, curY, curZ, x, y, z))
+//						{
+//							m.geoPath = null;
+//							getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+//							return;
+//						}
 
-						for(int i = 0; i < m.geoPath.length - 1; i++)
-						{
-							if(DoorTable.getInstance().checkIfDoorsBetween(m.geoPath[i], m.geoPath[i+1]))
-							{
-								m.geoPath = null;
-								getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-								return;
-							}
-						}
+//						for(int i = 0; i < m.geoPath.length - 1; i++)
+//						{
+//							if(DoorTable.getInstance().checkIfDoorsBetween(m.geoPath[i], m.geoPath[i+1]))
+//							{
+//								m.geoPath = null;
+//								getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+//								return;
+//							}
+//						}
 
 						dx = x - curX;
 						dy = y - curY;
@@ -5615,6 +5597,9 @@ public abstract class L2Character extends L2Object
 				return;
 			}
 		}
+		
+		if ((isFlying() || isInsideZone(ZONE_WATER)))
+			distance = Math.sqrt(distance * distance + dz * dz);
 
 		// Caclulate the Nb of ticks between the current position and the destination
 		// One tick added for rounding reasons

@@ -73,7 +73,6 @@ import com.l2jfrozen.gameserver.datatables.xml.AugmentationData;
 import com.l2jfrozen.gameserver.datatables.xml.ZoneData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.geo.geoeditorcon.GeoEditorListener;
-import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
 import com.l2jfrozen.gameserver.handler.AdminCommandHandler;
 import com.l2jfrozen.gameserver.handler.AutoAnnouncementHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
@@ -282,10 +281,6 @@ public class GameServer
 
 		Util.printSection("Geodata");
 		GeoData.getInstance();
-		if(Config.GEODATA == 2)
-		{
-			PathFinding.getInstance();
-		}
 
 		Util.printSection("Economy");
 		TradeController.getInstance();

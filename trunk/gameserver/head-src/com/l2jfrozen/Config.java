@@ -3457,13 +3457,6 @@ public final class Config
 
 	//============================================================
 	public static int			GEODATA;
-	public static boolean		GEODATA_CELLFINDING;
-	public static boolean		FORCE_GEODATA;
-	public static enum CorrectSpawnsZ
-	{
-		TOWN, MONSTER, ALL, NONE
-	}
-	public static CorrectSpawnsZ	GEO_CORRECT_Z;
 
 	public static boolean		ACCEPT_GEOEDITOR_CONN;
 	public static int			GEOEDITOR_PORT;
@@ -3479,6 +3472,10 @@ public final class Config
 
 	public static boolean FALL_DAMAGE;
 	public static boolean ALLOW_WATER;
+	
+	public static int PATHFIND_DISTANCE;
+	public static int PATHFIND_SMOOTHING_LEVEL;
+	public static double PATHFIND_DIAGONAL_FACTOR;
 	//============================================================
 	public static void loadgeodataConfig()
 	{
@@ -3492,10 +3489,6 @@ public final class Config
 			is.close();
 
 			GEODATA					= Integer.parseInt(geodataSetting.getProperty("GeoData", "0"));
-			GEODATA_CELLFINDING		= Boolean.parseBoolean(geodataSetting.getProperty("CellPathFinding", "False"));
-			FORCE_GEODATA			= Boolean.parseBoolean(geodataSetting.getProperty("ForceGeoData", "True"));
-			String correctZ			= geodataSetting.getProperty("GeoCorrectZ", "ALL");
-			GEO_CORRECT_Z			= CorrectSpawnsZ.valueOf(correctZ.toUpperCase());
 
 			ACCEPT_GEOEDITOR_CONN	= Boolean.parseBoolean(geodataSetting.getProperty("AcceptGeoeditorConn", "False"));
 			GEOEDITOR_PORT			= Integer.parseInt(geodataSetting.getProperty("GeoEditorPort", "9011"));
@@ -3507,10 +3500,14 @@ public final class Config
 			WORLD_SIZE_MIN_Z = Integer.parseInt(geodataSetting.getProperty("WorldSizeMinZ", "-15000"));
 			WORLD_SIZE_MAX_Z = Integer.parseInt(geodataSetting.getProperty("WorldSizeMaxZ", "15000"));
 
-			COORD_SYNCHRONIZE = Integer.valueOf(geodataSetting.getProperty("CoordSynchronize", "-1"));
+			COORD_SYNCHRONIZE = Integer.parseInt(geodataSetting.getProperty("CoordSynchronize", "-1"));
 
 			FALL_DAMAGE = Boolean.parseBoolean(geodataSetting.getProperty("FallDamage", "False"));
-			ALLOW_WATER = Boolean.valueOf(geodataSetting.getProperty("AllowWater", "False"));
+			ALLOW_WATER = Boolean.parseBoolean(geodataSetting.getProperty("AllowWater", "False"));
+			
+			PATHFIND_DISTANCE = Integer.parseInt(geodataSetting.getProperty("PathfindDistance", "3000"));
+			PATHFIND_SMOOTHING_LEVEL = Integer.parseInt(geodataSetting.getProperty("PathfindSmoothingLevel", "4"));
+			PATHFIND_DIAGONAL_FACTOR = Double.parseDouble(geodataSetting.getProperty("PathfindDiagonalFactor", "1.1"));
 		}
 		catch(Exception e)
 		{

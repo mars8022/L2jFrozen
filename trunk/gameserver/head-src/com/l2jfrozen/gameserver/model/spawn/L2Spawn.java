@@ -29,7 +29,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.TerritoryTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
-import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -113,7 +112,7 @@ public class L2Spawn
 	{
 		//L2NpcInstance _instance;
 		//int _objId;
-		private L2NpcInstance _oldNpc;
+		private final L2NpcInstance _oldNpc;
 
 		public SpawnTask(/*int objid*/L2NpcInstance pOldNpc)
 		{
@@ -121,6 +120,7 @@ public class L2Spawn
 			_oldNpc = pOldNpc;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -544,25 +544,6 @@ public class L2Spawn
 	{
 		int newlocx, newlocy, newlocz;
 
-		boolean doCorrect = false;
-		if(Config.GEODATA > 0)
-		{
-			switch(Config.GEO_CORRECT_Z)
-			{
-			case ALL:
-				doCorrect = true;
-				break;
-			case TOWN:
-				if(mob instanceof L2NpcInstance)
-					doCorrect = true;
-				break;
-			case MONSTER:
-				if(mob instanceof L2Attackable)
-					doCorrect = true;
-				break;
-			}
-		}
-
 		// If Locx=0 and Locy=0, the L2NpcInstance must be spawned in an area defined by location
 		if(getLocx() == 0 && getLocy() == 0)
 		{
@@ -575,14 +556,14 @@ public class L2Spawn
 			// Set the calculated position of the L2NpcInstance
 			newlocx = p[0];
 			newlocy = p[1];
-			newlocz = GeoData.getInstance().getSpawnHeight(newlocx, newlocy, p[2], p[3], _id);
+			newlocz = GeoData.getInstance().getSpawnHeight(newlocx, newlocy, p[2], p[3]);
 		}
 		else
 		{
 			// The L2NpcInstance is spawned at the exact position (Lox, Locy, Locz)
 			newlocx = getLocx();
 			newlocy = getLocy();
-			newlocz = doCorrect ? GeoData.getInstance().getSpawnHeight(newlocx, newlocy, getLocz(), getLocz(), _id) : getLocz();
+			newlocz = GeoData.getInstance().getSpawnHeight(newlocx, newlocy, getLocz(), getLocz());
 		}
 
 		mob.stopAllEffects();
