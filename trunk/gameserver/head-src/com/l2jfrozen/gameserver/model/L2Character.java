@@ -152,6 +152,8 @@ public abstract class L2Character extends L2Object
 
 	// =========================================================
 	// Data Field
+	private long attackStance;
+	
 	private List<L2Character> _attackByList;
 	// private L2Character _attackingChar;
 	private L2Skill _lastSkillCast;
@@ -2598,6 +2600,7 @@ public abstract class L2Character extends L2Object
 			_skillId = skillId;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -2643,6 +2646,7 @@ public abstract class L2Character extends L2Object
 			_soulshot = soulshot;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -2672,6 +2676,7 @@ public abstract class L2Character extends L2Object
 			_phase = phase;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -2716,6 +2721,7 @@ public abstract class L2Character extends L2Object
 			_isShiftPressed = isShiftPressed;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -2739,6 +2745,7 @@ public abstract class L2Character extends L2Object
 			_evt = evt;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -2760,6 +2767,7 @@ public abstract class L2Character extends L2Object
 		//null
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -8773,5 +8781,13 @@ public abstract class L2Character extends L2Object
 			if (e != null)
 				e.exit();
 		}
+	}
+	
+	public void updateAttackStance() {
+		attackStance = System.currentTimeMillis();
+	}
+	
+	public long getAttackStance() {
+		return attackStance;
 	}
 }
