@@ -25,12 +25,10 @@
  */
 package com.l2jfrozen.gameserver.taskmanager;
 
-import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-import javolution.util.FastMap;
-
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -43,9 +41,8 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AttackStanceTaskManager
 {
-	protected static final Logger _log = Logger.getLogger(AttackStanceTaskManager.class.getName());
-
-	protected Map<L2Character, Long> _attackStanceTasks = new FastMap<L2Character, Long>().shared();
+	private static final Logger _log = Logger.getLogger(AttackStanceTaskManager.class.getName());
+	private final BlockingQueue<L2Character> attackStanceTasks = new LinkedBlockingQueue<L2Character>();
 
 	private static AttackStanceTaskManager _instance;
 
@@ -66,55 +63,30 @@ public class AttackStanceTaskManager
 
 	public void addAttackStanceTask(L2Character actor)
 	{
-		_attackStanceTasks.put(actor, System.currentTimeMillis());
+		attackStanceTasks.add(actor);
+		actor.updateAttackStance();
 	}
 
 	public void removeAttackStanceTask(L2Character actor)
 	{
-		_attackStanceTasks.remove(actor);
+		attackStanceTasks.remove(actor);
 	}
 
 	public boolean getAttackStanceTask(L2Character actor)
 	{
-		return _attackStanceTasks.containsKey(actor);
+		return attackStanceTasks.contains(actor);
 	}
 
-	private class FightModeScheduler implements Runnable
-	{
-		protected FightModeScheduler()
-		{
-		// Do nothing
-		}
-
-		public void run()
-		{
-			Long current = System.currentTimeMillis();
-			try
-			{
-				if(_attackStanceTasks != null)
-				{
-					synchronized (this)
-					{
-						for(L2Character actor : _attackStanceTasks.keySet())
-						{
-							if(current - _attackStanceTasks.get(actor) > 15000)
-							{
-								actor.broadcastPacket(new AutoAttackStop(actor.getObjectId()));
-								actor.getAI().setAutoAttacking(false);
-								_attackStanceTasks.remove(actor);
-							}
-						}
-					}
+	private class FightModeScheduler implements Runnable {
+		@Override public void run() {
+			long currentTime = System.currentTimeMillis();
+			final L2Character[] actors = attackStanceTasks.toArray(new L2Character[attackStanceTasks.size()]);
+			for(L2Character actor : actors)
+				if(currentTime - actor.getAttackStance() > 15000) {
+					attackStanceTasks.remove(actor);
+					actor.broadcastPacket(new AutoAttackStop(actor.getObjectId()));
+					actor.getAI().setAutoAttacking(false);
 				}
-			}
-			catch(Throwable e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				// TODO: Find out the reason for exception. Unless caught here, players remain in attack positions.
-				_log.warning(e.toString());
-			}
 		}
 	}
 }
