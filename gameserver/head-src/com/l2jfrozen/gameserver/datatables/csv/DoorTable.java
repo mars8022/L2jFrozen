@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
@@ -320,86 +319,86 @@ public class DoorTable
 			}
 	}
 
-	public boolean checkIfDoorsBetween(Node start, Node end)
-	{
-		return checkIfDoorsBetween(start.getX(), start.getY(), start.getZ(), end.getX(), end.getY(), end.getZ());
-	}
+//	public boolean checkIfDoorsBetween(Node start, Node end)
+//	{
+//		return checkIfDoorsBetween(start.getX(), start.getY(), start.getZ(), end.getX(), end.getY(), end.getZ());
+//	}
 
-	public boolean checkIfDoorsBetween(int x, int y, int z, int tx, int ty, int tz)
-	{
-		int region;
-		try
-		{
-			region = MapRegionTable.getInstance().getMapRegion(x, y);
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			return false;
-		}
-
-		for(L2DoorInstance doorInst : getDoors())
-		{
-			if(doorInst.getMapRegion() != region)
-			{
-				continue;
-			}
-			if(doorInst.getXMax() == 0)
-			{
-				continue;
-			}
-
-			// line segment goes through box
-			// heavy approximation disabling some shooting angles especially near 2-piece doors
-			// but most calculations should stop short
-			// phase 1, x
-			if(x <= doorInst.getXMax() && tx >= doorInst.getXMin() || tx <= doorInst.getXMax() && x >= doorInst.getXMin())
-			{
-				//phase 2, y
-				if(y <= doorInst.getYMax() && ty >= doorInst.getYMin() || ty <= doorInst.getYMax() && y >= doorInst.getYMin())
-				{
-					// phase 3, basically only z remains but now we calculate it with another formula (by rage)
-					// in some cases the direct line check (only) in the beginning isn't sufficient,
-					// when char z changes a lot along the path
-					if(doorInst.getStatus().getCurrentHp() > 0 && !doorInst.getOpen())
-					{
-						int px1 = doorInst.getXMin();
-						int py1 = doorInst.getYMin();
-						int pz1 = doorInst.getZMin();
-						int px2 = doorInst.getXMax();
-						int py2 = doorInst.getYMax();
-						int pz2 = doorInst.getZMax();
-
-						int l = tx - x;
-						int m = ty - y;
-						int n = tz - z;
-
-						int dk;
-
-						if((dk = (doorInst.getA() * l + doorInst.getB() * m + doorInst.getC() * n)) == 0) continue; // Parallel
-
-						float p = (float)(doorInst.getA() * x + doorInst.getB() * y + doorInst.getC() * z + doorInst.getD()) / (float)dk;
-
-						int fx = (int)(x - l * p);
-						int fy = (int)(y - m * p);
-						int fz = (int)(z - n * p);
-
-						if((Math.min(x, tx) <= fx && fx <= Math.max(x, tx))
-							&& (Math.min(y, ty) <= fy && fy <= Math.max(y, ty))
-							&& (Math.min(z, tz) <= fz && fz <= Math.max(z, tz)))
-						{
-
-							if(((fx >= px1 && fx <= px2) || (fx >= px2 && fx <= px1))
-								&& ((fy >= py1 && fy <= py2) || (fy >= py2 && fy <= py1))
-								&& ((fz >= pz1 && fz <= pz2) || (fz >= pz2 && fz <= pz1)))
-								return true; // Door between
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
+//	public boolean checkIfDoorsBetween(int x, int y, int z, int tx, int ty, int tz)
+//	{
+//		int region;
+//		try
+//		{
+//			region = MapRegionTable.getInstance().getMapRegion(x, y);
+//		}
+//		catch(Exception e)
+//		{
+//			if(Config.ENABLE_ALL_EXCEPTIONS)
+//				e.printStackTrace();
+//			
+//			return false;
+//		}
+//
+//		for(L2DoorInstance doorInst : getDoors())
+//		{
+//			if(doorInst.getMapRegion() != region)
+//			{
+//				continue;
+//			}
+//			if(doorInst.getXMax() == 0)
+//			{
+//				continue;
+//			}
+//
+//			// line segment goes through box
+//			// heavy approximation disabling some shooting angles especially near 2-piece doors
+//			// but most calculations should stop short
+//			// phase 1, x
+//			if(x <= doorInst.getXMax() && tx >= doorInst.getXMin() || tx <= doorInst.getXMax() && x >= doorInst.getXMin())
+//			{
+//				//phase 2, y
+//				if(y <= doorInst.getYMax() && ty >= doorInst.getYMin() || ty <= doorInst.getYMax() && y >= doorInst.getYMin())
+//				{
+//					// phase 3, basically only z remains but now we calculate it with another formula (by rage)
+//					// in some cases the direct line check (only) in the beginning isn't sufficient,
+//					// when char z changes a lot along the path
+//					if(doorInst.getStatus().getCurrentHp() > 0 && !doorInst.getOpen())
+//					{
+//						int px1 = doorInst.getXMin();
+//						int py1 = doorInst.getYMin();
+//						int pz1 = doorInst.getZMin();
+//						int px2 = doorInst.getXMax();
+//						int py2 = doorInst.getYMax();
+//						int pz2 = doorInst.getZMax();
+//
+//						int l = tx - x;
+//						int m = ty - y;
+//						int n = tz - z;
+//
+//						int dk;
+//
+//						if((dk = (doorInst.getA() * l + doorInst.getB() * m + doorInst.getC() * n)) == 0) continue; // Parallel
+//
+//						float p = (float)(doorInst.getA() * x + doorInst.getB() * y + doorInst.getC() * z + doorInst.getD()) / (float)dk;
+//
+//						int fx = (int)(x - l * p);
+//						int fy = (int)(y - m * p);
+//						int fz = (int)(z - n * p);
+//
+//						if((Math.min(x, tx) <= fx && fx <= Math.max(x, tx))
+//							&& (Math.min(y, ty) <= fy && fy <= Math.max(y, ty))
+//							&& (Math.min(z, tz) <= fz && fz <= Math.max(z, tz)))
+//						{
+//
+//							if(((fx >= px1 && fx <= px2) || (fx >= px2 && fx <= px1))
+//								&& ((fy >= py1 && fy <= py2) || (fy >= py2 && fy <= py1))
+//								&& ((fz >= pz1 && fz <= pz2) || (fz >= pz2 && fz <= pz1)))
+//								return true; // Door between
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return false;
+//	}
 }

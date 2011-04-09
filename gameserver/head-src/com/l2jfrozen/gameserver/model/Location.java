@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+
 /**
  * This class ...
  * 
@@ -92,5 +93,30 @@ public final class Location
 		if(_x == x && _y == y && _z == z)
 			return true;
 		return false;
+	}
+	
+	@Override public boolean equals(Object obj) {
+		if(super.equals(obj)) return true;
+		if(!(obj instanceof Location)) return false;
+		final Location loc = (Location) obj;
+		return _x == loc._x && _y == loc._y && _z == loc._z;
+	}
+	
+	@Override public int hashCode() {
+		final int prime = 31;
+	    int result = 1;
+	    result = prime * result + _x;
+	    result = prime * result + _y;
+	    result = prime * result + _z;
+		return result;
+	}
+	
+	/**
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "x: " + _x + ", y: " + _y + ", z: " + _z;
 	}
 }

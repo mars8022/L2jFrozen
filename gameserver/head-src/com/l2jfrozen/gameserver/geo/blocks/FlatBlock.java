@@ -16,60 +16,46 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.geo.pathfinding.cellnodes;
-
-import com.l2jfrozen.gameserver.geo.pathfinding.Node;
-import com.l2jfrozen.gameserver.model.L2World;
+package com.l2jfrozen.gameserver.geo.blocks;
 
 
-public final class CellNode extends Node
-{
-	private final int _x;
-	private final int _y;
-	private short _z;
-	
-	public CellNode(int x, int y, short z, int neighborsIdx)
-	{
-		super(neighborsIdx);
-		
-		_x = x;
-		_y = y;
-		_z = z;
+/**
+ * Flat-block.
+ * Only block height.
+ * 
+ * @author nameless, 02.02.2011
+ */
+public final class FlatBlock extends CompiledBlock {
+	private final static byte NSWE = 15;
+	private final short height;
+
+	public FlatBlock(short height) {
+		this.height = height;
 	}
-	
+
 	@Override
-	public int getX()
-	{
-		return (_x << 4) + L2World.MAP_MIN_X;
+	public byte getNSWE(int cell, byte layer) {
+		return NSWE;
 	}
-	
+
 	@Override
-	public int getY()
-	{
-		return (_y << 4) + L2World.MAP_MIN_Y;
+	public short getHeight(int cell, byte layer) {
+		return height;
 	}
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.l2scoria.gameserver.geo.blocks.CompiledBlock#getType()
+	 */
 	@Override
-	public short getZ()
-	{
-		return _z;
+	public BlockType getType() {
+		return BlockType.FLAT;
 	}
-	
+
+	/**
+	 * does exist ;)
+	 */
 	@Override
-	public void setZ(short z)
-	{
-		_z = z;
-	}
-	
-	@Override
-	public int getNodeX()
-	{
-		return _x;
-	}
-	
-	@Override
-	public int getNodeY()
-	{
-		return _y;
-	}
+	public void changeDoor(int cell, byte layer, boolean isOpen) {}
 }
