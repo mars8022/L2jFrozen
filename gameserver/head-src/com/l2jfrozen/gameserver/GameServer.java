@@ -176,6 +176,7 @@ public class GameServer
 
 		Util.printSection("Database");
 		L2DatabaseFactory.getInstance();
+		_log.info("L2DatabaseFactory: loaded.");
 
 
 		Util.printSection("Threads");
@@ -226,9 +227,12 @@ public class GameServer
 		}
 		SkillTreeTable.getInstance();
 		SkillSpellbookTable.getInstance();
+		_log.info("Skills: loaded.");
 		NobleSkillTable.getInstance();
 		HeroSkillTable.getInstance();
-
+		_log.info("Skills Hero/Noble: loaded.");
+		
+		
 		Util.printSection("Items");
 		if(!ItemTable.getInstance().isInitialized())
 		{
@@ -284,7 +288,9 @@ public class GameServer
 
 		Util.printSection("Economy");
 		TradeController.getInstance();
-
+		L2Multisell.getInstance();  
+		_log.info("Multisell: loaded.");
+		
 		Util.printSection("Clan Halls");
 		ClanHallManager.getInstance();
 		FortressOfResistance.getInstance();
@@ -488,9 +494,6 @@ public class GameServer
 		{
 			_log.info("Script: disable load.");
 		}
-		
-		_log.info("Multisell: loading multisell data");
-		L2Multisell.getInstance();  
 
 		Util.printSection("Game Server");
 		_log.info("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
@@ -532,7 +535,7 @@ public class GameServer
 			_log.info("Powerpack is Disabled");
 		}
 		
-		Util.printSection("EventManager...");
+		Util.printSection("EventManager");
 		EventManager.getInstance().startEventRegistration();
 		
 		if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && Config.RESTORE_OFFLINERS)
@@ -544,10 +547,11 @@ public class GameServer
 		_log.info("Maximum Numbers of Connected Players: " + Config.MAXIMUM_ONLINE_USERS);
 		_log.info("GameServer Started, free memory " + Memory.getFreeMemory() + " Mb of " + Memory.getTotalMemory() + " Mb");
 		_log.info("Used memory: " + Memory.getUsedMemory() + " MB");
-		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
 
 		Util.printSection("Status");
 		System.gc();
+		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
+		_log.info("GameServer started!");
 
 		Util.printSection("Login");
 		_loginThread = LoginServerThread.getInstance();
