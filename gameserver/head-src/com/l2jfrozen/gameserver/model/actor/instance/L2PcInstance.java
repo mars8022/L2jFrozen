@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -432,6 +433,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	public static final int STORE_PRIVATE_MANUFACTURE = 5;
 	public static final int STORE_PRIVATE_PACKAGE_SELL = 8;
 
+	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+	
 	/** The table containing all minimum level needed for each Expertise (None, D, C, B, A, S) */
 	private static final int[] EXPERTISE_LEVELS =
 	{
@@ -7727,8 +7730,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void setAccessLevel(int level)
 	{
 		if(level == Config.MASTERACCESS_LEVEL)
-		{
-			_log.warning("Access level from the character " + getName() + " > 0");
+		{						
+			_log.warning("Admin Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");
 			_accessLevel = AccessLevels.getInstance()._masterAccessLevel;
 		}
 		else if(level == Config.USERACCESS_LEVEL)
@@ -7737,6 +7740,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else
 		{
+			_log.warning("GM Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");
 			AccessLevel accessLevel = AccessLevels.getInstance().getAccessLevel(level);
 
 			if(accessLevel == null)
