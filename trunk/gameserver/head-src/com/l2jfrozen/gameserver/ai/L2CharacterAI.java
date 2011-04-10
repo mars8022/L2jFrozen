@@ -459,26 +459,11 @@ public class L2CharacterAI extends AbstractAI
 			return;
 		}
 
-		if(_actor.isAllSkillsDisabled())
+		if(_actor.isAllSkillsDisabled() || _actor.isCastingNow())
 		{
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();
 			return;
-		}
-
-		if(object.getX() == 0 && object.getY() == 0) // TODO: Find the drop&spawn bug
-		{
-			L2Character player_char = getActor();
-			
-			if(player_char instanceof L2PcInstance){
-				L2PcInstance player = (L2PcInstance) player_char;
-				
-				player.sendMessage("Action failed.");
-				clientActionFailed();
-				return;
-			}
-			
-			object.setXYZ(getActor().getX(), getActor().getY(), getActor().getZ() + 5);
 		}
 
 		// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
@@ -489,7 +474,18 @@ public class L2CharacterAI extends AbstractAI
 
 		// Set the AI pick up target
 		setTarget(object);
-		
+
+		if(object.getX() == 0 && object.getY() == 0) // TODO: Find the drop&spawn bug
+		{
+			L2Character player_char = getActor();			
+			if(player_char instanceof L2PcInstance)
+			{		
+				clientActionFailed();
+				return;
+			}			
+			object.setXYZ(getActor().getX(), getActor().getY(), getActor().getZ() + 5);
+		}
+
 		// Move the actor to Pawn server side AND client side by sending Server->Client packet MoveToPawn (broadcast)
 		moveToPawn(object, 20);
 	}
