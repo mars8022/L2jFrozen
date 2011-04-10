@@ -39,6 +39,7 @@ import com.l2jfrozen.gameserver.managers.CrownManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.PledgeReceiveSubPledgeCreated;
@@ -230,8 +231,14 @@ public class L2Clan
 		_members.put(leader.getName(), leader);
 	}
 
-	public void setNewLeader(L2ClanMember member)
-	{
+	//public void setNewLeader(L2ClanMember member) 
+ 	public void setNewLeader(L2ClanMember member,L2PcInstance activeChar) 
+ 	{ 
+ 	    if (activeChar.isRiding() || activeChar.isFlying())                 
+ 	       {    
+ 		    activeChar.sendPacket(ActionFailed.STATIC_PACKET); 
+ 	        return;    
+ 	       } 
 		if(!getLeader().isOnline())
 			return;
 
