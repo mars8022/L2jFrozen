@@ -16,81 +16,59 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.model;
+package com.l2jfrozen.gameserver.geo.pathfinding.cellnodes;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.1 $ $Date: 2005/03/27 15:29:33 $
- */
+import com.l2jfrozen.gameserver.geo.pathfinding.Node;
+import com.l2jfrozen.gameserver.model.L2World;
 
-public final class Location
+
+public final class CellNode extends Node
 {
-	public int _x;
-	public int _y;
-	public int _z;
-	public int _heading;
-
-	public Location(int x, int y, int z)
+	private final int _x;
+	private final int _y;
+	private short _z;
+	
+	public CellNode(int x, int y, short z, int neighborsIdx)
 	{
+		super(neighborsIdx);
 		_x = x;
 		_y = y;
 		_z = z;
 	}
-
-	public Location(int x, int y, int z, int heading)
-	{
-		_x = x;
-		_y = y;
-		_z = z;
-		_heading = heading;
-	}
-
+	
+	@Override
 	public int getX()
 	{
-		return _x;
+		return (_x << 4) + L2World.MAP_MIN_X;
 	}
-
+	
+	@Override
 	public int getY()
 	{
-		return _y;
+		return (_y << 4) + L2World.MAP_MIN_Y;
 	}
-
-	public int getZ()
+	
+	@Override
+	public short getZ()
 	{
 		return _z;
 	}
 	
-	public int getHeading()
+	@Override
+	public void setZ(short z)
 	{
-		return _heading;
-	}
-	
-	public void setX(int x) {
-		_x = x;
-	}
-	
-	public void setY(int y) {
-		_y = y;
-	}
-	
-	public void setZ(int z) {
 		_z = z;
 	}
 	
-	public void setHeading(int head) {
-		_heading = head;
+	@Override
+	public int getNodeX()
+	{
+		return _x;
 	}
 	
-	public void setXYZ(int x, int y, int z) {
-		_x = x;
-		_y = y;
-		_z = z;
-	}
-
-	public boolean equals(int x, int y, int z) {
-		if(_x == x && _y == y && _z == z)
-			return true;
-		return false;
+	@Override
+	public int getNodeY()
+	{
+		return _y;
 	}
 }

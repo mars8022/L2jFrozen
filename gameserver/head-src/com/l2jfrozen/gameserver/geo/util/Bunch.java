@@ -16,46 +16,43 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.geo.blocks;
+package com.l2jfrozen.gameserver.geo.util;
 
+import java.util.List;
 
-/**
- * Flat-block.
- * Only block height.
- * 
- * @author nameless, 02.02.2011
- */
-public final class FlatBlock extends CompiledBlock {
-	private final static byte NSWE = 15;
-	private final short height;
+import com.l2jfrozen.gameserver.geo.util.L2Collections.Filter;
 
-	public FlatBlock(short height) {
-		this.height = height;
-	}
-
-	@Override
-	public byte getNSWE(int cell, byte layer) {
-		return NSWE;
-	}
-
-	@Override
-	public short getHeight(int cell, byte layer) {
-		return height;
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.l2scoria.gameserver.geo.blocks.CompiledBlock#getType()
-	 */
-	@Override
-	public BlockType getType() {
-		return BlockType.FLAT;
-	}
-
-	/**
-	 * does exist ;)
-	 */
-	@Override
-	public void changeDoor(int cell, byte layer, boolean isOpen) {}
+public interface Bunch<E>
+{
+	public int size();
+	
+	public Bunch<E> add(E value);
+	
+	public Bunch<E> remove(E value);
+	
+	public void clear();
+	
+	public boolean isEmpty();
+	
+	public E get(int index);
+	
+	public E set(int index, E value);
+	
+	public E remove(int index);
+	
+	public boolean contains(E value);
+	
+	public Bunch<E> addAll(Iterable<? extends E> c);
+	
+	public Bunch<E> addAll(E[] array);
+	
+	public Object[] moveToArray();
+	
+	public <T> T[] moveToArray(T[] array);
+	
+	public <T> T[] moveToArray(Class<T> clazz);
+	
+	public List<E> moveToList(List<E> list);
+	
+	public Bunch<E> cleanByFilter(Filter<E> filter);
 }
