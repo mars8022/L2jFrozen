@@ -798,7 +798,8 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 			player.sendPacket(new SystemMessage(SystemMessageId.INVITED_USER_NOT_ONLINE));
 			return;
 		}
-		clan.setNewLeader(member);
+		//clan.setNewLeader(member); 
+	 	clan.setNewLeader(member, player);
 
 		clan = null;
 		member = null;
