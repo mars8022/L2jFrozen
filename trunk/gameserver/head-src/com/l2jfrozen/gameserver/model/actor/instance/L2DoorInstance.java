@@ -30,7 +30,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
 import com.l2jfrozen.gameserver.ai.L2DoorAI;
-import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.FortManager;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -87,7 +86,7 @@ public class L2DoorInstance extends L2Character
 	protected final int _doorId;
 	protected final String _name;
 	private boolean _open;
-	private final boolean _unlockable;
+	private boolean _unlockable;
 
 	private ClanHall _clanHall;
 
@@ -165,7 +164,6 @@ public class L2DoorInstance extends L2Character
 
 	class CloseTask implements Runnable
 	{
-		@Override
 		public void run()
 		{
 			try
@@ -187,7 +185,6 @@ public class L2DoorInstance extends L2Character
 	 */
 	class AutoOpenClose implements Runnable
 	{
-		@Override
 		public void run()
 		{
 			try
@@ -300,7 +297,6 @@ public class L2DoorInstance extends L2Character
 	public void setOpen(boolean open)
 	{
 		_open = open;
-		GeoData.getInstance().changeDoor(getX(), getY(), getZ(), open);
 	}
 
 	/**

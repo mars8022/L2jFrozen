@@ -52,7 +52,6 @@ public class AdminGeodata implements IAdminCommandHandler
 		admin_geo_unload
 	}
 
-	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -112,7 +111,7 @@ public class AdminGeodata implements IAdminCommandHandler
 				break;
 
 			case admin_geo_type:
-				int type = GeoData.getInstance().getType(activeChar.getX(), activeChar.getY());
+				short type = GeoData.getInstance().getType(activeChar.getX(), activeChar.getY());
 				activeChar.sendMessage("GeoEngine: Geo_Type = " + type);
 
 				short height = GeoData.getInstance().getHeight(activeChar.getX(), activeChar.getY(), activeChar.getZ());
@@ -148,7 +147,21 @@ public class AdminGeodata implements IAdminCommandHandler
 				break;
 
 			case admin_geo_los:
-				activeChar.sendMessage("Not supported!");
+				if(activeChar.getTarget() != null)
+				{
+					if(GeoData.getInstance().canSeeTargetDebug(activeChar, activeChar.getTarget()))
+					{
+						activeChar.sendMessage("GeoEngine: Р¦РµР»СЊ РІРёРґРЅР°");
+					}
+					else
+					{
+						activeChar.sendMessage("GeoEngine: Р¦РµР»СЊ РЅРµ РІРёРґРЅР°");
+					}
+				}
+				else
+				{
+					activeChar.sendMessage("None Target!");
+				}
 				break;
 
 			case admin_geo_position:
@@ -242,7 +255,6 @@ public class AdminGeodata implements IAdminCommandHandler
 		return true;
 	}
 
-	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

@@ -16,81 +16,59 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.model;
+package com.l2jfrozen.gameserver.geo.pathfinding.geonodes;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.1 $ $Date: 2005/03/27 15:29:33 $
- */
+import com.l2jfrozen.gameserver.geo.pathfinding.Node;
+import com.l2jfrozen.gameserver.model.L2World;
 
-public final class Location
+
+public final class GeoNode extends Node
 {
-	public int _x;
-	public int _y;
-	public int _z;
-	public int _heading;
-
-	public Location(int x, int y, int z)
+	private final short _x;
+	private final short _y;
+	private final short _z;
+	
+	public GeoNode(short x, short y, short z, int neighborsIdx)
 	{
+		super(neighborsIdx);
 		_x = x;
 		_y = y;
 		_z = z;
 	}
-
-	public Location(int x, int y, int z, int heading)
-	{
-		_x = x;
-		_y = y;
-		_z = z;
-		_heading = heading;
-	}
-
+	
+	@Override
 	public int getX()
 	{
-		return _x;
+		return L2World.MAP_MIN_X + _x * 128 + 48;
 	}
-
+	
+	@Override
 	public int getY()
 	{
-		return _y;
+		return L2World.MAP_MIN_Y + _y * 128 + 48;
 	}
-
-	public int getZ()
+	
+	@Override
+	public short getZ()
 	{
 		return _z;
 	}
 	
-	public int getHeading()
+	@Override
+	public void setZ(short z)
 	{
-		return _heading;
+		//
 	}
 	
-	public void setX(int x) {
-		_x = x;
+	@Override
+	public int getNodeX()
+	{
+		return _x;
 	}
 	
-	public void setY(int y) {
-		_y = y;
-	}
-	
-	public void setZ(int z) {
-		_z = z;
-	}
-	
-	public void setHeading(int head) {
-		_heading = head;
-	}
-	
-	public void setXYZ(int x, int y, int z) {
-		_x = x;
-		_y = y;
-		_z = z;
-	}
-
-	public boolean equals(int x, int y, int z) {
-		if(_x == x && _y == y && _z == z)
-			return true;
-		return false;
+	@Override
+	public int getNodeY()
+	{
+		return _y;
 	}
 }
