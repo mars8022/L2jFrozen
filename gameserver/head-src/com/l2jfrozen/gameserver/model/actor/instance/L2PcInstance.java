@@ -9806,13 +9806,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Check if the attacker is in olympia and olympia start
 		if(attacker instanceof L2PcInstance && ((L2PcInstance) attacker).isInOlympiadMode())
 		{
-			// I dont like it!!
-			//if (isInOlympiadMode() && isOlympiadStart() && ((L2PcInstance)attacker).getOlympiadGameId()==getOlympiadGameId())
-			//	return true;
-			//if (isFakeDeath())
-			//	return false;
-			//else
-			//	return false;
 			if(isInOlympiadMode() && isOlympiadStart() && ((L2PcInstance) attacker).getOlympiadGameId() == getOlympiadGameId())
 			{
 				if(isFakeDeath())
