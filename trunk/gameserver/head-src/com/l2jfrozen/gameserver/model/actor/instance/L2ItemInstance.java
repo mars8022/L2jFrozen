@@ -1350,8 +1350,8 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(MySQLIntegrityConstraintViolationException  e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
+			//if(Config.ENABLE_ALL_EXCEPTIONS)
+			//	e.printStackTrace();
 			
 			if(Config.DEBUG)
 				_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getObjectId());
