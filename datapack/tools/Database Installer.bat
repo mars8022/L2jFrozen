@@ -76,9 +76,9 @@ echo. ---------------------------------------------------------------------
 set Step2prompt=x
 set /p Step2prompt= Please, put value:
 if /i %Step2prompt%==1 goto fullinstall
-if /i %Step1prompt%==2 goto addnpcs
-if /i %Step1prompt%==3 goto addspawns
-if /i %Step1prompt%==4 goto additems
+if /i %Step2prompt%==2 goto addnpcs
+if /i %Step2prompt%==3 goto addspawns
+if /i %Step2prompt%==4 goto additems
 if /i %Step2prompt%==5 goto fullend
 goto Step2
 
@@ -194,7 +194,7 @@ echo *** Sucesfull 32 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/clan_wars.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/clan_notices.sql
 
-echo ****** Sucesfull 33 percents. ***
+echo *** Sucesfull 33 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/clanhall.sql
 
 echo *** Sucesfull 34 percents. ***
@@ -399,7 +399,7 @@ echo *** Sucesfull 97 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/fort.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/fortsiege_clans.sql
 
-echo *** Sucessfull 99 percents. ***
+echo *** Sucesfull 99 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/four_sepulchers_spawnlist.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/custom_spawnlist.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/vanhalter_spawnlist.sql
@@ -414,7 +414,7 @@ echo *** Sucessfull 99 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/ctf_teams.sql
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/dm.sql
 
-echo *** Sucesfull 100 percents. ***
+echo *** Sucesfull 100 percents. **
 echo.
 echo GameServer Database %title%.
 pause
