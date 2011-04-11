@@ -95,6 +95,9 @@ public final class RequestPackageSend extends L2GameClientPacket
 		else if(!player.getAccountChars().containsKey(_objectID))
 			return;
 		
+		if(L2World.getInstance().getPlayer(_objectID) != null)
+		return;
+		
 		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("deposit"))
 		{
 			player.sendMessage("You depositing items too fast.");
