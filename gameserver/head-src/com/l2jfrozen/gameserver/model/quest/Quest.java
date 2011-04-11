@@ -52,7 +52,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 /**
  * @author Luis Arias
  */
@@ -1259,8 +1259,8 @@ public class Quest extends ManagedScript
 		}
 		catch(MySQLIntegrityConstraintViolationException  e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
+			//if(Config.ENABLE_ALL_EXCEPTIONS)
+			//	e.printStackTrace();
 			
 			updateQuestVarInDb(qs, var, value);
 		
