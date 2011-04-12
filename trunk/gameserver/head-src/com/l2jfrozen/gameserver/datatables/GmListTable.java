@@ -157,25 +157,25 @@ public class GmListTable
 	}
 
 	public void sendListToPlayer(L2PcInstance player)
-	{
-		if(!isGmOnline(player.isGM()))
+	{				
+		if (isGmOnline(player.isGM()))
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.NO_GM_PROVIDING_SERVICE_NOW); //There are not any GMs that are providing customer service currently.
+			SystemMessage sm = new SystemMessage(SystemMessageId.GM_LIST);
 			player.sendPacket(sm);
 			sm = null;
+			
+			for (String name : getAllGmNames(player.isGM()))
+			{
+				SystemMessage sm1 = new SystemMessage(SystemMessageId.GM_S1);
+				sm1.addString(name);
+				player.sendPacket(sm1);
+			}
 		}
-
-		SystemMessage sm = new SystemMessage(SystemMessageId.GM_LIST);
-		player.sendPacket(sm);
-		sm = null;
-
-		for(String name : getAllGmNames(player.isGM()))
-		{
-			sm = new SystemMessage(SystemMessageId.GM_S1);
-			sm.addString(name);
-			player.sendPacket(sm);
-			sm = null;
-		}
+		else{
+			SystemMessage sm2 = new SystemMessage(SystemMessageId.NO_GM_PROVIDING_SERVICE_NOW);
+		    player.sendPacket(sm2);
+		    sm2 = null;
+		    }				
 	}
 
 	public static void broadcastToGMs(L2GameServerPacket packet)
