@@ -171,6 +171,14 @@ public final class UseItem extends L2GameClientPacket
 			return;
 		}
 
+		if(activeChar.getPkKills() > 0 && (itemId >= 7816 && itemId <= 7831))
+		{
+		   // Retail messages... same L2OFF
+		   activeChar.sendMessage("You do not meet the required condition to equip that item.");
+		   activeChar.sendMessage("You are unable to equip this item when your PK count is greater than or equal to one.");
+		   return;
+		}
+		
 		L2Clan cl = activeChar.getClan();
 		//A shield that can only be used by the members of a clan that owns a castle.
 		if((cl == null || cl.getHasCastle() == 0) && itemId == 7015 && Config.CASTLE_SHIELD)
