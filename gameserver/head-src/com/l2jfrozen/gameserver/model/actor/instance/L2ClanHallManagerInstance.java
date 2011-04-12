@@ -81,7 +81,24 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 
 			if(actualCommand.equalsIgnoreCase("banish_foreigner"))
 			{
-				getClanHall().banishForeigners();
+				NpcHtmlMessage html = new NpcHtmlMessage(1);
+				if ((player.getClanPrivileges() & L2Clan.CP_CH_DISMISS) == L2Clan.CP_CH_DISMISS)
+				{
+					if (val.equalsIgnoreCase("list"))
+					{
+						html.setFile("data/html/clanHallManager/banish-list.htm");
+					}
+					else if (val.equalsIgnoreCase("banish"))
+					{
+						getClanHall().banishForeigners();
+						html.setFile("data/html/clanHallManager/banish.htm");
+					}
+				}
+				else
+				{
+					html.setFile("data/html/clanHallManager/not_authorized.htm");
+				}
+				sendHtmlMessage(player, html);
 				return;
 			}
 			else if(actualCommand.equalsIgnoreCase("manage_vault"))
