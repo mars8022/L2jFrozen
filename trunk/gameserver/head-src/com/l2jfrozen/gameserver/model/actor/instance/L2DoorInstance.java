@@ -54,6 +54,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 
 /**
  * This class ...
@@ -493,6 +494,20 @@ public class L2DoorInstance extends L2Character
 		if(player == null)
 			return;
 
+		if(Config.DEBUG){
+		    log.info("player "+player.getObjectId());
+		    log.info("Door "+getObjectId());
+		    log.info("player clan "+player.getClan());		   
+		   if(player.getClan()!=null){
+		    log.info("player clanid "+player.getClanId());
+		    log.info("player clanleaderid "+player.getClan().getLeaderId());}
+		    log.info("clanhall "+getClanHall());
+		   if(getClanHall()!=null){
+		    log.info("clanhallID "+getClanHall().getId());
+		    log.info("clanhallOwner "+getClanHall().getOwnerId());
+		   for(L2DoorInstance door:getClanHall().getDoors()){
+		    log.info("clanhallDoor "+door.getObjectId());}}}
+		
 		// Check if the L2PcInstance already target the L2NpcInstance
 		if(this != player.getTarget())
 		{
@@ -557,7 +572,21 @@ public class L2DoorInstance extends L2Character
 		L2PcInstance player = client.getActiveChar();
 		if(player == null)
 			return;
-
+		
+		if(Config.DEBUG){
+		    log.info("player "+player.getObjectId());
+		    log.info("Door "+getObjectId());
+		    log.info("player clan "+player.getClan());		   
+		   if(player.getClan()!=null){
+		    log.info("player clanid "+player.getClanId());
+		    log.info("player clanleaderid "+player.getClan().getLeaderId());}
+		    log.info("clanhall "+getClanHall());
+		   if(getClanHall()!=null){
+		    log.info("clanhallID "+getClanHall().getId());
+		    log.info("clanhallOwner "+getClanHall().getOwnerId());
+		   for(L2DoorInstance door:getClanHall().getDoors()){
+		    log.info("clanhallDoor "+door.getObjectId());}}}
+		
 		if(player.getAccessLevel().isGm())
 		{
 			player.setTarget(this);
@@ -603,6 +632,25 @@ public class L2DoorInstance extends L2Character
 		else
 		{
 			// ATTACK the mob without moving?
+			player.setTarget(this);
+			MyTargetSelected my = new MyTargetSelected(getObjectId(), player.getLevel());
+			player.sendPacket(my);
+			my = null;
+
+			if(isAutoAttackable(player))
+			{
+				DoorStatusUpdate su = new DoorStatusUpdate(this);
+				player.sendPacket(su);
+				su = null;
+			}
+			
+			NpcHtmlMessage reply = new NpcHtmlMessage(5);
+			TextBuilder replyMsg = new TextBuilder("<html><body>You cannot use this action.");
+			replyMsg.append("</body></html>");
+			reply.setHtml(replyMsg.toString());
+			player.sendPacket(reply);			
+			player.getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
 		}
 
 		player.sendPacket(ActionFailed.STATIC_PACKET);
