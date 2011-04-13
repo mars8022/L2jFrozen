@@ -93,6 +93,7 @@ import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.managers.DatatablesManager;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
+import com.l2jfrozen.gameserver.managers.DuelManager;
 import com.l2jfrozen.gameserver.managers.FortManager;
 import com.l2jfrozen.gameserver.managers.FortSiegeManager;
 import com.l2jfrozen.gameserver.managers.FourSepulchersManager;
@@ -219,7 +220,8 @@ public class GameServer
 		GameTimeController.getInstance();
 		CharNameTable.getInstance();
 		DatatablesManager.LoadSTS();
-
+		DuelManager.getInstance();
+		
 		Util.printSection("Skills");
 		if(!SkillTable.getInstance().isInitialized())
 		{
@@ -556,7 +558,8 @@ public class GameServer
 		Util.printSection("Status");
 		System.gc();
 		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
-		_log.info("GameServer started!");
+		//ServerStatus.getInstance();
+		//_log.info("ServerStatus started!");
 
 		Util.printSection("Login");
 		_loginThread = LoginServerThread.getInstance();
