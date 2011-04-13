@@ -36,19 +36,15 @@ public final class AttackRequest extends L2GameClientPacket
 {
 	// cddddc
 	private int _objectId;
-
 	@SuppressWarnings("unused")
 	private int _originX;
-
 	@SuppressWarnings("unused")
 	private int _originY;
-
 	@SuppressWarnings("unused")
 	private int _originZ;
-
 	@SuppressWarnings("unused")
 	private int _attackId;
-
+	
 	private static final String _C__0A_ATTACKREQUEST = "[C] 0A AttackRequest";
 
 	@Override
@@ -64,26 +60,28 @@ public final class AttackRequest extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
-			return;
-
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null) return;
 		// avoid using expensive operations if not needed
-		L2Object target;
-
-		if(activeChar.getTargetId() == _objectId)
-		{
+		final L2Object target;
+		if (activeChar.getTargetId() == _objectId)
 			target = activeChar.getTarget();
-		}
 		else
-		{
 			target = L2World.getInstance().findObject(_objectId);
-		}
-
-		if(target == null)
+		if (target == null)
 			return;
-
+		
+		// Players can't attack objects in the other instances
+		// except from multiverse
+		if (target.getInstanceId() != activeChar.getInstanceId()
+				&& activeChar.getInstanceId() != -1)
+			return;
+		
+		// Only GMs can directly attack invisible characters
+		if (target instanceof L2PcInstance
+				&& ((L2PcInstance)target).getAppearance().getInvisible()
+				&& !activeChar.isGM())
+			return;
 		
 		//during teleport phase, players cant do any attack
 		if((TvT.is_teleport() && activeChar._inEventTvT) || (CTF.is_teleport() && activeChar._inEventCTF) || (DM.is_teleport() && activeChar._inEventDM)){
@@ -133,7 +131,9 @@ public final class AttackRequest extends L2GameClientPacket
 		}
 		else
 		{
-			if(target.getObjectId() != activeChar.getObjectId() & activeChar.getPrivateStoreType() == 0 && activeChar.getActiveRequester() == null)
+			if ((target.getObjectId() != activeChar.getObjectId())
+					&& activeChar.getPrivateStoreType() ==0
+					&& activeChar.getActiveRequester() ==null)
 			{
 				//_log.config("Starting ForcedAttack");
 				target.onForcedAttack(activeChar);
