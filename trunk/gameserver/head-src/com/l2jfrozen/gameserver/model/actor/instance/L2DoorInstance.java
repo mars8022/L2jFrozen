@@ -494,6 +494,7 @@ public class L2DoorInstance extends L2Character
 		if(player == null)
 			return;
 
+
 		if(Config.DEBUG){
 		    log.info("player "+player.getObjectId());
 		    log.info("Door "+getObjectId());
@@ -508,6 +509,7 @@ public class L2DoorInstance extends L2Character
 		   for(L2DoorInstance door:getClanHall().getDoors()){
 		    log.info("clanhallDoor "+door.getObjectId());}}}
 		
+
 		// Check if the L2PcInstance already target the L2NpcInstance
 		if(this != player.getTarget())
 		{

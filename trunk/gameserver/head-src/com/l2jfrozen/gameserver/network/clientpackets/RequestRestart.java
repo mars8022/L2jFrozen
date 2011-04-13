@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
@@ -146,6 +147,11 @@ public final class RequestRestart extends L2GameClientPacket
 		if(player.isFlying())
 		{
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+		}
+		
+		if(player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND)!=null
+				&& player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND).isAugmented()){
+			player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND).getAugmentation().removeBoni(player);
 		}
 
 		//delete box from the world

@@ -51,19 +51,19 @@ public class L2DatabaseFactory
 	// Constructor
 	public L2DatabaseFactory() throws SQLException
 	{
-		if (Config.DATABASE_PARTITION_COUNT > 5){
-			Config.DATABASE_PARTITION_COUNT = 5;
+		if (Config.DATABASE_PARTITION_COUNT > 4){
+			Config.DATABASE_PARTITION_COUNT = 4;
 			_log.warn("max {} db connections partitions.", Config.DATABASE_PARTITION_COUNT);
 		}
 		
-		if (Config.DATABASE_MAX_CONNECTIONS < 5) {
-			Config.DATABASE_MAX_CONNECTIONS = 5;
+		if (Config.DATABASE_MAX_CONNECTIONS < 10) {
+			Config.DATABASE_MAX_CONNECTIONS = 10;
 			_log.warn("at least {} db connections are required.", Config.DATABASE_MAX_CONNECTIONS);
 			
 		}else if (Config.DATABASE_MAX_CONNECTIONS * Config.DATABASE_PARTITION_COUNT > 60){
-			_log.warn("Max Connections number is higher then 60.. Using Partition 5 and Connection 12");
-			Config.DATABASE_MAX_CONNECTIONS = 12;
-			Config.DATABASE_PARTITION_COUNT = 5;
+			_log.warn("Max Connections number is higher then 60.. Using Partition 2 and Connection 30");
+			Config.DATABASE_MAX_CONNECTIONS = 30;
+			Config.DATABASE_PARTITION_COUNT = 2;
 		}
 		
 		
