@@ -26,6 +26,8 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
@@ -60,33 +62,31 @@ public final class Action extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		if(Config.DEBUG)
-		{
+		if (Config.DEBUG)
 			_log.fine("Action:" + _actionId);
-		}
-
-		if(Config.DEBUG)
-		{
+		if (Config.DEBUG)
 			_log.fine("oid:" + _objectId);
-		}
 
 		// Get the current L2PcInstance of the player
-		L2PcInstance activeChar = getClient().getActiveChar();
-
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
 		if(activeChar == null)
 			return;
-
-		L2Object obj;
-
-		if(activeChar.getTargetId() == _objectId)
+		
+		if (activeChar.inObserverMode())
 		{
+			getClient().sendPacket(new SystemMessage(SystemMessageId.OBSERVERS_CANNOT_PARTICIPATE));
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		final L2Object obj;
+		
+		if (activeChar.getTargetId() == _objectId)
 			obj = activeChar.getTarget();
-		}
 		else
-		{
 			obj = L2World.getInstance().findObject(_objectId);
-		}
-
+		
 		// If object requested does not exist, add warn msg into logs
 		if(obj == null)
 		{
@@ -96,6 +96,24 @@ public final class Action extends L2GameClientPacket
 			return;
 		}
 
+		// Players can't interact with objects in the other instances
+		// except from multiverse
+		if (obj.getInstanceId() != activeChar.getInstanceId()
+				&& activeChar.getInstanceId() != -1)
+		{
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		// Only GMs can directly interact with invisible characters
+		if (obj instanceof L2PcInstance
+				&& (((L2PcInstance)obj).getAppearance().getInvisible())
+				&& !activeChar.isGM())
+		{
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+	
 		// Check if the target is valid, if the player haven't a shop or isn't the requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...)
 		if(activeChar.getPrivateStoreType() == 0 && activeChar.getActiveRequester() == null)
 		{
