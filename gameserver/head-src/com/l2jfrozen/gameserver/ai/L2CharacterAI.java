@@ -27,6 +27,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_INTERACT;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_MOVE_TO;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Attackable;
@@ -43,7 +44,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 import com.l2jfrozen.gameserver.util.Util;
-
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 /**
  * This class manages AI of L2Character.<BR>
  * <BR>
@@ -469,12 +471,15 @@ public class L2CharacterAI extends AbstractAI
 		// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
 		clientStopAutoAttack();
 
+		if (object instanceof L2ItemInstance && ((L2ItemInstance)object).getLocation() != ItemLocation.VOID)
+			return;
+		
 		// Set the Intention of this AbstractAI to AI_INTENTION_PICK_UP
 		changeIntention(AI_INTENTION_PICK_UP, object, null);
 
 		// Set the AI pick up target
 		setTarget(object);
-
+		
 		if(object.getX() == 0 && object.getY() == 0) // TODO: Find the drop&spawn bug
 		{
 			L2Character player_char = getActor();			

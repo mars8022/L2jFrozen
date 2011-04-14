@@ -5139,8 +5139,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	protected void doPickupItem(L2Object object)
 	{
-		if(isAlikeDead() || isFakeDeath())
-			return;
+		if(isAlikeDead() || isFakeDeath()) return;
 
 		// Set the AI Intention to AI_INTENTION_IDLE
 		getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
@@ -5149,7 +5148,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(!(object instanceof L2ItemInstance))
 		{
 			// dont try to pickup anything that is not an item :)
-			_log.warning("trying to pickup wrong target." + getTarget());
+			_log.warning(this+"trying to pickup wrong target." + getTarget());
 			return;
 		}
 
@@ -5159,11 +5158,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		sendPacket(ActionFailed.STATIC_PACKET);
 
 		// Send a Server->Client packet StopMove to this L2PcInstance
-		StopMove sm = new StopMove(getObjectId(), getX(), getY(), getZ(), getHeading());
+		StopMove sm = new StopMove(this);
 		if(Config.DEBUG)
-		{
 			_log.fine("pickup pos: " + target.getX() + " " + target.getY() + " " + target.getZ());
-		}
 		sendPacket(sm);
 		sm = null;
 
@@ -5232,10 +5229,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			// Remove the L2ItemInstance from the world and send server->client GetItem packets
 			target.pickupMe(this);
 			if(Config.SAVE_DROPPED_ITEM)
-			{
 				ItemsOnGroundManager.getInstance().removeObject(target);
-			}
-
 		}
 
 		//Auto use herbs - pick up
@@ -5243,15 +5237,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			IItemHandler handler = ItemHandler.getInstance().getItemHandler(target.getItemId());
 			if(handler == null)
-			{
 				_log.fine("No item handler registered for item ID " + target.getItemId() + ".");
-			}
 			else
-			{
 				handler.useItem(this, target);
 				ItemTable.getInstance().destroyItem("Consume", target, this, null);
 				handler = null;
-			}
 		}
 		// Cursed Weapons are not distributed
 		else if(CursedWeaponsManager.getInstance().isCursed(target.getItemId()))
