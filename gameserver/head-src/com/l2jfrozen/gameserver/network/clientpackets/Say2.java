@@ -297,13 +297,13 @@ public final class Say2 extends L2GameClientPacket
 							return;
 						}
 
-						/*
-						if (receiver.getClient().isDetached())
+						
+						if (receiver.isOffline())
 						{
 							activeChar.sendMessage("Player is in offline mode.");
 							return;
 						}
-						*/
+						
 						
 						if(!receiver.getMessageRefusal())
 						{
