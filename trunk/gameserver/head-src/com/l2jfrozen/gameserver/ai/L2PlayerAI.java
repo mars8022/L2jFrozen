@@ -276,19 +276,14 @@ public class L2PlayerAI extends L2CharacterAI
 	{
 		if(_actor.isAllSkillsDisabled())
 			return;
-
 		L2Object target = getTarget();
 		if(checkTargetLost(target))
 			return;
-
 		if(maybeMoveToPawn(target, 36))
 			return;
-
 		setIntention(AI_INTENTION_IDLE);
 		((L2PcInstance.AIAccessor) _accessor).doPickupItem(target);
-
 		target = null;
-
 		return;
 	}
 
