@@ -10,12 +10,15 @@ goto end
 :restart
 echo.
 echo Admin Restarted ...
+ping -n 5 localhost > nul
 echo.
 goto start
 :error
 echo.
 echo LoginServer terminated abnormaly
+ping -n 5 localhost > nul
 echo.
+goto start
 :end
 echo.
 echo LoginServer terminated
