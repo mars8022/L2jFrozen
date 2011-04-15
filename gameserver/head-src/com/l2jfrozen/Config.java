@@ -305,6 +305,7 @@ public final class Config
 	//============================================================
 	public static int PORT_GAME;
 	public static String GAMESERVER_HOSTNAME;
+	public static String DATABASE_POOL_TYPE;
 	public static String DATABASE_DRIVER;
 	public static String DATABASE_URL;
 	public static boolean ENABLE_DDOS_PROTECTION_SYSTEM;
@@ -313,6 +314,7 @@ public final class Config
 	public static String DATABASE_LOGIN;
 	public static String DATABASE_PASSWORD;
 	public static int DATABASE_MAX_CONNECTIONS;
+	public static int DATABASE_MAX_IDLE_TIME;
 	public static int DATABASE_TIMEOUT;
 	public static int DATABASE_CONNECTION_TIMEOUT;
 	public static int DATABASE_PARTITION_COUNT;
@@ -346,11 +348,13 @@ public final class Config
 			GAME_SERVER_LOGIN_PORT = Integer.parseInt(serverSettings.getProperty("LoginPort", "9014"));
 			GAME_SERVER_LOGIN_HOST = serverSettings.getProperty("LoginHost", "127.0.0.1");
 
+			DATABASE_POOL_TYPE = serverSettings.getProperty("DatabasePoolType", "c3p0");
 			DATABASE_DRIVER = serverSettings.getProperty("Driver", "com.mysql.jdbc.Driver");
 			DATABASE_URL = serverSettings.getProperty("URL", "jdbc:mysql://localhost/l2jdb");
 			DATABASE_LOGIN = serverSettings.getProperty("Login", "root");
 			DATABASE_PASSWORD = serverSettings.getProperty("Password", "");
 			DATABASE_MAX_CONNECTIONS = Integer.parseInt(serverSettings.getProperty("MaximumDbConnections", "5"));
+			DATABASE_MAX_IDLE_TIME = Integer.parseInt(serverSettings.getProperty("MaximumDbIdleTime", "0"));
 
 			DATABASE_TIMEOUT = Integer.parseInt(serverSettings.getProperty("TimeOutConDb", "0"));
 			DATABASE_PARTITION_COUNT = Integer.parseInt(serverSettings.getProperty("PartitionCount", "4"));
@@ -4032,12 +4036,14 @@ public final class Config
 			INTERNAL_HOSTNAME = serverSettings.getProperty("InternalHostname", "localhost");
 			EXTERNAL_HOSTNAME = serverSettings.getProperty("ExternalHostname", "localhost");
 
+			DATABASE_POOL_TYPE = serverSettings.getProperty("DatabasePoolType", "c3p0");
 			DATABASE_DRIVER = serverSettings.getProperty("Driver", "com.mysql.jdbc.Driver");
 			DATABASE_URL = serverSettings.getProperty("URL", "jdbc:mysql://localhost/l2jdb");
 			DATABASE_LOGIN = serverSettings.getProperty("Login", "root");
 			DATABASE_PASSWORD = serverSettings.getProperty("Password", "");
 			DATABASE_MAX_CONNECTIONS = Integer.parseInt(serverSettings.getProperty("MaximumDbConnections", "10"));
-			
+			DATABASE_MAX_IDLE_TIME = Integer.parseInt(serverSettings.getProperty("MaximumDbIdleTime", "0"));
+
 			ENABLE_DDOS_PROTECTION_SYSTEM = Boolean.parseBoolean(serverSettings.getProperty("EnableDdosProSystem", "false"));
 			DDOS_COMMAND_BLOCK = serverSettings.getProperty("Deny_noallow_ip_ddos", "/sbin/iptables -I INPUT -p tcp --dport 7777 -s $IP -j ACCEPT");
 			ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM = Boolean.parseBoolean(serverSettings.getProperty("Fulllog_mode_print", "false"));
