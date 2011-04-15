@@ -83,7 +83,7 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
-
+		
 		if(player == null)
 			return;
 
@@ -102,7 +102,13 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 			player.sendMessage("You depositing items too fast.");
 			return;
 		}
-
+		
+		if(player.getPrivateStoreType() != 0)
+		{
+			player.sendMessage("You can't deposit items when you are trading.");
+			return;
+		}
+		
 		if(player.isCastingNow() || player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
