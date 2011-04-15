@@ -28,157 +28,133 @@
  */
 package com.l2jfrozen.gameserver.idfactory;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
- * 
+ * @author Olympic
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
 
 public class CompactionIDFactory extends IdFactory
 {
-	private static Logger _log = Logger.getLogger(CompactionIDFactory.class.getName());
-	private int _curOID;
-	private int _freeSize;
+    private static Logger _log = Logger.getLogger(CompactionIDFactory.class.getName());
+    private int _curOID;
+    private int _freeSize;
 
-	protected CompactionIDFactory()
-	{
-		super();
-		_curOID = FIRST_OID;
-		_freeSize = 0;
+    protected CompactionIDFactory()
+    {
+        super();
+        _curOID = FIRST_OID;
+        _freeSize = 0;
 
-		Connection con = null;
+        java.sql.Connection con = null;
+        try
+        {
+            con = L2DatabaseFactory.getInstance().getConnection();
+            //con.createStatement().execute("drop table if exists tmp_obj_id");
 
-		try
-		{
-			con = L2DatabaseFactory.getInstance().getConnection(false);
-			//con.createStatement().execute("drop table if exists tmp_obj_id");
+            int[] tmp_obj_ids = extractUsedObjectIDTable();
 
-			int[] tmp_obj_ids = extractUsedObjectIDTable();
+            int N = tmp_obj_ids.length;
+            for (int idx = 0; idx < N; idx++)
+            {
+                N = insertUntil(tmp_obj_ids, idx, N, con);
+            }
+            _curOID++;
+            _log.config("IdFactory: Next usable Object ID is: " + _curOID);
+            _initialized = true;
+        }
+        catch (Exception e1)
+        {
+            e1.printStackTrace();
+            _log.severe("ID Factory could not be initialized correctly:" + e1);
+        }
+        finally
+        {
+            try { con.close(); } catch (Exception e) {}
+        }
+    }
 
-			int N = tmp_obj_ids.length;
+    private int insertUntil(int[] tmp_obj_ids, int idx, int N,
+            java.sql.Connection con) throws SQLException
+    {
+        int id = tmp_obj_ids[idx];
+        if (id == _curOID)
+        {
+            _curOID++;
+            return N;
+        }
+        // check these IDs not present in DB
+        if (Config.BAD_ID_CHECKING)
+        {
+        for (String check : ID_CHECKS)
+        {
+            PreparedStatement ps = con.prepareStatement(check);
+            ps.setInt(1, _curOID);
+            ps.setInt(2, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                int badId = rs.getInt(1);
+                _log.severe("Bad ID " + badId + " in DB found by: " + check);
+                throw new RuntimeException();
+            }
+            rs.close();
+            ps.close();
+        }
+        }
 
-			for(int idx = 0; idx < N; idx++)
-			{
-				N = insertUntil(tmp_obj_ids, idx, N, con);
-			}
+        int hole = id - _curOID;
+        if (hole > N - idx) hole = N - idx;
+        for (int i = 1; i <= hole; i++)
+        {
+            id = tmp_obj_ids[N - i];
+            System.out.println("Compacting DB object ID=" + id + " into " + (_curOID));
+            for (String update : ID_UPDATES)
+            {
+                PreparedStatement ps = con.prepareStatement(update);
+                ps.setInt(1, _curOID);
+                ps.setInt(2, id);
+                ps.execute();
+                ps.close();
+            }
+            _curOID++;
+        }
+        if (hole < N - idx) _curOID++;
+        return N - hole;
+    }
 
-			_curOID++;
-			_log.config("IdFactory: Next usable Object ID is: " + _curOID);
-			_initialized = true;
-
-			tmp_obj_ids = null;
-		}
-		catch(Exception e1)
-		{
-			e1.printStackTrace();
-			_log.severe("ID Factory could not be initialized correctly:" + e1);
-		}
-		finally
-		{
-			CloseUtil.close(con);
-			con = null;
-			
-		}
-	}
-
-	private int insertUntil(int[] tmp_obj_ids, int idx, int N, Connection con) throws SQLException
-	{
-		int id = tmp_obj_ids[idx];
-
-		if(id == _curOID)
-		{
-			_curOID++;
-			return N;
-		}
-
-		// check these IDs not present in DB
-		if(Config.BAD_ID_CHECKING)
-		{
-			for(String check : ID_CHECKS)
-			{
-				PreparedStatement ps = con.prepareStatement(check);
-				ps.setInt(1, _curOID);
-				ps.setInt(2, id);
-				ResultSet rs = ps.executeQuery();
-
-				while(rs.next())
-				{
-					int badId = rs.getInt(1);
-					_log.severe("Bad ID " + badId + " in DB found by: " + check);
-					throw new RuntimeException();
-				}
-				rs.close();
-				ps.close();
-				rs = null;
-				ps = null;
-			}
-		}
-
-		int hole = id - _curOID;
-
-		if(hole > N - idx)
-		{
-			hole = N - idx;
-		}
-
-		for(int i = 1; i <= hole; i++)
-		{
-			id = tmp_obj_ids[N - i];
-			System.out.println("Compacting DB object ID=" + id + " into " + _curOID);
-
-			for(String update : ID_UPDATES)
-			{
-				PreparedStatement ps = con.prepareStatement(update);
-				ps.setInt(1, _curOID);
-				ps.setInt(2, id);
-				ps.execute();
-				ps.close();
-				ps = null;
-			}
-			_curOID++;
-		}
-		if(hole < N - idx)
-		{
-			_curOID++;
-		}
-
-		return N - hole;
-	}
-
-	@Override
+    @Override
 	public synchronized int getNextId()
-	{
-		/*if (_freeSize == 0)*/return _curOID++;
-		/* else
-		 	return _freeOIDs[--_freeSize];*/
-	}
+    {
+        /*if (_freeSize == 0)*/ return _curOID++;
+       /* else
+        	return _freeOIDs[--_freeSize];*/
+    }
 
-	@Override
-	public synchronized void releaseId(int id)
-	{
-	//dont release ids until we are sure it isnt messing up
-	/* if (_freeSize >= _freeOIDs.length)
-	 {
-	     int[] tmp = new int[_freeSize + STACK_SIZE_INCREMENT];
-	     System.arraycopy(_freeOIDs, 0, tmp, 0, _freeSize);
-	     _freeOIDs = tmp;
-	 }
-	 _freeOIDs[_freeSize++] = id;*/
-	}
+    @Override
+	public synchronized void releaseId(@SuppressWarnings("unused") int id)
+    {
+    	//dont release ids until we are sure it isnt messing up
+       /* if (_freeSize >= _freeOIDs.length)
+        {
+            int[] tmp = new int[_freeSize + STACK_SIZE_INCREMENT];
+            System.arraycopy(_freeOIDs, 0, tmp, 0, _freeSize);
+            _freeOIDs = tmp;
+        }
+        _freeOIDs[_freeSize++] = id;*/
+    }
 
-	@Override
+    @Override
 	public int size()
-	{
-		return _freeSize + LAST_OID - FIRST_OID;
-	}
+    {
+        return _freeSize + LAST_OID - FIRST_OID;
+    }
 }
