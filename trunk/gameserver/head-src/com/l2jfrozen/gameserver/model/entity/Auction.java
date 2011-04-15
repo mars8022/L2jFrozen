@@ -59,6 +59,7 @@ public class Auction
 	private String _sellerName = "";
 	private int _currentBid = 0;
 	private int _startingBid = 0;
+	public static final long MAX_ADENA = 99900000000L;
 
 	private Map<Integer, Bidder> _bidders = new FastMap<Integer, Bidder>();
 	private static final String[] ItemTypeName =
@@ -209,6 +210,10 @@ public class Auction
 	/** Load bidders **/
 	private void loadBid()
 	{
+		_highestBidderId = 0;
+		_highestBidderName = "";
+		_highestBidderMaxBid = 0;
+		
 		Connection con = null;
 		try
 		{
@@ -302,7 +307,7 @@ public class Auction
 	}
 
 	/** Set a bid */
-	public void setBid(L2PcInstance bidder, int bid)
+	public synchronized void setBid(L2PcInstance bidder, int bid)
 	{
 		int requiredAdena = bid;
 
@@ -310,32 +315,37 @@ public class Auction
 		{
 			requiredAdena = bid - getHighestBidderMaxBid();
 		}
-
-		if(getHighestBidderId() > 0 && bid > getHighestBidderMaxBid() || getHighestBidderId() == 0 && bid >= getStartingBid())
+		
+		if ((getHighestBidderId() > 0 && bid > getHighestBidderMaxBid()) || (getHighestBidderId() == 0 && bid >= getStartingBid()))
 		{
-			if(takeItem(bidder, 57, requiredAdena))
+			if (takeItem(bidder, requiredAdena))
 			{
 				updateInDB(bidder, bid);
 				bidder.getClan().setAuctionBiddedAt(_id, true);
 				return;
 			}
 		}
-		bidder.sendMessage("Invalid bid!");
+		if ((bid < getStartingBid()) || (bid <= getHighestBidderMaxBid()))
+			bidder.sendMessage("Bid Price must be higher");
 	}
 
 	/** Return Item in WHC */
-	private void returnItem(String Clan, int itemId, int quantity, boolean penalty)
+	private void returnItem(String Clan, int quantity, boolean penalty)
 	{
 		if(penalty)
 		{
 			quantity *= 0.9; //take 10% tax fee if needed
 		}
 
+		// avoid overflow on return
+		final long limit = MAX_ADENA - ClanTable.getInstance().getClanByName(Clan).getWarehouse().getAdena();
+		quantity = (int) Math.min(quantity, limit);
+
 		ClanTable.getInstance().getClanByName(Clan).getWarehouse().addItem("Outbidded", _adenaId, quantity, null, null);
 	}
-
+	
 	/** Take Item in WHC */
-	private boolean takeItem(L2PcInstance bidder, int itemId, int quantity)
+	private boolean takeItem(L2PcInstance bidder, int quantity)
 	{
 		if(bidder.getClan() != null && bidder.getClan().getWarehouse().getAdena() >= quantity)
 		{
@@ -445,10 +455,8 @@ public class Auction
 		}
 		for(Bidder b : _bidders.values())
 		{
-			if(ClanTable.getInstance().getClanByName(b.getClanName()).getHasHideout() == 0)
-			{
-				returnItem(b.getClanName(), 57, 9 * b.getBid() / 10, false); // 10 % tax
-			}
+			if (ClanTable.getInstance().getClanByName(b.getClanName()).getHasHideout() == 0)
+				returnItem(b.getClanName(), b.getBid(), true); // 10 % tax
 			else
 			{
 				if(L2World.getInstance().getPlayer(b.getName()) != null)
@@ -493,7 +501,7 @@ public class Auction
 	/** End of auction */
 	public void endAuction()
 	{
-		if(ClanHallManager.loaded())
+		if (ClanHallManager.getInstance().loaded())
 		{
 			if(_highestBidderId == 0 && _sellerId == 0)
 			{
@@ -514,8 +522,8 @@ public class Auction
 
 			if(_sellerId > 0)
 			{
-				returnItem(_sellerClanName, 57, _highestBidderMaxBid, true);
-				returnItem(_sellerClanName, 57, ClanHallManager.getInstance().getClanHallById(_itemId).getLease(), false);
+				returnItem(_sellerClanName, _highestBidderMaxBid, true);
+				returnItem(_sellerClanName, ClanHallManager.getInstance().getClanHallById(_itemId).getLease(), false);
 			}
 
 			deleteAuctionFromDB();
@@ -534,7 +542,7 @@ public class Auction
 	}
 
 	/** Cancel bid */
-	public void cancelBid(int bidder)
+	public synchronized void cancelBid(int bidder)
 	{
 		Connection con = null;
 		try
@@ -562,7 +570,7 @@ public class Auction
 			CloseUtil.close(con);
 			con = null;
 		}
-		returnItem(_bidders.get(bidder).getClanName(), 57, _bidders.get(bidder).getBid(), true);
+		returnItem(_bidders.get(bidder).getClanName(), _bidders.get(bidder).getBid(), true);
 		ClanTable.getInstance().getClanByName(_bidders.get(bidder).getClanName()).setAuctionBiddedAt(0, true);
 		_bidders.clear();
 		loadBid();
