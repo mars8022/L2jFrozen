@@ -564,15 +564,14 @@ public final class Say2 extends L2GameClientPacket
 		if(Config.USE_SAY_FILTER)
 		{
 			String filteredText = _text.toLowerCase();
-			activeChar.sendMessage("The word "+filteredText+" is not allowed!");
 			
 			for(String pattern : Config.FILTER_LIST)
 			{
 				filteredText = filteredText.replaceAll("(?i)" + pattern, Config.CHAT_FILTER_CHARS);
 			}
-
+			
 			if(!filteredText.equalsIgnoreCase(_text))
-			{
+			{				
 				if(Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("chat"))
 				{
 					activeChar.setPunishLevel(PunishLevel.CHAT, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
@@ -586,7 +585,7 @@ public final class Say2 extends L2GameClientPacket
 				else if(Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("jail"))
 				{
 					activeChar.setPunishLevel(PunishLevel.JAIL, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
-				}
+				}				
 				_text = filteredText;
 			}
 		}
