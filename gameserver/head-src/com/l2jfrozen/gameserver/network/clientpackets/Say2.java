@@ -585,7 +585,8 @@ public final class Say2 extends L2GameClientPacket
 				else if(Config.CHAT_FILTER_PUNISHMENT.equalsIgnoreCase("jail"))
 				{
 					activeChar.setPunishLevel(PunishLevel.JAIL, Config.CHAT_FILTER_PUNISHMENT_PARAM1);
-				}				
+				}	
+				activeChar.sendMessage("The word "+_text+" is not allowed!");
 				_text = filteredText;
 			}
 		}
