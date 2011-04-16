@@ -33,6 +33,7 @@ public class AdminKick implements IAdminCommandHandler
 			"admin_kick", "admin_kick_non_gm"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -55,6 +56,11 @@ public class AdminKick implements IAdminCommandHandler
 		if(command.startsWith("admin_kick"))
 		{
 			StringTokenizer st = new StringTokenizer(command);
+			
+			if (activeChar.getTarget() != null)
+			{
+				activeChar.sendMessage("Type //kick name");
+			}
 
 			if(st.countTokens() > 1)
 			{
@@ -62,11 +68,18 @@ public class AdminKick implements IAdminCommandHandler
 
 				String player = st.nextToken();
 				L2PcInstance plyr = L2World.getInstance().getPlayer(player);
-
+				
 				if(plyr != null)
 				{
 					plyr.logout();
 					activeChar.sendMessage("You kicked " + plyr.getName() + " from the game.");
+					RegionBBSManager.getInstance().changeCommunityBoard();
+				}
+				
+				if(plyr != null && plyr.isOffline())
+				{
+					plyr.deleteMe();
+					activeChar.sendMessage("You kicked Offline Player " + plyr.getName() + " from the game.");
 					RegionBBSManager.getInstance().changeCommunityBoard();
 				}
 
@@ -96,6 +109,7 @@ public class AdminKick implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
