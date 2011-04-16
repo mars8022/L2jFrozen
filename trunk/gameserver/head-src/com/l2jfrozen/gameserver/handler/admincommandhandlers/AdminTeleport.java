@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -29,6 +30,7 @@ import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -69,6 +71,7 @@ public class AdminTeleport implements IAdminCommandHandler
 			"admin_godown",
 			"admin_tele",
 			"admin_teleto",
+			"admin_recall_party",
 	};
 
 	private enum CommandEnum
@@ -90,7 +93,8 @@ public class AdminTeleport implements IAdminCommandHandler
 		admin_goup,
 		admin_godown,
 		admin_tele,
-		admin_teleto
+		admin_teleto,
+		admin_recall_party
 	}
 
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
@@ -147,6 +151,55 @@ public class AdminTeleport implements IAdminCommandHandler
 				return true;
 				
 			} 
+			case admin_recall_party:{
+			
+				if (activeChar.isGM() && !(activeChar.getAccessLevel().getLevel() == 1))
+				{return false;}
+				
+				String val = "";
+				
+				if(st.hasMoreTokens()){
+					
+					val = st.nextToken();
+					
+				}else{
+					activeChar.sendMessage("Usage: //recall_party <party_leader_name>");
+					return false;
+				}
+				
+				if(val.equals("")){
+					activeChar.sendMessage("Usage: //recall_party <party_leader_name>");
+					return false;
+				}
+
+				L2PcInstance player = L2World.getInstance().getPlayer(val);	
+				
+				if(player==null){
+					activeChar.sendMessage("ATTENTION: party_leader_name must be valid character");
+					activeChar.sendMessage("//recall_party <party_leader_name>");
+					return false;
+				}
+				
+				if(player.getParty() == null){
+					activeChar.sendMessage("The player must have a party");
+					activeChar.sendMessage("//recall_party <party_leader_name>");
+					return false;
+				}
+
+				if(!player.getParty().isLeader(player)){
+					activeChar.sendMessage("The player must be the party_leader");
+					activeChar.sendMessage("//recall_party <party_leader_name>");
+					return false;
+				}				
+				
+				for(L2PcInstance partyMember : player.getParty().getPartyMembers())
+				{					
+					partyMember.sendMessage("You party teleported by Admin.");
+					teleportTo(partyMember, activeChar.getX(), activeChar.getY(), activeChar.getZ()); 				
+				}
+				return true;
+		
+			}
 			case admin_move_to:{
 				
 				int x = 0;
