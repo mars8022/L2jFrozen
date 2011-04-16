@@ -38,7 +38,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
-import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAll;
@@ -923,7 +922,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				_log.log(Level.WARNING, "listCharacters: found player null into L2World Instance..");
 			else if(actual_player.isOnline()==0)
 				_log.log(Level.WARNING, "listCharacters: player "+actual_player.getName()+" not online into L2World Instance..");
-			else if(actual_player.isOffline())
+			else if(actual_player.isOffline() && Config.DEBUG)
 				_log.log(Level.WARNING, "listCharacters: player "+actual_player.getName()+" offline into L2World Instance..");
 		
 		L2PcInstance[] players = online_players_list.toArray(new L2PcInstance[online_players_list.size()]);
