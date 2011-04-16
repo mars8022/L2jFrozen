@@ -564,7 +564,8 @@ public final class Say2 extends L2GameClientPacket
 		if(Config.USE_SAY_FILTER)
 		{
 			String filteredText = _text.toLowerCase();
-
+			activeChar.sendMessage("The word "+filteredText+" is not allowed!");
+			
 			for(String pattern : Config.FILTER_LIST)
 			{
 				filteredText = filteredText.replaceAll("(?i)" + pattern, Config.CHAT_FILTER_CHARS);
