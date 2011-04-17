@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.model.ClanWarehouse;
 import com.l2jfrozen.gameserver.model.ItemContainer;
 import com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance;
@@ -217,7 +218,12 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 			{
 				continue;
 			}
-
+			
+			if(CursedWeaponsManager.getInstance().isCursed(itemId))
+			{
+				_log.warning(player.getName()+" try to deposit Cursed Weapon on wherehouse.");
+				continue;
+			}
 			L2ItemInstance newItem = player.getInventory().transferItem("Warehouse", objectId, count, warehouse, player, player.getLastFolkNPC());
 			if(newItem == null)
 			{
