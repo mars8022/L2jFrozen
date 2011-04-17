@@ -2559,11 +2559,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			L2Skill effectSkill = currenteffect.getSkill();
 
-			if(currenteffect.getSkill().isToggle())
-			{
-				currenteffect.exit();
-			}
-			else if(!effectSkill.isOffensive() && !(effectSkill.getTargetType() == SkillTargetType.TARGET_PARTY && effectSkill.getSkillType() == SkillType.BUFF))
+			// Ignore all buff skills that are party related (ie. songs, dances) while still remaining weapon dependant on cast though.
+			if(!effectSkill.isOffensive() && !(effectSkill.getTargetType() == SkillTargetType.TARGET_PARTY && effectSkill.getSkillType() == SkillType.BUFF))
 			{
 				// Check to rest to assure current effect meets weapon requirements.
 				if(!effectSkill.getWeaponDependancy(this))
@@ -2571,9 +2568,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					sendMessage(effectSkill.getName() + " cannot be used with this weapon.");
 
 					if(Config.DEBUG)
-					{
 						_log.info("   | Skill " + effectSkill.getName() + " has been disabled for (" + getName() + "); Reason: Incompatible Weapon Type.");
-					}
 
 					currenteffect.exit();
 				}
