@@ -2892,6 +2892,13 @@ public final class L2PcInstance extends L2PlayableInstance
 			giveAvailableSkills();
 		}
 		sendSkillList();
+		
+		if (_clan != null)  
+		{  
+			if (_clan.getLevel() > 3 && isClanLeader())  
+				SiegeManager.getInstance().addSiegeSkills(this);  
+		}
+		
 		// This function gets called on login, so not such a bad place to check weight
 		refreshOverloaded(); // Update the overloaded status of the L2PcInstance
 
@@ -12373,6 +12380,16 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		return true;
 	}
+	
+	public void broadcastClassIcon() 
+	{ 
+		// Update class icon in party and clan 
+		if (isInParty()) 
+			getParty().broadcastToPartyMembers(new PartySmallWindowUpdate(this)); 
+
+		if (getClan() != null) 
+			getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(this)); 
+	}	
 
 	public void stopWarnUserTakeBreak()
 	{

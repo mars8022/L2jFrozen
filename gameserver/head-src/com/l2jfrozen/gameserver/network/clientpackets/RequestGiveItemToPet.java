@@ -84,13 +84,11 @@ public final class RequestGiveItemToPet extends L2GameClientPacket
 			return;
 		}
 
-		// Exploit Fix for Hero weapons Uses pet Inventory to buy New One. 
-		// [L2Scoria] 
 		L2ItemInstance item = player.getInventory().getItemByObjectId(_objectId);
 
 		if(item == null)
 			return;
-
+		
 		if(item.isAugmented())
 			return;
 

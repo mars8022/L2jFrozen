@@ -661,5 +661,6 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		}
 
 		player.broadcastUserInfo();
+		player.broadcastClassIcon();
 	}
 }

@@ -94,6 +94,11 @@ public class Sow implements ISkillHandler
 			}
 
 			L2ItemInstance item = _activeChar.getInventory().getItemByItemId(_seedId);
+			if (item == null) 
+			{ 
+				_activeChar.sendPacket(ActionFailed.STATIC_PACKET);  
+			 	break; 
+			}
 			//Consuming used seed
 			_activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 			item = null;
