@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
@@ -83,13 +84,14 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		if (_items == null)
+			return;
 		
+		final L2PcInstance player = getClient().getActiveChar();		
 		if(player == null)
 			return;
 
-		ItemContainer warehouse = player.getActiveWarehouse();
-
+		final ItemContainer warehouse = player.getActiveWarehouse();
 		if(warehouse == null)
 			return;
 
@@ -211,7 +213,7 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 				_log.warning("Error depositing a warehouse object for char " + player.getName() + " (olditem == null)");
 				continue;
 			}
-
+			
 			int itemId = oldItem.getItemId();
 
 			if(itemId >= 6611 && itemId <= 6621 || itemId == 6842)
@@ -224,6 +226,7 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 				_log.warning(player.getName()+" try to deposit Cursed Weapon on wherehouse.");
 				continue;
 			}
+			
 			L2ItemInstance newItem = player.getInventory().transferItem("Warehouse", objectId, count, warehouse, player, player.getLastFolkNPC());
 			if(newItem == null)
 			{
@@ -231,28 +234,20 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 				continue;
 			}
 
-			if(playerIU != null)
+			if (playerIU != null)
 			{
-				if(oldItem.getCount() > 0 && oldItem != newItem)
-				{
+				if (oldItem.getCount() > 0 && oldItem != newItem)
 					playerIU.addModifiedItem(oldItem);
-				}
 				else
-				{
 					playerIU.addRemovedItem(oldItem);
-				}
 			}
 		}
 
 		// Send updated item list to the player
-		if(playerIU != null)
-		{
+		if (playerIU != null)
 			player.sendPacket(playerIU);
-		}
 		else
-		{
 			player.sendPacket(new ItemList(player, false));
-		}
 
 		// Update current load status on player
 		StatusUpdate su = new StatusUpdate(player.getObjectId());
