@@ -247,7 +247,6 @@ public class AdminEffects implements IAdminCommandHandler
 					e.printStackTrace();	
 			}
 		}
-
 		else if(command.startsWith("admin_play_sound"))
 		{
 			try
@@ -260,113 +259,85 @@ public class AdminEffects implements IAdminCommandHandler
 					e.printStackTrace();	
 			}
 		}
-
-		else if(command.startsWith("admin_para") || command.startsWith("admin_para_menu"))
+		
+        else if (command.startsWith("admin_para ")||command.startsWith("admin_para_menu"))
 		{
-			String type = "1";
-			if(st.hasMoreTokens())
-			{
-				type = st.nextToken();
-			}
-			try
-			{
-				L2Object target = activeChar.getTarget();
-				L2Character player = null;
-				if(target instanceof L2Character)
-				{
-					player = (L2Character) target;
-
-					if(type.equals("1"))
-					{
-						player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_HOLD_1);
-					}
-					else
-					{
-						player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_HOLD_2);
-					}
-
-					player.setIsParalyzed(true);
-					StopMove sm = new StopMove(player);
-					player.sendPacket(sm);
-					player.broadcastPacket(sm);
-					sm = null;
-				}
-
-				player = null;
-				target = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-
-			type = null;
+		String type = "1";
+			 try
+			 {
+			 type = st.nextToken();
+			 }
+			 catch(Exception e){}
+			      try
+			   	  {
+			   	  L2Object target = activeChar.getTarget();
+			   	  L2Character player = null;
+			   	  if (target instanceof L2Character)
+			   	    {
+			   	     player = (L2Character)target;
+			   	     if (type.equals("1"))
+			   	         player.startAbnormalEffect(0x0400);
+			   	     else
+			   	         player.startAbnormalEffect(0x0800);
+			   	     player.setIsParalyzed(true);
+			   	     StopMove sm = new StopMove(player);
+			   	     player.sendPacket(sm);
+			  	     player.broadcastPacket(sm);
+			  	     }
+			   	  }
+			 catch (Exception e)
+			 {}
 		}
-
-		else if(command.equals("admin_unpara") || command.equals("admin_unpara_menu"))
+		
+		else if (command.equals("admin_unpara")||command.equals("admin_unpara_menu"))
 		{
-			try
+		try
+		{
+			L2Object target = activeChar.getTarget();
+			L2Character player = null;
+			if (target instanceof L2Character)
 			{
-				L2Object target = activeChar.getTarget();
-				L2Character player = null;
-
-				if(target instanceof L2Character)
-				{
-					player = (L2Character) target;
-					player.stopAbnormalEffect((short) 0x0400);
-					player.setIsParalyzed(false);
-				}
-
-				target = null;
-				player = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
+			   player = (L2Character)target;
+			   player.stopAbnormalEffect((short)0x0400);
+			   player.setIsParalyzed(false);
 			}
 		}
-
-		else if(command.startsWith("admin_para_all"))
+		catch (Exception e)
+		{}
+		}
+		
+		else if (command.startsWith("admin_para_all"))
 		{
-			try
+		try
+		{
+		for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
 			{
-				for(L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
-				{
-					if(!player.isGM())
-					{
-						player.startAbnormalEffect(0x0400);
-						player.setIsParalyzed(true);
-						StopMove sm = new StopMove(player);
-						player.sendPacket(sm);
-						player.broadcastPacket(sm);
-						sm = null;
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
+			if (!player.isGM())
+			   {
+			   	player.startAbnormalEffect(0x0400);
+			   	player.setIsParalyzed(true);
+			  	StopMove sm = new StopMove(player);
+			   	player.sendPacket(sm);
+			   	player.broadcastPacket(sm);
+			   	}
 			}
 		}
-
-		else if(command.startsWith("admin_unpara_all"))
+		catch (Exception e)
+		{ }
+		}
+		
+		else if (command.startsWith("admin_unpara_all"))
 		{
-			try
+		try
+		{
+		for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
 			{
-				for(L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
-				{
-					player.stopAbnormalEffect(0x0400);
-					player.setIsParalyzed(false);
-				}
+			   player.stopAbnormalEffect(0x0400);
+			   player.setIsParalyzed(false);
 			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+		}
+		catch (Exception e)
+		{}
 		}
 
 		else if(command.startsWith("admin_bighead"))
