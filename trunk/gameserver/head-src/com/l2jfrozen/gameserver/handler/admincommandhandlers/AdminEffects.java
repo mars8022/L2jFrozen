@@ -260,7 +260,7 @@ public class AdminEffects implements IAdminCommandHandler
 			}
 		}
 		
-        else if (command.startsWith("admin_para ")||command.startsWith("admin_para_menu"))
+		else if (command.equals("admin_para")||command.equals("admin_para_menu"))
 		{
 		String type = "1";
 			 try
