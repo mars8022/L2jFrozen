@@ -741,6 +741,10 @@ public final class QuestState
 		}
 		else
 		{
+			// Fix for destroyed quest items 
+		 	if (item.isEquipped())
+		 		getPlayer().getInventory().unEquipItemInBodySlotAndRecord(item.getItem().getBodyPart());
+		 	
 			getPlayer().destroyItemByItemId("Quest", itemId, count, getPlayer(), true);
 		}
 
