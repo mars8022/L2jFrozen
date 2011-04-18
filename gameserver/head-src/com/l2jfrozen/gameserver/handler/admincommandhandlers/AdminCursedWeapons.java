@@ -58,6 +58,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		admin_cw_info_menu
 	}
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -359,6 +360,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

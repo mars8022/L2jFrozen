@@ -30,6 +30,7 @@ public class SetClanCmd implements IVoicedCommandHandler
 			"set name", "set home", "set group"
 	};
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.startsWith("set privileges"))
@@ -53,6 +54,7 @@ public class SetClanCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;

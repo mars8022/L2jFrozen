@@ -69,6 +69,7 @@ public class Book implements IItemHandler
 			7112
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -109,6 +110,7 @@ public class Book implements IItemHandler
 		content = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

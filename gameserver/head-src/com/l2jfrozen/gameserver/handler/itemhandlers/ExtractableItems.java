@@ -126,6 +126,7 @@ public class ExtractableItems implements IItemHandler
 	}
 
 	// by Azagthtot РџРѕРґРґРµСЂР¶РєР° РјРЅРѕР¶РµСЃС‚РІРµРЅРЅРѕР№ СЂР°СЃРїР°РєРѕРІРєРё 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -151,6 +152,7 @@ public class ExtractableItems implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ExtractableItemsData.getInstance().itemIDs();

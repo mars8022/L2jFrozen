@@ -307,6 +307,7 @@ public class Seed implements IItemHandler
 	private L2MonsterInstance _target;
 	private L2PcInstance _activeChar;
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -369,6 +370,7 @@ public class Seed implements IItemHandler
 		return L2Manor.getInstance().getCastleIdForSeed(_seedId) == castleId;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return _itemIds;

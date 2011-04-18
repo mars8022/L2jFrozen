@@ -40,6 +40,7 @@ public class AdminGmChat implements IAdminCommandHandler
 			"admin_gmchat", "admin_snoop", "admin_gmchat_menu"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -104,6 +105,7 @@ public class AdminGmChat implements IAdminCommandHandler
 		player = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

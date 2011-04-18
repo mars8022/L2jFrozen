@@ -34,6 +34,7 @@ public class SpecialXMas implements IItemHandler
 		5555
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -62,6 +63,7 @@ public class SpecialXMas implements IItemHandler
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#getItemIds()
 	 */
+	@Override
 	public int[] getItemIds()
 	{
 		return _itemIds;

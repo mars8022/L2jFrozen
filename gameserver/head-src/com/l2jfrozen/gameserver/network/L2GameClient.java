@@ -140,6 +140,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSave(activeChar), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
 		_guardCheckTask = nProtect.getInstance().startTask(this);
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			@Override
 			public void run() {
 				if(_closenow)
 					close(new LeaveWorld());
@@ -791,6 +792,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		/**
 		 * @see java.lang.Runnable#run()
 		 */
+		@Override
 		public void run()
 		{
 			try
@@ -846,6 +848,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		/**
 		 * @see java.lang.Runnable#run()
 		 */
+		@Override
 		public void run()
 		{
 			try

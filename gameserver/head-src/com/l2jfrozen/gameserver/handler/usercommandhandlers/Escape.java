@@ -50,6 +50,7 @@ public class Escape implements IUserCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
+	@Override
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
 
@@ -150,6 +151,7 @@ public class Escape implements IUserCommandHandler
 			_activeChar = activeChar;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar.isDead())
@@ -178,6 +180,7 @@ public class Escape implements IUserCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
 	 */
+	@Override
 	public int[] getUserCommandList()
 	{
 		return COMMAND_IDS;

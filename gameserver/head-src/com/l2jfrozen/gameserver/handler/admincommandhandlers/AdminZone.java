@@ -41,6 +41,7 @@ public class AdminZone implements IAdminCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand(java.lang.String, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 
@@ -122,6 +123,7 @@ public class AdminZone implements IAdminCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
 	 */
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

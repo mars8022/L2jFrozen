@@ -21,6 +21,7 @@ public class NobleCustomItem implements IItemHandler
 	//null
 	}
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(Config.NOBLE_CUSTOM_ITEMS)
@@ -52,6 +53,7 @@ public class NobleCustomItem implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

@@ -23,7 +23,6 @@ import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 

@@ -60,6 +60,7 @@ public class LoginController
 {
 	private class ConnectionChecker extends Thread
 	{
+		@Override
 		public void run()
 		{
 			for(;;)

@@ -114,6 +114,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 	}
 
 	
+	@Override
 	public void shutdown()
 	{
 		try
@@ -134,6 +135,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		}
 	}
 
+	@Override
 	public Connection getConnection(boolean checkclose) throws SQLException 
 	{ 
 		Connection con = null;
@@ -155,6 +157,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		return con;
 	}
 	
+	@Override
 	public Connection getConnection(long max_connection_time) throws SQLException 
 	{ 
 		Connection con = null;
@@ -179,10 +182,12 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		return con;
 	}
 	
+	@Override
 	public int getBusyConnectionCount() throws SQLException {
 		return _source.getTotalLeased();
 	}
 
+	@Override
 	public int getIdleConnectionCount() throws SQLException {
 		return _source.getTotalFree();
 	}

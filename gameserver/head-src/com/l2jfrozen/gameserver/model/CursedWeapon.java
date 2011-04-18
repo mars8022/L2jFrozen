@@ -264,6 +264,7 @@ public class CursedWeapon
 		protected RemoveTask()
 		{}
 
+		@Override
 		public void run()
 		{
 			if(System.currentTimeMillis() >= getEndTime())

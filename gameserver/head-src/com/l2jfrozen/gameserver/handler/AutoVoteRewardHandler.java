@@ -44,6 +44,7 @@ public class AutoVoteRewardHandler
 
 	private class AutoReward implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;

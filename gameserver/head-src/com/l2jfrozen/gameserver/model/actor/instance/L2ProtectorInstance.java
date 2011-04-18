@@ -44,6 +44,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 			_caster = caster;
 		}
 
+		@Override
 		public void run()
 		{
 			/**

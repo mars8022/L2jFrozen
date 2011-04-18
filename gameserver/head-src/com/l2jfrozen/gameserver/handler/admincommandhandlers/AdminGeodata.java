@@ -52,6 +52,7 @@ public class AdminGeodata implements IAdminCommandHandler
 		admin_geo_unload
 	}
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -255,6 +256,7 @@ public class AdminGeodata implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

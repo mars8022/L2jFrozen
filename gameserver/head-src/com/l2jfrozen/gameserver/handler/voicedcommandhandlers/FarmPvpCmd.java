@@ -32,6 +32,7 @@ public class FarmPvpCmd implements IVoicedCommandHandler
 			"farm1", "farm2", "pvp1", "pvp2"
 	};
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		int placex;
@@ -116,6 +117,7 @@ public class FarmPvpCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
@@ -138,6 +140,7 @@ public class FarmPvpCmd implements IVoicedCommandHandler
 			_message = message;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar == null)

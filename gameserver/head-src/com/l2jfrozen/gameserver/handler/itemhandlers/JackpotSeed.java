@@ -51,6 +51,7 @@ public class JackpotSeed implements IItemHandler
 	//Large Young Pumpkin
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar = (L2PcInstance) playable;
@@ -99,6 +100,7 @@ public class JackpotSeed implements IItemHandler
 		template1 = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return _itemIds;

@@ -70,6 +70,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 			activeChar = _activeChar;
 		}
 
+		@Override
 		public void run()
 		{
 			if((activeChar._inEventTvT && TvT.is_started()) || (activeChar._inEventDM && DM.is_started()) || (activeChar._inEventCTF && CTF.is_started()))

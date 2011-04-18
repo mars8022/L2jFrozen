@@ -67,6 +67,7 @@ public class Scrolls implements IItemHandler
 			9155
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
@@ -317,6 +318,7 @@ public class Scrolls implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

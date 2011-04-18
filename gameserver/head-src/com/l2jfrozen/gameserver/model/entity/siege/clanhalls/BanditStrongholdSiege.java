@@ -243,6 +243,7 @@ public class BanditStrongholdSiege extends ClanHallSiege
 
 	private class midSiegeStep implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			_mobControlTask.cancel();
@@ -269,6 +270,7 @@ public class BanditStrongholdSiege extends ClanHallSiege
 
 	private class startFirstStep implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			teleportPlayers();

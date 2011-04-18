@@ -35,6 +35,7 @@ public class AdminMassControl implements IAdminCommandHandler
 			"admin_masskill", "admin_massress"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -103,6 +104,7 @@ public class AdminMassControl implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

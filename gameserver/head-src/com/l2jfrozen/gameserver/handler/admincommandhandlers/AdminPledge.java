@@ -59,6 +59,7 @@ public class AdminPledge implements IAdminCommandHandler
 		rep
 	}
 	
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -281,6 +282,7 @@ public class AdminPledge implements IAdminCommandHandler
 		
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

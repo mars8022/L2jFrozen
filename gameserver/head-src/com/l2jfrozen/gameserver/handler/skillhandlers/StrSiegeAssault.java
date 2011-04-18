@@ -44,6 +44,7 @@ public class StrSiegeAssault implements ISkillHandler
 	//private static Logger _log = Logger.getLogger(StrSiegeAssault.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.STRSIEGEASSAULT };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 
@@ -136,6 +137,7 @@ public class StrSiegeAssault implements ISkillHandler
 		player = null;
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

@@ -113,6 +113,7 @@ public class Potions implements IItemHandler
 			_level = level;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -207,6 +208,7 @@ public class Potions implements IItemHandler
 			8639
 	};
 
+	@Override
 	public synchronized void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
@@ -647,6 +649,7 @@ public class Potions implements IItemHandler
 		return false;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

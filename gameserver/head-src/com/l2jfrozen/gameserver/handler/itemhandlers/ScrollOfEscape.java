@@ -92,6 +92,7 @@ public class ScrollOfEscape implements IItemHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -236,6 +237,7 @@ public class ScrollOfEscape implements IItemHandler
 			_itemId = itemId;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar.isDead())
@@ -386,6 +388,7 @@ public class ScrollOfEscape implements IItemHandler
 		return actor.isStunned() || actor.isSleeping() || actor.isParalyzed() || actor.isFakeDeath() || actor.isTeleporting() || actor.isMuted() || actor.isAlikeDead() || actor.isAllSkillsDisabled();
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

@@ -50,6 +50,7 @@ public class AdminShutdown implements IAdminCommandHandler
 		admin_server_abort
 	}
 	
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
@@ -136,6 +137,7 @@ public class AdminShutdown implements IAdminCommandHandler
 		
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

@@ -47,6 +47,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class SummonItems implements IItemHandler
 {
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -234,6 +235,7 @@ public class SummonItems implements IItemHandler
 			_petSummon = petSummon;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -266,6 +268,7 @@ public class SummonItems implements IItemHandler
 			_petSummon = petSummon;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -282,6 +285,7 @@ public class SummonItems implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return SummonItemsData.getInstance().itemIDs();

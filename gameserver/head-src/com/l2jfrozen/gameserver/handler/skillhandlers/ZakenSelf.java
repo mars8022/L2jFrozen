@@ -30,6 +30,7 @@ public class ZakenSelf implements ISkillHandler
 	//private static Logger _log = Logger.getLogger(ZakenSelf.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.ZAKENSELF };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		try
@@ -101,6 +102,7 @@ public class ZakenSelf implements ISkillHandler
 		}
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

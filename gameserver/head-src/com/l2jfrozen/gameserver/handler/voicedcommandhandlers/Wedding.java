@@ -48,6 +48,7 @@ public class Wedding implements IVoicedCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.startsWith("engage"))
@@ -446,6 +447,7 @@ public class Wedding implements IVoicedCommandHandler
 			_to7sDungeon = to7sDungeon;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar.isDead())
@@ -471,6 +473,7 @@ public class Wedding implements IVoicedCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
 	 */
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;

@@ -40,6 +40,7 @@ public class MercTicket implements IItemHandler
 	 * has been reached 1.f) Check if max number of tickets from this ticket's TYPE has been reached 2) If allowed, call
 	 * the MercTicketManager to add the item and spawn in the world 3) Remove the item from the person's inventory
 	 */
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		int itemId = item.getItemId();
@@ -124,6 +125,7 @@ public class MercTicket implements IItemHandler
 	}
 
 	// left in here for backward compatibility
+	@Override
 	public int[] getItemIds()
 	{
 		return MercTicketManager.getInstance().getItemIds();

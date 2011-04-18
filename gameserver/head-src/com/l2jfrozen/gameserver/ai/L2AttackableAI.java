@@ -92,6 +92,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 		_globalAggro = -10; // 10 seconds timeout of ATTACK after respawn
 	}
 
+	@Override
 	public void run()
 	{
 		// Launch actions corresponding to the Event Think

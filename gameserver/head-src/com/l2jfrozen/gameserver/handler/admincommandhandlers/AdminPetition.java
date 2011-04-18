@@ -47,6 +47,7 @@ public class AdminPetition implements IAdminCommandHandler
 		admin_reset_petitions
 	}
 	
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
@@ -169,6 +170,7 @@ public class AdminPetition implements IAdminCommandHandler
 		return false;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

@@ -44,6 +44,7 @@ public class AdminHero implements IAdminCommandHandler
 
 	protected static final Logger _log = Logger.getLogger(AdminHero.class.getName());
 	
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -212,6 +213,7 @@ public class AdminHero implements IAdminCommandHandler
 	/**
 	 * @return
 	 */
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

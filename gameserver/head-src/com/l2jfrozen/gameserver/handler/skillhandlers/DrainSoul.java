@@ -36,6 +36,7 @@ public class DrainSoul implements ISkillHandler
 	private static Logger _log = Logger.getLogger(DrainSoul.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.DRAIN_SOUL };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(!(activeChar instanceof L2PcInstance))
@@ -53,6 +54,7 @@ public class DrainSoul implements ISkillHandler
 		// since the Soul Crystal item handler already does everything.
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

@@ -49,6 +49,7 @@ public class FishShots implements IItemHandler
 	/* (non-Javadoc)
 	* @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	*/
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -98,6 +99,7 @@ public class FishShots implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

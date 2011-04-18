@@ -45,6 +45,7 @@ public class Charge implements ISkillHandler
 	/*SkillType.CHARGE*/
 	};
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 
@@ -69,6 +70,7 @@ public class Charge implements ISkillHandler
 		effect = null;
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

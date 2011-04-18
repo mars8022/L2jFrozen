@@ -36,6 +36,7 @@ public class CustomPotions implements IItemHandler
 			9720, 9721, 9722, 9723, 9724, 9725, 9726, 9727, 9728, 9729, 9730, 9731,
 	};
 
+	@Override
 	public synchronized void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
@@ -91,6 +92,7 @@ public class CustomPotions implements IItemHandler
 		return false;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

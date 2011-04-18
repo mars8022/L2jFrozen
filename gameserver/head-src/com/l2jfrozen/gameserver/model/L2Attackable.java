@@ -626,6 +626,7 @@ public class L2Attackable extends L2NpcInstance
 			_isPet = isPet;
 		}
 
+		@Override
 		public void run()
 		{
 			_quest.notifyKill(_attackable, _killer, _isPet);
@@ -1678,28 +1679,28 @@ public class L2Attackable extends L2NpcInstance
 			switch(drop.getItemId()){
 				case 6662:{ //core ring
 					if(Config.CORE_RING_CHANCE>0)
-						dropChance = ((int) 10000*Config.CORE_RING_CHANCE);
+						dropChance = (10000*Config.CORE_RING_CHANCE);
 					else
 						dropChance = drop.getChance();
 				}
 				break;
 				case 6661:{ //orfen earring
 					if(Config.ORFEN_EARRING_CHANCE>0)
-						dropChance = ((int) 10000*Config.ORFEN_EARRING_CHANCE);
+						dropChance = (10000*Config.ORFEN_EARRING_CHANCE);
 					else
 						dropChance = drop.getChance();
 				}
 				break;
 				case 6659:{ //zaken earring
 					if(Config.ZAKEN_EARRING_CHANCE>0)
-						dropChance = ((int) 10000*Config.ZAKEN_EARRING_CHANCE);
+						dropChance = (10000*Config.ZAKEN_EARRING_CHANCE);
 					else
 						dropChance = drop.getChance();
 				}
 				break;
 				case 6660:{ //aq ring
 					if(Config.QA_RING_CHANCE>0)
-						dropChance = ((int) 10000*Config.QA_RING_CHANCE);
+						dropChance = (10000*Config.QA_RING_CHANCE);
 					else
 						dropChance = drop.getChance();
 				}
@@ -1779,7 +1780,7 @@ public class L2Attackable extends L2NpcInstance
 			// Count and chance adjustment for high rate servers
 			if(dropChance > L2DropData.MAX_CHANCE && !Config.PRECISE_DROP_CALCULATION)
 			{
-				int multiplier = ((int)dropChance) / L2DropData.MAX_CHANCE;
+				int multiplier = (dropChance) / L2DropData.MAX_CHANCE;
 
 				if(min < max)
 				{
@@ -3339,6 +3340,7 @@ public class L2Attackable extends L2NpcInstance
 		/**
 		 * @see java.lang.Runnable#run()
 		 */
+		@Override
 		public void run()
 		{
 			if ((System.currentTimeMillis() - _monster.getCommandChannelLastAttack()) > 900000)

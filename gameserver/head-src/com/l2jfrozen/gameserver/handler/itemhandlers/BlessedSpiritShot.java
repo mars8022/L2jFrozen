@@ -54,6 +54,7 @@ public class BlessedSpiritShot implements IItemHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -143,6 +144,7 @@ public class BlessedSpiritShot implements IItemHandler
 		weaponItem = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

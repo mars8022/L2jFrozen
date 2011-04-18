@@ -83,6 +83,7 @@ public class ThreadPoolManager
 			_r = r;
 		}
 		
+		@Override
 		public final void run()
 		{
 			try
@@ -381,6 +382,7 @@ public class ThreadPoolManager
 			_group = new ThreadGroup(_name);
 		}
 		
+		@Override
 		public Thread newThread(Runnable r)
 		{
 			Thread t = new Thread(_group, r);
@@ -538,6 +540,7 @@ public class ThreadPoolManager
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
+		@Override
 		public void run()
 		{
 			_effectsScheduledThreadPool.purge();

@@ -51,6 +51,7 @@ public class AdminTownWar implements IAdminCommandHandler
 	{
 		return _activeObject;
 	}
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -224,6 +225,7 @@ public class AdminTownWar implements IAdminCommandHandler
 		}
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

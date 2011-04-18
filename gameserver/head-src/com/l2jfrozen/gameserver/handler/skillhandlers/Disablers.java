@@ -79,6 +79,7 @@ public class Disablers implements ISkillHandler
 	private float _negatePower = 0.f;
 	private int _negateId = 0;
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		SkillType type = skill.getSkillType();
@@ -751,6 +752,7 @@ public class Disablers implements ISkillHandler
 		effects = null;
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

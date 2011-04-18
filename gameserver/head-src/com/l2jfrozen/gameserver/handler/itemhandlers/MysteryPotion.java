@@ -44,6 +44,7 @@ public class MysteryPotion implements IItemHandler
 	private static final int MYSTERY_POTION_SKILL = 2103;
 	private static final int EFFECT_DURATION = 1200000; // 20 mins
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -84,6 +85,7 @@ public class MysteryPotion implements IItemHandler
 			_playable = playable;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -101,6 +103,7 @@ public class MysteryPotion implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

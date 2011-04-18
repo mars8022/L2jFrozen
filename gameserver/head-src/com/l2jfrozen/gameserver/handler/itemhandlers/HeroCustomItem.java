@@ -32,6 +32,7 @@ public class HeroCustomItem implements IItemHandler
 	
 	String INSERT_DATA = "REPLACE INTO characters_custom_data (obj_Id, char_name, hero, noble, donator, hero_end_date) VALUES (?,?,?,?,?,?)";
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(Config.HERO_CUSTOM_ITEMS)
@@ -64,6 +65,7 @@ public class HeroCustomItem implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

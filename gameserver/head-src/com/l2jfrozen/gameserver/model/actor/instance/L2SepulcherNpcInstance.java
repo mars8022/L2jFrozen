@@ -410,6 +410,7 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 			_DoorId = doorId;
 		}
 
+		@Override
 		@SuppressWarnings("synthetic-access")
 		public void run()
 		{
@@ -436,6 +437,7 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 			_NpcId = npcId;
 		}
 
+		@Override
 		public void run()
 		{
 			FourSepulchersManager.getInstance().spawnMysteriousBox(_NpcId);
@@ -451,6 +453,7 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 			_NpcId = npcId;
 		}
 
+		@Override
 		public void run()
 		{
 			FourSepulchersManager.getInstance().spawnMonster(_NpcId);

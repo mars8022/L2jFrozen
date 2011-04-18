@@ -67,6 +67,7 @@ public class AdminSiege implements IAdminCommandHandler
 			"admin_clanhallteleportself"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -399,6 +400,7 @@ public class AdminSiege implements IAdminCommandHandler
 		adminReply = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

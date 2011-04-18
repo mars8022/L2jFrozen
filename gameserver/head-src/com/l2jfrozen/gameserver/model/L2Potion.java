@@ -53,6 +53,7 @@ public class L2Potion extends L2Object
 			_instance = instance;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -159,6 +160,7 @@ public class L2Potion extends L2Object
 			_instance = instance;
 		}
 
+		@Override
 		public void run()
 		{
 			try

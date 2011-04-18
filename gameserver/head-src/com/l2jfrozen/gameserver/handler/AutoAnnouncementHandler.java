@@ -509,6 +509,7 @@ public class AutoAnnouncementHandler
 				id = pId;
 			}
 
+			@Override
 			public synchronized void run()
 			{
 				AutoAnnouncementInstance announcementInst = _registeredAnnouncements.get(id);

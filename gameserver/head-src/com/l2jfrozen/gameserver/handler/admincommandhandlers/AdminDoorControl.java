@@ -56,6 +56,7 @@ public class AdminDoorControl implements IAdminCommandHandler
 
 	//private static final Map<String, Integer>   doorMap = new FastMap<String, Integer>(); //FIXME: should we jute remove this?
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -216,6 +217,7 @@ public class AdminDoorControl implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

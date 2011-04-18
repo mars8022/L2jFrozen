@@ -24,7 +24,6 @@ import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
-import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
@@ -40,6 +39,7 @@ public class StatsCmd implements IVoicedCommandHandler
 		stats
 	}
 	
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		CommandEnum comm = CommandEnum.valueOf(command);
@@ -200,6 +200,7 @@ public class StatsCmd implements IVoicedCommandHandler
 		
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;

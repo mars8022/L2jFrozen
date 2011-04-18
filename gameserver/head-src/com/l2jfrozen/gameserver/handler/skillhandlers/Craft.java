@@ -44,6 +44,7 @@ public class Craft implements ISkillHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(activeChar == null || !(activeChar instanceof L2PcInstance))
@@ -67,6 +68,7 @@ public class Craft implements ISkillHandler
 		player = null;
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

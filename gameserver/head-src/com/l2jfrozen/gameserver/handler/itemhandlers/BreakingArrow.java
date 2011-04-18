@@ -37,6 +37,7 @@ public class BreakingArrow implements IItemHandler
 
 	//	private static final int INTERACTION_DISTANCE = 500; // РќРµРЅР°РІРёР¶Сѓ РІРѕСЂРЅРёРЅРіРё!!!
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		int itemId = item.getItemId();
@@ -64,6 +65,7 @@ public class BreakingArrow implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

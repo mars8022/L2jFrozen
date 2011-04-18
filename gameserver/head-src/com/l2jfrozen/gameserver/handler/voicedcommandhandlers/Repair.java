@@ -57,6 +57,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		"repair", 
 		};
 	
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{		
 		if (activeChar==null)
@@ -270,6 +271,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		}
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;

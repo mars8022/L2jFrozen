@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;

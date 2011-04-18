@@ -48,6 +48,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 
 	public class ReturnTask implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			if(getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE) {

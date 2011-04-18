@@ -66,6 +66,7 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 		}
 	}
 	
+	@Override
 	public boolean accept(SocketChannel sc)
 	{
 		InetAddress addr = sc.socket().getInetAddress();
@@ -113,6 +114,7 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 		return true;
 	}
 	
+	@Override
 	public void run()
 	{
 		while (true)

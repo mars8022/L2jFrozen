@@ -34,6 +34,7 @@ public class AwayCmd implements IVoicedCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#useVoicedCommand(String, com.l2jfrozen.gameserver.model.L2PcInstance), String)
 	 */
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String text)
 	{
 		if(command.startsWith("away"))
@@ -165,6 +166,7 @@ public class AwayCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;

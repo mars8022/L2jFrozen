@@ -36,6 +36,7 @@ public class BeastSpice implements IItemHandler
 			6643, 6644
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -65,6 +66,7 @@ public class BeastSpice implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

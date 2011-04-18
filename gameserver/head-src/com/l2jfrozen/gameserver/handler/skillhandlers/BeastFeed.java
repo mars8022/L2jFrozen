@@ -37,6 +37,7 @@ public class BeastFeed implements ISkillHandler
 
 	private static final SkillType[] SKILL_IDS = { SkillType.BEAST_FEED };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(!(activeChar instanceof L2PcInstance))
@@ -53,6 +54,7 @@ public class BeastFeed implements ISkillHandler
 		// since the AI responce onSkillUse handles the rest.
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

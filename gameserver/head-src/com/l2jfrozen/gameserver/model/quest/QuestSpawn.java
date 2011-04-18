@@ -57,6 +57,7 @@ public final class QuestSpawn
 			_npc = npc;
 		}
 
+		@Override
 		public void run()
 		{
 			_npc.onDecay();

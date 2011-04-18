@@ -49,6 +49,7 @@ public class AdminManor implements IAdminCommandHandler
 			"admin_manor", "admin_manor_reset", "admin_manor_save", "admin_manor_disable"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -155,6 +156,7 @@ public class AdminManor implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;
