@@ -234,6 +234,8 @@ public final class UseItem extends L2GameClientPacket
 			}
 		}
 
+		/* 
+		//You can't equip Shield if you have specific weapon equiped, not retail
 		L2Weapon curwep = activeChar.getActiveWeaponItem();
 		if(curwep != null)
 		{
@@ -268,7 +270,8 @@ public final class UseItem extends L2GameClientPacket
 				return;
 			}
 		}
-
+        */
+		
 		// Char cannot use item when dead
 		if(activeChar.isDead())
 		{
