@@ -191,6 +191,7 @@ class OlympiadGameTask extends Olympiad implements Runnable
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		_started = true;

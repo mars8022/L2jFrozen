@@ -44,6 +44,7 @@ public class EnergyStone implements IItemHandler
 	private EffectCharge _effect;
 	private L2SkillCharge _skill;
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 
@@ -158,6 +159,7 @@ public class EnergyStone implements IItemHandler
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#getItemIds()
 	 */
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

@@ -164,6 +164,7 @@ public class Baium_l2j  extends Quest implements Runnable
 			GrandBossManager.getInstance().addBoss(baium);
 			final L2NpcInstance _baium = baium;
 			ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+				@Override
 				public void run()
 				{
 					try
@@ -224,6 +225,7 @@ public class Baium_l2j  extends Quest implements Runnable
 				startQuestTimer("skill_range", 500, npc, null, true);
 				final L2NpcInstance baium = npc;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+					@Override
 					public void run()
 					{
 						try
@@ -310,6 +312,7 @@ public class Baium_l2j  extends Quest implements Runnable
 				GrandBossManager.getInstance().addBoss(baium);
 				final L2NpcInstance _baium = baium;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+					@Override
 					public void run()
 					{
 						try

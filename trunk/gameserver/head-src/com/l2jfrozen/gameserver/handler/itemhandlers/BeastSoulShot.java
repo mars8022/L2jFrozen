@@ -46,6 +46,7 @@ public class BeastSoulShot implements IItemHandler
 		6645
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(playable == null)
@@ -162,6 +163,7 @@ public class BeastSoulShot implements IItemHandler
 		weaponInst = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

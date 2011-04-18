@@ -40,6 +40,7 @@ class OlympiadManager extends Olympiad implements Runnable
 		_manager = this;
 	}
 
+	@Override
 	public synchronized void run()
 	{
 		_cycleTerminated = false;

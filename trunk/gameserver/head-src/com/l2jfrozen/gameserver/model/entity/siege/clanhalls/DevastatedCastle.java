@@ -150,7 +150,7 @@ public class DevastatedCastle
 			
 			long total_millis = System.currentTimeMillis() + milliToSiege;
 			
-			GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+			GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
 			cal.setTimeInMillis(total_millis);
 			String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
 			
@@ -202,6 +202,7 @@ public class DevastatedCastle
 
 	protected class RunMessengerSpawn implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			MessengerSpawn();
@@ -256,6 +257,7 @@ public class DevastatedCastle
 			_message = message;
 		}
 
+		@Override
 		public void run()
 		{
 			Announce(_message);
@@ -269,6 +271,7 @@ public class DevastatedCastle
 
 	protected class RunSiege implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			Siege();
@@ -755,6 +758,7 @@ public class DevastatedCastle
 
 	protected class DeSpawnMonsters implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			DeSpawn();
@@ -782,6 +786,7 @@ public class DevastatedCastle
 			_npc = npc;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_npc.getNpcId() == 35410)

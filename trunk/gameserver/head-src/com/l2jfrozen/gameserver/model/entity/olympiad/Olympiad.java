@@ -225,6 +225,7 @@ public class Olympiad
 					_isOlympiadEnd = true;
 
 					_scheduledValdationTask = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+						@Override
 						public void run()
 						{
 							_period = 0;
@@ -351,6 +352,7 @@ public class Olympiad
 		_compEnd = _compStart.getTimeInMillis() + COMP_PERIOD;
 
 		_scheduledOlympiadEnd = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			@Override
 			public void run()
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.OLYMPIAD_PERIOD_S1_HAS_ENDED);
@@ -395,6 +397,7 @@ public class Olympiad
 				}
 
 				_scheduledValdationTask = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+					@Override
 					public void run()
 					{
 						Announcements.getInstance().announceToAll("Olympiad Validation Period has ended");
@@ -678,6 +681,7 @@ public class Olympiad
 		}
 
 		_scheduledCompStart = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			@Override
 			public void run()
 			{
 				if(isOlympiadEnd())
@@ -695,6 +699,7 @@ public class Olympiad
 				//_scheduledManagerTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(om, INITIAL_WAIT, BATTLE_WAIT);
 
 				_scheduledCompEnd = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+					@Override
 					public void run()
 					{
 						if(isOlympiadEnd())
@@ -791,6 +796,7 @@ public class Olympiad
 		}
 
 		_scheduledValdationTask = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			@Override
 			public void run()
 			{
 				Announcements.getInstance().announceToAll("Olympiad Validation Period has ended");
@@ -924,6 +930,7 @@ public class Olympiad
 		switch(Config.ALT_OLY_PERIOD){
 			case MONTH:{
 				_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() {
+					@Override
 					public void run()
 					{
 						addWeeklyPoints();
@@ -939,6 +946,7 @@ public class Olympiad
 				
 				if(Config.ALT_OLY_PERIOD_MULTIPLIER>1){
 					_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() {
+						@Override
 						public void run()
 						{
 							addWeeklyPoints();
@@ -950,6 +958,7 @@ public class Olympiad
 					}, getMillisToWeekChange(), WEEKLY_PERIOD);
 				}else{
 					_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() {
+						@Override
 						public void run()
 						{
 							addWeeklyPoints();

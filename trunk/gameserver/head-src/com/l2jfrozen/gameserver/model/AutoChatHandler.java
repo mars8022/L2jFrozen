@@ -274,6 +274,7 @@ public class AutoChatHandler implements SpawnListener
 	 * If an auto chat instance is set to be "global", all instances matching the registered NPC ID will be added to
 	 * that chat instance.
 	 */
+	@Override
 	public void npcSpawned(L2NpcInstance npc)
 	{
 		synchronized (_registeredChats)
@@ -740,6 +741,7 @@ public class AutoChatHandler implements SpawnListener
 				_objectId = pObjectId;
 			}
 
+			@Override
 			public synchronized void run()
 			{
 				AutoChatInstance chatInst = _registeredChats.get(_runnerNpcId);

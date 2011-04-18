@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;

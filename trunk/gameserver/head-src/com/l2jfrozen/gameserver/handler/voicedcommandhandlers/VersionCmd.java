@@ -29,6 +29,7 @@ public class VersionCmd implements IVoicedCommandHandler
 		"version"
 	};
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.equalsIgnoreCase("version"))
@@ -39,6 +40,7 @@ public class VersionCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;

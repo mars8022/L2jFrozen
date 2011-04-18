@@ -55,6 +55,7 @@ public class AdminCache implements IAdminCommandHandler
 		admin_cache_crest_fix
 	}
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -140,6 +141,7 @@ public class AdminCache implements IAdminCommandHandler
 
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

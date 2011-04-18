@@ -35,6 +35,7 @@ public class GetPlayer implements ISkillHandler
 {
 	private static final SkillType[] SKILL_IDS = { SkillType.GET_PLAYER };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(activeChar.isAlikeDead())
@@ -57,6 +58,7 @@ public class GetPlayer implements ISkillHandler
 		}
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

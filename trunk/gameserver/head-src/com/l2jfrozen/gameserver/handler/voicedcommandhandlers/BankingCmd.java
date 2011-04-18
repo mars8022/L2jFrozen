@@ -35,6 +35,7 @@ public class BankingCmd implements IVoicedCommandHandler
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#useVoicedCommand(java.lang.String,
 	 *      com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
 	 */
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 
@@ -84,6 +85,7 @@ public class BankingCmd implements IVoicedCommandHandler
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#getVoicedCommandList()
 	 */
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;

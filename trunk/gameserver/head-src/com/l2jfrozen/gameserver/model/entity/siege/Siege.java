@@ -121,6 +121,7 @@ public class Siege
 			_castleInst = pCastle;
 		}
 
+		@Override
 		public void run()
 		{
 			if(!getIsInProgress())
@@ -185,6 +186,7 @@ public class Siege
 			_castleInst = pCastle;
 		}
 
+		@Override
 		public void run()
 		{
 			if(getIsInProgress())

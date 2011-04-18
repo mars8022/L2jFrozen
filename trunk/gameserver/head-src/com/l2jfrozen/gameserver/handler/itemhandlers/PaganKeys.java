@@ -41,6 +41,7 @@ public class PaganKeys implements IItemHandler
 	};
 	public static final int INTERACTION_DISTANCE = 100;
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 
@@ -157,6 +158,7 @@ public class PaganKeys implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

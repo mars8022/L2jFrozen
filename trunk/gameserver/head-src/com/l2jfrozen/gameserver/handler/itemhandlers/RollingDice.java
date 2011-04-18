@@ -42,6 +42,7 @@ public class RollingDice implements IItemHandler
 			4625, 4626, 4627, 4628
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -101,6 +102,7 @@ public class RollingDice implements IItemHandler
 		return Rnd.get(1, 6);
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

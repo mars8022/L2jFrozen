@@ -70,6 +70,7 @@ public class AdminSpawn implements IAdminCommandHandler
 
 	public static Logger _log = Logger.getLogger(AdminSpawn.class.getName());
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -250,6 +251,7 @@ public class AdminSpawn implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

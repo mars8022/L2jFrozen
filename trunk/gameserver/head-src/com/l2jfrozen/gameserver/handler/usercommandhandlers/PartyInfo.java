@@ -37,6 +37,7 @@ public class PartyInfo implements IUserCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
+	@Override
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
 		if(id != COMMAND_IDS[0])
@@ -95,6 +96,7 @@ public class PartyInfo implements IUserCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
 	 */
+	@Override
 	public int[] getUserCommandList()
 	{
 		return COMMAND_IDS;

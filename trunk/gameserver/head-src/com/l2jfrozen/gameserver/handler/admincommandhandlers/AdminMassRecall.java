@@ -21,6 +21,7 @@ public class AdminMassRecall implements IAdminCommandHandler
 			"admin_recallclan", "admin_recallparty", "admin_recallally"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -178,6 +179,7 @@ public class AdminMassRecall implements IAdminCommandHandler
 		player.teleToLocation(X, Y, Z, true);
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;

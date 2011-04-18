@@ -125,6 +125,7 @@ public class Auction
 		public AutoEndTask()
 		{}
 
+		@Override
 		public void run()
 		{
 			try
@@ -501,7 +502,8 @@ public class Auction
 	/** End of auction */
 	public void endAuction()
 	{
-		if (ClanHallManager.getInstance().loaded())
+		ClanHallManager.getInstance();
+		if (ClanHallManager.loaded())
 		{
 			if(_highestBidderId == 0 && _sellerId == 0)
 			{

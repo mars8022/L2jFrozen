@@ -331,6 +331,7 @@ public class L2SepulcherMonsterInstance extends L2MonsterInstance
 			_activeChar = activeChar;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar.isDead())
@@ -352,6 +353,7 @@ public class L2SepulcherMonsterInstance extends L2MonsterInstance
 			_activeChar = activeChar;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar.isDead())
@@ -374,6 +376,7 @@ public class L2SepulcherMonsterInstance extends L2MonsterInstance
 			_activeChar = activeChar;
 		}
 
+		@Override
 		public void run()
 		{
 			switch(_activeChar.getNpcId())
@@ -477,6 +480,7 @@ public class L2SepulcherMonsterInstance extends L2MonsterInstance
 			activeChar = mob;
 		}
 
+		@Override
 		public void run()
 		{
 			L2Skill fp = SkillTable.getInstance().getInfo(4616, 1); // Invulnerable	by petrification

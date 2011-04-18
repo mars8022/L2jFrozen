@@ -35,6 +35,7 @@ public class Nectar implements IItemHandler
 		6391
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -66,6 +67,7 @@ public class Nectar implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

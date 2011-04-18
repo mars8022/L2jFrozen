@@ -19,17 +19,11 @@
 package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public abstract class L2DatabaseFactory
 {

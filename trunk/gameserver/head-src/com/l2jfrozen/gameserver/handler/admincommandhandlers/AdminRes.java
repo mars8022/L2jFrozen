@@ -44,6 +44,7 @@ public class AdminRes implements IAdminCommandHandler
 			"admin_res", "admin_res_monster"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -83,6 +84,7 @@ public class AdminRes implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

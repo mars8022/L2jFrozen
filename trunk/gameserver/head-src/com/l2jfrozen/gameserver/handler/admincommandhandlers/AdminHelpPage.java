@@ -38,6 +38,7 @@ public class AdminHelpPage implements IAdminCommandHandler
 		"admin_help"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -76,6 +77,7 @@ public class AdminHelpPage implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

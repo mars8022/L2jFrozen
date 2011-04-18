@@ -223,6 +223,7 @@ public class GameTimeController
 
 	class TimerWatcher implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			if(!_timer.isAlive())
@@ -254,6 +255,7 @@ public class GameTimeController
 			_ended = ended;
 		}
 
+		@Override
 		public void run()
 		{
 			for(L2Character cha : _ended)
@@ -277,6 +279,7 @@ public class GameTimeController
 	 */
 	class BroadcastSunState implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			int h = getGameTime() / 60 % 24; // Time in hour

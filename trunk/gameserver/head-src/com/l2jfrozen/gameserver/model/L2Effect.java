@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -162,6 +161,7 @@ public abstract class L2Effect
 			_rate = pRate;
 		}
 
+		@Override
 		public void run()
 		{
 			try

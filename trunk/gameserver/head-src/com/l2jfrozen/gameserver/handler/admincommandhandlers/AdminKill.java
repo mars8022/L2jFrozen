@@ -47,6 +47,7 @@ public class AdminKill implements IAdminCommandHandler
 			"admin_kill", "admin_kill_monster"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -194,6 +195,7 @@ public class AdminKill implements IAdminCommandHandler
 		}
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

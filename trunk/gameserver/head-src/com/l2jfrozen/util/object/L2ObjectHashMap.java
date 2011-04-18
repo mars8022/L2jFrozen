@@ -468,11 +468,13 @@ public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 			}
 		}
 
+		@Override
 		public boolean hasNext()
 		{
 			return _nextObj != null;
 		}
 
+		@Override
 		public T next()
 		{
 			if(_nextObj == null)
@@ -493,6 +495,7 @@ public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 			return _lastRet;
 		}
 
+		@Override
 		public void remove()
 		{
 			if(_lastRet == null)

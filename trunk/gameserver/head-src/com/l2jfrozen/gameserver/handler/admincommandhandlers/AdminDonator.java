@@ -42,6 +42,7 @@ public class AdminDonator implements IAdminCommandHandler
 
 	protected static final Logger _log = Logger.getLogger(AdminDonator.class.getName());
 	
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -202,6 +203,7 @@ public class AdminDonator implements IAdminCommandHandler
 	/**
 	 * @return
 	 */
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

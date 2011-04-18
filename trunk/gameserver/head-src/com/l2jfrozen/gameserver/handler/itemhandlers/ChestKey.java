@@ -40,6 +40,7 @@ public class ChestKey implements IItemHandler
 	//deluxe key
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -74,6 +75,7 @@ public class ChestKey implements IItemHandler
 		target = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

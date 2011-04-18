@@ -41,6 +41,7 @@ public class Crystals implements IItemHandler
 		7906, 7907, 7908, 7909, 7910, 7911, 7912, 7913, 7914, 7915, 7916, 7917
 	};
 
+	@Override
 	public synchronized void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
@@ -120,6 +121,7 @@ public class Crystals implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

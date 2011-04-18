@@ -42,6 +42,7 @@ public class CompShotPacks implements IItemHandler
 	//5146, 5147, 5148, 5149, 5150, 5151, /**/ 5262, 5263, 5264, 5265, 5266, 5267  // BSpS
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -100,6 +101,7 @@ public class CompShotPacks implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

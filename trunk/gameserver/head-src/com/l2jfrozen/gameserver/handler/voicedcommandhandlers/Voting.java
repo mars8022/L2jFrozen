@@ -24,6 +24,7 @@ public class Voting implements IVoicedCommandHandler
 			"vote", "votePoints", "getVoteReward", "voteTime"
 	};
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		//flood protection
@@ -87,6 +88,7 @@ public class Voting implements IVoicedCommandHandler
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#getVoicedCommandList()
 	 */
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;

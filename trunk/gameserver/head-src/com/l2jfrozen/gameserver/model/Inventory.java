@@ -90,6 +90,7 @@ public abstract class Inventory extends ItemContainer
 
 	final class FormalWearListener implements PaperdollListener
 	{
+		@Override
 		public void notifyUnequiped(int slot, L2ItemInstance item)
 		{
 			if(!(getOwner() != null && getOwner() instanceof L2PcInstance))
@@ -104,6 +105,7 @@ public abstract class Inventory extends ItemContainer
 			owner = null;
 		}
 
+		@Override
 		public void notifyEquiped(int slot, L2ItemInstance item)
 		{
 			if(!(getOwner() != null && getOwner() instanceof L2PcInstance))
@@ -160,6 +162,7 @@ public abstract class Inventory extends ItemContainer
 		/**
 		 * Add alteration in inventory when item equiped
 		 */
+		@Override
 		public void notifyEquiped(int slot, L2ItemInstance item)
 		{
 			if(!_changed.contains(item))
@@ -171,6 +174,7 @@ public abstract class Inventory extends ItemContainer
 		/**
 		 * Add alteration in inventory when item unequiped
 		 */
+		@Override
 		public void notifyUnequiped(int slot, L2ItemInstance item)
 		{
 			if(!_changed.contains(item))
@@ -192,6 +196,7 @@ public abstract class Inventory extends ItemContainer
 
 	final class BowListener implements PaperdollListener
 	{
+		@Override
 		public void notifyUnequiped(int slot, L2ItemInstance item)
 		{
 			if(slot != PAPERDOLL_LRHAND)
@@ -234,6 +239,7 @@ public abstract class Inventory extends ItemContainer
 		/**
 		 * private void InventoryUpdate() { // TODO Auto-generated method stub }
 		 **/
+		@Override
 		public void notifyEquiped(int slot, L2ItemInstance item)
 		{
 			if(slot != PAPERDOLL_LRHAND)
@@ -276,6 +282,7 @@ public abstract class Inventory extends ItemContainer
 
 	final class StatsListener implements PaperdollListener
 	{
+		@Override
 		public void notifyUnequiped(int slot, L2ItemInstance item)
 		{
 			if(slot == PAPERDOLL_LRHAND)
@@ -284,6 +291,7 @@ public abstract class Inventory extends ItemContainer
 			getOwner().removeStatsOwner(item);
 		}
 
+		@Override
 		public void notifyEquiped(int slot, L2ItemInstance item)
 		{
 			if(slot == PAPERDOLL_LRHAND)
@@ -295,6 +303,7 @@ public abstract class Inventory extends ItemContainer
 
 	final class ItemPassiveSkillsListener implements PaperdollListener
 	{
+		@Override
 		public void notifyUnequiped(int slot, L2ItemInstance item)
 		{
 			L2PcInstance player;
@@ -337,6 +346,7 @@ public abstract class Inventory extends ItemContainer
 			enchant4Skill = null;
 		}
 
+		@Override
 		public void notifyEquiped(int slot, L2ItemInstance item)
 		{
 			L2PcInstance player;
@@ -385,6 +395,7 @@ public abstract class Inventory extends ItemContainer
 
 	final class ArmorSetListener implements PaperdollListener
 	{
+		@Override
 		public void notifyEquiped(int slot, L2ItemInstance item)
 		{
 			if(!(getOwner() instanceof L2PcInstance))
@@ -482,6 +493,7 @@ public abstract class Inventory extends ItemContainer
 			}
 		}
 
+		@Override
 		public void notifyUnequiped(int slot, L2ItemInstance item)
 		{
 			if(!(getOwner() instanceof L2PcInstance))

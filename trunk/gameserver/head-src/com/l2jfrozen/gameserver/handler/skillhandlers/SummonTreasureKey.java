@@ -37,6 +37,7 @@ public class SummonTreasureKey implements ISkillHandler
 	static Logger _log = Logger.getLogger(SummonTreasureKey.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.SUMMON_TREASURE_KEY };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(activeChar == null || !(activeChar instanceof L2PcInstance))
@@ -84,6 +85,7 @@ public class SummonTreasureKey implements ISkillHandler
 		}
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

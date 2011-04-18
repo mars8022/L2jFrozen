@@ -68,6 +68,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 		admin_autoannounce
 	}
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -268,6 +269,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 		return false;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

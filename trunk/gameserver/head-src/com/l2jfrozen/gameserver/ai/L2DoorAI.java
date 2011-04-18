@@ -194,6 +194,7 @@ public class L2DoorAI extends L2CharacterAI
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
+		@Override
 		public void run()
 		{
 			_door.getKnownList().updateKnownObjects();

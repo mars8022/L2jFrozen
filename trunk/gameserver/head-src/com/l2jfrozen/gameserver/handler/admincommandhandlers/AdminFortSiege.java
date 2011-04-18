@@ -54,6 +54,7 @@ public class AdminFortSiege implements IAdminCommandHandler
 			"admin_removefort"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -249,6 +250,7 @@ public class AdminFortSiege implements IAdminCommandHandler
 		adminReply = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

@@ -66,6 +66,7 @@ public class TradeController
 			_timer = time;
 		}
 
+		@Override
 		public void run()
 		{
 			try

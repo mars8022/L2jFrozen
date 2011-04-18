@@ -141,6 +141,7 @@ public class Lottery
 		// Do nothing
 		}
 
+		@Override
 		public void run()
 		{
 			Connection con = null;
@@ -280,6 +281,7 @@ public class Lottery
 		// Do nothing
 		}
 
+		@Override
 		public void run()
 		{
 			if(Config.DEBUG)
@@ -300,6 +302,7 @@ public class Lottery
 		// Do nothing
 		}
 
+		@Override
 		public void run()
 		{
 			if(Config.DEBUG)

@@ -32,6 +32,7 @@ public class CastleCmd implements IVoicedCommandHandler
 			"open doors", "close doors", "ride wyvern"
 	};
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.startsWith("open doors") && target.equals("castle") && activeChar.isClanLeader())
@@ -84,6 +85,7 @@ public class CastleCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;

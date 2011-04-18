@@ -174,6 +174,7 @@ public class EngraveQuest extends Quest
 			}
 			htm = htm.replace("%caption%", caption);
 			htm = htm.replace("%list%", buildList(player, startwith, "engrave", "mark", new CondChecker() {
+				@Override
 				public boolean check(L2ItemInstance item, L2PcInstance player)
 				{
 					synchronized (PowerPakConfig.ENGRAVE_EXCLUDED_ITEMS)
@@ -205,6 +206,7 @@ public class EngraveQuest extends Quest
 			htm = HtmCache.getInstance().getHtm("data/html/default/50018-4.htm");
 			htm = htm.replace("%caption%", "Select the item to remove the engraving:");
 			htm = htm.replace("%list%", buildList(player, startwith, "remove", "clear", new CondChecker() {
+				@Override
 				public boolean check(L2ItemInstance item, L2PcInstance player)
 				{
 					return !item.isEquipped() && EngraveManager.getInstance().getEngraver(item) == player.getObjectId();

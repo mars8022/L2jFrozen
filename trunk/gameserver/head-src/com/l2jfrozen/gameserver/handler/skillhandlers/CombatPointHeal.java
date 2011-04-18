@@ -47,6 +47,7 @@ public class CombatPointHeal implements ISkillHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
+	@Override
 	public void useSkill(L2Character actChar, L2Skill skill, L2Object[] targets)
 	{
 		//check for other effects
@@ -91,6 +92,7 @@ public class CombatPointHeal implements ISkillHandler
 		}
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

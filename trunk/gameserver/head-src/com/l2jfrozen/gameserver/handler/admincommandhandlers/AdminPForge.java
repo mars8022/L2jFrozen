@@ -40,6 +40,7 @@ public class AdminPForge implements IAdminCommandHandler
 			"admin_forge", "admin_forge2", "admin_forge3"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -234,6 +235,7 @@ public class AdminPForge implements IAdminCommandHandler
 		adminReply = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

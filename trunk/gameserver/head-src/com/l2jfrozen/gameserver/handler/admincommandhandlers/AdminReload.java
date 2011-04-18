@@ -49,6 +49,7 @@ public class AdminReload implements IAdminCommandHandler
 		"admin_reload"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -220,6 +221,7 @@ public class AdminReload implements IAdminCommandHandler
 		AdminHelpPage.showSubMenuPage(activeChar, "reload_menu.htm");
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

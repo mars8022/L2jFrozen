@@ -35,6 +35,7 @@ public class AdminRideWyvern implements IAdminCommandHandler
 	};
 	private int _petRideId;
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -105,6 +106,7 @@ public class AdminRideWyvern implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

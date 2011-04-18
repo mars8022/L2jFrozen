@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -699,6 +698,7 @@ public class Fort
 			_clan = clan;
 		}
 
+		@Override
 		public void run()
 		{
 			_f.Engrave(_clan, 0);

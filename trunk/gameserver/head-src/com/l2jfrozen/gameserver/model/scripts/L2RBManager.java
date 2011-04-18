@@ -57,6 +57,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())
@@ -149,6 +150,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())
@@ -217,6 +219,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())
@@ -295,6 +298,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())
@@ -371,6 +375,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())
@@ -436,6 +441,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())
@@ -512,6 +518,7 @@ public class L2RBManager
 		{
 			_player = player;
 		}
+		@Override
 		public void run()
 		{
 			if(_player.isDead())

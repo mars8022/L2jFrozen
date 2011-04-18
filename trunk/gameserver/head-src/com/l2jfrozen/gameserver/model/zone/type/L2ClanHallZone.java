@@ -146,6 +146,7 @@ public class L2ClanHallZone extends L2ZoneType
 		}
 	}
 
+	@Override
 	public FastMap<Integer, L2Character> getCharactersInside()
 	{
 		return _characterList;

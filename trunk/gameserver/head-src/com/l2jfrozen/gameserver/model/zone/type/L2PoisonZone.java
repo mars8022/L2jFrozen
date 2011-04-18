@@ -148,6 +148,7 @@ public class L2PoisonZone extends L2ZoneType
 //			_poisonZone = zone;
 //		}
 
+		@Override
 		public void run()
 		{
 			if(isEnabled())

@@ -37,6 +37,7 @@ public class SevenSignsRecord implements IItemHandler
 		5707
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
@@ -59,6 +60,7 @@ public class SevenSignsRecord implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

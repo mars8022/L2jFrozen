@@ -23,6 +23,7 @@ public class CTFCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS = { "ctfjoin", "ctfleave", "ctfinfo" };
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.startsWith("ctfjoin"))
@@ -42,6 +43,7 @@ public class CTFCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;

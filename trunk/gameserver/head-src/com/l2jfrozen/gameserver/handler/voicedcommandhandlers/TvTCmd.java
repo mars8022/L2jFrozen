@@ -23,6 +23,7 @@ public class TvTCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS = { "tvtjoin", "tvtleave", "tvtinfo" };
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.startsWith("tvtjoin"))
@@ -42,6 +43,7 @@ public class TvTCmd implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;

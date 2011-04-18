@@ -58,6 +58,7 @@ public class EnchantScrolls implements IItemHandler
 	// s grade
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -73,6 +74,7 @@ public class EnchantScrolls implements IItemHandler
 		return;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

@@ -34,6 +34,7 @@ public class AdminBBS implements IAdminCommandHandler
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand
 	 * (java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
 	 */
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -60,6 +61,7 @@ public class AdminBBS implements IAdminCommandHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
 	 */
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

@@ -36,6 +36,7 @@ public class MapForestOfTheDead implements IItemHandler
 		7063
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -60,6 +61,7 @@ public class MapForestOfTheDead implements IItemHandler
 		}
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return _itemIds;

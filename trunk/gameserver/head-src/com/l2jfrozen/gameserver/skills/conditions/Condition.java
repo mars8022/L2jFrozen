@@ -68,6 +68,7 @@ public abstract class Condition implements ConditionListener
 
 	abstract boolean testImpl(Env env);
 
+	@Override
 	public void notifyChanged()
 	{
 		if(_listener != null)

@@ -333,6 +333,7 @@ public class L2BoatInstance extends L2Character
 			_boat = instance;
 		}
 
+		@Override
 		public void run()
 		{
 			BoatCaptain bc;
@@ -376,6 +377,7 @@ public class L2BoatInstance extends L2Character
 			_boat = instance;
 		}
 
+		@Override
 		public void run()
 		{
 			if(!_inCycle)

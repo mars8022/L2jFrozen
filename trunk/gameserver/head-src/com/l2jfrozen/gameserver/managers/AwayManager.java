@@ -129,6 +129,7 @@ public final class AwayManager
 			_awayText = awayText;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar == null)
@@ -184,6 +185,7 @@ public final class AwayManager
 			_activeChar = activeChar;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_activeChar == null)

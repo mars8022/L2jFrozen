@@ -41,6 +41,7 @@ public class MOSKey implements IItemHandler
 	public static final int INTERACTION_DISTANCE = 150;
 	public static long LAST_OPEN = 0;
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		int itemId = item.getItemId();
@@ -100,6 +101,7 @@ public class MOSKey implements IItemHandler
 		activeChar = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

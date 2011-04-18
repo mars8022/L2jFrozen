@@ -25,6 +25,7 @@ public class Online implements IVoicedCommandHandler
 		"online"
 	};
 
+	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
 		if(command.equalsIgnoreCase("online"))
@@ -36,6 +37,7 @@ public class Online implements IVoicedCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getVoicedCommandList()
 	{
 		return _voicedCommands;

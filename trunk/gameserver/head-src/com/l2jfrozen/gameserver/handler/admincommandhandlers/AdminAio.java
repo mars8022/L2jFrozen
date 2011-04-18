@@ -62,6 +62,7 @@ public class AdminAio implements IAdminCommandHandler
 		admin_removeaio
 	}
 	
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{   
 		/*
@@ -284,6 +285,7 @@ public class AdminAio implements IAdminCommandHandler
 		}
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;

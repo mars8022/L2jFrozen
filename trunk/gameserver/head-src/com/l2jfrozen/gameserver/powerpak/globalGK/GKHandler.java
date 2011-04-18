@@ -34,6 +34,7 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 			_player = player;
 			_tp = loc;
 		}
+		@Override
 		public void run()
 		{
 			_player.enableAllSkills();

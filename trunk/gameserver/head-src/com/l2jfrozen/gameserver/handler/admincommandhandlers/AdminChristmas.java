@@ -34,6 +34,7 @@ public class AdminChristmas implements IAdminCommandHandler
 			"admin_christmas_start", "admin_christmas_end"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -67,6 +68,7 @@ public class AdminChristmas implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

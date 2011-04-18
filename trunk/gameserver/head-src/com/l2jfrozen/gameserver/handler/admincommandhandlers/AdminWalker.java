@@ -48,6 +48,7 @@ public class AdminWalker implements IAdminCommandHandler
 			"admin_walker_addpoint"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -171,6 +172,7 @@ public class AdminWalker implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

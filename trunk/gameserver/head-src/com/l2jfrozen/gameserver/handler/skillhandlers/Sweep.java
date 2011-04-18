@@ -41,6 +41,7 @@ public class Sweep implements ISkillHandler
 	//private static Logger _log = Logger.getLogger(Sweep.class.getName());
 	private static final SkillType[] SKILL_IDS = { SkillType.SWEEP };
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(!(activeChar instanceof L2PcInstance)){ return; }
@@ -117,6 +118,7 @@ public class Sweep implements ISkillHandler
 		}
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

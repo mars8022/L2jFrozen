@@ -43,6 +43,7 @@ public class Firework implements IItemHandler
 			6403, 6406, 6407
 	};
 
+	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		if(!(playable instanceof L2PcInstance))
@@ -164,6 +165,7 @@ public class Firework implements IItemHandler
 		skill = null;
 	}
 
+	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;

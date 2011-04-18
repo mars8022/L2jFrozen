@@ -45,6 +45,7 @@ public class AdminRepairChar implements IAdminCommandHandler
 			"admin_restore", "admin_repair"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -69,6 +70,7 @@ public class AdminRepairChar implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

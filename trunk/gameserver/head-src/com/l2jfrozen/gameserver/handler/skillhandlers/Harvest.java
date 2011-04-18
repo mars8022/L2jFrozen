@@ -47,6 +47,7 @@ public class Harvest implements ISkillHandler
 	private L2PcInstance _activeChar;
 	private L2MonsterInstance _target;
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(!(activeChar instanceof L2PcInstance))
@@ -173,6 +174,7 @@ public class Harvest implements ISkillHandler
 		return false;
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;

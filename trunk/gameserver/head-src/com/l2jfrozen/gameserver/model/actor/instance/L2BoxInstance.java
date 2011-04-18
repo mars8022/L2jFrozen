@@ -86,6 +86,7 @@ public class L2BoxInstance extends L2NpcInstance
 //			enchant = _enchant;
 		}
 
+		@Override
 		public int compareTo(Object o)
 		{
 			int r = name.compareToIgnoreCase(((L2BoxItem) o).name);

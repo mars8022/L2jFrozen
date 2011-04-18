@@ -43,6 +43,7 @@ public class AdminScript implements IAdminCommandHandler
 		"admin_load_script"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -103,6 +104,7 @@ public class AdminScript implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

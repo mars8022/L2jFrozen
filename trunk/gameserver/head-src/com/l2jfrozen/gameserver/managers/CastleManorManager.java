@@ -531,6 +531,7 @@ public class CastleManorManager
 
 	private class ManorTask implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			int H = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);

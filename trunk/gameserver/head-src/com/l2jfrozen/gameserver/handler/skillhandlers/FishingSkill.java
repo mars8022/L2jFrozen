@@ -41,6 +41,7 @@ public class FishingSkill implements ISkillHandler
 		SkillType.REELING
 	};
 
+	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		if(activeChar == null || !(activeChar instanceof L2PcInstance)) 
@@ -107,6 +108,7 @@ public class FishingSkill implements ISkillHandler
 		fish = null;
 	}
 
+	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;
