@@ -337,9 +337,9 @@ class L2OlympiadGame extends Olympiad
 					player.sendPacket(atk);
 				}
 				
-				// TODO: enable skills with cool time <= 15 minutes
+				// [Interlude Olympiad] refresh for all skills
 				for (L2Skill skill : player.getAllSkills())
-					if (skill.getReuseDelay() <= 900000)
+					if(skill.getId() != 1324)
 						player.enableSkill(skill.getId());
 				
 				player.sendSkillList();
