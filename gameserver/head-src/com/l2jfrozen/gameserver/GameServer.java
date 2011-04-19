@@ -558,8 +558,8 @@ public class GameServer
 		Util.printSection("Status");
 		System.gc();
 		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
-		//ServerStatus.getInstance();
-		//_log.info("ServerStatus started!");
+		ServerStatus.getInstance();
+		_log.info("ServerStatus started!");
 
 		Util.printSection("Login");
 		_loginThread = LoginServerThread.getInstance();
