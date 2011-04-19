@@ -46,7 +46,7 @@ public class QuestManager extends ScriptManager<Quest>
 
 	public QuestManager()
 	{
-		System.out.println("Initializing QuestManager");
+		_log.info("Initializing QuestManager");
 	}
 
 	public final boolean reload(String questFolder)

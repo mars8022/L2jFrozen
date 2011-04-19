@@ -271,7 +271,7 @@ public class QueenAnt extends Quest implements Runnable
 			}
 			break;
 			default:{
-				System.out.println("QUEEN: Not defined event: "+event+"!");
+				_log.info("QUEEN: Not defined event: "+event+"!");
 			}
 			
 		}

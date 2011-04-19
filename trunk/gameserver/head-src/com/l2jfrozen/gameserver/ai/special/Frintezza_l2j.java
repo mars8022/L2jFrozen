@@ -1253,59 +1253,155 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		else if (GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == DORMANT)
 		{
-			if ((!player.isInParty() || !player.getParty().isLeader(player))
-					|| (player.getParty().getCommandChannel() == null)
-					|| (player.getParty().getCommandChannel().getChannelLeader() != player))
+			boolean party_check_success = true;
+			
+			if(!Config.BYPASS_FRINTEZZA_PARTIES_CHECK)
 			{
-				htmltext = "<html><body>No reaction. Contact must be initiated by the Command Channel Leader.</body></html>";
-			}
-			else if (player.getParty().getCommandChannel().getPartys().size() < 4 || player.getParty().getCommandChannel().getPartys().size() > 5)
-			{
-				htmltext = "<html><body>Your command channel needs to have at least 4 parties and a maximum of 5.</body></html>";
-			}
-			else if (player.getInventory().getItemByItemId(8073) == null)
-			{
-				htmltext = "<html><body>You dont have required item.</body></html>";
-			}
-			else
-			{
-				player.destroyItemByItemId("Quest", 8073, 1, player, true);
-				L2CommandChannel CC = player.getParty().getCommandChannel();
-				GrandBossManager.getInstance().setBossStatus(FRINTEZZA, WAITING);
 				
-				startQuestTimer("close", 0, npc, null);
-				startQuestTimer("room1_spawn", 5000, npc, null);
-				startQuestTimer("room_final", 2100000, npc, null);
-				startQuestTimer("frintezza_despawn", 60000, npc, null, true);
-				
-				_LastAction = System.currentTimeMillis();
-				for (L2Party party : CC.getPartys())
+				if ((!player.isInParty() || !player.getParty().isLeader(player))
+						|| (player.getParty().getCommandChannel() == null)
+						|| (player.getParty().getCommandChannel().getChannelLeader() != player))
 				{
-					if (party == null)
-						continue;
-					for (L2PcInstance member : party.getPartyMembers())
-					{
-						if (member == null || member.getLevel() < 74)
-							continue;
-						if (!member.isInsideRadius(npc, 700, false, false))
-							continue;
-						if (_PlayersInside.size() > 45)
-						{
-							member.sendMessage("The number of challenges have been full, so can not enter.");
-							break;
-						}
-						_PlayersInside.add(member);
-						_Zone.allowPlayerEntry(member, 300);
-						member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
-					}
-					if (_PlayersInside.size() > 45)
-						break;
-					
-					_LocCycle++;
-					if (_LocCycle >= 6)
-						_LocCycle = 1;
+					htmltext = "<html><body>No reaction. Contact must be initiated by the Command Channel Leader.</body></html>";
+					party_check_success = false;
 				}
+				else if (player.getParty().getCommandChannel().getPartys().size() < Config.FRINTEZZA_MIN_PARTIES || player.getParty().getCommandChannel().getPartys().size() > Config.FRINTEZZA_MAX_PARTIES)
+				{
+					htmltext = "<html><body>Your command channel needs to have at least "+Config.FRINTEZZA_MIN_PARTIES+" parties and a maximum of "+Config.FRINTEZZA_MAX_PARTIES+".</body></html>";
+					party_check_success = false;
+				}
+				
 			}
+			
+			if(party_check_success){
+			
+				if (player.getInventory().getItemByItemId(8073) == null)
+				{
+					htmltext = "<html><body>You dont have required item.</body></html>";
+				}
+				else
+				{
+					player.destroyItemByItemId("Quest", 8073, 1, player, true);
+					GrandBossManager.getInstance().setBossStatus(FRINTEZZA, WAITING);
+					
+					startQuestTimer("close", 0, npc, null);
+					startQuestTimer("room1_spawn", 5000, npc, null);
+					startQuestTimer("room_final", 2100000, npc, null);
+					startQuestTimer("frintezza_despawn", 60000, npc, null, true);
+					
+					_LastAction = System.currentTimeMillis();
+					
+					if(Config.BYPASS_FRINTEZZA_PARTIES_CHECK){
+						
+						if(player.getParty()!=null){
+							
+							L2CommandChannel CC = player.getParty().getCommandChannel();
+							
+							if(CC != null){ //teleport all parties into CC
+								
+								for (L2Party party : CC.getPartys())
+								{
+									if (party == null)
+										continue;
+									for (L2PcInstance member : party.getPartyMembers())
+									{
+										if (member == null || member.getLevel() < 74)
+											continue;
+										if (!member.isInsideRadius(npc, 700, false, false))
+											continue;
+										if (_PlayersInside.size() > 45)
+										{
+											member.sendMessage("The number of challenges have been full, so can not enter.");
+											break;
+										}
+										_PlayersInside.add(member);
+										_Zone.allowPlayerEntry(member, 300);
+										member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
+									}
+									if (_PlayersInside.size() > 45)
+										break;
+									
+									_LocCycle++;
+									if (_LocCycle >= 6)
+										_LocCycle = 1;
+								}
+								
+							}else{ //teleport just actual party
+								
+								L2Party party = player.getParty();
+								
+								for (L2PcInstance member : party.getPartyMembers())
+								{
+									if (member == null || member.getLevel() < 74)
+										continue;
+									if (!member.isInsideRadius(npc, 700, false, false))
+										continue;
+									if (_PlayersInside.size() > 45)
+									{
+										member.sendMessage("The number of challenges have been full, so can not enter.");
+										break;
+									}
+									_PlayersInside.add(member);
+									_Zone.allowPlayerEntry(member, 300);
+									member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
+								}
+								
+								_LocCycle++;
+								if (_LocCycle >= 6)
+									_LocCycle = 1;
+								
+							}
+							
+						}else{ //teleport just player
+							
+							if (player.isInsideRadius(npc, 700, false, false)){
+								
+								_PlayersInside.add(player);
+								_Zone.allowPlayerEntry(player, 300);
+								player.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
+								
+							}
+							
+						}
+						
+					}else{
+						
+						L2CommandChannel CC = player.getParty().getCommandChannel();
+						
+						for (L2Party party : CC.getPartys())
+						{
+							if (party == null)
+								continue;
+							for (L2PcInstance member : party.getPartyMembers())
+							{
+								if (member == null || member.getLevel() < 74)
+									continue;
+								if (!member.isInsideRadius(npc, 700, false, false))
+									continue;
+								if (_PlayersInside.size() > 45)
+								{
+									member.sendMessage("The number of challenges have been full, so can not enter.");
+									break;
+								}
+								_PlayersInside.add(member);
+								_Zone.allowPlayerEntry(member, 300);
+								member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
+							}
+							if (_PlayersInside.size() > 45)
+								break;
+							
+							_LocCycle++;
+							if (_LocCycle >= 6)
+								_LocCycle = 1;
+						}
+						
+					}
+					
+					
+				}
+				
+			}
+			
 		}
 		else
 			htmltext = "<html><body>Someone else is already inside the Magic Force Field. Try again later.</body></html>";
@@ -1501,28 +1597,28 @@ public class Frintezza_l2j extends Quest implements Runnable
 	
 	public int getXFix(int x)
 	{
-		return x - 262016;
+		return x/* - 262016*/;
 	}
 	public int getYFix(int y)
 	{
-		return y - 65278;
+		return y/* - 65278*/;
 	}
 	public int getZFix(int z)
 	{
-		return z - 4065;
+		return z/* - 4065*/;
 	}
 	
 	public int reverseXFix(int x)
 	{
-		return x + 262016;
+		return x/* + 262016*/;
 	}
 	public int reverseYFix(int y)
 	{
-		return y + 65278;
+		return y/* + 65278*/;
 	}
 	public int reverseZFix(int z)
 	{
-		return z + 4065;
+		return z/* + 4065*/;
 	}
 	/*
 	public static void main(String[] args)

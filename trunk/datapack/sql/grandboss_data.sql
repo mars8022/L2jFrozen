@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS grandboss_data (
 );
 
 INSERT IGNORE INTO `grandboss_data` VALUES 
-
 (29019, 185708,114298,-8221,32768, 0, 13090000, 22197, 0),	-- Antharas
 (29020, 115213,16623,10080,41740, 0, 790857, 3347, 0),		-- Baium
 (29006, 17726, 108915, -6480, 0, 0, 162561, 575, 0), 		-- Core
@@ -39,3 +38,8 @@ INSERT IGNORE INTO `grandboss_data` VALUES
 -- (25336, 000000,000000,000000,0,	0,705074,3718, 0), -- Anakazel (58) -- (Spawn by Dimensional Instance)
 -- (25337, 000000,000000,000000,0,	0,865808,3718, 0), -- Anakazel (68) -- (Spawn by Dimensional Instance)
 -- (25338, 000000,000000,000000,0,	0,977523,3718, 0); -- Anakazel (78) -- (Spawn by Dimensional Instance)
+
+INSERT IGNORE INTO `grandboss_data` VALUES 
+(29066, 185708, 114298, -8221,32768, 0, 11186000, 1998000, 0), -- Antharas Weak (85)
+(29067, 185708, 114298, -8221,32768, 0, 14518000, 1998000, 0), -- Antharas Normal (85)
+(29068, 185708, 114298, -8221,32768, 0, 17850000, 1998000, 0); -- Antharas Strong (85)

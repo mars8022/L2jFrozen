@@ -197,7 +197,6 @@ public class ShortCuts
 		finally
 		{
 			CloseUtil.close(con);
-			con = null;
 		}
 	}
 

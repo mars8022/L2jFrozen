@@ -40,9 +40,9 @@ import com.l2jfrozen.util.random.Rnd;
  * Zaken AI
  * 
  */
-public class Zaken2 extends Quest implements Runnable
+public class Zaken_l2j extends Quest implements Runnable
 {
-	protected static final Logger log = Logger.getLogger(Zaken2.class.getName());
+	protected static final Logger log = Logger.getLogger(Zaken_l2j.class.getName());
 	
 	private int _1001 = 0; // used for first cancel of QuestTimer "1001"
 	private int _ai0 = 0; // used for zaken coords updater
@@ -82,14 +82,13 @@ public class Zaken2 extends Quest implements Runnable
 	
 	private static L2BossZone _Zone;
 	
-	public Zaken2(int questId, String name, String descr)
+	public Zaken_l2j(int questId, String name, String descr)
 	{
 		super(questId, name, descr);
 		
 		// Zaken doors handling
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable()
 		{
-			@Override
 			public void run()
 			{
 				try
@@ -99,7 +98,6 @@ public class Zaken2 extends Quest implements Runnable
 						DoorTable.getInstance().getDoor(21240006).openMe();
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
-							@Override
 							public void run()
 							{
 								try
