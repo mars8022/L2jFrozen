@@ -96,7 +96,7 @@
 
   <!-- Blessed Spiritshot: B-Grade -->
   <item id="16">
-    <ingredient id="57" count="800000"/>
+    <ingredient id="57" count="1500000"/>
     <production id="3950" count="10000"/>
   </item>
 
