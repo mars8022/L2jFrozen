@@ -3526,21 +3526,18 @@ public final class Config
 
 	//============================================================
 	public static boolean ALLOW_DIRECT_TP_TO_BOSS_ROOM;
-	public static boolean ENABLE_ANTHARAS_SCRIPT;
 	public static int ANTHARAS_CLOSE;
 	public static int ANTHARAS_SLEEP;
 	public static int ANTHARAS_RESP_FIRST;
 	public static int ANTHARAS_RESP_SECOND;
+	public static int ANTHARAS_WAIT_TIME;
 	public static float ANTHARAS_POWER_MULTIPLIER;
 	
 	public static int BAIUM_SLEEP;
 	public static int BAIUM_RESP_FIRST;
 	public static int BAIUM_RESP_SECOND;
 	public static float BAIUM_POWER_MULTIPLIER;
-	public static boolean ENABLE_BAIUM_SCRIPT;
-	public static boolean ENABLE_BAIUM_L2J_SCRIPT;
 	
-	public static boolean ENABLE_CORE_SCRIPT;
 	public static int CORE_RESP_MINION;
 	public static int CORE_RESP_FIRST;
 	public static int CORE_RESP_SECOND;
@@ -3548,7 +3545,6 @@ public final class Config
 	public static int CORE_RING_CHANCE;
 	public static float CORE_POWER_MULTIPLIER;
 	
-	public static boolean ENABLE_QA_SCRIPT;
 	public static int QA_RESP_NURSE;
 	public static int QA_RESP_ROYAL;
 	public static int QA_RESP_FIRST;
@@ -3569,15 +3565,12 @@ public final class Config
 	public static int HPH_INTERVALOFDOOROFALTER;
 	public static int HPH_TIMEOFLOCKUPDOOROFALTAR;
 
-	public static boolean ENABLE_ZAKEN_SCRIPT;
-	public static boolean ENABLE_ZAKEN_L2J_SCRIPT;
 	public static int ZAKEN_RESP_FIRST;
 	public static int ZAKEN_RESP_SECOND;
 	public static int ZAKEN_LEVEL;
 	public static int ZAKEN_EARRING_CHANCE;
 	public static float ZAKEN_POWER_MULTIPLIER;
 	
-	public static boolean ENABLE_ORFEN_SCRIPT;
 	public static int ORFEN_RESP_FIRST;
 	public static int ORFEN_RESP_SECOND;
 	public static int ORFEN_LEVEL;
@@ -3586,19 +3579,19 @@ public final class Config
 	
 	public static int VALAKAS_RESP_FIRST;
 	public static int VALAKAS_RESP_SECOND;
+	public static int VALAKAS_WAIT_TIME;
 	public static float VALAKAS_POWER_MULTIPLIER;
 	
-	public static boolean ENABLE_FRINTEZZA_SCRIPT;
 	public static int FRINTEZZA_RESP_FIRST;
 	public static int FRINTEZZA_RESP_SECOND;
 	public static float FRINTEZZA_POWER_MULTIPLIER;
 	
+	public static boolean BYPASS_FRINTEZZA_PARTIES_CHECK;
+	public static int FRINTEZZA_MIN_PARTIES;
+	public static int FRINTEZZA_MAX_PARTIES;
+	
 	public static String RAID_INFO_IDS;
 	public static FastList<Integer> RAID_INFO_IDS_LIST = new FastList<Integer>();
-	
-	public static boolean ENABLE_MONASTERY_SCRIPT;
-	public static boolean ENABLE_MONASTERY_L2J_SCRIPT;
-	
 	
 	//============================================================
 	public static void loadBossConfig()
@@ -3614,23 +3607,20 @@ public final class Config
 			//============================================================
 			ALLOW_DIRECT_TP_TO_BOSS_ROOM = Boolean.valueOf(bossSettings.getProperty("AllowDirectTeleportToBossRoom", "False"));
 			//Antharas
-			ENABLE_ANTHARAS_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableAntharasScript", "True"));
 			ANTHARAS_CLOSE = Integer.parseInt(bossSettings.getProperty("AntharasClose", "1200"));
 			ANTHARAS_SLEEP = Integer.parseInt(bossSettings.getProperty("AntharasSleep", "900"));
 			ANTHARAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("AntharasRespFirst", "192"));
 			ANTHARAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("AntharasRespSecond", "145"));
+			ANTHARAS_WAIT_TIME = Integer.parseInt(bossSettings.getProperty("AntharasWaitTime", "30"));
 			ANTHARAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("AntharasPowerMultiplier", "1.0"));
 			//============================================================
 			//Baium
-			ENABLE_BAIUM_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableBaiumScript", "True"));
-			ENABLE_BAIUM_L2J_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableBaiumL2jScript", "False"));
 			BAIUM_SLEEP = Integer.parseInt(bossSettings.getProperty("BaiumSleep", "1800"));
 			BAIUM_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("BaiumRespFirst", "121"));
 			BAIUM_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("BaiumRespSecond", "8"));
 			BAIUM_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("BaiumPowerMultiplier", "1.0"));
 			//============================================================
 			//Core
-			ENABLE_CORE_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableCoreScript", "True"));
 			CORE_RESP_MINION = Integer.parseInt(bossSettings.getProperty("CoreRespMinion", "60"));
 			CORE_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("CoreRespFirst", "37"));
 			CORE_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("CoreRespSecond", "42"));
@@ -3639,7 +3629,6 @@ public final class Config
 			CORE_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("CorePowerMultiplier", "1.0"));
 			//============================================================
 			//Queen Ant
-			ENABLE_QA_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableQAScript", "True"));
 			QA_RESP_NURSE = Integer.parseInt(bossSettings.getProperty("QueenAntRespNurse", "60"));
 			QA_RESP_ROYAL = Integer.parseInt(bossSettings.getProperty("QueenAntRespRoyal", "120"));
 			QA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("QueenAntRespFirst", "19"));
@@ -3649,8 +3638,6 @@ public final class Config
 			QA_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("QueenAntPowerMultiplier", "1.0"));
 			//============================================================
 			//ZAKEN
-			ENABLE_ZAKEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableZakenScript", "True"));
-			ENABLE_ZAKEN_L2J_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableZakenL2jScript", "false"));
 			ZAKEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ZakenRespFirst", "60"));
 			ZAKEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ZakenRespSecond", "8"));
 			ZAKEN_LEVEL = Integer.parseInt(bossSettings.getProperty("ZakenLevel", "0"));
@@ -3658,7 +3645,6 @@ public final class Config
 			ZAKEN_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ZakenPowerMultiplier", "1.0"));
 			//============================================================
 			//ORFEN
-			ENABLE_ORFEN_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableOrfenScript", "True"));
 			ORFEN_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("OrfenRespFirst", "20"));
 			ORFEN_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("OrfenRespSecond", "8"));
 			ORFEN_LEVEL = Integer.parseInt(bossSettings.getProperty("OrfenLevel", "0"));
@@ -3668,13 +3654,17 @@ public final class Config
 			//VALAKAS
 			VALAKAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("ValakasRespFirst", "192"));
 			VALAKAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ValakasRespSecond", "44"));
+			VALAKAS_WAIT_TIME = Integer.parseInt(bossSettings.getProperty("ValakasWaitTime", "30"));
 			VALAKAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ValakasPowerMultiplier", "1.0"));
 			//============================================================
 			//FRINTEZZA
-			ENABLE_FRINTEZZA_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableFrintezzaScript", "True"));
 			FRINTEZZA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("FrintezzaRespFirst", "48"));
 			FRINTEZZA_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("FrintezzaRespSecond", "8"));
 			FRINTEZZA_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("FrintezzaPowerMultiplier", "1.0"));
+			
+			BYPASS_FRINTEZZA_PARTIES_CHECK = Boolean.valueOf(bossSettings.getProperty("BypassPartiesCheck", "false"));
+			FRINTEZZA_MIN_PARTIES = Integer.parseInt(bossSettings.getProperty("FrintezzaMaxParties", "4"));
+			FRINTEZZA_MAX_PARTIES = Integer.parseInt(bossSettings.getProperty("FrintezzaMaxParties", "5"));
 			//============================================================
 			
 			LEVEL_DIFF_MULTIPLIER_MINION = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplierMinion", "0.5"));
@@ -3685,12 +3675,7 @@ public final class Config
 			{
 				RAID_INFO_IDS_LIST.add(Integer.parseInt(id));
 			}
-			
-			//MONASTERY
-			ENABLE_MONASTERY_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableMonasteryScript", "True"));
-			ENABLE_MONASTERY_L2J_SCRIPT = Boolean.valueOf(bossSettings.getProperty("EnableMonasteryL2jScript", "False"));
-			
-			
+						
 			//High Priestess van Halter
 			HPH_FIXINTERVALOFHALTER = Integer.parseInt(bossSettings.getProperty("FixIntervalOfHalter", "172800"));
 			if(HPH_FIXINTERVALOFHALTER < 300 || HPH_FIXINTERVALOFHALTER > 864000)

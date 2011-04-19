@@ -172,7 +172,7 @@ public class Orfen extends Quest implements Runnable
 				}
 				break;
 				default:{
-					System.out.println("ORFEN: Not defined event: "+event+"!");
+					_log.info("ORFEN: Not defined event: "+event+"!");
 				}
 				
 			}

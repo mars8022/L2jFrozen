@@ -351,6 +351,19 @@ public class Quest extends ManagedScript
 	 */
 	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player, boolean repeating)
 	{
+		if(Config.DEVELOPER){
+			_log.info("StartingQuestTimer for Quest "+this.getName());
+			
+			String info = "Event:"+name+" Time:"+time;
+			if(npc!=null)
+				info = info+" Npc:"+npc.getName();
+			
+			if(player!=null)
+				info = info+" Player:"+player.getName();
+			
+			_log.info(info+" Repeat:"+repeating);
+		}
+		
 		// Add quest timer if timer doesn't already exist
 		FastList<QuestTimer> timers = getQuestTimers(name);
 		// no timer exists with the same name, at all
@@ -948,6 +961,11 @@ public class Quest extends ManagedScript
 	 */
 	public final static void playerEnter(L2PcInstance player)
 	{
+		if(Config.DEVELOPER){
+			_log.info("Quest.playerEnter " + player.getName());
+			
+		}
+		
 		Connection con = null;
 		try
 		{
@@ -975,7 +993,7 @@ public class Quest extends ManagedScript
 
 				if(q == null)
 				{
-					_log.finer("Unknown quest " + questId + " for player " + player.getName());
+					_log.info("Unknown quest " + questId + " for player " + player.getName());
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());
@@ -997,7 +1015,7 @@ public class Quest extends ManagedScript
 				State state = q._states.get(stateId);
 				if(state == null)
 				{
-					_log.finer("Unknown state in quest " + questId + " for player " + player.getName());
+					_log.info("Unknown state in quest " + questId + " for player " + player.getName());
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());
@@ -1037,7 +1055,7 @@ public class Quest extends ManagedScript
 
 				if(qs == null)
 				{
-					_log.finer("Lost variable " + var + " in quest " + questId + " for player " + player.getName());
+					_log.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());
 
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
@@ -1065,6 +1083,7 @@ public class Quest extends ManagedScript
 			invalidQuestDataVar = null;
 
 		}
+		
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)

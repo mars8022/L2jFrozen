@@ -121,7 +121,8 @@ public class Server
 		String result = "<online>";
 		for(L2PcInstance p : L2World.getInstance().getAllPlayers())
 		{
-			result += "<player id=\"" + p.getObjectId() + "\" name=\"" + p.getName() + "\" level=\"" + p.getLevel() + "\" class=\"" + p.getActiveClass() + "\" clan=\"" + p.getClan() == null ? "" : p.getClan().getName() + "\" />";
+			if(p!=null)
+				result += "<player id=\"" + p.getObjectId() + "\" name=\"" + p.getName() + "\" level=\"" + p.getLevel() + "\" class=\"" + p.getActiveClass()/* + "\" clan=\"" + p.getClan() == null ? "" : p.getClan().getName()*/ + "\" />";
 		}
 		return result;
 	}

@@ -1701,93 +1701,207 @@ public class L2NpcInstance extends L2Character
 	 * @param player The L2PcInstance that talk with the L2NpcInstance
 	 * @param questId The Identifier of the quest to display the message
 	 */
+	/*
 	public void showQuestWindow(L2PcInstance player, String questId)
 	{
 		String content;
 
 		Quest q = QuestManager.getInstance().getQuest(questId);
 
-		if(player.getWeightPenalty() >= 3 && q.getQuestIntId() >= 1 && q.getQuestIntId() < 1000)
+		if (q == null)
 		{
-			player.sendPacket(new SystemMessage(SystemMessageId.INVENTORY_LESS_THAN_80_PERCENT));
-			return;
+			// No quests found
+			content = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>";
+		}
+		else
+		{
+			
+			if(player.getWeightPenalty() >= 3 && q.getQuestIntId() >= 1 && q.getQuestIntId() < 1000)
+			{
+				player.sendPacket(new SystemMessage(SystemMessageId.INVENTORY_LESS_THAN_80_PERCENT));
+				return;
+			}
+
+			//FileInputStream fis = null;
+
+			// Get the state of the selected quest
+			QuestState qs = player.getQuestState(questId);
+
+			if(qs != null)
+			{
+				// If the quest is alreday started, no need to show a window
+				if(!qs.getQuest().notifyTalk(this, qs))
+					return;
+			}
+			else
+			{
+				if(q != null)
+				{
+					// check for start point
+					Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
+
+					if(qlst != null && qlst.length > 0)
+					{
+						for(Quest element : qlst)
+						{
+							if(element == q)
+							{
+								qs = q.newQuestState(player);
+								//disabled by mr. becouse quest dialog only show on second click.
+								//if(qs.getState().getName().equalsIgnoreCase("completed"))
+								//{
+								if(!qs.getQuest().notifyTalk(this, qs))
+									return; // no need to show a window
+								//}
+								break;
+							}
+						}
+					}
+					q = null;
+				}
+			}
+
+			if(qs == null)
+			{
+				// no quests found
+				content = "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>";
+			}
+			else
+			{
+				questId = qs.getQuest().getName();
+				String stateId = qs.getStateId();
+				String path = Config.DATAPACK_ROOT + "/data/scripts/quests/" + questId + "/" + stateId + ".htm";
+				content = HtmCache.getInstance().getHtm(path);
+
+				if(Config.DEBUG)
+				{
+					if(content != null)
+					{
+						_log.fine("Showing quest window for quest " + questId + " html path: " + path);
+					}
+					else
+					{
+						_log.fine("File not exists for quest " + questId + " html path: " + path);
+					}
+				}
+				qs = null;
+			}
+
+			// Send a Server->Client packet NpcHtmlMessage to the L2PcInstance in order to display the message of the L2NpcInstance
+			if(content != null)
+			{
+				insertObjectIdAndShowChatWindow(player, content);
+				content = null;
+			}
+
+			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			
 		}
 
-		//FileInputStream fis = null;
+			
+		
+	}
+	*/
+	
+	/**
+	 * Open a quest window on client with the text of the L2Npc.<BR><BR>
+	 *
+	 * <B><U> Actions</U> :</B><BR><BR>
+	 * <li>Get the text of the quest state in the folder data/scripts/quests/questId/stateId.htm </li>
+	 * <li>Send a Server->Client NpcHtmlMessage containing the text of the L2Npc to the L2PcInstance </li>
+	 * <li>Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet </li><BR><BR>
+	 *
+	 * @param player The L2PcInstance that talk with the L2Npc
+	 * @param questId The Identifier of the quest to display the message
+	 *
+	 */
+	public void showQuestWindow(L2PcInstance player, String questId)
+	{
+		String content = null;
+
+		Quest q = QuestManager.getInstance().getQuest(questId);
 
 		// Get the state of the selected quest
 		QuestState qs = player.getQuestState(questId);
 
-		if(qs != null)
+		if (q == null)
 		{
-			// If the quest is alreday started, no need to show a window
-			if(!qs.getQuest().notifyTalk(this, qs))
-				return;
+			// No quests found
+			content = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>";
 		}
 		else
 		{
-			if(q != null)
+			if(player.getWeightPenalty() >= 3 && q.getQuestIntId() >= 1 && q.getQuestIntId() < 1000)
 			{
-				// check for start point
+				player.sendPacket(new SystemMessage(SystemMessageId.INVENTORY_LESS_THAN_80_PERCENT));
+				return;
+			}
+
+			if (qs == null)
+			{
+				if (q.getQuestIntId() >= 1 && q.getQuestIntId() < 20000)
+				{
+					Quest[] questList = player.getAllActiveQuests();
+					if (questList.length >= 25) // if too many ongoing quests, don't show window and send message
+					{
+						player.sendMessage("You have too many quests, cannot register");
+						return;
+					}
+				}
+				// Check for start point
 				Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
 
-				if(qlst != null && qlst.length > 0)
+				if (qlst != null && qlst.length > 0)
 				{
-					for(Quest element : qlst)
+					for (Quest temp: qlst)
 					{
-						if(element == q)
+						if (temp == q)
 						{
 							qs = q.newQuestState(player);
-							//disabled by mr. becouse quest dialog only show on second click.
-							//if(qs.getState().getName().equalsIgnoreCase("completed"))
-							//{
-							if(!qs.getQuest().notifyTalk(this, qs))
-								return; // no need to show a window
-							//}
 							break;
 						}
 					}
 				}
-				q = null;
 			}
 		}
 
-		if(qs == null)
+		if (qs != null)
 		{
-			// no quests found
-			content = "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>";
-		}
-		else
-		{
+			// If the quest is already started, no need to show a window
+			if (!qs.getQuest().notifyTalk(this, qs))
+				return;
+
 			questId = qs.getQuest().getName();
 			String stateId = qs.getStateId();
 			String path = Config.DATAPACK_ROOT + "/data/scripts/quests/" + questId + "/" + stateId + ".htm";
 			content = HtmCache.getInstance().getHtm(path);
 
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				if(content != null)
+				if (content != null)
 				{
-					_log.fine("Showing quest window for quest " + questId + " html path: " + path);
+					_log.info("Showing quest window for quest " + questId + " html path: " + path);
 				}
 				else
 				{
-					_log.fine("File not exists for quest " + questId + " html path: " + path);
+					_log.info("File not exists for quest " + questId + " html path: " + path);
 				}
 			}
+			
 			qs = null;
 		}
 
-		// Send a Server->Client packet NpcHtmlMessage to the L2PcInstance in order to display the message of the L2NpcInstance
-		if(content != null)
-		{
+		// Send a Server->Client packet NpcHtmlMessage to the L2PcInstance in order to display the message of the L2Npc
+		if (content != null)
 			insertObjectIdAndShowChatWindow(player, content);
-			content = null;
-		}
 
+		content = null;
+		
 		// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
+	
 
 	/**
 	 * Collect awaiting quests/start points and display a QuestChooseWindow (if several available) or QuestWindow.<BR>

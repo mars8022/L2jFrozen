@@ -21,8 +21,8 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.ai.special.Antharas;
-import com.l2jfrozen.gameserver.ai.special.Baium;
+import com.l2jfrozen.gameserver.ai.special.Antharas_l2j;
+
 import com.l2jfrozen.gameserver.ai.special.Baium_l2j;
 import com.l2jfrozen.gameserver.ai.special.Barakiel;
 import com.l2jfrozen.gameserver.ai.special.Core;
@@ -33,16 +33,17 @@ import com.l2jfrozen.gameserver.ai.special.Gordon;
 import com.l2jfrozen.gameserver.ai.special.Hallate;
 import com.l2jfrozen.gameserver.ai.special.IceFairySirra;
 import com.l2jfrozen.gameserver.ai.special.Kernon;
-import com.l2jfrozen.gameserver.ai.special.Monastery;
+
 import com.l2jfrozen.gameserver.ai.special.Monastery_l2j;
 import com.l2jfrozen.gameserver.ai.special.Orfen;
 import com.l2jfrozen.gameserver.ai.special.QueenAnt;
 import com.l2jfrozen.gameserver.ai.special.SummonMinions;
 import com.l2jfrozen.gameserver.ai.special.Transform;
+import com.l2jfrozen.gameserver.ai.special.Valakas_l2j;
 import com.l2jfrozen.gameserver.ai.special.VanHalter;
 import com.l2jfrozen.gameserver.ai.special.VarkaKetraAlly;
-import com.l2jfrozen.gameserver.ai.special.Zaken;
-import com.l2jfrozen.gameserver.ai.special.Zaken2;
+
+import com.l2jfrozen.gameserver.ai.special.Zaken_l2j;
 import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -57,40 +58,26 @@ public class AILoader
 	public static void init()
 	{
 		_log.info("AI load:");
-		if(Config.ENABLE_ANTHARAS_SCRIPT){
-			_log.info(" - Antharas");
-			ThreadPoolManager.getInstance().scheduleAi(new Antharas(-1, "antharas", "ai"), 100);
-		}
 		
-		if(Config.ENABLE_BAIUM_SCRIPT){
-			_log.info(" - Baium");
-			ThreadPoolManager.getInstance().scheduleAi(new Baium(-1, "baium", "ai"), 200);
-		}else if(Config.ENABLE_BAIUM_L2J_SCRIPT){
-			_log.info(" - Baium_l2j");
-			ThreadPoolManager.getInstance().scheduleAi(new Baium_l2j(-1, "baium", "ai"), 200);
-		}
+		_log.info(" - Antharas_l2j");
+		ThreadPoolManager.getInstance().scheduleAi(new Antharas_l2j(-1, "antharas", "ai"), 100);
 		
-		if(Config.ENABLE_CORE_SCRIPT){
-			_log.info(" - Core");
-			ThreadPoolManager.getInstance().scheduleAi(new Core(-1, "core", "ai"), 300);
-			
-		}
-		if(Config.ENABLE_QA_SCRIPT){
-			_log.info(" - Queen Ant");
-			ThreadPoolManager.getInstance().scheduleAi(new QueenAnt(-1, "queen_ant", "ai"), 400);
-		}
+		_log.info(" - Baium_l2j");
+		ThreadPoolManager.getInstance().scheduleAi(new Baium_l2j(-1, "baium", "ai"), 200);
+		
+		_log.info(" - Core");
+		ThreadPoolManager.getInstance().scheduleAi(new Core(-1, "core", "ai"), 300);
+		
+		_log.info(" - Queen Ant");
+		ThreadPoolManager.getInstance().scheduleAi(new QueenAnt(-1, "queen_ant", "ai"), 400);
+		
 		_log.info(" - Van Halter");
 		ThreadPoolManager.getInstance().scheduleAi(new VanHalter(-1, "vanhalter", "ai"), 500);
 		_log.info(" - Gordon");
 		ThreadPoolManager.getInstance().scheduleAi(new Gordon(-1, "Gordon", "ai"), 600);
 		
-		if(Config.ENABLE_MONASTERY_SCRIPT){
-			_log.info(" - Monastery");
-			ThreadPoolManager.getInstance().scheduleAi(new Monastery(-1, "monastery", "ai"), 700);
-		}else if(Config.ENABLE_MONASTERY_L2J_SCRIPT){
-			_log.info(" - Monastery_l2j");
-			ThreadPoolManager.getInstance().scheduleAi(new Monastery_l2j(-1, "monastery", "ai"), 700);
-		}
+		_log.info(" - Monastery_l2j");
+		ThreadPoolManager.getInstance().scheduleAi(new Monastery_l2j(-1, "monastery", "ai"), 700);
 		
 		_log.info(" - Transform");
 		ThreadPoolManager.getInstance().scheduleAi(new Transform(-1, "transform", "ai"), 800);
@@ -113,23 +100,17 @@ public class AILoader
 		_log.info(" - Barakiel");
 		ThreadPoolManager.getInstance().scheduleAi(new Barakiel(-1, "Barakiel", "ai"), 1700);
 		
-		if(Config.ENABLE_ORFEN_SCRIPT){
-			_log.info(" - Orfen");
-			ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
-		}
-		if(Config.ENABLE_ZAKEN_SCRIPT){
-			_log.info(" - Zaken");
-			ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
-		}else if(Config.ENABLE_ZAKEN_L2J_SCRIPT){
-			_log.info(" - Zaken_l2j");
-			ThreadPoolManager.getInstance().scheduleAi(new Zaken2(-1, "Zaken", "ai"), 2100);
-		}
+		_log.info(" - Orfen");
+		ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
 		
-		if(Config.ENABLE_FRINTEZZA_SCRIPT){
-			_log.info(" - Frintezza");
-			ThreadPoolManager.getInstance().scheduleAi(new Frintezza_l2j(-1, "Frintezza", "ai"), 2000);
-		}
+		_log.info(" - Zaken_l2j");
+		ThreadPoolManager.getInstance().scheduleAi(new Zaken_l2j(-1, "Zaken", "ai"), 1900);
 		
+		_log.info(" - Frintezza_l2j");
+		ThreadPoolManager.getInstance().scheduleAi(new Frintezza_l2j(-1, "Frintezza", "ai"), 2000);
+		
+		_log.info(" - Valakas_l2j");
+		ThreadPoolManager.getInstance().scheduleAi(new Valakas_l2j(-1, "valakas", "ai"), 2100);
 		
 		
 		
