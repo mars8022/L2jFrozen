@@ -321,6 +321,7 @@
     <effect count="1" name="PsychicalMute" time="3600" val="0" noicon="1"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4216" levels="1" name="Scatter Enemy">
   <!-- Zaken skills - teleport PC -->
   <set name="magicLvl" val="60"/>
@@ -337,6 +338,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4217" levels="1" name="None">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -354,6 +356,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4218" levels="1" name="Absorb HP MP">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -365,16 +368,16 @@
   <set name="skillRadius" val="100"/>
   <set name="skillType" val="DRAIN"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="power" val="57" />
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <set name="absorbPart" val="0.8"/> <!-- absorbs 80% of damage -->
   <set name="mpConsume" val="274"/>
   <for>
-    <!-- <effect count="1" name="Buff" time="120" val="0">
-      <add order="0x40" stat="absorbDam" val="8"/>
-    </effect> -->
+    <effect name="ManaDamOverTime" noicon="1" val="274" />
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4219" levels="1" name="Hold">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -392,6 +395,7 @@
     <effect count="1" name="Root" time="30" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4220" levels="1" name="Deadly Dual-Sword Weapon">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -405,25 +409,21 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="50"/>
   <set name="effectRange" val="200"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4221" levels="1" name="Deadly Dual-Sword Weapon: Range Attack">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
   <set name="lvlDepend" val="1"/>
-  <set name="power" val="7224"/>
+  <set name="power" val="5164" />
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="250"/>
   <set name="coolTime" val="1500"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4222" levels="1" name="Instant Move">
   <!-- Zaken skills - teleport -->
   <set name="magicLvl" val="60"/>
@@ -433,10 +433,6 @@
   <set name="reuseDelay" val="859000"/>
   <set name="mpConsume" val="100"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <skill id="4223" levels="1" name="Face Chance: Night to Day">
   <!-- Zaken skills - change face -->
