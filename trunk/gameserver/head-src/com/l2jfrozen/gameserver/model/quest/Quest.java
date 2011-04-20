@@ -351,7 +351,7 @@ public class Quest extends ManagedScript
 	 */
 	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player, boolean repeating)
 	{
-		if(Config.DEVELOPER){
+		if(Config.DEBUG){
 			_log.info("StartingQuestTimer for Quest "+this.getName());
 			
 			String info = "Event:"+name+" Time:"+time;
@@ -961,7 +961,7 @@ public class Quest extends ManagedScript
 	 */
 	public final static void playerEnter(L2PcInstance player)
 	{
-		if(Config.DEVELOPER){
+		if(Config.DEBUG){
 			_log.info("Quest.playerEnter " + player.getName());
 			
 		}
@@ -992,8 +992,8 @@ public class Quest extends ManagedScript
 				Quest q = QuestManager.getInstance().getQuest(questId);
 
 				if(q == null)
-				{
-					_log.info("Unknown quest " + questId + " for player " + player.getName());
+				{   if(Config.DEVELOPER){
+					_log.info("Unknown quest " + questId + " for player " + player.getName());}
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());
@@ -1014,8 +1014,8 @@ public class Quest extends ManagedScript
 				// Create an object State containing the state of the quest
 				State state = q._states.get(stateId);
 				if(state == null)
-				{
-					_log.info("Unknown state in quest " + questId + " for player " + player.getName());
+				{   if(Config.DEVELOPER){
+					_log.info("Unknown state in quest " + questId + " for player " + player.getName());}
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());
@@ -1054,8 +1054,8 @@ public class Quest extends ManagedScript
 				QuestState qs = player.getQuestState(questId);
 
 				if(qs == null)
-				{
-					_log.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());
+				{   if(Config.DEVELOPER){
+					_log.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());}
 
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
