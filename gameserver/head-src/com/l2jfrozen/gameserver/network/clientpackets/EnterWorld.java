@@ -278,12 +278,16 @@ public class EnterWorld extends L2GameClientPacket
 
 		SystemMessage sm = new SystemMessage(SystemMessageId.WELCOME_TO_LINEAGE);
 		sendPacket(sm);
+		
+		//Credits to L2jfrozen
+		activeChar.sendMessage("This server uses L2jFrozen, a project founded by L2Chef and");
+		activeChar.sendMessage("developed by the L2jFrozen Dev Team at l2jfrozen.com");
 
 		SevenSigns.getInstance().sendCurrentPeriodMsg(activeChar);
 		Announcements.getInstance().showAnnouncements(activeChar);
 
 		loadTutorial(activeChar);
-
+		
 		// check for crowns
 		CrownManager.getInstance().checkCrowns(activeChar);
 
