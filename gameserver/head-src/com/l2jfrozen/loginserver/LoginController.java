@@ -34,9 +34,9 @@ import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 
-import javolution.util.FastCollection.Record;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+import javolution.util.FastCollection.Record;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.Base64;
@@ -718,7 +718,7 @@ public class LoginController
 					con = null;
 					return false;
 				}
-				_log.warning("Account missing for user " + user);
+				_log.warning("Account missing for user "+user+" IP: "+address.getHostAddress());
 				CloseUtil.close(con);
 				con = null;
 				return false;
