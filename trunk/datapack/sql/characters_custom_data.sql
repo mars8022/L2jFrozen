@@ -11,5 +11,3 @@ CREATE TABLE `characters_custom_data` (
   `hero_end_date` BIGINT NOT NULL default '0',
   PRIMARY KEY  (`obj_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-   
--- L2Scoria
