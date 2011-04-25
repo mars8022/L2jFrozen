@@ -1625,40 +1625,35 @@
   	</effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5080" levels="1" name="NPC Mighty Haste">
-  <set name="magicLvl" val="80"/>
-  <set name="mpConsume" val="75"/>
+  <set name="magicLvl" val="85"/>
+  <set name="mpInitialConsume" val="15" />
+  <set name="mpConsume" val="60" />
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
   	<effect count="1" name="Buff" time="120" val="0">
       <mul order="0x30" stat="pAtkSpd" val="1.33"/>
+      <mul order="0x30" stat="pAtk" val="1.15" />
   	</effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5081" levels="4" name="Silence">
-<!--
-  Description(s):
-      Lvl 1-4 - Blocks the ability to use physical skills.
--->
   <table name="#mpConsume">75 75 75 20</table>
-  <table name="#actRate">35 40 45 50</table>
-  <table name="#power">568 873 1013 1162</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magiclvl" val="80"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="activateRate" val="#actRate"/>
   <set name="hitTime" val="1500"/>
-  <set name="power" val="#power"/>
-  <set name="reuseDelay" val="10000"/>
-  <set name="skillType" val="PDAM"/>
+  <set name="power" val="40"/>
+  <set name="skillType" val="DEBUFF" />
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="isDebuff" val="true" />
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
   <for>
@@ -1703,6 +1698,7 @@
   	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5084" levels="4" name="NPC Blinding Blow">
   <table name="#mpConsume">67 68 69 70</table>
   <table name="#power">2751 2850 2950 3050</table>
@@ -1710,18 +1706,17 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="onCrit" val="true"/>
-  <set name="reuseDelay" val="135000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="coolTime" val="720"/>
   <set name="hitTime" val="1080"/>
   <set name="skillType" val="BLOW"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
-  <set name="lethal1" val="10"/>
   <set name="turner" val="true"/>
   <!-- <set name="nextAction" val="attack"/> -->
   <for>
   	<effect applyOnCaster="true" count="1" name="Buff" time="10" val="0">
-      <mul order="0x30" stat="runSpd" val="1.4"/>
+      <add order="0x40" stat="runSpd" val="40" />
   	</effect>
   </for>
 </skill>
