@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
 <!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7000" levels="1" name="NPC Default">
-  <set name="target" val="TARGET_ONE"/>
-  <set name="isMagic" val="false"/>
-  <set name="skillType" val="PDAM"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="target" val="TARGET_SELF" />
+  <set name="skillType" val="NOTDONE" />
+  <set name="operateType" val="OP_PASSIVE" />
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7001" levels="1" name="Dispel Buff">
   <set name="mpConsume" val="96"/>
+  <set name="magicLvl" val="99" />
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="300000"/>
   <set name="hitTime" val="6000"/>
@@ -23,6 +23,7 @@
   <set name="negateStats" val="BUFF"/>
   <set name="negatePower" val="17"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7002" levels="1" name="Dispel Debuff">
   <set name="mpConsume" val="154"/>
   <set name="target" val="TARGET_ONE"/>
@@ -37,6 +38,7 @@
   <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
   <set name="negatePower" val="17"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7003" levels="1" name="Dispel All">
   <set name="mpConsume" val="74"/>
   <set name="target" val="TARGET_ONE"/>
@@ -65,6 +67,7 @@
   <set name="negateStats" val="PARALYZE"/>
   <set name="aggroPoints" val="566"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7005" levels="1" name="Greater Chant of Vampire">
   <set name="magicLvl" val="74"/>
   <set name="mpInitialConsume" val="55"/>
@@ -81,7 +84,7 @@
   <set name="aggroPoints" val="655"/>
   <for>
     <effect name="Buff" time="1200" count="1" val="0" stackOrder="9" stackType="vampRage">
-      <add order="0x40" stat="absorbDam" val="9"/>
+      <add order="0x40" stat="absorbDam" val="9"/> <!-- absorb 9% HP from damage inflicted on enemies -->
     </effect>
   </for>
 </skill>
@@ -96,8 +99,6 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="655"/>
-  <for>
-  </for>
 </skill>
 <skill id="7007" levels="4" name="Greater Seal of Flame">
   <!-- TODO -->
@@ -109,18 +110,16 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7028" levels="1" name="For Stationary NPCs">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7029" levels="4" name="Super Haste">
+  <!-- GM Skill -->
   <table name="#runSpd">1.5 2 3 4</table>
   <table name="#mReuse">1 2 4 30</table>
   <table name="#mAtkSpd">1.5 1.8 3 4</table>
@@ -128,8 +127,6 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect name="Buff" time="144000" count="1" val="0">
       <mul order="0x30" stat="runSpd" val="#runSpd"/>
@@ -139,6 +136,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="7030" levels="1" name="Summon King Bugbear">
   <set name="itemConsumeId" val="1458"/>
   <set name="mpConsume" val="3"/>
@@ -153,15 +151,12 @@
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <!-- Summon-specific -->
-  <set name="npcId" val="150"/>
+  <set name="npcId" val="20150"/>
   <set name="expPenalty" val="0.3"/>
   <set name="isCubic" val="false"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="7031" levels="1" name="Summon Skeleton Royal Guard">
   <set name="itemConsumeId" val="1458"/>
   <set name="mpConsume" val="3"/>
@@ -179,12 +174,11 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <!-- Summon-specific -->
-  <set name="npcId" val="622"/>
+  <set name="npcId" val="20169"/>
   <set name="expPenalty" val="0.3"/>
   <set name="isCubic" val="false"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
 <skill id="7032" levels="1" name="Summon Hunter Gargoyle">
   <set name="itemConsumeId" val="1458"/>
   <set name="mpConsume" val="3"/>
@@ -202,109 +196,61 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <!-- Summon-specific -->
-  <set name="npcId" val="241"/>
+  <set name="npcId" val="20241"/>
   <set name="expPenalty" val="0.3"/>
   <set name="isCubic" val="false"/>
-  <for>
-  </for>
 </skill>
+<!-- Skill not used -->
 <skill id="7033" levels="1" name="Test Flame Strike">
-  <set name="mpInitialConsume" val="7"/>
-  <set name="mpConsume" val="27"/>
-  <set name="magicLvl" val="25"/>
-  <set name="power" val="16"/>
-  <set name="target" val="TARGET_AREA"/>
-  <set name="skillRadius" val="200"/>
-  <set name="element" val="2"/>
-  <set name="reuseDelay" val="15000"/>
-  <set name="hitTime" val="4000"/>
-  <set name="skillType" val="MDAM"/>
-  <set name="isMagic" val="true"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="500"/>
-  <set name="effectRange" val="1000"/>
-  <for>
-  </for>
+  <set name="target" val="TARGET_ONE"/>
+  <set name="skillType" val="COREDONE"/>
+  <set name="operateType" val="OP_PASSIVE"/>
 </skill>
+<!-- Skill not used -->
 <skill id="7034" levels="1" name="Test Aqua Splash">
-  <set name="element" val="3"/> <!-- Water -->
-  <set name="mpConsume" val="23"/>
-  <set name="power" val="225"/>
-  <set name="target" val="TARGET_AREA"/>
-  <set name="skillRadius" val="205"/>
-  <set name="reuseDelay" val="15000"/>
-  <set name="hitTime" val="3299"/>
-  <set name="element" val="3"/>
-  <set name="skillType" val="MDAM"/>
-  <set name="isMagic" val="true"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="700"/>
-  <for>
-  </for>
+  <set name="target" val="TARGET_ONE"/>
+  <set name="skillType" val="COREDONE"/>
+  <set name="operateType" val="OP_PASSIVE"/>
 </skill>
+<!-- Skill not used -->
 <skill id="7035" levels="1" name="Display - Swoop Cannon">
-<!--  Description(s):
-      This aerial attack inflicts damage on a target inside the Outer Castle.
--->
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Skill not used -->
 <skill id="7036" levels="1" name="Display - Valakas">
-<!--  Description(s):
-      Valakas Use Skill
--->
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Skill not used -->
 <skill id="7037" levels="1" name="Display - Tyrannosaurus Capture">
-<!--  Description(s):
-      Tyrannosaurus Use Skill
--->
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Skill not used -->
 <skill id="7038" levels="1" name="Channeling DD Test: Short">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Skill not used -->
 <skill id="7039" levels="1" name="Channeling DD Test: Middle">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Skill not used -->
 <skill id="7040" levels="1" name="Channeling DD Test: Long">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7041" levels="1" name="Master's Blessing - Focus">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases critical attack rate temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -321,12 +267,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7042" levels="1" name="Master's Blessing - Death Whisper">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases critical attack rate temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -343,12 +286,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7043" levels="1" name="Master's Blessing - Haste">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases Atk. Spd. temporarily. Effect 2.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -365,12 +305,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7044" levels="1" name="Master's Blessing - Guidance">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases Accuracy temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -387,12 +324,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7045" levels="1" name="Master's Blessing - Blessed Body">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases maximum HP temporarily. Effect 6.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -409,12 +343,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7046" levels="1" name="Master's Blessing - Blessed Soul">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases maximum MP temporarily. Effect 6.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -431,12 +362,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7047" levels="1" name="Master's Blessing - Agility">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases Evasion temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -453,12 +381,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7048" levels="1" name="Master's Blessing - Acumen">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases Casting Spd. temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -475,12 +400,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7049" levels="1" name="Master's Blessing - Decrease Weight">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Reduces current weight. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -497,12 +419,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7050" levels="1" name="Master's Blessing - Might">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases P. Atk. temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -519,12 +438,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7051" levels="1" name="Master's Blessing - Shield">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases P. Def. temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -541,12 +457,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7052" levels="1" name="Master's Blessing - Magic Barrier">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases M. Def. temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -563,12 +476,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7053" levels="1" name="Master's Blessing - Vampiric Rage">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Temporarily increases the amount of HP absorbed from damage done to a target. Excludes damage from skills or ranged attacks. Effect 4.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -585,12 +495,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7054" levels="1" name="Master's Blessing - Empower">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases M. Atk. temporarily. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -607,12 +514,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7055" levels="1" name="Master's Blessing - Wind Walk">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Increases Speed temporarily. Effect 2.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -629,12 +533,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7056" levels="1" name="Master's Blessing - Berserker Spirit">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Temporarily reduces P. Def., M. Def. and Evasion, and increases P. Atk., M. Atk., Atk. Spd., Casting Spd. and Speed. Effect 2.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -658,12 +559,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7057" levels="1" name="Master's Blessing - Greater Might">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Temporarily increases the target's P. Atk. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="4000"/>
@@ -679,12 +577,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7058" levels="1" name="Master's Blessing - Greater Shield">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side.  Temporarily increases the target's P. Def. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="4000"/>
@@ -700,12 +595,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7059" levels="1" name="Master's Blessing - Wild Magic">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side.  Temporarily increases the critical attack rate for magic attacks. Effect 2.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -722,12 +614,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7060" levels="1" name="Master's Blessing - Clarity">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. Temporarily decreases the target's MP consumption for skills. Effect 3.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="4000"/>
@@ -744,12 +633,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7061" levels="1" name="Master's Blessing - Prophecy of Water">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. The spirit of an ancient wizard temporarily possesses the target.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="120000"/>
@@ -772,12 +658,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7062" levels="1" name="Master's Blessing - Prophecy of Fire">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. The spirit of an ancient warrior temporarily possesses the target.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="120000"/>
@@ -801,12 +684,9 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7063" levels="1" name="Master's Blessing - Prophecy of Wind">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. The spirit of an ancient assassin temporarily possesses the target.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="120000"/>
@@ -837,12 +717,9 @@
   </effect>
 </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7064" levels="1" name="Master's Blessing - Chant of Victory">
-<!--
-  Needs to be verified. Edit by Shaka 19/09/2007
-  Description(s):
-      A GM is always by your side. The spirit of an ancient hero temporarily possesses the target.
--->
+  <!-- GM Skill -->
   <set name="mpConsume" val="2"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="1200000"/>
