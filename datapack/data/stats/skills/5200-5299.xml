@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
 <!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5200" levels="3" name="Pet Recharge">
   <table name="#mpConsume">120 124 128</table> 
   <table name="#power">120 124 128</table> 
@@ -15,10 +16,9 @@
   <set name="operateType" val="OP_ACTIVE"/> 
   <set name="castRange" val="400"/> 
   <set name="effectRange" val="900"/> 
-  <set name="aggroPoints" val="#aggro"/> 
-  <for>
-  </for>
-</skill> 
+  <set name="aggroPoints" val="#aggro"/>
+</skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5201" levels="2" name="Pet Concentration">
   <table name="#mpConsume">39 48</table> 
   <table name="#cancel">36 42</table> 
@@ -39,37 +39,34 @@
       <sub order="0x40" stat="cancel" val="#cancel"/> 
     </effect> 
   </for> 
-</skill> 
+</skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5202" levels="12" name="NPC Ranged Stun">
-<!--  Description(s):
-      Lvl 1-12 - Temporarily gets thrown into a state of shock and immobilized.
--->
-  <table name="#mpConsume">3 5 7 9 12 14 17 18 18 19 20 20</table>
-  <table name="#power">16 35 73 138 238 375 537 619 697 766 821 864</table>
+  <table name="#mpConsume">7 10 14 19 25 31 36 38 40 42 42 43</table>
   <table name="#magicLvl">10 20 30 40 50 60 70 75 80 85 90 95</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="power" val="#power"/>
+  <set name="power" val="50"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
-  <set name="target" val="TARGET_ONE"/>
-  <set name="skillType" val="PDAM"/>
+  <set name="target" val="TARGET_AURA"/>
+  <set name="skillType" val="STUN"/>
   <set name="hitTime" val="6000"/>
   <set name="reuseDelay" val="12000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1200"/>
   <set name="effectRange" val="200"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5203" levels="12" name="NPC Ranged Fear">
-<!--  Description(s):
-      Lvl 1-12 - Temporarily becomes overcome with fear and flees mindlessly.
--->
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 73 76 80</table>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="20"/>
-  <set name="target" val="TARGET_ONE"/>
+  <set name="power" val="50"/>
+  <set name="save" val="4"/>
+  <set name="target" val="TARGET_AURA"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1200"/>
@@ -80,33 +77,27 @@
  	<effect count="3" name="Fear" time="5" val="0"/>
  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5204" levels="1" name="Production-First Gigantic Pig Combination">
-  <set name="target" val="TARGET_SELF"/> <!-- Needs to be checked -->
-  <set name="skillType" val="BUFF"/>
-  <set name="hitTime" val="5800"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
+  <set name="magicLvl" val="76" />
+  <set name="target" val="TARGET_SELF" />
+  <set name="skillType" val="BUFF" />
+  <set name="hitTime" val="5800" />
+  <set name="operateType" val="OP_ACTIVE" />
 </skill>
 <skill id="5205" levels="1" name="Boss Regeneration">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
   <for>
     <mul order="0x30" stat="regHp" val="1.2"/>
 	<mul order="0x30" stat="regMp" val="1.2"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5206" levels="1" name="Decrease Speed">
-<!--
-  Description(s):
-      Curse of the Pig: Instantly reduces Speed. Effect 1.
--->
   <set name="save" val="5"/>
-  <set name="power" val="542"/>
+  <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="2200"/>
   <set name="skillType" val="PDAM"/>
@@ -115,39 +106,33 @@
   <set name="effectRange" val="1000"/>
   <set name="effectType" val="DEBUFF"/>
   <set name="effectPower" val="70"/>
+  <set name="isDebuff" val="true"/>
   <for>
     <effect name="Debuff" time="30" count="1" val="0" stackOrder="0.5" stackType="RunSpeedDown">
-      <mul order="0x30" stat="runSpd" val="0.5"/>
+      <mul order="0x30" stat="runSpd" val="0.85"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5207" levels="1" name="Decrease Atk. Spd.">
-<!--
-  Description(s):
-      Curse of the Pig: Instantly reduces Atk. Spd. Effect 1.
--->
   <set name="lvlDepend" val="1"/>
   <set name="save" val="5"/>
   <set name="power" val="10"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="isDebuff" val="true"/>
   <for>
     <effect name="Debuff" time="120" count="1" val="0" stackOrder="0.77" stackType="pAtkSpdDown">
-      <mul order="0x30" stat="pAtkSpd" val="0.77"/>
+      <mul order="0x30" stat="pAtkSpd" val="0.85"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5208" levels="1" name="Golden Pig Wind Walk">
-<!--
-  Description(s):
-      Temporarily increases Speed. Effect 2.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -159,14 +144,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5209" levels="1" name="Golden Pig Shield">
-<!--
-  Description(s):
-      Temporarily increases P. Def. Effect 3.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -178,14 +160,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5210" levels="1" name="Golden Pig Blessed Body">
-<!--
-  Description(s):
-      Temporarily increases maximum HP. Effect 6.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -197,32 +176,26 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5211" levels="1" name="Golden Pig Vampiric Rage">
-<!--
-  Description(s):
-      Uses damage inflicted upon an enemy to temporarily restore HP. Excludes damage inflicted by skill or remote attack. Effect 4.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <for>
     <effect count="1" name="Buff" time="3600" val="0" stackOrder="7" stackType="vampRage">
-      <add order="0x40" stat="absorbDam" val="9"/>
+      <add order="0x40" stat="absorbDam" val="9"/> <!-- absorb 9% HP from damage inflicted on enemies -->
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5212" levels="1" name="Golden Pig Regeneration">
-<!--
-  Description(s):
-      Temporarily increases ability to restore HP. Effect 3.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -234,14 +207,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5213" levels="1" name="Golden Pig Haste">
-<!--
-  Description(s):
-      Temporarily increases Atk. Spd. Effect 1.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -253,14 +223,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5214" levels="1" name="Golden Pig Blessed Soul">
-<!--
-  Description(s):
-      Temporarily increases maximum MP. Effect 6.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -272,14 +239,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5215" levels="1" name="Golden Pig Acumen">
-<!--
-  Description(s):
-      Temporarily increases Casting Spd. Effect 3.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -291,14 +255,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5216" levels="1" name="Golden Pig Concentration">
-<!--
-  Description(s):
-      Temporarily decreases the probability of magic being canceled due to damage taken. Effect 1.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -310,14 +271,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5217" levels="1" name="Golden Pig Empower">
-<!--
-  Description(s):
-      Temporarily increases M. Atk. Effect 1.
--->
-  <set name="power" val="1"/>
+  <set name="magicLvl" val="60" />
   <set name="target" val="TARGET_ONE"/>
-  <set name="hitTime" val="1500"/> <!-- test -->
+  <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -329,27 +287,24 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5218" levels="1" name="Production: Event Teleport">
+  <set name="magicLvl" val="76" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BUFF"/>
   <set name="hitTime" val="4000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5219" levels="1" name="Huge Pig Stun">
-<!--
-  Description(s):
-      Curse of the Huge Pig: Target is temporarily stunned and immoblized.
--->
-  <set name="magicLvl" val="99"/>
+  <set name="magicLvl" val="95"/>
   <set name="lvlDepend" val="1"/>
-  <set name="power" val="47895"/>
-  <set name="mpConsume" val="192"/>
+  <set name="power" val="50"/>
+  <set name="mpConsume" val="43"/>
   <set name="save" val="4"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="reuseDelay" val="24000"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="4500"/>
   <set name="skillType" val="PDAM"/>
@@ -362,13 +317,12 @@
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5220" levels="1" name="Huge Pig Fear">
-<!--
-  Description(s):
-      Curse of the Huge Pig: Target is temporarily overcome with fear, causing it to flee mindlessly.
--->
   <set name="mpConsume" val="150"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="power" val="50" />
+  <set name="isDebuff" val="true" />
   <set name="reuseDelay" val="20000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="FEAR"/>
@@ -380,8 +334,8 @@
     <effect count="5" name="Fear" time="6" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5267" levels="9" name="Trap Explosion">
-  <!-- Needs retail value corrections -->
   <table name="#magicLvl">28 36 44 48 52 56 60 68 74</table> <!-- Guessing levels 3-9 -->
   <table name="#power">50 54 60 78 84 92 120 130 140</table> <!-- Guessing -->
   <set name="magicLvl" val="#magicLvl"/>
@@ -393,11 +347,9 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="600"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5268" levels="6" name="Poison">
-  <!-- Needs retail value corrections -->
   <table name="#dmg">54 72 93 114 132 144</table>
   <table name="#magicLvl">49 55 60 64 68 72</table>
   <table name="#power">4 5 6 7 8 9</table>
@@ -411,14 +363,13 @@
   <set name="skillType" val="POISON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
   <set name="effectType" val="POISON"/>
   <set name="effectLevel" val="#power"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5269" levels="6" name="Slow Trap">
   <table name="#magicLvl">52 58 62 66 70 74</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -432,8 +383,6 @@
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Debuff" time="30" val="0">
       <mul order="0x30" stat="runSpd" val="0.75"/>
@@ -444,6 +393,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5270" levels="5" name="Flash Trap">
   <table name="#magicLvl">55 60 64 68 72</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -461,11 +411,12 @@
     <effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5271" levels="8" name="Hold">
   <table name="#magicLvl">40 46 52 58 62 66 70 74</table>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="40"/>
-  <set name="lvlDepend" val="2"/>
+  <set name="power" val="80"/>
+  <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="200"/>
   <set name="isDebuff" val="true"/>
@@ -478,6 +429,7 @@
     <effect count="1" name="Root" time="30" val="0" stackOrder="1" stackType="Root"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5272" levels="6" name="Decoy Provocation">
   <table name="#mpConsume">50 51 53 54 55 57</table>
   <table name="#magicLvl">38 39 40 41 42 43</table>
@@ -492,8 +444,6 @@
   <set name="skillType" val="AGGDAMAGE"/>
   <set name="isDebuff" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="TargetMe" time="1" val="0"/>
   </for>
