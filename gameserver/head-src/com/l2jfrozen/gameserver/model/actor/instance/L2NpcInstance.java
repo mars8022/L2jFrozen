@@ -327,11 +327,13 @@ public class L2NpcInstance extends L2Character
 			}
 		}
 
+		/*
 		if(template == null)
 		{
 			_log.severe("No template for Npc. Please check your datapack is setup correctly.");
 			return;
 		}
+		*/
 
 		// Set the name of the L2Character
 		setName(template.name);

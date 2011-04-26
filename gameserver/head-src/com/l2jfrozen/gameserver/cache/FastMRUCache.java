@@ -28,7 +28,7 @@ import javolution.util.FastMap;
 /**
  * @author Layane
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class FastMRUCache<K, V> extends FastCollection implements Reusable
 {
 	/**

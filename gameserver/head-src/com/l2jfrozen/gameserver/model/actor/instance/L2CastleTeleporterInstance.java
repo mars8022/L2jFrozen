@@ -83,12 +83,12 @@ public final class L2CastleTeleporterInstance extends L2FolkInstance
 			{
 				player.sendMessage("Your leader is in an event.");
 				return;
-			}
+			}/*
 			else if(leader == null)
 			{
 				player.sendMessage("Your Leader is not online.");
 				return;
-			}
+			}*/
 			else if(leader.isInJail())
 			{
 				player.sendMessage("Your leader is in Jail.");

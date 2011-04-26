@@ -276,9 +276,11 @@ public class Continuous implements ISkillHandler
 			if(skill.isToggle() && stopped)
 				return;
 
+			/*
 			// If target is not in game anymore...
 			if(target == null)
 				continue;
+			*/
 
 			// if this is a debuff let the duel manager know about it
 			// so the debuff can be removed after the duel

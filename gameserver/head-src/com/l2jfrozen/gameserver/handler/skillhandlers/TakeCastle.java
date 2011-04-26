@@ -57,13 +57,15 @@ public class TakeCastle implements ISkillHandler
 		Castle castle = CastleManager.getInstance().getCastle(player);
 		Fort fort = FortManager.getInstance().getFort(player);
 
-		if(castle != null && fort == null)
+		if(castle != null && fort == null){
 			if(!checkIfOkToCastSealOfRule(player, castle, true))
 				return;
-			else if(fort != null && castle == null)
-				if(!checkIfOkToCastFlagDisplay(player, fort, true))
-					return;
-
+		
+		}else if(fort != null && castle == null){
+			if(!checkIfOkToCastFlagDisplay(player, fort, true))
+				return;
+		}
+		
 		if(castle == null && fort == null)
 			return;
 
