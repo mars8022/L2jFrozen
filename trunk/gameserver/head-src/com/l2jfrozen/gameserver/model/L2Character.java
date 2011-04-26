@@ -7769,6 +7769,7 @@ public abstract class L2Character extends L2Object
 						if(player.isBlockBuff())
 							continue;
 
+					/*System.out.println("--"+skill.getId());
 					L2Weapon activeWeapon = getActiveWeaponItem();
 					// Launch weapon Special ability skill effect if available
 					if(activeWeapon != null && !((L2Character) target).isDead())
@@ -7778,6 +7779,7 @@ public abstract class L2Character extends L2Object
 							sendPacket(SystemMessage.sendString("Target affected by weapon special ability!"));
 						}
 					}
+					*/
 
 					if(target instanceof L2Character)
 					{
@@ -7954,7 +7956,7 @@ public abstract class L2Character extends L2Object
 							}
 						}
 						player = null;
-						activeWeapon = null;
+						//activeWeapon = null;
 					}
 					activeChar = null;
 				}
