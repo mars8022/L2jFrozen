@@ -52,8 +52,8 @@ public class Loader extends ClassLoader
 		{
 			ZipFile file = new ZipFile(nameZip);
 
-			if(file == null)
-				throw new IOException();
+			//if(file == null)
+			//	throw new IOException();
 
 			byte[] data = null;
 			Enumeration<?> list = file.entries();

@@ -757,6 +757,7 @@ public final class L2Collections
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static final ObjectPool<ArrayList> ARRAY_LISTS = new ObjectPool<ArrayList>() {
 		@Override
 		protected void reset(ArrayList list)
@@ -771,6 +772,7 @@ public final class L2Collections
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	private static final ObjectPool<L2FastSet> L2_FAST_SETS = new ObjectPool<L2FastSet>() {
 		@Override
 		protected void reset(L2FastSet list)
@@ -790,7 +792,7 @@ public final class L2Collections
 		return ARRAY_LISTS.get();
 	}
 
-	public static void recycle(ArrayList arrayList)
+	public static void recycle(ArrayList<?> arrayList)
 	{
 		ARRAY_LISTS.store(arrayList);
 	}
@@ -800,7 +802,7 @@ public final class L2Collections
 		return L2_FAST_SETS.get();
 	}
 
-	public static void recycle(L2FastSet l2FastSet)
+	public static void recycle(L2FastSet<?> l2FastSet)
 	{
 		L2_FAST_SETS.store(l2FastSet);
 	}

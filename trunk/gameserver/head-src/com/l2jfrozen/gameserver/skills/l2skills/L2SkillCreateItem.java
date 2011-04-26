@@ -79,8 +79,9 @@ public class L2SkillCreateItem extends L2Skill
 	public void giveItems(L2PcInstance activeChar, int itemId, int count)
 	{
 		L2ItemInstance item = new L2ItemInstance(IdFactory.getInstance().getNextId(), itemId);
-		if(item == null)
-			return;
+		//if(item == null)
+		//	return;
+		
 		item.setCount(count);
 		activeChar.getInventory().addItem("Skill", item, activeChar, activeChar);
 

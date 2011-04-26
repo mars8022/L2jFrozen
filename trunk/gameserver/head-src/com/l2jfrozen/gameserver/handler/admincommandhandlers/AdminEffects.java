@@ -621,10 +621,10 @@ public class AdminEffects implements IAdminCommandHandler
 							activeChar.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 						}
 					}
-					else
+					/*else
 					{
 						activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-					}
+					}*/
 				}
 				else if(!command.contains("menu"))
 				{
@@ -742,11 +742,11 @@ public class AdminEffects implements IAdminCommandHandler
 						{
 							activeChar.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 						}
-					}
+					}/*
 					else
 					{
 						activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-					}
+					}*/
 				}
 				else if(!command.contains("menu"))
 				{
@@ -802,11 +802,11 @@ public class AdminEffects implements IAdminCommandHandler
 
 						target = null;
 					}
-				}
+				}/*
 				else
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-				}
+				}*/
 
 				obj = null;
 			}
