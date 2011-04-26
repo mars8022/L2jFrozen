@@ -2597,6 +2597,7 @@ public final class Config
 	public static OlympiadPeriod ALT_OLY_PERIOD;
 	public static int ALT_OLY_PERIOD_MULTIPLIER;
 	public static boolean ALLOW_EVENTS_DURING_OLY;
+	public static boolean ALT_OLY_RECHARGE_SKILLS;
 	//============================================================
 	public static void loadOlympConfig()
 	{
@@ -2636,7 +2637,8 @@ public final class Config
 			
 			ALLOW_EVENTS_DURING_OLY = Boolean.parseBoolean(OLYMPSetting.getProperty("AllowEventsDuringOly", "False"));
 			
-			
+			ALT_OLY_RECHARGE_SKILLS = Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyRechargeSkills", "False"));
+
 		}
 		catch(Exception e)
 		{
