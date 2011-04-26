@@ -337,13 +337,17 @@ class L2OlympiadGame extends Olympiad
 					player.sendPacket(atk);
 				}
 				
-				// [Interlude Olympiad] refresh for all skills
-				for (L2Skill skill : player.getAllSkills())
-					if(skill.getId() != 1324)
-						player.enableSkill(skill.getId());
+				// Skill recharge is a Gracia Final feature, but we have it configurable ;)
+				if (Config.ALT_OLY_RECHARGE_SKILLS)
+				{
+					for (L2Skill skill : player.getAllSkills())
+						if(skill.getId() != 1324)
+							player.enableSkill(skill.getId());
+					
+					player.updateEffectIcons();
+				}
 				
 				player.sendSkillList();
-				player.updateEffectIcons();
 				
 				player.setPvpFlag(0);
 			}

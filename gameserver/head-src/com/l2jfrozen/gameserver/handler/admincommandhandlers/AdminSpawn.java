@@ -73,23 +73,6 @@ public class AdminSpawn implements IAdminCommandHandler
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		if(command.equals("admin_show_spawns"))
 		{
 			AdminHelpPage.showHelpPage(activeChar, "spawns.htm");
@@ -300,10 +283,15 @@ public class AdminSpawn implements IAdminCommandHandler
 			
 			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) || GrandBossManager.getInstance().getStatsSet(spawn.getNpcid())!=null)
 			{
-				activeChar.sendMessage("You cannot spawn another instance of " + template1.name + ".");
+				//activeChar.sendMessage("You cannot spawn another instance of " + template1.name + ".");
+				activeChar.sendMessage("Another instance of " + template1.name + " already present into database:");
+				activeChar.sendMessage("It will be spawned but not saved on Database");
+				permanent=false;
+				spawn.setCustom(true); //for raids, this value is used in order to segnalate to not save respawn time - status for custom instance
+			
 			}
-			else
-			{
+			//else
+			//{
 				if(RaidBossSpawnManager.getInstance().getValidTemplate(spawn.getNpcid()) != null)
 				{
 					RaidBossSpawnManager.getInstance().addNewSpawn(spawn, 0, template1.getStatsSet().getDouble("baseHpMax"), template1.getStatsSet().getDouble("baseMpMax"), permanent);
@@ -321,7 +309,7 @@ public class AdminSpawn implements IAdminCommandHandler
 				}
 
 				activeChar.sendMessage("Created " + template1.name + " on " + target.getObjectId());
-			}
+			//}
 
 			spawn = null;
 		}

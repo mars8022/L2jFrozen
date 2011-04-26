@@ -20,8 +20,10 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
@@ -94,8 +96,8 @@ public class AdminDelete implements IAdminCommandHandler
 				if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()))
 				{
 					RaidBossSpawnManager.getInstance().deleteSpawn(spawn, true);
-				}
-				else
+					
+				}else
 				{
 					SpawnTable.getInstance().deleteSpawn(spawn, true);
 				}
