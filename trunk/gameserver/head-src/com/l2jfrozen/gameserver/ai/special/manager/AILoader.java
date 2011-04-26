@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 
 import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.special.Antharas_l2j;
 
 import com.l2jfrozen.gameserver.ai.special.Baium_l2j;

@@ -354,16 +354,22 @@ public class Valakas_l2j extends Quest implements Runnable
 			else if (event.equalsIgnoreCase("1117"))
 			{
 				npc.broadcastPacket(new SpecialCamera(npc.getObjectId(),1700,10,0,3000,250));
-				addSpawn(31759, 212852, -114842, -1632, 0, false, 900000);
-				int radius = 1500;
-				for (int i = 0; i < 20; i++)
-				{
-					int x = (int) (radius * Math.cos(i * .331)); //.331~2pi/19
-					int y = (int) (radius * Math.sin(i * .331));
-					addSpawn(31759, 212852 + x, -114842 + y, -1632, 0, false, 900000);
+				
+				if(!npc.getSpawn().is_customBossInstance()){
+					
+					addSpawn(31759, 212852, -114842, -1632, 0, false, 900000);
+					int radius = 1500;
+					for (int i = 0; i < 20; i++)
+					{
+						int x = (int) (radius * Math.cos(i * .331)); //.331~2pi/19
+						int y = (int) (radius * Math.sin(i * .331));
+						addSpawn(31759, 212852 + x, -114842 + y, -1632, 0, false, 900000);
+					}
+					startQuestTimer("remove_players", 900000, null, null);
+					
 				}
 				cancelQuestTimer("1002", npc, null);
-				startQuestTimer("remove_players", 900000, null, null);
+				
 			}
 		}
 		else
@@ -390,7 +396,8 @@ public class Valakas_l2j extends Quest implements Runnable
 			return null;
 		}
 		i_quest1 = System.currentTimeMillis();
-		if (GrandBossManager.getInstance().getBossStatus(VALAKAS) != FIGHTING)
+		if (!Config.ALLOW_DIRECT_TP_TO_BOSS_ROOM && GrandBossManager.getInstance().getBossStatus(VALAKAS) != FIGHTING
+				&& !npc.getSpawn().is_customBossInstance())
 		{
 			attacker.teleToLocation(150037, -57255, -2976);
 		}
@@ -616,18 +623,22 @@ public class Valakas_l2j extends Quest implements Runnable
 	@Override
 	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
-		startQuestTimer("1111", 500, npc, null);
 		npc.broadcastPacket(new SpecialCamera(npc.getObjectId(),1700,2000,130,-1,0));
 		npc.broadcastPacket(new PlaySound(1, "B03_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
-		GrandBossManager.getInstance().setBossStatus(VALAKAS,DEAD);
+		startQuestTimer("1111", 500, npc, null);
 		
-		long respawnTime = (long)(Config.VALAKAS_RESP_FIRST + Rnd.get(Config.VALAKAS_RESP_SECOND)) * 3600000;
-	     
-		this.startQuestTimer("valakas_unlock", respawnTime, null, null);
-		// also save the respawn time so that the info is maintained past reboots
-		StatsSet info = GrandBossManager.getInstance().getStatsSet(VALAKAS);
-		info.set("respawn_time", (System.currentTimeMillis() + respawnTime));
-		GrandBossManager.getInstance().setStatsSet(VALAKAS, info);
+		if(!npc.getSpawn().is_customBossInstance()){
+			GrandBossManager.getInstance().setBossStatus(VALAKAS,DEAD);
+			
+			long respawnTime = (long)(Config.VALAKAS_RESP_FIRST + Rnd.get(Config.VALAKAS_RESP_SECOND)) * 3600000;
+		     
+			this.startQuestTimer("valakas_unlock", respawnTime, null, null);
+			// also save the respawn time so that the info is maintained past reboots
+			StatsSet info = GrandBossManager.getInstance().getStatsSet(VALAKAS);
+			info.set("respawn_time", (System.currentTimeMillis() + respawnTime));
+			GrandBossManager.getInstance().setStatsSet(VALAKAS, info);
+		}
+		
 		return super.onKill(npc, killer, isPet);
 	}
 	

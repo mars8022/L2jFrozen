@@ -18,8 +18,8 @@
  */
 package com.l2jfrozen.loginserver.network.clientpackets;
 
-import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.loginserver.network.serverpackets.ServerList;
+import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 
 /**
  * Format: ddc d: fist part of session id d: second part of session id c: ?

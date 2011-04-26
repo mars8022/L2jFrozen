@@ -54,7 +54,7 @@ public class QueenAnt extends Quest implements Runnable
 	private static List<L2Attackable> _Minions = new FastList<L2Attackable>();
 	private static List<L2Attackable> _Larva_minions = new FastList<L2Attackable>();
 
-	L2GrandBossInstance queen = null;
+	//L2GrandBossInstance queen = null;
 	
 	enum Event{
 		QUEEN_SPAWN,CHECK_MINIONS_ZONE,ACTION,DESPAWN_MINIONS,SPAWN_ROYAL,SPAWN_QUEEN_NURSE,SPAWN_LARVA_NURSE,LARVA_SPAWN,LARVA_DESPAWN
@@ -91,7 +91,7 @@ public class QueenAnt extends Quest implements Runnable
     			}
     			else
     			{
-    				queen = (L2GrandBossInstance) addSpawn(QUEEN,  -21610, 181594, -5734 ,0, false, 0);
+    				L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN,  -21610, 181594, -5734 ,0, false, 0);
     				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
     				{
     					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -110,7 +110,7 @@ public class QueenAnt extends Quest implements Runnable
     			int heading = info.getInteger("heading");
     			int hp = info.getInteger("currentHP");
     			int mp = info.getInteger("currentMP");
-    			queen = (L2GrandBossInstance) addSpawn(QUEEN, loc_x, loc_y, loc_z, heading, false, 0);
+    			L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, loc_x, loc_y, loc_z, heading, false, 0);
     			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -122,7 +122,7 @@ public class QueenAnt extends Quest implements Runnable
         	break;
         	default:{
         		
-        		queen = (L2GrandBossInstance) addSpawn(QUEEN,  -21610, 181594, -5734 ,0, false, 0);
+        		L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN,  -21610, 181594, -5734 ,0, false, 0);
         		if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -166,7 +166,7 @@ public class QueenAnt extends Quest implements Runnable
 		switch(event_enum){
 			case QUEEN_SPAWN:{
 				
-				queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734,0, false, 0);
+				L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734,0, false, 0);
 				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -260,12 +260,14 @@ public class QueenAnt extends Quest implements Runnable
 						npc.broadcastPacket(new SocialAction(npc.getObjectId(), 4));
 					}
 				}
+				/*
 				if(Math.abs(npc.getX() + 21610) > 1000 || Math.abs(npc.getY() - 181594) > 2500)
 				{
 					((L2Attackable) npc).clearAggroList();
 					npc.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 					npc.teleToLocation(-21610, 181594, -5740);
 				}
+				*/
 				startQuestTimer("ACTION", 10000, npc, null);
 		    
 			}
@@ -331,21 +333,26 @@ public class QueenAnt extends Quest implements Runnable
 		if(npcId == QUEEN)
 		{
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
-			GrandBossManager.getInstance().setBossStatus(QUEEN, DEAD);
-			//time is 36hour	+/- 17hour
-			long respawnTime = (Config.QA_RESP_FIRST + Rnd.get(Config.QA_RESP_SECOND)) * 3600000;
-			startQuestTimer("QUEEN_SPAWN", respawnTime, null, null);
-			cancelQuestTimer("ACTION", npc, null);
-			cancelQuestTimer("SPAWN_ROYAL", npc, null);
-			cancelQuestTimer("SPAWN_QUEEN_NURSE", npc, null);
-			cancelQuestTimer("CHECK_ROYAL_ZONE", npc, null);
-			// also save the respawn time so that the info is maintained past reboots
-			StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
-			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-			GrandBossManager.getInstance().setStatsSet(QUEEN, info);
+			
+			if(!npc.getSpawn().is_customBossInstance()){
+				GrandBossManager.getInstance().setBossStatus(QUEEN, DEAD);
+				//time is 36hour	+/- 17hour
+				long respawnTime = (Config.QA_RESP_FIRST + Rnd.get(Config.QA_RESP_SECOND)) * 3600000;
+				startQuestTimer("QUEEN_SPAWN", respawnTime, null, null);
+				cancelQuestTimer("ACTION", npc, null);
+				cancelQuestTimer("SPAWN_ROYAL", npc, null);
+				cancelQuestTimer("SPAWN_QUEEN_NURSE", npc, null);
+				cancelQuestTimer("CHECK_ROYAL_ZONE", npc, null);
+				// also save the respawn time so that the info is maintained past reboots
+				StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
+				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
+				GrandBossManager.getInstance().setStatsSet(QUEEN, info);
+				startQuestTimer("LARVA_SPAWN", 10000, null, null);
+				
+			}
 			
 			startQuestTimer("DESPAWN_MINIONS", 10000, null, null);
-			startQuestTimer("LARVA_SPAWN", 10000, null, null);
+			
 			
 		}
 		else if(GrandBossManager.getInstance().getBossStatus(QUEEN) == LIVE)

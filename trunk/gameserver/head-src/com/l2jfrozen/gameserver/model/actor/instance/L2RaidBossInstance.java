@@ -100,7 +100,9 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 				RaidBossPointsManager.addPoints(player, getNpcId(), (getLevel() / 2) + Rnd.get(-5, 5));
 		}
 
-		RaidBossSpawnManager.getInstance().updateStatus(this, true);
+		if(!getSpawn().is_customBossInstance())
+			RaidBossSpawnManager.getInstance().updateStatus(this, true);
+		
 		return true;
 	}
 

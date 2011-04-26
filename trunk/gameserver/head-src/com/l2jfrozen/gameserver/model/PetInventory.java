@@ -17,8 +17,8 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 
 public class PetInventory extends Inventory
 {

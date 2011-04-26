@@ -23,8 +23,8 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.taskmanager.Task;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager;
-import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
+import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 
 
 /**

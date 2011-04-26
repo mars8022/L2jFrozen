@@ -221,7 +221,10 @@ public class Baium_l2j  extends Quest implements Runnable
 				npc.broadcastPacket(new Earthquake(npc.getX(), npc.getY(), npc.getZ(),40,5));
 				// start monitoring baium's inactivity
 				_LastAttackVsBaiumTime = System.currentTimeMillis();
-				startQuestTimer("baium_despawn", 60000, npc, null, true);
+				
+				if(!npc.getSpawn().is_customBossInstance())
+					startQuestTimer("baium_despawn", 60000, npc, null, true);
+				
 				startQuestTimer("skill_range", 500, npc, null, true);
 				final L2NpcInstance baium = npc;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
@@ -414,18 +417,22 @@ public class Baium_l2j  extends Quest implements Runnable
 	@Override
 	public String onKill (L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
-		cancelQuestTimer("baium_despawn", npc, null);
 		npc.broadcastPacket(new PlaySound(1, "BS01_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
-		// spawn the "Teleportation Cubic" for 15 minutes (to allow players to exit the lair)
-		addSpawn(29055,115203,16620,10078,0,false,900000); ////should we teleport everyone out if the cubic despawns??
-		// "lock" baium for 5 days and 1 to 8 hours [i.e. 432,000,000 +  1*3,600,000 + random-less-than(8*3,600,000) millisecs]
-		long respawnTime = (Config.BAIUM_RESP_FIRST + Rnd.get(Config.BAIUM_RESP_SECOND)) * 3600000;
-		GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, DEAD);
-		startQuestTimer("baium_unlock", respawnTime, null, null);
-		// also save the respawn time so that the info is maintained past reboots
-		StatsSet info = GrandBossManager.getInstance().getStatsSet(LIVE_BAIUM);
-		info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-		GrandBossManager.getInstance().setStatsSet(LIVE_BAIUM,info);
+		
+		if(!npc.getSpawn().is_customBossInstance()){
+			cancelQuestTimer("baium_despawn", npc, null);
+			// spawn the "Teleportation Cubic" for 15 minutes (to allow players to exit the lair)
+			addSpawn(29055,115203,16620,10078,0,false,900000); ////should we teleport everyone out if the cubic despawns??
+			// "lock" baium for 5 days and 1 to 8 hours [i.e. 432,000,000 +  1*3,600,000 + random-less-than(8*3,600,000) millisecs]
+			long respawnTime = (Config.BAIUM_RESP_FIRST + Rnd.get(Config.BAIUM_RESP_SECOND)) * 3600000;
+			GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, DEAD);
+			startQuestTimer("baium_unlock", respawnTime, null, null);
+			// also save the respawn time so that the info is maintained past reboots
+			StatsSet info = GrandBossManager.getInstance().getStatsSet(LIVE_BAIUM);
+			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
+			GrandBossManager.getInstance().setStatsSet(LIVE_BAIUM,info);
+		}
+		
 		for (L2NpcInstance minion : _Minions)
 			if (minion != null)
 			{
@@ -433,8 +440,10 @@ public class Baium_l2j  extends Quest implements Runnable
 				minion.deleteMe();
 			}
 		_Minions.clear();
+		
 		if (getQuestTimer("skill_range", npc, null) != null)
 			getQuestTimer("skill_range", npc, null).cancel();
+		
 		return super.onKill(npc,killer,isPet);
 	}
 	
