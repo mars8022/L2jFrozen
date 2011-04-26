@@ -10394,6 +10394,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			case TARGET_GROUND:
 				break;
 			default:
+				//if pvp skill is not allowed for given target
 				if(!checkPvpSkill(target, skill) && !getAccessLevel().allowPeaceAttack())
 				{
 					// Send a System Message to the L2PcInstance
@@ -10456,13 +10457,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		return false;
 	}
 
-	/**
-	 * Check if the requested casting is a Pc->Pc skill cast and if it's a valid pvp condition
-	 * 
-	 * @param target L2Object instance containing the target
-	 * @param skill L2Skill instance with the skill being casted
-	 * @return False if the skill is a pvpSkill and target is not a valid pvp target
-	 */
+	/*
 	public boolean checkPvpSkill(L2Object target, L2Skill skill)
 	{
 		if(target != null && (target instanceof L2PcInstance || target instanceof L2Summon))
@@ -10520,6 +10515,77 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		return true;
 	}
+	*/
+	/**
+	 * Check if the requested casting is a Pc->Pc skill cast and if it's a valid pvp condition
+	 * @param target L2Object instance containing the target
+	 * @param skill L2Skill instance with the skill being casted
+	 * @return False if the skill is a pvpSkill and target is not a valid pvp target
+	 */
+	public boolean checkPvpSkill(L2Object target, L2Skill skill)
+	{
+		return checkPvpSkill(target, skill, false);
+	}
+	
+	/**
+	 * Check if the requested casting is a Pc->Pc skill cast and if it's a valid pvp condition
+	 * @param target L2Object instance containing the target
+	 * @param skill L2Skill instance with the skill being casted
+	 * @param srcIsSummon is L2Summon - caster?
+	 * @return False if the skill is a pvpSkill and target is not a valid pvp target
+	 */
+	public boolean checkPvpSkill(L2Object target, L2Skill skill, boolean srcIsSummon)
+	{
+		if ((_inEventTvT && TvT.is_started()) || (_inEventDM && DM.is_started()) || (_inEventCTF && CTF.is_started()) || (_inEventVIP && VIP._started))
+			return true;
+
+		// check for PC->PC Pvp status
+		if(target instanceof L2Summon)
+			target = target.getActingPlayer();
+		
+		if (
+				target != null &&                                           			// target not null and
+				target != this &&                                           			// target is not self and
+				target instanceof L2PcInstance &&                           			// target is L2PcInstance and
+				!(isInDuel() && ((L2PcInstance)target).getDuelId() == getDuelId()) &&	// self is not in a duel and attacking opponent
+				!isInsideZone(ZONE_PVP) &&        						// Pc is not in PvP zone
+				!((L2PcInstance)target).isInsideZone(ZONE_PVP)         	// target is not in PvP zone
+		)
+		{
+			SkillDat skilldat = getCurrentSkill();
+			//SkillDat skilldatpet = getCurrentPetSkill();
+			if(skill.isPvpSkill()) // pvp skill
+			{
+				if(getClan() != null && ((L2PcInstance)target).getClan() != null)
+				{
+					if(getClan().isAtWarWith(((L2PcInstance)target).getClan().getClanId()) && ((L2PcInstance)target).getClan().isAtWarWith(getClan().getClanId()))
+						return true; // in clan war player can attack whites even with sleep etc.
+				}
+				if (
+						((L2PcInstance)target).getPvpFlag() == 0 &&             //   target's pvp flag is not set and
+						((L2PcInstance)target).getKarma() == 0                  //   target has no karma
+				)
+					return false;
+			}
+			else if ((skilldat != null && !skilldat.isCtrlPressed() && skill.isOffensive() && !srcIsSummon)
+					/*|| (skilldatpet != null && !skilldatpet.isCtrlPressed() && skill.isOffensive() && srcIsSummon)*/)
+			{
+				if(getClan() != null && ((L2PcInstance)target).getClan() != null)
+				{
+					if(getClan().isAtWarWith(((L2PcInstance)target).getClan().getClanId()) && ((L2PcInstance)target).getClan().isAtWarWith(getClan().getClanId()))
+						return true; // in clan war player can attack whites even without ctrl
+				}
+				if (
+						((L2PcInstance)target).getPvpFlag() == 0 &&             //   target's pvp flag is not set and
+						((L2PcInstance)target).getKarma() == 0                  //   target has no karma
+				)
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
 
 	/**
 	 * Reduce Item quantity of the L2PcInstance Inventory and send it a Server->Client packet InventoryUpdate.<BR>
