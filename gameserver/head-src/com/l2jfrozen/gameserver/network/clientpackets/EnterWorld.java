@@ -38,6 +38,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.handler.custom.CustomWorldHandler;
+import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.managers.CoupleManager;
 import com.l2jfrozen.gameserver.managers.CrownManager;
@@ -65,6 +66,7 @@ import com.l2jfrozen.gameserver.model.entity.event.L2Event;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
+import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.FortSiege;
 import com.l2jfrozen.gameserver.model.entity.siege.Siege;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -105,7 +107,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  * <p>
  * 0000: 03
  * <p>
- * packet format rev656 cbdddd
+ * packet format cbdddd
  * <p>
  * 
  * @version $Revision: 1.16.2.1.2.7 $ $Date: 2005/03/29 23:15:33 $
@@ -338,6 +340,11 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.showPcBangWindow();
 		}
 
+		if (Config.ANNOUNCE_CASTLE_LORDS)
+		{
+				notifyCastleOwner(activeChar);
+		}
+		
 		if(Olympiad.getInstance().playerInStadia(activeChar))
 		{
 			activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
@@ -905,5 +912,19 @@ public class EnterWorld extends L2GameClientPacket
 		}
 
 		activeChar.setPledgeClass(pledgeClass);
+	}
+	private void notifyCastleOwner(L2PcInstance activeChar)
+	{
+		L2Clan clan = activeChar.getClan();
+		
+		if (clan != null)
+		{
+			if (clan.getHasCastle() > 0)
+			{
+			Castle castle = CastleManager.getInstance().getCastleById(clan.getHasCastle());
+			if ((castle != null) && (activeChar.getObjectId() == clan.getLeaderId()))
+				Announcements.getInstance().announceToAll("Lord " + activeChar.getName() + " Ruler Of " + castle.getName() + " Castle is Now Online!");
+			}
+		}
 	}
 }

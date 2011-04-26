@@ -522,6 +522,7 @@ public final class Config
 	public static int AIO_TCOLOR;
 	public static boolean ALLOW_AIO_USE_GK;
 	public static boolean ALLOW_AIO_USE_CM;
+	public static boolean ANNOUNCE_CASTLE_LORDS;
 	
 	/** Configuration to allow custom items to be given on character creation */
 	public static boolean CUSTOM_STARTER_ITEMS_ENABLED;
@@ -617,6 +618,7 @@ public final class Config
         	AIO_TCOLOR = Integer.decode("0x" + otherSettings.getProperty("AioTitleColor", "88AA88"));
         	ALLOW_AIO_USE_GK = Boolean.parseBoolean(otherSettings.getProperty("AllowAioUseGk", "False"));
         	ALLOW_AIO_USE_CM = Boolean.parseBoolean(otherSettings.getProperty("AllowAioUseClassMaster", "False"));
+        	ANNOUNCE_CASTLE_LORDS = Boolean.parseBoolean(otherSettings.getProperty("AnnounceCastleLords", "False"));
         	if(ENABLE_AIO_SYSTEM) //create map if system is enabled
         	{
         		String[] AioSkillsSplit = otherSettings.getProperty("AioSkills", "").split(";");
