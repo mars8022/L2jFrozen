@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.PunishLevel;
+import com.l2jfrozen.gameserver.network.SystemChatChannelId;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
@@ -84,6 +85,7 @@ public final class Say2 extends L2GameClientPacket
 
 	private String _text;
 	private int _type;
+	private SystemChatChannelId _type2Check;
 	private String _target;
 
 	@Override
@@ -93,6 +95,8 @@ public final class Say2 extends L2GameClientPacket
 		try
 		{
 			_type = readD();
+			_type2Check = SystemChatChannelId.getChatType(_type);
+			
 		}
 		catch(BufferUnderflowException e)
 		{
@@ -100,6 +104,7 @@ public final class Say2 extends L2GameClientPacket
 				e.printStackTrace();
 			
 			_type = CHAT_NAMES.length;
+			_type2Check = SystemChatChannelId.CHAT_NONE;
 		}
 		_target = _type == TELL ? readS() : null;
 	}
@@ -120,6 +125,18 @@ public final class Say2 extends L2GameClientPacket
 		
 		L2PcInstance activeChar = getClient().getActiveChar();
 		
+		// Anti-PHX Announce
+		if (_type2Check == SystemChatChannelId.CHAT_NONE
+				|| _type2Check == SystemChatChannelId.CHAT_ANNOUNCE
+				|| _type2Check == SystemChatChannelId.CHAT_CRITICAL_ANNOUNCE
+				|| _type2Check == SystemChatChannelId.CHAT_SYSTEM
+				|| _type2Check == SystemChatChannelId.CHAT_CUSTOM
+				|| (_type2Check == SystemChatChannelId.CHAT_GM_PET && !activeChar.isGM()))
+		{
+		   _log.warning("[Anti-PHX Announce] Illegal Chat channel was used by character: [" + activeChar.getName() + "]");
+		   return;
+		}
+		
 		if(activeChar == null)
 		{
 			_log.warning("[Say2.java] Active Character is null.");
@@ -131,7 +148,6 @@ public final class Say2 extends L2GameClientPacket
 			activeChar.sendMessage("You cannot speak too fast.");
 			return;
 		}
-
 		
 		if(activeChar.isCursedWeaponEquiped() && (_type == TRADE || _type == SHOUT))
 		{
