@@ -20,6 +20,7 @@ package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

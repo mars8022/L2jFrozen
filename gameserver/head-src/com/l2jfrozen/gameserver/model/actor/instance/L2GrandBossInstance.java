@@ -87,7 +87,8 @@ public final class L2GrandBossInstance extends L2MonsterInstance
 	public void onSpawn()
 	{
 		super.onSpawn();
-		GrandBossManager.getInstance().addBoss(this);
+		if(!this.getSpawn().is_customBossInstance())
+			GrandBossManager.getInstance().addBoss(this);
 	}
 
 	@Override

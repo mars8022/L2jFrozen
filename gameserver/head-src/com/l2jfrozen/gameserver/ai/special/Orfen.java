@@ -223,15 +223,21 @@ public class Orfen extends Quest implements Runnable
 		if (npc.getNpcId() == ORFEN)
 		{
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
-			GrandBossManager.getInstance().setBossStatus(ORFEN, DEAD);
-			//time is 48hour	+/- 20hour
-			long respawnTime = (long)(Config.ORFEN_RESP_FIRST + Rnd.get(Config.ORFEN_RESP_SECOND)) * 3600000;
-			cancelQuestTimer("ORFEN_REFRESH", npc, null);
-			startQuestTimer("ORFEN_SPAWN", respawnTime, null, null);
-			// also save the respawn time so that the info is maintained past reboots
-			StatsSet info = GrandBossManager.getInstance().getStatsSet(ORFEN);
-			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-			GrandBossManager.getInstance().setStatsSet(ORFEN, info);
+			
+			if(!npc.getSpawn().is_customBossInstance()){
+				
+				GrandBossManager.getInstance().setBossStatus(ORFEN, DEAD);
+				//time is 48hour	+/- 20hour
+				long respawnTime = (long)(Config.ORFEN_RESP_FIRST + Rnd.get(Config.ORFEN_RESP_SECOND)) * 3600000;
+				cancelQuestTimer("ORFEN_REFRESH", npc, null);
+				startQuestTimer("ORFEN_SPAWN", respawnTime, null, null);
+				// also save the respawn time so that the info is maintained past reboots
+				StatsSet info = GrandBossManager.getInstance().getStatsSet(ORFEN);
+				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
+				GrandBossManager.getInstance().setStatsSet(ORFEN, info);
+				
+				
+			}
 			
 		}
 		

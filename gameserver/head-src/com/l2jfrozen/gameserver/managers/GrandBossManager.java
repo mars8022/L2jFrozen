@@ -24,10 +24,12 @@ import java.util.logging.Logger;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
+import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.L2FastList;
@@ -491,5 +493,22 @@ public class GrandBossManager
 		_storedInfo.clear();
 		_bossStatus.clear();
 		_zones.clear();
+	}
+	
+	public L2NpcTemplate getValidTemplate(int bossId)
+	{
+		L2NpcTemplate template = NpcTable.getInstance().getTemplate(bossId);
+		if(template == null)
+			return null;
+
+		if(!template.type.equalsIgnoreCase("L2GrandBoss"))
+			return null;
+
+		return template;
+	}
+	
+	public boolean isDefined(int bossId)
+	{
+		return _bosses.containsKey(bossId);
 	}
 }

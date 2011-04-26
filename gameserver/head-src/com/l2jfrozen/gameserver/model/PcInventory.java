@@ -27,8 +27,8 @@ import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.model.TradeList.TradeItem;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.util.CloseUtil;

@@ -198,17 +198,23 @@ public class Core extends Quest implements Runnable
 			npc.broadcastPacket(new CreatureSay(objId, 0, name, "System is being shut down..."));
 			npc.broadcastPacket(new CreatureSay(objId, 0, name, "......"));
 			_FirstAttacked = false;
-			addSpawn(31842, 16502, 110165, -6394, 0, false, 900000);
-			addSpawn(31842, 18948, 110166, -6397, 0, false, 900000);
-			GrandBossManager.getInstance().setBossStatus(CORE, DEAD);
-			//time is 60hour	+/- 23hour
-			long respawnTime = (Config.CORE_RESP_FIRST + Rnd.get(Config.CORE_RESP_SECOND)) * 3600000;
-			startQuestTimer("core_unlock", respawnTime, null, null);
-			// also save the respawn time so that the info is maintained past reboots
-			StatsSet info = GrandBossManager.getInstance().getStatsSet(CORE);
-			info.set("respawn_time", (System.currentTimeMillis() + respawnTime));
-			GrandBossManager.getInstance().setStatsSet(CORE, info);
-			startQuestTimer("despawn_minions", 20000, null, null);
+			
+			if(!npc.getSpawn().is_customBossInstance()){
+				
+				addSpawn(31842, 16502, 110165, -6394, 0, false, 900000);
+				addSpawn(31842, 18948, 110166, -6397, 0, false, 900000);
+				GrandBossManager.getInstance().setBossStatus(CORE, DEAD);
+				//time is 60hour	+/- 23hour
+				long respawnTime = (Config.CORE_RESP_FIRST + Rnd.get(Config.CORE_RESP_SECOND)) * 3600000;
+				startQuestTimer("core_unlock", respawnTime, null, null);
+				// also save the respawn time so that the info is maintained past reboots
+				StatsSet info = GrandBossManager.getInstance().getStatsSet(CORE);
+				info.set("respawn_time", (System.currentTimeMillis() + respawnTime));
+				GrandBossManager.getInstance().setStatsSet(CORE, info);
+				startQuestTimer("despawn_minions", 20000, null, null);
+				
+			}
+			
 		}
 		else if(GrandBossManager.getInstance().getBossStatus(CORE) == ALIVE && Minions.contains(npc))
 		{

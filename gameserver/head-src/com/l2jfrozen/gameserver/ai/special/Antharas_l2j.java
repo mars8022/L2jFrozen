@@ -63,7 +63,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;
 	//private static final int FWA_APPTIMEOFANTHARAS = 1800000;
 	private static final int FWA_INACTIVITYTIME = 900000;
-	private static final boolean FWA_OLDANTHARAS = false;
+	private static final boolean FWA_OLDANTHARAS = true; //use antharas interlude with minions
 	private static final boolean FWA_MOVEATRANDOM = true;
 	private static final boolean FWA_DOSERVEREARTHQUAKE = true;
 	private static final int FWA_LIMITOFWEAK = 45;
@@ -636,8 +636,12 @@ public class Antharas_l2j extends Quest implements Runnable
 			}
 			
 			_bomber.doCast(skill);
-			_selfDestructionTask.cancel(false);
-			_selfDestructionTask = null;
+			
+			if(_selfDestructionTask!=null){
+				_selfDestructionTask.cancel(false);
+				_selfDestructionTask = null;
+			}
+			
 		}
 	}
 	
@@ -830,7 +834,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	@Override
 	public String onAttack (L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
 	{
-		if (npc.getNpcId() == 29019 || npc.getNpcId() == 29066 || npc.getNpcId() == 29067 || npc.getNpcId() == 29068)
+		if (!npc.getSpawn().is_customBossInstance() && npc.getNpcId() == 29019 || npc.getNpcId() == 29066 || npc.getNpcId() == 29067 || npc.getNpcId() == 29068)
 		{
 			_LastAction = System.currentTimeMillis();
 			if (GrandBossManager.getInstance().getBossStatus(_antharas.getNpcId()) != FIGHTING)
@@ -871,14 +875,18 @@ public class Antharas_l2j extends Quest implements Runnable
 		if (npc.getNpcId() == 29019 || npc.getNpcId() == 29066 || npc.getNpcId() == 29067 || npc.getNpcId() == 29068)
 		{
 			npc.broadcastPacket(new PlaySound(1, "BS01_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
-			_cubeSpawnTask = ThreadPoolManager.getInstance().scheduleGeneral(new CubeSpawn(0), 10000);
-			GrandBossManager.getInstance().setBossStatus(npc.getNpcId(),DEAD);
-			long respawnTime = (Config.ANTHARAS_RESP_FIRST + Rnd.get(Config.ANTHARAS_RESP_SECOND)) * 3600000;
-			ThreadPoolManager.getInstance().scheduleGeneral(new UnlockAntharas(npc.getNpcId()), respawnTime);
-			// also save the respawn time so that the info is maintained past reboots
-			StatsSet info = GrandBossManager.getInstance().getStatsSet(npc.getNpcId());
-			info.set("respawn_time",(System.currentTimeMillis() + respawnTime));
-			GrandBossManager.getInstance().setStatsSet(npc.getNpcId(),info);
+			
+			if(!npc.getSpawn().is_customBossInstance()){
+				_cubeSpawnTask = ThreadPoolManager.getInstance().scheduleGeneral(new CubeSpawn(0), 10000);
+				GrandBossManager.getInstance().setBossStatus(npc.getNpcId(),DEAD);
+				long respawnTime = (Config.ANTHARAS_RESP_FIRST + Rnd.get(Config.ANTHARAS_RESP_SECOND)) * 3600000;
+				ThreadPoolManager.getInstance().scheduleGeneral(new UnlockAntharas(npc.getNpcId()), respawnTime);
+				// also save the respawn time so that the info is maintained past reboots
+				StatsSet info = GrandBossManager.getInstance().getStatsSet(npc.getNpcId());
+				info.set("respawn_time",(System.currentTimeMillis() + respawnTime));
+				GrandBossManager.getInstance().setStatsSet(npc.getNpcId(),info);
+			}
+			
 		}
 		else if (npc.getNpcId() == 29069)
 		{

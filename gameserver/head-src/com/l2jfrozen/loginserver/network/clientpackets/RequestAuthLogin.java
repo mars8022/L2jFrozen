@@ -29,14 +29,14 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
 import com.l2jfrozen.loginserver.HackingException;
 import com.l2jfrozen.loginserver.L2LoginClient;
-import com.l2jfrozen.loginserver.L2LoginClient.LoginClientState;
 import com.l2jfrozen.loginserver.LoginController;
+import com.l2jfrozen.loginserver.L2LoginClient.LoginClientState;
 import com.l2jfrozen.loginserver.LoginController.AuthLoginResult;
 import com.l2jfrozen.loginserver.network.serverpackets.AccountKicked;
-import com.l2jfrozen.loginserver.network.serverpackets.AccountKicked.AccountKickedReason;
-import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginOk;
 import com.l2jfrozen.loginserver.network.serverpackets.ServerList;
+import com.l2jfrozen.loginserver.network.serverpackets.AccountKicked.AccountKickedReason;
+import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 
 /**
  * Format: x 0 (a leading null) x: the rsa encrypted block with the login an password

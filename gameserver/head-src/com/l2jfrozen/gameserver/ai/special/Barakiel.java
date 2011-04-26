@@ -28,7 +28,7 @@ public class Barakiel extends Quest implements Runnable
 	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
 	{
 		int npcId = npc.getNpcId();
-		if(npcId == BARAKIEL)
+		if(npcId == BARAKIEL && !npc.getSpawn().is_customBossInstance())
 		{
 			int x = npc.getX();
 			int y = npc.getY();

@@ -18,9 +18,9 @@
 package com.l2jfrozen.gameserver.model;
 
 import com.l2jfrozen.gameserver.datatables.sql.ArmorSetsTable;
-import com.l2jfrozen.gameserver.datatables.sql.ArmorSetsTable.ArmorDummy;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
+import com.l2jfrozen.gameserver.datatables.sql.ArmorSetsTable.ArmorDummy;
 import com.l2jfrozen.gameserver.model.base.Race;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 

@@ -24,8 +24,8 @@ import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
 import com.l2jfrozen.gameserver.taskmanager.Task;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager;
-import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
+import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 
 
 /**

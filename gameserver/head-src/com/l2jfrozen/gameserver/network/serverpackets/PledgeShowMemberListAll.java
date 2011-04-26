@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
-import com.l2jfrozen.gameserver.model.L2Clan.SubPledge;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
+import com.l2jfrozen.gameserver.model.L2Clan.SubPledge;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 //import java.util.logging.Logger;

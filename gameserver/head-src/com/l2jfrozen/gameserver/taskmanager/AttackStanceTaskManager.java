@@ -27,7 +27,6 @@ package com.l2jfrozen.gameserver.taskmanager;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
@@ -41,7 +40,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AttackStanceTaskManager
 {
-	private static final Logger _log = Logger.getLogger(AttackStanceTaskManager.class.getName());
 	private final BlockingQueue<L2Character> attackStanceTasks = new LinkedBlockingQueue<L2Character>();
 
 	private static AttackStanceTaskManager _instance;

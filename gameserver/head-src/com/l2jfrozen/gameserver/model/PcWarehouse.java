@@ -17,8 +17,8 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 
 public class PcWarehouse extends Warehouse
 {

@@ -147,6 +147,32 @@ public class L2BossZone extends L2ZoneType
 			}
 		}
 	}
+	
+	/**
+	 * Some GrandBosses send all players in zone to a specific part of the zone,
+	 * rather than just removing them all. If this is the case, this command should
+	 * be used. If this is no the case, then use oustAllPlayers().
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	
+	public void movePlayersTo(int x, int y, int z)
+	{
+		if (_characterList.isEmpty())
+			return;
+		
+		for (L2Character character : _characterList.values())
+		{
+			if (character instanceof L2PcInstance)
+			{
+				L2PcInstance player = (L2PcInstance) character;
+				if (player.isOnline() == 1)
+					player.teleToLocation(x, y, z);
+			}
+		}
+	}
 
 	@Override
 	protected void onExit(L2Character character)

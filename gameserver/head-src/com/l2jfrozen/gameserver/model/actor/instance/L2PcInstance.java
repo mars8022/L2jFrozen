@@ -104,8 +104,6 @@ import com.l2jfrozen.gameserver.model.L2RecipeList;
 import com.l2jfrozen.gameserver.model.L2Request;
 import com.l2jfrozen.gameserver.model.L2ShortCut;
 import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2SkillLearn;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -117,6 +115,8 @@ import com.l2jfrozen.gameserver.model.PcWarehouse;
 import com.l2jfrozen.gameserver.model.PetInventory;
 import com.l2jfrozen.gameserver.model.ShortCuts;
 import com.l2jfrozen.gameserver.model.TradeList;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.appearance.PcAppearance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.PcKnownList;
 import com.l2jfrozen.gameserver.model.actor.stat.PcStat;
@@ -613,9 +613,9 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	private boolean _isIn7sDungeon = false;
 
-	private boolean _inJail = false;
-	private long _jailTimer = 0;
-	private ScheduledFuture<?> _jailTask;
+	//private boolean _inJail = false;
+	//private long _jailTimer = 0;
+	//private ScheduledFuture<?> _jailTask;
 
 	 /** Special hero aura values */
 	 private int heroConsecutiveKillCount = 0;
@@ -839,8 +839,8 @@ public final class L2PcInstance extends L2PlayableInstance
 //	private boolean _isGm;
 	private AccessLevel _accessLevel;
 
-	private boolean _chatBanned = false; // Chat Banned
-	private ScheduledFuture<?> _chatUnbanTask = null;
+	//private boolean _chatBanned = false; // Chat Banned
+	//private ScheduledFuture<?> _chatUnbanTask = null;
 	private boolean _messageRefusal = false; // message refusal mode
 	private boolean _dietMode = false; // ignore weight penalty
 	private boolean _exchangeRefusal = false; // Exchange refusal
@@ -955,8 +955,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	////////////////////////////////////////////////////////////////////
 	//START CHAT BAN SYSTEM
 	////////////////////////////////////////////////////////////////////
-	private long _chatBanTimer = 0L;
-	private ScheduledFuture<?> _chatBanTask = null;
+	//private long _chatBanTimer = 0L;
+	//private ScheduledFuture<?> _chatBanTask = null;
 	////////////////////////////////////////////////////////////////////
 	//END CHAT BAN SYSTEM
 	////////////////////////////////////////////////////////////////////

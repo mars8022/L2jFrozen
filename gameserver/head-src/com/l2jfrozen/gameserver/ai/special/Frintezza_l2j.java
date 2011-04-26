@@ -934,6 +934,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			if (frintezza != null && !frintezza.isDead() && _OnMorph == 0)
 			{
 				_OnSong = Rnd.get(1, 5);
+				if(_OnSong == 3){ //to fix skill exception
+					_OnSong = 2;
+				}
+				
 				if (_OnSong == 1 && _ThirdMorph == 1 && strongScarlet.getCurrentHp() < strongScarlet.getMaxHp() * 0.6 && Rnd.get(100) < 80)
 				{
 					_Zone.broadcastPacket(new MagicSkillUser(frintezza, frintezza, 5007, 1, 32000, 0));
@@ -1484,22 +1488,27 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		else if (npc.getNpcId() == SCARLET2 && _OnCheck == 1 && GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
 		{
-			cancelQuestTimers("loc_check");
-			cancelQuestTimers("spawn_minion");
-			cancelQuestTimers("frintezza_despawn");
-			startQuestTimer("clean", 30000, npc, null);
-			startQuestTimer("close", 30000, npc, null);
-			startQuestTimer("room3_del", 60000, npc, null);
-			startQuestTimer("minions_despawn", 60000, npc, null);
-			startQuestTimer("remove_players", 900000, npc, null);
+			if(!npc.getSpawn().is_customBossInstance()){
+				
+				cancelQuestTimers("loc_check");
+				cancelQuestTimers("spawn_minion");
+				cancelQuestTimers("frintezza_despawn");
+				startQuestTimer("clean", 30000, npc, null);
+				startQuestTimer("close", 30000, npc, null);
+				startQuestTimer("room3_del", 60000, npc, null);
+				startQuestTimer("minions_despawn", 60000, npc, null);
+				startQuestTimer("remove_players", 900000, npc, null);
+				
+				GrandBossManager.getInstance().setBossStatus(FRINTEZZA,DEAD);
+				long respawnTime = (long) (Config.FRINTEZZA_RESP_FIRST + Rnd.get(Config.FRINTEZZA_RESP_SECOND)) * 3600000;
+				startQuestTimer("frintezza_unlock", respawnTime, npc, null);
+				// also save the respawn time so that the info is maintained past reboots
+				StatsSet info = GrandBossManager.getInstance().getStatsSet(FRINTEZZA);
+				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
+				GrandBossManager.getInstance().setStatsSet(FRINTEZZA,info);
+				
+			}
 			
-			GrandBossManager.getInstance().setBossStatus(FRINTEZZA,DEAD);
-			long respawnTime = (long) (Config.FRINTEZZA_RESP_FIRST + Rnd.get(Config.FRINTEZZA_RESP_SECOND)) * 3600000;
-			startQuestTimer("frintezza_unlock", respawnTime, npc, null);
-			// also save the respawn time so that the info is maintained past reboots
-			StatsSet info = GrandBossManager.getInstance().getStatsSet(FRINTEZZA);
-			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-			GrandBossManager.getInstance().setStatsSet(FRINTEZZA,info);
 		}
 		else if (npc.getNpcId() == 18328)
 		{

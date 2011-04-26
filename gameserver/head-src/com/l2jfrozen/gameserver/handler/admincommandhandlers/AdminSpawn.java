@@ -281,14 +281,14 @@ public class AdminSpawn implements IAdminCommandHandler
 				spawn.setCustom(true);
 			}
 			
-			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) || GrandBossManager.getInstance().getStatsSet(spawn.getNpcid())!=null)
+			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) || GrandBossManager.getInstance().isDefined(spawn.getNpcid()))
 			{
-				//activeChar.sendMessage("You cannot spawn another instance of " + template1.name + ".");
 				activeChar.sendMessage("Another instance of " + template1.name + " already present into database:");
 				activeChar.sendMessage("It will be spawned but not saved on Database");
+				activeChar.sendMessage("After server restart or raid dead, the spawned npc will desappear");
 				permanent=false;
-				spawn.setCustom(true); //for raids, this value is used in order to segnalate to not save respawn time - status for custom instance
-			
+				spawn.set_customBossInstance(true); //for raids, this value is used in order to segnalate to not save respawn time - status for custom instance
+
 			}
 			//else
 			//{

@@ -54,7 +54,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 
 /**
  * This class ...

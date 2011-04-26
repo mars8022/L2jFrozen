@@ -394,6 +394,26 @@ public class L2Spawn
 
 	/** If true then spawn is custom */
 	private boolean _customSpawn;
+	
+	private boolean _customBossInstance;
+	
+	
+
+	/**
+	 * @return the _customBossInstance
+	 */
+	public boolean is_customBossInstance()
+	{
+		return _customBossInstance;
+	}
+
+	/**
+	 * @param customBossInstance the _customBossInstance to set
+	 */
+	public void set_customBossInstance(boolean customBossInstance)
+	{
+		_customBossInstance = customBossInstance;
+	}
 
 	/**
 	 * Decrease the current number of L2NpcInstance of this L2Spawn and if necessary create a SpawnTask to launch after
