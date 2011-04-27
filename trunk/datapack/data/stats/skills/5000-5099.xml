@@ -1713,7 +1713,7 @@
   <set name="turner" val="true"/>
   <!-- <set name="nextAction" val="attack"/> -->
   <for>
-  	<effect applyOnCaster="true" count="1" name="Buff" time="10" val="0">
+  	<effect self="1" count="1" name="Buff" time="10" val="0">
       <add order="0x40" stat="runSpd" val="40" />
   	</effect>
   </for>
