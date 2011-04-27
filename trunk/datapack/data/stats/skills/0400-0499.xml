@@ -894,18 +894,18 @@
     <effect count="1" name="PhoenixBless" time="1800" val="0"/>
   </for>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Incorrect effect Pack:l2jfrozen author:Nefer -->
 <skill id="439" levels="1" name="Shield of Revenge">
   <set name="magicLvl" val="79"/>
   <set name="mpConsume" val="78"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="reuseDelay" val="120000"/>
+  <set name="reuseDelay" val="600000"/>
   <set name="hitTime" val="4000"/>
   <for>
-    <effect count="1" name="Buff" time="120" val="0">
-      <add order="0x40" stat="vengeanceSkillPhysic" val="100"/>
+    <effect count="1" name="Buff" time="300" val="0">
+      <add order="0x40" stat="vengeanceSkillPhysic" val="40"/>
     </effect>
   </for>
 </skill>
@@ -1004,10 +1004,9 @@
   <for>
   </for>
 </skill>
-<!-- Status:Incorrect reuse Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="445" levels="1" name="Mirage">
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="aggroPoints" val="669" />
   <set name="hitTime" val="2000"/>
   <set name="magicLvl" val="79"/>
   <set name="mpConsume" val="43"/>
@@ -1017,40 +1016,37 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="triggeredId" val="5144"/>
   <set name="triggeredLevel" val="1"/>
-  <cond msg="An equipped dagger weapon is required to use this skill.">
-    <using kind="Dagger"/>
-  </cond>
   <for>
     <effect count="1" name="BestowSkill" time="60" val="0"/>
   </for>
 </skill>
-<!-- Status:Incorrect effect reuse Pack:l2jfrozen author:Nefer -->
+<!-- Status:Incorrect effect Pack:l2jfrozen author:Nefer -->
 <skill id="446" levels="1" name="Dodge">
+  <set name="aggroPoints" val="669" />
   <set name="mpConsume" val="29"/>
+  <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="isMagic" val="false"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="30000"/>
   <set name="hitTime" val="500"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect name="Buff" time="10" val="0">
-      <add order="0x40" stat="pSkillEvas" val="100"/>
+      <add order="0x40" stat="pSkillEvas" val="50"/>
     </effect>
   </for>
 </skill>
-<!-- Status:Incorrect effect reuse Pack:l2jfrozen author:Nefer -->
+<!-- Status:Incorrect effect Pack:l2jfrozen author:Nefer -->
 <skill id="447" levels="1" name="Counterattack">
+  <set name="aggroPoints" val="669" />
   <set name="mpConsume" val="29"/>
+  <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="30000"/>
   <set name="hitTime" val="500"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect name="Buff" time="10" count="1" val="0">
       <add order="0x40" stat="vengeanceSkillPhysic" val="100"/>
