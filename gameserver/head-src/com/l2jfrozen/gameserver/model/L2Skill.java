@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.lang.reflect.Constructor;
+import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -135,7 +136,8 @@ public abstract class L2Skill
 		TARGET_GROUND,
 		TARGET_SIEGE,
 		TARGET_TYRANNOSAURUS,
-		TARGET_AREA_AIM_CORPSE
+		TARGET_AREA_AIM_CORPSE,
+		TARGET_CLAN_MEMBER
 	}
 
 	public static enum SkillType
@@ -2846,6 +2848,36 @@ public abstract class L2Skill
 					{
 						target
 					};
+				return null;
+			}
+			// npc only for now - untested
+			case TARGET_CLAN_MEMBER:
+			{
+				if (activeChar instanceof L2NpcInstance)
+				{
+					// for buff purposes, returns friendly mobs nearby and mob itself
+					final L2NpcInstance npc = (L2NpcInstance) activeChar;
+					if (npc.getFactionId() == null || npc.getFactionId().isEmpty())
+					{
+						return new L2Character[]{activeChar};
+					}
+					final Collection<L2Object> objs = activeChar.getKnownList().getKnownObjects().values();
+					for (L2Object newTarget : objs)
+					{
+						if (newTarget instanceof L2NpcInstance
+								&& npc.getFactionId().equals(((L2NpcInstance) newTarget).getFactionId()))
+						{
+							if (!Util.checkIfInRange(getCastRange(), activeChar, newTarget, true))
+								continue;
+							if (((L2NpcInstance) newTarget).getFirstEffect(this) != null)
+								continue;
+							targetList.add((L2NpcInstance) newTarget);
+							break; // found
+						}
+					}
+					if (targetList.isEmpty())
+						targetList.add(npc);
+				}
 				return null;
 			}
 			default:
