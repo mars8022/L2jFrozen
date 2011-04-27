@@ -1608,17 +1608,16 @@
   	<mul order="0x30" stat="cAtk" val="9.25"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5079" levels="1" name="NPC Focused Haste">
   <set name="magicLvl" val="80"/>
   <set name="mpConsume" val="75"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
   	<effect count="1" name="Buff" time="120" val="0">
       <mul order="0x30" stat="rCrit" val="1.33"/>
@@ -1630,7 +1629,7 @@
   <set name="magicLvl" val="85"/>
   <set name="mpInitialConsume" val="15" />
   <set name="mpConsume" val="60" />
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN"/>
   <set name="reuseDelay" val="20000"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="BUFF"/>

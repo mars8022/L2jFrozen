@@ -226,19 +226,15 @@
   </for>
 </skill>
 <skill id="4211" levels="12" name="BOSS Might">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="pAtk">
@@ -247,19 +243,15 @@
   </for>
 </skill>
 <skill id="4212" levels="12" name="BOSS Shield">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="pDef">
@@ -268,19 +260,15 @@
   </for>
 </skill>
 <skill id="4213" levels="12" name="BOSS Haste">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="pAtkSpeedUp">
@@ -289,19 +277,15 @@
   </for>
 </skill>
 <skill id="4214" levels="12" name="BOSS Reflect Damage">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="REFLECT"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="DmgShield">
@@ -309,6 +293,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4215" levels="1" name="Raid Curse">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="MUTE"/>
@@ -316,9 +301,9 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1500"/>
   <set name="effectRange" val="2000"/>
+  <set name="power" val="100" />
   <for>
-    <effect count="1" name="Mute" time="3600" val="0" stackOrder="3600" stackType="silence_all"/>
-    <effect count="1" name="PsychicalMute" time="3600" val="0" noicon="1"/>
+    <effect name="SilenceMagicPhysical" time="3600" val="0" stackOrder="99" stackType="silence_all"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

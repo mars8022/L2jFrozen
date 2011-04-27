@@ -453,7 +453,7 @@
   <table name="#magicLvl">20 40 70</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="2500"/>
   <set name="skillType" val="BUFF"/>
@@ -469,13 +469,12 @@
   </for>
 </skill>
 <skill id="4031" levels="3" name="NPC Clan Aegis">
-  <!-- SHOULD BUFF FACTION MOBS -->
   <table name="#pDef">1.08 1.12 1.15</table>
   <table name="#mpConsume">10 18 33</table>
   <table name="#magicLvl">20 40 70</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="2500"/>
   <set name="skillType" val="BUFF"/>
