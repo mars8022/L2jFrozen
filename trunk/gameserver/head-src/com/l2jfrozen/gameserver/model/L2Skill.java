@@ -2405,9 +2405,33 @@ public abstract class L2Skill
 							newTarget = null;
 						}
 					}
-
+				
 					player = null;
 					clan = null;
+				}				
+				else if (activeChar instanceof L2NpcInstance)
+				{
+					// for buff purposes, returns friendly mobs nearby and mob itself
+					final L2NpcInstance npc = (L2NpcInstance) activeChar;
+					if (npc.getFactionId() == null || npc.getFactionId().isEmpty())
+					{
+						return new L2Character[]{activeChar};
+					}
+					targetList.add(activeChar);
+					final Collection<L2Object> objs = activeChar.getKnownList().getKnownObjects().values();
+					//synchronized (activeChar.getKnownList().getKnownObjects())
+					{
+						for (L2Object newTarget : objs)
+						{
+							if (newTarget instanceof L2NpcInstance
+									&& npc.getFactionId().equals(((L2NpcInstance) newTarget).getFactionId()))
+							{
+								if (!Util.checkIfInRange(getCastRange(), activeChar, newTarget, true))
+									continue;
+								targetList.add((L2NpcInstance) newTarget);
+							}
+						}
+					}
 				}
 
 				return targetList.toArray(new L2Character[targetList.size()]);
