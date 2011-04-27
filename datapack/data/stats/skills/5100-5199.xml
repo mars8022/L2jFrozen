@@ -640,7 +640,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5144" levels="1" name="Mirage">
-  <set name="activationChance" val="30"/>
+  <set name="activationChance" val="60"/>
   <set name="castRange" val="900"/>
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="effectRange" val="1400"/>

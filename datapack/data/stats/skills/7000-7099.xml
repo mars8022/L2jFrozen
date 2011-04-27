@@ -136,7 +136,7 @@
     </effect>
   </for>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7030" levels="1" name="Summon King Bugbear">
   <set name="itemConsumeId" val="1458"/>
   <set name="mpConsume" val="3"/>
@@ -156,7 +156,7 @@
   <set name="expPenalty" val="0.3"/>
   <set name="isCubic" val="false"/>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7031" levels="1" name="Summon Skeleton Royal Guard">
   <set name="itemConsumeId" val="1458"/>
   <set name="mpConsume" val="3"/>
@@ -178,7 +178,7 @@
   <set name="expPenalty" val="0.3"/>
   <set name="isCubic" val="false"/>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="7032" levels="1" name="Summon Hunter Gargoyle">
   <set name="itemConsumeId" val="1458"/>
   <set name="mpConsume" val="3"/>

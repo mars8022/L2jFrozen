@@ -559,12 +559,11 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3632" name="Clan Gate" levels="1">
-  <!-- Active: Creates a gate that summons clan members. You cannot move while this skill is active. -->
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="10000"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillType" val="CLAN_GATE"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="summonTotalLifeTime" val="180000"/>
