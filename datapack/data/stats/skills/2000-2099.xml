@@ -395,124 +395,94 @@
     <effect count="7" name="HealOverTime" time="2" val="100" stackOrder="50" stackType="HpRecover"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2038" levels="1" name="Quick Healing Potion">
   <set name="power" val="435"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="HEAL"/>
-  <set name="reuseDelay" val="60000"/>
+  <set name="skillType" val="HEAL_STATIC"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="isPotion" val="true"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2039" levels="1" name="Soulshot: No Grade">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SOULSHOT"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2040" levels="1" name="Scroll of Escape: Clan Hall">
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="20000"/>
   <set name="skillType" val="RECALL"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
+  <set name="staticHitTime" val="true"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2041" levels="1" name="Scroll of Escape: Castle">
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="20000"/>
   <set name="skillType" val="RECALL"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
+  <set name="staticHitTime" val="true"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2042" levels="1" name="Antidote">
   <set name="power" val="3"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="UNPOISON"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2043" levels="1" name="Greater Antidote">
   <set name="power" val="7"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="UNPOISON"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2044" levels="1" name="Bandage">
   <set name="power" val="3"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="UNBLEED"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2045" levels="1" name="Emergency Dressing">
   <set name="power" val="7"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="UNBLEED"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2046" levels="1" name="Wolves' Necklace">
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="5000"/>
+  <set name="staticHitTime" val="true" />
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2047" levels="1" name="Spiritshot: No Grade">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SPIRITSHOT"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2048" levels="1" name="Wolves' Food">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="FEED_PET"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <skill id="2049" levels="1" name="Blessed Scroll of Resurrection">
   <set name="power" val="100"/>
   <set name="target" val="TARGET_CORPSE_PLAYER"/>
   <set name="hitTime" val="3000"/>
+  <set name="staticHitTime" val="true" />
   <set name="skillType" val="RESURRECT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="600"/>
-  <for>
-  </for>
 </skill>
 <skill id="2050" levels="1" name="Scroll of Guidance">
   <set name="target" val="TARGET_SELF"/>
