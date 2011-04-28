@@ -1534,6 +1534,7 @@
   <set name="expPenalty" val="0.0"/>
   <set name="isCubic" val="true"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="279" levels="5" name="Lightning Strike" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1551,15 +1552,15 @@
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="120000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="PARALYZE"/>
-  <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
+  <set name="isMagic" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
-  <set name="effectRange" val="900"/>
+  <set name="effectRange" val="1000"/>
   <set name="effectType" val="PARALYZE"/>
-  <set name="effectLevel" val="-1"/>
   <set name="effectPower" val="20"/>
   <enchant1 name="power" val="#enchant1Power"/>
   <enchant2 name="mpConsume" val="#enchant2MpConsume"/>

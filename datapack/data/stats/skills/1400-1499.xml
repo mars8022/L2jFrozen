@@ -367,6 +367,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1417" levels="5" name="Aura Flash" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -377,8 +378,6 @@
   <table name="#magicLvl">58 62 66 70 74</table>
   <table name="#mpConsume">54 58 62 65 69</table>
   <table name="#power">49 53 58 61 65</table>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="hitTime" val="1000"/>
   <set name="isMagic" val="true"/>
   <set name="itemConsumeId" val="3031"/>
@@ -387,8 +386,8 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="power" val="#power"/>
-  <set name="reuseDelay" val="2500"/>
-  <set name="staticReuse" val="true"/>
+  <set name="reuseDelay" val="25000"/>
+  <set name="isDebuff" val="true" />
   <set name="skillRadius" val="200"/>
   <set name="skillType" val="MDAM"/>
   <set name="target" val="TARGET_AURA"/>
