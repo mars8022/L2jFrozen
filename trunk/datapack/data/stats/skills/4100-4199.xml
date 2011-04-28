@@ -510,8 +510,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="100"/>
   <set name="effectRange" val="400"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4128" levels="1" name="Wind Of Force">
@@ -526,10 +524,6 @@
   <set name="hitTime" val="2300"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4129" levels="1" name="Earthquake">
@@ -543,11 +537,7 @@
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="baseCritRate" val="15"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4130" levels="1" name="Striking of Thunderbolt">
@@ -563,8 +553,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1000"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4131" levels="1" name="Shock">
@@ -595,21 +583,18 @@
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4133" levels="1" name="Angel Heal">
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_ONE"/>
+  <set name="magicLvl" val="75"/>
   <set name="skillType" val="HEAL"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="power" val="100"/>
+  <set name="power" val="1000"/>
   <set name="hitTime" val="2000"/>
   <set name="castRange" val="600"/>
+  <set name="effectRange" val="1000" />
   <set name="aggroPoints" val="100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4134" levels="1" name="Seal Skill">
   <set name="target" val="TARGET_SELF"/>
