@@ -376,7 +376,7 @@ public final class L2World
 		if(object instanceof L2PcInstance)
 		{
 			L2PcInstance player = (L2PcInstance) object;
-			L2PcInstance tmp = _allPlayers.get(player.getName().toLowerCase());
+			L2PcInstance tmp = _allPlayers.get(Integer.valueOf(player.getObjectId()));
 
 			if(tmp != null && tmp != player)
 			{
@@ -433,7 +433,33 @@ public final class L2World
 					return;
 				}
 			}
-			/////////////////////////
+			
+		 if (!newRegion.isActive())
+				return;
+			// Get all visible objects contained in the _visibleObjects of L2WorldRegions
+			// in a circular area of 2000 units
+			List<L2Object> visibles = getVisibleObjects(object, 2000);
+			if (Config.DEBUG)
+				_log.finest("objects in range:" + visibles.size());
+			
+			// tell the player about the surroundings
+			// Go through the visible objects contained in the circular area
+			for (L2Object visible : visibles)
+			{
+				if (visible == null)
+					continue;
+				
+				// Add the object in L2ObjectHashSet(L2Object) _knownObjects of the visible L2Character according to conditions :
+				//   - L2Character is visible
+				//   - object is not already known
+				//   - object is in the watch distance
+				// If L2Object is a L2PcInstance, add L2Object in L2ObjectHashSet(L2PcInstance) _knownPlayer of the visible L2Character
+				visible.getKnownList().addKnownObject(object);
+				
+				// Add the visible L2Object in L2ObjectHashSet(L2Object) _knownObjects of the object according to conditions
+				// If visible L2Object is a L2PcInstance, add visible L2Object in L2ObjectHashSet(L2PcInstance) _knownPlayer of the object
+				object.getKnownList().addKnownObject(visible);
+			}
 
 			if(!player.isTeleporting())
 			{
