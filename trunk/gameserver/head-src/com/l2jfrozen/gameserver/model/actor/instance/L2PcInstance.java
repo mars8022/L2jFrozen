@@ -10105,7 +10105,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(isInsidePeaceZone(this))
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
-				sm.addSkillName(skill);
+				sm.addSkillName(skill.getId());
 				sendPacket(sm);
 				return;
 			}
