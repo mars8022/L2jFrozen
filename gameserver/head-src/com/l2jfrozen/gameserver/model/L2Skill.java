@@ -1284,7 +1284,7 @@ public abstract class L2Skill
 		else
 		{
 			SystemMessage message = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
-			message.addSkillName(this);
+			message.addSkillName(this.getId());
 			activeChar.sendPacket(message);
 
 			return false;
