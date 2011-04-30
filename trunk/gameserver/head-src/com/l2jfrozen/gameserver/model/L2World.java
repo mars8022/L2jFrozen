@@ -376,19 +376,24 @@ public final class L2World
 		if(object instanceof L2PcInstance)
 		{
 			L2PcInstance player = (L2PcInstance) object;
-			L2PcInstance tmp = _allPlayers.get(Integer.valueOf(player.getObjectId()));
+			L2PcInstance tmp = _allPlayers.get(player.getName().toLowerCase());
 
-			if(tmp != null && tmp != player)
+			if(tmp != null && tmp != player) //just kick the player previous instance
 			{
+				tmp.store(); // Store character and items
+				tmp.logout();
+				
+				if(tmp.getClient() != null)
+				{
+					tmp.getClient().setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
+				}
+				
+				tmp = null;
+				/*
 				if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && tmp.isOffline())
 				{
 					_log.warning("Offline: Duplicate character!? Closing offline character (" + tmp.getName() + ")");
 					
-					/*if(tmp._originalNameColorOffline!=0)
-						tmp.getAppearance().setNameColor(tmp._originalNameColorOffline);
-					else
-						tmp.getAppearance().setNameColor(tmp.getAccessLevel().getNameColor());
-					*/
 					tmp.store(); // Store character and items
 					tmp.logout();
 					
@@ -404,22 +409,12 @@ public final class L2World
 					_log.warning("EnterWorld: Duplicate character!? Closing both characters (" + player.getName() + ")");
 					L2GameClient client = player.getClient();
 					
-					/*if(player._originalNameColorOffline!=0)
-						player.getAppearance().setNameColor(player._originalNameColorOffline);
-					else
-						player.getAppearance().setNameColor(player.getAccessLevel().getNameColor());
-					*/
-					
 					player.store(); // Store character
 					player.deleteMe();
 					client.setActiveChar(null); // prevent deleteMe from being called a second time on disconnection
 					client = tmp.getClient();
 					
-					/*if(tmp._originalNameColorOffline!=0)
-						tmp.getAppearance().setNameColor(tmp._originalNameColorOffline);
-					else
-						tmp.getAppearance().setNameColor(tmp.getAccessLevel().getNameColor());
-					*/
+					
 					tmp.store(); // Store character and items
 					tmp.deleteMe();
 					
@@ -432,6 +427,7 @@ public final class L2World
 					
 					return;
 				}
+				*/
 			}
 			
 		 if (!newRegion.isActive())
