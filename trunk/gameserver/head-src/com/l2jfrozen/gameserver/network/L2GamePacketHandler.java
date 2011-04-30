@@ -29,6 +29,7 @@ import com.l2jfrozen.netcore.IMMOExecutor;
 import com.l2jfrozen.netcore.IPacketHandler;
 import com.l2jfrozen.netcore.MMOConnection;
 import com.l2jfrozen.netcore.ReceivablePacket;
+import com.l2jfrozen.util.PacketsFloodProtector;
 import com.l2jfrozen.util.Util;
 
 /**
@@ -49,7 +50,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 	// implementation
 	@Override
-	public ReceivablePacket<L2GameClient> handlePacket(int opcode, int opcode2, ByteBuffer buf, L2GameClient client)
+	public ReceivablePacket<L2GameClient> handlePacket(ByteBuffer buf, L2GameClient client)
 	{
 		
 		if (client.dropPacket()){
@@ -58,7 +59,18 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 			return null;
 		}
 		
-		//int opcode = buf.get() & 0xFF;
+		int opcode = buf.get() & 0xFF;
+		int opcode2 = -1;
+		
+		if(opcode == 0xd0){
+			
+			if(buf.remaining() >= 2)
+			{
+				opcode2 = buf.getShort() & 0xffff;
+			}
+			
+		}
+		
 		/*
 		if(!client.getFloodProtectors().getGenericAction().tryPerformAction(""+opcode)){
 			L2PcInstance activeChar = client.getActiveChar();
@@ -68,6 +80,11 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 		}
 		*/
 
+		if(!PacketsFloodProtector.tryPerformAction(opcode, opcode2, client)){
+			return null;
+		}
+		
+		
 		ReceivablePacket<L2GameClient> msg = null;
 		GameClientState state = client.getState();
 

@@ -28,6 +28,7 @@ import com.l2jfrozen.loginserver.network.clientpackets.RequestServerLogin;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.IPacketHandler;
 import com.l2jfrozen.netcore.ReceivablePacket;
+import com.l2jfrozen.util.PacketsFloodProtector;
 
 /**
  * Handler for packets received by Login Server
@@ -42,10 +43,14 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 	 *      com.l2jserver.mmocore.interfaces.MMOClient)
 	 */
 	@Override
-	public ReceivablePacket<L2LoginClient> handlePacket(int opcode, int opcode2, ByteBuffer buf, L2LoginClient client)
+	public ReceivablePacket<L2LoginClient> handlePacket(ByteBuffer buf, L2LoginClient client)
 	{
-		//int opcode = buf.get() & 0xFF;
+		int opcode = buf.get() & 0xFF;
 
+		if(!PacketsFloodProtector.tryPerformAction(opcode, -1, client)){
+			return null;
+		}
+		
 		ReceivablePacket<L2LoginClient> packet = null;
 		LoginClientState state = client.getState();
 
