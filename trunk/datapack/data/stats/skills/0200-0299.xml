@@ -1554,7 +1554,7 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="3000"/>
-  <set name="skillType" val="PARALYZE"/>
+  <set name="skillType" val="DEBUFF"/> <!-- should be PARALYZE -->
   <set name="isDebuff" val="true" />
   <set name="isMagic" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
