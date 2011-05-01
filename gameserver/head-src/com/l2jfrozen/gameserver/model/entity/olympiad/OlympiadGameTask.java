@@ -121,9 +121,11 @@ class OlympiadGameTask extends Olympiad implements Runnable
 						transferPoints = playerTwoPoints / 5;
 					}
 					playerOneStat.set(POINTS, playerOnePoints - transferPoints);
-					_log.info("Olympia Result: " + _game._playerOneName + " vs " + _game._playerTwoName + " ... " + _game._playerOneName + " lost " + transferPoints + " points for crash");
+					if(Config.DEBUG){
+					_log.info("Olympia Result: " + _game._playerOneName + " vs " + _game._playerTwoName + " ... " + _game._playerOneName + " lost " + transferPoints + " points for crash");}
 					playerTwoStat.set(POINTS, playerTwoPoints + transferPoints);
-					_log.info("Olympia Result: " + _game._playerOneName + " vs " + _game._playerTwoName + " ... " + _game._playerTwoName + " Win " + transferPoints + " points");
+					if(Config.DEBUG){
+					_log.info("Olympia Result: " + _game._playerOneName + " vs " + _game._playerTwoName + " ... " + _game._playerTwoName + " Win " + transferPoints + " points");}
 
 					_sm = new SystemMessage(SystemMessageId.S1_HAS_WON_THE_GAME);
 					_sm2 = new SystemMessage(SystemMessageId.S1_HAS_GAINED_S2_OLYMPIAD_POINTS);
@@ -154,9 +156,11 @@ class OlympiadGameTask extends Olympiad implements Runnable
 						transferPoints = playerOnePoints / 5;
 					}
 					playerTwoStat.set(POINTS, playerTwoPoints - transferPoints);
-					_log.info("Olympia Result: " + _game._playerTwoName + " vs " + _game._playerOneName + " ... " + _game._playerTwoName + " lost " + transferPoints + " points for crash");
+					if(Config.DEBUG){
+					_log.info("Olympia Result: " + _game._playerTwoName + " vs " + _game._playerOneName + " ... " + _game._playerTwoName + " lost " + transferPoints + " points for crash");}
 					playerOneStat.set(POINTS, playerOnePoints + transferPoints);
-					_log.info("Olympia Result: " + _game._playerTwoName + " vs " + _game._playerOneName + " ... " + _game._playerOneName + " Win " + transferPoints + " points");
+					if(Config.DEBUG){
+					_log.info("Olympia Result: " + _game._playerTwoName + " vs " + _game._playerOneName + " ... " + _game._playerOneName + " Win " + transferPoints + " points");}
 
 					_sm = new SystemMessage(SystemMessageId.S1_HAS_WON_THE_GAME);
 					_sm2 = new SystemMessage(SystemMessageId.S1_HAS_GAINED_S2_OLYMPIAD_POINTS);

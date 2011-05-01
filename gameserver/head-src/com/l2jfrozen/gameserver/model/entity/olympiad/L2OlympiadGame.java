@@ -108,7 +108,8 @@ class L2OlympiadGame extends Olympiad
 				_aborted = true;
 				clearPlayers();
 			}
-			_log.info("Olympiad System: Game - " + id + ": " + _playerOne.getName() + " Vs " + _playerTwo.getName());
+			if(Config.DEBUG){
+			_log.info("Olympiad System: Game - " + id + ": " + _playerOne.getName() + " Vs " + _playerTwo.getName());}
 		}
 		else
 		{
@@ -765,7 +766,8 @@ class L2OlympiadGame extends Olympiad
 			_sm = new SystemMessage(SystemMessageId.THE_GAME_ENDED_IN_A_TIE);
 			broadcastMessage(_sm, true);
 		}
-		_log.info("Olympia Result: " + _playerOneName + " vs " + _playerTwoName + " ... " + result);
+		if(Config.DEBUG){
+		_log.info("Olympia Result: " + _playerOneName + " vs " + _playerTwoName + " ... " + result);}
 
 		playerOneStat.set(COMP_DONE, playerOnePlayed + 1);
 		playerTwoStat.set(COMP_DONE, playerTwoPlayed + 1);
