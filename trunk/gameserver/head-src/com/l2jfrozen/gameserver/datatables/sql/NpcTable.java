@@ -339,17 +339,18 @@ public class NpcTable
 			{
 				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
-						"npc_id", "class_id"
-				}) + " FROM skill_learn");
+				   "npc_id", "class_id"
+				}
+			  ) + " FROM skill_learn" + "WHERE limit 1,118");//limit must be 118
 				final ResultSet learndata = statement.executeQuery();
 
 				while(learndata.next())
 				{
-					int npcId = learndata.getInt("npc_id");
+					int npcId = learndata.getInt ("npc_id");
 					int classId = learndata.getInt("class_id");
+					
 					L2NpcTemplate npc = getTemplate(npcId);
-
-					if(npc == null)
+					if (npc == null)
 					{
 						_log.warn("NPCTable: Error getting NPC template ID {} while trying to load skill trainer data.", npcId);
 						continue;
