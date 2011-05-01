@@ -3459,15 +3459,12 @@ public abstract class L2Character extends L2Object
 	{
 		// Get all skills effects on the L2Character
 		L2Effect[] effects = getAllEffects();
-		if(effects == null)
-			return;
+		if (effects == null) return;
 
 		for(L2Effect e : effects)
-			if(e.getSkill().getId() == skillId)
-			{
-				e.exit();
-			}
-
+		{
+			if (e.getSkill().getId() == skillId) e.exit();
+		}
 		effects = null;
 	}
 
