@@ -341,7 +341,7 @@ public class NpcTable
 				{
 				   "npc_id", "class_id"
 				}
-			  ) + " FROM skill_learn" + "WHERE class_id limit 0,118");//limit must be 118
+			  ) + " FROM skill_learn" + " WHERE class_id limit 0,118");//limit must be 118
 				final ResultSet learndata = statement.executeQuery();
 
 				while(learndata.next())
