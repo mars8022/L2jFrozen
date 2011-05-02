@@ -372,7 +372,14 @@ public class AdminEditChar implements IAdminCommandHandler
 					return false;
 				}
 				
-				findCharactersPerIp(activeChar, val);
+				try{
+					findCharactersPerIp(activeChar, val);
+					
+				}catch(IllegalArgumentException e){
+					activeChar.sendMessage("Usage: //find_ip <ip>");
+					listCharacters(activeChar, 0);
+					return false;
+				}
 				return true;
 			} // find all the player connections from a given IPv4 number
 			case admin_find_account:{
@@ -1323,6 +1330,7 @@ public class AdminEditChar implements IAdminCommandHandler
 	{
 		if(!IpAdress.matches("^(?:(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2(?:[0-4][0-9]|5[0-5]))\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2(?:[0-4][0-9]|5[0-5]))$"))
 			throw new IllegalArgumentException("Malformed IPv4 number");
+		
 		Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
 		L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
 		allPlayers = null;

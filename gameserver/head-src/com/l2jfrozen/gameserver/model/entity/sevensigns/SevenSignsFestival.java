@@ -2134,14 +2134,14 @@ public class SevenSignsFestival implements SpawnListener
 			}
 
 			newData.put(i, tempStats);
-			newData = null;
 		}
 
 		// Add the newly created cycle data to the existing festival data, and
 		// subsequently save it to the database.
 		_festivalData.put(_signsCycle, newData);
+		
 		newData = null;
-
+		
 		saveFestivalData(updateSettings);
 
 		// Remove any unused blood offerings from online players.

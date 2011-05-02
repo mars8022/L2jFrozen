@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.model;
 
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.skills.effects.EffectForce;
 
@@ -79,7 +80,14 @@ public final class ForceBuff
 		L2Effect effect = _target.getFirstEffect(_forceId);
 		if(effect != null)
 		{
-			((EffectForce) effect).decreaseForce();
+			if(Config.DEVELOPER){
+				_log.info(" -- Removing ForceBuff "+effect.getSkill().getId());
+			}
+			
+			if(effect instanceof EffectForce)
+				((EffectForce) effect).decreaseForce();
+			else
+				effect.exit();
 		}
 		effect = null;
 	}
