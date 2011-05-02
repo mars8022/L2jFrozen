@@ -544,7 +544,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					if(mainTarget == null || !(mainTarget instanceof L2Character))
 						return;
 					for(L2CubicInstance cubic : getCubics().values())
-						if(cubic.getId() != L2CubicInstance.LIFE_CUBIC)
+						if(cubic!=null && cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 						{
 							cubic.doAction((L2Character) mainTarget);
 						}

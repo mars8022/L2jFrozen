@@ -569,7 +569,10 @@ public abstract class ItemContainer
 	 */
 	protected void addItem(L2ItemInstance item)
 	{
-		_items.add(item);
+		synchronized (_items)
+		{
+			_items.add(item);
+		}
 	}
 
 	/**
@@ -579,7 +582,10 @@ public abstract class ItemContainer
 	 */
 	protected void removeItem(L2ItemInstance item)
 	{
-		_items.remove(item);
+		synchronized (_items)
+		{
+			_items.remove(item);
+		}
 	}
 
 	/**

@@ -341,7 +341,7 @@ public class NpcTable
 				{
 				   "npc_id", "class_id"
 				}
-			  ) + " FROM skill_learn" + " WHERE class_id limit 0,118");//limit must be 118
+			  ) + " FROM skill_learn");
 				final ResultSet learndata = statement.executeQuery();
 
 				while(learndata.next())
@@ -353,6 +353,11 @@ public class NpcTable
 					if (npc == null)
 					{
 						_log.warn("NPCTable: Error getting NPC template ID {} while trying to load skill trainer data.", npcId);
+						continue;
+					}
+					
+					if(classId > ClassId.values().length){
+						_log.warn("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+ClassId.values().length+" specified into ClassID Enum --> check your Database to be complient with it", classId);
 						continue;
 					}
 
