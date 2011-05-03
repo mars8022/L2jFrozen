@@ -1436,13 +1436,13 @@ public class Olympiad
 		gc.clear();
 		gc.setTimeInMillis(_nextWeeklyChange);
 		
-		OlympiadProperties.setProperty("NextWeeklyChange_DateFormat", DateFormat.getInstance().format(gc.getTime()));
+		OlympiadProperties.setProperty("NextWeeklyChange_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
 		//System.out.println("NextPoints: "+DateFormat.getInstance().format(gc.getTime()));
 		
 		gc.clear();
 		gc.setTimeInMillis(_olympiadEnd);
 		
-		OlympiadProperties.setProperty("OlympiadEnd_DateFormat", DateFormat.getInstance().format(gc.getTime()));
+		OlympiadProperties.setProperty("OlympiadEnd_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
 		//System.out.println("NextOlyDate: "+DateFormat.getInstance().format(gc.getTime()));
 		
 		
