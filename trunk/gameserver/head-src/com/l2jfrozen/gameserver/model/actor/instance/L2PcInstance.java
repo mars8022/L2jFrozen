@@ -9934,7 +9934,20 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
+		
+		if(skill == null){
+			abortCast();
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
 
+		int skill_id = skill.getId();
+		int curr_skill_id = -1;
+		SkillDat current = null;
+		if((current = getCurrentSkill())!=null){
+			curr_skill_id = current.getSkillId();
+		}
+		
 		/*
 		if (isWearingFormalWear() && !skill.isPotion())
 		{
@@ -9989,10 +10002,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			return;
 		}
 
-		if(_disabledSkills != null && _disabledSkills.contains(skill.getId()))
+		if(_disabledSkills != null && _disabledSkills.contains(skill_id))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-			sm.addSkillName(skill.getId(), skill.getLevel());
+			sm.addSkillName(skill_id, skill.getLevel());
 			sendPacket(sm);
 			sm = null;
 			return;
@@ -10000,7 +10013,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		// Check if it's ok to summon
 		// siege golem (13), Wild Hog Cannon (299), Swoop Cannon (448)
-		if((skill.getId() == 13 || skill.getId() == 299 || skill.getId() == 448) && !SiegeManager.getInstance().checkIfOkToSummon(this, false) && !FortSiegeManager.getInstance().checkIfOkToSummon(this, false))
+		if((skill_id == 13 || skill_id == 299 || skill_id == 448) && !SiegeManager.getInstance().checkIfOkToSummon(this, false) && !FortSiegeManager.getInstance().checkIfOkToSummon(this, false))
 			return;
 
 		//************************************* Check Casting in Progress *******************************************
@@ -10008,10 +10021,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		// If a skill is currently being used, queue this one if this is not the same
 		// Note that this check is currently imperfect: getCurrentSkill() isn't always null when a skill has
 		// failed to cast, or the casting is not yet in progress when this is rechecked
-		if(getCurrentSkill() != null && (isCastingNow() || isCastingPotionNow()))
+		if(curr_skill_id != -1 && (isCastingNow() || isCastingPotionNow()))
 		{
 			// Check if new skill different from current skill in progress
-			if(skill.getId() == getCurrentSkill().getSkillId())
+			if(skill_id == curr_skill_id)
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
@@ -10080,7 +10093,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		//************************************* Check skill availability *******************************************
 
 		// Check if this skill is enabled (ex : reuse time)
-		if(isSkillDisabled(skill.getId()) && !getAccessLevel().allowPeaceAttack())
+		if(isSkillDisabled(skill_id) && !getAccessLevel().allowPeaceAttack())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
 			sm.addString(skill.getName());
@@ -10105,7 +10118,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(isInsidePeaceZone(this))
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
-				sm.addSkillName(skill.getId());
+				sm.addSkillName(skill_id);
 				sendPacket(sm);
 				return;
 			}

@@ -390,14 +390,16 @@ public abstract class L2Effect
 	public synchronized void stopEffectTask()
 	{
 		// Cancel the task
-		if(_currentFuture!=null && !_currentFuture.isCancelled())
-			_currentFuture.cancel(false);
-		
-		_currentFuture = null;
-		_currentTask = null;
+		if(_currentFuture!=null){
+			if(!_currentFuture.isCancelled())
+				_currentFuture.cancel(false);
+			
+			_currentFuture = null;
+			_currentTask = null;
 
-		_effected.removeEffect(this);
-		
+			_effected.removeEffect(this);
+		}
+			
 	}
 
 	/** returns effect type */
