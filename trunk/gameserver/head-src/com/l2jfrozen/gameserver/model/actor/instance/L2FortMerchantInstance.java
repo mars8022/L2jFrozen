@@ -146,9 +146,9 @@ public class L2FortMerchantInstance extends L2NpcWalkerInstance
 		html.setFile(filename);
 		html.replace("%objectId%", String.valueOf(getObjectId()));
 		html.replace("%npcId%", String.valueOf(getNpcId()));
-		if(getFort().getOwnerId() > 0)
+		if(getFort().getOwnerClan()!=null)
 		{
-			html.replace("%clanname%", ClanTable.getInstance().getClan(getFort().getOwnerId()).getName());
+			html.replace("%clanname%", getFort().getOwnerClan().getName());
 		}
 		else
 		{

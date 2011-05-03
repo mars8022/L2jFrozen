@@ -129,7 +129,7 @@ public class Util
 		int slen = s.length();
 		if(slen > maxlength)
 		{
-			System.out.println(s);
+			_log.info(s);
 			return;
 		}
 		int i;
@@ -137,7 +137,7 @@ public class Util
 		{
 			s = "=" + s;
 		}
-		System.out.println(s);
+		_log.info(s);
 	}
 
 	/**
