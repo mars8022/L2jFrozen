@@ -129,6 +129,7 @@
     <effect count="10" name="DamOverTime" time="3" val="#dot" abnormal="poison"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="104" levels="1" name="Detect Plant Weakness">
   <set name="mpConsume" val="21"/>
   <set name="magicLvl" val="46"/>
@@ -137,8 +138,6 @@
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="438"/>
   <for>
     <effect count="1" name="Buff" time="600" val="0" stackOrder="1" stackType="detect_weakness">
@@ -185,6 +184,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="106" levels="14" name="Veil">
   <table name="#magicLvl">43 46 49 52 55 58 60 62 64 66 68 70 72 74</table>
   <table name="#mpConsume">19 21 22 24 25 27 28 29 30 31 32 33 34 34</table>
@@ -200,8 +200,6 @@
   <set name="buffDuration" val="120000"/>
   <set name="castRange" val="500"/>
   <set name="effectRange" val="900"/>
-  <for>
-  </for>
 </skill>
 <skill id="107" levels="9" name="Holy Aura" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
@@ -387,14 +385,12 @@
     </effect>
   </enchant1for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="113" levels="2" name="Long Shot">
   <table name="#dist">200 400</table>
-  <set name="weaponsAllowed" val="32"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="pAtkRange" val="#dist">
       <using kind="Bow"/>
@@ -464,12 +460,11 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="118" levels="1" name="Magician's Movement">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="pAtkSpd" val="0.8">
       <and>
@@ -721,26 +716,24 @@
     </effect>
   </enchant1for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="134" levels="1" name="Toughness">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="rootVuln" val="0.8"/>
     <mul order="0x30" stat="sleepVuln" val="0.8"/>
     <mul order="0x30" stat="poisonVuln" val="0.8"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="137" levels="3" name="Critical Chance">
   <table name="#ench1rate">0.4 0.4 0.41 0.41 0.41 0.42 0.42 0.42 0.43 0.43 0.43 0.44 0.44 0.44 0.45 0.45 0.45 0.46 0.46 0.46 0.47 0.47 0.47 0.48 0.48 0.48 0.49 0.49 0.49 0.5</table>
   <table name="#rate">0.2 0.3 0.4</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <basemul order="0x30" stat="rCrit" val="#rate"/>
   </for>
@@ -770,26 +763,24 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="141" levels="3" name="Weapon Mastery">
   <table name="#pAtk">2 3 4</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="pAtk" val="1.085"/>
     <add order="0x40" stat="pAtk" val="#pAtk"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="142" levels="5" name="Armor Mastery">
   <table name="#pDef">9 11 12 13 14</table>
   <table name="#rEvas">0 0 0 3 3</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="pDef" val="#pDef"/>
     <add order="0x40" stat="rEvas" val="#rEvas">
@@ -802,50 +793,46 @@
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="143" levels="2" name="Cubic Mastery">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="COREDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="144" levels="37" name="Dual Weapon Mastery">
   <table name="#pAtk">23.7 25.4 27.1 29 30.9 32.9 35 37.1 39.4 41.7 44.1 46.6 49.2 51.9 54.6 57.5 60.4 63.3 66.4 69.5 72.7 76 79.3 82.7 86.1 89.6 93.1 96.6 100.2 103.8 107.5 111.1 114.8 118.4 122.1 125.7 129.3</table>
   <set name="weaponsAllowed" val="512"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="pAtk" val="#pAtk">
       <using kind="Dual Sword"/>
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="146" levels="45" name="Anti Magic">
   <table name="#mDef">10 12 14 16 18 20 23 25 28 30 34 36 40 42 43 46 47 49 52 54 56 59 61 63 66 68 70 72 74 76 78 80 82 84 86 88 91 93 95 97 99 102 104 106 108</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="mDef" val="#mDef"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="147" levels="51" name="Magic Resistance">
   <table name="#mDef">19 20 22 23 24 26 27 28 30 31 32 35 36 37 40 42 43 44 46 47 49 51 52 54 56 57 59 61 63 64 66 68 70 72 74 76 78 80 82 84 86 88 91 93 95 97 99 102 104 106 140</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="mDef" val="#mDef"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="148" levels="8" name="Vital Force">
   <table name="#hp">1.9 2.7 2.9 3.6 4.5 4.7 5.6 6.7</table>
   <table name="#mp">0.9 1.1 1.2 1.5 1.7 1.8 2.1 2.5</table>
@@ -853,8 +840,6 @@
   <set name="condition" val="4"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="regHp" val="#hp">
       <player resting="true"/>
@@ -864,36 +849,33 @@
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="150" levels="3" name="Weight Limit">
   <table name="#rate">2 3 4</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="maxLoad" val="#rate"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="153" levels="4" name="Shield Mastery">
   <table name="#rShld">1.5 1.7 1.85 2</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="rShld" val="#rShld">
       <using kind="Shield"/>
     </mul>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="163" levels="1" name="Spellcraft">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="mAtkSpd" val="0.5">
       <and>
@@ -904,56 +886,49 @@
     </mul>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="164" levels="3" name="Quick Recovery">
   <table name="#reuse">0.8 0.75 0.7</table>
   <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="DEBUFF"/>
+  <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="mReuse" val="#reuse"/>
   </for>
 </skill>
+<!-- Status:Unfixed Pack:l2jfrozen author:Nefer -->
 <skill id="165" levels="5" name="Trade">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Unfixed Pack:l2jfrozen author:Nefer -->
 <skill id="167" levels="4" name="Focus Summon Magic">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="168" levels="3" name="Boost Attack Speed">
   <table name="#rate">1.05 1.07 1.1</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="pAtkSpd" val="#rate"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="169" levels="2" name="Quick Step">
   <table name="#spd">7 11</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="runSpd" val="#spd"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="171" levels="8" name="Esprit">
   <table name="#hp">2.5 3 3.5 4 4.5 5 5.5 6</table>
   <table name="#mp">0.8 0.9 1 1.1 1.2 1.3 1.4 1.5</table>
@@ -961,8 +936,6 @@
   <set name="condition" val="1"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="regHp" val="#hp">
       <player running="true"/>
@@ -972,16 +945,17 @@
     </add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="172" levels="9" name="Create Item">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="DWARVEN_CRAFT"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="173" levels="2" name="Acrobat">
-  <table name="#rate">0.8 0.6</table>
+  <table name="#magicLvl"> 20 55 </table>
+  <table name="#rate">0.4 0.0</table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -991,11 +965,10 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="176" levels="3" name="Frenzy">
-  <table name="#swordblunt">1.54 1.92 2.31</table>
-  <table name="#twohands">1.5 1.55 1.66</table>
-  <table name="#polearm">1.54 1.92 2.31</table>
+  <table name="#swordbluntpole">2.0 2.5 3.0</table>
+  <table name="#twohands">2.5 3.0 3.4</table>
   <table name="#other">1.3 1.3 1.5</table>
-  <table name="#accCombat">2 4 6</table>
+  <table name="#accCombat">4 4 6</table>
   <table name="#mpConsume">14 21 25</table>
   <table name="#aggro">303 438 523</table>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1005,8 +978,6 @@
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="#aggro"/>
   <cond msg="Can be only used when HP is 30% or lower">
     <player hp="30"/>
@@ -1018,7 +989,7 @@
           <using kind="Big Sword,Big Blunt"/>
        </and>
       </add>
-      <mul order="0x30" stat="pAtk" val="#swordblunt">
+      <mul order="0x30" stat="pAtk" val="#swordbluntpole">
        <and>
          <using kind="Sword,Blunt"/>
        </and>
@@ -1028,19 +999,15 @@
          <using kind="Big Sword,Big Blunt"/>
        </and>
       </mul>
-      <mul order="0x30" stat="pAtk" val="#polearm">
-       <and>
-         <using kind="Pole"/>
-       </and>
-     </mul>
       <mul order="0x30" stat="pAtk" val="#other">
         <and>
-          <using kind="Dual Fist,Dual Sword,Fist,Etc,Pole,Bow,Dagger"/>
+          <using kind="Dual Fist,Dual Sword,Fist,Etc,Bow,Dagger"/>
         </and>
       </mul>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="181" levels="1" name="Revival">
   <set name="mpConsume" val="25"/>
   <set name="power" val="100"/>
@@ -1050,8 +1017,6 @@
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="HEAL_PERCENT"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="181"/>
   <cond>
     <player hp="5"/>
@@ -1091,60 +1056,58 @@
     <using kind="Sword, Blunt, Big Sword, Big Blunt"/> 
   </cond> 
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="191" levels="6" name="Focus Mind">
   <table name="#regMp">1.1 1.5 1.9 2.3 2.7 3.1</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="regMp" val="#regMp"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="193" levels="6" name="Critical Power">
   <table name="#crit">32 56 93 177 295 384</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="cAtk" val="#crit"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="194" levels="1" name="Lucky">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="LUCK"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="canLearn" val=""/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="195" levels="2" name="Boost Breath">
   <table name="#breath">180 300</table>
+  <table name="#magicLvl"> 20 55 </table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="breath" val="#breath"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="196" levels="1" name="Holy Blade">
   <set name="mpConsume" val="8"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="0">
       <mul order="0x30" stat="pAtk-undead" val="1.3"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="197" levels="2" name="Holy Armor">
   <table name="#darkVuln">0.93 0.9</table>
   <table name="#mpConsume">7 9</table>
@@ -1152,21 +1115,18 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="0">
       <mul order="0x30" stat="darkVuln" val="#darkVuln"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="198" levels="3" name="Boost Evasion">
   <table name="#rEvas">2 3 4</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x40" stat="rEvas" val="#rEvas"/>
   </for>
