@@ -356,8 +356,8 @@ public class NpcTable
 						continue;
 					}
 					
-					if(classId > ClassId.values().length){
-						_log.warn("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+ClassId.values().length+" specified into ClassID Enum --> check your Database to be complient with it", classId);
+					if(classId >= ClassId.values().length){
+						_log.warn("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+(ClassId.values().length-1)+" specified into ClassID Enum --> check your Database to be complient with it", classId);
 						continue;
 					}
 
