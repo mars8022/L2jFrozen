@@ -148,7 +148,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				System.out.println(e);
+				e.printStackTrace();
 			}
 
 		}
@@ -203,7 +203,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				System.out.println(e);
+				e.printStackTrace();
 			}
 
 			tempBuffer = "";
@@ -261,7 +261,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				System.out.println(e);
+				e.printStackTrace();
 			}
 
 			showEventControl(activeChar);

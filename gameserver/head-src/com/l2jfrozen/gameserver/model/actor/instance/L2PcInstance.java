@@ -1988,6 +1988,9 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		for(L2PcInstance target : getKnownList().getKnownPlayers().values())
 		{
+			if(target==null)
+				continue;
+			
 			target.sendPacket(new RelationChanged(this, getRelation(this), isAutoAttackable(target)));
 			if(getPet() != null)
 			{
