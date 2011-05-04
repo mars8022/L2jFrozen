@@ -608,16 +608,7 @@ public abstract class L2Character extends L2Object
 	public final boolean isinTownWar() { return _inTownWar; }
 	public final void setInTownWar(boolean value) { _inTownWar = value; }
 
-	/**
-	 * Teleport a L2Character and its pet if necessary.<BR>
-	 * <BR>
-	 * <B><U> Actions</U> :</B><BR>
-	 * <BR>
-	 * <li>Stop the movement of the L2Character</li> <li>Set the x,y,z position of the L2Object and if necessary modify
-	 * its _worldRegion</li> <li>Send a Server->Client packet TeleportToLocationt to the L2Character AND to all
-	 * L2PcInstance in its _KnownPlayers</li> <li>Modify the position of the pet if necessary</li><BR>
-	 * <BR>
-	 */
+	/*
 	public void teleToLocation(int x, int y, int z, boolean allowRandomOffset)
 	{
 		if(Config.TW_DISABLE_GK)
@@ -685,6 +676,97 @@ public abstract class L2Character extends L2Object
 		{
 			onTeleported();
 		}
+	}
+	*/
+	
+	/**
+	 * Teleport a L2Character and its pet if necessary.<BR><BR>
+	 *
+	 * <B><U> Actions</U> :</B><BR><BR>
+	 * <li>Stop the movement of the L2Character</li>
+	 * <li>Set the x,y,z position of the L2Object and if necessary modify its _worldRegion</li>
+	 * <li>Send a Server->Client packet TeleportToLocationt to the L2Character AND to all L2PcInstance in its _KnownPlayers</li>
+	 * <li>Modify the position of the pet if necessary</li><BR><BR>
+	 *
+	 */
+	public void teleToLocation(int x, int y, int z, boolean allowRandomOffset)
+	{
+		if(Config.TW_DISABLE_GK)
+		{
+			int x1,y1,z1;
+			x1 = getX();
+			y1 = getY();
+			z1 = getZ();
+			L2TownZone Town;
+			Town = TownManager.getInstance().getTown(x1,y1,z1);
+			if(Town != null && isinTownWar() )
+			{
+				if(Town.getTownId() == Config.TW_TOWN_ID && !Config.TW_ALL_TOWNS)
+				{
+					return;
+				}
+				else if(Config.TW_ALL_TOWNS)
+				{
+					return;
+				}
+			}
+		}
+		
+		// Stop movement
+		stopMove(null, false);
+		abortAttack();
+		abortCast();
+
+		setIsTeleporting(true);
+		setTarget(null);
+
+		getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE);
+
+        if (Config.RESPAWN_RANDOM_ENABLED && allowRandomOffset)
+        {
+            x += Rnd.get(-Config.RESPAWN_RANDOM_MAX_OFFSET, Config.RESPAWN_RANDOM_MAX_OFFSET);
+            y += Rnd.get(-Config.RESPAWN_RANDOM_MAX_OFFSET, Config.RESPAWN_RANDOM_MAX_OFFSET);
+        }
+
+        z += 5;
+
+		if (Config.DEBUG)
+            _log.fine("Teleporting to: " + x + ", " + y + ", " + z);
+
+		// Send a Server->Client packet TeleportToLocationt to the L2Character AND to all L2PcInstance in the _KnownPlayers of the L2Character
+		broadcastPacket(new TeleportToLocation(this, x, y, z));
+
+		// remove the object from its old location
+		decayMe();
+		
+		// Set the x,y,z position of the L2Object and if necessary modify its _worldRegion
+		getPosition().setXYZ(x, y, z);
+		
+		if (!(this instanceof L2PcInstance) || (((L2PcInstance)this).getClient() != null && ((L2PcInstance)this).getClient().isDetached()))
+			onTeleported();
+		
+		revalidateZone(true);
+	}
+	
+	protected byte _zoneValidateCounter = 4;
+	
+	public void revalidateZone(boolean force)
+	{
+		if (getWorldRegion() == null) 
+			return;
+		
+		// This function is called too often from movement code
+		if (force) 
+			_zoneValidateCounter = 4;
+		else
+		{
+			_zoneValidateCounter--;
+			if (_zoneValidateCounter < 0)
+				_zoneValidateCounter = 4;
+			else 
+				return;
+		}
+		getWorldRegion().revalidateZones(this);
 	}
 
 	public void teleToLocation(int x, int y, int z)
