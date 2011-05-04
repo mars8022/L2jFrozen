@@ -204,9 +204,9 @@ public class AutoVoteRewardHandler
 				}
 			}
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
-			System.out.println("[AutoVoteReward] Server HOPZONE is offline");
+			System.out.println("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] HOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
 		}
@@ -257,9 +257,9 @@ public class AutoVoteRewardHandler
 				}
 			}
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
-			System.out.println("[AutoVoteReward] Server TOPZONE is offline");
+			System.out.println("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] TOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
 		}
