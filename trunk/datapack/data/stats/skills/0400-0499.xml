@@ -680,8 +680,6 @@
   <set name="effectRange" val="1400"/>
   <set name="reuseDelay" val="30000"/>
   <set name="isMagic" val="true"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="427" levels="1" name="Spell Force">
@@ -697,8 +695,6 @@
   <set name="effectRange" val="1400"/>
   <set name="reuseDelay" val="30000"/>
   <set name="isMagic" val="true"/>
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="428" levels="1" name="Inner Rhythm">
