@@ -397,30 +397,26 @@
     <effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1418" levels="1" name="Celestial Shield">
-  <!--
-  Description(s):
-      Protects your target using holy powers, making it temporarily invincible.
-  -->
   <set name="mpConsume" val="60"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="4000"/>
-  <set name="reuseDelay" val="600000"/>
-  <set name="staticReuse" val="true"/>
+  <set name="reuseDelay" val="720000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="buffDuration" val="30000"/>
   <set name="castRange" val="400"/>
   <for>
     <effect count="1" name="Invincible" time="10" val="0" stackOrder="1" stackType="Instant_Shield"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1419" levels="1" name="Volcano">
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="900000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
@@ -431,7 +427,7 @@
   <set name="element" val="0"/> <!-- Fire -->
   <set name="elementPower" val="20"/>
   <set name="isMagic" val="true"/>
-  <set name="power" val="200"/>
+  <set name="power" val="500"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
@@ -443,12 +439,13 @@
     <effect self="1" count="9" name="SignetMDam" time="2" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1420" levels="1" name="Cyclone">
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="900000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
@@ -459,7 +456,7 @@
   <set name="effectNpcId" val="13025"/>
   <set name="effectId" val="5132"/>
   <set name="isMagic" val="true"/>
-  <set name="power" val="200"/>
+  <set name="power" val="500"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
@@ -471,12 +468,13 @@
     <effect self="1" count="9" name="SignetMDam" time="2" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1421" levels="1" name="Raging Waves">
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="900000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
@@ -487,7 +485,7 @@
   <set name="element" val="1"/> <!-- Water -->
   <set name="elementPower" val="20"/>
   <set name="isMagic" val="true"/>
-  <set name="power" val="200"/>
+  <set name="power" val="500"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
@@ -525,12 +523,13 @@
     -->
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1423" levels="1" name="Gehenna">
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="900000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
@@ -541,7 +540,7 @@
   <set name="element" val="5"/> <!-- Dark -->
   <set name="elementPower" val="20"/>
   <set name="isMagic" val="true"/>
-  <set name="power" val="200"/>
+  <set name="power" val="500"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
@@ -553,6 +552,7 @@
     <effect self="1" count="9" name="SignetMDam" time="2" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1424" levels="1" name="Anti-Summoning Field">
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET"/>
@@ -567,7 +567,7 @@
   <set name="effectId" val="5134"/>
   <set name="offensive" val="true"/>
   <set name="isMagic" val="true"/>
-  <set name="power" val="200"/>
+  <set name="power" val="500"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="70"/>
@@ -579,6 +579,7 @@
     <effect count="6" name="SignetAntiSummon" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1425" levels="1" name="Purification Field">
   <set name="target" val="TARGET_CLAN"/>
   <set name="skillType" val="NEGATE"/>
@@ -586,7 +587,7 @@
   <set name="negatePower" val="80"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
@@ -600,6 +601,7 @@
   	<player spell_force="2"/>
   </cond>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1426" levels="1" name="Miracle">
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
@@ -611,17 +613,15 @@
   <set name="skillType" val="HEAL_PERCENT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="3600000"/>
+  <set name="reuseDelay" val="300000"/>
+  <set name="staticReuse" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <cond msg="Proper force required.">
     <player spell_force="2"/>
   </cond>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1427" levels="1" name="Flames of Invincibility">
   <set name="mpConsume" val="73"/>
   <set name="power" val="80"/>
@@ -629,12 +629,11 @@
   <set name="hitTime" val="2500"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="300000"/>
+  <set name="staticReuse" val="true"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="900"/>
   <set name="skillRadius" val="400"/>
   <cond msg="2 Spell Forces required.">
@@ -644,6 +643,7 @@
     <effect count="1" name="Invincible" time="30" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1428" levels="1" name="Mass Recharge">
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
@@ -654,17 +654,15 @@
   <set name="skillRadius" val="900"/>
   <set name="skillType" val="MANARECHARGE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="3600000"/>
+  <set name="reuseDelay" val="300000"/>
+  <set name="staticReuse" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <cond msg="Proper force required.">
     <player spell_force="3"/>
   </cond>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1429" levels="1" name="Gate Chant">
   <set name="target" val="TARGET_PARTY"/>
   <set name="skillRadius" val="-1"/>
@@ -675,11 +673,8 @@
   <set name="mpConsume" val="284"/>
   <set name="hitTime" val="15000"/>
   <set name="reuseDelay" val="600000"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1430" levels="5" name="Invocation">
   <table name="#mpConsume">27 28 30 33 34</table>
   <table name="#regMp">150 200 250 300 350</table>
@@ -691,8 +686,6 @@
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="ImmobileUntilAttacked" time="20" val="0">
       <add order="0x30" stat="regMp" val="#regMp"/>
