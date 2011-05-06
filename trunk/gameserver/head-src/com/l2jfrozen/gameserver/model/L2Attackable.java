@@ -1277,6 +1277,9 @@ public class L2Attackable extends L2NpcInstance
 	{
 		if(getAggroListRP().isEmpty())
 			return 0;
+			
+		if(target==null)
+			return 0;
 		
 		AggroInfo ai = getAggroListRP().get(target);
 

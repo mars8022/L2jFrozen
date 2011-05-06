@@ -719,6 +719,10 @@ public abstract class L2Character extends L2Object
 
 		setIsTeleporting(true);
 		setTarget(null);
+		
+		// Remove from world regions zones
+		if (getWorldRegion() != null)
+			getWorldRegion().removeFromZones(this);
 
 		getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE);
 
@@ -742,8 +746,9 @@ public abstract class L2Character extends L2Object
 		// Set the x,y,z position of the L2Object and if necessary modify its _worldRegion
 		getPosition().setXYZ(x, y, z);
 		
-		if (!(this instanceof L2PcInstance) || (((L2PcInstance)this).getClient() != null && ((L2PcInstance)this).getClient().isDetached()))
-			onTeleported();
+		//if (!(this instanceof L2PcInstance) || (((L2PcInstance)this).isOffline()))/*.getClient() != null && ((L2PcInstance)this).getClient().isDetached()))*/
+		if (!(this instanceof L2PcInstance))	
+		onTeleported();
 		
 		revalidateZone(true);
 	}
