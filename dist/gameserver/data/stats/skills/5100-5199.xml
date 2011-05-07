@@ -64,24 +64,30 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5104" levels="3" name="Battle Force">
+  <set name="magicLvl" val="75"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
+  <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="1000"/>
+  <set name="castRange" val="600"/>
+  <set name="effectRange" val="1100"/>
   <for>
-    <effect count="0x7fffffff" name="BattleForce" time="3" val="15" stackOrder="0" stackType="BattleForce">
+    <effect count="1" name="BattleForce" time="15" val="15" stackOrder="0" stackType="BattleForce">
       <mul order="0x30" stat="pAtk" val="1.1"/>
     </effect>
  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5105" levels="3" name="Spell Force">
+  <set name="magicLvl" val="75"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
+  <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="1000"/>
+  <set name="castRange" val="600"/>
+  <set name="effectRange" val="1100"/>
   <for>
-    <effect count="0x7fffffff" name="SpellForce" time="3" val="15" stackOrder="0" stackType="SpellForce">
+    <effect count="1" name="SpellForce" time="15" val="15" stackOrder="0" stackType="SpellForce">
       <mul order="0x30" stat="mAtk" val="1.1"/>
     </effect>
  </for>
@@ -540,19 +546,22 @@
  	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5139" levels="1" name="Tidal Wave">
-  <set name="power" val="70"/>
-  <set name="mpConsume" val="145"/>
+  <set name="castRange" val="500" />
+  <set name="effectRange" val="1000" />
+  <set name="overHit" val="true" />
+  <set name="power" val="228"/>
+  <set name="mpConsume" val="322"/>
   <set name="effectPoint" val="950"/>
-  <set name="magiclvl" val="130"/>
-  <set name="target" val="TARGET_ONE"/>
+  <set name="magiclvl" val="80"/>
+  <set name="target" val="TARGET_AREA"/>
   <set name="element" val="1"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="reuseDelay" val="32000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="900"/>
   <!-- <set name="nextAction" val="none"/> -->
   <for>
   </for>
@@ -631,7 +640,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5144" levels="1" name="Mirage">
-  <set name="activationChance" val="30"/>
+  <set name="activationChance" val="60"/>
   <set name="castRange" val="900"/>
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="effectRange" val="1400"/>
@@ -1145,20 +1154,19 @@
  	</effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5168" levels="10" name="Stun">
-<!-- Description(s):
-       Lvl 1-10 - Active: Momentarily throws the target into a state of shock.
--->
-  <!-- <table name="#power">23 60 165 429 1109 2172 3362 3971 4614 5313 6047 6756</table> -->
-  <table name="#power">62 64 66 68 70 72 74 76 78 80</table>
   <table name="#mpConsume">18 25 35 47 59 72 83 88 91 93 95 96</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="power" val="#power"/>
+  <table name="#magicLvl"> 46 49 52 55 58 61 64 67 70 75 </table>
+  <set name="magicLvl" val="#magicLvl" />
+  <set name="power" val="40"/>
   <set name="hitTime" val="830"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
+  <set name="isDebuff" val="true" />
   <set name="effectType" val="STUN"/>
   <for>
  	<effect count="1" name="Stun" time="5" val="0"/>

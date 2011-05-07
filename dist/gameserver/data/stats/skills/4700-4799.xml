@@ -1216,82 +1216,72 @@
   <table name="#mpConsume">21 34 50 67 86 104 119 125 129 131 131 132</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HEAL"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1200"/>
   <set name="aggroPoints" val="100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4780" levels="12" name="BOSS Heal">
   <table name="#power">1382 2381 3802 5590 7881 9832 10862 11314 11553 11661 11640 11578</table>
   <table name="#mpConsume">21 34 50 67 86 104 119 125 129 131 131 132</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HEAL"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1200"/>
   <set name="aggroPoints" val="100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4781" levels="12" name="BOSS Heal">
   <table name="#power">736 1267 2024 2983 4204 5247 5787 6022 6144 6203 6199 6158</table>
   <table name="#mpConsume">21 34 50 67 86 104 119 125 129 131 131 132</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HEAL"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1200"/>
   <set name="aggroPoints" val="100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4782" levels="12" name="BOSS Heal">
   <table name="#power">691 1191 1899 2799 3941 4922 5431 5657 5777 5838 5813 5789</table>
   <table name="#mpConsume">21 34 50 67 86 104 119 125 129 131 131 132</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HEAL"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1200"/>
   <set name="aggroPoints" val="100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4783" levels="12" name="BOSS Heal">
   <table name="#power">647 1115 1778 2607 3677 4597 5075 5293 5409 5458 5441 5421</table>
   <table name="#mpConsume">21 34 50 67 86 104 119 125 129 131 131 132</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HEAL"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1200"/>
   <set name="aggroPoints" val="100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4784" levels="12" name="BOSS Chant of Life">
   <table name="#hot">118 202 322 473 667 833 919 958 974 968 951 940</table>
   <table name="#mpConsume">43 69 99 134 173 207 239 250 258 262 262 263</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="1"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HOT"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1308,7 +1298,7 @@
   <table name="#mpConsume">43 69 99 134 173 207 239 250 258 262 262 263</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="1"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HOT"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1325,7 +1315,7 @@
   <table name="#mpConsume">43 69 99 134 173 207 239 250 258 262 262 263</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="1"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HOT"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1342,7 +1332,7 @@
   <table name="#mpConsume">43 69 99 134 173 207 239 250 258 262 262 263</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="1"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HOT"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1359,7 +1349,7 @@
   <table name="#mpConsume">43 69 99 134 173 207 239 250 258 262 262 263</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="1"/>
-  <set name="target" val="TARGET_SELF"/>
+  <set name="target" val="TARGET_CLAN_MEMBER"/>
   <set name="skillType" val="HOT"/>
   <set name="hitTime" val="2000"/>
   <set name="operateType" val="OP_ACTIVE"/>

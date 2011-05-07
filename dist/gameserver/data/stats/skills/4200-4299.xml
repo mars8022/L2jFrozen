@@ -226,19 +226,15 @@
   </for>
 </skill>
 <skill id="4211" levels="12" name="BOSS Might">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="pAtk">
@@ -247,19 +243,15 @@
   </for>
 </skill>
 <skill id="4212" levels="12" name="BOSS Shield">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="pDef">
@@ -268,19 +260,15 @@
   </for>
 </skill>
 <skill id="4213" levels="12" name="BOSS Haste">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="pAtkSpeedUp">
@@ -289,19 +277,15 @@
   </for>
 </skill>
 <skill id="4214" levels="12" name="BOSS Reflect Damage">
-  <!-- SHOULD BUFF MINIONS -->
   <table name="#mpConsume">6 10 13 18 23 28 33 35 36 38 39 39</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
+  <set name="target" val="TARGET_CLAN"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="REFLECT"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
   <for>
     <effect count="1" name="Buff" time="60" val="0" stackOrder="99" stackType="DmgShield">
@@ -309,6 +293,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4215" levels="1" name="Raid Curse">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="MUTE"/>
@@ -316,11 +301,12 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1500"/>
   <set name="effectRange" val="2000"/>
+  <set name="power" val="100" />
   <for>
-    <effect count="1" name="Mute" time="3600" val="0" stackOrder="3600" stackType="silence_all"/>
-    <effect count="1" name="PsychicalMute" time="3600" val="0" noicon="1"/>
+    <effect name="SilenceMagicPhysical" time="3600" val="0" stackOrder="99" stackType="silence_all"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4216" levels="1" name="Scatter Enemy">
   <!-- Zaken skills - teleport PC -->
   <set name="magicLvl" val="60"/>
@@ -337,6 +323,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4217" levels="1" name="None">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -354,6 +341,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4218" levels="1" name="Absorb HP MP">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -365,16 +353,16 @@
   <set name="skillRadius" val="100"/>
   <set name="skillType" val="DRAIN"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="power" val="57" />
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <set name="absorbPart" val="0.8"/> <!-- absorbs 80% of damage -->
   <set name="mpConsume" val="274"/>
   <for>
-    <!-- <effect count="1" name="Buff" time="120" val="0">
-      <add order="0x40" stat="absorbDam" val="8"/>
-    </effect> -->
+    <effect name="ManaDamOverTime" noicon="1" val="274" />
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4219" levels="1" name="Hold">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -392,6 +380,7 @@
     <effect count="1" name="Root" time="30" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4220" levels="1" name="Deadly Dual-Sword Weapon">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
@@ -405,25 +394,21 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="50"/>
   <set name="effectRange" val="200"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4221" levels="1" name="Deadly Dual-Sword Weapon: Range Attack">
   <!-- Zaken skills -->
   <set name="magicLvl" val="60"/>
   <set name="lvlDepend" val="1"/>
-  <set name="power" val="7224"/>
+  <set name="power" val="5164" />
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="250"/>
   <set name="coolTime" val="1500"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4222" levels="1" name="Instant Move">
   <!-- Zaken skills - teleport -->
   <set name="magicLvl" val="60"/>
@@ -433,10 +418,6 @@
   <set name="reuseDelay" val="859000"/>
   <set name="mpConsume" val="100"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
 <skill id="4223" levels="1" name="Face Chance: Night to Day">
   <!-- Zaken skills - change face -->
