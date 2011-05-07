@@ -72,8 +72,8 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="BattleForce" time="15" val="15" stackOrder="0" stackType="BattleForce">
-      <mul order="0x30" stat="pAtk" val="1.1"/>
+    <effect name="BattleForce" time="15" val="15" stackOrder="0" stackType="BattleForce">
+      <mul order="0x30" stat="pAtk" val="1.13"/>
     </effect>
  </for>
 </skill>
@@ -87,8 +87,8 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="SpellForce" time="15" val="15" stackOrder="0" stackType="SpellForce">
-      <mul order="0x30" stat="mAtk" val="1.1"/>
+    <effect name="SpellForce" time="15" val="15" stackOrder="0" stackType="SpellForce">
+      <mul order="0x30" stat="mAtk" val="1.13"/>
     </effect>
  </for>
 </skill>
