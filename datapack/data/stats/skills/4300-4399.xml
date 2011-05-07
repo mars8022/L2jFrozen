@@ -515,7 +515,7 @@
   <set name="reuseDelay" val="30000"/>
   <set name="hitTime" val="6000"/>
   <set name="castRange" val="600"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>

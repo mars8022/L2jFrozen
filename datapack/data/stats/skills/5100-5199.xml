@@ -72,7 +72,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect name="BattleForce" time="15" val="15" stackOrder="0" stackType="BattleForce">
+    <effect count="1" name="BattleForce" time="15" val="15" stackOrder="0" stackType="BattleForce">
       <mul order="0x30" stat="pAtk" val="1.13"/>
     </effect>
  </for>
@@ -87,7 +87,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect name="SpellForce" time="15" val="15" stackOrder="0" stackType="SpellForce">
+    <effect count="1" name="SpellForce" time="15" val="15" stackOrder="0" stackType="SpellForce">
       <mul order="0x30" stat="mAtk" val="1.13"/>
     </effect>
  </for>
@@ -165,6 +165,7 @@
  	</effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5109" levels="1" name="Production - Clan Gate">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BUFF"/>
@@ -173,9 +174,8 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <set name="hitTime" val="1000"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5110" levels="1" name="Cannon Fodder">
   <set name="power" val="232048"/>
   <set name="target" val="TARGET_SIEGE"/>
@@ -186,9 +186,8 @@
   <set name="castRange" val="1600"/>
   <set name="itemConsumeId" val="8872"/>
   <set name="itemConsumeCount" val="4"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5111" levels="1" name="Big Bang">
   <set name="power" val="332048"/>
   <set name="target" val="TARGET_SIEGE"/>
@@ -199,9 +198,8 @@
   <set name="castRange" val="2000"/>
   <set name="itemConsumeId" val="8872"/>
   <set name="itemConsumeCount" val="5"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5112" levels="12" name="Shock">
   <table name="#mpConsume">14 22 31 43 55 68 79 84 89 92 94 95</table>
   <table name="#magiclvl">10 20 30 40 50 60 70 75 80 85 90 95</table>
@@ -222,6 +220,7 @@
  	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5113" levels="12" name="Castle Self AE Dispell Buff">
   <set name="mpConsume" val="96"/>
   <set name="target" val="TARGET_AREA"/>
@@ -234,16 +233,15 @@
   <set name="effectRange" val="900"/>
   <set name="negateStats" val="BUFF"/>
   <set name="negatePower" val="17"/>
-  <for>
-  </for>
-  <!-- need to check -->
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5114" levels="12" name="Hold">
   <table name="#mpConsume">7 10 14 18 23 28 33 35 37 38 39 39</table>
   <table name="#magiclvl">10 20 30 40 50 60 70 75 80 85 90 95</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magiclvl" val="#magiclvl"/>
   <set name="activateRate" val="80"/>
+  <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="2500"/>
@@ -255,37 +253,34 @@
     <effect count="1" name="Root" stackOrder="-1" stackType="Root" time="30" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5115" levels="4" name="Cubic Hate">
- <!-- Cubic skill -->
+  <!-- Cubic skill -->
   <table name="#magicLvl">62 66 70 74</table> <!-- guessed -->
-  <table name="#power">1700 1800 1900 2000</table> <!-- guessed -->
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="#power"/>
+  <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="AGGDAMAGE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5116" levels="4" name="Hold">
- <!-- Cubic skill -->
+  <!-- Cubic skill -->
   <table name="#magicLvl">62 66 70 74</table> <!-- guessed -->
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="save" val="3"/>
-  <set name="power" val="80"/>
+  <set name="power" val="70"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="ROOT"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Root" time="30" val="0" stackOrder="1" stackType="Root"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5117" levels="1" name="Stun">
   <set name="mpConsume" val="14"/>
   <set name="magiclvl" val="20"/>
@@ -296,26 +291,27 @@
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="2500"/>
   <set name="skillType" val="PDAM"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
  <for>
     <effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5118" levels="1" name="Cancel Sailren Use">
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="55"/>
-  <set name="magicLvl" val="74"/>
+  <set name="magicLvl" val="90"/>
   <set name="power" val="25"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="6000"/>
-  <set name="reuseDelay" val="9200000"/>
+  <set name="reuseDelay" val="300000"/> <!-- guessed -->
   <set name="skillType" val="CANCEL"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5119" levels="1" name="Bleed">
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="99"/>
@@ -335,6 +331,7 @@
  	<effect count="4" name="DamOverTime" time="5" val="34" abnormal="bleeding"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5120" levels="1" name="Shock">
   <set name="mpConsume" val="5"/>
   <set name="lvlDepend" val="1"/>
@@ -351,15 +348,13 @@
  	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5121" levels="1" name="Production - Corpse Revival">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <for>
-  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5122" levels="1" name="Sailren Use Might">
   <set name="mpInitialConsume" val="7"/>
   <set name="mpConsume" val="28"/>
@@ -373,29 +368,34 @@
   <set name="effectRange" val="900"/>
   <for>
  	<effect count="1" name="Buff" time="1200" val="0" stackOrder="1.15" stackType="pAtk">
-      <mul order="0x30" stat="pAtk" val="1.15"/>
+      <mul order="0x30" stat="pAtk" val="1.50"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5123" levels="1" name="Maximum Defense">
-  <!-- Description(s): Temporarily maximizes P. Def./M. Def and shield defense power. -->
+  <set name="magicLvl" val="80" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
-    <effect name="Buff" time="8" val="0">
+    <effect name="Buff" time="5" val="0">
       <add order="0x40" stat="pDef" val="500"/>
       <add order="0x40" stat="mDef" val="300"/>
-	  <mul order="0x30" stat="sDef" val="1.4"/>
+	  <mul order="0x30" stat="sDef" val="1.5"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5124" levels="1" name="Anti-Music">
+  <set name="magicLvl" val="80" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5125" levels="1" name="Maximum Resist Status">
+  <set name="magicLvl" val="80" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -412,6 +412,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5126" levels="1" name="Maximum Recovery">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
@@ -423,6 +424,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5127" levels="1" name="Recover Force">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
@@ -433,6 +435,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5128" levels="1" name="Maximize long-range weapon use">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
@@ -443,43 +446,50 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5129" levels="1" name="Smokescreen">
-  <!-- Done by Bloodshed -->
+  <set name="magicLvl" val="80" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
     <effect name="Buff" time="8" val="0">
       <add order="0x40" stat="rEvas" val="15"/>
-      <mul order="0x30" stat="blowRate" val="1.05"/> <!-- Guess -->
+      <mul order="0x30" stat="blowRate" val="1.2"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5130" levels="1" name="Volcano">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5131" levels="1" name="Tsunami">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5132" levels="1" name="Cyclone">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5133" levels="1" name="Gehenna">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5134" levels="1" name="Anti-Summoning Field">
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5135" levels="1" name="Slash">
   <set name="power" val="5233"/>
   <set name="mpConsume" val="189"/>
@@ -493,6 +503,7 @@
   <set name="castRange" val="40"/>
   <set name="levelModifier" val="1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5136" levels="1" name="Spin Slash">
   <set name="power" val="2615"/>
   <set name="magiclvl" val="80"/>
@@ -507,6 +518,7 @@
   <set name="castRange" val="-1"/>
   <set name="levelModifier" val="1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5137" levels="1" name="Hold of King">
   <set name="mpConsume" val="116"/>
   <set name="effectPoint" val="655"/>
@@ -521,11 +533,12 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="levelModifier" val="2"/>
-  <!-- <set name="nextAction" val="attack"/> -->
+  <set name="nextActionAttack" val="true" />
   <for>
  	<effect count="1" name="Root" stackOrder="-1" stackType="Root" time="30" val="0"/>
  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5138" levels="1" name="Whiplash">
   <set name="power" val="5233"/>
   <set name="activateRate" val="50"/>
@@ -540,7 +553,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="levelModifier" val="1"/>
-  <!-- <set name="nextAction" val="attack"/> -->
+  <set name="nextActionAttack" val="true" />
   <set name="reuseDelay" val="15000"/>
   <for>
  	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
@@ -562,7 +575,7 @@
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
@@ -583,7 +596,7 @@
   <set name="levelModifier" val="1"/>
   <set name="effectType" val="POISON"/> 
   <set name="effectLevel" val="8"/> <!-- test -->
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
  	<effect count="10" name="DamOverTime" time="3" val="65" abnormal="poison">
       <mul order="0x30" stat="runSpd" val="0.5"/>
@@ -603,7 +616,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="shieldignore" val="true"/>
-  <!-- <set name="nextAction" val="attack"/> -->
+  <set name="nextActionAttack" val="true" />
   <for>
   </for>
 </skill>
@@ -621,7 +634,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="skillRadius" val="250"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
