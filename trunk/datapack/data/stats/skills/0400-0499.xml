@@ -678,7 +678,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="1400"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="isMagic" val="true"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -693,7 +693,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="1400"/>
-  <set name="reuseDelay" val="30000"/>
+  <set name="reuseDelay" val="300000"/>
   <set name="isMagic" val="true"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1008,7 +1008,7 @@
     <effect count="1" name="BestowSkill" time="60" val="0"/>
   </for>
 </skill>
-<!-- Status:Incorrect effect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="446" levels="1" name="Dodge">
   <set name="aggroPoints" val="669" />
   <set name="mpConsume" val="29"/>
@@ -1018,6 +1018,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="isMagic" val="false"/>
   <set name="reuseDelay" val="30000"/>
+  <set name="staticReuse" val="true"/>
   <set name="hitTime" val="500"/>
   <for>
     <effect name="Buff" time="10" val="0">
@@ -1025,7 +1026,7 @@
     </effect>
   </for>
 </skill>
-<!-- Status:Incorrect effect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="447" levels="1" name="Counterattack">
   <set name="aggroPoints" val="669" />
   <set name="mpConsume" val="29"/>
@@ -1034,11 +1035,11 @@
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="reuseDelay" val="30000"/>
+  <set name="staticReuse" val="true"/>
   <set name="hitTime" val="500"/>
   <for>
     <effect name="Buff" time="10" count="1" val="0">
-      <add order="0x40" stat="vengeanceSkillPhysic" val="100"/>
-      <add order="0x40" stat="reflectDam" val="20"/> <!-- 20 -->
+      <add order="0x40" stat="vengeanceSkillPhysic" val="50"/>
     </effect>
   </for>
 </skill>
@@ -1190,6 +1191,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="454" levels="1" name="Symbol of Defense">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SIGNET"/>
@@ -1215,6 +1217,7 @@
     <effect count="24" name="Signet" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="455" levels="1" name="Symbol of Noise">
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET"/>
@@ -1243,6 +1246,7 @@
     <effect count="6" name="SignetNoise" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="456" levels="1" name="Symbol of Resistance">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SIGNET"/>
@@ -1268,6 +1272,7 @@
     <effect count="24" name="Signet" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="457" levels="1" name="Symbol of Honor">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SIGNET"/>
@@ -1293,6 +1298,7 @@
     <effect count="24" name="Signet" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="458" levels="1" name="Symbol of Energy">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SIGNET"/>
@@ -1318,6 +1324,7 @@
     <effect count="24" name="Signet" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="459" levels="1" name="Symbol of the Sniper">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SIGNET"/>
@@ -1343,6 +1350,7 @@
     <effect count="24" name="Signet" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="460" levels="1" name="Symbol of the Assassin">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="SIGNET"/>
