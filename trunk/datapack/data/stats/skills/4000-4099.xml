@@ -20,7 +20,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
@@ -43,7 +43,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <set name="absorbPart" val="0.2"/> <!-- absorbs 20% of damage -->
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
@@ -364,7 +364,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="#aggro"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
@@ -383,7 +383,7 @@
   <set name="skillRadius" val="200"/>
   <set name="skillType" val="MDAM"/>
   <set name="target" val="TARGET_AREA"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
@@ -400,7 +400,7 @@
   <set name="reuseDelay" val="10000"/>
   <set name="skillType" val="HEAL"/>
   <set name="target" val="TARGET_ONE"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   </for>
 </skill>
@@ -418,7 +418,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="100"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
     <effect name="Buff" time="1200" count="1" val="0" stackOrder="#pAtk" stackType="pAtk">
       <mul order="0x30" stat="pAtk" val="#pAtk"/>

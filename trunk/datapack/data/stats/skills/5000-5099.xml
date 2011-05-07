@@ -595,7 +595,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="levelModifier" val="2"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   	<effect count="1" name="Root" stackOrder="-1" stackType="Root" time="30" val="0"/>
   </for>
@@ -857,7 +857,7 @@
   <set name="hitTime" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <for>
   	<effect count="1" name="ImobileBuff" stackOrder="-1" stackType="ImobileBuff" time="30" val="0">
       <add order="0x40" stat="pDef" val="#pDef"/>
@@ -920,7 +920,7 @@
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="overHit" val="true"/>
-  <!-- <set name="nextAction" val="none"/> -->
+  <set name="nextActionAttack" val="false" />
   <set name="reuseDelay" val="12000"/>
   <for>
   </for>
@@ -1710,7 +1710,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="turner" val="true"/>
-  <!-- <set name="nextAction" val="attack"/> -->
+  <set name="nextActionAttack" val="true" />
   <for>
   	<effect self="1" count="1" name="Buff" time="10" val="0">
       <add order="0x40" stat="runSpd" val="40" />
