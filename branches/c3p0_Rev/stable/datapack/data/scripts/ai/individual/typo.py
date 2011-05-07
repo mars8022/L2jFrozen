@@ -1,1 +1,0 @@
-print "start loading Individual AI"
