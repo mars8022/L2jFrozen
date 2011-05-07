@@ -2,7 +2,7 @@
 title L2J-Frozen: Game Server Console
 :start
 echo Starting L2J-Frozen Core Game Server.
-echo Official website : http://www.l2frozenreborn.com
+echo Official website : http://www.l2jfrozen.com
 echo Enjoy by server core. Bee happy!
 echo ------------------------------
 echo.
@@ -27,40 +27,40 @@ goto end
 :tellrestart
 echo.
 echo Telnet server Restart ...
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo.
 goto start
 :taskrestart
 echo.
 echo Auto Task Restart ...
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo.
 goto start
 :restart
 echo.
 echo Admin Restart ...
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo.
 goto start
 :taskdown
 echo .
 echo Server terminated (Auto task)
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo .
 :telldown
 echo .
 echo Server terminated (Telnet)
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo .
 :error
 echo.
 echo Server terminated abnormaly
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo.
 :end
 echo.
 echo server terminated
-echo Send you bug to : http://www.l2frozenreborn.com
+echo Send you bug to : http://www.l2jfrozen.com
 echo.
 :question
 set choix=q
