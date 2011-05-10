@@ -18,7 +18,11 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+
+import org.apache.commons.lang.ArrayUtils;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -75,7 +79,23 @@ public class Pdam implements ISkillHandler
 		if(Config.DEBUG)
 			_log.fine("Begin Skill processing in Pdam.java " + skill.getSkillType());
 
-		for(L2Object target2 : targets)
+		//Calculate targets based on vegeance
+		List<L2Object> target_s = new ArrayList<L2Object>();
+		
+		for(L2Object _target: targets){
+			
+			target_s.add(_target);
+			
+			L2Character target = (L2Character) _target;
+			
+			if(target.vengeanceSkill(skill))
+			{
+				target_s.add(activeChar);
+			}
+		}
+		
+		
+		for(L2Object target2 : target_s)
 		{
 			L2Character target = (L2Character) target2;
 			Formulas f = Formulas.getInstance();
@@ -96,11 +116,13 @@ public class Pdam implements ISkillHandler
 				continue;
 			}
 
+			/*
 			// Calculate vengeance
 			if(target.vengeanceSkill(skill))
 			{
 				target = activeChar;
 			}
+			*/
 
 			boolean dual = activeChar.isUsingDualWeapon();
 			boolean shld = f.calcShldUse(activeChar, target);
@@ -137,7 +159,14 @@ public class Pdam implements ISkillHandler
 
 			if(damage > 0)
 			{
-				activeChar.sendDamageMessage(target, damage, false, crit, false);
+				if(target != activeChar)
+					activeChar.sendDamageMessage(target, damage, false, crit, false);
+				else{
+					SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
+					smsg.addString(target.getName());
+					smsg.addNumber(damage);
+					activeChar.sendPacket(smsg);
+				}
 
 				if(skill.hasEffects())
 				{
@@ -175,7 +204,7 @@ public class Pdam implements ISkillHandler
 
 				// Success of lethal effect
 				int chance = Rnd.get(100);
-				if(!target.isRaid() && chance < skill.getLethalChance1() && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
+				if(target!=activeChar && !target.isRaid() && chance < skill.getLethalChance1() && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 				{
 					// 1st lethal effect activate (cp to 1 or if target is npc then hp to 50%)
 					if(skill.getLethalChance2() > 0 && chance >= skill.getLethalChance2())
@@ -259,7 +288,26 @@ public class Pdam implements ISkillHandler
 					}
 					else
 					{
-						target.reduceCurrentHp(damage, activeChar);
+						if(target instanceof L2PcInstance)
+						{
+							L2PcInstance player = (L2PcInstance) target;
+							
+							double hp_damage = 0;
+							
+							if(damage >= player.getCurrentCp()){
+								double cur_cp = player.getCurrentCp();
+								hp_damage = damage - cur_cp;
+								player.setCurrentCp(1);
+							}else{
+								double cur_cp = player.getCurrentCp();
+								player.setCurrentCp(cur_cp-damage);
+								
+							}
+								
+							if(hp_damage>0)
+								player.reduceCurrentHp(damage, activeChar);
+						}else
+							target.reduceCurrentHp(damage, activeChar);
 					}
 				}
 			}

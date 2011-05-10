@@ -1335,7 +1335,7 @@ public final class Formulas
 	 * @param ss if weapon item was charged by soulshot
 	 * @return damage points
 	 */
-	public final double calcPhysDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean dual, boolean ss)
+	public final static double calcPhysDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean dual, boolean ss)
 	{
 		if(attacker instanceof L2PcInstance)
 		{
@@ -1763,7 +1763,7 @@ public final class Formulas
 	}
 
 	/** Returns true in case of critical hit */
-	public final boolean calcCrit(double rate)
+	public final static boolean calcCrit(double rate)
 	{
 		return rate > Rnd.get(1000);
 	}
@@ -1941,7 +1941,7 @@ public final class Formulas
 	}
 
 	/** Returns true if shield defence successfull */
-	public boolean calcShldUse(L2Character attacker, L2Character target)
+	public static boolean calcShldUse(L2Character attacker, L2Character target)
 	{
 		L2Weapon at_weapon = attacker.getActiveWeaponItem();
 		double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];

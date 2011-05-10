@@ -90,9 +90,29 @@ public class CharStat
 		c.calc(env);
 		// avoid some troubles with negative stats (some stats should never be
 		// negative)
-		if(env.value <= 0 && (stat == Stats.MAX_HP || stat == Stats.MAX_MP || stat == Stats.MAX_CP || stat == Stats.MAGIC_DEFENCE || stat == Stats.POWER_DEFENCE || stat == Stats.POWER_ATTACK || stat == Stats.MAGIC_ATTACK || stat == Stats.POWER_ATTACK_SPEED || stat == Stats.MAGIC_ATTACK_SPEED || stat == Stats.SHIELD_DEFENCE || stat == Stats.STAT_CON || stat == Stats.STAT_DEX || stat == Stats.STAT_INT || stat == Stats.STAT_MEN || stat == Stats.STAT_STR || stat == Stats.STAT_WIT))
+		if(env.value <= 0)
 		{
-			env.value = 1;
+			switch(stat)
+			{
+				case MAX_HP:
+				case MAX_MP:
+				case MAX_CP:
+				case MAGIC_DEFENCE:
+				case POWER_DEFENCE:
+				case POWER_ATTACK:
+				case MAGIC_ATTACK:
+				case POWER_ATTACK_SPEED:
+				case MAGIC_ATTACK_SPEED:
+				case SHIELD_DEFENCE:
+				case STAT_CON:
+				case STAT_DEX:
+				case STAT_INT:
+				case STAT_MEN:
+				case STAT_STR:
+				case STAT_WIT:
+					env.value = 1;
+			}
+			
 		}
 
 		c = null;
