@@ -5612,7 +5612,7 @@ public abstract class L2Character extends L2Object
 			// Pathfinding checks. Only when geodata setting is 2, the LoS check gives shorter result
 			// than the original movement was and the LoS gives a shorter distance than 2000
 			// This way of detecting need for pathfinding could be changed.
-			if( !(this instanceof L2PcInstance) && Config.GEODATA == 2 && originalDistance - distance > 100 && distance < 2000 && !isAfraid())
+			if( ((this instanceof L2PcInstance) && Config.ALLOW_PLAYERS_PATHNODE || !(this instanceof L2PcInstance)) && Config.GEODATA == 2 && originalDistance - distance > 100 && distance < 2000 && !isAfraid())
 			{
 				// Path calculation
 				// Overrides previous movement check
@@ -5627,7 +5627,9 @@ public abstract class L2Character extends L2Object
 						// Even though there's no path found (remember geonodes aren't perfect), 
 						// the mob is attacking and right now we set it so that the mob will go
 						// after target anyway, is dz is small enough. Summons will follow their masters no matter what.
-						if(/*this instanceof L2PcInstance || */!(this instanceof L2PlayableInstance) && Math.abs(z - curZ) > 140 || this instanceof L2Summon && !((L2Summon) this).getFollowStatus())
+						if(Config.ALLOW_PLAYERS_PATHNODE && (this instanceof L2PcInstance)/*this instanceof L2PcInstance || */
+								|| (!(this instanceof L2PlayableInstance) && Math.abs(z - curZ) > 140) 
+								|| (this instanceof L2Summon && !((L2Summon) this).getFollowStatus()))
 						{
 							getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 							return;
@@ -5680,7 +5682,7 @@ public abstract class L2Character extends L2Object
 				}
 			}
 			// If no distance to go through, the movement is canceled
-			if(!(this instanceof L2PcInstance) && distance < 1 && (Config.GEODATA == 2 || this instanceof L2PlayableInstance || this instanceof L2RiftInvaderInstance || isAfraid()))
+			if(((this instanceof L2PcInstance) && Config.ALLOW_PLAYERS_PATHNODE || !(this instanceof L2PcInstance)) && distance < 1 && (Config.GEODATA == 2 || this instanceof L2PlayableInstance || this instanceof L2RiftInvaderInstance || isAfraid()))
 			{
 				/*sin = 0;
 				cos = 1;
