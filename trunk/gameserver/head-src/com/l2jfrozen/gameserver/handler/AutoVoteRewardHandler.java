@@ -214,18 +214,20 @@ public class AutoVoteRewardHandler
 		{
 			try
 			{
-				in.close();
+				if(in!=null)
+					in.close();
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 			try
 			{
-				isr.close();
+				if(isr!=null)
+					isr.close();
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
@@ -267,18 +269,20 @@ public class AutoVoteRewardHandler
 		{
 			try
 			{
-				in.close();
+				if(in!=null)
+					in.close();
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 			try
 			{
-				isr.close();
+				if(isr!=null)
+					isr.close();
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
