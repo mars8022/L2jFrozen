@@ -3466,6 +3466,7 @@ public final class Config
 	//============================================================
 	public static int			GEODATA;
 	public static boolean		GEODATA_CELLFINDING;
+	public static boolean 		ALLOW_PLAYERS_PATHNODE;
 	public static boolean		FORCE_GEODATA;
 	public static enum CorrectSpawnsZ
 	{
@@ -3501,6 +3502,9 @@ public final class Config
 
 			GEODATA					= Integer.parseInt(geodataSetting.getProperty("GeoData", "0"));
 			GEODATA_CELLFINDING		= Boolean.parseBoolean(geodataSetting.getProperty("CellPathFinding", "False"));
+			
+			ALLOW_PLAYERS_PATHNODE	= Boolean.parseBoolean(geodataSetting.getProperty("AllowPlayersPathnode", "False"));
+			
 			FORCE_GEODATA			= Boolean.parseBoolean(geodataSetting.getProperty("ForceGeoData", "True"));
 			String correctZ			= geodataSetting.getProperty("GeoCorrectZ", "ALL");
 			GEO_CORRECT_Z			= CorrectSpawnsZ.valueOf(correctZ.toUpperCase());
