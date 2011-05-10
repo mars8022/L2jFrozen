@@ -7609,18 +7609,20 @@ public abstract class L2Character extends L2Object
 			if(skill.getId()!=345 && skill.getId()!=346){
 				
 				// If the skill type is PDAM or DRAIN_SOUL, notify the AI of the target with AI_INTENTION_ATTACK
-				if(skill.getSkillType() == SkillType.PDAM || skill.getSkillType() == SkillType.BLOW || skill.getSkillType() == SkillType.DRAIN_SOUL || skill.getSkillType() == SkillType.SOW || skill.getSkillType() == SkillType.SPOIL)
+				if(skill.nextActionIsAttack() || skill.getSkillType() == SkillType.PDAM || skill.getSkillType() == SkillType.BLOW || skill.getSkillType() == SkillType.DRAIN_SOUL || skill.getSkillType() == SkillType.SOW || skill.getSkillType() == SkillType.SPOIL)
 				{
 					if(getTarget() != null && getTarget() instanceof L2Character)
 					{
 						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
 					}
 				}
-				
+			
 				if((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId()!=345 && skill.getId()!=346)
 				{
 					getAI().clientStartAutoAttack();
 				}
+				
+				
 				
 			}else{
 				getAI().clientStopAutoAttack();
@@ -8127,7 +8129,7 @@ public abstract class L2Character extends L2Object
 					player = null;
 				}
 			}
-
+			
 			// Get the skill handler corresponding to the skill type (PDAM, MDAM, SWEEP...) started in gameserver
 			handler = SkillHandler.getInstance().getSkillHandler(skill.getSkillType());
 

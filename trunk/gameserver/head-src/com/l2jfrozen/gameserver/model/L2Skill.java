@@ -508,6 +508,8 @@ public abstract class L2Skill
 	protected EffectTemplate[] _effectTemplates;
 	protected EffectTemplate[] _effectTemplatesSelf;
 
+	private final boolean _nextActionIsAttack;
+	
 	protected L2Skill(StatsSet set)
 	{
 		_id = set.getInteger("skill_id");
@@ -601,6 +603,8 @@ public abstract class L2Skill
 
 		_pvpMulti = set.getFloat("pvpMulti", 1.f);
 
+		_nextActionIsAttack = set.getBool("nextActionAttack", false);
+		
 		String canLearn = set.getString("canLearn", null);
 		if(canLearn == null)
 		{
@@ -662,6 +666,14 @@ public abstract class L2Skill
 
 	public abstract void useSkill(L2Character caster, L2Object[] targets);
 
+	/**
+	 * Return true if character should attack target after skill
+	 */
+	public final boolean nextActionIsAttack()
+	{
+		return _nextActionIsAttack;
+	}
+	
 	public final boolean isPotion()
 	{
 		return _ispotion;
