@@ -288,7 +288,8 @@ public class Pdam implements ISkillHandler
 					}
 					else
 					{
-						if(target instanceof L2PcInstance)
+						//only players can reduce CPs each other
+						if(activeChar instanceof L2PcInstance && target instanceof L2PcInstance)
 						{
 							L2PcInstance player = (L2PcInstance) target;
 							
