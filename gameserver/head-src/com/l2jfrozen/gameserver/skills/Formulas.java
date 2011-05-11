@@ -2121,6 +2121,7 @@ public final class Formulas
 		return multiplier;
 	}
 
+	/*
 	public double calcSkillStatModifier(SkillType type, L2Character target)
 	{
 		double multiplier = 1;
@@ -2155,7 +2156,17 @@ public final class Formulas
 		}
 		return multiplier;
 	}
-
+	*/
+	
+	public static double calcSkillStatModifier(L2Skill skill, L2Character target)
+	{
+		final BaseStats saveVs = skill.getSavevs();
+		if (saveVs == null)
+			return 1;
+		
+		return 1 / saveVs.calcBonus(target);
+	}
+	
 	public boolean calcSkillSuccess(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
 	{
 		SkillType type = skill.getSkillType();
@@ -2202,7 +2213,7 @@ public final class Formulas
 		// TODO: Temporary fix for NPC skills with MagicLevel not set
 		// int lvlmodifier = (skill.getMagicLevel() - target.getLevel()) * lvlDepend;
 		int lvlmodifier = ((skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getLevel()) - target.getLevel()) * lvlDepend;
-		double statmodifier = calcSkillStatModifier(type, target);
+		double statmodifier = calcSkillStatModifier(skill, target);
 		double resmodifier = calcSkillVulnerability(target, skill);
 
 		int ssmodifier = (bss ? 200 : (sps || ss ? 150 : 100));

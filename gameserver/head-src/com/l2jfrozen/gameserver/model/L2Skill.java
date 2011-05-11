@@ -51,6 +51,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Siege;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
@@ -299,14 +300,6 @@ public abstract class L2Skill
 	public final static int ELEMENT_HOLY = 5;
 	public final static int ELEMENT_DARK = 6;
 
-	//save vs
-	public final static int SAVEVS_INT = 1;
-	public final static int SAVEVS_WIT = 2;
-	public final static int SAVEVS_MEN = 3;
-	public final static int SAVEVS_CON = 4;
-	public final static int SAVEVS_DEX = 5;
-	public final static int SAVEVS_STR = 6;
-
 	//stat effected
 	public final static int STAT_PATK = 301; // pAtk
 	public final static int STAT_PDEF = 302; // pDef
@@ -462,8 +455,8 @@ public abstract class L2Skill
 
 	private final boolean _ispotion;
 	private final int _element;
-	private final int _savevs;
-
+	private final BaseStats _saveVs;
+	
 	private final boolean _isSuicideAttack;
 
 	private final Stats _stat;
@@ -563,8 +556,8 @@ public abstract class L2Skill
 		_effectLvl = set.getInteger("effectLevel", 0);
 
 		_element = set.getInteger("element", 0);
-		_savevs = set.getInteger("save", 0);
-
+		_saveVs = set.getEnum("saveVs", BaseStats.class, null);
+		
 		_condition = set.getInteger("condition", 0);
 		_conditionValue = set.getInteger("conditionValue", 0);
 		_overhit = set.getBool("overHit", false);
@@ -699,9 +692,9 @@ public abstract class L2Skill
 		return getSkillType() == SkillType.SIGNET_CASTTIME;
 	}
 
-	public final int getSavevs()
+	public final BaseStats getSavevs()
 	{
-		return _savevs;
+		return _saveVs;
 	}
 
 	public final int getElement()

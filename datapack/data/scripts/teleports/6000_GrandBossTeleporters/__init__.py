@@ -83,7 +83,6 @@ class Quest (JQuest) :
         htmltext = "31385-01.htm"
         if self.valakasAI :
             status = GrandBossManager.getInstance().getBossStatus(29028)
-            print status
             if status == 0 or status == 1 : #If entrance to see Valakas is unlocked (he is Dormant or Waiting)
                 st = player.getQuestState(qn)
                 if self.count >= 200 :
