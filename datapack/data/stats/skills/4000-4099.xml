@@ -241,7 +241,7 @@
 <skill id="4018" levels="1" name="Decrease Speed">
   <!-- Queen Ant Skills -->
   <set name="magicLvl" val="40"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="542"/>
   <set name="aggroPoints" val="100"/>
   <set name="target" val="TARGET_ONE"/>
@@ -263,7 +263,7 @@
 <skill id="4019" levels="1" name="Decrease Speed">
   <!-- Queen Ant Skills -->
   <set name="magicLvl" val="40"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="40"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="250"/>
@@ -534,7 +534,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="3"/>
@@ -607,7 +607,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="6"/>
+  <set name="saveVs" val="STR"/>
   <set name="power" val="70"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
@@ -630,7 +630,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
@@ -777,7 +777,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="2"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
@@ -798,7 +798,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="2"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
@@ -1029,7 +1029,7 @@
   <!-- Orfen Skills -->
   <set name="magicLvl" val="50"/>
   <set name="lvlDepend" val="1"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="power" val="916"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="3600"/>
@@ -1048,7 +1048,7 @@
 <skill id="4064" levels="1" name="Paralysis">
   <!-- Orfen Skills -->
   <set name="magicLvl" val="50"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="power" val="30"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="250"/>
@@ -1159,7 +1159,7 @@
 </skill>
 <skill id="4070" levels="1" name="Decrease Atk. Spd.">
   <set name="lvlDepend" val="1"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="10"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="DEBUFF"/>
@@ -1191,7 +1191,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="150"/>
@@ -1215,7 +1215,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
@@ -1258,7 +1258,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="2"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="6000"/>
@@ -1278,7 +1278,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="2"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
@@ -1379,7 +1379,7 @@
 </skill>
 <skill id="4082" levels="1" name="Poison of Death">
   <set name="power" val="90000"/>
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="50"/>
   <set name="hitTime" val="1500"/> <!-- test -->
@@ -1635,7 +1635,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="2"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
