@@ -783,7 +783,7 @@
   <set name="abnormalLvl" val="7"/>
   <set name="activateRate" val="42"/>
   <set name="magiclvl" val="#magiclvl"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="7"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BLEED"/>
@@ -803,7 +803,7 @@
   <set name="abnormalLvl" val="7"/>
   <set name="activateRate" val="35"/>
   <set name="magiclvl" val="#magiclvl"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="7"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BLEED"/>
@@ -823,7 +823,7 @@
   <set name="abnormalLvl" val="7"/>
   <set name="activateRate" val="12"/>
   <set name="magiclvl" val="#magiclvl"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="7"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BLEED"/>
@@ -843,7 +843,7 @@
   <set name="abnormalLvl" val="7"/>
   <set name="activateRate" val="24"/>
   <set name="magiclvl" val="#magiclvl"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="7"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BLEED"/>
@@ -944,7 +944,7 @@
   <table name="#lvl">7 7 7</table>
   <set name="activateRate" val="10"/>
   <set name="magiclvl" val="#magiclvl"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="power" val="7"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="POISON"/>
@@ -967,7 +967,7 @@
   <!-- <table name="#lvl">7 7</table> -->
   <set name="activateRate" val="18"/>
   <set name="magiclvl" val="#magiclvl"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="power" val="7"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="POISON"/>
