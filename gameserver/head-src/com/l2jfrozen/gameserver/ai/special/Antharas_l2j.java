@@ -834,14 +834,15 @@ public class Antharas_l2j extends Quest implements Runnable
 	@Override
 	public String onAttack (L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
 	{
-		if (!npc.getSpawn().is_customBossInstance() && npc.getNpcId() == 29019 || npc.getNpcId() == 29066 || npc.getNpcId() == 29067 || npc.getNpcId() == 29068)
+		
+		if (npc.getSpawn()!=null && !npc.getSpawn().is_customBossInstance() && npc.getNpcId() == 29019 || npc.getNpcId() == 29066 || npc.getNpcId() == 29067 || npc.getNpcId() == 29068)
 		{
 			_LastAction = System.currentTimeMillis();
-			if (GrandBossManager.getInstance().getBossStatus(_antharas.getNpcId()) != FIGHTING)
+			/*if (GrandBossManager.getInstance().getBossStatus(_antharas.getNpcId()) != FIGHTING)
 			{
 				_Zone.oustAllPlayers();
 			}
-			else if (!FWA_OLDANTHARAS && _mobsSpawnTask == null)
+			else */if (!FWA_OLDANTHARAS && _mobsSpawnTask == null)
 			{
 				startMinionSpawns(npc.getNpcId());
 			}
