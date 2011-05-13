@@ -34,4 +34,10 @@ public final class EffectBattleForce extends EffectForce
 	{
 		return EffectType.BATTLE_FORCE;
 	}
+	
+	@Override
+	public boolean onActionTime()
+	{
+		return false;
+	}
 }
