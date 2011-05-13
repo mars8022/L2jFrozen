@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.templates;
 
 import java.util.Map;
+import java.util.logging.Level;
 
 import javolution.util.FastMap;
 
@@ -633,5 +634,24 @@ public final class StatsSet
 	public void set(String name, Enum<?> value)
 	{
 		_set.put(name, value);
+	}
+	
+	/**
+	 * Safe version of "set". Expected values are within [min, max[<br>
+	 * Add the int hold in param "value" for the key "name".
+	 * 
+	 * @param name : String designating the key in the set
+	 * @param value : int corresponding to the value associated with the key
+	 */
+	public void safeSet(String name, int value, int min, int max, String reference)
+	{
+		assert !((min <= max && (value < min || value >= max)));
+		
+		if (min <= max && (value < min || value >= max))
+		{
+			System.out.println("[StatsSet][safeSet] Incorrect value: "+value+"for: "+name+ "Ref: "+ reference);
+		}
+		
+		set(name, value);
 	}
 }

@@ -65,7 +65,7 @@ public class PowerPak
 				System.out.println("Buffer:");
 				BuffTable.getInstance();
 				
-				if((PowerPakConfig.BUFFER_COMMAND != null && PowerPakConfig.BUFFER_COMMAND.length() > 0) || PowerPakConfig.BUFFER_USEBBS){	
+				if(PowerPakConfig.BUFFER_USECOMMAND && (PowerPakConfig.BUFFER_COMMAND != null && PowerPakConfig.BUFFER_COMMAND.length() > 0) || PowerPakConfig.BUFFER_USEBBS){	
 					
 					BuffHandler handler = new BuffHandler();
 					if(PowerPakConfig.BUFFER_COMMAND != null && PowerPakConfig.BUFFER_COMMAND.length() > 0)

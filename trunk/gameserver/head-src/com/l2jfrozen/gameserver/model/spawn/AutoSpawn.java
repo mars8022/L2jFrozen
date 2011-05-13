@@ -619,7 +619,13 @@ public class AutoSpawn
 					return;
 				}
 
-				for(L2NpcInstance npcInst : spawnInst.getNPCInstanceList())
+				L2NpcInstance[] npc_instances = spawnInst.getNPCInstanceList();
+				if(npc_instances == null){
+					_log.info("AutoSpawnHandler: No spawn registered");
+					return;
+				}
+				
+				for(L2NpcInstance npcInst : npc_instances)
 				{
 					if(npcInst == null)
 					{
@@ -639,10 +645,11 @@ public class AutoSpawn
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
+				//if(Config.ENABLE_ALL_EXCEPTIONS)
+				//	e.printStackTrace();
 				
 				_log.warning("AutoSpawnHandler: An error occurred while despawning spawn (Object ID = " + _objectId + "): " + e);
+				e.printStackTrace();
 			}
 		}
 	}

@@ -169,8 +169,6 @@ public class EnterWorld extends L2GameClientPacket
 
 		EnterGM(activeChar);
 
-		ColorSystem(activeChar);
-
 		Quest.playerEnter(activeChar);
 		activeChar.sendPacket(new QuestList());
 
@@ -259,6 +257,8 @@ public class EnterWorld extends L2GameClientPacket
 				
 		//restores custom status
 		activeChar.restoreCustomStatus();
+
+		ColorSystem(activeChar);
 
 		//Expand Skill
 		ExStorageMaxCount esmc = new ExStorageMaxCount(activeChar);
@@ -658,26 +658,28 @@ public class EnterWorld extends L2GameClientPacket
 			}
 		}
 
+		if(Config.ALLOW_AIO_NCOLOR && activeChar.isAio())
+			activeChar.getAppearance().setNameColor(Config.AIO_NCOLOR);
+
+		if(Config.ALLOW_AIO_TCOLOR && activeChar.isAio())
+			activeChar.getAppearance().setTitleColor(Config.AIO_TCOLOR);
+
+		if(activeChar.isAio())
+			onEnterAio(activeChar);
+
+		
+		
+		
 		activeChar.updateNameTitleColor();
-		  
-		  
-		    if(Config.ALLOW_AIO_NCOLOR && activeChar.isAio())
-		       activeChar.getAppearance().setNameColor(Config.AIO_NCOLOR);
-		   
-		    if(Config.ALLOW_AIO_TCOLOR && activeChar.isAio())
-		       activeChar.getAppearance().setTitleColor(Config.AIO_TCOLOR);
-		     
-		    if(activeChar.isAio())
-		       onEnterAio(activeChar);
-		       
-		    sendPacket(new UserInfo(activeChar));
-		    sendPacket(new HennaInfo(activeChar));
-		    sendPacket(new FriendList(activeChar));
-		    sendPacket(new ItemList(activeChar, false));
-		    sendPacket(new ShortCutInit(activeChar));
-		    activeChar.broadcastUserInfo();
-		    activeChar.sendPacket(new EtcStatusUpdate(activeChar));
-		}
+
+		sendPacket(new UserInfo(activeChar));
+		sendPacket(new HennaInfo(activeChar));
+		sendPacket(new FriendList(activeChar));
+		sendPacket(new ItemList(activeChar, false));
+		sendPacket(new ShortCutInit(activeChar));
+		activeChar.broadcastUserInfo();
+		activeChar.sendPacket(new EtcStatusUpdate(activeChar));
+	}
 
 	private void onEnterAio(L2PcInstance activeChar)
 	{
