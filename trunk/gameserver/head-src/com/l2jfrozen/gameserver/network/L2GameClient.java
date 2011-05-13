@@ -1036,8 +1036,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		if (state == GameClientState.CONNECTED) // in CONNECTED state kick client immediately
 		{
-			if (com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
-				_log.severe("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
+			_log.severe("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
 			closeNow();
 		}
 	}
@@ -1076,8 +1075,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			{
 				if (getStats().processedPackets > 3)
 				{
-					if (com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
-						_log.severe("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
+					_log.severe("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
 					closeNow();
 					return;
 				}

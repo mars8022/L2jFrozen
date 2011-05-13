@@ -57,6 +57,7 @@ public class Config
 	public FastList<Integer> GS_LIST_PROTECTED_OPCODES2 = new FastList<Integer>();
 	public FastList<Integer> LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
 	
+	public boolean DUMP_CLOSE_CONNECTIONS;
 	
 	
 	//============================================================
@@ -173,6 +174,7 @@ public class Config
 				
 			}
 			
+			DUMP_CLOSE_CONNECTIONS = Boolean.parseBoolean(mmoSetting.getProperty("DumpCloseConnectionLogs", "false"));
 
 		}
 		catch(Exception e)

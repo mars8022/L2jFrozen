@@ -220,10 +220,8 @@ public final class FloodProtectorAction
 		else
 			_client.closeNow();
 
-		if (_log.isLoggable(Level.WARNING))
-		{
-			log("kicked for flooding");
-		}
+		log("Client "+_client.toString()+" kicked for flooding");
+		
 	}
 
 	/**

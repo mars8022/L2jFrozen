@@ -259,6 +259,9 @@ public class MMOConnection<T extends MMOClient<?>>
 			
 		}
 		
+		if(Config.getInstance().DUMP_CLOSE_CONNECTIONS){
+			Thread.dumpStack();
+		}
 		//_closePacket = sp;
 		_selectorThread.closeConnection(this);
 	}

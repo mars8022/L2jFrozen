@@ -293,6 +293,7 @@ public class PacketsFloodProtector
 			}
 			
 			game_cl.closeNow();
+			_log.warning("Player with account "+game_cl.accountName +" kicked for flooding with packet "+Integer.toHexString(opcode));
 			
 		}
 
