@@ -140,7 +140,6 @@
 			<fileset dir="dist">
 				<include name="Start_GameServer_noScreen.sh" />
 				<include name="Start_LoginServer_noScreen.sh" />
-				<include name="Start_GeoServer_noScreen.sh" />
 			</fileset>
 		</copy>
 

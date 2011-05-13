@@ -26,6 +26,7 @@ import javolution.text.TextBuilder;
 import com.l2jfrozen.gameserver.datatables.sql.HennaTreeTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.network.serverpackets.HennaEquipList;
+import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
@@ -45,6 +46,8 @@ public class L2SymbolMakerInstance extends L2FolkInstance
 			L2HennaInstance[] henna = HennaTreeTable.getInstance().getAvailableHenna(player.getClassId());
 			HennaEquipList hel = new HennaEquipList(player, henna);
 			player.sendPacket(hel);
+			
+			player.sendPacket(new ItemList(player, false));
 		}
 		else if(command.equals("RemoveList"))
 		{
@@ -57,6 +60,9 @@ public class L2SymbolMakerInstance extends L2FolkInstance
 
 			int slot = Integer.parseInt(command.substring(7));
 			player.removeHenna(slot);
+			
+			player.sendPacket(new ItemList(player, false));
+
 		}
 		else
 		{

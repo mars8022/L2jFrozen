@@ -39,6 +39,7 @@ import com.l2jfrozen.gameserver.model.L2DropData;
 import com.l2jfrozen.gameserver.model.L2MinionData;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.base.ClassId;
+import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
@@ -653,13 +654,21 @@ public class NpcTable
 			npcDat.set("baseRunSpd", NpcData.getInt("runspd"));
 
 			// constants, until we have stats in DB
+			// constants, until we have stats in DB
+			npcDat.safeSet("baseSTR", NpcData.getInt("str"), 0, BaseStats.MAX_STAT_VALUE, "Loading npc template id: "+NpcData.getInt("idTemplate"));
+			npcDat.safeSet("baseCON", NpcData.getInt("con"), 0, BaseStats.MAX_STAT_VALUE, "Loading npc template id: "+NpcData.getInt("idTemplate"));
+			npcDat.safeSet("baseDEX", NpcData.getInt("dex"), 0, BaseStats.MAX_STAT_VALUE, "Loading npc template id: "+NpcData.getInt("idTemplate"));
+			npcDat.safeSet("baseINT", NpcData.getInt("int"), 0, BaseStats.MAX_STAT_VALUE, "Loading npc template id: "+NpcData.getInt("idTemplate"));
+			npcDat.safeSet("baseWIT", NpcData.getInt("wit"), 0, BaseStats.MAX_STAT_VALUE, "Loading npc template id: "+NpcData.getInt("idTemplate"));
+			npcDat.safeSet("baseMEN", NpcData.getInt("men"), 0, BaseStats.MAX_STAT_VALUE, "Loading npc template id: "+NpcData.getInt("idTemplate"));
+			/*
 			npcDat.set("baseSTR", NpcData.getInt("str"));
 			npcDat.set("baseCON", NpcData.getInt("con"));
 			npcDat.set("baseDEX", NpcData.getInt("dex"));
 			npcDat.set("baseINT", NpcData.getInt("int"));
 			npcDat.set("baseWIT", NpcData.getInt("wit"));
 			npcDat.set("baseMEN", NpcData.getInt("men"));
-
+			*/
 			npcDat.set("baseCpMax", 0);
 
 			npcDat.set("factionId", NpcData.getString("faction_id"));

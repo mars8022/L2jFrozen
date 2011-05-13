@@ -85,16 +85,18 @@ public class L2ClanMember
 	{
 		if(player == null && _player != null)
 		{
+			L2PcInstance local_player = _player;
+			
 			// this is here to keep the data when the player logs off
-			_name = _player.getName();
-			_level = _player.getLevel();
-			_classId = _player.getClassId().getId();
-			_objectId = _player.getObjectId();
-			_powerGrade = _player.getPowerGrade();
-			_pledgeType = _player.getPledgeType();
-			_title = _player.getTitle();
-			_apprentice = _player.getApprentice();
-			_sponsor = _player.getSponsor();
+			_name = local_player.getName();
+			_level = local_player.getLevel();
+			_classId = local_player.getClassId().getId();
+			_objectId = local_player.getObjectId();
+			_powerGrade = local_player.getPowerGrade();
+			_pledgeType = local_player.getPledgeType();
+			_title = local_player.getTitle();
+			_apprentice = local_player.getApprentice();
+			_sponsor = local_player.getSponsor();
 		}
 
 		if(player != null)

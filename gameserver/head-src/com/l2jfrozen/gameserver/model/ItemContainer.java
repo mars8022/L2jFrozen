@@ -82,7 +82,10 @@ public abstract class ItemContainer
 	 */
 	public L2ItemInstance[] getItems()
 	{
-		return _items.toArray(new L2ItemInstance[_items.size()]);
+		synchronized (_items)
+		{
+			return _items.toArray(new L2ItemInstance[_items.size()]);
+		}
 	}
 
 	/**
@@ -622,13 +625,22 @@ public abstract class ItemContainer
 	{
 		if(getOwner() != null)
 		{
-			for(L2ItemInstance item : _items)
-			{
-				if(item != null)
+			List<L2ItemInstance> items = _items;
+			
+			if(items!=null){
+				
+				for(int i=0;i<items.size();i++)
 				{
-					item.updateDatabase();
+					L2ItemInstance item = items.get(i);
+					
+					if(item != null)
+					{
+						item.updateDatabase();
+					}
 				}
+				
 			}
+			
 		}
 	}
 

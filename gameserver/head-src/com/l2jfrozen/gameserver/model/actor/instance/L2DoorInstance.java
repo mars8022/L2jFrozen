@@ -46,10 +46,12 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.network.L2GameClient;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.DoorStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
@@ -847,6 +849,11 @@ public class L2DoorInstance extends L2Character
 		if(!super.doDie(killer))
 			return false;
 
+		boolean isFort = (getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress());
+		boolean isCastle = (getCastle() != null	&& getCastle().getCastleId() > 0 && getCastle().getSiege().getIsInProgress());
+		
+		if (isFort || isCastle)
+			broadcastPacket(SystemMessage.sendString("The castle gate has been broken down"));
 		return true;
 	}
 }
