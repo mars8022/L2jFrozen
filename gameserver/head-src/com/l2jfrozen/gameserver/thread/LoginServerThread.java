@@ -508,6 +508,8 @@ public class LoginServerThread extends Thread
 		{
 			_accountsInGameServer.get(account).closeNow();
 			LoginServerThread.getInstance().sendLogout(account);
+			_log.warning("called [doKickPlayer], closing connection");
+			
 		}
 	}
 
