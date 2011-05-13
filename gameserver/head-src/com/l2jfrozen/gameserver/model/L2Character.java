@@ -7657,6 +7657,28 @@ public abstract class L2Character extends L2Object
 
 				currPlayer = null;
 				queuedSkill = null;
+				
+				
+				L2Weapon activeWeapon = getActiveWeaponItem();
+				// Launch weapon Special ability skill effect if available
+				if(activeWeapon != null){
+					
+					for(L2Object target: targets){
+						
+						if(target instanceof L2Character  && !((L2Character) target).isDead())
+						{
+							L2Character player = (L2Character)target; 
+							
+							if(activeWeapon.getSkillEffects(this, player, skill))
+							{
+								sendPacket(SystemMessage.sendString("Target affected by weapon special ability!"));
+							}
+						}
+						
+					}
+					
+				}
+				
 			}
 			
 		}
