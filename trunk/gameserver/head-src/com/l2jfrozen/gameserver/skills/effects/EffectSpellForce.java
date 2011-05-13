@@ -34,4 +34,10 @@ public final class EffectSpellForce extends EffectForce
 	{
 		return EffectType.SPELL_FORCE;
 	}
+	
+	@Override
+	public boolean onActionTime()
+	{
+		return false;
+	}
 }
