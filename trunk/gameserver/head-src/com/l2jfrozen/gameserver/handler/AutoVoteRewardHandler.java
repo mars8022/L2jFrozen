@@ -1,13 +1,13 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -18,6 +18,8 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AutoVoteRewardHandler
 {
+	private static Logger _log = Logger.getLogger(AutoVoteRewardHandler.class.getName());
+
 	private int hopzoneVotesCount = 0;
 	private int topzoneVotesCount = 0;
 	private List<String> already_rewarded;
@@ -27,7 +29,7 @@ public class AutoVoteRewardHandler
 	
 	private AutoVoteRewardHandler()
 	{
-		System.out.println("Vote Reward System Initiated.");
+		_log.info("Vote Reward System Initiated.");
 		
 		if(hopzone){
 			int hopzone_votes = getHopZoneVotes();
@@ -63,7 +65,7 @@ public class AutoVoteRewardHandler
 				int hopzone_votes = getHopZoneVotes();
 				
 				if(hopzone_votes != -1){
-					System.out.println("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
+					_log.info("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
 					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual HOPZONE Votes are " + hopzone_votes + "...");
 					
 					if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
@@ -120,7 +122,7 @@ public class AutoVoteRewardHandler
 				
 				if(topzone_votes != -1){
 					
-					System.out.println("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
+					_log.info("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
 					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
 					
 					if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
@@ -201,12 +203,14 @@ public class AutoVoteRewardHandler
 				if (inputLine.contains("moreinfo_total_rank_text"))
 				{
 					votes = Integer.valueOf(inputLine.split(">")[2].replace("</div", ""));
+					break;
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
+			e.printStackTrace();
+			_log.info("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] HOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
 		}
@@ -255,13 +259,13 @@ public class AutoVoteRewardHandler
 					String votesLine = in.readLine() ;
 					
 					votes = Integer.valueOf(votesLine.split(">")[5].replace("</font", ""));
-					
+					break;
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
+			_log.info("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] TOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
 		}
