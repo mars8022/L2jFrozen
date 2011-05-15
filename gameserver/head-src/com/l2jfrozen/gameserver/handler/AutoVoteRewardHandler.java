@@ -209,7 +209,6 @@ public class AutoVoteRewardHandler
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 			_log.info("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] HOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
