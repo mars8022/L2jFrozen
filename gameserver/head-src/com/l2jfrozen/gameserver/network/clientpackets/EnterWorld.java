@@ -554,8 +554,21 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.updateFirstLog();
 		}
 
-		if(Config.WELCOME_HTM)
-		{
+		   if (activeChar.getClan().isNoticeEnabled())
+	       {
+	         String clanNotice = "data/html/clanNotice.htm";
+	         File mainText = new File(Config.DATAPACK_ROOT, clanNotice);
+	         if(mainText.exists())
+	         {
+	            NpcHtmlMessage html = new NpcHtmlMessage(1);
+	            html.setFile(clanNotice);
+	            html.replace("%clan_name%", activeChar.getClan().getName());
+	            html.replace("%notice_text%", activeChar.getClan().getNotice().replaceAll("\r\n", "<br>"));
+	            sendPacket(html);
+	         }
+	      }
+	      if(Config.WELCOME_HTM && !activeChar.getClan().isNoticeEnabled())
+	      {
 			String Welcome_Path = "data/html/welcome.htm";
 			File mainText = new File(Config.DATAPACK_ROOT, Welcome_Path);
 			if(mainText.exists())
