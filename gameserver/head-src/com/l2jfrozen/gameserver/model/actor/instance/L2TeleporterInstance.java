@@ -243,7 +243,15 @@ public final class L2TeleporterInstance extends L2FolkInstance
 				return;
 			}
 			else if(player.isAlikeDead())
+			{	
+				player.sendMessage("You can't use teleport when you are dead.");
 				return;
+			}	
+			else if(player.isSitting())
+			{	
+				player.sendMessage("You can't use teleport when you are sitting.");
+				return;
+			}	
 			else if(!list.getIsForNoble() && (Config.ALT_GAME_FREE_TELEPORT || player.reduceAdena("Teleport", list.getPrice(), this, true)))
 			{
 				if(Config.DEBUG)
