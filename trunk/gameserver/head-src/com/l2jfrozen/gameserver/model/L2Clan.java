@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import java.util.logging.Level;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
@@ -105,8 +106,13 @@ public class L2Clan
 	private Forum _forum;
 
 	private List<L2Skill> _skillList = new FastList<L2Skill>();
+	
+	// Clan Notice
+	private String _notice;
+	private boolean _noticeEnabled = false;
+	private static final int MAX_NOTICE_LENGTH = 8192;
 
-	//  Clan Privileges
+	// Clan Privileges
 	/** No privilege to manage any clan activity */
 	public static final int CP_NOTHING = 0;
 	/** Privilege to join clan */
@@ -963,6 +969,7 @@ public class L2Clan
 			restoreSubPledges();
 			restoreRankPrivs();
 			restoreSkills();
+			restoreNotice();
 
 			member = null;
 		}
@@ -976,6 +983,98 @@ public class L2Clan
 			con = null;
 		}
 	}
+	
+	   private void restoreNotice()
+	   {
+	      Connection con = null;
+	      try
+	      {
+	         con = L2DatabaseFactory.getInstance().getConnection();
+	         PreparedStatement statement = con.prepareStatement("SELECT enabled,notice FROM clan_notices WHERE clan_id=?");
+	         statement.setInt(1, getClanId());
+	         ResultSet noticeData = statement.executeQuery();
+	         
+	         while (noticeData.next())
+	         {
+	            _noticeEnabled = noticeData.getBoolean("enabled");
+	            _notice = noticeData.getString("notice");
+	         }
+	         
+	         noticeData.close();
+	         statement.close();
+	      }
+	      catch (Exception e)
+	      {
+	         _log.log(Level.SEVERE, "Error restoring clan notice: " + e.getMessage(), e);
+	      }
+	      finally
+	      {
+	         L2DatabaseFactory.close(con);
+	      }
+	      
+	   }
+	   
+	   private void storeNotice(String notice, boolean enabled)
+	   {
+	      if (notice == null)
+	         notice = "";
+	      
+	      if (notice.length() > MAX_NOTICE_LENGTH)
+	         notice = notice.substring(0, MAX_NOTICE_LENGTH - 1);
+	      
+	      Connection con = null;
+	      try
+	      {
+	         con = L2DatabaseFactory.getInstance().getConnection();
+	         PreparedStatement statement = con.prepareStatement("INSERT INTO clan_notices (clan_id,notice,enabled) values (?,?,?) ON DUPLICATE KEY UPDATE notice=?,enabled=?");
+	         statement.setInt(1, getClanId());
+	         statement.setString(2, notice);
+	         if (enabled)
+	            statement.setString(3, "true");
+	         else
+	            statement.setString(3, "false");
+	         statement.setString(4, notice);
+	         if (enabled)
+	            statement.setString(5, "true");
+	         else
+	            statement.setString(5, "false");
+	         statement.execute();
+	         statement.close();
+	      }
+	      catch (Exception e)
+	      {
+	         _log.log(Level.WARNING, "Error could not store clan notice: " + e.getMessage(), e);
+	      }
+	      finally
+	      {
+	         L2DatabaseFactory.close(con);
+	      }
+	      
+	      _notice = notice;
+	      _noticeEnabled = enabled;
+	   }
+	   
+	   public void setNoticeEnabled(boolean enabled)
+	   {
+	      storeNotice(_notice, enabled);
+	   }
+	   
+	   public void setNotice(String notice)
+	   {
+	      storeNotice(notice, _noticeEnabled);
+	   }
+	   
+	   public boolean isNoticeEnabled()
+	   {
+	      return _noticeEnabled;
+	   }
+	   
+	   public String getNotice()
+	   {
+	      if (_notice == null)
+	         return "";
+	      return _notice;
+	   }
 
 	private void restoreSkills()
 	{
