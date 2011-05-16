@@ -554,7 +554,20 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.updateFirstLog();
 		}
 
-		   if (activeChar.getClan().isNoticeEnabled())
+		 if(Config.WELCOME_HTM)
+	      {
+			String Welcome_Path = "data/html/welcome.htm";
+			File mainText = new File(Config.DATAPACK_ROOT, Welcome_Path);
+			if(mainText.exists())
+			{
+				NpcHtmlMessage html = new NpcHtmlMessage(1);
+				html.setFile(Welcome_Path);
+				html.replace("%name%", activeChar.getName());
+				sendPacket(html);
+			}
+		  }
+		 
+		  if ((activeChar.getClan() != null) && activeChar.getClan().isNoticeEnabled())
 	       {
 	         String clanNotice = "data/html/clanNotice.htm";
 	         File mainText = new File(Config.DATAPACK_ROOT, clanNotice);
@@ -567,18 +580,6 @@ public class EnterWorld extends L2GameClientPacket
 	            sendPacket(html);
 	         }
 	      }
-	      if(Config.WELCOME_HTM && !activeChar.getClan().isNoticeEnabled())
-	      {
-			String Welcome_Path = "data/html/welcome.htm";
-			File mainText = new File(Config.DATAPACK_ROOT, Welcome_Path);
-			if(mainText.exists())
-			{
-				NpcHtmlMessage html = new NpcHtmlMessage(1);
-				html.setFile(Welcome_Path);
-				html.replace("%name%", activeChar.getName());
-				sendPacket(html);
-			}
-		}
 
 		if(Config.PM_MESSAGE_ON_START)
 		{
