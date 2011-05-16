@@ -6680,11 +6680,15 @@ public abstract class L2Character extends L2Object
 			}
 		}
 		
-		if(target instanceof L2MonsterInstance)
-			return false;
-
-		if(attacker instanceof L2MonsterInstance)
-			return false;
+		//Attack Monster on Peace Zone like L2OFF.
+		if (target instanceof L2MonsterInstance || attacker instanceof L2MonsterInstance)
+		return false;
+		//Attack Guard on Peace Zone like L2OFF.
+		if (target instanceof L2GuardInstance || attacker instanceof L2GuardInstance)
+		return false;
+		//Attack NPC on Peace Zone like L2OFF.
+		if (target instanceof L2NpcInstance || attacker instanceof L2NpcInstance)
+		return false;
 
 		if(Config.ALT_GAME_KARMA_PLAYER_CAN_BE_KILLED_IN_PEACEZONE)
 		{
