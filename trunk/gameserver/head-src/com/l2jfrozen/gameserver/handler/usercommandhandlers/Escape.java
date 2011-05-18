@@ -119,7 +119,7 @@ public class Escape implements IUserCommandHandler
 			return false;
 		}
 		
-		// Check to see if the current playeris sitting.
+		// Check to see if the current player is sitting.
 		if(activeChar.isSitting())
 		{
 		    activeChar.sendMessage("You may not escape when you sitting.");
