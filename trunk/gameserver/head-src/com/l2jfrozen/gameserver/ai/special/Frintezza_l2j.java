@@ -279,7 +279,9 @@ public class Frintezza_l2j extends Quest implements Runnable
 		addStartNpc(CUBE);
 		addTalkId(CUBE);
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(FRINTEZZA);
-		int status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
+		
 		if (status == DEAD)
 		{
 			long temp = (info.getLong("respawn_time") - System.currentTimeMillis());
@@ -439,7 +441,9 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		else if (event.equalsIgnoreCase("loc_check"))
 		{
-			if (GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
+			Integer status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
+			
+			if (status == FIGHTING)
 			{
 				if (!_Zone.isInsideZone(npc))
 					npc.teleToLocation(getXFix(174232),getYFix(-88020),getZFix(-5116));
@@ -1251,11 +1255,14 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		
 		String htmltext = "";
-		if (GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == DEAD)
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
+		
+		if (status == DEAD)
 		{
 			htmltext = "<html><body>There is nothing beyond the Magic Force Field. Come back later.<br>(You may not enter because Frintezza is not inside the Imperial Tomb.)</body></html>";
 		}
-		else if (GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == DORMANT)
+		else if (status == DORMANT)
 		{
 			boolean party_check_success = true;
 			
@@ -1422,7 +1429,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			npc.setCurrentHpMp(npc.getMaxHp(), 0);
 			return null;
 		}
-		if (npc.getNpcId() == SCARLET1 && _SecondMorph == 0 && _ThirdMorph == 0 && _OnMorph == 0 && npc.getCurrentHp() < npc.getMaxHp() * 0.75 && GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
+		
+		if (npc.getNpcId() == SCARLET1 && _SecondMorph == 0 && _ThirdMorph == 0 && _OnMorph == 0 && npc.getCurrentHp() < npc.getMaxHp() * 0.75 && status == FIGHTING)
 		{
 			startQuestTimer("attack_stop", 0, frintezza, null);
 			
@@ -1433,7 +1443,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			startQuestTimer("stop_npc", 1000, npc, null);
 			startQuestTimer("morph_01", 1100, npc, null);
 		}
-		else if (npc.getNpcId() == SCARLET1 && _SecondMorph == 1 && _ThirdMorph == 0 && _OnMorph == 0 && npc.getCurrentHp() < npc.getMaxHp() * 0.5 && GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
+		else if (npc.getNpcId() == SCARLET1 && _SecondMorph == 1 && _ThirdMorph == 0 && _OnMorph == 0 && npc.getCurrentHp() < npc.getMaxHp() * 0.5 && status == FIGHTING)
 		{
 			startQuestTimer("attack_stop", 0, frintezza, null);
 			
@@ -1445,7 +1455,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			startQuestTimer("morph_05a", 2000, npc, null);
 			startQuestTimer("morph_05", 2100, npc, null);
 		}
-		else if (npc.getNpcId() == SCARLET2 && _SecondMorph == 1 && _ThirdMorph == 1 && _OnCheck == 0 && damage >= npc.getCurrentHp() && GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
+		else if (npc.getNpcId() == SCARLET2 && _SecondMorph == 1 && _ThirdMorph == 1 && _OnCheck == 0 && damage >= npc.getCurrentHp() && status == FIGHTING)
 		{
 			_OnCheck = 1;
 			startQuestTimer("check_hp", 0, npc, null);
@@ -1475,18 +1485,20 @@ public class Frintezza_l2j extends Quest implements Runnable
 	@Override
 	public String onKill (L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
+		Integer status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
+		
 		if (npc.getNpcId() == FRINTEZZA)
 		{
 			return null;
 		}
-		else if (npc.getNpcId() == SCARLET2 && _OnCheck == 0 && GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
+		else if (npc.getNpcId() == SCARLET2 && _OnCheck == 0 && status == FIGHTING)
 		{
 			_OnCheck = 1;
 			startQuestTimer("stop_pc", 0, npc, null);
 			startQuestTimer("stop_npc", 0, npc, null);
 			startQuestTimer("morph_16", 0, npc, null);
 		}
-		else if (npc.getNpcId() == SCARLET2 && _OnCheck == 1 && GrandBossManager.getInstance().getBossStatus(FRINTEZZA) == FIGHTING)
+		else if (npc.getNpcId() == SCARLET2 && _OnCheck == 1 && status == FIGHTING)
 		{
 			if(!npc.getSpawn().is_customBossInstance()){
 				

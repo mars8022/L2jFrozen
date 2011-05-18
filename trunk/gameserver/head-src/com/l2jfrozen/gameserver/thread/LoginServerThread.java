@@ -398,8 +398,7 @@ public class LoginServerThread extends Thread
 			}
 			catch(InterruptedException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
+				//no need exception log
 			}
 		}
 	}

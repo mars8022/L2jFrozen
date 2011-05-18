@@ -107,11 +107,11 @@ public class Antharas_l2j extends Quest implements Runnable
 	protected ScheduledFuture<?> _movieTask = null;
 	
 	//Antharas Status Tracking :
-	private static final byte DORMANT = 0;		//Antharas is spawned and no one has entered yet. Entry is unlocked
-	private static final byte WAITING = 1;		//Antharas is spawend and someone has entered, triggering a 30 minute window for additional people to enter
+	private static final int DORMANT = 0;		//Antharas is spawned and no one has entered yet. Entry is unlocked
+	private static final int WAITING = 1;		//Antharas is spawend and someone has entered, triggering a 30 minute window for additional people to enter
 	//before he unleashes his attack. Entry is unlocked
-	private static final byte FIGHTING = 2;		//Antharas is engaged in battle, annihilating his foes. Entry is locked
-	private static final byte DEAD = 3;			//Antharas has been killed. Entry is locked
+	private static final int FIGHTING = 2;		//Antharas is engaged in battle, annihilating his foes. Entry is locked
+	private static final int DEAD = 3;			//Antharas has been killed. Entry is locked
 	
 	protected static long _LastAction = 0;
 	
@@ -213,7 +213,9 @@ public class Antharas_l2j extends Quest implements Runnable
 		{
 			_log.warning(e.getMessage());
 		}
-		int status = GrandBossManager.getInstance().getBossStatus(ANTHARASOLDID);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(ANTHARASOLDID);
+		
 		if (FWA_OLDANTHARAS || status == WAITING)
 		{
 			StatsSet info = GrandBossManager.getInstance().getStatsSet(ANTHARASOLDID);
@@ -251,9 +253,14 @@ public class Antharas_l2j extends Quest implements Runnable
 		}
 		else
 		{
-			int statusWeak = GrandBossManager.getInstance().getBossStatus(ANTHARASWEAKID);
-			int statusNormal = GrandBossManager.getInstance().getBossStatus(ANTHARASNORMALID);
-			int statusStrong = GrandBossManager.getInstance().getBossStatus(ANTHARASSTRONGID);
+			Integer statusWeak = GrandBossManager.getInstance().getBossStatus(ANTHARASWEAKID);
+			
+			
+			Integer statusNormal = GrandBossManager.getInstance().getBossStatus(ANTHARASNORMALID);
+			
+			
+			Integer statusStrong = GrandBossManager.getInstance().getBossStatus(ANTHARASSTRONGID);
+			
 			int antharasId = 0;
 			if (statusWeak == FIGHTING || statusWeak == DEAD)
 			{

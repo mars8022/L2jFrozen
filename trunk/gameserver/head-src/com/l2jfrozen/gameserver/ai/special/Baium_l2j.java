@@ -124,7 +124,9 @@ public class Baium_l2j  extends Quest implements Runnable
 		addTalkId(ANGELIC_VORTEX);
 		_Zone = GrandBossManager.getInstance().getZone(113100,14500,10077);
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(LIVE_BAIUM);
-		int status = GrandBossManager.getInstance().getBossStatus(LIVE_BAIUM);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(LIVE_BAIUM);
+		
 		if (status == DEAD)
 		{
 			// load the unlock date and time for baium from DB
@@ -303,7 +305,10 @@ public class Baium_l2j  extends Quest implements Runnable
 			_Zone = GrandBossManager.getInstance().getZone(113100,14500,10077);
 		if (_Zone == null)
 			return "<html><body>Angelic Vortex:<br>You may not enter while admin disabled this zone</body></html>";
-		if (npcId == STONE_BAIUM && GrandBossManager.getInstance().getBossStatus(LIVE_BAIUM) == ASLEEP)
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(LIVE_BAIUM);
+		
+		if (npcId == STONE_BAIUM && status == ASLEEP)
 		{
 			if(Config.ALLOW_DIRECT_TP_TO_BOSS_ROOM || _Zone.isPlayerAllowed(player))
 			{
@@ -344,7 +349,7 @@ public class Baium_l2j  extends Quest implements Runnable
 				return "<html><body>Angelic Vortex:<br>You may not enter while flying a wyvern</body></html>";
 			}
 			
-			if (GrandBossManager.getInstance().getBossStatus(LIVE_BAIUM) == ASLEEP
+			if (status == ASLEEP
 					&& player.getQuestState("baium").getQuestItemsCount(4295) > 0) // bloody fabric
 			{
 				player.getQuestState("baium").takeItems(4295,1);

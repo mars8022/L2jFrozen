@@ -47,8 +47,8 @@ public class QueenAnt extends Quest implements Runnable
 	private static final int ROYAL = 29005;
 
 	//QUEEN Status Tracking :
-	private static final byte LIVE = 0; //Queen Ant is spawned.
-	private static final byte DEAD = 1; //Queen Ant has been killed.
+	private static final int LIVE = 0; //Queen Ant is spawned.
+	private static final int DEAD = 1; //Queen Ant has been killed.
 
 	private static L2BossZone _Zone;
 	private static List<L2Attackable> _Minions = new FastList<L2Attackable>();
@@ -78,7 +78,8 @@ public class QueenAnt extends Quest implements Runnable
 		_Zone = GrandBossManager.getInstance().getZone(-21610, 181594, -5734);
 
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
-		int status = GrandBossManager.getInstance().getBossStatus(QUEEN);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(QUEEN);
 		
 		switch(status){
         	case DEAD:{
@@ -330,6 +331,9 @@ public class QueenAnt extends Quest implements Runnable
 	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
 		int npcId = npc.getNpcId();
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(QUEEN);
+		
 		if(npcId == QUEEN)
 		{
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
@@ -355,7 +359,7 @@ public class QueenAnt extends Quest implements Runnable
 			
 			
 		}
-		else if(GrandBossManager.getInstance().getBossStatus(QUEEN) == LIVE)
+		else if(status == LIVE)
 		{
 			
 			if(npcId == ROYAL || npcId == NURSE){

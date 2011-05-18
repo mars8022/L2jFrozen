@@ -245,7 +245,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 		_setBleedTask = ThreadPoolManager.getInstance().scheduleGeneral(new Bleeding(), 2000);
 
-		int status = GrandBossManager.getInstance().getBossStatus(29062);
+		Integer status = GrandBossManager.getInstance().getBossStatus(29062);
 		if(status == INTERVAL)
 		{
 			enterInterval();
@@ -1391,8 +1391,8 @@ public class VanHalter extends Quest implements Runnable
 			_intervalTask.cancel(false);
 		}
 
-		int status = GrandBossManager.getInstance().getBossStatus(29062);
-
+		Integer status = GrandBossManager.getInstance().getBossStatus(29062);
+		
 		if(status != INTERVAL)
 		{
 			long interval = Rnd.get(Config.HPH_FIXINTERVALOFHALTER, Config.HPH_FIXINTERVALOFHALTER + Config.HPH_RANDOMINTERVALOFHALTER) * 3600000;
