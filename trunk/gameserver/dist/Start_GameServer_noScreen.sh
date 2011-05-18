@@ -1,3 +1,4 @@
+#!/bin/bash
 cd gameserver
-screen -AmdS gameserver ./GameServer_loop.sh
+nohup ./GameServer_loop.sh &
 cd ..

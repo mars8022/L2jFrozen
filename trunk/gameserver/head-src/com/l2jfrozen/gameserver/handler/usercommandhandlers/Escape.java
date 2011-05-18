@@ -54,49 +54,51 @@ public class Escape implements IUserCommandHandler
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
 
-		if(activeChar.isCastingNow() || activeChar.isMovementDisabled() || activeChar.isMuted() || activeChar.isAlikeDead() || activeChar.isInOlympiadMode() || activeChar.isAwaying())
-			return false;
-
 		int unstuckTimer = activeChar.getAccessLevel().isGm() ? 1000 : Config.UNSTUCK_INTERVAL * 1000;
 
-		// Check to see if the player is in a festival.
+		// Check to see if the current player is in Festival.
 		if(activeChar.isFestivalParticipant())
 		{
 			activeChar.sendMessage("You may not use an escape command in a festival.");
 			return false;
 		}
 
+		// Check to see if the current player is in TVT Event.
 		if(activeChar._inEventTvT && TvT.is_started())
 		{
 			activeChar.sendMessage("You may not use an escape skill in TvT.");
 			return false;
 		}
 
+		// Check to see if the current player is in CTF Event.
 		if(activeChar._inEventCTF && CTF.is_started())
 		{
 			activeChar.sendMessage("You may not use an escape skill in CTF.");
 			return false;
 		}
 
+		// Check to see if the current player is in DM Event.
 		if(activeChar._inEventDM && DM.is_started())
 		{
 			activeChar.sendMessage("You may not use an escape skill in DM.");
 			return false;
 		}
 
+		// Check to see if the current player is in Vip Event.
 		if(activeChar._inEventVIP && VIP._started)
 		{
 			activeChar.sendMessage("You may not use an escape skill in VIP.");
 			return false;
 		}
 
+		// Check to see if the current player is in Grandboss zone.
 		if(GrandBossManager.getInstance().getZone(activeChar) != null && !activeChar.isGM())
 		{
 			activeChar.sendMessage("You may not use an escape command in Grand boss zone.");
 			return false;
 		}
 
-		// Check to see if player is in jail
+		// Check to see if the current player is in jail.
 		if(activeChar.isInJail())
 		{
 			activeChar.sendMessage("You can not escape from jail.");
@@ -109,14 +111,27 @@ public class Escape implements IUserCommandHandler
 			activeChar.sendMessage("You may not escape from an Event.");
 			return false;
 		}
-
+		
+		// Check to see if the current player is in Observer Mode.
 		if(activeChar.inObserverMode())
 		{
+			activeChar.sendMessage("You may not escape during Observer mode.");
 			return false;
 		}
+		
+		// Check to see if the current playeris sitting.
+		if(activeChar.isSitting())
+		{
+		    activeChar.sendMessage("You may not escape when you sitting.");
+		    return false;
+		}
+		
+		// Check player status.
+		if(activeChar.isCastingNow() || activeChar.isMovementDisabled() || activeChar.isMuted() || activeChar.isAlikeDead() || activeChar.isInOlympiadMode() || activeChar.isAwaying())
+			return false;
 
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-		sm.addString("After " + unstuckTimer / 60000 + " min. you be returned to near village.");
+		sm.addString("You use Escape: "+ unstuckTimer / 60000 +" minutes.");
 		activeChar.sendPacket(sm);
 		sm = null;
 
