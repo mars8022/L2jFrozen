@@ -218,7 +218,8 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					paramTwo = Integer.parseInt(command.substring(13).trim());
 				}
 
-				paramOne = Integer.parseInt(command.substring(11, endIndex).trim());
+				if(endIndex>11)
+					paramOne = Integer.parseInt(command.substring(11, endIndex).trim());
 			}
 			catch(Exception NumberFormatException)
 			{
