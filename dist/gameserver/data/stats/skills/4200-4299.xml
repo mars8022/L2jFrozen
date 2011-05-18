@@ -28,7 +28,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="power" val="70"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
@@ -47,7 +47,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="70"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
@@ -67,7 +67,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="50"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
@@ -90,7 +90,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
@@ -109,7 +109,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="30"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
@@ -169,7 +169,7 @@
   <set name="lvlDepend" val="1"/>
   <set name="power" val="#power"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="reuseDelay" val="8000"/> <!-- SHOULD BE 0 -->
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="4500"/>
@@ -635,7 +635,7 @@
   <set name="magicLvl" val="70"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="65"/>
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="power" val="72"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="200"/>
@@ -833,7 +833,7 @@
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="element" val="3"/> <!-- Water -->
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="3"/>
@@ -1028,7 +1028,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="200"/>

@@ -1235,7 +1235,7 @@
   <set name="activateRate" val="80"/>
   <set name="magiclvl" val="75"/>
   <set name="levelModifier" val="2"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="ROOT"/>
   <set name="isMagic" val="true"/>

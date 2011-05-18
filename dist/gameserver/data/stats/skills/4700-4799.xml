@@ -171,7 +171,7 @@
   <table name="#mpConsume">65 69 74 79 81 83 85 87 88 89</table>
   <table name="#power">1046 1230 1425 1626 1727 1827 1925 2020 2067 2112</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="PDAM"/>
@@ -188,7 +188,7 @@
   <table name="#mpConsume">65 69 74 79 81 83 85 87 88 89</table>
   <table name="#power">4181 4920 5700 6503 6906 7305 7698 8079 8265. 8447</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="2"/>
+  <set name="saveVs" val="WIT"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BLOW"/>
