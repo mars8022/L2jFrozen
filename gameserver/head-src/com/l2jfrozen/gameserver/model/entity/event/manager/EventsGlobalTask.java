@@ -102,37 +102,39 @@ public class EventsGlobalTask implements Runnable
 		
 		eventid_to_tasks.put(event.getEventIdentifier(), savedTasksForId);
 		
-		
-		System.out.println("Added Event: "+event.getEventIdentifier());
-		
-		//check Info
-		for(String time:time_to_tasks.keySet()){
+		if(Config.DEBUG){
+			System.out.println("Added Event: "+event.getEventIdentifier());
 			
-			System.out.println("--Time: "+time);
-			ArrayList<EventTask> tasks = time_to_tasks.get(time);
-			
-			Iterator<EventTask> taskIt = tasks.iterator();
-			
-			while(taskIt.hasNext()){
-				EventTask actual_event = taskIt.next();
-				System.out.println("	--Registered Event: "+actual_event.getEventIdentifier());
+			//check Info
+			for(String time:time_to_tasks.keySet()){
+				
+				//System.out.println("--Time: "+time);
+				ArrayList<EventTask> tasks = time_to_tasks.get(time);
+				
+				Iterator<EventTask> taskIt = tasks.iterator();
+				
+				while(taskIt.hasNext()){
+					EventTask actual_event = taskIt.next();
+					System.out.println("	--Registered Event: "+actual_event.getEventIdentifier());
+				}
+				
 			}
 			
+			for(String event_id:eventid_to_tasks.keySet()){
+				
+				System.out.println("--Event: "+event_id);
+				ArrayList<EventTask> times = eventid_to_tasks.get(event_id);
+				
+				Iterator<EventTask> timesIt = times.iterator();
+				
+				while(timesIt.hasNext()){
+					EventTask actual_time = timesIt.next();
+					System.out.println("	--Registered Time: "+actual_time.getEventStartTime());
+				}
+				
+			}
 		}
 		
-		for(String event_id:eventid_to_tasks.keySet()){
-			
-			System.out.println("--Event: "+event_id);
-			ArrayList<EventTask> times = eventid_to_tasks.get(event_id);
-			
-			Iterator<EventTask> timesIt = times.iterator();
-			
-			while(timesIt.hasNext()){
-				EventTask actual_time = timesIt.next();
-				System.out.println("	--Registered Time: "+actual_time.getEventStartTime());
-			}
-			
-		}
 		
 	}
 	

@@ -93,7 +93,9 @@ public class Valakas_l2j extends Quest implements Runnable
 		i_quest1 = System.currentTimeMillis();
 		_Zone = GrandBossManager.getInstance().getZone(212852, -114842, -1632);
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(VALAKAS);
-		int status = GrandBossManager.getInstance().getBossStatus(VALAKAS);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(VALAKAS);
+		
 		if (status == DEAD)
 		{
 			// load the unlock date and time for valakas from DB
@@ -216,7 +218,10 @@ public class Valakas_l2j extends Quest implements Runnable
 						}
 					}
 				}
-				if (GrandBossManager.getInstance().getBossStatus(VALAKAS) == FIGHTING)
+				
+				Integer status = GrandBossManager.getInstance().getBossStatus(VALAKAS);
+				
+				if (status == FIGHTING && !npc.getSpawn().is_customBossInstance())
 				{
 					temp = (System.currentTimeMillis() - i_quest1);
 					if (temp > 900000)
@@ -1017,7 +1022,10 @@ public class Valakas_l2j extends Quest implements Runnable
 	public String onAggroRangeEnter(L2NpcInstance npc, L2PcInstance player, boolean isPet)
 	{
 		int i1 = 0;
-		if (GrandBossManager.getInstance().getBossStatus(VALAKAS) == FIGHTING)
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(VALAKAS);
+		
+		if (status == FIGHTING || npc.getSpawn().is_customBossInstance())
 		{
 			if (npc.getCurrentHp() > ((npc.getMaxHp() * 1) / 4))
 			{
@@ -1524,7 +1532,7 @@ public class Valakas_l2j extends Quest implements Runnable
 			i_quest4 = ((1 * 1000) + Rnd.get(3000));
 			c_quest4 = player;
 		}
-		if (GrandBossManager.getInstance().getBossStatus(VALAKAS) == FIGHTING && !npc.isInvul())
+		if (status == FIGHTING || npc.getSpawn().is_customBossInstance() && !npc.isInvul())
 		{
 			getRandomSkill(npc);
 		}

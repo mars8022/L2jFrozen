@@ -131,7 +131,7 @@ public class Zaken_l2j extends Quest implements Runnable
 		_Zone = GrandBossManager.getInstance().getZone(55312, 219168, -3223);
 		
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
-		int status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
+		Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
 		if (status == DEAD)
 		{
 			// load the unlock date and time for zaken from DB
@@ -196,8 +196,9 @@ public class Zaken_l2j extends Quest implements Runnable
 	@Override
 	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
 	{
-		int status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
-		if (status == DEAD && !event.equalsIgnoreCase("zaken_unlock"))
+		Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
+		
+		if (status == DEAD && event==null || !event.equalsIgnoreCase("zaken_unlock"))
 			return super.onAdvEvent(event, npc, player);
 		
 		if (event.equalsIgnoreCase("1001"))
@@ -770,6 +771,9 @@ public class Zaken_l2j extends Quest implements Runnable
 	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
 		int npcId = npc.getNpcId();
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
+		
 		if (npcId == ZAKEN)
 		{
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
@@ -789,7 +793,7 @@ public class Zaken_l2j extends Quest implements Runnable
 			}
 			
 		}
-		else if (GrandBossManager.getInstance().getBossStatus(ZAKEN) == ALIVE)
+		else if (status == ALIVE)
 		{
 			if (npcId != ZAKEN)
 			{

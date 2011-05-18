@@ -293,7 +293,7 @@ public class GrandBossManager
 	 * The rest
 	 */
 
-	public int getBossStatus(int bossId)
+	public Integer getBossStatus(int bossId)
 	{
 		return _bossStatus.get(bossId);
 	}
@@ -507,8 +507,8 @@ public class GrandBossManager
 		return template;
 	}
 	
-	public boolean isDefined(int bossId)
+	public boolean isDefined(int bossId) //into database
 	{
-		return _bosses.containsKey(bossId);
+		return _bossStatus.get(bossId)!=null;
 	}
 }

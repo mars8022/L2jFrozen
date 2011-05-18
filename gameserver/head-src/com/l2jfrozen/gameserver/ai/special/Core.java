@@ -79,7 +79,9 @@ public class Core extends Quest implements Runnable
 
 		_FirstAttacked = false;
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(CORE);
-		int status = GrandBossManager.getInstance().getBossStatus(CORE);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(CORE);
+		
 		if(status == DEAD)
 		{
 			// load the unlock date and time for Core from DB
@@ -134,6 +136,8 @@ public class Core extends Quest implements Runnable
 	@Override
 	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
 	{
+		Integer status = GrandBossManager.getInstance().getBossStatus(CORE);
+			
 		if(event.equalsIgnoreCase("core_unlock"))
 		{
 			L2GrandBossInstance core = (L2GrandBossInstance) addSpawn(CORE, 17726, 108915, -6480, 0, false, 0);
@@ -144,7 +148,11 @@ public class Core extends Quest implements Runnable
 			GrandBossManager.getInstance().setBossStatus(CORE, ALIVE);
 			spawnBoss(core);
 		}
-		else if(event.equalsIgnoreCase("spawn_minion") && GrandBossManager.getInstance().getBossStatus(CORE) == ALIVE)
+		else if(status ==null){
+			
+			_log.warning("GrandBoss with Id "+CORE+" has not valid status into GrandBossManager");
+			
+		}else if(event.equalsIgnoreCase("spawn_minion") && status == ALIVE)
 		{
 			Minions.add((L2Attackable) addSpawn(npc.getNpcId(), npc.getX(), npc.getY(), npc.getZ(), npc.getHeading(), false, 0));
 		}
@@ -216,11 +224,16 @@ public class Core extends Quest implements Runnable
 			}
 			
 		}
-		else if(GrandBossManager.getInstance().getBossStatus(CORE) == ALIVE && Minions.contains(npc))
-		{
-			Minions.remove(npc);
-			startQuestTimer("spawn_minion", Config.CORE_RESP_MINION * 1000, npc, null);
+		else{
+			
+			Integer status = GrandBossManager.getInstance().getBossStatus(CORE);
+			
+			if(status == ALIVE && Minions.contains(npc)){
+				Minions.remove(npc);
+				startQuestTimer("spawn_minion", Config.CORE_RESP_MINION * 1000, npc, null);
+			}
 		}
+		
 		return super.onKill(npc, killer, isPet);
 	}
 

@@ -39,8 +39,8 @@ import com.l2jfrozen.util.random.Rnd;
 public class Orfen extends Quest implements Runnable
 {
 	private static final int ORFEN = 29014;
-	private static final byte LIVE = 0;
-	private static final byte DEAD = 1;
+	private static final int LIVE = 0;
+	private static final int DEAD = 1;
 	
 	private boolean FirstAttacked=false;
 	private boolean Teleported=false;
@@ -60,9 +60,10 @@ public class Orfen extends Quest implements Runnable
 		super(questId, name, descr);
 	
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(ORFEN);
-        int status = GrandBossManager.getInstance().getBossStatus(ORFEN);
-        
-        addEventId(ORFEN, Quest.QuestEventType.ON_KILL);
+		
+		Integer status = GrandBossManager.getInstance().getBossStatus(ORFEN);
+		
+		addEventId(ORFEN, Quest.QuestEventType.ON_KILL);
 		addEventId(ORFEN, Quest.QuestEventType.ON_ATTACK);
 
         switch(status){
@@ -120,7 +121,7 @@ public class Orfen extends Quest implements Runnable
 	@Override
 	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
 	{
-		if(npc.getNpcId()==ORFEN){
+		if(npc.getNpcId()==ORFEN && !npc.getSpawn().is_customBossInstance()){
 			
 			double saved_hp = GrandBossManager.getInstance().getStatsSet(ORFEN).getDouble("currentHP");
 			
