@@ -209,6 +209,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 					con = _pendingClose.removeFirst();
 					writeClosePacket(con);
 					closeConnectionImpl(con.getSelectionKey(), con);
+					
 				}
 			}
 			
@@ -490,6 +491,10 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 	
 	private final void writeClosePacket(final MMOConnection<T> con)
 	{
+		if(con.isClosed()){
+			return;
+		}
+		
 		SendablePacket<T> sp;
 		synchronized (con.getSendQueue())
 		{
