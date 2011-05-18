@@ -1,3 +1,4 @@
+#!/bin/bash
 cd loginserver
-screen -AmdS loginserver ./LoginServer_loop.sh
+nohup ./LoginServer_loop.sh &
 cd ..
