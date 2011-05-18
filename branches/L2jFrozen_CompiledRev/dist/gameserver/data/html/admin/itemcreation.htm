@@ -10,8 +10,9 @@
 <tr><td>Fill the ID number in item-id to create the item that</td></tr>
 <tr><td>you want, use amount if you need more than one.</td></tr>
 <tr><td><br></td></tr>
-<tr><td>Caution:</td></tr>
-<tr><td>Do not use amount with non-stackable items.</td></tr>
+<tr><td>Caution: Max amount for stackable items is 20</td></tr>
+<tr><td><br></td></tr>
+<tr><td>Use //mass_create to spawn items in every online character</td></tr>
 <tr><td><br></td></tr>
 </table>
 <center>
@@ -21,10 +22,20 @@
 <td>Amount: <edit var="itemnum" width=50></td>
 <td>&nbsp;<button value="Create Item" action="bypass -h admin_create_item $itemid $itemnum" width=70 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 </tr>
-</table>
-</center><br><br>
+<tr>
+<td><edit var="massitemid" width=50></td>
+<td><edit var="massitemnum" width=50></td>
+<td><button value="Mass Create" action="bypass -h admin_mass_create $massitemid $massitemnum" width=70 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
+</tr></table></center><br><br>
+<table width=270>
+<tr><td>Use //clear_inventory to delete all unequiped items in your inventory.</td></tr>
+</table><br>
 <center>
 <table>
+<tr><td>
+<button value="Clear Inventory" action="bypass -h admin_clear_inventory" width=95 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
+</tr>
+<tr><td><br></td></tr>
 <tr><td><center>Assets: <edit var="asset" width=70 height=11></center></td></tr>
 </table><br>
 <table>

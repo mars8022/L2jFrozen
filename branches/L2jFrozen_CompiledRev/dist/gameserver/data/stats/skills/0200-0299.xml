@@ -226,7 +226,7 @@
   <set name="weaponsAllowed" val="2580"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
@@ -932,7 +932,7 @@
   <table name="#ench2Power">2027 2045 2063 2081 2099 2117 2135 2153 2171 2190 2208 2226 2244 2262 2280 2298 2316 2334 2352 2371 2389 2407 2425 2443 2461 2479 2497 2515 2533 2552</table>
   <set name="weaponsAllowed" val="16392"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -1547,7 +1547,7 @@
   <table name="#power">82 89 96 102 108</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="3"/>
+  <set name="saveVs" val="MEN"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -1610,7 +1610,7 @@
   <table name="#ench2MpConsume">75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46</table>
   <table name="#ench2power">2027 2045 2063 2081 2099 2117 2135 2153 2171 2190 2208 2226 2244 2262 2280 2298 2316 2334 2352 2371 2389 2407 2425 2443 2461 2479 2497 2515 2533 2552</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>

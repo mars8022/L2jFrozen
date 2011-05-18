@@ -1,4 +1,4 @@
-<html><title>L2Frozen Server Management</title><body><br>
+<html><title>Admin Panel - Server Management</title><body><br>
 <center>
 <table width=260>
 <tr>
@@ -13,6 +13,7 @@
 <td>QuickBox:</td><td><edit var="menu_command" width=120 height=15></td>
 <td><button value="Help" action="bypass -h admin_help help/server_menu.htm" width=45 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 </tr></table><br>
+<font color="00FF00">Reload:</font>
 <table width=260><tr>
 <td><button value="Reload" action="bypass -h admin_reload $menu_command" width=60 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 <td><button value="Reload HTM" action="bypass -h admin_cache_htm_rebuild" width=60 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
@@ -30,8 +31,7 @@
 <td><button value="Zone Check" action="bypass -h admin_zone_check" width=60 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 </tr>
 </table>
-<br><br>
-Geodata:
+<font color="00FF00">Geodata:</font>
 <table width=240><tr>
 <td><button value="Z" action="bypass -h admin_geo_z" width=50 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 <td><button value="Type" action="bypass -h admin_geo_type" width=50 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
@@ -40,7 +40,7 @@ Geodata:
 <td><button value="Pos" action="bypass -h admin_geo_position" width=50 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 </tr>
 </table>
-Development:
+<font color="00FF00">Development:</font>
 <table width=240><tr>
 <td><button value="Fight Calc" action="bypass -h admin_fight_calculator_show" width=80 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 <td><button value="Packet Forge" action="bypass -h admin_forge" width=80 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
@@ -48,8 +48,7 @@ Development:
 <td></td>
 </tr>
 </table>
-<br><br>
-Maintenance:
+<font color="00FF00">Maintenance:</font>
 <table width=240><tr>
 <td><button value="Stats" action="bypass -h admin_stats" width=80 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
 <td><button value="Login" action="bypass -h admin_server_login" width=80 height=15 back="sek.cbui94" fore="sek.cbui92"></td>
@@ -57,6 +56,6 @@ Maintenance:
 <td></td>
 </tr></table>
 <br>
+<font color="LEVEL">L2jfrozen Team: L2jfrozen.com</font>
 </center>
-Server Software: created by L2Frozen Team: forum.100nt.ru<br>
 </body></html>

@@ -65,7 +65,7 @@
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 73 76 80</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="50"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -96,7 +96,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5206" levels="1" name="Decrease Speed">
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="2200"/>
@@ -116,7 +116,7 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5207" levels="1" name="Decrease Atk. Spd.">
   <set name="lvlDepend" val="1"/>
-  <set name="save" val="5"/>
+  <set name="saveVs" val="DEX"/>
   <set name="power" val="10"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="DEBUFF"/>
@@ -303,7 +303,7 @@
   <set name="lvlDepend" val="1"/>
   <set name="power" val="50"/>
   <set name="mpConsume" val="43"/>
-  <set name="save" val="4"/>
+  <set name="saveVs" val="CON"/>
   <set name="reuseDelay" val="24000"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="4500"/>
