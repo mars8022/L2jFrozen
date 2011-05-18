@@ -96,7 +96,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			_sendQueue.addLast(sp);
 		}
 		
-		if (!_sendQueue.isEmpty() && _selectionKey.isWritable())
+		if (!_sendQueue.isEmpty()/* && _selectionKey.isWritable()*/)
 		{
 			try
 			{
@@ -145,12 +145,13 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	final int write(final ByteBuffer buf) throws IOException
 	{
-		if(!isClosed() 
+		return _writableByteChannel.write(buf);
+		/*if(!isClosed() 
 				&& _writableByteChannel!=null 
 				&& _writableByteChannel.isOpen())
 			return _writableByteChannel.write(buf);
 		else 
-			return 0;
+			return 0;*/
 		
 	}
 	
