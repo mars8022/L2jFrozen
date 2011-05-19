@@ -96,7 +96,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			_sendQueue.addLast(sp);
 		}
 		
-		if (!_sendQueue.isEmpty()/* && _selectionKey.isWritable()*/)
+		if (!_sendQueue.isEmpty() && _selectionKey.isValid())
 		{
 			try
 			{
@@ -133,11 +133,11 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	final int read(final ByteBuffer buf) throws IOException
 	{
-		if(!isClosed() 
-				&& _readableByteChannel!=null 
+		if(/*!isClosed() 
+				&& */_readableByteChannel!=null 
 				&& _readableByteChannel.isOpen()
-				&& !_socket.isInputShutdown()
-				&& !_socket.isOutputShutdown())
+				&& !_socket.isInputShutdown())
+				//&& !_socket.isOutputShutdown())
 			return _readableByteChannel.read(buf);
 		else 
 			return -1;
@@ -145,13 +145,12 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	final int write(final ByteBuffer buf) throws IOException
 	{
-		return _writableByteChannel.write(buf);
-		/*if(!isClosed() 
-				&& _writableByteChannel!=null 
-				&& _writableByteChannel.isOpen())
+		if(_writableByteChannel!=null 
+				&& _writableByteChannel.isOpen()
+				&& !_socket.isOutputShutdown())
 			return _writableByteChannel.write(buf);
 		else 
-			return 0;*/
+			return -1;
 		
 	}
 	
