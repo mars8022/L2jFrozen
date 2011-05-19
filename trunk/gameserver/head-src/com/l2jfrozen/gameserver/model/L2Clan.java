@@ -975,7 +975,8 @@ public class L2Clan
 		}
 		catch(Exception e)
 		{
-			_log.warning("error while restoring clan " + e);
+			_log.warning("error while restoring clan ");
+			e.printStackTrace();
 		}
 		finally
 		{

@@ -277,8 +277,8 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 	
 	private final void readPacket(final SelectionKey key, final MMOConnection<T> con)
 	{
-		if (!con.isClosed())
-		{
+		//if (!con.isClosed())
+		//{
 			ByteBuffer buf;
 			if ((buf = con.getReadBuffer()) == null)
 			{
@@ -345,7 +345,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 						break;
 				}
 			}
-		}
+		//}
 	}
 	
 	private final boolean tryReadPacket(final SelectionKey key, final T client, final ByteBuffer buf, final MMOConnection<T> con)
@@ -491,10 +491,6 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 	
 	private final void writeClosePacket(final MMOConnection<T> con)
 	{
-		if(con.isClosed()){
-			return;
-		}
-		
 		SendablePacket<T> sp;
 		synchronized (con.getSendQueue())
 		{
