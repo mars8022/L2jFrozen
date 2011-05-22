@@ -450,6 +450,7 @@ public abstract class L2Character extends L2Object
 			catch(NullPointerException e)
 			{
 				//null
+				e.printStackTrace();
 			}
 		}
 	}
@@ -497,6 +498,7 @@ public abstract class L2Character extends L2Object
 			catch(NullPointerException e)
 			{
 				//null
+				e.printStackTrace();
 			}
 		}
 	}
@@ -7028,6 +7030,7 @@ public abstract class L2Character extends L2Object
 		}
 		catch(UnsupportedOperationException e)
 		{
+			e.printStackTrace();
 			if(this instanceof L2PcInstance)
 			{
 				new Disconnection((L2PcInstance) this);

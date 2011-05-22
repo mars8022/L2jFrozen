@@ -245,7 +245,7 @@ public class RegionBBSManager extends BaseBBSManager
 					return;
 				}
 
-				if(receiver.isChatBanned())
+				if(receiver.isChatBanned() && !activeChar.isGM())
 				{
 					activeChar.sendMessage("Player is chat banned.");
 					return;

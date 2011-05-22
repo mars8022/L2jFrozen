@@ -236,7 +236,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
-			con.getClient().onForcedDisconnection();
+			con.getClient().onForcedDisconnection(true);
 			closeConnectionImpl(key, con);
 		}
 		
@@ -340,7 +340,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 						closeConnectionImpl(key, con);
 						break;
 					case -2:
-						con.getClient().onForcedDisconnection();
+						con.getClient().onForcedDisconnection(true);
 						closeConnectionImpl(key, con);
 						break;
 				}
@@ -567,7 +567,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		else
 		{
-			con.getClient().onForcedDisconnection();
+			con.getClient().onForcedDisconnection(true);
 			closeConnectionImpl(key, con);
 		}
 	}

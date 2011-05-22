@@ -12,16 +12,19 @@ import javolution.util.FastList;
 public class Config
 {
 	
-	public short MMOCORE_IP_TOS;
-	public boolean MMOCORE_TCP_NO_DELAY;
-	public boolean MMOCORE_KEEP_ALIVE;
-	public int MMOCORE_BACKLOG;
-	public int MMOCORE_SO_TIMEOUT;
-	public boolean MMOCORE_SO_REUSEADDR;
+	//public short MMOCORE_IP_TOS;
+	//public boolean MMOCORE_TCP_NO_DELAY;
+	//public boolean MMOCORE_KEEP_ALIVE;
+	//public int MMOCORE_BACKLOG;
+	//public int MMOCORE_SO_TIMEOUT;
+	//public boolean MMOCORE_SO_REUSEADDR;
+	/*
 	public int NETWORK_READ_BUFFER_SIZE;
 	public int NETWORK_WRITE_BUFFER_SIZE;
 	public int NETWORK_HELPER_BUFFER_SIZE;
 	public int NETWORK_HELPER_BUFFER_COUNT;
+	*/
+	
 	public boolean PACKET_HANDLER_DEBUG;
 
 	/** MMO settings */
@@ -44,6 +47,7 @@ public class Config
 	public int CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN;	// default 1
 	public int CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN;	// default 1
 	public int CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN;	// default 5
+	
 	
 	//Packets flooding Config
 	public boolean DISABLE_FULL_PACKETS_FLOOD_PROTECTOR;
@@ -80,23 +84,23 @@ public class Config
 			mmoSetting.load(is);
 			is.close();
 
-			MMOCORE_BACKLOG = TypeFormat.parseInt(mmoSetting.getProperty("NetworkBackLog", "50"));
-			MMOCORE_IP_TOS = TypeFormat.parseShort(mmoSetting.getProperty("NetworkIpTOS", "0"));
-			MMOCORE_TCP_NO_DELAY = TypeFormat.parseBoolean(mmoSetting.getProperty("NetworkTcpNoDelay", "false"));
-			MMOCORE_KEEP_ALIVE = TypeFormat.parseBoolean(mmoSetting.getProperty("NetworkKeepAlive", "false"));
-			MMOCORE_SO_TIMEOUT = TypeFormat.parseInt(mmoSetting.getProperty("NetworkSoTimeOut", "0"));
-			MMOCORE_SO_REUSEADDR = TypeFormat.parseBoolean(mmoSetting.getProperty("NetworkSoReuseAddr", "true"));
+			//MMOCORE_BACKLOG = TypeFormat.parseInt(mmoSetting.getProperty("NetworkBackLog", "50"));
+			//MMOCORE_IP_TOS = TypeFormat.parseShort(mmoSetting.getProperty("NetworkIpTOS", "0"));
+			//MMOCORE_TCP_NO_DELAY = TypeFormat.parseBoolean(mmoSetting.getProperty("NetworkTcpNoDelay", "false"));
+			//MMOCORE_KEEP_ALIVE = TypeFormat.parseBoolean(mmoSetting.getProperty("NetworkKeepAlive", "false"));
+			//MMOCORE_SO_TIMEOUT = TypeFormat.parseInt(mmoSetting.getProperty("NetworkSoTimeOut", "0"));
+			//MMOCORE_SO_REUSEADDR = TypeFormat.parseBoolean(mmoSetting.getProperty("NetworkSoReuseAddr", "true"));
 
 			// Buffer options
-			NETWORK_READ_BUFFER_SIZE = TypeFormat.parseInt(mmoSetting.getProperty("NetworkReadBufferSize", "64"));
+			/*NETWORK_READ_BUFFER_SIZE = TypeFormat.parseInt(mmoSetting.getProperty("NetworkReadBufferSize", "64"));
 			NETWORK_WRITE_BUFFER_SIZE = TypeFormat.parseInt(mmoSetting.getProperty("NetworkWriteBufferSize", "64"));
 			NETWORK_HELPER_BUFFER_SIZE = TypeFormat.parseInt(mmoSetting.getProperty("NetworkHelperBufferSize", "64"));
 			NETWORK_HELPER_BUFFER_COUNT = TypeFormat.parseInt(mmoSetting.getProperty("NetworkHelperBufferCount", "20"));
+			*/
 			
 			ENABLE_MMOCORE_EXCEPTIONS = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreExceptions", "False"));
 			ENABLE_MMOCORE_DEBUG = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreDebug", "False"));
 			ENABLE_MMOCORE_DEVELOP = Boolean.parseBoolean(mmoSetting.getProperty("EnableMMOCoreDevelop", "False"));
-			
 			PACKET_HANDLER_DEBUG = Boolean.parseBoolean(mmoSetting.getProperty("PacketHandlerDebug", "False"));
             
 			//flooding protection

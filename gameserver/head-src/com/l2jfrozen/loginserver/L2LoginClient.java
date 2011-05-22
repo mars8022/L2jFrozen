@@ -297,7 +297,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 	}
 	
 	@Override
-	protected void onForcedDisconnection()
+	protected void onForcedDisconnection(boolean critical)
 	{
 		// Empty
 	}

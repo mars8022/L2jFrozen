@@ -43,5 +43,5 @@ public abstract class MMOClient<T extends MMOConnection<?>>
 	
 	protected abstract void onDisconnection();
 	
-	protected abstract void onForcedDisconnection();
+	protected abstract void onForcedDisconnection(boolean critical);
 }
