@@ -641,7 +641,7 @@ public class Olympiad
 		{
 			if(game._playerOne.getObjectId() == noble.getObjectId() || game._playerTwo.getObjectId() == noble.getObjectId())
 			{
-				noble.sendMessage("Cant Unregister whilst you are already selected for a game");
+				noble.sendMessage("Cant unregister while you are already selected for a game");
 				return false;
 			}
 		}

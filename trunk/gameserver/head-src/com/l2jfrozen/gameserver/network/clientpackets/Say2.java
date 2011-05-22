@@ -307,7 +307,7 @@ public final class Say2 extends L2GameClientPacket
 							return;
 						}
 
-						if(receiver.isChatBanned())
+						if(receiver.isChatBanned() && !activeChar.isGM())
 						{
 							activeChar.sendMessage("Player is chat banned.");
 							return;

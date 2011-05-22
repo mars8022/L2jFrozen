@@ -82,16 +82,17 @@ public class ObjectPosition
 			
 			_log.warning("Object Id at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
 
-			if(getActiveObject() instanceof L2Character)
-			{
-				getActiveObject().decayMe();
-			}
-			else if(getActiveObject() instanceof L2PcInstance)
+			if(getActiveObject() instanceof L2PcInstance)
 			{
 				//((L2PcInstance)obj).deleteMe();
 				((L2PcInstance) getActiveObject()).teleToLocation(0, 0, 0, false);
 				((L2PcInstance) getActiveObject()).sendMessage("Error with your coords, Please ask a GM for help!");
+			
+			}else if(getActiveObject() instanceof L2Character)
+			{
+				getActiveObject().decayMe();
 			}
+			
 		}
 	}
 
