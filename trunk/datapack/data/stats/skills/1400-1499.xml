@@ -9,18 +9,17 @@
   <table name="#ench1Power">413 415 417 419 421 423 425 427 429 431 433 435 437 439 441 443 445 447 449 451 453 455 457 459 461 463 465 467 469 471</table>
   <table name="#ench2MpConsume">68 67 66 65 63 62 62 61 60 58 57 55 55 55 53 52 51 50 48 47 47 46 44 43 42 41 40 40 48 47</table>
   <table name="#mpConsume">52 54 55 58 60 62 64 65 67 69</table>
-  <table name="#power">230 250 270 290 310 330 350 370 390 411</table>
   <table name="#itemConsumeCount">3 3 4 4 4 4 5 5 5 5</table>
-  <set name="power" val="#power"/>
+  <set name="power" val="30"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
-  <set name="reuseDelay" val="9000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="hitTime" val="4000"/>
   <set name="target" val="TARGET_UNDEAD"/>
   <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="lethal2" val="40"/>
+  <set name="lethal2" val="32"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <set name="isMagic" val="true"/>
@@ -248,7 +247,7 @@
   <set name="effecRange" val="900"/>
   <for>
     <effect name="Buff" time="30" count="1" val="0" stackOrder="3" stackType="abnormal_invincibility">
-      <mul order="0x30" stat="debuffVuln" val="0.0"/>
+      <sub order="0x40" stat="debuffVuln" val="100" />
     </effect>
   </for>
 </skill>
