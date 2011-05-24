@@ -1133,10 +1133,8 @@
     <add order="0x40" stat="reflectDam" val="9"/> <!-- Reflect Damage 9% -->
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3571" levels="1" name="Special Ability: Crt. Stun">
-<!--  Description(s):
-      Temporarily stuns and paralyzes target.
--->
   <set name="magiclvl" val="80"/>
   <set name="effectPoint" val="100"/>
   <set name="target" val="TARGET_ONE"/>
@@ -1144,6 +1142,8 @@
   <set name="operateType" val="OP_PASSIVE"/>
   <set name="activateRate" val="27"/>
   <set name="levelModifier" val="1"/>
+  <set name="saveVs" val="CON" />
+  <set name="lvlDepend" val="1" />
   <for>
   	<effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
   </for>
