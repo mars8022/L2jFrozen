@@ -1169,10 +1169,13 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5168" levels="10" name="Stun">
-  <table name="#mpConsume">18 25 35 47 59 72 83 88 91 93 95 96</table>
+  <table name="#mpConsume">46 49 52 55 58 61 64 67 70 75</table>
   <set name="mpConsume" val="#mpConsume"/>
   <table name="#magicLvl"> 46 49 52 55 58 61 64 67 70 75 </table>
   <set name="magicLvl" val="#magicLvl" />
+  <set name="reuseDelay" val="30000" />
+  <set name="lvlDepend" val="1" />
+  <set name="saveVs" val="CON" />
   <set name="power" val="40"/>
   <set name="hitTime" val="830"/>
   <set name="target" val="TARGET_ONE"/>

@@ -991,7 +991,7 @@
       </add>
       <mul order="0x30" stat="pAtk" val="#swordbluntpole">
        <and>
-         <using kind="Sword,Blunt"/>
+         <using kind="Sword,Blunt,Pole"/>
        </and>
       </mul>
       <mul order="0x30" stat="pAtk" val="#twohands">
