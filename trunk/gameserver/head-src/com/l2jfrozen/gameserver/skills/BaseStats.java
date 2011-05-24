@@ -95,6 +95,10 @@ public enum BaseStats
 	{
 		public final double calcBonus(L2Character actor)
 		{
+			if(actor.getSTR()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return STRbonus[MAX_STAT_VALUE];
+			}
 			return STRbonus[actor.getSTR()];
 		}
 	}
@@ -103,6 +107,10 @@ public enum BaseStats
 	{
 		public final double calcBonus(L2Character actor)
 		{
+			if(actor.getINT()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return INTbonus[MAX_STAT_VALUE];
+			}
 			return INTbonus[actor.getINT()];
 		}
 	}
@@ -111,6 +119,10 @@ public enum BaseStats
 	{
 		public final double calcBonus(L2Character actor)
 		{
+			if(actor.getDEX()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return DEXbonus[MAX_STAT_VALUE];
+			}
 			return DEXbonus[actor.getDEX()];
 		}
 	}
@@ -119,6 +131,10 @@ public enum BaseStats
 	{
 		public final double calcBonus(L2Character actor)
 		{
+			if(actor.getWIT()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return WITbonus[MAX_STAT_VALUE];
+			}
 			return WITbonus[actor.getWIT()];
 		}
 	}
@@ -127,6 +143,10 @@ public enum BaseStats
 	{
 		public final double calcBonus(L2Character actor)
 		{
+			if(actor.getCON()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return CONbonus[MAX_STAT_VALUE];
+			}
 			return CONbonus[actor.getCON()];
 		}
 	}
@@ -135,6 +155,10 @@ public enum BaseStats
 	{
 		public final double calcBonus(L2Character actor)
 		{
+			if(actor.getMEN()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return MENbonus[MAX_STAT_VALUE];
+			}
 			return MENbonus[actor.getMEN()];
 		}
 	}
