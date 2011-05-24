@@ -460,7 +460,7 @@ public final class L2WorldRegion
 				target = null;
 				spawn = null;
 			}
-		}
-		_log.info("All visible NPC's deleted in Region: " + getName());
+		}if(Config.DEBUG){
+		_log.info("All visible NPC's deleted in Region: " + getName());}
 	}
 }

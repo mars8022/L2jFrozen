@@ -2864,6 +2864,12 @@ public abstract class L2Skill
 			}
 			case TARGET_TYRANNOSAURUS:
 			{
+				if(target instanceof L2PcInstance)
+				{
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
+					return null;
+				}
+				
 				if(target instanceof L2MonsterInstance && ((L2MonsterInstance) target).getNpcId() == 22217 || ((L2MonsterInstance) target).getNpcId() == 22216 || ((L2MonsterInstance) target).getNpcId() == 22215)
 					return new L2Character[]
 					{

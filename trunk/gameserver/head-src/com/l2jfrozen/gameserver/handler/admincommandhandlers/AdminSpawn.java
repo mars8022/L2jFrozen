@@ -149,36 +149,26 @@ public class AdminSpawn implements IAdminCommandHandler
 
 			st = null;
 		}
+		// Command spawn '//spawn name numberSpawn respawnTime'.
+		// With command '//spawn name' the respawnTime will be 10 seconds.
 		else if(command.startsWith("admin_spawn") || command.startsWith("admin_spawn_monster"))
 		{
 			StringTokenizer st = new StringTokenizer(command, " ");
-
 			try
 			{
 				String cmd = st.nextToken();
 				String id = st.nextToken();
-
 				int mobCount = 1;
-				int radius = 300;
-
+				int respawnTime = 10;
 				if(st.hasMoreTokens())
-				{
 					mobCount = Integer.parseInt(st.nextToken());
-				}
-
 				if(st.hasMoreTokens())
-				{
-					radius = Integer.parseInt(st.nextToken());
-				}
+					respawnTime = Integer.parseInt(st.nextToken());
 
 				if(cmd.equalsIgnoreCase("admin_spawn_once"))
-				{
-					spawnMonster(activeChar, id, radius, mobCount, false);
-				}
+					spawnMonster(activeChar, id, respawnTime, mobCount, false);
 				else
-				{
-					spawnMonster(activeChar, id, radius, mobCount, true);
-				}
+					spawnMonster(activeChar, id, respawnTime, mobCount, true);
 
 				cmd = null;
 				id = null;
@@ -193,13 +183,13 @@ public class AdminSpawn implements IAdminCommandHandler
 
 			st = null;
 		}
+		// Command for unspawn all Npcs on Server, use //repsawnall to respawn the npc
 		else if(command.startsWith("admin_unspawnall"))
 		{
 			for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 			{
 				player.sendPacket(new SystemMessage(SystemMessageId.NPC_SERVER_NOT_OPERATING));
 			}
-
 			RaidBossSpawnManager.getInstance().cleanUp();
 			DayNightSpawnManager.getInstance().cleanUp();
 			L2World.getInstance().deleteVisibleNpcSpawns();
@@ -243,17 +233,12 @@ public class AdminSpawn implements IAdminCommandHandler
 	private void spawnMonster(L2PcInstance activeChar, String monsterId, int respawnTime, int mobCount, boolean permanent)
 	{
 		L2Object target = activeChar.getTarget();
-
 		if(target == null)
-		{
 			target = activeChar;
-		}
-
 		if(target != activeChar && activeChar.getAccessLevel().isGm())
 			target = activeChar;
-
+		
 		L2NpcTemplate template1;
-
 		if(monsterId.matches("[0-9]*"))
 		{
 			//First parameter was an ID number
@@ -270,16 +255,14 @@ public class AdminSpawn implements IAdminCommandHandler
 		try
 		{
 			L2Spawn spawn = new L2Spawn(template1);
+			if(Config.SAVE_GMSPAWN_ON_CUSTOM)
+				spawn.setCustom(true);
 			spawn.setLocx(target.getX());
 			spawn.setLocy(target.getY());
 			spawn.setLocz(target.getZ());
 			spawn.setAmount(mobCount);
 			spawn.setHeading(activeChar.getHeading());
 			spawn.setRespawnDelay(respawnTime);
-
-			if(Config.SAVE_GMSPAWN_ON_CUSTOM){
-				spawn.setCustom(true);
-			}
 			
 			if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) || GrandBossManager.getInstance().isDefined(spawn.getNpcid()))
 			{
@@ -338,7 +321,6 @@ public class AdminSpawn implements IAdminCommandHandler
 
 		// Loop
 		boolean ended = true;
-
 		for(int i = from; i < mobs.length; i++)
 		{
 			String txt = "<a action=\"bypass -h admin_spawn_monster " + mobs[i].npcId + "\">" + mobs[i].name + "</a><br1>";
