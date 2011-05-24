@@ -636,7 +636,8 @@
   <set name="hitTime" val="1080"/>
   <set name="coolTime" val="720"/>
   <set name="skillType" val="BLOW"/>
-  <set name="lethal1" val="5"/>
+  <set name="lethal1" val="4"/>
+  <set name="lethal2" val="1"/>
   <set name="overHit" val="true" />
   <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
@@ -998,7 +999,7 @@
   <set name="reuseDelay" val="30000"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
-  <set name="lethal1" val="5"/>
+  <set name="lethal1" val="6"/>
   <set name="lethal2" val="2"/>
   <set name="hitTime" val="4000"/>
 </skill>
@@ -1016,7 +1017,7 @@
   <set name="reuseDelay" val="16000"/>
   <set name="overHit" val="true"/>
   <set name="condition" val="16"/>
-  <set name="lethal1" val="5"/>
+  <set name="lethal1" val="3"/>
   <set name="hitTime" val="1800"/>
   <set name="baseCritRate" val="15"/>
 </skill>
