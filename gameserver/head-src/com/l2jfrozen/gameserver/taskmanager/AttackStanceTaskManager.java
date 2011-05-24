@@ -80,7 +80,7 @@ public class AttackStanceTaskManager
 			long currentTime = System.currentTimeMillis();
 			final L2Character[] actors = attackStanceTasks.toArray(new L2Character[attackStanceTasks.size()]);
 			for(L2Character actor : actors)
-				if(currentTime - actor.getAttackStance() > 15000) {
+				if(actor!=null && currentTime - actor.getAttackStance() > 15000) {
 					attackStanceTasks.remove(actor);
 					actor.broadcastPacket(new AutoAttackStop(actor.getObjectId()));
 					actor.getAI().setAutoAttacking(false);

@@ -3548,11 +3548,16 @@ public abstract class L2Character extends L2Object
 	{
 		// Get all skills effects on the L2Character
 		L2Effect[] effects = getAllEffects();
-		if (effects == null) return;
+		if (effects == null || effects.length<=0) 
+			return;
 
 		for(L2Effect e : effects)
 		{
-			if (e.getSkill().getId() == skillId) e.exit();
+			if(e!=null && e.getSkill()!=null){
+				if (e.getSkill().getId() == skillId) 
+					e.exit();
+			}
+			
 		}
 		effects = null;
 	}
@@ -7484,8 +7489,13 @@ public abstract class L2Character extends L2Object
 		try
 		{
 			// Go through targets table
-			for(L2Object target2 : targets)
+			for(int i=0;i<targets.length;i++)//L2Object target2 : targets)
 			{
+				L2Object target2 = targets[i];
+				if(target2==null){
+					continue;
+				}
+				
 				if(target2 instanceof L2PlayableInstance)
 				{
 					L2Character target = (L2Character) target2;
