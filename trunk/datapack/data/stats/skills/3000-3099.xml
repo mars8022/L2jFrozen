@@ -1,56 +1,55 @@
 <?xml version='1.0' encoding='utf-8'?>
 <list>
 <!-- Pack:l2jfrozen Site:www.l2jfrozen.com -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3001" levels="1" name="int_1">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3002" levels="1" name="int_2">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3003" levels="1" name="str_2">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3004" levels="1" name="maxmp_5">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3005" levels="1" name="Bleed">
   <set name="effectType" val="BLEED"/>
+  <set name="lvlDepend" val="1" />
   <set name="effectLevel" val="5"/>
   <set name="power" val="50"/> <!-- 5? -->
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BLEED"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="isDebuff" val="true"/>
-  <set name="castRange" val="-1"/>
   <for>
     <effect count="7" name="DamOverTime" time="3" val="66" abnormal="bleeding"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3006" levels="1" name="Equip Set Items">
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3007" levels="6" name="Special Ability: Guidance">
-<!--  Descriptions:
-  1: Increases Accuracy.
-  6: Increases Accuracy.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">6.88 6.07 5.72 5.37 5.02 4.68</table>
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -58,13 +57,11 @@
     <add order="0x40" stat="accCombat" val="#val"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3008" levels="6" name="Special Ability: Guidance">
-<!--  Descriptions:
-  1: Increases Accuracy.
-  6: Increases Accuracy.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">5.42 5.12 4.82 4.53 4.24 3.95</table>
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -72,13 +69,11 @@
   	<add order="0x40" stat="accCombat" val="#val"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3009" levels="6" name="Special Ability: Evasion">
-<!--  Descriptions:
-  1: Increases Evasion.
-  6: Increases Evasion.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">2.95 2.82 2.68 2.55 2.41 2.28</table>
+  <table name="#magicLvl"> 46 49 52 55 58 61</table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -86,13 +81,11 @@
   	<add order="0x40" stat="rEvas" val="#val"/>
   </for>
 </skill>
-<skill id="3010" levels="7" name="Special Ability: Focus">
-<!--  Descriptions:
-  1: Increases critical attack rate.
-  6: Increases critical attack rate.
-  created 2005-05-29 23:34:30
--->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<skill id="3010" levels="6" name="Special Ability: Focus">
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
   <table name="#val">86 82 77 73 68 64 60</table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -100,13 +93,11 @@
   	<add order="0x40" stat="rCrit" val="#val"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3011" levels="6" name="Special Ability: Focus">
-<!--  Descriptions:
-  1: Increases critical attack rate.
-  6: Increases critical attack rate.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">90 85 81 76 71 67</table>
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -114,13 +105,11 @@
   	<add order="0x40" stat="rCrit" val="#val"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3012" levels="6" name="Special Ability: Anger">
-<!--  Descriptions:
-  1: Decreases MaxHP and increases P. Atk.
-  6: Decreases MaxHP and increases P. Atk.
-  created 2005-05-29 23:34:30
--->
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
   <table name="#patk">20.44 22.64 24.77 26.78 28.59 30.12</table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -129,13 +118,11 @@
   	<mul order="0x30" stat="maxHp" val="0.85"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3013" levels="5" name="Special Ability: Health">
-<!--  Descriptions:
-  1: Increases MaxHP.
-  2: Increases maximum HP. Inflicts additional damage during PvP.
-  created 2005-05-29 23:34:30
--->
-  <table name="#pvpDam">1 1 1.05 1.05 1.1</table>
+  <table name="#magicLvl"> 1 1 64 64 70 </table>
+  <table name="#pvpDam">1 1 1.05 1.05 1.05</table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -145,44 +132,38 @@
     <mul order="0x30" stat="pvpPhysSkillsDmg" val="#pvpDam"/> 
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3014" levels="3" name="Special Ability: Mana Up">
   <table name="#magicLvl">1 64 64</table>
   <set name="magicLvl" val="#magicLvl"/>
-  <table name="#pvpBonus">1 1.05 1.15</table>
+  <table name="#pvpBonus">1 1.05 1.05</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="maxMp" val="1.3"/> <!-- Mana Up -->
     <mul order="0x30" stat="pvpPhysDmg" val="#pvpBonus"/> <!-- Enhances damage to target during PvP -->
     <mul order="0x30" stat="pvpMagicalDmg" val="#pvpBonus"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3016" levels="6" name="Special Ability: Critical Stun">
-<!--  Descriptions:
-  1: Temporarily stuns target into paralysis.
-  6: Temporarily stuns target into paralysis.
-  created 2005-05-29 23:34:30
--->
- <set name="effectPoint" val="92"/>
-  <set name="magiclvl" val="58"/>
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
+  <set name="effectPoint" val="92"/>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="activateRate" val="27"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <set name="castRange" val="200"/>
+  <set name="isDebuff" val="true" />
+  <set name="lvlDepend" val="1" />
   <for>
   	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3018" levels="6" name="Special Ability: Back Blow">
-<!--  Descriptions:
-  1: Increases critical attack rate when attacking a target from behind.
-  6: Increases critical attack rate when attacking a target from behind.
-  created 2005-05-29 23:34:30
--->
   <table name="#rate">71 67 63 60 56 53</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -195,12 +176,8 @@
   	</add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3019" levels="6" name="Special Ability: Back Blow">
-<!--  Descriptions:
-  1: Increases critical attack rate when attacking a target from behind.
-  6: Increases critical attack rate when attacking a target from behind.
-  created 2005-05-29 23:34:30
--->
   <table name="#rate">50 47 45 42 40 37</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -213,45 +190,40 @@
   	</add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3020" levels="6" name="Special Ability: Critical Bleed">
-<!--  Descriptions:
-  1: A wound appears and HP falls. Effect 5.
-  6: A wound appears and HP falls. Effect 7.
-  created 2005-05-29 23:34:30
--->
   <table name="#dmg">66 66 81 81 81 93</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
+  <set name="saveVs" val="CON" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="effectType" val="BLEED"/>
   <set name="effectPower" val="100"/>
+  <set name="lvlDepend" val="1" />
   <for>
   	<effect count="7" name="DamOverTime" time="3" val="#dmg" abnormal="bleeding"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3021" levels="6" name="Special Ability: Critical Bleed">
-<!--  Descriptions:
-  1: A wound appears and HP falls. Effect 5.
-  6: A wound appears and HP falls. Effect 7.
-  created 2005-05-29 23:34:30
--->
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
   <table name="#dmg">66 66 81 81 81 93</table>
   <table name="#abnormalLvl">5 5 5 6 6 7</table>
+  <set name="magicLvl" val="#magicLvl"/>
+  <set name="saveVs" val="CON" />
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="effectType" val="BLEED"/>
   <set name="effectPower" val="100"/>
+  <set name="lvlDepend" val="1" />
   <for>
   	<effect count="7" name="DamOverTime" time="3" val="#dmg" abnormal="bleeding"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3022" levels="7" name="Special Ability: Critical Drain">
   <table name="#hp">6 7 8 9 10 14 18</table>
   <set name="target" val="TARGET_ONE"/>
@@ -260,13 +232,10 @@
   <set name="castRange" val="600"/>
   <set name="absorbAbs" val="#hp"/>
   <set name="hitTime" val="3000"/>
+  <set name="isMagic" val="true" />
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3023" levels="6" name="Special Ability: Critical Damage">
-<!--  Descriptions:
-  1: Causes additional damage when launching a critical attack.
-  6: Causes additional damage when launching a critical attack.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">174 194 213 231 247 262</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -277,20 +246,19 @@
   	<add order="0x40" stat="cAtk" val="#val"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3024" levels="6" name="Special Ability: Critical Poison">
-<!--  Descriptions:
-  1: Causes poisoning. Effect 5.
-  6: Causes poisoning. Effect 7.
-  created 2005-05-29 23:34:30
--->
   <table name="#abnormalLvl">5 5 6 6 6 7</table>
   <table name="#dmg">92 92 114 114 114 144</table>
   <table name="#lvl">5 5 6 6 6 7</table>
+  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
+  <set name="magicLvl" val="#magicLvl" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="isMagic" val="true" />
+  <set name="isDebuff" val="true" />
+  <set name="lvlDepend" val="1" />
   <set name="effectType" val="POISON"/>
   <set name="effectLevel" val="#lvl"/>
   <set name="effectPower" val="70"/>
@@ -298,6 +266,7 @@
   	<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3025" levels="6" name="Special Ability: Critical Anger">
   <table name="#dmg">12 13 14 15 16 17</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
@@ -309,12 +278,8 @@
   	<effect abnormal="bleeding" count="1" name="DamOverTime" time="0" val="#dmg"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3026" levels="6" name="Special Ability: Critical Anger">
-<!--  Descriptions:
-  1: Causes additional damage during a critical attack while reducing one's own HP.
-  6: Causes additional damage during a critical attack while reducing one's own HP.
-  created 2005-05-29 23:34:30
--->
   <table name="#crit">248.56 298.04 352.73 411.98 474.82 539.9</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -325,12 +290,8 @@
   	<add order="0x40" stat="cAtk" val="#crit"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3027" levels="6" name="Special Ability: Rsk. Focus">
-<!--  Descriptions:
-  1: When HP gets decreased, critical attack rate increases.
-  6: When HP gets decreased, critical attack rate increases.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">138 130 123 115 107 99</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -345,12 +306,8 @@
   	</add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3028" levels="6" name="Special Ability: Rsk. Evasion">
-<!--  Descriptions:
-  1: Evasion increases when HP falls.
-  6: Evasion increases when HP falls.
-  created 2005-05-29 23:34:30
--->
   <table name="#val">7.63 7.29 6.95 6.6 6.24 5.87</table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -1093,17 +1050,16 @@
   	</add>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3070" levels="3" name="Special Ability: Critical Stun">
-<!--  Descriptions:
-  1: Stuns the enemy during a critical attack.
-  2: Stuns the enemy during a critical attack.
-  created 2005-05-29 23:34:31
--->
+  <table name="#magicLvl"> 64 67 70 </table>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="saveVs" val="CON" />
+  <set name="magicLvl" val="#magicLvl" />
+  <set name="isDebuff" val="true" />
+  <set name="lvlDepend" val="1" />
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
   </for>
@@ -1332,6 +1288,7 @@
   <set name="triggeredId" val="5167"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3085" levels="10" name="Item Skill: Stun">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
@@ -1340,8 +1297,8 @@
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_HIT"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="reuseDelay" val="30000" />
+  <set name="saveVs" val="CON" />
   <set name="triggeredId" val="5168"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
 </skill>
@@ -1502,16 +1459,18 @@
   <set name="triggeredId" val="5167"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3098" levels="10" name="Item Skill: Stun">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_CHANCE"/>
+  <set name="reuseDelay" val="30000" />
+  <set name="saveVs" val="CON" />
+  <set name="lvlDepend" val="1" />
   <set name="chanceType" val="ON_MAGIC_OFFENSIVE"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="triggeredId" val="5168"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
 </skill>

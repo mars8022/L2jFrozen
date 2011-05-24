@@ -186,6 +186,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3113" levels="10" name="Item Skill: Stun">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
@@ -193,11 +194,12 @@
   <set name="triggeredLevel" val="#triggeredLevel"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
+  <set name="reuseDelay" val="30000" />
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_CRIT"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="saveVs" val="CON" />
+  <set name="lvlDepend" val="1" />
 </skill>
 <skill id="3114" levels="10" name="Item Skill: Hold">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
@@ -1687,15 +1689,16 @@
    </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3189" levels="10" name="Item Skill: Stun">
-  <table name="#hitTime">4000 1500 1500 1500 1500 1500 1500 1500 1500 1500</table>
   <table name="#power">30 35 44 55 64 79 84 96 102 109</table>
   <table name="#mpConsume">42 44 48 50 54 57 60 63 65 69</table>
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
   <table name="#mpConsume_Init">9 9 10 10 11 12 12 13 14 14</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
+  <set name="reuseDelay" val="30000" />
   <set name="staticReuse" val="true"/>
-  <set name="power" val="50"/>
+  <set name="power" val="40"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="saveVs" val="CON"/>
@@ -1703,11 +1706,13 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
   <set name="reuseDelay" val="15000"/>
-  <set name="hitTime" val="#hitTime"/>
+  <set name="hitTime" val="1500"/>
+  <set name="staticHitTime" val="true" />
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="levelModifier" val="1"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="5" val="0"/>
   </for>
