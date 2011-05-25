@@ -56,6 +56,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class Olympiad
 {
@@ -1139,11 +1140,11 @@ public class Olympiad
 		if(_nobles == null)
 			return;
 
+		PreparedStatement statement;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement;
-
+			
 			for(Integer nobleId : _nobles.keySet())
 			{
 				StatsSet nobleInfo = _nobles.get(nobleId);
@@ -1155,32 +1156,61 @@ public class Olympiad
 				int compDone = nobleInfo.getInteger(COMP_DONE);
 				boolean toSave = nobleInfo.getBool("to_save");
 
-				if(toSave)
-				{
-					statement = con.prepareStatement(OLYMPIAD_SAVE_NOBLES);
-					statement.setInt(1, charId);
-					statement.setInt(2, classId);
-					statement.setString(3, charName);
-					statement.setInt(4, points);
-					statement.setInt(5, compDone);
-					statement.execute();
+				try{
+					
+					if(toSave)
+					{
+						statement = con.prepareStatement(OLYMPIAD_SAVE_NOBLES);
+						statement.setInt(1, charId);
+						statement.setInt(2, classId);
+						statement.setString(3, charName);
+						statement.setInt(4, points);
+						statement.setInt(5, compDone);
+						statement.execute();
 
-					statement.close();
+						statement.close();
 
-					nobleInfo.set("to_save", false);
+						nobleInfo.set("to_save", false);
 
-					_nobles.remove(nobleId);
-					_nobles.put(nobleId, nobleInfo);
+						_nobles.remove(nobleId);
+						_nobles.put(nobleId, nobleInfo);
+					}
+					else
+					{
+						statement = con.prepareStatement(OLYMPIAD_UPDATE_NOBLES);
+						statement.setInt(1, points);
+						statement.setInt(2, compDone);
+						statement.setInt(3, charId);
+						statement.execute();
+						statement.close();
+						
+					}
+					
 				}
-				else
-				{
-					statement = con.prepareStatement(OLYMPIAD_UPDATE_NOBLES);
-					statement.setInt(1, points);
-					statement.setInt(2, compDone);
-					statement.setInt(3, charId);
-					statement.execute();
-					statement.close();
+				catch(MySQLIntegrityConstraintViolationException e){ //update to avoid miss information
+					
+					try{
+					
+						statement = con.prepareStatement(OLYMPIAD_UPDATE_NOBLES);
+						statement.setInt(1, points);
+						statement.setInt(2, compDone);
+						statement.setInt(3, charId);
+						statement.execute();
+						statement.close();
+						
+						nobleInfo.set("to_save", false);
+
+						_nobles.remove(nobleId);
+						_nobles.put(nobleId, nobleInfo);
+						
+					}catch(SQLException e1)
+					{
+						e.printStackTrace();
+						_log.warning("Olympiad System: Couldn't save nobles info in db");
+					}
+					
 				}
+				
 			}
 		}
 		catch(SQLException e)

@@ -585,7 +585,7 @@ public abstract class L2Character extends L2Object
 				}
 				catch(NullPointerException e)
 				{
-					//null
+					e.printStackTrace();
 				}
 			}
 		}
@@ -4748,7 +4748,7 @@ public abstract class L2Character extends L2Object
 							}
 							catch(NullPointerException e)
 							{
-								//null
+								e.printStackTrace();
 							}
 						}
 					}
@@ -4934,6 +4934,7 @@ public abstract class L2Character extends L2Object
 		}
 		catch(NullPointerException e)
 		{
+			e.printStackTrace();
 			return false;
 		}
 
@@ -5588,7 +5589,7 @@ public abstract class L2Character extends L2Object
 					}
 					catch(NullPointerException e)
 					{
-						//null
+						e.printStackTrace();
 					}
 				}
 

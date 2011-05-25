@@ -68,8 +68,10 @@ public class FaenorInterface implements EngineInterface
 	public void addQuestDrop(int npcID, int itemID, int min, int max, int chance, String questID, String[] states)
 	{
 		L2NpcTemplate npc = npcTable.getTemplate(npcID);
-		if(npc == null)
-			throw new NullPointerException();
+		if(npc == null){
+			_log.info("FeanorInterface: Npc "+npcID+" is null..");
+			return;
+		}
 		L2DropData drop = new L2DropData();
 		drop.setItemId(itemID);
 		drop.setMinDrop(min);

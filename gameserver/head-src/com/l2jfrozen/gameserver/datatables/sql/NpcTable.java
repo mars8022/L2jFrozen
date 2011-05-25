@@ -627,7 +627,6 @@ public class NpcTable
 						break;
 					default:
 					{
-						level = NpcData.getInt("level");
 					}
 				}
 

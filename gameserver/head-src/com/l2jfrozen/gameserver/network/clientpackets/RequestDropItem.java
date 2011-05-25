@@ -212,7 +212,7 @@ public final class RequestDropItem extends L2GameClientPacket
 			_log.fine("dropping " + _objectId + " item(" + _count + ") at: " + _x + " " + _y + " " + _z);
 		}
 
-		if(dropedItem != null && dropedItem.getItemId() == 57 && dropedItem.getCount() >= 1000000)
+		if(dropedItem != null && dropedItem.getItemId() == 57 && dropedItem.getCount() >= 1000000 && Config.RATE_DROP_ADENA<=200)
 		{
 			String msg = "Character (" + activeChar.getName() + ") has dropped (" + dropedItem.getCount() + ")adena at (" + _x + "," + _y + "," + _z + ")";
 			_log.warning(msg);
