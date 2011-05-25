@@ -55,6 +55,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 /**
  * This class ...
@@ -556,6 +557,7 @@ public class L2Clan
 			}
 			catch(NullPointerException e)
 			{
+				e.printStackTrace();
 				//null
 			}
 		}
@@ -1158,12 +1160,13 @@ public class L2Clan
 
 			// Replace oldSkill by newSkill or Add the newSkill
 			oldSkill = _skills.put(newSkill.getId(), newSkill);
+			
+			PreparedStatement statement;
 
 			try
 			{
 				con = L2DatabaseFactory.getInstance().getConnection(false);
-				PreparedStatement statement;
-
+				
 				if(oldSkill != null)
 				{
 					statement = con.prepareStatement("UPDATE clan_skills SET skill_level=? WHERE skill_id=? AND clan_id=?");
@@ -1176,19 +1179,35 @@ public class L2Clan
 				}
 				else
 				{
-					statement = con.prepareStatement("INSERT INTO clan_skills (clan_id,skill_id,skill_level,skill_name) VALUES (?,?,?,?)");
-					statement.setInt(1, getClanId());
-					statement.setInt(2, newSkill.getId());
-					statement.setInt(3, newSkill.getLevel());
-					statement.setString(4, newSkill.getName());
-					statement.execute();
-					statement.close();
-					statement = null;
+					try{
+						
+						statement = con.prepareStatement("INSERT INTO clan_skills (clan_id,skill_id,skill_level,skill_name) VALUES (?,?,?,?)");
+						statement.setInt(1, getClanId());
+						statement.setInt(2, newSkill.getId());
+						statement.setInt(3, newSkill.getLevel());
+						statement.setString(4, newSkill.getName());
+						statement.execute();
+						statement.close();
+						statement = null;
+						
+					}
+					catch(MySQLIntegrityConstraintViolationException e) //update to avoid miss information
+					{
+						statement = con.prepareStatement("UPDATE clan_skills SET skill_level=? WHERE skill_id=? AND clan_id=?");
+						statement.setInt(1, newSkill.getLevel());
+						statement.setInt(2, newSkill.getId());
+						statement.setInt(3, getClanId());
+						statement.execute();
+						statement.close();
+						statement = null;
+						
+					}
+					
 				}
 			}
-			catch(Exception e)
-			{
-				_log.warning("Error could not store char skills: " + e);
+			catch (Exception e2) {
+				_log.warning("Error could not store char skills: ");
+				e2.printStackTrace();
 			}
 			finally
 			{
@@ -1211,6 +1230,7 @@ public class L2Clan
 				}
 				catch(NullPointerException e)
 				{
+					e.printStackTrace();
 					//null
 				}
 			}
@@ -1238,6 +1258,7 @@ public class L2Clan
 				catch(NullPointerException e)
 				{
 					//null
+					e.printStackTrace();
 				}
 			}
 		}
@@ -1286,6 +1307,7 @@ public class L2Clan
 			catch(NullPointerException e)
 			{
 				//null
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1304,6 +1326,7 @@ public class L2Clan
 			catch(NullPointerException e)
 			{
 				//null
+				e.printStackTrace();
 			}
 		}
 	}

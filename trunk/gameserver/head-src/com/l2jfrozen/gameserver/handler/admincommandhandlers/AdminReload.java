@@ -180,7 +180,7 @@ public class AdminReload implements IAdminCommandHandler
                         }
                         
                 }
-				else if (type.startsWith("scripts_feanor"))
+				else if (type.startsWith("scripts_faenor"))
                 {
                         try
                         {

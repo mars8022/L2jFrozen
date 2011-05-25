@@ -18,6 +18,7 @@
 package com.l2jfrozen.gameserver.model.actor.knownlist;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.ai.L2CharacterAI;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Summon;
@@ -105,10 +106,15 @@ public class PcKnownList extends PlayableKnownList
 		if(!super.addKnownObject(object, dropper))
 			return false;
 
+		L2PcInstance active_char = getActiveChar();
+		if(active_char == null){
+			return false;
+		}
+		
 		if(object.getPoly().isMorphed() && object.getPoly().getPolyType().equals("item"))
 		{
 			//if (object.getPolytype().equals("item"))
-			getActiveChar().sendPacket(new SpawnItemPoly(object));
+			active_char.sendPacket(new SpawnItemPoly(object));
 			//else if (object.getPolytype().equals("npc"))
 			//    sendPacket(new NpcInfoPoly(object, this));
 		}
@@ -118,59 +124,59 @@ public class PcKnownList extends PlayableKnownList
 			{
 				if(dropper != null)
 				{
-					getActiveChar().sendPacket(new DropItem((L2ItemInstance) object, dropper.getObjectId()));
+					active_char.sendPacket(new DropItem((L2ItemInstance) object, dropper.getObjectId()));
 				}
 				else
 				{
-					getActiveChar().sendPacket(new SpawnItem((L2ItemInstance) object));
+					active_char.sendPacket(new SpawnItem((L2ItemInstance) object));
 				}
 			}
 			else if(object instanceof L2DoorInstance)
 			{
-				getActiveChar().sendPacket(new DoorInfo((L2DoorInstance) object, false));
-				getActiveChar().sendPacket(new DoorStatusUpdate((L2DoorInstance) object));
+				active_char.sendPacket(new DoorInfo((L2DoorInstance) object, false));
+				active_char.sendPacket(new DoorStatusUpdate((L2DoorInstance) object));
 			}
 			else if(object instanceof L2BoatInstance)
 			{
-				if(!getActiveChar().isInBoat())
-					if(object != getActiveChar().getBoat())
+				if(!active_char.isInBoat())
+					if(object != active_char.getBoat())
 					{
-						getActiveChar().sendPacket(new VehicleInfo((L2BoatInstance) object));
-						((L2BoatInstance) object).sendVehicleDeparture(getActiveChar());
+						active_char.sendPacket(new VehicleInfo((L2BoatInstance) object));
+						((L2BoatInstance) object).sendVehicleDeparture(active_char);
 					}
 			}
 			else if(object instanceof L2StaticObjectInstance)
 			{
-				getActiveChar().sendPacket(new StaticObject((L2StaticObjectInstance) object));
+				active_char.sendPacket(new StaticObject((L2StaticObjectInstance) object));
 			}
 			else if(object instanceof L2NpcInstance)
 			{
 				if(Config.CHECK_KNOWN)
 				{
-					getActiveChar().sendMessage("Added NPC: " + ((L2NpcInstance) object).getName());
+					active_char.sendMessage("Added NPC: " + ((L2NpcInstance) object).getName());
 				}
 
-				getActiveChar().sendPacket(new NpcInfo((L2NpcInstance) object, getActiveChar()));
+				active_char.sendPacket(new NpcInfo((L2NpcInstance) object, active_char));
 			}
 			else if(object instanceof L2Summon)
 			{
 				L2Summon summon = (L2Summon) object;
 
 				// Check if the L2PcInstance is the owner of the Pet
-				if(getActiveChar().equals(summon.getOwner()))
+				if(active_char.equals(summon.getOwner()))
 				{
-					getActiveChar().sendPacket(new PetInfo(summon));
+					active_char.sendPacket(new PetInfo(summon));
 					// The PetInfo packet wipes the PartySpelled (list of active  spells' icons).  Re-add them
 					summon.updateEffectIcons(true);
 
 					if(summon instanceof L2PetInstance)
 					{
-						getActiveChar().sendPacket(new PetItemList((L2PetInstance) summon));
+						active_char.sendPacket(new PetItemList((L2PetInstance) summon));
 					}
 				}
 				else
 				{
-					getActiveChar().sendPacket(new NpcInfo(summon, getActiveChar()));
+					active_char.sendPacket(new NpcInfo(summon, active_char));
 				}
 
 				summon = null;
@@ -181,41 +187,41 @@ public class PcKnownList extends PlayableKnownList
 				if(otherPlayer.isInBoat())
 				{
 					otherPlayer.getPosition().setWorldPosition(otherPlayer.getBoat().getPosition().getWorldPosition());
-					getActiveChar().sendPacket(new CharInfo(otherPlayer));
+					active_char.sendPacket(new CharInfo(otherPlayer));
 
-					int relation = otherPlayer.getRelation(getActiveChar());
+					int relation = otherPlayer.getRelation(active_char);
 
-					if(otherPlayer.getKnownList().getKnownRelations().get(getActiveChar().getObjectId()) != null && otherPlayer.getKnownList().getKnownRelations().get(getActiveChar().getObjectId()) != relation)
+					if(otherPlayer.getKnownList().getKnownRelations().get(active_char.getObjectId()) != null && otherPlayer.getKnownList().getKnownRelations().get(active_char.getObjectId()) != relation)
 					{
-						getActiveChar().sendPacket(new RelationChanged(otherPlayer, relation, getActiveChar().isAutoAttackable(otherPlayer)));
+						active_char.sendPacket(new RelationChanged(otherPlayer, relation, active_char.isAutoAttackable(otherPlayer)));
 					}
 
-					getActiveChar().sendPacket(new GetOnVehicle(otherPlayer, otherPlayer.getBoat(), otherPlayer.getInBoatPosition().getX(), otherPlayer.getInBoatPosition().getY(), otherPlayer.getInBoatPosition().getZ()));
+					active_char.sendPacket(new GetOnVehicle(otherPlayer, otherPlayer.getBoat(), otherPlayer.getInBoatPosition().getX(), otherPlayer.getInBoatPosition().getY(), otherPlayer.getInBoatPosition().getZ()));
 
 				}
 				else
 				{
-					getActiveChar().sendPacket(new CharInfo(otherPlayer));
+					active_char.sendPacket(new CharInfo(otherPlayer));
 
-					int relation = otherPlayer.getRelation(getActiveChar());
+					int relation = otherPlayer.getRelation(active_char);
 
-					if(otherPlayer.getKnownList().getKnownRelations().get(getActiveChar().getObjectId()) != null && otherPlayer.getKnownList().getKnownRelations().get(getActiveChar().getObjectId()) != relation)
+					if(otherPlayer.getKnownList().getKnownRelations().get(active_char.getObjectId()) != null && otherPlayer.getKnownList().getKnownRelations().get(active_char.getObjectId()) != relation)
 					{
-						getActiveChar().sendPacket(new RelationChanged(otherPlayer, relation, getActiveChar().isAutoAttackable(otherPlayer)));
+						active_char.sendPacket(new RelationChanged(otherPlayer, relation, active_char.isAutoAttackable(otherPlayer)));
 					}
 				}
 
 				if(otherPlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
 				{
-					getActiveChar().sendPacket(new PrivateStoreMsgSell(otherPlayer));
+					active_char.sendPacket(new PrivateStoreMsgSell(otherPlayer));
 				}
 				else if(otherPlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY)
 				{
-					getActiveChar().sendPacket(new PrivateStoreMsgBuy(otherPlayer));
+					active_char.sendPacket(new PrivateStoreMsgBuy(otherPlayer));
 				}
 				else if(otherPlayer.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
 				{
-					getActiveChar().sendPacket(new RecipeShopMsg(otherPlayer));
+					active_char.sendPacket(new RecipeShopMsg(otherPlayer));
 				}
 
 				otherPlayer = null;
@@ -226,9 +232,10 @@ public class PcKnownList extends PlayableKnownList
 				// Update the state of the L2Character object client side by sending Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the L2PcInstance
 				L2Character obj = (L2Character) object;
 
-				if(obj.getAI() != null)
+				L2CharacterAI obj_ai = obj.getAI();
+				if(obj_ai != null)
 				{
-					obj.getAI().describeStateToPlayer(getActiveChar());
+					obj_ai.describeStateToPlayer(active_char);
 				}
 
 				obj = null;
@@ -251,12 +258,14 @@ public class PcKnownList extends PlayableKnownList
 		if(!super.removeKnownObject(object))
 			return false;
 
+		L2PcInstance active_char = getActiveChar();
+		
 		// Send Server-Client Packet DeleteObject to the L2PcInstance
-		getActiveChar().sendPacket(new DeleteObject(object));
+		active_char.sendPacket(new DeleteObject(object));
 
 		if(Config.CHECK_KNOWN && object instanceof L2NpcInstance)
 		{
-			getActiveChar().sendMessage("Removed NPC: " + ((L2NpcInstance) object).getName());
+			active_char.sendMessage("Removed NPC: " + ((L2NpcInstance) object).getName());
 		}
 
 		return true;
