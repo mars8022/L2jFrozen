@@ -927,7 +927,7 @@ public class AdminEditChar implements IAdminCommandHandler
 				online_players_list.add(actual_player);
 			else if(actual_player==null)
 				_log.log(Level.WARNING, "listCharacters: found player null into L2World Instance..");
-			else if(actual_player.isOnline()==0)
+			else if(actual_player.isOnline()==0 && Config.DEBUG)
 				_log.log(Level.WARNING, "listCharacters: player "+actual_player.getName()+" not online into L2World Instance..");
 			else if(actual_player.isOffline() && Config.DEBUG)
 				_log.log(Level.WARNING, "listCharacters: player "+actual_player.getName()+" offline into L2World Instance..");
