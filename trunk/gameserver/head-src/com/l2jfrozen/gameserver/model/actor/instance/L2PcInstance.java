@@ -7734,8 +7734,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			_accessLevel = AccessLevels.getInstance()._userAccessLevel;
 		}
 		else
-		{
-			_log.warning("GM Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");
+		{   if(level > 0){ 
+			_log.warning("GM Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");}
 			AccessLevel accessLevel = AccessLevels.getInstance().getAccessLevel(level);
 
 			if(accessLevel == null)

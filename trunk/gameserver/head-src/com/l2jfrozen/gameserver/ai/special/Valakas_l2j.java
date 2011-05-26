@@ -110,11 +110,12 @@ public class Valakas_l2j extends Quest implements Runnable
 			}
 			else
 			{
-				// the time has already expired while the server was offline. Immediately spawn valakas in his cave.
-				// also, the status needs to be changed to DORMANT
-				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, -105200, -253104, -15264, 0, false, 0);
+				// the time has already expired while the server was offline.
+				// the status needs to be changed to DORMANT
+				//L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, -105200, -253104, -15264, 0, false, 0);
 				//L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, 213004,-114890,-1635, 0, false, 0);
 				GrandBossManager.getInstance().setBossStatus(VALAKAS, DORMANT);
+				/*
 				GrandBossManager.getInstance().addBoss(valakas);
 				final L2NpcInstance _valakas = valakas;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -131,48 +132,48 @@ public class Valakas_l2j extends Quest implements Runnable
 					}
 				}, 100L);
 				startQuestTimer("1003", 60000, valakas, null, true);
+				*/
 			}
 		}
 		else
 		{
-			int loc_x = info.getInteger("loc_x");
-			int loc_y = info.getInteger("loc_y");
-			int loc_z = info.getInteger("loc_z");
-			int heading = info.getInteger("heading");
-			final int hp = info.getInteger("currentHP");
-			final int mp = info.getInteger("currentMP");
-			L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, loc_x, loc_y, loc_z, heading, false, 0);
-			GrandBossManager.getInstance().addBoss(valakas);
-			final L2NpcInstance _valakas = valakas;
-			final int _status = status;
-			ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+			if(status == FIGHTING)
 			{
-				public void run()
+				int loc_x = info.getInteger("loc_x");
+				int loc_y = info.getInteger("loc_y");
+				int loc_z = info.getInteger("loc_z");
+				int heading = info.getInteger("heading");
+				final int hp = info.getInteger("currentHP");
+				final int mp = info.getInteger("currentMP");
+				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, loc_x, loc_y, loc_z, heading, false, 0);
+				GrandBossManager.getInstance().addBoss(valakas);
+				final L2NpcInstance _valakas = valakas;
+				
+				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 				{
-					try
+					public void run()
 					{
-						_valakas.setCurrentHpMp(hp, mp);
-						if (_status != FIGHTING)
-							_valakas.setIsInvul(true);
-						_valakas.setRunning();
+						try
+						{
+							_valakas.setCurrentHpMp(hp, mp);
+							_valakas.setRunning();
+						}
+						catch (Throwable e)
+						{}
 					}
-					catch (Throwable e)
-					{}
-				}
-			}, 100L);
-			
-			startQuestTimer("1003", 60000, valakas, null, true);
-			if (status == WAITING)
-			{
-				// Start timer to lock entry after 30 minutes
-				startQuestTimer("1001", (long)(Config.VALAKAS_WAIT_TIME*60000), valakas, null);
-			}
-			else if (status == FIGHTING)
-			{
+				}, 100L);
+				
+				startQuestTimer("1003", 60000, valakas, null, true);
 				// Start repeating timer to check for inactivity
 				startQuestTimer("1002", 60000, valakas, null, true);
-				valakas.setIsInvul(false);
+				
+			}else if(status == WAITING){
+				
+				// Start timer to lock entry after 30 minutes
+				startQuestTimer("1001", (long)(Config.VALAKAS_WAIT_TIME*60000), null, null);
+				
 			}
+			
 		}
 	}
 	
@@ -182,26 +183,7 @@ public class Valakas_l2j extends Quest implements Runnable
 		if (npc != null)
 		{
 			long temp = 0;
-			if (event.equalsIgnoreCase("1001"))
-			{
-				npc.teleToLocation(212852, -114842, -1632);
-				i_quest1 = System.currentTimeMillis();
-				final L2NpcInstance _valakas = npc;
-				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-				{
-					public void run()
-					{
-						try
-						{
-							broadcastSpawn(_valakas);
-						}
-						catch (Throwable e)
-						{}
-					}
-				}, 1L);
-				startQuestTimer("1004", 2000, npc, null);
-			}
-			else if (event.equalsIgnoreCase("1002"))
+			if (event.equalsIgnoreCase("1002"))
 			{
 				int lvl = 0;
 				int sk_4691 = 0;
@@ -379,10 +361,37 @@ public class Valakas_l2j extends Quest implements Runnable
 		}
 		else
 		{
-			if (event.equalsIgnoreCase("valakas_unlock"))
+			if (event.equalsIgnoreCase("1001"))
 			{
-				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, -105200, -253104, -15264, 32768, false, 0);
+				StatsSet info = GrandBossManager.getInstance().getStatsSet(VALAKAS);
+				int loc_x = info.getInteger("loc_x");
+				int loc_y = info.getInteger("loc_y");
+				int loc_z = info.getInteger("loc_z");
+				int heading = info.getInteger("heading");
+				
+				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, loc_x, loc_y, loc_z, heading, false, 0);
 				GrandBossManager.getInstance().addBoss(valakas);
+				
+				i_quest1 = System.currentTimeMillis();
+				final L2NpcInstance _valakas = valakas;
+				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+				{
+					public void run()
+					{
+						try
+						{
+							broadcastSpawn(_valakas);
+						}
+						catch (Throwable e)
+						{}
+					}
+				}, 1L);
+				startQuestTimer("1004", 2000, valakas, null);
+			}
+			else if (event.equalsIgnoreCase("valakas_unlock"))
+			{
+				//L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, -105200, -253104, -15264, 32768, false, 0);
+				//GrandBossManager.getInstance().addBoss(valakas);
 				GrandBossManager.getInstance().setBossStatus(VALAKAS, DORMANT);
 			}
 			else if (event.equalsIgnoreCase("remove_players"))
