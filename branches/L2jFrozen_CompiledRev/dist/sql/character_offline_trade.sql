@@ -1,4 +1,4 @@
-drop table `character_offline_trade`;
+drop table IF EXISTS `character_offline_trade`;
 CREATE TABLE `character_offline_trade` (
   `charId` int(11) NOT NULL,
   `time` bigint(20) unsigned NOT NULL DEFAULT '0',
@@ -7,7 +7,7 @@ CREATE TABLE `character_offline_trade` (
   PRIMARY KEY (`charId`)
 ) ;
 
-drop table `character_offline_trade_items`;
+drop table IF EXISTS `character_offline_trade_items`;
 CREATE TABLE `character_offline_trade_items` (
   `charId` int(10) NOT NULL DEFAULT '0',
   `item` int(10) NOT NULL DEFAULT '0',
