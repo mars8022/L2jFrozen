@@ -97,6 +97,14 @@ public class BlockList
 
 	public static void addToBlockList(L2PcInstance listOwner, L2PcInstance character)
 	{
+		if (listOwner.getFriendList().contains(character.getName()))
+		{
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_ALREADY_IN_FRIENDS_LIST);
+			sm.addString(character.getName());
+			listOwner.sendPacket(sm);
+			return;
+		}
+		
 		listOwner.getBlockList().addToBlockList(character);
 
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);

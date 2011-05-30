@@ -199,7 +199,9 @@ public class Wedding implements IVoicedCommandHandler
 		}
 
 		// check if target has player on friendlist
+		/*
 		boolean FoundOnFriendList = false;
+		
 		int objectId;
 		Connection con = null;
 
@@ -233,8 +235,9 @@ public class Wedding implements IVoicedCommandHandler
 			con = null;
 			
 		}
+		*/
 
-		if(!FoundOnFriendList)
+		if(!activeChar.getFriendList().contains(ptarget.getName()))
 		{
 			activeChar.sendMessage("The player you want to ask is not on your friends list, you must first be on each others friends list before you choose to engage.");
 			return false;

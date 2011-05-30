@@ -66,12 +66,11 @@ public class FriendList extends L2GameServerPacket
 			// Obtain the total number of friend entries for this player.
 			rset.last();
 
+			writeC(0xfa);
+			writeD(rset.getRow());
+
 			if(rset.getRow() > 0)
 			{
-
-				writeC(0xfa);
-				writeH(rset.getRow());
-
 				rset.beforeFirst();
 
 				while(rset.next())
@@ -86,20 +85,21 @@ public class FriendList extends L2GameServerPacket
 
 					L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
 
-					writeH(0); // ??
+					//writeH(0); // ??
 					writeD(friendId);
 					writeS(friendName);
 
 					if(friend == null)
 					{
 						writeD(0); // offline
+						writeD(0x00);
 					}
 					else
 					{
 						writeD(1); // online
+						writeD(friendId);
 					}
 
-					writeH(0); // ??
 				}
 			}
 

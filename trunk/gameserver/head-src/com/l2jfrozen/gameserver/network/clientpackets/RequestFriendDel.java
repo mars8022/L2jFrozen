@@ -28,6 +28,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.FriendList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -61,21 +62,37 @@ public final class RequestFriendDel extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		if(_name==null) return;
+		if(_name==null) 
+			return;
+		
 		SystemMessage sm;
 		Connection con = null;
 		L2PcInstance activeChar = getClient().getActiveChar();
 		if(activeChar == null)
 			return;
 
+		if (!activeChar.getFriendList().contains(_name))
+		{
+			sm = new SystemMessage(SystemMessageId.S1_NOT_ON_YOUR_FRIENDS_LIST);
+			sm.addString(_name);
+			activeChar.sendPacket(sm);
+			return;
+		}
+		
 		try
 		{
 			L2PcInstance friend = L2World.getInstance().getPlayer(_name);
 			con = L2DatabaseFactory.getInstance().getConnection(false);
+			
 			PreparedStatement statement;
 			ResultSet rset;
+			
+			int objectId = -1;
+			
 			if(friend != null)
 			{
+				objectId = friend.getObjectId();
+				/*
 				statement = con.prepareStatement("SELECT friend_id FROM character_friends WHERE char_id=? and friend_id=?");
 				statement.setInt(1, activeChar.getObjectId());
 				statement.setInt(2, friend.getObjectId());
@@ -91,6 +108,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 					con = null;
 					return;
 				}
+				*/
 			}
 			else
 			{
@@ -98,9 +116,12 @@ public final class RequestFriendDel extends L2GameClientPacket
 				statement.setInt(1, activeChar.getObjectId());
 				statement.setString(2, _name);
 				rset = statement.executeQuery();
+				
 				if(!rset.next())
 				{
 					statement.close();
+					rset.close();
+					
 					// Player is not in your friendlist
 					sm = new SystemMessage(SystemMessageId.S1_NOT_ON_YOUR_FRIENDS_LIST);
 					sm.addString(_name);
@@ -108,12 +129,13 @@ public final class RequestFriendDel extends L2GameClientPacket
 					CloseUtil.close(con);
 					con = null;
 					return;
+					
+				}else{
+				
+					objectId = rset.getInt("friend_id");
+					
 				}
 			}
-
-			int objectId = rset.getInt("friend_id");
-			statement.close();
-			rset.close();
 
 			statement = con.prepareStatement("DELETE FROM character_friends WHERE (char_id=? AND friend_id=?) OR (char_id=? AND friend_id=?)");
 			statement.setInt(1, activeChar.getObjectId());
@@ -127,6 +149,15 @@ public final class RequestFriendDel extends L2GameClientPacket
 			activeChar.sendPacket(sm);
 
 			statement.close();
+			
+			activeChar.getFriendList().remove(_name);
+			activeChar.sendPacket(new FriendList(activeChar));
+			
+			if (friend != null)
+			{
+				friend.getFriendList().remove(activeChar.getName());
+				friend.sendPacket(new FriendList(friend));
+			}
 		}
 		catch(Exception e)
 		{

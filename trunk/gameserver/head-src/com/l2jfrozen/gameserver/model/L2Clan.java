@@ -992,7 +992,7 @@ public class L2Clan
 	      Connection con = null;
 	      try
 	      {
-	         con = L2DatabaseFactory.getInstance().getConnection();
+	         con = L2DatabaseFactory.getInstance().getConnection(false);
 	         PreparedStatement statement = con.prepareStatement("SELECT enabled,notice FROM clan_notices WHERE clan_id=?");
 	         statement.setInt(1, getClanId());
 	         ResultSet noticeData = statement.executeQuery();
@@ -1028,7 +1028,7 @@ public class L2Clan
 	      Connection con = null;
 	      try
 	      {
-	         con = L2DatabaseFactory.getInstance().getConnection();
+	         con = L2DatabaseFactory.getInstance().getConnection(false);
 	         PreparedStatement statement = con.prepareStatement("INSERT INTO clan_notices (clan_id,notice,enabled) values (?,?,?) ON DUPLICATE KEY UPDATE notice=?,enabled=?");
 	         statement.setInt(1, getClanId());
 	         statement.setString(2, notice);

@@ -63,7 +63,7 @@ public final class RequestFriendInvite extends L2GameClientPacket
 			return;
 
 		L2PcInstance friend = L2World.getInstance().getPlayer(_name);
-		_name = Util.capitalizeFirst(_name); //FIXME: is it right to capitalize a nickname?
+		//_name = Util.capitalizeFirst(_name); //FIXME: is it right to capitalize a nickname?
 
 		if(friend == null)
 		{
@@ -90,7 +90,33 @@ public final class RequestFriendInvite extends L2GameClientPacket
 		    sm = null;
 			return;
 		}
+		
+		if (activeChar.getFriendList().contains(friend.getName()))
+		{
+			// Player already is in your friendlist
+			sm = new SystemMessage(SystemMessageId.S1_ALREADY_IN_FRIENDS_LIST);
+			sm.addString(_name);
+			activeChar.sendPacket(sm);
+			return;
+		}
 
+		if(!friend.isProcessingRequest())
+		{
+			//requets to become friend
+			activeChar.onTransactionRequest(friend);
+			sm = new SystemMessage(SystemMessageId.S1_REQUESTED_TO_BECOME_FRIENDS);
+			sm.addString(_name);
+			AskJoinFriend ajf = new AskJoinFriend(activeChar.getName());
+			friend.sendPacket(ajf);
+		}
+		else
+		{
+			sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
+		}
+		
+		friend.sendPacket(sm);
+		
+		/*
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -142,6 +168,7 @@ public final class RequestFriendInvite extends L2GameClientPacket
 			CloseUtil.close(con);
 			con = null;
 		}
+		*/
 	}
 
 	@Override

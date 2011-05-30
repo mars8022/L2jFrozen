@@ -64,7 +64,7 @@ public class L2OlympiadStadiumZone extends L2ZoneType
 		}
 		
 		// Fix against exploit for Olympiad zone during oly period
-		if(Olympiad.getInstance().inCompPeriod() && !((L2PcInstance) character).isInOlympiadMode())
+		if(character instanceof L2PcInstance && Olympiad.getInstance().inCompPeriod() && !((L2PcInstance) character).isInOlympiadMode())
 		{
 			oustAllPlayers();
 		}

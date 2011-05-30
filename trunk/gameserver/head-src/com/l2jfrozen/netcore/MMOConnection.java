@@ -212,6 +212,37 @@ public class MMOConnection<T extends MMOClient<?>>
 		return _readBuffer;
 	}
 	
+	public final boolean isConnected()
+	{
+		return !_socket.isClosed() && _socket.isConnected();
+	}
+	
+	public final boolean isChannelConnected()
+	{
+		if(!_socket.isClosed() 
+				&& _socket.getChannel()!=null 
+				&& _socket.getChannel().isConnected()
+				&& _socket.getChannel().isOpen()
+				&& !_socket.isInputShutdown()){
+			
+			try
+			{
+				if(_socket.getInputStream().available()>0){
+					return true;
+				}else{
+					return false;
+				}
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+				return false;
+			}
+			
+		}else
+			return false;
+	}
+	
 	public final boolean isClosed()
 	{
 		return _pendingClose;
@@ -250,7 +281,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 		}
 		
-		if(_selectionKey.isValid() && _selectionKey.isConnectable()){
+		if(_selectionKey.isValid()){
 			
 			try
 			{
@@ -258,9 +289,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 			catch (CancelledKeyException e)
 			{
-				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-					e.printStackTrace();
-				
+				//not useful log
 			}
 			
 		}

@@ -645,13 +645,21 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	@Override
 	public void onForcedDisconnection(boolean critical)
 	{
+		
+		if(critical)
+			_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
+		
+		closeNow();
+		
+		
+		/*
 		L2PcInstance player = null;
 		if((player = getActiveChar()) !=null){
 			
 			if(critical){
 				_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
-				_log.log(Level.WARNING, "Character disconnected at Loc X:"+getActiveChar().getX()+" Y:"+getActiveChar().getY()+" Z:"+getActiveChar().getZ());
-				_log.log(Level.WARNING, "Character disconnected in (closest) zone: "+MapRegionTable.getInstance().getClosestTownName(getActiveChar()));
+				_log.log(Level.WARNING, "Character disconnected at Loc X:"+player.getX()+" Y:"+player.getY()+" Z:"+player.getZ());
+				_log.log(Level.WARNING, "Character disconnected in (closest) zone: "+MapRegionTable.getInstance().getClosestTownName(player));
 			}
 			
 			if(player.isFlying())
@@ -700,9 +708,11 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			L2World.getInstance().removeFromAllPlayers(player);
 			setActiveChar(null);
 			LoginServerThread.getInstance().sendLogout(getAccountName());
+			
 		}
 		stopGuardTask();
 		nProtect.getInstance().closeSession(this);
+		*/
 	}
 
 	public void stopGuardTask()
@@ -737,14 +747,25 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	 */
 	public void closeNow()
 	{
+		close(0);
+	}
+	
+	/**
+	 * Close client connection with {@link ServerClose} packet
+	 */
+	public void close(int delay)
+	{
 		close(ServerClose.STATIC_PACKET);
 		synchronized (this)
 		{
 			if (_cleanupTask != null)
 				cancelCleanup();
-			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new CleanupTask(), 0); //instant
+			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new CleanupTask(), delay); //delayed
 		}
+		stopGuardTask();
+		nProtect.getInstance().closeSession(this);
 	}
+	
     
 	/**
 	 * Produces the best possible string representation of this client.
@@ -789,7 +810,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 	}
 	
-	class CleanupTask implements Runnable
+	
+	private class CleanupTask implements Runnable
 	{
 		/**
 		 * @see java.lang.Runnable#run()
@@ -799,6 +821,16 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		{
 			try
 			{
+				// Update BBS 
+				try
+				{
+					RegionBBSManager.getInstance().changeCommunityBoard();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+
 				// we are going to manually save the char below thus we can force the cancel
 				if (_autoSaveInDB != null)
 					_autoSaveInDB.cancel(true);
@@ -806,6 +838,41 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if (player != null) // this should only happen on connection loss
 				{
+					// we store all data from players who are disconnected while in an event in order to restore it in the next login
+					if(player.atEvent)
+					{
+						EventData data = new EventData(player.eventX, player.eventY, player.eventZ, player.eventKarma, player.eventPvpKills, player.eventPkKills, player.eventTitle, player.kills, player.eventSitForced);
+
+						L2Event.connectionLossData.put(player.getName(), data);
+						data = null;
+					}else{
+						
+						if(player._inEventCTF){
+							CTF.onDisconnect(player);
+						}else if(player._inEventDM){
+							DM.onDisconnect(player);
+						}else if(player._inEventTvT){
+							TvT.onDisconnect(player);
+						}else if(player._inEventVIP){
+							VIP.onDisconnect(player);
+						}
+						
+					}
+
+					if(player.isFlying())
+					{
+						player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+					}
+
+					if(player.isAway())
+					{
+						AwayManager.getInstance().extraBack(player);
+					}
+					
+					if(Olympiad.getInstance().isRegistered(player)){
+						Olympiad.getInstance().unRegisterNoble(player);
+					}
+
 					//Decrease boxes number
 					if(player._active_boxes!=-1)
 						player.decreaseBoxes();
@@ -813,8 +880,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					// prevent closing again
 					player.setClient(null);
 					
-					if (player.isOnline() == 1)
-						player.deleteMe();
+					player.deleteMe();
 					
 					try
 					{
@@ -844,7 +910,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	}
 	
 	
-	class DisconnectTask implements Runnable
+	private class DisconnectTask implements Runnable
 	{
 
 		/**
@@ -913,7 +979,11 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 						player.decreaseBoxes();
 					
 					
-					if(player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE || player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)
+					if(!Olympiad.getInstance().isRegistered(player) 
+							&& !player.isInOlympiadMode() 
+							&& !player.isInFunEvent() 
+							&& (player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE 
+							|| player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
 					{
 						player.setOffline(true);
 						player.leaveParty();
