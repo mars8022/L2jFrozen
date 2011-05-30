@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.model.zone.type;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -56,10 +57,16 @@ public class L2OlympiadStadiumZone extends L2ZoneType
 	{
 		character.setInsideZone(L2Character.ZONE_PVP, true);
 		character.setInsideZone(L2Character.ZONE_NOLANDING, true);
-
+		
 		if(character instanceof L2PcInstance)
 		{
 			((L2PcInstance) character).sendPacket(new SystemMessage(SystemMessageId.ENTERED_COMBAT_ZONE));
+		}
+		
+		// Fix against exploit for Olympiad zone during oly period
+		if(Olympiad.getInstance().inCompPeriod() && !((L2PcInstance) character).isInOlympiadMode())
+		{
+			oustAllPlayers();
 		}
 	}
 
@@ -110,12 +117,10 @@ public class L2OlympiadStadiumZone extends L2ZoneType
 			if(character instanceof L2PcInstance)
 			{
 				L2PcInstance player = (L2PcInstance) character;
-
-				if(player.isOnline() == 1 && !player.isGM() && !player.inObserverMode())
+				if(player.isOnline() == 1 && !player.isGM() && Olympiad.getInstance().inCompPeriod() && !player.inObserverMode() && !player.isInOlympiadMode())
 				{
 					player.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				}
-
 				player = null;
 			}
 		}

@@ -73,6 +73,13 @@ public final class RequestDropItem extends L2GameClientPacket
 			return;
 		}
 		
+		// Fix against safe enchant exploit
+		if(activeChar.getActiveEnchantItem() != null)
+		{ 
+			sendPacket(SystemMessage.sendString("You can't discard items during enchant."));
+			return;
+		}
+		
 		// Flood protect drop to avoid packet lag
 		if (!getClient().getFloodProtectors().getDropItem().tryPerformAction("drop item"))
 			return;

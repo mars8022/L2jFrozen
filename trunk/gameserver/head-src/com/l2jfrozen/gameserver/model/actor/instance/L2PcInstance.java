@@ -4868,6 +4868,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			//Check if the character has GM access and if so, let them be.
 			if(isGM())
 				return;
+			
+			//Check if the character is donator and if so, let them be.
+			if(isDonator())
+				return;
 
 			if(pvpKillAmount >= Config.PVP_AMOUNT1 && pvpKillAmount < Config.PVP_AMOUNT2)
 			{
@@ -12660,6 +12664,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 
 		revalidateZone(true);
+		
+		// Fix against exploit on anti-target on login
+		decayMe();
+		spawnMe();
+		broadcastUserInfo();
 	}
 
 	public long getLastAccess()

@@ -34,9 +34,7 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
-import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.Revive;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
@@ -72,7 +70,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 
 		@Override
 		public void run()
-		{
+		{			
 			if((activeChar._inEventTvT && TvT.is_started()) || (activeChar._inEventDM && DM.is_started()) || (activeChar._inEventCTF && CTF.is_started()))
 			{
 				activeChar.sendMessage("You can't restart in Event!");
@@ -230,10 +228,6 @@ public final class RequestRestartPoint extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
-		//SystemMessage sm2 = new SystemMessage(SystemMessage.S1_S2);
-		//sm2.addString("type:"+requestedPointType);
-		//activeChar.sendPacket(sm2);
-
 		if(activeChar.isFakeDeath())
 		{
 			activeChar.stopFakeDeath(null);
@@ -249,27 +243,22 @@ public final class RequestRestartPoint extends L2GameClientPacket
 		Castle castle = CastleManager.getInstance().getCastle(activeChar.getX(), activeChar.getY(), activeChar.getZ());
 		if(castle != null && castle.getSiege().getIsInProgress())
 		{
-			//DeathFinalizer df = new DeathFinalizer(10000);
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			if(activeChar.getClan() != null && castle.getSiege().checkIsAttacker(activeChar.getClan()))
 			{
 				// Schedule respawn delay for attacker
 				ThreadPoolManager.getInstance().scheduleGeneral(new DeathTask(activeChar), castle.getSiege().getAttackerRespawnDelay());
-				sm.addString("You will be re-spawned in " + castle.getSiege().getAttackerRespawnDelay() / 1000 + " seconds");
-				activeChar.sendPacket(sm);
+				activeChar.sendMessage("You will be re-spawned in " + castle.getSiege().getAttackerRespawnDelay() / 1000 + " seconds");
 			}
 			else
 			{
 				// Schedule respawn delay for defender with penalty for CT lose
 				ThreadPoolManager.getInstance().scheduleGeneral(new DeathTask(activeChar), castle.getSiege().getDefenderRespawnDelay());
-				sm.addString("You will be re-spawned in " + castle.getSiege().getDefenderRespawnDelay() / 1000 + " seconds");
-				activeChar.sendPacket(sm);
+				activeChar.sendMessage("You will be re-spawned in " + castle.getSiege().getDefenderRespawnDelay() / 1000 + " seconds");
 			}
-			sm = null;
 			return;
 		}
-
-		ThreadPoolManager.getInstance().scheduleGeneral(new DeathTask(activeChar), 1);
+		// run immediately (no need to schedule)
+		new DeathTask(activeChar).run();
 	}
 
 	/* (non-Javadoc)
