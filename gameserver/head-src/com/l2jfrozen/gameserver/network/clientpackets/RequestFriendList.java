@@ -56,6 +56,36 @@ public final class RequestFriendList extends L2GameClientPacket
 			return;
 
 		SystemMessage sm;
+		
+		// ======<Friend List>======
+		activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_HEAD));
+
+		L2PcInstance friend = null;
+		for (String friendName : activeChar.getFriendList())
+		{
+			friend = L2World.getInstance().getPlayer(friendName);
+			
+			if (friend == null || friend.isOnline()==0)
+			{
+				// (Currently: Offline)
+				sm = new SystemMessage(SystemMessageId.S1_OFFLINE);
+				sm.addString(friendName);
+			}
+			else
+			{
+				// (Currently: Online)
+				sm = new SystemMessage(SystemMessageId.S1_ONLINE);
+				sm.addString(friendName);
+			}
+			
+			activeChar.sendPacket(sm);
+		}
+		
+		// =========================
+		activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT));
+		
+		/*
+		SystemMessage sm;
 		Connection con = null;
 
 		try
@@ -113,6 +143,7 @@ public final class RequestFriendList extends L2GameClientPacket
 			CloseUtil.close(con);
 			con = null;
 		}
+		*/
 	}
 
 	@Override

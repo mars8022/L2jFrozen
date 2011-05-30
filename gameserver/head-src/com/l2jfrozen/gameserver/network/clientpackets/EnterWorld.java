@@ -98,8 +98,6 @@ import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * Enter World Packet Handler
@@ -327,7 +325,16 @@ public class EnterWorld extends L2GameClientPacket
 
 		setPledgeClass(activeChar);
 
-		notifyFriends(activeChar);
+		SystemMessage sm1 = new SystemMessage(SystemMessageId.FRIEND_S1_HAS_LOGGED_IN);
+		sm1.addString(activeChar.getName());
+		for (String name : activeChar.getFriendList())
+		{
+			L2PcInstance friend = L2World.getInstance().getPlayer(name);
+
+			if(friend != null) //friend logged in.
+				friend.sendPacket(sm1);
+		}
+		
 		notifyClanMembers(activeChar);
 		notifySponsorOrApprentice(activeChar);
 
@@ -441,6 +448,13 @@ public class EnterWorld extends L2GameClientPacket
 			DM.addDisconnectedPlayer(activeChar);
 		}
 
+		if(!activeChar.checkMultiBox()){ //means that it's not ok multiBox situation, so logout
+			activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
+			activeChar.logout();
+		}
+		
+		Hellows(activeChar, sm);
+		
 		if(Config.ALLOW_REMOTE_CLASS_MASTERS)
 		{
 			ClassLevel lvlnow = PlayerClass.values()[activeChar.getClassId().getId()].getLevel();
@@ -459,17 +473,11 @@ public class EnterWorld extends L2GameClientPacket
 			}
 		}
 		
-		if(!activeChar.checkMultiBox()){ //means that it's not ok multiBox situation, so logout
-			activeChar.sendMessage("I'm sorry, but multibox is not allowed here.");
-			activeChar.logout();
-		}
-		
 		// NPCBuffer
 		if (PowerPakConfig.BUFFER_ENABLED)
 			CharSchemesTable.getInstance().onPlayerLogin(activeChar.getObjectId());
 		
 		
-		Hellows(activeChar, sm);
 		if(!nProtect.getInstance().checkRestriction(activeChar, RestrictionType.RESTRICT_ENTER))
 		{
 			activeChar.setIsImobilised(true);
@@ -776,6 +784,7 @@ public class EnterWorld extends L2GameClientPacket
 	/**
 	 * @param activeChar
 	 */
+	/*
 	private void notifyFriends(L2PcInstance cha)
 	{
 		Connection con = null;
@@ -822,7 +831,7 @@ public class EnterWorld extends L2GameClientPacket
 			CloseUtil.close(con);
 		}
 	}
-
+*/
 	/**
 	 * @param activeChar
 	 */

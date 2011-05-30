@@ -82,11 +82,14 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 					msg = new SystemMessage(SystemMessageId.S1_ADDED_TO_FRIENDS);
 					msg.addString(player.getName());
 					requestor.sendPacket(msg);
-
+					requestor.getFriendList().add(player.getName());
+					
 					//has joined as friend.
 					msg = new SystemMessage(SystemMessageId.S1_JOINED_AS_FRIEND);
 					msg.addString(requestor.getName());
 					player.sendPacket(msg);
+					player.getFriendList().add(requestor.getName());
+					
 					msg = null;
 
 					//friend list rework ;)

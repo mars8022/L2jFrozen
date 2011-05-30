@@ -36,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
+import org.python.modules.synchronize;
+
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -8331,6 +8333,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			// Update the overloaded status of the L2PcInstance
 			player.refreshOverloaded();
 			
+			player.restoreFriendList();
+			
 			finished = true;
 		}
 		catch(Exception e)
@@ -8484,7 +8488,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	/**
 	 * Store recipe book data for this L2PcInstance, if not on an active sub-class.
 	 */
-	private void storeRecipeBook()
+	private synchronized void storeRecipeBook()
 	{
 		// If the player is on a sub-class don't even attempt to store a recipe book.
 		if(isSubClassActive())
@@ -8623,7 +8627,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		store(false);
 	}
 
-	private void storeCharBase()
+	private synchronized void storeCharBase()
 	{
 		Connection con = null;
 
@@ -8759,7 +8763,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 	}
 
-	private void storeCharSub()
+	private synchronized void storeCharSub()
 	{
 		Connection con = null;
 
@@ -8797,7 +8801,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 	}
 
-	private void storeEffect()
+	private synchronized void storeEffect()
 	{
 		if(!Config.STORE_SKILL_COOLTIME)
 			return;
@@ -12664,11 +12668,14 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 
 		revalidateZone(true);
-		
+
+		notifyFriends(false);
+
 		// Fix against exploit on anti-target on login
 		decayMe();
 		spawnMe();
 		broadcastUserInfo();
+
 	}
 
 	public long getLastAccess()
@@ -13312,7 +13319,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * L2Character then cancel Attak or Cast and notify AI</li> <li>Close the connection with the client</li><BR>
 	 * <BR>
 	 */
-	public void deleteMe()
+	public synchronized void deleteMe()
 	{
 		// Check if the L2PcInstance is in observer mode to set its position to its position before entering in observer mode
 		if(inObserverMode())
@@ -13592,7 +13599,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			_chanceSkills = null;
 		}
 
-		notifyFriends(this);
+		notifyFriends(true);
 
 		// Remove L2Object object from _allObjects of L2World
 		L2World.getInstance().removeObject(this);
@@ -13601,9 +13608,75 @@ public final class L2PcInstance extends L2PlayableInstance
 	}
 
 	/**
+	 * list of character friends
+	 * 
+	 */
+	private List<String> _friendList = new FastList<String>();
+	
+	public List<String> getFriendList()
+	{
+		return _friendList;
+	}
+	
+	public void restoreFriendList()
+	{
+		_friendList.clear();
+		
+		Connection con = null;
+		
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			PreparedStatement statement;
+			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=?");
+			statement.setInt(1, getObjectId());
+			ResultSet rset = statement.executeQuery();
+
+			while(rset.next())
+			{
+				String friendName = rset.getString("friend_name");
+
+				if (friendName.equals(getName()))
+					continue;
+				
+				_friendList.add(friendName);
+			}
+			
+			rset.close();
+			statement.close();
+		}
+		catch(Exception e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			_log.warning("could not restore friend data:" + e);
+		}
+		finally
+		{
+			CloseUtil.close(con);
+			con = null;
+		}
+	}
+	
+	private void notifyFriends(boolean closing)
+	{
+		for(String friendName : _friendList)
+		{
+			L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
+
+			if(friend != null) //friend logged in.
+			{
+				friend.sendPacket(new FriendList(friend));
+				if(closing)
+				  friend.sendMessage("Friend: " + getName() + " has logged off.");
+			}
+		}
+	}
+	/**
 	 * @param activeChar
 	 */
-	private void notifyFriends(L2PcInstance cha)
+	private void notifyFriends2(L2PcInstance cha)
 	{
 		Connection con = null;
 

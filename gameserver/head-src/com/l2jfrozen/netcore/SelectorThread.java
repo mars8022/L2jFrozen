@@ -293,16 +293,21 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			
 			int result = -2;
 			
+			boolean critical = true;
+			
 			try
 			{
 				result = con.read(buf);
 			}
 			catch (IOException e)
 			{
-				// error handling goes bellow
-				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-					e.printStackTrace();
-				
+				if(!con.isConnected() || !con.isChannelConnected()){
+					critical = false;
+				}else{
+					// error handling goes bellow
+					if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+						e.printStackTrace();
+				}
 			}
 			
 			if (result > 0)
@@ -340,7 +345,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 						closeConnectionImpl(key, con);
 						break;
 					case -2:
-						con.getClient().onForcedDisconnection(true);
+						con.getClient().onForcedDisconnection(critical);
 						closeConnectionImpl(key, con);
 						break;
 				}
