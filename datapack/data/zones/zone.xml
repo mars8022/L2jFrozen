@@ -43,7 +43,7 @@
 		<spawn X='85501' Y='147349' Z='-3431'/>
 		<spawn X='83920' Y='145673' Z='-3431'/>
 	</zone>
-	<zone id='11021' type='Town' shape='Cuboid' minZ='-4700' maxZ='-3600'>
+	<zone id='11021' type='Town' shape="NPoly" minZ="-4700" maxZ="-3600">
 		<stat name='name' val='DE Village'/>
 		<stat name='townId' val='1'/>
 		<stat name='taxById' val='4'/>
@@ -54,7 +54,7 @@
 		<spawn X='11129' Y='15760' Z='-4611'/>
 		<spawn X='7528' Y='17727' Z='-4377'/>
 	</zone>
-	<zone id='11022' type='Town' shape='Cuboid' minZ='-3800' maxZ='-3700'>
+	<zone id='11022' type='Town' shape="NPoly" minZ="-3800" maxZ="-3700">
 		<stat name='name' val='Talking Island'/>
 		<stat name='townId' val='2'/>
 		<stat name='taxById' val='1'/>
@@ -63,7 +63,7 @@
 		<spawn X='-85589' Y='243984' Z='-3755'/>
 		<spawn X='-83050' Y='244353' Z='-3755'/>
 	</zone>
-	<zone id='11023' type='Town' shape='Cuboid' minZ='-3600' maxZ='-2750'>
+	<zone id='11023' type='Town' shape="NPoly" minZ="-3600" maxZ="-2750">
 		<stat name='name' val='Elven Village'/>
 		<stat name='townId' val='3'/>
 		<stat name='taxById' val='4'/>
@@ -76,7 +76,7 @@
 		<spawn X='47456' Y='48987' Z='-2995'/>
 		<spawn X='45487' Y='50007' Z='-3086'/>
 	</zone>
-	<zone id='11024' type='Town' shape='Cuboid' minZ='-400' maxZ='-200'>
+	<zone id='11024' type='Town' shape="NPoly" minZ="-400" maxZ="-200">
 		<stat name='name' val='Orc Village'/>
 		<stat name='townId' val='4'/>
 		<stat name='taxById' val='8'/>
@@ -86,7 +86,7 @@
 		<spawn X='-45922' Y='-110790' Z='-265'/>
 		<spawn X='-47701' Y='-113605' Z='-260'/>
 	</zone>
-	<zone id='11025' type='Town' shape='Cuboid' minZ='-3300' maxZ='-3000'>
+	<zone id='11025' type='Town' shape="NPoly" minZ="-3300" maxZ="-3000">
 		<stat name='name' val='Gludin Village'/>
 		<stat name='townId' val='5'/>
 		<stat name='taxById' val='1'/>
@@ -96,7 +96,7 @@
 		<spawn X='-81901' Y='154880' Z='-3204'/>
 		<spawn X='-82081' Y='152719' Z='-3204'/>
 	</zone>
-	<zone id='11026' type='Town' shape='Cuboid' minZ='-1600' maxZ='-800'>
+	<zone id='11026' type='Town' shape="NPoly" minZ="-1600" maxZ="-800">
 		<stat name='name' val='Dwarven Village'/>
 		<stat name='townId' val='6'/>
 		<stat name='taxById' val='8'/>
@@ -106,7 +106,7 @@
 		<spawn X='116668' Y='-179523' Z='-1127'/>
 		<spawn X='115221' Y='-177206' Z='-909'/>
 	</zone>
-	<zone id='11027' type='Town' shape='Cuboid' minZ='-3200' maxZ='-2900'>
+	<zone id='11027' type='Town' shape="NPoly" minZ="-3200" maxZ="-2900">
 		<stat name='name' val='Gludio Castle Town'/>
 		<stat name='townId' val='7'/>
 		<stat name='redirectTownId' val='5'/>
@@ -117,7 +117,7 @@
 		<spawn X='-12403' Y='123607' Z='-3107'/>
 		<spawn X='-12243' Y='121804' Z='-3015'/>
 	</zone>
-	<zone id='11028' type='Town' shape='Cuboid' minZ='-3250' maxZ='-2600'>
+	<zone id='11028' type='Town' shape="NPoly" minZ="-3250" maxZ="-2600">
 		<stat name='name' val='Dion Castle Town'/>
 		<stat name='townId' val='8'/>
 		<stat name='redirectTownId' val='7'/>
@@ -129,7 +129,7 @@
 		<spawn X='19074' Y='142911' Z='-3054'/>
 		<spawn X='18835' Y='144837' Z='-3145'/>
 	</zone>
-	<zone id='11029' type='Town' shape='Cuboid' minZ='-2250' maxZ='-1400'>
+	<zone id='11029' type='Town' shape="NPoly" minZ="-2250" maxZ="-1400">
 		<stat name='name' val='Town of Oren'/>
 		<stat name='townId' val='10'/>
 		<stat name='redirectTownId' val='11'/>
@@ -140,7 +140,7 @@
 		<spawn X='80152' Y='55745' Z='-1586'/>
 		<spawn X='80432' Y='53779' Z='-1586'/>
 	</zone>
-	<zone id='11030' type='Town' shape='Cuboid' minZ='-2800' maxZ='-1600'>
+	<zone id='11030' type='Town' shape="NPoly" minZ="-2800" maxZ="-1500">
 		<stat name='name' val='Hunter Village'/>
 		<stat name='townId' val='11'/>
 		<stat name='taxById' val='5'/>
@@ -152,7 +152,7 @@
 		<spawn X='118270' Y='74494' Z='-2502'/>
 		<spawn X='115663' Y='74995' Z='-2625'/>
 	</zone>
-	<zone id='11031' type='Town' shape='Cuboid' minZ='-2700' maxZ='-1900'>
+	<zone id='11031' type='Town' shape="NPoly" minZ="-2700" maxZ="-1900">
 		<stat name='name' val='Town of Aden'/>
 		<stat name='townId' val='12'/>
 		<stat name='redirectTownId' val='10'/>
@@ -168,7 +168,7 @@
 		<spawn X='148583' Y='25778' Z='-2039'/>
 		<spawn X='146368' Y='25214' Z='-2039'/>
 	</zone>
-	<zone id='11032' type='Town' shape='Cuboid' minZ='-3550' maxZ='-2600'>
+	<zone id='11032' type='Town' shape="NPoly" minZ="-3550" maxZ="-2600">
 		<stat name='name' val='Goddard'/>
 		<stat name='townId' val='13'/>
 		<stat name='redirectTownId' val='14'/>
@@ -180,7 +180,7 @@
 		<spawn X='147743' Y='-58312' Z='-3007'/>
 		<spawn X='150223' Y='-57157' Z='-3007'/>
 	</zone>
-	<zone id='11033' type='Town' shape='Cuboid' minZ='-1200' maxZ='3000'>
+	<zone id='11033' type='Town' shape="Cuboid" minZ="-1200" maxZ="3000">
 		<stat name='name' val='Rune Castle Town'/>
 		<stat name='townId' val='14'/>
 		<stat name='redirectTownId' val='13'/>
@@ -195,7 +195,7 @@
 		<spawn X='40046' Y='-46493' Z='-332'/>
 		<spawn X='38528' Y='-48175' Z='897'/>
 	</zone>
-	<zone id='11034' type='Town' shape='Cuboid' minZ='-3800' maxZ='-3400'>
+	<zone id='11034' type='Town' shape="NPoly" minZ="-3800" maxZ="-3400">
 		<stat name='name' val='Heine'/>
 		<stat name='townId' val='15'/>
 		<stat name='redirectTownId' val='16'/>
@@ -211,7 +211,7 @@
 		<spawn X='114554' Y='221408' Z='-3655'/>
 		<spawn X='115532' Y='219221' Z='-3662'/>
 	</zone>
-	<zone id='11035' type='Town' shape='Cuboid' minZ='-2350' maxZ='-1200'>
+	<zone id='11035' type='Town' shape="NPoly" minZ="-2350" maxZ="-1200">
 		<stat name='name' val='Schuttgart'/>
 		<stat name='townId' val='17'/>
 		<stat name='redirectTownId' val='14'/>
@@ -224,7 +224,7 @@
 		<spawn X='86246' Y='-142521' Z='-1342'/>
 		<spawn X='88488' Y='-142546' Z='-1368'/>
 	</zone>
-	<zone id='11036' type='Town' shape='Cuboid' minZ='-3600' maxZ='-3400'>
+	<zone id='11036' type='Town' shape="NPoly" minZ="-3600" maxZ="-3400">
 		<stat name='name' val='Floran Village'/>
 		<stat name='townId' val='16'/>
 		<stat name='taxById' val='2'/>
