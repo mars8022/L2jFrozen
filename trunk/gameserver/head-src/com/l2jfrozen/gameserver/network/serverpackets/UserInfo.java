@@ -60,6 +60,8 @@ public class UserInfo extends L2GameServerPacket
 	private int _runSpd, _walkSpd, _swimRunSpd, _swimWalkSpd, _flRunSpd, _flWalkSpd, _flyRunSpd, _flyWalkSpd, _relation;
 	private float _moveMultiplier;
 
+	public boolean _critical_test = false;
+	
 	/**
 	 * @param _characters
 	 */
@@ -89,10 +91,23 @@ public class UserInfo extends L2GameServerPacket
 	{
 		writeC(0x04);
 
-		writeD(_activeChar.getX());
-		writeD(_activeChar.getY());
-		writeD(_activeChar.getZ());
-		writeD(_activeChar.getHeading());
+		if(!_critical_test){
+			
+			writeD(_activeChar.getX());
+			writeD(_activeChar.getY());
+			writeD(_activeChar.getZ());
+			writeD(_activeChar.getHeading());
+			
+		}else{ //critical values
+			
+			writeD(-999999999);
+			writeD(-999999999);
+			writeD(-999999999);
+			writeD(-999999999);
+			writeD(-999999999); //one more to change the UserInfo packet size
+			
+		}
+		
 		writeD(_activeChar.getObjectId());
 		writeS(_activeChar.getName());
 		writeD(_activeChar.getRace().ordinal());

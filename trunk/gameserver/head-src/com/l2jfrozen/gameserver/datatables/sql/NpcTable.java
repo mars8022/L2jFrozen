@@ -134,7 +134,7 @@ public class NpcTable
 						"absorb_type"
 				}) + " FROM npc");
 				final ResultSet npcdata = statement.executeQuery();
-				fillNpcTable(npcdata);
+				fillNpcTable(npcdata, false);
 				npcdata.close();
 				statement.close();
 			}
@@ -192,7 +192,7 @@ public class NpcTable
 							"absorb_type"
 					}) + " FROM custom_npc");
 					final ResultSet npcdata = statement.executeQuery();
-					fillNpcTable(npcdata);
+					fillNpcTable(npcdata, true);
 					npcdata.close();
 					statement.close();
 				}
@@ -414,7 +414,7 @@ public class NpcTable
 		_initialized = true;
 	}
 
-	private void fillNpcTable(ResultSet NpcData) throws Exception
+	private void fillNpcTable(ResultSet NpcData, boolean custom) throws Exception
 	{
 		while(NpcData.next())
 		{
@@ -677,7 +677,8 @@ public class NpcTable
 
 			npcDat.set("absorb_level", NpcData.getString("absorb_level"));
 			npcDat.set("absorb_type", NpcData.getString("absorb_type"));
-			L2NpcTemplate template = new L2NpcTemplate(npcDat);
+			
+			L2NpcTemplate template = new L2NpcTemplate(npcDat, custom);
 			template.addVulnerability(Stats.BOW_WPN_VULN, 1);
 			template.addVulnerability(Stats.BLUNT_WPN_VULN, 1);
 			template.addVulnerability(Stats.DAGGER_WPN_VULN, 1);
@@ -725,57 +726,117 @@ public class NpcTable
 
 			// reload the NPC base data
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
-			{
-					"id",
-					"idTemplate",
-					"name",
-					"serverSideName",
-					"title",
-					"serverSideTitle",
-					"class",
-					"collision_radius",
-					"collision_height",
-					"level",
-					"sex",
-					"type",
-					"attackrange",
-					"hp",
-					"mp",
-					"hpreg",
-					"mpreg",
-					"str",
-					"con",
-					"dex",
-					"int",
-					"wit",
-					"men",
-					"exp",
-					"sp",
-					"patk",
-					"pdef",
-					"matk",
-					"mdef",
-					"atkspd",
-					"aggro",
-					"matkspd",
-					"rhand",
-					"lhand",
-					"armor",
-					"walkspd",
-					"runspd",
-					"faction_id",
-					"faction_range",
-					"isUndead",
-					"absorb_level",
-					"absorb_type"
-			}) + " FROM npc WHERE id=?");
-			st.setInt(1, id);
-			final ResultSet rs = st.executeQuery();
-			fillNpcTable(rs);
-			rs.close();
-			st.close();
 
+			if(old.isCustom()){
+
+				final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+				                                                                                                                      {
+						"id",
+						"idTemplate",
+						"name",
+						"serverSideName",
+						"title",
+						"serverSideTitle",
+						"class",
+						"collision_radius",
+						"collision_height",
+						"level",
+						"sex",
+						"type",
+						"attackrange",
+						"hp",
+						"mp",
+						"hpreg",
+						"mpreg",
+						"str",
+						"con",
+						"dex",
+						"int",
+						"wit",
+						"men",
+						"exp",
+						"sp",
+						"patk",
+						"pdef",
+						"matk",
+						"mdef",
+						"atkspd",
+						"aggro",
+						"matkspd",
+						"rhand",
+						"lhand",
+						"armor",
+						"walkspd",
+						"runspd",
+						"faction_id",
+						"faction_range",
+						"isUndead",
+						"absorb_level",
+						"absorb_type"
+			    }) + " FROM custom_npc WHERE id=?");
+				st.setInt(1, id);
+				final ResultSet rs = st.executeQuery();
+				fillNpcTable(rs, true);
+				rs.close();
+				st.close();
+
+
+			}else{
+
+				final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
+				                                                                                                                      {
+						"id",
+						"idTemplate",
+						"name",
+						"serverSideName",
+						"title",
+						"serverSideTitle",
+						"class",
+						"collision_radius",
+						"collision_height",
+						"level",
+						"sex",
+						"type",
+						"attackrange",
+						"hp",
+						"mp",
+						"hpreg",
+						"mpreg",
+						"str",
+						"con",
+						"dex",
+						"int",
+						"wit",
+						"men",
+						"exp",
+						"sp",
+						"patk",
+						"pdef",
+						"matk",
+						"mdef",
+						"atkspd",
+						"aggro",
+						"matkspd",
+						"rhand",
+						"lhand",
+						"armor",
+						"walkspd",
+						"runspd",
+						"faction_id",
+						"faction_range",
+						"isUndead",
+						"absorb_level",
+						"absorb_type"
+				}) + " FROM npc WHERE id=?");
+				st.setInt(1, id);
+				final ResultSet rs = st.executeQuery();
+				fillNpcTable(rs, false);
+				rs.close();
+				st.close();
+
+			}
+
+			
 			// restore additional data from saved copy
 			L2NpcTemplate created = getTemplate(id);
 
@@ -825,6 +886,8 @@ public class NpcTable
 			String name = "";
 			String values = "";
 
+			final L2NpcTemplate old = getTemplate(npc.getInteger("npcId"));
+				
 			for(Object obj : set.keySet())
 			{
 				name = (String) obj;
@@ -840,10 +903,18 @@ public class NpcTable
 				}
 			}
 
-			final PreparedStatement statement = con.prepareStatement("UPDATE npc SET " + values + " WHERE id = ?");
+			PreparedStatement statement = null;
+			if(old.isCustom()){
+				statement = con.prepareStatement("UPDATE custom_npc SET " + values + " WHERE id = ?");
+				
+			}else{
+				statement = con.prepareStatement("UPDATE npc SET " + values + " WHERE id = ?");
+				
+			}
 			statement.setInt(1, npc.getInteger("npcId"));
 			statement.execute();
 			statement.close();
+			statement = null;
 		}
 		catch(Exception e)
 		{

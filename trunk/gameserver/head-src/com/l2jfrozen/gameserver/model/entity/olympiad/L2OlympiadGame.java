@@ -184,6 +184,7 @@ class L2OlympiadGame extends Olympiad
 					player.abortCast();
 				}
 
+				/*
 				//Remove Hero Skills
 				if(player.isHero())
 				{
@@ -192,6 +193,7 @@ class L2OlympiadGame extends Olympiad
 						player.removeSkill(skill, false);
 					}
 				}
+				*/
 
 				// Heal Player fully
 				player.setCurrentCp(player.getMaxCp());
@@ -513,6 +515,7 @@ class L2OlympiadGame extends Olympiad
 					}
 				}
 
+				/*
 				//Add Hero Skills
 				if(player.isHero())
 				{
@@ -522,6 +525,7 @@ class L2OlympiadGame extends Olympiad
 					}
 				}
 				player.sendSkillList();
+				*/
 			}
 			catch(Exception e)
 			{
