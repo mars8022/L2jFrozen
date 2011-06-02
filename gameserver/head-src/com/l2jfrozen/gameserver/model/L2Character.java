@@ -433,25 +433,30 @@ public abstract class L2Character extends L2Object
 
 		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
-			try
-			{
-				player.sendPacket(mov);
-
-				if(mov instanceof CharInfo && this instanceof L2PcInstance)
+			if(player!=null){
+				
+				try
 				{
-					int relation = ((L2PcInstance) this).getRelation(player);
-					if(getKnownList().getKnownRelations().get(player.getObjectId()) != null && getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
+					player.sendPacket(mov);
+
+					if(mov instanceof CharInfo && this instanceof L2PcInstance)
 					{
-						player.sendPacket(new RelationChanged((L2PcInstance) this, relation, player.isAutoAttackable(this)));
+						int relation = ((L2PcInstance) this).getRelation(player);
+						if(getKnownList().getKnownRelations().get(player.getObjectId()) != null && getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
+						{
+							player.sendPacket(new RelationChanged((L2PcInstance) this, relation, player.isAutoAttackable(this)));
+						}
 					}
+					//if(Config.DEVELOPER && !isInsideRadius(player, 3500, false, false)) _log.warning("broadcastPacket: Too far player see event!");
 				}
-				//if(Config.DEVELOPER && !isInsideRadius(player, 3500, false, false)) _log.warning("broadcastPacket: Too far player see event!");
+				catch(NullPointerException e)
+				{
+					//null
+					e.printStackTrace();
+				}
+				
 			}
-			catch(NullPointerException e)
-			{
-				//null
-				e.printStackTrace();
-			}
+			
 		}
 	}
 
@@ -750,7 +755,7 @@ public abstract class L2Character extends L2Object
 		
 		//if (!(this instanceof L2PcInstance) || (((L2PcInstance)this).isOffline()))/*.getClient() != null && ((L2PcInstance)this).getClient().isDetached()))*/
 		if (!(this instanceof L2PcInstance))	
-		onTeleported();
+			onTeleported();
 		
 		revalidateZone(true);
 	}
@@ -7823,9 +7828,6 @@ public abstract class L2Character extends L2Object
 		if(isAllSkillsDisabled() && !skill.isPotion())
 			return true;
 
-		if(_disabledSkills == null)
-			return false;
-
 		if(this instanceof L2PcInstance){
 			L2PcInstance activeChar = (L2PcInstance) this;
 			
@@ -7838,7 +7840,15 @@ public abstract class L2Character extends L2Object
 				activeChar.sendMessage("You can use fishing skill just with Rod Weapon");
 				return true;
 			}
+			
+			if(activeChar.isHero() && activeChar.isInOlympiadMode() && activeChar.isOlympiadStart()){
+				activeChar.sendMessage("You can't use Hero skills during Olympiad match");
+				return true;
+			}
 		}
+		
+		if(_disabledSkills == null)
+			return false;
 
 		return _disabledSkills.contains(skillId);
 	}

@@ -228,31 +228,32 @@ public class EnterWorld extends L2GameClientPacket
 		//SECURE FIX - Anti Overenchant Cheat!!
 		if(Config.MAX_ITEM_ENCHANT_KICK >0)
 			for (L2ItemInstance i : activeChar.getInventory().getItems())
-				{
-				 if (!activeChar.isGM())
-				   {	
-					 if (i.isEquipable())
-						{	
-						  if (i.getEnchantLevel() > Config.MAX_ITEM_ENCHANT_KICK)
-						   {							   
+			{
+				if (!activeChar.isGM())
+				{	
+					if (i.isEquipable())
+					{	
+						if (i.getEnchantLevel() > Config.MAX_ITEM_ENCHANT_KICK)
+						{                        
 							//Delete Item Over enchanted
 							activeChar.getInventory().destroyItem(null, i, activeChar, null);
 							//Message to Player
-			                activeChar.sendMessage("[Server]:You have Items over enchanted you will be kikked!");
-							activeChar.sendMessage("[Server]:Respect the rules of the Server.");
+							activeChar.sendMessage("[Server]:You have over enchanted items you will be kicked from server!");
+							activeChar.sendMessage("[Server]:Respect our server rules.");
 							//Message with screen
-							sendPacket(new ExShowScreenMessage(" You have item Overenchanted, Kicked! ", 6000));
-			                //Punishment e log in audit
-							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! Kicked! ", Config.DEFAULT_PUNISH);						   
-				            //Logger in console
-							_log.info("#### ATTENCTION ####");
+							sendPacket(new ExShowScreenMessage(" You have an over enchanted item, you will be kicked from server! ", 6000));
+							//Punishment e log in audit
+							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has Overenchanted  item! Kicked! ", Config.DEFAULT_PUNISH);                     
+							//Logger in console
+							_log.info("#### ATTENTION ####");
 							_log.info(i+" item has been removed from "+activeChar);
-			                }
 						}
+
 					}
 				}
-			
-				
+			}
+
+
 		//restores custom status
 		activeChar.restoreCustomStatus();
 

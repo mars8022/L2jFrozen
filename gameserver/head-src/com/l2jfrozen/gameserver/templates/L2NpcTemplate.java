@@ -70,6 +70,8 @@ public final class L2NpcTemplate extends L2CharTemplate
 	public final int absorbLevel;
 	public final AbsorbCrystalType absorbType;
 	public Race race;
+	
+	private boolean _custom;
 
 	public static enum AbsorbCrystalType
 	{
@@ -127,7 +129,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 	 * 
 	 * @param set The StatsSet object to transfert data to the method
 	 */
-	public L2NpcTemplate(StatsSet set)
+	public L2NpcTemplate(StatsSet set, boolean custom)
 	{
 		super(set);
 		npcId = set.getInteger("npcId");
@@ -160,6 +162,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 		race = null;
 		_npcStatsSet = set;
 		_teachInfo = null;
+		_custom = custom;
 	}
 
 	public void addTeachInfo(ClassId classId)
@@ -559,6 +562,10 @@ public final class L2NpcTemplate extends L2CharTemplate
 	public int getNpcId()
 	{
 		return npcId;
+	}
+	
+	public final boolean isCustom(){
+		return _custom;
 	}
 
 }

@@ -1003,6 +1003,10 @@ public class AdminEditNpc implements IAdminCommandHandler
 
 	private void Show_Npc_Property(L2PcInstance activeChar, L2NpcTemplate npc)
 	{
+		if(npc.isCustom()){
+			activeChar.sendMessage("You are going to modify Custom NPC");
+		}
+		
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 		String content = HtmCache.getInstance().getHtm("data/html/admin/editnpc.htm");
 
@@ -1254,11 +1258,17 @@ public class AdminEditNpc implements IAdminCommandHandler
 			_log.warning("Error saving new npc value: " + e);
 		}
 
-		NpcTable.getInstance().saveNpc(newNpcData);
-
 		int npcId = newNpcData.getInteger("npcId");
-
+		final L2NpcTemplate old = NpcTable.getInstance().getTemplate(npcId);
+		
+		if(old.isCustom()){
+			activeChar.sendMessage("You are going to save Custom NPC");
+		}
+		
+		NpcTable.getInstance().saveNpc(newNpcData);
+		
 		NpcTable.getInstance().reloadNpc(npcId);
+		
 		Show_Npc_Property(activeChar, NpcTable.getInstance().getTemplate(npcId));
 
 		newNpcData = null;
