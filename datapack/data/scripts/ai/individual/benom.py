@@ -115,7 +115,7 @@ class benom (JQuest):
           self.Benomm = self.addSpawn(Benom, 11025, -49152, -537, 0, False, 0)
           self.BenomIsSpawned = 1
         elif self.BenomIsSpawned == 1 :
-          self.Benom.teleToLocation(11025, -49152, -537)
+          self.Benomm.teleToLocation(11025, -49152, -537)
         self.startQuestTimer("BenomSpawnEffect", 100, npc, None)
         self.startQuestTimer("BenomBossDespawn", 5400000, npc, None)
         self.cancelQuestTimer("BenomSpawn", npc, None)

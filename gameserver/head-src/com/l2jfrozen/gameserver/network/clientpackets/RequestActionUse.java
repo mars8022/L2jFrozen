@@ -589,7 +589,17 @@ public final class RequestActionUse extends L2GameClientPacket
 			}
 
 			activeSummon.setTarget(target);
-			activeSummon.useMagic(skill, _ctrlPressed, _shiftPressed);
+			
+			boolean force = _ctrlPressed;
+			
+			if(target instanceof L2Character){
+				if(activeSummon.isInsideZone(L2Character.ZONE_PVP) 
+						&& ((L2Character)target).isInsideZone(L2Character.ZONE_PVP)){
+					force = true;
+				}
+			}
+			
+			activeSummon.useMagic(skill, force, _shiftPressed);
 		}
 	}
 
