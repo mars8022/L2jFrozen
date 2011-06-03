@@ -255,6 +255,9 @@ public class L2Spawn
 	 */
 	public int getNpcid()
 	{
+		if(_template == null)
+			return -1;
+		
 		return _template.npcId;
 	}
 
@@ -395,7 +398,7 @@ public class L2Spawn
 	/** If true then spawn is custom */
 	private boolean _customSpawn;
 	
-	private boolean _customBossInstance;
+	private boolean _customBossInstance = false;
 	
 	
 

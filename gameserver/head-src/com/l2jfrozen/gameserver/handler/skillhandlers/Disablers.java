@@ -726,7 +726,9 @@ public class Disablers implements ISkillHandler
 	{
 		L2Effect[] effects = target.getAllEffects();
 		for(L2Effect e : effects)
-			if(power == -1) // if power is -1 the effect is always removed without power/lvl check ^^
+			if(e.getSkill()!=null && e.getSkill().getId() == 4215 || e.getSkill().getId() == 4515){
+				continue; //skills cannot be removed
+			}else if(power == -1) // if power is -1 the effect is always removed without power/lvl check ^^
 			{
 				if(e.getSkill().getSkillType() == type || (e.getSkill().getEffectType() != null && e.getSkill().getEffectType() == type))
 				{
