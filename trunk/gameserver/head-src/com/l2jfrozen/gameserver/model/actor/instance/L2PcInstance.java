@@ -808,7 +808,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	// Clan related attributes
 	/** The Clan Identifier of the L2PcInstance */
-	private int _clanId;
+	private int _clanId = 0;
 
 	/** The Clan object of the L2PcInstance */
 	private L2Clan _clan;
@@ -4994,7 +4994,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	public int getAllyCrestId()
 	{
-		if(getClanId() == 0)
+		if(getClanId() == 0 || getClan()==null)
 			return 0;
 		if(getClan().getAllyId() == 0)
 			return 0;

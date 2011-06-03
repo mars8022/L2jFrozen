@@ -252,6 +252,11 @@ public class AdminSpawn implements IAdminCommandHandler
 			template1 = NpcTable.getInstance().getTemplateByName(monsterId);
 		}
 
+		if(template1 == null){
+			activeChar.sendMessage("Attention, wrong NPC ID/Name");
+			return;
+		}
+		
 		try
 		{
 			L2Spawn spawn = new L2Spawn(template1);

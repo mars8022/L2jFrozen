@@ -6276,7 +6276,13 @@ public abstract class L2Character extends L2Object
 		{
 			if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
 			{
-				if(target.isRaid() && getLevel() > target.getLevel() + 8)
+				if((target.isRaid() && getLevel() > target.getLevel() + 8)
+					|| ( target.getTarget()!=null 
+							&& target.getTarget() instanceof L2RaidBossInstance 
+							&& getLevel() > ((L2RaidBossInstance) target.getTarget()).getLevel() + 8)
+					|| ( target.getTarget()!=null 
+							&& target.getTarget() instanceof L2GrandBossInstance 
+							&& getLevel() > ((L2GrandBossInstance) target.getTarget()).getLevel() + 8))
 				{
 					L2Skill skill = SkillTable.getInstance().getInfo(4515, 1);
 
@@ -7941,7 +7947,13 @@ public abstract class L2Character extends L2Object
 					// Check Raidboss attack
 					if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
 					{
-						if(player.isRaid() && getLevel() > player.getLevel() + 8)
+						if((player.isRaid() && getLevel() > player.getLevel() + 8)
+								|| ( player.getTarget()!=null 
+										&& player.getTarget() instanceof L2RaidBossInstance 
+										&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8)
+								|| ( player.getTarget()!=null 
+										&& player.getTarget() instanceof L2GrandBossInstance 
+										&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8))
 						{
 							if(skill.isMagic())
 							{
