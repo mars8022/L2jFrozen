@@ -6275,25 +6275,28 @@ public abstract class L2Character extends L2Object
 		if(!isAttackAborted())
 		{
 			if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
-			{
-				if((target.isRaid() && getLevel() > target.getLevel() + 8)
+			{				
+				if((target.isRaid() && getLevel() > target.getLevel() + 8))
+					/* We don't need it on hit
 					|| ( target.getTarget()!=null 
 							&& target.getTarget() instanceof L2RaidBossInstance 
 							&& getLevel() > ((L2RaidBossInstance) target.getTarget()).getLevel() + 8)
 					|| ( target.getTarget()!=null 
 							&& target.getTarget() instanceof L2GrandBossInstance 
 							&& getLevel() > ((L2GrandBossInstance) target.getTarget()).getLevel() + 8))
+					*/
 				{
 					L2Skill skill = SkillTable.getInstance().getInfo(4515, 1);
 
 					if(skill != null)
 					{
+						abortAttack();
+						abortCast();
+						getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 						skill.getEffects(target, this);
 					}
 					else
-					{
 						_log.warning("Skill 4515 at level 1 is missing in DP.");
-					}
 
 					skill = null;
 
@@ -7950,22 +7953,23 @@ public abstract class L2Character extends L2Object
 						if((player.isRaid() && getLevel() > player.getLevel() + 8)
 								|| ( player.getTarget()!=null 
 										&& player.getTarget() instanceof L2RaidBossInstance 
-										&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8)
+										&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8 && !skill.isOffensive())
 								|| ( player.getTarget()!=null 
 										&& player.getTarget() instanceof L2GrandBossInstance 
-										&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8))
+										&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8) && !skill.isOffensive())
 						{
 							if(skill.isMagic())
 							{
 								L2Skill tempSkill = SkillTable.getInstance().getInfo(4215, 1);
 								if(tempSkill != null)
 								{
+									abortAttack();
+									abortCast();
+									getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 									tempSkill.getEffects(player, this);
 								}
 								else
-								{
 									_log.warning("Skill 4215 at level 1 is missing in DP.");
-								}
 
 								tempSkill = null;
 							}
