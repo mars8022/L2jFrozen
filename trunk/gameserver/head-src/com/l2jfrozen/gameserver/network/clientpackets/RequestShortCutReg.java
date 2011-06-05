@@ -56,10 +56,6 @@ public final class RequestShortCutReg extends L2GameClientPacket
 		L2PcInstance activeChar = getClient().getActiveChar();
 		if(activeChar == null)
 			return;
-		
-		//Macro exploit fix
-		if (!getClient().getFloodProtectors().getMacro().tryPerformAction("register macro"))
-			return;
 
 		switch(_type)
 		{

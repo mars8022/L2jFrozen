@@ -236,15 +236,6 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						player.sendMessage("You can now only change one of your current sub classes.");
 						return;
 					}
-					/*
-					if(player.isLocked())
-            		{
-            			player.sendMessage("Can't do it right now.");
-            			return;
-            		}else{
-            			player.setLocked(true);
-            		}
-            		*/
 					
 					subsAvailable = getAvailableSubClasses(player);
 
@@ -264,16 +255,6 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					}
 					break;
 				case 2: // Change Class - Initial
-					
-					/*
-					if(player.isLocked())
-            		{
-            			player.sendMessage("Can't do it right now.");
-            			return;
-            		}else{
-            			player.setLocked(true);
-            		}
-            		*/
 
 					content.append("Change Subclass:<br>");
 
@@ -315,16 +296,6 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					break;
 				case 3: // Change/Cancel Subclass - Initial
 					
-					/*
-					if(player.isLocked())
-					{
-            			player.sendMessage("Can't do it right now.");
-            			return;
-            		}else{
-            			player.setLocked(true);
-            		}
-            		*/
-					
 					content.append("Change Subclass:<br>Which of the following sub classes would you like to change?<br>");
 					int classIndex = 1;
 
@@ -356,10 +327,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					/*
 					 * If the character is less than level 75 on any of their previously chosen
 					 * classes then disallow them to change to their most recently added sub-class choice.
-					 */		
+					 */
+					
+					// Fix exploit stuck subclass
 					if(player.isLocked())
             		{
-            			player.sendMessage("Can't do it right now.");
+            			player.sendMessage("You can't add subclass right now.");
             			return;
             		}else{
             			player.setLocked(true);
@@ -367,25 +340,28 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					
 					boolean allowAddition = true;
 					
+					// You can't add Subclass when you are registered in Events (TVT, CTF, DM)
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't add a subclass while in an event.");
 						return;
 					}
 
-					//sub class exploit fix
+					// Subclass exploit fix during add subclass
 					if (!player.getFloodProtectors().getSubclass().tryPerformAction("add subclass"))
 					{
 						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
 						return;
 					}
 					
+					// Check player level
 					if(player.getLevel() < 75)
 					{
 						player.sendMessage("You may not add a new sub class before you are level 75 on your previous class.");
 						allowAddition = false;
 					}
 
+					// You can't add Subclass when you are registered in Olympiad
 					if(Olympiad.getInstance().isRegisteredInComp(player) || player.getOlympiadGameId() > 0)
 					{
 						player.sendPacket(new SystemMessage(SystemMessageId.YOU_HAVE_ALREADY_BEEN_REGISTERED_IN_A_WAITING_LIST_OF_AN_EVENT));
@@ -474,30 +450,34 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					 *
 					 * Note: paramOne = classIndex
 					 */
+					
+					// Fix exploit stuck subclass
 					if(player.isLocked())
             		{
-            			player.sendMessage("Can't do it right now.");
+            			player.sendMessage("You can't change subclass right now.");
             			return;
             		}else{
             			player.setLocked(true);
             		}
 					
+					// You can't change Subclass when you are registered in Events (TVT, CTF, DM)
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
 					{
 						player.sendMessage("You can't change subclass while in an event.");
 						return;
 					}
 
+					// Subclass exploit fix during change subclass
+					if (!player.getFloodProtectors().getSubclass().tryPerformAction("change subclass"))
+					{
+						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
+						return;
+					}
+					
+					// You can't change Subclass when you are registered in Olympiad
 					if(Olympiad.getInstance().isRegisteredInComp(player) || player.getOlympiadGameId() > 0)
 					{
 						player.sendPacket(new SystemMessage(SystemMessageId.YOU_HAVE_ALREADY_BEEN_REGISTERED_IN_A_WAITING_LIST_OF_AN_EVENT));
-						return;
-					}
-
-					//sub class exploit fix
-					if (!player.getFloodProtectors().getSubclass().tryPerformAction("change class"))
-					{
-						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
 						return;
 					}
 
@@ -518,16 +498,6 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					break;
 				case 6: // Change/Cancel Subclass - Choice
 					
-					/*
-					if(player.isLocked())
-            		{
-            			player.sendMessage("Can't do it right now.");
-            			return;
-            		}else{
-            			player.setLocked(true);
-            		}
-            		*/
-					
 					content.append("Please choose a sub class to change to. If the one you are looking for is not here, " + "please seek out the appropriate master for that class.<br>" + "<font color=\"LEVEL\">Warning!</font> All classes and skills for this class will be removed.<br><br>");
 
 					subsAvailable = getAvailableSubClasses(player);
@@ -545,36 +515,40 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						return;
 					}
 					break;
-				case 7: // Change Subclass - Action
-					
-					/*
-					try
-					{
-						Thread.sleep(2000);
-					}
-					catch(InterruptedException e1)
-					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e1.printStackTrace();
-					}
-					*/
-					
-					if(player.isLocked())
-            		{
-            			player.sendMessage("Can't do it right now.");
-            			return;
-            		}else{
-            			player.setLocked(true);
-            		}
+				case 7: // Cancel/Change Subclass - Action
 					
 					/*
 					 * Warning: the information about this subclass will be removed from the
 					 * subclass list even if false!
 					 */
+					
+					// Fix exploit stuck subclass
+					if(player.isLocked())
+            		{
+            			player.sendMessage("You can't cancel subclass right now.");
+            			return;
+            		}else{
+            			player.setLocked(true);
+            		}
+				
+					// You can't delete Subclass when you are registered in Events (TVT, CTF, DM)
+					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
+					{
+						player.sendMessage("You can't delete a subclass while in an event.");
+						return;
+					}
 
-					if (!player.getFloodProtectors().getSubclass().tryPerformAction("change class"))
+					// Subclass exploit fix during delete subclass
+					if (!player.getFloodProtectors().getSubclass().tryPerformAction("delete subclass"))
 					{
 						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
+						return;
+					}
+
+					// You can't delete Subclass when you are registered in Olympiad
+					if(Olympiad.getInstance().isRegisteredInComp(player) || player.getOlympiadGameId() > 0)
+					{
+						player.sendPacket(new SystemMessage(SystemMessageId.YOU_HAVE_ALREADY_BEEN_REGISTERED_IN_A_WAITING_LIST_OF_AN_EVENT));
 						return;
 					}
 
