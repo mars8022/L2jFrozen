@@ -99,12 +99,15 @@ public final class FloodProtectors
 	/**
 	 * Move Action protector
 	 */
-	private final FloodProtectorAction _moveAction;
-	
+	private final FloodProtectorAction _moveAction;	
 	/**
 	 * Generic Action protector
 	 */
 	private final FloodProtectorAction _genericAction;
+	/**
+	 * Generic Action protector
+	 */
+	private final FloodProtectorAction _macro;
 
 	/**
 	 * Creates new instance of FloodProtectors.
@@ -136,6 +139,7 @@ public final class FloodProtectors
 		_sayAction = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_SAY_ACTION);
 		_moveAction = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_MOVE_ACTION);
 		_genericAction = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_GENERIC_ACTION);
+		_macro = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_MACRO);
 	}
 	
 	/**
@@ -336,5 +340,15 @@ public final class FloodProtectors
 	public FloodProtectorAction getGenericAction()
 	{
 		return _genericAction;
+	}
+	
+	/**
+	 * Returns {@link #_macro}.
+	 * 
+	 * @return {@link #_macro}
+	 */
+	public FloodProtectorAction getMacro()
+	{
+		return _macro;
 	}
 }

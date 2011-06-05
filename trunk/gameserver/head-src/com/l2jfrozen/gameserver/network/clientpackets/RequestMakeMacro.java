@@ -85,6 +85,10 @@ public final class RequestMakeMacro extends L2GameClientPacket
 
 		if(player == null)
 			return;
+		
+		//Macro exploit fix
+		if (!getClient().getFloodProtectors().getMacro().tryPerformAction("make macro"))
+			return;
 
 		if(_commandsLenght > 255)
 		{

@@ -3041,7 +3041,7 @@ public final class Config
 	public static FloodProtectorConfig FLOOD_PROTECTOR_SAY_ACTION;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_MOVE_ACTION;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_GENERIC_ACTION;
-	
+	public static FloodProtectorConfig FLOOD_PROTECTOR_MACRO;
 	
 	//============================================================
 	public static void loadFloodConfig()
@@ -3097,6 +3097,8 @@ public final class Config
 				new FloodProtectorConfig("MoveActionFloodProtector");
 			FLOOD_PROTECTOR_GENERIC_ACTION = 
 				new FloodProtectorConfig("GenericActionFloodProtector",true);
+			FLOOD_PROTECTOR_MACRO = 
+				new FloodProtectorConfig("MacroFloodProtector",true);
 			
 			// Load FloodProtector L2Properties file
 			try
@@ -3148,7 +3150,7 @@ public final class Config
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MOVE_ACTION, "MoveAction", "30");
 		
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_GENERIC_ACTION, "GenericAction", "5");
-		
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MACRO, "Macro", "10");
 	}
 	
 	/**
