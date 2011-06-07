@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -47,8 +49,6 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
-import javolution.util.FastList;
-
 
 /**
  * 
@@ -63,7 +63,8 @@ public class Antharas_l2j extends Quest implements Runnable
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;
 	//private static final int FWA_APPTIMEOFANTHARAS = 1800000;
 	private static final int FWA_INACTIVITYTIME = 900000;
-	private static final boolean FWA_OLDANTHARAS = true; //use antharas interlude with minions
+	//private static final boolean FWA_OLDANTHARAS = true; //use antharas interlude with minions
+	private static final boolean FWA_OLDANTHARAS = Config.ANTHARAS_OLD; //use antharas interlude with minions
 	private static final boolean FWA_MOVEATRANDOM = true;
 	private static final boolean FWA_DOSERVEREARTHQUAKE = true;
 	private static final int FWA_LIMITOFWEAK = 45;

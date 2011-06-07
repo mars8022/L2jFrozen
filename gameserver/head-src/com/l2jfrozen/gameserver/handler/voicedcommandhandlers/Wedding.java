@@ -1,9 +1,6 @@
 /* This program is free software; you can redistribute it and/or modify */
 package com.l2jfrozen.gameserver.handler.voicedcommandhandlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +27,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Broadcast;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * @author L2JFrozen

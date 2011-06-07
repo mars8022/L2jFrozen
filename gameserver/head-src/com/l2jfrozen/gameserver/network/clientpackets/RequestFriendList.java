@@ -18,18 +18,11 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
@@ -38,7 +31,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class RequestFriendList extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestFriendList.class.getName());
+	//private static Logger _log = Logger.getLogger(RequestFriendList.class.getName());
 	private static final String _C__60_REQUESTFRIENDLIST = "[C] 60 RequestFriendList";
 
 	@Override

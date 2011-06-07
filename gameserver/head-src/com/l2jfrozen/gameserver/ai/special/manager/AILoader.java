@@ -21,7 +21,6 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.gameserver.ai.special.Antharas_l2j;
-
 import com.l2jfrozen.gameserver.ai.special.Baium_l2j;
 import com.l2jfrozen.gameserver.ai.special.Barakiel;
 import com.l2jfrozen.gameserver.ai.special.Core;
@@ -32,7 +31,6 @@ import com.l2jfrozen.gameserver.ai.special.Gordon;
 import com.l2jfrozen.gameserver.ai.special.Hallate;
 import com.l2jfrozen.gameserver.ai.special.IceFairySirra;
 import com.l2jfrozen.gameserver.ai.special.Kernon;
-
 import com.l2jfrozen.gameserver.ai.special.Monastery_l2j;
 import com.l2jfrozen.gameserver.ai.special.Orfen;
 import com.l2jfrozen.gameserver.ai.special.QueenAnt;
@@ -41,7 +39,6 @@ import com.l2jfrozen.gameserver.ai.special.Transform;
 import com.l2jfrozen.gameserver.ai.special.Valakas_l2j;
 import com.l2jfrozen.gameserver.ai.special.VanHalter;
 import com.l2jfrozen.gameserver.ai.special.VarkaKetraAlly;
-
 import com.l2jfrozen.gameserver.ai.special.Zaken_l2j;
 import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;

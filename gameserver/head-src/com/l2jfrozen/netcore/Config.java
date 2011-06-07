@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import javolution.text.TypeFormat;
 import javolution.util.FastList;
 
 public class Config

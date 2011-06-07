@@ -19,7 +19,6 @@
 package com.l2jfrozen.gameserver.templates;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import javolution.util.FastMap;
 

@@ -21,13 +21,14 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
+import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
@@ -148,15 +149,15 @@ public class Blow implements ISkillHandler
 				boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && (weapon.getItemType() == L2WeaponType.DAGGER ));
 				
 				//byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
-				boolean shld = Formulas.getInstance().calcShldUse(activeChar, target);
+				boolean shld = Formulas.calcShldUse(activeChar, target);
 				
 				// Crit rate base crit rate for skill, modified with STR bonus
 				boolean crit = false;
 				
 				//if (Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar), target))
-				if(Formulas.getInstance().calcCrit(skill.getBaseCritRate() * 10 * Formulas.getInstance().getSTRBonus(activeChar)))
+				if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar)))
 					crit = true;
-				double damage = (int) Formulas.getInstance().calcBlowDamage(activeChar, target, skill, shld, soul);
+				double damage = (int) Formulas.calcBlowDamage(activeChar, target, skill, shld, soul);
 				
 				/*
 				if (skill.getMaxSoulConsumeCount() > 0 && activeChar instanceof L2PcInstance)

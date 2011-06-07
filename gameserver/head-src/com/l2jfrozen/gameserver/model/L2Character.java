@@ -39,10 +39,13 @@ import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
+import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable.TeleportWhereType;
+import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
+import com.l2jfrozen.gameserver.datatables.xml.ZoneData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
@@ -50,6 +53,8 @@ import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.handler.itemhandlers.Potions;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
+import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
@@ -68,6 +73,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcWalkerInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.SkillDat;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
@@ -76,7 +82,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeFlagInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.SkillDat;
 import com.l2jfrozen.gameserver.model.actor.knownlist.CharKnownList;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
@@ -88,6 +93,8 @@ import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
+import com.l2jfrozen.gameserver.model.zone.L2ZoneManager;
+import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.Disconnection;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -124,6 +131,7 @@ import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
+import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
@@ -1254,7 +1262,7 @@ public abstract class L2Character extends L2Object
 		boolean crit1 = false;
 
 		// Calculate if hit is missed or not
-		boolean miss1 = Formulas.getInstance().calcHitMiss(this, target);
+		boolean miss1 = Formulas.calcHitMiss(this, target);
 
 		// Consumme arrows
 		reduceArrowCount();
@@ -1265,13 +1273,13 @@ public abstract class L2Character extends L2Object
 		if(!miss1)
 		{
 			// Calculate if shield defense is efficient
-			shld1 = Formulas.getInstance().calcShldUse(this, target);
+			shld1 = Formulas.calcShldUse(this, target);
 
 			// Calculate if hit is critical
-			crit1 = Formulas.getInstance().calcCrit(getStat().getCriticalHit(target, null));
+			crit1 = Formulas.calcCrit(getStat().getCriticalHit(target, null));
 
 			// Calculate physical damages
-			damage1 = (int) Formulas.getInstance().calcPhysDam(this, target, null, shld1, crit1, false, attack.soulshot);
+			damage1 = (int) Formulas.calcPhysDam(this, target, null, shld1, crit1, false, attack.soulshot);
 		}
 
 		// Check if the L2Character is a L2PcInstance
@@ -1324,20 +1332,20 @@ public abstract class L2Character extends L2Object
 		boolean crit2 = false;
 
 		// Calculate if hits are missed or not
-		boolean miss1 = Formulas.getInstance().calcHitMiss(this, target);
-		boolean miss2 = Formulas.getInstance().calcHitMiss(this, target);
+		boolean miss1 = Formulas.calcHitMiss(this, target);
+		boolean miss2 = Formulas.calcHitMiss(this, target);
 
 		// Check if hit 1 isn't missed
 		if(!miss1)
 		{
 			// Calculate if shield defense is efficient against hit 1
-			shld1 = Formulas.getInstance().calcShldUse(this, target);
+			shld1 = Formulas.calcShldUse(this, target);
 
 			// Calculate if hit 1 is critical
-			crit1 = Formulas.getInstance().calcCrit(getStat().getCriticalHit(target, null));
+			crit1 = Formulas.calcCrit(getStat().getCriticalHit(target, null));
 
 			// Calculate physical damages of hit 1
-			damage1 = (int) Formulas.getInstance().calcPhysDam(this, target, null, shld1, crit1, true, attack.soulshot);
+			damage1 = (int) Formulas.calcPhysDam(this, target, null, shld1, crit1, true, attack.soulshot);
 			damage1 /= 2;
 		}
 
@@ -1345,13 +1353,13 @@ public abstract class L2Character extends L2Object
 		if(!miss2)
 		{
 			// Calculate if shield defense is efficient against hit 2
-			shld2 = Formulas.getInstance().calcShldUse(this, target);
+			shld2 = Formulas.calcShldUse(this, target);
 
 			// Calculate if hit 2 is critical
-			crit2 = Formulas.getInstance().calcCrit(getStat().getCriticalHit(target, null));
+			crit2 = Formulas.calcCrit(getStat().getCriticalHit(target, null));
 
 			// Calculate physical damages of hit 2
-			damage2 = (int) Formulas.getInstance().calcPhysDam(this, target, null, shld2, crit2, true, attack.soulshot);
+			damage2 = (int) Formulas.calcPhysDam(this, target, null, shld2, crit2, true, attack.soulshot);
 			damage2 /= 2;
 		}
 
@@ -1520,19 +1528,19 @@ public abstract class L2Character extends L2Object
 		boolean crit1 = false;
 
 		// Calculate if hit is missed or not
-		boolean miss1 = Formulas.getInstance().calcHitMiss(this, target);
+		boolean miss1 = Formulas.calcHitMiss(this, target);
 
 		// Check if hit isn't missed
 		if(!miss1)
 		{
 			// Calculate if shield defense is efficient
-			shld1 = Formulas.getInstance().calcShldUse(this, target);
+			shld1 = Formulas.calcShldUse(this, target);
 
 			// Calculate if hit is critical
-			crit1 = Formulas.getInstance().calcCrit(getStat().getCriticalHit(target, null));
+			crit1 = Formulas.calcCrit(getStat().getCriticalHit(target, null));
 
 			// Calculate physical damages
-			damage1 = (int) Formulas.getInstance().calcPhysDam(this, target, null, shld1, crit1, false, attack.soulshot);
+			damage1 = (int) Formulas.calcPhysDam(this, target, null, shld1, crit1, false, attack.soulshot);
 
 			if(attackpercent != 100)
 			{
@@ -6276,16 +6284,63 @@ public abstract class L2Character extends L2Object
 		{
 			if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
 			{				
-				if((target.isRaid() && getLevel() > target.getLevel() + 8))
-					/* We don't need it on hit
-					|| ( target.getTarget()!=null 
-							&& target.getTarget() instanceof L2RaidBossInstance 
-							&& getLevel() > ((L2RaidBossInstance) target.getTarget()).getLevel() + 8)
-					|| ( target.getTarget()!=null 
-							&& target.getTarget() instanceof L2GrandBossInstance 
-							&& getLevel() > ((L2GrandBossInstance) target.getTarget()).getLevel() + 8))
-					*/
-				{
+				boolean to_be_cursed = false;
+				
+				//check on BossZone raid lvl
+				if(!(target instanceof L2PlayableInstance) && !(target instanceof L2SummonInstance) ){ //this must work just on mobs/raids
+					
+					int boss_id = -1;
+					L2NpcTemplate boss_template = null;
+					L2BossZone boss_zone = GrandBossManager.getInstance().getZone(this);
+					
+					if(boss_zone!=null){
+						boss_id = boss_zone.getBossId();
+					}
+					
+					boolean alive = false;
+					
+					if(boss_id != -1){
+						boss_template = NpcTable.getInstance().getTemplate(boss_id);
+						
+						if(boss_template != null && getLevel() > boss_template.getLevel()  + 8){
+							
+							if(boss_template.type.equals("L2RaidBoss")){
+								StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
+								if(actual_boss_stat!=null)
+									alive = actual_boss_stat.getLong("respawnTime") == 0;
+							}else if(boss_template.type.equals("L2GrandBoss")){
+								StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
+								if(actual_boss_stat!=null)
+									alive = actual_boss_stat.getLong("respawnTime") == 0;
+								
+							}
+							
+							if(alive)
+								to_be_cursed = true;
+						}
+						
+					}
+					 
+					
+					//legacy check too if not already cursed
+					if(!to_be_cursed){
+						if( (target.isRaid() && getLevel() > target.getLevel() + 8)
+								|| (!(target instanceof L2PcInstance) && ( target.getTarget()!=null 
+										&& target.getTarget() instanceof L2RaidBossInstance 
+										&& getLevel() > ((L2RaidBossInstance) target.getTarget()).getLevel() + 8))
+								|| (!(target instanceof L2PcInstance) && ( target.getTarget()!=null 
+										&& target.getTarget() instanceof L2GrandBossInstance 
+										&& getLevel() > ((L2GrandBossInstance) target.getTarget()).getLevel() + 8)))
+								
+							{
+								to_be_cursed = true;
+							}
+					}
+					
+				}
+				
+				
+				if(to_be_cursed){
 					L2Skill skill = SkillTable.getInstance().getInfo(4515, 1);
 
 					if(skill != null)
@@ -7850,7 +7905,7 @@ public abstract class L2Character extends L2Object
 				return true;
 			}
 			
-			if(activeChar.isHero() && activeChar.isInOlympiadMode() && activeChar.isOlympiadStart()){
+			if(activeChar.isHero() && HeroSkillTable.isHeroSkill(skillId) && activeChar.isInOlympiadMode() && activeChar.isOlympiadStart()){
 				activeChar.sendMessage("You can't use Hero skills during Olympiad match");
 				return true;
 			}
@@ -7950,13 +8005,62 @@ public abstract class L2Character extends L2Object
 					// Check Raidboss attack
 					if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
 					{
-						if((player.isRaid() && getLevel() > player.getLevel() + 8)
-								|| ( player.getTarget()!=null 
-										&& player.getTarget() instanceof L2RaidBossInstance 
-										&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8 && !skill.isOffensive())
-								|| ( player.getTarget()!=null 
-										&& player.getTarget() instanceof L2GrandBossInstance 
-										&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8) && !skill.isOffensive())
+						boolean to_be_cursed = false;
+						
+						//check on BossZone raid lvl
+						if(!(player instanceof L2PlayableInstance) && !(player instanceof L2SummonInstance) ){ //this must work just on mobs/raids
+							
+							int boss_id = -1;
+							L2NpcTemplate boss_template = null;
+							L2BossZone boss_zone = GrandBossManager.getInstance().getZone(this);
+							
+							if(boss_zone!=null){
+								boss_id = boss_zone.getBossId();
+							}
+							
+							boolean alive = false;
+							
+							if(boss_id != -1){
+								boss_template = NpcTable.getInstance().getTemplate(boss_id);
+								
+								if(boss_template != null && getLevel() > boss_template.getLevel()  + 8){
+									
+									if(boss_template.type.equals("L2RaidBoss")){
+										StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
+										if(actual_boss_stat!=null)
+											alive = actual_boss_stat.getLong("respawnTime") == 0;
+									}else if(boss_template.type.equals("L2GrandBoss")){
+										StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
+										if(actual_boss_stat!=null)
+											alive = actual_boss_stat.getLong("respawnTime") == 0;
+										
+									}
+									
+									if(alive)
+										to_be_cursed = true;
+								}
+								
+							}
+							 
+							
+							//legacy check too if not already cursed
+							if(!to_be_cursed){
+								if( (player.isRaid() && getLevel() > player.getLevel() + 8)
+										|| (!(player instanceof L2PcInstance) && ( player.getTarget()!=null 
+												&& player.getTarget() instanceof L2RaidBossInstance 
+												&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8))
+										|| (!(player instanceof L2PcInstance) && ( player.getTarget()!=null 
+												&& player.getTarget() instanceof L2GrandBossInstance 
+												&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8)))
+										
+									{
+										to_be_cursed = true;
+									}
+							}
+							
+						}
+						
+						if(to_be_cursed)
 						{
 							if(skill.isMagic())
 							{

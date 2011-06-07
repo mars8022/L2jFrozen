@@ -18,21 +18,11 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinFriend;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.util.Util;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
@@ -42,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public final class RequestFriendInvite extends L2GameClientPacket
 {
 	private static final String _C__5E_REQUESTFRIENDINVITE = "[C] 5E RequestFriendInvite";
-	private static Logger _log = Logger.getLogger(RequestFriendInvite.class.getName());
+	//private static Logger _log = Logger.getLogger(RequestFriendInvite.class.getName());
 
 	private String _name;
 
@@ -56,7 +46,7 @@ public final class RequestFriendInvite extends L2GameClientPacket
 	protected void runImpl()
 	{
 		SystemMessage sm;
-		Connection con = null;
+		//Connection con = null;
 		L2PcInstance activeChar = getClient().getActiveChar();
 
 		if(activeChar == null)

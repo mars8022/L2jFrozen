@@ -17,6 +17,8 @@ package com.l2jfrozen.gameserver.ai.special;
 
 import java.util.Collection;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -39,8 +41,6 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
-
-import javolution.util.FastList;
 
 
 /**

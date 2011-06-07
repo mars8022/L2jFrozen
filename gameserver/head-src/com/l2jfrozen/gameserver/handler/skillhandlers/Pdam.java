@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -41,6 +39,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
@@ -109,7 +108,7 @@ public class Pdam implements ISkillHandler
 				continue;
 
 			// Calculate skill evasion
-			Formulas.getInstance();
+			//Formulas.getInstance();
 			if(Formulas.calcPhysicalSkillEvasion(target, skill))
 			{
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.ATTACK_FAILED));
@@ -125,18 +124,19 @@ public class Pdam implements ISkillHandler
 			*/
 
 			boolean dual = activeChar.isUsingDualWeapon();
-			boolean shld = f.calcShldUse(activeChar, target);
+			boolean shld = Formulas.calcShldUse(activeChar, target);
 			// PDAM critical chance not affected by buffs, only by STR. Only some skills are meant to crit.
 			boolean crit = false;
 			if(skill.getBaseCritRate() > 0)
-				crit = f.calcCrit(skill.getBaseCritRate() * 10 * f.getSTRBonus(activeChar));
-
+				//crit = Formulas.calcCrit(skill.getBaseCritRate() * 10 * Formulas.getSTRBonus(activeChar));
+				crit = Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar));
+			
 			boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER);
 
 			if(!crit && (skill.getCondition() & L2Skill.COND_CRIT) != 0)
 				damage = 0;
 			else
-				damage = (int) f.calcPhysDam(activeChar, target, skill, shld, false, dual, soul);
+				damage = (int) Formulas.calcPhysDam(activeChar, target, skill, shld, false, dual, soul);
 
 			if(crit)
 				damage *= 2; // PDAM Critical damage always 2x and not affected by buffs

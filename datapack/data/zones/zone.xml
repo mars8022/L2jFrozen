@@ -729,97 +729,112 @@
     <stat name='name' val='NoEscape'/>
     <stat name='flying' val='false'/>
   </zone>
-<!-- Boss zones Four Sepulchers -->
-  <zone id='12002' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841'>
+<!-- Boss zone Four Sepulchers -->
+  <zone id='12002' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841' bossId='-1'>
     <stat name='name' val='FourSepulcher'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='300000'/>
   </zone>
-  <zone id='12003' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841'>
+<!-- Boss zone Four Sepulchers -->
+  <zone id='12003' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841' bossId='-1'>
     <stat name='name' val='FourSepulcher'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='300000'/>
   </zone>
-  <zone id='12004' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841'>
+<!-- Boss zone Four Sepulchers -->
+  <zone id='12004' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841' bossId='-1'>
     <stat name='name' val='FourSepulcher'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='300000'/>
   </zone>
-  <zone id='12005' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841'>
+<!-- Boss zone Four Sepulchers -->
+  <zone id='12005' type='BossZone' shape='Cuboid' minZ='-7350' maxZ='-6841' bossId='-1'>
     <stat name='name' val='FourSepulcher'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='300000'/>
   </zone>
-<!-- Boss zones Lair of Bosses -->
-  <zone id='12006' type='BossZone' shape='Cuboid' minZ='-8220' maxZ='-4870'>
+<!-- Boss zone Lair of Antharas -->
+  <zone id='12006' type='BossZone' shape='Cuboid' minZ='-8220' maxZ='-4870' bossId='29019'>
     <stat name='name' val='LairofAntharas'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='600000'/>
   </zone>
-  <zone id='12007' type='BossZone' shape='NPoly' minZ='9967' maxZ='16301'>
+<!-- Boss zone Lair of Baium -->
+  <zone id='12007' type='BossZone' shape='NPoly' minZ='9967' maxZ='16301' bossId='29020'>
     <stat name='name' val='LairofBaium'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='600000'/>
   </zone>
-  <zone id='12008' type='BossZone' shape='Cuboid' minZ='-1735' maxZ='16301'>
+<!-- Boss zone Lair of Valakas -->
+  <zone id='12008' type='BossZone' shape='Cuboid' minZ='-1735' maxZ='16301' bossId='29028'>
     <stat name='name' val='LairofValakas'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12009' type='BossZone' shape='Cuboid' minZ='-5600' maxZ='-3895'>
+<!-- Boss zone Lair of Lilith -->
+  <zone id='12009' type='BossZone' shape='Cuboid' minZ='-5600' maxZ='-3895' bossId='25283'>
     <stat name='name' val='LairofLilith'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12010' type='BossZone' shape='Cuboid' minZ='-5600' maxZ='-3895'>
+<!-- Boss zone Lair of Anakim -->
+  <zone id='12010' type='BossZone' shape='Cuboid' minZ='-5600' maxZ='-3895' bossId='25286'>
     <stat name='name' val='LairofAnakim'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12011' type='BossZone' shape='Cuboid' minZ='-3775' maxZ='-2690'>
+<!-- Boss zone Lair of Zaken -->
+  <zone id='12011' type='BossZone' shape='Cuboid' minZ='-3775' maxZ='-2690' bossId='29022'>
     <stat name='name' val='LairofZaken'/>
     <stat name='Flying' val='false'/>
     <stat name='EnabledByDefault' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12012' type='BossZone' shape='Cuboid' minZ='-2900' maxZ='-2690'>
+<!-- Boss zone SunlightRoom -->
+  <zone id='12012' type='BossZone' shape='Cuboid' minZ='-2900' maxZ='-2690' bossId='-1'>
     <stat name='name' val='SunlightRoom'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12013' type='BossZone' shape='Cuboid' minZ='-2075' maxZ='-1944'>
+<!-- Boss zone Lair of Sailren -->
+  <zone id='12013' type='BossZone' shape='Cuboid' minZ='-2075' maxZ='-1944' bossId='29065'>
     <stat name='name' val='LairofSailren'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12014' type='BossZone' shape='Cuboid' minZ='-10730' maxZ='-10290'>
+<!-- Boss zone AltarofSacrifice -->
+  <zone id='12014' type='BossZone' shape='Cuboid' minZ='-10730' maxZ='-10290' bossId='-1'>
     <stat name='name' val='AltarofSacrifice'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12015' type='BossZone' shape='NPoly' minZ='-30000' maxZ='30000'>
+<!-- Boss zone Lair of Ice Fairy Sirra -->
+  <zone id='12015' type='BossZone' shape='NPoly' minZ='-30000' maxZ='30000' bossId='29056'>
     <stat name='name' val='IceQueenCastle'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <!-- Frinzze`s zone -->
-  <zone id='12016' type='BossZone' shape='Cuboid' minZ='-6130' maxZ='-3000'>
+<!-- Boss zone Frintezza -->
+  <zone id='12016' type='BossZone' shape='Cuboid' minZ='-6130' maxZ='-3000' bossId='29047'>
     <stat name='name' val='Last Imperial Tomb'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='1800000'/>
   </zone>
-  <zone id='12017' type='BossZone' shape='NPoly' minZ='-6130' maxZ='-3000'>
+<!-- Boss zone Frintezza Chamber -->
+  <zone id='12017' type='BossZone' shape='NPoly' minZ='-6130' maxZ='-3000' bossId='29047'>
     <stat name='name' val='Chamber of Frintezza'/>
     <stat name='Flying' val='false'/>
     <!-- <stat name='EnabledByDefault' val='false'/> -->
     <stat name='InvadeTime' val='1800000'/>
   </zone>
-  <zone id='12018' type='BossZone' shape='NPoly' minZ='-5796' maxZ='-3796'>
+<!-- Boss zone Lair of Orfen -->
+  <zone id='12018' type='BossZone' shape='NPoly' minZ='-5796' maxZ='-3796' bossId='29014'>
     <stat name='name' val='LairofOrfen'/>
     <stat name='EnabledByDefault' val='false'/>
     <stat name='InvadeTime' val='0'/>
   </zone>
-  <zone id='12019' type='BossZone' shape='NPoly' minZ='-5947' maxZ='-5547'>
+<!-- Boss zone Lair of Ant Queen -->
+  <zone id='12019' type='BossZone' shape='NPoly' minZ='-5947' maxZ='-5547' bossId='29001'>
     <stat name='name' val='LairofAntQueen'/>
     <stat name='EnabledByDefault' val='false'/>
     <stat name='InvadeTime' val='0'/>

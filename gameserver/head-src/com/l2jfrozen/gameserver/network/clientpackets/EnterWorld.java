@@ -20,9 +20,6 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
