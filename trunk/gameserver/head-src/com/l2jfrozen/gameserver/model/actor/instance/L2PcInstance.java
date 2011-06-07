@@ -36,8 +36,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
-import org.python.modules.synchronize;
-
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -106,6 +104,8 @@ import com.l2jfrozen.gameserver.model.L2RecipeList;
 import com.l2jfrozen.gameserver.model.L2Request;
 import com.l2jfrozen.gameserver.model.L2ShortCut;
 import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2SkillLearn;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -117,8 +117,6 @@ import com.l2jfrozen.gameserver.model.PcWarehouse;
 import com.l2jfrozen.gameserver.model.PetInventory;
 import com.l2jfrozen.gameserver.model.ShortCuts;
 import com.l2jfrozen.gameserver.model.TradeList;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.appearance.PcAppearance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.PcKnownList;
 import com.l2jfrozen.gameserver.model.actor.stat.PcStat;
@@ -12826,7 +12824,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else if(skill != null)
 			{
-				_revivePower = Formulas.getInstance().calculateSkillResurrectRestorePercent(skill.getPower(), Reviver.getWIT());
+				_revivePower = Formulas.getInstance().calculateSkillResurrectRestorePercent(skill.getPower(), Reviver);
 			}
 			else
 			{
@@ -13673,9 +13671,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 	}
-	/**
-	 * @param activeChar
-	 */
+	/*
 	private void notifyFriends2(L2PcInstance cha)
 	{
 		Connection con = null;
@@ -13717,6 +13713,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			con = null;
 		}
 	}
+	*/
 
 	private FishData _fish;
 

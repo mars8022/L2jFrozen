@@ -28,8 +28,8 @@ import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2SiegeClan;
 import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
+import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -43,8 +43,8 @@ import com.l2jfrozen.gameserver.model.entity.siege.Siege;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerState;
-import com.l2jfrozen.gameserver.skills.conditions.ConditionUsingItemType;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerState.CheckPlayerState;
+import com.l2jfrozen.gameserver.skills.conditions.ConditionUsingItemType;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2Item;
@@ -66,8 +66,10 @@ public final class Formulas
 	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
 	private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 
+	/*
 	public static final int MAX_STAT_VALUE = 100;
 
+	
 	private static final double[] STRCompute = new double[]
 	{
 			1.036, 34.845
@@ -99,7 +101,7 @@ public final class Formulas
 	protected static final double[] STRbonus = new double[MAX_STAT_VALUE];
 	protected static final double[] DEXbonus = new double[MAX_STAT_VALUE];
 	protected static final double[] CONbonus = new double[MAX_STAT_VALUE];
-
+	 
 	// These values are 100% matching retail tables, no need to change and no need add
 	// calculation into the stat bonus when accessing (not efficient),
 	// better to have everything precalculated and use values directly (saves CPU)
@@ -130,6 +132,7 @@ public final class Formulas
 			MENbonus[i] = Math.floor(Math.pow(MENCompute[0], i - MENCompute[1]) * 100 + .5d) / 100;
 		}
 	}
+	*/
 
 	static class FuncAddLevel3 extends Func
 	{
@@ -847,7 +850,7 @@ public final class Formulas
 	 * Return the period between 2 regenerations task (3s for L2Character, 5 min for L2DoorInstance).<BR>
 	 * <BR>
 	 */
-	public int getRegeneratePeriod(L2Character cha)
+	public static int getRegeneratePeriod(L2Character cha)
 	{
 		if(cha instanceof L2DoorInstance)
 			return HP_REGENERATE_PERIOD * 100; // 5 mins
@@ -1009,7 +1012,7 @@ public final class Formulas
 	 * Calculate the HP regen rate (base + modifiers).<BR>
 	 * <BR>
 	 */
-	public final double calcHpRegen(L2Character cha)
+	public final static double calcHpRegen(L2Character cha)
 	{
 		double init = cha.getTemplate().baseHpReg;
 		double hpRegenMultiplier = cha.isRaid() ? Config.RAID_HP_REGEN_MULTIPLIER : Config.HP_REGEN_MULTIPLIER;
@@ -1030,11 +1033,11 @@ public final class Formulas
 			// SevenSigns Festival modifier
 			if(SevenSignsFestival.getInstance().isFestivalInProgress() && player.isFestivalParticipant())
 			{
-				hpRegenMultiplier *= calcFestivalRegenModifier(player);
+				hpRegenMultiplier *= Formulas.calcFestivalRegenModifier(player);
 			}
 			else
 			{
-				double siegeModifier = calcSiegeRegenModifer(player);
+				double siegeModifier = Formulas.calcSiegeRegenModifer(player);
 				if(siegeModifier > 0)
 				{
 					hpRegenMultiplier *= siegeModifier;
@@ -1076,7 +1079,8 @@ public final class Formulas
 			}
 
 			// Add CON bonus
-			init *= cha.getLevelMod() * CONbonus[cha.getCON()];
+			//init *= cha.getLevelMod() * CONbonus[cha.getCON()];
+			init *= cha.getLevelMod() * BaseStats.CON.calcBonus(cha);
 		}
 
 		if(init < 1)
@@ -1091,7 +1095,7 @@ public final class Formulas
 	 * Calculate the MP regen rate (base + modifiers).<BR>
 	 * <BR>
 	 */
-	public final double calcMpRegen(L2Character cha)
+	public final static double calcMpRegen(L2Character cha)
 	{
 		double init = cha.getTemplate().baseMpReg;
 		double mpRegenMultiplier = cha.isRaid() ? Config.RAID_MP_REGEN_MULTIPLIER : Config.MP_REGEN_MULTIPLIER;
@@ -1160,7 +1164,7 @@ public final class Formulas
 	 * Calculate the CP regen rate (base + modifiers).<BR>
 	 * <BR>
 	 */
-	public final double calcCpRegen(L2Character cha)
+	public final static double calcCpRegen(L2Character cha)
 	{
 		double init = cha.getTemplate().baseHpReg;
 		double cpRegenMultiplier = Config.CP_REGEN_MULTIPLIER;
@@ -1209,7 +1213,7 @@ public final class Formulas
 	}
 
 	@SuppressWarnings("deprecation")
-	public final double calcFestivalRegenModifier(L2PcInstance activeChar)
+	public final static double calcFestivalRegenModifier(L2PcInstance activeChar)
 	{
 		final int[] festivalInfo = SevenSignsFestival.getInstance().getFestivalForPlayer(activeChar);
 		final int oracle = festivalInfo[0];
@@ -1241,7 +1245,7 @@ public final class Formulas
 		return 1.0 - distToCenter * 0.0005; // Maximum Decreased Regen of ~ -65%;
 	}
 
-	public final double calcSiegeRegenModifer(L2PcInstance activeChar)
+	public final static double calcSiegeRegenModifer(L2PcInstance activeChar)
 	{
 		if(activeChar == null || activeChar.getClan() == null)
 			return 0;
@@ -1258,7 +1262,7 @@ public final class Formulas
 	}
 
 	/** Calculate blow damage based on cAtk */
-	public double calcBlowDamage(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean ss)
+	public static double calcBlowDamage(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean ss)
 	{
 		if((skill.getCondition() & L2Skill.COND_BEHIND) != 0 && !attacker.isBehind(target))
 			return 0;
@@ -1941,7 +1945,7 @@ public final class Formulas
 	}
 
 	/** Returns true if hit missed (taget evaded) */
-	public boolean calcHitMiss(L2Character attacker, L2Character target)
+	public static boolean calcHitMiss(L2Character attacker, L2Character target)
 	{
 		// accuracy+dexterity => probability to hit in percents
 		int acc_attacker;
@@ -1956,7 +1960,8 @@ public final class Formulas
 	public static boolean calcShldUse(L2Character attacker, L2Character target)
 	{
 		L2Weapon at_weapon = attacker.getActiveWeaponItem();
-		double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
+		//double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
+		double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * BaseStats.DEX.calcBonus(target);
 		if(shldRate == 0.0)
 			return false;
 		// Check for passive skill Aegis (316) or Aegis Stance (318)
@@ -2398,11 +2403,13 @@ public final class Formulas
 		return damage;
 	}
 
-	public double calculateSkillResurrectRestorePercent(double baseRestorePercent, int casterWIT)
+	public double calculateSkillResurrectRestorePercent(double baseRestorePercent, L2Character caster )
 	{
 		double restorePercent = baseRestorePercent;
-		double modifier = WITbonus[casterWIT];
-
+		
+		//double modifier = WITbonus[casterWIT];
+		double modifier = BaseStats.WIT.calcBonus(caster);
+		
 		if(restorePercent != 100 && restorePercent != 0)
 		{
 
@@ -2426,10 +2433,12 @@ public final class Formulas
 		return restorePercent;
 	}
 
-	public double getSTRBonus(L2Character activeChar)
+	/*
+	public static double getSTRBonus(L2Character activeChar)
 	{
 		return STRbonus[activeChar.getSTR()];
 	}
+	*/
 
 	public static boolean calcPhysicalSkillEvasion(L2Character target, L2Skill skill)
 	{
@@ -2450,11 +2459,14 @@ public final class Formulas
 		{
 			if(((L2PcInstance) actor).isMageClass())
 			{
-				val *= INTbonus[actor.getINT()];
+				
+				//val *= INTbonus[actor.getINT()];
+				val *= BaseStats.INT.calcBonus(actor);
 			}
 			else
 			{
-				val *= STRbonus[actor.getSTR()];
+				//val *= STRbonus[actor.getSTR()];
+				val *= BaseStats.STR.calcBonus(actor);
 			}
 		}
 

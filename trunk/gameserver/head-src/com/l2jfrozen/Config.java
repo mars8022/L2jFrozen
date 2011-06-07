@@ -3364,6 +3364,8 @@ public final class Config
 	public static boolean ENABLE_CLASS_DAMAGES_LOGGER;
 	public static boolean LEAVE_BUFFS_ON_DIE;
 	
+	public static boolean ALT_RAIDS_STATS_BONUS;
+	
 	//============================================================
 	public static void loadPHYSICSConfig()
 	{
@@ -3457,6 +3459,9 @@ public final class Config
 			}
 				
 			LEAVE_BUFFS_ON_DIE = Boolean.parseBoolean(PHYSICSSetting.getProperty("LeaveBuffsOnDie", "True"));
+		
+			ALT_RAIDS_STATS_BONUS = Boolean.parseBoolean(PHYSICSSetting.getProperty("AltRaidsStatsBonus", "True"));
+		
 		}
 		catch(Exception e)
 		{
@@ -3536,6 +3541,7 @@ public final class Config
 
 	//============================================================
 	public static boolean ALLOW_DIRECT_TP_TO_BOSS_ROOM;
+	public static boolean ANTHARAS_OLD;
 	public static int ANTHARAS_CLOSE;
 	public static int ANTHARAS_SLEEP;
 	public static int ANTHARAS_RESP_FIRST;
@@ -3617,6 +3623,7 @@ public final class Config
 			//============================================================
 			ALLOW_DIRECT_TP_TO_BOSS_ROOM = Boolean.valueOf(bossSettings.getProperty("AllowDirectTeleportToBossRoom", "False"));
 			//Antharas
+			ANTHARAS_OLD = Boolean.valueOf(bossSettings.getProperty("AntharasOldScript", "true"));
 			ANTHARAS_CLOSE = Integer.parseInt(bossSettings.getProperty("AntharasClose", "1200"));
 			ANTHARAS_SLEEP = Integer.parseInt(bossSettings.getProperty("AntharasSleep", "900"));
 			ANTHARAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("AntharasRespFirst", "192"));

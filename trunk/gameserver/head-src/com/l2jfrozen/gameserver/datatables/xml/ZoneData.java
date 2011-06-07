@@ -165,8 +165,7 @@ public class ZoneData
 
 								String zoneType = attrs.getNamedItem("type").getNodeValue();
 								String zoneShape = attrs.getNamedItem("shape").getNodeValue();
-								attrs = null;
-
+								
 								// Create the zone
 								L2ZoneType temp = null;
 
@@ -232,7 +231,8 @@ public class ZoneData
 								}
 								else if(zoneType.equals("BossZone"))
 								{
-									temp = new L2BossZone(zoneId);
+									int boss_id = Integer.parseInt(attrs.getNamedItem("bossId").getNodeValue());
+									temp = new L2BossZone(zoneId, boss_id);
 								}
 								else if(zoneType.equals("SkillZone"))
 								{
@@ -455,6 +455,8 @@ public class ZoneData
 								zoneCount++;
 
 								temp = null;
+								attrs = null;
+
 							}
 						}
 					}

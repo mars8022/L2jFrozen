@@ -22,7 +22,6 @@ import java.util.List;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;

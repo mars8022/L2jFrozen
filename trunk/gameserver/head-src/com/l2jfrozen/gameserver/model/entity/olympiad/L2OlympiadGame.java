@@ -184,16 +184,17 @@ class L2OlympiadGame extends Olympiad
 					player.abortCast();
 				}
 
-				/*
-				//Remove Hero Skills
-				if(player.isHero())
-				{
-					for(L2Skill skill : HeroSkillTable.getHeroSkills())
-					{
-						player.removeSkill(skill, false);
+				//disable hero skills
+				if(player.isHero()){
+					
+					for(L2Skill actual: HeroSkillTable.getHeroSkills()){
+						
+						player.disableSkill(actual.getId());
+						
 					}
+					
 				}
-				*/
+				
 
 				// Heal Player fully
 				player.setCurrentCp(player.getMaxCp());
@@ -515,17 +516,17 @@ class L2OlympiadGame extends Olympiad
 					}
 				}
 
-				/*
-				//Add Hero Skills
-				if(player.isHero())
-				{
-					for(L2Skill skill : HeroSkillTable.getHeroSkills())
-					{
-						player.addSkill(skill, false);
+				//enable hero skills
+				if(player.isHero()){
+					
+					for(L2Skill actual: HeroSkillTable.getHeroSkills()){
+						
+						player.enableSkill(actual.getId());
+						
 					}
+					
 				}
-				player.sendSkillList();
-				*/
+				
 			}
 			catch(Exception e)
 			{

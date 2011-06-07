@@ -21,9 +21,9 @@ package com.l2jfrozen.loginserver.network.clientpackets;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.loginserver.SessionKey;
-import com.l2jfrozen.loginserver.network.serverpackets.PlayOk;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.loginserver.network.serverpackets.PlayFail.PlayFailReason;
+import com.l2jfrozen.loginserver.network.serverpackets.PlayOk;
 
 /**
  * Fromat is ddc d: first part of session id d: second part of session id c: server ID

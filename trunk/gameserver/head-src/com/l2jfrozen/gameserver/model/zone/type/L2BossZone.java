@@ -48,12 +48,17 @@ public class L2BossZone extends L2ZoneType
 	// of server restart
 	private L2FastList<Integer> _playersAllowed;
 
-	public L2BossZone(int id)
+	private int _bossId;
+	
+	public L2BossZone(int id, int boss_id)
 	{
 		super(id);
+		_bossId = boss_id;
 		_playerAllowedReEntryTimes = new FastMap<Integer, Long>();
 		_playersAllowed = new L2FastList<Integer>();
 	}
+	
+	
 
 	@Override
 	public void setParameter(String name, String value)
@@ -329,5 +334,9 @@ public class L2BossZone extends L2ZoneType
 			}
 		}
 		return;
+	}
+	
+	public int getBossId(){
+		return _bossId;
 	}
 }

@@ -32,7 +32,6 @@ import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.object.L2ObjectMap;
 import com.l2jfrozen.util.object.L2ObjectSet;
