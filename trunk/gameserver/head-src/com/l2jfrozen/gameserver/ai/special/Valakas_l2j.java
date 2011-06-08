@@ -139,10 +139,17 @@ public class Valakas_l2j extends Quest implements Runnable
 		{
 			if(status == FIGHTING)
 			{
-				int loc_x = info.getInteger("loc_x");
-				int loc_y = info.getInteger("loc_y");
-				int loc_z = info.getInteger("loc_z");
-				int heading = info.getInteger("heading");
+				//int loc_x = info.getInteger("loc_x");
+				//int loc_y = info.getInteger("loc_y");
+				//int loc_z = info.getInteger("loc_z");
+				//int heading = info.getInteger("heading");
+				
+				//respawn to original location				
+				int loc_x = 213004;
+				int loc_y = -114890;
+				int loc_z = -1595;
+				int heading = 0;
+				
 				final int hp = info.getInteger("currentHP");
 				final int mp = info.getInteger("currentMP");
 				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, loc_x, loc_y, loc_z, heading, false, 0);
@@ -209,7 +216,9 @@ public class Valakas_l2j extends Quest implements Runnable
 					if (temp > 900000)
 					{
 						npc.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-						npc.teleToLocation(-105200, -253104, -15264);
+						//npc.teleToLocation(-105200, -253104, -15264);
+						//delete the actual boss
+						npc.decayMe();
 						GrandBossManager.getInstance().setBossStatus(VALAKAS, DORMANT);
 						npc.setCurrentHpMp(npc.getMaxHp(), npc.getMaxMp());
 						_Zone.oustAllPlayers();
@@ -363,11 +372,10 @@ public class Valakas_l2j extends Quest implements Runnable
 		{
 			if (event.equalsIgnoreCase("1001"))
 			{
-				StatsSet info = GrandBossManager.getInstance().getStatsSet(VALAKAS);
-				int loc_x = info.getInteger("loc_x");
-				int loc_y = info.getInteger("loc_y");
-				int loc_z = info.getInteger("loc_z");
-				int heading = info.getInteger("heading");
+				int loc_x = 213004;
+				int loc_y = -114890;
+				int loc_z = -1595;
+				int heading = 0;
 				
 				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, loc_x, loc_y, loc_z, heading, false, 0);
 				GrandBossManager.getInstance().addBoss(valakas);

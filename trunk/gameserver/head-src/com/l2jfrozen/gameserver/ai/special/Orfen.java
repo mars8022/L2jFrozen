@@ -76,7 +76,12 @@ public class Orfen extends Quest implements Runnable
     			}
     			else
     			{
-    				orfen = (L2GrandBossInstance) addSpawn(ORFEN, 55024,17368,-5412,0, false, 0);
+    				int loc_x = 55024;
+    				int loc_y = 17368;
+    				int loc_z = -5412;
+    				int heading = 0;
+    				
+    				orfen = (L2GrandBossInstance) addSpawn(ORFEN, loc_x,loc_y,loc_z,heading, false, 0);
     				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
     				{
     					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
@@ -88,10 +93,18 @@ public class Orfen extends Quest implements Runnable
         	break;
         	case LIVE:{
         		
+        		/*
         		int loc_x = info.getInteger("loc_x");
     			int loc_y = info.getInteger("loc_y");
     			int loc_z = info.getInteger("loc_z");
     			int heading = info.getInteger("heading");
+    			*/
+        		
+    			int loc_x = 55024;
+				int loc_y = 17368;
+				int loc_z = -5412;
+				int heading = 0;
+				
     			int hp = info.getInteger("currentHP");
     			int mp = info.getInteger("currentMP");
     			orfen = (L2GrandBossInstance) addSpawn(ORFEN, loc_x, loc_y, loc_z, heading, false, 0);
@@ -105,7 +118,12 @@ public class Orfen extends Quest implements Runnable
         	break;
         	default:{
         		
-        		orfen = (L2GrandBossInstance) addSpawn(ORFEN, 55024,17368,-5412,0, false, 0);
+        		int loc_x = 55024;
+				int loc_y = 17368;
+				int loc_z = -5412;
+				int heading = 0;
+				
+        		orfen = (L2GrandBossInstance) addSpawn(ORFEN, loc_x,loc_y,loc_z,heading, false, 0);
         		if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
@@ -135,7 +153,12 @@ public class Orfen extends Quest implements Runnable
 			switch(event_enum){
 				case ORFEN_SPAWN:{
 					
-					orfen = (L2GrandBossInstance) addSpawn(ORFEN, 55024,17368,-5412,0, false, 0);
+					int loc_x = 55024;
+					int loc_y = 17368;
+					int loc_z = -5412;
+					int heading = 0;
+					
+					orfen = (L2GrandBossInstance) addSpawn(ORFEN,  loc_x,loc_y,loc_z,heading, false, 0);
 					if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
     				{
     					Announcements.getInstance().announceToAll("Raid boss " + orfen.getName() + " spawned in world.");
