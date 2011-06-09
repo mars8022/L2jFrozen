@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -32,7 +33,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * This class ...
@@ -160,9 +160,10 @@ public final class RequestSellItem extends L2GameClientPacket
 			int itemId = _items[i * 3 + 1];
 			int count = _items[i * 3 + 2];
 
-			if(count < 0 || count > Integer.MAX_VALUE)
+			// Check count
+			if(count <= 0 || count > Integer.MAX_VALUE)
 			{
-				Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + Integer.MAX_VALUE + " items at the same time.", Config.DEFAULT_PUNISH);
+				//Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + Integer.MAX_VALUE + " items at the same time.", Config.DEFAULT_PUNISH);
 				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED);
 				sendPacket(sm);
 				sm = null;
@@ -170,18 +171,35 @@ public final class RequestSellItem extends L2GameClientPacket
 			}
 
 			L2ItemInstance item = player.checkItemManipulation(objectId, count, "sell");
+			long price = item.getReferencePrice() / 2;
+			totalPrice += price * count;
+			
+			// Fix exploit during Sell
+			if ((Integer.MAX_VALUE / count) < price || totalPrice > Integer.MAX_VALUE)
+			{
+				//Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + MAX_ADENA + " adena worth of goods.", Config.DEFAULT_PUNISH);
+				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED);
+				sendPacket(sm);
+				sm = null;
+				return;
+			}
+			
+			// Check Item
 			if(item == null || !item.getItem().isSellable())
 			{
 				continue;
 			}
-
-			totalPrice += item.getReferencePrice() * count / 2;
-			if(totalPrice > Integer.MAX_VALUE)
+			
+			// Check totalPrice
+			if(totalPrice <= 0)
 			{
-				Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + Integer.MAX_VALUE + " adena worth of goods.", Config.DEFAULT_PUNISH);
+				//Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + Integer.MAX_VALUE + " adena worth of goods.", Config.DEFAULT_PUNISH);
+				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED);
+				sendPacket(sm);
+				sm = null;
 				return;
 			}
-
+			
 			item = player.getInventory().destroyItem("Sell", objectId, count, player, null);
 
 			/* TODO: Disabled until Leaseholders are rewritten ;-)

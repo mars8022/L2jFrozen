@@ -231,8 +231,10 @@ public final class StatsSet
 	public int getInteger(String name)
 	{
 		Object val = _set.get(name);
-		if(val == null)
-			throw new IllegalArgumentException("Integer value required, but not specified");
+		if(val == null){
+			throw new RuntimeException();
+			//throw new IllegalArgumentException("Integer value required, but not specified");
+		}
 		if(val instanceof Number)
 			return ((Number) val).intValue();
 		try
@@ -287,7 +289,8 @@ public final class StatsSet
 	{
 		Object val = _set.get(name);
 		if(val == null)
-			throw new IllegalArgumentException("Integer value required, but not specified");
+			throw new RuntimeException();
+			//throw new IllegalArgumentException("Integer value required, but not specified");
 		if(val instanceof Number)
 		{
 			int[] result =
@@ -327,7 +330,8 @@ public final class StatsSet
 	{
 		Object val = _set.get(name);
 		if(val == null)
-			throw new IllegalArgumentException("Integer value required, but not specified");
+			throw new RuntimeException();
+			//throw new IllegalArgumentException("Integer value required, but not specified");
 		if(val instanceof Number)
 			return ((Number) val).longValue();
 		try
