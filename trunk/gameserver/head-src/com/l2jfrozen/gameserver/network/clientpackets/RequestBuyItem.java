@@ -243,13 +243,13 @@ public final class RequestBuyItem extends L2GameClientPacket
 				continue;
 			}
 
+			// Check count
 			if(count > Integer.MAX_VALUE || !template.isStackable() && count > 1)
 			{
-				Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase invalid quantity of items at the same time.", Config.DEFAULT_PUNISH);
+				//Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase invalid quantity of items at the same time.", Config.DEFAULT_PUNISH);
 				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED);
 				sendPacket(sm);
 				sm = null;
-
 				return;
 			}
 
@@ -301,9 +301,13 @@ public final class RequestBuyItem extends L2GameClientPacket
 			subTotal += (long) count * price; // Before tax
 			tax = (int) (subTotal * taxRate);
 
+			// Check subTotal + tax
 			if(subTotal + tax > Integer.MAX_VALUE)
 			{
-				Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + Integer.MAX_VALUE + " adena worth of goods.", Config.DEFAULT_PUNISH);
+				//Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to purchase over " + Integer.MAX_VALUE + " adena worth of goods.", Config.DEFAULT_PUNISH);
+				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED);
+				sendPacket(sm);
+				sm = null;
 				return;
 			}
 

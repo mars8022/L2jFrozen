@@ -105,13 +105,15 @@ public class QueenAnt extends Quest implements Runnable
         	break;
         	case LIVE:{
         		
+        		/*
         		int loc_x = info.getInteger("loc_x");
     			int loc_y = info.getInteger("loc_y");
     			int loc_z = info.getInteger("loc_z");
     			int heading = info.getInteger("heading");
+    			*/
     			int hp = info.getInteger("currentHP");
     			int mp = info.getInteger("currentMP");
-    			L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, loc_x, loc_y, loc_z, heading, false, 0);
+    			L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734 , 0, false, 0);
     			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");

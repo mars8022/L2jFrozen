@@ -45,7 +45,6 @@ import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable.TeleportWhereType;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
-import com.l2jfrozen.gameserver.datatables.xml.ZoneData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
@@ -93,7 +92,6 @@ import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
-import com.l2jfrozen.gameserver.model.zone.L2ZoneManager;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.Disconnection;
@@ -6311,7 +6309,7 @@ public abstract class L2Character extends L2Object
 							}else if(boss_template.type.equals("L2GrandBoss")){
 								StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
 								if(actual_boss_stat!=null)
-									alive = actual_boss_stat.getLong("respawnTime") == 0;
+									alive = actual_boss_stat.getLong("respawn_time") == 0;
 								
 							}
 							
@@ -8032,7 +8030,7 @@ public abstract class L2Character extends L2Object
 									}else if(boss_template.type.equals("L2GrandBoss")){
 										StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
 										if(actual_boss_stat!=null)
-											alive = actual_boss_stat.getLong("respawnTime") == 0;
+											alive = actual_boss_stat.getLong("respawn_time") == 0;
 										
 									}
 									
