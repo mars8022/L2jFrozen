@@ -3460,8 +3460,6 @@ public final class Config
 				
 			LEAVE_BUFFS_ON_DIE = Boolean.parseBoolean(PHYSICSSetting.getProperty("LeaveBuffsOnDie", "True"));
 		
-			ALT_RAIDS_STATS_BONUS = Boolean.parseBoolean(PHYSICSSetting.getProperty("AltRaidsStatsBonus", "True"));
-		
 		}
 		catch(Exception e)
 		{
@@ -3620,6 +3618,9 @@ public final class Config
 			InputStream is = new FileInputStream(new File(BOSS));
 			bossSettings.load(is);
 			is.close();
+			
+			ALT_RAIDS_STATS_BONUS = Boolean.parseBoolean(bossSettings.getProperty("AltRaidsStatsBonus", "True"));
+			
 			//============================================================
 			ALLOW_DIRECT_TP_TO_BOSS_ROOM = Boolean.valueOf(bossSettings.getProperty("AllowDirectTeleportToBossRoom", "False"));
 			//Antharas

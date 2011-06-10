@@ -162,12 +162,14 @@ public enum BaseStats
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
 				
+				/*
 				if(actor.getSTR()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 					return STRbonus_legacy[MAX_STAT_VALUE];
 				}
 				return STRbonus_legacy[actor.getSTR()];
-				
+				*/
+				return 1;
 			}else{
 				
 				if(actor.getSTR()>MAX_STAT_VALUE){
@@ -186,13 +188,14 @@ public enum BaseStats
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				
+				/*
 				if(actor.getINT()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 					return INTbonus_legacy[MAX_STAT_VALUE];
 				}
 				return INTbonus_legacy[actor.getINT()];
-				
+				*/
+				return 1;
 			}else{
 				
 				if(actor.getINT()>MAX_STAT_VALUE){
@@ -211,13 +214,14 @@ public enum BaseStats
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				
+				/*
 				if(actor.getDEX()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 					return DEXbonus_legacy[MAX_STAT_VALUE];
 				}
 				return DEXbonus_legacy[actor.getDEX()];
-				
+				*/
+				return 1;
 			}else{
 				
 				if(actor.getDEX()>MAX_STAT_VALUE){
@@ -237,13 +241,14 @@ public enum BaseStats
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				
+				/*
 				if(actor.getWIT()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 					return WITbonus_legacy[MAX_STAT_VALUE];
 				}
 				return WITbonus_legacy[actor.getWIT()];
-				
+				*/
+				return 1;
 			}else{
 				
 				if(actor.getWIT()>MAX_STAT_VALUE){
@@ -263,11 +268,14 @@ public enum BaseStats
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
+				/*
 				if(actor.getCON()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 					return CONbonus_legacy[MAX_STAT_VALUE];
 				}
 				return CONbonus_legacy[actor.getCON()];
+				*/
+				return 1;
 			}else{
 				if(actor.getCON()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
@@ -285,13 +293,14 @@ public enum BaseStats
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				
+				/*
 				if(actor.getMEN()>MAX_STAT_VALUE){
 					_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 					return MENbonus_legacy[MAX_STAT_VALUE];
 				}
 				return MENbonus_legacy[actor.getMEN()];
-				
+				*/
+				return 1;
 			}else{
 				
 				if(actor.getMEN()>MAX_STAT_VALUE){

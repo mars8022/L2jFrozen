@@ -58,26 +58,23 @@ public final class AddTradeItem extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if(player == null) // Player null
 			return;
 
-		TradeList trade = player.getActiveTradeList();
-
-		if(trade == null)
+		final TradeList trade = player.getActiveTradeList();
+		if(trade == null) // Trade null
 		{
 			_log.warning("Character: " + player.getName() + " requested item:" + _objectId + " add without active tradelist:" + _tradeId);
 			return;
 		}
 
+		// Check Partner and ocbjectId
 		if(trade.getPartner() == null || L2World.getInstance().findObject(trade.getPartner().getObjectId()) == null)
 		{
 			// Trade partner not found, cancel trade
 			if(trade.getPartner() != null)
-			{
 				_log.warning("Character:" + player.getName() + " requested invalid trade object: " + _objectId);
-			}
 
 			SystemMessage msg = new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME);
 			player.sendPacket(msg);
@@ -86,38 +83,41 @@ public final class AddTradeItem extends L2GameClientPacket
 			return;
 		}
 
+		// Check if player has Access level for Transaction
 		if(!player.getAccessLevel().allowTransaction())
 		{
-			player.sendMessage("Unsufficient privileges.");
-			player.sendPacket(ActionFailed.STATIC_PACKET);
+			player.sendMessage("Transactions are disable for your Access Level.");
 			player.cancelActiveTrade();
 			return;
 		}
 
+		// Check validateItemManipulation
 		if(!player.validateItemManipulation(_objectId, "trade"))
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 			return;
 		}
 
-		//Java Emulator Security
+		// Java Emulator Security
 		if (player.getInventory().getItemByObjectId(_objectId) == null || _count <= 0)
 		{
-			_log.info("JES: Player " + player.getName() + " tried to trade exploit.");
+			_log.info("Character:" + player.getName() + " requested invalid trade object");
 			return;
 		}
 		
-		TradeList.TradeItem item = trade.addItem(_objectId, _count);
-		
-		if(item == null)
+		final TradeList.TradeItem item = trade.addItem(_objectId, _count);		
+		if(item == null) // Item null
 			return;
 
-		if(item.isAugmented())
+		if(item.isAugmented()) // Item Augmented
 			return;
 		
-		player.sendPacket(new TradeOwnAdd(item));
-		player.sendPacket(new TradeUpdate(trade, player));
-		trade.getPartner().sendPacket(new TradeOtherAdd(item));
+		if (item != null) // Item != null
+		{
+		    player.sendPacket(new TradeOwnAdd(item));
+		    player.sendPacket(new TradeUpdate(trade, player));
+		    trade.getPartner().sendPacket(new TradeOtherAdd(item));
+		}
 	}
 
 	/* (non-Javadoc)
