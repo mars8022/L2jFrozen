@@ -5498,10 +5498,10 @@ public abstract class L2Character extends L2Object
 			distance = Math.sqrt(dx * dx + dy * dy);
 		}
 
-		if(Config.DEBUG)
+		/*if(Config.DEBUG)
 		{
 			_log.fine("distance to target:" + distance);
-		}
+		}*/
 
 		// Define movement angles needed
 		// ^
@@ -5728,10 +5728,10 @@ public abstract class L2Character extends L2Object
 		// Calculate and set the heading of the L2Character
 		setHeading((int) (Math.atan2(-sin, -cos) * 10430.37835) + 32768);
 
-		if(Config.DEBUG)
+		/*if(Config.DEBUG)
 		{
 			_log.fine("dist:" + distance + "speed:" + speed + " ttt:" + ticksToMove + " heading:" + getHeading());
-		}
+		}*/
 
 		m._xDestination = x;
 		m._yDestination = y;
@@ -5740,10 +5740,10 @@ public abstract class L2Character extends L2Object
 
 		m._moveStartTime = GameTimeController.getGameTicks();
 
-		if(Config.DEBUG)
+		/*if(Config.DEBUG)
 		{
 			_log.fine("time to target:" + ticksToMove);
-		}
+		}*/
 
 		// Set the L2Character _move object to MoveData object
 		_move = m;

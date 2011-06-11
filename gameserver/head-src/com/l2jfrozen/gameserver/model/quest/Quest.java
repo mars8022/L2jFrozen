@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -525,7 +526,8 @@ public class Quest extends ManagedScript
 
 		return showResult(qs.getPlayer(), res);
 	}
-
+	
+	/*
 	// override the default NPC dialogs when a quest defines this for the given NPC
 	public final boolean notifyFirstTalk(L2NpcInstance npc, L2PcInstance player)
 	{
@@ -552,6 +554,40 @@ public class Quest extends ManagedScript
 		npc.showChatWindow(player);
 
 		return true;
+	}
+	*/
+	
+	// override the default NPC dialogs when a quest defines this for the given NPC
+	public final boolean notifyFirstTalk(L2NpcInstance npc, L2PcInstance player)
+	{
+		String res = null;
+		try
+		{
+			res = onFirstTalk(npc, player);
+		}
+		catch (Exception e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			return showError(player, e);
+		}
+		
+		
+		// if the quest returns text to display, display it.
+		if (res != null && res.length() > 0){
+			//player.setLastQuestNpcObject(npc.getObjectId());
+			return showResult(player, res);
+		// else tell the player that
+		}else{
+			//player.sendPacket(new ActionFailed());
+			npc.showChatWindow(player);
+			return true;
+		}
+		
+		// note: if the default html for this npc needs to be shown, onFirstTalk should
+		// call npc.showChatWindow(player) and then return null.
+		
 	}
 
 	public final boolean notifySkillUse(L2NpcInstance npc, L2PcInstance caster, L2Skill skill)
@@ -795,7 +831,7 @@ public class Quest extends ManagedScript
 	private boolean showResult(L2Character object, String res)
 	{
 		if(res == null)
-			return true;
+			return false;
 
 		if(object instanceof L2PcInstance)
 		{
@@ -822,7 +858,9 @@ public class Quest extends ManagedScript
 			}
 
 			player = null;
+			return true;
 		}
+		
 		return false;
 	}
 
