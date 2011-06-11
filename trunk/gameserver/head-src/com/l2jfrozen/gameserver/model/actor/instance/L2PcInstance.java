@@ -6660,22 +6660,25 @@ public final class L2PcInstance extends L2PlayableInstance
 		x = getX();
 		y = getY();
 		z = getZ();
-		L2TownZone Town;
-		Town = TownManager.getInstance().getTown(x,y,z);
+		
+		//get local town
+		L2TownZone Town = TownManager.getInstance().getTown(x,y,z);
 
 		setPkKills(getPkKills() + 1);
-		if(Town != null && isinTownWar())
+		
+		/*if(!Config.TW_ALLOW_KARMA && Town != null && isinTownWar())
 		{ 
 			//nothing
 		}
-		else if(Town != null && !isinTownWar())
+		else */
+		if(Town == null || (Town != null && isinTownWar() && Config.TW_ALLOW_KARMA))
 		{
 			setKarma(getKarma() + newKarma);
 		}
-		else if(Town == null)
+		/*else if()
 		{
 			setKarma(getKarma() + newKarma);
-		}
+		}*/
 
 		if(Town != null && isinTownWar())
 		{

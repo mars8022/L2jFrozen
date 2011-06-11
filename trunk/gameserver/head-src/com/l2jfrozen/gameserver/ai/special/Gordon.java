@@ -222,7 +222,7 @@ public class Gordon extends Quest implements Runnable
 		addEventId(GORDON, Quest.QuestEventType.ON_SPAWN);
 
 		// wait 2 minutes after Start AI
-		startQuestTimer("check_ai", 120000, null, null);
+		startQuestTimer("check_ai", 120000, null, null,true);
 
 		_isSpawned = false;
 		_isAttacked = false;
@@ -256,14 +256,14 @@ public class Gordon extends Quest implements Runnable
 				if(gordon_ai != null)
 				{
 					_isSpawned = true;
-					startQuestTimer("Start", 1000, gordon_ai, null);
+					startQuestTimer("Start", 1000, gordon_ai, null,true);
 					return super.onAdvEvent(event, npc, player);
 				}
 			}
 		}
 		else if(event == "Start")
 		{
-			startQuestTimer("Start", 1000, npc, null);
+			//startQuestTimer("Start", 1000, npc, null);
 			if(npc != null && _isSpawned == true)
 			{
 				// check if player have Cursed Weapon and in radius

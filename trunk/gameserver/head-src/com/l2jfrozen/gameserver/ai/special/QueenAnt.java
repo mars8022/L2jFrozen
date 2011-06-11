@@ -141,7 +141,7 @@ public class QueenAnt extends Quest implements Runnable
 
 	private void spawnBoss(L2GrandBossInstance npc)
 	{
-		startQuestTimer("ACTION", 10000, npc, null);
+		startQuestTimer("ACTION", 10000, npc, null,true);
 		startQuestTimer("LARVA_DESPAWN", 1000, null, null);
 		npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
 		//Spawn minions
@@ -271,7 +271,7 @@ public class QueenAnt extends Quest implements Runnable
 					npc.teleToLocation(-21610, 181594, -5740);
 				}
 				*/
-				startQuestTimer("ACTION", 10000, npc, null);
+				//startQuestTimer("ACTION", 10000, npc, null);
 		    
 			}
 			break;

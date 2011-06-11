@@ -231,7 +231,14 @@ public class ZoneData
 								}
 								else if(zoneType.equals("BossZone"))
 								{
-									int boss_id = Integer.parseInt(attrs.getNamedItem("bossId").getNodeValue());
+									int boss_id = -1;
+									
+									try{
+										boss_id = Integer.parseInt(attrs.getNamedItem("bossId").getNodeValue());
+									}catch(IllegalArgumentException e){
+										e.printStackTrace();
+									}
+									
 									temp = new L2BossZone(zoneId, boss_id);
 								}
 								else if(zoneType.equals("SkillZone"))

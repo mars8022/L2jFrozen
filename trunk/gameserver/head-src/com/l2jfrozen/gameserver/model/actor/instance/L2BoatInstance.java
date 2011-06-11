@@ -266,10 +266,10 @@ public class L2BoatInstance extends L2Character
 		final int dy = y - curY;
 		double distance = Math.sqrt(dx * dx + dy * dy);
 
-		if(Config.DEBUG)
+		/*if(Config.DEBUG)
 		{
 			_logBoat.fine("distance to target:" + distance);
-		}
+		}*/
 
 		// Define movement angles needed
 		// ^
@@ -292,10 +292,10 @@ public class L2BoatInstance extends L2Character
 		// Calculate and set the heading of the L2Character
 		getPosition().setHeading((int) (Math.atan2(-sin, -cos) * 10430.378350470452724949566316381) + 32768);
 
-		if(Config.DEBUG)
+		/*if(Config.DEBUG)
 		{
 			_logBoat.fine("dist:" + distance + "speed:" + speed + " ttt:" + ticksToMove + " heading:" + getPosition().getHeading());
-		}
+		}*/
 
 		m._xDestination = x;
 		m._yDestination = y;
@@ -304,10 +304,10 @@ public class L2BoatInstance extends L2Character
 		m.onGeodataPathIndex = -1; // Initialize not on geodata path
 		m._moveStartTime = GameTimeController.getGameTicks();
 
-		if(Config.DEBUG)
+		/*if(Config.DEBUG)
 		{
 			_logBoat.fine("time to target:" + ticksToMove);
-		}
+		}*/
 
 		// Set the L2Character _move object to MoveData object
 		_move = m;
