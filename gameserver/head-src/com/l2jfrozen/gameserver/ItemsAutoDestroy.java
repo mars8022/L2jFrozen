@@ -45,7 +45,7 @@ public class ItemsAutoDestroy
 		{
 			_sleep = 3600000;
 		}
-		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new CheckItemsForDestroy(), 5000, _sleep);
+		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new CheckItemsForDestroy(), 5000, 5000);
 	}
 
 	public static ItemsAutoDestroy getInstance()
