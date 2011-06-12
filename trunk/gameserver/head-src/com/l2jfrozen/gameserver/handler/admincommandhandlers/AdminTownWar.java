@@ -53,29 +53,12 @@ public class AdminTownWar implements IAdminCommandHandler
 	}
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
-	{
-		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-		
-		if(command.startsWith("admin_townwar_start"))
+	{	
+		if(command.startsWith("admin_townwar_start")) //townwar_start
 		{
 			startTW(activeChar);
 		}
-		if(command.startsWith("admin_townwar_end"))
+		if(command.startsWith("admin_townwar_end")) //townwar_end
 		{
 			endTW(activeChar);
 		}
@@ -84,31 +67,33 @@ public class AdminTownWar implements IAdminCommandHandler
 	@SuppressWarnings("deprecation")
 	private void startTW(L2PcInstance activeChar)
 	{
+		// All Towns will become War Zones
 		if(Config.TW_ALL_TOWNS)
 		{
-			TownManager.getInstance().getTown(1).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(2).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(3).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(4).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(5).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(6).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(7).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(8).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(9).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(10).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(11).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(12).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(13).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(14).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(15).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(16).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(17).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(19).setParameter("isPeaceZone", "false");
-			TownManager.getInstance().getTown(20).setParameter("isPeaceZone", "false");
+			TownManager.getInstance().getTown(1).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(2).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(3).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(4).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(5).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(6).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(7).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(8).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(9).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(10).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(11).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(12).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(13).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(14).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(15).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(16).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(17).setParameter("noPeace", "true");
+			TownManager.getInstance().getTown(19).setParameter("noPeace", "true");
 		}
+		
+		// A Town will become War Zone
 		if(!Config.TW_ALL_TOWNS && Config.TW_TOWN_ID != 18 && Config.TW_TOWN_ID != 21 && Config.TW_TOWN_ID != 22)
 		{
-			TownManager.getInstance().getTown(Config.TW_TOWN_ID).setParameter("isPeaceZone", "false");
+			TownManager.getInstance().getTown(Config.TW_TOWN_ID).setParameter("noPeace", "true");
 		}
 
 		Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
@@ -142,46 +127,51 @@ public class AdminTownWar implements IAdminCommandHandler
 					}
 		}
 
+		// Announce for all towns
 		if(Config.TW_ALL_TOWNS)
 		{
-			Announcements.getInstance().announceToAll("Town War Event!");
-			Announcements.getInstance().announceToAll("All towns have been set to war zone by " + activeChar.getName() + ".");
+			Announcements.getInstance().gameAnnounceToAll("Town War Event!");
+			Announcements.getInstance().gameAnnounceToAll("All towns have been set to war zone by " + activeChar.getName() + ".");
 		}
+		
+		// Announce for one town
 		if(!Config.TW_ALL_TOWNS) 
 		{
-			Announcements.getInstance().announceToAll("Town War Event!");
-			Announcements.getInstance().announceToAll(TownManager.getInstance().getTown(Config.TW_TOWN_ID).getName() + " has been set to war zone by " + activeChar.getName() + ".");
+			Announcements.getInstance().gameAnnounceToAll("Town War Event!");
+			Announcements.getInstance().gameAnnounceToAll(TownManager.getInstance().getTown(Config.TW_TOWN_ID).getName() + " has been set to war zone by " + activeChar.getName() + ".");
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	private void endTW(L2PcInstance activeChar)
 	{
+		// All Towns will become Peace Zones
 		if(Config.TW_ALL_TOWNS)
 		{
-			TownManager.getInstance().getTown(1).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(2).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(3).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(4).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(5).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(6).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(7).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(8).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(9).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(10).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(11).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(12).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(13).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(14).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(15).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(16).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(17).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(19).setParameter("isPeaceZone", "true");
-			TownManager.getInstance().getTown(20).setParameter("isPeaceZone", "true");
+			TownManager.getInstance().getTown(1).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(2).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(3).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(4).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(5).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(6).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(7).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(8).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(9).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(10).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(11).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(12).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(13).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(14).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(15).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(16).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(17).setParameter("noPeace", "false");
+			TownManager.getInstance().getTown(19).setParameter("noPeace", "false");
 		}
+		
+		// A Town will become Peace Zone
 		if(!Config.TW_ALL_TOWNS && Config.TW_TOWN_ID != 18 && Config.TW_TOWN_ID != 21 && Config.TW_TOWN_ID != 22)
 		{
-			TownManager.getInstance().getTown(Config.TW_TOWN_ID).setParameter("isPeaceZone", "true");
+			TownManager.getInstance().getTown(Config.TW_TOWN_ID).setParameter("noPeace", "false");
 		}
 
 		Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
@@ -215,13 +205,16 @@ public class AdminTownWar implements IAdminCommandHandler
 					}
 		}
 
+		// Announce for all towns
 		if(Config.TW_ALL_TOWNS)
 		{
-			Announcements.getInstance().announceToAll("All towns have been set back to normal by " + activeChar.getName() + ".");	
+			Announcements.getInstance().gameAnnounceToAll("All towns have been set back to normal by " + activeChar.getName() + ".");	
 		}
+		
+		// Announce for one town
 		if(!Config.TW_ALL_TOWNS)
 		{
-			Announcements.getInstance().announceToAll(TownManager.getInstance().getTown(Config.TW_TOWN_ID).getName() + " has been set back to normal by " + activeChar.getName() + ".");
+			Announcements.getInstance().gameAnnounceToAll(TownManager.getInstance().getTown(Config.TW_TOWN_ID).getName() + " has been set back to normal by " + activeChar.getName() + ".");
 		}
 	}
 
