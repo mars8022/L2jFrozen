@@ -795,9 +795,10 @@ public class L2NpcInstance extends L2Character
 					else
 					{
 						// Open a chat window on client with the text of the L2NpcInstance
-						Quest[] qlsa = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
+						/*Quest[] qlsa = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
 						if ( (qlsa != null) && qlsa.length > 0)
 							player.setLastQuestNpcObject(getObjectId());
+						*/
 						
 						Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.NPC_FIRST_TALK);
 						if(qlst != null && qlst.length == 1)
@@ -811,8 +812,8 @@ public class L2NpcInstance extends L2Character
 					}
 				}
 				
+				//to avoid player stuck
 				player.sendPacket(ActionFailed.STATIC_PACKET);
-				//player.sendPacket(new ValidateLocation(this));
 			}
 			else
 			{

@@ -57,7 +57,7 @@ public class QueenAnt extends Quest implements Runnable
 	//L2GrandBossInstance queen = null;
 	
 	enum Event{
-		QUEEN_SPAWN,CHECK_MINIONS_ZONE,ACTION,DESPAWN_MINIONS,SPAWN_ROYAL,SPAWN_QUEEN_NURSE,SPAWN_LARVA_NURSE,LARVA_SPAWN,LARVA_DESPAWN
+		QUEEN_SPAWN,CHECK_QA_ZONE,CHECK_MINIONS_ZONE,ACTION,DESPAWN_MINIONS,SPAWN_ROYAL,SPAWN_QUEEN_NURSE,SPAWN_LARVA_NURSE,LARVA_SPAWN,LARVA_DESPAWN
 	}
 	
 	public QueenAnt(int questId, String name, String descr)
@@ -158,7 +158,8 @@ public class QueenAnt extends Quest implements Runnable
 			int y = (int) (radius * Math.sin(i * .7854));
 			_Minions.add((L2Attackable) addSpawn(ROYAL, npc.getX() + x, npc.getY() + y, npc.getZ(), 0, false, 0));
 		}
-		startQuestTimer("CHECK_MINIONS_ZONE", 120000, npc, null);
+		startQuestTimer("CHECK_MINIONS_ZONE", 30000, npc, null,true);
+		startQuestTimer("CHECK_QA_ZONE", 30000, npc, null,true);
 	}
 
 	@Override
@@ -223,12 +224,23 @@ public class QueenAnt extends Quest implements Runnable
 				for(int i = 0; i < _Minions.size(); i++)
 				{
 					L2Attackable mob = _Minions.get(i);
-					if(mob != null && !_Zone.isInsideZone(mob))
+					if(mob != null && !npc.isInsideRadius(mob, 300, false, false))/*!_Zone.isInsideZone(mob))*/
 					{
 						mob.teleToLocation(npc.getX(), npc.getY(), npc.getZ());
 					}
 				}
-				startQuestTimer("CHECK_MINIONS_ZONE", 120000, npc, null);
+				
+			}
+			break;
+			case CHECK_QA_ZONE:{
+				
+				int loc_x = -21610;
+				int loc_y = 181594;
+				int loc_z =  -5734;
+				
+				if(!npc.isInsideRadius(loc_x,loc_y,5000,false)){
+					npc.teleToLocation(loc_x, loc_y, loc_z);
+				}
 				
 			}
 			break;
@@ -348,7 +360,8 @@ public class QueenAnt extends Quest implements Runnable
 				cancelQuestTimer("ACTION", npc, null);
 				cancelQuestTimer("SPAWN_ROYAL", npc, null);
 				cancelQuestTimer("SPAWN_QUEEN_NURSE", npc, null);
-				cancelQuestTimer("CHECK_ROYAL_ZONE", npc, null);
+				cancelQuestTimer("CHECK_MINIONS_ZONE", npc, null);
+				cancelQuestTimer("CHECK_QA_ZONE", npc, null);
 				// also save the respawn time so that the info is maintained past reboots
 				StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
 				info.set("respawn_time", System.currentTimeMillis() + respawnTime);

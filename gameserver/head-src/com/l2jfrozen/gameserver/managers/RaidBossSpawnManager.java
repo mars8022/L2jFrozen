@@ -589,4 +589,8 @@ public class RaidBossSpawnManager
 	{
 		return _storedInfo.get(bossId);
 	}
+	
+	public L2RaidBossInstance getBoss(int bossId){
+		return _bosses.get(bossId);
+	}
 }
