@@ -527,7 +527,6 @@ public class Quest extends ManagedScript
 		return showResult(qs.getPlayer(), res);
 	}
 	
-	/*
 	// override the default NPC dialogs when a quest defines this for the given NPC
 	public final boolean notifyFirstTalk(L2NpcInstance npc, L2PcInstance player)
 	{
@@ -555,41 +554,7 @@ public class Quest extends ManagedScript
 
 		return true;
 	}
-	*/
 	
-	// override the default NPC dialogs when a quest defines this for the given NPC
-	public final boolean notifyFirstTalk(L2NpcInstance npc, L2PcInstance player)
-	{
-		String res = null;
-		try
-		{
-			res = onFirstTalk(npc, player);
-		}
-		catch (Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			return showError(player, e);
-		}
-		
-		
-		// if the quest returns text to display, display it.
-		if (res != null && res.length() > 0){
-			//player.setLastQuestNpcObject(npc.getObjectId());
-			return showResult(player, res);
-		// else tell the player that
-		}else{
-			//player.sendPacket(new ActionFailed());
-			npc.showChatWindow(player);
-			return true;
-		}
-		
-		// note: if the default html for this npc needs to be shown, onFirstTalk should
-		// call npc.showChatWindow(player) and then return null.
-		
-	}
-
 	public final boolean notifySkillUse(L2NpcInstance npc, L2PcInstance caster, L2Skill skill)
 	{
 		String res = null;
@@ -831,7 +796,7 @@ public class Quest extends ManagedScript
 	private boolean showResult(L2Character object, String res)
 	{
 		if(res == null)
-			return false;
+			return true;
 
 		if(object instanceof L2PcInstance)
 		{
@@ -858,7 +823,6 @@ public class Quest extends ManagedScript
 			}
 
 			player = null;
-			return true;
 		}
 		
 		return false;

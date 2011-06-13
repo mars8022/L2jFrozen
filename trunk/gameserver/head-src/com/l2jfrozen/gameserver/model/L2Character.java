@@ -92,6 +92,7 @@ import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
+import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.Disconnection;
@@ -6280,59 +6281,75 @@ public abstract class L2Character extends L2Object
 		// If attack isn't aborted, send a message system (critical hit, missed...) to attacker/target if they are L2PcInstance
 		if(!isAttackAborted())
 		{
-			if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
+			if(this instanceof L2PcInstance && Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
 			{				
 				boolean to_be_cursed = false;
 				
 				//check on BossZone raid lvl
 				if(!(target instanceof L2PlayableInstance) && !(target instanceof L2SummonInstance) ){ //this must work just on mobs/raids
 					
-					int boss_id = -1;
-					L2NpcTemplate boss_template = null;
-					L2BossZone boss_zone = GrandBossManager.getInstance().getZone(this);
+					if( (target.isRaid() && getLevel() > target.getLevel() + 8)
+							|| (!(target instanceof L2PcInstance) && ( target.getTarget()!=null 
+									&& target.getTarget() instanceof L2RaidBossInstance 
+									&& getLevel() > ((L2RaidBossInstance) target.getTarget()).getLevel() + 8))
+							|| (!(target instanceof L2PcInstance) && ( target.getTarget()!=null 
+									&& target.getTarget() instanceof L2GrandBossInstance 
+									&& getLevel() > ((L2GrandBossInstance) target.getTarget()).getLevel() + 8)))
+							
+						{
+							to_be_cursed = true;
+						}
 					
-					if(boss_zone!=null){
-						boss_id = boss_zone.getBossId();
-					}
-					
-					boolean alive = false;
-					
-					if(boss_id != -1){
-						boss_template = NpcTable.getInstance().getTemplate(boss_id);
+					//advanced check too if not already cursed
+					if(!to_be_cursed){
 						
-						if(boss_template != null && getLevel() > boss_template.getLevel()  + 8){
-							
-							if(boss_template.type.equals("L2RaidBoss")){
-								StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
-								if(actual_boss_stat!=null)
-									alive = actual_boss_stat.getLong("respawnTime") == 0;
-							}else if(boss_template.type.equals("L2GrandBoss")){
-								StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
-								if(actual_boss_stat!=null)
-									alive = actual_boss_stat.getLong("respawn_time") == 0;
-								
-							}
-							
-							if(alive)
-								to_be_cursed = true;
+						int boss_id = -1;
+						L2NpcTemplate boss_template = null;
+						L2BossZone boss_zone = GrandBossManager.getInstance().getZone(this);
+						
+						if(boss_zone!=null){
+							boss_id = boss_zone.getBossId();
 						}
 						
-					}
-					 
-					
-					//legacy check too if not already cursed
-					if(!to_be_cursed){
-						if( (target.isRaid() && getLevel() > target.getLevel() + 8)
-								|| (!(target instanceof L2PcInstance) && ( target.getTarget()!=null 
-										&& target.getTarget() instanceof L2RaidBossInstance 
-										&& getLevel() > ((L2RaidBossInstance) target.getTarget()).getLevel() + 8))
-								|| (!(target instanceof L2PcInstance) && ( target.getTarget()!=null 
-										&& target.getTarget() instanceof L2GrandBossInstance 
-										&& getLevel() > ((L2GrandBossInstance) target.getTarget()).getLevel() + 8)))
+						boolean alive = false;
+						
+						if(boss_id != -1){
+							
+							boss_template = NpcTable.getInstance().getTemplate(boss_id);
+							
+							if(boss_template != null && getLevel() > boss_template.getLevel()  + 8){
 								
-							{
-								to_be_cursed = true;
+								L2MonsterInstance boss_instance = null;
+								
+								if(boss_template.type.equals("L2RaidBoss")){
+									
+									StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
+									if(actual_boss_stat!=null){
+										
+										alive = actual_boss_stat.getLong("respawnTime") == 0;
+										boss_instance = RaidBossSpawnManager.getInstance().getBoss(boss_id);
+										
+									}
+									
+								}else if(boss_template.type.equals("L2GrandBoss")){
+									
+									StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
+									if(actual_boss_stat!=null){
+										
+										alive = actual_boss_stat.getLong("respawn_time") == 0;
+										boss_instance = GrandBossManager.getInstance().getBoss(boss_id);
+										
+									}
+								}
+								
+								//max allowed rage into take cursed is 3000
+								if(boss_instance!=null && alive && boss_instance.isInsideRadius(this, 3000, false, false)){
+									to_be_cursed = true;
+								}
 							}
+							
+						}
+						 
 					}
 					
 				}
@@ -8000,63 +8017,79 @@ public abstract class L2Character extends L2Object
 						}
 					}
 
-					// Check Raidboss attack
-					if(Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
-					{
+					if(this instanceof L2PcInstance && Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
+					{				
 						boolean to_be_cursed = false;
 						
 						//check on BossZone raid lvl
-						if(!(player instanceof L2PlayableInstance) && !(player instanceof L2SummonInstance) ){ //this must work just on mobs/raids
+						if(!(target instanceof L2PlayableInstance) && !(target instanceof L2SummonInstance) ){ //this must work just on mobs/raids
 							
-							int boss_id = -1;
-							L2NpcTemplate boss_template = null;
-							L2BossZone boss_zone = GrandBossManager.getInstance().getZone(this);
+							if( (player.isRaid() && getLevel() > player.getLevel() + 8)
+									|| (!(player instanceof L2PcInstance) && ( player.getTarget()!=null 
+											&& player.getTarget() instanceof L2RaidBossInstance 
+											&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8))
+									|| (!(player instanceof L2PcInstance) && ( player.getTarget()!=null 
+											&& player.getTarget() instanceof L2GrandBossInstance 
+											&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8)))
+									
+								{
+									to_be_cursed = true;
+								}
 							
-							if(boss_zone!=null){
-								boss_id = boss_zone.getBossId();
-							}
-							
-							boolean alive = false;
-							
-							if(boss_id != -1){
-								boss_template = NpcTable.getInstance().getTemplate(boss_id);
+							//advanced check too if not already cursed
+							if(!to_be_cursed){
 								
-								if(boss_template != null && getLevel() > boss_template.getLevel()  + 8){
-									
-									if(boss_template.type.equals("L2RaidBoss")){
-										StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
-										if(actual_boss_stat!=null)
-											alive = actual_boss_stat.getLong("respawnTime") == 0;
-									}else if(boss_template.type.equals("L2GrandBoss")){
-										StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
-										if(actual_boss_stat!=null)
-											alive = actual_boss_stat.getLong("respawn_time") == 0;
-										
-									}
-									
-									if(alive)
-										to_be_cursed = true;
+								int boss_id = -1;
+								L2NpcTemplate boss_template = null;
+								L2BossZone boss_zone = GrandBossManager.getInstance().getZone(this);
+								
+								if(boss_zone!=null){
+									boss_id = boss_zone.getBossId();
 								}
 								
-							}
-							 
-							
-							//legacy check too if not already cursed
-							if(!to_be_cursed){
-								if( (player.isRaid() && getLevel() > player.getLevel() + 8)
-										|| (!(player instanceof L2PcInstance) && ( player.getTarget()!=null 
-												&& player.getTarget() instanceof L2RaidBossInstance 
-												&& getLevel() > ((L2RaidBossInstance) player.getTarget()).getLevel() + 8))
-										|| (!(player instanceof L2PcInstance) && ( player.getTarget()!=null 
-												&& player.getTarget() instanceof L2GrandBossInstance 
-												&& getLevel() > ((L2GrandBossInstance) player.getTarget()).getLevel() + 8)))
+								boolean alive = false;
+								
+								if(boss_id != -1){
+									
+									boss_template = NpcTable.getInstance().getTemplate(boss_id);
+									
+									if(boss_template != null && getLevel() > boss_template.getLevel()  + 8){
 										
-									{
-										to_be_cursed = true;
+										L2MonsterInstance boss_instance = null;
+										
+										if(boss_template.type.equals("L2RaidBoss")){
+											
+											StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
+											if(actual_boss_stat!=null){
+												
+												alive = actual_boss_stat.getLong("respawnTime") == 0;
+												boss_instance = RaidBossSpawnManager.getInstance().getBoss(boss_id);
+												
+											}
+											
+										}else if(boss_template.type.equals("L2GrandBoss")){
+											
+											StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
+											if(actual_boss_stat!=null){
+												
+												alive = actual_boss_stat.getLong("respawn_time") == 0;
+												boss_instance = GrandBossManager.getInstance().getBoss(boss_id);
+												
+											}
+										}
+										
+										//max allowed rage into take cursed is 3000
+										if(boss_instance!=null && alive && boss_instance.isInsideRadius(this, 3000, false, false)){
+											to_be_cursed = true;
+										}
 									}
+									
+								}
+								 
 							}
 							
 						}
+						
 						
 						if(to_be_cursed)
 						{
