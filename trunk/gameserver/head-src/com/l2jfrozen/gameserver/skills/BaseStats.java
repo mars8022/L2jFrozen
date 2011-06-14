@@ -56,6 +56,7 @@ public enum BaseStats
 	private static final double[] CONbonus = new double[MAX_STAT_VALUE];
 	private static final double[] MENbonus = new double[MAX_STAT_VALUE];
 	
+	/*
 	private static final double[] STRCompute_legacy = new double[]
 	{
 			1.036, 34.845
@@ -118,6 +119,7 @@ public enum BaseStats
 			MENbonus_legacy[i] = Math.floor(Math.pow(MENCompute_legacy[0], i - MENCompute_legacy[1]) * 100 + .5d) / 100;
 		}
 	}
+	*/
 	
 	private final BaseStat _stat;
 	

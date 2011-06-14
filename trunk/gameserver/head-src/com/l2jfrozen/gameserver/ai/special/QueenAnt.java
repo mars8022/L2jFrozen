@@ -158,7 +158,7 @@ public class QueenAnt extends Quest implements Runnable
 			int y = (int) (radius * Math.sin(i * .7854));
 			_Minions.add((L2Attackable) addSpawn(ROYAL, npc.getX() + x, npc.getY() + y, npc.getZ(), 0, false, 0));
 		}
-		startQuestTimer("CHECK_MINIONS_ZONE", 30000, npc, null,true);
+		//startQuestTimer("CHECK_MINIONS_ZONE", 30000, npc, null,true);
 		startQuestTimer("CHECK_QA_ZONE", 30000, npc, null,true);
 	}
 
@@ -241,6 +241,8 @@ public class QueenAnt extends Quest implements Runnable
 				if(!npc.isInsideRadius(loc_x,loc_y,5000,false)){
 					npc.teleToLocation(loc_x, loc_y, loc_z);
 				}
+				
+				startQuestTimer("CHECK_MINIONS_ZONE", 1000, npc, null);
 				
 			}
 			break;
@@ -360,7 +362,7 @@ public class QueenAnt extends Quest implements Runnable
 				cancelQuestTimer("ACTION", npc, null);
 				cancelQuestTimer("SPAWN_ROYAL", npc, null);
 				cancelQuestTimer("SPAWN_QUEEN_NURSE", npc, null);
-				cancelQuestTimer("CHECK_MINIONS_ZONE", npc, null);
+				//cancelQuestTimer("CHECK_MINIONS_ZONE", npc, null);
 				cancelQuestTimer("CHECK_QA_ZONE", npc, null);
 				// also save the respawn time so that the info is maintained past reboots
 				StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);

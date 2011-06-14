@@ -689,7 +689,9 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 					if(GeoData.getInstance().canSeeTarget(npc, target))
 					{
 						// Notify the L2Object AI with EVT_AGGRESSION
-						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, target, 1);
+						L2CharacterAI ai = npc.getAI();
+						if(ai!=null)
+							ai.notifyEvent(CtrlEvent.EVT_AGGRESSION, target, 1);
 					}
 				}
 				else
@@ -697,7 +699,9 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 					if(!npc.isDead() && Math.abs(target.getZ() - npc.getZ()) < 600)
 					{
 						// Notify the L2Object AI with EVT_AGGRESSION
-						npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, target, 1);
+						L2CharacterAI ai = npc.getAI();
+						if(ai!=null)
+							ai.notifyEvent(CtrlEvent.EVT_AGGRESSION, target, 1);
 					}
 				}
 			}
