@@ -541,7 +541,9 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 				&& target.isInsideRadius(npc, 1500, true, false) && GeoData.getInstance().canSeeTarget(npc, target))
 				{
 					// Notify the L2Object AI with EVT_AGGRESSION
-					npc.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, getAttackTarget(), 1);
+					L2CharacterAI ai = npc.getAI();
+					if(ai!=null)
+						ai.notifyEvent(CtrlEvent.EVT_AGGRESSION, getAttackTarget(), 1);
 				}
 				// heal friends
 				if(/*_selfAnalysis.hasHealOrResurrect && */!_actor.isAttackingDisabled() && npc.getCurrentHp() < npc.getMaxHp() * 0.6 && _actor.getCurrentHp() > _actor.getMaxHp() / 2 && _actor.getCurrentMp() > _actor.getMaxMp() / 2 && npc.isInCombat())

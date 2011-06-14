@@ -35,7 +35,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExEnchantSkillInfo;
  */
 public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 {
-	//private static Logger _log = Logger.getLogger(RequestAquireSkill.class.getName());
 	private static final String _C__D0_06_REQUESTEXENCHANTSKILLINFO = "[C] D0:06 RequestExEnchantSkillInfo";
 	private int _skillId;
 	private int _skillLvl;
@@ -53,6 +52,9 @@ public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
+		if (_skillId <= 0 || _skillLvl <= 0) // minimal sanity check
+			return;
+		
 		L2PcInstance activeChar = getClient().getActiveChar();
 
 		if(activeChar == null)
@@ -71,12 +73,7 @@ public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 		boolean canteach = false;
 
 		if(skill == null || skill.getId() != _skillId)
-		{
-			//_log.warning("enchant skill id " + _skillID + " level " + _skillLvl
-			//    + " is undefined. aquireEnchantSkillInfo failed.");
-			activeChar.sendMessage("This skill doesn't yet have enchant info in Datapack");
 			return;
-		}
 
 		if(!trainer.getTemplate().canTeach(activeChar.getClassId()))
 			return; // cheater

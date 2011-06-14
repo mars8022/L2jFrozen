@@ -508,7 +508,7 @@ public class NpcTable
 
 			npcDat.set("baseShldDef", 0);
 			npcDat.set("baseShldRate", 0);
-			npcDat.set("baseCritRate", 38);
+			npcDat.set("baseCritRate", 4);
 
 			npcDat.set("name", NpcData.getString("name"));
 			npcDat.set("serverSideName", NpcData.getBoolean("serverSideName"));
