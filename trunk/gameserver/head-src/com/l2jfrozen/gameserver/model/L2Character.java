@@ -586,7 +586,12 @@ public abstract class L2Character extends L2Object
 
 		// Go through the StatusListener
 		// Send the Server->Client packet StatusUpdate with current HP and MP
-
+		for (L2Character temp : getStatus().getStatusListener())
+		{
+			if (temp != null)
+				temp.sendPacket(su);
+		}
+		/*
 		synchronized (getStatus().getStatusListener())
 		{
 			for(L2Character temp : getStatus().getStatusListener())
@@ -601,6 +606,7 @@ public abstract class L2Character extends L2Object
 				}
 			}
 		}
+		*/
 
 		su = null;
 	}
