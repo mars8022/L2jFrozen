@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
@@ -713,6 +714,7 @@ abstract class AbstractAI implements Ctrl
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR>
 	 * <BR>
 	 */
+	/*
 	public void clientStartAutoAttack()
 	{
 		if(!isAutoAttacking())
@@ -723,6 +725,7 @@ abstract class AbstractAI implements Ctrl
 		}
 		AttackStanceTaskManager.getInstance().addAttackStanceTask(_actor);
 	}
+	*/
 
 	/**
 	 * Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop <I>(broadcast)</I>.<BR>
@@ -730,6 +733,7 @@ abstract class AbstractAI implements Ctrl
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR>
 	 * <BR>
 	 */
+	/*
 	public void clientStopAutoAttack()
 	{
 		if(_actor instanceof L2PcInstance)
@@ -745,6 +749,60 @@ abstract class AbstractAI implements Ctrl
 		}
 		setAutoAttacking(false);
 	}
+	*/
+	/**
+	 * Start the actor Auto Attack client side by sending Server->Client packet AutoAttackStart <I>(broadcast)</I>.<BR><BR>
+	 *
+	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR><BR>
+	 *
+	 */
+	public void clientStartAutoAttack()
+	{
+		if (_actor instanceof L2Summon)
+		{
+			L2Summon summon = (L2Summon) _actor;
+			if (summon.getOwner() != null)
+				summon.getOwner().getAI().clientStartAutoAttack();
+			return;
+		}
+		if (!isAutoAttacking())
+		{
+			if (_actor instanceof L2PcInstance && ((L2PcInstance)_actor).getPet() != null)
+				((L2PcInstance)_actor).getPet().broadcastPacket(new AutoAttackStart(((L2PcInstance)_actor).getPet().getObjectId()));
+			// Send a Server->Client packet AutoAttackStart to the actor and all L2PcInstance in its _knownPlayers
+			_actor.broadcastPacket(new AutoAttackStart(_actor.getObjectId()));
+			setAutoAttacking(true);
+		}
+		AttackStanceTaskManager.getInstance().addAttackStanceTask(_actor);
+	}
+	
+	/**
+	 * Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop <I>(broadcast)</I>.<BR><BR>
+	 *
+	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR><BR>
+	 *
+	 */
+	public void clientStopAutoAttack()
+	{
+		if (_actor instanceof L2Summon)
+		{
+			L2Summon summon = (L2Summon) _actor;
+			if (summon.getOwner() != null)
+				summon.getOwner().getAI().clientStopAutoAttack();
+			return;
+		}
+		if (_actor instanceof L2PcInstance)
+		{
+			if (!AttackStanceTaskManager.getInstance().getAttackStanceTask(_actor) && isAutoAttacking())
+				AttackStanceTaskManager.getInstance().addAttackStanceTask(_actor);
+		}
+		else if (isAutoAttacking())
+		{
+			_actor.broadcastPacket(new AutoAttackStop(_actor.getObjectId()));
+			setAutoAttacking(false);
+		}
+	}
+	
 
 	/**
 	 * Kill the actor client side by sending Server->Client packet AutoAttackStop, StopMove/StopRotation, Die
