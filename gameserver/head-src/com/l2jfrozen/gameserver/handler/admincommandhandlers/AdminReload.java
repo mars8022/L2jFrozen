@@ -189,7 +189,7 @@ public class AdminReload implements IAdminCommandHandler
                         }
                         catch (Exception ioe)
                         {
-                                activeChar.sendMessage("Failed loading feanor scripts, no script going to be loaded");
+                                activeChar.sendMessage("Failed loading faenor scripts, no script going to be loaded");
                                 ioe.printStackTrace();
                         }
                         

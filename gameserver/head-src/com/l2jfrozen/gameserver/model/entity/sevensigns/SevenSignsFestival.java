@@ -2393,15 +2393,9 @@ public class SevenSignsFestival implements SpawnListener
 		// new blank data set and display a console warning.
 		StatsSet currData = null;
 
-		try
-		{
+		if(_festivalData!=null && _festivalData.get(_signsCycle)!=null){
 			currData = _festivalData.get(_signsCycle).get(offsetId);
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
+		}else{
 			currData = new StatsSet();
 			currData.set("score", 0);
 			currData.set("members", "");
@@ -2411,7 +2405,7 @@ public class SevenSignsFestival implements SpawnListener
 				_log.info("SevenSignsFestival: Data missing for " + SevenSigns.getCabalName(oracle) + ", FestivalID = " + festivalId + " (Current Cycle " + _signsCycle + ")");
 			}
 		}
-
+		
 		return currData;
 	}
 

@@ -113,12 +113,20 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	@Override
 	public void shutdown()
 	{
+		try{
+			//sleep 10 seconds before the final source shutdown
+			Thread.sleep(10000);
+		}catch(Exception e){
+			//nothing
+		}
+		
 		try
 		{
 			_source.close();
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			_log.log(Level.INFO, "", e);
 		}
 		try
@@ -127,6 +135,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			_log.log(Level.INFO, "", e);
 		}
 	}
@@ -136,7 +145,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	{ 
 		Connection con = null;
 
-		while(con == null)
+		while(con == null && _source!=null)
 		{
 			try
 			{
@@ -158,7 +167,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	{ 
 		Connection con = null;
 
-		while(con == null)
+		while(con == null && _source!=null)
 		{
 			try
 			{

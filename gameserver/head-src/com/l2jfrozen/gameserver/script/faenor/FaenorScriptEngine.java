@@ -72,6 +72,8 @@ public class FaenorScriptEngine extends ScriptEngine
 
 	private void loadPackages()
 	{
+		_log.info("[FeanorScriptEngine] Loading Packages ...");
+		
 		File packDirectory = new File(Config.DATAPACK_ROOT, PACKAGE_DIRECTORY);//_log.sss(packDirectory.getAbsolutePath());
 
 		FileFilter fileFilter = new FileFilter() {
@@ -83,10 +85,14 @@ public class FaenorScriptEngine extends ScriptEngine
 		};
 
 		File[] files = packDirectory.listFiles(fileFilter);
-		if(files == null)
+		if(files == null){
+			_log.info("[FeanorScriptEngine] No Packages Loaded ...");
 			return;
+		}
 		ZipFile zipPack;
 
+		_log.info("[FeanorScriptEngine] Loading files ...");
+		
 		for(File file : files)
 		{
 			try
@@ -121,6 +127,9 @@ public class FaenorScriptEngine extends ScriptEngine
 					e.printStackTrace();
 			}
 		}
+		
+		_log.info("[FeanorScriptEngine] Loaded "+_scripts.size()+" scripts ...");
+		
 		/*for (ScriptDocument script : scripts)
 		 {
 		 _log.sss("Script: "+script);

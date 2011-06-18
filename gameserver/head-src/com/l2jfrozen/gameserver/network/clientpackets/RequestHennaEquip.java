@@ -91,16 +91,10 @@ public final class RequestHennaEquip extends L2GameClientPacket
 			}
 		}
 
-		try
-		{
+		if(activeChar.getInventory()!=null && activeChar.getInventory().getItemByItemId(temp.getItemIdDye())!=null){
 			_count = activeChar.getInventory().getItemByItemId(temp.getItemIdDye()).getCount();
 		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-		}
-
+		
 		if(!cheater && _count >= temp.getAmountDyeRequire() && activeChar.getAdena() >= temp.getPrice() && activeChar.addHenna(temp))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);

@@ -153,9 +153,10 @@ public class Olympiad
 	protected ScheduledFuture<?> _scheduledWeeklyTask;
 	protected ScheduledFuture<?> _scheduledValdationTask;
 
+	// Coordinates Arena teleport for Olympiad Stadium
 	protected static final OlympiadStadia[] STADIUMS =
 	{
-			new OlympiadStadia(-20814, -21189, -3000),
+			new OlympiadStadia(-20814, -21189, -3030),
 			new OlympiadStadia(-120324, -225077, -3331),
 			new OlympiadStadia(-102495, -209023, -3331),
 			new OlympiadStadia(-120156, -207378, -3331),

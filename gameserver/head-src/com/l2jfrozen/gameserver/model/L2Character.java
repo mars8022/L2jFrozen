@@ -6812,6 +6812,17 @@ public abstract class L2Character extends L2Object
 		// Right now only L2PcInstance has up-to-date zone status...
 		// 
 
+		if(attacker instanceof L2PcInstance && target instanceof L2PcInstance){
+			
+			L2PcInstance src = (L2PcInstance) attacker;
+			L2PcInstance dst = (L2PcInstance) target;
+			
+			if(src.isInOlympiadMode() && src.isOlympiadStart() && dst.isInOlympiadMode() && dst.isOlympiadStart()){
+				return false;
+			}
+			
+		}
+		
 		if(attacker instanceof L2Character && target instanceof L2Character)
 			return ((L2Character) target).isInsideZone(ZONE_PEACE) || ((L2Character) attacker).isInsideZone(ZONE_PEACE);
 

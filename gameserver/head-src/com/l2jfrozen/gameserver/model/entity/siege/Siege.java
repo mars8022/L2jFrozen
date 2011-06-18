@@ -901,7 +901,7 @@ public class Siege
 			_controlTowerCount = 0;
 		}
 
-		if(_controlTowerMaxCount > 0)
+		if(_controlTowerMaxCount > 0 && SiegeManager.getInstance().getControlTowerLosePenalty()>0)
 		{
 			_defenderRespawnDelayPenalty = (_controlTowerMaxCount - _controlTowerCount) / _controlTowerCount * SiegeManager.getInstance().getControlTowerLosePenalty();
 		}
