@@ -57,44 +57,61 @@ public final class RequestRestart extends L2GameClientPacket
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
+		
+		// Check if player is == null
 		if(player == null)
 		{
 			_log.warning("[RequestRestart] activeChar null!?");
 			return;
 		}
 
+		// Check if player is enchanting
 		if(player.getActiveEnchantItem() != null)
 		{
 			player.sendMessage("You can't logout while enchanting!");
 			return;
 		}
 
+		// Check if player is in Olympiad mode
 		if(player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
 		{
-			player.sendMessage("You can't logout in olympiad mode");
+			player.sendMessage("You can't logout in olympiad mode.");
 			return;
 		}
+		
+		// Fix against exploit anti-target
+		if (player.isCastingNow()) 
+		{ 
+			player.abortCast(); 
+			player.sendPacket(new ActionFailed()); 
+			player.sendMessage("You can't restart during cast!"); 
+			return;               
+		} 
 
+		// Check if player is teleporting
 		if(player.isTeleporting())
 		{
 			player.abortCast();
 			player.setIsTeleporting(false);
 		}
-
+		
 		player.getInventory().updateDatabase();
-
+		
+		// Check if player is in private store
 		if(player.getPrivateStoreType() != 0)
 		{
 			player.sendMessage("You can't restart while trading");
 			return;
 		}
 
+		// Check if player is trading
 		if(player.getActiveRequester() != null)
 		{
 			player.getActiveRequester().onTradeCancel(player);
 			player.onTradeCancel(player.getActiveRequester());
 		}
 
+		// Check if player is in combat
 		if(AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
 			if(Config.DEBUG)
@@ -107,12 +124,14 @@ public final class RequestRestart extends L2GameClientPacket
 			return;
 		}
 
+		// Check if player is registred on olympiad
 		if(player.getOlympiadGameId() > 0 || player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
 		{
 			player.sendMessage("You can't restart while in Olympiad.");
 			return;
 		}
 
+		// Check if player is in away mode
 		if(player.isAway())
 		{
 			player.sendMessage("You can't restart in Away mode.");
@@ -138,12 +157,13 @@ public final class RequestRestart extends L2GameClientPacket
 			}
 		}
 
-
+		// Check if player is in Event
 		if(player._inEventCTF || player._inEventDM || player._inEventTvT || player._inEventVIP){
-			player.sendMessage("You can't restart in Event.");
+			player.sendMessage("You can't restart during Event.");
 			return;
 		}
 		
+		// Check if player are flying
 		if(player.isFlying())
 		{
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
