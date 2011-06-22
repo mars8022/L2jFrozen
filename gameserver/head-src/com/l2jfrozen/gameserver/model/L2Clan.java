@@ -258,16 +258,21 @@ public class L2Clan
 		
 		updateClanInDB();
 
-		L2PcInstance newLeader = member.getPlayerInstance();
-		newLeader.setClan(this);
-		newLeader.setPledgeClass(member.calculatePledgeClass(newLeader));
-		newLeader.setClanPrivileges(L2Clan.CP_ALL);
 		
-		newLeader.broadcastUserInfo();
+		if(member.getPlayerInstance()!=null){
+			
+			L2PcInstance newLeader = member.getPlayerInstance();
+			newLeader.setClan(this);
+			newLeader.setPledgeClass(member.calculatePledgeClass(newLeader));
+			newLeader.setClanPrivileges(L2Clan.CP_ALL);
+			
+			newLeader.broadcastUserInfo();
 
+		}
+		
 		broadcastClanStatus();
 		
-		CrownManager.getInstance().checkCrowns(newLeader);
+		CrownManager.getInstance().checkCrowns(member.getPlayerInstance());
 
 		return true;
 	}
