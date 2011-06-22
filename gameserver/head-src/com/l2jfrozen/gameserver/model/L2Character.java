@@ -5475,6 +5475,11 @@ public abstract class L2Character extends L2Object
 	 */
 	protected void moveToLocation(int x, int y, int z, int offset)
 	{
+		//when start to move again, it has to stop sitdown task
+		if(this instanceof L2PcInstance){
+			((L2PcInstance)this).setSitdownTask(false);
+		}
+		
 		// Get the Move Speed of the L2Charcater
 		float speed = getStat().getMoveSpeed();
 

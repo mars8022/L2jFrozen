@@ -95,6 +95,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
     		player.sendMessage("Aio Buffers Can't Speak To Village Masters.");
     		return;
     	}
+	   	
+	   	if(player.isLearningSkill() || player.isLocked()){
+	   		player.sendMessage("You cannot use village master now..");
+    		return;
+	   	}
+	   	
 		if(actualCommand.equalsIgnoreCase("create_clan"))
 		{
 			if(cmdParams.equals(""))
@@ -771,6 +777,13 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		if(!member.isOnline())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.INVITED_USER_NOT_ONLINE));
+			return;
+		}
+		
+		if(SiegeManager.getInstance().checkIsRegisteredInSiege(clan)
+				|| FortSiegeManager.getInstance().checkIsRegisteredInSiege(clan))
+		{
+			player.sendMessage("Cannot change clan leader while registered in Siege");
 			return;
 		}
 		//clan.setNewLeader(member); 

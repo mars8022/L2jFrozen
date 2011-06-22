@@ -24,6 +24,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_INTERACT;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
+import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -178,6 +179,16 @@ public class L2PlayerAI extends L2CharacterAI
 		}
 	}
 
+    protected void clientStopMoving(L2CharPosition pos)
+    {
+        L2PcInstance _player = (L2PcInstance)_actor;
+        if(_player.getSitdownTask())
+        {
+            _player.setSitdownTask(false);
+            _player.sitDown();
+        }
+    }
+
 	@Override
 	protected void onIntentionActive()
 	{
@@ -309,7 +320,7 @@ public class L2PlayerAI extends L2CharacterAI
 		setIntention(AI_INTENTION_IDLE);
 		return;
 	}
-
+	
 	@Override
 	protected void onEvtThink()
 	{

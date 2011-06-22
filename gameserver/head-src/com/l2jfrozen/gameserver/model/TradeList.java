@@ -810,10 +810,28 @@ public class TradeList
 				continue;
 			}
 			
-			for(TradeItem ti : _items)
-				if(ti.getObjectId() == item.getObjectId() && ti.getPrice() != item.getPrice())
-					return false;
-
+			boolean found = false;
+			for(TradeItem ti : _items){
+				if(ti.getObjectId() == item.getObjectId()){
+					
+					found = true;
+					
+					if(ti.getPrice() != item.getPrice()){
+						return false;
+					}
+				}
+			}
+			
+			//store is not selling that item...
+			if(!found){
+				String msg = "Requested Item is not available to buy... You are perfoming illegal operation, it has been segnalated";
+				_log.warning("ATTENTION: Player "+player.getName()+" has performed buy illegal operation..");
+				player.sendMessage(msg);
+				msg = null;
+				return false;
+			}
+			
+			
 			weight += item.getCount() * template.getWeight();
 			if(!template.isStackable())
 			{
@@ -1045,6 +1063,10 @@ public class TradeList
 
 		PcInventory ownerInventory = _owner.getInventory();
 		PcInventory playerInventory = player.getInventory();
+		
+		// Prepare inventory update packet
+		InventoryUpdate ownerIU = new InventoryUpdate();
+		InventoryUpdate playerIU = new InventoryUpdate();
 
 		//we must check item are available before begining transaction, TODO: should we remove that check when transfering items as it's done here? (there might be synchro problems if player clicks fast if we remove it)
 		// also check if augmented items are traded. If so, cancel it...
@@ -1055,10 +1077,28 @@ public class TradeList
 			if(oldItem == null)
 				return false;
 			
-			for(TradeItem ti : _items)
-				if(ti.getItem().getItemId() == item.getItemId() && ti.getPrice() != item.getPrice())
-					return false;
-
+			boolean found = false;
+			for(TradeItem ti : _items){
+				
+				if(ti.getItem().getItemId() == item.getItemId()){
+					found = true;
+					
+					if(ti.getPrice() != item.getPrice()){
+						return false;
+					}
+				}
+				
+			}
+			
+			//store is not buying that item...
+			if(!found){
+				String msg = "Requested Item is not available to sell... You are perfoming illegal operation, it has been segnalated";
+				_log.warning("ATTENTION: Player "+player.getName()+" has performed sell illegal operation..");
+				player.sendMessage(msg);
+				msg = null;
+				return false;
+			}
+			
 			if(oldItem.getAugmentation() != null)
 			{
 				String msg = "Transaction failed. Augmented items may not be exchanged.";
@@ -1070,10 +1110,6 @@ public class TradeList
 
 			oldItem = null;
 		}
-
-		// Prepare inventory update packet
-		InventoryUpdate ownerIU = new InventoryUpdate();
-		InventoryUpdate playerIU = new InventoryUpdate();
 
 		// Transfer items
 		for(ItemRequest item : items)

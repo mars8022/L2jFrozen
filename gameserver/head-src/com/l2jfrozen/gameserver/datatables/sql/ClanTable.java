@@ -307,6 +307,8 @@ public class ClanTable
 					leader.getAppearance().setTitleColor(0xFFFF77);
 				}
 			}
+			//remove clan leader skills
+			leader.addClanLeaderSkills(false);
 		}
 
 		clan.broadcastToOnlineMembers(new SystemMessage(SystemMessageId.CLAN_HAS_DISPERSED));

@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.entity.siege.FortSiege;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -444,5 +445,19 @@ public class FortSiegeManager
 		{
 			return _location;
 		}
+	}
+	
+	public final boolean checkIsRegisteredInSiege(L2Clan clan){
+		
+		for(Fort fort : FortManager.getInstance().getForts())
+		{
+			if(checkIsRegistered(clan, fort.getFortId()))
+			{
+				return true;
+			}
+		}
+
+		return false;
+		
 	}
 }
