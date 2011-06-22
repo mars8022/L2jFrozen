@@ -53,7 +53,6 @@ import com.l2jfrozen.gameserver.cache.WarehouseCacheManager;
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
-import com.l2jfrozen.gameserver.datatables.ClanLeaderSkillTable;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.NobleSkillTable;
@@ -255,6 +254,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	private long _voteTimestamp = 0;
 
+	private boolean _sitdowntask;
+	
+	boolean sittingTaskLaunched;
+	
 	/**
 	 * @return the _voteTimestamp
 	 */
@@ -2926,11 +2929,13 @@ public final class L2PcInstance extends L2PlayableInstance
 			setIsHero(true);
 		}
 
+		/*
 		// Add clan leader skills if clanleader
 		if(isClanLeader())
 		{
 			setClanLeader(true);
 		}
+		*/
 		
 		// Add clan skills
 		if(getClan() != null && getClan().getReputationScore() >= 0)
@@ -3153,6 +3158,16 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_waitTypeSitting = state;
 	}
+	
+	public void setSitdownTask(boolean act)
+    {
+        _sitdowntask = act;
+    }
+
+    public boolean getSitdownTask()
+    {
+        return _sitdowntask;
+    }
 
 	/**
 	 * Sit down the L2PcInstance, set the AI Intention to AI_INTENTION_REST and send a Server->Client ChangeWaitType
@@ -3161,17 +3176,27 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void sitDown()
 	{
+		if(isMoving())
+        {
+            if(!getSitdownTask())
+                setSitdownTask(true);
+            else
+                setSitdownTask(false);
+            return;
+        }
+		
 		if(isCastingNow() && !_relax)
-		{
-			sendMessage("Cannot sit while casting");
 			return;
-		}
+		
+		if(sittingTaskLaunched)
+            return;
 
 		if(!_waitTypeSitting && !isAttackingDisabled() && !isOutOfControl() && !isImobilised())
 		{
 			breakAttack();
 			setIsSitting(true);
 			broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_SITTING));
+			sittingTaskLaunched = true;
 			// Schedule a sit down task to wait for the animation to finish
 			ThreadPoolManager.getInstance().scheduleGeneral(new SitDownTask(this), 2500);
 			setIsParalyzed(true);
@@ -3184,15 +3209,19 @@ public final class L2PcInstance extends L2PlayableInstance
 	class SitDownTask implements Runnable
 	{
 		L2PcInstance _player;
+        final L2PcInstance this$0;
 
-		SitDownTask(L2PcInstance player)
-		{
-			_player = player;
-		}
+        SitDownTask(L2PcInstance player)
+        {
+            this$0 = L2PcInstance.this;
+            _player = player;
+        }
 
 		public void run()
 		{
+			setIsSitting(true);
 			_player.setIsParalyzed(false);
+			sittingTaskLaunched = false;
 			_player.getAI().setIntention(CtrlIntention.AI_INTENTION_REST);
 		}
 	}
@@ -3223,6 +3252,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void standUp()
 	{
+		if(sittingTaskLaunched){
+			return;
+		}
+		
 		if(L2Event.active && eventSitForced)
 		{
 			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up ...");
@@ -7330,9 +7363,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		_clanId = clan.getClanId();
 		
 		// Add clan leader skills if clanleader
-		if(isClanLeader())
+		if(isClanLeader() && clan.getLevel()>= 4)
 		{
-			setClanLeader(true);
+			addClanLeaderSkills(true);
+		}else{
+			addClanLeaderSkills(false);
 		}
 		
 	}
@@ -8927,8 +8962,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * @param newSkill The L2Skill to add to the L2Character
 	 * @return The L2Skill replaced or null if just added a new L2Skill
 	 */
-	public L2Skill addSkill(L2Skill newSkill, boolean store)
+	private boolean _learningSkill = false;
+	
+	public synchronized L2Skill addSkill(L2Skill newSkill, boolean store)
 	{
+		_learningSkill = true;
 		// Add a skill to the L2PcInstance _skills and its Func objects to the calculator set of the L2PcInstance
 		L2Skill oldSkill = super.addSkill(newSkill);
 
@@ -8938,7 +8976,13 @@ public final class L2PcInstance extends L2PlayableInstance
 			storeSkill(newSkill, oldSkill, -1);
 		}
 
+		_learningSkill = false;
+		
 		return oldSkill;
+	}
+	
+	public boolean isLearningSkill(){
+		return _learningSkill;
 	}
 
 	public L2Skill removeSkill(L2Skill skill, boolean store)
@@ -11818,21 +11862,27 @@ public final class L2PcInstance extends L2PlayableInstance
 		sendSkillList();
 	}
 	
-	public void setClanLeader(boolean val)
+	public void addClanLeaderSkills(boolean val)
 	{
 		if(val)
 		{
+			SiegeManager.getInstance().addSiegeSkills(this);
+			/*
 			for(L2Skill s : ClanLeaderSkillTable.getInstance().GetClanLeaderSkills())
 			{
 				addSkill(s, false); //Dont Save Noble skills to Sql
 			}
+			*/
 		}
 		else
 		{
+			SiegeManager.getInstance().removeSiegeSkills(this);
+			/*
 			for(L2Skill s : ClanLeaderSkillTable.getInstance().GetClanLeaderSkills())
 			{
 				super.removeSkill(s); //Just Remove skills without deleting from Sql
 			}
+			*/
 		}
 		sendSkillList();
 	}

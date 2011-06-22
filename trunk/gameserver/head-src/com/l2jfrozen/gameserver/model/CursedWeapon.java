@@ -681,7 +681,7 @@ public class CursedWeapon
 	// Getter
 	public boolean isActivated()
 	{
-		return _isActivated;
+		return _isActivated && _player.isOnline()>0;
 	}
 
 	public boolean isDropped()

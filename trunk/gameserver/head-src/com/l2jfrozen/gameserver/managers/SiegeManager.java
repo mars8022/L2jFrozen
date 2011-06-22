@@ -138,6 +138,21 @@ public class SiegeManager
 		return false;
 	}
 
+	public final boolean checkIsRegisteredInSiege(L2Clan clan){
+		
+		for(Castle castle : CastleManager.getInstance().getCastles()){
+			
+		   if(checkIsRegistered(clan, castle.getCastleId()))
+		   {
+			   return true;
+		   }
+		   
+		}
+		
+		return false;
+		
+	}
+	
 	/**
 	 * Return true if the clan is registered or owner of a castle<BR>
 	 * <BR>

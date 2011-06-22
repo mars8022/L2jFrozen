@@ -51,7 +51,12 @@ public final class Appearing extends L2GameClientPacket
 			activeChar.onTeleported();
 		}
 
-		activeChar.broadcastUserInfo();
+
+		if(!activeChar.inObserverMode())
+		{
+			activeChar.broadcastUserInfo();
+		}
+
 		
 	}
 

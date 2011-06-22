@@ -232,10 +232,44 @@ public class L2Clan
 	/**
 	 * @param leaderId The leaderId to set.
 	 */
-	public void setLeader(L2ClanMember leader)
+	public boolean setLeader(L2ClanMember member)
 	{
-		_leader = leader;
-		_members.put(leader.getName(), leader);
+		if(member==null){
+			return false;
+		}
+		
+		L2ClanMember old_leader = _leader;
+		_leader = member;
+		_members.put(member.getName(), member);
+		
+		//refresh oldleader and new leader info
+		if(old_leader!=null){
+			
+			L2PcInstance exLeader = old_leader.getPlayerInstance();
+			exLeader.setClan(this);
+			exLeader.setPledgeClass(exLeader.getClan().getClanMember(exLeader.getObjectId()).calculatePledgeClass(exLeader));
+			exLeader.setClanPrivileges(L2Clan.CP_NOTHING);
+			
+			exLeader.broadcastUserInfo();
+
+			CrownManager.getInstance().checkCrowns(exLeader);
+			
+		}
+		
+		updateClanInDB();
+
+		L2PcInstance newLeader = member.getPlayerInstance();
+		newLeader.setClan(this);
+		newLeader.setPledgeClass(member.calculatePledgeClass(newLeader));
+		newLeader.setClanPrivileges(L2Clan.CP_ALL);
+		
+		newLeader.broadcastUserInfo();
+
+		broadcastClanStatus();
+		
+		CrownManager.getInstance().checkCrowns(newLeader);
+
+		return true;
 	}
 
 	//public void setNewLeader(L2ClanMember member) 
@@ -255,44 +289,28 @@ public class L2Clan
 		if(!member.isOnline())
 			return;
 
-		L2PcInstance exLeader = getLeader().getPlayerInstance();
+		//L2PcInstance exLeader = getLeader().getPlayerInstance();
+		if(setLeader(member)){
 
-		SiegeManager.getInstance().removeSiegeSkills(exLeader);
-		exLeader.setClan(this);
-		exLeader.setClanPrivileges(L2Clan.CP_NOTHING);
-		exLeader.broadcastUserInfo();
-
-		setLeader(member);
-		updateClanInDB();
-
-		exLeader.setPledgeClass(exLeader.getClan().getClanMember(exLeader.getObjectId()).calculatePledgeClass(exLeader));
-		exLeader.broadcastUserInfo();
-
-		L2PcInstance newLeader = member.getPlayerInstance();
-
-		newLeader.setClan(this);
-		newLeader.setPledgeClass(member.calculatePledgeClass(newLeader));
-		newLeader.setClanPrivileges(L2Clan.CP_ALL);
-
+			SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_LEADER_PRIVILEGES_HAVE_BEEN_TRANSFERRED_TO_S1);
+			sm.addString(member.getName());
+			broadcastToOnlineMembers(sm);
+			sm = null;
+			
+		}
+		
+		//SiegeManager.getInstance().removeSiegeSkills(exLeader);
+		
+		
+		/*
 		if(getLevel() >= 4)
 		{
 			SiegeManager.getInstance().addSiegeSkills(newLeader);
 		}
+		*/
+		
+		
 
-		newLeader.broadcastUserInfo();
-
-		broadcastClanStatus();
-
-		SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_LEADER_PRIVILEGES_HAVE_BEEN_TRANSFERRED_TO_S1);
-		sm.addString(newLeader.getName());
-		broadcastToOnlineMembers(sm);
-		sm = null;
-
-		CrownManager.getInstance().checkCrowns(exLeader);
-		CrownManager.getInstance().checkCrowns(newLeader);
-
-		exLeader = null;
-		newLeader = null;
 	}
 
 	/**

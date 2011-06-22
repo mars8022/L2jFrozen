@@ -478,7 +478,7 @@ public class CursedWeaponsManager
 
 		for(CursedWeapon cw : _cursedWeapons.values())
 		{
-			if(cw.isActivated() && player.getObjectId() == cw.getPlayerId())
+			if(cw.isActive() && player.getObjectId() == cw.getPlayerId())
 			{
 				cw.setPlayer(player);
 				cw.setItem(player.getInventory().getItemByItemId(cw.getItemId()));
@@ -490,7 +490,13 @@ public class CursedWeaponsManager
 				//sm.addItemName(cw.getItemId());
 				sm.addNumber((int) ((cw.getEndTime() - System.currentTimeMillis()) / 60000));
 				player.sendPacket(sm);
+				
+				sm = new SystemMessage(SystemMessageId.THE_OWNER_OF_S2_HAS_APPEARED_IN_THE_S1_REGION);
+				sm.addZoneName(player.getX(), player.getY(), player.getZ()); // Region Name
+				sm.addItemName(cw.getItemId());
+				CursedWeaponsManager.announce(sm);
 				sm = null;
+
 			}
 		}
 	}
