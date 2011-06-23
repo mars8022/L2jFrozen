@@ -1412,4 +1412,9 @@ public class Castle
 	{
 		return _gate[2];
 	}
+	
+	public void oustAllPlayers()
+	{
+		getTeleZone().oustAllPlayers();
+	}
 }

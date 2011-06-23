@@ -2799,6 +2799,11 @@ public class L2NpcInstance extends L2Character
 				break;
 		}
 
+		if(this instanceof L2CastleTeleporterInstance){
+			((L2CastleTeleporterInstance)this).showChatWindow(player);
+			return;
+		}
+		
 		// Send a Server->Client NpcHtmlMessage containing the text of the L2NpcInstance to the L2PcInstance 
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);

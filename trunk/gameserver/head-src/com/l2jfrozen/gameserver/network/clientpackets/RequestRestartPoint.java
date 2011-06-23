@@ -248,14 +248,8 @@ public final class RequestRestartPoint extends L2GameClientPacket
 				// Schedule respawn delay for attacker
 				ThreadPoolManager.getInstance().scheduleGeneral(new DeathTask(activeChar), castle.getSiege().getAttackerRespawnDelay());
 				activeChar.sendMessage("You will be re-spawned in " + castle.getSiege().getAttackerRespawnDelay() / 1000 + " seconds");
-			}
-			else
-			{
-				// Schedule respawn delay for defender with penalty for CT lose
-				ThreadPoolManager.getInstance().scheduleGeneral(new DeathTask(activeChar), castle.getSiege().getDefenderRespawnDelay());
-				activeChar.sendMessage("You will be re-spawned in " + castle.getSiege().getDefenderRespawnDelay() / 1000 + " seconds");
-			}
-			return;
+			    return;
+			}    
 		}
 		// run immediately (no need to schedule)
 		new DeathTask(activeChar).run();
