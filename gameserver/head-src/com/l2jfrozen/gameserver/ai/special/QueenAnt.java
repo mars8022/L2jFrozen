@@ -238,7 +238,7 @@ public class QueenAnt extends Quest implements Runnable
 				int loc_y = 181594;
 				int loc_z =  -5734;
 				
-				if(!npc.isInsideRadius(loc_x,loc_y,5000,false)){
+				if(!npc.isInsideRadius(loc_x,loc_y,3000,false)){
 					npc.teleToLocation(loc_x, loc_y, loc_z);
 				}
 				

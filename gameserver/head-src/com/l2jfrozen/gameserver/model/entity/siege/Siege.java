@@ -110,6 +110,10 @@ public class Siege
 	private int _controlTowerCount;
 	private int _controlTowerMaxCount;
 
+	public int getControlTowerCount(){
+		return _controlTowerCount;
+	}
+	
 	// ===============================================================
 	// Schedule task
 	public class ScheduleEndSiegeTask implements Runnable
