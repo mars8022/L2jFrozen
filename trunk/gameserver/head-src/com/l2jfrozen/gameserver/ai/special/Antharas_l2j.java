@@ -381,11 +381,14 @@ public class Antharas_l2j extends Quest implements Runnable
 	private class AntharasSpawn implements Runnable
 	{
 		private int _taskId = 0;
-		private Collection<L2Character> _players = _Zone.getCharactersInside().values();
+		private Collection<L2Character> _players;
 		
 		AntharasSpawn(int taskId)
 		{
 			_taskId = taskId;
+			if(_Zone.getCharactersInside()!=null){
+				_players = _Zone.getCharactersInside().values();
+			}
 		}
 		
 		public void run()
@@ -402,9 +405,9 @@ public class Antharas_l2j extends Quest implements Runnable
 					_monsterSpawnTask = null;
 					if (FWA_OLDANTHARAS)
 						npcId = 29019; // old
-					else if (_players.size() <= FWA_LIMITOFWEAK)
+					else if (_players == null || _players!=null && _players.size() <= FWA_LIMITOFWEAK)
 						npcId = 29066; // weak
-					else if (_players.size() > FWA_LIMITOFNORMAL)
+					else if (_players!=null && _players.size() > FWA_LIMITOFNORMAL)
 						npcId = 29068; // strong
 					else
 						npcId = 29067; // normal

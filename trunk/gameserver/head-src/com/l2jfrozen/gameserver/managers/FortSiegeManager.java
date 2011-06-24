@@ -35,7 +35,6 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.entity.siege.FortSiege;
 import com.l2jfrozen.gameserver.network.SystemMessageId;

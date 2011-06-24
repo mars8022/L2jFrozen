@@ -24,6 +24,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
@@ -151,6 +154,17 @@ public class EnterWorld extends L2GameClientPacket
 				_log.warning("User already exist in OID map! User " + activeChar.getName() + " is character clone");
 				//activeChar.closeNetConnection();
 			}
+		}
+		
+		if(!activeChar.isGM())
+		{		
+		 if(activeChar.getName().length() < 3 || activeChar.getName().length() > 16 || !Util.isAlphaNumeric(activeChar.getName()) || !isValidName(activeChar.getName()))
+		  {
+			_log.fine("Charname: " + activeChar.getName() + " is invalid. EnterWorld failed.");
+			getClient().closeNow();
+			return;
+
+		  }	
 		}
 
 		activeChar.setOnlineStatus(true);
@@ -485,6 +499,35 @@ public class EnterWorld extends L2GameClientPacket
 		}
 	}
 
+	private boolean isValidName(String text)
+	{
+		boolean result = true;
+
+		String test = text;
+		Pattern pattern;
+
+		try
+		{
+			pattern = Pattern.compile(Config.CNAME_TEMPLATE);
+		}
+		catch(PatternSyntaxException e) // case of illegal pattern
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+
+			_log.warning("ERROR : Character name pattern of config is wrong!");
+			pattern = Pattern.compile(".*");
+		}
+
+		Matcher regexp = pattern.matcher(test);
+		if(!regexp.matches())
+		{
+			result = false;
+		}
+
+		return result;
+	}
+	
 	private void EnterGM(L2PcInstance activeChar)
 	{
 		if(activeChar.isGM())
@@ -560,7 +603,7 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.updateFirstLog();
 		}
 
-		 if(Config.WELCOME_HTM)
+		 if(Config.WELCOME_HTM && isValidName(activeChar.getName()))
 	      {
 			String Welcome_Path = "data/html/welcome.htm";
 			File mainText = new File(Config.DATAPACK_ROOT, Welcome_Path);
