@@ -76,6 +76,7 @@ public class Continuous implements ISkillHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
@@ -276,11 +277,10 @@ public class Continuous implements ISkillHandler
 			if(skill.isToggle() && stopped)
 				return;
 
-			/*
 			// If target is not in game anymore...
-			if(target == null)
+			if(target == null || target instanceof L2PcInstance && ((L2PcInstance)target).isOnline()==0)
 				continue;
-			*/
+			
 
 			// if this is a debuff let the duel manager know about it
 			// so the debuff can be removed after the duel

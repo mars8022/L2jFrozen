@@ -24,7 +24,6 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_INTERACT;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
-import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -36,6 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
+import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class L2PlayerAI extends L2CharacterAI
