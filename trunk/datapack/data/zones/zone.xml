@@ -2419,4 +2419,16 @@
  		<stat name='spawnY' val='-94782'/>
  		<stat name='spawnZ' val='-1428'/>
  	</zone>
+ 	
+ 	<!-- Castle No HQ Zones -->
+ 	<zone id="112000" type="NoHqZone" shape="NPoly" minZ="-4448" maxZ="30000" />
+ 	<zone id="112010" type="NoHqZone" shape="NPoly" minZ="-4642" maxZ="30000" />
+ 	<zone id="112020" type="NoHqZone" shape="NPoly" minZ="-4515" maxZ="30000" />
+ 	<zone id="112030" type="NoHqZone" shape="NPoly" minZ="-4242" maxZ="30000" />
+	<zone id="112040" type="NoHqZone" shape="NPoly" minZ="-3184" maxZ="30000" />
+	<zone id="112050" type="NoHqZone" shape="NPoly" minZ="-2738" maxZ="30000" />
+ 	<zone id="112060" type="NoHqZone" shape="NPoly" minZ="-3397" maxZ="30000" />
+ 	<zone id="112070" type="NoHqZone" shape="NPoly" minZ="-3000" maxZ="30000" />
+	<zone id="112080" type="NoHqZone" shape="NPoly" minZ="-3800" maxZ="30000" />
+	
 </list>
