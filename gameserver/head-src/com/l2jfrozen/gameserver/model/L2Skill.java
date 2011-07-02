@@ -2870,7 +2870,7 @@ public abstract class L2Skill
 					return null;
 				}
 				
-				if(target instanceof L2MonsterInstance && ((L2MonsterInstance) target).getNpcId() == 22217 || ((L2MonsterInstance) target).getNpcId() == 22216 || ((L2MonsterInstance) target).getNpcId() == 22215)
+				if(target instanceof L2MonsterInstance && (((L2MonsterInstance) target).getNpcId() == 22217 || ((L2MonsterInstance) target).getNpcId() == 22216 || ((L2MonsterInstance) target).getNpcId() == 22215))
 					return new L2Character[]
 					{
 						target

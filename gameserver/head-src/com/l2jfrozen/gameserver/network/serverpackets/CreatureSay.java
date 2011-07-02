@@ -60,8 +60,20 @@ public class CreatureSay extends L2GameServerPacket
 		{
 			_pci.broadcastSnoop(_textType, _charName, _text);
 		}
+		
 	}
 
+	/*
+	@Override
+	public final void runImpl()
+	{
+		L2PcInstance _pci = getClient().getActiveChar();
+		if (_pci != null)
+		{
+			_pci.broadcastSnoop(_textType,_charName,_text);
+		}
+	}
+	*/
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */

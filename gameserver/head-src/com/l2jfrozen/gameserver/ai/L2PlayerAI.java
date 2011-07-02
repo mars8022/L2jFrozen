@@ -182,9 +182,8 @@ public class L2PlayerAI extends L2CharacterAI
     protected void clientStopMoving(L2CharPosition pos)
     {
         L2PcInstance _player = (L2PcInstance)_actor;
-        if(_player.getSitdownTask())
+        if(_player.getPosticipateSit())
         {
-            _player.setSitdownTask(false);
             _player.sitDown();
         }
     }

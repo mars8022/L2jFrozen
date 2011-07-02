@@ -171,6 +171,13 @@ public final class RequestSellItem extends L2GameClientPacket
 			}
 
 			L2ItemInstance item = player.checkItemManipulation(objectId, count, "sell");
+			
+			// Check Item
+			if(item == null || !item.getItem().isSellable())
+			{
+				continue;
+			}
+			
 			long price = item.getReferencePrice() / 2;
 			totalPrice += price * count;
 			
@@ -182,12 +189,6 @@ public final class RequestSellItem extends L2GameClientPacket
 				sendPacket(sm);
 				sm = null;
 				return;
-			}
-			
-			// Check Item
-			if(item == null || !item.getItem().isSellable())
-			{
-				continue;
 			}
 			
 			// Check totalPrice

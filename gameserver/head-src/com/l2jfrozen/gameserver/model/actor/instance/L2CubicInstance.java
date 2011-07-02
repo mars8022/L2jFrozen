@@ -186,24 +186,28 @@ public class L2CubicInstance
 		@Override
 		public void run()
 		{
-			if(_owner!=null && (_owner.isDead() || _owner.getTarget() != _target || _owner.isOffline() || _target==null || _target.isDead() || ( _target instanceof L2PcInstance && ((L2PcInstance)_target).isOffline())))
+			final L2PcInstance owner = _owner;
+			final L2Character target = _target;
+			
+			if(owner!=null && (owner.isDead() || owner.getTarget() != target || owner.isOffline() || target==null || target.isDead() || ( target instanceof L2PcInstance && ((L2PcInstance)target).isOffline())))
 			{
 				stopAction();
-				if(_owner.isDead())
+				if(owner.isDead())
 				{
-					_owner.delCubic(_id);
-					_owner.broadcastUserInfo();
+					owner.delCubic(_id);
+					owner.broadcastUserInfo();
 					cancelDisappear();
 				}
 				return;
 			}
-			if(!AttackStanceTaskManager.getInstance().getAttackStanceTask(_owner))
+			if(!AttackStanceTaskManager.getInstance().getAttackStanceTask(owner))
 			{
 				stopAction();
 				return;
 			}
-			if(_target != null)
+			if(target != null)
 			{
+				
 				try
 				{
 					if(Rnd.get(1, 100) < _chance)
@@ -214,30 +218,30 @@ public class L2CubicInstance
 						{
 							L2Character[] targets =
 							{
-								_target
+								target
 							};
 							ISkillHandler handler = SkillHandler.getInstance().getSkillHandler(skill.getSkillType());
 
 							int x, y, z;
 							// temporary range check until real behavior of cubics is known/coded
-							int range = _target.getTemplate().collisionRadius + 400; //skill.getCastRange();
+							int range = target.getTemplate().collisionRadius + 400; //skill.getCastRange();
 
-							x = _owner.getX() - _target.getX();
-							y = _owner.getY() - _target.getY();
-							z = _owner.getZ() - _target.getZ();
+							x = owner.getX() - target.getX();
+							y = owner.getY() - target.getY();
+							z = owner.getZ() - target.getZ();
 							if(x * x + y * y + z * z <= range * range)
 							{
 								if(handler != null)
 								{
-									handler.useSkill(_owner, skill, targets);
+									handler.useSkill(owner, skill, targets);
 								}
 								else
 								{
-									skill.useSkill(_owner, targets);
+									skill.useSkill(owner, targets);
 								}
 
-								MagicSkillUser msu = new MagicSkillUser(_owner, _target, skill.getId(), _level, 0, 0);
-								_owner.broadcastPacket(msu);
+								MagicSkillUser msu = new MagicSkillUser(owner, target, skill.getId(), _level, 0, 0);
+								owner.broadcastPacket(msu);
 								msu = null;
 							}
 							skill = null;

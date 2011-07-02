@@ -19,7 +19,7 @@
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.geo.GeoEngine;
+import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.managers.FishingZoneManager;
 import com.l2jfrozen.gameserver.model.Inventory;
@@ -137,14 +137,14 @@ public class Fishing implements ISkillHandler
 		 */
 		L2FishingZone aimingTo = FishingZoneManager.getInstance().isInsideFishingZone(x, y, z);
 		L2WaterZone water = FishingZoneManager.getInstance().isInsideWaterZone(x, y, z);
-		if(aimingTo != null && water != null && (GeoEngine.getInstance().canSeeTarget(player.getX(), player.getY(), player.getZ() + 50, x, y, water.getWaterZ() - 50)))
+		if(aimingTo != null && water != null && (GeoData.getInstance().canSeeTarget(player.getX(), player.getY(), player.getZ() + 50, x, y, water.getWaterZ() - 50)))
 		{
 			z = water.getWaterZ() + 10;
 			// player.sendMessage("Hook x,y: " + x + "," + y + " - Water Z, 
 			// Player Z:" + z + ", " + player.getZ()); //debug line, shows hook 
 			// landing related coordinates. Uncoment if needed.
 		}
-		else if(aimingTo != null && GeoEngine.getInstance().canSeeTarget(player.getX(), player.getY(), player.getZ() + 50, x, y, water.getWaterZ() - 50))
+		else if(aimingTo != null && GeoData.getInstance().canSeeTarget(player.getX(), player.getY(), player.getZ() + 50, x, y, water.getWaterZ() - 50))
 			z = aimingTo.getWaterZ() + 10;
 		else
 		{

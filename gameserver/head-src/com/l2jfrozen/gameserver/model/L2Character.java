@@ -98,6 +98,7 @@ import com.l2jfrozen.gameserver.network.Disconnection;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.Attack;
+import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeMoveType;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
@@ -231,6 +232,7 @@ public abstract class L2Character extends L2Object
 	public static final int ZONE_SWAMP = 1024;
 	public static final int ZONE_NOSUMMONFRIEND = 2048;
 	public static final int ZONE_OLY = 4096;
+	public static final int ZONE_NOHQ = 8192;
 
 	private int _currentZones = 0;
 
@@ -428,11 +430,34 @@ public abstract class L2Character extends L2Object
 	 * Server->Client Packet<BR>
 	 * <BR>
 	 */
+	
+	protected byte _startingRotationCounter = 4;
+	
+	public synchronized boolean isStartingRotationAllowed()
+	{
+		// This function is called too often from movement arrow
+		_startingRotationCounter--;
+		if (_startingRotationCounter < 0)
+			_startingRotationCounter = 4;
+		
+		if(_startingRotationCounter == 4){
+			return true;
+		}else{
+			return false;
+		}
+	
+	}
+	
 	public final void broadcastPacket(L2GameServerPacket mov)
 	{
 		if(!(mov instanceof CharInfo))
 		{
 			sendPacket(mov);
+		}
+		
+		 //don't broadcast anytime the rotating packet
+		if(mov instanceof BeginRotation  && !isStartingRotationAllowed()){
+			return;
 		}
 
 		//if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
@@ -5476,7 +5501,7 @@ public abstract class L2Character extends L2Object
 	{
 		//when start to move again, it has to stop sitdown task
 		if(this instanceof L2PcInstance){
-			((L2PcInstance)this).setSitdownTask(false);
+			((L2PcInstance)this).setPosticipateSit(false);
 		}
 		
 		// Get the Move Speed of the L2Charcater
@@ -6321,7 +6346,7 @@ public abstract class L2Character extends L2Object
 							boss_id = boss_zone.getBossId();
 						}
 						
-						boolean alive = false;
+						//boolean alive = false;
 						
 						if(boss_id != -1){
 							
@@ -6336,7 +6361,7 @@ public abstract class L2Character extends L2Object
 									StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
 									if(actual_boss_stat!=null){
 										
-										alive = actual_boss_stat.getLong("respawnTime") == 0;
+										//alive = actual_boss_stat.getLong("respawnTime") == 0;
 										boss_instance = RaidBossSpawnManager.getInstance().getBoss(boss_id);
 										
 									}
@@ -6346,14 +6371,14 @@ public abstract class L2Character extends L2Object
 									StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
 									if(actual_boss_stat!=null){
 										
-										alive = actual_boss_stat.getLong("respawn_time") == 0;
+										//alive = actual_boss_stat.getLong("respawn_time") == 0;
 										boss_instance = GrandBossManager.getInstance().getBoss(boss_id);
 										
 									}
 								}
 								
 								//max allowed rage into take cursed is 3000
-								if(boss_instance!=null && alive && boss_instance.isInsideRadius(this, 3000, false, false)){
+								if(boss_instance!=null/* && alive*/ && boss_instance.isInsideRadius(this, 3000, false, false)){
 									to_be_cursed = true;
 								}
 							}
@@ -8068,7 +8093,7 @@ public abstract class L2Character extends L2Object
 									boss_id = boss_zone.getBossId();
 								}
 								
-								boolean alive = false;
+								//boolean alive = false;
 								
 								if(boss_id != -1){
 									
@@ -8083,7 +8108,7 @@ public abstract class L2Character extends L2Object
 											StatsSet actual_boss_stat=RaidBossSpawnManager.getInstance().getStatsSet(boss_id);
 											if(actual_boss_stat!=null){
 												
-												alive = actual_boss_stat.getLong("respawnTime") == 0;
+												//alive = actual_boss_stat.getLong("respawnTime") == 0;
 												boss_instance = RaidBossSpawnManager.getInstance().getBoss(boss_id);
 												
 											}
@@ -8093,14 +8118,14 @@ public abstract class L2Character extends L2Object
 											StatsSet actual_boss_stat=GrandBossManager.getInstance().getStatsSet(boss_id);
 											if(actual_boss_stat!=null){
 												
-												alive = actual_boss_stat.getLong("respawn_time") == 0;
+												//alive = actual_boss_stat.getLong("respawn_time") == 0;
 												boss_instance = GrandBossManager.getInstance().getBoss(boss_id);
 												
 											}
 										}
 										
 										//max allowed rage into take cursed is 3000
-										if(boss_instance!=null && alive && boss_instance.isInsideRadius(this, 3000, false, false)){
+										if(boss_instance!=null/* && alive*/ && boss_instance.isInsideRadius(this, 3000, false, false)){
 											to_be_cursed = true;
 										}
 									}

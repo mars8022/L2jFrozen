@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
@@ -106,6 +107,10 @@ public class Pdam implements ISkillHandler
 			}
 			else if(target.isAlikeDead())
 				continue;
+			
+			if(target.isInvul()){
+				continue;
+			}
 
 			// Calculate skill evasion
 			//Formulas.getInstance();
@@ -248,7 +253,7 @@ public class Pdam implements ISkillHandler
 				else
 				{
 					// Make damage directly to HP
-					if(skill.getDmgDirectlyToHP())
+					if(skill.getDmgDirectlyToHP() || !(activeChar instanceof L2PlayableInstance))
 					{
 						if(target instanceof L2PcInstance)
 						{

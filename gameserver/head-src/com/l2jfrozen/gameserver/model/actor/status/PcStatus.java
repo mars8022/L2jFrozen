@@ -115,7 +115,7 @@ public class PcStatus extends PlayableStatus
 				}
 			}
 
-			if(attacker instanceof L2PlayableInstance || attacker instanceof L2SiegeGuardInstance)
+			if(attacker instanceof L2PlayableInstance/* || attacker instanceof L2SiegeGuardInstance*/)
 			{
 				if(getCurrentCp() >= value)
 				{

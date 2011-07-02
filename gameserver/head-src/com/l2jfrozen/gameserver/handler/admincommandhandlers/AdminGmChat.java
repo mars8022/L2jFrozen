@@ -22,6 +22,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
@@ -76,31 +77,35 @@ public class AdminGmChat implements IAdminCommandHandler
 
 		return true;
 	}
-
+	
 	/**
 	 * @param command
 	 * @param activeChar
 	 */
 	private void snoop(String command, L2PcInstance activeChar)
 	{
-		L2Object target = activeChar.getTarget();
-
-		if(target == null)
+		L2Object target = null;
+		if (command.length() > 12)
+		{
+			target = L2World.getInstance().getPlayer(command.substring(12));
+		}
+		if (target == null)
+			target = activeChar.getTarget();
+		
+		if (target == null)
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_MUST_SELECT_A_TARGET));
 			return;
 		}
-
-		if(!(target instanceof L2PcInstance))
+		if (!(target instanceof L2PcInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			return;
 		}
-
 		L2PcInstance player = (L2PcInstance) target;
 		player.addSnooper(activeChar);
 		activeChar.addSnooped(player);
-
+		
 		target = null;
 		player = null;
 	}

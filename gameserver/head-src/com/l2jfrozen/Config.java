@@ -1052,6 +1052,8 @@ public final class Config
 	public static boolean EXPERTISE_PENALTY;
 	public static boolean MASTERY_PENALTY;
 	public static int LEVEL_TO_GET_PENALITY;
+	public static boolean MASTERY_WEAPON_PENALTY;
+	public static int LEVEL_TO_GET_WEAPON_PENALITY;
 	
 	public static int ACTIVE_AUGMENTS_START_REUSE_TIME;
 	
@@ -1196,8 +1198,11 @@ public final class Config
 			RAID_RANKING_UP_TO_100TH = Integer.parseInt(altSettings.getProperty("UpTo100thRaidRankingPoints", "12"));
 		
 			EXPERTISE_PENALTY = Boolean.parseBoolean(altSettings.getProperty("ExpertisePenality", "true"));
-			MASTERY_PENALTY = Boolean.parseBoolean(altSettings.getProperty("MasteryPenality", "true"));
+			MASTERY_PENALTY = Boolean.parseBoolean(altSettings.getProperty("MasteryPenality", "false"));
 			LEVEL_TO_GET_PENALITY = Integer.parseInt(altSettings.getProperty("LevelToGetPenalty", "20"));
+		
+			MASTERY_WEAPON_PENALTY = Boolean.parseBoolean(altSettings.getProperty("MasteryWeaponPenality", "false"));
+			LEVEL_TO_GET_WEAPON_PENALITY = Integer.parseInt(altSettings.getProperty("LevelToGetWeaponPenalty", "20"));
 		
 			/** augmentation start reuse time **/
 			ACTIVE_AUGMENTS_START_REUSE_TIME = Integer.parseInt(altSettings.getProperty("AugmStartReuseTime", "0"));

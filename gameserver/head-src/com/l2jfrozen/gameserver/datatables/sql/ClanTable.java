@@ -294,10 +294,10 @@ public class ClanTable
 			return;
 
 		L2PcInstance leader = null;
-		if(clan.getLeader()!=null) {
-			leader = clan.getLeader().getPlayerInstance();
-			if(Config.CLAN_LEADER_COLOR_ENABLED && clan.getLevel() >= Config.CLAN_LEADER_COLOR_CLAN_LEVEL && leader != null)
-			{
+		if(clan.getLeader()!=null && (leader = clan.getLeader().getPlayerInstance())!=null) {
+
+			if(Config.CLAN_LEADER_COLOR_ENABLED && clan.getLevel() >= Config.CLAN_LEADER_COLOR_CLAN_LEVEL){
+				
 				if(Config.CLAN_LEADER_COLORED == 1)
 				{
 					leader.getAppearance().setNameColor(0x000000);
@@ -306,9 +306,12 @@ public class ClanTable
 				{
 					leader.getAppearance().setTitleColor(0xFFFF77);
 				}
+				
 			}
+			
 			//remove clan leader skills
 			leader.addClanLeaderSkills(false);
+			
 		}
 
 		clan.broadcastToOnlineMembers(new SystemMessage(SystemMessageId.CLAN_HAS_DISPERSED));

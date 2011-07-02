@@ -252,6 +252,7 @@ public class Shutdown extends Thread
 	@Override
 	public void run()
 	{
+		/*
 		// disallow new logins
 		try
 		{
@@ -263,36 +264,13 @@ public class Shutdown extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 		}
+		*/
 
 		if(this == _instance)
 		{
-			SQLQueue.getInstance().shutdown();
-			// ensure all services are stopped
-			try
-			{
-				GameTimeController.getInstance().stopTimer();
-			}
-			catch(Throwable t)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-
-			// stop all threadpolls
-			try
-			{
-				ThreadPoolManager.getInstance().shutdown();
-			}
-			catch(Throwable t)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-
 			// last byebye, save all data and quit this server
 			// logging doesnt work here :(
-			saveData();
-
+			
 			try
 			{
 				LoginServerThread.getInstance().interrupt();
@@ -303,12 +281,38 @@ public class Shutdown extends Thread
 					t.printStackTrace();
 			}
 
-			// saveData sends messages to exit players, so sgutdown selector after it
+			// ensure all services are stopped
+			SQLQueue.getInstance().shutdown();
+			
+			// saveData sends messages to exit players, so shutdown selector after it
+			saveData();
+
+			try
+			{
+				GameTimeController.getInstance().stopTimer();
+			}
+			catch(Throwable t)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
+
 			try
 			{
 				//GameServer.getSelectorThread().setDaemon(true);
 				GameServer.getSelectorThread().shutdown();
 				
+			}
+			catch(Throwable t)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
+			
+			// stop all threadpolls
+			try
+			{
+				ThreadPoolManager.getInstance().shutdown();
 			}
 			catch(Throwable t)
 			{
@@ -552,7 +556,7 @@ public class Shutdown extends Thread
 	/**
 	 * this sends a last byebye, disconnects all players and saves data
 	 */
-	private void saveData()
+	private synchronized void saveData()
 	{
 		Announcements _an = Announcements.getInstance();
 		switch(_shutdownMode)
@@ -612,6 +616,14 @@ public class Shutdown extends Thread
 
 		// we cannt abort shutdown anymore, so i removed the "if"
 		disconnectAllCharacters();
+		
+		try
+		{
+			Thread.sleep(5000);
+		}
+		catch(InterruptedException e1)
+		{
+		}
 
 		// Seven Signs data is now saved along with Festival data.
 		if(!SevenSigns.getInstance().isSealValidationPeriod())
@@ -661,7 +673,7 @@ public class Shutdown extends Thread
 
 		try
 		{
-			int delay = 5000;
+			int delay = 10000;
 			Thread.sleep(delay);
 		}
 		catch(InterruptedException e)
@@ -683,7 +695,6 @@ public class Shutdown extends Thread
 			try
 			{
 				player.store();
-				System.err.println("Players: All players save to disk");
 				//SystemMessage sm = new SystemMessage(SystemMessage.YOU_HAVE_WON_THE_WAR_OVER_THE_S1_CLAN);
 				//player.sendPacket(sm);
 				ServerClose ql = new ServerClose();
@@ -696,9 +707,12 @@ public class Shutdown extends Thread
 					t.printStackTrace();
 			}
 		}
+		
+		_log.info("Players: All players save to disk");
+		
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 		}
 		catch(Throwable t)
 		{

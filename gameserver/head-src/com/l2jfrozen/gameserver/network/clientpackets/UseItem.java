@@ -567,6 +567,7 @@ public final class UseItem extends L2GameClientPacket
 
 			activeChar.refreshExpertisePenalty();
 			activeChar.refreshMasteryPenality();
+			activeChar.refreshMasteryWeapPenality();
 
 			if(item.getItem().getType2() == L2Item.TYPE2_WEAPON)
 			{
