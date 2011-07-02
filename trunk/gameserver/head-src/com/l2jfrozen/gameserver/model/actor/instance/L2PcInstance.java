@@ -254,7 +254,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	private long _voteTimestamp = 0;
 
-	private boolean _sitdowntask;
+	private boolean _posticipateSit;
 	
 	boolean sittingTaskLaunched;
 	
@@ -2355,6 +2355,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		return _masteryPenalty;
 	}
+	
+	public int getMasteryWeapPenalty()
+	{
+		return _masteryWeapPenalty;
+	}
 
 	public int getWeightPenalty()
 	{
@@ -2505,6 +2510,180 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			sendPacket(new EtcStatusUpdate(this));
 			_masteryPenalty = newMasteryPenalty;
+			
+		}
+		
+	}
+	
+	private boolean _blunt_mastery = false;
+	private boolean _pole_mastery = false;
+	private boolean _dagger_mastery = false;
+	private boolean _sword_mastery = false;
+	private boolean _bow_mastery = false;
+	private boolean _fist_mastery = false;
+	private boolean _dual_mastery = false;
+	private boolean _2hands_mastery = false;
+	
+	private int _masteryWeapPenalty = 0;
+	
+	public void refreshMasteryWeapPenality()
+	{
+		if (!Config.MASTERY_WEAPON_PENALTY || this.getLevel()<=Config.LEVEL_TO_GET_WEAPON_PENALITY)
+			return;
+		
+		_blunt_mastery = false;
+		_bow_mastery = false;
+		_dagger_mastery = false;
+		_fist_mastery = false;
+		_dual_mastery = false;
+		_pole_mastery = false;
+		_sword_mastery = false;
+		_2hands_mastery = false;
+		
+		L2Skill[] char_skills = this.getAllSkills();
+		
+		for(L2Skill actual_skill : char_skills){
+			
+			if(actual_skill.getName().contains("Blunt Mastery")){
+				_blunt_mastery = true;
+				continue;
+			}
+			
+			if(actual_skill.getName().contains("Bow Mastery")){
+				_bow_mastery = true;
+				continue;
+			}
+			
+			if(actual_skill.getName().contains("Dagger Mastery")){
+				_dagger_mastery = true;
+				continue;
+			}
+
+			if(actual_skill.getName().contains("Fist Mastery")){
+				_fist_mastery = true;
+				continue;
+			}
+
+			if(actual_skill.getName().contains("Dual Weapon Mastery")){
+				_dual_mastery = true;
+				continue;
+			}
+
+			if(actual_skill.getName().contains("Polearm Mastery")){
+				_pole_mastery = true;
+				continue;
+			}
+			
+			if(actual_skill.getName().contains("Sword Blunt Mastery")){
+				_sword_mastery = true;
+				continue;
+			}
+			
+			if(actual_skill.getName().contains("Two-handed Weapon Mastery")){
+				_2hands_mastery = true;
+				continue;
+			}
+		}
+		
+		int newMasteryPenalty = 0;
+		
+		if(!_bow_mastery
+				&& !_blunt_mastery
+				&& !_dagger_mastery 
+				&& !_fist_mastery
+				&& !_dual_mastery
+				&& !_pole_mastery
+				&& !_sword_mastery 
+				&& !_2hands_mastery){ //not completed 1st class transfer or not acquired yet the mastery skills
+			
+			newMasteryPenalty = 0;
+		
+		}else{
+			
+			for(L2ItemInstance item : getInventory().getItems())
+			{
+				if(item != null && item.isEquipped() && item.getItem() instanceof L2Weapon)
+				{
+					L2Weapon weap_item = (L2Weapon) item.getItem();
+					
+					switch(weap_item.getItemType()){
+						
+						case BIGBLUNT:
+						case BIGSWORD:{
+							
+							if(!_2hands_mastery)
+								newMasteryPenalty++;
+						}
+						break;
+						case BLUNT:{
+							
+							if(!_blunt_mastery)
+								newMasteryPenalty++;
+						}
+						break;
+						case BOW:{
+							
+							if(!_bow_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
+						case DAGGER:{
+							
+							if(!_dagger_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
+						case DUAL:{
+							
+							if(!_dual_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
+						case DUALFIST:
+						case FIST:{
+							
+							if(!_fist_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
+						case POLE:{
+							
+							if(!_pole_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
+						case SWORD:{
+							
+							if(!_sword_mastery)
+								newMasteryPenalty++;
+							
+						}
+						break;
+						
+					}
+				}
+			}
+
+		}
+		
+		if(_masteryWeapPenalty!=newMasteryPenalty){
+			
+			if(newMasteryPenalty > 0)
+			{
+				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
+			}
+			else
+			{
+				super.removeSkill(getKnownSkill(4267));
+			}
+			
+			sendPacket(new EtcStatusUpdate(this));
+			_masteryWeapPenalty = newMasteryPenalty;
 			
 		}
 		
@@ -2907,6 +3086,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		refreshMasteryPenality();
 		
+		refreshMasteryWeapPenality();
+		
 	}
 
 	/**
@@ -3159,15 +3340,16 @@ public final class L2PcInstance extends L2PlayableInstance
 		_waitTypeSitting = state;
 	}
 	
-	public void setSitdownTask(boolean act)
+	public void setPosticipateSit(boolean act)
     {
-        _sitdowntask = act;
+        _posticipateSit = act;
     }
 
-    public boolean getSitdownTask()
+    public boolean getPosticipateSit()
     {
-        return _sitdowntask;
+        return _posticipateSit;
     }
+    
 
 	/**
 	 * Sit down the L2PcInstance, set the AI Intention to AI_INTENTION_REST and send a Server->Client ChangeWaitType
@@ -3176,19 +3358,21 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void sitDown()
 	{
-		if(isMoving())
+		if(isMoving()) //since you are moving and want sit down
+					   //the posticipate sitdown task will be always true
         {
-            if(!getSitdownTask())
-                setSitdownTask(true);
-            else
-                setSitdownTask(false);
+            setPosticipateSit(true);
             return;
         }
 		
+		//we are going to sitdown, so posticipate is false
+		setPosticipateSit(false);
+       
 		if(isCastingNow() && !_relax)
 			return;
 		
-		if(sittingTaskLaunched)
+		if(sittingTaskLaunched) //if already started the task
+								//just return
             return;
 
 		if(!_waitTypeSitting && !isAttackingDisabled() && !isOutOfControl() && !isImobilised())
@@ -12501,6 +12685,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		refreshOverloaded();
 		refreshExpertisePenalty();
 		refreshMasteryPenality();
+		refreshMasteryWeapPenality();
+		
 		
 		// Clear resurrect xp calculation
 		setExpBeforeDeath(0);

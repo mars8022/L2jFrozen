@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
 
 /**
@@ -44,6 +46,19 @@ public final class StartRotating extends L2GameClientPacket
 	{
 		if(getClient().getActiveChar() == null)
 			return;
+		
+		if(!Config.ALLOW_USE_CURSOR_FOR_WALK){
+			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		//Move flood protection
+		if (!getClient().getFloodProtectors().getMoveAction().tryPerformAction("StartRotating"))
+		{
+			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		BeginRotation br = new BeginRotation(getClient().getActiveChar(), _degree, _side, 0);
 		getClient().getActiveChar().broadcastPacket(br);
 	}

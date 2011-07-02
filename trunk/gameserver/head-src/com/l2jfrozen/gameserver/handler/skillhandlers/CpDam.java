@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.skills.Formulas;
 
 /*
@@ -47,6 +48,11 @@ public class CpDam implements ISkillHandler
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
+		if(!(activeChar instanceof L2PlayableInstance)){
+			//no cp damages for not playable instances
+			return;
+		}
+		
 		if(activeChar.isAlikeDead())
 			return;
 
@@ -108,6 +114,10 @@ public class CpDam implements ISkillHandler
 				continue;
 			}
 
+			if(target.isInvul()){
+				continue;
+			}
+			
 			if(!Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
 				return;
 

@@ -319,10 +319,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 					//						THESE ARE NOW TEMPORARY DISABLED
 					case 0x4a:
-						//new StartRotating();
+						new StartRotating();
 						break;
 					case 0x4b:
-						//new FinishRotating();
+						new FinishRotating();
 						break;
 					case 0x4d:
 						msg = new RequestStartPledgeWar();
@@ -619,7 +619,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestRecipeShopManageQuit();
 						break;
 					case 0xb4:
-						msg = new SnoopQuit();
+						//msg = new SnoopQuit();
 						break;
 					case 0xb5:
 						msg = new RequestRecipeShopMakeInfo();

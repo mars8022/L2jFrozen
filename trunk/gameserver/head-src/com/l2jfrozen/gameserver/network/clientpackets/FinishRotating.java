@@ -18,7 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.StopRotation;
 
 /**
@@ -49,6 +51,11 @@ public final class FinishRotating extends L2GameClientPacket
 		if(player == null)
 			return;
 
+		if(!Config.ALLOW_USE_CURSOR_FOR_WALK){
+			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		StopRotation sr = new StopRotation(player, _degree, 0);
 		player.broadcastPacket(sr);
 	}

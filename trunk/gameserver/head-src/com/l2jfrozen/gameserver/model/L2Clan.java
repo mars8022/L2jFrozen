@@ -111,7 +111,7 @@ public class L2Clan
 	// Clan Notice
 	private String _notice;
 	private boolean _noticeEnabled = false;
-	private static final int MAX_NOTICE_LENGTH = 8192;
+	private static final int MAX_NOTICE_LENGTH = 512;
 
 	// Clan Privileges
 	/** No privilege to manage any clan activity */

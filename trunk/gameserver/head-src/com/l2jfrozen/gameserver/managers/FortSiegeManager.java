@@ -450,7 +450,7 @@ public class FortSiegeManager
 		
 		for(Fort fort : FortManager.getInstance().getForts())
 		{
-			if(checkIsRegistered(clan, fort.getFortId()))
+			if(checkIsRegistered(clan, fort.getFortId())  && fort.getSiege()!=null && fort.getSiege().getIsInProgress())
 			{
 				return true;
 			}

@@ -1103,6 +1103,8 @@ public abstract class Inventory extends ItemContainer
 			{
 				((L2PcInstance) getOwner()).refreshExpertisePenalty();
 				((L2PcInstance) getOwner()).refreshMasteryPenality();
+				((L2PcInstance) getOwner()).refreshMasteryWeapPenality();
+				
 			}
 		}
 		finally

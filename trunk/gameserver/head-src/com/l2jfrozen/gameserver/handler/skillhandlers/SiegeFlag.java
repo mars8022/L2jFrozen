@@ -146,6 +146,8 @@ public class SiegeFlag implements ISkillHandler
 			sm.addString("You must be a clan leader to place a flag");
 		else if(castle.getSiege().getAttackerClan(player.getClan()).getNumFlags() >= SiegeManager.getInstance().getFlagMaxCount())
 			sm.addString("You have already placed the maximum number of flags possible");
+		else if (player.isInsideZone(L2Character.ZONE_NOHQ))
+			sm.addString("You cannot place flag here.");
 		else
 			return true;
 
@@ -174,6 +176,8 @@ public class SiegeFlag implements ISkillHandler
 			sm.addString("You must be a clan leader to place a flag");
 		else if(fort.getSiege().getAttackerClan(player.getClan()).getNumFlags() >= FortSiegeManager.getInstance().getFlagMaxCount())
 			sm.addString("You have already placed the maximum number of flags possible");
+		else if (player.isInsideZone(L2Character.ZONE_NOHQ))
+			sm.addString("You cannot place flag here.");
 		else
 			return true;
 

@@ -142,7 +142,7 @@ public class SiegeManager
 		
 		for(Castle castle : CastleManager.getInstance().getCastles()){
 			
-		   if(checkIsRegistered(clan, castle.getCastleId()))
+		   if(checkIsRegistered(clan, castle.getCastleId()) && castle.getSiege()!=null && castle.getSiege().getIsInProgress())
 		   {
 			   return true;
 		   }

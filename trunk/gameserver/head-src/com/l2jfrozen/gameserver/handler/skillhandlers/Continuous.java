@@ -109,6 +109,10 @@ public class Continuous implements ISkillHandler
 		{
 			target = (L2Character) target2;
 
+			if(target == null){
+				continue;
+			}
+			
 			if(target instanceof L2PcInstance && activeChar instanceof L2PlayableInstance && skill.isOffensive())
 			{
 				L2PcInstance _char = (activeChar instanceof L2PcInstance)?(L2PcInstance)activeChar:((L2Summon)activeChar).getOwner();

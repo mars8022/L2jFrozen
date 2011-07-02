@@ -39,7 +39,11 @@ public class MagicSkillUser extends L2GameServerPacket
 	public MagicSkillUser(L2Character cha, L2Character target, int skillId, int skillLevel, int hitTime, int reuseDelay)
 	{
 		_charObjId = cha.getObjectId();
-		_targetId = target.getObjectId();
+		if(target != null){
+			_targetId = target.getObjectId();
+		}else{
+			_targetId = cha.getTargetId();
+		}
 		_skillId = skillId;
 		_skillLevel = skillLevel;
 		_hitTime = hitTime;

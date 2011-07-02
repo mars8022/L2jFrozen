@@ -791,13 +791,54 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 		}
 
 		L2Weapon weapon = _actor.getActiveWeaponItem();
+		final int collision = _actor.getTemplate().collisionRadius;
+		final int combinedCollision = collision + originalAttackTarget.getTemplate().collisionRadius;
 
+		//------------------------------------------------------
+		// In case many mobs are trying to hit from same place, move a bit,
+		// circling around the target
+		// Note from Gnacik:
+		// On l2js because of that sometimes mobs don't attack player only running
+		// around player without any sense, so decrease chance for now
+		if (!_actor.isMovementDisabled() && Rnd.nextInt(100) <= 3)
+		{
+			for (L2Object nearby : _actor.getKnownList().getKnownObjects().values())
+			{
+				if (nearby instanceof L2Attackable
+						&& _actor.isInsideRadius(nearby, collision, false, false)
+						&& nearby != originalAttackTarget)
+				{
+					int newX = combinedCollision + Rnd.get(40);
+					if (Rnd.nextBoolean())
+						newX = originalAttackTarget.getX() + newX;
+					else
+						newX = originalAttackTarget.getX() - newX;
+					int newY = combinedCollision + Rnd.get(40);
+					if (Rnd.nextBoolean())
+						newY = originalAttackTarget.getY() + newY;
+					else
+						newY = originalAttackTarget.getY() - newY;
+
+					if (!_actor.isInsideRadius(newX, newY, collision, false))
+					{
+						int newZ = _actor.getZ() + 30;
+						if (Config.GEODATA == 0 || GeoData.getInstance().canMoveFromToTarget(_actor.getX(), _actor.getY(), _actor.getZ(), newX, newY, newZ))
+							moveTo(newX, newY, newZ);
+					}						
+					return;
+				}
+			}
+		}
+		
 		if(weapon != null && weapon.getItemType() == L2WeaponType.BOW)
 		{
 			// Micht: kepping this one otherwise we should do 2 sqrt
 			double distance2 = _actor.getPlanDistanceSq(originalAttackTarget.getX(), originalAttackTarget.getY());
-			if(distance2 <= 10000)
+			if (Math.sqrt(distance2) <= 60 + combinedCollision)
 			{
+			//double distance2 = _actor.getPlanDistanceSq(originalAttackTarget.getX(), originalAttackTarget.getY());
+			//if(distance2 <= 10000)
+			//{
 				int chance = 5;
 				if(chance >= Rnd.get(100))
 				{
