@@ -56,6 +56,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2FishingZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2FortZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2JailZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2MotherTreeZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2NoHqZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2NoLandingZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2PeaceZone;
@@ -228,6 +229,10 @@ public class ZoneData
 								else if(zoneType.equals("WaterZone"))
 								{
 									temp = new L2WaterZone(zoneId);
+								}
+								else if(zoneType.equals("NoHqZone"))
+								{
+									temp = new L2NoHqZone(zoneId);
 								}
 								else if(zoneType.equals("BossZone"))
 								{
