@@ -151,7 +151,7 @@ public class Wedding implements IVoicedCommandHandler
 				L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 				if(activeChar.getFirstEffect(skill) == null)
 				{
-					skill.getEffects(activeChar, activeChar);
+					skill.getEffects(activeChar, activeChar,false,false,false);
 					SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 					sm.addSkillName(skillId);
 					activeChar.sendPacket(sm);

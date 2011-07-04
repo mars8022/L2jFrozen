@@ -410,10 +410,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1200"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="50"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <skill id="4121" levels="1" name="Summoned Monster Magic Protection">
@@ -861,9 +859,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
-  <set name="effectPower" val="10"/>
   <for>
-    <effect count="7" name="DamOverTime" time="3" val="#damage" abnormal="bleeding"/>
+    <effect count="7" name="DamOverTime" time="3" val="#damage" abnormal="bleeding" effectPower="10"/>
   </for>
 </skill>
 <skill id="4150" levels="12" name="Flame">
@@ -1234,10 +1231,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="80"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="80" effectType="STUN"/>
   </for>
 </skill>
 <skill id="4170" levels="12" name="BOSS Mortal Blow">
@@ -1446,10 +1441,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="80"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="80" effectType="STUN"/>
   </for>
 </skill>
 <skill id="4181" levels="12" name="BOSS Mortal Blow">
@@ -1759,10 +1752,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="750"/>
   <set name="effectRange" val="1250"/>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="60"/>
   <for>
-    <effect count="1" name="Debuff" time="30" val="0" stackOrder="0.7" stackType="RunSpeedDown">
+    <effect count="1" name="Debuff" time="30" val="0" stackOrder="0.7" stackType="RunSpeedDown" effectPower="60" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="0.7"/>
     </effect>
   </for>

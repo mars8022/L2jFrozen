@@ -22,11 +22,9 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="50"/>
   <set name="isDebuff" val="true" />
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -56,14 +54,12 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="50"/>
   <set name="isDebuff" val="true" />
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
    <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
     <effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
@@ -173,13 +169,11 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="60"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
-    <effect count="1" name="Buff" time="30" val="0" stackOrder="0.7" stackType="RunSpeedDown">
+    <effect count="1" name="Buff" time="30" val="0" stackOrder="0.7" stackType="RunSpeedDown" effectPower="60" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="0.7"/>
     </effect>
   </for>
@@ -495,13 +489,11 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="50"/>
   <cond msg="Dual Fist required."> 
     <using kind="Dual Fist"/> 
   </cond> 
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <skill id="121" levels="6" name="Battle Roar" enchantLevels1="30">

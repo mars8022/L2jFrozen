@@ -78,7 +78,7 @@ public class EffectForce extends L2Effect
 		exit();
 		L2Skill newSkill = SkillTable.getInstance().getInfo(getSkill().getId(), forces);
 		if(newSkill!=null)
-			newSkill.getEffects(getEffector(), getEffected());
+			newSkill.getEffects(getEffector(), getEffected(),false,false,false);
 	}
 
 	@Override

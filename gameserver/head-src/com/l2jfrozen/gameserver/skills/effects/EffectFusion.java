@@ -76,6 +76,6 @@ public final class EffectFusion extends L2Effect
 	private void updateBuff()
 	{
 		exit();
-		SkillTable.getInstance().getInfo(getSkill().getId(), _effect).getEffects(getEffector(), getEffected());
+		SkillTable.getInstance().getInfo(getSkill().getId(), _effect).getEffects(getEffector(), getEffected(),false,false,false);
 	}
 }

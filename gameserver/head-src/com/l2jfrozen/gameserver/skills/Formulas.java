@@ -45,6 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerState;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerState.CheckPlayerState;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionUsingItemType;
+import com.l2jfrozen.gameserver.skills.effects.EffectTemplate;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2Item;
@@ -53,6 +54,7 @@ import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.StringUtil;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
@@ -2175,6 +2177,7 @@ public final class Formulas
 	}
 	*/
 	
+	
 	public static double calcSkillStatModifier(L2Skill skill, L2Character target)
 	{
 		final BaseStats saveVs = skill.getSavevs();
@@ -2186,6 +2189,7 @@ public final class Formulas
 	
 	public boolean calcSkillSuccess(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
 	{
+		
 		SkillType type = skill.getSkillType();
 
 		if(target.isRaid() && (type == SkillType.CONFUSION || type == SkillType.MUTE || type == SkillType.PARALYZE || type == SkillType.ROOT || type == SkillType.FEAR || type == SkillType.SLEEP || type == SkillType.STUN || type == SkillType.DEBUFF || type == SkillType.AGGDEBUFF))
@@ -2194,6 +2198,74 @@ public final class Formulas
 		if(target.isInvul() && (type == SkillType.CONFUSION || type == SkillType.MUTE || type == SkillType.PARALYZE || type == SkillType.ROOT || type == SkillType.FEAR || type == SkillType.SLEEP || type == SkillType.STUN || type == SkillType.DEBUFF || type == SkillType.CANCEL || type == SkillType.NEGATE || type == SkillType.WARRIOR_BANE || type == SkillType.MAGE_BANE))
 			return false; // these skills should not work on Invulable persons
 
+		int value = (int) skill.getPower();
+		double statModifier = calcSkillStatModifier(skill, target);
+		
+		// Calculate BaseRate.
+		int rate = (int) (value * statModifier);
+		
+		// Add Matk/Mdef Bonus
+		double mAtkModifier = 0;
+		int ssModifier = 0;
+		if (skill.isMagic())
+		{
+			mAtkModifier = target.getMDef(target, skill);
+			
+			// Add Bonus for Sps/SS
+			if (bss){
+				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 4;
+			}else if (sps){
+				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 2;
+			}else
+				ssModifier = 1;
+			
+			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
+			
+			rate = (int) (rate * mAtkModifier);
+		
+		}else{
+			
+			if(ss){
+				attacker.getActiveWeaponInstance().setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+			//no soulshots influence over not magic attacks
+		}
+		
+		// Resists
+		double vulnModifier = calcSkillVulnerability(target, skill);
+		
+		//double profModifier = calcSkillProficiency(skill, attacker, target);
+		double res = vulnModifier/* + profModifier*/;
+		double resMod = 1;
+		if (res != 0)
+		{
+			if (res < 0)
+			{
+				resMod = 1 - 0.075 * res;
+				resMod = 1 / resMod;
+			}
+			else
+				resMod = 1 + 0.02 * res;
+			
+			rate *= resMod;
+		}
+		
+		//int elementModifier = calcElementModifier(attacker, target, skill);
+		//rate += elementModifier;
+		
+		//lvl modifier.
+		int deltamod = calcLvlDependModifier(attacker, target, skill);
+		rate += deltamod;
+		
+		if (rate > skill.getMaxChance())
+			rate = skill.getMaxChance();
+		else if (rate < skill.getMinChance())
+			rate = skill.getMinChance();
+		
+		/*
 		int value = (int) skill.getPower();
 		int lvlDepend = skill.getLevelDepend();
 
@@ -2261,25 +2333,282 @@ public final class Formulas
 		{
 			rate = 1;
 		}
-
+		rate *= resmodifier;
+		
+		*/
 		
 		//physics configuration addons
-		rate *= getChanceMultiplier(skill);
-		
-		rate *= resmodifier;
+		float physics_mult = getChanceMultiplier(skill);
+		rate *= physics_mult;
 		
 		if(Config.DEVELOPER)
 		{
-			System.out.println(skill.getName() + ": " + value + ", " + statmodifier + ", " + lvlmodifier + ", " + resmodifier + ", " + ((int) (Math.pow((double) attacker.getMAtk(target, skill) / target.getMDef(attacker, skill), 0.2) * 100) - 100) + ", " + ssmodifier + " ==> " + rate);
+			final StringBuilder stat = new StringBuilder(100);
+			StringUtil.append(stat,
+					skill.getName(),
+					" calcSkillSuccess: ",
+					" type:", skill.getSkillType().toString(),
+					" power:", String.valueOf(value),
+					" stat:", String.format("%1.2f", statModifier),
+					" res:", String.format("%1.2f", resMod), "(",
+					String.format("%1.2f", vulnModifier),
+					" mAtk:", String.format("%1.2f", mAtkModifier),
+					" ss:", String.valueOf(ssModifier),
+					" lvl:", String.valueOf(deltamod),
+					" physics configuration multiplier:", String.valueOf(physics_mult),
+					" total:", String.valueOf(rate)
+			);
+			final String result = stat.toString();
+			if (Config.DEVELOPER)
+				_log.info(result);
+			
 		}
 		
 		if(attacker instanceof L2PcInstance && Config.SEND_SKILLS_CHANCE_TO_PLAYERS)
-			((L2PcInstance) attacker).sendMessage("Skill "+skill.getName()+" Chance: " + rate + "%");
+			((L2PcInstance) attacker).sendMessage("Skill: "+skill.getName()+" Chance: " + rate + "%");
 		
 		return Rnd.get(100) < rate;
 	}
+	
+	public static boolean calcEffectSuccess(L2Character attacker, L2Character target, EffectTemplate effect, L2Skill skill, boolean ss, boolean sps, boolean bss)
+	{
+		final SkillType type = effect.effectType;
+		final int value = (int)effect.effectPower;
+		if (type == null)
+		{
+			return Rnd.get(100) < value;
+		}
+		else if (type.equals(SkillType.CANCEL)) // CANCEL-type effects land always
+			return true;
+		
+		double statModifier = calcSkillStatModifier(skill, target);
+		
+		// Calculate BaseRate.
+		int rate = (int) (value * statModifier);
+		
+		// Add Matk/Mdef Bonus
+		double mAtkModifier = 0;
+		int ssModifier = 0;
+		if (skill.isMagic())
+		{
+			mAtkModifier = target.getMDef(target, skill);
+			//if (shld == SHIELD_DEFENSE_SUCCEED)
+			//	mAtkModifier += target.getShldDef();
+			
+			// Add Bonus for Sps/SS
+			if (bss)
+				ssModifier = 4;
+			else if (sps)
+				ssModifier = 2;
+			else
+				ssModifier = 1;
+			
+			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
+			
+			rate = (int) (rate * mAtkModifier);
+		}
+		
+		// Resists
+		double vulnModifier = calcSkillTypeVulnerability(1, target, type);
+		//double profModifier = calcSkillTypeProficiency(0, attacker, target, type);
+		double res = vulnModifier/* + profModifier*/;
+		double resMod = 1;
+		if (res != 0)
+		{
+			if (res < 0)
+			{
+				resMod = 1 - 0.075 * res;
+				resMod = 1 / resMod;
+			}
+			else
+				resMod = 1 + 0.02 * res;
+			
+			rate *= resMod;
+		}
+		
+		//int elementModifier = calcElementModifier(attacker, target, skill);
+		//rate += elementModifier;
+		
+		//lvl modifier.
+		int deltamod = calcLvlDependModifier(attacker, target, skill);
+		rate += deltamod;
+		
+		if (rate > skill.getMaxChance())
+			rate = skill.getMaxChance();
+		else if (rate < skill.getMinChance())
+			rate = skill.getMinChance();
+		
+		//physics configuration addons
+		float physics_mult = getChanceMultiplier(skill);
+		rate *= physics_mult;
+		
+		if(Config.DEVELOPER)
+		{
+			final StringBuilder stat = new StringBuilder(100);
+			StringUtil.append(stat,
+					" calcEffectSuccess: ",skill.getName(),
+					" type:", skill.getSkillType().toString(),
+					" power:", String.valueOf(value),
+					" stat:", String.format("%1.2f", statModifier),
+					" res:", String.format("%1.2f", resMod), "(",
+					String.format("%1.2f", vulnModifier),
+					" mAtk:", String.format("%1.2f", mAtkModifier),
+					" ss:", String.valueOf(ssModifier),
+					" lvl:", String.valueOf(deltamod),
+					" physics configuration multiplier:", String.valueOf(physics_mult),
+					" total:", String.valueOf(rate)
+			);
+			final String result = stat.toString();
+			if (Config.DEVELOPER)
+				_log.info(result);
+			
+		}
+		
+		if(attacker instanceof L2PcInstance && Config.SEND_SKILLS_CHANCE_TO_PLAYERS)
+			((L2PcInstance) attacker).sendMessage("EffectType "+effect.effectType+" Chance: " + rate + "%");
+		
+		return (Rnd.get(100) < rate);
+	}
+	/*
+	public static boolean checkBss(L2Character attacker){
+		
+		boolean bss = false;
+		
+		L2ItemInstance weaponInst = attacker.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
+			{
+				bss = true;
+				//ponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (attacker instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)attacker;
+			
+			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
+			{
+				bss = true;
+				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+		}
+		
+		return bss;
+	}
+	
+	public static boolean checkSs(L2Character attacker){
+		
+		boolean ss = false;
+		
+		L2ItemInstance weaponInst = attacker.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
+			{
+				ss = true;
+				//weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (attacker instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)attacker;
+			
+			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
+			{
+				ss = true;
+				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		
+		return ss;
+		
+	}
+	*/
+	
+	public static double calcSkillTypeVulnerability(double multiplier, L2Character target, SkillType type)
+	{
+		if (type != null)
+		{
+			switch (type)
+			{
+				case BLEED:
+					multiplier *= target.calcStat(Stats.BLEED_VULN, multiplier, target, null);
+					break;
+				case POISON:
+					multiplier *= target.calcStat(Stats.POISON_VULN, multiplier, target, null);
+					break;
+				case STUN:
+					multiplier *= target.calcStat(Stats.STUN_VULN, multiplier, target, null);
+					break;
+				case PARALYZE:
+					multiplier *= target.calcStat(Stats.PARALYZE_VULN, multiplier, target, null);
+					break;
+				case ROOT:
+					multiplier *= target.calcStat(Stats.ROOT_VULN, multiplier, target, null);
+					break;
+				case SLEEP:
+					multiplier *= target.calcStat(Stats.SLEEP_VULN, multiplier, target, null);
+					break;
+				case MUTE:
+				case FEAR:
+				case BETRAY:
+				case AGGDEBUFF:
+				case ERASE:
+					multiplier *= target.calcStat(Stats.DERANGEMENT_VULN, multiplier, target, null);
+					break;
+				case CONFUSION:
+				case CONFUSE_MOB_ONLY:
+					multiplier *= target.calcStat(Stats.CONFUSION_VULN, multiplier, target, null);
+					break;
+				case DEBUFF:
+					multiplier *= target.calcStat(Stats.DEBUFF_VULN, multiplier, target, null);
+					break;
+				case BUFF:
+					multiplier *= target.calcStat(Stats.BUFF_VULN, multiplier, target, null);
+					break;
+				case CANCEL:
+					multiplier *= target.calcStat(Stats.CANCEL_VULN, multiplier, target, null);
+					break;
+				default:
+			}
+		}
+		
+		return multiplier;
+	}
+	
+	public static int calcLvlDependModifier(L2Character attacker, L2Character target, L2Skill skill)
+	{
+		if (skill.getLevelDepend() == 0)
+			return 0;
+		
+		final int attackerMod;
+		if (skill.getMagicLevel() > 0)
+			attackerMod = skill.getMagicLevel();
+		else
+			attackerMod = attacker.getLevel();
+		
+		final int delta = attackerMod - target.getLevel();
+		int deltamod = delta / 5;
+		deltamod = deltamod * 5;
+		if (deltamod != delta)
+		{
+			if (delta < 0)
+				deltamod -= 5;
+			else
+				deltamod += 5;
+		}
+		
+		return deltamod;
+	}
 
-	public float getChanceMultiplier(L2Skill skill){
+	public static float getChanceMultiplier(L2Skill skill){
 		
 		float multiplier = 1;
 		

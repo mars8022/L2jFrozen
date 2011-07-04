@@ -129,10 +129,15 @@ public class Blow implements ISkillHandler
 						//final byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
 						target.stopSkillEffects(skill.getId());
 						//if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, shld, false, false, true))
-						if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, false, false, true))
+						
+						boolean bss = activeChar.checkBss();
+						boolean sps = activeChar.checkSps();
+						boolean ss = activeChar.checkSs();
+						
+						if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
 						{
 							//skill.getEffects(activeChar, target, new Env(shld, false, false, false));
-							skill.getEffects(activeChar, target);
+							skill.getEffects(activeChar, target, ss, sps, bss);
 							SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 							sm.addSkillName(skill);
 							target.sendPacket(sm);

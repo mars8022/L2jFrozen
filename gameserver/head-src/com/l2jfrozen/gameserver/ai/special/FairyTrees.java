@@ -85,7 +85,7 @@ public class FairyTrees extends Quest implements Runnable
 						L2Skill skill = SkillTable.getInstance().getInfo(4243, 1);
 						if(skill != null && originalKiller != null)
 						{
-							skill.getEffects(newNpc, originalKiller);
+							skill.getEffects(newNpc, originalKiller, false, false, false);
 						}
 					}
 				}

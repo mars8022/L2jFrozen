@@ -50,7 +50,7 @@ public class L2SkillSeed extends L2Skill
 			EffectSeed oldEffect = (EffectSeed) target.getFirstEffect(getId());
 			if(oldEffect == null)
 			{
-				getEffects(caster, target);
+				getEffects(caster, target,false,false,false);
 			}
 			else
 			{

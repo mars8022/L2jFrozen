@@ -73,7 +73,7 @@ public class L2DynamicZone extends L2ZoneType
 				((L2PcInstance) character).sendMessage("You have entered a temporary zone!");
 			}
 
-			_skill.getEffects(_owner, character);
+			_skill.getEffects(_owner, character,false,false,false);
 		}
 		catch(NullPointerException e)
 		{
@@ -141,7 +141,7 @@ public class L2DynamicZone extends L2ZoneType
 	@Override
 	protected void onReviveInside(L2Character character)
 	{
-		_skill.getEffects(_owner, character);
+		_skill.getEffects(_owner, character,false,false,false);
 	}
 
 }

@@ -522,7 +522,7 @@ public abstract class L2Item
 			{
 				target.removeEffect(target.getFirstEffect(skill.getId()));
 			}
-			for(L2Effect e : skill.getEffects(caster, target))
+			for(L2Effect e : skill.getEffects(caster, target,false,false,false))
 			{
 				effects.add(e);
 			}

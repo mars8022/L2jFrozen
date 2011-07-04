@@ -1205,10 +1205,8 @@ if max = min resist
   <set name="isDebuff" val="true"/>
   <set name="castRange" val="700"/>
   <set name="effectRange" val="1000"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="30"/>
   <for>
-  	<effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+  	<effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="30" effectType="STUN"/>
   </for>
 </skill>
 <skill id="4474" levels="5" name="Area Heal - Per">
@@ -1609,10 +1607,8 @@ if max = min resist
   <set name="isDebuff" val="true"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="80"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="80" effectType="STUN"/>
   </for>
 </skill>
 <skill id="4497" levels="1" name="Treasure Chest - Level 21">

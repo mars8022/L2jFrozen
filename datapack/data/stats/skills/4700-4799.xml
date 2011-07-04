@@ -217,10 +217,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="15"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="15" effectType="STUN"/>
   </for>
 </skill>
 <skill id="4711" levels="12" name="Wild Defense">

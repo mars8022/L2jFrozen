@@ -120,6 +120,11 @@ public class Pdam implements ISkillHandler
 				continue;
 			}
 
+			boolean bss = activeChar.checkBss();
+			boolean sps = activeChar.checkSps();
+			boolean ss = activeChar.checkSs();
+			
+			
 			/*
 			// Calculate vengeance
 			if(target.vengeanceSkill(skill))
@@ -178,7 +183,8 @@ public class Pdam implements ISkillHandler
 					if(target.reflectSkill(skill))
 					{
 						activeChar.stopSkillEffects(skill.getId());
-						skill.getEffects(null, activeChar);
+						
+						skill.getEffects(null, activeChar,ss,sps,bss);
 						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(skill.getId());
 						activeChar.sendPacket(sm);
@@ -190,7 +196,7 @@ public class Pdam implements ISkillHandler
 						target.stopSkillEffects(skill.getId());
 						if(f.calcSkillSuccess(activeChar, target, skill, soul, false, false))
 						{
-							skill.getEffects(activeChar, target);
+							skill.getEffects(activeChar, target,ss,sps,bss);
 							SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 							sm.addSkillName(skill.getId());
 							target.sendPacket(sm);
@@ -356,13 +362,13 @@ public class Pdam implements ISkillHandler
 					if(skill.getId() == 345) // Sonic Rage
 					{
 						L2Skill dummy = SkillTable.getInstance().getInfo(8, 7); // Lv7 Sonic Focus
-						dummy.getEffects(activeChar, activeChar);
+						dummy.getEffects(activeChar, activeChar,ss,sps,bss);
 						dummy = null;
 					}
 					else if(skill.getId() == 346) // Raging Force
 					{
 						L2Skill dummy = SkillTable.getInstance().getInfo(50, 7); // Lv7 Focused Force
-						dummy.getEffects(activeChar, activeChar);
+						dummy.getEffects(activeChar, activeChar,ss,sps,bss);
 						dummy = null;
 					}
 				}

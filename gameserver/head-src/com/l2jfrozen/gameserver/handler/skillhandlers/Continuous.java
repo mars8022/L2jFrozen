@@ -174,8 +174,14 @@ public class Continuous implements ISkillHandler
 				}
 			}
 
+			boolean bss = activeChar.checkBss();
+			boolean sps = activeChar.checkSps();
+			boolean ss = activeChar.checkSs();
+			
+			
 			if(skill.isOffensive())
 			{
+				/*
 				boolean ss = false;
 				boolean sps = false;
 				boolean bss = false;
@@ -232,7 +238,7 @@ public class Continuous implements ISkillHandler
 					}
 					activeSummon = null;
 				}
-
+				*/
 				boolean acted = Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss);
 
 				if(!acted)
@@ -293,7 +299,7 @@ public class Continuous implements ISkillHandler
 			{
 				DuelManager dm = DuelManager.getInstance();
 				if(dm!=null && skill!=null){
-					effects = skill.getEffects(activeChar, target);
+					effects = skill.getEffects(activeChar, target, ss, sps, bss);
 					if(effects!=null)
 						for(L2Effect buff : effects)
 							if(buff != null)
@@ -302,7 +308,7 @@ public class Continuous implements ISkillHandler
 				dm = null;
 			}
 			else
-				skill.getEffects(activeChar, target);
+				skill.getEffects(activeChar, target, ss, sps, bss);
 
 			if(skill.getSkillType() == L2Skill.SkillType.AGGDEBUFF)
 			{

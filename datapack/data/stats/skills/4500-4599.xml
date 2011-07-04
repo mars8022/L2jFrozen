@@ -1360,10 +1360,8 @@ target cannot move temporarily. Effect 3. -->
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="80"/> <!-- Base Land Rate -->
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun">
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="80" effectType="STUN" >
       <mul order="0x30" stat="pDef" val="#pDef"/>
     </effect>
   </for>

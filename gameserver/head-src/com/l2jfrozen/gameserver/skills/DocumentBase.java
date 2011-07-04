@@ -39,6 +39,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.base.Race;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionElementSeed;
@@ -338,7 +339,26 @@ abstract class DocumentBase
 			stackOrder = Float.parseFloat(getValue(attrs.getNamedItem("stackOrder").getNodeValue(), template));
 		}
 
-		EffectTemplate lt = new EffectTemplate(attachCond, applayCond, name, lambda, count, time, abnormal, stackType, stackOrder, showIcon);
+		double effectPower = -1;
+		if (attrs.getNamedItem("effectPower") != null)
+			effectPower = Double.parseDouble( getValue(attrs.getNamedItem("effectPower").getNodeValue(), template));
+		
+		SkillType type = null;
+		if (attrs.getNamedItem("effectType") != null)
+		{
+			String typeName = getValue(attrs.getNamedItem("effectType").getNodeValue(), template);
+			
+			try
+			{
+				type = Enum.valueOf(SkillType.class, typeName);
+			}
+			catch (Exception e)
+			{
+				throw new IllegalArgumentException("Not skilltype found for: "+typeName);
+			}
+		}
+		
+		EffectTemplate lt = new EffectTemplate(attachCond, applayCond, name, lambda, count, time, abnormal, stackType, stackOrder, showIcon, type, effectPower);
 		parseTemplate(n, lt);
 
 		if(template instanceof L2Item)

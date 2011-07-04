@@ -60,6 +60,7 @@ public class L2SkillElemental extends L2Skill
 		if(activeChar.isAlikeDead())
 			return;
 
+		/*
 		boolean ss = false;
 		boolean bss = false;
 
@@ -105,7 +106,8 @@ public class L2SkillElemental extends L2Skill
 				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 			}
 		}
-
+		*/
+		
 		for(L2Object target2 : targets)
 		{
 			L2Character target = (L2Character) target2;
@@ -153,10 +155,13 @@ public class L2SkillElemental extends L2Skill
 				activeChar.sendPacket(sm);
 				continue;
 			}
+			
+			boolean sps = activeChar.checkSps();
+			boolean bss = activeChar.checkBss();
 
 			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
 
-			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, ss, bss, mcrit);
+			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
 
 			if(damage > 0)
 			{
@@ -175,7 +180,7 @@ public class L2SkillElemental extends L2Skill
 
 			// activate attacked effects, if any
 			target.stopSkillEffects(getId());
-			getEffects(activeChar, target);
+			getEffects(activeChar, target,false,sps,bss);
 		}
 	}
 }

@@ -25,13 +25,11 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="60"/>
   <set name="isDebuff" val="true" />
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <for>
-    <effect count="1" name="Buff" time="30" val="0">
+    <effect count="1" name="Buff" time="30" val="0" effectPower="60" effectType="DEBUFF">
       <basemul order="0x30" stat="rCrit" val="#rCrit"/>
     </effect>
   </for>
@@ -60,13 +58,11 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="40"/>
   <set name="isDebuff" val="true" />
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <for>
-    <effect count="1" name="Buff" time="30" val="0">
+    <effect count="1" name="Buff" time="30" val="0" effectPower="40" effectType="DEBUFF">
       <mul order="0x30" stat="cAtk" val="#cAtk"/>
     </effect>
   </for>

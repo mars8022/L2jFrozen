@@ -849,13 +849,11 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="60"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
-    <effect count="1" name="Buff" time="30" val="0" stackOrder="0.7" stackType="RunSpeedDown">
+    <effect count="1" name="Buff" time="30" val="0" stackOrder="0.7" stackType="RunSpeedDown" effectPower="60" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="0.7"/>
     </effect>
   </for>
@@ -888,15 +886,12 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
-  <set name="effectType" val="BLEED"/>
-  <set name="effectLevel" val="#lvl"/>
-  <set name="effectPower" val="#bleeddmg"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
     <!-- retail value: 22 27 31 34/sec (depends on powerlevel); stat update every 5 units (3 1/3 sec) -->
-    <effect count="7" name="DamOverTime" time="3" val="#bleeddmg" abnormal="bleeding"/>
+    <effect count="7" name="DamOverTime" time="3" val="#bleeddmg" abnormal="bleeding" effectPower="#bleeddmg" effectType="BLEED"/>
   </for>
 </skill>
 <skill id="1238" levels="3" name="Freezing Skin" enchantLevels1="30" enchantLevels2="30">
@@ -1746,7 +1741,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="80"/>
+  <set name="power" val="80"/> <!-- Base Land Rate -->
   <set name="saveVs" val="MEN"/>
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_ONE"/>
@@ -2428,11 +2423,9 @@
   <cond msg="Proper elemental seeds required.">
     <player seed_fire="2"/>
   </cond>
-  <set name="effectType" val="DOT"/>
-  <set name="effectPower" val="350"/>
   <for>
     <!-- retail value: 118/sec; stat update every time unit (2/3 sec) -->
-    <effect count="20" name="DamOverTime" time="1" val="118"/>
+    <effect count="20" name="DamOverTime" time="1" val="118" effectPower="350" effectType="DOT"/>
   </for>
 </skill>
 <skill id="1290" levels="1" name="Blizzard">
@@ -2453,10 +2446,8 @@
   <cond msg="Proper elemental seeds required.">
     <player seed_water="2"/>
   </cond>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="350"/>
   <for>
-    <effect count="1" name="Buff" time="30" val="0" stackOrder="0.5" stackType="RunSpeedDown">
+    <effect count="1" name="Buff" time="30" val="0" stackOrder="0.5" stackType="RunSpeedDown" effectPower="350" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="0.5"/>
     </effect>
   </for>
@@ -2478,10 +2469,8 @@
   <cond msg="Proper elemental seeds required.">
     <player seed_wind="2"/>
   </cond>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="350"/>
   <for>
-  <effect count="1" name="Buff" time="120" val="0">
+  <effect count="1" name="Buff" time="120" val="0" effectPower="350" effectType="DEBUFF">
     <mul order="0x30" stat="gainHp" val="0.5"/>
   </effect>
   </for>

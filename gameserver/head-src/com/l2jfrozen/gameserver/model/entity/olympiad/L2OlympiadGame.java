@@ -827,7 +827,7 @@ class L2OlympiadGame extends Olympiad
 				SystemMessage sm;
 
 				skill = SkillTable.getInstance().getInfo(1204, 2);
-				skill.getEffects(player, player);
+				skill.getEffects(player, player,false,false,false);
 				sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 				sm.addSkillName(1204);
 				player.sendPacket(sm);
@@ -835,7 +835,7 @@ class L2OlympiadGame extends Olympiad
 				if(!player.isMageClass())
 				{
 					skill = SkillTable.getInstance().getInfo(1086, 1);
-					skill.getEffects(player, player);
+					skill.getEffects(player, player,false,false,false);
 					sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 					sm.addSkillName(1086);
 					player.sendPacket(sm);
@@ -843,7 +843,7 @@ class L2OlympiadGame extends Olympiad
 				else
 				{
 					skill = SkillTable.getInstance().getInfo(1085, 1);
-					skill.getEffects(player, player);
+					skill.getEffects(player, player,false,false,false);
 					sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 					sm.addSkillName(1085);
 					player.sendPacket(sm);

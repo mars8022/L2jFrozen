@@ -503,6 +503,9 @@ public abstract class L2Skill
 
 	private final boolean _nextActionIsAttack;
 	
+	private final int _minChance;
+	private final int _maxChance;
+	
 	protected L2Skill(StatsSet set)
 	{
 		_id = set.getInteger("skill_id");
@@ -597,6 +600,9 @@ public abstract class L2Skill
 		_pvpMulti = set.getFloat("pvpMulti", 1.f);
 
 		_nextActionIsAttack = set.getBool("nextActionAttack", false);
+		
+		_minChance = set.getInteger("minChance", 1);
+		_maxChance = set.getInteger("maxChance", 99);
 		
 		String canLearn = set.getString("canLearn", null);
 		if(canLearn == null)
@@ -2977,7 +2983,7 @@ public abstract class L2Skill
 		return _effectTemplates != null && _effectTemplates.length > 0;
 	}
 
-	public final L2Effect[] getEffects(L2Character effector, L2Character effected)
+	public final L2Effect[] getEffects(L2Character effector, L2Character effected, boolean ss, boolean sps, boolean bss)
 	{
 		if(isPassive())
 			return _emptyEffectSet;
@@ -3007,19 +3013,38 @@ public abstract class L2Skill
 					return _emptyEffectSet;
 			}
 				
+		Env env = new Env();
+		env.player = effector;
+		env.target = effected;
+		env.skill = this;
+		env.skillMastery = skillMastery;
+		
 		for(EffectTemplate et : _effectTemplates)
 		{
-			Env env = new Env();
-			env.player = effector;
-			env.target = effected;
-			env.skill = this;
-			env.skillMastery = skillMastery;
+			boolean success = true;
+			if (et.effectPower > -1)
+				success = Formulas.calcEffectSuccess(effector, effected, et, this, ss, sps, bss);
+			
+			if (success)
+			{
+				L2Effect e = et.getEffect(env);
+				if (e != null)
+				{
+					//e.scheduleEffect();
+					effects.add(e);
+				}
+
+				e = null;
+				
+			}
+			/*
 			L2Effect e = et.getEffect(env);
 			if(e != null)
 			{
 				effects.add(e);
 			}
 			e = null;
+			*/
 		}
 
 		if(effects.size() == 0)
@@ -3038,12 +3063,14 @@ public abstract class L2Skill
 
 		List<L2Effect> effects = new FastList<L2Effect>();
 
+		Env env = new Env();
+		env.player = effector;
+		env.target = effector;
+		env.skill = this;
+		
 		for(EffectTemplate et : _effectTemplatesSelf)
 		{
-			Env env = new Env();
-			env.player = effector;
-			env.target = effector;
-			env.skill = this;
+			
 			L2Effect e = et.getEffect(env);
 			if(e != null)
 			{
@@ -3210,4 +3237,21 @@ public abstract class L2Skill
 	{
 		return (_effectTemplatesSelf != null && _effectTemplatesSelf.length > 0);
 	}
+	
+	/**
+	 * Return minimum skill/effect land rate (default is 1).
+	 */
+	public final int getMinChance()
+	{
+		return _minChance;
+	}
+	
+	/**
+	 * Return maximum skill/effect land rate (default is 99).
+	 */
+	public final int getMaxChance()
+	{
+		return _maxChance;
+	}
+	
 }

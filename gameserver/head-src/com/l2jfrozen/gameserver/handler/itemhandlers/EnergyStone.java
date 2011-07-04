@@ -99,7 +99,7 @@ public class EnergyStone implements IItemHandler
 				L2Skill dummy = SkillTable.getInstance().getInfo(_skill.getId(), _skill.getLevel());
 				if(dummy != null)
 				{
-					dummy.getEffects(activeChar, activeChar);
+					dummy.getEffects(activeChar, activeChar, false, false, false);
 					activeChar.destroyItemWithoutTrace("Consume", item.getObjectId(), 1, null, false);
 					return;
 				}
