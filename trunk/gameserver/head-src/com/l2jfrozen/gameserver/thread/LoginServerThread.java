@@ -140,7 +140,7 @@ public class LoginServerThread extends Thread
 	@Override
 	public void run()
 	{
-		while(true)
+		while(!_interrupted)
 		{
 			int lengthHi = 0;
 			int lengthLo = 0;
@@ -157,7 +157,7 @@ public class LoginServerThread extends Thread
 				//init Blowfish
 				_blowfishKey = generateHex(40);
 				_blowfish = new NewCrypt("_;v.]05-31!|+-%xT!^[$\00");
-				while(true)
+				while(!_interrupted)
 				{
 					lengthLo = _in.read();
 					lengthHi = _in.read();
@@ -394,7 +394,7 @@ public class LoginServerThread extends Thread
 
 			try
 			{
-				Thread.sleep(5000); // 5 seconds tempo.
+				Thread.sleep(1000); // 5 seconds
 			}
 			catch(InterruptedException e)
 			{
@@ -468,8 +468,7 @@ public class LoginServerThread extends Thread
 		{
 			_log.warning("Error while sending logout packet to login");
 
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 
 		pl = null;
@@ -688,5 +687,17 @@ public class LoginServerThread extends Thread
 			gameClient = client;
 			session = key;
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#interrupt()
+	 */
+	private boolean _interrupted = false;
+	
+	@Override
+	public void interrupt()
+	{
+		_interrupted = true;
+		super.interrupt();
 	}
 }

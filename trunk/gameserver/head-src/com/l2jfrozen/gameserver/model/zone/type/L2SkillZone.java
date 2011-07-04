@@ -66,7 +66,7 @@ public class L2SkillZone extends L2ZoneType
 				((L2PcInstance) character).enterDangerArea();
 			}
 
-			SkillTable.getInstance().getInfo(_skillId, _skillLvl).getEffects(character, character);
+			SkillTable.getInstance().getInfo(_skillId, _skillLvl).getEffects(character, character,false,false,false);
 		}
 	}
 

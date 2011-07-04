@@ -164,7 +164,7 @@ public class L2PoisonZone extends L2ZoneType
 								System.out.println("ATTENTION: error on zone with id "+getId());
 								System.out.println("Skill "+_skillId+","+_skillLvl+" not present between skills");
 							}else
-								skill.getEffects(temp, temp);
+								skill.getEffects(temp, temp,false,false,false);
 						}
 					}
 				}

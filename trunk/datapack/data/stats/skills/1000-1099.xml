@@ -1224,7 +1224,7 @@
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
-    <effect count="1" name="Mute" time="60" val="0" stackOrder="1" stackType="silence"/>
+    <effect count="1" name="Mute" time="60" val="0" stackOrder="1" stackType="silence" effectPower="40" effectType="MUTE"/>
   </for>
 </skill>
 <skill id="1068" levels="3" name="Might" enchantLevels1="30" enchantLevels2="30">

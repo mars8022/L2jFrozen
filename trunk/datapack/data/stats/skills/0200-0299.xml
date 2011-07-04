@@ -239,15 +239,12 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="BLEED"/>
-  <set name="effectLevel" val="#lvl"/>
-  <set name="effectPower" val="50"/>
   <enchant1 name="effectPower" val="#ench1Chance"/>
   <enchant1 name="power" val="1218"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
   <for>
-    <effect count="7" name="DamOverTime" time="3" val="#bleedpower" abnormal="bleeding"/>
+    <effect count="7" name="DamOverTime" time="3" val="#bleedpower" abnormal="bleeding" effectPower="50" effectType="BLEED"/>
   </for>
 </skill>
 <skill id="225" levels="3" name="Acrobatic Move">
@@ -947,14 +944,12 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="50"/>
   <set name="isDebuff" val="true" />
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1554,18 +1549,16 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="3000"/>
-  <set name="skillType" val="DEBUFF"/> <!-- should be PARALYZE -->
+  <set name="skillType" val="PARALYZE"/>
   <set name="isDebuff" val="true" />
   <set name="isMagic" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="1000"/>
-  <set name="effectType" val="PARALYZE"/>
-  <set name="effectPower" val="20"/>
   <enchant1 name="power" val="#enchant1Power"/>
   <enchant2 name="mpConsume" val="#enchant2MpConsume"/>
   <for>
-    <effect count="1" name="Paralyze" time="30" val="0"/>
+    <effect count="1" name="Paralyze" time="30" val="0" effectPower="40" effectType="PARALYZE"/>
   </for>
 </skill>
 <skill id="280" levels="37" name="Burning Fist" enchantLevels1="30" enchantLevels2="30">
@@ -1625,8 +1618,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
-  <set name="effectType" val="STUN"/>
-  <set name="effectPower" val="50"/>
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2power"/>
@@ -1634,7 +1625,7 @@
     <using kind="Fist, Dual Fist"/>
   </cond>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <skill id="282" levels="1" name="Puma Spirit Totem">

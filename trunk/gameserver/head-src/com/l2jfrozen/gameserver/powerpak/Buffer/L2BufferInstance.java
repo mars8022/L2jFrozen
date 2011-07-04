@@ -82,7 +82,7 @@ public class L2BufferInstance
 				buffer.doCast(_buff._skill);
 				buffer.setBusy(false);
 			} else{
-				_buff._skill.getEffects(player, player);
+				_buff._skill.getEffects(player, player,false,false,false);
 			}
 			
 		}

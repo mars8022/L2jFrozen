@@ -56,6 +56,7 @@ public class CpDam implements ISkillHandler
 		if(activeChar.isAlikeDead())
 			return;
 
+		/*
 		boolean ss = false;
 		boolean sps = false;
 		boolean bss = false;
@@ -100,7 +101,9 @@ public class CpDam implements ISkillHandler
 		}
 
 		weaponInst = null;
-
+		*/
+		
+		
 		for(L2Object target2 : targets)
 		{
 			L2Character target = (L2Character) target2;
@@ -118,6 +121,10 @@ public class CpDam implements ISkillHandler
 				continue;
 			}
 			
+			boolean bss = activeChar.checkBss();
+			boolean sps = activeChar.checkSps();
+			boolean ss = activeChar.checkSs();
+		
 			if(!Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
 				return;
 
@@ -129,7 +136,7 @@ public class CpDam implements ISkillHandler
 				target.breakAttack();
 				target.breakCast();
 			}
-			skill.getEffects(activeChar, target);
+			skill.getEffects(activeChar, target, ss, sps, bss);
 			activeChar.sendDamageMessage(target, damage, false, false, false);
 			target.setCurrentCp(target.getCurrentCp() - damage);
 

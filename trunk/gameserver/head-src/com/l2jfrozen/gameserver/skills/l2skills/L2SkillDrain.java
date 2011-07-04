@@ -50,8 +50,8 @@ public class L2SkillDrain extends L2Skill
 		if(activeChar.isAlikeDead())
 			return;
 
-		boolean ss = false;
-		boolean bss = false;
+		//boolean ss = false;
+		//boolean bss = false;
 
 		for(L2Object target2 : targets)
 		{
@@ -66,6 +66,9 @@ public class L2SkillDrain extends L2Skill
 				continue; // No effect on invulnerable chars unless they cast it themselves.
 			}
 
+			boolean sps = activeChar.checkSps();
+			boolean bss = activeChar.checkBss();
+			/*
 			L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
 
 			if(weaponInst != null)
@@ -97,9 +100,9 @@ public class L2SkillDrain extends L2Skill
 					activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				}
 			}
-
+			*/
 			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
-			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, ss, bss, mcrit);
+			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
 
 			int _drain = 0;
 			int _cp = (int) target.getStatus().getCurrentCp();
@@ -151,7 +154,7 @@ public class L2SkillDrain extends L2Skill
 					if(target.reflectSkill(this))
 					{
 						activeChar.stopSkillEffects(getId());
-						getEffects(null, activeChar);
+						getEffects(null, activeChar, false, sps, bss);
 						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(getId());
 						activeChar.sendPacket(sm);
@@ -160,9 +163,9 @@ public class L2SkillDrain extends L2Skill
 					{
 						// activate attacked effects, if any
 						target.stopSkillEffects(getId());
-						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, this, false, ss, bss))
+						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, this, false, sps, bss))
 						{
-							getEffects(activeChar, target);
+							getEffects(activeChar, target, false, sps, bss);
 						}
 						else
 						{

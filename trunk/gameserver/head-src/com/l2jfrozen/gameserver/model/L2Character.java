@@ -6398,7 +6398,7 @@ public abstract class L2Character extends L2Object
 						abortAttack();
 						abortCast();
 						getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-						skill.getEffects(target, this);
+						skill.getEffects(target, this,false,false,false);
 					}
 					else
 						_log.warning("Skill 4515 at level 1 is missing in DP.");
@@ -8147,7 +8147,7 @@ public abstract class L2Character extends L2Object
 									abortAttack();
 									abortCast();
 									getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-									tempSkill.getEffects(player, this);
+									tempSkill.getEffects(player, this,false,false,false);
 								}
 								else
 									_log.warning("Skill 4215 at level 1 is missing in DP.");
@@ -8159,7 +8159,7 @@ public abstract class L2Character extends L2Object
 								L2Skill tempSkill = SkillTable.getInstance().getInfo(4515, 1);
 								if(tempSkill != null)
 								{
-									tempSkill.getEffects(player, this);
+									tempSkill.getEffects(player, this,false,false,false);
 								}
 								else
 								{
@@ -9126,5 +9126,96 @@ public abstract class L2Character extends L2Object
 	
 	public long getAttackStance() {
 		return attackStance;
+	}
+	
+	public boolean checkBss(){
+		
+		boolean bss = false;
+		
+		L2ItemInstance weaponInst = this.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
+			{
+				bss = true;
+				//ponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (this instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)this;
+			
+			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
+			{
+				bss = true;
+				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+		}
+		
+		return bss;
+	}
+	
+	public boolean checkSps(){
+		
+		boolean ss = false;
+		
+		L2ItemInstance weaponInst = this.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
+			{
+				ss = true;
+				//weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (this instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)this;
+			
+			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
+			{
+				ss = true;
+				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		
+		return ss;
+		
+	}
+	
+	public boolean checkSs(){
+		
+		boolean ss = false;
+		
+		L2ItemInstance weaponInst = this.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT)
+			{
+				ss = true;
+				//weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (this instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)this;
+			
+			if (activeSummon.getChargedSoulShot() == L2ItemInstance.CHARGED_SOULSHOT)
+			{
+				ss = true;
+				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		
+		return ss;
+		
 	}
 }

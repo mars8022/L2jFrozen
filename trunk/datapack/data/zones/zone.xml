@@ -1671,23 +1671,7 @@
 	<zone id='15186' type='WaterZone' shape='NPoly' minZ='-2638' maxZ='-2382'/> <!-- [22_16_16] water zone-->
 	<zone id='15187' type='WaterZone' shape='NPoly' minZ='-4810' maxZ='-3810'/> <!-- [22_17_1] water zone-->
 	<zone id='15188' type='WaterZone' shape='NPoly' minZ='-4810' maxZ='-3810'/> <!-- [22_17_2] water zone-->
-	<zone id='15189' type='WaterZone' shape='NPoly' minZ='-4679' maxZ='-3781'/>
-	<zone id='15190' type='WaterZone' shape='NPoly' minZ='-4150' maxZ='-3733'/>
-    <zone id='15191' type='WaterZone' shape='NPoly' minZ='-5223' maxZ='-3752'/>
-    <zone id='15192' type='WaterZone' shape='NPoly' minZ='-5223' maxZ='-3752'/>
-    <zone id='15193' type='WaterZone' shape='NPoly' minZ='-5202' maxZ='-3752'/>
-    <zone id='15194' type='WaterZone' shape='NPoly' minZ='-4919' maxZ='-3752'/>
-	<zone id='15195' type='WaterZone' shape='NPoly' minZ='-2900' maxZ='-2599'/>
-	<zone id='15196' type='WaterZone' shape='NPoly' minZ='-3500' maxZ='-2997'/>
-	<zone id='15197' type='WaterZone' shape='NPoly' minZ='-3200' maxZ='-2806'/>
-	<zone id='15198' type='WaterZone' shape='NPoly' minZ='-1500' maxZ='-1089'/>
-	<zone id='15199' type='WaterZone' shape='NPoly' minZ='-1500' maxZ='-1089'/>
-	<zone id='15200' type='WaterZone' shape='NPoly' minZ='-1500' maxZ='-1100'/> 
-	<zone id='15201' type='WaterZone' shape='NPoly' minZ='-1500' maxZ='-1100'/>
-	<zone id='15202' type='WaterZone' shape='NPoly' minZ='-7500' maxZ='-3780'/>
-	<zone id='15203' type='WaterZone' shape='NPoly' minZ='-7500' maxZ='-3780'/>
-	<zone id='15204' type='WaterZone' shape='Cuboid' minZ='-7500' maxZ='-3780'/>
-	<zone id='15205' type='WaterZone' shape='Cuboid' minZ='-7500' maxZ='-3780'/>
+
 <!-- Damage zones -->
 	<zone id='20000' type='DamageZone' shape='NPoly' minZ='-6519' maxZ='-6319'/>
 <!-- Poison zones -->

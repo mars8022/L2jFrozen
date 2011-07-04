@@ -199,11 +199,9 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="effectType" val="BLEED"/>
-  <set name="effectPower" val="100"/>
   <set name="lvlDepend" val="1" />
   <for>
-  	<effect count="7" name="DamOverTime" time="3" val="#dmg" abnormal="bleeding"/>
+  	<effect count="7" name="DamOverTime" time="3" val="#dmg" abnormal="bleeding" effectPower="100" effectType="BLEED"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -216,11 +214,9 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="effectType" val="BLEED"/>
-  <set name="effectPower" val="100"/>
   <set name="lvlDepend" val="1" />
   <for>
-  	<effect count="7" name="DamOverTime" time="3" val="#dmg" abnormal="bleeding"/>
+  	<effect count="7" name="DamOverTime" time="3" val="#dmg" abnormal="bleeding" effectPower="100" effectType="BLEED"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -259,11 +255,8 @@
   <set name="isMagic" val="true" />
   <set name="isDebuff" val="true" />
   <set name="lvlDepend" val="1" />
-  <set name="effectType" val="POISON"/>
-  <set name="effectLevel" val="#lvl"/>
-  <set name="effectPower" val="70"/>
   <for>
-  	<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison"/>
+  	<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison" effectPower="70" effectType="POISON"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

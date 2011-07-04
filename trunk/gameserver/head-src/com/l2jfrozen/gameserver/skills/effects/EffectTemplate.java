@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Effect;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
@@ -50,8 +51,10 @@ public final class EffectTemplate
 
 	public final String stackType;
 	public final float stackOrder;
+	public final double effectPower; // to thandle chance
+	public final SkillType effectType; // to handle resistences etc...
 
-	public EffectTemplate(Condition pAttachCond, Condition pApplayCond, String func, Lambda pLambda, int pCounter, int pPeriod, int pAbnormalEffect, String pStackType, float pStackOrder, int pShowIcon)
+	public EffectTemplate(Condition pAttachCond, Condition pApplayCond, String func, Lambda pLambda, int pCounter, int pPeriod, int pAbnormalEffect, String pStackType, float pStackOrder, int pShowIcon,SkillType eType, double ePower)
 	{
 		attachCond = pAttachCond;
 		applayCond = pApplayCond;
@@ -62,6 +65,9 @@ public final class EffectTemplate
 		stackType = pStackType;
 		stackOrder = pStackOrder;
 		showIcon = pShowIcon == 0;
+		effectType = eType;
+		effectPower = ePower;
+		
 		try
 		{
 			_func = Class.forName("com.l2jfrozen.gameserver.skills.effects.Effect" + func);

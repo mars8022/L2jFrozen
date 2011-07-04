@@ -798,7 +798,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.broadcastPacket(new SocialAction(weakScarlet.getObjectId(),4));
 			L2Skill skill = SkillTable.getInstance().getInfo(5017, 1);
 			if (skill != null)
-				skill.getEffects(weakScarlet, weakScarlet);
+				skill.getEffects(weakScarlet, weakScarlet, false, false, false);
 			
 			startQuestTimer("morph_end", 6000, weakScarlet, null);
 			startQuestTimer("start_pc", 3000, weakScarlet, null);
@@ -894,7 +894,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.broadcastPacket(new SocialAction(strongScarlet.getObjectId(),2));
 			L2Skill skill = SkillTable.getInstance().getInfo(5017, 1);
 			if (skill != null)
-				skill.getEffects(strongScarlet, strongScarlet);
+				skill.getEffects(strongScarlet, strongScarlet, false, false, false);
 			
 			startQuestTimer("morph_end", 9000, strongScarlet, null);
 			startQuestTimer("start_pc", 6000, strongScarlet, null);
@@ -980,7 +980,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			if (_OnSong == 1 || _OnSong == 2 || _OnSong == 3)
 			{
 				if (frintezza != null && !frintezza.isDead() && activeScarlet != null && !activeScarlet.isDead())
-					skill.getEffects(frintezza, activeScarlet);
+					skill.getEffects(frintezza, activeScarlet, false, false, false);
 			}
 			else if (_OnSong == 4)
 			{
@@ -988,7 +988,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				{
 					if (cha instanceof L2PcInstance && Rnd.get(100) < 80)
 					{
-						skill.getEffects(frintezza, cha);
+						skill.getEffects(frintezza, cha, false, false, false);
 						cha.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(5008, 4));
 					}
 				}
@@ -1006,7 +1006,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 						cha.setIsImobilised(true);
 						cha.setIsParalyzed(true);
 						cha.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-						skill.getEffects(frintezza, cha);
+						skill.getEffects(frintezza, cha, false, false, false);
 						cha.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_DANCE_STUNNED);
 						cha.sendPacket(new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT).addSkillName(5008, 5));
 					}

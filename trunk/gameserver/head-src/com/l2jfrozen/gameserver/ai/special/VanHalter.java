@@ -1278,7 +1278,7 @@ public class VanHalter extends Quest implements Runnable
 			{
 				if(pc.getFirstEffect(bleed) == null)
 				{
-					bleed.getEffects(tr, pc);
+					bleed.getEffects(tr, pc, false, false, false);
 					tr.broadcastPacket(new MagicSkillUser(tr, pc, bleed.getId(), 12, 1, 1));
 				}
 

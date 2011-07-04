@@ -72,10 +72,9 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="effectPower" val="80"/>
   <for>
     <!-- retail value: 4 5 7 8 10 11/sec; stat update every 5 units (3 1/3 sec) -->
-    <effect count="10" name="ManaDamOverTime" time="3" val="#dmg"/>
+    <effect count="10" name="ManaDamOverTime" time="3" val="#dmg" effectPower="80"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1002,13 +1001,13 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="power" val="40"/>
+  <set name="power" val="40"/> <!-- Base Land Rate -->
   <set name="saveVs" val="MEN"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="150000"/>
   <set name="hitTime" val="6000"/>
-  <set name="skillType" val="DEBUFF"/>  <!-- should be PARALYZE -->
+  <set name="skillType" val="PARALYZE"/>
   <set name="isMagic" val="true"/>
   <set name="isDebuff" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -1018,7 +1017,7 @@
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
-    <effect count="1" name="Paralyze" time="10" val="0"/>
+    <effect count="1" name="Paralyze" time="30" val="0" effectPower="40" effectType="PARALYZE"/>
   </for>
 </skill>
 <skill id="1171" levels="19" name="Blazing Circle" enchantLevels1="30" enchantLevels2="30">
@@ -1304,10 +1303,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="effectType" val="DEBUFF"/>
-  <set name="effectPower" val="60"/>
   <for>
-    <effect count="1" name="Buff" time="120" val="0" stackOrder="0.7" stackType="RunSpeedDown">
+    <effect count="1" name="Buff" time="120" val="0" stackOrder="0.7" stackType="RunSpeedDown" effectPower="60" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="0.7"/>
     </effect>
   </for>

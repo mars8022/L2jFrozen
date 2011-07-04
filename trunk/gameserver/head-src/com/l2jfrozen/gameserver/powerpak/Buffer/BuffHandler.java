@@ -346,10 +346,10 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(player);
 							//buffer.doCast(skill);
-							skill.getEffects(buffer, player);
+							skill.getEffects(buffer, player,false,false,false);
 							buffer.setBusy(false);
 						} else
-							skill.getEffects(player, player);
+							skill.getEffects(player, player,false,false,false);
 					}
 					try
 					{
@@ -417,11 +417,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							buffer.setBusy(true);
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(player.getPet());
-							skill.getEffects(buffer, player.getPet());
+							skill.getEffects(buffer, player.getPet(),false,false,false);
 							//buffer.doCast(skill);
 							buffer.setBusy(false);
 						} else
-							skill.getEffects(player, player.getPet());
+							skill.getEffects(player, player.getPet(),false,false,false);
 					}
 					try
 					{
@@ -475,10 +475,10 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(target);
 							//buffer.doCast(skill);
-							sk.getEffects(buffer, target);
+							sk.getEffects(buffer, target,false,false,false);
 							buffer.setBusy(false);
 						} else
-							sk.getEffects(target, target);
+							sk.getEffects(target, target,false,false,false);
 					
 						//sk.getEffects(buffer, target);
 					
@@ -649,7 +649,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				if (target != null)
 				{
 					for (L2Skill sk : skills_to_buff)
-						sk.getEffects(target, target);
+						sk.getEffects(target, target,false,false,false);
 					player.reduceAdena("NPC Buffer", cost, null, true);
 				}
 				else

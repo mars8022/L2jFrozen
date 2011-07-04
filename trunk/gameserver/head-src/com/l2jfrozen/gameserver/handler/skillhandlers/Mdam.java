@@ -62,21 +62,11 @@ public class Mdam implements ISkillHandler
 		if(activeChar.isAlikeDead())
 			return;
 
+		/*
 		boolean ss = false;
 		boolean bss = false;
 
 		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-
-		/* if (activeChar instanceof L2PcInstance)
-		{
-			if (weaponInst == null)
-			{
-				SystemMessage sm2 = new SystemMessage(SystemMessage.S1_S2);
-				sm2.addString("You must equip a weapon before casting a spell.");
-				activeChar.sendPacket(sm2);
-				return;
-			}
-		} */
 
 		if(weaponInst != null)
 		{
@@ -110,7 +100,8 @@ public class Mdam implements ISkillHandler
 			activeSummon = null;
 		}
 		weaponInst = null;
-
+		 */
+		
 		for(L2Object target2 : targets)
 		{
 			L2Character target = (L2Character) target2;
@@ -147,7 +138,10 @@ public class Mdam implements ISkillHandler
 //				}
 //
 //			}
-
+			boolean bss = activeChar.checkBss();
+			boolean sps = activeChar.checkSps();
+			boolean ss = activeChar.checkSs();
+		
 			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, skill));
 
 			int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, ss, bss, mcrit);
@@ -188,7 +182,7 @@ public class Mdam implements ISkillHandler
 					if(target.reflectSkill(skill))
 					{
 						activeChar.stopSkillEffects(skill.getId());
-						skill.getEffects(null, activeChar);
+						skill.getEffects(null, activeChar,ss,sps,bss);
 						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(skill.getId());
 						activeChar.sendPacket(sm);
@@ -198,8 +192,8 @@ public class Mdam implements ISkillHandler
 					{
 						// activate attacked effects, if any
 						target.stopSkillEffects(skill.getId());
-						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, false, ss, bss))
-							skill.getEffects(activeChar, target);
+						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill,ss,sps,bss))
+							skill.getEffects(activeChar, target,ss,sps,bss);
 						else
 						{
 							SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
