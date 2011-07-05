@@ -2986,6 +2986,11 @@ public abstract class L2Skill
 		return _effectTemplates != null && _effectTemplates.length > 0;
 	}
 
+	public final L2Effect[] getEffects(L2Character effector, L2Character effected)
+	{
+		return this.getEffects(effector, effected, false, false, false);
+	}
+	
 	public final L2Effect[] getEffects(L2Character effector, L2Character effected, boolean ss, boolean sps, boolean bss)
 	{
 		if(isPassive())
