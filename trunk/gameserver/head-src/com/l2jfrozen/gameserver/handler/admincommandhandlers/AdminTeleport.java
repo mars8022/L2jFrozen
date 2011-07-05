@@ -30,8 +30,10 @@ import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -679,11 +681,14 @@ public class AdminTeleport implements IAdminCommandHandler
 				return;
 			}
 
-			int respawnTime = spawn.getRespawnDelay();
-
+			int respawnTime = spawn.getRespawnDelay()/1000;
+			boolean custom_boss_spawn = spawn.is_customBossInstance();
+				
 			target.deleteMe();
 			spawn.stopRespawn();
-			SpawnTable.getInstance().deleteSpawn(spawn, true);
+			
+			//check to avoid that recalling a custom raid it will be saved into database
+			SpawnTable.getInstance().deleteSpawn(spawn, !custom_boss_spawn);
 
 			try
 			{
@@ -696,7 +701,7 @@ public class AdminTeleport implements IAdminCommandHandler
 				spawn.setAmount(1);
 				spawn.setHeading(activeChar.getHeading());
 				spawn.setRespawnDelay(respawnTime);
-				SpawnTable.getInstance().addNewSpawn(spawn, true);
+				SpawnTable.getInstance().addNewSpawn(spawn, !custom_boss_spawn);
 				spawn.init();
 
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);

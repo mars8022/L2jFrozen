@@ -179,8 +179,10 @@ public class L2PlayerAI extends L2CharacterAI
 		}
 	}
 
+	@Override
     protected void clientStopMoving(L2CharPosition pos)
     {
+    	super.clientStopMoving(pos);
         L2PcInstance _player = (L2PcInstance)_actor;
         if(_player.getPosticipateSit())
         {

@@ -1573,6 +1573,7 @@ public abstract class L2Skill
 
 						if(src != null)
 						{
+							
 							if(!GeoData.getInstance().canSeeTarget(activeChar, obj))
 							{
 								continue;
@@ -1673,21 +1674,23 @@ public abstract class L2Skill
 								trg = null;
 							}
 						}
-						if(!Util.checkIfInRange(radius, activeChar, obj, true))
-						{
-							continue;
-						}
-
-						if(onlyFirst == false)
-						{
-							targetList.add((L2Character) obj);
-						}
-						else
-							return new L2Character[]
-							{
-								(L2Character) obj
-							};
 					}
+					
+					if(!Util.checkIfInRange(radius, activeChar, obj, true))
+					{
+						continue;
+					}
+
+					if(onlyFirst == false)
+					{
+						targetList.add((L2Character) obj);
+					}
+					else
+						return new L2Character[]
+						{
+							(L2Character) obj
+						};
+					
 				}
 
 				src = null;

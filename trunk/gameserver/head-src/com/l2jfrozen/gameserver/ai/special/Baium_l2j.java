@@ -227,6 +227,10 @@ public class Baium_l2j  extends Quest implements Runnable
 				if(!npc.getSpawn().is_customBossInstance())
 					startQuestTimer("baium_despawn", 60000, npc, null, true);
 				
+				if(player!=null){
+					player.reduceCurrentHp(99999999, player);
+				}
+				
 				startQuestTimer("skill_range", 500, npc, null, true);
 				final L2NpcInstance baium = npc;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
@@ -297,7 +301,7 @@ public class Baium_l2j  extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onTalk(L2NpcInstance npc,L2PcInstance player)
+	public String onTalk(L2NpcInstance npc,final L2PcInstance player)
 	{
 		int npcId = npc.getNpcId();
 		String htmltext = "";
@@ -328,7 +332,7 @@ public class Baium_l2j  extends Quest implements Runnable
 							_baium.setIsInvul(true);
 							_baium.setRunning();
 							_baium.broadcastPacket(new SocialAction(_baium.getObjectId(),2));
-							startQuestTimer("baium_wakeup",15000, _baium, null);
+							startQuestTimer("baium_wakeup",15000, _baium, player);
 							//_baium.setShowSummonAnimation(false);
 						}
 						catch (Throwable e)

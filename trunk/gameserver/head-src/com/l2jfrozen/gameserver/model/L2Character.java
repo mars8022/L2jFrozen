@@ -2483,6 +2483,8 @@ public abstract class L2Character extends L2Object
 
 	public final void setIsParalyzed(boolean value)
 	{
+		if(_petrified)
+			return;
 		_isParalyzed = value;
 	}
 
@@ -2607,6 +2609,9 @@ public abstract class L2Character extends L2Object
 
 	public void setIsInvul(boolean b)
 	{
+		if(_petrified)
+			return;
+		
 		_isInvul = b;
 	}
 
@@ -4963,15 +4968,17 @@ public abstract class L2Character extends L2Object
 	 */
 	public final boolean isOnGeodataPath()
 	{
-		if(_move == null)
+		final MoveData move = _move;
+		
+		if(move == null)
 			return false;
 
 		try
 		{
-			if(_move.onGeodataPathIndex == -1)
+			if(move.onGeodataPathIndex == -1)
 				return false;
 
-			if(_move.onGeodataPathIndex == _move.geoPath.length - 1)
+			if(move.onGeodataPathIndex == move.geoPath.length - 1)
 				return false;
 		}
 		catch(NullPointerException e)
@@ -8500,7 +8507,8 @@ public abstract class L2Character extends L2Object
 		}
 		else
 		{
-			_log.fine("isBehindTarget's target not an L2 Character.");
+			if(Config.DEBUG)
+				_log.fine("isBehindTarget's target not an L2 Character.");
 		}
 		return false;
 	}
@@ -8551,7 +8559,8 @@ public abstract class L2Character extends L2Object
 		}
 		else
 		{
-			_log.fine("isSideTarget's target not an L2 Character.");
+			if(Config.DEBUG)
+				_log.fine("isSideTarget's target not an L2 Character.");
 		}
 		return false;
 	}
@@ -9128,6 +9137,33 @@ public abstract class L2Character extends L2Object
 		return attackStance;
 	}
 	
+	private boolean _petrified = false;
+
+	/**
+	 * @return the petrified
+	 */
+	public boolean isPetrified()
+	{
+		return _petrified;
+	}
+
+	/**
+	 * @param petrified the petrified to set
+	 */
+	public void setPetrified(boolean petrified)
+	{
+		if(petrified){
+			setIsParalyzed(petrified);
+			setIsInvul(petrified);
+			_petrified = petrified;
+		}else{
+			_petrified = petrified;
+			setIsParalyzed(petrified);
+			setIsInvul(petrified);
+		}
+	}
+	
+	
 	public boolean checkBss(){
 		
 		boolean bss = false;
@@ -9218,4 +9254,5 @@ public abstract class L2Character extends L2Object
 		return ss;
 		
 	}
+
 }

@@ -2001,7 +2001,7 @@ public final class Formulas
 		d += 0.5 * Rnd.nextGaussian();
 		return d > 0;
 	}
-
+	
 	public static double calcSkillVulnerability(L2Character target, L2Skill skill)
 	{
 		double multiplier = 1; // initialize...
@@ -2017,47 +2017,49 @@ public final class Formulas
 				switch(stat)
 				{
 					case AGGRESSION:
-						multiplier *= target.getTemplate().baseAggressionVuln;
+						multiplier = target.getTemplate().baseAggressionVuln;
 						break;
 					case BLEED:
-						multiplier *= target.getTemplate().baseBleedVuln;
+						multiplier = target.getTemplate().baseBleedVuln;
 						break;
 					case POISON:
-						multiplier *= target.getTemplate().basePoisonVuln;
+						multiplier = target.getTemplate().basePoisonVuln;
 						break;
 					case STUN:
-						multiplier *= target.getTemplate().baseStunVuln;
+						multiplier = target.getTemplate().baseStunVuln;
 						break;
 					case ROOT:
-						multiplier *= target.getTemplate().baseRootVuln;
+						multiplier = target.getTemplate().baseRootVuln;
 						break;
 					case MOVEMENT:
-						multiplier *= target.getTemplate().baseMovementVuln;
+						multiplier = target.getTemplate().baseMovementVuln;
 						break;
 					case CONFUSION:
-						multiplier *= target.getTemplate().baseConfusionVuln;
+						multiplier = target.getTemplate().baseConfusionVuln;
 						break;
 					case SLEEP:
-						multiplier *= target.getTemplate().baseSleepVuln;
+						multiplier = target.getTemplate().baseSleepVuln;
 						break;
 					case FIRE:
-						multiplier *= target.getTemplate().baseFireVuln;
+						multiplier = target.getTemplate().baseFireVuln;
 						break;
 					case WIND:
-						multiplier *= target.getTemplate().baseWindVuln;
+						multiplier = target.getTemplate().baseWindVuln;
 						break;
 					case WATER:
-						multiplier *= target.getTemplate().baseWaterVuln;
+						multiplier = target.getTemplate().baseWaterVuln;
 						break;
 					case EARTH:
-						multiplier *= target.getTemplate().baseEarthVuln;
+						multiplier = target.getTemplate().baseEarthVuln;
 						break;
 					case HOLY:
-						multiplier *= target.getTemplate().baseHolyVuln;
+						multiplier = target.getTemplate().baseHolyVuln;
 						break;
 					case DARK:
-						multiplier *= target.getTemplate().baseDarkVuln;
+						multiplier = target.getTemplate().baseDarkVuln;
 						break;
+					default:
+						multiplier = 1;	
 				}
 			}
 
@@ -2187,6 +2189,38 @@ public final class Formulas
 		return 1 / saveVs.calcBonus(target);
 	}
 	
+	public static void main(String[] args){
+		
+		int rate = 70;
+		
+		double res = -0.50/* + profModifier*/;
+		double resMod = 1;
+		if (res != 0)
+		{
+			if (res < 0)
+			{
+				resMod = 1 - 0.075 * res;
+				resMod = 1 / resMod;
+			}
+			else{
+				double x_factor = 1.3;
+				
+				if((resMod = res*x_factor)>1){
+					resMod = res;
+				}
+				
+			}
+			
+			rate *= resMod;
+		}
+		
+		System.out.println("res "+res);
+		System.out.println("resMod "+resMod);
+		System.out.println("rate "+rate);
+
+		
+	}
+	
 	public boolean calcSkillSuccess(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
 	{
 		
@@ -2247,14 +2281,23 @@ public final class Formulas
 				resMod = 1 - 0.075 * res;
 				resMod = 1 / resMod;
 			}
-			else
-				resMod = 1 + 0.02 * res;
+			else{
+				double x_factor = 1.3;
+				
+				if((resMod = res*x_factor)>1){
+					resMod = res;
+				}
+				
+			}
+			
+			if(resMod>0.9){
+				resMod = 0.9;
+			}else if(resMod<0.5){
+				resMod = 0.5;
+			}
 			
 			rate *= resMod;
 		}
-		
-		//int elementModifier = calcElementModifier(attacker, target, skill);
-		//rate += elementModifier;
 		
 		//lvl modifier.
 		int deltamod = calcLvlDependModifier(attacker, target, skill);
@@ -2411,7 +2454,35 @@ public final class Formulas
 		// Resists
 		double vulnModifier = calcSkillTypeVulnerability(1, target, type);
 		//double profModifier = calcSkillTypeProficiency(0, attacker, target, type);
-		double res = vulnModifier/* + profModifier*/;
+		
+		double res = vulnModifier;
+		double resMod = 1;
+		if (res != 0)
+		{
+			if (res < 0)
+			{
+				resMod = 1 - 0.075 * res;
+				resMod = 1 / resMod;
+			}
+			else{
+				double x_factor = 1.3;
+				
+				if((resMod = res*x_factor)>1){
+					resMod = res;
+				}
+				
+			}
+			
+			if(resMod>0.9){
+				resMod = 0.9;
+			}else if(resMod<0.5){
+				resMod = 0.5;
+			}
+			
+			rate *= resMod;
+		}
+		/*
+		double res = vulnModifier;
 		double resMod = 1;
 		if (res != 0)
 		{
@@ -2425,6 +2496,7 @@ public final class Formulas
 			
 			rate *= resMod;
 		}
+		*/
 		
 		//int elementModifier = calcElementModifier(attacker, target, skill);
 		//rate += elementModifier;
@@ -2539,42 +2611,42 @@ public final class Formulas
 			switch (type)
 			{
 				case BLEED:
-					multiplier *= target.calcStat(Stats.BLEED_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.BLEED_VULN, multiplier, target, null);
 					break;
 				case POISON:
-					multiplier *= target.calcStat(Stats.POISON_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.POISON_VULN, multiplier, target, null);
 					break;
 				case STUN:
-					multiplier *= target.calcStat(Stats.STUN_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.STUN_VULN, multiplier, target, null);
 					break;
 				case PARALYZE:
-					multiplier *= target.calcStat(Stats.PARALYZE_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.PARALYZE_VULN, multiplier, target, null);
 					break;
 				case ROOT:
-					multiplier *= target.calcStat(Stats.ROOT_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.ROOT_VULN, multiplier, target, null);
 					break;
 				case SLEEP:
-					multiplier *= target.calcStat(Stats.SLEEP_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.SLEEP_VULN, multiplier, target, null);
 					break;
 				case MUTE:
 				case FEAR:
 				case BETRAY:
 				case AGGDEBUFF:
 				case ERASE:
-					multiplier *= target.calcStat(Stats.DERANGEMENT_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.DERANGEMENT_VULN, multiplier, target, null);
 					break;
 				case CONFUSION:
 				case CONFUSE_MOB_ONLY:
-					multiplier *= target.calcStat(Stats.CONFUSION_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.CONFUSION_VULN, multiplier, target, null);
 					break;
 				case DEBUFF:
-					multiplier *= target.calcStat(Stats.DEBUFF_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.DEBUFF_VULN, multiplier, target, null);
 					break;
 				case BUFF:
-					multiplier *= target.calcStat(Stats.BUFF_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.BUFF_VULN, multiplier, target, null);
 					break;
 				case CANCEL:
-					multiplier *= target.calcStat(Stats.CANCEL_VULN, multiplier, target, null);
+					multiplier = target.calcStat(Stats.CANCEL_VULN, multiplier, target, null);
 					break;
 				default:
 			}

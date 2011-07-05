@@ -1999,8 +1999,8 @@ public class L2Attackable extends L2NpcInstance
 						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
 						
 						if(item_templ == null){
-							_log.fine("ERROR: Item id to autoloot " + item.getItemId() + " has not template into items/armor/weapon tables.. Item will be dropped on ground..");
-							DropItem(player, item);
+							_log.info("ERROR: Item id to autoloot " + item.getItemId() + " has not template into items/armor/weapon tables.. It cannot be dropped..");
+							//DropItem(player, item);
 						}else{
 							
 							if(!player.getInventory().validateCapacity(item_templ) || (!Config.AUTO_LOOT_BOSS && this instanceof L2RaidBossInstance) || (!Config.AUTO_LOOT_BOSS && this instanceof L2GrandBossInstance))
