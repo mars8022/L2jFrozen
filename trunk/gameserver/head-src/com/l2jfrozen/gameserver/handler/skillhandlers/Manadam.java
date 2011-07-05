@@ -48,6 +48,7 @@ public class Manadam implements ISkillHandler
 		if(activeChar.isAlikeDead())
 			return;
 
+		/*
 		boolean ss = false;
 		boolean bss = false;
 
@@ -66,6 +67,8 @@ public class Manadam implements ISkillHandler
 			}
 		}
 		weaponInst = null;
+		*/
+		
 
 		for(L2Object target2 : targets)
 		{
@@ -73,6 +76,9 @@ public class Manadam implements ISkillHandler
 
 			if(target.reflectSkill(skill))
 				target = activeChar;
+			
+			boolean sps = activeChar.checkSps();
+			boolean bss = activeChar.checkBss();
 
 			boolean acted = Formulas.getInstance().calcMagicAffected(activeChar, target, skill);
 			if(target.isInvul() || !acted)
@@ -81,7 +87,7 @@ public class Manadam implements ISkillHandler
 			}
 			else
 			{
-				double damage = Formulas.getInstance().calcManaDam(activeChar, target, skill, ss, bss);
+				double damage = Formulas.getInstance().calcManaDam(activeChar, target, skill, sps, bss);
 
 				double mp = (damage > target.getCurrentMp() ? target.getCurrentMp() : damage);
 				target.reduceCurrentMp(mp);
