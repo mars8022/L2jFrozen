@@ -1632,6 +1632,17 @@ public final class Formulas
 
 	public final static double calcMagicDam(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean bss, boolean mcrit)
 	{
+		// Add Matk/Mdef Bonus
+		int ssModifier = 1;
+		// Add Bonus for Sps/SS
+		if (bss){
+			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			ssModifier = 4;
+		}else if (ss){
+			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			ssModifier = 2;
+		}
+		
 		if(attacker instanceof L2PcInstance)
 		{
 			L2PcInstance pcInst = (L2PcInstance) attacker;
@@ -1641,15 +1652,10 @@ public final class Formulas
 
 		double mAtk = attacker.getMAtk(target, skill);
 		double mDef = target.getMDef(attacker, skill);
-		if(bss)
-		{
-			mAtk *= 4;
-		}
-		else if(ss)
-		{
-			mAtk *= 2;
-		}
-
+		
+		//apply ss bonus
+		mAtk *= ssModifier;
+		
 		double damage = 91 * Math.sqrt(mAtk) / mDef * skill.getPower(attacker) * calcSkillVulnerability(target, skill);
 
 		// In C5 summons make 10 % less dmg in PvP.
@@ -2224,6 +2230,34 @@ public final class Formulas
 	public boolean calcSkillSuccess(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
 	{
 		
+		// Add Matk/Mdef Bonus
+		double mAtkModifier = 1;
+		int ssModifier = 1;
+		if (skill.isMagic())
+		{
+			mAtkModifier = target.getMDef(target, skill);
+			
+			// Add Bonus for Sps/SS
+			if (bss){
+				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 4;
+			}else if (sps){
+				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 2;
+			}
+			
+			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
+			
+			
+		}else{
+			
+			if(ss){
+				attacker.getActiveWeaponInstance().setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+			//no soulshots influence over not magic attacks
+		}
+		
 		SkillType type = skill.getSkillType();
 
 		if(target.isRaid() && (type == SkillType.CONFUSION || type == SkillType.MUTE || type == SkillType.PARALYZE || type == SkillType.ROOT || type == SkillType.FEAR || type == SkillType.SLEEP || type == SkillType.STUN || type == SkillType.DEBUFF || type == SkillType.AGGDEBUFF))
@@ -2238,35 +2272,8 @@ public final class Formulas
 		// Calculate BaseRate.
 		int rate = (int) (value * statModifier);
 		
-		// Add Matk/Mdef Bonus
-		double mAtkModifier = 0;
-		int ssModifier = 0;
-		if (skill.isMagic())
-		{
-			mAtkModifier = target.getMDef(target, skill);
-			
-			// Add Bonus for Sps/SS
-			if (bss){
-				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-				ssModifier = 4;
-			}else if (sps){
-				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-				ssModifier = 2;
-			}else
-				ssModifier = 1;
-			
-			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
-			
-			rate = (int) (rate * mAtkModifier);
-		
-		}else{
-			
-			if(ss){
-				attacker.getActiveWeaponInstance().setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-			}
-			
-			//no soulshots influence over not magic attacks
-		}
+		//matk modifier
+		rate = (int) (rate * mAtkModifier);
 		
 		// Resists
 		double vulnModifier = calcSkillVulnerability(target, skill);
@@ -2307,78 +2314,6 @@ public final class Formulas
 			rate = skill.getMaxChance();
 		else if (rate < skill.getMinChance())
 			rate = skill.getMinChance();
-		
-		/*
-		int value = (int) skill.getPower();
-		int lvlDepend = skill.getLevelDepend();
-
-		if(type == SkillType.PDAM || type == SkillType.MDAM) // For additional effects on PDAM skills (like STUN, SHOCK,...)
-		{
-			value = skill.getEffectPower();
-			type = skill.getEffectType();
-		}
-		// TODO: Temporary fix for skills with EffectPower = 0 or EffectType not set
-		if(value == 0 || type == null)
-		{
-			if(skill.getSkillType() == SkillType.PDAM)
-			{
-				value = 50;
-				type = SkillType.STUN;
-			}
-			if(skill.getSkillType() == SkillType.MDAM)
-			{
-				value = 30;
-				type = SkillType.PARALYZE;
-			}
-		}
-
-		// TODO: Temporary fix for skills with Power = 0 or LevelDepend not set
-		if(value == 0)
-		{
-			value = type == SkillType.PARALYZE ? 50 : type == SkillType.FEAR ? 40 : 80;
-		}
-		if(lvlDepend == 0)
-		{
-			lvlDepend = type == SkillType.PARALYZE || type == SkillType.FEAR ? 1 : 2;
-		}
-
-		// TODO: Temporary fix for NPC skills with MagicLevel not set
-		// int lvlmodifier = (skill.getMagicLevel() - target.getLevel()) * lvlDepend;
-		int lvlmodifier = ((skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getLevel()) - target.getLevel()) * lvlDepend;
-		double statmodifier = calcSkillStatModifier(skill, target);
-		double resmodifier = calcSkillVulnerability(target, skill);
-
-		int ssmodifier = (bss ? 200 : (sps || ss ? 150 : 100));
-
-		int rate = (int) (value * statmodifier + lvlmodifier);
-		if(skill.isMagic())
-		{
-			rate = (int) (rate * Math.pow((double) attacker.getMAtk(target, skill) / target.getMDef(attacker, skill), 0.2));
-		}
-
-		if(ssmodifier != 100)
-		{
-			if(rate > 10000 / (100 + ssmodifier))
-			{
-				rate = 100 - (100 - rate) * 100 / ssmodifier;
-			}
-			else
-			{
-				rate = rate * ssmodifier / 100;
-			}
-		}
-
-		if(rate > 99)
-		{
-			rate = 99;
-		}
-		else if(rate < 1)
-		{
-			rate = 1;
-		}
-		rate *= resmodifier;
-		
-		*/
 		
 		//physics configuration addons
 		float physics_mult = getChanceMultiplier(skill);
@@ -2790,14 +2725,18 @@ public final class Formulas
 		double mAtk = attacker.getMAtk(target, skill);
 		double mDef = target.getMDef(attacker, skill);
 		double mp = target.getMaxMp();
-		if(bss)
-		{
-			mAtk *= 4;
+		
+		int ssModifier = 1;
+		// Add Bonus for Sps/SS
+		if (bss){
+			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			ssModifier = 4;
+		}else if (ss){
+			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			ssModifier = 2;
 		}
-		else if(ss)
-		{
-			mAtk *= 2;
-		}
+		
+		mAtk *= ssModifier;
 
 		double damage = Math.sqrt(mAtk) * skill.getPower(attacker) * mp / 97 / mDef;
 		damage *= calcSkillVulnerability(target, skill);
