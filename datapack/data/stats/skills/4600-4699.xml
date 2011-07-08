@@ -16,7 +16,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0">
+    <effect count="1" name="Stun" time="5" val="0" effectPower="40" effectType="STUN">
       <mul order="0x30" stat="pDef" val="#pDef"/>
     </effect>
   </for>
@@ -60,7 +60,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="Buff" time="#time" val="0" stackOrder="#pAtk" stackType="pDefDown">
+    <effect count="1" name="Buff" time="#time" val="0" stackOrder="#pAtk" stackType="pDefDown" effectPower="80" effectType="DEBUFF">
       <mul order="0x30" stat="pAtk" val="#pAtk"/>
     </effect>
   </for>
@@ -82,7 +82,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="Debuff" time="#time" val="0" stackOrder="#pAtk" stackType="pDefDown">
+    <effect count="1" name="Debuff" time="#time" val="0" stackOrder="#pAtk" stackType="pDefDown" effectPower="80" effectType="DEBUFF">
       <mul order="0x30" stat="pAtk" val="#pAtk"/>
     </effect>
   </for>
@@ -104,7 +104,7 @@
   <set name="castRange" val="1000"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="1" name="Buff" time="#time" val="0" stackOrder="#pAtk" stackType="pDefDown">
+    <effect count="1" name="Buff" time="#time" val="0" stackOrder="#pAtk" stackType="pDefDown" effectPower="80" effectType="DEBUFF">
       <mul order="0x30" stat="pAtk" val="#pAtk"/>
     </effect>
   </for>
@@ -144,7 +144,7 @@
   <set name="effectLevel" val="7"/>
   <set name="effectRange" val="200"/>
   <for>
-    <effect count="10" name="DamOverTime" time="3" val="#dot" abnormal="poison"/>
+    <effect count="10" name="DamOverTime" time="3" val="#dot" abnormal="poison" effectPower="35" effectType="POISON"/>
   </for>
 </skill>
 <skill id="4607" levels="1" name="Magma Attack">
@@ -882,7 +882,7 @@
   <set name="castRange" val="40"/>
   <set name="effectRange" val="200"/>
   <for>
-    <effect count="1" name="Debuff" time="120" val="0" stackOrder="#runSpd" stackType="RunSpeedDown">
+    <effect count="1" name="Debuff" time="120" val="0" stackOrder="#runSpd" stackType="RunSpeedDown" effectPower="40" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="#runSpd"/>
     </effect>
   </for>
@@ -1574,7 +1574,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="3" name="DamOverTime" time="3" val="216"/>
+    <effect count="3" name="DamOverTime" time="3" val="216" effectPower="80" effectType="DOT"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1593,7 +1593,7 @@
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <for>
-    <effect count="3" name="DamOverTime" time="3" val="216"/>
+    <effect count="3" name="DamOverTime" time="3" val="216" effectPower="80" effectType="DOT"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1643,7 +1643,7 @@
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/>
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="80" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

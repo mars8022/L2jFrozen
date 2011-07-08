@@ -418,14 +418,14 @@
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
 <skill id="4223" levels="1" name="Face Chance: Night to Day">
-  <!-- Zaken skills - change face -->
+  <!-- Zaken skills -->
+  <!-- Change Texture for Day to Night Face -->
   <set name="target" val="TARGET_SELF"/>
   <set name="coolTime" val="1900"/>
   <set name="hitTime" val="1100"/>
   <set name="skillType" val="BUFF"/>
-  <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="target" val="TARGET_SELF" />
+  <set name="operateType" val="OP_ACTIVE" />
   <for>
     <effect count="1" name="Buff" time="14400" val="0"/> <!-- TODO: abnormal change texture O.o -->
   </for>
@@ -643,7 +643,7 @@
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
   <for>
-    <effect count="1" name="Debuff" time="30" val="0" stackOrder="0.5" stackType="RunSpeedDown">
+    <effect count="1" name="Debuff" time="30" val="0" stackOrder="0.5" stackType="RunSpeedDown" effectPower="90" effectType="DEBUFF">
       <mul order="0x30" stat="runSpd" val="0.5"/>
     </effect>
   </for>
