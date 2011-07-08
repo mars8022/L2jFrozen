@@ -107,7 +107,7 @@
   <set name="saveVs" val="MEN"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
-  <set name="power" val="35"/>
+  <set name="power" val="35"/> <!-- Base Land Rate -->
   <set name="target" val="TARGET_AREA_CORPSE_MOB"/>
   <set name="skillRadius" val="200"/>
   <set name="reuseDelay" val="20000"/>
@@ -631,14 +631,13 @@
   <table name="#mpConsume">8 18 22 25 28</table>
   <table name="#magicLvl">20 49 58 66 74</table>
   <table name="#dmg">54 93 114 132 144</table>
-  <table name="#power">70 70 70 70 70</table>
   <table name="#lvl">3 5 6 7 8</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="saveVs" val="CON"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
-  <set name="power" val="#power"/>
+  <set name="power" val="70"/> <!-- Base Land Rate -->
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="9000"/>
   <set name="hitTime" val="3000"/>

@@ -362,7 +362,7 @@
   <set name="effectType" val="POISON"/>
   <set name="effectLevel" val="#power"/>
   <for>
-    <effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison"/>
+    <effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison" effectPower="80" effectType="POISON"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

@@ -1547,7 +1547,7 @@ if max = min resist
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
   <for>
-    <effect count="1" name="BigHead" time="300" val="0" abnormal="bighead" stackOrder="300" stackType="big_head"/>
+    <effect count="1" name="BigHead" time="300" val="0" abnormal="bighead" stackOrder="300" stackType="big_head" effectPower="80" effectType="DEBUFF"/>
   </for>
 </skill>
 <skill id="4493" levels="12" name="NPC Debuff Shield Slow">

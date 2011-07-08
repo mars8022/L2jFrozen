@@ -978,7 +978,7 @@
     <player hp="75"/>
   </cond>
   <for>
-    <effect count="1" name="Cancel" val="0"/>
+    <effect count="1" name="Cancel" val="0" effectPower="25" effectType="CANCEL"/>
     <effect count="1" name="Debuff" time="120" val="0">
       <mul order="0x30" stat="maxCp" val="0.1"/>
       <mul order="0x30" stat="debuffVuln" val="1.3"/>
@@ -1341,9 +1341,9 @@
   <set name="hitTime" val="1000"/>
   <set name="isDebuff" val="true" />
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun"/> 
+    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="40" effectType="STUN"/> 
     <effect count="1" name="Bluff" time="1" val="0" noicon="1"/> 
-    <effect count="1" name="RemoveTarget" time="1" val="0" noicon="1"/>
+    <effect count="1" name="RemoveTarget" time="1" val="0" noicon="1" effectPower="80" effectType="DEBUFF"/>
   </for>
 </skill>
 <skill id="359" levels="1" name="Eye of Hunter">

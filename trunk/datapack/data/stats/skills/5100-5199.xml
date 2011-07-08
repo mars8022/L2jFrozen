@@ -294,7 +294,7 @@
   <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
  <for>
-    <effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
+    <effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0" effectPower="30" effectType="STUN"/>
  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -345,7 +345,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <for>
- 	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
+ 	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0" effectPower="40" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -556,7 +556,7 @@
   <set name="nextActionAttack" val="true" />
   <set name="reuseDelay" val="15000"/>
   <for>
- 	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
+ 	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0" effectPower="60" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
