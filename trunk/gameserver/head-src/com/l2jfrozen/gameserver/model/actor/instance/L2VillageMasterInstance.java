@@ -115,6 +115,13 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 
 			createSubPledge(player, cmdParams, null, L2Clan.SUBUNIT_ACADEMY, 5);
 		}
+		else if (actualCommand.equalsIgnoreCase("rename_pledge"))
+		{
+			if (cmdParams.isEmpty() || cmdParams2.isEmpty())
+				return;
+			
+			renameSubPledge(player, Integer.valueOf(cmdParams), cmdParams2);
+		}
 		else if(actualCommand.equalsIgnoreCase("create_royal"))
 		{
 			if(cmdParams.equals(""))
@@ -902,6 +909,40 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		sm = null;
 	}
 
+	private static final void renameSubPledge(L2PcInstance player, int pledgeType, String pledgeName)
+	{
+		if (!player.isClanLeader())
+		{
+			player.sendPacket(new SystemMessage(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT));
+			return;
+		}
+		
+		final L2Clan clan = player.getClan();
+		final SubPledge subPledge = player.getClan().getSubPledge(pledgeType);
+		
+		if (subPledge == null)
+		{
+			player.sendMessage("Pledge don't exists.");
+			return;
+		}
+		if (!Util.isAlphaNumeric(pledgeName) || 2 > pledgeName.length())
+		{
+			player.sendPacket(new SystemMessage(SystemMessageId.CLAN_NAME_INCORRECT));
+			return;
+		}
+		if (pledgeName.length() > 16)
+		{
+			player.sendPacket(new SystemMessage(SystemMessageId.CLAN_NAME_TOO_LONG));
+			return;
+		}
+		
+		subPledge.setName(pledgeName);
+		clan.updateSubPledgeInDB(subPledge.getId());
+		clan.broadcastClanStatus();
+		player.sendMessage("Pledge name changed.");
+	}
+	
+	
 	public void assignSubPledgeLeader(L2PcInstance player, String clanName, String leaderName)
 	{
 		if(Config.DEBUG)

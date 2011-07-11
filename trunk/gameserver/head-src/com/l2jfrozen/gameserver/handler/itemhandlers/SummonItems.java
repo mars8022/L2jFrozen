@@ -190,7 +190,7 @@ public class SummonItems implements IItemHandler
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.SUMMON_A_PET));
 				L2World.storeObject(petSummon);
 				petSummon.spawnMe(activeChar.getX() + Rnd.get(40)-20, activeChar.getY() + Rnd.get(40)-20, activeChar.getZ());
-				activeChar.sendPacket(new PetInfo(petSummon));
+				petSummon.broadcastPacket(new PetInfo(petSummon));
 				petSummon.startFeed(false);
 				item.setEnchantLevel(petSummon.getLevel());
 

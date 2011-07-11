@@ -52,9 +52,7 @@ public abstract class L2Summon extends L2PlayableInstance
 	//private static Logger _log = Logger.getLogger(L2Summon.class.getName());
 
 	protected int _pkKills;
-	private byte _pvpFlag;
 	private L2PcInstance _owner;
-	private int _karma = 0;
 	private int _attackRange = 36; //Melee range
 	private boolean _follow = true;
 	private boolean _previousFollowStatus = true;
@@ -267,12 +265,12 @@ public abstract class L2Summon extends L2PlayableInstance
 
 	public final int getKarma()
 	{
-		return _karma;
+		return getOwner()!= null ? getOwner().getKarma() : 0;
 	}
-
-	public void setKarma(int karma)
+	
+	public final byte getPvpFlag()
 	{
-		_karma = karma;
+		return getOwner()!= null ? getOwner().getPvpFlag() : 0;
 	}
 
 	public final L2PcInstance getOwner()
@@ -283,11 +281,6 @@ public abstract class L2Summon extends L2PlayableInstance
 	public final int getNpcId()
 	{
 		return getTemplate().npcId;
-	}
-
-	public void setPvpFlag(byte pvpFlag)
-	{
-		_pvpFlag = pvpFlag;
 	}
 
 	@Override
@@ -310,11 +303,6 @@ public abstract class L2Summon extends L2PlayableInstance
 		}
 
 		super.doAttack(target);
-	}
-
-	public byte getPvpFlag()
-	{
-		return _pvpFlag;
 	}
 
 	public void setPkKills(int pkKills)

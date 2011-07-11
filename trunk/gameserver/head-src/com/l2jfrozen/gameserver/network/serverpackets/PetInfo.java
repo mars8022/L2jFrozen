@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 
 /**
  * This class ...
@@ -66,6 +67,12 @@ public class PetInfo extends L2GameServerPacket
 			_curFed = pet.getCurrentFed(); // how fed it is
 			_maxFed = pet.getMaxFed(); //max fed it can be
 		}
+		else if (_summon instanceof L2SummonInstance)
+		{
+			L2SummonInstance sum = (L2SummonInstance)_summon;
+			_curFed = sum.getTimeRemaining();
+			_maxFed = sum.getTotalLifeTime();
+		}
 	}
 
 	@Override
@@ -108,8 +115,8 @@ public class PetInfo extends L2GameServerPacket
 		writeS(_summon.getName());
 		writeS(_summon.getTitle());
 		writeD(1);
-		writeD(_summon.getPvpFlag()); //0 = white,2= purpleblink, if its greater then karma = purple
-		writeD(_summon.getKarma()); // hmm karma ??
+		writeD(_summon.getOwner() != null ? _summon.getOwner().getPvpFlag() : 0);	//0 = white,2= purpleblink, if its greater then karma = purple
+		writeD(_summon.getOwner() != null ? _summon.getOwner().getKarma() : 0);  // karma
 		writeD(_curFed); // how fed it is
 		writeD(_maxFed); //max fed it can be
 		writeD((int) _summon.getCurrentHp());//current hp
@@ -133,8 +140,8 @@ public class PetInfo extends L2GameServerPacket
 		writeD(_runSpd);//speed
 		writeD(_summon.getPAtkSpd());//atkspeed
 		writeD(_summon.getMAtkSpd());//casting speed
-
-		writeD(0);//c2  abnormal visual effect... bleed=1; poison=2; poison & bleed=3; flame=4;
+		
+		writeD(_summon.getAbnormalEffect());//c2  abnormal visual effect... bleed=1; poison=2; poison & bleed=3; flame=4;
 		int npcId = _summon.getTemplate().npcId;
 
 		if(npcId >= 12526 && npcId <= 12528)

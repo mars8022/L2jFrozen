@@ -687,6 +687,11 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		_shutdown = true;
 	}
 	
+	public boolean isShutdown()
+	{
+		return _shutdown;
+	}
+	
 	protected void closeSelectorThread()
 	{
 		for (final SelectionKey key : _selector.keys())

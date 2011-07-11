@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.CharNameTable;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
@@ -351,6 +352,11 @@ public final class CharacterCreate extends L2GameClientPacket
 		newChar.store();
 		newChar.deleteMe(); // release the world of this character and it's inventory
 
+		//before the char selection, check shutdown status
+		if(GameServer.getSelectorThread().isShutdown()){
+			client.closeNow();
+			return;
+		}
 		// send char list
 		CharSelectInfo cl = new CharSelectInfo(client.getAccountName(), client.getSessionId().playOkID1);
 		client.getConnection().sendPacket(cl);

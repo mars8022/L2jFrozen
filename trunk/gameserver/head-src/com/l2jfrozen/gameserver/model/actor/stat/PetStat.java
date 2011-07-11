@@ -101,7 +101,7 @@ public class PetStat extends SummonStat
 		su = null;
 
 		// Send a Server->Client packet PetInfo to the L2PcInstance
-		getActiveChar().getOwner().sendPacket(new PetInfo(getActiveChar()));
+		getActiveChar().getOwner().broadcastPacket(new PetInfo(getActiveChar()));
 		// The PetInfo packet wipes the PartySpelled (list of active  spells' icons).  Re-add them
 		getActiveChar().updateEffectIcons(true);
 

@@ -16,8 +16,44 @@ class Quest (JQuest) :
 
  def __init__(self,id,name,descr): JQuest.__init__(self,id,name,descr)
 
- def onEvent (self,event,st):
-   htmltext     = event
+ def onAdvEvent (self,event,npc, player) :
+   htmltext = event
+   if event == "9000-03.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-03-no.htm"
+   elif event == "9000-04.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-04-no.htm"
+   elif event == "9000-05.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-05-no.htm"
+   elif event == "9000-07.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-06a.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-12a.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-12b.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-13a.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-13b.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-14a.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-14b.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
+   elif event == "9000-15.htm" :
+      if player.getClan() == None or not player.isClanLeader():
+         return "9000-07-no.htm"
    return htmltext
 
  def onTalk (Self,npc,player):

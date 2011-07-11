@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.Inventory;
@@ -198,6 +199,12 @@ public final class RequestRestart extends L2GameClientPacket
 		RestartResponse response = new RestartResponse();
 		sendPacket(response);
 
+		//before the char selection, check shutdown status
+		if(GameServer.getSelectorThread().isShutdown()){
+			getClient().closeNow();
+			return;
+		}
+		
 		// send char list
 		CharSelectInfo cl = new CharSelectInfo(client.getAccountName(), client.getSessionId().playOkID1);
 		sendPacket(cl);

@@ -708,8 +708,6 @@ public class Shutdown extends Thread
 			}
 		}
 		
-		_log.info("Players: All players save to disk");
-		
 		try
 		{
 			Thread.sleep(5000);
@@ -721,7 +719,9 @@ public class Shutdown extends Thread
 			
 			_log.log(Level.SEVERE,"", t);
 		}
-
+		
+		_log.info("Players: All players save to disk");
+		
 		for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
 			try
@@ -735,6 +735,9 @@ public class Shutdown extends Thread
 					t.printStackTrace();
 			}
 		}
+		
+
+		
 	}
 
 }
