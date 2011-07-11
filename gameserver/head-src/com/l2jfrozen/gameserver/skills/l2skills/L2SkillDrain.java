@@ -17,13 +17,16 @@
  */
 package com.l2jfrozen.gameserver.skills.l2skills;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -196,5 +199,47 @@ public class L2SkillDrain extends L2Skill
 		// cast self effect if any
 		getEffectsSelf(activeChar);
 	}
+	
+	public void useCubicSkill(L2CubicInstance activeCubic, L2Object[] targets)
+	{
+		if (Config.DEBUG)
+			_log.info("L2SkillDrain: useCubicSkill()");
+		
+		for(L2Character target: (L2Character[]) targets)
+		{
+			if (target.isAlikeDead() && getTargetType() != SkillTargetType.TARGET_CORPSE_MOB)
+				continue;
+			
+			boolean mcrit = Formulas.calcMCrit(activeCubic.getMCriticalHit(target, this));
+			
+			int damage = (int)Formulas.calcMagicDam(activeCubic, target, this, mcrit);
+			if (Config.DEBUG)
+				_log.info("L2SkillDrain: useCubicSkill() -> damage = " + damage);
+			
+			double hpAdd = _absorbAbs + _absorbPart * damage;
+			L2PcInstance owner = activeCubic.getOwner();
+			double hp = ((owner.getCurrentHp() + hpAdd) > owner.getMaxHp() ? owner.getMaxHp() : (owner.getCurrentHp() + hpAdd));
+			
+			owner.setCurrentHp(hp);
+			
+			StatusUpdate suhp = new StatusUpdate(owner.getObjectId());
+			suhp.addAttribute(StatusUpdate.CUR_HP, (int)hp);
+			owner.sendPacket(suhp);
+			
+			// Check to see if we should damage the target
+			if (damage > 0 && (!target.isDead() || getTargetType() != SkillTargetType.TARGET_CORPSE_MOB))
+			{
+				target.reduceCurrentHp(damage, activeCubic.getOwner());
+				
+				// Manage attack or cast break of the target (calculating rate, sending message...)
+				if (!target.isRaid() && Formulas.calcAtkBreak(target, damage)){
+					target.breakAttack();
+					target.breakCast();
+				}
+				owner.sendDamageMessage(target, damage, mcrit, false, false);
+			}
+		}
+	}
+	
 
 }

@@ -311,7 +311,7 @@ public final class UseItem extends L2GameClientPacket
 		    {
              activeChar.sendMessage("You have been kicked for using an item overenchanted!");
 			 Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! Kicked ", Config.DEFAULT_PUNISH);
-			 activeChar.closeNetConnection();
+		     //activeChar.closeNetConnection();
 			 return;
 	        }  			 					 
 			
@@ -342,9 +342,10 @@ public final class UseItem extends L2GameClientPacket
 					{
 						if((item.getEnchantLevel() > Config.NORMAL_WEAPON_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.BLESS_WEAPON_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size()) && !activeChar.isGM())
 						{
-							activeChar.setAccountAccesslevel(-1); //ban
+							//activeChar.setAccountAccesslevel(-1); //ban
 							activeChar.sendMessage("You have been banned for using an item wich is over enchanted!"); //message 
-							activeChar.closeNetConnection(); //kick
+							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! ",  Config.DEFAULT_PUNISH);
+						    //activeChar.closeNetConnection(); //kick
 							return;
 						}
 						break;
@@ -359,9 +360,10 @@ public final class UseItem extends L2GameClientPacket
 					{
 						if((item.getEnchantLevel() > Config.NORMAL_ARMOR_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.BLESS_ARMOR_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.CRYSTAL_ARMOR_ENCHANT_LEVEL.size()) && !activeChar.isGM())
 						{
-							activeChar.setAccountAccesslevel(-1); //ban
+							//activeChar.setAccountAccesslevel(-1); //ban
 							activeChar.sendMessage("You have been banned for using an item wich is over enchanted!"); //message 
-							activeChar.closeNetConnection(); //kick
+							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! ",  Config.DEFAULT_PUNISH);
+						    //activeChar.closeNetConnection(); //kick
 							return;
 						}
 						break;
@@ -374,9 +376,10 @@ public final class UseItem extends L2GameClientPacket
 					{
 						if((item.getEnchantLevel() > Config.NORMAL_JEWELRY_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.BLESS_JEWELRY_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.CRYSTAL_JEWELRY_ENCHANT_LEVEL.size()) && !activeChar.isGM())
 						{
-							activeChar.setAccountAccesslevel(-1); //ban
+							//activeChar.setAccountAccesslevel(-1); //ban
 							activeChar.sendMessage("You have been banned for using an item wich is over enchanted!"); //message
-							activeChar.closeNetConnection(); //kick
+							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has item Overenchanted! ",  Config.DEFAULT_PUNISH);
+							//activeChar.closeNetConnection(); //kick
 							return;
 						}
 						break;

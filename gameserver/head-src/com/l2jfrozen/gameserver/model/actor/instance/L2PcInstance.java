@@ -512,7 +512,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			for(L2CubicInstance cubic : getCubics().values())
 				if(cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 				{
-					cubic.doAction(target);
+					cubic.doAction(/*target*/);
 				}
 		}
 
@@ -549,7 +549,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					for(L2CubicInstance cubic : getCubics().values())
 						if(cubic!=null && cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 						{
-							cubic.doAction((L2Character) mainTarget);
+							cubic.doAction(/*(L2Character) mainTarget*/);
 						}
 					mainTarget = null;
 				}
@@ -1452,11 +1452,12 @@ public final class L2PcInstance extends L2PlayableInstance
 		_inCraftMode = b;
 	}
 
+	private boolean _kicked = false;
 	/**
 	 * Manage Logout Task.<BR>
 	 * <BR>
 	 */
-	public void logout()
+	public void logout(boolean kicked)
 	{
 		// prevent from player disconnect when in Event
 		if(atEvent)
@@ -1465,6 +1466,27 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 		}
 		
+		_kicked = kicked;
+		
+		closeNetConnection();
+		
+	}
+	
+	public boolean isKicked(){
+		return _kicked;
+	}
+	
+	public void setKicked(boolean value){
+		_kicked = value;
+	}
+	/**
+	 * Manage Logout Task.<BR>
+	 * <BR>
+	 */
+	public void logout()
+	{
+		
+		logout(false);
 		/*
 		if(_active_boxes!=-1){ //normal logout
 			this.decreaseBoxes();
@@ -1495,7 +1517,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		*/
 		
-		closeNetConnection();
 	}
 
 	/**
@@ -10794,7 +10815,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		// check for PC->PC Pvp status
 		if(target instanceof L2Summon)
-			target = target.getActingPlayer();
+			target = ((L2Summon) target).getOwner();
 		
 		if (
 				target != null &&                                           			// target not null and
@@ -10990,13 +11011,24 @@ public final class L2PcInstance extends L2PlayableInstance
 	/**
 	 * Add a L2CubicInstance to the L2PcInstance _cubics.<BR>
 	 * <BR>
+	 * @param d 
 	 */
-	public void addCubic(int id, int level)
+	/*public void addCubic(int id, int level, double d)
 	{
-		L2CubicInstance cubic = new L2CubicInstance(this, id, level);
+		L2CubicInstance cubic = new L2CubicInstance(this, id, level,d);
 		_cubics.put(id, cubic);
 		cubic = null;
+	}*/
+	
+	public void addCubic(int id, int level, double matk, int activationtime, int activationchance, int totalLifetime, boolean givenByOther)
+	{
+		if (Config.DEBUG)
+			_log.info("L2PcInstance(" + getName() + "): addCubic(" + id + "|" + level + "|" + matk + ")");
+		L2CubicInstance cubic = new L2CubicInstance(this, id, level, (int) matk, activationtime, activationchance, totalLifetime, givenByOther);
+		
+		_cubics.put(id, cubic);
 	}
+	
 
 	/**
 	 * Remove a L2CubicInstance from the L2PcInstance _cubics.<BR>

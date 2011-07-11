@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
+import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * @author Advi
@@ -319,6 +320,7 @@ public class TradeList
 	{
 		if(isLocked())
 		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify locked TradeList! ", Config.DEFAULT_PUNISH);
 			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}
@@ -327,6 +329,7 @@ public class TradeList
 
 		if(o == null || !(o instanceof L2ItemInstance))
 		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to add invalid item to TradeList! ",  Config.DEFAULT_PUNISH);
 			_log.warning(_owner.getName() + ": Attempt to add invalid item to TradeList!");
 			return null;
 		}
@@ -376,6 +379,7 @@ public class TradeList
 	{
 		if(isLocked())
 		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify locked TradeList! Banned ",  Config.DEFAULT_PUNISH);
 			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}
@@ -384,6 +388,7 @@ public class TradeList
 
 		if(item == null)
 		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to add invalid item to TradeList! Banned ",  Config.DEFAULT_PUNISH);
 			_log.warning(_owner.getName() + ": Attempt to add invalid item to TradeList!");
 			return null;
 		}
@@ -419,6 +424,7 @@ public class TradeList
 	{
 		if(isLocked())
 		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify locked TradeList! Banned ",  Config.DEFAULT_PUNISH);
 			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}

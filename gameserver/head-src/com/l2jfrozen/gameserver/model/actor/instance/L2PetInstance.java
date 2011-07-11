@@ -910,7 +910,7 @@ public class L2PetInstance extends L2Summon
 			pet.getStatus().setCurrentMp(rset.getDouble("curMp"));
 			pet.getStatus().setCurrentCp(pet.getMaxCp());
 
-			pet.setKarma(rset.getInt("karma"));
+			//pet.setKarma(rset.getInt("karma"));
 			pet.setPkKills(rset.getInt("pkkills"));
 			pet.setCurrentFed(rset.getInt("fed"));
 

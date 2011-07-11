@@ -1548,6 +1548,14 @@ public class L2Clan
 		{
 			_leaderName = leaderName;
 		}
+
+		/**
+		 * @param pledgeName
+		 */
+		public void setName(String pledgeName)
+		{
+			_subPledgeName = pledgeName;
+		}
 	}
 
 	public class RankPrivs
@@ -1782,10 +1790,12 @@ public class L2Clan
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement("UPDATE clan_subpledges SET leader_name=? WHERE clan_id=? AND sub_pledge_id=?");
+			PreparedStatement statement = con.prepareStatement("UPDATE clan_subpledges SET leader_name=?, name=? WHERE clan_id=? AND sub_pledge_id=?");
 			statement.setString(1, getSubPledge(pledgeType).getLeaderName());
-			statement.setInt(2, getClanId());
-			statement.setInt(3, pledgeType);
+			statement.setString(2, getSubPledge(pledgeType).getName());
+			statement.setInt(3, getClanId());
+			statement.setInt(4, pledgeType);
+			
 			statement.execute();
 			statement.close();
 			statement = null;

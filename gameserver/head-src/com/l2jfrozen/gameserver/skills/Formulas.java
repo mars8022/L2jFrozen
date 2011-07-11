@@ -25,11 +25,13 @@ import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.Inventory;
+import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2SiegeClan;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -1635,12 +1637,15 @@ public final class Formulas
 		// Add Matk/Mdef Bonus
 		int ssModifier = 1;
 		// Add Bonus for Sps/SS
-		if (bss){
-			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			ssModifier = 4;
-		}else if (ss){
-			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			ssModifier = 2;
+		L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+		if(weapon!=null){
+			if (bss){
+				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 4;
+			}else if (ss){
+				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 2;
+			}
 		}
 		
 		if(attacker instanceof L2PcInstance)
@@ -1783,6 +1788,13 @@ public final class Formulas
 			}
 		}
 		
+		return damage;
+	}
+	
+
+	public static final double calcMagicDam(L2CubicInstance attacker, L2Character target, L2Skill skill, boolean mcrit)
+	{
+		double damage = calcMagicDam(attacker.getOwner(), target, skill, false, false , mcrit);
 		return damage;
 	}
 
@@ -2195,11 +2207,46 @@ public final class Formulas
 		return 1 / saveVs.calcBonus(target);
 	}
 	
-	public static void main(String[] args){
+	public static boolean calcCubicSkillSuccess(L2CubicInstance attacker, L2Character target, L2Skill skill)
+	{
+		SkillType type = skill.getSkillType();
 		
-		int rate = 70;
+		// these skills should not work on RaidBoss
+		if (target.isRaid())
+		{
+			switch (type)
+			{
+				case CONFUSION:
+				case ROOT:
+				case STUN:
+				case MUTE:
+				case FEAR:
+				case DEBUFF:
+				case PARALYZE:
+				case SLEEP:
+				case AGGDEBUFF:
+					return false;
+			}
+		}
 		
-		double res = -0.50/* + profModifier*/;
+		int value = (int) skill.getPower();
+		double statModifier = calcSkillStatModifier(skill, target);
+		int rate = (int) (value * statModifier);
+		
+		// Add Matk/Mdef Bonus
+		double mAtkModifier = 0;
+		if (skill.isMagic())
+		{
+			mAtkModifier = target.getMDef(attacker.getOwner(), skill);
+			
+			mAtkModifier = Math.pow(attacker.getMAtk() / mAtkModifier, 0.2);
+			
+			rate += (int) (mAtkModifier * 100) - 100;
+		}
+		
+		// Resists
+		double vulnModifier = calcSkillVulnerability(target, skill);
+		double res = vulnModifier;
 		double resMod = 1;
 		if (res != 0)
 		{
@@ -2217,14 +2264,43 @@ public final class Formulas
 				
 			}
 			
+			if(resMod>0.9){
+				resMod = 0.9;
+			}else if(resMod<0.5){
+				resMod = 0.5;
+			}
+			
 			rate *= resMod;
 		}
 		
-		System.out.println("res "+res);
-		System.out.println("resMod "+resMod);
-		System.out.println("rate "+rate);
-
+		//lvl modifier.
+		int deltamod = calcLvlDependModifier(attacker.getOwner(), target, skill);
+		rate += deltamod;
 		
+		if (rate > skill.getMaxChance())
+			rate = skill.getMaxChance();
+		else if (rate < skill.getMinChance())
+			rate = skill.getMinChance();
+		
+		if (Config.DEVELOPER)
+		{
+			final StringBuilder stat = new StringBuilder(100);
+			StringUtil.append(stat,
+					skill.getName(),
+					" calcCubicSkillSuccess: ",
+					" type:", skill.getSkillType().toString(),
+					" power:", String.valueOf(value),
+					" stat:", String.format("%1.2f", statModifier),
+					" res:", String.format("%1.2f", resMod), "(",
+					String.format("%1.2f", vulnModifier),")",
+					" mAtk:", String.format("%1.2f", mAtkModifier),
+					" lvl:", String.valueOf(deltamod),
+					" total:", String.valueOf(rate)
+			);
+			final String result = stat.toString();
+			_log.info(result);
+		}
+		return (Rnd.get(100) < rate);
 	}
 	
 	public boolean calcSkillSuccess(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
@@ -2238,12 +2314,15 @@ public final class Formulas
 			mAtkModifier = target.getMDef(target, skill);
 			
 			// Add Bonus for Sps/SS
-			if (bss){
-				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-				ssModifier = 4;
-			}else if (sps){
-				attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-				ssModifier = 2;
+			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+			if(weapon!=null){
+				if (bss){
+					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					ssModifier = 4;
+				}else if (ss){
+					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					ssModifier = 2;
+				}
 			}
 			
 			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
@@ -2251,8 +2330,11 @@ public final class Formulas
 			
 		}else{
 			
-			if(ss){
-				attacker.getActiveWeaponInstance().setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+			if(weapon!=null){
+				if(ss){
+					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+				}
 			}
 			
 			//no soulshots influence over not magic attacks
@@ -2728,12 +2810,15 @@ public final class Formulas
 		
 		int ssModifier = 1;
 		// Add Bonus for Sps/SS
-		if (bss){
-			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			ssModifier = 4;
-		}else if (ss){
-			attacker.getActiveWeaponInstance().setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			ssModifier = 2;
+		L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+		if(weapon!=null){
+			if (bss){
+				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 4;
+			}else if (ss){
+				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				ssModifier = 2;
+			}
 		}
 		
 		mAtk *= ssModifier;

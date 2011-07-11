@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.network.serverpackets.CharDeleteFail;
 import com.l2jfrozen.gameserver.network.serverpackets.CharDeleteOk;
 import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
@@ -88,6 +89,12 @@ public final class CharacterDelete extends L2GameClientPacket
 
 		}
 
+		//before the char selection, check shutdown status
+		if(GameServer.getSelectorThread().isShutdown()){
+			getClient().closeNow();
+			return;
+		}
+		
 		CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
 		sendPacket(cl);
 		getClient().setCharSelection(cl.getCharInfo());

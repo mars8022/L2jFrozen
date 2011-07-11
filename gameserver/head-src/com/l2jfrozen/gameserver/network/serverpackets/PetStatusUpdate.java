@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 
 /**
  * This class ...
@@ -45,6 +46,12 @@ public class PetStatusUpdate extends L2GameServerPacket
 			_curFed = pet.getCurrentFed(); // how fed it is
 			_maxFed = pet.getMaxFed(); //max fed it can be
 		}
+		else if (_summon instanceof L2SummonInstance)
+		{
+			L2SummonInstance sum = (L2SummonInstance)_summon;
+			_curFed = sum.getTimeRemaining();
+			_maxFed = sum.getTotalLifeTime();
+		}
 	}
 
 	@Override
@@ -56,7 +63,7 @@ public class PetStatusUpdate extends L2GameServerPacket
 		writeD(_summon.getX());
 		writeD(_summon.getY());
 		writeD(_summon.getZ());
-		writeS(_summon.getTitle());
+		writeS(_summon.getOwner().getName());
 		writeD(_curFed);
 		writeD(_maxFed);
 		writeD((int) _summon.getCurrentHp());

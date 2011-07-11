@@ -980,7 +980,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 						player.decreaseBoxes();
 					
 					
-					if(!Olympiad.getInstance().isRegistered(player) 
+					if(!player.isKicked() && !Olympiad.getInstance().isRegistered(player) 
 							&& !player.isInOlympiadMode() 
 							&& !player.isInFunEvent() 
 							&& (player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE 

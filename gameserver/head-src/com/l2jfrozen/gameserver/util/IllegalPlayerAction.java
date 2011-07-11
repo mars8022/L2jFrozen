@@ -90,10 +90,10 @@ public final class IllegalPlayerAction implements Runnable
 			case PUNISH_BROADCAST:
 				return;
 			case PUNISH_KICK:
-				_actor.logout();
+				_actor.logout(true);
 				break;
 			case PUNISH_KICKBAN:
-				_actor.logout();
+				_actor.logout(true);
 				break;
 			case PUNISH_JAIL:
 				_actor.setPunishLevel(L2PcInstance.PunishLevel.JAIL, Config.DEFAULT_PUNISH_PARAM);

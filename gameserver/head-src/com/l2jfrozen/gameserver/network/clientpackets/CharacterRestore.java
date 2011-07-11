@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
 
 /**
@@ -57,6 +58,12 @@ public final class CharacterRestore extends L2GameClientPacket
 				e.printStackTrace();
 		}
 
+		//before the char selection, check shutdown status
+		if(GameServer.getSelectorThread().isShutdown()){
+			getClient().closeNow();
+			return;
+		}
+		
 		CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
 		sendPacket(cl);
 		getClient().setCharSelection(cl.getCharInfo());

@@ -67,7 +67,7 @@ public class AttackStanceTaskManager
 			L2PcInstance player = (L2PcInstance) actor;
 			for (L2CubicInstance cubic : player.getCubics().values())
 				if (cubic.getId() != L2CubicInstance.LIFE_CUBIC)
-					cubic.doAction(actor);
+					cubic.doAction();
 		}
 		_attackStanceTasks.put(actor, System.currentTimeMillis());
 	}

@@ -7648,7 +7648,7 @@ public abstract class L2Character extends L2Object
 
 					if(this instanceof L2PcInstance && target instanceof L2Summon)
 					{
-						((L2Summon) target).getOwner().sendPacket(new PetInfo((L2Summon) target));
+						((L2Summon) target).getOwner().broadcastPacket(new PetInfo((L2Summon) target));
 						sendPacket(new NpcInfo((L2Summon) target, this));
 
 						// The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them

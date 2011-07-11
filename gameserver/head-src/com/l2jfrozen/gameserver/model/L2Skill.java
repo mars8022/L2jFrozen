@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -36,6 +37,7 @@ import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ArtefactInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ChestInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ControlTowerInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -406,21 +408,21 @@ public abstract class L2Skill
 	private final int _itemConsume;
 	private final int _itemConsumeId;
 	// item consume count over time
-	private final int _itemConsumeOT;
+	protected int _itemConsumeOT;
 	// item consume id over time
-	private final int _itemConsumeIdOT;
+	protected int _itemConsumeIdOT;
 	// how many times to consume an item
-	private final int _itemConsumeSteps;
+	protected int _itemConsumeSteps;
 	// for summon spells:
 	// a) What is the total lifetime of summons (in millisecs)
-	private final int _summonTotalLifeTime;
+	private int _summonTotalLifeTime;
 	// b) how much lifetime is lost per second of idleness (non-fighting)
-	private final int _summonTimeLostIdle;
+	protected int _summonTimeLostIdle;
 	// c) how much time is lost per second of activity (fighting)
-	private final int _summonTimeLostActive;
+	protected int _summonTimeLostActive;
 
 	// item consume time in milliseconds
-	private final int _itemConsumeTime;
+	protected int _itemConsumeTime;
 	private final int _castRange;
 	private final int _effectRange;
 
@@ -3060,7 +3062,7 @@ public abstract class L2Skill
 
 		return effects.toArray(new L2Effect[effects.size()]);
 	}
-
+	
 	public final L2Effect[] getEffectsSelf(L2Character effector)
 	{
 		if(isPassive())

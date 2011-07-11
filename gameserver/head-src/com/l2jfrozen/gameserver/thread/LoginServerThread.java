@@ -39,6 +39,7 @@ import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.NewCrypt;
+import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -344,10 +345,17 @@ public class LoginServerThread extends Thread
 									wcToRemove.gameClient.setState(GameClientState.AUTHED);
 									wcToRemove.gameClient.setSessionId(wcToRemove.session);
 
-									CharSelectInfo cl = new CharSelectInfo(wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
-									wcToRemove.gameClient.getConnection().sendPacket(cl);
-									wcToRemove.gameClient.setCharSelection(cl.getCharInfo());
-									cl = null;
+									//before the char selection, check shutdown status
+									if(GameServer.getSelectorThread().isShutdown()){
+										wcToRemove.gameClient.getConnection().sendPacket(new AuthLoginFail(1));
+										wcToRemove.gameClient.closeNow();
+									}else{
+										CharSelectInfo cl = new CharSelectInfo(wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
+										wcToRemove.gameClient.getConnection().sendPacket(cl);
+										wcToRemove.gameClient.setCharSelection(cl.getCharInfo());
+										cl = null;
+									}
+									
 								}
 								else
 								{
@@ -530,6 +538,10 @@ public class LoginServerThread extends Thread
 	 */
 	private void sendPacket(GameServerBasePacket sl) throws IOException
 	{
+		if(_interrupted){
+			return;
+		}
+		
 		byte[] data = sl.getContent();
 		NewCrypt.appendChecksum(data);
 		if(Config.DEBUG)
@@ -699,5 +711,9 @@ public class LoginServerThread extends Thread
 	{
 		_interrupted = true;
 		super.interrupt();
+	}
+	
+	public boolean isInterrupted(){
+		return _interrupted;
 	}
 }

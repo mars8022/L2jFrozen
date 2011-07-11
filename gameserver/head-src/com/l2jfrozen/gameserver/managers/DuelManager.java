@@ -70,7 +70,7 @@ public class DuelManager
 		return _currentDuelId;
 	}
 
-	private Duel getDuel(int duelId)
+	public Duel getDuel(int duelId)
 	{
 		for(FastList.Node<Duel> e = _duels.head(), end = _duels.tail(); (e = e.getNext()) != end;)
 		{
