@@ -369,18 +369,10 @@ public class L2CubicInstance
 					&& ownerTarget != _owner)
 			{
 				
-				System.out.println("	Action4.1");
-				System.out.println("	Action4.1");
-				System.out.println("	Action4.1");
-				
 				// target mob which has aggro on you or your summon
 				if (ownerTarget instanceof L2Attackable)
 				{
 
-					System.out.println("	Action4.2");
-					System.out.println("	Action4.2");
-					System.out.println("	Action4.2");
-					
 					if (((L2Attackable) ownerTarget).getAggroList().get(_owner) != null
 							&& !((L2Attackable) ownerTarget).isDead())
 					{
@@ -396,21 +388,12 @@ public class L2CubicInstance
 						}
 				}
 				
-				System.out.println("	Action4.3");
-				System.out.println("	Action4.3");
-				System.out.println("	Action4.3");
-				
 				// get target in pvp or in siege
 				L2PcInstance enemy = null;
 				
 				if ((_owner.getPvpFlag() > 0 && !_owner.isInsideZone(L2Character.ZONE_PEACE))
 						|| _owner.isInsideZone(L2Character.ZONE_PVP))
 				{
-					System.out.println("	Action4.4");
-					System.out.println("	Action4.4");
-					System.out.println("	Action4.4");
-					
-					
 					if (!((L2Character) ownerTarget).isDead() && ownerTarget instanceof L2PcInstance)
 						enemy = (L2PcInstance)ownerTarget;
 					
@@ -477,10 +460,6 @@ public class L2CubicInstance
 		{
 			try
 			{
-				System.out.println("	Action");
-				System.out.println("	Action");
-				System.out.println("	Action");
-				
 				final L2PcInstance owner = _owner;
 				
 				if (owner==null || owner.isDead() || owner.isOnline()==0)
@@ -509,10 +488,6 @@ public class L2CubicInstance
 					}
 				}
 				
-				System.out.println("	Action1");
-				System.out.println("	Action1");
-				System.out.println("	Action1");
-				
 				// Smart Cubic debuff cancel is 100%
 				boolean UseCubicCure = false;
 				L2Skill skill = null;
@@ -531,10 +506,6 @@ public class L2CubicInstance
 					}
 				}
 				
-				System.out.println("	Action2");
-				System.out.println("	Action2");
-				System.out.println("	Action2");
-				
 				if (UseCubicCure)
 				{
 					// Smart Cubic debuff cancel is needed, no other skill is used in this
@@ -542,13 +513,8 @@ public class L2CubicInstance
 					MagicSkillUser msu = new MagicSkillUser(owner, owner, SKILL_CUBIC_CURE, 1, 0, 0);
 					owner.broadcastPacket(msu);
 				}
-				//else if (Rnd.get(1, 100) < _chance)
-				else if (Rnd.get(100) < 100) //test
+				else if (Rnd.get(100) < _chance)
 				{
-					System.out.println("	Action3");
-					System.out.println("	Action3");
-					System.out.println("	Action3");
-					
 					skill = _skills.get(Rnd.get(_skills.size()));
 					if (skill != null)
 					{
@@ -560,10 +526,6 @@ public class L2CubicInstance
 						}
 						else
 						{
-							System.out.println("	Action4");
-							System.out.println("	Action4");
-							System.out.println("	Action4");
-							
 							// offensive skill, we look for an enemy target
 							getCubicTarget();
 							if (_target == owner || !isInCubicRange(owner, _target))
@@ -571,10 +533,6 @@ public class L2CubicInstance
 						}
 						
 						final L2Character target = _target;
-						
-						System.out.println("	Action5");
-						System.out.println("	Action5");
-						System.out.println("	Action5");
 						
 						if ((target != null) && (!target.isDead()))
 						{
