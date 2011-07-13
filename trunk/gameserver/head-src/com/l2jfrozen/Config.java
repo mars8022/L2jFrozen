@@ -3948,7 +3948,7 @@ public final class Config
 			String line = null;
 			while((line = lnr.readLine()) != null)
 			{
-				if(line.trim().length() < 10 || line.trim().length() > 16 || line.startsWith("#"))
+				if(line.trim().length() < 6 || line.trim().length() > 15 || line.startsWith("#"))
 				{
 					continue;
 				}

@@ -1141,14 +1141,16 @@ public class Olympiad
 		if(_nobles == null)
 			return;
 
+		final Map<Integer, StatsSet> nobles = _nobles;
+		
 		PreparedStatement statement;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			
-			for(Integer nobleId : _nobles.keySet())
+			for(Integer nobleId : nobles.keySet())
 			{
-				StatsSet nobleInfo = _nobles.get(nobleId);
+				StatsSet nobleInfo = nobles.get(nobleId);
 
 				int charId = nobleId;
 				int classId = nobleInfo.getInteger(CLASS_ID);
@@ -1173,8 +1175,8 @@ public class Olympiad
 
 						nobleInfo.set("to_save", false);
 
-						_nobles.remove(nobleId);
-						_nobles.put(nobleId, nobleInfo);
+						nobles.remove(nobleId);
+						nobles.put(nobleId, nobleInfo);
 					}
 					else
 					{
@@ -1201,8 +1203,8 @@ public class Olympiad
 						
 						nobleInfo.set("to_save", false);
 
-						_nobles.remove(nobleId);
-						_nobles.put(nobleId, nobleInfo);
+						nobles.remove(nobleId);
+						nobles.put(nobleId, nobleInfo);
 						
 					}catch(SQLException e1)
 					{

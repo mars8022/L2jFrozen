@@ -36,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -11242,30 +11244,23 @@ public final class L2PcInstance extends L2PlayableInstance
 					String word = Config.QUESTION_LIST.get(Rnd.get(Config.QUESTION_LIST.size()));
 					String output;
 					_correctWord = Rnd.get(5)+1;
-					byte[] temp;
-					byte tmp;
-
+					
 					text = text.replace("%Time%", Integer.toString(Config.BOT_PROTECTOR_WAIT_ANSVER));
 					for(int i = 1; i <= 5; i++)
 					{
-						temp = word.getBytes();
 						if(i != _correctWord)
 						{
-							tmp = temp[i*4-4];
-							temp[i*4-4] = temp[i*4-2];
-							temp[i*4-2] = tmp;
-							tmp = temp[i*4-3];
-							temp[i*4-3] = temp[i*4-1];
-							temp[i*4-1] = tmp;
+							output = RandomStringUtils.random(word.length(), word);
+						}else{
+							output = word;
 						}
 
-						output = new String(temp);
 						text = text.replace("%Word"+i+"%", output);
 						if(i == 3)
 						{
 							text = text.replace("%Word%", output);
 						}
-						temp = null;
+					
 					}
 
 					L2PcInstance.this.sendPacket(new TutorialShowHtml(text));
@@ -11278,8 +11273,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 				catch(Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 			else
@@ -12766,7 +12760,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(_taskBotChecker == null)
 		{
-			_taskBotChecker = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new botChecker(), Config.BOT_PROTECTOR_FIRST_CHECK * 60000, Config.BOT_PROTECTOR_NEXT_CHECK * 60000);
+			if(Config.QUESTION_LIST.size() != 0){
+				_taskBotChecker = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new botChecker(), Config.BOT_PROTECTOR_FIRST_CHECK * 60000, Config.BOT_PROTECTOR_NEXT_CHECK * 60000);
+			}else{
+				_log.warning("ATTENTION: Bot Checker is bad configured because config/questionwords.txt has 0 words of 6 to 15 keys");
+			}
 		}
 	}
 
