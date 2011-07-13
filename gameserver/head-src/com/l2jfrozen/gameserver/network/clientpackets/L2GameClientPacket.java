@@ -70,11 +70,9 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch(Throwable t)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
 			
 			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
-			
+			t.printStackTrace();
 		}
 
 		return false;
@@ -98,10 +96,8 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch (Throwable t)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
-			
 			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
+			t.printStackTrace();
 			
 			if (this instanceof EnterWorld)
 				getClient().closeNow();

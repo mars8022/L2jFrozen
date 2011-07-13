@@ -7593,7 +7593,7 @@ public abstract class L2Character extends L2Object
 	/*
 	 * Runs in the end of skill casting 
 	 */
-	public void onMagicHitTimer(L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
+	public void onMagicHitTimer(final L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
 	{
 		if((skill == null || targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
 		{
@@ -8505,11 +8505,7 @@ public abstract class L2Character extends L2Object
 
 			target1 = null;
 		}
-		else
-		{
-			if(Config.DEBUG)
-				_log.fine("isBehindTarget's target not an L2 Character.");
-		}
+		
 		return false;
 	}
 
@@ -8557,11 +8553,7 @@ public abstract class L2Character extends L2Object
 
 			target1 = null;
 		}
-		else
-		{
-			if(Config.DEBUG)
-				_log.fine("isSideTarget's target not an L2 Character.");
-		}
+		
 		return false;
 	}
 

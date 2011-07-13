@@ -126,25 +126,15 @@ public class L2SignsPriestInstance extends L2FolkInstance
 						player.sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
 						break;
 					}
-					L2ItemInstance recordSevenSigns = player.getInventory().addItem("SevenSigns", SevenSigns.RECORD_SEVEN_SIGNS_ID, 1, player, this);
-
-					// Send inventory update packet
-					iu = new InventoryUpdate();
-					iu.addNewItem(recordSevenSigns);
-					iu.addItem(adenaItem);
-					sendPacket(iu);
+					
+					player.addItem("SevenSigns", SevenSigns.RECORD_SEVEN_SIGNS_ID, 1, player, true);
 
 					// Update current load as well
 					su = new StatusUpdate(player.getObjectId());
 					su.addAttribute(StatusUpdate.CUR_LOAD, player.getCurrentLoad());
 					sendPacket(su);
 
-					sm = new SystemMessage(SystemMessageId.EARNED_ITEM);
-					sm.addItemName(SevenSigns.RECORD_SEVEN_SIGNS_ID);
-					player.sendPacket(sm);
-
 					adenaItem = null;
-					recordSevenSigns = null;
 					break;
 				case 3: // Join Cabal Intro 1
 				case 8: // Festival of Darkness Intro - SevenSigns x [0]1

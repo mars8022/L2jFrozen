@@ -2207,8 +2207,12 @@ public final class Formulas
 		return 1 / saveVs.calcBonus(target);
 	}
 	
-	public static boolean calcCubicSkillSuccess(L2CubicInstance attacker, L2Character target, L2Skill skill)
+	public static boolean calcCubicSkillSuccess(final L2CubicInstance attacker, final L2Character target, L2Skill skill)
 	{
+		if(attacker == null){
+			return false;
+		}
+		
 		SkillType type = skill.getSkillType();
 		
 		// these skills should not work on RaidBoss
@@ -2303,8 +2307,11 @@ public final class Formulas
 		return (Rnd.get(100) < rate);
 	}
 	
-	public boolean calcSkillSuccess(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
+	public boolean calcSkillSuccess(final L2Character attacker, final L2Character target, L2Skill skill, boolean ss, boolean sps, boolean bss)
 	{
+		if(attacker == null){
+			return false;
+		}
 		
 		// Add Matk/Mdef Bonus
 		double mAtkModifier = 1;
@@ -2430,8 +2437,12 @@ public final class Formulas
 		return Rnd.get(100) < rate;
 	}
 	
-	public static boolean calcEffectSuccess(L2Character attacker, L2Character target, EffectTemplate effect, L2Skill skill, boolean ss, boolean sps, boolean bss)
+	public static boolean calcEffectSuccess(final L2Character attacker, final L2Character target, EffectTemplate effect, L2Skill skill, boolean ss, boolean sps, boolean bss)
 	{
+		if(attacker == null){
+			return false;
+		}
+		
 		final SkillType type = effect.effectType;
 		final int value = (int)effect.effectPower;
 		if (type == null)
@@ -2672,8 +2683,12 @@ public final class Formulas
 		return multiplier;
 	}
 	
-	public static int calcLvlDependModifier(L2Character attacker, L2Character target, L2Skill skill)
+	public static int calcLvlDependModifier(final L2Character attacker, final L2Character target, L2Skill skill)
 	{
+		if(attacker == null){
+			return 0;
+		}
+		
 		if (skill.getLevelDepend() == 0)
 			return 0;
 		
@@ -2801,8 +2816,12 @@ public final class Formulas
 		return true;
 	}
 
-	public double calcManaDam(L2Character attacker, L2Character target, L2Skill skill, boolean ss, boolean bss)
+	public double calcManaDam(final L2Character attacker, final L2Character target, L2Skill skill, boolean ss, boolean bss)
 	{
+		if(attacker == null || target == null){
+			return 0;
+		}
+		
 		//Mana Burnt = (SQR(M.Atk)*Power*(Target Max MP/97))/M.Def
 		double mAtk = attacker.getMAtk(target, skill);
 		double mDef = target.getMDef(attacker, skill);
@@ -2873,7 +2892,7 @@ public final class Formulas
 		return Rnd.get(100) < target.calcStat(Stats.P_SKILL_EVASION, 0, null, skill);
 	}
 
-	public boolean calcSkillMastery(L2Character actor)
+	public boolean calcSkillMastery(final L2Character actor)
 	{
 		if(actor == null)
 			return false;
