@@ -86,7 +86,7 @@ public final class RequestChangePetName extends L2GameClientPacket
 
 		pet.setName(_name);
 		pet.broadcastPacket(new NpcInfo(pet, activeChar));
-		pet.broadcastPacket(new PetInfo(pet));
+		activeChar.sendPacket(new PetInfo(pet));
 		// The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them
 		pet.updateEffectIcons(true);
 

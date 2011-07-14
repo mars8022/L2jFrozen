@@ -24,6 +24,7 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 
 /**
  * This class ...
@@ -121,7 +122,7 @@ public class NpcInfo extends L2GameServerPacket
 		_isSummoned = cha.isShowSummonAnimation();
 		_collisionHeight = _activeChar.getTemplate().collisionHeight;
 		_collisionRadius = _activeChar.getTemplate().collisionRadius;
-		if(cha.getTemplate().serverSideName || cha instanceof L2PetInstance)
+		if(cha.getTemplate().serverSideName || cha instanceof L2PetInstance || cha instanceof L2SummonInstance)
 		{
 			_name = _activeChar.getName();
 			_title = cha.getTitle();
@@ -182,10 +183,16 @@ public class NpcInfo extends L2GameServerPacket
 		writeC(_isSummoned ? 2 : 0); // invisible ?? 0=false  1=true   2=summoned (only works if model has a summon animation)
 		writeS(_name);
 		writeS(_title);
-		writeD(0);
-		writeD(0);
-		writeD(0000); // hmm karma ??
-
+		writeD(0x01);// Title color 0=client default
+		
+		if(_activeChar instanceof L2Summon){
+			writeD(((L2Summon)_activeChar).getPvpFlag());
+			writeD(((L2Summon)_activeChar).getKarma());
+		}else{
+			writeD(0);
+			writeD(0);
+		}
+		
 		writeD(_activeChar.getAbnormalEffect()); // C2
 		writeD(0000); // C2
 		writeD(0000); // C2
