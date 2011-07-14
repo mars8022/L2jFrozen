@@ -165,7 +165,7 @@ public class PcKnownList extends PlayableKnownList
 				// Check if the L2PcInstance is the owner of the Pet
 				if(active_char.equals(summon.getOwner()))
 				{
-					summon.broadcastPacket(new PetInfo(summon));
+					active_char.sendPacket(new PetInfo(summon));
 					// The PetInfo packet wipes the PartySpelled (list of active  spells' icons).  Re-add them
 					summon.updateEffectIcons(true);
 

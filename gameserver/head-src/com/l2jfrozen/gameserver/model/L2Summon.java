@@ -392,6 +392,7 @@ public abstract class L2Summon extends L2PlayableInstance
 		if(getOwner() != null && isVisible())
 		{
 			getOwner().sendPacket(new PetStatusUpdate(this));
+			
 		}
 	}
 

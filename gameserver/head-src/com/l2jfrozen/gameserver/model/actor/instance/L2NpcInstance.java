@@ -977,6 +977,10 @@ public class L2NpcInstance extends L2Character
 			{
 				for(L2DropData drop : cat.getAllDrops())
 				{
+					if(drop == null || ItemTable.getInstance().getTemplate(drop.getItemId()) == null){
+						continue;
+					}
+					
 					String name = ItemTable.getInstance().getTemplate(drop.getItemId()).getName();
 
 					if(drop.getChance() >= 600000)

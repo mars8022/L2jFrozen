@@ -20,15 +20,19 @@ import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.PetInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.util.random.Rnd;
 
 
 public class L2SkillSummon extends L2Skill
@@ -228,9 +232,28 @@ public class L2SkillSummon extends L2Skill
 		summon.setHeading(activeChar.getHeading());
 		summon.setRunning();
 		activeChar.setPet(summon);
-		
-		//L2World.getInstance().storeObject(summon);
-		summon.spawnMe(activeChar.getX()+20, activeChar.getY()+20, activeChar.getZ());
+
+		L2World.storeObject(summon);
+
+		//Check to see if we should do the decay right after the cast
+		if(getTargetType() == SkillTargetType.TARGET_CORPSE_MOB)
+		{
+			L2Character target = (L2Character) targets[0];
+			if(target.isDead() && target instanceof L2NpcInstance)
+			{
+				summon.spawnMe(target.getX(), target.getY(), target.getZ() + 5);
+				((L2NpcInstance) target).endDecayTask();
+			}
+		}
+		else
+		{
+			summon.spawnMe(activeChar.getX() + Rnd.get(40)-20, activeChar.getY() + Rnd.get(40)-20, activeChar.getZ());
+		}
+
+		summon.setFollowStatus(true);
+		summon.setShowSummonAnimation(false); // addVisibleObject created the info packets with summon animation
+		// if someone comes into range now, the animation shouldnt show any more
+		activeChar.sendPacket(new PetInfo(summon));
 	}
 	
 	public final boolean isCubic()
