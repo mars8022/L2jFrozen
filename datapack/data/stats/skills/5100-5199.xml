@@ -217,7 +217,7 @@
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
- 	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0"/>
+ 	<effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="9" val="0" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -569,15 +569,13 @@
   <set name="effectPoint" val="950"/>
   <set name="magiclvl" val="80"/>
   <set name="target" val="TARGET_AREA"/>
-  <set name="element" val="1"/>
+  <set name="element" val="3"/> <!-- Water -->
   <set name="reuseDelay" val="32000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="nextActionAttack" val="false" />
-  <for>
-  </for>
 </skill>
 <skill id="5140" levels="1" name="Force Curse">
   <set name="mpConsume" val="117"/>

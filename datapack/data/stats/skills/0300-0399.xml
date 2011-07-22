@@ -920,14 +920,14 @@
   </for>
 </skill>
 <skill id="340" levels="1" name="Riposte Stance">
+  <set name="magicLvl" val="77" />
   <set name="mpConsume" val="35"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="3" val="35">
+      <add order="0x40" stat="reflectDam" val="30" />
       <add order="0x40" stat="reflectSkillPhysic" val="30"/>
       <add order="0x40" stat="reflectSkillMagic" val="30"/>
       <mul order="0x30" stat="pAtkSpd" val="0.8"/>

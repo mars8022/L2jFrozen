@@ -262,7 +262,7 @@
   <!-- Queen Ant Skills -->
   <set name="magicLvl" val="40"/>
   <set name="saveVs" val="DEX"/>
-  <set name="power" val="40"/>
+  <set name="power" val="40" /> <!-- Base Land Rate -->
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="250"/>
   <set name="coolTime" val="500"/>
