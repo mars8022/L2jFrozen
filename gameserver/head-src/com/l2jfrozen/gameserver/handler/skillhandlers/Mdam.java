@@ -140,11 +140,10 @@ public class Mdam implements ISkillHandler
 //			}
 			boolean bss = activeChar.checkBss();
 			boolean sps = activeChar.checkSps();
-			boolean ss = activeChar.checkSs();
 		
 			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, skill));
 
-			int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, ss, bss, mcrit);
+			int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, sps, bss, mcrit);
 
 			if(damage > 5000 && activeChar instanceof L2PcInstance)
 			{
@@ -182,7 +181,7 @@ public class Mdam implements ISkillHandler
 					if(target.reflectSkill(skill))
 					{
 						activeChar.stopSkillEffects(skill.getId());
-						skill.getEffects(null, activeChar,ss,sps,bss);
+						skill.getEffects(null, activeChar,false,sps,bss);
 						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(skill.getId());
 						activeChar.sendPacket(sm);
@@ -192,8 +191,8 @@ public class Mdam implements ISkillHandler
 					{
 						// activate attacked effects, if any
 						target.stopSkillEffects(skill.getId());
-						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill,ss,sps,bss))
-							skill.getEffects(activeChar, target,ss,sps,bss);
+						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill,false,sps,bss))
+							skill.getEffects(activeChar, target,false,sps,bss);
 						else
 						{
 							SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);

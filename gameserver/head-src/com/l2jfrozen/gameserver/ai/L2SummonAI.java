@@ -165,4 +165,20 @@ public class L2SummonAI extends L2CharacterAI
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.ai.L2CharacterAI#onEvtFinishCasting()
+	 */
+	@Override
+	protected void onEvtFinishCasting()
+	{
+		// TODO Auto-generated method stub
+		super.onEvtFinishCasting();
+		
+		final L2Summon summon = (L2Summon) _actor;
+
+		summon.setFollowStatus(true);
+		
+	}
+	
+	
 }

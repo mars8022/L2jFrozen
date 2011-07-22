@@ -54,8 +54,8 @@ public class EffectTargetMe extends L2Effect
 			if(getEffected().getTarget() != getEffector())
 			{
 				// Target is different - stop autoattack and break cast
-				getEffected().abortAttack();
-				getEffected().abortCast();
+				//getEffected().abortAttack();
+				//getEffected().abortCast();
 				getEffected().setTarget(getEffector());
 				MyTargetSelected my = new MyTargetSelected(getEffector().getObjectId(), 0);
 				getEffected().sendPacket(my);
