@@ -614,6 +614,14 @@ public class Shutdown extends Thread
         	_log.log(Level.SEVERE,"Error saving offline shops.",t);
         }
 
+        try
+		{
+			Thread.sleep(5000);
+		}
+		catch(InterruptedException e1)
+		{
+		}
+		
 		// we cannt abort shutdown anymore, so i removed the "if"
 		disconnectAllCharacters();
 		

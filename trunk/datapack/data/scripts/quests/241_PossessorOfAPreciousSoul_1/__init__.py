@@ -124,7 +124,9 @@ class Quest (JQuest) :
        st.set("cond","20")
        st.playSound("ItemSound.quest_accept")
    if event == "31272-5.htm" :
-     if cond == 20 and st.getPlayer().isSubClassActive() :
+     if (st.getPlayer().isProcessingRequest() or st.getPlayer().isProcessingTransaction()) :
+       st.getPlayer().sendMessage("Another transaction in progress..")
+     elif cond == 20 and st.getPlayer().isSubClassActive() :
        st.takeItems(LUNARGENT,5)
        st.takeItems(HELLFIRE_OIL,1)
        st.set("cond","21")

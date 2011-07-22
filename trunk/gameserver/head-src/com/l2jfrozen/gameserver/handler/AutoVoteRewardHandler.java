@@ -3,6 +3,7 @@ package com.l2jfrozen.gameserver.handler;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -195,7 +196,9 @@ public class AutoVoteRewardHandler
 		try
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
-			isr = new InputStreamReader(url.openStream());
+			URLConnection con = url.openConnection();    
+			con.addRequestProperty("User-Agent", "Mozilla/4.76");		    
+			isr = new InputStreamReader(con.getInputStream());		    
 			in = new BufferedReader(isr);
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
@@ -248,7 +251,9 @@ public class AutoVoteRewardHandler
 		try
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_TOPZONE_URL);
-			isr = new InputStreamReader(url.openStream());
+			URLConnection con = url.openConnection();    
+			con.addRequestProperty("User-Agent", "Mozilla/4.76");		    
+			isr = new InputStreamReader(con.getInputStream());		    
 			in = new BufferedReader(isr);
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)

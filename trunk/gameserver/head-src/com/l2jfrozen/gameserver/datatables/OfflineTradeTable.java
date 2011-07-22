@@ -138,7 +138,7 @@ public class OfflineTradeTable
 							default:
 								//_log.info( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 								//no save for this kind of shop
-								return;
+								continue;
 						}
 						stm.setString(4, title);
 						stm.executeUpdate();

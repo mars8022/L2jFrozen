@@ -107,9 +107,9 @@ public final class EffectSignetMDam extends L2Effect
 
 		FastList<L2Character> targets = new FastList<L2Character>();
 
-		boolean ss = false;
-		boolean bss = false;
-
+		boolean sps = caster.checkSps();
+		boolean bss = caster.checkBss();
+		
 		for(L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
 		{
 			if(cha == null || cha == caster)
@@ -152,7 +152,7 @@ public final class EffectSignetMDam extends L2Effect
 			for(L2Character target : targets)
 			{
 				boolean mcrit = Formulas.calcMCrit(caster.getMCriticalHit(target, getSkill()));
-				int mdam = (int) Formulas.calcMagicDam(caster, target, getSkill(), ss, bss, mcrit);
+				int mdam = (int) Formulas.calcMagicDam(caster, target, getSkill(), sps, bss, mcrit);
 
 				if(target instanceof L2Summon)
 				{

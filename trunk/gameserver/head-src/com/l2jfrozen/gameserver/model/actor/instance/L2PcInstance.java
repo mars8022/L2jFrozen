@@ -16250,4 +16250,18 @@ public final class L2PcInstance extends L2PlayableInstance
     {
     	return getClient().getFloodProtectors();
     }
+
+    /**
+	 * Test if player inventory is under 80% capaity
+	 * @param includeQuestInv check also quest inventory
+	 * @return
+	 */
+	public boolean isInventoryUnder80()
+	{
+		if (getInventory().getSize() <= (GetInventoryLimit() * 0.8))
+		{
+			return true;
+		}
+		return false;
+	}
 }

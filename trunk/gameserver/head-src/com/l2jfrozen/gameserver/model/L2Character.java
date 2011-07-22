@@ -2213,7 +2213,6 @@ public abstract class L2Character extends L2Object
 
 		// Notify the AI with AI_INTENTION_CAST and target
 		getAI().setIntention(CtrlIntention.AI_INTENTION_CAST, skill, target);
-
 		target = null;
 	}
 

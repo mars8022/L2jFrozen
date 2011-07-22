@@ -1565,6 +1565,9 @@ public abstract class L2Skill
 				// Go through the L2Character _knownList
 				for(L2Object obj : activeChar.getKnownList().getKnownCharactersInRadius(radius))
 				{
+					if(obj == null || !(activeChar instanceof L2PlayableInstance) && !(obj instanceof L2PlayableInstance))
+						continue;
+						
 					if(src instanceof L2PcInstance && obj != null && (obj instanceof L2Attackable || obj instanceof L2PlayableInstance))
 					{
 						// Don't add this target if this is a Pc->Pc pvp casting and pvp condition not met
@@ -1747,10 +1750,10 @@ public abstract class L2Skill
 
 				for(L2Object obj : activeChar.getKnownList().getKnownObjects().values())
 				{
-					if(obj == null)
-					{
+					if(obj == null || !(activeChar instanceof L2PlayableInstance) && !(obj instanceof L2PlayableInstance))
 						continue;
-					}
+						
+					
 					if(!(obj instanceof L2Attackable || obj instanceof L2PlayableInstance))
 					{
 						continue;

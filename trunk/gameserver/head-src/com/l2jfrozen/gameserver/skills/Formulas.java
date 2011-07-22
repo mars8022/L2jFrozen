@@ -1637,14 +1637,26 @@ public final class Formulas
 		// Add Matk/Mdef Bonus
 		int ssModifier = 1;
 		// Add Bonus for Sps/SS
-		L2ItemInstance weapon = attacker.getActiveWeaponInstance();
-		if(weapon!=null){
+		if(attacker instanceof L2Summon && !(attacker instanceof L2PetInstance)){
+			
 			if (bss){
-				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 4;
-			}else if (ss){
-				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}else if(ss){
+				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 2;
+			}
+			
+		}else{
+			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+			if(weapon!=null){
+				if (bss){
+					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					ssModifier = 4;
+				}else if (ss){
+					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					ssModifier = 2;
+				}
 			}
 		}
 		
@@ -2321,16 +2333,29 @@ public final class Formulas
 			mAtkModifier = target.getMDef(target, skill);
 			
 			// Add Bonus for Sps/SS
-			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
-			if(weapon!=null){
+			if(attacker instanceof L2Summon && !(attacker instanceof L2PetInstance)){
+				
 				if (bss){
-					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 					ssModifier = 4;
-				}else if (ss){
-					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				}else if(sps){
+					((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 					ssModifier = 2;
 				}
+				
+			}else{
+				L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+				if(weapon!=null){
+					if (bss){
+						weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+						ssModifier = 4;
+					}else if (sps){
+						weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+						ssModifier = 2;
+					}
+				}
 			}
+			
 			
 			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
 			
@@ -2412,8 +2437,9 @@ public final class Formulas
 		{
 			final StringBuilder stat = new StringBuilder(100);
 			StringUtil.append(stat,
-					skill.getName(),
 					" calcSkillSuccess: ",
+					skill.getName(),
+					" ID:", ""+skill.getId(),
 					" type:", skill.getSkillType().toString(),
 					" power:", String.valueOf(value),
 					" stat:", String.format("%1.2f", statModifier),
@@ -2829,14 +2855,26 @@ public final class Formulas
 		
 		int ssModifier = 1;
 		// Add Bonus for Sps/SS
-		L2ItemInstance weapon = attacker.getActiveWeaponInstance();
-		if(weapon!=null){
+		if(attacker instanceof L2Summon && !(attacker instanceof L2PetInstance)){
+			
 			if (bss){
-				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 4;
-			}else if (ss){
-				weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}else if(ss){
+				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 2;
+			}
+			
+		}else{
+			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
+			if(weapon!=null){
+				if (bss){
+					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					ssModifier = 4;
+				}else if (ss){
+					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					ssModifier = 2;
+				}
 			}
 		}
 		

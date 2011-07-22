@@ -48,7 +48,7 @@ public class SystemMessage extends L2GameServerPacket
 
 	public SystemMessage(SystemMessageId messageId)
 	{
-		if(Config.DEVELOPER && messageId == SystemMessageId.TARGET_IS_INCORRECT){
+		if(Config.DEBUG && messageId == SystemMessageId.TARGET_IS_INCORRECT){
 			Thread.dumpStack();
 		}
 		
@@ -196,5 +196,15 @@ public class SystemMessage extends L2GameServerPacket
 	public void addSkillName(L2Skill skill)
 	{
 	// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @param theGameEndedInATie
+	 * @return
+	 */
+	public static SystemMessage getSystemMessage(SystemMessageId smId)
+	{
+		SystemMessage sm = new SystemMessage(smId);
+		return sm;
 	}
 }
