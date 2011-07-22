@@ -1815,24 +1815,27 @@
     <effect count="1" name="Betray" time="25" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1381" levels="5" name="Mass Fear">
   <table name="#mpConsume">80 87 93 98 103</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="21000"/>
   <set name="hitTime" val="6000"/>
   <set name="target" val="TARGET_AREA"/>
-  <set name="skillRadius" val="250"/>
-  <set name="power" val="30"/>
+  <set name="skillRadius" val="200"/>
+  <set name="power" val="30" /> <!-- Base Land Rate -->
   <set name="saveVs" val="MEN"/>
   <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="500"/>
   <set name="effectRange" val="1000"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="5" name="Fear" time="5" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1382" levels="5" name="Mass Gloom">
   <table name="#mpConsume">80 87 93 98 103</table>
   <!-- suspect these mDef values are guesses -->
@@ -1844,6 +1847,7 @@
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="reuseDelay" val="21000"/>
   <set name="hitTime" val="6000"/>
+  <set name="power" val="40" /> <!-- Base Land Rate -->
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="230"/>
   <set name="skillType" val="DEBUFF"/>
@@ -1851,6 +1855,7 @@
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <for>
     <effect count="1" name="Buff" time="15" val="0" stackOrder="1" stackType="matkdebuff">
       <div order="0x30" stat="mDef" val="#mDef"/>
@@ -1866,6 +1871,7 @@
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="saveVs" val="MEN"/>
+  <set name="power" val="40" /> <!-- Base Land Rate -->
   <set name="reuseDelay" val="21000"/>
   <set name="hitTime" val="6000"/>
   <set name="target" val="TARGET_AREA"/>
@@ -1890,6 +1896,7 @@
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="saveVs" val="MEN"/>
+  <set name="power" val="40" /> <!-- Base Land Rate -->
   <set name="reuseDelay" val="21000"/>
   <set name="hitTime" val="6000"/>
   <set name="target" val="TARGET_AREA"/>
@@ -1914,6 +1921,7 @@
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="saveVs" val="MEN"/>
+  <set name="power" val="40" /> <!-- Base Land Rate -->
   <set name="reuseDelay" val="21000"/>
   <set name="hitTime" val="6000"/>
   <set name="target" val="TARGET_AREA"/>

@@ -339,7 +339,7 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="reuseDelay" val="12000"/>
   <set name="hitTime" val="1200"/>
-  <set name="skillType" val="CONFUSION"/>
+  <set name="skillType" val="DEBUFF" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>

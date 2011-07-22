@@ -478,8 +478,9 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="isDebuff" val="true" />
+  <set name="isMagic" val="true" />
+  <set name="lvlDepend" val="1" />
   <for>
     <effect count="1" name="Buff" time="5" val="0" stackOrder="#runSpd" stackType="RunSpeedDown">
       <mul order="0x30" stat="runSpd" val="#runSpd"/>

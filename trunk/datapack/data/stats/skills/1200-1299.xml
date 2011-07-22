@@ -2189,9 +2189,9 @@
   <!-- Summon-specific -->
   <set name="npcId" val="6"/>
   <set name="expPenalty" val="0.0"/>
-  <set name="isCubic" val="true"/>
-  <for>
-  </for>
+  <set name="activationchance" val="12" /> <!-- Cubic Chance -->
+  <set name="activationtime" val="30" /> <!-- Cubic Delay -->
+  <set name="isCubic" val="true" />
 </skill>
 <skill id="1280" levels="9" name="Summon Aqua Cubic">
   <table name="#mpConsume_Init">7 8 9 10 11 11 12 13 14</table>
@@ -2213,6 +2213,8 @@
   <!-- Summon-specific -->
   <set name="npcId" val="7"/>
   <set name="expPenalty" val="0.0"/>
+  <set name="activationchance" val="30" /> <!-- Cubic Chance -->
+  <set name="activationtime" val="30" /> <!-- Cubic Delay -->
   <set name="isCubic" val="true"/>
   <for>
   </for>
@@ -2237,6 +2239,8 @@
   <!-- Summon-specific -->
   <set name="npcId" val="8"/>
   <set name="expPenalty" val="0.0"/>
+  <set name="activationchance" val="12" /> <!-- Cubic Chance -->
+  <set name="activationtime" val="30" /> <!-- Cubic Delay -->
   <set name="isCubic" val="true"/>
   <for>
   </for>
