@@ -21,6 +21,7 @@ import javolution.util.FastMap;
 
 import org.w3c.dom.Node;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -280,6 +281,17 @@ public abstract class L2ZoneType
 			if(!isAffected(character))
 				return;
 		}
+		
+		if(Config.DEBUG &&  character !=null && character.getName()!=null && character.getName().equalsIgnoreCase("pippo")){
+			
+			System.out.println("Character "+character.getName() +" has coords: ");
+			System.out.println("	X: "+character.getX());
+			System.out.println("	Y: "+character.getY());
+			System.out.println("	Z: "+character.getZ());
+			System.out.println(" -  is inside zone "+_id+"?: "+_zone.isInsideZone(character.getX(), character.getY(), character.getZ()));
+			
+		}
+		
 
 		// If the object is inside the zone...
 		if(_zone.isInsideZone(character.getX(), character.getY(), character.getZ()))
@@ -300,6 +312,16 @@ public abstract class L2ZoneType
 				onExit(character);
 			}
 		}
+		
+		if(Config.DEBUG){
+			System.out.println(" -  players inside zone "+_id+": ");
+			for(L2Character actual: _characterList.values()){
+				if(actual instanceof L2PcInstance)
+					System.out.println("	 -  "+actual.getName());
+			}
+		}
+		
+		
 	}
 
 	/**

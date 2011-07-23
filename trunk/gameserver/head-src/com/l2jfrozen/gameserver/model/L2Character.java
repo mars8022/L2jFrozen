@@ -3464,6 +3464,9 @@ public abstract class L2Character extends L2Object
 	 */
 	public final void startStunning()
 	{
+		if(isStunned())
+			return;
+		
 		setIsStunned(true);
 		/* Aborts any attacks/casts if stunned */
 		abortAttack();
@@ -3809,6 +3812,9 @@ public abstract class L2Character extends L2Object
 	 */
 	public final void stopStunning(L2Effect effect)
 	{
+		if(!isStunned())
+			return;
+			
 		if(effect == null)
 		{
 			stopEffects(L2Effect.EffectType.STUN);
@@ -4059,7 +4065,7 @@ public abstract class L2Character extends L2Object
 	public final L2Effect[] getAllEffects()
 	{
 		// Create a copy of the effects set
-		FastTable<L2Effect> effects = _effects;
+		final FastTable<L2Effect> effects = _effects;
 
 		// If no effect found, return EMPTY_EFFECTS
 		if(effects == null || effects.isEmpty())
@@ -4083,8 +4089,6 @@ public abstract class L2Character extends L2Object
 				break;
 			}
 		}
-
-		effects = null;
 
 		return effectArray;
 	}

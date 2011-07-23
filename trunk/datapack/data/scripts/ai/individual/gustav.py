@@ -6,6 +6,8 @@ from com.l2jfrozen.gameserver.model.quest import QuestState
 from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 from com.l2jfrozen.gameserver.managers import ClanHallManager
 from com.l2jfrozen.util.random import Rnd
+from com.l2jfrozen.gameserver.model import L2Clan
+from com.l2jfrozen.gameserver.model import L2ClanMember
 from java.lang import System
 
 GUSTAV = 35410
@@ -31,11 +33,17 @@ class Gustav(JQuest):
    return
  
  def onAttack (self,npc,player,damage,isPet):
+   CLAN = player.getClan()
+   if CLAN == None :
+     return
+   CLANLEADER = CLAN.getLeader()
+   if CLANLEADER == None :
+     return
    global CLANLEADERS
    for clname in CLANLEADERS:
      if clname <> None :
-       if player.getClan().getLeader().getName() == clname :
-         DevastatedCastle.getInstance().addSiegeDamage(player.getClan(),damage)
+       if CLANLEADER.getName() == clname :
+         DevastatedCastle.getInstance().addSiegeDamage(CLAN,damage)
    return
 
  def onKill(self,npc,player,isPet):

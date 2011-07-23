@@ -5855,26 +5855,26 @@ public final class L2PcInstance extends L2PlayableInstance
 	@Override
 	public boolean doDie(L2Character killer)
 	{
-	if(Config.TW_RESS_ON_DIE)
-	{
-		int x1,y1,z1;
-		x1 = getX();
-		y1 = getY();
-		z1 = getZ();
-		L2TownZone Town;
-		Town = TownManager.getInstance().getTown(x1,y1,z1);
-		if(Town != null && isinTownWar())
+		if(Config.TW_RESS_ON_DIE)
 		{
-			if(Town.getTownId() == Config.TW_TOWN_ID && !Config.TW_ALL_TOWNS)
+			int x1,y1,z1;
+			x1 = getX();
+			y1 = getY();
+			z1 = getZ();
+			L2TownZone Town;
+			Town = TownManager.getInstance().getTown(x1,y1,z1);
+			if(Town != null && isinTownWar())
 			{
-				reviveRequest(this, null, false);
-			}
-			else if(Config.TW_ALL_TOWNS)
-			{
-				reviveRequest(this, null, false);
+				if(Town.getTownId() == Config.TW_TOWN_ID && !Config.TW_ALL_TOWNS)
+				{
+					reviveRequest(this, null, false);
+				}
+				else if(Config.TW_ALL_TOWNS)
+				{
+					reviveRequest(this, null, false);
+				}
 			}
 		}
-	}
 		// Kill the L2PcInstance
 		if(!super.doDie(killer))
 			return false;

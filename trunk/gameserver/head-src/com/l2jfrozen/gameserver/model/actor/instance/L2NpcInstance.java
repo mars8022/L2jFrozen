@@ -973,29 +973,31 @@ public class L2NpcInstance extends L2Character
 			html1.append("Rates legend: <font color=\"ff0000\">50%+</font> <font color=\"00ff00\">30%+</font> <font color=\"0000ff\">less than 30%</font>");
 			html1.append("<table border=0 width=\"100%\">");
 
-			for(L2DropCategory cat : getTemplate().getDropData())
+			for(final L2DropCategory cat : getTemplate().getDropData())
 			{
-				for(L2DropData drop : cat.getAllDrops())
-				{
-					if(drop == null || ItemTable.getInstance().getTemplate(drop.getItemId()) == null){
-						continue;
-					}
-					
-					String name = ItemTable.getInstance().getTemplate(drop.getItemId()).getName();
-
-					if(drop.getChance() >= 600000)
+				final FastList<L2DropData> drops = cat.getAllDrops();
+				if(drops!=null)
+					for(final L2DropData drop : drops)
 					{
-						html1.append("<tr><td><font color=\"ff0000\">" + name + "</font></td><td>" + (drop.isQuestDrop() ? "Quest" : cat.isSweep() ? "Sweep" : "Drop") + "</td></tr>");
+						if(drop == null || ItemTable.getInstance().getTemplate(drop.getItemId()) == null){
+							continue;
+						}
+						
+						String name = ItemTable.getInstance().getTemplate(drop.getItemId()).getName();
+	
+						if(drop.getChance() >= 600000)
+						{
+							html1.append("<tr><td><font color=\"ff0000\">" + name + "</font></td><td>" + (drop.isQuestDrop() ? "Quest" : cat.isSweep() ? "Sweep" : "Drop") + "</td></tr>");
+						}
+						else if(drop.getChance() >= 300000)
+						{
+							html1.append("<tr><td><font color=\"00ff00\">" + name + "</font></td><td>" + (drop.isQuestDrop() ? "Quest" : cat.isSweep() ? "Sweep" : "Drop") + "</td></tr>");
+						}
+						else
+						{
+							html1.append("<tr><td><font color=\"0000ff\">" + name + "</font></td><td>" + (drop.isQuestDrop() ? "Quest" : cat.isSweep() ? "Sweep" : "Drop") + "</td></tr>");
+						}
 					}
-					else if(drop.getChance() >= 300000)
-					{
-						html1.append("<tr><td><font color=\"00ff00\">" + name + "</font></td><td>" + (drop.isQuestDrop() ? "Quest" : cat.isSweep() ? "Sweep" : "Drop") + "</td></tr>");
-					}
-					else
-					{
-						html1.append("<tr><td><font color=\"0000ff\">" + name + "</font></td><td>" + (drop.isQuestDrop() ? "Quest" : cat.isSweep() ? "Sweep" : "Drop") + "</td></tr>");
-					}
-				}
 			}
 
 			html1.append("</table>");
