@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 import com.l2jfrozen.gameserver.managers.CastleManorManager.SeedProduction;
 import com.l2jfrozen.gameserver.managers.CrownManager;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Manor;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -1415,6 +1416,13 @@ public class Castle
 	
 	public void oustAllPlayers()
 	{
+		if(Config.DEBUG && _teleZone!=null){
+			System.out.println("Castle Teleport Zone ID: "+_teleZone.getId());
+			System.out.println("Players Number in Castle Teleport Zone: "+_teleZone.getAllPlayers().size());
+			for(L2Character actual:_teleZone.getAllPlayers()){
+				System.out.println("	Player Name: "+actual.getName());
+			}
+		}
 		getTeleZone().oustAllPlayers();
 	}
 }
