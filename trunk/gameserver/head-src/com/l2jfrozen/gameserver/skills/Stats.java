@@ -51,6 +51,8 @@ public enum Stats
 	MAGIC_REUSE_RATE("mReuse"), // how fast spells becomes ready to reuse
 	SHIELD_DEFENCE("sDef"),
 	CRITICAL_DAMAGE("cAtk"),
+	CRITICAL_DAMAGE_ADD("cAtkAdd"),
+	
 	PVP_PHYSICAL_DMG("pvpPhysDmg"),
 	PVP_MAGICAL_DMG("pvpMagicalDmg"),
 	PVP_PHYS_SKILL_DMG("pvpPhysSkillsDmg"),
@@ -133,7 +135,8 @@ public enum Stats
 	BUFF_VULN("buffVuln"),
 	FALL_VULN("fallVuln"),
 	CAST_INTERRUPT("concentration"),
-
+	CRIT_VULN("critVuln"), 			// Resistence to Crit DMG.
+	
 	NONE_WPN_VULN("noneWpnVuln"), // Shields!!!
 	SWORD_WPN_VULN("swordWpnVuln"),
 	BLUNT_WPN_VULN("bluntWpnVuln"),
@@ -145,6 +148,8 @@ public enum Stats
 	DUAL_WPN_VULN("dualWpnVuln"),
 	DUALFIST_WPN_VULN("dualFistWpnVuln"),
 	POLE_TARGERT_COUNT("poleTargetCount"),
+	BIGSWORD_WPN_VULN("bigSwordWpnVuln"),
+	BIGBLUNT_WPN_VULN("bigBluntWpnVuln"),
 
 	REFLECT_DAMAGE_PERCENT("reflectDam"),
 	REFLECT_SKILL_MAGIC("reflectSkillMagic"),
@@ -162,6 +167,11 @@ public enum Stats
 	PATK_DRAGONS("pAtk-dragons"),
 	PATK_UNDEAD("pAtk-undead"),
 
+	PATK_GIANTS("pAtk-giants"),
+	PATK_MCREATURES("pAtk-magicCreature"),
+	PDEF_GIANTS("pDef-giants"),
+	PDEF_MCREATURES("pDef-magicCreature"),
+	
 	PDEF_UNDEAD("pDef-undead"),
 	PDEF_PLANTS("pDef-plants"),
 	PDEF_INSECTS("pDef-insects"),
@@ -190,8 +200,9 @@ public enum Stats
 	SOULSHOT_COUNT("soulShotCount"),
 
 	//Skill mastery
-	SKILL_MASTERY("skillMastery");
-
+	SKILL_MASTERY("skillMastery"); 
+	
+	
 	public static final int NUM_STATS = values().length;
 
 	private String _value;

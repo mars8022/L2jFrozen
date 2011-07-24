@@ -1058,6 +1058,9 @@ public final class Config
 	public static int ACTIVE_AUGMENTS_START_REUSE_TIME;
 	
 	public static boolean NPC_ATTACKABLE;
+	/**
+	 * if npc_attackable is true, you can define who will receive 0 damages
+	 */
 	public static List<Integer> INVUL_NPC_LIST;
 	/** Config for activeChar Attack Npcs in the list */
 	public static boolean DISABLE_ATTACK_NPC_TYPE;

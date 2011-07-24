@@ -1288,9 +1288,14 @@ public final class Formulas
 		}
 
 		//Multiplier should be removed, it's false ??
-		damage += 1.5 * attacker.calcStat(Stats.CRITICAL_DAMAGE, damage + power, target, skill);
+		//damage += 1.5 * attacker.calcStat(Stats.CRITICAL_DAMAGE, damage + power, target, skill);
 		//damage *= (double)attacker.getLevel()/target.getLevel();
 
+		damage = attacker.calcStat(Stats.CRITICAL_DAMAGE, (damage+power), target, skill);
+		damage += attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 6.5;
+		damage *= target.calcStat(Stats.CRIT_VULN, target.getTemplate().baseCritVuln, target, skill);
+		
+		
 		// get the natural vulnerability for the template
 		if(target instanceof L2NpcInstance)
 		{
@@ -1416,7 +1421,6 @@ public final class Formulas
 					stat = Stats.BOW_WPN_VULN;
 					break;
 				case BLUNT:
-				case BIGBLUNT:
 					stat = Stats.BLUNT_WPN_VULN;
 					break;
 				case DAGGER:
@@ -1440,16 +1444,25 @@ public final class Formulas
 				case SWORD:
 					stat = Stats.SWORD_WPN_VULN;
 					break;
-				case BIGSWORD: //TODO: have a proper resistance/vulnerability for Big swords
-					stat = Stats.SWORD_WPN_VULN;
+				case BIGSWORD: 
+					stat = Stats.BIGSWORD_WPN_VULN;
+					break;
+				case BIGBLUNT:
+					stat = Stats.BIGBLUNT_WPN_VULN;
 					break;
 			}
 		}
 
-		if(crit)
+		if (crit)
 		{
-			damage += attacker.getCriticalDmg(target, damage);
+			//Finally retail like formula
+			damage = 2 * attacker.calcStat(Stats.CRITICAL_DAMAGE, 1, target, skill) * target.calcStat(Stats.CRIT_VULN, 1, target, null) * (70 * damage / defence);
+			//Crit dmg add is almost useless in normal hits...
+			damage += (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 70 / defence);
 		}
+		else
+			damage = 70 * damage / defence;
+
 
 		if(shld && !Config.ALT_GAME_SHIELD_BLOCKS)
 		{
@@ -2969,4 +2982,184 @@ public final class Formulas
 		return damage;
     }
     
+    /** Calculated damage caused by charges skills types. - THX aCis
+	 * The special thing is about the multiplier (56 and not 70), and about the fixed amount of damages
+	 *
+	 * @param attacker player or NPC that makes ATTACK
+	 * @param target player or NPC, target of ATTACK
+	 * @param miss one of ATTACK_XXX constants
+	 * @param crit if the ATTACK have critical success
+	 * @param dual if dual weapon is used
+	 * @param ss if weapon item was charged by soulshot
+	 * @return damage points
+	 */
+	public static final double calcChargeSkillsDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean dual, boolean ss)
+	{
+		if (attacker instanceof L2PcInstance)
+		{
+			L2PcInstance pcInst = (L2PcInstance)attacker;
+			if (pcInst.isGM() && !pcInst.getAccessLevel().canGiveDamage())
+					return 0;
+		}
+		
+		final boolean isPvP = (attacker instanceof L2PlayableInstance) && (target instanceof L2PlayableInstance);
+		double damage = attacker.getPAtk(target);
+		double defence = target.getPDef(attacker);
+		
+		if (ss){
+			damage *= 2;
+		}
+		
+		if (skill != null)
+		{
+			double skillpower = skill.getPower(attacker);
+			float ssboost = skill.getSSBoost();
+			if (ssboost <= 0)
+				damage += skillpower;
+			else if (ssboost > 0)
+			{
+				if (ss)
+				{
+					skillpower *= ssboost;
+					damage += skillpower;
+				}
+				else
+					damage += skillpower;
+			}
+		}
+
+		// defence modifier depending of the attacker weapon
+		L2Weapon weapon = attacker.getActiveWeaponItem();
+		Stats stat = null;
+		if (weapon != null)
+		{
+			switch (weapon.getItemType())
+			{
+				case BOW:
+					stat = Stats.BOW_WPN_VULN;
+					break;
+				case BLUNT:
+					stat = Stats.BLUNT_WPN_VULN;
+					break;
+				case BIGSWORD:
+					stat = Stats.BIGSWORD_WPN_VULN;
+					break;
+				case BIGBLUNT:
+					stat = Stats.BIGBLUNT_WPN_VULN;
+					break;
+				case DAGGER:
+					stat = Stats.DAGGER_WPN_VULN;
+					break;
+				case DUAL:
+					stat = Stats.DUAL_WPN_VULN;
+					break;
+				case DUALFIST:
+					stat = Stats.DUALFIST_WPN_VULN;
+					break;
+				case ETC:
+					stat = Stats.ETC_WPN_VULN;
+					break;
+				case FIST:
+					stat = Stats.FIST_WPN_VULN;
+					break;
+				case POLE:
+					stat = Stats.POLE_WPN_VULN;
+					break;
+				case SWORD:
+					stat = Stats.SWORD_WPN_VULN;
+					break;
+			}
+		}
+
+		if (crit)
+		{
+			//Finally retail like formula
+			damage = 2 * attacker.calcStat(Stats.CRITICAL_DAMAGE, 1, target, skill) * target.calcStat(Stats.CRIT_VULN, 1, target, null) * (56 * damage / defence);
+			//Crit dmg add is almost useless in normal hits...
+			damage += (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 56 / defence);
+		}
+		else
+			damage = 56 * damage / defence;
+
+		if (stat != null)
+			damage = target.calcStat(stat, damage, target, null);
+		
+		// Weapon random damage
+		damage *= attacker.getRandomDamageMultiplier();
+		
+		if(shld && Config.ALT_GAME_SHIELD_BLOCKS)
+		{
+			damage -= target.getShldDef();
+			if(damage < 0)
+			{
+				damage = 0;
+			}
+		}
+		
+		
+		if (target instanceof L2NpcInstance)
+		{
+			double multiplier;
+			switch (((L2NpcInstance) target).getTemplate().getRace())
+			{
+				case BEAST:
+					multiplier = 1 + ((attacker.getPAtkMonsters(target) - target.getPDefMonsters(target))/100);
+					damage *= multiplier;
+					break;
+				case ANIMAL:
+					multiplier = 1 + ((attacker.getPAtkAnimals(target) - target.getPDefAnimals(target))/100);
+					damage *= multiplier;
+					break;
+				case PLANT:
+					multiplier = 1 + ((attacker.getPAtkPlants(target) - target.getPDefPlants(target))/100);
+					damage *= multiplier;
+					break;
+				case DRAGON:
+					multiplier = 1 + ((attacker.getPAtkDragons(target) - target.getPDefDragons(target))/100);
+					damage *= multiplier;
+					break;
+				case BUG:
+					multiplier = 1 + ((attacker.getPAtkInsects(target) - target.getPDefInsects(target))/100);
+					damage *= multiplier;
+					break;
+				case GIANT:
+					multiplier = 1 + ((attacker.getPAtkGiants(target) - target.getPDefGiants(target))/100);
+					damage *= multiplier;
+					break;
+				case MAGICCREATURE:
+					multiplier = 1 + ((attacker.getPAtkMagicCreatures(target) - target.getPDefMagicCreatures(target))/100);
+					damage *= multiplier;
+					break;
+				default:
+					// nothing
+					break;
+			}
+		}
+		
+		if(shld)
+		{
+			if(100 - Config.ALT_PERFECT_SHLD_BLOCK < Rnd.get(100))
+			{
+				damage = 1;
+				target.sendPacket(new SystemMessage(SystemMessageId.YOUR_EXCELLENT_SHIELD_DEFENSE_WAS_A_SUCCESS));
+			}
+		}
+
+		if (damage > 0 && damage < 1)
+			damage = 1;
+		else if (damage < 0)
+			damage = 0;
+		
+		// Dmg bonusses in PvP fight
+		if(isPvP)
+		{
+			if(skill == null)
+				damage *= attacker.calcStat(Stats.PVP_PHYSICAL_DMG, 1, null, null);
+			else
+				damage *= attacker.calcStat(Stats.PVP_PHYS_SKILL_DMG, 1, null, null);
+		}
+		
+		return damage;
+	}
+
 }
