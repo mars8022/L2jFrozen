@@ -688,12 +688,12 @@
       Lvl 5 - Inflicts additional damage during critical attacks.
       Lvl 6 - Inflicts additional damage during critical attacks.
 -->
-  <table name="#val">174 194 213 231 247 262</table>
+  <table name="#cAtkAdd"> 203.97 226.51 248.71 269.91 289.4 306.42 </table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-    <add order="0x40" stat="cAtk" val="#val"/>
+    <add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
   </for>
 </skill>
 <skill id="3543" levels="1" name="Equipped with Shield">
@@ -1152,12 +1152,15 @@
 <!--  Description(s):
       Increases critical attack success rate and damage inflicted during PvP.
 -->
+  <table name="#cAtkAdd"> 265 906 999 1059 </table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-    <add order="0x40" stat="cAtk" val="265"/>
-    <!--  <target pvp="1"/>
+    <add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
+    <mul order="0x30" stat="pvpPhysDmg" val="1.05" />
+	<mul order="0x30" stat="pvpMagicalDmg" val="1.05" />
+	<!--  <target pvp="1"/>
   	</add>
     <mul order="0x30" stat="pvpPhysDmg" val="1.05"/>
   	<mul order="0x50" stat="mAtk" val="1.05">

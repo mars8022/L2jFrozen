@@ -75,9 +75,11 @@ public class L2SkillChargeDmg extends L2Skill
 			caster.sendPacket(sm);
 			return;
 		}
-		double modifier = 0;
 		// 70*((0.8+0.201*No.Charges) * (PATK+POWER)) / PDEF
-		modifier = 0.8 + 0.201 * effect.numCharges;
+		//FIX-Thx to aCis
+		//modifier = 0.8 + 0.201 * effect.numCharges;
+		double modifier = 0.7 + 0.3 * effect.numCharges; 
+		
 		////////////////////////////////////////////////////
 		if(getTargetType() != SkillTargetType.TARGET_AREA && getTargetType() != SkillTargetType.TARGET_MULTIFACE)
 		{
@@ -110,15 +112,12 @@ public class L2SkillChargeDmg extends L2Skill
 			//boolean dual  = caster.isUsingDualWeapon();
 			boolean shld = Formulas.calcShldUse(caster, target);
 			boolean crit = Formulas.calcCrit(caster.getCriticalHit(target, this));
-			boolean soul = weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER;
-
-			// damage calculation, crit is static 2x
-			int damage = (int) Formulas.calcPhysDam(caster, target, this, shld, false, false, soul);
-			if(crit)
-			{
-				damage *= 2;
-			}
-
+			//boolean soul = weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER;
+			boolean ss = caster.checkSs();
+			
+			// damage calculation
+			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, false, ss);
+			
 			if(damage > 0)
 			{
 				double finalDamage = damage * modifier;
@@ -126,7 +125,7 @@ public class L2SkillChargeDmg extends L2Skill
 
 				caster.sendDamageMessage(target, (int) finalDamage, false, crit, false);
 
-				if(soul && weapon != null)
+				if(ss && weapon != null)
 				{
 					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
 				}

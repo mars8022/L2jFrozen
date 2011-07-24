@@ -1003,7 +1003,7 @@ public abstract class L2Character extends L2Object
 				if (!Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
 				{
 					SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-					sm.addString("Npc Protection - No Attack Allowed!");
+					sm.addString("Npc Type "+mobtype+" has Protection - No Attack Allowed!");
 					((L2PcInstance) this).sendPacket(sm);
 					((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -1737,7 +1737,7 @@ public abstract class L2Character extends L2Object
 			if (!Config.LIST_ALLOWED_NPC_TYPES.contains(mobtype))
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-				sm.addString("Npc Protection - No Attack Allowed!");
+				sm.addString("Npc Type "+mobtype+" has Protection - No Attack Allowed!");
 				((L2PcInstance) activeChar).sendPacket(sm);
 				((L2PcInstance) activeChar).sendPacket(ActionFailed.STATIC_PACKET);
 				return;
@@ -8862,7 +8862,21 @@ public abstract class L2Character extends L2Object
 	{
 		return getStat().getPDef(target);
 	}
-
+	
+	public double getPAtkGiants(L2Character target) { 
+		return getStat().getPAtkGiants(target); 
+	}
+	public double getPAtkMagicCreatures(L2Character target) { 
+		return getStat().getPAtkMagicCreatures(target); 
+	}
+	
+	public double getPDefGiants(L2Character target) { 
+		return getStat().getPDefGiants(target); 
+	}
+	public double getPDefMagicCreatures(L2Character target) { 
+		return getStat().getPDefMagicCreatures(target); 
+	}
+	
 	public final int getPhysicalAttackRange()
 	{
 		return getStat().getPhysicalAttackRange();
@@ -9249,5 +9263,22 @@ public abstract class L2Character extends L2Object
 		return ss;
 		
 	}
+
+	/**
+	 * Return a multiplier based on weapon random damage<BR><BR>
+	 */
+	public final double getRandomDamageMultiplier()
+	{
+		L2Weapon activeWeapon = getActiveWeaponItem();
+		int random;
+		
+		if (activeWeapon != null)
+			random = activeWeapon.getRandomDamage();
+		else
+			random = 5+(int)Math.sqrt(getLevel());
+
+		return (1+((double)Rnd.get(0-random,random)/100));
+	}
+
 
 }

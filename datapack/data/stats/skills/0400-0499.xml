@@ -202,7 +202,7 @@
           <using kind="Sword,Big Sword,Pole"/>
         </and>
       </add>
-      <mul order="0x30" stat="cAtk" val="#cAtk">
+      <mul order="0x30" stat="cAtkAdd" val="#cAtk">
         <and>
           <using kind="Blunt,Big Blunt,Fist,Dual Fist"/>
         </and>

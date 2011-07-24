@@ -392,7 +392,7 @@ public class L2NpcInstance extends L2Character
 	@Override
 	public boolean isAttackable()
 	{
-		if (Config.NPC_ATTACKABLE)
+		if (Config.NPC_ATTACKABLE || this instanceof L2Attackable)
 			return true;
 		
 		return false;

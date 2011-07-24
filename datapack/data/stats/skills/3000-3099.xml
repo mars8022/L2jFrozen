@@ -232,14 +232,14 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3023" levels="6" name="Special Ability: Critical Damage">
-  <table name="#val">174 194 213 231 247 262</table>
+  <table name="#cAtkAdd"> 174.78 194.1 213.12 231.29 247.98 262.57 </table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-  	<add order="0x40" stat="cAtk" val="#val"/>
+  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -273,14 +273,14 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3026" levels="6" name="Special Ability: Critical Anger">
-  <table name="#crit">248.56 298.04 352.73 411.98 474.82 539.9</table>
+  <table name="#cAtkAdd"> 248.56 298.04 352.73 411.98 474.82 539.9 </table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-  	<add order="0x40" stat="cAtk" val="#crit"/>
+	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -565,14 +565,14 @@
   created 2005-05-29 23:34:31
 -->
   <table name="#magicLvl">48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67</table>
-  <table name="#val">81.6 61.4 84.14 75.49 66.77 58.01 49.42 84.11 166.26 146.88 127 107.01 133.97 124.79 275.26 267.13 257.98 297.21 331.38 361.06</table>
+  <table name="#cAtkAdd"> 81.6 61.4 84.14 75.49 66.77 58.01 49.42 84.11 166.26 146.88 127 107.01 133.97 124.79 275.26 267.13 257.98 297.21 331.38 361.06 </table>
   <table name="#pvpDam">1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1.05 1.05 1.05 1.05</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-  	<add order="0x40" stat="cAtk" val="#val"/>
+  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
   	<mul order="0x30" stat="pvpMagicalDmg" val="#pvpDam"/>
     <mul order="0x30" stat="pvpPhysSkillsDmg" val="#pvpDam"/>
   </for>
@@ -583,14 +583,14 @@
   6: Causes additional damage when launching a critical attack.
   created 2005-05-29 23:34:31
 -->
-  <table name="#val">106.45 118.22 129.81 140.87 151.04 159.93</table>
+  <table name="#cAtkAdd"> 106.45 118.22 129.81 140.87 151.04 159.93 </table>
   <table name="#magicLvl">46 49 52 55 58 61</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-  	<add order="0x40" stat="cAtk" val="#val"/>
+	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
   </for>
 </skill>
 <skill id="3044" levels="20" name="Special Ability: Focus">
@@ -986,12 +986,13 @@
   2: Increases damage during a critical attack. Increases damage inflicted during PvP.
   created 2005-05-29 23:34:31
 -->
+  <table name="#cAtkAdd"> 180.94 200.79 200.79 </table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-  	<add order="0x40" stat="cAtk" val="200"/>
-  	<mul order="0x30" stat="pvpMagicalDmg" val="1.05"/>
+  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
+	<mul order="0x30" stat="pvpMagicalDmg" val="1.05"/>
     <mul order="0x30" stat="pvpPhysSkillsDmg" val="1.05"/>
   </for>
 </skill>
@@ -1001,12 +1002,12 @@
   2: Increases damage during a critical attack. Increases damage inflicted during PvP.
   created 2005-05-29 23:34:31
 -->
-  <table name="#val">297 326</table>
+  <table name="#cAtkAdd"> 297.68 326.28 </table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <for>
-  	<add order="0x40" stat="cAtk" val="#val"/>
+  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
   	<mul order="0x30" stat="pvpMagicalDmg" val="1.05"/>
     <mul order="0x30" stat="pvpPhysSkillsDmg" val="1.05"/>
   </for>

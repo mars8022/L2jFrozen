@@ -731,4 +731,28 @@ public class CharStat
 
 		return (int) calcStat(Stats.MP_CONSUME, skill.getMpInitialConsume(), null, skill);
 	}
+
+	/** Return the PDef Modifier against giants. */
+	public final double getPDefGiants(L2Character target)
+	{
+		return calcStat(Stats.PDEF_GIANTS, 1, target, null);
+	}
+
+	/** Return the PDef Modifier against giants. */
+	public final double getPDefMagicCreatures(L2Character target)
+	{
+		return calcStat(Stats.PDEF_MCREATURES, 1, target, null);
+	}
+	
+	/** Return the PAtk Modifier against giants. */
+	public final double getPAtkGiants(L2Character target)
+	{
+		return calcStat(Stats.PATK_GIANTS, 1, target, null);
+	}
+	
+	/** Return the PAtk Modifier against magic creatures */
+	public final double getPAtkMagicCreatures(L2Character target)
+	{
+		return calcStat(Stats.PATK_MCREATURES, 1, target, null);
+	}
 }

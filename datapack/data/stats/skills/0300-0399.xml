@@ -375,17 +375,17 @@
   <enchant2 name="mpInitialConsume" val="#ench2MpConsume_Init"/>
   <for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="#val">
-      <add order="0x40" stat="cAtk" val="#crit"/>
+      <add order="0x40" stat="cAtkAdd" val="#crit"/>
     </effect>
   </for>
   <enchant1for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="#ench1val">
-      <add order="0x40" stat="cAtk" val="#ench1crit"/>
+      <add order="0x40" stat="cAtkAdd" val="#ench1crit"/>
     </effect>
   </enchant1for>
   <enchant2for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="#ench2val">
-      <add order="0x40" stat="cAtk" val="609"/>
+      <add order="0x40" stat="cAtkAdd" val="609"/>
     </effect>
   </enchant2for>
 </skill>

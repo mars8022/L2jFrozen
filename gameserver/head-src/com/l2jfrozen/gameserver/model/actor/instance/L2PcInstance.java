@@ -10527,7 +10527,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 
 			// Check if the target is attackable
-			//if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
 			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
 			{
 				if(!isInFunEvent() || !target.isInFunEvent())
