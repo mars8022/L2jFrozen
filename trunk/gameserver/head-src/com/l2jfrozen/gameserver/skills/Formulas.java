@@ -1456,13 +1456,26 @@ public final class Formulas
 		if (crit)
 		{
 			//Finally retail like formula
-			damage = 2 * attacker.calcStat(Stats.CRITICAL_DAMAGE, 1, target, skill) * target.calcStat(Stats.CRIT_VULN, 1, target, null) * (70 * damage / defence);
-			//Crit dmg add is almost useless in normal hits...
-			damage += (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 70 / defence);
+			double cAtkMultiplied = damage + attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
+			double cAtkVuln = target.calcStat(Stats.CRIT_VULN, 1, target, null);
+			double improvedDamageByCriticalMulAndVuln = cAtkMultiplied * cAtkVuln;
+			double improvedDamageByCriticalMulAndAdd = improvedDamageByCriticalMulAndVuln + attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill);
+			
+			if(Config.DEBUG){
+				System.out.println("Attacker '"+attacker.getName()+"' Critical Damage Debug:");
+				System.out.println("	-	Initial Damage:  "+damage);
+				System.out.println("	-	Damage increased of mult:  "+cAtkMultiplied);
+				System.out.println("	-	cAtkVuln Mult:  "+cAtkVuln);
+				System.out.println("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
+				System.out.println("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
+			}
+			
+			damage = improvedDamageByCriticalMulAndAdd;
+			
 		}
-		else
-			damage = 70 * damage / defence;
-
+		
+		damage = 70 * damage / defence;
+		
 
 		if(shld && !Config.ALT_GAME_SHIELD_BLOCKS)
 		{
