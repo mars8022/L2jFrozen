@@ -1469,7 +1469,8 @@ public final class Formulas
 			defence += target.getShldDef();
 		}
 
-		damage = 70 * damage / defence;
+		
+		//damage = 70 * damage / defence;
 
 		if(stat != null)
 		{
@@ -1481,6 +1482,7 @@ public final class Formulas
 				damage *= ((L2NpcInstance) target).getTemplate().getVulnerability(stat);
 			}
 		}
+		
 
 		damage += Rnd.nextDouble() * damage / 10;
 		//		damage += _rnd.nextDouble()* attacker.getRandomDamage(target);
