@@ -78,7 +78,7 @@ public class L2SkillChargeDmg extends L2Skill
 		// 70*((0.8+0.201*No.Charges) * (PATK+POWER)) / PDEF
 		//FIX-Thx to aCis
 		//modifier = 0.8 + 0.201 * effect.numCharges;
-		double modifier = 0.7 + 0.3 * effect.numCharges; 
+		//double modifier = 0.7 + 0.3 * effect.numCharges; 
 		
 		////////////////////////////////////////////////////
 		if(getTargetType() != SkillTargetType.TARGET_AREA && getTargetType() != SkillTargetType.TARGET_MULTIFACE)
@@ -116,11 +116,11 @@ public class L2SkillChargeDmg extends L2Skill
 			boolean ss = caster.checkSs();
 			
 			// damage calculation
-			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, false, ss);
+			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, false, ss, effect.numCharges);
 			
 			if(damage > 0)
 			{
-				double finalDamage = damage * modifier;
+				double finalDamage = damage/* * modifier*/;
 				target.reduceCurrentHp(finalDamage, caster);
 
 				caster.sendDamageMessage(target, (int) finalDamage, false, crit, false);

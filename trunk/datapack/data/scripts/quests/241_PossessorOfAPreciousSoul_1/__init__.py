@@ -126,7 +126,7 @@ class Quest (JQuest) :
    if event == "31272-5.htm" :
      if (st.getPlayer().isProcessingRequest() or st.getPlayer().isProcessingTransaction()) :
        st.getPlayer().sendMessage("Another transaction in progress..")
-     elif cond == 20 and st.getPlayer().isSubClassActive() :
+     elif cond == 20 and st.getQuestItemsCount(LUNARGENT) >= 5 and st.getQuestItemsCount(HELLFIRE_OIL) and  st.getPlayer().isSubClassActive() :
        st.takeItems(LUNARGENT,5)
        st.takeItems(HELLFIRE_OIL,1)
        st.set("cond","21")
