@@ -27,6 +27,7 @@ import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2SiegeClan;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
@@ -1266,7 +1267,7 @@ public final class Formulas
 	}
 
 	/** Calculate blow damage based on cAtk */
-	public static double calcBlowDamage(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean ss)
+	public static double calcBlowDamage(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean ss)
 	{
 		if((skill.getCondition() & L2Skill.COND_BEHIND) != 0 && !attacker.isBehind(target))
 			return 0;
@@ -1274,27 +1275,71 @@ public final class Formulas
 		double power = skill.getPower();
 		double damage = attacker.getPAtk(target);
 		double defence = target.getPDef(attacker);
+		
 		if(ss)
 		{
 			damage *= 2.;
+			
+			if(skill.getSSBoost() > 0)
+			{
+				power *= skill.getSSBoost();
+			}
 		}
+		
 		if(shld)
 		{
 			defence += target.getShldDef();
 		}
-		if(ss && skill.getSSBoost() > 0)
-		{
-			power *= skill.getSSBoost();
+		
+		if(crit){
+			
+			double cAtkMultiplied = (damage+power) + attacker.calcStat(Stats.CRITICAL_DAMAGE, damage+power, target, skill);
+			double cAtkVuln = target.calcStat(Stats.CRIT_VULN, 1, target, null);
+			double improvedDamageByCriticalMulAndVuln = cAtkMultiplied * cAtkVuln;
+			//the dagger critical is 1.5 * normal critical add
+			double improvedDamageByCriticalMulAndAdd = improvedDamageByCriticalMulAndVuln + (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 1.5);
+			
+			if(Config.DEBUG){
+				System.out.println("Attacker '"+attacker.getName()+"' Dagger Critical Damage Debug:");
+				System.out.println("	-	Initial Damage:  "+damage);
+				System.out.println("	-	Damage increased of mult:  "+cAtkMultiplied);
+				System.out.println("	-	cAtkVuln Mult:  "+cAtkVuln);
+				System.out.println("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
+				System.out.println("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
+			}
+			
+			damage = improvedDamageByCriticalMulAndAdd;
+			
+			/*
+			damage = attacker.calcStat(Stats.CRITICAL_DAMAGE, (damage+power), target, skill);
+			damage += attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 6.5;
+			damage *= target.calcStat(Stats.CRIT_VULN, target.getTemplate().baseCritVuln, target, skill);
+			*/
+			
+			L2Effect vicious = attacker.getFirstEffect(312);
+			if (vicious != null && damage > 1)
+			{
+				for (Func func : vicious.getStatFuncs())
+				{
+					Env env = new Env();
+					env.player = attacker;
+					env.target = target;
+					env.skill = skill;
+					env.value = damage;
+					func.calc(env);
+					damage = (int) env.value;
+				}
+			}
+			
+		}else{
+			
+			damage += power;
+			
 		}
-
 		//Multiplier should be removed, it's false ??
 		//damage += 1.5 * attacker.calcStat(Stats.CRITICAL_DAMAGE, damage + power, target, skill);
 		//damage *= (double)attacker.getLevel()/target.getLevel();
 
-		damage = attacker.calcStat(Stats.CRITICAL_DAMAGE, (damage+power), target, skill);
-		damage += attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 6.5;
-		damage *= target.calcStat(Stats.CRIT_VULN, target.getTemplate().baseCritVuln, target, skill);
-		
 		
 		// get the natural vulnerability for the template
 		if(target instanceof L2NpcInstance)
@@ -3008,7 +3053,7 @@ public final class Formulas
 	 * @param ss if weapon item was charged by soulshot
 	 * @return damage points
 	 */
-	public static final double calcChargeSkillsDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean dual, boolean ss)
+	public static final double calcChargeSkillsDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean dual, boolean ss, int _numCharges)
 	{
 		if (attacker instanceof L2PcInstance)
 		{
@@ -3025,15 +3070,43 @@ public final class Formulas
 			damage *= 2;
 		}
 		
-		if (skill != null)
+		if (crit)
+		{
+			//Finally retail like formula
+			double cAtkMultiplied = damage+attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
+			double cAtkVuln = target.calcStat(Stats.CRIT_VULN, 1, target, null);
+			double improvedDamageByCriticalMulAndVuln = cAtkMultiplied * cAtkVuln;
+			double improvedDamageByCriticalMulAndAdd = improvedDamageByCriticalMulAndVuln + attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill);
+			
+			if(Config.DEBUG){
+				System.out.println("Attacker '"+attacker.getName()+"' Critical Skill Damage Debug:");
+				System.out.println("	-	Initial Damage:  "+damage);
+				System.out.println("	-	Damage increased of mult:  "+cAtkMultiplied);
+				System.out.println("	-	cAtkVuln Mult:  "+cAtkVuln);
+				System.out.println("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
+				System.out.println("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
+			}
+			
+			damage = improvedDamageByCriticalMulAndAdd;
+			
+			/*
+			//Finally retail like formula
+			damage = 2 * attacker.calcStat(Stats.CRITICAL_DAMAGE, 1, target, skill) * target.calcStat(Stats.CRIT_VULN, 1, target, null) * (56 * damage / defence);
+			//Crit dmg add is almost useless in normal hits...
+			damage += (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 56 / defence);
+			*/
+		}
+
+		if (skill != null) //skill add is not influenced by criticals improvements, 
+			   			   //so it's applied later
 		{
 			double skillpower = skill.getPower(attacker);
 			float ssboost = skill.getSSBoost();
-			if (ssboost <= 0)
+			if(ssboost <= 0)
 				damage += skillpower;
-			else if (ssboost > 0)
+			else if(ssboost > 0)
 			{
-				if (ss)
+				if(ss)
 				{
 					skillpower *= ssboost;
 					damage += skillpower;
@@ -3041,7 +3114,17 @@ public final class Formulas
 				else
 					damage += skillpower;
 			}
+
+			// Charges multiplier, just when skill is used
+			if(_numCharges > 1)
+			{
+				double chargesModifier = 0.8 + (0.15 * _numCharges);
+				damage *= chargesModifier;
+			}
+
 		}
+		
+		damage = 56 * damage / defence;
 
 		// defence modifier depending of the attacker weapon
 		L2Weapon weapon = attacker.getActiveWeaponItem();
@@ -3085,22 +3168,14 @@ public final class Formulas
 					break;
 			}
 		}
-
-		if (crit)
-		{
-			//Finally retail like formula
-			damage = 2 * attacker.calcStat(Stats.CRITICAL_DAMAGE, 1, target, skill) * target.calcStat(Stats.CRIT_VULN, 1, target, null) * (56 * damage / defence);
-			//Crit dmg add is almost useless in normal hits...
-			damage += (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 56 / defence);
-		}
-		else
-			damage = 56 * damage / defence;
-
+		
 		if (stat != null)
 			damage = target.calcStat(stat, damage, target, null);
 		
 		// Weapon random damage
 		damage *= attacker.getRandomDamageMultiplier();
+		
+		//System.out.println("	-	Final damage: "+damage);
 		
 		if(shld && Config.ALT_GAME_SHIELD_BLOCKS)
 		{
@@ -3110,7 +3185,6 @@ public final class Formulas
 				damage = 0;
 			}
 		}
-		
 		
 		if (target instanceof L2NpcInstance)
 		{

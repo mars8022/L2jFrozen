@@ -162,7 +162,8 @@ public class Blow implements ISkillHandler
 				//if (Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar), target))
 				if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar)))
 					crit = true;
-				double damage = (int) Formulas.calcBlowDamage(activeChar, target, skill, shld, soul);
+				
+				double damage = (int) Formulas.calcBlowDamage(activeChar, target, skill, shld, crit, soul);
 				
 				/*
 				if (skill.getMaxSoulConsumeCount() > 0 && activeChar instanceof L2PcInstance)
@@ -188,28 +189,17 @@ public class Blow implements ISkillHandler
 							break;
 					}
 				}
-				*/
 				
 				if (crit)
 				{
-					damage *= 2;
+					//damage *= 2;
+					
 					// Vicious Stance is special after C5, and only for BLOW skills
 					// Adds directly to damage
-					L2Effect vicious = activeChar.getFirstEffect(312);
-					if (vicious != null && damage > 1)
-					{
-						for (Func func : vicious.getStatFuncs())
-						{
-							Env env = new Env();
-							env.player = activeChar;
-							env.target = target;
-							env.skill = skill;
-							env.value = damage;
-							func.calc(env);
-							damage = (int) env.value;
-						}
-					}
+					
 				}
+				*/
+				
 				
 				if (soul)
 					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
