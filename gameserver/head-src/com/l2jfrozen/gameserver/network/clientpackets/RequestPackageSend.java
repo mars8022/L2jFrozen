@@ -142,6 +142,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 			// Check validity of requested item
 			L2ItemInstance item = player.checkItemManipulation(objectId, count, "deposit");
 
+			// Check if item is null
 			if(item == null)
 			{
 				_log.warning("Error depositing a warehouse object for char " + player.getName() + " (validity check)");
@@ -149,7 +150,14 @@ public final class RequestPackageSend extends L2GameClientPacket
 				i.count = 0;
 				continue;
 			}
-
+					
+			// Fix exploit for trade Augmented weapon with freight
+			if(item.isAugmented())
+			{
+				_log.warning("Error depositing a warehouse object for char "+player.getName()+" (item is augmented)");
+				return;
+			}
+			
 			if(!item.isTradeable() || item.getItemType() == L2EtcItemType.QUEST)
 				return;
 
@@ -203,7 +211,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 				_log.warning("Error depositing a warehouse object for char " + player.getName() + " (olditem == null)");
 				continue;
 			}
-
+			
 			int itemId = oldItem.getItemId();
 
 			if(itemId >= 6611 && itemId <= 6621 || itemId == 6842)
