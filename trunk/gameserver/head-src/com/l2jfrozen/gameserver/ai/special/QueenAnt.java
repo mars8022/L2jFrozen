@@ -160,6 +160,7 @@ public class QueenAnt extends Quest implements Runnable
 		}
 		//startQuestTimer("CHECK_MINIONS_ZONE", 30000, npc, null,true);
 		startQuestTimer("CHECK_QA_ZONE", 30000, npc, null,true);
+		
 	}
 
 	@Override
@@ -224,7 +225,8 @@ public class QueenAnt extends Quest implements Runnable
 				for(int i = 0; i < _Minions.size(); i++)
 				{
 					L2Attackable mob = _Minions.get(i);
-					if(mob != null && !npc.isInsideRadius(mob, 300, false, false))/*!_Zone.isInsideZone(mob))*/
+					
+					if(mob != null && !mob.isInsideRadius(npc.getX(), npc.getY(), 300, false))/*!_Zone.isInsideZone(mob))*/
 					{
 						mob.teleToLocation(npc.getX(), npc.getY(), npc.getZ());
 					}

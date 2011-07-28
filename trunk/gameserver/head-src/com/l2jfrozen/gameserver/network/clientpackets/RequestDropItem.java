@@ -212,7 +212,7 @@ public final class RequestDropItem extends L2GameClientPacket
 			activeChar.sendPacket(il);
 		}
 
-		L2ItemInstance dropedItem = activeChar.dropItem("Drop", _objectId, _count, _x, _y, _z, null, false);
+		L2ItemInstance dropedItem = activeChar.dropItem("Drop", _objectId, _count, _x, _y, _z, null, false, true);
 
 		if(Config.DEBUG)
 		{

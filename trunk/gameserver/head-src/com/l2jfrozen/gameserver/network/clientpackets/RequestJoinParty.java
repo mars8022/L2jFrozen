@@ -76,7 +76,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 		
 		if(requestor.isInCombat() || target.isInCombat() )
 		{
-			requestor.sendMessage("Sorry, you are in combat now.");
+			requestor.sendMessage("Sorry, you or your target are in combat now.");
 			return;
 		}
 		

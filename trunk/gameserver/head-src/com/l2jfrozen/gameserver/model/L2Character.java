@@ -120,6 +120,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.TargetUnselected;
 import com.l2jfrozen.gameserver.network.serverpackets.TeleportToLocation;
+import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
 import com.l2jfrozen.gameserver.skills.Calculator;
 import com.l2jfrozen.gameserver.skills.Formulas;
@@ -8481,6 +8482,9 @@ public abstract class L2Character extends L2Object
 
 		if(target instanceof L2Character)
 		{
+			((L2Character) target).sendPacket(new ValidateLocation(this));
+			this.sendPacket(new ValidateLocation(((L2Character) target)));
+			
 			L2Character target1 = (L2Character) target;
 			angleChar = Util.calculateAngleFrom(target1, this);
 			angleTarget = Util.convertHeadingToDegree(target1.getHeading());
@@ -8530,6 +8534,9 @@ public abstract class L2Character extends L2Object
 
 		if(target instanceof L2Character)
 		{
+			((L2Character) target).sendPacket(new ValidateLocation(this));
+			this.sendPacket(new ValidateLocation(((L2Character) target)));
+			
 			L2Character target1 = (L2Character) target;
 			angleChar = Util.calculateAngleFrom(target1, this);
 			angleTarget = Util.convertHeadingToDegree(target1.getHeading());
@@ -9204,6 +9211,32 @@ public abstract class L2Character extends L2Object
 		return bss;
 	}
 	
+	public void removeBss(){
+		
+		L2ItemInstance weaponInst = this.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
+			{
+				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (this instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)this;
+			
+			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
+			{
+				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+			
+		}
+		
+	}
+	
 	public boolean checkSps(){
 		
 		boolean ss = false;
@@ -9234,6 +9267,30 @@ public abstract class L2Character extends L2Object
 		
 	}
 	
+	public void removeSps(){
+		
+		L2ItemInstance weaponInst = this.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
+			{
+				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (this instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)this;
+			
+			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
+			{
+				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		
+	}
+	
 	public boolean checkSs(){
 		
 		boolean ss = false;
@@ -9261,6 +9318,30 @@ public abstract class L2Character extends L2Object
 		}
 		
 		return ss;
+		
+	}
+	
+	public void removeSs(){
+		
+		L2ItemInstance weaponInst = this.getActiveWeaponInstance();
+		
+		if (weaponInst != null)
+		{
+			if (weaponInst.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT)
+			{
+				weaponInst.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
+		// If there is no weapon equipped, check for an active summon.
+		else if (this instanceof L2Summon)
+		{
+			L2Summon activeSummon = (L2Summon)this;
+			
+			if (activeSummon.getChargedSoulShot() == L2ItemInstance.CHARGED_SOULSHOT)
+			{
+				activeSummon.setChargedSoulShot(L2ItemInstance.CHARGED_NONE);
+			}
+		}
 		
 	}
 

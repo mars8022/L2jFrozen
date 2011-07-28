@@ -70,7 +70,18 @@ public class ManaHeal implements ISkillHandler
 			//{
 			//	mp = target.getMaxMp() - target.getCurrentMp();
 			//}
+			if(!skill.isPotion()){
+			
+				if(actChar.checkBss()){
+					mp *= 2;
+					actChar.removeBss();
+				}else if(actChar.checkSps()){
+					mp *= 1.5;
+					actChar.removeSps();
+				}
 
+			}
+			
 			target.setLastHealAmount((int) mp);
 			target.setCurrentMp(mp + target.getCurrentMp());
 			StatusUpdate sump = new StatusUpdate(target.getObjectId());
@@ -90,6 +101,8 @@ public class ManaHeal implements ISkillHandler
 				sm.addNumber((int) mp);
 				target.sendPacket(sm);
 			}
+			
+			
 		}
 	}
 

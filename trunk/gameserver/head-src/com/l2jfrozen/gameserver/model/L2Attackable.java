@@ -659,13 +659,8 @@ public class L2Attackable extends L2NpcInstance
 			if(getAggroListRP().isEmpty())
 				return;
 
-			// Manage Base, Quests and Sweep drops of the L2Attackable
-			doItemDrop(lastAttacker);
-			// Manage drop of Special Events created by GM for a defined period
-			doEventDrop(lastAttacker);
-
-			if(!getMustRewardExpSP())
-				return;
+			L2PcInstance maxDealer = null; 
+			int maxDamage = 0;
 
 			int rewardCount = 0;
 			int damage;
@@ -673,7 +668,7 @@ public class L2Attackable extends L2NpcInstance
 			L2Character attacker, ddealer;
 			RewardInfo reward;
 
-			// While Interating over This Map Removing Object is Not Allowed
+			// While Interacting over This Map Removing Object is Not Allowed
 			synchronized (getAggroList())
 			{
 				// Go through the _aggroList of the L2Attackable
@@ -722,10 +717,26 @@ public class L2Attackable extends L2NpcInstance
 						}
 
 						rewards.put(ddealer, reward);
+						
+						if (ddealer.getActingPlayer() != null && reward._dmg > maxDamage) 
+						{ 
+							maxDealer = ddealer.getActingPlayer(); 
+							maxDamage = reward._dmg; 
+						} 
+						
 					}
 				}
 			}
 
+			// Manage Base, Quests and Sweep drops of the L2Attackable
+			doItemDrop(maxDealer != null && maxDealer.isOnline() == 1 ? maxDealer : lastAttacker);
+			
+			// Manage drop of Special Events created by GM for a defined period
+			doEventDrop(maxDealer != null && maxDealer.isOnline() == 1 ? maxDealer : lastAttacker);
+
+			if(!getMustRewardExpSP())
+				return;
+			
 			if(!rewards.isEmpty())
 			{
 				L2Party attackerParty;
@@ -2477,7 +2488,7 @@ public class L2Attackable extends L2NpcInstance
 	 * Drop reward item.<BR>
 	 * <BR>
 	 */
-	public L2ItemInstance DropItem(L2PcInstance lastAttacker, RewardItem item)
+	public L2ItemInstance DropItem(L2PcInstance mainDamageDealer, RewardItem item)
 	{
 		int randDropLim = 70;
 
@@ -2488,10 +2499,11 @@ public class L2Attackable extends L2NpcInstance
 			// Randomize drop position
 			int newX = getX() + Rnd.get(randDropLim * 2 + 1) - randDropLim;
 			int newY = getY() + Rnd.get(randDropLim * 2 + 1) - randDropLim;
-			int newZ = Math.max(getZ(), lastAttacker.getZ()) + 20; // TODO: temp hack, do somethign nicer when we have geodatas
+			int newZ = Math.max(getZ(), mainDamageDealer.getZ()) + 20; // TODO: temp hack, do somethign nicer when we have geodatas
 
 			// Init the dropped L2ItemInstance and add it in the world as a visible object at the position where mob was last
-			ditem = ItemTable.getInstance().createItem("Loot", item.getItemId(), item.getCount(), lastAttacker, this);
+			ditem = ItemTable.getInstance().createItem("Loot", item.getItemId(), item.getCount(), mainDamageDealer, this);
+			ditem.getDropProtection().protect(mainDamageDealer); 
 			ditem.dropMe(this, newX, newY, newZ);
 
 			// Add drop to auto destroy item task

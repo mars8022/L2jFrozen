@@ -1795,8 +1795,8 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1380" levels="10" name="Betray">
-<!-- need to check duration and reuse delay -->
   <table name="#mpConsume">52 54 55 58 60 62 64 65 67 69</table>
   <table name="#itemConsumeCount">3 3 3 3 4 4 4 5 5 5</table>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1804,15 +1804,17 @@
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="saveVs" val="MEN"/>
   <set name="hitTime" val="4000"/>
-  <set name="reuseDelay" val="22000"/>
+  <set name="reuseDelay" val="30000"/>
+  <set name="power" val="50" />
   <set name="target" val="TARGET_ENEMY_SUMMON"/>
   <set name="skillType" val="BETRAY"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <for>
-    <effect count="1" name="Betray" time="25" val="0"/>
+    <effect count="1" name="Betray" time="10" val="0"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

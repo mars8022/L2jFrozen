@@ -303,7 +303,7 @@ public class CursedWeapon
 		}
 		else
 		{
-			_player.dropItem("DieDrop", _item, killer, true);
+			_player.dropItem("DieDrop", _item, killer, true, true);
 			_player.setKarma(_playerKarma);
 			_player.setPkKills(_playerPkKills);
 			_player.setCursedWeaponEquipedId(0);
