@@ -116,7 +116,7 @@ public class L2SkillChargeDmg extends L2Skill
 			boolean ss = caster.checkSs();
 			
 			// damage calculation
-			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, false, ss, effect.numCharges);
+			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, ss, effect.numCharges);
 			
 			if(damage > 0)
 			{

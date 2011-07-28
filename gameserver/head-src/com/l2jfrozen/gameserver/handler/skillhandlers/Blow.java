@@ -103,11 +103,11 @@ public class Blow implements ISkillHandler
 				}else{
 					success = (_successChance == Config.BLOW_ATTACK_BEHIND);
 				}
-				
 			}
 				
 			if ((skill.getCondition() & L2Skill.COND_CRIT) != 0)
 				success = (success && Formulas.getInstance().calcBlow(activeChar, target, _successChance));
+			
 			if (!skillIsEvaded && success)
 			{
 				//no reflection implemented
@@ -150,56 +150,24 @@ public class Blow implements ISkillHandler
 						}
 					//}
 				}
+				
 				L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
 				boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && (weapon.getItemType() == L2WeaponType.DAGGER ));
 				
 				//byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
 				boolean shld = Formulas.calcShldUse(activeChar, target);
 				
-				// Crit rate base crit rate for skill, modified with STR bonus
+				// Critical hit
 				boolean crit = false;
 				
-				//if (Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar), target))
-				if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar)))
+				//Critical damage condition is applied for sure if there is skill critical condition
+				if((skill.getCondition() & L2Skill.COND_CRIT) != 0){
+					crit = true;
+				//if there is not critical condition, calculate critical chance
+				}else if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.DEX.calcBonus(activeChar)))
 					crit = true;
 				
 				double damage = (int) Formulas.calcBlowDamage(activeChar, target, skill, shld, crit, soul);
-				
-				/*
-				if (skill.getMaxSoulConsumeCount() > 0 && activeChar instanceof L2PcInstance)
-				{
-					switch (((L2PcInstance) activeChar).getSouls())
-					{
-						case 0:
-							break;
-						case 1:
-							damage *= 1.10;
-							break;
-						case 2:
-							damage *= 1.12;
-							break;
-						case 3:
-							damage *= 1.15;
-							break;
-						case 4:
-							damage *= 1.18;
-							break;
-						default:
-							damage *= 1.20;
-							break;
-					}
-				}
-				
-				if (crit)
-				{
-					//damage *= 2;
-					
-					// Vicious Stance is special after C5, and only for BLOW skills
-					// Adds directly to damage
-					
-				}
-				*/
-				
 				
 				if (soul)
 					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
