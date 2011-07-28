@@ -22641,7 +22641,7 @@ INSERT INTO `droplist` VALUES
 (22149,1873,4,9,2,27777), -- Silver Nugget
 (22149,4042,1,1,2,3802), -- Enria
 (22149,11968,1,1,1,77), -- Common Item - Dragon Slayer 
-(22149,11971,1,1,1,77), -- Common Item - Sword of Miracles
+-- (22149,11971,1,1,1,77), -- Common Item - Sword of Miracles
 (22149,5529,1,1,2,2849), -- Dragon Slayer Edge
 (22149,5546,1,1,2,2849), -- Sword of Miracles Edge
 (22149,5545,1,1,2,2375), -- Dark Legion's Edge Blade
@@ -22810,7 +22810,7 @@ INSERT INTO `droplist` VALUES
 (22161,4039,1,1,-1,125000), -- Mold Glue
 (22162,57,6285,12820,0,700000), -- Adena
 (22162,11968,1,1,1,116), -- Common Item - Dragon Slayer
-(22162,11971,1,1,1,116), -- Common Item - Sword of Miracles
+-- (22162,11971,1,1,1,116), -- Common Item - Sword of Miracles
 (22162,7910,1,1,3,24390), -- Blessing of Darkness
 (22162,1894,1,1,2,22727), -- Crafted Leather
 (22162,4044,1,1,2,19230), -- Thons
