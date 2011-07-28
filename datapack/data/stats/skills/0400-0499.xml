@@ -490,14 +490,14 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="417" levels="5" name="Pain of Sagittarius">
   <table name="#hpConsume">318 343 366 387 407</table>
-  <table name="#power">35 38 41 43 45</table>
+  <table name="#power">35 38 41 43 46</table>
   <set name="hpConsume" val="#hpConsume"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="20000"/>
   <set name="hitTime" val="2000"/>
+  <set name="isMagic" val="false"/>
   <set name="skillType" val="MANAHEAL"/>
-  <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

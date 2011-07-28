@@ -81,7 +81,7 @@ public final class RequestActionUse extends L2GameClientPacket
 		}
 
 		// dont do anything if player is dead
-		if(activeChar.isAlikeDead())
+		if(_actionId != 0 && activeChar.isAlikeDead())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
@@ -126,7 +126,7 @@ public final class RequestActionUse extends L2GameClientPacket
 					break;
 				}
 
-				if(activeChar.isSitting())
+				if(activeChar.isSitting() || activeChar.isFakeDeath())
 				{
 					activeChar.standUp();
 				}

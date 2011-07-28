@@ -133,7 +133,7 @@ public final class AttackRequest extends L2GameClientPacket
 		{
 			if ((target.getObjectId() != activeChar.getObjectId())
 					&& activeChar.getPrivateStoreType() ==0
-					&& activeChar.getActiveRequester() ==null)
+					/*&& activeChar.getActiveRequester() ==null*/)
 			{
 				//_log.config("Starting ForcedAttack");
 				target.onForcedAttack(activeChar);

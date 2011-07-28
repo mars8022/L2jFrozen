@@ -3381,6 +3381,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void sitDown()
 	{
+		if(isFakeDeath())
+		{
+			stopFakeDeath(null);
+		}
+		
 		if(isMoving()) //since you are moving and want sit down
 					   //the posticipate sitdown task will be always true
         {
@@ -3459,6 +3464,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void standUp()
 	{
+		if(isFakeDeath())
+		{
+			stopFakeDeath(null);
+		}
+		
 		if(sittingTaskLaunched){
 			return;
 		}
@@ -3844,7 +3854,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			// If over capacity, trop the item
 			if(!isGM() && !_inventory.validateCapacity(0))
 			{
-				dropItem("InvDrop", newitem, null, true);
+				dropItem("InvDrop", newitem, null, true, true);
 			}
 			else if(CursedWeaponsManager.getInstance().isCursed(newitem.getItemId()))
 			{
@@ -3969,7 +3979,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				// If over capacity, drop the item
 				if(!isGM() && !_inventory.validateCapacity(item))
 				{
-					dropItem("InvDrop", item, null, true);
+					dropItem("InvDrop", item, null, true, true);
 				}
 				else if(CursedWeaponsManager.getInstance().isCursed(item.getItemId()))
 				{
@@ -4404,7 +4414,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * @param sendMessage : boolean Specifies whether to send message to Client about this action
 	 * @return boolean informing if the action was successfull
 	 */
-	public boolean dropItem(String process, L2ItemInstance item, L2Object reference, boolean sendMessage)
+	public boolean dropItem(String process, L2ItemInstance item, L2Object reference, boolean sendMessage, boolean protectItem)
 	{
 		item = _inventory.dropItem(process, item, this, reference);
 
@@ -4441,6 +4451,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			item.setProtected(true);
 			
 		}
+		
+		if (protectItem) 
+		    item.getDropProtection().protect(this); 
+
 		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
@@ -4488,8 +4502,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * @param sendMessage : boolean Specifies whether to send message to Client about this action
 	 * @return L2ItemInstance corresponding to the new item or the updated item in inventory
 	 */
-	public L2ItemInstance dropItem(String process, int objectId, int count, int x, int y, int z, L2Object reference, boolean sendMessage)
+	public L2ItemInstance dropItem(String process, int objectId, int count, int x, int y, int z, L2Object reference, boolean sendMessage, boolean protectItem)
 	{
+
 		L2ItemInstance invitem = _inventory.getItemByObjectId(objectId);
 		L2ItemInstance item = _inventory.dropItem(process, objectId, count, this, reference);
 
@@ -4528,6 +4543,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			item.setProtected(true);
 		}
 
+		if (protectItem) 
+		    item.getDropProtection().protect(this); 
+
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
@@ -5423,6 +5442,15 @@ public final class L2PcInstance extends L2PlayableInstance
 				return;
 			}
 
+			if (!target.getDropProtection().tryPickUp(this))
+			{
+				sendPacket(ActionFailed.STATIC_PACKET);
+				SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1);
+				smsg.addItemName(target.getItemId());
+				sendPacket(smsg);
+				return;
+			}
+			
 			if((isInParty() && getParty().getLootDistribution() == L2Party.ITEM_LOOTER || !isInParty()) && !_inventory.validateCapacity(target))
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -6243,7 +6271,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					// NOTE: Each time an item is dropped, the chance of another item being dropped gets lesser (dropCount * 2)
 					if(Rnd.get(100) < itemDropPercent)
 					{
-						dropItem("DieDrop", itemDrop, killer, true);
+						dropItem("DieDrop", itemDrop, killer, true, true);
 
 						if(isKarmaDrop)
 						{
@@ -7284,6 +7312,12 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public L2PcInstance getActiveRequester()
 	{
+		L2PcInstance requester = _activeRequester;
+		if (requester != null)
+		{
+			if (requester.isRequestExpired() && _activeTradeList == null)
+				_activeRequester = null;
+		}
 		return _activeRequester;
 	}
 

@@ -32,6 +32,7 @@ import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.managers.ItemsOnGroundManager;
+import com.l2jfrozen.gameserver.model.DropProtection;
 import com.l2jfrozen.gameserver.model.L2Augmentation;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -64,6 +65,8 @@ public final class L2ItemInstance extends L2Object
 	private static final Logger _log = Logger.getLogger(L2ItemInstance.class.getName());
 	private static final Logger _logItems = Logger.getLogger("item");
 
+	private final DropProtection _dropProtection = new DropProtection(); 
+	
 	/** Enumeration of locations for item */
 	public static enum ItemLocation
 	{
@@ -1520,5 +1523,16 @@ public final class L2ItemInstance extends L2Object
 
 		return _locData;
 	}
+
+	public final DropProtection getDropProtection() 
+	{ 
+
+
+		return _dropProtection; 
+
+
+	} 
+
+
 
 }
