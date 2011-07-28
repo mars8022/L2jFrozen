@@ -31,12 +31,19 @@ class Nurka(JQuest):
    return
  
  def onAttack (self,npc,player,damage,isPet):
+   CLAN = player.getClan()
+   if CLAN == None :
+     return
+   CLANLEADER = CLAN.getLeader()
+   if CLANLEADER == None :
+     return
    global CLANLEADERS
    for clname in CLANLEADERS:
      if clname <> None :
-       if player.getClan().getLeader().getName() == clname :
-         FortressOfResistance.getInstance().addSiegeDamage(player.getClan(),damage)
+       if CLANLEADER.getName() == clname :
+         FortressOfResistance.getInstance().addSiegeDamage(CLAN,damage)
    return
+
 
  def onKill(self,npc,player,isPet):
    FortressOfResistance.getInstance().CaptureFinish()
