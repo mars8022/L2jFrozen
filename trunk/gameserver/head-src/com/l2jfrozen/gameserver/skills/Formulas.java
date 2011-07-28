@@ -1293,22 +1293,18 @@ public final class Formulas
 		
 		if(crit){
 			
-			double cAtkMultiplied = (damage+power) + attacker.calcStat(Stats.CRITICAL_DAMAGE, damage+power, target, skill);
-			double cAtkVuln = target.calcStat(Stats.CRIT_VULN, 1, target, null);
-			double improvedDamageByCriticalMulAndVuln = cAtkMultiplied * cAtkVuln;
-			//the dagger critical is 1.5 * normal critical add
-			double improvedDamageByCriticalMulAndAdd = improvedDamageByCriticalMulAndVuln + (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill) * 1.5);
+			//double cAtkMultiplied = (damage) + attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
+			double improvedDamageByCriticalVuln = target.calcStat(Stats.CRIT_VULN, damage, target, skill);
+			double improvedDamageByCriticalVulnAndAdd =  (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, improvedDamageByCriticalVuln, target, skill));
 			
 			if(Config.DEBUG){
 				System.out.println("Attacker '"+attacker.getName()+"' Dagger Critical Damage Debug:");
 				System.out.println("	-	Initial Damage:  "+damage);
-				System.out.println("	-	Damage increased of mult:  "+cAtkMultiplied);
-				System.out.println("	-	cAtkVuln Mult:  "+cAtkVuln);
-				System.out.println("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
-				System.out.println("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
+				System.out.println("	-	improvedDamageByCriticalVuln: "+improvedDamageByCriticalVuln);
+				System.out.println("	-	improvedDamageByCriticalVulnAndAdd: "+improvedDamageByCriticalVulnAndAdd);
 			}
 			
-			damage = improvedDamageByCriticalMulAndAdd;
+			damage = improvedDamageByCriticalVulnAndAdd;
 			
 			/*
 			damage = attacker.calcStat(Stats.CRITICAL_DAMAGE, (damage+power), target, skill);
@@ -1331,25 +1327,63 @@ public final class Formulas
 				}
 			}
 			
-		}else{
-			
-			damage += power;
+		}
+		
+		if (skill != null) //skill add is not influenced by criticals improvements, 
+						   //so it's applied later
+		{
+			double skillpower = skill.getPower(attacker);
+			float ssboost = skill.getSSBoost();
+			if(ssboost <= 0)
+				damage += skillpower;
+			else if(ssboost > 0)
+			{
+				if(ss)
+				{
+					skillpower *= ssboost;
+					damage += skillpower;
+				}
+				else
+					damage += skillpower;
+			}
+
+			//possible skill power critical hit, based on Official Description:
+			/* skill critical effects 
+			 * (skill damage x2) have been added
+			 * */
+			if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.DEX.calcBonus(attacker)))
+				damage*=2;
 			
 		}
+		
+		damage *= 70. / defence;
+		
+		//finally, apply the critical multiplier if present (it's not subjected to defense)
+		if(crit){
+			damage = attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
+		}
+		
 		//Multiplier should be removed, it's false ??
 		//damage += 1.5 * attacker.calcStat(Stats.CRITICAL_DAMAGE, damage + power, target, skill);
 		//damage *= (double)attacker.getLevel()/target.getLevel();
 
-		
+		// get the vulnerability for the instance due to skills (buffs, passives, toggles, etc)
+		damage = target.calcStat(Stats.DAGGER_WPN_VULN, damage, target, null);
 		// get the natural vulnerability for the template
 		if(target instanceof L2NpcInstance)
 		{
 			damage *= ((L2NpcInstance) target).getTemplate().getVulnerability(Stats.DAGGER_WPN_VULN);
 		}
-		// get the vulnerability for the instance due to skills (buffs, passives, toggles, etc)
-		damage = target.calcStat(Stats.DAGGER_WPN_VULN, damage, target, null);
-		damage *= 70. / defence;
-		damage += Rnd.get() * attacker.getRandomDamage(target);
+		
+		// Weapon random damage
+		damage *= attacker.getRandomDamageMultiplier();
+		
+		// After C4 nobles make 4% more dmg in PvP.
+		if(attacker instanceof L2PcInstance && ((L2PcInstance) attacker).isNoble() && (target instanceof L2PcInstance || target instanceof L2Summon))
+		{
+			damage *= 1.04;
+		}
+
 		// Sami: Must be removed, after armor resistances are checked.
 		// These values are a quick fix to balance dagger gameplay and give
 		// armor resistances vs dagger. daggerWpnRes could also be used if a skill
@@ -3053,7 +3087,7 @@ public final class Formulas
 	 * @param ss if weapon item was charged by soulshot
 	 * @return damage points
 	 */
-	public static final double calcChargeSkillsDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean dual, boolean ss, int _numCharges)
+	public static final double calcChargeSkillsDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean ss, int _numCharges)
 	{
 		if (attacker instanceof L2PcInstance)
 		{
@@ -3072,6 +3106,20 @@ public final class Formulas
 		
 		if (crit)
 		{
+			//double cAtkMultiplied = (damage) + attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
+			double improvedDamageByCriticalVuln = target.calcStat(Stats.CRIT_VULN, damage, target, skill);
+			double improvedDamageByCriticalVulnAndAdd =  (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, improvedDamageByCriticalVuln, target, skill));
+			
+			if(Config.DEBUG){
+				System.out.println("Attacker '"+attacker.getName()+"' Charge Skills Critical Damage Debug:");
+				System.out.println("	-	Initial Damage:  "+damage);
+				System.out.println("	-	improvedDamageByCriticalVuln: "+improvedDamageByCriticalVuln);
+				System.out.println("	-	improvedDamageByCriticalVulnAndAdd: "+improvedDamageByCriticalVulnAndAdd);
+			}
+			
+			damage = improvedDamageByCriticalVulnAndAdd;
+			
+			/*
 			//Finally retail like formula
 			double cAtkMultiplied = damage+attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
 			double cAtkVuln = target.calcStat(Stats.CRIT_VULN, 1, target, null);
@@ -3088,6 +3136,7 @@ public final class Formulas
 			}
 			
 			damage = improvedDamageByCriticalMulAndAdd;
+			*/
 			
 			/*
 			//Finally retail like formula
@@ -3116,16 +3165,21 @@ public final class Formulas
 			}
 
 			// Charges multiplier, just when skill is used
-			if(_numCharges > 1)
+			if(_numCharges >= 1)
 			{
-				double chargesModifier = 0.8 + (0.15 * _numCharges);
+				double chargesModifier = 0.7 + (0.3 * _numCharges);
 				damage *= chargesModifier;
 			}
 
 		}
 		
-		damage = 56 * damage / defence;
+		damage = 70 * damage / defence;
 
+		//finally, apply the critical multiplier if present (it's not subjected to defense)
+		if(crit){
+			damage = attacker.calcStat(Stats.CRITICAL_DAMAGE, damage, target, skill);
+		}
+		
 		// defence modifier depending of the attacker weapon
 		L2Weapon weapon = attacker.getActiveWeaponItem();
 		Stats stat = null;
@@ -3175,6 +3229,12 @@ public final class Formulas
 		// Weapon random damage
 		damage *= attacker.getRandomDamageMultiplier();
 		
+		// After C4 nobles make 4% more dmg in PvP.
+		if(attacker instanceof L2PcInstance && ((L2PcInstance) attacker).isNoble() && (target instanceof L2PcInstance || target instanceof L2Summon))
+		{
+			damage *= 1.04;
+		}
+
 		//System.out.println("	-	Final damage: "+damage);
 		
 		if(shld && Config.ALT_GAME_SHIELD_BLOCKS)
