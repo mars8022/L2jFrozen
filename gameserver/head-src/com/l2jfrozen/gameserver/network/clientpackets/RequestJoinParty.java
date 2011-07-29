@@ -74,12 +74,6 @@ public final class RequestJoinParty extends L2GameClientPacket
 			return;
 		}
 		
-		if(requestor.isInCombat() || target.isInCombat() )
-		{
-			requestor.sendMessage("Sorry, you or your target are in combat now.");
-			return;
-		}
-		
 		if ((requestor._inEventDM && (DM.is_teleport() || DM.is_started())) || (target._inEventDM && (DM.is_teleport() || DM.is_started())))
 		{
 			requestor.sendMessage("You can't invite that player in party!");
