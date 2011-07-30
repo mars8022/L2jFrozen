@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
@@ -25,6 +26,7 @@ import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
@@ -317,10 +319,12 @@ public class CharInfo extends L2GameServerPacket
 			writeC(_activeChar.getMountType()); // 1 on strider   2 on wyvern   0 no mount
 			writeC(_activeChar.getPrivateStoreType()); //  1 - sellshop
 
-			writeH(_activeChar.getCubics().size());
+			final Map<Integer, L2CubicInstance> cubics = _activeChar.getCubics();
 			
-			if(_activeChar.getCubics().size()>0 && _activeChar.getCubics().keySet()!=null && _activeChar.getCubics().keySet().size()>0)
-				for(int id : _activeChar.getCubics().keySet())
+			writeH(cubics.size());
+			
+			if(cubics.size()>0 && cubics.keySet()!=null && cubics.size()>0)
+				for(int id : cubics.keySet())
 				{
 					writeH(id);
 				}

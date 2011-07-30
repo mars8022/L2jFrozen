@@ -386,6 +386,14 @@ public class TradeList
 
 		L2Item item = ItemTable.getInstance().getTemplate(itemId);
 
+		if(!_owner.validateItemManipulationByItemId(itemId, "Modify TradeList"))
+		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify TradeList without valid conditions! ",  Config.DEFAULT_PUNISH);
+			_log.warning(_owner.getName() + ": Attempt to modify TradeList without valid conditions!");
+			return null;
+		}
+		
+		
 		if(item == null)
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to add invalid item to TradeList! Banned ",  Config.DEFAULT_PUNISH);
@@ -794,6 +802,10 @@ public class TradeList
 		if(_locked)
 			return false;
 
+		if(items == null || items.length == 0){
+			return false;
+		}
+		
 		if(!validate())
 		{
 			lock();
@@ -1066,6 +1078,10 @@ public class TradeList
 	{
 		if(_locked)
 			return false;
+		
+		if(items==null || items.length == 0){
+			return false;
+		}
 
 		PcInventory ownerInventory = _owner.getInventory();
 		PcInventory playerInventory = player.getInventory();

@@ -267,6 +267,7 @@ public class Continuous implements ISkillHandler
 					}
 				}
 			}
+			
 			boolean stopped = false;
 
 			L2Effect[] effects = target.getAllEffects();
@@ -282,6 +283,8 @@ public class Continuous implements ISkillHandler
 						}
 				}
 			}
+			
+			
 			effects = null;
 
 			if(skill.isToggle() && stopped)

@@ -1325,13 +1325,14 @@
     </effect>
   </for>
 </skill>
-<!-- Status:Incorrect Pack:l2jfrozen author:Nefer -->
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="358" levels="1" name="Bluff">
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="35"/>
   <set name="power" val="40"/>
   <set name="saveVs" val="MEN"/>
-  <set name="magicLvl" val="79"/>
+  <set name="magicLvl" val="77"/>
+  <set name="lvlDepend" val="1" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="STUN"/>
   <set name="operateType" val="OP_ACTIVE"/>

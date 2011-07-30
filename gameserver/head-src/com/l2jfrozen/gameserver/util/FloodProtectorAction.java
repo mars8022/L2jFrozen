@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.PunishLevel;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.util.StringUtil;
 
@@ -117,6 +118,10 @@ public final class FloodProtectorAction
 					else if ("jail".equals(_config.PUNISHMENT_TYPE))
 					{
 						jailChar();
+					}
+					else if ("banchat".equals(_config.PUNISHMENT_TYPE))
+					{
+						banChat();
 					}
 					
 					_punishmentInProgress = false;
@@ -221,6 +226,27 @@ public final class FloodProtectorAction
 			_client.closeNow();
 
 		log("Client "+_client.toString()+" kicked for flooding");
+		
+	}
+	
+	/**
+	 * Kick player from game (close network connection).
+	 */
+	private void banChat()
+	{
+		if (_client.getActiveChar() != null){
+			
+			final L2PcInstance activeChar = _client.getActiveChar();
+			
+			long newChatBanTime = 60000; //1 minute
+			if (activeChar.getPunishLevel() == PunishLevel.CHAT)
+			{
+				newChatBanTime+=activeChar.getPunishTimer();
+			}
+			
+			activeChar.setPunishLevel(PunishLevel.CHAT, newChatBanTime);
+			
+		}
 		
 	}
 

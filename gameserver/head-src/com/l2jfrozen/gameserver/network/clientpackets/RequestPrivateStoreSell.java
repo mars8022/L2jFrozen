@@ -117,6 +117,12 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		if(storeList == null)
 			return;
 
+		if(storeList.getItemCount() == 0)
+		{
+			storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+			storePlayer.broadcastUserInfo();
+		}
+		
 		if(!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Unsufficient privileges.");
@@ -145,8 +151,6 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 			}
 		}
 		
-		
-
 		if(!storeList.PrivateStoreSell(player, _items, _price))
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
@@ -154,12 +158,13 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 			_log.warning("PrivateStore sell has failed due to invalid list or request. Player: " + player.getName() + ", Private store of: " + storePlayer.getName());
 			return;
 		}
-
+		
 		if(storeList.getItemCount() == 0)
 		{
 			storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
 			storePlayer.broadcastUserInfo();
 		}
+
 	}
 
 	@Override

@@ -9933,6 +9933,8 @@ public final class L2PcInstance extends L2PlayableInstance
 				UserInfo ui = new UserInfo(this);
 				sendPacket(ui);
 				ui = null;
+				
+				getInventory().refreshWeight();
 
 				return true;
 			}
@@ -12355,10 +12357,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if(skillInfo.getMinLevel() <= 40)
 				{
-					L2Skill prevSkill = prevSkillList.get(skillInfo.getId());
-					L2Skill newSkill = SkillTable.getInstance().getInfo(skillInfo.getId(), skillInfo.getLevel());
+					final L2Skill prevSkill = prevSkillList.get(skillInfo.getId());
+					final L2Skill newSkill = SkillTable.getInstance().getInfo(skillInfo.getId(), skillInfo.getLevel());
 
-					if(prevSkill != null && prevSkill.getLevel() > newSkill.getLevel())
+					if(newSkill== null || prevSkill != null && prevSkill.getLevel() > newSkill.getLevel())
 					{
 						continue;
 					}
@@ -13472,6 +13474,39 @@ public final class L2PcInstance extends L2PlayableInstance
 		return false;
 	}
 
+	public boolean validateItemManipulationByItemId(int itemId, String action)
+	{
+		L2ItemInstance item = getInventory().getItemByItemId(itemId);
+
+		if(item == null || item.getOwnerId() != getObjectId())
+		{
+			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
+			return false;
+		}
+
+		if(getActiveEnchantItem() != null && getActiveEnchantItem().getItemId() == itemId)
+		{
+			if(Config.DEBUG)
+			{
+				_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
+			}
+
+			return false;
+		}
+
+		if(CursedWeaponsManager.getInstance().isCursed(itemId))
+			// can not trade a cursed weapon
+			return false;
+
+		if(item.isWear())
+			// cannot drop/trade wear-items
+			return false;
+
+		item = null;
+
+		return true;
+	}
+	
 	public boolean validateItemManipulation(int objectId, String action)
 	{
 		L2ItemInstance item = getInventory().getItemByObjectId(objectId);
@@ -16086,15 +16121,20 @@ public final class L2PcInstance extends L2PlayableInstance
     	}
     }
 
-    /** 
-     * Sets punish level for player based on delay
-     * @param state
-     * @param delayInMinutes
-     * 		0 - Indefinite
-     */
     public void setPunishLevel(PunishLevel state, int delayInMinutes)
     {
     	long delayInMilliseconds = delayInMinutes * 60000L;
+    	setPunishLevel(state, delayInMilliseconds);
+    	
+    }
+    /** 
+     * Sets punish level for player based on delay
+     * @param state
+     * @param delayInMilliseconds
+     * 		0 - Indefinite
+     */
+    public void setPunishLevel(PunishLevel state, long delayInMilliseconds)
+    {
     	switch (state)
     	{
     		case NONE: // Remove Punishments
@@ -16138,13 +16178,14 @@ public final class L2PcInstance extends L2PlayableInstance
 	    		// Remove the task if any
 	    		stopPunishTask(false);
 	    		
-	    		if (delayInMinutes > 0)
+	    		if (delayInMilliseconds > 0)
 	    		{
 	    			_punishTimer = delayInMilliseconds;
 	    			
 	    			// start the countdown
+	    			int minutes = (int) (delayInMilliseconds/60000);
 	    			_punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
-	                sendMessage("You are chat banned for "+delayInMinutes+" minutes.");
+	                sendMessage("You are chat banned for "+minutes+" minutes.");
 	    		}
 	    		else
 	    			sendMessage("You have been chat banned");
@@ -16158,13 +16199,13 @@ public final class L2PcInstance extends L2PlayableInstance
 		        // Remove the task if any
 		        stopPunishTask(false);
 	
-	            if (delayInMinutes > 0)
+	            if (delayInMilliseconds > 0)
 	            {
 	                _punishTimer = delayInMilliseconds;
 	
 	                // start the countdown
 	                _punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
-	                sendMessage("You are in jail for "+delayInMinutes+" minutes.");
+	                sendMessage("You are in jail for "+delayInMilliseconds+" minutes.");
 	            }
 	            
 	            if(_inEventCTF){

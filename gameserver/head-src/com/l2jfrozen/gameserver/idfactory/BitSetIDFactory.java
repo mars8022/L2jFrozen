@@ -32,6 +32,7 @@ import java.util.BitSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.PrimeFinder;
 
@@ -88,7 +89,8 @@ public class BitSetIDFactory extends IdFactory
                 int objectID = usedObjectId - FIRST_OID;
                 if (objectID < 0)
                 {
-                    _log.warning("Object ID " + usedObjectId + " in DB is less than minimum ID of " + FIRST_OID);
+                	if(Config.DEBUG)
+                		_log.warning("Object ID " + usedObjectId + " in DB is less than minimum ID of " + FIRST_OID);
                     continue;
                 }
                 _freeIds.set(usedObjectId - FIRST_OID);
