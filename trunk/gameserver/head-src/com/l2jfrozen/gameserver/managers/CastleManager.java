@@ -153,9 +153,9 @@ public class CastleManager
 
 	public final Castle getCastleByOwner(L2Clan clan)
 	{
-		for(Castle temp : getCastles())
+		for(final Castle temp : getCastles())
 		{
-			if(temp.getOwnerId() == clan.getClanId())
+			if(temp!=null && temp.getOwnerId() == clan.getClanId())
 				return temp;
 		}
 

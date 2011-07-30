@@ -503,6 +503,11 @@ public abstract class L2Effect
 
 		if(_state == EffectState.ACTING)
 		{
+			//do not disable fakedeath on click
+			if(_effected.isFakeDeath() && _skill.getId() == 60){
+				return;
+			}
+			
 			if(_count-- > 0)
 			{
 				if(getInUse())

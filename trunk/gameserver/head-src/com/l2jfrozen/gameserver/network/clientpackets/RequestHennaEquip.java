@@ -25,7 +25,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2HennaInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.HennaEquipList;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Henna;
 import com.l2jfrozen.gameserver.util.Util;
@@ -105,7 +107,7 @@ public final class RequestHennaEquip extends L2GameClientPacket
 
 			//HennaInfo hi = new HennaInfo(temp,activeChar);
 			//activeChar.sendPacket(hi);
-
+			
 			activeChar.getInventory().reduceAdena("Henna", temp.getPrice(), activeChar, activeChar.getLastFolkNPC());
 			L2ItemInstance dyeToUpdate = activeChar.getInventory().destroyItemByItemId("Henna", temp.getItemIdDye(), temp.getAmountDyeRequire(), activeChar, activeChar.getLastFolkNPC());
 
@@ -114,6 +116,10 @@ public final class RequestHennaEquip extends L2GameClientPacket
 			iu.addModifiedItem(activeChar.getInventory().getAdenaInstance());
 			iu.addModifiedItem(dyeToUpdate);
 			activeChar.sendPacket(iu);
+			
+			ItemList il = new ItemList(getClient().getActiveChar(), true);
+			sendPacket(il);
+			
 		}
 		else
 		{

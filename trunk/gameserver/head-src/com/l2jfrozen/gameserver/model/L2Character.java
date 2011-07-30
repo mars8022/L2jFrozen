@@ -4954,6 +4954,10 @@ public abstract class L2Character extends L2Object
 	 */
 	public final boolean isInCombat()
 	{
+		if(getAI() == null){
+			return false;
+		}
+		
 		return getAI().getAttackTarget() != null;
 	}
 
@@ -7818,7 +7822,7 @@ public abstract class L2Character extends L2Object
 				queuedSkill = null;
 				
 				
-				L2Weapon activeWeapon = getActiveWeaponItem();
+				final L2Weapon activeWeapon = getActiveWeaponItem();
 				// Launch weapon Special ability skill effect if available
 				if(activeWeapon != null){
 					
@@ -7826,7 +7830,7 @@ public abstract class L2Character extends L2Object
 						
 						if(target instanceof L2Character  && !((L2Character) target).isDead())
 						{
-							L2Character player = (L2Character)target; 
+							final L2Character player = (L2Character)target; 
 							
 							if(activeWeapon.getSkillEffects(this, player, skill))
 							{

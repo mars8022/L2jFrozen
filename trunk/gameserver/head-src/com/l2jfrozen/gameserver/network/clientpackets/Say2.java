@@ -143,6 +143,21 @@ public final class Say2 extends L2GameClientPacket
 			return;
 		}
 		
+		if( activeChar.isChatBanned() && !activeChar.isGM() && _type != CLAN && _type != ALLIANCE && _type != PARTY)
+		{
+			activeChar.sendMessage("You may not chat while a chat ban is in effect.");
+			return;
+		}
+		
+		if(activeChar.isInJail() && Config.JAIL_DISABLE_CHAT)
+		{
+			if(_type == TELL || _type == SHOUT || _type == TRADE || _type == HERO_VOICE)
+			{
+				activeChar.sendMessage("You can not chat with players outside of the jail.");
+				return;
+			}
+		}
+		
 		if (!getClient().getFloodProtectors().getSayAction().tryPerformAction("Say2"))
 		{
 			activeChar.sendMessage("You cannot speak too fast.");
@@ -155,23 +170,7 @@ public final class Say2 extends L2GameClientPacket
 			return;
 		}
 		
-		if(activeChar.isChatBanned() && !activeChar.isGM())
-		{
-			//if (_type == ALL || _type == SHOUT || _type == TRADE || _type == HERO_VOICE)
-			//{
-			activeChar.sendMessage("You may not chat while a chat ban is in effect.");
-			return;
-			//}
-		}
-
-		if(activeChar.isInJail() && Config.JAIL_DISABLE_CHAT)
-		{
-			if(_type == TELL || _type == SHOUT || _type == TRADE || _type == HERO_VOICE)
-			{
-				activeChar.sendMessage("You can not chat with players outside of the jail.");
-				return;
-			}
-		}
+		
 
 		if(_type == PETITION_PLAYER && activeChar.isGM())
 		{
@@ -226,7 +225,7 @@ public final class Say2 extends L2GameClientPacket
 			checkText(activeChar);
 		}
 		
-		if(PowerPakConfig.ENABLE_SAY_SOCIAL_ACTIONS){
+		if(PowerPakConfig.ENABLE_SAY_SOCIAL_ACTIONS && !activeChar.isAlikeDead() && !activeChar.isDead()){
 			if ((_text.equalsIgnoreCase("hello") 
 					|| _text.equalsIgnoreCase("hey") 
 					|| _text.equalsIgnoreCase("aloha") 

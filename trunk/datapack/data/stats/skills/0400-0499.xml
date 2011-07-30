@@ -1090,17 +1090,17 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="451" levels="2" name="Sonic Move">
-  <table name="#charges">2 3</table>
+  <table name="#charges">2 3</table> <!-- 2 3 Charges are consumed -->
   <table name="#spd">40 66</table>
   <table name="#mpConsume">29 32</table>
   <set name="hitTime" val="1000"/>
-  <set name="reuseDelay" val="32516"/>
+  <set name="reuseDelay" val="60000"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="charge_skill_id" val="8"/>
   <set name="num_charges" val="#charges"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="skillType" val="CHARGE_EFFECT"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <cond msg="An equipped dual-sword weapon is required to use this skill.">
     <using kind="Dual Sword"/>
   </cond>

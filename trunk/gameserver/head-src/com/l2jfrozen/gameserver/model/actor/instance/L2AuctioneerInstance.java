@@ -277,12 +277,13 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 
 						AuctionManager.getInstance().getAuction(auctionId).setBid(player, bid);
 					}
+					catch(NumberFormatException e){
+						player.sendMessage("Invalid bid!");
+					}
 					catch(Exception e)
 					{
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
-						
-						player.sendMessage("Invalid bid!");
 					}
 				}
 				catch(Exception e)

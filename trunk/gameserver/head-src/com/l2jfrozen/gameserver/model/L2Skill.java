@@ -510,8 +510,8 @@ public abstract class L2Skill
 	
 	protected L2Skill(StatsSet set)
 	{
-		_id = set.getInteger("skill_id");
-		_level = set.getInteger("level");
+		_id = set.getInteger("skill_id",0);
+		_level = set.getInteger("level",1);
 
 		_displayId = set.getInteger("displayId", _id);
 		_name = set.getString("name");
@@ -3020,10 +3020,13 @@ public abstract class L2Skill
 		}
 		
 		if(getSkillType()==SkillType.BUFF)
-			for(L2Effect ef: effector.getAllEffects()) {
-				if(ef.getSkill().getId() == getId() &&
-				   ef.getSkill().getLevel() > getLevel())
-					return _emptyEffectSet;
+			for(final L2Effect ef: effector.getAllEffects()) {
+				if(ef!=null && ef.getSkill()!=null){
+					if(ef.getSkill().getId() == getId() &&
+							   ef.getSkill().getLevel() > getLevel())
+								return _emptyEffectSet;
+				}
+				
 			}
 				
 		Env env = new Env();

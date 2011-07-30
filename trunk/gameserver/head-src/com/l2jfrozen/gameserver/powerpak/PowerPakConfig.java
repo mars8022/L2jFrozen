@@ -349,7 +349,7 @@ public class PowerPakConfig
 				
 			}
 			
-			ENABLE_SAY_SOCIAL_ACTIONS = Boolean.parseBoolean(p.getProperty("EnableSocialSayActions","true"));
+			ENABLE_SAY_SOCIAL_ACTIONS = Boolean.parseBoolean(p.getProperty("EnableSocialSayActions","false"));
 		
 			CHAR_REPAIR = Boolean.parseBoolean(p.getProperty("CharacterRepair", "False"));
 			
