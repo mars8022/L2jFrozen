@@ -114,7 +114,7 @@ public class L2CommandChannel
 			}
 		}
 
-		_partys = null;
+		//_partys = null;
 	}
 
 	/**

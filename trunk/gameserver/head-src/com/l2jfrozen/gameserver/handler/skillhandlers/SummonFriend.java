@@ -97,25 +97,9 @@ public class SummonFriend implements ISkillHandler
 
 		if(GrandBossManager.getInstance().getZone(activePlayer) != null && !activePlayer.isGM())
 		{
-			activePlayer.sendMessage("You may not use Summon Friend Skill inside a Boss Zone.");
+			activePlayer.sendPacket(new SystemMessage(SystemMessageId.YOU_MAY_NOT_SUMMON_FROM_YOUR_CURRENT_LOCATION));
 			return;
 		}
-
-		// check for summoner not in raid areas
-		FastList<L2Object> objects = L2World.getInstance().getVisibleObjects(activeChar, 5000);
-		if(objects != null)
-		{
-			for(L2Object object : objects)
-			{
-				if(object instanceof L2RaidBossInstance || object instanceof L2GrandBossInstance)
-				{
-					activePlayer.sendPacket(new SystemMessage(SystemMessageId.YOU_MAY_NOT_SUMMON_FROM_YOUR_CURRENT_LOCATION));
-					return;
-				}
-			}
-		}
-
-		objects = null;
 
 		try
 		{

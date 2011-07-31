@@ -56,7 +56,7 @@ public class Valakas_l2j extends Quest implements Runnable
 	private int i_ai3 = 0;
 	private int i_ai4 = 0;
 	private int i_quest0 = 0;
-	private long i_quest1 = 0; // time to tracking valakas when was last time attacked
+	private long lastAttackTime = 0; // time to tracking valakas when was last time attacked
 	private int i_quest2 = 0; // hate value for 1st player
 	private int i_quest3 = 0; // hate value for 2nd player
 	private int i_quest4 = 0; // hate value for 3rd player
@@ -90,7 +90,7 @@ public class Valakas_l2j extends Quest implements Runnable
 		i_ai3 = 0;
 		i_ai4 = 0;
 		i_quest0 = 0;
-		i_quest1 = System.currentTimeMillis();
+		lastAttackTime = System.currentTimeMillis();
 		_Zone = GrandBossManager.getInstance().getZone(212852, -114842, -1632);
 		StatsSet info = GrandBossManager.getInstance().getStatsSet(VALAKAS);
 		
@@ -112,38 +112,14 @@ public class Valakas_l2j extends Quest implements Runnable
 			{
 				// the time has already expired while the server was offline.
 				// the status needs to be changed to DORMANT
-				//L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, -105200, -253104, -15264, 0, false, 0);
-				//L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, 213004,-114890,-1635, 0, false, 0);
 				GrandBossManager.getInstance().setBossStatus(VALAKAS, DORMANT);
-				/*
-				GrandBossManager.getInstance().addBoss(valakas);
-				final L2NpcInstance _valakas = valakas;
-				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-				{
-					public void run()
-					{
-						try
-						{
-							_valakas.setIsInvul(true);
-							_valakas.setRunning();
-						}
-						catch (Throwable e)
-						{}
-					}
-				}, 100L);
-				startQuestTimer("1003", 60000, valakas, null, true);
-				*/
+				
 			}
 		}
 		else
 		{
 			if(status == FIGHTING)
 			{
-				//int loc_x = info.getInteger("loc_x");
-				//int loc_y = info.getInteger("loc_y");
-				//int loc_z = info.getInteger("loc_z");
-				//int heading = info.getInteger("heading");
-				
 				//respawn to original location				
 				int loc_x = 213004;
 				int loc_y = -114890;
@@ -212,11 +188,11 @@ public class Valakas_l2j extends Quest implements Runnable
 				
 				if (status == FIGHTING && !npc.getSpawn().is_customBossInstance())
 				{
-					temp = (System.currentTimeMillis() - i_quest1);
-					if (temp > 900000)
+					temp = (System.currentTimeMillis() - lastAttackTime);
+					if (temp > (Config.VALAKAS_DESPAWN_TIME*60000)) //15 mins
 					{
 						npc.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-						//npc.teleToLocation(-105200, -253104, -15264);
+						
 						//delete the actual boss
 						npc.decayMe();
 						GrandBossManager.getInstance().setBossStatus(VALAKAS, DORMANT);
@@ -380,7 +356,7 @@ public class Valakas_l2j extends Quest implements Runnable
 				L2GrandBossInstance valakas = (L2GrandBossInstance) addSpawn(VALAKAS, loc_x, loc_y, loc_z, heading, false, 0);
 				GrandBossManager.getInstance().addBoss(valakas);
 				
-				i_quest1 = System.currentTimeMillis();
+				lastAttackTime = System.currentTimeMillis();
 				final L2NpcInstance _valakas = valakas;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 				{
@@ -417,7 +393,7 @@ public class Valakas_l2j extends Quest implements Runnable
 		{
 			return null;
 		}
-		i_quest1 = System.currentTimeMillis();
+		lastAttackTime = System.currentTimeMillis();
 		/*if (!Config.ALLOW_DIRECT_TP_TO_BOSS_ROOM && GrandBossManager.getInstance().getBossStatus(VALAKAS) != FIGHTING
 				&& !npc.getSpawn().is_customBossInstance())
 		{

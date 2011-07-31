@@ -3602,6 +3602,7 @@ public final class Config
 	public static int VALAKAS_RESP_FIRST;
 	public static int VALAKAS_RESP_SECOND;
 	public static int VALAKAS_WAIT_TIME;
+	public static int VALAKAS_DESPAWN_TIME;
 	public static float VALAKAS_POWER_MULTIPLIER;
 	
 	public static int FRINTEZZA_RESP_FIRST;
@@ -3682,6 +3683,7 @@ public final class Config
 			VALAKAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("ValakasRespSecond", "44"));
 			VALAKAS_WAIT_TIME = Integer.parseInt(bossSettings.getProperty("ValakasWaitTime", "30"));
 			VALAKAS_POWER_MULTIPLIER = Float.parseFloat(bossSettings.getProperty("ValakasPowerMultiplier", "1.0"));
+			VALAKAS_DESPAWN_TIME = Integer.parseInt(bossSettings.getProperty("ValakasDespawnTime", "15"));
 			//============================================================
 			//FRINTEZZA
 			FRINTEZZA_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("FrintezzaRespFirst", "48"));

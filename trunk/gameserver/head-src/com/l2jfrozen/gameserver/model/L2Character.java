@@ -167,6 +167,7 @@ public abstract class L2Character extends L2Object
 	private L2Skill _lastSkillCast;
 	private L2Skill _lastPotionCast;
 	
+	private boolean _isBuffProtected = false; //Protect From Debuffs
 	private boolean _isAfraid = false; // Flee in a random direction
 	private boolean _isConfused = false; // Attack anyone randomly
 	private boolean _isFakeDeath = false; // Fake death
@@ -9365,5 +9366,13 @@ public abstract class L2Character extends L2Object
 		return (1+((double)Rnd.get(0-random,random)/100));
 	}
 
-
+	public final void setIsBuffProtected(boolean value)
+	{
+	    _isBuffProtected = value;
+	}
+	
+	public boolean isBuffProtected()
+	{
+	    return _isBuffProtected;	
+	}
 }

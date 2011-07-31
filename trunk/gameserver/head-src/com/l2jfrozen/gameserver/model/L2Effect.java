@@ -105,7 +105,8 @@ public abstract class L2Effect
 		FUSION,
 		CANCEL,
 		BLOCK_BUFF,
-		BLOCK_DEBUFF
+		BLOCK_DEBUFF,
+		PREVENT_BUFF
 	}
 
 	private static final Func[] _emptyFunctionSet = new Func[0];
@@ -503,11 +504,6 @@ public abstract class L2Effect
 
 		if(_state == EffectState.ACTING)
 		{
-			//do not disable fakedeath on click
-			if(_effected.isFakeDeath() && _skill.getId() == 60){
-				return;
-			}
-			
 			if(_count-- > 0)
 			{
 				if(getInUse())
