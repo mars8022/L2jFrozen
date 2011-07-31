@@ -51,7 +51,9 @@ public class Recall implements ISkillHandler
 		{
 			if(activeChar instanceof L2PcInstance)
 			{
-				if(((L2PcInstance) activeChar).isInOlympiadMode())
+				final L2PcInstance instance = (L2PcInstance)activeChar;
+				
+				if(instance.isInOlympiadMode())
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
 					return;
@@ -70,24 +72,12 @@ public class Recall implements ISkillHandler
 					return;
 				}
 
-				if(GrandBossManager.getInstance().getZone(activeChar) != null && !((L2PcInstance) activeChar).isGM())
+				if(GrandBossManager.getInstance().getZone(instance) != null && !instance.isGM())
 				{
-					((L2PcInstance) activeChar).sendMessage("You may not use Summon Friend Skill inside a Boss Zone.");
+					instance.sendPacket(new SystemMessage(SystemMessageId.YOU_MAY_NOT_SUMMON_FROM_YOUR_CURRENT_LOCATION));
 					return;
 				}
-
-				FastList<L2Object> objects = L2World.getInstance().getVisibleObjects(activeChar, 5000);
-				if(objects != null)
-				{
-					for(L2Object object : objects)
-					{
-						if(object instanceof L2RaidBossInstance || object instanceof L2GrandBossInstance)
-						{
-							activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_MAY_NOT_SUMMON_FROM_YOUR_CURRENT_LOCATION));
-							return;
-						}
-					}
-				}
+	
 			}
 
 			for(int index = 0; index < targets.length; index++)
