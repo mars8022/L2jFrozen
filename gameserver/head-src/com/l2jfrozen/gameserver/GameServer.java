@@ -105,6 +105,7 @@ import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.managers.RaidBossPointsManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
+import com.l2jfrozen.gameserver.managers.IrcManager;
 import com.l2jfrozen.gameserver.model.AutoChatHandler;
 import com.l2jfrozen.gameserver.model.L2Manor;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -503,6 +504,10 @@ public class GameServer
 		}
 
 		Util.printSection("Game Server");
+		
+		if(Config.IRC_ENABLED) 
+		 	IrcManager.getInstance().getConnection().sendChan(Config.IRC_MSG_START);
+		
 		_log.info("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
 		try
 		{
