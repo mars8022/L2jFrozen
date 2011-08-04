@@ -70,6 +70,7 @@ public class FService
 	public static final String EVENT_DM_FILE = "./config/frozen/dm.properties";
 	public static final String EVENT_TVT_FILE = "./config/frozen/tvt.properties";
 	public static final String EVENT_TW_FILE = "./config/frozen/tw.properties";
+	public static final String IRC_FILE = "./config/frozen/irc.properties";
 
 	//fun -- events
 	public static final String AWAY_FILE = "./config/fun/away.properties";

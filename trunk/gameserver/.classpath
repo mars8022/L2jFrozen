@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/ws-commons-util-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/irclib-1.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
