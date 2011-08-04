@@ -6494,13 +6494,32 @@ public final class L2PcInstance extends L2PlayableInstance
 				return false;
 			}      
 			
-			//Anti FARM same Ip 
-			if(Config.ANTI_FARM_IP_ENABLED && targetPlayer.getClient()!=null && targetPlayer.getClient().getConnection().getInetAddress().getHostAddress().equals(this.getClient().getConnection().getInetAddress().getHostAddress()))
-			{
-				this.sendMessage("Farm is punishable with Ban! Don't kill your Box!"); 
-				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
-				return false;
+			//Anti FARM same Ip
+			if(Config.ANTI_FARM_IP_ENABLED){
+				
+				String local_ip = "";
+				String target_ip = "";
+				if(targetPlayer.getClient()!=null 
+						&& targetPlayer.getClient().getConnection()!=null
+						&& targetPlayer.getClient().getConnection().getInetAddress()!=null
+						&& (target_ip = targetPlayer.getClient().getConnection().getInetAddress().getHostAddress())!=null
+					&& this.getClient()!=null 
+						&& this.getClient().getConnection()!=null
+						&& this.getClient().getConnection().getInetAddress()!=null
+						&& (local_ip = this.getClient().getConnection().getInetAddress().getHostAddress())!=null){
+					
+					if(target_ip.equals("") && local_ip.equals("") && local_ip.equals(target_ip))
+					{
+						this.sendMessage("Farm is punishable with Ban! Don't kill your Box!"); 
+						_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
+						return false;
+					}
+					
+				}
+				
 			}
+				
+			
 
 			return true;
 			

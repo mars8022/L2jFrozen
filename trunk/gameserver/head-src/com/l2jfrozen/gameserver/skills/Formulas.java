@@ -3173,7 +3173,7 @@ public final class Formulas
 
 		}
 		
-		damage = 70 * damage / defence;
+		damage = 56 * damage / defence;
 
 		//finally, apply the critical multiplier if present (it's not subjected to defense)
 		if(crit){
@@ -3306,6 +3306,21 @@ public final class Formulas
 				damage *= attacker.calcStat(Stats.PVP_PHYSICAL_DMG, 1, null, null);
 			else
 				damage *= attacker.calcStat(Stats.PVP_PHYS_SKILL_DMG, 1, null, null);
+		}
+		
+		if(Config.ENABLE_CLASS_DAMAGES && attacker instanceof L2PcInstance && target instanceof L2PcInstance){
+			
+			if(((L2PcInstance) attacker).isInOlympiadMode() && ((L2PcInstance) target).isInOlympiadMode()){
+				
+				if(Config.ENABLE_CLASS_DAMAGES_IN_OLY){
+					damage = damage*ClassDamageManager.getDamageMultiplier((L2PcInstance) attacker, (L2PcInstance) target);
+				}
+				
+			}else{
+				
+				damage = damage*ClassDamageManager.getDamageMultiplier((L2PcInstance) attacker, (L2PcInstance) target);
+			
+			}
 		}
 		
 		return damage;

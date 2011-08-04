@@ -1826,6 +1826,7 @@ public final class Config
 	public static boolean GMAUDIT;
 	public static boolean LOG_CHAT;
 	public static boolean LOG_ITEMS;
+	public static boolean LOG_HIGH_DAMAGES;
 	public static boolean GAMEGUARD_ENFORCE;
 	public static boolean GAMEGUARD_PROHIBITACTION;
 	public static int GAMEGUARD_KEY;
@@ -1888,7 +1889,8 @@ public final class Config
 			GMAUDIT = Boolean.valueOf(devSettings.getProperty("GMAudit", "False"));
 			LOG_CHAT = Boolean.valueOf(devSettings.getProperty("LogChat", "false"));
 			LOG_ITEMS = Boolean.valueOf(devSettings.getProperty("LogItems", "false"));
-
+			LOG_HIGH_DAMAGES = Boolean.valueOf(devSettings.getProperty("LogHighDamages", "false"));
+			
 			GAMEGUARD_ENFORCE = Boolean.valueOf(devSettings.getProperty("GameGuardEnforce", "False"));
 			GAMEGUARD_PROHIBITACTION = Boolean.valueOf(devSettings.getProperty("GameGuardProhibitAction", "False"));
 			GAMEGUARD_KEY = Integer.parseInt(devSettings.getProperty("GameGuardKey", "0"));
