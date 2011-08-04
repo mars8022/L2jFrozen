@@ -151,7 +151,7 @@ public class Pdam implements ISkillHandler
 			if(crit)
 				damage *= 2; // PDAM Critical damage always 2x and not affected by buffs
 
-			if(damage > 5000 && activeChar instanceof L2PcInstance)
+			if(damage > 5000 &&  Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
 			{
 				String name = "";
 				if(target instanceof L2RaidBossInstance)

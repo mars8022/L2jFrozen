@@ -7632,42 +7632,53 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 
-		
+		final L2Object[] targets2 = targets;
 		try
 		{
-			// Go through targets table
-			for(int i=0;i<targets.length;i++)//L2Object target2 : targets)
-			{
-				L2Object target2 = targets[i];
-				if(target2==null){
-					continue;
+			if(targets2 != null && targets2.length!=0){
+				
+				// Go through targets table
+				for(int i=0;i<targets2.length;i++)//L2Object target2 : targets)
+				{
+					L2Object target2 = targets[i];
+					if(target2==null){
+						continue;
+					}
+					
+					if(target2 instanceof L2PlayableInstance)
+					{
+						L2Character target = (L2Character) target2;
+
+						if(skill.getSkillType() == L2Skill.SkillType.BUFF || skill.getSkillType() == L2Skill.SkillType.SEED)
+						{
+							SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
+							smsg.addString(skill.getName());
+							target.sendPacket(smsg);
+							smsg = null;
+						}
+
+						if(this instanceof L2PcInstance && target instanceof L2Summon)
+						{
+							((L2Summon) target).getOwner().sendPacket(new PetInfo((L2Summon) target));
+							sendPacket(new NpcInfo((L2Summon) target, this));
+
+							// The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them
+							((L2Summon) target).updateEffectIcons(true);
+						}
+
+						target = null;
+					}
 				}
 				
-				if(target2 instanceof L2PlayableInstance)
-				{
-					L2Character target = (L2Character) target2;
-
-					if(skill.getSkillType() == L2Skill.SkillType.BUFF || skill.getSkillType() == L2Skill.SkillType.SEED)
-					{
-						SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
-						smsg.addString(skill.getName());
-						target.sendPacket(smsg);
-						smsg = null;
-					}
-
-					if(this instanceof L2PcInstance && target instanceof L2Summon)
-					{
-						((L2Summon) target).getOwner().sendPacket(new PetInfo((L2Summon) target));
-						sendPacket(new NpcInfo((L2Summon) target, this));
-
-						// The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them
-						((L2Summon) target).updateEffectIcons(true);
-					}
-
-					target = null;
-				}
 			}
-
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			
+			
+		try{
+			
 			StatusUpdate su = new StatusUpdate(getObjectId());
 			boolean isSendStatus = false;
 
@@ -7727,10 +7738,10 @@ public abstract class L2Character extends L2Object
 			callSkill(skill, targets);
 
 			su = null;
+			
 		}
-		catch(NullPointerException e)
+		catch(Exception e)
 		{
-			//null
 			e.printStackTrace();
 		}
 
@@ -7827,18 +7838,24 @@ public abstract class L2Character extends L2Object
 				// Launch weapon Special ability skill effect if available
 				if(activeWeapon != null){
 					
-					for(L2Object target: targets){
-						
-						if(target instanceof L2Character  && !((L2Character) target).isDead())
-						{
-							final L2Character player = (L2Character)target; 
-							
-							if(activeWeapon.getSkillEffects(this, player, skill))
-							{
-								sendPacket(SystemMessage.sendString("Target affected by weapon special ability!"));
+					try{
+						if(targets!=null && targets.length>0){
+							for(L2Object target: targets){
+								
+								if(target!=null && target instanceof L2Character  && !((L2Character) target).isDead())
+								{
+									final L2Character player = (L2Character)target; 
+									
+									if(activeWeapon.getSkillEffects(this, player, skill))
+									{
+										sendPacket(SystemMessage.sendString("Target affected by weapon special ability!"));
+									}
+								}
+								
 							}
 						}
-						
+					}catch(Exception e){
+						e.printStackTrace();
 					}
 					
 				}

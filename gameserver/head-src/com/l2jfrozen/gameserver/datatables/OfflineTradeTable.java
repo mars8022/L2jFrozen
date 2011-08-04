@@ -275,14 +275,7 @@ public class OfflineTradeTable
 			rs.close();
 			stm.close();
 			_log.info("Loaded: " +nTraders+ " offline trader(s)");
-			/*
-			stm = con.prepareStatement(CLEAR_OFFLINE_TABLE);
-			stm.execute();
-			stm.close();
-			stm = con.prepareStatement(CLEAR_OFFLINE_TABLE_ITEMS);
-			stm.execute();
-			stm.close();
-			*/
+		
 		}
 		catch (Exception e)
 		{
@@ -322,6 +315,8 @@ public class OfflineTradeTable
 			stm = con.prepareStatement(SAVE_OFFLINE_STATUS);
 			PreparedStatement stm_items = con.prepareStatement(SAVE_ITEMS);
 
+			boolean save = true;
+			
 			try
 			{
 				
@@ -378,12 +373,15 @@ public class OfflineTradeTable
 					default:
 						//_log.info( "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 						//no save for this kind of shop
-						return;
+						save = false;
 				}
-				stm.setString(4, title);
-				stm.executeUpdate();
-				stm.clearParameters();
-				con.commit(); // flush
+				
+				if(save){
+					stm.setString(4, title);
+					stm.executeUpdate();
+					stm.clearParameters();
+					con.commit(); // flush
+				}
 			}
 			catch (Exception e)
 			{
@@ -409,127 +407,5 @@ public class OfflineTradeTable
 			CloseUtil.close(con);
 		}
 	}
-	
-	/*
-	public static void dataStoreRefresh(L2PcInstance pc)
-	{
-		if(pc==null || !pc.isOffline())
-			return;
-		
-			
-		Connection con = null;
-		PreparedStatement stm_items;
 
-		try
-		{
-			con = L2DatabaseFactory.getInstance().getConnection(false);
-			con.setAutoCommit(false); // avoid halfway done
-			stm_items = con.prepareStatement(UPDATE_ITEMS);
-			
-			switch (pc.getPrivateStoreType())
-			{
-				case L2PcInstance.STORE_PRIVATE_BUY:
-					if (!Config.OFFLINE_TRADE_ENABLE)
-						break;
-					
-					String buying_items = "";
-					
-					for (TradeItem i : pc.getBuyList().getItems())
-					{
-						stm_items.setInt(1, pc.getObjectId());
-						stm_items.setInt(2, i.getItem().getItemId());
-						stm_items.setLong(3, i.getCount());
-						stm_items.setLong(4, i.getPrice());
-						stm_items.executeUpdate();
-						stm_items.clearParameters();
-
-						if(!buying_items.equals(""))
-							buying_items = buying_items+","+i.getItem().getItemId();
-						else
-							buying_items = ""+i.getItem().getItemId();
-					}
-					
-					PreparedStatement delete_buy_stmt = con.prepareStatement(DELETE_OFFLINE_TABLE_ITEMS);
-					delete_buy_stmt.setInt(1, pc.getObjectId());
-					delete_buy_stmt.setString(2, buying_items);
-					delete_buy_stmt.executeUpdate();
-					delete_buy_stmt.clearParameters();
-					
-					break;
-				case L2PcInstance.STORE_PRIVATE_SELL:
-				case L2PcInstance.STORE_PRIVATE_PACKAGE_SELL:
-					if (!Config.OFFLINE_TRADE_ENABLE)
-						break;
-
-					String selling_items = "";
-					
-					for (TradeItem i : pc.getSellList().getItems())
-					{
-						stm_items.setInt(1, pc.getObjectId());
-						stm_items.setInt(2, i.getObjectId());
-						stm_items.setLong(3, i.getCount());
-						stm_items.setLong(4, i.getPrice());
-						stm_items.executeUpdate();
-						stm_items.clearParameters();
-						
-						if(!selling_items.equals(""))
-							selling_items = selling_items+","+i.getItem().getItemId();
-						else
-							selling_items = ""+i.getItem().getItemId();
-						
-					}
-					
-					PreparedStatement delete_sell_stmt = con.prepareStatement(DELETE_OFFLINE_TABLE_ITEMS);
-					delete_sell_stmt.setInt(1, pc.getObjectId());
-					delete_sell_stmt.setString(2, selling_items);
-					delete_sell_stmt.executeUpdate();
-					delete_sell_stmt.clearParameters();
-					
-					break;
-				case L2PcInstance.STORE_PRIVATE_MANUFACTURE:
-					
-					if (!Config.OFFLINE_CRAFT_ENABLE)
-						break;
-					
-					for (L2ManufactureItem i : pc.getCreateList().getList())
-					{
-						stm_items.setInt(1, pc.getObjectId());
-						stm_items.setInt(2, i.getRecipeId());
-						stm_items.setLong(3, 0);
-						stm_items.setLong(4, i.getCost());
-						stm_items.executeUpdate();
-						stm_items.clearParameters();
-						
-					}
-					
-				case L2PcInstance.STORE_PRIVATE_NONE:
-					_log.info("Offline trader "+pc.getName()+" finished to sell/buy his items");
-					
-					PreparedStatement delete_stmt = con.prepareStatement(DELETE_OFFLINE_TRADER);
-					delete_stmt.setInt(1, pc.getObjectId());
-					delete_stmt.executeUpdate();
-					delete_stmt.clearParameters();
-					
-					break;
-					
-				default:
-					_log.info( "OfflineTradersTable[dataStoreRefresh()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
-			}
-
-			con.commit(); // flush
-		}
-		catch (Exception e)
-		{
-			_log.log(Level.WARNING, "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
-		}
-		finally
-		{
-			try { con.close(); 
-			
-			} catch(Exception e) { }
-			con = null;
-		}
-		
-	}
-	*/
 }

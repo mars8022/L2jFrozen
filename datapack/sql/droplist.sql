@@ -13799,7 +13799,7 @@ INSERT INTO `droplist` VALUES
 (21294,57,1891,3844,0,700000), -- Adena
 (21294,80,1,1,1,127), -- Tallum Blade
 (21294,150,1,1,1,127), -- Elemental Sword
-(21294,11954,1,1,1,127), -- Common Item - Infernal Master 
+(21294,7884,1,1,1,127), -- Common Item - Infernal Master 
 (21294,5547,1,1,1,1178), -- Elemental Sword Edge
 (21294,5548,1,1,1,1178), -- Tallum Blade Edge
 (21294,1864,1,3,2,230704), -- Stem
@@ -17845,7 +17845,7 @@ INSERT INTO `droplist` VALUES
 (21600,57,1148,2336,0,700000), -- Adena
 (21600,80,1,1,1,15), -- Tallum Blade
 (21600,150,1,1,1,15), -- Elemental Sword
-(21600,11954,1,1,1,15), -- Infernal Master 
+(21600,7884,1,1,1,15), -- Infernal Master 
 (21600,5547,1,1,1,716), -- Elemental Sword Edge
 (21600,5548,1,1,1,716), -- Tallum Blade Edge
 (21600,729,1,1,2,14), -- Scroll: Enchant Weapon (Grade A)
@@ -22307,10 +22307,10 @@ INSERT INTO `droplist` VALUES
 (22127,57,4689,9571,0,700000), -- Adena 
 (22127,1867,1,3,2,250000), -- Animal Skin 
 (22127,1881,1,1,2,76923), -- Coarse Bone Powder 
-(22127,11974,1,1,1,35), -- Common Item - Elysian 
-(22127,11970,1,1,1,35), -- Common Item - Branch of The Mother Tree 
-(22127,11969,1,1,1,35), -- Common Item - Flaming Dragon Skull 
-(22127,11966,1,1,1,35), -- Common Item - Doom Crusher
+(22127,164,1,1,1,35), -- Common Item - Elysian 
+(22127,213,1,1,1,35), -- Common Item - Branch of The Mother Tree 
+(22127,7895,1,1,1,35), -- Common Item - Flaming Dragon Skull 
+(22127,7902,1,1,1,35), -- Common Item - Doom Crusher
 (22128,57,1381,2814,0,700000), -- Adena
 (22128,1864,1,1,2,333333), -- Stem
 (22128,1869,1,1,2,14285), -- Iron Ore
@@ -22607,8 +22607,8 @@ INSERT INTO `droplist` VALUES
 (22146,1868,10,28,2,50000), -- Thread
 (22146,7916,1,1,2,33333), -- Dark Crystal
 (22146,1873,5,12,2,25641), -- Silver Nugget
-(22146,12266,1,1,1,68), -- Common Item - Sealed Robe of Nightmare 
-(22146,12259,1,1,1,68), -- Common Item - Sealed Majestic Robe 
+(22146,5326,1,1,1,68), -- Common Item - Sealed Robe of Nightmare 
+(22146,5329,1,1,1,68), -- Common Item - Sealed Majestic Robe 
 (22146,5487,1,1,1,4672), -- Sealed Robe of Nightmare Fabric
 (22146,5488,1,1,1,2336), -- Sealed Majestic Robe Fabric
 (22147,57,4969,10040,0,700000), -- Adena
@@ -22640,8 +22640,8 @@ INSERT INTO `droplist` VALUES
 (22149,1344,296,441,2,33333), -- Mithril Arrow
 (22149,1873,4,9,2,27777), -- Silver Nugget
 (22149,4042,1,1,2,3802), -- Enria
-(22149,11968,1,1,1,77), -- Common Item - Dragon Slayer 
--- (22149,11971,1,1,1,77), -- Common Item - Sword of Miracles
+(22149,81,1,1,1,77), -- Common Item - Dragon Slayer 
+(22149,151,1,1,1,77), -- Common Item - Sword of Miracles
 (22149,5529,1,1,2,2849), -- Dragon Slayer Edge
 (22149,5546,1,1,2,2849), -- Sword of Miracles Edge
 (22149,5545,1,1,2,2375), -- Dark Legion's Edge Blade
@@ -22694,9 +22694,9 @@ INSERT INTO `droplist` VALUES
 (22153,5529,1,1,1,948), -- Dragon Slayer Edge
 (22153,6901,1,1,2,948), -- Recipe: Shining Arrow (100%)
 (22154,57,4956,10020,0,700000), -- Adena
-(22154,12350,1,1,1,1183), -- Common Item - Sealed Majestic Necklace 
-(22154,12352,1,1,1,845), -- Common Item - Sealed Majestic Earring
-(22154,12351,1,1,1,1014), -- Common Item - Sealed Majestic Ring
+(22154,6326,1,1,1,1183), -- Common Item - Sealed Majestic Necklace 
+(22154,6327,1,1,1,845), -- Common Item - Sealed Majestic Earring
+(22154,6328,1,1,1,1014), -- Common Item - Sealed Majestic Ring
 (22154,1868,4,12,2,166066), -- Thread
 (22154,1876,1,1,2,125000), -- Mithril Ore
 (22154,1895,1,1,2,111111), -- Metallic Fiber
@@ -22809,8 +22809,8 @@ INSERT INTO `droplist` VALUES
 (22161,1894,1,1,-1,222000), -- Crafted Leather
 (22161,4039,1,1,-1,125000), -- Mold Glue
 (22162,57,6285,12820,0,700000), -- Adena
-(22162,11968,1,1,1,116), -- Common Item - Dragon Slayer
--- (22162,11971,1,1,1,116), -- Common Item - Sword of Miracles
+(22162,81,1,1,1,116), -- Common Item - Dragon Slayer
+(22162,151,1,1,1,116), -- Common Item - Sword of Miracles
 (22162,7910,1,1,3,24390), -- Blessing of Darkness
 (22162,1894,1,1,2,22727), -- Crafted Leather
 (22162,4044,1,1,2,19230), -- Thons
@@ -22823,7 +22823,7 @@ INSERT INTO `droplist` VALUES
 (22162,1877,1,1,-1,50000), -- Adamantite Nugget
 (22162,4040,1,1,-1,50000), -- Mold Lubricant
 (22163,57,8351,17090,0,700000), -- Adena
-(22163,11973,1,1,1,185), -- Common Item - Soul Separator
+(22163,236,1,1,1,185), -- Common Item - Soul Separator
 (22163,959,1,1,2,185), -- Scroll: Enchant Weapon (Grade S)
 (22163,1866,1,3,2,125000), -- Suede
 (22163,1871,4,12,2,83333), -- Charcoal
@@ -27902,7 +27902,6 @@ INSERT INTO `droplist` VALUES
 (29047,212,1,1,4,62500), -- Dasparion's Staff
 (29047,5301,1,1,9,62500), -- Sealed Tallum Leather Armor
 (29047,213,1,1,5,62500), -- Branch of the Mother Tree
-(29047,10587,1,1,3,62500), -- Forgotten Scroll - Lord Vampire
 (29047,5318,1,1,15,43478), -- Sealed Majestic Gauntlets
 (29047,5316,1,1,15,43478), -- Sealed Majestic Plate Armor
 (29047,270,1,1,5,43478), -- Dragon Grinder

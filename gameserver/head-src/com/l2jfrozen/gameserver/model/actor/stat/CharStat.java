@@ -613,8 +613,14 @@ public class CharStat
 	{
 		if(_activeChar == null)
 			return 1;
+		
+		int range = (int) calcStat(Stats.POWER_ATTACK_RANGE, _activeChar.getTemplate().baseAtkRange, null, null);
 
-		return (int) calcStat(Stats.POWER_ATTACK_RANGE, _activeChar.getTemplate().baseAtkRange, null, null);
+		if(Config.DEBUG && _activeChar instanceof L2PcInstance){
+			System.out.println("	Player 	- "+_activeChar.getName()+" - PhysicalAttackRange is - "+range+" -");
+		}
+		
+		return range;
 	}
 
 	/** Return the Skill/Spell reuse modifier. */

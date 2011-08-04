@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -145,7 +146,7 @@ public class Mdam implements ISkillHandler
 
 			int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, sps, bss, mcrit);
 
-			if(damage > 5000 && activeChar instanceof L2PcInstance)
+			if(damage > 5000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
 			{
 				String name = "";
 				if(target instanceof L2RaidBossInstance) name = "RaidBoss ";
