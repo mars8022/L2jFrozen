@@ -45,78 +45,53 @@
   <set name="skillType" val="PASSIVE"/>
   <set name="operateType" val="OP_PASSIVE"/>
 </skill>
-<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<!-- Status:UnFixed Pack:l2jfrozen author:Nefer -->
 <skill id="3007" levels="6" name="Special Ability: Guidance">
-  <table name="#val">6.88 6.07 5.72 5.37 5.02 4.68</table>
-  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
-  <set name="magicLvl" val="#magicLvl" />
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-    <add order="0x40" stat="accCombat" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
-<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<!-- Status:UnFixed Pack:l2jfrozen author:Nefer -->
 <skill id="3008" levels="6" name="Special Ability: Guidance">
-  <table name="#val">5.42 5.12 4.82 4.53 4.24 3.95</table>
-  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
-  <set name="magicLvl" val="#magicLvl" />
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="accCombat" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3009" levels="6" name="Special Ability: Evasion">
-  <table name="#val">2.95 2.82 2.68 2.55 2.41 2.28</table>
-  <table name="#magicLvl"> 46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl" />
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rEvas" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
-<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<!-- Status:UnFixed Pack:l2jfrozen author:Nefer -->
 <skill id="3010" levels="6" name="Special Ability: Focus">
-  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
-  <table name="#val">86 82 77 73 68 64 60</table>
-  <set name="magicLvl" val="#magicLvl" />
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rCrit" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
-<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<!-- Status:UnFixed Pack:l2jfrozen author:Nefer -->
 <skill id="3011" levels="6" name="Special Ability: Focus">
-  <table name="#val">90 85 81 76 71 67</table>
-  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
-  <set name="magicLvl" val="#magicLvl" />
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rCrit" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
-<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
+<!-- Status:UnFixed Pack:l2jfrozen author:Nefer -->
 <skill id="3012" levels="6" name="Special Ability: Anger">
-  <table name="#magicLvl"> 46 49 52 55 58 61 </table>
-  <table name="#patk">20.44 22.64 24.77 26.78 28.59 30.12</table>
-  <set name="magicLvl" val="#magicLvl" />
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="pAtk" val="#patk"/>
-  	<mul order="0x30" stat="maxHp" val="0.85"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3013" levels="5" name="Special Ability: Health">
@@ -232,15 +207,11 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3023" levels="6" name="Special Ability: Critical Damage">
-  <table name="#cAtkAdd"> 174.78 194.1 213.12 231.29 247.98 262.57 </table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3024" levels="6" name="Special Ability: Critical Poison">
@@ -285,155 +256,61 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3027" levels="6" name="Special Ability: Rsk. Focus">
-  <table name="#val">138 130 123 115 107 99</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rCrit" val="#val">
-      <and>
-        <player hp="60"/>
-      </and>
-  	</add>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3028" levels="6" name="Special Ability: Rsk. Evasion">
-  <table name="#val">7.63 7.29 6.95 6.6 6.24 5.87</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rEvas" val="#val">
-      <and>
-        <player hp="60"/>
-      </and>
-  	</add>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3029" levels="6" name="Special Ability: Rsk. Evasion">
-<!--  Descriptions:
-  1: Evasion increases when HP falls.
-  6: Evasion increases when HP falls.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">4.44 4.24 4.04 3.84 3.63 3.41</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rEvas" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</add>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3030" levels="6" name="Special Ability: Rsk. Evasion">
-<!--  Descriptions:
-  1: Evasion increases when HP falls.
-  6: Evasion increases when HP falls.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">7.63 7.29 6.95 6.6 6.24 5.87</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rEvas" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</add>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3031" levels="6" name="Special Ability: Rsk. Evasion">
-<!--  Descriptions:
-  1: Evasion increases when HP falls.
-  6: Evasion increases when HP falls.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">7.63 7.29 6.95 6.6 6.24 5.87</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+<!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rEvas" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</add>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3032" levels="6" name="Special Ability: Rsk. Haste">
-<!--  Descriptions:
-  1: ATK Spd increases when HP falls.
-  6: ATK Spd increases when HP falls.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">1.13 1.12 1.12 1.11 1.10 1.09</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</mul>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3033" levels="6" name="Special Ability: Rsk. Haste">
-<!--  Descriptions:
-  1: ATK Spd increases when HP falls.
-  6: ATK Spd increases when HP falls.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">1.13 1.12 1.12 1.11 1.10 1.09</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</mul>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3034" levels="6" name="Special Ability: Rsk. Haste">
-<!--  Descriptions:
-  1: ATK Spd increases when HP falls.
-  6: ATK Spd increases when HP falls.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">1.13 1.12 1.12 1.11 1.10 1.09</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</mul>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3035" levels="6" name="Special Ability: Mighty Mortal">
 <!--  Descriptions:
@@ -454,52 +331,25 @@
   </for>
 </skill>
 <skill id="3036" levels="6" name="Special Ability: Haste">
-<!--  Descriptions:
-  1: Increases ATK Spd.
-  6: Increases ATK Spd.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">1.08 1.07 1.07 1.07 1.06 1.06</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3037" levels="6" name="Special Ability: Haste">
-<!--  Descriptions:
-  1: Increases ATK Spd.
-  6: Increases ATK Spd.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">1.08 1.07 1.07 1.07 1.06 1.06</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3038" levels="6" name="Special Ability: Haste">
-<!--  Descriptions:
-  1: Increases ATK Spd.
-  6: Increases ATK Spd.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">1.08 1.07 1.07 1.07 1.06 1.06</table>
-  <table name="#magicLvl">46 49 52 55 58 61</table>
-  <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="#val"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3039" levels="7" name="Special Ability: Critical Drain">
  <table name="#magicLvl">68 69 70 71 72 73 74</table>

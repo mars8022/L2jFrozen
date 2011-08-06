@@ -117,7 +117,7 @@
 		<spawn X='-12403' Y='123607' Z='-3107'/>
 		<spawn X='-12243' Y='121804' Z='-3015'/>
 	</zone>
-	<zone id='11028' type='Town' shape="NPoly" minZ="-3250" maxZ="-2600">
+	<zone id='11028' type='Town' shape="Cuboid" minZ="-3250" maxZ="-2600">
 		<stat name='name' val='Dion Castle Town'/>
 		<stat name='townId' val='8'/>
 		<stat name='redirectTownId' val='7'/>
@@ -211,7 +211,7 @@
 		<spawn X='114554' Y='221408' Z='-3655'/>
 		<spawn X='115532' Y='219221' Z='-3662'/>
 	</zone>
-	<zone id='11035' type='Town' shape="NPoly" minZ="-2350" maxZ="-1200">
+	<zone id='11035' type='Town' shape='Cuboid' minZ='-2350' maxZ='-1200'>
 		<stat name='name' val='Schuttgart'/>
 		<stat name='townId' val='17'/>
 		<stat name='redirectTownId' val='14'/>
@@ -760,7 +760,7 @@
     <stat name='InvadeTime' val='600000'/>
   </zone>
 <!-- Boss zone Lair of Baium -->
-  <zone id='12007' type='BossZone' shape='NPoly' minZ='9967' maxZ='16301' bossId='29020'>
+  <zone id='12007' type='BossZone' shape='NPoly' minZ='10061' maxZ='11061' bossId='29020'>
     <stat name='name' val='LairofBaium'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='600000'/>

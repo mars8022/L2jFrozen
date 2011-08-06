@@ -24,10 +24,8 @@
   <set name="reuseDelay" val="20000"/>
   <set name="hitTime" val="6000"/>
   <set name="skillType" val="SUMMON"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <table name="#npcIds">14702 14703 14704 14705 14706</table>
   <set name="npcId" val="#npcIds"/>
   <set name="expPenalty" val="0.3"/>

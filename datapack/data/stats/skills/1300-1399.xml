@@ -1281,6 +1281,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="666"/>
+  <set name="isMagic" val="true" />
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
       <mul order="0x30" stat="darkVuln" val="0.7"/>
@@ -1288,6 +1289,7 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1354" levels="1" name="Arcane Protection">
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="70"/>
@@ -1299,6 +1301,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="662"/>
+  <set name="isMagic" val="true" />
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="cancelVuln">
       <mul order="0x30" stat="cancelVuln" val="0.7"/>

@@ -92,9 +92,11 @@ public final class RequestBlock extends L2GameClientPacket
 				BlockList.sendListToOwner(activeChar);
 				break;
 			case ALLBLOCK:
+				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.MESSAGE_REFUSAL_MODE));//Update by rocknow
 				BlockList.setBlockAll(activeChar, true);
 				break;
 			case ALLUNBLOCK:
+				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.MESSAGE_REFUSAL_MODE));//Update by rocknow
 				BlockList.setBlockAll(activeChar, false);
 				break;
 			default:
