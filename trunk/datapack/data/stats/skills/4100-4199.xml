@@ -181,7 +181,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-    <effect count="5" name="Fear" time="30" val="0"/>
+    <effect count="10" name="Fear" time="3" val="0"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
