@@ -87,6 +87,8 @@
     <set val='325' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA: Haste -->
+    <mul val='1.07' order='0x30' stat='pAtkSpd'/>
   </for>
 </item>
 <item id='8109' name="infernal_master_crt._damage">
@@ -109,6 +111,8 @@
     <set val='325' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA: Focus -->
+    <add val='61' order='0x40' stat='rCrit'/>
   </for>
 </item>
 <item id='8111' name="mysterious_sword_acumen">
@@ -120,6 +124,7 @@
     <set val='379' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA always used in skill add -->
   </for>
 </item>
 <item id='8112' name="mysterious_sword_magic_power">
@@ -196,6 +201,7 @@
     <set val='379' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA always used in skill add -->
   </for>
 </item>
 <item id='8118' name="wizards_tear_magic_power">
@@ -325,6 +331,8 @@
     <set val='325' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA: Haste -->
+    <mul val='1.07' order='0x30' stat='pAtkSpd'/>
   </for>
 </item>
 <item id='8128' name="destroyer_hammer_crt._drain">
@@ -452,6 +460,12 @@
     <set val='325' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA: Rsk. Haste -->
+    <mul order='0x30' stat='pAtkSpd' val='1.11'>
+      <and>
+        <player hp='60'/>
+      </and>
+    </mul>
   </for>
 </item>
 <item id='8138' name="ecliptic_axe_conversion">
@@ -502,6 +516,7 @@
     <set val='379' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA always used in skill add -->
   </for>
 </item>
 <item id='8142' name="spell_breaker_mental_shield">
@@ -597,6 +612,7 @@
     <set val='379' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA always used in skill add -->
   </for>
 </item>
 <item id='8150' name="flaming_dragon_skull_acumen">
@@ -608,6 +624,7 @@
     <set val='379' order='0x08' stat='pAtkSpd'/>
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
+    <!-- SA always used in skill add -->
   </for>
 </item>
 <item id='8151' name="flaming_dragon_skull_magic_power">

@@ -444,25 +444,11 @@
   </for>
 </skill>
 <skill id="3044" levels="20" name="Special Ability: Focus">
-<!--
-  Descriptions:
-  lvl1-16:  Increases critical attack success rate.
-  lvl17-20: Increases critical attack success rate and damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#magicLvl">48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67</table>
-  <table name="#rate">61 63 64 66 67 68 71 73 75 77 79 81 82 84 86 90 88 106 111 116</table>
-  <table name="#PvPbonus">1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1.05 1.05 1.05 1.05</table>
-  <set name="magicLvl" val="#magicLvl"/>  
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
   <set name="castRange" val="-1"/>
-  <for>
-    <add order="0x40" stat="rCrit" val="#rate"/>
-    <mul order="0x30" stat="pvpPhysDmg" val="#PvPbonus"/>
-    <mul order="0x30" stat="pvpMagicalDmg" val="#PvPbonus"/>
-  </for>
 </skill>
 <skill id="3045" levels="20" name="Haste Duel 4">
 <!--  Descriptions:
@@ -544,34 +530,18 @@
   </for>
 </skill>
 <skill id="3050" levels="2" name="Special Ability: Focus">
-<!--  Descriptions:
-  1: Enhances critical attack. Increases damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#pvpDam">1.05 1.1</table>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rCrit" val="61"/>
-  	<mul order="0x30" stat="pvpMagicalDmg" val="#pvpDam"/>
-    <mul order="0x30" stat="pvpPhysSkillsDmg" val="#pvpDam"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3051" levels="2" name="Special Ability: Focus">
-<!--  Descriptions:
-  1: Enhances critical attack. Increases damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#pvpDam">1.05 1.1</table>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rCrit" val="67"/>
-  	<mul order="0x30" stat="pvpMagicalDmg" val="#pvpDam"/>
-    <mul order="0x30" stat="pvpPhysSkillsDmg" val="#pvpDam"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3052" levels="2" name="Special Ability: Critical Bleed">
 <!--  Descriptions:
@@ -654,24 +624,11 @@
   </for>
 </skill>
 <skill id="3056" levels="3" name="Special Ability: Rsk. Haste">
-<!--  Descriptions:
-  1: ATK Spd. increases when HP falls.
-  2: Atk. Spd. increases when HP falls. Increases damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#pvpDam">1 1.05 1.1</table>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<mul order="0x30" stat="pAtkSpd" val="1.11">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</mul>
-  	<mul order="0x30" stat="pvpMagicalDmg" val="#pvpDam"/>
-    <mul order="0x30" stat="pvpPhysSkillsDmg" val="#pvpDam"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3057" levels="3" name="Special Ability: Anger">
 <!--  Descriptions:
@@ -831,36 +788,18 @@
   </for>
 </skill>
 <skill id="3066" levels="3" name="Special Ability: Critical Damage">
-<!--  Descriptions:
-  1: Increases damage during a critical attack. Increases damage inflicted during PvP.
-  2: Increases damage during a critical attack. Increases damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#cAtkAdd"> 180.94 200.79 200.79 </table>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
-	<mul order="0x30" stat="pvpMagicalDmg" val="1.05"/>
-    <mul order="0x30" stat="pvpPhysSkillsDmg" val="1.05"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3067" levels="2" name="Special Ability: Critical Damage">
-<!--  Descriptions:
-  1: Increases damage during a critical attack. Increases damage inflicted during PvP.
-  2: Increases damage during a critical attack. Increases damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#cAtkAdd"> 297.68 326.28 </table>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="cAtkAdd" val="#cAtkAdd" />
-  	<mul order="0x30" stat="pvpMagicalDmg" val="1.05"/>
-    <mul order="0x30" stat="pvpPhysSkillsDmg" val="1.05"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3068" levels="3" name="Special Ability: Haste">
 <!--  Descriptions:
@@ -909,25 +848,11 @@
   </for>
 </skill>
 <skill id="3071" levels="2" name="Special Ability: Rsk. Focus">
-<!--  Descriptions:
-  1: Critical attack rate increases when HP falls.
-  2: Critical attack rate increases when HP falls. Increases damage inflicted during PvP.
-  created 2005-05-29 23:34:31
--->
-  <table name="#val">120 130</table>
-  <table name="#pvpDam">1 1.05</table>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
+  <!-- We have the bonus on XML weapon -->
+  <set name="target" val="TARGET_NONE"/>
+  <set name="skillType" val="NOTDONE"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <for>
-  	<add order="0x40" stat="rCrit" val="#val">
-      <and>
-    	<player hp="60"/>
-      </and>
-  	</add>
-  	<mul order="0x30" stat="pvpMagicalDmg" val="#pvpDam"/>
-    <mul order="0x30" stat="pvpPhysSkillsDmg" val="#pvpDam"/>
-  </for>
+  <set name="castRange" val="-1"/>
 </skill>
 <skill id="3072" levels="2" name="Special Ability: Empower">
 <!--  Descriptions:
