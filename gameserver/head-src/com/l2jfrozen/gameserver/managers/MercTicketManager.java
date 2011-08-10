@@ -585,6 +585,8 @@ public class MercTicketManager
 			35039
 	// Schuttgart
 	};
+	
+	private static final int GUARDIAN_TYPES_COUNT = ITEM_IDS.length/9;
 
 	// =========================================================
 	// Constructor
@@ -656,7 +658,7 @@ public class MercTicketManager
 				Castle castle = CastleManager.getInstance().getCastle(x, y, z);
 				if(castle != null)
 				{
-					startindex = 10 * (castle.getCastleId() - 1);
+					startindex = GUARDIAN_TYPES_COUNT*(castle.getCastleId() - 1);
 				}
 
 				// find the FIRST ticket itemId with spawns the saved NPC in the saved location
@@ -670,7 +672,7 @@ public class MercTicketManager
 							itemId = ITEM_IDS[i];
 							// create the ticket in the gameworld
 							L2ItemInstance dropticket = new L2ItemInstance(IdFactory.getInstance().getNextId(), itemId);
-							dropticket.setLocation(L2ItemInstance.ItemLocation.INVENTORY);
+							dropticket.setLocation(L2ItemInstance.ItemLocation.VOID);
 							dropticket.dropMe(null, x, y, z);
 							dropticket.setDropTime(0); //avoids it from beeing removed by the auto item destroyer
 							L2World.storeObject(dropticket);
