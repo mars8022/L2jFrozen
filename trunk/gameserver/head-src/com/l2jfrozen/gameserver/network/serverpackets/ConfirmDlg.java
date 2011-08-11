@@ -45,15 +45,14 @@ public class ConfirmDlg extends L2GameServerPacket
 	protected final void writeImpl()
 	{
 		/*
-		 * Пакет с подтверждением при ресуректе:
 		 * "Nemu is making an attempt at resurrection. Do you want to continue with this resurrection?"
 		 * ED //C
-		 * E6 05 00 00 - Номер системного сообщения int 1510 "$s1 is making an attempt at resurrection. Do you want to continue with this resurrection?"
-		 * 02 00 00 00 00 00 00 - Размер "прикреплений" ($S1, $S2, $S3, ...)
+		 * E6 05 00 00 - Number of system messages int 1510 "$s1 is making an attempt at resurrection. Do you want to continue with this resurrection?"
+		 * 02 00 00 00 00 00 00 - Size "attachments" ($S1, $S2, $S3, ...)
 		 * 00 - unknown
-		 * 00 4E 00 65 00 6D 00 75 00 00 - $S1 (custom string), в данном случае Nemu
-		 * 00 06 00 00 - Время ответа на диалог, требуется указать в конструкторе
-		 * 00 - id, требуется указать в конструкторе присвоение
+		 * 00 4E 00 65 00 6D 00 75 00 00 - $S1 (custom string), in this case Nemu
+		 * 00 06 00 00 - The response time for dialogue, you must specify in the constructor
+		 * 00 - id, required to specify in the constructor assignment
 		 */
 		writeC(0xed); //ED
 		writeD(_requestId); //id system message

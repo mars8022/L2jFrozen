@@ -1,6 +1,6 @@
 System Table Server (sts).
-Что это и зачем это нужно:
- Системные таблицы сервера - позволяют редактировать "щепетильные" вопросы в сервере, что позволяет увеличить гибкость настройки сервера,
-  с малыми системными затратами.
+What is it and why:
+Server system tables - can edit "unscrupulous" issues with the server, thus increasing the flexibility of server setup,
+low system cost.
 
-ExtTable.sts - таблица опыта до следущего уровня.
+ExtTable.sts - table until the next experience level.

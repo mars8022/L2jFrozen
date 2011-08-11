@@ -443,7 +443,7 @@ public class L2BoxInstance extends L2NpcInstance
 		Connection con = null;
 		try
 		{
-			con = L2DatabaseFactory.getInstance().getConnection(false); //FIXME: требуется убрать колонку enchant из таблицы boxes
+			con = L2DatabaseFactory.getInstance().getConnection(false); //FIXME: required to remove the column from the table enchant boxes
 			PreparedStatement statement = con.prepareStatement("SELECT id, spawn, npcid, drawer, itemid, name, count, enchant FROM boxes where spawn=? and npcid=? and drawer=?");
 			statement.setInt(1, getSpawn().getId());
 			statement.setInt(2, getNpcId());

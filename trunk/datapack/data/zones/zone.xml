@@ -760,7 +760,7 @@
     <stat name='InvadeTime' val='600000'/>
   </zone>
 <!-- Boss zone Lair of Baium -->
-  <zone id='12007' type='BossZone' shape='NPoly' minZ='10061' maxZ='11061' bossId='29020'>
+  <zone id='12007' type='BossZone' shape='NPoly' minZ='9967' maxZ='16301' bossId='29020'>
     <stat name='name' val='LairofBaium'/>
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='600000'/>

@@ -59,7 +59,7 @@ public class EngraveQuest extends Quest
 		htm += "</table>";
 		if(!endreached)
 		{
-			htm += "<br1><center><a action=\"bypass -h Quest 8008_Engrave " + baseAction + "_" + i + "\">Дальше...</a><center>";
+			htm += "<br1><center><a action=\"bypass -h Quest 8008_Engrave " + baseAction + "_" + i + "\">more...</a><center>";
 		}
 		return htm;
 	}

@@ -353,7 +353,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 					}
 					try
 					{
-						Thread.sleep(100); // Задержко что бы пакетами не зафлудить..
+						Thread.sleep(100); // Delay for the packet...
 					}
 					catch(InterruptedException e)
 					{
@@ -425,7 +425,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 					}
 					try
 					{
-						Thread.sleep(100); // Задержко что бы пакетами не зафлудить..
+						Thread.sleep(100); // Delay for the packet...
 					}
 					catch(InterruptedException e)
 					{

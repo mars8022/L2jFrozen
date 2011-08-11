@@ -1,19 +1,15 @@
 ﻿################################################
-#                 L2j geodata                  #
+#                 L2j Geodata                  #
 #                                              #
-#        Все файлы - неотъемлемая часть        #
-#                 l2j сервера.                 #
-#                                              #
-#                                              #
-#            Для работы geodata                #
-#        извлеките все файлы в папку:          #
-#         /gameserver/data/geodata             #
-#           и включите её поддержку в:         #
-#    /gameserver/config/options.properties     #
+#                 For geodata                  #
+#    Extract all the files in the folder:      #
+#        / Gameserver / data / geodata         # 
+#               Enable geodata:                #
+#  /gameserver/config/head/geodata.properties  #
 #                                              #
 #                                              #
-#       Ссылка для скачивания geodata:         #
-#         http://www.l2-geodata.com/	       #
+#              Download geodata:               #
+#    http://l2jfrozen.com/index.php?topic=7	   #
 #                                              #
 ################################################
 
