@@ -265,6 +265,8 @@ public class AdminFightCalculator implements IAdminCommandHandler
 		int shld2 = 0;
 		int crit1 = 0;
 		int crit2 = 0;
+		int crit3 = 0;
+		int crit4 = 0;
 		double patk1 = 0;
 		double patk2 = 0;
 		double pdef1 = 0;
@@ -300,6 +302,12 @@ public class AdminFightCalculator implements IAdminCommandHandler
 			if(_crit1)
 			{
 				crit1++;
+			}
+			
+			boolean _crit4 = Formulas.calcCrit(npc1.getMCriticalHit(npc2, null));
+			if(_crit4)
+			{
+				crit4++;
 			}
 
 			double _patk1 = npc1.getPAtk(npc2);
@@ -338,6 +346,12 @@ public class AdminFightCalculator implements IAdminCommandHandler
 			{
 				crit2++;
 			}
+			
+			boolean _crit3 = Formulas.calcCrit(npc2.getMCriticalHit(npc1, null));
+			if(_crit3)
+			{
+				crit3++;
+			}
 
 			double _patk2 = npc2.getPAtk(npc1);
 			_patk2 += Rnd.nextDouble() * npc2.getRandomDamage(npc1);
@@ -362,6 +376,8 @@ public class AdminFightCalculator implements IAdminCommandHandler
 		shld2 /= 100;
 		crit1 /= 100;
 		crit2 /= 100;
+		crit3 /= 100;
+		crit4 /= 100;
 		patk1 /= 10000;
 		patk2 /= 10000;
 		pdef1 /= 10000;
@@ -398,7 +414,8 @@ public class AdminFightCalculator implements IAdminCommandHandler
 
 		replyMSG.append("<tr><td>miss</td><td>" + miss1 + "%</td><td>" + miss2 + "%</td></tr>");
 		replyMSG.append("<tr><td>shld</td><td>" + shld2 + "%</td><td>" + shld1 + "%</td></tr>");
-		replyMSG.append("<tr><td>crit</td><td>" + crit1 + "%</td><td>" + crit2 + "%</td></tr>");
+		replyMSG.append("<tr><td>Physic crit</td><td>" + crit1 + "%</td><td>" + crit2 + "%</td></tr>");
+		replyMSG.append("<tr><td>Magic crit</td><td>" + crit4 + "%</td><td>" + crit3 + "%</td></tr>");
 		replyMSG.append("<tr><td>pAtk / pDef</td><td>" + (int) patk1 + " / " + (int) pdef1 + "</td><td>" + (int) patk2 + " / " + (int) pdef2 + "</td></tr>");
 		replyMSG.append("<tr><td>made hits</td><td>" + sAtk1 + "</td><td>" + sAtk2 + "</td></tr>");
 		replyMSG.append("<tr><td>dmg per hit</td><td>" + (int) dmg1 + "</td><td>" + (int) dmg2 + "</td></tr>");
