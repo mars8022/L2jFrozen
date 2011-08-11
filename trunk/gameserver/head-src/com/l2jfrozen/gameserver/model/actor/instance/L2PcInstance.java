@@ -10397,6 +10397,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
+		
+		// skills can be used on Walls and Doors only durring siege
+		if(target instanceof L2DoorInstance )
+		{
+			boolean isCastle = (((L2DoorInstance) target).getCastle() != null
+					&& ((L2DoorInstance) target).getCastle().getCastleId() > 0
+					&& ((L2DoorInstance) target).getCastle().getSiege().getIsInProgress());
+			if (!isCastle)
+				return;
+		}
+		
 		// Are the target and the player in the same duel?
 		if(isInDuel())
 		{
