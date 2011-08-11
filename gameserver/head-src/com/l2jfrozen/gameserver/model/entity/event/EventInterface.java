@@ -19,7 +19,7 @@
 package com.l2jfrozen.gameserver.model.entity.event;
 
 /**
- * Требуется привести все ядра эвентов к типизированному виду, который будет определять этот интерфейс.
+ * Required to bring all the core Events a typed note, which will define this interface.
  * 
  * @author programmos
  */

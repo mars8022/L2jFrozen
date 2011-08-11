@@ -29,8 +29,7 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
 
 /**
- *  Основной "движок" защиты...
- *  Нифига ничего не делает, кроме как пытается иннициализировать протектор.
+ * The main "engine" of protection ...
  * 
  * @author Nick
  */

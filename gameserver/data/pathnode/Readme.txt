@@ -1,16 +1,15 @@
-﻿##################################################
-#                 L2j pathnode                   #
-#                                                #
-#        Все файлы - неотъемлемая часть          #
-#                  l2j сервера.                  #
-#                                                #
-#                                                #
-#            Для работы pathnode                 #
-#        извлеките все файлы в папку:            #
-#         /gameserver/data/pathnode              #
-#                                                #
-#       Ссылка для скачивания pathnode:          #
-#         http://www.l2-geodata.com/             #
-#                                                #
-##################################################
+﻿################################################
+#                 L2j pathnode                 #
+#                                              #
+#                 For pathnode                 #
+#    Extract all the files in the folder:      #
+#        / Gameserver / data / pathnode        # 
+#               Enable pathnode :              #
+#  /gameserver/config/head/geodata.properties  #
+#                                              #
+#                                              #
+#              Download pathnode :             #
+#    http://l2jfrozen.com/index.php?topic=7	   #
+#                                              #
+################################################
 

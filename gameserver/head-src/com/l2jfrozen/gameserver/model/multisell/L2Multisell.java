@@ -452,7 +452,7 @@ public class L2Multisell
 				int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
 				int count = Integer.parseInt(n.getAttributes().getNamedItem("count").getNodeValue());
 				int enchant = 0;
-				// by Azagthtot поддержка энчанта в мультиселлах
+				// By Azagthtot support enchantment in multisell
 				if(n.getAttributes().getNamedItem("enchant") != null)
 				{
 					enchant = Integer.parseInt(n.getAttributes().getNamedItem("enchant").getNodeValue());

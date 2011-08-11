@@ -65,7 +65,7 @@ public class L2Utils {
 			if(actionString!=null) 
 				result += "</a>";
 			result +="</td><td>";
-			if(it.getCount()>1) result += (it.getCount()+" шт."); 
+			if(it.getCount()>1) result += (it.getCount()+" pc."); 
 			result += "</td></tr>";
 		}
 		result += "<table>";
