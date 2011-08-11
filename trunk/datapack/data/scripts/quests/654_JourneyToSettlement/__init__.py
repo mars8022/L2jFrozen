@@ -36,6 +36,7 @@ class Quest (JQuest) :
       st.giveItems(FRINT_SCROLL,1)
       st.unset("cond")
       st.setState(COMPLETED)  
+      st.exitQuest(1)
     return htmltext
 
  def onTalk (self,npc,player):

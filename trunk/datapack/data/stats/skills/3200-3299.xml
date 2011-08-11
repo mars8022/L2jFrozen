@@ -654,12 +654,10 @@
   </for>
 </skill>
 <skill id="3250" levels="10" name="Item Skill: Wild Magic">
-  <table name="#rate">1.1 1.11 1.12 1.13 1.14 1.15 1.16 1.17 1.18 1.19</table>
+  <table name="#rate">1.05 1.10 1.15 1.20 1.25 1.30 1.35 1.40 1.45 1.50</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="mCritRate" val="#rate"/>
   </for>
