@@ -48,6 +48,7 @@ import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.zone.type.L2CastleTeleportZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2CastleZone;
 import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.updaters.CastleUpdater;
 import com.l2jfrozen.util.CloseUtil;
@@ -355,8 +356,8 @@ public class Castle
 					}
 				}
 				oldOwner.setHasCastle(0); // Unset has castle flag for old owner
-				new Announcements().announceToAll(oldOwner.getName() + " has lost " + getName() + " castle!");
-
+				Announcements.getInstance().announceToAll(oldOwner.getName() + " has lost " + getName() + " castle!");
+				
 				// remove crowns
 				CrownManager.getInstance().checkCrowns(oldOwner);
 			}
@@ -387,7 +388,7 @@ public class Castle
 
 			clan.setHasCastle(0);
 
-			new Announcements().announceToAll(clan.getName() + " has lost " + getName() + " castle");
+			Announcements.getInstance().announceToAll(clan.getName() + " has lost " + getName() + " castle");
 			clan.broadcastToOnlineMembers(new PledgeShowInfoUpdate(clan));
 		}
 
@@ -753,9 +754,9 @@ public class Castle
 			if(clan != null)
 			{
 				clan.setHasCastle(getCastleId()); // Set has castle flag for new owner
-				new Announcements().announceToAll(clan.getName() + " has taken " + getName() + " castle!");
+				Announcements.getInstance().announceToAll(clan.getName() + " has taken " + getName() + " castle!");
 				clan.broadcastToOnlineMembers(new PledgeShowInfoUpdate(clan));
-
+				clan.broadcastToOnlineMembers(new PlaySound(1, "Siege_Victory", 0, 0, 0, 0, 0));
 				// give crowns
 				CrownManager.getInstance().checkCrowns(clan);
 
