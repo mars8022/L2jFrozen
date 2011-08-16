@@ -1018,7 +1018,6 @@
   <enchant2 name="power" val="#ench2Power"/>
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
-    <effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
 <skill id="49" levels="26" name="Holy Strike" enchantLevels1="30" enchantLevels2="30">
@@ -1690,7 +1689,6 @@
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun">
        <using kind="Shield"/>
     </effect>
-	<effect count="1" name="RemoveTarget" time="1" val="0"/>
   </for>
 </skill>
 <skill id="94" levels="2" name="Rage">

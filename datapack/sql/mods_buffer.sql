@@ -1,4 +1,14 @@
 -- 
+-- Table structure for table `mods_buffer_schemes`
+-- 
+CREATE TABLE IF NOT EXISTS `mods_buffer_schemes` (
+ ownerId int unsigned not null default '0',
+ id int(10) unsigned not null default '0',
+ level int(10) unsigned NOT NULL default '0',
+ scheme varchar(20) NOT NULL default 'default' 
+) ENGINE=MyISAM;
+
+-- 
 -- Table structure for table `mods_buffer_skills`
 -- 
 CREATE TABLE IF NOT EXISTS `mods_buffer_skills` (
@@ -7,16 +17,6 @@ CREATE TABLE IF NOT EXISTS `mods_buffer_skills` (
   skill_group varchar(20) NOT NULL default 'default',
   adena int not null default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
-
--- 
--- Table structure for table `mods_buffer_schemes`
--- 
-CREATE TABLE IF NOT EXISTS `mods_buffer_schemes` (
- ownerId int unsigned not null default '0',
- id int(10) unsigned not null default '0',
- level int(10) unsigned NOT NULL default '0',
- scheme varchar(20) NOT NULL default 'default' 
 ) ENGINE=MyISAM;
 
 INSERT INTO `mods_buffer_skills` (`id`, `level`, `skill_group`, `adena`) VALUES

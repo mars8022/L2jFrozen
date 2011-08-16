@@ -335,44 +335,32 @@
   </for>
 </skill>
 <skill id="5014" levels="3" name="Frintezza's Daemon Attack">
-<!--
-  Description(s):
-      Lvl 1 - Demon 1 general attack.
-      Lvl 2 - Demon 2 general attack.
-      Lvl 3 - Demon 3 general attack.
--->
+  <!-- Frintezza Skills -->
+  <table name="#power"> 1000 1500 2000 </table>
+  <set name="magicLvl" val="85" />
   <set name="mpConsume" val="300"/>
-  <set name="power" val="60000"/>
+  <set name="power" val="#power" />
   <set name="target" val="TARGET_ONE"/>
   <set name="conditionValue" val="2"/>
-  <set name="reuseDelay" val="100000"/>
+  <set name="reuseDelay" val="10000"/>
   <set name="hitTime" val="1300"/>
   <set name="condition" val="128"/>
   <set name="skillTime" val="2000"/>
   <set name="skillType" val="CHARGEDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="200"/>
-  <set name="effectRange" val="400"/>
+  <set name="castRange" val="150"/>
+  <set name="effectRange" val="225"/>
   <!-- charge values -->
   <set name="num_charges" val="1"/>
   <set name="charge_skill_id" val="5015"/>
-  <for>
-  </for>
 </skill>
 <skill id="5015" levels="6" name="Frintezza's Daemon Charge">
-<!--
-  Description(s):
-      Lvl 1 - Demon 1 charge.
-      Lvl 2 - Demon 2 charge.
-      Lvl 3 - Demon 3 charge.
-      Lvl 4 - Demon 1 slow charge.
-      Lvl 5 - Demon 2 slow charge.
-      Lvl 6 - Demon 3 slow charge.
--->
+  <!-- Frintezza Skills -->
   <table name="#power">3 5 10 15 20 30</table>
   <table name="#charges">1 2 3 4 5 6</table>
   <table name="#hitTime">1500 1450 1300 1200 1050 900</table>
   <table name="#SRadius">300 300 400 400 400 400</table>
+  <set name="magicLvl" val="85" />
   <set name="mpConsume" val="20"/>
   <set name="hpConsume" val="300"/>
   <set name="power" val="#power"/>
@@ -381,8 +369,9 @@
   <set name="skillTime" val="900"/>
   <set name="skillType" val="CHARGE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
+  <set name="reuseDelay" val="1500"/>
+  <set name="castRange" val="550"/>
+  <set name="effectRange" val="925"/>
   <set name="num_charges" val="#charges"/>
   <set name="skillRadius" val="#SRadius"/>
   <for>
@@ -390,52 +379,42 @@
   </for>
 </skill>
 <skill id="5016" levels="1" name="Yoke of Scarlet">
-<!--
-  Description(s):
-      Instantly immobilizes.
--->
-  <set name="magicLvl" val="99"/>
+  <!-- Frintezza Skills -->
+  <set name="magicLvl" val="85"/>
   <set name="mpConsume" val="200"/>
   <set name="saveVs" val="DEX"/>
-  <set name="power" val="100"/>
+  <set name="power" val="80"/>
   <set name="lvlDepend" val="2"/>
   <set name="target" val="TARGET_AREA"/>
-  <set name="hitTime" val="2030"/>
-  <set name="reuseDelay" val="9000"/>
+  <set name="hitTime" val="3000"/>
+  <set name="reuseDelay" val="80000"/>
   <set name="skillTime" val="2000"/>
   <set name="skillType" val="PARALYZE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="buffDuration" val="30000"/>
-  <set name="castRange" val="600"/>
-  <set name="effectRange" val="1100"/>
+  <set name="castRange" val="500"/>
+  <set name="effectRange" val="750"/>
   <for>
-  	<effect count="1" name="Paralyze" time="30" val="0" stackOrder="1" stackType="Paralyze"/>
-	<effect name="Debuff" time="25" val="0"> 
-	  <mul order="0x30" stat="pDef" val="0.5"/> 
-      <mul order="0x30" stat="mDef" val="0.5"/> 
-      <mul order="0x30" stat="rEvas" val="0.5"/> 
-    </effect>
+  	<effect count="1" name="Paralyze" time="15" val="0" stackOrder="1" stackType="Paralyze"/>
   </for>
 </skill>
 <skill id="5017" levels="1" name="Frintezza's Daemon Morph">
-<!--
-  Description(s):
-      Demon 1 metamorphosis.
--->
+  <!-- Frintezza Skills -->
+  <set name="magicLvl" val="85"/>
   <set name="mpConsume" val="300"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="hitTime" val="2500"/>
-  <set name="reuseDelay" val="1000000"/>
+  <set name="hitTime" val="1000"/>
+  <set name="reuseDelay" val="80000"/>
   <set name="skillTime" val="2300"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="buffDuration" val="120000"/>
   <set name="castRange" val="-1"/>
-  <set name="effectRange" val="1400"/>
+  <set name="effectRange" val="-1"/>
   <for>
-  	<effect count="1" name="Buff" time="120" val="0">
+  	<effect count="1" name="Buff" time="15" val="0">
 	  <mul order="0x30" stat="pAtk" val="1.2"/> 
 	  <mul order="0x30" stat="mAtk" val="1.2"/>
       <add order="0x40" stat="pDef" val="500"/>
@@ -446,50 +425,38 @@
   </for>
 </skill>
 <skill id="5018" levels="2" name="Frintezza's Daemon Field">
-<!--
-  Description(s):
-      Lvl 1 - Demon 2 magic field.
-      Lvl 2 - Demon 3 magic field.
--->
-  <table name="#pDef">2.08 3.12</table>
-  <set name="target" val="TARGET_SELF"/>
+  <!-- Frintezza Skills -->
+  <set name="magicLvl" val="85"/>
+  <table name="#power"> 1000 2000 </table>
+  <table name="#skillRadius"> 700 1000 </table>
+  <set name="target" val="TARGET_AURA" />
   <set name="hitTime" val="7000"/>
   <set name="skillTime" val="1500"/>
-  <set name="skillType" val="BUFF"/>
-  <set name="reuseDelay" val="1000000"/>
+  <set name="skillType" val="MDAM" />
+  <set name="reuseDelay" val="10000"/>
+  <set name="isMagic" val="false" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="buffDuration" val="60000"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="reuseDelay" val="10000"/> 
-  <set name="skillRadius" val="700"/> 
-  <for>
-  	<effect count="1" name="Buff" time="60" val="0">
-      <mul order="0x30" stat="pDef" val="#pDef"/>
-  	</effect>
-  </for>
+  <set name="skillRadius" val="#skillRadius" /> 
 </skill>
 <skill id="5019" levels="1" name="Frintezza's Daemon Drain">
-<!--
-  Description(s):
-      Demon 3 HP drain range.
--->
+  <!-- Frintezza Skills -->
+  <set name="magicLvl" val="80"/>
   <set name="mpConsume" val="200"/>
-  <set name="power" val="2000"/>
+  <set name="power" val="229"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="6000"/>
   <set name="element" val="6"/>
-  <set name="skillTime" val="2700"/>
+  <set name="skillTime" val="2000"/>
   <set name="skillType" val="DRAIN"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="600"/>
-  <set name="effectRange" val="1100"/>
+  <set name="castRange" val="400"/>
+  <set name="effectRange" val="600"/>
   <set name="absorbPart" val="0.8"/>
   <set name="skillRadius" val="700"/> 
-  <set name="reuseDelay" val="10000"/>
-  <for>
-  </for>
+  <set name="reuseDelay" val="80000"/>
 </skill>
 <skill id="5020" levels="1" name="Forced Action">
 <!--

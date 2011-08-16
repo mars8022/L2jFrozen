@@ -555,14 +555,15 @@
   </for>
 </skill>
 <skill id="4338" levels="1" name="Life Cubic for Beginners">
+  <!-- Newbie Guide Buff -->
+  <set name="castRange" val="400" />
+  <set name="effectRange" val="900" />
   <set name="power" val="1"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="1500"/> <!-- test -->
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <!-- Summon-specific -->
   <set name="npcId" val="3"/>
   <set name="expPenalty" val="0.0"/>
