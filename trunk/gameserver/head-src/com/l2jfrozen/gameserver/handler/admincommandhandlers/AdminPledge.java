@@ -165,7 +165,7 @@ public class AdminPledge implements IAdminCommandHandler
 					}
 					case dismiss:{
 						
-						ClanTable.getInstance().destroyClan(player.getClanId(),null);
+						ClanTable.getInstance().destroyClan(player.getClanId());
 						
 						L2Clan clan = player.getClan();
 

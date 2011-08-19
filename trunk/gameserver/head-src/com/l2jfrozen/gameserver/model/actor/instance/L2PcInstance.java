@@ -2400,7 +2400,14 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(Config.DISABLE_WEIGHT_PENALTY)
 		{
 			setIsOverloaded(false);
-			return;
+		}
+		else if(_dietMode)
+		{
+			setIsOverloaded(false);
+			_curWeightPenalty = 0;
+			super.removeSkill(getKnownSkill(4270));
+			sendPacket(new EtcStatusUpdate(this));
+			Broadcast.toKnownPlayers(this, new CharInfo(this));
 		}
 		else
 		{
@@ -2411,7 +2418,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				int weightproc = getCurrentLoad() * 1000 / maxLoad;
 				int newWeightPenalty;
 
-				if(weightproc < 500 || _dietMode)
+				if(weightproc < 500)
 				{
 					newWeightPenalty = 0;
 				}
@@ -2435,7 +2442,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(_curWeightPenalty != newWeightPenalty)
 				{
 					_curWeightPenalty = newWeightPenalty;
-					if(newWeightPenalty > 0 && !_dietMode)
+					if(newWeightPenalty > 0)
 					{
 						super.addSkill(SkillTable.getInstance().getInfo(4270, newWeightPenalty));
 					}
@@ -2449,6 +2456,8 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 			}
 		}
+		
+		sendPacket(new UserInfo(this));
 	}
 
 	public void refreshMasteryPenality()
@@ -7902,8 +7911,14 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void joinParty(L2Party party)
 	{
-		if(party != null)
+		if(party.getMemberCount()==9){
+			sendPacket(new SystemMessage(SystemMessageId.PARTY_FULL));
+			return;
+		}
+		
+		if(party != null && party.getMemberCount()<9)
 		{
+			
 			// First set the party otherwise this wouldn't be considered
 			// as in a party into the L2Character.updateEffectIcons() call.
 			_party = party;
@@ -8405,6 +8420,10 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		boolean finished = false;
 		
+		double curHp = 0;
+		double curCp = 0;
+		double curMp = 0;
+		
 		try
 		{
 			// Retrieve the L2PcInstance from the characters table of the database
@@ -8494,9 +8513,15 @@ public final class L2PcInstance extends L2PlayableInstance
 				player.setFistsWeaponItem(player.findFistsWeaponItem(activeClassId));
 				player.setUptime(System.currentTimeMillis());
 
+				curHp = rset.getDouble("curHp");
+				curCp = rset.getDouble("curCp");
+				curMp = rset.getDouble("curMp");
+				
+				/*
 				player.setCurrentHp(rset.getDouble("curHp"));
 				player.setCurrentCp(rset.getDouble("curCp"));
 				player.setCurrentMp(rset.getDouble("curMp"));
+				*/
 
 				//Check recs
 				player.checkRecom(rset.getInt("rec_have"), rset.getInt("rec_left"));
@@ -8646,6 +8671,21 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(finished){
 			player.fireEvent(EventType.LOAD.name, (Object[]) null);
 		}
+		
+		//once restored all the skill status, update current CP, MP and HP
+		try
+		{
+			Thread.sleep(2000);
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		player.setCurrentHpDirect(curHp);
+		player.setCurrentCp(curCp);
+		player.setCurrentMp(curMp);
+		
 		
 		return player;
 	}
@@ -9188,6 +9228,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			CloseUtil.close(con);
 		}
+		
+		
 	}
 
 	/**
@@ -10303,7 +10345,9 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			if(effect != null)
 			{
-				effect.exit();
+				//fake death exception
+				if (skill.getId() != 60)
+					effect.exit();
 
 				// Send a Server->Client packet ActionFailed to the L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -11507,6 +11551,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		sendPacket(SystemMessage.sendString(message));
 	}
+	
+	private boolean _wasInvisible = false;
 
 	public void enterObserverMode(int x, int y, int z)
 	{
@@ -11533,7 +11579,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		stopMove(null);
 		setIsParalyzed(true);
 		setIsInvul(true);
+		
+		_wasInvisible = getAppearance().getInvisible();
 		getAppearance().setInvisible();
+		
 		setXYZ(x, y, z);
 		teleToLocation(x, y, z, false);
 		sendPacket(new ObservationMode(x, y, z));
@@ -11569,7 +11618,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		_obsZ = getZ();
 		setTarget(null);
 		setIsInvul(true);
+		_wasInvisible = getAppearance().getInvisible();
 		getAppearance().setInvisible();
+		
 		teleToLocation(x, y, z, false);
 		sendPacket(new ExOlympiadMode(3));
 		_observerMode = true;
@@ -11586,7 +11637,12 @@ public final class L2PcInstance extends L2PlayableInstance
 		setTarget(null);
 		setXYZ(_obsX, _obsY, _obsZ);
 		setIsParalyzed(false);
-		getAppearance().setVisible();
+		
+		if(_wasInvisible){
+			getAppearance().setInvisible();
+		}else
+			getAppearance().setVisible();
+		
 		setIsInvul(false);
 
 		if(getAI() != null)

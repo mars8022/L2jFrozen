@@ -137,7 +137,7 @@ public class ClanTable
 				{
 					if(clan.getDissolvingExpiryTime() < System.currentTimeMillis())
 					{
-						destroyClan(clan.getClanId(), con);
+						destroyClan(clan.getClanId());
 					}
 					else
 					{
@@ -286,7 +286,7 @@ public class ClanTable
 		return true;
 	}
 
-	public synchronized void destroyClan(int clanId, Connection con)
+	public synchronized void destroyClan(int clanId)
 	{
 		L2Clan clan = getClan(clanId);
 
@@ -358,10 +358,10 @@ public class ClanTable
 		_clans.remove(clanId);
 		IdFactory.getInstance().releaseId(clanId);
 
+		Connection con = null;
 		try
 		{
-			if(con == null)
-				con = L2DatabaseFactory.getInstance().getConnection(false);
+			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("DELETE FROM clan_data WHERE clan_id=?");
 			statement.setInt(1, clanId);
 			statement.execute();
@@ -442,7 +442,7 @@ public class ClanTable
 
 				if(getClan(clanId).getDissolvingExpiryTime() != 0)
 				{
-					destroyClan(clanId, null);
+					destroyClan(clanId);
 				}
 			}
 		}, getClan(clanId).getDissolvingExpiryTime() - System.currentTimeMillis());

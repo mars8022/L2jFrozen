@@ -68,7 +68,13 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		
 		if(instance==null)
 		{
-			instance = new L2ClassMasterInstance(31228, NpcTable.getInstance().getTemplate(31228));
+			L2NpcTemplate template = NpcTable.getInstance().getTemplate(31228);
+			
+			if(template==null){
+				_log.warning("	--- ATTENTION: Class master template is null, remember to insert npc with id 31228 into database --- ");
+			}
+			
+			instance = new L2ClassMasterInstance(31228,template);
 			L2World.storeObject(instance);
 		}
 		

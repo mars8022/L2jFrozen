@@ -1412,6 +1412,22 @@ public abstract class L2Skill
 
 		List<L2Character> targetList = new FastList<L2Character>();
 
+		if(isPotion()){
+			
+			if(!activeChar.isDead()){
+				
+				return new L2Character[]{
+				       					activeChar
+				       				};
+				
+			}else{
+				
+				return null;
+				
+			}
+			
+		}
+		
 		// Get the target type of the skill
 		// (ex : ONE, SELF, HOLY, PET, AURA, AURA_CLOSE, AREA, MULTIFACE, PARTY, CLAN, CORPSE_PLAYER, CORPSE_MOB, CORPSE_CLAN, UNLOCKABLE, ITEM, UNDEAD)
 		SkillTargetType targetType = getTargetType();
@@ -2943,6 +2959,9 @@ public abstract class L2Skill
 
 	public final L2Object[] getTargetList(L2Character activeChar)
 	{
+		if(isPotion()){
+			
+		}
 		return getTargetList(activeChar, false);
 	}
 

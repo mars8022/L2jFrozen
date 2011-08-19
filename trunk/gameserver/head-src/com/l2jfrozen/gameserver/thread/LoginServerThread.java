@@ -348,7 +348,7 @@ public class LoginServerThread extends Thread
 									//before the char selection, check shutdown status
 									if(GameServer.getSelectorThread().isShutdown()){
 										wcToRemove.gameClient.getConnection().sendPacket(new AuthLoginFail(1));
-										wcToRemove.gameClient.closeNow();
+										wcToRemove.gameClient.closeNow(false);
 									}else{
 										CharSelectInfo cl = new CharSelectInfo(wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
 										wcToRemove.gameClient.getConnection().sendPacket(cl);
@@ -361,7 +361,7 @@ public class LoginServerThread extends Thread
 								{
 									_log.warning("session key is not correct. closing connection");
 									wcToRemove.gameClient.getConnection().sendPacket(new AuthLoginFail(1));
-									wcToRemove.gameClient.closeNow();
+									wcToRemove.gameClient.closeNow(false);
 								}
 								_waitingClients.remove(wcToRemove);
 							}

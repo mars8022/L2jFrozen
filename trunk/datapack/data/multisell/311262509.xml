@@ -1589,4 +1589,22 @@
 		<production id="8688" count="1"/>
 		<ingredient id="8820" count="1"/>
 	</item>
+	<item id="398">
+		<!-- Destroyer Hammer - Health -->
+		<ingredient count="1" id="8126" />
+		<!-- Destroyer Hammer -->
+		<production count="1" id="7899" />
+	</item>
+	<item id="399">
+		<!-- Destroyer Hammer - Haste -->
+		<ingredient count="1" id="8127" />
+		<!-- Destroyer Hammer -->
+		<production count="1" id="7899" />
+	</item>
+	<item id="400">
+		<!-- Destroyer Hammer - Critical Drain -->
+		<ingredient count="1" id="8128" />
+		<!-- Destroyer Hammer -->
+		<production count="1" id="7899" />
+	</item>
 </list>

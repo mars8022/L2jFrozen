@@ -94,6 +94,9 @@ public class Pdam implements ISkillHandler
 			}
 		}
 		
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
+		boolean ss = activeChar.checkSs();
 		
 		for(L2Object target2 : target_s)
 		{
@@ -120,10 +123,6 @@ public class Pdam implements ISkillHandler
 				continue;
 			}
 
-			boolean bss = activeChar.checkBss();
-			boolean sps = activeChar.checkSps();
-			boolean ss = activeChar.checkSs();
-			
 			
 			/*
 			// Calculate vengeance
@@ -138,10 +137,9 @@ public class Pdam implements ISkillHandler
 			// PDAM critical chance not affected by buffs, only by STR. Only some skills are meant to crit.
 			boolean crit = false;
 			if(skill.getBaseCritRate() > 0)
-				//crit = Formulas.calcCrit(skill.getBaseCritRate() * 10 * Formulas.getSTRBonus(activeChar));
 				crit = Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar));
 			
-			boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER);
+			boolean soul = (ss && weapon.getItemType() != L2WeaponType.DAGGER);
 
 			if(!crit && (skill.getCondition() & L2Skill.COND_CRIT) != 0)
 				damage = 0;
@@ -164,8 +162,8 @@ public class Pdam implements ISkillHandler
 				Log.add(activeChar.getName() + "(" + activeChar.getObjectId() + ") " + activeChar.getLevel() + " lvl did damage " + damage + " with skill " + skill.getName() + "(" + skill.getId() + ") to " + name, "damage_pdam");
 			}
 
-			if(soul && weapon != null)
-				weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+			//if(soul && weapon != null)
+			//	weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
 
 			if(damage > 0)
 			{
@@ -383,6 +381,20 @@ public class Pdam implements ISkillHandler
 			}
 			skill.getEffectsSelf(activeChar);
 			effect = null;
+		}
+		
+		if (skill.isMagic())
+		{
+			if (bss){
+				activeChar.removeBss();
+			}else if(sps){
+				activeChar.removeSps();
+			}
+			
+		}else{
+			
+			activeChar.removeSs();
+			
 		}
 
 		if(skill.isSuicideAttack())

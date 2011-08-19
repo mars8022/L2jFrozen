@@ -1747,10 +1747,10 @@ public final class Formulas
 		if(attacker instanceof L2Summon && !(attacker instanceof L2PetInstance)){
 			
 			if (bss){
-				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+				//((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 4;
 			}else if(ss){
-				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+				//((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 2;
 			}
 			
@@ -1758,10 +1758,10 @@ public final class Formulas
 			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
 			if(weapon!=null){
 				if (bss){
-					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					//weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
 					ssModifier = 4;
 				}else if (ss){
-					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					//weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
 					ssModifier = 2;
 				}
 			}
@@ -2439,6 +2439,12 @@ public final class Formulas
 		{
 			mAtkModifier = target.getMDef(target, skill);
 			
+			if (bss){
+				ssModifier = 4;
+			}else if(sps){
+				ssModifier = 2;
+			}
+			/*
 			// Add Bonus for Sps/SS
 			if(attacker instanceof L2Summon && !(attacker instanceof L2PetInstance)){
 				
@@ -2462,12 +2468,12 @@ public final class Formulas
 					}
 				}
 			}
-			
+			*/
 			
 			mAtkModifier = 14 * Math.sqrt(ssModifier * attacker.getMAtk(target, skill)) / mAtkModifier;
 			
 			
-		}else{
+		}/*else{
 			
 			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
 			if(weapon!=null){
@@ -2477,7 +2483,7 @@ public final class Formulas
 			}
 			
 			//no soulshots influence over not magic attacks
-		}
+		}*/
 		
 		SkillType type = skill.getSkillType();
 
@@ -2702,68 +2708,6 @@ public final class Formulas
 		
 		return (Rnd.get(100) < rate);
 	}
-	/*
-	public static boolean checkBss(L2Character attacker){
-		
-		boolean bss = false;
-		
-		L2ItemInstance weaponInst = attacker.getActiveWeaponInstance();
-		
-		if (weaponInst != null)
-		{
-			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-			{
-				bss = true;
-				//ponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
-			
-		}
-		// If there is no weapon equipped, check for an active summon.
-		else if (attacker instanceof L2Summon)
-		{
-			L2Summon activeSummon = (L2Summon)attacker;
-			
-			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-			{
-				bss = true;
-				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-			}
-			
-		}
-		
-		return bss;
-	}
-	
-	public static boolean checkSs(L2Character attacker){
-		
-		boolean ss = false;
-		
-		L2ItemInstance weaponInst = attacker.getActiveWeaponInstance();
-		
-		if (weaponInst != null)
-		{
-			if (weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-			{
-				ss = true;
-				//weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
-		}
-		// If there is no weapon equipped, check for an active summon.
-		else if (attacker instanceof L2Summon)
-		{
-			L2Summon activeSummon = (L2Summon)attacker;
-			
-			if (activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-			{
-				ss = true;
-				//activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-			}
-		}
-		
-		return ss;
-		
-	}
-	*/
 	
 	public static double calcSkillTypeVulnerability(double multiplier, L2Character target, SkillType type)
 	{
@@ -2965,10 +2909,10 @@ public final class Formulas
 		if(attacker instanceof L2Summon && !(attacker instanceof L2PetInstance)){
 			
 			if (bss){
-				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+				//((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 4;
 			}else if(ss){
-				((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
+				//((L2Summon)attacker).setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 				ssModifier = 2;
 			}
 			
@@ -2976,10 +2920,10 @@ public final class Formulas
 			L2ItemInstance weapon = attacker.getActiveWeaponInstance();
 			if(weapon!=null){
 				if (bss){
-					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					//weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
 					ssModifier = 4;
 				}else if (ss){
-					weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+					//weapon.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
 					ssModifier = 2;
 				}
 			}

@@ -156,7 +156,7 @@ public class EnterWorld extends L2GameClientPacket
 			}
 		}
 		
-		if(!activeChar.isGM())
+		if(!activeChar.isGM() && !activeChar.isDonator() && Config.CHECK_NAME_ON_LOGIN)
 		{		
 		 if(activeChar.getName().length() < 3 || activeChar.getName().length() > 16 || !Util.isAlphaNumeric(activeChar.getName()) || !isValidName(activeChar.getName()))
 		  {

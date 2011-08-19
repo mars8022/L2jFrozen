@@ -105,6 +105,10 @@ public class Continuous implements ISkillHandler
 				skill = _skill;
 		}
 
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
+		boolean ss = activeChar.checkSs();
+		
 		for(L2Object target2 : targets)
 		{
 			target = (L2Character) target2;
@@ -184,71 +188,9 @@ public class Continuous implements ISkillHandler
 				}
 			}
 
-			boolean bss = activeChar.checkBss();
-			boolean sps = activeChar.checkSps();
-			boolean ss = activeChar.checkSs();
-			
-			
 			if(skill.isOffensive())
 			{
-				/*
-				boolean ss = false;
-				boolean sps = false;
-				boolean bss = false;
-
-				if(player != null)
-				{
-					L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-					if(weaponInst != null)
-					{
-						if(skill.isMagic())
-						{
-							if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-							{
-								bss = true;
-								if(skill.getId() != 1020) // vitalize
-									weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-							}
-							else if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-							{
-								sps = true;
-								if(skill.getId() != 1020) // vitalize
-									weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-							}
-						}
-						else if(weaponInst.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT)
-						{
-							ss = true;
-							if(skill.getId() != 1020) // vitalize
-								weaponInst.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-						}
-					}
-					weaponInst = null;
-				}
-				else if(activeChar instanceof L2Summon)
-				{
-					L2Summon activeSummon = (L2Summon) activeChar;
-					if(skill.isMagic())
-					{
-						if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-						{
-							bss = true;
-							activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-						}
-						else if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-						{
-							sps = true;
-							activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-						}
-					}
-					else if(activeSummon.getChargedSoulShot() == L2ItemInstance.CHARGED_SOULSHOT)
-					{
-						ss = true;
-						activeSummon.setChargedSoulShot(L2ItemInstance.CHARGED_NONE);
-					}
-					activeSummon = null;
-				}
-				*/
+				
 				boolean acted = Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss);
 
 				if(!acted)
@@ -294,11 +236,10 @@ public class Continuous implements ISkillHandler
 				}
 			}
 			
-			
 			effects = null;
 
 			if(skill.isToggle() && stopped)
-				return;
+				break;
 
 			// If target is not in game anymore...
 			if(target == null || target instanceof L2PcInstance && ((L2PcInstance)target).isOnline()==0)
@@ -341,6 +282,25 @@ public class Continuous implements ISkillHandler
 				((L2NpcInstance) target).endDecayTask();
 			}
 		}
+		
+		if(!skill.isToggle()){
+			
+			if (skill.isMagic())
+			{
+				if (bss){
+					activeChar.removeBss();
+				}else if(sps){
+					activeChar.removeSps();
+				}
+				
+			}else{
+				
+				activeChar.removeSs();
+				
+			}
+			
+		}
+		
 		player = null;
 		target = null;
 

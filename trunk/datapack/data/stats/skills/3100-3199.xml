@@ -1213,7 +1213,7 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="2"/> <!-- Fire -->
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
@@ -1233,7 +1233,7 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="3"/> <!-- Water -->
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
@@ -1253,7 +1253,7 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="1"/> <!-- Wind -->
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
@@ -1273,7 +1273,7 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="4"/> <!-- Earth -->
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
@@ -1293,7 +1293,7 @@
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="element" val="5"/> <!-- Holy -->
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
@@ -1332,7 +1332,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="8000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MDAM"/>
   <set name="isMagic" val="true"/>
@@ -1355,7 +1355,7 @@
   <set name="skillRadius" val="350"/>
   <set name="hitTime" val="5000"/>
   <set name="skillType" val="MDAM"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
@@ -1376,7 +1376,7 @@
   <set name="skillRadius" val="350"/>
   <set name="hitTime" val="5000"/>
   <set name="skillType" val="MDAM"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
@@ -1397,7 +1397,7 @@
   <set name="skillRadius" val="350"/>
   <set name="hitTime" val="5000"/>
   <set name="skillType" val="MDAM"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>
@@ -1418,7 +1418,7 @@
   <set name="element" val="4"/> <!-- Earth -->
   <set name="hitTime" val="5000"/>
   <set name="skillType" val="MDAM"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="500"/>
@@ -1439,7 +1439,7 @@
   <set name="skillRadius" val="200"/>
   <set name="hitTime" val="5000"/>
   <set name="skillType" val="MDAM"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="500"/>
@@ -1480,7 +1480,7 @@
   <set name="skillRadius" val="200"/>
   <set name="hitTime" val="5000"/>
   <set name="skillType" val="MDAM"/>
-  <set name="reuseDelay" val="15000"/>
+  <set name="reuseDelay" val="20000"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="900"/>

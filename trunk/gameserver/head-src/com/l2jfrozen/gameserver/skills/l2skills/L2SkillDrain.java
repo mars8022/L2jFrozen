@@ -53,9 +53,9 @@ public class L2SkillDrain extends L2Skill
 		if(activeChar.isAlikeDead())
 			return;
 
-		//boolean ss = false;
-		//boolean bss = false;
-
+		boolean sps = activeChar.checkSps();
+		boolean bss = activeChar.checkBss();
+		
 		for(L2Object target2 : targets)
 		{
 			L2Character target = (L2Character) target2;
@@ -69,8 +69,6 @@ public class L2SkillDrain extends L2Skill
 				continue; // No effect on invulnerable chars unless they cast it themselves.
 			}
 
-			boolean sps = activeChar.checkSps();
-			boolean bss = activeChar.checkBss();
 			/*
 			L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
 
@@ -189,6 +187,13 @@ public class L2SkillDrain extends L2Skill
 				((L2NpcInstance) target).endDecayTask();
 			}
 		}
+		
+		if (bss){
+			activeChar.removeBss();
+		}else if(sps){
+			activeChar.removeSps();
+		}
+		
 		//effect self :]
 		L2Effect effect = activeChar.getFirstEffect(getId());
 		if(effect != null && effect.isSelfEffect())

@@ -153,6 +153,10 @@ public class CastleManager
 
 	public final Castle getCastleByOwner(L2Clan clan)
 	{
+		if(clan == null){
+			return null;
+		}
+		
 		for(final Castle temp : getCastles())
 		{
 			if(temp!=null && temp.getOwnerId() == clan.getClanId())
@@ -164,6 +168,10 @@ public class CastleManager
 
 	public final Castle getCastle(String name)
 	{
+		if(name == null){
+			return null;
+		}
+		
 		for(Castle temp : getCastles())
 		{
 			if(temp.getName().equalsIgnoreCase(name.trim()))
@@ -186,6 +194,10 @@ public class CastleManager
 
 	public final Castle getCastle(L2Object activeObject)
 	{
+		if(activeObject == null){
+			return null;
+		}
+		
 		return getCastle(activeObject.getX(), activeObject.getY(), activeObject.getZ());
 	}
 

@@ -163,7 +163,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 		SystemMessage msg;
 
 		// summary of ppl already in party and ppl that get invitation
-		if(requestor.getParty().getMemberCount() + requestor.getParty().getPendingInvitationNumber() >= 9)
+		if(requestor.getParty().getMemberCount()== 9)
 		{
 			requestor.sendPacket(new SystemMessage(SystemMessageId.PARTY_FULL));
 			return;

@@ -53,6 +53,9 @@ public class ManaHeal implements ISkillHandler
 	@Override
 	public void useSkill(L2Character actChar, L2Skill skill, L2Object[] targets)
 	{
+		boolean bss = actChar.checkBss();
+		boolean sps = actChar.checkSps();
+		
 		for(L2Character target : (L2Character[]) targets)
 		{
 			double mp = skill.getPower();
@@ -70,18 +73,6 @@ public class ManaHeal implements ISkillHandler
 			//{
 			//	mp = target.getMaxMp() - target.getCurrentMp();
 			//}
-			if(!skill.isPotion()){
-			
-				if(actChar.checkBss()){
-					mp *= 2;
-					actChar.removeBss();
-				}else if(actChar.checkSps()){
-					mp *= 1.5;
-					actChar.removeSps();
-				}
-
-			}
-			
 			target.setLastHealAmount((int) mp);
 			target.setCurrentMp(mp + target.getCurrentMp());
 			StatusUpdate sump = new StatusUpdate(target.getObjectId());
@@ -104,6 +95,17 @@ public class ManaHeal implements ISkillHandler
 			
 			
 		}
+		
+		if(!skill.isPotion()){
+			
+			if (bss){
+				actChar.removeBss();
+			}else if(sps){
+				actChar.removeSps();
+			}
+			
+		}
+		
 	}
 
 	@Override

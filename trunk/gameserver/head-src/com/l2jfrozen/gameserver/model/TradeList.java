@@ -1076,10 +1076,18 @@ public class TradeList
 	 */
 	public synchronized boolean PrivateStoreSell(L2PcInstance player, ItemRequest[] items, int price)
 	{
-		if(_locked)
+		if(_locked){
+			
+			if(Config.DEBUG){
+				_log.info("[PrivateStoreSell] Locked, return false");
+			}
 			return false;
+		}
 		
 		if(items==null || items.length == 0){
+			if(Config.DEBUG){
+				_log.info("[PrivateStoreSell] items==null || items.length == 0, return false");
+			}
 			return false;
 		}
 
@@ -1096,8 +1104,12 @@ public class TradeList
 		{
 			// Check if requested item is available for manipulation
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), item.getCount(), "sell");
-			if(oldItem == null)
+			if(oldItem == null){
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] player.checkItemManipulation(item.getObjectId(), item.getCount(), 'sell') null, return false");
+				}
 				return false;
+			}
 			
 			boolean found = false;
 			for(TradeItem ti : _items){
@@ -1106,6 +1118,10 @@ public class TradeList
 					found = true;
 					
 					if(ti.getPrice() != item.getPrice()){
+						if(Config.DEBUG){
+							_log.info("[PrivateStoreSell] ti.getPrice() != item.getPrice(), return false");
+						}
+						
 						return false;
 					}
 				}
@@ -1145,13 +1161,22 @@ public class TradeList
 
 			// Check if requested item is available for manipulation
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), item.getCount(), "sell");
-			if(oldItem == null)
+			if(oldItem == null){
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] oldItem == null, return false");
+				}
 				return false;
+			}
 
 			// Proceed with item transfer
 			L2ItemInstance newItem = playerInventory.transferItem("PrivateStore", item.getObjectId(), item.getCount(), ownerInventory, player, _owner);
-			if(newItem == null)
+			if(newItem == null){
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] newItem == null, return false");
+				}
+				
 				return false;
+			}
 
 			removeItem(-1, item.getItemId(), item.getCount());
 
@@ -1215,13 +1240,20 @@ public class TradeList
 			if(price > ownerInventory.getInventoryItemCount(Config.SELL_ITEM, -1))
 			{
 				lock();
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] price > ownerInventory.getInventoryItemCount(Config.SELL_ITEM, -1), return false");
+				}
+				
 				return false;
 			}
 			
 			L2ItemInstance item = ownerInventory.getItemByItemId(Config.SELL_ITEM);
 			
 			if(item==null){
-				System.out.println("item null");
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] item==null, return false");
+				}
+				
 				lock();
 				return false;
 			}
@@ -1232,12 +1264,20 @@ public class TradeList
 			if(oldItem == null)
 			{
 				lock();
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] _owner.checkItemManipulation(item.getObjectId(), price, 'sell')==null, return false");
+				}
+				
 				return false;
 			}
 
 			// Proceed with item transfer
 			L2ItemInstance newItem = ownerInventory.transferItem("PrivateStore", item.getObjectId(), price, playerInventory,_owner, player);
 			if(newItem == null){
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] newItem = ownerInventory.transferItem('PrivateStore', item.getObjectId(), price, playerInventory,_owner, player) == null, return false");
+				}
+				
 				return false;
 			}
 			
@@ -1275,8 +1315,13 @@ public class TradeList
 		}else{
 			
 			// Transfer adena
-			if(price > ownerInventory.getAdena())
+			if(price > ownerInventory.getAdena()){
+				if(Config.DEBUG){
+					_log.info("[PrivateStoreSell] price > ownerInventory.getAdena(), return false");
+				}
+				
 				return false;
+			}
 
 			L2ItemInstance adenaItem = ownerInventory.getAdenaInstance();
 			ownerInventory.reduceAdena("PrivateStore", price, _owner, player);

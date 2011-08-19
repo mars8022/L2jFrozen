@@ -421,15 +421,25 @@ public class CharStatus
 	{
 		setCurrentHp(newHp, true);
 	}
+	
+	public final void setCurrentHpDirect(double newHp)
+	{
+		setCurrentHp(newHp, true, true);
+	}
 
 	public final void setCurrentHp(double newHp, boolean broadcastPacket)
+	{
+		setCurrentHp(newHp, true, false);
+	}
+	
+	public final void setCurrentHp(double newHp, boolean broadcastPacket, boolean direct)
 	{
 		synchronized (this)
 		{
 			// Get the Max HP of the L2Character
 			double maxHp = getActiveChar().getStat().getMaxHp();
 			
-			if(newHp >= maxHp)
+			if(newHp >= maxHp && !direct)
 			{
 				// Set the RegenActive flag to false
 				_currentHp = maxHp;
@@ -456,6 +466,7 @@ public class CharStatus
 				// Start the HP/MP/CP Regeneration task with Medium priority
 				startHpMpRegeneration();
 			}
+			
 		}
 
 		// Send the Server->Client packet StatusUpdate with current HP and MP to all other L2PcInstance to inform
