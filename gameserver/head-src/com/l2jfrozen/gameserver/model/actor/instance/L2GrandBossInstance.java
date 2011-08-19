@@ -102,7 +102,13 @@ public final class L2GrandBossInstance extends L2MonsterInstance
 			{
 				// Teleport raid boss home if it's too far from home location
 				L2Spawn bossSpawn = getSpawn();
-				if(!isInsideRadius(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), Config.RBLOCKRAGE, true, false))
+				
+				int rb_lock_range = Config.RBLOCKRAGE;
+				if(Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getId())!=null){
+					rb_lock_range = Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getId());
+				}
+				
+				if(rb_lock_range!=-1 && !isInsideRadius(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), rb_lock_range, true, false))
 				{
 					teleToLocation(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), true);
 					healFull(); // Prevents minor exploiting with it

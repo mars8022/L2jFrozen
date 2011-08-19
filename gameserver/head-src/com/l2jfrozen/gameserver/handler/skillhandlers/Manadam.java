@@ -68,7 +68,8 @@ public class Manadam implements ISkillHandler
 		}
 		weaponInst = null;
 		*/
-		
+		boolean sps = activeChar.checkSps();
+		boolean bss = activeChar.checkBss();
 
 		for(L2Object target2 : targets)
 		{
@@ -77,9 +78,6 @@ public class Manadam implements ISkillHandler
 			if(target.reflectSkill(skill))
 				target = activeChar;
 			
-			boolean sps = activeChar.checkSps();
-			boolean bss = activeChar.checkBss();
-
 			boolean acted = Formulas.getInstance().calcMagicAffected(activeChar, target, skill);
 			if(target.isInvul() || !acted)
 			{
@@ -131,6 +129,13 @@ public class Manadam implements ISkillHandler
 				}
 			}
 		}
+		
+		if (bss){
+			activeChar.removeBss();
+		}else if(sps){
+			activeChar.removeSps();
+		}
+		
 	}
 
 	@Override

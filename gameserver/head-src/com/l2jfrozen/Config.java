@@ -2064,9 +2064,8 @@ public final class Config
 	public static String PM_SERVER_NAME;
 	public static String PM_TEXT1;
 	public static String PM_TEXT2;
-	public static boolean PLAYERS_CAN_HEAL_RB;
-	public static int RBLOCKRAGE;
 	public static boolean NEW_PLAYER_EFFECT;
+	
 
 	//============================================================
 	public static void loadFrozenConfig()
@@ -2087,8 +2086,6 @@ public final class Config
 			PM_SERVER_NAME  = frozenSettings.getProperty("PMServerName", "L2-Frozen");
 			PM_TEXT1  = frozenSettings.getProperty("PMText1", "Have Fun and Nice Stay on");
 			PM_TEXT2  = frozenSettings.getProperty("PMText2", "Vote for us every 24h");
-			PLAYERS_CAN_HEAL_RB = Boolean.parseBoolean(frozenSettings.getProperty("PlayersCanHealRb", "True"));
-			RBLOCKRAGE = Integer.parseInt(frozenSettings.getProperty("RBlockRage", "5000"));
 			NEW_PLAYER_EFFECT = Boolean.parseBoolean(frozenSettings.getProperty("NewPlayerEffect", "True"));
 
 		}
@@ -2281,7 +2278,7 @@ public final class Config
 	public static int HERO_COUNT;
 	public static int CRUMA_TOWER_LEVEL_RESTRICT;
 	/** Allow RaidBoss Petrified if player have +9 lvl to RB */
-	public static boolean ALLOW_RAID_BOSS_PUT;
+	public static boolean ALLOW_RAID_BOSS_PETRIFIED;
 	/** Allow Players Level Difference Protection ? */
 	public static int ALT_PLAYER_PROTECTION_LEVEL;
 	public static boolean ALLOW_LOW_LEVEL_TRADE;
@@ -2410,7 +2407,7 @@ public final class Config
 			ALLOW_HERO_SUBSKILL = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CustomHeroSubSkill", "False"));
 			HERO_COUNT = Integer.parseInt(L2ScoriaSettings.getProperty("HeroCount", "1"));
 			CRUMA_TOWER_LEVEL_RESTRICT = Integer.parseInt(L2ScoriaSettings.getProperty("CrumaTowerLevelRestrict", "56"));
-			ALLOW_RAID_BOSS_PUT = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowRaidBossPetrified", "True"));
+			ALLOW_RAID_BOSS_PETRIFIED = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowRaidBossPetrified", "True"));
 			ALT_PLAYER_PROTECTION_LEVEL = Integer.parseInt(L2ScoriaSettings.getProperty("AltPlayerProtectionLevel", "0"));
 			MONSTER_RETURN_DELAY = Integer.parseInt(L2ScoriaSettings.getProperty("MonsterReturnDelay", "0"));
 			ALLOW_CHAR_KILL_PROTECT = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowLowLvlProtect", "False"));
@@ -2733,7 +2730,7 @@ public final class Config
 	// Enchant map
 	public static FastMap<Integer, Integer> NORMAL_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
 	public static FastMap<Integer, Integer> BLESS_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> CRYTAL_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
+	public static FastMap<Integer, Integer> CRYSTAL_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
 
 	public static FastMap<Integer, Integer> NORMAL_ARMOR_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
 	public static FastMap<Integer, Integer> BLESS_ARMOR_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
@@ -2863,7 +2860,7 @@ public final class Config
 				{
 					try
 					{
-						CRYTAL_WEAPON_ENCHANT_LEVEL.put(Integer.parseInt(writeData[0]), Integer.parseInt(writeData[1]));
+						CRYSTAL_WEAPON_ENCHANT_LEVEL.put(Integer.parseInt(writeData[0]), Integer.parseInt(writeData[1]));
 					}
 					catch(NumberFormatException nfe)
 					{
@@ -3305,6 +3302,7 @@ public final class Config
 
 	//============================================================
 	public static boolean CHECK_SKILLS_ON_ENTER;
+	public static boolean CHECK_NAME_ON_LOGIN;
 	public static boolean L2WALKER_PROTEC;
 	public static boolean PROTECTED_ENCHANT;
 	public static boolean ONLY_GM_ITEMS_FREE;
@@ -3330,6 +3328,7 @@ public final class Config
 			POtherSetting.load(is);
 			is.close();
 
+			CHECK_NAME_ON_LOGIN = Boolean.parseBoolean(POtherSetting.getProperty("CheckNameOnEnter", "True"));
 			CHECK_SKILLS_ON_ENTER = Boolean.parseBoolean(POtherSetting.getProperty("CheckSkillsOnEnter", "True"));
 
 			/** l2walker protection **/
@@ -3620,6 +3619,11 @@ public final class Config
 	}
 
 	//============================================================
+	public static int RBLOCKRAGE;
+	public static boolean PLAYERS_CAN_HEAL_RB;
+	
+	public static FastMap<Integer, Integer> RBS_SPECIFIC_LOCK_RAGE;
+	
 	public static boolean ALLOW_DIRECT_TP_TO_BOSS_ROOM;
 	public static boolean ANTHARAS_OLD;
 	public static int ANTHARAS_CLOSE;
@@ -3703,6 +3707,26 @@ public final class Config
 			is.close();
 			
 			ALT_RAIDS_STATS_BONUS = Boolean.parseBoolean(bossSettings.getProperty("AltRaidsStatsBonus", "True"));
+			
+			RBLOCKRAGE = Integer.parseInt(bossSettings.getProperty("RBlockRage", "5000"));
+			
+			RBS_SPECIFIC_LOCK_RAGE = new FastMap<Integer, Integer>();
+			
+			String RBS_SPECIFIC_LOCK_RAGE_String = bossSettings.getProperty("RaidBossesSpecificLockRage","");
+			
+			if(!RBS_SPECIFIC_LOCK_RAGE_String.equals("")){
+				
+				String[] locked_bosses = RBS_SPECIFIC_LOCK_RAGE_String.split(";");
+				
+				for(String actual_boss_rage:locked_bosses){
+					String[] boss_rage = actual_boss_rage.split(",");
+					
+					RBS_SPECIFIC_LOCK_RAGE.put(Integer.parseInt(boss_rage[0]), Integer.parseInt(boss_rage[1]));
+				}
+				
+			}
+			
+			PLAYERS_CAN_HEAL_RB = Boolean.parseBoolean(bossSettings.getProperty("PlayersCanHealRb", "True"));
 			
 			//============================================================
 			ALLOW_DIRECT_TP_TO_BOSS_ROOM = Boolean.valueOf(bossSettings.getProperty("AllowDirectTeleportToBossRoom", "False"));
@@ -5244,7 +5268,7 @@ public final class Config
 		}
 		else if(pName.equalsIgnoreCase("AllowRaidBossPetrified"))
 		{
-			ALLOW_RAID_BOSS_PUT = Boolean.valueOf(pValue);
+			ALLOW_RAID_BOSS_PETRIFIED = Boolean.valueOf(pValue);
 		}
 		else if(pName.equalsIgnoreCase("AllowLowLevelTrade"))
 		{

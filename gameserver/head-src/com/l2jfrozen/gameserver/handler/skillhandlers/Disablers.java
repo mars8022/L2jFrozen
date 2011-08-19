@@ -84,77 +84,10 @@ public class Disablers implements ISkillHandler
 	{
 		SkillType type = skill.getSkillType();
 
-		/*
-		boolean ss = false;
-		boolean sps = false;
-		boolean bss = false;
-
-		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-
-		if(activeChar instanceof L2PcInstance)
-		{
-			if(weaponInst == null && skill.isOffensive())
-			{
-				SystemMessage sm2 = new SystemMessage(SystemMessageId.S1_S2);
-				sm2.addString("You must equip a weapon before casting a spell.");
-				activeChar.sendPacket(sm2);
-				sm2 = null;
-				return;
-			}
-		}
-
-		if(weaponInst != null)
-		{
-			if(skill.isMagic())
-			{
-				if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-				{
-					bss = true;
-					if(skill.getId() != 1020) // vitalize
-						weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-				}
-				else if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-				{
-					sps = true;
-					if(skill.getId() != 1020) // vitalize
-						weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-				}
-			}
-			else if(weaponInst.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT)
-			{
-				ss = true;
-				if(skill.getId() != 1020) // vitalize
-					weaponInst.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-			}
-		}
-		// If there is no weapon equipped, check for an active summon.
-		else if(activeChar instanceof L2Summon)
-		{
-			L2Summon activeSummon = (L2Summon) activeChar;
-
-			if(skill.isMagic())
-			{
-				if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-				{
-					bss = true;
-					activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-				}
-				else if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-				{
-					sps = true;
-					activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-				}
-			}
-			else if(activeSummon.getChargedSoulShot() == L2ItemInstance.CHARGED_SOULSHOT)
-			{
-				ss = true;
-				activeSummon.setChargedSoulShot(L2ItemInstance.CHARGED_NONE);
-			}
-			activeSummon = null;
-		}
-		weaponInst = null;
-		*/
-		
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
+		boolean ss = activeChar.checkSs();
+	
 		for(int index = 0; index < targets.length; index++)
 		{
 			// Get a target
@@ -166,10 +99,6 @@ public class Disablers implements ISkillHandler
 			if(target == null || target.isDead()) //bypass if target is null or dead
 				continue;
 
-			boolean bss = activeChar.checkBss();
-			boolean sps = activeChar.checkSps();
-			boolean ss = activeChar.checkSs();
-		
 			switch(type)
 			{
 				case BETRAY:
@@ -711,6 +640,20 @@ public class Disablers implements ISkillHandler
 			target = null;
 		}//end for
 
+		if (skill.isMagic())
+		{
+			if (bss){
+				activeChar.removeBss();
+			}else if(sps){
+				activeChar.removeSps();
+			}
+			
+		}else{
+			
+			activeChar.removeSs();
+			
+		}
+		
 		// self Effect :]
 		L2Effect effect = activeChar.getFirstEffect(skill.getId());
 		if(effect != null && effect.isSelfEffect())

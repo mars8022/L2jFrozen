@@ -36,6 +36,25 @@ public class L2SkillCharge extends L2Skill
 	}
 
 	@Override
+	public boolean checkCondition(L2Character activeChar, L2Object target, boolean itemOrWeapon)
+	  {
+	   if (activeChar instanceof L2PcInstance)
+	   {
+	     EffectCharge e = (EffectCharge)activeChar.getFirstEffect(this);
+	     if ((e != null) &&
+	      (e.numCharges >= getNumCharges()))
+	      {
+	        activeChar.sendPacket(new SystemMessage(SystemMessageId.FORCE_MAXLEVEL_REACHED));
+	        SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+	        sm.addSkillName(getId());
+	        activeChar.sendPacket(sm);
+	        return false;
+	      }
+	    }
+	    return super.checkCondition(activeChar, target, itemOrWeapon);
+	  }
+	
+	@Override
 	public void useSkill(L2Character caster, L2Object[] targets)
 	{
 		if(caster.isAlikeDead())

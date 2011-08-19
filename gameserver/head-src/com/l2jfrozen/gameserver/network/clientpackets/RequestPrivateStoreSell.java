@@ -121,6 +121,7 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		{
 			storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
 			storePlayer.broadcastUserInfo();
+			return;
 		}
 		
 		if(!player.getAccessLevel().allowTransaction())

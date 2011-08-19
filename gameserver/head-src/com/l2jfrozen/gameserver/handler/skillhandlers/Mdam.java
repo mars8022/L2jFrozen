@@ -63,45 +63,8 @@ public class Mdam implements ISkillHandler
 		if(activeChar.isAlikeDead())
 			return;
 
-		/*
-		boolean ss = false;
-		boolean bss = false;
-
-		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-
-		if(weaponInst != null)
-		{
-			if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-			{
-				bss = true;
-				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
-			else if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-			{
-				ss = true;
-				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
-		}
-		// If there is no weapon equipped, check for an active summon.
-		else if(activeChar instanceof L2Summon)
-		{
-			L2Summon activeSummon = (L2Summon) activeChar;
-
-			if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-			{
-				bss = true;
-				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-			}
-			else if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-			{
-				ss = true;
-				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-			}
-
-			activeSummon = null;
-		}
-		weaponInst = null;
-		 */
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
 		
 		for(L2Object target2 : targets)
 		{
@@ -121,27 +84,6 @@ public class Mdam implements ISkillHandler
 				continue;
 			}
 
-//			if (skill != null)
-//			if (skill.isOffensive())
-//			{
-
-//				boolean acted;
-//				if (skill.getSkillType() == L2Skill.SkillType.DOT || skill.getSkillType() == L2Skill.SkillType.MDOT)
-//				    acted = Formulas.getInstance().calcSkillSuccess(
-//						activeChar, target, skill);
-//				else
-//				    acted = Formulas.getInstance().calcMagicAffected(
-//						activeChar, target, skill);
-//				if (!acted)
-//				{
-//					activeChar.sendPacket(new SystemMessage(SystemMessage.MISSED_TARGET));
-//					continue;
-//				}
-//
-//			}
-			boolean bss = activeChar.checkBss();
-			boolean sps = activeChar.checkSps();
-		
 			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, skill));
 
 			int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, sps, bss, mcrit);
@@ -209,6 +151,13 @@ public class Mdam implements ISkillHandler
 			}
 			target = null;
 		}
+		
+		if (bss){
+			activeChar.removeBss();
+		}else if(sps){
+			activeChar.removeSps();
+		}
+		
 		// self Effect :]
 		L2Effect effect = activeChar.getFirstEffect(skill.getId());
 		if(effect != null && effect.isSelfEffect())
@@ -224,6 +173,7 @@ public class Mdam implements ISkillHandler
 			activeChar.doDie(null);
 			activeChar.setCurrentHp(0);
 		}
+		
 		activeChar = null;
 	}
 

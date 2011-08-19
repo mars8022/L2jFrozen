@@ -6332,7 +6332,7 @@ public abstract class L2Character extends L2Object
 		// If attack isn't aborted, send a message system (critical hit, missed...) to attacker/target if they are L2PcInstance
 		if(!isAttackAborted())
 		{
-			if(this instanceof L2PcInstance && Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
+			if(Config.ALLOW_RAID_BOSS_PETRIFIED && (this instanceof L2PcInstance || this instanceof L2Summon)) // Check if option is True Or False. 
 			{				
 				boolean to_be_cursed = false;
 				
@@ -6415,6 +6415,18 @@ public abstract class L2Character extends L2Object
 						abortCast();
 						getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 						skill.getEffects(target, this,false,false,false);
+						
+						if(this instanceof L2Summon){
+							
+							L2Summon src = ((L2Summon) this);
+							if(src.getOwner()!=null){
+								src.getOwner().abortAttack();
+								src.getOwner().abortCast();
+								src.getOwner().getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+								skill.getEffects(target, src.getOwner(),false,false,false);
+							}
+						}
+						
 					}
 					else
 						_log.warning("Skill 4515 at level 1 is missing in DP.");
@@ -8096,7 +8108,7 @@ public abstract class L2Character extends L2Object
 						}
 					}
 
-					if(this instanceof L2PcInstance && Config.ALLOW_RAID_BOSS_PUT) // Check if option is True Or False. 
+					if(Config.ALLOW_RAID_BOSS_PETRIFIED && (this instanceof L2PcInstance || this instanceof L2Summon)) // Check if option is True Or False. 
 					{				
 						boolean to_be_cursed = false;
 						
@@ -8181,6 +8193,18 @@ public abstract class L2Character extends L2Object
 									abortCast();
 									getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 									tempSkill.getEffects(player, this,false,false,false);
+									
+									if(this instanceof L2Summon){
+										
+										L2Summon src = ((L2Summon) this);
+										if(src.getOwner()!=null){
+											src.getOwner().abortAttack();
+											src.getOwner().abortCast();
+											src.getOwner().getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+											tempSkill.getEffects(player, src.getOwner(),false,false,false);
+										}
+									}
+									
 								}
 								else
 									_log.warning("Skill 4215 at level 1 is missing in DP.");
@@ -8423,8 +8447,8 @@ public abstract class L2Character extends L2Object
 				skill.useSkill(this, targets);
 			}
 			
-			if(skill.isPotion() && this instanceof L2PcInstance){ //if the skill is a potion, must delete the potion item
-				Potions.delete_Potion_Item((L2PcInstance) this, skill.getId(), skill.getLevel());
+			if(skill.isPotion() && this instanceof L2PlayableInstance){ //if the skill is a potion, must delete the potion item
+				Potions.delete_Potion_Item((L2PlayableInstance)this, skill.getId(), skill.getLevel());
 			}
 
 			if(this instanceof L2PcInstance || this instanceof L2Summon)
@@ -9006,6 +9030,11 @@ public abstract class L2Character extends L2Object
 	public final void setCurrentHp(double newHp)
 	{
 		getStatus().setCurrentHp(newHp);
+	}
+	
+	public final void setCurrentHpDirect(double newHp)
+	{
+		getStatus().setCurrentHpDirect(newHp);
 	}
 
 	public final void setCurrentHpMp(double newHp, double newMp)

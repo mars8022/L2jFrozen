@@ -96,9 +96,10 @@ public class L2SkillChargeDmg extends L2Skill
 			effect.exit();
 		}
 
+		boolean ss = caster.checkSs();
+		
 		for(L2Object target2 : targets)
 		{
-			L2ItemInstance weapon = caster.getActiveWeaponInstance();
 			L2Character target = (L2Character) target2;
 			if(target.isAlikeDead())
 			{
@@ -113,7 +114,6 @@ public class L2SkillChargeDmg extends L2Skill
 			boolean shld = Formulas.calcShldUse(caster, target);
 			boolean crit = Formulas.calcCrit(caster.getCriticalHit(target, this));
 			//boolean soul = weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER;
-			boolean ss = caster.checkSs();
 			
 			// damage calculation
 			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, ss, effect.numCharges);
@@ -125,16 +125,18 @@ public class L2SkillChargeDmg extends L2Skill
 
 				caster.sendDamageMessage(target, (int) finalDamage, false, crit, false);
 
-				if(ss && weapon != null)
-				{
-					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-				}
 			}
 			else
 			{
 				caster.sendDamageMessage(target, 0, false, false, true);
 			}
 		}
+		
+		if(ss)
+		{
+			caster.removeSs();
+		}
+		
 		// effect self :]
 		L2Effect seffect = caster.getFirstEffect(getId());
 		if(seffect != null && seffect.isSelfEffect())

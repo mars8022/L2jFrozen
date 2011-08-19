@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExShowQuestMark;
+import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.QuestList;
@@ -612,6 +613,12 @@ public final class QuestState
 		StatusUpdate su = new StatusUpdate(getPlayer().getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getPlayer().getCurrentLoad());
 		getPlayer().sendPacket(su);
+		
+		//on quests, always refresh inventory
+		InventoryUpdate u = new InventoryUpdate();
+		u.addItem(item);
+		getPlayer().sendPacket(u);
+		
 		su = null;
 	}
 
@@ -748,6 +755,11 @@ public final class QuestState
 			getPlayer().destroyItemByItemId("Quest", itemId, count, getPlayer(), true);
 		}
 
+		//on quests, always refresh inventory
+		InventoryUpdate u = new InventoryUpdate();
+		u.addItem(item);
+		getPlayer().sendPacket(u);
+		
 		item = null;
 	}
 

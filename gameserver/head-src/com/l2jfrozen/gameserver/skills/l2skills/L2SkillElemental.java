@@ -60,54 +60,9 @@ public class L2SkillElemental extends L2Skill
 		if(activeChar.isAlikeDead())
 			return;
 
-		/*
-		boolean ss = false;
-		boolean bss = false;
+		boolean sps = activeChar.checkSps();
+		boolean bss = activeChar.checkBss();
 
-		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-
-		if(activeChar instanceof L2PcInstance)
-		{
-			if(weaponInst == null)
-			{
-				SystemMessage sm2 = new SystemMessage(SystemMessageId.S1_S2);
-				sm2.addString("You must equip one weapon before cast spell.");
-				activeChar.sendPacket(sm2);
-				return;
-			}
-		}
-
-		if(weaponInst != null)
-		{
-			if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-			{
-				bss = true;
-				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
-			else if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-			{
-				ss = true;
-				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
-		}
-		// If there is no weapon equipped, check for an active summon.
-		else if(activeChar instanceof L2Summon)
-		{
-			L2Summon activeSummon = (L2Summon) activeChar;
-
-			if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-			{
-				bss = true;
-				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-			}
-			else if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-			{
-				ss = true;
-				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-			}
-		}
-		*/
-		
 		for(L2Object target2 : targets)
 		{
 			L2Character target = (L2Character) target2;
@@ -156,9 +111,6 @@ public class L2SkillElemental extends L2Skill
 				continue;
 			}
 			
-			boolean sps = activeChar.checkSps();
-			boolean bss = activeChar.checkBss();
-
 			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
 
 			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
@@ -182,5 +134,12 @@ public class L2SkillElemental extends L2Skill
 			target.stopSkillEffects(getId());
 			getEffects(activeChar, target,false,sps,bss);
 		}
+		
+		if (bss){
+			activeChar.removeBss();
+		}else if(sps){
+			activeChar.removeSps();
+		}
+		
 	}
 }

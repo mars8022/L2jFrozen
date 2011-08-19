@@ -340,7 +340,7 @@ public final class UseItem extends L2GameClientPacket
 					case L2Item.SLOT_L_HAND:
 					case L2Item.SLOT_R_HAND:
 					{
-						if((item.getEnchantLevel() > Config.NORMAL_WEAPON_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.BLESS_WEAPON_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size()) && !activeChar.isGM())
+						if((item.getEnchantLevel() > Config.NORMAL_WEAPON_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.BLESS_WEAPON_ENCHANT_LEVEL.size() || item.getEnchantLevel() > Config.CRYSTAL_WEAPON_ENCHANT_LEVEL.size()) && !activeChar.isGM())
 						{
 							//activeChar.setAccountAccesslevel(-1); //ban
 							activeChar.sendMessage("You have been banned for using an item wich is over enchanted!"); //message 

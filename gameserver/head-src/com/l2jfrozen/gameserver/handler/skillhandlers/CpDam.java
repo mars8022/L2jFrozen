@@ -102,8 +102,10 @@ public class CpDam implements ISkillHandler
 
 		weaponInst = null;
 		*/
-		
-		
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
+		boolean ss = activeChar.checkSs();
+	
 		for(L2Object target2 : targets)
 		{
 			L2Character target = (L2Character) target2;
@@ -121,10 +123,6 @@ public class CpDam implements ISkillHandler
 				continue;
 			}
 			
-			boolean bss = activeChar.checkBss();
-			boolean sps = activeChar.checkSps();
-			boolean ss = activeChar.checkSs();
-		
 			if(!Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
 				return;
 
@@ -142,6 +140,21 @@ public class CpDam implements ISkillHandler
 
 			target = null;
 		}
+		
+		if (skill.isMagic())
+		{
+			if (bss){
+				activeChar.removeBss();
+			}else if(sps){
+				activeChar.removeSps();
+			}
+			
+		}else{
+			
+			activeChar.removeSs();
+			
+		}
+		
 	}
 
 	@Override

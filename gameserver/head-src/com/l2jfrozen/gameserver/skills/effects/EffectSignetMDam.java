@@ -172,6 +172,13 @@ public final class EffectSignetMDam extends L2Effect
 				target.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, caster);
 			}
 		}
+		
+		if (bss){
+			caster.removeBss();
+		}else if(sps){
+			caster.removeSps();
+		}
+		
 		return true;
 	}
 

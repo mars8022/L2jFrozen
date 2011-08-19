@@ -221,19 +221,22 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="8" levels="7" name="Sonic Focus">
+  <table name="#power"> 1.0 2.0 3.0 4.0 5.0 6.0 7.0 </table>
   <table name="#val">1 2 3 4 5 6 7</table>
   <set name="mpConsume" val="5"/>
   <set name="hpConsume" val="25"/>
-  <set name="power" val="#val"/>
+  <set name="power" val="#power"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="1000"/>
   <set name="hitTime" val="900"/>
   <set name="skillType" val="CHARGE"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="castRange" val="-1"/>
+  <set name="effectRange" val="-1"/>
   <set name="num_charges" val="#val"/>
   <set name="aggroPoints" val="200"/>
-  <cond msg="Dual Sword/Sword/Blunt required.">
-    <using kind="Dual Sword, Sword, Blunt"/>
+  <cond msg="Sonic Focus can only be used with weapons of type Sword/Blunt/Dual Sword/Big Sword/Big Blunt.">
+    <using kind="Sword, Blunt, Dual Sword, Big Sword, Big Blunt"/>
   </cond>
   <for>
     <effect count="1" name="Charge" time="600" val="1"/>

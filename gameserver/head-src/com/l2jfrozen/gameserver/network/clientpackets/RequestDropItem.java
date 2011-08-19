@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
@@ -211,7 +212,7 @@ public final class RequestDropItem extends L2GameClientPacket
 			ItemList il = new ItemList(activeChar, true);
 			activeChar.sendPacket(il);
 		}
-
+		
 		L2ItemInstance dropedItem = activeChar.dropItem("Drop", _objectId, _count, _x, _y, _z, null, false, true);
 
 		if(Config.DEBUG)
@@ -225,6 +226,7 @@ public final class RequestDropItem extends L2GameClientPacket
 			_log.warning(msg);
 			GmListTable.broadcastMessageToGMs(msg);
 		}
+		
 	}
 
 	/* (non-Javadoc)

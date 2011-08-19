@@ -22,11 +22,16 @@ import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.TeleportLocationTable;
+import com.l2jfrozen.gameserver.datatables.xml.ZoneData;
 import com.l2jfrozen.gameserver.managers.CastleManager;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2TeleportLocation;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
+import com.l2jfrozen.gameserver.model.zone.L2ZoneManager;
+import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
+import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -252,14 +257,6 @@ public final class L2TeleporterInstance extends L2FolkInstance
 				player.sendMessage("You can't use teleport when you are sitting.");
 				return;
 			}	
-			else if(!list.getIsForNoble() && (Config.ALT_GAME_FREE_TELEPORT || player.reduceAdena("Teleport", list.getPrice(), this, true)))
-			{
-				if(Config.DEBUG)
-				{
-					_log.fine("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
-				}
-				player.teleToLocation(list.getLocX(), list.getLocY(), list.getLocZ(), true);
-			}
 			else if(list.getTeleId() == 9982 && list.getTeleId() == 9983 && list.getTeleId() == 9984 && getNpcId() == 30483 && player.getLevel() >= Config.CRUMA_TOWER_LEVEL_RESTRICT)
 			{
 				// Chars level XX can't enter in Cruma Tower. Retail: level 56 and above
@@ -273,6 +270,25 @@ public final class L2TeleporterInstance extends L2FolkInstance
 				filename = null;
 				html = null;
 				return;
+			}
+			//Lilith and Anakim have BossZone, so players must be allowed to enter
+			else if(list.getTeleId() == 450)
+			{
+				if(Config.DEBUG)
+				{
+					_log.fine("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
+				}
+				L2BossZone _zone = GrandBossManager.getInstance().getZone(list.getLocX(), list.getLocY(), list.getLocZ());
+				_zone.allowPlayerEntry(player, 300);
+				player.teleToLocation(list.getLocX(), list.getLocY(), list.getLocZ(), true);
+			}
+			else if(!list.getIsForNoble() && (Config.ALT_GAME_FREE_TELEPORT || player.reduceAdena("Teleport", list.getPrice(), this, true)))
+			{
+				if(Config.DEBUG)
+				{
+					_log.fine("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
+				}
+				player.teleToLocation(list.getLocX(), list.getLocY(), list.getLocZ(), true);
 			}
 			else if(list.getIsForNoble() && (Config.ALT_GAME_FREE_TELEPORT || player.destroyItemByItemId("Noble Teleport", 6651, list.getPrice(), this, true)))
 			{

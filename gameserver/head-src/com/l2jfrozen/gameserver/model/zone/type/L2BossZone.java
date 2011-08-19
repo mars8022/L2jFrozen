@@ -303,7 +303,9 @@ public class L2BossZone extends L2ZoneType
 	{
 		if(!player.isGM())
 		{
-			_playersAllowed.add(player.getObjectId());
+			if(!_playersAllowed.contains(player.getObjectId())){
+				_playersAllowed.add(player.getObjectId());
+			}
 			_playerAllowedReEntryTimes.put(player.getObjectId(), System.currentTimeMillis() + durationInSec * 1000);
 		}
 	}

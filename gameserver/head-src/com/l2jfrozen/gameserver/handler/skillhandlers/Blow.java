@@ -59,6 +59,11 @@ public class Blow implements ISkillHandler
 	{
 		if (activeChar.isAlikeDead())
 			return;
+		
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
+		boolean ss = activeChar.checkSs();
+		
 		for (L2Character target: (L2Character[]) targets)
 		{
 			if (target.isAlikeDead())
@@ -130,10 +135,6 @@ public class Blow implements ISkillHandler
 						target.stopSkillEffects(skill.getId());
 						//if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, shld, false, false, true))
 						
-						boolean bss = activeChar.checkBss();
-						boolean sps = activeChar.checkSps();
-						boolean ss = activeChar.checkSs();
-						
 						if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
 						{
 							//skill.getEffects(activeChar, target, new Env(shld, false, false, false));
@@ -152,7 +153,7 @@ public class Blow implements ISkillHandler
 				}
 				
 				L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
-				boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && (weapon.getItemType() == L2WeaponType.DAGGER ));
+				boolean soul = (ss && (weapon.getItemType() == L2WeaponType.DAGGER ));
 				
 				//byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
 				boolean shld = Formulas.calcShldUse(activeChar, target);
@@ -169,8 +170,8 @@ public class Blow implements ISkillHandler
 				
 				double damage = (int) Formulas.calcBlowDamage(activeChar, target, skill, shld, crit, soul);
 				
-				if (soul)
-					weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+				//if (soul)
+				//	weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
 				
 				if (skill.getDmgDirectlyToHP() && target instanceof L2PcInstance)
 				{
@@ -282,6 +283,20 @@ public class Blow implements ISkillHandler
 					effect.exit();
 				skill.getEffectsSelf(activeChar);
 			}
+		}
+		
+		if (skill.isMagic())
+		{
+			if (bss){
+				activeChar.removeBss();
+			}else if(sps){
+				activeChar.removeSps();
+			}
+			
+		}else{
+			
+			activeChar.removeSs();
+			
 		}
 	}
 	

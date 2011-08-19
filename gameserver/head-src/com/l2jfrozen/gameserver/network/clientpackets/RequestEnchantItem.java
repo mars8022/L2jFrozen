@@ -342,13 +342,13 @@ public final class RequestEnchantItem extends L2GameClientPacket
 				{
 					if(scroll.getItemId() == crystalweaponscroll)
 					{
-						if(item.getEnchantLevel() >= Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size())
+						if(item.getEnchantLevel() >= Config.CRYSTAL_WEAPON_ENCHANT_LEVEL.size())
 						{
-							chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(Config.CRYTAL_WEAPON_ENCHANT_LEVEL.size());
+							chance = Config.CRYSTAL_WEAPON_ENCHANT_LEVEL.get(Config.CRYSTAL_WEAPON_ENCHANT_LEVEL.size());
 						}
 						else
 						{
-							chance = Config.CRYTAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
+							chance = Config.CRYSTAL_WEAPON_ENCHANT_LEVEL.get(item.getEnchantLevel() + 1);
 						}
 						minEnchantLevel = Config.CRYSTAL_ENCHANT_MIN;
 						maxEnchantLevel = Config.CRYSTAL_ENCHANT_MAX;
