@@ -33,7 +33,6 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
@@ -76,7 +75,6 @@ public class Continuous implements ISkillHandler
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{

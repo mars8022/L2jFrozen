@@ -19,7 +19,6 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -37,7 +36,6 @@ import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ArtefactInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ChestInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ControlTowerInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;

@@ -25,7 +25,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2HennaInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.HennaEquipList;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;

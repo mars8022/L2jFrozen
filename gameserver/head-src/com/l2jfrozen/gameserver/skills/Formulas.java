@@ -25,7 +25,6 @@ import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.Inventory;
-import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2SiegeClan;

@@ -22,15 +22,12 @@ import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.TeleportLocationTable;
-import com.l2jfrozen.gameserver.datatables.xml.ZoneData;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2TeleportLocation;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
-import com.l2jfrozen.gameserver.model.zone.L2ZoneManager;
-import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;

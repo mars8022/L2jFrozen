@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
@@ -27,10 +25,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;

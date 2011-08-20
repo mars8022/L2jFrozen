@@ -29,10 +29,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.BaseStats;
-import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
-import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.Util;
 

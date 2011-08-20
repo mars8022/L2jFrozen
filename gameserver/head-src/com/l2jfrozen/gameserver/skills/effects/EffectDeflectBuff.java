@@ -19,7 +19,6 @@
 package com.l2jfrozen.gameserver.skills.effects;
 
 import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Effect.EffectType;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;

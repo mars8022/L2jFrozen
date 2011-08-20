@@ -120,7 +120,7 @@ public class L2SignsPriestInstance extends L2FolkInstance
 						break;
 					}
 
-					L2ItemInstance adenaItem = player.getInventory().getAdenaInstance();
+					//L2ItemInstance adenaItem = player.getInventory().getAdenaInstance(); ???
 					if(!player.reduceAdena("SevenSigns", SevenSigns.RECORD_SEVEN_SIGNS_COST, this, true))
 					{
 						player.sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
@@ -134,7 +134,7 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					su.addAttribute(StatusUpdate.CUR_LOAD, player.getCurrentLoad());
 					sendPacket(su);
 
-					adenaItem = null;
+					//adenaItem = null;
 					break;
 				case 3: // Join Cabal Intro 1
 				case 8: // Festival of Darkness Intro - SevenSigns x [0]1
