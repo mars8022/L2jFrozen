@@ -97,7 +97,7 @@ public class nProtect
 		Class<?> clazz=null;
 		try
 		{
-			clazz = Class.forName("com.scoria.protection.main");
+			clazz = Class.forName("com.l2jfrozen.protection.main");
 			
 			if(clazz!=null)
 			{

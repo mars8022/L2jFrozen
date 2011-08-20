@@ -586,8 +586,6 @@ public class MercTicketManager
 	// Schuttgart
 	};
 	
-	private static final int GUARDIAN_TYPES_COUNT = ITEM_IDS.length/9;
-
 	// =========================================================
 	// Constructor
 	public MercTicketManager()
@@ -658,7 +656,7 @@ public class MercTicketManager
 				Castle castle = CastleManager.getInstance().getCastle(x, y, z);
 				if(castle != null)
 				{
-					startindex = GUARDIAN_TYPES_COUNT*(castle.getCastleId() - 1);
+					startindex = 10*(castle.getCastleId() - 1);
 				}
 
 				// find the FIRST ticket itemId with spawns the saved NPC in the saved location
