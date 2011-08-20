@@ -287,7 +287,7 @@ public class L2BoatInstance extends L2Character
 		MoveData m = new MoveData();
 
 		// Caclulate the Nb of ticks between the current position and the destination
-		int ticksToMove = (int) (GameTimeController.TICKS_PER_SECOND * distance / speed);
+		//int ticksToMove = (int) (GameTimeController.TICKS_PER_SECOND * distance / speed);
 
 		// Calculate and set the heading of the L2Character
 		getPosition().setHeading((int) (Math.atan2(-sin, -cos) * 10430.378350470452724949566316381) + 32768);

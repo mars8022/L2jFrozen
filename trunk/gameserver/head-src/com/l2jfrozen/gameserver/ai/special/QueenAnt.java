@@ -50,6 +50,7 @@ public class QueenAnt extends Quest implements Runnable
 	private static final int LIVE = 0; //Queen Ant is spawned.
 	private static final int DEAD = 1; //Queen Ant has been killed.
 
+	@SuppressWarnings("unused")
 	private static L2BossZone _Zone;
 	private static List<L2Attackable> _Minions = new FastList<L2Attackable>();
 	private static List<L2Attackable> _Larva_minions = new FastList<L2Attackable>();

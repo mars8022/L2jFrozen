@@ -23,7 +23,6 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.entity.Duel;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
