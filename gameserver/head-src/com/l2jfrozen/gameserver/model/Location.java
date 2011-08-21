@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import com.l2jfrozen.gameserver.model.L2Character;
+
 /**
  * This class ...
  * 
@@ -46,6 +48,21 @@ public final class Location
 		_heading = heading;
 	}
 
+	public Location(L2Object obj) 
+ 	{ 
+		_x = obj.getX(); 
+		_y = obj.getY(); 
+		_z = obj.getZ(); 
+ 	} 
+
+	public Location(L2Character obj) 
+	{ 
+		_x = obj.getX(); 
+		_y = obj.getY(); 
+		_z = obj.getZ(); 
+		_heading = obj.getHeading(); 
+	} 
+ 	
 	public int getX()
 	{
 		return _x;

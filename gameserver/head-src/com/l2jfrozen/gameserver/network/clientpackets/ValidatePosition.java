@@ -25,7 +25,6 @@ import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
-import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
 
@@ -352,10 +351,6 @@ public final class ValidatePosition extends L2GameClientPacket
 		activeChar.setClientY(_y);
 		activeChar.setClientZ(_z);
 		activeChar.setClientHeading(_heading);
-		
-		//notify to party members the local position
-		if(activeChar.getParty() != null)
-			activeChar.getParty().broadcastToPartyMembers(activeChar, new PartyMemberPosition(activeChar));
 
 	}
 	

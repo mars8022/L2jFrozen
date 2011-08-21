@@ -52,7 +52,7 @@ public final class RequestWithDrawalParty extends L2GameClientPacket
 			}
 			else
 			{
-				player.getParty().oustPartyMember(player);
+				player.getParty().removePartyMember(player);
 			}
 		}
 	}

@@ -44,52 +44,42 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
+			return;
 
-		if(player != null)
+		final L2PcInstance requestor = player.getActiveRequester();
+		if (requestor == null)
+			return;
+
+		requestor.sendPacket(new JoinParty(_response));
+
+		if (_response == 1)
 		{
-			L2PcInstance requestor = player.getActiveRequester();
-
-			if(requestor == null)
-				return;
-
-			JoinParty join = new JoinParty(_response);
-			requestor.sendPacket(join);
-
-			if(_response == 1)
+			if (requestor.isInParty())
 			{
-				if(player.getParty() == null)
+				if (requestor.getParty().getMemberCount() >= 9)
 				{
-					player.joinParty(requestor.getParty());
-				}
-				else if(requestor.isGM())
-				{
-					if(requestor.getAppearance().getInvisible())
-					{
-						requestor.sendMessage("You can't invite invisible GameMaster!");
-					}
+					SystemMessage sm = new SystemMessage(SystemMessageId.PARTY_FULL);
+					player.sendPacket(sm);
+					requestor.sendPacket(sm);
+					return;
 				}
 			}
-			else
-			{
-				SystemMessage msg = new SystemMessage(SystemMessageId.PLAYER_DECLINED);
-				requestor.sendPacket(msg);
-
-				//activate garbage collection if there are no other members in party (happens when we were creating new one)
-				if(requestor.getParty() != null && requestor.getParty().getMemberCount() == 1)
-				{
-					requestor.setParty(null);
-				}
-			}
-
-			if(requestor.getParty() != null)
-			{
-				requestor.getParty().decreasePendingInvitationNumber(); // if party is null, there is no need of decreasing
-			}
-
-			player.setActiveRequester(null);
-			requestor.onTransactionResponse();
+			player.joinParty(requestor.getParty());
 		}
+		else
+		{
+			//activate garbage collection if there are no other members in party (happens when we were creating new one)
+			if (requestor.isInParty() && requestor.getParty().getMemberCount() == 1)
+				requestor.getParty().removePartyMember(requestor, false);
+		}
+
+		if (requestor.isInParty())
+			requestor.getParty().setPendingInvitation(false);
+
+		player.setActiveRequester(null);
+		requestor.onTransactionResponse();
 	}
 
 	/* (non-Javadoc)

@@ -776,6 +776,24 @@ public enum SystemMessageId
 	 */
 	PARTY_LEADER_S1(1611),
 
+	 /**
+	 * ID: 1582<br>
+	 * Message: You have joined the Command Channel.
+	 */
+	JOINED_COMMAND_CHANNEL(1582),
+	
+	 /**
+	 * ID: 1581<br>
+	 * Message: The Command Channel has been disbanded.
+	 */
+	COMMAND_CHANNEL_DISBANDED(1581),
+	
+	 /**
+	  * ID: 1589<br>
+	  * Message: Command Channel authority has been transferred to $s1.
+	  */
+	COMMAND_CHANNEL_LEADER_NOW_S1(1589),
+	
 	/**
 	 * ID: 422<br>
 	 * Message: You have exceeded the weight limit.

@@ -23,9 +23,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
-import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
 
 /**
  * This class ...
@@ -69,25 +67,6 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 		{
 			player.getAI().notifyEvent(CtrlEvent.EVT_ARRIVED_BLOCKED, new L2CharPosition(_x, _y, _z, _heading));
 		}
-
-		if(player instanceof L2PcInstance && ((L2PcInstance) player).getParty() != null)
-		{
-			((L2PcInstance) player).getParty().broadcastToPartyMembers(((L2PcInstance) player), new PartyMemberPosition((L2PcInstance) player));
-		}
-
-		// player.stopMove();
-		//
-		// if (Config.DEBUG)
-		// _log.fine("client: x:"+_x+" y:"+_y+" z:"+_z+
-		// " server x:"+player.getX()+" y:"+player.getZ()+" z:"+player.getZ());
-		// StopMove smwl = new StopMove(player);
-		// getClient().getActiveChar().sendPacket(smwl);
-		// getClient().getActiveChar().broadcastPacket(smwl);
-		//
-		// StopRotation sr = new StopRotation(getClient().getActiveChar(),
-		// _heading);
-		// getClient().getActiveChar().sendPacket(sr);
-		// getClient().getActiveChar().broadcastPacket(sr);
 	}
 
 	/*

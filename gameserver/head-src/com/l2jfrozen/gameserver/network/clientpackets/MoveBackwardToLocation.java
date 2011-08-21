@@ -26,8 +26,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
-import com.l2jfrozen.gameserver.templates.L2WeaponType;
+import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
@@ -41,17 +40,12 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 {
 	//private static Logger _log = Logger.getLogger(MoveBackwardToLocation.class.getName());
 	// cdddddd
-	private int _targetX;
-	private int _targetY;
-	private int _targetZ;
+	private int _targetX; 
+ 	private int _targetY; 
+ 	private int _targetZ;
 
-	@SuppressWarnings("unused")
 	private int _originX;
-
-	@SuppressWarnings("unused")
 	private int _originY;
-
-	@SuppressWarnings("unused")
 	private int _originZ;
 
 	private int _moveMovement;
@@ -59,7 +53,6 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 	//For geodata
 	private int _curX;
 	private int _curY;
-
 	@SuppressWarnings("unused")
 	private int _curZ;
 
@@ -79,6 +72,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		_originX = readD();
 		_originY = readD();
 		_originZ = readD();
+		
 		try
 		{
 			_moveMovement = readD(); // is 0 if cursor keys are used  1 if mouse is used
@@ -113,15 +107,18 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			return;
 		}
 		
+		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ) 
+		{ 
+			activeChar.sendPacket(new StopMove(activeChar)); 
+				return; 
+		}
+
+		// Correcting targetZ from floor level to head level 
+		_targetZ += activeChar.getTemplate().collisionHeight;
 
 		_curX = activeChar.getX();
 		_curY = activeChar.getY();
 		_curZ = activeChar.getZ();
-
-		if(activeChar.isInBoat())
-		{
-			activeChar.setInBoat(false);
-		}
 
 		if(activeChar.getTeleMode() > 0)
 		{
@@ -139,10 +136,6 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 		}
-		else if(activeChar.isAttackingNow() && activeChar.getActiveWeaponItem() != null && activeChar.getActiveWeaponItem().getItemType() == L2WeaponType.BOW)
-		{
-			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-		}
 		else
 		{
 			double dx = _targetX - _curX;
@@ -155,11 +148,6 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 				return;
 			}
 			activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(_targetX, _targetY, _targetZ, 0));
-
-			if(activeChar.getParty() != null)
-			{
-				activeChar.getParty().broadcastToPartyMembers(activeChar, new PartyMemberPosition(activeChar));
-			}
 		}
 	}
 

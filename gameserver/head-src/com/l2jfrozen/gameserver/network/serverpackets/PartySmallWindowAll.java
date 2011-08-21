@@ -18,10 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
+import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
@@ -31,29 +28,32 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  * 
  * @version $Revision: 1.6.2.1.2.5 $ $Date: 2005/03/27 15:29:57 $
  */
-public class PartySmallWindowAll extends L2GameServerPacket
+public final class PartySmallWindowAll extends L2GameServerPacket
 {
 	private static final String _S__63_PARTYSMALLWINDOWALL = "[S] 4e PartySmallWindowAll";
-	private List<L2PcInstance> _partyMembers = new FastList<L2PcInstance>();
+	private L2Party _party; 
+ 	private L2PcInstance _exclude; 
+ 	private int _dist, _LeaderOID;
 
-	public void setPartyList(List<L2PcInstance> party)
+ 	public PartySmallWindowAll(L2PcInstance exclude, L2Party party)
 	{
-		_partyMembers = party;
+ 		_exclude = exclude; 
+ 	 	_party = party; 
+ 	 	_LeaderOID = _party.getPartyLeaderOID(); 
+ 	 	_dist = _party.getLootDistribution(); 
 	}
 
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x4e);
-		L2PcInstance player = getClient().getActiveChar();
-		writeD(_partyMembers.get(0).getObjectId()); // c3 party leader id
-		writeD(_partyMembers.get(0).getParty().getLootDistribution());//c3 party loot type (0,1,2,....)
-		writeD(_partyMembers.size() - 1);
+		writeD(_LeaderOID); 
+	 	writeD(_dist); 
+	 	writeD(_party.getMemberCount() - 1);
 
-		for(int i = 0; i < _partyMembers.size(); i++)
+	 	for (L2PcInstance member : _party.getPartyMembers())
 		{
-			L2PcInstance member = _partyMembers.get(i);
-			if(!member.equals(player))
+	 		if ((member != null) && (member != _exclude))
 			{
 				writeD(member.getObjectId());
 				writeS(member.getName());
@@ -68,7 +68,7 @@ public class PartySmallWindowAll extends L2GameServerPacket
 				writeD(member.getLevel());
 				writeD(member.getClassId().getId());
 				writeD(0);//writeD(0x01); ??
-				writeD(0);
+				writeD(member.getRace().ordinal());
 			}
 		}
 	}
