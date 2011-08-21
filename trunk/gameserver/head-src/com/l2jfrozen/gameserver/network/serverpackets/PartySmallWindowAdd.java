@@ -19,30 +19,34 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.L2Party;
 
 /**
  * This class ...
  * 
  * @version $Revision: 1.4.2.1.2.5 $ $Date: 2005/03/27 15:29:57 $
  */
-public class PartySmallWindowAdd extends L2GameServerPacket
+public final class PartySmallWindowAdd extends L2GameServerPacket
 {
 	private static final String _S__64_PARTYSMALLWINDOWADD = "[S] 4f PartySmallWindowAdd";
 
-	private L2PcInstance _member;
+	private final L2PcInstance _member; 
+ 	private final int _leaderId; 
+ 	private final int _distribution; 
 
-	public PartySmallWindowAdd(L2PcInstance member)
-	{
-		_member = member;
-	}
+ 	public PartySmallWindowAdd(L2PcInstance member, L2Party party)
+ 	{
+ 		_member = member;
+ 		_leaderId = party.getPartyLeaderOID();
+ 		_distribution = party.getLootDistribution();
+ 	}
 
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x4f);
-		L2PcInstance player = getClient().getActiveChar();
-		writeD(player.getObjectId()); // c3
-		writeD(0);//writeD(0x04); ?? //c3
+		writeD(_leaderId); // c3
+		writeD(_distribution); //c3
 		writeD(_member.getObjectId());
 		writeS(_member.getName());
 

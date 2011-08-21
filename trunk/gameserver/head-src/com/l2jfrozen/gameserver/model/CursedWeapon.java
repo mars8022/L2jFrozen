@@ -465,7 +465,7 @@ public class CursedWeapon
 
 		if(_player.isInParty())
 		{
-			_player.getParty().oustPartyMember(_player);
+			_player.getParty().removePartyMember(_player);
 		}
 
 		if(_player.isWearingFormalWear())

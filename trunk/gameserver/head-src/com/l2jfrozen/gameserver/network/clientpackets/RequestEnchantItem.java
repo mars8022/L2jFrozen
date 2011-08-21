@@ -520,7 +520,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			return;
 		}
 
-		scroll = activeChar.getInventory().destroyItem("Enchant", scroll, activeChar, item);
+		scroll = activeChar.getInventory().destroyItem("Enchant", scroll.getObjectId(), 1, activeChar, item);
 		if(scroll == null)
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));

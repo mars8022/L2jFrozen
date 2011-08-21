@@ -19,12 +19,17 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.List;
-
+import java.util.NoSuchElementException; 
+import java.util.concurrent.Future;
+	
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager; 
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.managers.DuelManager;
+import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -38,8 +43,11 @@ import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAll;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDelete;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay; 
+import com.l2jfrozen.gameserver.network.serverpackets.ExCloseMPCC; 
+import com.l2jfrozen.gameserver.network.serverpackets.ExOpenMPCC; 
+import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
@@ -57,23 +65,29 @@ public class L2Party
 			1, 1.30, 1.39, 1.50, 1.54, 1.58, 1.63, 1.67, 1.71
 	};
 
-	//private static Logger _log = Logger.getLogger(L2Party.class.getName());
+	//private static final Logger _log = Logger.getLogger(L2Party.class.getName());
 
-	private List<L2PcInstance> _members = null;
-	private int _pendingInvitation = 0; // Number of players that already have been invited (but not replied yet)
-	private int _partyLvl = 0;
-	private int _itemDistribution = 0;
-	private int _itemLastLoot = 0;
-	private L2CommandChannel _commandChannel = null;
-
-	private DimensionalRift _dr;
-
+	private static final int PARTY_POSITION_BROADCAST = 10000;
+	
 	public static final int ITEM_LOOTER = 0;
 	public static final int ITEM_RANDOM = 1;
 	public static final int ITEM_RANDOM_SPOIL = 2;
 	public static final int ITEM_ORDER = 3;
 	public static final int ITEM_ORDER_SPOIL = 4;
 
+	private final FastList<L2PcInstance> _members; 
+	private boolean _pendingInvitation = false; 
+	private long _pendingInviteTimeout; 
+	private int _partyLvl = 0; 
+	private int _itemDistribution = 0; 
+	private int _itemLastLoot = 0; 
+	
+	private L2CommandChannel _commandChannel = null; 
+	private DimensionalRift _dr;
+
+	private Future<?> _positionBroadcastTask = null; 
+	private PartyMemberPosition _positionPacket; 
+	
 	/**
 	 * constructor ensures party has always one member - leader
 	 * 
@@ -82,6 +96,7 @@ public class L2Party
 	 */
 	public L2Party(L2PcInstance leader, int itemDistribution)
 	{
+		_members = new FastList<L2PcInstance>();
 		_itemDistribution = itemDistribution;
 		getPartyMembers().add(leader);
 		_partyLvl = leader.getLevel();
@@ -97,45 +112,42 @@ public class L2Party
 		return getPartyMembers().size();
 	}
 
-	/**
-	 * returns number of players that already been invited, but not replied yet
-	 * 
-	 * @return
-	 */
-	public int getPendingInvitationNumber()
+	/** 
+	 * Check if another player can start invitation process 
+	 * @return boolean if party waits for invitation respond 
+	 */ 
+	public boolean getPendingInvitation()
 	{
 		return _pendingInvitation;
-	}
+	} 
 
-	/**
-	 * decrease number of players that already been invited but not replied yet happens when: player join party or
-	 * player decline to join
-	 */
-	public void decreasePendingInvitationNumber()
-	{
-		_pendingInvitation--;
-	}
+	/** 
+	 * set invitation process flag and store time for expiration 
+	 * happens when: player join party or player decline to join 
+	*/ 
+	public void setPendingInvitation(boolean val) 
+	{ 
+		_pendingInvitation = val; 
+		_pendingInviteTimeout = GameTimeController.getGameTicks() + L2PcInstance.REQUEST_TIMEOUT * GameTimeController.TICKS_PER_SECOND; 
+	} 
 
-	/**
-	 * increase number of players that already been invite but not replied yet
-	 */
-	public void increasePendingInvitationNumber()
-	{
-		_pendingInvitation++;
-	}
+	/** 
+	 * Check if player invitation is expired 
+	 * @return boolean if time is expired 
+	 * @see com.l2jserver.gameserver.model.actor.instance.L2PcInstance#isRequestExpired() 
+	 */ 
+	public boolean isInvitationRequestExpired() 
+	{ 
+		return !(_pendingInviteTimeout > GameTimeController.getGameTicks()); 
+	}	         
 
 	/**
 	 * returns all party members
 	 * 
 	 * @return
 	 */
-	public List<L2PcInstance> getPartyMembers()
+	public final FastList<L2PcInstance> getPartyMembers()
 	{
-		if(_members == null)
-		{
-			_members = new FastList<L2PcInstance>();
-		}
-
 		return _members;
 	}
 
@@ -144,20 +156,20 @@ public class L2Party
 	 * 
 	 * @return
 	 */
-	//private L2PcInstance getRandomMember() { return getPartyMembers().get(Rnd.get(getPartyMembers().size())); }
 	private L2PcInstance getCheckedRandomMember(int ItemId, L2Character target)
 	{
 		List<L2PcInstance> availableMembers = new FastList<L2PcInstance>();
 
 		for(L2PcInstance member : getPartyMembers())
 		{
+			
 			if(member.getInventory().validateCapacityByItemId(ItemId) && Util.checkIfInRange(Config.ALT_PARTY_RANGE2, target, member, true))
 			{
 				availableMembers.add(member);
 			}
 		}
 
-		if(availableMembers.size() > 0)
+		if (!availableMembers.isEmpty())
 			return availableMembers.get(Rnd.get(availableMembers.size()));
 		else
 			return null;
@@ -168,28 +180,17 @@ public class L2Party
 	 * 
 	 * @return
 	 */
-	/*private L2PcInstance getNextLooter()
-	{
-		_itemLastLoot++;
-		if (_itemLastLoot > getPartyMembers().size() -1) _itemLastLoot = 0;
-
-		return (getPartyMembers().size() > 0) ? getPartyMembers().get(_itemLastLoot) : null;
-	}*/
 	private L2PcInstance getCheckedNextLooter(int ItemId, L2Character target)
 	{
 		for(int i = 0; i < getMemberCount(); i++)
 		{
-			_itemLastLoot++;
-			if(_itemLastLoot >= getMemberCount())
-			{
-				_itemLastLoot = 0;
-			}
+			if (++_itemLastLoot >= getMemberCount()) _itemLastLoot = 0;
 
 			L2PcInstance member;
 			try
 			{
 				member = getPartyMembers().get(_itemLastLoot);
-				if(member.getInventory().validateCapacityByItemId(ItemId) && Util.checkIfInRange(Config.ALT_PARTY_RANGE2, target, member, true))
+				if (member.getInventory().validateCapacityByItemId(ItemId) && Util.checkIfInRange(Config.ALT_PARTY_RANGE2, target, member, true))  
 					return member;
 			}
 			catch(Exception e)
@@ -278,6 +279,28 @@ public class L2Party
 		}
 	}
 
+	public void broadcastToPartyMembersNewLeader() 
+	{
+		for (L2PcInstance member : getPartyMembers()) 
+		{ 
+			if (member != null) 
+			{ 
+				member.sendPacket(new PartySmallWindowDeleteAll()); 
+				member.sendPacket(new PartySmallWindowAll(member, this)); 
+				member.broadcastUserInfo(); 
+			} 
+		} 
+	}
+	
+	public void broadcastCSToPartyMembers(CreatureSay msg, L2PcInstance broadcaster) 
+	{ 
+		for (L2PcInstance member : getPartyMembers()) 
+		{ 
+			if (member != null && !BlockList.isBlocked(member, broadcaster)) 
+				member.sendPacket(msg); 
+		} 
+	} 
+	
 	/**
 	 * Send a Server->Client packet to all other L2PcInstance of the Party.<BR>
 	 * <BR>
@@ -298,15 +321,13 @@ public class L2Party
 	 * 
 	 * @param player
 	 */
-	public void addPartyMember(L2PcInstance player)
+	public synchronized void addPartyMember(L2PcInstance player)
 	{
-
+		if (getPartyMembers().contains(player)) 
+			return; 
+		
 		//sends new member party window for all members
-		//we do all actions before adding member to a list, this speeds things up a little
-		PartySmallWindowAll window = new PartySmallWindowAll();
-		window.setPartyList(getPartyMembers());
-		player.sendPacket(window);
-		window = null;
+		player.sendPacket(new PartySmallWindowAll(player, this));
 
 		SystemMessage msg = new SystemMessage(SystemMessageId.YOU_JOINED_S1_PARTY);
 		msg.addString(getLeader().getName());
@@ -316,7 +337,7 @@ public class L2Party
 		msg = new SystemMessage(SystemMessageId.S1_JOINED_PARTY);
 		msg.addString(player.getName());
 		broadcastToPartyMembers(msg);
-		broadcastToPartyMembers(new PartySmallWindowAdd(player));
+		broadcastToPartyMembers(new PartySmallWindowAdd(player, this));
 		msg = null;
 
 		//add player to party, adjust party level
@@ -327,26 +348,56 @@ public class L2Party
 		}
 
 		// update partySpelled
-		for(L2PcInstance member : getPartyMembers())
-		{
-			member.updateEffectIcons(true); // update party icons only
+		for (L2PcInstance member : getPartyMembers()) 
+		{ 
+			if (member != null) 
+				member.updateEffectIcons(true); // update party icons only
+			
+			member.broadcastUserInfo(); 
 		}
 
 		if(isInDimensionalRift())
 		{
 			_dr.partyMemberInvited();
 		}
+		
+		 // open the CCInformationwindow
+		if (isInCommandChannel())
+			player.sendPacket(new ExOpenMPCC());
+		
+		// activate position task
+		if (_positionBroadcastTask == null)
+			_positionBroadcastTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PositionBroadcast(), PARTY_POSITION_BROADCAST/2, PARTY_POSITION_BROADCAST);
+		
 	}
 
 	/**
-	 * removes player from party
-	 * 
-	 * @param player
+	 * Remove player from party
+	 * Overloaded method that takes player's name as parameter 
+	 * @param name
+	 */
+	public void removePartyMember(String name) 
+	{ 
+		L2PcInstance player = getPlayerByName(name); 
+	
+		if (player != null) 
+			removePartyMember(player); 
+	} 
+	
+	/** 
+ 	 * Remove player from party 
+	 * @param player 
 	 */
 	public void removePartyMember(L2PcInstance player)
 	{
+		removePartyMember(player, true);
+	}
+	
+	public synchronized void removePartyMember(L2PcInstance player, boolean sendMessage)
+	{
 		if(getPartyMembers().contains(player))
 		{
+			boolean isLeader = isLeader(player);
 			getPartyMembers().remove(player);
 			recalculatePartyLevel();
 
@@ -360,38 +411,76 @@ public class L2Party
 				DuelManager.getInstance().onRemoveFromParty(player);
 			}
 
-			SystemMessage msg = new SystemMessage(SystemMessageId.YOU_LEFT_PARTY);
-			player.sendPacket(msg);
+			if (sendMessage) 
+		 	{ 
+				player.sendPacket(new SystemMessage(SystemMessageId.YOU_LEFT_PARTY));
+				SystemMessage msg = new SystemMessage(SystemMessageId.S1_LEFT_PARTY); 
+				msg.addString(player.getName());
+				broadcastToPartyMembers(msg);
+				msg = null;
+		 	}
+			
 			player.sendPacket(new PartySmallWindowDeleteAll());
 			player.setParty(null);
-			msg = null;
 
-			msg = new SystemMessage(SystemMessageId.S1_LEFT_PARTY);
-			msg.addString(player.getName());
-			broadcastToPartyMembers(msg);
 			broadcastToPartyMembers(new PartySmallWindowDelete(player));
-			msg = null;
 
 			if(isInDimensionalRift())
 			{
 				_dr.partyMemberExited(player);
 			}
 
+			// Close the CCInfoWindow 
+		 	if (isInCommandChannel())
+		 	{ 
+		 		player.sendPacket(new ExCloseMPCC());
+		 	}
+		 	
+		 	if (isLeader && getPartyMembers().size() > 1) 
+		 	{
+		 		SystemMessage msg = new SystemMessage(SystemMessageId.S1_HAS_BECOME_A_PARTY_LEADER);
+		 		msg.addString(getLeader().getName());
+		 		broadcastToPartyMembers(msg);
+		 		msg = null;
+		 		broadcastToPartyMembersNewLeader();
+		 	}
+		 	
 			if(getPartyMembers().size() == 1)
 			{
-				getLeader().setParty(null);
+				if (isInCommandChannel()) 
+				{ 
+					// delete the whole command channel when the party who opened the channel is disbanded 
+					if (getCommandChannel().getChannelLeader().equals(getLeader()))
+					{
+						getCommandChannel().disbandChannel();
+					}
+				 	else { 
+				 		getCommandChannel().removeParty(this);
+				 	}
+				} 
 
-				if(getLeader().isInDuel())
-				{
-					DuelManager.getInstance().onRemoveFromParty(getLeader());
+				L2PcInstance leader = getLeader(); 
+				if (leader != null) 
+				{ 
+					leader.setParty(null); 
+					if (leader.isInDuel())
+					{
+						DuelManager.getInstance().onRemoveFromParty(leader);	
+					} 
 				}
+
+				if (_positionBroadcastTask != null) 
+				{
+					_positionBroadcastTask.cancel(false); 
+					_positionBroadcastTask = null; 
+				} 
+				_members.clear();
 			}
 		}
 	}
 
 	/**
 	 * Change party leader (used for string arguments)
-	 * 
 	 * @param name
 	 */
 
@@ -399,152 +488,55 @@ public class L2Party
 	{
 		L2PcInstance player = getPlayerByName(name);
 
-		if(player != null && !player.isInDuel())
+		if (player != null && !player.isInDuel())
 		{
-			if(getPartyMembers().contains(player))
+			if (getPartyMembers().contains(player))
 			{
-				if(isLeader(player))
-				{
+				if (isLeader(player))
 					player.sendPacket(new SystemMessage(SystemMessageId.YOU_CANNOT_TRANSFER_RIGHTS_TO_YOURSELF));
-				}
 				else
 				{
 					//Swap party members
 					L2PcInstance temp;
 					int p1 = getPartyMembers().indexOf(player);
 					temp = getLeader();
-					getPartyMembers().set(0, getPartyMembers().get(p1));
-					getPartyMembers().set(p1, temp);
-					temp = null;
+					getPartyMembers().set(0,getPartyMembers().get(p1));
+					getPartyMembers().set(p1,temp);
 
 					SystemMessage msg = new SystemMessage(SystemMessageId.S1_HAS_BECOME_A_PARTY_LEADER);
 					msg.addString(getLeader().getName());
 					broadcastToPartyMembers(msg);
-					broadcastToPartyMembers(new PartySmallWindowUpdate(getLeader()));
-					msg = null;
+					broadcastToPartyMembersNewLeader();
 
-					if(isInCommandChannel())
+					if (isInCommandChannel() && temp.equals(_commandChannel.getChannelLeader()))
 					{
-						_commandChannel.setChannelLeader(getPartyMembers().get(0));
+						_commandChannel.setChannelLeader(getLeader());
+						msg = new SystemMessage(SystemMessageId.COMMAND_CHANNEL_LEADER_NOW_S1);
+						msg.addString(_commandChannel.getChannelLeader().getName());
+						_commandChannel.broadcastToChannelMembers(msg);
 					}
 				}
 			}
 			else
-			{
 				player.sendPacket(new SystemMessage(SystemMessageId.YOU_CAN_TRANSFER_RIGHTS_ONLY_TO_ANOTHER_PARTY_MEMBER));
-			}
 		}
-
-		player = null;
 	}
 
-	/**
-	 * finds a player in the party by name
-	 * 
-	 * @param name
-	 * @return
-	 */
+    /**
+     * finds a player in the party by name
+     * @param name
+     * @return
+     */
 	private L2PcInstance getPlayerByName(String name)
 	{
 		for(L2PcInstance member : getPartyMembers())
 		{
-			if(member.getName().equals(name))
+			if (member.getName().equalsIgnoreCase(name)) 
 				return member;
 		}
 		return null;
 	}
-
-	/**
-	 * Oust player from party
-	 * 
-	 * @param player
-	 */
-	public void oustPartyMember(L2PcInstance player)
-	{
-		if(getPartyMembers().contains(player))
-		{
-			if(isLeader(player))
-			{
-				removePartyMember(player);
-
-				if(getPartyMembers().size() > 1)
-				{
-					SystemMessage msg = new SystemMessage(SystemMessageId.S1_HAS_BECOME_A_PARTY_LEADER);
-					msg.addString(getLeader().getName());
-					broadcastToPartyMembers(msg);
-					broadcastToPartyMembers(new PartySmallWindowUpdate(getLeader()));
-					msg = null;
-				}
-			}
-			else
-			{
-				removePartyMember(player);
-			}
-
-			if(getPartyMembers().size() == 1)
-			{
-				// No more party needed
-				_members = null;
-			}
-		}
-	}
-
-	/**
-	 * Oust player from party Overloaded method that takes player's name as parameter
-	 * 
-	 * @param name
-	 */
-	public void oustPartyMember(String name)
-	{
-		L2PcInstance player = getPlayerByName(name);
-
-		if(player != null)
-		{
-			if(isLeader(player))
-			{
-				removePartyMember(player);
-
-				if(getPartyMembers().size() > 1)
-				{
-					SystemMessage msg = new SystemMessage(SystemMessageId.S1_HAS_BECOME_A_PARTY_LEADER);
-					msg.addString(getLeader().getName());
-					broadcastToPartyMembers(msg);
-					broadcastToPartyMembers(new PartySmallWindowUpdate(getLeader()));
-					msg = null;
-				}
-			}
-			else
-			{
-				removePartyMember(player);
-			}
-
-			if(getPartyMembers().size() == 1)
-			{
-				// No more party needed
-				_members = null;
-			}
-		}
-
-		player = null;
-	}
-
-	/**
-	 * dissolves entire party
-	 */
-	/*  [DEPRECATED]
-	 private void dissolveParty()
-	 {
-	 	SystemMessage msg = new SystemMessage(SystemMessageId.PARTY_DISPERSED);
-	 	for(int i = 0; i < _members.size(); i++)
-	 	{
-	 		L2PcInstance temp = _members.get(i);
-	 		temp.sendPacket(msg);
-	 		temp.sendPacket(new PartySmallWindowDeleteAll());
-	 		temp.setParty(null);
-	 	}
-	 }
-	 */
-
+	
 	/**
 	 * distribute item(s) to party members
 	 * 
@@ -640,7 +632,7 @@ public class L2Party
 
 		// Check the number of party members that must be rewarded
 		// (The party member must be in range to receive its reward)
-		List<L2PcInstance> ToReward = new FastList<L2PcInstance>();
+		List<L2PcInstance> ToReward = FastList.newInstance();
 
 		for(L2PcInstance member : membersList)
 		{
@@ -652,7 +644,7 @@ public class L2Party
 		}
 
 		// Avoid null exceptions, if any
-		if(ToReward == null || ToReward.isEmpty())
+		if (ToReward.isEmpty())
 			return;
 
 		// Now we can actually distribute the adena reward
@@ -663,9 +655,7 @@ public class L2Party
 		{
 			member.addAdena("Party", count, player, true);
 		}
-
-		membersList = null;
-		ToReward = null;
+		FastList.recycle((FastList<?>) ToReward);
 	}
 
 	/**
@@ -781,6 +771,12 @@ public class L2Party
 
 		for(L2PcInstance member : getPartyMembers())
 		{
+			if (member == null) 
+			{ 
+				getPartyMembers().remove(member); 
+				continue; 
+			}
+			
 			if(member.getLevel() > newLevel)
 			{
 				newLevel = member.getLevel();
@@ -794,7 +790,7 @@ public class L2Party
 	{
 		List<L2PlayableInstance> validMembers = new FastList<L2PlayableInstance>();
 
-		//		Fixed LevelDiff cutoff point
+		// Fixed LevelDiff cutoff point
 		if(Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("level"))
 		{
 			for(L2PlayableInstance member : members)
@@ -805,7 +801,7 @@ public class L2Party
 				}
 			}
 		}
-		//		Fixed MinPercentage cutoff point
+		// Fixed MinPercentage cutoff point
 		else if(Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("percentage"))
 		{
 			int sqLevelSum = 0;
@@ -825,7 +821,7 @@ public class L2Party
 				}
 			}
 		}
-		//		Automatic cutoff method
+		// Automatic cutoff method
 		else if(Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("auto"))
 		{
 			int sqLevelSum = 0;
@@ -931,8 +927,31 @@ public class L2Party
 		return _dr;
 	}
 
-	public L2PcInstance getLeader()
-	{
-		return getPartyMembers().get(0);
-	}
+	public L2PcInstance getLeader() 
+ 	{ 
+ 	try 
+ 	{ 
+ 	return _members.getFirst(); 
+ 	} 
+ 	catch(NoSuchElementException e) 
+ 	{ 
+ 	return null; 
+ 	} 
+ 	} 
+
+	private class PositionBroadcast implements Runnable 
+ 	{ 
+		@Override 
+		public void run() 
+		{
+			if (_positionPacket == null) { 
+				_positionPacket = new PartyMemberPosition(L2Party.this);
+			}
+			else { 
+				_positionPacket.reuse(L2Party.this);
+			}
+
+			broadcastToPartyMembers(L2Party.this._positionPacket);
+		}
+ 	}
 }

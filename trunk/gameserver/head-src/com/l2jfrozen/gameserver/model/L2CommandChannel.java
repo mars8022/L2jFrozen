@@ -24,23 +24,24 @@ import javolution.util.FastList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExCloseMPCC;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOpenMPCC;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 
 /**
  * @author chris_00
  */
 public class L2CommandChannel
 {
-	private List<L2Party> _partys = null;
+	private final List<L2Party> _partys;
 	private L2PcInstance _commandLeader = null;
 	private int _channelLvl;
 
 	/**
 	 * Creates a New Command Channel and Add the Leaders party to the CC
-	 * 
 	 * @param CommandChannelLeader
 	 */
 	public L2CommandChannel(L2PcInstance leader)
@@ -60,6 +61,9 @@ public class L2CommandChannel
 	 */
 	public void addParty(L2Party party)
 	{
+		if (party == null)
+			return;
+		
 		_partys.add(party);
 
 		if(party.getLevel() > _channelLvl)
@@ -68,6 +72,7 @@ public class L2CommandChannel
 		}
 
 		party.setCommandChannel(this);
+		party.broadcastToPartyMembers(new SystemMessage(SystemMessageId.JOINED_COMMAND_CHANNEL));
 		party.broadcastToPartyMembers(new ExOpenMPCC());
 	}
 
@@ -78,6 +83,9 @@ public class L2CommandChannel
 	 */
 	public void removeParty(L2Party party)
 	{
+		if (party == null)
+			return;
+		
 		_partys.remove(party);
 		_channelLvl = 0;
 
@@ -94,10 +102,8 @@ public class L2CommandChannel
 
 		if(_partys.size() < 2)
 		{
-			SystemMessage sm = SystemMessage.sendString("The Command Channel was disbanded.");
-			broadcastToChannelMembers(sm);
+			broadcastToChannelMembers(new SystemMessage(SystemMessageId.COMMAND_CHANNEL_DISBANDED)); 
 			disbandChannel();
-			sm = null;
 		}
 	}
 
@@ -106,15 +112,15 @@ public class L2CommandChannel
 	 */
 	public void disbandChannel()
 	{
-		for(L2Party party : _partys)
-		{
-			if(party != null)
-			{
-				removeParty(party);
-			}
-		}
-
-		//_partys = null;
+		if (_partys != null) 
+		{ 
+			for (L2Party party : _partys) 
+		 	{ 
+				if (party != null) 
+					removeParty(party); 
+		 	} 
+		} 
+		_partys.clear(); 
 	}
 
 	/**
@@ -141,7 +147,7 @@ public class L2CommandChannel
 	 */
 	public void broadcastToChannelMembers(L2GameServerPacket gsp)
 	{
-		if(!_partys.isEmpty())
+		if (_partys != null && !_partys.isEmpty())
 		{
 			for(L2Party party : _partys)
 			{
@@ -153,6 +159,18 @@ public class L2CommandChannel
 		}
 	}
 
+	  public void broadcastCSToChannelMembers(CreatureSay gsp, L2PcInstance broadcaster) 
+	  { 
+		  if (_partys != null && !_partys.isEmpty()) 
+		  { 
+			  for (L2Party party : _partys) 
+			  { 
+				  if (party != null) 
+					  party.broadcastCSToPartyMembers(gsp, broadcaster); 
+			  } 
+		  } 
+	  }
+	  
 	/**
 	 * @return list of Parties in Command Channel
 	 */

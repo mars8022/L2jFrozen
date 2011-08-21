@@ -53,7 +53,7 @@ public final class RequestOustPartyMember extends L2GameClientPacket
 			}
 			else
 			{
-				activeChar.getParty().oustPartyMember(_name);
+				activeChar.getParty().removePartyMember(_name);
 			}
 		}
 	}

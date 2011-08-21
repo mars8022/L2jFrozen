@@ -163,7 +163,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 		SystemMessage msg;
 
 		// summary of ppl already in party and ppl that get invitation
-		if(requestor.getParty().getMemberCount()== 9)
+		if(requestor.getParty().getMemberCount() >= 9)
 		{
 			requestor.sendPacket(new SystemMessage(SystemMessageId.PARTY_FULL));
 			return;
@@ -175,11 +175,17 @@ public final class RequestJoinParty extends L2GameClientPacket
 			return;
 		}
 
+		 if (requestor.getParty().getPendingInvitation() && !requestor.getParty().isInvitationRequestExpired()) 
+		 { 
+			 requestor.sendPacket(new SystemMessage(SystemMessageId.WAITING_FOR_ANOTHER_REPLY)); 
+			 return;
+		 }
+		 
 		if(!target.isProcessingRequest())
 		{
 			requestor.onTransactionRequest(target);
 			target.sendPacket(new AskJoinParty(requestor.getName(), _itemDistribution));
-			requestor.getParty().increasePendingInvitationNumber();
+			requestor.getParty().setPendingInvitation(true);
 
 			if(Config.DEBUG)
 			{
@@ -219,7 +225,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 
 			requestor.onTransactionRequest(target);
 			target.sendPacket(new AskJoinParty(requestor.getName(), _itemDistribution));
-			requestor.getParty().increasePendingInvitationNumber();
+			requestor.getParty().setPendingInvitation(true);
 
 			if(Config.DEBUG)
 			{

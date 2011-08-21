@@ -172,7 +172,7 @@ public class AdminEditChar implements IAdminCommandHandler
 							// And re-add
 							if(member != player)
 							{
-								member.sendPacket(new PartySmallWindowAll());
+								member.sendPacket(new PartySmallWindowAll(player, player.getParty()));
 							}
 						}
 					}
