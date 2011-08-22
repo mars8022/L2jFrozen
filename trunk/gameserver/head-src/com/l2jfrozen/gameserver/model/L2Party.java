@@ -86,7 +86,7 @@ public class L2Party
 	private DimensionalRift _dr;
 
 	private Future<?> _positionBroadcastTask = null; 
-	private PartyMemberPosition _positionPacket; 
+	protected PartyMemberPosition _positionPacket; 
 	
 	/**
 	 * constructor ensures party has always one member - leader
@@ -939,7 +939,7 @@ public class L2Party
  	} 
  	} 
 
-	private class PositionBroadcast implements Runnable 
+	protected class PositionBroadcast implements Runnable 
  	{ 
 		@Override 
 		public void run() 

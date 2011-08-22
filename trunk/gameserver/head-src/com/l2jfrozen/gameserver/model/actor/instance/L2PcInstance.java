@@ -10448,7 +10448,10 @@ public final class L2PcInstance extends L2PlayableInstance
 			boolean isCastle = (((L2DoorInstance) target).getCastle() != null
 					&& ((L2DoorInstance) target).getCastle().getCastleId() > 0
 					&& ((L2DoorInstance) target).getCastle().getSiege().getIsInProgress());
-			if (!isCastle)
+			boolean isFort = (((L2DoorInstance) target).getFort() != null
+					&& ((L2DoorInstance) target).getFort().getFortId() > 0
+					&& ((L2DoorInstance) target).getFort().getSiege().getIsInProgress());
+			if ((!isCastle && !isFort))
 				return;
 		}
 		
