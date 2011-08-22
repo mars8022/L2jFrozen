@@ -145,9 +145,13 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
 							for(String character_name: players_in_boxes){
 								L2PcInstance actual_player = L2World.getInstance().getPlayer(character_name);
 								
-								if(actual_player!=null && actual_player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(actual_player)){
-									already_in_oly = true;
-									break;
+								if (actual_player != null)
+								{
+									if (actual_player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(actual_player))
+									{
+										already_in_oly = true;
+										break;										
+									}
 								}
 							}
 						
