@@ -2285,6 +2285,8 @@ public final class Config
 	/** Chat filter */
 	public static boolean USE_CHAT_FILTER;
 	public static int MONSTER_RETURN_DELAY;
+	
+	public static boolean SCROLL_STACKABLE;
 
 	public static boolean ALLOW_VERSION_COMMAND;
 	public static boolean ALLOW_CHAR_KILL_PROTECT;
@@ -2322,127 +2324,128 @@ public final class Config
 	public static String PVP2_CUSTOM_MESSAGE;
 
 	//============================================================
-	public static void loadL2SCORIAConfig()
+	public static void loadL2JFrozenConfig()
 	{
-		final String SCORIA = FService.L2JFROZEN_CONFIG_FILE;
+		final String L2JFROZEN = FService.L2JFROZEN_CONFIG_FILE;
 
 		try
 		{
-			Properties L2ScoriaSettings = new Properties();
-			InputStream is = new FileInputStream(new File(SCORIA));
-			L2ScoriaSettings.load(is);
+			Properties L2JFrozenSettings = new Properties();
+			InputStream is = new FileInputStream(new File(L2JFROZEN));
+			L2JFrozenSettings.load(is);
 			is.close();
 
 			/** Custom Tables **/
-			CUSTOM_SPAWNLIST_TABLE = Boolean.valueOf(L2ScoriaSettings.getProperty("CustomSpawnlistTable", "True"));
-			SAVE_GMSPAWN_ON_CUSTOM = Boolean.valueOf(L2ScoriaSettings.getProperty("SaveGmSpawnOnCustom", "True"));
-			DELETE_GMSPAWN_ON_CUSTOM = Boolean.valueOf(L2ScoriaSettings.getProperty("DeleteGmSpawnOnCustom", "True"));
+			CUSTOM_SPAWNLIST_TABLE = Boolean.valueOf(L2JFrozenSettings.getProperty("CustomSpawnlistTable", "True"));
+			SAVE_GMSPAWN_ON_CUSTOM = Boolean.valueOf(L2JFrozenSettings.getProperty("SaveGmSpawnOnCustom", "True"));
+			DELETE_GMSPAWN_ON_CUSTOM = Boolean.valueOf(L2JFrozenSettings.getProperty("DeleteGmSpawnOnCustom", "True"));
 
-			ONLINE_PLAYERS_ON_LOGIN = Boolean.valueOf(L2ScoriaSettings.getProperty("OnlineOnLogin", "False"));
-			SHOW_SERVER_VERSION = Boolean.valueOf(L2ScoriaSettings.getProperty("ShowServerVersion", "False"));
+			ONLINE_PLAYERS_ON_LOGIN = Boolean.valueOf(L2JFrozenSettings.getProperty("OnlineOnLogin", "False"));
+			SHOW_SERVER_VERSION = Boolean.valueOf(L2JFrozenSettings.getProperty("ShowServerVersion", "False"));
 
 			/** Protector **/
-			PROTECTOR_PLAYER_PK = Boolean.parseBoolean(L2ScoriaSettings.getProperty("ProtectorPlayerPK", "false"));
-			PROTECTOR_PLAYER_PVP = Boolean.parseBoolean(L2ScoriaSettings.getProperty("ProtectorPlayerPVP", "false"));
-			PROTECTOR_RADIUS_ACTION = Integer.parseInt(L2ScoriaSettings.getProperty("ProtectorRadiusAction", "500"));
-			PROTECTOR_SKILLID = Integer.parseInt(L2ScoriaSettings.getProperty("ProtectorSkillId", "1069"));
-			PROTECTOR_SKILLLEVEL = Integer.parseInt(L2ScoriaSettings.getProperty("ProtectorSkillLevel", "42"));
-			PROTECTOR_SKILLTIME = Integer.parseInt(L2ScoriaSettings.getProperty("ProtectorSkillTime", "800"));
-			PROTECTOR_MESSAGE = L2ScoriaSettings.getProperty("ProtectorMessage", "Protector, not spawnkilling here, go read the rules !!!");
+			PROTECTOR_PLAYER_PK = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ProtectorPlayerPK", "false"));
+			PROTECTOR_PLAYER_PVP = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ProtectorPlayerPVP", "false"));
+			PROTECTOR_RADIUS_ACTION = Integer.parseInt(L2JFrozenSettings.getProperty("ProtectorRadiusAction", "500"));
+			PROTECTOR_SKILLID = Integer.parseInt(L2JFrozenSettings.getProperty("ProtectorSkillId", "1069"));
+			PROTECTOR_SKILLLEVEL = Integer.parseInt(L2JFrozenSettings.getProperty("ProtectorSkillLevel", "42"));
+			PROTECTOR_SKILLTIME = Integer.parseInt(L2JFrozenSettings.getProperty("ProtectorSkillTime", "800"));
+			PROTECTOR_MESSAGE = L2JFrozenSettings.getProperty("ProtectorMessage", "Protector, not spawnkilling here, go read the rules !!!");
 
 			/** Donator color name **/
-			DONATOR_NAME_COLOR_ENABLED = Boolean.parseBoolean(L2ScoriaSettings.getProperty("DonatorNameColorEnabled", "False"));
-			DONATOR_NAME_COLOR = Integer.decode("0x" + L2ScoriaSettings.getProperty("DonatorColorName", "00FFFF"));
-			DONATOR_TITLE_COLOR = Integer.decode("0x" + L2ScoriaSettings.getProperty("DonatorTitleColor", "00FF00"));
-			DONATOR_XPSP_RATE = Float.parseFloat(L2ScoriaSettings.getProperty("DonatorXpSpRate", "1.5"));
-			DONATOR_ADENA_RATE = Float.parseFloat(L2ScoriaSettings.getProperty("DonatorAdenaRate", "1.5"));
-			DONATOR_DROP_RATE = Float.parseFloat(L2ScoriaSettings.getProperty("DonatorDropRate", "1.5"));
-			DONATOR_SPOIL_RATE = Float.parseFloat(L2ScoriaSettings.getProperty("DonatorSpoilRate", "1.5"));
+			DONATOR_NAME_COLOR_ENABLED = Boolean.parseBoolean(L2JFrozenSettings.getProperty("DonatorNameColorEnabled", "False"));
+			DONATOR_NAME_COLOR = Integer.decode("0x" + L2JFrozenSettings.getProperty("DonatorColorName", "00FFFF"));
+			DONATOR_TITLE_COLOR = Integer.decode("0x" + L2JFrozenSettings.getProperty("DonatorTitleColor", "00FF00"));
+			DONATOR_XPSP_RATE = Float.parseFloat(L2JFrozenSettings.getProperty("DonatorXpSpRate", "1.5"));
+			DONATOR_ADENA_RATE = Float.parseFloat(L2JFrozenSettings.getProperty("DonatorAdenaRate", "1.5"));
+			DONATOR_DROP_RATE = Float.parseFloat(L2JFrozenSettings.getProperty("DonatorDropRate", "1.5"));
+			DONATOR_SPOIL_RATE = Float.parseFloat(L2JFrozenSettings.getProperty("DonatorSpoilRate", "1.5"));
 
 			/** Welcome Htm **/
-			WELCOME_HTM = Boolean.parseBoolean(L2ScoriaSettings.getProperty("WelcomeHtm", "False"));
+			WELCOME_HTM = Boolean.parseBoolean(L2JFrozenSettings.getProperty("WelcomeHtm", "False"));
 
 			/** Server Name **/
-			ALT_Server_Name_Enabled = Boolean.parseBoolean(L2ScoriaSettings.getProperty("ServerNameEnabled", "false"));
-			ANNOUNCE_TO_ALL_SPAWN_RB = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AnnounceToAllSpawnRb", "false"));
-			ANNOUNCE_TRY_BANNED_ACCOUNT = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AnnounceTryBannedAccount", "false"));
-			ALT_Server_Name = String.valueOf(L2ScoriaSettings.getProperty("ServerName"));
-			DIFFERENT_Z_CHANGE_OBJECT = Integer.parseInt(L2ScoriaSettings.getProperty("DifferentZchangeObject", "650"));
-			DIFFERENT_Z_NEW_MOVIE = Integer.parseInt(L2ScoriaSettings.getProperty("DifferentZnewmovie", "1000"));
+			ALT_Server_Name_Enabled = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ServerNameEnabled", "false"));
+			ANNOUNCE_TO_ALL_SPAWN_RB = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AnnounceToAllSpawnRb", "false"));
+			ANNOUNCE_TRY_BANNED_ACCOUNT = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AnnounceTryBannedAccount", "false"));
+			ALT_Server_Name = String.valueOf(L2JFrozenSettings.getProperty("ServerName"));
+			DIFFERENT_Z_CHANGE_OBJECT = Integer.parseInt(L2JFrozenSettings.getProperty("DifferentZchangeObject", "650"));
+			DIFFERENT_Z_NEW_MOVIE = Integer.parseInt(L2JFrozenSettings.getProperty("DifferentZnewmovie", "1000"));
 
-			ALLOW_SIMPLE_STATS_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowSimpleStatsView", "True"));
-			ALLOW_DETAILED_STATS_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowDetailedStatsView", "False"));
-			ALLOW_ONLINE_VIEW = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowOnlineView", "False"));
+			ALLOW_SIMPLE_STATS_VIEW = Boolean.valueOf(L2JFrozenSettings.getProperty("AllowSimpleStatsView", "True"));
+			ALLOW_DETAILED_STATS_VIEW = Boolean.valueOf(L2JFrozenSettings.getProperty("AllowDetailedStatsView", "False"));
+			ALLOW_ONLINE_VIEW = Boolean.valueOf(L2JFrozenSettings.getProperty("AllowOnlineView", "False"));
 
-			KEEP_SUBCLASS_SKILLS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("KeepSubClassSkills", "False"));
+			KEEP_SUBCLASS_SKILLS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("KeepSubClassSkills", "False"));
 
-			ALLOWED_SKILLS = L2ScoriaSettings.getProperty("AllowedSkills", "541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,617,618,619");
+			ALLOWED_SKILLS = L2JFrozenSettings.getProperty("AllowedSkills", "541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,617,618,619");
 			ALLOWED_SKILLS_LIST = new FastList<Integer>();
 			for(String id : ALLOWED_SKILLS.trim().split(","))
 			{
 				ALLOWED_SKILLS_LIST.add(Integer.parseInt(id.trim()));
 			}
-			CASTLE_SHIELD = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CastleShieldRestriction", "true"));
-			CLANHALL_SHIELD = Boolean.parseBoolean(L2ScoriaSettings.getProperty("ClanHallShieldRestriction", "true"));
-			APELLA_ARMORS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("ApellaArmorsRestriction", "true"));
-			OATH_ARMORS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("OathArmorsRestriction", "true"));
-			CASTLE_CROWN = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CastleLordsCrownRestriction", "true"));
-			CASTLE_CIRCLETS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CastleCircletsRestriction", "true"));
-			CHAR_TITLE = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CharTitle", "false"));
-			ADD_CHAR_TITLE = L2ScoriaSettings.getProperty("CharAddTitle", "Welcome");
+			CASTLE_SHIELD = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CastleShieldRestriction", "true"));
+			CLANHALL_SHIELD = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ClanHallShieldRestriction", "true"));
+			APELLA_ARMORS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ApellaArmorsRestriction", "true"));
+			OATH_ARMORS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("OathArmorsRestriction", "true"));
+			CASTLE_CROWN = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CastleLordsCrownRestriction", "true"));
+			CASTLE_CIRCLETS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CastleCircletsRestriction", "true"));
+			CHAR_TITLE = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CharTitle", "false"));
+			ADD_CHAR_TITLE = L2JFrozenSettings.getProperty("CharAddTitle", "Welcome");
 
-			NOBLE_CUSTOM_ITEMS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("EnableNobleCustomItem", "true"));
-			NOOBLE_CUSTOM_ITEM_ID = Integer.parseInt(L2ScoriaSettings.getProperty("NoobleCustomItemId", "6673"));
-			HERO_CUSTOM_ITEMS = Boolean.parseBoolean(L2ScoriaSettings.getProperty("EnableHeroCustomItem", "true"));
-			HERO_CUSTOM_ITEM_ID = Integer.parseInt(L2ScoriaSettings.getProperty("HeroCustomItemId", "3481"));
-			HERO_CUSTOM_DAY = Integer.parseInt(L2ScoriaSettings.getProperty("HeroCustomDay", "0"));
+			NOBLE_CUSTOM_ITEMS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("EnableNobleCustomItem", "true"));
+			NOOBLE_CUSTOM_ITEM_ID = Integer.parseInt(L2JFrozenSettings.getProperty("NoobleCustomItemId", "6673"));
+			HERO_CUSTOM_ITEMS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("EnableHeroCustomItem", "true"));
+			HERO_CUSTOM_ITEM_ID = Integer.parseInt(L2JFrozenSettings.getProperty("HeroCustomItemId", "3481"));
+			HERO_CUSTOM_DAY = Integer.parseInt(L2JFrozenSettings.getProperty("HeroCustomDay", "0"));
 
-			ALLOW_CREATE_LVL = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CustomStartingLvl", "False"));
-			CHAR_CREATE_LVL = Integer.parseInt(L2ScoriaSettings.getProperty("CharLvl", "80"));
-			SPAWN_CHAR = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CustomSpawn", "false"));
-			SPAWN_X = Integer.parseInt(L2ScoriaSettings.getProperty("SpawnX", ""));
-			SPAWN_Y = Integer.parseInt(L2ScoriaSettings.getProperty("SpawnY", ""));
-			SPAWN_Z = Integer.parseInt(L2ScoriaSettings.getProperty("SpawnZ", ""));
-			ALLOW_LOW_LEVEL_TRADE = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowLowLevelTrade", "True"));
-			ALLOW_HERO_SUBSKILL = Boolean.parseBoolean(L2ScoriaSettings.getProperty("CustomHeroSubSkill", "False"));
-			HERO_COUNT = Integer.parseInt(L2ScoriaSettings.getProperty("HeroCount", "1"));
-			CRUMA_TOWER_LEVEL_RESTRICT = Integer.parseInt(L2ScoriaSettings.getProperty("CrumaTowerLevelRestrict", "56"));
-			ALLOW_RAID_BOSS_PETRIFIED = Boolean.valueOf(L2ScoriaSettings.getProperty("AllowRaidBossPetrified", "True"));
-			ALT_PLAYER_PROTECTION_LEVEL = Integer.parseInt(L2ScoriaSettings.getProperty("AltPlayerProtectionLevel", "0"));
-			MONSTER_RETURN_DELAY = Integer.parseInt(L2ScoriaSettings.getProperty("MonsterReturnDelay", "0"));
-			ALLOW_CHAR_KILL_PROTECT = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowLowLvlProtect", "False"));
-			CLAN_LEADER_COLOR_ENABLED = Boolean.parseBoolean(L2ScoriaSettings.getProperty("ClanLeaderNameColorEnabled", "true"));
-			CLAN_LEADER_COLORED = Integer.parseInt(L2ScoriaSettings.getProperty("ClanLeaderColored", "1"));
-			CLAN_LEADER_COLOR = Integer.decode("0x" + L2ScoriaSettings.getProperty("ClanLeaderColor", "00FFFF"));
-			CLAN_LEADER_COLOR_CLAN_LEVEL = Integer.parseInt(L2ScoriaSettings.getProperty("ClanLeaderColorAtClanLevel", "1"));
-			ALLOW_VERSION_COMMAND = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowVersionCommand", "False"));
-			SAVE_RAIDBOSS_STATUS_INTO_DB = Boolean.parseBoolean(L2ScoriaSettings.getProperty("SaveRBStatusIntoDB", "False"));
-			DISABLE_WEIGHT_PENALTY = Boolean.parseBoolean(L2ScoriaSettings.getProperty("DisableWeightPenalty", "False"));
-			ALLOW_FARM1_COMMAND = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowFarm1Command", "false"));
-			ALLOW_FARM2_COMMAND = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowFarm2Command", "false"));
-			ALLOW_PVP1_COMMAND = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowPvP1Command", "false"));
-			ALLOW_PVP2_COMMAND = Boolean.parseBoolean(L2ScoriaSettings.getProperty("AllowPvP2Command", "false"));
-			FARM1_X = Integer.parseInt(L2ScoriaSettings.getProperty("farm1_X", "81304"));
-			FARM1_Y = Integer.parseInt(L2ScoriaSettings.getProperty("farm1_Y", "14589"));
-			FARM1_Z = Integer.parseInt(L2ScoriaSettings.getProperty("farm1_Z", "-3469"));
-			PVP1_X = Integer.parseInt(L2ScoriaSettings.getProperty("pvp1_X", "81304"));
-			PVP1_Y = Integer.parseInt(L2ScoriaSettings.getProperty("pvp1_Y", "14589"));
-			PVP1_Z = Integer.parseInt(L2ScoriaSettings.getProperty("pvp1_Z", "-3469"));
-			FARM2_X = Integer.parseInt(L2ScoriaSettings.getProperty("farm2_X", "81304"));
-			FARM2_Y = Integer.parseInt(L2ScoriaSettings.getProperty("farm2_Y", "14589"));
-			FARM2_Z = Integer.parseInt(L2ScoriaSettings.getProperty("farm2_Z", "-3469"));
-			PVP2_X = Integer.parseInt(L2ScoriaSettings.getProperty("pvp2_X", "81304"));
-			PVP2_Y = Integer.parseInt(L2ScoriaSettings.getProperty("pvp2_Y", "14589"));
-			PVP2_Z = Integer.parseInt(L2ScoriaSettings.getProperty("pvp2_Z", "-3469"));
-			FARM1_CUSTOM_MESSAGE = L2ScoriaSettings.getProperty("Farm1CustomMeesage", "You have been teleported to Farm Zone 1!");
-			FARM2_CUSTOM_MESSAGE = L2ScoriaSettings.getProperty("Farm2CustomMeesage", "You have been teleported to Farm Zone 2!");
-			PVP1_CUSTOM_MESSAGE = L2ScoriaSettings.getProperty("PvP1CustomMeesage", "You have been teleported to PvP Zone 1!");
-			PVP2_CUSTOM_MESSAGE = L2ScoriaSettings.getProperty("PvP2CustomMeesage", "You have been teleported to PvP Zone 2!");
+			ALLOW_CREATE_LVL = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CustomStartingLvl", "False"));
+			CHAR_CREATE_LVL = Integer.parseInt(L2JFrozenSettings.getProperty("CharLvl", "80"));
+			SPAWN_CHAR = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CustomSpawn", "false"));
+			SPAWN_X = Integer.parseInt(L2JFrozenSettings.getProperty("SpawnX", ""));
+			SPAWN_Y = Integer.parseInt(L2JFrozenSettings.getProperty("SpawnY", ""));
+			SPAWN_Z = Integer.parseInt(L2JFrozenSettings.getProperty("SpawnZ", ""));
+			ALLOW_LOW_LEVEL_TRADE = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowLowLevelTrade", "True"));
+			ALLOW_HERO_SUBSKILL = Boolean.parseBoolean(L2JFrozenSettings.getProperty("CustomHeroSubSkill", "False"));
+			HERO_COUNT = Integer.parseInt(L2JFrozenSettings.getProperty("HeroCount", "1"));
+			CRUMA_TOWER_LEVEL_RESTRICT = Integer.parseInt(L2JFrozenSettings.getProperty("CrumaTowerLevelRestrict", "56"));
+			ALLOW_RAID_BOSS_PETRIFIED = Boolean.valueOf(L2JFrozenSettings.getProperty("AllowRaidBossPetrified", "True"));
+			ALT_PLAYER_PROTECTION_LEVEL = Integer.parseInt(L2JFrozenSettings.getProperty("AltPlayerProtectionLevel", "0"));
+			MONSTER_RETURN_DELAY = Integer.parseInt(L2JFrozenSettings.getProperty("MonsterReturnDelay", "0"));
+			MONSTER_RETURN_DELAY = Integer.parseInt(L2JFrozenSettings.getProperty("ScrollStackable", "0"));
+			ALLOW_CHAR_KILL_PROTECT = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowLowLvlProtect", "False"));
+			CLAN_LEADER_COLOR_ENABLED = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ClanLeaderNameColorEnabled", "true"));
+			CLAN_LEADER_COLORED = Integer.parseInt(L2JFrozenSettings.getProperty("ClanLeaderColored", "1"));
+			CLAN_LEADER_COLOR = Integer.decode("0x" + L2JFrozenSettings.getProperty("ClanLeaderColor", "00FFFF"));
+			CLAN_LEADER_COLOR_CLAN_LEVEL = Integer.parseInt(L2JFrozenSettings.getProperty("ClanLeaderColorAtClanLevel", "1"));
+			ALLOW_VERSION_COMMAND = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowVersionCommand", "False"));
+			SAVE_RAIDBOSS_STATUS_INTO_DB = Boolean.parseBoolean(L2JFrozenSettings.getProperty("SaveRBStatusIntoDB", "False"));
+			DISABLE_WEIGHT_PENALTY = Boolean.parseBoolean(L2JFrozenSettings.getProperty("DisableWeightPenalty", "False"));
+			ALLOW_FARM1_COMMAND = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowFarm1Command", "false"));
+			ALLOW_FARM2_COMMAND = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowFarm2Command", "false"));
+			ALLOW_PVP1_COMMAND = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowPvP1Command", "false"));
+			ALLOW_PVP2_COMMAND = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowPvP2Command", "false"));
+			FARM1_X = Integer.parseInt(L2JFrozenSettings.getProperty("farm1_X", "81304"));
+			FARM1_Y = Integer.parseInt(L2JFrozenSettings.getProperty("farm1_Y", "14589"));
+			FARM1_Z = Integer.parseInt(L2JFrozenSettings.getProperty("farm1_Z", "-3469"));
+			PVP1_X = Integer.parseInt(L2JFrozenSettings.getProperty("pvp1_X", "81304"));
+			PVP1_Y = Integer.parseInt(L2JFrozenSettings.getProperty("pvp1_Y", "14589"));
+			PVP1_Z = Integer.parseInt(L2JFrozenSettings.getProperty("pvp1_Z", "-3469"));
+			FARM2_X = Integer.parseInt(L2JFrozenSettings.getProperty("farm2_X", "81304"));
+			FARM2_Y = Integer.parseInt(L2JFrozenSettings.getProperty("farm2_Y", "14589"));
+			FARM2_Z = Integer.parseInt(L2JFrozenSettings.getProperty("farm2_Z", "-3469"));
+			PVP2_X = Integer.parseInt(L2JFrozenSettings.getProperty("pvp2_X", "81304"));
+			PVP2_Y = Integer.parseInt(L2JFrozenSettings.getProperty("pvp2_Y", "14589"));
+			PVP2_Z = Integer.parseInt(L2JFrozenSettings.getProperty("pvp2_Z", "-3469"));
+			FARM1_CUSTOM_MESSAGE = L2JFrozenSettings.getProperty("Farm1CustomMeesage", "You have been teleported to Farm Zone 1!");
+			FARM2_CUSTOM_MESSAGE = L2JFrozenSettings.getProperty("Farm2CustomMeesage", "You have been teleported to Farm Zone 2!");
+			PVP1_CUSTOM_MESSAGE = L2JFrozenSettings.getProperty("PvP1CustomMeesage", "You have been teleported to PvP Zone 1!");
+			PVP2_CUSTOM_MESSAGE = L2JFrozenSettings.getProperty("PvP2CustomMeesage", "You have been teleported to PvP Zone 2!");
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Load " + SCORIA + " File.");
+			throw new Error("Failed to Load " + L2JFROZEN + " File.");
 		}
 	}
 
@@ -4361,7 +4364,7 @@ public final class Config
 			loadBossConfig();
 
 			// Head functions
-			loadL2SCORIAConfig();
+			loadL2JFrozenConfig();
 			loadPHYSICSConfig();
 			loadAccessConfig();
 			loadPvpConfig();

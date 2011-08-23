@@ -519,8 +519,14 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INAPPROPRIATE_ENCHANT_CONDITION));
 			return;
 		}
-
-		scroll = activeChar.getInventory().destroyItem("Enchant", scroll.getObjectId(), 1, activeChar, item);
+		
+		if (Config.SCROLL_STACKABLE) {
+			scroll = activeChar.getInventory().destroyItem("Enchant", scroll.getObjectId(), 1, activeChar, item);
+		}
+		else {
+			scroll = activeChar.getInventory().destroyItem("Enchant", scroll, activeChar, item);
+		}
+		
 		if(scroll == null)
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
