@@ -139,7 +139,9 @@ public class Pdam implements ISkillHandler
 			if(skill.getBaseCritRate() > 0)
 				crit = Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.STR.calcBonus(activeChar));
 			
-			boolean soul = (ss && weapon.getItemType() != L2WeaponType.DAGGER);
+			boolean soul = false;
+			if(weapon!=null)
+				soul = (ss && weapon.getItemType() != L2WeaponType.DAGGER);
 
 			if(!crit && (skill.getCondition() & L2Skill.COND_CRIT) != 0)
 				damage = 0;

@@ -580,6 +580,10 @@ public abstract class L2Effect
 			{
 				mi.addEffect(sk.getId(), getLevel(), sk.getBuffDuration() - getTaskTime() * 1000);
 			}
+			else if(!sk.isToggle())
+			{
+				mi.addEffect(sk.getId(), getLevel(), _count * _period * 1000);
+			}
 			else
 			{
 				mi.addEffect(sk.getId(), getLevel(), -1);

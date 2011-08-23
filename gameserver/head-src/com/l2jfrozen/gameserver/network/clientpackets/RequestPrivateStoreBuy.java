@@ -73,6 +73,20 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 
 			_items[i] = new ItemRequest(objectId, (int) count, price);
 		}
+		
+		if(Config.DEBUG){
+			
+			_log.info("Player "+getClient().getActiveChar().getName()+" requested to buy to storeId "+_storePlayerId+" Items Number: "+_count);
+			
+			for(int i = 0; i < _count; i++)
+			{
+				_log.info("Requested Item ObjectID: "+_items[i].getObjectId());
+				_log.info("Requested Item Id: "+_items[i].getItemId());
+				_log.info("Requested Item count: "+_items[i].getCount());
+				_log.info("Requested Item price: "+_items[i].getPrice());
+				
+			}
+		}
 	}
 
 	@Override

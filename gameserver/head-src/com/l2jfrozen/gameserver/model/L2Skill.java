@@ -1412,17 +1412,9 @@ public abstract class L2Skill
 
 		if(isPotion()){
 			
-			if(!activeChar.isDead()){
-				
-				return new L2Character[]{
-				       					activeChar
-				       				};
-				
-			}else{
-				
-				return null;
-				
-			}
+			return new L2Character[]{
+   					activeChar
+   				};
 			
 		}
 		
@@ -2957,9 +2949,6 @@ public abstract class L2Skill
 
 	public final L2Object[] getTargetList(L2Character activeChar)
 	{
-		if(isPotion()){
-			
-		}
 		return getTargetList(activeChar, false);
 	}
 

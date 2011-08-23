@@ -56,7 +56,13 @@ public class Heal implements ISkillHandler
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
-		//		L2Character activeChar = activeChar;
+		L2PcInstance player = null;
+		if(activeChar instanceof L2PcInstance)
+			player = (L2PcInstance) activeChar;
+		
+		boolean bss = activeChar.checkBss();
+		boolean sps = activeChar.checkSps();
+		
 		//check for other effects
 		try
 		{
@@ -74,13 +80,7 @@ public class Heal implements ISkillHandler
 		}
 
 		L2Character target = null;
-		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
-
-		L2PcInstance player = null;
-		if(activeChar instanceof L2PcInstance)
-			player = (L2PcInstance) activeChar;
-		boolean clearSpiritShot = false;
-
+		
 		for(L2Object target2 : targets)
 		{
 			target = (L2Character) target2;
@@ -110,41 +110,14 @@ public class Heal implements ISkillHandler
 			}
 			else
 			{
-				//Added effect of SpS and Bsps
-				if(weaponInst != null)
-				{
-					if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-					{
-						hp *= 1.5;
-						clearSpiritShot = true;
-					}
-					else if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-					{
-						hp *= 1.3;
-						clearSpiritShot = true;
-					}
+				if(bss){
+					hp *= 1.5;
+				}else if(sps){
+					hp *= 1.3;
 				}
-				// If there is no weapon equipped, check for an active summon.
-				else if(activeChar instanceof L2Summon)
-				{
-					L2Summon activeSummon = (L2Summon) activeChar;
-
-					if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT)
-					{
-						hp *= 1.5;
-						clearSpiritShot = true;
-					}
-					else if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT)
-					{
-						hp *= 1.3;
-						clearSpiritShot = true;
-					}
-					activeSummon = null;
-				}
+				
 			}
 
-			//int cLev = activeChar.getLevel();
-			//hp += skill.getPower()/*+(Math.sqrt(cLev)*cLev)+cLev*/;
 			if(skill.getSkillType() == SkillType.HEAL_STATIC)
 				hp = skill.getPower();
 			else if(skill.getSkillType() != SkillType.HEAL_PERCENT)
@@ -186,21 +159,13 @@ public class Heal implements ISkillHandler
 			}
 			target = null;
 		}
-		if(clearSpiritShot)
-		{
-			if(activeChar instanceof L2Summon)
-			{
-				L2Summon activeSummon = (L2Summon) activeChar;
-				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
-				activeSummon = null;
-			}
-			else
-			{
-				if(weaponInst != null)
-					weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
-			}
+		
+		if(bss){
+			activeChar.removeBss();
+		}else if(sps){
+			activeChar.removeSps();
 		}
-		weaponInst = null;
+		
 	}
 
 	@Override

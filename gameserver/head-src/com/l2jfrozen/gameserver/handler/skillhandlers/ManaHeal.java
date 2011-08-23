@@ -53,9 +53,6 @@ public class ManaHeal implements ISkillHandler
 	@Override
 	public void useSkill(L2Character actChar, L2Skill skill, L2Object[] targets)
 	{
-		boolean bss = actChar.checkBss();
-		boolean sps = actChar.checkSps();
-		
 		for(L2Character target : (L2Character[]) targets)
 		{
 			double mp = skill.getPower();
@@ -93,16 +90,6 @@ public class ManaHeal implements ISkillHandler
 				target.sendPacket(sm);
 			}
 			
-			
-		}
-		
-		if(!skill.isPotion()){
-			
-			if (bss){
-				actChar.removeBss();
-			}else if(sps){
-				actChar.removeSps();
-			}
 			
 		}
 		

@@ -705,9 +705,7 @@ public class Shutdown extends Thread
 				player.store();
 				//SystemMessage sm = new SystemMessage(SystemMessage.YOU_HAVE_WON_THE_WAR_OVER_THE_S1_CLAN);
 				//player.sendPacket(sm);
-				ServerClose ql = new ServerClose();
-				player.sendPacket(ql);
-				ql = null;
+				player.sendPacket(ServerClose.STATIC_PACKET);
 			}
 			catch(Throwable t)
 			{

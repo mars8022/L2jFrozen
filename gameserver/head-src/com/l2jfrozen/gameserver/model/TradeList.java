@@ -218,7 +218,7 @@ public class TradeList
 		for(TradeList.TradeItem item : _items)
 		{
 			item = new TradeItem(item, item.getCount(), item.getPrice());
-			inventory.adjustAvailableItem(item);
+			inventory.adjustAvailableItem(item,list);
 			list.add(item);
 		}
 
@@ -1167,7 +1167,7 @@ public class TradeList
 				}
 				return false;
 			}
-
+			
 			// Proceed with item transfer
 			L2ItemInstance newItem = playerInventory.transferItem("PrivateStore", item.getObjectId(), item.getCount(), ownerInventory, player, _owner);
 			if(newItem == null){
