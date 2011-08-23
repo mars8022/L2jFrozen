@@ -8683,9 +8683,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		
 		player.setCurrentHpDirect(curHp);
-		player.setCurrentCp(curCp);
-		player.setCurrentMp(curMp);
-		
+		player.setCurrentCpDirect(curCp);
+		player.setCurrentMpDirect(curMp);
+		//player.setCurrentCp(curCp);
+		//player.setCurrentMp(curMp);
 		
 		return player;
 	}

@@ -365,12 +365,22 @@ public class CharStatus
 		return _currentCp;
 	}
 
+	public final void setCurrentCpDirect(double newCp)
+	{
+		setCurrentCp(newCp, true, true);
+	}
+	
 	public final void setCurrentCp(double newCp)
 	{
-		setCurrentCp(newCp, true);
+		setCurrentCp(newCp, true, false);
 	}
 
 	public final void setCurrentCp(double newCp, boolean broadcastPacket)
+	{
+		setCurrentCp(newCp, broadcastPacket, false);
+	}
+	
+	public final void setCurrentCp(double newCp, boolean broadcastPacket, boolean direct)
 	{
 		synchronized (this)
 		{
@@ -382,7 +392,7 @@ public class CharStatus
 				newCp = 0;
 			}
 
-			if(newCp >= maxCp)
+			if(newCp >= maxCp && !direct)
 			{
 				// Set the RegenActive flag to false
 				_currentCp = maxCp;
@@ -425,6 +435,11 @@ public class CharStatus
 	public final void setCurrentHpDirect(double newHp)
 	{
 		setCurrentHp(newHp, true, true);
+	}
+	
+	public final void setCurrentMpDirect(double newMp)
+	{
+		setCurrentMp(newMp, true, true);
 	}
 
 	public final void setCurrentHp(double newHp, boolean broadcastPacket)
@@ -478,8 +493,8 @@ public class CharStatus
 
 	public final void setCurrentHpMp(double newHp, double newMp)
 	{
-		setCurrentHp(newHp, false);
-		setCurrentMp(newMp, true); //send the StatusUpdate only once
+		setCurrentHp(newHp, false,false);
+		setCurrentMp(newMp, true,false); //send the StatusUpdate only once
 	}
 
 	public final double getCurrentMp()
@@ -494,12 +509,17 @@ public class CharStatus
 
 	public final void setCurrentMp(double newMp, boolean broadcastPacket)
 	{
+		setCurrentMp(newMp, broadcastPacket,false);
+	}
+	
+	public final void setCurrentMp(double newMp, boolean broadcastPacket, boolean direct)
+	{
 		synchronized (this)
 		{
 			// Get the Max MP of the L2Character
 			int maxMp = getActiveChar().getStat().getMaxMp();
 
-			if(newMp >= maxMp)
+			if(newMp >= maxMp && !direct)
 			{
 				// Set the RegenActive flag to false
 				_currentMp = maxMp;

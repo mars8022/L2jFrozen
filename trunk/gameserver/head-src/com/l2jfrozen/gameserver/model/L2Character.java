@@ -1136,6 +1136,9 @@ public abstract class L2Character extends L2Object
 			wasSSCharged = weaponInst != null && weaponInst.getChargedSoulshot() != L2ItemInstance.CHARGED_NONE;
 		}
 
+		//disable movements during hit
+		this.setIsImobilised(true);
+		
 		// Get the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
 		int timeAtk = calculateTimeBetweenAttacks(target, weaponItem);
 		// the hit is calculated to happen halfway to the animation - might need further tuning e.g. in bow case
@@ -1682,7 +1685,7 @@ public abstract class L2Character extends L2Object
 		//}
 
 		// Get all possible targets of the skill in a table in function of the skill target type
-		L2Object[] targets = skill.getTargetList(activeChar);
+		final L2Object[] targets = skill.getTargetList(activeChar);
 		// Set the target of the skill in function of Skill Type and Target Type
 		L2Character target = null;
 
@@ -1785,6 +1788,25 @@ public abstract class L2Character extends L2Object
 		}
 
 		// Calculate altered Cast Speed due to BSpS/SpS
+		if((checkBss() || checkSps()) && !skill.isStaticHitTime() && !skill.isPotion()){
+			
+			//Only takes 70% of the time to cast a BSpS/SpS cast
+			hitTime = (int) (0.70 * hitTime);
+			coolTime = (int) (0.70 * coolTime);
+
+			//Because the following are magic skills that do not actively 'eat' BSpS/SpS,
+			//I must 'eat' them here so players don't take advantage of infinite speed increase
+			if(skill.getSkillType() == SkillType.MANAHEAL || skill.getSkillType() == SkillType.RESURRECT || skill.getSkillType() == SkillType.RECALL)
+			{
+				if(checkBss())
+					removeBss();
+				else
+					removeSps();
+			}
+		}
+		
+		/*
+		// Calculate altered Cast Speed due to BSpS/SpS
 		L2ItemInstance weaponInst = getActiveWeaponInstance();
 
 		if(weaponInst != null && skill.isMagic() && !forceBuff && skill.getTargetType() != SkillTargetType.TARGET_SELF && !skill.isStaticHitTime() && !skill.isPotion())
@@ -1805,6 +1827,7 @@ public abstract class L2Character extends L2Object
 		}
 
 		weaponInst = null;
+		*/
 
 		if(skill.isPotion()){
 			// Set the _castEndTime and _castInterruptTim. +10 ticks for lag situations, will be reseted in onMagicFinalizer
@@ -1965,9 +1988,7 @@ public abstract class L2Character extends L2Object
 		{
 				skill, target, targets
 		});
-		targets = null;
-		target = null;
-	
+		
 	}
 
 	/**
@@ -6290,6 +6311,9 @@ public abstract class L2Character extends L2Object
 	 */
 	protected void onHitTimer(L2Character target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld)
 	{
+		//enable movements after hit
+		this.setIsImobilised(false);
+		
 		// If the attacker/target is dead or use fake death, notify the AI with EVT_CANCEL
 		// and send a Server->Client packet ActionFailed (if attacker is a L2PcInstance)
 		if(target == null || isAlikeDead() || this instanceof L2NpcInstance && ((L2NpcInstance) this).isEventMob)
@@ -8064,6 +8088,12 @@ public abstract class L2Character extends L2Object
 		{
 			if(skill.isToggle() && getFirstEffect(skill.getId()) != null)
 				return;
+			
+			if(targets == null || targets.length == 0)
+			{
+				getAI().notifyEvent(CtrlEvent.EVT_CANCEL);
+				return;
+			}
 
 			// Do initial checkings for skills and set pvp flag/draw aggro when needed
 			for(L2Object target : targets)
@@ -9035,6 +9065,16 @@ public abstract class L2Character extends L2Object
 	public final void setCurrentHpDirect(double newHp)
 	{
 		getStatus().setCurrentHpDirect(newHp);
+	}
+	
+	public final void setCurrentCpDirect(double newCp)
+	{
+		getStatus().setCurrentCpDirect(newCp);
+	}
+	
+	public final void setCurrentMpDirect(double newMp)
+	{
+		getStatus().setCurrentMpDirect(newMp);
 	}
 
 	public final void setCurrentHpMp(double newHp, double newMp)

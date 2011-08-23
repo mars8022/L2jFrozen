@@ -124,6 +124,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	private boolean _closenow = true;
 	private boolean _isDetached = false;
 
+	private boolean _forcedToClose = false;
+	
 	private final ArrayBlockingQueue<ReceivablePacket<L2GameClient>> _packetQueue;
 	private ReentrantLock _queueLock = new ReentrantLock();
 	
@@ -554,7 +556,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				_log.severe("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
 			
 			if (character.getClient() != null)
-				character.getClient().closeNow(false);
+				character.getClient().closeNow();
 			else{
 				character.deleteMe();
 				
@@ -646,13 +648,14 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	@Override
 	public void onForcedDisconnection(boolean critical)
 	{
+		_forcedToClose = true;
 		
 		if(critical)
 			_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
 		
 		//the force operation will allow to not save client position to prevent again criticals
 		//and stuck
-		closeNow(true);
+		closeNow();
 		
 		
 		/*
@@ -746,30 +749,23 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	/**
 	 * Close client connection with {@link ServerClose} packet
 	 */
-	public void closeNow(boolean forced)
-	{
-		close(0,forced);
-	}
-	
-	/**
-	 * Close client connection with {@link ServerClose} packet
-	 */
 	public void closeNow()
 	{
-		close(0,false);
+		close(0);
 	}
 	
 	/**
 	 * Close client connection with {@link ServerClose} packet
 	 */
-	public void close(int delay, boolean forced)
+	public void close(int delay)
 	{
+		
 		close(ServerClose.STATIC_PACKET);
 		synchronized (this)
 		{
 			if (_cleanupTask != null)
 				cancelCleanup();
-			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new CleanupTask(forced), delay); //delayed
+			_cleanupTask = ThreadPoolManager.getInstance().scheduleGeneral(new CleanupTask(), delay); //delayed
 		}
 		stopGuardTask();
 		nProtect.getInstance().closeSession(this);
@@ -822,11 +818,6 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	
 	private class CleanupTask implements Runnable
 	{
-		private boolean _forced = false;
-		
-		public CleanupTask(boolean forced){
-			_forced = forced;
-		}
 		/**
 		 * @see java.lang.Runnable#run()
 		 */
@@ -849,7 +840,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				if (_autoSaveInDB != null)
 					_autoSaveInDB.cancel(true);
 				
-				L2PcInstance player = getActiveChar();
+				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if (player != null) // this should only happen on connection loss
 				{
 					// we store all data from players who are disconnected while in an event in order to restore it in the next login
@@ -898,7 +889,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					
 					try
 					{
-						player.store(_forced);
+						player.store(_forcedToClose);
 					}
 					catch(Exception e2)
 					{
@@ -908,7 +899,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					
 				}
 				
-				setActiveChar(null);
+				L2GameClient.this.setActiveChar(null);
 			}
 			catch (Exception e1)
 			{
@@ -950,7 +941,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				if(_autoSaveInDB != null)
 					_autoSaveInDB.cancel(true);
 
-				L2PcInstance player = getActiveChar();
+				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if(player != null) // this should only happen on connection loss
 				{
 
@@ -1035,7 +1026,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					
 				}
 
-				setActiveChar(null);
+				L2GameClient.this.setActiveChar(null);
 
 				player = null;
 			}
@@ -1048,7 +1039,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			}
 			finally
 			{
-				LoginServerThread.getInstance().sendLogout(getAccountName());
+				LoginServerThread.getInstance().sendLogout(L2GameClient.this.getAccountName());
 			}
 		}
 	}
@@ -1118,13 +1109,13 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if (getStats().countUnderflowException())
 		{
 			_log.severe("Client " + toString() + " - Disconnected: Too many buffer underflow exceptions.");
-			closeNow(false);
+			closeNow();
 			return;
 		}
 		if (state == GameClientState.CONNECTED) // in CONNECTED state kick client immediately
 		{
 			_log.severe("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
-			closeNow(false);
+			closeNow();
 		}
 	}
 	
@@ -1136,7 +1127,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if (getStats().countFloods())
 		{
 			_log.severe("Client " + toString() + " - Disconnected, too many floods:"+getStats().longFloods+" long and "+getStats().shortFloods+" short.");
-			closeNow(false);
+			closeNow();
 			return;
 		}
 		
@@ -1145,7 +1136,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			if (getStats().countQueueOverflow())
 			{
 				_log.severe("Client " + toString() + " - Disconnected, too many queue overflows.");
-				closeNow(false);
+				closeNow();
 			}
 			else
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -1163,7 +1154,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				if (getStats().processedPackets > 3)
 				{
 					_log.severe("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
-					closeNow(false);
+					closeNow();
 					return;
 				}
 				
@@ -1228,4 +1219,14 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			_queueLock.unlock();
 		}
 	}
+
+	/**
+	 * @return the _forcedToClose
+	 */
+	public boolean is_forcedToClose()
+	{
+		return _forcedToClose;
+	}
+	
+	
 }

@@ -51,7 +51,7 @@ public class Fishing implements ISkillHandler
 		if(activeChar == null || !(activeChar instanceof L2PcInstance))
 			return;
 
-		L2PcInstance player = (L2PcInstance) activeChar;
+		final L2PcInstance player = (L2PcInstance) activeChar;
 
 		/* If fishing is disabled, there isn't much point in doing anything else, unless you are GM.
 		 * so this got moved up here, before anything else.
@@ -144,7 +144,7 @@ public class Fishing implements ISkillHandler
 			// Player Z:" + z + ", " + player.getZ()); //debug line, shows hook 
 			// landing related coordinates. Uncoment if needed.
 		}
-		else if(aimingTo != null && GeoData.getInstance().canSeeTarget(player.getX(), player.getY(), player.getZ() + 50, x, y, water.getWaterZ() - 50))
+		else if(aimingTo != null && water != null && GeoData.getInstance().canSeeTarget(player.getX(), player.getY(), player.getZ() + 50, x, y, water.getWaterZ() - 50))
 			z = aimingTo.getWaterZ() + 10;
 		else
 		{
@@ -178,7 +178,7 @@ public class Fishing implements ISkillHandler
 		// fishing... :P
 		player.startFishing(x, y, z);
 
-		player = null;
+		//player = null;
 	}
 
 	@Override

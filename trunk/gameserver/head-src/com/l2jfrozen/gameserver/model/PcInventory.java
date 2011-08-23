@@ -279,22 +279,59 @@ public class PcInventory extends Inventory
 	 * @param item : L2ItemInstance to be adjusten
 	 * @return TradeItem representing adjusted item
 	 */
-	public void adjustAvailableItem(TradeItem item)
+	public void adjustAvailableItem(TradeItem item, List<TradeList.TradeItem> list)
 	{
 		for(L2ItemInstance adjItem : _items)
 		{
-			if(adjItem.getItemId() == item.getItem().getItemId())
-			{
-				item.setObjectId(adjItem.getObjectId());
-				item.setEnchant(adjItem.getEnchantLevel());
-
-				if(adjItem.getCount() < item.getCount())
+			if(adjItem.isStackable()){
+				
+				if(adjItem.getItemId() == item.getItem().getItemId())
 				{
-					item.setCount(adjItem.getCount());
-				}
+					item.setObjectId(adjItem.getObjectId());
+					item.setEnchant(adjItem.getEnchantLevel());
 
-				return;
+					if(adjItem.getCount() < item.getCount())
+					{
+						item.setCount(adjItem.getCount());
+					}
+
+					return;
+				}
+				
+			}else{
+				
+				if(adjItem.getItemId() == item.getItem().getItemId())
+				{
+					boolean found = false;
+					for(TradeList.TradeItem actual:list){
+						
+						if(actual.getObjectId() == adjItem.getObjectId()){
+							found = true;
+							break;
+						}
+						
+					}
+					
+					if(found){
+						continue;
+					}else{
+						item.setObjectId(adjItem.getObjectId());
+						item.setEnchant(adjItem.getEnchantLevel());
+
+						if(adjItem.getCount() < item.getCount())
+						{
+							item.setCount(adjItem.getCount());
+						}
+
+						return;
+					}
+					
+					
+					
+				}
+				
 			}
+			
 		}
 
 		item.setCount(0);

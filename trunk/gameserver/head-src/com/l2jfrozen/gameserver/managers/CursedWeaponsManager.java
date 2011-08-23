@@ -355,15 +355,8 @@ public class CursedWeaponsManager
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not check CursedWeapons data: " + e);
-
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(Config.DEBUG)
-			{
-				System.out.println("ERROR");
-			}
+			_log.warning("Could not check CursedWeapons data: ");
+			e.printStackTrace();
 			
 		}
 		finally
