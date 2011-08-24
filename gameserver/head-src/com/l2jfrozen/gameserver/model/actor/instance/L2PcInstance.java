@@ -2765,6 +2765,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 	}
 
+	/*
 	public void checkIfWeaponIsAllowed()
 	{
 		// Override for Gamemasters
@@ -2794,6 +2795,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			continue;
 		}
 	}
+	*/
 
 	public void checkSSMatch(L2ItemInstance equipped, L2ItemInstance unequipped)
 	{
@@ -3361,7 +3363,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean isSitting()
 	{
-		return _waitTypeSitting;
+		return _waitTypeSitting || sittingTaskLaunched;
 	}
 
 	/**

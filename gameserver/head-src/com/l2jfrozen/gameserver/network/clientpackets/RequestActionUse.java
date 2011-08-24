@@ -354,10 +354,12 @@ public final class RequestActionUse extends L2GameClientPacket
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
+				
+				// Like L2OFF - You can't open Manufacture when you are in private store
 				if(activeChar.getPrivateStoreType() != 0)
 				{
-					activeChar.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
-					activeChar.broadcastUserInfo();
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
 				}
 				
 				// Like L2OFF - You can't open Manufacture when you are sitting
@@ -414,10 +416,11 @@ public final class RequestActionUse extends L2GameClientPacket
 					return;
 				}
 
+				// Like L2OFF - You can't open Manufacture when you are in private store
 				if(activeChar.getPrivateStoreType() != 0)
 				{
-					activeChar.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
-					activeChar.broadcastUserInfo();
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
 				}
 
 				// Like L2OFF - You can't open Manufacture when you are sitting
