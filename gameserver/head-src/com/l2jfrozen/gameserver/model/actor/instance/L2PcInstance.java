@@ -36,11 +36,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
-import org.apache.commons.lang.RandomStringUtils;
-
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.commons.lang.RandomStringUtils;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;

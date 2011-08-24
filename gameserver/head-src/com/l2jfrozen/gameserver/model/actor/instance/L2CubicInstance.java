@@ -17,6 +17,8 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -38,8 +40,6 @@ import com.l2jfrozen.gameserver.skills.l2skills.L2SkillDrain;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
-
-import javolution.util.FastList;
 
 public class L2CubicInstance
 {

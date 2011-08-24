@@ -18,9 +18,10 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.Map; 
-import javolution.util.FastMap; 
-	
+import java.util.Map;
+
+import javolution.util.FastMap;
+
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;

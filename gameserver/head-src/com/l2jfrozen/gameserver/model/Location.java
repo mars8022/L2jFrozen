@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import com.l2jfrozen.gameserver.model.L2Character;
 
 /**
  * This class ...

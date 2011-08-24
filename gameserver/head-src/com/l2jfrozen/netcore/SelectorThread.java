@@ -29,9 +29,9 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-import com.l2jfrozen.gameserver.network.L2GameClient;
-
 import javolution.util.FastList;
+
+import com.l2jfrozen.gameserver.network.L2GameClient;
 
 /**
  * @author KenM<BR>
