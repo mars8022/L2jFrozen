@@ -326,7 +326,7 @@ public class L2CharacterAI extends AbstractAI
 			return;
 		}
 
-		if(_actor.isAllSkillsDisabled() || _actor.isImobilised())
+		if(_actor.isAllSkillsDisabled() || (_actor.isAttackingNow() && !_actor.isCastingNow()))
 		{
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();

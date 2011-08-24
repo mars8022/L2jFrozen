@@ -1136,8 +1136,6 @@ public abstract class L2Character extends L2Object
 			wasSSCharged = weaponInst != null && weaponInst.getChargedSoulshot() != L2ItemInstance.CHARGED_NONE;
 		}
 
-		//disable movements during hit
-		this.setIsImobilised(true);
 		
 		// Get the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
 		int timeAtk = calculateTimeBetweenAttacks(target, weaponItem);
@@ -6311,9 +6309,6 @@ public abstract class L2Character extends L2Object
 	 */
 	protected void onHitTimer(L2Character target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld)
 	{
-		//enable movements after hit
-		this.setIsImobilised(false);
-		
 		// If the attacker/target is dead or use fake death, notify the AI with EVT_CANCEL
 		// and send a Server->Client packet ActionFailed (if attacker is a L2PcInstance)
 		if(target == null || isAlikeDead() || this instanceof L2NpcInstance && ((L2NpcInstance) this).isEventMob)
