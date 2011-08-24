@@ -359,6 +359,7 @@ public final class RequestActionUse extends L2GameClientPacket
 					activeChar.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
 					activeChar.broadcastUserInfo();
 				}
+				
 				if(activeChar.isSitting())
 				{
 					activeChar.standUp();
@@ -412,9 +413,11 @@ public final class RequestActionUse extends L2GameClientPacket
 					activeChar.broadcastUserInfo();
 				}
 
+				// Like L2OFF - You can't open Manufacture when you are sitting
 				if(activeChar.isSitting())
 				{
-					activeChar.standUp();
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
 				}
 
 				if(activeChar.getCreateList() == null)
