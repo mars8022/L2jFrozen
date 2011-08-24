@@ -360,7 +360,14 @@ public final class RequestActionUse extends L2GameClientPacket
 					activeChar.broadcastUserInfo();
 				}
 				
-				if(activeChar.isSitting())
+				// Like L2OFF - You can't open Manufacture when you are sitting
+				if(activeChar.isSitting() && activeChar.getCreateList() == null)
+				{
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}	
+				
+				if(activeChar.isSitting() && activeChar.getCreateList() != null)
 				{
 					activeChar.standUp();
 				}
@@ -414,10 +421,15 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 
 				// Like L2OFF - You can't open Manufacture when you are sitting
-				if(activeChar.isSitting())
+				if(activeChar.isSitting() && activeChar.getCreateList() == null)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
+				}	
+				
+				if(activeChar.isSitting() && activeChar.getCreateList() != null)
+				{
+					activeChar.standUp();
 				}
 
 				if(activeChar.getCreateList() == null)

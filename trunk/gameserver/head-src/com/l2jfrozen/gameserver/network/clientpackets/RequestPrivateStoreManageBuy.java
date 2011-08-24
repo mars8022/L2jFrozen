@@ -60,10 +60,15 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 		}
 		
 		// Like L2OFF - You can't open buy/sell when you are sitting
-		if(player.isSitting())
+		if(player.isSitting() && player.getPrivateStoreType() == 0)
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
+		}
+		
+		if(player.isSitting() && player.getPrivateStoreType() != 0)
+		{
+			player.standUp();
 		}
 
 		if(player.getMountType() != 0)
