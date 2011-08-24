@@ -1042,11 +1042,12 @@ class L2OlympiadGame extends Olympiad
 			player.refreshMasteryPenality();
 			player.refreshMasteryWeapPenality();
 			
-
+			/*
 			if(wpn.getItem().getType2() == L2Item.TYPE2_WEAPON)
 			{
 				player.checkIfWeaponIsAllowed();
 			}
+			*/
 
 			player.abortAttack();
 

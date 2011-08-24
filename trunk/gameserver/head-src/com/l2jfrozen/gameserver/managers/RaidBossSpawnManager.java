@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
+import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -278,6 +279,21 @@ public class RaidBossSpawnManager
 
 			if(raidboss != null)
 			{
+				double bonus = raidboss.getStat().calcStat(Stats.MAX_HP, 1, raidboss, null);
+				
+				if(Config.DEBUG){
+					System.out.println(" bossId: "+bossId );
+					System.out.println(" 	maxHp: "+(int)raidboss.getMaxHp() );
+					System.out.println(" 	currHp: "+(int)currentHP );
+					System.out.println(" 	bonusHp: "+bonus);
+					System.out.println(" 	calculatedHp: "+(int)(bonus*currentHP));
+				}
+				
+				//if new spawn, the currentHp is equal to maxHP/bonus, so set it to max
+				if((int)(bonus*currentHP)==(int)raidboss.getMaxHp()){
+					currentHP = (int) (raidboss.getMaxHp());
+				}
+				
 				raidboss.setCurrentHp(currentHP);
 				raidboss.setCurrentMp(currentMP);
 				raidboss.setRaidStatus(StatusEnum.ALIVE);
