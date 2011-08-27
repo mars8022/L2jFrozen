@@ -1,7 +1,5 @@
 package com.l2jfrozen.gameserver.ai.special;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 
 /*
@@ -23,6 +21,7 @@ public class Golkonda extends Quest implements Runnable
 		addEventId(GOLKONDA, Quest.QuestEventType.ON_ATTACK);
 	}
 
+	/*
 	@Override
 	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
 	{
@@ -38,6 +37,7 @@ public class Golkonda extends Quest implements Runnable
 		}
 		return super.onAttack(npc, attacker, damage, isPet);
 	}
+	*/
 
 	@Override
 	public void run()

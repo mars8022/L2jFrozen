@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.RaidBossPointsManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -37,7 +38,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class L2RaidBossInstance extends L2MonsterInstance
 {
-	private static final int RAIDBOSS_MAINTENANCE_INTERVAL = 30000; // 30 sec
+	private static final int RAIDBOSS_MAINTENANCE_INTERVAL = 20000; // 20 sec
 
 	private RaidBossSpawnManager.StatusEnum _raidStatus;
 
@@ -120,15 +121,28 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 			{
 				// teleport raid boss home if it's too far from home location
 				L2Spawn bossSpawn = getSpawn();
+				
+				int rb_lock_range = Config.RBLOCKRAGE;
+				if(Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getNpcid())!=null){
+					rb_lock_range = Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getNpcid());
+				}
+				
+				if(rb_lock_range!=-1 && !isInsideRadius(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), rb_lock_range, true, false))
+				{
+					teleToLocation(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), true);
+					//healFull(); // Prevents minor exploiting with it
+				}
+				/*
 				if(!isInsideRadius(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), 5000, true, false))
 				{
 					teleToLocation(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), true);
 					healFull(); // prevents minor exploiting with it
 				}
+				*/
 				_minionList.maintainMinions();
 				bossSpawn = null;
 			}
-		}, 60000, getMaintenanceInterval() + Rnd.get(5000));
+		}, 60000, getMaintenanceInterval());
 	}
 
 	public void setRaidStatus(RaidBossSpawnManager.StatusEnum status)

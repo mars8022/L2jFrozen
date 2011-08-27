@@ -356,20 +356,21 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				
 				// Like L2OFF - You can't open Manufacture when you are in private store
-				if(activeChar.getPrivateStoreType() != 0)
+				if(activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
 				
+				
 				// Like L2OFF - You can't open Manufacture when you are sitting
-				if(activeChar.isSitting() && activeChar.getCreateList() == null)
+				if(activeChar.isSitting() && activeChar.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_MANUFACTURE)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}	
 				
-				if(activeChar.isSitting() && activeChar.getCreateList() != null)
+				if(activeChar.isSitting() && activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
 				{
 					activeChar.standUp();
 				}
@@ -417,20 +418,20 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 
 				// Like L2OFF - You can't open Manufacture when you are in private store
-				if(activeChar.getPrivateStoreType() != 0)
+				if(activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
 
 				// Like L2OFF - You can't open Manufacture when you are sitting
-				if(activeChar.isSitting() && activeChar.getCreateList() == null)
+				if(activeChar.isSitting() && activeChar.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_MANUFACTURE)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}	
 				
-				if(activeChar.isSitting() && activeChar.getCreateList() != null)
+				if(activeChar.isSitting() && activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
 				{
 					activeChar.standUp();
 				}

@@ -439,7 +439,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			DoorTable.getInstance().getDoor(25150045).closeMe();
 			DoorTable.getInstance().getDoor(25150046).closeMe();
 		}
-		else if (event.equalsIgnoreCase("loc_check"))
+		/*else if (event.equalsIgnoreCase("loc_check"))
 		{
 			Integer status = GrandBossManager.getInstance().getBossStatus(FRINTEZZA);
 			
@@ -450,7 +450,8 @@ public class Frintezza_l2j extends Quest implements Runnable
 				if (npc.getX() < getXFix(171932) || npc.getX() > getXFix(176532) || npc.getY() < getYFix(-90320) || npc.getY() > getYFix(-85720) || npc.getZ() < getZFix(-5130))
 					npc.teleToLocation(getXFix(174232),getYFix(-88020),getZFix(-5116));
 			}
-		}
+			
+		}*/
 		else if (event.equalsIgnoreCase("camera_1"))
 		{
 			GrandBossManager.getInstance().setBossStatus(FRINTEZZA,FIGHTING);
@@ -705,7 +706,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			
 			startQuestTimer("camera_23", 2000, weakScarlet, null);
 			startQuestTimer("start_pc", 2000, weakScarlet, null);
-			startQuestTimer("loc_check", 60000, weakScarlet, null, true);
+			//startQuestTimer("loc_check", 60000, weakScarlet, null, true);
 			startQuestTimer("songs_play", 10000 + Rnd.get(10000), frintezza, null);
 			startQuestTimer("skill01", 10000 + Rnd.get(10000), weakScarlet, null);
 		}
@@ -819,7 +820,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 		{
 			_Zone.broadcastPacket(new SpecialCamera(frintezza.getObjectId(),250, 120, 15, 0, 10000));
 			
-			cancelQuestTimers("loc_check");
+			//cancelQuestTimers("loc_check");
 			
 			_Scarlet_x = weakScarlet.getX();
 			_Scarlet_y = weakScarlet.getY();
@@ -883,7 +884,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.broadcastPacket(new SpecialCamera(strongScarlet.getObjectId(),450, _Angle, 12, 500, 14000));
 			
 			startQuestTimer("morph_14", 3000, strongScarlet, null);
-			startQuestTimer("loc_check", 60000, strongScarlet, null, true);
+			//startQuestTimer("loc_check", 60000, strongScarlet, null, true);
 		}
 		else if (event.equalsIgnoreCase("morph_14"))
 		{
@@ -1189,7 +1190,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				_Zone.oustAllPlayers();
 				
 				cancelQuestTimers("waiting");
-				cancelQuestTimers("loc_check");
+				//cancelQuestTimers("loc_check");
 				cancelQuestTimers("room_final");
 				cancelQuestTimers("spawn_minion");
 				startQuestTimer("clean", 1000, npc, null);
@@ -1502,7 +1503,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 		{
 			if(!npc.getSpawn().is_customBossInstance()){
 				
-				cancelQuestTimers("loc_check");
+				//cancelQuestTimers("loc_check");
 				cancelQuestTimers("spawn_minion");
 				cancelQuestTimers("frintezza_despawn");
 				startQuestTimer("clean", 30000, npc, null);
