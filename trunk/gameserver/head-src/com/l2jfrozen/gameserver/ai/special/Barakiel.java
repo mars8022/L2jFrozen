@@ -1,7 +1,5 @@
 package com.l2jfrozen.gameserver.ai.special;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 
 /*
@@ -23,11 +21,12 @@ public class Barakiel extends Quest implements Runnable
 
 		addEventId(BARAKIEL, Quest.QuestEventType.ON_ATTACK);
 	}
-
+	/*
 	@Override
 	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
 	{
 		int npcId = npc.getNpcId();
+		
 		if(npcId == BARAKIEL && !npc.getSpawn().is_customBossInstance())
 		{
 			int x = npc.getX();
@@ -38,9 +37,10 @@ public class Barakiel extends Quest implements Runnable
 				npc.getStatus().setCurrentHp(npc.getMaxHp());
 			}
 		}
+		
 		return super.onAttack(npc, attacker, damage, isPet);
 	}
-
+*/
 	@Override
 	public void run()
 	{}

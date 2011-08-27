@@ -33,7 +33,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class L2GrandBossInstance extends L2MonsterInstance
 {
-	private static final int BOSS_MAINTENANCE_INTERVAL = 10000;
+	private static final int BOSS_MAINTENANCE_INTERVAL = 20000;
 
 	/**
 	 * Constructor for L2GrandBossInstance. This represent all grandbosses.
@@ -104,18 +104,19 @@ public final class L2GrandBossInstance extends L2MonsterInstance
 				L2Spawn bossSpawn = getSpawn();
 				
 				int rb_lock_range = Config.RBLOCKRAGE;
-				if(Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getId())!=null){
-					rb_lock_range = Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getId());
+				if(Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getNpcid())!=null){
+					rb_lock_range = Config.RBS_SPECIFIC_LOCK_RAGE.get(bossSpawn.getNpcid());
 				}
 				
-				if(rb_lock_range!=-1 && !isInsideRadius(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), rb_lock_range, true, false))
+				if(rb_lock_range>=100 && !isInsideRadius(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), rb_lock_range, true, false))
 				{
 					teleToLocation(bossSpawn.getLocx(), bossSpawn.getLocy(), bossSpawn.getLocz(), true);
-					healFull(); // Prevents minor exploiting with it
+					//healFull(); // Prevents minor exploiting with it
 				}
+				
 				_minionList.maintainMinions();
 			}
-		}, 60000, getMaintenanceInterval() + Rnd.get(Config.RBLOCKRAGE));
+		}, 60000, getMaintenanceInterval());
 	}
 
 	/**

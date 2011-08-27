@@ -1173,7 +1173,7 @@
   <for>
     <effect count="1" name="Stun" time="3" val="0"/>
       <using kind="Shield"/>
-    <effect count="1" name="RemoveTarget" time="1" val="0"/>
+    <effect count="1" name="RemoveTarget" time="1" val="0" noicon="1"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1195,7 +1195,7 @@
   <for>
     <effect count="1" name="PsychicalMute" time="60" val="0"/>
       <using kind="Shield"/>
-    <effect count="1" name="RemoveTarget" time="1" val="0"/>
+    <effect count="1" name="RemoveTarget" time="1" val="0" noicon="1"/>
   </for>
 </skill>
 <skill id="354" levels="1" name="Hamstring Shot">

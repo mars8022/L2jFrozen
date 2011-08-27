@@ -1514,16 +1514,15 @@
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="40"/>
   <set name="mpInitialConsume" val="57"/>
-  <set name="mpConsume" val="284"/>
+  <set name="mpConsume" val="227"/>
   <set name="target" val="TARGET_PARTY"/>
   <set name="skillRadius" val="1000"/>
   <set name="reuseDelay" val="1200000"/>
   <set name="hitTime" val="2500"/>
-  <set name="skillType" val="BUFF"/>
+  <set name="power" val="20"/>
   <set name="isMagic" val="true"/>
+  <set name="skillType" val="HEAL_PERCENT"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="669"/>
   <for>
     <effect count="1" name="Buff" time="300" val="0" stackOrder="1" stackType="CoV">

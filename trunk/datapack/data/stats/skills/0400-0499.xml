@@ -156,7 +156,7 @@
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="reuseDelay" val="10000"/>
-  <set name="power" val="80"/>
+  <set name="power" val="30" /> <!-- Base Land Rate -->
   <set name="hitTime" val="2000"/>
   <set name="target" val="TARGET_AREA_UNDEAD"/>
   <set name="skillRadius" val="150"/>
@@ -165,7 +165,8 @@
   <set name="lethal2" val="#lethal2"/>
   <set name="castRange" val="150"/>
   <set name="effectRange" val="550"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
+  <set name="isDebuff" val="true" />
   <enchant1 name="mpConsume" val="#cost"/> 
   <enchant2 name="power" val="#chance"/>
   <for>

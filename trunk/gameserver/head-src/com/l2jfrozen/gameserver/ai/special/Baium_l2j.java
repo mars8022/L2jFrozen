@@ -293,8 +293,10 @@ public class Baium_l2j  extends Quest implements Runnable
 					npc.doCast(SkillTable.getInstance().getInfo(4135,1));
 					//npc.setIsCastingNow(true);
 				}
+				/*
 				else if (!_Zone.isInsideZone(npc))
 					npc.teleToLocation(115213, 16623, 10080);
+				*/
 			}
 		}
 		return super.onAdvEvent(event, npc, player);

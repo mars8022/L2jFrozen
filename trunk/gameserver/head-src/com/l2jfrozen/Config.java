@@ -32,6 +32,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -3625,7 +3626,7 @@ public final class Config
 	public static int RBLOCKRAGE;
 	public static boolean PLAYERS_CAN_HEAL_RB;
 	
-	public static FastMap<Integer, Integer> RBS_SPECIFIC_LOCK_RAGE;
+	public static HashMap<Integer, Integer> RBS_SPECIFIC_LOCK_RAGE;
 	
 	public static boolean ALLOW_DIRECT_TP_TO_BOSS_ROOM;
 	public static boolean ANTHARAS_OLD;
@@ -3713,7 +3714,13 @@ public final class Config
 			
 			RBLOCKRAGE = Integer.parseInt(bossSettings.getProperty("RBlockRage", "5000"));
 			
-			RBS_SPECIFIC_LOCK_RAGE = new FastMap<Integer, Integer>();
+			if(RBLOCKRAGE>0 && RBLOCKRAGE<100){
+				_log.info("ATTENTION: RBlockRage, if enabled (>0), must be >=100");
+				_log.info("	-- RBlockRage setted to 100 by default");
+				RBLOCKRAGE = 100;
+			}
+			
+			RBS_SPECIFIC_LOCK_RAGE = new HashMap<Integer, Integer>();
 			
 			String RBS_SPECIFIC_LOCK_RAGE_String = bossSettings.getProperty("RaidBossesSpecificLockRage","");
 			
@@ -3724,7 +3731,15 @@ public final class Config
 				for(String actual_boss_rage:locked_bosses){
 					String[] boss_rage = actual_boss_rage.split(",");
 					
-					RBS_SPECIFIC_LOCK_RAGE.put(Integer.parseInt(boss_rage[0]), Integer.parseInt(boss_rage[1]));
+					int specific_rage = Integer.parseInt(boss_rage[1]);
+					
+					if(specific_rage>0 && specific_rage<100){
+						_log.info("ATTENTION: RaidBossesSpecificLockRage Value for boss "+boss_rage[0]+", if enabled (>0), must be >=100");
+						_log.info("	-- RaidBossesSpecificLockRage Value for boss "+boss_rage[0]+" setted to 100 by default");
+						specific_rage = 100;
+					}
+					
+					RBS_SPECIFIC_LOCK_RAGE.put(Integer.parseInt(boss_rage[0]), specific_rage);
 				}
 				
 			}

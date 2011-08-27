@@ -58,7 +58,7 @@ public class QueenAnt extends Quest implements Runnable
 	//L2GrandBossInstance queen = null;
 	
 	enum Event{
-		QUEEN_SPAWN,CHECK_QA_ZONE,CHECK_MINIONS_ZONE,ACTION,DESPAWN_MINIONS,SPAWN_ROYAL,SPAWN_QUEEN_NURSE,SPAWN_LARVA_NURSE,LARVA_SPAWN,LARVA_DESPAWN
+		QUEEN_SPAWN,/*CHECK_QA_ZONE,*/CHECK_MINIONS_ZONE,ACTION,DESPAWN_MINIONS,SPAWN_ROYAL,SPAWN_QUEEN_NURSE,SPAWN_LARVA_NURSE,LARVA_SPAWN,LARVA_DESPAWN
 	}
 	
 	public QueenAnt(int questId, String name, String descr)
@@ -160,7 +160,7 @@ public class QueenAnt extends Quest implements Runnable
 			_Minions.add((L2Attackable) addSpawn(ROYAL, npc.getX() + x, npc.getY() + y, npc.getZ(), 0, false, 0));
 		}
 		//startQuestTimer("CHECK_MINIONS_ZONE", 30000, npc, null,true);
-		startQuestTimer("CHECK_QA_ZONE", 30000, npc, null,true);
+		startQuestTimer("CHECK_MINIONS_ZONE", 30000, npc, null,true);
 		
 	}
 
@@ -235,7 +235,7 @@ public class QueenAnt extends Quest implements Runnable
 				
 			}
 			break;
-			case CHECK_QA_ZONE:{
+			/*case CHECK_QA_ZONE:{
 				
 				int loc_x = -21610;
 				int loc_y = 181594;
@@ -249,6 +249,7 @@ public class QueenAnt extends Quest implements Runnable
 				
 			}
 			break;
+			*/
 			case SPAWN_ROYAL:{
 				
 				_Minions.add((L2Attackable) addSpawn(ROYAL, npc.getX(), npc.getY(), npc.getZ(), 0, true, 0));
@@ -365,8 +366,8 @@ public class QueenAnt extends Quest implements Runnable
 				cancelQuestTimer("ACTION", npc, null);
 				cancelQuestTimer("SPAWN_ROYAL", npc, null);
 				cancelQuestTimer("SPAWN_QUEEN_NURSE", npc, null);
-				//cancelQuestTimer("CHECK_MINIONS_ZONE", npc, null);
-				cancelQuestTimer("CHECK_QA_ZONE", npc, null);
+				cancelQuestTimer("CHECK_MINIONS_ZONE", npc, null);
+				//cancelQuestTimer("CHECK_QA_ZONE", npc, null);
 				// also save the respawn time so that the info is maintained past reboots
 				StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
 				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
