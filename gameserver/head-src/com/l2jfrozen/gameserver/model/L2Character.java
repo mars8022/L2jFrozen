@@ -606,10 +606,15 @@ public abstract class L2Character extends L2Object
 		}
 
 		// Create the Server->Client packet StatusUpdate with current HP and MP
-		StatusUpdate su = new StatusUpdate(getObjectId());
-		su.addAttribute(StatusUpdate.CUR_HP, (int) getCurrentHp());
-		su.addAttribute(StatusUpdate.CUR_MP, (int) getCurrentMp());
-
+		StatusUpdate su = null;
+		if(Config.FORCE_COMPLETE_STATUS_UPDATE && this instanceof L2PcInstance){
+			su = new StatusUpdate((L2PcInstance)this);
+		}else{
+			su = new StatusUpdate(getObjectId());
+			su.addAttribute(StatusUpdate.CUR_HP, (int) getCurrentHp());
+			su.addAttribute(StatusUpdate.CUR_MP, (int) getCurrentMp());
+		}
+		
 		// Go through the StatusListener
 		// Send the Server->Client packet StatusUpdate with current HP and MP
 		for (L2Character temp : getStatus().getStatusListener())
@@ -2476,7 +2481,7 @@ public abstract class L2Character extends L2Object
 	/** Return True if the L2Character can't move (stun, root, sleep, overload, paralyzed). */
 	public boolean isMovementDisabled()
 	{
-		return isCastingNow() || isStunned() || isRooted() || isSleeping() || isOverloaded() || isParalyzed() || isImobilised() || isFakeDeath() || isFallsdown();
+		return /*isCastingNow() || */isStunned() || isRooted() || isSleeping() || isOverloaded() || isParalyzed() || isImobilised() || isFakeDeath() || isFallsdown();
 	}
 
 	/** Return True if the L2Character can be controlled by the player (confused, afraid). */
@@ -4737,7 +4742,7 @@ public abstract class L2Character extends L2Object
 		modifiedStats = null;
 	}
 
-	private void broadcastModifiedStats(FastList<Stats> stats)
+	public void broadcastModifiedStats(FastList<Stats> stats)
 	{
 		if(stats == null || stats.isEmpty())
 			return;
@@ -6683,7 +6688,16 @@ public abstract class L2Character extends L2Object
 
 			activeWeapon = null;
 
+			if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined()){
+				((L2PcInstance) this).startMovingTask();
+			}
+			
 			return;
+			
+		}
+		
+		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined()){
+			((L2PcInstance) this).startMovingTask();
 		}
 
 		getAI().notifyEvent(CtrlEvent.EVT_CANCEL);
@@ -7805,6 +7819,7 @@ public abstract class L2Character extends L2Object
 			_castEndTime = 0;
 			_castInterruptTime = 0;
 			
+			
 			enableAllSkills();
 
 			//if the skill has changed the character's state to something other than STATE_CASTING
@@ -7861,7 +7876,6 @@ public abstract class L2Character extends L2Object
 					ThreadPoolManager.getInstance().executeTask(new QueuedMagicUseTask(currPlayer, queuedSkill.getSkill(), queuedSkill.isCtrlPressed(), queuedSkill.isShiftPressed()));
 				}
 
-				currPlayer = null;
 				queuedSkill = null;
 				
 				
@@ -7890,6 +7904,8 @@ public abstract class L2Character extends L2Object
 					}
 					
 				}
+				
+				currPlayer = null;
 				
 			}
 			
@@ -8530,6 +8546,10 @@ public abstract class L2Character extends L2Object
 		{
 			_log.log(Level.WARNING, "", e);
 		}
+		
+		if(this instanceof L2PcInstance && ((L2PcInstance)this).isMovingTaskDefined())
+			((L2PcInstance)this).startMovingTask();
+		
 	}
 
 	public void seeSpell(L2PcInstance caster, L2Object target, L2Skill skill)

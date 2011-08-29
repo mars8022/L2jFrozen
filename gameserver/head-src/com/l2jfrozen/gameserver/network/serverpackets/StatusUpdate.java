@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.Vector;
 
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+
 /**
  * 01 // Packet Identifier <BR>
  * c6 37 50 40 // ObjectId <BR>
@@ -69,14 +71,15 @@ public class StatusUpdate extends L2GameServerPacket
 	public static final int CUR_CP = 0x21;
 	public static final int MAX_CP = 0x22;
 
-	private int _objectId;
+	private L2PcInstance _actor;
+	
 	private Vector<Attribute> _attributes;
-
+	public int _objectId;
+	
 	class Attribute
 	{
-		/**
-		 * id values 09 - current health 0a - max health 0b - current mana 0c - max mana
-		 */
+		
+		//id values 09 - current health 0a - max health 0b - current mana 0c - max mana
 		public int id;
 		public int value;
 
@@ -87,31 +90,108 @@ public class StatusUpdate extends L2GameServerPacket
 		}
 	}
 
+	public StatusUpdate(L2PcInstance actor)
+	{
+		_actor = actor;
+	}
+
+	
 	public StatusUpdate(int objectId)
 	{
 		_attributes = new Vector<Attribute>();
 		_objectId = objectId;
 	}
-
+	
 	public void addAttribute(int id, int level)
 	{
 		_attributes.add(new Attribute(id, level));
 	}
 
+	
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x0e);
-		writeD(_objectId);
-		writeD(_attributes.size());
+		
+		if(_actor!=null){
+			writeD(_actor.getObjectId());
+			writeD(22); //all the attributes
 
-		for(int i = 0; i < _attributes.size(); i++)
-		{
-			Attribute temp = _attributes.get(i);
+			writeD(LEVEL);
+			writeD(_actor.getLevel());
+			writeD(EXP);
+			writeD((int) _actor.getExp());
+			writeD(STR);
+			writeD(_actor.getSTR());
+			writeD(DEX);
+			writeD(_actor.getDEX());
+			writeD(CON);
+			writeD(_actor.getCON());
+			writeD(INT);
+			writeD(_actor.getINT());
+			writeD(WIT);
+			writeD(_actor.getWIT());
+			writeD(MEN);
+			writeD(_actor.getMEN());
+			
+			writeD(CUR_HP);
+			writeD((int) _actor.getCurrentHp());
+			writeD(MAX_HP);
+			writeD(_actor.getMaxHp());
+			writeD(CUR_MP);
+			writeD((int) _actor.getCurrentMp());
+			writeD(MAX_MP);
+			writeD(_actor.getMaxMp());
+			writeD(SP);
+			writeD(_actor.getSp());
+			writeD(CUR_LOAD);
+			writeD(_actor.getCurrentLoad());
+			writeD(MAX_LOAD);
+			writeD(_actor.getMaxLoad());
+			
+			writeD(P_ATK);
+			writeD(_actor.getPAtk(null));
+			writeD(ATK_SPD);
+			writeD(_actor.getPAtkSpd());
+			writeD(P_DEF);
+			writeD(_actor.getPDef(null));
+			writeD(EVASION);
+			writeD(_actor.getEvasionRate(null));
+			writeD(ACCURACY);
+			writeD(_actor.getAccuracy());
+			writeD(CRITICAL);
+			writeD(_actor.getCriticalHit(null, null));
+			writeD(M_ATK);
+			writeD(_actor.getMAtk(null, null));
+			
+			writeD(CAST_SPD);
+			writeD(_actor.getMAtkSpd());
+			writeD(M_DEF);
+			writeD(_actor.getMDef(null, null));
+			writeD(PVP_FLAG);
+			writeD(_actor.getPvpFlag());
+			writeD(KARMA);
+			writeD(_actor.getKarma());
+			writeD(CUR_CP);
+			writeD((int) _actor.getCurrentCp());
+			writeD(MAX_CP);
+			writeD(_actor.getMaxCp());
+			
+		}else{
+			
+			writeD(_objectId);
+			writeD(_attributes.size());
 
-			writeD(temp.id);
-			writeD(temp.value);
+			for(int i = 0; i < _attributes.size(); i++)
+			{
+				Attribute temp = _attributes.get(i);
+
+				writeD(temp.id);
+				writeD(temp.value);
+			}
 		}
+		
 	}
 
 	/* (non-Javadoc)

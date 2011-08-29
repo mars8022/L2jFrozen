@@ -286,6 +286,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	 * @param arg1 The second parameter of the Intention
 	 */
 	@Override
+	public
 	synchronized void changeIntention(CtrlIntention intention, Object arg0, Object arg1)
 	{
 		if(intention == AI_INTENTION_IDLE || intention == AI_INTENTION_ACTIVE)

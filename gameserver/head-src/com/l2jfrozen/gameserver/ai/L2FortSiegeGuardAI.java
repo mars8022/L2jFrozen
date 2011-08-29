@@ -198,6 +198,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 	 * @param arg1 The second parameter of the Intention
 	 */
 	@Override
+	public
 	synchronized void changeIntention(CtrlIntention intention, Object arg0, Object arg1)
 	{
 		if(Config.DEBUG)
