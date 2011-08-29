@@ -187,6 +187,8 @@ public final class Config
 
 	public static boolean HIGH_RATE_SERVER_DROPS;
 	
+	public static boolean FORCE_COMPLETE_STATUS_UPDATE;
+	
 	//============================================================
 	public static void loadOptionsConfig()
 	{
@@ -265,6 +267,8 @@ public final class Config
 			SHOW_NPC_LVL = Boolean.valueOf(optionsSettings.getProperty("ShowNpcLevel", "False"));
 
 			FORCE_INVENTORY_UPDATE = Boolean.valueOf(optionsSettings.getProperty("ForceInventoryUpdate", "False"));
+
+			FORCE_COMPLETE_STATUS_UPDATE = Boolean.valueOf(optionsSettings.getProperty("ForceCompletePlayerStatusUpdate", "true"));
 
 			AUTODELETE_INVALID_QUEST_DATA = Boolean.valueOf(optionsSettings.getProperty("AutoDeleteInvalidQuestData", "False"));
 

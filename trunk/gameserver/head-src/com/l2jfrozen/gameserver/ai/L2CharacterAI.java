@@ -38,10 +38,12 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.MoveOnAttack;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 /**
  * This class manages AI of L2Character.<BR>
  * <BR>
@@ -326,11 +328,30 @@ public class L2CharacterAI extends AbstractAI
 			return;
 		}
 
-		if(_actor.isAllSkillsDisabled() || (_actor.isAttackingNow() && !_actor.isCastingNow()))
+		/*
+		if(_actor.isAllSkillsDisabled() )
 		{
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();
 			return;
+		}
+		*/
+		
+		if(_actor instanceof L2PcInstance && (_actor.isAttackingNow() || _actor.isCastingNow()) && !_actor.isMoving()){
+			
+			L2PcInstance player = (L2PcInstance) _actor;
+			//start MoveOnAttack Task
+			// Schedule a move task
+			if(!player.isMovingTaskDefined()){ //if not already started the task
+				player.defineNewMovingTask(pos);
+			}else{
+				player.modifyMovingTask(pos);
+			}
+				
+			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
+			clientActionFailed();
+			return;
+			
 		}
 
 		// Set the Intention of this AbstractAI to AI_INTENTION_MOVE_TO
@@ -345,7 +366,8 @@ public class L2CharacterAI extends AbstractAI
 		// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
 		moveTo(pos.x, pos.y, pos.z);
 	}
-
+	
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.ai.AbstractAI#onIntentionMoveToInABoat(com.l2jfrozen.gameserver.model.L2CharPosition, com.l2jfrozen.gameserver.model.L2CharPosition)
 	 */

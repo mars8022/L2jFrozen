@@ -242,6 +242,10 @@ public class Forum
 
 		for(Forum f : _children)
 		{
+			if(f==null || f.getName() == null){
+				continue;
+			}
+			
 			if(f.getName().equals(name))
 				return f;
 		}

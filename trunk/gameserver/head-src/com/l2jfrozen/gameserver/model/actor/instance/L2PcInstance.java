@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_MOVE_TO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -116,10 +118,12 @@ import com.l2jfrozen.gameserver.model.PcFreight;
 import com.l2jfrozen.gameserver.model.PcInventory;
 import com.l2jfrozen.gameserver.model.PcWarehouse;
 import com.l2jfrozen.gameserver.model.PetInventory;
+import com.l2jfrozen.gameserver.model.PlayerStatus;
 import com.l2jfrozen.gameserver.model.ShortCuts;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.appearance.PcAppearance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.PcKnownList;
+import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.PcStat;
 import com.l2jfrozen.gameserver.model.actor.status.PcStatus;
 import com.l2jfrozen.gameserver.model.base.ClassId;
@@ -258,7 +262,23 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	private boolean _posticipateSit;
 	
-	boolean sittingTaskLaunched;
+	private boolean sittingTaskLaunched;
+	
+	private PlayerStatus saved_status = null;
+	
+	
+	public PlayerStatus getActualStatus(){
+		
+		saved_status = new PlayerStatus(this); 
+		return saved_status;
+		
+	}
+	
+	public PlayerStatus getLastSavedStatus(){
+		
+		return saved_status;
+		
+	}
 	
 	/**
 	 * @return the _voteTimestamp
@@ -3356,6 +3376,65 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_shortCuts.deleteShortCutByObjectId(objectId);
 	}
+	
+	//MOVING on attack TASK, L2OFF FIX
+	private MoveOnAttack launchedMovingTask = null;
+	/**
+	 * MoveOnAttack Task
+	 */
+	public class MoveOnAttack implements Runnable
+	{
+		final L2PcInstance _player;
+        L2CharPosition _pos;
+       
+        public MoveOnAttack(L2PcInstance player, L2CharPosition pos)
+        {
+        	_player = player;
+            _pos = pos;
+            //launchedMovingTask = this;
+        }
+
+		public void run()
+		{
+			launchedMovingTask = null;
+			
+			// Set the Intention of this AbstractAI to AI_INTENTION_MOVE_TO
+			_player.getAI().changeIntention(AI_INTENTION_MOVE_TO, _pos, null);
+
+			// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
+			_player.getAI().clientStopAutoAttack();
+
+			// Abort the attack of the L2Character and send Server->Client ActionFailed packet
+			_player.abortAttack();
+
+			// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
+			_player.getAI().moveTo(_pos.x, _pos.y, _pos.z);
+		}
+		
+		public void setNewPosition(L2CharPosition pos){
+			 _pos = pos;
+		}
+		
+	}
+	
+	public boolean isMovingTaskDefined(){
+		return launchedMovingTask!=null;
+	}
+	
+	public void defineNewMovingTask(L2CharPosition pos){
+		launchedMovingTask = new MoveOnAttack(this, pos);
+	}
+	
+	public void modifyMovingTask(L2CharPosition pos){
+		if(launchedMovingTask == null){
+			return;
+		}
+		launchedMovingTask.setNewPosition(pos);
+	}
+	
+	public void startMovingTask(){
+		ThreadPoolManager.getInstance().executeTask(launchedMovingTask);
+	}
 
 	/**
 	 * Return True if the L2PcInstance is sitting.<BR>
@@ -5056,14 +5135,20 @@ public final class L2PcInstance extends L2PlayableInstance
 		//super.broadcastStatusUpdate();
 
 		// Send the Server->Client packet StatusUpdate with current HP, MP and CP to this L2PcInstance
-		StatusUpdate su = new StatusUpdate(getObjectId());
-		su.addAttribute(StatusUpdate.CUR_HP, (int) getCurrentHp());
-		su.addAttribute(StatusUpdate.CUR_MP, (int) getCurrentMp());
-		su.addAttribute(StatusUpdate.CUR_CP, (int) getCurrentCp());
-		su.addAttribute(StatusUpdate.MAX_CP, getMaxCp());
-		sendPacket(su);
-		su = null;
-
+		if(Config.FORCE_COMPLETE_STATUS_UPDATE){
+			StatusUpdate su = new StatusUpdate(this);
+			sendPacket(su);
+			su = null;
+		}else{
+			StatusUpdate su = new StatusUpdate(getObjectId());
+			su.addAttribute(StatusUpdate.CUR_HP, (int) getCurrentHp());
+			su.addAttribute(StatusUpdate.CUR_MP, (int) getCurrentMp());
+			su.addAttribute(StatusUpdate.CUR_CP, (int) getCurrentCp());
+			su.addAttribute(StatusUpdate.MAX_CP, getMaxCp());
+			sendPacket(su);
+			su = null;
+		}
+		
 		// Check if a party is in progress and party window update is usefull
 		if(isInParty() && (needCpUpdate(352) || super.needHpUpdate(352) || needMpUpdate(352)))
 		{
@@ -7911,16 +7996,25 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Set the _party object of the L2PcInstance AND join it.<BR>
 	 * <BR>
 	 */
-	public void joinParty(L2Party party)
+	public void joinParty(final L2Party party)
 	{
+		if(party == null){
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		if(party.getMemberCount()==9){
 			sendPacket(new SystemMessage(SystemMessageId.PARTY_FULL));
 			return;
 		}
 		
-		if(party != null && party.getMemberCount()<9)
+		if(party.getPartyMembers().contains(this)){
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		if(party.getMemberCount()<9)
 		{
-			
 			// First set the party otherwise this wouldn't be considered
 			// as in a party into the L2Character.updateEffectIcons() call.
 			_party = party;

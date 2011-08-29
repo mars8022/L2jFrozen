@@ -71,7 +71,9 @@ class Sailren(JQuest) :
            for player in party.getPartyMembers() :
              st.takeItems(STONE,1)
              self.saveGlobalQuestVar("close", "1")
-             GrandBossManager.getInstance().getZone(27244,-7026,-1974).allowPlayerEntry(player, 3600)
+             zone = GrandBossManager.getInstance().getZone(27244,-7026,-1974)
+             if zone:
+               zone.allowPlayerEntry(player, 3600)
              player.teleToLocation(27244,-7026,-1974)
              self.startQuestTimer("start",30000,npc,player)
              self.startQuestTimer("open",1800000,npc,None)

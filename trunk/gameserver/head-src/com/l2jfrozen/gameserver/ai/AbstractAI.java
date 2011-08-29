@@ -221,7 +221,7 @@ abstract class AbstractAI implements Ctrl
 	 * @param arg0 The first parameter of the Intention
 	 * @param arg1 The second parameter of the Intention
 	 */
-	synchronized void changeIntention(CtrlIntention intention, Object arg0, Object arg1)
+	public synchronized void changeIntention(CtrlIntention intention, Object arg0, Object arg1)
 	{
 		/*
 		 if (Config.DEBUG)
@@ -598,7 +598,7 @@ abstract class AbstractAI implements Ctrl
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR>
 	 * <BR>
 	 */
-	protected void moveTo(int x, int y, int z)
+	public void moveTo(int x, int y, int z)
 	{
 		// Chek if actor can move
 		if(!_actor.isMovementDisabled())

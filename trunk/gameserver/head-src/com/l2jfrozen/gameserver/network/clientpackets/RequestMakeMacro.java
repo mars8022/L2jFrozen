@@ -68,7 +68,7 @@ public final class RequestMakeMacro extends L2GameClientPacket
 			int d1 = readD(); // skill or page number for shortcuts
 			int d2 = readC();
 			String command = readS();
-			_commandsLenght += command.length();
+			_commandsLenght += command.length()+1;
 			commands[i] = new L2MacroCmd(entry, type, d1, d2, command);
 			if(Config.DEBUG)
 			{
