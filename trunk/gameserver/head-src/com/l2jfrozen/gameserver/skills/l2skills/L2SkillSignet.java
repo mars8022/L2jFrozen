@@ -48,8 +48,7 @@ public final class L2SkillSignet extends L2Skill
 		L2EffectPointInstance effectPoint = new L2EffectPointInstance(IdFactory.getInstance().getNextId(), template, caster);
 		effectPoint.getStatus().setCurrentHp(effectPoint.getMaxHp());
 		effectPoint.getStatus().setCurrentMp(effectPoint.getMaxMp());
-		L2World.getInstance();
-		L2World.storeObject(effectPoint);
+		L2World.getInstance().storeObject(effectPoint);
 
 		int x = caster.getX();
 		int y = caster.getY();

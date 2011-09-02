@@ -671,7 +671,7 @@ public abstract class ItemContainer
 					continue;
 				}
 
-				L2World.storeObject(item);
+				L2World.getInstance().storeObject(item);
 
 				// If stackable item is found in inventory just add to current quantity
 				if(item.isStackable() && getItemByItemId(item.getItemId()) != null)

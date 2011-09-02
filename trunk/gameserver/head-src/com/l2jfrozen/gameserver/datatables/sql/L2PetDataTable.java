@@ -22,11 +22,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.gameserver.model.L2PetData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -35,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class L2PetDataTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(L2PetInstance.class);
+	private final static Logger _log = Logger.getLogger(L2PetInstance.class.getName());
 	private static L2PetDataTable _instance;
 
 	//private static final int[] PET_LIST = { 12077, 12312, 12313, 12311, 12527, 12528, 12526 };
@@ -114,7 +112,7 @@ public class L2PetDataTable
 		}
 		catch(Exception e)
 		{
-			_log.error("Could not load pets stats", e);
+			_log.severe("Could not load pets stats"+" "+ e);
 		}
 		finally
 		{

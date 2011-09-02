@@ -71,7 +71,7 @@ public final class L2World
 	//private FastMap<String, L2PcInstance> _allGms;
 
 	/** HashMap(String Player name, L2PcInstance) containing all the players in game */
-	private Map<String, L2PcInstance> _allPlayers;
+	private static Map<String, L2PcInstance> _allPlayers = new FastMap<String, L2PcInstance>().shared();
 
 	/** L2ObjectHashMap(L2Object) containing all visible objects */
 	private static L2ObjectMap<L2Object> _allObjects;
@@ -79,7 +79,7 @@ public final class L2World
 	/** List with the pets instances and their owner id */
 	private FastMap<Integer, L2PetInstance> _petsInstance;
 
-	private static final L2World _instance = new L2World();
+	private static L2World _instance = null;
 
 	private L2WorldRegion[][] _worldRegions;
 
@@ -90,7 +90,7 @@ public final class L2World
 	private L2World()
 	{
 		//_allGms = new FastMap<String, L2PcInstance>();
-		_allPlayers = new FastMap<String, L2PcInstance>().shared();
+		//_allPlayers = new FastMap<String, L2PcInstance>().shared();
 
 		_petsInstance = new FastMap<Integer, L2PetInstance>().shared();
 		_allObjects = L2ObjectMap.createL2ObjectMap();
@@ -104,6 +104,9 @@ public final class L2World
 	 */
 	public static L2World getInstance()
 	{
+		if(_instance == null){
+			_instance = new L2World();
+		}
 		return _instance;
 	}
 
@@ -114,7 +117,7 @@ public final class L2World
 	 * <BR>
 	 * <li>Withdraw an item from the warehouse, create an item</li> <li>Spawn a L2Character (PC, NPC, Pet)</li><BR>
 	 */
-	public static void storeObject(L2Object object)
+	public void storeObject(L2Object object)
 	{
 		if(_allObjects.get(object.getObjectId()) != null)
 		{
@@ -253,7 +256,7 @@ public final class L2World
 	 * 
 	 * @return number of online players.
 	 */
-	public int getAllPlayersCount()
+	public static Integer getAllPlayersCount()
 	{
 		return _allPlayers.size();
 	}

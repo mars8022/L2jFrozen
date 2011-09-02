@@ -473,7 +473,7 @@ public class ChristmasManager
 			spawn.setLocz(z);
 
 			L2NpcInstance tree = spawn.spawnOne();
-			L2World.storeObject(tree);
+			L2World.getInstance().storeObject(tree);
 			objectQueue.add(tree);
 
 			spawn = null;

@@ -133,7 +133,7 @@ public class ItemsOnGroundManager
 				while(result.next())
 				{
 					L2ItemInstance item = new L2ItemInstance(result.getInt(1), result.getInt(2));
-					L2World.storeObject(item);
+					L2World.getInstance().storeObject(item);
 					if(item.isStackable() && result.getInt(3) > 1)
 					{
 						item.setCount(result.getInt(3));

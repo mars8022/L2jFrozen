@@ -22,11 +22,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.templates.L2HelperBuff;
@@ -40,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HelperBuffTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(HennaTable.class);
+	private final static Logger _log = Logger.getLogger(HennaTable.class.getName());
 
 	private static HelperBuffTable _instance;
 
@@ -105,7 +103,7 @@ public class HelperBuffTable
 		}
 		catch(Exception e)
 		{
-			_log.error("Table helper_buff_list not found: Update your database", e);
+			_log.severe("Table helper_buff_list not found: Update your database"+" "+ e);
 		}
 		finally
 		{
@@ -162,7 +160,7 @@ public class HelperBuffTable
 			_helperBuff.add(template);
 		}
 
-		_log.debug("Helper Buff Table: Loaded {} Templates.", _helperBuff.size());
+		_log.finest("Helper Buff Table: Loaded {} Templates."+" "+ _helperBuff.size());
 
 	}
 

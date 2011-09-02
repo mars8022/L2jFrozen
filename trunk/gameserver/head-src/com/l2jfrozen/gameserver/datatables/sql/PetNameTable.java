@@ -22,12 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
@@ -35,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class PetNameTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(PetNameTable.class);
+	private final static Logger _log = Logger.getLogger(PetNameTable.class.getName());
 
 	private static PetNameTable _instance;
 
@@ -78,7 +76,7 @@ public class PetNameTable
 		}
 		catch(SQLException e)
 		{
-			_log.error("could not check existing petname", e);
+			_log.severe("could not check existing petname"+" "+ e);
 		}
 		finally
 		{
@@ -101,7 +99,7 @@ public class PetNameTable
 		}
 		catch(PatternSyntaxException e) // case of illegal pattern
 		{
-			_log.warn("ERROR : Pet name pattern of config is wrong!");
+			_log.warning("ERROR : Pet name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
 

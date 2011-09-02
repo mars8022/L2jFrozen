@@ -21,11 +21,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.gameserver.model.L2MaxPolyModel;
 import com.l2jfrozen.gameserver.templates.StatsSet;
@@ -39,7 +37,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class MaxCheatersTable
 {
 	private final FastMap<Integer, L2MaxPolyModel> _map;
-	private final static Logger _log = LoggerFactory.getLogger(MaxCheatersTable.class);
+	private final static Logger _log = Logger.getLogger(MaxCheatersTable.class.getName());
 	private static MaxCheatersTable _instance;
 
 	private final String SQL_SELECT = "SELECT * from max_poly";
@@ -76,7 +74,8 @@ public class MaxCheatersTable
 		}
 		catch(Exception e)
 		{
-			_log.error(e.getMessage(), e);
+			_log.severe(e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -122,7 +121,7 @@ public class MaxCheatersTable
 			final L2MaxPolyModel poly = new L2MaxPolyModel(set);
 			_map.put(poly.getNpcId(), poly);// xD
 		}
-		_log.debug("MaxCheatersTable Loaded: {} npc to pc entry(s)", _map.size());
+		_log.finest("MaxCheatersTable Loaded: {} npc to pc entry(s)"+" "+ _map.size());
 	}
 
 	public L2MaxPolyModel getModelForID(int key)

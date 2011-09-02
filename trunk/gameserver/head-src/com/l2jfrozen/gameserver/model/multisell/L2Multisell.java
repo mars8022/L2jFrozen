@@ -281,6 +281,8 @@ public class L2Multisell
 			temp.addEntry(e);
 		}
 
+		player.setMultiSellId(listId);
+		
 		player.sendPacket(new MultiSellList(temp, page, 1));
 
 		list = null;

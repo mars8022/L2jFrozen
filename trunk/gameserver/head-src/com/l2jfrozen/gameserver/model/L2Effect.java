@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
@@ -578,20 +579,26 @@ public abstract class L2Effect
 		{
 			if(sk.isPotion())
 			{
-				mi.addEffect(sk.getId(), getLevel(), sk.getBuffDuration() - getTaskTime() * 1000);
+				mi.addEffect(sk.getId(), getLevel(), sk.getBuffDuration() - getTaskTime() * 1000, false);
 			}
 			else if(!sk.isToggle())
 			{
-				mi.addEffect(sk.getId(), getLevel(), _count * _period * 1000);
+				if(sk.getSkillType()==SkillType.DEBUFF)
+					mi.addEffect(sk.getId(), getLevel(), _count * _period * 1000,true);
+				else
+					mi.addEffect(sk.getId(), getLevel(), _count * _period * 1000,false);
 			}
 			else
 			{
-				mi.addEffect(sk.getId(), getLevel(), -1);
+				mi.addEffect(sk.getId(), getLevel(), -1,true);
 			}
 		}
 		else
 		{
-			mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS));
+			if(sk.getSkillType()==SkillType.DEBUFF)
+				mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS),true);
+			else
+				mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS),false);
 		}
 
 		task = null;

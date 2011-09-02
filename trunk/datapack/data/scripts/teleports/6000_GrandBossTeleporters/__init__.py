@@ -98,7 +98,7 @@ class Quest (JQuest) :
                    self.count = self.count+1
                    if status == 0 :
                       valakas = GrandBossManager.getInstance().getBoss(29028)
-                      self.valakasAI.startQuestTimer("1001",60000*Config.VALAKAS_WAIT_TIME, valakas, None)
+                      self.valakasAI.startQuestTimer("lock_entry_and_spawn_valakas",60000*Config.VALAKAS_WAIT_TIME, valakas, None)
                       GrandBossManager.getInstance().setBossStatus(29028,1)
                    return
                 else: #player cheated, wasn't ported via npc Klein

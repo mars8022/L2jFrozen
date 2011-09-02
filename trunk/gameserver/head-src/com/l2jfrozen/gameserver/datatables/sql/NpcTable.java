@@ -24,12 +24,10 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.InfoCache;
@@ -53,7 +51,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class NpcTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(NpcTable.class);
+	private final static Logger _log = Logger.getLogger(NpcTable.class.getName());
 
 	private static NpcTable _instance;
 
@@ -140,7 +138,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.error("NPCTable: Error creating NPC table", e);
+				_log.severe("NPCTable: Error creating NPC table"+" "+ e);
 			}
 
 			if(Config.CUSTOM_NPC_TABLE)
@@ -198,7 +196,7 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
-					_log.error("NPCTable: Error creating custom NPC table", e);
+					_log.severe("NPCTable: Error creating custom NPC table"+" "+ e);
 				}
 			try
 			{
@@ -241,7 +239,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.error("NPCTable: Error reading NPC skills table", e);
+				_log.severe("NPCTable: Error reading NPC skills table"+" "+ e);
 			}
 
 			if(Config.CUSTOM_DROPLIST_TABLE)
@@ -263,7 +261,7 @@ public class NpcTable
 
 						if(npcDat == null)
 						{
-							_log.warn("NPCTable: CUSTOM DROPLIST No npc correlating with id: {}", mobId);
+							_log.warning("NPCTable: CUSTOM DROPLIST No npc correlating with id: {}"+" "+ mobId);
 							continue;
 						}
 
@@ -281,7 +279,7 @@ public class NpcTable
 					}
 					dropData.close();
 					statement.close();
-					_log.debug("CustomDropList : Added {} custom droplist", cCount);
+					_log.finest("CustomDropList : Added {} custom droplist"+" "+ cCount);
 
 					if(Config.ENABLE_CACHE_INFO)
 					{
@@ -290,7 +288,7 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
-					_log.error("NPCTable: Error reading NPC CUSTOM drop data", e);
+					_log.severe("NPCTable: Error reading NPC CUSTOM drop data"+" "+ e);
 				}
 
 			try
@@ -311,7 +309,7 @@ public class NpcTable
 
 					if(npcDat == null)
 					{
-						_log.warn("NPCTable: No npc correlating with id: {}", mobId);
+						_log.warning("NPCTable: No npc correlating with id: {}"+" "+ mobId);
 						continue;
 					}
 
@@ -333,7 +331,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.error("NPCTable: Error reading NPC drop data", e);
+				_log.severe("NPCTable: Error reading NPC drop data"+" "+ e);
 			}
 
 			try
@@ -353,12 +351,12 @@ public class NpcTable
 					L2NpcTemplate npc = getTemplate(npcId);
 					if (npc == null)
 					{
-						_log.warn("NPCTable: Error getting NPC template ID {} while trying to load skill trainer data.", npcId);
+						_log.warning("NPCTable: Error getting NPC template ID {} while trying to load skill trainer data."+" "+ npcId);
 						continue;
 					}
 					
 					if(classId >= ClassId.values().length){
-						_log.warn("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+(ClassId.values().length-1)+" specified into ClassID Enum --> check your Database to be complient with it", classId);
+						_log.warning("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+(ClassId.values().length-1)+" specified into ClassID Enum --> check your Database to be complient with it"+" "+ classId);
 						continue;
 					}
 
@@ -370,7 +368,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.error("NPCTable: Error reading NPC trainer data", e);
+				_log.severe("NPCTable: Error reading NPC trainer data"+" "+ e);
 			}
 
 			try
@@ -399,11 +397,11 @@ public class NpcTable
 
 				minionData.close();
 				statement.close();
-				_log.debug("NpcTable: Loaded {} Minions.", cnt);
+				_log.finest("NpcTable: Loaded {} Minions."+" "+ cnt);
 			}
 			catch(Exception e)
 			{
-				_log.error("Error loading minion data", e);
+				_log.severe("Error loading minion data"+" "+ e);
 			}
 		}
 		finally
@@ -686,7 +684,7 @@ public class NpcTable
 			_npcs.put(id, template);
 		}
 
-		_log.debug("NpcTable: Loaded {} Npc Templates.", _npcs.size());
+		_log.finest("NpcTable: Loaded {} Npc Templates."+" "+ _npcs.size());
 	}
 
 	public void reloadNpc(int id)
@@ -860,7 +858,7 @@ public class NpcTable
 		}
 		catch(Exception e)
 		{
-			_log.error("NPCTable: Could not reload data for NPC {}", id, e);
+			_log.severe("NPCTable: Could not reload data for NPC {}"+" "+ id+" "+ e);
 		}
 		finally
 		{
@@ -918,7 +916,7 @@ public class NpcTable
 		}
 		catch(Exception e)
 		{
-			_log.error("NPCTable: Could not store new NPC data in database", e);
+			_log.severe("NPCTable: Could not store new NPC data in database"+" "+ e);
 		}
 		finally
 		{

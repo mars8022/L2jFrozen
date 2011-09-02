@@ -147,6 +147,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.FortSiege;
 import com.l2jfrozen.gameserver.model.entity.siege.Siege;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
+import com.l2jfrozen.gameserver.model.multisell.MultiSellListContainer;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
@@ -13672,11 +13673,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		if(getActiveEnchantItem() != null && getActiveEnchantItem().getItemId() == itemId)
 		{
-			if(Config.DEBUG)
-			{
-				_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
-			}
-
+			_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			return false;
 		}
 
@@ -16524,4 +16521,18 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		return false;
 	}
+	
+	// Multisell
+	private int _currentMultiSellId = -1;
+	
+	public final int getMultiSellId()
+	{
+		return _currentMultiSellId;
+	}
+	
+	public final void setMultiSellId(int listid)
+	{
+		_currentMultiSellId = listid;
+	}
+	
 }

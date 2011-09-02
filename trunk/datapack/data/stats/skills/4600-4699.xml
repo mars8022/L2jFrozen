@@ -1526,8 +1526,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
     <effect count="1" name="Buff" time="30" val="0">
-      <mul order="0x40" stat="pDef" val="900"/>
-      <mul order="0x40" stat="mDef" val="900"/>
+      <mul order="0x40" stat="pDef" val="10"/>
+      <mul order="0x40" stat="mDef" val="10"/>
     </effect>
   </for>
 </skill>

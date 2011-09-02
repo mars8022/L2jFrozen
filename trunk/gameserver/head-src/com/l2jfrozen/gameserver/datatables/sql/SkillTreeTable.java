@@ -24,12 +24,10 @@ import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2EnchantSkillLearn;
@@ -48,7 +46,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class SkillTreeTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(SkillTreeTable.class);
+	private final static Logger _log = Logger.getLogger(SkillTreeTable.class.getName());
 	private static SkillTreeTable _instance;
 
 	private Map<ClassId, Map<Integer, L2SkillLearn>> _skillTrees;
@@ -181,7 +179,7 @@ public class SkillTreeTable
 				statement2.close();
 
 				count += map.size();
-				_log.debug("SkillTreeTable: skill tree for class {} has {} skills", classId, map.size());
+				_log.finest("SkillTreeTable: skill tree for class {} has {} skills "+ classId+" "+ map.size());
 			}
 
 			classlist.close();
@@ -189,11 +187,11 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
-			_log.error("Error while creating skill tree (Class ID {}):", classId, e);
+			_log.severe("Error while creating skill tree (Class ID {}): "+ classId+" "+ e);
 		}
 		
 
-		_log.debug("SkillTreeTable: Loaded {} skills.", count);
+		_log.finest("SkillTreeTable: Loaded {} skills."+" "+ count);
 
 		//Skill tree for fishing skill (from Fisherman)
 		int count2 = 0;
@@ -245,7 +243,7 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
-			_log.error("Error while creating fishing skill table", e);
+			_log.severe("Error while creating fishing skill table"+" "+ e);
 		}
 
 		int count4 = 0;
@@ -286,7 +284,7 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
-			_log.error("Error while creating enchant skill table", e);
+			_log.severe("Error while creating enchant skill table"+" "+ e);
 		}
 
 		int count5 = 0;
@@ -323,17 +321,17 @@ public class SkillTreeTable
 		}
 		catch(Exception e)
 		{
-			_log.error("Error while creating fishing skill table", e);
+			_log.severe("Error while creating fishing skill table"+" "+ e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 
-		_log.debug("FishingSkillTreeTable: Loaded {} general skills.", count2);
-		_log.debug("FishingSkillTreeTable: Loaded {} dwarven skills.", count3);
-		_log.debug("EnchantSkillTreeTable: Loaded {} enchant skills.", count4);
-		_log.debug("PledgeSkillTreeTable: Loaded {} pledge skills", count5);
+		_log.finest("FishingSkillTreeTable: Loaded {} general skills."+" "+ count2);
+		_log.finest("FishingSkillTreeTable: Loaded {} dwarven skills."+" "+ count3);
+		_log.finest("EnchantSkillTreeTable: Loaded {} enchant skills."+" "+ count4);
+		_log.finest("PledgeSkillTreeTable: Loaded {} pledge skills"+" "+ count5);
 	}
 
 	private Map<ClassId, Map<Integer, L2SkillLearn>> getSkillTrees()
@@ -473,7 +471,7 @@ public class SkillTreeTable
 		if(skills == null)
 		{
 			// the skilltree for this class is undefined, so we give an empty list
-			_log.warn("No clan skills defined!");
+			_log.warning("No clan skills defined!");
 			return new L2PledgeSkillLearn[0];
 		}
 
@@ -529,7 +527,7 @@ public class SkillTreeTable
 		if(skills == null)
 		{
 			// the skilltree for this class is undefined, so we give an empty list
-			_log.warn("Skilltree for class {} is not defined !", classId);
+			_log.warning("Skilltree for class {} is not defined !"+" "+ classId);
 			return minLevel;
 		}
 

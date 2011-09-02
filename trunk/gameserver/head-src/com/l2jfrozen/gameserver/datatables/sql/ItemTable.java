@@ -26,11 +26,9 @@ import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.Item;
@@ -64,7 +62,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ItemTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(ItemTable.class);
+	private final static Logger _log = Logger.getLogger(ItemTable.class.getName());
 	private final static java.util.logging.Logger _logItems = java.util.logging.Logger.getLogger("item");
 
 	private static final Map<String, Integer> _crystalTypes = new FastMap<String, Integer>();
@@ -226,7 +224,7 @@ public class ItemTable
 		}
 		catch(Exception e)
 		{
-			_log.error("data error on item", e);
+			_log.severe("data error on item"+" "+ e);
 		}
 		finally
 		{
@@ -287,7 +285,7 @@ public class ItemTable
 			}
 			catch(Exception e)
 			{
-				_log.error("data error on custom_item", e);
+				_log.severe("data error on custom_item"+" "+ e);
 			}
 			finally
 			{
@@ -299,19 +297,19 @@ public class ItemTable
 		{
 			armors.put(armor.getItemId(), armor);
 		}
-		_log.debug("ItemTable: Loaded " + armors.size() + " Armors.");
+		_log.finest("ItemTable: Loaded " + armors.size() + " Armors.");
 
 		for(L2EtcItem item : SkillsEngine.getInstance().loadItems(itemData))
 		{
 			etcItems.put(item.getItemId(), item);
 		}
-		_log.debug("ItemTable: Loaded " + etcItems.size() + " Items.");
+		_log.finest("ItemTable: Loaded " + etcItems.size() + " Items.");
 
 		for(L2Weapon weapon : SkillsEngine.getInstance().loadWeapons(weaponData))
 		{
 			weapons.put(weapon.getItemId(), weapon);
 		}
-		_log.debug("ItemTable: Loaded " + weapons.size() + " Weapons.");
+		_log.finest("ItemTable: Loaded " + weapons.size() + " Weapons.");
 
 		//fillEtcItemsTable();
 		//fillArmorsTable();
@@ -571,7 +569,7 @@ public class ItemTable
 		}
 		else
 		{
-			_log.debug("unknown etcitem type:" + itemType);
+			_log.finest("unknown etcitem type:" + itemType);
 			item.type = L2EtcItemType.OTHER;
 		}
 		itemType = null;
@@ -691,7 +689,7 @@ public class ItemTable
 		}
 
 		// Create a FastLookUp Table called _allTemplates of size : value of the highest item ID
-		_log.debug("highest item id used: {}", highestId);
+		_log.finest("highest item id used: {}"+" "+ highestId);
 
 		_allTemplates = new L2Item[highestId + 1];
 
@@ -777,10 +775,10 @@ public class ItemTable
 			item.setItemLootShedule(itemLootShedule);
 		}
 
-		_log.debug("ItemTable: Item created  oid: {} itemid: {}", item.getObjectId(), itemId);
+		_log.finest("ItemTable: Item created  oid: {} itemid: {}"+" "+ item.getObjectId()+" "+ itemId);
 
 		// Add the L2ItemInstance object to _allObjects of L2world
-		L2World.storeObject(item);
+		L2World.getInstance().storeObject(item);
 
 		// Set Item parameters
 		if(item.isStackable() && count > 1)
@@ -839,7 +837,7 @@ public class ItemTable
 
 		if(temp.getItem() == null)
 		{
-			_log.warn("ItemTable: Item Template missing for Id: {}", itemId);
+			_log.warning("ItemTable: Item Template missing for Id: {}"+" "+ itemId);
 		}
 
 		return temp;
@@ -898,7 +896,7 @@ public class ItemTable
 				}
 				catch(Exception e)
 				{
-					_log.error("could not delete pet objectid", e);
+					_log.severe("could not delete pet objectid"+" "+ e);
 				}
 				finally
 				{
