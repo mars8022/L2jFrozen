@@ -233,7 +233,7 @@ public class L2SkillSummon extends L2Skill
 		summon.setRunning();
 		activeChar.setPet(summon);
 
-		L2World.storeObject(summon);
+		L2World.getInstance().storeObject(summon);
 
 		//Check to see if we should do the decay right after the cast
 		if(getTargetType() == SkillTargetType.TARGET_CORPSE_MOB)

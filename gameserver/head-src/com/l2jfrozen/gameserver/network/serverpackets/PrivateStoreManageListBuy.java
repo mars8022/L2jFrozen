@@ -63,7 +63,7 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 		for(L2ItemInstance item : _itemList)
 		{
 			writeD(item.getItemId());
-			writeH(0); //show enchant lvl as 0, as you can't buy enchanted weapons
+			writeH(item.getEnchantLevel()); //show enchant lvl, but you can't buy enchanted weapons because of L2 Interlude Client bug
 			writeD(item.getCount());
 			writeD(item.getReferencePrice());
 			writeH(0x00);

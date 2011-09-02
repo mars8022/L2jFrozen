@@ -820,13 +820,6 @@
     <stat name='Flying' val='false'/>
     <stat name='InvadeTime' val='1800000'/>
   </zone>
-<!-- Boss zone Frintezza Chamber -->
-  <zone id='12017' type='BossZone' shape='NPoly' minZ='-6130' maxZ='-3000' bossId='29047'>
-    <stat name='name' val='Chamber of Frintezza'/>
-    <stat name='Flying' val='false'/>
-    <!-- <stat name='EnabledByDefault' val='false'/> -->
-    <stat name='InvadeTime' val='1800000'/>
-  </zone>
 <!-- Boss zone Lair of Orfen -->
   <zone id='12018' type='BossZone' shape='NPoly' minZ='-5796' maxZ='-3796' bossId='29014'>
     <stat name='name' val='LairofOrfen'/>

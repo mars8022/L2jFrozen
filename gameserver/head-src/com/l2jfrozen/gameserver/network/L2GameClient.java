@@ -207,7 +207,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		activeChar = pActiveChar;
 		if(activeChar != null)
 		{
-			L2World.storeObject(getActiveChar());
+			L2World.getInstance().storeObject(getActiveChar());
 		}
 	}
 

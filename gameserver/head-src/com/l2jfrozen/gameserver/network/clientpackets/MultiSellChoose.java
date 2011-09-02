@@ -77,27 +77,37 @@ public class MultiSellChoose extends L2GameClientPacket
 		if(player == null)
 			return;
 
-		if (!getClient().getFloodProtectors().getMultiSell().tryPerformAction("multisell choose"))
+		if (!getClient().getFloodProtectors().getMultiSell().tryPerformAction("multisell choose")){
+			player.setMultiSellId(-1);
 			return;
+		}
 
-		if(_amount < 1 || _amount > 5000)
+		if(_amount < 1 || _amount > 5000){
+			player.setMultiSellId(-1);
 			return;
-
+		}
+		
 		L2NpcInstance merchant = player.getTarget() instanceof L2NpcInstance ? (L2NpcInstance) player.getTarget() : null;
 
 		//Possible fix to Multisell Radius
-		if (merchant==null || !player.isInsideRadius(merchant, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+		if (merchant==null || !player.isInsideRadius(merchant, L2NpcInstance.INTERACTION_DISTANCE, false, false)){
+			player.setMultiSellId(-1);
 			return;
+		}
 		
 		MultiSellListContainer list = L2Multisell.getInstance().getList(_listId);
 
-		if(list == null)
+		int selectedList = player.getMultiSellId();
+		if (list == null || list.getListId() != _listId || selectedList!=_listId)
+		{
+			player.setMultiSellId(-1);
 			return;
-
+		}
 		
 		if(player.isCastingNow()|| player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
+			player.setMultiSellId(-1);
 			return;
 		}
 
@@ -106,6 +116,9 @@ public class MultiSellChoose extends L2GameClientPacket
 			if(entry.getEntryId() == _entryId)
 			{
 				doExchange(player, entry, list.getApplyTaxes(), list.getMaintainEnchantment(), _enchantment);
+				
+				//dnt change multisell on exchange to avoid new window open need
+				//player.setMultiSellId(-1);
 				return;
 			}
 		}

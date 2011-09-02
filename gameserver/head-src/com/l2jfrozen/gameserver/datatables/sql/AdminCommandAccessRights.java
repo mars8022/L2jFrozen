@@ -19,11 +19,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
@@ -36,7 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AdminCommandAccessRights
 {
 	/** The logger<br> */
-	protected static final Logger _log = LoggerFactory.getLogger(AdminCommandAccessRights.class);
+	protected static final Logger _log = Logger.getLogger(AdminCommandAccessRights.class.getName());
 	
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AdminCommandAccessRights _instance = null;
@@ -70,14 +68,14 @@ public class AdminCommandAccessRights
 		}
 		catch(SQLException e)
 		{
-			_log.error("Admin Access Rights: Error loading from database", e);
+			_log.severe("Admin Access Rights: Error loading from database"+" "+ e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 
-		_log.debug("Admin Access Rights: Loaded {} Access Rigths from database.", _adminCommandAccessRights.size());
+		_log.finest("Admin Access Rights: Loaded {} Access Rigths from database."+" "+ _adminCommandAccessRights.size());
 	}
 
 	/**
@@ -133,7 +131,7 @@ public class AdminCommandAccessRights
 
 		if(acar == 0)
 		{
-			_log.warn("Admin Access Rights: No rights defined for admin command {}.", command);
+			_log.warning("Admin Access Rights: No rights defined for admin command {}."+" "+ command);
 			return false;
 		}
 		else if(acar >= accessLevel.getLevel())

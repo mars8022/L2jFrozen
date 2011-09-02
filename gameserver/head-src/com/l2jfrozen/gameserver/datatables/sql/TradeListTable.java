@@ -21,12 +21,10 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -41,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TradeListTable
 {
-	private static final Logger _log = LoggerFactory.getLogger(TradeListTable.class);
+	private static final Logger _log = Logger.getLogger(TradeListTable.class.getName());
 	private static TradeListTable _instance;
 
 	private int _nextListId;
@@ -113,7 +111,7 @@ public class TradeListTable
 
 				if(!buylist.isGm() && NpcTable.getInstance().getTemplate(rset1.getInt("npc_id")) == null)
 				{
-					_log.warn("TradeListTable: Merchant id {} with {} buylist {} not exist.", rset1.getString("npc_id"), buylist.getListId());
+					_log.warning("TradeListTable: Merchant id {} with {} buylist {} not exist. "+ rset1.getString("npc_id")+" "+ buylist.getListId());
 				}
 
 				try
@@ -156,13 +154,13 @@ public class TradeListTable
 
 						if(!buylist.isGm() && buyItem.getReferencePrice() > _price)
 						{
-							_log.warn("TradeListTable: Reference price of item {} in buylist {} higher then sell price.", _itemId, buylist.getListId());
+							_log.warning("TradeListTable: Reference price of item {} in buylist {} higher then sell price. "+ _itemId+" "+ buylist.getListId());
 						}
 					}
 				}
 				catch(Exception e)
 				{
-					_log.error("TradeListTable: Problem with buylist {}.", buylist.getListId(), e);
+					_log.severe("TradeListTable: Problem with buylist {}. "+ buylist.getListId()+" "+ e);
 				}
 
 				if(_itemCount > 0)
@@ -172,7 +170,7 @@ public class TradeListTable
 				}
 				else
 				{
-					_log.warn("TradeListTable: Empty buylist {}.", buylist.getListId());
+					_log.warning("TradeListTable: Empty buylist {}."+ buylist.getListId());
 				}
 
 				statement.close();
@@ -181,7 +179,7 @@ public class TradeListTable
 			rset1.close();
 			statement1.close();
 
-			_log.debug("TradeListTable: Loaded {} Buylists.", _lists.size());
+			_log.finest("TradeListTable: Loaded {} Buylists. "+ _lists.size());
 			/*
 			 *  Restore Task for reinitialize count of buy item
 			 */
@@ -212,13 +210,13 @@ public class TradeListTable
 			}
 			catch(Exception e)
 			{
-				_log.error("TradeController: Could not restore Timer for Item count.", e);
+				_log.severe("TradeController: Could not restore Timer for Item count. "+ e);
 			}
 		}
 		catch(Exception e)
 		{
 			// problem with initializing buylists, go to next one
-			_log.error("TradeListTable: Buylists could not be initialized.", e);
+			_log.severe("TradeListTable: Buylists could not be initialized. "+  e);
 		}
 		finally
 		{
@@ -291,7 +289,7 @@ public class TradeListTable
 		}
 		catch(Exception e)
 		{
-			_log.error("TradeController: Could not update Timer save in Buylist", e);
+			_log.severe("TradeController: Could not update Timer save in Buylist "+ e);
 		}
 		finally
 		{
@@ -336,7 +334,7 @@ public class TradeListTable
 		}
 		catch(Exception e)
 		{
-			_log.error("TradeController: Could not store Count Item", e);
+			_log.severe("TradeController: Could not store Count Item "+ e);
 		}
 		finally
 		{

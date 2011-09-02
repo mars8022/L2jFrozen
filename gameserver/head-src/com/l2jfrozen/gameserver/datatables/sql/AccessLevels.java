@@ -18,11 +18,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
@@ -34,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AccessLevels
 {
-	private static final Logger _log = LoggerFactory.getLogger(AccessLevels.class);
+	private static final Logger _log = Logger.getLogger(AccessLevels.class.getName());
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AccessLevels _instance = null;
 	/** Reserved master access level<br> */
@@ -96,17 +94,17 @@ public class AccessLevels
 				name = rset.getString("name");
 
 				if(accessLevel == Config.USERACCESS_LEVEL) {
-					_log.debug("AccessLevels: Access level with name {} is using reserved user access level {}. Ignoring it..", name, Config.USERACCESS_LEVEL);
+					_log.finest("AccessLevels: Access level with name {} is using reserved user access level {}. Ignoring it.. "+ name+" "+ Config.USERACCESS_LEVEL);
 					continue;
 				}
 				else if(accessLevel == Config.MASTERACCESS_LEVEL)
 				{
-					_log.debug("AccessLevels: Access level with name {} is using reserved master access level {}. Ignoring it..", name, Config.MASTERACCESS_LEVEL );
+					_log.finest("AccessLevels: Access level with name {} is using reserved master access level {}. Ignoring it.. "+ name+" "+ Config.MASTERACCESS_LEVEL );
 					continue;
 				}
 				else if(accessLevel < 0)
 				{
-					_log.debug("AccessLevels: Access level with name {} is using banned access level state(below 0). Ignoring it..", name);
+					_log.finest("AccessLevels: Access level with name {} is using banned access level state(below 0). Ignoring it.. "+ name);
 					continue;
 				}
 
@@ -116,7 +114,7 @@ public class AccessLevels
 				}
 				catch(NumberFormatException nfe)
 				{
-					_log.debug(nfe.getMessage(), nfe);
+					_log.finest(nfe.getMessage()+" "+ nfe);
 					
 					try
 					{
@@ -124,7 +122,7 @@ public class AccessLevels
 					}
 					catch(NumberFormatException nfe2)
 					{
-						_log.debug(nfe.getMessage(), nfe);
+						_log.finest(nfe.getMessage() + nfe);
 					}
 				}
 
@@ -135,7 +133,7 @@ public class AccessLevels
 				}
 				catch(NumberFormatException nfe)
 				{
-					_log.debug(nfe.getMessage(), nfe);
+					_log.finest(nfe.getMessage()+" "+ nfe);
 					
 					try
 					{
@@ -143,7 +141,7 @@ public class AccessLevels
 					}
 					catch(NumberFormatException nfe2)
 					{
-						_log.debug(nfe.getMessage(), nfe);
+						_log.finest(nfe.getMessage()+" "+ nfe);
 					}
 				}
 
@@ -171,18 +169,18 @@ public class AccessLevels
 		}
 		catch(SQLException e)
 		{
-			_log.error("AccessLevels: Error loading from database", e);
+			_log.severe("AccessLevels: Error loading from database "+ e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 		//_log.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");
-		_log.debug("AccessLevels: Master Access Level is " + Config.MASTERACCESS_LEVEL);
-		_log.debug("AccessLevels: User Access Level is " + Config.USERACCESS_LEVEL);
+		_log.finest("AccessLevels: Master Access Level is " + Config.MASTERACCESS_LEVEL);
+		_log.finest("AccessLevels: User Access Level is " + Config.USERACCESS_LEVEL);
 		if(Config.DEBUG) for(int actual : _accessLevels.keySet()){
 			AccessLevel actual_access = _accessLevels.get(actual);
-			_log.debug("AccessLevels: {} Access Level is {}", actual_access.getName(), actual_access.getLevel());
+			_log.finest("AccessLevels: {} Access Level is {} "+ actual_access.getName()+" "+ actual_access.getLevel());
 		}
 	}
 

@@ -32,9 +32,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.l2jfrozen.gameserver.TradeController;
 import com.l2jfrozen.gameserver.model.L2Territory;
@@ -43,7 +41,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class TerritoryTable
 {
-	private final static Logger _log = LoggerFactory.getLogger(TradeController.class);
+	private final static Logger _log = Logger.getLogger(TradeController.class.getName());
 	private static final TerritoryTable _instance = new TerritoryTable();
 	private static Map<String, L2Territory> _territory;
 
@@ -97,13 +95,13 @@ public class TerritoryTable
 		}
 		catch(Exception e1)
 		{
-			_log.error("locations couldnt be initialized", e1);
+			_log.severe("locations couldnt be initialized "+ e1);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 
-		_log.debug("TerritoryTable: Loaded {} locations", _territory.size());
+		_log.finest("TerritoryTable: Loaded {} locations "+ _territory.size());
 	}
 }

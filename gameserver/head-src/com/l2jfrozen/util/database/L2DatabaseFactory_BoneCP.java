@@ -23,9 +23,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
@@ -34,7 +32,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 {
-	private static final Logger _log = LoggerFactory.getLogger(L2DatabaseFactory_BoneCP.class);
+	private static final Logger _log = Logger.getLogger(L2DatabaseFactory_BoneCP.class.getName());
 	
 	private BoneCP _source;
 
@@ -44,15 +42,15 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 	{
 		if (Config.DATABASE_PARTITION_COUNT > 4){
 			Config.DATABASE_PARTITION_COUNT = 4;
-			_log.warn("max {} db connections partitions.", Config.DATABASE_PARTITION_COUNT);
+			_log.warning("max {} db connections partitions. "+ Config.DATABASE_PARTITION_COUNT);
 		}
 		
 		if (Config.DATABASE_MAX_CONNECTIONS < 10) {
 			Config.DATABASE_MAX_CONNECTIONS = 10;
-			_log.warn("at least {} db connections are required.", Config.DATABASE_MAX_CONNECTIONS);
+			_log.warning("at least {} db connections are required. "+ Config.DATABASE_MAX_CONNECTIONS);
 			
 		}else if (Config.DATABASE_MAX_CONNECTIONS * Config.DATABASE_PARTITION_COUNT > 60){
-			_log.warn("Max Connections number is higher then 60.. Using Partition 2 and Connection 30");
+			_log.warning("Max Connections number is higher then 60.. Using Partition 2 and Connection 30");
 			Config.DATABASE_MAX_CONNECTIONS = 30;
 			Config.DATABASE_PARTITION_COUNT = 2;
 		}
@@ -104,14 +102,14 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 	private void testConnection() throws SQLException {
 		final Connection connect = _source.getConnection();
 		if(connect == null) throw new SQLException();
-		_log.debug("Connection successful");
+		_log.finest("Connection successful");
 		final Statement statement = connect.createStatement();
 		final ResultSet resultSet = statement.executeQuery("SHOW TABLES");
 		resultSet.next();
 		resultSet.close();
 		statement.close();
 		connect.close();
-		_log.debug("Database Connection Working");
+		_log.finest("Database Connection Working");
 	}
 
 	
@@ -124,7 +122,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		}
 		catch (Exception e)
 		{
-			_log.error("Error shutdowning database pool", e);
+			_log.severe("Error shutdowning database pool "+ e);
 		}
 		try
 		{
@@ -151,7 +149,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 			}
 			catch(SQLException e)
 			{
-				_log.error("L2DatabaseFactory: getConnection() failed, trying again", e);
+				_log.severe("L2DatabaseFactory: getConnection() failed, trying again "+ e);
 			}
 		}
 
@@ -176,7 +174,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.error("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+				_log.severe("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
 			}
 		}
 

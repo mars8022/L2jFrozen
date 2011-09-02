@@ -77,8 +77,7 @@ public class JackpotSeed implements IItemHandler
 			spawn.setLocy(activeChar.getY());
 			spawn.setLocz(activeChar.getZ());
 			_gourd = (L2GourdInstance) spawn.spawnOne();
-			L2World.getInstance();
-			L2World.storeObject(_gourd);
+			L2World.getInstance().storeObject(_gourd);
 			_gourd.setOwner(activeChar.getName());
 			activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);

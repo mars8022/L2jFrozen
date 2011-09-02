@@ -75,7 +75,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 			}
 			
 			instance = new L2ClassMasterInstance(31228,template);
-			L2World.storeObject(instance);
+			L2World.getInstance().storeObject(instance);
 		}
 		
 		return instance;

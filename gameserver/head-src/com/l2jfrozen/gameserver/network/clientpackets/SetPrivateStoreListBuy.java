@@ -58,7 +58,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 		{
 			int itemId = readD();
 			_items[x * 3 + 0] = itemId;
-			readH();//TODO analyse this
+			readH();//it's the enchant value, but the interlude client has a bug, so it dnt send back the correct enchant value
 			readH();//TODO analyse this
 			long cnt = readD();
 

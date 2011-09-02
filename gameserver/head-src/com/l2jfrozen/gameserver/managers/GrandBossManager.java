@@ -324,6 +324,11 @@ public class GrandBossManager
 	{
 		return _bosses.get(bossId);
 	}
+	
+	public L2GrandBossInstance deleteBoss(int bossId)
+	{
+		return _bosses.remove(bossId);
+	}
 
 	public StatsSet getStatsSet(int bossId)
 	{
