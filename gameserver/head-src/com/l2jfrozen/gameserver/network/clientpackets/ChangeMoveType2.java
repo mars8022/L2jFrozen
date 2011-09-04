@@ -20,15 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class ChangeMoveType2 extends L2GameClientPacket
 {
-	private static final String _C__1C_CHANGEMOVETYPE2 = "[C] 1C ChangeMoveType2";
-
 	private boolean _typeRun;
 
 	@Override
@@ -55,12 +48,9 @@ public final class ChangeMoveType2 extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__1C_CHANGEMOVETYPE2;
+		return "[C] 1C ChangeMoveType2";
 	}
 }

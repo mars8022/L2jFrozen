@@ -29,14 +29,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.GMViewQuestList;
 import com.l2jfrozen.gameserver.network.serverpackets.GMViewSkillInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.GMViewWarehouseWithdrawList;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.2.2.2.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestGMCommand extends L2GameClientPacket
 {
-	private static final String _C__6E_REQUESTGMCOMMAND = "[C] 6e RequestGMCommand";
 	static Logger _log = Logger.getLogger(RequestGMCommand.class.getName());
 
 	private String _targetName;
@@ -100,12 +94,9 @@ public final class RequestGMCommand extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__6E_REQUESTGMCOMMAND;
+		return "[C] 6e RequestGMCommand";
 	}
 }

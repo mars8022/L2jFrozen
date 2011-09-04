@@ -29,8 +29,6 @@ public final class RequestMakeMacro extends L2GameClientPacket
 {
 	private L2Macro _macro;
 	private int _commandsLenght = 0;
-
-	private static final String _C__C1_REQUESTMAKEMACRO = "[C] C1 RequestMakeMacro";
 	private static final int MAX_MACRO_LENGTH = 12;
 
 	/**
@@ -149,12 +147,10 @@ public final class RequestMakeMacro extends L2GameClientPacket
 		
 		return true;
 	}
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
+
 	@Override
 	public String getType()
 	{
-		return _C__C1_REQUESTMAKEMACRO;
+		return "[C] C1 RequestMakeMacro";
 	}
 }

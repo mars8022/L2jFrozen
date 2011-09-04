@@ -30,8 +30,6 @@ import com.l2jfrozen.util.Point3D;
  */
 public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 {
-	private static final String _C__D0_2F_REQUESTEXMAGICSKILLUSEGROUND = "[C] D0:2F RequestExMagicSkillUseGround";
-
 	private int _x;
 	private int _y;
 	private int _z;
@@ -50,9 +48,6 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 		_shiftPressed = readC();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -86,12 +81,9 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 		}
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_2F_REQUESTEXMAGICSKILLUSEGROUND;
+		return "[C] D0:2F RequestExMagicSkillUseGround";
 	}
 }

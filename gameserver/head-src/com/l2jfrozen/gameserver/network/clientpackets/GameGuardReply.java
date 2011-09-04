@@ -25,12 +25,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  *         E....7..........
  */
 
-// By Azagthtot
-
 public class GameGuardReply extends L2GameClientPacket
 {
-	private static final String _C__CA_GAMEGUARDREPLY = "[C] CA GameGuardReply";
-	//private static final Logger _log = Logger.getLogger(GameGuardReply.class.getName());
 	private int[] _reply = new int[4];
 
 	@Override
@@ -56,7 +52,7 @@ public class GameGuardReply extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__CA_GAMEGUARDREPLY;
+		return "[C] CA GameGuardReply";
 	}
 
 }

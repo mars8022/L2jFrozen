@@ -27,23 +27,16 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExCursedWeaponList;
 
 /**
  * Format: (ch)
- * 
  * @author -Wooden-
  */
-
 public class RequestCursedWeaponList extends L2GameClientPacket
 {
-	private static final String _C__D0_22_REQUESTCURSEDWEAPONLIST = "[C] D0:22 RequestCursedWeaponList";
-
 	@Override
 	protected void readImpl()
 	{
 	//nothing to read it's just a trigger
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -62,13 +55,10 @@ public class RequestCursedWeaponList extends L2GameClientPacket
 		activeChar.sendPacket(new ExCursedWeaponList(list));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_22_REQUESTCURSEDWEAPONLIST;
+		return "[C] D0:22 RequestCursedWeaponList";
 	}
 
 }

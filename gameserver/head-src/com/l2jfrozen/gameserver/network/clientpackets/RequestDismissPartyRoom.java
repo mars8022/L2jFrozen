@@ -22,13 +22,11 @@ import java.util.logging.Logger;
 
 /**
  * Format: (ch) dd
- * 
  * @author -Wooden-
  */
 public class RequestDismissPartyRoom extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(RequestDismissPartyRoom.class.getName());
-	private static final String _C__D0_02_REQUESTDISMISSPARTYROOM = "[C] D0:02 RequestDismissPartyRoom";
 	private int _data1;
 	private int _data2;
 
@@ -39,9 +37,6 @@ public class RequestDismissPartyRoom extends L2GameClientPacket
 		_data2 = readD();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -51,13 +46,10 @@ public class RequestDismissPartyRoom extends L2GameClientPacket
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_02_REQUESTDISMISSPARTYROOM;
+		return "[C] D0:02 RequestDismissPartyRoom";
 	}
 
 }

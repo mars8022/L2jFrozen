@@ -23,12 +23,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.PackageSendableList;
 
 /**
  * Format: (c)d d: char object id (?)
- * 
  * @author -Wooden-
  */
 public final class RequestPackageSendableItemList extends L2GameClientPacket
 {
-	private static final String _C_9E_REQUESTPACKAGESENDABLEITEMLIST = "[C] 9E RequestPackageSendableItemList";
 	private int _objectID;
 
 	@Override
@@ -37,9 +35,6 @@ public final class RequestPackageSendableItemList extends L2GameClientPacket
 		_objectID = readD();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	public void runImpl()
 	{
@@ -70,13 +65,10 @@ public final class RequestPackageSendableItemList extends L2GameClientPacket
 		sendPacket(new PackageSendableList(items, _objectID));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C_9E_REQUESTPACKAGESENDABLEITEMLIST;
+		return "[C] 9E RequestPackageSendableItemList";
 	}
 
 }

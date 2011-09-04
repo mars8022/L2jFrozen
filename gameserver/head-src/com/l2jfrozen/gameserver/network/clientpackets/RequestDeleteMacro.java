@@ -22,10 +22,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestDeleteMacro extends L2GameClientPacket
 {
-	
 	private int _id;
-
-	private static final String _C__C2_REQUESTDELETEMACRO = "[C] C2 RequestDeleteMacro";
 
 	@Override
 	protected void readImpl()
@@ -50,13 +47,10 @@ public final class RequestDeleteMacro extends L2GameClientPacket
 		sm = null;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__C2_REQUESTDELETEMACRO;
+		return "[C] C2 RequestDeleteMacro";
 	}
 
 }

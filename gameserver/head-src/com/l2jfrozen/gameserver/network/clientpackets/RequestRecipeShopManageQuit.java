@@ -20,17 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ... cd(dd)
- * 
- * @version $Revision: 1.1.2.2.2.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestRecipeShopManageQuit extends L2GameClientPacket
 {
-	private static final String _C__B3_RequestRecipeShopManageQuit = "[C] b2 RequestRecipeShopManageQuit";
-
-	//private static Logger _log = Logger.getLogger(RequestRecipeShopManageQuit.class.getName());
-
 	@Override
 	protected void readImpl()
 	{
@@ -52,6 +43,6 @@ public final class RequestRecipeShopManageQuit extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__B3_RequestRecipeShopManageQuit;
+		return "[C] b2 RequestRecipeShopManageQuit";
 	}
 }

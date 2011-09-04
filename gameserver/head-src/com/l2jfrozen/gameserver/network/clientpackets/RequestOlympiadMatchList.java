@@ -20,32 +20,25 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 /**
  * format ch c: (id) 0xD0 h: (subid) 0x13
- * 
  * @author -Wooden-
  */
 public final class RequestOlympiadMatchList extends L2GameClientPacket
 {
-	private static final String _C__D0_13_REQUESTOLYMPIADMATCHLIST = "[C] D0:13 RequestOlympiadMatchList";
-
 	@Override
 	protected void readImpl()
 	{
-	// trigger packet
+		// trigger packet
 	}
 
 	@Override
 	protected void runImpl()
 	{
-	// TODO Auto-generated method stub
+
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_13_REQUESTOLYMPIADMATCHLIST;
+		return "[C] D0:13 RequestOlympiadMatchList";
 	}
-
 }

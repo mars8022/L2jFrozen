@@ -32,12 +32,10 @@ import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * Format:(ch) dddd
- * 
  * @author -Wooden-
  */
 public final class RequestRefine extends L2GameClientPacket
 {
-	private static final String _C__D0_2C_REQUESTREFINE = "[C] D0:2C RequestRefine";
 	private int _targetItemObjId;
 	private int _refinerItemObjId;
 	private int _gemstoneItemObjId;
@@ -52,9 +50,6 @@ public final class RequestRefine extends L2GameClientPacket
 		_gemstoneCount = readD();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -294,12 +289,9 @@ public final class RequestRefine extends L2GameClientPacket
 		return itemId;
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_2C_REQUESTREFINE;
+		return "[C] D0:2C RequestRefine";
 	}
 }

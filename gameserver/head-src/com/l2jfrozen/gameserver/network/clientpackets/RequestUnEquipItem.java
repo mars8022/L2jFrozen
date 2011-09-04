@@ -30,14 +30,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.8.2.3.2.7 $ $Date: 2005/03/27 15:29:30 $
- */
 public class RequestUnEquipItem extends L2GameClientPacket
 {
-	private static final String _C__11_REQUESTUNEQUIPITEM = "[C] 11 RequestUnequipItem";
 	private static Logger _log = Logger.getLogger(RequestUnEquipItem.class.getName());
 
 	// cd
@@ -144,12 +138,9 @@ public class RequestUnEquipItem extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__11_REQUESTUNEQUIPITEM;
+		return "[C] 11 RequestUnequipItem";
 	}
 }

@@ -37,14 +37,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ... 32 SendWareHouseWithDrawList cd (dd) WootenGil rox :P
- * 
- * @version $Revision: 1.2.2.1.2.4 $ $Date: 2005/03/29 23:15:16 $
- */
 public final class SendWareHouseWithDrawList extends L2GameClientPacket
 {
-	private static final String _C__32_SENDWAREHOUSEWITHDRAWLIST = "[C] 32 SendWareHouseWithDrawList";
 	private static Logger _log = Logger.getLogger(SendWareHouseWithDrawList.class.getName());
 
 	private int _count;
@@ -222,12 +216,9 @@ public final class SendWareHouseWithDrawList extends L2GameClientPacket
 		player.sendPacket(su);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__32_SENDWAREHOUSEWITHDRAWLIST;
+		return "[C] 32 SendWareHouseWithDrawList";
 	}
 }

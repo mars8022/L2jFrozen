@@ -25,15 +25,8 @@ import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.2.1.2.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class CannotMoveAnymore extends L2GameClientPacket
 {
-	private static final String _C__36_STOPMOVE = "[C] 36 CannotMoveAnymore";
-
 	private static Logger _log = Logger.getLogger(CannotMoveAnymore.class.getName());
 
 	private int _x;
@@ -69,14 +62,9 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__36_STOPMOVE;
+		return "[C] 36 CannotMoveAnymore";
 	}
 }

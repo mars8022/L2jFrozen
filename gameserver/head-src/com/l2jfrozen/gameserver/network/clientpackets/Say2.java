@@ -45,14 +45,8 @@ import com.l2jfrozen.gameserver.powerpak.PowerPak;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.16.2.12.2.7 $ $Date: 2005/04/11 10:06:11 $
- */
 public final class Say2 extends L2GameClientPacket
 {
-	private static final String _C__38_SAY2 = "[C] 38 Say2";
 	private static Logger _log = Logger.getLogger(Say2.class.getName());
 	private static Logger _logChat = Logger.getLogger("chat");
 
@@ -607,12 +601,9 @@ public final class Say2 extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__38_SAY2;
+		return "[C] 38 Say2";
 	}
 }

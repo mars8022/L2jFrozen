@@ -20,17 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestWithDrawalParty extends L2GameClientPacket
 {
-	private static final String _C__2B_REQUESTWITHDRAWALPARTY = "[C] 2B RequestWithDrawalParty";
-
-	//private static Logger _log = Logger.getLogger(RequestWithDrawalParty.class.getName());
-
 	@Override
 	protected void readImpl()
 	{
@@ -60,6 +51,6 @@ public final class RequestWithDrawalParty extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__2B_REQUESTWITHDRAWALPARTY;
+		return "[C] 2B RequestWithDrawalParty";
 	}
 }

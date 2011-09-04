@@ -20,11 +20,8 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 /**
  * @author ProGramMoS
  */
-
 public class RequestTutorialQuestionMark extends L2GameClientPacket
 {
-	private static final String _C__7D_REQUESTTUTORIALQUESTIONMARK = "[C] 7d RequestTutorialQuestionMark";
-
 	int _number = 0;
 
 	@Override
@@ -51,6 +48,6 @@ public class RequestTutorialQuestionMark extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__7D_REQUESTTUTORIALQUESTIONMARK;
+		return "[C] 7d RequestTutorialQuestionMark";
 	}
 }

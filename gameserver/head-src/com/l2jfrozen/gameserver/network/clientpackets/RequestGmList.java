@@ -22,13 +22,9 @@ import com.l2jfrozen.gameserver.datatables.GmListTable;
 
 /**
  * This class handles RequestGmLista packet triggered by /gmlist command
- * 
- * @version $Revision: 1.1.4.2 $ $Date: 2005/03/27 15:29:30 $
  */
 public final class RequestGmList extends L2GameClientPacket
 {
-	private static final String _C__81_REQUESTGMLIST = "[C] 81 RequestGmList";
-
 	@Override
 	protected void readImpl()
 	{
@@ -44,12 +40,9 @@ public final class RequestGmList extends L2GameClientPacket
 		GmListTable.getInstance().sendListToPlayer(getClient().getActiveChar());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__81_REQUESTGMLIST;
+		return "[C] 81 RequestGmList";
 	}
 }

@@ -33,14 +33,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.2.1.2.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestSetAllyCrest extends L2GameClientPacket
 {
-	private static final String _C__87_REQUESTSETALLYCREST = "[C] 87 RequestSetAllyCrest";
 	static Logger _log = Logger.getLogger(RequestSetAllyCrest.class.getName());
 
 	private int _length;
@@ -138,12 +132,9 @@ public final class RequestSetAllyCrest extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__87_REQUESTSETALLYCREST;
+		return "[C] 87 RequestSetAllyCrest";
 	}
 }

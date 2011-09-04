@@ -28,12 +28,10 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 
 /**
  * Format(ch) d
- * 
  * @author -Wooden-
  */
 public final class RequestRefineCancel extends L2GameClientPacket
 {
-	private static final String _C__D0_2E_REQUESTREFINECANCEL = "[C] D0:2E RequestRefineCancel";
 	private int _targetItemObjId;
 
 	@Override
@@ -42,9 +40,6 @@ public final class RequestRefineCancel extends L2GameClientPacket
 		_targetItemObjId = readD();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -146,13 +141,10 @@ public final class RequestRefineCancel extends L2GameClientPacket
 		activeChar.sendPacket(sm);
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_2E_REQUESTREFINECANCEL;
+		return "[C] D0:2E RequestRefineCancel";
 	}
 
 }

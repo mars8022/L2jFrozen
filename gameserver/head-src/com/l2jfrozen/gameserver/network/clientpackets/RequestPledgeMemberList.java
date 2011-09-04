@@ -22,21 +22,12 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListAll;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.5.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestPledgeMemberList extends L2GameClientPacket
 {
-	private static final String _C__3C_REQUESTPLEDGEMEMBERLIST = "[C] 3C RequestPledgeMemberList";
-
-	//private static Logger _log = Logger.getLogger(RequestPledgeMemberList.class.getName());
-
 	@Override
 	protected void readImpl()
 	{
-	// trigger
+		// trigger
 	}
 
 	@Override
@@ -54,12 +45,9 @@ public final class RequestPledgeMemberList extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__3C_REQUESTPLEDGEMEMBERLIST;
+		return "[C] 3C RequestPledgeMemberList";
 	}
 }

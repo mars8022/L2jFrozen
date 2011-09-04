@@ -20,15 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestShortCutDel extends L2GameClientPacket
 {
-	private static final String _C__35_REQUESTSHORTCUTDEL = "[C] 35 RequestShortCutDel";
-
 	private int _slot;
 	private int _page;
 
@@ -51,12 +44,9 @@ public final class RequestShortCutDel extends L2GameClientPacket
 		// client needs no confirmation. this packet is just to inform the server
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__35_REQUESTSHORTCUTDEL;
+		return "[C] 35 RequestShortCutDel";
 	}
 }

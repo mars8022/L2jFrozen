@@ -24,13 +24,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListUpdate
 
 /**
  * Format: (ch) dSdS
- * 
  * @author -Wooden-
  */
 public final class RequestPledgeReorganizeMember extends L2GameClientPacket
 {
-	private static final String _C__D0_24_REQUESTPLEDGEREORGANIZEMEMBER = "[C] D0:24 RequestPledgeReorganizeMember";
-
 	@SuppressWarnings("unused")
 	private int _unk1;
 	private String _memberName;
@@ -48,9 +45,6 @@ public final class RequestPledgeReorganizeMember extends L2GameClientPacket
 		_unk2 = readS();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -71,13 +65,10 @@ public final class RequestPledgeReorganizeMember extends L2GameClientPacket
 		clan.broadcastToOnlineMembers(new PledgeShowMemberListUpdate(member));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_24_REQUESTPLEDGEREORGANIZEMEMBER;
+		return "[C] D0:24 RequestPledgeReorganizeMember";
 	}
 
 }

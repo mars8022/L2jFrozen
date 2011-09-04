@@ -45,16 +45,9 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.3 $ $Date: 2009/04/29 13:57:30 $
- */
 public final class UseItem extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(UseItem.class.getName());
-	private static final String _C__14_USEITEM = "[C] 14 UseItem";
-
 	private int _objectId;
 
 	@Override
@@ -643,7 +636,7 @@ public final class UseItem extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__14_USEITEM;
+		return "[C] 14 UseItem";
 	}
 
 }

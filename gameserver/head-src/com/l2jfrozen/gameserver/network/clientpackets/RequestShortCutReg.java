@@ -22,15 +22,8 @@ import com.l2jfrozen.gameserver.model.L2ShortCut;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutRegister;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestShortCutReg extends L2GameClientPacket
 {
-	private static final String _C__33_REQUESTSHORTCUTREG = "[C] 33 RequestShortCutReg";
-
 	private int _type;
 	private int _id;
 	private int _slot;
@@ -84,12 +77,9 @@ public final class RequestShortCutReg extends L2GameClientPacket
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__33_REQUESTSHORTCUTREG;
+		return "[C] 33 RequestShortCutReg";
 	}
 }

@@ -26,21 +26,11 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * <p>
- * Format: (c) Sd
- * <ul>
- * <li>S: content</li>
- * <li>d: type</li>
- * </ul>
- * </p>
- * 
+ * Format: (c) Sd (S: content - d: type)
  * @author -Wooden-, TempyIncursion
  */
 public final class RequestPetition extends L2GameClientPacket
 {
-	private static final String _C__7F_RequestPetition = "[C] 7F RequestPetition";
-	//private static Logger _log = Logger.getLogger(RequestPetition.class.getName());
-
 	private String _content;
 	private int _type; // 1 = on : 0 = off;
 
@@ -116,12 +106,9 @@ public final class RequestPetition extends L2GameClientPacket
 		sm = null;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__7F_RequestPetition;
+		return "[C] 7F RequestPetition";
 	}
 }

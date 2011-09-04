@@ -27,16 +27,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreMsgSell;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.2.1.2.5 $ $Date: 2005/03/27 15:29:30 $
- */
 public class SetPrivateStoreListSell extends L2GameClientPacket
 {
-	private static final String _C__74_SETPRIVATESTORELISTSELL = "[C] 74 SetPrivateStoreListSell";
-	//private static Logger _log = Logger.getLogger(SetPrivateStoreListSell.class.getName());
-
 	private int _count;
 	private boolean _packageSale;
 	private int[] _items; // count * 3
@@ -153,6 +145,6 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__74_SETPRIVATESTORELISTSELL;
+		return "[C] 74 SetPrivateStoreListSell";
 	}
 }

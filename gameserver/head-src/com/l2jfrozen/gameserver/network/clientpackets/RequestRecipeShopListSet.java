@@ -26,16 +26,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.RecipeShopMsg;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ... cd(dd)
- * 
- * @version $Revision: 1.1.2.3.2.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestRecipeShopListSet extends L2GameClientPacket
 {
-	private static final String _C__B2_RequestRecipeShopListSet = "[C] b2 RequestRecipeShopListSet";
-	//private static Logger _log = Logger.getLogger(RequestRecipeShopListSet.class.getName());
-
 	private int _count;
 	private int[] _items; // count*2
 
@@ -109,7 +101,7 @@ public final class RequestRecipeShopListSet extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__B2_RequestRecipeShopListSet;
+		return "[C] b2 RequestRecipeShopListSet";
 	}
 
 }

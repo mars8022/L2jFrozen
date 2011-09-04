@@ -42,14 +42,8 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.12.4.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestWearItem extends L2GameClientPacket
 {
-	private static final String _C__C6_REQUESTWEARITEM = "[C] C6 RequestWearItem";
 	protected static final Logger _log = Logger.getLogger(RequestWearItem.class.getName());
 
 	protected Future<?> _removeWearItemsTask;
@@ -280,12 +274,9 @@ public final class RequestWearItem extends L2GameClientPacket
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__C6_REQUESTWEARITEM;
+		return "[C] C6 RequestWearItem";
 	}
 }

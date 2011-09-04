@@ -50,7 +50,6 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class RequestBuyItem extends L2GameClientPacket
 {
-	private static final String _C__1F_REQUESTBUYITEM = "[C] 1F RequestBuyItem";
 	private static Logger _log = Logger.getLogger(RequestBuyItem.class.getName());
 
 	private int _listId;
@@ -415,12 +414,9 @@ public final class RequestBuyItem extends L2GameClientPacket
 		player.sendPacket(new ItemList(player, true));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__1F_REQUESTBUYITEM;
+		return "[C] 1F RequestBuyItem";
 	}
 }

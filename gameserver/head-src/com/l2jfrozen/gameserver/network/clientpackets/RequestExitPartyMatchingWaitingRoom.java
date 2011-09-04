@@ -20,22 +20,16 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 /**
  * Format: (ch) this is just a trigger : no data
- * 
  * @author -Wooden-
  */
 public final class RequestExitPartyMatchingWaitingRoom extends L2GameClientPacket
 {
-	private static final String _C__D0_17_REQUESTEXITPARTYMATCHINGWAITINGROOM = "[C] D0:17 RequestExitPartyMatchingWaitingRoom";
-
 	@Override
 	protected void readImpl()
 	{
-	//trigger
+		//trigger
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -43,13 +37,10 @@ public final class RequestExitPartyMatchingWaitingRoom extends L2GameClientPacke
 		System.out.println("C5: RequestExitPartyMatchingWaitingRoom");
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_17_REQUESTEXITPARTYMATCHINGWAITINGROOM;
+		return "[C] D0:17 RequestExitPartyMatchingWaitingRoom";
 	}
 
 }

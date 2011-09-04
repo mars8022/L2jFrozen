@@ -25,14 +25,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * sample 5F 01 00 00 00 format cdd
- * 
- * @version $Revision: 1.7.4.2 $ $Date: 2005/03/27 15:29:30 $
  */
 public final class RequestAnswerJoinAlly extends L2GameClientPacket
 {
-	private static final String _C__83_REQUESTANSWERJOINALLY = "[C] 83 RequestAnswerJoinAlly";
-	//private static Logger _log = Logger.getLogger(RequestAnswerJoinAlly.class.getName());
-
 	private int _response;
 
 	@Override
@@ -82,12 +77,9 @@ public final class RequestAnswerJoinAlly extends L2GameClientPacket
 		activeChar.getRequest().onRequestResponse();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__83_REQUESTANSWERJOINALLY;
+		return "[C] 83 RequestAnswerJoinAlly";
 	}
 }

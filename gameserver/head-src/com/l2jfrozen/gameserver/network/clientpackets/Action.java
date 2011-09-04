@@ -29,14 +29,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.7.4.4 $ $Date: 2005/03/27 18:46:19 $
- */
 public final class Action extends L2GameClientPacket
 {
-	private static final String ACTION__C__04 = "[C] 04 Action";
 	private static Logger _log = Logger.getLogger(Action.class.getName());
 
 	// cddddc
@@ -146,12 +140,9 @@ public final class Action extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return ACTION__C__04;
+		return "[C] 04 Action";
 	}
 }

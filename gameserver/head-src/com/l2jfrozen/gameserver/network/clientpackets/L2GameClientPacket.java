@@ -29,10 +29,8 @@ import com.l2jfrozen.netcore.ReceivablePacket;
 
 /**
  * Packets received by the game server from clients
- * 
  * @author KenM
  */
-
 public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 {
 	private static final Logger _log = Logger.getLogger(L2GameClientPacket.class.getName());

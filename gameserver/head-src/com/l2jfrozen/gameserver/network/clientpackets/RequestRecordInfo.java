@@ -45,8 +45,6 @@ import com.l2jfrozen.gameserver.thread.TaskPriority;
 
 public class RequestRecordInfo extends L2GameClientPacket
 {
-	private static final String _0__CF_REQUEST_RECORD_INFO = "[0] CF RequestRecordInfo";
-
 	/** urgent messages, execute immediatly */
 	public TaskPriority getPriority()
 	{
@@ -172,6 +170,6 @@ public class RequestRecordInfo extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _0__CF_REQUEST_RECORD_INFO;
+		return "[0] CF RequestRecordInfo";
 	}
 }

@@ -21,16 +21,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreMsgBuy;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class SetPrivateStoreMsgBuy extends L2GameClientPacket
 {
-	private static final String _C__94_SETPRIVATESTOREMSGBUY = "[C] 94 SetPrivateStoreMsgBuy";
-	//private static Logger _log = Logger.getLogger(SetPrivateStoreMsgBuy.class.getName());
-
 	private String _storeMsg;
 
 	@Override
@@ -53,13 +45,10 @@ public final class SetPrivateStoreMsgBuy extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__94_SETPRIVATESTOREMSGBUY;
+		return "[C] 94 SetPrivateStoreMsgBuy";
 	}
 
 }

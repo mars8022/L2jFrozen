@@ -22,16 +22,8 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.4.2.1.2.2 $ $Date: 2005/03/27 15:29:29 $
- */
 public final class CharacterRestore extends L2GameClientPacket
 {
-	private static final String _C__62_CHARACTERRESTORE = "[C] 62 CharacterRestore";
-	//private static Logger _log = Logger.getLogger(CharacterRestore.class.getName());
-
 	// cd
 	private int _charSlot;
 
@@ -69,12 +61,9 @@ public final class CharacterRestore extends L2GameClientPacket
 		getClient().setCharSelection(cl.getCharInfo());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__62_CHARACTERRESTORE;
+		return "[C] 62 CharacterRestore";
 	}
 }

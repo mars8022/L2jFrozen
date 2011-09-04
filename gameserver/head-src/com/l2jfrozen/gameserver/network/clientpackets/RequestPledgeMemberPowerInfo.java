@@ -25,12 +25,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeReceivePowerInfo;
 
 /**
  * Format: (ch) dS
- * 
  * @author -Wooden-
  */
 public final class RequestPledgeMemberPowerInfo extends L2GameClientPacket
 {
-	private static final String _C__D0_1B_REQUESTPLEDGEMEMBERPOWERINFO = "[C] D0:1B RequestPledgeMemberPowerInfo";
 	@SuppressWarnings("unused")
 	private int _unk1;
 	private String _player;
@@ -42,9 +40,6 @@ public final class RequestPledgeMemberPowerInfo extends L2GameClientPacket
 		_player = readS();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -63,13 +58,9 @@ public final class RequestPledgeMemberPowerInfo extends L2GameClientPacket
 		activeChar.sendPacket(new PledgeReceivePowerInfo(member));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_1B_REQUESTPLEDGEMEMBERPOWERINFO;
+		return "[C] D0:1B RequestPledgeMemberPowerInfo";
 	}
-
 }

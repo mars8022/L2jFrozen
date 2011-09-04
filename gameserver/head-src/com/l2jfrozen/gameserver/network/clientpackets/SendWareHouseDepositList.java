@@ -39,14 +39,8 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ... 31 SendWareHouseDepositList cd (dd)
- * 
- * @version $Revision: 1.3.4.5 $ $Date: 2005/04/11 10:06:09 $
- */
 public final class SendWareHouseDepositList extends L2GameClientPacket
 {
-	private static final String _C__31_SENDWAREHOUSEDEPOSITLIST = "[C] 31 SendWareHouseDepositList";
 	private static Logger _log = Logger.getLogger(SendWareHouseDepositList.class.getName());
 
 	private int _count;
@@ -255,12 +249,9 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 		player.sendPacket(su);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__31_SENDWAREHOUSEDEPOSITLIST;
+		return "[C] 31 SendWareHouseDepositList";
 	}
 }

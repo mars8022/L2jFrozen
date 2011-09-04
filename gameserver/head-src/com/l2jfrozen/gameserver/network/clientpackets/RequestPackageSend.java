@@ -43,7 +43,6 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
  */
 public final class RequestPackageSend extends L2GameClientPacket
 {
-	private static final String _C_9F_REQUESTPACKAGESEND = "[C] 9F RequestPackageSend";
 	private static Logger _log = Logger.getLogger(RequestPackageSend.class.getName());
 	private List<Item> _items = new FastList<Item>();
 	private int _objectID;
@@ -258,15 +257,6 @@ public final class RequestPackageSend extends L2GameClientPacket
 		player.setActiveWarehouse(null);
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
-	@Override
-	public String getType()
-	{
-		return _C_9F_REQUESTPACKAGESEND;
-	}
-
 	private class Item
 	{
 		public int id;
@@ -277,5 +267,11 @@ public final class RequestPackageSend extends L2GameClientPacket
 			id = i;
 			count = c;
 		}
+	}
+	
+	@Override
+	public String getType()
+	{
+		return "[C] 9F RequestPackageSend";
 	}
 }

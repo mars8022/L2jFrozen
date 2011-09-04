@@ -25,13 +25,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExSendManorList;
 
 /**
  * Format: ch c (id) 0xD0 h (subid) 0x08
- * 
  * @author l3x
  */
 public class RequestManorList extends L2GameClientPacket
 {
-	private static final String _C__FE_08_REQUESTMANORLIST = "[S] FE:08 RequestManorList";
-
 	@Override
 	protected void readImpl()
 	{}
@@ -59,6 +56,6 @@ public class RequestManorList extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__FE_08_REQUESTMANORLIST;
+		return "[S] FE:08 RequestManorList";
 	}
 }

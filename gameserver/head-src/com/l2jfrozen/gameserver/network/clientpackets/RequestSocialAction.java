@@ -28,17 +28,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.6.4.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public class RequestSocialAction extends L2GameClientPacket
 {
-	private static final String _C__1B_REQUESTSOCIALACTION = "[C] 1B RequestSocialAction";
 	private static Logger _log = Logger.getLogger(RequestSocialAction.class.getName());
-
-	// format  cd
 	private int _actionId;
 
 	@Override
@@ -102,12 +94,9 @@ public class RequestSocialAction extends L2GameClientPacket
 	}
 	*/
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__1B_REQUESTSOCIALACTION;
+		return "[C] 1B RequestSocialAction";
 	}
 }

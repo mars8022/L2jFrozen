@@ -20,16 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestOustPartyMember extends L2GameClientPacket
 {
-	private static final String _C__2C_REQUESTOUSTPARTYMEMBER = "[C] 2C RequestOustPartyMember";
-	//private static Logger _log = Logger.getLogger(RequestJoinParty.class.getName());
-
 	private String _name;
 
 	@Override
@@ -61,6 +53,6 @@ public final class RequestOustPartyMember extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__2C_REQUESTOUSTPARTYMEMBER;
+		return "[C] 2C RequestOustPartyMember";
 	}
 }

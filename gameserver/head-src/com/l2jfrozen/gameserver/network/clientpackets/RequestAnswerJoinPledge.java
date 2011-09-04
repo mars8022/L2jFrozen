@@ -27,16 +27,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListAll;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.4.2.1.2.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestAnswerJoinPledge extends L2GameClientPacket
 {
-	private static final String _C__25_REQUESTANSWERJOINPLEDGE = "[C] 25 RequestAnswerJoinPledge";
-	//private static Logger _log = Logger.getLogger(RequestAnswerJoinPledge.class.getName());
-
 	private int _answer;
 
 	@Override
@@ -114,12 +106,9 @@ public final class RequestAnswerJoinPledge extends L2GameClientPacket
 		activeChar.getRequest().onRequestResponse();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__25_REQUESTANSWERJOINPLEDGE;
+		return "[C] 25 RequestAnswerJoinPledge";
 	}
 }

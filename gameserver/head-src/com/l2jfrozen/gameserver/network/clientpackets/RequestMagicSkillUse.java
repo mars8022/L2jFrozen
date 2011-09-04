@@ -26,14 +26,8 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.7.2.1.2.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestMagicSkillUse extends L2GameClientPacket
 {
-	private static final String _C__2F_REQUESTMAGICSKILLUSE = "[C] 2F RequestMagicSkillUse";
 	private static Logger _log = Logger.getLogger(RequestMagicSkillUse.class.getName());
 
 	private int _magicId;
@@ -97,12 +91,9 @@ public final class RequestMagicSkillUse extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__2F_REQUESTMAGICSKILLUSE;
+		return "[C] 2F RequestMagicSkillUse";
 	}
 }

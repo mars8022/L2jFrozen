@@ -48,7 +48,6 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 
 public class MultiSellChoose extends L2GameClientPacket
 {
-	private static final String _C__A7_MULTISELLCHOOSE = "[C] A7 MultiSellChoose";
 	private static Logger _log = Logger.getLogger(MultiSellChoose.class.getName());
 	private int _listId;
 	private int _entryId;
@@ -574,6 +573,6 @@ public class MultiSellChoose extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__A7_MULTISELLCHOOSE;
+		return "[C] A7 MultiSellChoose";
 	}
 }

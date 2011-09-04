@@ -27,9 +27,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestStopPledgeWar extends L2GameClientPacket
 {
-	private static final String _C__4F_REQUESTSTOPPLEDGEWAR = "[C] 4F RequestStopPledgeWar";
-	//private static Logger _log = Logger.getLogger(RequestStopPledgeWar.class.getName());
-
 	private String _pledgeName;
 
 	@Override
@@ -103,6 +100,6 @@ public final class RequestStopPledgeWar extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__4F_REQUESTSTOPPLEDGEWAR;
+		return "[C] 4F RequestStopPledgeWar";
 	}
 }

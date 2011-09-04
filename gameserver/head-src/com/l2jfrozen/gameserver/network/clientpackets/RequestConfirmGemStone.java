@@ -27,12 +27,10 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 
 /**
  * Format:(ch) dddd
- * 
  * @author -Wooden-
  */
 public final class RequestConfirmGemStone extends L2GameClientPacket
 {
-	private static final String _C__D0_2B_REQUESTCONFIRMGEMSTONE = "[C] D0:2B RequestConfirmGemStone";
 	private int _targetItemObjId;
 	private int _refinerItemObjId;
 	private int _gemstoneItemObjId;
@@ -113,13 +111,10 @@ public final class RequestConfirmGemStone extends L2GameClientPacket
 		activeChar.sendPacket(new SystemMessage(SystemMessageId.PRESS_THE_AUGMENT_BUTTON_TO_BEGIN));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_2B_REQUESTCONFIRMGEMSTONE;
+		return "[C] D0:2B RequestConfirmGemStone";
 	}
 
 }

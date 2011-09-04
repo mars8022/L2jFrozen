@@ -18,17 +18,8 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
-
 public final class RequestPartyMatchConfig extends L2GameClientPacket
 {
-	private static final String _C__6F_REQUESTPARTYMATCHCONFIG = "[C] 6F RequestPartyMatchConfig";
-	//private static Logger _log = Logger.getLogger(RequestPartyMatchConfig.class.getName());
-
 	private int _automaticRegistration;
 	private int _showLevel;
 	private int _showClass;
@@ -70,12 +61,9 @@ public final class RequestPartyMatchConfig extends L2GameClientPacket
 		getClient().getActiveChar().setPartyMatchingMemo(_memo);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__6F_REQUESTPARTYMATCHCONFIG;
+		return "[C] 6F RequestPartyMatchConfig";
 	}
 }

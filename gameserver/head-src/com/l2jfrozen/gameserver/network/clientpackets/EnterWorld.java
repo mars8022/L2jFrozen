@@ -101,18 +101,10 @@ import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * Enter World Packet Handler
- * <p>
- * <p>
- * 0000: 03
- * <p>
  * packet format cbdddd
- * <p>
- * 
- * @version $Revision: 1.16.2.1.2.7 $ $Date: 2005/03/29 23:15:33 $
  */
 public class EnterWorld extends L2GameClientPacket
 {
-	private static final String _C__03_ENTERWORLD = "[C] 03 EnterWorld";
 	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
 
 	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
@@ -951,15 +943,6 @@ public class EnterWorld extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
-	@Override
-	public String getType()
-	{
-		return _C__03_ENTERWORLD;
-	}
-
 	private void setPledgeClass(L2PcInstance activeChar)
 	{
 		int pledgeClass = 0;
@@ -994,5 +977,11 @@ public class EnterWorld extends L2GameClientPacket
 				Announcements.getInstance().announceToAll("Lord " + activeChar.getName() + " Ruler Of " + castle.getName() + " Castle is Now Online!");
 			}
 		}
+	}
+
+	@Override
+	public String getType()
+	{
+		return "[C] 03 EnterWorld";
 	}
 }

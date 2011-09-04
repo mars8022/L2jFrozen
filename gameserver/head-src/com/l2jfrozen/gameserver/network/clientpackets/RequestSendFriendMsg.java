@@ -31,12 +31,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * Recieve Private (Friend) Message - 0xCC Format: c SS S: Message S: Receiving Player
- * 
  * @author L2JFrozen
  */
 public final class RequestSendFriendMsg extends L2GameClientPacket
 {
-	private static final String _C__CC_REQUESTSENDMSG = "[C] CC RequestSendMsg";
 	private static Logger _logChat = Logger.getLogger("chat");
 
 	private String _message;
@@ -82,6 +80,6 @@ public final class RequestSendFriendMsg extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__CC_REQUESTSENDMSG;
+		return "[C] CC RequestSendMsg";
 	}
 }

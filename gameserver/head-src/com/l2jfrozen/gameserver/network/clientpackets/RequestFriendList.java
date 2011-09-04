@@ -24,16 +24,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestFriendList extends L2GameClientPacket
 {
-	//private static Logger _log = Logger.getLogger(RequestFriendList.class.getName());
-	private static final String _C__60_REQUESTFRIENDLIST = "[C] 60 RequestFriendList";
-
 	@Override
 	protected void readImpl()
 	{
@@ -142,6 +134,6 @@ public final class RequestFriendList extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__60_REQUESTFRIENDLIST;
+		return "[C] 60 RequestFriendList";
 	}
 }

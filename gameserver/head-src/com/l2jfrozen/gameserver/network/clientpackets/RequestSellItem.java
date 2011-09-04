@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -34,16 +33,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.2.1.2.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestSellItem extends L2GameClientPacket
 {
-	private static final String _C__1E_REQUESTSELLITEM = "[C] 1E RequestSellItem";
-	//private static Logger _log = Logger.getLogger(RequestSellItem.class.getName());
-
 	private int _listId;
 	private int _count;
 	private int[] _items; // count*3
@@ -244,12 +235,9 @@ public final class RequestSellItem extends L2GameClientPacket
 		player.sendPacket(new ItemList(player, true));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__1E_REQUESTSELLITEM;
+		return "[C] 1E RequestSellItem";
 	}
 }

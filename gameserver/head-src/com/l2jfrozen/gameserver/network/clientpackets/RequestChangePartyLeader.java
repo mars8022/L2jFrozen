@@ -27,10 +27,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public final class RequestChangePartyLeader extends L2GameClientPacket
 {
-
-	private static final String _C__EE_REQUESTCHANGEPARTYLEADER = "[C] EE RequestChangePartyLeader";
-	//private static Logger _log = Logger.getLogger(RequestJoinParty.class.getName());
-
 	private String _name;
 
 	@Override
@@ -55,6 +51,6 @@ public final class RequestChangePartyLeader extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__EE_REQUESTCHANGEPARTYLEADER;
+		return "[C] EE RequestChangePartyLeader";
 	}
 }

@@ -29,7 +29,6 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
  */
 public final class DlgAnswer extends L2GameClientPacket
 {
-	private static final String _C__C5_DLGANSWER = "[C] C5 DlgAnswer";
 	private static Logger _log = Logger.getLogger(DlgAnswer.class.getName());
 
 	private int _messageId, _answer, _requestId;
@@ -74,6 +73,6 @@ public final class DlgAnswer extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__C5_DLGANSWER;
+		return "[C] C5 DlgAnswer";
 	}
 }

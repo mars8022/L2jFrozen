@@ -22,18 +22,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * Appearing Packet Handler
- * <p>
- * <p>
- * 0000: 30
- * <p>
- * <p>
- * 
- * @version $Revision: 1.3.4.4 $ $Date: 2005/03/29 23:15:33 $
  */
 public final class Appearing extends L2GameClientPacket
 {
-	private static final String _C__30_APPEARING = "[C] 30 Appearing";
-
 	@Override
 	protected void readImpl()
 	{}
@@ -60,12 +51,9 @@ public final class Appearing extends L2GameClientPacket
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__30_APPEARING;
+		return "[C] 30 Appearing";
 	}
 }

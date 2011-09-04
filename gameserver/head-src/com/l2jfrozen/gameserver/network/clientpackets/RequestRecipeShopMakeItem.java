@@ -30,9 +30,6 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 {
-	private static final String _C__AF_REQUESTRECIPESHOPMAKEITEM = "[C] B6 RequestRecipeShopMakeItem";
-	//private static Logger _log = Logger.getLogger(RequestSellItem.class.getName());
-
 	private int _id;
 	private int _recipeId;
 	@SuppressWarnings("unused")
@@ -88,14 +85,11 @@ public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 			RecipeController.getInstance().requestManufactureItem(manufacturer, _recipeId, activeChar);
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
-		return _C__AF_REQUESTRECIPESHOPMAKEITEM;
+		return "[C] B6 RequestRecipeShopMakeItem";
 	}
 
 }

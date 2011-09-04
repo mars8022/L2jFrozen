@@ -33,8 +33,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestExAskJoinMPCC extends L2GameClientPacket
 {
-	//private static Logger _log = Logger.getLogger(RequestExAskJoinMPCC.class.getName());
-	private static final String _C__D0_0D_REQUESTEXASKJOINMPCC = "[C] D0:0D RequestExAskJoinMPCC";
 	private String _name;
 
 	@Override
@@ -171,13 +169,10 @@ public final class RequestExAskJoinMPCC extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_0D_REQUESTEXASKJOINMPCC;
+		return "[C] D0:0D RequestExAskJoinMPCC";
 	}
 
 }

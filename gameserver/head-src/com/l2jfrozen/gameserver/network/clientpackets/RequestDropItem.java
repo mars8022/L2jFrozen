@@ -35,14 +35,8 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.11.2.1.2.7 $ $Date: 2005/04/02 21:25:21 $
- */
 public final class RequestDropItem extends L2GameClientPacket
 {
-	private static final String _C__12_REQUESTDROPITEM = "[C] 12 RequestDropItem";
 	private static Logger _log = Logger.getLogger(RequestDropItem.class.getName());
 
 	private int _objectId;
@@ -228,12 +222,9 @@ public final class RequestDropItem extends L2GameClientPacket
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__12_REQUESTDROPITEM;
+		return "[C] 12 RequestDropItem";
 	}
 }

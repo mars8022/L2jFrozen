@@ -26,10 +26,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 
 public final class RequestEvaluate extends L2GameClientPacket
 {
-	private static final String _C__B9_REQUESTEVALUATE = "[C] B9 RequestEvaluate";
-
-	//private static Logger _log = Logger.getLogger(RequestEvaluate.class.getName());
-
 	@SuppressWarnings("unused")
 	private int _targetId;
 
@@ -113,12 +109,9 @@ public final class RequestEvaluate extends L2GameClientPacket
 		target.broadcastUserInfo();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__B9_REQUESTEVALUATE;
+		return "[C] B9 RequestEvaluate";
 	}
 }

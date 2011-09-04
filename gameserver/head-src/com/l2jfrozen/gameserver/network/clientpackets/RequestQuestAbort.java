@@ -29,14 +29,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.QuestList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestQuestAbort extends L2GameClientPacket
 {
-	private static final String _C__64_REQUESTQUESTABORT = "[C] 64 RequestQuestAbort";
 	private static Logger _log = Logger.getLogger(RequestQuestAbort.class.getName());
 
 	private int _questId;
@@ -85,12 +79,9 @@ public final class RequestQuestAbort extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__64_REQUESTQUESTABORT;
+		return "[C] 64 RequestQuestAbort";
 	}
 }

@@ -25,14 +25,8 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.9.2.3.2.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class AuthLogin extends L2GameClientPacket
 {
-	private static final String _C__08_AUTHLOGIN = "[C] 08 AuthLogin";
 	private static Logger _log = Logger.getLogger(AuthLogin.class.getName());
 
 	// loginName + keys must match what the loginserver used.
@@ -81,12 +75,9 @@ public final class AuthLogin extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__08_AUTHLOGIN;
+		return "[C] 08 AuthLogin";
 	}
 }

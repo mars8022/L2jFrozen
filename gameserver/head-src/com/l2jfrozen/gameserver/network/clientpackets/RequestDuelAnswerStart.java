@@ -24,12 +24,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * Format:(ch) ddd
- * 
  * @author L2JFrozen
  */
 public final class RequestDuelAnswerStart extends L2GameClientPacket
 {
-	private static final String _C__D0_28_REQUESTDUELANSWERSTART = "[C] D0:28 RequestDuelAnswerStart";
 	private int _partyDuel;
 	@SuppressWarnings("unused")
 	private int _unk1;
@@ -115,13 +113,10 @@ public final class RequestDuelAnswerStart extends L2GameClientPacket
 		requestor.onTransactionResponse();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_28_REQUESTDUELANSWERSTART;
+		return "[C] D0:28 RequestDuelAnswerStart";
 	}
 
 }

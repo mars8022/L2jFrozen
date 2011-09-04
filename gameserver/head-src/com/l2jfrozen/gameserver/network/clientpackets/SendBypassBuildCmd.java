@@ -30,14 +30,10 @@ import com.l2jfrozen.gameserver.util.GMAudit;
 
 /**
  * This class handles all GM commands triggered by //command
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:29 $
  */
 public final class SendBypassBuildCmd extends L2GameClientPacket
 {
 	protected static final Logger _log = Logger.getLogger(SendBypassBuildCmd.class.getName());
-	
-	private static final String _C__5B_SENDBYPASSBUILDCMD = "[C] 5b SendBypassBuildCmd";
 	public final static int GM_MESSAGE = 9;
 	public final static int ANNOUNCEMENT = 10;
 
@@ -86,12 +82,9 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__5B_SENDBYPASSBUILDCMD;
+		return "[C] 5b SendBypassBuildCmd";
 	}
 }

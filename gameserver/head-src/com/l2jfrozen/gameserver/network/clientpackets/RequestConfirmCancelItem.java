@@ -27,12 +27,10 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 
 /**
  * Format(ch) d
- * 
  * @author -Wooden-
  */
 public final class RequestConfirmCancelItem extends L2GameClientPacket
 {
-	private static final String _C__D0_2D_REQUESTCONFIRMCANCELITEM = "[C] D0:2D RequestConfirmCancelItem";
 	private int _itemId;
 
 	/**
@@ -115,13 +113,10 @@ public final class RequestConfirmCancelItem extends L2GameClientPacket
 		activeChar.sendPacket(new ExConfirmCancelItem(_itemId, price));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_2D_REQUESTCONFIRMCANCELITEM;
+		return "[C] D0:2D RequestConfirmCancelItem";
 	}
 
 }

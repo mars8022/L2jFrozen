@@ -29,14 +29,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.TradeOtherAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeOwnAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeUpdate;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.5.2.2.2.5 $ $Date: 2005/03/27 15:29:29 $
- */
 public final class AddTradeItem extends L2GameClientPacket
 {
-	private static final String _C__16_ADDTRADEITEM = "[C] 16 AddTradeItem";
 	private static Logger _log = Logger.getLogger(AddTradeItem.class.getName());
 
 	private int _tradeId;
@@ -119,12 +113,9 @@ public final class AddTradeItem extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__16_ADDTRADEITEM;
+		return "[C] 16 AddTradeItem";
 	}
 }

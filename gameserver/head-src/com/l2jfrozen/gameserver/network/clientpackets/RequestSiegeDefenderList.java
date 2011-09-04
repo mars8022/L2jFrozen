@@ -26,16 +26,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.FortSiegeDefenderList;
 import com.l2jfrozen.gameserver.network.serverpackets.SiegeDefenderList;
 
 /**
- * This class ...
- * 
- * @version $Revision: 1.3.5 $ $Date: 2009/04/28 13:32:30 $
  * @author programmos
  */
 public final class RequestSiegeDefenderList extends L2GameClientPacket
 {
-	private static final String _C__a3_RequestSiegeDefenderList = "[C] a3 RequestSiegeDefenderList";
-	//private static Logger _log = Logger.getLogger(RequestJoinParty.class.getName());
-
 	private int _castleId;
 
 	@Override
@@ -72,6 +66,6 @@ public final class RequestSiegeDefenderList extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__a3_RequestSiegeDefenderList;
+		return "[C] a3 RequestSiegeDefenderList";
 	}
 }
