@@ -20,21 +20,12 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.2.1.2.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestPrivateStoreQuitSell extends L2GameClientPacket
 {
-	private static final String _C__76_REQUESTPRIVATESTOREQUITSELL = "[C] 76 RequestPrivateStoreQuitSell";
-
-	//private static Logger _log = Logger.getLogger(RequestPrivateStoreQuitSell.class.getName());
-
 	@Override
 	protected void readImpl()
 	{
-	// trigger
+		// trigger
 	}
 
 	@Override
@@ -49,12 +40,9 @@ public final class RequestPrivateStoreQuitSell extends L2GameClientPacket
 		player.broadcastUserInfo();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__76_REQUESTPRIVATESTOREQUITSELL;
+		return "[C] 76 RequestPrivateStoreQuitSell";
 	}
 }

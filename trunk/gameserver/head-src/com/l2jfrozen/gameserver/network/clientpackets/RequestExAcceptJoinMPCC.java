@@ -26,7 +26,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 {
-	private static final String _C__D0_0E_REQUESTEXASKJOINMPCC = "[C] D0:0E RequestExAcceptJoinMPCC";
 	private int _response;
 
 	/**
@@ -39,9 +38,6 @@ public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 		_response = readD();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -72,13 +68,10 @@ public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_0E_REQUESTEXASKJOINMPCC;
+		return "[C] D0:0E RequestExAcceptJoinMPCC";
 	}
 
 }

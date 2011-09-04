@@ -20,16 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestSkillList extends L2GameClientPacket
 {
-	private static final String _C__3F_REQUESTSKILLLIST = "[C] 3F RequestSkillList";
-	//private static Logger _log = Logger.getLogger(RequestSkillList.class.getName());
-
 	@SuppressWarnings("unused")
 	private int _unk1;
 
@@ -56,12 +48,9 @@ public final class RequestSkillList extends L2GameClientPacket
 		cha.sendSkillList();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__3F_REQUESTSKILLLIST;
+		return "[C] 3F RequestSkillList";
 	}
 }

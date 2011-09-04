@@ -44,14 +44,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.util.GMAudit;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.12.4.5 $ $Date: 2009/04/13 09:41:11 $
- */
 public final class RequestBypassToServer extends L2GameClientPacket
 {
-	private static final String _C__21_REQUESTBYPASSTOSERVER = "[C] 21 RequestBypassToServer";
 	private static Logger _log = Logger.getLogger(RequestBypassToServer.class.getName());
 
 	// S
@@ -367,12 +361,9 @@ public final class RequestBypassToServer extends L2GameClientPacket
 		activeChar.sendPacket(html);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__21_REQUESTBYPASSTOSERVER;
+		return "[C] 21 RequestBypassToServer";
 	}
 }

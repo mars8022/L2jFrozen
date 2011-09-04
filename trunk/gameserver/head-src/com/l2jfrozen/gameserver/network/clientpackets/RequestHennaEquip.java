@@ -31,18 +31,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Henna;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision$ $Date$
- */
 public final class RequestHennaEquip extends L2GameClientPacket
 {
-	private static final String _C__BC_RequestHennaEquip = "[C] bc RequestHennaEquip";
-	//private static Logger _log = Logger.getLogger(RequestHennaEquip.class.getName());
 	private int _symbolId;
-
-	// format  cd
 
 	/**
 	 * packet type id 0xbb format: cd
@@ -131,12 +122,9 @@ public final class RequestHennaEquip extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__BC_RequestHennaEquip;
+		return "[C] bc RequestHennaEquip";
 	}
 }

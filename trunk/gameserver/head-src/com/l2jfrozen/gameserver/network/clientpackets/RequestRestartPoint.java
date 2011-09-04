@@ -40,14 +40,10 @@ import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
- * This class ...
- * 
- * @version $Revision: 1.7.3 $ $Date: 2009/04/29 13:54:30 $
  * @author programmos
  */
 public final class RequestRestartPoint extends L2GameClientPacket
 {
-	private static final String _C__6d_REQUESTRESTARTPOINT = "[C] 6d RequestRestartPoint";
 	private static Logger _log = Logger.getLogger(RequestRestartPoint.class.getName());
 
 	protected int _requestedPointType;
@@ -255,12 +251,9 @@ public final class RequestRestartPoint extends L2GameClientPacket
 		new DeathTask(activeChar).run();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__6d_REQUESTRESTARTPOINT;
+		return "[C] 6d RequestRestartPoint";
 	}
 }

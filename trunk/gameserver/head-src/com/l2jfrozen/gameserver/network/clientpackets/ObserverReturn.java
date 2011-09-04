@@ -20,17 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.7.4.4 $ $Date: 2005/03/27 18:46:19 $
- */
 public final class ObserverReturn extends L2GameClientPacket
 {
-	private static final String OBSRETURN__C__04 = "[C] b8 ObserverReturn";
-
-	//private static Logger _log = Logger.getLogger(Action.class.getName());
-
 	@Override
 	protected void readImpl()
 	{}
@@ -49,12 +40,9 @@ public final class ObserverReturn extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return OBSRETURN__C__04;
+		return "[C] b8 ObserverReturn";
 	}
 }

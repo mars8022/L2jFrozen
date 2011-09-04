@@ -28,7 +28,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestSurrenderPersonally extends L2GameClientPacket
 {
-	private static final String _C__69_REQUESTSURRENDERPERSONALLY = "[C] 69 RequestSurrenderPersonally";
 	private static Logger _log = Logger.getLogger(RequestSurrenderPledgeWar.class.getName());
 
 	private String _pledgeName;
@@ -80,6 +79,6 @@ public final class RequestSurrenderPersonally extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__69_REQUESTSURRENDERPERSONALLY;
+		return "[C] 69 RequestSurrenderPersonally";
 	}
 }

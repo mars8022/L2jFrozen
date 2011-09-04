@@ -20,10 +20,8 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 /**
  * @author ProGramMoS
  */
-
 public class RequestTutorialClientEvent extends L2GameClientPacket
 {
-	private static final String _C__7E_REQUESTTUTORIALCLIENTEVENT = "[C] 7e RequestTutorialClientEvent";
 	int eventId = 0;
 
 	@Override
@@ -50,6 +48,6 @@ public class RequestTutorialClientEvent extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__7E_REQUESTTUTORIALCLIENTEVENT;
+		return "[C] 7e RequestTutorialClientEvent";
 	}
 }

@@ -22,15 +22,8 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class StartRotating extends L2GameClientPacket
 {
-	private static final String _C__4A_STARTROTATING = "[C] 4A StartRotating";
-
 	private int _degree;
 	private int _side;
 
@@ -63,12 +56,9 @@ public final class StartRotating extends L2GameClientPacket
 		getClient().getActiveChar().broadcastPacket(br);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__4A_STARTROTATING;
+		return "[C] 4A StartRotating";
 	}
 }

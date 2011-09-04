@@ -32,15 +32,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.2.1.2.5 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestPrivateStoreBuy extends L2GameClientPacket
 {
-	//	private static final String _C__79_SENDPRIVATESTOREBUYLIST = "[C] 79 SendPrivateStoreBuyList";
-	private static final String _C__79_REQUESTPRIVATESTOREBUY = "[C] 79 RequestPrivateStoreBuy";
 	private static Logger _log = Logger.getLogger(RequestPrivateStoreBuy.class.getName());
 
 	private int _storePlayerId;
@@ -241,6 +234,6 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__79_REQUESTPRIVATESTOREBUY;
+		return "[C] 79 RequestPrivateStoreBuy";
 	}
 }

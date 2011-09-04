@@ -52,9 +52,6 @@ public final class RequestGetOffVehicle extends L2GameClientPacket
 		activeChar.broadcastPacket(Gon);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{

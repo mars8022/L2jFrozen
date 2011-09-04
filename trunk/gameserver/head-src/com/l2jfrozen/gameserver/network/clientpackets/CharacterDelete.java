@@ -28,14 +28,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharDeleteOk;
 import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
 
 /**
- * This class ...
- * 
  * @author eX1steam, l2jfrozen
- * @version $Revision: 1.8.2.1.2.3 $ $Date: 2009/04/10 17:01:30 $
  */
 public final class CharacterDelete extends L2GameClientPacket
 {
-	private static final String _C__0C_CHARACTERDELETE = "[C] 0C CharacterDelete";
 	private static Logger _log = Logger.getLogger(CharacterDelete.class.getName());
 
 	// cd
@@ -100,12 +96,9 @@ public final class CharacterDelete extends L2GameClientPacket
 		getClient().setCharSelection(cl.getCharInfo());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__0C_CHARACTERDELETE;
+		return "[C] 0C CharacterDelete";
 	}
 }

@@ -32,7 +32,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SendStatus;
  */
 public final class ProtocolVersion extends L2GameClientPacket
 {
-	private static final String _C__00_PROTOCOLVERSION = "[C] 00 ProtocolVersion";
 	static Logger _log = Logger.getLogger(ProtocolVersion.class.getName());
 
 	private int _version;
@@ -81,12 +80,9 @@ public final class ProtocolVersion extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__00_PROTOCOLVERSION;
+		return "[C] 00 ProtocolVersion";
 	}
 }

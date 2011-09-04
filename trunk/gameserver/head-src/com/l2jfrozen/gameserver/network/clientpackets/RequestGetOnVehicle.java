@@ -24,15 +24,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.GetOnVehicle;
 import com.l2jfrozen.util.Point3D;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestGetOnVehicle extends L2GameClientPacket
 {
-	private static final String _C__5C_GETONVEHICLE = "[C] 5C GetOnVehicle";
-
 	private int _id, _x, _y, _z;
 
 	@Override
@@ -64,12 +57,9 @@ public final class RequestGetOnVehicle extends L2GameClientPacket
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__5C_GETONVEHICLE;
+		return "[C] 5C GetOnVehicle";
 	}
 }

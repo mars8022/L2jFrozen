@@ -40,7 +40,6 @@ import com.l2jfrozen.util.random.Rnd;
 public final class RequestEnchantItem extends L2GameClientPacket
 {
 	protected static final Logger _log = Logger.getLogger(Inventory.class.getName());
-	private static final String _C__58_REQUESTENCHANTITEM = "[C] 58 RequestEnchantItem";
 	private static final int[] CRYSTAL_SCROLLS =
 	{
 			731, 732, 949, 950, 953, 954, 957, 958, 961, 962
@@ -719,12 +718,9 @@ public final class RequestEnchantItem extends L2GameClientPacket
 		activeChar.broadcastUserInfo();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__58_REQUESTENCHANTITEM;
+		return "[C] 58 RequestEnchantItem";
 	}
 }

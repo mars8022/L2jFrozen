@@ -32,11 +32,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.9.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class Logout extends L2GameClientPacket
 {
 	private static final String _C__09_LOGOUT = "[C] 09 Logout";
@@ -155,12 +150,9 @@ public final class Logout extends L2GameClientPacket
 		player.deleteMe();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__09_LOGOUT;
+		return "[C] 09 Logout";
 	}
 }

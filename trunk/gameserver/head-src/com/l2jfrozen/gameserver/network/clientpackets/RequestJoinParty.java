@@ -32,14 +32,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinParty;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * sample 29 42 00 00 10 01 00 00 00 format cdd
- * 
- * @version $Revision: 1.7.4.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestJoinParty extends L2GameClientPacket
 {
-	private static final String _C__29_REQUESTJOINPARTY = "[C] 29 RequestJoinParty";
 	private static Logger _log = Logger.getLogger(RequestJoinParty.class.getName());
 
 	private String _name;
@@ -249,12 +243,9 @@ public final class RequestJoinParty extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__29_REQUESTJOINPARTY;
+		return "[C] 29 RequestJoinParty";
 	}
 }

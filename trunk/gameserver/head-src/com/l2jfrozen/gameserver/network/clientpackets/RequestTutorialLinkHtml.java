@@ -22,14 +22,11 @@ import com.l2jfrozen.gameserver.network.serverpackets.TutorialCloseHtml;
 /**
  * @author ProGramMoS
  */
-
 public class RequestTutorialLinkHtml extends L2GameClientPacket
 {
-	private static final String _C__7B_REQUESTTUTORIALLINKHTML = "[C] 7b RequestTutorialLinkHtml";
-	String _bypass;
-
-	boolean protector_packet = false;
-	int answer_id = 0;
+	private String _bypass;
+	private boolean protector_packet = false;
+	private int answer_id = 0;
 	
 	@Override
 	protected void readImpl()
@@ -82,6 +79,6 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__7B_REQUESTTUTORIALLINKHTML;
+		return "[C] 7b RequestTutorialLinkHtml";
 	}
 }

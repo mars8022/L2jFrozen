@@ -28,15 +28,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.13.4.7 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class ValidatePosition extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(ValidatePosition.class.getName());
-	private static final String _C__48_VALIDATEPOSITION = "[C] 48 ValidatePosition";
 
 	private int _x;
 	private int _y;
@@ -360,14 +354,14 @@ public final class ValidatePosition extends L2GameClientPacket
 		_z = player.getZ();
 	}
 
-	@Override
-	public String getType()
-	{
-		return _C__48_VALIDATEPOSITION;
-	}
-
 	public boolean equal(ValidatePosition pos)
 	{
 		return _x == pos._x && _y == pos._y && _z == pos._z && _heading == pos._heading;
+	}
+	
+	@Override
+	public String getType()
+	{
+		return "[C] 48 ValidatePosition";
 	}
 }

@@ -33,15 +33,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestFriendDel extends L2GameClientPacket
 {
-
-	private static final String _C__61_REQUESTFRIENDDEL = "[C] 61 RequestFriendDel";
 	private static Logger _log = Logger.getLogger(RequestFriendDel.class.getName());
 
 	private String _name;
@@ -177,6 +170,6 @@ public final class RequestFriendDel extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__61_REQUESTFRIENDDEL;
+		return "[C] 61 RequestFriendDel";
 	}
 }

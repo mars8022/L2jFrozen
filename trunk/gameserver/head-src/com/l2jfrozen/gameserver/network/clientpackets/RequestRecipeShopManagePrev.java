@@ -22,17 +22,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.RecipeShopSellList;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.2.1.2.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestRecipeShopManagePrev extends L2GameClientPacket
 {
-	private static final String _C__B7_RequestRecipeShopPrev = "[C] b7 RequestRecipeShopPrev";
-
-	//private static Logger _log = Logger.getLogger(RequestPrivateStoreManage.class.getName());
-
 	@Override
 	protected void readImpl()
 	{
@@ -60,12 +51,9 @@ public final class RequestRecipeShopManagePrev extends L2GameClientPacket
 		player.sendPacket(new RecipeShopSellList(player, target));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__B7_RequestRecipeShopPrev;
+		return "[C] b7 RequestRecipeShopPrev";
 	}
 }

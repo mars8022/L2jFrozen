@@ -24,17 +24,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreManageListBuy;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.2.1.2.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 {
-	private static final String _C__90_REQUESTPRIVATESTOREMANAGEBUY = "[C] 90 RequestPrivateStoreManageBuy";
-
-	//private static Logger _log = Logger.getLogger(RequestPrivateStoreBuyManage.class.getName());
-
 	@Override
 	protected void readImpl()
 	{}
@@ -96,12 +87,9 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__90_REQUESTPRIVATESTOREMANAGEBUY;
+		return "[C] 90 RequestPrivateStoreManageBuy";
 	}
 }

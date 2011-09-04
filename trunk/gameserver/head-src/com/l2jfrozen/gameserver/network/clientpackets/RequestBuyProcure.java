@@ -42,7 +42,6 @@ import com.l2jfrozen.gameserver.util.Util;
 @SuppressWarnings("unused")
 public class RequestBuyProcure extends L2GameClientPacket
 {
-	private static final String _C__C3_REQUESTBUYPROCURE = "[C] C3 RequestBuyProcure";
 	private int _listId;
 	private int _count;
 	private int[] _items;
@@ -215,6 +214,6 @@ public class RequestBuyProcure extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__C3_REQUESTBUYPROCURE;
+		return "[C] C3 RequestBuyProcure";
 	}
 }

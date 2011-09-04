@@ -29,16 +29,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.PetInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.4 $ $Date: 2005/04/06 16:13:48 $
- */
 public final class RequestChangePetName extends L2GameClientPacket
 {
-	private static final String REQUESTCHANGEPETNAME__C__89 = "[C] 89 RequestChangePetName";
-	//private static Logger _log = Logger.getLogger(RequestChangePetName.class.getName());
-
 	private String _name;
 
 	@Override
@@ -109,6 +101,6 @@ public final class RequestChangePetName extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return REQUESTCHANGEPETNAME__C__89;
+		return "[C] 89 RequestChangePetName";
 	}
 }

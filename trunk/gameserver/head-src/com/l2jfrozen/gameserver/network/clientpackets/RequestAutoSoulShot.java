@@ -27,14 +27,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.0.0.0 $ $Date: 2005/07/11 15:29:30 $
- */
 public final class RequestAutoSoulShot extends L2GameClientPacket
 {
-	private static final String _C__CF_REQUESTAUTOSOULSHOT = "[C] CF RequestAutoSoulShot";
 	private static Logger _log = Logger.getLogger(RequestAutoSoulShot.class.getName());
 
 	// format  cd
@@ -139,12 +133,9 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__CF_REQUESTAUTOSOULSHOT;
+		return "[C] CF RequestAutoSoulShot";
 	}
 }

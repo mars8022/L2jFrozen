@@ -25,16 +25,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.4.4 $ $Date: 2005/03/29 23:15:33 $
- */
 public final class RequestPetGetItem extends L2GameClientPacket
 {
-	//private static Logger _log = Logger.getLogger(RequestPetGetItem.class.getName());
-	private static final String _C__8f_REQUESTPETGETITEM = "[C] 8F RequestPetGetItem";
-
 	private int _objectId;
 
 	@Override
@@ -72,7 +64,6 @@ public final class RequestPetGetItem extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__8f_REQUESTPETGETITEM;
+		return "[C] 8F RequestPetGetItem";
 	}
-
 }

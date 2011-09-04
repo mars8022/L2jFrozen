@@ -19,8 +19,7 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 
 public class RequestTutorialPassCmdToServer extends L2GameClientPacket
 {
-	private static final String _C__7C_REQUESTTUTORIALPASSCMDTOSERVER = "[C] 7c RequestTutorialPassCmdToServer";
-	String _bypass = null;
+	private String _bypass = null;
 
 	@Override
 	protected void readImpl()
@@ -46,6 +45,6 @@ public class RequestTutorialPassCmdToServer extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__7C_REQUESTTUTORIALPASSCMDTOSERVER;
+		return "[C] 7c RequestTutorialPassCmdToServer";
 	}
 }

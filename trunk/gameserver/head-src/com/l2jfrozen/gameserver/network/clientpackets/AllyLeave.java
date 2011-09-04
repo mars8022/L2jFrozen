@@ -26,10 +26,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class AllyLeave extends L2GameClientPacket
 {
-	private static final String _C__84_ALLYLEAVE = "[C] 84 AllyLeave";
-
-	//private static Logger _log = Logger.getLogger(AllyLeave.class.getName());
-
 	@Override
 	protected void readImpl()
 	{}
@@ -82,6 +78,6 @@ public final class AllyLeave extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__84_ALLYLEAVE;
+		return "[C] 84 AllyLeave";
 	}
 }

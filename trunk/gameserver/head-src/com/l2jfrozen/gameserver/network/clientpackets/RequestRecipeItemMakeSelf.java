@@ -26,9 +26,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public final class RequestRecipeItemMakeSelf extends L2GameClientPacket
 {
-	private static final String _C__AF_REQUESTRECIPEITEMMAKESELF = "[C] AF RequestRecipeItemMakeSelf";
-	//private static Logger _log = Logger.getLogger(RequestSellItem.class.getName());
-
 	private int _id;
 
 	@Override
@@ -63,13 +60,10 @@ public final class RequestRecipeItemMakeSelf extends L2GameClientPacket
 		RecipeController.getInstance().requestMakeItem(activeChar, _id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__AF_REQUESTRECIPEITEMMAKESELF;
+		return "[C] AF RequestRecipeItemMakeSelf";
 	}
 
 }

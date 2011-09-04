@@ -25,14 +25,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SendTradeDone;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.5.4.3 $ $Date: 2009/04/22 10:59:32 $
- */
 public final class AnswerTradeRequest extends L2GameClientPacket
 {
-	private static final String _C__40_ANSWERTRADEREQUEST = "[C] 40 AnswerTradeRequest";
 	private int _response;
 
 	@Override
@@ -85,12 +79,9 @@ public final class AnswerTradeRequest extends L2GameClientPacket
 		partner.onTransactionResponse();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__40_ANSWERTRADEREQUEST;
+		return "[C] 40 AnswerTradeRequest";
 	}
 }

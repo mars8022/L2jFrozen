@@ -34,8 +34,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class RequestPetUseItem extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(RequestPetUseItem.class.getName());
-	private static final String _C__8A_REQUESTPETUSEITEM = "[C] 8a RequestPetUseItem";
-
 	private int _objectId;
 
 	@Override
@@ -221,12 +219,9 @@ public final class RequestPetUseItem extends L2GameClientPacket
 		pet.broadcastStatusUpdate();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__8A_REQUESTPETUSEITEM;
+		return "[C] 8a RequestPetUseItem";
 	}
 }

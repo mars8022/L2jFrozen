@@ -31,14 +31,8 @@ import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.11.2.4.2.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public class MoveBackwardToLocation extends L2GameClientPacket
 {
-	//private static Logger _log = Logger.getLogger(MoveBackwardToLocation.class.getName());
 	// cdddddd
 	private int _targetX; 
  	private int _targetY; 
@@ -60,8 +54,6 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 	{
 		return TaskPriority.PR_HIGH;
 	}
-
-	private static final String _C__01_MOVEBACKWARDTOLOC = "[C] 01 MoveBackwardToLoc";
 
 	@Override
 	protected void readImpl()
@@ -157,6 +149,6 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__01_MOVEBACKWARDTOLOC;
+		return "[C] 01 MoveBackwardToLoc";
 	}
 }

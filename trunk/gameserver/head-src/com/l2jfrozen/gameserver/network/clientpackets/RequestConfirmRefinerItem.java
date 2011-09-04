@@ -27,13 +27,10 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 
 /**
  * Fromat(ch) dd
- * 
  * @author -Wooden-
  */
 public class RequestConfirmRefinerItem extends L2GameClientPacket
 {
-	private static final String _C__D0_2A_REQUESTCONFIRMREFINERITEM = "[C] D0:2A RequestConfirmRefinerItem";
-
 	private static final int GEMSTONE_D = 2130;
 	private static final int GEMSTONE_C = 2131;
 
@@ -149,13 +146,10 @@ public class RequestConfirmRefinerItem extends L2GameClientPacket
 		return itemId;
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_2A_REQUESTCONFIRMREFINERITEM;
+		return "[C] D0:2A RequestConfirmRefinerItem";
 	}
 
 }

@@ -26,14 +26,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.2.1.2.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public class RequestUserCommand extends L2GameClientPacket
 {
-	private static final String _C__AA_REQUESTUSERCOMMAND = "[C] aa RequestUserCommand";
 	static Logger _log = Logger.getLogger(RequestUserCommand.class.getName());
 
 	private int _command;
@@ -65,13 +59,10 @@ public class RequestUserCommand extends L2GameClientPacket
 			handler.useUserCommand(_command, getClient().getActiveChar());
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
-		return _C__AA_REQUESTUSERCOMMAND;
+		return "[C] aa RequestUserCommand";
 	}
 }

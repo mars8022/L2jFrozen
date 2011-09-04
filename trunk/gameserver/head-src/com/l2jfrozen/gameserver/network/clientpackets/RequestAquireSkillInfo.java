@@ -32,14 +32,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.AquireSkillInfo;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.5.2.1.2.5 $ $Date: 2005/04/06 16:13:48 $
- */
 public class RequestAquireSkillInfo extends L2GameClientPacket
 {
-	private static final String _C__6B_REQUESTAQUIRESKILLINFO = "[C] 6B RequestAquireSkillInfo";
 	private static Logger _log = Logger.getLogger(RequestAquireSkillInfo.class.getName());
 
 	private int _id;
@@ -179,14 +173,9 @@ public class RequestAquireSkillInfo extends L2GameClientPacket
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__6B_REQUESTAQUIRESKILLINFO;
+		return "[C] 6B RequestAquireSkillInfo";
 	}
 }

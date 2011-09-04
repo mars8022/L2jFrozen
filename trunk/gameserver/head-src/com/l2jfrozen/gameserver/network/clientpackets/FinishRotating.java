@@ -30,8 +30,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.StopRotation;
  */
 public final class FinishRotating extends L2GameClientPacket
 {
-	private static final String _C__4B_FINISHROTATING = "[C] 4B FinishRotating";
-
 	private int _degree;
 
 	@SuppressWarnings("unused")
@@ -60,12 +58,9 @@ public final class FinishRotating extends L2GameClientPacket
 		player.broadcastPacket(sr);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__4B_FINISHROTATING;
+		return "[C] 4B FinishRotating";
 	}
 }

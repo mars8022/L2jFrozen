@@ -25,15 +25,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinPledge;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestJoinPledge extends L2GameClientPacket
 {
-	private static final String _C__24_REQUESTJOINPLEDGE = "[C] 24 RequestJoinPledge";
-
 	private int _target;
 	private int _pledgeType;
 
@@ -81,12 +74,9 @@ public final class RequestJoinPledge extends L2GameClientPacket
 		return _pledgeType;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__24_REQUESTJOINPLEDGE;
+		return "[C] 24 RequestJoinPledge";
 	}
 }

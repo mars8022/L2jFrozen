@@ -45,14 +45,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.RecipeShopManageList;
 import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.11.2.7.2.9 $ $Date: 2005/04/06 16:13:48 $
- */
 public final class RequestActionUse extends L2GameClientPacket
 {
-	private static final String _C__45_REQUESTACTIONUSE = "[C] 45 RequestActionUse";
 	private static Logger _log = Logger.getLogger(RequestActionUse.class.getName());
 
 	private int _actionId;
@@ -639,6 +633,6 @@ public final class RequestActionUse extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__45_REQUESTACTIONUSE;
+		return "[C] 45 RequestActionUse";
 	}
 }

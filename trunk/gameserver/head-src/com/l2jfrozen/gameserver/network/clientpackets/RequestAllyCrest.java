@@ -16,17 +16,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.network.serverpackets.AllyCrest;
 
-
-
-/**
- * This class ...
- *
- * @version $Revision: 1.3.4.4 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestAllyCrest extends L2GameClientPacket
 {
-	private static final String _C__88_REQUESTALLYCREST = "[C] 88 RequestAllyCrest";
-	
 	private int _crestId;
 	/**
 	 * packet type id 0x88 format: cd
@@ -45,12 +36,9 @@ public final class RequestAllyCrest extends L2GameClientPacket
 		sendPacket(new AllyCrest(_crestId));
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.l2jserver.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__88_REQUESTALLYCREST;
+		return "[C] 88 RequestAllyCrest";
 	}
 }

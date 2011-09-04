@@ -25,15 +25,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.6.2.2.2.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class TradeDone extends L2GameClientPacket
 {
-	private static final String _C__17_TRADEDONE = "[C] 17 TradeDone";
-	
 	private int _response;
 
 	@Override
@@ -104,13 +97,9 @@ public final class TradeDone extends L2GameClientPacket
 			player.cancelActiveTrade();
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__17_TRADEDONE;
+		return "[C] 17 TradeDone";
 	}
 }

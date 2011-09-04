@@ -27,17 +27,12 @@ import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 
 /**
  * Format: (ch) dd [dddc] d - manor id d - size [ d - crop id d - sales d - price c - reward type ]
- * 
  * @author l3x
  */
 public class RequestSetCrop extends L2GameClientPacket
 {
-	private static final String _C__D0_0B_REQUESTSETCROP = "[C] D0:0B RequestSetCrop";
-
 	private int _size;
-
 	private int _manorId;
-
 	private int[] _items; // _size*4
 
 	@Override
@@ -99,6 +94,6 @@ public class RequestSetCrop extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__D0_0B_REQUESTSETCROP;
+		return "[C] D0:0B RequestSetCrop";
 	}
 }

@@ -30,14 +30,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.4 $ $Date: 2005/03/29 23:15:33 $
- */
 public final class RequestGetItemFromPet extends L2GameClientPacket
 {
-	private static final String REQUESTGETITEMFROMPET__C__8C = "[C] 8C RequestGetItemFromPet";
 	private static Logger _log = Logger.getLogger(RequestGetItemFromPet.class.getName());
 
 	private int _objectId;
@@ -101,6 +95,6 @@ public final class RequestGetItemFromPet extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return REQUESTGETITEMFROMPET__C__8C;
+		return "[C] 8C RequestGetItemFromPet";
 	}
 }

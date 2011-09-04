@@ -23,23 +23,16 @@ import com.l2jfrozen.util.Point3D;
 
 /**
  * Format: (ch)
- * 
  * @author ProGramMoS
  */
-
 public final class RequestCursedWeaponLocation extends L2GameClientPacket
 {
-	private static final String _C__D0_23_REQUESTCURSEDWEAPONLOCATION = "[C] D0:23 RequestCursedWeaponLocation";
-
 	@Override
 	protected void readImpl()
 	{
-	//ignore read packet
+		//ignore read packet
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -69,12 +62,9 @@ public final class RequestCursedWeaponLocation extends L2GameClientPacket
 		}
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_23_REQUESTCURSEDWEAPONLOCATION;
+		return "[C] D0:23 RequestCursedWeaponLocation";
 	}
 }

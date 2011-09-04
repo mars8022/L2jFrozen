@@ -27,19 +27,11 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * <p>
  * Format: (c) d
- * <ul>
- * <li>d: Unknown</li>
- * </ul>
- * </p>
- * 
  * @author -Wooden-, TempyIncursion
  */
 public final class RequestPetitionCancel extends L2GameClientPacket
 {
-	private static final String _C__80_REQUEST_PETITIONCANCEL = "[C] 80 RequestPetitionCancel";
-
 	//private int _unknown;
 
 	@Override
@@ -95,13 +87,10 @@ public final class RequestPetitionCancel extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__80_REQUEST_PETITIONCANCEL;
+		return "[C] 80 RequestPetitionCancel";
 	}
 
 }

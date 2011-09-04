@@ -22,9 +22,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public final class RequestReplySurrenderPledgeWar extends L2GameClientPacket
 {
-	private static final String _C__52_REQUESTREPLYSURRENDERPLEDGEWAR = "[C] 52 RequestReplySurrenderPledgeWar";
-	//private static Logger _log = Logger.getLogger(RequestReplySurrenderPledgeWar.class.getName());
-
 	private int _answer;
 
 	@Override
@@ -60,6 +57,6 @@ public final class RequestReplySurrenderPledgeWar extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__52_REQUESTREPLYSURRENDERPLEDGEWAR;
+		return "[C] 52 RequestReplySurrenderPledgeWar";
 	}
 }

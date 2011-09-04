@@ -22,12 +22,10 @@ import com.l2jfrozen.gameserver.communitybbs.CommunityBoard;
 
 /**
  * Format SSSSSS
- * 
  * @author -Wooden-
  */
 public class RequestBBSwrite extends L2GameClientPacket
 {
-	private static final String _C__22_REQUESTBBSWRITE = "[C] 22 RequestBBSwrite";
 	private String _url;
 	private String _arg1;
 	private String _arg2;
@@ -46,21 +44,15 @@ public class RequestBBSwrite extends L2GameClientPacket
 		_arg5 = readS();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
 		CommunityBoard.getInstance().handleWriteCommands(getClient(), _url, _arg1, _arg2, _arg3, _arg4, _arg5);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__22_REQUESTBBSWRITE;
+		return "[C] 22 RequestBBSwrite";
 	}
 }

@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestBlock extends L2GameClientPacket
 {
-	private static final String _C__A0_REQUESTBLOCK = "[C] A0 RequestBlock";
 	private static Logger _log = Logger.getLogger(L2PcInstance.class.getName());
 
 	private final static int BLOCK = 0;
@@ -107,6 +106,6 @@ public final class RequestBlock extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__A0_REQUESTBLOCK;
+		return "[C] A0 RequestBlock";
 	}
 }

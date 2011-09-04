@@ -25,17 +25,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.AskJoinAlly;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestJoinAlly extends L2GameClientPacket
 {
-
-	private static final String _C__82_REQUESTJOINALLY = "[C] 82 RequestJoinAlly";
-	//private static Logger _log = Logger.getLogger(RequestJoinAlly.class.getName());
-
 	private int _id;
 
 	@Override
@@ -86,6 +77,6 @@ public final class RequestJoinAlly extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__82_REQUESTJOINALLY;
+		return "[C] 82 RequestJoinAlly";
 	}
 }

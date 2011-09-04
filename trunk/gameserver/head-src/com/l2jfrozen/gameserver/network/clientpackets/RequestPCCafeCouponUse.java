@@ -25,7 +25,6 @@ package com.l2jfrozen.gameserver.network.clientpackets;
  */
 public final class RequestPCCafeCouponUse extends L2GameClientPacket
 {
-	private static final String _C__D0_20_REQUESTPCCAFECOUPONUSE = "[C] D0:20 RequestPCCafeCouponUse";
 	private String _str;
 
 	@Override
@@ -34,9 +33,6 @@ public final class RequestPCCafeCouponUse extends L2GameClientPacket
 		_str = readS();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -44,13 +40,10 @@ public final class RequestPCCafeCouponUse extends L2GameClientPacket
 		System.out.println("C5: RequestPCCafeCouponUse: S: " + _str);
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_20_REQUESTPCCAFECOUPONUSE;
+		return "[C] D0:20 RequestPCCafeCouponUse";
 	}
 
 }

@@ -26,17 +26,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreManageListBuy;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreMsgBuy;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.2.2.1.2.5 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class SetPrivateStoreListBuy extends L2GameClientPacket
 {
-	private static final String _C__91_SETPRIVATESTORELISTBUY = "[C] 91 SetPrivateStoreListBuy";
-
-	//private static Logger _log = Logger.getLogger(SetPrivateStoreListBuy.class.getName());
-
 	private int _count;
 	private int[] _items; // count * 3
 
@@ -155,7 +146,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__91_SETPRIVATESTORELISTBUY;
+		return "[C] 91 SetPrivateStoreListBuy";
 	}
 
 }

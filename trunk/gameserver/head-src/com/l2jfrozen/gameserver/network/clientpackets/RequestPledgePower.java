@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ManagePledgePower;
 public final class RequestPledgePower extends L2GameClientPacket
 {
 	static Logger _log = Logger.getLogger(ManagePledgePower.class.getName());
-	private static final String _C__C0_REQUESTPLEDGEPOWER = "[C] C0 RequestPledgePower";
 	private int _rank;
 	private int _action;
 	private int _privs;
@@ -79,12 +78,9 @@ public final class RequestPledgePower extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__C0_REQUESTPLEDGEPOWER;
+		return "[C] C0 RequestPledgePower";
 	}
 }

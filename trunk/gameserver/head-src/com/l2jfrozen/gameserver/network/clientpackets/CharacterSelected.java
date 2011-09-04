@@ -27,14 +27,8 @@ import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CharSelected;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.5.2.1.2.5 $ $Date: 2005/03/27 15:29:30 $
- */
 public class CharacterSelected extends L2GameClientPacket
 {
-	private static final String _C__0D_CHARACTERSELECTED = "[C] 0D CharacterSelected";
 	private static Logger _log = Logger.getLogger(CharacterSelected.class.getName());
 
 	// cd
@@ -218,12 +212,9 @@ public class CharacterSelected extends L2GameClientPacket
 	}
 	 */
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__0D_CHARACTERSELECTED;
+		return "[C] 0D CharacterSelected";
 	}
 }

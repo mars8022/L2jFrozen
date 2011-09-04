@@ -23,13 +23,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShowMiniMap;
 
 /**
  * sample format d
- * 
  * @version $Revision: 1 $ $Date: 2005/04/10 00:17:44 $
  */
 public final class RequestShowMiniMap extends L2GameClientPacket
 {
-	private static final String _C__cd_REQUESTSHOWMINIMAP = "[C] cd RequestShowMiniMap";
-
 	@Override
 	protected void readImpl()
 	{
@@ -46,12 +43,9 @@ public final class RequestShowMiniMap extends L2GameClientPacket
 		activeChar.sendPacket(new ShowMiniMap(1665));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__cd_REQUESTSHOWMINIMAP;
+		return "[C] cd RequestShowMiniMap";
 	}
 }

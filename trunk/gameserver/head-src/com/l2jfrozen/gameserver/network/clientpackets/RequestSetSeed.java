@@ -27,17 +27,12 @@ import com.l2jfrozen.gameserver.managers.CastleManorManager.SeedProduction;
 
 /**
  * Format: (ch) dd [ddd] d - manor id d - size [ d - seed id d - sales d - price ]
- * 
  * @author l3x
  */
 public class RequestSetSeed extends L2GameClientPacket
 {
-	private static final String _C__D0_0A_REQUESTSETSEED = "[C] D0:0A RequestSetSeed";
-
 	private int _size;
-
 	private int _manorId;
-
 	private int[] _items; // _size*3
 
 	/**
@@ -100,6 +95,6 @@ public class RequestSetSeed extends L2GameClientPacket
 	@Override
 	public String getType()
 	{
-		return _C__D0_0A_REQUESTSETSEED;
+		return "[C] D0:0A RequestSetSeed";
 	}
 }

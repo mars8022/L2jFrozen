@@ -21,13 +21,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.RecipeItemMakeInfo;
 
-/**
- */
 public final class RequestRecipeItemMakeInfo extends L2GameClientPacket
 {
-	private static final String _C__AE_REQUESTRECIPEITEMMAKEINFO = "[C] AE RequestRecipeItemMakeInfo";
-	//private static Logger _log = Logger.getLogger(RequestSellItem.class.getName());
-
 	private int _id;
 	private L2PcInstance _activeChar;
 
@@ -45,12 +40,9 @@ public final class RequestRecipeItemMakeInfo extends L2GameClientPacket
 		sendPacket(response);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__AE_REQUESTRECIPEITEMMAKEINFO;
+		return "[C] AE RequestRecipeItemMakeInfo";
 	}
 }

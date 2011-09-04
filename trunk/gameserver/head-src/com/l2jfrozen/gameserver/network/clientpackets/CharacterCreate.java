@@ -48,15 +48,9 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 import com.l2jfrozen.gameserver.util.Util;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.9.2.3.2.8 $ $Date: 2005/03/27 15:29:30 $
- */
 @SuppressWarnings("unused")
 public final class CharacterCreate extends L2GameClientPacket
 {
-	private static final String _C__0B_CHARACTERCREATE = "[C] 0B CharacterCreate";
 	private static Logger _log = Logger.getLogger(CharacterCreate.class.getName());
 	private static final Object CREATION_LOCK = new Object();
 
@@ -385,12 +379,9 @@ public final class CharacterCreate extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__0B_CHARACTERCREATE;
+		return "[C] 0B CharacterCreate";
 	}
 }

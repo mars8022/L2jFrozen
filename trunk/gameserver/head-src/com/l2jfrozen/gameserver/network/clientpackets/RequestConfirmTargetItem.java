@@ -32,7 +32,6 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  */
 public final class RequestConfirmTargetItem extends L2GameClientPacket
 {
-	private static final String _C__D0_29_REQUESTCONFIRMTARGETITEM = "[C] D0:29 RequestConfirmTargetItem";
 	private int _itemObjId;
 
 	/**
@@ -45,9 +44,6 @@ public final class RequestConfirmTargetItem extends L2GameClientPacket
 		_itemObjId = readD();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -114,13 +110,10 @@ public final class RequestConfirmTargetItem extends L2GameClientPacket
 		activeChar.sendPacket(new SystemMessage(SystemMessageId.SELECT_THE_CATALYST_FOR_AUGMENTATION));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_29_REQUESTCONFIRMTARGETITEM;
+		return "[C] D0:29 RequestConfirmTargetItem";
 	}
 
 }

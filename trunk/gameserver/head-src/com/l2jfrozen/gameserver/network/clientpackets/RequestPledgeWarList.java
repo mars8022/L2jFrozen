@@ -23,12 +23,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeReceiveWarList;
 
 /**
  * Format: (ch) dd
- * 
  * @author -Wooden-
  */
 public final class RequestPledgeWarList extends L2GameClientPacket
 {
-	private static final String _C__D0_1E_REQUESTPLEDGEWARLIST = "[C] D0:1E RequestPledgeWarList";
 	@SuppressWarnings("unused")
 	private int _unk1;
 	private int _tab;
@@ -40,9 +38,6 @@ public final class RequestPledgeWarList extends L2GameClientPacket
 		_tab = readD();
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -59,13 +54,10 @@ public final class RequestPledgeWarList extends L2GameClientPacket
 		activeChar.sendPacket(new PledgeReceiveWarList(activeChar.getClan(), _tab));
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_1E_REQUESTPLEDGEWARLIST;
+		return "[C] D0:1E RequestPledgeWarList";
 	}
 
 }

@@ -20,16 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.3.4.2 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestTargetCanceld extends L2GameClientPacket
 {
-	private static final String _C__37_REQUESTTARGETCANCELD = "[C] 37 RequestTargetCanceld";
-	//private static Logger _log = Logger.getLogger(RequestTargetCanceld.class.getName());
-
 	private int _unselect;
 
 	@Override
@@ -62,12 +54,9 @@ public final class RequestTargetCanceld extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__37_REQUESTTARGETCANCELD;
+		return "[C] 37 RequestTargetCanceld";
 	}
 }

@@ -27,22 +27,13 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * @author ProGramMoS, scoria dev
+ * @author ProGramMoS
  */
 public final class RequestJoinSiege extends L2GameClientPacket
 {
-	private static final String _C__A4_RequestJoinSiege = "[C] a4 RequestJoinSiege";
-	//private static Logger _log = Logger.getLogger(RequestJoinSiege.class.getName());
-
 	private int _castleId;
 	private int _isAttacker;
 	private int _isJoining;
-
-	@Override
-	public String getType()
-	{
-		return _C__A4_RequestJoinSiege;
-	}
 
 	@Override
 	protected void readImpl()
@@ -125,6 +116,11 @@ public final class RequestJoinSiege extends L2GameClientPacket
 
 			fort.getSiege().listRegisterClan(player);
 		}
-
+	}
+	
+	@Override
+	public String getType()
+	{
+		return "[C] a4 RequestJoinSiege";
 	}
 }

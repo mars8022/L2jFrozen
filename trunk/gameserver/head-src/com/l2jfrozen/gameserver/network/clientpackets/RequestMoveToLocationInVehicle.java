@@ -58,9 +58,6 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 		_origin_pos.setXYZ(_x, _y, _z);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -85,18 +82,10 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 
 	}
 
-	/**
-	 * @return
-	 */
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "[] RequestMoveToLocationInVehicle";
 	}
 
 }

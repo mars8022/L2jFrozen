@@ -24,13 +24,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.SSQStatus;
 
 /**
  * Seven Signs Record Update Request packet type id 0xc7 format: cc
- * 
  * @author Tempy
  */
 public final class RequestSSQStatus extends L2GameClientPacket
 {
-	private static final String _C__C7_RequestSSQStatus = "[C] C7 RequestSSQStatus";
-
 	private int _page;
 
 	@Override
@@ -53,12 +50,9 @@ public final class RequestSSQStatus extends L2GameClientPacket
 		activeChar.sendPacket(ssqs);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__C7_RequestSSQStatus;
+		return "[C] C7 RequestSSQStatus";
 	}
 }

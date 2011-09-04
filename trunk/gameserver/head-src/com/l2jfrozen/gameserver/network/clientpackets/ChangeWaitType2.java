@@ -25,15 +25,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ChairSit;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class ChangeWaitType2 extends L2GameClientPacket
 {
-	private static final String _C__1D_CHANGEWAITTYPE2 = "[C] 1D ChangeWaitType2";
-
 	private boolean _typeStand;
 
 	@Override
@@ -78,12 +71,9 @@ public final class ChangeWaitType2 extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__1D_CHANGEWAITTYPE2;
+		return "[C] 1D ChangeWaitType2";
 	}
 }

@@ -38,14 +38,8 @@ import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.7.2.4.2.6 $ $Date: 2005/03/27 15:29:30 $
- */
 public final class RequestDestroyItem extends L2GameClientPacket
 {
-	private static final String _C__59_REQUESTDESTROYITEM = "[C] 59 RequestDestroyItem";
 	private static Logger _log = Logger.getLogger(RequestDestroyItem.class.getName());
 
 	private int _objectId;
@@ -215,12 +209,9 @@ public final class RequestDestroyItem extends L2GameClientPacket
 		world.removeObject(removedItem);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__59_REQUESTDESTROYITEM;
+		return "[C] 59 RequestDestroyItem";
 	}
 }

@@ -45,7 +45,6 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class RequestExEnchantSkill extends L2GameClientPacket
 {
-	private static final String _C__D0_07_REQUESTEXENCHANTSKILL = "[C] D0:07 RequestExEnchantSkill";
 	private static Logger _log = Logger.getLogger(RequestAquireSkill.class.getName());
 	private int _skillId;
 	private int _skillLvl;
@@ -57,9 +56,6 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 		_skillLvl = readD();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
 	@Override
 	protected void runImpl()
 	{
@@ -206,13 +202,10 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _C__D0_07_REQUESTEXENCHANTSKILL;
+		return "[C] D0:07 RequestExEnchantSkill";
 	}
 
 }
