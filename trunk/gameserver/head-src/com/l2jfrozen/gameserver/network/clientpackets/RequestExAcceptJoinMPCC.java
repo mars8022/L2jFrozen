@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.L2CommandChannel;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId; 
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * @author -Wooden-
@@ -28,10 +30,6 @@ public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 {
 	private int _response;
 
-	/**
-	 * @param buf
-	 * @param client
-	 */
 	@Override
 	protected void readImpl()
 	{
@@ -42,30 +40,31 @@ public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
-		if(player != null)
+		if (player == null)
+			return;
+		
+		L2PcInstance requestor = player.getActiveRequester();
+	 	if (requestor == null) 
+	 	    return; 
+		 	
+	 	if (_response == 1) 
 		{
-			L2PcInstance requestor = player.getActiveRequester();
-
-			if(requestor == null)
-				return;
-
-			if(_response == 1)
-			{
-				if(!requestor.getParty().isInCommandChannel())
-				{
-					new L2CommandChannel(requestor); // Create new CC
-				}
-				requestor.getParty().getCommandChannel().addParty(player.getParty());
-			}
-			else
-			{
-				requestor.sendMessage("The player declined to join your Command Channel.");
-			}
-
-			player.setActiveRequester(null);
-			requestor.onTransactionResponse();
-		}
-
+	 		boolean newCc = false; 
+	 	 	if (!requestor.getParty().isInCommandChannel()) 
+	 	 	{ 
+	 	 	new L2CommandChannel(requestor); // Create new CC 
+	 	 	newCc = true; 
+	 	 	} 
+                  
+	 	 	requestor.getParty().getCommandChannel().addParty(player.getParty()); 
+	 	 	if (!newCc) 
+	 	 	player.sendPacket(new SystemMessage(SystemMessageId.JOINED_COMMAND_CHANNEL)); 
+	 	 	} 
+	 	 	else 
+	 	 	requestor.sendPacket(new SystemMessage(SystemMessageId.S1_DECLINED_CHANNEL_INVITATION).addString(player.getName()));
+	 	
+	 	player.setActiveRequester(null); 
+	 	requestor.onTransactionResponse();
 	}
 
 	@Override

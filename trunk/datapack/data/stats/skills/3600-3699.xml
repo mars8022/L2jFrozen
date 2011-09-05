@@ -560,16 +560,17 @@
   <set name="effectRange" val="1100"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
-<skill id="3632" name="Clan Gate" levels="1">
-  <set name="target" val="TARGET_SELF"/>
-  <set name="hitTime" val="10000"/>
-  <set name="reuseDelay" val="3600000"/>
-  <set name="skillType" val="CLAN_GATE"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="summonTotalLifeTime" val="180000"/>
-  <for>
-    <effect count="1" name="ImobileBuff" time="120" val="0"/>
-  </for>
+<skill id="3632" levels="1" name="Clan Gate">
+	<set name="target" val="TARGET_SELF" />
+	<set name="skillType" val="BUFF" />
+	<set name="magicLvl" val="60" />
+	<set name="hitTime" val="10000" />
+	<set name="reuseDelay" val="3600000" />
+	<set name="operateType" val="OP_ACTIVE" />
+	<for>
+		<effect name="ClanGate" time="120" val="0" stackOrder="1" stackType="abnormal_item" />
+		<effect name="ImobileBuff" time="120" val="0" noicon="1" />
+	</for>
 </skill>
 <skill id="3633" levels="2" name="Residential Shock Immunity">
   <table name="#vuln">0.5 0</table>

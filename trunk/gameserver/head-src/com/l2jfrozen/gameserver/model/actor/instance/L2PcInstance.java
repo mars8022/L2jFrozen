@@ -114,6 +114,9 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.MacroList;
+import com.l2jfrozen.gameserver.model.PartyMatchRoom;
+import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
+import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
 import com.l2jfrozen.gameserver.model.PcFreight;
 import com.l2jfrozen.gameserver.model.PcInventory;
 import com.l2jfrozen.gameserver.model.PcWarehouse;
@@ -823,12 +826,6 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	// client radar
 	private L2Radar _radar;
-
-	// these values are only stored temporarily
-	private boolean _partyMatchingAutomaticRegistration;
-	private boolean _partyMatchingShowLevel;
-	private boolean _partyMatchingShowClass;
-	private String _partyMatchingMemo;
 
 	// Clan related attributes
 	/** The Clan Identifier of the L2PcInstance */
@@ -7271,58 +7268,6 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		// Set the new Experience value of the L2PcInstance
 		getStat().addExp(-lostExp);
-	}
-
-	/**
-	 * @param b
-	 */
-	public void setPartyMatchingAutomaticRegistration(boolean b)
-	{
-		_partyMatchingAutomaticRegistration = b;
-	}
-
-	/**
-	 * @param b
-	 */
-	public void setPartyMatchingShowLevel(boolean b)
-	{
-		_partyMatchingShowLevel = b;
-	}
-
-	/**
-	 * @param b
-	 */
-	public void setPartyMatchingShowClass(boolean b)
-	{
-		_partyMatchingShowClass = b;
-	}
-
-	/**
-	 * @param memo
-	 */
-	public void setPartyMatchingMemo(String memo)
-	{
-		_partyMatchingMemo = memo;
-	}
-
-	public boolean isPartyMatchingAutomaticRegistration()
-	{
-		return _partyMatchingAutomaticRegistration;
-	}
-
-	public String getPartyMatchingMemo()
-	{
-		return _partyMatchingMemo;
-	}
-
-	public boolean isPartyMatchingShowClass()
-	{
-		return _partyMatchingShowClass;
-	}
-
-	public boolean isPartyMatchingShowLevel()
-	{
-		return _partyMatchingShowLevel;
 	}
 
 	/**
@@ -13908,6 +13853,15 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
+		
+		PartyMatchWaitingList.getInstance().removePlayer(this);
+		if (_partyroom != 0)
+		{
+			PartyMatchRoom room = PartyMatchRoomList.getInstance().getRoom(_partyroom);
+			if (room != null)
+				room.deleteMember(this);
+		}
+		
 
 		// Remove from world regions zones
 		if(getWorldRegion() != null)
@@ -16535,4 +16489,29 @@ public final class L2PcInstance extends L2PlayableInstance
 		_currentMultiSellId = listid;
 	}
 	
+
+	public boolean isPartyWaiting()
+	{
+		return PartyMatchWaitingList.getInstance().getPlayers().contains(this);
+	}
+	
+	// these values are only stored temporarily
+	private int _partyroom = 0;
+	
+	public void setPartyRoom(int id)
+	{
+		_partyroom = id;
+	}
+	
+	public int getPartyRoom()
+	{
+		return _partyroom;
+	}
+	
+	public boolean isInPartyMatchRoom()
+	{
+		return _partyroom > 0;
+	}
+
+
 }

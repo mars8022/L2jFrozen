@@ -17,6 +17,10 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.gameserver.model.L2World; 
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance; 
+import com.l2jfrozen.gameserver.network.serverpackets.ExMPCCShowPartyMemberInfo; 
+
 /**
  * Format:(ch) h
  * 
@@ -24,18 +28,24 @@ package com.l2jfrozen.gameserver.network.clientpackets;
  */
 public final class RequestExMPCCShowPartyMembersInfo extends L2GameClientPacket
 {
-	private int _unk;
+	private int _partyLeaderId;
 
 	@Override
 	protected void readImpl()
 	{
-		_unk = readD();
+		 _partyLeaderId = readD();
 	}
 
 	@Override
 	protected void runImpl()
 	{
-		System.out.println("C6: RequestExMPCCShowPartyMembersInfo. unk: " + _unk);
+		 L2PcInstance activeChar = getClient().getActiveChar(); 
+		 	if (activeChar == null) 
+		 	return; 
+                 
+		 	L2PcInstance player = L2World.getInstance().getPlayer(_partyLeaderId); 
+		 	if (player != null && player.getParty() != null) 
+		 	activeChar.sendPacket(new ExMPCCShowPartyMemberInfo(player.getParty())); 
 	}
 
 	@Override

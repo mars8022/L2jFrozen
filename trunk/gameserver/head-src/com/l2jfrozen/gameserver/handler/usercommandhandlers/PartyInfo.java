@@ -34,9 +34,6 @@ public class PartyInfo implements IUserCommandHandler
 		81
 	};
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
-	 */
 	@Override
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
@@ -44,13 +41,7 @@ public class PartyInfo implements IUserCommandHandler
 			return false;
 
 		if(!activeChar.isInParty())
-		{
-			SystemMessage sm = SystemMessage.sendString("You are not in a party.");
-			activeChar.sendPacket(sm);
-			sm = null;
-
 			return false;
-		}
 
 		L2Party playerParty = activeChar.getParty();
 		int memberCount = playerParty.getMemberCount();
@@ -61,7 +52,7 @@ public class PartyInfo implements IUserCommandHandler
 
 		activeChar.sendPacket(new SystemMessage(SystemMessageId.PARTY_INFORMATION));
 
-		switch(lootDistribution)
+		switch (lootDistribution)
 		{
 			case L2Party.ITEM_LOOTER:
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.LOOTING_FINDERS_KEEPERS));
@@ -79,23 +70,12 @@ public class PartyInfo implements IUserCommandHandler
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.LOOTING_RANDOM_INCLUDE_SPOIL));
 				break;
 		}
-
-		SystemMessage sm = new SystemMessage(SystemMessageId.PARTY_LEADER_S1);
-		sm.addString(partyLeader);
-		activeChar.sendPacket(sm);
-		partyLeader = null;
-
-		sm = new SystemMessage(SystemMessageId.S1_S2);
-		sm.addString("Members: " + memberCount + "/9");
-		sm = null;
-
-		activeChar.sendPacket(new SystemMessage(SystemMessageId.WAR_LIST));
-		return true;
+ 	activeChar.sendPacket(new SystemMessage(SystemMessageId.PARTY_LEADER_S1).addString(partyLeader)); 
+ 	activeChar.sendMessage("Members: " + memberCount + "/9"); 
+ 	activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOTER)); 
+	return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
-	 */
 	@Override
 	public int[] getUserCommandList()
 	{

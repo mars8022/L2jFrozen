@@ -142,7 +142,7 @@ public final class Say2 extends L2GameClientPacket
 			activeChar.sendMessage("You may not chat while a chat ban is in effect.");
 			return;
 		}
-		
+
 		if(activeChar.isInJail() && Config.JAIL_DISABLE_CHAT)
 		{
 			if(_type == TELL || _type == SHOUT || _type == TRADE || _type == HERO_VOICE)
@@ -163,8 +163,11 @@ public final class Say2 extends L2GameClientPacket
 			activeChar.sendMessage("Shout and trade chatting cannot be used while possessing a cursed weapon.");
 			return;
 		}
-		
-		
+		if(activeChar.getLevel() < 40 && (_type == TRADE || _type == SHOUT))
+		{
+			activeChar.sendMessage("You cannot use Shout / Trade chats while under level 40");
+			return;
+		}
 
 		if(_type == PETITION_PLAYER && activeChar.isGM())
 		{
@@ -210,7 +213,6 @@ public final class Say2 extends L2GameClientPacket
 			Util.handleIllegalPlayerAction(activeChar, "Client Emulator Detect: Player " + activeChar.getName() + " using l2walker.", Config.DEFAULT_PUNISH);
 			return;
 		}
-		
 		_text = _text.replaceAll("\\\\n", "");
 
 		// Say Filter implementation
@@ -282,6 +284,7 @@ public final class Say2 extends L2GameClientPacket
 		{
 			CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, activeChar.getName(), _text);
 
+			
 			switch(_type)
 			{
 				case TELL:
@@ -512,7 +515,7 @@ public final class Say2 extends L2GameClientPacket
 					{
 						if(activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
 						{
-							activeChar.getParty().getCommandChannel().broadcastToChannelMembers(cs);
+							activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
 						}
 					}
 					break;
@@ -521,7 +524,7 @@ public final class Say2 extends L2GameClientPacket
 					{
 						if(activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
 						{
-							activeChar.getParty().getCommandChannel().broadcastToChannelMembers(cs);
+							activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
 						}
 					}
 					break;

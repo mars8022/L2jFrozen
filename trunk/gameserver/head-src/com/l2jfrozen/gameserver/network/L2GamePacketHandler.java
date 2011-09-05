@@ -413,11 +413,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestGMCommand();
 						break;
 					case 0x6f:
+						msg = new RequestPartyMatchConfig(); 
+						break; 
+					case 0x70: 
 						msg = new RequestPartyMatchList();
-						break;
-
-					case 0x70:
-						msg = new RequestPartyMatchConfig();
 						break;
 					case 0x71:
 						msg = new RequestPartyMatchDetail();

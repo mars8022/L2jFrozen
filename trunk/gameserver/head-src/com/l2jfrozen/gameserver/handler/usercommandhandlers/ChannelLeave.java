@@ -21,6 +21,7 @@ import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.L2CommandChannel;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
@@ -33,9 +34,6 @@ public class ChannelLeave implements IUserCommandHandler
 		96
 	};
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
-	 */
 	@Override
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
@@ -47,31 +45,23 @@ public class ChannelLeave implements IUserCommandHandler
 		
 		if(activeChar.isInParty())
 		{
-			if(activeChar.getParty().isLeader(activeChar) && activeChar.getParty().isInCommandChannel())
+			if (activeChar.getParty().isLeader(activeChar) && activeChar.getParty().isInCommandChannel())
 			{
 				L2CommandChannel channel = activeChar.getParty().getCommandChannel();
 				L2Party party = activeChar.getParty();
 				channel.removeParty(party);
 
-				SystemMessage sm = SystemMessage.sendString("Your party has left the CommandChannel.");
-				party.broadcastToPartyMembers(sm);
-				sm = SystemMessage.sendString(party.getPartyMembers().get(0).getName() + "'s party has left the CommandChannel.");
-				channel.broadcastToChannelMembers(sm);
+				party.getLeader().sendPacket(new SystemMessage(SystemMessageId.LEFT_COMMAND_CHANNEL));
+				channel.broadcastToChannelMembers(new SystemMessage(SystemMessageId.S1_PARTY_LEFT_COMMAND_CHANNEL).addString(party.getLeader().getName()));
 
-				sm = null;
 				party = null;
 				channel = null;
 				return true;
 			}
 		}
-
 		return false;
-
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
-	 */
 	@Override
 	public int[] getUserCommandList()
 	{

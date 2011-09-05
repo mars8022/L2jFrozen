@@ -18,28 +18,51 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ExAskJoinPartyRoom;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+
+
 /**
  * Format: (ch) S
  * @author -Wooden-
  */
 public class RequestAskJoinPartyRoom extends L2GameClientPacket
 {
-	private String _player; // not tested, just guessed
+	private static String _name;
 
 	@Override
 	protected void readImpl()
-	{
-		_player = readS();
-	}
+    {
+		_name = readS();
+    }
 
-	@Override
+    @Override
 	protected void runImpl()
-	{
-		// TODO
-		System.out.println("C5:RequestAskJoinPartyRoom: S: " + _player);
-	}
+    {
+    	final L2PcInstance _activeChar = getClient().getActiveChar();
+		if (_activeChar == null)
+			return;
+		
+		// Send PartyRoom invite request (with activeChar) name to the target
+		final L2PcInstance _target = L2World.getInstance().getPlayer(_name);
+		if (_target != null)
+		{
+			if (!_target.isProcessingRequest())
+			{
+				_activeChar.onTransactionRequest(_target);
+				_target.sendPacket(new ExAskJoinPartyRoom(_activeChar.getName()));
+			}
+			else
+				_activeChar.sendPacket(new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER).addString(_target.getName()));
+		}
+		else
+			_activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
+    }
 
-	@Override
+    @Override
 	public String getType()
 	{
 		return  "[C] D0:14 RequestAskJoinPartyRoom";

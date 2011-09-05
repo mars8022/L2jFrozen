@@ -238,4 +238,17 @@ public class L2CastleZone extends L2ZoneType
 	{
 		return _spawnLoc;
 	}
+
+	/**
+	 * @return
+	 */
+	
+	public boolean isSiegeActive()
+	{
+		if(_castle!=null){
+			return _castle.isSiegeInProgress();
+		}
+		
+		return false;
+	}
 }

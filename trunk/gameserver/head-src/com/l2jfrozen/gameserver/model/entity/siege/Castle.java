@@ -1426,4 +1426,16 @@ public class Castle
 		}
 		getTeleZone().oustAllPlayers();
 	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSiegeInProgress()
+	{
+		if(_siege!=null){
+			return _siege.getIsInProgress();
+		}
+		
+		return false;
+	}
 }

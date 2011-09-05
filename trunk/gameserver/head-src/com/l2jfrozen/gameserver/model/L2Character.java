@@ -772,8 +772,9 @@ public abstract class L2Character extends L2Object
 		setTarget(null);
 		
 		// Remove from world regions zones
-		if (getWorldRegion() != null)
-			getWorldRegion().removeFromZones(this);
+		final L2WorldRegion region = getWorldRegion();
+		if (region!= null)
+			region.removeFromZones(this);
 
 		getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE);
 
@@ -808,7 +809,8 @@ public abstract class L2Character extends L2Object
 	
 	public void revalidateZone(boolean force)
 	{
-		if (getWorldRegion() == null) 
+		final L2WorldRegion region = getWorldRegion();
+		if (region == null) 
 			return;
 		
 		// This function is called too often from movement code
@@ -822,7 +824,7 @@ public abstract class L2Character extends L2Object
 			else 
 				return;
 		}
-		getWorldRegion().revalidateZones(this);
+		region.revalidateZones(this);
 	}
 
 	public void teleToLocation(int x, int y, int z)
@@ -4162,6 +4164,44 @@ public abstract class L2Character extends L2Object
 			return eventNotInUse;
 		}
 		
+	}
+	
+	/**
+	 * @param clanGate
+	 * @return
+	 */
+	public final L2Effect getFirstEffect(SkillType type)
+	{
+		if(_effects == null)
+			return null;
+
+		synchronized (_effects)
+		{
+			FastTable<L2Effect> effects = _effects;
+
+			L2Effect e;
+			L2Effect eventNotInUse = null;
+
+			for(int i = 0; i < effects.size(); i++)
+			{
+				e = effects.get(i);
+
+				if(e.getSkill().getSkillType() == type)
+				{
+					if(e.getInUse())
+						return e;
+					else
+					{
+						eventNotInUse = e;
+					}
+				}
+			}
+
+			effects = null;
+			e = null;
+
+			return eventNotInUse;
+		}
 	}
 
 	/**

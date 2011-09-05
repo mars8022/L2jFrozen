@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.handler.usercommandhandlers;
 import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.L2CommandChannel;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
@@ -32,9 +33,6 @@ public class ChannelDelete implements IUserCommandHandler
 		93
 	};
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
-	 */
 	@Override
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
@@ -46,11 +44,9 @@ public class ChannelDelete implements IUserCommandHandler
 			if(activeChar.getParty().isLeader(activeChar) && activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
 			{
 				L2CommandChannel channel = activeChar.getParty().getCommandChannel();
-				SystemMessage sm = SystemMessage.sendString("The Command Channel was disbanded.");
-				channel.broadcastToChannelMembers(sm);
+				channel.broadcastToChannelMembers(new SystemMessage(SystemMessageId.COMMAND_CHANNEL_DISBANDED));
 				channel.disbandChannel();
 
-				sm = null;
 				channel = null;
 				return true;
 			}
@@ -59,9 +55,6 @@ public class ChannelDelete implements IUserCommandHandler
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
-	 */
 	@Override
 	public int[] getUserCommandList()
 	{

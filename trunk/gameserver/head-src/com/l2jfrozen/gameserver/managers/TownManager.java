@@ -113,6 +113,31 @@ public class TownManager
 
 		return getTown(16); // Default to floran
 	}
+	
+	public final static int getClosestLocation(L2Object activeObject)
+	{
+		switch (MapRegionTable.getInstance().getMapRegion(activeObject.getPosition().getX(), activeObject.getPosition().getY()))
+		{
+			case 0:	return 1; // TI
+			case 1: return 4; // Elven
+			case 2: return 3; // DE
+			case 3: return 9; // Orc
+			case 4: return 9; // Dwarven
+			case 5: return 2; // Gludio
+			case 6: return 2; // Gludin
+			case 7: return 5; // Dion
+			case 8: return 6; // Giran
+			case 9: return 10; // Oren
+			case 10: return 13; // Aden
+			case 11: return 11; // HV
+			case 12: return 6; // Giran Harbour
+			case 13: return 12; // Heine
+			case 14: return 14; // Rune
+			case 15: return 15; // Goddard
+			case 16: return 9; // Schuttgart
+		}
+		return 0;
+	}
 
 	public final boolean townHasCastleInSiege(int townId)
 	{

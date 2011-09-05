@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
  * @author eX1steam, l2jfrozen
  * @version $Revision: 1.18.2.5.2.8 $ $Date: 2009/04/10 17:10:08 $
  */
-public class SystemMessage extends L2GameServerPacket
+public final class SystemMessage extends L2GameServerPacket
 {
 	// d d (d S/d d/d dd)
 	//      |--------------> 0 - String  1-number 2-textref npcname (1000000-1002655)  3-textref itemname 4-textref skills 5-??
@@ -40,7 +40,6 @@ public class SystemMessage extends L2GameServerPacket
 	private static final int TYPE_NPC_NAME = 2;
 	private static final int TYPE_NUMBER = 1;
 	private static final int TYPE_TEXT = 0;
-	private static final String _S__7A_SYSTEMMESSAGE = "[S] 64 SystemMessage";
 	private int _messageId;
 	private Vector<Integer> _types = new Vector<Integer>();
 	private Vector<Object> _values = new Vector<Object>();
@@ -50,8 +49,7 @@ public class SystemMessage extends L2GameServerPacket
 	{
 		if(Config.DEBUG && messageId == SystemMessageId.TARGET_IS_INCORRECT){
 			Thread.dumpStack();
-		}
-		
+			}
 		_messageId = messageId.getId();
 	}
 
@@ -182,9 +180,9 @@ public class SystemMessage extends L2GameServerPacket
 	@Override
 	public String getType()
 	{
-		return _S__7A_SYSTEMMESSAGE;
+		return "[S] 64 SystemMessage";
 	}
-
+	
 	public int getMessageID()
 	{
 		return _messageId;
@@ -197,11 +195,7 @@ public class SystemMessage extends L2GameServerPacket
 	{
 	// TODO Auto-generated method stub
 	}
-
-	/**
-	 * @param theGameEndedInATie
-	 * @return
-	 */
+	
 	public static SystemMessage getSystemMessage(SystemMessageId smId)
 	{
 		SystemMessage sm = new SystemMessage(smId);

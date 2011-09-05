@@ -23,11 +23,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ExCloseMPCC extends L2GameServerPacket
 {
 
-	private static final String _S__FE_26_EXCLOSEMPCC = "[S] FE:26 ExCloseMPCC";
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
 	@Override
 	protected void writeImpl()
 	{
@@ -35,13 +30,10 @@ public class ExCloseMPCC extends L2GameServerPacket
 		writeH(0x26);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _S__FE_26_EXCLOSEMPCC;
+		return "[S] FE:26 ExCloseMPCC";
 	}
 
 }

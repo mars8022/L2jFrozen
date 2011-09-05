@@ -146,7 +146,4 @@ public abstract class L2DatabaseFactory
 	
 	public abstract int getBusyConnectionCount() throws SQLException;
 	
-	public abstract int getIdleConnectionCount() throws SQLException;
-
-	
 }

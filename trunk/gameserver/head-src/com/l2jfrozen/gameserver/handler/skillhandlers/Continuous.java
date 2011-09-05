@@ -76,20 +76,19 @@ public class Continuous implements ISkillHandler
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar,L2Skill skill2,final L2Object[] targets)
 	{
 		if(activeChar == null)
 			return;
 
-		L2Character target = null;
 		L2PcInstance player = null;
 		if(activeChar instanceof L2PcInstance)
 			player = (L2PcInstance) activeChar;
 
-		if(skill.getEffectId() != 0)
+		if(skill2.getEffectId() != 0)
 		{
-			int skillLevel = skill.getEffectLvl();
-			int skillEffectId = skill.getEffectId();
+			int skillLevel = skill2.getEffectLvl();
+			int skillEffectId = skill2.getEffectId();
 			if(skillLevel == 0)
 			{
 				_skill = SkillTable.getInstance().getInfo(skillEffectId, 1);
@@ -100,16 +99,21 @@ public class Continuous implements ISkillHandler
 			}
 
 			if(_skill != null)
-				skill = _skill;
+				skill2 = _skill;
 		}
-
+		
+		final L2Skill skill = skill2;
+		if(skill == null){
+			return;
+		}
+		
 		boolean bss = activeChar.checkBss();
 		boolean sps = activeChar.checkSps();
 		boolean ss = activeChar.checkSs();
 		
-		for(L2Object target2 : targets)
+		for(final L2Object target2 : targets)
 		{
-			target = (L2Character) target2;
+			L2Character target = (L2Character) target2;
 
 			if(target == null){
 				continue;
@@ -300,8 +304,7 @@ public class Continuous implements ISkillHandler
 		}
 		
 		player = null;
-		target = null;
-
+		
 		// self Effect :]
 		L2Effect effect = activeChar.getFirstEffect(skill.getId());
 		if(effect != null && effect.isSelfEffect())
