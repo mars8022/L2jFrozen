@@ -18,7 +18,10 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import com.l2jfrozen.gameserver.model.PartyMatchRoom;
+import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+
 
 /**
  * Format: (ch) dd
@@ -26,24 +29,29 @@ import java.util.logging.Logger;
  */
 public class RequestDismissPartyRoom extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestDismissPartyRoom.class.getName());
-	private int _data1;
+	private int _roomid;
+	@SuppressWarnings("unused")
 	private int _data2;
-
+	
 	@Override
 	protected void readImpl()
 	{
-		_data1 = readD();
+		_roomid = readD();
 		_data2 = readD();
 	}
 
 	@Override
 	protected void runImpl()
 	{
-		// TODO Auto-generated method stub
-		_log.info("This packet is not well known : RequestDismissPartyRoom");
-		_log.info("Data received: d:" + _data1 + " d:" + _data2);
-
+		final L2PcInstance _activeChar = getClient().getActiveChar();
+		if (_activeChar == null)
+			return;
+		
+		PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
+		if (_room == null)
+			return;
+		
+		PartyMatchRoomList.getInstance().deleteRoom(_roomid);
 	}
 
 	@Override
@@ -51,5 +59,4 @@ public class RequestDismissPartyRoom extends L2GameClientPacket
 	{
 		return "[C] D0:02 RequestDismissPartyRoom";
 	}
-
 }

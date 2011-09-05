@@ -109,6 +109,8 @@ import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.AutoChatHandler;
 import com.l2jfrozen.gameserver.model.L2Manor;
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
+import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.Hero;
 import com.l2jfrozen.gameserver.model.entity.MonsterRace;
@@ -218,6 +220,8 @@ public class GameServer
 		}
 		StaticObjects.getInstance();
 		TeleportLocationTable.getInstance();
+		PartyMatchWaitingList.getInstance(); 
+	 	PartyMatchRoomList.getInstance();
 		GameTimeController.getInstance();
 		CharNameTable.getInstance();
 		DatatablesManager.LoadSTS();

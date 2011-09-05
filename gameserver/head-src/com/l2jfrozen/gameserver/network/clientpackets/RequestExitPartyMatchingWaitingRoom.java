@@ -18,6 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+
 /**
  * Format: (ch) this is just a trigger : no data
  * @author -Wooden-
@@ -33,8 +36,11 @@ public final class RequestExitPartyMatchingWaitingRoom extends L2GameClientPacke
 	@Override
 	protected void runImpl()
 	{
-		// TODO
-		System.out.println("C5: RequestExitPartyMatchingWaitingRoom");
+		L2PcInstance _activeChar = getClient().getActiveChar();
+		if (_activeChar == null)
+			return;
+		
+		PartyMatchWaitingList.getInstance().removePlayer(_activeChar);
 	}
 
 	@Override
@@ -44,3 +50,4 @@ public final class RequestExitPartyMatchingWaitingRoom extends L2GameClientPacke
 	}
 
 }
+

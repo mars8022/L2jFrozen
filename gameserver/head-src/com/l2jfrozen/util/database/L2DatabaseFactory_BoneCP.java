@@ -25,8 +25,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
+import com.jolbox.bonecp.BoneCPDataSource;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -34,70 +33,101 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 {
 	private static final Logger _log = Logger.getLogger(L2DatabaseFactory_BoneCP.class.getName());
 	
-	private BoneCP _source;
-
-	// =========================================================
-	// Constructor
-	public L2DatabaseFactory_BoneCP() throws SQLException
+	private BoneCPDataSource		_source;
+	
+	public L2DatabaseFactory_BoneCP()
 	{
-		if (Config.DATABASE_PARTITION_COUNT > 4){
-			Config.DATABASE_PARTITION_COUNT = 4;
-			_log.warning("max {} db connections partitions. "+ Config.DATABASE_PARTITION_COUNT);
-		}
-		
-		if (Config.DATABASE_MAX_CONNECTIONS < 10) {
-			Config.DATABASE_MAX_CONNECTIONS = 10;
-			_log.warning("at least {} db connections are required. "+ Config.DATABASE_MAX_CONNECTIONS);
+		_log.info("Initializing BoneCP [ databaseDriver -> " + Config.DATABASE_DRIVER + ", jdbcUrl -> "
+				+ Config.DATABASE_URL + ", maxConnectionsPerPartition -> " + Config.DATABASE_MAX_CONNECTIONS + ", username -> " + Config.DATABASE_LOGIN
+				+ ", password -> " + Config.DATABASE_PASSWORD + " ]");
+
+		try
+		{
+			if (Config.DATABASE_MAX_CONNECTIONS < 10)
+			{
+				Config.DATABASE_MAX_CONNECTIONS = 10;
+				_log.warning("at least " + Config.DATABASE_MAX_CONNECTIONS + " db connections are required.");
+			}
+
+			if (Config.DATABASE_PARTITION_COUNT > 4){
+				Config.DATABASE_PARTITION_COUNT = 4;
+				_log.warning("max {} db connections partitions. "+ Config.DATABASE_PARTITION_COUNT);
+			}
 			
-		}else if (Config.DATABASE_MAX_CONNECTIONS * Config.DATABASE_PARTITION_COUNT > 60){
-			_log.warning("Max Connections number is higher then 60.. Using Partition 2 and Connection 30");
-			Config.DATABASE_MAX_CONNECTIONS = 30;
-			Config.DATABASE_PARTITION_COUNT = 2;
+			if (Config.DATABASE_MAX_CONNECTIONS * Config.DATABASE_PARTITION_COUNT > 200){
+				_log.warning("Max Connections number is higher then 60.. Using Partition 2 and Connection 30");
+				Config.DATABASE_MAX_CONNECTIONS = 50;
+				Config.DATABASE_PARTITION_COUNT = 4;
+			}
+			
+			_source = new BoneCPDataSource();
+			// _source.setAutoCommitOnClose(true);
+			_source.getConfig().setDefaultAutoCommit(true);
+
+			// _source.setInitialPoolSize(10);
+			_source.getConfig().setPoolAvailabilityThreshold(10);
+			//_source.setMinPoolSize(10);
+			_source.getConfig().setMinConnectionsPerPartition(10);
+			//_source.setMaxPoolSize(Config.DATABASE_MAX_CONNECTIONS);
+			_source.getConfig().setMaxConnectionsPerPartition(Config.DATABASE_MAX_CONNECTIONS);
+
+			_source.getConfig().setPartitionCount(Config.DATABASE_PARTITION_COUNT);
+
+			_source.setAcquireRetryAttempts(0); // try to obtain connections indefinitely (0 = never quit)
+			_source.setAcquireRetryDelayInMs(500); // 500 miliseconds wait before try to acquire connection again
+
+			// if pool is exhausted
+			_source.setAcquireIncrement(5); // if pool is exhausted, get 5 more connections at a time
+			// cause there is a "long" delay on acquire connection
+			// so taking more than one connection at once will make connection pooling
+			// more effective.
+
+			_source.setConnectionTimeoutInMs(Config.DATABASE_TIMEOUT);
+
+			// this "connection_test_table" is automatically created if not already there
+			//_source.setAutomaticTestTable("connection_test_table");
+			//_source.setTestConnectionOnCheckin(false);
+
+			// testing OnCheckin used with IdleConnectionTestPeriod is faster than testing on checkout
+
+			_source.setIdleConnectionTestPeriodInMinutes(1); // test idle connection every 60 sec
+			// _source.setMaxIdleTime(1800); // 0 = idle connections never expire
+			_source.setIdleMaxAgeInSeconds(1800);
+			// *THANKS* to connection testing configured above
+			// but I prefer to disconnect all connections not used
+			// for more than 1 hour
+
+			_source.setTransactionRecoveryEnabled(true);
+
+			// enables statement caching, there is a "semi-bug" in c3p0 0.9.0 but in 0.9.0.2 and later it's fixed
+			//_source.setMaxStatementsPerConnection(100);
+
+			//_source.setBreakAfterAcquireFailure(false); // never fail if any way possible
+			// setting this to true will make
+			// c3p0 "crash" and refuse to work
+			// till restart thus making acquire
+			// errors "FATAL" ... we don't want that
+			// it should be possible to recover
+			_source.setDriverClass(Config.DATABASE_DRIVER);
+			_source.setJdbcUrl(Config.DATABASE_URL);
+			_source.setUsername(Config.DATABASE_LOGIN);
+			_source.setPassword(Config.DATABASE_PASSWORD);
+
+			/* Test the connection */
+			_source.getConnection().close();
+
+			if (Config.DATABASE_DRIVER.toLowerCase().contains("microsoft"))
+				_providerType = ProviderType.MsSql;
+			else
+				_providerType = ProviderType.MySql;
+
 		}
-		
-		
-		try {
-			Class.forName(Config.DATABASE_DRIVER);
-		} catch(Throwable e) {
-			throw new SQLException("Database driver not found!");
+		catch (Exception e)
+		{
+			throw new Error("L2DatabaseFactory: Failed to init database connections: " + e, e);
 		}
-		
-		//hard configure, maybe used config.setConfigFile(String)?
-		final BoneCPConfig config = new BoneCPConfig();
-		config.setJdbcUrl(Config.DATABASE_URL);
-		config.setUsername(Config.DATABASE_LOGIN);
-		config.setPassword(Config.DATABASE_PASSWORD);
-		
-		config.setMinConnectionsPerPartition(5);
-		config.setMaxConnectionsPerPartition(Config.DATABASE_MAX_CONNECTIONS);
-		config.setAcquireIncrement(5);
-		config.setAcquireRetryAttempts(0); // try to obtain connections indefinitely (0 = never quit)
-		config.setAcquireRetryDelay(500); // 500 miliseconds wait before try to acquire connection again
-		config.setIdleConnectionTestPeriod(0);
-		config.setIdleMaxAge(43200); //12 hours
-		config.setStatementReleaseHelperThreads(4);
-		config.setStatementsCacheSize(0); //min value
-		config.setPartitionCount(Config.DATABASE_PARTITION_COUNT);
-		config.setDisableConnectionTracking(true);
-		// if pool is exhausted, get 5 more connections at a time cause there is a "long" delay on acquire connection
-		// so taking more than one connection at once will make connection pooling more effective.
-		config.setConnectionTimeout(Config.DATABASE_TIMEOUT);
-		
-		
-		try {
-			_source = new BoneCP(config);
-			testConnection();
-		} catch (SQLException x) {
-			throw x;
-		} catch (Exception e) {
-			throw new SQLException("could not init DB connection", e);
-		}
-		
-		if (Config.DATABASE_DRIVER.toLowerCase().contains("microsoft"))
-			_providerType = ProviderType.MsSql;
-		else
-			_providerType = ProviderType.MySql;
 	}
+	
 	
 	private void testConnection() throws SQLException {
 		final Connection connect = _source.getConnection();
@@ -186,8 +216,4 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		return _source.getTotalLeased();
 	}
 
-	@Override
-	public int getIdleConnectionCount() throws SQLException {
-		return _source.getTotalFree();
-	}
 }

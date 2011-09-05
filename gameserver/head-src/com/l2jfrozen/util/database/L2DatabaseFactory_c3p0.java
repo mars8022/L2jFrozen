@@ -193,7 +193,6 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 		return _source.getNumBusyConnectionsDefaultUser();
 	}
 	
-	@Override
 	public int getIdleConnectionCount() throws SQLException
 	{
 		return _source.getNumIdleConnectionsDefaultUser();

@@ -514,6 +514,12 @@ public class L2Party
 						msg.addString(_commandChannel.getChannelLeader().getName());
 						_commandChannel.broadcastToChannelMembers(msg);
 					}
+					
+					if (player.isInPartyMatchRoom()) 
+					{ 
+					 	PartyMatchRoom room = PartyMatchRoomList.getInstance().getPlayerRoom(player); 
+					 	room.changeLeader(player); 
+					} 
 				}
 			}
 			else

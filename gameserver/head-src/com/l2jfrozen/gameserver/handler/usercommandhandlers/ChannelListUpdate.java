@@ -19,8 +19,8 @@ package com.l2jfrozen.gameserver.handler.usercommandhandlers;
 
 import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.L2CommandChannel;
-import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.serverpackets.ExMultiPartyCommandChannelInfo;
 
 /**
  * @author chris_00 when User press the "List Update" button in CCInfo window
@@ -32,9 +32,6 @@ public class ChannelListUpdate implements IUserCommandHandler
 		97
 	};
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
-	 */
 	@Override
 	public boolean useUserCommand(int id, L2PcInstance activeChar)
 	{
@@ -44,31 +41,15 @@ public class ChannelListUpdate implements IUserCommandHandler
 		if(activeChar==null)
 			return false;
 				
-		L2CommandChannel channel = null;
-		if(activeChar.isInParty() && activeChar.getParty().isInCommandChannel())
-			channel = activeChar.getParty().getCommandChannel();
-		else
-			return false;
-		
-		activeChar.sendMessage("================");
-		activeChar.sendMessage("Command Channel Information is not fully implemented now.");
-		activeChar.sendMessage("There are " + channel.getPartys().size() + " Party's in the Channel.");
-		activeChar.sendMessage(channel.getMemberCount() + " Players overall.");
-		activeChar.sendMessage("Leader is " + channel.getChannelLeader().getName() + ".");
-		activeChar.sendMessage("Partyleader, Membercount:");
-		for(L2Party party : channel.getPartys())
-		{
-			activeChar.sendMessage(party.getPartyMembers().get(0).getName() + ", " + party.getMemberCount());
-		}
-		activeChar.sendMessage("================");
+		if (activeChar.getParty() == null || activeChar.getParty().getCommandChannel() == null) 
+            return false; 
 
-		channel = null;
-		return true;
+        L2CommandChannel channel = activeChar.getParty().getCommandChannel(); 
+        
+        activeChar.sendPacket(new ExMultiPartyCommandChannelInfo(channel)); 
+        return true; 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
-	 */
 	@Override
 	public int[] getUserCommandList()
 	{

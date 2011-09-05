@@ -17,6 +17,8 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.gameserver.model.L2Party; 
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 /**
  * Format: ch d[Sdd]
  * 
@@ -24,27 +26,31 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  */
 public class ExMPCCShowPartyMemberInfo extends L2GameServerPacket
 {
-	private static final String _S__FE_4A_EXMPCCSHOWPARTYMEMBERINFO = "[S] FE:4A ExMPCCShowPartyMemberInfo";
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	private L2Party _party; 
+   
+ 	public ExMPCCShowPartyMemberInfo(L2Party party) 
+ 	{ 
+ 	_party = party; 
+ 	} 
+ 	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xfe);
 		writeH(0x4a);
 
-		//TODO this packet has a list, so im not going to add temp vars ^^
+		writeD(_party.getMemberCount()); 
+	 	for (L2PcInstance pc : _party.getPartyMembers()) 
+	 	{ 
+	 	writeS(pc.getName()); 
+	 	writeD(pc.getObjectId()); 
+	 	writeD(pc.getClassId().getId()); 
+	 	} 
 	}
 
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{
-		return _S__FE_4A_EXMPCCSHOWPARTYMEMBERINFO;
+		return "[S] FE:4A ExMPCCShowPartyMemberInfo";
 	}
-
 }

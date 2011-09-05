@@ -4042,6 +4042,111 @@ public enum SystemMessageId
 	S1_CANNOT_RECEIVE_A_DUEL_CHALLENGE_BECAUSE_S1_IS_TOO_FAR_AWAY(2028),
 
 	/**
+	* ID: 1727<br>
+	* Message: $s1 has invited you to a party room. Do you accept?
+	*/
+	S1_INVITED_YOU_TO_PARTY_ROOM_CONFIRM(1727),
+
+	/**
+	* ID: 1728<br>
+	* Message: The recipient of your invitation did not accept the party matching invitation.
+	*/
+	PARTY_MATCHING_REQUEST_NO_RESPONSE(1728),
+	
+	/**
+	* ID: 1699<br>
+	* Message: You cannot dismiss a party member by force.
+	*/
+	CANNOT_DISMISS_PARTY_MEMBER(1699),
+
+	/**
+	* ID: 1923<br>
+	* Message: Court Magician: The portal has been created!
+	*/
+	COURT_MAGICIAN_CREATED_PORTAL(1923),
+
+	/**
+	 * ID: 1388<br>
+	 * Message: A party room has been created.
+	 */
+	PARTY_ROOM_CREATED(1388),
+
+	/**
+	 * ID: 1389<br>
+	 * Message: The party room's information has been revised.
+	 */
+	PARTY_ROOM_REVISED(1389),
+
+	/**
+	 * ID: 1390<br>
+	 * Message: You are not allowed to enter the party room.
+	 */
+	PARTY_ROOM_FORBIDDEN(1390),
+
+	/**
+	 * ID: 1391<br>
+	 * Message: You have exited from the party room.
+	 */
+	PARTY_ROOM_EXITED(1391),
+
+	/**
+	 * ID: 1392<br>
+	 * Message: $s1 has left the party room.
+	 */
+	S1_LEFT_PARTY_ROOM(1392),
+
+	/**
+	 * ID: 1393<br>
+	 * Message: You have been ousted from the party room.
+	 */
+	OUSTED_FROM_PARTY_ROOM(1393),
+
+	/**
+	 * ID: 1394<br>
+	 * Message: $s1 has been kicked from the party room.
+	 */
+	S1_KICKED_FROM_PARTY_ROOM(1394),
+
+	/**
+	 * ID: 1395<br>
+	 * Message: The party room has been disbanded.
+	 */
+	PARTY_ROOM_DISBANDED(1395),
+
+	/**
+	 * ID: 1396<br>
+	 * Message: The list of party rooms can only be viewed by a person who has not joined
+	 * a party or who is currently the leader of a party.
+	 */
+	CANT_VIEW_PARTY_ROOMS(1396),
+
+	/**
+	 * ID: 1397<br>
+	 * Message: The leader of the party room has changed.
+	 */
+	PARTY_ROOM_LEADER_CHANGED(1397),
+
+	
+	/**
+	* ID: 1413<br>
+	* Message: You do not meet the requirements to enter that party room.
+	*/
+	CANT_ENTER_PARTY_ROOM(1413),
+
+	
+	/**
+	* ID: 1900<br>
+	* Message: $s1 has entered the party room.
+	*/
+	S1_ENTERED_PARTY_ROOM(1900),
+
+	/**
+	* ID: 1901<br>
+	* Message: $s1 has invited you to enter the party room.
+	*/
+	S1_INVITED_YOU_TO_PARTY_ROOM(1901),
+	
+	/**
 	 * ID: 1957<br>
 	 * Message: Select the item to be augmented.
 	 */
@@ -4796,6 +4901,61 @@ public enum SystemMessageId
 	 * Message: $S1
 	 */
 	S1(1983),
+	
+	/**
+	* ID: 490<br>
+	* Message: ========================
+	*/
+	FRIEND_LIST_FOOTER(490),
+	
+	/**
+	* ID: 1586<br>
+	* Message: You have quit the Command Channel.
+	*/
+	LEFT_COMMAND_CHANNEL(1586),
+
+	/**
+	* ID: 1587<br>
+	* Message: $s1's party has left the Command Channel.
+	*/
+	S1_PARTY_LEFT_COMMAND_CHANNEL(1587),
+
+	/**
+	* ID: 1575<br>
+	* Message: Command Channels can only be formed by a party leader who is also the leader of a level 5 clan.
+	*/
+	COMMAND_CHANNEL_ONLY_BY_LEVEL_5_CLAN_LEADER_PARTY_LEADER(1575),
+
+	/**
+	* ID: 1529<br>
+	* Message: $s1 is inviting you to the command channel. Do you want accept?
+	*/
+	COMMAND_CHANNEL_CONFIRM(1529),
+	
+	/**
+	* ID: 1580<br>
+	* Message: The Command Channel has been formed.
+	*/
+	COMMAND_CHANNEL_FORMED(1580),
+
+	/**
+	* ID: 1680<br>
+	* Message: $s1 has declined the channel invitation.
+	*/
+	S1_DECLINED_CHANNEL_INVITATION(1680),
+	
+	/**
+	* ID: 1594<br>
+	* Message: $s1's party is already a member of the Command Channel.
+	*/
+	S1_ALREADY_MEMBER_OF_COMMAND_CHANNEL(1594),
+
+	/**
+	* ID: 1593<br>
+	* Message: You do not have authority to invite someone to the Command Channel.
+	*/
+	CANNOT_INVITE_TO_COMMAND_CHANNEL(1593),
+
 	
 	/**
 	* ID: 1709<br>

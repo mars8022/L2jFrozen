@@ -287,7 +287,7 @@ public class UserInfo extends L2GameServerPacket
 			writeH(id);
 		}
 
-		writeC(0x00); //FIXME:
+		writeC(_activeChar.isInPartyMatchRoom() ? 1 : 0);
 
 		writeD(_activeChar.getAbnormalEffect());
 		writeC(0x00); //unk
