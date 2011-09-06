@@ -1,20 +1,16 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
@@ -34,12 +30,10 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 public final class Logout extends L2GameClientPacket
 {
-	private static final String _C__09_LOGOUT = "[C] 09 Logout";
 	private static Logger _log = Logger.getLogger(Logout.class.getName());
 
 	@Override
-	protected void readImpl()
-	{}
+	protected void readImpl() { }
 
 	@Override
 	protected void runImpl()
@@ -47,17 +41,17 @@ public final class Logout extends L2GameClientPacket
 		// Dont allow leaving if player is fighting
 		L2PcInstance player = getClient().getActiveChar();
 
-		if(player == null)
+		if (player == null)
 			return;
 
-		if(player.isInFunEvent() && !player.isGM())
+		if (player.isInFunEvent() && !player.isGM())
 		{
-			player.sendMessage("You cannot logout while in registered in an event.");
+			player.sendMessage("You cannot Logout while in registered in an Event.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
-		if(player.isAway())
+		if (player.isAway())
 		{
 			player.sendMessage("You can't restart in Away mode.");
 			return;
@@ -65,12 +59,10 @@ public final class Logout extends L2GameClientPacket
 
 		player.getInventory().updateDatabase();
 
-		if(AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
+		if (AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
-			if(Config.DEBUG)
-			{
-				_log.fine("Player " + player.getName() + " tried to logout while fighting");
-			}
+			if (Config.DEBUG)
+				_log.fine("DEBUG "+getType()+": Player " + player.getName() + " tried to logout while Fighting");
 
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_LOGOUT_WHILE_FIGHTING));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -80,15 +72,15 @@ public final class Logout extends L2GameClientPacket
 		// Dont allow leaving if player is casting
 		if (player.isCastingNow() && !player.isGM())  
 		{  
-		 	player.sendMessage("Sorry, you are casting now.");  
+		 	player.sendMessage("Sorry, you are Casting now.");  
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		 	return; 
 		} 
 		
-		// Dont allow leaving if player is in combact
+		// Dont allow leaving if player is in combat
 		if (player.isInCombat() && !player.isGM())
 		{
-			player.sendMessage("You cannot log out.");  
+			player.sendMessage("You cannot Logout while is in Combat mode.");  
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		 	return; 
 		}
@@ -96,45 +88,40 @@ public final class Logout extends L2GameClientPacket
 		// Dont allow leaving if player is teleporting
 		if (player.isTeleporting() && !player.isGM())
 		{
-			player.sendMessage("You cannot log out.");
+			player.sendMessage("You cannot Logout while is Teleporting.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
-		if(player.atEvent)
+		if (player.atEvent)
 		{
-			player.sendPacket(SystemMessage.sendString("A superior power doesn't allow you to leave the event"));
+			player.sendPacket(SystemMessage.sendString("A superior power doesn't allow you to leave the event."));
 			return;
 		}
 
 		if(player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
 		{
-			player.sendMessage("You cant logout in olympiad mode");
+			player.sendMessage("You can't Logout in Olympiad mode.");
 			return;
 		}
 
-		// Prevent player from logging out if they are a festival participant
-		// and it is in progress, otherwise notify party members that the player
-		// is not longer a participant.
-		if(player.isFestivalParticipant())
+		// Prevent player from logging out if they are a festival participant nd it is in progress,
+		// otherwise notify party members that the player is not longer a participant.
+		if (player.isFestivalParticipant())
 		{
-			if(SevenSignsFestival.getInstance().isFestivalInitialized())
+			if (SevenSignsFestival.getInstance().isFestivalInitialized())
 			{
-				player.sendMessage("You cannot log out while you are a participant in a festival.");
+				player.sendMessage("You cannot Logout while you are a participant in a Festival.");
 				return;
 			}
 
 			L2Party playerParty = player.getParty();
 			if(playerParty != null)
-			{
-				player.getParty().broadcastToPartyMembers(SystemMessage.sendString(player.getName() + " has been removed from the upcoming festival."));
-			}
+				player.getParty().broadcastToPartyMembers(SystemMessage.sendString(player.getName() + " has been removed from the upcoming Festival."));
 		}
 
 		if(player.isFlying())
-		{
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
-		}
 
 		if(player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE || player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)
 		{
@@ -146,7 +133,6 @@ public final class Logout extends L2GameClientPacket
 		}
 
 		RegionBBSManager.getInstance().changeCommunityBoard();
-
 		player.deleteMe();
 	}
 

@@ -1,19 +1,16 @@
-/* This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+/*
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
@@ -38,41 +35,33 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 	@Override
 	protected boolean read()
 	{
-		//System.out.println(this.getType());
 		try
 		{
 			readImpl();
 			return true;
 		}
-		catch(BufferOverflowException e)
+		catch (BufferOverflowException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			
-			if(getClient()!=null)
+
+			if (getClient() != null)
 				getClient().closeNow();
+
 			_log.severe("Client: " + getClient().toString() + " - Buffer overflow and has been kicked");
 		}
-		catch(BufferUnderflowException e)
+		catch (BufferUnderflowException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			getClient().onBufferUnderflow();
-			
-			/*
-			 * if(getClient()!=null)
-				getClient().closeNow();
-			_log.severe("Client: " + getClient().toString() + " - Buffer underflow and has been kicked");
-			*/
 		}
-		catch(Throwable t)
+		catch (Throwable t)
 		{
-			
 			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
 			t.printStackTrace();
 		}
-
 		return false;
 	}
 
@@ -84,23 +73,18 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		try
 		{	
 			runImpl();
-			
             if (this instanceof MoveBackwardToLocation || this instanceof AttackRequest || this instanceof RequestMagicSkillUse)
-            {
-            	// Removes onspawn protection
             	if (getClient().getActiveChar() != null)
-            		getClient().getActiveChar().onActionRequest();
-            }
+            		getClient().getActiveChar().onActionRequest(); // Removes onSpawn Protection
 		}
 		catch (Throwable t)
 		{
 			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
 			t.printStackTrace();
-			
+
 			if (this instanceof EnterWorld)
 				getClient().closeNow();
 		}
-		
 	}
 
 	protected abstract void runImpl();

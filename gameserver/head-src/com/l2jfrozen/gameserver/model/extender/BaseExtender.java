@@ -21,8 +21,7 @@ package com.l2jfrozen.gameserver.model.extender;
 import com.l2jfrozen.gameserver.model.L2Object;
 
 /**
- * @author Azagthtot BaseExtender - Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ СЂР°СЃС€РёСЂРµРЅРёСЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚РµР№<BR>
- * <BR>
+ * @author Azagthtot BaseExtender
  */
 public class BaseExtender
 {

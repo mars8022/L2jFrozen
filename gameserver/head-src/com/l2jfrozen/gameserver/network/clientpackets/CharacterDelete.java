@@ -45,7 +45,7 @@ public final class CharacterDelete extends L2GameClientPacket
 			return;
 
 		if (Config.DEBUG)
-			_log.fine("DEBUG CharacterDelete: deleting slot:" + _charSlot);
+			_log.fine("DEBUG "+getType()+": deleting slot:" + _charSlot);
 
 		try
 		{
@@ -71,7 +71,7 @@ public final class CharacterDelete extends L2GameClientPacket
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 
-			_log.log(Level.SEVERE, "Error:", e);
+			_log.log(Level.SEVERE, "ERROR "+getType()+":", e);
 		}
 
 		// Before the char selection, check shutdown status

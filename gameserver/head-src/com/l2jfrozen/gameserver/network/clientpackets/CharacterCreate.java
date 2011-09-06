@@ -50,20 +50,9 @@ public final class CharacterCreate extends L2GameClientPacket
 	private static Logger _log = Logger.getLogger(CharacterCreate.class.getName());
 	private static final Object CREATION_LOCK = new Object();
 
-	// Packet format: cSdddddddddddd
 	private String _name;
-	private int _race;
-	private byte _sex;
-	private int _classId;
-	private int _int;
-	private int _str;
-	private int _con;
-	private int _men;
-	private int _dex;
-	private int _wit;
-	private byte _hairStyle;
-	private byte _hairColor;
-	private byte _face;
+	private byte _sex, _hairStyle, _hairColor, _face;
+	private int _race, _classId, _int, _str, _con, _men, _dex, _wit;
 
 	@Override
 	protected void readImpl()
@@ -90,14 +79,14 @@ public final class CharacterCreate extends L2GameClientPacket
 		if (_name.length() < 3 || _name.length() > 16 || !Util.isAlphaNumeric(_name) || !isValidName(_name))
 		{
 			if (Config.DEBUG)
-				_log.fine("DEBUG CharacterCreate: charname: " + _name + " is invalid. creation failed.");
+				_log.fine("DEBUG "+getType()+": charname: " + _name + " is invalid. creation failed.");
 
 			sendPacket(new CharCreateFail(CharCreateFail.REASON_16_ENG_CHARS));
 			return;
 		}
 
 		if (Config.DEBUG)
-			_log.fine("DEBUG CharacterCreate: charname: " + _name + " classId: " + _classId);
+			_log.fine("DEBUG "+getType()+": charname: " + _name + " classId: " + _classId);
 
 		L2PcInstance newChar = null;
 		L2PcTemplate template = null;
@@ -108,7 +97,7 @@ public final class CharacterCreate extends L2GameClientPacket
 			if (CharNameTable.getInstance().accountCharNumber(getClient().getAccountName()) >= Config.MAX_CHARACTERS_NUMBER_PER_ACCOUNT && Config.MAX_CHARACTERS_NUMBER_PER_ACCOUNT != 0)
 			{
 				if (Config.DEBUG)
-					_log.fine("DEBUG CharacterCreate: Max number of characters reached. Creation failed.");
+					_log.fine("DEBUG "+getType()+": Max number of characters reached. Creation failed.");
 				
 				sendPacket(new CharCreateFail(CharCreateFail.REASON_TOO_MANY_CHARACTERS));
 				return;
@@ -116,7 +105,7 @@ public final class CharacterCreate extends L2GameClientPacket
 			else if (CharNameTable.getInstance().doesCharNameExist(_name))
 			{
 				if(Config.DEBUG)
-					_log.fine("DEBUG CharacterCreate: charname: " + _name + " already exists. creation failed.");
+					_log.fine("DEBUG "+getType()+": charname: " + _name + " already exists. creation failed.");
 
 				sendPacket(new CharCreateFail(CharCreateFail.REASON_NAME_ALREADY_EXISTS));
 				return;
@@ -125,7 +114,7 @@ public final class CharacterCreate extends L2GameClientPacket
 			template = CharTemplateTable.getInstance().getTemplate(_classId);
 
 			if (Config.DEBUG)
-				_log.fine("DEBUG CharacterCreate: charname: " + _name + " classId: " + _classId + " template: " + template);
+				_log.fine("DEBUG "+getType()+": charname: " + _name + " classId: " + _classId + " template: " + template);
 
 			if (template == null || template.classBaseLevel > 1)
 			{
@@ -162,7 +151,7 @@ public final class CharacterCreate extends L2GameClientPacket
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 
-			_log.warning("ERROR : Character name pattern of config is wrong!");
+			_log.warning("ERROR "+getType()+": Character name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
 
@@ -176,7 +165,7 @@ public final class CharacterCreate extends L2GameClientPacket
 	private void initNewChar(L2GameClient client, L2PcInstance newChar)
 	{
 		if (Config.DEBUG)
-			_log.fine("DEBUG CharacterCreate: Character init start");
+			_log.fine("DEBUG "+getType()+": Character init start");
 
 		L2World.getInstance().storeObject(newChar);
 		L2PcTemplate template = newChar.getTemplate();
@@ -263,7 +252,7 @@ public final class CharacterCreate extends L2GameClientPacket
 				newChar.registerShortCut(new L2ShortCut(10, 0, 2, startSkill.getId(), 1, 1));
 
 			if(Config.DEBUG)
-				_log.fine("DEBUG CharacterCreate: Adding starter skill:" + startSkill.getId() + " / " + startSkill.getLevel());
+				_log.fine("DEBUG "+getType()+": Adding starter skill:" + startSkill.getId() + " / " + startSkill.getLevel());
 		}
 
 		startTutorialQuest(newChar);
@@ -283,13 +272,12 @@ public final class CharacterCreate extends L2GameClientPacket
 		client.setCharSelection(cl.getCharInfo());
 
 		if(Config.DEBUG)
-			_log.fine("DEBUG CharacterCreate: Character init end");
+			_log.fine("DEBUG "+getType()+": Character init end");
 	}
 
 	public void startTutorialQuest(L2PcInstance player)
 	{
 		QuestState qs = player.getQuestState("255_Tutorial");
-
 		Quest q = null;
 
 		if(qs == null)
