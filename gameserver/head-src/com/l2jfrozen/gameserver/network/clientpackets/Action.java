@@ -1,20 +1,16 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
@@ -29,17 +25,13 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
+@SuppressWarnings("unused")
 public final class Action extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(Action.class.getName());
-
-	// cddddc
 	private int _objectId;
-	@SuppressWarnings("unused")
 	private int _originX;
-	@SuppressWarnings("unused")
 	private int _originY;
-	@SuppressWarnings("unused")
 	private int _originZ;
 	private int _actionId;
 
@@ -57,9 +49,7 @@ public final class Action extends L2GameClientPacket
 	protected void runImpl()
 	{
 		if (Config.DEBUG)
-			_log.fine("Action:" + _actionId);
-		if (Config.DEBUG)
-			_log.fine("oid:" + _objectId);
+			_log.fine("DEBUG Action ActionId: " + _actionId + " , ObjectID: " + _objectId);
 
 		// Get the current L2PcInstance of the player
 		final L2PcInstance activeChar = getClient().getActiveChar();
@@ -82,7 +72,7 @@ public final class Action extends L2GameClientPacket
 			obj = L2World.getInstance().findObject(_objectId);
 		
 		// If object requested does not exist, add warn msg into logs
-		if(obj == null)
+		if (obj == null)
 		{
 			// pressing e.g. pickup many times quickly would get you here
 			// _log.warning("Character: " + activeChar.getName() + " request action with non existent ObjectID:" + _objectId);
@@ -90,8 +80,7 @@ public final class Action extends L2GameClientPacket
 			return;
 		}
 
-		// Players can't interact with objects in the other instances
-		// except from multiverse
+		// Players can't interact with objects in the other instances except from multiverse
 		if (obj.getInstanceId() != activeChar.getInstanceId()
 				&& activeChar.getInstanceId() != -1)
 		{
@@ -109,7 +98,7 @@ public final class Action extends L2GameClientPacket
 		}
 	
 		// Check if the target is valid, if the player haven't a shop or isn't the requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...)
-		if(activeChar.getPrivateStoreType() == 0/* && activeChar.getActiveRequester() == null*/)
+		if (activeChar.getPrivateStoreType() == 0/* && activeChar.getActiveRequester() == null*/)
 		{
 			switch(_actionId)
 			{
@@ -117,27 +106,20 @@ public final class Action extends L2GameClientPacket
 					obj.onAction(activeChar);
 					break;
 				case 1:
-					if(obj instanceof L2Character && ((L2Character) obj).isAlikeDead())
-					{
+					if (obj instanceof L2Character && ((L2Character) obj).isAlikeDead())
 						obj.onAction(activeChar);
-					}
 					else
-					{
 						obj.onActionShift(getClient());
-					}
 					break;
 				default:
-					// Ivalid action detected (probably client cheating), log this
+					// Invalid action detected (probably client cheating), log this
 					_log.warning("Character: " + activeChar.getName() + " requested invalid action: " + _actionId);
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					break;
 			}
 		}
 		else
-		{
-			// Actions prohibited when in trade
-			getClient().sendPacket(ActionFailed.STATIC_PACKET);
-		}
+			getClient().sendPacket(ActionFailed.STATIC_PACKET); // Actions prohibited when in trade
 	}
 
 	@Override

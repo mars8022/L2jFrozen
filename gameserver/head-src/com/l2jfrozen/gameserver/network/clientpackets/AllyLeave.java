@@ -1,20 +1,16 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
@@ -27,24 +23,23 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class AllyLeave extends L2GameClientPacket
 {
 	@Override
-	protected void readImpl()
-	{}
+	protected void readImpl() { }
 
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
 
-		if(player == null)
+		if (player == null)
 			return;
 
-		if(player.getClan() == null)
+		if (player.getClan() == null)
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.YOU_ARE_NOT_A_CLAN_MEMBER));
 			return;
 		}
 
-		if(!player.isClanLeader())
+		if (!player.isClanLeader())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.ONLY_CLAN_LEADER_WITHDRAW_ALLY));
 			return;
@@ -52,13 +47,13 @@ public final class AllyLeave extends L2GameClientPacket
 
 		L2Clan clan = player.getClan();
 
-		if(clan.getAllyId() == 0)
+		if (clan.getAllyId() == 0)
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.NO_CURRENT_ALLIANCES));
 			return;
 		}
 
-		if(clan.getClanId() == clan.getAllyId())
+		if (clan.getClanId() == clan.getAllyId())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.ALLIANCE_LEADER_CANT_WITHDRAW));
 			return;
