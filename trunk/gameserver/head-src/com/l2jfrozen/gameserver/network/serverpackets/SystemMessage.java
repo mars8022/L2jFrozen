@@ -1,20 +1,16 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
@@ -24,16 +20,9 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 
-/**
- * This class ...
- * 
- * @author eX1steam, l2jfrozen
- * @version $Revision: 1.18.2.5.2.8 $ $Date: 2009/04/10 17:10:08 $
- */
 public final class SystemMessage extends L2GameServerPacket
 {
-	// d d (d S/d d/d dd)
-	//      |--------------> 0 - String  1-number 2-textref npcname (1000000-1002655)  3-textref itemname 4-textref skills 5-??
+	// Packets d d (d S/d d/d dd) -> 0 - String  1-number 2-textref npcname (1000000-1002655)  3-textref itemname 4-textref skills 5-??
 	private static final int TYPE_ZONE_NAME = 7;
 	private static final int TYPE_SKILL_NAME = 4;
 	private static final int TYPE_ITEM_NAME = 3;
@@ -123,6 +112,8 @@ public final class SystemMessage extends L2GameServerPacket
 
 		return this;
 	}
+	
+	public void addSkillName(L2Skill skill) { } // Check this
 
 	@Override
 	protected final void writeImpl()
@@ -174,31 +165,20 @@ public final class SystemMessage extends L2GameServerPacket
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
-	@Override
-	public String getType()
-	{
-		return "[S] 64 SystemMessage";
-	}
-	
 	public int getMessageID()
 	{
 		return _messageId;
 	}
 
-	/**
-	 * @param skill
-	 */
-	public void addSkillName(L2Skill skill)
-	{
-	// TODO Auto-generated method stub
-	}
-	
 	public static SystemMessage getSystemMessage(SystemMessageId smId)
 	{
 		SystemMessage sm = new SystemMessage(smId);
 		return sm;
+	}
+	
+	@Override
+	public String getType()
+	{
+		return "[S] 64 SystemMessage";
 	}
 }
