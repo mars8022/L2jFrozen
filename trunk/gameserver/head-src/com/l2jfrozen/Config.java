@@ -2226,7 +2226,7 @@ public final class Config
 	public static boolean ONLINE_PLAYERS_ON_LOGIN;
 	public static boolean SHOW_SERVER_VERSION;
 	public static boolean SUBSTUCK_SKILLS;
-	public static boolean ALT_Server_Name_Enabled;
+	public static boolean ALT_SERVER_NAME_ENABLED;
 	public static boolean ANNOUNCE_TO_ALL_SPAWN_RB;
 	public static boolean ANNOUNCE_TRY_BANNED_ACCOUNT;
 	public static String ALT_Server_Name;
@@ -2370,7 +2370,7 @@ public final class Config
 			WELCOME_HTM = Boolean.parseBoolean(L2JFrozenSettings.getProperty("WelcomeHtm", "False"));
 
 			/** Server Name **/
-			ALT_Server_Name_Enabled = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ServerNameEnabled", "false"));
+			ALT_SERVER_NAME_ENABLED = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ServerNameEnabled", "false"));
 			ANNOUNCE_TO_ALL_SPAWN_RB = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AnnounceToAllSpawnRb", "false"));
 			ANNOUNCE_TRY_BANNED_ACCOUNT = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AnnounceTryBannedAccount", "false"));
 			ALT_Server_Name = String.valueOf(L2JFrozenSettings.getProperty("ServerName"));
@@ -5246,7 +5246,7 @@ public final class Config
 		}
 		else if(pName.equalsIgnoreCase("ServerNameEnabled"))
 		{
-			ALT_Server_Name_Enabled = Boolean.valueOf(pValue);
+			ALT_SERVER_NAME_ENABLED = Boolean.valueOf(pValue);
 		}
 		else if(pName.equalsIgnoreCase("ServerName"))
 		{

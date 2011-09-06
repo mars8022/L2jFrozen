@@ -1,20 +1,16 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
@@ -31,51 +27,47 @@ public final class NewCharacter extends L2GameClientPacket
 	private static Logger _log = Logger.getLogger(NewCharacter.class.getName());
 
 	@Override
-	protected void readImpl()
-	{
-
-	}
+	protected void readImpl() { }
 
 	@Override
 	protected void runImpl()
 	{
-		if(Config.DEBUG)
-		{
-			_log.fine("CreateNewChar");
-		}
+		if (Config.DEBUG)
+			_log.fine("DEBUG "+getType()+": Create New Char");
 
 		CharTemplates ct = new CharTemplates();
 
 		L2PcTemplate template = CharTemplateTable.getInstance().getTemplate(0);
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.fighter); // human fighter
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.fighter); // Human Fighter
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.mage); // human mage
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.mage); // Human Mage
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.elvenFighter); // elf fighter
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.elvenFighter); // Elf Fighter
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.elvenMage); // elf mage
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.elvenMage); // Elf Mage
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.darkFighter); // dark elf fighter
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.darkFighter); // DE Fighter
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.darkMage); // dark elf mage
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.darkMage); // DE Mage
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.orcFighter); // orc fighter
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.orcFighter); // Orc Fighter
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.orcMage); // orc mage
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.orcMage); // Orc Mage
 		ct.addChar(template);
 
-		template = CharTemplateTable.getInstance().getTemplate(ClassId.dwarvenFighter); // dwarf fighter
+		template = CharTemplateTable.getInstance().getTemplate(ClassId.dwarvenFighter); // Dwarf Fighter
 		ct.addChar(template);
 
+		// Finally
 		sendPacket(ct);
 	}
 

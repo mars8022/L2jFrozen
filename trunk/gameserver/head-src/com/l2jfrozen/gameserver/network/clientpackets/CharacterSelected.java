@@ -28,10 +28,7 @@ public class CharacterSelected extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(CharacterSelected.class.getName());
 	private int _charSlot;
-	private int _unk1; // new in C4
-	private int _unk2; // new in C4
-	private int _unk3; // new in C4
-	private int _unk4; // new in C4
+	private int _unk1, _unk2, _unk3, _unk4; // new in C4
 
 	@Override
 	protected void readImpl()
@@ -64,7 +61,7 @@ public class CharacterSelected extends L2GameClientPacket
 				{
 					// The L2PcInstance must be created here, so that it can be attached to the L2GameClient
 					if (Config.DEBUG)
-						_log.fine("DEBUG CharacterSelected: selected slot:" + _charSlot);
+						_log.fine("DEBUG "+getType()+": selected slot:" + _charSlot);
 
 					// Load up character from disk
 					L2PcInstance cha = getClient().loadCharFromDisk(_charSlot);
@@ -72,7 +69,7 @@ public class CharacterSelected extends L2GameClientPacket
 					if (cha == null)
 					{
 						if (Config.DEBUG)
-							_log.severe("DEBUG CharacterSelected: Character could not be loaded (slot:" + _charSlot + ")");
+							_log.severe("DEBUG "+getType()+": Character could not be loaded (slot:" + _charSlot + ")");
 						
 						sendPacket(ActionFailed.STATIC_PACKET);
 						return;

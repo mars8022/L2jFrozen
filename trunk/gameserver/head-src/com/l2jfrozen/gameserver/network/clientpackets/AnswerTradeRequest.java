@@ -36,10 +36,10 @@ public final class AnswerTradeRequest extends L2GameClientPacket
 	{
 		L2PcInstance player = getClient().getActiveChar();
 
-		if(player == null)
+		if (player == null)
 			return;
 
-		if(!player.getAccessLevel().allowTransaction())
+		if (!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Unsufficient privileges.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -48,7 +48,7 @@ public final class AnswerTradeRequest extends L2GameClientPacket
 
 		L2PcInstance partner = player.getActiveRequester();
 
-		if(partner == null || L2World.getInstance().findObject(partner.getObjectId()) == null)
+		if (partner == null || L2World.getInstance().findObject(partner.getObjectId()) == null)
 		{
 			// Trade partner not found, cancel trade
 			player.sendPacket(new SendTradeDone(0));
@@ -57,7 +57,7 @@ public final class AnswerTradeRequest extends L2GameClientPacket
 			return;
 		}
 
-		if(_response == 1 && !partner.isRequestExpired())
+		if (_response == 1 && !partner.isRequestExpired())
 			player.startTrade(partner);
 		else
 		{

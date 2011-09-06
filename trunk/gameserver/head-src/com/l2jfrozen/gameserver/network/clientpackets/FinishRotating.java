@@ -1,20 +1,16 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * http://www.gnu.org/copyleft/gpl.html
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
@@ -23,17 +19,10 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.StopRotation;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:29:30 $
- */
+@SuppressWarnings("unused")
 public final class FinishRotating extends L2GameClientPacket
 {
-	private int _degree;
-
-	@SuppressWarnings("unused")
-	private int _unknown;
+	private int _degree, _unknown;
 
 	@Override
 	protected void readImpl()
@@ -46,16 +35,16 @@ public final class FinishRotating extends L2GameClientPacket
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		if (player == null)
 			return;
 
-		if(!Config.ALLOW_USE_CURSOR_FOR_WALK){
+		if (!Config.ALLOW_USE_CURSOR_FOR_WALK)
+		{
 			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		
-		StopRotation sr = new StopRotation(player, _degree, 0);
-		player.broadcastPacket(sr);
+
+		player.broadcastPacket(new StopRotation(player, _degree, 0));
 	}
 
 	@Override

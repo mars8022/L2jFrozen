@@ -49,7 +49,7 @@ public final class Action extends L2GameClientPacket
 	protected void runImpl()
 	{
 		if (Config.DEBUG)
-			_log.fine("DEBUG Action ActionId: " + _actionId + " , ObjectID: " + _objectId);
+			_log.fine("DEBUG "+getType()+": ActionId: " + _actionId + " , ObjectID: " + _objectId);
 
 		// Get the current L2PcInstance of the player
 		final L2PcInstance activeChar = getClient().getActiveChar();
