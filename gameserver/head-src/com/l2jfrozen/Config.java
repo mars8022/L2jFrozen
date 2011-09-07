@@ -3635,7 +3635,7 @@ public final class Config
 	public static boolean ALLOW_DIRECT_TP_TO_BOSS_ROOM;
 	public static boolean ANTHARAS_OLD;
 	public static int ANTHARAS_CLOSE;
-	public static int ANTHARAS_SLEEP;
+	public static int ANTHARAS_DESPAWN_TIME;
 	public static int ANTHARAS_RESP_FIRST;
 	public static int ANTHARAS_RESP_SECOND;
 	public static int ANTHARAS_WAIT_TIME;
@@ -3755,7 +3755,7 @@ public final class Config
 			//Antharas
 			ANTHARAS_OLD = Boolean.valueOf(bossSettings.getProperty("AntharasOldScript", "true"));
 			ANTHARAS_CLOSE = Integer.parseInt(bossSettings.getProperty("AntharasClose", "1200"));
-			ANTHARAS_SLEEP = Integer.parseInt(bossSettings.getProperty("AntharasSleep", "900"));
+			ANTHARAS_DESPAWN_TIME = Integer.parseInt(bossSettings.getProperty("AntharasDespawnTime", "240"));
 			ANTHARAS_RESP_FIRST = Integer.parseInt(bossSettings.getProperty("AntharasRespFirst", "192"));
 			ANTHARAS_RESP_SECOND = Integer.parseInt(bossSettings.getProperty("AntharasRespSecond", "145"));
 			ANTHARAS_WAIT_TIME = Integer.parseInt(bossSettings.getProperty("AntharasWaitTime", "30"));

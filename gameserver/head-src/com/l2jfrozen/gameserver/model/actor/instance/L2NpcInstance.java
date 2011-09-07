@@ -35,7 +35,6 @@ import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.datatables.sql.HelperBuffTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
-import com.l2jfrozen.gameserver.datatables.sql.MaxCheatersTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.managers.CastleManager;
@@ -49,7 +48,6 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2DropCategory;
 import com.l2jfrozen.gameserver.model.L2DropData;
-import com.l2jfrozen.gameserver.model.L2MaxPolyModel;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
@@ -148,8 +146,6 @@ public class L2NpcInstance extends L2Character
 	public String _CTF_FlagTeamName;
 
 	private int _isSpoiledBy = 0;
-
-	private final L2MaxPolyModel _mxcModel;
 
 	protected RandomAnimationTask _rAniTask = null;
 	private int _currentLHandId; // normally this shouldn't change from the template, but there exist exceptions
@@ -312,28 +308,6 @@ public class L2NpcInstance extends L2Character
 		// initialize the "current" collisions
 		_currentCollisionHeight = getTemplate().collisionHeight;
 		_currentCollisionRadius = getTemplate().collisionRadius;
-
-		_mxcModel = MaxCheatersTable.getInstance().getModelForID(template.npcId);
-
-		if(_mxcModel != null)
-		{
-			_currentCollisionHeight = CharTemplateTable.getInstance().getTemplate(_mxcModel.getClassId()).collisionHeight;
-			_currentCollisionRadius = CharTemplateTable.getInstance().getTemplate(_mxcModel.getClassId()).collisionRadius;
-
-			if(_mxcModel.getWeaponIdRH() <= 0 && _mxcModel.getWeaponIdLH() <= 0)
-			{
-				_mxcModel.setWeaponIdRH(template.rhand);
-				_mxcModel.setWeaponIdLH(template.lhand);
-			}
-		}
-
-		/*
-		if(template == null)
-		{
-			_log.severe("No template for Npc. Please check your datapack is setup correctly.");
-			return;
-		}
-		*/
 
 		// Set the name of the L2Character
 		setName(template.name);
@@ -3087,11 +3061,6 @@ public class L2NpcInstance extends L2Character
 	public int getCollisionRadius()
 	{
 		return _currentCollisionRadius;
-	}
-
-	public L2MaxPolyModel getMxcPoly()
-	{
-		return _mxcModel;
 	}
 
 	public L2CustomNpcInstance getCustomNpcInstance()

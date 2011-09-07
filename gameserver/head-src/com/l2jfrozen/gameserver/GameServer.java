@@ -63,7 +63,6 @@ import com.l2jfrozen.gameserver.datatables.sql.HennaTreeTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
 import com.l2jfrozen.gameserver.datatables.sql.LevelUpData;
-import com.l2jfrozen.gameserver.datatables.sql.MaxCheatersTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillSpellbookTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
@@ -210,7 +209,6 @@ public class GameServer
 		Util.printSection("World");
 		L2World.getInstance();
 		MapRegionTable.getInstance();
-		MaxCheatersTable.getInstance();
 		Announcements.getInstance();
 		AutoAnnouncementHandler.getInstance();
 		if(!IdFactory.getInstance().isInitialized())

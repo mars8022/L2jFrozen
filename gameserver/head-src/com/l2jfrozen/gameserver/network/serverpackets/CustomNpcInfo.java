@@ -20,7 +20,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 public class CustomNpcInfo extends L2GameServerPacket
 {
 
-	private static final String _S__31_CUSTOMNPCINFO = "[S] 31 CustomNpcInfo [dddddsddd dddddddddddd dddddddd hhhh d hhhhhhhhhhhh d hhhh hhhhhhhhhhhhhhhh dddddd dddddddd ffff ddd s ddddd ccccccc h c d c h ddd cc d ccc ddddddddddd]";
+	private static final String _S__03_CUSTOMNPCINFO = "[S] 03 CustomNpcInfo [dddddsddd dddddddddddd dddddddd hhhh d hhhhhhhhhhhh d hhhh hhhhhhhhhhhhhhhh dddddd dddddddd ffff ddd s ddddd ccccccc h c d c h ddd cc d ccc ddddddddddd]";
 	private L2NpcInstance _activeChar;
 
 	/**
@@ -38,7 +38,7 @@ public class CustomNpcInfo extends L2GameServerPacket
 	@Override
 	protected final void writeImpl()
 	{
-		writeC(0x31);
+		writeC(0x03);
 		writeD(_activeChar.getX());
 		writeD(_activeChar.getY());
 		writeD(_activeChar.getZ());
@@ -48,7 +48,8 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeD(_activeChar.getCustomNpcInstance().getRace());
 		writeD(_activeChar.getCustomNpcInstance().isFemaleSex() ? 1 : 0);
 		writeD(_activeChar.getCustomNpcInstance().getClassId());
-		write('D', 0, 2);
+		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_HAIR());
+		writeD(0);
 		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_RHAND());
 		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_LHAND());
 		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_GLOVES());
@@ -59,23 +60,13 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_RHAND());
 		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_HAIR());
 		writeD(_activeChar.getCustomNpcInstance().PAPERDOLL_HAIR2());
-
-		write('D', 0, 8);
-		write('H', 0, 4);
-		writeD(0);
-		write('H', 0, 12);
-		writeD(0);
-		write('H', 0, 20);
-
+		write('H', 0, 24);
 		writeD(_activeChar.getCustomNpcInstance().getPvpFlag() ? 1 : 0);
 		writeD(_activeChar.getCustomNpcInstance().getKarma());
-
 		writeD(_activeChar.getMAtkSpd());
 		writeD(_activeChar.getPAtkSpd());
-
 		writeD(_activeChar.getCustomNpcInstance().getPvpFlag() ? 1 : 0);
 		writeD(_activeChar.getCustomNpcInstance().getKarma());
-
 		writeD(_activeChar.getRunSpeed());
 		writeD(_activeChar.getRunSpeed() / 2);
 		writeD(_activeChar.getRunSpeed() / 3);
@@ -86,16 +77,12 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeD(_activeChar.getRunSpeed());
 		writeF(_activeChar.getStat().getMovementSpeedMultiplier());
 		writeF(_activeChar.getStat().getAttackSpeedMultiplier());
-
 		writeF(CharTemplateTable.getInstance().getTemplate(_activeChar.getCustomNpcInstance().getClassId()).getCollisionRadius());
 		writeF(CharTemplateTable.getInstance().getTemplate(_activeChar.getCustomNpcInstance().getClassId()).getCollisionHeight());
-
 		writeD(_activeChar.getCustomNpcInstance().getHairStyle());
 		writeD(_activeChar.getCustomNpcInstance().getHairColor());
 		writeD(_activeChar.getCustomNpcInstance().getFace());
-
 		writeS(_activeChar.getCustomNpcInstance().getTitle());
-
 		writeD(_activeChar.getCustomNpcInstance().getClanId());
 		writeD(_activeChar.getCustomNpcInstance().getClanCrestId());
 		writeD(_activeChar.getCustomNpcInstance().getAllyId());
@@ -107,7 +94,7 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeC(_activeChar.isAlikeDead() ? 1 : 0);
 		write('C', 0, 3);
 		writeH(0);
-		writeC(0);
+		writeC(0x00);
 		writeD(_activeChar.getAbnormalEffect());
 		writeC(0);
 		writeH(0);
@@ -115,20 +102,18 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeD(_activeChar.getMaxCp());
 		writeD((int) _activeChar.getStatus().getCurrentCp());
 		writeC(_activeChar.getCustomNpcInstance().getEnchantWeapon());
-		writeC(0);
-		writeD(0);
+		writeC(0x00);
+		writeD(0);//clan crest
 		writeC(_activeChar.getCustomNpcInstance().isNoble() ? 1 : 0);
 		writeC(_activeChar.getCustomNpcInstance().isHero() ? 1 : 0);
 		writeC(0);
-
 		write('D', 0, 3);
 		writeD(_activeChar.getCustomNpcInstance().nameColor());
 		writeD(0);
 		writeD(_activeChar.getCustomNpcInstance().getPledgeClass());
 		writeD(0);
 		writeD(_activeChar.getCustomNpcInstance().titleColor());
-		writeD(_activeChar.getCustomNpcInstance().getCursedWeaponLevel());
-		write('D', 0, 2);
+		writeD(0x00);
 	}
 
 	/* (non-Javadoc)
@@ -137,7 +122,7 @@ public class CustomNpcInfo extends L2GameServerPacket
 	@Override
 	public String getType()
 	{
-		return _S__31_CUSTOMNPCINFO;
+		return _S__03_CUSTOMNPCINFO;
 	}
 
 	private final void write(char type, int value, int times)

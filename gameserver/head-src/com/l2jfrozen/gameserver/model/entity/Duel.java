@@ -26,6 +26,7 @@ import javolution.util.FastList;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.managers.DuelManager;
+import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -35,6 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ExDuelEnd;
 import com.l2jfrozen.gameserver.network.serverpackets.ExDuelReady;
 import com.l2jfrozen.gameserver.network.serverpackets.ExDuelStart;
+import com.l2jfrozen.gameserver.network.serverpackets.ExDuelUpdateUserInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
@@ -116,7 +118,7 @@ public class Duel
 	// ===============================================================
 	// Nested Class
 
-	public class PlayerCondition
+	public static class PlayerCondition
 	{
 		private L2PcInstance _player;
 		private double _hp;
@@ -232,8 +234,7 @@ public class Duel
 			}
 			catch(Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
+				t.printStackTrace();
 			}
 		}
 	}
@@ -257,11 +258,21 @@ public class Duel
 
 				if(count == 4)
 				{
+					// Save player Conditions
+					savePlayerConditions();
+
 					// players need to be teleportet first
 					//TODO: stadia manager needs a function to return an unused stadium for duels
-					// currently only teleports to the same stadium
-					_duel.teleportPlayers(Config.DUEL_SPAWN_X, Config.DUEL_SPAWN_Y, Config.DUEL_SPAWN_Z);
-
+					
+					// currently if oly in competition period 
+					  //and defined location is into a stadium
+					  //just use Gludin Arena as location
+					if(Olympiad.getInstance().inCompPeriod()
+							&& OlympiadStadiaManager.getInstance().getStadiumByLoc(Config.DUEL_SPAWN_X, Config.DUEL_SPAWN_Y, Config.DUEL_SPAWN_Z)!=null)
+						_duel.teleportPlayers(-87912, 142221, -3645);
+					else
+						_duel.teleportPlayers(Config.DUEL_SPAWN_X, Config.DUEL_SPAWN_Y, Config.DUEL_SPAWN_Z);
+					
 					// give players 20 seconds to complete teleport and get ready (its ought to be 30 on offical..)
 					ThreadPoolManager.getInstance().scheduleGeneral(this, 20000);
 				}
@@ -276,13 +287,12 @@ public class Duel
 			}
 			catch(Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
+				t.printStackTrace();
 			}
 		}
 	}
 
-	public class ScheduleEndDuelTask implements Runnable
+	public static class ScheduleEndDuelTask implements Runnable
 	{
 		private Duel _duel;
 		private DuelResultEnum _result;
@@ -302,8 +312,7 @@ public class Duel
 			}
 			catch(Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
+				t.printStackTrace();
 			}
 		}
 	}
@@ -384,7 +393,7 @@ public class Duel
 	public void startDuel()
 	{
 		// Save player Conditions
-		savePlayerConditions();
+		//savePlayerConditions();
 
 		if(_playerA == null || _playerB == null || _playerA.isInDuel() || _playerB.isInDuel() ||  Olympiad.getInstance().isRegisteredInComp(_playerA) ||  Olympiad.getInstance().isRegisteredInComp(_playerB) || Olympiad.getInstance().isRegistered(_playerA) || Olympiad.getInstance().isRegistered(_playerB))
 		{
@@ -404,16 +413,18 @@ public class Duel
 				temp.cancelActiveTrade();
 				temp.setIsInDuel(_duelId);
 				temp.setTeam(1);
-				temp.broadcastStatusUpdate();
+				//temp.broadcastStatusUpdate();
 				temp.broadcastUserInfo();
+				broadcastToTeam2(new ExDuelUpdateUserInfo(temp));
 			}
 			for(L2PcInstance temp : _playerB.getParty().getPartyMembers())
 			{
 				temp.cancelActiveTrade();
 				temp.setIsInDuel(_duelId);
 				temp.setTeam(2);
-				temp.broadcastStatusUpdate();
+				//temp.broadcastStatusUpdate();
 				temp.broadcastUserInfo();
+				broadcastToTeam1(new ExDuelUpdateUserInfo(temp));
 			}
 
 			// Send duel Start packets
@@ -445,8 +456,10 @@ public class Duel
 			broadcastToTeam1(start);
 			broadcastToTeam2(start);
 
-			_playerA.broadcastStatusUpdate();
-			_playerB.broadcastStatusUpdate();
+			broadcastToTeam1(new ExDuelUpdateUserInfo(_playerB));
+			broadcastToTeam2(new ExDuelUpdateUserInfo(_playerA));
+			//_playerA.broadcastStatusUpdate();
+			//_playerB.broadcastStatusUpdate();
 			_playerA.broadcastUserInfo();
 			_playerB.broadcastUserInfo();
 
@@ -697,8 +710,7 @@ public class Duel
 
 		if(_playerA.getDuelState() == DUELSTATE_WINNER)
 			return _playerB;
-
-		else if(_playerA.getDuelState() == DUELSTATE_WINNER)
+		else if (_playerB.getDuelState() == DUELSTATE_WINNER)
 			return _playerA;
 
 		return null;
@@ -716,10 +728,8 @@ public class Duel
 
 		if(_partyDuel && looser.getParty() != null)
 		{
-			for(L2PcInstance temp : looser.getParty().getPartyMembers())
-			{
+			for (L2PcInstance temp : looser.getParty().getPartyMembers())
 				temp.broadcastPacket(new SocialAction(temp.getObjectId(), 7));
-			}
 		}
 		else
 		{
@@ -780,6 +790,7 @@ public class Duel
 		SystemMessage sm = null;
 		switch(result)
 		{
+			case Team2Surrender:
 			case Team1Win:
 				restorePlayerConditions(false);
 
@@ -798,6 +809,7 @@ public class Duel
 				broadcastToTeam1(sm);
 				broadcastToTeam2(sm);
 				break;
+			case Team1Surrender:
 			case Team2Win:
 				restorePlayerConditions(false);
 				// send SystemMessage
@@ -810,40 +822,6 @@ public class Duel
 					sm = new SystemMessage(SystemMessageId.S1_HAS_WON_THE_DUEL);
 				}
 				sm.addString(_playerB.getName());
-
-				broadcastToTeam1(sm);
-				broadcastToTeam2(sm);
-				break;
-			case Team1Surrender:
-				restorePlayerConditions(false);
-				// send SystemMessage
-				if(_partyDuel)
-				{
-					sm = new SystemMessage(SystemMessageId.SINCE_S1S_PARTY_WITHDREW_FROM_THE_DUEL_S1S_PARTY_HAS_WON);
-				}
-				else
-				{
-					sm = new SystemMessage(SystemMessageId.SINCE_S1_WITHDREW_FROM_THE_DUEL_S2_HAS_WON);
-				}
-				sm.addString(_playerA.getName());
-				sm.addString(_playerB.getName());
-
-				broadcastToTeam1(sm);
-				broadcastToTeam2(sm);
-				break;
-			case Team2Surrender:
-				restorePlayerConditions(false);
-				// send SystemMessage
-				if(_partyDuel)
-				{
-					sm = new SystemMessage(SystemMessageId.SINCE_S1S_PARTY_WITHDREW_FROM_THE_DUEL_S1S_PARTY_HAS_WON);
-				}
-				else
-				{
-					sm = new SystemMessage(SystemMessageId.SINCE_S1_WITHDREW_FROM_THE_DUEL_S2_HAS_WON);
-				}
-				sm.addString(_playerB.getName());
-				sm.addString(_playerA.getName());
 
 				broadcastToTeam1(sm);
 				broadcastToTeam2(sm);

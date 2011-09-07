@@ -316,6 +316,14 @@ public final class L2CustomNpcInstance
 	}
 
 	/**
+	 * @return is npc in pvp mode?
+	 */
+	public final int getHeading()
+	{
+		return _NpcInstance.getHeading();
+	}
+	
+	/**
 	 * @return true if npc is a noble
 	 */
 	public final boolean isNoble()

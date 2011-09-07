@@ -209,7 +209,7 @@ public final class Broadcast
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("Players to notify: " + L2World.getInstance().getAllPlayersCount() + " (with packet " + mov.getType() + ")");
+			_log.fine("Players to notify: " + L2World.getAllPlayersCount() + " (with packet " + mov.getType() + ")");
 		}
 
 		for(L2PcInstance onlinePlayer : L2World.getInstance().getAllPlayers())

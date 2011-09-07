@@ -57,15 +57,13 @@ public class L2SkillCreateItem extends L2Skill
 			return;
 		if(_createItemId == null || _createItemCount == 0)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
-			activeChar.sendPacket(sm);
+			activeChar.sendPacket(new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE));
 			return;
 		}
 		L2PcInstance player = (L2PcInstance) activeChar;
 		if(activeChar instanceof L2PcInstance)
 		{
-			int rnd = Rnd.nextInt(_randomCount) + 1;
-			int count = _createItemCount * rnd;
+			int count = _createItemCount + Rnd.nextInt(_randomCount);
 			int rndid = Rnd.nextInt(_createItemId.length);
 			giveItems(player, _createItemId[rndid], count);
 		}
