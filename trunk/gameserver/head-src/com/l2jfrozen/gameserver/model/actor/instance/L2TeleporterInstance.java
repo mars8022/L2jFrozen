@@ -66,6 +66,12 @@ public final class L2TeleporterInstance extends L2FolkInstance
 			player.sendMessage("You are not allowed to use a teleport while registered in olympiad game.");
 			return;
 		}
+		
+		if(player.isAio() && !Config.ALLOW_AIO_USE_GK)
+    	{
+    		player.sendMessage("Aio Buffers Can't Use Teleports");
+    		return;
+    	}
 
 		int condition = validateCondition(player);
 

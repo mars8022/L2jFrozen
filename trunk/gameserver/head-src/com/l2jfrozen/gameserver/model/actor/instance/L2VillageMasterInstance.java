@@ -90,7 +90,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		}
 
 		commandStr = null;
-	   	if(player.isAio() && !Config.ALLOW_AIO_USE_GK)
+	   	if(player.isAio() && !Config.ALLOW_AIO_USE_CM)
     	{
     		player.sendMessage("Aio Buffers Can't Speak To Village Masters.");
     		return;

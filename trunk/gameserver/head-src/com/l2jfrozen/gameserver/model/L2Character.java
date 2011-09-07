@@ -104,6 +104,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
+import com.l2jfrozen.gameserver.network.serverpackets.FinishRotation;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicEffectIcons;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
@@ -457,10 +458,11 @@ public abstract class L2Character extends L2Object
 			sendPacket(mov);
 		}
 		
-		 //don't broadcast anytime the rotating packet
+		//don't broadcast anytime the rotating packet
 		if(mov instanceof BeginRotation  && !isStartingRotationAllowed()){
 			return;
 		}
+		
 
 		//if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
 
@@ -5440,6 +5442,9 @@ public abstract class L2Character extends L2Object
 		broadcastPacket(new StopMove(this));
 		//MAJAX fix
 		//broadcastPacket(new ValidateLocation(this));
+		
+		FinishRotation fr = new FinishRotation(this);
+		broadcastPacket(fr);
 
 		if(updateKnownObjects)
 		{

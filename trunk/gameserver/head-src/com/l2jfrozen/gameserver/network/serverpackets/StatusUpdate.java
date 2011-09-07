@@ -116,7 +116,7 @@ public class StatusUpdate extends L2GameServerPacket
 		
 		if(_actor!=null){
 			writeD(_actor.getObjectId());
-			writeD(22); //all the attributes
+			writeD(28); //all the attributes
 
 			writeD(LEVEL);
 			writeD(_actor.getLevel());

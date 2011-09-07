@@ -53,14 +53,17 @@ public class NpcInfo extends L2GameServerPacket
 	 */
 	public NpcInfo(L2NpcInstance cha, L2Character attacker)
 	{
+		/*
 		if(cha.getMxcPoly() != null)
 		{
 			attacker.sendPacket(new MxCPolyInfo(cha));
 			return;
 		}
+		*/
 		if(cha.getCustomNpcInstance() != null)
 		{
 			attacker.sendPacket(new CustomNpcInfo(cha));
+			attacker.broadcastPacket(new FinishRotation(cha));
 			return;
 		}
 		_activeChar = cha;

@@ -319,10 +319,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 					//						THESE ARE NOW TEMPORARY DISABLED
 					case 0x4a:
-						new StartRotating();
+						msg = new StartRotating();
 						break;
 					case 0x4b:
-						new FinishRotating();
+						msg = new FinishRotating();
 						break;
 					case 0x4d:
 						msg = new RequestStartPledgeWar();

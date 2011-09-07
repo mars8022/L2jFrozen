@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
 
 public class BeginRotation extends L2GameServerPacket
 {
-	private static final String _S__77_BEGINROTATION = "[S] 62 BeginRotation";
+	private static final String _S__62_BEGINROTATION = "[S] 62 BeginRotation";
 	private int _charObjId;
 	private int _degree;
 	private int _side;
@@ -43,7 +43,8 @@ public class BeginRotation extends L2GameServerPacket
 		writeD(_charObjId);
 		writeD(_degree);
 		writeD(_side);
-		writeD(_speed);
+		if(_speed!=0)
+			writeD(_speed);
 	}
 
 	/* (non-Javadoc)
@@ -52,6 +53,6 @@ public class BeginRotation extends L2GameServerPacket
 	@Override
 	public String getType()
 	{
-		return _S__77_BEGINROTATION;
+		return _S__62_BEGINROTATION;
 	}
 }

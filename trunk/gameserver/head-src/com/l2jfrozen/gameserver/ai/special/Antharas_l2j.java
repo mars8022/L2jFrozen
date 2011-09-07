@@ -62,7 +62,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	// config
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;
 	//private static final int FWA_APPTIMEOFANTHARAS = 1800000;
-	private static final int FWA_INACTIVITYTIME = 900000;
+	//private static final int FWA_INACTIVITYTIME = 900000;
 	//private static final boolean FWA_OLDANTHARAS = true; //use antharas interlude with minions
 	private static final boolean FWA_OLDANTHARAS = Config.ANTHARAS_OLD; //use antharas interlude with minions
 	private static final boolean FWA_MOVEATRANDOM = true;
@@ -687,7 +687,7 @@ public class Antharas_l2j extends Quest implements Runnable
 		public void run()
 		{
 			Long temp = (System.currentTimeMillis() - _LastAction);
-			if (temp > FWA_INACTIVITYTIME)
+			if (temp > (Config.ANTHARAS_DESPAWN_TIME*60000))
 			{
 				GrandBossManager.getInstance().setBossStatus(_antharas.getNpcId(),DORMANT);
 				setUnspawn();

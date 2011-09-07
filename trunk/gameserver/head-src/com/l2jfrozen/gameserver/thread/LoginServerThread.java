@@ -305,7 +305,7 @@ public class LoginServerThread extends Thread
 								st.addAttribute(ServerStatus.SERVER_LIST_STATUS, ServerStatus.STATUS_AUTO);
 							}
 							sendPacket(st);
-							if(L2World.getInstance().getAllPlayersCount() > 0)
+							if(L2World.getAllPlayersCount() > 0)
 							{
 								FastList<String> playerList = new FastList<String>();
 								for(L2PcInstance player : L2World.getInstance().getAllPlayers())

@@ -44,6 +44,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2ClanHallZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 
 /**
  * @version $Revision: 1.2 $ $Date: 2009/04/29 13:58:30 $
@@ -377,7 +378,7 @@ public class MapRegionTable
 		return nearestTown;
 	}
 
-	public Location getTeleToLocation(L2Character activeChar, TeleportWhereType teleportWhere)
+	public Location getTeleToLocation(final L2Character activeChar, TeleportWhereType teleportWhere)
 	{
 		int[] coord;
 
@@ -513,9 +514,16 @@ public class MapRegionTable
 		}
 
 		// Get the nearest town
-		// TODO: Micht: Maybe we should add some checks to prevent exception here.
-		coord = TownManager.getInstance().getClosestTown(activeChar).getSpawnLoc();
-
-		return new Location(coord[0], coord[1], coord[2]);
+		L2TownZone local_zone = null;
+		if(activeChar!=null && (local_zone = TownManager.getInstance().getClosestTown(activeChar))!=null){
+			coord = local_zone.getSpawnLoc();
+			return new Location(coord[0], coord[1], coord[2]);
+		}else{
+			local_zone = TownManager.getInstance().getTown(9); //giran
+			coord = local_zone.getSpawnLoc();
+			return new Location(coord[0], coord[1], coord[2]);
+		}
+		
+		
 	}
 }
