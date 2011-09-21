@@ -49,6 +49,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RiftInvaderInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.quest.Quest;
+import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -907,7 +908,13 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 				{
 					int castRange = sk.getCastRange();
 
-					if((sk.getSkillType() == L2Skill.SkillType.BUFF || sk.getSkillType() == L2Skill.SkillType.HEAL || dist2 >= castRange * castRange / 9.0 && dist2 <= castRange * castRange && castRange > 70) && !_actor.isSkillDisabled(sk.getId()) && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !sk.isPassive() && Rnd.nextInt(100) <= 5)
+					boolean _inRange = false;
+					if(dist2 >= castRange * castRange / 9.0 && dist2 <= castRange * castRange && castRange > 70){
+						_inRange = true;
+					}
+					
+					
+					if((sk.getSkillType() == L2Skill.SkillType.BUFF || sk.getSkillType() == L2Skill.SkillType.HEAL || _inRange) && !_actor.isSkillDisabled(sk.getId()) && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !sk.isPassive() && Rnd.nextInt(100) <= 5)
 					{
 
 						if(sk.getSkillType() == L2Skill.SkillType.BUFF || sk.getSkillType() == L2Skill.SkillType.HEAL)
@@ -945,7 +952,13 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 
 						L2Object OldTarget = _actor.getTarget();
 
-						clientStopMoving(null);
+						L2CharPosition pos = new L2CharPosition(_actor);
+						clientStopMoving(pos);
+						if(_inRange && hated instanceof L2PcInstance){
+							L2CharPosition posHated = new L2CharPosition(hated);
+							((L2PcInstance)hated).getAI().clientStopMoving(posHated);
+						}
+						
 						_accessor.doCast(sk);
 						_actor.setTarget(OldTarget);
 						OldTarget = null;

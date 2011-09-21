@@ -1565,6 +1565,7 @@
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="282" levels="1" name="Puma Spirit Totem">
   <set name="weaponsAllowed" val="1024"/>
   <set name="mpConsume" val="18"/>
@@ -1573,8 +1574,6 @@
   <set name="hitTime" val="2000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
     <using kind="Fist, Dual Fist"/>
   </cond>

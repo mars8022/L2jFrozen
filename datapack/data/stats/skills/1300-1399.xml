@@ -2141,23 +2141,22 @@
     <effect count="1" name="Sleep" time="15" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1395" levels="10" name="Erase" enchantLevels1="30" enchantLevels2="30">
   <table name="#mpConsume">52 54 55 58 60 62 64 65 67 69</table>
   <table name="#itemConsumeCount">3 3 3 3 4 4 4 5 5 5</table>
-  <table name="#power">10 15 20 25 30 30 35 35 40 40</table>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="power" val="#power"/>
+  <set name="power" val="80" /> <!-- Base Land Rate -->
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="#itemConsumeCount"/>
-  <set name="reuseDelay" val="40000"/>
+  <set name="reuseDelay" val="32000"/>
   <set name="hitTime" val="4000"/>
   <set name="target" val="TARGET_ENEMY_SUMMON"/>
   <set name="skillType" val="ERASE"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
+  <set name="effectRange" val="1100" />
   <set name="isMagic" val="true"/>
-  <for>
-  </for>
 </skill>
 <skill id="1396" levels="10" name="Magical Backfire" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>

@@ -105,14 +105,14 @@
 		</copy>
 
 		<copy todir="${build.dist.game.lib}">
-			<fileset dir="${src}/../lib">
+			<fileset dir="${src-lib}">
 				<include name="*.jar" />
 				<include name="*.txt" />
 			</fileset>
 		</copy>
 
 		<copy todir="${build.dist.login.lib}">
-			<fileset dir="${src}/../lib">
+			<fileset dir="${src-lib}">
 				<include name="*.jar" />
 				<include name="*.txt" />
 			</fileset>
@@ -155,13 +155,11 @@
 
 		<mkdir dir="${build.dist.game}/log" />
 		<mkdir dir="${build.dist.login}/log" />
-		<mkdir dir="${build.dist.game}/hibernate-mapping" />
-
+		
 		<mkdir dir="${build.dist.login}/config" />
 		<mkdir dir="${build.dist.login}/config/network" />
 		<mkdir dir="${build.dist.login}/config/protected" />
-		<mkdir dir="${build.dist.login}/config/functions" />
-
+		
 		<mkdir dir="${build.dist.game}/config/protected" />
 		<mkdir dir="${build.dist.game}/config/head" />
 		<mkdir dir="${build.dist.game}/config/functions" />
@@ -169,13 +167,6 @@
 		<mkdir dir="${build.dist.game}/config/powerpak/webservices" />
 		<mkdir dir="${build.dist.game}/config/network" />
 		<mkdir dir="${build.dist.game}/config/fun" />
-
-		<mkdir dir="${build.dist.game}/data" />
-		<mkdir dir="${build.dist.game}/data/csv" />
-		<mkdir dir="${build.dist.game}/data/sts" />
-		<mkdir dir="${build.dist.game}/data/scripts" />
-		<mkdir dir="${build.dist.game}/data/scripts/task" />
-
 
 		<!-- game server -->
 		<copy todir="${build.dist.game}/config">
@@ -258,7 +249,6 @@
 		<copy todir="${build.dist.login}/config/protected">
 			<fileset dir="config/protected">
 				<include name="mmocore.properties" />
-				<include name="packets.properties" />
 			</fileset>
 		</copy>
 
@@ -270,25 +260,6 @@
 			</fileset>
 		</copy>
 
-
-		<copy todir="${build.dist.game}/data">
-			<fileset dir="data">
-				<include name="*.txt" />
-			</fileset>
-		</copy>
-
-		<copy todir="${build.dist.game}/data/csv">
-			<fileset dir="data/csv">
-				<include name="*.csv" />
-			</fileset>
-		</copy>
-
-		<copy todir="${build.dist.game}/data/sts">
-			<fileset dir="data/sts">
-				<include name="*.sts" />
-				<include name="*.txt" />
-			</fileset>
-		</copy>
 
 		<delete dir="${build.classes}" />
 		<delete file="${build}/l2jfrozen-core.jar" />

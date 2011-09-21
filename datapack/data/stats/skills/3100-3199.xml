@@ -92,20 +92,18 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3107" levels="10" name="Item Skill: Doom">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
   <set name="triggeredId" val="5177"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
   <set name="target" val="TARGET_SELF"/>
+  <set name="lvlDepend" val="1" />
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_MAGIC_OFFENSIVE"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
-  <set name="isDebuff" val="true"/>
-  <set name="isMagic" val="true"/>
 </skill>
 <skill id="3108" levels="10" name="Item Skill: Aggression Up">
   <table name="#aggr">438 467 495 523 549 574 597 617 635 659</table>
@@ -305,18 +303,18 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3122" levels="10" name="Item Skill: Doom">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
   <set name="triggeredId" val="5177"/>
+  <set name="lvlDepend" val="1" />
   <set name="triggeredLevel" val="#triggeredLevel"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_CRIT"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
 </skill>
 <skill id="3123" levels="10" name="Item Skill: Heal">
   <table name="#mpConsume">48 53 55 59 64 65 69 73 77 82</table>
@@ -1899,6 +1897,7 @@
     <effect count="1" name="Mute" time="30" val="0" stackOrder="1" stackType="silence"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3198" levels="10" name="Item Skill: Doom">
   <table name="#mpConsume">42 44 48 50 54 57 60 63 65 69</table>
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
@@ -1907,18 +1906,19 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="staticReuse" val="true"/>
-  <set name="power" val="50"/>
-  <set name="lvlDepend" val="2"/>
+  <set name="power" val="30"/>
+  <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="120000"/>
+  <set name="reuseDelay" val="180000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="MUTE"/>
   <set name="isMagic" val="true"/>
+  <set name="isDebuff" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
   <for>
-   <effect count="1" name="SilenceMagicPhysical" time="10" val="0"/>
+   <effect count="1" name="SilenceMagicPhysical" time="15" val="0"/>
   </for>
 </skill>
 <skill id="3199" levels="3" name="Item Skill: Skill Refresh">

@@ -519,6 +519,7 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3237" levels="10" name="Item Skill: Doom">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
@@ -529,8 +530,6 @@
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
 </skill>
 <skill id="3238" levels="10" name="Item Skill: Prayer">
   <table name="#rate">1.1 1.11 1.12 1.13 1.14 1.15 1.16 1.17 1.18 1.19</table>

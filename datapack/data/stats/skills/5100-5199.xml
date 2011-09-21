@@ -1361,23 +1361,24 @@
  	<effect count="1" name="Mute" time="5" val="0" stackOrder="1" stackType="silence"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5177" levels="10" name="Doom">
 <!-- Description(s):
        Lvl 1-10 - Active: Temporarily blocks the target's ability to use all physical or magic skills.
 -->
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
   <set name="magicLvl" val="#magicLvl"/>
+  <set name="lvlDepend" val="1" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="MUTE"/>
-  <set name="power" val="40"/>
+  <set name="power" val="80"/>
+  <set name="reuseDelay" val="120000" />
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="isDebuff" val="true"/>
   <set name="bestowed" val="true"/>
-  <set name="isMagic" val="true"/>
+  <set name="effectRange" val="400" />
   <for>
- 	<effect count="1" name="SilenceMagicPhysical" time="5" val="0" stackOrder="30" stackType="silence_all"/>
+ 	<effect count="1" name="SilenceMagicPhysical" time="15" val="0" stackOrder="30" stackType="silence_all"/>
   </for>
 </skill>
 <skill id="5178" levels="1" name="NPC Burn">

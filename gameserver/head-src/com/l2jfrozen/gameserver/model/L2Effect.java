@@ -580,14 +580,14 @@ public abstract class L2Effect
 		{
 			if(sk.isPotion())
 			{
-				mi.addEffect(sk.getId(), getLevel(), sk.getBuffDuration() - getTaskTime() * 1000, false);
+				mi.addEffect(sk.getId(), getLevel(), sk.getBuffDuration() - getTaskTime() +1 * 1000, false);
 			}
 			else if(!sk.isToggle())
 			{
 				if(sk.getSkillType()==SkillType.DEBUFF)
-					mi.addEffect(sk.getId(), getLevel(), _count * _period * 1000,true);
+					mi.addEffect(sk.getId(), getLevel(), ((_count * _period)+1) * 1000,true);
 				else
-					mi.addEffect(sk.getId(), getLevel(), _count * _period * 1000,false);
+					mi.addEffect(sk.getId(), getLevel(), ((_count * _period)+1) * 1000,false);
 			}
 			else
 			{
@@ -597,9 +597,9 @@ public abstract class L2Effect
 		else
 		{
 			if(sk.getSkillType()==SkillType.DEBUFF)
-				mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS),true);
+				mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS)+1000,true);
 			else
-				mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS),false);
+				mi.addEffect(sk.getId(), getLevel(), (int) future.getDelay(TimeUnit.MILLISECONDS)+1000,false);
 		}
 
 		task = null;

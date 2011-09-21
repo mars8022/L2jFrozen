@@ -7552,7 +7552,7 @@ public abstract class L2Character extends L2Object
 	 * 
 	 * @param skill The L2Skill to use
 	 */
-	public void onMagicLaunchedTimer(L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
+	public void onMagicLaunchedTimer(final L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
 	{
 		if((skill == null || targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
 		{
@@ -7575,6 +7575,8 @@ public abstract class L2Character extends L2Object
 			escapeRange = skill.getSkillRadius();
 		}
 
+		L2Object[] final_targets = null; 
+		
 		if(escapeRange > 0)
 		{
 			List<L2Character> targetList = new FastList<L2Character>();
@@ -7620,10 +7622,15 @@ public abstract class L2Character extends L2Object
 			}
 			else
 			{
-				targets = targetList.toArray(new L2Character[targetList.size()]);
+				final_targets = targetList.toArray(new L2Character[targetList.size()]);
 			}
 
 			targetList = null;
+		
+		}else{
+			
+			final_targets = targets;
+			
 		}
 
 		// if the skill is not a potion and player
@@ -7671,19 +7678,19 @@ public abstract class L2Character extends L2Object
 		// Send a Server->Client packet MagicSkillLaunched to the L2Character AND to all L2PcInstance in the _KnownPlayers of the L2Character
 		if(!skill.isPotion())
 		{
-			broadcastPacket(new MagicSkillLaunched(this, magicId, level, targets));
+			broadcastPacket(new MagicSkillLaunched(this, magicId, level, final_targets));
 		}
 
 		if(instant)
 		{
-			onMagicHitTimer(targets, skill, coolTime, true);
+			onMagicHitTimer(final_targets, skill, coolTime, true);
 		}
 		else
 		{
 			if(skill.isPotion())
-				_potionCast = ThreadPoolManager.getInstance().scheduleEffect(new MagicUseTask(targets, skill, coolTime, 2), 200);
+				_potionCast = ThreadPoolManager.getInstance().scheduleEffect(new MagicUseTask(final_targets, skill, coolTime, 2), 200);
 			else
-				_skillCast = ThreadPoolManager.getInstance().scheduleEffect(new MagicUseTask(targets, skill, coolTime, 2), 200);
+				_skillCast = ThreadPoolManager.getInstance().scheduleEffect(new MagicUseTask(final_targets, skill, coolTime, 2), 200);
 			
 		}
 

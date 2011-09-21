@@ -1249,6 +1249,7 @@
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="activationtime" val="13" /> <!-- Cubic Delay -->
   <!-- Summon-specific -->
   <set name="npcId" val="3"/>
   <set name="expPenalty" val="0.0"/>

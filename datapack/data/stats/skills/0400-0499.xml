@@ -191,7 +191,7 @@
     <player hp="30"/>
   </cond>
   <for>
-    <effect count="1" name="Buff" time="120" val="0">
+    <effect count="1" name="Buff" time="60" val="0">
       <mul order="0x30" stat="mDef" val="1.5"/>
       <mul order="0x30" stat="pDef" val="1.5"/>
       <add order="0x40" stat="accCombat" val="6"/>
