@@ -67,12 +67,15 @@ public class LoginController
 			{
 				long now = System.currentTimeMillis();
 				if(_stopNow) break;
-				for(L2LoginClient cl : _clients) try
+				for(final L2LoginClient cl : _clients) try
 				{
-					if(now - cl.getConnectionStartTime() > Config.SESSION_TTL)
+
+					if(cl!=null && now - cl.getConnectionStartTime() > Config.SESSION_TTL)
 					{
 //						_log.info("Closing "+cl.getIntetAddress()+" because idle time too long");
 						cl.close(LoginFailReason.REASON_TEMP_PASS_EXPIRED);
+					}else{
+						_clients.remove(cl);
 					}
 				}
 				catch(Exception e)

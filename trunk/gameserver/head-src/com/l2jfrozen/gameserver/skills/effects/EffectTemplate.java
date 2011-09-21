@@ -60,7 +60,7 @@ public final class EffectTemplate
 		applayCond = pApplayCond;
 		lambda = pLambda;
 		counter = pCounter;
-		period = pPeriod;
+		period = pPeriod; 
 		abnormalEffect = pAbnormalEffect;
 		stackType = pStackType;
 		stackOrder = pStackOrder;

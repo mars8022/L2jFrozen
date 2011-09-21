@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
 
 import javolution.util.FastList;
 
@@ -33,8 +32,6 @@ public class MagicEffectIcons extends L2GameServerPacket
 	private FastList<Effect> _effects;
 	private FastList<Effect> _debuffs;
 
-	private int first_debuff_index = -1;
-	
 	private class Effect
 	{
 		protected int _skillId;

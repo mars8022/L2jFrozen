@@ -151,7 +151,10 @@ public class Blow implements ISkillHandler
 				}
 				
 				L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
-				boolean soul = (ss && (weapon.getItemType() == L2WeaponType.DAGGER ));
+				boolean soul = false;
+				if(weapon!=null){
+					soul = (ss && (weapon.getItemType() == L2WeaponType.DAGGER ));
+				}
 				
 				//byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
 				boolean shld = Formulas.calcShldUse(activeChar, target);

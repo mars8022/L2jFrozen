@@ -2166,6 +2166,7 @@ public abstract class L2Skill
 			{
 				if(activeChar instanceof L2PcInstance)
 				{
+					
 					int radius = getSkillRadius();
 					L2PcInstance player = (L2PcInstance) activeChar;
 					L2Clan clan = player.getClan();
@@ -2205,7 +2206,7 @@ public abstract class L2Skill
 						// Get Clan Members
 						for(L2Object newTarget : activeChar.getKnownList().getKnownObjects().values())
 						{
-							if(newTarget == null || !(newTarget instanceof L2PcInstance))
+							if(newTarget == null || !(newTarget instanceof L2PcInstance) || ((L2PcInstance)newTarget).isDead())
 							{
 								continue;
 							}

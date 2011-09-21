@@ -79,31 +79,17 @@
   </for>
 </skill>
 <skill id="5005" levels="1" name="Frintezza's Ghost Summoning">
-<!--
-  Description(s):
-      Frintezza is in temporary state of paralysis.
--->
-  <set name="mpConsume" val="300"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="100000"/>
-  <set name="hitTime" val="1000"/>
-  <set name="skillType" val="SUMMON"/>
-  <set name="isMagic" val="true"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="1200"/>
-  <set name="effectRange" val="1200"/>
-  <!-- Summon-specific -->
-  <set name="npcId" val="29047"/>
-  <set name="expPenalty" val="0.0"/>
-  <set name="isCubic" val="false"/>
+  <set name="aggroPoints" val="100" />
+  <set name="castRange" val="900" />
+  <set name="effectRange" val="1400" />
+  <set name="isMagic" val="true" />
+  <set name="magicLvl" val="85" />
+  <set name="operateType" val="OP_ACTIVE" />
+  <set name="power" val="100" /> <!-- Base Land Rate -->
+  <set name="skillType" val="PARALYZE" />
+  <set name="target" val="TARGET_ONE" />
   <for>
-  	<effect count="1" name="Buff" time="90" val="0">
-      <add order="0x40" stat="reflectSkillPhysic" val="90"/>
-      <add order="0x40" stat="pDef" val="6500"/>
-      <add order="0x40" stat="mDef" val="4700"/>
-      <add order="0x40" stat="rEvas" val="90"/>
-      <sub order="0x40" stat="cancelVuln" val="200"/>
-    </effect>
+  	<effect name="Paralyze" abnormalTime="9" val="0" abnormalLvl="1" abnormalType="paralyze" />
   </for>
 </skill>
 <skill id="5006" levels="1" name="Frintezza's Melody">
@@ -121,8 +107,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="1200"/>
   <set name="effectRange" val="1400"/>
-  <for>
-  </for>
 </skill>
 <skill id="5007" levels="5" name="Frintezza's Songs">
 <!--
@@ -223,21 +207,17 @@
   Description(s):
       A portrait ghost that can make physical attacks.
 -->
-  <set name="power" val="250"/>
-  <set name="mpConsume" val="140"/>
-  <set name="saveVs" val="CON"/>
-  <set name="hitTime" val="2500"/>
-  <set name="target" val="TARGET_ONE"/>
-  <set name="skillTime" val="4500"/>
-  <set name="skillType" val="PDAM"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="buffDuration" val="10000"/>
-  <set name="castRange" val="900"/>
-  <set name="effectRange" val="1400"/>
-  <set name="reuseDelay" val="4000"/>
-  <for>
-  	<effect count="1" name="Stun" time="10" val="0" stackOrder="1" stackType="Stun" effectPower="900000" effectType="STUN"/>
-  </for>
+    <set name="castRange" val="150" />
+	<set name="effectRange" val="650" />
+	<set name="element" val="6" /> <!-- Dark -->
+	<set name="hitTime" val="2500" />
+	<set name="magicLvl" val="85" />
+	<set name="operateType" val="OP_ACTIVE" />
+	<set name="power" val="2000" />
+	<set name="skillRadius" val="150" />
+	<set name="skillType" val="PDAM" />
+	<set name="reuseDelay" val="10000"/>
+	<set name="target" val="TARGET_AREA" />
 </skill>
 <skill id="5010" levels="1" name="Frintezza's Ghostly Mage">
 <!--
@@ -246,7 +226,7 @@
 -->
   <set name="mpConsume" val="20"/>
   <set name="saveVs" val="MEN"/>
-  <set name="power" val="250"/>
+  <set name="power" val="300"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="hitTime" val="4500"/>
@@ -257,10 +237,7 @@
   <set name="buffDuration" val="6000"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
-  <set name="reuseDelay" val="6000"/>
-    <for>
-  	<effect count="1" name="Paralyze" time="6" val="0" effectPower="90" effectType="PARALYZE"/>
-  </for>
+  <set name="reuseDelay" val="10000"/>
 </skill>
 <skill id="5011" levels="1" name="Frintezza's Bomber Ghost">
 <!--
@@ -269,7 +246,7 @@
 -->
   <set name="hpConsume" val="28000"/>
   <set name="mpConsume" val="1"/>
-  <set name="power" val="120000"/>
+  <set name="power" val="3000"/>
   <set name="overHit" val="true"/>
   <set name="target" val="TARGET_AURA"/>
   <set name="skillRadius" val="300"/>
@@ -280,14 +257,6 @@
   <set name="skillTime" val="2000"/>
   <set name="hitTime" val="2000"/>
   <set name="isMagic" val="false"/>
-  <cond>
-  	<player hp="75"/>
-  </cond>
-  <for>
-  	<effect count="1" name="Stun" time="25" val="0">
-      <add order="0x40" stat="rCrit" val="20"/>
-    </effect>
-  </for>
 </skill>
 <skill id="5012" levels="1" name="Breath of Scarlet">
 <!--

@@ -118,7 +118,7 @@ public class Duel
 	// ===============================================================
 	// Nested Class
 
-	public static class PlayerCondition
+	public class PlayerCondition
 	{
 		private L2PcInstance _player;
 		private double _hp;
@@ -147,7 +147,7 @@ public class Duel
 			}
 		}
 
-		public void restoreCondition()
+		public synchronized void restoreCondition()
 		{
 			if(_player == null)
 				return;
@@ -256,11 +256,13 @@ public class Duel
 				// start/continue countdown
 				int count = _duel.countdown();
 
-				if(count == 4)
-				{
+				if(!_partyDuel || count == 4){
 					// Save player Conditions
 					savePlayerConditions();
-
+				}
+				
+				if(count == 4)
+				{
 					// players need to be teleportet first
 					//TODO: stadia manager needs a function to return an unused stadium for duels
 					
@@ -483,6 +485,7 @@ public class Duel
 	 */
 	public void savePlayerConditions()
 	{
+		
 		if(_partyDuel)
 		{
 			for(L2PcInstance temp : _playerA.getParty().getPartyMembers())
@@ -500,6 +503,7 @@ public class Duel
 			_playerConditions.add(new PlayerCondition(_playerA, _partyDuel));
 			_playerConditions.add(new PlayerCondition(_playerB, _partyDuel));
 		}
+		
 	}
 
 	/**
@@ -507,8 +511,9 @@ public class Duel
 	 * 
 	 * @param was the duel canceled?
 	 */
-	public void restorePlayerConditions(boolean abnormalDuelEnd)
+	private synchronized void restorePlayerConditions(boolean abnormalDuelEnd)
 	{
+		
 		// update isInDuel() state for all players
 		if(_partyDuel)
 		{

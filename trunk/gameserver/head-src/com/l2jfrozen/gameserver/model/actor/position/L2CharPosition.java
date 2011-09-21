@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.model.actor.position;
 
+import com.l2jfrozen.gameserver.model.L2Character;
+
 /**
  * This class permit to pass (x, y, z, heading) position data to method.<BR>
  * <BR>
@@ -38,5 +40,14 @@ public final class L2CharPosition
 		z = pZ;
 		heading = pHeading;
 	}
+	
+	public L2CharPosition(L2Character _actor)
+	{
+		x = _actor.getX();
+		y = _actor.getY();
+		z = _actor.getZ();
+		heading = _actor.getHeading();
+	}
+	
 
 }
