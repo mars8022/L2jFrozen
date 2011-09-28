@@ -211,9 +211,8 @@ public final class L2World
 	 * Added by Tempy - 08 Aug 05 Allows easy retrevial of all visible objects in world. -- do not use that fucntion,
 	 * its unsafe!
 	 * 
-	 * @deprecated
+	 *
 	 */
-	@Deprecated
 	public final L2ObjectMap<L2Object> getAllVisibleObjects()
 	{
 		return _allObjects;
@@ -709,7 +708,7 @@ public final class L2World
 	 */
 	public FastList<L2Object> getVisibleObjects(L2Object object, int radius)
 	{
-		if(object == null || !object.isVisible())
+		if(object == null || !object.isVisible() || object.getWorldRegion() == null)
 			return new FastList<L2Object>();
 
 		int x = object.getX();

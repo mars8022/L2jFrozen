@@ -20,9 +20,7 @@ package com.l2jfrozen.util.database;
 
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Logger;
 
 import com.jolbox.bonecp.BoneCPDataSource;
@@ -128,7 +126,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		}
 	}
 	
-	
+	/*
 	private void testConnection() throws SQLException {
 		final Connection connect = _source.getConnection();
 		if(connect == null) throw new SQLException();
@@ -141,6 +139,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		connect.close();
 		_log.finest("Database Connection Working");
 	}
+	*/
 
 	
 	@Override

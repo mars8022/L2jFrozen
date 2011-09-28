@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.handler.usercommandhandlers;
 
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;

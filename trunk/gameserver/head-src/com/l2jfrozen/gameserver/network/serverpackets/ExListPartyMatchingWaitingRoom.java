@@ -14,12 +14,12 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
 import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-
-import javolution.util.FastList;
 
 /**
  * @author Gnacik

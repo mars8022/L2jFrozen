@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.TradeController;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;

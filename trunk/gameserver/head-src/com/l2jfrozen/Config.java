@@ -46,8 +46,6 @@ import javolution.util.FastMap;
 
 import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
-import com.l2jfrozen.gameserver.services.FService;
-import com.l2jfrozen.gameserver.services.Instruments;
 import com.l2jfrozen.gameserver.util.FloodProtectorConfig;
 import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.util.StringUtil;
@@ -459,6 +457,29 @@ public final class Config
 	}
 
 	//============================================================
+	public static boolean IS_TELNET_ENABLED;
+
+	//============================================================
+	public static void loadTelnetConfig()
+	{
+		// Load Telnet L2Properties file (if exists)
+		try
+		{
+			L2Properties telnetSettings = new L2Properties();
+			FileInputStream is = new FileInputStream(new File(FService.TELNET_FILE));
+			telnetSettings.load(is);
+
+			IS_TELNET_ENABLED = Boolean.parseBoolean(telnetSettings.getProperty("EnableTelnet", "false"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			throw new Error("Failed to Load "+FService.TELNET_FILE+" File.");
+		}
+
+	}
+
+	//============================================================
 	public static IdFactoryType IDFACTORY_TYPE;
 	public static boolean BAD_ID_CHECKING;
 	public static ObjectMapType MAP_TYPE;
@@ -633,7 +654,7 @@ public final class Config
         			String[] skillSplit = skill.split(",");
         			if (skillSplit.length != 2)
         			{
-        				System.out.println("[Aio System]: invalid config property in extensions.properties -> AioSkills \"" + skill + "\"");
+        				System.out.println("[Aio System]: invalid config property in "+OTHER+" -> AioSkills \"" + skill + "\"");
         			}
         			else
         			{
@@ -647,7 +668,7 @@ public final class Config
     							nfe.printStackTrace();
     						if (!skill.equals(""))
         					{
-        						System.out.println("[Aio System]: invalid config property in extensions.properties -> AioSkills \"" + skillSplit[0] + "\"" + skillSplit[1]);
+        						System.out.println("[Aio System]: invalid config property in "+OTHER+" -> AioSkills \"" + skillSplit[0] + "\"" + skillSplit[1]);
         					}
         				}
         			}
@@ -3267,15 +3288,9 @@ public final class Config
 	public static int MAX_UNKNOWN_PACKETS;
 	public static int UNKNOWN_PACKETS_PUNiSHMENT;
 	public static boolean DEBUG_UNKNOWN_PACKETS;
+	
 	public static boolean DEBUG_PACKETS;
-	public static int PROTECTED_UNKNOWNPACKET_C;
-
-	public static int PROTECTED_ACTIVE_PACK_RETURN;
-	public static int PROTECTED_ACTIVE_PACK_FAILED;
-
-	/** packet life time **/
-	public static int PACKET_LIFETIME;
-
+	
 	//============================================================
 	public static void loadPacketConfig()
 	{
@@ -3293,13 +3308,7 @@ public final class Config
 			UNKNOWN_PACKETS_PUNiSHMENT = Integer.parseInt(PacketSetting.getProperty("UnknownPacketsPunishment", "2"));
 			DEBUG_PACKETS = Boolean.parseBoolean(PacketSetting.getProperty("DebugPackets", "false"));
 			DEBUG_UNKNOWN_PACKETS = Boolean.parseBoolean(PacketSetting.getProperty("UnknownDebugPackets", "false"));
-			PROTECTED_UNKNOWNPACKET_C = Integer.parseInt(PacketSetting.getProperty("UnknownFloodProtectorPacket", "50"));
-
-			PROTECTED_ACTIVE_PACK_RETURN = Integer.parseInt(PacketSetting.getProperty("ActivePacketReturn", "12"));
-			PROTECTED_ACTIVE_PACK_FAILED = Integer.parseInt(PacketSetting.getProperty("ActivePacketAF", "100"));
-
-			/** packet life time **/
-			PACKET_LIFETIME = Integer.parseInt(PacketSetting.getProperty("PacketLifeTime", "0"));
+			
 		}
 		catch(Exception e)
 		{
@@ -4042,7 +4051,12 @@ public final class Config
 
 		try
 		{
-			LineNumberReader lnr = new LineNumberReader(new BufferedReader(new FileReader(new File(FILTER_FILE))));
+			File filter_file = new File(FILTER_FILE);
+			if(!filter_file.exists()){
+				return;
+			}
+			
+			LineNumberReader lnr = new LineNumberReader(new BufferedReader(new FileReader(filter_file)));
 			String line = null;
 			while((line = lnr.readLine()) != null)
 			{
@@ -4147,10 +4161,8 @@ public final class Config
 		try
 		{
 			Properties serverSettings = new Properties();
-			Instruments iset = new Instruments();
 			InputStream is = new FileInputStream(new File(LOGIN));
 			serverSettings.load(is);
-			iset.load(is);
 			is.close();
 
 			GAME_SERVER_LOGIN_HOST = serverSettings.getProperty("LoginHostname", "*");
@@ -4202,6 +4214,9 @@ public final class Config
 			NETWORK_IP_LIST = serverSettings.getProperty("NetworkList", "");
 			SESSION_TTL = Long.parseLong(serverSettings.getProperty("SessionTTL", "25000"));
 			MAX_LOGINSESSIONS = Integer.parseInt(serverSettings.getProperty("MaxSessions","200"));
+			
+			DEBUG_PACKETS = Boolean.parseBoolean(serverSettings.getProperty("DebugPackets", "false"));
+			
 		}
 		catch(Exception e)
 		{
@@ -4211,31 +4226,6 @@ public final class Config
 	}
 
 	//============================================================
-	public static List<String> BANS = new FastList<String>();
-
-	
-
-	//============================================================
-	/*public static void loadBanIPConfig()
-	{
-		final String BAN_IP_FILE = FService.BANNED_IP;
-
-		try
-		{
-			Instruments banSettings = new Instruments();
-			InputStream is = new FileInputStream(new File(BAN_IP_FILE));
-			banSettings.load(is);
-			is.close();
-
-			BANS = banSettings.getStringList("IP", "", ",");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			throw new Error("Failed to Load " + BAN_IP_FILE + " File.");
-		}
-	}*/
-	
 	public static void loadBanFile()
 	{
 		final String BAN_IP_FILE = FService.BANNED_IP;
@@ -4420,6 +4410,7 @@ public final class Config
 			loadDPVersionConfig();
 			loadServerVersionConfig();
 			loadExtendersConfig();
+			
 			if(Config.USE_SAY_FILTER)
 			{
 				loadFilter();
@@ -4428,12 +4419,14 @@ public final class Config
 			{
 				loadQuestion();
 			}
+			
+			loadTelnetConfig();
 		}
 		else if(ServerType.serverMode == ServerType.MODE_LOGINSERVER)
 		{
 			loadLoginStartConfig();
-			//loadBanFile();
-			loadPacketConfig();
+			
+			loadTelnetConfig();
 		}
 		else
 		{

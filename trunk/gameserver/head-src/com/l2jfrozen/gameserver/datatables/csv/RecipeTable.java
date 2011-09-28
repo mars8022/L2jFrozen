@@ -32,7 +32,7 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.RecipeController;
+import com.l2jfrozen.gameserver.controllers.RecipeController;
 import com.l2jfrozen.gameserver.model.L2RecipeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RecipeInstance;
 

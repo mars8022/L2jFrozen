@@ -18,8 +18,8 @@
  */
 package com.l2jfrozen.gameserver.script;
 
-import com.l2jfrozen.gameserver.GameTimeController;
-import com.l2jfrozen.gameserver.RecipeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.RecipeController;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.sql.CharNameTable;

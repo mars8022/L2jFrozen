@@ -30,14 +30,12 @@ import java.util.Stack;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.PlayerStatus;
 import com.l2jfrozen.gameserver.model.L2Character.AIAccessor;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class L2PlayerAI extends L2CharacterAI

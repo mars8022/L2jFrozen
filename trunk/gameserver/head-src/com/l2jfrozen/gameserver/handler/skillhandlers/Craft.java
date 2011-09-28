@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import com.l2jfrozen.gameserver.RecipeController;
+import com.l2jfrozen.gameserver.controllers.RecipeController;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;

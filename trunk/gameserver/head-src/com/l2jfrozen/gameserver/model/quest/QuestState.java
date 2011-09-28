@@ -25,8 +25,8 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2DropData;

@@ -16,13 +16,13 @@ package com.l2jfrozen.gameserver.model;
 
 import java.util.List;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExManagePartyRoomMember;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-
-import javolution.util.FastList;
 
 /**
  * @author Gnacik

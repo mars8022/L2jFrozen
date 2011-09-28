@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import com.l2jfrozen.gameserver.model.L2Party; 
+import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 /**
  * Format: ch d[Sdd]

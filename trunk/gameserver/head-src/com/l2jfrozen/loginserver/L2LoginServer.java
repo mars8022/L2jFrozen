@@ -29,6 +29,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.FService;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
@@ -62,8 +63,7 @@ public class L2LoginServer
 		ServerType.serverMode = ServerType.MODE_LOGINSERVER;
 		//      Local Constants
 		final String LOG_FOLDER = "log"; // Name of folder for log file
-		final String LOG_NAME = "./log.cfg"; // Name of log file
-
+		
 		/*** Main ***/
 		// Create log folder
 		File logFolder = new File(Config.DATAPACK_ROOT, LOG_FOLDER);
@@ -73,7 +73,7 @@ public class L2LoginServer
 		InputStream is = null;
 		try
 		{
-			is = new FileInputStream(new File(LOG_NAME));
+			is = new FileInputStream(new File(FService.LOG_CONF_FILE));
 			LogManager.getLogManager().readConfiguration(is);
 			is.close();
 		}

@@ -24,5 +24,4 @@ public class ServerType
 	public static final int MODE_GAMESERVER = 1;
 	public static final int MODE_LOGINSERVER = 2;
 	public static int serverMode = MODE_NONE;
-	public static boolean mode;
 }

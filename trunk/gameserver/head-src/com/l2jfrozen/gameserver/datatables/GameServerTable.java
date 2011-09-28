@@ -42,6 +42,7 @@ import javolution.xml.stream.XMLStreamException;
 import javolution.xml.stream.XMLStreamReaderImpl;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.FService;
 import com.l2jfrozen.loginserver.GameServerThread;
 import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
 import com.l2jfrozen.util.CloseUtil;
@@ -114,7 +115,7 @@ public class GameServerTable
 		InputStream in = null;
 		try
 		{
-			in = new FileInputStream("servername.xml");
+			in = new FileInputStream(FService.SERVER_NAME_FILE);
 			XMLStreamReaderImpl xpp = new XMLStreamReaderImpl();
 			xpp.setInput(new UTF8StreamReader().setInput(in));
 

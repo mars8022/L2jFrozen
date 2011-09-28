@@ -14,7 +14,7 @@
 */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 
 public class ClientSetTime extends L2GameServerPacket
 {

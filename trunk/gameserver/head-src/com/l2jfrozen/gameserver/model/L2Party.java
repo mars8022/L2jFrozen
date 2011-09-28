@@ -25,7 +25,7 @@ import java.util.concurrent.Future;
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.managers.DuelManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;

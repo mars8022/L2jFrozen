@@ -165,21 +165,23 @@ public class FortSiegeGuardManager
 	{
 		try
 		{
-			int hiredCount = 0;
-			//hiredMax    = MercTicketManager.getInstance().getMaxAllowedMerc(_fort.getFortId());  
+			/*int hiredCount = 0;
+			hiredMax    = MercTicketManager.getInstance().getMaxAllowedMerc(_fort.getFortId());  
 			boolean isHired = getFort().getOwnerId() > 0 ? true : false;
+			*/
 			loadSiegeGuard();
 			for(L2Spawn spawn : getSiegeGuardSpawn())
 			{
 				if(spawn != null)
 				{
 					spawn.init();
-					if(isHired)
+					/*if(isHired)
 					{
 						hiredCount++;
 						//if (hiredCount > hiredMax)
 						//    return;
 					}
+					*/
 				}
 			}
 		}

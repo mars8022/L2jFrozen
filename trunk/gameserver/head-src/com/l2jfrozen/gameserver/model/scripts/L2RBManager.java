@@ -15,8 +15,8 @@
 package com.l2jfrozen.gameserver.model.scripts;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;

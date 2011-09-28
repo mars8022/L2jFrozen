@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;

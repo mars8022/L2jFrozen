@@ -21,7 +21,7 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.RecipeController;
+import com.l2jfrozen.gameserver.controllers.RecipeController;
 
 public final class RequestRecipeBookOpen extends L2GameClientPacket
 {

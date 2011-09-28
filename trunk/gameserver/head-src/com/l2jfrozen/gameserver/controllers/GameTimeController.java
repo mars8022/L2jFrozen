@@ -16,7 +16,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver;
+package com.l2jfrozen.gameserver.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

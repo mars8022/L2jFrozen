@@ -1,4 +1,4 @@
-package com.l2jfrozen.gameserver.mode;
+package com.l2jfrozen.gameserver.model.entity.event;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -15,6 +15,7 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.logging.Logger;
+
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;

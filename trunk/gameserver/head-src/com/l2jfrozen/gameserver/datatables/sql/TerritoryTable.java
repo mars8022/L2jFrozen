@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import com.l2jfrozen.gameserver.TradeController;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.model.L2Territory;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;

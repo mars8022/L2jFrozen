@@ -12,20 +12,15 @@ import org.apache.commons.lang.ArrayUtils;
 
 public final class RunnableStatsManager
 {
-	//private static final Logger _log = Logger.getLogger(RunnableStatsManager.class.getName());
-
 	private static final Map<Class<?>, ClassStat> _classStats = new HashMap<Class<?>, ClassStat>();
 
 	private static final class ClassStat
 	{
-//		private final String _className;
-
 		private String[] _methodNames = new String[0];
 		private MethodStat[] _methodStats = new MethodStat[0];
 
 		private ClassStat(Class<?> clazz)
 		{
-//			_className = clazz.getName().replace("com.l2jfrozen.gameserver.", "");
 			_classStats.put(clazz, this);
 		}
 
@@ -45,7 +40,7 @@ public final class RunnableStatsManager
 
 			methodName = methodName.intern();
 
-			final MethodStat methodStat = new MethodStat(/*_className, methodName*/);
+			final MethodStat methodStat = new MethodStat();
 
 			_methodNames = (String[]) ArrayUtils.add(_methodNames, methodName);
 			_methodStats = (MethodStat[]) ArrayUtils.add(_methodStats, methodStat);
@@ -58,27 +53,14 @@ public final class RunnableStatsManager
 	{
 		private final ReentrantLock _lock = new ReentrantLock();
 
-//		private final String _className;
-//		private final String _methodName;
-
-		private long _count;
-		private long _total;
 		private long _min = Long.MAX_VALUE;
 		private long _max = Long.MIN_VALUE;
-
-//		private MethodStat(String className, String methodName)
-//		{
-//			_className = className;
-//			_methodName = methodName;
-//		}
 
 		private void handleStats(long runTime)
 		{
 			_lock.lock();
 			try
 			{
-				_count++;
-				_total += runTime;
 				_min = Math.min(_min, runTime);
 				_max = Math.max(_max, runTime);
 			}

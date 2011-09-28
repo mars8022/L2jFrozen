@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.knownlist.BoatKnownList;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
