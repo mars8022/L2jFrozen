@@ -108,7 +108,8 @@ public abstract class L2Effect
 		BLOCK_BUFF,
 		BLOCK_DEBUFF,
 		PREVENT_BUFF, 
-		CLAN_GATE
+		CLAN_GATE,
+		NEGATE
 	}
 
 	private static final Func[] _emptyFunctionSet = new Func[0];

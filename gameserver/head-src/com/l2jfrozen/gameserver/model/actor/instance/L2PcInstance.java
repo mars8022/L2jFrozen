@@ -46,9 +46,6 @@ import org.apache.commons.lang.RandomStringUtils;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
-import com.l2jfrozen.gameserver.GameTimeController;
-import com.l2jfrozen.gameserver.ItemsAutoDestroy;
-import com.l2jfrozen.gameserver.RecipeController;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
 import com.l2jfrozen.gameserver.ai.L2PlayerAI;
@@ -56,6 +53,8 @@ import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.cache.WarehouseCacheManager;
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
+import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.RecipeController;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
@@ -150,7 +149,6 @@ import com.l2jfrozen.gameserver.model.entity.siege.FortSiege;
 import com.l2jfrozen.gameserver.model.entity.siege.Siege;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
-import com.l2jfrozen.gameserver.model.multisell.MultiSellListContainer;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
@@ -223,6 +221,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.gameserver.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.util.Broadcast;
 import com.l2jfrozen.gameserver.util.FloodProtectors;
 import com.l2jfrozen.gameserver.util.Util;
@@ -974,7 +973,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	private double _mpUpdateDecCheck = .0;
 	private double _mpUpdateInterval = .0;
 
-	private boolean isInDangerArea;
+	//private boolean isInDangerArea;
 	////////////////////////////////////////////////////////////////////
 	//START CHAT BAN SYSTEM
 	////////////////////////////////////////////////////////////////////
@@ -15209,6 +15208,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		ReuseTimeStamps.remove(s);
 	}
 
+	/*
 	public boolean isInDangerArea()
 	{
 		return isInDangerArea;
@@ -15250,6 +15250,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		sendPacket(sm);
 		sm = null;
 	}
+	*/
 
 	@Override
 	public final void sendDamageMessage(L2Character target, int damage, boolean mcrit, boolean pcrit, boolean miss)
