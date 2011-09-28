@@ -34,8 +34,8 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.TradeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -1934,13 +1934,14 @@ public class AdminEditNpc implements IAdminCommandHandler
 			statement.setInt(1, npcId);
 			ResultSet skillDataList = statement.executeQuery();
 
-			int i = 1;
 			while(skillDataList.next()) {
 				int idval = skillDataList.getInt("skillid");
 				int levelval = skillDataList.getInt("level");
 				skillData = SkillTable.getInstance().getInfo(idval,levelval);
-				  if (skillData != null) { npcData.addSkill(skillData); }
-				i++;
+				  if (skillData != null) {
+					  npcData.addSkill(skillData); 
+				  }
+				
 			}
 			skillDataList.close();
 			statement.close();

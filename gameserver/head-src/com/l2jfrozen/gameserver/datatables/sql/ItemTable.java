@@ -31,8 +31,8 @@ import java.util.logging.Logger;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.Item;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
+import com.l2jfrozen.gameserver.model.Item;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import com.l2jfrozen.gameserver.RecipeController;
+import com.l2jfrozen.gameserver.controllers.RecipeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**

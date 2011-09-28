@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.skills.conditions;
 
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**

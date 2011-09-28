@@ -22,8 +22,8 @@ import java.io.File;
 import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.TradeController;
 import com.l2jfrozen.gameserver.cache.HtmCache;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.NpcWalkerRoutesTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;

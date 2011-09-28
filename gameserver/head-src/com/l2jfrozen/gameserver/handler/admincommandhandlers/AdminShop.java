@@ -21,7 +21,7 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.TradeController;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;

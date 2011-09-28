@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
-import com.l2jfrozen.gameserver.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
@@ -7623,7 +7623,7 @@ public abstract class L2Character extends L2Object
 		{
 			List<L2Character> targetList = new FastList<L2Character>();
 
-			for(int i = 0; i < targets.length; i++)
+			for(int i = 0;targets!=null && i < targets.length; i++)
 			{
 				if(targets[i] instanceof L2Character)
 				{

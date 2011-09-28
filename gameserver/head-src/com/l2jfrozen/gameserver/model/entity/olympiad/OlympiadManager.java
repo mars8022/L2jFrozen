@@ -332,12 +332,9 @@ class OlympiadManager extends Olympiad implements Runnable
 
 	protected String[] getAllTitles()
 	{
-		/*if(!_compStarted)
-			return null;*/
-
+		
 		String[] msg = new String[_olympiadInstances.size()];
 		int count = 0;
-		int match = 1;
 		int showbattle = 0;
 
 		for(L2OlympiadGame instance : _olympiadInstances.values())
@@ -352,7 +349,6 @@ class OlympiadManager extends Olympiad implements Runnable
 			}
 			msg[count] = "<" + showbattle + "><" + instance._stadiumID + "> In Progress " + instance.getTitle();
 			count++;
-			match++;
 		}
 		return msg;
 	}

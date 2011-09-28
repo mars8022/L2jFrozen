@@ -17,7 +17,6 @@ import com.l2jfrozen.Config;
 
 public final class StringTable
 {
-	private static final long serialVersionUID = -4599023842346938325L;
 	private Map<String, String> _messagetable = new FastMap<String, String>();
 	public StringTable(String name)
 	{

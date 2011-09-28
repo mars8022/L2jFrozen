@@ -16,7 +16,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver;
+package com.l2jfrozen.gameserver.thread.daemons;
 
 import java.util.List;
 import java.util.logging.Logger;

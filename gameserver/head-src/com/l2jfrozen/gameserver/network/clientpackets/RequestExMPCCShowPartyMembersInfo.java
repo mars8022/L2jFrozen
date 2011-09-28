@@ -17,9 +17,9 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import com.l2jfrozen.gameserver.model.L2World; 
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance; 
-import com.l2jfrozen.gameserver.network.serverpackets.ExMPCCShowPartyMemberInfo; 
+import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.serverpackets.ExMPCCShowPartyMemberInfo;
 
 /**
  * Format:(ch) h

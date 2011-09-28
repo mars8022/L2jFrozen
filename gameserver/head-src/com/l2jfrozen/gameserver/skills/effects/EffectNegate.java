@@ -14,22 +14,13 @@
  */
 package com.l2jfrozen.gameserver.skills.effects;
 
-import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.handler.ISkillHandler;
-import com.l2jfrozen.gameserver.handler.SkillHandler;
-import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.skills.Env;
-import com.l2jfrozen.gameserver.skills.Stats;
-import com.l2jfrozen.util.random.Rnd;
 
 
 /**

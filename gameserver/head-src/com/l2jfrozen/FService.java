@@ -16,7 +16,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.services;
+package com.l2jfrozen;
 
 public class FService
 {
@@ -88,4 +88,9 @@ public class FService
 	//version
 	public static final String SERVER_VERSION_FILE = "./config/version/l2jfrozen-server.properties";
 	public static final String DATAPACK_VERSION_FILE = "./config/version/l2jfrozen-datapack.properties";
+	
+	public static final String SERVER_NAME_FILE = "./servername.xml";
+	public static final String LOG_CONF_FILE = "./log.cfg";
+	public static final String TELNET_FILE = "./config/telnet.properties";
+	
 }

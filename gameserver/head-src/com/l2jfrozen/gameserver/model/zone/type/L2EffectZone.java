@@ -19,6 +19,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
+import javolution.util.FastMap;
+
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -29,8 +31,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.StringUtil;
 import com.l2jfrozen.util.random.Rnd;
-
-import javolution.util.FastMap;
 
 /**
  * another type of damage zone with skills

@@ -23,7 +23,7 @@ import java.util.StringTokenizer;
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.TradeController;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
 import com.l2jfrozen.gameserver.network.L2GameClient;

@@ -1271,18 +1271,12 @@ public final class Formulas
 		if((skill.getCondition() & L2Skill.COND_BEHIND) != 0 && !attacker.isBehind(target))
 			return 0;
 
-		double power = skill.getPower();
 		double damage = attacker.getPAtk(target);
 		double defence = target.getPDef(attacker);
 		
 		if(ss)
 		{
 			damage *= 2.;
-			
-			if(skill.getSSBoost() > 0)
-			{
-				power *= skill.getSSBoost();
-			}
 		}
 		
 		if(shld)

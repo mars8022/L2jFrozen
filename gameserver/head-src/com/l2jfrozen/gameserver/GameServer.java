@@ -30,6 +30,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.FService;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.crypt.nProtect;
@@ -37,6 +38,9 @@ import com.l2jfrozen.gameserver.ai.special.manager.AILoader;
 import com.l2jfrozen.gameserver.cache.CrestCache;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
+import com.l2jfrozen.gameserver.controllers.RecipeController;
+import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.NobleSkillTable;
@@ -133,6 +137,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.DeadlockDetector;
+import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.thread.daemons.PcPoint;
 import com.l2jfrozen.gameserver.util.DynamicExtension;
 import com.l2jfrozen.gameserver.util.sql.SQLQueue;
@@ -157,14 +162,13 @@ public class GameServer
 		ServerType.serverMode = ServerType.MODE_GAMESERVER;
 		// Local Constants
 		final String LOG_FOLDER = "log";
-		final String LOG_NAME = "./log.cfg";
-
+		
 		// Create log folder
 		File logFolder = new File(Config.DATAPACK_ROOT, LOG_FOLDER);
 		logFolder.mkdir();
 
 		// Create input stream for log file -- or store file data into memory
-		InputStream is = new FileInputStream(new File(LOG_NAME));
+		InputStream is = new FileInputStream(new File(FService.LOG_CONF_FILE));
 		LogManager.getLogManager().readConfiguration(is);
 		is.close();
 		is = null;
@@ -193,10 +197,6 @@ public class GameServer
 		new File(Config.DATAPACK_ROOT, "data/crests").mkdirs();
 		new File(Config.DATAPACK_ROOT, "data/pathnode").mkdirs();
 		new File(Config.DATAPACK_ROOT, "data/geodata").mkdirs();
-		if(Config.USE_SAY_FILTER)
-		{
-			new File(Config.DATAPACK_ROOT, "config/chatfilter.txt").createNewFile();
-		}
 		
 		HtmCache.getInstance();
 		CrestCache.getInstance();

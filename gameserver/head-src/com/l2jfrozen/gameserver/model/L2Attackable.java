@@ -26,7 +26,6 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
@@ -64,6 +63,7 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -662,7 +662,6 @@ public class L2Attackable extends L2NpcInstance
 			L2PcInstance maxDealer = null; 
 			int maxDamage = 0;
 
-			int rewardCount = 0;
 			int damage;
 
 			L2Character attacker, ddealer;
@@ -709,7 +708,6 @@ public class L2Attackable extends L2NpcInstance
 						if(reward == null)
 						{
 							reward = new RewardInfo(ddealer, damage);
-							rewardCount++;
 						}
 						else
 						{
@@ -1071,7 +1069,7 @@ public class L2Attackable extends L2NpcInstance
 		ai._damage += damage;
 
 		// Set the intention to the L2Attackable to AI_INTENTION_ACTIVE
-		if(aggro > 0 && getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
+		if(getAI() !=null && aggro > 0 && getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
 		{
 			getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE);
 		}
@@ -1080,7 +1078,8 @@ public class L2Attackable extends L2NpcInstance
 		// Notify the L2Attackable AI with EVT_ATTACKED
 		if(damage > 0)
 		{
-			getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, attacker);
+			if(getAI() !=null)
+				getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, attacker);
 
 			try
 			{
