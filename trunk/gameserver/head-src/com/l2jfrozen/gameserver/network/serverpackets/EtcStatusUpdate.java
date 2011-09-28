@@ -17,6 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
@@ -56,7 +57,8 @@ public class EtcStatusUpdate extends L2GameServerPacket
 		}
 		writeD(_activeChar.getWeightPenalty()); // 1-4 weight penalty, lvl (1=50%, 2=66.6%, 3=80%, 4=100%)
 		writeD(_activeChar.getMessageRefusal() || _activeChar.isChatBanned() ? 1 : 0); // 1 = block all chat 
-		writeD(0x00); // 1 = danger area
+		//writeD(0x00); // 1 = danger area
+		writeD(_activeChar.isInsideZone(L2Character.ZONE_DANGERAREA)/* || _activeChar.isInDangerArea()*/ ? 1 : 0); // 1 = danger area
 		writeD(Math.min(_activeChar.getExpertisePenalty()+_activeChar.getMasteryPenalty()+_activeChar.getMasteryWeapPenalty(), 1)); // 1 = grade penalty 
 		writeD(_activeChar.getCharmOfCourage() ? 1 : 0); // 1 = charm of courage (no xp loss in siege..)
 		writeD(_activeChar.getDeathPenaltyBuffLevel()); // 1-15 death penalty, lvl (combat ability decreased due to death) 

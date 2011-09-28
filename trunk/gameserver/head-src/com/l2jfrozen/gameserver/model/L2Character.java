@@ -34,11 +34,11 @@ import javolution.util.FastMap;
 import javolution.util.FastTable;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
+import com.l2jfrozen.gameserver.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
@@ -236,6 +236,7 @@ public abstract class L2Character extends L2Object
 	public static final int ZONE_NOSUMMONFRIEND = 2048;
 	public static final int ZONE_OLY = 4096;
 	public static final int ZONE_NOHQ = 8192;
+	public static final int ZONE_DANGERAREA = 16384;
 
 	private int _currentZones = 0;
 
@@ -3677,6 +3678,47 @@ public abstract class L2Character extends L2Object
 		effects = null;
 	}
 
+	/**
+	 * Stop and remove the L2Effects corresponding to the L2SkillType and update client magic icon.<BR><BR>
+	 *
+	 * <B><U> Concept</U> :</B><BR><BR>
+	 * All active skills effects in progress on the L2Character are identified in ConcurrentHashMap(Integer,L2Effect) <B>_effects</B>.
+	 * The Integer key of _effects is the L2Skill Identifier that has created the L2Effect.<BR><BR>
+	 *
+	 * @param skillType The L2SkillType of the L2Effect to remove from _effects
+	 *
+	 */
+	public final void stopSkillEffects(SkillType skillType, double power)
+	{
+		// Get all active skills effects in progress on the L2Character
+		L2Effect[] effects = getAllEffects();
+
+		if(effects == null)
+			return;
+
+		// Go through all active skills effects
+		for(final L2Effect e : effects){
+			
+			// Stop active skills effects of the selected type
+			if(e.getSkill().getSkillType() == skillType && (power == 0 || e.getSkill().getPower() <= power))
+			{ 
+				if(Config.DEBUG){
+					_log.fine("effect of skill "+e.getSkill().getId()+" with power "+e.getSkill().getPower());
+					_log.fine("will be removed on char "+getName());
+				}
+				
+				e.exit();
+			}
+		}
+
+		effects = null;
+	}
+	
+	public final void stopSkillEffects(SkillType skillType)
+	{
+		stopSkillEffects(skillType, -1);
+	}
+	
 	/**
 	 * Stop a specified/all Fake Death abnormal L2Effect.<BR>
 	 * <BR>

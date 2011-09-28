@@ -415,6 +415,7 @@
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="activationChance" val="#chance"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3229" levels="10" name="Item Skill: Hold">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
@@ -425,8 +426,6 @@
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
 </skill>
 <skill id="3230" levels="10" name="Item Skill: Sleep">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>

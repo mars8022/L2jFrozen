@@ -776,54 +776,48 @@ Might spell can remove the curse.-->
   </for>
 </skill>
 <skill id="4556" levels="1" name="Dispel Hot Spring Disease A_D">
-<!-- TODO -->
   <set name="mpConsume" val="69"/>
-  <set name="target" val="TARGET_ONE"/>
+  <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="hitTime" val="6000"/>
-  <set name="skillType" val="CANCEL"/>
+  <set name="skillType" val="NEGATE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
   <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
-  <set name="negatePower" val="9"/>
   <for>
+		<effect name="Negate" val="0" noicon="1" />
   </for>
 </skill>
 <skill id="4557" levels="1" name="Dispel Hot Spring Disease B_D">
-<!-- TODO -->
   <set name="mpConsume" val="69"/>
-  <set name="target" val="TARGET_ONE"/>
+  <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="hitTime" val="6000"/>
-  <set name="skillType" val="CANCEL"/>
+  <set name="skillType" val="NEGATE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
   <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
-  <set name="negatePower" val="9"/>
   <for>
+		<effect name="Negate" val="0" noicon="1" />
   </for>
 </skill>
 <skill id="4558" levels="1" name="Dispel Hot Spring Disease C_D">
-<!-- TODO -->
   <set name="mpConsume" val="69"/>
-  <set name="target" val="TARGET_ONE"/>
+  <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="hitTime" val="6000"/>
-  <set name="skillType" val="CANCEL"/>
+  <set name="skillType" val="NEGATE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
   <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
-  <set name="negatePower" val="9"/>
   <for>
+		<effect name="Negate" val="0" noicon="1" />
   </for>
 </skill>
 <skill id="4559" levels="1" name="Hot Springs Illusion">
