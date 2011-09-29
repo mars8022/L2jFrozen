@@ -161,7 +161,7 @@ public class Mdam implements ISkillHandler
 		if(effect != null && effect.isSelfEffect())
 		{
 			//Replace old effect with new one.
-			effect.exit();
+			effect.exit(false);
 		}
 		effect = null;
 		skill.getEffectsSelf(activeChar);

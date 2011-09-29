@@ -1526,11 +1526,7 @@ public final class L2ItemInstance extends L2Object
 
 	public final DropProtection getDropProtection() 
 	{ 
-
-
 		return _dropProtection; 
-
-
 	} 
 
 

@@ -205,7 +205,7 @@ public class Disablers implements ISkillHandler
 						for(L2Effect e : effects)
 						{
 							if(e.getSkill().getSkillType() == type)
-								e.exit();
+								e.exit(false);
 						}
 						skill.getEffects(activeChar, target, ss, sps, bss);
 					}
@@ -363,7 +363,7 @@ public class Disablers implements ISkillHandler
 							if(e.getSkill().getId() == 1059 || e.getSkill().getId() == 1085 ||
 								e.getSkill().getId() == 4356 || e.getSkill().getId() == 4355)
 							{
-								e.exit();
+								e.exit(true);
 							}
 						}
 
@@ -391,7 +391,7 @@ public class Disablers implements ISkillHandler
 							if(e.getSkill().getId() == 1204 || e.getSkill().getId() == 1086 ||
 								e.getSkill().getId() == 4342  || e.getSkill().getId() == 4357)
 							{
-								e.exit();
+								e.exit(true);
 							}
 						}
 
@@ -446,7 +446,7 @@ public class Disablers implements ISkillHandler
 								// Cannot cancel skills 4082, 4215, 4515, 110, 111, 1323, 1325
 								{
 									if(e.getSkill().getSkillType() != SkillType.BUFF) //sleep, slow, surrenders etc
-										e.exit();
+										e.exit(true);
 									else
 									{
 										int rate = 100;
@@ -461,7 +461,7 @@ public class Disablers implements ISkillHandler
 
 										if(Rnd.get(100) < rate)
 										{
-											e.exit();
+											e.exit(true);
 											maxfive--;
 											if(maxfive == 0)
 												break;
@@ -520,7 +520,7 @@ public class Disablers implements ISkillHandler
 
 										if(Rnd.get(100) < rate)
 										{
-											e.exit();
+											e.exit(true);
 											maxdisp--;
 											if(maxdisp == 0)
 												break;
@@ -658,7 +658,7 @@ public class Disablers implements ISkillHandler
 		if(effect != null && effect.isSelfEffect())
 		{
 			//Replace old effect with new one.
-			effect.exit();
+			effect.exit(false);
 		}
 		effect = null;
 		skill.getEffectsSelf(activeChar);
@@ -683,10 +683,10 @@ public class Disablers implements ISkillHandler
 					if(skillId != 0)
 					{
 						if(skillId == e.getSkill().getId())
-							e.exit();
+							e.exit(true);
 					}
 					else
-						e.exit();
+						e.exit(true);
 				}
 			}
 			else if((e.getSkill().getSkillType() == type && e.getSkill().getPower() <= power) || (e.getSkill().getEffectType() != null && e.getSkill().getEffectType() == type && e.getSkill().getEffectLvl() <= power))
@@ -694,10 +694,10 @@ public class Disablers implements ISkillHandler
 				if(skillId != 0)
 				{
 					if(skillId == e.getSkill().getId())
-						e.exit();
+						e.exit(true);
 				}
 				else
-					e.exit();
+					e.exit(true);
 			}
 		effects = null;
 	}

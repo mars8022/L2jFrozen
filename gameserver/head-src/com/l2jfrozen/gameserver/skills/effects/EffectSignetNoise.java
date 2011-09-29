@@ -63,7 +63,7 @@ public final class EffectSignetNoise extends L2Effect
 				{
 					if(effect.getSkill().isDance())
 					{
-						effect.exit();
+						effect.exit(true);
 					}
 				}
 				// there doesn't seem to be a visible effect?

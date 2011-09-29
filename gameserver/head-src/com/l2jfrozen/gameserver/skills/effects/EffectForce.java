@@ -65,7 +65,7 @@ public class EffectForce extends L2Effect
 		forces--;
 		if(forces < 1)
 		{
-			exit();
+			exit(false);
 		}
 		else
 		{
@@ -75,7 +75,7 @@ public class EffectForce extends L2Effect
 
 	public void updateBuff()
 	{
-		exit();
+		exit(false);
 		L2Skill newSkill = SkillTable.getInstance().getInfo(getSkill().getId(), forces);
 		if(newSkill!=null)
 			newSkill.getEffects(getEffector(), getEffected(),false,false,false);

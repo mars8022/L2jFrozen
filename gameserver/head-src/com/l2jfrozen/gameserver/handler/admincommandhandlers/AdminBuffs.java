@@ -280,7 +280,7 @@ public class AdminBuffs implements IAdminCommandHandler
 			{
 				if(e != null && e.getSkill().getId() == SkillId)
 				{
-					e.exit();
+					e.exit(true);
 					remover.sendMessage("Removed " + e.getSkill().getName() + " level " + e.getSkill().getLevel() + " from " + playername);
 				}
 			}

@@ -91,7 +91,7 @@ public class L2SkillChargeDmg extends L2Skill
 
 		if(effect.numCharges == 0)
 		{
-			effect.exit();
+			effect.exit(false);
 		}
 
 		boolean ss = caster.checkSs();
@@ -140,7 +140,7 @@ public class L2SkillChargeDmg extends L2Skill
 		if(seffect != null && seffect.isSelfEffect())
 		{
 			//Replace old effect with new one.
-			seffect.exit();
+			seffect.exit(false);
 		}
 		// cast self effect if any
 		getEffectsSelf(caster);

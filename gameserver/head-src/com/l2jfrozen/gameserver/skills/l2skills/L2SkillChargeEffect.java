@@ -81,7 +81,7 @@ public class L2SkillChargeEffect extends L2Skill
 		// maybe exit? no charge
 		if(effect.numCharges == 0)
 		{
-			effect.exit();
+			effect.exit(false);
 		}
 
 		// apply effects

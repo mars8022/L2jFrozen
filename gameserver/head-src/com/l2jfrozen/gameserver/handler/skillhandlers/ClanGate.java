@@ -60,7 +60,7 @@ public class ClanGate implements ISkillHandler
 
 		L2Effect effect = player.getFirstEffect(skill.getId());
 		if(effect != null && effect.isSelfEffect())
-			effect.exit();
+			effect.exit(false);
 		skill.getEffectsSelf(player);
 
 		player = null;

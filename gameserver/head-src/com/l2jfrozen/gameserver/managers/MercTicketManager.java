@@ -26,8 +26,8 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
+import com.l2jfrozen.gameserver.handler.AutoChatHandler;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
-import com.l2jfrozen.gameserver.model.AutoChatHandler;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;

@@ -154,6 +154,8 @@ public abstract class L2Effect
 
 	public boolean preventExitUpdate;
 
+	private boolean _cancelEffect = false;
+	
 	public final class EffectTask implements Runnable
 	{
 		protected final int _delay;
@@ -372,13 +374,19 @@ public abstract class L2Effect
 	 */
 	public final void exit()
 	{
-		this.exit(false);
+		this.exit(false, false);
+	}
+	
+	public final void exit(boolean cancelEffect)
+	{
+		this.exit(false, cancelEffect);
 	}
 
-	public final void exit(boolean preventUpdate)
+	public final void exit(boolean preventUpdate, boolean cancelEffect)
 	{
 		preventExitUpdate = preventUpdate;
 		_state = EffectState.FINISHING;
+		_cancelEffect = cancelEffect;
 		scheduleEffect();
 	}
 
@@ -526,13 +534,22 @@ public abstract class L2Effect
 			onExit();
 
 			//If the time left is equal to zero, send the message
-			if(_count == 0 && getEffected() != null && getEffected() instanceof L2PcInstance && getShowIcon())
-			{
-				SystemMessage smsg3 = new SystemMessage(SystemMessageId.S1_HAS_WORN_OFF);
-				smsg3.addString(_skill.getName());
-				getEffected().sendPacket(smsg3);
-				smsg3 = null;
+			if(getEffected() != null && getEffected() instanceof L2PcInstance && getShowIcon()){
+				
+				if(_cancelEffect){
+					SystemMessage smsg3 = new SystemMessage(SystemMessageId.EFFECT_S1_DISAPPEARED);
+					smsg3.addString(getSkill().getName());
+					getEffected().sendPacket(smsg3);
+					smsg3 = null;
+				}else if(_count == 0){
+					SystemMessage smsg3 = new SystemMessage(SystemMessageId.S1_HAS_WORN_OFF);
+					smsg3.addString(_skill.getName());
+					getEffected().sendPacket(smsg3);
+					smsg3 = null;
+				}
+				
 			}
+			 
 			// Stop the task of the L2Effect, remove it and update client magic icone
 			stopEffectTask();
 
