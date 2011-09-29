@@ -8,7 +8,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="180000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -29,7 +29,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="180000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -50,7 +50,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="180000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -88,7 +88,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="180000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="REFLECT"/>
   <set name="isMagic" val="true"/>
@@ -128,8 +128,9 @@
   <set name="activationChance" val="#chance"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="180000"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3207" levels="10" name="Item Skill: Heal">
   <table name="#chance">1 1 2 2 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
@@ -140,8 +141,6 @@
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_HIT"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>'
-  <set name="effectRange" val="-1"/>
 </skill>
 <skill id="3208" levels="10" name="Item Skill: Blessed Body">
   <table name="#chance">1 1 2 2 3 3 4 4 5 5</table>
@@ -335,8 +334,6 @@
   <set name="operateType" val="OP_CHANCE"/>
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="activationChance" val="#chance"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
 </skill>
 <skill id="3223" levels="10" name="Item Skill: Focus">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
@@ -618,24 +615,22 @@
     <mul order="0x30" stat="gainHp" val="#rate"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3247" levels="10" name="Item Skill: Agility">
-  <table name="#rate">2 2 2 2 3 3 3 4 4 4</table>
+  <table name="#rate">0.4 0.8 1.2 1.6 2.0 2.4 2.8 3.2 3.6 4</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x30" stat="rEvas" val="#rate"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3248" levels="10" name="Item Skill: Guidance">
-  <table name="#rate">2 2 2 2 3 3 3 4 4 4</table>
+  <table name="#rate">0.4 0.8 1.2 1.6 2.0 2.4 2.8 3.2 3.6 4</table>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <add order="0x30" stat="accCombat" val="#rate"/>
   </for>

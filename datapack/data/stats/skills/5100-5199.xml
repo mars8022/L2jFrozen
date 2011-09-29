@@ -689,6 +689,7 @@
  	</effect>
  </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5146" levels="10" name="Heal">
   <table name="#power">308 337 365 393 421 448 474 498 520 552</table>
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
@@ -698,11 +699,9 @@
   <set name="skillType" val="HEAL"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="-1"/>
+  <set name="reuseDelay" val="120000"/>
   <set name="isMagic" val="true"/>
   <set name="bestowed" val="true"/>
-  <set name="hitTime" val="5000"/>
-  <for>
-  </for>
 </skill>
 <skill id="5147" levels="10" name="Blessed Body">
 <!-- Description(s):
