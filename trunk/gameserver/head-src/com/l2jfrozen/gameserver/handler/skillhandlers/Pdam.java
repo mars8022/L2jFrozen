@@ -379,7 +379,7 @@ public class Pdam implements ISkillHandler
 			if(effect != null && effect.isSelfEffect())
 			{
 				//Replace old effect with new one.
-				effect.exit();
+				effect.exit(false);
 			}
 			skill.getEffectsSelf(activeChar);
 			effect = null;

@@ -530,7 +530,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
 				if(silentMove != null)
 				{
-					silentMove.exit();
+					silentMove.exit(true);
 				}
 			}
 
@@ -558,7 +558,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
 				if(silentMove != null)
 				{
-					silentMove.exit();
+					silentMove.exit(true);
 				}
 			}
 
@@ -3223,7 +3223,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					if(toggleEffect != null)
 					{
 						// stop old toggle skill effect, and give new toggle skill effect back
-						toggleEffect.exit();
+						toggleEffect.exit(false);
 						sk.getEffects(this, this,false,false,false);
 					}
 				}
@@ -3938,7 +3938,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(su);
 			su = null;
 
-			// If over capacity, trop the item
+			// If over capacity, Drop the item
 			if(!isGM() && !_inventory.validateCapacity(0))
 			{
 				dropItem("InvDrop", newitem, null, true, true);
@@ -6364,14 +6364,14 @@ public final class L2PcInstance extends L2PlayableInstance
 					// NOTE: Each time an item is dropped, the chance of another item being dropped gets lesser (dropCount * 2)
 					if(Rnd.get(100) < itemDropPercent)
 					{
-						dropItem("DieDrop", itemDrop, killer, true, true);
-
 						if(isKarmaDrop)
 						{
+							dropItem("DieDrop", itemDrop, killer, true, false);
 							_log.warning(getName() + " has karma and dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount());
 						}
 						else
 						{
+							dropItem("DieDrop", itemDrop, killer, true, true);
 							_log.warning(getName() + " dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount());
 						}
 
@@ -10389,7 +10389,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				//fake death exception
 				if (skill.getId() != 60)
-					effect.exit();
+					effect.exit(false);
 
 				// Send a Server->Client packet ActionFailed to the L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -10611,7 +10611,7 @@ public final class L2PcInstance extends L2PlayableInstance
 
 				if(effect.numCharges == 0)
 				{
-					effect.exit();
+					effect.exit(false);
 				}
 			}
 		}
@@ -11698,7 +11698,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		teleToLocation(_obsX, _obsY, _obsZ, false);
 		_observerMode = false;
 		sendPacket(new ObservationReturn(this));
-		broadcastUserInfo();
+		
+		if(!_wasInvisible)
+			broadcastUserInfo();
 	}
 
 	public void leaveOlympiadObserverMode()
@@ -11715,7 +11717,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		Olympiad.getInstance().removeSpectator(_olympiadGameId, this);
 		_olympiadGameId = -1;
 		_observerMode = false;
-		broadcastUserInfo();
+		
+		if(!_wasInvisible)
+			broadcastUserInfo();
+		
 	}
 
 	public void updateNameTitleColor()

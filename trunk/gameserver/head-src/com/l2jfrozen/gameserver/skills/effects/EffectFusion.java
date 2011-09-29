@@ -65,7 +65,7 @@ public final class EffectFusion extends L2Effect
 		_effect--;
 		if(_effect < 1)
 		{
-			exit();
+			exit(false);
 		}
 		else
 		{
@@ -75,7 +75,7 @@ public final class EffectFusion extends L2Effect
 
 	private void updateBuff()
 	{
-		exit();
+		exit(false);
 		SkillTable.getInstance().getInfo(getSkill().getId(), _effect).getEffects(getEffector(), getEffected(),false,false,false);
 	}
 }

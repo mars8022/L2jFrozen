@@ -257,7 +257,7 @@ public final class L2Augmentation
 					if(effectSkill.getId() == _skill.getId())
 					{
 						player.sendMessage("You feel the power of " + effectSkill.getName() + " leaving yourself.");
-						currenteffect.exit();
+						currenteffect.exit(false);
 					}
 				}
 				

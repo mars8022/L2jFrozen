@@ -166,7 +166,7 @@ public class Duel
 				for(L2Effect temp : _debuffs)
 					if(temp != null)
 					{
-						temp.exit();
+						temp.exit(false);
 					}
 			}
 		}

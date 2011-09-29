@@ -84,7 +84,7 @@ final class EffectCancel extends L2Effect
 
 						if(Rnd.get(100) < rate)
 						{
-							e.exit();
+							e.exit(true);
 							maxdisp--;
 							if(maxdisp == 0)
 							{

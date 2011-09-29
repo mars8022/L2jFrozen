@@ -16,11 +16,12 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.model;
+package com.l2jfrozen.gameserver.handler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -30,6 +31,7 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
@@ -340,7 +342,9 @@ public class AutoChatHandler implements SpawnListener
 
 		protected AutoChatDefinition[] getChatDefinitions()
 		{
-			return _chatDefinitions.values().toArray(new AutoChatDefinition[_chatDefinitions.values().size()]);
+			final Collection<AutoChatDefinition> values = _chatDefinitions.values();
+			
+			return values.toArray(new AutoChatDefinition[values.size()]);
 		}
 
 		/**

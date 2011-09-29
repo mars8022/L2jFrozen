@@ -501,7 +501,7 @@ public class L2CubicInstance
 						if (e != null && e.getSkill().isOffensive())
 						{
 							UseCubicCure = true;
-							e.exit();
+							e.exit(true);
 						}
 					}
 				}
@@ -766,7 +766,7 @@ public class L2CubicInstance
 							if (e.getSkill().getId() != 4215 && e.getSkill().getId() != 4515
 									&& e.getSkill().getId() != 4082)
 							{
-								e.exit();
+								e.exit(true);
 								if (count > -1)
 									count++;
 							}

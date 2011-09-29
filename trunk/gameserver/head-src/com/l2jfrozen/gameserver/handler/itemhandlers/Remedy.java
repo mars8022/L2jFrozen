@@ -72,7 +72,7 @@ public class Remedy implements IItemHandler
 			{
 				if(e.getSkill().getSkillType() == L2Skill.SkillType.POISON && e.getSkill().getLevel() <= 3)
 				{
-					e.exit();
+					e.exit(true);
 					break;
 				}
 			}
@@ -90,7 +90,7 @@ public class Remedy implements IItemHandler
 			{
 				if(e.getSkill().getSkillType() == L2Skill.SkillType.POISON && e.getSkill().getLevel() <= 7)
 				{
-					e.exit();
+					e.exit(true);
 					break;
 				}
 			}
@@ -108,7 +108,7 @@ public class Remedy implements IItemHandler
 			{
 				if(e.getSkill().getSkillType() == L2Skill.SkillType.BLEED && e.getSkill().getLevel() <= 3)
 				{
-					e.exit();
+					e.exit(true);
 					break;
 				}
 			}
@@ -126,7 +126,7 @@ public class Remedy implements IItemHandler
 			{
 				if(e.getSkill().getSkillType() == L2Skill.SkillType.BLEED && e.getSkill().getLevel() <= 7)
 				{
-					e.exit();
+					e.exit(true);
 					break;
 				}
 			}
@@ -144,7 +144,7 @@ public class Remedy implements IItemHandler
 			{
 				if(e.getSkill().getId() == 4082)
 				{
-					e.exit();
+					e.exit(true);
 				}
 			}
 

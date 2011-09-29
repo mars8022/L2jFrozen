@@ -197,7 +197,7 @@ public class L2SkillDrain extends L2Skill
 		if(effect != null && effect.isSelfEffect())
 		{
 			//Replace old effect with new one.
-			effect.exit();
+			effect.exit(false);
 		}
 		// cast self effect if any
 		getEffectsSelf(activeChar);

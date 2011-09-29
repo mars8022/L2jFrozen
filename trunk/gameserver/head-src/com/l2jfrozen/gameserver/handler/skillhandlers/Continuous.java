@@ -232,7 +232,7 @@ public class Continuous implements ISkillHandler
 					if(e != null && skill != null)
 						if(e.getSkill().getId() == skill.getId())
 						{
-							e.exit();
+							e.exit(false);
 							stopped = true;
 						}
 				}
@@ -310,7 +310,7 @@ public class Continuous implements ISkillHandler
 		if(effect != null && effect.isSelfEffect())
 		{
 			//Replace old effect with new one.
-			effect.exit();
+			effect.exit(false);
 		}
 		skill.getEffectsSelf(activeChar);
 

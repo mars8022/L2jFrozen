@@ -87,7 +87,7 @@ public final class ForceBuff
 			if(effect instanceof EffectForce)
 				((EffectForce) effect).decreaseForce();
 			else
-				effect.exit();
+				effect.exit(false);
 		}
 		effect = null;
 	}

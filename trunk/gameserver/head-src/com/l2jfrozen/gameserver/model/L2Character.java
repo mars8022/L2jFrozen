@@ -3061,7 +3061,7 @@ public abstract class L2Character extends L2Object
 				{
 					if((newEffect.getSkill().getSkillType() == L2Skill.SkillType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.BUFF) && newEffect.getStackOrder() >= _effects.get(i).getStackOrder())
 					{
-						_effects.get(i).exit();
+						_effects.get(i).exit(false);
 					}
 					else
 					{
@@ -3635,7 +3635,7 @@ public abstract class L2Character extends L2Object
 		{
 			if(e!=null && e.getSkill()!=null){
 				if (e.getSkill().getId() == skillId) 
-					e.exit();
+					e.exit(true);
 			}
 			
 		}
@@ -3672,7 +3672,7 @@ public abstract class L2Character extends L2Object
 			// Stop active skills effects of the selected type
 			if(e.getEffectType() == type)
 			{
-				e.exit();
+				e.exit(true);
 			}
 
 		effects = null;
@@ -3707,7 +3707,7 @@ public abstract class L2Character extends L2Object
 					_log.fine("will be removed on char "+getName());
 				}
 				
-				e.exit();
+				e.exit(true);
 			}
 		}
 
@@ -7471,7 +7471,7 @@ public abstract class L2Character extends L2Object
 		}
 		if(removeMe != null)
 		{
-			removeMe.exit();
+			removeMe.exit(true);
 		}
 
 		effects = null;
@@ -7518,7 +7518,7 @@ public abstract class L2Character extends L2Object
 		}
 		if(removeMe != null)
 		{
-			removeMe.exit();
+			removeMe.exit(true);
 		}
 
 		effects = null;
@@ -7766,7 +7766,7 @@ public abstract class L2Character extends L2Object
 		if(mog != null)
 		{
 			_skillCast = null;
-			mog.exit();
+			mog.exit(true);
 			notifyQuestEventSkillFinished(skill, targets[0]);
 			return;
 		}
@@ -9341,7 +9341,7 @@ public abstract class L2Character extends L2Object
 		for (L2Effect e : getAllEffects())
 		{
 			if (e != null)
-				e.exit();
+				e.exit(true);
 		}
 	}
 	
