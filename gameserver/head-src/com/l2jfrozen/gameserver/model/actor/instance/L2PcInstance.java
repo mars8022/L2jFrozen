@@ -177,6 +177,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.LeaveWorld;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
 import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ObservationMode;
 import com.l2jfrozen.gameserver.network.serverpackets.ObservationReturn;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowUpdate;
@@ -8191,6 +8192,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
 			player.sendPacket(new RelationChanged(this, getRelation(player), isAutoAttackable(player)));
+			
+			if(getPet()!=null){
+				getPet().broadcastPacket(new NpcInfo(getPet(), null));
+			}
 		}
 	}
 
@@ -8205,6 +8210,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
 			player.sendPacket(new RelationChanged(this, getRelation(player), isAutoAttackable(player)));
+			
+			if(getPet()!=null){
+				getPet().broadcastPacket(new NpcInfo(getPet(), null));
+			}
 		}
 	}
 

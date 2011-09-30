@@ -22,6 +22,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreManageListSell;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreMsgSell;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -77,12 +78,22 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 		if(!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Transactions are disable for your Access Level");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
 		if(player.isTradeDisabled())
 		{
 			player.sendMessage("Trade are disable here. Try in another place.");
+			player.sendPacket(new PrivateStoreManageListSell(player));
+			return;
+		}
+		
+		if(player.isCastingNow() || player.isCastingPotionNow() || player.isMovementDisabled() 
+				|| player.inObserverMode() || player.getActiveEnchantItem()!=null)
+		{
+			player.sendMessage("You cannot start store now..");
+			player.sendPacket(new PrivateStoreManageListSell(player));
 			return;
 		}
 
@@ -90,6 +101,7 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 		tradeList.clear();
 		tradeList.setPackaged(_packageSale);
 
+		long totalCost = player.getAdena();
 		for(int i = 0; i < _count; i++)
 		{
 			int objectId = _items[i * 3 + 0];
@@ -102,6 +114,14 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
 				_count = 0;
 				_items = null;
+				return;
+			}
+			
+			totalCost += price;
+			if (totalCost > Integer.MAX_VALUE)
+			{
+				player.sendPacket(new PrivateStoreManageListSell(player));
+				player.sendPacket(new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED));
 				return;
 			}
 
@@ -117,6 +137,7 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 
 		if(player.isProcessingTransaction())
 		{
+			player.sendPacket(new PrivateStoreManageListSell(player));
 			player.sendMessage("Store mode are disable while trading.");
 			return;
 		}
