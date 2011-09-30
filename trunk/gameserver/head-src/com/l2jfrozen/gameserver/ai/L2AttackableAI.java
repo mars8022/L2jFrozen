@@ -249,20 +249,26 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	public void startAITask()
 	{
 		// If not idle - create an AI task (schedule onEvtThink repeatedly)
-		if(_aiTask == null)
-		{
-			_aiTask = ThreadPoolManager.getInstance().scheduleAiAtFixedRate(this, 1000, 1000);
-		}
+		
+			if(_aiTask == null)
+			{
+				_aiTask = ThreadPoolManager.getInstance().scheduleAiAtFixedRate(this, 1000, 1000);
+			}
 		
 	}
 
 	public void stopAITask()
 	{
-		if(_aiTask != null)
-		{
-			_aiTask.cancel(false);
-			_aiTask = null;
-		}
+		
+		
+			if(_aiTask != null)
+			{
+				synchronized(_aiTask){
+					_aiTask.cancel(false);
+					_aiTask = null;
+				}
+			}
+		
 		
 	}
 
@@ -310,12 +316,16 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 				// Set the Intention of this L2AttackableAI to AI_INTENTION_IDLE
 				super.changeIntention(AI_INTENTION_IDLE, null, null);
 
-				// Stop AI task and detach AI from NPC
-				if(_aiTask != null)
-				{
-					_aiTask.cancel(true);
-					_aiTask = null;
-				}
+				
+					// Stop AI task and detach AI from NPC
+				
+					if(_aiTask != null)
+					{
+						synchronized(_aiTask){
+							_aiTask.cancel(true);
+							_aiTask = null;
+						}
+					}
 				
 
 				// Cancel the AI

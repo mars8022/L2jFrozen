@@ -135,6 +135,12 @@ public class PcStatus extends PlayableStatus
 
 		if(!getActiveChar().isDead() && getActiveChar().isSitting())
 		{
+			if (getActiveChar().getPrivateStoreType() != 0)
+			{
+				getActiveChar().setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+				getActiveChar().broadcastUserInfo();
+			}
+			
 			getActiveChar().standUp();
 		}
 

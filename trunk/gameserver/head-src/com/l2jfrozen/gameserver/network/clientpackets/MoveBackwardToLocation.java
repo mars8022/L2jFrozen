@@ -82,6 +82,12 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			return;
 		}
 		
+		if(activeChar.getPrivateStoreType() != 0){
+			getClient().sendPacket(ActionFailed.STATIC_PACKET); // movements prohibited when in store
+			return;
+		}
+		
+		
 		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ) 
 		{
 			activeChar.sendPacket(new StopMove(activeChar));

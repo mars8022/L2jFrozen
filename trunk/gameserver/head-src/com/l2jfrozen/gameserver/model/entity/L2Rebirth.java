@@ -173,14 +173,41 @@ public class L2Rebirth
 	{
 		try
 		{
+			double actual_hp = player.getCurrentHp();
+			double actual_cp = player.getCurrentCp();
+			
+			int max_level = Experience.MAX_LEVEL;
+
+			if(player instanceof L2PcInstance && ((L2PcInstance) player).isSubClassActive())
+			{
+				max_level = Experience.MAX_SUBCLASS_LEVEL;
+			}
+			
 			//Protections
 			Integer returnToLevel = Config.REBIRTH_RETURN_TO_LEVEL;
-			if (returnToLevel < 1) returnToLevel = 1; if (returnToLevel > 80) returnToLevel = 80;
+			if (returnToLevel < 1) 
+				returnToLevel = 1; 
+			if (returnToLevel > max_level) 
+				returnToLevel = max_level;
 			
-			//Set player to level 1.
-			player.removeExpAndSp(player.getExp() - Experience.getExp(returnToLevel), 0);
 			//Resets character to first class.
 			player.setClassId(player.getBaseClass());
+			
+			player.broadcastUserInfo();
+			
+			final byte lvl = Byte.parseByte(returnToLevel+"");
+			
+			final long pXp = player.getStat().getExp();
+			final long tXp = Experience.getExp(lvl);
+
+			if(pXp > tXp)
+			{
+				player.getStat().removeExpAndSp(pXp - tXp, 0);
+			}
+			else if(pXp < tXp)
+			{
+				player.getStat().addExpAndSp(tXp - pXp, 0);
+			}
 
 			//Remove the player's current skills.
 			for(L2Skill skill : player.getAllSkills())
@@ -189,6 +216,13 @@ public class L2Rebirth
 			}
 			//Give players their eligible skills.
 			player.giveAvailableSkills();
+			
+			//restore Hp-Mp-Cp
+			player.setCurrentCpDirect(actual_cp);
+			player.setCurrentMpDirect(player.getMaxMp());
+			player.setCurrentHpDirect(actual_hp);
+			player.broadcastStatusUpdate();
+			
 			//Updates the player's information in the Character Database.
 			player.store();
 
@@ -203,6 +237,8 @@ public class L2Rebirth
 
 			//Give the player his new Skills.
 			grantRebirthSkills(player);
+			
+			
 			//Displays a congratulation message to the player.
 			displayCongrats(player);
 			returnToLevel = null;

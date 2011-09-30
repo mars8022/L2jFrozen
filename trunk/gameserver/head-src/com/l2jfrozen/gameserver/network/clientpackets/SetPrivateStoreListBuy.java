@@ -22,6 +22,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreManageListBuy;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreMsgBuy;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -76,12 +77,22 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 		if(!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Transactions are disable for your Access Level");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
 		if(player.isTradeDisabled())
 		{
 			player.sendMessage("Trade are disable here. Try in another place.");
+			player.sendPacket(new PrivateStoreManageListBuy(player));
+			return;
+		}
+		
+		if(player.isCastingNow() || player.isCastingPotionNow() || player.isMovementDisabled() 
+				|| player.inObserverMode() || player.getActiveEnchantItem()!=null)
+		{
+			player.sendMessage("You cannot start store now..");
+			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
 
@@ -97,8 +108,15 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 
 			tradeList.addItemByItemId(itemId, count, price);
 			cost += count * price;
+			
+			if (cost > Integer.MAX_VALUE)
+			{
+				player.sendPacket(new SystemMessage(SystemMessageId.YOU_HAVE_EXCEEDED_QUANTITY_THAT_CAN_BE_INPUTTED));
+				player.sendPacket(new PrivateStoreManageListBuy(player));
+				return;
+			}
 		}
-
+		
 		if(_count <= 0)
 		{
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
@@ -109,6 +127,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 		if(player.isProcessingTransaction())
 		{
 			player.sendMessage("Store mode are disable while trading.");
+			player.sendPacket(new PrivateStoreManageListBuy(player));
 			return;
 		}
 
