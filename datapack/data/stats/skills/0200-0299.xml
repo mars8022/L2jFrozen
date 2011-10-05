@@ -1511,6 +1511,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="element" val="2"/>
   <set name="ignoreShld" val="true"/>
   <set name="overHit" val="true"/>
@@ -1523,9 +1524,6 @@
   <set name="effectRange" val="400"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
 </skill>
 <skill id="281" levels="37" name="Soul Breaker" enchantLevels1="30" enchantLevels2="30">
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
@@ -1545,6 +1543,7 @@
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="ignoreShld" val="true"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
@@ -1558,9 +1557,6 @@
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2power"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <for>
     <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
@@ -1639,6 +1635,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="conditionValue" val="2"/>
   <set name="ignoreShld" val="true"/>
   <set name="condition" val="128"/>
@@ -1655,9 +1652,6 @@
   <set name="charge_skill_id" val="50"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
 </skill>
 <skill id="285" levels="27" name="Higher Mana Gain">
   <table name="#gainMp">22 24 28 29 31 32 38 39 41 42 48 49 50 52 53 59 61 62 64 66 72 73 75 76 78 79 81</table>

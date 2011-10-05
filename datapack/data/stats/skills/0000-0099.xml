@@ -223,6 +223,7 @@
 <skill id="8" levels="7" name="Sonic Focus">
   <table name="#power"> 1.0 2.0 3.0 4.0 5.0 6.0 7.0 </table>
   <table name="#val">1 2 3 4 5 6 7</table>
+  <set name="weaponsAllowed" val="18956"/>
   <set name="mpConsume" val="5"/>
   <set name="hpConsume" val="25"/>
   <set name="power" val="#power"/>
@@ -235,9 +236,6 @@
   <set name="effectRange" val="-1"/>
   <set name="num_charges" val="#val"/>
   <set name="aggroPoints" val="200"/>
-  <cond msg="Sonic Focus can only be used with weapons of type Sword/Blunt/Dual Sword/Big Sword/Big Blunt.">
-    <using kind="Sword, Blunt, Dual Sword, Big Sword, Big Blunt"/>
-  </cond>
   <for>
     <effect count="1" name="Charge" time="600" val="1"/>
   </for>
@@ -448,6 +446,7 @@
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_MULTIFACE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="skillRadius" val="200"/>
   <set name="conditionValue" val="1"/>
   <set name="condition" val="128"/>
@@ -462,9 +461,6 @@
   <set name="baseCritRate" val="15"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <!-- charge values -->
   <set name="itemConsumeId" val="5589"/>
   <set name="itemConsumeCount" val="2"/>
@@ -842,6 +838,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_AREA"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="skillRadius" val="150"/>
   <set name="conditionValue" val="1"/>
   <set name="condition" val="128"/>
@@ -855,9 +852,6 @@
   <set name="baseCritRate" val="15"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <set name="itemConsumeId" val="5589"/>
   <set name="itemConsumeCount" val="2"/>
   <set name="num_charges" val="2"/>
@@ -1057,6 +1051,7 @@
   <set name="hpConsume" val="20"/>
   <set name="power" val="#val"/>
   <set name="target" val="TARGET_SELF"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="reuseDelay" val="1000"/>
   <set name="hitTime" val="900"/>
   <set name="skillType" val="CHARGE"/>
@@ -1065,9 +1060,6 @@
   <set name="effectRange" val="-1"/>
   <set name="num_charges" val="#val"/>
   <set name="aggroPoints" val="150"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <for>
     <effect count="1" name="Charge" time="0x7fffffff" val="1"/>
   </for>
@@ -1109,6 +1101,7 @@
   <set name="power" val="#power"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="conditionValue" val="1"/>
   <set name="condition" val="128"/>
   <set name="SSBoost" val="2.0"/>
@@ -1121,9 +1114,6 @@
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <set name="baseCritRate" val="15"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <set name="num_charges" val="1"/>
   <set name="charge_skill_id" val="50"/>
 </skill>
@@ -1476,6 +1466,7 @@
   <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="ignoreShld" val="true"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
@@ -1488,9 +1479,6 @@
   <set name="effectRange" val="400"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="hpConsume" val="#ench2HpConsume"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <for>
     <effect count="1" name="StunSelf" time="9" val="0" stackOrder="1" stackType="Stun" effectPower="80" effectType="STUN"/>
   </for>
@@ -1749,6 +1737,7 @@
   <table name="#magicLvl">20 24 28 32 36 40 43 46 49 52 55 58 60 62 64 66 68 70 72 74</table>
   <table name="#mpConsume">10 11 13 14 16 18 19 21 22 24 25 27 28 29 30 31 32 33 34 34</table>
   <table name="#runSpd">0.7 0.7 0.7 0.7 0.7 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</table>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="saveVs" val="MEN"/>
@@ -1764,9 +1753,6 @@
   <set name="effectRange" val="400"/>
   <enchant1 name="power" val="#ench1Power"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <for>
     <effect name="Buff" time="30" count="1" val="0" stackOrder="#runSpd" stackType="RunSpeedDown">
       <mul order="0x30" stat="runSpd" val="#runSpd"/>

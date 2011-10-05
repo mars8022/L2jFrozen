@@ -603,16 +603,4 @@ public abstract class L2Object
 		return "" + getObjectId();
 	}
 
-	public boolean isInFunEvent()
-	{
-		L2PcInstance player = getActingPlayer();
-
-		return player == null ? false : player.isInFunEvent();
-	}
-
-	public L2PcInstance getActingPlayer()
-	{
-		return null;
-	}
-
 }
