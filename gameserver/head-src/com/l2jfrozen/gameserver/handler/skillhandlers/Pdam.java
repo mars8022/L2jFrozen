@@ -104,8 +104,6 @@ public class Pdam implements ISkillHandler
 			Formulas f = Formulas.getInstance();
 			L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
 
-			System.out.println("FUORI-1...");
-			
 			if(activeChar instanceof L2PcInstance && target instanceof L2PcInstance && target.isAlikeDead() && target.isFakeDeath())
 			{
 				target.stopFakeDeath(null);
@@ -113,14 +111,10 @@ public class Pdam implements ISkillHandler
 			else if(target.isAlikeDead())
 				continue;
 			
-			System.out.println("FUORI-2...");
-			
 			if(target.isInvul()){
 				continue;
 			}
 
-			System.out.println("FUORI-3...");
-			
 			// Calculate skill evasion
 			//Formulas.getInstance();
 			if(Formulas.calcPhysicalSkillEvasion(target, skill))
@@ -128,17 +122,6 @@ public class Pdam implements ISkillHandler
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.ATTACK_FAILED));
 				continue;
 			}
-
-			System.out.println("FUORI-4...");
-			
-			
-			/*
-			// Calculate vengeance
-			if(target.vengeanceSkill(skill))
-			{
-				target = activeChar;
-			}
-			*/
 
 			boolean dual = activeChar.isUsingDualWeapon();
 			boolean shld = Formulas.calcShldUse(activeChar, target);
@@ -172,10 +155,6 @@ public class Pdam implements ISkillHandler
 				Log.add(activeChar.getName() + "(" + activeChar.getObjectId() + ") " + activeChar.getLevel() + " lvl did damage " + damage + " with skill " + skill.getName() + "(" + skill.getId() + ") to " + name, "damage_pdam");
 			}
 
-			//if(soul && weapon != null)
-			//	weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-			System.out.println("FUORI-5...");
-			
 			if(damage > 0)
 			{
 				if(target != activeChar)
@@ -187,8 +166,6 @@ public class Pdam implements ISkillHandler
 					activeChar.sendPacket(smsg);
 				}
 
-				System.out.println("DENTRO...");
-				
 				if(skill.hasEffects())
 				{
 					if(target.reflectSkill(skill))
@@ -269,8 +246,6 @@ public class Pdam implements ISkillHandler
 				}
 				else
 				{
-					System.out.println("DENTRO-1...");
-					
 					// Make damage directly to HP
 					if(skill.getDmgDirectlyToHP() || !(activeChar instanceof L2PlayableInstance))
 					{
@@ -348,8 +323,6 @@ public class Pdam implements ISkillHandler
 
 			if(skill.getId() == 345 || skill.getId() == 346) // Sonic Rage or Raging Force
 			{
-				System.out.println("skill.getId() == 345 || skill.getId() == 346");
-				
 				EffectCharge effect = (EffectCharge) activeChar.getFirstEffect(L2Effect.EffectType.CHARGE);
 				if(effect != null)
 				{
