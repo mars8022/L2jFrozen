@@ -328,6 +328,16 @@ public abstract class L2Character extends L2Object
 					addStatFuncs(skill.getValue().getStatFuncs(null, this));
 				}
 			}
+			
+			if(Config.NPC_ATTACKABLE){
+				
+				if(Config.INVUL_NPC_LIST.contains(((L2NpcTemplate)_template).getNpcId())){
+					setIsInvul(true);
+				}
+				
+			}else
+				setIsInvul(true);
+			
 		}
 		else
 		{
@@ -337,13 +347,18 @@ public abstract class L2Character extends L2Object
 			// If L2Character is a L2PcInstance or a L2Summon, create the basic calculator set
 			_calculators = new Calculator[Stats.NUM_STATS];
 			Formulas.getInstance().addFuncsToNewCharacter(this);
+			
+			if(!(this instanceof L2Attackable) && !this.isAttackable())
+				setIsInvul(true);
 		}
 
+		/*
 		if(!(this instanceof L2PcInstance) && !(this instanceof L2MonsterInstance) && !(this instanceof L2GuardInstance) && !(this instanceof L2SiegeGuardInstance) && !(this instanceof L2ControlTowerInstance) && !(this instanceof L2DoorInstance) && !(this instanceof L2FriendlyMobInstance) && !(this instanceof L2SiegeSummonInstance) && !(this instanceof L2PetInstance) && !(this instanceof L2SummonInstance) && !(this instanceof L2SiegeFlagInstance) && !(this instanceof L2EffectPointInstance) && !(this instanceof L2CommanderInstance) && !(this instanceof L2FortSiegeGuardInstance))
 		{
 			/////////////////////////////////////////////////////////////////////////////////////////////
 			setIsInvul(true);
 		}
+		*/
 	}
 
 	protected void initCharStatusUpdateValues()
@@ -2486,7 +2501,7 @@ public abstract class L2Character extends L2Object
 	/** Return True if the L2Character can't move (stun, root, sleep, overload, paralyzed). */
 	public boolean isMovementDisabled()
 	{
-		return /*isCastingNow() || */isStunned() || isRooted() || isSleeping() || isOverloaded() || isParalyzed() || isImobilised() || isFakeDeath() || isFallsdown();
+		return isImmobileUntilAttacked() || isStunned() || isRooted() || isSleeping() || isOverloaded() || isParalyzed() || isImobilised() || isFakeDeath() || isFallsdown();
 	}
 
 	/** Return True if the L2Character can be controlled by the player (confused, afraid). */
@@ -6899,12 +6914,14 @@ public abstract class L2Character extends L2Object
 			target = null;
 		}
 
+		/*
 		if(!player.isAttackable() && !player.getAccessLevel().allowPeaceAttack() && !isInFunEvent())
 		{
 			// If target is not attackable, send a Server->Client packet ActionFailed
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
+		*/
 
 		if(player.isConfused() || player.isBlocked())
 		{
@@ -6930,7 +6947,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public boolean isInsidePeaceZone(L2PcInstance attacker)
 	{
-		if(!isInFunEvent() || !attacker.isInFunEvent())
+		if(!(this instanceof L2PcInstance) || !((L2PcInstance)this).isInFunEvent() || !attacker.isInFunEvent())
 			return isInsidePeaceZone(attacker, this);
 
 		return false;

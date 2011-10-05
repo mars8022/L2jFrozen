@@ -1043,6 +1043,7 @@
   <set name="power" val="7"/>
   <set name="SSBoost" val="2.0"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="reuseDelay" val="1000"/>
   <set name="hitTime" val="1500"/>
   <set name="skillType" val="PDAM"/>
@@ -1051,9 +1052,6 @@
   <set name="effectRange" val="1000"/>
   <set name="num_charges" val="7"/>
   <set name="baseCritRate" val="15"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-  <using kind="Fist, Dual Fist"/>
-  </cond>
 </skill>
 <skill id="347" levels="1" name="Earthquake">
   <set name="hpConsume" val="340"/>

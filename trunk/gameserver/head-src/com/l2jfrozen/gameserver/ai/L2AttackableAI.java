@@ -257,18 +257,14 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 		
 	}
 
-	public void stopAITask()
+	public synchronized void stopAITask()
 	{
 		
-		
-			if(_aiTask != null)
-			{
-				synchronized(_aiTask){
-					_aiTask.cancel(false);
-					_aiTask = null;
-				}
-			}
-		
+		if(_aiTask != null)
+		{
+			_aiTask.cancel(false);
+			_aiTask = null;
+		}
 		
 	}
 
@@ -317,8 +313,10 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 				super.changeIntention(AI_INTENTION_IDLE, null, null);
 
 				
-					// Stop AI task and detach AI from NPC
+				// Stop AI task and detach AI from NPC
 				
+				stopAITask();
+				/*
 					if(_aiTask != null)
 					{
 						synchronized(_aiTask){
@@ -326,7 +324,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 							_aiTask = null;
 						}
 					}
-				
+				*/
 
 				// Cancel the AI
 				_accessor.detachAI();

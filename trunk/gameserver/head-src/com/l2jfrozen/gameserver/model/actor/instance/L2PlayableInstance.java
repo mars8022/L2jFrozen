@@ -332,4 +332,20 @@ public abstract class L2PlayableInstance extends L2Character
 		setCharmOfLuck(false);
 		updateAbnormalEffect();
 	}
+	
+	public boolean isInFunEvent()
+	{
+		L2PcInstance player = getActingPlayer();
+
+		return player == null ? false : player.isInFunEvent();
+	}
+
+	public L2PcInstance getActingPlayer()
+	{
+		if(this instanceof L2PcInstance){
+			return (L2PcInstance) this;
+		}else
+			return null;
+		
+	}
 }

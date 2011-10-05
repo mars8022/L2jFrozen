@@ -716,9 +716,9 @@ public class L2Attackable extends L2NpcInstance
 
 						rewards.put(ddealer, reward);
 						
-						if (ddealer.getActingPlayer() != null && reward._dmg > maxDamage) 
+						if (ddealer instanceof L2PlayableInstance && ((L2PlayableInstance)ddealer).getActingPlayer() != null && reward._dmg > maxDamage) 
 						{ 
-							maxDealer = ddealer.getActingPlayer(); 
+							maxDealer = ((L2PlayableInstance)ddealer).getActingPlayer(); 
 							maxDamage = reward._dmg; 
 						} 
 						

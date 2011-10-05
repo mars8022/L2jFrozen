@@ -638,9 +638,6 @@
   <set name="hitTime" val="2000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <for>
     <effect count="1" name="Buff" time="120" val="0" stackOrder="1" stackType="possession">
       <add order="0x40" stat="rCrit" val="100">
@@ -927,15 +924,13 @@
 <skill id="443" levels="1" name="Force Barrier">
   <set name="mpConsume" val="72"/>
   <set name="target" val="TARGET_SELF"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="hitTime" val="2000"/>
   <set name="reuseDelay" val="900000"/>
   <set name="skillType" val="CHARGE_EFFECT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="num_charges" val="4"/>
   <set name="charge_skill_id" val="50"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist, Dual Fist"/>
-  </cond>
   <for>
     <effect count="1" name="Invincible" time="10" val="0">
 	  <using kind="Fist, Dual Fist"/>
@@ -1094,6 +1089,7 @@
   <table name="#charges">2 3</table> <!-- 2 3 Charges are consumed -->
   <table name="#spd">40 66</table>
   <table name="#mpConsume">29 32</table>
+  <set name="weaponsAllowed" val="512"/>
   <set name="hitTime" val="1000"/>
   <set name="reuseDelay" val="60000"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1102,9 +1098,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="skillType" val="CHARGE_EFFECT"/>
   <set name="isMagic" val="false"/>
-  <cond msg="An equipped dual-sword weapon is required to use this skill.">
-    <using kind="Dual Sword"/>
-  </cond>
   <for>
     <effect name="Buff" time="15" count="1" val="0" stackOrder="#spd" stackType="SpeedUpS"> <!-- changed to 15s duration - retail info -->
       <add order="0x40" stat="runSpd" val="#spd"/>
@@ -1337,6 +1330,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
+  <set name="weaponsAllowed" val="1024"/>
   <set name="condition" val="128"/>
   <set name="reuseDelay" val="4000"/>
   <set name="hitTime" val="3000"/>
@@ -1344,8 +1338,5 @@
   <set name="negateStats" val="ROOT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="num_charges" val="#numcharge"/>
-  <cond msg="An equipped hand-to-hand combat weapon is required to use this skill.">
-    <using kind="Fist,Dual Fist"/>
-  </cond>
   </skill>
 </list>

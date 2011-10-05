@@ -461,26 +461,19 @@ public final class Say2 extends L2GameClientPacket
 						if(vch != null)
 						{
 							vch.useVoicedCommand(command, activeChar, target);
-						}
-						else
-						{
-							if(Config.DEBUG)
-							{
-								_log.warning("No handler registered for bypass '" + command + "'");
-							}
+							break;
 						}
 					}
-					else
+					
+					for(L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
 					{
-						for(L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
+						if(player != null && activeChar.isInsideRadius(player, 1250, false, true))
 						{
-							if(player != null && activeChar.isInsideRadius(player, 1250, false, true))
-							{
-								player.sendPacket(cs);
-							}
+							player.sendPacket(cs);
 						}
-						activeChar.sendPacket(cs);
 					}
+					activeChar.sendPacket(cs);
+					
 					break;
 				case CLAN:
 					if(activeChar.getClan() != null)

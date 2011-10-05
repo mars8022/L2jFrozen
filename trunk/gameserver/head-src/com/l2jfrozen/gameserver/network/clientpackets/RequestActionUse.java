@@ -169,11 +169,11 @@ public final class RequestActionUse extends L2GameClientPacket
 						return;
 					}
 
-					if(!activeChar.getAccessLevel().allowPeaceAttack() && L2Character.isInsidePeaceZone(pet, target))
+					if(target instanceof L2PcInstance && !activeChar.getAccessLevel().allowPeaceAttack() && L2Character.isInsidePeaceZone(pet, target))
 					{
-						if(!activeChar.isInFunEvent() || !target.isInFunEvent())
+						if(!activeChar.isInFunEvent() || !((L2PcInstance)target).isInFunEvent())
 						{
-							activeChar.sendMessage("You cant attack in peace zone");
+							activeChar.sendPacket(SystemMessageId.TARGET_IN_PEACEZONE);
 							return;
 						}
 					}

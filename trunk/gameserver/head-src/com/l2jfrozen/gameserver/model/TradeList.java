@@ -1115,7 +1115,6 @@ public class TradeList
 			for(TradeItem ti : _items){
 				
 				if(ti.getItem().getItemId() == item.getItemId()){
-					found = true;
 					
 					if(ti.getPrice() != item.getPrice()){
 						if(Config.DEBUG){
@@ -1123,7 +1122,14 @@ public class TradeList
 						}
 						
 						return false;
+						
+					}else{ //equal price
+						
+						found = true;
+						break;
+						
 					}
+					
 				}
 				
 			}
@@ -1158,13 +1164,20 @@ public class TradeList
 			{
 				continue;
 			}
-
+		
 			// Check if requested item is available for manipulation
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), item.getCount(), "sell");
 			if(oldItem == null){
 				if(Config.DEBUG){
 					_log.info("[PrivateStoreSell] oldItem == null, return false");
 				}
+				return false;
+			}
+			
+			// Check if requested item is correct
+			if (oldItem.getItemId() != item.getItemId())
+			{
+				Util.handleIllegalPlayerAction(player, player+" is cheating with sell items", Config.DEFAULT_PUNISH);
 				return false;
 			}
 			

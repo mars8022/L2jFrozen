@@ -355,7 +355,7 @@ public class L2CubicInstance
 				{
 					if (ownerTarget instanceof L2PlayableInstance)
 					{
-						final L2PcInstance targetPlayer = ownerTarget.getActingPlayer();
+						final L2PcInstance targetPlayer = ((L2PlayableInstance)ownerTarget).getActingPlayer();
 						if (targetPlayer != null
 								&& targetPlayer.getOlympiadGameId() == _owner.getOlympiadGameId()
 								&& targetPlayer.getOlympiadSide() != _owner.getOlympiadSide())

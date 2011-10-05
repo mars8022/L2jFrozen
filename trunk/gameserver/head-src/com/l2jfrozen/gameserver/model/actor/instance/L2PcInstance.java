@@ -507,11 +507,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if (isInsidePeaceZone(L2PcInstance.this, target))
 			{
-				if (!isInFunEvent() || !target.isInFunEvent()) {
-					//getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-					sendPacket(ActionFailed.STATIC_PACKET);
-					return;
+				if(target instanceof L2PcInstance){ //the only case where to avoid the attack is if the attacked is L2PcInstance
+													//and one of them is not into a fun event, otherwise continue
+					
+					if (!isInFunEvent() || !((L2PcInstance)target).isInFunEvent()) {
+						//getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+						sendPacket(ActionFailed.STATIC_PACKET);
+						return;
+					}
+					
 				}
+				
 			}
 			
 			//during teleport phase, players cant do any attack
@@ -10669,13 +10675,18 @@ public final class L2PcInstance extends L2PlayableInstance
 			//if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
 			if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
 			{
-				if(!isInFunEvent() || !target.isInFunEvent())
-				{
-					// If L2Character or target is in a peace zone, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed
-					sendPacket(new SystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
-					sendPacket(ActionFailed.STATIC_PACKET);
-					return;
+				if(target instanceof L2PcInstance){
+					
+					if(!isInFunEvent() || !((L2PcInstance)target).isInFunEvent())
+					{
+						// If L2Character or target is in a peace zone, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed
+						sendPacket(new SystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
+						sendPacket(ActionFailed.STATIC_PACKET);
+						return;
+					}
+					
 				}
+				
 			}
 			if(isInOlympiadMode() && !isOlympiadStart() && sklTargetType != SkillTargetType.TARGET_AURA)
 			{
@@ -10690,16 +10701,19 @@ public final class L2PcInstance extends L2PlayableInstance
 				return;
 			}
 
+			/*
 			// Check if the target is attackable
-			if(!target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
+			if(target instanceof L2PcInstance && !target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
 			{
-				if(!isInFunEvent() || !target.isInFunEvent())
+				if(!isInFunEvent() || !((L2PcInstance)target).isInFunEvent())
 				{
 					// If target is not attackable, send a Server->Client packet ActionFailed
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
+				
 			}
+			*/
 
 			// Check if a Forced ATTACK is in progress on non-attackable target
 			//if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._started) && !(_inEventDM && DM._started) && !(_inEventCTF && CTF._started) && !(_inEventVIP && VIP._started)
