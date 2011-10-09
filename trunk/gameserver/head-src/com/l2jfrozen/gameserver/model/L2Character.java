@@ -339,7 +339,7 @@ public abstract class L2Character extends L2Object
 				setIsInvul(true);
 			
 		}
-		else
+		else //not L2NpcInstance
 		{
 			// Initialize the FastMap _skills to null
 			_skills = new FastMap<Integer, L2Skill>().shared();
@@ -348,7 +348,7 @@ public abstract class L2Character extends L2Object
 			_calculators = new Calculator[Stats.NUM_STATS];
 			Formulas.getInstance().addFuncsToNewCharacter(this);
 			
-			if(!(this instanceof L2Attackable) && !this.isAttackable())
+			if(!(this instanceof L2Attackable) && !this.isAttackable() && !(this instanceof L2DoorInstance))
 				setIsInvul(true);
 		}
 
