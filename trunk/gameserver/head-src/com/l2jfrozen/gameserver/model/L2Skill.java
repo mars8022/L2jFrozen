@@ -2171,14 +2171,15 @@ public abstract class L2Skill
 					L2PcInstance player = (L2PcInstance) activeChar;
 					L2Clan clan = player.getClan();
 
-					if(player.isInOlympiadMode())
-						return new L2Character[]
-						{
-							player
-						};
-
-					if(targetType != SkillTargetType.TARGET_CORPSE_ALLY)
+					
+					if(targetType != SkillTargetType.TARGET_CORPSE_ALLY) //if corpose, the caster is not included
 					{
+						if(player.isInOlympiadMode())
+							return new L2Character[]
+							{
+								player
+							};
+						
 						if(onlyFirst == false)
 						{
 							targetList.add(player);
@@ -2206,39 +2207,81 @@ public abstract class L2Skill
 						// Get Clan Members
 						for(L2Object newTarget : activeChar.getKnownList().getKnownObjects().values())
 						{
-							if(newTarget == null || !(newTarget instanceof L2PcInstance) || ((L2PcInstance)newTarget).isDead())
+							if(newTarget == null || !(newTarget instanceof L2PcInstance))
 							{
 								continue;
 							}
 
-							if((((L2PcInstance) newTarget).getAllyId() == 0 || ((L2PcInstance) newTarget).getAllyId() != player.getAllyId()) && (((L2PcInstance) newTarget).getClan() == null || ((L2PcInstance) newTarget).getClanId() != player.getClanId()))
-							{
+							L2PcInstance playerTarget = (L2PcInstance) newTarget;
+							
+							if(playerTarget.isDead() && targetType != SkillTargetType.TARGET_CORPSE_ALLY){
+								
 								continue;
-							}
-
-							if(player.isInDuel() && (player.getDuelId() != ((L2PcInstance) newTarget).getDuelId() || player.getParty() != null && !player.getParty().getPartyMembers().contains(newTarget)))
-							{
-								continue;
+								
 							}
 							
+							//if ally is different --> clan is different too, so --> continue
+							if(player.getAllyId() != 0){
+								
+								if(playerTarget.getAllyId() != player.getAllyId())
+									continue;
+								
+							}else{ //check if clan is not the same --> continue
+								
+								if(player.getClanId() != playerTarget.getClanId())
+									continue;
+								
+							}
 							
 							//check for Events
-							if(src!= null)
-								if(newTarget instanceof L2PcInstance){
+							if(src!= null){
+								
+								if(playerTarget == src)
+								{
+									continue;
+								}
+								
+								//if src is in event and trg not OR viceversa:
+								//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
+								if( ((src._inEvent 
+										|| src._inEventCTF
+										|| src._inEventDM 
+										|| src._inEventTvT 
+										|| src._inEventVIP) 
+										&& (!playerTarget._inEvent 
+												&& !playerTarget._inEventCTF 
+												&& !playerTarget._inEventDM 
+												&& !playerTarget._inEventTvT 
+												&& !playerTarget._inEventVIP)) 
+												|| ((playerTarget._inEvent 
+														|| playerTarget._inEventCTF 
+														|| playerTarget._inEventDM 
+														|| playerTarget._inEventTvT
+														|| playerTarget._inEventVIP) 
+														&& (!src._inEvent
+																&& !src._inEventCTF 
+																&& !src._inEventDM 
+																&& !src._inEventTvT
+																&& !src._inEventVIP))  ){
+									continue;
+								}
+								
+							}
+							
+							/* The target_ally or target_corpse_ally have to work indipendent on duel/party status
+							if(player.isInDuel() 
+									&& (player.getDuelId() != ((L2PcInstance) newTarget).getDuelId() 
+									|| player.getParty() != null 
+									&& !player.getParty().getPartyMembers().contains(newTarget)))
+							{
+								continue;
+							}
+							*/
+							
+							
+							
 									
-									L2PcInstance trg = (L2PcInstance) newTarget;
-									if(trg == src)
-									{
-										continue;
-									}
-									
-									//if src is in event and trg not OR viceversa:
-									//to be fixed for mixed events status (in TvT joining phase, someone can attack a partecipating CTF player with area attack) 
-									if( ((src._inEvent || src._inEventCTF || src._inEventDM || src._inEventTvT || src._inEventVIP) && (!trg._inEvent && !trg._inEventCTF && !trg._inEventDM && !trg._inEventTvT && !trg._inEventVIP)) || ((trg._inEvent || trg._inEventCTF || trg._inEventDM || trg._inEventTvT || trg._inEventVIP) && (!src._inEvent && !src._inEventCTF && !src._inEventDM && !src._inEventTvT && !src._inEventVIP))  ){
-										continue;
-									}
-									
-								}else if(newTarget instanceof L2Summon){
+								/*}else if(newTarget instanceof L2Summon){
 									
 									L2PcInstance trg = ((L2Summon) newTarget).getOwner();
 									if(trg == src)
@@ -2253,6 +2296,7 @@ public abstract class L2Skill
 									}
 									
 								}
+								*/
 
 							L2Summon pet = ((L2PcInstance) newTarget).getPet();
 							if(pet != null && Util.checkIfInRange(radius, activeChar, pet, true) && !onlyFirst && (targetType == SkillTargetType.TARGET_CORPSE_ALLY && pet.isDead() || targetType == SkillTargetType.TARGET_ALLY && !pet.isDead()) && player.checkPvpSkill(newTarget, this))
@@ -2312,14 +2356,14 @@ public abstract class L2Skill
 					L2PcInstance player = (L2PcInstance) activeChar;
 					L2Clan clan = player.getClan();
 
-					if(player.isInOlympiadMode())
-						return new L2Character[]
-						{
-							player
-						};
-
 					if(targetType != SkillTargetType.TARGET_CORPSE_CLAN)
 					{
+						if(player.isInOlympiadMode())
+							return new L2Character[]
+							{
+								player
+							};
+						
 						if(onlyFirst == false)
 						{
 							targetList.add(player);

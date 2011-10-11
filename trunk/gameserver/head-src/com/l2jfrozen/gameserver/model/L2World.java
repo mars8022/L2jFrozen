@@ -642,7 +642,8 @@ public final class L2World
 	{
 		if(object == null)
 			return null;
-		L2WorldRegion reg = object.getWorldRegion();
+		
+		final L2WorldRegion reg = object.getWorldRegion();
 
 		if(reg == null)
 			return null;
@@ -654,7 +655,7 @@ public final class L2World
 		FastList<L2WorldRegion> regions = reg.getSurroundingRegions();
 
 		// Go through the FastList of region
-		for(int i = 0; i < regions.size(); i++)
+		for(int i = 0; regions!=null && i < regions.size(); i++)
 		{
 			// Go through visible objects of the selected region
 			L2ObjectSet<L2Object> actual_objectSet = null;
@@ -683,7 +684,6 @@ public final class L2World
 				}
 		}
 
-		reg = null;
 		regions = null;
 
 		return result;
@@ -706,11 +706,16 @@ public final class L2World
 	 * @param object L2object that determine the center of the circular area
 	 * @param radius Radius of the circular area
 	 */
-	public FastList<L2Object> getVisibleObjects(L2Object object, int radius)
+	public FastList<L2Object> getVisibleObjects(final L2Object object, int radius)
 	{
-		if(object == null || !object.isVisible() || object.getWorldRegion() == null)
+		if(object == null || !object.isVisible())
 			return new FastList<L2Object>();
 
+		final L2WorldRegion region = object.getWorldRegion();
+		
+		if(region == null)
+			return new FastList<L2Object>();
+		
 		int x = object.getX();
 		int y = object.getY();
 		int sqRadius = radius * radius;
@@ -719,10 +724,10 @@ public final class L2World
 		FastList<L2Object> result = new FastList<L2Object>();
 
 		// Create an FastList containing all regions around the current region
-		FastList<L2WorldRegion> regions = object.getWorldRegion().getSurroundingRegions();
+		FastList<L2WorldRegion> regions = region.getSurroundingRegions();
 
 		// Go through the FastList of region
-		for(int i = 0; i < regions.size(); i++)
+		for(int i = 0;regions!=null && i < regions.size(); i++)
 		{
 			// Go through visible objects of the selected region
 			for(L2Object _object : regions.get(i).getVisibleObjects())

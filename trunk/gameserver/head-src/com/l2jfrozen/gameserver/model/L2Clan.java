@@ -73,7 +73,7 @@ public class L2Clan
 	private Map<String, L2ClanMember> _members = new FastMap<String, L2ClanMember>();
 
 	private String _allyName;
-	private int _allyId;
+	private int _allyId = 0;
 	private int _level;
 	private int _hasCastle;
 	private int _hasFort;

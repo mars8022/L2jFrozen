@@ -653,9 +653,11 @@ abstract class AbstractAI implements Ctrl
 	protected void clientStopMoving(L2CharPosition pos)
 	{
 		/*
-		 if (Config.DEBUG)
-		 _log.warning("clientStopMoving();");
-		 */
+		if (true && _actor instanceof L2PcInstance){
+			_log.warning("clientStopMoving();");
+			Thread.dumpStack();
+		}
+		*/
 
 		// Stop movement of the L2Character
 		if(_actor.isMoving())
