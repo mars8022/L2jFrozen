@@ -111,9 +111,11 @@ public class Pdam implements ISkillHandler
 			else if(target.isAlikeDead())
 				continue;
 			
+			/*
 			if(target.isInvul()){
 				continue;
 			}
+			*/
 
 			// Calculate skill evasion
 			//Formulas.getInstance();
@@ -166,41 +168,44 @@ public class Pdam implements ISkillHandler
 					activeChar.sendPacket(smsg);
 				}
 
-				if(skill.hasEffects())
-				{
-					if(target.reflectSkill(skill))
+				if(!target.isInvul()){
+					
+					if(skill.hasEffects())
 					{
-						activeChar.stopSkillEffects(skill.getId());
-						
-						skill.getEffects(null, activeChar,ss,sps,bss);
-						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
-						sm.addSkillName(skill.getId());
-						activeChar.sendPacket(sm);
-						sm = null;
-					}
-					else
-					{
-						// activate attacked effects, if any
-						target.stopSkillEffects(skill.getId());
-						if(f.calcSkillSuccess(activeChar, target, skill, soul, false, false))
+						if(target.reflectSkill(skill))
 						{
-							skill.getEffects(activeChar, target,ss,sps,bss);
+							activeChar.stopSkillEffects(skill.getId());
+							
+							skill.getEffects(null, activeChar,ss,sps,bss);
 							SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 							sm.addSkillName(skill.getId());
-							target.sendPacket(sm);
+							activeChar.sendPacket(sm);
 							sm = null;
 						}
 						else
 						{
-							SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
-							sm.addString(target.getName());
-							sm.addSkillName(skill.getDisplayId());
-							activeChar.sendPacket(sm);
-							sm = null;
+							// activate attacked effects, if any
+							target.stopSkillEffects(skill.getId());
+							if(f.calcSkillSuccess(activeChar, target, skill, soul, false, false))
+							{
+								skill.getEffects(activeChar, target,ss,sps,bss);
+								SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
+								sm.addSkillName(skill.getId());
+								target.sendPacket(sm);
+								sm = null;
+							}
+							else
+							{
+								SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
+								sm.addString(target.getName());
+								sm.addSkillName(skill.getDisplayId());
+								activeChar.sendPacket(sm);
+								sm = null;
+							}
 						}
 					}
 				}
-
+				
 				// Success of lethal effect
 				int chance = Rnd.get(100);
 				if(target!=activeChar && !target.isRaid() && chance < skill.getLethalChance1() && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
@@ -288,7 +293,9 @@ public class Pdam implements ISkillHandler
 					else
 					{
 						//only players can reduce CPs each other
-						if(activeChar instanceof L2PcInstance && target instanceof L2PcInstance)
+						if(activeChar instanceof L2PcInstance 
+								&& target instanceof L2PcInstance
+								&& !target.isInvul())
 						{
 							L2PcInstance player = (L2PcInstance) target;
 							
@@ -385,7 +392,7 @@ public class Pdam implements ISkillHandler
 			
 		}
 
-		if(skill.isSuicideAttack())
+		if(skill.isSuicideAttack() && !activeChar.isInvul())
 		{
 			activeChar.doDie(null);
 			activeChar.setCurrentHp(0);

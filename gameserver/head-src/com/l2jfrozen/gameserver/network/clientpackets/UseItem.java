@@ -409,20 +409,20 @@ public final class UseItem extends L2GameClientPacket
 			L2ItemInstance[] items = null;
 			boolean isEquiped = item.isEquipped();
 			SystemMessage sm = null;
-			L2ItemInstance old = activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND);
-			if(old == null)
-			{
-				old = activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			
+			if(item.getItem().getType2() == L2Item.TYPE2_WEAPON){ //if used item is a weapon
+				
+				L2ItemInstance wep = activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND);
+				if(wep == null)
+				{
+					wep = activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+				}
+
+				activeChar.checkSSMatch(item, wep);
+				
 			}
-
-			activeChar.checkSSMatch(item, old);
-
-			if(old != null && old.isAugmented())
-			{
-				old.getAugmentation().removeBoni(activeChar);
-			}
-
-			if(isEquiped)
+			
+			if(isEquiped) //remove it
 			{
 				if(item.getEnchantLevel() > 0)
 				{

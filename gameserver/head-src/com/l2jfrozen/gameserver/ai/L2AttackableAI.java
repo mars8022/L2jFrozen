@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ChestInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2FestivalMonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance;
@@ -538,7 +539,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 			}
 		}
 		// Order to the L2MonsterInstance to random walk (1/100)
-		else if(npc.getSpawn() != null && Rnd.nextInt(RANDOM_WALK_RATE) == 0)
+		else if(!(npc instanceof L2ChestInstance) && npc.getSpawn() != null && Rnd.nextInt(RANDOM_WALK_RATE) == 0)
 		{
 			int x1, y1, z1;
 
@@ -959,12 +960,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 
 						L2Object OldTarget = _actor.getTarget();
 
-						L2CharPosition pos = new L2CharPosition(_actor);
-						clientStopMoving(pos);
-						if(_inRange && hated instanceof L2PcInstance){
-							L2CharPosition posHated = new L2CharPosition(hated);
-							((L2PcInstance)hated).getAI().clientStopMoving(posHated);
-						}
+						clientStopMoving(null);
 						
 						_accessor.doCast(sk);
 						_actor.setTarget(OldTarget);

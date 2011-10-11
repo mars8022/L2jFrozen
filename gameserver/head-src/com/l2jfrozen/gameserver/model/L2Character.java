@@ -84,6 +84,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.CharKnownList;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
+import com.l2jfrozen.gameserver.model.actor.position.ObjectPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.CharStat;
 import com.l2jfrozen.gameserver.model.actor.status.CharStatus;
 import com.l2jfrozen.gameserver.model.entity.Duel;
@@ -329,14 +330,11 @@ public abstract class L2Character extends L2Object
 				}
 			}
 			
-			if(Config.NPC_ATTACKABLE){
+			if(!Config.NPC_ATTACKABLE || !(this instanceof L2Attackable) && !(this instanceof L2ControlTowerInstance) && !(this instanceof L2SiegeFlagInstance) && !(this instanceof L2EffectPointInstance)){
 				
-				if(Config.INVUL_NPC_LIST.contains(((L2NpcTemplate)_template).getNpcId())){
-					setIsInvul(true);
-				}
-				
-			}else
 				setIsInvul(true);
+				
+			}
 			
 		}
 		else //not L2NpcInstance
@@ -403,8 +401,11 @@ public abstract class L2Character extends L2Object
 	{
 		if(!isTeleporting())
 			return;
+		
+		final ObjectPosition pos = getPosition();
 
-		spawnMe(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		if(pos!=null)
+			spawnMe(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 
 		setIsTeleporting(false);
 
@@ -412,13 +413,15 @@ public abstract class L2Character extends L2Object
 		{
 			doRevive();
 		}
+		
+		final L2Summon pet = getPet();
 
 		// Modify the position of the pet if necessary
-		if(getPet() != null)
+		if(pet != null && pos!=null)
 		{
-			getPet().setFollowStatus(false);
-			getPet().teleToLocation(getPosition().getX() + Rnd.get(-100, 100), getPosition().getY() + Rnd.get(-100, 100), getPosition().getZ(), false);
-			getPet().setFollowStatus(true);
+			pet.setFollowStatus(false);
+			pet.teleToLocation(pos.getX() + Rnd.get(-100, 100), pos.getY() + Rnd.get(-100, 100), pos.getZ(), false);
+			pet.setFollowStatus(true);
 		}
 
 	}
@@ -5750,7 +5753,7 @@ public abstract class L2Character extends L2Object
 
 		m.onGeodataPathIndex = -1; // Initialize not on geodata path
 		m.disregardingGeodata = false;
-		//Р»РµС‚Р°СЋС‰РёРµ РѕР±СЊРµРєС‚С‹ РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РїСЂРѕРІРµСЂРµРЅС‹, С‚Р°Рє Р¶Рµ РїР»Р°РІР°СЋС‰РёРµ, РѕР±СЊРµРєС‚С‹ РЅР° РѕСЃР°РґРµ (СЃР»РёС€РєРѕРј Р±РѕР»СЊС€Р°СЏ РґРёСЃС‚Р°РЅС†РёСЏ) Рё С…РѕРґСЏС‰РёРµ РќРџР¦
+		
 		if(Config.GEODATA > 0 && !isFlying() && (!isInsideZone(ZONE_WATER) || isInsideZone(ZONE_SIEGE)) && !(this instanceof L2NpcWalkerInstance))
 		{
 			double originalDistance = distance;
@@ -6818,7 +6821,6 @@ public abstract class L2Character extends L2Object
 
 			if(this instanceof L2PcInstance)
 			{
-				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 				sendPacket(ActionFailed.STATIC_PACKET);
 
 				// Send a system message

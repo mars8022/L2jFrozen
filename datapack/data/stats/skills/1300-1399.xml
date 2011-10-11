@@ -1973,7 +1973,7 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="10000"/>
   <set name="skillType" val="CREATE_ITEM"/>
-  <set name="reuseDelay" val="18000"/>
+  <set name="reuseDelay" val="1200000"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="-1"/>
   <set name="itemConsumeId" val="3031"/>

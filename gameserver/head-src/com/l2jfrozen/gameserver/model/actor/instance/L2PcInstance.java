@@ -155,6 +155,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
@@ -916,7 +917,6 @@ public final class L2PcInstance extends L2PlayableInstance
 
 	public final ReentrantLock soulShotLock = new ReentrantLock();
 
-	/** С‚РµРєСѓС‰РёР№ РґРёР°Р»РѕРі */
 	public Quest dialog = null;
 
 	/** new loto ticket **/
@@ -7320,7 +7320,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	/**
 	 * Return the L2Summon of the L2PcInstance or null.<BR>
 	 * <BR>
-	 * P.S: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.<br>
 	 */
 	@Override
 	public L2Summon getPet()
@@ -12917,6 +12916,8 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		broadcastPacket(new SocialAction(getObjectId(), 15));
 
+		if (getClan() != null) 
+			getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(this));
 		//decayMe();
 		//spawnMe(getX(), getY(), getZ());
 
@@ -12932,7 +12933,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getClan() != null) 
 			getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(this)); 
 	}	
-
+	
 	public void stopWarnUserTakeBreak()
 	{
 		if(_taskWarnUserTakeBreak != null)

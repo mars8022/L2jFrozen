@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutRegister;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
@@ -188,6 +189,9 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 		}
 		trainer.showEnchantSkillList(player, player.getClassId());
 
+		player.sendPacket(new UserInfo(player));
+		player.sendSkillList();
+		
 		// update all the shortcuts to this skill
 		L2ShortCut[] allShortCuts = player.getAllShortCuts();
 
