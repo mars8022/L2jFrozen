@@ -66,29 +66,33 @@ final class EffectCancel extends L2Effect
 				{
 					if(e.getSkill().getSkillType() == SkillType.BUFF)
 					{
-						int rate = 100;
-						int level = e.getLevel();
-						if(level > 0)
-						{
-							rate = Integer.valueOf(150 / (1 + level));
-						}
-
-						if(rate > 95)
-						{
-							rate = 95;
-						}
-						else if(rate < 5)
-						{
-							rate = 5;
-						}
-
-						if(Rnd.get(100) < rate)
-						{
-							e.exit(true);
-							maxdisp--;
-							if(maxdisp == 0)
+						// TODO Fix cancel debuffs
+						if(e.getSkill().getSkillType() != SkillType.DEBUFF) {
+							
+							int rate = 100;
+							int level = e.getLevel();
+							if(level > 0)
 							{
-								break;
+								rate = Integer.valueOf(150 / (1 + level));
+							}
+	
+							if(rate > 95)
+							{
+								rate = 95;
+							}
+							else if(rate < 5)
+							{
+								rate = 5;
+							}
+	
+							if(Rnd.get(100) < rate)
+							{
+								e.exit(true);
+								maxdisp--;
+								if(maxdisp == 0)
+								{
+									break;
+								}
 							}
 						}
 					}
@@ -122,3 +126,4 @@ final class EffectCancel extends L2Effect
 		return false;
 	}
 }
+ 

@@ -155,7 +155,6 @@ import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
@@ -9119,8 +9118,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			/////
 			statement.setInt(57, getPcBangScore());
 			
-			statement.setString(58, StringToHex(Integer.toHexString(getAccessLevel().getNameColor()).toUpperCase()));
-			statement.setString(59, StringToHex(Integer.toHexString(getAccessLevel().getTitleColor()).toUpperCase()));
+			statement.setString(58, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
+			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
 
 	        statement.setInt(60, isAio() ? 1 : 0);
 	        statement.setLong(61, getAioEndTime());
@@ -11432,7 +11431,7 @@ public final class L2PcInstance extends L2PlayableInstance
 						}
 
 						text = text.replace("%Word"+i+"%", output);
-						if(i == 3)
+						if(i == _correctWord)
 						{
 							text = text.replace("%Word%", output);
 						}
