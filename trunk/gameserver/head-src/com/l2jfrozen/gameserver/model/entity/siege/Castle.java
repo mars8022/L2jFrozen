@@ -474,7 +474,7 @@ public class Castle
 		for(int i = 0; i < getDoors().size(); i++)
 		{
 			L2DoorInstance door = getDoors().get(i);
-			if(door.getCurrentHp() <= 0)
+			if(door.getCurrentHp() >= 0)
 			{
 				door.decayMe(); // Kill current if not killed already
 				door = DoorTable.parseList(_doorDefault.get(i));
@@ -482,6 +482,9 @@ public class Castle
 				if(isDoorWeak)
 				{
 					door.setCurrentHp(door.getMaxHp() / 2);
+				}
+				else {
+					door.setCurrentHp(door.getMaxHp());
 				}
 
 				door.spawnMe(door.getX(), door.getY(), door.getZ());

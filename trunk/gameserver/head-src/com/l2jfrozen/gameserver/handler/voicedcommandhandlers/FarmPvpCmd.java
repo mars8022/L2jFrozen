@@ -81,7 +81,7 @@ public class FarmPvpCmd implements IVoicedCommandHandler
 			activeChar.sendMessage("Sorry,you are in the Olympiad now.");
 			return false;
 		}
-		else if(activeChar.atEvent)
+		else if(activeChar.isInFunEvent())
 		{
 			activeChar.sendMessage("Sorry,you are in an event.");
 			return false;

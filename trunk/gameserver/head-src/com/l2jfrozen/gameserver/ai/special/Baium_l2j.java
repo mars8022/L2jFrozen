@@ -142,7 +142,8 @@ public class Baium_l2j  extends Quest implements Runnable
 			{
 				// the time has already expired while the server was offline.  Delete the saved time and
 				// immediately spawn the stone-baium.  Also the state need not be changed from ASLEEP
-				addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0);
+				addSpawn(STONE_BAIUM, 116033, 17447, 10104, 40188, false, 0);
+				
 				if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
@@ -187,7 +188,7 @@ public class Baium_l2j  extends Quest implements Runnable
 		}
 		else
 		{
-			addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0);
+			addSpawn(STONE_BAIUM, 116033, 17447, 10104, 40188, false, 0);
 			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 			{
 				Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
@@ -201,7 +202,7 @@ public class Baium_l2j  extends Quest implements Runnable
 		if (event.equalsIgnoreCase("baium_unlock"))
 		{
 			GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, ASLEEP);
-			addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0);
+			addSpawn(STONE_BAIUM, 116033, 17447, 10104, 40188, false, 0);
 			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 			{
 				Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
@@ -281,7 +282,7 @@ public class Baium_l2j  extends Quest implements Runnable
 							minion.deleteMe();
 						}
 					_Minions.clear();
-					addSpawn(STONE_BAIUM, 116040, 17455, 10078, 41740, false, 0); // spawn stone-baium
+					addSpawn(STONE_BAIUM, 116033, 17447, 10104, 40188, false, 0); // spawn stone-baium
 					GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, ASLEEP); // mark that Baium is not awake any more
 					_Zone.oustAllPlayers();
 					cancelQuestTimer("baium_despawn", npc, null);
