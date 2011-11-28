@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
@@ -174,8 +175,7 @@ public class Baium_l2j  extends Quest implements Runnable
 					{
 						_baium.setCurrentHpMp(hp,mp);
 						_baium.setIsInvul(true);
-						_baium.setIsImobilised(true);
-						_baium.setRunning();
+						//_baium.setIsImobilised(true);
 						_baium.broadcastPacket(new SocialAction(_baium.getObjectId(),2));
 						startQuestTimer("baium_wakeup",15000, _baium, null);
 					}
@@ -232,6 +232,8 @@ public class Baium_l2j  extends Quest implements Runnable
 					player.reduceCurrentHp(99999999, player);
 				}
 				
+				npc.setRunning();
+				
 				startQuestTimer("skill_range", 500, npc, null, true);
 				final L2NpcInstance baium = npc;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
@@ -241,9 +243,11 @@ public class Baium_l2j  extends Quest implements Runnable
 						try
 						{
 							baium.setIsInvul(false);
-							baium.setIsImobilised(false);
+							//baium.setIsImobilised(false);
 							//for (L2NpcInstance minion : _Minions)
 							//	minion.setShowSummonAnimation(false);
+							baium.getAttackByList().addAll(_Zone.getCharactersInside().values());
+							
 						}
 						catch (Exception e)
 						{
@@ -255,9 +259,11 @@ public class Baium_l2j  extends Quest implements Runnable
 				// lose massive amounts of HP.
 				for (int i = 0; i < ANGEL_LOCATION.length; i++)
 				{
-					L2NpcInstance angel = addSpawn(ARCHANGEL, ANGEL_LOCATION[i][0], ANGEL_LOCATION[i][1], ANGEL_LOCATION[i][2], ANGEL_LOCATION[i][3], false, 0);
-					angel.setIsInvul(true);
+					L2MonsterInstance angel = (L2MonsterInstance) addSpawn(ARCHANGEL, ANGEL_LOCATION[i][0], ANGEL_LOCATION[i][1], ANGEL_LOCATION[i][2], ANGEL_LOCATION[i][3], false, 0);
+					angel.getAttackByList().addAll(_Zone.getCharactersInside().values());
+					//angel.setIsInvul(true);
 					_Minions.add(angel);
+					
 				}
 			}
 			// despawn the live baium after 30 minutes of inactivity

@@ -444,6 +444,7 @@ public class GameServer
 		if(!Config.ALT_DEV_NO_QUESTS)
 		{
 			QuestManager.getInstance();
+			QuestManager.getInstance().report();
 		}
 		else
 			_log.info("Quest: disable load.");
@@ -459,45 +460,44 @@ public class GameServer
 		}
 		
 		Util.printSection("Scripts");
-		try
-		{
-			File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
-			L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
-		}
-		catch(IOException ioe)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				ioe.printStackTrace();
-			
-			_log.info("Failed loading scripts.cfg, no script going to be loaded");
-		}
-		try
-		{
-			CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
-			if(compiledScriptCache == null)
-				_log.info("Compiled Scripts Cache is disabled.");
-			else
-			{
-				compiledScriptCache.purge();
-				if(compiledScriptCache.isModified())
-				{
-					compiledScriptCache.save();
-					_log.info("Compiled Scripts Cache was saved.");
-				}
-				else
-					_log.info("Compiled Scripts Cache is up-to-date.");
-			}
-		}
-		catch(IOException e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.info("Failed to store Compiled Scripts Cache." + e);
-		}
-		QuestManager.getInstance().report();
 		if(!Config.ALT_DEV_NO_SCRIPT)
 		{
+			try
+			{
+				File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
+				L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
+			}
+			catch(IOException ioe)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					ioe.printStackTrace();
+				
+				_log.info("Failed loading scripts.cfg, no script going to be loaded");
+			}
+			try
+			{
+				CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
+				if(compiledScriptCache == null)
+					_log.info("Compiled Scripts Cache is disabled.");
+				else
+				{
+					compiledScriptCache.purge();
+					if(compiledScriptCache.isModified())
+					{
+						compiledScriptCache.save();
+						_log.info("Compiled Scripts Cache was saved.");
+					}
+					else
+						_log.info("Compiled Scripts Cache is up-to-date.");
+				}
+			}
+			catch(IOException e)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
+				_log.info("Failed to store Compiled Scripts Cache." + e);
+			}
 			FaenorScriptEngine.getInstance();
 		}
 		else

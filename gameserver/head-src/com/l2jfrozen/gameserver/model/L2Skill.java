@@ -506,6 +506,8 @@ public abstract class L2Skill
 	private final int _minChance;
 	private final int _maxChance;
 	
+	private final boolean _singleEffect;
+	
 	protected L2Skill(StatsSet set)
 	{
 		_id = set.getInteger("skill_id",0);
@@ -661,9 +663,21 @@ public abstract class L2Skill
 		}
 
 		teachers = null;
+		
+		_singleEffect = set.getBool("singleEffect", false);
+		
 	}
 
 	public abstract void useSkill(L2Character caster, L2Object[] targets);
+
+	
+	/**
+	 * @return the _singleEffect
+	 */
+	public boolean is_singleEffect()
+	{
+		return _singleEffect;
+	}
 
 	/**
 	 * Return true if character should attack target after skill
@@ -1768,6 +1782,12 @@ public abstract class L2Skill
 					{
 						continue;
 					}
+					
+					if(!src.checkPvpSkill(obj, this))
+					{
+						continue;
+					}
+
 					target = (L2Character) obj;
 
 					if(!GeoData.getInstance().canSeeTarget(activeChar, target))

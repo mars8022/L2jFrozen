@@ -668,7 +668,8 @@ public class Shutdown extends Thread
 		CastleManorManager.getInstance().save();
 
 		// Save all global (non-player specific) Quest data that needs to persist after reboot
-		QuestManager.getInstance().save();
+		if(!Config.ALT_DEV_NO_QUESTS)
+			QuestManager.getInstance().save();
 
 		CharSchemesTable.getInstance().onServerShutdown();
 		

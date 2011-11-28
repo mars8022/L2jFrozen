@@ -5498,9 +5498,6 @@ public abstract class L2Character extends L2Object
 		//MAJAX fix
 		//broadcastPacket(new ValidateLocation(this));
 		
-		FinishRotation fr = new FinishRotation(this);
-		broadcastPacket(fr);
-
 		if(updateKnownObjects)
 		{
 			ThreadPoolManager.getInstance().executeTask(new KnownListAsynchronousUpdateTask(this));
@@ -7168,7 +7165,7 @@ public abstract class L2Character extends L2Object
 		{
 			// Replace oldSkill by newSkill or Add the newSkill
 			oldSkill = _skills.put(newSkill.getId(), newSkill);
-
+			
 			// If an old skill has been replaced, remove all its Func objects
 			if(oldSkill != null)
 			{
@@ -7178,11 +7175,20 @@ public abstract class L2Character extends L2Object
 					removeSkill(oldSkill.getTriggeredId(), true);
 				}
 				removeStatsOwner(oldSkill);
+				
+				final Func[] skill_funcs = oldSkill.getStatFuncs(null, this);
+				
+				// Remove old func if single effect skill is defined
+				if(newSkill.is_singleEffect()
+						&& skill_funcs.length>0)
+					removeStatFuncs(skill_funcs);
+					
 			}
 
+			
 			// Add Func objects of newSkill to the calculator set of the L2Character
 			addStatFuncs(newSkill.getStatFuncs(null, this));
-
+				
 			if(oldSkill != null && _chanceSkills != null)
 			{
 				removeChanceSkill(oldSkill.getId());

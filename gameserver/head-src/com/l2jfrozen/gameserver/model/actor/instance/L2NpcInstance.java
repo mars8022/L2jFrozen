@@ -1813,7 +1813,9 @@ public class L2NpcInstance extends L2Character
 	{
 		String content = null;
 
-		Quest q = QuestManager.getInstance().getQuest(questId);
+		Quest q = null;
+		if(!Config.ALT_DEV_NO_QUESTS)
+			q = QuestManager.getInstance().getQuest(questId);
 
 		// Get the state of the selected quest
 		QuestState qs = player.getQuestState(questId);

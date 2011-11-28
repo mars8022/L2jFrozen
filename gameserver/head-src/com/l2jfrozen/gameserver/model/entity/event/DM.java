@@ -670,11 +670,12 @@ public class DM implements EventTask
 			
 		}else{
 			
-			if(!checkMinPlayers(_players.size()))
+			final int size = getPlayers().size();
+			if(!checkMinPlayers(size))
 			{
-				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
 				if(Config.DM_STATS_LOGGER)
-					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
 				
 				return false;
 			}
@@ -692,56 +693,53 @@ public class DM implements EventTask
 				sit();
 				afterTeleportOperations();
 
-				synchronized (_players){
-					
-					for(L2PcInstance player : _players)
+				final Vector<L2PcInstance> players = getPlayers();
+				for(final L2PcInstance player : players)
+				{
+					if(player != null)
 					{
-						if(player != null)
+						if(Config.DM_ON_START_UNSUMMON_PET)
 						{
-							if(Config.DM_ON_START_UNSUMMON_PET)
+							// Remove Summon's buffs
+							if(player.getPet() != null)
 							{
-								// Remove Summon's buffs
-								if(player.getPet() != null)
-								{
-									L2Summon summon = player.getPet();
-									for(L2Effect e : summon.getAllEffects())
-										if(e != null)
-											e.exit(true);
-
-									if(summon instanceof L2PetInstance)
-										summon.unSummon(player);
-								}
-							}
-
-							if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
-							{
-								for(L2Effect e : player.getAllEffects())
-								{
+								L2Summon summon = player.getPet();
+								for(L2Effect e : summon.getAllEffects())
 									if(e != null)
 										e.exit(true);
-								}
-							}
 
-							// Remove player from his party
-							if(player.getParty() != null)
-							{
-								L2Party party = player.getParty();
-								party.removePartyMember(player);
-							}
-							
-							//player._originalTitleDM = player.getTitle();
-							//player.setTitle("Kills: " + player._countDMkills);
-							
-							if(_teamEvent){
-								//player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
-								
-							}else{
-								int offset = Config.DM_SPAWN_OFFSET;
-								player.teleToLocation(_playerX+Rnd.get(offset), _playerY+Rnd.get(offset), _playerZ);
+								if(summon instanceof L2PetInstance)
+									summon.unSummon(player);
 							}
 						}
+
+						if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
+						{
+							for(L2Effect e : player.getAllEffects())
+							{
+								if(e != null)
+									e.exit(true);
+							}
+						}
+
+						// Remove player from his party
+						if(player.getParty() != null)
+						{
+							L2Party party = player.getParty();
+							party.removePartyMember(player);
+						}
+						
+						//player._originalTitleDM = player.getTitle();
+						//player.setTitle("Kills: " + player._countDMkills);
+						
+						if(_teamEvent){
+							//player.teleToLocation(_teamsX.get(_teams.indexOf(player._teamNameCTF)), _teamsY.get(_teams.indexOf(player._teamNameCTF)), _teamsZ.get(_teams.indexOf(player._teamNameCTF)));
+							
+						}else{
+							int offset = Config.DM_SPAWN_OFFSET;
+							player.teleToLocation(_playerX+Rnd.get(offset), _playerY+Rnd.get(offset), _playerZ);
+						}
 					}
-					
 				}
 				
 			}
@@ -777,14 +775,14 @@ public class DM implements EventTask
 	}
 
 	private static void removeParties(){
-		synchronized(_players){
-			for(L2PcInstance player : _players)
+		
+		final Vector<L2PcInstance> players = getPlayers();
+		for(final L2PcInstance player : players)
+		{
+			if(player.getParty() != null)
 			{
-				if(player.getParty() != null)
-				{
-					L2Party party = player.getParty();
-					party.removePartyMember(player);
-				}
+				L2Party party = player.getParty();
+				party.removePartyMember(player);
 			}
 		}
 	}
@@ -916,45 +914,42 @@ public class DM implements EventTask
 		{
 			public void run()
 			{
-				synchronized (_players){
-					
-					for(L2PcInstance player : _players)
+				final Vector<L2PcInstance> players = getPlayers();
+				for(final L2PcInstance player : players)
+				{
+					if(player != null)
 					{
-						if(player != null)
+						if(player.isOnline() != 0)
+							player.teleToLocation(_npcX, _npcY, _npcZ, false);
+						else
 						{
-							if(player.isOnline() != 0)
-								player.teleToLocation(_npcX, _npcY, _npcZ, false);
-							else
+							java.sql.Connection con = null;
+							try
 							{
-								java.sql.Connection con = null;
-								try
-								{
-									con = L2DatabaseFactory.getInstance().getConnection(false);
+								con = L2DatabaseFactory.getInstance().getConnection(false);
 
-									PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
-									statement.setInt(1, _npcX);
-									statement.setInt(2, _npcY);
-									statement.setInt(3, _npcZ);
-									statement.setString(4, player.getName());
-									statement.execute();
-									statement.close();
-								}
-								catch(Exception e)
-								{
-									if(Config.ENABLE_ALL_EXCEPTIONS)
-										e.printStackTrace();
-									
-									_log.log(Level.SEVERE, e.getMessage(), e);
-								}
-								finally
-								{
-									CloseUtil.close(con);
-									con = null;
-								}
+								PreparedStatement statement = con.prepareStatement("UPDATE characters SET x=?, y=?, z=? WHERE char_name=?");
+								statement.setInt(1, _npcX);
+								statement.setInt(2, _npcY);
+								statement.setInt(3, _npcZ);
+								statement.setString(4, player.getName());
+								statement.execute();
+								statement.close();
+							}
+							catch(Exception e)
+							{
+								if(Config.ENABLE_ALL_EXCEPTIONS)
+									e.printStackTrace();
+								
+								_log.log(Level.SEVERE, e.getMessage(), e);
+							}
+							finally
+							{
+								CloseUtil.close(con);
+								con = null;
 							}
 						}
 					}
-					
 				}
 				cleanDM();
 			}
@@ -1135,25 +1130,25 @@ public class DM implements EventTask
 		else
 			_sitForced = true;
 
-		synchronized (_players){
-			for(L2PcInstance player : _players)
+		final Vector<L2PcInstance> players = getPlayers();
+		
+		for(final L2PcInstance player : players)
+		{
+			if(player != null)
 			{
-				if(player != null)
+				if(_sitForced)
 				{
-					if(_sitForced)
-					{
-						player.stopMove(null, false);
-						player.abortAttack();
-						player.abortCast();
+					player.stopMove(null, false);
+					player.abortAttack();
+					player.abortCast();
 
-						if(!player.isSitting())
-							player.sitDown();
-					}
-					else
-					{
-						if(player.isSitting())
-							player.standUp();
-					}
+					if(!player.isSitting())
+						player.sitDown();
+				}
+				else
+				{
+					if(player.isSitting())
+						player.standUp();
 				}
 			}
 		}
@@ -1164,23 +1159,22 @@ public class DM implements EventTask
 	{
 		try
 		{
-			synchronized (_players){
-				if(_players == null || _players.isEmpty())
-					return;
-				else if(_players.size() > 0)
+			final Vector<L2PcInstance> players = getPlayers();
+			
+			if(players == null || players.isEmpty())
+				return;
+			else if(players.size() > 0)
+			{
+				for(L2PcInstance player : players)
 				{
-					for(L2PcInstance player : _players)
-					{
-						if(player == null)
-							_players.remove(player);					
-						else if(player.isOnline() == 0 || player.isInJail() || player.isOffline())
-							removePlayer(player);
-						if(_players.size() == 0 || _players.isEmpty())
-							break;
-					}
+					if(player == null)
+						getPlayers().remove(player);					
+					else if(player.isOnline() == 0 || player.isInJail() || player.isOffline())
+						removePlayer(player);
+					if(getPlayers().size() == 0 || getPlayers().isEmpty())
+						break;
 				}
 			}
-			
 		}
 		catch(Exception e)
 		{
@@ -1255,28 +1249,25 @@ public class DM implements EventTask
 			
 		}
 		
-		synchronized (_players){
-			
-			for(L2PcInstance player: _players)
+		final Vector<L2PcInstance> players = getPlayers();
+		for(final L2PcInstance player: players)
+		{
+			if(player.getObjectId()==eventPlayer.getObjectId())
 			{
-				if(player.getObjectId()==eventPlayer.getObjectId())
-				{
-					eventPlayer.sendMessage("You already participated in the event!"); 
-					return false;
-				}
-				else if(player.getName()==eventPlayer.getName())
-				{
-					eventPlayer.sendMessage("You already participated in the event!"); 
-					return false;
-				}
-			}
-
-			if(_players.contains(eventPlayer))
-			{
-				eventPlayer.sendMessage("You already participated in the event!");
+				eventPlayer.sendMessage("You already participated in the event!"); 
 				return false;
 			}
-			
+			else if(player.getName()==eventPlayer.getName())
+			{
+				eventPlayer.sendMessage("You already participated in the event!"); 
+				return false;
+			}
+		}
+
+		if(players.contains(eventPlayer))
+		{
+			eventPlayer.sendMessage("You already participated in the event!");
+			return false;
 		}
 		
 		return true;
@@ -1284,35 +1275,34 @@ public class DM implements EventTask
 	
 	public static void setUserData()
 	{
-		synchronized (_players){
-			for(L2PcInstance player : _players)
-			{
-				player._originalNameColorDM = player.getAppearance().getNameColor();
-				player._originalKarmaDM = player.getKarma();
-				player._originalTitleDM = player.getTitle();
-				player.getAppearance().setNameColor(_playerColors);
-				player.setKarma(0);
-				player.setTitle("Kills: " + player._countDMkills);
-				
-				if(player.isMounted()){
-					
-					if(player.setMountType(0))
-					{
-						if(player.isFlying())
-						{
-							player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
-						}
-
-						Ride dismount = new Ride(player.getObjectId(), Ride.ACTION_DISMOUNT, 0);
-						player.broadcastPacket(dismount);
-						player.setMountObjectID(0);
-					}
-					
-				}
-				player.broadcastUserInfo();
-			}
-		}
+		final Vector<L2PcInstance> players = getPlayers();
 		
+		for(final L2PcInstance player : players)
+		{
+			player._originalNameColorDM = player.getAppearance().getNameColor();
+			player._originalKarmaDM = player.getKarma();
+			player._originalTitleDM = player.getTitle();
+			player.getAppearance().setNameColor(_playerColors);
+			player.setKarma(0);
+			player.setTitle("Kills: " + player._countDMkills);
+			
+			if(player.isMounted()){
+				
+				if(player.setMountType(0))
+				{
+					if(player.isFlying())
+					{
+						player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+					}
+
+					Ride dismount = new Ride(player.getObjectId(), Ride.ACTION_DISMOUNT, 0);
+					player.broadcastPacket(dismount);
+					player.setMountObjectID(0);
+				}
+				
+			}
+			player.broadcastUserInfo();
+		}
 	}
 
 	public static void dumpData()
@@ -1356,16 +1346,15 @@ public class DM implements EventTask
 		System.out.println("# _players(Vector<L2PcInstance>) #");
 		System.out.println("##################################");
 
-		synchronized (_players){
-			System.out.println("Total Players : " + _players.size());
-
-			for(L2PcInstance player : _players)
-			{
-				if(player != null)
-					System.out.println("Name: " + player.getName()+ " kills :" + player._countDMkills);
-			}
-		}
+		final Vector<L2PcInstance> players = getPlayers();
 		
+		System.out.println("Total Players : " + players.size());
+
+		for(final L2PcInstance player : players)
+		{
+			if(player != null)
+				System.out.println("Name: " + player.getName()+ " kills :" + player._countDMkills);
+		}
 
 		System.out.println("");
 		System.out.println("################################");
@@ -1392,10 +1381,8 @@ public class DM implements EventTask
 		_eventDesc = new String();
 		_joiningLocationName = new String();
 		_savePlayers = new Vector<String>();
-		synchronized (_players){
-			_players = new Vector<L2PcInstance>();
-		}
 		
+		 getPlayers().clear();
 		
 		_topPlayers = new ArrayList<L2PcInstance>();
 		_npcSpawn = null;
@@ -1542,58 +1529,57 @@ public class DM implements EventTask
 			replyMSG.append("<center>Description:&nbsp;<font color=\"00FF00\">" + _eventDesc + "</font></center><br><br>");
 			replyMSG.append("<center>Event Type:&nbsp;<font color=\"00FF00\"> Full Buff Event!!! </font></center><br><br>");
 
-			synchronized (_players){
-				
-				if(!_started && !_joining)
-					replyMSG.append("<center>Wait till the admin/gm start the participation.</center>");
-				else if(!checkMaxPlayers(_players.size()))
+			final Vector<L2PcInstance> players = getPlayers();
+			
+			if(!_started && !_joining)
+				replyMSG.append("<center>Wait till the admin/gm start the participation.</center>");
+			else if(!checkMaxPlayers(players.size()))
+			{
+				if(!_started)
 				{
-					if(!_started)
-					{
-						replyMSG.append("Currently participated: <font color=\"00FF00\">" + _players.size() + ".</font><br>");
-						replyMSG.append("Max players: <font color=\"00FF00\">" + _maxPlayers + "</font><br><br>");
-						replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
-					}
-				}
-				else if(eventPlayer.isCursedWeaponEquiped() && !Config.DM_JOIN_CURSED)
-				{
-					replyMSG.append("<font color=\"FFFF00\">You can't participate to this event with a cursed Weapon.</font><br>");
-				}
-				else if(!_started && _joining && eventPlayer.getLevel()>=_minlvl && eventPlayer.getLevel()<=_maxlvl)
-				{
-					if(_players.contains(eventPlayer) )
-					{
-						replyMSG.append("<center><font color=\"3366CC\">You participated already!</font></center><br><br>");
-							
-						replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + _players.size() + "</font></center><br>");
-						replyMSG.append("<table border=\"0\"><tr>");
-						replyMSG.append("<td width=\"200\">Wait till event start or</td>");
-						replyMSG.append("<td width=\"60\"><center><button value=\"remove\" action=\"bypass -h npc_" + objectId + "_dmevent_player_leave\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></td>");
-						replyMSG.append("<td width=\"100\">your participation!</td>");
-						replyMSG.append("</tr></table>");
-					}
-					else
-					{
-						replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + _players.size() + "</font></center><br>");
-						replyMSG.append("<center><font color=\"3366CC\">You want to participate in the event?</font></center><br>");
-						replyMSG.append("<center><td width=\"200\">Min lvl: <font color=\"00FF00\">" + _minlvl + "</font></center></td><br>");
-						replyMSG.append("<center><td width=\"200\">Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font></center></td><br><br>");
-						replyMSG.append("<center><button value=\"Join\" action=\"bypass -h npc_" + objectId + "_dmevent_player_join\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center><br>");
-
-						
-					}
-				}
-				else if(_started && !_joining)
-					replyMSG.append("<center>"+_eventName+" match is in progress.</center>");
-				else if(eventPlayer.getLevel() < _minlvl || eventPlayer.getLevel() > _maxlvl)
-				{
-					replyMSG.append("Your lvl: <font color=\"00FF00\">" + eventPlayer.getLevel() + "</font><br>");
-					replyMSG.append("Min lvl: <font color=\"00FF00\">" + _minlvl + "</font><br>");
-					replyMSG.append("Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font><br><br>");
+					replyMSG.append("Currently participated: <font color=\"00FF00\">" + players.size() + ".</font><br>");
+					replyMSG.append("Max players: <font color=\"00FF00\">" + _maxPlayers + "</font><br><br>");
 					replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
 				}
-				
 			}
+			else if(eventPlayer.isCursedWeaponEquiped() && !Config.DM_JOIN_CURSED)
+			{
+				replyMSG.append("<font color=\"FFFF00\">You can't participate to this event with a cursed Weapon.</font><br>");
+			}
+			else if(!_started && _joining && eventPlayer.getLevel()>=_minlvl && eventPlayer.getLevel()<=_maxlvl)
+			{
+				if(players.contains(eventPlayer) )
+				{
+					replyMSG.append("<center><font color=\"3366CC\">You participated already!</font></center><br><br>");
+						
+					replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + players.size() + "</font></center><br>");
+					replyMSG.append("<table border=\"0\"><tr>");
+					replyMSG.append("<td width=\"200\">Wait till event start or</td>");
+					replyMSG.append("<td width=\"60\"><center><button value=\"remove\" action=\"bypass -h npc_" + objectId + "_dmevent_player_leave\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center></td>");
+					replyMSG.append("<td width=\"100\">your participation!</td>");
+					replyMSG.append("</tr></table>");
+				}
+				else
+				{
+					replyMSG.append("<center>Joined Players: <font color=\"00FF00\">" + players.size() + "</font></center><br>");
+					replyMSG.append("<center><font color=\"3366CC\">You want to participate in the event?</font></center><br>");
+					replyMSG.append("<center><td width=\"200\">Min lvl: <font color=\"00FF00\">" + _minlvl + "</font></center></td><br>");
+					replyMSG.append("<center><td width=\"200\">Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font></center></td><br><br>");
+					replyMSG.append("<center><button value=\"Join\" action=\"bypass -h npc_" + objectId + "_dmevent_player_join\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></center><br>");
+
+					
+				}
+			}
+			else if(_started && !_joining)
+				replyMSG.append("<center>"+_eventName+" match is in progress.</center>");
+			else if(eventPlayer.getLevel() < _minlvl || eventPlayer.getLevel() > _maxlvl)
+			{
+				replyMSG.append("Your lvl: <font color=\"00FF00\">" + eventPlayer.getLevel() + "</font><br>");
+				replyMSG.append("Min lvl: <font color=\"00FF00\">" + _minlvl + "</font><br>");
+				replyMSG.append("Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font><br><br>");
+				replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>");
+			}
+			
 			
 
 			replyMSG.append("</body></html>");
@@ -1687,9 +1673,7 @@ public class DM implements EventTask
 		if(!addPlayerOk(player))
 			return;
 		
-		synchronized (_players){
-			_players.add(player);
-		}
+		getPlayers().add(player);
 		
 		player._inEventDM = true;
 		player._countDMkills = 0;
@@ -1717,9 +1701,7 @@ public class DM implements EventTask
 			player._countDMkills = 0;
 			player._inEventDM = false;
 
-			synchronized (_players){
-				_players.remove(player);
-			}
+			getPlayers().remove(player);
 			
 			player.sendMessage("Your participation in the DeathMatch event has been removed.");
 			
@@ -1728,22 +1710,23 @@ public class DM implements EventTask
 
 	public static void cleanDM()
 	{
-		synchronized (_players){
-			for(L2PcInstance player : _players)
+		final Vector<L2PcInstance> players = getPlayers();
+		
+		for(final L2PcInstance player : players)
+		{
+			if(player != null)
 			{
-				if(player != null)
-				{
-					
-					cleanEventPlayer(player);
-					
-					removePlayer(player);
-					if(_savePlayers.contains(player.getName()))
-						_savePlayers.remove(player.getName());
-					player._inEventDM = false;
-				}
+				
+				cleanEventPlayer(player);
+				
+				removePlayer(player);
+				if(_savePlayers.contains(player.getName()))
+					_savePlayers.remove(player.getName());
+				player._inEventDM = false;
 			}
-			_players = new Vector<L2PcInstance>();
 		}
+		
+		getPlayers().clear();
 		
 		_topKills = 0;
 		_savePlayers = new Vector<String>();
@@ -1791,33 +1774,33 @@ public class DM implements EventTask
 	
 	public static synchronized void addDisconnectedPlayer(L2PcInstance player)
 	{
-		synchronized (_players){
-			if(!_players.contains(player) && _savePlayers.contains(player.getName()))
+		final Vector<L2PcInstance> players = getPlayers();
+		
+		if(!players.contains(player) && _savePlayers.contains(player.getName()))
+		{
+			if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
 			{
-				if(Config.DM_ON_START_REMOVE_ALL_EFFECTS)
+				for(L2Effect e : player.getAllEffects())
 				{
-					for(L2Effect e : player.getAllEffects())
-					{
-						if(e != null)
-							e.exit(true);
-					}
+					if(e != null)
+						e.exit(true);
 				}
+			}
 
-				_players.add(player);
+			getPlayers().add(player);
 
-				player._originalNameColorDM = player.getAppearance().getNameColor();
-				player._originalTitleDM = player.getTitle();
-				player._originalKarmaDM = player.getKarma();
-				player._inEventDM = true;
-				player._countDMkills = 0;
-				if(_teleport || _started)
-				{
-					player.setTitle("Kills: " + player._countDMkills);
-					player.getAppearance().setNameColor(_playerColors);
-					player.setKarma(0);
-					player.broadcastUserInfo();
-					player.teleToLocation(_playerX+Rnd.get(Config.DM_SPAWN_OFFSET), _playerY+Rnd.get(Config.DM_SPAWN_OFFSET), _playerZ);
-				}
+			player._originalNameColorDM = player.getAppearance().getNameColor();
+			player._originalTitleDM = player.getTitle();
+			player._originalKarmaDM = player.getKarma();
+			player._inEventDM = true;
+			player._countDMkills = 0;
+			if(_teleport || _started)
+			{
+				player.setTitle("Kills: " + player._countDMkills);
+				player.getAppearance().setNameColor(_playerColors);
+				player.setKarma(0);
+				player.broadcastUserInfo();
+				player.teleToLocation(_playerX+Rnd.get(Config.DM_SPAWN_OFFSET), _playerY+Rnd.get(Config.DM_SPAWN_OFFSET), _playerZ);
 			}
 		}
 		
@@ -1893,19 +1876,19 @@ public class DM implements EventTask
 	
 	private static void processTopPlayer()
 	{
-		synchronized (_players){
-			for(L2PcInstance player : _players)
+		final Vector<L2PcInstance> players = getPlayers();
+		
+		for(final L2PcInstance player : players)
+		{
+			if(player._countDMkills > _topKills)
 			{
-				if(player._countDMkills > _topKills)
-				{
-					_topPlayers.clear();
+				_topPlayers.clear();
+				_topPlayers.add(player);
+				_topKills = player._countDMkills;
+				
+			}else if(player._countDMkills == _topKills){
+				if(!_topPlayers.contains(player))
 					_topPlayers.add(player);
-					_topKills = player._countDMkills;
-					
-				}else if(player._countDMkills == _topKills){
-					if(!_topPlayers.contains(player))
-						_topPlayers.add(player);
-				}
 			}
 		}
 		
@@ -1924,6 +1907,12 @@ public class DM implements EventTask
 		
 	}
 	
+	private synchronized static Vector<L2PcInstance> getPlayers(){
+		
+		return _players;
+		
+	}
+	
 	public static void setPlayersPos(L2PcInstance activeChar)
 	{
 		_playerX = activeChar.getX();
@@ -1935,16 +1924,16 @@ public class DM implements EventTask
 
 	public static void removeUserData()
 	{
-		synchronized (_players){
-			for(L2PcInstance player : _players)
-			{
-				player.getAppearance().setNameColor(player._originalNameColorDM);
-				player.setTitle(player._originalTitleDM);
-				player.setKarma(player._originalKarmaDM);
-				player._inEventDM = false;
-				player._countDMkills = 0;
-				player.broadcastUserInfo();
-			}
+		final Vector<L2PcInstance> players = getPlayers();
+		
+		for(final L2PcInstance player : players)
+		{
+			player.getAppearance().setNameColor(player._originalNameColorDM);
+			player.setTitle(player._originalTitleDM);
+			player.setKarma(player._originalKarmaDM);
+			player._inEventDM = false;
+			player._countDMkills = 0;
+			player.broadcastUserInfo();
 		}
 	}
 

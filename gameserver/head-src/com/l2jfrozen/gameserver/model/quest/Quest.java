@@ -967,6 +967,9 @@ public class Quest extends ManagedScript
 			
 		}
 		
+		if(Config.ALT_DEV_NO_QUESTS)
+			return;
+		
 		Connection con = null;
 		try
 		{

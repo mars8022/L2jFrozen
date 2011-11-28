@@ -329,17 +329,22 @@ public abstract class Inventory extends ItemContainer
 				passiveSkill = ((L2Armor) it).getSkill();
 			}
 
-			if(passiveSkill != null)
-			{
-				player.removeSkill(passiveSkill, false);
-				player.sendSkillList();
-			}
+			if(!player.isItemEquippedByItemId(item.getItemId())){
+				
+				if(passiveSkill != null)
+				{
+					player.removeSkill(passiveSkill, false);
+					player.sendSkillList();
+				}
 
-			if(enchant4Skill != null)
-			{
-				player.removeSkill(enchant4Skill, false);
-				player.sendSkillList();
+				if(enchant4Skill != null)
+				{
+					player.removeSkill(enchant4Skill, false);
+					player.sendSkillList();
+				}
+				
 			}
+			
 
 			player = null;
 			passiveSkill = null;
@@ -1602,7 +1607,8 @@ public abstract class Inventory extends ItemContainer
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not restore inventory : " + e);
+			_log.warning("Could not restore inventory : ");
+			e.printStackTrace();
 		}
 		finally
 		{

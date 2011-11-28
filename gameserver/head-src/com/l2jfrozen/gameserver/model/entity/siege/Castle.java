@@ -481,10 +481,10 @@ public class Castle
 
 				if(isDoorWeak)
 				{
-					door.setCurrentHp(door.getMaxHp() / 2);
+					door.setCurrentHpDirect(door.getMaxHp() / 2);
 				}
 				else {
-					door.setCurrentHp(door.getMaxHp());
+					door.setCurrentHpDirect(door.getMaxHp());
 				}
 
 				door.spawnMe(door.getX(), door.getY(), door.getZ());
@@ -509,7 +509,7 @@ public class Castle
 
 		if(door != null && door.getDoorId() == doorId)
 		{
-			door.setCurrentHp(door.getMaxHp() + hp);
+			door.setCurrentHpDirect(door.getMaxHp() + hp);
 
 			saveDoorUpgrade(doorId, hp, pDef, mDef);
 			return;

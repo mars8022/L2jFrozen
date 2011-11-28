@@ -712,7 +712,8 @@ public class PcInventory extends Inventory
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.WARNING, "could not restore inventory:", e);
+			_log.log(Level.WARNING, "could not restore inventory:");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -787,4 +788,27 @@ public class PcInventory extends Inventory
 		return validateCapacity(slots);
 		
 	}
+	
+	public boolean checkIfEquipped(int item_id){
+		
+		final L2ItemInstance[] items = getAllItemsByItemId(item_id);
+		
+		if(items == null
+				|| items.length == 0){
+			
+			return false;
+			
+		}
+		
+		for(final L2ItemInstance item:items){
+			
+			if(item.isEquipped())
+				return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
 }

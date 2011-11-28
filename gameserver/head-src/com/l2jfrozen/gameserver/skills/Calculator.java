@@ -18,6 +18,10 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.skills.funcs.Func;
@@ -136,31 +140,17 @@ public final class Calculator
 	 */
 	public synchronized void removeFunc(Func f)
 	{
-		Func[] funcs = _functions;
-		Func[] tmp = new Func[funcs.length - 1];
-
-		int i;
-		for(i = 0; i < funcs.length && f != funcs[i]; i++)
-		{
-			tmp[i] = funcs[i];
-		}
-
-		if(i == funcs.length)
+		if(f == null)
 			return;
-
-		for(i++; i < funcs.length; i++)
-		{
-			tmp[i - 1] = funcs[i];
-		}
-
-		if(tmp.length == 0)
-		{
-			_functions = _emptyFuncs;
-		}
-		else
-		{
-			_functions = tmp;
-		}
+		
+		ArrayList<Func> tmp_arraylist = new ArrayList<Func>();
+		tmp_arraylist.addAll(Arrays.asList(_functions));
+		
+		if(tmp_arraylist.contains(f))
+			tmp_arraylist.remove(f);
+		
+		_functions = tmp_arraylist.toArray(new Func[tmp_arraylist.size()]);
+		
 	}
 
 	/**

@@ -252,6 +252,9 @@ public class AdminBan implements IAdminCommandHandler {
 				targetPlayer.setPunishLevel(L2PcInstance.PunishLevel.JAIL, duration);
 				activeChar.sendMessage("Character "+targetPlayer.getName()+" jailed for "+(duration>0 ? duration+" minutes." : "ever!"));
 				auditAction(command, activeChar, targetPlayer.getName());
+				
+				if (targetPlayer.getParty() != null)
+					targetPlayer.getParty().removePartyMember(targetPlayer);
 			}
 			else
 			{

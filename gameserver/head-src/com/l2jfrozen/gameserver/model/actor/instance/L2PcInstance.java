@@ -1858,7 +1858,10 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		if(qs == null)
 		{
-			Quest q = QuestManager.getInstance().getQuest(quest);
+			Quest q = null;
+			if(!Config.ALT_DEV_NO_QUESTS)
+				q = QuestManager.getInstance().getQuest(quest);
+			
 			if(q == null)
 				return retval;
 			qs = q.newQuestState(this);
@@ -16542,5 +16545,16 @@ public final class L2PcInstance extends L2PlayableInstance
 		return _partyroom > 0;
 	}
 
+	public boolean isItemEquippedByItemId(int item_id)
+	{
+		if(_inventory == null)
+			return false;
+		
+		if(_inventory.getAllItemsByItemId(item_id) == null
+				|| _inventory.getAllItemsByItemId(item_id).length == 0)
+			return false;
+		
+		return _inventory.checkIfEquipped(item_id);
+	}
 
 }
