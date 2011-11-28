@@ -1530,5 +1530,17 @@ public final class L2ItemInstance extends L2Object
 	} 
 
 
+	public boolean isVarkaKetraAllyQuestItem(){
+		
+		if((this.getItemId() >= 7211 && this.getItemId() <= 7215)
+				|| (this.getItemId() >= 7221 && this.getItemId() <= 7225)){
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
 
 }

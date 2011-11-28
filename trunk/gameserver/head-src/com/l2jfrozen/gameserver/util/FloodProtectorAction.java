@@ -241,7 +241,11 @@ public final class FloodProtectorAction
 			long newChatBanTime = 60000; //1 minute
 			if (activeChar.getPunishLevel() == PunishLevel.CHAT)
 			{
-				newChatBanTime+=activeChar.getPunishTimer();
+				if(activeChar.getPunishTimer() <= (60000*3)){ //if less then 3 minutes (MAX CHAT BAN TIME), add 1 minute
+					newChatBanTime+=activeChar.getPunishTimer();
+				}else
+					newChatBanTime=activeChar.getPunishTimer();
+				
 			}
 			
 			activeChar.setPunishLevel(PunishLevel.CHAT, newChatBanTime);

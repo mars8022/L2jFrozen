@@ -452,6 +452,11 @@ public abstract class ItemContainer
 			ItemTable.getInstance().destroyItem(process, item, actor, reference);
 
 			item.updateDatabase();
+			
+			if(item.isVarkaKetraAllyQuestItem()){
+				actor.setAllianceWithVarkaKetra(0);
+			}
+			
 			refreshWeight();
 		}
 

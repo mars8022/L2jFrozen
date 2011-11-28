@@ -48,7 +48,10 @@ public final class RequestQuestAbort extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
-		Quest qe = QuestManager.getInstance().getQuest(_questId);
+		Quest qe = null;
+		if(!Config.ALT_DEV_NO_QUESTS)
+			qe = QuestManager.getInstance().getQuest(_questId);
+		
 		if(qe != null)
 		{
 			QuestState qs = activeChar.getQuestState(qe.getName());

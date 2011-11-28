@@ -47,3 +47,7 @@ CREATE TABLE `custom_npc`(
   `absorb_type` enum('FULL_PARTY','LAST_HIT','PARTY_ONE_RANDOM') DEFAULT 'LAST_HIT' NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM;
+
+INSERT ignore INTO custom_npc
+values
+('31228', '31228', 'Roy the Cat', '1', 'Classes Trader', '1', 'Monster.cat_the_cat', '9.00', '16.00', '70', 'male', 'L2ClassMaster', '40', '3862', '1493', '11.85', '2.78', '40', '43', '30', '21', '20', '10', '490', '10', '1335', '470', '780', '382', '278', '0', '333', '0', '0', '0', '88', '132', null, '0', '0', '0', 'LAST_HIT');

@@ -797,7 +797,10 @@ public class GameStatusThread extends Thread
 						{
 							_print.print("Reloading npc templates... ");
 							NpcTable.getInstance().reloadAllNpc();
-							QuestManager.getInstance().reloadAllQuests();
+							
+							if(!Config.ALT_DEV_NO_QUESTS)
+								QuestManager.getInstance().reloadAllQuests();
+							
 							_print.println("done");
 						}
 						else if (type.equals("html"))

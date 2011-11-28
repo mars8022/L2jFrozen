@@ -203,9 +203,9 @@ public class AutoVoteRewardHandler
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
 			{
-				if (inputLine.contains("moreinfo_total_rank_text"))
+				if (inputLine.contains("Anonymous User Votes"))
 				{
-					votes = Integer.valueOf(inputLine.split(">")[2].replace("</div", ""));
+					votes = Integer.valueOf(inputLine.split(">")[2].replace("</span", ""));
 					break;
 				}
 			}

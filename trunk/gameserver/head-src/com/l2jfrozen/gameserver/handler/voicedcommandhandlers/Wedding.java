@@ -46,6 +46,12 @@ public class Wedding implements IVoicedCommandHandler
 	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
+		
+		if(activeChar.isInFunEvent() || activeChar.isInOlympiadMode()){
+			activeChar.sendMessage("Sorry,you are in event now.");
+			return false;
+		}
+	
 		if(command.startsWith("engage"))
 			return Engage(activeChar);
 		else if(command.startsWith("divorce"))
