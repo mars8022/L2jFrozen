@@ -945,7 +945,7 @@ public class VanHalter extends Quest implements Runnable
 		{
 			_cameraMarker.put(i, _cameraMarkerSpawn.get(i).doSpawn());
 			_cameraMarker.get(i).getSpawn().stopRespawn();
-			//_cameraMarker.get(i).setIsImmobilized(true);
+			_cameraMarker.get(i).setIsImobilised(true);
 		}
 	}
 
@@ -1395,7 +1395,7 @@ public class VanHalter extends Quest implements Runnable
 		
 		if(status != INTERVAL)
 		{
-			long interval = Rnd.get(Config.HPH_FIXINTERVALOFHALTER, Config.HPH_FIXINTERVALOFHALTER + Config.HPH_RANDOMINTERVALOFHALTER) * 3600000;
+			long interval = Rnd.get(Config.HPH_FIXINTERVALOFHALTER, Config.HPH_FIXINTERVALOFHALTER + Config.HPH_RANDOMINTERVALOFHALTER)/* * 3600000*/;
 			StatsSet info = GrandBossManager.getInstance().getStatsSet(29062);
 			info.set("respawn_time", (System.currentTimeMillis() + interval));
 			GrandBossManager.getInstance().setStatsSet(29062, info);

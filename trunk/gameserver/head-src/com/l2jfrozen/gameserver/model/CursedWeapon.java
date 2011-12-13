@@ -681,7 +681,8 @@ public class CursedWeapon
 	// Getter
 	public boolean isActivated()
 	{
-		return _isActivated && _player!=null && _player.isOnline()>0;
+		final L2PcInstance player = _player;
+		return _isActivated && player!=null && player.isOnline()>0;
 	}
 
 	public boolean isDropped()

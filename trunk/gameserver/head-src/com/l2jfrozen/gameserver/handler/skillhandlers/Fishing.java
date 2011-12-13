@@ -104,14 +104,14 @@ public class Fishing implements ISkillHandler
 		{
 			// You can't fish while you are on boat
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_ON_BOAT));
-			if(!player.isGM())
+			//if(!player.isGM())
 				return;
 		}
 
 		if(player.isInCraftMode() || player.isInStoreMode())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_WHILE_USING_RECIPE_BOOK));
-			if(!player.isGM())
+			//if(!player.isGM())
 				return;
 		}
 		/*
@@ -150,7 +150,8 @@ public class Fishing implements ISkillHandler
 		{
 			//You can't fish here
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_HERE));
-			if(!player.isGM()){ return; }
+			//if(!player.isGM()){ return; }
+			return;
 		}
 
 		aimingTo = null;
@@ -164,7 +165,7 @@ public class Fishing implements ISkillHandler
 		{
 			//You can't fish in water
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_UNDER_WATER));
-			if(!player.isGM())
+			//if(!player.isGM())
 				return;
 		}
 		// Has enough bait, consume 1 and update inventory. Start fishing

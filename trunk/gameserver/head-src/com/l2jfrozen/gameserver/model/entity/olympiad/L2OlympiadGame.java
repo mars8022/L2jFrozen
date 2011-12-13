@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadMode;
@@ -1052,6 +1053,43 @@ class L2OlympiadGame extends Olympiad
 			player.abortAttack();
 
 			player.sendPacket(new EtcStatusUpdate(player));
+			
+			int location = wpn.getEquipSlot();
+
+			switch(location)
+			{
+				case Inventory.PAPERDOLL_UNDER:
+				case Inventory.PAPERDOLL_LEAR:
+				case Inventory.PAPERDOLL_REAR:
+				case Inventory.PAPERDOLL_NECK:
+					player.sendPacket(new UserInfo(player));
+					player.sendPacket(new CharInfo(player));
+					player.sendPacket(new ItemList(player, true));
+					break;
+				case Inventory.PAPERDOLL_RFINGER:
+				case Inventory.PAPERDOLL_LFINGER:
+				case Inventory.PAPERDOLL_HAIR:
+				case Inventory.PAPERDOLL_FACE:
+				case Inventory.PAPERDOLL_DHAIR:
+				case Inventory.PAPERDOLL_HEAD:
+				case Inventory.PAPERDOLL_RHAND:
+				case Inventory.PAPERDOLL_LHAND:
+				case Inventory.PAPERDOLL_GLOVES:
+				case Inventory.PAPERDOLL_CHEST:
+				case Inventory.PAPERDOLL_LEGS:
+				case Inventory.PAPERDOLL_BACK:
+				case Inventory.PAPERDOLL_FEET:
+				case Inventory.PAPERDOLL_LRHAND:
+					player.broadcastUserInfo();
+					break;
+					
+			}
+			
+			InventoryUpdate iu = new InventoryUpdate();
+			iu.addItems(Arrays.asList(unequiped));
+			player.sendPacket(iu);
+			
+			/*
 			// if an "invisible" item has changed (Jewels, helmet),
 			// we dont need to send broadcast packet to all other users
 			if(!((wpn.getItem().getBodyPart() & L2Item.SLOT_HEAD) > 0 
@@ -1079,6 +1117,7 @@ class L2OlympiadGame extends Olympiad
 				player.sendPacket(new ItemList(player, true));
 				player.sendPacket(new UserInfo(player));
 			}
+			*/
 			
 			/*
 			InventoryUpdate iu = new InventoryUpdate();
