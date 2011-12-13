@@ -970,6 +970,7 @@ public class CTF implements EventTask
 	
 	public static void teleportFinish()
 	{
+		sit();
 		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Teleport back to participation NPC in 20 seconds!");
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -1015,6 +1016,7 @@ public class CTF implements EventTask
 					}
 				}
 				
+				sit();
 				cleanCTF();
 			}
 		}, 20000);

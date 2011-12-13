@@ -83,7 +83,10 @@ import com.l2jfrozen.gameserver.model.actor.position.ObjectPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.CharStat;
 import com.l2jfrozen.gameserver.model.actor.status.CharStatus;
 import com.l2jfrozen.gameserver.model.entity.Duel;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -205,6 +208,9 @@ public abstract class L2Character extends L2Object
 	/** FastMap(Integer, L2Skill) containing all skills of the L2Character */
 	protected final Map<Integer, L2Skill> _skills;
 
+	/** FastMap(Integer, L2Skill) containing all triggered skills of the L2PcInstance */
+	protected final  Map<Integer, L2Skill> _triggeredSkills;
+
 	/** FastMap containing the active chance skills on this character */
 	protected ChanceSkillList _chanceSkills;
 
@@ -307,6 +313,8 @@ public abstract class L2Character extends L2Object
 		// Set its template to the new L2Character
 		_template = template;
 
+		_triggeredSkills = new FastMap<Integer, L2Skill>();
+				 
 		if(template != null && this instanceof L2NpcInstance)
 		{
 			// Copy the Standard Calcultors of the L2NPCInstance in _calculators
@@ -7006,13 +7014,52 @@ public abstract class L2Character extends L2Object
 		// Right now only L2PcInstance has up-to-date zone status...
 		// 
 
-		if(attacker instanceof L2PcInstance && target instanceof L2PcInstance){
+		if(attacker instanceof L2PlayableInstance
+				&& target instanceof L2PlayableInstance){
 			
-			L2PcInstance src = (L2PcInstance) attacker;
-			L2PcInstance dst = (L2PcInstance) target;
+			if(attacker instanceof L2PcInstance && target instanceof L2PcInstance){
+				
+				L2PcInstance src = (L2PcInstance) attacker;
+				L2PcInstance dst = (L2PcInstance) target;
+				
+				if(src.isInOlympiadMode() && src.isOlympiadStart() && dst.isInOlympiadMode() && dst.isOlympiadStart()){
+					return false;
+				}
+				
+			}
 			
-			if(src.isInOlympiadMode() && src.isOlympiadStart() && dst.isInOlympiadMode() && dst.isOlympiadStart()){
-				return false;
+			L2PcInstance src = null;
+			L2PcInstance dst = null;
+			
+			if(attacker instanceof L2PcInstance){
+				src = (L2PcInstance) attacker;
+			}else if(attacker instanceof L2Summon){
+				src = ((L2Summon) attacker).getOwner();
+			}
+			
+			if(target instanceof L2PcInstance){
+				dst = (L2PcInstance) target;
+			}else if(target instanceof L2Summon){
+				dst = ((L2Summon) target).getOwner();
+			}
+			
+			if(src != null
+					&& dst != null){
+				
+				if(dst.isInFunEvent() && src.isInFunEvent()){
+					
+					//checks for events
+					if((dst._inEventTvT && src._inEventTvT && TvT.is_started() && !dst._teamNameTvT.equals(src._teamNameTvT)) 
+							|| (dst._inEventCTF && src._inEventCTF && CTF.is_started() && !dst._teamNameCTF.equals(src._teamNameCTF)) 
+							|| (dst._inEventDM && src._inEventDM && DM.is_started()) 
+							|| (dst._inEventVIP && src._inEventVIP && VIP._started))
+						{
+							return false;
+						}else
+							return true;
+					
+				}
+				
 			}
 			
 		}
@@ -7172,6 +7219,10 @@ public abstract class L2Character extends L2Object
 				// if skill came with another one, we should delete the other one too. 
 				if(oldSkill.triggerAnotherSkill())
 				{
+					if(Config.DEBUG)
+						System.out.println("Removing Triggherable Skill: "+oldSkill.getTriggeredId());
+					
+					_triggeredSkills.remove(oldSkill.getTriggeredId());
 					removeSkill(oldSkill.getTriggeredId(), true);
 				}
 				removeStatsOwner(oldSkill);
@@ -7203,6 +7254,13 @@ public abstract class L2Character extends L2Object
 				L2Skill triggeredSkill = SkillTable.getInstance().getInfo(newSkill.getTriggeredId(), newSkill.getTriggeredLevel());
 				addSkill(triggeredSkill);
 			}
+			
+			if(newSkill.triggerAnotherSkill()){
+				if(Config.DEBUG)
+					System.out.println("Adding Triggherable Skill: "+newSkill.getTriggeredId());
+				_triggeredSkills.put(newSkill.getTriggeredId(), SkillTable.getInstance().getInfo(newSkill.getTriggeredId(), newSkill.getTriggeredLevel()));
+			}
+			
 		}
 
 		return oldSkill;
@@ -7284,7 +7342,10 @@ public abstract class L2Character extends L2Object
 			//this is just a fail-safe againts buggers and gm dummies...
 			if(oldSkill.triggerAnotherSkill())
 			{
+				if(Config.DEBUG)
+					System.out.println("Removing Triggherable Skill: "+oldSkill.getTriggeredId());
 				removeSkill(oldSkill.getTriggeredId(), true);
+				_triggeredSkills.remove(oldSkill.getTriggeredId());
 			}
 
 			// Stop casting if this skill is used right now
@@ -9589,5 +9650,14 @@ public abstract class L2Character extends L2Object
 	public boolean isBuffProtected()
 	{
 	    return _isBuffProtected;	
+	}
+	
+
+	/**
+	 * @return the _triggeredSkills
+	 */
+	public Map<Integer, L2Skill> get_triggeredSkills()
+	{
+		return _triggeredSkills;
 	}
 }

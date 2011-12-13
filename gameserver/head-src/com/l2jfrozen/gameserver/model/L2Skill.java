@@ -1783,7 +1783,7 @@ public abstract class L2Skill
 						continue;
 					}
 					
-					if(!src.checkPvpSkill(obj, this))
+					if(src!=null && !src.checkPvpSkill(obj, this))
 					{
 						continue;
 					}
