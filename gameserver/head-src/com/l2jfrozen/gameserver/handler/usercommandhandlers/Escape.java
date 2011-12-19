@@ -131,7 +131,12 @@ public class Escape implements IUserCommandHandler
 			return false;
 
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-		sm.addString("You use Escape: "+ unstuckTimer / 60000 +" minutes.");
+		
+		if(unstuckTimer<60000)
+	         sm.addString("You use Escape: "+ unstuckTimer / 1000 +" seconds.");
+	    else
+	    	 sm.addString("You use Escape: "+ unstuckTimer / 60000 +" minutes.");
+		
 		activeChar.sendPacket(sm);
 		sm = null;
 

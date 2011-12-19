@@ -68,9 +68,7 @@ public class CharacterSelected extends L2GameClientPacket
 
 					if (cha == null)
 					{
-						if (Config.DEBUG)
-							_log.severe("DEBUG "+getType()+": Character could not be loaded (slot:" + _charSlot + ")");
-						
+						_log.severe("DEBUG "+getType()+": Character could not be loaded (slot:" + _charSlot + ")");
 						sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}

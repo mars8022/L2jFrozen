@@ -270,6 +270,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	private PlayerStatus saved_status = null;
 	
+	private final long _instanceLoginTime;
 	
 	public PlayerStatus getActualStatus(){
 		
@@ -1289,6 +1290,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			getWarehouse();
 		}
 		getFreight().restore();
+		
+		_instanceLoginTime = System.currentTimeMillis();
 	}
 
 	private L2PcInstance(int objectId)
@@ -1299,6 +1302,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		getStatus(); // init status
 		super.initCharStatusUpdateValues();
 		initPcStatusUpdateValues();
+		
+		_instanceLoginTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -3566,6 +3571,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		public void run()
 		{
 			_player.setIsSitting(false);
+			_player.setIsImobilised(false);
 			_player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		}
 	}
@@ -3612,7 +3618,9 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_STANDING));
 			// Schedule a stand up task to wait for the animation to finish
+			setIsImobilised(true);
 			ThreadPoolManager.getInstance().scheduleGeneral(new StandUpTask(this), 2500);
+			
 		}
 	}
 
@@ -10252,7 +10260,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(getClan() != null && attacker != null && getClan().isMember(attacker.getName()))
 			return false;
 
-		if(attacker instanceof L2PlayableInstance){
+		if(attacker instanceof L2PlayableInstance
+				&& isInFunEvent()){
 			
 			L2PcInstance player = null;
 			if(attacker instanceof L2PcInstance){
@@ -10263,7 +10272,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(player != null){
 				
-				if(isInFunEvent() && player.isInFunEvent()){
+				if(player.isInFunEvent()){
 					
 					//checks for events
 					if((_inEventTvT && ((L2PcInstance) attacker)._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(((L2PcInstance) attacker)._teamNameTvT)) 
@@ -16621,4 +16630,12 @@ public final class L2PcInstance extends L2PlayableInstance
 		return _inventory.checkIfEquipped(item_id);
 	}
 
+	/**
+	 * @return the _instanceLoginTime
+	 */
+	public long get_instanceLoginTime()
+	{
+		return _instanceLoginTime;
+	}
+	
 }

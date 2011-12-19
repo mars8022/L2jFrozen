@@ -139,7 +139,20 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 				}
 				break;
-			case IN_GAME:
+			case IN_GAME:{
+				
+				if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES.contains(opcode)){
+					
+					if(client == null 
+							|| client.getActiveChar() == null
+							|| client.getActiveChar().isOnline() == 0){
+						
+						_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" without enterning in the world (online status is FALSE)..");
+						break;
+					}
+					
+				}
+				
 				switch(opcode)
 				{
 					case 0x01:
@@ -703,6 +716,19 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 							break;
 						}
 						
+						
+						if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES2.contains(opcode2)){
+							
+							if(client == null 
+									|| client.getActiveChar() == null
+									|| client.getActiveChar().isOnline() == 0){
+								
+								_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" (opcode2 = "+opcode2+") without enterning in the world (online status is FALSE)..");
+								break;
+							}
+							
+						}
+						
 						switch(opcode2)
 						{
 							case 1:
@@ -858,6 +884,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 				}
 				break;
+			}
 		}
 
 		state = null;

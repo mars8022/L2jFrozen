@@ -576,31 +576,31 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		
 		character = L2PcInstance.load(objId);
-		if(character != null)
-		{
-			//restoreInventory(character);
-			//restoreSkills(character);
-			//character.restoreSkills();
-			//restoreShortCuts(character);
-			//restoreWarehouse(character);
-
-			// preinit some values for each login
-			character.setRunning(); // running is default
-			character.standUp(); // standing is default
-
-			character.refreshOverloaded();
-			character.refreshExpertisePenalty();
-			character.refreshMasteryPenality();
-			character.refreshMasteryWeapPenality();
-			
-			character.sendPacket(new UserInfo(character));
-			character.broadcastKarma();
-			character.setOnlineStatus(true);
-		}
-		else
-		{
-			_log.severe("could not restore in slot: " + charslot);
-		}
+//		if(character != null)
+//		{
+//			//restoreInventory(character);
+//			//restoreSkills(character);
+//			//character.restoreSkills();
+//			//restoreShortCuts(character);
+//			//restoreWarehouse(character);
+//
+//			// preinit some values for each login
+//			character.setRunning(); // running is default
+//			character.standUp(); // standing is default
+//
+//			character.refreshOverloaded();
+//			character.refreshExpertisePenalty();
+//			character.refreshMasteryPenality();
+//			character.refreshMasteryWeapPenality();
+//			
+//			character.sendPacket(new UserInfo(character));
+//			character.broadcastKarma();
+//			character.setOnlineStatus(true);
+//		}
+//		if(character == null)
+//		{
+//			_log.severe("could not restore in slot: " + charslot);
+//		}
 
 		//setCharacter(character);
 		return character;

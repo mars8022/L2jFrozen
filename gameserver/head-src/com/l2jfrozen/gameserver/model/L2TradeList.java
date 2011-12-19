@@ -49,7 +49,7 @@ public class L2TradeList
 	private boolean _confirmed;
 	private boolean _gm;
 	private String _buystorename, _sellstorename;
-
+	
 	private String _npcId;
 
 	public L2TradeList(int listId)
@@ -288,8 +288,10 @@ public class L2TradeList
 		return bool;
 	}
 
+	/*
 	public boolean validateTrade(L2PcInstance player)
 	{
+		
 		Inventory playersInv = player.getInventory();
 		L2ItemInstance playerItem, temp;
 
@@ -308,7 +310,9 @@ public class L2TradeList
 
 		return true;
 	}
+	*/
 
+	/*
 	//Call validate before this
 	public void tradeItems(L2PcInstance player, L2PcInstance reciever)
 	{
@@ -421,7 +425,7 @@ public class L2TradeList
 			con = null;
 		}
 	}
-
+*/
 	public void updateBuyList(L2PcInstance player, List<TradeItem> list)
 	{
 
@@ -492,6 +496,7 @@ public class L2TradeList
 
 	}
 
+	/*
 	public synchronized void buySellItems(L2PcInstance buyer, List<TradeItem> buyerslist, L2PcInstance seller, List<TradeItem> sellerslist)
 	{
 		Inventory sellerInv = seller.getInventory();
@@ -681,7 +686,8 @@ public class L2TradeList
 		sysmsgs = null;
 		msg = null;
 	}
-
+*/
+	
 	public boolean isGm()
 	{
 		return _gm;

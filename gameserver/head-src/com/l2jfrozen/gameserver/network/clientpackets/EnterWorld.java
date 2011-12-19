@@ -153,6 +153,11 @@ public class EnterWorld extends L2GameClientPacket
 		// Set online status
 		activeChar.setOnlineStatus(true);
 
+		activeChar.setRunning(); // running is default
+		activeChar.standUp(); // standing is default
+		
+		activeChar.broadcastKarma(); //include UserInfo
+		
 		// Engage and notify Partner
 		if (Config.L2JMOD_ALLOW_WEDDING)
 		{
@@ -180,7 +185,7 @@ public class EnterWorld extends L2GameClientPacket
 		}
 
 		activeChar.sendPacket(new EtcStatusUpdate(activeChar));
-
+		
 		if (activeChar.getAllEffects() != null)
 		{
 			for (L2Effect e : activeChar.getAllEffects())
