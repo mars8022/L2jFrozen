@@ -3609,6 +3609,13 @@ public enum SystemMessageId
 	 */
 	NOT_AUTHORIZED_TO_REGISTER_RECIPE(642),
 
+
+	/**
+	 * ID: 851<br>
+	 * Message: $s1 has been added.
+	 */
+	S1_ADDED(851),
+	
 	/**
 	 * ID: 853<br>
 	 * Message: You may not alter your recipe book while engaged in manufacturing.

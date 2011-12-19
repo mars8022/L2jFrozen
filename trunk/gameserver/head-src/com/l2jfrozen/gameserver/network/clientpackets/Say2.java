@@ -163,11 +163,6 @@ public final class Say2 extends L2GameClientPacket
 			activeChar.sendMessage("Shout and trade chatting cannot be used while possessing a cursed weapon.");
 			return;
 		}
-		if(activeChar.getLevel() < 40 && (_type == TRADE || _type == SHOUT))
-		{
-			activeChar.sendMessage("You cannot use Shout / Trade chats while under level 40");
-			return;
-		}
 
 		if(_type == PETITION_PLAYER && activeChar.isGM())
 		{

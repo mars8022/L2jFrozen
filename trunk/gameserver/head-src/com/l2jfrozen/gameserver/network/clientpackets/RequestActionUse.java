@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -52,6 +54,9 @@ public final class RequestActionUse extends L2GameClientPacket
 	private int _actionId;
 	private boolean _ctrlPressed;
 	private boolean _shiftPressed;
+	
+	//List of Pet Actions
+	private static List<Integer> _petActions = Arrays.asList(new Integer[]{15,16,17,21,22,23,52,53,54});
 
 	@Override
 	protected void readImpl()
@@ -88,9 +93,13 @@ public final class RequestActionUse extends L2GameClientPacket
 			return;
 		}
 
-		// don't do anything if player is casting 
-		if(activeChar.isCastingNow())
-		{
+		// don't do anything if player is casting and the action is not a Pet one (skills too) 
+		if((_petActions.contains(_actionId) || _actionId >= 1000)){
+			if(Config.DEBUG)
+			{
+				_log.finest(activeChar.getName() + " request Pet Action use: id " + _actionId + " ctrl:" + _ctrlPressed + " shift:" + _shiftPressed);
+			}
+		}else if(activeChar.isCastingNow()){
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}

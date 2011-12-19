@@ -534,7 +534,10 @@ public abstract class L2Effect
 			onExit();
 
 			//If the time left is equal to zero, send the message
-			if(getEffected() != null && getEffected() instanceof L2PcInstance && getShowIcon()){
+			if(getEffected() != null 
+					&& getEffected() instanceof L2PcInstance
+					&& getShowIcon()
+					&& !getEffected().isDead()){
 				
 				if(_cancelEffect){
 					SystemMessage smsg3 = new SystemMessage(SystemMessageId.EFFECT_S1_DISAPPEARED);

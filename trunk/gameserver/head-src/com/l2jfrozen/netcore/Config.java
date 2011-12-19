@@ -60,6 +60,10 @@ public class Config
 	public FastList<Integer> GS_LIST_PROTECTED_OPCODES2 = new FastList<Integer>();
 	public FastList<Integer> LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
 	
+	public String ALLOWED_OFFLINE_OPCODES;
+	public FastList<Integer> LIST_ALLOWED_OFFLINE_OPCODES = new FastList<Integer>();
+	public FastList<Integer> LIST_ALLOWED_OFFLINE_OPCODES2 = new FastList<Integer>();
+	
 	public boolean DUMP_CLOSE_CONNECTIONS;
 	
 	
@@ -171,6 +175,59 @@ public class Config
 						
 						LS_LIST_PROTECTED_OPCODES.add(Integer.parseInt(token_splitted[1].substring(2),16));
 						
+					}
+				
+				}
+				
+			}
+			
+			//OPCODES Offline Protection
+			ALLOWED_OFFLINE_OPCODES = mmoSetting.getProperty("ListOfAllowedOfflineOpCodes","0x03;0x9d;0xd0,0x08;0x13;0x81;");
+			
+			LIST_ALLOWED_OFFLINE_OPCODES = new FastList<Integer>();
+			LIST_ALLOWED_OFFLINE_OPCODES2 = new FastList<Integer>();
+			
+			if(ALLOWED_OFFLINE_OPCODES!=null && !ALLOWED_OFFLINE_OPCODES.equals("")){
+				
+				StringTokenizer st = new StringTokenizer(ALLOWED_OFFLINE_OPCODES,";");
+				
+				while(st.hasMoreTokens()){
+					
+					String token = st.nextToken();
+					
+					String[] token_splitted = null;
+						
+					if(token!=null && !token.equals("")){
+						token_splitted = token.split(",");
+					}else{
+						continue;
+					}
+					
+					if(token_splitted==null || token_splitted.length==0 || token_splitted[0].length() <= 3){
+						continue;
+					}
+					
+					String opcode1 = token_splitted[0].substring(2);
+					
+					if(opcode1 != null && !opcode1.equals("")){
+						LIST_ALLOWED_OFFLINE_OPCODES.add(Integer.parseInt(opcode1,16));
+					}
+					
+					if(token_splitted.length>1 && opcode1.equals("d0")){
+
+						for(int i=1;i<token_splitted.length;i++){
+							
+							if(token_splitted[i].length() <= 3){
+								break;
+							}
+							
+							String opcode2 = token_splitted[i].substring(2);
+							
+							if(opcode2 != null && !opcode2.equals("")){
+								LIST_ALLOWED_OFFLINE_OPCODES2.add(Integer.parseInt(opcode2,16));
+							}
+							
+						}
 					}
 				
 				}

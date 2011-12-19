@@ -395,7 +395,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 						{
 							READ_BUFFER.clear();
 						}
-						return false;
+						read = false;
 					}
 					
 					return read;
@@ -441,7 +441,6 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			final int limit = buf.limit();
 			buf.limit(pos + dataSize);
 			
-			
 			//check for flood action
 			/*int opcode = buf.get() & 0xFF;
 			int opcode2 = -1;
@@ -474,7 +473,9 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				cp._buf = null;
 				cp._sbuf = null;
 			}
+			
 			buf.limit(limit);
+			
 		}
 		
 		return true;
