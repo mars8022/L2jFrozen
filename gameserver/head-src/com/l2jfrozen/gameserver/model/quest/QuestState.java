@@ -615,9 +615,9 @@ public final class QuestState
 		getPlayer().sendPacket(su);
 		
 		//on quests, always refresh inventory
-		InventoryUpdate u = new InventoryUpdate();
-		u.addItem(item);
-		getPlayer().sendPacket(u);
+		//InventoryUpdate u = new InventoryUpdate();
+		//u.addItem(item);
+		//getPlayer().sendPacket(u);
 		
 		su = null;
 	}
@@ -684,6 +684,15 @@ public final class QuestState
 			if(!getPlayer().getInventory().validateCapacityByItemId(itemId))
 				return false;
 
+			//just wait 3-5 seconds before the drop
+			try
+			{
+				Thread.sleep(Rnd.get(3, 5)*1000);
+			}
+			catch(InterruptedException e)
+			{
+			}
+			
 			// Give the item to Player
 			getPlayer().addItem("Quest", itemId, itemCount, getPlayer().getTarget(), true);
 

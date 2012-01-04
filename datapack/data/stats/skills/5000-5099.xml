@@ -803,6 +803,7 @@
   <table name="#mpConsume">19 22 25 28 31 33 36 38 40 42 42 43</table>
   <table name="#magicLvl">14 24 34 44 54 64 74 79 84 89 94 99</table>
   <set name="magicLvl" val="#magicLvl"/>
+  <set name="nextActionAttack" val="true" />
   <set name="lvlDepend" val="1"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
@@ -1633,6 +1634,7 @@
   <table name="#power">2751 2850 2950 3050</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="onCrit" val="true"/>
   <set name="reuseDelay" val="20000"/>

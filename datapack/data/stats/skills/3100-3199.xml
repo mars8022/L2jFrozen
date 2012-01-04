@@ -76,6 +76,7 @@
 <skill id="3105" levels="10" name="Item Skill: Bleed">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
+  <set name="nextActionAttack" val="true" />
   <set name="triggeredId" val="5175"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
   <set name="target" val="TARGET_SELF"/>
@@ -290,6 +291,7 @@
 <skill id="3120" levels="10" name="Item Skill: Bleed">
   <table name="#chance">2 2 2 3 3 3 4 4 5 5</table>le>
   <table name="#triggeredLevel">1 2 3 4 5 6 7 8 9 10</table>
+  <set name="nextActionAttack" val="true" />
   <set name="triggeredId" val="5175"/>
   <set name="triggeredLevel" val="#triggeredLevel"/>
   <set name="target" val="TARGET_SELF"/>
@@ -1875,6 +1877,7 @@
   <table name="#mpConsume">42 44 48 50 54 57 60 63 65 69</table>
   <table name="#mpConsume_Init">9 9 10 10 11 12 12 13 14 14</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
+  <set name="nextActionAttack" val="true" />
   <set name="staticReuse" val="true"/>
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="#mpConsume"/>

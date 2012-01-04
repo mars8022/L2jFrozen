@@ -14,6 +14,7 @@
   <set name="weaponsAllowed" val="18444"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="saveVs" val="MEN"/>
   <set name="element" val="5"/>
   <set name="target" val="TARGET_ONE"/>
@@ -47,6 +48,7 @@
   <set name="weaponsAllowed" val="18444"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="saveVs" val="MEN"/>
   <set name="element" val="6"/>
   <set name="target" val="TARGET_ONE"/>
@@ -276,6 +278,7 @@
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="condition" val="16"/>
   <set name="reuseDelay" val="90000"/>

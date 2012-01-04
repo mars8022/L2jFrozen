@@ -1201,7 +1201,7 @@ public class Siege
 		{
 			player.sendMessage("You are already registered in a Siege.");
 		}
-		else if(checkIfAlreadyRegisteredForSameDay(player.getClan()))
+		else if(checkIfAlreadyRegisteredForAnotherSiege(player.getClan()))
 		{
 			player.sendMessage("You are already registered in another Siege.");
 		}
@@ -1215,21 +1215,21 @@ public class Siege
 	 * Return true if the clan has already registered to a siege for the same day.<BR><BR>
 	 * @param clan The L2Clan of the player trying to register
 	 */
-	public boolean checkIfAlreadyRegisteredForSameDay(L2Clan clan)
+	private boolean checkIfAlreadyRegisteredForAnotherSiege(L2Clan clan)
 	{
 		for(Siege siege : SiegeManager.getInstance().getSieges())
 		{
 			if(siege == this)
 				continue;
-			if(siege.getSiegeDate().get(Calendar.DAY_OF_WEEK) == this.getSiegeDate().get(Calendar.DAY_OF_WEEK))
-			{
+			//if(siege.getSiegeDate().get(Calendar.DAY_OF_WEEK) == this.getSiegeDate().get(Calendar.DAY_OF_WEEK))
+			//{
 				if(siege.checkIsAttacker(clan))
 					return true;
 				if(siege.checkIsDefender(clan))
 					return true;
 				if(siege.checkIsDefenderWaiting(clan))
 					return true;
-			}
+			//}
 		}
 		return false;
 	}

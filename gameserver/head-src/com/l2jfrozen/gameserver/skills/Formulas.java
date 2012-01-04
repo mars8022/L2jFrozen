@@ -2128,6 +2128,9 @@ public final class Formulas
 				return false;
 		}
 
+		if (target.calcStat(Stats.DEBUFF_IMMUNITY, 0, null, skill) > 0 && skill.is_Debuff())
+			return false;
+		
 		d += 0.5 * Rnd.nextGaussian();
 		return d > 0;
 	}
@@ -2325,6 +2328,9 @@ public final class Formulas
 			return false;
 		}
 		
+		if (target.calcStat(Stats.DEBUFF_IMMUNITY, 0, null, skill) > 0 && skill.is_Debuff())
+			return false;
+		
 		SkillType type = skill.getSkillType();
 		
 		// these skills should not work on RaidBoss
@@ -2424,6 +2430,9 @@ public final class Formulas
 		if(attacker == null){
 			return false;
 		}
+		
+		if (target.calcStat(Stats.DEBUFF_IMMUNITY, 0, null, skill) > 0 && skill.is_Debuff())
+			return false;
 		
 		// Add Matk/Mdef Bonus
 		double mAtkModifier = 1;
@@ -2574,6 +2583,9 @@ public final class Formulas
 		if(attacker == null){
 			return false;
 		}
+		
+		if (target.calcStat(Stats.DEBUFF_IMMUNITY, 0, null, skill) > 0 && skill.is_Debuff())
+			return false;
 		
 		final SkillType type = effect.effectType;
 		final int value = (int)effect.effectPower;

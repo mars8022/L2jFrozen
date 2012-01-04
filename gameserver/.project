@@ -18,25 +18,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1300133339921</id>
-			<name></name>
-			<type>10</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-build</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1300133339937</id>
-			<name></name>
-			<type>6</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-build.properties</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1300133339937</id>
+			<id>1325084731816</id>
 			<name></name>
 			<type>10</type>
 			<matcher>

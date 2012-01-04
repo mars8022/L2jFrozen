@@ -27,6 +27,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
 import com.l2jfrozen.gameserver.managers.CastleManager;
+import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -155,6 +156,17 @@ public final class UseItem extends L2GameClientPacket
 		if(itemId == 57)
 			return;
 
+		if((itemId == 5858) && (ClanHallManager.getInstance().getClanHallByOwner(activeChar.getClan()) == null))
+		{
+			activeChar.sendMessage("Blessed Scroll of Escape: Clan Hall cannot be used due to unsuitable terms.");
+			return;
+		}
+		else if((itemId == 5859) && (CastleManager.getInstance().getCastleByOwner(activeChar.getClan()) == null))
+		{
+			activeChar.sendMessage("Blessed Scroll of Escape: Castle cannot be used due to unsuitable terms.");
+			return;
+		}
+		
 		if(activeChar.isFishing() && (itemId < 6535 || itemId > 6540))
 		{
 			// You cannot do anything else while fishing

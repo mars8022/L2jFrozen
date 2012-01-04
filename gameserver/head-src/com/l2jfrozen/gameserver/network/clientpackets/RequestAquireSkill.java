@@ -348,6 +348,8 @@ public class RequestAquireSkill extends L2GameClientPacket
 			ExStorageMaxCount esmc = new ExStorageMaxCount(player);
 			player.sendPacket(esmc);
 		}
+		
+		player.sendSkillList();
 	}
 
 	@Override

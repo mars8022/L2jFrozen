@@ -811,4 +811,27 @@ public class PcInventory extends Inventory
 		
 	}
 	
+	public int checkHowManyEquipped(int item_id){
+		
+		final L2ItemInstance[] items = getAllItemsByItemId(item_id);
+		
+		if(items == null
+				|| items.length == 0){
+			
+			return 0;
+			
+		}
+		
+		int count = 0;
+		for(final L2ItemInstance item:items){
+			
+			if(item.isEquipped())
+				count++;
+			
+		}
+		
+		return count;
+		
+	}
+	
 }

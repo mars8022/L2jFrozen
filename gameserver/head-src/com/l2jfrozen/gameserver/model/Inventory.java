@@ -382,14 +382,25 @@ public abstract class Inventory extends ItemContainer
 
 			if(passiveSkill != null)
 			{
-				player.addSkill(passiveSkill, false);
-				player.sendSkillList();
+				if(!passiveSkill.is_singleEffect()
+						|| player.getInventory().checkHowManyEquipped(item.getItemId())==1){
+					
+					player.addSkill(passiveSkill, false);
+					player.sendSkillList();
+					
+				}
+				
 			}
 
 			if(enchant4Skill != null)
 			{
-				player.addSkill(enchant4Skill, false);
-				player.sendSkillList();
+				if(!enchant4Skill.is_singleEffect()
+						|| player.getInventory().checkHowManyEquipped(item.getItemId())==1){
+					
+					player.addSkill(enchant4Skill, false);
+					player.sendSkillList();
+				}
+				
 			}
 
 			passiveSkill = null;

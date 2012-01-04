@@ -103,7 +103,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.FinishRotation;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicEffectIcons;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
@@ -1909,7 +1908,9 @@ public abstract class L2Character extends L2Object
 		broadcastPacket(new MagicSkillUser(this, target, displayId, level, hitTime, reuseDelay));
 
 		// Send a system message USE_S1 to the L2Character
-		if(activeChar instanceof L2PcInstance && magicId != 1312)
+		if(activeChar instanceof L2PcInstance 
+				&& magicId != 1312 
+				&& magicId != 2166 )
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 			if(magicId==2005)
@@ -7227,12 +7228,12 @@ public abstract class L2Character extends L2Object
 				}
 				removeStatsOwner(oldSkill);
 				
-				final Func[] skill_funcs = oldSkill.getStatFuncs(null, this);
+//				final Func[] skill_funcs = oldSkill.getStatFuncs(null, this);
 				
-				// Remove old func if single effect skill is defined
-				if(newSkill.is_singleEffect()
-						&& skill_funcs.length>0)
-					removeStatFuncs(skill_funcs);
+//				// Remove old func if single effect skill is defined
+//				if(newSkill.is_singleEffect()
+//						&& skill_funcs.length>0)
+//					removeStatFuncs(skill_funcs);
 					
 			}
 

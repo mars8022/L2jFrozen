@@ -1127,19 +1127,19 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4164" levels="9" name="Paralysis">
   <!-- Cubic skill -->
   <table name="#magicLvl">40 44 48 52 56 60 64 68 72 73 74 75 76 77 78 79 80 81</table>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="lvlDepend" val="1"/>
-  <set name="power" val="20"/>
+  <set name="power" val="40" /> <!-- Base Land Rate -->
+  <set name="saveVs" val="MEN" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="PARALYZE"/>
   <set name="isDebuff" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
     <effect count="1" name="Paralyze" time="30" val="0"/>
   </for>

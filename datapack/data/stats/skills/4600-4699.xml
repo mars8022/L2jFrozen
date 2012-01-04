@@ -1514,7 +1514,7 @@
   <for>
     <mul order="0x30" stat="waterVuln" val="1.3"/>
     <mul order="0x30" stat="fireVuln" val="0.7"/>
-    <sub order="0x40" stat="debuffVuln" val="100" />
+    <set order="0x08" stat="debuffImmunity" val="1" /> <!-- Immunity to debuff 100% -->
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

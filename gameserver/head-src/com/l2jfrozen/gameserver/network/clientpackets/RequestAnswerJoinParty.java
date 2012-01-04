@@ -51,6 +51,13 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 		if (requestor == null)
 			return;
 		
+		
+		if(player.isCursedWeaponEquiped() || requestor.isCursedWeaponEquiped())
+		{
+			requestor.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
+			return;
+		}
+		
 		requestor.sendPacket(new JoinParty(_response));
 
 		if (_response == 1)
