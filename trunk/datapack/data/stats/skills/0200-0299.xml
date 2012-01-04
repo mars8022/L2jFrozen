@@ -219,6 +219,7 @@
   <set name="weaponsAllowed" val="2580"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
+  <set name="nextActionAttack" val="true" />
   <set name="saveVs" val="CON"/>
   <set name="power" val="#power"/>
   <set name="lvlDepend" val="1"/>
@@ -499,6 +500,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_AREA"/>
   <set name="skillRadius" val="150"/>
   <set name="overHit" val="true"/>
@@ -702,6 +704,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_ONE"/>
+  <set name="nextActionAttack" val="true" />
   <set name="reuseDelay" val="10000"/>
   <set name="hitTime" val="1800"/>
   <set name="skillType" val="SPOIL"/>
@@ -729,6 +732,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
   <set name="SSBoost" val="2.0"/>
@@ -866,6 +870,7 @@
   <table name="#ench2Power">2027 2045 2063 2081 2099 2117 2135 2153 2171 2190 2208 2226 2244 2262 2280 2298 2316 2334 2352 2371 2389 2407 2425 2443 2461 2479 2497 2515 2533 2552</table>
   <set name="weaponsAllowed" val="16392"/>
   <set name="mpConsume" val="#mpConsume"/>
+  <set name="nextActionAttack" val="true" />
   <set name="saveVs" val="CON"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
@@ -903,6 +908,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="conditionValue" val="3"/>
   <set name="ignoreShld" val="true"/>
@@ -970,6 +976,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="condition" val="16"/>
   <set name="reuseDelay" val="12000"/>
@@ -1479,6 +1486,7 @@
   <table name="#power">82 89 96 102 108</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
+  <set name="nextActionAttack" val="true" />
   <set name="saveVs" val="MEN"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
@@ -1510,6 +1518,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="weaponsAllowed" val="1024"/>
   <set name="element" val="2"/>
@@ -1541,6 +1550,7 @@
   <set name="saveVs" val="CON"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="lvlDepend" val="1"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="weaponsAllowed" val="1024"/>
@@ -1634,6 +1644,7 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="weaponsAllowed" val="1024"/>
   <set name="conditionValue" val="2"/>
@@ -1896,6 +1907,7 @@
   <table name="#pAtkSpd">1.08 1.12</table>
   <table name="#mpConsume">30 34</table>
   <table name="#aggro">597 646</table>
+  <set name="weaponsAllowed" val="512"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="120000"/>
@@ -1905,9 +1917,6 @@
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="#aggro"/>
-  <cond msg="Dual Sword required.">
-    <using kind="Dual Sword"/>
-  </cond>
   <for>
     <effect count="1" name="Buff" time="60" val="0">
       <mul order="0x30" stat="pAtkSpd" val="#pAtkSpd">

@@ -508,6 +508,8 @@ public abstract class L2Skill
 	
 	private final boolean _singleEffect;
 	
+	private final boolean _isDebuff;
+	
 	protected L2Skill(StatsSet set)
 	{
 		_id = set.getInteger("skill_id",0);
@@ -666,6 +668,8 @@ public abstract class L2Skill
 		
 		_singleEffect = set.getBool("singleEffect", false);
 		
+		_isDebuff = set.getBool("isDebuff", false);
+		
 	}
 
 	public abstract void useSkill(L2Character caster, L2Object[] targets);
@@ -677,6 +681,31 @@ public abstract class L2Skill
 	public boolean is_singleEffect()
 	{
 		return _singleEffect;
+	}
+	
+	/**
+	 * @return the _isDebuff
+	 */
+	public boolean is_Debuff()
+	{
+		boolean type_debuff = false;
+		
+		switch(_skillType){
+			case AGGDEBUFF:
+			case DEBUFF:
+			case STUN:
+			case BLEED:
+			case CONFUSION:
+			case FEAR:
+			case PARALYZE:
+			case SLEEP:
+			case ROOT:
+			case WEAKNESS:
+				type_debuff = true;
+				
+		}
+		
+		return _isDebuff || type_debuff;
 	}
 
 	/**

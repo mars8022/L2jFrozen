@@ -533,6 +533,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			// cancel the recent fake-death protection instantly if the player attacks or casts spells
 			getPlayer().setRecentFakeDeath(false);
 
+			/*
 			if(getPlayer().isSilentMoving())
 			{
 				L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
@@ -541,6 +542,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					silentMove.exit(true);
 				}
 			}
+			*/
 
 			for(L2CubicInstance cubic : getCubics().values())
 				if(cubic.getId() != L2CubicInstance.LIFE_CUBIC)
@@ -577,7 +579,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(!skill.isOffensive())
 				return;
-
+			
+			/*
 			if(getPlayer().isSilentMoving() && skill.getSkillType() != SkillType.AGGDAMAGE)
 			{
 				L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
@@ -586,6 +589,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					silentMove.exit(true);
 				}
 			}
+			*/
 
 			switch(skill.getTargetType())
 			{

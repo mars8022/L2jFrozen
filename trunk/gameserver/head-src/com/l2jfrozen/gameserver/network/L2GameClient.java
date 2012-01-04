@@ -54,7 +54,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.LeaveWorld;
 import com.l2jfrozen.gameserver.network.serverpackets.ServerClose;
-import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;

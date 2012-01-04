@@ -474,7 +474,7 @@ public class Castle
 		for(int i = 0; i < getDoors().size(); i++)
 		{
 			L2DoorInstance door = getDoors().get(i);
-			if(door.getCurrentHp() >= 0)
+			if(door.getCurrentHp() <= 0)
 			{
 				door.decayMe(); // Kill current if not killed already
 				door = DoorTable.parseList(_doorDefault.get(i));

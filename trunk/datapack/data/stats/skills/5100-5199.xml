@@ -313,6 +313,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5119" levels="1" name="Bleed">
+  <set name="nextActionAttack" val="true" />
   <set name="weaponsAllowed" val="16"/>
   <set name="mpConsume" val="99"/>
   <set name="magicLvl" val="70"/>
@@ -491,6 +492,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5135" levels="1" name="Slash">
+  <set name="nextActionAttack" val="true" />
   <set name="power" val="5233"/>
   <set name="mpConsume" val="189"/>
   <set name="magiclvl" val="80"/>
@@ -540,6 +542,7 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5138" levels="1" name="Whiplash">
+  <set name="nextActionAttack" val="true" />
   <set name="power" val="5233"/>
   <set name="activateRate" val="50"/>
   <set name="effectPoint" val="950"/>
@@ -603,6 +606,7 @@
   </for>
 </skill>
 <skill id="5141" levels="1" name="Dicing Death">
+  <set name="nextActionAttack" val="true" />
   <set name="mpConsume" val="283"/>
   <set name="effectPoint" val="445"/>
   <set name="power" val="7850"/>
@@ -1296,6 +1300,7 @@
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
   <table name="#lvl">5 5 6 6 6 7 7 7 8 8</table>
   <set name="magicLvl" val="#magicLvl"/>
+  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="POISON"/>
   <set name="killByDOT" val="false"/>

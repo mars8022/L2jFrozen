@@ -137,6 +137,8 @@ public enum Stats
 	CAST_INTERRUPT("concentration"),
 	CRIT_VULN("critVuln"), 			// Resistence to Crit DMG.
 	
+	DEBUFF_IMMUNITY("debuffImmunity"),
+	
 	NONE_WPN_VULN("noneWpnVuln"), // Shields!!!
 	SWORD_WPN_VULN("swordWpnVuln"),
 	BLUNT_WPN_VULN("bluntWpnVuln"),

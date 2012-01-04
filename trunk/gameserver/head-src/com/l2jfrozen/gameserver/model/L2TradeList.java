@@ -18,22 +18,12 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
@@ -42,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class L2TradeList
 {
-	private static Logger _log = Logger.getLogger(L2TradeList.class.getName());
+	//private static Logger _log = Logger.getLogger(L2TradeList.class.getName());
 
 	private List<L2ItemInstance> _items;
 	private int _listId;

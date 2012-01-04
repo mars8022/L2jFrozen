@@ -1355,7 +1355,7 @@
   <set name="skillType" val="BUFF"/>
   <set name="target" val="TARGET_SELF"/>
   <for>
-    <mul order="0x30" stat="debuffVuln" val="0.0"/>
+    <set order="0x08" stat="debuffImmunity" val="1" /> <!-- Immunity to debuff 100% -->
   </for>
 </skill>
 <skill id="4391" levels="2" name="Wind Walk">

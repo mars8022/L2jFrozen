@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.skills;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javolution.util.FastList;
 
