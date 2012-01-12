@@ -588,14 +588,15 @@
 <skill id="422" levels="3" name="Polearm Accuracy">
   <table name="#mpConsume">11 13 14</table>
   <table name="#accCombat">2 3 4</table>
-  <set name="weaponsAllowed" val="64"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
   <for>
     <effect count="0x7fffffff" name="ManaDamOverTime" time="2" val="#mpConsume">
-      <add order="0x40" stat="accCombat" val="#accCombat"/>
+      <add order="0x40" stat="accCombat" val="#accCombat">
+       <using kind="Pole"/>
+      </add>
     </effect>
   </for>
 </skill>
@@ -668,7 +669,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="1400"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="427" levels="1" name="Spell Force">
@@ -683,7 +684,7 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="1400"/>
   <set name="reuseDelay" val="300000"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="428" levels="1" name="Inner Rhythm">
@@ -1153,13 +1154,13 @@
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13018"/>
   <set name="effectId" val="5123"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of Defense cannot be used due to unsuitable terms.">
     <player battle_force="2"/> 
   </cond>
   <for>
@@ -1182,13 +1183,13 @@
   <set name="offensive" val="True"/>
   <set name="effectId" val="5124"/>
   <set name="element" val="0"/> <!-- Fire -->
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of Noise cannot be used due to unsuitable terms.">
     <player battle_force="2"/> 
   </cond> 
   <for>
@@ -1208,13 +1209,13 @@
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13018"/>
   <set name="effectId" val="5125"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of Resistance cannot be used due to unsuitable terms.">
     <player battle_force="2"/> 
   </cond> 
   <for>
@@ -1234,13 +1235,13 @@
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13018"/>
   <set name="effectId" val="5126"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of Honor cannot be used due to unsuitable terms.">
     <player battle_force="2"/> 
   </cond>
   <for>
@@ -1260,13 +1261,13 @@
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13018"/>
   <set name="effectId" val="5127"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of Energy cannot be used due to unsuitable terms.">
     <player battle_force="2"/> 
   </cond>
   <for>
@@ -1286,13 +1287,13 @@
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13018"/>
   <set name="effectId" val="5128"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of the Sniper cannot be used due to unsuitable terms."> 
     <player battle_force="2"/> 
   </cond>
   <for>
@@ -1312,13 +1313,13 @@
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13018"/>
   <set name="effectId" val="5129"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="power" val="200"/>
   <set name="itemConsumeId" val="8875"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="44"/>
-  <cond msg="2 Battle Forces required."> 
+  <cond msg="Symbol of the Assassin cannot be used due to unsuitable terms."> 
     <player battle_force="2"/> 
   </cond>
   <for>

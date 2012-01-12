@@ -322,6 +322,13 @@ public final class Say2 extends L2GameClientPacket
 							activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_PERSON_IS_IN_MESSAGE_REFUSAL_MODE));
 						}
 					}
+					else if(receiver != null && BlockList.isBlocked(receiver, activeChar))
+					{
+						SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
+						sm.addString(_target);
+						activeChar.sendPacket(sm);
+						sm = null;
+					}
 					else
 					{
 						SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_NOT_ONLINE);

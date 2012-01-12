@@ -38,6 +38,7 @@ import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
+import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.gameserverpackets.ServerStatus;
 import com.l2jfrozen.gameserver.network.serverpackets.ServerClose;
@@ -618,7 +619,7 @@ public class Shutdown extends Thread
 
         try
 		{
-			Thread.sleep(5000);
+			Thread.sleep(1000);
 		}
 		catch(InterruptedException e1)
 		{
@@ -702,13 +703,22 @@ public class Shutdown extends Thread
 	{
 		for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
+			if (player == null)
+				continue;
+
 			//Logout Character
 			try
 			{
+				// Save player status
 				player.store();
-				//SystemMessage sm = new SystemMessage(SystemMessage.YOU_HAVE_WON_THE_WAR_OVER_THE_S1_CLAN);
-				//player.sendPacket(sm);
-				player.sendPacket(ServerClose.STATIC_PACKET);
+				
+				// Player Disconnect
+				if(player.getClient() != null)
+				{
+				   player.getClient().sendPacket(ServerClose.STATIC_PACKET);
+				   player.getClient().setActiveChar(null);
+				   player.setClient(null);		
+				}
 			}
 			catch(Throwable t)
 			{
@@ -719,7 +729,7 @@ public class Shutdown extends Thread
 		
 		try
 		{
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		}
 		catch(Throwable t)
 		{

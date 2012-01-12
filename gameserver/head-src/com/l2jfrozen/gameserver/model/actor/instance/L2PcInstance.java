@@ -2808,10 +2808,12 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(newPenalty > 0)
 			{
 				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
+				sendSkillList(); // Update skill list
 			}
 			else
 			{
 				super.removeSkill(getKnownSkill(4267));
+				sendSkillList(); // Update skill list
 			}
 			sendPacket(new EtcStatusUpdate(this));
 		}
@@ -3589,6 +3591,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(isFakeDeath())
 		{
+			broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_STANDING));
+			// Schedule a stand up task to wait for the animation to finish
+			setIsImobilised(true);
+			ThreadPoolManager.getInstance().scheduleGeneral(new StandUpTask(this), 2000);
 			stopFakeDeath(null);
 		}
 		
@@ -5801,6 +5807,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		return getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
 	}
+	
+	public L2ItemInstance getLegsArmorInstance()
+	{
+		return getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
+	}
 
 	public L2Armor getActiveChestArmorItem()
 	{
@@ -5811,46 +5822,74 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		return (L2Armor) armor.getItem();
 	}
+	
+	public L2Armor getActiveLegsArmorItem()
+	{
+		L2ItemInstance legs = getLegsArmorInstance();
+		
+		if (legs == null)
+			return null;
+		
+		return (L2Armor) legs.getItem();
+	}
 
 	public boolean isWearingHeavyArmor()
 	{
+		L2ItemInstance legs = getLegsArmorInstance();
 		L2ItemInstance armor = getChestArmorInstance();
-
-		if((L2ArmorType) armor.getItemType() == L2ArmorType.HEAVY)
+		
+		if (armor != null && legs != null)
 		{
-			armor = null;
-			return true;
+			if ((L2ArmorType)legs.getItemType() == L2ArmorType.HEAVY
+					&& ((L2ArmorType)armor.getItemType() == L2ArmorType.HEAVY))
+				return true;
 		}
-
-		armor = null;
+		if (armor != null)
+		{
+			if ((getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST).getItem().getBodyPart() == L2Item.SLOT_FULL_ARMOR
+					&& (L2ArmorType)armor.getItemType() == L2ArmorType.HEAVY))
+				return true;
+		}
 		return false;
 	}
 
 	public boolean isWearingLightArmor()
 	{
+		L2ItemInstance legs = getLegsArmorInstance();
 		L2ItemInstance armor = getChestArmorInstance();
-
-		if((L2ArmorType) armor.getItemType() == L2ArmorType.LIGHT)
+		
+		if (armor != null && legs != null)
 		{
-			armor = null;
-			return true;
+			if ((L2ArmorType)legs.getItemType() == L2ArmorType.LIGHT
+					&& ((L2ArmorType)armor.getItemType() == L2ArmorType.LIGHT))
+				return true;
 		}
-
-		armor = null;
+		if (armor != null)
+		{
+			if ((getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST).getItem().getBodyPart() == L2Item.SLOT_FULL_ARMOR
+					&& (L2ArmorType)armor.getItemType() == L2ArmorType.LIGHT))
+				return true;
+		}
 		return false;
 	}
 
 	public boolean isWearingMagicArmor()
 	{
+		L2ItemInstance legs = getLegsArmorInstance();
 		L2ItemInstance armor = getChestArmorInstance();
-
-		if((L2ArmorType) armor.getItemType() == L2ArmorType.MAGIC)
+		
+		if (armor != null && legs != null)
 		{
-			armor = null;
-			return true;
+			if ((L2ArmorType)legs.getItemType() == L2ArmorType.MAGIC
+					&& ((L2ArmorType)armor.getItemType() == L2ArmorType.MAGIC))
+				return true;
 		}
-
-		armor = null;
+		if (armor != null)
+		{
+			if ((getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST).getItem().getBodyPart() == L2Item.SLOT_FULL_ARMOR
+					&& (L2ArmorType)armor.getItemType() == L2ArmorType.MAGIC))
+				return true;
+		}
 		return false;
 	}
 
@@ -10603,11 +10642,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		//************************************* Check skill availability *******************************************
 
 		// Check if this skill is enabled (ex : reuse time)
-		if(isSkillDisabled(skill_id) && !getAccessLevel().allowPeaceAttack())
+		if(isSkillDisabled(skill_id) /* && !getAccessLevel().allowPeaceAttack() */)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
-			sm.addString(skill.getName());
-			sendPacket(sm);
+			// SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
+			// sm.addString(skill.getName());
+			// sendPacket(sm);
 
 			// Send a Server->Client packet ActionFailed to the L2PcInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
@@ -10681,6 +10720,16 @@ public final class L2PcInstance extends L2PlayableInstance
 					sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
 					return;
 				}
+			}
+		}
+		
+		// Like L2OFF if you have a summon you can't summon another one
+		if(sklType == L2Skill.SkillType.SUMMON)
+		{
+			if (getPet() != null)
+			{
+				sendPacket(new SystemMessage(SystemMessageId.YOU_ALREADY_HAVE_A_PET));
+				return;
 			}
 		}
 

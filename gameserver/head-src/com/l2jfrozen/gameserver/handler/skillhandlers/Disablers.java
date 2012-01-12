@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
 import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -318,8 +319,8 @@ public class Disablers implements ISkillHandler
 				case ERASE:
 				{
 					if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss)
-					// doesn't affect siege golem or wild hog cannon
-					&& !(target instanceof L2SiegeSummonInstance))
+					// Doesn't affect siege golem, wild hog cannon and Pets
+					&& !(target instanceof L2SiegeSummonInstance) && !(target instanceof L2PetInstance))
 					{
 						L2PcInstance summonOwner = null;
 						L2Summon summonPet = null;

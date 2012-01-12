@@ -120,6 +120,9 @@ public final class Action extends L2GameClientPacket
 		}
 		else
 			getClient().sendPacket(ActionFailed.STATIC_PACKET); // Actions prohibited when in trade
+		
+	// Update the status after the target	
+	activeChar.broadcastStatusUpdate();
 	}
 
 	@Override

@@ -188,7 +188,6 @@ public class ScrollOfEscape implements IItemHandler
 		//activeChar.abortCast();
 		activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		//SoE Animation section
-		activeChar.setTarget(activeChar);
 		// Check if this is a blessed scroll, if it is then shorten the cast time.
 		int itemId = item.getItemId();
 		int escapeSkill = itemId == 1538 || itemId == 5858 || itemId == 5859 || itemId == 3958 || itemId == 10130 ? 2036 : 2013;
@@ -211,7 +210,8 @@ public class ScrollOfEscape implements IItemHandler
 		oldtarget = null;
 		sg = null;
 		//End SoE Animation section
-
+		activeChar.setTarget(null);
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
 		sm.addItemName(itemId);
 		activeChar.sendPacket(sm);
@@ -251,14 +251,20 @@ public class ScrollOfEscape implements IItemHandler
 			{
 				
 				// escape to castle if own's one
-				if((_itemId == 1830 || _itemId == 5859) && CastleManager.getInstance().getCastleByOwner(_activeChar.getClan()) != null)
+				if((_itemId == 1830 || _itemId == 5859))
 				{
-					_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Castle);
+					if (CastleManager.getInstance().getCastleByOwner(_activeChar.getClan()) != null)
+						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Castle);
+					else
+						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				}
 				// escape to fortress if own's one if own's one
-				else if((_itemId == 1830 || _itemId == 5859) && FortManager.getInstance().getFortByOwner(_activeChar.getClan()) != null)
+				else if((_itemId == 1830 || _itemId == 5859))
 				{
-					_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Fortress);
+					if (FortManager.getInstance().getFortByOwner(_activeChar.getClan()) != null)
+						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Fortress);
+					else
+						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				}
 				else if((_itemId == 1829 || _itemId == 5858) && _activeChar.getClan() != null && ClanHallManager.getInstance().getClanHallByOwner(_activeChar.getClan()) != null) // escape to clan hall if own's one
 				{
@@ -267,11 +273,6 @@ public class ScrollOfEscape implements IItemHandler
 				else if(_itemId == 5858) // do nothing
 				{
 					_activeChar.sendPacket(new SystemMessage(SystemMessageId.CLAN_HAS_NO_CLAN_HALL));
-					return;
-				}
-				else if(_itemId == 5859) // do nothing
-				{
-					_activeChar.sendPacket(SystemMessage.sendString("Your clan does not own castle or fortress."));
 					return;
 				}
 				else if(_activeChar.getKarma()>0 && Config.ALT_KARMA_TELEPORT_TO_FLORAN){

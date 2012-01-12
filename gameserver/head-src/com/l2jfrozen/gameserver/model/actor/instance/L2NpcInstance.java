@@ -2385,6 +2385,10 @@ public class L2NpcInstance extends L2Character
 	 */
 	public void showChatWindow(L2PcInstance player, int val)
 	{
+		// Like L2OFF if char is dead, is sitting or is in fakedeath can't speak with npcs
+		if(player.isSitting() || player.isDead() || player.isFakeDeath())
+		    return;
+		
 		if(player.getKarma() > 0)
 		{
 			if(!Config.ALT_GAME_KARMA_PLAYER_CAN_SHOP && this instanceof L2MerchantInstance)

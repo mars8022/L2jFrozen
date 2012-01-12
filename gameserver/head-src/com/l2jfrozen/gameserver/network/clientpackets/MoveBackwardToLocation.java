@@ -22,6 +22,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.EnchantResult;
 import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
 import com.l2jfrozen.gameserver.thread.TaskPriority;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
@@ -82,11 +83,17 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			return;
 		}
 		
+		// Movements prohibited when in store
 		if(activeChar.getPrivateStoreType() != 0){
-			getClient().sendPacket(ActionFailed.STATIC_PACKET); // movements prohibited when in store
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
+		// Like L2OFF the enchant window will close
+		if(activeChar.getActiveEnchantItem() != null){
+            activeChar.sendPacket(new EnchantResult(0));
+            activeChar.setActiveEnchantItem(null);
+		}
 		
 		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ) 
 		{

@@ -1345,7 +1345,7 @@
   </for>
   <enchant1for>
     <effect count="1" name="Buff" time="#ench1time" val="0" stackOrder="1" stackType="WindAtr">
-      <mul order="0x30" stat="windVuln" val="20"/>
+      <mul order="0x30" stat="windVuln" val="0.7"/>
     </effect>
   </enchant1for>
 </skill>
@@ -1382,7 +1382,7 @@
   </for>
   <enchant1for>
     <effect count="1" name="Buff" time="#ench1time" val="0" stackOrder="1" stackType="FireAtr">
-      <mul order="0x30" stat="fireVuln" val="20"/>
+      <mul order="0x30" stat="fireVuln" val="0.7"/>
     </effect>
   </enchant1for>
 </skill>
