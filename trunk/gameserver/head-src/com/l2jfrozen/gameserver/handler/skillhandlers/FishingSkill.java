@@ -55,12 +55,12 @@ public class FishingSkill implements ISkillHandler
 			if(skill.getSkillType()==SkillType.PUMPING)
 			{
 				//Pumping skill is available only while fishing
-				player.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_PUMPING_ONLY_WHILE_FISHING));
+				//player.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_PUMPING_ONLY_WHILE_FISHING));
 			}
 			else if(skill.getSkillType()==SkillType.REELING)
 			{
 				//Reeling skill is available only while fishing
-				player.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_REELING_ONLY_WHILE_FISHING));
+				//player.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_REELING_ONLY_WHILE_FISHING));
 			}
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
@@ -69,7 +69,12 @@ public class FishingSkill implements ISkillHandler
 		L2Weapon weaponItem = player.getActiveWeaponItem();
 		L2ItemInstance weaponInst = activeChar.getActiveWeaponInstance();
 		if(weaponInst == null || weaponItem == null || weaponItem.getItemType() != L2WeaponType.ROD)
+		{
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+		    activeChar.sendPacket(sm);
+		    sm = null;
 			return;
+		}
 
 		int SS = 1;
 		int pen = 0;

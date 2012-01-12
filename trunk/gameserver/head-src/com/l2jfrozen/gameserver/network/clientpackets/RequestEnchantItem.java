@@ -97,14 +97,7 @@ public final class RequestEnchantItem extends L2GameClientPacket
 			return;
 		}
 
-		if(activeChar.isMoving())
-		{
-			activeChar.setActiveEnchantItem(null);
-			activeChar.sendMessage("Can't enchant while moving");
-			return;
-		}
-
-		//fix enchant transactions
+		// Fix enchant transactions
 		if(activeChar.isProcessingTransaction())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INAPPROPRIATE_ENCHANT_CONDITION));

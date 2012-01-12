@@ -72,6 +72,9 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 						// Attempt to charge first shot on activation
 						if(_itemId == 6645 || _itemId == 6646 || _itemId == 6647)
 						{
+							// Like L2OFF you can active automatic SS only if you have a pet
+							if (activeChar.getPet() != null)
+							{
 							//activeChar.addAutoSoulShot(_itemId);
 							//ExAutoSoulShot atk = new ExAutoSoulShot(_itemId, _type);
 							//activeChar.sendPacket(atk);
@@ -82,6 +85,14 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 							activeChar.sendPacket(sm);
 
 							activeChar.rechargeAutoSoulShot(true, true, true);
+							}
+							else
+							{
+								SystemMessage sm = new SystemMessage(SystemMessageId.NO_SERVITOR_CANNOT_AUTOMATE_USE);
+							    sm.addString(item.getItemName());
+							    activeChar.sendPacket(sm);
+							    return;
+							}
 						}
 						else
 						{

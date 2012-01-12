@@ -324,6 +324,10 @@ abstract class DocumentBase
 			{
 				abnormal = L2Character.ABNORMAL_EFFECT_STEALTH;
 			}
+			else if(abn.equals("float"))
+			{
+				abnormal = L2Character.ABNORMAL_EFFECT_FLOATING_ROOT;
+			}
 		}
 
 		float stackOrder = 0;

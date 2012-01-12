@@ -4844,6 +4844,14 @@ public enum SystemMessageId
 	 */
 	A_MANOR_CANNOT_BE_SET_UP_BETWEEN_6_AM_AND_8_PM(1675),
 
+	
+	/**
+	 * ID: 1676<br>
+	 * Message: You do not have a servitor or pet and therefore cannot use the automatic-use function.
+	 */
+	NO_SERVITOR_CANNOT_AUTOMATE_USE(1676),
+	
+	
 	/**
 	 * ID: 2013<br>
 	 * Message: Your seed or remaining purchase amount is inadequate.

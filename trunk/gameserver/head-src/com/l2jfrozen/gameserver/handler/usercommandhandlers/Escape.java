@@ -146,6 +146,7 @@ public class Escape implements IUserCommandHandler
 		activeChar.disableAllSkills();
 
 		MagicSkillUser msk = new MagicSkillUser(activeChar, 1050, 1, unstuckTimer, 0);
+		activeChar.setTarget(null); // Like retail we haven't self target
 		Broadcast.toSelfAndKnownPlayersInRadius(activeChar, msk, 810000/*900*/);
 		SetupGauge sg = new SetupGauge(0, unstuckTimer);
 		activeChar.sendPacket(sg);

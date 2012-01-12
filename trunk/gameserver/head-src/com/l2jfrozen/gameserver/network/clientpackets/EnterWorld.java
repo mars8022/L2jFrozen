@@ -144,7 +144,7 @@ public class EnterWorld extends L2GameClientPacket
 		{
 			if (activeChar.getName().length() < 3 || activeChar.getName().length() > 16 || !Util.isAlphaNumeric(activeChar.getName()) || !isValidName(activeChar.getName()))
 			{
-				_log.fine("Charname: " + activeChar.getName() + " is invalid. EnterWorld failed.");
+				_log.warning("Charname: " + activeChar.getName() + " is invalid. EnterWorld failed.");
 				getClient().closeNow();
 				return;
 			}	

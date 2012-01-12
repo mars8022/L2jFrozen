@@ -1649,14 +1649,22 @@ public abstract class L2Character extends L2Object
 		
 		if(isSkillDisabled(skill.getId()))
 		{
-			if(activeChar instanceof L2PcInstance)
+			if(activeChar instanceof L2PcInstance && !(skill.getId() == 2166))
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
 				sm.addSkillName(skill.getId(), skill.getLevel());
 				sendPacket(sm);
 				sm = null;
 			}
-
+			// Cp potion message
+			else if(activeChar instanceof L2PcInstance && (skill.getId() == 2166))
+			{
+				if (skill.getLevel() == 2)
+				((L2PcInstance) activeChar).sendMessage("Greater CP Potion is not available at this time: being prepared for reuse.");
+				else if (skill.getLevel() == 1)
+				((L2PcInstance) activeChar).sendMessage("CP Potion is not available at this time: being prepared for reuse.");	
+			}
+			
 			return;
 		}
 
@@ -1824,7 +1832,8 @@ public abstract class L2Character extends L2Object
 
 			//Because the following are magic skills that do not actively 'eat' BSpS/SpS,
 			//I must 'eat' them here so players don't take advantage of infinite speed increase
-			if(skill.getSkillType() == SkillType.MANAHEAL || skill.getSkillType() == SkillType.RESURRECT || skill.getSkillType() == SkillType.RECALL)
+			/* MANAHEAL, MANARECHARGE, RESURRECT, RECALL*/
+			if(skill.getSkillType() == SkillType.MANAHEAL || skill.getSkillType() == SkillType.MANARECHARGE || skill.getSkillType() == SkillType.RESURRECT || skill.getSkillType() == SkillType.RECALL)
 			{
 				if(checkBss())
 					removeBss();
@@ -2182,6 +2191,10 @@ public abstract class L2Character extends L2Object
 		{
 			killer
 		});
+		
+		// Update active skills in progress (In Use and Not In Use because stacked) icones on client
+		updateEffectIcons();
+		
 		return true;
 	}
 
@@ -8029,7 +8042,10 @@ public abstract class L2Character extends L2Object
 			getAI().notifyEvent(CtrlEvent.EVT_FINISH_CASTING);
 
 			notifyQuestEventSkillFinished(skill, getTarget());
-
+			
+			// Like L2OFF after a skill the player must stop the movement, also with toggle
+			stopMove(null);
+			
 			/*
 			 * If character is a player, then wipe their current cast state and
 			 * check if a skill is queued.
@@ -8212,18 +8228,59 @@ public abstract class L2Character extends L2Object
 		if(this instanceof L2PcInstance){
 			L2PcInstance activeChar = (L2PcInstance) this;
 			
-			if((skill.getSkillType()==SkillType.PUMPING || skill.getSkillType()==SkillType.REELING) && !activeChar.isFishing()){
-				activeChar.sendMessage("You can use fishing skills just while fishing");
+			if((skill.getSkillType()==SkillType.FISHING || skill.getSkillType()==SkillType.REELING || skill.getSkillType()==SkillType.PUMPING) && !activeChar.isFishing() && (activeChar.getActiveWeaponItem() != null && activeChar.getActiveWeaponItem().getItemType()!=L2WeaponType.ROD))
+			{
+				if(skill.getSkillType()==SkillType.PUMPING)
+				{
+					// Pumping skill is available only while fishing
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_PUMPING_ONLY_WHILE_FISHING));
+				}
+				else if(skill.getSkillType()==SkillType.REELING)
+				{
+					// Reeling skill is available only while fishing
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_REELING_ONLY_WHILE_FISHING));
+				}
+				else if(skill.getSkillType()==SkillType.FISHING)
+				{
+					// Player hasn't fishing pole equiped
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.FISHING_POLE_NOT_EQUIPPED));
+				}
+				
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+				sm.addString(skill.getName());
+				activeChar.sendPacket(sm);
 				return true;
 			}
 			
-			if(skill.getSkillType()==SkillType.FISHING && (activeChar.getActiveWeaponItem() == null || activeChar.getActiveWeaponItem().getItemType()!=L2WeaponType.ROD)){
-				activeChar.sendMessage("You can use fishing skill just with Rod Weapon");
+			if((skill.getSkillType()==SkillType.FISHING || skill.getSkillType()==SkillType.REELING || skill.getSkillType()==SkillType.PUMPING) && activeChar.getActiveWeaponItem() == null)
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+				sm.addString(skill.getName());
+				activeChar.sendPacket(sm);
+				return true;
+			}
+			
+			if((skill.getSkillType()==SkillType.REELING || skill.getSkillType()==SkillType.PUMPING) && !activeChar.isFishing() && (activeChar.getActiveWeaponItem() != null && activeChar.getActiveWeaponItem().getItemType()==L2WeaponType.ROD))
+			{
+				if(skill.getSkillType()==SkillType.PUMPING)
+				{
+					// Pumping skill is available only while fishing
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_PUMPING_ONLY_WHILE_FISHING));
+				}
+				else if(skill.getSkillType()==SkillType.REELING)
+				{
+					// Reeling skill is available only while fishing
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.CAN_USE_REELING_ONLY_WHILE_FISHING));
+				}
+				
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+				sm.addString(skill.getName());
+				activeChar.sendPacket(sm);
 				return true;
 			}
 			
 			if(activeChar.isHero() && HeroSkillTable.isHeroSkill(skillId) && activeChar.isInOlympiadMode() && activeChar.isOlympiadStart()){
-				activeChar.sendMessage("You can't use Hero skills during Olympiad match");
+				activeChar.sendMessage("You can't use Hero skills during Olympiad match.");
 				return true;
 			}
 		}

@@ -434,7 +434,7 @@
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="36"/>
-  <cond msg="3 Spell Forces required.">
+  <cond msg="Volcano cannot be used due to unsuitable terms.">
   	<player spell_force="3"/>
   </cond>
   <for>
@@ -463,7 +463,7 @@
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="36"/>
-  <cond msg="3 Spell Forces required.">
+  <cond msg="Cyclone cannot be used due to unsuitable terms.">
   	<player spell_force="3"/>
   </cond>
   <for>
@@ -492,7 +492,7 @@
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="36"/>
-  <cond msg="3 Spell Forces required.">
+  <cond msg="Raging Waves cannot be used due to unsuitable terms.">
   	<player spell_force="3"/>
   </cond>
   <for>
@@ -515,7 +515,7 @@
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="castRange" val="900"/>
-  <cond msg="3 Spell Forces required.">
+  <cond msg="Day of Doom cannot be used due to unsuitable terms.">
   	<player spell_force="3"/>
   </cond>
   <for>
@@ -547,7 +547,7 @@
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="36"/>
   <set name="mpConsume" val="36"/>
-  <cond msg="3 Spell Forces required.">
+  <cond msg="Gehenna cannot be used due to unsuitable terms.">
   	<player spell_force="3"/>
   </cond>
   <for>
@@ -574,7 +574,7 @@
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="70"/>
   <set name="mpConsume" val="70"/>
-  <cond msg="2 Spell Forces required.">
+  <cond msg="Anti-Summoning Field cannot be used due to unsuitable terms.">
   	<player spell_force="2"/>
   </cond>
   <for>
@@ -599,7 +599,7 @@
   <set name="itemConsumeCount" val="1"/>
   <set name="mpInitialConsume" val="70"/>
   <set name="mpConsume" val="70"/>
-  <cond msg="2 Spell Forces required.">
+  <cond msg="Purification Field cannot be used due to unsuitable terms.">
   	<player spell_force="2"/>
   </cond>
 </skill>
@@ -619,7 +619,7 @@
   <set name="staticReuse" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <cond msg="Proper force required.">
+  <cond msg="Miracle cannot be used due to unsuitable terms.">
     <player spell_force="2"/>
   </cond>
 </skill>
@@ -638,7 +638,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="aggroPoints" val="900"/>
   <set name="skillRadius" val="400"/>
-  <cond msg="2 Spell Forces required.">
+  <cond msg="Flames of Invincibility cannot be used due to unsuitable terms.">
     <player spell_force="2"/>
   </cond>
   <for>
@@ -660,7 +660,7 @@
   <set name="staticReuse" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <cond msg="Proper force required.">
+  <cond msg="Mass Recharge cannot be used due to unsuitable terms.">
     <player spell_force="3"/>
   </cond>
 </skill>
@@ -689,7 +689,7 @@
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
-    <effect count="1" name="ImmobileUntilAttacked" time="30" val="0">
+    <effect count="1" name="ImmobileUntilAttacked" time="30" val="0" abnormal="float">
       <add order="0x30" stat="regMp" val="#regMp"/>
       <mul order="0x30" stat="pDef" val="0.2"/>
     </effect>

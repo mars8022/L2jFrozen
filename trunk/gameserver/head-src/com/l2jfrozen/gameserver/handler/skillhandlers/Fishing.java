@@ -77,7 +77,7 @@ public class Fishing implements ISkillHandler
 		if((weaponItem == null || weaponItem.getItemType() != L2WeaponType.ROD))
 		{
 			// Fishing poles are not installed
-			player.sendPacket(new SystemMessage(SystemMessageId.FISHING_POLE_NOT_EQUIPPED));
+			// player.sendPacket(new SystemMessage(SystemMessageId.FISHING_POLE_NOT_EQUIPPED));
 			return;
 		}
 		weaponItem = null;
@@ -86,7 +86,10 @@ public class Fishing implements ISkillHandler
 		if(lure == null)
 		{
 			// Bait not equiped.
-			player.sendPacket(new SystemMessage(SystemMessageId.BAIT_ON_HOOK_BEFORE_FISHING));
+			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_HERE));
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+			sm.addString(skill.getName());
+			player.sendPacket(sm);
 			return;
 		}
 
@@ -104,8 +107,7 @@ public class Fishing implements ISkillHandler
 		{
 			// You can't fish while you are on boat
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_ON_BOAT));
-			//if(!player.isGM())
-				return;
+			return;
 		}
 
 		if(player.isInCraftMode() || player.isInStoreMode())
@@ -149,8 +151,10 @@ public class Fishing implements ISkillHandler
 		else
 		{
 			//You can't fish here
-			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_FISH_HERE));
-			//if(!player.isGM()){ return; }
+			player.sendPacket(new SystemMessage(SystemMessageId.BAIT_ON_HOOK_BEFORE_FISHING));
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+			sm.addString(skill.getName());
+			player.sendPacket(sm);
 			return;
 		}
 

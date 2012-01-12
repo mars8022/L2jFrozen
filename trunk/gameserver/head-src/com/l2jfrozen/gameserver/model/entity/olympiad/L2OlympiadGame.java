@@ -388,13 +388,19 @@ class L2OlympiadGame extends Olympiad
 
 			OlympiadStadiaManager.getInstance().getStadiumByLoc(_stadiumPort[0], _stadiumPort[1], _stadiumPort[2]).oustAllPlayers();
 
-			if(_playerOne.isSitting())
+			// Check if player one is in private store or sitting
+			if(_playerOne.getPrivateStoreType() == 1 || _playerOne.getPrivateStoreType() == 8 || _playerOne.getPrivateStoreType() == 3 || _playerOne.getPrivateStoreType() == 5 ||_playerOne.isSitting())
 			{
+				_playerOne.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+				_playerOne.broadcastUserInfo();
 				_playerOne.standUp();
 			}
 
-			if(_playerTwo.isSitting())
+			// Check if player two is in private store or sitting
+			if(_playerTwo.getPrivateStoreType() == 1 || _playerTwo.getPrivateStoreType() == 8 || _playerTwo.getPrivateStoreType() == 3 || _playerTwo.getPrivateStoreType() == 5 || _playerTwo.isSitting())
 			{
+				_playerTwo.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+				_playerTwo.broadcastUserInfo();
 				_playerTwo.standUp();
 			}
 

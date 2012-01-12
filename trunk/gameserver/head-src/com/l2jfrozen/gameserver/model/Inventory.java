@@ -367,8 +367,16 @@ public abstract class Inventory extends ItemContainer
 
 			L2Item it = item.getItem();
 			if(it instanceof L2Weapon)
-			{
-				passiveSkill = ((L2Weapon) it).getSkill();
+			{					
+				// Check for Penality
+				player.refreshExpertisePenalty();
+				player.refreshMasteryWeapPenality();
+				// If player get penality he will not recive SA bonus like retail
+				if (player.getExpertisePenalty() == 0)
+                {	
+					// Passive skills from Weapon (SA)
+                    passiveSkill = ((L2Weapon) it).getSkill();
+				}
 
 				if(item.getEnchantLevel() >= 4)
 				{
@@ -377,6 +385,10 @@ public abstract class Inventory extends ItemContainer
 			}
 			else if(it instanceof L2Armor)
 			{
+				// Check for Penality
+				player.refreshExpertisePenalty();
+				player.refreshMasteryPenality();
+				// Passive skills from Armor
 				passiveSkill = ((L2Armor) it).getSkill();
 			}
 
