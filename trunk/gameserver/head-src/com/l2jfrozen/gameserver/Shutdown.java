@@ -116,10 +116,10 @@ public class Shutdown extends Thread
 	}; //telnet
 
 	/**
-	 * This function starts a shutdown countdown from Telnet (Copied from Function startShutdown())
+	 * This function starts a shutdown count down from Telnet (Copied from Function startShutdown())
 	 * 
-	 * @param ip IP Which Issued shutdown command
-	 * @param seconds seconds untill shutdown
+	 * @param IP Which Issued shutdown command
+	 * @param seconds seconds until shutdown
 	 * @param restart true if the server will restart after shutdown
 	 */
 
@@ -180,10 +180,12 @@ public class Shutdown extends Thread
 	}
 
 	/**
-	 * This creates a countdown instance of Shutdown.
+	 * This creates a count down instance of Shutdown.
 	 * 
 	 * @param seconds how many seconds until shutdown
 	 * @param restart true is the server shall restart after shutdown
+	 * @param task 
+	 * @param telnet 
 	 */
 	public Shutdown(int seconds, boolean restart, boolean task, boolean telnet)
 	{

@@ -97,6 +97,8 @@ public class TakeCastle implements ISkillHandler
 	 * <BR>
 	 * 
 	 * @param activeChar The L2Character of the character placing the flag
+	 * @param isCheckOnly 
+	 * @return 
 	 */
 	public static boolean checkIfOkToCastSealOfRule(L2Character activeChar, boolean isCheckOnly)
 	{
@@ -105,14 +107,9 @@ public class TakeCastle implements ISkillHandler
 
 		if(fort != null && castle == null)
 		{
-			castle = null;
 			return checkIfOkToCastFlagDisplay(activeChar, fort, isCheckOnly);
 		}
-		else
-		{
-			fort = null;
-			return checkIfOkToCastSealOfRule(activeChar, castle, isCheckOnly);
-		}
+		return checkIfOkToCastSealOfRule(activeChar, castle, isCheckOnly);
 	}
 
 	public static boolean checkIfOkToCastSealOfRule(L2Character activeChar, Castle castle, boolean isCheckOnly)

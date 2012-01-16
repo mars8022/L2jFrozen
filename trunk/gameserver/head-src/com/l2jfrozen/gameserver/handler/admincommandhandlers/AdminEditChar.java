@@ -113,6 +113,7 @@ public class AdminEditChar implements IAdminCommandHandler
 		admin_setchar_mp
 	}
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
@@ -196,12 +197,8 @@ public class AdminEditChar implements IAdminCommandHandler
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 					return false;
 				}
-				else
-				{
-					activeChar.sendMessage("Name changed from " + oldName + " to " + val);
-					return true;
-				}
-				
+				activeChar.sendMessage("Name changed from " + oldName + " to " + val);
+				return true;
 			} // changes char name
 			case admin_edit_character:{
 				editCharacter(activeChar);
@@ -265,17 +262,11 @@ public class AdminEditChar implements IAdminCommandHandler
 				{
 					showCharacterInfo(activeChar, target);
 					val = null;
-					target = null;
 					return true;
 				}
-				else
-				{
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.CHARACTER_DOES_NOT_EXIST));
-					val = null;
-					target = null;
-					return false;
-				}
-
+				activeChar.sendPacket(new SystemMessage(SystemMessageId.CHARACTER_DOES_NOT_EXIST));
+				val = null;
+				return false;
 			} //given a player name:{} displays an information window
 			case admin_show_characters:{
 				
@@ -299,13 +290,10 @@ public class AdminEditChar implements IAdminCommandHandler
 						return false;
 					}
 					
-				}else{
-					activeChar.sendMessage("Usage: //show_characters <page_number>");
-					listCharacters(activeChar, 0);
-					return false;
 				}
-				
-				
+				activeChar.sendMessage("Usage: //show_characters <page_number>");
+				listCharacters(activeChar, 0);
+				return false;
 			}
 			case admin_find_character:{
 				
@@ -533,11 +521,8 @@ public class AdminEditChar implements IAdminCommandHandler
 					newclass = null;
 					return true;
 				}
-				else
-				{
-					activeChar.sendMessage("Usage: //setclass <valid_new_classid>");
-					return false;
-				}
+				activeChar.sendMessage("Usage: //setclass <valid_new_classid>");
+				return false;
 			}
 			case admin_settitle:{
 				
@@ -986,6 +971,7 @@ public class AdminEditChar implements IAdminCommandHandler
 	/**
 	 * @param activeChar
 	 * @param player
+	 * @param filename 
 	 */
 	public static void gatherCharacterInfo(L2PcInstance activeChar, L2PcInstance player, String filename)
 	{
@@ -1298,6 +1284,7 @@ public class AdminEditChar implements IAdminCommandHandler
 
 		List<String> keys = new ArrayList<String>(dualboxIPs.keySet());
 		Collections.sort(keys, new Comparator<String>() {
+			@Override
 			public int compare(String left, String right)
 			{
 				return dualboxIPs.get(left).compareTo(dualboxIPs.get(right));
@@ -1468,6 +1455,7 @@ public class AdminEditChar implements IAdminCommandHandler
 		gatherCharacterInfo(activeChar, player, "charinfo.htm");
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

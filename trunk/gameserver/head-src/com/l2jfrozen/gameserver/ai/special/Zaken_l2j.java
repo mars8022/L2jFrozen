@@ -89,6 +89,7 @@ public class Zaken_l2j extends Quest implements Runnable
 		// Zaken doors handling
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				try
@@ -98,6 +99,7 @@ public class Zaken_l2j extends Quest implements Runnable
 						DoorTable.getInstance().getDoor(21240006).openMe();
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
+							@Override
 							public void run()
 							{
 								try

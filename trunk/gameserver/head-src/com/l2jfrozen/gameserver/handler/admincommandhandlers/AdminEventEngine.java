@@ -87,6 +87,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 	private static String tempName2 = "";
 	private static boolean npcsDeleted = false;
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -456,6 +457,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

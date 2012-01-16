@@ -72,7 +72,6 @@ public class DoorTable
 	{
 		//L2DoorInstance[] currentDoors = getDoors();
 		_staticItems = null;
-		_instance = null;
 		_instance = new DoorTable();
 	}
 

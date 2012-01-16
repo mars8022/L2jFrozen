@@ -41,19 +41,19 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class BufferSkillsTable
 {
 	private static BufferSkillsTable _instance = null;
-	private static FastMap<String, FastList<L2Skill>> _bufferSkillsMap;
-	private static FastList<String> _buffTypes;
-	private static FastMap<Integer, Integer> _buffPrizes;
-	private static FastMap<Integer, SkillInfo> _allSkills;
+	private static FastMap<String, FastList<L2Skill>> _bufferSkillsMap = new FastMap<String, FastList<L2Skill>>();
+	private static FastList<String> _buffTypes = new FastList<String>();
+	private static FastMap<Integer, Integer> _buffPrizes = new FastMap<Integer, Integer>();
+	private static FastMap<Integer, SkillInfo> _allSkills = new FastMap<Integer, SkillInfo>();
 	private static Logger _log = Logger.getLogger(BufferSkillsTable.class.getName());
 	private static final String SQL_LOAD_SKILLS = "SELECT * FROM `mods_buffer_skills`";
 
 	BufferSkillsTable()
 	{
-		_bufferSkillsMap = new FastMap<String, FastList<L2Skill>>();
-		_buffTypes = new FastList<String>();
-		_buffPrizes = new FastMap<Integer, Integer>();
-		_allSkills = new FastMap<Integer, SkillInfo>();
+		_bufferSkillsMap.clear();
+		_buffTypes.clear();
+		_buffPrizes.clear();
+		_allSkills.clear();
 		load();
 	}
 

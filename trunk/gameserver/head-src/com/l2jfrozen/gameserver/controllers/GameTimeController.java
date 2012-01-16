@@ -57,6 +57,7 @@ public class GameTimeController
 
 	/**
 	 * one ingame day is 240 real minutes
+	 * @return 
 	 */
 	public static GameTimeController getInstance()
 	{
@@ -273,10 +274,7 @@ public class GameTimeController
 			}
 		}
 	}
-
-	/**
-	 * @param rise
-	 */
+	
 	class BroadcastSunState implements Runnable
 	{
 		@Override

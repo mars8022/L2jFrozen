@@ -59,6 +59,7 @@ public class AdminMobGroup implements IAdminCommandHandler
 			"admin_mobinst"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -165,6 +166,7 @@ public class AdminMobGroup implements IAdminCommandHandler
 
 	/**
 	 * @param activeChar
+	 * @param command 
 	 */
 	private void showMainPage(L2PcInstance activeChar, String command)
 	{
@@ -767,6 +769,7 @@ public class AdminMobGroup implements IAdminCommandHandler
 		mobGroupList = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

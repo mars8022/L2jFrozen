@@ -26,10 +26,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 
 public class TopBBSManager extends BaseBBSManager
 {
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd(java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
 	@Override
 	public void parsecmd(String command, L2PcInstance activeChar)
 	{
@@ -83,16 +79,11 @@ public class TopBBSManager extends BaseBBSManager
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite
-	 * (java.lang.String, java.lang.String, java.lang.String, java.lang.String, 
-	 * java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
 	{
-	//null;
+		// 
 	}
 
 	private static TopBBSManager _instance = new TopBBSManager();
@@ -104,5 +95,4 @@ public class TopBBSManager extends BaseBBSManager
 	{
 		return _instance;
 	}
-
 }

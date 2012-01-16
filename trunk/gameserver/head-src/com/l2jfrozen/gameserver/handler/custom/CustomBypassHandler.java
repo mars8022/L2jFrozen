@@ -43,7 +43,10 @@ public class CustomBypassHandler
 		registerCustomBypassHandler(new ExtractableByPassHandler());
 	}
 
-	/** Receives the non-static instance of the RebirthManager. */
+	/**
+	 * Receives the non-static instance of the RebirthManager. 
+	 * @return
+	 */
 	public static CustomBypassHandler getInstance()
 	{
 		if(_instance == null)
@@ -65,7 +68,11 @@ public class CustomBypassHandler
 		}
 	}
 
-	/** Handles player's Bypass request to the Custom Content. */
+	/**
+	 * Handles player's Bypass request to the Custom Content. 
+	 * @param player 
+	 * @param command
+	 */
 	public void handleBypass(L2PcInstance player, String command)
 	{
 		//Rebirth Manager and Engine Caller

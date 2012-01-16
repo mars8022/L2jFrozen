@@ -100,6 +100,7 @@ public class AdminEffects implements IAdminCommandHandler
 			"admin_debuff"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -610,21 +611,14 @@ public class AdminEffects implements IAdminCommandHandler
 						obj = activeChar;
 					}
 
-					if(obj != null)
+					if(performSocial(social, obj, activeChar))
 					{
-						if(performSocial(social, obj, activeChar))
-						{
-							activeChar.sendMessage(obj.getName() + " was affected by your request.");
-						}
-						else
-						{
-							activeChar.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
-						}
+						activeChar.sendMessage(obj.getName() + " was affected by your request.");
 					}
-					/*else
+					else
 					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-					}*/
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
+					}
 				}
 				else if(!command.contains("menu"))
 				{
@@ -731,22 +725,15 @@ public class AdminEffects implements IAdminCommandHandler
 					{
 						obj = activeChar;
 					}
-
-					if(obj != null)
+					
+					if(performAbnormal(abnormal, obj))
 					{
-						if(performAbnormal(abnormal, obj))
-						{
-							activeChar.sendMessage(obj.getName() + "'s abnormal status was affected by your request.");
-						}
-						else
-						{
-							activeChar.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
-						}
-					}/*
+						activeChar.sendMessage(obj.getName() + "'s abnormal status was affected by your request.");
+					}
 					else
 					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-					}*/
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
+					}
 				}
 				else if(!command.contains("menu"))
 				{
@@ -786,29 +773,19 @@ public class AdminEffects implements IAdminCommandHandler
 				{
 					obj = activeChar;
 				}
-
-				if(obj != null)
-				{
-					if(!(obj instanceof L2Character))
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-					}
-					else
-					{
-						L2Character target = (L2Character) obj;
-
-						target.broadcastPacket(new MagicSkillUser(target, activeChar, skill, level, hittime, 0));
-						activeChar.sendMessage(obj.getName() + " performs MSU " + skill + "/" + level + " by your request.");
-
-						target = null;
-					}
-				}/*
-				else
+				
+				if(!(obj instanceof L2Character))
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-				}*/
+				}
+				else
+				{
+					L2Character target = (L2Character) obj;
 
-				obj = null;
+					target.broadcastPacket(new MagicSkillUser(target, activeChar, skill, level, hittime, 0));
+					activeChar.sendMessage(obj.getName() + " performs MSU " + skill + "/" + level + " by your request.");
+
+				}
 			}
 			catch(Exception e)
 			{
@@ -851,8 +828,7 @@ public class AdminEffects implements IAdminCommandHandler
 
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
 
 	private boolean performSocial(int action, L2Object target, L2PcInstance activeChar)
@@ -900,6 +876,7 @@ public class AdminEffects implements IAdminCommandHandler
 	/**
 	 * @param type - atmosphere type (signssky,sky)
 	 * @param state - atmosphere state(night,day)
+	 * @param activeChar 
 	 */
 	private void adminAtmosphere(String type, String state, L2PcInstance activeChar)
 	{
@@ -956,6 +933,7 @@ public class AdminEffects implements IAdminCommandHandler
 		_snd = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

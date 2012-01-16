@@ -150,7 +150,7 @@ public class L2LoginServer
 
 			System.exit(1);
 		}
-		catch(SQLException e)
+		catch(Exception e)
 		{
 			_log.severe("FATAL: Failed to load GameServerTable. Reason: " + e.getMessage());
 

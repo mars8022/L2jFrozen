@@ -114,6 +114,7 @@ public class SiegeFlag implements ISkillHandler
 	 * 
 	 * @param activeChar The L2Character of the character placing the flag
 	 * @param isCheckOnly if false, it will send a notification to the player telling him why it failed
+	 * @return 
 	 */
 	public static boolean checkIfOkToPlaceFlag(L2Character activeChar, boolean isCheckOnly)
 	{
@@ -124,8 +125,7 @@ public class SiegeFlag implements ISkillHandler
 
 		if(castle != null)
 			return checkIfOkToPlaceFlag(activeChar, castle, isCheckOnly);
-		else
-			return checkIfOkToPlaceFlag(activeChar, fort, isCheckOnly);
+		return checkIfOkToPlaceFlag(activeChar, fort, isCheckOnly);
 	}
 
 	public static boolean checkIfOkToPlaceFlag(L2Character activeChar, Castle castle, boolean isCheckOnly)

@@ -142,7 +142,7 @@ public class AdminDonator implements IAdminCommandHandler
 	}
 
 	/**
-	 * @param activeChar
+	 * @param player 
 	 * @param newDonator
 	 */
 	private void updateDatabase(L2PcInstance player, boolean newDonator)

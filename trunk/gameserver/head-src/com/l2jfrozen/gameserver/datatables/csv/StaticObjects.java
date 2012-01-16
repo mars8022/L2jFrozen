@@ -77,7 +77,6 @@ public class StaticObjects
 				_staticObjects.put(obj.getStaticObjectId(), obj);
 				obj = null;
 			}
-			line = null;
 			doorData = null;
 		}
 		catch(FileNotFoundException e)

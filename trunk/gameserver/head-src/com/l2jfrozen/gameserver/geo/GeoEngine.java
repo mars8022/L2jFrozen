@@ -106,8 +106,7 @@ public final class GeoEngine extends GeoData
 			return false;
 		if(cha.getZ() >= target.getZ())
 			return canSeeTarget(cha.getX(), cha.getY(), cha.getZ(), target.getX(), target.getY(), target.getZ());
-		else
-			return canSeeTarget(target.getX(), target.getY(), target.getZ(), cha.getX(), cha.getY(), cha.getZ());
+		return canSeeTarget(target.getX(), target.getY(), target.getZ(), cha.getX(), cha.getY(), cha.getZ());
 	}
 
 	@Override
@@ -134,8 +133,7 @@ public final class GeoEngine extends GeoData
 			z2 += 30; // well they don't move closer to balcony fence at the moment :(
 		if(z >= z2)
 			return canSeeTarget(cha.getX(), cha.getY(), z, target.getX(), target.getY(), z2);
-		else
-			return canSeeTarget(target.getX(), target.getY(), z2, cha.getX(), cha.getY(), z);
+		return canSeeTarget(target.getX(), target.getY(), z2, cha.getX(), cha.getY(), z);
 	}
 
 	@Override
@@ -152,8 +150,7 @@ public final class GeoEngine extends GeoData
 
 		if(z >= z2)
 			return canSeeDebug(gm, (gm.getX() - L2World.MAP_MIN_X) >> 4, (gm.getY() - L2World.MAP_MIN_Y) >> 4, z, (target.getX() - L2World.MAP_MIN_X) >> 4, (target.getY() - L2World.MAP_MIN_Y) >> 4, z2);
-		else
-			return canSeeDebug(gm, (target.getX() - L2World.MAP_MIN_X) >> 4, (target.getY() - L2World.MAP_MIN_Y) >> 4, z2, (gm.getX() - L2World.MAP_MIN_X) >> 4, (gm.getY() - L2World.MAP_MIN_Y) >> 4, z);
+		return canSeeDebug(gm, (target.getX() - L2World.MAP_MIN_X) >> 4, (target.getY() - L2World.MAP_MIN_Y) >> 4, z2, (gm.getX() - L2World.MAP_MIN_X) >> 4, (gm.getY() - L2World.MAP_MIN_Y) >> 4, z);
 	}
 
 	@Override
@@ -522,13 +519,13 @@ public final class GeoEngine extends GeoData
 					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
 					if(tempz == Double.MIN_VALUE)
 						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					z = tempz;
 					next_y += inc_y;
 					//_log.warning("2: next_x:"+next_x+" next_y"+next_y);
 					tempz = nCanMoveNext(next_x, y, (int) z, next_x, next_y, tz);
 					if(tempz == Double.MIN_VALUE)
 						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					z = tempz;
 				}
 				else
 				{
@@ -538,7 +535,7 @@ public final class GeoEngine extends GeoData
 					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
 					if(tempz == Double.MIN_VALUE)
 						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					z = tempz;
 				}
 			}
 		}
@@ -558,13 +555,13 @@ public final class GeoEngine extends GeoData
 					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
 					if(tempz == Double.MIN_VALUE)
 						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					z = tempz;
 					next_x += inc_x;
 					//_log.warning("5: next_x:"+next_x+" next_y"+next_y);
 					tempz = nCanMoveNext(x, next_y, (int) z, next_x, next_y, tz);
 					if(tempz == Double.MIN_VALUE)
 						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					z = tempz;
 				}
 				else
 				{
@@ -574,22 +571,20 @@ public final class GeoEngine extends GeoData
 					tempz = nCanMoveNext(x, y, (int) z, next_x, next_y, tz);
 					if(tempz == Double.MIN_VALUE)
 						return new Location((x << 4) + L2World.MAP_MIN_X, (y << 4) + L2World.MAP_MIN_Y, (int) z);
-					else z = tempz;
+					z = tempz;
 				}
 			}
 		}
 		if(z == startpoint.getZ()) // geodata hasn't modified Z in any coordinate, i.e. doesn't exist
 			return destiny;
-		else
-			return new Location(destiny.getX(), destiny.getY(), (int) z);
+		return new Location(destiny.getX(), destiny.getY(), (int) z);
 	}
 
 	private byte sign(int x)
 	{
 		if(x >= 0)
 			return +1;
-		else
-			return -1;
+		return -1;
 	}
 
 	//GeoEngine
@@ -954,6 +949,7 @@ public final class GeoEngine extends GeoData
 	 * @param geoy
 	 * @param zmin
 	 * @param zmax
+	 * @param spawnid 
 	 * @return Z betwen zmin and zmax
 	 */
 	private short nGetSpawnHeight(int geox, int geoy, int zmin, int zmax, int spawnid)
@@ -1086,8 +1082,7 @@ public final class GeoEngine extends GeoData
 			height = (short) (height >> 1); //height / 2
 			if(checkNSWE(NSWE, x, y, tx, ty))
 				return height;
-			else
-				return Double.MIN_VALUE;
+			return Double.MIN_VALUE;
 		}
 		else //multilevel, type == 2
 		{
@@ -1130,8 +1125,7 @@ public final class GeoEngine extends GeoData
 			}
 			if(checkNSWE(NSWE, x, y, tx, ty))
 				return tempz;
-			else
-				return Double.MIN_VALUE;
+			return Double.MIN_VALUE;
 		}
 	}
 	
@@ -1141,7 +1135,9 @@ public final class GeoEngine extends GeoData
 	 * @param z
 	 * @param inc_x
 	 * @param inc_y
+	 * @param inc_z 
 	 * @param tz
+	 * @param debug 
 	 * @return True if Char can see target
 	 */
 	private boolean nLOS(int x, int y, int z, int inc_x, int inc_y, double inc_z, int tz, boolean debug)
@@ -1177,8 +1173,7 @@ public final class GeoEngine extends GeoData
 				_log.log(Level.WARNING,"flatheight:" + height);
 			if(z > height)
 				return inc_z > height;
-			else
-				return inc_z < height;
+			return inc_z < height;
 		}
 		else if (type == 1) //complex
 		{
@@ -1196,8 +1191,7 @@ public final class GeoEngine extends GeoData
 
 				return z >= nGetUpperHeight(x + inc_x, y + inc_y, height);
 			}
-			else
-				return true;
+			return true;
 		}
 		else //multilevel, type == 2
 		{
@@ -1239,11 +1233,8 @@ public final class GeoEngine extends GeoData
 					NSWE = (short) (NSWE & 0x0F);
 					break;
 				}
-				else
-				{
-					highestlayer = false;
-					upperHeight = tempZ;
-				}
+				highestlayer = false;
+				upperHeight = tempZ;
 				
 				temp_layers--;
 				index += 2;
@@ -1271,16 +1262,14 @@ public final class GeoEngine extends GeoData
 					// check one inc_x inc_y further, for the height there
 					return z >= nGetUpperHeight(x + inc_x, y + inc_y, lowerHeight);
 				}
-				else
-					return true;
+				return true;
 			}
 			if(!checkNSWE(NSWE, x, y, x + inc_x, y + inc_y))
 			{
 				// check one inc_x inc_y further, for the height there
 				return z >= nGetUpperHeight(x + inc_x, y + inc_y, lowerHeight);
 			}
-			else
-				return true;
+			return true;
 		}
 	}
 	

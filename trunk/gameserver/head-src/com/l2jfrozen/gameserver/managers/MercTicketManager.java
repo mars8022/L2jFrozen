@@ -704,6 +704,8 @@ public class MercTicketManager
 	/**
 	 * Checks if the passed item has reached the limit of number of dropped tickets that this SPECIFIC item may have in
 	 * its castle
+	 * @param itemId 
+	 * @return 
 	 */
 	public boolean isAtTypeLimit(int itemId)
 	{
@@ -738,6 +740,8 @@ public class MercTicketManager
 
 	/**
 	 * Checks if the passed item belongs to a castle which has reached its limit of number of dropped tickets.
+	 * @param itemId 
+	 * @return 
 	 */
 	public boolean isAtCasleLimit(int itemId)
 	{
@@ -770,6 +774,10 @@ public class MercTicketManager
 	 * addTicket actions 1) find the npc that needs to be saved in the mercenary spawns, given this item 2) Use the
 	 * passed character's location info to add the spawn 3) create a copy of the item to drop in the world returns the
 	 * id of the mercenary npc that was added to the spawn returns -1 if this fails.
+	 * @param itemId 
+	 * @param activeChar 
+	 * @param messages 
+	 * @return 
 	 */
 	public int addTicket(int itemId, L2PcInstance activeChar, String[] messages)
 	{
@@ -841,6 +849,7 @@ public class MercTicketManager
 
 	/**
 	 * Delete all tickets from a castle; remove the items from the world and remove references to them from this class
+	 * @param castleId 
 	 */
 	public void deleteTickets(int castleId)
 	{
@@ -868,6 +877,7 @@ public class MercTicketManager
 	/**
 	 * remove a single ticket and its associated spawn from the world (used when the castle lord picks up a ticket, for
 	 * example)
+	 * @param item 
 	 */
 	public void removeTicket(L2ItemInstance item)
 	{

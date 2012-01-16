@@ -283,15 +283,15 @@ public class RaidBossSpawnManager
 				
 				if(Config.DEBUG){
 					System.out.println(" bossId: "+bossId );
-					System.out.println(" 	maxHp: "+(int)raidboss.getMaxHp() );
+					System.out.println(" 	maxHp: "+raidboss.getMaxHp() );
 					System.out.println(" 	currHp: "+(int)currentHP );
 					System.out.println(" 	bonusHp: "+bonus);
 					System.out.println(" 	calculatedHp: "+(int)(bonus*currentHP));
 				}
 				
 				//if new spawn, the currentHp is equal to maxHP/bonus, so set it to max
-				if((int)(bonus*currentHP)==(int)raidboss.getMaxHp()){
-					currentHP = (int) (raidboss.getMaxHp());
+				if((int)(bonus*currentHP)==raidboss.getMaxHp()){
+					currentHP = (raidboss.getMaxHp());
 				}
 				
 				raidboss.setCurrentHp(currentHP);

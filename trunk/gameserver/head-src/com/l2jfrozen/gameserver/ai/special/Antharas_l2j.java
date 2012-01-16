@@ -391,6 +391,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			}
 		}
 		
+		@Override
 		public void run()
 		{
 			int npcId;
@@ -540,6 +541,7 @@ public class Antharas_l2j extends Quest implements Runnable
 		{
 		}
 		
+		@Override
 		public void run()
 		{
 			L2NpcTemplate template1;
@@ -628,6 +630,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			_bomber = bomber;
 		}
 		
+		@Override
 		public void run()
 		{
 			L2Skill skill = null;
@@ -684,6 +687,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	// At end of activity time.
 	private class CheckActivity implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			Long temp = (System.currentTimeMillis() - _LastAction);
@@ -770,6 +774,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			_type = type;
 		}
 		
+		@Override
 		public void run()
 		{
 			if (_type == 0)
@@ -792,6 +797,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			_bossId = bossId;
 		}
 		
+		@Override
 		public void run()
 		{
 			GrandBossManager.getInstance().setBossStatus(_bossId,DORMANT);
@@ -811,6 +817,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			_boss = boss;
 		}
 		
+		@Override
 		public void run()
 		{
 			_boss.setIsImobilised(false);
@@ -836,6 +843,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			_pos = pos;
 		}
 		
+		@Override
 		public void run()
 		{
 			_npc.getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, _pos);

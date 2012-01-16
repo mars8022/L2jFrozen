@@ -72,16 +72,11 @@ public class AdminBuffs implements IAdminCommandHandler
 					{
 						showBuffs(player, activeChar);
 						playername = null;
-						player = null;
 						return true;
 					}
-					else
-					{
-						activeChar.sendMessage("The player " + playername + " is not online");
-						playername = null;
-						player = null;
-						return false;
-					}
+					activeChar.sendMessage("The player " + playername + " is not online");
+					playername = null;
+					return false;
 				}
 				else if(activeChar.getTarget() != null && activeChar.getTarget() instanceof L2PcInstance)
 				{
@@ -124,20 +119,12 @@ public class AdminBuffs implements IAdminCommandHandler
 						return true;
 						
 						
-					}else{
-						
-						activeChar.sendMessage("Usage: //stopbuff <playername> [skillId]");
-						return false;
-						
 					}
-					
-					
-				}else{
-					
 					activeChar.sendMessage("Usage: //stopbuff <playername> [skillId]");
 					return false;
-					
 				}
+				activeChar.sendMessage("Usage: //stopbuff <playername> [skillId]");
+				return false;
 				
 			case admin_stopallbuffs:
 				
@@ -150,26 +137,16 @@ public class AdminBuffs implements IAdminCommandHandler
 						removeAllBuffs(activeChar, playername);
 						playername = null;
 						st = null;
-
 						return true;
 					}
-					else
-					{
-						activeChar.sendMessage("Usage: //stopallbuffs <playername>");
-						
-						playername = null;
-						st = null;
-
-						return false;
-					}
-				}else{
-					
 					activeChar.sendMessage("Usage: //stopallbuffs <playername>");
-					return false;
-					
-				}
-				
 
+					playername = null;
+					st = null;
+					return false;
+				}
+				activeChar.sendMessage("Usage: //stopallbuffs <playername>");
+				return false;
 			case admin_areacancel:
 
 				if(st.hasMoreTokens())
@@ -205,23 +182,16 @@ public class AdminBuffs implements IAdminCommandHandler
 						activeChar.sendMessage("All effects canceled within raidus " + radius);
 						st = null;
 						val = null;
-
 						return true;
-					}else{
-						activeChar.sendMessage("Usage: //areacancel <radius> (integer value > 0)");
-						st = null;
-						val = null;
-
-						return false;
 					}
-					
-				}else{
-					
-					activeChar.sendMessage("Usage: //areacancel <radius>");
+					activeChar.sendMessage("Usage: //areacancel <radius> (integer value > 0)");
+					st = null;
+					val = null;
 					return false;
 					
 				}
-				
+				activeChar.sendMessage("Usage: //areacancel <radius>");
+				return false;
 		}
 
 		comm = null;
@@ -300,15 +270,11 @@ public class AdminBuffs implements IAdminCommandHandler
 			player.stopAllEffects();
 			remover.sendMessage("Removed all effects from " + playername);
 			showBuffs(player, remover);
-
-			player = null;
 		}
 		else
 		{
 			remover.sendMessage("Can not remove effects from " + playername + ". Player appears offline.");
 			showBuffs(player, remover);
-
-			player = null;
 		}
 	}
 

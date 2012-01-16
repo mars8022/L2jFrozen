@@ -485,65 +485,62 @@ public class Disablers implements ISkillHandler
 						}
 						break;
 					}
-					else
-					// all others cancel type skills
+					
+					int landrate = (int) skill.getPower();
+					landrate = (int) target.calcStat(Stats.CANCEL_VULN, landrate, target, null);
+					if(Rnd.get(100) < landrate)
 					{
-						int landrate = (int) skill.getPower();
-						landrate = (int) target.calcStat(Stats.CANCEL_VULN, landrate, target, null);
-						if(Rnd.get(100) < landrate)
+						L2Effect[] effects = target.getAllEffects();
+						int maxdisp = (int) skill.getNegatePower();
+						if(maxdisp == 0)
+							maxdisp = Config.BUFFS_MAX_AMOUNT + Config.DEBUFFS_MAX_AMOUNT + 6;
+						for(L2Effect e : effects)
 						{
-							L2Effect[] effects = target.getAllEffects();
-							int maxdisp = (int) skill.getNegatePower();
-							if(maxdisp == 0)
-								maxdisp = Config.BUFFS_MAX_AMOUNT + Config.DEBUFFS_MAX_AMOUNT + 6;
-							for(L2Effect e : effects)
+							switch(e.getEffectType())
 							{
-								switch(e.getEffectType())
-								{
-									case SIGNET_GROUND:
-									case SIGNET_EFFECT:
-										continue;
-								}
+								case SIGNET_GROUND:
+								case SIGNET_EFFECT:
+									continue;
+							}
 
-								if(e.getSkill().getId() != 4082 && e.getSkill().getId() != 4215 && e.getSkill().getId() != 5182 && e.getSkill().getId() != 4515 && e.getSkill().getId() != 110 && e.getSkill().getId() != 111 && e.getSkill().getId() != 1323 && e.getSkill().getId() != 1325)
+							if(e.getSkill().getId() != 4082 && e.getSkill().getId() != 4215 && e.getSkill().getId() != 5182 && e.getSkill().getId() != 4515 && e.getSkill().getId() != 110 && e.getSkill().getId() != 111 && e.getSkill().getId() != 1323 && e.getSkill().getId() != 1325)
+							{
+								if(e.getSkill().getSkillType() == SkillType.BUFF)
 								{
-									if(e.getSkill().getSkillType() == SkillType.BUFF)
+									int rate = 100;
+									int level = e.getLevel();
+									if(level > 0)
+										rate = Integer.valueOf(150 / (1 + level));
+
+									if(rate > 95)
+										rate = 95;
+									else if(rate < 5)
+										rate = 5;
+
+									if(Rnd.get(100) < rate)
 									{
-										int rate = 100;
-										int level = e.getLevel();
-										if(level > 0)
-											rate = Integer.valueOf(150 / (1 + level));
-
-										if(rate > 95)
-											rate = 95;
-										else if(rate < 5)
-											rate = 5;
-
-										if(Rnd.get(100) < rate)
-										{
-											e.exit(true);
-											maxdisp--;
-											if(maxdisp == 0)
-												break;
-										}
+										e.exit(true);
+										maxdisp--;
+										if(maxdisp == 0)
+											break;
 									}
 								}
 							}
-							effects = null;
 						}
-						else
-						{
-							if(activeChar instanceof L2PcInstance)
-							{
-								SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
-								sm.addString(target.getName());
-								sm.addSkillName(skill.getDisplayId());
-								activeChar.sendPacket(sm);
-								sm = null;
-							}
-						}
-						break;
+						//effects = null;
 					}
+					else
+					{
+						if(activeChar instanceof L2PcInstance)
+						{
+							SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
+							sm.addString(target.getName());
+							sm.addSkillName(skill.getDisplayId());
+							activeChar.sendPacket(sm);
+							sm = null;
+						}
+					}
+					break;
 				}
 				case NEGATE:
 				{

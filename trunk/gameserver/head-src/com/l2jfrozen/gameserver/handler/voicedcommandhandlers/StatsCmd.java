@@ -189,9 +189,8 @@ public class StatsCmd implements IVoicedCommandHandler
 					replyMSG = null;
 					
 					return true;
-				}else
-					return false;
-				
+				}
+				return false;	
 			}
 			default:{
 				return false;

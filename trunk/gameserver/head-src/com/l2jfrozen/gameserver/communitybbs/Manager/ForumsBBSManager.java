@@ -108,18 +108,15 @@ public class ForumsBBSManager extends BaseBBSManager
 			f.vload();
 		_log.info("Loaded " + _table.size() + " forums. Last forum id used: " + _lastid);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd(java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsecmd(String command, L2PcInstance activeChar)
 	{
-	//null;
+		// 
 	}
 
 	/**
-	 * @param string
+	 * @param Name 
 	 * @return
 	 */
 	public Forum getForumByName(String Name)
@@ -135,7 +132,10 @@ public class ForumsBBSManager extends BaseBBSManager
 
 	/**
 	 * @param name
-	 * @param forumByName
+	 * @param parent 
+	 * @param type 
+	 * @param perm 
+	 * @param oid 
 	 * @return
 	 */
 	public Forum createNewForum(String name, Forum parent, int type, int perm, int oid)
@@ -166,13 +166,10 @@ public class ForumsBBSManager extends BaseBBSManager
 		}
 		return null;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
 	{
-	//null;
+		// 
 	}
 }

@@ -136,17 +136,13 @@ public class AdminAdmin implements IAdminCommandHandler
 				{
 					activeChar.setMessageRefusal(false);
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.MESSAGE_ACCEPTANCE_MODE));
-					return true;
-
 				}
 				else
 				{
 					activeChar.setMessageRefusal(true);
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.MESSAGE_REFUSAL_MODE));
-					return true;
-
 				}
-				
+				return true;
 			case admin_saveolymp:
 				try
 				{
@@ -294,14 +290,7 @@ public class AdminAdmin implements IAdminCommandHandler
 		}
 		
 	}
-
-	/**
-	 * sends config reload page
-	 * 
-	 * @param admin private void sendConfigReloadPage(L2PcInstance activeChar) {
-	 *            AdminHelpPage.showSubMenuPage(activeChar, "config_reload_menu.htm"); }
-	 **/
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

@@ -179,7 +179,7 @@ public class SummonMinions extends Quest implements Runnable
 							_attackersList.get(npcObjId).add(attacker);
 						}
 					}
-					if(attacker != null && (attacker.getParty() != null && attacker.getParty().getMemberCount() > 2 || _attackersList.get(npcObjId).size() > 2)) //Just to make sure..
+					if((attacker.getParty() != null) && attacker.getParty().getMemberCount() > 2 || _attackersList.get(npcObjId).size() > 2) //Just to make sure..
 					{
 						HasSpawned = 0;
 						Integer[] minions = MINIONS.get(npcId);

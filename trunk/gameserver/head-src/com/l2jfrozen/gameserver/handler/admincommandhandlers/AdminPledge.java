@@ -154,14 +154,10 @@ public class AdminPledge implements IAdminCommandHandler
 							activeChar.sendMessage("Clan " + parameter + " created. Leader: " + player.getName());
 							return true;
 						}
-						else
-						{
-							player.setClanCreateExpiryTime(cet);
-							activeChar.sendMessage("There was a problem while creating the clan.");
-							showMainPage(activeChar);
-							return false;
-						}
-
+						player.setClanCreateExpiryTime(cet);
+						activeChar.sendMessage("There was a problem while creating the clan.");
+						showMainPage(activeChar);
+						return false;
 					}
 					case dismiss:{
 						
@@ -174,13 +170,9 @@ public class AdminPledge implements IAdminCommandHandler
 							activeChar.sendMessage("Clan disbanded.");
 							return true;
 						}
-						else
-						{
-							activeChar.sendMessage("There was a problem while destroying the clan.");
-							showMainPage(activeChar);
-							return false;
-						}
-
+						activeChar.sendMessage("There was a problem while destroying the clan.");
+						showMainPage(activeChar);
+						return false;
 					}
 					case info:{
 						
@@ -254,14 +246,11 @@ public class AdminPledge implements IAdminCommandHandler
 							activeChar.sendMessage("You set level " + level + " for clan " + player.getClan().getName());
 							return true;
 						}
-						else
-						{
-							activeChar.sendMessage("Level incorrect.");
-							activeChar.sendMessage("Usage: //pledge <setlevel|rep> <number>");
-							showMainPage(activeChar);
-							return false;
-						}
 						
+						activeChar.sendMessage("Level incorrect.");
+						activeChar.sendMessage("Usage: //pledge <setlevel|rep> <number>");
+						showMainPage(activeChar);
+						return false;
 					}
 					default:{
 						activeChar.sendMessage("Clan Action not allowed...");

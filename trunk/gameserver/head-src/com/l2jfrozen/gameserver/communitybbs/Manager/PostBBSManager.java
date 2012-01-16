@@ -36,7 +36,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 
 public class PostBBSManager extends BaseBBSManager
 {
-
 	private Map<Topic, Post> _postByTopic;
 	private static PostBBSManager _instance;
 
@@ -93,10 +92,7 @@ public class PostBBSManager extends BaseBBSManager
 		p = new Post(t);
 		return p;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd(java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsecmd(String command, L2PcInstance activeChar)
 	{
@@ -158,7 +154,7 @@ public class PostBBSManager extends BaseBBSManager
 
 	/**
 	 * @param topic
-	 * @param forumByID
+	 * @param forum 
 	 * @param activeChar
 	 * @param idp
 	 */
@@ -181,11 +177,10 @@ public class PostBBSManager extends BaseBBSManager
 	}
 
 	/**
-	 * @param posttByTopic
-	 * @param forumByID
+	 * @param topic 
+	 * @param forum 
 	 * @param activeChar
 	 * @param ind
-	 * @param idf
 	 */
 	private void showPost(Topic topic, Forum forum, L2PcInstance activeChar, int ind)
 	{
@@ -343,10 +338,7 @@ public class PostBBSManager extends BaseBBSManager
 		dateFormat = null;
 		locale = null;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
 	{

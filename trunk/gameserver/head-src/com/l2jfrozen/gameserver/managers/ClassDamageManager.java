@@ -123,32 +123,28 @@ public class ClassDamageManager
 		
 		if(multiplier!=null)
 			return multiplier;
-		else 
-			return 1; 
+		return 1; 
 	}
 	
 	public static double getClassDamageToFighter(int id){
 		Double multiplier = damage_to_fighter.get(id);
 		if(multiplier!=null)
 			return multiplier;
-		else 
-			return 1; 
+		return 1; 
 	}
 	
 	public static double getClassDamageByMage(int id){
 		Double multiplier = damage_by_mage.get(id);
 		if(multiplier!=null)
 			return multiplier;
-		else 
-			return 1; 
+		return 1; 
 	}
 	
 	public static double getClassDamageByFighter(int id){
 		Double multiplier = damage_by_fighter.get(id);
 		if(multiplier!=null)
 			return multiplier;
-		else 
-			return 1; 
+		return 1; 
 	}
 	
 	public static int getIdByName(String name){
@@ -156,9 +152,7 @@ public class ClassDamageManager
 		Integer id = name_to_id.get(name);
 		if(id!=null)
 			return id;
-		else 
-			return 0; 
-		
+		return 0;
 	}
 	
 	public static String getNameById(int id){
@@ -166,9 +160,7 @@ public class ClassDamageManager
 		String name = id_to_name.get(id);
 		if(name!=null)
 			return name;
-		else 
-			return "";
-
+		return "";
 	}
 	
 	/**

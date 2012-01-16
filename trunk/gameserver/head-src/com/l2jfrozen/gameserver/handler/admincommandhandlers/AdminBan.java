@@ -136,11 +136,8 @@ public class AdminBan implements IAdminCommandHandler {
 				activeChar.sendMessage("Usage: //ban_char <char_name> (if none, target char is banned)");
 				return false;
 			}
-			else
-			{
-				auditAction(command, activeChar, (targetPlayer == null ? player : targetPlayer.getName()));
-				return changeCharAccessLevel(targetPlayer, player, activeChar, -100);
-			}
+			auditAction(command, activeChar, (targetPlayer == null ? player : targetPlayer.getName()));
+			return changeCharAccessLevel(targetPlayer, player, activeChar, -100);
 		}
 		else if (command.startsWith("admin_banchat"))
 		{

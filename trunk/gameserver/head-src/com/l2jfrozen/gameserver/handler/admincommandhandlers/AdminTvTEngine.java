@@ -43,6 +43,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			"admin_tvt_abort", "admin_tvt_finish", "admin_tvt_sit", "admin_tvt_dump", "admin_tvt_save", "admin_tvt_load", "admin_tvt_jointime", "admin_tvt_eventtime", "admin_tvt_autoevent","admin_tvt_startevent",
 			"admin_tvt_minplayers", "admin_tvt_maxplayers", "admin_tvtkick","admin_tvt_interval" };
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -296,6 +297,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 		return true;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

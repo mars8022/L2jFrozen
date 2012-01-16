@@ -34,7 +34,6 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
  * @version $Revision: $ $Date: $
  * @author godson
  */
-
 public class DayNightSpawnManager
 {
 
@@ -73,10 +72,7 @@ public class DayNightSpawnManager
 			_log.warning("DayNightSpawnManager: Spawn already added into day map");
 			return;
 		}
-		else
-		{
-			_dayCreatures.put(spawnDat, null);
-		}
+		_dayCreatures.put(spawnDat, null);
 	}
 
 	public void addNightCreature(L2Spawn spawnDat)
@@ -86,10 +82,7 @@ public class DayNightSpawnManager
 			_log.warning("DayNightSpawnManager: Spawn already added into night map");
 			return;
 		}
-		else
-		{
-			_nightCreatures.put(spawnDat, null);
-		}
+		_nightCreatures.put(spawnDat, null);
 	}
 
 	/*
@@ -294,11 +287,7 @@ public class DayNightSpawnManager
 
 			return raidboss;
 		}
-		else
-		{
-			_bosses.put(spawnDat, null);
-		}
-
+		_bosses.put(spawnDat, null);
 		return null;
 	}
 }

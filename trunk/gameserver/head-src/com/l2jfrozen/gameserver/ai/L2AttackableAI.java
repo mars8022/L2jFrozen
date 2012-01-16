@@ -129,6 +129,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	 * <BR>
 	 * 
 	 * @param target The targeted L2Object
+	 * @return 
 	 */
 	private boolean autoAttackCondition(L2Character target)
 	{
@@ -226,8 +227,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 			if(target instanceof L2PcInstance && ((L2PcInstance) target).getKarma() > 0)
 				// Los Check
 				return GeoData.getInstance().canSeeTarget(me, target);
-			else
-				return false;
+			return false;
 		}
 		else
 		{
@@ -482,8 +482,6 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 
 				return;
 			}
-
-			hated = null;
 		}
 
 		// Check if the actor is a L2GuardInstance
@@ -720,7 +718,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 					L2NpcInstance npc = (L2NpcInstance) obj;
 					String faction_id = ((L2NpcInstance) _actor).getFactionId();
 
-					if(npc == null || originalAttackTarget == null || faction_id != npc.getFactionId() || npc.getFactionRange() == 0)
+					if(faction_id != npc.getFactionId() || npc.getFactionRange() == 0)
 					{
 						faction_id = null;
 						continue;
@@ -986,71 +984,68 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 			return;
 		}
 		// Else, if this is close enough to attack
-		else
+		_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.getGameTicks();
+
+		// check for close combat skills && heal/buff skills
+		if(!_actor.isMuted() /*&& _rnd.nextInt(100) <= 5*/)
 		{
-			_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.getGameTicks();
+			boolean useSkillSelf = true;
 
-			// check for close combat skills && heal/buff skills
-			if(!_actor.isMuted() /*&& _rnd.nextInt(100) <= 5*/)
+			for(L2Skill sk : skills)
 			{
-				boolean useSkillSelf = true;
-
-				for(L2Skill sk : skills)
+				if(/*sk.getCastRange() >= dist && sk.getCastRange() <= 70 && */!sk.isPassive() && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !_actor.isSkillDisabled(sk.getId()) && (Rnd.nextInt(100) <= 8 || _actor instanceof L2PenaltyMonsterInstance && Rnd.nextInt(100) <= 20))
 				{
-					if(/*sk.getCastRange() >= dist && sk.getCastRange() <= 70 && */!sk.isPassive() && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !_actor.isSkillDisabled(sk.getId()) && (Rnd.nextInt(100) <= 8 || _actor instanceof L2PenaltyMonsterInstance && Rnd.nextInt(100) <= 20))
+					if(sk.getSkillType() == L2Skill.SkillType.BUFF || sk.getSkillType() == L2Skill.SkillType.HEAL)
 					{
-						if(sk.getSkillType() == L2Skill.SkillType.BUFF || sk.getSkillType() == L2Skill.SkillType.HEAL)
+						useSkillSelf = true;
+
+						if(sk.getSkillType() == L2Skill.SkillType.HEAL && _actor.getCurrentHp() > (int) (_actor.getMaxHp() / 1.5))
 						{
-							useSkillSelf = true;
-
-							if(sk.getSkillType() == L2Skill.SkillType.HEAL && _actor.getCurrentHp() > (int) (_actor.getMaxHp() / 1.5))
-							{
-								useSkillSelf = false;
-								break;
-							}
-
-							if(sk.getSkillType() == L2Skill.SkillType.BUFF)
-							{
-								L2Effect[] effects = _actor.getAllEffects();
-
-								for(int i = 0; effects != null && i < effects.length; i++)
-								{
-									L2Effect effect = effects[i];
-
-									if(effect.getSkill() == sk)
-									{
-										useSkillSelf = false;
-										break;
-									}
-								}
-
-								effects = null;
-							}
-							if(useSkillSelf)
-							{
-								_actor.setTarget(_actor);
-							}
+							useSkillSelf = false;
+							break;
 						}
-						// GeoData Los Check here
-						if(!useSkillSelf && !GeoData.getInstance().canSeeTarget(_actor, _actor.getTarget()))
-							return;
 
-						L2Object OldTarget = _actor.getTarget();
+						if(sk.getSkillType() == L2Skill.SkillType.BUFF)
+						{
+							L2Effect[] effects = _actor.getAllEffects();
 
-						clientStopMoving(null);
-						_accessor.doCast(sk);
-						_actor.setTarget(OldTarget);
-						OldTarget = null;
+							for(int i = 0; effects != null && i < effects.length; i++)
+							{
+								L2Effect effect = effects[i];
 
-						return;
+								if(effect.getSkill() == sk)
+								{
+									useSkillSelf = false;
+									break;
+								}
+							}
+
+							effects = null;
+						}
+						if(useSkillSelf)
+						{
+							_actor.setTarget(_actor);
+						}
 					}
+					// GeoData Los Check here
+					if(!useSkillSelf && !GeoData.getInstance().canSeeTarget(_actor, _actor.getTarget()))
+						return;
+
+					L2Object OldTarget = _actor.getTarget();
+
+					clientStopMoving(null);
+					_accessor.doCast(sk);
+					_actor.setTarget(OldTarget);
+					OldTarget = null;
+
+					return;
 				}
 			}
-
-			// Finally, physical attacks
-			clientStopMoving(null);
-			_accessor.doAttack(hated);
 		}
+
+		// Finally, physical attacks
+		clientStopMoving(null);
+		_accessor.doAttack(hated);
 		skills = null;
 		hated = null;
 	}
@@ -1143,7 +1138,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	 * AI_INTENTION_ATTACK (if actor is L2GuardInstance check if it isn't too far from its home location)</li><BR>
 	 * <BR>
 	 * 
-	 * @param The L2Character that attacks
+	 * @param target the L2Character that attacks
 	 * @param aggro The value of hate to add to the actor against the target
 	 */
 	@Override

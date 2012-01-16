@@ -109,6 +109,7 @@ public class L2CharacterAI extends AbstractAI
 	 * movement server side AND client side by sending Server->Client packet StopMove/StopRotation (broadcast)</li> <li>
 	 * Launch the Think Event</li><BR>
 	 * <BR>
+	 * @param target 
 	 */
 	protected void onIntentionActive(L2Character target)
 	{

@@ -96,13 +96,10 @@ public class AdminCache implements IAdminCommandHandler
 					String path = st.nextToken();
 					HtmCache.getInstance().reloadPath(new File(Config.DATAPACK_ROOT, path));
 					activeChar.sendMessage("Cache[HTML]: " + HtmCache.getInstance().getMemoryUsage() + " MB in " + HtmCache.getInstance().getLoadedFiles() + " file(s) loaded.");
-					path = null;
 					return true;
-				}else{
-					
-					activeChar.sendMessage("Usage: //cache_reload_path <path>");
-					return false;
 				}
+				activeChar.sendMessage("Usage: //cache_reload_path <path>");
+				return false;
 			case admin_cache_reload_file:
 				
 				if(st.hasMoreTokens()){
@@ -119,10 +116,9 @@ public class AdminCache implements IAdminCommandHandler
 						path = null;
 					}
 					return true;
-				}else{
-					activeChar.sendMessage("Usage: //cache_reload_file <relative_path/file>");
-					return false;
 				}
+				activeChar.sendMessage("Usage: //cache_reload_file <relative_path/file>");
+				return false;
 				
 			case admin_cache_crest_rebuild:
 			case admin_cache_crest_reload:

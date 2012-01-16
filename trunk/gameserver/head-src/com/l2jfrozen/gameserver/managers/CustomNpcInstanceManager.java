@@ -14,12 +14,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-/**
- * @author Darki699
- */
-
-/** *****************************************- imports -******************************************** */
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,15 +26,12 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
-/** *************************- main class + global class values -*********************************** */
-
 /**
  * control for Custom Npcs that look like players.
  * 
  * @version 1.00
  * @author Darki699
  */
-
 public final class CustomNpcInstanceManager
 {
 	private final static Logger _log = Logger.getLogger(CustomNpcInstanceManager.class.getName());
@@ -224,7 +215,7 @@ public final class CustomNpcInstanceManager
 	/**
 	 * Checks if the L2NpcInstance calling this function has polymorphing data
 	 * 
-	 * @param objId - L2NpcInstance's unique Object id
+	 * @param spwnId - L2NpcInstance's unique Object id
 	 * @param npcId - L2NpcInstance's npc template id
 	 * @return
 	 */
@@ -243,7 +234,7 @@ public final class CustomNpcInstanceManager
 	/**
 	 * Return the polymorphing data for this L2NpcInstance if the data exists
 	 * 
-	 * @param objId - NpcInstance's unique Object Id
+	 * @param spwnId - NpcInstance's unique Object Id
 	 * @param npcId - NpcInstance's npc template Id
 	 * @return customInfo type data pack, or null if no such data exists.
 	 */
@@ -282,7 +273,7 @@ public final class CustomNpcInstanceManager
 	}
 
 	/**
-	 * Already removed customInfo - Changeb is saved in the DB <b>NOT IMPLEMENTED YET!</b>
+	 * Already removed customInfo - Change is saved in the DB <b>NOT IMPLEMENTED YET!</b>
 	 * 
 	 * @param ciToRemove
 	 */

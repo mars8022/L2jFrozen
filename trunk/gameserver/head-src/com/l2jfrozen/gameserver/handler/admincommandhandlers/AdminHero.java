@@ -33,8 +33,8 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- *L2Scoria
- **/
+ * @author L2jFrozen
+ */
 public class AdminHero implements IAdminCommandHandler
 {
 	private static String[] ADMIN_COMMANDS =
@@ -150,19 +150,19 @@ public class AdminHero implements IAdminCommandHandler
 	}
 
 	/**
-	 * @param activeChar
-	 * @param newDonator
+	 * @param player 
+	 * @param newHero 
+	 * @param heroTime 
 	 */
 	private void updateDatabase(L2PcInstance player, boolean newHero, long heroTime)
 	{
+		// prevents any NPE.
+		if(player == null)
+			return;
+		
 		Connection con = null;
 		try
 		{
-			// prevents any NPE.
-			// ----------------
-			if(player == null)
-				return;
-
 			// Database Connection
 			//--------------------------------
 			con = L2DatabaseFactory.getInstance().getConnection(false);

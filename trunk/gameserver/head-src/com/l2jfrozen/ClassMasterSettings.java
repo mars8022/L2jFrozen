@@ -89,23 +89,20 @@ public class ClassMasterSettings
 			return false;
 		if(_allowedClassChange.containsKey(job))
 			return _allowedClassChange.get(job);
-		else
-			return false;
+		return false;
 	}
 
 	public FastMap<Integer, Integer> getRewardItems(int job)
 	{
 		if(_rewardItems.containsKey(job))
 			return _rewardItems.get(job);
-		else
-			return null;
+		return null;
 	}
 
 	public FastMap<Integer, Integer> getRequireItems(int job)
 	{
 		if(_claimItems.containsKey(job))
 			return _claimItems.get(job);
-		else
-			return null;
+		return null;
 	}
 }

@@ -63,6 +63,7 @@ public class AdminSkill implements IAdminCommandHandler
 
 	private static L2Skill[] adminSkills;
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -225,7 +226,7 @@ public class AdminSkill implements IAdminCommandHandler
 	/**
 	 * This function will give all the skills that the target can learn at his/her level
 	 * 
-	 * @param activeChar: the gm char
+	 * @param activeChar the gm char
 	 */
 	private void adminGiveAllSkills(L2PcInstance activeChar)
 	{
@@ -288,6 +289,7 @@ public class AdminSkill implements IAdminCommandHandler
 		target = null;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
@@ -675,43 +677,29 @@ public class AdminSkill implements IAdminCommandHandler
 
 			return;
 		}
-		else
+		
+		L2Skill skill = SkillTable.getInstance().getInfo(id, level);
+		if(skill != null)
 		{
-			L2Skill skill = SkillTable.getInstance().getInfo(id, level);
+			String skillname = skill.getName();
+			SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_SKILL_S1_ADDED);
+			sm.addSkillName(id);
+			player.sendPacket(sm);
+			player.getClan().broadcastToOnlineMembers(sm);
+			player.getClan().addNewSkill(skill);
+			activeChar.sendMessage("You gave the Clan Skill: " + skillname + " to the clan " + player.getClan().getName() + ".");
 
-			if(skill != null)
+			activeChar.getClan().broadcastToOnlineMembers(new PledgeSkillList(activeChar.getClan()));
+
+			for(L2PcInstance member : activeChar.getClan().getOnlineMembers(""))
 			{
-				String skillname = skill.getName();
-				SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_SKILL_S1_ADDED);
-				sm.addSkillName(id);
-				player.sendPacket(sm);
-				player.getClan().broadcastToOnlineMembers(sm);
-				player.getClan().addNewSkill(skill);
-				activeChar.sendMessage("You gave the Clan Skill: " + skillname + " to the clan " + player.getClan().getName() + ".");
-
-				activeChar.getClan().broadcastToOnlineMembers(new PledgeSkillList(activeChar.getClan()));
-
-				for(L2PcInstance member : activeChar.getClan().getOnlineMembers(""))
-				{
-					member.sendSkillList();
-				}
-
-				showMainPage(activeChar);
-
-				sm = null;
-				skillname = null;
-				skill = null;
-				player = null;
-
-				return;
+				member.sendSkillList();
 			}
-			else
-			{
-				activeChar.sendMessage("Error: there is no such skill.");
 
-				return;
-			}
+			showMainPage(activeChar);
+			skillname = null;
+			return;
 		}
+		activeChar.sendMessage("Error: there is no such skill.");
 	}
-
 }
