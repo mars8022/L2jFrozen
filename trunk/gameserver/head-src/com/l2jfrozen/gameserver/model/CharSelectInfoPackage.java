@@ -48,6 +48,7 @@ public class CharSelectInfoPackage
 	private int[][] _paperdoll;
 	private int _karma = 0;
 	private int _augmentationId = 0;
+	private int _accessLevel;
 
 	/**
 	 * @param int1
@@ -295,5 +296,15 @@ public class CharSelectInfoPackage
 	public int getAugmentationId()
 	{
 		return _augmentationId;
+	}
+
+	public int getAccessLevel()
+	{
+		return _accessLevel;
+	}
+	
+	public void setAccessLevel(int accessLevel)
+	{
+		_accessLevel = accessLevel;
 	}
 }

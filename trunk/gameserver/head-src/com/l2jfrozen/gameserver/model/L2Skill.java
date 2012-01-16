@@ -97,6 +97,9 @@ public abstract class L2Skill
 	public static final int SKILL_FAKE_DEX = 9005;
 	public static final int SKILL_FAKE_STR = 9006;
 
+	private final int _targetConsumeId;
+	private final int _targetConsume;
+	
 	public static enum SkillOpType
 	{
 		OP_PASSIVE,
@@ -584,6 +587,9 @@ public abstract class L2Skill
 
 		_bestowed = set.getBool("bestowed", false);
 
+		_targetConsume = set.getInteger("targetConsumeCount", 0);
+		_targetConsumeId = set.getInteger("targetConsumeId", 0);
+		
 		if(_operateType == SkillOpType.OP_CHANCE)
 		{
 			_chanceCondition = ChanceCondition.parse(set);
@@ -3347,6 +3353,22 @@ public abstract class L2Skill
 	public String toString()
 	{
 		return "" + _name + "[id=" + _id + ",lvl=" + _level + "]";
+	}
+	
+	/**
+	 * @return Returns the _targetConsumeId.
+	 */
+	public final int getTargetConsumeId()
+	{
+		return _targetConsumeId;
+	}
+	
+	/**
+	 * @return Returns the targetConsume.
+	 */
+	public final int getTargetConsume()
+	{
+		return _targetConsume;
 	}
 	
 	public boolean hasSelfEffects()

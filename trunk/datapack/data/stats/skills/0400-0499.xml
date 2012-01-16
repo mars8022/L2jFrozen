@@ -543,7 +543,7 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <cond msg="Can be only used when HP is 30% or lower">
+  <cond msg="Zealot cannot be used due to unsuitable terms.">
     <player hp="30"/>
   </cond>
   <for>
@@ -610,10 +610,10 @@
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="2000"/>
   <set name="skillType" val="BUFF"/>
-  <set name="isMagic" val="true"/>
+  <set name="isMagic" val="false"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <for>
-    <effect count="1" name="Buff" time="120" val="0" stackOrder="#stack" stackType="MagicDefUpAtr">
+    <effect count="1" name="Buff" time="300" val="0" stackOrder="#stack" stackType="MagicDefUpAtr">
       <mul order="0x30" stat="fireVuln" val="#vuln"/>
     </effect>
   </for>

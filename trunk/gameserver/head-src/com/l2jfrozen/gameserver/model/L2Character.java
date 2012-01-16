@@ -1917,15 +1917,19 @@ public abstract class L2Character extends L2Object
 		broadcastPacket(new MagicSkillUser(this, target, displayId, level, hitTime, reuseDelay));
 
 		// Send a system message USE_S1 to the L2Character
-		if(activeChar instanceof L2PcInstance 
-				&& magicId != 1312 
-				&& magicId != 2166 )
+		if(activeChar instanceof L2PcInstance && magicId != 1312)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 			if(magicId==2005)
 				sm.addItemName(728);
 			else if(magicId==2003)
 				sm.addItemName(726);
+			// Message greater cp potions like retail
+			else if(magicId==2166 && skill.getLevel() == 2)
+				sm.addItemName(5592);
+			// Message cp potions like retail
+			else if(magicId==2166 && skill.getLevel() == 1)
+				sm.addItemName(5591);
 			else
 				sm.addSkillName(magicId, skill.getLevel());
 			sendPacket(sm);

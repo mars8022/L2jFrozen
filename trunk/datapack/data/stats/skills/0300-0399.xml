@@ -71,7 +71,6 @@
   <table name="#ench1hpConsume">358 352 346 340 334 328 322 316 310 304 298 292 286 280 274 267 261 255 249 243 237 231 225 219 213 207 201 195 189 183</table>
   <table name="#ench1mp">1.25 1.25 1.25 1.25 1.25 1.25 1.25 1.25 1.25 1.25 1.3 1.3 1.3 1.3 1.3 1.3 1.3 1.3 1.3 1.3 1.3 1.35 1.35 1.35 1.35 1.35 1.35 1.35 1.35 1.35 1.35 1.35 1.35</table>
   <table name="#aggro">438 549 597 635</table>
-  <set name="weaponsAllowed" val="32"/>
   <set name="hpConsume" val="#hpConsume"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="reuseDelay" val="6000"/>
@@ -84,16 +83,12 @@
   <enchant1 name="hpConsume" val="#ench1hpConsume"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="#mp" stackType="MPregen">
-      <mul order="0x30" stat="maxMp" val="#mp">
-        <using kind="Bow"/>
-      </mul>
+      <mul order="0x30" stat="maxMp" val="#mp"/>
     </effect>
   </for>
   <enchant1for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="#ench1mp" stackType="MPregen">
-      <mul order="0x30" stat="maxMp" val="#ench1mp">
-        <using kind="Bow"/>
-      </mul>
+      <mul order="0x30" stat="maxMp" val="#ench1mp"/>
     </effect>
   </enchant1for>
 </skill>

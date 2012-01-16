@@ -63,31 +63,16 @@ public final class RequestRestart extends L2GameClientPacket
 		// Check if player is enchanting
 		if(player.getActiveEnchantItem() != null)
 		{
-			player.sendMessage("You can't logout while enchanting!");
-			return;
-		}
-
-		// Check if player is in Olympiad mode
-		if(player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
-		{
-			player.sendMessage("You can't logout in olympiad mode.");
+			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
 		
-		// Fix against exploit anti-target
-		if (player.isCastingNow()) 
-		{ 
-			player.abortCast(); 
-			player.sendPacket(new ActionFailed()); 
-			player.sendMessage("You can't restart during cast!"); 
-			return;               
-		} 
-
-		// Check if player is teleporting
-		if(player.isTeleporting())
+		// Check if player are changing class
+		if (player.isLocked())
 		{
-			player.abortCast();
-			player.setIsTeleporting(false);
+			_log.severe(" [ERROR] [WARNING]Player " + player.getName() + " tried to restart during class change.");
+			sendPacket(RestartResponse.valueOf(false));
+			return;
 		}
 		
 		player.getInventory().updateDatabase();
@@ -95,27 +80,19 @@ public final class RequestRestart extends L2GameClientPacket
 		// Check if player is in private store
 		if(player.getPrivateStoreType() != 0)
 		{
-			player.sendMessage("You can't restart while trading");
+			player.sendMessage("Cannot restart while trading.");
+			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
-
-		// Check if player is trading
-		if(player.getActiveRequester() != null)
-		{
-			player.getActiveRequester().onTradeCancel(player);
-			player.onTradeCancel(player.getActiveRequester());
-		}
-
+		
 		// Check if player is in combat
 		if(AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
 			if(Config.DEBUG)
-			{
 				_log.fine("Player " + player.getName() + " tried to logout while fighting.");
-			}
 
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_RESTART_WHILE_FIGHTING));
-			player.sendPacket(ActionFailed.STATIC_PACKET);
+			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
 
@@ -123,6 +100,7 @@ public final class RequestRestart extends L2GameClientPacket
 		if(player.getOlympiadGameId() > 0 || player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
 		{
 			player.sendMessage("You can't restart while in Olympiad.");
+			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
 
@@ -130,6 +108,7 @@ public final class RequestRestart extends L2GameClientPacket
 		if(player.isAway())
 		{
 			player.sendMessage("You can't restart in Away mode.");
+			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
 
@@ -142,6 +121,7 @@ public final class RequestRestart extends L2GameClientPacket
 			{
 				player.sendPacket(SystemMessage.sendString("You cannot restart while you are a participant in a festival."));
 				player.sendPacket(ActionFailed.STATIC_PACKET);
+				sendPacket(RestartResponse.valueOf(false));
 				return;
 			}
 
@@ -155,7 +135,29 @@ public final class RequestRestart extends L2GameClientPacket
 		// Check if player is in Event
 		if(player._inEventCTF || player._inEventDM || player._inEventTvT || player._inEventVIP){
 			player.sendMessage("You can't restart during Event.");
+			sendPacket(RestartResponse.valueOf(false));
 			return;
+		}
+		
+		// Fix against exploit anti-target
+		if (player.isCastingNow()) 
+		{ 
+			player.abortCast();
+			player.sendPacket(new ActionFailed());
+		} 
+
+		// Check if player is teleporting
+		if(player.isTeleporting())
+		{
+			player.abortCast();
+			player.setIsTeleporting(false);
+		}
+
+		// Check if player is trading
+		if(player.getActiveRequester() != null)
+		{
+			player.getActiveRequester().onTradeCancel(player);
+			player.onTradeCancel(player.getActiveRequester());
 		}
 		
 		// Check if player are flying
@@ -189,15 +191,15 @@ public final class RequestRestart extends L2GameClientPacket
 
 		// return the client to the authed status
 		client.setState(GameClientState.AUTHED);
-
-		RestartResponse response = new RestartResponse();
-		sendPacket(response);
-
+		
 		//before the char selection, check shutdown status
 		if(GameServer.getSelectorThread().isShutdown()){
 			getClient().closeNow();
 			return;
 		}
+		
+		// Restart true
+		sendPacket(RestartResponse.valueOf(true));
 		
 		// send char list
 		CharSelectInfo cl = new CharSelectInfo(client.getAccountName(), client.getSessionId().playOkID1);

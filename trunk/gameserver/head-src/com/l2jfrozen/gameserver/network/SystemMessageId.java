@@ -3226,6 +3226,18 @@ public enum SystemMessageId
 	 */
 	ENTER_FILE_NAME_CREST(515),
 
+    /**
+	* ID: 1897<br>
+	* Message: $s1 is required for summoning.
+	*/
+	S1_REQUIRED_FOR_SUMMONING(1897),
+	
+    /**
+	* ID: 1896<br>
+	* Message: $c1 has already been summoned.
+	*/
+	S1_ALREADY_SUMMONED(1896),      
+	
 	/**
 	 * ID: 528<br>
 	 * Message: Unable to find file at target location.

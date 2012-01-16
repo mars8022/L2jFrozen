@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
@@ -110,20 +111,6 @@ public class SummonFriend implements ISkillHandler
 				if(target instanceof L2PcInstance)
 				{
 					L2PcInstance targetChar = (L2PcInstance) target;
-
-					// CHECK TARGET CONDITIONS
-
-					//This message naturally doesn't bring up a box...
-					//$s1 wishes to summon you from $s2. Do you accept?
-					//SystemMessage sm2 = new SystemMessage(SystemMessageId.S1_WISHES_TO_SUMMON_YOU_FROM_S2_DO_YOU_ACCEPT);
-					//sm2.addString(activeChar.getName());
-					//String nearestTown = MapRegionTable.getInstance().getClosestTownName(activeChar);
-					//sm2.addString(nearestTown);
-					//targetChar.sendPacket(sm2);
-
-					// is in same party (not necessary any more)
-					// if (!(targetChar.getParty() != null && targetChar.getParty().getPartyMembers().contains(activeChar)))
-					//	continue;
 
 					if(targetChar.isAlikeDead())
 					{
@@ -217,17 +204,31 @@ public class SummonFriend implements ISkillHandler
 					}
 
 					if(!Util.checkIfInRange(0, activeChar, target, false))
-					{
-						if(skill.getId() == 1429)
+					{	
+						// Check already summon
+						if(!targetChar.teleportRequest((L2PcInstance) activeChar, skill))
 						{
-							targetChar.sendPacket(SystemMessage.sendString("You are summoned to a party member."));
-							targetChar.teleToLocation(activeChar.getX(), activeChar.getY(), activeChar.getZ(), true);
+							SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S1_ALREADY_SUMMONED);
+							sm.addString(target.getName());
+							activeChar.sendPacket(sm);
+							continue;
+						}
+						
+						// Summon friend
+						if (skill.getId() == 1403)
+						{
+							// Send message
+							ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1_WISHES_TO_SUMMON_YOU_FROM_S2_DO_YOU_ACCEPT.getId());
+							confirm.addString(activeChar.getName());
+							confirm.addZoneName(activeChar.getX(), activeChar.getY(), activeChar.getZ());
+							confirm.addTime(30000);
+							confirm.addRequesterId(activeChar.getObjectId());
+							targetChar.sendPacket(confirm);
 						}
 						else
 						{
-							targetChar.getInventory().destroyItemByItemId("Consume", 8615, 1, targetChar, activeChar);
-							targetChar.sendPacket(SystemMessage.sendString("You are summoned to a party member."));
-							targetChar.teleToLocation(activeChar.getX(), activeChar.getY(), activeChar.getZ(), true);
+							L2PcInstance.teleToTarget(targetChar, (L2PcInstance) activeChar, skill);
+							targetChar.teleportRequest(null, null);
 						}
 					}
 
