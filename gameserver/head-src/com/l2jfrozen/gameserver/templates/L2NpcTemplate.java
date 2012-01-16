@@ -127,7 +127,8 @@ public final class L2NpcTemplate extends L2CharTemplate
 	 * Constructor of L2Character.<BR>
 	 * <BR>
 	 * 
-	 * @param set The StatsSet object to transfert data to the method
+	 * @param set The StatsSet object to transfer data to the method
+	 * @param custom 
 	 */
 	public L2NpcTemplate(StatsSet set, boolean custom)
 	{
@@ -266,6 +267,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 	/**
 	 * Return the list of all possible UNCATEGORIZED drops of this L2NpcTemplate.<BR>
 	 * <BR>
+	 * @return 
 	 */
 	public FastList<L2DropCategory> getDropData()
 	{
@@ -276,6 +278,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 	 * Return the list of all possible item drops of this L2NpcTemplate.<BR>
 	 * (ie full drops and part drops, mats, miscellaneous & UNCATEGORIZED)<BR>
 	 * <BR>
+	 * @return 
 	 */
 	public List<L2DropData> getAllDropData()
 	{
@@ -304,6 +307,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 	/**
 	 * Return the list of all Minions that must be spawn with the L2NpcInstance using this L2NpcTemplate.<BR>
 	 * <BR>
+	 * @return 
 	 */
 	public List<L2MinionData> getMinionData()
 	{

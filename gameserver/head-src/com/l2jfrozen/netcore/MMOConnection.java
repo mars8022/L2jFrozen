@@ -28,7 +28,7 @@ import java.nio.channels.WritableByteChannel;
 
 /**
  * @author KenM
- * 
+ * @param <T> 
  */
 public class MMOConnection<T extends MMOClient<?>>
 {
@@ -139,8 +139,7 @@ public class MMOConnection<T extends MMOClient<?>>
 				&& !_socket.isInputShutdown())
 				//&& !_socket.isOutputShutdown())
 			return _readableByteChannel.read(buf);
-		else 
-			return -1;
+		return -1;
 	}
 	
 	final int write(final ByteBuffer buf) throws IOException
@@ -149,9 +148,7 @@ public class MMOConnection<T extends MMOClient<?>>
 				&& _writableByteChannel.isOpen()
 				&& !_socket.isOutputShutdown())
 			return _writableByteChannel.write(buf);
-		else 
-			return -1;
-		
+		return -1;
 	}
 	
 	final void createWriteBuffer(final ByteBuffer buf)
@@ -229,9 +226,8 @@ public class MMOConnection<T extends MMOClient<?>>
 			{
 				if(_socket.getInputStream().available()>0){
 					return true;
-				}else{
-					return false;
 				}
+				return false;
 			}
 			catch(IOException e)
 			{
@@ -239,8 +235,8 @@ public class MMOConnection<T extends MMOClient<?>>
 				return false;
 			}
 			
-		}else
-			return false;
+		}
+		return false;
 	}
 	
 	public final boolean isClosed()

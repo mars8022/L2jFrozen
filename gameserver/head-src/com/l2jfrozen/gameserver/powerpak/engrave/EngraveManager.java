@@ -182,8 +182,7 @@ public class EngraveManager
 		{
 			if(_engravedItems.get(objectId) != null)
 				return _engravedItems.get(objectId)[0];
-			else
-				return 0;
+			return 0;
 		}
 	}
 

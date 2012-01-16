@@ -29,10 +29,8 @@ import javolution.util.FastList;
  * start and end date to stop to drop extra Items automaticaly.<BR>
  * <BR>
  */
-
 public class EventDroplist
 {
-
 	//private static Logger _log = Logger.getLogger(EventDroplist.class.getName());
 
 	private static EventDroplist _instance;
@@ -102,8 +100,7 @@ public class EventDroplist
 	}
 
 	/**
-	 * Return all DateDrop of EventDroplist allNpcDateDrops within the date range.<BR>
-	 * <BR>
+	 * @return all DateDrop of EventDroplist allNpcDateDrops within the date range.
 	 */
 	public List<DateDrop> getAllDrops()
 	{

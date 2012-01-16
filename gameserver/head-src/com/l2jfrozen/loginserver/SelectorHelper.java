@@ -33,7 +33,6 @@ import com.l2jfrozen.util.IPv4Filter;
 /**
  * @author ProGramMoS
  */
-
 public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFactory<L2LoginClient>, IAcceptFilter
 {
 	private ThreadPoolExecutor _generalPacketsThreadPool;
@@ -44,19 +43,13 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 		_generalPacketsThreadPool = new ThreadPoolExecutor(4, 6, 15L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		_ipv4filter = new IPv4Filter();
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.network.IMMOExecutor#execute(com.l2jserver.mmocore.network.ReceivablePacket)
-	 */
+	
 	@Override
 	public void execute(ReceivablePacket<L2LoginClient> packet)
 	{
 		_generalPacketsThreadPool.execute(packet);
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.network.IClientFactory#create(com.l2jserver.mmocore.network.MMOConnection)
-	 */
+	
 	@Override
 	public L2LoginClient create(MMOConnection<L2LoginClient> con)
 	{
@@ -65,10 +58,7 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 
 		return client;
 	}
-
-	/**
-	 * @see com.com.scoria.netcore.mmocore.network.IAcceptFilter#accept(java.nio.channels.SocketChannel)
-	 */
+	
 	@Override
 	public boolean accept(SocketChannel sc)
 	{
@@ -76,5 +66,4 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 		
 		return _ipv4filter.accept(sc) && !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
 	}
-
 }

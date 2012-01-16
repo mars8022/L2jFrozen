@@ -160,6 +160,7 @@ public enum BaseStats
 	
 	private static final class STR implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
@@ -172,21 +173,19 @@ public enum BaseStats
 				return STRbonus_legacy[actor.getSTR()];
 				*/
 				return 1;
-			}else{
-				
-				if(actor.getSTR()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return STRbonus[MAX_STAT_VALUE];
-				}
-				return STRbonus[actor.getSTR()];
-				
 			}
+			if(actor.getSTR()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return STRbonus[MAX_STAT_VALUE];
+			}
+			return STRbonus[actor.getSTR()];
 			
 		}
 	}
 	
 	private static final class INT implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
@@ -198,21 +197,19 @@ public enum BaseStats
 				return INTbonus_legacy[actor.getINT()];
 				*/
 				return 1;
-			}else{
-				
-				if(actor.getINT()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return INTbonus[MAX_STAT_VALUE];
-				}
-				return INTbonus[actor.getINT()];
-				
 			}
+			if(actor.getINT()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return INTbonus[MAX_STAT_VALUE];
+			}
+			return INTbonus[actor.getINT()];
 			
 		}
 	}
 	
 	private static final class DEX implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
@@ -224,15 +221,12 @@ public enum BaseStats
 				return DEXbonus_legacy[actor.getDEX()];
 				*/
 				return 1;
-			}else{
-				
-				if(actor.getDEX()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return DEXbonus[MAX_STAT_VALUE];
-				}
-				return DEXbonus[actor.getDEX()];
-				
 			}
+			if(actor.getDEX()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return DEXbonus[MAX_STAT_VALUE];
+			}
+			return DEXbonus[actor.getDEX()];
 				
 			
 		}
@@ -240,6 +234,7 @@ public enum BaseStats
 	
 	private static final class WIT implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
@@ -251,22 +246,18 @@ public enum BaseStats
 				return WITbonus_legacy[actor.getWIT()];
 				*/
 				return 1;
-			}else{
-				
-				if(actor.getWIT()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return WITbonus[MAX_STAT_VALUE];
-				}
-				return WITbonus[actor.getWIT()];
-				
 			}
-				
-			
+			if(actor.getWIT()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return WITbonus[MAX_STAT_VALUE];
+			}
+			return WITbonus[actor.getWIT()];
 		}
 	}
 	
 	private static final class CON implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
@@ -278,20 +269,18 @@ public enum BaseStats
 				return CONbonus_legacy[actor.getCON()];
 				*/
 				return 1;
-			}else{
-				if(actor.getCON()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return CONbonus[MAX_STAT_VALUE];
-				}
-				return CONbonus[actor.getCON()];
 			}
-				
-			
+			if(actor.getCON()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return CONbonus[MAX_STAT_VALUE];
+			}
+			return CONbonus[actor.getCON()];
 		}
 	}
 	
 	private static final class MEN implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
@@ -303,23 +292,18 @@ public enum BaseStats
 				return MENbonus_legacy[actor.getMEN()];
 				*/
 				return 1;
-			}else{
-				
-				if(actor.getMEN()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return MENbonus[MAX_STAT_VALUE];
-				}
-				return MENbonus[actor.getMEN()];
-				
 			}
-				
-			
-			
+			if(actor.getMEN()>MAX_STAT_VALUE){
+				_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+				return MENbonus[MAX_STAT_VALUE];
+			}
+			return MENbonus[actor.getMEN()];
 		}
 	}
 	
 	private static final class NULL implements BaseStat
 	{
+		@Override
 		public final double calcBonus(L2Character actor)
 		{
 			return 1f;

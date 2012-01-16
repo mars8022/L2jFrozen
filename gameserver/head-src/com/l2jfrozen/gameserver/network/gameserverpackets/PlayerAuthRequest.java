@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-import java.io.IOException;
-
 import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 
 /**
@@ -41,7 +39,7 @@ public class PlayerAuthRequest extends GameServerBasePacket
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}

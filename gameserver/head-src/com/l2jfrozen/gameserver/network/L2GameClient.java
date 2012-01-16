@@ -136,6 +136,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		crypt = new GameCrypt();
 		_stats = new ClientStats();
 		_packetQueue = new ArrayBlockingQueue<ReceivablePacket<L2GameClient>>(com.l2jfrozen.netcore.Config.getInstance().CLIENT_PACKET_QUEUE_SIZE);
+		// TODO: Zoey76: Fix Uninitialized read of activeChar!!
 		if(Config.AUTOSAVE_INITIAL_TIME > 0)
 			_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSave(activeChar), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
 		_guardCheckTask = nProtect.getInstance().startTask(this);
@@ -371,7 +372,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		return answer;
 	}
 
-	public void markRestoredChar(int charslot) throws Exception
+	public void markRestoredChar(int charslot)
 	{
 		//have to make sure active character must be nulled
 		/*if (getActiveChar() != null)
@@ -1059,14 +1060,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			
 			if(unknownPacketCount >= Config.MAX_UNKNOWN_PACKETS)
 				return true;
-			else
-				return false;
-		}
-		else
-		{
-			unknownPacketCount = 0;
 			return false;
 		}
+		unknownPacketCount = 0;
+		return false;
 	}
 	
 	

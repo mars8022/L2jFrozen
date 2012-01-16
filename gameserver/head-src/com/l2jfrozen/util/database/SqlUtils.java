@@ -277,18 +277,17 @@ public class SqlUtils
 			try
 			{
 				statement.close();
-				
 				statement = null;
-				GAME_QUICK_OPTIMIZE = null;
 			}
 			catch(Exception e)
 			{
-				//ignore
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+				
 			}
 			
 			CloseUtil.close(con);
 			con = null;
-			
 		}
 	}
 
@@ -319,7 +318,6 @@ public class SqlUtils
 			{
 				statement.close();
 				statement = null;
-				LOGIN_QUICK_OPTIMIZE = null;
 			}
 			catch(Exception e)
 			{
@@ -330,7 +328,6 @@ public class SqlUtils
 			
 			CloseUtil.close(con);
 			con = null;
-			
 		}
 	}
 }

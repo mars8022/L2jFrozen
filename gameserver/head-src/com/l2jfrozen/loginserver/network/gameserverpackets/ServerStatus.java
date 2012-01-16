@@ -54,6 +54,7 @@ public class ServerStatus extends ClientBasePacket
 
 	/**
 	 * @param decrypt
+	 * @param serverId 
 	 */
 	public ServerStatus(byte[] decrypt, int serverId)
 	{

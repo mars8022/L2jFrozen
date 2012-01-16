@@ -123,11 +123,8 @@ public final class RequestFriendDel extends L2GameClientPacket
 					con = null;
 					return;
 					
-				}else{
-				
-					objectId = rset.getInt("friend_id");
-					
 				}
+				objectId = rset.getInt("friend_id");
 			}
 
 			statement = con.prepareStatement("DELETE FROM character_friends WHERE (char_id=? AND friend_id=?) OR (char_id=? AND friend_id=?)");

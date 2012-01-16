@@ -69,8 +69,7 @@ public class LoginServerThread extends Thread
 
 	/** The LoginServerThread singleton */
 	private static LoginServerThread _instance;
-
-	/** {@see com.l2jfrozen.loginserver.LoginServer#PROTOCOL_REV } */
+	
 	private static final int REVISION = 0x0102;
 	private RSAPublicKey _publicKey;
 	private String _hostname;
@@ -578,7 +577,8 @@ public class LoginServerThread extends Thread
 	}
 
 	/**
-	 * @param server_gm_only
+	 * @param id 
+	 * @param value 
 	 */
 	public void sendServerStatus(int id, int value)
 	{
@@ -701,9 +701,6 @@ public class LoginServerThread extends Thread
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Thread#interrupt()
-	 */
 	private boolean _interrupted = false;
 	
 	@Override
@@ -713,7 +710,9 @@ public class LoginServerThread extends Thread
 		super.interrupt();
 	}
 	
-	public boolean isInterrupted(){
+	@Override
+	public boolean isInterrupted()
+	{
 		return _interrupted;
 	}
 }

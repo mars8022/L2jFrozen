@@ -54,9 +54,9 @@ import com.l2jfrozen.util.StringUtil;
  * </ul>
  * or
  * <ul>
- * <li>{@link #scheduleEffectAtFixedRate(Runnable, long, long)(Runnable, long)} : for effects Tasks that needs to be executed periodicaly.</li>
- * <li>{@link #scheduleGeneralAtFixedRate(Runnable, long, long)(Runnable, long)} : for scheduled Tasks that needs to be executed periodicaly.</li>
- * <li>{@link #scheduleAiAtFixedRate(Runnable, long, long)(Runnable, long)} : for AI Tasks that needs to be executed periodicaly</li>
+ * <li>{@link #scheduleEffectAtFixedRate(Runnable, long, long)} : for effects Tasks that needs to be executed periodicaly.</li>
+ * <li>{@link #scheduleGeneralAtFixedRate(Runnable, long, long)} : for scheduled Tasks that needs to be executed periodicaly.</li>
+ * <li>{@link #scheduleAiAtFixedRate(Runnable, long, long)} : for AI Tasks that needs to be executed periodicaly</li>
  * </ul></p>
  *
  * <p>For all Tasks that should be executed with no delay asynchronously in a ThreadPool there also are usual {@link ThreadPoolExecutor ThreadPools}
@@ -65,7 +65,7 @@ import com.l2jfrozen.util.StringUtil;
  * <li>{@link #_generalPacketsThreadPool GeneralPackets} where most packets handler are executed.</li>
  * <li>{@link #_ioPacketsThreadPool I/O Packets} where all the i/o packets are executed.</li>
  * <li>There will be an AI ThreadPool where AI events should be executed</li>
- * <li>A general ThreadPool where everything else that needs to run asynchronously with no delay should be executed ({@link com.l2jserver.gameserver.model.actor.knownlist KnownList} updates, SQL updates/inserts...)?</li>
+ * <li>A general ThreadPool where everything else that needs to run asynchronously with no delay should be executed ({@link com.l2jfrozen.gameserver.model.actor.knownlist KnownList} updates, SQL updates/inserts...)?</li>
  * </ul>
  * </p>
  * @author -Wooden-

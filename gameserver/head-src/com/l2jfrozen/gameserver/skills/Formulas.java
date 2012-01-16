@@ -197,8 +197,8 @@ public final class Formulas
 		static final FuncMultRegenResting[] _instancies = new FuncMultRegenResting[Stats.NUM_STATS];
 
 		/**
-		 * Return the Func object corresponding to the state concerned.<BR>
-		 * <BR>
+		 * @param stat 
+		 * @return the Func object corresponding to the state concerned.
 		 */
 		static Func getInstance(Stats stat)
 		{
@@ -215,6 +215,7 @@ public final class Formulas
 		/**
 		 * Constructor of the FuncMultRegenResting.<BR>
 		 * <BR>
+		 * @param pStat 
 		 */
 		private FuncMultRegenResting(Stats pStat)
 		{
@@ -851,8 +852,8 @@ public final class Formulas
 	{}
 
 	/**
-	 * Return the period between 2 regenerations task (3s for L2Character, 5 min for L2DoorInstance).<BR>
-	 * <BR>
+	 * @param cha 
+	 * @return the period between 2 regeneration task (3s for L2Character, 5 min for L2DoorInstance).
 	 */
 	public static int getRegeneratePeriod(L2Character cha)
 	{
@@ -863,19 +864,18 @@ public final class Formulas
 	}
 
 	/**
-	 * Return the standard NPC Calculator set containing ACCURACY_COMBAT and EVASION_RATE.<BR>
-	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
 	 * A calculator is created to manage and dynamically calculate the effect of a character property (ex : MAX_HP,
 	 * REGENERATE_HP_RATE...). In fact, each calculator is a table of Func object in which each Func represents a
-	 * mathematic function : <BR>
+	 * Mathematics function : <BR>
 	 * <BR>
 	 * FuncAtkAccuracy -> Math.sqrt(_player.getDEX())*6+_player.getLevel()<BR>
 	 * <BR>
 	 * To reduce cache memory use, L2NPCInstances who don't have skills share the same Calculator set called
 	 * <B>NPC_STD_CALCULATOR</B>.<BR>
 	 * <BR>
+	 * @return the standard NPC Calculator set containing ACCURACY_COMBAT and EVASION_RATE.
 	 */
 	public Calculator[] getStdNPCCalculators()
 	{
@@ -1015,6 +1015,8 @@ public final class Formulas
 	/**
 	 * Calculate the HP regen rate (base + modifiers).<BR>
 	 * <BR>
+	 * @param cha 
+	 * @return 
 	 */
 	public final static double calcHpRegen(L2Character cha)
 	{
@@ -1098,6 +1100,8 @@ public final class Formulas
 	/**
 	 * Calculate the MP regen rate (base + modifiers).<BR>
 	 * <BR>
+	 * @param cha 
+	 * @return 
 	 */
 	public final static double calcMpRegen(L2Character cha)
 	{
@@ -1167,6 +1171,8 @@ public final class Formulas
 	/**
 	 * Calculate the CP regen rate (base + modifiers).<BR>
 	 * <BR>
+	 * @param cha 
+	 * @return 
 	 */
 	public final static double calcCpRegen(L2Character cha)
 	{
@@ -1265,7 +1271,16 @@ public final class Formulas
 		return 1.5; // If all is true, then modifer will be 50% more
 	}
 
-	/** Calculate blow damage based on cAtk */
+	/**
+	 * Calculate blow damage based on cAtk 
+	 * @param attacker 
+	 * @param target 
+	 * @param skill 
+	 * @param shld 
+	 * @param crit 
+	 * @param ss 
+	 * @return
+	 */
 	public static double calcBlowDamage(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean ss)
 	{
 		if((skill.getCondition() & L2Skill.COND_BEHIND) != 0 && !attacker.isBehind(target))
@@ -1322,32 +1337,28 @@ public final class Formulas
 			
 		}
 		
-		if (skill != null) //skill add is not influenced by criticals improvements, 
-						   //so it's applied later
+		//skill add is not influenced by criticals improvements,  so it's applied later
+		double skillpower = skill.getPower(attacker);
+		float ssboost = skill.getSSBoost();
+		if(ssboost <= 0)
+			damage += skillpower;
+		else if(ssboost > 0)
 		{
-			double skillpower = skill.getPower(attacker);
-			float ssboost = skill.getSSBoost();
-			if(ssboost <= 0)
-				damage += skillpower;
-			else if(ssboost > 0)
+			if(ss)
 			{
-				if(ss)
-				{
-					skillpower *= ssboost;
-					damage += skillpower;
-				}
-				else
-					damage += skillpower;
+				skillpower *= ssboost;
+				damage += skillpower;
 			}
-
-			//possible skill power critical hit, based on Official Description:
-			/* skill critical effects 
-			 * (skill damage x2) have been added
-			 * */
-			if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.DEX.calcBonus(attacker)))
-				damage*=2;
-			
+			else
+				damage += skillpower;
 		}
+
+		//possible skill power critical hit, based on Official Description:
+		/* skill critical effects 
+		 * (skill damage x2) have been added
+		 * */
+		if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.DEX.calcBonus(attacker)))
+			damage*=2;
 		
 		damage *= 70. / defence;
 		
@@ -1426,7 +1437,8 @@ public final class Formulas
 	 * 
 	 * @param attacker player or NPC that makes ATTACK
 	 * @param target player or NPC, target of ATTACK
-	 * @param miss one of ATTACK_XXX constants
+	 * @param skill 
+	 * @param shld 
 	 * @param crit if the ATTACK have critical success
 	 * @param dual if dual weapon is used
 	 * @param ss if weapon item was charged by soulshot
@@ -1871,18 +1883,14 @@ public final class Formulas
 			damage = damage * Config.ALT_NPC_MAGICAL_DAMAGE_MULTI;
 		}
 
-		if(skill != null)
+		if(target instanceof L2PlayableInstance)
 		{
+			damage *= skill.getPvpMulti();
+		}
 
-			if(target instanceof L2PlayableInstance)
-			{
-				damage *= skill.getPvpMulti();
-			}
-
-			if(skill.getSkillType() == SkillType.DEATHLINK)
-			{
-				damage = damage * (1.0 - attacker.getStatus().getCurrentHp() / attacker.getMaxHp()) * 2.0;
-			}
+		if(skill.getSkillType() == SkillType.DEATHLINK)
+		{
+			damage = damage * (1.0 - attacker.getStatus().getCurrentHp() / attacker.getMaxHp()) * 2.0;
 		}
 
 		if(Config.ENABLE_CLASS_DAMAGES && attacker instanceof L2PcInstance && target instanceof L2PcInstance){
@@ -1910,19 +1918,34 @@ public final class Formulas
 		return damage;
 	}
 
-	/** Returns true in case of critical hit */
+	/**
+	 * @param rate 
+	 * @return true in case of critical hit
+	 */
 	public final static boolean calcCrit(double rate)
 	{
 		return rate > Rnd.get(1000);
 	}
 
-	/** Calcul value of blow success */
+	/**
+	 * Calcul value of blow success 
+	 * @param activeChar 
+	 * @param target 
+	 * @param chance 
+	 * @return
+	 */
 	public final boolean calcBlow(L2Character activeChar, L2Character target, int chance)
 	{
 		return activeChar.calcStat(Stats.BLOW_RATE, chance * (1.0 + (activeChar.getDEX() - 20) / 100), target, null) > Rnd.get(100);
 	}
 
-	/** Calcul value of lethal chance */
+	/**
+	 * Calcul value of lethal chance 
+	 * @param activeChar 
+	 * @param target 
+	 * @param baseLethal 
+	 * @return 
+	 */
 	public final static double calcLethal(L2Character activeChar, L2Character target, int baseLethal)
 	{
 		return activeChar.calcStat(Stats.LETHAL_RATE, (baseLethal * (double) activeChar.getLevel() / target.getLevel()), target, null);
@@ -1996,7 +2019,11 @@ public final class Formulas
 		return mRate > Rnd.get(1000);
 	}
 
-	/** Returns true in case when ATTACK is canceled due to hit */
+	/**
+	 * @param target 
+	 * @param dmg 
+	 * @return true in case when ATTACK is canceled due to hit
+	 */
 	public final static boolean calcAtkBreak(L2Character target, double dmg)
 	{
 		if(target instanceof L2PcInstance)
@@ -2049,18 +2076,30 @@ public final class Formulas
 		return Rnd.get(100) < rate;
 	}
 
-	/** Calculate delay (in milliseconds) before next ATTACK */
+	/**
+	 * Calculate delay (in milliseconds) before next ATTACK 
+	 * @param attacker 
+	 * @param target 
+	 * @param rate 
+	 * @return
+	 */
 	public final int calcPAtkSpd(L2Character attacker, L2Character target, double rate)
 	{
 		// measured Oct 2006 by Tank6585, formula by Sami
 		// attack speed 312 equals 1500 ms delay... (or 300 + 40 ms delay?)
 		if(rate < 2)
 			return 2700;
-		else
-			return (int) (470000 / rate);
+		return (int) (470000 / rate);
 	}
 
-	/** Calculate delay (in milliseconds) for skills cast */
+	/**
+	 * Calculate delay (in milliseconds) for skills cast 
+	 * @param attacker 
+	 * @param target 
+	 * @param skill 
+	 * @param skillTime 
+	 * @return
+	 */
 	public final int calcMAtkSpd(L2Character attacker, L2Character target, L2Skill skill, double skillTime)
 	{
 		if(skill.isMagic())
@@ -2068,7 +2107,13 @@ public final class Formulas
 		return (int) (skillTime * 333 / attacker.getPAtkSpd());
 	}
 
-	/** Calculate delay (in milliseconds) for skills cast */
+	/**
+	 * Calculate delay (in milliseconds) for skills cast 
+	 * @param attacker 
+	 * @param skill 
+	 * @param skillTime 
+	 * @return
+	 */
 	public final int calcMAtkSpd(L2Character attacker, L2Skill skill, double skillTime)
 	{
 		if(skill.isMagic())
@@ -2076,7 +2121,11 @@ public final class Formulas
 		return (int) (skillTime * 333 / attacker.getPAtkSpd());
 	}
 
-	/** Returns true if hit missed (taget evaded) */
+	/**
+	 * @param attacker 
+	 * @param target 
+	 * @return true if hit missed (taget evaded)
+	 */
 	public static boolean calcHitMiss(L2Character attacker, L2Character target)
 	{
 		// accuracy+dexterity => probability to hit in percents
@@ -2088,7 +2137,11 @@ public final class Formulas
 		return d < Rnd.get(100);
 	}
 
-	/** Returns true if shield defence successfull */
+	/**
+	 * @param attacker 
+	 * @param target 
+	 * @return true if shield defence successfull
+	 */
 	public static boolean calcShldUse(L2Character attacker, L2Character target)
 	{
 		L2Weapon at_weapon = attacker.getActiveWeaponItem();
@@ -2124,8 +2177,7 @@ public final class Formulas
 		{
 			if(d > 0 && Rnd.get(1000) == 1)
 				return true;
-			else
-				return false;
+			return false;
 		}
 
 		if (target.calcStat(Stats.DEBUFF_IMMUNITY, 0, null, skill) > 0 && skill.is_Debuff())
@@ -3030,10 +3082,11 @@ public final class Formulas
 	 *
 	 * @param attacker player or NPC that makes ATTACK
 	 * @param target player or NPC, target of ATTACK
-	 * @param miss one of ATTACK_XXX constants
+     * @param skill 
+     * @param shld 
 	 * @param crit if the ATTACK have critical success
-	 * @param dual if dual weapon is used
 	 * @param ss if weapon item was charged by soulshot
+     * @param _numCharges 
 	 * @return damage points
 	 */
 	public static final double calcChargeSkillsDam(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean ss, int _numCharges)

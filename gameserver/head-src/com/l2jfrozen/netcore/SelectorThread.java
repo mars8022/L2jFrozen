@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 /**
  * @author KenM<BR>
  *         Parts of design based on networkcore from WoodenGil
+ * @param <T> 
  */
 public final class SelectorThread<T extends MMOClient<?>> extends Thread
 {
@@ -397,31 +398,27 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 						}
 						read = false;
 					}
-					
 					return read;
-					
+				}
+				
+				// we don`t have enough bytes for the dataPacket so we need
+				// to read
+				key.interestOps(key.interestOps() | SelectionKey.OP_READ);
+				
+				// did we use the READ_BUFFER ?
+				if (buf == READ_BUFFER)
+				{
+					// move it`s position
+					buf.position(buf.position() - HEADER_SIZE);
+					// move the pending byte to the connections READ_BUFFER
+					allocateReadBuffer(con);
 				}
 				else
 				{
-					// we don`t have enough bytes for the dataPacket so we need
-					// to read
-					key.interestOps(key.interestOps() | SelectionKey.OP_READ);
-					
-					// did we use the READ_BUFFER ?
-					if (buf == READ_BUFFER)
-					{
-						// move it`s position
-						buf.position(buf.position() - HEADER_SIZE);
-						// move the pending byte to the connections READ_BUFFER
-						allocateReadBuffer(con);
-					}
-					else
-					{
-						buf.position(buf.position() - HEADER_SIZE);
-						buf.compact();
-					}
-					return false;
+					buf.position(buf.position() - HEADER_SIZE);
+					buf.compact();
 				}
+				return false;
 		}
 	}
 	

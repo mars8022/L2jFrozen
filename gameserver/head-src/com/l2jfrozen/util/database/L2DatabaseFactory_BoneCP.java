@@ -164,7 +164,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 	}
 
 	@Override
-	public Connection getConnection(boolean checkclose) throws SQLException 
+	public Connection getConnection(boolean checkclose) 
 	{ 
 		Connection con = null;
 
@@ -186,7 +186,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 	}
 	
 	@Override
-	public Connection getConnection(long max_connection_time) throws SQLException 
+	public Connection getConnection(long max_connection_time) 
 	{ 
 		Connection con = null;
 
@@ -211,7 +211,8 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 	}
 	
 	@Override
-	public int getBusyConnectionCount() throws SQLException {
+	public int getBusyConnectionCount()
+	{
 		return _source.getTotalLeased();
 	}
 

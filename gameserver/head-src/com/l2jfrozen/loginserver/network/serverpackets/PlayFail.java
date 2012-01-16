@@ -52,10 +52,7 @@ public final class PlayFail extends L2LoginServerPacket
 	{
 		_reason = reason;
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.network.SendablePacket#write()
-	 */
+	
 	@Override
 	protected void write()
 	{
@@ -71,6 +68,4 @@ public final class PlayFail extends L2LoginServerPacket
 	{
 		return "PlayFail";
 	}
-	
-	
 }

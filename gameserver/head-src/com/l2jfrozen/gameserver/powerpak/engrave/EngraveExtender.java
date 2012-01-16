@@ -37,8 +37,7 @@ public class EngraveExtender extends BaseExtender
 	{
 		if(EngraveManager.getInstance().isEngraved(object.getObjectId()))
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public EngraveExtender(L2Object owner)

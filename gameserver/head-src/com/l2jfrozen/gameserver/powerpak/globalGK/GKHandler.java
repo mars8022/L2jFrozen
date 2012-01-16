@@ -185,8 +185,7 @@ public class GKHandler implements IVoicedCommandHandler,ICustomByPassHandler, IB
 					player.setSkillCastEndTime(10 + GameTimeController.getGameTicks() + unstuckTimer/GameTimeController.MILLIS_IN_TICK);
 					return;
 				}
-				else 
-					player.sendMessage("Teleport, with ID "+locId+" does not exist in the database");
+				player.sendMessage("Teleport, with ID "+locId+" does not exist in the database");
 			}
 			catch(Exception e)
 			{

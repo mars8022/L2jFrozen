@@ -95,12 +95,9 @@ public final class AddTradeItem extends L2GameClientPacket
 		if (item.isAugmented())
 			return;
 		
-		if (item != null)
-		{
-		    player.sendPacket(new TradeOwnAdd(item));
-		    player.sendPacket(new TradeUpdate(trade, player));
-		    trade.getPartner().sendPacket(new TradeOtherAdd(item));
-		}
+		player.sendPacket(new TradeOwnAdd(item));
+		player.sendPacket(new TradeUpdate(trade, player));
+		trade.getPartner().sendPacket(new TradeOtherAdd(item));
 	}
 
 	@Override

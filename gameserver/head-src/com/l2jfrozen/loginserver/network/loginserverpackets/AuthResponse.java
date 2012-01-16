@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.loginserver.network.loginserverpackets;
 
-import java.io.IOException;
-
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.loginserver.network.serverpackets.ServerBasePacket;
 
@@ -37,14 +35,10 @@ public class AuthResponse extends ServerBasePacket
 		writeC(serverId);
 		writeS(GameServerTable.getInstance().getServerNameById(serverId));
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.loginserver.serverpackets.ServerBasePacket#getContent()
-	 */
+	
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}
-
 }

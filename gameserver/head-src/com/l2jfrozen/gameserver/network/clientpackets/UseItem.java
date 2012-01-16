@@ -228,14 +228,12 @@ public final class UseItem extends L2GameClientPacket
 				activeChar.sendMessage("You can't equip that");
 				return;
 			}
-			else
+			
+			int circletId = CastleManager.getInstance().getCircletByCastleId(cl.getHasCastle());
+			if(activeChar.getPledgeType() == -1 || circletId != itemId)
 			{
-				int circletId = CastleManager.getInstance().getCircletByCastleId(cl.getHasCastle());
-				if(activeChar.getPledgeType() == -1 || circletId != itemId)
-				{
-					activeChar.sendMessage("You can't equip that");
-					return;
-				}
+				activeChar.sendMessage("You can't equip that");
+				return;
 			}
 		}
 

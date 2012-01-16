@@ -42,7 +42,6 @@ import com.l2jfrozen.util.random.Rnd;
  * 
  * @author ProGramMoS
  */
-
 public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 {
 	private static Logger _log = Logger.getLogger(L2LoginClient.class.getName());
@@ -106,10 +105,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 	{
 		return _usesInternalIP;
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.interfaces.MMOClient#decrypt(java.nio.ByteBuffer, int)
-	 */
+	
 	@Override
 	public boolean decrypt(ByteBuffer buf, int size)
 	{
@@ -137,10 +133,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 
 		return ret;
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.interfaces.MMOClient#encrypt(java.nio.ByteBuffer, int)
-	 */
+	
 	@Override
 	public boolean encrypt(ByteBuffer buf, int size)
 	{
@@ -292,8 +285,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		InetAddress address = getConnection().getInetAddress();
 		if(getState() == LoginClientState.AUTHED_LOGIN)
 			return "[" + getAccount() + " (" + (address == null ? "disconnected" : address.getHostAddress()) + ")]";
-		else
-			return "[" + (address == null ? "disconnected" : address.getHostAddress()) + "]";
+		return "[" + (address == null ? "disconnected" : address.getHostAddress()) + "]";
 	}
 	
 	@Override

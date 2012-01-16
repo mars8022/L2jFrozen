@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.scripting;
 
 /**
  * @author KenM
+ * @param <S> 
  */
 public abstract class ScriptManager<S extends ManagedScript>
 {

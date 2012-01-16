@@ -36,6 +36,7 @@ public class BlowFishKey extends ClientBasePacket
 
 	/**
 	 * @param decrypt
+	 * @param privateKey 
 	 */
 	public BlowFishKey(byte[] decrypt, RSAPrivateKey privateKey)
 	{

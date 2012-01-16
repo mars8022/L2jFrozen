@@ -59,6 +59,8 @@ public final class Broadcast
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to
 	 * do this use method toSelfAndKnownPlayers)</B></FONT><BR>
 	 * <BR>
+	 * @param character 
+	 * @param mov 
 	 */
 	public static void toPlayersTargettingMyself(L2Character character, L2GameServerPacket mov)
 	{
@@ -89,6 +91,8 @@ public final class Broadcast
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to
 	 * do this use method toSelfAndKnownPlayers)</B></FONT><BR>
 	 * <BR>
+	 * @param character 
+	 * @param mov 
 	 */
 	public static void toKnownPlayers(L2Character character, L2GameServerPacket mov)
 	{
@@ -131,6 +135,9 @@ public final class Broadcast
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to
 	 * do this use method toSelfAndKnownPlayers)</B></FONT><BR>
 	 * <BR>
+	 * @param character 
+	 * @param mov 
+	 * @param radius 
 	 */
 	public static void toKnownPlayersInRadius(L2Character character, L2GameServerPacket mov, int radius)
 	{
@@ -161,6 +168,8 @@ public final class Broadcast
 	 * In order to inform other players of state modification on the L2Character, server just need to go through
 	 * _knownPlayers to send Server->Client Packet<BR>
 	 * <BR>
+	 * @param character 
+	 * @param mov 
 	 */
 	public static void toSelfAndKnownPlayers(L2Character character, L2GameServerPacket mov)
 	{
@@ -204,6 +213,7 @@ public final class Broadcast
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to
 	 * do this use method toSelfAndKnownPlayers)</B></FONT><BR>
 	 * <BR>
+	 * @param mov 
 	 */
 	public static void toAllOnlinePlayers(L2GameServerPacket mov)
 	{

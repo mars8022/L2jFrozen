@@ -26,22 +26,12 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  */
 public abstract class AbstractServerBasePacket extends L2GameServerPacket
 {
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#runImpl()
-	 */
 	@Override
 	abstract public void runImpl();
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	abstract protected void writeImpl();
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	abstract public String getType();
 }

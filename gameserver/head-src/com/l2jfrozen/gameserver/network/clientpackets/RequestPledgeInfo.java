@@ -57,21 +57,7 @@ public final class RequestPledgeInfo extends L2GameClientPacket
 			_log.warning("Clan data for clanId "+_clanId+" is missing for player "+activeChar.getName());}
 			return; // we have no clan data ?!? should not happen
 		}
-
-		PledgeInfo pc = new PledgeInfo(clan);
-		if(activeChar != null)
-		{
-			activeChar.sendPacket(pc);
-
-			/*
-			 * if (clan.getClanId() == activeChar.getClanId())
-			 {
-			 * activeChar.sendPacket(new PledgeShowMemberListDeleteAll());
-			 * PledgeShowMemberListAll pm = new PledgeShowMemberListAll(clan,
-			 * activeChar); activeChar.sendPacket(pm);
-			 }
-			 */
-		}
+		activeChar.sendPacket(new PledgeInfo(clan));
 	}
 
 	@Override

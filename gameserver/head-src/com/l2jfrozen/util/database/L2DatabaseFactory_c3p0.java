@@ -141,7 +141,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	}
 	
 	@Override
-	public Connection getConnection(boolean checkclose) throws SQLException 
+	public Connection getConnection(boolean checkclose) 
 	{ 
 		Connection con = null;
 
@@ -163,7 +163,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	}
 	
 	@Override
-	public Connection getConnection(long max_connection_time) throws SQLException 
+	public Connection getConnection(long max_connection_time) 
 	{ 
 		Connection con = null;
 

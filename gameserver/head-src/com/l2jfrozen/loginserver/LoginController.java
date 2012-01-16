@@ -296,7 +296,7 @@ public class LoginController
 		AUTH_SUCCESS
 	};
 
-	public AuthLoginResult tryAuthLogin(String account, String password, L2LoginClient client) throws HackingException
+	public AuthLoginResult tryAuthLogin(String account, String password, L2LoginClient client)
 	{
 		AuthLoginResult ret = AuthLoginResult.INVALID_PASSWORD;
 		// check auth
@@ -370,8 +370,7 @@ public class LoginController
 				_bannedIps.remove(address);
 				return false;
 			}
-			else
-				return true;
+			return true;
 		}
 
 		bi = null;
@@ -422,9 +421,7 @@ public class LoginController
 
 		if(client != null)
 			return client.getSessionKey();
-
-		client = null;
-
+		
 		return null;
 	}
 
@@ -502,13 +499,13 @@ public class LoginController
 
 		if(gsi != null)
 			return gsi.getMaxPlayers();
-
-		gsi = null;
-
+		
 		return 0;
 	}
 
 	/**
+	 * @param client 
+	 * @param serverId 
 	 * @return
 	 */
 	public boolean isLoginPossible(L2LoginClient client, int serverId)
@@ -641,10 +638,10 @@ public class LoginController
 	 * 
 	 * @param user
 	 * @param password
-	 * @param address
+	 * @param client 
 	 * @return
 	 */
-	public boolean loginValid(String user, String password, L2LoginClient client)// throws HackingException
+	public boolean loginValid(String user, String password, L2LoginClient client)
 	{
 		boolean ok = false;
 		InetAddress address = client.getConnection().getInetAddress();
@@ -726,26 +723,24 @@ public class LoginController
 				con = null;
 				return false;
 			}
-			else
+			
+			// is this account banned?
+			if(access < 0)
 			{
-				// is this account banned?
-				if(access < 0)
-				{
-					client.setAccessLevel(access);
-					CloseUtil.close(con);
-					con = null;
-					return false;
-				}
+				client.setAccessLevel(access);
+				CloseUtil.close(con);
+				con = null;
+				return false;
+			}
 
-				// check password hash
-				ok = true;
-				for(int i = 0; i < expected.length; i++)
+			// check password hash
+			ok = true;
+			for(int i = 0; i < expected.length; i++)
+			{
+				if(hash[i] != expected[i])
 				{
-					if(hash[i] != expected[i])
-					{
-						ok = false;
-						break;
-					}
+					ok = false;
+					break;
 				}
 			}
 

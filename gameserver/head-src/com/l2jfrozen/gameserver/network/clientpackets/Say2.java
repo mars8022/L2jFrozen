@@ -275,277 +275,273 @@ public final class Say2 extends L2GameClientPacket
 			}
 			return;
 		}
-		else
+		
+		CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, activeChar.getName(), _text);
+		switch(_type)
 		{
-			CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, activeChar.getName(), _text);
+			case TELL:
+				L2PcInstance receiver = L2World.getInstance().getPlayer(_target);
 
-			
-			switch(_type)
-			{
-				case TELL:
-					L2PcInstance receiver = L2World.getInstance().getPlayer(_target);
-
-					if(receiver != null && !BlockList.isBlocked(receiver, activeChar) || activeChar.isGM() && receiver != null)
+				if(receiver != null && !BlockList.isBlocked(receiver, activeChar) || activeChar.isGM() && receiver != null)
+				{
+					if(receiver.isAway())
 					{
-						if(receiver.isAway())
-						{
-							activeChar.sendMessage("Player is Away try again later.");
-						}
-
-						if(Config.JAIL_DISABLE_CHAT && receiver.isInJail())
-						{
-							activeChar.sendMessage("Player is in jail.");
-							return;
-						}
-
-						if(receiver.isChatBanned() && !activeChar.isGM())
-						{
-							activeChar.sendMessage("Player is chat banned.");
-							return;
-						}
-
-						
-						if (receiver.isOffline())
-						{
-							activeChar.sendMessage("Player is in offline mode.");
-							return;
-						}
-						
-						
-						if(!receiver.getMessageRefusal())
-						{
-							receiver.sendPacket(cs);
-							activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), _text));
-						}
-						else
-						{
-							activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_PERSON_IS_IN_MESSAGE_REFUSAL_MODE));
-						}
+						activeChar.sendMessage("Player is Away try again later.");
 					}
-					else if(receiver != null && BlockList.isBlocked(receiver, activeChar))
+
+					if(Config.JAIL_DISABLE_CHAT && receiver.isInJail())
 					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
-						sm.addString(_target);
-						activeChar.sendPacket(sm);
-						sm = null;
+						activeChar.sendMessage("Player is in jail.");
+						return;
+					}
+
+					if(receiver.isChatBanned() && !activeChar.isGM())
+					{
+						activeChar.sendMessage("Player is chat banned.");
+						return;
+					}
+
+					
+					if (receiver.isOffline())
+					{
+						activeChar.sendMessage("Player is in offline mode.");
+						return;
+					}
+					
+					
+					if(!receiver.getMessageRefusal())
+					{
+						receiver.sendPacket(cs);
+						activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), _text));
 					}
 					else
 					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_NOT_ONLINE);
-						sm.addString(_target);
-						activeChar.sendPacket(sm);
-						sm = null;
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_PERSON_IS_IN_MESSAGE_REFUSAL_MODE));
 					}
-					break;
-				case SHOUT:
-					
-					// Flood protect Say
-					if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
-						return;
+				}
+				else if(receiver != null && BlockList.isBlocked(receiver, activeChar))
+				{
+					SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
+					sm.addString(_target);
+					activeChar.sendPacket(sm);
+					sm = null;
+				}
+				else
+				{
+					SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_NOT_ONLINE);
+					sm.addString(_target);
+					activeChar.sendPacket(sm);
+					sm = null;
+				}
+				break;
+			case SHOUT:
+				
+				// Flood protect Say
+				if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
+					return;
 
-		               if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
-		               {
-		                  int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-		                  for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                  {
-		                     if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		               }
-		               else if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("global"))
-		               {
-		                  if(Config.GLOBAL_CHAT_WITH_PVP)
-		                  {
-		                     if((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
-		                     {
-		                        activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT+ " pvp kills in order to speak in global chat");
-		                        return;
-		                     }
-		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		                  else
-		                  {
-		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		               }
-		               break;
-		            case TRADE:
-		               if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on"))
-		               {
-		                  if(Config.TRADE_CHAT_WITH_PVP)
-		                  {
-		                     if((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
-		                     {
-		                        activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT+ "  pvp kills in order to speak in trade chat");
-		                        return;
-		                     }
-		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		                  else
-		                  {
-		                     for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-		                     {
-		                        player.sendPacket(cs);
-		                     }
-		                  }
-		               }
-		               else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
-		               {
-		            	   
-						if(Config.TRADE_CHAT_IS_NOOBLE)
-						{
-							if(!activeChar.isNoble() && !activeChar.isGM())
-							{
-								activeChar.sendMessage("Only Nobless Players Can Use This Chat");
-								return;
-							}
-							
-							int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-							for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-							{
-								if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-								{
-									player.sendPacket(cs);
-								}
-							}
-							
-						}
-						else
-						{
-							int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-							for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-							{
-								if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
-								{
-									player.sendPacket(cs);
-								}
-							}
-						}
-
-						
-		               }
-		               break;
-				case ALL:
-					if(_text.startsWith("."))
-					{	
-						StringTokenizer st = new StringTokenizer(_text);
-						IVoicedCommandHandler vch;
-						String command = "";
-						String target = "";
-
-						if(st.countTokens() > 1)
-						{
-							command = st.nextToken().substring(1);
-							target = _text.substring(command.length() + 2);
-							vch = VoicedCommandHandler.getInstance().getVoicedCommandHandler(command);
-						}
-						else
-						{
-							command = _text.substring(1);
-							if(Config.DEBUG)
-							{
-								_log.info("Command: " + command);
-							}
-							vch = VoicedCommandHandler.getInstance().getVoicedCommandHandler(command);
-						}
-
-						if(vch != null)
-						{
-							vch.useVoicedCommand(command, activeChar, target);
-							break;
-						}
-					}
-					
-					for(L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
+		           if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
+		           {
+		              int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+		              for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		              {
+		                 if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+		                 {
+		                    player.sendPacket(cs);
+		                 }
+		              }
+		           }
+		           else if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("global"))
+		           {
+		              if(Config.GLOBAL_CHAT_WITH_PVP)
+		              {
+		                 if((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
+		                 {
+		                    activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT+ " pvp kills in order to speak in global chat");
+		                    return;
+		                 }
+		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                 {
+		                    player.sendPacket(cs);
+		                 }
+		              }
+		              else
+		              {
+		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                 {
+		                    player.sendPacket(cs);
+		                 }
+		              }
+		           }
+		           break;
+		        case TRADE:
+		           if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on"))
+		           {
+		              if(Config.TRADE_CHAT_WITH_PVP)
+		              {
+		                 if((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
+		                 {
+		                    activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT+ "  pvp kills in order to speak in trade chat");
+		                    return;
+		                 }
+		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                 {
+		                    player.sendPacket(cs);
+		                 }
+		              }
+		              else
+		              {
+		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		                 {
+		                    player.sendPacket(cs);
+		                 }
+		              }
+		           }
+		           else if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
+		           {
+		        	   
+					if(Config.TRADE_CHAT_IS_NOOBLE)
 					{
-						if(player != null && activeChar.isInsideRadius(player, 1250, false, true))
+						if(!activeChar.isNoble() && !activeChar.isGM())
+						{
+							activeChar.sendMessage("Only Nobless Players Can Use This Chat");
+							return;
+						}
+						
+						int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								player.sendPacket(cs);
+							}
+						}
+						
+					}
+					else
+					{
+						int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								player.sendPacket(cs);
+							}
+						}
+					}
+
+					
+		           }
+		           break;
+			case ALL:
+				if(_text.startsWith("."))
+				{	
+					StringTokenizer st = new StringTokenizer(_text);
+					IVoicedCommandHandler vch;
+					String command = "";
+					String target = "";
+
+					if(st.countTokens() > 1)
+					{
+						command = st.nextToken().substring(1);
+						target = _text.substring(command.length() + 2);
+						vch = VoicedCommandHandler.getInstance().getVoicedCommandHandler(command);
+					}
+					else
+					{
+						command = _text.substring(1);
+						if(Config.DEBUG)
+						{
+							_log.info("Command: " + command);
+						}
+						vch = VoicedCommandHandler.getInstance().getVoicedCommandHandler(command);
+					}
+
+					if(vch != null)
+					{
+						vch.useVoicedCommand(command, activeChar, target);
+						break;
+					}
+				}
+				
+				for(L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
+				{
+					if(player != null && activeChar.isInsideRadius(player, 1250, false, true))
+					{
+						player.sendPacket(cs);
+					}
+				}
+				activeChar.sendPacket(cs);
+				
+				break;
+			case CLAN:
+				if(activeChar.getClan() != null)
+				{
+					activeChar.getClan().broadcastToOnlineMembers(cs);
+				}
+				break;
+			case ALLIANCE:
+				if(activeChar.getClan() != null)
+				{
+					activeChar.getClan().broadcastToOnlineAllyMembers(cs);
+				}
+				break;
+			case PARTY:
+				if(activeChar.isInParty())
+				{
+					activeChar.getParty().broadcastToPartyMembers(cs);
+				}
+				break;
+			case PETITION_PLAYER:
+			case PETITION_GM:
+				if(!PetitionManager.getInstance().isPlayerInConsultation(activeChar))
+				{
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_ARE_NOT_IN_PETITION_CHAT));
+					break;
+				}
+
+				PetitionManager.getInstance().sendActivePetitionMessage(activeChar, _text);
+				break;
+			case PARTYROOM_ALL:
+				if(activeChar.isInParty())
+				{
+					if(activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
+					{
+						activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
+					}
+				}
+				break;
+			case PARTYROOM_COMMANDER:
+				if(activeChar.isInParty())
+				{
+					if(activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
+					{
+						activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
+					}
+				}
+				break;
+			case HERO_VOICE:
+				if(activeChar.isGM())
+				{
+					for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+						if(!BlockList.isBlocked(player, activeChar))
 						{
 							player.sendPacket(cs);
 						}
-					}
-					activeChar.sendPacket(cs);
-					
-					break;
-				case CLAN:
-					if(activeChar.getClan() != null)
-					{
-						activeChar.getClan().broadcastToOnlineMembers(cs);
-					}
-					break;
-				case ALLIANCE:
-					if(activeChar.getClan() != null)
-					{
-						activeChar.getClan().broadcastToOnlineAllyMembers(cs);
-					}
-					break;
-				case PARTY:
-					if(activeChar.isInParty())
-					{
-						activeChar.getParty().broadcastToPartyMembers(cs);
-					}
-					break;
-				case PETITION_PLAYER:
-				case PETITION_GM:
-					if(!PetitionManager.getInstance().isPlayerInConsultation(activeChar))
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_ARE_NOT_IN_PETITION_CHAT));
-						break;
-					}
+				}
+				else if(activeChar.isHero())
+				{
+					// Flood protect Hero Voice
+					if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
+						return;
 
-					PetitionManager.getInstance().sendActivePetitionMessage(activeChar, _text);
-					break;
-				case PARTYROOM_ALL:
-					if(activeChar.isInParty())
-					{
-						if(activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
+					for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+						if(!BlockList.isBlocked(player, activeChar))
 						{
-							activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
+							player.sendPacket(cs);
 						}
-					}
-					break;
-				case PARTYROOM_COMMANDER:
-					if(activeChar.isInParty())
-					{
-						if(activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
-						{
-							activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
-						}
-					}
-					break;
-				case HERO_VOICE:
-					if(activeChar.isGM())
-					{
-						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-							if(!BlockList.isBlocked(player, activeChar))
-							{
-								player.sendPacket(cs);
-							}
-					}
-					else if(activeChar.isHero())
-					{
-						// Flood protect Hero Voice
-						if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
-							return;
-
-						for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-							if(!BlockList.isBlocked(player, activeChar))
-							{
-								player.sendPacket(cs);
-							}
-					}
-					break;
-			}
+				}
+				break;
 		}
 	}
 	

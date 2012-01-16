@@ -32,19 +32,13 @@ public final class EffectFusion extends L2Effect
 		_effect = getSkill().getLevel();
 		_maxEffect = 10;
 	}
-
-	/**
-	 * @see net.l2emuproject.gameserver.model.L2Effect#onActionTime()
-	 */
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return true;
 	}
-
-	/**
-	 * @see net.l2emuproject.gameserver.model.L2Effect#getEffectType()
-	 */
+	
 	@Override
 	public EffectType getEffectType()
 	{

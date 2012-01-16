@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.loginserver.network.loginserverpackets;
 
-import java.io.IOException;
-
 import com.l2jfrozen.loginserver.network.serverpackets.ServerBasePacket;
 
 /**
@@ -32,14 +30,10 @@ public class KickPlayer extends ServerBasePacket
 		writeC(0x04);
 		writeS(account);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.loginserver.serverpackets.ServerBasePacket#getContent()
-	 */
+	
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}
-
 }

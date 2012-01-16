@@ -21,6 +21,7 @@ import javolution.util.FastList;
 
 /**
  * @author Julian
+ * @param <T> 
  */
 public class L2FastList<T extends Object> extends FastList<T>
 {
@@ -42,8 +43,7 @@ public class L2FastList<T extends Object> extends FastList<T>
 				return forEachP(func);
 			}
 		}
-		else
-			return forEachP(func);
+		return forEachP(func);
 	}
 
 	private boolean forEachP(I2ForEach<T> func)

@@ -25,10 +25,9 @@ import com.l2jfrozen.Config;
  * This class is used to represent session keys used by the client to authenticate in the gameserver
  * </p>
  * <p>
- * A SessionKey is made up of two 8 bytes keys. One is send in the {@link com.l2jfrozen.loginserver.serverpacket.LoginOk
- * LoginOk} packet and the other is sent in {@link com.l2jfrozen.loginserver.serverpacket.PlayOk PlayOk}
+ * A SessionKey is made up of two 8 bytes keys. One is send in the com.l2jfrozen.loginserver.serverpacket.LoginOk packet
+ * and the other is sent in com.l2jfrozen.loginserver.serverpacket.PlayOk
  * </p>
- * 
  * @author -Wooden-
  */
 public class SessionKey
@@ -66,13 +65,13 @@ public class SessionKey
 	 * </p>
 	 * 
 	 * @param key
+	 * @return 
 	 */
 	public boolean equals(SessionKey key)
 	{
 		// when server doesnt show licence it deosnt send the LoginOk packet, client doesnt have this part of the key then.
 		if(Config.SHOW_LICENCE)
 			return playOkID1 == key.playOkID1 && loginOkID1 == key.loginOkID1 && playOkID2 == key.playOkID2 && loginOkID2 == key.loginOkID2;
-		else
-			return playOkID1 == key.playOkID1 && playOkID2 == key.playOkID2;
+		return playOkID1 == key.playOkID1 && playOkID2 == key.playOkID2;
 	}
 }
