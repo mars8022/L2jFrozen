@@ -134,6 +134,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 	 * <BR>
 	 * 
 	 * @param target The targeted L2Object
+	 * @return 
 	 */
 	private boolean autoAttackCondition(L2Character target)
 	{
@@ -149,7 +150,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 			{
 				player = ((L2Summon) target).getOwner();
 			}
-			if(player == null || player != null && player.getClan() != null && player.getClan().getHasFort() == ((L2NpcInstance) _actor).getFort().getFortId())
+			if((player == null) || (player.getClan() != null) && player.getClan().getHasFort() == ((L2NpcInstance) _actor).getFort().getFortId())
 				return false;
 		}
 
@@ -919,7 +920,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 	 * AI_INTENTION_ATTACK (if actor is L2GuardInstance check if it isn't too far from its home location)</li><BR>
 	 * <BR>
 	 * 
-	 * @param attacker The L2Character that attacks
+	 * @param target The L2Character that attacks
 	 * @param aggro The value of hate to add to the actor against the target
 	 */
 	@Override
@@ -981,12 +982,10 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 				_globalAggro = -25;
 				return;
 			}
-			else
+			
+			for(L2Character aggroed : me.getAggroListRP().keySet())
 			{
-				for(L2Character aggroed : me.getAggroListRP().keySet())
-				{
-					me.addDamageHate(aggroed, 0, aggro);
-				}
+				me.addDamageHate(aggroed, 0, aggro);
 			}
 
 			aggro = me.getHating(mostHated);

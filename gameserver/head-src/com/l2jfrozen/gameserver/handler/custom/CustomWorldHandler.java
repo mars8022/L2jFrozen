@@ -33,7 +33,10 @@ public class CustomWorldHandler
 	//Do Nothing ^_-
 	}
 
-	/** Receives the non-static instance of the RebirthManager. */
+	/**
+	 * Receives the non-static instance of the RebirthManager. 
+	 * @return
+	 */
 	public static CustomWorldHandler getInstance()
 	{
 		if(_instance == null)
@@ -44,16 +47,21 @@ public class CustomWorldHandler
 		return _instance;
 	}
 
-	/** Requests entry into the world - manages appropriately. */
+	/**
+	 * Requests entry into the world - manages appropriately. 
+	 * @param player
+	 */
 	public void enterWorld(L2PcInstance player)
 	{
 		L2Rebirth.getInstance().grantRebirthSkills(player);//Rebirth Caller - if player has any skills, they will be granted them.
 	}
 
-	/** Requests removal from the world - manages appropriately. */
+	/**
+	 * Requests removal from the world - manages appropriately. 
+	 * @param player
+	 */
 	public void exitWorld(L2PcInstance player)
 	{
-	//TODO: Remove the rebirth engine's bonus skills from player?
+		//TODO: Remove the rebirth engine's bonus skills from player?
 	}
-
 }

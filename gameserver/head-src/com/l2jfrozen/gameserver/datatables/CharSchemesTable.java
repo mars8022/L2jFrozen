@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CharSchemesTable
 {
-	private static FastMap<Integer, FastMap<String, FastList<L2Skill>>> _schemesTable;
+	private static FastMap<Integer, FastMap<String, FastList<L2Skill>>> _schemesTable = new FastMap<Integer, FastMap<String, FastList<L2Skill>>>();
 	private static CharSchemesTable _instance = null;
 	private static Logger _log = Logger.getLogger(CharSchemesTable.class.getName());
 	private static final String SQL_LOAD_SCHEME = "SELECT * FROM mods_buffer_schemes WHERE ownerId=?";
@@ -44,7 +44,7 @@ public class CharSchemesTable
 
 	public CharSchemesTable()
 	{
-		_schemesTable = new FastMap<Integer, FastMap<String, FastList<L2Skill>>>();
+		_schemesTable.clear();
 	}
 
 	/**

@@ -92,7 +92,7 @@ abstract class AbstractAI implements Ctrl
 				{
 					moveToPawn(_followTarget, _range);
 				}
-				else if(_followTarget instanceof L2Character && newtask)
+				else if(newtask)
 				{
 					newtask = false;
 					_actor.broadcastPacket(new MoveToPawn(_actor, _followTarget, _range));
@@ -184,8 +184,7 @@ abstract class AbstractAI implements Ctrl
 	}
 
 	/**
-	 * Return the current cast target.<BR>
-	 * <BR>
+	 * @return the current cast target.
 	 */
 	public L2Character getCastTarget()
 	{
@@ -517,6 +516,8 @@ abstract class AbstractAI implements Ctrl
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR>
 	 * <BR>
+	 * @param pawn 
+	 * @param offset 
 	 */
 	protected void moveToPawn(L2Object pawn, int offset)
 	{
@@ -597,6 +598,9 @@ abstract class AbstractAI implements Ctrl
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR>
 	 * <BR>
+	 * @param x 
+	 * @param y 
+	 * @param z 
 	 */
 	public void moveTo(int x, int y, int z)
 	{
@@ -649,6 +653,7 @@ abstract class AbstractAI implements Ctrl
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Low level function, used by AI subclasses</B></FONT><BR>
 	 * <BR>
+	 * @param pos 
 	 */
 	protected void clientStopMoving(L2CharPosition pos)
 	{
@@ -884,6 +889,7 @@ abstract class AbstractAI implements Ctrl
 	 * <BR>
 	 * 
 	 * @param target The L2Character to follow
+	 * @param range 
 	 */
 	public synchronized void startFollow(L2Character target, int range)
 	{

@@ -95,6 +95,7 @@ public class AdminTeleport implements IAdminCommandHandler
 		admin_recall_party
 	}
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
@@ -462,6 +463,7 @@ public class AdminTeleport implements IAdminCommandHandler
 		return false;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
@@ -528,82 +530,6 @@ public class AdminTeleport implements IAdminCommandHandler
 		target = null;
 	}
 
-	/*
-	private void teleportCharacter(L2PcInstance activeChar, String Cords)
-	{
-		L2Object target = activeChar.getTarget();
-		L2PcInstance player = null;
-
-		if(target instanceof L2PcInstance)
-		{
-			player = (L2PcInstance) target;
-		}
-		else
-		{
-			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
-			return;
-		}
-
-		if(player.getObjectId() == activeChar.getObjectId())
-		{
-			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_ON_YOURSELF));
-		}
-		else
-		{
-			try
-			{
-				StringTokenizer st = new StringTokenizer(Cords);
-				String x1 = st.nextToken();
-
-				int x = Integer.parseInt(x1);
-
-				String y1 = st.nextToken();
-
-				int y = Integer.parseInt(y1);
-
-				String z1 = st.nextToken();
-
-				int z = Integer.parseInt(z1);
-
-				teleportCharacter(player, x, y, z);
-
-				y1 = null;
-				z1 = null;
-				x1 = null;
-				st = null;
-			}
-			catch(NoSuchElementException nsee)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					nsee.printStackTrace();
-			}
-		}
-
-		player = null;
-		target = null;
-	}
-	*/
-
-	/**
-	 * @param player
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	/*
-	private void teleportCharacter(L2PcInstance player, int x, int y, int z)
-	{
-		if(player != null)
-		{
-			//Common character information
-			player.sendMessage("Admin is teleporting you.");
-
-			player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-			player.teleToLocation(x, y, z, true);
-		}
-	}
-	*/
-
 	private void teleportToCharacter(L2PcInstance activeChar, L2Object target)
 	{
 		L2PcInstance player = null;
@@ -624,7 +550,7 @@ public class AdminTeleport implements IAdminCommandHandler
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_ON_YOURSELF));
 		}
-		else if(player!=null)
+		else
 		{
 			int x = player.getX();
 			int y = player.getY();
@@ -646,9 +572,6 @@ public class AdminTeleport implements IAdminCommandHandler
 
 			activeChar.sendMessage("You have teleported to npc " + npc.getName() + ".");
 		}*/
-
-		player = null;
-		//npc = null;
 	}
 
 	private void recallNPC(L2PcInstance activeChar)

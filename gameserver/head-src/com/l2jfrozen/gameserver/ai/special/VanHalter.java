@@ -975,6 +975,7 @@ public class VanHalter extends Quest implements Runnable
 
 	private class LockUpDoorOfAltar implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			closeDoorOfAltar(false);
@@ -1023,6 +1024,7 @@ public class VanHalter extends Quest implements Runnable
 
 	private class OpenDoorOfAltar implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			openDoorOfAltar(true);
@@ -1057,6 +1059,7 @@ public class VanHalter extends Quest implements Runnable
 
 	private class CloseDoorOfAltar implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			closeDoorOfAltar(true);
@@ -1177,6 +1180,7 @@ public class VanHalter extends Quest implements Runnable
 
 	private class CallRoyalGuardHelper implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			spawnRoyalGuardHepler();
@@ -1202,6 +1206,7 @@ public class VanHalter extends Quest implements Runnable
 
 	private class HalterEscape implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			if(_royalGuardHepler.size() <= Config.HPH_CALLROYALGUARDHELPERCOUNT && !_vanHalter.isDead())
@@ -1305,6 +1310,7 @@ public class VanHalter extends Quest implements Runnable
 
 	private class Bleeding implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			addBleeding();
@@ -1410,6 +1416,7 @@ public class VanHalter extends Quest implements Runnable
 	// Interval.
 	private class Interval implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			setupAltar();
@@ -1508,6 +1515,7 @@ public class VanHalter extends Quest implements Runnable
 	// Time up.
 	private class TimeUp implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			enterInterval();
@@ -1525,6 +1533,7 @@ public class VanHalter extends Quest implements Runnable
 			_taskId = taskId;
 		}
 
+		@Override
 		public void run()
 		{
 			_vanHalter.setHeading(16384);

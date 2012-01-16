@@ -33,8 +33,8 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- *L2Scoria
- **/
+ * @author L2jFrozen
+ */
 public class AdminNoble implements IAdminCommandHandler
 {
 	private static String[] ADMIN_COMMANDS =
@@ -134,8 +134,8 @@ public class AdminNoble implements IAdminCommandHandler
 	}
 
 	/**
-	 * @param activeChar
-	 * @param newDonator
+	 * @param player 
+	 * @param newNoble 
 	 */
 	private void updateDatabase(L2PcInstance player, boolean newNoble)
 	{

@@ -70,6 +70,7 @@ public class AccessLevel
 	 * @param gainExp as boolean<br>
 	 * @param useNameColor as boolean<br>
 	 * @param useTitleColor as boolean<br>
+	 * @param canDisableGmStatus 
 	 */
 	public AccessLevel(int accessLevel, String name, int nameColor, int titleColor, boolean isGm, boolean allowPeaceAttack, boolean allowFixedRes, boolean allowTransaction, boolean allowAltG, boolean giveDamage, boolean takeAggro, boolean gainExp, boolean useNameColor, boolean useTitleColor, boolean canDisableGmStatus)
 	{
@@ -160,10 +161,7 @@ public class AccessLevel
 	}
 
 	/**
-	 * Retruns if the access level is allowed to use fixed res or not<br>
-	 * <br>
-	 * 
-	 * @return: true if the access level is allowed to use fixed res, otherwise false<br>
+	 * @return true if the access level is allowed to use fixed res, otherwise false.
 	 */
 	public boolean allowFixedRes()
 	{

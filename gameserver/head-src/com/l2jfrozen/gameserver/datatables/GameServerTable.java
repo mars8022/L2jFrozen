@@ -67,7 +67,7 @@ public class GameServerTable
 	private static final int KEYS_SIZE = 10;
 	private KeyPair[] _keyPairs;
 
-	public static void load() throws SQLException, GeneralSecurityException
+	public static void load() throws GeneralSecurityException
 	{
 		if(_instance == null)
 		{
@@ -82,7 +82,7 @@ public class GameServerTable
 		return _instance;
 	}
 
-	public GameServerTable() throws SQLException, NoSuchAlgorithmException, InvalidAlgorithmParameterException
+	public GameServerTable() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException
 	{
 		loadServerNames();
 		_log.info("Loaded " + _serverNames.size() + " server names");

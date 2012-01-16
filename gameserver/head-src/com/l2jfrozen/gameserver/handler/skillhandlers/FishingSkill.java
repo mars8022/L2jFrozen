@@ -79,7 +79,7 @@ public class FishingSkill implements ISkillHandler
 		int SS = 1;
 		int pen = 0;
 
-		if(weaponInst != null && weaponInst.getChargedFishshot())
+		if(weaponInst.getChargedFishshot())
 			SS = 2;
 
 		double gradebonus = 1 + weaponItem.getCrystalType() * 0.1;

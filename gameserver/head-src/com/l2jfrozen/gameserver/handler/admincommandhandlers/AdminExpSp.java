@@ -171,44 +171,42 @@ public class AdminExpSp implements IAdminCommandHandler
 
 		if(st.countTokens() != 2)
 			return false;
-		else
+		
+		String exp = st.nextToken();
+		String sp = st.nextToken();
+
+		long expval = 0;
+		int spval = 0;
+
+		try
 		{
-			String exp = st.nextToken();
-			String sp = st.nextToken();
-
-			long expval = 0;
-			int spval = 0;
-
-			try
-			{
-				expval = Long.parseLong(exp);
-				spval = Integer.parseInt(sp);
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				return false;
-			}
-
-			if(expval != 0 || spval != 0)
-			{
-				//Common character information
-				player.sendMessage("Admin is adding you " + expval + " xp and " + spval + " sp.");
-				player.addExpAndSp(expval, spval);
-				//Admin information
-				activeChar.sendMessage("Added " + expval + " xp and " + spval + " sp to " + player.getName() + ".");
-
-				if(Config.DEBUG)
-				{
-					_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") added " + expval + " xp and " + spval + " sp to " + player.getObjectId() + ".");
-				}
-			}
-
-			exp = null;
-			sp = null;
+			expval = Long.parseLong(exp);
+			spval = Integer.parseInt(sp);
 		}
+		catch(Exception e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			return false;
+		}
+
+		if(expval != 0 || spval != 0)
+		{
+			//Common character information
+			player.sendMessage("Admin is adding you " + expval + " xp and " + spval + " sp.");
+			player.addExpAndSp(expval, spval);
+			//Admin information
+			activeChar.sendMessage("Added " + expval + " xp and " + spval + " sp to " + player.getName() + ".");
+
+			if(Config.DEBUG)
+			{
+				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") added " + expval + " xp and " + spval + " sp to " + player.getObjectId() + ".");
+			}
+		}
+
+		exp = null;
+		sp = null;
 
 		st = null;
 		player = null;
@@ -237,44 +235,42 @@ public class AdminExpSp implements IAdminCommandHandler
 
 		if(st.countTokens() != 2)
 			return false;
-		else
+		
+		String exp = st.nextToken();
+		String sp = st.nextToken();
+
+		long expval = 0;
+		int spval = 0;
+
+		try
 		{
-			String exp = st.nextToken();
-			String sp = st.nextToken();
-
-			long expval = 0;
-			int spval = 0;
-
-			try
-			{
-				expval = Long.parseLong(exp);
-				spval = Integer.parseInt(sp);
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				return false;
-			}
-
-			if(expval != 0 || spval != 0)
-			{
-				//Common character information
-				player.sendMessage("Admin is removing you " + expval + " xp and " + spval + " sp.");
-				player.removeExpAndSp(expval, spval);
-				//Admin information
-				activeChar.sendMessage("Removed " + expval + " xp and " + spval + " sp from " + player.getName() + ".");
-
-				if(Config.DEBUG)
-				{
-					_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") removed " + expval + " xp and " + spval + " sp from " + player.getObjectId() + ".");
-				}
-			}
-
-			exp = null;
-			sp = null;
+			expval = Long.parseLong(exp);
+			spval = Integer.parseInt(sp);
 		}
+		catch(Exception e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			return false;
+		}
+
+		if(expval != 0 || spval != 0)
+		{
+			//Common character information
+			player.sendMessage("Admin is removing you " + expval + " xp and " + spval + " sp.");
+			player.removeExpAndSp(expval, spval);
+			//Admin information
+			activeChar.sendMessage("Removed " + expval + " xp and " + spval + " sp from " + player.getName() + ".");
+
+			if(Config.DEBUG)
+			{
+				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") removed " + expval + " xp and " + spval + " sp from " + player.getObjectId() + ".");
+			}
+		}
+
+		exp = null;
+		sp = null;
 
 		player = null;
 		st = null;

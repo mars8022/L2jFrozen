@@ -96,6 +96,8 @@ public class FortSiegeManager
 	 * <BR>
 	 * 
 	 * @param activeChar The L2Character of the character can summon
+	 * @param isCheckOnly 
+	 * @return 
 	 */
 	public final boolean checkIfOkToSummon(L2Character activeChar, boolean isCheckOnly)
 	{
@@ -138,6 +140,8 @@ public class FortSiegeManager
 	 * <BR>
 	 * 
 	 * @param clan The L2Clan of the player
+	 * @param fortid 
+	 * @return 
 	 */
 	public final boolean checkIsRegistered(L2Clan clan, int fortid)
 	{
@@ -298,16 +302,14 @@ public class FortSiegeManager
 	{
 		if(_commanderSpawnList.containsKey(_fortId))
 			return _commanderSpawnList.get(_fortId);
-		else
-			return null;
+		return null;
 	}
 
 	public final FastList<SiegeSpawn> getFlagList(int _fortId)
 	{
 		if(_flagList.containsKey(_fortId))
 			return _flagList.get(_fortId);
-		else
-			return null;
+		return null;
 	}
 
 	public final int getAttackerMaxClans()

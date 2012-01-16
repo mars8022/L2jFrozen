@@ -70,6 +70,7 @@ public class SkillTreeTable
 	 * <BR>
 	 * 
 	 * @param grade The grade level searched
+	 * @return 
 	 */
 	public int getExpertiseLevel(int grade)
 	{
@@ -88,11 +89,11 @@ public class SkillTreeTable
 	}
 
 	/**
-	 * Each class receives new skill on certain levels, this methods allow the retrieval of the minimun character level
+	 * Each class receives new skill on certain levels, this methods allow the retrieval of the minimum character level
 	 * of given class required to learn a given skill
 	 * 
 	 * @param skillId The iD of the skill
-	 * @param classID The classId of the character
+	 * @param classId The classId of the character
 	 * @param skillLvl The SkillLvl
 	 * @return The min level
 	 */

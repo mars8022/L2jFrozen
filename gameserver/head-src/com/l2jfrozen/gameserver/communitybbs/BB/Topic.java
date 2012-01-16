@@ -29,7 +29,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Topic
 {
-
 	private static Logger _log = Logger.getLogger(Topic.class.getName());
 	public static final int MORMAL = 0;
 	public static final int MEMO = 1;
@@ -42,17 +41,17 @@ public class Topic
 	private int _ownerId;
 	private int _type;
 	private int _cReply;
-
+	
 	/**
-	 * @param restaure
-	 * @param i
-	 * @param j
-	 * @param string
-	 * @param k
-	 * @param string2
-	 * @param l
-	 * @param m
-	 * @param n
+	 * @param ct
+	 * @param id
+	 * @param fid
+	 * @param name
+	 * @param date
+	 * @param oname
+	 * @param oid
+	 * @param type
+	 * @param Creply
 	 */
 	public Topic(ConstructorType ct, int id, int fid, String name, long date, String oname, int oid, int type, int Creply)
 	{

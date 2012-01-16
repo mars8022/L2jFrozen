@@ -46,10 +46,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class RegionBBSManager extends BaseBBSManager
 {
 	private static Logger _logChat = Logger.getLogger("chat");
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsecmd(java.lang.String, com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsecmd(String command, L2PcInstance activeChar)
 	{
@@ -109,7 +106,7 @@ public class RegionBBSManager extends BaseBBSManager
 	private String version()
 	{
 		if(Config.SHOW_SERVER_VERSION)
-			return "L2Scoria ";
+			return "L2JFrozen ";
 		return "";
 	}
 
@@ -204,17 +201,13 @@ public class RegionBBSManager extends BaseBBSManager
 
 	/**
 	 * @param activeChar
+	 * @param page 
 	 */
 	private void showOldCommunity(L2PcInstance activeChar, int page)
 	{
 		separateAndSend(getCommunityPage(page, activeChar.isGM() ? "gm" : "pl"), activeChar);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2scoria.gameserver.communitybbs.Manager.BaseBBSManager#parsewrite(
-	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, 
-	 * com.l2scoria.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
 	{
@@ -353,7 +346,9 @@ public class RegionBBSManager extends BaseBBSManager
 		sortedPlayers.addAll(players);
 		players = null;
 
-		Collections.sort(sortedPlayers, new Comparator<L2PcInstance>() {
+		Collections.sort(sortedPlayers, new Comparator<L2PcInstance>()
+		{
+			@Override
 			public int compare(L2PcInstance p1, L2PcInstance p2)
 			{
 				return p1.getName().compareToIgnoreCase(p2.getName());

@@ -498,8 +498,7 @@ public class MapRegionTable
 
 				if(closest >= 0 && closest < _pointsWithKarmas.length)
 					return new Location(_pointsWithKarmas[closest][0], _pointsWithKarmas[closest][1], _pointsWithKarmas[closest][2]);
-				else
-					return new Location(17817, 170079, -3530);
+				return new Location(17817, 170079, -3530);
 			}
 
 			// Checking if in arena
@@ -509,20 +508,19 @@ public class MapRegionTable
 				coord = arena.getSpawnLoc();
 				return new Location(coord[0], coord[1], coord[2]);
 			}
-			arena = null;
-			player = null;
 		}
 
 		// Get the nearest town
 		L2TownZone local_zone = null;
-		if(activeChar!=null && (local_zone = TownManager.getInstance().getClosestTown(activeChar))!=null){
-			coord = local_zone.getSpawnLoc();
-			return new Location(coord[0], coord[1], coord[2]);
-		}else{
-			local_zone = TownManager.getInstance().getTown(9); //giran
+		if(activeChar!=null && (local_zone = TownManager.getInstance().getClosestTown(activeChar))!=null)
+		{
 			coord = local_zone.getSpawnLoc();
 			return new Location(coord[0], coord[1], coord[2]);
 		}
+		
+		local_zone = TownManager.getInstance().getTown(9); //giran
+		coord = local_zone.getSpawnLoc();
+		return new Location(coord[0], coord[1], coord[2]);
 		
 		
 	}

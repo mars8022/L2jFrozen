@@ -1745,6 +1745,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 	protected class ManagerSay implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			if(_inAttackTime)
@@ -1777,6 +1778,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 	protected class ChangeEntryTime implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			// _log.info("FourSepulchersManager:In Entry Time");
@@ -1815,6 +1817,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 	protected class ChangeWarmUpTime implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			// _log.info("FourSepulchersManager:In Warm-Up Time");
@@ -1848,6 +1851,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 	protected class ChangeAttackTime implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			// _log.info("FourSepulchersManager:In Attack Time");
@@ -1915,6 +1919,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 	protected class ChangeCoolDownTime implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			// _log.info("FourSepulchersManager:In Cool-Down Time");

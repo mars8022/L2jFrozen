@@ -102,6 +102,8 @@ public class SiegeManager
 	 * <BR>
 	 * 
 	 * @param activeChar The L2Character of the character can summon
+	 * @param isCheckOnly 
+	 * @return 
 	 */
 	public final boolean checkIfOkToSummon(L2Character activeChar, boolean isCheckOnly)
 	{
@@ -158,6 +160,8 @@ public class SiegeManager
 	 * <BR>
 	 * 
 	 * @param clan The L2Clan of the player
+	 * @param castleid 
+	 * @return 
 	 */
 	public final boolean checkIsRegistered(L2Clan clan, int castleid)
 	{
@@ -333,16 +337,14 @@ public class SiegeManager
 	{
 		if(_artefactSpawnList.containsKey(_castleId))
 			return _artefactSpawnList.get(_castleId);
-		else
-			return null;
+		return null;
 	}
 
 	public final FastList<SiegeSpawn> getControlTowerSpawnList(int _castleId)
 	{
 		if(_controlTowerSpawnList.containsKey(_castleId))
 			return _controlTowerSpawnList.get(_castleId);
-		else
-			return null;
+		return null;
 	}
 
 	public final int getAttackerMaxClans()

@@ -151,7 +151,7 @@ public class AdminLogin implements IAdminCommandHandler
 	}
 
 	/**
-	 *
+	 * @param activeChar 
 	 */
 	private void showMainPage(L2PcInstance activeChar)
 	{

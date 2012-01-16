@@ -59,7 +59,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  * 
  * @version $Revision: 1.9.2.6.2.9 $ $Date: 2005/04/02 15:57:34 $
  */
-
 public class ItemTable
 {
 	private final static Logger _log = Logger.getLogger(ItemTable.class.getName());
@@ -658,6 +657,9 @@ public class ItemTable
 
 	/**
 	 * Builds a variable in which all items are putting in in function of their ID.
+	 * @param armors 
+	 * @param weapons 
+	 * @param etcItems 
 	 */
 	private void buildFastLookupTable(Map<Integer, L2Armor> armors, Map<Integer, L2Weapon> weapons, Map<Integer, L2EtcItem> etcItems)
 	{
@@ -853,7 +855,7 @@ public class ItemTable
 	 * <BR>
 	 * 
 	 * @param process : String Identifier of process triggering this action
-	 * @param itemId : int Item Identifier of the item to be created
+	 * @param item 
 	 * @param actor : L2PcInstance Player requesting the item destroy
 	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
 	 *            transformation

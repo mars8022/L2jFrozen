@@ -144,10 +144,9 @@ public class AdminAnnouncements implements IAdminCommandHandler
 					Announcements.getInstance().addAnnouncement(text);
 					Announcements.getInstance().listAnnouncements(activeChar);
 					return true;
-				}else{
-					activeChar.sendMessage("You cannot announce Empty message");
-					return false;
 				}
+				activeChar.sendMessage("You cannot announce Empty message");
+				return false;
 				
 			case admin_del_announcement:
 				
@@ -165,10 +164,9 @@ public class AdminAnnouncements implements IAdminCommandHandler
 					Announcements.getInstance().delAnnouncement(index);
 					Announcements.getInstance().listAnnouncements(activeChar);
 					return true;
-				}else{
-					activeChar.sendMessage("Usage: //del_announcement <index> (number >=0)");
-					return false;
 				}
+				activeChar.sendMessage("Usage: //del_announcement <index> (number >=0)");
+				return false;
 			case admin_announce:
 				// Call method from another class
 				if(Config.GM_ANNOUNCER_NAME)
@@ -215,24 +213,15 @@ public class AdminAnnouncements implements IAdminCommandHandler
 							
 							return true;
 							
-						}else{
-							activeChar.sendMessage("Usage: //add_autoannouncement <delay> (Seconds > 30) <Announcements>");
-							return false;
 						}
-
-					}else{
 						activeChar.sendMessage("Usage: //add_autoannouncement <delay> (Seconds > 30) <Announcements>");
 						return false;
-						
 					}
-					
-					
-				}else{
 					activeChar.sendMessage("Usage: //add_autoannouncement <delay> (Seconds > 30) <Announcements>");
 					return false;
 				}
-				
-
+				activeChar.sendMessage("Usage: //add_autoannouncement <delay> (Seconds > 30) <Announcements>");
+				return false;
 			case admin_del_autoannouncement:
 				if(st.hasMoreTokens()){
 					

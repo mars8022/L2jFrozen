@@ -144,7 +144,7 @@ public class TeleportLocationTable
 	}
 
 	/**
-	 * @param template id
+	 * @param id
 	 * @return
 	 */
 	public L2TeleportLocation getTemplate(int id)

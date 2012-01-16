@@ -46,7 +46,6 @@ import com.l2jfrozen.util.random.Rnd;
  * 
  * @author l3x
  */
-
 public class CastleManorManager
 {
 	protected static Logger _log = Logger.getLogger(CastleManorManager.class.getName());
@@ -412,7 +411,7 @@ public class CastleManorManager
 
 			// Sending notification to a clan leader
 			L2PcInstance clanLeader = null;
-			if(clan != null && clan.getLeader()!=null && clan.getLeader().getName()!=null)
+			if(clan.getLeader()!=null && clan.getLeader().getName()!=null)
 			{
 				clanLeader = L2World.getInstance().getPlayer(clan.getLeader().getName());
 			}
@@ -423,9 +422,6 @@ public class CastleManorManager
 			}
 
 			c.setNextPeriodApproved(false);
-
-			clanLeader = null;
-			clan = null;
 		}
 	}
 

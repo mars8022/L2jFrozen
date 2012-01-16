@@ -177,10 +177,8 @@ public class AutoVoteRewardHandler
 			
 			if(already_rewarded.contains(playerip))
 				return false;
-			else{
-				already_rewarded.add(playerip);
-				return true;
-			}
+			already_rewarded.add(playerip);
+			return true;
 		}
 		
 		//if no connection (maybe offline shop) dnt reward
@@ -331,8 +329,7 @@ public class AutoVoteRewardHandler
 		
 		if(topzone || hopzone)
 			return SingletonHolder._instance;
-		else
-			return null;
+		return null;
 	}
 
 	@SuppressWarnings("synthetic-access")

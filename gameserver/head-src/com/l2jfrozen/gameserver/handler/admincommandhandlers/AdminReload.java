@@ -215,7 +215,7 @@ public class AdminReload implements IAdminCommandHandler
 	/**
 	 * send reload page
 	 * 
-	 * @param admin
+	 * @param activeChar
 	 */
 	private void sendReloadPage(L2PcInstance activeChar)
 	{

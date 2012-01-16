@@ -118,7 +118,7 @@ public class AdminPolymorph implements IAdminCommandHandler
 
 	/**
 	 * @param activeChar
-	 * @param target
+	 * @param obj
 	 * @param id
 	 * @param type
 	 */

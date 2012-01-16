@@ -120,10 +120,8 @@ public class AdminPetition implements IAdminCommandHandler
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.NOT_UNDER_PETITION_CONSULTATION));
 					return false;
-				}else{
-					return true;
 				}
-				
+				return true;
 			}
 			case admin_reject_petition:{
 				
@@ -147,13 +145,12 @@ public class AdminPetition implements IAdminCommandHandler
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.FAILED_CANCEL_PETITION_TRY_LATER));
 					return false;
-				}else{
-					return true;
 				}
+				return true;
 				
 			}
-			case admin_reset_petitions:{
-				
+			case admin_reset_petitions:
+			{
 				if(PetitionManager.getInstance().isPetitionInProcess())
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.PETITION_UNDER_PROCESS));
@@ -162,11 +159,8 @@ public class AdminPetition implements IAdminCommandHandler
 
 				PetitionManager.getInstance().clearPendingPetitions();
 				return true;
-				
 			}
-			
 		}
-
 		return false;
 	}
 

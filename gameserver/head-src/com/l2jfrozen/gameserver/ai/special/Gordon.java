@@ -261,7 +261,7 @@ public class Gordon extends Quest implements Runnable
 				}
 			}
 		}
-		else if(event == "Start")
+		else if(event.equalsIgnoreCase("Start"))
 		{
 			//startQuestTimer("Start", 1000, npc, null);
 			if(npc != null && _isSpawned == true)

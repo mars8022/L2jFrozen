@@ -77,7 +77,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 			_logAudit.log(record);
 		}
 		*/
-
+		
 		CursedWeapon cw1 = null;
 		CursedWeaponsManager cwm = null;
 
@@ -135,8 +135,6 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT));
 				}
-
-				cwm = null;
 				break;
 
 			case admin_cw_info_menu:
@@ -183,13 +181,11 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 
 				replyMSG = null;
 				adminReply = null;
-				cwm = null;
 				break;
 
 			case admin_cw_reload:
 				cwm = CursedWeaponsManager.getInstance();
 				cwm.reload();
-				cwm = null;
 				break;
 
 			case admin_cw_remove:
@@ -231,13 +227,8 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 				}
-
 				cw1.endOfLife();
-
-				cw1 = null;
-				cwm = null;
 				break;
-
 			case admin_cw_goto:
 				cwm = CursedWeaponsManager.getInstance();
 
@@ -277,11 +268,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 				}
-
 				cw1.goTo(activeChar);
-
-				cw1 = null;
-				cwm = null;
 				break;
 
 			case admin_cw_add:
@@ -345,18 +332,9 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 					{
 						activeChar.addItem("AdminCursedWeaponAdd", id, 1, activeChar, true);
 					}
-
-					target = null;
 				}
-
-				cw1 = null;
-				cwm = null;
 				break;
 		}
-
-		st = null;
-		cwm = null;
-
 		return true;
 	}
 

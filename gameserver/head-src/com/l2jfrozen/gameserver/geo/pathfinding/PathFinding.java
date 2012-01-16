@@ -76,21 +76,18 @@ public abstract class PathFinding
 
 				if(node.equals(end)) //path found!
 					return constructPath(node);
-				else
+				i++;
+				visited.add(node);
+				node.attachNeighbors();
+				Node[] neighbors = node.getNeighbors();
+				if(neighbors == null)
+					continue;
+				for(Node n : neighbors)
 				{
-					i++;
-					visited.add(node);
-					node.attachNeighbors();
-					Node[] neighbors = node.getNeighbors();
-					if(neighbors == null)
-						continue;
-					for(Node n : neighbors)
+					if(!visited.contains(n) && !to_visit.contains(n))
 					{
-						if(!visited.contains(n) && !to_visit.contains(n))
-						{
-							n.setParent(node);
-							to_visit.add(n);
-						}
+						n.setParent(node);
+						to_visit.add(n);
 					}
 				}
 			}
@@ -230,36 +227,33 @@ public abstract class PathFinding
 				{
 					return constructPath2(node);
 				}
-				else
+				i++;
+				visited.add(node);
+				node.attachNeighbors();
+				Node[] neighbors = node.getNeighbors();
+				if(neighbors == null)
+					continue;
+				for(Node n : neighbors)
 				{
-					i++;
-					visited.add(node);
-					node.attachNeighbors();
-					Node[] neighbors = node.getNeighbors();
-					if(neighbors == null)
-						continue;
-					for(Node n : neighbors)
+					if(!visited.contains(n) && !to_visit.contains(n))
 					{
-						if(!visited.contains(n) && !to_visit.contains(n))
+						added = false;
+						n.setParent(node);
+						dx = targetx - n.getNodeX();
+						dy = targety - n.getNodeY();
+						n.setCost(dx * dx + dy * dy);
+						for(int index = 0; index < to_visit.size(); index++)
 						{
-							added = false;
-							n.setParent(node);
-							dx = targetx - n.getNodeX();
-							dy = targety - n.getNodeY();
-							n.setCost(dx * dx + dy * dy);
-							for(int index = 0; index < to_visit.size(); index++)
+							// supposed to find it quite early..
+							if(to_visit.get(index).getCost() > n.getCost())
 							{
-								// supposed to find it quite early..
-								if(to_visit.get(index).getCost() > n.getCost())
-								{
-									to_visit.add(index, n);
-									added = true;
-									break;
-								}
+								to_visit.add(index, n);
+								added = true;
+								break;
 							}
-							if(!added)
-								to_visit.add(n);
 						}
+						if(!added)
+							to_visit.add(n);
 					}
 				}
 			}
@@ -312,21 +306,18 @@ public abstract class PathFinding
 				}
 				if(node.equals(end)) //path found!
 					return constructPath(node);
-				else
+				visited.add(node);
+				node.attachNeighbors();
+				for(Node n : node.getNeighbors())
 				{
-					visited.add(node);
-					node.attachNeighbors();
-					for(Node n : node.getNeighbors())
+					if(!visited.contains(n) && !to_visit.contains(n))
 					{
-						if(!visited.contains(n) && !to_visit.contains(n))
-						{
-							i++;
-							n.setParent(node);
-							n.setCost(Math.abs(start_x - n.getNodeX())
-								+ Math.abs(start_y - n.getNodeY()) + Math.abs(end_x - n.getNodeX())
-								+ Math.abs(end_y - n.getNodeY()));
-							to_visit.add(n);
-						}
+						i++;
+						n.setParent(node);
+						n.setCost(Math.abs(start_x - n.getNodeX())
+							+ Math.abs(start_y - n.getNodeY()) + Math.abs(end_x - n.getNodeX())
+							+ Math.abs(end_y - n.getNodeY()));
+						to_visit.add(n);
 					}
 				}
 			}
@@ -449,7 +440,7 @@ public abstract class PathFinding
 	/**
 	 * Convert node position to pathnode block position
 	 * 
-	 * @param geo_pos
+	 * @param node_pos
 	 * @return pathnode block position (0...255)
 	 */
 	public final short getNodeBlock(int node_pos)
@@ -475,7 +466,7 @@ public abstract class PathFinding
 	/**
 	 * Convert pathnode x to World x position
 	 * 
-	 * @param node_x, rx
+	 * @param node_x
 	 * @return
 	 */
 	public final int calculateWorldX(short node_x)

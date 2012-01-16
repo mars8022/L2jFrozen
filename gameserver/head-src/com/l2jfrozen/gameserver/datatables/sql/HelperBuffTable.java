@@ -114,6 +114,8 @@ public class HelperBuffTable
 
 	/**
 	 * Load the Newbie Helper Buff list from SQL Table helper_buff_list
+	 * @param HelperBuffData 
+	 * @throws Exception 
 	 */
 	private void fillHelperBuffTable(ResultSet HelperBuffData) throws Exception
 	{
@@ -175,7 +177,7 @@ public class HelperBuffTable
 	}
 
 	/**
-	 * Return the Helper Buff List
+	 * @return the Helper Buff List
 	 */
 	public List<L2HelperBuff> getHelperBuffTable()
 	{

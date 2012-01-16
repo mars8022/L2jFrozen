@@ -46,7 +46,6 @@ import com.l2jfrozen.util.random.Rnd;
  * 
  * @version $Revision: 1.1.2.2.2.9 $ $Date: 2005/04/03 15:55:04 $
  */
-
 public class Continuous implements ISkillHandler
 {
 	//private static Logger _log = Logger.getLogger(Continuous.class.getName());
@@ -212,13 +211,8 @@ public class Continuous implements ISkillHandler
 						sm.addString(target.getName());
 						sm.addSkillName(skill.getDisplayId());
 						activeChar.sendPacket(sm);
-						sm = null;
-						continue;
 					}
-					else
-					{
-						continue;
-					}
+					continue;
 				}
 			}
 			
@@ -229,7 +223,7 @@ public class Continuous implements ISkillHandler
 			{
 				for(L2Effect e : effects)
 				{
-					if(e != null && skill != null)
+					if(e != null)
 						if(e.getSkill().getId() == skill.getId())
 						{
 							e.exit(false);
@@ -244,7 +238,7 @@ public class Continuous implements ISkillHandler
 				break;
 
 			// If target is not in game anymore...
-			if(target == null || target instanceof L2PcInstance && ((L2PcInstance)target).isOnline()==0)
+			if(target instanceof L2PcInstance && ((L2PcInstance)target).isOnline()==0)
 				continue;
 			
 
@@ -254,7 +248,8 @@ public class Continuous implements ISkillHandler
 			if(target instanceof L2PcInstance && ((L2PcInstance) target).isInDuel() && (skill.getSkillType() == L2Skill.SkillType.DEBUFF || skill.getSkillType() == L2Skill.SkillType.BUFF) && player.getDuelId() == ((L2PcInstance) target).getDuelId())
 			{
 				DuelManager dm = DuelManager.getInstance();
-				if(dm!=null && skill!=null){
+				if(dm!=null)
+				{
 					effects = skill.getEffects(activeChar, target, ss, sps, bss);
 					if(effects!=null)
 						for(L2Effect buff : effects)

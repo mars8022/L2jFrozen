@@ -112,10 +112,9 @@ public class AdminCreateItem implements IAdminCommandHandler
 						if(idval>0 && numval>0){
 							createItem(activeChar, idval, numval);
 							return true;
-						}else{
-							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
-							return false;
 						}
+						activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
+						return false;
 					}
 					else if(st.countTokens() == 1)
 					{
@@ -134,12 +133,10 @@ public class AdminCreateItem implements IAdminCommandHandler
 						if(idval>0){
 							createItem(activeChar, idval, 1);
 							return true;
-						}else{
-							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
-							return false;
 						}
+						activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
+						return false;
 					}
-
 				}
 				else
 				{					
@@ -177,10 +174,8 @@ public class AdminCreateItem implements IAdminCommandHandler
 							massCreateItem(activeChar, idval, numval);
 							return true;
 						}
-						else{
-							activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
-							return false;
-						}
+						activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
+						return false;
 					}
 					else if(st.countTokens() == 1)
 					{
@@ -203,11 +198,8 @@ public class AdminCreateItem implements IAdminCommandHandler
 							massCreateItem(activeChar, idval, 1);
 							return true;
 						}
-						else
-						{
-							activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
-							return false;
-						}
+						activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
+						return false;
 					}
 				}
 				return false;

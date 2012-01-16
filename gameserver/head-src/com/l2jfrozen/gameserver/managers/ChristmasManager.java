@@ -222,7 +222,7 @@ public class ChristmasManager
 	}
 
 	/**
-	 * returns an instance of <b>this</b> InstanceManager.
+	 * @return an instance of <b>this</b> InstanceManager.
 	 */
 	public static ChristmasManager getInstance()
 	{
@@ -236,6 +236,7 @@ public class ChristmasManager
 
 	/**
 	 * initialize <b>this</b> ChristmasManager
+	 * @param activeChar 
 	 */
 	public void init(L2PcInstance activeChar)
 	{
@@ -264,6 +265,7 @@ public class ChristmasManager
 
 	/**
 	 * ends <b>this</b> ChristmasManager
+	 * @param activeChar 
 	 */
 	public void end(L2PcInstance activeChar)
 	{
@@ -344,6 +346,7 @@ public class ChristmasManager
 			_task = task;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_task != null)
@@ -367,11 +370,10 @@ public class ChristmasManager
 						}
 				}
 
-				if(obj != null && rand.nextInt(100) > 50)
+				if(rand.nextInt(100) > 50)
 				{
 					spawnOneTree(getTreeId(), obj.getX() + rand.nextInt(200) - 100, obj.getY() + rand.nextInt(200) - 100, obj.getZ());
 				}
-				obj = null;
 			}
 			catch(Throwable t)
 			{
@@ -410,6 +412,7 @@ public class ChristmasManager
 
 	public class DeleteSpawns implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			if(objectQueue == null || objectQueue.isEmpty())
@@ -421,23 +424,20 @@ public class ChristmasManager
 				{
 					continue;
 				}
-				else
+				
+				try
 				{
-					try
-					{
-						L2World.getInstance().removeObject(deleted);
+					L2World.getInstance().removeObject(deleted);
 
-						deleted.decayMe();
-						deleted.deleteMe();
-					}
-					catch(Throwable t)
-					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							t.printStackTrace();
-						continue;
-					}
+					deleted.decayMe();
+					deleted.deleteMe();
 				}
-
+				catch(Throwable t)
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						t.printStackTrace();
+					continue;
+				}
 			}
 
 			objectQueue.clear();
@@ -520,6 +520,7 @@ public class ChristmasManager
 
 	class SendXMasMessage implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			try
@@ -595,6 +596,7 @@ public class ChristmasManager
 
 	class XMasPresentGivingTask implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			try
@@ -682,6 +684,7 @@ public class ChristmasManager
 			_task = task;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_task != null)
@@ -703,11 +706,10 @@ public class ChristmasManager
 					}
 				}
 
-				if(obj != null && rand.nextInt(100) < 80 && obj instanceof L2NpcInstance)
+				if(rand.nextInt(100) < 80 && obj instanceof L2NpcInstance)
 				{
 					spawnOneTree(getSantaId(), obj.getX() + rand.nextInt(500) - 250, obj.getY() + rand.nextInt(500) - 250, obj.getZ());
 				}
-				obj = null;
 			}
 			catch(Throwable t)
 			{
@@ -773,6 +775,7 @@ public class ChristmasManager
 			_task = task;
 		}
 
+		@Override
 		public void run()
 		{
 			if(_task != null)

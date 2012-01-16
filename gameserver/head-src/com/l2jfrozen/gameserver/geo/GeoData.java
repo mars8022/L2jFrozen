@@ -50,8 +50,7 @@ public class GeoData
 	{
 		if(Config.GEODATA > 0)
 			return GeoEngine.getInstance();
-		else
-			return SingletonHolder.INSTANCE;
+		return SingletonHolder.INSTANCE;
 	}
 
 	// Public Methods
@@ -126,7 +125,7 @@ public class GeoData
 	}
 
 	/**
-	 * @param cha
+	 * @param gm
 	 * @param target
 	 * @return True if cha can see target (LOS) and send usful info to PC
 	 */

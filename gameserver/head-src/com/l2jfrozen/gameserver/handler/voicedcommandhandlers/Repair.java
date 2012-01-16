@@ -47,7 +47,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  * @author szponiasty
  * @version $Revision: 0.17.2.95.2.9 $ $Date: 2010/03/03 9:07:11 $
  */
-
 public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 {
 	static final Logger _log = Logger.getLogger(Repair.class.getName());
@@ -345,16 +344,13 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 						return;
 					}
 				}
-				else
-				{
-					String htmContent = HtmCache.getInstance().getHtm("data/html/mods/repair/repair-error.htm");
-					NpcHtmlMessage npcHtmlMessage = new NpcHtmlMessage(5);
-					npcHtmlMessage.setHtml(htmContent);
-					npcHtmlMessage.replace("%acc_chars%", getCharList(activeChar));
-					activeChar.sendPacket(npcHtmlMessage);
-					return;
-				}
 				
+				String htmContent = HtmCache.getInstance().getHtm("data/html/mods/repair/repair-error.htm");
+				NpcHtmlMessage npcHtmlMessage = new NpcHtmlMessage(5);
+				npcHtmlMessage.setHtml(htmContent);
+				npcHtmlMessage.replace("%acc_chars%", getCharList(activeChar));
+				activeChar.sendPacket(npcHtmlMessage);
+				return;
 			}
 			case repair_close_win:{
 				return;

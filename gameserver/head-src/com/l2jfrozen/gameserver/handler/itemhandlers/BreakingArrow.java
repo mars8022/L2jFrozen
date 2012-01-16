@@ -45,7 +45,7 @@ public class BreakingArrow implements IItemHandler
 			return;
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		L2Object target = activeChar.getTarget();
-		if(!(target instanceof L2GrandBossInstance) || target == null)
+		if(!(target instanceof L2GrandBossInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);

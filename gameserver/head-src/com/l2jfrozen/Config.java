@@ -3233,6 +3233,7 @@ public final class Config
 	
 	/**
 	 * Loads flood protector configurations.
+	 * @param properties 
 	 */
 	private static void loadFloodProtectorConfigs(final L2Properties properties)
 	{
@@ -3968,9 +3969,10 @@ public final class Config
 		File f = new File(EXTENDER_FILE);
 		if(f.exists())
 		{
+			LineNumberReader lineReader = null;
 			try
 			{
-				LineNumberReader lineReader = new LineNumberReader(new BufferedReader(new FileReader(f)));
+				lineReader = new LineNumberReader(new BufferedReader(new FileReader(f)));
 				String line;
 				while((line = lineReader.readLine()) != null)
 				{
@@ -4007,6 +4009,20 @@ public final class Config
 					e.printStackTrace();
 				
 				_log.warning("Failed to Load " + EXTENDER_FILE + " File.");
+			}
+			finally
+			{
+				if (lineReader != null)
+				{
+					try
+					{
+						lineReader.close();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}
@@ -4048,7 +4064,7 @@ public final class Config
 	public static void loadFilter()
 	{
 		final String FILTER_FILE = FService.FILTER_FILE;
-
+		LineNumberReader lnr = null;
 		try
 		{
 			File filter_file = new File(FILTER_FILE);
@@ -4056,7 +4072,7 @@ public final class Config
 				return;
 			}
 			
-			LineNumberReader lnr = new LineNumberReader(new BufferedReader(new FileReader(filter_file)));
+			lnr = new LineNumberReader(new BufferedReader(new FileReader(filter_file)));
 			String line = null;
 			while((line = lnr.readLine()) != null)
 			{
@@ -4073,6 +4089,20 @@ public final class Config
 			e.printStackTrace();
 			throw new Error("Failed to Load " + FILTER_FILE + " File.");
 		}
+		finally
+		{
+			if (lnr != null)
+			{
+				try
+				{
+					lnr.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	//============================================================
@@ -4080,10 +4110,10 @@ public final class Config
 	public static void loadQuestion()
 	{
 		final String QUESTION_FILE = FService.QUESTION_FILE;
-
+		LineNumberReader lnr = null;
 		try
 		{
-			LineNumberReader lnr = new LineNumberReader(new BufferedReader(new FileReader(new File(QUESTION_FILE))));
+			lnr = new LineNumberReader(new BufferedReader(new FileReader(new File(QUESTION_FILE))));
 			String line = null;
 			while((line = lnr.readLine()) != null)
 			{
@@ -4099,6 +4129,20 @@ public final class Config
 		{
 			e.printStackTrace();
 			throw new Error("Failed to Load " + QUESTION_FILE + " File.");
+		}
+		finally
+		{
+			if (lnr != null)
+			{
+				try
+				{
+					lnr.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -5381,12 +5425,14 @@ public final class Config
 		{
 			Properties hexSetting = new Properties();
 			File file = new File(fileName);
-			file.createNewFile();
-			OutputStream out = new FileOutputStream(file);
-			hexSetting.setProperty("ServerID", String.valueOf(serverId));
-			hexSetting.setProperty("HexID", hexId);
-			hexSetting.store(out, "the hexID to auth into login");
-			out.close();
+			if (file.createNewFile())
+			{
+				OutputStream out = new FileOutputStream(file);
+				hexSetting.setProperty("ServerID", String.valueOf(serverId));
+				hexSetting.setProperty("HexID", hexId);
+				hexSetting.store(out, "the hexID to auth into login");
+				out.close();
+			}
 		}
 		catch(Exception e)
 		{

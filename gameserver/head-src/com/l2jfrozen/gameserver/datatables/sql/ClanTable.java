@@ -186,6 +186,7 @@ public class ClanTable
 	 * Creates a new clan and store clan info to database
 	 * 
 	 * @param player
+	 * @param clanName 
 	 * @return NULL if clan with same name already exists
 	 */
 	public L2Clan createClan(L2PcInstance player, String clanName)

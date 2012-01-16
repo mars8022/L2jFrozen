@@ -122,8 +122,7 @@ public final class L2Arrays
 	{
 		if(allowNull)
 			return new ArrayIterable<T>(array);
-		else
-			return new NullFreeArrayIterable<T>(array);
+		return new NullFreeArrayIterable<T>(array);
 	}
 
 	private static class ArrayIterable<T> implements Iterable<T>
@@ -165,8 +164,7 @@ public final class L2Arrays
 	{
 		if(allowNull)
 			return new ArrayIterator<T>(array);
-		else
-			return new NullFreeArrayIterator<T>(array);
+		return new NullFreeArrayIterator<T>(array);
 	}
 
 	private static class ArrayIterator<T> implements Iterator<T>

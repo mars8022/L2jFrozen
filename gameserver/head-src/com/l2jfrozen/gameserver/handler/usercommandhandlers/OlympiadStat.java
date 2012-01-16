@@ -46,11 +46,8 @@ public class OlympiadStat implements IUserCommandHandler
 			activeChar.sendMessage("Your current record for this Grand Olympiad is " + Olympiad.getInstance().getCompetitionDone(activeChar.getObjectId()) + " match(s) played. You have earned " + Olympiad.getInstance().getNoblePoints(activeChar.getObjectId()) + " Olympiad Point(s)");
 			return true;
 		}
-		else
-		{
-			activeChar.sendMessage("This command can only be used by a Noblesse."); //Retail-like
-			return true;
-		}
+		activeChar.sendMessage("This command can only be used by a Noblesse."); //Retail-like
+		return true;
 	}
 
 	/* (non-Javadoc)

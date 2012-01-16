@@ -86,6 +86,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			"admin_load_npc"
 	};
 
+	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
@@ -996,6 +997,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 		return tradeLists;
 	}
 
+	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;

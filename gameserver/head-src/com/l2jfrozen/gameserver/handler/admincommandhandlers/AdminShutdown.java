@@ -75,10 +75,9 @@ public class AdminShutdown implements IAdminCommandHandler
 						if(val>=0){
 							serverShutdown(activeChar, val, false);
 							return true;
-						}else{
-							activeChar.sendMessage("Negative Value is not allowed");
-							return false;
 						}
+						activeChar.sendMessage("Negative Value is not allowed");
+						return false;
 					}
 					catch(StringIndexOutOfBoundsException e)
 					{
@@ -86,10 +85,9 @@ public class AdminShutdown implements IAdminCommandHandler
 						return false;
 					}
 					
-				}else{
-					sendHtmlForm(activeChar);
-					return false;
 				}
+				sendHtmlForm(activeChar);
+				return false;
 				
 				
 			}
@@ -106,33 +104,25 @@ public class AdminShutdown implements IAdminCommandHandler
 						if(val>=0){
 							serverShutdown(activeChar, val, true);
 							return true;
-						}else{
-							activeChar.sendMessage("Negative Value is not allowed");
-							return false;
 						}
-						
-						
+						activeChar.sendMessage("Negative Value is not allowed");
+						return false;
 					}
 					catch(StringIndexOutOfBoundsException e)
 					{
 						sendHtmlForm(activeChar);
 						return false;
 					}
-					
-				}else{
-					sendHtmlForm(activeChar);
-					return false;
 				}
-				
+				sendHtmlForm(activeChar);
+				return false;
 			}
 			case admin_server_abort:{
 				
 				serverAbort(activeChar);
 				return true;
-				
 			}
 		}
-		
 		return false;
 		
 	}

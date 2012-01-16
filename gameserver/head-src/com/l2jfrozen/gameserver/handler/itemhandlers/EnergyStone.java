@@ -103,9 +103,6 @@ public class EnergyStone implements IItemHandler
 					activeChar.destroyItemWithoutTrace("Consume", item.getObjectId(), 1, null, false);
 					return;
 				}
-
-				dummy = null;
-
 				return;
 			}
 
@@ -129,14 +126,9 @@ public class EnergyStone implements IItemHandler
 			sm = null;
 			return;
 		}
-		else
-		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
-			sm.addItemName(5589);
-			activeChar.sendPacket(sm);
-			sm = null;
-			return;
-		}
+		SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+		sm.addItemName(5589);
+		activeChar.sendPacket(sm);
 	}
 
 	/**

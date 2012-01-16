@@ -132,6 +132,7 @@ public class Valakas_l2j extends Quest implements Runnable
 				
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						try
@@ -151,7 +152,7 @@ public class Valakas_l2j extends Quest implements Runnable
 		}else if(status == WAITING){
 				
 				// Start timer to lock entry after 30 minutes and spawn valakas
-				startQuestTimer("lock_entry_and_spawn_valakas", (long)(Config.VALAKAS_WAIT_TIME*60000), null, null);
+				startQuestTimer("lock_entry_and_spawn_valakas", (Config.VALAKAS_WAIT_TIME*60000), null, null);
 				
 		}//if it was dormant, just leave it as it was:
 		 //the valakas NPC is not spawned yet and his instance is not loaded
@@ -361,6 +362,7 @@ public class Valakas_l2j extends Quest implements Runnable
 				final L2NpcInstance _valakas = valakas;
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						try
