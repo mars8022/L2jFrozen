@@ -48,7 +48,10 @@ public final class DlgAnswer extends L2GameClientPacket
 
 		if (_messageId == SystemMessageId.RESSURECTION_REQUEST.getId())
 			activeChar.reviveAnswer(_answer);
-
+		
+		else if (_messageId==SystemMessageId.S1_WISHES_TO_SUMMON_YOU_FROM_S2_DO_YOU_ACCEPT.getId())
+			activeChar.teleportAnswer(_answer, _requestId);
+		
 		else if (_messageId == 614 && Config.L2JMOD_ALLOW_WEDDING)
 			activeChar.EngageAnswer(_answer);
 

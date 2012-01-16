@@ -262,8 +262,12 @@ public class EnterWorld extends L2GameClientPacket
 		sendPacket(new ItemList(activeChar, false));
 		sendPacket(new ShortCutInit(activeChar));
 
-		activeChar.sendSkillList();
-
+		// Send all skills to char
+		activeChar.sendSkillList(); 
+		
+		// Reload inventory to give SA skill
+		activeChar.getInventory().reloadEquippedItems();
+		
 		// Welcome to Lineage II
 		sendPacket(new SystemMessage(SystemMessageId.WELCOME_TO_LINEAGE));
 		

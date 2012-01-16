@@ -824,6 +824,31 @@ public final class L2PcInstance extends L2PlayableInstance
 	/** Last NPC Id talked on a quest */
 	private int _questNpcObject = 0;
 
+	//summon friend
+	private SummonRequest _summonRequest = new SummonRequest();
+	
+	private static class SummonRequest
+	{
+		private L2PcInstance _target = null;
+		private L2Skill _skill = null;
+		
+		public void setTarget(L2PcInstance destination, L2Skill skill)
+		{
+			_target = destination;
+			_skill = skill;
+		}
+		
+		public L2PcInstance getTarget()
+		{
+			return _target;
+		}
+		
+		public L2Skill getSkill()
+		{
+			return _skill;
+		}
+	}
+	
 	/** The table containing all Quests began by the L2PcInstance */
 	private Map<String, QuestState> _quests = new FastMap<String, QuestState>();
 
@@ -13658,7 +13683,138 @@ public final class L2PcInstance extends L2PlayableInstance
 			getTrainedBeast().onOwnerGotAttacked(attacker);
 		}
 	}
+	
+	/*
+	 * Function for skill summon friend or Gate Chant.
+	 */
+	/** Request Teleport **/
+	public boolean teleportRequest(L2PcInstance requester, L2Skill skill)
+	{
+		if (_summonRequest.getTarget() != null && requester != null)
+			return false;
+		_summonRequest.setTarget(requester, skill);
+		return true;
+	}
+	
+	/** Action teleport **/
+	public void teleportAnswer(int answer, int requesterId)
+	{
+		if (_summonRequest.getTarget() == null)
+			return;
+		if (answer == 1 && _summonRequest.getTarget().getObjectId() == requesterId)
+		{
+			teleToTarget(this, _summonRequest.getTarget(), _summonRequest.getSkill());
+		}
+		_summonRequest.setTarget(null, null);
+	}
+	
+	public static void teleToTarget(L2PcInstance targetChar, L2PcInstance summonerChar, L2Skill summonSkill)
+	{
+		if (targetChar == null || summonerChar == null || summonSkill == null)
+			return;
+		
+		if (!checkSummonerStatus(summonerChar))
+			return;
+		if (!checkSummonTargetStatus(targetChar, summonerChar))
+			return;
+		
+		int itemConsumeId = summonSkill.getTargetConsumeId();
+		int itemConsumeCount = summonSkill.getTargetConsume();
+		if (itemConsumeId != 0 && itemConsumeCount != 0)
+		{
+			//Delete by rocknow
+			if (targetChar.getInventory().getInventoryItemCount(itemConsumeId, 0) < itemConsumeCount)
+			{
+				SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S1_REQUIRED_FOR_SUMMONING);
+				sm.addItemName(summonSkill.getTargetConsumeId());
+				targetChar.sendPacket(sm);
+				return;
+			}
+			targetChar.getInventory().destroyItemByItemId("Consume", itemConsumeId, itemConsumeCount, summonerChar, targetChar);
+			SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S1_DISAPPEARED);
+			sm.addItemName(summonSkill.getTargetConsumeId());
+			targetChar.sendPacket(sm);
+		}
+		targetChar.teleToLocation(summonerChar.getX(), summonerChar.getY(), summonerChar.getZ(), true);
+	}
 
+	public static boolean checkSummonerStatus(L2PcInstance summonerChar)
+	{
+		if (summonerChar == null)
+			return false;
+		
+		if (summonerChar.isInOlympiadMode())
+		{
+			summonerChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
+			return false;
+		}
+		
+		if (summonerChar.inObserverMode())
+		{
+			return false;
+		}
+		
+		if (summonerChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND) || summonerChar.isFlying() || summonerChar.isMounted())
+		{
+			summonerChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean checkSummonTargetStatus(L2Object target, L2PcInstance summonerChar)
+	{
+		if (target == null || !(target instanceof L2PcInstance))
+			return false;
+		
+		L2PcInstance targetChar = (L2PcInstance) target;
+		
+		if (targetChar.isAlikeDead())
+		{
+			return false;
+		}
+		
+		if (targetChar.isInStoreMode())
+		{
+			return false;
+		}
+		
+		if (targetChar.isRooted() || targetChar.isInCombat())
+		{
+			return false;
+		}
+		
+		if (targetChar.isInOlympiadMode())
+		{
+			summonerChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_CANNOT_SUMMON_PLAYERS_WHO_ARE_IN_OLYMPIAD));
+			return false;
+		}
+		
+		if (targetChar.isFestivalParticipant() || targetChar.isFlying())
+		{
+			summonerChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+			return false;
+		}
+		
+		if (targetChar.inObserverMode())
+		{
+			return false;
+		}
+		
+		if (targetChar.isInCombat())
+		{
+			summonerChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+			return false;
+		}
+		
+		if (targetChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
 	@Override
 	public void reduceCurrentHp(double value, L2Character attacker, boolean awake)
 	{
@@ -14938,141 +15094,6 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		_queuedSkill = new SkillDat(queuedSkill, ctrlPressed, shiftPressed);
 	}
-
-	/*
-	public boolean isInJail()
-	{
-		return _inJail;
-	}
-
-	public void setInJail(boolean state)
-	{
-		_inJail = state;
-	}
-
-	public void setInJail(boolean state, int delayInMinutes)
-	{
-		_inJail = state;
-		_jailTimer = 0;
-		// Remove the task if any
-		stopJailTask(false);
-
-		if(_inJail)
-		{
-			if(delayInMinutes > 0)
-			{
-				_jailTimer = delayInMinutes * 60000L; // in millisec
-
-				// start the countdown
-				_jailTask = ThreadPoolManager.getInstance().scheduleGeneral(new JailTask(this), _jailTimer);
-				sendMessage("You are in jail for " + delayInMinutes + " minutes.");
-			}
-
-			// Open a Html message to inform the player
-			NpcHtmlMessage htmlMsg = new NpcHtmlMessage(0);
-			String jailInfos = HtmCache.getInstance().getHtm("data/html/jail_in.htm");
-			if(jailInfos != null)
-			{
-				htmlMsg.setHtml(jailInfos);
-			}
-			else
-			{
-				htmlMsg.setHtml("<html><body>You have been put in jail by an admin.</body></html>");
-			}
-			sendPacket(htmlMsg);
-			htmlMsg = null;
-
-			teleToLocation(-114356, -249645, -2984, true); // Jail
-		}
-		else
-		{
-			// Open a Html message to inform the player
-			NpcHtmlMessage htmlMsg = new NpcHtmlMessage(0);
-			String jailInfos = HtmCache.getInstance().getHtm("data/html/jail_out.htm");
-			if(jailInfos != null)
-			{
-				htmlMsg.setHtml(jailInfos);
-			}
-			else
-			{
-				htmlMsg.setHtml("<html><body>You are free for now, respect server rules!</body></html>");
-			}
-			sendPacket(htmlMsg);
-			htmlMsg = null;
-
-			teleToLocation(17836, 170178, -3507, true); // Floran
-		}
-
-		// store in database
-		storeCharBase();
-	}
-
-	public long getJailTimer()
-	{
-		return _jailTimer;
-	}
-
-	public void setJailTimer(long time)
-	{
-		_jailTimer = time;
-	}
-
-	private void updateJailState()
-	{
-		if(isInJail())
-		{
-			// If jail time is elapsed, free the player
-			if(_jailTimer > 0)
-			{
-				// restart the countdown
-				_jailTask = ThreadPoolManager.getInstance().scheduleGeneral(new JailTask(this), _jailTimer);
-				sendMessage("You are still in jail for " + Math.round(_jailTimer / 60000) + " minutes.");
-			}
-
-			// If player escaped, put him back in jail
-			if(!isInsideZone(ZONE_JAIL))
-			{
-				teleToLocation(-114356, -249645, -2984, true);
-			}
-		}
-	}
-
-	public void stopJailTask(boolean save)
-	{
-		if(_jailTask != null)
-		{
-			if(save)
-			{
-				long delay = _jailTask.getDelay(TimeUnit.MILLISECONDS);
-				if(delay < 0)
-				{
-					delay = 0;
-				}
-				setJailTimer(delay);
-			}
-			_jailTask.cancel(false);
-			_jailTask = null;
-		}
-	}
-
-	private class JailTask implements Runnable
-	{
-		L2PcInstance _player;
-
-		//protected long _startedAt;
-
-		protected JailTask(L2PcInstance player)
-		{
-			_player = player;
-			// _startedAt = System.currentTimeMillis();
-		}
-
-		public void run()
-		{
-			_player.setInJail(false, 0);
-		}
-	}
-	*/
 
 	/**
 	 * @return
@@ -16496,11 +16517,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	            if (delayInMilliseconds > 0)
 	            {
-	                _punishTimer = delayInMilliseconds;
+	                _punishTimer = delayInMilliseconds; // Delay in milliseconds
 	
 	                // start the countdown
 	                _punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
-	                sendMessage("You are in jail for "+delayInMilliseconds+" minutes.");
+	                sendMessage("You are in jail for "+delayInMilliseconds/60000+" minutes.");
 	            }
 	            
 	            if(_inEventCTF){

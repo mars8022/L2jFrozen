@@ -69,14 +69,6 @@ public final class Logout extends L2GameClientPacket
 			return;
 		}
 		
-		// Dont allow leaving if player is casting
-		if (player.isCastingNow() && !player.isGM())  
-		{  
-		 	player.sendMessage("Sorry, you are Casting now.");  
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-		 	return; 
-		} 
-		
 		// Dont allow leaving if player is in combat
 		if (player.isInCombat() && !player.isGM())
 		{
@@ -131,6 +123,12 @@ public final class Logout extends L2GameClientPacket
 				player.setOfflineStartTime(System.currentTimeMillis());
 			return;
 		}
+		
+		if (player.isCastingNow())  
+		{  
+			player.abortCast();
+			player.sendPacket(new ActionFailed());
+		} 
 
 		RegionBBSManager.getInstance().changeCommunityBoard();
 		player.deleteMe();

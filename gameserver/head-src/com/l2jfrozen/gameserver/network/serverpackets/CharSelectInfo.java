@@ -188,12 +188,13 @@ public class CharSelectInfo extends L2GameServerPacket
 			writeF(charInfoPackage.getMaxMp()); // mp max
 
 			long deleteTime = charInfoPackage.getDeleteTimer();
+			int accesslevels = charInfoPackage.getAccessLevel();
 			int deletedays = 0;
 
 			if(deleteTime > 0)
-			{
 				deletedays = (int) ((deleteTime - System.currentTimeMillis()) / 1000);
-			}
+			else if(accesslevels < 0)
+				deletedays = -1; // like L2OFF player looks dead if he is banned.
 
 			writeD(deletedays); // days left before
 			// delete .. if != 0
@@ -332,6 +333,8 @@ public class CharSelectInfo extends L2GameServerPacket
 		charInfopackage.setClanId(chardata.getInt("clanid"));
 
 		charInfopackage.setRace(chardata.getInt("race"));
+		
+		charInfopackage.setAccessLevel(chardata.getInt("accesslevel"));
 
 		final int baseClassId = chardata.getInt("base_class");
 		final int activeClassId = chardata.getInt("classid");
@@ -401,7 +404,7 @@ public class CharSelectInfo extends L2GameServerPacket
 
 		charInfopackage.setDeleteTimer(deletetime);
 		charInfopackage.setLastAccess(chardata.getLong("lastAccess"));
-
+		
 		return charInfopackage;
 	}
 
