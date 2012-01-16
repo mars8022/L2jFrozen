@@ -23,9 +23,8 @@ import com.l2jfrozen.gameserver.skills.Env;
 /**
  * @author mkizub
  */
-public abstract class ConditionInventory extends Condition implements ConditionListener
+public abstract class ConditionInventory extends Condition
 {
-
 	protected final int _slot;
 
 	public ConditionInventory(int slot)

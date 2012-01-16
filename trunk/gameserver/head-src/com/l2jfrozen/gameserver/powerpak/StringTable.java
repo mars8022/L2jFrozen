@@ -63,8 +63,7 @@ public final class StringTable
 	public String Message(String MsgId) {
 		if(_messagetable.containsKey(MsgId))
 			return _messagetable.get(MsgId);
-		else
-			return MsgId;
+		return MsgId;
 	}
 	public String format(String MsgId,Object... params)
 	{

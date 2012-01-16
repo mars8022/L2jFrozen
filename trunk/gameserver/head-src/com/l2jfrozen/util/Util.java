@@ -30,7 +30,6 @@ import javolution.text.TextBuilder;
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  * @author luisantonioa
  */
-
 public class Util
 {
 	protected static final Logger _log = Logger.getLogger(Util.class.getName());
@@ -247,8 +246,7 @@ public class Util
 
 	/**
 	 * converts a given time from minutes -> miliseconds
-	 * 
-	 * @param string
+	 * @param minutesToConvert 
 	 * @return
 	 */
 	public static int convertMinutesToMiliseconds(int minutesToConvert)

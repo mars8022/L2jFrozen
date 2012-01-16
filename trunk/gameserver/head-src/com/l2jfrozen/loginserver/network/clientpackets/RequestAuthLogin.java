@@ -27,7 +27,6 @@ import javax.crypto.Cipher;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
-import com.l2jfrozen.loginserver.HackingException;
 import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.loginserver.L2LoginClient.LoginClientState;
 import com.l2jfrozen.loginserver.LoginController;
@@ -41,7 +40,6 @@ import com.l2jfrozen.loginserver.network.serverpackets.ServerList;
 /**
  * Format: x 0 (a leading null) x: the rsa encrypted block with the login an password
  */
-
 public class RequestAuthLogin extends L2LoginClientPacket
 {
 	private static Logger _log = Logger.getLogger(RequestAuthLogin.class.getName());
@@ -81,8 +79,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 			readB(_raw);
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
 
 	@Override
@@ -119,89 +116,77 @@ public class RequestAuthLogin extends L2LoginClientPacket
 			return;
 		}
 		String addhost = address.getHostAddress();
-		try
-		{
-			AuthLoginResult result = lc.tryAuthLogin(_user, _password, getClient());
+		AuthLoginResult result = lc.tryAuthLogin(_user, _password, getClient());
 
-			switch(result)
-			{
-				case AUTH_SUCCESS:
-					client.setAccount(_user);
-					client.setState(LoginClientState.AUTHED_LOGIN);
-					client.setSessionKey(lc.assignSessionKeyToClient(_user, client));
-					if(Config.SHOW_LICENCE)
+		switch(result)
+		{
+			case AUTH_SUCCESS:
+				client.setAccount(_user);
+				client.setState(LoginClientState.AUTHED_LOGIN);
+				client.setSessionKey(lc.assignSessionKeyToClient(_user, client));
+				if(Config.SHOW_LICENCE)
+				{
+					client.sendPacket(new LoginOk(getClient().getSessionKey()));
+				}
+				else
+				{
+					getClient().sendPacket(new ServerList(getClient()));
+				}
+				if(Config.ENABLE_DDOS_PROTECTION_SYSTEM) {
+					String deny_comms = Config.DDOS_COMMAND_BLOCK;
+					deny_comms = deny_comms.replace("$IP", addhost);
+					
+					try
 					{
-						client.sendPacket(new LoginOk(getClient().getSessionKey()));
+						Runtime.getRuntime().exec(deny_comms);
+						if(Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM) {
+							_log.info("Accepted IP access GS by "+addhost);
+							_log.info("Command is"+deny_comms);
+						}
+					
 					}
-					else
+					catch(IOException e1)
 					{
-						getClient().sendPacket(new ServerList(getClient()));
-					}
-					if(Config.ENABLE_DDOS_PROTECTION_SYSTEM) {
-						String deny_comms = Config.DDOS_COMMAND_BLOCK;
-						deny_comms = deny_comms.replace("$IP", addhost);
-						
-						try
-						{
-							Runtime.getRuntime().exec(deny_comms);
-							if(Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM) {
-								_log.info("Accepted IP access GS by "+addhost);
-								_log.info("Command is"+deny_comms);
-							}
-						
-						}
-						catch(IOException e1)
-						{
-							_log.info("Accepts by ip "+addhost+" no allowed");
-							_log.info("Command is"+deny_comms);	
-						}
-						
+						_log.info("Accepts by ip "+addhost+" no allowed");
+						_log.info("Command is"+deny_comms);	
 					}
 					
-					break;
-				case INVALID_PASSWORD:
-					client.close(LoginFailReason.REASON_USER_OR_PASS_WRONG);
-					break;
-				case ACCOUNT_BANNED:
-					client.close(new AccountKicked(AccountKickedReason.REASON_PERMANENTLY_BANNED));
-					break;
-				case ALREADY_ON_LS:
-					L2LoginClient oldClient;
-					if((oldClient = lc.getAuthedClient(_user)) != null)
-					{
-						// kick the other client
-						oldClient.close(LoginFailReason.REASON_ACCOUNT_IN_USE);
-						lc.removeAuthedLoginClient(_user);
-					}
-					oldClient = null;
-					break;
-				case ALREADY_ON_GS:
-					GameServerInfo gsi;
-					if((gsi = lc.getAccountOnGameServer(_user)) != null)
-					{
-						client.close(LoginFailReason.REASON_ACCOUNT_IN_USE);
+				}
+				
+				break;
+			case INVALID_PASSWORD:
+				client.close(LoginFailReason.REASON_USER_OR_PASS_WRONG);
+				break;
+			case ACCOUNT_BANNED:
+				client.close(new AccountKicked(AccountKickedReason.REASON_PERMANENTLY_BANNED));
+				break;
+			case ALREADY_ON_LS:
+				L2LoginClient oldClient;
+				if((oldClient = lc.getAuthedClient(_user)) != null)
+				{
+					// kick the other client
+					oldClient.close(LoginFailReason.REASON_ACCOUNT_IN_USE);
+					lc.removeAuthedLoginClient(_user);
+				}
+				oldClient = null;
+				break;
+			case ALREADY_ON_GS:
+				GameServerInfo gsi;
+				if((gsi = lc.getAccountOnGameServer(_user)) != null)
+				{
+					client.close(LoginFailReason.REASON_ACCOUNT_IN_USE);
 
-						// kick from there
-						if(gsi.isAuthed())
-						{
-							gsi.getGameServerThread().kickPlayer(_user);
-						}
+					// kick from there
+					if(gsi.isAuthed())
+					{
+						gsi.getGameServerThread().kickPlayer(_user);
 					}
-					gsi = null;
-					break;
-			}
+				}
+				gsi = null;
+				break;
+		}
 
-			result = null;
-		}
-		catch(HackingException e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			lc.addBanForAddress(address, Config.LOGIN_BLOCK_AFTER_BAN * 1000);
-			_log.info("Banned (" + address + ") for " + Config.LOGIN_BLOCK_AFTER_BAN + " seconds, due to " + e.getConnects() + " incorrect login attempts.");
-			address = null;
-		}
+		result = null;
 
 		decrypted = null;
 		lc = null;

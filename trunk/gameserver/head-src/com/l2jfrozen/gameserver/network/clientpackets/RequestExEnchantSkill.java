@@ -71,7 +71,7 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 
 		int npcid = trainer.getNpcId();
 
-		if((trainer == null || !player.isInsideRadius(trainer, L2NpcInstance.INTERACTION_DISTANCE, false, false)) && !player.isGM())
+		if(!player.isInsideRadius(trainer, L2NpcInstance.INTERACTION_DISTANCE, false, false) && !player.isGM())
 			return;
 
 		if(player.getSkillLevel(_skillId) >= _skillLvl)// already knows the skill with this level

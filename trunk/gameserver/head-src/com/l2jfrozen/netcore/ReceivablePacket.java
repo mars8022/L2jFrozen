@@ -21,7 +21,7 @@ import java.nio.ByteBuffer;
 
 /**
  * @author KenM
- * 
+ * @param <T> 
  */
 public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractPacket<T> implements Runnable
 {

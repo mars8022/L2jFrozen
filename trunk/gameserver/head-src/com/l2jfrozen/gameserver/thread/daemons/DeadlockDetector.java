@@ -30,7 +30,6 @@ import com.l2jfrozen.util.Util;
  * @author ProGramMoS
  * @version 0.4 Stable
  */
-
 public final class DeadlockDetector implements Runnable
 {
 	protected static final Logger _log = Logger.getLogger(DeadlockDetector.class.getName());
@@ -89,8 +88,7 @@ public final class DeadlockDetector implements Runnable
 	{
 		if(ManagementFactory.getThreadMXBean().isSynchronizerUsageSupported())
 			return ManagementFactory.getThreadMXBean().findDeadlockedThreads();
-		else
-			return ManagementFactory.getThreadMXBean().findMonitorDeadlockedThreads();
+		return ManagementFactory.getThreadMXBean().findMonitorDeadlockedThreads();
 	}
 
 	private Thread findThreadById(long id)

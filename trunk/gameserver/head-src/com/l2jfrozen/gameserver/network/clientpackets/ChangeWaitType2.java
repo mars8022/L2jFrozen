@@ -40,7 +40,7 @@ public final class ChangeWaitType2 extends L2GameClientPacket
 		
 		L2Object target = player.getTarget();
 
-		if (getClient() != null && player != null)
+		if (getClient() != null)
 		{
 			if (player.isOutOfControl())
 			{

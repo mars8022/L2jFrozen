@@ -21,8 +21,9 @@ import javolution.util.FastMap;
 
 /**
  * @author Julian
+ * @param <K> 
+ * @param <V> 
  */
-
 public class L2FastMap<K extends Object, V extends Object> extends FastMap<K, V>
 {
 	static final long serialVersionUID = 1L;
@@ -43,8 +44,7 @@ public class L2FastMap<K extends Object, V extends Object> extends FastMap<K, V>
 				return forEachP(func);
 			}
 		}
-		else
-			return forEachP(func);
+		return forEachP(func);
 	}
 
 	private boolean forEachP(I2ForEach<K, V> func)

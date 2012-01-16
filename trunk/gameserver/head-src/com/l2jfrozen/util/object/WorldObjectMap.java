@@ -30,8 +30,8 @@ import com.l2jfrozen.gameserver.model.L2Object;
  * 
  * @author luisantonioa
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
+ * @param <T> 
  */
-
 public class WorldObjectMap<T extends L2Object> extends L2ObjectMap<T>
 {
 	Map<Integer, T> _objectMap = new FastMap<Integer, T>().shared();

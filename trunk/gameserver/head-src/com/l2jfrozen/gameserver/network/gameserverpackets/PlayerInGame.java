@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-import java.io.IOException;
-
 import javolution.util.FastList;
 
 /**
@@ -48,7 +46,7 @@ public class PlayerInGame extends GameServerBasePacket
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}

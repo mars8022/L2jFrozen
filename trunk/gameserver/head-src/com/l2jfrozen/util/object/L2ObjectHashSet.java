@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
  * @author mkizub
  * @param <T> type of values stored in this hashtable
  */
-public final class L2ObjectHashSet<T extends L2Object> extends L2ObjectSet<T> implements Iterable<T>
+public final class L2ObjectHashSet<T extends L2Object> extends L2ObjectSet<T>
 {
 
 	private static final boolean TRACE = false;

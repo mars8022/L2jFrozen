@@ -82,7 +82,6 @@ public final class Rnd
 		 * Get a random double number from 0 to 1
 		 * 
 		 * @return A random double number from 0 to 1
-		 * @see com.l2jserver.util.Rnd#nextDouble()
 		 */
 		public final double get()
 		{
@@ -230,19 +229,13 @@ public final class Rnd
 		UNSECURE_ATOMIC,
 
 		/**
-		 * Like {@link com.l2jserver.util.Rnd.RandomType#UNSECURE_ATOMIC}.<br>
 		 * Each thread has it`s own random instance.<br>
 		 * Provides best parallel access speed.
-		 * 
-		 * @see com.l2jserver.util.Rnd.ThreadLocalRandom
 		 */
 		UNSECURE_THREAD_LOCAL,
 
 		/**
-		 * Like {@link com.l2jserver.util.Rnd.RandomType#UNSECURE_ATOMIC}.<br>
 		 * Provides much faster parallel access speed.
-		 * 
-		 * @see com.l2jserver.util.Rnd.NonAtomicRandom
 		 */
 		UNSECURE_VOLATILE
 	}
@@ -338,7 +331,6 @@ public final class Rnd
 	 * Get a random double number from 0 to 1
 	 * 
 	 * @return A random double number from 0 to 1
-	 * @see com.l2jserver.util.Rnd#nextDouble()
 	 */
 	public static final double get()
 	{
@@ -472,9 +464,6 @@ public final class Rnd
 		return rnd.nextInt();
 	}
 	
-	/**
-	 * @see com.l2jserver.util.Rnd#get(int n)
-	 */
 	public static final int nextInt(final int n)
 	{
 		return get(n);

@@ -19,7 +19,6 @@ package com.l2jfrozen.gameserver.util;
  */
 public final class FloodProtectorConfig
 {
-	
 	/**
 	 * Type used for identification of logging output.
 	 */
@@ -71,6 +70,7 @@ public final class FloodProtectorConfig
 	 * 
 	 * @param floodProtectorType
 	 *            {@link #FLOOD_PROTECTOR_TYPE}
+	 * @param alt_func 
 	 */
 	public FloodProtectorConfig(final String floodProtectorType, boolean alt_func)
 	{

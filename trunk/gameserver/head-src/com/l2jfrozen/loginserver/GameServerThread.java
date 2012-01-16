@@ -58,7 +58,6 @@ import com.l2jfrozen.util.Util;
  * @author -Wooden-
  * @author KenM
  */
-
 public class GameServerThread extends Thread
 {
 	protected static final Logger _log = Logger.getLogger(GameServerThread.class.getName());
@@ -707,7 +706,8 @@ public class GameServerThread extends Thread
 	}
 
 	/**
-	 * @param gameHost The gameHost to set.
+	 * @param gameExternalHost 
+	 * @param gameInternalHost 
 	 */
 	public void setGameHosts(String gameExternalHost, String gameInternalHost)
 	{

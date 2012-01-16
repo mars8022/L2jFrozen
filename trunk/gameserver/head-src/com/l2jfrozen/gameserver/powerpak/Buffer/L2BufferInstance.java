@@ -44,11 +44,16 @@ public class L2BufferInstance
 		}
 		
 		L2NpcInstance buffer = null;
-		if(player.getTarget()!=null)
+		if(player.getTarget() != null)
 			if(player.getTarget() instanceof L2NpcInstance)
 			{
 				buffer = (L2NpcInstance) getbufferType(efector);
 			}
+		
+		if (buffer == null)
+		{
+			return;
+		}
 		
 		buffer.setTarget(player);
 		
@@ -66,12 +71,8 @@ public class L2BufferInstance
 				{
 					player.sendMessage("Not enough Adena");
 					return;
-				}else{
-					
-					_priceTotal += _buff._price;
-					
 				}
-				
+				_priceTotal += _buff._price;
 			}
 			
 			if (_buff._force || player.getFirstEffect(_buff._skill) == null)

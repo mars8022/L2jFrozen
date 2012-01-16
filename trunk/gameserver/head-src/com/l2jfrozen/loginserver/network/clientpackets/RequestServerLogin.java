@@ -68,13 +68,9 @@ public class RequestServerLogin extends L2LoginClientPacket
 			_serverId = readC();
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.network.ReceivablePacket#run()
-	 */
+	
 	@Override
 	public void run()
 	{

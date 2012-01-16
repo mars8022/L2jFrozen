@@ -45,6 +45,7 @@ public class L2HelperBuff
 	/**
 	 * Constructor of L2HelperBuff.<BR>
 	 * <BR>
+	 * @param set 
 	 */
 	public L2HelperBuff(StatsSet set)
 	{
@@ -77,8 +78,7 @@ public class L2HelperBuff
 
 	/**
 	 * Sets the lower level that the L2PcInstance must achieve in order to obtain this buff
-	 * 
-	 * @param itemId : int designating the lower level
+	 * @param lowerLevel 
 	 */
 	public void setLowerLevel(int lowerLevel)
 	{
@@ -97,8 +97,7 @@ public class L2HelperBuff
 
 	/**
 	 * Sets the upper level that the L2PcInstance mustn't exceed in order to obtain this buff
-	 * 
-	 * @param itemId : int designating the upper level
+	 * @param upperLevel 
 	 */
 	public void setUpperLevel(int upperLevel)
 	{
@@ -117,8 +116,7 @@ public class L2HelperBuff
 
 	/**
 	 * Sets the ID of the buff that the L2PcInstance will receive
-	 * 
-	 * @param itemId : int designating the skill Identifier
+	 * @param skillID 
 	 */
 	public void setSkillID(int skillID)
 	{
@@ -137,8 +135,7 @@ public class L2HelperBuff
 
 	/**
 	 * Sets the Level of the buff that the L2PcInstance will receive
-	 * 
-	 * @param itemId : int designating the level of the skill
+	 * @param skillLevel 
 	 */
 	public void setSkillLevel(int skillLevel)
 	{
@@ -157,8 +154,7 @@ public class L2HelperBuff
 
 	/**
 	 * Sets if this Buff can be cast on a fighter or a mystic
-	 * 
-	 * @param sweep
+	 * @param isMagicClass 
 	 */
 	public void setIsMagicClass(boolean isMagicClass)
 	{

@@ -32,6 +32,12 @@ public class Server
 {
 	/**
 	 * Retained for compatibility with PowerPak
+	 * @param key 
+	 * @param charName 
+	 * @param itemId 
+	 * @param count 
+	 * @param message 
+	 * @return 
 	 */
 	public int addItem(String key, String charName, String itemId, String count, String message)
 	{
@@ -84,29 +90,29 @@ public class Server
 		}
 
 		if(player == null)
+		{
 			output = -2;
-
-		try
-		{
-			player.addItem("Web", Integer.parseInt(itemId), Integer.parseInt(count), null, player.isOnline() != 0);
-			if(player.isOnline() == 0)
-			{
-				player.store();
-			}
-			else if(message != null && message.length() > 0)
-			{
-				player.sendMessage(message);
-			}
-			output = 0;
 		}
-		catch(Exception e)
+		else
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			output = -3;
+			try
+			{
+				player.addItem("Web", Integer.parseInt(itemId), Integer.parseInt(count), null, player.isOnline() != 0);
+				if(player.isOnline() == 0)
+				{
+					player.store();
+				}
+				else if(message != null && message.length() > 0)
+				{
+					player.sendMessage(message);
+				}
+				output = 0;
+			}
+			catch (Exception e)
+			{
+				output = -3;
+			}
 		}
-
 		return output;
 	}
 

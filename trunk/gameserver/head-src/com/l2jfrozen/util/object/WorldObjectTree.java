@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 
 /**
  * @author dishkols
+ * @param <T> 
  */
 public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 {
@@ -84,10 +85,7 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			_w.unlock();
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.util.object.L2ObjectMap#put(T)
-	 */
+	
 	@Override
 	public void put(T obj)
 	{
@@ -104,10 +102,7 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			}
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.util.object.L2ObjectMap#remove(T)
-	 */
+	
 	@Override
 	public void remove(T obj)
 	{
@@ -141,10 +136,7 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			_r.unlock();
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.util.object.L2ObjectMap#contains(T)
-	 */
+	
 	@Override
 	public boolean contains(T obj)
 	{

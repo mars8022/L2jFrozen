@@ -33,8 +33,6 @@ import com.l2jfrozen.netcore.Config;
 import com.l2jfrozen.netcore.MMOClient;
 
 /**
- * 
- * 
  * @author Enzo
  */
 public class PacketsFloodProtector
@@ -58,6 +56,9 @@ public class PacketsFloodProtector
 
 	/**
 	 * Checks whether the request is flood protected or not.
+	 * @param opcode 
+	 * @param opcode2 
+	 * @param client 
 	 * 
 	 * @return true if action is allowed, otherwise false
 	 */
@@ -199,19 +200,16 @@ public class PacketsFloodProtector
 			
 			return true;
 			
-		}else{ //cur time more then checked one  --> restart opcode
-			
-			punishes_in_progress.put(account, false);
-			clients_nextGameTick.get(account).remove(opcode);
-			clients_actions.get(account).remove(opcode);
-			
-			AtomicInteger actions = clients_concurrent_actions.get(account);
-			actions.decrementAndGet();
-			clients_concurrent_actions.put(account,actions);
-			
-			return true;
-			
 		}
+		punishes_in_progress.put(account, false);
+		clients_nextGameTick.get(account).remove(opcode);
+		clients_actions.get(account).remove(opcode);
+		
+		AtomicInteger actions = clients_concurrent_actions.get(account);
+		actions.decrementAndGet();
+		clients_concurrent_actions.put(account,actions);
+		
+		return true;
 		
 	}
 	
@@ -221,29 +219,25 @@ public class PacketsFloodProtector
 			
 			return !Config.getInstance().LS_LIST_PROTECTED_OPCODES.contains(opcode);
 			
-		}else{
+		}
+		
+		if(opcode == 0xd0){
 			
-			if(opcode == 0xd0){
+			if(Config.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode)){
 				
-				if(Config.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode)){
-					
-					return !Config.getInstance().GS_LIST_PROTECTED_OPCODES2.contains(opcode2);
-					
-				}else
-					return true;
-				
-			}else{
-				
-				return !Config.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode);
+				return !Config.getInstance().GS_LIST_PROTECTED_OPCODES2.contains(opcode2);
 				
 			}
+			return true;
 			
 		}
-
+		return !Config.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode);
 	}
 	
 	/**
 	 * Kick player from game (close network connection).
+	 * @param _client 
+	 * @param opcode 
 	 */
 	private static void kickPlayer(MMOClient<?> _client, int opcode)
 	{
@@ -267,6 +261,8 @@ public class PacketsFloodProtector
 
 	/**
 	 * Bans char account and logs out the char.
+	 * @param _client 
+	 * @param opcode 
 	 */
 	private static void banAccount(MMOClient<?> _client, int opcode)
 	{

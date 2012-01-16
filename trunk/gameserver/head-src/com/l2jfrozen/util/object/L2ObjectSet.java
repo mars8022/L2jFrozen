@@ -29,8 +29,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
  * 
  * @author luisantonioa
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
+ * @param <T> 
  */
-
 public abstract class L2ObjectSet<T extends L2Object> implements Iterable<T>
 {
 	public static L2ObjectSet<L2Object> createL2ObjectSet()

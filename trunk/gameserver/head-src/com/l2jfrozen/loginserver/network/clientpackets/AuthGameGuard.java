@@ -73,13 +73,9 @@ public class AuthGameGuard extends L2LoginClientPacket
 			_data4 = readD();
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
-
-	/**
-	 * @see com.l2jserver.mmocore.network.ReceivablePacket#run()
-	 */
+	
 	@Override
 	public void run()
 	{

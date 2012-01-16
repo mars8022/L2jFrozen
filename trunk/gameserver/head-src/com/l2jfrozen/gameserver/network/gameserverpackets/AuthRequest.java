@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-import java.io.IOException;
 
 public class AuthRequest extends GameServerBasePacket
 {
@@ -52,7 +51,7 @@ public class AuthRequest extends GameServerBasePacket
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}

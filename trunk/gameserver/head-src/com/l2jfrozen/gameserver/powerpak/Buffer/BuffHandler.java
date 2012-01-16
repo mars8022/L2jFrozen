@@ -776,37 +776,38 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 	/**
 	 * Returns a table with info about player's scheme list.<br>
 	 * If player scheme list is null, it returns a warning message
+	 * @param player 
+	 * @param skill_group 
+	 * @param scheme_key 
+	 * @return 
 	 */
 	private String getPlayerSchemeListFrame(L2PcInstance player, String skill_group, String scheme_key)
 	{
 		if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) == null || CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).isEmpty())
 			return "Please create at least one scheme";
-		else
+		if (skill_group == null)
+			skill_group = "def";
+		if (scheme_key == null)
+			scheme_key = "def";
+		TextBuilder tb = new TextBuilder();
+		tb.append("<table>");
+		int count = 0;
+		for (FastMap.Entry<String, FastList<L2Skill>> e = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).head(), end = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).tail(); (e = e.getNext()) != end;)
 		{
-			if (skill_group == null)
-				skill_group = "def";
-			if (scheme_key == null)
-				scheme_key = "def";
-			TextBuilder tb = new TextBuilder();
-			tb.append("<table>");
-			int count = 0;
-			for (FastMap.Entry<String, FastList<L2Skill>> e = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).head(), end = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).tail(); (e = e.getNext()) != end;)
+			if (count == 0)
+				tb.append("<tr>");
+			tb.append("<td width=\"90\"><a action=\"bypass -h custom_dobuff editschemes " + skill_group + " " + e.getKey() + "\">" + e.getKey() + "</a></td>");
+			if (count == 3)
 			{
-				if (count == 0)
-					tb.append("<tr>");
-				tb.append("<td width=\"90\"><a action=\"bypass -h custom_dobuff editschemes " + skill_group + " " + e.getKey() + "\">" + e.getKey() + "</a></td>");
-				if (count == 3)
-				{
-					tb.append("</tr>");
-					count = 0;
-				}
-				count++;
-			}
-			if (!tb.toString().endsWith("</tr>"))
 				tb.append("</tr>");
-			tb.append("</table>");
-			return tb.toString();
+				count = 0;
+			}
+			count++;
 		}
+		if (!tb.toString().endsWith("</tr>"))
+			tb.append("</tr>");
+		tb.append("</table>");
+		return tb.toString();
 	}
 
 	/**
@@ -819,7 +820,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 	{
 		if (skill_group == null || skill_group == "unselected")
 			return "Please, select a valid group of skills";
-		else if (scheme_key == null || scheme_key == "unselected")
+		else if (scheme_key == null || scheme_key.equalsIgnoreCase("unselected"))
 			return "Please, select a valid scheme";
 		TextBuilder tb = new TextBuilder();
 		tb.append("<table>");
@@ -854,7 +855,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 	{
 		if (skill_group == null || skill_group == "unselected")
 			return "<br>Please, select a valid group of skills";
-		else if (scheme_key == null || scheme_key == "unselected")
+		else if (scheme_key == null || scheme_key.equalsIgnoreCase("unselected"))
 			return "<br>Please, select a valid scheme";
 		if (CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key) == null)
 			return "Please choose your Scheme";
@@ -920,12 +921,9 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		int fee = 0;
 		if (PowerPakConfig.NPCBUFFER_STATIC_BUFF_COST >= 0)
 			return list.size() * PowerPakConfig.NPCBUFFER_STATIC_BUFF_COST;
-		else
-		{
-			for (L2Skill sk : list)
-				fee += BufferSkillsTable.getInstance().getSkillFee(sk.getId());
-			return fee;
-		}
+		for (L2Skill sk : list)
+			fee += BufferSkillsTable.getInstance().getSkillFee(sk.getId());
+		return fee;
 	}
 	
 	

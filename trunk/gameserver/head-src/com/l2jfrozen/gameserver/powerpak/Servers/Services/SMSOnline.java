@@ -79,7 +79,7 @@ public class SMSOnline implements HttpHandler {
 		}
 
 	}
-	private static Map<String, Integer> _rewards;
+	private static Map<String, Integer> _rewards = new FastMap<String, Integer>();
 	private String _MsgOk;
 	private String _MsgFail;
 	private String _prefix;
@@ -87,7 +87,7 @@ public class SMSOnline implements HttpHandler {
 	private String _PlayerMessage;
 	public SMSOnline()
 	{
-		_rewards = new FastMap<String, Integer>();
+		_rewards.clear();
 		try
 		{
 			L2Properties p = new L2Properties("./config/powerpak/webservices/smsonline.properties");

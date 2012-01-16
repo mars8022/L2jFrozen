@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-import java.io.IOException;
 
 /**
  * @author -Wooden-
@@ -36,9 +35,8 @@ public class ChangeAccessLevel extends GameServerBasePacket
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}
-
 }

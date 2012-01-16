@@ -26,7 +26,6 @@ import com.l2jfrozen.gameserver.skills.Env;
 /**
  * @author nBd
  */
-
 public class ConditionTargetRaceId extends Condition
 {
 	private final FastList<Integer> _raceIds;
@@ -45,8 +44,7 @@ public class ConditionTargetRaceId extends Condition
 		L2NpcInstance target = (L2NpcInstance) env.target;
 		if(target.getTemplate()!=null && target.getTemplate().race!=null ){
 			return _raceIds.contains(((L2NpcInstance) env.target).getTemplate().race.ordinal()+1);
-		}else
-			return false;
-		
+		}
+		return false;
 	}
 }

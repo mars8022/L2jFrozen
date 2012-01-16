@@ -157,7 +157,6 @@ public class L2LoginServer
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-
 			System.exit(1);
 		}
 

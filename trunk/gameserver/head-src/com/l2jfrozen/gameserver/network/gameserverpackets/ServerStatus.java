@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-import java.io.IOException;
 import java.util.Vector;
 
 /**
@@ -75,7 +74,7 @@ public class ServerStatus extends GameServerBasePacket
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		writeC(0x06);
 		writeD(_attributes.size());
@@ -86,8 +85,6 @@ public class ServerStatus extends GameServerBasePacket
 			writeD(temp.id);
 			writeD(temp.value);
 		}
-
 		return getBytes();
 	}
-
 }

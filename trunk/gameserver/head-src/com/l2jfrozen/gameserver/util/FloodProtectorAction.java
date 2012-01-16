@@ -31,7 +31,6 @@ import com.l2jfrozen.util.StringUtil;
  */
 public final class FloodProtectorAction
 {
-	
 	/**
 	 * Logger
 	 */
@@ -65,10 +64,8 @@ public final class FloodProtectorAction
 	/**
 	 * Creates new instance of FloodProtectorAction.
 	 * 
-	 * @param player
-	 *            player for which flood protection is being created
-	 * @param config
-	 *            flood protector configuration
+	 * @param client for which flood protection is being created
+	 * @param config flood protector configuration
 	 */
 	public FloodProtectorAction(final L2GameClient client, final FloodProtectorConfig config)
 	{
@@ -144,74 +141,72 @@ public final class FloodProtectorAction
 			
 			return true;
 			
-		}else{
-			
-			final int curTick = GameTimeController.getGameTicks();
-			
-			if (curTick < _nextGameTick || _punishmentInProgress)
+		}
+		
+		final int curTick = GameTimeController.getGameTicks();
+		
+		if (curTick < _nextGameTick || _punishmentInProgress)
+		{
+			if (_config.LOG_FLOODING && !_logged && _log.isLoggable(Level.WARNING))
 			{
-				if (_config.LOG_FLOODING && !_logged && _log.isLoggable(Level.WARNING))
-				{
-					log(" called command ", command, " ~", String.valueOf((_config.FLOOD_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK), " ms after previous command");
-					_logged = true;
-				}
-				
-				AtomicInteger command_count = null;
-				if((command_count = received_commands_actions.get(command))==null){
-					command_count = new AtomicInteger(0);
-					//received_commands_actions.put(command, command_count);
-				}
-				
-				int count = command_count.incrementAndGet();
-				received_commands_actions.put(command, command_count);
-				
-				//_count.incrementAndGet();
-				
-				if (!_punishmentInProgress && _config.PUNISHMENT_LIMIT > 0 && count >= _config.PUNISHMENT_LIMIT && _config.PUNISHMENT_TYPE != null)
-				{
-					_punishmentInProgress = true;
-					
-					if ("kick".equals(_config.PUNISHMENT_TYPE))
-					{
-						kickPlayer();
-					}
-					else if ("ban".equals(_config.PUNISHMENT_TYPE))
-					{
-						banAccount();
-					}
-					else if ("jail".equals(_config.PUNISHMENT_TYPE))
-					{
-						jailChar();
-					}
-					
-					_punishmentInProgress = false;
-				}
-				
-				return false;
+				log(" called command ", command, " ~", String.valueOf((_config.FLOOD_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK), " ms after previous command");
+				_logged = true;
 			}
 			
 			AtomicInteger command_count = null;
 			if((command_count = received_commands_actions.get(command))==null){
 				command_count = new AtomicInteger(0);
-				received_commands_actions.put(command, command_count);
+				//received_commands_actions.put(command, command_count);
 			}
 			
-			if (command_count.get() > 0)
-			{
-				if (_config.LOG_FLOODING && _log.isLoggable(Level.WARNING))
-				{
-					log(" issued ", String.valueOf(command_count), " extra requests within ~", String.valueOf(_config.FLOOD_PROTECTION_INTERVAL * GameTimeController.MILLIS_IN_TICK), " ms");
-				}
-			}
-			
-			_nextGameTick = curTick + _config.FLOOD_PROTECTION_INTERVAL;
-			_logged = false;
-			command_count.set(0);
+			int count = command_count.incrementAndGet();
 			received_commands_actions.put(command, command_count);
 			
-			return true;
+			//_count.incrementAndGet();
 			
+			if (!_punishmentInProgress && _config.PUNISHMENT_LIMIT > 0 && count >= _config.PUNISHMENT_LIMIT && _config.PUNISHMENT_TYPE != null)
+			{
+				_punishmentInProgress = true;
+				
+				if ("kick".equals(_config.PUNISHMENT_TYPE))
+				{
+					kickPlayer();
+				}
+				else if ("ban".equals(_config.PUNISHMENT_TYPE))
+				{
+					banAccount();
+				}
+				else if ("jail".equals(_config.PUNISHMENT_TYPE))
+				{
+					jailChar();
+				}
+				
+				_punishmentInProgress = false;
+			}
+			
+			return false;
 		}
+		
+		AtomicInteger command_count = null;
+		if((command_count = received_commands_actions.get(command))==null){
+			command_count = new AtomicInteger(0);
+			received_commands_actions.put(command, command_count);
+		}
+		
+		if (command_count.get() > 0)
+		{
+			if (_config.LOG_FLOODING && _log.isLoggable(Level.WARNING))
+			{
+				log(" issued ", String.valueOf(command_count), " extra requests within ~", String.valueOf(_config.FLOOD_PROTECTION_INTERVAL * GameTimeController.MILLIS_IN_TICK), " ms");
+			}
+		}
+		
+		_nextGameTick = curTick + _config.FLOOD_PROTECTION_INTERVAL;
+		_logged = false;
+		command_count.set(0);
+		received_commands_actions.put(command, command_count);
+		
+		return true;
 		
 	}
 

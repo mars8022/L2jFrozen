@@ -86,6 +86,7 @@ public class DynamicExtension
 
 	/**
 	 * initialize all configured extensions
+	 * @return 
 	 */
 	public String initExtensions()
 	{
@@ -131,6 +132,7 @@ public class DynamicExtension
 	 * 
 	 * @param name the class name and optionally a jar file name delimited with a '@' if the jar file is not in the
 	 *            class path
+	 * @return 
 	 */
 	public String initExtension(String name)
 	{
@@ -177,6 +179,7 @@ public class DynamicExtension
 
 	/**
 	 * call unloadExtension() for all known extensions
+	 * @return 
 	 */
 	public String unloadExtensions()
 	{
@@ -205,6 +208,7 @@ public class DynamicExtension
 	 * unload a named extension
 	 * 
 	 * @param name the class name and optionally a jar file name delimited with a '@'
+	 * @return 
 	 */
 	public String unloadExtension(String name)
 	{

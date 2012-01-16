@@ -1,6 +1,7 @@
 package com.l2jfrozen.gameserver.powerpak.vote;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.Connection;
@@ -145,47 +146,59 @@ public class L2TopDeamon implements Runnable
 
 	private boolean checkVotes()
 	{
+		BufferedReader reader = null;
 		try
 		{
 			_log.info("L2TopDeamon: Checking l2top.ru....");
 			int nVotes = 0;
 			URL url = new URL(PowerPakConfig.L2TOPDEMON_URL);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-			if(reader!=null)
+			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			String line;
+			Timestamp last = _lastVote;
+			while((line= reader.readLine())!=null)
 			{
-				String line;
-				Timestamp last = _lastVote;
-				while((line= reader.readLine())!=null)
+				if(line.indexOf("\t")!=-1)
 				{
-					if(line.indexOf("\t")!=-1)
+					Timestamp voteDate = Timestamp.valueOf(line.substring(0,line.indexOf("\t")).trim());
+					if(voteDate.after(_lastVote))
 					{
-						Timestamp voteDate = Timestamp.valueOf(line.substring(0,line.indexOf("\t")).trim());
-						if(voteDate.after(_lastVote))
-						{
-							if(voteDate.after(last))
-								last = voteDate;
-							String charName = line.substring(line.indexOf("\t")+1).toLowerCase();
-							if(PowerPakConfig.L2TOPDEMON_PREFIX!=null && PowerPakConfig.L2TOPDEMON_PREFIX.length()>0)
-								if(charName.startsWith(PowerPakConfig.L2TOPDEMON_PREFIX)) {
-									charName = charName.substring(PowerPakConfig.L2TOPDEMON_PREFIX.length());
-								}
-								else
-									continue;
-							SQLQueue.getInstance().add(new VotesUpdate(voteDate,charName,_firstRun));
-							nVotes++;
-						}
+						if(voteDate.after(last))
+							last = voteDate;
+						String charName = line.substring(line.indexOf("\t")+1).toLowerCase();
+						if(PowerPakConfig.L2TOPDEMON_PREFIX!=null && PowerPakConfig.L2TOPDEMON_PREFIX.length()>0)
+							if(charName.startsWith(PowerPakConfig.L2TOPDEMON_PREFIX)) {
+								charName = charName.substring(PowerPakConfig.L2TOPDEMON_PREFIX.length());
+							}
+							else
+								continue;
+						SQLQueue.getInstance().add(new VotesUpdate(voteDate,charName,_firstRun));
+						nVotes++;
 					}
 				}
-				_lastVote = last;
-				_log.info("L2TopDeamon: "+nVotes+" vote(s) parsed");
-				return true;
 			}
+			_lastVote = last;
+			_log.info("L2TopDeamon: "+nVotes+" vote(s) parsed");
+			return true;
 		} catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			_log.info("L2TopDeamon: Error while reading data"+ e);
+		}
+		finally
+		{
+			if (reader != null)
+			{
+				try
+				{
+					reader.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		return false;
 	}

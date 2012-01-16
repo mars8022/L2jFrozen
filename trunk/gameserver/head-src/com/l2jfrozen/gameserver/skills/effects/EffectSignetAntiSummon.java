@@ -65,8 +65,7 @@ public final class EffectSignetAntiSummon extends L2Effect
 			if(cha instanceof L2PlayableInstance)
 			{
 				L2PcInstance owner = (L2PcInstance) cha;
-
-				if(owner != null && owner.getPet() != null)
+				if(owner.getPet() != null)
 				{
 					if(mpConsume > getEffector().getStatus().getCurrentMp())
 					{

@@ -1309,10 +1309,7 @@ public class GameStatusThread extends Thread
 		{
 			return mbean.findDeadlockedThreads();
 		}
-		else
-		{
-			return mbean.findMonitorDeadlockedThreads();
-		}
+		return mbean.findMonitorDeadlockedThreads();
 	}
 	
 	private Thread findMatchingThread(ThreadInfo inf)

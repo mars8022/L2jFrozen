@@ -330,12 +330,9 @@ public class SSQStatus extends L2GameServerPacket
 										writeH(SystemMessageId.SEAL_OWNED_10_MORE_VOTED.getId());
 										break;
 									}
-									else
-									{
-										writeC(SevenSigns.CABAL_NULL);
-										writeH(SystemMessageId.COMPETITION_TIE_SEAL_NOT_AWARDED.getId());
-										break;
-									}
+									writeC(SevenSigns.CABAL_NULL);
+									writeH(SystemMessageId.COMPETITION_TIE_SEAL_NOT_AWARDED.getId());
+									break;
 								case SevenSigns.CABAL_DAWN:
 									if(dawnPercent >= 10)
 									{
@@ -377,12 +374,9 @@ public class SSQStatus extends L2GameServerPacket
 										writeH(SystemMessageId.SEAL_OWNED_10_MORE_VOTED.getId());
 										break;
 									}
-									else
-									{
-										writeC(SevenSigns.CABAL_NULL);
-										writeH(SystemMessageId.COMPETITION_TIE_SEAL_NOT_AWARDED.getId());
-										break;
-									}
+									writeC(SevenSigns.CABAL_NULL);
+									writeH(SystemMessageId.COMPETITION_TIE_SEAL_NOT_AWARDED.getId());
+									break;
 								case SevenSigns.CABAL_DAWN:
 									if(dawnPercent >= 35)
 									{

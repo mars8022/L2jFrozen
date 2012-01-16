@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.script.ScriptContext;
-import javax.script.ScriptException;
 
 import javolution.util.FastList;
 
@@ -62,7 +61,7 @@ public class FaenorInterface implements EngineInterface
 	/**
 	 * Adds a new Quest Drop to an NPC
 	 * 
-	 * @see com.l2jfrozen.gameserver.script.EngineInterface#addQuestDrop(int)
+	 * @see com.l2jfrozen.gameserver.script.EngineInterface#addQuestDrop(int, int, int, int, int, String, String[])
 	 */
 	@Override
 	public void addQuestDrop(int npcID, int itemID, int min, int max, int chance, String questID, String[] states)
@@ -84,8 +83,15 @@ public class FaenorInterface implements EngineInterface
 
 	/**
 	 * Adds a new Drop to an NPC
+	 * @param npcID 
+	 * @param itemID 
+	 * @param min 
+	 * @param max 
+	 * @param sweep 
+	 * @param chance 
+	 * @throws NullPointerException 
 	 * 
-	 * @see com.l2jfrozen.gameserver.script.EngineInterface#addQuestDrop(int)
+	 * @see com.l2jfrozen.gameserver.script.EngineInterface#addQuestDrop(int, int, int, int, int, String, String[])
 	 */
 	public void addDrop(int npcID, int itemID, int min, int max, boolean sweep, int chance) throws NullPointerException
 	{
@@ -146,7 +152,7 @@ public class FaenorInterface implements EngineInterface
 	 * 
 	 * @param npc
 	 * @param drop
-	 * @param sweep
+	 * @param category 
 	 */
 	public void addDrop(L2NpcTemplate npc, L2DropData drop, int category)
 	{
@@ -154,6 +160,7 @@ public class FaenorInterface implements EngineInterface
 	}
 
 	/**
+	 * @param npcID 
 	 * @return Returns the _questDrops.
 	 */
 	public List<L2DropData> getQuestDrops(int npcID)
@@ -190,7 +197,7 @@ public class FaenorInterface implements EngineInterface
 		Announcements.getInstance().addEventAnnouncement(validDateRange, message);
 	}
 
-	public void addPetData(ScriptContext context, int petID, int levelStart, int levelEnd, Map<String, String> stats) throws ScriptException
+	public void addPetData(ScriptContext context, int petID, int levelStart, int levelEnd, Map<String, String> stats)
 	{
 		L2PetData[] petData = new L2PetData[levelEnd - levelStart + 1];
 		int value = 0;
@@ -208,7 +215,6 @@ public class FaenorInterface implements EngineInterface
 			}
 			context.removeAttribute("level", ScriptContext.ENGINE_SCOPE);
 		}
-
 	}
 
 	@SuppressWarnings("synthetic-access")

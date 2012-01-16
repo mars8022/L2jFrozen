@@ -19,6 +19,7 @@ package com.l2jfrozen.netcore;
 
 /**
  * @author Forsaiken
+ * @param <E> 
  */
 public final class NioNetStackList<E>
 {

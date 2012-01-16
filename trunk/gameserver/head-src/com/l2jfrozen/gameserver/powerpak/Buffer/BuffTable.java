@@ -47,6 +47,7 @@ public class BuffTable
 		}
 		
 		/**
+		 * @param player 
 		 * @return Returns the result of level check
 		 */
 		public boolean checkLevel(L2PcInstance player)
@@ -56,6 +57,7 @@ public class BuffTable
 
 
 		/**
+		 * @param player 
 		 * @return Returns the result of price check
 		 */
 		public boolean checkPrice(L2PcInstance player)
@@ -123,20 +125,22 @@ public class BuffTable
 
 	public ArrayList<Buff> getBuffsForName(String name)
 	{
-		if(name==null || name.equals("all")){
-			ArrayList<Buff> output = new ArrayList<Buff>();
-			for(ArrayList<Buff> actual:_buffs.values()){
+		ArrayList<Buff> output = new ArrayList<Buff>();
+		if((name == null) || name.equals("all"))
+		{
+			for(ArrayList<Buff> actual:_buffs.values())
+			{
 				output.addAll(actual);
 			}
-			return output;
-		}else{
-			ArrayList<Buff> output = new ArrayList<Buff>();
-			if(_buffs.get(name)!=null){
+		}
+		else
+		{
+			if(_buffs.get(name) != null)
+			{
 				output = _buffs.get(name);
 			}
-			
-			return output;
 		}
+		return output;
 	}
 	
 	public ArrayList<Buff> getBuffsForID(Integer id)

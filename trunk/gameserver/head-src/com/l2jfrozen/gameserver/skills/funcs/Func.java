@@ -25,16 +25,15 @@ import com.l2jfrozen.gameserver.skills.conditions.Condition;
 /**
  * A Func object is a component of a Calculator created to manage and dynamically calculate the effect of a character
  * property (ex : MAX_HP, REGENERATE_HP_RATE...). In fact, each calculator is a table of Func object in which each Func
- * represents a mathematic function : <BR>
+ * represents a mathematics function : <BR>
  * <BR>
  * FuncAtkAccuracy -> Math.sqrt(_player.getDEX())*6+_player.getLevel()<BR>
  * <BR>
- * When the calc method of a calculator is launched, each mathematic function is called according to its priority
- * <B>_order</B>. Indeed, Func with lowest priority order is executed firsta and Funcs with the same order are executed
+ * When the calc method of a calculator is launched, each mathematics function is called according to its priority
+ * <B>_order</B>. Indeed, Func with lowest priority order is executed first and Funcs with the same order are executed
  * in unspecified order. The result of the calculation is stored in the value property of an Env class instance.<BR>
  * <BR>
  */
-
 public abstract class Func
 {
 
@@ -43,8 +42,8 @@ public abstract class Func
 
 	/**
 	 * Order of functions calculation. Functions with lower order are executed first. Functions with the same order are
-	 * executed in unspecified order. Usually add/substruct functions has lowest order, then bonus/penalty functions
-	 * (multiplay/divide) are applied, then functions that do more complex calculations (non-linear functions).
+	 * executed in unspecified order. Usually add/subtract functions has lowest order, then bonus/penalty functions
+	 * (Multiply/divide) are applied, then functions that do more complex calculations (non-linear functions).
 	 */
 	public final int order;
 
@@ -59,6 +58,9 @@ public abstract class Func
 	/**
 	 * Constructor of Func.<BR>
 	 * <BR>
+	 * @param pStat 
+	 * @param pOrder 
+	 * @param owner 
 	 */
 	public Func(Stats pStat, int pOrder, Object owner)
 	{
@@ -70,6 +72,7 @@ public abstract class Func
 	/**
 	 * Add a condition to the Func.<BR>
 	 * <BR>
+	 * @param pCond 
 	 */
 	public void setCondition(Condition pCond)
 	{
@@ -77,8 +80,9 @@ public abstract class Func
 	}
 
 	/**
-	 * Run the mathematic function of the Func.<BR>
+	 * Run the mathematics function of the Func.<BR>
 	 * <BR>
+	 * @param env 
 	 */
 	public abstract void calc(Env env);
 

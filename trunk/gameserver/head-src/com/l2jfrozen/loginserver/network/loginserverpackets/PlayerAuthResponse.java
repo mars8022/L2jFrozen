@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.loginserver.network.loginserverpackets;
 
-import java.io.IOException;
-
 import com.l2jfrozen.loginserver.network.serverpackets.ServerBasePacket;
 
 /**
@@ -33,14 +31,10 @@ public class PlayerAuthResponse extends ServerBasePacket
 		writeS(account);
 		writeC(response ? 1 : 0);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.loginserver.serverpackets.ServerBasePacket#getContent()
-	 */
+	
 	@Override
-	public byte[] getContent() throws IOException
+	public byte[] getContent()
 	{
 		return getBytes();
 	}
-
 }
