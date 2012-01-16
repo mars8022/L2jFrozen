@@ -349,8 +349,9 @@ public abstract class ItemContainer
 	 * Transfers item to another inventory
 	 * 
 	 * @param process : String Identifier of process triggering this action
-	 * @param itemId : int Item Identifier of the item to be transfered
+	 * @param objectId 
 	 * @param count : int Quantity of items to be transfered
+	 * @param target 
 	 * @param actor : L2PcInstance Player requesting the item transfer
 	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
 	 *            transformation
@@ -496,8 +497,7 @@ public abstract class ItemContainer
 			return item;
 		}
 		// Directly drop entire item
-		else
-			return destroyItem(process, item, actor, reference);
+		return destroyItem(process, item, actor, reference);
 	}
 
 	/**
@@ -555,6 +555,7 @@ public abstract class ItemContainer
 
 	/**
 	 * Get warehouse adena
+	 * @return 
 	 */
 	public int getAdena()
 	{

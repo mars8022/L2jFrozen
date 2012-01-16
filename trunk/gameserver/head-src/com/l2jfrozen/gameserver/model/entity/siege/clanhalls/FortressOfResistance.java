@@ -301,8 +301,7 @@ public class FortressOfResistance
 	{
 		if(player != null && player.getClan() != null && player.isClanLeader() && player.getClan().getAuctionBiddedAt() <= 0 && ClanHallManager.getInstance().getClanHallByOwner(player.getClan()) == null && player.getClan().getLevel() > 2)
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	protected class AnnounceInfo implements Runnable

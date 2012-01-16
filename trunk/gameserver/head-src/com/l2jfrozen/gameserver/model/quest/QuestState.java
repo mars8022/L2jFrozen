@@ -202,8 +202,7 @@ public final class QuestState
 	{
 		if(getState()!=null)
 			return getState().getName();
-		else
-			return "Created";
+		return "Created";
 	}
 
 	/**
@@ -1032,8 +1031,7 @@ public final class QuestState
 		if(getPlayer().getTarget() instanceof L2NpcInstance){
 			
 			return (L2NpcInstance)getPlayer().getTarget();  
-		}else
-			return null;
-		
+		}
+		return null;
 	}
 }

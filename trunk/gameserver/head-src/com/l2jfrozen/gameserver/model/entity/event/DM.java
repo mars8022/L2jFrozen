@@ -112,9 +112,7 @@ public class DM implements EventTask
 			DM._eventName = _eventName;
 			return true;
 		}
-		else
-			return false;
-		
+		return false;
 	}
 
 	/**
@@ -134,9 +132,7 @@ public class DM implements EventTask
 			DM._eventDesc = _eventDesc;
 			return true;
 		}
-		else
-			return false;
-		
+		return false;
 	}
 
 	/**
@@ -156,10 +152,7 @@ public class DM implements EventTask
 			DM._joiningLocationName = _joiningLocationName;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -179,10 +172,7 @@ public class DM implements EventTask
 			DM._npcId = _npcId;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 	
 	public static Location get_npcLocation()
@@ -210,10 +200,7 @@ public class DM implements EventTask
 			DM._rewardId = _rewardId;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -233,10 +220,7 @@ public class DM implements EventTask
 			DM._rewardAmount = _rewardAmount;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -256,10 +240,7 @@ public class DM implements EventTask
 			DM._minlvl = _minlvl;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -279,10 +260,7 @@ public class DM implements EventTask
 			DM._maxlvl = _maxlvl;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -302,10 +280,7 @@ public class DM implements EventTask
 			DM._joinTime = _joinTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -325,10 +300,7 @@ public class DM implements EventTask
 			DM._eventTime = _eventTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -348,10 +320,7 @@ public class DM implements EventTask
 			DM._minPlayers = _minPlayers;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -371,10 +340,7 @@ public class DM implements EventTask
 			DM._maxPlayers = _maxPlayers;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -394,10 +360,7 @@ public class DM implements EventTask
 			DM._intervalBetweenMatchs = _intervalBetweenMatchs;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -417,10 +380,7 @@ public class DM implements EventTask
 			this.startEventTime = startEventTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -688,6 +648,7 @@ public class DM implements EventTask
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				sit();
@@ -914,6 +875,7 @@ public class DM implements EventTask
 		removeUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				final Vector<L2PcInstance> players = getPlayers();
@@ -1828,9 +1790,7 @@ public class DM implements EventTask
 			DM._playerColors = _playerColors;
 			return true;
 		}
-		else
-			return false;
-
+		return false;
 	}
 
 	public static void rewardPlayer()
@@ -1987,16 +1947,12 @@ public class DM implements EventTask
 		return startEventTime;
 	}
 	
-	public static void onDisconnect(L2PcInstance player){
-		
-		if(player._inEventDM){
-			
+	public static void onDisconnect(L2PcInstance player)
+	{
+		if(player._inEventDM)
+		{
 			removePlayer(player);
-			if(player !=  null)
-				player.teleToLocation(_npcX, _npcY, _npcZ);
-			
+			player.teleToLocation(_npcX, _npcY, _npcZ);
 		}
-		
 	}
-	
 }

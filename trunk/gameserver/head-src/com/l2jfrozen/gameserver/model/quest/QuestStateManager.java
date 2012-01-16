@@ -79,7 +79,6 @@ public class QuestStateManager
 	public void addQuestState(Quest quest, L2PcInstance player, State state, boolean completed)
 	{
 		QuestState qs = getQuestState(player);
-
 		if(qs == null)
 		{
 			qs = new QuestState(quest, player, state, completed);

@@ -345,28 +345,26 @@ public class BanditStrongholdSiege extends ClanHallSiege
 				regPlayers._flag = flag;
 				continue;
 			}
-			else
+			
+			if(flagCounter == 1)
 			{
-				if(flagCounter == 1)
-				{
-					flag.spawnMe(83452, -17654, -1828);
-				}
-				else if(flagCounter == 2)
-				{
-					flag.spawnMe(81718, -14826, -1829);
-				}
-				else if(flagCounter == 3)
-				{
-					flag.spawnMe(85020, -15891, -1823);
-				}
-				else if(flagCounter == 4)
-				{
-					flag.spawnMe(81222, -16803, -1829);
-				}
-				else if(flagCounter == 5)
-				{
-					flag.spawnMe(83486, -15069, -1828);
-				}
+				flag.spawnMe(83452, -17654, -1828);
+			}
+			else if(flagCounter == 2)
+			{
+				flag.spawnMe(81718, -14826, -1829);
+			}
+			else if(flagCounter == 3)
+			{
+				flag.spawnMe(85020, -15891, -1823);
+			}
+			else if(flagCounter == 4)
+			{
+				flag.spawnMe(81222, -16803, -1829);
+			}
+			else if(flagCounter == 5)
+			{
+				flag.spawnMe(83486, -15069, -1828);
 			}
 			clanPlayersInfo regPlayers = _clansInfo.get(clan.getClanId());
 			regPlayers._flag = flag;
@@ -475,7 +473,7 @@ public class BanditStrongholdSiege extends ClanHallSiege
 	public int getPlayersCount(String playerClan)
 	{
 		for(clanPlayersInfo a : _clansInfo.values())
-			if(a._clanName == playerClan)
+			if(a._clanName.equalsIgnoreCase(playerClan))
 				return a._players.size();
 		return 0;
 	}

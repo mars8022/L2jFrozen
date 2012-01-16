@@ -187,8 +187,7 @@ public class L2EffectZone extends L2ZoneType
 	{
 		if (_skills == null || !_skills.containsKey(skillId))
 			return 0;
-		else
-			return _skills.get(skillId);
+		return _skills.get(skillId);
 	}
 	
 	public void setZoneEnabled(boolean val)
@@ -209,6 +208,7 @@ public class L2EffectZone extends L2ZoneType
 				throw new IllegalStateException("No skills defined.");
 		}
 		
+		@Override
 		public void run()
 		{
 			if (isEnabled())

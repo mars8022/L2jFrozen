@@ -57,7 +57,7 @@ public class L2AdventurerInstance extends L2FolkInstance
 						spawn = null;
 						break;
 					case UNDEFINED:
-						player.sendMessage("This Boss isn't in game - notify L2Scoria Datapack Dev Team");
+						player.sendMessage("This Boss isn't in game - notify L2JFrozen Datapack Dev Team");
 						break;
 				}
 			}

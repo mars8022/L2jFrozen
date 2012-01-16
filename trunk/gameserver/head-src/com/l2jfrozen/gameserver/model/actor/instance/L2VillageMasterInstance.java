@@ -347,9 +347,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
             		{
             			player.sendMessage("You can't add subclass right now.");
             			return;
-            		}else{
-            			player.setLocked(true);
             		}
+					
+					player.setLocked(true);
 					
 					boolean allowAddition = true;
 					
@@ -469,9 +469,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
             		{
             			player.sendMessage("You can't change subclass right now.");
             			return;
-            		}else{
-            			player.setLocked(true);
             		}
+					
+					player.setLocked(true);
 					
 					// You can't change Subclass when you are registered in Events (TVT, CTF, DM)
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)
@@ -540,9 +540,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
             		{
             			player.sendMessage("You can't cancel subclass right now.");
             			return;
-            		}else{
-            			player.setLocked(true);
             		}
+					
+					player.setLocked(true);
 				
 					// You can't delete Subclass when you are registered in Events (TVT, CTF, DM)
 					if(player._inEventTvT || player._inEventCTF || player._inEventDM)

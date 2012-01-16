@@ -155,6 +155,7 @@ public class L2NpcInstance extends L2Character
 	/** Task launching the function onRandomAnimation() */
 	protected class RandomAnimationTask implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			try
@@ -244,6 +245,7 @@ public class L2NpcInstance extends L2Character
 			_oldSpawn = spawn;
 		}
 
+		@Override
 		public void run()
 		{
 			try
@@ -270,6 +272,7 @@ public class L2NpcInstance extends L2Character
 			_player = player;
 		}
 
+		@Override
 		public void run()
 		{
 			_summon.unSummon(_player);

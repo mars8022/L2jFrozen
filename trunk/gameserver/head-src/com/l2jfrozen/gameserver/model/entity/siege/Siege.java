@@ -1751,8 +1751,6 @@ public class Siege
 			L2SiegeClan sc = getAttackerClan(clan);
 			if(sc != null)
 				return sc.getFlag();
-
-			sc = null;
 		}
 		return null;
 	}

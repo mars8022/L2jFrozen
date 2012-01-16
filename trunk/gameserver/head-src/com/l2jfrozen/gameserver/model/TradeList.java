@@ -245,10 +245,11 @@ public class TradeList
 		{
 			for(TradeItem exclItem : _items)
 				if(exclItem.getItem().getItemId() == item.getItemId())
+				{
 					if(item.getCount() <= exclItem.getCount())
 						return null;
-					else
-						return new TradeItem(item, item.getCount() - exclItem.getCount(), item.getReferencePrice());
+					return new TradeItem(item, item.getCount() - exclItem.getCount(), item.getReferencePrice());
+				}
 		}
 
 		return new TradeItem(item, item.getCount(), item.getReferencePrice());
@@ -945,11 +946,7 @@ public class TradeList
 			
 			SystemMessage msg2 = SystemMessage.sendString("You spent "+price+" "+item.getItemName());
 			player.sendPacket(msg2);
-			msg = null;
-
-			newItem = null;
-			oldItem = null;
-
+			
 			/*L2ItemInstance item = playerInventory.getItemByItemId(Config.SELL_ITEM);
 			playerInventory.destroyItem("PrivateStore", item.getObjectId(), price, player, _owner);
 			playerIU.addItem(item);
@@ -1114,26 +1111,19 @@ public class TradeList
 			}
 			
 			boolean found = false;
-			for(TradeItem ti : _items){
-				
+			for(TradeItem ti : _items)
+			{
 				if(ti.getItem().getItemId() == item.getItemId()){
 					
 					if(ti.getPrice() != item.getPrice()){
 						if(Config.DEBUG){
 							_log.info("[PrivateStoreSell] ti.getPrice() != item.getPrice(), return false");
 						}
-						
 						return false;
-						
-					}else{ //equal price
-						
-						found = true;
-						break;
-						
 					}
-					
+					found = true;
+					break;
 				}
-				
 			}
 			
 			//store is not buying that item...
@@ -1322,11 +1312,6 @@ public class TradeList
 			
 			SystemMessage msg2 = SystemMessage.sendString("You spent "+price+" "+item.getItemName());
 			_owner.sendPacket(msg2);
-			msg = null;
-
-			newItem = null;
-			oldItem = null;
-
 		}else{
 			
 			// Transfer adena

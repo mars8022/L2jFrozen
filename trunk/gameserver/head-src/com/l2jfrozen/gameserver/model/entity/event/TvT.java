@@ -119,9 +119,7 @@ public class TvT implements EventTask
 			TvT._eventName = _eventName;
 			return true;
 		}
-		else
-			return false;
-		
+		return false;
 	}
 
 	/**
@@ -141,9 +139,7 @@ public class TvT implements EventTask
 			TvT._eventDesc = _eventDesc;
 			return true;
 		}
-		else
-			return false;
-		
+		return false;
 	}
 
 	/**
@@ -163,10 +159,7 @@ public class TvT implements EventTask
 			TvT._joiningLocationName = _joiningLocationName;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -186,10 +179,7 @@ public class TvT implements EventTask
 			TvT._npcId = _npcId;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 	
 	public static Location get_npcLocation()
@@ -217,10 +207,7 @@ public class TvT implements EventTask
 			TvT._rewardId = _rewardId;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -240,10 +227,7 @@ public class TvT implements EventTask
 			TvT._rewardAmount = _rewardAmount;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -263,10 +247,7 @@ public class TvT implements EventTask
 			TvT._minlvl = _minlvl;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -286,10 +267,7 @@ public class TvT implements EventTask
 			TvT._maxlvl = _maxlvl;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -309,10 +287,7 @@ public class TvT implements EventTask
 			TvT._joinTime = _joinTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -332,10 +307,7 @@ public class TvT implements EventTask
 			TvT._eventTime = _eventTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -355,10 +327,7 @@ public class TvT implements EventTask
 			TvT._minPlayers = _minPlayers;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -378,10 +347,7 @@ public class TvT implements EventTask
 			TvT._maxPlayers = _maxPlayers;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -401,10 +367,7 @@ public class TvT implements EventTask
 			TvT._intervalBetweenMatchs = _intervalBetweenMatchs;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -424,10 +387,7 @@ public class TvT implements EventTask
 			this.startEventTime = startEventTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -677,6 +637,7 @@ public class TvT implements EventTask
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				sit();
@@ -930,6 +891,7 @@ public class TvT implements EventTask
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				synchronized(_players){
@@ -2325,14 +2287,11 @@ public class TvT implements EventTask
 	
 	public static void onDisconnect(L2PcInstance player){
 		
-		if(player._inEventTvT){
-			
+		if(player._inEventTvT)
+		{
 			removePlayer(player);
-			if(player !=  null)
-				player.teleToLocation(_npcX, _npcY, _npcZ);
-			
+			player.teleToLocation(_npcX, _npcY, _npcZ);
 		}
-		
 	}
 	
 	public static int teamKillsCount(String teamName)
@@ -2389,8 +2348,6 @@ public class TvT implements EventTask
 		}
 	}
 
-	
-	
 	public static L2PcInstance findBestKiller(Vector<L2PcInstance> players)
 	{
 		if(players == null)
@@ -2420,8 +2377,6 @@ public class TvT implements EventTask
 		}
 		return looser;
 	}
-
-	
 
 	public static class TvTTeam
 	{
@@ -2516,7 +2471,4 @@ public class TvT implements EventTask
 		DoorTable.getInstance().getDoor(24190003).openMe();
 
 	}
-	
-	
-	
 }

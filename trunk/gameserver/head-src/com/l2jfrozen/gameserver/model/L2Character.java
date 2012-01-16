@@ -466,10 +466,8 @@ public abstract class L2Character extends L2Object
 		
 		if(_startingRotationCounter == 4){
 			return true;
-		}else{
-			return false;
 		}
-	
+		return false;
 	}
 	
 	public final void broadcastPacket(L2GameServerPacket mov)
@@ -526,6 +524,8 @@ public abstract class L2Character extends L2Object
 	 * other players of state modification on the L2Character, server just need to go through _knownPlayers to send
 	 * Server->Client Packet<BR>
 	 * <BR>
+	 * @param mov 
+	 * @param radiusInKnownlist 
 	 */
 	public final void broadcastPacket(L2GameServerPacket mov, int radiusInKnownlist)
 	{
@@ -3182,8 +3182,6 @@ public abstract class L2Character extends L2Object
 			if(stackQueue.size() > 0)
 			{
 				// Get the first stacked effect of the Stack group selected
-				tempEffect = null;
-
 				for(int i = 0; i < _effects.size(); i++)
 				{
 					if(_effects.get(i) == stackQueue.get(0))
@@ -4234,10 +4232,7 @@ public abstract class L2Character extends L2Object
 				{
 					if(e.getInUse())
 						return e;
-					else
-					{
-						eventNotInUse = e;
-					}
+					eventNotInUse = e;
 				}
 			}
 
@@ -4273,10 +4268,7 @@ public abstract class L2Character extends L2Object
 				{
 					if(e.getInUse())
 						return e;
-					else
-					{
-						eventNotInUse = e;
-					}
+					eventNotInUse = e;
 				}
 			}
 
@@ -4317,10 +4309,7 @@ public abstract class L2Character extends L2Object
 				{
 					if(e.getInUse())
 						return e;
-					else
-					{
-						eventNotInUse = e;
-					}
+					eventNotInUse = e;
 				}
 			}
 
@@ -4365,10 +4354,7 @@ public abstract class L2Character extends L2Object
 				{
 					if(e.getInUse())
 						return e;
-					else
-					{
-						eventNotInUse = e;
-					}
+					eventNotInUse = e;
 				}
 			}
 
@@ -5792,10 +5778,7 @@ public abstract class L2Character extends L2Object
 					{
 						if(gtx == _move.geoPathGtx && gty == _move.geoPathGty)
 							return;
-						else
-						{
-							_move.onGeodataPathIndex = -1; // Set not on geodata path
-						}
+						_move.onGeodataPathIndex = -1; // Set not on geodata path
 					}
 					catch(NullPointerException e)
 					{
@@ -5852,14 +5835,11 @@ public abstract class L2Character extends L2Object
 							getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 							return;
 						}
-						else
-						{
-							m.disregardingGeodata = true;
-							x = originalX;
-							y = originalY;
-							z = originalZ;
-							distance = originalDistance;
-						}
+						m.disregardingGeodata = true;
+						x = originalX;
+						y = originalY;
+						z = originalZ;
+						distance = originalDistance;
 					}
 					else
 					{
@@ -6190,8 +6170,7 @@ public abstract class L2Character extends L2Object
 	{
 		if(object!=null)
 			return isInsideRadius(object.getX(), object.getY(), object.getZ(), radius, checkZ, strictCheck);
-		else
-			return false;
+		return false;
 	}
 
 	/**
@@ -6232,16 +6211,11 @@ public abstract class L2Character extends L2Object
 		{
 			if(checkZ)
 				return dx * dx + dy * dy + dz * dz < radius * radius;
-			else
-				return dx * dx + dy * dy < radius * radius;
+			return dx * dx + dy * dy < radius * radius;
 		}
-		else
-		{
-			if(checkZ)
-				return dx * dx + dy * dy + dz * dz <= radius * radius;
-			else
-				return dx * dx + dy * dy <= radius * radius;
-		}
+		if(checkZ)
+			return dx * dx + dy * dy + dz * dz <= radius * radius;
+		return dx * dx + dy * dy <= radius * radius;
 	}
 
 	//	/**
@@ -7071,11 +7045,10 @@ public abstract class L2Character extends L2Object
 							|| (dst._inEventCTF && src._inEventCTF && CTF.is_started() && !dst._teamNameCTF.equals(src._teamNameCTF)) 
 							|| (dst._inEventDM && src._inEventDM && DM.is_started()) 
 							|| (dst._inEventVIP && src._inEventVIP && VIP._started))
-						{
-							return false;
-						}else
-							return true;
-					
+					{
+						return false;
+					}
+					return true;
 				}
 				
 			}
@@ -7761,11 +7734,7 @@ public abstract class L2Character extends L2Object
 				abortCast();
 				return;
 			}
-			else
-			{
-				final_targets = targetList.toArray(new L2Character[targetList.size()]);
-			}
-
+			final_targets = targetList.toArray(new L2Character[targetList.size()]);
 			targetList = null;
 		
 		}else{
@@ -8639,15 +8608,11 @@ public abstract class L2Character extends L2Object
 						if(this instanceof L2PcInstance)
 						{
 							activeChar = (L2PcInstance) this;
+							activeChar.updatePvPStatus(activeChar);
 						}
 						else if(this instanceof L2Summon)
 						{
 							activeChar = ((L2Summon) this).getOwner();
-						}
-
-						if(activeChar instanceof L2PcInstance)
-						{
-							activeChar.updatePvPStatus(activeChar);
 						}
 					}
 				}

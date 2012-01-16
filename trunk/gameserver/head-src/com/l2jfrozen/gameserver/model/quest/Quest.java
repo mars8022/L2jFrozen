@@ -653,8 +653,7 @@ public class Quest extends ManagedScript
 	{
 		if(killer instanceof L2NpcInstance)
 			return onAdvEvent("", (L2NpcInstance) killer, qs.getPlayer());
-		else
-			return onAdvEvent("", null, qs.getPlayer());
+		return onAdvEvent("", null, qs.getPlayer());
 	}
 
 	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)

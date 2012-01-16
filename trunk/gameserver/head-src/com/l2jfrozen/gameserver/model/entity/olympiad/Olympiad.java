@@ -20,7 +20,6 @@
 /**
  * @author L2Scoria dev
  */
-
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
 import java.io.File;
@@ -64,7 +63,7 @@ public class Olympiad
 
 	private static Olympiad _instance;
 
-	protected static Map<Integer, StatsSet> _nobles;
+	protected static Map<Integer, StatsSet> _nobles = new FastMap<Integer, StatsSet>();
 	protected static L2FastList<StatsSet> _heroesToBe;
 	protected static L2FastList<L2PcInstance> _nonClassBasedRegisters;
 	protected static Map<Integer, L2FastList<L2PcInstance>> _classBasedRegisters;
@@ -194,9 +193,9 @@ public class Olympiad
 	public Olympiad()
 	{}
 
-	public void load() throws IOException, SQLException
+	public void load() throws IOException
 	{
-		_nobles = new FastMap<Integer, StatsSet>();
+		_nobles.clear();
 
 		Properties OlympiadProperties = new Properties();
 		InputStream is = new FileInputStream(new File("./" + OLYMPIAD_DATA_FILE));
@@ -584,12 +583,10 @@ public class Olympiad
 		{
 			if(!_classBasedRegisters.containsKey(noble.getClassId().getId()))
 				return false;
-			else
-			{
-				L2FastList<L2PcInstance> classed = _classBasedRegisters.get(noble.getClassId().getId());
-				if(classed == null || !classed.contains(noble))
-					return false;
-			}
+			
+			L2FastList<L2PcInstance> classed = _classBasedRegisters.get(noble.getClassId().getId());
+			if(classed == null || !classed.contains(noble))
+				return false;
 		}
 		return true;
 	}
@@ -978,6 +975,7 @@ public class Olympiad
 				
 				if(Config.ALT_OLY_PERIOD_MULTIPLIER>=14){
 					_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() {
+						@Override
 						public void run()
 						{
 							addWeeklyPoints();
@@ -989,6 +987,7 @@ public class Olympiad
 					}, getMillisToWeekChange(), WEEKLY_PERIOD);
 				}else if(Config.ALT_OLY_PERIOD_MULTIPLIER>=7){
 					_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() {
+						@Override
 						public void run()
 						{
 							addWeeklyPoints();

@@ -313,28 +313,22 @@ public class PcInventory extends Inventory
 						
 					}
 					
-					if(found){
+					if(found)
+					{
 						continue;
-					}else{
-						item.setObjectId(adjItem.getObjectId());
-						item.setEnchant(adjItem.getEnchantLevel());
-
-						if(adjItem.getCount() < item.getCount())
-						{
-							item.setCount(adjItem.getCount());
-						}
-
-						return;
 					}
 					
-					
-					
-				}
-				
-			}
-			
-		}
+					item.setObjectId(adjItem.getObjectId());
+					item.setEnchant(adjItem.getEnchantLevel());
 
+					if(adjItem.getCount() < item.getCount())
+					{
+						item.setCount(adjItem.getCount());
+					}
+					return;
+				}
+			}
+		}
 		item.setCount(0);
 	}
 

@@ -318,15 +318,13 @@ public class Fort
 		if(door == null)
 			return;
 
-		if(door != null && door.getDoorId() == doorId)
+		if(door.getDoorId() == doorId)
 		{
 			door.setCurrentHp(door.getMaxHp() + hp);
 
 			saveDoorUpgrade(doorId, hp, pDef, mDef);
 			return;
 		}
-
-		door = null;
 	}
 
 	// =========================================================

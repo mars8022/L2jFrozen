@@ -140,8 +140,6 @@ public final class QuestSpawn
 
 				return result;
 			}
-
-			template = null;
 		}
 		catch(Exception e1)
 		{

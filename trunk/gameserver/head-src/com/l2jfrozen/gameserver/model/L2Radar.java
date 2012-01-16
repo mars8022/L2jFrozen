@@ -73,11 +73,12 @@ public final class L2Radar
 	// etc.
 	}
 
-	public class RadarMarker
+	private static class RadarMarker
 	{
 		// Simple class to model radar points.
 		public int _type, _x, _y, _z;
 
+		@SuppressWarnings("unused")
 		public RadarMarker(int type, int x, int y, int z)
 		{
 			_type = type;

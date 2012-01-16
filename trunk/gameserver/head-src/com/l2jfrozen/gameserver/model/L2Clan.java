@@ -1488,7 +1488,6 @@ public class L2Clan
 	public void removeSkill(int id)
 	{
 		L2Skill deleteSkill = null;
-
 		for(L2Skill sk : _skillList)
 		{
 			if(sk.getId() == id)
@@ -1497,10 +1496,7 @@ public class L2Clan
 				return;
 			}
 		}
-
 		_skillList.remove(deleteSkill);
-
-		deleteSkill = null;
 	}
 
 	public void removeSkill(L2Skill deleteSkill)
@@ -1701,52 +1697,50 @@ public class L2Clan
 
 			return null;
 		}
-		else
+		
+		Connection con = null;
+		try
 		{
-			Connection con = null;
-			try
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			PreparedStatement statement = con.prepareStatement("INSERT INTO clan_subpledges (clan_id,sub_pledge_id,name,leader_name) values (?,?,?,?)");
+			statement.setInt(1, getClanId());
+			statement.setInt(2, pledgeType);
+			statement.setString(3, subPledgeName);
+
+			if(pledgeType != -1)
 			{
-				con = L2DatabaseFactory.getInstance().getConnection(false);
-				PreparedStatement statement = con.prepareStatement("INSERT INTO clan_subpledges (clan_id,sub_pledge_id,name,leader_name) values (?,?,?,?)");
-				statement.setInt(1, getClanId());
-				statement.setInt(2, pledgeType);
-				statement.setString(3, subPledgeName);
-
-				if(pledgeType != -1)
-				{
-					statement.setString(4, leaderName);
-				}
-				else
-				{
-					statement.setString(4, "");
-				}
-
-				statement.execute();
-				statement.close();
-				statement = null;
-
-				subPledge = new SubPledge(pledgeType, subPledgeName, leaderName);
-				_subPledges.put(pledgeType, subPledge);
-
-				if(pledgeType != -1)
-				{
-					setReputationScore(getReputationScore() - 2500, true);
-				}
-
-				if(Config.DEBUG)
-				{
-					_log.fine("New sub_clan saved in db: " + getClanId() + "; " + pledgeType);
-				}
+				statement.setString(4, leaderName);
 			}
-			catch(Exception e)
+			else
 			{
-				_log.warning("error while saving new sub_clan to db " + e);
+				statement.setString(4, "");
 			}
-			finally
+
+			statement.execute();
+			statement.close();
+			statement = null;
+
+			subPledge = new SubPledge(pledgeType, subPledgeName, leaderName);
+			_subPledges.put(pledgeType, subPledge);
+
+			if(pledgeType != -1)
 			{
-				CloseUtil.close(con);
-				con = null;
+				setReputationScore(getReputationScore() - 2500, true);
 			}
+
+			if(Config.DEBUG)
+			{
+				_log.fine("New sub_clan saved in db: " + getClanId() + "; " + pledgeType);
+			}
+		}
+		catch(Exception e)
+		{
+			_log.warning("error while saving new sub_clan to db " + e);
+		}
+		finally
+		{
+			CloseUtil.close(con);
+			con = null;
 		}
 		broadcastToOnlineMembers(new PledgeShowInfoUpdate(_leader.getClan()));
 		broadcastToOnlineMembers(new PledgeReceiveSubPledgeCreated(subPledge));
@@ -1876,8 +1870,7 @@ public class L2Clan
 	{
 		if(_privs.get(rank) != null)
 			return _privs.get(rank).getPrivs();
-		else
-			return CP_NOTHING;
+		return CP_NOTHING;
 	}
 
 	public void setRankPrivs(int rank, int privs)

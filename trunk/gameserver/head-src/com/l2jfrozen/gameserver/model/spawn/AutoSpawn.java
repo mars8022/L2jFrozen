@@ -247,7 +247,7 @@ public class AutoSpawn
 		try
 		{
 			// Try to remove from the list of registered spawns if it exists.
-			_registeredSpawns.remove(spawnInst);
+			_registeredSpawns.remove(spawnInst.getNpcId());
 
 			// Cancel the currently associated running scheduled task.
 			ScheduledFuture<?> respawnTask = _runningSpawns.remove(spawnInst._objectId);

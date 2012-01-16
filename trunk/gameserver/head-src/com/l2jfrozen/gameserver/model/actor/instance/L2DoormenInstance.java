@@ -135,17 +135,14 @@ public class L2DoormenInstance extends L2FolkInstance
 						SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 						sm.addString("You Already Have a Pet or Are Mounted.");
 						player.sendPacket(sm);
-						sm = null;
-						return;
 					}
 					else
 					{
 						SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 						sm.addString("Summon your Strider first.");
 						player.sendPacket(sm);
-						sm = null;
-						return;
 					}
+					return;
 				}
 				else if(player.getPet().getNpcId() == 12526 || player.getPet().getNpcId() == 12527 || player.getPet().getNpcId() == 12528)
 				{
@@ -156,8 +153,6 @@ public class L2DoormenInstance extends L2FolkInstance
 							SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 							sm.addString("Your Strider Has not reached the required level.");
 							player.sendPacket(sm);
-							sm = null;
-							return;
 						}
 						else
 						{
@@ -173,9 +168,6 @@ public class L2DoormenInstance extends L2FolkInstance
 							SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 							sm.addString("The Wyvern has been summoned successfully!");
 							player.sendPacket(sm);
-							sm = null;
-							mount = null;
-							return;
 						}
 					}
 					else
@@ -183,9 +175,8 @@ public class L2DoormenInstance extends L2FolkInstance
 						SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 						sm.addString("You need 10 Crystals: B Grade.");
 						player.sendPacket(sm);
-						sm = null;
-						return;
 					}
+					return;
 				}
 				else
 				{
@@ -355,8 +346,7 @@ public class L2DoormenInstance extends L2FolkInstance
 			{
 				if(player.getClanId() == getClanHall().getOwnerId())
 					return COND_HALL_OWNER;
-				else
-					return COND_ALL_FALSE;
+				return COND_ALL_FALSE;
 			}
 			// Prepare doormen for Castle
 			if(getCastle() != null && getCastle().getCastleId() > 0)

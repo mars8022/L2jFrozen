@@ -187,9 +187,6 @@ public class L2FortManagerInstance extends L2MerchantInstance
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					html.replace("%npcname%", getName());
 					player.sendPacket(html);
-
-					html = null;
-					return;
 				}
 				else
 				{
@@ -197,10 +194,8 @@ public class L2FortManagerInstance extends L2MerchantInstance
 					html.setFile("data/html/fortress/foreman-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-
-					html = null;
-					return;
 				}
+				return;
 			}
 			else
 			{

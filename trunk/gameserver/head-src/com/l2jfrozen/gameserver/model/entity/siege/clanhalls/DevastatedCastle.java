@@ -806,8 +806,7 @@ public class DevastatedCastle
 	{
 		if(player != null && player.getClan() != null && player.isClanLeader() && player.getClan().getAuctionBiddedAt() <= 0 && ClanHallManager.getInstance().getClanHallByOwner(player.getClan()) == null && player.getClan().getLevel() > 3)
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public boolean getIsInProgress()
