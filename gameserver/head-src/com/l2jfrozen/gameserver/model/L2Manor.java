@@ -37,7 +37,6 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  * 
  * @author l3x
  */
-
 public class L2Manor
 {
 	private static Logger _log = Logger.getLogger(L2Manor.class.getName());
@@ -80,8 +79,7 @@ public class L2Manor
 
 		if(seedItem != null)
 			return seedItem.getReferencePrice();
-		else
-			return 0;
+		return 0;
 	}
 
 	public int getSeedBasicPriceByCrop(int cropId)
@@ -101,8 +99,7 @@ public class L2Manor
 
 		if(cropItem != null)
 			return cropItem.getReferencePrice();
-		else
-			return 0;
+		return 0;
 	}
 
 	public int getMatureCrop(int cropId)
@@ -134,9 +131,6 @@ public class L2Manor
 
 		if(seed != null)
 			return seed.getLevel() - 5;
-
-		seed = null;
-
 		return -1;
 	}
 
@@ -146,9 +140,6 @@ public class L2Manor
 
 		if(seed != null)
 			return seed.getLevel() + 5;
-
-		seed = null;
-
 		return -1;
 	}
 
@@ -168,9 +159,6 @@ public class L2Manor
 
 		if(seed != null)
 			return seed.getLevel();
-
-		seed = null;
-
 		return -1;
 	}
 
@@ -190,9 +178,6 @@ public class L2Manor
 
 		if(seed != null)
 			return seed.getCrop();
-
-		seed = null;
-
 		return -1;
 	}
 
@@ -216,9 +201,6 @@ public class L2Manor
 
 		if(seed != null)
 			return seed.getReward(type);
-
-		seed = null;
-
 		return 0;
 	}
 
@@ -275,9 +257,6 @@ public class L2Manor
 		SeedData seed = _seeds.get(seedId);
 		if(seed != null)
 			return seed.getManorId();
-
-		seed = null;
-
 		return 0;
 	}
 
@@ -287,9 +266,6 @@ public class L2Manor
 
 		if(seed != null)
 			return seed.getSeedLimit();
-
-		seed = null;
-
 		return 0;
 	}
 
@@ -403,9 +379,6 @@ public class L2Manor
 			}
 
 			_log.info("ManorManager: Loaded " + _seeds.size() + " seeds");
-
-			seedData = null;
-			line = null;
 		}
 		catch(FileNotFoundException e)
 		{
@@ -423,7 +396,6 @@ public class L2Manor
 				{
 					lnr.close();
 				}
-
 				lnr = null;
 			}
 			catch(Exception e1)

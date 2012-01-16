@@ -766,8 +766,7 @@ public abstract class Inventory extends ItemContainer
 			return item;
 		}
 		// Directly drop entire item
-		else
-			return dropItem(process, item, actor, reference);
+		return dropItem(process, item, actor, reference);
 	}
 
 	/**
@@ -808,6 +807,7 @@ public abstract class Inventory extends ItemContainer
 
 	/**
 	 * Returns the item in the paperdoll slot
+	 * @param slot 
 	 * 
 	 * @return L2ItemInstance
 	 */
@@ -818,8 +818,7 @@ public abstract class Inventory extends ItemContainer
 
 	/**
 	 * Returns the item in the paperdoll L2Item slot
-	 * 
-	 * @param L2Item slot identifier
+	 * @param slot
 	 * @return L2ItemInstance
 	 */
 	public L2ItemInstance getPaperdollItemByL2ItemId(int slot)
@@ -885,9 +884,6 @@ public abstract class Inventory extends ItemContainer
 			if(item != null)
 				return item.getItemId();
 		}
-
-		item = null;
-
 		return 0;
 	}
 
@@ -899,12 +895,8 @@ public abstract class Inventory extends ItemContainer
 		{
 			if(item.getAugmentation() != null)
 				return item.getAugmentation().getAugmentationId();
-			else
-				return 0;
+			return 0;
 		}
-
-		item = null;
-
 		return 0;
 	}
 
@@ -927,16 +919,13 @@ public abstract class Inventory extends ItemContainer
 			if(item != null)
 				return item.getObjectId();
 		}
-
-		item = null;
-
 		return 0;
 	}
 
 	/**
 	 * Adds new inventory's paperdoll listener
 	 * 
-	 * @param PaperdollListener pointing out the listener
+	 * @param listener
 	 */
 	public synchronized void addPaperdollListener(PaperdollListener listener)
 	{
@@ -951,7 +940,7 @@ public abstract class Inventory extends ItemContainer
 	/**
 	 * Removes a paperdoll listener
 	 * 
-	 * @param PaperdollListener pointing out the listener to be deleted
+	 * @param listener to be deleted
 	 */
 	public synchronized void removePaperdollListener(PaperdollListener listener)
 	{

@@ -109,13 +109,7 @@ public class L2TownZone extends L2ZoneType
 		{
 			ai[2] = Integer.parseInt(node1.getNodeValue());
 		}
-
-		if(ai != null)
-		{
-			_spawnLoc.add(ai);
-		}
-
-		node1 = null;
+		_spawnLoc.add(ai);
 	}
 
 	@Override

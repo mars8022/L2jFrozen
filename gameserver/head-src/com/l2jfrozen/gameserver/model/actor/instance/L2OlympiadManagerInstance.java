@@ -131,8 +131,8 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
 						else
 							Olympiad.getInstance().registerNoble(player, false);
 						break;
-					}else
-						Olympiad.getInstance().registerNoble(player, false);
+					}
+					Olympiad.getInstance().registerNoble(player, false);
 					break;
 				case 5:
 					if(player._active_boxes>1 && !Config.ALLOW_DUALBOX_OLY){
@@ -160,8 +160,8 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
 						else
 							Olympiad.getInstance().registerNoble(player, true);
 						break;
-					}else
-						Olympiad.getInstance().registerNoble(player, true);
+					}
+					Olympiad.getInstance().registerNoble(player, true);
 					break;
 				case 6:
 					int passes = Olympiad.getInstance().getNoblessePasses(player.getObjectId());

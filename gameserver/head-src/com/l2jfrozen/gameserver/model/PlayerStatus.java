@@ -74,7 +74,7 @@ public class PlayerStatus{
 		MAX_HP=actor.getMaxHp();
 		CUR_MP=(int) actor.getCurrentMp();
 		MAX_MP=actor.getMaxMp();
-		SP=(int) actor.getSp();
+		SP= actor.getSp();
 		CUR_LOAD=actor.getCurrentLoad();
 		MAX_LOAD=actor.getMaxLoad();
 		

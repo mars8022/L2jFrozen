@@ -132,7 +132,6 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 				if((player.getClanPrivileges() & L2Clan.CP_CS_DISMISS) == L2Clan.CP_CS_DISMISS)
 				{
 					getCastle().banishForeigners(); // Move non-clan members off castle area
-					return;
 				}
 				else
 				{
@@ -140,16 +139,14 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.setFile("data/html/chamberlain/chamberlain-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 			else if(actualCommand.equalsIgnoreCase("list_siege_clans"))
 			{
 				if((player.getClanPrivileges() & L2Clan.CP_CS_MANAGE_SIEGE) == L2Clan.CP_CS_MANAGE_SIEGE)
 				{
 					getCastle().getSiege().listRegisterClan(player); // List current register clan
-					return;
 				}
 				else
 				{
@@ -157,9 +154,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.setFile("data/html/chamberlain/chamberlain-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 			else if(actualCommand.equalsIgnoreCase("receive_report"))
 			{
@@ -236,9 +232,6 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 						}
 					}
 					player.sendPacket(html);
-					clan = null;
-					html = null;
-					return;
 				}
 				else
 				{
@@ -246,9 +239,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.setFile("data/html/chamberlain/chamberlain-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 			else if(actualCommand.equalsIgnoreCase("items"))
 			{
@@ -365,9 +357,6 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.replace("%tax_income%", Util.formatAdena(getCastle().getTreasury()));
 					html.replace("%withdraw_amount%", Util.formatAdena(amount));
 					player.sendPacket(html);
-					filename = null;
-					html = null;
-					return;
 				}
 				else
 				{
@@ -375,9 +364,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.setFile("data/html/chamberlain/chamberlain-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 			else if(actualCommand.equalsIgnoreCase("manor"))
 			{
@@ -415,7 +403,6 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 						html = null;
 						filename = null;
 					}
-					return;
 				}
 				else
 				{
@@ -423,9 +410,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.setFile("data/html/chamberlain/chamberlain-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 			else if(command.startsWith("manor_menu_select"))
 			{// input string format:
@@ -533,8 +519,6 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					html.replace("%npcname%", getName());
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
 				else
 				{
@@ -542,9 +526,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.setFile("data/html/chamberlain/chamberlain-noprivs.htm");
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 			else if(actualCommand.equalsIgnoreCase("tax_set")) // tax rates control
 			{
@@ -570,7 +553,6 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 
 					sendHtmlMessage(player, msg.toString());
 					msg = null;
-					return;
 				}
 				else
 				{
@@ -579,9 +561,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					html.replace("%objectId%", String.valueOf(getObjectId()));
 					html.replace("%tax%", String.valueOf(getCastle().getTaxPercent()));
 					player.sendPacket(html);
-					html = null;
-					return;
 				}
+				return;
 			}
 		}
 		st = null;

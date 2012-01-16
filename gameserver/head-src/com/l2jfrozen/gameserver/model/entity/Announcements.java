@@ -47,7 +47,6 @@ import com.l2jfrozen.gameserver.script.DateRange;
  * @author ProGramMoS
  * @version 1.6
  */
-
 public class Announcements
 {
 	private static Logger _log = Logger.getLogger(Announcements.class.getName());
@@ -192,8 +191,6 @@ public class Announcements
 				st = null;
 			}
 			_log.config("Announcements: Loaded " + i + " Announcements.");
-
-			line = null;
 		}
 		catch(IOException e1)
 		{

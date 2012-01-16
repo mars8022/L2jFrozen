@@ -577,7 +577,7 @@ public class L2Spawn
 				doCorrect = true;
 				break;
 			case TOWN:
-				if(mob instanceof L2NpcInstance)
+				if(mob != null)
 					doCorrect = true;
 				break;
 			case MONSTER:

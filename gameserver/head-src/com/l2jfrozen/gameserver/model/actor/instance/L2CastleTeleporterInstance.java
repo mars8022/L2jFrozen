@@ -67,8 +67,7 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 			player.sendPacket(html);
 			return;
 		}
-		else
-			super.onBypassFeedback(player, command);
+		super.onBypassFeedback(player, command);
 	}
 	
 	@Override
@@ -98,6 +97,7 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 	
 	class oustAllPlayers implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			try

@@ -344,8 +344,7 @@ public abstract class L2PlayableInstance extends L2Character
 	{
 		if(this instanceof L2PcInstance){
 			return (L2PcInstance) this;
-		}else
-			return null;
-		
+		}
+		return null;
 	}
 }

@@ -51,7 +51,8 @@ public class CharSelectInfoPackage
 	private int _accessLevel;
 
 	/**
-	 * @param int1
+	 * @param objectId 
+	 * @param name 
 	 */
 	public CharSelectInfoPackage(int objectId, String name)
 	{

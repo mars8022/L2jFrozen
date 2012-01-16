@@ -124,8 +124,7 @@ public abstract class L2Object
 	{
 		if(_extender == null)
 			return null;
-		else
-			return _extender.getExtender(simpleName);
+		return _extender.getExtender(simpleName);
 	}
 
 	/**
@@ -138,8 +137,7 @@ public abstract class L2Object
 	{
 		if(_extender == null)
 			return null;
-		else
-			return _extender.onEvent(event, params);
+		return _extender.onEvent(event, params);
 	}
 	public void removeExtender(BaseExtender ext) {
 		if(_extender!=null)

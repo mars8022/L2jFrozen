@@ -299,22 +299,17 @@ public class VIP
 	{
 		if(id == 0)
 			return "";
-		else
-		{
-			L2NpcTemplate npctmp = NpcTable.getInstance().getTemplate(id);
-			return npctmp.name;
-		}
+		
+		L2NpcTemplate npctmp = NpcTable.getInstance().getTemplate(id);
+		return npctmp.name;
 	}
 
 	public static String getItemName(int id, L2PcInstance activeChar)
 	{
 		if(id == 0)
 			return "";
-		else
-		{
-			L2Item itemtmp = ItemTable.getInstance().getTemplate(id);
-			return itemtmp.getName();
-		}
+		L2Item itemtmp = ItemTable.getInstance().getTemplate(id);
+		return itemtmp.getName();
 	}
 
 	public static void setJoinLOC(String x, String y, String z)
@@ -351,6 +346,7 @@ public class VIP
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				_joining = false;
@@ -367,6 +363,7 @@ public class VIP
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				teleportPlayers();
@@ -378,6 +375,7 @@ public class VIP
 
 				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						Announcements.getInstance().gameAnnounceToAll("VIP event has started. " + _teamName + "'s VIP must get to the starter city and talk with " + getNPCName(_endNPC, null) + ". The opposing team must kill the VIP. All players except the VIP will respawn at their current locations.");
@@ -386,6 +384,7 @@ public class VIP
 
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
+							@Override
 							public void run()
 							{
 								endEventTime();
@@ -637,6 +636,7 @@ public class VIP
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				for(L2PcInstance player : _playersVIP)
@@ -911,10 +911,7 @@ public class VIP
 			player._isTheVIP = false;
 			player._isNotVIP = false;
 			player._isVIP = false;
-			if(player !=  null) 
-				player.teleToLocation(_startX, _startY, _startZ);
-			
+			player.teleToLocation(_startX, _startY, _startZ);
 		}
-		
 	}
 }

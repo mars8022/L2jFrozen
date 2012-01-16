@@ -178,7 +178,7 @@ public class L2Rebirth
 			
 			int max_level = Experience.MAX_LEVEL;
 
-			if(player instanceof L2PcInstance && ((L2PcInstance) player).isSubClassActive())
+			if(player.isSubClassActive())
 			{
 				max_level = Experience.MAX_SUBCLASS_LEVEL;
 			}

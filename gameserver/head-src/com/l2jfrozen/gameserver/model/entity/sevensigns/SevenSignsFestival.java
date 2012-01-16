@@ -2649,6 +2649,7 @@ public class SevenSignsFestival implements SpawnListener
 
 	protected class RestoreStatus implements Runnable
 	{
+		@Override
 		public void run()
 		{
 		
@@ -2661,6 +2662,7 @@ public class SevenSignsFestival implements SpawnListener
 	 * 
 	 * @param npc
 	 */
+	@Override
 	public void npcSpawned(L2NpcInstance npc)
 	{
 		if(npc == null)
@@ -2713,6 +2715,7 @@ public class SevenSignsFestival implements SpawnListener
 			setNextFestivalStart(Config.ALT_FESTIVAL_CYCLE_LENGTH - FESTIVAL_SIGNUP_TIME);
 		}
 
+		@Override
 		public synchronized void run()
 		{
 			// The manager shouldn't be running if Seal Validation is in effect.

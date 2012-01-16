@@ -700,9 +700,7 @@ public class CharStat
 
 		if(_activeChar instanceof L2PcInstance)
 			return getRunSpeed() * 70 / 100;
-		else
-			return (int) calcStat(Stats.WALK_SPEED, _activeChar.getTemplate().baseWalkSpd, null, null);
-
+		return (int) calcStat(Stats.WALK_SPEED, _activeChar.getTemplate().baseWalkSpd, null, null);
 	}
 
 	/** Return the WIT of the L2Character (base+modifier). */

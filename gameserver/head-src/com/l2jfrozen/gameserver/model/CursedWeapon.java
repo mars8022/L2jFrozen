@@ -749,8 +749,7 @@ public class CursedWeapon
 	{
 		if(_nbKills > _stageKills * _skillMaxLevel)
 			return _skillMaxLevel;
-		else
-			return _nbKills / _stageKills;
+		return _nbKills / _stageKills;
 	}
 
 	public long getTimeLeft()

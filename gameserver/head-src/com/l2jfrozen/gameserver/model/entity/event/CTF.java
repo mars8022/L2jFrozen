@@ -141,9 +141,7 @@ public class CTF implements EventTask
 			CTF._eventName = _eventName;
 			return true;
 		}
-		else
-			return false;
-		
+		return false;
 	}
 
 	/**
@@ -163,9 +161,7 @@ public class CTF implements EventTask
 			CTF._eventDesc = _eventDesc;
 			return true;
 		}
-		else
-			return false;
-		
+		return false;
 	}
 
 	/**
@@ -185,10 +181,7 @@ public class CTF implements EventTask
 			CTF._joiningLocationName = _joiningLocationName;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -208,10 +201,7 @@ public class CTF implements EventTask
 			CTF._npcId = _npcId;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 	
 	public static Location get_npcLocation()
@@ -239,10 +229,7 @@ public class CTF implements EventTask
 			CTF._rewardId = _rewardId;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -262,10 +249,7 @@ public class CTF implements EventTask
 			CTF._rewardAmount = _rewardAmount;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -285,10 +269,7 @@ public class CTF implements EventTask
 			CTF._minlvl = _minlvl;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -308,10 +289,7 @@ public class CTF implements EventTask
 			CTF._maxlvl = _maxlvl;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -331,10 +309,7 @@ public class CTF implements EventTask
 			CTF._joinTime = _joinTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -354,10 +329,7 @@ public class CTF implements EventTask
 			CTF._eventTime = _eventTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -377,10 +349,7 @@ public class CTF implements EventTask
 			CTF._minPlayers = _minPlayers;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -400,10 +369,7 @@ public class CTF implements EventTask
 			CTF._maxPlayers = _maxPlayers;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -423,10 +389,7 @@ public class CTF implements EventTask
 			CTF._intervalBetweenMatchs = _intervalBetweenMatchs;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -446,10 +409,7 @@ public class CTF implements EventTask
 			this.startEventTime = startEventTime;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 
 	/**
@@ -728,6 +688,7 @@ public class CTF implements EventTask
 		setUserData();
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				sit();
@@ -975,6 +936,7 @@ public class CTF implements EventTask
 
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				synchronized(_players){
@@ -2445,12 +2407,10 @@ public class CTF implements EventTask
 	
 	public static void onDisconnect(L2PcInstance player){
 		
-		if(player._inEventCTF){
-			
+		if(player._inEventCTF)
+		{
 			removePlayer(player);
-			if(player !=  null)
-				player.teleToLocation(_npcX, _npcY, _npcZ);
-			
+			player.teleToLocation(_npcX, _npcY, _npcZ);
 		}
 		
 	}
@@ -2492,16 +2452,9 @@ public class CTF implements EventTask
 			CTF._eventOffset = _eventOffset;
 			return true;
 		}
-		else
-			return false;
-		
-		
+		return false;
 	}
 	
-	
-	
-	
-
 	public static void showFlagHtml(L2PcInstance eventPlayer, String objectId, String teamName)
 	{
 		if(eventPlayer == null)
@@ -2979,9 +2932,9 @@ public class CTF implements EventTask
 		int maxX = 0, maxY = 0,maxZ = 0;
 		for(int x=0; x<pos ; x++)
 		{
-			if(maxX<2*Math.abs(centerX-locX[x])) maxX = (int)(2*Math.abs(centerX-locX[x]));
-			if(maxY<2*Math.abs(centerY-locY[x])) maxY = (int)(2*Math.abs(centerY-locY[x]));
-			if(maxZ<2*Math.abs(centerZ-locZ[x])) maxZ = (int)(2*Math.abs(centerZ-locZ[x]));
+			if(maxX<2*Math.abs(centerX-locX[x])) maxX = (2*Math.abs(centerX-locX[x]));
+			if(maxY<2*Math.abs(centerY-locY[x])) maxY = (2*Math.abs(centerY-locY[x]));
+			if(maxZ<2*Math.abs(centerZ-locZ[x])) maxZ = (2*Math.abs(centerZ-locZ[x]));
 		}
 
 		// CenterX,centerY,centerZ are the coordinates of the "event center".

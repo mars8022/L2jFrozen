@@ -88,8 +88,7 @@ public class BaseExtender
 	{
 		if(_next == null)
 			return null;
-		else
-			return _next.onEvent(event, params);
+		return _next.onEvent(event, params);
 	}
 
 	/**

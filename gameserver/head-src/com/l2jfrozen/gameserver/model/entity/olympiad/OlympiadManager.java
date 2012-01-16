@@ -326,8 +326,7 @@ class OlympiadManager extends Olympiad implements Runnable
 
 		if(loopCount < 1)
 			return false;
-		else
-			return true;
+		return true;
 	}
 
 	protected String[] getAllTitles()

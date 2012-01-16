@@ -127,21 +127,19 @@ public final class L2WarehouseInstance extends L2FolkInstance
 			player.sendPacket(new SystemMessage(SystemMessageId.YOU_DO_NOT_HAVE_THE_RIGHT_TO_USE_CLAN_WAREHOUSE));
 			return;
 		}
+		
+		if(player.getClan().getLevel() == 0)
+		{
+			player.sendPacket(new SystemMessage(SystemMessageId.ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE));
+		}
 		else
 		{
-			if(player.getClan().getLevel() == 0)
+			player.setActiveWarehouse(player.getClan().getWarehouse());
+			if(Config.DEBUG)
 			{
-				player.sendPacket(new SystemMessage(SystemMessageId.ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE));
+				_log.fine("Showing items to deposit - clan");
 			}
-			else
-			{
-				player.setActiveWarehouse(player.getClan().getWarehouse());
-				if(Config.DEBUG)
-				{
-					_log.fine("Showing items to deposit - clan");
-				}
-				player.sendPacket(new WareHouseWithdrawalList(player, WareHouseWithdrawalList.CLAN));
-			}
+			player.sendPacket(new WareHouseWithdrawalList(player, WareHouseWithdrawalList.CLAN));
 		}
 	}
 

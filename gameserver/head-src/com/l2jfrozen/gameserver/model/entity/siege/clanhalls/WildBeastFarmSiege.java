@@ -337,28 +337,26 @@ public class WildBeastFarmSiege extends ClanHallSiege
 				regPlayers._flag = flag;
 				continue;
 			}
-			else
+			
+			if(flagCounter == 1)
 			{
-				if(flagCounter == 1)
-				{
-					flag.spawnMe(56769, -92097, -1360);
-				}
-				else if(flagCounter == 2)
-				{
-					flag.spawnMe(59138, -92532, -1354);
-				}
-				else if(flagCounter == 3)
-				{
-					flag.spawnMe(57027, -93673, -1365);
-				}
-				else if(flagCounter == 4)
-				{
-					flag.spawnMe(58120, -91440, -1354);
-				}
-				else if(flagCounter == 5)
-				{
-					flag.spawnMe(58428, -93787, -1360);
-				}
+				flag.spawnMe(56769, -92097, -1360);
+			}
+			else if(flagCounter == 2)
+			{
+				flag.spawnMe(59138, -92532, -1354);
+			}
+			else if(flagCounter == 3)
+			{
+				flag.spawnMe(57027, -93673, -1365);
+			}
+			else if(flagCounter == 4)
+			{
+				flag.spawnMe(58120, -91440, -1354);
+			}
+			else if(flagCounter == 5)
+			{
+				flag.spawnMe(58428, -93787, -1360);
 			}
 			clanPlayersInfo regPlayers = _clansInfo.get(clan.getClanId());
 			regPlayers._flag = flag;
@@ -467,7 +465,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 	public int getPlayersCount(String playerClan)
 	{
 		for(clanPlayersInfo a : _clansInfo.values())
-			if(a._clanName == playerClan)
+			if(a._clanName.equalsIgnoreCase(playerClan))
 				return a._players.size();
 		return 0;
 	}

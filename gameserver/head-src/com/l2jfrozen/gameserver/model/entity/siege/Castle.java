@@ -507,15 +507,13 @@ public class Castle
 		if(door == null)
 			return;
 
-		if(door != null && door.getDoorId() == doorId)
+		if(door.getDoorId() == doorId)
 		{
 			door.setCurrentHpDirect(door.getMaxHp() + hp);
 
 			saveDoorUpgrade(doorId, hp, pDef, mDef);
 			return;
 		}
-
-		door = null;
 	}
 
 	// =========================================================
