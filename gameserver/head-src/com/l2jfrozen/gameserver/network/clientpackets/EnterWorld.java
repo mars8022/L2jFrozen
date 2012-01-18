@@ -417,16 +417,26 @@ public class EnterWorld extends L2GameClientPacket
 		
 		Hellows(activeChar);
 		
-		if (Config.ALLOW_REMOTE_CLASS_MASTERS)
+		if (Config.ALLOW_CLASS_MASTERS && Config.ALLOW_REMOTE_CLASS_MASTERS)
 		{
-			ClassLevel lvlnow = PlayerClass.values()[activeChar.getClassId().getId()].getLevel();
-
-			if(activeChar.getLevel() >= 20 && lvlnow == ClassLevel.First)
-				L2ClassMasterInstance.getInstance().onAction(activeChar);
-			else if(activeChar.getLevel() >= 40 && lvlnow == ClassLevel.Second)
-				L2ClassMasterInstance.getInstance().onAction(activeChar);
-			else if(activeChar.getLevel() >= 76 && lvlnow == ClassLevel.Third)
-				L2ClassMasterInstance.getInstance().onAction(activeChar);
+			final L2ClassMasterInstance master_instance = L2ClassMasterInstance.getInstance();
+			
+			if(master_instance != null){
+				
+				ClassLevel lvlnow = PlayerClass.values()[activeChar.getClassId().getId()].getLevel();
+	
+				if(activeChar.getLevel() >= 20 && lvlnow == ClassLevel.First)
+					L2ClassMasterInstance.getInstance().onAction(activeChar);
+				else if(activeChar.getLevel() >= 40 && lvlnow == ClassLevel.Second)
+					L2ClassMasterInstance.getInstance().onAction(activeChar);
+				else if(activeChar.getLevel() >= 76 && lvlnow == ClassLevel.Third)
+					L2ClassMasterInstance.getInstance().onAction(activeChar);
+				
+			}else{
+				
+				_log.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
+				
+			}
 		}
 		
 		// NPCBuffer
