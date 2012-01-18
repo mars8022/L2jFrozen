@@ -56,7 +56,7 @@ public class FService
 	public static final String L2JFROZEN_CONFIG_FILE = "./config/functions/l2jfrozen.properties";
 	public static final String PHYSICS_CONFIGURATION_FILE = "./config/functions/physics.properties";
 	public static final String PVP_CONFIG_FILE = "./config/functions/pvp.properties";
-	public static final String POWERPAK_FILE = "./config/functions/powerpak.properties";
+	public static final String POWERPAK_FILE = "./config/powerpak/powerpak.properties";
 	public static final String CLASS_DAMAGES_FILE = "./config/functions/classDamages.properties";
 
 	//protected

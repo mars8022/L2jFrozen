@@ -41,29 +41,25 @@ public class CoupleManager
 	protected static final Logger _log = Logger.getLogger(CoupleManager.class.getName());
 	
 	// =========================================================
-	private static CoupleManager _instance;
+	// Data Field
+	private FastList<Wedding> _couples = new FastList<Wedding>();;
 
+		
 	public static final CoupleManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_log.info("Initializing CoupleManager");
-			_instance = new CoupleManager();
-			_instance.load();
-		}
-
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
-	// =========================================================
-	// Data Field
-	private FastList<Wedding> _couples;
-
+	public CoupleManager(){
+		_log.info("Initializing CoupleManager");
+		_couples.clear();
+		load();
+	}
 	// =========================================================
 	// Method - Public
 	public void reload()
 	{
-		getCouples().clear();
+		_couples.clear();
 		load();
 	}
 
@@ -188,11 +184,12 @@ public class CoupleManager
 
 	public final FastList<Wedding> getCouples()
 	{
-		if(_couples == null)
-		{
-			_couples = new FastList<Wedding>();
-		}
-
 		return _couples;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final CoupleManager _instance = new CoupleManager();
 	}
 }

@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
+import com.l2jfrozen.gameserver.managers.AutoSaveManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
@@ -285,6 +286,8 @@ public class Shutdown extends Thread
 					t.printStackTrace();
 			}
 
+			AutoSaveManager.getInstance().stopAutoSaveManager();
+			
 			// ensure all services are stopped
 			SQLQueue.getInstance().shutdown();
 			
@@ -686,8 +689,7 @@ public class Shutdown extends Thread
 
 		try
 		{
-			int delay = 10000;
-			Thread.sleep(delay);
+			Thread.sleep(10000);
 		}
 		catch(InterruptedException e)
 		{

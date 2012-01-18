@@ -35,28 +35,24 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class FortManager
 {
 	protected static final Logger _log = Logger.getLogger(FortManager.class.getName());
-	// =========================================================
-	private static FortManager _instance;
-
+	
 	public static final FortManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_log.info("Initializing FortManager");
-			_instance = new FortManager();
-			_instance.load();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	// =========================================================
 	// Data Field
-	private List<Fort> _forts;
+	private List<Fort> _forts = new FastList<Fort>();
 
 	// =========================================================
 	// Constructor
 	public FortManager()
-	{}
+	{
+		_log.info("Initializing FortManager");
+		_forts.clear();
+		load();
+	}
 
 	// =========================================================
 	// Method - Public
@@ -210,11 +206,13 @@ public class FortManager
 
 	public final List<Fort> getForts()
 	{
-		if(_forts == null)
-		{
-			_forts = new FastList<Fort>();
-		}
 		return _forts;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final FortManager _instance = new FortManager();
 	}
 
 }

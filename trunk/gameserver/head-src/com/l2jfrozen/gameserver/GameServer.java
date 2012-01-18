@@ -86,11 +86,13 @@ import com.l2jfrozen.gameserver.handler.UserCommandHandler;
 import com.l2jfrozen.gameserver.handler.VoicedCommandHandler;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.managers.AuctionManager;
+import com.l2jfrozen.gameserver.managers.AutoSaveManager;
 import com.l2jfrozen.gameserver.managers.AwayManager;
 import com.l2jfrozen.gameserver.managers.BoatManager;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
+import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.managers.CoupleManager;
 import com.l2jfrozen.gameserver.managers.CrownManager;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
@@ -177,6 +179,8 @@ public class GameServer
 		long serverLoadStart = System.currentTimeMillis();
 
 		Util.printSection("Team");
+		
+		// Print L2jfrozen's Logo
 		L2Frozen.info();
 
 		// Load GameServer Configs
@@ -225,6 +229,13 @@ public class GameServer
 		DatatablesManager.LoadSTS();
 		DuelManager.getInstance();
 		
+		if(Config.ENABLE_CLASS_DAMAGES)
+			ClassDamageManager.loadConfig();
+		
+		if(Config.AUTOSAVE_DELAY_TIME>0){
+			AutoSaveManager.getInstance().startAutoSaveManager();
+		}
+		
 		Util.printSection("Skills");
 		if(!SkillTable.getInstance().isInitialized())
 		{
@@ -233,10 +244,9 @@ public class GameServer
 		}
 		SkillTreeTable.getInstance();
 		SkillSpellbookTable.getInstance();
-		_log.info("Skills: loaded.");
 		NobleSkillTable.getInstance();
 		HeroSkillTable.getInstance();
-		_log.info("Skills Hero/Noble: loaded.");
+		_log.info("Skills: All skills loaded.");
 		
 		
 		Util.printSection("Items");
@@ -253,10 +263,8 @@ public class GameServer
 		ExtractableItemsData.getInstance();
 		SummonItemsData.getInstance();
 		if(Config.ALLOWFISHING)
-		{
 			FishTable.getInstance();
-		}
-
+		
 		Util.printSection("Npc");
 		NpcWalkerRoutesTable.getInstance().load();
 		if(!NpcTable.getInstance().isInitialized())
@@ -341,7 +349,6 @@ public class GameServer
 		EventDroplist.getInstance();
 		AugmentationData.getInstance();
 		MonsterRace.getInstance();
-		//FloodProtector.getInstance();
 		MercTicketManager.getInstance();
 		PetitionManager.getInstance();
 		CursedWeaponsManager.getInstance();
@@ -524,33 +531,38 @@ public class GameServer
 		}
 
 		Util.printSection("Custom Mods");
+		
+		if(Config.L2JMOD_ALLOW_WEDDING || Config.ALLOW_AWAY_STATUS || Config.PCB_ENABLE || Config.POWERPAK_ENABLED)
+		{
 		if(Config.L2JMOD_ALLOW_WEDDING)
-		{
 			CoupleManager.getInstance();
-		}
-		else
-		{
-			_log.info("Wedding Manager is Disabled");
-		}
+		
 		if(Config.ALLOW_AWAY_STATUS)
-		{
 			AwayManager.getInstance();
-		}
+		
 		if(Config.PCB_ENABLE)
-		{
 			ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(PcPoint.getInstance(), Config.PCB_INTERVAL * 1000, Config.PCB_INTERVAL * 1000);
-		}
+		
 		if(Config.POWERPAK_ENABLED)
-		{
 			PowerPak.getInstance();
 		}
 		else
-		{
-			_log.info("Powerpack is Disabled");
-		}
+			_log.info("All custom mods are Disabled.");
 		
 		Util.printSection("EventManager");
 		EventManager.getInstance().startEventRegistration();
+		
+		if(EventManager.TVT_EVENT_ENABLED || EventManager.CTF_EVENT_ENABLED || EventManager.DM_EVENT_ENABLED)
+		{
+			if(EventManager.TVT_EVENT_ENABLED)
+				_log.info("TVT Event is Enabled.");
+			if(EventManager.CTF_EVENT_ENABLED)
+				_log.info("CTF Event is Enabled.");
+			if(EventManager.DM_EVENT_ENABLED)
+				_log.info("DM Event is Enabled.");
+		}
+		else
+			_log.info("All events are Disabled.");
 		
 		if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && Config.RESTORE_OFFLINERS)
 			OfflineTradeTable.restoreOfflineTraders(); 
@@ -566,7 +578,6 @@ public class GameServer
 		System.gc();
 		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
 		ServerStatus.getInstance();
-		_log.info("ServerStatus started!");
 
 		Util.printSection("Login");
 		_loginThread = LoginServerThread.getInstance();

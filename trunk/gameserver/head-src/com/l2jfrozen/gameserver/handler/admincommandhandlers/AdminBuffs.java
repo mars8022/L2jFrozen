@@ -274,8 +274,9 @@ public class AdminBuffs implements IAdminCommandHandler
 		else
 		{
 			remover.sendMessage("Can not remove effects from " + playername + ". Player appears offline.");
-			showBuffs(player, remover);
 		}
+		
+		
 	}
 
 }

@@ -41,7 +41,6 @@
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="power" val="#power"/>
-  <!-- reuse is meant to be "almost instant" -->
   <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="5000"/>
   <set name="target" val="TARGET_ONE"/>
@@ -65,8 +64,7 @@
   <set name="itemConsumeId" val="3031"/>
   <set name="itemConsumeCount" val="4"/>
   <set name="power" val="#power"/>
-  <!-- reuse time needs verifying... left this high to be safe -->
-  <set name="reuseDelay" val="19000"/>
+  <set name="reuseDelay" val="10000"/>
   <set name="hitTime" val="7000"/>
   <set name="skillRadius" val="1000"/>
   <set name="target" val="TARGET_PARTY"/>
@@ -200,21 +198,19 @@
 -->
   <set name="itemConsumeId" val="8874"/>
   <set name="itemConsumeCount" val="1"/>
-  <set name="mpInitialConsume" val="21"/> <!-- Guessing -->
-  <set name="mpConsume" val="58"/>
+  <set name="mpInitialConsume" val="12"/>
+  <set name="mpConsume" val="46"/>
   <set name="power" val="100"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="15000"/> <!-- Guessing -->
+  <set name="reuseDelay" val="120000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="NEGATE"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
-  <set name="effectRange" val="1100"/>
+  <set name="effectRange" val="900"/>
   <set name="negateStats" val="BLEED CONFUSION DEBUFF FEAR MUTE PARALYZE ROOT SLEEP STUN POISON WEAKNESS PDAM MDAM"/>
   <set name="negatePower" val="9"/> <!-- Guessing -->
-  <for>
-  </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1410" levels="1" name="Salvation">

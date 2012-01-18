@@ -39,7 +39,6 @@ import com.l2jfrozen.gameserver.powerpak.globalGK.GKHandler;
 import com.l2jfrozen.gameserver.powerpak.gmshop.GMShop;
 import com.l2jfrozen.gameserver.powerpak.vote.L2TopDeamon;
 import com.l2jfrozen.gameserver.powerpak.xmlrpc.XMLRPCServer;
-import com.l2jfrozen.util.Util;
 
 public class PowerPak
 {
@@ -59,12 +58,10 @@ public class PowerPak
 		if(Config.POWERPAK_ENABLED)
 		{
 			PowerPakConfig.load();
-			Util.printSection("PowerPak");
 			if(PowerPakConfig.BUFFER_ENABLED)
 			{
-				System.out.println("Buffer:");
-				BuffTable.getInstance();
-				
+				System.out.println("Buffer is Enabled.");
+				BuffTable.getInstance();				
 				if((PowerPakConfig.BUFFER_COMMAND != null && PowerPakConfig.BUFFER_COMMAND.length() > 0) || PowerPakConfig.BUFFER_USEBBS){	
 					
 					BuffHandler handler = new BuffHandler();
@@ -83,13 +80,10 @@ public class PowerPak
 				
 				BufferSkillsTable.getInstance();
 				CharSchemesTable.getInstance();
-				
-				System.out.println("...Enabled");
 			}
 
 			if(PowerPakConfig.GLOBALGK_ENABDLED)
 			{
-				System.out.println("Global Gatekeeper:");
 				GKHandler handler = new GKHandler();
 				if(PowerPakConfig.GLOBALGK_COMMAND != null && PowerPakConfig.GLOBALGK_COMMAND.length() > 0)
 				{
@@ -101,12 +95,11 @@ public class PowerPak
 					CommunityBoard.getInstance().registerBBSHandler(handler);
 				}
 				CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
-				System.out.println("...Enabled");
+				System.out.println("Global Gatekeeper is Enabled.");
 			}
 
 			if(PowerPakConfig.GMSHOP_ENABLED)
 			{
-				System.out.println("GMShop:");
 				GMShop gs = new GMShop();
 				CustomBypassHandler.getInstance().registerCustomBypassHandler(gs);
 				if(PowerPakConfig.GLOBALGK_COMMAND!=null && PowerPakConfig.GLOBALGK_COMMAND.length()>0)
@@ -118,50 +111,45 @@ public class PowerPak
 				{
 					CommunityBoard.getInstance().registerBBSHandler(gs);
 				}
-				System.out.println("...Enabled");
+				System.out.println("GM Shop is Enabled.");
 			}
 
 			if(PowerPakConfig.ENGRAVER_ENABLED)
 			{
-				System.out.println("Engrave system:");
 				EngraveManager.getInstance();
-				System.out.println("...Enabled");
+				System.out.println("Engrave System is Enabled.");
 			}
 
 			if(PowerPakConfig.L2TOPDEMON_ENABLED)
 			{
 				L2TopDeamon.getInstance();
+				System.out.println("L2TOPDEMON is Enabled.");
 			}
 
 			if(PowerPakConfig.WEBSERVER_ENABLED)
 			{
 				WebServer.getInstance();
+				System.out.println("WEBSERVER is Enabled.");
 			}
 			
 			if(PowerPakConfig.XMLRPC_ENABLED)
 			{
 				XMLRPCServer.getInstance();
+				System.out.println("XMLRPC is Enabled.");
 			}
 			
-			System.out.println("Raid Info:");
 			RaidInfoHandler handler = new RaidInfoHandler();
 			CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
-			System.out.println("...Enabled");
+			System.out.println("Raid Info is Enabled.");
 			
-			System.out.println("Self Char Repair:");
 			if(PowerPakConfig.CHAR_REPAIR)
 			{
 				Repair repair_handler = new Repair();
 				VoicedCommandHandler.getInstance().registerVoicedCommandHandler(repair_handler);
 				CustomBypassHandler.getInstance().registerCustomBypassHandler(repair_handler);
-				System.out.println("...Enabled");
-			}else{
-				System.out.println("...Disabled");
+				System.out.println("Char Repair is Enabled.");
 			}
 
-			
-			
-			
 			//Vote Reward System
 			if(PowerPakConfig.AUTOVOTEREWARD_ENABLED)
 				AutoVoteRewardHandler.getInstance();

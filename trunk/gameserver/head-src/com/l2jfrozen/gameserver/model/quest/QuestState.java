@@ -91,9 +91,6 @@ public final class QuestState
 		_questName = quest.getName();
 		_player = player;
 
-		// Save the state of the quest for the player in the player's list of quest onwed
-		getPlayer().setQuestState(this);
-
 		_isCompleted = completed;
 		// set the state of the quest
 		_state = state;

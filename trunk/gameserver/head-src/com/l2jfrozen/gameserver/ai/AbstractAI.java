@@ -186,7 +186,7 @@ abstract class AbstractAI implements Ctrl
 	/**
 	 * @return the current cast target.
 	 */
-	public L2Character getCastTarget()
+	public synchronized L2Character getCastTarget()
 	{
 		return _castTarget;
 	}
@@ -201,7 +201,7 @@ abstract class AbstractAI implements Ctrl
 	 * <BR>
 	 */
 	@Override
-	public L2Character getAttackTarget()
+	public synchronized L2Character getAttackTarget()
 	{
 		return _attackTarget;
 	}
@@ -923,7 +923,7 @@ abstract class AbstractAI implements Ctrl
 		return _followTarget;
 	}
 
-	protected L2Object getTarget()
+	protected synchronized L2Object getTarget()
 	{
 		return _target;
 	}

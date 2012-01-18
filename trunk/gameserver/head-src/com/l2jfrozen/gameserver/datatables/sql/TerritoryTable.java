@@ -42,27 +42,26 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class TerritoryTable
 {
 	private final static Logger _log = Logger.getLogger(TradeController.class.getName());
-	private static final TerritoryTable _instance = new TerritoryTable();
-	private static Map<String, L2Territory> _territory;
+	private static Map<Integer, L2Territory> _territory = new HashMap<Integer, L2Territory>();
 
 	public static TerritoryTable getInstance()
 	{
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
-	private TerritoryTable()
+	public TerritoryTable()
 	{
-		_territory = new HashMap<String, L2Territory>();
+		_territory.clear();
 		// load all data at server start
 		reload_data();
 	}
 
-	public int[] getRandomPoint(int terr)
+	public int[] getRandomPoint(Integer terr)
 	{
 		return _territory.get(terr).getRandomPoint();
 	}
 
-	public int getProcMax(int terr)
+	public int getProcMax(Integer terr)
 	{
 		return _territory.get(terr).getProcMax();
 	}
@@ -80,11 +79,12 @@ public class TerritoryTable
 
 			while(rset.next())
 			{
-				final String terr = "sql_terr_" + rset.getString("loc_id");
-
+				//final String terr = "sql_terr_" + rset.getString("loc_id");
+				final int terr = rset.getInt("loc_id");
+				
 				if(_territory.get(terr) == null)
 				{
-					L2Territory t = new L2Territory(/*terr*/);
+					L2Territory t = new L2Territory();
 					_territory.put(terr, t);
 				}
 				_territory.get(terr).add(rset.getInt("loc_x"), rset.getInt("loc_y"), rset.getInt("loc_zmin"), rset.getInt("loc_zmax"), rset.getInt("proc"));
@@ -103,5 +103,11 @@ public class TerritoryTable
 		}
 
 		_log.finest("TerritoryTable: Loaded {} locations "+ _territory.size());
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final TerritoryTable _instance = new TerritoryTable();
 	}
 }

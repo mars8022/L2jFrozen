@@ -30,19 +30,16 @@ public class IrcManager
 {
 	static final Logger _log = Logger.getLogger(IrcManager.class.getName());
 
-    // =========================================================
-    private static IrcManager _instance;
     private static L2IrcClient _ircConnection;
     
     public static final IrcManager getInstance()
     {
-        if (_instance == null)
-        {
-            _log.info("Initializing IRCManager");
-            _instance = new IrcManager();
-            _instance.load();
-        }
-        return _instance;
+        return SingletonHolder._instance;
+    }
+    
+    public IrcManager(){
+    	_log.info("Initializing IRCManager");
+        load();
     }
     
     // =========================================================
@@ -79,4 +76,10 @@ public class IrcManager
     		_log.warning(e.toString());
 		}
     }
+    
+    @SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final IrcManager _instance = new IrcManager();
+	}
 }

@@ -30,7 +30,6 @@ public class L2Frozen
 	public static void info()
 
 	{
-		_log.info("                  >>>>>  Developpers: Shyla, Beetle  <<<<<                  ");
 		_log.info("                                                                            ");
 		_log.info("         #     #####          ##### ##### ##### ##### ##### ##    #         ");
 		_log.info("         #         #          #     #   # #   #     # #     # #   #         ");
@@ -38,6 +37,5 @@ public class L2Frozen
 		_log.info("         #     #              #     ###   #   # #     #     #   # #         ");
 		_log.info("         ##### #####          #     #  ## ##### ##### ##### #    ##         ");
 		_log.info("                                                                            ");
-		_log.info("                            Copyright 2010-2011                             ");
 	}
 }

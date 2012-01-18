@@ -602,13 +602,12 @@ public class AdminEditChar implements IAdminCommandHandler
 					return false;
 				}
 				player.getAppearance().setSex(player.getAppearance().getSex() ? false : true);
+				L2PcInstance.setSexDB(player, 1);
 				player.sendMessage("Your gender has been changed by a GM");
-				player.broadcastUserInfo();
 				player.decayMe();
 				player.spawnMe(player.getX(), player.getY(), player.getZ());
-
-				player = null;
-				target = null;
+				player.broadcastUserInfo();
+				
 				return true;
 			}
 			case admin_setcolor:{

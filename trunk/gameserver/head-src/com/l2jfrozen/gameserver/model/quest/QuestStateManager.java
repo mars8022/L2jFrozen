@@ -83,6 +83,10 @@ public class QuestStateManager
 		{
 			qs = new QuestState(quest, player, state, completed);
 		}
+		
+		// Save the state of the quest for the player in the player's list of quest onwed
+		player.setQuestState(qs);
+
 	}
 
 	/**
@@ -94,20 +98,9 @@ public class QuestStateManager
 		{
 			if(getQuestStates().get(i).getPlayer() == null)
 			{
-				removeQuestState(getQuestStates().get(i));
 				getQuestStates().remove(i);
 			}
 		}
-	}
-
-	// =========================================================
-	// Method - Private
-	/**
-	 * Remove QuestState instance
-	 */
-	private void removeQuestState(QuestState qs)
-	{
-		qs = null;
 	}
 
 	/**

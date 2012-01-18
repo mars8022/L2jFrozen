@@ -57,7 +57,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ServerClose;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.gameserver.thread.daemons.AutoSave;
 import com.l2jfrozen.gameserver.util.EventData;
 import com.l2jfrozen.gameserver.util.FloodProtectors;
 import com.l2jfrozen.logs.Log;
@@ -106,7 +105,6 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	// Task
 	private ScheduledFuture<?> _guardCheckTask = null;
 
-	protected ScheduledFuture<?> _autoSaveInDB;
 	protected ScheduledFuture<?> _cleanupTask = null;
 	
 	private ClientStats _stats;
@@ -136,9 +134,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		crypt = new GameCrypt();
 		_stats = new ClientStats();
 		_packetQueue = new ArrayBlockingQueue<ReceivablePacket<L2GameClient>>(com.l2jfrozen.netcore.Config.getInstance().CLIENT_PACKET_QUEUE_SIZE);
-		// TODO: Zoey76: Fix Uninitialized read of activeChar!!
-		if(Config.AUTOSAVE_INITIAL_TIME > 0)
-			_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSave(activeChar), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
+		
 		_guardCheckTask = nProtect.getInstance().startTask(this);
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
 			@Override
@@ -208,7 +204,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if(activeChar != null)
 		{
 			L2World.getInstance().storeObject(getActiveChar());
-		}
+		}	
 	}
 
 	public ReentrantLock getActiveCharLock()
@@ -836,9 +832,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					e.printStackTrace();
 				}
 
-				// we are going to manually save the char below thus we can force the cancel
-				if (_autoSaveInDB != null)
-					_autoSaveInDB.cancel(true);
+//				// we are going to manually save the char below thus we can force the cancel
+//				if (_autoSaveInDB != null)
+//					_autoSaveInDB.cancel(true);
+//				
 				
 				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if (player != null) // this should only happen on connection loss
@@ -937,9 +934,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					e.printStackTrace();
 				}
 
-				// we are going to mannually save the char bellow thus we can force the cancel
-				if(_autoSaveInDB != null)
-					_autoSaveInDB.cancel(true);
+//				// we are going to mannually save the char bellow thus we can force the cancel
+//				if(_autoSaveInDB != null)
+//					_autoSaveInDB.cancel(true);
 
 				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if(player != null) // this should only happen on connection loss
