@@ -2735,7 +2735,7 @@ public abstract class L2Character extends L2Object
 		_status = value;
 	}
 
-	public L2CharTemplate getTemplate()
+	public synchronized L2CharTemplate getTemplate()
 	{
 		return _template;
 	}

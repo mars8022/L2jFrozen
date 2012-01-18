@@ -246,6 +246,7 @@ public class Quest extends ManagedScript
 	public QuestState newQuestState(L2PcInstance player)
 	{
 		QuestState qs = new QuestState(this, player, getInitialState(), false);
+		player.setQuestState(qs);
 		Quest.createQuestInDb(qs);
 		return qs;
 	}
@@ -1027,13 +1028,11 @@ public class Quest extends ManagedScript
 					}
 					continue;
 				}
+				
 				// Create a new QuestState for the player that will be added to the player's list of quests
-				new QuestState(q, player, state, completed);
-
-				state = null;
-				q = null;
-				questId = null;
-				stateId = null;
+				QuestState qs = new QuestState(q, player, state, completed);
+				player.setQuestState(qs);
+				
 			}
 
 			rs.close();
@@ -1057,8 +1056,10 @@ public class Quest extends ManagedScript
 				QuestState qs = player.getQuestState(questId);
 
 				if(qs == null)
-				{   if(Config.DEVELOPER){
-					_log.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());}
+				{   
+					if(Config.DEVELOPER){
+						_log.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());
+					}
 
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{

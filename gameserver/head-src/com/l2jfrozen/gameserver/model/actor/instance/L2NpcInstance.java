@@ -1820,6 +1820,7 @@ public class L2NpcInstance extends L2Character
 		if(!Config.ALT_DEV_NO_QUESTS)
 			q = QuestManager.getInstance().getQuest(questId);
 
+		
 		// Get the state of the selected quest
 		QuestState qs = player.getQuestState(questId);
 
@@ -1887,14 +1888,12 @@ public class L2NpcInstance extends L2Character
 				}
 			}
 			
-			qs = null;
 		}
 
 		// Send a Server->Client packet NpcHtmlMessage to the L2PcInstance in order to display the message of the L2Npc
 		if (content != null)
 			insertObjectIdAndShowChatWindow(player, content);
 
-		content = null;
 		
 		// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -1921,7 +1920,7 @@ public class L2NpcInstance extends L2Character
 		{
 			for(QuestState x : awaits)
 			{
-				if(!options.contains(x))
+				if(!options.contains(x.getQuest()))
 					if(x.getQuest().getQuestIntId() > 0 && x.getQuest().getQuestIntId() < 1000)
 					{
 						options.add(x.getQuest());

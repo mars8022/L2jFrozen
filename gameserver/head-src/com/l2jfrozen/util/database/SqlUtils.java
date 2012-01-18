@@ -82,11 +82,17 @@ public class SqlUtils
 		{
 			try
 			{
-				rset.close();
-				statement.close();
-			
-				rset = null;
-				statement = null;
+				if(rset!=null){
+					rset.close();
+					rset = null;
+				}
+				
+				if(statement!=null){
+					statement.close();
+					statement = null;
+				}
+				
+				
 				query = null;
 			}
 			catch(Exception e)
@@ -155,10 +161,16 @@ public class SqlUtils
 		{
 			try
 			{
-				rset.close();
-				statement.close();
-				rset = null;
-				statement = null;
+				if(rset!=null){
+					rset.close();
+					rset = null;
+				}
+				
+				if(statement!=null){
+					statement.close();
+					statement = null;
+				}
+				
 				query = null;
 			}
 			catch(Exception e)
@@ -227,10 +239,16 @@ public class SqlUtils
 		{
 			try
 			{
-				rset.close();
-				statement.close();
-				rset = null;
-				statement = null;
+				if(rset!=null){
+					rset.close();
+					rset = null;
+				}
+				
+				if(statement!=null){
+					statement.close();
+					statement = null;
+				}
+				
 				query = null;
 			}
 			catch(Exception e)

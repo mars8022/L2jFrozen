@@ -39,18 +39,9 @@ public class BoatManager
 {
 	private static final Logger _log = Logger.getLogger(BoatManager.class.getName());
 
-	// =========================================================
-	private static BoatManager _instance;
-
 	public static final BoatManager getInstance()
 	{
-		if(_instance == null)
-		{
-			System.out.println("Initializing BoatManager");
-			_instance = new BoatManager();
-			_instance.load();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	// =========================================================
@@ -63,7 +54,10 @@ public class BoatManager
 	// =========================================================
 	// Constructor
 	public BoatManager()
-	{}
+	{
+		_log.info("Initializing BoatManager");
+		load();
+	}
 
 	// =========================================================
 	// Method - Private
@@ -250,5 +244,11 @@ public class BoatManager
 			_staticItems = new FastMap<Integer, L2BoatInstance>();
 		}
 		return _staticItems.get(boatId);
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final BoatManager _instance = new BoatManager();
 	}
 }

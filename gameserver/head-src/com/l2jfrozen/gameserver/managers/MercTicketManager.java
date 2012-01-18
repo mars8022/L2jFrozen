@@ -52,25 +52,22 @@ public class MercTicketManager
 	protected static Logger _log = Logger.getLogger(MercTicketManager.class.getName());
 
 	// =========================================================
-	private static MercTicketManager _instance;
-
-	public static final MercTicketManager getInstance()
-	{
-		//CastleManager.getInstance();
-		if(_instance == null)
-		{
-			_log.info("Initializing MercTicketManager");
-			_instance = new MercTicketManager();
-			_instance.load();
-		}
-		return _instance;
-	}
-
-	// =========================================================
 
 	// =========================================================
 	// Data Field
-	private List<L2ItemInstance> _droppedTickets; // to keep track of items on the ground
+	private List<L2ItemInstance> _droppedTickets = new FastList<L2ItemInstance>(); 
+
+		
+	public static final MercTicketManager getInstance()
+	{
+		return SingletonHolder._instance;
+	}
+	
+	public MercTicketManager(){
+		_log.info("Initializing MercTicketManager");
+		_droppedTickets.clear();
+		load();
+	}
 
 	//TODO move all these values into siege.properties
 	// max tickets per merc type = 10 + (castleid * 2)?
@@ -585,11 +582,6 @@ public class MercTicketManager
 			35039
 	// Schuttgart
 	};
-	
-	// =========================================================
-	// Constructor
-	public MercTicketManager()
-	{}
 
 	// =========================================================
 	// Method - Public
@@ -911,10 +903,12 @@ public class MercTicketManager
 
 	public final List<L2ItemInstance> getDroppedTickets()
 	{
-		if(_droppedTickets == null)
-		{
-			_droppedTickets = new FastList<L2ItemInstance>();
-		}
 		return _droppedTickets;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final MercTicketManager _instance = new MercTicketManager();
 	}
 }

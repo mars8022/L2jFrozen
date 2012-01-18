@@ -7478,7 +7478,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Return the L2PcInstance requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).<BR>
 	 * <BR>
 	 */
-	public L2PcInstance getActiveRequester()
+	public synchronized L2PcInstance getActiveRequester()
 	{
 		L2PcInstance requester = _activeRequester;
 		if (requester != null)
@@ -12806,7 +12806,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		return _baseClass;
 	}
 
-	public int getActiveClass()
+	public synchronized int getActiveClass()
 	{
 		return _activeClass;
 	}
@@ -16711,5 +16711,38 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		return _instanceLoginTime;
 	}
+
+	/**
+	 * @param player
+	 * @param i
+	 */
+	public static void setSexDB(L2PcInstance player, int mode)
+    {
+        Connection con;
+        if(player == null)
+            return;
+        con = null;
+        try
+        {
+            con = L2DatabaseFactory.getInstance().getConnection();
+            PreparedStatement statement = con.prepareStatement("UPDATE characters SET sex=? WHERE obj_Id=?");
+            statement.setInt(1, player.getAppearance().getSex() ? 1 : 0);
+            statement.setInt(2, player.getObjectId());
+            statement.execute();
+            statement.close();
+        }
+        catch(Exception e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+			_log.warning("SetSex:  Could not store data:" + e);
+		}
+		finally
+		{
+			CloseUtil.close(con);
+			
+		}
+    }
 	
 }

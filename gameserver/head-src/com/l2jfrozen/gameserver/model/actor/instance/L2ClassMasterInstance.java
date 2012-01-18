@@ -58,7 +58,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 	/**
 	 * @param template
 	 */
-	public L2ClassMasterInstance(int objectId, L2NpcTemplate template)
+	private L2ClassMasterInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
@@ -72,10 +72,15 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 			
 			if(template==null){
 				_log.warning("	--- ATTENTION: Class master template is null, remember to insert npc with id 31228 into database --- ");
+			}else{
+				
+				instance = new L2ClassMasterInstance(31228,template);
+				
+				if(instance!=null)
+					L2World.getInstance().storeObject(instance);
+				
 			}
 			
-			instance = new L2ClassMasterInstance(31228,template);
-			L2World.getInstance().storeObject(instance);
 		}
 		
 		return instance;

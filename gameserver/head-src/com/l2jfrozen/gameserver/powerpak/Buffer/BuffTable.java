@@ -111,7 +111,7 @@ public class BuffTable
 			}
 			rs.close();
 			stm.close();
-			System.out.println("...Loaded " + _buffs_by_id.size() + " buff templates");
+			System.out.println("Loaded " + _buffs_by_id.size() + " buff templates");
 		}
 		catch(Exception e)
 		{

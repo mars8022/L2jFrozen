@@ -44,7 +44,6 @@ import javolution.text.TypeFormat;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
-import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
 import com.l2jfrozen.gameserver.util.FloodProtectorConfig;
 import com.l2jfrozen.loginserver.LoginController;
@@ -3480,8 +3479,6 @@ public final class Config
 			ENABLE_CLASS_DAMAGES = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettings", "true"));
 			ENABLE_CLASS_DAMAGES_IN_OLY = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesSettingsInOly", "true"));
 			ENABLE_CLASS_DAMAGES_LOGGER = Boolean.parseBoolean(PHYSICSSetting.getProperty("EnableClassDamagesLogger", "true"));
-			if(ENABLE_CLASS_DAMAGES)
-				ClassDamageManager.loadConfig();
 			
 			BLOW_ATTACK_FRONT = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackFront", "50"));
 			BLOW_ATTACK_SIDE = TypeFormat.parseInt(PHYSICSSetting.getProperty("BlowAttackSide", "60"));
@@ -4454,6 +4451,7 @@ public final class Config
 			loadDPVersionConfig();
 			loadServerVersionConfig();
 			loadExtendersConfig();
+			loadDaemonsConf();
 			
 			if(Config.USE_SAY_FILTER)
 			{

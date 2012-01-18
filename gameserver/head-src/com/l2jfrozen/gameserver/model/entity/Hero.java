@@ -27,9 +27,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javolution.util.FastMap;
@@ -48,14 +48,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Hero
 {
 	private static Logger _log = Logger.getLogger(Hero.class.getName());
-
-	private static Hero _instance;
+	
 	private static final String GET_HEROES = "SELECT * FROM heroes WHERE played = 1";
 	private static final String GET_ALL_HEROES = "SELECT * FROM heroes";
 	private static final String UPDATE_ALL = "UPDATE heroes SET played = 0";
@@ -69,7 +69,8 @@ public class Hero
 	{
 			6842, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621
 	};
-	private static Map<Integer, StatsSet> _heroes;
+	
+	private static Map<Integer, StatsSet> _heroes = new FastMap<Integer, StatsSet>();
 	private static Map<Integer, StatsSet> _completeHeroes;
 
 	public static final String COUNT = "count";
@@ -81,12 +82,7 @@ public class Hero
 
 	public static Hero getInstance()
 	{
-		if(_instance == null)
-		{
-			_instance = new Hero();
-		}
-
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	public Hero()
@@ -96,7 +92,7 @@ public class Hero
 
 	private void init()
 	{
-		_heroes = new FastMap<Integer, StatsSet>();
+		_heroes.clear();
 		_completeHeroes = new FastMap<Integer, StatsSet>();
 
 		Connection con = null;
@@ -263,19 +259,15 @@ public class Hero
 	public synchronized void computeNewHeroes(List<StatsSet> newHeroes)
 	{
 		updateHeroes(true);
-		List<int[]> heroItems = Arrays.asList(_heroItems);
 		L2ItemInstance[] items;
 		InventoryUpdate iu;
 
-		if(_heroes.size() != 0)
+		if(!_heroes.isEmpty())
 		{
+			L2PcInstance player;
 			for(StatsSet hero : _heroes.values())
 			{
-				String name = hero.getString(Olympiad.CHAR_NAME);
-
-				L2PcInstance player = L2World.getInstance().getPlayer(name);
-				name = null;
-
+				player = L2World.getInstance().getPlayer(hero.getInteger(Olympiad.CHAR_ID));
 				if(player == null)
 				{
 					continue;
@@ -346,7 +338,7 @@ public class Hero
 							continue;
 						}
 
-						if(!heroItems.contains(item.getItemId()))
+						if(!Util.contains(_heroItems, item.getItemId()))
 						{
 							continue;
 						}
@@ -355,7 +347,6 @@ public class Hero
 						iu = new InventoryUpdate();
 						iu.addRemovedItem(item);
 						player.sendPacket(iu);
-						iu = null;
 					}
 
 					player.sendPacket(new UserInfo(player));
@@ -366,32 +357,26 @@ public class Hero
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 				}
-
-				player = null;
 			}
 		}
-
-		if(newHeroes.size() == 0)
+		
+		if(newHeroes.isEmpty())
 		{
 			_heroes.clear();
 			return;
 		}
-
-		Map<Integer, StatsSet> heroes = new FastMap<Integer, StatsSet>();
-
+		
+		final Map<Integer, StatsSet> heroes = new FastMap<Integer, StatsSet>();
+		int charId;
 		for(StatsSet hero : newHeroes)
 		{
-			int charId = hero.getInteger(Olympiad.CHAR_ID);
-
-			if(_completeHeroes != null && _completeHeroes.containsKey(charId))
+			charId = hero.getInteger(Olympiad.CHAR_ID);
+			if((_completeHeroes != null) && _completeHeroes.containsKey(charId))
 			{
 				StatsSet oldHero = _completeHeroes.get(charId);
 				int count = oldHero.getInteger(COUNT);
 				oldHero.set(COUNT, count + 1);
 				oldHero.set(PLAYED, 1);
-
-				heroes.put(charId, oldHero);
-				oldHero = null;
 			}
 			else
 			{
@@ -402,7 +387,6 @@ public class Hero
 				newHero.set(PLAYED, 1);
 
 				heroes.put(charId, newHero);
-				newHero = null;
 			}
 		}
 
@@ -417,7 +401,6 @@ public class Hero
 		for(StatsSet hero : _heroes.values())
 		{
 			String name = hero.getString(Olympiad.CHAR_NAME);
-
 			L2PcInstance player = L2World.getInstance().getPlayer(name);
 
 			if(player != null)
@@ -432,18 +415,13 @@ public class Hero
 					sm.addString(name);
 					sm.addNumber(1000);
 					clan.broadcastToOnlineMembers(sm);
-					sm = null;
 				}
 				player.sendPacket(new UserInfo(player));
 				player.broadcastUserInfo();
-
-				clan = null;
-				name = null;
 			}
 			else
 			{
 				Connection con = null;
-
 				try
 				{
 					con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -456,7 +434,7 @@ public class Hero
 						String clanName = rset.getString("clan_name");
 						if(clanName != null)
 						{
-							L2Clan clan = ClanTable.getInstance().getClanByName(clanName);
+							final L2Clan clan = ClanTable.getInstance().getClanByName(clanName);
 							if(clan != null)
 							{
 								clan.setReputationScore(clan.getReputationScore() + 1000, true);
@@ -465,17 +443,12 @@ public class Hero
 								sm.addString(name);
 								sm.addNumber(1000);
 								clan.broadcastToOnlineMembers(sm);
-								sm = null;
 							}
-
-							clan = null;
 						}
 					}
 
 					rset.close();
 					statement.close();
-					statement = null;
-					rset = null;
 				}
 				catch(Exception e)
 				{
@@ -487,14 +460,9 @@ public class Hero
 				finally
 				{
 					CloseUtil.close(con);
-					con = null;
 				}
 			}
 		}
-
-		heroItems = null;
-		items = null;
-		heroes = null;
 	}
 
 	public void updateHeroes(boolean setDefault)
@@ -508,17 +476,17 @@ public class Hero
 				PreparedStatement statement = con.prepareStatement(UPDATE_ALL);
 				statement.execute();
 				statement.close();
-				statement = null;
 			}
 			else
 			{
 				PreparedStatement statement;
-
-				for(Integer heroId : _heroes.keySet())
+				StatsSet hero;
+				int heroId;
+				for(Entry<Integer, StatsSet> entry : _heroes.entrySet())
 				{
-					StatsSet hero = _heroes.get(heroId);
-
-					if(_completeHeroes == null || !_completeHeroes.containsKey(heroId))
+					hero = entry.getValue();
+					heroId = entry.getKey();
+					if((_completeHeroes == null) || !_completeHeroes.containsKey(heroId))
 					{
 						statement = con.prepareStatement(INSERT_HERO);
 						statement.setInt(1, heroId);
@@ -559,19 +527,11 @@ public class Hero
 							hero.set(CLAN_NAME, clanName);
 							hero.set(ALLY_CREST, allyCrest);
 							hero.set(ALLY_NAME, allyName);
-
-							allyName = null;
-							clanName = null;
 						}
 
 						rset2.close();
 						statement2.close();
-						statement2 = null;
-						rset2 = null;
-
-						_heroes.remove(hero);
-						_heroes.put(heroId, hero);
-
+						
 						_completeHeroes.put(heroId, hero);
 					}
 					else
@@ -584,8 +544,6 @@ public class Hero
 					}
 
 					statement.close();
-					statement = null;
-					hero = null;
 				}
 			}
 		}
@@ -600,7 +558,6 @@ public class Hero
 		finally
 		{
 			CloseUtil.close(con);
-			con = null;
 		}
 	}
 
@@ -630,5 +587,12 @@ public class Hero
 			CloseUtil.close(con);
 			con = null;
 		}
+	}
+	
+
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final Hero _instance = new Hero();
 	}
 }

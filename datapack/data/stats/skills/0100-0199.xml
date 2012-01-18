@@ -969,7 +969,7 @@
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="aggroPoints" val="#aggro"/>
-  <cond msg="Guts cannot be used due to unsuitable terms.">
+  <cond msg="Frenzy cannot be used due to unsuitable terms.">
     <player hp="30"/>
   </cond>
   <for>

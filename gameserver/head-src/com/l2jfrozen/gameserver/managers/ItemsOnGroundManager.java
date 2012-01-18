@@ -47,42 +47,40 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class ItemsOnGroundManager
 {
 	static final Logger _log = Logger.getLogger(ItemsOnGroundManager.class.getName());
-	private static ItemsOnGroundManager _instance;
-	protected List<L2ItemInstance> _items = null;
+	protected List<L2ItemInstance> _items = new FastList<L2ItemInstance>();;
 
 	private ItemsOnGroundManager()
 	{
+		// If SaveDroppedItem is false, may want to delete all items previously stored to avoid add old items on reactivate
+		if(!Config.SAVE_DROPPED_ITEM)
+		{
+			if(Config.CLEAR_DROPPED_ITEM_TABLE)
+				emptyTable();
+			
+			return;
+		}
+		
+		_log.info("Initializing ItemsOnGroundManager");
+        		
+		_items.clear();
+		load();
+
 		if(!Config.SAVE_DROPPED_ITEM)
 			return;
-		_items = new FastList<L2ItemInstance>();
-
+		
 		if(Config.SAVE_DROPPED_ITEM_INTERVAL > 0)
 		{
-			ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new storeInDb(), Config.SAVE_DROPPED_ITEM_INTERVAL, Config.SAVE_DROPPED_ITEM_INTERVAL);
+			ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new StoreInDb(), Config.SAVE_DROPPED_ITEM_INTERVAL, Config.SAVE_DROPPED_ITEM_INTERVAL);
 		}
 	}
 
 	public static final ItemsOnGroundManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_instance = new ItemsOnGroundManager();
-			_instance.load();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	private void load()
 	{
-		// If SaveDroppedItem is false, may want to delete all items previously stored to avoid add old items on reactivate
-		if(!Config.SAVE_DROPPED_ITEM && Config.CLEAR_DROPPED_ITEM_TABLE)
-		{
-			emptyTable();
-		}
-
-		if(!Config.SAVE_DROPPED_ITEM)
-			return;
-
 		// if DestroyPlayerDroppedItem was previously  false, items curently protected will be added to ItemsAutoDestroy
 		if(Config.DESTROY_DROPPED_PLAYER_ITEM)
 		{
@@ -210,6 +208,7 @@ public class ItemsOnGroundManager
 	{
 		if(!Config.SAVE_DROPPED_ITEM)
 			return;
+		
 		_items.add(item);
 	}
 
@@ -217,12 +216,16 @@ public class ItemsOnGroundManager
 	{
 		if(!Config.SAVE_DROPPED_ITEM)
 			return;
+		
 		_items.remove(item);
 	}
 
 	public void saveInDb()
 	{
-		new storeInDb().run();
+		if(!Config.SAVE_DROPPED_ITEM)
+			return;
+		
+		ThreadPoolManager.getInstance().executeTask(new StoreInDb());
 	}
 
 	public void cleanUp()
@@ -253,14 +256,11 @@ public class ItemsOnGroundManager
 		}
 	}
 
-	protected class storeInDb extends Thread
+	private class StoreInDb extends Thread
 	{
 		@Override
 		public void run()
 		{
-			if(!Config.SAVE_DROPPED_ITEM)
-				return;
-
 			emptyTable();
 
 			if(_items.isEmpty())
@@ -329,5 +329,11 @@ public class ItemsOnGroundManager
 				_log.warning("ItemsOnGroundManager: " + _items.size() + " items on ground saved");
 			}
 		}
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final ItemsOnGroundManager _instance = new ItemsOnGroundManager();
 	}
 }

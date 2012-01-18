@@ -41,19 +41,9 @@ public class CastleManager
 	
 	protected static final Logger _log = Logger.getLogger(CastleManager.class.getName());
 	
-	
-	// =========================================================
-	private static CastleManager _instance;
-
 	public static final CastleManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_log.info("Initializing CastleManager");
-			_instance = new CastleManager();
-			_instance.load();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	// =========================================================
@@ -70,7 +60,10 @@ public class CastleManager
 	};
 
 	public CastleManager()
-	{}
+	{
+		_log.info("Initializing CastleManager");
+		load();
+	}
 
 	// =========================================================
 	// Method - Public
@@ -378,5 +371,11 @@ public class CastleManager
 			}
 		}
 		player = null;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final CastleManager _instance = new CastleManager();
 	}
 }
