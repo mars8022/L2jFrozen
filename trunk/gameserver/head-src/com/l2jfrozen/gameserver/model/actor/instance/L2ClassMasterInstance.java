@@ -24,8 +24,6 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
-import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
-import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.model.base.ClassLevel;
 import com.l2jfrozen.gameserver.model.base.PlayerClass;
@@ -45,45 +43,23 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public final class L2ClassMasterInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2ClassMasterInstance.class.getName());
-
-	/*public static L2ClassMasterInstance ClassMaster = new L2ClassMasterInstance(31228, NpcTable.getInstance().getTemplate(31228));
-	static
-	{
-		L2World.storeObject(ClassMaster);
-	}*/
-
-	private static L2ClassMasterInstance instance=null;
+	
+	private static L2ClassMasterInstance _instance;
 	
 	/**
 	 * @param template
 	 */
-	private L2ClassMasterInstance(int objectId, L2NpcTemplate template)
+	public L2ClassMasterInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
+		_instance = this;
 	}
 
 	public static L2ClassMasterInstance getInstance()
 	{
 		
-		if(instance==null)
-		{
-			L2NpcTemplate template = NpcTable.getInstance().getTemplate(31228);
-			
-			if(template==null){
-				_log.warning("	--- ATTENTION: Class master template is null, remember to insert npc with id 31228 into database --- ");
-			}else{
-				
-				instance = new L2ClassMasterInstance(31228,template);
-				
-				if(instance!=null)
-					L2World.getInstance().storeObject(instance);
-				
-			}
-			
-		}
+		return _instance;
 		
-		return instance;
 	}
 	
 	@Override

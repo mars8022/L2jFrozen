@@ -188,23 +188,32 @@ public class PcStat extends PlayableStat
 
 		boolean levelIncreased = super.addLevel(value);
 
-		if(Config.ALLOW_REMOTE_CLASS_MASTERS)
+		if(Config.ALLOW_CLASS_MASTERS && Config.ALLOW_REMOTE_CLASS_MASTERS)
 		{
-			ClassLevel lvlnow = PlayerClass.values()[getActiveChar().getClassId().getId()].getLevel();
-			if(getLevel() >= 20 && lvlnow == ClassLevel.First)
-			{
-				L2ClassMasterInstance.getInstance().onAction(getActiveChar());
-			}
-			else if(getLevel() >= 40 && lvlnow == ClassLevel.Second)
-			{
-				L2ClassMasterInstance.getInstance().onAction(getActiveChar());
-			}
-			else if(getLevel() >= 76 && lvlnow == ClassLevel.Third)
-			{
-				L2ClassMasterInstance.getInstance().onAction(getActiveChar());
-			}
+			final L2ClassMasterInstance master_instance = L2ClassMasterInstance.getInstance();
+			
+			if(master_instance != null){
+				
+				ClassLevel lvlnow = PlayerClass.values()[getActiveChar().getClassId().getId()].getLevel();
+				if(getLevel() >= 20 && lvlnow == ClassLevel.First)
+				{
+					L2ClassMasterInstance.getInstance().onAction(getActiveChar());
+				}
+				else if(getLevel() >= 40 && lvlnow == ClassLevel.Second)
+				{
+					L2ClassMasterInstance.getInstance().onAction(getActiveChar());
+				}
+				else if(getLevel() >= 76 && lvlnow == ClassLevel.Third)
+				{
+					L2ClassMasterInstance.getInstance().onAction(getActiveChar());
+				}
 
-			lvlnow = null;
+			}else{
+				
+				_log.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
+				
+			}
+			
 		}
 
 		if(levelIncreased)
