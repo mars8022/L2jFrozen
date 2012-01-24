@@ -53,7 +53,6 @@ public class GameServerListener extends FloodProtectedListener
 
 		GameServerThread gst = new GameServerThread(s);
 		gst.start();
-		//ThreadPoolManager.getInstance().executeTask(gst);
 		_gameServers.add(gst);
 		
 	}
