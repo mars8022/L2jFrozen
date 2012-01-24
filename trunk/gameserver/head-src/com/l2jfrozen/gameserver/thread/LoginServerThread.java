@@ -375,16 +375,17 @@ public class LoginServerThread extends Thread
 			}
 			catch(UnknownHostException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
+				//if(Config.ENABLE_ALL_EXCEPTIONS)
+				_log.info("Deconnected from Login, Trying to reconnect:");
+				e.printStackTrace();
 			}
 			catch(IOException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
+//				if(Config.ENABLE_ALL_EXCEPTIONS)
+//					e.printStackTrace();
+//				
 				_log.info("Deconnected from Login, Trying to reconnect:");
-				_log.info(e.toString());
+				e.printStackTrace();
 			}
 			finally
 			{
