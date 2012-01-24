@@ -30,12 +30,11 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.EnchantResult;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
-import com.l2jfrozen.gameserver.util.Util;
 
 public final class SendWareHouseWithDrawList extends L2GameClientPacket
 {
@@ -85,6 +84,14 @@ public final class SendWareHouseWithDrawList extends L2GameClientPacket
 		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("withdraw"))
 		{
 			player.sendMessage("You withdrawing items too fast.");
+			return;
+		}
+		
+		// Like L2OFF you can't confirm a withdraw when you are in trade.
+		if(player.getActiveTradeList() != null)
+		{
+			player.sendMessage("You can't withdraw items when you are trading.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 
@@ -155,9 +162,12 @@ public final class SendWareHouseWithDrawList extends L2GameClientPacket
 			return;
 		}
 
+		// Like L2OFF enchant window must close
 		if(player.getActiveEnchantItem() != null)
 		{
-			Util.handleIllegalPlayerAction(player, "Mofo " + player.getName() + " tried to use phx and got BANED! Peace :-h", IllegalPlayerAction.PUNISH_KICKBAN);
+			sendPacket(new SystemMessage(SystemMessageId.ENCHANT_SCROLL_CANCELLED));
+			player.sendPacket(new EnchantResult(0));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 

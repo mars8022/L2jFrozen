@@ -238,7 +238,7 @@ public class Gordon extends Quest implements Runnable
 		X = WALKS[_isWalkTo - 1][0];
 		Y = WALKS[_isWalkTo - 1][1];
 		Z = WALKS[_isWalkTo - 1][2];
-		if(event == "time_isAttacked")
+		if(event.equalsIgnoreCase("time_isAttacked"))
 		{
 			_isAttacked = false;
 			if(npc.getNpcId() == GORDON)
@@ -247,7 +247,7 @@ public class Gordon extends Quest implements Runnable
 				npc.getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(X, Y, Z, 0));
 			}
 		}
-		else if(event == "check_ai")
+		else if(event.equalsIgnoreCase("check_ai"))
 		{
 			cancelQuestTimer("check_ai", null, null);
 			if(_isSpawned == false)

@@ -48,7 +48,7 @@ public final class ConditionUsingItemType extends Condition
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.l2jserver.gameserver.skills.conditions.Condition#testImpl(com.l2jserver.gameserver.skills.Env)
+	 * @see com.l2jfrozen.gameserver.skills.conditions.Condition#testImpl(com.l2jfrozen.gameserver.skills.Env)
 	 */
 	@Override
 	public boolean testImpl(Env env)

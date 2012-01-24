@@ -133,6 +133,11 @@ public final class TaskManager
 		{
 			return id == ((ExecutedTask) object).id;
 		}
+		
+		@Override
+		public int hashCode(){
+			return id;
+		}
 
 		public Task getTask()
 		{

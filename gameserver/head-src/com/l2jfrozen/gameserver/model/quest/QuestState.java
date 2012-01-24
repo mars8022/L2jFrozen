@@ -281,7 +281,7 @@ public final class QuestState
 			
 		}
 
-		if(var == "cond")
+		if(var.equalsIgnoreCase("cond"))
 		{
 			
 			if(!val.equals("")){

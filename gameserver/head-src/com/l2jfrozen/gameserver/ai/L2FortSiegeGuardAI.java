@@ -529,7 +529,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 
 			L2NpcInstance npc = (L2NpcInstance) cha;
 
-			if(faction_id != npc.getFactionId())
+			if(!faction_id.equalsIgnoreCase(npc.getFactionId()))
 			{
 				continue;
 			}

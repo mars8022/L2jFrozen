@@ -49,7 +49,7 @@ public class Nectar implements IItemHandler
 			return;
 		}
 
-		if(activeChar.getName() != ((L2GourdInstance) activeChar.getTarget()).getOwner())
+		if(!activeChar.getName().equalsIgnoreCase(((L2GourdInstance) activeChar.getTarget()).getOwner()))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 			return;

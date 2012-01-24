@@ -52,7 +52,7 @@ public class RestartResponse extends L2GameServerPacket
 	}
 
 	/* (non-Javadoc)
-	 * @see com.l2jserver.gameserver.serverpackets.ServerBasePacket#getType()
+	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
 	public String getType()

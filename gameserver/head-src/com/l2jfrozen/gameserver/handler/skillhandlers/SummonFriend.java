@@ -50,6 +50,10 @@ public class SummonFriend implements ISkillHandler
 			return;
 
 		L2PcInstance activePlayer = (L2PcInstance) activeChar;
+		
+		if (!L2PcInstance.checkSummonerStatus(activePlayer))
+			return;
+		
 		if(activePlayer.isInOlympiadMode())
 		{
 			activePlayer.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
@@ -112,6 +116,9 @@ public class SummonFriend implements ISkillHandler
 				{
 					L2PcInstance targetChar = (L2PcInstance) target;
 
+					if (!L2PcInstance.checkSummonTargetStatus(targetChar, activePlayer))
+						continue;
+					
 					if(targetChar.isAlikeDead())
 					{
 						SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_DEAD_AT_THE_MOMENT_AND_CANNOT_BE_SUMMONED);

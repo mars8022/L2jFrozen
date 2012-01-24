@@ -184,7 +184,7 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			//Punishment e log in audit
-			Util.handleIllegalPlayerAction(storePlayer, "Player " + storePlayer.getName() + " has been Punished! ", Config.DEFAULT_PUNISH);                     
+			Util.handleIllegalPlayerAction(storePlayer, "PrivateStore buy has failed due to invalid list or request. Player: "+player.getName(), Config.DEFAULT_PUNISH);                     
 			_log.warning("PrivateStore buy has failed due to invalid list or request. Player: " + player.getName() + ", Private store of: " + storePlayer.getName());
 			return;
 		}

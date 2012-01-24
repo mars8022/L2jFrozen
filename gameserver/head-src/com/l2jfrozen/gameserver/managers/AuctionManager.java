@@ -34,8 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AuctionManager
 {
 	protected static final Logger _log = Logger.getLogger(AuctionManager.class.getName());
-	private static AuctionManager _instance;
-	private List<Auction> _auctions;
+	private List<Auction> _auctions  = new FastList<Auction>();
 	private static final String[] ITEM_INIT_DATA =
 	{
 			"(23, 0, 'NPC', 'NPC Clan', 'ClanHall', 23, 0, 'Onyx Hall', 1, 20000000, 0, 1164841200000)",
@@ -119,17 +118,14 @@ public class AuctionManager
 
 	public static final AuctionManager getInstance()
 	{
-		if(_instance == null)
-		{
-			System.out.println("Initializing AuctionManager");
-			_instance = new AuctionManager();
-		}
-		return _instance;
+		return SingletonHolder._instance;
+
 	}
 
 	public AuctionManager()
 	{
-		_auctions = new FastList<Auction>();
+		_log.info("Initializing AuctionManager");
+		_auctions.clear();
 		load();
 	}
 
@@ -244,5 +240,11 @@ public class AuctionManager
 			CloseUtil.close(con);
 			con = null;
 		}
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final AuctionManager _instance = new AuctionManager();
 	}
 }

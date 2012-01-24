@@ -199,4 +199,9 @@ public class L2DropData
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode(){
+		return getItemId();
+	}
 }

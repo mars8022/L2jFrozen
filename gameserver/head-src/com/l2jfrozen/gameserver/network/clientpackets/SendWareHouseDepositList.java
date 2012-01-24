@@ -31,13 +31,12 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.EnchantResult;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
-import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
-import com.l2jfrozen.gameserver.util.Util;
 
 public final class SendWareHouseDepositList extends L2GameClientPacket
 {
@@ -106,6 +105,14 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 			return;
 		}
 		
+		// Like L2OFF you can't confirm a deposit when you are in trade.
+		if(player.getActiveTradeList() != null)
+		{
+			player.sendMessage("You can't deposit items when you are trading.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		if(player.isCastingNow() || player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -129,9 +136,12 @@ public final class SendWareHouseDepositList extends L2GameClientPacket
 		if(!Config.ALT_GAME_KARMA_PLAYER_CAN_USE_WAREHOUSE && player.getKarma() > 0)
 			return;
 
+		// Like L2OFF enchant window must close
 		if(player.getActiveEnchantItem() != null)
 		{
-			Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " Tried To Use Enchant Exploit , And Got Banned!", IllegalPlayerAction.PUNISH_KICKBAN);
+			sendPacket(new SystemMessage(SystemMessageId.ENCHANT_SCROLL_CANCELLED));
+			player.sendPacket(new EnchantResult(0));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 

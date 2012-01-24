@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.PcFreight;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.EnchantResult;
 import com.l2jfrozen.gameserver.network.serverpackets.PackageToList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.WareHouseDepositList;
@@ -252,13 +253,9 @@ public final class L2WarehouseInstance extends L2FolkInstance
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
-		// lil check to prevent enchant exploit
+		// Like L2OFF if you have enchant window opened it will be closed
 		if(player.getActiveEnchantItem() != null)
-		{
-			_log.info("Player " + player.getName() + " trying to use enchant exploit, ban this player!");
-			player.closeNetConnection();
-			return;
-		}
+			player.sendPacket(new EnchantResult(0));
 
 		if(command.startsWith("WithdrawP"))
 		{

@@ -333,7 +333,7 @@ public class L2ControllableMobAI extends L2AttackableAI
 					L2NpcInstance npc = (L2NpcInstance) obj;
 					String faction_id = ((L2NpcInstance) _actor).getFactionId();
 
-					if(faction_id != npc.getFactionId())
+					if(!faction_id.equalsIgnoreCase(npc.getFactionId()))
 					{
 						continue;
 					}

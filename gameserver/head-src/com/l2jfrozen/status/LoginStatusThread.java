@@ -156,7 +156,6 @@ public class LoginStatusThread extends Thread
 					_print.println("[L2J Login Server]");
 					_print.print("");
 					_print.flush();
-					start();
 				}
 			}
 		}

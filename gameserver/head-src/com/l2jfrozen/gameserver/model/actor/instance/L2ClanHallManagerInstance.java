@@ -92,6 +92,7 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 					}
 					else if (val.equalsIgnoreCase("banish"))
 					{
+						getClanHall().banishForeigners();
 						NpcHtmlMessage html = new NpcHtmlMessage(1);
 						html.setFile("data/html/clanHallManager/banish.htm");
 						sendHtmlMessage(player, html);
