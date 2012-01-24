@@ -222,7 +222,6 @@ public class GameStatusThread extends Thread
 					_print.println("[L2J Game Server]");
 					_print.print("");
 					_print.flush();
-					start();
 				}
 			}
 		}

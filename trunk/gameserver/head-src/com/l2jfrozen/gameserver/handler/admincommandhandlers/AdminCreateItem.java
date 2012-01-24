@@ -265,7 +265,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 		Player.getInventory().addItem("Admin", id, num, Player, null);
 		ItemList il = new ItemList(Player, true);
 		Player.sendPacket(il);
-		if(activeChar.getName() == Player.getName())
+		if(activeChar.getName().equalsIgnoreCase(Player.getName()))
 		{
 			activeChar.sendMessage("You have spawned " + num + " item(s) number " + id + " in your inventory.");
 		}

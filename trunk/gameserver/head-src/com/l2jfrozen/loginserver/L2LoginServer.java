@@ -33,6 +33,7 @@ import com.l2jfrozen.FService;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
 import com.l2jfrozen.util.Util;
@@ -203,7 +204,7 @@ public class L2LoginServer
 		try
 		{
 			_gameServerListener = new GameServerListener();
-			_gameServerListener.start();
+			ThreadPoolManager.getInstance().executeTask(_gameServerListener);
 			_log.info("Listening for GameServers on " + Config.GAME_SERVER_LOGIN_HOST + ":" + Config.GAME_SERVER_LOGIN_PORT);
 		}
 		catch(IOException e)
@@ -220,6 +221,9 @@ public class L2LoginServer
 		try
 		{
 			_selectorThread.openServerSocket(bindAddress, Config.PORT_LOGIN);
+			ThreadPoolManager.getInstance().executeTask(_selectorThread);
+			_log.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
+
 		}
 		catch(IOException e)
 		{
@@ -230,9 +234,8 @@ public class L2LoginServer
 
 			System.exit(1);
 		}
-		_selectorThread.start();
-		_log.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
-
+		
+		
 		//load bannedIps
 		Config.loadBanFile();
 		

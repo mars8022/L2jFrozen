@@ -1982,7 +1982,7 @@ public final class Config
 	public static int AWAY_TIMER;
 	public static int BACK_TIMER;
 	public static int AWAY_TITLE_COLOR;
-	public static boolean SCORIA_AWAY_PLAYER_TAKE_AGGRO;
+	public static boolean AWAY_PLAYER_TAKE_AGGRO;
 	public static boolean AWAY_PEACE_ZONE;
 
 	//============================================================
@@ -1999,7 +1999,7 @@ public final class Config
 
 			/** Away System **/
 			ALLOW_AWAY_STATUS = Boolean.parseBoolean(AWAYSettings.getProperty("AllowAwayStatus", "False"));
-			SCORIA_AWAY_PLAYER_TAKE_AGGRO = Boolean.parseBoolean(AWAYSettings.getProperty("AwayPlayerTakeAggro", "False"));
+			AWAY_PLAYER_TAKE_AGGRO = Boolean.parseBoolean(AWAYSettings.getProperty("AwayPlayerTakeAggro", "False"));
 			AWAY_TITLE_COLOR = Integer.decode("0x" + AWAYSettings.getProperty("AwayTitleColor", "0000FF"));
 			AWAY_TIMER = Integer.parseInt(AWAYSettings.getProperty("AwayTimer", "30"));
 			BACK_TIMER = Integer.parseInt(AWAYSettings.getProperty("BackTimer", "30"));

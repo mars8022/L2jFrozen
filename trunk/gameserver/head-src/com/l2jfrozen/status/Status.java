@@ -28,6 +28,7 @@ import javolution.util.FastList;
 
 import com.l2jfrozen.FService;
 import com.l2jfrozen.ServerType;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
 public class Status extends Thread
@@ -55,15 +56,20 @@ public class Status extends Thread
 				
 				if (_mode == ServerType.MODE_GAMESERVER)
 				{
-					new GameStatusThread(connection, _uptime, _statusPw);
+					GameStatusThread gst = new GameStatusThread(connection, _uptime, _statusPw);
+					if(!connection.isClosed()){
+						ThreadPoolManager.getInstance().executeTask(gst);
+					}
+					
 				}
 				else if (_mode == ServerType.MODE_LOGINSERVER)
 				{
 					LoginStatusThread lst = new LoginStatusThread(connection, _uptime, _statusPw);
-					if (lst.isAlive())
-					{
+					if(!connection.isClosed()){
+						ThreadPoolManager.getInstance().executeTask(lst);
 						_loginStatus.add(lst);
 					}
+					
 				}
 				if (this.isInterrupted())
 				{

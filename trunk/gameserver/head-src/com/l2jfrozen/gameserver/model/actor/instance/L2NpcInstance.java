@@ -732,6 +732,10 @@ public class L2NpcInstance extends L2Character
 				}
 				else
 				{
+					// Like L2OFF if char is dead, is sitting, is in trade or is in fakedeath can't interact with npc
+					if(player.isSitting() || player.isDead() || player.isFakeDeath() || player.getActiveTradeList() != null)
+					    return;
+					
 					// Send a Server->Client packet SocialAction to the all L2PcInstance on the _knownPlayer of the L2NpcInstance to display a social action of the L2NpcInstance on their client
 					SocialAction sa = new SocialAction(getObjectId(), Rnd.get(8));
 					broadcastPacket(sa);
@@ -786,6 +790,8 @@ public class L2NpcInstance extends L2Character
 							showChatWindow(player, 0);
 						}
 					}
+					// Like L2OFF player must rotate to the Npc
+					player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
 				}
 				
 				//to avoid player stuck
@@ -2231,6 +2237,15 @@ public class L2NpcInstance extends L2Character
 		SystemMessage sm;
 		if(!player.reduceAdena("RestoreCP", neededmoney, player.getLastFolkNPC(), true))
 			return;
+		
+		// Skill's animation
+		L2Skill skill = SkillTable.getInstance().getInfo(4380, 1);
+		if (skill != null)
+		{
+			setTarget(player);
+			doCast(skill);
+		}
+		
 		player.setCurrentCp(player.getMaxCp());
 		//cp restored
 		sm = new SystemMessage(SystemMessageId.S1_CP_WILL_BE_RESTORED);
@@ -2387,9 +2402,9 @@ public class L2NpcInstance extends L2Character
 	 */
 	public void showChatWindow(L2PcInstance player, int val)
 	{
-		// Like L2OFF if char is dead, is sitting or is in fakedeath can't speak with npcs
-		if(player.isSitting() || player.isDead() || player.isFakeDeath())
-		    return;
+		// Like L2OFF if char is dead, is sitting, is in trade or is in fakedeath can't speak with npcs
+		if(player.isSitting() || player.isDead() || player.isFakeDeath() || player.getActiveTradeList() != null)
+		   return;
 		
 		if(player.getKarma() > 0)
 		{

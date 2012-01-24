@@ -32,7 +32,7 @@ public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 	private static final Logger _log = Logger.getLogger(L2GameServerPacket.class.getName());
 
 	/**
-	 * @see com.l2jserver.mmocore.network.SendablePacket#write()
+	 * @see com.l2jfrozen.mmocore.network.SendablePacket#write()
 	 */
 	@Override
 	protected void write()

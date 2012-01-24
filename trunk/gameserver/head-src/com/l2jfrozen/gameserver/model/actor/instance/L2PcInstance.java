@@ -463,7 +463,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public static final int STORE_PRIVATE_MANUFACTURE = 5;
 	public static final int STORE_PRIVATE_PACKAGE_SELL = 8;
 
-	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	
 	/** The table containing all minimum level needed for each Expertise (None, D, C, B, A, S) */
 	private static final int[] EXPERTISE_LEVELS =
@@ -2624,6 +2624,14 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 		}
 		
+	}
+	
+	protected boolean canInteract(L2PcInstance player)
+	{
+		if(!isInsideRadius(player, 50, false, false))
+			return false;
+
+		return true;
 	}
 	
 	private boolean _blunt_mastery = false;
@@ -4931,7 +4939,15 @@ public final class L2PcInstance extends L2PlayableInstance
 			// Check if this L2PcInstance has a Private Store
 			if(getPrivateStoreType() != 0)
 			{
+				// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
+				
+				// Calculate the distance between the L2PcInstance
+				if(canInteract(player))
+				{
+					// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
+					player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
+				}
 			}
 			else
 			{
@@ -8831,16 +8847,16 @@ public final class L2PcInstance extends L2PlayableInstance
 			player.fireEvent(EventType.LOAD.name, (Object[]) null);
 		}
 		
-		//once restored all the skill status, update current CP, MP and HP
 		try
 		{
-			Thread.sleep(2000);
+			Thread.sleep(100);
 		}
 		catch(InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 		
+		//once restored all the skill status, update current CP, MP and HP		
 		player.setCurrentHpDirect(curHp);
 		player.setCurrentCpDirect(curCp);
 		player.setCurrentMpDirect(curMp);
@@ -10749,7 +10765,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Like L2OFF if you have a summon you can't summon another one
 		if(sklType == L2Skill.SkillType.SUMMON)
 		{
-			if (getPet() != null)
+			if (getPet() != null || isMounted())
 			{
 				sendPacket(new SystemMessage(SystemMessageId.YOU_ALREADY_HAVE_A_PET));
 				return;
@@ -12563,43 +12579,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized boolean addSubClass(int classId, int classIndex)
 	{
-		//Anti stuck Skills/Augments
-		//Remove Chest
-		L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
-		if (chest != null)
-		{
-		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);
-		            
-		}
-		//Remove Item RHAND
-		L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-		if (rhand != null)
-		{
-		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);
-		            
-		}
-		//Remove Item LHAND        
-		L2ItemInstance lhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
-		if (lhand != null)
-		{
-		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(lhand.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);
-		            
-		}
+		// Reload skills from armors / jewels / weapons
+		getInventory().reloadEquippedItems();
 			
 		if(getTotalSubClasses() == Config.ALLOWED_SUBCLASS || classIndex == 0)
 			return false;
@@ -12848,60 +12829,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket( ActionFailed.STATIC_PACKET );
 			return false;
 		}
-			
-		L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-
-		if(rhand != null)
-		{
-			L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
-			InventoryUpdate iu = new InventoryUpdate();
-
-			for(L2ItemInstance element : unequipped)
-			{
-				iu.addModifiedItem(element);
-			}
-
-			sendPacket(iu);
-			rhand = null;
-			iu = null;
-			unequipped = null;
-		}
-
-		L2ItemInstance lhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
-
-		if(lhand != null)
-		{
-			L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(lhand.getItem().getBodyPart());
-			InventoryUpdate iu = new InventoryUpdate();
-
-			for(L2ItemInstance element : unequipped)
-			{
-				iu.addModifiedItem(element);
-			}
-
-			sendPacket(iu);
-			lhand = null;
-			iu = null;
-			unequipped = null;
-		}
-		
-		L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
-
-		if(chest != null)
-		{
-			L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
-			InventoryUpdate iu = new InventoryUpdate();
-
-			for(L2ItemInstance element : unequipped)
-			{
-				iu.addModifiedItem(element);
-			}
-
-			sendPacket(iu);
-			chest = null;
-			iu = null;
-			unequipped = null;
-		}
 
 		// Delete a force buff upon class change.
 		//thank l2j-arhid
@@ -13018,6 +12945,9 @@ public final class L2PcInstance extends L2PlayableInstance
         {
             restoreEffects();
         }
+		
+		// Reload skills from armors / jewels / weapons
+		getInventory().reloadEquippedItems();
 		
 		checkAllowedSkills();
 

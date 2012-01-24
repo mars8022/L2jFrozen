@@ -133,7 +133,7 @@ public class L2Party
 	/** 
 	 * Check if player invitation is expired 
 	 * @return boolean if time is expired 
-	 * @see com.l2jserver.gameserver.model.actor.instance.L2PcInstance#isRequestExpired() 
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance#isRequestExpired() 
 	 */ 
 	public boolean isInvitationRequestExpired() 
 	{ 

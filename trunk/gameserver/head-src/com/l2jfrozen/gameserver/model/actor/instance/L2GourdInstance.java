@@ -66,7 +66,7 @@ public final class L2GourdInstance extends L2MonsterInstance
 	@Override
 	public void reduceCurrentHp(double damage, L2Character attacker, boolean awake)
 	{
-		if(attacker.getName() != getOwner())
+		if(!attacker.getName().equalsIgnoreCase(getOwner()))
 		{
 			damage = 0;
 		}

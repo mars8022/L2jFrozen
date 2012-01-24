@@ -1222,7 +1222,7 @@ public class DM implements EventTask
 				eventPlayer.sendMessage("You already participated in the event!"); 
 				return false;
 			}
-			else if(player.getName()==eventPlayer.getName())
+			else if(player.getName().equalsIgnoreCase(eventPlayer.getName()))
 			{
 				eventPlayer.sendMessage("You already participated in the event!"); 
 				return false;

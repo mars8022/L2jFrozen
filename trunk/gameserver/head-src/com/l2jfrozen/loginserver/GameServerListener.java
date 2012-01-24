@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * @author KenM
@@ -51,8 +52,9 @@ public class GameServerListener extends FloodProtectedListener
 		}
 
 		GameServerThread gst = new GameServerThread(s);
+		ThreadPoolManager.getInstance().executeTask(gst);
 		_gameServers.add(gst);
-		gst = null;
+		
 	}
 
 	public void removeGameServer(GameServerThread gst)

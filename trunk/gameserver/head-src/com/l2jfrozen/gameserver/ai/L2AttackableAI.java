@@ -185,7 +185,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 				return false;
 
 			// check player is in away mod
-			if(((L2PcInstance) target).isAway() && !Config.SCORIA_AWAY_PLAYER_TAKE_AGGRO)
+			if(((L2PcInstance) target).isAway() && !Config.AWAY_PLAYER_TAKE_AGGRO)
 				return false;
 
 			if(target.isInParty() && target.getParty().isInDimensionalRift())
@@ -718,7 +718,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 					L2NpcInstance npc = (L2NpcInstance) obj;
 					String faction_id = ((L2NpcInstance) _actor).getFactionId();
 
-					if(faction_id != npc.getFactionId() || npc.getFactionRange() == 0)
+					if(!faction_id.equalsIgnoreCase(npc.getFactionId()) || npc.getFactionRange() == 0)
 					{
 						faction_id = null;
 						continue;

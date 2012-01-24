@@ -83,8 +83,8 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			return;
 		}
 		
-		// Movements prohibited when in store
-		if(activeChar.getPrivateStoreType() != 0){
+		// Like L2OFF movements prohibited when char is sitting
+		if(activeChar.isSitting()){
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}

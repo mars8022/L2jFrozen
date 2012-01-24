@@ -673,7 +673,7 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 
 			String faction_id = ((L2NpcInstance) actor).getFactionId();
 
-			if(faction_id != npc.getFactionId())
+			if(!faction_id.equalsIgnoreCase(npc.getFactionId()))
 			{
 				continue;
 			}

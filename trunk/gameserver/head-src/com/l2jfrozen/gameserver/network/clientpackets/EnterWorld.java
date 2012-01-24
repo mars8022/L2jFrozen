@@ -101,7 +101,7 @@ public class EnterWorld extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
 
-	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	private long _daysleft;
 	SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy");
 	

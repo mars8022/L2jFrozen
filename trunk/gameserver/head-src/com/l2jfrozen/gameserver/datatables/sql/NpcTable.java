@@ -401,7 +401,8 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.severe("Error loading minion data"+" "+ e);
+				_log.severe("Error loading minion data");
+				e.printStackTrace();
 			}
 		}
 		finally
