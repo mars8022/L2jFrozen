@@ -204,7 +204,7 @@ public class L2LoginServer
 		try
 		{
 			_gameServerListener = new GameServerListener();
-			ThreadPoolManager.getInstance().executeTask(_gameServerListener);
+			_gameServerListener.start();
 			_log.info("Listening for GameServers on " + Config.GAME_SERVER_LOGIN_HOST + ":" + Config.GAME_SERVER_LOGIN_PORT);
 		}
 		catch(IOException e)
@@ -221,7 +221,7 @@ public class L2LoginServer
 		try
 		{
 			_selectorThread.openServerSocket(bindAddress, Config.PORT_LOGIN);
-			ThreadPoolManager.getInstance().executeTask(_selectorThread);
+			_selectorThread.start();
 			_log.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
 
 		}
