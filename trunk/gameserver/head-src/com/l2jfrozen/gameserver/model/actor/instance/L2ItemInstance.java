@@ -644,17 +644,13 @@ public final class L2ItemInstance extends L2Object
 	public void onAction(L2PcInstance player)
 	{
 		// this causes the validate position handler to do the pickup if the location is reached.
-		// mercenary tickets can only be picked up by the castle owner.
-		if(_itemId >= 3960 && _itemId <= 4021 && player.isInParty() || _itemId >= 3960 && _itemId <= 3969 && !player.isCastleLord(1) || _itemId >= 3973 && _itemId <= 3982 && !player.isCastleLord(2) || _itemId >= 3986 && _itemId <= 3995 && !player.isCastleLord(3) || _itemId >= 3999 && _itemId <= 4008 && !player.isCastleLord(4) || _itemId >= 4012 && _itemId <= 4021 && !player.isCastleLord(5) || _itemId >= 5205 && _itemId <= 5214 && !player.isCastleLord(6) || _itemId >= 6779 && _itemId <= 6788 && !player.isCastleLord(7) || _itemId >= 7973 && _itemId <= 7982 && !player.isCastleLord(8) || _itemId >= 7918 && _itemId <= 7927 && !player.isCastleLord(9))
+		// mercenary tickets can only be picked up by the castle owner and GMs.
+		if((!player.isGM()) && (_itemId >= 3960 && _itemId <= 4021 && player.isInParty() || _itemId >= 3960 && _itemId <= 3969 && !player.isCastleLord(1) || _itemId >= 3973 && _itemId <= 3982 && !player.isCastleLord(2) || _itemId >= 3986 && _itemId <= 3995 && !player.isCastleLord(3) || _itemId >= 3999 && _itemId <= 4008 && !player.isCastleLord(4) || _itemId >= 4012 && _itemId <= 4021 && !player.isCastleLord(5) || _itemId >= 5205 && _itemId <= 5214 && !player.isCastleLord(6) || _itemId >= 6779 && _itemId <= 6788 && !player.isCastleLord(7) || _itemId >= 7973 && _itemId <= 7982 && !player.isCastleLord(8) || _itemId >= 7918 && _itemId <= 7927 && !player.isCastleLord(9) || _itemId >= 3960))
 		{
 			if(player.isInParty())
-			{
 				player.sendMessage("You cannot pickup mercenaries while in a party.");
-			}
 			else
-			{
 				player.sendMessage("Only the castle lord can pickup mercenaries.");
-			}
 
 			player.setTarget(this);
 			player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);

@@ -1887,10 +1887,6 @@ public abstract class L2Character extends L2Object
 		if(activeChar instanceof L2PcInstance && Formulas.getInstance().calcSkillMastery(activeChar))
 		{
 			reuseDelay = 0;
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-			sm.addSkillName(skill);
-			sendPacket(sm);
-			sm = null;
 		}
 		else if(!skill.isStaticReuse() && !skill.isPotion())
 		{

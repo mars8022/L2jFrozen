@@ -107,7 +107,7 @@ public class CursedWeapon
 
 				// Destroy
 				L2ItemInstance removedItem = _player.getInventory().destroyItemByItemId("", _itemId, 1, _player, null);
-				if(!Config.FORCE_INVENTORY_UPDATE)
+				if(removedItem!= null && !Config.FORCE_INVENTORY_UPDATE)
 				{
 					InventoryUpdate iu = new InventoryUpdate();
 					if(removedItem.getCount() == 0)

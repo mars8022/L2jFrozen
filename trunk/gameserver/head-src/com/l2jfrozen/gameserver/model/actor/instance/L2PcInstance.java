@@ -212,6 +212,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSummon;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2ArmorType;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
@@ -2523,10 +2524,12 @@ public final class L2PcInstance extends L2PlayableInstance
 					if(newWeightPenalty > 0)
 					{
 						super.addSkill(SkillTable.getInstance().getInfo(4270, newWeightPenalty));
+						sendSkillList(); // Fix visual bug
 					}
 					else
 					{
 						super.removeSkill(getKnownSkill(4270));
+						sendSkillList(); // Fix visual bug
 					}
 
 					sendPacket(new EtcStatusUpdate(this));
@@ -6527,10 +6530,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			karmaLost *= getLevel(); // multiply by char lvl
 			karmaLost *= getLevel() / 100.0; // divide by 0.charLVL
 			karmaLost = Math.round(karmaLost);
-			if(karmaLost < 0)
-			{
-				karmaLost = 1;
-			}
+			if ( karmaLost < 0 ) karmaLost = 1;
 
 			// Decrease Karma of the L2PcInstance and Send it a Server->Client StatusUpdate packet with Karma and PvP Flag if necessary
 			setKarma(getKarma() - (int) karmaLost);
@@ -6722,24 +6722,18 @@ public final class L2PcInstance extends L2PlayableInstance
 			//Anti FARM same Ip
 			if(Config.ANTI_FARM_IP_ENABLED){
 				
-				String local_ip = "";
-				String target_ip = "";
-				if(targetPlayer.getClient()!=null 
-						&& targetPlayer.getClient().getConnection()!=null
-						&& targetPlayer.getClient().getConnection().getInetAddress()!=null
-						&& (target_ip = targetPlayer.getClient().getConnection().getInetAddress().getHostAddress())!=null
-					&& this.getClient()!=null 
-						&& this.getClient().getConnection()!=null
-						&& this.getClient().getConnection().getInetAddress()!=null
-						&& (local_ip = this.getClient().getConnection().getInetAddress().getHostAddress())!=null){
-					
-					if(target_ip.equals("") && local_ip.equals("") && local_ip.equals(target_ip))
-					{
-						this.sendMessage("Farm is punishable with Ban! Don't kill your Box!"); 
-						_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
-						return false;
-					}
-				}
+			   if(this.getClient() != null && targetPlayer.getClient() != null)
+			   {
+		         String ip1 = this.getClient().getConnection().getInetAddress().getHostAddress();
+		         String ip2 = targetPlayer.getClient().getConnection().getInetAddress().getHostAddress();
+		 
+		         if (ip1.equals(ip2))
+		         {
+		         this.sendMessage("Farm is punishable with Ban! Gm informed.");
+		         _log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
+		         return false;
+		         }
+			   }
 			}
 			return true;
 		}
@@ -7225,23 +7219,12 @@ public final class L2PcInstance extends L2PlayableInstance
 
 		int karmaLost = 0;
 		if(expGained > Integer.MAX_VALUE)
-		{
 			karmaLost = Integer.MAX_VALUE;
-		}
 		else
-		{
 			karmaLost = (int) expGained;
-		}
 
-		if(karmaLost < Config.KARMA_LOST_BASE)
-		{
-			karmaLost = Config.KARMA_LOST_BASE;
-		}
-
-		if(karmaLost > getKarma())
-		{
-			karmaLost = getKarma();
-		}
+		if (karmaLost < Config.KARMA_LOST_BASE) karmaLost = Config.KARMA_LOST_BASE;
+		if (karmaLost > getKarma()) karmaLost = getKarma();
 
 		return karmaLost;
 	}
@@ -10361,10 +10344,10 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(player.isInFunEvent()){
 					
 					//checks for events
-					if((_inEventTvT && ((L2PcInstance) attacker)._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(((L2PcInstance) attacker)._teamNameTvT)) 
-							|| (_inEventCTF && ((L2PcInstance) attacker)._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(((L2PcInstance) attacker)._teamNameCTF)) 
-							|| (_inEventDM && ((L2PcInstance) attacker)._inEventDM && DM.is_started()) 
-							|| (_inEventVIP && ((L2PcInstance) attacker)._inEventVIP && VIP._started))
+					if((_inEventTvT && player._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(player._teamNameTvT)) 
+							|| (_inEventCTF && player._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(player._teamNameCTF)) 
+							|| (_inEventDM && player._inEventDM && DM.is_started()) 
+							|| (_inEventVIP && player._inEventVIP && VIP._started))
 						{
 							return true;
 						}
@@ -10762,8 +10745,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 		}
 		
-		// Like L2OFF if you have a summon you can't summon another one
-		if(sklType == L2Skill.SkillType.SUMMON)
+		// Like L2OFF if you have a summon you can't summon another one (ignore cubics)
+		if(sklType == L2Skill.SkillType.SUMMON && skill instanceof L2SkillSummon && !((L2SkillSummon) skill).isCubic())
 		{
 			if (getPet() != null || isMounted())
 			{
@@ -15153,7 +15136,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(Config.DEVELOPER)
 		{
-			_log.info("restoring character status from database...");
+			_log.info("Restoring character status "+getName()+" from database...");
 		}
 
 		int hero = 0;

@@ -54,6 +54,9 @@ public class L2CharacterAI extends AbstractAI
 {
 	private static final int ZONE_PVP = 1;
 
+	/** The skill we are curently casting by INTENTION_CAST */
+	private L2Skill _skill;
+
 	@Override
 	protected void onEvtAttacked(L2Character attacker)
 	{
@@ -298,7 +301,7 @@ public class L2CharacterAI extends AbstractAI
 		}
 
 		// Set the AI skill used by INTENTION_CAST
-		_skill = skill;
+		set_skill(skill);
 
 		// Change the Intention of this AbstractAI to AI_INTENTION_CAST
 		changeIntention(AI_INTENTION_CAST, skill, target);
@@ -949,7 +952,7 @@ public class L2CharacterAI extends AbstractAI
 		clientStopMoving(null);
 
 		// Init AI
-		_intention = AI_INTENTION_IDLE;
+		setIntention(AI_INTENTION_IDLE);
 		setTarget(null);
 		setCastTarget(null);
 		setAttackTarget(null);
@@ -1006,13 +1009,15 @@ public class L2CharacterAI extends AbstractAI
 
 		if(!_actor.isInsideRadius(target, offset, false, false))
 		{
+			final L2Character follow = getFollowTarget();
+
 			// Caller should be L2Playable and thinkAttack/thinkCast/thinkInteract/thinkPickUp
-			if(getFollowTarget() != null)
+			if(follow != null)
 			{
 				// prevent attack-follow into peace zones
 				if(getAttackTarget() != null && _actor instanceof L2PlayableInstance && target instanceof L2PlayableInstance)
 				{
-					if(getAttackTarget() == getFollowTarget())
+					if(getAttackTarget() == follow)
 					{
 						// allow GMs to keep following
 						boolean isGM = _actor instanceof L2PcInstance ? ((L2PcInstance) _actor).isGM() : false;
@@ -1190,6 +1195,22 @@ public class L2CharacterAI extends AbstractAI
 			// Launch the Think Event
 			onEvtThink();
 		}
+	}
+
+	/**
+	 * @return the _skill
+	 */
+	public synchronized L2Skill get_skill()
+	{
+		return _skill;
+	}
+
+	/**
+	 * @param _skill the _skill to set
+	 */
+	public synchronized void set_skill(L2Skill _skill)
+	{
+		this._skill = _skill;
 	}
 
 }

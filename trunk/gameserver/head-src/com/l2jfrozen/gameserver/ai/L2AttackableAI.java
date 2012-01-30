@@ -247,7 +247,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 		}
 	}
 
-	public void startAITask()
+	public synchronized void startAITask()
 	{
 		// If not idle - create an AI task (schedule onEvtThink repeatedly)
 		
@@ -289,8 +289,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	 * @param arg1 The second parameter of the Intention
 	 */
 	@Override
-	public
-	synchronized void changeIntention(CtrlIntention intention, Object arg0, Object arg1)
+	public void changeIntention(CtrlIntention intention, Object arg0, Object arg1)
 	{
 		if(intention == AI_INTENTION_IDLE || intention == AI_INTENTION_ACTIVE)
 		{
@@ -315,18 +314,8 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 
 				
 				// Stop AI task and detach AI from NPC
-				
 				stopAITask();
-				/*
-					if(_aiTask != null)
-					{
-						synchronized(_aiTask){
-							_aiTask.cancel(true);
-							_aiTask = null;
-						}
-					}
-				*/
-
+				
 				// Cancel the AI
 				_accessor.detachAI();
 
@@ -623,7 +612,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 			}
 		}
 		
-		L2Character originalAttackTarget = getAttackTarget();
+		final L2Character originalAttackTarget = getAttackTarget();
 		// Check if target is dead or if timeout is expired to stop this attack
 		if (originalAttackTarget == null || originalAttackTarget.isAlikeDead() || (originalAttackTarget instanceof L2PcInstance && (((L2PcInstance)originalAttackTarget).isOffline() || ((L2PcInstance)originalAttackTarget).isOnline()==0 )) || _attackTimeout < GameTimeController.getGameTicks())
 		{
@@ -729,7 +718,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 							_actor.getAttackByList().contains(originalAttackTarget))
 					{
 						
-						if(npc.getAI()._intention == CtrlIntention.AI_INTENTION_IDLE || npc.getAI()._intention == CtrlIntention.AI_INTENTION_ACTIVE){
+						if(npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE || npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_ACTIVE){
 							
 							if(GeoData.getInstance().canSeeTarget(_actor, npc) && Math.abs(originalAttackTarget.getZ() - npc.getZ()) < 600){
 								

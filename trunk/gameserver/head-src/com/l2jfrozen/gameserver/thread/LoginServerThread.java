@@ -152,8 +152,16 @@ public class LoginServerThread extends Thread
 				_log.info("Connecting to login on " + _hostname + ":" + _port);
 				_loginSocket = new Socket(_hostname, _port);
 				_in = _loginSocket.getInputStream();
-				_out = new BufferedOutputStream(_loginSocket.getOutputStream());
-
+				
+				if(_out != null)
+					synchronized (_out) //avoids tow threads writing in the mean time
+					{
+						_out = new BufferedOutputStream(_loginSocket.getOutputStream());
+					}
+				else
+					_out = new BufferedOutputStream(_loginSocket.getOutputStream());
+									
+				
 				//init Blowfish
 				_blowfishKey = generateHex(40);
 				_blowfish = new NewCrypt("_;v.]05-31!|+-%xT!^[$\00");
