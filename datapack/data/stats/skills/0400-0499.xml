@@ -1148,7 +1148,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
@@ -1174,7 +1174,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
@@ -1203,7 +1203,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
@@ -1229,7 +1229,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
@@ -1255,7 +1255,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
@@ -1281,7 +1281,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
@@ -1307,7 +1307,7 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
   <set name="staticHitTime" val="true"/>
-  <set name="reuseDelay" val="1800000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>

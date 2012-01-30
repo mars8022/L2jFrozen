@@ -641,7 +641,7 @@ public class LoginController
 	 * @param client 
 	 * @return
 	 */
-	public boolean loginValid(String user, String password, L2LoginClient client)
+	public synchronized boolean loginValid(String user, String password, L2LoginClient client)
 	{
 		boolean ok = false;
 		InetAddress address = client.getConnection().getInetAddress();

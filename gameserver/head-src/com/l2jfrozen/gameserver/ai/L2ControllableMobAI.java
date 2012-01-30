@@ -609,23 +609,24 @@ public class L2ControllableMobAI extends L2AttackableAI
 		_isThinking = isThinking;
 	}
 
-	private L2Character getForcedTarget()
+	private synchronized L2Character getForcedTarget()
 	{
 		return _forcedTarget;
 	}
 
-	private MobGroup getGroupTarget()
+	private synchronized MobGroup getGroupTarget()
 	{
 		return _targetGroup;
 	}
 
-	private void setForcedTarget(L2Character forcedTarget)
+	private synchronized void setForcedTarget(L2Character forcedTarget)
 	{
 		_forcedTarget = forcedTarget;
 	}
 
-	private void setGroupTarget(MobGroup targetGroup)
+	private synchronized void setGroupTarget(MobGroup targetGroup)
 	{
 		_targetGroup = targetGroup;
 	}
+
 }

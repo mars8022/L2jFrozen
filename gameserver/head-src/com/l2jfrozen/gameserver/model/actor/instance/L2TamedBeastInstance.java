@@ -140,21 +140,33 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 			return false;
 
 		getAI().stopFollow();
-		_buffTask.cancel(true);
-		_durationCheckTask.cancel(true);
-
+		cleanTasks();
+		
+		return true;
+	}
+	
+	private synchronized void cleanTasks(){
+		
+		if(_buffTask != null){
+			_buffTask.cancel(true);
+			_buffTask = null;
+		}
+		
+		if(_durationCheckTask!=null){
+			_durationCheckTask.cancel(true);
+			_durationCheckTask = null;
+		}
+		
 		// clean up variables
 		if(_owner != null)
 		{
 			_owner.setTrainedBeast(null);
+			_owner = null;
 		}
 
-		_buffTask = null;
-		_durationCheckTask = null;
-		_owner = null;
 		_foodSkillId = 0;
 		_remainingTime = 0;
-		return true;
+		
 	}
 
 	public L2PcInstance getOwner()
@@ -209,23 +221,9 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 	{
 		// stop running tasks
 		getAI().stopFollow();
-		_buffTask.cancel(true);
-		_durationCheckTask.cancel(true);
 		stopHpMpRegeneration();
-
-		// clean up variables
-		if(_owner != null)
-		{
-			_owner.setTrainedBeast(null);
-		}
 		setTarget(null);
-		_buffTask = null;
-		_durationCheckTask = null;
-		_owner = null;
-		_foodSkillId = 0;
-		_remainingTime = 0;
-
-		// remove the spawn
+		cleanTasks();
 		onDecay();
 	}
 

@@ -538,7 +538,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 			{
 				if(!npc.isDead() && Math.abs(target.getZ() - npc.getZ()) < 600
 				//&& _actor.getAttackByList().contains(getAttackTarget())
-				&& (npc.getAI()._intention == CtrlIntention.AI_INTENTION_IDLE || npc.getAI()._intention == CtrlIntention.AI_INTENTION_ACTIVE)
+				&& (npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE || npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_ACTIVE)
 				//limiting aggro for siege guards
 				&& target.isInsideRadius(npc, 1500, true, false) && GeoData.getInstance().canSeeTarget(npc, target))
 				{

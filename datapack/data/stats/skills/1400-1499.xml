@@ -415,10 +415,11 @@
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="hitTime" val="5000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
+  <set name="staticHitTime" val="true"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13025"/>
@@ -444,10 +445,11 @@
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="hitTime" val="5000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
+  <set name="staticHitTime" val="true"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="offensive" val="true"/>
@@ -473,10 +475,11 @@
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="hitTime" val="5000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
+  <set name="staticHitTime" val="true"/>
   <set name="staticReuse" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13025"/>
@@ -506,9 +509,10 @@
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="staticReuse" val="true"/>
+  <set name="staticHitTime" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="hitTime" val="7000"/>
-  <set name="reuseDelay" val="900000"/>
+  <set name="hitTime" val="5000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="skillRadius" val="200"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
@@ -528,11 +532,12 @@
   <set name="target" val="TARGET_GROUND"/>
   <set name="skillType" val="SIGNET_CASTTIME"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="hitTime" val="15000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="hitTime" val="5000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
+  <set name="staticHitTime" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13025"/>
   <set name="offensive" val="true"/>
@@ -558,10 +563,11 @@
   <set name="skillType" val="SIGNET"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
+  <set name="staticHitTime" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="effectNpcId" val="13020"/>
   <set name="effectId" val="5134"/>
@@ -587,10 +593,11 @@
   <set name="negatePower" val="80"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="castRange" val="900"/>
   <set name="skillRadius" val="180"/>
   <set name="staticReuse" val="true"/>
+  <set name="staticHitTime" val="true"/>
   <set name="magicLvl" val="80"/>
   <set name="isMagic" val="true"/>
   <set name="itemConsumeId" val="8876"/>
@@ -613,8 +620,9 @@
   <set name="skillType" val="HEAL_PERCENT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="3600000"/>
   <set name="staticReuse" val="true"/>
+  <set name="staticHitTime" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <cond msg="Miracle cannot be used due to unsuitable terms.">
@@ -626,11 +634,12 @@
   <set name="mpConsume" val="73"/>
   <set name="power" val="80"/>
   <set name="target" val="TARGET_ALLY"/>
-  <set name="hitTime" val="2500"/>
+  <set name="hitTime" val="5000"/>
   <set name="itemConsumeId" val="8876"/>
   <set name="itemConsumeCount" val="1"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="4800000"/>
   <set name="staticReuse" val="true"/>
+  <set name="staticHitTime" val="true"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
@@ -654,7 +663,8 @@
   <set name="skillRadius" val="900"/>
   <set name="skillType" val="MANARECHARGE"/>
   <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="reuseDelay" val="3600000"/>
+  <set name="staticHitTime" val="true"/>
   <set name="staticReuse" val="true"/>
   <set name="isMagic" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>

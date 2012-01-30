@@ -25,7 +25,10 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_INTERACT;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Character.AIAccessor;
+import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
 
 public class L2SummonAI extends L2CharacterAI
@@ -82,20 +85,22 @@ public class L2SummonAI extends L2CharacterAI
 	{
 		L2Summon summon = (L2Summon) _actor;
 
-		if(checkTargetLost(getCastTarget()))
+		final L2Character target = getCastTarget();
+		if(checkTargetLost(target))
 		{
 			setCastTarget(null);
 			return;
 		}
 
-		if(maybeMoveToPawn(getCastTarget(), _actor.getMagicalAttackRange(_skill)))
+		final L2Skill skill = get_skill();
+		if(maybeMoveToPawn(target, _actor.getMagicalAttackRange(skill)))
 			return;
 
 		clientStopMoving(null);
 		summon.setFollowStatus(false);
 		summon = null;
 		setIntention(AI_INTENTION_IDLE);
-		_accessor.doCast(_skill);
+		_accessor.doCast(skill);
 		return;
 	}
 
@@ -104,14 +109,16 @@ public class L2SummonAI extends L2CharacterAI
 		if(_actor.isAllSkillsDisabled())
 			return;
 
-		if(checkTargetLost(getTarget()))
+		final L2Object target = getTarget();
+		
+		if(checkTargetLost(target))
 			return;
 
-		if(maybeMoveToPawn(getTarget(), 36))
+		if(maybeMoveToPawn(target, 36))
 			return;
 
 		setIntention(AI_INTENTION_IDLE);
-		((L2Summon.AIAccessor) _accessor).doPickupItem(getTarget());
+		((L2Summon.AIAccessor) _accessor).doPickupItem(target);
 
 		return;
 	}
@@ -121,10 +128,12 @@ public class L2SummonAI extends L2CharacterAI
 		if(_actor.isAllSkillsDisabled())
 			return;
 
-		if(checkTargetLost(getTarget()))
+		final L2Object target = getTarget();
+		
+		if(checkTargetLost(target))
 			return;
 
-		if(maybeMoveToPawn(getTarget(), 36))
+		if(maybeMoveToPawn(target, 36))
 			return;
 
 		setIntention(AI_INTENTION_IDLE);

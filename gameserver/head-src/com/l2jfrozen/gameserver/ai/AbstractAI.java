@@ -82,20 +82,22 @@ abstract class AbstractAI implements Ctrl
 			{
 				if(_followTask == null)
 					return;
+				
+				final L2Character follow = getFollowTarget();
 
-				if(_followTarget == null)
+				if(follow == null)
 				{
 					stopFollow();
 					return;
 				}
-				if(!_actor.isInsideRadius(_followTarget, _range, true, false))
+				if(!_actor.isInsideRadius(follow, _range, true, false))
 				{
-					moveToPawn(_followTarget, _range);
+					moveToPawn(follow, _range);
 				}
 				else if(newtask)
 				{
 					newtask = false;
-					_actor.broadcastPacket(new MoveToPawn(_actor, _followTarget, _range));
+					_actor.broadcastPacket(new MoveToPawn(_actor, follow, _range));
 				}
 			}
 			catch(Throwable t)
@@ -115,11 +117,11 @@ abstract class AbstractAI implements Ctrl
 	protected final L2Character.AIAccessor _accessor;
 
 	/** Current long-term intention */
-	protected CtrlIntention _intention = AI_INTENTION_IDLE;
+	private CtrlIntention _intention = AI_INTENTION_IDLE;
 	/** Current long-term intention parameter */
-	protected Object _intentionArg0 = null;
+	private Object _intentionArg0 = null;
 	/** Current long-term intention parameter */
-	protected Object _intentionArg1 = null;
+	private Object _intentionArg1 = null;
 
 	/** Flags about client's state, in order to know which messages to send */
 	protected boolean _clientMoving;
@@ -131,12 +133,10 @@ abstract class AbstractAI implements Ctrl
 	/** Different targets this AI maintains */
 	private L2Object _target;
 	private L2Character _castTarget;
-	protected L2Character _attackTarget;
-	protected L2Character _followTarget;
+	private L2Character _attackTarget;
+	private L2Character _followTarget;
 
-	/** The skill we are curently casting by INTENTION_CAST */
-	L2Skill _skill;
-
+	
 	/** Diferent internal state flags */
 	private int _moveToPawnTimeout;
 
@@ -166,44 +166,6 @@ abstract class AbstractAI implements Ctrl
 	public L2Character getActor()
 	{
 		return _actor;
-	}
-
-	/**
-	 * Return the current Intention.<BR>
-	 * <BR>
-	 */
-	@Override
-	public CtrlIntention getIntention()
-	{
-		return _intention;
-	}
-
-	protected synchronized void setCastTarget(L2Character target)
-	{
-		_castTarget = target;
-	}
-
-	/**
-	 * @return the current cast target.
-	 */
-	public synchronized L2Character getCastTarget()
-	{
-		return _castTarget;
-	}
-
-	protected synchronized void setAttackTarget(L2Character target)
-	{
-		_attackTarget = target;
-	}
-
-	/**
-	 * Return current attack target.<BR>
-	 * <BR>
-	 */
-	@Override
-	public synchronized L2Character getAttackTarget()
-	{
-		return _attackTarget;
 	}
 
 	/**
@@ -532,7 +494,7 @@ abstract class AbstractAI implements Ctrl
 			// prevent possible extra calls to this function (there is none?), 
 			// also don't send movetopawn packets too often
 			boolean sendPacket = true;
-			if(_clientMoving && _target == pawn)
+			if(_clientMoving && getTarget() == pawn)
 			{
 				if(_clientMovingToPawnOffset == offset)
 				{
@@ -552,7 +514,9 @@ abstract class AbstractAI implements Ctrl
 			// Set AI movement data
 			_clientMoving = true;
 			_clientMovingToPawnOffset = offset;
-			_target = pawn;
+			
+			setTarget(pawn);
+			
 			_moveToPawnTimeout = GameTimeController.getGameTicks();
 			_moveToPawnTimeout += /*1000*/200 / GameTimeController.MILLIS_IN_TICK;
 
@@ -705,16 +669,6 @@ abstract class AbstractAI implements Ctrl
 		_clientMoving = false;
 	}
 
-	public boolean isAutoAttacking()
-	{
-		return _clientAutoAttacking;
-	}
-
-	public void setAutoAttacking(boolean isAutoAttacking)
-	{
-		_clientAutoAttacking = isAutoAttacking;
-	}
-
 	/**
 	 * Start the actor Auto Attack client side by sending Server->Client packet AutoAttackStart <I>(broadcast)</I>.<BR>
 	 * <BR>
@@ -798,12 +752,15 @@ abstract class AbstractAI implements Ctrl
 				summon.getOwner().getAI().clientStopAutoAttack();
 			return;
 		}
+		
+		final boolean isAutoAttacking = isAutoAttacking();
+		
 		if (_actor instanceof L2PcInstance)
 		{
-			if (!AttackStanceTaskManager.getInstance().getAttackStanceTask(_actor) && isAutoAttacking())
+			if (!AttackStanceTaskManager.getInstance().getAttackStanceTask(_actor) && isAutoAttacking)
 				AttackStanceTaskManager.getInstance().addAttackStanceTask(_actor);
 		}
-		else if (isAutoAttacking())
+		else if (isAutoAttacking)
 		{
 			_actor.broadcastPacket(new AutoAttackStop(_actor.getObjectId()));
 			setAutoAttacking(false);
@@ -826,11 +783,11 @@ abstract class AbstractAI implements Ctrl
 		msg = null;
 
 		// Init AI
-		_intention = AI_INTENTION_IDLE;
-		_target = null;
-		_castTarget = null;
-		_attackTarget = null;
-
+		setIntention(AI_INTENTION_IDLE);
+		setTarget(null);
+		setAttackTarget(null);
+		setCastTarget(null);
+		
 		// Cancel the follow task if necessary
 		stopFollow();
 	}
@@ -848,10 +805,12 @@ abstract class AbstractAI implements Ctrl
 	{
 		if(_clientMoving)
 		{
-			if(_clientMovingToPawnOffset != 0 && _followTarget != null)
+			final L2Character follow = getFollowTarget();
+			
+			if(_clientMovingToPawnOffset != 0 &&  follow!= null)
 			{
 				// Send a Server->Client packet MoveToPawn to the actor and all L2PcInstance in its _knownPlayers
-				MoveToPawn msg = new MoveToPawn(_actor, _followTarget, _clientMovingToPawnOffset);
+				MoveToPawn msg = new MoveToPawn(_actor, follow, _clientMovingToPawnOffset);
 				player.sendPacket(msg);
 				msg = null;
 			}
@@ -918,7 +877,7 @@ abstract class AbstractAI implements Ctrl
 		_followTarget = null;
 	}
 
-	protected L2Character getFollowTarget()
+	protected synchronized L2Character getFollowTarget()
 	{
 		return _followTarget;
 	}
@@ -932,4 +891,87 @@ abstract class AbstractAI implements Ctrl
 	{
 		_target = target;
 	}
+	
+	protected synchronized void setCastTarget(L2Character target)
+	{
+		_castTarget = target;
+	}
+
+	/**
+	 * @return the current cast target.
+	 */
+	public synchronized L2Character getCastTarget()
+	{
+		return _castTarget;
+	}
+
+	protected synchronized void setAttackTarget(L2Character target)
+	{
+		_attackTarget = target;
+	}
+
+	/**
+	 * Return current attack target.<BR>
+	 * <BR>
+	 */
+	@Override
+	public synchronized L2Character getAttackTarget()
+	{
+		return _attackTarget;
+	}
+
+	public synchronized  boolean isAutoAttacking()
+	{
+		return _clientAutoAttacking;
+	}
+
+	public synchronized void setAutoAttacking(boolean isAutoAttacking)
+	{
+		_clientAutoAttacking = isAutoAttacking;
+	}
+
+	
+	/**
+	 * @return the _intentionArg0
+	 */
+	public synchronized Object get_intentionArg0()
+	{
+		return _intentionArg0;
+	}
+
+	/**
+	 * @param _intentionArg0 the _intentionArg0 to set
+	 */
+	public synchronized void set_intentionArg0(Object _intentionArg0)
+	{
+		this._intentionArg0 = _intentionArg0;
+	}
+
+	/**
+	 * @return the _intentionArg1
+	 */
+	public synchronized Object get_intentionArg1()
+	{
+		return _intentionArg1;
+	}
+
+	/**
+	 * @param _intentionArg1 the _intentionArg1 to set
+	 */
+	public synchronized void set_intentionArg1(Object _intentionArg1)
+	{
+		this._intentionArg1 = _intentionArg1;
+	}
+
+	/**
+	 * Return the current Intention.<BR>
+	 * <BR>
+	 */
+	@Override
+	public synchronized CtrlIntention getIntention()
+	{
+		return _intention;
+	}
+
+	
 }

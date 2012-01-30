@@ -269,9 +269,7 @@ public class CursedWeaponsManager
 	private final void controlPlayers()
 	{
 		if(Config.DEBUG)
-		{
 			System.out.print("  Checking players ... ");
-		}
 
 		Connection con = null;
 		try
@@ -290,9 +288,7 @@ public class CursedWeaponsManager
 			for(CursedWeapon cw : _cursedWeapons.values())
 			{
 				if(cw.isActivated())
-				{
 					continue;
-				}
 
 				// Do an item check to be sure that the cursed weapon isn't hold by someone
 				int itemId = cw.getItemId();
@@ -318,16 +314,6 @@ public class CursedWeaponsManager
 						}
 						statement.close();
 
-						// Delete the skill
-						/*
-						statement = con.prepareStatement("DELETE FROM character_skills WHERE char_obj_id=? AND skill_id=");
-						statement.setInt(1, playerId);
-						statement.setInt(2, cw.getSkillId());
-						if (statement.executeUpdate() != 1)
-						{
-							_log.warning("Error while deleting cursed weapon "+itemId+" skill from userId "+playerId);
-						}
-						*/
 						// Restore the player's old karma and pk count
 						statement = con.prepareStatement("UPDATE characters SET karma=?, pkkills=? WHERE obj_id=?");
 						statement.setInt(1, cw.getPlayerKarma());
@@ -356,8 +342,7 @@ public class CursedWeaponsManager
 		catch(Exception e)
 		{
 			_log.warning("Could not check CursedWeapons data: ");
-			e.printStackTrace();
-			
+			e.printStackTrace();			
 		}
 		finally
 		{
@@ -366,9 +351,7 @@ public class CursedWeaponsManager
 		}
 
 		if(Config.DEBUG)
-		{
 			System.out.println("DONE");
-		}
 	}
 
 	// =========================================================
