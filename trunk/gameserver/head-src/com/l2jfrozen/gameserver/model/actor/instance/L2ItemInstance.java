@@ -304,18 +304,12 @@ public final class L2ItemInstance extends L2Object
 			return;
 
 		if(count > 0 && _count > Integer.MAX_VALUE - count)
-		{
 			_count = Integer.MAX_VALUE;
-		}
 		else
-		{
 			_count += count;
-		}
 
 		if(_count < 0)
-		{
 			_count = 0;
-		}
 
 		_storedInDb = false;
 
@@ -338,17 +332,12 @@ public final class L2ItemInstance extends L2Object
 		if(count == 0)
 			return;
 		if(count > 0 && _count > Integer.MAX_VALUE - count)
-		{
 			_count = Integer.MAX_VALUE;
-		}
 		else
-		{
 			_count += count;
-		}
 		if(_count < 0)
-		{
 			_count = 0;
-		}
+		
 		_storedInDb = false;
 	}
 
@@ -396,9 +385,8 @@ public final class L2ItemInstance extends L2Object
 	public int getEquipSlot()
 	{
 		if(Config.ASSERT)
-		{
 			assert _loc == ItemLocation.PAPERDOLL || _loc == ItemLocation.PET_EQUIP || _loc == ItemLocation.FREIGHT;
-		}
+		
 		return _locData;
 	}
 
@@ -645,7 +633,7 @@ public final class L2ItemInstance extends L2Object
 	{
 		// this causes the validate position handler to do the pickup if the location is reached.
 		// mercenary tickets can only be picked up by the castle owner and GMs.
-		if((!player.isGM()) && (_itemId >= 3960 && _itemId <= 4021 && player.isInParty() || _itemId >= 3960 && _itemId <= 3969 && !player.isCastleLord(1) || _itemId >= 3973 && _itemId <= 3982 && !player.isCastleLord(2) || _itemId >= 3986 && _itemId <= 3995 && !player.isCastleLord(3) || _itemId >= 3999 && _itemId <= 4008 && !player.isCastleLord(4) || _itemId >= 4012 && _itemId <= 4021 && !player.isCastleLord(5) || _itemId >= 5205 && _itemId <= 5214 && !player.isCastleLord(6) || _itemId >= 6779 && _itemId <= 6788 && !player.isCastleLord(7) || _itemId >= 7973 && _itemId <= 7982 && !player.isCastleLord(8) || _itemId >= 7918 && _itemId <= 7927 && !player.isCastleLord(9) || _itemId >= 3960))
+		if((!player.isGM()) && (_itemId >= 3960 && _itemId <= 4021 && player.isInParty() || _itemId >= 3960 && _itemId <= 3969 && !player.isCastleLord(1) || _itemId >= 3973 && _itemId <= 3982 && !player.isCastleLord(2) || _itemId >= 3986 && _itemId <= 3995 && !player.isCastleLord(3) || _itemId >= 3999 && _itemId <= 4008 && !player.isCastleLord(4) || _itemId >= 4012 && _itemId <= 4021 && !player.isCastleLord(5) || _itemId >= 5205 && _itemId <= 5214 && !player.isCastleLord(6) || _itemId >= 6779 && _itemId <= 6788 && !player.isCastleLord(7) || _itemId >= 7973 && _itemId <= 7982 && !player.isCastleLord(8) || _itemId >= 7918 && _itemId <= 7927 && !player.isCastleLord(9)))
 		{
 			if(player.isInParty())
 				player.sendMessage("You cannot pickup mercenaries while in a party.");
@@ -817,18 +805,12 @@ public final class L2ItemInstance extends L2Object
 			return;
 
 		if(_mana > 0)
-		{
 			_mana--;
-		}
 
 		if(_storedInDb)
-		{
 			_storedInDb = false;
-		}
 		if(resetConsumingMana)
-		{
 			_consumingMana = false;
-		}
 
 		L2PcInstance player = (L2PcInstance) L2World.getInstance().findObject(getOwnerId());
 		if(player != null)
@@ -905,9 +887,8 @@ public final class L2ItemInstance extends L2Object
 			{
 				// Reschedule if still equipped
 				if(!_consumingMana && isEquipped())
-				{
 					scheduleConsumeManaTask();
-				}
+				
 				if(getLocation() != ItemLocation.WAREHOUSE)
 				{
 					InventoryUpdate iu = new InventoryUpdate();
@@ -1028,13 +1009,9 @@ public final class L2ItemInstance extends L2Object
 		if(_existsInDb)
 		{
 			if(_ownerId == 0 || _loc == ItemLocation.VOID || _count == 0 && _loc != ItemLocation.LEASE)
-			{
 				removeFromDb();
-			}
 			else
-			{
 				updateInDb();
-			}
 		}
 		else
 		{
@@ -1112,9 +1089,7 @@ public final class L2ItemInstance extends L2Object
 
 				// consume 1 mana
 				if(inst._mana > 0 && inst.getLocation() == ItemLocation.PAPERDOLL)
-				{
 					inst.decreaseMana(false);
-				}
 
 				// if mana left is 0 delete this item
 				if(inst._mana == 0)
@@ -1155,9 +1130,7 @@ public final class L2ItemInstance extends L2Object
 			rs = statement.executeQuery();
 
 			if(rs.next())
-			{
 				inst._augmentation = new L2Augmentation(inst, rs.getInt("attributes"), rs.getInt("skill"), rs.getInt("level"), false);
-			}
 
 			rs.close();
 			statement.close();
@@ -1208,9 +1181,7 @@ public final class L2ItemInstance extends L2Object
 	public final void dropMe(L2Character dropper, int x, int y, int z)
 	{
 		if(Config.ASSERT)
-		{
 			assert getPosition().getWorldRegion() == null;
-		}
 
 		if(Config.GEODATA > 0 && dropper != null)
 		{
@@ -1246,9 +1217,7 @@ public final class L2ItemInstance extends L2Object
 		L2World.getInstance().addVisibleObject(this, getPosition().getWorldRegion(), dropper);
 
 		if(Config.SAVE_DROPPED_ITEM)
-		{
 			ItemsOnGroundManager.getInstance().save(this);
-		}
 	}
 
 	/**
@@ -1257,9 +1226,7 @@ public final class L2ItemInstance extends L2Object
 	private void updateInDb()
 	{
 		if(Config.ASSERT)
-		{
 			assert _existsInDb;
-		}
 
 		if(_wear)
 			return;
@@ -1318,9 +1285,7 @@ public final class L2ItemInstance extends L2Object
 			return;
 
 		if(Config.ASSERT)
-		{
 			assert !_existsInDb && getObjectId() != 0;
-		}
 
 		Connection con = null;
 		try
@@ -1359,13 +1324,11 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(SQLException  e)
 		{
-			e.printStackTrace();
-		
+			e.printStackTrace();	
 		}
 		finally
 		{
-			CloseUtil.close(con);
-			
+			CloseUtil.close(con);			
 		}
 	}
 
@@ -1378,15 +1341,11 @@ public final class L2ItemInstance extends L2Object
 			return;
 
 		if(Config.ASSERT)
-		{
 			assert _existsInDb;
-		}
 
 		// delete augmentation data
 		if(isAugmented())
-		{
 			_augmentation.deleteAugmentationData();
-		}
 
 		Connection con = null;
 		try
@@ -1483,21 +1442,15 @@ public final class L2ItemInstance extends L2Object
 	public void restoreInitCount()
 	{
 		if(_decrease)
-		{
 			_count = _initCount;
-		}
 	}
 
 	public void setTime(int time)
 	{
 		if(time > 0)
-		{
 			_time = time;
-		}
 		else
-		{
 			_time = 0;
-		}
 	}
 
 	public int getTime()
@@ -1513,9 +1466,7 @@ public final class L2ItemInstance extends L2Object
 	public int getLocationSlot()
 	{
 		if(Config.ASSERT)
-		{
 			assert _loc == ItemLocation.PAPERDOLL || _loc == ItemLocation.PET_EQUIP || _loc == ItemLocation.FREIGHT || _loc == ItemLocation.INVENTORY;
-		}
 
 		return _locData;
 	}
