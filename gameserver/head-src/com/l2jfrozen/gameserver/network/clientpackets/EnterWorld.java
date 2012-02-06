@@ -27,6 +27,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.CharSchemesTable;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -436,6 +437,27 @@ public class EnterWorld extends L2GameClientPacket
 				
 				_log.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
 				
+			}
+		}
+		
+		// Apply night/day bonus on skill Shadow Sense
+		if (activeChar.getRace().ordinal() == 2)
+		{
+			final L2Skill skill = SkillTable.getInstance().getInfo(294, 1);
+			if (skill != null && activeChar.getSkillLevel(294) == 1)
+			{
+				if (GameTimeController.getInstance().isNowNight())
+				{
+					SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.NIGHT_EFFECT_APPLIES);
+					sm.addSkillName(294);
+					sendPacket(sm);
+				}
+				else
+				{
+					SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.DAY_EFFECT_DISAPPEARS);
+					sm.addSkillName(294);
+					sendPacket(sm);
+				}
 			}
 		}
 		

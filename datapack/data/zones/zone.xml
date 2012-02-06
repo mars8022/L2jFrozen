@@ -811,26 +811,26 @@
   <zone id='12008' type='BossZone' shape='Cuboid' minZ='-1735' maxZ='16301' bossId='29028'>
     <stat name='name' val='LairofValakas'/>
     <stat name='Flying' val='false'/>
-    <stat name='InvadeTime' val='0'/>
+    <stat name='InvadeTime' val='1800000'/>
   </zone>
 <!-- Boss zone Lair of Lilith -->
   <zone id='12009' type='BossZone' shape='Cuboid' minZ='-5600' maxZ='-3895' bossId='25283'>
     <stat name='name' val='LairofLilith'/>
     <stat name='Flying' val='false'/>
-    <stat name='InvadeTime' val='0'/>
+    <stat name='InvadeTime' val='1800000'/>
   </zone>
 <!-- Boss zone Lair of Anakim -->
   <zone id='12010' type='BossZone' shape='Cuboid' minZ='-5600' maxZ='-3895' bossId='25286'>
     <stat name='name' val='LairofAnakim'/>
     <stat name='Flying' val='false'/>
-    <stat name='InvadeTime' val='0'/>
+    <stat name='InvadeTime' val='1800000'/>
   </zone>
 <!-- Boss zone Lair of Zaken -->
   <zone id='12011' type='BossZone' shape='Cuboid' minZ='-3775' maxZ='-2690' bossId='29022'>
     <stat name='name' val='LairofZaken'/>
     <stat name='Flying' val='false'/>
     <stat name='EnabledByDefault' val='false'/>
-    <stat name='InvadeTime' val='0'/>
+    <stat name='InvadeTime' val='1800000'/>
   </zone>
 <!-- Boss zone SunlightRoom -->
   <zone id='12012' type='BossZone' shape='Cuboid' minZ='-2900' maxZ='-2690' bossId='-1'>

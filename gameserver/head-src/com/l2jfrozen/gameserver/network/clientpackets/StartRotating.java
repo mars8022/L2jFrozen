@@ -45,13 +45,6 @@ public final class StartRotating extends L2GameClientPacket
 			return;
 		}
 		
-		//Move flood protection
-		if (!getClient().getFloodProtectors().getMoveAction().tryPerformAction("StartRotating"))
-		{
-			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-		
 		BeginRotation br = new BeginRotation(getClient().getActiveChar(), _degree, _side, 0);
 		getClient().getActiveChar().broadcastPacket(br);
 	}

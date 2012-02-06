@@ -3058,6 +3058,18 @@ public enum SystemMessageId
 	FRIEND_S1_HAS_LOGGED_IN(503),
 
 	/**
+	 * ID: 1131<br>
+	 * Message: It is now midnight and the effect of $s1 can be felt.
+	 */
+	NIGHT_EFFECT_APPLIES(1131),
+	
+	/**
+	 * ID: 1132<br>
+	 * Message: It is now dawn and the effect of $s1 will now disappear.
+	 */
+	DAY_EFFECT_DISAPPEARS(1132),
+	
+	/**
 	 * ID: 615<br>
 	 * Message: You have failed to register the user to your Ignore List.
 	 */
@@ -3237,7 +3249,13 @@ public enum SystemMessageId
 	* Message: $c1 has already been summoned.
 	*/
 	S1_ALREADY_SUMMONED(1896),      
-	
+
+	/**
+	 * ID: 936<br>
+	 * Message: Use $s1.
+	 */
+	USE_S1_(936),
+
 	/**
 	 * ID: 528<br>
 	 * Message: Unable to find file at target location.

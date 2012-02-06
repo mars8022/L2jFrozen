@@ -663,12 +663,12 @@
   <set name="triggeredId" val="5104"/>
   <set name="triggeredLevel" val="1"/>
   <set name="target" val="TARGET_PARTY_OTHER"/>
-  <set name="hitTime" val="15000"/>
+  <set name="hitTime" val="19000"/>
   <set name="skillType" val="FORCE_BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
-  <set name="effectRange" val="1400"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="effectRange" val="900"/>
+  <set name="reuseDelay" val="30000"/>
   <set name="isMagic" val="false"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -678,12 +678,12 @@
   <set name="triggeredId" val="5105"/>
   <set name="triggeredLevel" val="1"/>
   <set name="target" val="TARGET_PARTY_OTHER"/>
-  <set name="hitTime" val="15000"/>
+  <set name="hitTime" val="19000"/>
   <set name="skillType" val="FORCE_BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
-  <set name="effectRange" val="1400"/>
-  <set name="reuseDelay" val="300000"/>
+  <set name="effectRange" val="900"/>
+  <set name="reuseDelay" val="30000"/>
   <set name="isMagic" val="false"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1136,8 +1136,6 @@
   <set name="reuseDelay" val="6000"/>
   <set name="skillType" val="NEGATE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="600"/>
-  <set name="effectRange" val="1100"/>
   <set name="negateStats" val="ROOT PARALYZE"/>
   <set name="negatePower" val="8"/>
 </skill>

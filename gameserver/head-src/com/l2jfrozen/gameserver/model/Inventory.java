@@ -1293,6 +1293,7 @@ public abstract class Inventory extends ItemContainer
 		{
 			L2PcInstance player = (L2PcInstance) getOwner();
 
+			// Like L2OFF weapon hero and crown aren't removed after restart
 			if(!player.isGM())
 				if(!player.isHero())
 				{

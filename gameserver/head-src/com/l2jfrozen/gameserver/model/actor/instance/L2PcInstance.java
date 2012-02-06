@@ -215,6 +215,7 @@ import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSummon;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2ArmorType;
+import com.l2jfrozen.gameserver.templates.L2EtcItem;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Henna;
 import com.l2jfrozen.gameserver.templates.L2Item;
@@ -4175,15 +4176,12 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean destroyItem(String process, L2ItemInstance item, L2Object reference, boolean sendMessage)
 	{
-		int oldCount = item.getCount();
 		item = _inventory.destroyItem(process, item, this, reference);
 
 		if(item == null)
 		{
 			if(sendMessage)
-			{
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
-			}
 
 			return false;
 		}
@@ -4208,13 +4206,23 @@ public final class L2PcInstance extends L2PlayableInstance
 		su = null;
 
 		// Sends message to client if requested
-		if(sendMessage)
+		if (sendMessage)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
-			sm.addNumber(oldCount);
-			sm.addItemName(item.getItemId());
-			sendPacket(sm);
-			sm = null;
+			if (count > 1)
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
+				sm.addItemName(item.getItemId());
+				sm.addNumber(count);
+				sendPacket(sm);
+				sm = null;
+			}
+			else 
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_DISAPPEARED);
+				sm.addItemName(item.getItemId());
+				sendPacket(sm);
+				sm = null;
+			}
 		}
 
 		return true;
@@ -4239,9 +4247,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(item == null || item.getCount() < count || _inventory.destroyItem(process, objectId, count, this, reference) == null)
 		{
 			if(sendMessage)
-			{
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
-			}
 
 			return false;
 		}
@@ -4266,13 +4272,23 @@ public final class L2PcInstance extends L2PlayableInstance
 		su = null;
 
 		// Sends message to client if requested
-		if(sendMessage)
+		if (sendMessage)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
-			sm.addNumber(count);
-			sm.addItemName(item.getItemId());
-			sendPacket(sm);
-			sm = null;
+			if (count > 1)
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
+				sm.addItemName(item.getItemId());
+				sm.addNumber(count);
+				sendPacket(sm);
+				sm = null;
+			}
+			else 
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_DISAPPEARED);
+				sm.addItemName(item.getItemId());
+				sendPacket(sm);
+				sm = null;
+			}
 		}
 		item = null;
 
@@ -4348,7 +4364,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Sends message to client if requested
 		if(sendMessage)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_DISAPPEARED);
 			sm.addNumber(count);
 			sm.addItemName(item.getItemId());
 			sendPacket(sm);
@@ -4379,9 +4395,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(item == null || item.getCount() < count || _inventory.destroyItemByItemId(process, itemId, count, this, reference) == null)
 		{
 			if(sendMessage)
-			{
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
-			}
 
 			return false;
 		}
@@ -4406,13 +4420,23 @@ public final class L2PcInstance extends L2PlayableInstance
 		su = null;
 
 		// Sends message to client if requested
-		if(sendMessage)
+		if (sendMessage)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
-			sm.addNumber(count);
-			sm.addItemName(itemId);
-			sendPacket(sm);
-			sm = null;
+			if (count > 1)
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
+				sm.addItemName(item.getItemId());
+				sm.addNumber(count);
+				sendPacket(sm);
+				sm = null;
+			}
+			else 
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_DISAPPEARED);
+				sm.addItemName(item.getItemId());
+				sendPacket(sm);
+				sm = null;
+			}
 		}
 		item = null;
 
@@ -5740,6 +5764,17 @@ public final class L2PcInstance extends L2PlayableInstance
 			else
 			{
 				addItem("Pickup", target, null, true);
+
+			    //Auto-Equip arrows/bolts if player has a bow/crossbow and player picks up arrows/bolts. 
+				final L2EtcItem etcItem = (L2EtcItem) target.getItem();
+				if (etcItem != null) 
+		 	    {
+					final L2EtcItemType itemType = etcItem.getItemType();
+					if (itemType == L2EtcItemType.ARROW)
+					{
+						checkAndEquipArrows();
+					}
+		 	    }
 			}
 		}
 		target = null;
@@ -11196,7 +11231,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(itemConsumeId != 0 && itemCount != 0)
 		{
-			destroyItemByItemId("Consume", itemConsumeId, itemCount, null, false);
+			destroyItemByItemId("Consume", itemConsumeId, itemCount, null, true);
 		}
 	}
 

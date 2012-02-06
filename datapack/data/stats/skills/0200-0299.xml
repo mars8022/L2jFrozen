@@ -1425,14 +1425,12 @@
   <set name="mpConsume" val="60"/>
   <set name="nextDanceCost" val="30"/>
   <set name="target" val="TARGET_PARTY"/>
-  <set name="skillRadius" val="900"/>
+  <set name="skillRadius" val="1000"/>
   <set name="reuseDelay" val="10000"/>
   <set name="hitTime" val="2500"/>
   <set name="skillType" val="BUFF"/>
   <set name="isDance" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <set name="aggroPoints" val="408"/>
   <enchant1 name="aggroPoints" val="655"/>
   <enchant2 name="aggroPoints" val="655"/>
