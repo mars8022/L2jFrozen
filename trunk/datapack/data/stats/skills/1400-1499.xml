@@ -687,7 +687,7 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1430" levels="5" name="Invocation">
   <table name="#mpConsume">27 28 30 33 34</table>
-  <table name="#regMp">150 200 250 300 350</table>
+  <table name="#regMp">90 105 120 135 150</table>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="2000"/>

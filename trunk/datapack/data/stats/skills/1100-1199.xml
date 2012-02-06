@@ -975,14 +975,14 @@
   <set name="power" val="40"/>
   <set name="saveVs" val="MEN"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="12000"/>
+  <set name="reuseDelay" val="30000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="FEAR"/>
   <set name="isMagic" val="true"/>
   <set name="isDebuff" val="true"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
-  <set name="effectRange" val="1100"/>
+  <set name="effectRange" val="900"/>
   <for>
     <effect count="5" name="Fear" time="2" val="0"/>
   </for>

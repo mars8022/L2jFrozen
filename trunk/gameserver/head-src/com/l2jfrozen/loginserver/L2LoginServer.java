@@ -33,7 +33,6 @@ import com.l2jfrozen.FService;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
 import com.l2jfrozen.util.Util;

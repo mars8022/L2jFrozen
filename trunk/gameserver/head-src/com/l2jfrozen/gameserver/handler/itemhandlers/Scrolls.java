@@ -194,10 +194,6 @@ public class Scrolls implements IItemHandler
 			return;
 		}
 
-		// for the rest, there are no extra conditions
-		if(!playable.destroyItem("Consume", item.getObjectId(), 1, null, false))
-			return;
-
 		switch(itemId)
 		{
 			case 3926: // Scroll of Guidance XML:2050
@@ -260,7 +256,7 @@ public class Scrolls implements IItemHandler
 				activeChar.addExpAndSp(0, 100000);
 				break;
 			case 6037: // Scroll of Waking XML:2170
-				activeChar.broadcastPacket(new MagicSkillUser(playable, playable, 2170, 1, 1, 0));
+				//activeChar.broadcastPacket(new MagicSkillUser(playable, playable, 2170, 1, 1, 0));
 				useScroll(activeChar, 2170, 1);
 				break;
 			case 9146: // Scroll of Guidance - For Event XML:2050
@@ -306,6 +302,11 @@ public class Scrolls implements IItemHandler
 			default:
 				break;
 		}
+		
+		// for the rest, there are no extra conditions
+		if(!playable.destroyItem("Consume", item.getObjectId(), 1, null, true))
+			return;
+		
 		activeChar = null;
 	}
 

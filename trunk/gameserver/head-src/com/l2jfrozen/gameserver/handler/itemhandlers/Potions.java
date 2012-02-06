@@ -206,7 +206,10 @@ public class Potions implements IItemHandler
 			8636,
 			8637,
 			8638,
-			8639
+			8639,
+			// primavel potions
+			8786,
+			8787
 	};
 
 	@Override
@@ -579,6 +582,12 @@ public class Potions implements IItemHandler
 			case 8202: // Fishing Potion
 				usePotion(playable, 2275, 1);
 				break;
+			case 8786:
+				usePotion(playable, 2305, 1);
+				break;
+			case 8787:
+				usePotion(playable, 2305, 1);
+				break;
 			default:
 		}
 
@@ -797,7 +806,9 @@ public class Potions implements IItemHandler
 		Fisherman_s_Potion_Red (8199, 2274, 7),
 		Fisherman_s_Potion_White (8200, 2274, 8),
 		Fisherman_s_Potion_Black (8201, 2274, 9),
-		Fishing_Potion (8202, 2275, 1);
+		Fishing_Potion (8202, 2275, 1),
+		Primeval_Potion (8786, 2305, 1),
+		Primeval_Potion1 (8787, 2305, 1);
 			
 		public Integer potion_id;
 		public FastMap<Integer, Integer> skills = new FastMap<Integer, Integer>();

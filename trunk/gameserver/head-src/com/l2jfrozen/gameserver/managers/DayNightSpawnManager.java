@@ -18,15 +18,22 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
@@ -186,10 +193,12 @@ public class DayNightSpawnManager
 			case 0:
 				spawnDayCreatures();
 				specialNightBoss(0);
+				ShadowSenseMsg(0);
 				break;
 			case 1:
 				spawnNightCreatures();
 				specialNightBoss(1);
+				ShadowSenseMsg(1);
 				break;
 			default:
 				_log.warning("DayNightSpawnManager: Wrong mode sent");
@@ -274,6 +283,28 @@ public class DayNightSpawnManager
 				break;
 		}
 	}
+	
+	 private void ShadowSenseMsg(int mode)
+     {
+             final L2Skill skill = SkillTable.getInstance().getInfo(294, 1);
+             if (skill == null)
+                     return;
+
+             final SystemMessageId msg = (mode == 1 ? SystemMessageId.NIGHT_EFFECT_APPLIES : SystemMessageId.DAY_EFFECT_DISAPPEARS);
+             final Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
+             for (L2PcInstance onlinePlayer : pls)
+             {
+                     if (onlinePlayer.getRace().ordinal() == 2
+                             && onlinePlayer.getSkillLevel(294) > 0)
+                     {
+                             SystemMessage sm = SystemMessage.getSystemMessage(msg);
+                             sm.addSkillName(294);
+                             onlinePlayer.sendPacket(sm);
+                             sm = null;
+                     }
+             }
+     }
+
 
 	public L2RaidBossInstance handleBoss(L2Spawn spawnDat)
 	{

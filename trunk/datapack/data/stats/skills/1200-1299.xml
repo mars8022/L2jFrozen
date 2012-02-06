@@ -201,7 +201,7 @@
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
-  <set name="target" val="TARGET_AREA"/>
+  <set name="target" val="TARGET_AURA"/>
   <set name="power" val="40" /> <!-- Base Land Rate -->
   <set name="skillRadius" val="200"/>
   <set name="reuseDelay" val="20000"/>

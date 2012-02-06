@@ -30,28 +30,10 @@ public class DoorInfo extends L2GameServerPacket
 {
 	private static final String _S__60_DOORINFO = "[S] 4c DoorInfo";
 	private L2DoorInstance _door;
-	//private final int _staticObjectId;
-	//private final int _objectId;
-	private final int _type;
-	private final boolean _isTargetable;
-	//private final boolean _isEnemyOf;
-	private final int _maxHp;
-	private final int _currentHp;
-	private final boolean _showHp;
-	private final int _damageGrade;
 
 	public DoorInfo(L2DoorInstance door, boolean showHp)
 	{
-		//_staticObjectId = door.getDoorId();
-		//_objectId = door.getObjectId();
-		_type = 1;
 		_door = door;
-		_isTargetable = true;
-		//_isEnemyOf = door.isEnemyOf(_door);
-		_maxHp = door.getMaxHp();
-		_currentHp = (int) door.getCurrentHp();
-		_showHp = showHp;
-		_damageGrade = door.getDamage();
 	}
 
 	@Override
@@ -60,13 +42,6 @@ public class DoorInfo extends L2GameServerPacket
 		writeC(0x4c);
 		writeD(_door.getObjectId());
 		writeD(_door.getDoorId());
-		writeD(_type);
-		writeD(_isTargetable ? 1 : 0);
-		writeD(_door.isEnemyOf(getClient().getActiveChar()) ? 1 : 0);
-		writeD(_currentHp);
-		writeD(_maxHp);
-		writeD(_showHp ? 1 : 0);
-		writeD(_damageGrade);
 	}
 
 	/* (non-Javadoc)

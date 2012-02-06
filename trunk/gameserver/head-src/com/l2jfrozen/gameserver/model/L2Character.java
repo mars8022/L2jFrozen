@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.model;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -1204,7 +1205,7 @@ public abstract class L2Character extends L2Object
 		}
 		else if(weaponItem.getItemType() == L2WeaponType.POLE)
 		{
-			hitted = doAttackHitByPole(attack, timeToHit);
+			hitted = doAttackHitByPole(attack, target, timeToHit);
 		}
 		else if(isUsingDualWeapon())
 		{
@@ -1452,23 +1453,18 @@ public abstract class L2Character extends L2Object
 	 * @param attack Server->Client packet Attack in which the hit will be added
 	 * @return True if one hit isn't missed
 	 */
-	private boolean doAttackHitByPole(Attack attack, int sAtk)
+	private boolean doAttackHitByPole(Attack attack, L2Character target, int sAtk)
 	{
-		boolean hitted = false;
-
-		double angleChar, angleTarget;
-		int maxRadius = (int) getStat().calcStat(Stats.POWER_ATTACK_RANGE, 66, null, null);
-		int maxAngleDiff = (int) getStat().calcStat(Stats.POWER_ATTACK_ANGLE, 120, null, null);
-
-		if(getTarget() == null)
-			return false;
-
-		if(Config.DEBUG)
+		//double angleChar;
+		int maxRadius = getPhysicalAttackRange();
+		int maxAngleDiff = (int)getStat().calcStat(Stats.POWER_ATTACK_ANGLE, 120, null, null);
+		
+		if (Config.DEBUG)
 		{
 			_log.info("doAttackHitByPole: Max radius = " + maxRadius);
 			_log.info("doAttackHitByPole: Max angle = " + maxAngleDiff);
 		}
-
+		
 		// o1 x: 83420 y: 148158 (Giran)
 		// o2 x: 83379 y: 148081 (Giran)
 		// dx = -41
@@ -1489,77 +1485,68 @@ public abstract class L2Character extends L2Object
 		// In the diagram above
 		// o1 has a heading of -80 (280) degree from horizontal (facing north east)
 		// Degree of o2 in respect to 01 = -40 (320) degree
-
-		// ===========================================================
-		// Make sure that char is facing selected target
-		angleTarget = Util.calculateAngleFrom(this, getTarget());
-		setHeading((int) (angleTarget / 9.0 * 1610.0)); // = this.setHeading((int)((angleTarget / 360.0) * 64400.0));
-
-		// Update char's heading degree
-		angleChar = Util.convertHeadingToDegree(getHeading());
-		double attackpercent = 85;
-		int attackcountmax = (int) getStat().calcStat(Stats.ATTACK_COUNT_MAX, 3, null, null);
+		
+		// Get char's heading degree
+		// angleChar = Util.convertHeadingToDegree(getHeading());
+		// ATTACK_COUNT_MAX 1 is by default and 4 was in skill 3599, total 5. 
+		int attackRandomCountMax = (int)getStat().calcStat(Stats.ATTACK_COUNT_MAX, 1, null, null) - 1;
 		int attackcount = 0;
-
-		if(angleChar <= 0)
+		
+		/*if (angleChar <= 0)
+            angleChar += 360;*/
+		// ===========================================================
+		
+		boolean hitted = doAttackHitSimple(attack, target, 100, sAtk);
+		double attackpercent = 85;
+		L2Character temp;
+		Collection<L2Object> objs = getKnownList().getKnownObjects().values();
+		//synchronized (getKnownList().getKnownObjects())
 		{
-			angleChar += 360;
-			// ===========================================================
-		}
-
-		L2Character target;
-		for(L2Object obj : getKnownList().getKnownObjects().values())
-		{
-			//Check if the L2Object is a L2Character
-			if(obj instanceof L2Character)
+			for (L2Object obj : objs)
 			{
-				if(obj instanceof L2PetInstance && this instanceof L2PcInstance && ((L2PetInstance) obj).getOwner() == (L2PcInstance) this)
+				if (obj == target)
+					continue; // do not hit twice
+				// Check if the L2Object is a L2Character
+				if (obj instanceof L2Character)
 				{
-					continue;
-				}
-
-				if(!Util.checkIfInRange(maxRadius, this, obj, false))
-				{
-					continue;
-				}
-
-				//otherwise hit too high/low. 650 because mob z coord sometimes wrong on hills
-				if(Math.abs(obj.getZ() - getZ()) > Config.DIFFERENT_Z_CHANGE_OBJECT)
-				{
-					continue;
-				}
-
-				angleTarget = Util.calculateAngleFrom(this, obj);
-
-				if(Math.abs(angleChar - angleTarget) > maxAngleDiff && Math.abs(angleChar + 360 - angleTarget) > maxAngleDiff && // Example: char is at 1 degree and target is at 359 degree
-				Math.abs(angleChar - (angleTarget + 360)) > maxAngleDiff // Example: target is at 1 degree and char is at 359 degree
-				)
-				{
-					continue;
-				}
-
-				target = (L2Character) obj;
-
-				// Launch a simple attack against the L2Character targeted
-				if(!target.isAlikeDead())
-				{
-					attackcount += 1;
-
-					if(attackcount <= attackcountmax)
+					if (obj instanceof L2PetInstance
+							&& this instanceof L2PcInstance
+							&& ((L2PetInstance) obj).getOwner() == ((L2PcInstance) this))
+						continue;
+					
+					if (!Util.checkIfInRange(maxRadius, this, obj, false))
+						continue;
+					
+					// otherwise hit too high/low. 650 because mob z coord
+					// sometimes wrong on hills
+					if (Math.abs(obj.getZ() - getZ()) > 650)
+						continue;
+					if (!isFacing(obj, maxAngleDiff))
+						continue;
+					
+					if(this instanceof L2Attackable && obj instanceof L2PcInstance && getTarget() instanceof L2Attackable)
+						continue;
+					
+					temp = (L2Character) obj;
+					
+					// Launch a simple attack against the L2Character targeted
+					if (!temp.isAlikeDead())
 					{
-						if(target == getAI().getAttackTarget() || target.isAutoAttackable(this))
+						if (temp == getAI().getAttackTarget()
+								|| temp.isAutoAttackable(this))
 						{
-
-							hitted |= doAttackHitSimple(attack, target, attackpercent, sAtk);
+							hitted |= doAttackHitSimple(attack, temp, attackpercent, sAtk);
 							attackpercent /= 1.15;
+							
+							attackcount++;
+							if (attackcount > attackRandomCountMax)
+								break;
 						}
 					}
 				}
 			}
 		}
-
-		target = null;
-
+		
 		// Return true if one hit isn't missed
 		return hitted;
 	}
@@ -1915,6 +1902,26 @@ public abstract class L2Character extends L2Object
 		// Send a system message USE_S1 to the L2Character
 		if(activeChar instanceof L2PcInstance && magicId != 1312)
 		{
+			if(skill.isPotion())
+			{
+			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1_);
+			if(magicId==2005)
+				sm.addItemName(728);
+			else if(magicId==2003)
+				sm.addItemName(726);
+			// Message greater cp potions like retail
+			else if(magicId==2166 && skill.getLevel() == 2)
+				sm.addItemName(5592);
+			// Message cp potions like retail
+			else if(magicId==2166 && skill.getLevel() == 1)
+				sm.addItemName(5591);
+			else
+				sm.addSkillName(magicId, skill.getLevel());
+			sendPacket(sm);
+			sm = null;
+			}
+			else
+			{
 			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 			if(magicId==2005)
 				sm.addItemName(728);
@@ -1930,6 +1937,7 @@ public abstract class L2Character extends L2Object
 				sm.addSkillName(magicId, skill.getLevel());
 			sendPacket(sm);
 			sm = null;
+			}
 		}
 
 		// Skill reuse check
@@ -2211,11 +2219,17 @@ public abstract class L2Character extends L2Object
 			if(this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isPhoenixBlessed())
 			{
 				((L2PlayableInstance) this).stopPhoenixBlessing(null);
+				
+				// Like L2OFF Soul of The Phoenix and Salvation restore all hp,cp,mp.
+				_status.setCurrentCp(getMaxCp());
+				_status.setCurrentHp(getMaxHp());
+				_status.setCurrentMp(getMaxMp());
 			}
-
+			else
+			{
 			_status.setCurrentCp(getMaxCp() * Config.RESPAWN_RESTORE_CP);
-			_status.setCurrentHp(getMaxHp() * Config.RESPAWN_RESTORE_HP);
-			//_Status.setCurrentMp(getMaxMp() * Config.RESPAWN_RESTORE_MP);		
+			_status.setCurrentHp(getMaxHp() * Config.RESPAWN_RESTORE_HP);		
+			}
 		}
 		// Start broadcast status
 		broadcastPacket(new Revive(this));
@@ -8810,6 +8824,25 @@ public abstract class L2Character extends L2Object
 		return isBehind(getTarget());
 	}
 
+	/** Returns true if target is in front of L2Character (shield def etc) */
+	public boolean isFacing(L2Object target, int maxAngle)
+	{
+		double angleChar, angleTarget, angleDiff, maxAngleDiff;
+		if (target == null)
+			return false;
+		maxAngleDiff = maxAngle / 2;
+		angleTarget = Util.calculateAngleFrom(this, target);
+		angleChar = Util.convertHeadingToDegree(this.getHeading());
+		angleDiff = angleChar - angleTarget;
+		if (angleDiff <= -360 + maxAngleDiff)
+			angleDiff += 360;
+		if (angleDiff >= 360 - maxAngleDiff)
+			angleDiff -= 360;
+		if (Math.abs(angleDiff) <= maxAngleDiff)
+			return true;
+		return false;
+	}
+	
 	/**
 	 * Return True if the L2Character is behind the target and can't be seen.<BR>
 	 * <BR>
