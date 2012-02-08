@@ -372,9 +372,6 @@ public class LoginController
 			}
 			return true;
 		}
-
-		bi = null;
-
 		return false;
 	}
 

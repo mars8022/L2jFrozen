@@ -589,7 +589,6 @@ public class Hero
 		}
 	}
 	
-
 	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{

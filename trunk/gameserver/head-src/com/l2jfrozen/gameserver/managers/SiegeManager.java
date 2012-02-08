@@ -49,19 +49,10 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class SiegeManager
 {
 	private static final Logger _log = Logger.getLogger(SiegeManager.class.getName());
-
-	// =========================================================
-	private static SiegeManager _instance;
-
+	
 	public static final SiegeManager getInstance()
 	{
-		if(_instance == null)
-		{
-			System.out.println("Initializing SiegeManager");
-			_instance = new SiegeManager();
-			_instance.load();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	// =========================================================
@@ -87,7 +78,9 @@ public class SiegeManager
 	// =========================================================
 	// Constructor
 	private SiegeManager()
-	{}
+	{
+		load();
+	}
 
 	// =========================================================
 	// Method - Public
@@ -142,17 +135,14 @@ public class SiegeManager
 
 	public final boolean checkIsRegisteredInSiege(L2Clan clan){
 		
-		for(Castle castle : CastleManager.getInstance().getCastles()){
-			
+		for(Castle castle : CastleManager.getInstance().getCastles())
+		{
 		   if(checkIsRegistered(clan, castle.getCastleId()) && castle.getSiege()!=null && castle.getSiege().getIsInProgress())
 		   {
 			   return true;
 		   }
-		   
 		}
-		
 		return false;
-		
 	}
 	
 	/**
@@ -216,6 +206,7 @@ public class SiegeManager
 	// Method - Private
 	private final void load()
 	{
+		_log.info("Initializing SiegeManager");
 		try
 		{
 			InputStream is = new FileInputStream(new File(FService.SIEGE_CONFIGURATION_FILE));
@@ -475,5 +466,11 @@ public class SiegeManager
 		{
 			return _location;
 		}
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final SiegeManager _instance = new SiegeManager();
 	}
 }

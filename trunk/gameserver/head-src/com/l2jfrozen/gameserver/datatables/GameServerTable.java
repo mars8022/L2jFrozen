@@ -148,20 +148,6 @@ public class GameServerTable
 		{
 			xppe.printStackTrace();
 		}
-		finally
-		{
-			try
-			{
-				in.close();
-				in = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-		}
 	}
 
 	private void loadRegisteredGameServers()

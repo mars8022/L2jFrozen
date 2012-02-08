@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
@@ -35,20 +36,15 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanHallManager
 {
-	private static ClanHallManager _instance;
+	private static final Logger _log = Logger.getLogger(ClanHallManager.class.getName());
 
-	private Map<Integer, ClanHall> _clanHall;
-	private Map<Integer, ClanHall> _freeClanHall;
+	private static final Map<Integer, ClanHall> _clanHall = new FastMap<Integer, ClanHall>();
+	private static final Map<Integer, ClanHall> _freeClanHall = new FastMap<Integer, ClanHall>();
 	private static boolean _loaded = false;
 
 	public static ClanHallManager getInstance()
 	{
-		if(_instance == null)
-		{
-			System.out.println("Initializing ClanHallManager");
-			_instance = new ClanHallManager();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	public static boolean loaded()
@@ -58,8 +54,6 @@ public class ClanHallManager
 
 	private ClanHallManager()
 	{
-		_clanHall = new FastMap<Integer, ClanHall>();
-		_freeClanHall = new FastMap<Integer, ClanHall>();
 		load();
 	}
 
@@ -75,6 +69,7 @@ public class ClanHallManager
 	/** Load All Clan Hall */
 	private final void load()
 	{
+		_log.info("Initializing ClanHallManager");
 		Connection con = null;
 		try
 		{
@@ -119,28 +114,22 @@ public class ClanHallManager
 						ch.free();
 						AuctionManager.getInstance().initNPC(id);
 					}
-					clan = null;
 				}
-				ch = null;
 			}
 			rs.close();
-			rs = null;
 			statement.close();
-			statement = null;
 			
-			System.out.println("Loaded: " + getClanHalls().size() + " clan halls");
-			System.out.println("Loaded: " + getFreeClanHalls().size() + " free clan halls");
+			_log.info("Loaded: " + getClanHalls().size() + " clan halls");
+			_log.info("Loaded: " + getFreeClanHalls().size() + " free clan halls");
 			_loaded = true;
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: ClanHallManager.load(): " + e.getMessage());
-			e.printStackTrace();
+			_log.warning("Exception: ClanHallManager.load(): " + e.getMessage());
 		}
 		finally
 		{
 			CloseUtil.close(con);
-			con = null;
 		}
 	}
 
@@ -169,9 +158,7 @@ public class ClanHallManager
 	 */
 	public final boolean isFree(int chId)
 	{
-		if(_freeClanHall.containsKey(chId))
-			return true;
-		return false;
+		return _freeClanHall.containsKey(chId);
 	}
 
 	/**
@@ -261,5 +248,11 @@ public class ClanHallManager
 				return ch.getValue();
 
 		return null;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final ClanHallManager _instance = new ClanHallManager();
 	}
 }

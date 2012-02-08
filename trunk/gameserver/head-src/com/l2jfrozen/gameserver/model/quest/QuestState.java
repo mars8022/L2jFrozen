@@ -283,9 +283,8 @@ public final class QuestState
 
 		if(var.equalsIgnoreCase("cond"))
 		{
-			
-			if(!val.equals("")){
-				
+			if(!val.equals(""))
+			{
 				try
 				{
 					int value = Integer.parseInt(val);

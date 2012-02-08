@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-/**
- @author godson
- **/
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,16 +44,17 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
+/**
+ * @author godson
+ */
 public class RaidBossSpawnManager
 {
-
 	private static Logger _log = Logger.getLogger(RaidBossSpawnManager.class.getName());
-
-	private static RaidBossSpawnManager _instance;
-	protected static Map<Integer, L2RaidBossInstance> _bosses;
-	protected static Map<Integer, L2Spawn> _spawns;
-	protected static Map<Integer, StatsSet> _storedInfo;
-	protected static Map<Integer, ScheduledFuture<?>> _schedules;
+	
+	protected static Map<Integer, L2RaidBossInstance> _bosses = new FastMap<Integer, L2RaidBossInstance>();
+	protected static Map<Integer, L2Spawn> _spawns = new FastMap<Integer, L2Spawn>();
+	protected static Map<Integer, StatsSet> _storedInfo = new FastMap<Integer, StatsSet>();
+	protected static Map<Integer, ScheduledFuture<?>> _schedules = new FastMap<Integer, ScheduledFuture<?>>();
 
 	public static enum StatusEnum
 	{
@@ -73,23 +70,17 @@ public class RaidBossSpawnManager
 
 	public static RaidBossSpawnManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_instance = new RaidBossSpawnManager();
-		}
-
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	private void init()
 	{
-		_bosses = new FastMap<Integer, L2RaidBossInstance>();
-		_schedules = new FastMap<Integer, ScheduledFuture<?>>();
-		_storedInfo = new FastMap<Integer, StatsSet>();
-		_spawns = new FastMap<Integer, L2Spawn>();
+		_bosses.clear();
+		_schedules.clear();
+		_storedInfo.clear();
+		_spawns.clear();
 
 		Connection con = null;
-
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -594,9 +585,9 @@ public class RaidBossSpawnManager
 				ScheduledFuture<?> f = _schedules.get(bossId);
 				f.cancel(true);
 			}
+			_schedules.clear();
 		}
-
-		_schedules.clear();
+		
 		_storedInfo.clear();
 		_spawns.clear();
 	}
@@ -606,7 +597,14 @@ public class RaidBossSpawnManager
 		return _storedInfo.get(bossId);
 	}
 	
-	public L2RaidBossInstance getBoss(int bossId){
+	public L2RaidBossInstance getBoss(int bossId)
+	{
 		return _bosses.get(bossId);
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final RaidBossSpawnManager _instance = new RaidBossSpawnManager();
 	}
 }

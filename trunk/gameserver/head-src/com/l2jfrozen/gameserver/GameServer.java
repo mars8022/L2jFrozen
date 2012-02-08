@@ -386,7 +386,7 @@ public class GameServer
 		DoorTable.getInstance().parseData();
 
 		Util.printSection("Four Sepulchers");
-		FourSepulchersManager.getInstance().init();
+		FourSepulchersManager.getInstance();
 
 		Util.printSection("Seven Signs");
 		SevenSigns.getInstance();

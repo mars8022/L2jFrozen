@@ -1781,9 +1781,7 @@ public class L2Attackable extends L2NpcInstance
 			{
 				dropChance *= Config.L2JMOD_CHAMPION_REWARDS;
 			}
-
-			dropChance = Math.round(dropChance);
-
+			
 			if(dropChance < L2DropData.MAX_CHANCE)
 			{
 				dropChance = L2DropData.MAX_CHANCE;

@@ -46,21 +46,17 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class FortSiegeManager
 {
 	private static final Logger _log = Logger.getLogger(FortSiegeManager.class.getName());
-
-	// =========================================================
-	private static FortSiegeManager _instance;
-
+	
 	public static final FortSiegeManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_log.info("Initializing FortSiegeManager");
-			_instance = new FortSiegeManager();
-			_instance.load();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
-
+	
+	public FortSiegeManager()
+	{
+		load();
+	}
+	
 	// =========================================================
 	// Data Field
 	private int _attackerMaxClans = 500; // Max number of clans
@@ -77,14 +73,7 @@ public class FortSiegeManager
 	private int _siegeClanMinLevel = 4; // Changeable in siege.config
 	private int _siegeLength = 120; // Time in minute. Changeable in siege.config
 	private List<FortSiege> _sieges;
-
-	// =========================================================
-	// Constructor
-	private FortSiegeManager()
-	{}
-
-	// =========================================================
-	// Method - Public
+	
 	public final void addSiegeSkills(L2PcInstance character)
 	{
 		character.addSkill(SkillTable.getInstance().getInfo(246, 1), false);
@@ -195,6 +184,7 @@ public class FortSiegeManager
 	// Method - Private
 	private final void load()
 	{
+		_log.info("Initializing FortSiegeManager");
 		try
 		{
 			InputStream is = new FileInputStream(new File(FService.FORTSIEGE_CONFIGURATION_FILE));
@@ -448,8 +438,8 @@ public class FortSiegeManager
 		}
 	}
 	
-	public final boolean checkIsRegisteredInSiege(L2Clan clan){
-		
+	public final boolean checkIsRegisteredInSiege(L2Clan clan)
+	{
 		for(Fort fort : FortManager.getInstance().getForts())
 		{
 			if(checkIsRegistered(clan, fort.getFortId())  && fort.getSiege()!=null && fort.getSiege().getIsInProgress())
@@ -460,5 +450,11 @@ public class FortSiegeManager
 
 		return false;
 		
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final FortSiegeManager _instance = new FortSiegeManager();
 	}
 }
