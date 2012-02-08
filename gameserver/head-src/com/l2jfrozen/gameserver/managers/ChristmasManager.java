@@ -1,10 +1,18 @@
-/**
- @author Darki699
- **/
-
+/*
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.l2jfrozen.gameserver.managers;
-
-/*******************************************- imports -*********************************************/
 
 import java.util.List;
 import java.util.Random;
@@ -32,30 +40,20 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
-/***************************- main class + global class values -************************************/
-
 /**
  * control for sequence of Christmas.
- * 
  * @version 1.00
  * @author Darki699
  */
-
 public class ChristmasManager
 {
-	private static ChristmasManager _instance = new ChristmasManager();
-
-	// list of trees.
+	private static final Logger _log = Logger.getLogger(ChristmasManager.class.getName());
+	
 	protected List<L2NpcInstance> objectQueue = new FastList<L2NpcInstance>();
-
 	protected Random rand = new Random();
 
-	static final Logger _log = Logger.getLogger(ItemsOnGroundManager.class.getName());
-
 	// X-Mas message list
-	protected String[]
-
-	message =
+	protected String[] message =
 	{
 			"Ho Ho Ho... Merry Christmas!",
 			"God is Love...",
@@ -218,7 +216,7 @@ public class ChristmasManager
 	 */
 	public ChristmasManager()
 	{
-	// nothing.
+		//
 	}
 
 	/**
@@ -226,12 +224,7 @@ public class ChristmasManager
 	 */
 	public static ChristmasManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_instance = new ChristmasManager();
-		}
-
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
 	/**
@@ -787,8 +780,10 @@ public class ChristmasManager
 			end(null);
 		}
 	}
-
-	/************************************ - special NPCs - ***************************************/
-
-	/****************************** - show PCs with santa hats - *********************************/
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final ChristmasManager _instance = new ChristmasManager();
+	}
 }

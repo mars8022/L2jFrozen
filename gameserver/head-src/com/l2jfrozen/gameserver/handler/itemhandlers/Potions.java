@@ -77,23 +77,23 @@ public class Potions implements IItemHandler
 		
 	}
 	
-	public static List<Integer> get_potions_for_skill(Integer skill_id, Integer skill_level){
-		
+	public static List<Integer> get_potions_for_skill(Integer skill_id, Integer skill_level)
+	{
 		if(potions.isEmpty())
 			loadPotions();
 		
-		List<Integer> output_potions = new ArrayList<Integer>();
-		
-		for(Integer actual_potion_item: potions.keySet()){
-			
+		final List<Integer> output_potions = new ArrayList<Integer>();
+		for(Integer actual_potion_item: potions.keySet())
+		{
 			FastMap<Integer,Integer> actual_item_skills = null;
-			if(potions.get(actual_potion_item)!=null)
+			if(potions.get(actual_potion_item)!= null)
+			{
 				actual_item_skills = potions.get(actual_potion_item).skills;
-			
-			if(actual_item_skills!=null && actual_item_skills.get(skill_id)!=null && actual_item_skills.get(skill_id)==skill_level){
-				output_potions.add(actual_potion_item);
+				if((actual_item_skills.get(skill_id) != null) && (actual_item_skills.get(skill_id).equals(skill_level)))
+				{
+					output_potions.add(actual_potion_item);
+				}
 			}
-			
 		}
 		
 		return output_potions;

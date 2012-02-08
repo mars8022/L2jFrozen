@@ -61,7 +61,6 @@ public class CastleManager
 
 	public CastleManager()
 	{
-		_log.info("Initializing CastleManager");
 		load();
 	}
 
@@ -102,6 +101,7 @@ public class CastleManager
 	// Method - Private
 	private final void load()
 	{
+		_log.info("Initializing CastleManager");
 		Connection con = null;
 		try
 		{

@@ -50,7 +50,7 @@ import com.l2jfrozen.util.random.Rnd;
  * default value) int despawnDelay (If < 0 = default value or if = 0, function disabled) spawnPoints is a standard
  * two-dimensional int array containing X,Y and Z coordinates. The default respawn/despawn delays are currently every
  * hour (as for Mammon on official servers). - The resulting AutoSpawnInstance object represents the newly added spawn
- * index. - The interal methods of this object can be used to adjust random spawning, for instance a call to
+ * index. - The internal methods of this object can be used to adjust random spawning, for instance a call to
  * setRandomSpawn(1, true); would set the spawn at index 1 to be randomly rather than sequentially-based. - Also they
  * can be used to specify the number of NPC instances to spawn using setSpawnCount(), and broadcast a message to all
  * users using setBroadcast(). Random Spawning = OFF by default Broadcasting = OFF by default

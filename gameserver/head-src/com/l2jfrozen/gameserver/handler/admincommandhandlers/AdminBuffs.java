@@ -140,8 +140,7 @@ public class AdminBuffs implements IAdminCommandHandler
 						return true;
 					}
 					activeChar.sendMessage("Usage: //stopallbuffs <playername>");
-
-					playername = null;
+					
 					st = null;
 					return false;
 				}

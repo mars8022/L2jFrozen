@@ -254,7 +254,7 @@ public class DayNightSpawnManager
 					continue;
 				}
 
-				if(boss.getNpcId() == 25328 && boss.getRaidStatus().equals(RaidBossSpawnManager.StatusEnum.ALIVE))
+				if((boss != null) && (boss.getNpcId() == 25328) && boss.getRaidStatus().equals(RaidBossSpawnManager.StatusEnum.ALIVE))
 				{
 					handleHellmans(boss, mode);
 				}

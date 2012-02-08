@@ -324,8 +324,6 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 
 				return;
 			}
-			hated = null;
-
 		}
 
 		npc = null;

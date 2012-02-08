@@ -22,7 +22,8 @@ public class EnergyStone implements IItemHandler
     {
     }
 
-    public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+    @Override
+	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
     {
         L2PcInstance activeChar;
         if(playable instanceof L2PcInstance)
@@ -67,11 +68,8 @@ public class EnergyStone implements IItemHandler
                 MagicSkillUser MSU = new MagicSkillUser(playable, activeChar, _skill.getId(), 1, 1, 0);
                 activeChar.sendPacket(MSU);
                 activeChar.destroyItemWithoutTrace("Consume", item.getObjectId(), 1, null, false);
-                return;
-            } else
-            {
-                return;
             }
+			return;
         }
 		
         if(_effect.numCharges < 2)
@@ -108,7 +106,8 @@ public class EnergyStone implements IItemHandler
         return null;
     }
 
-    public int[] getItemIds()
+    @Override
+	public int[] getItemIds()
     {
         return ITEM_IDS;
     }

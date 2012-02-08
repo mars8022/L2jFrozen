@@ -64,8 +64,6 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class FourSepulchersManager extends GrandBossManager
 {
-	private static FourSepulchersManager _instance;
-
 	private static final String QUEST_ID = "620_FourGoblets";
 
 	private static final int ENTRANCE_PASS = 7075;
@@ -185,14 +183,15 @@ public class FourSepulchersManager extends GrandBossManager
 
 	public static final FourSepulchersManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_instance = new FourSepulchersManager();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
-
-	public void init()
+	
+	public FourSepulchersManager()
+	{
+		init();
+	}
+	
+	private void init()
 	{
 		if(_changeCoolDownTimeTask != null)
 		{
@@ -1972,5 +1971,11 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		player.sendPacket(html);
 		html = null;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final FourSepulchersManager _instance = new FourSepulchersManager();
 	}
 }

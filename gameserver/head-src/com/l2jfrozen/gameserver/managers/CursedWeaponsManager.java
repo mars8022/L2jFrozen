@@ -60,30 +60,16 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class CursedWeaponsManager
 {
 	private static final Logger _log = Logger.getLogger(CursedWeaponsManager.class.getName());
-
-	// =========================================================
-	private static CursedWeaponsManager _instance;
-
+	
+	private static final Map<Integer, CursedWeapon> _cursedWeapons = new FastMap<Integer, CursedWeapon>();
+	
 	public static final CursedWeaponsManager getInstance()
 	{
-		if(_instance == null)
-		{
-			_instance = new CursedWeaponsManager();
-		}
-		return _instance;
+		return SingletonHolder._instance;
 	}
 
-	// =========================================================
-	// Data Field
-	private Map<Integer, CursedWeapon> _cursedWeapons;
-
-	// =========================================================
-	// Constructor
 	public CursedWeaponsManager()
 	{
-		_log.info("Initializing CursedWeaponsManager");
-		_cursedWeapons = new FastMap<Integer, CursedWeapon>();
-
 		if(!Config.ALLOW_CURSED_WEAPONS)
 			return;
 
@@ -91,21 +77,33 @@ public class CursedWeaponsManager
 		restore();
 		controlPlayers();
 
-		_log.info("Loaded : " + _cursedWeapons.size() + " cursed weapon(s).");
+		_log.info("Loaded: " + _cursedWeapons.size() + " cursed weapon(s).");
 	}
 
 	// =========================================================
 	// Method - Private
 	public final void reload()
 	{
-		_instance = new CursedWeaponsManager();
+		if(!Config.ALLOW_CURSED_WEAPONS)
+		{
+			return;
+		}
+		
+		_cursedWeapons.clear();
+		
+		load();
+		restore();
+		controlPlayers();
+
+		_log.info("Reloaded: " + _cursedWeapons.size() + " cursed weapon(s).");
 	}
 
 	private final void load()
 	{
+		_log.info("Initializing CursedWeaponsManager");
 		if(Config.DEBUG)
 		{
-			System.out.print("  Parsing ... ");
+			_log.info("Loading data: ");
 		}
 		try
 		{
@@ -188,13 +186,6 @@ public class CursedWeaponsManager
 					}
 				}
 			}
-
-			doc = null;
-
-			if(Config.DEBUG)
-			{
-				System.out.println("OK");
-			}
 		}
 		catch(Exception e)
 		{
@@ -210,7 +201,7 @@ public class CursedWeaponsManager
 	{
 		if(Config.DEBUG)
 		{
-			System.out.print("  Restoring ... ");
+			_log.info("  Restoring ... ");
 		}
 
 		Connection con = null;
@@ -269,7 +260,7 @@ public class CursedWeaponsManager
 	private final void controlPlayers()
 	{
 		if(Config.DEBUG)
-			System.out.print("  Checking players ... ");
+			_log.info("  Checking players ... ");
 
 		Connection con = null;
 		try
@@ -284,7 +275,7 @@ public class CursedWeaponsManager
 			// CursedWeapon.endOfLife().  However, if we indeed *need* to duplicate it for safety,
 			// then we'd better make sure that it FULLY cleans up inactive cursed weapons!
 			// Undesired effects result otherwise, such as player with no zariche but with karma
-			// or a lost-child entry in the cursedweapons table, without a corresponding one in items...
+			// or a lost-child entry in the cursed weapons table, without a corresponding one in items...
 			for(CursedWeapon cw : _cursedWeapons.values())
 			{
 				if(cw.isActivated())
@@ -323,7 +314,7 @@ public class CursedWeaponsManager
 						{
 							_log.warning("Error while updating karma & pkkills for userId " + cw.getPlayerId());
 						}
-						// clean up the cursedweapons table.
+						// clean up the cursed weapons table.
 						removeFromDb(itemId);
 					}
 					rset.close();
@@ -513,8 +504,7 @@ public class CursedWeaponsManager
 			cw.saveData();
 		}
 	}
-
-	// =========================================================
+	
 	public boolean isCursed(int itemId)
 	{
 		return _cursedWeapons.containsKey(itemId);
@@ -543,9 +533,14 @@ public class CursedWeaponsManager
 		}
 		catch(Exception e)
 		{
-			/***/
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final CursedWeaponsManager _instance = new CursedWeaponsManager();
 	}
 }
