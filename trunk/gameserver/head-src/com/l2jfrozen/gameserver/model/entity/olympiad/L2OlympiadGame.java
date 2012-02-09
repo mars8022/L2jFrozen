@@ -30,7 +30,6 @@ import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -158,13 +157,9 @@ class L2OlympiadGame extends Olympiad
 			return;
 
 		if(_playerOne.isDead())
-		{
 			_playerOne.doRevive();
-		}
 		if(_playerTwo.isDead())
-		{
 			_playerTwo.doRevive();
-		}
 
 		for(L2PcInstance player : _players)
 		{
@@ -174,63 +169,44 @@ class L2OlympiadGame extends Olympiad
 				if(player.getClan() != null)
 				{
 					for(L2Skill skill : player.getClan().getAllSkills())
-					{
 						player.removeSkill(skill, false);
-					}
-				}
-				//Abort casting if player casting  
-				if(player.isCastingNow())
-				{
-					player.abortCast();
-				}
-
-				//disable hero skills
-				if(player.isHero()){
-					
-					for(L2Skill actual: HeroSkillTable.getHeroSkills()){
-						
-						player.disableSkill(actual.getId());
-						
-					}
-					
 				}
 				
+				//Abort casting if player casting  
+				if(player.isCastingNow())
+					player.abortCast();
 
+				//disable hero skills
+				if(player.isHero())
+				{					
+					for(L2Skill actual: HeroSkillTable.getHeroSkills())					
+						player.disableSkill(actual.getId());									
+				}
+				
 				// Heal Player fully
 				player.setCurrentCp(player.getMaxCp());
 				player.setCurrentHp(player.getMaxHp());
 				player.setCurrentMp(player.getMaxMp());
 
-				//Remove Buffs
+				// Remove Buffs
 				player.stopAllEffects();
 
-				//Remove Summon's Buffs
+				// Like L2OFF buffs on summon are removed
+				// C4 patch note: All buffs on a summon are removed before the start of a match.
 				if(player.getPet() != null)
 				{
 					L2Summon summon = player.getPet();
 					summon.stopAllEffects();
 
 					if(summon instanceof L2PetInstance)
-					{
 						summon.unSummon(player);
-					}
 				}
-
-				if(player.getCubics() != null)
-				{
-					for(L2CubicInstance cubic : player.getCubics().values())
-					{
-						cubic.stopAction();
-						player.delCubic(cubic.getId());
-					}
-					player.getCubics().clear();
-				}
+			
+				// C4 patch note: Summons/Cubics do not disappear but are moved to the tournament arena together with their masters.
 
 				//Remove Tamed Beast
 				if(player.getTrainedBeast() != null)
-				{
 					player.getTrainedBeast().doDespawn();
-				}
 
 				//Remove player from his party
 				if(player.getParty() != null)
@@ -351,8 +327,7 @@ class L2OlympiadGame extends Olympiad
 					player.updateEffectIcons();
 				}
 				
-				player.sendSkillList();
-				
+				player.sendSkillList();				
 				player.setPvpFlag(0);
 			}
 			catch(Exception e)

@@ -1489,7 +1489,7 @@ public abstract class L2Character extends L2Object
 		// Get char's heading degree
 		// angleChar = Util.convertHeadingToDegree(getHeading());
 		// ATTACK_COUNT_MAX 1 is by default and 4 was in skill 3599, total 5. 
-		int attackRandomCountMax = (int)getStat().calcStat(Stats.ATTACK_COUNT_MAX, 1, null, null) - 1;
+		int attackRandomCountMax = (int) getStat().calcStat(Stats.ATTACK_COUNT_MAX, 3, null, null);
 		int attackcount = 0;
 		
 		/*if (angleChar <= 0)

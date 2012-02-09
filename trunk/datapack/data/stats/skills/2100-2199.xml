@@ -488,8 +488,7 @@
   <set name="power" val="3"/>
   <set name="skillType" val="HEAL_PERCENT"/> <!-- Needs Core support: Heal HP 3% & heal MP 1% at the same time -->
   <set name="target" val="TARGET_SELF"/>
-  <for>
-  </for>
+  <set name="isPotion" val="true"/>
 </skill>
 <skill id="2137" levels="1" name="Summon Regular Tree">
   <set name="target" val="TARGET_SELF"/>
