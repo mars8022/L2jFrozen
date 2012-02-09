@@ -17,7 +17,10 @@
  */
 package com.l2jfrozen.netcore;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
+
+import com.l2jfrozen.gameserver.network.L2GameClient;
 
 /**
  * @author KenM
@@ -39,49 +42,171 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 	
 	protected final void readB(final byte[] dst)
 	{
-		_buf.get(dst);
+		try{
+			
+			_buf.get(dst);
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+		
 	}
 	
 	protected final void readB(final byte[] dst, final int offset, final int len)
 	{
-		_buf.get(dst, offset, len);
+		try{
+			
+			_buf.get(dst, offset, len);
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+
+		
 	}
 	
 	protected final int readC()
 	{
-		return _buf.get() & 0xFF;
+		try{
+			
+			return _buf.get() & 0xFF;
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+
+		return -1;
+		
 	}
 	
 	protected final int readH()
 	{
-		return _buf.getShort() & 0xFFFF;
+		
+		try{
+			
+			return _buf.getShort() & 0xFFFF;
+			
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+
+		return -1;
 	}
 	
 	protected final int readD()
 	{
-		return _buf.getInt();
+		
+		try{
+			
+			return _buf.getInt();
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+
+		return -1;
 	}
 	
 	protected final long readQ()
 	{
-		return _buf.getLong();
+		
+		try{
+			
+			return _buf.getLong();
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+
+		return -1;
 	}
 	
 	protected final double readF()
 	{
-		return _buf.getDouble();
+		try{
+			
+			return _buf.getDouble();
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
+		}
+
+		return -1;
 	}
 	
 	protected final String readS()
 	{
 		_sbuf.clear();
 		
-		char ch;
-		while ((ch = _buf.getChar()) != 0)
-		{
-			_sbuf.append(ch);
+		try{
+			
+			char ch;
+			while ((ch = _buf.getChar()) != 0)
+			{
+				_sbuf.append(ch);
+			}
+			
+		}catch(BufferUnderflowException e){
+			
+			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				e.printStackTrace();
+			
+			if(getClient() instanceof L2GameClient){
+				((L2GameClient)getClient()).onBufferUnderflow();
+			}
+			
 		}
-		
+
 		return _sbuf.toString();
 	}
 	

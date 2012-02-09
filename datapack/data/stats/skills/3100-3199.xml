@@ -1128,9 +1128,10 @@
   <set name="castRange" val="400"/>
   <set name="effectRange" val="900"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3161" levels="3" name="Item Skill: Skill Clarity">
   <table name="#mpConsume">54 62 69</table>
-  <table name="#MpConsumeRate">0.95 0.92 0.9</table>
+  <table name="#MpConsumeRate">0.95 0.90 0.85</table>
   <table name="#mpConsume_Init">11 13 14</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1150,9 +1151,10 @@
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3162" levels="3" name="Item Skill: Spell Clarity">
   <table name="#mpConsume">54 62 69</table>
-  <table name="#MpConsumeRate">0.95 0.92 0.9</table>
+  <table name="#MpConsumeRate">0.95 0.90 0.85</table>
   <table name="#mpConsume_Init">11 13 14</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
   <set name="mpConsume" val="#mpConsume"/>
@@ -1168,7 +1170,7 @@
   <set name="staticHitTime" val="true"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="agument">
-      <mul order="0x30" stat="PhysicalMpConsumeRate" val="#MpConsumeRate"/>
+      <mul order="0x30" stat="MagicalMpConsumeRate" val="#MpConsumeRate"/>
     </effect>
   </for>
 </skill>
@@ -1709,27 +1711,24 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="3189" levels="10" name="Item Skill: Stun">
-  <table name="#power">30 35 44 55 64 79 84 96 102 109</table>
   <table name="#mpConsume">42 44 48 50 54 57 60 63 65 69</table>
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
   <table name="#mpConsume_Init">9 9 10 10 11 12 12 13 14 14</table>
   <set name="mpInitialConsume" val="#mpConsume_Init"/>
-  <set name="reuseDelay" val="30000" />
+  <set name="reuseDelay" val="60000" />
   <set name="staticReuse" val="true"/>
-  <set name="power" val="40"/>
+  <set name="power" val="80"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
   <set name="saveVs" val="CON"/>
-  <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="overHit" val="true"/>
-  <set name="reuseDelay" val="15000"/>
   <set name="hitTime" val="1500"/>
   <set name="staticHitTime" val="true" />
   <set name="skillType" val="PDAM"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="40"/>
-  <set name="levelModifier" val="1"/>
+  <set name="lvlDepend" val="1" />
   <set name="isDebuff" val="true" />
   <for>
     <effect count="1" name="Stun" stackOrder="-1" stackType="Stun" time="5" val="0"/>

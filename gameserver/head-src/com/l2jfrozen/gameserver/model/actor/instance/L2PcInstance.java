@@ -5741,7 +5741,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		else
 		{
 			// if item is instance of L2ArmorType or L2WeaponType broadcast an "Attention" system message
-			if(target.getItemType() instanceof L2ArmorType || target.getItemType() instanceof L2WeaponType)
+			if(target.getItemType() instanceof L2ArmorType || target.getItemType() instanceof L2WeaponType || target.getItem() instanceof L2Armor || target.getItem() instanceof L2Weapon)
 			{
 				SystemMessage msg = new SystemMessage(SystemMessageId.ATTENTION_S1_PICKED_UP_S2);
 				msg.addString(getName());
@@ -5765,7 +5765,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				addItem("Pickup", target, null, true);
 
-			    //Auto-Equip arrows/bolts if player has a bow/crossbow and player picks up arrows/bolts. 
+			    //Auto-Equip arrows if player has a bow and player picks up arrows. 
 				final L2EtcItem etcItem = (L2EtcItem) target.getItem();
 				if (etcItem != null) 
 		 	    {
@@ -10551,6 +10551,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Check if the skill type is TOGGLE
 		if(skill.isToggle())
 		{
+			// Like L2OFF you can't use fake death if you are mounted
+			if (skill.getId() == 60 && isMounted())
+			return;
+			
 			// Get effects of the skill
 			L2Effect effect = getFirstEffect(skill);
 

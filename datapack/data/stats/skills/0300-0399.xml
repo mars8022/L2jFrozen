@@ -1015,6 +1015,7 @@
   <set name="overHit" val="true"/>
   <set name="condition" val="16"/>
   <set name="lethal1" val="3"/>
+  <set name="lethal2" val="2"/>
   <set name="hitTime" val="1800"/>
   <set name="baseCritRate" val="15"/>
 </skill>

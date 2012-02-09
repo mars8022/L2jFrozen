@@ -33,9 +33,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Logger;
 
@@ -471,7 +473,8 @@ public class Olympiad
 		if(!nProtect.getInstance().checkRestriction(noble, RestrictionType.RESTRICT_OLYMPIAD))
 			return false;
 
-		if(!_nobles.containsKey(noble.getObjectId()))
+		final int noble_obj_id = noble.getObjectId();
+		if(!_nobles.containsKey(noble_obj_id))
 		{
 			StatsSet statDat = new StatsSet();
 			statDat.set(CLASS_ID, noble.getClassId().getId());
@@ -480,16 +483,16 @@ public class Olympiad
 			statDat.set(COMP_DONE, 0);
 			statDat.set("to_save", true);
 
-			_nobles.put(noble.getObjectId(), statDat);
+			_nobles.put(noble_obj_id, statDat);
 		}
 
 		if(_classBasedRegisters.containsKey(noble.getClassId().getId()))
 		{
-			L2FastList<L2PcInstance> classed = _classBasedRegisters.get(noble.getClassId().getId());
-			for(L2PcInstance partecipant : classed)
+			final L2FastList<L2PcInstance> classed = _classBasedRegisters.get(noble.getClassId().getId());
+			for(final L2PcInstance partecipant : classed)
 			{
 				if(partecipant!=null) {
-					if(partecipant.getObjectId() == noble.getObjectId())
+					if(partecipant.getObjectId() == noble_obj_id)
 					{
 						sm = new SystemMessage(SystemMessageId.YOU_ARE_ALREADY_ON_THE_WAITING_LIST_TO_PARTICIPATE_IN_THE_GAME_FOR_YOUR_CLASS);
 						noble.sendPacket(sm);
@@ -500,10 +503,11 @@ public class Olympiad
 			}
 		}
 
-		for(L2PcInstance partecipant : _nonClassBasedRegisters)
+		final L2FastList<L2PcInstance> not_classed = _nonClassBasedRegisters;
+		for(final L2PcInstance partecipant : not_classed)
 		{
 			if(partecipant!=null) {
-				if(partecipant.getObjectId() == noble.getObjectId())
+				if(partecipant.getObjectId() == noble_obj_id)
 				{
 					sm = new SystemMessage(SystemMessageId.YOU_ARE_ALREADY_ON_THE_WAITING_LIST_FOR_ALL_CLASSES_WAITING_TO_PARTICIPATE_IN_THE_GAME);
 					noble.sendPacket(sm);
@@ -513,14 +517,15 @@ public class Olympiad
 				_nonClassBasedRegisters.remove(partecipant);
 		}
 
-		for(L2OlympiadGame g : _manager.getOlympiadGames().values())
+		final Collection<L2OlympiadGame> games =  _manager.getOlympiadGames().values();
+		for(final L2OlympiadGame g :games)
 		{
 			if (g == null)
 				continue;
 
-			for(L2PcInstance player : g.getPlayers())
+			for(final L2PcInstance player : g.getPlayers())
 			{
-				if(player.getObjectId() == noble.getObjectId())
+				if(player.getObjectId() == noble_obj_id)
 				{
 					sm = new SystemMessage(SystemMessageId.YOU_ARE_ALREADY_ON_THE_WAITING_LIST_FOR_ALL_CLASSES_WAITING_TO_PARTICIPATE_IN_THE_GAME);
 					noble.sendPacket(sm);
@@ -528,12 +533,12 @@ public class Olympiad
 				}
 			}
 		}
-		if(classBased && getNoblePoints(noble.getObjectId()) < 3)
+		if(classBased && getNoblePoints(noble_obj_id) < 3)
 		{
 			noble.sendMessage("Cant register when you have less than 3 points");
 			return false;
 		}
-		if(!classBased && getNoblePoints(noble.getObjectId()) < 5)
+		if(!classBased && getNoblePoints(noble_obj_id) < 5)
 		{
 			noble.sendMessage("Cant register when you have less than 5 points");
 			return false;
@@ -1147,9 +1152,10 @@ public class Olympiad
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			
-			for(Integer nobleId : nobles.keySet())
+			final Set<Integer> nobles_list = nobles.keySet();
+			for(final Integer nobleId : nobles_list)
 			{
-				StatsSet nobleInfo = nobles.get(nobleId);
+				final StatsSet nobleInfo = nobles.get(nobleId);
 
 				int charId = nobleId;
 				int classId = nobleInfo.getInteger(CLASS_ID);

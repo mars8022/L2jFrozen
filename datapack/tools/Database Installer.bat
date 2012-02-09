@@ -33,7 +33,7 @@ echo.   L2-Frozen Team - Database Login Server
 echo. _____________________________________________________________________
 echo.
 echo.   1 - Full install database loginserver`s.
-echo.   2 - Skip install loginserver db, go to install gamserver databases
+echo.   2 - Skip install loginserver db, go to install gameserver databases
 echo.   3 - Exit from installer
 echo. ---------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ echo Update table accounts.sql
 echo Update table gameservers.sql
 %mysqlPath% -h %lshost% -u %lsuser% --password=%lspass% -D %lsdb% < ../sql/gameservers.sql
 echo.
-echo Database login server will be installer whis no-error!!
+echo Database login server has been installed with no-errors!!
 pause
 goto :Step2
 
