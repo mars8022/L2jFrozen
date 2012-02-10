@@ -5650,7 +5650,6 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
 			if (!target.getDropProtection().tryPickUp(this))
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -5658,15 +5657,13 @@ public final class L2PcInstance extends L2PlayableInstance
 				smsg.addItemName(target.getItemId());
 				sendPacket(smsg);
 				return;
-			}
-			
+			}			
 			if((isInParty() && getParty().getLootDistribution() == L2Party.ITEM_LOOTER || !isInParty()) && !_inventory.validateCapacity(target))
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				sendPacket(new SystemMessage(SystemMessageId.SLOTS_FULL));
 				return;
 			}
-
 			if(isInvul() && !isGM())
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -5676,7 +5673,6 @@ public final class L2PcInstance extends L2PlayableInstance
 				smsg = null;
 				return;
 			}
-
 			if(target.getOwnerId() != 0 && target.getOwnerId() != getObjectId() && !isInLooterParty(target.getOwnerId()))
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -5703,7 +5699,6 @@ public final class L2PcInstance extends L2PlayableInstance
 					sendPacket(smsg);
 					smsg = null;
 				}
-
 				return;
 			}
 
@@ -5765,16 +5760,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				addItem("Pickup", target, null, true);
 
-			    //Auto-Equip arrows if player has a bow and player picks up arrows. 
-				final L2EtcItem etcItem = (L2EtcItem) target.getItem();
-				if (etcItem != null) 
-		 	    {
-					final L2EtcItemType itemType = etcItem.getItemType();
-					if (itemType == L2EtcItemType.ARROW)
-					{
-						checkAndEquipArrows();
-					}
-		 	    }
+			    //Like L2OFF Auto-Equip arrows if player has a bow and player picks up arrows. 
+				if(target.getItem() != null && target.getItem().getItemType() == L2EtcItemType.ARROW)
+					 checkAndEquipArrows();				     
 			}
 		}
 		target = null;

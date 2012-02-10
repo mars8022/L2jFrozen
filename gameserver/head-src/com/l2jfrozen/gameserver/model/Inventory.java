@@ -1521,6 +1521,9 @@ public abstract class Inventory extends ItemContainer
 	 */
 	public L2ItemInstance findArrowForBow(L2Item bow)
 	{
+		if(bow == null)
+		   return null;
+		
 		int arrowsId = 0;
 
 		switch(bow.getCrystalType())
@@ -1545,7 +1548,6 @@ public abstract class Inventory extends ItemContainer
 				arrowsId = 1345;
 				break; // Shining arrow
 		}
-
 		// Get the L2ItemInstance corresponding to the item identifier and return it
 		return getItemByItemId(arrowsId);
 	}
