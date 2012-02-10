@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutRegister;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
@@ -118,7 +119,9 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 
 		if(player.getSp() >= _requiredSp)
 		{
-			if(player.getExp() >= _requiredExp)
+			// Like L2OFF you can't delevel during skill enchant
+			long expAfter = player.getExp() - _requiredExp;
+			if(player.getExp() >= _requiredExp && expAfter >= Experience.LEVEL[player.getLevel()])
 			{
 				if(Config.ES_SP_BOOK_NEEDED && (_skillLvl == 101 || _skillLvl == 141)) // only first lvl requires book
 				{
