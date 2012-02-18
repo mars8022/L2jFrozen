@@ -215,7 +215,6 @@ import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSummon;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2ArmorType;
-import com.l2jfrozen.gameserver.templates.L2EtcItem;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Henna;
 import com.l2jfrozen.gameserver.templates.L2Item;

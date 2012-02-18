@@ -28,10 +28,9 @@ public class L2BufferInstance
 {
 	static L2PcInstance selfBuffer;
 	static L2NpcInstance npcBuffer;
-
+	
 	/**
 	 * Apply Buffs onto a player.
-	 *
 	 * @param player
 	 * @param _templateId
 	 * @param efector
@@ -39,16 +38,19 @@ public class L2BufferInstance
 	 */
 	public static void makeBuffs(L2PcInstance player, int _templateId, L2Object efector, boolean paymentRequired)
 	{
-		if (player == null) {
+		if (player == null)
+		{
 			return;
 		}
 		
 		L2NpcInstance buffer = null;
-		if(player.getTarget() != null)
-			if(player.getTarget() instanceof L2NpcInstance)
+		if (player.getTarget() != null)
+		{
+			if (player.getTarget() instanceof L2NpcInstance)
 			{
 				buffer = (L2NpcInstance) getbufferType(efector);
 			}
+		}
 		
 		if (buffer == null)
 		{
@@ -59,7 +61,8 @@ public class L2BufferInstance
 		
 		ArrayList<Buff> _templateBuffs = new ArrayList<Buff>();
 		_templateBuffs = BuffTable.getInstance().getBuffsForID(_templateId);
-		if (_templateBuffs == null || _templateBuffs.size() == 0) {
+		if ((_templateBuffs == null) || (_templateBuffs.size() == 0))
+		{
 			return;
 		}
 		int _priceTotal = 0;
@@ -75,26 +78,26 @@ public class L2BufferInstance
 				_priceTotal += _buff._price;
 			}
 			
-			if (_buff._force || player.getFirstEffect(_buff._skill) == null)
+			if (_buff._force || (player.getFirstEffect(_buff._skill) == null))
 			{
 				buffer.setBusy(true);
 				buffer.setCurrentMp(buffer.getMaxMp());
 				buffer.setTarget(player);
 				buffer.doCast(_buff._skill);
 				buffer.setBusy(false);
-			} else{
-				_buff._skill.getEffects(player, player,false,false,false);
+			}
+			else
+			{
+				_buff._skill.getEffects(player, player, false, false, false);
 			}
 			
 		}
 		if (paymentRequired && (_priceTotal > 0))
 		{
-			if (_priceTotal > 0) {
-				player.reduceAdena("NpcBuffer", _priceTotal, player.getLastFolkNPC(), true);
-			}
+			player.reduceAdena("NpcBuffer", _priceTotal, player.getLastFolkNPC(), true);
 		}
 	}
-
+	
 	private static L2Character getbufferType(L2Object efector)
 	{
 		if (efector instanceof L2PcInstance)
@@ -109,6 +112,6 @@ public class L2BufferInstance
 		}
 		return (L2Character) efector;
 	}
-
+	
 	static Logger _log = Logger.getLogger(Config.class.getName());
 }
