@@ -25,18 +25,11 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2TopDeamon implements Runnable
 {
-	private static L2TopDeamon _instance = null;
-	public static L2TopDeamon getInstance()
-	{
-		if(_instance == null)
-			_instance = new L2TopDeamon();
-		return _instance;
-	}
 	private static final Logger _log = Logger.getLogger(L2TopDeamon.class.getName());
-    private ScheduledFuture<?> _task;
+	private ScheduledFuture<?> _task;
 	private Timestamp _lastVote;
 	private boolean _firstRun = false;
-
+	
 	private class Terminator extends Thread
 	{
 		@Override
@@ -45,23 +38,26 @@ public class L2TopDeamon implements Runnable
 			System.out.println("L2TopDeamon: stopped");
 			try
 			{
-				if(L2TopDeamon.getInstance()._task!=null)
+				if (L2TopDeamon.getInstance()._task != null)
 				{
 					L2TopDeamon.getInstance()._task.cancel(true);
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+				{
 					e.printStackTrace();
+				}
 				
 			}
 		}
 	}
+	
 	private L2TopDeamon()
 	{
 		_lastVote = null;
-		if(PowerPakConfig.L2TOPDEMON_ENABLED)
+		if (PowerPakConfig.L2TOPDEMON_ENABLED)
 		{
 			Connection con = null;
 			try
@@ -69,9 +65,11 @@ public class L2TopDeamon implements Runnable
 				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement stm = con.prepareStatement("select max(votedate) from l2votes");
 				ResultSet r = stm.executeQuery();
-				if(r.next())
+				if (r.next())
+				{
 					_lastVote = r.getTimestamp(1);
-				if(_lastVote == null)
+				}
+				if (_lastVote == null)
 				{
 					_firstRun = true;
 					_lastVote = new Timestamp(0);
@@ -83,11 +81,13 @@ public class L2TopDeamon implements Runnable
 				Runtime.getRuntime().addShutdownHook(new Terminator());
 				_log.info("L2TopDeamon: Started with poll interval " + PowerPakConfig.L2TOPDEMON_POLLINTERVAL + " minute(s)");
 			}
-			catch(SQLException e)
+			catch (SQLException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+				{
 					e.printStackTrace();
-
+				}
+				
 				_log.info("L2TopDeamon: Error connection to database: " + e.getMessage());
 			}
 			finally
@@ -97,17 +97,20 @@ public class L2TopDeamon implements Runnable
 			}
 		}
 	}
+	
 	private class VotesUpdate implements SQLQuery
 	{
-		private Timestamp _votedate; 
-		private String _charName;
-		private boolean _fr;
+		private final Timestamp _votedate;
+		private final String _charName;
+		private final boolean _fr;
+		
 		public VotesUpdate(Timestamp votedate, String charName, boolean fr)
 		{
 			_votedate = votedate;
 			_charName = charName;
 			_fr = fr;
 		}
+		
 		@Override
 		public void execute(Connection con)
 		{
@@ -118,32 +121,38 @@ public class L2TopDeamon implements Runnable
 				stm.setTimestamp(3, _votedate);
 				stm.setString(2, _charName);
 				stm.setString(4, _charName);
-				boolean sendPrize  = stm.executeUpdate()>0; 
+				boolean sendPrize = stm.executeUpdate() > 0;
 				stm.close();
-				if(_fr && PowerPakConfig.L2TOPDEMON_IGNOREFIRST)
+				if (_fr && PowerPakConfig.L2TOPDEMON_IGNOREFIRST)
+				{
 					sendPrize = false;
-				if(sendPrize)
+				}
+				if (sendPrize)
 				{
 					L2PcInstance player = L2Utils.loadPlayer(_charName);
-					if(player!=null)
+					if (player != null)
 					{
 						int numItems = PowerPakConfig.L2TOPDEMON_MIN;
-						if(PowerPakConfig.L2TOPDEMON_MAX > PowerPakConfig.L2TOPDEMON_MIN )
-							numItems += Rnd.get(PowerPakConfig.L2TOPDEMON_MAX-PowerPakConfig.L2TOPDEMON_MIN);
+						if (PowerPakConfig.L2TOPDEMON_MAX > PowerPakConfig.L2TOPDEMON_MIN)
+						{
+							numItems += Rnd.get(PowerPakConfig.L2TOPDEMON_MAX - PowerPakConfig.L2TOPDEMON_MIN);
+						}
 						player.addItem("l2top", PowerPakConfig.L2TOPDEMON_ITEM, numItems, null, true);
-						if(player.isOnline()!=0 && PowerPakConfig.L2TOPDEMON_MESSAGE != null && PowerPakConfig.L2TOPDEMON_MESSAGE.length() >0)
+						if ((player.isOnline() != 0) && (PowerPakConfig.L2TOPDEMON_MESSAGE != null) && (PowerPakConfig.L2TOPDEMON_MESSAGE.length() > 0))
+						{
 							player.sendMessage(PowerPakConfig.L2TOPDEMON_MESSAGE);
+						}
 						player.store();
 					}
 				}
 			}
-			catch(SQLException e)
+			catch (SQLException e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
-
+	
 	private boolean checkVotes()
 	{
 		BufferedReader reader = null;
@@ -155,36 +164,46 @@ public class L2TopDeamon implements Runnable
 			reader = new BufferedReader(new InputStreamReader(url.openStream()));
 			String line;
 			Timestamp last = _lastVote;
-			while((line= reader.readLine())!=null)
+			while ((line = reader.readLine()) != null)
 			{
-				if(line.indexOf("\t")!=-1)
+				if (line.indexOf("\t") != -1)
 				{
-					Timestamp voteDate = Timestamp.valueOf(line.substring(0,line.indexOf("\t")).trim());
-					if(voteDate.after(_lastVote))
+					Timestamp voteDate = Timestamp.valueOf(line.substring(0, line.indexOf("\t")).trim());
+					if (voteDate.after(_lastVote))
 					{
-						if(voteDate.after(last))
+						if (voteDate.after(last))
+						{
 							last = voteDate;
-						String charName = line.substring(line.indexOf("\t")+1).toLowerCase();
-						if(PowerPakConfig.L2TOPDEMON_PREFIX!=null && PowerPakConfig.L2TOPDEMON_PREFIX.length()>0)
-							if(charName.startsWith(PowerPakConfig.L2TOPDEMON_PREFIX)) {
+						}
+						String charName = line.substring(line.indexOf("\t") + 1).toLowerCase();
+						if ((PowerPakConfig.L2TOPDEMON_PREFIX != null) && (PowerPakConfig.L2TOPDEMON_PREFIX.length() > 0))
+						{
+							if (charName.startsWith(PowerPakConfig.L2TOPDEMON_PREFIX))
+							{
 								charName = charName.substring(PowerPakConfig.L2TOPDEMON_PREFIX.length());
 							}
 							else
+							{
 								continue;
-						SQLQueue.getInstance().add(new VotesUpdate(voteDate,charName,_firstRun));
+							}
+						}
+						SQLQueue.getInstance().add(new VotesUpdate(voteDate, charName, _firstRun));
 						nVotes++;
 					}
 				}
 			}
 			_lastVote = last;
-			_log.info("L2TopDeamon: "+nVotes+" vote(s) parsed");
+			_log.info("L2TopDeamon: " + nVotes + " vote(s) parsed");
 			return true;
-		} catch(Exception e)
+		}
+		catch (Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+			{
 				e.printStackTrace();
+			}
 			
-			_log.info("L2TopDeamon: Error while reading data"+ e);
+			_log.info("L2TopDeamon: Error while reading data" + e);
 		}
 		finally
 		{
@@ -202,11 +221,22 @@ public class L2TopDeamon implements Runnable
 		}
 		return false;
 	}
+	
 	@Override
 	public void run()
 	{
 		checkVotes();
 		_firstRun = false;
-		
+	}
+	
+	public static L2TopDeamon getInstance()
+	{
+		return SingletonHolder._instance;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	private static class SingletonHolder
+	{
+		protected static final L2TopDeamon _instance = new L2TopDeamon();
 	}
 }

@@ -26,7 +26,6 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class PayStream implements HttpHandler
 {
-
 	private static final Logger _log = Logger.getLogger(PayStream.class.getName());
 	// An indication that all options are read, and the handler can be created
 
