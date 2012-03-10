@@ -34,8 +34,8 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 	private int _y;
 	private int _z;
 	private int _skillId;
-	private int _ctrlPressed;
-	private int _shiftPressed;
+	private boolean _ctrlPressed;
+	private boolean _shiftPressed;
 
 	@Override
 	protected void readImpl()
@@ -44,8 +44,8 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 		_y = readD();
 		_z = readD();
 		_skillId = readD();
-		_ctrlPressed = readD();
-		_shiftPressed = readC();
+		_ctrlPressed = readD() != 0;
+		_shiftPressed = readC() != 0;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 			// normally magicskilluse packet turns char client side but for these skills, it doesn't (even with correct target)
 			activeChar.setHeading(Util.calculateHeadingFrom(activeChar.getX(), activeChar.getY(), _x , _y));
 			activeChar.broadcastPacket(new ValidateLocation(activeChar));
-			activeChar.useMagic(skill, _ctrlPressed == 1 ? true : false, _shiftPressed == 1 ? true : false);
+			activeChar.useMagic(skill, _ctrlPressed, _shiftPressed);
 		}
 		else
 		{

@@ -10587,8 +10587,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		// failed to cast, or the casting is not yet in progress when this is rechecked
 		if(curr_skill_id != -1 && (isCastingNow() || isCastingPotionNow()))
 		{
+			SkillDat currentSkill = getCurrentSkill();
 			// Check if new skill different from current skill in progress
-			if(skill_id == curr_skill_id)
+			if (currentSkill != null && skill.getId() == currentSkill.getSkillId())
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
@@ -10604,10 +10605,15 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		if(getQueuedSkill() != null)
-		{
+		
+		// Create a new SkillDat object and set the player _currentSkill
+		// This is used mainly to save & queue the button presses, since L2Character has
+		// _lastSkillCast which could otherwise replace it
+		setCurrentSkill(skill, forceUse, dontMove);
+		
+		if (getQueuedSkill() != null) // wiping out previous values, after casting has been aborted
 			setQueuedSkill(null, false, false);
-		}
+		
 
 		//triggered skills cannot be used directly
 		if(_triggeredSkills.size()>0){

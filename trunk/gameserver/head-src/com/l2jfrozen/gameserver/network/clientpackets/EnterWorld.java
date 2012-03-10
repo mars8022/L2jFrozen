@@ -128,6 +128,9 @@ public class EnterWorld extends L2GameClientPacket
 			getClient().closeNow();
 			return;
 		}
+		
+		// Set lock at login
+		activeChar.setLocked(true);
 
 		// Register in flood protector
 		//FloodProtector.getInstance().registerNewPlayer(activeChar.getObjectId());
@@ -471,6 +474,9 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.disableAllSkills();
 			ThreadPoolManager.getInstance().scheduleGeneral(new Disconnection(activeChar), 20000);
 		}
+		
+		// Close lock at login
+		activeChar.setLocked(false);
 	}
 
 	private boolean isValidName(String text)
