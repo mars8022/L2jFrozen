@@ -193,6 +193,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 		else
 		{
 			msg = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
+			msg.addString(target.getName());
 			requestor.sendPacket(msg);
 
 			if(Config.DEBUG)

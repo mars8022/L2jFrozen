@@ -18,14 +18,19 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import java.util.logging.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreManageListSell;
+import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 {
+	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
+	
 	@Override
 	protected void readImpl()
 	{}
@@ -36,6 +41,14 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 		L2PcInstance player = getClient().getActiveChar();
 		if(player == null)
 			return;
+		
+		// Fix for privatestore exploit during login
+		if(!player.isVisible() || player.isLocked())
+		{
+			Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " try exploit at login with privatestore!", Config.DEFAULT_PUNISH);
+			_log.warning("Player " + player.getName() + " try exploit at login with privatestore!");
+			return;
+		}
 
 		// Player shouldn't be able to set stores if he/she is alike dead (dead or fake death)
 		if(player.isAlikeDead())
