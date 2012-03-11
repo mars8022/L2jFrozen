@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -590,61 +591,72 @@ public final class GeoEngine extends GeoData
 	//GeoEngine
 	private void nInitGeodata()
 	{
+		_log.info("Geo Engine: - Loading Geodata...");
+		File Data = new File(Config.DATAPACK_ROOT, "data/geodata/geo_index.txt");
+		if(!Data.exists())
+			return;
+		
 		BufferedReader lnr = null;
+		FileReader reader = null;
 		try
 		{
-			_log.info("Geo Engine: - Loading Geodata...");
-			File Data = new File(Config.DATAPACK_ROOT, "data/geodata/geo_index.txt");
-			if(!Data.exists())
-				return;
-
-			lnr = new BufferedReader(new FileReader(Data));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			throw new Error("Failed to Load geo_index File.");
-		}
-		String line;
-		try
-		{
+			reader = new FileReader(Data);
+			lnr = new BufferedReader(reader);
+			
+			String line;
 			while((line = lnr.readLine()) != null) {
+				
 				if(line.trim().length() == 0)
 					continue;
+				
 				StringTokenizer st = new StringTokenizer(line, "_");
 				byte rx = Byte.parseByte(st.nextToken());
 				byte ry = Byte.parseByte(st.nextToken());
 				loadGeodataFile(rx,ry);
 			}
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Read geo_index File.");
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e)
+				{
 					e.printStackTrace();
-				
-			}
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
 		}
+		
+		File geo_bugs = new File(Config.DATAPACK_ROOT, "data/geodata/geo_bugs.txt");
+		FileOutputStream out = null;
 		try
 		{
-			File geo_bugs = new File(Config.DATAPACK_ROOT, "data/geodata/geo_bugs.txt");
-			_geoBugsOut = new BufferedOutputStream(new FileOutputStream(geo_bugs, true));
+			out = new FileOutputStream(geo_bugs, true);
+			_geoBugsOut = new BufferedOutputStream(out);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Load geo_bugs.txt File.");
+			
 		}
+		
 	}
 	
 	@Override
@@ -658,16 +670,19 @@ public final class GeoEngine extends GeoData
 	@Override
 	public boolean loadGeodataFile(byte rx, byte ry)
 	{
+		boolean output = false;
 		String fname = "data/geodata/" + rx + "_" + ry + ".l2j";
 		short regionoffset = (short) ((rx << 5) + ry);
 		_log.info("Geo Engine: - Loading: " + fname + " -> region offset: " + regionoffset + "X: " + rx + " Y: " + ry);
 		File Geo = new File(Config.DATAPACK_ROOT, fname);
 		int size, index = 0, block = 0, flor = 0;
 		FileChannel roChannel = null;
+		RandomAccessFile raf = null;
 		try
 		{
 			// Create a read-only memory-mapped file
-			roChannel = new RandomAccessFile(Geo, "r").getChannel();
+			raf = new RandomAccessFile(Geo, "r");
+			roChannel = raf.getChannel();
 			size = (int) roChannel.size();
 			MappedByteBuffer geo;
 			if(Config.FORCE_GEODATA) //Force O/S to Loads this buffer's content into physical memory.
@@ -706,29 +721,39 @@ public final class GeoEngine extends GeoData
 			}
 			_geodata.set(regionoffset,geo);
 
+			output = true;
 			_log.info("Geo Engine: - Max Layers: " + flor + " Size: " + size + " Loaded: " + index);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			_log.log(Level.WARNING,"Failed to Load GeoFile at block: " + block + "\n");
-			return false;
+			
 		}
 		finally
 		{
-			try
-			{
-				if(roChannel != null)
+			if(roChannel != null)
+				try
+				{
 					roChannel.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(raf != null)
+				try
+				{
+					raf.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
-		return true;
+		return output;
 	}
 
 	//Geodata Methods

@@ -271,7 +271,10 @@ public final class GeoPathFinding extends PathFinding
 
 	private GeoPathFinding()
 	{
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
+		
 		try
 		{
 			_log.info("PathFinding Engine: - Loading Path Nodes...");
@@ -279,18 +282,11 @@ public final class GeoPathFinding extends PathFinding
 			if(!Data.exists())
 				return;
 
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(Data)));
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			throw new Error("Failed to Load pn_index File.", e);
-		}
-		String line;
-		try
-		{
+			reader = new FileReader(Data);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
+
+			String line;
 			while((line = lnr.readLine()) != null)
 			{
 				if(line.trim().length() == 0)
@@ -300,27 +296,47 @@ public final class GeoPathFinding extends PathFinding
 				byte ry = Byte.parseByte(st.nextToken());
 				LoadPathNodeFile(rx, ry);
 			}
+			
+			
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			throw new Error("Failed to Read pn_index File.", e);
+			e.printStackTrace();
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
+		
 	}
 
 	private void LoadPathNodeFile(byte rx, byte ry)
@@ -330,11 +346,13 @@ public final class GeoPathFinding extends PathFinding
 		_log.info("PathFinding Engine: - Loading: " + fname + " -> region offset: " + regionoffset + "X: " + rx + " Y: " + ry);
 		File Pn = new File(fname);
 		int node = 0,size, index = 0;
+		RandomAccessFile raf = null;
 		FileChannel roChannel = null;
 		try
 		{
 			// Create a read-only memory-mapped file
-			roChannel = new RandomAccessFile(Pn, "r").getChannel();
+			raf = new RandomAccessFile(Pn, "r");
+			roChannel = raf.getChannel();
 			size = (int)roChannel.size();
 			MappedByteBuffer nodes;
 			if(Config.FORCE_GEODATA) //Force O/S to Loads this buffer's content into physical memory.
@@ -364,17 +382,27 @@ public final class GeoPathFinding extends PathFinding
 		}
 		finally
 		{
-			try
-			{
-				if(roChannel != null)
+			if(roChannel != null)
+				try
+				{
 					roChannel.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(raf != null)
+				try
+				{
+					raf.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			
 		}
 
 	}

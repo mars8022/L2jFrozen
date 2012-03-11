@@ -55,12 +55,17 @@ public class ExpTable
 
 	public void load()
 	{
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
-
+		
 		try
 		{
 			File fileData = new File("./data/sts/ExtTable.sts");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(fileData)));
+			
+			reader = new FileReader(fileData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
 
 			String line = null;
 
@@ -84,35 +89,47 @@ public class ExpTable
 		}
 		catch(FileNotFoundException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			
+			e.printStackTrace();
 			_log.warning("ExpTable is missing in sts folder");
-			System.exit(1);
+
 		}
 		catch(IOException e0)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e0.printStackTrace();
-			
-			
+			e0.printStackTrace();
 			_log.warning("Error while creating exp table: " + e0.getMessage());
-			System.exit(1);
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e1)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
 					e1.printStackTrace();
-				
-			}
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 }

@@ -56,13 +56,15 @@ public class GMAudit
 		}
 		finally
 		{
-			try
-			{
-				save.close();
-			}
-			catch (Exception e)
-			{
-			}
+			if(save != null)
+				try
+				{
+					save.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 		}
 	}
 	

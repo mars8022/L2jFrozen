@@ -75,28 +75,48 @@ public final class L2Properties extends Properties
 	}
 
 	@Override
-	public synchronized void load(InputStream inStream) throws IOException
+	public synchronized void load(InputStream inStream)
 	{
 		try
 		{
 			super.load(inStream);
+		}catch(IOException e){
+			e.printStackTrace();
 		}
 		finally
 		{
-			inStream.close();
+			if(inStream != null)
+				try
+				{
+					inStream.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 		}
 	}
 
 	@Override
-	public synchronized void load(Reader reader) throws IOException
+	public synchronized void load(Reader reader)
 	{
 		try
 		{
 			super.load(reader);
+		}catch(IOException e){
+			e.printStackTrace();
 		}
 		finally
 		{
-			reader.close();
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 		}
 	}
 

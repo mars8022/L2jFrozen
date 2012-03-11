@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.managers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -207,14 +208,13 @@ public class SiegeManager
 	private final void load()
 	{
 		_log.info("Initializing SiegeManager");
+		InputStream is = null;
 		try
 		{
-			InputStream is = new FileInputStream(new File(FService.SIEGE_CONFIGURATION_FILE));
+			is = new FileInputStream(new File(FService.SIEGE_CONFIGURATION_FILE));
 			Properties siegeSettings = new Properties();
 			siegeSettings.load(is);
-			is.close();
-			is = null;
-
+			
 			// Siege setting
 			_attackerMaxClans = Integer.decode(siegeSettings.getProperty("AttackerMaxClans", "500"));
 			_attackerRespawnDelay = Integer.decode(siegeSettings.getProperty("AttackerRespawn", "30000"));
@@ -319,6 +319,19 @@ public class SiegeManager
 			//_initialized = false;
 			System.err.println("Error while loading siege data.");
 			e.printStackTrace();
+			
+		}finally{
+			
+			if(is != null){
+				try
+				{
+					is.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

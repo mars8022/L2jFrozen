@@ -22,10 +22,12 @@ package com.l2jfrozen.gameserver.util;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import com.l2jfrozen.Config;
@@ -69,10 +71,16 @@ public class JarClassLoader extends ClassLoader
 
 		for(String jarFile : _jars)
 		{
+			boolean breakable = false;
+			File file = new File(jarFile);
+			ZipFile zipFile = null;
+			InputStream is = null;
+			DataInputStream zipStream = null;
+			
 			try
 			{
-				File file = new File(jarFile);
-				ZipFile zipFile = new ZipFile(file);
+				zipFile = new ZipFile(file);
+				
 				String fileName = name.replace('.', '/') + ".class";
 				ZipEntry entry = zipFile.getEntry(fileName);
 
@@ -80,24 +88,57 @@ public class JarClassLoader extends ClassLoader
 				{
 					continue;
 				}
-
+				
 				classData = new byte[(int) entry.getSize()];
-				DataInputStream zipStream = new DataInputStream(zipFile.getInputStream(entry));
+				
+				is = zipFile.getInputStream(entry);
+				zipStream = new DataInputStream(is);
 				zipStream.readFully(classData, 0, (int) entry.getSize());
-				break;
+				breakable = true;
+				
 			}
-			catch(IOException e)
+			catch(ZipException e2)
 			{
-				
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.log(Level.WARNING, jarFile + ":" + e.toString(), e);
-				continue;
+				e2.printStackTrace();
 			}
+			catch(IOException e2)
+			{
+				e2.printStackTrace();
+			}
+			finally{
+				
+				if(zipStream!=null)
+					try
+					{
+						zipStream.close();
+					}
+					catch(IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				
+				if(is!=null){
+					try
+					{
+						is.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				
+			}
+			
+			if(breakable)
+				break;
+			
+			
 		}
+		
 		if(classData == null)
 			throw new IOException("class not found in " + _jars);
+		
 		return classData;
 	}
 }

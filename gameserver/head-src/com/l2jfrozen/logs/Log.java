@@ -41,24 +41,30 @@ public class Log
 		String date = new SimpleDateFormat("yy.MM.dd H:mm:ss").format(new Date());
 
 		new File("log/game").mkdirs();
-
+		File file = new File("log/game/" + (cat != null ? cat : "_all") + ".txt");
+		FileWriter save = null;
 		try
 		{
-			File file = new File("log/game/" + (cat != null ? cat : "_all") + ".txt");
-			//			file.getAbsolutePath().mkdirs();
-			FileWriter save = new FileWriter(file, true);
+			save = new FileWriter(file, true);
 			String out = "[" + date + "] '---': " + text + "\n"; // "+char_name()+"
 			save.write(out);
 			save.flush();
-			save.close();
-			save = null;
-			file = null;
-			out = null;
 		}
 		catch(IOException e)
 		{
 			_log.warning("saving chat log failed: " + e);
 			e.printStackTrace();
+		}finally{
+			
+			if(save != null)
+				try
+				{
+					save.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 		}
 
 		if(cat != null)

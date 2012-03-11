@@ -105,12 +105,15 @@ public class LoginStatusThread extends Thread
 		}
 		finally
 		{
-			try
-			{
-				telnetIS.close();
-			}
-			catch (Exception e)
-			{
+			if(telnetIS != null){
+				try
+				{
+					telnetIS.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 		

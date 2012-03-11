@@ -184,9 +184,7 @@ public class DimensionalRiftManager
 				throw new IOException();
 
 			Document doc = factory.newDocumentBuilder().parse(file);
-			factory = null;
-			file = null;
-
+			
 			NamedNodeMap attrs;
 			byte type, roomId;
 			int mobId, x, y, z, delay, count;

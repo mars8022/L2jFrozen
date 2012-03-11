@@ -282,7 +282,7 @@ public abstract class L2ZoneType
 				return;
 		}
 		
-		if(Config.DEBUG &&  character !=null && character.getName()!=null && character.getName().equalsIgnoreCase("pippo")){
+		if(Config.DEBUG &&  character instanceof L2PcInstance && ((L2PcInstance)character).isGM()){
 			
 			System.out.println("Character "+character.getName() +" has coords: ");
 			System.out.println("	X: "+character.getX());
@@ -314,10 +314,10 @@ public abstract class L2ZoneType
 		}
 		
 		if(Config.DEBUG){
-			System.out.println(" -  players inside zone "+_id+": ");
+			
 			for(L2Character actual: _characterList.values()){
 				if(actual instanceof L2PcInstance)
-					System.out.println("	 -  "+actual.getName());
+					System.out.println("	 -  "+actual.getName()+" is inside zone "+_id);
 			}
 		}
 		

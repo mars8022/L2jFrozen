@@ -462,10 +462,11 @@ public final class Config
 	public static void loadTelnetConfig()
 	{
 		// Load Telnet L2Properties file (if exists)
+		FileInputStream is = null;
 		try
 		{
 			L2Properties telnetSettings = new L2Properties();
-			FileInputStream is = new FileInputStream(new File(FService.TELNET_FILE));
+			is = new FileInputStream(new File(FService.TELNET_FILE));
 			telnetSettings.load(is);
 
 			IS_TELNET_ENABLED = Boolean.parseBoolean(telnetSettings.getProperty("EnableTelnet", "false"));
@@ -474,6 +475,18 @@ public final class Config
 		{
 			e.printStackTrace();
 			throw new Error("Failed to Load "+FService.TELNET_FILE+" File.");
+		}finally{
+			
+			if(is != null){
+				try
+				{
+					is.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
@@ -3215,6 +3228,8 @@ public final class Config
 				security.load(is);
 				
 				loadFloodProtectorConfigs(security);
+				is.close();
+				
 			}
 			catch (Exception e)
 			{
@@ -4278,85 +4293,81 @@ public final class Config
 			try
 			{
 				fis = new FileInputStream(bannedFile);
+				
+				LineNumberReader reader = null;
+				String line;
+				String[] parts;
+				try
+				{
+					reader = new LineNumberReader(new InputStreamReader(fis));
+					
+					while ((line = reader.readLine()) != null)
+					{
+						line = line.trim();
+						// check if this line isnt a comment line
+						if (line.length() > 0 && line.charAt(0) != '#')
+						{
+							// split comments if any
+							parts = line.split("#", 2);
+							
+							// discard comments in the line, if any
+							line = parts[0];
+							
+							parts = line.split(" ");
+							
+							String address = parts[0];
+							
+							long duration = 0;
+							
+							if (parts.length > 1)
+							{
+								try
+								{
+									duration = Long.parseLong(parts[1]);
+								}
+								catch (NumberFormatException e)
+								{
+									_log.warning("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
+									continue;
+								}
+							}
+							
+							try
+							{
+								LoginController.getInstance().addBanForAddress(address, duration);
+							}
+							catch (UnknownHostException e)
+							{
+								_log.warning("Skipped: Invalid address (" + parts[0] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
+							}
+						}
+					}
+				}
+				catch (IOException e)
+				{
+					_log.log(Level.WARNING, "Error while reading the bans file (" + bannedFile.getName() + "). Details: " + e.getMessage(), e);
+				}
+				
+				_log.info("Loaded " + LoginController.getInstance().getBannedIps().size() + " IP Bans.");
+				
 			}
 			catch (FileNotFoundException e)
 			{
 				_log.log(Level.WARNING, "Failed to load banned IPs file (" + bannedFile.getName() + ") for reading. Reason: " + e.getMessage(), e);
-				return;
+			}finally{
+				
+				if(fis != null)
+					try
+					{
+						fis.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
 			}
 			
-			LineNumberReader reader = null;
-			String line;
-			String[] parts;
-			try
-			{
-				reader = new LineNumberReader(new InputStreamReader(fis));
-				
-				while ((line = reader.readLine()) != null)
-				{
-					line = line.trim();
-					// check if this line isnt a comment line
-					if (line.length() > 0 && line.charAt(0) != '#')
-					{
-						// split comments if any
-						parts = line.split("#", 2);
-						
-						// discard comments in the line, if any
-						line = parts[0];
-						
-						parts = line.split(" ");
-						
-						String address = parts[0];
-						
-						long duration = 0;
-						
-						if (parts.length > 1)
-						{
-							try
-							{
-								duration = Long.parseLong(parts[1]);
-							}
-							catch (NumberFormatException e)
-							{
-								_log.warning("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
-								continue;
-							}
-						}
-						
-						try
-						{
-							LoginController.getInstance().addBanForAddress(address, duration);
-						}
-						catch (UnknownHostException e)
-						{
-							_log.warning("Skipped: Invalid address (" + parts[0] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
-						}
-					}
-				}
-			}
-			catch (IOException e)
-			{
-				_log.log(Level.WARNING, "Error while reading the bans file (" + bannedFile.getName() + "). Details: " + e.getMessage(), e);
-			}
-			finally
-			{
-				try
-				{
-					reader.close();
-				}
-				catch (Exception e)
-				{
-				}
-				
-				try
-				{
-					fis.close();
-				}
-				catch (Exception e)
-				{
-				}
-			}
-			_log.info("Loaded " + LoginController.getInstance().getBannedIps().size() + " IP Bans.");
+			
 		}
 		else
 		{
@@ -5419,23 +5430,35 @@ public final class Config
 
 	public static void saveHexid(int serverId, String hexId, String fileName)
 	{
+		OutputStream out = null;
 		try
 		{
 			Properties hexSetting = new Properties();
 			File file = new File(fileName);
 			if (file.createNewFile())
 			{
-				OutputStream out = new FileOutputStream(file);
+				out = new FileOutputStream(file);
 				hexSetting.setProperty("ServerID", String.valueOf(serverId));
 				hexSetting.setProperty("HexID", hexId);
 				hexSetting.store(out, "the hexID to auth into login");
-				out.close();
 			}
 		}
 		catch(Exception e)
 		{
 			_log.warning("Failed to save hex id to " + fileName + " File.");
 			e.printStackTrace();
+		}finally{
+			
+			if(out != null)
+				try
+				{
+					out.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
 		}
 	}
 

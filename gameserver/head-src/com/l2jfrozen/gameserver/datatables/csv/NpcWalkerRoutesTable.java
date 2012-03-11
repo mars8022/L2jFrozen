@@ -69,12 +69,18 @@ public class NpcWalkerRoutesTable
 		_routes = new FastList<L2NpcWalkerNode>();
 		//java.sql.Connection con = null;
 
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
-
+		
 		try
 		{
 			File fileData = new File("./data/csv/walker_routes.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(fileData)));
+			
+			reader = new FileReader(fileData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
+			
 			L2NpcWalkerNode route;
 			String line = null;
 
@@ -133,70 +139,38 @@ public class NpcWalkerRoutesTable
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e1)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
 					e1.printStackTrace();
-				
-			}
-		}
-
-		/*
-		try
-		{
-			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement("SELECT route_id, npc_id, move_point, chatText, move_x, move_y, move_z, delay, " +
-					"running FROM walker_routes");
-			ResultSet rset = statement.executeQuery();
-			L2NpcWalkerNode  route;
-			while (rset.next())
-			{
-				route = new L2NpcWalkerNode();
-				route.setRouteId(rset.getInt("route_id"));
-				route.setNpcId(rset.getInt("npc_id"));
-				route.setMovePoint(rset.getString("move_point"));
-				route.setChatText(rset.getString("chatText"));
-				
-				route.setMoveX(rset.getInt("move_x"));
-				route.setMoveY(rset.getInt("move_y"));
-				route.setMoveZ(rset.getInt("move_z"));
-				route.setDelay(rset.getInt("delay"));
-				route.setRunning(rset.getBoolean("running"));
-
+				}
 			
-				_routes.add(route);
-				route = null;
-			}
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+		}
 
-			statement.close();
-			rset.close();
-			statement = null;
-			rset = null;
-
-			_log.info("WalkerRoutesTable: Loaded "+_routes.size()+" Npc Walker Routes.");
-		}
-		catch (Exception e) 
-		{
-			_log.log(Level.SEVERE, "WalkerRoutesTable: Error while loading Npc Walkers Routes: "+e.getMessage());
-		}
-		finally
-		{
-			try 
-			{
-				try { con.close(); } catch(Exception e) { }
-				con = null;
-			} 
-			catch (SQLException e) 
-			{
-				//null
-			}
-		}
-		*/
 	}
 
 	public FastList<L2NpcWalkerNode> getRouteForNpc(int id)

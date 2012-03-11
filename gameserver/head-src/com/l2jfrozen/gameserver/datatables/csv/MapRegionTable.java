@@ -81,13 +81,18 @@ public class MapRegionTable
 
 	private MapRegionTable()
 	{
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
-
+		
 		try
 		{
 			File fileData = new File("./data/csv/mapregion.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(fileData)));
-
+			
+			reader = new FileReader(fileData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
+			
 			String line = null;
 
 			int region;
@@ -129,17 +134,36 @@ public class MapRegionTable
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e1)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
 					e1.printStackTrace();
-				
-			}
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 
 		_pointsWithKarmas = new int[19][3];

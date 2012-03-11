@@ -123,9 +123,6 @@ public class CursedWeaponsManager
 
 			Document doc = factory.newDocumentBuilder().parse(file);
 
-			factory = null;
-			file = null;
-
 			for(Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
 			{
 				if("list".equalsIgnoreCase(n.getNodeName()))
@@ -193,8 +190,8 @@ public class CursedWeaponsManager
 
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			return;
 		}
+		
 	}
 
 	private final void restore()

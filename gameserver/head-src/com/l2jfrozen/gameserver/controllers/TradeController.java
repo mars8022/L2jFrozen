@@ -102,12 +102,17 @@ public class TradeController
 		{
 			_log.warning("Do, please, remove buylists from data folder and use SQL buylist instead");
 			String line = null;
-			LineNumberReader lnr = null;
 			int dummyItemCount = 0;
 
+			FileReader reader = null;
+			BufferedReader buff = null;
+			LineNumberReader lnr = null;
+			
 			try
 			{
-				lnr = new LineNumberReader(new BufferedReader(new FileReader(buylistData)));
+				reader = new FileReader(buylistData);
+				buff = new BufferedReader(reader);
+				lnr = new LineNumberReader(buff);
 
 				while((line = lnr.readLine()) != null)
 				{
@@ -131,9 +136,41 @@ public class TradeController
 					e.printStackTrace();
 				
 				_log.log(Level.WARNING, "error while creating trade controller in linenr: " + lnr.getLineNumber(), e);
+				
+			}finally{
+				
+				if(lnr != null)
+					try
+					{
+						lnr.close();
+					}
+					catch(Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				
+				if(buff != null)
+					try
+					{
+						buff.close();
+					}
+					catch(Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				
+				if(reader != null)
+					try
+					{
+						reader.close();
+					}
+					catch(Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				
 			}
-			lnr = null;
-			buylistData = null;
+			
 		}
 		else
 		{

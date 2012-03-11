@@ -75,7 +75,7 @@ public class L2LoginServer
 		{
 			is = new FileInputStream(new File(FService.LOG_CONF_FILE));
 			LogManager.getLogManager().readConfiguration(is);
-			is.close();
+
 		}
 		catch(IOException e)
 		{
@@ -83,19 +83,18 @@ public class L2LoginServer
 		}
 		finally
 		{
-			try
-			{
-				if(is != null)
+			if(is != null){
+				try
 				{
+					
 					is.close();
 				}
-
-				is = null;
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-			}
+			
 		}
 
 		// Team info

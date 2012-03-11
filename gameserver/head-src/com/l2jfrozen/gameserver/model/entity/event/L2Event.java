@@ -22,6 +22,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -172,12 +173,21 @@ public class L2Event
 
 	public static void showEventHtml(L2PcInstance player, String objectid)
 	{
+		FileInputStream fis = null;
+		BufferedInputStream buff = null;
+		DataInputStream in = null;
+		InputStreamReader isr = null;
+		BufferedReader inbr = null;
+		
 		try
 		{
 			NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 
-			DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("data/events/" + eventName)));
-			BufferedReader inbr = new BufferedReader(new InputStreamReader(in));
+			fis = new FileInputStream("data/events/" + eventName);
+			buff = new BufferedInputStream(fis);
+			in = new DataInputStream(buff);
+			isr = new InputStreamReader(in);
+			inbr = new BufferedReader(isr);
 
 			TextBuilder replyMSG = new TextBuilder("<html><body>");
 			replyMSG.append("<center><font color=\"LEVEL\">" + eventName + "</font><font color=\"FF0000\"> bY " + inbr.readLine() + "</font></center><br>");
@@ -196,10 +206,6 @@ public class L2Event
 			adminReply.setHtml(replyMSG.toString());
 			player.sendPacket(adminReply);
 
-			replyMSG = null;
-			adminReply = null;
-			in = null;
-			inbr = null;
 		}
 		catch(Exception e)
 		{
@@ -207,6 +213,58 @@ public class L2Event
 				e.printStackTrace();
 			
 			_log.log(Level.SEVERE, e.getMessage());
+		}finally{
+			
+			if(inbr != null)
+				try
+				{
+					inbr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(isr != null)
+				try
+				{
+					isr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(in != null)
+				try
+				{
+					in.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(fis != null)
+				try
+				{
+					fis.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 

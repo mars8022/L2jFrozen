@@ -132,22 +132,22 @@ public class HtmCache
 	{
 		HtmFilter filter = new HtmFilter();
 
+		String content = null;
+		
 		if(file.exists() && filter.accept(file) && !file.isDirectory())
 		{
-			String content;
 			FileInputStream fis = null;
-
+			BufferedInputStream bis = null;
 			try
 			{
 				fis = new FileInputStream(file);
-				BufferedInputStream bis = new BufferedInputStream(fis);
+				bis = new BufferedInputStream(fis);
 				int bytes = bis.available();
 				byte[] raw = new byte[bytes];
 
 				bis.read(raw);
-				bis = null;
+				
 				content = new String(raw, "UTF-8");
-				raw = null;
 				content = content.replaceAll("\r\n", "\n");
 
 				String relpath = Util.getRelativePath(Config.DATAPACK_ROOT, file);
@@ -165,11 +165,8 @@ public class HtmCache
 					_bytesBuffLen = _bytesBuffLen - oldContent.length() + bytes;
 				}
 
-				oldContent = null;
-
 				_cache.put(hashcode, content);
 
-				return content;
 			}
 			catch(Exception e)
 			{
@@ -181,22 +178,30 @@ public class HtmCache
 			}
 			finally
 			{
-				try
-				{
-					fis.close();
-					fis = null;
-					filter = null;
-				}
-				catch(Exception e1)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+				if(bis != null)
+					try
+					{
+						bis.close();
+					}
+					catch(Exception e1)
+					{
 						e1.printStackTrace();
-					
-				}
+					}
+				
+				if(fis != null)
+					try
+					{
+						fis.close();
+					}
+					catch(Exception e1)
+					{
+						e1.printStackTrace();
+					}
 			}
+			
 		}
 
-		return null;
+		return content;
 	}
 
 	public String getHtmForce(String path)

@@ -39,6 +39,7 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.taskmanager.tasks.TaskCleanUp;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskOlympiadSave;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskRaidPointsReset;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskRecom;
@@ -193,7 +194,7 @@ public final class TaskManager
 
 	private void initializate()
 	{
-		//registerTask(new TaskCleanUp());
+		registerTask(new TaskCleanUp());
 		//registerTask(new TaskJython());
 		registerTask(new TaskOlympiadSave());
 		registerTask(new TaskRaidPointsReset());

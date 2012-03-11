@@ -24,6 +24,7 @@ package com.l2jfrozen.gameserver.model.entity.olympiad;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -195,63 +196,93 @@ public class Olympiad
 	public Olympiad()
 	{}
 
-	public void load() throws IOException
+	public void load()
 	{
 		_nobles.clear();
 
+		boolean initialized = true;
 		Properties OlympiadProperties = new Properties();
-		InputStream is = new FileInputStream(new File("./" + OLYMPIAD_DATA_FILE));
-		OlympiadProperties.load(is);
-		is.close();
-
-		_currentCycle = Integer.parseInt(OlympiadProperties.getProperty("CurrentCycle", "1"));
-		_period = Integer.parseInt(OlympiadProperties.getProperty("Period", "0"));
-		_olympiadEnd = Long.parseLong(OlympiadProperties.getProperty("OlympiadEnd", "0"));
-		_validationEnd = Long.parseLong(OlympiadProperties.getProperty("ValdationEnd", "0"));
-		_nextWeeklyChange = Long.parseLong(OlympiadProperties.getProperty("NextWeeklyChange", "0"));
-
-		switch(_period)
+		InputStream is = null;
+		try
 		{
-			case 0:
-				if(_olympiadEnd == 0 || _olympiadEnd < Calendar.getInstance().getTimeInMillis())
-				{
-					setNewOlympiadEnd();
-				}
-				else
-				{
-					_isOlympiadEnd = false;
-				}
-				break;
-			case 1:
-				if(_validationEnd > Calendar.getInstance().getTimeInMillis())
-				{
-					_isOlympiadEnd = true;
+			is = new FileInputStream(new File("./" + OLYMPIAD_DATA_FILE));
+			
+			OlympiadProperties.load(is);
+			
+			_currentCycle = Integer.parseInt(OlympiadProperties.getProperty("CurrentCycle", "1"));
+			_period = Integer.parseInt(OlympiadProperties.getProperty("Period", "0"));
+			_olympiadEnd = Long.parseLong(OlympiadProperties.getProperty("OlympiadEnd", "0"));
+			_validationEnd = Long.parseLong(OlympiadProperties.getProperty("ValdationEnd", "0"));
+			_nextWeeklyChange = Long.parseLong(OlympiadProperties.getProperty("NextWeeklyChange", "0"));
 
-					_scheduledValdationTask = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
-						@Override
-						public void run()
-						{
-							_period = 0;
-							_currentCycle++;
-							deleteNobles();
-							setNewOlympiadEnd();
-							init();
-						}
-					}, getMillisToValidationEnd());
-				}
-				else
-				{
-					_currentCycle++;
-					_period = 0;
-					deleteNobles();
-					setNewOlympiadEnd();
-				}
-				break;
-			default:
-				_log.warning("Olympiad System: Omg something went wrong in loading!! Period = " + _period);
-				return;
+			switch(_period)
+			{
+				case 0:
+					if(_olympiadEnd == 0 || _olympiadEnd < Calendar.getInstance().getTimeInMillis())
+					{
+						setNewOlympiadEnd();
+					}
+					else
+					{
+						_isOlympiadEnd = false;
+					}
+					break;
+				case 1:
+					if(_validationEnd > Calendar.getInstance().getTimeInMillis())
+					{
+						_isOlympiadEnd = true;
+
+						_scheduledValdationTask = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+							@Override
+							public void run()
+							{
+								_period = 0;
+								_currentCycle++;
+								deleteNobles();
+								setNewOlympiadEnd();
+								init();
+							}
+						}, getMillisToValidationEnd());
+					}
+					else
+					{
+						_currentCycle++;
+						_period = 0;
+						deleteNobles();
+						setNewOlympiadEnd();
+					}
+					break;
+				default:
+					_log.warning("Olympiad System: Omg something went wrong in loading!! Period = " + _period);
+					initialized = false;
+			}
 		}
-
+		catch(FileNotFoundException e1)
+		{
+			e1.printStackTrace();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			
+		}finally{
+			
+			if(is != null){
+				
+				try
+				{
+					is.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if(!initialized)
+			return;
+		
 		Connection con = null;
 		
 		try
@@ -282,7 +313,6 @@ public class Olympiad
 		}
 		finally {
 			CloseUtil.close(con);
-			con = null;
 		}
 
 		synchronized (this)
@@ -1457,36 +1487,62 @@ public class Olympiad
 		_nobles.clear();
 	}
 
-	public void save() throws IOException
+	public void save()
 	{
 		saveNobleData();
 
 		Properties OlympiadProperties = new Properties();
-		FileOutputStream fos = new FileOutputStream(new File(Config.DATAPACK_ROOT, OLYMPIAD_DATA_FILE));
+		
+		File file = null;
+		FileOutputStream fos = null;
+		try
+		{
+			file = new File(Config.DATAPACK_ROOT, OLYMPIAD_DATA_FILE);
+			fos = new FileOutputStream(file);
+			
+			OlympiadProperties.setProperty("CurrentCycle", String.valueOf(_currentCycle));
+			OlympiadProperties.setProperty("Period", String.valueOf(_period));
+			OlympiadProperties.setProperty("OlympiadEnd", String.valueOf(_olympiadEnd));
+			OlympiadProperties.setProperty("ValdationEnd", String.valueOf(_validationEnd));
+			OlympiadProperties.setProperty("NextWeeklyChange", String.valueOf(_nextWeeklyChange));
 
-		OlympiadProperties.setProperty("CurrentCycle", String.valueOf(_currentCycle));
-		OlympiadProperties.setProperty("Period", String.valueOf(_period));
-		OlympiadProperties.setProperty("OlympiadEnd", String.valueOf(_olympiadEnd));
-		OlympiadProperties.setProperty("ValdationEnd", String.valueOf(_validationEnd));
-		OlympiadProperties.setProperty("NextWeeklyChange", String.valueOf(_nextWeeklyChange));
+			GregorianCalendar gc = (GregorianCalendar) GregorianCalendar.getInstance();
+			gc.clear();
+			gc.setTimeInMillis(_nextWeeklyChange);
+			
+			OlympiadProperties.setProperty("NextWeeklyChange_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
+			//System.out.println("NextPoints: "+DateFormat.getInstance().format(gc.getTime()));
+			
+			gc.clear();
+			gc.setTimeInMillis(_olympiadEnd);
+			
+			OlympiadProperties.setProperty("OlympiadEnd_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
+			//System.out.println("NextOlyDate: "+DateFormat.getInstance().format(gc.getTime()));
+			
+			OlympiadProperties.store(fos, "Olympiad Properties");
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		
+		}finally{
+			
+			if(fos != null)
+				try
+				{
+					fos.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			
+		}
 
-		GregorianCalendar gc = (GregorianCalendar) GregorianCalendar.getInstance();
-		gc.clear();
-		gc.setTimeInMillis(_nextWeeklyChange);
-		
-		OlympiadProperties.setProperty("NextWeeklyChange_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
-		//System.out.println("NextPoints: "+DateFormat.getInstance().format(gc.getTime()));
-		
-		gc.clear();
-		gc.setTimeInMillis(_olympiadEnd);
-		
-		OlympiadProperties.setProperty("OlympiadEnd_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
-		//System.out.println("NextOlyDate: "+DateFormat.getInstance().format(gc.getTime()));
-		
-		
-		
-		OlympiadProperties.store(fos, "Olympiad Properties");
-		fos.close();
 	}
 
 	public void logoutPlayer(L2PcInstance player)

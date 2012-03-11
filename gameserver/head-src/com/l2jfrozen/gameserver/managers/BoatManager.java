@@ -49,10 +49,7 @@ public class BoatManager
 	// =========================================================
 	// Data Field
 	private Map<Integer, L2BoatInstance> _staticItems = new FastMap<Integer, L2BoatInstance>();
-//	private boolean _initialized;
 
-	// =========================================================
-	// Constructor
 	public BoatManager()
 	{
 		_log.info("Initializing BoatManager");
@@ -63,19 +60,22 @@ public class BoatManager
 	// Method - Private
 	private final void load()
 	{
-//		_initialized = true;
 		if(!Config.ALLOW_BOAT)
 		{
-//			_initialized = false;
 			return;
 		}
+		
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
+		
 		try
 		{
-			File doorData = new File(Config.DATAPACK_ROOT, "data/boat.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(doorData)));
-
-			doorData = null;
+			File boatData = new File(Config.DATAPACK_ROOT, "data/boat.csv");
+			
+			reader = new FileReader(boatData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
 
 			String line = null;
 			while((line = lnr.readLine()) != null)
@@ -102,33 +102,46 @@ public class BoatManager
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			
-//			_initialized = false;
+
 			_log.warning("boat.csv is missing in data folder");
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-//			_initialized = false;
 			_log.warning("error while creating boat table " + e);
 			e.printStackTrace();
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-			}
-			catch(Exception e1)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
 					e1.printStackTrace();
-				/* ignore problems */
-			}
-
-			lnr = null;
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 

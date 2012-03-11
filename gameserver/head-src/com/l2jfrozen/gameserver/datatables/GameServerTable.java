@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.datatables;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.GeneralSecurityException;
@@ -112,12 +113,14 @@ public class GameServerTable
 
 	private void loadServerNames()
 	{
+		XMLStreamReaderImpl xpp = new XMLStreamReaderImpl();
+		UTF8StreamReader reader = new UTF8StreamReader();
+		
 		InputStream in = null;
 		try
 		{
 			in = new FileInputStream(FService.SERVER_NAME_FILE);
-			XMLStreamReaderImpl xpp = new XMLStreamReaderImpl();
-			xpp.setInput(new UTF8StreamReader().setInput(in));
+			xpp.setInput(reader.setInput(in));
 
 			for(int e = xpp.getEventType(); e != XMLStreamConstants.END_DOCUMENT; e = xpp.next())
 			{
@@ -135,7 +138,6 @@ public class GameServerTable
 				}
 			}
 
-			xpp = null;
 		}
 		catch(FileNotFoundException e)
 		{
@@ -147,6 +149,41 @@ public class GameServerTable
 		catch(XMLStreamException xppe)
 		{
 			xppe.printStackTrace();
+		}finally{
+			
+			if(xpp != null){
+				try
+				{
+					xpp.close();
+				}
+				catch(XMLStreamException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+			if(reader != null){
+				try
+				{
+					reader.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+			if(in != null){
+				try
+				{
+					in.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
 		}
 	}
 
