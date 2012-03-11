@@ -66,8 +66,8 @@ public class AdminKick implements IAdminCommandHandler
 			{
 				st.nextToken();
 
-				String player = st.nextToken();
-				L2PcInstance plyr = L2World.getInstance().getPlayer(player);
+				final String player = st.nextToken();
+				final L2PcInstance plyr = L2World.getInstance().getPlayer(player);
 				
 				if(plyr != null)
 				{
@@ -83,8 +83,6 @@ public class AdminKick implements IAdminCommandHandler
 					RegionBBSManager.getInstance().changeCommunityBoard();
 				}
 
-				player = null;
-				plyr = null;
 			}
 
 			st = null;

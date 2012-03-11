@@ -143,13 +143,19 @@ public class L2BoatInstance extends L2Character
 		 */
 		private void loadBoatPath()
 		{
+			FileReader reader = null;
+			BufferedReader buff = null;
 			LineNumberReader lnr = null;
+			
 			try
 			{
-				File doorData = new File(Config.DATAPACK_ROOT, "data/boatpath.csv");
-				lnr = new LineNumberReader(new BufferedReader(new FileReader(doorData)));
-				doorData = null;
+				File boatpath = new File(Config.DATAPACK_ROOT, "data/boatpath.csv");
+				
+				reader = new FileReader(boatpath);
+				buff = new BufferedReader(reader);
+				lnr = new LineNumberReader(buff);
 
+				boolean token = false;
 				String line = null;
 				while((line = lnr.readLine()) != null)
 				{
@@ -158,9 +164,11 @@ public class L2BoatInstance extends L2Character
 						continue;
 					}
 					parseLine(line);
-					return;
+					token = true;
+					break;
 				}
-				_logBoat.warning("No path for boat " + boatName + " !!!");
+				if(!token)
+					_logBoat.warning("No path for boat " + boatName + " !!!");
 			}
 			catch(FileNotFoundException e)
 			{
@@ -178,16 +186,36 @@ public class L2BoatInstance extends L2Character
 			}
 			finally
 			{
-				try
-				{
-					lnr.close();
-					lnr = null;
-				}
-				catch(Exception e1)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+				if(lnr != null)
+					try
+					{
+						lnr.close();
+					}
+					catch(Exception e1)
+					{
 						e1.printStackTrace();
-				}
+					}
+				
+				if(buff != null)
+					try
+					{
+						buff.close();
+					}
+					catch(Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				
+				if(reader != null)
+					try
+					{
+						reader.close();
+					}
+					catch(Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				
 			}
 		}
 

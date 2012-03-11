@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -94,9 +95,12 @@ public class DynamicExtension
 		String res = "";
 		_loadedExtensions = new ConcurrentHashMap<String, Object>();
 
+		FileInputStream fis = null;
+		
 		try
 		{
-			_prop.load(new FileInputStream(CONFIG));
+			fis = new FileInputStream(CONFIG);
+			_prop.load(fis);
 		}
 		catch(FileNotFoundException ex)
 		{
@@ -111,6 +115,19 @@ public class DynamicExtension
 				ex.printStackTrace();
 			
 			_log.log(Level.WARNING, "could not load properties", ex);
+		
+		}finally{
+			
+			if(fis != null){
+				try
+				{
+					fis.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 
 		_classLoader = new JarClassLoader();

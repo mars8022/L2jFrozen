@@ -309,8 +309,6 @@ public class L2Multisell
 			}
 		}
 
-		dir = null;
-		files = null;
 	}
 
 	private void parse()

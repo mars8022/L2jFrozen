@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.model.entity.event.manager;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -65,12 +66,13 @@ public class EventManager
 	
 	public static void loadConfiguration(){
 		
+		InputStream is = null;
 		try
 		{
 			Properties eventSettings = new Properties();
-			InputStream is = new FileInputStream(new File(EVENT_MANAGER_CONFIGURATION_FILE));
+			is = new FileInputStream(new File(EVENT_MANAGER_CONFIGURATION_FILE));
 			eventSettings.load(is);
-			is.close();
+			
 			//============================================================
 			
 			TVT_EVENT_ENABLED = Boolean.parseBoolean(eventSettings.getProperty("TVTEventEnabled", "false"));
@@ -108,7 +110,18 @@ public class EventManager
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Load " + EVENT_MANAGER_CONFIGURATION_FILE + " File.");
+		
+		}finally{
+			if(is != null){
+				try
+				{
+					is.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		
 	}

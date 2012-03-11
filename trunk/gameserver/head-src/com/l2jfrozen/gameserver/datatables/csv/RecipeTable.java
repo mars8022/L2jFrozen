@@ -60,12 +60,18 @@ public class RecipeTable extends RecipeController
 	{
 		_lists = new FastMap<Integer, L2RecipeList>();
 		String line = null;
+		
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
-
+		
 		try
 		{
 			File recipesData = new File(Config.DATAPACK_ROOT, "data/recipes.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(recipesData)));
+			
+			reader = new FileReader(recipesData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
 
 			while((line = lnr.readLine()) != null)
 			{
@@ -78,7 +84,6 @@ public class RecipeTable extends RecipeController
 
 			}
 			_log.config("RecipeController: Loaded " + _lists.size() + " Recipes.");
-			recipesData = null;
 		}
 		catch(Exception e)
 		{
@@ -97,17 +102,36 @@ public class RecipeTable extends RecipeController
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 

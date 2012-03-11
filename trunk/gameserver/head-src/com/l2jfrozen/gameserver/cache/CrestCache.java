@@ -131,28 +131,18 @@ public class CrestCache
 				}
 				finally
 				{
-					try
-					{
-						f.close();
-						f = null;
-					}
-					catch(Exception e1)
-					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+					if(f!=null)
+						try
+						{
+							f.close();
+						}
+						catch(Exception e1)
+						{
 							e1.printStackTrace();
-						
-					}
+						}
 				}
 			}
 		}
-
-		files = null;
-		dir = null;
-		filter = null;
-		content = null;
-		_mapPledge = null;
-		_mapPledgeLarge = null;
-		_mapAlly = null;
 
 		_log.info("Cache[Crest]: " + String.format("%.3f", getMemoryUsage()) + "MB on " + getLoadedFiles() + " files loaded. (Forget Time: " + _cachePledge.getForgetTime() / 1000 + "s , Capacity: " + _cachePledge.capacity() + ")");
 	}
@@ -324,19 +314,17 @@ public class CrestCache
 
 	public boolean savePledgeCrest(int newId, byte[] data)
 	{
+		boolean output = false;
 		File crestFile = new File(Config.DATAPACK_ROOT, "data/crests/Crest_" + newId + ".bmp");
 
+		FileOutputStream out = null;
 		try
 		{
-			FileOutputStream out = new FileOutputStream(crestFile);
+			out = new FileOutputStream(crestFile);
 			out.write(data);
-			out.close();
 			_cachePledge.getContentMap().put(newId, data);
 
-			crestFile = null;
-			out = null;
-
-			return true;
+			output = true;
 		}
 		catch(IOException e)
 		{
@@ -345,24 +333,36 @@ public class CrestCache
 			
 			
 			_log.log(Level.INFO, "Error saving pledge crest" + crestFile + ":", e);
-			return false;
+			
+		}finally{
+			
+			if(out != null)
+				try
+				{
+					out.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			
 		}
+		
+		return output;
 	}
 
 	public boolean savePledgeCrestLarge(int newId, byte[] data)
 	{
+		boolean output = false;
 		File crestFile = new File(Config.DATAPACK_ROOT, "data/crests/Crest_Large_" + newId + ".bmp");
+		FileOutputStream out = null;
 		try
 		{
-			FileOutputStream out = new FileOutputStream(crestFile);
+			out = new FileOutputStream(crestFile);
 			out.write(data);
-			out.close();
 			_cachePledgeLarge.getContentMap().put(newId, data);
 
-			crestFile = null;
-			out = null;
-
-			return true;
+			output = true;
 		}
 		catch(IOException e)
 		{
@@ -371,33 +371,60 @@ public class CrestCache
 			
 			
 			_log.log(Level.INFO, "Error saving Large pledge crest" + crestFile + ":", e);
-			return false;
+			
+		
+		}finally{
+			
+			if(out != null)
+				try
+				{
+					out.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			
 		}
+		
+		return output;
 	}
 
 	public boolean saveAllyCrest(int newId, byte[] data)
 	{
+		boolean output = false;
 		File crestFile = new File(Config.DATAPACK_ROOT, "data/crests/AllyCrest_" + newId + ".bmp");
+		FileOutputStream out = null;
 		try
 		{
-			FileOutputStream out = new FileOutputStream(crestFile);
+			out = new FileOutputStream(crestFile);
 			out.write(data);
-			out.close();
 			_cacheAlly.getContentMap().put(newId, data);
 
-			crestFile = null;
-			out = null;
-
-			return true;
+			output = true;
 		}
 		catch(IOException e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
-			e.printStackTrace();
+				e.printStackTrace();
 		
 			_log.log(Level.INFO, "Error saving ally crest" + crestFile + ":", e);
-			return false;
+		
+		}finally{
+			
+			if(out != null)
+				try
+				{
+					out.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			
 		}
+		
+		return output;
 	}
 
 	class BmpFilter implements FileFilter

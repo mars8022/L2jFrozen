@@ -53,11 +53,62 @@ public class SummonItemsData
 	{
 		_summonitems = new FastMap<Integer, L2SummonItem>();
 
-		Scanner s;
+		Scanner s = null;
 
 		try
 		{
 			s = new Scanner(new File("./data/summon_items.csv"));
+			
+			int lineCount = 0;
+
+			while(s.hasNextLine())
+			{
+				lineCount++;
+
+				String line = s.nextLine();
+
+				if(line.startsWith("#"))
+				{
+					continue;
+				}
+				else if(line.equals(""))
+				{
+					continue;
+				}
+
+				String[] lineSplit = line.split(";");
+				line = null;
+
+				boolean ok = true;
+				int itemID = 0, npcID = 0;
+				byte summonType = 0;
+
+				try
+				{
+					itemID = Integer.parseInt(lineSplit[0]);
+					npcID = Integer.parseInt(lineSplit[1]);
+					summonType = Byte.parseByte(lineSplit[2]);
+				}
+				catch(Exception e)
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+					System.out.println("Summon items data: Error in line " + lineCount + " -> incomplete/invalid data or wrong seperator!");
+					System.out.println("		" + line);
+					ok = false;
+				}
+
+				if(!ok)
+				{
+					continue;
+				}
+
+				L2SummonItem summonitem = new L2SummonItem(itemID, npcID, summonType);
+				_summonitems.put(itemID, summonitem);
+				summonitem = null;
+			}
+
 		}
 		catch(Exception e)
 		{
@@ -65,60 +116,11 @@ public class SummonItemsData
 				e.printStackTrace();
 			
 			System.out.println("Summon items data: Can not find './data/summon_items.csv'");
-			return;
+		}finally{
+			
+			if(s!=null)
+				s.close();
 		}
-
-		int lineCount = 0;
-
-		while(s.hasNextLine())
-		{
-			lineCount++;
-
-			String line = s.nextLine();
-
-			if(line.startsWith("#"))
-			{
-				continue;
-			}
-			else if(line.equals(""))
-			{
-				continue;
-			}
-
-			String[] lineSplit = line.split(";");
-			line = null;
-
-			boolean ok = true;
-			int itemID = 0, npcID = 0;
-			byte summonType = 0;
-
-			try
-			{
-				itemID = Integer.parseInt(lineSplit[0]);
-				npcID = Integer.parseInt(lineSplit[1]);
-				summonType = Byte.parseByte(lineSplit[2]);
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				System.out.println("Summon items data: Error in line " + lineCount + " -> incomplete/invalid data or wrong seperator!");
-				System.out.println("		" + line);
-				ok = false;
-			}
-
-			if(!ok)
-			{
-				continue;
-			}
-
-			L2SummonItem summonitem = new L2SummonItem(itemID, npcID, summonType);
-			_summonitems.put(itemID, summonitem);
-			summonitem = null;
-		}
-
-		s = null;
 
 		System.out.println("Summon items data: Loaded " + _summonitems.size() + " summon items.");
 	}

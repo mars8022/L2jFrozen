@@ -358,11 +358,17 @@ public class L2Manor
 
 	private void parseData()
 	{
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
+		
 		try
 		{
 			File seedData = new File(Config.DATAPACK_ROOT, "data/seeds.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(seedData)));
+			
+			reader = new FileReader(seedData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
 
 			String line = null;
 
@@ -390,18 +396,36 @@ public class L2Manor
 		}
 		finally
 		{
-			try
-			{
-				if(lnr != null)
+			if(lnr != null)
+				try
 				{
 					lnr.close();
 				}
-				lnr = null;
-			}
-			catch(Exception e1)
-			{
-				//null
-			}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 

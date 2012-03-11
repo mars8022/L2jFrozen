@@ -59,11 +59,17 @@ public class StaticObjects
 
 	private void parseData()
 	{
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
+		
 		try
 		{
 			File doorData = new File(Config.DATAPACK_ROOT, "data/staticobjects.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(doorData)));
+			
+			reader = new FileReader(doorData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
 
 			String line = null;
 			while((line = lnr.readLine()) != null)
@@ -77,7 +83,6 @@ public class StaticObjects
 				_staticObjects.put(obj.getStaticObjectId(), obj);
 				obj = null;
 			}
-			doorData = null;
 		}
 		catch(FileNotFoundException e)
 		{
@@ -95,16 +100,36 @@ public class StaticObjects
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 

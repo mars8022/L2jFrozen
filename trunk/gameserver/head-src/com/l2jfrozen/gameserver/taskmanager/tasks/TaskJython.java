@@ -33,18 +33,12 @@ public class TaskJython extends Task
 
 	private final PythonInterpreter _python = new PythonInterpreter();
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.taskmanager.Task#getName()
-	 */
 	@Override
 	public String getName()
 	{
 		return NAME;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.taskmanager.Task#onTimeElapsed(com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask)
-	 */
 	@Override
 	public void onTimeElapsed(ExecutedTask task)
 	{

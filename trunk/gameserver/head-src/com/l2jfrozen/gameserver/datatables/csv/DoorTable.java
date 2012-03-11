@@ -77,12 +77,17 @@ public class DoorTable
 
 	public void parseData()
 	{
+		FileReader reader = null;
+		BufferedReader buff = null;
 		LineNumberReader lnr = null;
+		
 		try
 		{
 			File doorData = new File(Config.DATAPACK_ROOT, "data/door.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(doorData)));
-			doorData = null;
+			
+			reader = new FileReader(doorData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
 
 			String line = null;
 			_log.info("Searching clan halls doors:");
@@ -107,7 +112,7 @@ public class DoorTable
 						_log.warning("door " + door.getDoorName() + " attached to ch " + clanhall.getName());
 					}
 				}
-				door = null;
+			
 			}
 
 			_log.config("DoorTable: Loaded " + _staticItems.size() + " Door Templates.");
@@ -130,17 +135,36 @@ public class DoorTable
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e1)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
 					e1.printStackTrace();
-				
-			}
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 	}
 

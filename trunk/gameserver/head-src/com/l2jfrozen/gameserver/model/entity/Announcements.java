@@ -84,7 +84,6 @@ public class Announcements
 			_log.config("data/announcements.txt doesn't exist");
 		}
 
-		file = null;
 	}
 
 	public void showAnnouncements(L2PcInstance activeChar)
@@ -170,13 +169,14 @@ public class Announcements
 	private void readFromDisk(File file)
 	{
 		LineNumberReader lnr = null;
-
+		FileReader reader = null;
 		try
 		{
 			int i = 0;
 
 			String line = null;
-			lnr = new LineNumberReader(new FileReader(file));
+			reader = new FileReader(file);
+			lnr = new LineNumberReader(reader);
 
 			while((line = lnr.readLine()) != null)
 			{
@@ -188,7 +188,6 @@ public class Announcements
 
 					i++;
 				}
-				st = null;
 			}
 			_log.config("Announcements: Loaded " + i + " Announcements.");
 		}
@@ -201,16 +200,25 @@ public class Announcements
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e2)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e2.printStackTrace();
-			}
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
 		}
 	}
 
@@ -228,7 +236,6 @@ public class Announcements
 				save.write("\r\n");
 			}
 			save.flush();
-			save.close();
 		}
 		catch(IOException e)
 		{
@@ -236,10 +243,19 @@ public class Announcements
 				e.printStackTrace();
 			
 			_log.warning("saving the announcements file has failed: " + e);
+		}finally{
+			
+			if(save != null)
+				try
+				{
+					save.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 		}
 
-		file = null;
-		save = null;
 	}
 
 	public void announceToAll(String text)

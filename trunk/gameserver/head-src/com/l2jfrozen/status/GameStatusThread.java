@@ -17,6 +17,7 @@ package com.l2jfrozen.status;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -169,13 +170,17 @@ public class GameStatusThread extends Thread
 		}
 		finally
 		{
-			try
-			{
-				telnetIS.close();
+			if(telnetIS != null){
+				try
+				{
+					telnetIS.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
-			catch (Exception e)
-			{
-			}
+			
 		}
 		
 		if (Config.DEVELOPER)
@@ -433,7 +438,7 @@ public class GameStatusThread extends Thread
 					try
 					{
 						_usrCommand = _usrCommand.substring(5);
-						L2PcInstance player = L2World.getInstance().getPlayer(_usrCommand);
+						final L2PcInstance player = L2World.getInstance().getPlayer(_usrCommand);
 						if (player != null)
 						{
 							player.sendMessage("You are kicked by gm");
@@ -752,24 +757,29 @@ public class GameStatusThread extends Thread
 					}
 					catch (Exception e)
 					{
+						e.printStackTrace();
 					}
 					finally
 					{
-						try
-						{
-							out.close();
-						}
-						catch (Exception e)
-						{
-						}
+						if(out != null)
+							try
+							{
+								out.close();
+							}
+							catch (Exception e)
+							{
+								e.printStackTrace();
+							}
 						
-						try
-						{
-							fos.close();
-						}
-						catch (Exception e)
-						{
-						}
+						if(fos != null)
+							try
+							{
+								fos.close();
+							}
+							catch (Exception e)
+							{
+								e.printStackTrace();
+							}
 					}
 					
 				}
@@ -1156,7 +1166,7 @@ public class GameStatusThread extends Thread
 	}
 	
 	@SuppressWarnings("serial")
-	public void debugAll() throws IOException
+	public void debugAll()
 	{
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
@@ -1264,12 +1274,51 @@ public class GameStatusThread extends Thread
 			f = new File("./log/Debug-" + i + ".txt");
 		}
 		f.getParentFile().mkdirs();
-		FileOutputStream fos = new FileOutputStream(f);
-		OutputStreamWriter out = new OutputStreamWriter(fos, "UTF-8");
-		out.write(sb.toString());
-		out.flush();
-		out.close();
-		fos.close();
+		
+		FileOutputStream fos = null;
+		OutputStreamWriter out = null;
+		try
+		{
+			fos = new FileOutputStream(f);
+			out = new OutputStreamWriter(fos, "UTF-8");
+			out.write(sb.toString());
+			out.flush();
+			
+		}
+		catch(FileNotFoundException e3)
+		{
+
+			e3.printStackTrace();
+		
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}finally{
+			
+			if(out != null)
+				try
+				{
+					out.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+			
+			if(fos != null)
+				try
+				{
+					fos.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+		}
+			
 		
 		_print.println("Debug output saved to log/" + f.getName());
 		_print.flush();

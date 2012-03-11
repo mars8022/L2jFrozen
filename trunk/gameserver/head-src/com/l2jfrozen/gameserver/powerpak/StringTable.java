@@ -4,8 +4,10 @@ package com.l2jfrozen.gameserver.powerpak;
  * L2JFrozen
  */
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
@@ -18,28 +20,33 @@ import com.l2jfrozen.Config;
 public final class StringTable
 {
 	private Map<String, String> _messagetable = new FastMap<String, String>();
+	
 	public StringTable(String name)
 	{
 		if(!name.startsWith(".") && !name.startsWith("/"))
 			name = Config.DATAPACK_ROOT.getPath()+"/data/messages/"+name;
-		try
-		{
-			File f = new File(name);
-			if(f.exists())
-				load(new FileInputStream(f));
-		}
-		catch(IOException e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-		}
+		
+		File f = new File(name);
+		load(f);
+		
 	}
-	public void load(FileInputStream inStream) throws IOException
+	
+	public void load(File f)
 	{
+		if(!f.exists())
+			return;
+		
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
+		LineNumberReader lnr = null;
+		
 		try
 		{
-			LineNumberReader lnr = new LineNumberReader(new InputStreamReader(inStream,"UTF-8"));
+			
+			fis = new FileInputStream(f);
+			isr = new InputStreamReader(fis,"UTF-8");
+			lnr = new LineNumberReader(isr);
+			
 			String line;
 			while((line=lnr.readLine())!=null)
 			{
@@ -54,20 +61,58 @@ public final class StringTable
 					_messagetable.put(line.substring(0,iPos).trim(),line.substring(iPos+1));
 				}
 			}
- 		}
-		finally
-		{
-			inStream.close();
 		}
+		catch(IOException e)
+		{
+			if(Config.ENABLE_ALL_EXCEPTIONS)
+				e.printStackTrace();
+			
+		}finally{
+			
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(isr != null)
+				try
+				{
+					isr.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(fis != null)
+				try
+				{
+					fis.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+		}
+	
 	}
+	
 	public String Message(String MsgId) {
 		if(_messagetable.containsKey(MsgId))
 			return _messagetable.get(MsgId);
 		return MsgId;
 	}
+	
 	public String format(String MsgId,Object... params)
 	{
 		String msg = Message(MsgId);
 		return String.format(msg, params);
 	}
+	
 }

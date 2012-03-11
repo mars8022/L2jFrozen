@@ -24,6 +24,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -124,12 +125,20 @@ public class AdminEventEngine implements IAdminCommandHandler
 		{
 			String eventName = command.substring(16);
 
+			FileInputStream fis = null;
+			BufferedInputStream buff = null;
+			DataInputStream in = null;
+			InputStreamReader isr = null;
+			BufferedReader inbr = null;
 			try
 			{
 				NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 
-				DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("data/events/" + eventName)));
-				BufferedReader inbr = new BufferedReader(new InputStreamReader(in));
+				fis = new FileInputStream("data/events/" + eventName);
+				buff = new BufferedInputStream(fis);
+				in = new DataInputStream(buff);
+				isr = new InputStreamReader(in);
+				inbr = new BufferedReader(isr);
 
 				TextBuilder replyMSG = new TextBuilder("<html><body>");
 				replyMSG.append("<center><font color=\"LEVEL\">" + eventName + "</font><font color=\"FF0000\"> bY " + inbr.readLine() + "</font></center><br>");
@@ -139,10 +148,6 @@ public class AdminEventEngine implements IAdminCommandHandler
 				adminReply.setHtml(replyMSG.toString());
 				activeChar.sendPacket(adminReply);
 
-				adminReply = null;
-				replyMSG = null;
-				inbr = null;
-				in = null;
 			}
 			catch(Exception e)
 			{
@@ -150,6 +155,57 @@ public class AdminEventEngine implements IAdminCommandHandler
 					e.printStackTrace();
 				
 				e.printStackTrace();
+			}finally{
+				if(inbr != null){
+					try
+					{
+						inbr.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if(isr != null){
+					try
+					{
+						isr.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if(in != null){
+					try
+					{
+						in.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if(buff != null){
+					try
+					{
+						buff.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if(fis != null){
+					try
+					{
+						fis.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
 			}
 
 		}
@@ -188,23 +244,36 @@ public class AdminEventEngine implements IAdminCommandHandler
 
 		else if(command.startsWith("admin_event_store"))
 		{
+			FileOutputStream file = null;
+			PrintStream p = null;
 			try
 			{
-				FileOutputStream file = new FileOutputStream("data/events/" + tempName);
-				PrintStream p = new PrintStream(file);
+				file = new FileOutputStream("data/events/" + tempName);
+				p = new PrintStream(file);
 				p.println(activeChar.getName());
 				p.println(tempBuffer);
-				file.close();
-
-				file = null;
-				p = null;
+				
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
 				e.printStackTrace();
+			
+			}finally{
+				
+				if(p != null)
+					p.close();
+				
+				
+				if(file != null)
+					try
+					{
+						file.close();
+					}
+					catch(IOException e)
+					{
+						e.printStackTrace();
+					}
+				
 			}
 
 			tempBuffer = "";
@@ -483,11 +552,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 
 			result += "<font color=\"LEVEL\">" + file.getName() + " </font><br><button value=\"select\" action=\"bypass -h admin_event_set " + file.getName() + "\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><button value=\"ver\" action=\"bypass -h " + "admin_event_see " + file.getName() + "\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><button value=\"delete\" " + "action=\"bypass -h admin_event_del " + file.getName() + "\" width=90 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><br><br>";
 
-			file = null;
 		}
-
-		dir = null;
-		files = null;
 
 		return result;
 	}

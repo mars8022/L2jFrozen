@@ -54,15 +54,20 @@ public class FishTable
 
 	private FishTable()
 	{
-		LineNumberReader lnr = null;
-
 		int count = 0;
 
+		FileReader reader = null;
+		BufferedReader buff = null;
+		LineNumberReader lnr = null;
+		
 		try
 		{
 			File fileData = new File("./data/csv/fish.csv");
-			lnr = new LineNumberReader(new BufferedReader(new FileReader(fileData)));
-
+			
+			reader = new FileReader(fileData);
+			buff = new BufferedReader(reader);
+			lnr = new LineNumberReader(buff);
+		
 			String line = null;
 
 			_fishsEasy = new FastList<FishData>();
@@ -127,17 +132,35 @@ public class FishTable
 		}
 		finally
 		{
-			try
-			{
-				lnr.close();
-				lnr = null;
-			}
-			catch(Exception e1)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(lnr != null)
+				try
+				{
+					lnr.close();
+				}
+				catch(Exception e1)
+				{
 					e1.printStackTrace();
-				
-			}
+				}
+			
+			if(buff != null)
+				try
+				{
+					buff.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			
+			if(reader != null)
+				try
+				{
+					reader.close();
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
 		}
 		_log.config("FishTable: Loaded " + count + " Fishes.");
 

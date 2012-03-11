@@ -15954,7 +15954,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed() && getClient().getConnection().getInetAddress()!=null ){
 			
 			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
-			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
+			final Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
 			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
 
 			for(L2PcInstance player : players)
@@ -16012,7 +16012,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(getClient()!=null && getClient().getConnection()!=null && !getClient().getConnection().isClosed() && getClient().getConnection().getInetAddress()!=null ){
 			
 			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
-			Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
+			final Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
 			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
 
 			for(L2PcInstance player : players)

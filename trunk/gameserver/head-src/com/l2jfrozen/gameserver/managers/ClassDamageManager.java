@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.managers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -51,14 +52,15 @@ public class ClassDamageManager
 	public static void loadConfig()
 	{
 		final String SCRIPT = FService.CLASS_DAMAGES_FILE;
-
+		InputStream is = null;
+		File file = null;
 		try
 		{
 			Properties scriptSetting = new Properties();
-			InputStream is = new FileInputStream(new File(SCRIPT));
+			file = new File(SCRIPT);
+			is = new FileInputStream(file);
 			scriptSetting.load(is);
-			is.close();
-
+			
 			Set<Object> key_set = scriptSetting.keySet();
 			
 			for(Object key : key_set){
@@ -106,15 +108,23 @@ public class ClassDamageManager
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Load " + SCRIPT + " File.");
+			
+		}finally{
+			
+			if(is != null){
+				try
+				{
+					is.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		
 		
-	}
-	
-	public static void main(String[] args){
-		ClassDamageManager.loadConfig();
 	}
 	
 	public static double getClassDamageToMage(int id){

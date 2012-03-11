@@ -75,28 +75,18 @@ public class QuestManager extends ScriptManager<Quest>
 	public final void reloadAllQuests()
 	{
 		_log.info("Reloading Server Scripts");
-		try
+		// unload all scripts
+		for(Quest quest : _quests.values())
 		{
-			// unload all scripts
-			for(Quest quest : _quests.values())
+			if(quest != null)
 			{
-				if(quest != null)
-				{
-					quest.unload();
-				}
+				quest.unload();
 			}
-			// now load all scripts
-			File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
-			L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
-			QuestManager.getInstance().report();
 		}
-		catch(IOException ioe)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				ioe.printStackTrace();
-			
-			_log.severe("Failed loading scripts.cfg, no script going to be loaded");
-		}
+		// now load all scripts
+		File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
+		L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
+		QuestManager.getInstance().report();
 	}
 
 	public final void report()
