@@ -1,6 +1,8 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -189,14 +191,17 @@ public class AutoVoteRewardHandler
 	{
 		int votes = -1;
 		URL url = null;
+		URLConnection con = null;
+		InputStream is = null;
 		InputStreamReader isr = null;
 		BufferedReader in = null;
 		try
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
-			URLConnection con = url.openConnection();    
-			con.addRequestProperty("User-Agent", "Mozilla/4.76");		    
-			isr = new InputStreamReader(con.getInputStream());		    
+			con = url.openConnection();    
+			con.addRequestProperty("User-Agent", "Mozilla/4.76");
+			is = con.getInputStream();
+			isr = new InputStreamReader(is);		    
 			in = new BufferedReader(isr);
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
@@ -216,26 +221,34 @@ public class AutoVoteRewardHandler
 		}
 		finally
 		{
-			try
-			{
-				if(in!=null)
+			if(in!=null)
+				try
+				{
 					in.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			try
-			{
-				if(isr!=null)
+				}
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			if(isr!=null)
+				try
+				{
 					isr.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+				}
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			if(is!=null)
+				try
+				{
+					is.close();
+				}
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			
 		}
 		return votes;
 	}
@@ -244,14 +257,17 @@ public class AutoVoteRewardHandler
 	{
 		int votes = -1;
 		URL url = null;
+		URLConnection con = null;
+		InputStream is = null;
 		InputStreamReader isr = null;
 		BufferedReader in = null;
 		try
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_TOPZONE_URL);
-			URLConnection con = url.openConnection();    
-			con.addRequestProperty("User-Agent", "Mozilla/4.76");		    
-			isr = new InputStreamReader(con.getInputStream());		    
+			con = url.openConnection();    
+			con.addRequestProperty("User-Agent", "Mozilla/4.76");
+			is = con.getInputStream();
+			isr = new InputStreamReader(is);		    
 			in = new BufferedReader(isr);
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
@@ -273,26 +289,33 @@ public class AutoVoteRewardHandler
 		}
 		finally
 		{
-			try
-			{
-				if(in!=null)
+			if(in!=null)
+				try
+				{
 					in.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-			try
-			{
-				if(isr!=null)
+				}
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			if(isr!=null)
+				try
+				{
 					isr.close();
-			}
-			catch (Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+				}
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			if(is!=null)
+				try
+				{
+					is.close();
+				}
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
 		}
 		return votes;
 	}

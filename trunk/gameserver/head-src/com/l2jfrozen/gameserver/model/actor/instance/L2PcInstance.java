@@ -3451,26 +3451,32 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	//MOVING on attack TASK, L2OFF FIX
 	private MoveOnAttack launchedMovingTask = null;
+	private Boolean _movingTaskDefined = false;
+	
 	/**
 	 * MoveOnAttack Task
 	 */
 	public class MoveOnAttack implements Runnable
 	{
 		final L2PcInstance _player;
-        L2CharPosition _pos;
-       
-        public MoveOnAttack(L2PcInstance player, L2CharPosition pos)
-        {
-        	_player = player;
-            _pos = pos;
-            //launchedMovingTask = this;
-        }
+		L2CharPosition _pos;
+
+		public MoveOnAttack(L2PcInstance player, L2CharPosition pos)
+		{
+			_player = player;
+			_pos = pos;
+			//launchedMovingTask = this;
+		}
 
 		@Override
 		public void run()
 		{
-			launchedMovingTask = null;
-			
+			synchronized (_movingTaskDefined)
+			{
+				launchedMovingTask = null;
+				_movingTaskDefined = false;
+			}	
+
 			// Set the Intention of this AbstractAI to AI_INTENTION_MOVE_TO
 			_player.getAI().changeIntention(AI_INTENTION_MOVE_TO, _pos, null);
 
@@ -3483,30 +3489,57 @@ public final class L2PcInstance extends L2PlayableInstance
 			// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
 			_player.getAI().moveTo(_pos.x, _pos.y, _pos.z);
 		}
-		
-		public void setNewPosition(L2CharPosition pos){
-			 _pos = pos;
+
+		public void setNewPosition(L2CharPosition pos)
+		{
+			_pos = pos;
+		}
+
+	}
+
+	public boolean isMovingTaskDefined()
+	{
+		return _movingTaskDefined;
+		//return launchedMovingTask != null;
+	}
+
+	public void defineNewMovingTask(L2CharPosition pos)
+	{
+
+		synchronized(_movingTaskDefined){
+			launchedMovingTask = new MoveOnAttack(this, pos);
+			_movingTaskDefined = true;
 		}
 		
+		
 	}
-	
-	public boolean isMovingTaskDefined(){
-		return launchedMovingTask!=null;
-	}
-	
-	public void defineNewMovingTask(L2CharPosition pos){
-		launchedMovingTask = new MoveOnAttack(this, pos);
-	}
-	
-	public void modifyMovingTask(L2CharPosition pos){
-		if(launchedMovingTask == null){
-			return;
+
+	public void modifyMovingTask(L2CharPosition pos)
+	{
+
+		synchronized(_movingTaskDefined){
+			
+			if(!_movingTaskDefined)
+				return;
+			
+			launchedMovingTask.setNewPosition(pos);
+			
 		}
-		launchedMovingTask.setNewPosition(pos);
+
 	}
-	
-	public void startMovingTask(){
-		ThreadPoolManager.getInstance().executeTask(launchedMovingTask);
+
+	public void startMovingTask()
+	{
+
+		synchronized(_movingTaskDefined){
+			
+			if(!_movingTaskDefined)
+				return;
+			
+			ThreadPoolManager.getInstance().executeTask(launchedMovingTask);
+			
+		}
+
 	}
 
 	/**

@@ -2172,30 +2172,36 @@ public abstract class L2Skill
 			}
 			case TARGET_PARTY_MEMBER:
 			{
-				if(target != null && target == activeChar || target != null && activeChar.getParty() != null && target.getParty() != null && activeChar.getParty().getPartyLeaderOID() == target.getParty().getPartyLeaderOID() || target != null && activeChar instanceof L2PcInstance && target instanceof L2Summon && activeChar.getPet() == target || target != null && activeChar instanceof L2Summon && target instanceof L2PcInstance && activeChar == target.getPet())
+				if(target != null && !target.isDead() && (
+						target == activeChar 
+						|| (activeChar.getParty() != null
+							&& target.getParty() != null
+							&& activeChar.getParty().getPartyLeaderOID() == target.getParty().getPartyLeaderOID()) 
+						|| (activeChar.getPet() == target)
+						|| (activeChar == target.getPet())))
 				{
-					if(!target.isDead())
-						// If a target is found, return it in a table else send a system message TARGET_IS_INCORRECT
-						return new L2Character[]
-						{
-							target
-						};
-					return null;
+					// If a target is found, return it in a table else send a system message TARGET_IS_INCORRECT
+					return new L2Character[]
+					{
+						target
+					};
+					
 				}
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 				return null;
 			}
 			case TARGET_PARTY_OTHER:
 			{
-				if(target != null && target != activeChar && target instanceof L2PcInstance && activeChar.getParty() != null && target.getParty() != null && activeChar.getParty().getPartyLeaderOID() == target.getParty().getPartyLeaderOID())
+				if(target != activeChar && target != null && !target.isDead() 
+						&& activeChar.getParty() != null 
+						&& target.getParty() != null 
+						&& activeChar.getParty().getPartyLeaderOID() == target.getParty().getPartyLeaderOID())
 				{
-					if(!target.isDead())
-						// If a target is found, return it in a table else send a system message TARGET_IS_INCORRECT
-						return new L2Character[]
-						{
-							target
-						};
-					return null;
+					// If a target is found, return it in a table else send a system message TARGET_IS_INCORRECT
+					return new L2Character[]
+					{
+						target
+					};
 				}
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 				return null;

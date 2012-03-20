@@ -18,6 +18,7 @@
 package com.l2jfrozen.netcore;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -35,6 +36,8 @@ public class MMOConnection<T extends MMOClient<?>>
 	private final SelectorThread<T> _selectorThread;
 	
 	private final Socket _socket;
+	
+	private final InputStream _socket_is;
 	
 	private final InetAddress _address;
 	
@@ -60,13 +63,16 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	private T _client;
 	
-	public MMOConnection(final SelectorThread<T> selectorThread, final Socket socket, final SelectionKey key)
+	public MMOConnection(final SelectorThread<T> selectorThread, final Socket socket, final SelectionKey key) throws IOException
 	{
 		_selectorThread = selectorThread;
 		_socket = socket;
 		_address = socket.getInetAddress();
 		_readableByteChannel = socket.getChannel();
 		_writableByteChannel = socket.getChannel();
+		
+		_socket_is = socket.getInputStream();
+		
 		_port = socket.getPort();
 		_selectionKey = key;
 		
@@ -216,6 +222,8 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	public final boolean isChannelConnected()
 	{
+		boolean output = false;
+		
 		if(!_socket.isClosed() 
 				&& _socket.getChannel()!=null 
 				&& _socket.getChannel().isConnected()
@@ -224,19 +232,17 @@ public class MMOConnection<T extends MMOClient<?>>
 			
 			try
 			{
-				if(_socket.getInputStream().available()>0){
-					return true;
-				}
-				return false;
+				if(_socket_is.available()>0)
+					output = true;
+				
 			}
 			catch(IOException e)
 			{
 				e.printStackTrace();
-				return false;
 			}
 			
 		}
-		return false;
+		return output;
 	}
 	
 	public final boolean isClosed()

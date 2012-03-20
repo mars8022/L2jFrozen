@@ -67,6 +67,18 @@ public class ScriptDocument
 		{
 			// I/O error
 			ioe.printStackTrace();
+			
+		}finally{
+			
+			if(input!= null)
+				try
+				{
+					input.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 		}
 	}
 

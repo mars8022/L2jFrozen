@@ -128,14 +128,15 @@ public class Sow implements ISkillHandler
 			//TODO: Mob should not agro on player, this way doesn't work really nice
 			_target.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 
-			_target = null;
 		}
 
-		targetList = null;
 	}
 
 	private boolean calcSuccess()
 	{
+		if(_activeChar== null || _target == null)
+			return false;
+		
 		// TODO: check all the chances
 		int basicSuccess = (L2Manor.getInstance().isAlternative(_seedId) ? 20 : 90);
 		int minlevelSeed = 0;

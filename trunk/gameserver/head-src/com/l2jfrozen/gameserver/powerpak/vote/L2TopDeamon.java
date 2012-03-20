@@ -2,6 +2,7 @@ package com.l2jfrozen.gameserver.powerpak.vote;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.Connection;
@@ -155,13 +156,18 @@ public class L2TopDeamon implements Runnable
 	
 	private boolean checkVotes()
 	{
+		boolean output = false;
+		InputStream is = null;
+		InputStreamReader isr = null;
 		BufferedReader reader = null;
 		try
 		{
 			_log.info("L2TopDeamon: Checking l2top.ru....");
 			int nVotes = 0;
 			URL url = new URL(PowerPakConfig.L2TOPDEMON_URL);
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			is = url.openStream();
+			isr = new InputStreamReader(is);
+			reader = new BufferedReader(isr);
 			String line;
 			Timestamp last = _lastVote;
 			while ((line = reader.readLine()) != null)
@@ -194,7 +200,7 @@ public class L2TopDeamon implements Runnable
 			}
 			_lastVote = last;
 			_log.info("L2TopDeamon: " + nVotes + " vote(s) parsed");
-			return true;
+			output = true;
 		}
 		catch (Exception e)
 		{
@@ -218,8 +224,30 @@ public class L2TopDeamon implements Runnable
 					e.printStackTrace();
 				}
 			}
+			if (isr != null)
+			{
+				try
+				{
+					isr.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			if (is != null)
+			{
+				try
+				{
+					is.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
-		return false;
+		return output;
 	}
 	
 	@Override

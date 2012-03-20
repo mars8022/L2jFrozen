@@ -142,17 +142,6 @@ public class Base64
 			(byte) '/'
 	};
 
-	public static void main(String[] args) throws IOException
-	{
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("Enter String to encode: ");
-		final String line = bf.readLine();
-		if (line != null)
-		{
-			System.out.println(Base64.encodeBytes(line.getBytes()));
-		}
-	}
-
 	/** Determine which ALPHABET to use. */
 	static
 	{
@@ -968,33 +957,35 @@ public class Base64
 				} // end catch
 				finally
 				{
-					try
-					{
-						baos.close();
-					}
-					catch(Exception e)
-					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+					if(baos != null)
+						try
+						{
+							baos.close();
+						}
+						catch(Exception e)
+						{
 							e.printStackTrace();
-					}
-					try
-					{
-						gzis.close();
-					}
-					catch(Exception e)
-					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
-					try
-					{
-						bais.close();
-					}
-					catch(Exception e)
-					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}
+						}
+					if(gzis != null)
+						try
+						{
+							gzis.close();
+						}
+						catch(Exception e)
+						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+						}
+					if(bais != null)
+						try
+						{
+							bais.close();
+						}
+						catch(Exception e)
+						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+						}
 				} // end finally
 
 			} // end if: gzipped
@@ -1035,24 +1026,24 @@ public class Base64
 		} // end catch
 		finally
 		{
-			try
-			{
-				bais.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+			if(bais != null)
+				try
+				{
+					bais.close();
+				}
+				catch(Exception e)
+				{
 					e.printStackTrace();
-			}
-			try
-			{
-				ois.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				}
+			if(ois != null)
+				try
+				{
+					ois.close();
+				}
+				catch(Exception e)
+				{
 					e.printStackTrace();
-			}
+				}
 		} // end finally
 
 		return obj;
