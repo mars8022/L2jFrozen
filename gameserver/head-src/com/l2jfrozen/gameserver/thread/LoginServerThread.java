@@ -399,15 +399,19 @@ public class LoginServerThread extends Thread
 			}
 			finally
 			{
-				try
+				synchronized (_out) //avoids tow threads writing in the mean time
 				{
-					_loginSocket.close();
+					try
+					{
+						_loginSocket.close();
+					}
+					catch(Exception e)
+					{
+						if(Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}
 				}
-				catch(Exception e)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+				
 			}
 
 			try

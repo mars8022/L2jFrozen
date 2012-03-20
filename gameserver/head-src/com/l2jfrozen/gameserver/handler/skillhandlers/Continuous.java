@@ -245,7 +245,11 @@ public class Continuous implements ISkillHandler
 			// if this is a debuff let the duel manager know about it
 			// so the debuff can be removed after the duel
 			// (player & target must be in the same duel)
-			if(target instanceof L2PcInstance && ((L2PcInstance) target).isInDuel() && (skill.getSkillType() == L2Skill.SkillType.DEBUFF || skill.getSkillType() == L2Skill.SkillType.BUFF) && player.getDuelId() == ((L2PcInstance) target).getDuelId())
+			if(target instanceof L2PcInstance && player != null 
+					&& ((L2PcInstance) target).isInDuel() 
+					&& (skill.getSkillType() == L2Skill.SkillType.DEBUFF 
+						|| skill.getSkillType() == L2Skill.SkillType.BUFF) 
+					&& player.getDuelId() == ((L2PcInstance) target).getDuelId())
 			{
 				DuelManager dm = DuelManager.getInstance();
 				if(dm!=null)
