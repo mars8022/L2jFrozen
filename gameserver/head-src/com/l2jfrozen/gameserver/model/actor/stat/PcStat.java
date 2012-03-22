@@ -27,6 +27,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.base.ClassLevel;
 import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.model.base.PlayerClass;
+import com.l2jfrozen.gameserver.model.base.SubClass;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -314,18 +315,34 @@ public class PcStat extends PlayableStat
 	@Override
 	public final long getExp()
 	{
-		if(getActiveChar().isSubClassActive())
-			return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getExp();
+		final L2PcInstance player = getActiveChar();
+		if(player!=null && player.isSubClassActive()){
+			
+			int class_index = player.getClassIndex();
+			
+			SubClass player_subclass = null;
+			if((player_subclass = player.getSubClasses().get(class_index))!=null)
+				return player_subclass.getExp();
 
+		}
+			
 		return super.getExp();
 	}
 
 	@Override
 	public final void setExp(long value)
 	{
-		if(getActiveChar().isSubClassActive())
+		final L2PcInstance player = getActiveChar();
+		
+		if(player.isSubClassActive())
 		{
-			getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setExp(value);
+			int class_index = player.getClassIndex();
+			
+			SubClass player_subclass = null;
+			if((player_subclass = player.getSubClasses().get(class_index))!=null)
+				player_subclass.setExp(value);
+			
+			//getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setExp(value);
 		}
 		else
 		{
@@ -338,9 +355,22 @@ public class PcStat extends PlayableStat
 	{
 	       try
 	       {
-	           if (getActiveChar().isSubClassActive())
-	              return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getLevel();
-	              
+	    	   final L2PcInstance player = getActiveChar();
+	   		
+				if(player.isSubClassActive())
+				{
+					int class_index = player.getClassIndex();
+	
+					SubClass player_subclass = null;
+					if((player_subclass = player.getSubClasses().get(class_index)) != null)
+						return player_subclass.getLevel();
+	
+					//getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setExp(value);
+				}
+
+//	           if (getActiveChar().isSubClassActive())
+//	              return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getLevel();
+//	              
 	           return super.getLevel();
 	       }
 	       catch(NullPointerException e)
@@ -357,9 +387,19 @@ public class PcStat extends PlayableStat
 			value = Experience.MAX_LEVEL - 1;
 		}
 
-		if(getActiveChar().isSubClassActive())
+		final L2PcInstance player = getActiveChar();
+		
+		if(player.isSubClassActive())
 		{
-			getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setLevel(value);
+			int class_index = player.getClassIndex();
+			
+			SubClass player_subclass = null;
+			if((player_subclass = player.getSubClasses().get(class_index))!=null)
+				player_subclass.setLevel(value);
+			
+//		if(getActiveChar().isSubClassActive())
+//		{
+//			getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setLevel(value);
 		}
 		else
 		{
@@ -376,9 +416,11 @@ public class PcStat extends PlayableStat
 		{
 			_oldMaxCp = val;
 
-			if(getActiveChar().getStatus().getCurrentCp() != val)
+			final L2PcInstance player = getActiveChar();
+			
+			if(player.getStatus().getCurrentCp() != val)
 			{
-				getActiveChar().getStatus().setCurrentCp(getActiveChar().getStatus().getCurrentCp());
+				player.getStatus().setCurrentCp(getActiveChar().getStatus().getCurrentCp());
 			}
 		}
 		return val;
@@ -394,10 +436,12 @@ public class PcStat extends PlayableStat
 		{
 			_oldMaxHp = val;
 
+			final L2PcInstance player = getActiveChar();
+			
 			// Launch a regen task if the new Max HP is higher than the old one
-			if(getActiveChar().getStatus().getCurrentHp() != val)
+			if(player.getStatus().getCurrentHp() != val)
 			{
-				getActiveChar().getStatus().setCurrentHp(getActiveChar().getStatus().getCurrentHp()); // trigger start of regeneration
+				player.getStatus().setCurrentHp(player.getStatus().getCurrentHp()); // trigger start of regeneration
 			}
 		}
 
@@ -414,10 +458,12 @@ public class PcStat extends PlayableStat
 		{
 			_oldMaxMp = val;
 
+			final L2PcInstance player = getActiveChar();
+			
 			// Launch a regen task if the new Max MP is higher than the old one
-			if(getActiveChar().getStatus().getCurrentMp() != val)
+			if(player.getStatus().getCurrentMp() != val)
 			{
-				getActiveChar().getStatus().setCurrentMp(getActiveChar().getStatus().getCurrentMp()); // trigger start of regeneration
+				player.getStatus().setCurrentMp(player.getStatus().getCurrentMp()); // trigger start of regeneration
 			}
 		}
 
@@ -427,8 +473,18 @@ public class PcStat extends PlayableStat
 	@Override
 	public final int getSp()
 	{
-		if(getActiveChar().isSubClassActive())
-			return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getSp();
+		final L2PcInstance player = getActiveChar();
+		
+		if(player.isSubClassActive())
+		{
+			int class_index = player.getClassIndex();
+			
+			SubClass player_subclass = null;
+			if((player_subclass = player.getSubClasses().get(class_index))!=null)
+				return player_subclass.getSp();;
+		}
+//		if(getActiveChar().isSubClassActive())
+//			return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getSp();
 
 		return super.getSp();
 	}
@@ -436,10 +492,22 @@ public class PcStat extends PlayableStat
 	@Override
 	public final void setSp(int value)
 	{
-		if(getActiveChar().isSubClassActive())
+		
+		final L2PcInstance player = getActiveChar();
+		
+		if(player.isSubClassActive())
 		{
-			getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setSp(value);
+			int class_index = player.getClassIndex();
+			
+			SubClass player_subclass = null;
+			if((player_subclass = player.getSubClasses().get(class_index))!=null)
+				player_subclass.setSp(value);
 		}
+		
+//		if(getActiveChar().isSubClassActive())
+//		{
+//			getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).setSp(value);
+//		}
 		else
 		{
 			super.setSp(value);

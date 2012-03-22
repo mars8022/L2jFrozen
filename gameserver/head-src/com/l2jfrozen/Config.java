@@ -306,6 +306,8 @@ public final class Config
 
 	//============================================================
 	public static int PORT_GAME;
+	public static String GAMESERVER_DB;
+	public static String LOGINSERVER_DB;
 	public static String GAMESERVER_HOSTNAME;
 	public static String DATABASE_POOL_TYPE;
 	public static String DATABASE_DRIVER;
@@ -352,7 +354,13 @@ public final class Config
 
 			DATABASE_POOL_TYPE = serverSettings.getProperty("DatabasePoolType", "c3p0");
 			DATABASE_DRIVER = serverSettings.getProperty("Driver", "com.mysql.jdbc.Driver");
-			DATABASE_URL = serverSettings.getProperty("URL", "jdbc:mysql://localhost/l2jdb");
+			
+			GAMESERVER_DB = serverSettings.getProperty("GameserverDB", "gameserver_beta");
+			LOGINSERVER_DB = serverSettings.getProperty("LoginserverDB", "loginserver_beta");
+			
+			String DATABASE_URL_BASE = serverSettings.getProperty("URL", "jdbc:mysql://localhost/");
+			DATABASE_URL = DATABASE_URL_BASE+GAMESERVER_DB;
+			
 			DATABASE_LOGIN = serverSettings.getProperty("Login", "root");
 			DATABASE_PASSWORD = serverSettings.getProperty("Password", "");
 			DATABASE_MAX_CONNECTIONS = Integer.parseInt(serverSettings.getProperty("MaximumDbConnections", "10"));
@@ -1858,6 +1866,7 @@ public final class Config
 	public static String CNAME_TEMPLATE;
 	public static String PET_NAME_TEMPLATE;
 	public static String CLAN_NAME_TEMPLATE;
+	public static int MAX_CHARACTERS_NUMBER_PER_IP;
 	public static int MAX_CHARACTERS_NUMBER_PER_ACCOUNT;
 	public static int MIN_PROTOCOL_REVISION;
 	public static int MAX_PROTOCOL_REVISION;
@@ -1914,6 +1923,8 @@ public final class Config
 			PET_NAME_TEMPLATE = devSettings.getProperty("PetNameTemplate", ".*");
 			CLAN_NAME_TEMPLATE = devSettings.getProperty("ClanNameTemplate", ".*");
 			MAX_CHARACTERS_NUMBER_PER_ACCOUNT = Integer.parseInt(devSettings.getProperty("CharMaxNumber", "0"));
+
+			MAX_CHARACTERS_NUMBER_PER_IP = Integer.parseInt(devSettings.getProperty("CharMaxNumberPerIP", "0"));
 
 			MAXIMUM_ONLINE_USERS = Integer.parseInt(devSettings.getProperty("MaximumOnlineUsers", "100"));
 

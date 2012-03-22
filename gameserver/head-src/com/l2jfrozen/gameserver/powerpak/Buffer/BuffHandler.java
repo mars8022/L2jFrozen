@@ -156,7 +156,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 	}
 
 	@Override
-	public void handleCommand(String command, L2PcInstance player,
+	public void handleCommand(String command, final L2PcInstance player,
 			String parameters)
 	{
 		if(player==null)
@@ -523,12 +523,15 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			int level = BufferSkillsTable.getInstance().getSkillLevelById(skill_id);
 			if (currentCommand.startsWith("skillselect") && !scheme_key.equalsIgnoreCase("unselected"))
 			{
-				if (CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).size() < PowerPakConfig.NPCBUFFER_MAX_SKILLS)
+				if(CharSchemesTable.getInstance() != null
+						&& CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key)!=null
+						&& CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).size() < PowerPakConfig.NPCBUFFER_MAX_SKILLS)
 					CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).add(SkillTable.getInstance().getInfo(skill_id, level));
 				else
 					player.sendMessage("This scheme has reached maximun amount of buffs");
 			}
-			else if (currentCommand.startsWith("skillunselect"))
+			else if (currentCommand.startsWith("skillunselect") && CharSchemesTable.getInstance() != null
+					&& CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key)!=null)
 				CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).remove(SkillTable.getInstance().getInfo(skill_id, level));
 			showEditSchemeWindow(player, skill_group, scheme_key);
 		}
