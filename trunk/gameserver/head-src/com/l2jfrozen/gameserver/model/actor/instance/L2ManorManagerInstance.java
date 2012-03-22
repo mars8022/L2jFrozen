@@ -129,7 +129,7 @@ public class L2ManorManagerInstance extends L2MerchantInstance
 		}
 		else
 		{
-			_log.info("possible client hacker: " + player.getName() + " attempting to buy from GM shop! < Ban him!");
+			_log.info("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2ManorManagerIntance)");
 			_log.info("buylist id:" + val);
 		}
 

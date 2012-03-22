@@ -437,8 +437,9 @@ public abstract class L2Object
 		L2World.getInstance().storeObject(this);
 
 		// Add the L2Object spawn to _visibleObjects and if necessary to _allplayers of its L2WorldRegion
-		if(getPosition().getWorldRegion()!=null)
-			getPosition().getWorldRegion().addVisibleObject(this);
+		L2WorldRegion region = getPosition().getWorldRegion();
+		if(region!=null)
+			region.addVisibleObject(this);
 		else{
 			System.out.println("ATTENTION: no region found for location "+x+","+y+","+z+". It's not possible to spawn object "+_objectId+" here...");
 			return;
@@ -446,7 +447,7 @@ public abstract class L2Object
 		// this can synchronize on others instances, so it's out of
 		// synchronized, to avoid deadlocks
 		// Add the L2Object spawn in the world as a visible object
-		L2World.getInstance().addVisibleObject(this, getPosition().getWorldRegion(), null);
+		L2World.getInstance().addVisibleObject(this, region, null);
 
 		onSpawn();
 	}

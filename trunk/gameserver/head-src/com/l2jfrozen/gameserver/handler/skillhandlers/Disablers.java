@@ -586,6 +586,9 @@ public class Disablers implements ISkillHandler
 							if(stat == "sleep")
 								negateEffect(target, SkillType.SLEEP, -1);
 
+							if(stat == "mdam")
+								negateEffect(target, SkillType.MDAM, -1);
+							
 							if(stat == "confusion")
 								negateEffect(target, SkillType.CONFUSION, -1);
 

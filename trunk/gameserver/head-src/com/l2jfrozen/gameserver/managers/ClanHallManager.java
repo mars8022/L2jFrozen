@@ -243,9 +243,17 @@ public class ClanHallManager
 	 */
 	public final ClanHall getClanHallByOwner(L2Clan clan)
 	{
-		for(Map.Entry<Integer, ClanHall> ch : _clanHall.entrySet())
+		if(clan == null)
+			return null;
+		
+		for(Map.Entry<Integer, ClanHall> ch : _clanHall.entrySet()){
+			
+			if(ch == null || ch.getValue() == null)
+				return null;
+			
 			if(clan.getClanId() == ch.getValue().getOwnerId())
 				return ch.getValue();
+		}
 
 		return null;
 	}

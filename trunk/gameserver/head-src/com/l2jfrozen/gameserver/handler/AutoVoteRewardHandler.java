@@ -82,7 +82,7 @@ public class AutoVoteRewardHandler
 						//L2ItemInstance item;
 						for (L2PcInstance player : pls)
 						{
-							if (player != null && !player.isOffline())
+							if (player != null && !player.isOffline() && player.isOnline()==1)
 							{
 								if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
 									
@@ -139,7 +139,7 @@ public class AutoVoteRewardHandler
 						//L2ItemInstance item;
 						for (L2PcInstance player : pls)
 						{
-							if (player != null && !player.isOffline())
+							if (player != null && !player.isOffline() && player.isOnline()==1)
 							{
 								if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
 									

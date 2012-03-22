@@ -109,6 +109,13 @@ public final class CharacterCreate extends L2GameClientPacket
 
 				sendPacket(new CharCreateFail(CharCreateFail.REASON_NAME_ALREADY_EXISTS));
 				return;
+			}else if (CharNameTable.getInstance().ipCharNumber(getClient().getConnection().getInetAddress().getHostName()) >= Config.MAX_CHARACTERS_NUMBER_PER_IP && Config.MAX_CHARACTERS_NUMBER_PER_IP != 0)
+			{
+				if (Config.DEBUG)
+					_log.fine("DEBUG "+getType()+": Max number of characters reached for IP. Creation failed.");
+				
+				sendPacket(new CharCreateFail(CharCreateFail.REASON_TOO_MANY_CHARACTERS));
+				return;
 			}
 
 			template = CharTemplateTable.getInstance().getTemplate(_classId);

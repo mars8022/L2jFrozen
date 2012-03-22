@@ -38,6 +38,8 @@ public class ObjectPosition
 	private Point3D _worldPosition;
 	private L2WorldRegion _worldRegion; // Object localization : Used for items/chars that are seen in the world
 
+	private Boolean _changingRegion = false;
+	
 	// =========================================================
 	// Constructor
 	public ObjectPosition(L2Object activeObject)
@@ -238,11 +240,17 @@ public class ObjectPosition
 
 	public final L2WorldRegion getWorldRegion()
 	{
-		return _worldRegion;
+		synchronized(_changingRegion){
+			_changingRegion = false;
+			return _worldRegion;
+		}
 	}
 
 	public final void setWorldRegion(L2WorldRegion value)
 	{
-		_worldRegion = value;
+		synchronized(_changingRegion){
+			_changingRegion = true;
+			_worldRegion = value;
+		}
 	}
 }
