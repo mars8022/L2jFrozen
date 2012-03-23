@@ -15161,6 +15161,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		sm.addNumber(getDeathPenaltyBuffLevel());
 		sendPacket(sm);
 		sm = null;
+		sendSkillList(); 
 	}
 
 	public void reduceDeathPenaltyBuffLevel()
@@ -15174,6 +15175,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			removeSkill(skill, true);
 			skill = null;
+			sendSkillList(); 
 		}
 
 		_deathPenaltyBuffLevel--;
@@ -15186,6 +15188,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			sm.addNumber(getDeathPenaltyBuffLevel());
 			sendPacket(sm);
 			sm = null;
+			sendSkillList(); 
 		}
 		else
 		{
