@@ -169,16 +169,25 @@ public class MacroList
 
 			for(L2MacroCmd cmd : macro.commands)
 			{
-				sb.append(cmd.type).append(',');
-				sb.append(cmd.d1).append(',');
-				sb.append(cmd.d2);
+				
+				TextBuilder cmd_sb = new TextBuilder();
+
+				cmd_sb.append(cmd.type).append(',');
+				cmd_sb.append(cmd.d1).append(',');
+				cmd_sb.append(cmd.d2);
 
 				if(cmd.cmd != null && cmd.cmd.length() > 0)
 				{
-					sb.append(',').append(cmd.cmd);
+					cmd_sb.append(',').append(cmd.cmd);
 				}
 
-				sb.append(';');
+				cmd_sb.append(';');
+				
+				if(sb.toString().length() + cmd_sb.toString().length() < 255){
+					sb.append(cmd_sb.toString());
+				}else
+					break;
+				
 			}
 
 			statement.setString(7, sb.toString());

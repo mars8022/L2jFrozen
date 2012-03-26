@@ -12,6 +12,8 @@
     <!-- Enhances damage to target during PvP -->
     <mul val='1.05' order='0x30' stat='pvpPhysDmg'/>
     <mul val='1.05' order='0x30' stat='pvpMagicalDmg'/>
+    <!-- SA: Focus -->
+    <add val='67' order='0x40' stat='rCrit'/>
   </for>
 </item>
 <item id='8801' name="Naga Storm - Critical Damage">
@@ -26,6 +28,8 @@
     <!-- Enhances damage to target during PvP -->
     <mul val='1.05' order='0x30' stat='pvpPhysDmg'/>
     <mul val='1.05' order='0x30' stat='pvpMagicalDmg'/>
+    <!-- SA: Critical Damage -->
+    <add val='200' order='0x40' stat='cAtk'/>
   </for>
 </item>
 <item id='8802' name="Naga Storm - Back Blow">

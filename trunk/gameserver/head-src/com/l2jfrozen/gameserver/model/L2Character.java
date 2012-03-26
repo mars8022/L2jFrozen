@@ -4956,7 +4956,7 @@ public abstract class L2Character extends L2Object
 		}
 		else if(this instanceof L2NpcInstance)
 		{
-			if(broadcastFull)
+			if(broadcastFull && getKnownList()!= null && getKnownList().getKnownPlayers()!=null)
 			{
 				for(L2PcInstance player : getKnownList().getKnownPlayers().values())
 					if(player != null)
