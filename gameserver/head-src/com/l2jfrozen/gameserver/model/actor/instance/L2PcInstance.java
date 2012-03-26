@@ -9370,6 +9370,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.close();
 			statement = null;
 
+			List<String> saved_skills = new ArrayList<String>();
+			
 			int buff_index = 0;
 
 			// Store all effect data along with calulated remaining
@@ -9381,6 +9383,11 @@ public final class L2PcInstance extends L2PlayableInstance
 						&& effect.getSkill().getSkillType() != SkillType.FORCE_BUFF)
 				{
 					int skillId = effect.getSkill().getId();
+					
+					String saved_buff_id = getObjectId()+"-"+skillId+"-"+effect.getSkill().getLevel();
+					if(saved_skills.contains(saved_buff_id))
+						continue;
+					
 					buff_index++;
 
 					statement = con.prepareStatement(ADD_SKILL_SAVE);
@@ -9406,6 +9413,8 @@ public final class L2PcInstance extends L2PlayableInstance
 					statement.execute();
 					statement.close();
 					statement = null;
+					
+					saved_skills.add(saved_buff_id);
 				}
 			}
 
@@ -13894,7 +13903,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(cmd.startsWith("npc_") && cmd.endsWith("_SevenSigns 7"))
 			return true;
 
-		_log.warning("[L2PcInstance] player [" + getName() + "] sent invalid bypass '" + cmd + "', ban this player!");
+		L2PcInstance player = getClient().getActiveChar();
+		// We decided to put a kick because when a player is doing quest with a BOT he sends invalid bypass.
+		Util.handleIllegalPlayerAction(player,"[L2PcInstance] player [" + player.getName() + "] sent invalid bypass '" + cmd + "'", Config.DEFAULT_PUNISH);
 		return false;
 	}
 

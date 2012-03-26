@@ -238,7 +238,8 @@ public class Continuous implements ISkillHandler
 				break;
 
 			// If target is not in game anymore...
-			if(target instanceof L2PcInstance && ((L2PcInstance)target).isOnline()==0)
+			if(target == null || target instanceof L2PcInstance 
+					&& ((L2PcInstance)target).isOnline()==0)
 				continue;
 			
 
@@ -247,7 +248,7 @@ public class Continuous implements ISkillHandler
 			// (player & target must be in the same duel)
 			if(target instanceof L2PcInstance && player != null 
 					&& ((L2PcInstance) target).isInDuel() 
-					&& (skill.getSkillType() == L2Skill.SkillType.DEBUFF 
+					&& skill!= null && (skill.getSkillType() == L2Skill.SkillType.DEBUFF 
 						|| skill.getSkillType() == L2Skill.SkillType.BUFF) 
 					&& player.getDuelId() == ((L2PcInstance) target).getDuelId())
 			{
