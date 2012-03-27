@@ -135,6 +135,7 @@ public class OfflineTradeTable
 									stm_items.executeUpdate();
 									stm_items.clearParameters();
 								}
+								break;
 							default:
 								//_log.info( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 								//no save for this kind of shop
@@ -370,6 +371,7 @@ public class OfflineTradeTable
 							stm_items.executeUpdate();
 							stm_items.clearParameters();
 						}
+						break;
 					default:
 						//_log.info( "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 						//no save for this kind of shop

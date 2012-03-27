@@ -115,6 +115,10 @@ public final class Config
 	public static boolean GLOBAL_CHAT_WITH_PVP;
 	public static int GLOBAL_PVP_AMOUNT;
 
+	// Anti Brute force attack on login
+	public static int BRUT_AVG_TIME;
+	public static int BRUT_LOGON_ATTEMPTS;
+	public static int BRUT_BAN_IP_TIME;
 	
 	
 	public static int MAX_CHAT_LENGTH;
@@ -4264,6 +4268,11 @@ public final class Config
 			DATABASE_CONNECTION_TIMEOUT = Integer.parseInt(serverSettings.getProperty("SingleConnectionTimeOutDb", "120000"));
 			DATABASE_PARTITION_COUNT = Integer.parseInt(serverSettings.getProperty("PartitionCount", "4"));
 
+			// Anti Brute force attack on login
+			BRUT_AVG_TIME = Integer.parseInt(serverSettings.getProperty("BrutAvgTime", "30")); // in Seconds
+			BRUT_LOGON_ATTEMPTS = Integer.parseInt(serverSettings.getProperty("BrutLogonAttempts", "15"));
+			BRUT_BAN_IP_TIME = Integer.parseInt(serverSettings.getProperty("BrutBanIpTime", "900")); // in Seconds
+			
 			SHOW_LICENCE = Boolean.parseBoolean(serverSettings.getProperty("ShowLicence", "false"));
 			IP_UPDATE_TIME = Integer.parseInt(serverSettings.getProperty("IpUpdateTime", "15"));
 			FORCE_GGAUTH = Boolean.parseBoolean(serverSettings.getProperty("ForceGGAuth", "false"));

@@ -95,6 +95,12 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		_loginCrypt = new LoginCrypt();
 		_loginCrypt.setKey(_blowfishKey);
 		LoginController.getInstance().addLoginClient(this);
+		// This checkup must go next to BAN because it can cause decrease ban account time
+		if (!BruteProtector.canLogin(ip))
+		{
+			LoginController.getInstance().addBanForAddress(getConnection().getInetAddress(), Config.BRUT_BAN_IP_TIME * 1000);
+			_log.warning("Drop connection from IP " + ip + " because of BruteForce.");
+		}
 //		Closer.getInstance().add(this);
 	}
 
