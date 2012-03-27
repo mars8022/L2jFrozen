@@ -1810,8 +1810,8 @@ public abstract class L2Character extends L2Object
 			}
 		}
 
-		// Calculate altered Cast Speed due to BSpS/SpS
-		if((checkBss() || checkSps()) && !skill.isStaticHitTime() && !skill.isPotion()){
+		// Calculate altered Cast Speed due to BSpS/SpS only for Magic skills
+		if((checkBss() || checkSps()) && !skill.isStaticHitTime() && !skill.isPotion() && skill.isMagic()){
 			
 			//Only takes 70% of the time to cast a BSpS/SpS cast
 			hitTime = (int) (0.70 * hitTime);
