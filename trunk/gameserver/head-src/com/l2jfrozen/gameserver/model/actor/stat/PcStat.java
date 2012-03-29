@@ -20,12 +20,12 @@ package com.l2jfrozen.gameserver.model.actor.stat;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ClassMasterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.base.ClassLevel;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.model.base.PlayerClass;
 import com.l2jfrozen.gameserver.model.base.SubClass;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
@@ -39,24 +39,17 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 
 public class PcStat extends PlayableStat
 {
-	private static Logger _log = Logger.getLogger(L2PcInstance.class.getName());
-
-	// =========================================================
-	// Data Field
+	private static Logger _log = Logger.getLogger(PcStat.class.getName());
 
 	private int _oldMaxHp; // stats watch
 	private int _oldMaxMp; // stats watch
 	private int _oldMaxCp; // stats watch
 
-	// =========================================================
-	// Constructor
 	public PcStat(L2PcInstance activeChar)
 	{
 		super(activeChar);
 	}
 
-	// =========================================================
-	// Method - Public
 	@Override
 	public boolean addExp(long value)
 	{
@@ -101,7 +94,7 @@ public class PcStat extends PlayableStat
 	 * <li>Remove Karma when the player kills L2MonsterInstance</li> <li>Send a Server->Client packet StatusUpdate to
 	 * the L2PcInstance</li> <li>Send a Server->Client System Message to the L2PcInstance</li> <li>If the L2PcInstance
 	 * increases it's level, send a Server->Client packet SocialAction (broadcast)</li> <li>If the L2PcInstance
-	 * increases it's level, manage the increase level task (Max MP, Max MP, Recommandation, Expertise and beginner
+	 * increases it's level, manage the increase level task (Max MP, Max MP, Recommendation, Expertise and beginner
 	 * skills...)</li> <li>If the L2PcInstance increases it's level, send a Server->Client packet UserInfo to the
 	 * L2PcInstance</li><BR>
 	 * <BR>
@@ -184,7 +177,7 @@ public class PcStat extends PlayableStat
 	public final boolean addLevel(byte value)
 	{
 		//getActiveChar().setLocked(true);
-		if(getLevel() + value > Experience.MAX_LEVEL - 1)
+		if(getLevel() + value > ExperienceData.getInstance().getMaxLevel() - 1)
 			return false;
 
 		boolean levelIncreased = super.addLevel(value);
@@ -298,14 +291,9 @@ public class PcStat extends PlayableStat
 	@Override
 	public final long getExpForLevel(int level)
 	{
-		return Experience.getExp(level);
+		return ExperienceData.getInstance().getExpForLevel(level);
 	}
 
-	// =========================================================
-	// Method - Private
-
-	// =========================================================
-	// Property - Public
 	@Override
 	public final L2PcInstance getActiveChar()
 	{
@@ -382,9 +370,9 @@ public class PcStat extends PlayableStat
 	@Override
 	public final void setLevel(int value)
 	{
-		if(value > Experience.MAX_LEVEL - 1)
+		if(value > ExperienceData.getInstance().getMaxLevel() - 1)
 		{
-			value = Experience.MAX_LEVEL - 1;
+			value = ExperienceData.getInstance().getMaxLevel() - 1;
 		}
 
 		final L2PcInstance player = getActiveChar();

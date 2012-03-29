@@ -26,6 +26,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2AttackableAI;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.model.L2Attackable;
@@ -38,7 +39,6 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Formulas;
@@ -422,7 +422,7 @@ public class Disablers implements ISkillHandler
 						}
 						int lvlmodifier = 52 + skill.getLevel() * 2;
 						if(skill.getLevel() == 12)
-							lvlmodifier = (Experience.MAX_LEVEL - 1);
+							lvlmodifier = (ExperienceData.getInstance().getMaxLevel() - 1);
 
 						int landrate = (int) skill.getPower();
 						if((target.getLevel() - lvlmodifier) > 0)
@@ -563,7 +563,7 @@ public class Disablers implements ISkillHandler
 							{
 								int lvlmodifier = 52 + skill.getMagicLevel() * 2;
 								if(skill.getMagicLevel() == 12)
-									lvlmodifier = (Experience.MAX_LEVEL - 1);
+									lvlmodifier = (ExperienceData.getInstance().getMaxLevel() - 1);
 
 								int landrate = 90;
 								if((target.getLevel() - lvlmodifier) > 0)

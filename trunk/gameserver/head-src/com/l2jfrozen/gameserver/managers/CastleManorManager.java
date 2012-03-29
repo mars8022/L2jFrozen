@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
@@ -349,7 +350,9 @@ public class CastleManorManager
 				// adding bought crops to clan warehouse
 				if(crop.getStartAmount() > crop.getAmount())
 				{
-					_log.info("Manor System: Start Amount of Crop" + crop.getStartAmount() + "> Amount of currnt" + crop.getAmount());
+					String text = "Manor System: Start Amount of Crop" + crop.getStartAmount() + "> Amount of currnt" + crop.getAmount();
+					Log.add(text, "Manor_system");
+					
 					int count = crop.getStartAmount() - crop.getAmount();
 
 					count = count * 90 / 100;

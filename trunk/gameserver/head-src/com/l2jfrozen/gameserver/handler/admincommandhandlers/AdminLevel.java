@@ -3,11 +3,11 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
@@ -17,11 +17,7 @@ public class AdminLevel implements IAdminCommandHandler
 	{
 			"admin_add_level", "admin_set_level"
 	};
-
-	/**
-	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand (java.lang.String,
-	 *      com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
-	 */
+	
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
@@ -47,14 +43,11 @@ public class AdminLevel implements IAdminCommandHandler
 		String actualCommand = st.nextToken(); // Get actual command
 
 		String val = "";
-
 		if(st.countTokens() >= 1)
 		{
 			val = st.nextToken();
 		}
-
-		st = null;
-
+		
 		if(actualCommand.equalsIgnoreCase("admin_add_level"))
 		{
 			try
@@ -85,17 +78,17 @@ public class AdminLevel implements IAdminCommandHandler
 				final L2PlayableInstance targetPlayer = (L2PlayableInstance) targetChar;
 
 				final byte lvl = Byte.parseByte(val);
-				int max_level = Experience.MAX_LEVEL;
+				int max_level = ExperienceData.getInstance().getMaxLevel();
 
 				if(targetChar instanceof L2PcInstance && ((L2PcInstance) targetPlayer).isSubClassActive())
 				{
-					max_level = Experience.MAX_SUBCLASS_LEVEL;
+					max_level = Config.MAX_SUBCLASS_LEVEL;
 				}
 
 				if(lvl >= 1 && lvl <= max_level)
 				{
 					final long pXp = targetPlayer.getStat().getExp();
-					final long tXp = Experience.getExp(lvl);
+					final long tXp = ExperienceData.getInstance().getExpForLevel(lvl);
 
 					if(pXp > tXp)
 					{
@@ -108,7 +101,7 @@ public class AdminLevel implements IAdminCommandHandler
 				}
 				else
 				{
-					activeChar.sendMessage("You must specify level between 1 and " + Experience.MAX_LEVEL + ".");
+					activeChar.sendMessage("You must specify level between 1 and " + ExperienceData.getInstance().getMaxLevel() + ".");
 					return false;
 				}
 			}
@@ -117,24 +110,16 @@ public class AdminLevel implements IAdminCommandHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				activeChar.sendMessage("You must specify level between 1 and " + Experience.MAX_LEVEL + ".");
+				activeChar.sendMessage("You must specify level between 1 and " + ExperienceData.getInstance().getMaxLevel() + ".");
 				return false;
 			}
 		}
-
-		actualCommand = null;
-		targetChar = null;
-
 		return true;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
-	 */
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
 }

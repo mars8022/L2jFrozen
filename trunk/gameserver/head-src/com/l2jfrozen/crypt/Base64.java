@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.crypt;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import com.l2jfrozen.Config;
 
 /**

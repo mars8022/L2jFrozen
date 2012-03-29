@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.datatables.sql.CharNameTable;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.model.L2ShortCut;
@@ -33,7 +34,6 @@ import com.l2jfrozen.gameserver.model.L2SkillLearn;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -217,7 +217,7 @@ public final class CharacterCreate extends L2GameClientPacket
 			newChar.setXYZInvisible(template.spawnX, template.spawnY, template.spawnZ);
 
 		if (Config.ALLOW_CREATE_LVL)
-			newChar.getStat().addExp(Experience.getExp(Config.CHAR_CREATE_LVL));
+			newChar.getStat().addExp(ExperienceData.getInstance().getExpForLevel(Config.CHAR_CREATE_LVL));
 
 		if (Config.CHAR_TITLE)
 			newChar.setTitle(Config.ADD_CHAR_TITLE);

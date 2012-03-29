@@ -18,6 +18,9 @@
  */
 package com.l2jfrozen.gameserver.model.base;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
+
 /**
  * Character Sub-Class Definition <BR>
  * Used to store key information about a character's sub-class.
@@ -27,7 +30,7 @@ package com.l2jfrozen.gameserver.model.base;
 public final class SubClass
 {
 	private PlayerClass _class;
-	private long _exp = Experience.getExp(40);
+	private long _exp = ExperienceData.getInstance().getExpForLevel(Config.BASE_SUBCLASS_LEVEL);
 	private int _sp = 0;
 	private int _level = 40;
 	private int _classIndex = 1;
@@ -91,9 +94,9 @@ public final class SubClass
 
 	public void setExp(long expValue)
 	{
-		if(expValue > Experience.getExp(Experience.MAX_LEVEL))
+		if(expValue > ExperienceData.getInstance().getExpForLevel(Config.MAX_SUBCLASS_LEVEL))
 		{
-			expValue = Experience.getExp(Experience.MAX_LEVEL);
+			expValue = ExperienceData.getInstance().getExpForLevel(Config.MAX_SUBCLASS_LEVEL);
 		}
 
 		_exp = expValue;
@@ -111,13 +114,13 @@ public final class SubClass
 
 	public void setLevel(int levelValue)
 	{
-		if(levelValue > Experience.MAX_LEVEL - 1)
+		if(levelValue > Config.MAX_SUBCLASS_LEVEL - 1)
 		{
-			levelValue = Experience.MAX_LEVEL - 1;
+			levelValue = Config.MAX_SUBCLASS_LEVEL - 1;
 		}
-		else if(levelValue < 40)
+		else if(levelValue < Config.BASE_SUBCLASS_LEVEL)
 		{
-			levelValue = 40;
+			levelValue = Config.BASE_SUBCLASS_LEVEL;
 		}
 
 		_level = levelValue;
@@ -125,19 +128,21 @@ public final class SubClass
 
 	public void incLevel()
 	{
-		if(getLevel() == Experience.MAX_LEVEL - 1)
+		if(getLevel() == Config.MAX_SUBCLASS_LEVEL - 1)
+		{
 			return;
-
+		}
 		_level++;
-		setExp(Experience.getExp(getLevel()));
+		setExp(ExperienceData.getInstance().getExpForLevel(getLevel()));
 	}
 
 	public void decLevel()
 	{
-		if(getLevel() == 40)
+		if(getLevel() == Config.BASE_SUBCLASS_LEVEL)
+		{
 			return;
-
+		}
 		_level--;
-		setExp(Experience.getExp(getLevel()));
+		setExp(ExperienceData.getInstance().getExpForLevel(getLevel()));
 	}
 }

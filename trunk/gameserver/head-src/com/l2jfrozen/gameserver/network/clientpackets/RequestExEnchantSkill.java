@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.model.L2EnchantSkillLearn;
 import com.l2jfrozen.gameserver.model.L2ShortCut;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -30,7 +31,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutRegister;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
@@ -121,7 +121,7 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 		{
 			// Like L2OFF you can't delevel during skill enchant
 			long expAfter = player.getExp() - _requiredExp;
-			if(player.getExp() >= _requiredExp && expAfter >= Experience.LEVEL[player.getLevel()])
+			if(player.getExp() >= _requiredExp && expAfter >= ExperienceData.getInstance().getExpForLevel(player.getLevel()))
 			{
 				if(Config.ES_SP_BOOK_NEEDED && (_skillLvl == 101 || _skillLvl == 141)) // only first lvl requires book
 				{

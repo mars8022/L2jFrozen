@@ -23,6 +23,7 @@ import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
 import com.l2jfrozen.gameserver.ai.L2SummonAI;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
@@ -32,7 +33,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.SummonKnownList;
 import com.l2jfrozen.gameserver.model.actor.stat.SummonStat;
 import com.l2jfrozen.gameserver.model.actor.status.SummonStatus;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
@@ -250,18 +250,20 @@ public abstract class L2Summon extends L2PlayableInstance
 
 	public long getExpForThisLevel()
 	{
-		if(getLevel() >= Experience.MAX_LEVEL)
+		if(getLevel() >= ExperienceData.getInstance().getMaxPetLevel())
+		{
 			return 0;
-
-		return Experience.getExp(getLevel());
+		}
+		return ExperienceData.getInstance().getExpForLevel(getLevel());
 	}
 
 	public long getExpForNextLevel()
 	{
-		if(getLevel() >= Experience.MAX_LEVEL - 1)
+		if(getLevel() >= ExperienceData.getInstance().getMaxPetLevel() - 1)
+		{
 			return 0;
-
-		return Experience.getExp(getLevel() + 1);
+		}
+		return ExperienceData.getInstance().getExpForLevel(getLevel() + 1);
 	}
 
 	public final int getKarma()

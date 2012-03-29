@@ -17,38 +17,31 @@
  */
 package com.l2jfrozen.gameserver.model.actor.stat;
 
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 
 public class PlayableStat extends CharStat
 {
-	// =========================================================
-	// Data Field
-
-	// =========================================================
-	// Constructor
 	public PlayableStat(L2PlayableInstance activeChar)
 	{
 		super(activeChar);
 	}
-
-	// =========================================================
-	// Method - Public
+	
 	public boolean addExp(long value)
 	{
-		if(getExp() + value < 0 || getExp() == getExpForLevel(Experience.MAX_LEVEL) - 1)
+		if(getExp() + value < 0 || getExp() == getExpForLevel(ExperienceData.getInstance().getMaxLevel()) - 1)
 			return true;
 
-		if(getExp() + value >= getExpForLevel(Experience.MAX_LEVEL))
+		if(getExp() + value >= getExpForLevel(ExperienceData.getInstance().getMaxLevel()))
 		{
-			value = getExpForLevel(Experience.MAX_LEVEL) - 1 - getExp();
+			value = getExpForLevel(ExperienceData.getInstance().getMaxLevel()) - 1 - getExp();
 		}
 
 		setExp(getExp() + value);
 
 		byte level = 1;
 
-		for(level = 1; level <= Experience.MAX_LEVEL; level++)
+		for(level = 1; level <= ExperienceData.getInstance().getMaxLevel(); level++)
 		{
 			if(getExp() >= getExpForLevel(level))
 			{
@@ -77,7 +70,7 @@ public class PlayableStat extends CharStat
 
 		byte level = 0;
 
-		for(level = 1; level <= Experience.MAX_LEVEL; level++)
+		for(level = 1; level <= ExperienceData.getInstance().getMaxLevel(); level++)
 		{
 			if(getExp() >= getExpForLevel(level))
 			{
@@ -134,11 +127,11 @@ public class PlayableStat extends CharStat
 
 	public boolean addLevel(byte value)
 	{
-		if(getLevel() + value > Experience.MAX_LEVEL - 1)
+		if(getLevel() + value > ExperienceData.getInstance().getMaxLevel() - 1)
 		{
-			if(getLevel() < Experience.MAX_LEVEL - 1)
+			if(getLevel() < ExperienceData.getInstance().getMaxLevel() - 1)
 			{
-				value = (byte) (Experience.MAX_LEVEL - 1 - getLevel());
+				value = (byte) (ExperienceData.getInstance().getMaxLevel() - 1 - getLevel());
 			}
 			else
 				return false;
@@ -204,12 +197,7 @@ public class PlayableStat extends CharStat
 	{
 		return level;
 	}
-
-	// =========================================================
-	// Method - Private
-
-	// =========================================================
-	// Property - Public
+	
 	@Override
 	public L2PlayableInstance getActiveChar()
 	{

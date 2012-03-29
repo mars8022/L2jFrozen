@@ -1124,6 +1124,8 @@ public final class Config
 	public static boolean SELL_BY_ITEM;
 	public static int SELL_ITEM;
 	public static int ALLOWED_SUBCLASS;
+	public static byte BASE_SUBCLASS_LEVEL;
+	public static byte MAX_SUBCLASS_LEVEL;
 	
 	public static String DISABLE_BOW_CLASSES_STRING;
 	public static FastList<Integer> DISABLE_BOW_CLASSES = new FastList<Integer>();
@@ -1287,7 +1289,8 @@ public final class Config
 			SELL_ITEM = Integer.parseInt(altSettings.getProperty("SellItem", "57"));
 			
 			ALLOWED_SUBCLASS = Integer.parseInt(altSettings.getProperty("AllowedSubclass", "3"));
-			
+			BASE_SUBCLASS_LEVEL = Byte.parseByte(altSettings.getProperty("BaseSubclassLevel", "40"));
+			MAX_SUBCLASS_LEVEL = Byte.parseByte(altSettings.getProperty("MaxSubclassLevel", "80"));
 		}
 		catch(Exception e)
 		{

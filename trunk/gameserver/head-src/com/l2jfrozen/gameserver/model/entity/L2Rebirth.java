@@ -22,10 +22,10 @@ import java.util.HashMap;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.util.CloseUtil;
@@ -176,11 +176,11 @@ public class L2Rebirth
 			double actual_hp = player.getCurrentHp();
 			double actual_cp = player.getCurrentCp();
 			
-			int max_level = Experience.MAX_LEVEL;
+			int max_level = ExperienceData.getInstance().getMaxLevel();
 
 			if(player.isSubClassActive())
 			{
-				max_level = Experience.MAX_SUBCLASS_LEVEL;
+				max_level = Config.MAX_SUBCLASS_LEVEL;
 			}
 			
 			//Protections
@@ -198,7 +198,7 @@ public class L2Rebirth
 			final byte lvl = Byte.parseByte(returnToLevel+"");
 			
 			final long pXp = player.getStat().getExp();
-			final long tXp = Experience.getExp(lvl);
+			final long tXp = ExperienceData.getInstance().getExpForLevel(lvl);
 
 			if(pXp > tXp)
 			{

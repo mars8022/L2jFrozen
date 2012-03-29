@@ -3,9 +3,9 @@ package com.l2jfrozen.loginserver;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import com.l2jfrozen.Config;
-
 import javolution.util.FastMap;
+
+import com.l2jfrozen.Config;
 
 
 public class BruteProtector

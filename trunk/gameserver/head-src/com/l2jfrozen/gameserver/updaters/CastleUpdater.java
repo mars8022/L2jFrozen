@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.model.ItemContainer;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.logs.Log;
 
 /**
  * Thorgrim - 2005 Class managing periodical events with castle
@@ -57,7 +58,8 @@ public class CastleUpdater implements Runnable
 					{
 						castle.saveSeedData();
 						castle.saveCropData();
-						_log.info("Manor System: all data for " + castle.getName() + " saved");
+						String text = "Manor System: all data for " + castle.getName() + " saved";
+						Log.add(text, "Manor_system");
 					}
 				}
 

@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -395,7 +396,8 @@ public class OfflineTradeTable
 			
 			stm.close();
 			stm_items.close();
-			_log.info("Offline trader "+pc.getName()+" stored.");
+			String text = "Offline trader "+pc.getName()+" stored.";
+			Log.add(text, "Offline_trader");
 		}
 		catch (Exception e)
 		{
