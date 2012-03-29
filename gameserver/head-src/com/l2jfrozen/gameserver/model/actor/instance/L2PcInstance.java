@@ -70,6 +70,7 @@ import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
@@ -130,7 +131,6 @@ import com.l2jfrozen.gameserver.model.actor.stat.PcStat;
 import com.l2jfrozen.gameserver.model.actor.status.PcStatus;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.model.base.ClassLevel;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.model.base.PlayerClass;
 import com.l2jfrozen.gameserver.model.base.Race;
 import com.l2jfrozen.gameserver.model.base.SubClass;
@@ -227,6 +227,7 @@ import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.util.Broadcast;
 import com.l2jfrozen.gameserver.util.FloodProtectors;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -272,6 +273,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	private PlayerStatus saved_status = null;
 	
 	private final long _instanceLoginTime;
+	
+	private long _lastTeleportAction = 0;
 	
 	public PlayerStatus getActualStatus(){
 		
@@ -6557,12 +6560,14 @@ public final class L2PcInstance extends L2PlayableInstance
 						if(isKarmaDrop)
 						{
 							dropItem("DieDrop", itemDrop, killer, true, false);
-							_log.warning(getName() + " has karma and dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount());
+							String text = getName() + " has karma and dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount();
+							Log.add(text, "karma_dieDrop");
 						}
 						else
 						{
 							dropItem("DieDrop", itemDrop, killer, true, true);
-							_log.warning(getName() + " dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount());
+							String text = getName() + " dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount();
+							Log.add(text, "dieDrop");
 						}
 
 						dropCount++;
@@ -7402,15 +7407,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Calculate the Experience loss
 		long lostExp = 0;
 		if(!atEvent && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started))
-			if(lvl < Experience.MAX_LEVEL)
+		{
+			final byte maxLvl = ExperienceData.getInstance().getMaxLevel();
+		    if(lvl < maxLvl)
 			{
 				lostExp = Math.round((getStat().getExpForLevel(lvl + 1) - getStat().getExpForLevel(lvl)) * percentLost / 100);
 			}
 			else
 			{
-				lostExp = Math.round((getStat().getExpForLevel(Experience.MAX_LEVEL) - getStat().getExpForLevel(Experience.MAX_LEVEL - 1)) * percentLost / 100);
+				lostExp = Math.round((getStat().getExpForLevel(maxLvl) - getStat().getExpForLevel(maxLvl - 1)) * percentLost / 100);
 			}
-
+		}
 		// Get the Experience before applying penalty
 		setExpBeforeDeath(getExp());
 
@@ -8608,7 +8615,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		
 		if(output)
-			_log.info("Created new character : " + getName() + " for account: " + _accountName);
+		{
+			String text = "Created new character : " + getName() + " for account: " + _accountName;
+			Log.add(text, "New_chars");
+		}
 		
 		return output;
 	}

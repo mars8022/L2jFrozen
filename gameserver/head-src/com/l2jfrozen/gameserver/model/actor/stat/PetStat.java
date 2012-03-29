@@ -18,10 +18,10 @@
 package com.l2jfrozen.gameserver.model.actor.stat;
 
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.PetInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
@@ -30,18 +30,11 @@ import com.l2jfrozen.gameserver.skills.Stats;
 
 public class PetStat extends SummonStat
 {
-	// =========================================================
-	// Data Field
-
-	// =========================================================
-	// Constructor
 	public PetStat(L2PetInstance activeChar)
 	{
 		super(activeChar);
 	}
-
-	// =========================================================
-	// Method - Public
+	
 	public boolean addExp(int value)
 	{
 		if(!super.addExp(value))
@@ -77,7 +70,7 @@ public class PetStat extends SummonStat
 	@Override
 	public final boolean addLevel(byte value)
 	{
-		if(getLevel() + value > Experience.MAX_LEVEL - 1)
+		if(getLevel() + value > ExperienceData.getInstance().getMaxLevel() - 1)
 			return false;
 
 		boolean levelIncreased = super.addLevel(value);
@@ -85,7 +78,7 @@ public class PetStat extends SummonStat
 		// Sync up exp with current level
 		if(getExp() > getExpForLevel(getLevel() + 1) || getExp() < getExpForLevel(getLevel()))
 		{
-			setExp(Experience.getExp(getLevel()));
+			setExp(ExperienceData.getInstance().getExpForLevel(getLevel()));
 		}
 
 		if(levelIncreased)
@@ -118,12 +111,7 @@ public class PetStat extends SummonStat
 	{
 		return L2PetDataTable.getInstance().getPetData(getActiveChar().getNpcId(), level).getPetMaxExp();
 	}
-
-	// =========================================================
-	// Method - Private
-
-	// =========================================================
-	// Property - Public
+	
 	@Override
 	public L2PetInstance getActiveChar()
 	{

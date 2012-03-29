@@ -18,7 +18,6 @@
 package com.l2jfrozen.gameserver.managers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 

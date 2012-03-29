@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
@@ -214,9 +215,10 @@ public class RaidBossSpawnManager
 			info.set("currentHP", boss.getMaxHp());
 			info.set("currentMP", boss.getMaxMp());
 			info.set("respawnTime", respawnTime);
-
-			_log.info("RaidBossSpawnManager: Updated " + boss.getName() + " respawn time to " + respawnTime);
-
+			
+			String text = "RaidBossSpawnManager: Updated " + boss.getName() + " respawn time to " + respawnTime;
+			Log.add(text, "RaidBossSpawnManager");
+			
 			ScheduledFuture<?> futureSpawn;
 			futureSpawn = ThreadPoolManager.getInstance().scheduleGeneral(new spawnSchedule(boss.getNpcId()), respawn_delay);
 

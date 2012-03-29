@@ -16,6 +16,7 @@ package com.l2jfrozen.gameserver.skills.l2skills;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -26,7 +27,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
-import com.l2jfrozen.gameserver.model.base.Experience;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.PetInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -216,14 +216,14 @@ public class L2SkillSummon extends L2Skill
 		summon.setName(summonTemplate.name);
 		summon.setTitle(activeChar.getName());
 		summon.setExpPenalty(_expPenalty);
-		if (summon.getLevel() >= Experience.MAX_LEVEL)
+		if (summon.getLevel() >= ExperienceData.getInstance().getMaxLevel())
 		{
-			summon.getStat().setExp(Experience.getExp(Experience.MAX_LEVEL-1));
+			summon.getStat().setExp(ExperienceData.getInstance().getExpForLevel(ExperienceData.getInstance().getMaxPetLevel() - 1));
 			_log.warning("Summon ("+summon.getName()+") NpcID: "+summon.getNpcId()+" has a level above 75. Please rectify.");
 		}
 		else
 		{
-			summon.getStat().setExp(Experience.getExp(summon.getLevel() % Experience.MAX_LEVEL));
+			summon.getStat().setExp(ExperienceData.getInstance().getExpForLevel(summon.getLevel() % ExperienceData.getInstance().getMaxPetLevel()));
 		}
 		summon.setCurrentHp(summon.getMaxHp());
 		summon.setCurrentMp(summon.getMaxMp());

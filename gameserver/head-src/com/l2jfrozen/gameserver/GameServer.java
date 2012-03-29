@@ -73,6 +73,7 @@ import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.datatables.sql.TeleportLocationTable;
 import com.l2jfrozen.gameserver.datatables.xml.AugmentationData;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.datatables.xml.ZoneData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.geo.geoeditorcon.GeoEditorListener;
@@ -96,7 +97,6 @@ import com.l2jfrozen.gameserver.managers.ClassDamageManager;
 import com.l2jfrozen.gameserver.managers.CoupleManager;
 import com.l2jfrozen.gameserver.managers.CrownManager;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
-import com.l2jfrozen.gameserver.managers.DatatablesManager;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
 import com.l2jfrozen.gameserver.managers.DuelManager;
@@ -226,7 +226,7 @@ public class GameServer
 	 	PartyMatchRoomList.getInstance();
 		GameTimeController.getInstance();
 		CharNameTable.getInstance();
-		DatatablesManager.LoadSTS();
+		ExperienceData.getInstance();
 		DuelManager.getInstance();
 		
 		if(Config.ENABLE_CLASS_DAMAGES)
@@ -469,7 +469,7 @@ public class GameServer
 		Util.printSection("Scripts");
 		if(!Config.ALT_DEV_NO_SCRIPT)
 		{
-			File scripts = new File(Config.DATAPACK_ROOT + "/data/scripts.cfg");
+			File scripts = new File(Config.DATAPACK_ROOT, "data/scripts.cfg");
 			L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
 			
 			CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();

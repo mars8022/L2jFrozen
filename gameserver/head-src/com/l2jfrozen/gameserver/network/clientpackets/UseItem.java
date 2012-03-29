@@ -565,11 +565,14 @@ public final class UseItem extends L2GameClientPacket
 				
 				items = activeChar.getInventory().equipItemAndRecord(item);
 				
-				//charge Soulshot/Spiritshot
-				activeChar.rechargeAutoSoulShot(true, true, false);
-				item.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
-				item.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				if(item.getItem() instanceof L2Weapon)
+				{
 				
+				   //charge Soulshot/Spiritshot like L2OFF
+				   activeChar.rechargeAutoSoulShot(true, true, false);
+				   item.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+				   item.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
+				}
 				// Consume mana - will start a task if required; returns if item is not a shadow item
 				item.decreaseMana(false);
 			}

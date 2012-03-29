@@ -22,12 +22,11 @@ import com.l2jfrozen.gameserver.datatables.sql.AccessLevels;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.datatables.sql.HelperBuffTable;
-import com.l2jfrozen.gameserver.datatables.sts.ExpTable;
 import com.l2jfrozen.gameserver.datatables.xml.AugmentationData;
+import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 
 public class DatatablesManager
 {
-
 	public static void reloadAll()
 	{
 		AccessLevels.reload();
@@ -36,10 +35,6 @@ public class DatatablesManager
 		AugmentationData.reload();
 		ClanTable.reload();
 		HelperBuffTable.reload();
-	}
-
-	public static void LoadSTS()
-	{
-		ExpTable.getInstance().load();
+		ExperienceData.getInstance();
 	}
 }
