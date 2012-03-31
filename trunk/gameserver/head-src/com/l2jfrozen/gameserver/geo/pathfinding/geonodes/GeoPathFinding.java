@@ -61,10 +61,7 @@ public final class GeoPathFinding extends PathFinding
 	{
 		return _pathNodesIndex.get(regionoffset) != null;
 	}
-
-	/**
-	 * @see net.sf.l2j.gameserver.pathfinding.PathFinding#FindPath(int, int, short, int, int, short)
-	 */
+	
 	@Override
 	public Node[] findPath(int x, int y, int z, int tx, int ty, int tz)
 	{
@@ -98,10 +95,7 @@ public final class GeoPathFinding extends PathFinding
 		//return searchAStar(start, end);
 		return searchByClosest2(start, end);
 	}
-
-	/**
-	 * @see net.sf.l2j.gameserver.pathfinding.PathFinding#ReadNeighbors(short, short)
-	 */
+	
 	@Override
 	public Node[] readNeighbors(Node n, int idx)
 	{

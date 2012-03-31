@@ -2318,8 +2318,6 @@ public final class Formulas
 					case BUFF:
 						multiplier = target.calcStat(Stats.BUFF_VULN, multiplier, target, null);
 						break;
-					default:
-						;
 				}
 			}
 
@@ -2890,8 +2888,6 @@ public final class Formulas
 				case BUFF:
 					multiplier = Config.BUFF_CHANCE_MODIFIER;
 					break;
-				default:
-					;
 			}
 		}
 		

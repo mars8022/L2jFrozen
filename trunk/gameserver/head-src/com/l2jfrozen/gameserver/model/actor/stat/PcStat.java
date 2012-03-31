@@ -469,7 +469,7 @@ public class PcStat extends PlayableStat
 			
 			SubClass player_subclass = null;
 			if((player_subclass = player.getSubClasses().get(class_index))!=null)
-				return player_subclass.getSp();;
+				return player_subclass.getSp();
 		}
 //		if(getActiveChar().isSubClassActive())
 //			return getActiveChar().getSubClasses().get(getActiveChar().getClassIndex()).getSp();

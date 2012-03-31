@@ -46,7 +46,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
 import com.l2jfrozen.util.Point3D;
 
-
 public final class GeoEngine extends GeoData
 {
 	private final static byte _e = 1;

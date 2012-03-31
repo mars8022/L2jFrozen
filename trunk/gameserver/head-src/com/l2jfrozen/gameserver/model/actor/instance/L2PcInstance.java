@@ -274,6 +274,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	private final long _instanceLoginTime;
 	
+	@SuppressWarnings("unused")
 	private long _lastTeleportAction = 0;
 	
 	public PlayerStatus getActualStatus(){
@@ -6236,7 +6237,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					{
 						src.sendMessage("You are a teamkiller !!! Teamkills not counting.");
 					}
-					sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");;
+					sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
 					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 					{
 						@Override
@@ -6492,7 +6493,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			boolean isKarmaDrop = false;
 			boolean isKillerNpc = killer instanceof L2NpcInstance;
-			int pkLimit = Config.KARMA_PK_LIMIT;;
+			int pkLimit = Config.KARMA_PK_LIMIT;
 
 			int dropEquip = 0;
 			int dropEquipWeapon = 0;
@@ -7036,8 +7037,6 @@ public final class L2PcInstance extends L2PlayableInstance
 						if(player.isOnline()!=0)
 							player.sendPacket(cs10);
 				}
-			default:
-				;
 		}
 	}
 

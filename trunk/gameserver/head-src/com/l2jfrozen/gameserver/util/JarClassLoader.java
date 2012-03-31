@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -39,8 +38,7 @@ import com.l2jfrozen.Config;
  */
 public class JarClassLoader extends ClassLoader
 {
-	private static Logger _log = Logger.getLogger(JarClassLoader.class.getCanonicalName());
-	HashSet<String> _jars = new HashSet<String>();
+	private final HashSet<String> _jars = new HashSet<String>();
 
 	public void addJarFile(String filename)
 	{

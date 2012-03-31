@@ -206,7 +206,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 							while(st.hasMoreTokens())
 							{
 								autoAnnounce = autoAnnounce + " " + st.nextToken();
-							};
+							}
 
 							AutoAnnouncementHandler.getInstance().registerAnnouncment(autoAnnounce, delay);
 							AutoAnnouncementHandler.getInstance().listAutoAnnouncements(activeChar);

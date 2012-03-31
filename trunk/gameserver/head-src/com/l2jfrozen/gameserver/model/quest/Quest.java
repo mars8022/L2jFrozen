@@ -129,7 +129,7 @@ public class Quest extends ManagedScript
 	 */
 	protected void init_LoadGlobalData()
 	{
-		;
+		
 	}
 
 	/**
@@ -139,14 +139,11 @@ public class Quest extends ManagedScript
 	 */
 	public void saveGlobalData()
 	{
-		;
+		
 	}
 
 	public static enum QuestEventType
 	{
-		/*
-		 * РџРѕРєР° РґРµР»Р°СЋ РґСѓР±Р»РёСЂСѓСЋС‰РёРµ С„СѓРЅРєС†РёРё, СЃС‚Р°СЂС‹Рµ РІ @Deprecated
-		 */
 		/**
 		 * control the first dialog shown by NPCs when they are clicked (some quests must override the default npc
 		 * action)

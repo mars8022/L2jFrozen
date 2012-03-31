@@ -1506,7 +1506,7 @@ public class Olympiad
 			OlympiadProperties.setProperty("ValdationEnd", String.valueOf(_validationEnd));
 			OlympiadProperties.setProperty("NextWeeklyChange", String.valueOf(_nextWeeklyChange));
 
-			GregorianCalendar gc = (GregorianCalendar) GregorianCalendar.getInstance();
+			GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
 			gc.clear();
 			gc.setTimeInMillis(_nextWeeklyChange);
 			

@@ -318,11 +318,6 @@ public final class L2ScriptEngineManager
 							}
 						}
 					}
-					catch(FileNotFoundException e)
-					{
-						// should never happen
-						e.printStackTrace();
-					}
 					catch(ScriptException e)
 					{
 						if(Config.ENABLE_ALL_EXCEPTIONS)
@@ -420,7 +415,7 @@ public final class L2ScriptEngineManager
 		}
 	}
 
-	public void executeScript(File file) throws ScriptException, FileNotFoundException
+	public void executeScript(File file) throws ScriptException
 	{
 		String name = file.getName();
 		int lastIndex = name.lastIndexOf('.');
@@ -438,7 +433,7 @@ public final class L2ScriptEngineManager
 		executeScript(engine, file);
 	}
 
-	public void executeScript(String engineName, File file) throws FileNotFoundException, ScriptException
+	public void executeScript(String engineName, File file) throws ScriptException
 	{
 		ScriptEngine engine = getEngineByName(engineName);
 		if(engine == null)
@@ -446,7 +441,7 @@ public final class L2ScriptEngineManager
 		executeScript(engine, file);
 	}
 
-	public void executeScript(ScriptEngine engine, File file) throws FileNotFoundException, ScriptException
+	public void executeScript(ScriptEngine engine, File file) throws ScriptException
 	{
 		
 		FileInputStream reader = null;

@@ -51,7 +51,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		CONNECTED,
 		AUTHED_GG,
 		AUTHED_LOGIN
-	};
+	}
 
 	private LoginClientState _state;
 

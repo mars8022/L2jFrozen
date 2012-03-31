@@ -56,7 +56,7 @@ public class CompiledScriptCache implements Serializable
 	private Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<String, CompiledScriptHolder>();
 	private transient boolean _modified = false;
 
-	public CompiledScript loadCompiledScript(ScriptEngine engine, File file) throws FileNotFoundException, ScriptException
+	public CompiledScript loadCompiledScript(ScriptEngine engine, File file) throws ScriptException
 	{
 		int len = L2ScriptEngineManager.SCRIPT_FOLDER.getPath().length() + 1;
 		String relativeName = file.getPath().substring(len);

@@ -54,12 +54,12 @@ public final class L2Properties extends Properties
 		load(new FileInputStream(file));
 	}
 
-	public L2Properties(InputStream inStream) throws IOException
+	public L2Properties(InputStream inStream)
 	{
 		load(inStream);
 	}
 
-	public L2Properties(Reader reader) throws IOException
+	public L2Properties(Reader reader)
 	{
 		load(reader);
 	}

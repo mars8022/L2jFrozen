@@ -69,7 +69,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 /**
  * @author L2JFrozen dev
  */
-
 public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> implements Runnable
 {
 	protected static final Logger _log = Logger.getLogger(L2GameClient.class.getName());
@@ -85,7 +84,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		CONNECTED,
 		AUTHED,
 		IN_GAME
-	};
+	}
 
 	// floodprotectors
 	private final FloodProtectors _floodProtectors = new FloodProtectors(this);
