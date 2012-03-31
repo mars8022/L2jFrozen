@@ -546,7 +546,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				return;
 			}
 			
-			String name = st.nextToken();;
+			String name = st.nextToken();
 			
 			if (name.length() > 14)
 			{

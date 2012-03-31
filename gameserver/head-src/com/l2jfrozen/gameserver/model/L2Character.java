@@ -566,9 +566,8 @@ public abstract class L2Character extends L2Object
 	}
 
 	/**
-	 * Returns true if hp update should be done, false if not
-	 * 
-	 * @return boolean
+	 * @param barPixels 
+	 * @return true if hp update should be done, false if not
 	 */
 	protected boolean needHpUpdate(int barPixels)
 	{

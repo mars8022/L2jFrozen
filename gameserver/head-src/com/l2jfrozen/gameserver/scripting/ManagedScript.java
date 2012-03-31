@@ -19,15 +19,13 @@
 package com.l2jfrozen.gameserver.scripting;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import javax.script.ScriptException;
 
 import com.l2jfrozen.Config;
 
 /**
- * Abstract class for classes that are meant to be implemented by scripts.<BR>
- * 
+ * Abstract class for classes that are meant to be implemented by scripts.
  * @author KenM
  */
 public abstract class ManagedScript
@@ -46,7 +44,7 @@ public abstract class ManagedScript
 	 * Attempts to reload this script and to refresh the necessary bindings with it ScriptControler.<BR>
 	 * Subclasses of this class should override this method to properly refresh their bindings when necessary.
 	 * 
-	 * @return true if and only if the scrip was reloaded, false otherwise.
+	 * @return true if and only if the script was reloaded, false otherwise.
 	 */
 	public boolean reload()
 	{
@@ -54,13 +52,6 @@ public abstract class ManagedScript
 		{
 			L2ScriptEngineManager.getInstance().executeScript(getScriptFile());
 			return true;
-		}
-		catch(FileNotFoundException e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			return false;
 		}
 		catch(ScriptException e)
 		{

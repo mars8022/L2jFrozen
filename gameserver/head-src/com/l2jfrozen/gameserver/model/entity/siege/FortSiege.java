@@ -57,7 +57,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 /**
  * @author programmos
  */
-
 public class FortSiege
 {
 	protected static final Logger _log = Logger.getLogger(FortSiege.class.getName());
@@ -1003,7 +1002,7 @@ public class FortSiege
 				break;
 			default:
 				players = getPlayersInZone();
-		};
+		}
 
 		for(L2PcInstance player : players)
 		{

@@ -48,8 +48,6 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Continuous implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(Continuous.class.getName());
-
 	private static final SkillType[] SKILL_IDS = {
 			L2Skill.SkillType.BUFF,
 			L2Skill.SkillType.DEBUFF,
@@ -70,10 +68,7 @@ public class Continuous implements ISkillHandler
 			L2Skill.SkillType.AGGDEBUFF,
 			L2Skill.SkillType.FORCE_BUFF };
 	private L2Skill _skill;
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
-	 */
+	
 	@Override
 	public void useSkill(final L2Character activeChar,L2Skill skill2,final L2Object[] targets)
 	{
@@ -238,8 +233,7 @@ public class Continuous implements ISkillHandler
 				break;
 
 			// If target is not in game anymore...
-			if(target == null || target instanceof L2PcInstance 
-					&& ((L2PcInstance)target).isOnline()==0)
+			if((target instanceof L2PcInstance) && ((L2PcInstance) target).isOnline()==0)
 				continue;
 			
 
@@ -248,7 +242,7 @@ public class Continuous implements ISkillHandler
 			// (player & target must be in the same duel)
 			if(target instanceof L2PcInstance && player != null 
 					&& ((L2PcInstance) target).isInDuel() 
-					&& skill!= null && (skill.getSkillType() == L2Skill.SkillType.DEBUFF 
+					&& (skill.getSkillType() == L2Skill.SkillType.DEBUFF 
 						|| skill.getSkillType() == L2Skill.SkillType.BUFF) 
 					&& player.getDuelId() == ((L2PcInstance) target).getDuelId())
 			{

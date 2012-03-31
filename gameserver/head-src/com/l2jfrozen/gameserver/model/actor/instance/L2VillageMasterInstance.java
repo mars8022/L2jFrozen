@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.FortManager;
 import com.l2jfrozen.gameserver.managers.FortSiegeManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Clan.SubPledge;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
@@ -680,7 +681,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 			}
 		}
 
-		if(player.isInsideZone(L2PcInstance.ZONE_SIEGE))
+		if(player.isInsideZone(L2Character.ZONE_SIEGE))
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISSOLVE_WHILE_IN_SIEGE));
 			return;

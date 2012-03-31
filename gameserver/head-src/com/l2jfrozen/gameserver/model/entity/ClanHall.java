@@ -50,8 +50,8 @@ public class ClanHall
 	protected static final Logger _log = Logger.getLogger(ClanHall.class.getName());
 
 	private int _clanHallId;
-	private List<L2DoorInstance> _doors = new FastList<L2DoorInstance>();;
-	private List<String> _doorDefault = new FastList<String>();;
+	private List<L2DoorInstance> _doors = new FastList<L2DoorInstance>();
+	private List<String> _doorDefault = new FastList<String>();
 	private String _name;
 	private int _ownerId;
 	private L2Clan _ownerClan;

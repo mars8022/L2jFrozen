@@ -116,12 +116,10 @@ public final class RequestRestartPoint extends L2GameClientPacket
 								
 								break;
 								
-							}else{
-								
-								loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);	
-								break;
 							}
 							
+							loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);	
+							break;
 						case 2: // to castle
 							Boolean isInDefense = false;
 							castle = CastleManager.getInstance().getCastle(activeChar);

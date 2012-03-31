@@ -49,7 +49,6 @@ import com.l2jfrozen.gameserver.util.EventData;
  * 
  * @version $Revision: 1.3.4.1 $ $Date: 2005/03/27 15:29:32 $
  */
-
 public class L2Event
 {
 	protected static final Logger _log = Logger.getLogger(L2Event.class.getName());

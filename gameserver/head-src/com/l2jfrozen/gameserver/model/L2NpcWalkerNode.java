@@ -32,7 +32,7 @@ public class L2NpcWalkerNode
 	private String _chatText;
 	private int _moveX;
 	private int _moveY;
-	private int _moveZ;;
+	private int _moveZ;
 	private int _delay;
 
 	private boolean _running;

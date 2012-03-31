@@ -294,7 +294,7 @@ public class LoginController
 		ALREADY_ON_LS,
 		ALREADY_ON_GS,
 		AUTH_SUCCESS
-	};
+	}
 
 	public AuthLoginResult tryAuthLogin(String account, String password, L2LoginClient client)
 	{
