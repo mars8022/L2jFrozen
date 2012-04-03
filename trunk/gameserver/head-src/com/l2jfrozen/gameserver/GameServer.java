@@ -17,7 +17,6 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 package com.l2jfrozen.gameserver;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -145,6 +144,7 @@ import com.l2jfrozen.gameserver.util.DynamicExtension;
 import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
+import com.l2jfrozen.status.Status;
 import com.l2jfrozen.util.IPv4Filter;
 import com.l2jfrozen.util.Memory;
 import com.l2jfrozen.util.Util;
@@ -156,6 +156,7 @@ public class GameServer
 	private static SelectorThread<L2GameClient> _selectorThread;
 	private static LoginServerThread _loginThread;
 	private static L2GamePacketHandler _gamePacketHandler;
+	private static Status _statusServer;
 	
 	public static final Calendar dateTimeServerStarted = Calendar.getInstance();
 
@@ -560,6 +561,18 @@ public class GameServer
 		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
 		ServerStatus.getInstance();
 
+		// Load telnet status
+		Util.printSection("Telnet");
+		if (Config.IS_TELNET_ENABLED)
+		{
+			_statusServer = new Status(ServerType.serverMode);
+			_statusServer.start();
+		}
+		else
+		{
+			_log.info("Telnet server is disabled.");
+		}
+		
 		Util.printSection("Login");
 		_loginThread = LoginServerThread.getInstance();
 		_loginThread.start();

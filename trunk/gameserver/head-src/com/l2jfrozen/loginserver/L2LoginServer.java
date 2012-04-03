@@ -25,6 +25,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -35,6 +36,7 @@ import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
+import com.l2jfrozen.status.Status;
 import com.l2jfrozen.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.database.SqlUtils;
@@ -47,7 +49,8 @@ public class L2LoginServer
 	private Logger _log = Logger.getLogger(L2LoginServer.class.getName());
 	private GameServerListener _gameServerListener;
 	private SelectorThread<L2LoginClient> _selectorThread;
-
+	private Status _statusServer;
+	
 	public static void main(String[] args)
 	{
 		_instance = new L2LoginServer();
@@ -173,6 +176,19 @@ public class L2LoginServer
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e1.printStackTrace();
 				
+			}
+		}		
+		// Load telnet status
+		if (Config.IS_TELNET_ENABLED)
+		{
+			try
+			{
+				_statusServer = new Status(ServerType.serverMode);
+				_statusServer.start();
+			}
+			catch (IOException e)
+			{
+				_log.log(Level.WARNING, "Failed to start the Telnet Server. Reason: " + e.getMessage(), e);
 			}
 		}
 

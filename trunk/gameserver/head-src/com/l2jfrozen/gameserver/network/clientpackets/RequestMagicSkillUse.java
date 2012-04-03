@@ -91,6 +91,11 @@ public final class RequestMagicSkillUse extends L2GameClientPacket
 			if (skill.isToggle() && activeChar.isMounted())
 				return;
 			// activeChar.stopMove();
+			
+			//final L2Object target = activeChar.getTarget();
+			//if(target!=null && target instanceof L2Character)
+			//	activeChar.sendPacket(new ValidateLocation((L2Character)target));
+			
 			activeChar.useMagic(skill, _ctrlPressed, _shiftPressed);
 		}
 		else

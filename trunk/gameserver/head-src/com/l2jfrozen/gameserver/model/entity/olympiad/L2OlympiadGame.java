@@ -350,6 +350,15 @@ class L2OlympiadGame extends Olympiad
 			_aborted = true;
 			return false;
 		}
+		
+		if(_playerOne.inObserverMode() || _playerTwo.inObserverMode()){
+			
+			_playerOne = null;
+			_playerTwo = null;
+			_aborted = true;
+			return false;
+			
+		}
 
 		try
 		{
@@ -382,20 +391,16 @@ class L2OlympiadGame extends Olympiad
 			_playerOne.setTarget(null);
 			_playerTwo.setTarget(null);
 
-			if(_playerOne != null)
-			{
-				_playerOne.teleToLocation(_stadiumPort[0], _stadiumPort[1], _stadiumPort[2], true);
-				_playerOne.setOlympiadPosition(_stadiumPort);
-			}
-			if(_playerTwo != null)
-			{
-				_playerTwo.teleToLocation(_stadiumPort[0], _stadiumPort[1], _stadiumPort[2], true);
-				_playerTwo.setOlympiadPosition(_stadiumPort);
-			}
-
 			_playerOne.sendPacket(new ExOlympiadMode(2));
 			_playerTwo.sendPacket(new ExOlympiadMode(2));
 
+			// Players are teleporting to Arena but not at the center
+			_playerOne.teleToLocation(_stadiumPort[0] + 900, _stadiumPort[1], _stadiumPort[2], true);
+			_playerOne.setOlympiadPosition(_stadiumPort);
+			
+			_playerTwo.teleToLocation(_stadiumPort[0] - 900, _stadiumPort[1], _stadiumPort[2], true);
+			_playerTwo.setOlympiadPosition(_stadiumPort);
+			
 			_playerOne.setIsInOlympiadMode(true);
 			_playerOne.setIsOlympiadStart(false);
 			_playerOne.setOlympiadSide(1);
@@ -507,6 +512,8 @@ class L2OlympiadGame extends Olympiad
 					}
 					
 				}
+				
+				player.broadcastStatusUpdate();
 				
 			}
 			catch(Exception e)
