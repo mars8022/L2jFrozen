@@ -62,6 +62,8 @@ public class Blow implements ISkillHandler
 		boolean sps = activeChar.checkSps();
 		boolean ss = activeChar.checkSs();
 		
+		Formulas.getInstance();
+		
 		for (L2Character target: (L2Character[]) targets)
 		{
 			if (target.isAlikeDead())
@@ -146,6 +148,7 @@ public class Blow implements ISkillHandler
 							SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
 							sm.addSkillName(skill);
 							activeChar.sendPacket(sm);
+							return;
 						}
 					//}
 				}
@@ -259,22 +262,27 @@ public class Blow implements ISkillHandler
 					
 					activePlayer.sendDamageMessage(target, (int)damage, false, true, false);
 				}
+				
+				//Possibility of a lethal strike
+				Formulas.calcLethalHit(activeChar, target, skill);
+				
+				
 			}
-			
-			// Sending system messages
-			if (skillIsEvaded)
+			else 
 			{
-				if (target instanceof L2PcInstance)
-				{
-					SystemMessage sm = new SystemMessage(SystemMessageId.AVOIDED_S1S_ATTACK);
-					sm.addString(activeChar.getName());
-					((L2PcInstance) target).sendPacket(sm);
-				}
+				if(skillIsEvaded)
+					if(target instanceof L2PcInstance)
+					{
+						SystemMessage sm = new SystemMessage(SystemMessageId.AVOIDED_S1S_ATTACK);
+						sm.addString(activeChar.getName());
+						((L2PcInstance) target).sendPacket(sm);
+					}
+				
+				SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
+				sm.addSkillName(skill);
+				activeChar.sendPacket(sm);
+				return;
 			}
-			
-			Formulas.getInstance();
-			//Possibility of a lethal strike
-			Formulas.calcLethalHit(activeChar, target, skill);
 			
 			//Self Effect
 			if (skill.hasSelfEffects())

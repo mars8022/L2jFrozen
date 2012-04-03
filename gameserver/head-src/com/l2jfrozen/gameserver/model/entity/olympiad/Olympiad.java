@@ -491,8 +491,13 @@ public class Olympiad
 			noble.sendPacket(sm);
 			return false;
 		}
-
-
+		
+		if(noble.inObserverMode())
+		{
+			noble.sendMessage("You can't participate to Olympiad. You are in Observer Mode");
+			return false;
+		}
+		
 		if(noble.getBaseClass() != noble.getClassId().getId())
 		{
 			sm = new SystemMessage(SystemMessageId.YOU_CANT_JOIN_THE_OLYMPIAD_WITH_A_SUB_JOB_CHARACTER);
@@ -1128,6 +1133,26 @@ public class Olympiad
 		_manager.getOlympiadInstance(id).removeSpectator(spectator);
 	}
 
+	/**
+	 * @param noble
+	 * @return
+	 */
+	private boolean isSpectator(L2PcInstance noble)
+	{
+		if(_manager == null)
+			return false;
+		
+		for(L2OlympiadGame game:_manager.getOlympiadGames().values()){
+			
+			if(game.getSpectators().contains(noble))
+				return true;
+			
+		}
+		
+		return false;
+	}
+
+	
 	public L2FastList<L2PcInstance> getSpectators(int id)
 	{
 		if(_manager == null || _manager.getOlympiadInstance(id) == null)

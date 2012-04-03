@@ -1888,6 +1888,19 @@ public abstract class L2Character extends L2Object
 			reuseDelay *= 333.0 / (skill.isMagic() ? getMAtkSpd() : getPAtkSpd());
 		}
 
+		if(skill.isOffensive() && target!=null)
+		{
+			
+			//to turn local player in target direction
+			if(target.isBehind(this)){ 
+				
+				moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
+				stopMove(null);
+			}
+			
+		}
+		
+		
 		// Start the effect as long as the player is casting.
 		if(effectWhileCasting)
 		{
@@ -2680,7 +2693,7 @@ public abstract class L2Character extends L2Object
 		return _isTeleporting;
 	}
 
-	public final void setIsTeleporting(boolean value)
+	public void setIsTeleporting(boolean value)
 	{
 		_isTeleporting = value;
 	}
