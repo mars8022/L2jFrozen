@@ -190,9 +190,11 @@ public class EnterWorld extends L2GameClientPacket
 
 		activeChar.sendPacket(new EtcStatusUpdate(activeChar));
 		
-		if (activeChar.getAllEffects() != null)
+		final L2Effect[] effects = activeChar.getAllEffects();
+		
+		if (effects != null)
 		{
-			for (L2Effect e : activeChar.getAllEffects())
+			for (L2Effect e : effects)
 			{
 				if (e.getEffectType() == L2Effect.EffectType.HEAL_OVER_TIME)
 				{

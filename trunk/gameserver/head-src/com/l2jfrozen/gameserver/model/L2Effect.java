@@ -399,7 +399,7 @@ public abstract class L2Effect
 	 * <BR>
 	 */
 	//public synchronized void stopEffectTask()
-	public synchronized void stopEffectTask()
+	private synchronized void stopEffectTask()
 	{
 		// Cancel the task
 		if(_currentFuture!=null){

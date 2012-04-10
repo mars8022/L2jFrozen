@@ -653,10 +653,9 @@ public class TvT implements EventTask
 								if(player.getPet() != null)
 								{
 									L2Summon summon = player.getPet();
-									for(L2Effect e : summon.getAllEffects())
-										if(e != null)
-											e.exit(true);
-
+									
+									summon.stopAllEffects();
+									
 									if(summon instanceof L2PetInstance)
 										summon.unSummon(player);
 								}
@@ -664,11 +663,8 @@ public class TvT implements EventTask
 
 							if(Config.TVT_ON_START_REMOVE_ALL_EFFECTS)
 							{
-								for(L2Effect e : player.getAllEffects())
-								{
-									if(e != null)
-										e.exit(true);
-								}
+								player.stopAllEffects();
+								
 							}
 
 							// Remove player from his party
@@ -1867,11 +1863,8 @@ public class TvT implements EventTask
 		{
 			if(Config.TVT_ON_START_REMOVE_ALL_EFFECTS)
 			{
-				for(L2Effect e : player.getAllEffects())
-				{
-					if(e != null)
-						e.exit(true);
-				}
+				player.stopAllEffects();
+				
 			}
 
 			player._teamNameTvT = _savePlayerTeams.get(_savePlayers.indexOf(player.getName()));
