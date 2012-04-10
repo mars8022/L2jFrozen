@@ -1955,11 +1955,7 @@ public class CTF implements EventTask
 		{
 			if(Config.CTF_ON_START_REMOVE_ALL_EFFECTS)
 			{
-				for(L2Effect e : player.getAllEffects())
-				{
-					if(e != null)
-						e.exit(true);
-				}
+				player.stopAllEffects();
 			}
 
 			player._teamNameCTF = _savePlayerTeams.get(_savePlayers.indexOf(player.getName()));

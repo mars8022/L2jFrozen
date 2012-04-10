@@ -9385,7 +9385,9 @@ public final class L2PcInstance extends L2PlayableInstance
 
 			// Store all effect data along with calulated remaining
 			// reuse delays for matching skills. 'restore_type'= 0.
-			for(L2Effect effect : getAllEffects())
+			final L2Effect[] effects = getAllEffects();
+			
+			for(L2Effect effect : effects)
 			{
 				if(effect != null && effect.getInUse() 
 						&& !effect.getSkill().isToggle()

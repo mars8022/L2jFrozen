@@ -209,7 +209,9 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		}
 		else if(parameters.compareTo("RemoveAll")==0)
 		{
-			for(L2Effect e : player.getAllEffects())
+			final L2Effect[] effects = player.getAllEffects();
+			
+			for(L2Effect e : effects)
 			{
 				if(e.getEffectType()==L2Effect.EffectType.BUFF)
 					player.removeEffect(e);
@@ -217,7 +219,10 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		}
 		else if(parameters.compareTo("RemovePetAll")==0)
 		{
-			for(L2Effect e : player.getPet().getAllEffects())
+			
+			final L2Effect[] effects = player.getPet().getAllEffects();
+			
+			for(L2Effect e : effects)
 			{
 				if(e.getEffectType()==L2Effect.EffectType.BUFF)
 					player.getPet().removeEffect(e);

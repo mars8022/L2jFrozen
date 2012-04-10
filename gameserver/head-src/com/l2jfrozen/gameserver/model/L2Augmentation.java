@@ -250,7 +250,9 @@ public final class L2Augmentation
 			if((_skill.isPassive() && Config.DELETE_AUGM_PASSIVE_ON_CHANGE) || (_skill.isActive() && Config.DELETE_AUGM_ACTIVE_ON_CHANGE)){
 				
 				// Iterate through all effects currently on the character.
-				for(L2Effect currenteffect : player.getAllEffects())
+				final L2Effect[] effects = player.getAllEffects();
+				
+				for(L2Effect currenteffect : effects)
 				{
 					L2Skill effectSkill = currenteffect.getSkill();
 
