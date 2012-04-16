@@ -715,7 +715,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return true if character should attack target after skill
+	 * @return true if character should attack target after skill
 	 */
 	public final boolean nextActionIsAttack()
 	{
@@ -758,8 +758,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the target type of the skill : SELF, PARTY, CLAN, PET...<BR>
-	 * <BR>
+	 * @return the target type of the skill : SELF, PARTY, CLAN, PET...
 	 */
 	public final SkillTargetType getTargetType()
 	{
@@ -782,8 +781,8 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the power of the skill.<BR>
-	 * <BR>
+	 * @param activeChar 
+	 * @return the power of the skill.
 	 */
 	public final double getPower(L2Character activeChar)
 	{
@@ -847,8 +846,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the additional effect power or base probability.<BR>
-	 * <BR>
+	 * @return the additional effect power or base probability.
 	 */
 	public final int getEffectPower()
 	{
@@ -856,8 +854,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the additional effect Id.<BR>
-	 * <BR>
+	 * @return the additional effect Id.
 	 */
 	public final int getEffectId()
 	{
@@ -865,8 +862,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the additional effect level.<BR>
-	 * <BR>
+	 * @return the additional effect level.
 	 */
 	public final int getEffectLvl()
 	{
@@ -874,8 +870,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the additional effect skill type (ex : STUN, PARALYZE,...).<BR>
-	 * <BR>
+	 * @return the additional effect skill type (ex : STUN, PARALYZE,...).
 	 */
 	public final SkillType getEffectType()
 	{
@@ -943,8 +938,7 @@ public abstract class L2Skill
 	}
 
 	/**
-	 * Return the skill type (ex : BLEED, SLEEP, WATER...).<BR>
-	 * <BR>
+	 * @return the skill type (ex : BLEED, SLEEP, WATER...).
 	 */
 	public final Stats getStat()
 	{
@@ -1441,6 +1435,9 @@ public abstract class L2Skill
 	 * <BR>
 	 * 
 	 * @param activeChar The L2Character who use the skill
+	 * @param onlyFirst 
+	 * @param target 
+	 * @return 
 	 */
 	public final L2Object[] getTargetList(L2Character activeChar, boolean onlyFirst, L2Character target)
 	{
@@ -3361,7 +3358,7 @@ public abstract class L2Skill
 	}
 	
 	/**
-	 * Return minimum skill/effect land rate (default is 1).
+	 * @return minimum skill/effect land rate (default is 1).
 	 */
 	public final int getMinChance()
 	{
@@ -3369,11 +3366,10 @@ public abstract class L2Skill
 	}
 	
 	/**
-	 * Return maximum skill/effect land rate (default is 99).
+	 * @return maximum skill/effect land rate (default is 99).
 	 */
 	public final int getMaxChance()
 	{
 		return _maxChance;
 	}
-	
 }

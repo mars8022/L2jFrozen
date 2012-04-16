@@ -31,16 +31,32 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
+/**
+ * The Class L2WyvernManagerInstance.
+ */
 public class L2WyvernManagerInstance extends L2CastleChamberlainInstance
 {
+	
+	/** The Constant COND_CLAN_OWNER. */
 	protected static final int COND_CLAN_OWNER = 3;
+	
+	/** The _clan hall id. */
 	private int _clanHallId = -1;
 
+	/**
+	 * Instantiates a new l2 wyvern manager instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
+	 */
 	public L2WyvernManagerInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2CastleChamberlainInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -114,6 +130,9 @@ public class L2WyvernManagerInstance extends L2CastleChamberlainInstance
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2CastleChamberlainInstance#onAction(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	public void onAction(L2PcInstance player)
 	{
@@ -150,6 +169,11 @@ public class L2WyvernManagerInstance extends L2CastleChamberlainInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Show message window.
+	 *
+	 * @param player the player
+	 */
 	private void showMessageWindow(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -179,7 +203,11 @@ public class L2WyvernManagerInstance extends L2CastleChamberlainInstance
 		filename = null;
 	}
 
-	/** Return the L2ClanHall this L2NpcInstance belongs to. */
+	/**
+	 * Return the L2ClanHall this L2NpcInstance belongs to.
+	 *
+	 * @return the clan hall
+	 */
 	public final ClanHall getClanHall()
 	{
 		if(_clanHallId < 0)
@@ -198,6 +226,9 @@ public class L2WyvernManagerInstance extends L2CastleChamberlainInstance
 		return ClanHallManager.getInstance().getClanHallById(_clanHallId);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2CastleChamberlainInstance#validateCondition(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	protected int validateCondition(L2PcInstance player)
 	{

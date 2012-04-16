@@ -34,9 +34,17 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
+/**
+ * The Class L2WeddingManagerInstance.
+ */
 public class L2WeddingManagerInstance extends L2NpcInstance
 {
+	
 	/**
+	 * Instantiates a new l2 wedding manager instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 * @author evill33t & squeezed
 	 */
 	public L2WeddingManagerInstance(int objectId, L2NpcTemplate template)
@@ -44,6 +52,9 @@ public class L2WeddingManagerInstance extends L2NpcInstance
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onAction(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	public void onAction(L2PcInstance player)
 	{
@@ -79,6 +90,11 @@ public class L2WeddingManagerInstance extends L2NpcInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Show message window.
+	 *
+	 * @param player the player
+	 */
 	private void showMessageWindow(L2PcInstance player)
 	{
 		String filename = "data/html/mods/Wedding_start.htm";
@@ -95,6 +111,9 @@ public class L2WeddingManagerInstance extends L2NpcInstance
 		html = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -339,6 +358,13 @@ public class L2WeddingManagerInstance extends L2NpcInstance
 		replace = null;
 	}
 
+	/**
+	 * Send html message.
+	 *
+	 * @param player the player
+	 * @param filename the filename
+	 * @param replace the replace
+	 */
 	private void sendHtmlMessage(L2PcInstance player, String filename, String replace)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(1);

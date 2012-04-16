@@ -28,17 +28,14 @@ public class VehicleInfo extends L2GameServerPacket
 	private L2BoatInstance _boat;
 
 	/**
-	 * @param instance
+	 * @param boat 
 	 */
 	public VehicleInfo(L2BoatInstance boat)
 	{
 		_boat = boat;
 		// TODO Auto-generated constructor stub
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -50,14 +47,10 @@ public class VehicleInfo extends L2GameServerPacket
 		writeD(_boat.getPosition().getHeading());
 
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return "[S] 59 VehicleInfo";
 	}
-
 }

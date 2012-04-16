@@ -30,14 +30,13 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class AskJoinParty extends L2GameServerPacket
 {
 	private static final String _S__4B_ASKJOINPARTY_0X4B = "[S] 39 AskJoinParty 0x4b";
-	//private static Logger _log = Logger.getLogger(AskJoinParty.class.getName());
-
+	
 	private String _requestorName;
 	private int _itemDistribution;
 
 	/**
-	 * @param int objectId of the target
-	 * @param int
+	 * @param requestorName 
+	 * @param itemDistribution 
 	 */
 	public AskJoinParty(String requestorName, int itemDistribution)
 	{

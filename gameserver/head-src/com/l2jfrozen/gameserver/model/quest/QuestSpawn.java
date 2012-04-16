@@ -68,6 +68,9 @@ public final class QuestSpawn
 	/**
 	 * Add spawn for player instance Will despawn after the spawn length expires Uses player's coords and heading. Adds
 	 * a little randomization in the x y coords Return object id of newly spawned npc
+	 * @param npcId 
+	 * @param cha 
+	 * @return 
 	 */
 	public L2NpcInstance addSpawn(int npcId, L2Character cha)
 	{
@@ -76,6 +79,14 @@ public final class QuestSpawn
 
 	/**
 	 * Add spawn for player instance Return object id of newly spawned npc
+	 * @param npcId 
+	 * @param x 
+	 * @param y 
+	 * @param z 
+	 * @param heading 
+	 * @param randomOffset 
+	 * @param despawnDelay 
+	 * @return 
 	 */
 	public L2NpcInstance addSpawn(int npcId, int x, int y, int z, int heading, boolean randomOffset, int despawnDelay)
 	{

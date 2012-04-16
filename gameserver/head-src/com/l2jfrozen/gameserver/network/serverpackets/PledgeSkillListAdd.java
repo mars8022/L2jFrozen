@@ -34,10 +34,7 @@ public class PledgeSkillListAdd extends L2GameServerPacket
 		_id = id;
 		_lvl = lvl;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -47,10 +44,7 @@ public class PledgeSkillListAdd extends L2GameServerPacket
 		writeD(_id);
 		writeD(_lvl);
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

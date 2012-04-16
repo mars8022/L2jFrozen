@@ -82,7 +82,7 @@ public class MultiSellIngredient
 	}
 
 	/**
-	 * @param itemCount The itemCount to set.
+	 * @param enchantmentLevel 
 	 */
 	public void setEnchantmentLevel(int enchantmentLevel)
 	{

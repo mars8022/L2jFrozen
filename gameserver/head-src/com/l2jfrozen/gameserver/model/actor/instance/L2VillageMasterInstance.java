@@ -65,13 +65,19 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	//private static Logger _log = Logger.getLogger(L2VillageMasterInstance.class.getName());
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 village master instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2VillageMasterInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -613,6 +619,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		cmdParams2 = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#getHtmlPath(int, int)
+	 */
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -631,6 +640,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	}
 
 	//Private stuff
+	/**
+	 * Dissolve clan.
+	 *
+	 * @param player the player
+	 * @param clanId the clan id
+	 */
 	public void dissolveClan(L2PcInstance player, int clanId)
 	{
 		if(Config.DEBUG)
@@ -704,6 +719,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		clan = null;
 	}
 
+	/**
+	 * Recover clan.
+	 *
+	 * @param player the player
+	 * @param clanId the clan id
+	 */
 	public void recoverClan(L2PcInstance player, int clanId)
 	{
 		if(Config.DEBUG)
@@ -724,6 +745,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		clan = null;
 	}
 
+	/**
+	 * Change clan leader.
+	 *
+	 * @param player the player
+	 * @param target the target
+	 */
 	public void changeClanLeader(L2PcInstance player, String target)
 	{
 		if(Config.DEBUG)
@@ -782,6 +809,15 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		member = null;
 	}
 
+	/**
+	 * Creates the sub pledge.
+	 *
+	 * @param player the player
+	 * @param clanName the clan name
+	 * @param leaderName the leader name
+	 * @param pledgeType the pledge type
+	 * @param minClanLvl the min clan lvl
+	 */
 	public void createSubPledge(L2PcInstance player, String clanName, String leaderName, int pledgeType, int minClanLvl)
 	{
 		if(Config.DEBUG)
@@ -891,6 +927,13 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		sm = null;
 	}
 
+	/**
+	 * Rename sub pledge.
+	 *
+	 * @param player the player
+	 * @param pledgeType the pledge type
+	 * @param pledgeName the pledge name
+	 */
 	private static final void renameSubPledge(L2PcInstance player, int pledgeType, String pledgeName)
 	{
 		if (!player.isClanLeader())
@@ -925,6 +968,13 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	}
 	
 	
+	/**
+	 * Assign sub pledge leader.
+	 *
+	 * @param player the player
+	 * @param clanName the clan name
+	 * @param leaderName the leader name
+	 */
 	public void assignSubPledgeLeader(L2PcInstance player, String clanName, String leaderName)
 	{
 		if(Config.DEBUG)
@@ -998,6 +1048,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		leaderSubPledge = null;
 	}
 
+	/**
+	 * Gets the available sub classes.
+	 *
+	 * @param player the player
+	 * @return the available sub classes
+	 */
 	private final Set<PlayerClass> getAvailableSubClasses(L2PcInstance player)
 	{
 		int charClassId = player.getBaseClass();
@@ -1078,8 +1134,8 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 
 	/**
 	 * this displays PledgeSkillList to the player.
-	 * 
-	 * @param player
+	 *
+	 * @param player the player
 	 */
 	public void showPledgeSkillList(L2PcInstance player)
 	{
@@ -1135,6 +1191,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Format class for display.
+	 *
+	 * @param className the class name
+	 * @return the string
+	 */
 	private final String formatClassForDisplay(PlayerClass className)
 	{
 		String classNameStr = className.toString();
@@ -1149,6 +1211,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		return classNameStr;
 	}
 
+	/**
+	 * Gets the village master race.
+	 *
+	 * @return the village master race
+	 */
 	private final PlayerRace getVillageMasterRace()
 	{
 		String npcClass = getTemplate().getStatsSet().getString("jClass").toLowerCase();
@@ -1168,6 +1235,11 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		return PlayerRace.Dwarf;
 	}
 
+	/**
+	 * Gets the village master teach type.
+	 *
+	 * @return the village master teach type
+	 */
 	private final ClassType getVillageMasterTeachType()
 	{
 		String npcClass = getTemplate().getStatsSet().getString("jClass");
@@ -1181,6 +1253,12 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 		return ClassType.Fighter;
 	}
 
+	/**
+	 * Iter sub classes.
+	 *
+	 * @param player the player
+	 * @return the iterator
+	 */
 	private Iterator<SubClass> iterSubClasses(L2PcInstance player)
 	{
 		return player.getSubClasses().values().iterator();

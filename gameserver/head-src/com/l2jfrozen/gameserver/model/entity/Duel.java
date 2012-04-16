@@ -43,42 +43,97 @@ import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
+/**
+ * The Class Duel.
+ */
 public class Duel
 {
+	
+	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(Duel.class.getName());
 
+	/** The Constant DUELSTATE_NODUEL. */
 	public static final int DUELSTATE_NODUEL = 0;
+	
+	/** The Constant DUELSTATE_DUELLING. */
 	public static final int DUELSTATE_DUELLING = 1;
+	
+	/** The Constant DUELSTATE_DEAD. */
 	public static final int DUELSTATE_DEAD = 2;
+	
+	/** The Constant DUELSTATE_WINNER. */
 	public static final int DUELSTATE_WINNER = 3;
+	
+	/** The Constant DUELSTATE_INTERRUPTED. */
 	public static final int DUELSTATE_INTERRUPTED = 4;
 
 	// =========================================================
 	// Data Field
+	/** The _duel id. */
 	private int _duelId;
+	
+	/** The _player a. */
 	private L2PcInstance _playerA;
+	
+	/** The _player b. */
 	private L2PcInstance _playerB;
+	
+	/** The _party duel. */
 	private boolean _partyDuel;
+	
+	/** The _duel end time. */
 	private Calendar _duelEndTime;
+	
+	/** The _surrender request. */
 	private int _surrenderRequest = 0;
+	
+	/** The _countdown. */
 	private int _countdown = 4;
+	
+	/** The _finished. */
 	private boolean _finished = false;
 
+	/** The _player conditions. */
 	private FastList<PlayerCondition> _playerConditions;
 
+	/**
+	 * The Enum DuelResultEnum.
+	 */
 	public static enum DuelResultEnum
 	{
+		
+		/** The Continue. */
 		Continue,
+		
+		/** The Team1 win. */
 		Team1Win,
+		
+		/** The Team2 win. */
 		Team2Win,
+		
+		/** The Team1 surrender. */
 		Team1Surrender,
+		
+		/** The Team2 surrender. */
 		Team2Surrender,
+		
+		/** The Canceled. */
 		Canceled,
+		
+		/** The Timeout. */
 		Timeout
 	}
 
 	// =========================================================
 	// Constructor
+	/**
+	 * Instantiates a new duel.
+	 *
+	 * @param playerA the player a
+	 * @param playerB the player b
+	 * @param partyDuel the party duel
+	 * @param duelId the duel id
+	 */
 	public Duel(L2PcInstance playerA, L2PcInstance playerB, int partyDuel, int duelId)
 	{
 		_duelId = duelId;
@@ -118,16 +173,39 @@ public class Duel
 	// ===============================================================
 	// Nested Class
 
+	/**
+	 * The Class PlayerCondition.
+	 */
 	public class PlayerCondition
 	{
+		
+		/** The _player. */
 		private L2PcInstance _player;
+		
+		/** The _hp. */
 		private double _hp;
+		
+		/** The _mp. */
 		private double _mp;
+		
+		/** The _cp. */
 		private double _cp;
+		
+		/** The _pa duel. */
 		private boolean _paDuel;
+		
+		/** The _z. */
 		private int _x, _y, _z;
+		
+		/** The _debuffs. */
 		private FastList<L2Effect> _debuffs;
 
+		/**
+		 * Instantiates a new player condition.
+		 *
+		 * @param player the player
+		 * @param partyDuel the party duel
+		 */
 		public PlayerCondition(L2PcInstance player, boolean partyDuel)
 		{
 			if(player == null)
@@ -147,6 +225,9 @@ public class Duel
 			}
 		}
 
+		/**
+		 * Restore condition.
+		 */
 		public synchronized void restoreCondition()
 		{
 			if(_player == null)
@@ -171,6 +252,11 @@ public class Duel
 			}
 		}
 
+		/**
+		 * Register debuff.
+		 *
+		 * @param debuff the debuff
+		 */
 		public void registerDebuff(L2Effect debuff)
 		{
 			if(_debuffs == null)
@@ -181,6 +267,9 @@ public class Duel
 			_debuffs.add(debuff);
 		}
 
+		/**
+		 * Teleport back.
+		 */
 		public void teleportBack()
 		{
 			if(_paDuel)
@@ -189,6 +278,11 @@ public class Duel
 			}
 		}
 
+		/**
+		 * Gets the player.
+		 *
+		 * @return the player
+		 */
 		public L2PcInstance getPlayer()
 		{
 			return _player;
@@ -197,15 +291,28 @@ public class Duel
 
 	// ===============================================================
 	// Schedule task
+	/**
+	 * The Class ScheduleDuelTask.
+	 */
 	public class ScheduleDuelTask implements Runnable
 	{
+		
+		/** The _duel. */
 		private Duel _duel;
 
+		/**
+		 * Instantiates a new schedule duel task.
+		 *
+		 * @param duel the duel
+		 */
 		public ScheduleDuelTask(Duel duel)
 		{
 			_duel = duel;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -239,15 +346,28 @@ public class Duel
 		}
 	}
 
+	/**
+	 * The Class ScheduleStartDuelTask.
+	 */
 	public class ScheduleStartDuelTask implements Runnable
 	{
+		
+		/** The _duel. */
 		private Duel _duel;
 
+		/**
+		 * Instantiates a new schedule start duel task.
+		 *
+		 * @param duel the duel
+		 */
 		public ScheduleStartDuelTask(Duel duel)
 		{
 			_duel = duel;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -294,17 +414,33 @@ public class Duel
 		}
 	}
 
+	/**
+	 * The Class ScheduleEndDuelTask.
+	 */
 	public static class ScheduleEndDuelTask implements Runnable
 	{
+		
+		/** The _duel. */
 		private Duel _duel;
+		
+		/** The _result. */
 		private DuelResultEnum _result;
 
+		/**
+		 * Instantiates a new schedule end duel task.
+		 *
+		 * @param duel the duel
+		 * @param result the result
+		 */
 		public ScheduleEndDuelTask(Duel duel, DuelResultEnum result)
 		{
 			_duel = duel;
 			_result = result;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -365,8 +501,9 @@ public class Duel
 	// Method - Public
 
 	/**
-	 * Check if a player engaged in pvp combat (only for 1on1 duels)
-	 * 
+	 * Check if a player engaged in pvp combat (only for 1on1 duels).
+	 *
+	 * @param sendMessage the send message
 	 * @return returns true if a duelist is engaged in Pvp combat
 	 */
 	public boolean isDuelistInPvp(boolean sendMessage)
@@ -390,7 +527,7 @@ public class Duel
 	}
 
 	/**
-	 * Starts the duel
+	 * Starts the duel.
 	 */
 	public void startDuel()
 	{
@@ -481,7 +618,7 @@ public class Duel
 	}
 
 	/**
-	 * Save the current player condition: hp, mp, cp, location
+	 * Save the current player condition: hp, mp, cp, location.
 	 */
 	public void savePlayerConditions()
 	{
@@ -507,9 +644,9 @@ public class Duel
 	}
 
 	/**
-	 * Restore player conditions
-	 * 
-	 * @param was the duel canceled?
+	 * Restore player conditions.
+	 *
+	 * @param abnormalDuelEnd the abnormal duel end
 	 */
 	private synchronized void restorePlayerConditions(boolean abnormalDuelEnd)
 	{
@@ -553,8 +690,8 @@ public class Duel
 	}
 
 	/**
-	 * Get the duel id
-	 * 
+	 * Get the duel id.
+	 *
 	 * @return id
 	 */
 	public int getId()
@@ -563,8 +700,8 @@ public class Duel
 	}
 
 	/**
-	 * Returns the remaining time
-	 * 
+	 * Returns the remaining time.
+	 *
 	 * @return remaining time
 	 */
 	public int getRemainingTime()
@@ -573,8 +710,8 @@ public class Duel
 	}
 
 	/**
-	 * Get the player that requestet the duel
-	 * 
+	 * Get the player that requestet the duel.
+	 *
 	 * @return duel requester
 	 */
 	public L2PcInstance getPlayerA()
@@ -583,8 +720,8 @@ public class Duel
 	}
 
 	/**
-	 * Get the player that was challenged
-	 * 
+	 * Get the player that was challenged.
+	 *
 	 * @return challenged player
 	 */
 	public L2PcInstance getPlayerB()
@@ -593,8 +730,8 @@ public class Duel
 	}
 
 	/**
-	 * Returns whether this is a party duel or not
-	 * 
+	 * Returns whether this is a party duel or not.
+	 *
 	 * @return is party duel
 	 */
 	public boolean isPartyDuel()
@@ -602,22 +739,32 @@ public class Duel
 		return _partyDuel;
 	}
 
+	/**
+	 * Sets the finished.
+	 *
+	 * @param mode the new finished
+	 */
 	public void setFinished(boolean mode)
 	{
 		_finished = mode;
 	}
 
+	/**
+	 * Gets the finished.
+	 *
+	 * @return the finished
+	 */
 	public boolean getFinished()
 	{
 		return _finished;
 	}
 
 	/**
-	 * teleport all players to the given coordinates
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * teleport all players to the given coordinates.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param z the z
 	 */
 	public void teleportPlayers(int x, int y, int z)
 	{
@@ -643,7 +790,9 @@ public class Duel
 	}
 
 	/**
-	 * Broadcast a packet to the challanger team
+	 * Broadcast a packet to the challanger team.
+	 *
+	 * @param packet the packet
 	 */
 	public void broadcastToTeam1(L2GameServerPacket packet)
 	{
@@ -664,7 +813,9 @@ public class Duel
 	}
 
 	/**
-	 * Broadcast a packet to the challenged team
+	 * Broadcast a packet to the challenged team.
+	 *
+	 * @param packet the packet
 	 */
 	public void broadcastToTeam2(L2GameServerPacket packet)
 	{
@@ -685,8 +836,8 @@ public class Duel
 	}
 
 	/**
-	 * Get the duel winner
-	 * 
+	 * Get the duel winner.
+	 *
 	 * @return winner
 	 */
 	public L2PcInstance getWinner()
@@ -704,8 +855,8 @@ public class Duel
 	}
 
 	/**
-	 * Get the duel looser
-	 * 
+	 * Get the duel looser.
+	 *
 	 * @return looser
 	 */
 	public L2PcInstance getLooser()
@@ -722,7 +873,7 @@ public class Duel
 	}
 
 	/**
-	 * Playback the bow animation for all loosers
+	 * Playback the bow animation for all loosers.
 	 */
 	public void playKneelAnimation()
 	{
@@ -745,8 +896,8 @@ public class Duel
 	}
 
 	/**
-	 * Do the countdown and send message to players if necessary
-	 * 
+	 * Do the countdown and send message to players if necessary.
+	 *
 	 * @return current count
 	 */
 	public int countdown()
@@ -776,9 +927,9 @@ public class Duel
 	}
 
 	/**
-	 * The duel has reached a state in which it can no longer continue
-	 * 
-	 * @param duel result
+	 * The duel has reached a state in which it can no longer continue.
+	 *
+	 * @param result the result
 	 */
 	public void endDuel(DuelResultEnum result)
 	{
@@ -880,8 +1031,8 @@ public class Duel
 	}
 
 	/**
-	 * Did a situation occur in which the duel has to be ended?
-	 * 
+	 * Did a situation occur in which the duel has to be ended?.
+	 *
 	 * @return DuelResultEnum duel status
 	 */
 	public DuelResultEnum checkEndDuelCondition()
@@ -937,9 +1088,9 @@ public class Duel
 	}
 
 	/**
-	 * Register a surrender request
-	 * 
-	 * @param surrendering player
+	 * Register a surrender request.
+	 *
+	 * @param player the player
 	 */
 	public void doSurrender(L2PcInstance player)
 	{
@@ -1001,9 +1152,9 @@ public class Duel
 	}
 
 	/**
-	 * This function is called whenever a player was defeated in a duel
-	 * 
-	 * @param dieing player
+	 * This function is called whenever a player was defeated in a duel.
+	 *
+	 * @param player the player
 	 */
 	public void onPlayerDefeat(L2PcInstance player)
 	{
@@ -1059,9 +1210,9 @@ public class Duel
 	}
 
 	/**
-	 * This function is called whenever a player leaves a party
-	 * 
-	 * @param leaving player
+	 * This function is called whenever a player leaves a party.
+	 *
+	 * @param player the player
 	 */
 	public void onRemoveFromParty(L2PcInstance player)
 	{
@@ -1098,6 +1249,12 @@ public class Duel
 		}
 	}
 
+	/**
+	 * On buff.
+	 *
+	 * @param player the player
+	 * @param debuff the debuff
+	 */
 	public void onBuff(L2PcInstance player, L2Effect debuff)
 	{
 		for(FastList.Node<PlayerCondition> e = _playerConditions.head(), end = _playerConditions.tail(); (e = e.getNext()) != end;)

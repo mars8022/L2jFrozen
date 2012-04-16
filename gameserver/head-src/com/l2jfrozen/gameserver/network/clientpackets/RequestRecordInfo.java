@@ -45,7 +45,10 @@ import com.l2jfrozen.gameserver.thread.TaskPriority;
 
 public class RequestRecordInfo extends L2GameClientPacket
 {
-	/** urgent messages, execute immediatly */
+	/**
+	 * urgent messages, execute immediately 
+	 * @return
+	 */
 	public TaskPriority getPriority()
 	{
 		return TaskPriority.PR_NORMAL;

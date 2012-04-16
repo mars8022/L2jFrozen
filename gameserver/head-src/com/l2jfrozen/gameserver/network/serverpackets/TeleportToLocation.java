@@ -35,7 +35,10 @@ public class TeleportToLocation extends L2GameServerPacket
 	private int _heading;
 	
 	/**
-	 * @param _characters
+	 * @param obj 
+	 * @param x 
+	 * @param y 
+	 * @param z 
 	 */
 	public TeleportToLocation(L2Object obj, int x, int y, int z)
 	{

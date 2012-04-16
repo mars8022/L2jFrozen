@@ -34,10 +34,7 @@ public class ExCursedWeaponList extends L2GameServerPacket
 	{
 		_cursedWeaponIds = cursedWeaponIds;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -50,14 +47,10 @@ public class ExCursedWeaponList extends L2GameServerPacket
 			writeD(i.intValue());
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_45_EXCURSEDWEAPONLIST;
 	}
-
 }

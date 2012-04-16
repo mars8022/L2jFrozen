@@ -41,27 +41,71 @@ import com.l2jfrozen.util.random.Rnd;
 // In addition, it can be fed in order to increase its duration.
 // This class handles the running tasks, AI, and feed of the mob.
 // The (mostly optional) AI on feeding the spawn is handled by the datapack ai script
+/**
+ * The Class L2TamedBeastInstance.
+ */
 public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 {
+	
+	/** The _food skill id. */
 	private int _foodSkillId;
+	
+	/** The Constant MAX_DISTANCE_FROM_HOME. */
 	private static final int MAX_DISTANCE_FROM_HOME = 30000;
+	
+	/** The Constant MAX_DISTANCE_FROM_OWNER. */
 	private static final int MAX_DISTANCE_FROM_OWNER = 2000;
+	
+	/** The Constant MAX_DURATION. */
 	private static final int MAX_DURATION = 1200000; // 20 minutes
+	
+	/** The Constant DURATION_CHECK_INTERVAL. */
 	private static final int DURATION_CHECK_INTERVAL = 60000; // 1 minute
+	
+	/** The Constant DURATION_INCREASE_INTERVAL. */
 	private static final int DURATION_INCREASE_INTERVAL = 20000; // 20 secs (gained upon feeding)
+	
+	/** The Constant BUFF_INTERVAL. */
 	private static final int BUFF_INTERVAL = 5000; // 5 seconds
+	
+	/** The _remaining time. */
 	private int _remainingTime = MAX_DURATION;
+	
+	/** The _home z. */
 	private int _homeX, _homeY, _homeZ;
+	
+	/** The _owner. */
 	private L2PcInstance _owner;
+	
+	/** The _buff task. */
 	private Future<?> _buffTask = null;
+	
+	/** The _duration check task. */
 	private Future<?> _durationCheckTask = null;
 
+	/**
+	 * Instantiates a new l2 tamed beast instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
+	 */
 	public L2TamedBeastInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 		setHome(this);
 	}
 
+	/**
+	 * Instantiates a new l2 tamed beast instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
+	 * @param owner the owner
+	 * @param foodSkillId the food skill id
+	 * @param x the x
+	 * @param y the y
+	 * @param z the z
+	 */
 	public L2TamedBeastInstance(int objectId, L2NpcTemplate template, L2PcInstance owner, int foodSkillId, int x, int y, int z)
 	{
 		super(objectId, template);
@@ -74,6 +118,9 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		this.spawnMe(x, y, z);
 	}
 
+	/**
+	 * On receive food.
+	 */
 	public void onReceiveFood()
 	{
 		// Eating food extends the duration by 20secs, to a max of 20minutes
@@ -84,11 +131,23 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		}
 	}
 
+	/**
+	 * Gets the home.
+	 *
+	 * @return the home
+	 */
 	public Point3D getHome()
 	{
 		return new Point3D(_homeX, _homeY, _homeZ);
 	}
 
+	/**
+	 * Sets the home.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param z the z
+	 */
 	public void setHome(int x, int y, int z)
 	{
 		_homeX = x;
@@ -96,26 +155,51 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		_homeZ = z;
 	}
 
+	/**
+	 * Sets the home.
+	 *
+	 * @param c the new home
+	 */
 	public void setHome(L2Character c)
 	{
 		setHome(c.getX(), c.getY(), c.getZ());
 	}
 
+	/**
+	 * Gets the remaining time.
+	 *
+	 * @return the remaining time
+	 */
 	public int getRemainingTime()
 	{
 		return _remainingTime;
 	}
 
+	/**
+	 * Sets the remaining time.
+	 *
+	 * @param duration the new remaining time
+	 */
 	public void setRemainingTime(int duration)
 	{
 		_remainingTime = duration;
 	}
 
+	/**
+	 * Gets the food type.
+	 *
+	 * @return the food type
+	 */
 	public int getFoodType()
 	{
 		return _foodSkillId;
 	}
 
+	/**
+	 * Sets the food type.
+	 *
+	 * @param foodItemId the new food type
+	 */
 	public void setFoodType(int foodItemId)
 	{
 		if(foodItemId > 0)
@@ -133,6 +217,9 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance#doDie(com.l2jfrozen.gameserver.model.L2Character)
+	 */
 	@Override
 	public boolean doDie(L2Character killer)
 	{
@@ -145,6 +232,9 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		return true;
 	}
 	
+	/**
+	 * Clean tasks.
+	 */
 	private synchronized void cleanTasks(){
 		
 		if(_buffTask != null){
@@ -169,11 +259,21 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		
 	}
 
+	/**
+	 * Gets the owner.
+	 *
+	 * @return the owner
+	 */
 	public L2PcInstance getOwner()
 	{
 		return _owner;
 	}
 
+	/**
+	 * Sets the owner.
+	 *
+	 * @param owner the new owner
+	 */
 	public void setOwner(L2PcInstance owner)
 	{
 		if(owner != null)
@@ -212,11 +312,19 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		}
 	}
 
+	/**
+	 * Checks if is too far from home.
+	 *
+	 * @return true, if is too far from home
+	 */
 	public boolean isTooFarFromHome()
 	{
 		return !this.isInsideRadius(_homeX, _homeY, _homeZ, MAX_DISTANCE_FROM_HOME, true, true);
 	}
 
+	/**
+	 * Do despawn.
+	 */
 	public void doDespawn()
 	{
 		// stop running tasks
@@ -229,6 +337,11 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 
 	// notification triggered by the owner when the owner is attacked.
 	// tamed mobs will heal/recharge or debuff the enemy according to their skills
+	/**
+	 * On owner got attacked.
+	 *
+	 * @param attacker the attacker
+	 */
 	public void onOwnerGotAttacked(L2Character attacker)
 	{
 		// check if the owner is no longer around...if so, despawn
@@ -300,7 +413,9 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 	/**
 	 * Prepare and cast a skill: First smoothly prepare the beast for casting, by abandoning other actions Next, call
 	 * super.doCast(skill) in order to actually cast the spell Finally, return to auto-following the owner.
-	 * 
+	 *
+	 * @param skill the skill
+	 * @param target the target
 	 * @see com.l2jfrozen.gameserver.model.L2Character#doCast(com.l2jfrozen.gameserver.model.L2Skill)
 	 */
 	protected void sitCastAndFollow(L2Skill skill, L2Character target)
@@ -314,15 +429,28 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, _owner);
 	}
 
+	/**
+	 * The Class CheckDuration.
+	 */
 	private class CheckDuration implements Runnable
 	{
+		
+		/** The _tamed beast. */
 		private L2TamedBeastInstance _tamedBeast;
 
+		/**
+		 * Instantiates a new check duration.
+		 *
+		 * @param tamedBeast the tamed beast
+		 */
 		CheckDuration(L2TamedBeastInstance tamedBeast)
 		{
 			_tamedBeast = tamedBeast;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -387,17 +515,33 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		}
 	}
 
+	/**
+	 * The Class CheckOwnerBuffs.
+	 */
 	private class CheckOwnerBuffs implements Runnable
 	{
+		
+		/** The _tamed beast. */
 		private L2TamedBeastInstance _tamedBeast;
+		
+		/** The _num buffs. */
 		private int _numBuffs;
 
+		/**
+		 * Instantiates a new check owner buffs.
+		 *
+		 * @param tamedBeast the tamed beast
+		 * @param numBuffs the num buffs
+		 */
 		CheckOwnerBuffs(L2TamedBeastInstance tamedBeast, int numBuffs)
 		{
 			_tamedBeast = tamedBeast;
 			_numBuffs = numBuffs;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{

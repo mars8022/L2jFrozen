@@ -21,24 +21,37 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
-
 /**
+ * The Class L2CastleMagicianInstance.
+ *
  * @author Kerberos | ZaKaX
  */
 public class L2CastleMagicianInstance extends L2NpcInstance
 {
+	
+	/** The Constant COND_ALL_FALSE. */
 	protected static final int COND_ALL_FALSE = 0;
+	
+	/** The Constant COND_BUSY_BECAUSE_OF_SIEGE. */
 	protected static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
+	
+	/** The Constant COND_OWNER. */
 	protected static final int COND_OWNER = 2;
 	
 	/**
-	 * @param template
+	 * Instantiates a new l2 castle magician instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2CastleMagicianInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#showChatWindow(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, int)
+	 */
 	@Override
 	public void showChatWindow(L2PcInstance player, int val)
 	{
@@ -65,6 +78,9 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 		player.sendPacket(html);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -105,6 +121,12 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 			super.onBypassFeedback(player, command);
 	}
 	
+	/**
+	 * Validate condition.
+	 *
+	 * @param player the player
+	 * @return the int
+	 */
 	protected int validateCondition(L2PcInstance player)
 	{
 		if (getCastle() != null && getCastle().getCastleId() > 0)
@@ -120,6 +142,13 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 		return COND_ALL_FALSE;
 	}
 	
+	/**
+	 * Validate gate condition.
+	 *
+	 * @param clanLeader the clan leader
+	 * @param player the player
+	 * @return true, if successful
+	 */
 	private static final boolean validateGateCondition(L2PcInstance clanLeader, L2PcInstance player)
 	{
 		if (clanLeader.isAlikeDead() 

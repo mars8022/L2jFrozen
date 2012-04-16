@@ -38,11 +38,7 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 	{
 		return TaskPriority.PR_HIGH;
 	}
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
@@ -87,5 +83,4 @@ public final class RequestMoveToLocationInVehicle extends L2GameClientPacket
 	{
 		return "[] RequestMoveToLocationInVehicle";
 	}
-
 }

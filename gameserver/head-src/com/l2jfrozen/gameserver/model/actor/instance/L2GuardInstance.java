@@ -46,15 +46,31 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class L2GuardInstance extends L2Attackable
 {
+	
+	/** The _log. */
 	private static Logger _log = Logger.getLogger(L2GuardInstance.class.getName());
 
+	/** The _home x. */
 	private int _homeX;
+	
+	/** The _home y. */
 	private int _homeY;
+	
+	/** The _home z. */
 	private int _homeZ;
+	
+	/** The Constant RETURN_INTERVAL. */
 	private static final int RETURN_INTERVAL = 60000;
 
+	/**
+	 * The Class ReturnTask.
+	 */
 	public class ReturnTask implements Runnable
 	{
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -74,9 +90,9 @@ public final class L2GuardInstance extends L2Attackable
 	 * object and link _calculators to NPC_STD_CALCULATOR)</li> <li>Set the name of the L2GuardInstance</li> <li>Create
 	 * a RandomAnimation Task that will be launched after the calculated delay if the server allow it</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param objectId Identifier of the object to initialized
-	 * @param L2NpcTemplate Template to apply to the NPC
+	 * @param template the template
 	 */
 	public L2GuardInstance(int objectId, L2NpcTemplate template)
 	{
@@ -86,6 +102,9 @@ public final class L2GuardInstance extends L2Attackable
 		ThreadPoolManager.getInstance().scheduleAiAtFixedRate(new ReturnTask(), RETURN_INTERVAL, RETURN_INTERVAL + Rnd.nextInt(60000));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Attackable#getKnownList()
+	 */
 	@Override
 	public final GuardKnownList getKnownList()
 	{
@@ -99,6 +118,9 @@ public final class L2GuardInstance extends L2Attackable
 	/**
 	 * Return True if the attacker is a L2MonsterInstance.<BR>
 	 * <BR>
+	 *
+	 * @param attacker the attacker
+	 * @return true, if is auto attackable
 	 */
 	@Override
 	public boolean isAutoAttackable(L2Character attacker)
@@ -111,8 +133,7 @@ public final class L2GuardInstance extends L2Attackable
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
-	 * Guard will always try to return to this location after it has killed all PK's in range <BR>
-	 * <BR>
+	 * Guard will always try to return to this location after it has killed all PK's in range
 	 */
 	public void getHomeLocation()
 	{
@@ -126,6 +147,11 @@ public final class L2GuardInstance extends L2Attackable
 		}
 	}
 
+	/**
+	 * Gets the home x.
+	 *
+	 * @return the home x
+	 */
 	public int getHomeX()
 	{
 		return _homeX;
@@ -185,9 +211,10 @@ public final class L2GuardInstance extends L2Attackable
 	 * <li>if page number = 0 : <B>data/html/guard/12006.htm</B> (npcId-page number)</li> <li>if page number > 0 :
 	 * <B>data/html/guard/12006-1.htm</B> (npcId-page number)</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param npcId The Identifier of the L2NpcInstance whose text must be display
 	 * @param val The number of the page to display
+	 * @return the html path
 	 */
 	@Override
 	public String getHtmlPath(int npcId, int val)

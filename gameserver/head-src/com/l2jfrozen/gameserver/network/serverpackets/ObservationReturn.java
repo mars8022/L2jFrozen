@@ -32,13 +32,13 @@ public class ObservationReturn extends L2GameServerPacket
 	private L2PcInstance _activeChar;
 
 	/**
-	 * @param _characters
+	 * @param observer 
 	 */
 	public ObservationReturn(L2PcInstance observer)
 	{
 		_activeChar = observer;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -47,10 +47,7 @@ public class ObservationReturn extends L2GameServerPacket
 		writeD(_activeChar.getObsY());
 		writeD(_activeChar.getObsZ());
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

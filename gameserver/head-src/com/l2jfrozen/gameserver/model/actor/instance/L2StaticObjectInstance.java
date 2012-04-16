@@ -34,22 +34,35 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowTownMap;
 
 /**
- * GODSON ROX!
+ * GODSON ROX!.
  */
 public class L2StaticObjectInstance extends L2Object
 {
+	
+	/** The _log. */
 	private static Logger _log = Logger.getLogger(L2StaticObjectInstance.class.getName());
 
-	/** The interaction distance of the L2StaticObjectInstance */
+	/** The interaction distance of the L2StaticObjectInstance. */
 	public static final int INTERACTION_DISTANCE = 150;
 
+	/** The _static object id. */
 	private int _staticObjectId;
+	
+	/** The _type. */
 	private int _type = -1; // 0 - map signs, 1 - throne , 2 - arena signs
+	
+	/** The _x. */
 	private int _x;
+	
+	/** The _y. */
 	private int _y;
+	
+	/** The _texture. */
 	private String _texture;
 
 	/**
+	 * Gets the static object id.
+	 *
 	 * @return Returns the StaticObjectId.
 	 */
 	public int getStaticObjectId()
@@ -58,7 +71,9 @@ public class L2StaticObjectInstance extends L2Object
 	}
 
 	/**
-	 * @param doorId The doorId to set.
+	 * Sets the static object id.
+	 *
+	 * @param StaticObjectId the new static object id
 	 */
 	public void setStaticObjectId(int StaticObjectId)
 	{
@@ -66,23 +81,43 @@ public class L2StaticObjectInstance extends L2Object
 	}
 
 	/**
-     */
+	 * Instantiates a new l2 static object instance.
+	 *
+	 * @param objectId the object id
+	 */
 	public L2StaticObjectInstance(int objectId)
 	{
 		super(objectId);
 		setKnownList(new NullKnownList(this));
 	}
 
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	public int getType()
 	{
 		return _type;
 	}
 
+	/**
+	 * Sets the type.
+	 *
+	 * @param type the new type
+	 */
 	public void setType(int type)
 	{
 		_type = type;
 	}
 
+	/**
+	 * Sets the map.
+	 *
+	 * @param texture the texture
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void setMap(String texture, int x, int y)
 	{
 		_texture = "town_map." + texture;
@@ -90,20 +125,30 @@ public class L2StaticObjectInstance extends L2Object
 		_y = y;
 	}
 
+	/**
+	 * Gets the map x.
+	 *
+	 * @return the map x
+	 */
 	private int getMapX()
 	{
 		return _x;
 	}
 
+	/**
+	 * Gets the map y.
+	 *
+	 * @return the map y
+	 */
 	private int getMapY()
 	{
 		return _y;
 	}
 
 	/**
-	 * this is called when a player interacts with this NPC
-	 * 
-	 * @param player
+	 * this is called when a player interacts with this NPC.
+	 *
+	 * @param player the player
 	 */
 	@Override
 	public void onAction(L2PcInstance player)

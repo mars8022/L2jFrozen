@@ -18,31 +18,46 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch d
- * 
+ * Format: ch d.
+ *
  * @author KenM
  */
 public class ExSetCompassZoneCode extends L2GameServerPacket
 {
+	/** The Constant _S__FE_32_EXSETCOMPASSZONECODE. */
 	private static final String _S__FE_32_EXSETCOMPASSZONECODE = "[S] FE:32 ExSetCompassZoneCode";
 
+	/** The Constant SIEGEWARZONE1. */
 	public static final int SIEGEWARZONE1 = 0x0A;
+	
+	/** The Constant SIEGEWARZONE2. */
 	public static final int SIEGEWARZONE2 = 0x0B;
+	
+	/** The Constant PEACEZONE. */
 	public static final int PEACEZONE = 0x0C;
+	
+	/** The Constant SEVENSIGNSZONE. */
 	public static final int SEVENSIGNSZONE = 0x0D;
+	
+	/** The Constant PVPZONE. */
 	public static final int PVPZONE = 0x0E;
+	
+	/** The Constant GENERALZONE. */
 	public static final int GENERALZONE = 0x0F;
 
+	/** The _zone type. */
 	private int _zoneType;
 
+	/**
+	 * Instantiates a new ex set compass zone code.
+	 *
+	 * @param val the val
+	 */
 	public ExSetCompassZoneCode(int val)
 	{
 		_zoneType = val;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -52,12 +67,13 @@ public class ExSetCompassZoneCode extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_32_EXSETCOMPASSZONECODE;
 	}
-
 }

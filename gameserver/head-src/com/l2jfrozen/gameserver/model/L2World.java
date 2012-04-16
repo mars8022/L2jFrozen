@@ -43,6 +43,8 @@ import com.l2jfrozen.util.object.L2ObjectSet;
  */
 public final class L2World
 {
+	
+	/** The _log. */
 	private static Logger _log = Logger.getLogger(L2World.class.getName());
 
 	/*
@@ -50,19 +52,31 @@ public final class L2World
 	 * note, shifting by 15 will result in regions corresponding to map tiles
 	 * shifting by 12 divides one tile to 8x8 regions
 	 */
+	/** The Constant SHIFT_BY. */
 	public static final int SHIFT_BY = 12;
 
-	/** Map dimensions */
+	/** Map dimensions. */
 	public static final int MAP_MIN_X = Config.WORLD_SIZE_MIN_X; //-131072
+	
+	/** The Constant MAP_MAX_X. */
 	public static final int MAP_MAX_X = Config.WORLD_SIZE_MAX_X; //228608
+	
+	/** The Constant MAP_MIN_Y. */
 	public static final int MAP_MIN_Y = Config.WORLD_SIZE_MIN_Y; //-262144
+	
+	/** The Constant MAP_MAX_Y. */
 	public static final int MAP_MAX_Y = Config.WORLD_SIZE_MAX_Y; //262144
-	/** calculated offset used so top left region is 0,0 */
+	
+	/** calculated offset used so top left region is 0,0. */
 	public static final int OFFSET_X = Math.abs(MAP_MIN_X >> SHIFT_BY);
+	
+	/** The Constant OFFSET_Y. */
 	public static final int OFFSET_Y = Math.abs(MAP_MIN_Y >> SHIFT_BY);
 
-	/** number of regions */
+	/** number of regions. */
 	private static final int REGIONS_X = (MAP_MAX_X >> SHIFT_BY) + OFFSET_X;
+	
+	/** The Constant REGIONS_Y. */
 	private static final int REGIONS_Y = (MAP_MAX_Y >> SHIFT_BY) + OFFSET_Y;
 
 	//public static final int WORLD_SIZE_X = L2World.MAP_MAX_X - L2World.MAP_MIN_X + 1 >> 15;
@@ -70,17 +84,19 @@ public final class L2World
 
 	//private FastMap<String, L2PcInstance> _allGms;
 
-	/** HashMap(String Player name, L2PcInstance) containing all the players in game */
+	/** HashMap(String Player name, L2PcInstance) containing all the players in game. */
 	private static Map<String, L2PcInstance> _allPlayers = new FastMap<String, L2PcInstance>().shared();
 
-	/** L2ObjectHashMap(L2Object) containing all visible objects */
+	/** L2ObjectHashMap(L2Object) containing all visible objects. */
 	private static L2ObjectMap<L2Object> _allObjects;
 
-	/** List with the pets instances and their owner id */
+	/** List with the pets instances and their owner id. */
 	private FastMap<Integer, L2PetInstance> _petsInstance;
 
+	/** The _instance. */
 	private static L2World _instance = null;
 
+	/** The _world regions. */
 	private L2WorldRegion[][] _worldRegions;
 
 	/**
@@ -99,8 +115,9 @@ public final class L2World
 	}
 
 	/**
-	 * Return the current instance of L2World.<BR>
-	 * <BR>
+	 * Gets the single instance of L2World.
+	 *
+	 * @return the current instance of L2World.
 	 */
 	public static L2World getInstance()
 	{
@@ -116,6 +133,8 @@ public final class L2World
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>Withdraw an item from the warehouse, create an item</li> <li>Spawn a L2Character (PC, NPC, Pet)</li><BR>
+	 *
+	 * @param object the object
 	 */
 	public void storeObject(L2Object object)
 	{
@@ -132,6 +151,12 @@ public final class L2World
 		_allObjects.put(object);
 	}
 
+	/**
+	 * Time store object.
+	 *
+	 * @param object the object
+	 * @return the long
+	 */
 	public long timeStoreObject(L2Object object)
 	{
 		long time = System.currentTimeMillis();
@@ -157,6 +182,11 @@ public final class L2World
 		//IdFactory.getInstance().releaseId(object.getObjectId());
 	}
 
+	/**
+	 * Removes the objects.
+	 *
+	 * @param list the list
+	 */
 	public void removeObjects(List<L2Object> list)
 	{
 		for(L2Object o : list)
@@ -166,6 +196,11 @@ public final class L2World
 		}
 	}
 
+	/**
+	 * Removes the objects.
+	 *
+	 * @param objects the objects
+	 */
 	public void removeObjects(L2Object[] objects)
 	{
 		for(L2Object o : objects)
@@ -175,6 +210,12 @@ public final class L2World
 		}
 	}
 
+	/**
+	 * Time remove object.
+	 *
+	 * @param object the object
+	 * @return the long
+	 */
 	public long timeRemoveObject(L2Object object)
 	{
 		long time = System.currentTimeMillis();
@@ -190,14 +231,21 @@ public final class L2World
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>Client packets : Action, AttackRequest, RequestJoinParty, RequestJoinPledge...</li><BR>
-	 * 
+	 *
 	 * @param oID Identifier of the L2Object
+	 * @return the l2 object
 	 */
 	public L2Object findObject(int oID)
 	{
 		return _allObjects.get(oID);
 	}
 
+	/**
+	 * Time find object.
+	 *
+	 * @param objectID the object id
+	 * @return the long
+	 */
 	public long timeFindObject(int objectID)
 	{
 		long time = System.currentTimeMillis();
@@ -210,8 +258,8 @@ public final class L2World
 	/**
 	 * Added by Tempy - 08 Aug 05 Allows easy retrevial of all visible objects in world. -- do not use that fucntion,
 	 * its unsafe!
-	 * 
 	 *
+	 * @return the all visible objects
 	 */
 	public final L2ObjectMap<L2Object> getAllVisibleObjects()
 	{
@@ -232,6 +280,8 @@ public final class L2World
 	/**
 	 * Return a table containing all GMs.<BR>
 	 * <BR>
+	 *
+	 * @return the all g ms
 	 */
 	public FastList<L2PcInstance> getAllGMs()
 	{
@@ -243,6 +293,8 @@ public final class L2World
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Read-only, please! </B></FONT><BR>
 	 * <BR>
+	 *
+	 * @return the all players
 	 */
 	public Collection<L2PcInstance> getAllPlayers()
 	{
@@ -269,8 +321,9 @@ public final class L2World
 	/**
 	 * Return the player instance corresponding to the given name.<BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param name Name of the player to get Instance
+	 * @return the player
 	 */
 	public L2PcInstance getPlayer(String name)
 	{
@@ -280,6 +333,12 @@ public final class L2World
 		
 	}
 	
+	/**
+	 * Gets the player.
+	 *
+	 * @param playerObjId the player obj id
+	 * @return the player
+	 */
 	public L2PcInstance getPlayer(int playerObjId)
 	{
 		synchronized(_allPlayers){
@@ -297,6 +356,8 @@ public final class L2World
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : Read-only, please! </B></FONT><BR>
 	 * <BR>
+	 *
+	 * @return the all pets
 	 */
 	public Collection<L2PetInstance> getAllPets()
 	{
@@ -306,8 +367,9 @@ public final class L2World
 	/**
 	 * Return the pet instance from the given ownerId.<BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param ownerId ID of the owner
+	 * @return the pet
 	 */
 	public L2PetInstance getPet(int ownerId)
 	{
@@ -317,9 +379,10 @@ public final class L2World
 	/**
 	 * Add the given pet instance from the given ownerId.<BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param ownerId ID of the owner
 	 * @param pet L2PetInstance of the pet
+	 * @return the l2 pet instance
 	 */
 	public L2PetInstance addPet(int ownerId, L2PetInstance pet)
 	{
@@ -377,9 +440,9 @@ public final class L2World
 	 * <BR>
 	 * <li>Drop an Item</li> <li>Spawn a L2Character</li> <li>Apply Death Penalty of a L2PcInstance</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param object L2object to add in the world
-	 * @param newregion L2WorldRegion in wich the object will be add (not used)
+	 * @param newRegion the new region
 	 * @param dropper L2Character who has dropped the object (if necessary)
 	 */
 	public void addVisibleObject(L2Object object, L2WorldRegion newRegion, L2Character dropper)
@@ -526,6 +589,8 @@ public final class L2World
 	/**
 	 * Add the L2PcInstance to _allPlayers of L2World.<BR>
 	 * <BR>
+	 *
+	 * @param cha the cha
 	 */
 	public void addToAllPlayers(L2PcInstance cha)
 	{
@@ -541,6 +606,8 @@ public final class L2World
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>Remove a player fom the visible objects</li><BR>
+	 *
+	 * @param cha the cha
 	 */
 	public void removeFromAllPlayers(L2PcInstance cha)
 	{
@@ -588,9 +655,9 @@ public final class L2World
 	 * <BR>
 	 * <li>Pickup an Item</li> <li>Decay a L2Character</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param object L2object to remove from the world
-	 * @param oldregion L2WorldRegion in wich the object was before removing
+	 * @param oldRegion the old region
 	 */
 	public void removeVisibleObject(L2Object object, L2WorldRegion oldRegion)
 	{
@@ -661,8 +728,9 @@ public final class L2World
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>Find Close Objects for L2Character</li><BR>
-	 * 
+	 *
 	 * @param object L2object that determine the current L2WorldRegion
+	 * @return the visible objects
 	 */
 	public FastList<L2Object> getVisibleObjects(L2Object object)
 	{
@@ -728,9 +796,10 @@ public final class L2World
 	 * <BR>
 	 * <li>Define the aggrolist of monster</li> <li>Define visible objects of a L2Object</li> <li>Skill : Confusion...</li>
 	 * <BR>
-	 * 
+	 *
 	 * @param object L2object that determine the center of the circular area
 	 * @param radius Radius of the circular area
+	 * @return the visible objects
 	 */
 	public FastList<L2Object> getVisibleObjects(final L2Object object, int radius)
 	{
@@ -805,9 +874,10 @@ public final class L2World
 	 * <BR>
 	 * <li>Define the target list of a skill</li> <li>Define the target list of a polearme attack</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param object L2object that determine the center of the circular area
 	 * @param radius Radius of the spheric area
+	 * @return the visible objects3 d
 	 */
 	public FastList<L2Object> getVisibleObjects3D(L2Object object, int radius)
 	{
@@ -876,8 +946,9 @@ public final class L2World
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>Find Close Objects for L2Character</li><BR>
-	 * 
+	 *
 	 * @param object L2object that determine the current L2WorldRegion
+	 * @return the visible playable
 	 */
 	public FastList<L2PlayableInstance> getVisiblePlayable(L2Object object)
 	{
@@ -938,14 +1009,22 @@ public final class L2World
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>Set position of a new L2Object (drop, spawn...)</li> <li>Update position of a L2Object after a mouvement</li><BR>
-	 * 
-	 * @param Point3D point position of the object
+	 *
+	 * @param point the point
+	 * @return the region
 	 */
 	public L2WorldRegion getRegion(Point3D point)
 	{
 		return _worldRegions[(point.getX() >> SHIFT_BY) + OFFSET_X][(point.getY() >> SHIFT_BY) + OFFSET_Y];
 	}
 
+	/**
+	 * Gets the region.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the region
+	 */
 	public L2WorldRegion getRegion(int x, int y)
 	{
 		return _worldRegions[(x >> SHIFT_BY) + OFFSET_X][(y >> SHIFT_BY) + OFFSET_Y];
@@ -954,8 +1033,8 @@ public final class L2World
 	/**
 	 * Returns the whole 2d array containing the world regions used by ZoneData.java to setup zones inside the world
 	 * regions
-	 * 
-	 * @return
+	 *
+	 * @return the all world regions
 	 */
 	public L2WorldRegion[][] getAllWorldRegions()
 	{
@@ -1042,6 +1121,12 @@ public final class L2World
 		_log.info("All visible NPC's deleted.");
 	}
 	
+	/**
+	 * Gets the account players.
+	 *
+	 * @param account_name the account_name
+	 * @return the account players
+	 */
 	public FastList<L2PcInstance> getAccountPlayers(String account_name){
 		
 		FastList<L2PcInstance> players_for_account = new FastList<L2PcInstance>();

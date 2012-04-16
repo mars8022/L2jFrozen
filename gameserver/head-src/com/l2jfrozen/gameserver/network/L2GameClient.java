@@ -74,7 +74,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	protected static final Logger _log = Logger.getLogger(L2GameClient.class.getName());
 
 	/**
-	 * CONNECTED - client has just connected AUTHED - client has authed but doesnt has character attached to it yet
+	 * CONNECTED - client has just connected AUTHED - client has authed but doesn't has character attached to it yet
 	 * IN_GAME - client has selected a char and is in game
 	 * 
 	 * @author KenM
@@ -271,7 +271,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	
 	/**
 	 * Method to handle character deletion
-	 * 
+	 * @param charslot 
 	 * @return a byte: <li>-1: Error: No char was found for such charslot, caught exception, etc... <li>0: character is
 	 *         not member of any clan, proceed with deletion <li>1: character is member of a clan, but not clan leader
 	 *         <li>2: character is clan leader
@@ -751,6 +751,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	
 	/**
 	 * Close client connection with {@link ServerClose} packet
+	 * @param delay 
 	 */
 	public void close(int delay)
 	{
@@ -1077,6 +1078,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	/**
 	 * Returns false if client can receive packets.
 	 * True if detached, or flood detected, or queue overflow detected and queue still not empty.
+	 * @return 
 	 */
 	public boolean dropPacket()
 	{
@@ -1113,6 +1115,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	
 	/**
 	 * Add packet to the queue and start worker thread if needed
+	 * @param packet 
 	 */
 	public void execute(ReceivablePacket<L2GameClient> packet)
 	{

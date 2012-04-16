@@ -22,23 +22,28 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Skill;
 
 /**
- * Format: (ch) d [dd]
- * 
+ * Format: (ch) d [dd].
+ *
  * @author -Wooden-
  */
 public class PledgeSkillList extends L2GameServerPacket
 {
+	/** The Constant _S__FE_39_PLEDGESKILLLIST. */
 	private static final String _S__FE_39_PLEDGESKILLLIST = "[S] FE:39 PledgeSkillList";
+	
+	/** The _clan. */
 	private L2Clan _clan;
 
+	/**
+	 * Instantiates a new pledge skill list.
+	 *
+	 * @param clan the clan
+	 */
 	public PledgeSkillList(L2Clan clan)
 	{
 		_clan = clan;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -55,7 +60,9 @@ public class PledgeSkillList extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()

@@ -19,10 +19,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.AllyCrest;
 public final class RequestAllyCrest extends L2GameClientPacket
 {
 	private int _crestId;
+	
 	/**
 	 * packet type id 0x88 format: cd
-	 *
-	 * @param rawPacket
 	 */
 	@Override
 	protected void readImpl()

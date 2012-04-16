@@ -19,17 +19,15 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: (ch)
- * 
+ * Format: (ch).
+ *
  * @author -Wooden-
  */
 public class ExRestartClient extends L2GameServerPacket
 {
+	/** The Constant _S__FE_47_EXRESTARTCLIENT. */
 	private static final String _S__FE_47_EXRESTARTCLIENT = "[S] FE:47 ExRestartClient";
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -38,12 +36,13 @@ public class ExRestartClient extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_47_EXRESTARTCLIENT;
 	}
-
 }

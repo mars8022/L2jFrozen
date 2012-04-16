@@ -40,10 +40,7 @@ public final class RequestDuelAnswerStart extends L2GameClientPacket
 		_unk1 = readD();
 		_response = readD();
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
+	
 	@Override
 	protected void runImpl()
 	{
@@ -118,5 +115,4 @@ public final class RequestDuelAnswerStart extends L2GameClientPacket
 	{
 		return "[C] D0:28 RequestDuelAnswerStart";
 	}
-
 }

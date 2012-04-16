@@ -55,6 +55,7 @@ public class L2Request
 	/**
 	 * Set the L2PcInstance member of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).<BR>
 	 * <BR>
+	 * @param partner 
 	 */
 	private synchronized void setPartner(L2PcInstance partner)
 	{
@@ -62,8 +63,7 @@ public class L2Request
 	}
 
 	/**
-	 * Return the L2PcInstance member of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).<BR>
-	 * <BR>
+	 * @return the L2PcInstance member of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).
 	 */
 	public L2PcInstance getPartner()
 	{
@@ -71,8 +71,8 @@ public class L2Request
 	}
 
 	/**
-	 * Set the packet incomed from requestor.<BR>
-	 * <BR>
+	 * Set the packet incomed from requester.
+	 * @param packet 
 	 */
 	private synchronized void setRequestPacket(L2GameClientPacket packet)
 	{
@@ -80,8 +80,7 @@ public class L2Request
 	}
 
 	/**
-	 * Return the packet originally incomed from requestor.<BR>
-	 * <BR>
+	 * @return the packet originally incomed from requester.
 	 */
 	public L2GameClientPacket getRequestPacket()
 	{
@@ -89,8 +88,10 @@ public class L2Request
 	}
 
 	/**
-	 * Checks if request can be made and in success case puts both PC on request state.<BR>
-	 * <BR>
+	 * Checks if request can be made and in success case puts both PC on request state.
+	 * @param partner 
+	 * @param packet 
+	 * @return 
 	 */
 	public synchronized boolean setRequest(L2PcInstance partner, L2GameClientPacket packet)
 	{
@@ -156,8 +157,7 @@ public class L2Request
 	}
 
 	/**
-	 * Return True if a transaction is in progress.<BR>
-	 * <BR>
+	 * @return true if a transaction is in progress.
 	 */
 	public boolean isProcessingRequest()
 	{

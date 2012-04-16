@@ -63,7 +63,7 @@ public class UserInfo extends L2GameServerPacket
 	public boolean _critical_test = false;
 	
 	/**
-	 * @param _characters
+	 * @param character 
 	 */
 	public UserInfo(L2PcInstance character)
 	{

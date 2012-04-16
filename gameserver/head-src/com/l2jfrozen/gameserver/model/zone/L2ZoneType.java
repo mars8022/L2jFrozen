@@ -70,15 +70,14 @@ public abstract class L2ZoneType
 
 	/**
 	 * Setup new parameters for this zone
-	 * 
-	 * @param type
+	 * @param name 
 	 * @param value
 	 */
 	public void setParameter(String name, String value)
 	{
 		_checkAffected = true;
 
-		// Minimum leve
+		// Minimum level
 		if(name.equals("affectedLvlMin"))
 		{
 			_minLvl = Integer.parseInt(value);
@@ -232,8 +231,6 @@ public abstract class L2ZoneType
 
 	/**
 	 * Returns this zones zone form
-	 * 
-	 * @param zone
 	 * @return
 	 */
 	public L2ZoneForm getZone()
@@ -247,6 +244,7 @@ public abstract class L2ZoneType
 	 * @param x
 	 * @param y
 	 * @param z
+	 * @return 
 	 */
 	public boolean isInsideZone(int x, int y, int z)
 	{
@@ -254,9 +252,10 @@ public abstract class L2ZoneType
 	}
 
 	/**
-	 * Checks if the given obejct is inside the zone.
+	 * Checks if the given object is inside the zone.
 	 * 
 	 * @param object
+	 * @return 
 	 */
 	public boolean isInsideZone(L2Object object)
 	{
@@ -275,7 +274,7 @@ public abstract class L2ZoneType
 
 	public void revalidateInZone(L2Character character)
 	{
-		// If the character cant be affected by this zone return
+		// If the character can't be affected by this zone return
 		if(_checkAffected)
 		{
 			if(!isAffected(character))
@@ -360,6 +359,7 @@ public abstract class L2ZoneType
 
 	/**
 	 * Broadcasts packet to all players inside the zone
+	 * @param packet 
 	 */
 	public void broadcastPacket(L2GameServerPacket packet)
 	{

@@ -41,49 +41,115 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
+/**
+ * The Class L2CubicInstance.
+ */
 public class L2CubicInstance
 {
+	
+	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(L2CubicInstance.class.getName());
 	
 	// Type of Cubics
+	/** The Constant STORM_CUBIC. */
 	public static final int STORM_CUBIC = 1;
+	
+	/** The Constant VAMPIRIC_CUBIC. */
 	public static final int VAMPIRIC_CUBIC = 2;
+	
+	/** The Constant LIFE_CUBIC. */
 	public static final int LIFE_CUBIC = 3;
+	
+	/** The Constant VIPER_CUBIC. */
 	public static final int VIPER_CUBIC = 4;
+	
+	/** The Constant POLTERGEIST_CUBIC. */
 	public static final int POLTERGEIST_CUBIC = 5;
+	
+	/** The Constant BINDING_CUBIC. */
 	public static final int BINDING_CUBIC = 6;
+	
+	/** The Constant AQUA_CUBIC. */
 	public static final int AQUA_CUBIC = 7;
+	
+	/** The Constant SPARK_CUBIC. */
 	public static final int SPARK_CUBIC = 8;
+	
+	/** The Constant ATTRACT_CUBIC. */
 	public static final int ATTRACT_CUBIC = 9;
+	
+	/** The Constant SMART_CUBIC_EVATEMPLAR. */
 	public static final int SMART_CUBIC_EVATEMPLAR = 10;
+	
+	/** The Constant SMART_CUBIC_SHILLIENTEMPLAR. */
 	public static final int SMART_CUBIC_SHILLIENTEMPLAR = 11;
+	
+	/** The Constant SMART_CUBIC_ARCANALORD. */
 	public static final int SMART_CUBIC_ARCANALORD = 12;
+	
+	/** The Constant SMART_CUBIC_ELEMENTALMASTER. */
 	public static final int SMART_CUBIC_ELEMENTALMASTER = 13;
+	
+	/** The Constant SMART_CUBIC_SPECTRALMASTER. */
 	public static final int SMART_CUBIC_SPECTRALMASTER = 14;
 	
 	// Max range of cubic skills
 	// TODO: Check/fix the max range
+	/** The Constant MAX_MAGIC_RANGE. */
 	public static final int MAX_MAGIC_RANGE = 900;
 	
 	// Cubic skills
+	/** The Constant SKILL_CUBIC_HEAL. */
 	public static final int SKILL_CUBIC_HEAL = 4051;
+	
+	/** The Constant SKILL_CUBIC_CURE. */
 	public static final int SKILL_CUBIC_CURE = 5579;
 	
+	/** The _owner. */
 	protected L2PcInstance _owner;
+	
+	/** The _target. */
 	protected L2Character _target;
 	
+	/** The _id. */
 	protected int _id;
+	
+	/** The _matk. */
 	protected int _matk;
+	
+	/** The _activationtime. */
 	protected int _activationtime;
+	
+	/** The _activationchance. */
 	protected int _activationchance;
+	
+	/** The _active. */
 	protected boolean _active;
+	
+	/** The _given by other. */
 	private boolean _givenByOther;
 	
+	/** The _skills. */
 	protected List<L2Skill> _skills = new FastList<L2Skill>();
 	
+	/** The _disappear task. */
 	private Future<?> _disappearTask;
+	
+	/** The _action task. */
 	private Future<?> _actionTask;
 	
+	/**
+	 * Instantiates a new l2 cubic instance.
+	 *
+	 * @param owner the owner
+	 * @param id the id
+	 * @param level the level
+	 * @param mAtk the m atk
+	 * @param activationtime the activationtime
+	 * @param activationchance the activationchance
+	 * @param totallifetime the totallifetime
+	 * @param givenByOther the given by other
+	 */
 	public L2CubicInstance(L2PcInstance owner, int id, int level, int mAtk, int activationtime,
 			int activationchance, int totallifetime, boolean givenByOther)
 	{
@@ -212,6 +278,9 @@ public class L2CubicInstance
 		_disappearTask = ThreadPoolManager.getInstance().scheduleGeneral(new Disappear(), totallifetime); // disappear
 	}
 	
+	/**
+	 * Do action.
+	 */
 	public synchronized void doAction()
 	{
 		if (_active)
@@ -241,27 +310,52 @@ public class L2CubicInstance
 		}
 	}
 	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId()
 	{
 		return _id;
 	}
 	
+	/**
+	 * Gets the owner.
+	 *
+	 * @return the owner
+	 */
 	public L2PcInstance getOwner()
 	{
 		return _owner;
 	}
 	
+	/**
+	 * Gets the m critical hit.
+	 *
+	 * @param target the target
+	 * @param skill the skill
+	 * @return the m critical hit
+	 */
 	public final int getMCriticalHit(L2Character target, L2Skill skill)
 	{
 		// TODO: Temporary now mcrit for cubics is the baseMCritRate of its owner
 		return _owner.getTemplate().baseMCritRate;
 	}
 	
+	/**
+	 * Gets the m atk.
+	 *
+	 * @return the m atk
+	 */
 	public int getMAtk()
 	{
 		return _matk;
 	}
 	
+	/**
+	 * Stop action.
+	 */
 	public void stopAction()
 	{
 		_target = null;
@@ -274,6 +368,9 @@ public class L2CubicInstance
 		_active = false;
 	}
 	
+	/**
+	 * Cancel disappear.
+	 */
 	public void cancelDisappear()
 	{
 		if (_disappearTask != null)
@@ -283,7 +380,9 @@ public class L2CubicInstance
 		}
 	}
 	
-	/** this sets the enemy target for a cubic */
+	/**
+	 * this sets the enemy target for a cubic.
+	 */
 	public void getCubicTarget()
 	{
 		try
@@ -446,16 +545,29 @@ public class L2CubicInstance
 		}
 	}
 	
+	/**
+	 * The Class Action.
+	 */
 	private class Action implements Runnable
 	{
+		
+		/** The _chance. */
 		private int _chance;
 		
+		/**
+		 * Instantiates a new action.
+		 *
+		 * @param chance the chance
+		 */
 		Action(int chance)
 		{
 			_chance = chance;
 			// run task
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -599,6 +711,13 @@ public class L2CubicInstance
 		}
 	}
 	
+	/**
+	 * Use cubic continuous.
+	 *
+	 * @param activeCubic the active cubic
+	 * @param skill the skill
+	 * @param targets the targets
+	 */
 	public void useCubicContinuous(L2CubicInstance activeCubic, L2Skill skill, L2Object[] targets)
 	{
 		for (L2Character target: (L2Character[]) targets)
@@ -632,6 +751,13 @@ public class L2CubicInstance
 		}
 	}
 	
+	/**
+	 * Use cubic mdam.
+	 *
+	 * @param activeCubic the active cubic
+	 * @param skill the skill
+	 * @param targets the targets
+	 */
 	public void useCubicMdam(L2CubicInstance activeCubic, L2Skill skill, L2Object[] targets)
 	{
 		for (L2Character target: (L2Character[]) targets)
@@ -679,6 +805,14 @@ public class L2CubicInstance
 		}
 	}
 	
+	/**
+	 * Use cubic disabler.
+	 *
+	 * @param type the type
+	 * @param activeCubic the active cubic
+	 * @param skill the skill
+	 * @param targets the targets
+	 */
 	public void useCubicDisabler(SkillType type, L2CubicInstance activeCubic, L2Skill skill, L2Object[] targets)
 	{
 		if (Config.DEBUG)
@@ -828,7 +962,13 @@ public class L2CubicInstance
 		}
 	}
 	
-	/** returns true if the target is inside of the owner's max Cubic range */
+	/**
+	 * returns true if the target is inside of the owner's max Cubic range.
+	 *
+	 * @param owner the owner
+	 * @param target the target
+	 * @return true, if is in cubic range
+	 */
 	public boolean isInCubicRange(L2Character owner, L2Character target)
 	{
 		if (owner == null || target == null)
@@ -845,7 +985,9 @@ public class L2CubicInstance
 		return ((x * x) + (y * y) + (z * z) <= (range * range));
 	}
 	
-	/** this sets the friendly target for a cubic */
+	/**
+	 * this sets the friendly target for a cubic.
+	 */
 	public void cubicTargetForHeal()
 	{
 		L2Character target = null;
@@ -924,19 +1066,33 @@ public class L2CubicInstance
 		_target = target;
 	}
 	
+	/**
+	 * Given by other.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean givenByOther()
 	{
 		return _givenByOther;
 	}
 	
+	/**
+	 * The Class Heal.
+	 */
 	private class Heal implements Runnable
 	{
 		
+		/**
+		 * Instantiates a new heal.
+		 */
 		Heal()
 		{
 			// run task
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -992,13 +1148,23 @@ public class L2CubicInstance
 		}
 	}
 	
+	/**
+	 * The Class Disappear.
+	 */
 	private class Disappear implements Runnable
 	{
+		
+		/**
+		 * Instantiates a new disappear.
+		 */
 		Disappear()
 		{
 			// run task
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{

@@ -31,6 +31,8 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2FestivalMonsterInstance extends L2MonsterInstance
 {
+	
+	/** The _bonus multiplier. */
 	protected int _bonusMultiplier = 1;
 
 	/**
@@ -42,15 +44,20 @@ public class L2FestivalMonsterInstance extends L2MonsterInstance
 	 * template to object and link _calculators to NPC_STD_CALCULATOR)</li> <li>Set the name of the L2MonsterInstance</li>
 	 * <li>Create a RandomAnimation Task that will be launched after the calculated delay if the server allow it</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param objectId Identifier of the object to initialized
-	 * @param L2NpcTemplate Template to apply to the NPC
+	 * @param template the template
 	 */
 	public L2FestivalMonsterInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/**
+	 * Sets the offering bonus.
+	 *
+	 * @param bonusMultiplier the new offering bonus
+	 */
 	public void setOfferingBonus(int bonusMultiplier)
 	{
 		_bonusMultiplier = bonusMultiplier;
@@ -59,6 +66,9 @@ public class L2FestivalMonsterInstance extends L2MonsterInstance
 	/**
 	 * Return True if the attacker is not another L2FestivalMonsterInstance.<BR>
 	 * <BR>
+	 *
+	 * @param attacker the attacker
+	 * @return true, if is auto attackable
 	 */
 	@Override
 	public boolean isAutoAttackable(L2Character attacker)
@@ -71,6 +81,8 @@ public class L2FestivalMonsterInstance extends L2MonsterInstance
 
 	/**
 	 * All mobs in the festival are aggressive, and have high aggro range.
+	 *
+	 * @return true, if is aggressive
 	 */
 	@Override
 	public boolean isAggressive()
@@ -80,6 +92,8 @@ public class L2FestivalMonsterInstance extends L2MonsterInstance
 
 	/**
 	 * All mobs in the festival really don't need random animation.
+	 *
+	 * @return true, if successful
 	 */
 	@Override
 	public boolean hasRandomAnimation()
@@ -91,6 +105,8 @@ public class L2FestivalMonsterInstance extends L2MonsterInstance
 	 * Actions: <li>Check if the killing object is a player, and then find the party they belong to.</li> <li>Add a
 	 * blood offering item to the leader of the party.</li> <li>Update the party leader's inventory to show the new item
 	 * addition.</li>
+	 *
+	 * @param lastAttacker the last attacker
 	 */
 	@Override
 	public void doItemDrop(L2Character lastAttacker)

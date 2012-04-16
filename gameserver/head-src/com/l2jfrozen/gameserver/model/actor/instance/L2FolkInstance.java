@@ -34,16 +34,29 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
+/**
+ * The Class L2FolkInstance.
+ */
 public class L2FolkInstance extends L2NpcInstance
 {
+	/** The _classes to teach. */
 	private final ClassId[] _classesToTeach;
 
+	/**
+	 * Instantiates a new l2 folk instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
+	 */
 	public L2FolkInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 		_classesToTeach = template.getTeachInfo();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onAction(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	public void onAction(L2PcInstance player)
 	{
@@ -53,8 +66,9 @@ public class L2FolkInstance extends L2NpcInstance
 
 	/**
 	 * this displays SkillList to the player.
-	 * 
-	 * @param player
+	 *
+	 * @param player the player
+	 * @param classId the class id
 	 */
 	public void showSkillList(L2PcInstance player, ClassId classId)
 	{
@@ -142,8 +156,9 @@ public class L2FolkInstance extends L2NpcInstance
 
 	/**
 	 * this displays EnchantSkillList to the player.
-	 * 
-	 * @param player
+	 *
+	 * @param player the player
+	 * @param classId the class id
 	 */
 	public void showEnchantSkillList(L2PcInstance player, ClassId classId)
 	{
@@ -243,6 +258,9 @@ public class L2FolkInstance extends L2NpcInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{

@@ -1134,21 +1134,23 @@ public class Olympiad
 	}
 
 	/**
-	 * @param noble
-	 * @return
+	 * @param noble the noblesse player to check.
+	 * @return true if the player is an spectator, false otherwise.
 	 */
-	private boolean isSpectator(L2PcInstance noble)
+	public boolean isSpectator(L2PcInstance noble)
 	{
 		if(_manager == null)
+		{
 			return false;
-		
-		for(L2OlympiadGame game:_manager.getOlympiadGames().values()){
-			
-			if(game.getSpectators().contains(noble))
-				return true;
-			
 		}
 		
+		for(L2OlympiadGame game : _manager.getOlympiadGames().values())
+		{
+			if(game.getSpectators().contains(noble))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 

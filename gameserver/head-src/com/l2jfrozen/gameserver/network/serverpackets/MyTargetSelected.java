@@ -39,19 +39,27 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  * 9 -> xx blue
  * <p>
  * <p>
- * usually the color equals the level difference to the selected target
- * 
+ * usually the color equals the level difference to the selected target.
+ *
  * @version $Revision: 1.3.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public class MyTargetSelected extends L2GameServerPacket
 {
+	
+	/** The Constant _S__BF_MYTARGETSELECTED. */
 	private static final String _S__BF_MYTARGETSELECTED = "[S] a6 MyTargetSelected";
+	
+	/** The _object id. */
 	private int _objectId;
+	
+	/** The _color. */
 	private int _color;
 
 	/**
-	 * @param int objectId of the target
-	 * @param int level difference to the target. name color is calculated from that
+	 * Instantiates a new my target selected.
+	 *
+	 * @param objectId the object id
+	 * @param color the color
 	 */
 	public MyTargetSelected(int objectId, int color)
 	{
@@ -59,6 +67,9 @@ public class MyTargetSelected extends L2GameServerPacket
 		_color = color;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{

@@ -31,17 +31,26 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class GMViewCharacterInfo extends L2GameServerPacket
 {
+	
+	/** The Constant _S__8F_GMVIEWCHARINFO. */
 	private static final String _S__8F_GMVIEWCHARINFO = "[S] 8F GMViewCharacterInfo";
+	
+	/** The _active char. */
 	private L2PcInstance _activeChar;
 
 	/**
-	 * @param _characters
+	 * Instantiates a new gM view character info.
+	 *
+	 * @param character the character
 	 */
 	public GMViewCharacterInfo(L2PcInstance character)
 	{
 		_activeChar = character;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{

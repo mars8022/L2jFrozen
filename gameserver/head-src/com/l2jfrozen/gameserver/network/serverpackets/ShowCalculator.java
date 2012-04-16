@@ -29,6 +29,7 @@ public class ShowCalculator extends L2GameServerPacket
 	private int _calculatorId;
 
 	/**
+	 * @param calculatorId 
 	 */
 	public ShowCalculator(int calculatorId)
 	{
@@ -41,10 +42,7 @@ public class ShowCalculator extends L2GameServerPacket
 		writeC(0xdc);
 		writeD(_calculatorId);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

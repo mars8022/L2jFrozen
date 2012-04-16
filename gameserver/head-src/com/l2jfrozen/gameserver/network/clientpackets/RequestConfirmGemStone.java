@@ -35,11 +35,7 @@ public final class RequestConfirmGemStone extends L2GameClientPacket
 	private int _refinerItemObjId;
 	private int _gemstoneItemObjId;
 	private int _gemstoneCount;
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
@@ -48,10 +44,7 @@ public final class RequestConfirmGemStone extends L2GameClientPacket
 		_gemstoneItemObjId = readD();
 		_gemstoneCount = readD();
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
+	
 	@Override
 	protected void runImpl()
 	{
@@ -116,5 +109,4 @@ public final class RequestConfirmGemStone extends L2GameClientPacket
 	{
 		return "[C] D0:2B RequestConfirmGemStone";
 	}
-
 }

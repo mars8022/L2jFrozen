@@ -30,6 +30,7 @@ public class AuthRequest extends GameServerBasePacket
 	 * @param hexid
 	 * @param externalHost
 	 * @param internalHost
+	 * @param port 
 	 * @param reserveHost
 	 * @param maxplayer
 	 */
@@ -46,14 +47,10 @@ public class AuthRequest extends GameServerBasePacket
 		writeD(hexid.length);
 		writeB(hexid);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
-	 */
+	
 	@Override
 	public byte[] getContent()
 	{
 		return getBytes();
 	}
-
 }

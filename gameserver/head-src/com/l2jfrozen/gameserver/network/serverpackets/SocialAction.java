@@ -31,8 +31,8 @@ public class SocialAction extends L2GameServerPacket
 
 	/**
 	 * 0x3d SocialAction dd
-	 * 
-	 * @param _characters
+	 * @param playerId 
+	 * @param actionId 
 	 */
 	public SocialAction(int playerId, int actionId)
 	{

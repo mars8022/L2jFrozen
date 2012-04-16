@@ -34,10 +34,7 @@ public class PackageSendableList extends L2GameServerPacket
 		_items = items;
 		_playerObjId = playerObjId;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -62,14 +59,10 @@ public class PackageSendableList extends L2GameServerPacket
 		}
 
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__C3_PACKAGESENDABLELIST;
 	}
-
 }

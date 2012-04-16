@@ -34,8 +34,8 @@ public class L2BossZone extends L2ZoneType
 {
 	private String _zoneName;
 	private int _timeInvade;
-	private boolean _enabled = true; // default value, unless overriden by xml...
-	private boolean _IsFlyingEnable = true; // default value, unless overriden by xml...
+	private boolean _enabled = true; // default value, unless overridden by xml...
+	private boolean _IsFlyingEnable = true; // default value, unless overridden by xml...
 
 	// track the times that players got disconnected. Players are allowed
 	// to log back into the zone as long as their log-out was within _timeInvade
@@ -296,8 +296,8 @@ public class L2BossZone extends L2ZoneType
 	 * the zone for some time. Naturally if the player does not enter within the allowed time, he/she will be teleported
 	 * out again...
 	 * 
-	 * @param player: reference to the player we wish to allow
-	 * @param durationInSec: amount of time in seconds during which entry is valid.
+	 * @param player reference to the player we wish to allow
+	 * @param durationInSec amount of time in seconds during which entry is valid.
 	 */
 	public void allowPlayerEntry(L2PcInstance player, int durationInSec)
 	{

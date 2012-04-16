@@ -18,17 +18,15 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch Trigger packet
- * 
+ * Format: ch Trigger packet.
+ *
  * @author KenM
  */
 public class ExShowVariationCancelWindow extends L2GameServerPacket
 {
+	/** The Constant _S__FE_51_EXSHOWVARIATIONCANCELWINDOW. */
 	private static final String _S__FE_51_EXSHOWVARIATIONCANCELWINDOW = "[S] FE:51 ExShowVariationCancelWindow";
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -37,12 +35,13 @@ public class ExShowVariationCancelWindow extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_51_EXSHOWVARIATIONCANCELWINDOW;
 	}
-
 }

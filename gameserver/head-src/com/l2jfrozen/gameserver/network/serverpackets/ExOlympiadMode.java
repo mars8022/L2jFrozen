@@ -27,17 +27,25 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ExOlympiadMode extends L2GameServerPacket
 {
 	// chc
+	/** The Constant _S__FE_2B_OLYMPIADMODE. */
 	private static final String _S__FE_2B_OLYMPIADMODE = "[S] FE:2B ExOlympiadMode";
+	
+	/** The _mode. */
 	private static int _mode;
 
 	/**
-	 * @param _mode (0 = return, 3 = spectate)
+	 * Instantiates a new ex olympiad mode.
+	 *
+	 * @param mode the mode
 	 */
 	public ExOlympiadMode(int mode)
 	{
 		_mode = mode;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{

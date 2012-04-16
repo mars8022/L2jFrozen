@@ -149,31 +149,29 @@ public class GameServerTable
 		catch(XMLStreamException xppe)
 		{
 			xppe.printStackTrace();
-		}finally{
-			
-			if(xpp != null){
-				try
-				{
-					xpp.close();
-				}
-				catch(XMLStreamException e)
-				{
-					e.printStackTrace();
-				}
+		}
+		finally
+		{
+			try
+			{
+				xpp.close();
+			}
+			catch(XMLStreamException e)
+			{
+				e.printStackTrace();
 			}
 			
-			if(reader != null){
-				try
-				{
-					reader.close();
-				}
-				catch(IOException e)
-				{
-					e.printStackTrace();
-				}
+			try
+			{
+				reader.close();
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
 			}
 			
-			if(in != null){
+			if(in != null)
+			{
 				try
 				{
 					in.close();
@@ -183,7 +181,6 @@ public class GameServerTable
 					e.printStackTrace();
 				}
 			}
-			
 		}
 	}
 

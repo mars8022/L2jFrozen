@@ -44,10 +44,14 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 public final class L2ClassMasterInstance extends L2FolkInstance
 {
 	
+	/** The _instance. */
 	private static L2ClassMasterInstance _instance;
 	
 	/**
-	 * @param template
+	 * Instantiates a new l2 class master instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2ClassMasterInstance(int objectId, L2NpcTemplate template)
 	{
@@ -55,6 +59,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		_instance = this;
 	}
 
+	/**
+	 * Gets the single instance of L2ClassMasterInstance.
+	 *
+	 * @return single instance of L2ClassMasterInstance
+	 */
 	public static L2ClassMasterInstance getInstance()
 	{
 		
@@ -62,6 +71,9 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onAction(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	public void onAction(L2PcInstance player)
 	{
@@ -198,6 +210,9 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -441,6 +456,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		}
 	}
 
+	/**
+	 * Show chat window choose class.
+	 *
+	 * @param player the player
+	 */
 	private void showChatWindowChooseClass(L2PcInstance player)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -465,6 +485,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		return;
 	}
 
+	/**
+	 * Show chat window1st.
+	 *
+	 * @param player the player
+	 */
 	private void showChatWindow1st(L2PcInstance player)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -502,6 +527,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		return;
 	}
 
+	/**
+	 * Show chat window2nd.
+	 *
+	 * @param player the player
+	 */
 	private void showChatWindow2nd(L2PcInstance player)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -552,6 +582,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		return;
 	}
 
+	/**
+	 * Show chat window3rd.
+	 *
+	 * @param player the player
+	 */
 	private void showChatWindow3rd(L2PcInstance player)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -602,6 +637,11 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		return;
 	}
 
+	/**
+	 * Show chat window base.
+	 *
+	 * @param player the player
+	 */
 	private void showChatWindowBase(L2PcInstance player)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
@@ -630,6 +670,12 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		return;
 	}
 
+	/**
+	 * Change class.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void changeClass(L2PcInstance player, int val)
 	{
 		if(Config.DEBUG)

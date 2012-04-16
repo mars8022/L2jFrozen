@@ -34,7 +34,7 @@ public class VehicleDeparture extends L2GameServerPacket
 	private int _z;
 
 	/**
-	 * @param _boat
+	 * @param boat 
 	 * @param speed1
 	 * @param speed2
 	 * @param x
@@ -50,10 +50,7 @@ public class VehicleDeparture extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -66,15 +63,10 @@ public class VehicleDeparture extends L2GameServerPacket
 		writeD(_z);
 
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
-		// TODO Auto-generated method stub
 		return "[S] 5A VehicleDeparture";
 	}
-
 }

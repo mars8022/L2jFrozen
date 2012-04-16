@@ -36,21 +36,14 @@ public class RequestConfirmRefinerItem extends L2GameClientPacket
 
 	private int _targetItemObjId;
 	private int _refinerItemObjId;
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
 		_targetItemObjId = readD();
 		_refinerItemObjId = readD();
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
+	
 	@Override
 	protected void runImpl()
 	{
@@ -151,5 +144,4 @@ public class RequestConfirmRefinerItem extends L2GameClientPacket
 	{
 		return "[C] D0:2A RequestConfirmRefinerItem";
 	}
-
 }

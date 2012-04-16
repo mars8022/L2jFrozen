@@ -47,13 +47,19 @@ public class L2MerchantInstance extends L2FolkInstance
 	//private static Logger _log = Logger.getLogger(L2MerchantInstance.class.getName());
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 merchant instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2MerchantInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#getHtmlPath(int, int)
+	 */
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -71,6 +77,12 @@ public class L2MerchantInstance extends L2FolkInstance
 		return "data/html/merchant/" + pom + ".htm";
 	}
 
+	/**
+	 * Show wear window.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void showWearWindow(L2PcInstance player, int val)
 	{
 		player.tempInvetoryDisable();
@@ -96,6 +108,12 @@ public class L2MerchantInstance extends L2FolkInstance
 		}
 	}
 
+	/**
+	 * Show buy window.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void showBuyWindow(L2PcInstance player, int val)
 	{
 		double taxRate = 0;
@@ -130,6 +148,11 @@ public class L2MerchantInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Show sell window.
+	 *
+	 * @param player the player
+	 */
 	private void showSellWindow(L2PcInstance player)
 	{
 		if(Config.DEBUG)
@@ -147,6 +170,9 @@ public class L2MerchantInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -215,6 +241,11 @@ public class L2MerchantInstance extends L2FolkInstance
 		actualCommand = null;
 	}
 
+	/**
+	 * Show rent pet window.
+	 *
+	 * @param player the player
+	 */
 	public void showRentPetWindow(L2PcInstance player)
 	{
 		if(!Config.LIST_PET_RENT_NPC.contains(getTemplate().npcId))
@@ -235,6 +266,12 @@ public class L2MerchantInstance extends L2FolkInstance
 		html1 = null;
 	}
 
+	/**
+	 * Try rent pet.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	public void tryRentPet(L2PcInstance player, int val)
 	{
 		if(player == null || player.getPet() != null || player.isMounted() || player.isRentedPet())
@@ -281,6 +318,9 @@ public class L2MerchantInstance extends L2FolkInstance
 		mount = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onActionShift(com.l2jfrozen.gameserver.network.L2GameClient)
+	 */
 	@Override
 	public void onActionShift(L2GameClient client)
 	{

@@ -42,7 +42,7 @@ public class L2CommandChannel
 
 	/**
 	 * Creates a New Command Channel and Add the Leaders party to the CC
-	 * @param CommandChannelLeader
+	 * @param leader 
 	 */
 	public L2CommandChannel(L2PcInstance leader)
 	{
@@ -57,8 +57,7 @@ public class L2CommandChannel
 
 	/**
 	 * Adds a Party to the Command Channel
-	 * 
-	 * @param Party
+	 * @param party 
 	 */
 	public void addParty(L2Party party)
 	{
@@ -79,8 +78,7 @@ public class L2CommandChannel
 
 	/**
 	 * Removes a Party from the Command Channel
-	 * 
-	 * @param Party
+	 * @param party 
 	 */
 	public void removeParty(L2Party party)
 	{
@@ -142,9 +140,8 @@ public class L2CommandChannel
 	}
 
 	/**
-	 * Broadcast packet to every channelmember
-	 * 
-	 * @param L2GameServerPacket
+	 * Broadcast packet to every channel member
+	 * @param gsp 
 	 */
 	public void broadcastToChannelMembers(L2GameServerPacket gsp)
 	{
@@ -203,7 +200,7 @@ public class L2CommandChannel
 	}
 
 	/**
-	 * @param sets the leader of the Command Channel
+	 * @param leader the leader of the Command Channel
 	 */
 	public void setChannelLeader(L2PcInstance leader)
 	{

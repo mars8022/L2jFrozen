@@ -18,17 +18,15 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch (trigger)
- * 
+ * Format: ch (trigger).
+ *
  * @author KenM
  */
 public class ExShowAdventurerGuideBook extends L2GameServerPacket
 {
+	/** The Constant _S__FE_37_EXSHOWADVENTURERGUIDEBOOK. */
 	private static final String _S__FE_37_EXSHOWADVENTURERGUIDEBOOK = "[S] FE:37 ExShowAdventurerGuideBook";
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -37,12 +35,13 @@ public class ExShowAdventurerGuideBook extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_37_EXSHOWADVENTURERGUIDEBOOK;
 	}
-
 }

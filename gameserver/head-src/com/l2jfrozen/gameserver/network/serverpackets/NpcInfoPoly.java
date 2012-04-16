@@ -33,23 +33,53 @@ public class NpcInfoPoly extends L2GameServerPacket
 {
 	//   ddddddddddddddddddffffdddcccccSSddd dddddc
 
+	/** The Constant _S__22_NPCINFO. */
 	private static final String _S__22_NPCINFO = "[S] 16 NpcInfo";
+	
+	/** The _active char. */
 	private L2Character _activeChar;
+	
+	/** The _obj. */
 	private L2Object _obj;
+	
+	/** The _heading. */
 	private int _x, _y, _z, _heading;
+	
+	/** The _npc id. */
 	private int _npcId;
+	
+	/** The _is alike dead. */
 	private boolean _isAttackable, _isSummoned, _isRunning, _isInCombat, _isAlikeDead;
+	
+	/** The _p atk spd. */
 	private int _mAtkSpd, _pAtkSpd;
+	
+	/** The _fly walk spd. */
 	private int _runSpd, _walkSpd, _swimRunSpd, _swimWalkSpd, _flRunSpd, _flWalkSpd, _flyRunSpd, _flyWalkSpd;
+	
+	/** The _lhand. */
 	private int _rhand, _lhand;
+	
+	/** The _title. */
 	private String _name, _title;
+	
+	/** The _abnormal effect. */
 	private int _abnormalEffect;
+	
+	/** The _template. */
 	L2NpcTemplate _template;
+	
+	/** The _collision radius. */
 	private int _collisionRadius;
+	
+	/** The _collision height. */
 	private int _collisionHeight;
 
 	/**
-	 * @param _characters
+	 * Instantiates a new npc info poly.
+	 *
+	 * @param obj the obj
+	 * @param attacker the attacker
 	 */
 	public NpcInfoPoly(L2Object obj, L2Character attacker)
 	{
@@ -110,6 +140,9 @@ public class NpcInfoPoly extends L2GameServerPacket
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{

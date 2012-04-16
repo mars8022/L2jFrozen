@@ -34,10 +34,7 @@ public class PledgeReceiveWarList extends L2GameServerPacket
 		_clan = clan;
 		_tab = tab;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -60,14 +57,10 @@ public class PledgeReceiveWarList extends L2GameServerPacket
 			writeD(_tab); //??
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_3E_PLEDGERECEIVEWARELIST;
 	}
-
 }

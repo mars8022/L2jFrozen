@@ -31,6 +31,7 @@ public class ShowMiniMap extends L2GameServerPacket
 	private int _mapId;
 
 	/**
+	 * @param mapId 
 	 */
 	public ShowMiniMap(int mapId)
 	{
@@ -44,10 +45,7 @@ public class ShowMiniMap extends L2GameServerPacket
 		writeD(_mapId);
 		writeD(SevenSigns.getInstance().getCurrentPeriod());
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

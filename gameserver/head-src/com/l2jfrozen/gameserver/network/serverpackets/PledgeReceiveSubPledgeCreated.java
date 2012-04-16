@@ -28,16 +28,13 @@ public class PledgeReceiveSubPledgeCreated extends L2GameServerPacket
 	private SubPledge _subPledge;
 
 	/**
-	 * @param member
+	 * @param subPledge 
 	 */
 	public PledgeReceiveSubPledgeCreated(SubPledge subPledge)
 	{
 		_subPledge = subPledge;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -49,14 +46,10 @@ public class PledgeReceiveSubPledgeCreated extends L2GameServerPacket
 		writeS(_subPledge.getName());
 		writeS(_subPledge.getLeaderName());
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_3F_PLEDGERECEIVESUBPLEDGECREATED;
 	}
-
 }

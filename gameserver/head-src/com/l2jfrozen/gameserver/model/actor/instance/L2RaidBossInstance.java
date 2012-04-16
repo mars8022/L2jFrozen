@@ -38,8 +38,11 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class L2RaidBossInstance extends L2MonsterInstance
 {
+	
+	/** The Constant RAIDBOSS_MAINTENANCE_INTERVAL. */
 	private static final int RAIDBOSS_MAINTENANCE_INTERVAL = 20000; // 20 sec
 
+	/** The _raid status. */
 	private RaidBossSpawnManager.StatusEnum _raidStatus;
 
 	/**
@@ -51,27 +54,36 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 	 * object and link _calculators to NPC_STD_CALCULATOR)</li> <li>Set the name of the L2RaidBossInstance</li> <li>
 	 * Create a RandomAnimation Task that will be launched after the calculated delay if the server allow it</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param objectId Identifier of the object to initialized
-	 * @param L2NpcTemplate Template to apply to the NPC
+	 * @param template the template
 	 */
 	public L2RaidBossInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#isRaid()
+	 */
 	@Override
 	public boolean isRaid()
 	{
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance#getMaintenanceInterval()
+	 */
 	@Override
 	protected int getMaintenanceInterval()
 	{
 		return RAIDBOSS_MAINTENANCE_INTERVAL;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance#doDie(com.l2jfrozen.gameserver.model.L2Character)
+	 */
 	@Override
 	public boolean doDie(L2Character killer)
 	{
@@ -109,7 +121,7 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 
 	/**
 	 * Spawn all minions at a regular interval Also if boss is too far from home location at the time of this check,
-	 * teleport it home
+	 * teleport it home.
 	 */
 	@Override
 	protected void manageMinions()
@@ -145,11 +157,21 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 		}, 60000, getMaintenanceInterval());
 	}
 
+	/**
+	 * Sets the raid status.
+	 *
+	 * @param status the new raid status
+	 */
 	public void setRaidStatus(RaidBossSpawnManager.StatusEnum status)
 	{
 		_raidStatus = status;
 	}
 
+	/**
+	 * Gets the raid status.
+	 *
+	 * @return the raid status
+	 */
 	public RaidBossSpawnManager.StatusEnum getRaidStatus()
 	{
 		return _raidStatus;
@@ -158,6 +180,10 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 	/**
 	 * Reduce the current HP of the L2Attackable, update its _aggroList and launch the doDie Task if necessary.<BR>
 	 * <BR>
+	 *
+	 * @param damage the damage
+	 * @param attacker the attacker
+	 * @param awake the awake
 	 */
 	@Override
 	public void reduceCurrentHp(double damage, L2Character attacker, boolean awake)
@@ -165,6 +191,9 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 		super.reduceCurrentHp(damage, attacker, awake);
 	}
 
+	/**
+	 * Heal full.
+	 */
 	public void healFull()
 	{
 		super.setCurrentHp(super.getMaxHp());

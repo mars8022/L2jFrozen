@@ -31,7 +31,7 @@ public class AutoAttackStop extends L2GameServerPacket
 	private int _targetObjId;
 
 	/**
-	 * @param _characters
+	 * @param targetObjId 
 	 */
 	public AutoAttackStop(int targetObjId)
 	{
@@ -44,10 +44,7 @@ public class AutoAttackStop extends L2GameServerPacket
 		writeC(0x2c);
 		writeD(_targetObjId);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

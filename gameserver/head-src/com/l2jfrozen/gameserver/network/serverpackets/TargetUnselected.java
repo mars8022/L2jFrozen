@@ -34,7 +34,7 @@ public class TargetUnselected extends L2GameServerPacket
 	private int _z;
 
 	/**
-	 * @param _characters
+	 * @param character 
 	 */
 	public TargetUnselected(L2Character character)
 	{

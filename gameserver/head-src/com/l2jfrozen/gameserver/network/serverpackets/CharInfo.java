@@ -82,7 +82,7 @@ public class CharInfo extends L2GameServerPacket
 	private int _maxCp;
 
 	/**
-	 * @param _characters
+	 * @param cha 
 	 */
 	public CharInfo(L2PcInstance cha)
 	{

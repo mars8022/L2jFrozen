@@ -42,8 +42,7 @@ public class L2MinionData
 	/**
 	 * Set the Identifier of the Minion to spawn.<BR>
 	 * <BR>
-	 * 
-	 * @param if The L2Character Identifier to spawn
+	 * @param id 
 	 */
 	public void setMinionId(int id)
 	{
@@ -51,8 +50,7 @@ public class L2MinionData
 	}
 
 	/**
-	 * Return the Identifier of the Minion to spawn.<BR>
-	 * <BR>
+	 * @return the Identifier of the Minion to spawn.
 	 */
 	public int getMinionId()
 	{
@@ -93,8 +91,7 @@ public class L2MinionData
 	}
 
 	/**
-	 * Return the amount of this Minion type to spawn.<BR>
-	 * <BR>
+	 * @return the amount of this Minion type to spawn.
 	 */
 	public int getAmount()
 	{

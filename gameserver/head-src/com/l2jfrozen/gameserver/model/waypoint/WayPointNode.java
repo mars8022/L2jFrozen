@@ -190,8 +190,8 @@ public class WayPointNode extends L2Object
 	}
 
 	/**
-	 * @param target
-	 * @param selectedNode
+	 * @param nodeA 
+	 * @param nodeB 
 	 */
 	public static void drawLine(WayPointNode nodeA, WayPointNode nodeB)
 	{

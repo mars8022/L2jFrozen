@@ -38,28 +38,54 @@ import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
+/**
+ * The Class CharStatus.
+ */
 public class CharStatus
 {
+	
+	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(CharStatus.class.getName());
 
 	// =========================================================
 	// Data Field
+	/** The _active char. */
 	private L2Character _activeChar;
+	
+	/** The _current cp. */
 	private double _currentCp = 0; //Current CP of the L2Character
+	
+	/** The _current hp. */
 	private double _currentHp = 0; //Current HP of the L2Character
+	
+	/** The _current mp. */
 	private double _currentMp = 0; //Current MP of the L2Character
 
-	/** Array containing all clients that need to be notified about hp/mp updates of the L2Character */
+	/** Array containing all clients that need to be notified about hp/mp updates of the L2Character. */
 	private Set<L2Character> _StatusListener;
 
+	/** The _reg task. */
 	private Future<?> _regTask;
+	
+	/** The _flags regen active. */
 	private byte _flagsRegenActive = 0;
+	
+	/** The Constant REGEN_FLAG_CP. */
 	private static final byte REGEN_FLAG_CP = 4;
+	
+	/** The Constant REGEN_FLAG_HP. */
 	private static final byte REGEN_FLAG_HP = 1;
+	
+	/** The Constant REGEN_FLAG_MP. */
 	private static final byte REGEN_FLAG_MP = 2;
 
 	// =========================================================
 	// Constructor
+	/**
+	 * Instantiates a new char status.
+	 *
+	 * @param activeChar the active char
+	 */
 	public CharStatus(L2Character activeChar)
 	{
 		_activeChar = activeChar;
@@ -92,6 +118,11 @@ public class CharStatus
 		}
 	}
 
+	/**
+	 * Reduce cp.
+	 *
+	 * @param value the value
+	 */
 	public final void reduceCp(int value)
 	{
 		if(getCurrentCp() > value)
@@ -111,16 +142,22 @@ public class CharStatus
 	 * <BR>
 	 * <li>L2Attackable : Update the attacker AggroInfo of the L2Attackable _aggroList</li><BR>
 	 * <BR>
-	 * 
-	 * @param i The HP decrease value
+	 *
+	 * @param value the value
 	 * @param attacker The L2Character who attacks
-	 * @param awake The awake state (If True : stop sleeping)
 	 */
 	public void reduceHp(double value, L2Character attacker)
 	{
 		reduceHp(value, attacker, true);
 	}
 
+	/**
+	 * Reduce hp.
+	 *
+	 * @param value the value
+	 * @param attacker the attacker
+	 * @param awake the awake
+	 */
 	public void reduceHp(double value, L2Character attacker, boolean awake)
 	{
 		if(getActiveChar().isInvul())
@@ -263,6 +300,11 @@ public class CharStatus
 		}
 	}
 
+	/**
+	 * Reduce mp.
+	 *
+	 * @param value the value
+	 */
 	public final void reduceMp(double value)
 	{
 		value = getCurrentMp() - value;
@@ -355,31 +397,64 @@ public class CharStatus
 
 	// =========================================================
 	// Property - Public
+	/**
+	 * Gets the active char.
+	 *
+	 * @return the active char
+	 */
 	public L2Character getActiveChar()
 	{
 		return _activeChar;
 	}
 
+	/**
+	 * Gets the current cp.
+	 *
+	 * @return the current cp
+	 */
 	public final double getCurrentCp()
 	{
 		return _currentCp;
 	}
 
+	/**
+	 * Sets the current cp direct.
+	 *
+	 * @param newCp the new current cp direct
+	 */
 	public final void setCurrentCpDirect(double newCp)
 	{
 		setCurrentCp(newCp, true, true);
 	}
 	
+	/**
+	 * Sets the current cp.
+	 *
+	 * @param newCp the new current cp
+	 */
 	public final void setCurrentCp(double newCp)
 	{
 		setCurrentCp(newCp, true, false);
 	}
 
+	/**
+	 * Sets the current cp.
+	 *
+	 * @param newCp the new cp
+	 * @param broadcastPacket the broadcast packet
+	 */
 	public final void setCurrentCp(double newCp, boolean broadcastPacket)
 	{
 		setCurrentCp(newCp, broadcastPacket, false);
 	}
 	
+	/**
+	 * Sets the current cp.
+	 *
+	 * @param newCp the new cp
+	 * @param broadcastPacket the broadcast packet
+	 * @param direct the direct
+	 */
 	public final void setCurrentCp(double newCp, boolean broadcastPacket, boolean direct)
 	{
 		synchronized (this)
@@ -422,31 +497,64 @@ public class CharStatus
 		}
 	}
 
+	/**
+	 * Gets the current hp.
+	 *
+	 * @return the current hp
+	 */
 	public final double getCurrentHp()
 	{
 		return _currentHp;
 	}
 
+	/**
+	 * Sets the current hp.
+	 *
+	 * @param newHp the new current hp
+	 */
 	public final void setCurrentHp(double newHp)
 	{
 		setCurrentHp(newHp, true);
 	}
 	
+	/**
+	 * Sets the current hp direct.
+	 *
+	 * @param newHp the new current hp direct
+	 */
 	public final void setCurrentHpDirect(double newHp)
 	{
 		setCurrentHp(newHp, true, true);
 	}
 	
+	/**
+	 * Sets the current mp direct.
+	 *
+	 * @param newMp the new current mp direct
+	 */
 	public final void setCurrentMpDirect(double newMp)
 	{
 		setCurrentMp(newMp, true, true);
 	}
 
+	/**
+	 * Sets the current hp.
+	 *
+	 * @param newHp the new hp
+	 * @param broadcastPacket the broadcast packet
+	 */
 	public final void setCurrentHp(double newHp, boolean broadcastPacket)
 	{
 		setCurrentHp(newHp, true, false);
 	}
 	
+	/**
+	 * Sets the current hp.
+	 *
+	 * @param newHp the new hp
+	 * @param broadcastPacket the broadcast packet
+	 * @param direct the direct
+	 */
 	public final void setCurrentHp(double newHp, boolean broadcastPacket, boolean direct)
 	{
 		synchronized (this)
@@ -491,27 +599,56 @@ public class CharStatus
 		}
 	}
 
+	/**
+	 * Sets the current hp mp.
+	 *
+	 * @param newHp the new hp
+	 * @param newMp the new mp
+	 */
 	public final void setCurrentHpMp(double newHp, double newMp)
 	{
 		setCurrentHp(newHp, false,false);
 		setCurrentMp(newMp, true,false); //send the StatusUpdate only once
 	}
 
+	/**
+	 * Gets the current mp.
+	 *
+	 * @return the current mp
+	 */
 	public final double getCurrentMp()
 	{
 		return _currentMp;
 	}
 
+	/**
+	 * Sets the current mp.
+	 *
+	 * @param newMp the new current mp
+	 */
 	public final void setCurrentMp(double newMp)
 	{
 		setCurrentMp(newMp, true);
 	}
 
+	/**
+	 * Sets the current mp.
+	 *
+	 * @param newMp the new mp
+	 * @param broadcastPacket the broadcast packet
+	 */
 	public final void setCurrentMp(double newMp, boolean broadcastPacket)
 	{
 		setCurrentMp(newMp, broadcastPacket,false);
 	}
 	
+	/**
+	 * Sets the current mp.
+	 *
+	 * @param newMp the new mp
+	 * @param broadcastPacket the broadcast packet
+	 * @param direct the direct
+	 */
 	public final void setCurrentMp(double newMp, boolean broadcastPacket, boolean direct)
 	{
 		synchronized (this)
@@ -573,9 +710,15 @@ public class CharStatus
 
 	// =========================================================
 	// Runnable
-	/** Task of HP/MP/CP regeneration */
+	/**
+	 * Task of HP/MP/CP regeneration.
+	 */
 	class RegenTask implements Runnable
 	{
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{

@@ -23,23 +23,29 @@ import java.util.List;
 import com.l2jfrozen.util.Point3D;
 
 /**
- * Format: (ch) d[ddddd]
- * 
+ * Format: (ch) d[ddddd].
+ *
  * @author -Wooden-
  */
 public class ExCursedWeaponLocation extends L2GameServerPacket
 {
+	
+	/** The Constant _S__FE_46_EXCURSEDWEAPONLOCATION. */
 	private static final String _S__FE_46_EXCURSEDWEAPONLOCATION = "[S] FE:46 ExCursedWeaponLocation";
+	
+	/** The _cursed weapon info. */
 	private List<CursedWeaponInfo> _cursedWeaponInfo;
 
+	/**
+	 * Instantiates a new ex cursed weapon location.
+	 *
+	 * @param cursedWeaponInfo the cursed weapon info
+	 */
 	public ExCursedWeaponLocation(List<CursedWeaponInfo> cursedWeaponInfo)
 	{
 		_cursedWeaponInfo = cursedWeaponInfo;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -67,7 +73,9 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
@@ -75,18 +83,33 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 		return _S__FE_46_EXCURSEDWEAPONLOCATION;
 	}
 
+	/**
+	 * The Class CursedWeaponInfo.
+	 */
 	public static class CursedWeaponInfo
 	{
+		
+		/** The pos. */
 		public Point3D pos;
+		
+		/** The id. */
 		public int id;
+		
+		/** The activated. */
 		public int activated; //0 - not activated ? 1 - activated
 
+		/**
+		 * Instantiates a new cursed weapon info.
+		 *
+		 * @param p the p
+		 * @param ID the iD
+		 * @param status the status
+		 */
 		public CursedWeaponInfo(Point3D p, int ID, int status)
 		{
 			pos = p;
 			id = ID;
 			activated = status;
 		}
-
 	}
 }
