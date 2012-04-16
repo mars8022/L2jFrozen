@@ -33,11 +33,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 public final class RequestConfirmTargetItem extends L2GameClientPacket
 {
 	private int _itemObjId;
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
@@ -115,5 +111,4 @@ public final class RequestConfirmTargetItem extends L2GameClientPacket
 	{
 		return "[C] D0:29 RequestConfirmTargetItem";
 	}
-
 }

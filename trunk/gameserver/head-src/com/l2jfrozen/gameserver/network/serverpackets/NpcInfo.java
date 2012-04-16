@@ -36,20 +36,44 @@ public class NpcInfo extends L2GameServerPacket
 	//   ddddddddddddddddddffffdddcccccSSddd dddddc
 	//   ddddddddddddddddddffffdddcccccSSddd dddddccffd
 
+	/** The Constant _S__22_NPCINFO. */
 	private static final String _S__22_NPCINFO = "[S] 16 NpcInfo";
+	
+	/** The _active char. */
 	private L2Character _activeChar;
+	
+	/** The _heading. */
 	private int _x, _y, _z, _heading;
+	
+	/** The _id template. */
 	private int _idTemplate;
+	
+	/** The _is summoned. */
 	private boolean _isAttackable, _isSummoned;
+	
+	/** The _p atk spd. */
 	private int _mAtkSpd, _pAtkSpd;
+	
+	/** The _fly walk spd. */
 	private int _runSpd, _walkSpd, _swimRunSpd, _swimWalkSpd, _flRunSpd, _flWalkSpd, _flyRunSpd, _flyWalkSpd;
+	
+	/** The _lhand. */
 	private int _rhand, _lhand;
+	
+	/** The _collision radius. */
 	private int _collisionHeight, _collisionRadius;
+	
+	/** The _name. */
 	private String _name = "";
+	
+	/** The _title. */
 	private String _title = "";
 
 	/**
-	 * @param _characters
+	 * Instantiates a new npc info.
+	 *
+	 * @param cha the cha
+	 * @param attacker the attacker
 	 */
 	public NpcInfo(L2NpcInstance cha, L2Character attacker)
 	{
@@ -115,6 +139,12 @@ public class NpcInfo extends L2GameServerPacket
 		_swimWalkSpd = _flWalkSpd = _flyWalkSpd = _walkSpd;
 	}
 
+	/**
+	 * Instantiates a new npc info.
+	 *
+	 * @param cha the cha
+	 * @param attacker the attacker
+	 */
 	public NpcInfo(L2Summon cha, L2Character attacker)
 	{
 		_activeChar = cha;
@@ -143,6 +173,9 @@ public class NpcInfo extends L2GameServerPacket
 		_swimWalkSpd = _flWalkSpd = _flyWalkSpd = _walkSpd;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{

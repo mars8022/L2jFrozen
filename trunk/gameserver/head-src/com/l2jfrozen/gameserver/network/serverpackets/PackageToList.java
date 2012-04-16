@@ -35,10 +35,7 @@ public class PackageToList extends L2GameServerPacket
 	{
 		_players = players;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -50,14 +47,10 @@ public class PackageToList extends L2GameServerPacket
 			writeS(_players.get(objId));
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__C2_PACKAGETOLIST;
 	}
-
 }

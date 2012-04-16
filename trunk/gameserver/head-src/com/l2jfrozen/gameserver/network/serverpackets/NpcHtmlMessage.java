@@ -38,8 +38,8 @@ import com.l2jfrozen.gameserver.network.clientpackets.RequestBypassToServer;
  * <br> <li>TYPE<br> <li>MAXLENGTH<br> <li>CHECKED<br> <li>SRC<br> <li>Y<br> <li>X<br> <li>QUERYDELAY<br> <li>
  * NOSCROLLBAR<br> <li>IMGSRC<br> <li>B<br> <li>FG<br> <li>SIZE<br> <li>FACE<br> <li>COLOR<br> <li>DEFFON<br> <li>
  * DEFFIXEDFONT<br> <li>WIDTH<br> <li>VALUE<br> <li>TOOLTIP<br> <li>NAME<br> <li>MIN<br> <li>MAX<br> <li>HEIGHT<br> <li>
- * DISABLED<br> <li>ALIGN<br> <li>MSG<br> <li>LINK<br> <li>HREF<br> <li>ACTION<br>
- * 
+ * DISABLED<br> <li>ALIGN<br> <li>MSG<br> <li>LINK<br> <li>HREF<br> <li>ACTION<br>.
+ *
  * @version $Revision: 1.3.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class NpcHtmlMessage extends L2GameServerPacket
@@ -47,14 +47,26 @@ public class NpcHtmlMessage extends L2GameServerPacket
 	// d S
 	// d is usually 0, S is the html text starting with <html> and ending with </html>
 	//
+	/** The Constant _S__1B_NPCHTMLMESSAGE. */
 	private static final String _S__1B_NPCHTMLMESSAGE = "[S] 0f NpcHtmlMessage";
+	
+	/** The _log. */
 	private static Logger _log = Logger.getLogger(RequestBypassToServer.class.getName());
+	
+	/** The _npc obj id. */
 	private int _npcObjId;
+	
+	/** The _html. */
 	private String _html;
+	
+	/** The _validate. */
 	private boolean _validate = true;
 
 	/**
-	 * @param _characters
+	 * Instantiates a new npc html message.
+	 *
+	 * @param npcObjId the npc obj id
+	 * @param text the text
 	 */
 	public NpcHtmlMessage(int npcObjId, String text)
 	{
@@ -62,11 +74,19 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		setHtml(text);
 	}
 
+	/**
+	 * Instantiates a new npc html message.
+	 *
+	 * @param npcObjId the npc obj id
+	 */
 	public NpcHtmlMessage(int npcObjId)
 	{
 		_npcObjId = npcObjId;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#runImpl()
+	 */
 	@Override
 	public void runImpl()
 	{
@@ -77,6 +97,11 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		}
 	}
 
+	/**
+	 * Sets the html.
+	 *
+	 * @param text the new html
+	 */
 	public void setHtml(String text)
 	{
 		if(text==null){
@@ -95,6 +120,12 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		_html = text; // html code must not exceed 8192 bytes
 	}
 
+	/**
+	 * Sets the file.
+	 *
+	 * @param path the path
+	 * @return true, if successful
+	 */
 	public boolean setFile(String path)
 	{
 		String content = HtmCache.getInstance().getHtm(path);
@@ -110,11 +141,22 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		return true;
 	}
 
+	/**
+	 * Replace.
+	 *
+	 * @param pattern the pattern
+	 * @param value the value
+	 */
 	public void replace(String pattern, String value)
 	{
 		_html = _html.replaceAll(pattern, value);
 	}
 
+	/**
+	 * Builds the bypass cache.
+	 *
+	 * @param activeChar the active char
+	 */
 	private final void buildBypassCache(L2PcInstance activeChar)
 	{
 		if(activeChar == null)
@@ -147,6 +189,11 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		}
 	}
 
+	/**
+	 * Builds the links cache.
+	 *
+	 * @param activeChar the active char
+	 */
 	private final void buildLinksCache(L2PcInstance activeChar)
 	{
 		if(activeChar == null)
@@ -167,6 +214,9 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{
@@ -186,6 +236,11 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		return _S__1B_NPCHTMLMESSAGE;
 	}
 	
+	/**
+	 * Gets the content.
+	 *
+	 * @return the content
+	 */
 	public String getContent(){
 		return _html;
 	}

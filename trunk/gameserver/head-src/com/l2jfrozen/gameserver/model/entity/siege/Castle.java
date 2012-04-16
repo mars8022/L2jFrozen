@@ -152,7 +152,10 @@ public class Castle
 	}
 
 	// This method add to the treasury
-	/** Add amount to castle instance's treasury (warehouse). */
+	/**
+	 * Add amount to castle instance's treasury (warehouse). 
+	 * @param amount
+	 */
 	public void addToTreasury(int amount)
 	{
 		if(getOwnerId() <= 0)
@@ -197,7 +200,11 @@ public class Castle
 		addToTreasuryNoTax(amount);
 	}
 
-	/** Add amount to castle instance's treasury (warehouse), no tax paying. */
+	/**
+	 * Add amount to castle instance's treasury (warehouse), no tax paying. 
+	 * @param amount 
+	 * @return
+	 */
 	public boolean addToTreasuryNoTax(int amount)
 	{
 		if(getOwnerId() <= 0)
@@ -257,7 +264,10 @@ public class Castle
 	}
 
 	/**
-	 * Return true if object is inside the zone
+	 * @param x 
+	 * @param y 
+	 * @param z 
+	 * @return true if object is inside the zone
 	 */
 	public boolean checkIfInZone(int x, int y, int z)
 	{
@@ -466,8 +476,8 @@ public class Castle
 	}
 
 	/**
-	 * Respawn all doors on castle grounds<BR>
-	 * <BR>
+	 * Respawn all doors on castle grounds
+	 * @param isDoorWeak 
 	 */
 	public void spawnDoor(boolean isDoorWeak)
 	{

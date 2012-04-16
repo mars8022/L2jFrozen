@@ -34,7 +34,7 @@ public final class L2MinionInstance extends L2MonsterInstance
 {
 	//private static Logger _log = Logger.getLogger(L2RaidMinionInstance.class.getName());
 
-	/** The master L2Character whose depends this L2MinionInstance on */
+	/** The master L2Character whose depends this L2MinionInstance on. */
 	private L2MonsterInstance _master;
 
 	/**
@@ -46,16 +46,20 @@ public final class L2MinionInstance extends L2MonsterInstance
 	 * object and link _calculators to NPC_STD_CALCULATOR)</li> <li>Set the name of the L2MinionInstance</li> <li>Create
 	 * a RandomAnimation Task that will be launched after the calculated delay if the server allow it</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param objectId Identifier of the object to initialized
-	 * @param L2NpcTemplate Template to apply to the NPC
+	 * @param template the template
 	 */
 	public L2MinionInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
-	/** Return True if the L2Character is minion of RaidBoss. */
+	/**
+	 * Return True if the L2Character is minion of RaidBoss.
+	 *
+	 * @return true, if is raid
+	 */
 	@Override
 	public boolean isRaid()
 	{
@@ -65,12 +69,17 @@ public final class L2MinionInstance extends L2MonsterInstance
 	/**
 	 * Return the master of this L2MinionInstance.<BR>
 	 * <BR>
+	 *
+	 * @return the leader
 	 */
 	public L2MonsterInstance getLeader()
 	{
 		return _master;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance#onSpawn()
+	 */
 	@Override
 	public void onSpawn()
 	{
@@ -101,9 +110,10 @@ public final class L2MinionInstance extends L2MonsterInstance
 	/**
 	 * Manages the doDie event for this L2MinionInstance.<BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param killer The L2Character that killed this L2MinionInstance.<BR>
 	 * <BR>
+	 * @return true, if successful
 	 */
 	@Override
 	public boolean doDie(L2Character killer)

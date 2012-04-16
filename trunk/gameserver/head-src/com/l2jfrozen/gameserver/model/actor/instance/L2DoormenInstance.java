@@ -42,21 +42,41 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2DoormenInstance extends L2FolkInstance
 {
+	
+	/** The _clan hall. */
 	private ClanHall _clanHall;
+	
+	/** The CON d_ al l_ false. */
 	private static int COND_ALL_FALSE = 0;
+	
+	/** The CON d_ bus y_ becaus e_ o f_ siege. */
 	private static int COND_BUSY_BECAUSE_OF_SIEGE = 1;
+	
+	/** The CON d_ castl e_ owner. */
 	private static int COND_CASTLE_OWNER = 2;
+	
+	/** The CON d_ hal l_ owner. */
 	private static int COND_HALL_OWNER = 3;
+	
+	/** The CON d_ for t_ owner. */
 	private static int COND_FORT_OWNER = 4;
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 doormen instance.
+	 *
+	 * @param objectID the object id
+	 * @param template the template
 	 */
 	public L2DoormenInstance(int objectID, L2NpcTemplate template)
 	{
 		super(objectID, template);
 	}
 
+	/**
+	 * Gets the clan hall.
+	 *
+	 * @return the clan hall
+	 */
 	public final ClanHall getClanHall()
 	{
 		//_log.warning(this.getName()+" searching ch");
@@ -69,6 +89,9 @@ public class L2DoormenInstance extends L2FolkInstance
 		return _clanHall;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -229,9 +252,9 @@ public class L2DoormenInstance extends L2FolkInstance
 	}
 
 	/**
-	 * this is called when a player interacts with this NPC
-	 * 
-	 * @param player
+	 * this is called when a player interacts with this NPC.
+	 *
+	 * @param player the player
 	 */
 	@Override
 	public void onAction(L2PcInstance player)
@@ -270,6 +293,11 @@ public class L2DoormenInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Show message window.
+	 *
+	 * @param player the player
+	 */
 	public void showMessageWindow(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -337,6 +365,12 @@ public class L2DoormenInstance extends L2FolkInstance
 		str = null;
 	}
 
+	/**
+	 * Validate condition.
+	 *
+	 * @param player the player
+	 * @return the int
+	 */
 	private int validateCondition(L2PcInstance player)
 	{
 		if(player.getClan() != null)

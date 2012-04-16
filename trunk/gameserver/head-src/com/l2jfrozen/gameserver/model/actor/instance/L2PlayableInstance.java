@@ -32,15 +32,20 @@ import com.l2jfrozen.gameserver.templates.L2CharTemplate;
  * L2PlayableInstance :<BR>
  * <BR>
  * <li>L2PcInstance</li> <li>L2Summon</li><BR>
- * <BR>
  */
-
 public abstract class L2PlayableInstance extends L2Character
 {
 
+	/** The _is noblesse blessed. */
 	private boolean _isNoblesseBlessed = false; // for Noblesse Blessing skill, restores buffs after death
+	
+	/** The _get charm of luck. */
 	private boolean _getCharmOfLuck = false; // Charm of Luck - During a Raid/Boss war, decreased chance for death penalty
+	
+	/** The _is phoenix blessed. */
 	private boolean _isPhoenixBlessed = false; // for Soul of The Phoenix or Salvation buffs
+	
+	/** The _ protection blessing. */
 	private boolean _ProtectionBlessing = false;
 
 	/**
@@ -63,6 +68,9 @@ public abstract class L2PlayableInstance extends L2Character
 		getStatus(); // init status
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getKnownList()
+	 */
 	@Override
 	public PlayableKnownList getKnownList()
 	{
@@ -73,6 +81,9 @@ public abstract class L2PlayableInstance extends L2Character
 		return (PlayableKnownList) super.getKnownList();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getStat()
+	 */
 	@Override
 	public PlayableStat getStat()
 	{
@@ -83,6 +94,9 @@ public abstract class L2PlayableInstance extends L2Character
 		return (PlayableStat) super.getStat();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getStatus()
+	 */
 	@Override
 	public PlayableStatus getStatus()
 	{
@@ -93,6 +107,9 @@ public abstract class L2PlayableInstance extends L2Character
 		return (PlayableStatus) super.getStatus();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#doDie(com.l2jfrozen.gameserver.model.L2Character)
+	 */
 	@Override
 	public boolean doDie(L2Character killer)
 	{
@@ -120,6 +137,12 @@ public abstract class L2PlayableInstance extends L2Character
 		return true;
 	}
 
+	/**
+	 * Check if pvp.
+	 *
+	 * @param target the target
+	 * @return true, if successful
+	 */
 	public boolean checkIfPvP(L2Character target)
 	{
 		if(target == null)
@@ -190,6 +213,8 @@ public abstract class L2PlayableInstance extends L2Character
 	/**
 	 * Return True.<BR>
 	 * <BR>
+	 *
+	 * @return true, if is attackable
 	 */
 	@Override
 	public boolean isAttackable()
@@ -199,16 +224,29 @@ public abstract class L2PlayableInstance extends L2Character
 
 	// Support for Noblesse Blessing skill, where buffs are retained
 	// after resurrect
+	/**
+	 * Checks if is noblesse blessed.
+	 *
+	 * @return true, if is noblesse blessed
+	 */
 	public final boolean isNoblesseBlessed()
 	{
 		return _isNoblesseBlessed;
 	}
 
+	/**
+	 * Sets the checks if is noblesse blessed.
+	 *
+	 * @param value the new checks if is noblesse blessed
+	 */
 	public final void setIsNoblesseBlessed(boolean value)
 	{
 		_isNoblesseBlessed = value;
 	}
 
+	/**
+	 * Start noblesse blessing.
+	 */
 	public final void startNoblesseBlessing()
 	{
 		setIsNoblesseBlessed(true);
@@ -216,16 +254,29 @@ public abstract class L2PlayableInstance extends L2Character
 	}
 
 	// for Newbie Protection Blessing skill, keeps you safe from an attack by a chaotic character >= 10 levels apart from you
+	/**
+	 * Gets the protection blessing.
+	 *
+	 * @return the protection blessing
+	 */
 	public final boolean getProtectionBlessing()
 	{
 		return _ProtectionBlessing;
 	}
 
+	/**
+	 * Sets the protection blessing.
+	 *
+	 * @param value the new protection blessing
+	 */
 	public final void setProtectionBlessing(boolean value)
 	{
 		_ProtectionBlessing = value;
 	}
 
+	/**
+	 * Start protection blessing.
+	 */
 	public void startProtectionBlessing()
 	{
 		setProtectionBlessing(true);
@@ -233,7 +284,9 @@ public abstract class L2PlayableInstance extends L2Character
 	}
 
 	/**
-	 * @param blessing
+	 * Stop protection blessing.
+	 *
+	 * @param effect the effect
 	 */
 	public void stopProtectionBlessing(L2Effect effect)
 	{
@@ -251,22 +304,40 @@ public abstract class L2PlayableInstance extends L2Character
 	}
 
 	// Support for Soul of the Phoenix and Salvation skills
+	/**
+	 * Checks if is phoenix blessed.
+	 *
+	 * @return true, if is phoenix blessed
+	 */
 	public final boolean isPhoenixBlessed()
 	{
 		return _isPhoenixBlessed;
 	}
 
+	/**
+	 * Sets the checks if is phoenix blessed.
+	 *
+	 * @param value the new checks if is phoenix blessed
+	 */
 	public final void setIsPhoenixBlessed(boolean value)
 	{
 		_isPhoenixBlessed = value;
 	}
 
+	/**
+	 * Start phoenix blessing.
+	 */
 	public final void startPhoenixBlessing()
 	{
 		setIsPhoenixBlessed(true);
 		updateAbnormalEffect();
 	}
 
+	/**
+	 * Stop phoenix blessing.
+	 *
+	 * @param effect the effect
+	 */
 	public final void stopPhoenixBlessing(L2Effect effect)
 	{
 		if(effect == null)
@@ -282,6 +353,11 @@ public abstract class L2PlayableInstance extends L2Character
 		updateAbnormalEffect();
 	}
 
+	/**
+	 * Stop noblesse blessing.
+	 *
+	 * @param effect the effect
+	 */
 	public final void stopNoblesseBlessing(L2Effect effect)
 	{
 		if(effect == null)
@@ -297,27 +373,65 @@ public abstract class L2PlayableInstance extends L2Character
 		updateAbnormalEffect();
 	}
 
+	/**
+	 * Destroy item by item id.
+	 *
+	 * @param process the process
+	 * @param itemId the item id
+	 * @param count the count
+	 * @param reference the reference
+	 * @param sendMessage the send message
+	 * @return true, if successful
+	 */
 	public abstract boolean destroyItemByItemId(String process, int itemId, int count, L2Object reference, boolean sendMessage);
 
+	/**
+	 * Destroy item.
+	 *
+	 * @param process the process
+	 * @param objectId the object id
+	 * @param count the count
+	 * @param reference the reference
+	 * @param sendMessage the send message
+	 * @return true, if successful
+	 */
 	public abstract boolean destroyItem(String process, int objectId, int count, L2Object reference, boolean sendMessage);
 
 	//Charm of Luck - During a Raid/Boss war, decreased chance for death penalty
+	/**
+	 * Gets the charm of luck.
+	 *
+	 * @return the charm of luck
+	 */
 	public final boolean getCharmOfLuck()
 	{
 		return _getCharmOfLuck;
 	}
 
+	/**
+	 * Sets the charm of luck.
+	 *
+	 * @param value the new charm of luck
+	 */
 	public final void setCharmOfLuck(boolean value)
 	{
 		_getCharmOfLuck = value;
 	}
 
+	/**
+	 * Start charm of luck.
+	 */
 	public final void startCharmOfLuck()
 	{
 		setCharmOfLuck(true);
 		updateAbnormalEffect();
 	}
 
+	/**
+	 * Stop charm of luck.
+	 *
+	 * @param effect the effect
+	 */
 	public final void stopCharmOfLuck(L2Effect effect)
 	{
 		if(effect == null)
@@ -333,6 +447,11 @@ public abstract class L2PlayableInstance extends L2Character
 		updateAbnormalEffect();
 	}
 	
+	/**
+	 * Checks if is in fun event.
+	 *
+	 * @return true, if is in fun event
+	 */
 	public boolean isInFunEvent()
 	{
 		L2PcInstance player = getActingPlayer();
@@ -340,6 +459,11 @@ public abstract class L2PlayableInstance extends L2Character
 		return player == null ? false : player.isInFunEvent();
 	}
 
+	/**
+	 * Gets the acting player.
+	 *
+	 * @return the acting player
+	 */
 	public L2PcInstance getActingPlayer()
 	{
 		if(this instanceof L2PcInstance){

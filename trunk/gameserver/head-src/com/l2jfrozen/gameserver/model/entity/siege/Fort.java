@@ -86,13 +86,20 @@ public class Fort
 	}
 
 	// This method add to the treasury
-	/** Add amount to fort instance's treasury (warehouse). */
+	/**
+	 * Add amount to fort instance's treasury (warehouse). 
+	 * @param amount
+	 */
 	public void addToTreasury(int amount)
 	{
 		return;
 	}
 
-	/** Add amount to fort instance's treasury (warehouse), no tax paying. */
+	/**
+	 * Add amount to fort instance's treasury (warehouse), no tax paying. 
+	 * @param amount 
+	 * @return
+	 */
 	public boolean addToTreasuryNoTax(int amount)
 	{
 		return true;
@@ -108,7 +115,10 @@ public class Fort
 	}
 
 	/**
-	 * Return true if object is inside the zone
+	 * @param x 
+	 * @param y 
+	 * @param z 
+	 * @return true if object is inside the zone
 	 */
 	public boolean checkIfInZone(int x, int y, int z)
 	{
@@ -274,8 +284,8 @@ public class Fort
 	}
 
 	/**
-	 * Respawn all doors on fort grounds<BR>
-	 * <BR>
+	 * Respawn all doors on fort grounds
+	 * @param isDoorWeak 
 	 */
 	public void spawnDoor(boolean isDoorWeak)
 	{

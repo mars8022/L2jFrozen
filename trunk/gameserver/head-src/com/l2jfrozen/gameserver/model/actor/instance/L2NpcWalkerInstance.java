@@ -36,9 +36,13 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2NpcWalkerInstance extends L2NpcInstance
 {
+	
 	/**
 	 * Constructor of L2NpcWalkerInstance (use L2Character and L2NpcInstance constructor).<BR>
 	 * <BR>
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2NpcWalkerInstance(int objectId, L2NpcTemplate template)
 	{
@@ -60,6 +64,9 @@ public class L2NpcWalkerInstance extends L2NpcInstance
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onSpawn()
+	 */
 	@Override
 	public void onSpawn()
 	{
@@ -69,8 +76,8 @@ public class L2NpcWalkerInstance extends L2NpcInstance
 	}
 
 	/**
-	 * Sends a chat to all _knowObjects
-	 * 
+	 * Sends a chat to all _knowObjects.
+	 *
 	 * @param chat message to say
 	 */
 	public void broadcastChat(String chat)
@@ -103,8 +110,8 @@ public class L2NpcWalkerInstance extends L2NpcInstance
 	}
 
 	/**
-	 * NPCs are immortal
-	 * 
+	 * NPCs are immortal.
+	 *
 	 * @param i ignore it
 	 * @param attacker ignore it
 	 * @param awake ignore it
@@ -114,8 +121,8 @@ public class L2NpcWalkerInstance extends L2NpcInstance
 	{}
 
 	/**
-	 * NPCs are immortal
-	 * 
+	 * NPCs are immortal.
+	 *
 	 * @param killer ignore it
 	 * @return false
 	 */
@@ -125,12 +132,18 @@ public class L2NpcWalkerInstance extends L2NpcInstance
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getAI()
+	 */
 	@Override
 	public L2CharacterAI getAI()
 	{
 		return super.getAI();
 	}
 
+	/**
+	 * The Class L2NpcWalkerAIAccessor.
+	 */
 	protected class L2NpcWalkerAIAccessor extends L2Character.AIAccessor
 	{
 		/**

@@ -44,10 +44,13 @@ public class L2MonsterInstance extends L2Attackable
 {
 	//private static Logger _log = Logger.getLogger(L2MonsterInstance.class.getName());
 
+	/** The _minion list. */
 	protected final MinionList _minionList;
 
+	/** The _minion maintain task. */
 	protected ScheduledFuture<?> _minionMaintainTask = null;
 
+	/** The Constant MONSTER_MAINTENANCE_INTERVAL. */
 	private static final int MONSTER_MAINTENANCE_INTERVAL = 1000;
 
 	/**
@@ -59,9 +62,9 @@ public class L2MonsterInstance extends L2Attackable
 	 * object and link _calculators to NPC_STD_CALCULATOR)</li> <li>Set the name of the L2MonsterInstance</li> <li>
 	 * Create a RandomAnimation Task that will be launched after the calculated delay if the server allow it</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param objectId Identifier of the object to initialized
-	 * @param L2NpcTemplate Template to apply to the NPC
+	 * @param template the template
 	 */
 	public L2MonsterInstance(int objectId, L2NpcTemplate template)
 	{
@@ -70,6 +73,9 @@ public class L2MonsterInstance extends L2Attackable
 		_minionList = new MinionList(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Attackable#getKnownList()
+	 */
 	@Override
 	public final MonsterKnownList getKnownList()
 	{
@@ -80,6 +86,9 @@ public class L2MonsterInstance extends L2Attackable
 		return (MonsterKnownList) super.getKnownList();
 	}
 
+	/**
+	 * Return home.
+	 */
 	public void returnHome()
 	{
 		ThreadPoolManager.getInstance().scheduleAi(new Runnable() {
@@ -99,6 +108,9 @@ public class L2MonsterInstance extends L2Attackable
 	/**
 	 * Return True if the attacker is not another L2MonsterInstance.<BR>
 	 * <BR>
+	 *
+	 * @param attacker the attacker
+	 * @return true, if is auto attackable
 	 */
 	@Override
 	public boolean isAutoAttackable(L2Character attacker)
@@ -112,6 +124,8 @@ public class L2MonsterInstance extends L2Attackable
 	/**
 	 * Return True if the L2MonsterInstance is Agressive (aggroRange > 0).<BR>
 	 * <BR>
+	 *
+	 * @return true, if is aggressive
 	 */
 	@Override
 	public boolean isAggressive()
@@ -119,6 +133,9 @@ public class L2MonsterInstance extends L2Attackable
 		return getTemplate().aggroRange > 0 && !isEventMob;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Attackable#onSpawn()
+	 */
 	@Override
 	public void onSpawn()
 	{
@@ -159,13 +176,18 @@ public class L2MonsterInstance extends L2Attackable
 		}
 	}
 
+	/**
+	 * Gets the maintenance interval.
+	 *
+	 * @return the maintenance interval
+	 */
 	protected int getMaintenanceInterval()
 	{
 		return MONSTER_MAINTENANCE_INTERVAL;
 	}
 
 	/**
-	 * Spawn all minions at a regular interval
+	 * Spawn all minions at a regular interval.
 	 */
 	protected void manageMinions()
 	{
@@ -178,6 +200,9 @@ public class L2MonsterInstance extends L2Attackable
 		}, getMaintenanceInterval());
 	}
 
+	/**
+	 * Call minions.
+	 */
 	public void callMinions()
 	{
 		if(_minionList.hasMinions())
@@ -212,6 +237,11 @@ public class L2MonsterInstance extends L2Attackable
 		}
 	}
 
+	/**
+	 * Call minions to assist.
+	 *
+	 * @param attacker the attacker
+	 */
 	public void callMinionsToAssist(L2Character attacker)
 	{
 		if(_minionList.hasMinions())
@@ -243,6 +273,9 @@ public class L2MonsterInstance extends L2Attackable
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Attackable#doDie(com.l2jfrozen.gameserver.model.L2Character)
+	 */
 	@Override
 	public boolean doDie(L2Character killer)
 	{
@@ -261,36 +294,69 @@ public class L2MonsterInstance extends L2Attackable
 		return true;
 	}
 
+	/**
+	 * Gets the spawned minions.
+	 *
+	 * @return the spawned minions
+	 */
 	public List<L2MinionInstance> getSpawnedMinions()
 	{
 		return _minionList.getSpawnedMinions();
 	}
 
+	/**
+	 * Gets the total spawned minions instances.
+	 *
+	 * @return the total spawned minions instances
+	 */
 	public int getTotalSpawnedMinionsInstances()
 	{
 		return _minionList.countSpawnedMinions();
 	}
 
+	/**
+	 * Gets the total spawned minions groups.
+	 *
+	 * @return the total spawned minions groups
+	 */
 	public int getTotalSpawnedMinionsGroups()
 	{
 		return _minionList.lazyCountSpawnedMinionsGroups();
 	}
 
+	/**
+	 * Notify minion died.
+	 *
+	 * @param minion the minion
+	 */
 	public void notifyMinionDied(L2MinionInstance minion)
 	{
 		_minionList.moveMinionToRespawnList(minion);
 	}
 
+	/**
+	 * Notify minion spawned.
+	 *
+	 * @param minion the minion
+	 */
 	public void notifyMinionSpawned(L2MinionInstance minion)
 	{
 		_minionList.addSpawnedMinion(minion);
 	}
 
+	/**
+	 * Checks for minions.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasMinions()
 	{
 		return _minionList.hasMinions();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Attackable#addDamageHate(com.l2jfrozen.gameserver.model.L2Character, int, int)
+	 */
 	@Override
 	public void addDamageHate(L2Character attacker, int damage, int aggro)
 	{
@@ -300,6 +366,9 @@ public class L2MonsterInstance extends L2Attackable
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#deleteMe()
+	 */
 	@Override
 	public void deleteMe()
 	{
@@ -315,6 +384,9 @@ public class L2MonsterInstance extends L2Attackable
 		super.deleteMe();
 	}
 
+	/**
+	 * Delete spawned minions.
+	 */
 	public void deleteSpawnedMinions()
 	{
 		for(L2MinionInstance minion : getSpawnedMinions())

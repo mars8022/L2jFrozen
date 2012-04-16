@@ -18,24 +18,30 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: (ch)ddd
+ * Format: (ch)ddd.
  */
 public class ExVariationCancelResult extends L2GameServerPacket
 {
+	/** The Constant _S__FE_57_EXVARIATIONCANCELRESULT. */
 	private static final String _S__FE_57_EXVARIATIONCANCELRESULT = "[S] FE:57 ExVariationCancelResult";
 
+	/** The _close window. */
 	private int _closeWindow;
+	
+	/** The _unk1. */
 	private int _unk1;
 
+	/**
+	 * Instantiates a new ex variation cancel result.
+	 *
+	 * @param result the result
+	 */
 	public ExVariationCancelResult(int result)
 	{
 		_closeWindow = 1;
 		_unk1 = result;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -46,12 +52,13 @@ public class ExVariationCancelResult extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_57_EXVARIATIONCANCELRESULT;
 	}
-
 }

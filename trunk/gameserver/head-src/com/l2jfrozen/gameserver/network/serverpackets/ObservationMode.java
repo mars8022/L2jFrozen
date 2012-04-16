@@ -30,7 +30,9 @@ public class ObservationMode extends L2GameServerPacket
 	private int _x, _y, _z;
 
 	/**
-	 * @param _characters
+	 * @param x 
+	 * @param y 
+	 * @param z 
 	 */
 	public ObservationMode(int x, int y, int z)
 	{
@@ -50,10 +52,7 @@ public class ObservationMode extends L2GameServerPacket
 		writeC(0xc0);
 		writeC(0x00);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

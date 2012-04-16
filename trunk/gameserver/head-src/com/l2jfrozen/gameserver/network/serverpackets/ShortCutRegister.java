@@ -34,12 +34,7 @@ public class ShortCutRegister extends L2GameServerPacket
 
 	/**
 	 * Register new skill shortcut
-	 * 
-	 * @param slot
-	 * @param type
-	 * @param typeId
-	 * @param level
-	 * @param dat2
+	 * @param shortcut 
 	 */
 	public ShortCutRegister(L2ShortCut shortcut)
 	{

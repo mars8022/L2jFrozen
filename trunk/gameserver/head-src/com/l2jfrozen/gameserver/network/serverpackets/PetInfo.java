@@ -42,8 +42,7 @@ public class PetInfo extends L2GameServerPacket
 
 	/**
 	 * rev 478 dddddddddddddddddddffffdddcccccSSdddddddddddddddddddddddddddhc
-	 * 
-	 * @param _characters
+	 * @param summon 
 	 */
 	public PetInfo(L2Summon summon)
 	{

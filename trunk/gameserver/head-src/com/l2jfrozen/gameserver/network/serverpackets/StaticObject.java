@@ -1,7 +1,4 @@
 /*
- * $Header: /cvsroot/l2j/L2_Gameserver/java/net/sf/l2j/gameserver/serverpackets/ASendPacket.java,v 1.14.2.3 2005/01/25 15:12:27 luisantonioa Exp $
- *
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -31,10 +28,8 @@ public class StaticObject extends L2GameServerPacket
 
 	/**
 	 * [S]0x99 StaticObjectPacket dd
-	 * 
-	 * @param _
+	 * @param StaticObject 
 	 */
-
 	public StaticObject(L2StaticObjectInstance StaticObject)
 	{
 		_staticObject = StaticObject; // staticObjectId

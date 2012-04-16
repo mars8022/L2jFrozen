@@ -24,7 +24,7 @@ public class CustomNpcInfo extends L2GameServerPacket
 	private L2NpcInstance _activeChar;
 
 	/**
-	 * @param custom npcs that look like players
+	 * @param cha 
 	 */
 	public CustomNpcInfo(L2NpcInstance cha)
 	{

@@ -18,20 +18,29 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch d
- * 
+ * Format: ch d.
+ *
  * @author KenM
  */
 public class ExDuelEnd extends L2GameServerPacket
 {
+	
+	/** The Constant _S__FE_4E_EXDUELEND. */
 	private static final String _S__FE_4E_EXDUELEND = "[S] FE:4E ExDuelEnd";
+	
+	/** The _unk1. */
 	private int _unk1;
 
+	/**
+	 * Instantiates a new ex duel end.
+	 *
+	 * @param unk1 the unk1
+	 */
 	public ExDuelEnd(int unk1)
 	{
 		_unk1 = unk1;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -42,7 +51,9 @@ public class ExDuelEnd extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()

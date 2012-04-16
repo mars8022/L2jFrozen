@@ -32,20 +32,13 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 public final class RequestConfirmCancelItem extends L2GameClientPacket
 {
 	private int _itemId;
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
 		_itemId = readD();
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
+	
 	@Override
 	protected void runImpl()
 	{
@@ -118,5 +111,4 @@ public final class RequestConfirmCancelItem extends L2GameClientPacket
 	{
 		return "[C] D0:2D RequestConfirmCancelItem";
 	}
-
 }

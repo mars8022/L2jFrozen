@@ -34,11 +34,7 @@ public class RequestSetSeed extends L2GameClientPacket
 	private int _size;
 	private int _manorId;
 	private int[] _items; // _size*3
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{

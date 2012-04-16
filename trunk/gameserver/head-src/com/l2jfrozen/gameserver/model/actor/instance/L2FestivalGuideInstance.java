@@ -35,20 +35,33 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
- * Festival of Darkness Guide (Seven Signs)
- * 
+ * Festival of Darkness Guide (Seven Signs).
+ *
  * @author Tempy
  */
 public final class L2FestivalGuideInstance extends L2FolkInstance
 {
+	
+	/** The _festival type. */
 	protected int _festivalType;
+	
+	/** The _festival oracle. */
 	protected int _festivalOracle;
+	
+	/** The _blue stones needed. */
 	protected int _blueStonesNeeded;
+	
+	/** The _green stones needed. */
 	protected int _greenStonesNeeded;
+	
+	/** The _red stones needed. */
 	protected int _redStonesNeeded;
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 festival guide instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2FestivalGuideInstance(int objectId, L2NpcTemplate template)
 	{
@@ -140,6 +153,9 @@ public final class L2FestivalGuideInstance extends L2FolkInstance
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -450,6 +466,14 @@ public final class L2FestivalGuideInstance extends L2FolkInstance
 		}
 	}
 
+	/**
+	 * Show chat window.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 * @param suffix the suffix
+	 * @param isDescription the is description
+	 */
 	private void showChatWindow(L2PcInstance player, int val, String suffix, boolean isDescription)
 	{
 		String filename = SevenSigns.SEVEN_SIGNS_HTML_PATH + "festival/";
@@ -493,6 +517,11 @@ public final class L2FestivalGuideInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Gets the stats table.
+	 *
+	 * @return the stats table
+	 */
 	private final String getStatsTable()
 	{
 		TextBuilder tableHtml = new TextBuilder();
@@ -520,6 +549,11 @@ public final class L2FestivalGuideInstance extends L2FolkInstance
 		return tableHtml.toString();
 	}
 
+	/**
+	 * Gets the bonus table.
+	 *
+	 * @return the bonus table
+	 */
 	private final String getBonusTable()
 	{
 		TextBuilder tableHtml = new TextBuilder();
@@ -536,6 +570,12 @@ public final class L2FestivalGuideInstance extends L2FolkInstance
 		return tableHtml.toString();
 	}
 
+	/**
+	 * Calculate date.
+	 *
+	 * @param milliFromEpoch the milli from epoch
+	 * @return the string
+	 */
 	private final String calculateDate(String milliFromEpoch)
 	{
 		long numMillis = Long.valueOf(milliFromEpoch);

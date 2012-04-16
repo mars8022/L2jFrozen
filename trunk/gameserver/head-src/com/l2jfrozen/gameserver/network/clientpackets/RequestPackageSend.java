@@ -67,10 +67,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 			_items.add(new Item(id, count));
 		}
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.clientpackets.ClientBasePacket#runImpl()
-	 */
+	
 	@Override
 	protected void runImpl()
 	{

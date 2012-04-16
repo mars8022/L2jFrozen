@@ -26,11 +26,7 @@ public final class RequestWriteHeroWords extends L2GameClientPacket
 {
 	@SuppressWarnings("unused")
 	private String _heroWords;
-
-	/**
-	 * @param buf
-	 * @param client
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
@@ -48,5 +44,4 @@ public final class RequestWriteHeroWords extends L2GameClientPacket
 	{
 		return "[C] D0:0C RequestWriteHeroWords";
 	}
-
 }

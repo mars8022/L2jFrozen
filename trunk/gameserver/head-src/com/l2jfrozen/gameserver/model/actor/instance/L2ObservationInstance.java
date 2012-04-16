@@ -29,6 +29,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
+ * The Class L2ObservationInstance.
+ *
  * @author NightMarez
  * @version $Revision: 1.3.2.2.2.5 $ $Date: 2005/03/27 15:29:32 $
  */
@@ -37,13 +39,19 @@ public final class L2ObservationInstance extends L2FolkInstance
 	//private static Logger _log = Logger.getLogger(L2TeleporterInstance.class.getName());
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 observation instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2ObservationInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -111,6 +119,9 @@ public final class L2ObservationInstance extends L2FolkInstance
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#getHtmlPath(int, int)
+	 */
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -127,6 +138,12 @@ public final class L2ObservationInstance extends L2FolkInstance
 		return "data/html/observation/" + pom + ".htm";
 	}
 
+	/**
+	 * Do observe.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void doObserve(L2PcInstance player, String val)
 	{
 		StringTokenizer st = new StringTokenizer(val);

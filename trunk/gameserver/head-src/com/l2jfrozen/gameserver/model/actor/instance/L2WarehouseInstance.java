@@ -42,13 +42,19 @@ public final class L2WarehouseInstance extends L2FolkInstance
 	//private static Logger _log = Logger.getLogger(L2WarehouseInstance.class.getName());
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 warehouse instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2WarehouseInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#getHtmlPath(int, int)
+	 */
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -64,6 +70,11 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		return "data/html/warehouse/" + pom + ".htm";
 	}
 
+	/**
+	 * Show retrieve window.
+	 *
+	 * @param player the player
+	 */
 	private void showRetrieveWindow(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -82,6 +93,11 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		player.sendPacket(new WareHouseWithdrawalList(player, WareHouseWithdrawalList.PRIVATE));
 	}
 
+	/**
+	 * Show deposit window.
+	 *
+	 * @param player the player
+	 */
 	private void showDepositWindow(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -95,6 +111,11 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		player.sendPacket(new WareHouseDepositList(player, WareHouseDepositList.PRIVATE));
 	}
 
+	/**
+	 * Show deposit window clan.
+	 *
+	 * @param player the player
+	 */
 	private void showDepositWindowClan(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -120,6 +141,11 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		}
 	}
 
+	/**
+	 * Show withdraw window clan.
+	 *
+	 * @param player the player
+	 */
 	private void showWithdrawWindowClan(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -144,6 +170,11 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		}
 	}
 
+	/**
+	 * Show withdraw window freight.
+	 *
+	 * @param player the player
+	 */
 	private void showWithdrawWindowFreight(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -184,6 +215,11 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		freight = null;
 	}
 
+	/**
+	 * Show deposit window freight.
+	 *
+	 * @param player the player
+	 */
 	private void showDepositWindowFreight(L2PcInstance player)
 	{
 		// No other chars in the account of this player
@@ -213,6 +249,12 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		}
 	}
 
+	/**
+	 * Show deposit window freight.
+	 *
+	 * @param player the player
+	 * @param obj_Id the obj_ id
+	 */
 	private void showDepositWindowFreight(L2PcInstance player, int obj_Id)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -250,6 +292,9 @@ public final class L2WarehouseInstance extends L2FolkInstance
 		player.sendPacket(new WareHouseDepositList(player, WareHouseDepositList.FREIGHT));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{

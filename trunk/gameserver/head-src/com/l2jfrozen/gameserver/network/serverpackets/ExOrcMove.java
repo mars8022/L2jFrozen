@@ -19,31 +19,25 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: (ch)
- * 
+ * Format: (ch).
+ *
  * @author -Wooden-
  */
 public class ExOrcMove extends L2GameServerPacket
 {
+	/** The Constant _S__FE_44_EXORCMOVE. */
 	private static final String _S__FE_44_EXORCMOVE = "[S] FE:44 ExOrcMove";
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xfe);
 		writeH(0x44);
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_44_EXORCMOVE;
 	}
-
 }

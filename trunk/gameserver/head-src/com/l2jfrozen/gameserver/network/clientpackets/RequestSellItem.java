@@ -43,8 +43,6 @@ public final class RequestSellItem extends L2GameClientPacket
 	 * packet type id 0x1e sample 1e 00 00 00 00 // list id 02 00 00 00 // number of items 71 72 00 10 // object id ea
 	 * 05 00 00 // item id 01 00 00 00 // item count 76 4b 00 10 // object id 2e 0a 00 00 // item id 01 00 00 00 // item
 	 * count format: cdd (ddd)
-	 * 
-	 * @param decrypt
 	 */
 	@Override
 	protected void readImpl()

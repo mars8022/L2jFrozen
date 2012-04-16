@@ -162,6 +162,9 @@ public class L2Spawn
 	 * <BR>
 	 * 
 	 * @param mobTemplate The L2NpcTemplate to link to this L2Spawn
+	 * @throws SecurityException 
+	 * @throws ClassNotFoundException 
+	 * @throws NoSuchMethodException 
 	 */
 	public L2Spawn(L2NpcTemplate mobTemplate) throws SecurityException, ClassNotFoundException, NoSuchMethodException
 	{
@@ -196,8 +199,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the maximum number of L2NpcInstance that this L2Spawn can manage.<BR>
-	 * <BR>
+	 * @return the maximum number of L2NpcInstance that this L2Spawn can manage.
 	 */
 	public int getAmount()
 	{
@@ -205,8 +207,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the Identifier of this L2Spwan (used as key in the SpawnTable).<BR>
-	 * <BR>
+	 * @return the Identifier of this L2Spwan (used as key in the SpawnTable).
 	 */
 	public int getId()
 	{
@@ -214,8 +215,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the Identifier of the location area where L2NpcInstance can be spwaned.<BR>
-	 * <BR>
+	 * @return the Identifier of the location area where L2NpcInstance can be spwaned.
 	 */
 	public int getLocation()
 	{
@@ -223,8 +223,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the X position of the spwan point.<BR>
-	 * <BR>
+	 * @return the X position of the spwan point.
 	 */
 	public int getLocx()
 	{
@@ -232,8 +231,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the Y position of the spwan point.<BR>
-	 * <BR>
+	 * @return the Y position of the spwan point.
 	 */
 	public int getLocy()
 	{
@@ -241,8 +239,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the Z position of the spwan point.<BR>
-	 * <BR>
+	 * @return the Z position of the spwan point.
 	 */
 	public int getLocz()
 	{
@@ -250,8 +247,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the Itdentifier of the L2NpcInstance manage by this L2Spwan contained in the L2NpcTemplate.<BR>
-	 * <BR>
+	 * @return the Identifier of the L2NpcInstance manage by this L2Spwan contained in the L2NpcTemplate.
 	 */
 	public int getNpcid()
 	{
@@ -262,8 +258,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the heading of L2NpcInstance when they are spawned.<BR>
-	 * <BR>
+	 * @return the heading of L2NpcInstance when they are spawned.
 	 */
 	public int getHeading()
 	{
@@ -271,8 +266,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return the delay between a L2NpcInstance remove and its re-spawn.<BR>
-	 * <BR>
+	 * @return the delay between a L2NpcInstance remove and its re-spawn.
 	 */
 	public int getRespawnDelay()
 	{
@@ -280,8 +274,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return Min RaidBoss Spawn delay.<BR>
-	 * <BR>
+	 * @return Min RaidBoss Spawn delay.
 	 */
 	public int getRespawnMinDelay()
 	{
@@ -289,8 +282,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Return Max RaidBoss Spawn delay.<BR>
-	 * <BR>
+	 * @return Max RaidBoss Spawn delay.
 	 */
 	public int getRespawnMaxDelay()
 	{
@@ -298,8 +290,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the maximum number of L2NpcInstance that this L2Spawn can manage.<BR>
-	 * <BR>
+	 * Set the maximum number of L2NpcInstance that this L2Spawn can manage.
+	 * @param amount 
 	 */
 	public void setAmount(int amount)
 	{
@@ -307,8 +299,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the Identifier of this L2Spwan (used as key in the SpawnTable).<BR>
-	 * <BR>
+	 * Set the Identifier of this L2Spwan (used as key in the SpawnTable).
+	 * @param id 
 	 */
 	public void setId(int id)
 	{
@@ -316,8 +308,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the Identifier of the location area where L2NpcInstance can be spwaned.<BR>
-	 * <BR>
+	 * Set the Identifier of the location area where L2NpcInstance can be spwaned.
+	 * @param location 
 	 */
 	public void setLocation(int location)
 	{
@@ -325,8 +317,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set Minimum Respawn Delay.<BR>
-	 * <BR>
+	 * Set Minimum Respawn Delay.
+	 * @param date 
 	 */
 	public void setRespawnMinDelay(int date)
 	{
@@ -334,8 +326,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set Maximum Respawn Delay.<BR>
-	 * <BR>
+	 * Set Maximum Respawn Delay.
+	 * @param date 
 	 */
 	public void setRespawnMaxDelay(int date)
 	{
@@ -343,8 +335,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the X position of the spwan point.<BR>
-	 * <BR>
+	 * Set the X position of the spwan point.
+	 * @param locx 
 	 */
 	public void setLocx(int locx)
 	{
@@ -352,8 +344,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the Y position of the spwan point.<BR>
-	 * <BR>
+	 * Set the Y position of the spwan point.
+	 * @param locy 
 	 */
 	public void setLocy(int locy)
 	{
@@ -361,8 +353,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the Z position of the spwan point.<BR>
-	 * <BR>
+	 * Set the Z position of the spwan point.
+	 * @param locz 
 	 */
 	public void setLocz(int locz)
 	{
@@ -370,8 +362,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set the heading of L2NpcInstance when they are spawned.<BR>
-	 * <BR>
+	 * Set the heading of L2NpcInstance when they are spawned.
+	 * @param heading 
 	 */
 	public void setHeading(int heading)
 	{
@@ -379,7 +371,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Kidzor Set the spawn as custom.<BR>
+	 * Kidzor Set the spawn as custom.
+	 * @param custom 
 	 */
 	public void setCustom(boolean custom)
 	{
@@ -387,8 +380,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Kidzor Return type of spawn.<BR>
-	 * <BR>
+	 * Kidzor Return type of spawn.
+	 * @return 
 	 */
 	public boolean isCustom()
 	{
@@ -431,6 +424,7 @@ public class L2Spawn
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : A respawn is possible ONLY if _doRespawn=True and _scheduledCount +
 	 * _currentCount < _maximumCount</B></FONT><BR>
 	 * <BR>
+	 * @param oldNpc 
 	 */
 	public void decreaseCount(/*int npcId*/L2NpcInstance oldNpc)
 	{
@@ -467,8 +461,8 @@ public class L2Spawn
 	}
 
 	/**
-	 * Create a L2NpcInstance in this L2Spawn.<BR>
-	 * <BR>
+	 * Create a L2NpcInstance in this L2Spawn.
+	 * @return 
 	 */
 	public L2NpcInstance spawnOne()
 	{
@@ -476,8 +470,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set _doRespawn to False to stop respawn in thios L2Spawn.<BR>
-	 * <BR>
+	 * Set _doRespawn to False to stop respawn in this L2Spawn.
 	 */
 	public void stopRespawn()
 	{
@@ -485,8 +478,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Set _doRespawn to True to start or restart respawn in this L2Spawn.<BR>
-	 * <BR>
+	 * Set _doRespawn to True to start or restart respawn in this L2Spawn.
 	 */
 	public void startRespawn()
 	{
@@ -494,7 +486,7 @@ public class L2Spawn
 	}
 
 	/**
-	 * Create the L2NpcInstance, add it to the world and lauch its OnSpawn action.<BR>
+	 * Create the L2NpcInstance, add it to the world and launch its OnSpawn action.<BR>
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
@@ -514,6 +506,7 @@ public class L2Spawn
 	 * <BR>
 	 * <li>Increase the current number of L2NpcInstance managed by this L2Spawn</li><BR>
 	 * <BR>
+	 * @return 
 	 */
 	public L2NpcInstance doSpawn()
 	{

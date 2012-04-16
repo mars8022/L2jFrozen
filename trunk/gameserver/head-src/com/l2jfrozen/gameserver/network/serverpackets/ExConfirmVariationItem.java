@@ -34,10 +34,7 @@ public class ExConfirmVariationItem extends L2GameServerPacket
 		_unk1 = 1;
 		_unk2 = 1;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -47,14 +44,10 @@ public class ExConfirmVariationItem extends L2GameServerPacket
 		writeD(_unk1);
 		writeD(_unk2);
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_52_EXCONFIRMVARIATIONITEM;
 	}
-
 }

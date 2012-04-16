@@ -34,10 +34,7 @@ public class PledgeReceiveMemberInfo extends L2GameServerPacket
 	{
 		_member = member;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -61,14 +58,10 @@ public class PledgeReceiveMemberInfo extends L2GameServerPacket
 
 		writeS(_member.getApprenticeOrSponsorName()); // name of this member's apprentice/sponsor
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_3D_PLEDGERECEIVEMEMBERINFO;
 	}
-
 }

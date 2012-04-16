@@ -33,7 +33,11 @@ public class TargetSelected extends L2GameServerPacket
 	private int _z;
 
 	/**
-	 * @param _characters
+	 * @param objectId 
+	 * @param targetId 
+	 * @param x 
+	 * @param y 
+	 * @param z 
 	 */
 	public TargetSelected(int objectId, int targetId, int x, int y, int z)
 	{

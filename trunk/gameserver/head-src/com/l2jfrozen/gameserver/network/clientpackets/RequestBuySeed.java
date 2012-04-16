@@ -38,10 +38,8 @@ import com.l2jfrozen.gameserver.util.Util;
 
 /**
  * Format: cdd[dd] c // id (0xC4) d // manor id d // seeds to buy [ d // seed id d // count ]
- * @param decrypt
  * @author l3x
  */
-
 public class RequestBuySeed extends L2GameClientPacket
 {
 	private int _count;

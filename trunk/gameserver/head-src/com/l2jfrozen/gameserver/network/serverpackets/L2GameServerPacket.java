@@ -24,16 +24,16 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.netcore.SendablePacket;
 
 /**
+ * The Class L2GameServerPacket.
+ *
  * @author ProGramMoS
  */
-
 public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 {
+	
+	/** The Constant _log. */
 	private static final Logger _log = Logger.getLogger(L2GameServerPacket.class.getName());
-
-	/**
-	 * @see com.l2jfrozen.mmocore.network.SendablePacket#write()
-	 */
+	
 	@Override
 	protected void write()
 	{
@@ -48,14 +48,22 @@ public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 		}
 	}
 
+	/**
+	 * Run impl.
+	 */
 	public void runImpl()
 	{
 
 	}
 
+	/**
+	 * Write impl.
+	 */
 	protected abstract void writeImpl();
 
 	/**
+	 * Gets the type.
+	 *
 	 * @return A String with this packet name for debuging purposes
 	 */
 	public abstract String getType();

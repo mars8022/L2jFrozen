@@ -20,22 +20,41 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * Format: ch ddcdc
- * 
+ * Format: ch ddcdc.
+ *
  * @author KenM
  * @author ProGramMoS
  */
 
 public class ExPCCafePointInfo extends L2GameServerPacket
 {
+	/** The Constant _S__FE_31_EXPCCAFEPOINTINFO. */
 	private static final String _S__FE_31_EXPCCAFEPOINTINFO = "[S] FE:31 ExPCCafePointInfo";
 
+	/** The _character. */
 	private L2PcInstance _character;
+	
+	/** The m_ add point. */
 	private int m_AddPoint;
+	
+	/** The m_ period type. */
 	private int m_PeriodType;
+	
+	/** The Remain time. */
 	private int RemainTime;
+	
+	/** The Point type. */
 	private int PointType;
 
+	/**
+	 * Instantiates a new ex pc cafe point info.
+	 *
+	 * @param user the user
+	 * @param modify the modify
+	 * @param add the add
+	 * @param hour the hour
+	 * @param _double the _double
+	 */
 	public ExPCCafePointInfo(L2PcInstance user, int modify, boolean add, int hour, boolean _double)
 	{
 		_character = user;
@@ -62,7 +81,7 @@ public class ExPCCafePointInfo extends L2GameServerPacket
 
 		RemainTime = hour;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -76,12 +95,13 @@ public class ExPCCafePointInfo extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_31_EXPCCAFEPOINTINFO;
 	}
-
 }

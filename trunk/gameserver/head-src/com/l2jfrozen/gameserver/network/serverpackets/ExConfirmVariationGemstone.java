@@ -38,10 +38,7 @@ public class ExConfirmVariationGemstone extends L2GameServerPacket
 		_unk2 = 1;
 		_unk3 = 1;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -53,14 +50,10 @@ public class ExConfirmVariationGemstone extends L2GameServerPacket
 		writeD(_unk2);
 		writeD(_unk3);
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_54_EXCONFIRMVARIATIONGEMSTONE;
 	}
-
 }

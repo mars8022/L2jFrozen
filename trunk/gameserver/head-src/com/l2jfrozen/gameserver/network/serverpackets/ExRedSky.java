@@ -18,23 +18,28 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch d
- * 
+ * Format: ch d.
+ *
  * @author KenM
  */
 public class ExRedSky extends L2GameServerPacket
 {
+	/** The Constant _S__FE_40_EXREDSKYPACKET. */
 	private static final String _S__FE_40_EXREDSKYPACKET = "[S] FE:40 ExRedSkyPacket";
+	
+	/** The _duration. */
 	private int _duration;
 
+	/**
+	 * Instantiates a new ex red sky.
+	 *
+	 * @param duration the duration
+	 */
 	public ExRedSky(int duration)
 	{
 		_duration = duration;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -44,12 +49,13 @@ public class ExRedSky extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_40_EXREDSKYPACKET;
 	}
-
 }

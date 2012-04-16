@@ -152,7 +152,7 @@ public class L2DropCategory
 	 * from this category 50/(50+100) = 1/3 and item2 100/150 = 2/3. This change doesn't affect calculation when
 	 * drop_chance * RATE_DROP_ITEMS < 100 %, meaning there are no big changes for low rate servers and no changes at
 	 * all for 1x servers.
-	 * 
+	 * @param raid 
 	 * @return selected drop from category, or null if nothing is dropped.
 	 */
 	public synchronized L2DropData dropOne(boolean raid)

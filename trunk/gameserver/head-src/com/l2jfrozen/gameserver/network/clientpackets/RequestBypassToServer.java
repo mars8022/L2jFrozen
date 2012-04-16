@@ -50,10 +50,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 
 	// S
 	private String _command;
-
-	/**
-	 * @param decrypt
-	 */
+	
 	@Override
 	protected void readImpl()
 	{
@@ -332,7 +329,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 	}
 
 	/**
-	 * @param client
+	 * @param activeChar 
 	 */
 	private void comeHere(L2PcInstance activeChar)
 	{

@@ -57,7 +57,7 @@ public class ClientStats
 	}
 	
 	/**
-	 * Returns true if incoming packet need to be dropped
+	 * @return true if incoming packet need to be dropped
 	 */
 	protected final boolean dropPacket()
 	{
@@ -68,8 +68,9 @@ public class ClientStats
 	}
 	
 	/**
-	 * Returns true if flood detected first and ActionFailed packet need to be sent.
 	 * Later during flood returns true (and send ActionFailed) once per second.
+	 * @param queueSize 
+	 * @return true if flood detected first and ActionFailed packet need to be sent.
 	 */
 	protected final boolean countPacket(int queueSize)
 	{
@@ -85,6 +86,7 @@ public class ClientStats
 	
 	/**
 	 * Counts unknown packets and return true if threshold is reached.
+	 * @return 
 	 */
 	protected final boolean countUnknownPacket()
 	{
@@ -105,6 +107,7 @@ public class ClientStats
 	/**
 	 * Counts burst length and return true if execution of the queue need to be aborted.
 	 * @param count - current number of processed packets in burst
+	 * @return 
 	 */
 	protected final boolean countBurst(int count)
 	{
@@ -120,6 +123,7 @@ public class ClientStats
 	
 	/**
 	 * Counts queue overflows and return true if threshold is reached.
+	 * @return 
 	 */
 	protected final boolean countQueueOverflow()
 	{
@@ -140,6 +144,7 @@ public class ClientStats
 	
 	/**
 	 * Counts underflow exceptions and return true if threshold is reached.
+	 * @return 
 	 */
 	protected final boolean countUnderflowException()
 	{
@@ -159,6 +164,7 @@ public class ClientStats
 	
 	/**
 	 * Returns true if maximum number of floods per minute is reached.
+	 * @return 
 	 */
 	protected final boolean countFloods()
 	{
@@ -173,6 +179,7 @@ public class ClientStats
 	/**
 	 * Returns true if flood detected first and ActionFailed packet need to be sent.
 	 * Later during flood returns true (and send ActionFailed) once per second.
+	 * @return 
 	 */
 	private final synchronized boolean countPacket()
 	{

@@ -111,50 +111,69 @@ public class L2NpcInstance extends L2Character
 {
 	//private static Logger _log = Logger.getLogger(L2NpcInstance.class.getName());
 
-	/** The interaction distance of the L2NpcInstance(is used as offset in MovetoLocation method) */
+	/** The interaction distance of the L2NpcInstance(is used as offset in MovetoLocation method). */
 	public static final int INTERACTION_DISTANCE = 150;
 
 	/** The Polymorph object that manage this L2NpcInstance's morph to a PcInstance... I wrote this line too =P Darki699 */
 	private L2CustomNpcInstance _customNpcInstance;
 
-	/** The L2Spawn object that manage this L2NpcInstance */
+	/** The L2Spawn object that manage this L2NpcInstance. */
 	private L2Spawn _spawn;
 
-	/** The flag to specify if this L2NpcInstance is busy */
+	/** The flag to specify if this L2NpcInstance is busy. */
 	private boolean _isBusy = false;
 
-	/** The busy message for this L2NpcInstance */
+	/** The busy message for this L2NpcInstance. */
 	private String _busyMessage = "";
 
-	/** True if endDecayTask has already been called */
+	/** True if endDecayTask has already been called. */
 	volatile boolean _isDecayed = false;
 
-	/** True if a Dwarf has used Spoil on this L2NpcInstance */
+	/** True if a Dwarf has used Spoil on this L2NpcInstance. */
 	private boolean _isSpoil = false;
 
-	/** The castle index in the array of L2Castle this L2NpcInstance belongs to */
+	/** The castle index in the array of L2Castle this L2NpcInstance belongs to. */
 	private int _castleIndex = -2;
 
-	/** The fortress index in the array of L2Fort this L2NpcInstance belongs to */
+	/** The fortress index in the array of L2Fort this L2NpcInstance belongs to. */
 	private int _fortIndex = -2;
 
+	/** The _is ct f_ flag. */
 	public boolean isEventMob = false, _isEventMobTvT = false, _isEventVIPNPC = false, _isEventVIPNPCEnd = false, _isEventMobDM = false, _isEventMobCTF = false, _isCTF_throneSpawn = false, _isCTF_Flag = false;
 
+	/** The _is in town. */
 	private boolean _isInTown = false;
 
+	/** The _ ct f_ flag team name. */
 	public String _CTF_FlagTeamName;
 
+	/** The _is spoiled by. */
 	private int _isSpoiledBy = 0;
 
+	/** The _r ani task. */
 	protected RandomAnimationTask _rAniTask = null;
+	
+	/** The _current l hand id. */
 	private int _currentLHandId; // normally this shouldn't change from the template, but there exist exceptions
+	
+	/** The _current r hand id. */
 	private int _currentRHandId; // normally this shouldn't change from the template, but there exist exceptions
+	
+	/** The _current collision height. */
 	private int _currentCollisionHeight; // used for npc grow effect skills
+	
+	/** The _current collision radius. */
 	private int _currentCollisionRadius; // used for npc grow effect skills
 
-	/** Task launching the function onRandomAnimation() */
+	/**
+	 * Task launching the function onRandomAnimation().
+	 */
 	protected class RandomAnimationTask implements Runnable
 	{
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -230,21 +249,36 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Check if the server allows Random Animation.<BR>
 	 * <BR>
+	 *
+	 * @return true, if successful
 	 */
 	public boolean hasRandomAnimation()
 	{
 		return Config.MAX_NPC_ANIMATION > 0;
 	}
 
+	/**
+	 * The Class destroyTemporalNPC.
+	 */
 	public class destroyTemporalNPC implements Runnable
 	{
+		
+		/** The _old spawn. */
 		private L2Spawn _oldSpawn;
 
+		/**
+		 * Instantiates a new destroy temporal npc.
+		 *
+		 * @param spawn the spawn
+		 */
 		public destroyTemporalNPC(L2Spawn spawn)
 		{
 			_oldSpawn = spawn;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -261,17 +295,33 @@ public class L2NpcInstance extends L2Character
 		}
 	}
 
+	/**
+	 * The Class destroyTemporalSummon.
+	 */
 	public class destroyTemporalSummon implements Runnable
 	{
+		
+		/** The _summon. */
 		L2Summon _summon;
+		
+		/** The _player. */
 		L2PcInstance _player;
 
+		/**
+		 * Instantiates a new destroy temporal summon.
+		 *
+		 * @param summon the summon
+		 * @param player the player
+		 */
 		public destroyTemporalSummon(L2Summon summon, L2PcInstance player)
 		{
 			_summon = summon;
 			_player = player;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -316,6 +366,9 @@ public class L2NpcInstance extends L2Character
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getKnownList()
+	 */
 	@Override
 	public NpcKnownList getKnownList()
 	{
@@ -327,6 +380,9 @@ public class L2NpcInstance extends L2Character
 		return (NpcKnownList) super.getKnownList();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getStat()
+	 */
 	@Override
 	public NpcStat getStat()
 	{
@@ -338,6 +394,9 @@ public class L2NpcInstance extends L2Character
 		return (NpcStat) super.getStat();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#getStatus()
+	 */
 	@Override
 	public NpcStatus getStatus()
 	{
@@ -349,7 +408,11 @@ public class L2NpcInstance extends L2Character
 		return (NpcStatus) super.getStatus();
 	}
 
-	/** Return the L2NpcTemplate of the L2NpcInstance. */
+	/**
+	 * Return the L2NpcTemplate of the L2NpcInstance.
+	 *
+	 * @return the template
+	 */
 	@Override
 	public final L2NpcTemplate getTemplate()
 	{
@@ -359,12 +422,17 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the generic Identifier of this L2NpcInstance contained in the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return the npc id
 	 */
 	public int getNpcId()
 	{
 		return getTemplate().npcId;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Object#isAttackable()
+	 */
 	@Override
 	public boolean isAttackable()
 	{
@@ -381,6 +449,8 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * If a NPC belows to a Faction, other NPC of the faction inside the Faction range will help it if it's attacked<BR>
 	 * <BR>
+	 *
+	 * @return the faction id
 	 */
 	public final String getFactionId()
 	{
@@ -390,6 +460,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the Level of this L2NpcInstance contained in the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return the level
 	 */
 	@Override
 	public final int getLevel()
@@ -400,6 +472,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return True if the L2NpcInstance is agressive (ex : L2MonsterInstance in function of aggroRange).<BR>
 	 * <BR>
+	 *
+	 * @return true, if is aggressive
 	 */
 	public boolean isAggressive()
 	{
@@ -409,6 +483,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the Aggro Range of this L2NpcInstance contained in the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return the aggro range
 	 */
 	public int getAggroRange()
 	{
@@ -418,6 +494,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the Faction Range of this L2NpcInstance contained in the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return the faction range
 	 */
 	public int getFactionRange()
 	{
@@ -427,6 +505,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return True if this L2NpcInstance is undead in function of the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return true, if is undead
 	 */
 	@Override
 	public boolean isUndead()
@@ -465,8 +545,9 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * <li>L2Attackable</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param object The Object to add to _knownObject
+	 * @return the distance to watch object
 	 */
 	public int getDistanceToWatchObject(L2Object object)
 	{
@@ -494,8 +575,9 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * <li>L2Attackable</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param object The Object to remove from _knownObject
+	 * @return the distance to forget object
 	 */
 	public int getDistanceToForgetObject(L2Object object)
 	{
@@ -509,6 +591,9 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * <li>L2MonsterInstance : Check if the attacker is not another L2MonsterInstance</li> <li>L2PcInstance</li><BR>
 	 * <BR>
+	 *
+	 * @param attacker the attacker
+	 * @return true, if is auto attackable
 	 */
 	@Override
 	public boolean isAutoAttackable(L2Character attacker)
@@ -519,6 +604,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the Identifier of the item in the left hand of this L2NpcInstance contained in the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return the left hand item
 	 */
 	public int getLeftHandItem()
 	{
@@ -528,6 +615,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the Identifier of the item in the right hand of this L2NpcInstance contained in the L2NpcTemplate.<BR>
 	 * <BR>
+	 *
+	 * @return the right hand item
 	 */
 	public int getRightHandItem()
 	{
@@ -537,6 +626,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return True if this L2NpcInstance has drops that can be sweeped.<BR>
 	 * <BR>
+	 *
+	 * @return true, if is spoil
 	 */
 	public boolean isSpoil()
 	{
@@ -546,17 +637,29 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Set the spoil state of this L2NpcInstance.<BR>
 	 * <BR>
+	 *
+	 * @param isSpoil the new spoil
 	 */
 	public void setSpoil(boolean isSpoil)
 	{
 		_isSpoil = isSpoil;
 	}
 
+	/**
+	 * Gets the checks if is spoiled by.
+	 *
+	 * @return the checks if is spoiled by
+	 */
 	public final int getIsSpoiledBy()
 	{
 		return _isSpoiledBy;
 	}
 
+	/**
+	 * Sets the checks if is spoiled by.
+	 *
+	 * @param value the new checks if is spoiled by
+	 */
 	public final void setIsSpoiledBy(int value)
 	{
 		_isSpoiledBy = value;
@@ -565,6 +668,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the busy status of this L2NpcInstance.<BR>
 	 * <BR>
+	 *
+	 * @return true, if is busy
 	 */
 	public final boolean isBusy()
 	{
@@ -574,6 +679,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Set the busy status of this L2NpcInstance.<BR>
 	 * <BR>
+	 *
+	 * @param isBusy the new busy
 	 */
 	public void setBusy(boolean isBusy)
 	{
@@ -583,6 +690,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the busy message of this L2NpcInstance.<BR>
 	 * <BR>
+	 *
+	 * @return the busy message
 	 */
 	public final String getBusyMessage()
 	{
@@ -592,12 +701,20 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Set the busy message of this L2NpcInstance.<BR>
 	 * <BR>
+	 *
+	 * @param message the new busy message
 	 */
 	public void setBusyMessage(String message)
 	{
 		_busyMessage = message;
 	}
 
+	/**
+	 * Can target.
+	 *
+	 * @param player the player
+	 * @return true, if successful
+	 */
 	protected boolean canTarget(L2PcInstance player)
 	{
 		if(player.isOutOfControl())
@@ -610,6 +727,12 @@ public class L2NpcInstance extends L2Character
 		return true;
 	}
 
+	/**
+	 * Can interact.
+	 *
+	 * @param player the player
+	 * @return true, if successful
+	 */
 	protected boolean canInteract(L2PcInstance player)
 	{
 		// TODO: NPC busy check etc...
@@ -998,7 +1121,11 @@ public class L2NpcInstance extends L2Character
 		player = null;
 	}
 
-	/** Return the L2Castle this L2NpcInstance belongs to. */
+	/**
+	 * Return the L2Castle this L2NpcInstance belongs to.
+	 *
+	 * @return the castle
+	 */
 	public final Castle getCastle()
 	{
 		// Get castle this NPC belongs to (excluding L2Attackable)
@@ -1027,7 +1154,11 @@ public class L2NpcInstance extends L2Character
 		return CastleManager.getInstance().getCastles().get(_castleIndex);
 	}
 
-	/** Return the L2Fort this L2NpcInstance belongs to. */
+	/**
+	 * Return the L2Fort this L2NpcInstance belongs to.
+	 *
+	 * @return the fort
+	 */
 	public final Fort getFort()
 	{
 		// Get Fort this NPC belongs to (excluding L2Attackable) 
@@ -1048,6 +1179,11 @@ public class L2NpcInstance extends L2Character
 		return FortManager.getInstance().getForts().get(_fortIndex);
 	}
 
+	/**
+	 * Gets the checks if is in town.
+	 *
+	 * @return the checks if is in town
+	 */
 	public final boolean getIsInTown()
 	{
 		if(_castleIndex < 0)
@@ -1064,7 +1200,8 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * <li>Client packet : RequestBypassToServer</li><BR>
 	 * <BR>
-	 * 
+	 *
+	 * @param player the player
 	 * @param command The command string received from client
 	 */
 	public void onBypassFeedback(L2PcInstance player, String command)
@@ -1505,6 +1642,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return null (regular NPCs don't have weapons instancies).<BR>
 	 * <BR>
+	 *
+	 * @return the active weapon instance
 	 */
 	@Override
 	public L2ItemInstance getActiveWeaponInstance()
@@ -1516,6 +1655,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the weapon item equiped in the right hand of the L2NpcInstance or null.<BR>
 	 * <BR>
+	 *
+	 * @return the active weapon item
 	 */
 	@Override
 	public L2Weapon getActiveWeaponItem()
@@ -1535,6 +1676,11 @@ public class L2NpcInstance extends L2Character
 		return (L2Weapon) item;
 	}
 
+	/**
+	 * Give blessing support.
+	 *
+	 * @param player the player
+	 */
 	public void giveBlessingSupport(L2PcInstance player)
 	{
 		if(player == null)
@@ -1564,6 +1710,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return null (regular NPCs don't have weapons instancies).<BR>
 	 * <BR>
+	 *
+	 * @return the secondary weapon instance
 	 */
 	@Override
 	public L2ItemInstance getSecondaryWeaponInstance()
@@ -1575,6 +1723,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the weapon item equiped in the left hand of the L2NpcInstance or null.<BR>
 	 * <BR>
+	 *
+	 * @return the secondary weapon item
 	 */
 	@Override
 	public L2Weapon getSecondaryWeaponItem()
@@ -1626,9 +1776,10 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * <li>L2GuardInstance : Set the pathfile to data/html/guard/12006-1.htm (npcId-page number)</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param npcId The Identifier of the L2NpcInstance whose text must be display
 	 * @param val The number of the page to display
+	 * @return the html path
 	 */
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -2223,6 +2374,11 @@ public class L2NpcInstance extends L2Character
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Make cp recovery.
+	 *
+	 * @param player the player
+	 */
 	public void makeCPRecovery(L2PcInstance player)
 	{
 		if(getNpcId() != 31225 && getNpcId() != 31226)
@@ -2336,16 +2492,21 @@ public class L2NpcInstance extends L2Character
 		}
 	}
 
+	/**
+	 * Show chat window.
+	 *
+	 * @param player the player
+	 */
 	public void showChatWindow(L2PcInstance player)
 	{
 		showChatWindow(player, 0);
 	}
 
 	/**
-	 * Returns true if html exists
-	 * 
-	 * @param player
-	 * @param type
+	 * Returns true if html exists.
+	 *
+	 * @param player the player
+	 * @param type the type
 	 * @return boolean
 	 */
 	private boolean showPkDenyChatWindow(L2PcInstance player, String type)
@@ -2853,6 +3014,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the Exp Reward of this L2NpcInstance contained in the L2NpcTemplate (modified by RATE_XP).<BR>
 	 * <BR>
+	 *
+	 * @return the exp reward
 	 */
 	public int getExpReward()
 	{
@@ -2863,6 +3026,8 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the SP Reward of this L2NpcInstance contained in the L2NpcTemplate (modified by RATE_SP).<BR>
 	 * <BR>
+	 *
+	 * @return the sp reward
 	 */
 	public int getSpReward()
 	{
@@ -2884,8 +3049,9 @@ public class L2NpcInstance extends L2Character
 	 * <BR>
 	 * <li>L2Attackable</li><BR>
 	 * <BR>
-	 * 
+	 *
 	 * @param killer The L2Character who killed it
+	 * @return true, if successful
 	 */
 	@Override
 	public boolean doDie(L2Character killer)
@@ -2922,6 +3088,9 @@ public class L2NpcInstance extends L2Character
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#onSpawn()
+	 */
 	@Override
 	public void onSpawn()
 	{
@@ -3017,28 +3186,46 @@ public class L2NpcInstance extends L2Character
 	/**
 	 * Return the L2Spawn object that manage this L2NpcInstance.<BR>
 	 * <BR>
+	 *
+	 * @return the spawn
 	 */
 	public L2Spawn getSpawn()
 	{
 		return _spawn;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.L2Character#toString()
+	 */
 	@Override
 	public String toString()
 	{
 		return getTemplate().name;
 	}
 
+	/**
+	 * Checks if is decayed.
+	 *
+	 * @return true, if is decayed
+	 */
 	public boolean isDecayed()
 	{
 		return _isDecayed;
 	}
 
+	/**
+	 * Sets the decayed.
+	 *
+	 * @param decayed the new decayed
+	 */
 	public void setDecayed(boolean decayed)
 	{
 		_isDecayed = decayed;
 	}
 
+	/**
+	 * End decay task.
+	 */
 	public void endDecayTask()
 	{
 		if(!isDecayed())
@@ -3048,6 +3235,11 @@ public class L2NpcInstance extends L2Character
 		}
 	}
 
+	/**
+	 * Checks if is mob.
+	 *
+	 * @return true, if is mob
+	 */
 	public boolean isMob() // rather delete this check
 	{
 		return false; // This means we use MAX_NPC_ANIMATION instead of MAX_MONSTER_ANIMATION
@@ -3055,41 +3247,81 @@ public class L2NpcInstance extends L2Character
 
 	// Two functions to change the appearance of the equipped weapons on the NPC
 	// This is only useful for a few NPCs and is most likely going to be called from AI
+	/**
+	 * Sets the l hand id.
+	 *
+	 * @param newWeaponId the new l hand id
+	 */
 	public void setLHandId(int newWeaponId)
 	{
 		_currentLHandId = newWeaponId;
 	}
 
+	/**
+	 * Sets the r hand id.
+	 *
+	 * @param newWeaponId the new r hand id
+	 */
 	public void setRHandId(int newWeaponId)
 	{
 		_currentRHandId = newWeaponId;
 	}
 
+	/**
+	 * Sets the collision height.
+	 *
+	 * @param height the new collision height
+	 */
 	public void setCollisionHeight(int height)
 	{
 		_currentCollisionHeight = height;
 	}
 
+	/**
+	 * Sets the collision radius.
+	 *
+	 * @param radius the new collision radius
+	 */
 	public void setCollisionRadius(int radius)
 	{
 		_currentCollisionRadius = radius;
 	}
 
+	/**
+	 * Gets the collision height.
+	 *
+	 * @return the collision height
+	 */
 	public int getCollisionHeight()
 	{
 		return _currentCollisionHeight;
 	}
 
+	/**
+	 * Gets the collision radius.
+	 *
+	 * @return the collision radius
+	 */
 	public int getCollisionRadius()
 	{
 		return _currentCollisionRadius;
 	}
 
+	/**
+	 * Gets the custom npc instance.
+	 *
+	 * @return the custom npc instance
+	 */
 	public L2CustomNpcInstance getCustomNpcInstance()
 	{
 		return _customNpcInstance;
 	}
 
+	/**
+	 * Sets the custom npc instance.
+	 *
+	 * @param arg the new custom npc instance
+	 */
 	public void setCustomNpcInstance(L2CustomNpcInstance arg)
 	{
 		_customNpcInstance = arg;

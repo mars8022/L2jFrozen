@@ -35,7 +35,10 @@ public class CreatureSay extends L2GameServerPacket
 	private String _text;
 
 	/**
-	 * @param _characters
+	 * @param objectId 
+	 * @param messageType 
+	 * @param charName 
+	 * @param text 
 	 */
 	public CreatureSay(int objectId, int messageType, String charName, String text)
 	{

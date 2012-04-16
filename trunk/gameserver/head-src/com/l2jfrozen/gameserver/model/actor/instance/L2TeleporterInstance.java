@@ -36,6 +36,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
+ * The Class L2TeleporterInstance.
+ *
  * @author NightMarez
  * @version $Revision: 1.3.2.2.2.5 $ $Date: 2005/03/27 15:29:32 $
  */
@@ -43,19 +45,32 @@ public final class L2TeleporterInstance extends L2FolkInstance
 {
 	//private static Logger _log = Logger.getLogger(L2TeleporterInstance.class.getName());
 
+	/** The Constant COND_ALL_FALSE. */
 	private static final int COND_ALL_FALSE = 0;
+	
+	/** The Constant COND_BUSY_BECAUSE_OF_SIEGE. */
 	private static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
+	
+	/** The Constant COND_OWNER. */
 	private static final int COND_OWNER = 2;
+	
+	/** The Constant COND_REGULAR. */
 	private static final int COND_REGULAR = 3;
 
 	/**
-	 * @param template
+	 * Instantiates a new l2 teleporter instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2TeleporterInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -155,6 +170,9 @@ public final class L2TeleporterInstance extends L2FolkInstance
 		super.onBypassFeedback(player, command);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#getHtmlPath(int, int)
+	 */
 	@Override
 	public String getHtmlPath(int npcId, int val)
 	{
@@ -171,6 +189,9 @@ public final class L2TeleporterInstance extends L2FolkInstance
 		return "data/html/teleporter/" + pom + ".htm";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#showChatWindow(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	public void showChatWindow(L2PcInstance player)
 	{
@@ -204,6 +225,12 @@ public final class L2TeleporterInstance extends L2FolkInstance
 		html = null;
 	}
 
+	/**
+	 * Do teleport.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void doTeleport(L2PcInstance player, int val)
 	{
 		L2TeleportLocation list = TeleportLocationTable.getInstance().getTemplate(val);
@@ -310,6 +337,12 @@ public final class L2TeleporterInstance extends L2FolkInstance
 		list = null;
 	}
 
+	/**
+	 * Validate condition.
+	 *
+	 * @param player the player
+	 * @return the int
+	 */
 	private int validateCondition(L2PcInstance player)
 	{
 		if(CastleManager.getInstance().getCastleIndex(this) < 0) // Teleporter isn't on castle ground

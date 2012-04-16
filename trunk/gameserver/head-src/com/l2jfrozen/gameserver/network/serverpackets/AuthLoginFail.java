@@ -41,7 +41,7 @@ public class AuthLoginFail extends L2GameServerPacket
 	private int _reason;
 
 	/**
-	 * @param _characters
+	 * @param reason 
 	 */
 	public AuthLoginFail(int reason)
 	{
@@ -54,10 +54,7 @@ public class AuthLoginFail extends L2GameServerPacket
 		writeC(0x14);
 		writeD(_reason);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{

@@ -38,10 +38,7 @@ public class ExConfirmVariationRefiner extends L2GameServerPacket
 		_gemstoneCount = gemstoneCount;
 		_unk2 = 1;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -53,14 +50,10 @@ public class ExConfirmVariationRefiner extends L2GameServerPacket
 		writeD(_gemstoneCount);
 		writeD(_unk2);
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_53_EXCONFIRMVARIATIONREFINER;
 	}
-
 }

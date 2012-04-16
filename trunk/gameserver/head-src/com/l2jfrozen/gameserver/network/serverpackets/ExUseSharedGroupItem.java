@@ -18,15 +18,26 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch dddd
- * 
+ * Format: ch dddd.
+ *
  * @author KenM
  */
 public class ExUseSharedGroupItem extends L2GameServerPacket
 {
+	/** The Constant _S__FE_49_EXUSESHAREDGROUPITEM. */
 	private static final String _S__FE_49_EXUSESHAREDGROUPITEM = "[S] FE:49 ExUseSharedGroupItem";
+	
+	/** The _unk4. */
 	private int _unk1, _unk2, _unk3, _unk4;
 
+	/**
+	 * Instantiates a new ex use shared group item.
+	 *
+	 * @param unk1 the unk1
+	 * @param unk2 the unk2
+	 * @param unk3 the unk3
+	 * @param unk4 the unk4
+	 */
 	public ExUseSharedGroupItem(int unk1, int unk2, int unk3, int unk4)
 	{
 		_unk1 = unk1;
@@ -34,10 +45,7 @@ public class ExUseSharedGroupItem extends L2GameServerPacket
 		_unk3 = unk3;
 		_unk4 = unk4;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -51,12 +59,13 @@ public class ExUseSharedGroupItem extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_49_EXUSESHAREDGROUPITEM;
 	}
-
 }

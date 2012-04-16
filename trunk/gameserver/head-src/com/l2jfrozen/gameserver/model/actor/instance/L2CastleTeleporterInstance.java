@@ -22,25 +22,34 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
-
 /**
- * @author Kerberos
+ * The Class L2CastleTeleporterInstance.
  *
+ * @author Kerberos
  */
 public final class L2CastleTeleporterInstance extends L2NpcInstance
 {
+	
+	/** The Constant _log. */
 	public static final Logger _log = Logger.getLogger(L2CastleTeleporterInstance.class.getName());
 	
+	/** The _current task. */
 	private boolean _currentTask = false;
 	
 	/**
-	 * @param template
+	 * Instantiates a new l2 castle teleporter instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2CastleTeleporterInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -70,6 +79,9 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 		super.onBypassFeedback(player, command);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#showChatWindow(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	 */
 	@Override
 	public void showChatWindow(L2PcInstance player)
 	{
@@ -90,13 +102,23 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 		player.sendPacket(html);
 	}
 	
+	/**
+	 * Oust all players.
+	 */
 	void oustAllPlayers()
 	{
 		getCastle().oustAllPlayers();
 	}
 	
+	/**
+	 * The Class oustAllPlayers.
+	 */
 	class oustAllPlayers implements Runnable
 	{
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run()
 		{
@@ -125,11 +147,21 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 		}
 	}
 	
+	/**
+	 * Gets the task.
+	 *
+	 * @return the task
+	 */
 	public boolean getTask()
 	{
 		return _currentTask;
 	}
 	
+	/**
+	 * Sets the task.
+	 *
+	 * @param state the new task
+	 */
 	public void setTask(boolean state)
 	{
 		_currentTask = state;

@@ -207,6 +207,9 @@ public final class RequestPetUseItem extends L2GameClientPacket
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : 1 food = 100 points of currentFed</B></FONT><BR>
 	 * <BR>
+	 * @param player 
+	 * @param pet 
+	 * @param item 
 	 */
 	private void feed(L2PcInstance player, L2PetInstance pet, L2ItemInstance item)
 	{

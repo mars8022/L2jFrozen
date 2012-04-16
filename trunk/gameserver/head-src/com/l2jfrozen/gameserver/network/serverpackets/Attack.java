@@ -73,6 +73,7 @@ public class Attack extends L2GameServerPacket
 	/**
 	 * @param attacker the attacker L2Character
 	 * @param ss true if useing SoulShots
+	 * @param grade 
 	 */
 	public Attack(L2Character attacker, boolean ss, int grade)
 	{
@@ -86,8 +87,12 @@ public class Attack extends L2GameServerPacket
 	}
 
 	/**
-	 * Add this hit (target, damage, miss, critical, shield) to the Server-Client packet Attack.<BR>
-	 * <BR>
+	 * Add this hit (target, damage, miss, critical, shield) to the Server-Client packet Attack.
+	 * @param target 
+	 * @param damage 
+	 * @param miss 
+	 * @param crit 
+	 * @param shld 
 	 */
 	public void addHit(L2Object target, int damage, boolean miss, boolean crit, boolean shld)
 	{
@@ -107,8 +112,8 @@ public class Attack extends L2GameServerPacket
 	}
 
 	/**
-	 * Return True if the Server-Client packet Attack conatins at least 1 hit.<BR>
-	 * <BR>
+	 * Return True if the Server-Client packet Attack contains at least 1 hit.
+	 * @return 
 	 */
 	public boolean hasHits()
 	{

@@ -300,13 +300,13 @@ public class Quest extends ManagedScript
 		return state;
 	}
 
-	/**
+	/*
 	 * Add a timer to the quest, if it doesn't exist already
 	 * 
-	 * @param name: name of the timer (also passed back as "event" in onAdvEvent)
-	 * @param time: time in ms for when to fire the timer
-	 * @param npc: npc associated with this timer (can be null)
-	 * @param player: player associated with this timer (can be null)
+	 * @param name name of the timer (also passed back as "event" in onAdvEvent)
+	 * @param time time in ms for when to fire the timer
+	 * @param npc npc associated with this timer (can be null)
+	 * @param player player associated with this timer (can be null)
 	 */
 	/*public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player)
 	{
@@ -333,6 +333,13 @@ public class Quest extends ManagedScript
 		// ignore the startQuestTimer in all other cases (timer is already started)
 	}
 */
+	
+	/**
+	 * @param name
+	 * @param time
+	 * @param npc
+	 * @param player
+	 */
 	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player)
 	{
 		startQuestTimer(name, time, npc, player, false);
@@ -341,11 +348,11 @@ public class Quest extends ManagedScript
 	/**
 	 * Add a timer to the quest, if it doesn't exist already.  If the timer is repeatable,
 	 * it will auto-fire automatically, at a fixed rate, until explicitly canceled.
-	 * @param name: name of the timer (also passed back as "event" in onAdvEvent)
-	 * @param time: time in ms for when to fire the timer
-	 * @param npc:  npc associated with this timer (can be null)
-	 * @param player: player associated with this timer (can be null)
-	 * @param repeatable: indicates if the timer is repeatable or one-time.
+	 * @param name name of the timer (also passed back as "event" in onAdvEvent)
+	 * @param time time in ms for when to fire the timer
+	 * @param npc  npc associated with this timer (can be null)
+	 * @param player player associated with this timer (can be null)
+	 * @param repeating indicates if the timer is repeatable or one-time.
 	 */
 	public void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player, boolean repeating)
 	{
@@ -727,8 +734,7 @@ public class Quest extends ManagedScript
 
 	/**
 	 * Show message error to player who has an access level greater than 0
-	 * 
-	 * @param player : L2PcInstance
+	 * @param object 
 	 * @param t : Throwable
 	 * @return boolean
 	 */
@@ -784,8 +790,7 @@ public class Quest extends ManagedScript
 	 * <LI><U>"res" ends with string ".html" :</U> an HTML is opened in order to be shown in a dialog box</LI> <LI>
 	 * <U>"res" starts with "<html>" :</U> the message hold in "res" is shown in a dialog box</LI> <LI><U>otherwise
 	 * :</U> the message hold in "res" is shown in chat box</LI>
-	 * 
-	 * @param qs : QuestState
+	 * @param object 
 	 * @param res : String pointing out the message to show at the player
 	 * @return boolean
 	 */
@@ -907,9 +912,8 @@ public class Quest extends ManagedScript
 	/**
 	 * Add this quest to the list of quests that the passed npc will respond to for Character See Events.<BR>
 	 * <BR>
-	 * 
-	 * @param talkId : ID of the NPC
-	 * @return int : ID of the NPC
+	 * @param npcId ID of the NPC
+	 * @return int ID of the NPC
 	 */
 	public L2NpcTemplate addAggroRangeEnterId(int npcId)
 	{
@@ -1464,11 +1468,11 @@ public class Quest extends ManagedScript
 	}
 
 	/**
-	 * Auxilary function for party quests. Note: This function is only here because of how commonly it may be used by
+	 * Auxiliary function for party quests. Note: This function is only here because of how commonly it may be used by
 	 * quest developers. For any variations on this function, the quest script can always handle things on its own
 	 * 
-	 * @param player: the instance of a player whose party is to be searched
-	 * @param value: the value of the "cond" variable that must be matched
+	 * @param player the instance of a player whose party is to be searched
+	 * @param value the value of the "cond" variable that must be matched
 	 * @return L2PcInstance: L2PcInstance for a random party member that matches the specified condition, or null if no
 	 *         match.
 	 */
@@ -1478,12 +1482,13 @@ public class Quest extends ManagedScript
 	}
 
 	/**
-	 * Auxilary function for party quests. Note: This function is only here because of how commonly it may be used by
+	 * Auxiliary function for party quests. Note: This function is only here because of how commonly it may be used by
 	 * quest developers. For any variations on this function, the quest script can always handle things on its own
 	 * 
-	 * @param player: the instance of a player whose party is to be searched
-	 * @param var/value: a tuple specifying a quest condition that must be satisfied for a party member to be
+	 * @param player the instance of a player whose party is to be searched
+	 * @param var a tuple specifying a quest condition that must be satisfied for a party member to be
 	 *            considered.
+	 * @param value 
 	 * @return L2PcInstance: L2PcInstance for a random party member that matches the specified condition, or null if no
 	 *         match. If the var is null, any random party member is returned (i.e. no condition is applied). The party
 	 *         member must be within 1500 distance from the target of the reference player, or if no target exists, 1500
@@ -1546,11 +1551,11 @@ public class Quest extends ManagedScript
 	}
 
 	/**
-	 * Auxilary function for party quests. Note: This function is only here because of how commonly it may be used by
+	 * Auxiliary function for party quests. Note: This function is only here because of how commonly it may be used by
 	 * quest developers. For any variations on this function, the quest script can always handle things on its own
 	 * 
-	 * @param player: the instance of a player whose party is to be searched
-	 * @param state: the state in which the party member's queststate must be in order to be considered.
+	 * @param player the instance of a player whose party is to be searched
+	 * @param state the state in which the party member's queststate must be in order to be considered.
 	 * @return L2PcInstance: L2PcInstance for a random party member that matches the specified condition, or null if no
 	 *         match. If the var is null, any random party member is returned (i.e. no condition is applied).
 	 */
@@ -1612,6 +1617,7 @@ public class Quest extends ManagedScript
 
 	/**
 	 * Show HTML file to client
+	 * @param player 
 	 * 
 	 * @param fileName
 	 * @return String : message sent to client

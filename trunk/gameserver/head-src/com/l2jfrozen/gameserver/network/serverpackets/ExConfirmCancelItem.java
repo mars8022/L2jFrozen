@@ -32,10 +32,7 @@ public class ExConfirmCancelItem extends L2GameServerPacket
 		_itemObjId = itemObjId;
 		_price = price;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -48,14 +45,10 @@ public class ExConfirmCancelItem extends L2GameServerPacket
 		writeQ(_price);
 		writeD(0x01);
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
-	 */
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_56_EXCONFIRMCANCELITEM;
 	}
-
 }

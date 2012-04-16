@@ -45,23 +45,41 @@ import com.l2jfrozen.gameserver.network.serverpackets.WareHouseDepositList;
 import com.l2jfrozen.gameserver.network.serverpackets.WareHouseWithdrawalList;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
+/**
+ * The Class L2ClanHallManagerInstance.
+ */
 public class L2ClanHallManagerInstance extends L2FolkInstance
 {
+	
+	/** The Constant COND_OWNER_FALSE. */
 	protected static final int COND_OWNER_FALSE = 0;
+	
+	/** The Constant COND_ALL_FALSE. */
 	protected static final int COND_ALL_FALSE = 1;
+	
+	/** The Constant COND_BUSY_BECAUSE_OF_SIEGE. */
 	protected static final int COND_BUSY_BECAUSE_OF_SIEGE = 2;
+	
+	/** The Constant COND_OWNER. */
 	protected static final int COND_OWNER = 3;
+	
+	/** The _clan hall id. */
 	private int _clanHallId = -1;
 
 	/**
-	 * @param objectId
-	 * @param template
+	 * Instantiates a new l2 clan hall manager instance.
+	 *
+	 * @param objectId the object id
+	 * @param template the template
 	 */
 	public L2ClanHallManagerInstance(int objectId, L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 */
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)
 	{
@@ -845,9 +863,9 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 	}
 
 	/**
-	 * this is called when a player interacts with this NPC
-	 * 
-	 * @param player
+	 * this is called when a player interacts with this NPC.
+	 *
+	 * @param player the player
 	 */
 	@Override
 	public void onAction(L2PcInstance player)
@@ -889,6 +907,12 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Send html message.
+	 *
+	 * @param player the player
+	 * @param html the html
+	 */
 	private void sendHtmlMessage(L2PcInstance player, NpcHtmlMessage html)
 	{
 		html.replace("%objectId%", String.valueOf(getObjectId()));
@@ -898,6 +922,11 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		html = null;
 	}
 
+	/**
+	 * Show message window.
+	 *
+	 * @param player the player
+	 */
 	private void showMessageWindow(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -922,6 +951,12 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		filename = null;
 	}
 
+	/**
+	 * Validate condition.
+	 *
+	 * @param player the player
+	 * @return the int
+	 */
 	protected int validateCondition(L2PcInstance player)
 	{
 		if(getClanHall() == null)
@@ -936,7 +971,11 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		return COND_ALL_FALSE;
 	}
 
-	/** Return the L2ClanHall this L2NpcInstance belongs to. */
+	/**
+	 * Return the L2ClanHall this L2NpcInstance belongs to.
+	 *
+	 * @return the clan hall
+	 */
 	public final ClanHall getClanHall()
 	{
 		if(_clanHallId < 0)
@@ -955,6 +994,11 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		return ClanHallManager.getInstance().getClanHallById(_clanHallId);
 	}
 
+	/**
+	 * Show vault window deposit.
+	 *
+	 * @param player the player
+	 */
 	private void showVaultWindowDeposit(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -962,6 +1006,11 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		player.sendPacket(new WareHouseDepositList(player, WareHouseDepositList.CLAN)); //Or Clan Hall??
 	}
 
+	/**
+	 * Show vault window withdraw.
+	 *
+	 * @param player the player
+	 */
 	private void showVaultWindowWithdraw(L2PcInstance player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -969,6 +1018,12 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		player.sendPacket(new WareHouseWithdrawalList(player, WareHouseWithdrawalList.CLAN)); //Or Clan Hall ??
 	}
 
+	/**
+	 * Do teleport.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void doTeleport(L2PcInstance player, int val)
 	{
 		if(Config.DEBUG)
@@ -1001,6 +1056,12 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Show buy window.
+	 *
+	 * @param player the player
+	 * @param val the val
+	 */
 	private void showBuyWindow(L2PcInstance player, int val)
 	{
 		double taxRate = 0;
@@ -1035,6 +1096,11 @@ public class L2ClanHallManagerInstance extends L2FolkInstance
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
+	/**
+	 * Revalidate deco.
+	 *
+	 * @param player the player
+	 */
 	private void revalidateDeco(L2PcInstance player)
 	{
 		ClanHallDecoration bl = new ClanHallDecoration(ClanHallManager.getInstance().getClanHallByOwner(player.getClan()));

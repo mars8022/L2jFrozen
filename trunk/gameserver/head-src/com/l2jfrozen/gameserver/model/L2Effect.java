@@ -414,7 +414,9 @@ public abstract class L2Effect
 			
 	}
 
-	/** returns effect type */
+	/**
+	 * @return effect type 
+	 */
 	public abstract EffectType getEffectType();
 
 	/** Notify started */
@@ -438,7 +440,10 @@ public abstract class L2Effect
 		}
 	}
 
-	/** Return true for continueation of this effect */
+	/**
+	 * Return true for continuation of this effect 
+	 * @return
+	 */
 	public abstract boolean onActionTime();
 
 	public final void rescheduleEffect()

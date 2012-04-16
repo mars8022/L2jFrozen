@@ -99,8 +99,11 @@ public class L2Multisell
 	 * it at the mammon, the list should have all exchange possibilities for the +1 staff, followed by all possibilities
 	 * for the +3 staff. * If false, then any level ingredient will be considered equal and product will always be at +0
 	 * 3) apply taxes: Uses the "taxIngredient" entry in order to add a certain amount of adena to the ingredients
-	 * 
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#runImpl()
+	 * @param listId 
+	 * @param inventoryOnly 
+	 * @param player 
+	 * @param taxRate 
+	 * @return 
 	 */
 	private MultiSellListContainer generateMultiSell(int listId, boolean inventoryOnly, L2PcInstance player, double taxRate)
 	{

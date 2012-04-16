@@ -65,7 +65,7 @@ public class MultiSellEntry
 	}
 
 	/**
-	 * @param ingredients The ingredients to set.
+	 * @param ingredient The ingredients to set.
 	 */
 	public void addIngredient(MultiSellIngredient ingredient)
 	{

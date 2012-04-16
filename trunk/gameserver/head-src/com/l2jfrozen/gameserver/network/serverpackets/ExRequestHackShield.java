@@ -18,17 +18,15 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch Trigger packet
- * 
+ * Format: ch Trigger packet.
+ *
  * @author KenM
  */
 public class ExRequestHackShield extends L2GameServerPacket
 {
+	/** The Constant _S__FE_48_EXREQUESTHACKSHIELD. */
 	private static final String _S__FE_48_EXREQUESTHACKSHIELD = "[S] FE:48 ExRequestHackShield";
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -37,12 +35,13 @@ public class ExRequestHackShield extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__FE_48_EXREQUESTHACKSHIELD;
 	}
-
 }

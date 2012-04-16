@@ -24,8 +24,6 @@ import com.l2jfrozen.gameserver.model.L2Macro;
  * packet type id 0xe7 sample e7 d // unknown change of Macro edit,add,delete c // unknown c //count of Macros c //
  * unknown d // id S // macro name S // desc S // acronym c // icon c // count c // entry c // type d // skill id c //
  * shortcut id S // command name format: cdhcdSSScc (ccdcS)
- * 
- * @param decrypt
  */
 public class SendMacroList extends L2GameServerPacket
 {

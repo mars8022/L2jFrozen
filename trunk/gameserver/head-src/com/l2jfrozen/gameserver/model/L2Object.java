@@ -130,7 +130,7 @@ public abstract class L2Object
 	/**
 	 * 
 	 * @param event as String<br>
-	 * @param params<br>
+	 * @param params
 	 * @return as Object
 	 */
 	public Object fireEvent(final String event, Object... params)
@@ -159,7 +159,7 @@ public abstract class L2Object
 	}
 
 	/**
-	 * @param client
+	 * @param player 
 	 */
 	public void onActionShift(L2PcInstance player)
 	{
@@ -174,7 +174,7 @@ public abstract class L2Object
 	/**
 	 * Do Nothing.<BR>
 	 * <BR>
-	 * <B><U> Overriden in </U> :</B><BR>
+	 * <B><U> Overridden in </U> :</B><BR>
 	 * <BR>
 	 * <li>L2GuardInstance : Set the home location of its L2GuardInstance</li> <li>L2Attackable : Reset the Spoiled flag
 	 * </li><BR>
@@ -482,12 +482,11 @@ public abstract class L2Object
 	}
 
 	/**
-	 * Return the visibility state of the L2Object. <BR>
-	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
 	 * A L2Object is visible if <B>__IsVisible</B>=true and <B>_worldregion</B>!=null <BR>
 	 * <BR>
+	 * @return the visibility state of the L2Object.
 	 */
 	public final boolean isVisible()
 	{
@@ -556,7 +555,7 @@ public abstract class L2Object
 	}
 
 	/**
-	 * returns reference to region this object is in
+	 * @return reference to region this object is in
 	 */
 	public L2WorldRegion getWorldRegion()
 	{
@@ -579,7 +578,7 @@ public abstract class L2Object
 	{
 		_instanceId = instanceId;
 
-		// If we change it for visible objects, me must clear & revalidate knownlists
+		// If we change it for visible objects, me must clear & revalidates knownlists
 		if(_isVisible && _knownList != null)
 		{
 			if(this instanceof L2PcInstance)

@@ -44,7 +44,7 @@ public final class L2ArtefactInstance extends L2NpcInstance
 	 * <BR>
 	 * 
 	 * @param objectId Identifier of the object to initialized
-	 * @param L2NpcTemplate Template to apply to the NPC
+	 * @param template 
 	 */
 	public L2ArtefactInstance(int objectId, L2NpcTemplate template)
 	{

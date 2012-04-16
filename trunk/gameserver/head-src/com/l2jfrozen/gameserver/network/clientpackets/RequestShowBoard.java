@@ -28,8 +28,6 @@ public final class RequestShowBoard extends L2GameClientPacket
 
 	/**
 	 * packet type id 0x57 sample 57 01 00 00 00 // unknown (always 1?) format: cd
-	 * 
-	 * @param decrypt
 	 */
 	@Override
 	protected void readImpl()

@@ -29,13 +29,20 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class ExOlympiadUserInfo extends L2GameServerPacket
 {
 	// chcdSddddd
+	/** The Constant _S__FE_29_OLYMPIADUSERINFO. */
 	private static final String _S__FE_29_OLYMPIADUSERINFO = "[S] FE:29 OlympiadUserInfo";
+	
+	/** The _side. */
 	private int _side;
+	
+	/** The _player. */
 	private L2PcInstance _player;
 
 	/**
-	 * @param _player
-	 * @param _side (1 = right, 2 = left)
+	 * Instantiates a new ex olympiad user info.
+	 *
+	 * @param player the player
+	 * @param side the side
 	 */
 	public ExOlympiadUserInfo(L2PcInstance player, int side)
 	{
@@ -43,6 +50,9 @@ public class ExOlympiadUserInfo extends L2GameServerPacket
 		_side = side;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
+	 */
 	@Override
 	protected final void writeImpl()
 	{

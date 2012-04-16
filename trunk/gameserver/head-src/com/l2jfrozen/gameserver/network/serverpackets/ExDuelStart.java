@@ -18,23 +18,29 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
- * Format: ch d
- * 
+ * Format: ch d.
+ *
  * @author KenM
  */
 public class ExDuelStart extends L2GameServerPacket
 {
+	
+	/** The Constant _S__FE_4D_EXDUELSTART. */
 	private static final String _S__FE_4D_EXDUELSTART = "[S] FE:4D ExDuelStart";
+	
+	/** The _unk1. */
 	private int _unk1;
 
+	/**
+	 * Instantiates a new ex duel start.
+	 *
+	 * @param unk1 the unk1
+	 */
 	public ExDuelStart(int unk1)
 	{
 		_unk1 = unk1;
 	}
-
-	/**
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
-	 */
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -45,7 +51,9 @@ public class ExDuelStart extends L2GameServerPacket
 	}
 
 	/**
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	 * Gets the type.
+	 *
+	 * @return the type
 	 */
 	@Override
 	public String getType()

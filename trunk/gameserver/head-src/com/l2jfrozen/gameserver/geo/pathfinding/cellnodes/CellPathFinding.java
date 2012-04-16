@@ -35,9 +35,6 @@ public final class CellPathFinding extends PathFinding
 		return SingletonHolder.INSTANCE;
 	}
 	
-	/**
-	 * @see net.sf.l2j.gameserver.pathfinding.PathFinding#FindPath(int, int, short, int, int, short)
-	 */
 	@Override
 	public Node[] findPath(int x, int y, int z, int tx, int ty, int tz)
 	{
@@ -55,10 +52,7 @@ public final class CellPathFinding extends PathFinding
 		Node end = readNode(gtx, gty, gtz);
 		return searchByClosest(start, end);
 	}
-
-	/**
-	 * @see net.sf.l2j.gameserver.pathfinding.PathFinding#ReadNeighbors(short, short)
-	 */
+	
 	@Override
 	public Node[] readNeighbors(Node n, int idx)
 	{

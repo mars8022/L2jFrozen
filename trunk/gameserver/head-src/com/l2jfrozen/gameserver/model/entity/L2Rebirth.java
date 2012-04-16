@@ -44,19 +44,26 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class L2Rebirth
 {
-	/** The current instance - static repeller */
+	
+	/** The current instance - static repeller. */
 	private static L2Rebirth _instance = null;
 
 	/** Basically, this will act as a cache so it doesnt have to read DB information on relog. */
 	private HashMap<Integer, Integer> _playersRebirthInfo = new HashMap<Integer, Integer>();
 
-	/** Creates a new NON-STATIC instance */
+	/**
+	 * Creates a new NON-STATIC instance.
+	 */
 	private L2Rebirth()
 	{
 	//Do Nothing ^_-
 	}
 
-	/** Receives the non-static instance of the RebirthManager. */
+	/**
+	 * Receives the non-static instance of the RebirthManager.
+	 *
+	 * @return single instance of L2Rebirth
+	 */
 	public static L2Rebirth getInstance()
 	{
 		if(_instance == null)
@@ -66,7 +73,12 @@ public class L2Rebirth
 		return _instance;
 	}
 
-	/** This is what it called from the Bypass Handler. (I think that's all thats needed here). */
+	/**
+	 * This is what it called from the Bypass Handler. (I think that's all thats needed here).
+	 *
+	 * @param player the player
+	 * @param command the command
+	 */
 	public void handleCommand(L2PcInstance player, String command)
 	{
 		if(command.startsWith("custom_rebirth_requestrebirth"))
@@ -79,7 +91,11 @@ public class L2Rebirth
 		}
 	}
 
-	/** Display's an HTML window with the Rebirth Options */
+	/**
+	 * Display's an HTML window with the Rebirth Options.
+	 *
+	 * @param player the player
+	 */
 	public void displayRebirthWindow(L2PcInstance player)
 	{
 		try
@@ -116,7 +132,11 @@ public class L2Rebirth
 		}
 	}
 
-	/** Checks to see if the player is eligible for a Rebirth, if so it grants it and stores information */
+	/**
+	 * Checks to see if the player is eligible for a Rebirth, if so it grants it and stores information.
+	 *
+	 * @param player the player
+	 */
 	public void requestRebirth(L2PcInstance player)
 	{
 		//Check the player's level.
@@ -168,7 +188,13 @@ public class L2Rebirth
 		grantRebirth(player, (currBirth + 1), firstBirth);
 	}
 
-	/** Physically rewards player and resets status to nothing. */
+	/**
+	 * Physically rewards player and resets status to nothing.
+	 *
+	 * @param player the player
+	 * @param newBirthCount the new birth count
+	 * @param firstBirth the first birth
+	 */
 	public void grantRebirth(L2PcInstance player, int newBirthCount, boolean firstBirth)
 	{
 		try
@@ -249,7 +275,11 @@ public class L2Rebirth
 		}
 	}
 
-	/** Special effects when the player levels. */
+	/**
+	 * Special effects when the player levels.
+	 *
+	 * @param player the player
+	 */
 	public void displayCongrats(L2PcInstance player)
 	{
 		//Victory Social Action.
@@ -258,7 +288,14 @@ public class L2Rebirth
 		player.sendMessage("Congratulations " + player.getName() + ". You have been REBORN!");
 	}
 
-	/** Check and verify the player DOES have the item required for a request. Also, remove the item if he has. */
+	/**
+	 * Check and verify the player DOES have the item required for a request. Also, remove the item if he has.
+	 *
+	 * @param player the player
+	 * @param itemId the item id
+	 * @param itemAmount the item amount
+	 * @return true, if successful
+	 */
 	public boolean playerIsEligible(L2PcInstance player, int itemId, int itemAmount)
 	{
 		String itemName = ItemTable.getInstance().getTemplate(itemId).getName();
@@ -280,7 +317,11 @@ public class L2Rebirth
 		return true;
 	}
 
-	/** Gives the available Bonus Skills to the player. */
+	/**
+	 * Gives the available Bonus Skills to the player.
+	 *
+	 * @param player the player
+	 */
 	public void grantRebirthSkills(L2PcInstance player)
 	{
 		//returns the current Rebirth Level
@@ -307,7 +348,12 @@ public class L2Rebirth
 		rebirthText = null;
 	}
 
-	/** Return the player's current Rebirth Level */
+	/**
+	 * Return the player's current Rebirth Level.
+	 *
+	 * @param player the player
+	 * @return the rebirth level
+	 */
 	public int getRebirthLevel(L2PcInstance player)
 	{
 		int playerId = player.getObjectId();
@@ -320,7 +366,13 @@ public class L2Rebirth
 		return _playersRebirthInfo.get(playerId);
 	}
 
-	/** Return the L2Skill the player is going to be rewarded. */
+	/**
+	 * Return the L2Skill the player is going to be rewarded.
+	 *
+	 * @param rebirthLevel the rebirth level
+	 * @param mage the mage
+	 * @return the rebirth skill
+	 */
 	public L2Skill getRebirthSkill(int rebirthLevel, boolean mage)
 	{
 		L2Skill skill = null;
@@ -354,7 +406,11 @@ public class L2Rebirth
 		return skill;
 	}
 
-	/** Database caller to retrieve player's current Rebirth Level */
+	/**
+	 * Database caller to retrieve player's current Rebirth Level.
+	 *
+	 * @param player the player
+	 */
 	public void loadRebirthInfo(L2PcInstance player)
 	{
 		int playerId = player.getObjectId();
@@ -392,7 +448,11 @@ public class L2Rebirth
 		_playersRebirthInfo.put(playerId, rebirthCount);
 	}
 
-	/** Stores the player's information in the DB. */
+	/**
+	 * Stores the player's information in the DB.
+	 *
+	 * @param player the player
+	 */
 	public void storePlayerBirth(L2PcInstance player)
 	{
 		Connection con = null;
@@ -418,7 +478,12 @@ public class L2Rebirth
 		}
 	}
 
-	/** Updates the player's information in the DB. */
+	/**
+	 * Updates the player's information in the DB.
+	 *
+	 * @param player the player
+	 * @param newRebirthCount the new rebirth count
+	 */
 	public void updatePlayerBirth(L2PcInstance player, int newRebirthCount)
 	{
 		Connection con = null;
