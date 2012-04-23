@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBuffs;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCTFEngine;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCache;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminChangeAccessLevel;
+import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCharSupervision;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminChristmas;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCreateItem;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCursedWeapons;
@@ -185,6 +186,7 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminNoble());
 		registerAdminCommandHandler(new AdminBuffs());
 		registerAdminCommandHandler(new AdminAio());
+		registerAdminCommandHandler(new AdminCharSupervision());
 		//ATTENTION: adding new command handlers, you have to change the
 		//sql file containing the access levels rights
 		

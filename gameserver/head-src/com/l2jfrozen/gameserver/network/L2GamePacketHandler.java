@@ -21,8 +21,10 @@ import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.managers.PacketsLoggerManager;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.network.clientpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.IClientFactory;
 import com.l2jfrozen.netcore.IMMOExecutor;
@@ -56,6 +58,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 		if (client.dropPacket()){
 			if(Config.DEBUG_PACKETS)
 				Log.add("Packet Dropped", "GamePacketsLog");
+			client.sendPacket(ActionFailed.STATIC_PACKET);
 			return null;
 		}
 		
@@ -71,19 +74,30 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 			
 		}
 		
-		/*
-		if(!client.getFloodProtectors().getGenericAction().tryPerformAction(""+opcode)){
-			L2PcInstance activeChar = client.getActiveChar();
-			if(activeChar!=null){
-				activeChar.sendMessage("You are flooding server!!");
+		if(client.getActiveChar() != null){//already done EnterWorld
+			
+			String character = client.getActiveChar().getName();
+			String packet = ""+opcode;
+			if(opcode2!=-1)
+				packet = packet+","+opcode2;
+			
+			//check if character has block on packet
+			if(PacketsLoggerManager.getInstance().isCharacterPacketBlocked(character, packet)){
+				client.sendPacket(ActionFailed.STATIC_PACKET);
+				return null;
 			}
-		}
-		*/
-
-		if(!PacketsFloodProtector.tryPerformAction(opcode, opcode2, client)){
-			return null;
+			
+			//Before Anything, check if character is Monitored or has Block on received Packet
+			if(PacketsLoggerManager.getInstance().isCharacterMonitored(character)){
+				PacketsLoggerManager.getInstance().logCharacterPacket(character, packet);
+			}
+			
 		}
 		
+		if(!PacketsFloodProtector.tryPerformAction(opcode, opcode2, client)){
+			client.sendPacket(ActionFailed.STATIC_PACKET);
+			return null;
+		}
 		
 		ReceivablePacket<L2GameClient> msg = null;
 		GameClientState state = client.getState();
