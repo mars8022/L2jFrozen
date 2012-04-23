@@ -210,6 +210,12 @@ INSERT IGNORE INTO `admin_command_access_rights` VALUES
 ('admin_editShopItem','2'),
 ('admin_close_window','3'),
 
+-- Section: Char Supervision
+('admin_start_monitor_char','3'),
+('admin_stop_monitor_char','3'),
+('admin_block_char_packet','3'),
+('admin_restore_char_packet','3'),
+
 -- Section: Effects
 ('admin_invis','3'),
 ('admin_invisible','3'),
