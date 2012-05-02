@@ -4060,6 +4060,10 @@ public final class Config
 	//============================================================
 	public static long AUTOSAVE_INITIAL_TIME;
 	public static long AUTOSAVE_DELAY_TIME;
+	public static long CHECK_CONNECTION_INACTIVITY_TIME;
+	public static long CHECK_CONNECTION_INITIAL_TIME;
+	public static long CHECK_CONNECTION_DELAY_TIME;
+	public static long CHECK_TELEPORT_ZOMBIE_DELAY_TIME;
 	public static long DEADLOCKCHECK_INTIAL_TIME;
 	public static long DEADLOCKCHECK_DELAY_TIME;
 
@@ -4074,6 +4078,10 @@ public final class Config
 
 			AUTOSAVE_INITIAL_TIME = Long.parseLong(p.getProperty("AutoSaveInitial", "300000"));
 			AUTOSAVE_DELAY_TIME = Long.parseLong(p.getProperty("AutoSaveDelay", "900000"));
+			CHECK_CONNECTION_INITIAL_TIME = Long.parseLong(p.getProperty("CheckConnectionInitial", "300000"));
+			CHECK_CONNECTION_DELAY_TIME = Long.parseLong(p.getProperty("CheckConnectionDelay", "40000"));
+			CHECK_CONNECTION_INACTIVITY_TIME = Long.parseLong(p.getProperty("CheckConnectionInactivityTime", "90000"));
+			CHECK_TELEPORT_ZOMBIE_DELAY_TIME = Long.parseLong(p.getProperty("CheckTeleportZombiesDelay", "90000"));
 			DEADLOCKCHECK_INTIAL_TIME = Long.parseLong(p.getProperty("DeadLockCheck", "0"));
 			DEADLOCKCHECK_DELAY_TIME = Long.parseLong(p.getProperty("DeadLockDelay", "0"));
 		}
