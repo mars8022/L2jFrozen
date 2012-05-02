@@ -125,6 +125,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	private final ArrayBlockingQueue<ReceivablePacket<L2GameClient>> _packetQueue;
 	private ReentrantLock _queueLock = new ReentrantLock();
 	
+	private long _last_received_packet_action_time = 0;
+	
 	public L2GameClient(MMOConnection<L2GameClient> con)
 	{
 		super(con);
@@ -1142,6 +1144,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if (_queueLock.isLocked()) // already processing
 			return;
 		
+		//save last action time
+		_last_received_packet_action_time = System.currentTimeMillis();
+		//_log.severe("Client " + toString() + " - updated last action state "+_last_received_packet_action_time);
+						
 		try
 		{
 			if (state == GameClientState.CONNECTED)
@@ -1223,5 +1229,19 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		return _forcedToClose;
 	}
 	
+	public boolean isConnectionAlive()
+	{
+		//if last received packet time is higher then Config.CHECK_CONNECTION_INACTIVITY_TIME --> check connection
+		if(System.currentTimeMillis() - _last_received_packet_action_time > Config.CHECK_CONNECTION_INACTIVITY_TIME){
+			
+			_last_received_packet_action_time = System.currentTimeMillis();
+			
+			return getConnection().isConnected()
+					&& !getConnection().isClosed();
+			
+		}
+		
+		return true;
+	}
 	
 }

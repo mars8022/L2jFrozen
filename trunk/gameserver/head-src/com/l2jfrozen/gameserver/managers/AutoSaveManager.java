@@ -37,6 +37,7 @@ public class AutoSaveManager
 {
 	private static final Logger _log = Logger.getLogger(AutoSaveManager.class.getName());
 	private ScheduledFuture<?> _autoSaveInDB;
+	private ScheduledFuture<?> _autoCheckConnectionStatus;
 	
 	public static final AutoSaveManager getInstance()
 	{
@@ -55,21 +56,25 @@ public class AutoSaveManager
 			_autoSaveInDB = null;
 		}
 		
+		if(_autoCheckConnectionStatus!=null){
+			_autoCheckConnectionStatus.cancel(true);
+			_autoCheckConnectionStatus = null;
+		}
+		
 	}
 	
 	public void startAutoSaveManager(){
 		
 		stopAutoSaveManager();
 		_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSaveTask(), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
-		
+		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PlayersSaveTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
 	}
 
-	protected class AutoSaveTask implements Runnable{
+	private class AutoSaveTask implements Runnable{
 		
 		@Override
 		public void run()
-		{
-			
+		{		
 			_log.info("AutoSaveManager: saving players data..");
 			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
@@ -89,16 +94,69 @@ public class AutoSaveManager
 						
 						_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
 					}
-				}
-				
-			}
-			
-			_log.info("AutoSaveManager: players data saved..");
-			
-		}
-		
+				}				
+			}			
+			_log.info("AutoSaveManager: players data saved..");			
+		}		
 	}
 	
+	private class PlayersSaveTask implements Runnable{
+		
+		@Override
+		public void run()
+		{
+			if(Config.DEBUG)
+			  _log.info("AutoSaveManager: checking players connection..");
+					
+			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
+			
+			for(final L2PcInstance player:players){
+				
+				if(player != null && !player.isOffline())
+				{				
+					if(player.getClient() == null || player.isOnline() == 0)
+					{					
+						_log.info("AutoSaveManager: player "+player.getName()+" status == 0 ---> Closing Connection..");
+						player.store();
+						player.deleteMe();				
+					}
+					else if(!player.getClient().isConnectionAlive())
+					{					
+						try
+						{
+							_log.info("AutoSaveManager: player "+player.getName()+" connection is not alive ---> Closing Connection..");
+							player.getClient().onDisconnection();
+						}
+						catch(Exception e)
+						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
+							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+						}				
+					}
+					else if(player.checkTeleportOverTime())
+					{					
+						try
+						{
+							_log.info("AutoSaveManager: player "+player.getName()+" has a teleport overtime ---> Closing Connection..");				
+							player.getClient().onDisconnection();
+						}
+						catch(Exception e)
+						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+							
+							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+						}	
+					}
+				}	
+			}
+			
+			if(Config.DEBUG)
+				_log.info("AutoSaveManager: players connections checked..");			
+		}	
+	}
 
 	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder

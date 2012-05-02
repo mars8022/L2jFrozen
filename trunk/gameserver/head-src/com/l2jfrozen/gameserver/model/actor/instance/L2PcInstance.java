@@ -16344,6 +16344,20 @@ private int _reviveRequested = 0;
 		{
 			setXYZ(_obsX, _obsY, _obsZ);
 		}
+		
+	      if(isTeleporting())
+	        {
+	         try
+	         {
+	          Thread.sleep(2000);
+	         }
+	         catch(InterruptedException e)
+	         {
+	          // TODO Auto-generated catch block
+	          e.printStackTrace();
+	         }
+	         onTeleported();
+	        }
 
 		Castle castle = null;
 		if(getClan() != null)
@@ -19565,5 +19579,33 @@ public boolean dismount()
 			
 		}
     }
+    
+    public boolean checkTeleportOverTime(){
+		
+		if(!isTeleporting())
+			return false;
+		
+		
+		if(System.currentTimeMillis() - _lastTeleportAction > Config.CHECK_TELEPORT_ZOMBIE_DELAY_TIME){
+			
+			_log.warning("Player "+getName()+" has been in teleport more then "+Config.CHECK_TELEPORT_ZOMBIE_DELAY_TIME/1000+" seconds.. --> Kicking it");
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
+	@Override
+	public void setIsTeleporting(boolean value)
+	{
+		super.setIsTeleporting(value);
+		if(value){
+			_lastTeleportAction = System.currentTimeMillis();
+		}
+		
+	}
 	
 }
