@@ -2547,7 +2547,7 @@ public final class Config
 	public static boolean PK_REWARD_ENABLED;
 	public static int PK_REWARD_ID;
 	public static int PK_REWARD_AMOUNT;
-	public static int REWORD_PROTECT;
+	public static int REWARD_PROTECT;
 	public static boolean ENABLE_PK_INFO;
 	public static boolean FLAGED_PLAYER_USE_BUFFER;
 	public static boolean FLAGED_PLAYER_CAN_USE_GK;
@@ -2641,7 +2641,7 @@ public final class Config
 			PK_REWARD_ID = Integer.parseInt(pvpSettings.getProperty("PKRewardItemId", "6392"));
 			PK_REWARD_AMOUNT = Integer.parseInt(pvpSettings.getProperty("PKRewardAmmount", "1"));
 
-			REWORD_PROTECT = Integer.parseInt(pvpSettings.getProperty("RewardProtect", "1"));
+			REWARD_PROTECT = Integer.parseInt(pvpSettings.getProperty("RewardProtect", "1"));
 
 			// PVP Name Color System configs - Start
 			PVP_COLOR_SYSTEM_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("EnablePvPColorSystem", "false"));

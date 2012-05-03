@@ -50,7 +50,7 @@ public final class StatsSet
 	 * 
 	 * @param newSet : StatsSet pointing out the list of couples to add in the current set
 	 */
-	public void add(StatsSet newSet)
+	public synchronized void add(StatsSet newSet)
 	{
 		Map<String, Object> newMap = newSet.getSet();
 		for(String key : newMap.keySet())
@@ -66,7 +66,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return boolean : value associated to the key
 	 */
-	public boolean getBool(String name)
+	public synchronized boolean getBool(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -94,7 +94,7 @@ public final class StatsSet
 	 * @param deflt : boolean designating the default value if value associated with the key is null
 	 * @return boolean : value of the key
 	 */
-	public boolean getBool(String name, boolean deflt)
+	public synchronized boolean getBool(String name, boolean deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -122,7 +122,7 @@ public final class StatsSet
 	 * @param deflt : byte designating the default value if value associated with the key is null
 	 * @return byte : value associated to the key
 	 */
-	public byte getByte(String name, byte deflt)
+	public synchronized byte getByte(String name, byte deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -148,7 +148,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return byte : value associated to the key
 	 */
-	public byte getByte(String name)
+	public synchronized byte getByte(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -176,7 +176,7 @@ public final class StatsSet
 	 * @param deflt : short designating the default value if value associated with the key is null
 	 * @return short : value associated to the key
 	 */
-	public short getShort(String name, short deflt)
+	public synchronized short getShort(String name, short deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -202,7 +202,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return short : value associated to the key
 	 */
-	public short getShort(String name)
+	public synchronized short getShort(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -228,7 +228,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return int : value associated to the key
 	 */
-	public int getInteger(String name)
+	public synchronized int getInteger(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null){
@@ -258,7 +258,7 @@ public final class StatsSet
 	 * @param deflt : int designating the default value if value associated with the key is null
 	 * @return int : value associated to the key
 	 */
-	public int getInteger(String name, int deflt)
+	public synchronized int getInteger(String name, int deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -285,7 +285,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return int[] : value associated to the key
 	 */
-	public int[] getIntegerArray(String name)
+	public synchronized int[] getIntegerArray(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -326,7 +326,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return long : value associated to the key
 	 */
-	public long getLong(String name)
+	public synchronized long getLong(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -355,7 +355,7 @@ public final class StatsSet
 	 * @param deflt : long designating the default value if value associated with the key is null
 	 * @return long : value associated to the key
 	 */
-	public long getLong(String name, int deflt)
+	public synchronized long getLong(String name, int deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -381,7 +381,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return float : value associated to the key
 	 */
-	public float getFloat(String name)
+	public synchronized float getFloat(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -409,7 +409,7 @@ public final class StatsSet
 	 * @param deflt : float designating the default value if value associated with the key is null
 	 * @return float : value associated to the key
 	 */
-	public float getFloat(String name, float deflt)
+	public synchronized float getFloat(String name, float deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -435,7 +435,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return double : value associated to the key
 	 */
-	public double getDouble(String name)
+	public synchronized double getDouble(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -463,7 +463,7 @@ public final class StatsSet
 	 * @param deflt : float designating the default value if value associated with the key is null
 	 * @return double : value associated to the key
 	 */
-	public double getDouble(String name, float deflt)
+	public synchronized double getDouble(String name, float deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -489,7 +489,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @return String : value associated to the key
 	 */
-	public String getString(String name)
+	public synchronized String getString(String name)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -505,7 +505,7 @@ public final class StatsSet
 	 * @param deflt : String designating the default value if value associated with the key is null
 	 * @return String : value associated to the key
 	 */
-	public String getString(String name, String deflt)
+	public synchronized String getString(String name, String deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -522,7 +522,7 @@ public final class StatsSet
 	 * @return Enum<T>
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Enum<T>> T getEnum(String name, Class<T> enumClass)
+	public synchronized <T extends Enum<T>> T getEnum(String name, Class<T> enumClass)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -553,7 +553,7 @@ public final class StatsSet
 	 * @return Enum<T>
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Enum<T>> T getEnum(String name, Class<T> enumClass, T deflt)
+	public synchronized <T extends Enum<T>> T getEnum(String name, Class<T> enumClass, T deflt)
 	{
 		Object val = _set.get(name);
 		if(val == null)
@@ -579,7 +579,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @param value : String corresponding to the value associated with the key
 	 */
-	public void set(String name, String value)
+	public synchronized void set(String name, String value)
 	{
 		_set.put(name, value);
 	}
@@ -590,7 +590,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @param value : boolean corresponding to the value associated with the key
 	 */
-	public void set(String name, boolean value)
+	public synchronized void set(String name, boolean value)
 	{
 		_set.put(name, value);
 	}
@@ -601,7 +601,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @param value : int corresponding to the value associated with the key
 	 */
-	public void set(String name, int value)
+	public synchronized void set(String name, int value)
 	{
 		_set.put(name, value);
 	}
@@ -612,7 +612,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @param value : double corresponding to the value associated with the key
 	 */
-	public void set(String name, double value)
+	public synchronized void set(String name, double value)
 	{
 		_set.put(name, value);
 	}
@@ -623,7 +623,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @param value : double corresponding to the value associated with the key
 	 */
-	public void set(String name, long value)
+	public synchronized void set(String name, long value)
 	{
 		_set.put(name, value);
 	}
@@ -634,7 +634,7 @@ public final class StatsSet
 	 * @param name : String designating the key in the set
 	 * @param value : Enum corresponding to the value associated with the key
 	 */
-	public void set(String name, Enum<?> value)
+	public synchronized void set(String name, Enum<?> value)
 	{
 		_set.put(name, value);
 	}
@@ -649,7 +649,7 @@ public final class StatsSet
 	 * @param max 
 	 * @param reference 
 	 */
-	public void safeSet(String name, int value, int min, int max, String reference)
+	public synchronized void safeSet(String name, int value, int min, int max, String reference)
 	{
 		assert !((min <= max && (value < min || value >= max)));
 		

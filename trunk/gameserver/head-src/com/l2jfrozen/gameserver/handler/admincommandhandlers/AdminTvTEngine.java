@@ -267,7 +267,8 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			if(TvT.get_joinTime() > 0 && TvT.get_eventTime() > 0)
 				TvT.autoEvent();
 			else
-				activeChar.sendMessage("Wrong usege: join time or event time invallid.");
+				activeChar.sendMessage("Wrong usege: join time or event time invalid.");
+			
 			showMainPage(activeChar);
 		}
 		else if(command.equals("admin_tvt_save"))

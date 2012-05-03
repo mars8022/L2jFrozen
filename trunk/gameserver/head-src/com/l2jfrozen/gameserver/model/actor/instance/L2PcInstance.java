@@ -3283,7 +3283,9 @@ private int _reviveRequested = 0;
 		
 		if(_masteryPenalty!=newMasteryPenalty){
 			
-			if(newMasteryPenalty > 0)
+			int penalties = _masteryWeapPenalty + _expertisePenalty + newMasteryPenalty;
+			
+			if(penalties > 0)
 			{
 				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
 			}
@@ -3490,7 +3492,9 @@ private int _reviveRequested = 0;
 		
 		if(_masteryWeapPenalty!=newMasteryPenalty){
 			
-			if(newMasteryPenalty > 0)
+			int penalties = _masteryPenalty + _expertisePenalty + newMasteryPenalty;
+			
+			if(penalties > 0)
 			{
 				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
 			}
@@ -3539,9 +3543,11 @@ private int _reviveRequested = 0;
 
 		if(getExpertisePenalty() != newPenalty)
 		{
+			int penalties = _masteryPenalty + _masteryWeapPenalty + newPenalty;
+			
 			_expertisePenalty = newPenalty;
-
-			if(newPenalty > 0)
+			
+			if(penalties > 0)
 			{
 				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
 				sendSkillList(); // Update skill list
@@ -3551,7 +3557,9 @@ private int _reviveRequested = 0;
 				super.removeSkill(getKnownSkill(4267));
 				sendSkillList(); // Update skill list
 			}
+			
 			sendPacket(new EtcStatusUpdate(this));
+			
 		}
 	}
 
@@ -5764,6 +5772,9 @@ private int _reviveRequested = 0;
 			_log.info(getName() + ": Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
 		}
 
+		if(isInOlympiadMode())
+			return;
+		
 		_protectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
 	}
 
@@ -7776,7 +7787,7 @@ private int _reviveRequested = 0;
 						{
 							Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 						}
-						addItemReword(targetPlayer);
+						addItemReward(targetPlayer);
 						return;
 					}
 				}
@@ -7811,19 +7822,28 @@ private int _reviveRequested = 0;
 			Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 		}
 
-		if(targetPlayer.getObjectId() == _lastKill && (count < Config.REWORD_PROTECT - 1 || Config.REWORD_PROTECT == 0) || !(_inEventDM && DM.is_started()))
-		{
-			count += 1;
-			addItemReword(targetPlayer);
-		}
-		else if(targetPlayer.getObjectId() != _lastKill || !(_inEventDM && DM.is_started()))
-		{
-			count = 0;
-			_lastKill = targetPlayer.getObjectId();
-			addItemReword(targetPlayer);
+		
+		if(_inEventDM && DM.is_started()){ 
+			return;
 		}
 		
-		targetPlayer = null;
+		if(targetPlayer.getObjectId() == _lastKill){
+			
+			count += 1;
+			
+		}else{
+			
+			count = 1;
+			_lastKill = targetPlayer.getObjectId();
+			
+		}
+		
+
+		if(Config.REWARD_PROTECT == 0 
+				|| count <= Config.REWARD_PROTECT){
+			addItemReward(targetPlayer);
+		}
+		
 	}
 	
 	/**
@@ -7904,7 +7924,7 @@ private int _reviveRequested = 0;
 	 *
 	 * @param targetPlayer the target player
 	 */
-	private void addItemReword(L2PcInstance targetPlayer)
+	private void addItemReward(L2PcInstance targetPlayer)
 	{	
 	
         //IP check
@@ -13164,8 +13184,31 @@ private int _reviveRequested = 0;
 		@Override
 		public void run()
 		{
-			for(int i = Config.BOT_PROTECTOR_WAIT_ANSVER; i >= 10; i -= 10)
-			{
+			if(isOnline() == 1 && getPrivateStoreType()==0){
+				
+				for(int i = Config.BOT_PROTECTOR_WAIT_ANSVER; i >= 10; i -= 10)
+				{
+					if(_stopKickBotTask)
+					{
+						if(_taskKickBot != null)
+						{
+							_taskKickBot = null;
+						}
+						_stopKickBotTask = false;
+						return;
+					}
+
+					L2PcInstance.this.sendMessage("You have " + i + " seconds to choose the answer.");
+
+					try
+					{
+						Thread.sleep(10000);
+					}
+					catch(InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
 				if(_stopKickBotTask)
 				{
 					if(_taskKickBot != null)
@@ -13175,28 +13218,18 @@ private int _reviveRequested = 0;
 					_stopKickBotTask = false;
 					return;
 				}
-
-				L2PcInstance.this.sendMessage("You have " + i + " seconds to choose the answer.");
-
-				try
-				{
-					Thread.sleep(10000);
-				}
-				catch(InterruptedException e)
-				{
-					e.printStackTrace();
-				}
+				L2PcInstance.this.closeNetConnection();
+				
 			}
-			if(_stopKickBotTask)
+			else
 			{
 				if(_taskKickBot != null)
 				{
 					_taskKickBot = null;
 				}
 				_stopKickBotTask = false;
-				return;
 			}
-			L2PcInstance.this.closeNetConnection();
+			
 		}
 	}
 

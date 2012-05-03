@@ -101,7 +101,7 @@ public class Hero
 		init();
 	}
 	
-	private void init()
+	private synchronized void init()
 	{
 		_heroes.clear();
 		_completeHeroes = new FastMap<Integer, StatsSet>();
@@ -261,7 +261,7 @@ public class Hero
 		_log.info("Hero System: Loaded " + _completeHeroes.size() + " all time Heroes.");
 	}
 	
-	public Map<Integer, StatsSet> getHeroes()
+	public synchronized Map<Integer, StatsSet> getHeroes()
 	{
 		return _heroes;
 	}
@@ -483,7 +483,7 @@ public class Hero
 		}
 	}
 	
-	public void updateHeroes(boolean setDefault)
+	public synchronized void updateHeroes(boolean setDefault)
 	{
 		Connection con = null;
 		try
