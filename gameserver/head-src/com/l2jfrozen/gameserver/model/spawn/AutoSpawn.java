@@ -363,12 +363,17 @@ public class AutoSpawn
 	 */
 	public final long getTimeToNextSpawn(AutoSpawnInstance spawnInst)
 	{
+		if(spawnInst == null)
+			return -1;
+			
 		int objectId = spawnInst.getObjectId();
 
-		if(!isSpawnRegistered(objectId))
+		ScheduledFuture<?> future_task = _runningSpawns.get(objectId);
+		if(future_task!=null)
+			return future_task.getDelay(TimeUnit.MILLISECONDS);
+		else
 			return -1;
-
-		return _runningSpawns.get(objectId).getDelay(TimeUnit.MILLISECONDS);
+		
 	}
 
 	/**

@@ -1201,64 +1201,75 @@ public class CTF implements EventTask
 		}, 20000);
 	}
 
+	private static class AutoEventTask implements Runnable
+	{
+
+		@Override
+		public void run()
+		{
+			_log.info("Starting "+_eventName+"!");
+			_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
+			if (checkAutoEventStartJoinOk() && startJoin() && !_aborted)
+			{
+				if (_joinTime > 0)
+					waiter(_joinTime * 60 * 1000); // minutes for join event
+				else if (_joinTime <= 0)
+				{
+					_log.info(_eventName+": join time <=0 aborting event.");
+					abortEvent();
+					return;
+				}
+				if (startTeleport() && !_aborted)
+				{
+					waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
+					if (startEvent() && !_aborted)
+					{
+						_log.log(Level.WARNING, _eventName+": waiting.....minutes for event time " + _eventTime);
+
+						waiter(_eventTime * 60 * 1000); // minutes for event time
+						finishEvent();
+
+						_log.info(_eventName+": waiting... delay for final messages ");
+						waiter(60000);//just a give a delay delay for final messages
+						sendFinalMessages();
+
+						if (!_started && !_aborted){ //if is not already started and it's not aborted
+							
+							_log.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatchs + " minutes.");
+							waiter(60000);//just a give a delay to next restart
+
+							try
+							{
+								if(!_aborted)
+									restartEvent();
+							}
+							catch (Exception e)
+							{
+								_log.log(Level.SEVERE, "Error while tying to Restart Event", e);
+								e.printStackTrace();
+							}
+							
+						}
+							
+					}
+				}
+				else if(!_aborted){
+				
+					abortEvent();
+					restartEvent();
+					
+				}
+			}
+		}
+		
+	}
+	
 	/**
 	 * Auto event.
 	 */
 	public static void autoEvent()
 	{
-		_log.info("Starting "+_eventName+"!");
-		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
-		if (checkAutoEventStartJoinOk() && startJoin() && !_aborted)
-		{
-			if (_joinTime > 0)
-				waiter(_joinTime * 60 * 1000); // minutes for join event
-			else if (_joinTime <= 0)
-			{
-				_log.info(_eventName+": join time <=0 aborting event.");
-				abortEvent();
-				return;
-			}
-			if (startTeleport() && !_aborted)
-			{
-				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
-				if (startEvent() && !_aborted)
-				{
-					_log.log(Level.WARNING, _eventName+": waiting.....minutes for event time " + _eventTime);
-
-					waiter(_eventTime * 60 * 1000); // minutes for event time
-					finishEvent();
-
-					_log.info(_eventName+": waiting... delay for final messages ");
-					waiter(60000);//just a give a delay delay for final messages
-					sendFinalMessages();
-
-					if (!_started && !_aborted){ //if is not already started and it's not aborted
-						
-						_log.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatchs + " minutes.");
-						waiter(60000);//just a give a delay to next restart
-
-						try
-						{
-							if(!_aborted)
-								restartEvent();
-						}
-						catch (Exception e)
-						{
-							_log.log(Level.SEVERE, "Error while tying to Restart Event", e);
-							e.printStackTrace();
-						}
-						
-					}
-						
-				}
-			}
-			else if(!_aborted){
-			
-				abortEvent();
-				restartEvent();
-				
-			}
-		}
+		ThreadPoolManager.getInstance().executeAi(new AutoEventTask());
 	}
 	
 	//start without restart

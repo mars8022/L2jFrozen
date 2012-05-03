@@ -3796,7 +3796,8 @@ public abstract class L2Character extends L2Object
 					}
 					else
 					{
-						newEffect.exit(false);
+						//newEffect.exit(false);
+						newEffect.stopEffectTask();
 						return;
 					}
 				}
