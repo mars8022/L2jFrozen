@@ -4385,7 +4385,7 @@ public abstract class L2Character extends L2Object
 					
 				}
 					
-				System.out.println("	Character Effect Type: "+effects[i].getEffectType());
+				//System.out.println("Character Effect Type: "+effects[i].getEffectType());
 				if (effects[i].getEffectType() == type){ 
 					effects[i].exit(true);
 				}

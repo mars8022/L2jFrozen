@@ -559,12 +559,17 @@ public class Disablers implements ISkillHandler
 						_negateEffectTypes = skill.getNegateEffectTypes();
 						_negatePower = skill.getNegatePower();
 
+						/* 
+						 * Negate log
+						 * 
 						System.out.println("EFFECT-TYPES: ");
+						 
 						for(String effect: _negateEffectTypes)
 							System.out.println("	"+effect);
 						System.out.println("SKILL-TYPES: ");
 						for(String skillt: _negateSkillTypes)
 							System.out.println("	"+skillt);
+						*/
 						
 						for(String stat : _negateSkillTypes)
 						{
