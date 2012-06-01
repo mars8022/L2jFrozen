@@ -964,7 +964,7 @@
   <set name="castRange" val="400"/>
   <set name="coolTime" val="1000"/>
   <set name="effectRange" val="600"/>
-  <set name="negateStats" val="SLEEP"/>
+  <set name="negateSkillTypes" val="SLEEP"/>
   <set name="negatePower" val="9"/>
   <for>
   </for>

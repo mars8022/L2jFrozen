@@ -15627,6 +15627,8 @@ private int _reviveRequested = 0;
 			getTrainedBeast().teleToLocation(getPosition().getX() + Rnd.get(-100, 100), getPosition().getY() + Rnd.get(-100, 100), getPosition().getZ(), false);
 			getTrainedBeast().getAI().startFollow(this);
 		}
+		
+		broadcastUserInfo();
 
 	}
 

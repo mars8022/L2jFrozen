@@ -360,7 +360,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="400"/>
   <set name="effectRange" val="90"/>
-  <set name="negateStats" val="STUN ROOT SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
+  <set name="negateSkillTypes" val="STUN ROOT SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
   <set name="negatePower" val="9"/>
   <for>
     <effect count="1" name="RemoveTarget" time="1" val="0"/>
@@ -374,7 +374,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="SLEEP"/>
+  <set name="negateSkillTypes" val="SLEEP"/>
   <set name="negatePower" val="9"/>
   <set name="aggroPoints" val="100"/>
   <for>
@@ -1001,7 +1001,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
-  <set name="negateStats" val="ROOT"/>
+  <set name="negateSkillTypes" val="ROOT"/>
   <set name="negatePower" val="9"/>
   <for>
   </for>
@@ -1019,7 +1019,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
-  <set name="negateStats" val="DEBUFF"/>
+  <set name="negateSkillTypes" val="DEBUFF"/>
   <set name="negatePower" val="9"/>
   <for>
   </for>
@@ -1034,7 +1034,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
-  <set name="negateStats" val="MUTE"/>
+  <set name="negateSkillTypes" val="MUTE"/>
   <set name="negatePower" val="9"/>
   <for>
   </for>
@@ -1404,7 +1404,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="8.0"/>
   <for>
   </for>
@@ -1423,7 +1423,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="8.0"/>
   <for>
   </for>
@@ -1442,7 +1442,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="8"/>
   <for>
   </for>
@@ -1461,7 +1461,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="8"/>
   <for>
   </for>
@@ -1480,7 +1480,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="8"/>
   <for>
   </for>
@@ -1499,7 +1499,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="8"/>
   <for>
   </for>

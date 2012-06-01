@@ -968,7 +968,7 @@
   <set name="effectRange" val="400"/>
   <set name="reuseDelay" val="1200000"/>
   <set name="hitTime" val="1800"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="5"/>
   <cond>
     <player hp="75"/>

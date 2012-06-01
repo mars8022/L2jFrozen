@@ -108,7 +108,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="-1"/>
   <set name="effectRange" val="-1"/>
-  <set name="negateStats" val="PARALYZE"/>
+  <set name="negateSkillTypes" val="PARALYZE"/>
   <set name="aggroPoints" val="566"/>
   <for>
   </for>

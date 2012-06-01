@@ -32,6 +32,7 @@ import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
+import com.l2jfrozen.gameserver.model.L2Effect.EffectType;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
@@ -75,7 +76,8 @@ public class Disablers implements ISkillHandler
 			L2Skill.SkillType.BETRAY };
 
 	protected static final Logger _log = Logger.getLogger(L2Skill.class.getName());
-	private String[] _negateStats = null;
+	private String[] _negateSkillTypes = null;
+	private String[] _negateEffectTypes = null;
 	private float _negatePower = 0.f;
 	private int _negateId = 0;
 
@@ -553,10 +555,18 @@ public class Disablers implements ISkillHandler
 					else
 					// all others negate type skills
 					{
-						_negateStats = skill.getNegateStats();
+						_negateSkillTypes = skill.getNegateSkillTypes();
+						_negateEffectTypes = skill.getNegateEffectTypes();
 						_negatePower = skill.getNegatePower();
 
-						for(String stat : _negateStats)
+						System.out.println("EFFECT-TYPES: ");
+						for(String effect: _negateEffectTypes)
+							System.out.println("	"+effect);
+						System.out.println("SKILL-TYPES: ");
+						for(String skillt: _negateSkillTypes)
+							System.out.println("	"+skillt);
+						
+						for(String stat : _negateSkillTypes)
 						{
 							stat = stat.toLowerCase().intern();
 							if(stat == "buff")
@@ -633,6 +643,49 @@ public class Disablers implements ISkillHandler
 								}
 								Healhandler = null;
 							}
+						}//end for
+						
+						for(String stat : _negateEffectTypes)
+						{
+							EffectType effect_type = null;
+							try{
+								effect_type = EffectType.valueOf(stat.toUpperCase());
+							}catch(Exception e){
+								//
+							}
+							 
+							if(effect_type != null){
+								
+								switch(effect_type){
+									
+									case BUFF:{
+										
+										int lvlmodifier = 52 + skill.getMagicLevel() * 2;
+										if(skill.getMagicLevel() == 12)
+											lvlmodifier = (ExperienceData.getInstance().getMaxLevel() - 1);
+
+										int landrate = 90;
+										if((target.getLevel() - lvlmodifier) > 0)
+											landrate = 90 - 4 * (target.getLevel() - lvlmodifier);
+
+										landrate = (int) target.calcStat(Stats.CANCEL_VULN, landrate, target, null);
+
+										if(Rnd.get(100) < landrate){
+											target.stopEffects(effect_type);
+										}
+									}
+									break;
+									default:{
+										
+										target.stopEffects(effect_type);
+										
+									}
+									break;
+									
+								}
+								
+							}
+							
 						}//end for
 					}//end else
 				}// end case

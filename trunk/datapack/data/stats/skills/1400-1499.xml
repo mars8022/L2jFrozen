@@ -209,7 +209,8 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
-  <set name="negateStats" val="BLEED CONFUSION DEBUFF FEAR MUTE PARALYZE ROOT SLEEP STUN POISON WEAKNESS PDAM MDAM"/>
+  <set name="negateSkillTypes" val="BLEED CONFUSION DEBUFF FEAR MUTE PARALYZE ROOT SLEEP STUN POISON WEAKNESS PDAM MDAM DRAIN"/>
+  <set name="negateEffectTypes" val="DEBUFF MANA_DMG_OVER_TIME"/>
   <set name="negatePower" val="9"/> <!-- Guessing -->
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -589,7 +590,7 @@
 <skill id="1425" levels="1" name="Purification Field">
   <set name="target" val="TARGET_CLAN"/>
   <set name="skillType" val="NEGATE"/>
-  <set name="negateStats" val="ROOT PARALYZE POISON BLEED STUN DEBUFF CONFUSION FEAR MUTE SLEEP WEAKNESS"/>
+  <set name="negateSkillTypes" val="ROOT PARALYZE POISON BLEED STUN DEBUFF CONFUSION FEAR MUTE SLEEP WEAKNESS"/>
   <set name="negatePower" val="80"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="hitTime" val="5000"/>

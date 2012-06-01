@@ -785,7 +785,7 @@ Might spell can remove the curse.-->
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
-  <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
+  <set name="negateSkillTypes" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
   <for>
 		<effect name="Negate" val="0" noicon="1" />
   </for>
@@ -800,7 +800,7 @@ Might spell can remove the curse.-->
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
-  <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
+  <set name="negateSkillTypes" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
   <for>
 		<effect name="Negate" val="0" noicon="1" />
   </for>
@@ -815,7 +815,7 @@ Might spell can remove the curse.-->
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
-  <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
+  <set name="negateSkillTypes" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
   <for>
 		<effect name="Negate" val="0" noicon="1" />
   </for>
