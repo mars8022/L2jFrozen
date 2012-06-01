@@ -1501,7 +1501,7 @@
   <!-- Infinity Spear Skill -->  
   <set name="bestowed" val="true"/>
   <set name="magicLvl" val="80"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="power" val="80"/> <!-- Base Land Rate -->
   <set name="skillType" val="CANCEL"/>

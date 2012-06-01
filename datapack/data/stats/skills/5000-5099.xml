@@ -135,7 +135,7 @@
   <set name="skillRadius" val="#skillRadius"/>
   <set name="castRange" val="1200"/>
   <set name="skill_landing_percent" val="#skill_landing_percent"/>
-  <set name="negateStats" val="Buff"/>
+  <set name="negateSkillTypes" val="Buff"/>
   <set name="negatePower" val="#rampage"/>
   <set name="isMagic" val="#isMagic"/>
   <for>
@@ -182,7 +182,7 @@
   <set name="skillRadius" val="#skillRadius"/>
   <set name="castRange" val="1200"/>
   <set name="skill_landing_percent" val="#skill_landing_percent"/>
-  <set name="negateStats" val="Buff"/>
+  <set name="negateSkillTypes" val="Buff"/>
   <set name="negatePower" val="#rampage"/>
   <set name="isMagic" val="#isMagic"/>
   <for>

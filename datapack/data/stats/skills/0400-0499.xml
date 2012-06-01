@@ -1136,7 +1136,7 @@
   <set name="reuseDelay" val="6000"/>
   <set name="skillType" val="NEGATE"/>
   <set name="operateType" val="OP_ACTIVE"/>
-  <set name="negateStats" val="ROOT PARALYZE"/>
+  <set name="negateSkillTypes" val="ROOT PARALYZE"/>
   <set name="negatePower" val="8"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -1337,7 +1337,7 @@
   <set name="reuseDelay" val="4000"/>
   <set name="hitTime" val="3000"/>
   <set name="skillType" val="NEGATE"/>
-  <set name="negateStats" val="ROOT"/>
+  <set name="negateSkillTypes" val="ROOT"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="num_charges" val="#numcharge"/>
   </skill>

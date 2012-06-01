@@ -1384,7 +1384,7 @@ public abstract class L2Character extends L2Object
 		}
 		else if(weaponItem.getItemType() == L2WeaponType.POLE)
 		{
-			hitted = doAttackHitByPole(attack, target, timeToHit);
+			hitted = doAttackHitByPole(attack, timeToHit);
 		}
 		else if(isUsingDualWeapon())
 		{
@@ -1636,100 +1636,74 @@ public abstract class L2Character extends L2Object
 	 * @param sAtk the s atk
 	 * @return True if one hit isn't missed
 	 */
-	private boolean doAttackHitByPole(Attack attack, L2Character target, int sAtk)
+	private boolean doAttackHitByPole(Attack attack, int sAtk)
 	{
-		//double angleChar;
-		int maxRadius = getPhysicalAttackRange();
-		int maxAngleDiff = (int)getStat().calcStat(Stats.POWER_ATTACK_ANGLE, 120, null, null);
+		boolean hitted = false;
+	
+		double angleChar, angleTarget;
+		int maxRadius = (int) getStat().calcStat(Stats.POWER_ATTACK_RANGE, 66, null, null);
+		int maxAngleDiff = (int) getStat().calcStat(Stats.POWER_ATTACK_ANGLE, 120, null, null);
+	
+		if(getTarget() == null)
+			return false;
 		
-		if (Config.DEBUG)
-		{
-			_log.info("doAttackHitByPole: Max radius = " + maxRadius);
-			_log.info("doAttackHitByPole: Max angle = " + maxAngleDiff);
-		}
+		angleTarget = Util.calculateAngleFrom(this, getTarget());
+		setHeading((int) (angleTarget / 9.0 * 1610.0));
 		
-		// o1 x: 83420 y: 148158 (Giran)
-		// o2 x: 83379 y: 148081 (Giran)
-		// dx = -41
-		// dy = -77
-		// distance between o1 and o2 = 87.24
-		// arctan2 = -120 (240) degree (excel arctan2(dx, dy); java arctan2(dy, dx))
-		//
-		// o2
-		//
-		//          o1 ----- (heading)
-		// In the diagram above:
-		// o1 has a heading of 0/360 degree from horizontal (facing East)
-		// Degree of o2 in respect to o1 = -120 (240) degree
-		//
-		// o2          / (heading)
-		//            /
-		//          o1
-		// In the diagram above
-		// o1 has a heading of -80 (280) degree from horizontal (facing north east)
-		// Degree of o2 in respect to 01 = -40 (320) degree
-		
-		// Get char's heading degree
-		// angleChar = Util.convertHeadingToDegree(getHeading());
-		// ATTACK_COUNT_MAX 1 is by default and 4 was in skill 3599, total 5. 
-		int attackRandomCountMax = (int) getStat().calcStat(Stats.ATTACK_COUNT_MAX, 3, null, null);
+		angleChar = Util.convertHeadingToDegree(getHeading());
+		double attackpercent = 85;
+		int attackcountmax = (int) getStat().calcStat(Stats.ATTACK_COUNT_MAX, 3, null, null);
 		int attackcount = 0;
 		
-		/*if (angleChar <= 0)
-            angleChar += 360;*/
-		// ===========================================================
+		if(angleChar <= 0)
+			angleChar += 360;
 		
-		boolean hitted = doAttackHitSimple(attack, target, 100, sAtk);
-		double attackpercent = 85;
-		L2Character temp;
-		Collection<L2Object> objs = getKnownList().getKnownObjects().values();
-		//synchronized (getKnownList().getKnownObjects())
-		{
-			for (L2Object obj : objs)
-			{
-				if (obj == target)
-					continue; // do not hit twice
-				// Check if the L2Object is a L2Character
-				if (obj instanceof L2Character)
+		
+		L2Character target;
+		for(L2Object obj : getKnownList().getKnownObjects().values())
+		   {
+		    if(obj instanceof L2Character)
+			  {
+		    	if(obj instanceof L2PetInstance && this instanceof L2PcInstance && ((L2PetInstance) obj).getOwner() == (L2PcInstance) this)
 				{
-					if (obj instanceof L2PetInstance
-							&& this instanceof L2PcInstance
-							&& ((L2PetInstance) obj).getOwner() == ((L2PcInstance) this))
-						continue;
-					
-					if (!Util.checkIfInRange(maxRadius, this, obj, false))
-						continue;
-					
-					// otherwise hit too high/low. 650 because mob z coord
-					// sometimes wrong on hills
-					if (Math.abs(obj.getZ() - getZ()) > 650)
-						continue;
-					if (!isFacing(obj, maxAngleDiff))
-						continue;
-					
-					if(this instanceof L2Attackable && obj instanceof L2PcInstance && getTarget() instanceof L2Attackable)
-						continue;
-					
-					temp = (L2Character) obj;
-					
-					// Launch a simple attack against the L2Character targeted
-					if (!temp.isAlikeDead())
-					{
-						if (temp == getAI().getAttackTarget()
-								|| temp.isAutoAttackable(this))
+		    		continue;
+		    	}
+		    		
+		    	if(!Util.checkIfInRange(maxRadius, this, obj, false))
+		    	{
+		    		continue;
+		        }
+		    		
+		    	if(Math.abs(obj.getZ() - getZ()) > Config.DIFFERENT_Z_CHANGE_OBJECT)
+		    	{
+		    		continue;
+		    	}
+		    		
+		    	angleTarget = Util.calculateAngleFrom(this, obj);
+		    		
+		    	if(Math.abs(angleChar - angleTarget) > maxAngleDiff && Math.abs(angleChar + 360 - angleTarget) > maxAngleDiff && Math.abs(angleChar - (angleTarget + 360)) > maxAngleDiff)
+		    	{
+		    		continue;
+		    	}
+		    	
+		    	target = (L2Character) obj;
+		    	
+		    	if(!target.isAlikeDead())
+		    	{
+		    	  attackcount += 1;
+		    	
+		    	  if(attackcount <= attackcountmax)
+					  {
+		    		    if(target == getAI().getAttackTarget() || target.isAutoAttackable(this))
 						{
-							hitted |= doAttackHitSimple(attack, temp, attackpercent, sAtk);
+		    		    	hitted |= doAttackHitSimple(attack, target, attackpercent, sAtk);
 							attackpercent /= 1.15;
-							
-							attackcount++;
-							if (attackcount > attackRandomCountMax)
-								break;
 						}
 					}
 				}
 			}
 		}
-		
+		target = null;
 		// Return true if one hit isn't missed
 		return hitted;
 	}
@@ -4053,7 +4027,7 @@ public abstract class L2Character extends L2Object
 
 					}
 				}
-				if(stackQueue.isEmpty())
+				if(stackQueue == null || stackQueue.isEmpty())
 				{
 					_stackedEffects.remove(effect.getStackType());
 				}
@@ -4411,6 +4385,7 @@ public abstract class L2Character extends L2Object
 					
 				}
 					
+				System.out.println("	Character Effect Type: "+effects[i].getEffectType());
 				if (effects[i].getEffectType() == type){ 
 					effects[i].exit(true);
 				}
@@ -5946,11 +5921,12 @@ public abstract class L2Character extends L2Object
 	 */
 	public final boolean isInCombat()
 	{
-		if(getAI() == null){
+		if(getAI() == null
+				 || getAI().getAttackTarget() == null){
 			return false;
 		}
 		
-		return getAI().getAttackTarget() != null;
+		return true;
 	}
 
 	/**

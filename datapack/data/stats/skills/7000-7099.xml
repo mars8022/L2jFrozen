@@ -20,7 +20,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
-  <set name="negateStats" val="BUFF"/>
+  <set name="negateSkillTypes" val="BUFF"/>
   <set name="negatePower" val="17"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -35,7 +35,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
-  <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
+  <set name="negateSkillTypes" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED DEBUFF WEAKNESS PARALYZE"/>
   <set name="negatePower" val="17"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -50,7 +50,7 @@
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="100"/>
-  <set name="negateStats" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
+  <set name="negateSkillTypes" val="STUN SLEEP MUTE FEAR CONFUSION POISON BLEED BUFF DEBUFF WEAKNESS PARALYZE"/>
   <set name="negatePower" val="9"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -64,7 +64,7 @@
   <set name="isMagic" val="true"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="900"/>
-  <set name="negateStats" val="PARALYZE"/>
+  <set name="negateSkillTypes" val="PARALYZE"/>
   <set name="aggroPoints" val="566"/>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

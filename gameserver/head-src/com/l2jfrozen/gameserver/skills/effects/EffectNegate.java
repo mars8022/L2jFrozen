@@ -54,13 +54,22 @@ public class EffectNegate extends L2Effect
 		if (skill.getNegateId() != 0)
 			getEffected().stopSkillEffects(skill.getNegateId());
 		
-		for (String negateSkillType : skill.getNegateStats())
+		for (String negateSkillType : skill.getNegateSkillTypes())
 		{
 			if(Config.DEBUG)
 				_log.fine("effectNegate on Type "+negateSkillType +" with power "+skill.getPower());
 			
 			SkillType type = SkillType.valueOf(negateSkillType);
 			getEffected().stopSkillEffects(type, skill.getPower());
+		}
+		
+		for (String negateEffectType : skill.getNegateEffectTypes())
+		{
+			if(Config.DEBUG)
+				_log.fine("effectNegate on Effect Type "+negateEffectType +" with power "+skill.getPower());
+			
+			EffectType type = EffectType.valueOf(negateEffectType);
+			getEffected().stopEffects(type);
 		}
 		
 		

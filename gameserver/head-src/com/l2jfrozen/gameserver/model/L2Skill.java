@@ -440,7 +440,8 @@ public abstract class L2Skill
 	private final double _power;
 	private final int _effectPoints;
 	private final int _magicLevel;
-	private final String[] _negateStats;
+	private final String[] _negateSkillTypes;
+	private final String[] _negateEffectTypes;
 	private final float _negatePower;
 	private final int _negateId;
 	private final int _levelDepend;
@@ -552,7 +553,8 @@ public abstract class L2Skill
 		_targetType = set.getEnum("target", SkillTargetType.class);
 		_power = set.getFloat("power", 0.f);
 		_effectPoints = set.getInteger("effectPoints", 0);
-		_negateStats = set.getString("negateStats", "").split(" ");
+		_negateSkillTypes = set.getString("negateSkillTypes", "").split(" ");
+		_negateEffectTypes = set.getString("negateEffectTypes", "").split(" ");
 		_negatePower = set.getFloat("negatePower", 0.f);
 		_negateId = set.getInteger("negateId", 0);
 		_magicLevel = set.getInteger("magicLvl", SkillTreeTable.getInstance().getMinSkillLevel(_id, _level));
@@ -804,9 +806,14 @@ public abstract class L2Skill
 		return _effectPoints;
 	}
 
-	public final String[] getNegateStats()
+	public final String[] getNegateSkillTypes()
 	{
-		return _negateStats;
+		return _negateSkillTypes;
+	}
+	
+	public final String[] getNegateEffectTypes()
+	{
+		return _negateEffectTypes;
 	}
 
 	public final float getNegatePower()
