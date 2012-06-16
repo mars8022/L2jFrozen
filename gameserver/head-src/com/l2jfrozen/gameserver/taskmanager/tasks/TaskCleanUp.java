@@ -17,8 +17,12 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
+import java.util.logging.Logger;
+
 import com.l2jfrozen.gameserver.taskmanager.Task;
+import com.l2jfrozen.gameserver.taskmanager.TaskManager;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
+import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
 /**
  * @author Tempy
@@ -26,6 +30,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public final class TaskCleanUp extends Task
 {
+	private static final Logger _log = Logger.getLogger(TaskCleanUp.class.getName());
 	public static final String NAME = "CleanUp";
 
 	@Override
@@ -39,5 +44,13 @@ public final class TaskCleanUp extends Task
 	{
 		System.runFinalization();
 		System.gc();
+		_log.config("Java Memory Cleanup Global Task: launched.");
+	}
+	
+	@Override
+	public void  initializate()
+	{
+		super.initializate();
+		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "1800000", "3600000", "");
 	}
 }
