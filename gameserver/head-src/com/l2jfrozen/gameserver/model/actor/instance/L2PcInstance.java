@@ -234,18 +234,14 @@ import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
-
 /**
- * This class represents all player characters in the world. There is always a client-thread connected to this (except
- * if a player-store is activated upon logout).<BR>
- * <BR>
- * 
+ * This class represents all player characters in the world.<br>
+ * There is always a client-thread connected to this (except if a player-store is activated upon logout).
  * @version $Revision: 1.6.4 $ $Date: 2009/05/12 19:46:09 $
  * @author l2jfrozen dev
  */
 public final class L2PcInstance extends L2PlayableInstance
 {
-	
 	/** The Constant RESTORE_SKILLS_FOR_CHAR. */
 	private static final String RESTORE_SKILLS_FOR_CHAR = "SELECT skill_id,skill_level FROM character_skills WHERE char_obj_id=? AND class_index=?";
 
@@ -283,7 +279,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	private boolean _posticipateSit;
 	
 	/** The sitting task launched. */
-	private boolean sittingTaskLaunched;
+	protected boolean sittingTaskLaunched;
 	
 	/** The saved_status. */
 	private PlayerStatus saved_status = null;
@@ -292,7 +288,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	private final long _instanceLoginTime;
 	
 	/** The _last teleport action. */
-	@SuppressWarnings("unused")
 	private long _lastTeleportAction = 0;
 	
 	/**
@@ -390,7 +385,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-			statement = con.prepareStatement("update accounts set votePoints="+points+" where login='"+_accountName+"'");	
+			statement = con.prepareStatement("update accounts set votePoints="+points+" where login='"+_accountName+"'");
 			statement.execute();
 			statement.close();
 			statement = null;
@@ -1045,9 +1040,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	/**
 	 * The Class SummonRequest.
 	 */
-	private static class SummonRequest
+	protected static class SummonRequest
 	{
-		
 		/** The _target. */
 		private L2PcInstance _target = null;
 		
@@ -4245,10 +4239,10 @@ private int _reviveRequested = 0;
 	
 	//MOVING on attack TASK, L2OFF FIX
 	/** The launched moving task. */
-	private MoveOnAttack launchedMovingTask = null;
+	protected MoveOnAttack launchedMovingTask = null;
 	
 	/** The _moving task defined. */
-	private Boolean _movingTaskDefined = false;
+	protected Boolean _movingTaskDefined = false;
 	
 	/**
 	 * MoveOnAttack Task.
@@ -6751,7 +6745,7 @@ private int _reviveRequested = 0;
 
 			    //Like L2OFF Auto-Equip arrows if player has a bow and player picks up arrows. 
 				if(target.getItem() != null && target.getItem().getItemType() == L2EtcItemType.ARROW)
-					 checkAndEquipArrows();				     
+					 checkAndEquipArrows();
 			}
 		}
 		target = null;
@@ -8008,7 +8002,7 @@ private int _reviveRequested = 0;
 		}
 
 		if((TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP)) 
-			return;		
+			return;
 		
 		// Add karma to attacker and increase its PK counter
 		setPvpKills(getPvpKills() + 1);
@@ -8184,13 +8178,10 @@ private int _reviveRequested = 0;
 			statement.setString(1, killer);
 			statement.setString(2, killed);
 			ResultSet rset = statement.executeQuery();
-			if(rset!=null && rset.next()){
-				kills = rset.getInt("kills");
-			}
+			rset.next();
+			kills = rset.getInt("kills");
 			rset.close();
 			statement.close();
-			statement = null;
-			rset = null;
 		}
 		catch(SQLException e)
 		{
@@ -8201,7 +8192,6 @@ private int _reviveRequested = 0;
 		finally
 		{
 			CloseUtil.close(con);
-			con = null;
 		}
 		if(kills >= 1)
 		{
@@ -9770,7 +9760,6 @@ private int _reviveRequested = 0;
 		finally
 		{
 			CloseUtil.close(con);
-			
 		}
 	}
 
@@ -9942,14 +9931,11 @@ private int _reviveRequested = 0;
 	private static L2PcInstance restore(int objectId)
 	{
 		L2PcInstance player = null;
-		Connection con = null;
-
-		boolean finished = false;
-		
 		double curHp = 0;
 		double curCp = 0;
 		double curMp = 0;
 		
+		Connection con = null;
 		try
 		{
 			// Retrieve the L2PcInstance from the characters table of the database
@@ -10161,8 +10147,12 @@ private int _reviveRequested = 0;
 
 			rset.close();
 			statement.close();
-			statement = null;
-			rset = null;
+			
+			if (player == null)
+			{
+				// TODO: Log this!
+				return null;
+			}
 
 			// Retrieve from the database all secondary data of this L2PcInstance
 			// and reward expertise/lucky skills if necessary.
@@ -10181,8 +10171,6 @@ private int _reviveRequested = 0;
 			player.refreshOverloaded();
 			
 			player.restoreFriendList();
-			
-			finished = true;
 		}
 		catch(Exception e)
 		{
@@ -10194,26 +10182,26 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 
-		if(finished){
+		if(player != null)
+		{
 			player.fireEvent(EventType.LOAD.name, (Object[]) null);
+			
+			try
+			{
+				Thread.sleep(100);
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			
+			//once restored all the skill status, update current CP, MP and HP		
+			player.setCurrentHpDirect(curHp);
+			player.setCurrentCpDirect(curCp);
+			player.setCurrentMpDirect(curMp);
+			//player.setCurrentCp(curCp);
+			//player.setCurrentMp(curMp);
 		}
-		
-		try
-		{
-			Thread.sleep(100);
-		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		
-		//once restored all the skill status, update current CP, MP and HP		
-		player.setCurrentHpDirect(curHp);
-		player.setCurrentCpDirect(curCp);
-		player.setCurrentMpDirect(curMp);
-		//player.setCurrentCp(curCp);
-		//player.setCurrentMp(curMp);
-		
 		return player;
 	}
 
@@ -13111,7 +13099,7 @@ private int _reviveRequested = 0;
 	private ScheduledFuture<?> _taskBotChecker;
 	
 	/** The _task kick bot. */
-	private ScheduledFuture<?> _taskKickBot;
+	protected ScheduledFuture<?> _taskKickBot;
 
 	/**
 	 * The Class botChecker.
@@ -13947,9 +13935,8 @@ private int _reviveRequested = 0;
  	 */
  	public boolean getIsPVPHero()
 	 {
-		 return isPVPHero;			
+		 return isPVPHero;
 	 }
-	 
 	
 	/**
 	 * Gets the count.

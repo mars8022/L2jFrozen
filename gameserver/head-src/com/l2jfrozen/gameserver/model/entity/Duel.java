@@ -79,7 +79,7 @@ public class Duel
 	private L2PcInstance _playerB;
 	
 	/** The _party duel. */
-	private boolean _partyDuel;
+	protected boolean _partyDuel;
 	
 	/** The _duel end time. */
 	private Calendar _duelEndTime;

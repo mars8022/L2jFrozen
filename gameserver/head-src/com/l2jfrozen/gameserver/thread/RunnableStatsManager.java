@@ -12,19 +12,19 @@ import org.apache.commons.lang.ArrayUtils;
 
 public final class RunnableStatsManager
 {
-	private static final Map<Class<?>, ClassStat> _classStats = new HashMap<Class<?>, ClassStat>();
+	protected static final Map<Class<?>, ClassStat> _classStats = new HashMap<Class<?>, ClassStat>();
 
 	private static final class ClassStat
 	{
 		private String[] _methodNames = new String[0];
 		private MethodStat[] _methodStats = new MethodStat[0];
 
-		private ClassStat(Class<?> clazz)
+		protected ClassStat(Class<?> clazz)
 		{
 			_classStats.put(clazz, this);
 		}
 
-		private MethodStat getMethodStat(String methodName, boolean synchronizedAlready)
+		protected MethodStat getMethodStat(String methodName, boolean synchronizedAlready)
 		{
 			for(int i = 0; i < _methodNames.length; i++)
 				if(_methodNames[i].equals(methodName))
@@ -49,14 +49,14 @@ public final class RunnableStatsManager
 		}
 	}
 
-	private static final class MethodStat
+	protected static final class MethodStat
 	{
 		private final ReentrantLock _lock = new ReentrantLock();
 
 		private long _min = Long.MAX_VALUE;
 		private long _max = Long.MIN_VALUE;
 
-		private void handleStats(long runTime)
+		protected void handleStats(long runTime)
 		{
 			_lock.lock();
 			try

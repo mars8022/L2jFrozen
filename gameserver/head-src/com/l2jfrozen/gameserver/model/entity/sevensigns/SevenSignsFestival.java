@@ -3444,6 +3444,8 @@ public class SevenSignsFestival implements SpawnListener
 				case 3:
 					_npcSpawns = _cabal == SevenSigns.CABAL_DAWN ? FESTIVAL_DAWN_CHEST_SPAWNS[_levelRange] : FESTIVAL_DUSK_CHEST_SPAWNS[_levelRange];
 					break;
+				default:
+					return;
 			}
 
 			for(int[] npcSpawn2 : _npcSpawns)
@@ -3492,7 +3494,6 @@ public class SevenSignsFestival implements SpawnListener
 					{
 						_log.fine("SevenSignsFestival: Spawned NPC ID " + currSpawn._npcId + " at " + currSpawn._x + " " + currSpawn._y + " " + currSpawn._z);
 					}
-					currSpawn = null;
 				}
 				catch(Exception e)
 				{
@@ -3500,7 +3501,6 @@ public class SevenSignsFestival implements SpawnListener
 						e.printStackTrace();
 					
 					_log.warning("SevenSignsFestival: Error while spawning NPC ID " + currSpawn._npcId + ": " + e);
-					currSpawn = null;
 				}
 			}
 		}

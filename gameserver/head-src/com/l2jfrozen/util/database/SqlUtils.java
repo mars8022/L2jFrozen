@@ -295,7 +295,6 @@ public class SqlUtils
 			try
 			{
 				statement.close();
-				statement = null;
 			}
 			catch(Exception e)
 			{
@@ -303,9 +302,7 @@ public class SqlUtils
 					e.printStackTrace();
 				
 			}
-			
 			CloseUtil.close(con);
-			con = null;
 		}
 	}
 

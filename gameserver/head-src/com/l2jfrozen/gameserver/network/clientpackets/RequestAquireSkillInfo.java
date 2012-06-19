@@ -52,26 +52,28 @@ public class RequestAquireSkillInfo extends L2GameClientPacket
 	protected void runImpl()
 	{
 		L2PcInstance activeChar = getClient().getActiveChar();
-
 		if(activeChar == null)
 			return;
 
 		L2FolkInstance trainer = activeChar.getLastFolkNPC();
-
-		if((trainer == null || !activeChar.isInsideRadius(trainer, L2NpcInstance.INTERACTION_DISTANCE, false, false)) && !activeChar.isGM())
+		if (trainer == null)
+		{
 			return;
-
-		L2Skill skill = SkillTable.getInstance().getInfo(_id, _level);
-
+		}
+		
+		if (!activeChar.isGM() && !activeChar.isInsideRadius(trainer, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+		{
+			return;
+		}
+		
 		boolean canteach = false;
-
+		L2Skill skill = SkillTable.getInstance().getInfo(_id, _level);
 		if(skill == null)
 		{
 			if(Config.DEBUG)
 			{
 				_log.warning("skill id " + _id + " level " + _level + " is undefined. aquireSkillInfo failed.");
 			}
-
 			return;
 		}
 

@@ -45,8 +45,8 @@ public class L2EffectZone extends L2ZoneType
 	private int _reuse;
 	private boolean _enabled;
 	private boolean _isShowDangerIcon;
-	private Future<?> _task;
-	protected FastMap<Integer, Integer> _skills;
+	private volatile Future<?> _task;
+	protected volatile FastMap<Integer, Integer> _skills;
 	
 	public L2EffectZone(int id)
 	{

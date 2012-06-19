@@ -19,9 +19,7 @@
 package com.l2jfrozen.gameserver.script.faenor;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.script.ScriptContext;
@@ -38,7 +36,7 @@ import com.l2jfrozen.gameserver.script.Parser;
 public abstract class FaenorParser extends Parser
 {
 	protected static FaenorInterface _bridge = FaenorInterface.getInstance();
-	protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+	protected final DateFormat DATE_FORMAT = new SimpleDateFormat("dd MMM yyyy", Locale.US);
 
 	public final static boolean DEBUG = true;
 
@@ -99,12 +97,7 @@ public abstract class FaenorParser extends Parser
 	{
 		return node.getNodeName().equalsIgnoreCase(name);
 	}
-
-	public static Date getDate(String date) throws ParseException
-	{
-		return DATE_FORMAT.parse(date);
-	}
-
+	
 	public static double getPercent(String percent)
 	{
 		return Double.parseDouble(percent.split("%")[0]) / 100.0;

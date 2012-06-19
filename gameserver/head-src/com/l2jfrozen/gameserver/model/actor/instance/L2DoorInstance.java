@@ -63,7 +63,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class L2DoorInstance extends L2Character
 {
-	
 	/** The Constant log. */
 	protected static final Logger log = Logger.getLogger(L2DoorInstance.class.getName());
 
@@ -533,40 +532,37 @@ public class L2DoorInstance extends L2Character
 
 		// Attackable during siege by attacker only
 
-		L2PcInstance attacker_instance = null;
+		L2PcInstance player = null;
 		if(attacker instanceof L2PcInstance){
-			attacker_instance = (L2PcInstance) attacker;
+			player = (L2PcInstance) attacker;
 		}else if(attacker instanceof L2SummonInstance){
-			attacker_instance = ((L2SummonInstance) attacker).getOwner();
-		}else if(attacker instanceof L2SummonInstance){
-			attacker_instance = ((L2SummonInstance) attacker).getOwner();
+			player = ((L2SummonInstance) attacker).getOwner();
+		}else if(attacker instanceof L2PetInstance){
+			player = ((L2PetInstance) attacker).getOwner();
 		}
 		
-		boolean isCastle = getCastle() != null && getCastle().getCastleId() > 0 && getCastle().getSiege().getIsInProgress() && getCastle().getSiege().checkIsAttacker(attacker_instance.getClan());
-
-		boolean isFort = getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress() && getFort().getSiege().checkIsAttacker(attacker_instance.getClan());
-
+		if (player == null)
+		{
+			return false;
+		}
+		
+		final L2Clan clan = player.getClan();
+		final boolean isCastle = getCastle() != null && getCastle().getCastleId() > 0 && getCastle().getSiege().getIsInProgress() && getCastle().getSiege().checkIsAttacker(clan);
+		final boolean isFort = getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress() && getFort().getSiege().checkIsAttacker(clan);
 		if(isFort)
 		{
-			L2Clan clan = attacker_instance.getClan();
 			if(clan != null && clan == getFort().getOwnerClan())
 			{
-				clan = null;
 				return false;
 			}
-			
 		}
 		else if(isCastle)
 		{
-			L2Clan clan = attacker_instance.getClan();
 			if(clan != null && clan.getClanId() == getCastle().getOwnerId())
 			{
-				clan = null;
 				return false;
 			}
-		
 		}
-
 		return isCastle || isFort || DevastatedCastle.getInstance().getIsInProgress();
 	}
 

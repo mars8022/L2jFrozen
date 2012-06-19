@@ -96,7 +96,7 @@ public abstract class ExclusiveTask
 
 	protected abstract void onElapsed();
 
-	private synchronized boolean tryLock()
+	protected synchronized boolean tryLock()
 	{
 		if(_returnIfAlreadyRunning)
 			return !_isRunning;
@@ -125,7 +125,7 @@ public abstract class ExclusiveTask
 		}
 	}
 
-	private synchronized void unlock()
+	protected synchronized void unlock()
 	{
 		_isRunning = false;
 	}

@@ -52,7 +52,6 @@ public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 			return;
 		
 		L2PcInstance activeChar = getClient().getActiveChar();
-
 		if(activeChar == null)
 			return;
 
@@ -60,14 +59,19 @@ public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 			return;
 
 		L2FolkInstance trainer = activeChar.getLastFolkNPC();
-
-		if((trainer == null || !activeChar.isInsideRadius(trainer, L2NpcInstance.INTERACTION_DISTANCE, false, false)) && !activeChar.isGM())
+		if(trainer == null)
+		{
 			return;
-
-		L2Skill skill = SkillTable.getInstance().getInfo(_skillId, _skillLvl);
-
+		}
+		
+		if (!activeChar.isInsideRadius(trainer, L2NpcInstance.INTERACTION_DISTANCE, false, false) && !activeChar.isGM())
+		{
+			return;
+		}
+		
 		boolean canteach = false;
-
+		
+		L2Skill skill = SkillTable.getInstance().getInfo(_skillId, _skillLvl);
 		if(skill == null || skill.getId() != _skillId)
 			return;
 

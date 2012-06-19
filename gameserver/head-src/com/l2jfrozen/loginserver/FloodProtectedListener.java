@@ -113,7 +113,6 @@ public abstract class FloodProtectedListener extends Thread
 				try
 				{
 					connection.close();
-					connection = null;
 				}
 				catch(Exception e2)
 				{

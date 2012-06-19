@@ -64,7 +64,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	//private static final int FWA_APPTIMEOFANTHARAS = 1800000;
 	//private static final int FWA_INACTIVITYTIME = 900000;
 	//private static final boolean FWA_OLDANTHARAS = true; //use antharas interlude with minions
-	private static final boolean FWA_OLDANTHARAS = Config.ANTHARAS_OLD; //use antharas interlude with minions
+	protected static final boolean FWA_OLDANTHARAS = Config.ANTHARAS_OLD; //use antharas interlude with minions
 	private static final boolean FWA_MOVEATRANDOM = true;
 	private static final boolean FWA_DOSERVEREARTHQUAKE = true;
 	private static final int FWA_LIMITOFWEAK = 45;
@@ -354,7 +354,7 @@ public class Antharas_l2j extends Quest implements Runnable
 		}
 	}
 	
-	private void startMinionSpawns(int antharasId)
+	protected void startMinionSpawns(int antharasId)
 	{
 		int intervalOfMobs;
 		
@@ -522,7 +522,7 @@ public class Antharas_l2j extends Quest implements Runnable
 		}
 	}
 	
-	private void broadcastPacket(L2GameServerPacket mov)
+	protected void broadcastPacket(L2GameServerPacket mov)
 	{
 		if (_Zone != null)
 		{
@@ -685,7 +685,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	}
 	
 	// At end of activity time.
-	private class CheckActivity implements Runnable
+	protected class CheckActivity implements Runnable
 	{
 		@Override
 		public void run()

@@ -88,7 +88,7 @@ public class DevastatedCastle
 		return _instance;
 	}
 
-	private class DamageInfo
+	protected class DamageInfo
 	{
 		public L2Clan _clan;
 		public long _damage;
@@ -343,7 +343,7 @@ public class DevastatedCastle
 		private int _z;
 		private int _heading;
 
-		private MonsterLocation(int id, int x, int y, int z, int heading)
+		protected MonsterLocation(int id, int x, int y, int z, int heading)
 		{
 			_id = id;
 			_x = x;
@@ -352,27 +352,27 @@ public class DevastatedCastle
 			_heading = heading;
 		}
 
-		private int getId()
+		protected int getId()
 		{
 			return _id;
 		}
 
-		private int getX()
+		protected int getX()
 		{
 			return _x;
 		}
 
-		private int getY()
+		protected int getY()
 		{
 			return _y;
 		}
 
-		private int getZ()
+		protected int getZ()
 		{
 			return _z;
 		}
 
-		private int getHeading()
+		protected int getHeading()
 		{
 			return _heading;
 		}

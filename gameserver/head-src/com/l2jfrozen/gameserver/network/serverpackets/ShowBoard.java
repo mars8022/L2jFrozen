@@ -100,7 +100,7 @@ public class ShowBoard extends L2GameServerPacket
 			{
 				htmlBytes = _htmlCode.getBytes();
 			}
-			byte data[] = new byte[2 + 2 + 2 + _id.getBytes().length * 2 + 2 * (_htmlCode != null ? htmlBytes.length : 0)];
+			byte data[] = new byte[2 + 2 + 2 + _id.getBytes().length * 2 + 2 * (htmlBytes != null ? htmlBytes.length : 0)];
 			int i = 0;
 			for(int j = 0; j < _id.getBytes().length; j++, i += 2)
 			{
@@ -111,11 +111,7 @@ public class ShowBoard extends L2GameServerPacket
 			i++;
 			data[i] = 0;
 			i++;
-			if(_htmlCode == null)
-			{
-
-			}
-			else
+			if(htmlBytes != null)
 			{
 				for(int j = 0; j < htmlBytes.length; i += 2, j++)
 				{

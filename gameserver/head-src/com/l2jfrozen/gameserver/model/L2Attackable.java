@@ -670,8 +670,7 @@ public class L2Attackable extends L2NpcInstance
 			int damage;
 
 			L2Character attacker, ddealer;
-			RewardInfo reward;
-
+			
 			// While Interacting over This Map Removing Object is Not Allowed
 			synchronized (getAggroList())
 			{
@@ -708,8 +707,7 @@ public class L2Attackable extends L2NpcInstance
 						}
 
 						// Calculate real damages (Summoners should get own damage plus summon's damage)
-						reward = rewards.get(ddealer);
-
+						RewardInfo reward = rewards.get(ddealer);
 						if(reward == null)
 						{
 							reward = new RewardInfo(ddealer, damage);
@@ -749,15 +747,8 @@ public class L2Attackable extends L2NpcInstance
 				RewardInfo reward2;
 				int[] tmp;
 
-				for(FastMap.Entry<L2Character, RewardInfo> entry = rewards.head(), end = rewards.tail(); (entry = entry.getNext()) != end;)
+				for(RewardInfo reward : rewards.values())
 				{
-					if(entry == null)
-					{
-						continue;
-					}
-
-					reward = entry.getValue();
-
 					if(reward == null)
 					{
 						continue;
@@ -833,8 +824,6 @@ public class L2Attackable extends L2NpcInstance
 									exp = (long) (exp * Config.DONATOR_XPSP_RATE);
 									sp = (int) (sp * Config.DONATOR_XPSP_RATE);
 								}
-
-								player = null;
 							}
 
 							// Distribute the Exp and SP between the L2PcInstance and its L2Summon
@@ -922,7 +911,6 @@ public class L2Attackable extends L2NpcInstance
 							}
 
 							L2PlayableInstance summon = pl.getPet();
-
 							if(summon != null && summon instanceof L2PetInstance)
 							{
 								reward2 = rewards.get(summon);
@@ -943,8 +931,6 @@ public class L2Attackable extends L2NpcInstance
 									rewards.remove(summon); // Remove the summon from the L2Attackable rewards
 								}
 							}
-
-							summon = null;
 						}
 
 						// If the party didn't killed this L2Attackable alone
@@ -987,8 +973,6 @@ public class L2Attackable extends L2NpcInstance
 								player.sendPacket(new SystemMessage(SystemMessageId.OVER_HIT));
 								exp += calculateOverhitExp(exp);
 							}
-
-							player = null;
 						}
 
 						// Distribute Experience and SP rewards to L2PcInstance Party members in the known area of the last attacker
@@ -996,20 +980,9 @@ public class L2Attackable extends L2NpcInstance
 						{
 							attackerParty.distributeXpAndSp(exp, sp, rewardedMembers, partyLvl);
 						}
-
-						groupMembers = null;
-						rewardedMembers = null;
 					}
 				}
-
-				attackerParty = null;
-				reward2 = null;
 			}
-
-			rewards = null;
-			attacker = null;
-			ddealer = null;
-
 		}
 		catch(Exception e)
 		{
@@ -2130,7 +2103,12 @@ public class L2Attackable extends L2NpcInstance
 						{
 							item = new RewardItem(8610, 1); // Herb of Critical Attack
 						}
-
+						
+						if (item == null)
+						{
+							break;
+						}
+						
 						if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 						{
 							L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
@@ -2144,8 +2122,6 @@ public class L2Attackable extends L2NpcInstance
 						{
 							DropItem(player, item);
 						}
-
-						item = null;
 						break;
 					}
 				}
@@ -2192,7 +2168,10 @@ public class L2Attackable extends L2NpcInstance
 						{
 							item = new RewardItem(8609, 1); // Herb of Casting Speed
 						}
-
+						if (item == null)
+						{
+							break;
+						}
 						if(Config.AUTO_LOOT && Config.AUTO_LOOT_HERBS)
 						{
 							L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
@@ -2206,8 +2185,6 @@ public class L2Attackable extends L2NpcInstance
 						{
 							DropItem(player, item);
 						}
-
-						item = null;
 						break;
 					}
 				}

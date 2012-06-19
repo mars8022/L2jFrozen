@@ -36,7 +36,7 @@ public abstract class L2ZoneType
 {
 	private final int _id;
 	protected L2ZoneForm _zone;
-	protected FastMap<Integer, L2Character> _characterList;
+	public FastMap<Integer, L2Character> _characterList;
 
 	/** Parameters to affect specific characters */
 	private boolean _checkAffected;

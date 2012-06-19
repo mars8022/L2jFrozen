@@ -117,10 +117,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	//unknownPacket protection  
 	private int unknownPacketCount = 0;
 	
-	private boolean _closenow = true;
+	protected boolean _closenow = true;
 	private boolean _isDetached = false;
 
-	private boolean _forcedToClose = false;
+	protected boolean _forcedToClose = false;
 	
 	private final ArrayBlockingQueue<ReceivablePacket<L2GameClient>> _packetQueue;
 	private ReentrantLock _queueLock = new ReentrantLock();
@@ -813,12 +813,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 	}
 	
-	
-	private class CleanupTask implements Runnable
+	protected class CleanupTask implements Runnable
 	{
-		/**
-		 * @see java.lang.Runnable#run()
-		 */
 		@Override
 		public void run()
 		{
@@ -914,13 +910,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 	}
 	
-	
-	private class DisconnectTask implements Runnable
+	protected class DisconnectTask implements Runnable
 	{
-
-		/**
-		 * @see java.lang.Runnable#run()
-		 */
 		@Override
 		public void run()
 		{
@@ -936,7 +927,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					e.printStackTrace();
 				}
 
-//				// we are going to mannually save the char bellow thus we can force the cancel
+//				// we are going to manually save the char bellow thus we can force the cancel
 //				if(_autoSaveInDB != null)
 //					_autoSaveInDB.cancel(true);
 

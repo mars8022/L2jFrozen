@@ -409,7 +409,7 @@ public class L2ClanHallSiegeInfInstance extends L2NpcInstance
 			}
 			clans += "</table>";
 			html.replace("%clan%", String.valueOf(clans));
-			L2Clan clan = clanhall.getOwnerClan();
+			L2Clan clan = clanhall == null ? null : clanhall.getOwnerClan();
 			String clanName;
 			if(clan == null)
 			{

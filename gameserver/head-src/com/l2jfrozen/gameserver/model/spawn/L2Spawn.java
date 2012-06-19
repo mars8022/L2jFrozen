@@ -601,50 +601,53 @@ public class L2Spawn
 			newlocy = getLocy();
 			newlocz = doCorrect ? GeoData.getInstance().getSpawnHeight(newlocx, newlocy, getLocz(), getLocz(), _id) : getLocz();
 		}
-
-		mob.stopAllEffects();
-
-		// Set the HP and MP of the L2NpcInstance to the max
-		mob.setCurrentHpMp(mob.getMaxHp(), mob.getMaxMp());
-
-		// Set the heading of the L2NpcInstance (random heading if not defined)
-		if(getHeading() == -1)
+		
+		if (mob != null)
 		{
-			mob.setHeading(Rnd.nextInt(61794));
-		}
-		else
-		{
-			mob.setHeading(getHeading());
-		}
+			mob.stopAllEffects();
 
-		// Reset decay info
-		mob.setDecayed(false);
+			// Set the HP and MP of the L2NpcInstance to the max
+			mob.setCurrentHpMp(mob.getMaxHp(), mob.getMaxMp());
 
-		// Link the L2NpcInstance to this L2Spawn
-		mob.setSpawn(this);
-
-		// Init other values of the L2NpcInstance (ex : from its L2CharTemplate for INT, STR, DEX...) and add it in the world as a visible object
-		mob.spawnMe(newlocx, newlocy, newlocz);
-
-		L2Spawn.notifyNpcSpawned(mob);
-
-		_lastSpawn = mob;
-
-		if(Config.DEBUG)
-		{
-			_log.finest("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
-		}
-
-		if(mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN) != null)
-		{
-			for(Quest quest : mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN))
+			// Set the heading of the L2NpcInstance (random heading if not defined)
+			if(getHeading() == -1)
 			{
-				quest.notifySpawn(mob);
+				mob.setHeading(Rnd.nextInt(61794));
 			}
-		}
+			else
+			{
+				mob.setHeading(getHeading());
+			}
 
-		// Increase the current number of L2NpcInstance managed by this L2Spawn
-		_currentCount++;
+			// Reset decay info
+			mob.setDecayed(false);
+
+			// Link the L2NpcInstance to this L2Spawn
+			mob.setSpawn(this);
+
+			// Init other values of the L2NpcInstance (ex : from its L2CharTemplate for INT, STR, DEX...) and add it in the world as a visible object
+			mob.spawnMe(newlocx, newlocy, newlocz);
+
+			L2Spawn.notifyNpcSpawned(mob);
+
+			_lastSpawn = mob;
+
+			if(Config.DEBUG)
+			{
+				_log.finest("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
+			}
+
+			if(mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN) != null)
+			{
+				for(Quest quest : mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN))
+				{
+					quest.notifySpawn(mob);
+				}
+			}
+
+			// Increase the current number of L2NpcInstance managed by this L2Spawn
+			_currentCount++;
+		}
 		return mob;
 	}
 

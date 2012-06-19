@@ -281,8 +281,7 @@ public final class Say2 extends L2GameClientPacket
 		{
 			case TELL:
 				L2PcInstance receiver = L2World.getInstance().getPlayer(_target);
-
-				if(receiver != null && !BlockList.isBlocked(receiver, activeChar) || activeChar.isGM() && receiver != null)
+				if ((receiver != null) && (!BlockList.isBlocked(receiver, activeChar) || activeChar.isGM()))
 				{
 					if(receiver.isAway())
 					{

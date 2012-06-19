@@ -587,7 +587,7 @@ public class VIP
 				nhm.setHtml(replyMSG.toString());
 				player.sendPacket(nhm);
 			}
-			else if(player._isTheVIP)
+			else if(player != null && player._isTheVIP)
 			{
 				PcInventory inv = player.getInventory();
 

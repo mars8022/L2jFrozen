@@ -512,7 +512,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 						return false;
 					}
 					
-					if(CTF.set_intervalBetweenMatchs(time)){
+					if(CTF.set_intervalBetweenMatches(time)){
 						showMainPage(activeChar);
 						return true;
 					}
