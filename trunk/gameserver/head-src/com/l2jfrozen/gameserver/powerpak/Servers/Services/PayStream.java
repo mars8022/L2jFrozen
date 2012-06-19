@@ -26,7 +26,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class PayStream implements HttpHandler
 {
-	private static final Logger _log = Logger.getLogger(PayStream.class.getName());
+	protected static final Logger _log = Logger.getLogger(PayStream.class.getName());
 	// An indication that all options are read, and the handler can be created
 
 	// Security Key - defined in the study Lisnoe paystream
@@ -34,13 +34,13 @@ public class PayStream implements HttpHandler
 	// Prefix SMS
 	private static String _SMSPrefix;
 	// ID object, given by a reward
-	private static int _item;
+	protected static int _item;
 	// The list of numbers and quantities awards for a number. Format: count [; number: the number ...]
 	private static Map<Integer, Integer> _bonuses = new FastMap<Integer, Integer>();
 
 	private static String _MessageOK;
 	private static String _MessageFail;
-	private static String _UserMessage;
+	protected static String _UserMessage;
 
 	public PayStream() throws Exception
 	{

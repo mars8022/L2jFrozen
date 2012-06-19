@@ -300,13 +300,12 @@ public class L2BoxInstance extends L2NpcInstance
 		if(cmd != null)
 		{
 			drawername = cmd[0];
+			if(cmd.length > 1)
+			{
+				startPos = Integer.parseInt(cmd[1]);
+			}
 		}
-
-		if(cmd.length > 1)
-		{
-			startPos = Integer.parseInt(cmd[1]);
-		}
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		int nitems = 0;
 		Set<L2BoxItem> _items = getItems(drawername);
@@ -369,13 +368,12 @@ public class L2BoxInstance extends L2NpcInstance
 		if(cmd != null)
 		{
 			drawername = cmd[0];
+			if(cmd.length > 1)
+			{
+				startPos = Integer.parseInt(cmd[1]);
+			}
 		}
-
-		if(cmd.length > 1)
-		{
-			startPos = Integer.parseInt(cmd[1]);
-		}
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		int nitems = 0;
 		Set<L2BoxItem> _items = new FastSet<L2BoxItem>();

@@ -58,11 +58,11 @@ public class WildBeastFarmSiege extends ClanHallSiege
 	private static WildBeastFarmSiege _instance;
 	private boolean _registrationPeriod = false;
 	private int _clanCounter = 0;
-	private Map<Integer, clanPlayersInfo> _clansInfo = new HashMap<Integer, clanPlayersInfo>();
+	protected Map<Integer, clanPlayersInfo> _clansInfo = new HashMap<Integer, clanPlayersInfo>();
 	public ClanHall clanhall = ClanHallManager.getInstance().getClanHallById(63);
-	private clanPlayersInfo _ownerClanInfo = new clanPlayersInfo();
-	private boolean _finalStage = false;
-	private ScheduledFuture<?> _midTimer;
+	protected clanPlayersInfo _ownerClanInfo = new clanPlayersInfo();
+	protected boolean _finalStage = false;
+	protected ScheduledFuture<?> _midTimer;
 	private L2ClanHallZone zone;
 
 	public static final WildBeastFarmSiege getInstance()
@@ -236,7 +236,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 		return res;
 	}
 
-	private class midSiegeStep implements Runnable
+	protected class midSiegeStep implements Runnable
 	{
 		@Override
 		public void run()
@@ -263,7 +263,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 		}
 	}
 
-	private class startFirstStep implements Runnable
+	protected class startFirstStep implements Runnable
 	{
 		@Override
 		public void run()
@@ -580,7 +580,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 		}
 	}
 
-	private final ExclusiveTask _endSiegeTask = new ExclusiveTask() {
+	protected final ExclusiveTask _endSiegeTask = new ExclusiveTask() {
 		@Override
 		protected void onElapsed()
 		{
@@ -599,7 +599,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 			schedule(timeRemaining);
 		}
 	};
-	private final ExclusiveTask _mobControlTask = new ExclusiveTask() {
+	protected final ExclusiveTask _mobControlTask = new ExclusiveTask() {
 		@Override
 		protected void onElapsed()
 		{
@@ -634,7 +634,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 		}
 	};
 
-	private class clanPlayersInfo
+	protected class clanPlayersInfo
 	{
 		public String _clanName;
 		public L2DecoInstance _flag = null;

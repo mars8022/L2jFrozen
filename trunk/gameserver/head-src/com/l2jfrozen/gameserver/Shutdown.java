@@ -172,7 +172,7 @@ public class Shutdown extends Thread
 	}
 
 	/**
-	 * Default constucter is only used internal to create the shutdown-hook instance
+	 * Default constructor is only used internal to create the shutdown-hook instance
 	 */
 	public Shutdown()
 	{
@@ -229,7 +229,7 @@ public class Shutdown extends Thread
 
 	/**
 	 * get the shutdown-hook instance the shutdown-hook instance is created by the first call of this function, but it
-	 * has to be registrered externaly.
+	 * has to be registered externally.
 	 * 
 	 * @return instance of Shutdown, to be used as shutdown hook
 	 */
@@ -516,8 +516,8 @@ public class Shutdown extends Thread
 				int _hours;
 
 				_seconds = _secondsShut;
-				_minutes = Math.round(_seconds / 60);
-				_hours = Math.round(_seconds / 3600);
+				_minutes = _seconds / 60;
+				_hours = _seconds / 3600;
 
 				// announce only every minute after 10 minutes left and every second after 20 seconds
 				if((_seconds <= 20 || _seconds == _minutes * 10) && _seconds <= 600 && _hours <= 1)
@@ -629,7 +629,7 @@ public class Shutdown extends Thread
 		{
 		}
 		
-		// we cannt abort shutdown anymore, so i removed the "if"
+		// we cannot abort shutdown anymore, so i removed the "if"
 		disconnectAllCharacters();
 		
 		try

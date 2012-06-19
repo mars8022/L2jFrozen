@@ -48,7 +48,7 @@ public class TvT implements EventTask
 	protected static final Logger _log = Logger.getLogger(TvT.class.getName());
 	
 	/** The _joining location name. */
-	private static String _eventName = new String(),
+	protected static String _eventName = new String(),
 						 _eventDesc = new String(),
 						 _joiningLocationName = new String();
 
@@ -56,7 +56,7 @@ public class TvT implements EventTask
 	private static L2Spawn _npcSpawn;
 
 	/** The _in progress. */
-	private static boolean _joining = false,
+	protected static boolean _joining = false,
 						  _teleport = false,
 						  _started = false,
 						  _aborted = false,
@@ -64,7 +64,7 @@ public class TvT implements EventTask
 						  _inProgress  = false;
 
 	/** The _max players. */
-	private static int _npcId = 0,
+	protected static int _npcId = 0,
 					  _npcX = 0,
 					  _npcY = 0,
 					  _npcZ = 0,
@@ -79,7 +79,7 @@ public class TvT implements EventTask
 					  _maxPlayers = 0;
 	
 	/** The _interval between matchs. */
-	private static long _intervalBetweenMatchs = 0;
+	protected static long _intervalBetweenMatchs = 0;
 	
 	/** The start event time. */
 	private String startEventTime;
@@ -673,7 +673,7 @@ public class TvT implements EventTask
 	 *
 	 * @return true, if successful
 	 */
-	private static boolean checkAutoEventStartJoinOk(){
+	protected static boolean checkAutoEventStartJoinOk(){
 		
 		if(_joinTime == 0 || _eventTime == 0){
 			return false;
@@ -1137,9 +1137,8 @@ public class TvT implements EventTask
 	}
 
 	
-	private static class AutoEventTask implements Runnable
+	protected static class AutoEventTask implements Runnable
 	{
-
 		@Override
 		public void run()
 		{
@@ -1157,7 +1156,7 @@ public class TvT implements EventTask
 				}
 				if (startTeleport() && !_aborted)
 				{
-					waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
+					waiter(30 * 1000); // 30 sec wait time until start fight after teleported
 					if (startEvent() && !_aborted)
 					{
 						_log.log(Level.WARNING, _eventName+": waiting.....minutes for event time " + _eventTime);
@@ -1245,7 +1244,7 @@ public class TvT implements EventTask
 	 *
 	 * @param interval the interval
 	 */
-	private static void waiter(long interval)
+	protected static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);

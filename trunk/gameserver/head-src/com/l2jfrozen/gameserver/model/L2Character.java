@@ -1631,7 +1631,6 @@ public abstract class L2Character extends L2Object
 	 * <BR>
 	 *
 	 * @param attack Server->Client packet Attack in which the hit will be added
-	 * @param target the target
 	 * @param sAtk the s atk
 	 * @return True if one hit isn't missed
 	 */
@@ -4026,7 +4025,7 @@ public abstract class L2Character extends L2Object
 
 					}
 				}
-				if(stackQueue == null || stackQueue.isEmpty())
+				if(stackQueue.isEmpty())
 				{
 					_stackedEffects.remove(effect.getStackType());
 				}
@@ -4797,7 +4796,7 @@ public abstract class L2Character extends L2Object
 
 		if(os != null)
 		{
-			if(Olympiad.getInstance().getSpectators(player.getOlympiadGameId()) != null)
+			if((player != null) && Olympiad.getInstance().getSpectators(player.getOlympiadGameId()) != null)
 			{
 				for(L2PcInstance spectator : Olympiad.getInstance().getSpectators(player.getOlympiadGameId()))
 				{
@@ -4805,17 +4804,10 @@ public abstract class L2Character extends L2Object
 					{
 						continue;
 					}
-
 					spectator.sendPacket(os);
 				}
 			}
 		}
-
-		player = null;
-		mi = null;
-		os = null;
-		ps = null;
-		summon = null;
 	}
 
 	// Property - Public

@@ -138,11 +138,8 @@ public class L2BoatInstance extends L2Character
 			st = null;
 			return;
 		}
-
-		/**
-		 *
-		 */
-		private void loadBoatPath()
+		
+		protected void loadBoatPath()
 		{
 			FileReader reader = null;
 			BufferedReader buff = null;
@@ -513,7 +510,7 @@ public class L2BoatInstance extends L2Character
 	private int lastx = -1;
 	private int lasty = -1;
 	protected boolean needOnVehicleCheckLocation = false;
-	private boolean _inCycle = true;
+	protected boolean _inCycle = true;
 	private int _id;
 
 	public void updatePeopleInTheBoat(int x, int y, int z)
@@ -550,8 +547,10 @@ public class L2BoatInstance extends L2Character
 				{
 					if(needOnVehicleCheckLocation == true)
 					{
-						OnVehicleCheckLocation vcl = new OnVehicleCheckLocation(this, x, y, z);
-						player.sendPacket(vcl);
+						if (player != null)
+						{
+							player.sendPacket(new OnVehicleCheckLocation(this, x, y, z));
+						}
 					}
 				}
 			}

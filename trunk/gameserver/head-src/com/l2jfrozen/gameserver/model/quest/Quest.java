@@ -1635,24 +1635,22 @@ public class Quest extends ManagedScript
 			content = HtmCache.getInstance().getHtmForce("data/scripts/quests/" + questId + "/" + fileName);
 		}
 
-		if(player != null && player.getTarget() != null)
+		if(player != null)
 		{
-			content = content.replaceAll("%objectId%", String.valueOf(player.getTarget().getObjectId()));
+			if (player.getTarget() != null)
+			{
+				content = content.replaceAll("%objectId%", String.valueOf(player.getTarget().getObjectId()));
+			}
+			
+			//Send message to client if message not empty
+			if(content != null)
+			{
+				NpcHtmlMessage npcReply = new NpcHtmlMessage(5);
+				npcReply.setHtml(content);
+				npcReply.replace("%playername%", player.getName());
+				player.sendPacket(npcReply);
+			}
 		}
-
-		//Send message to client if message not empty     
-		if(content != null)
-		{
-			NpcHtmlMessage npcReply = new NpcHtmlMessage(5);
-			npcReply.setHtml(content);
-			npcReply.replace("%playername%", player.getName());
-			player.sendPacket(npcReply);
-			npcReply = null;
-		}
-
-		directory = null;
-		questId = null;
-
 		return content;
 	}
 

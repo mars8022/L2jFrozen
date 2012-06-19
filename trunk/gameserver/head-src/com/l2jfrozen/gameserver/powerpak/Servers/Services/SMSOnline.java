@@ -22,8 +22,9 @@ import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-public class SMSOnline implements HttpHandler {
-	private static final Logger _log = Logger.getLogger(SMSOnline.class.getName());
+public class SMSOnline implements HttpHandler
+{
+	protected static final Logger _log = Logger.getLogger(SMSOnline.class.getName());
 	
 	private class DBUpdater implements SQLQuery {
 	private L2PcInstance _pc;
@@ -83,8 +84,8 @@ public class SMSOnline implements HttpHandler {
 	private String _MsgOk;
 	private String _MsgFail;
 	private String _prefix;
-	private int _RewardID;
-	private String _PlayerMessage;
+	protected int _RewardID;
+	protected String _PlayerMessage;
 	public SMSOnline()
 	{
 		_rewards.clear();

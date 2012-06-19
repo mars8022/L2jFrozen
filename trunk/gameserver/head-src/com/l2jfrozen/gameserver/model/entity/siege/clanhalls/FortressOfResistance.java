@@ -74,7 +74,7 @@ public class FortressOfResistance
 		return _instance;
 	}
 
-	private class DamageInfo
+	protected class DamageInfo
 	{
 		public L2Clan _clan;
 		public long _damage;

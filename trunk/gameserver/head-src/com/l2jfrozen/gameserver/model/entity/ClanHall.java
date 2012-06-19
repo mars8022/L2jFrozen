@@ -50,7 +50,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanHall
 {
-	
 	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(ClanHall.class.getName());
 
@@ -959,12 +958,8 @@ public class ClanHall
 	/**
 	 * Fee Task.
 	 */
-	private class FeeTask implements Runnable
+	protected class FeeTask implements Runnable
 	{
-		
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
 		@Override
 		public void run()
 		{

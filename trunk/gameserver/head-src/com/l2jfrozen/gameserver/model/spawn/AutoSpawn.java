@@ -365,15 +365,11 @@ public class AutoSpawn
 	{
 		if(spawnInst == null)
 			return -1;
-			
 		int objectId = spawnInst.getObjectId();
-
 		ScheduledFuture<?> future_task = _runningSpawns.get(objectId);
 		if(future_task!=null)
 			return future_task.getDelay(TimeUnit.MILLISECONDS);
-		else
-			return -1;
-		
+		return -1;
 	}
 
 	/**
@@ -560,7 +556,7 @@ public class AutoSpawn
 
 				// Announce to all players that the spawn has taken place, with
 				// the nearest town location.
-				if(spawnInst.isBroadcasting())
+				if(spawnInst.isBroadcasting() && (npcInst != null))
 				{
 					Announcements.getInstance().announceToAll("The " + npcInst.getName() + " has spawned near " + nearestTown + "!");
 				}

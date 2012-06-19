@@ -40,13 +40,14 @@ import com.l2jfrozen.util.random.Rnd;
 /**
  * @author Beetle
  */
-public class L2IrcClient extends Thread {
-	private static final Logger _log = Logger.getLogger(L2IrcClient.class.getName());
-	private static Logger _logChat = Logger.getLogger("irc");
+public class L2IrcClient extends Thread
+{
+	protected static final Logger _log = Logger.getLogger(L2IrcClient.class.getName());
+	protected static final Logger _logChat = Logger.getLogger("irc");
 	
-	private IRCConnection conn;
-	private String channel;
-	private String nickname;
+	protected IRCConnection conn;
+	protected String channel;
+	protected String nickname;
 	
 	public L2IrcClient(String host, int port, String pass, String nick, String user, String name, boolean ssl, String Chan)
 	{

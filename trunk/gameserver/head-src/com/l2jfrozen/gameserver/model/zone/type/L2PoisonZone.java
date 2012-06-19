@@ -32,10 +32,10 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2PoisonZone extends L2ZoneType
 {
-	private int _skillId;
+	protected int _skillId;
 	private int _chance;
 	private int _initialDelay;
-	private int _skillLvl;
+	protected int _skillLvl;
 	private int _reuse;
 	private boolean _enabled;
 	private String _target;

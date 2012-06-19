@@ -98,9 +98,7 @@ public class RequestBuyProcure extends L2GameClientPacket
 		// Alt game - Karma punishment
 		if(!Config.ALT_GAME_KARMA_PLAYER_CAN_SHOP && player.getKarma() > 0)
 			return;
-
-		L2Object target = player.getTarget();
-
+		
 		if(_count < 1)
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
@@ -113,8 +111,13 @@ public class RequestBuyProcure extends L2GameClientPacket
 		// Check for buylist validity and calculates summary values
 		int slots = 0;
 		int weight = 0;
-		L2ManorManagerInstance manor = target != null && target instanceof L2ManorManagerInstance ? (L2ManorManagerInstance) target : null;
-
+		
+		if (!(player.getTarget() instanceof L2ManorManagerInstance))
+		{
+			return;
+		}
+		
+		L2ManorManagerInstance manor = (L2ManorManagerInstance) player.getTarget();
 		for(int i = 0; i < _count; i++)
 		{
 			int itemId = _items[i * 2 + 0];

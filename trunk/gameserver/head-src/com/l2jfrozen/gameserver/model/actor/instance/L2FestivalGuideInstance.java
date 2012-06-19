@@ -41,7 +41,6 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 public final class L2FestivalGuideInstance extends L2FolkInstance
 {
-	
 	/** The _festival type. */
 	protected int _festivalType;
 	
@@ -370,7 +369,7 @@ public final class L2FestivalGuideInstance extends L2FolkInstance
 						strBuffer.append("Dusk: No record exists. Score 0<br>");
 					}
 
-					if(overallScore > 0)
+					if ((overallScore > 0) && (overallData != null))
 					{
 						String cabalStr = "Children of Dusk";
 

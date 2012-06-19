@@ -12,35 +12,38 @@ import com.l2jfrozen.util.Util;
 
 public class ServerStatus
 {
-	private static final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
-	private static ServerStatus _instance;
+	protected static final Logger _log = Logger.getLogger("Loader");
 	protected ScheduledFuture<?> _scheduledTask;
-	private static Logger _log = Logger.getLogger("Loader");
+	
+	protected ServerStatus()
+	{
+		_scheduledTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ServerStatusTask(), 1800000, 3600000);
+	}
+	
+	protected class ServerStatusTask implements Runnable
+	{
+		protected final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+		
+		@Override
+		public void run()
+		{
+			Util.printSection("Server Status");
+			_log.info("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
+			_log.info("Players Online: " + L2World.getInstance().getAllPlayers().size());
+			_log.info("Threads: " + Thread.activeCount());
+			_log.info("Free Memory: " + Memory.getFreeMemory() + " MB");
+			_log.info("Used memory: " + Memory.getUsedMemory() + " MB");
+			Util.printSection("Server Status");
+		}
+	}
 	
 	public static ServerStatus getInstance()
 	{
-		if (_instance == null)
-			_instance = new ServerStatus();
-		return _instance;
+		return SingletonHolder._instance;
 	}
 	
-	private ServerStatus()
+	private static class SingletonHolder
 	{
-		_scheduledTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() 
-		{
-			@Override
-			public void run()
-			{	
-				Util.printSection("Server Status");
-				_log.info("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
-				_log.info("Players Online: "+ L2World.getInstance().getAllPlayers().size());
-				_log.info("Threads: " + Thread.activeCount());
-				_log.info("Free Memory: " + Memory.getFreeMemory() + " MB");
-				_log.info("Used memory: " + Memory.getUsedMemory() + " MB");
-				Util.printSection("Server Status");
-			}
-		}
-		
-	, 1800000, 3600000);
+		protected static final ServerStatus _instance = new ServerStatus();
 	}
 }

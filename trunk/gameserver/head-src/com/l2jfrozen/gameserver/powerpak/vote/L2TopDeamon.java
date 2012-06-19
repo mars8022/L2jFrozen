@@ -27,11 +27,11 @@ import com.l2jfrozen.util.random.Rnd;
 public class L2TopDeamon implements Runnable
 {
 	private static final Logger _log = Logger.getLogger(L2TopDeamon.class.getName());
-	private ScheduledFuture<?> _task;
+	protected ScheduledFuture<?> _task;
 	private Timestamp _lastVote;
 	private boolean _firstRun = false;
 	
-	private class Terminator extends Thread
+	protected class Terminator extends Thread
 	{
 		@Override
 		public void run()
@@ -50,7 +50,6 @@ public class L2TopDeamon implements Runnable
 				{
 					e.printStackTrace();
 				}
-				
 			}
 		}
 	}

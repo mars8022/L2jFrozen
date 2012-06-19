@@ -565,18 +565,20 @@ public class L2CubicInstance
 			// run task
 		}
 		
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
 		@Override
 		public void run()
 		{
 			try
 			{
 				final L2PcInstance owner = _owner;
+				if (owner == null)
+				{
+					stopAction();
+					cancelDisappear();
+					return;
+				}
 				
-				if (owner==null || owner.isDead() || owner.isOnline()==0)
-				//{if(owner!=null && (owner.isDead() || owner.getTarget() != target || owner.isOffline() || target==null || target.isDead() || ( target instanceof L2PcInstance && ((L2PcInstance)target).isOffline())))
+				if (owner.isDead() || (owner.isOnline() == 0))
 				{
 					stopAction();
 					owner.delCubic(_id);
@@ -584,6 +586,7 @@ public class L2CubicInstance
 					cancelDisappear();
 					return;
 				}
+				
 				if (!AttackStanceTaskManager.getInstance().getAttackStanceTask(owner))
 				{
 					if (owner.getPet() != null)

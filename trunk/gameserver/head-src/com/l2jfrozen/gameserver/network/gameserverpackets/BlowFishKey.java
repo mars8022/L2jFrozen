@@ -38,25 +38,22 @@ public class BlowFishKey extends GameServerBasePacket
 	public BlowFishKey(byte[] blowfishKey, RSAPublicKey publicKey)
 	{
 		writeC(0x00);
-		byte[] encrypted = null;
 		try
 		{
 			Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
 			rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			encrypted = rsaCipher.doFinal(blowfishKey);
+			byte[] encrypted = rsaCipher.doFinal(blowfishKey);
+			writeD(encrypted.length);
+			writeB(encrypted);
 		}
 		catch(GeneralSecurityException e)
 		{
 			_log.severe("Error While encrypting blowfish key for transmision (Crypt error)");
 			e.printStackTrace();
 		}
-		writeD(encrypted.length);
-		writeB(encrypted);
+		
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
-	 */
+	
 	@Override
 	public byte[] getContent()
 	{

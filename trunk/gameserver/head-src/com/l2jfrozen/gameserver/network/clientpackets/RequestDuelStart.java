@@ -114,8 +114,8 @@ public final class RequestDuelStart extends L2GameClientPacket
 					return;
 				}
 			}
+			
 			L2PcInstance partyLeader = null; // snatch party leader of targetChar's party
-
 			for(L2PcInstance temp : targetChar.getParty().getPartyMembers())
 			{
 				if(partyLeader == null)
@@ -128,31 +128,34 @@ public final class RequestDuelStart extends L2GameClientPacket
 					return;
 				}
 			}
-
-			// Send request to targetChar's party leader
-			if(!partyLeader.isProcessingRequest())
+			
+			if (partyLeader != null)
 			{
-				activeChar.onTransactionRequest(partyLeader);
-				partyLeader.sendPacket(new ExDuelAskStart(activeChar.getName(), _partyDuel));
-
-				if(Config.DEBUG)
+				// Send request to targetChar's party leader
+				if(!partyLeader.isProcessingRequest())
 				{
-					_log.fine(activeChar.getName() + " requested a duel with " + partyLeader.getName());
+					activeChar.onTransactionRequest(partyLeader);
+					partyLeader.sendPacket(new ExDuelAskStart(activeChar.getName(), _partyDuel));
+	
+					if(Config.DEBUG)
+					{
+						_log.fine(activeChar.getName() + " requested a duel with " + partyLeader.getName());
+					}
+	
+					SystemMessage msg = new SystemMessage(SystemMessageId.S1S_PARTY_HAS_BEEN_CHALLENGED_TO_A_DUEL);
+					msg.addString(partyLeader.getName());
+					activeChar.sendPacket(msg);
+	
+					msg = new SystemMessage(SystemMessageId.S1S_PARTY_HAS_CHALLENGED_YOUR_PARTY_TO_A_DUEL);
+					msg.addString(activeChar.getName());
+					targetChar.sendPacket(msg);
 				}
-
-				SystemMessage msg = new SystemMessage(SystemMessageId.S1S_PARTY_HAS_BEEN_CHALLENGED_TO_A_DUEL);
-				msg.addString(partyLeader.getName());
-				activeChar.sendPacket(msg);
-
-				msg = new SystemMessage(SystemMessageId.S1S_PARTY_HAS_CHALLENGED_YOUR_PARTY_TO_A_DUEL);
-				msg.addString(activeChar.getName());
-				targetChar.sendPacket(msg);
-			}
-			else
-			{
-				SystemMessage msg = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
-				msg.addString(partyLeader.getName());
-				activeChar.sendPacket(msg);
+				else
+				{
+					SystemMessage msg = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
+					msg.addString(partyLeader.getName());
+					activeChar.sendPacket(msg);
+				}
 			}
 		}
 		else

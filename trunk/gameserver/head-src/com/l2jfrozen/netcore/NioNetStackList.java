@@ -61,16 +61,11 @@ public final class NioNetStackList<E>
 		_start._next = _end;
 	}
 	
-	private final class NioNetStackNode
+	protected final class NioNetStackNode
 	{
-		private NioNetStackNode _next;
+		protected NioNetStackNode _next;
 		
-		private E _value;
-		
-		private NioNetStackNode()
-		{
-			
-		}
+		protected E _value;
 	}
 	
 	private final class NioNetStackNodeBuf

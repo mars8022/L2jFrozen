@@ -65,7 +65,7 @@ public class DM implements EventTask
 						  _inProgress  = false;
 
 	/** The _player z. */
-	private static int _npcId = 0,
+	protected static int _npcId = 0,
 					  _npcX = 0,
 					  _npcY = 0,
 					  _npcZ = 0,
@@ -91,7 +91,7 @@ public class DM implements EventTask
 	private String startEventTime;
 	
 	/** The _team event. */
-	private static boolean _teamEvent = false; //TODO to be integrated
+	protected static boolean _teamEvent = false; //TODO to be integrated
 
 	/** The _players. */
 	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();  
@@ -884,7 +884,7 @@ public class DM implements EventTask
 	/**
 	 * After teleport operations.
 	 */
-	private static void afterTeleportOperations(){
+	protected static void afterTeleportOperations(){
 		
 	}
 	
@@ -2172,10 +2172,9 @@ public static void addPlayer(L2PcInstance player)
 	 *
 	 * @return the players
 	 */
-	private synchronized static Vector<L2PcInstance> getPlayers(){
-		
+	protected synchronized static Vector<L2PcInstance> getPlayers()
+	{
 		return _players;
-		
 	}
 	
 	/**

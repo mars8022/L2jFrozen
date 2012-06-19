@@ -51,12 +51,11 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class CTF implements EventTask
 {
-	
 	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(CTF.class.getName());
 	
 	/** The _joining location name. */
-	private static String _eventName = new String(),
+	protected static String _eventName = new String(),
 						 _eventDesc = new String(),
 						 _joiningLocationName = new String();
 
@@ -64,7 +63,7 @@ public class CTF implements EventTask
 	private static L2Spawn _npcSpawn;
 
 	/** The _in progress. */
-	private static boolean _joining = false,
+	protected static boolean _joining = false,
 						  _teleport = false,
 						  _started = false,
 						  _aborted = false,
@@ -72,7 +71,7 @@ public class CTF implements EventTask
 						  _inProgress  = false;
 
 	/** The _max players. */
-	private static int _npcId = 0,
+	protected static int _npcId = 0,
 					  _npcX = 0,
 					  _npcY = 0,
 					  _npcZ = 0,
@@ -86,14 +85,14 @@ public class CTF implements EventTask
 					  _minPlayers = 0,
 					  _maxPlayers = 0;
 	
-	/** The _interval between matchs. */
-	private static long _intervalBetweenMatchs = 0;
+	/** The _interval between matches. */
+	protected static long _intervalBetweenMatches = 0;
 	
 	/** The start event time. */
 	private String startEventTime;
 	
 	/** The _team event. */
-	private static boolean _teamEvent = true; //TODO to be integrated
+	protected static boolean _teamEvent = true; //TODO to be integrated
 	
 	/** The _players. */
 	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();
@@ -476,23 +475,23 @@ public class CTF implements EventTask
 	/**
 	 * Gets the _interval between matchs.
 	 *
-	 * @return the _intervalBetweenMatchs
+	 * @return the _intervalBetweenMatches
 	 */
-	public static long get_intervalBetweenMatchs()
+	public static long get_intervalBetweenMatches()
 	{
-		return _intervalBetweenMatchs;
+		return _intervalBetweenMatches;
 	}
 
 	/**
 	 * Set_interval between matchs.
 	 *
-	 * @param _intervalBetweenMatchs the _intervalBetweenMatchs to set
+	 * @param _intervalBetweenMatches the _intervalBetweenMatches to set
 	 * @return true, if successful
 	 */
-	public static boolean set_intervalBetweenMatchs(long _intervalBetweenMatchs)
+	public static boolean set_intervalBetweenMatches(long _intervalBetweenMatches)
 	{
 		if(!is_inProgress()){
-			CTF._intervalBetweenMatchs = _intervalBetweenMatchs;
+			CTF._intervalBetweenMatches = _intervalBetweenMatches;
 			return true;
 		}
 		return false;
@@ -704,7 +703,7 @@ public class CTF implements EventTask
 	 *
 	 * @return true, if successful
 	 */
-	private static boolean checkAutoEventStartJoinOk(){
+	protected static boolean checkAutoEventStartJoinOk(){
 		
 		if(_joinTime == 0 || _eventTime == 0){
 			return false;
@@ -941,10 +940,9 @@ public class CTF implements EventTask
 	/**
 	 * After teleport operations.
 	 */
-	private static void afterTeleportOperations(){
-		
+	protected static void afterTeleportOperations()
+	{
 		spawnAllFlags();
-		
 	}
 	
 	/**
@@ -1001,9 +999,9 @@ public class CTF implements EventTask
 		_started = false;
 		_inProgress = false;
 		_aborted = false;
-		long delay = _intervalBetweenMatchs;
+		long delay = _intervalBetweenMatches;
 
-		Announcements.getInstance().gameAnnounceToAll(_eventName+": joining period will be avaible again in " + _intervalBetweenMatchs + " minute(s)!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName+": joining period will be avaible again in " + _intervalBetweenMatches + " minute(s)!");
 
 		waiter(delay);
 
@@ -1201,7 +1199,7 @@ public class CTF implements EventTask
 		}, 20000);
 	}
 
-	private static class AutoEventTask implements Runnable
+	protected static class AutoEventTask implements Runnable
 	{
 
 		@Override
@@ -1235,7 +1233,7 @@ public class CTF implements EventTask
 
 						if (!_started && !_aborted){ //if is not already started and it's not aborted
 							
-							_log.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatchs + " minutes.");
+							_log.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatches + " minutes.");
 							waiter(60000);//just a give a delay to next restart
 
 							try
@@ -1309,7 +1307,7 @@ public class CTF implements EventTask
 	 *
 	 * @param interval the interval
 	 */
-	private static void waiter(long interval)
+	protected static void waiter(long interval)
 	{
 		long startWaiterTime = System.currentTimeMillis();
 		int seconds = (int) (interval / 1000);
@@ -1828,7 +1826,7 @@ public class CTF implements EventTask
 		_eventTime = 0;
 		_minPlayers = 0;
 		_maxPlayers = 0;
-		_intervalBetweenMatchs = 0;
+		_intervalBetweenMatches = 0;
 		
 		java.sql.Connection con = null;
 		try
@@ -1862,7 +1860,7 @@ public class CTF implements EventTask
 				_eventTime = rs.getInt("eventTime");
 				_minPlayers = rs.getInt("minPlayers");
 				_maxPlayers = rs.getInt("maxPlayers");
-				_intervalBetweenMatchs = rs.getLong("delayForNextEvent");
+				_intervalBetweenMatches = rs.getLong("delayForNextEvent");
 			}
 			statement.close();
 
@@ -1950,7 +1948,7 @@ public class CTF implements EventTask
 			statement.setInt(15, _eventTime);
 			statement.setInt(16, _minPlayers);
 			statement.setInt(17, _maxPlayers);
-			statement.setLong(18, _intervalBetweenMatchs);
+			statement.setLong(18, _intervalBetweenMatches);
 			statement.execute();
 			statement.close();
 
@@ -2756,23 +2754,18 @@ public class CTF implements EventTask
 	/**
 	 * returns the interval between each event.
 	 *
-	 * @return the interval between matchs
+	 * @return the interval between matches
 	 */
 	public static int getIntervalBetweenMatchs()
 	{
 		long actualTime = System.currentTimeMillis();
-		long totalTime = actualTime + _intervalBetweenMatchs;
+		long totalTime = actualTime + _intervalBetweenMatches;
 		long interval = totalTime - actualTime;
 		int seconds = (int) (interval / 1000);
 
 		return Math.round(seconds / 60);
 	}
 	
-	
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	public void run()
 	{
@@ -2780,18 +2773,12 @@ public class CTF implements EventTask
 		eventOnceStart();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.model.entity.event.manager.EventTask#getEventIdentifier()
-	 */
 	@Override
 	public String getEventIdentifier()
 	{
 		return _eventName;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.model.entity.event.manager.EventTask#getEventStartTime()
-	 */
+	
 	@Override
 	public String getEventStartTime()
 	{

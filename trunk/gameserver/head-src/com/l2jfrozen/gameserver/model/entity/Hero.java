@@ -609,7 +609,6 @@ public class Hero
 		}
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final Hero _instance = new Hero();

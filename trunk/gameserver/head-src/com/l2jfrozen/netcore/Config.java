@@ -209,27 +209,26 @@ public class Config
 					
 					String opcode1 = token_splitted[0].substring(2);
 					
-					if(opcode1 != null && !opcode1.equals("")){
+					if(opcode1 != null && !opcode1.equals(""))
+					{
 						LIST_ALLOWED_OFFLINE_OPCODES.add(Integer.parseInt(opcode1,16));
-					}
-					
-					if(token_splitted.length>1 && opcode1.equals("d0")){
-
-						for(int i=1;i<token_splitted.length;i++){
-							
-							if(token_splitted[i].length() <= 3){
-								break;
+						if(token_splitted.length>1 && opcode1.equals("d0"))
+						{
+							for(int i=1;i<token_splitted.length;i++)
+							{
+								if(token_splitted[i].length() <= 3)
+								{
+									break;
+								}
+								
+								String opcode2 = token_splitted[i].substring(2);
+								if(opcode2 != null && !opcode2.equals(""))
+								{
+									LIST_ALLOWED_OFFLINE_OPCODES2.add(Integer.parseInt(opcode2,16));
+								}
 							}
-							
-							String opcode2 = token_splitted[i].substring(2);
-							
-							if(opcode2 != null && !opcode2.equals("")){
-								LIST_ALLOWED_OFFLINE_OPCODES2.add(Integer.parseInt(opcode2,16));
-							}
-							
 						}
 					}
-				
 				}
 				
 			}

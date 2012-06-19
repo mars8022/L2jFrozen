@@ -49,12 +49,12 @@ public enum BaseStats
 	
 	public static final int MAX_STAT_VALUE = 100;
 	
-	private static final double[] STRbonus = new double[MAX_STAT_VALUE];
-	private static final double[] INTbonus = new double[MAX_STAT_VALUE];
-	private static final double[] DEXbonus = new double[MAX_STAT_VALUE];
-	private static final double[] WITbonus = new double[MAX_STAT_VALUE];
-	private static final double[] CONbonus = new double[MAX_STAT_VALUE];
-	private static final double[] MENbonus = new double[MAX_STAT_VALUE];
+	protected static final double[] STRbonus = new double[MAX_STAT_VALUE];
+	protected static final double[] INTbonus = new double[MAX_STAT_VALUE];
+	protected static final double[] DEXbonus = new double[MAX_STAT_VALUE];
+	protected static final double[] WITbonus = new double[MAX_STAT_VALUE];
+	protected static final double[] CONbonus = new double[MAX_STAT_VALUE];
+	protected static final double[] MENbonus = new double[MAX_STAT_VALUE];
 	
 	/*
 	private static final double[] STRCompute_legacy = new double[]
@@ -158,7 +158,7 @@ public enum BaseStats
 		public double calcBonus(L2Character actor);
 	}
 	
-	private static final class STR implements BaseStat
+	protected static final class STR implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -183,7 +183,7 @@ public enum BaseStats
 		}
 	}
 	
-	private static final class INT implements BaseStat
+	protected static final class INT implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -207,7 +207,7 @@ public enum BaseStats
 		}
 	}
 	
-	private static final class DEX implements BaseStat
+	protected static final class DEX implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -232,7 +232,7 @@ public enum BaseStats
 		}
 	}
 	
-	private static final class WIT implements BaseStat
+	protected static final class WIT implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -255,7 +255,7 @@ public enum BaseStats
 		}
 	}
 	
-	private static final class CON implements BaseStat
+	protected static final class CON implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -278,7 +278,7 @@ public enum BaseStats
 		}
 	}
 	
-	private static final class MEN implements BaseStat
+	protected static final class MEN implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -301,7 +301,7 @@ public enum BaseStats
 		}
 	}
 	
-	private static final class NULL implements BaseStat
+	protected static final class NULL implements BaseStat
 	{
 		@Override
 		public final double calcBonus(L2Character actor)
@@ -329,47 +329,50 @@ public enum BaseStats
 				_log.log(Level.WARNING, "[BaseStats] Could not parse file: " + e.getMessage(), e);
 			}
 			
-			String statName;
-			int val;
-			double bonus;
-			NamedNodeMap attrs;
-			for (Node list = doc.getFirstChild(); list != null; list = list.getNextSibling())
+			if (doc != null)
 			{
-				if ("list".equalsIgnoreCase(list.getNodeName()))
+				String statName;
+				int val;
+				double bonus;
+				NamedNodeMap attrs;
+				for (Node list = doc.getFirstChild(); list != null; list = list.getNextSibling())
 				{
-					for (Node stat = list.getFirstChild(); stat != null; stat = stat.getNextSibling())
+					if ("list".equalsIgnoreCase(list.getNodeName()))
 					{
-						statName = stat.getNodeName();
-						for (Node value = stat.getFirstChild(); value != null; value = value.getNextSibling())
+						for (Node stat = list.getFirstChild(); stat != null; stat = stat.getNextSibling())
 						{
-							if ("stat".equalsIgnoreCase(value.getNodeName()))
+							statName = stat.getNodeName();
+							for (Node value = stat.getFirstChild(); value != null; value = value.getNextSibling())
 							{
-								attrs = value.getAttributes();
-								try
+								if ("stat".equalsIgnoreCase(value.getNodeName()))
 								{
-									val = Integer.parseInt(attrs.getNamedItem("value").getNodeValue());
-									bonus = Double.parseDouble(attrs.getNamedItem("bonus").getNodeValue());
+									attrs = value.getAttributes();
+									try
+									{
+										val = Integer.parseInt(attrs.getNamedItem("value").getNodeValue());
+										bonus = Double.parseDouble(attrs.getNamedItem("bonus").getNodeValue());
+									}
+									catch (Exception e)
+									{
+										_log.severe("[BaseStats] Invalid stats value: "+value.getNodeValue()+", skipping");
+										continue;
+									}
+									
+									if ("STR".equalsIgnoreCase(statName))
+										STRbonus[val] = bonus;
+									else if ("INT".equalsIgnoreCase(statName))
+										INTbonus[val] = bonus;
+									else if ("DEX".equalsIgnoreCase(statName))
+										DEXbonus[val] = bonus;
+									else if ("WIT".equalsIgnoreCase(statName))
+										WITbonus[val] = bonus;
+									else if ("CON".equalsIgnoreCase(statName))
+										CONbonus[val] = bonus;
+									else if ("MEN".equalsIgnoreCase(statName))
+										MENbonus[val] = bonus;
+									else
+										_log.severe("[BaseStats] Invalid stats name: "+statName+", skipping");
 								}
-								catch (Exception e)
-								{
-									_log.severe("[BaseStats] Invalid stats value: "+value.getNodeValue()+", skipping");
-									continue;
-								}
-								
-								if ("STR".equalsIgnoreCase(statName))
-									STRbonus[val] = bonus;
-								else if ("INT".equalsIgnoreCase(statName))
-									INTbonus[val] = bonus;
-								else if ("DEX".equalsIgnoreCase(statName))
-									DEXbonus[val] = bonus;
-								else if ("WIT".equalsIgnoreCase(statName))
-									WITbonus[val] = bonus;
-								else if ("CON".equalsIgnoreCase(statName))
-									CONbonus[val] = bonus;
-								else if ("MEN".equalsIgnoreCase(statName))
-									MENbonus[val] = bonus;
-								else
-									_log.severe("[BaseStats] Invalid stats name: "+statName+", skipping");
 							}
 						}
 					}

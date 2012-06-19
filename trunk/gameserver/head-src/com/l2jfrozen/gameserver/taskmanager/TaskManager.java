@@ -53,7 +53,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 /**
  * @author ProGramMoS
  */
-
 public final class TaskManager
 {
 	protected static final Logger _log = Logger.getLogger(TaskManager.class.getName());

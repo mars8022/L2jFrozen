@@ -58,7 +58,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class LoginController
 {
-	private class ConnectionChecker extends Thread
+	protected class ConnectionChecker extends Thread
 	{
 		@Override
 		public void run()
@@ -180,7 +180,8 @@ public class LoginController
 		rsaCipher = null;
 	}
 
-	private boolean _stopNow = false; 
+	protected boolean _stopNow = false;
+	
 	public void shutdown()
 	{
 		_stopNow = true;
@@ -692,7 +693,7 @@ public class LoginController
 			{
 				if(Config.AUTO_CREATE_ACCOUNTS)
 				{
-					if(user.length() >= 2 && user.length() <= 14)
+					if ((user != null) && (user.length()) >= 2 && (user.length() <= 14))
 					{
 						statement = con.prepareStatement("INSERT INTO accounts (login,password,lastactive,access_level,lastIP) values(?,?,?,?,?)");
 						statement.setString(1, user);

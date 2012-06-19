@@ -103,9 +103,9 @@ public class ThreadPoolManager
 		}
 	}
 	
-	private ScheduledThreadPoolExecutor _effectsScheduledThreadPool;
-	private ScheduledThreadPoolExecutor _generalScheduledThreadPool;
-	private ScheduledThreadPoolExecutor _aiScheduledThreadPool;
+	protected ScheduledThreadPoolExecutor _effectsScheduledThreadPool;
+	protected ScheduledThreadPoolExecutor _generalScheduledThreadPool;
+	protected ScheduledThreadPoolExecutor _aiScheduledThreadPool;
 	private ThreadPoolExecutor _generalPacketsThreadPool;
 	private ThreadPoolExecutor _ioPacketsThreadPool;
 	private ThreadPoolExecutor _generalThreadPool;
@@ -535,11 +535,8 @@ public class ThreadPoolManager
 		return sb.toString();
 	}
 	
-	private class PurgeTask implements Runnable
+	protected class PurgeTask implements Runnable
 	{
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
 		@Override
 		public void run()
 		{
