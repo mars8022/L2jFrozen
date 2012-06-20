@@ -50,32 +50,19 @@ public class AdminTest implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_test", "admin_stats", "admin_skill_test", "admin_st", "admin_mp", "admin_known"
+			"admin_test",
+			"admin_stats",
+			"admin_skill_test",
+			"admin_st",
+			"admin_mp",
+			"admin_known",
+			"admin_oly_obs_mode",
+			"admin_obs_mode"
 	};
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand(java.lang.String, com.l2jfrozen.gameserver.model.L2PcInstance)
-	 */
+	
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		if(command.equals("admin_stats"))
 		{
 			for(String line : ThreadPoolManager.getInstance().getStats())
@@ -161,6 +148,28 @@ public class AdminTest implements IAdminCommandHandler
 			activeChar.sendPacket(ui);
 			
 			
+		}
+		else if (command.startsWith("admin_oly_obs_mode"))
+		{
+			if (!activeChar.inObserverMode())
+			{
+				activeChar.enterOlympiadObserverMode(activeChar.getX(), activeChar.getY(), activeChar.getZ(), -1);
+			}
+			else
+			{
+				activeChar.leaveOlympiadObserverMode();
+			}
+		}
+		else if (command.startsWith("admin_obs_mode"))
+		{
+			if (!activeChar.inObserverMode())
+			{
+				activeChar.enterObserverMode(activeChar.getX(), activeChar.getY(), activeChar.getZ());
+			}
+			else
+			{
+				activeChar.leaveObserverMode();
+			}
 		}
 		return true;
 	}
