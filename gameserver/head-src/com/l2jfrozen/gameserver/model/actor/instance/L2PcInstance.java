@@ -8177,17 +8177,17 @@ private int _reviveRequested = 0;
 			PreparedStatement statement = con.prepareStatement("SELECT kills FROM pkkills WHERE killerId=? AND killedId=?");
 			statement.setString(1, killer);
 			statement.setString(2, killed);
-			ResultSet rset = statement.executeQuery();
-			rset.next();
-			kills = rset.getInt("kills");
+			final ResultSet rset = statement.executeQuery();
+			if (rset.next())
+			{
+				kills = rset.getInt("kills");
+			}
 			rset.close();
 			statement.close();
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
-			//System.out.println("Could not check pkKills, got: " + e.getMessage());
-			//System.out.println("This appears after the first kill.");
 		}
 		finally
 		{
