@@ -14,11 +14,11 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
@@ -49,9 +49,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
-
 /**
- * 
  * This class ... control for sequence of fight against Antharas.
  * 
  * @version $Revision: $ $Date: $
@@ -59,6 +57,8 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Antharas_l2j extends Quest implements Runnable
 {
+	protected static final Logger _log = Logger.getLogger(Antharas_l2j.class.getName());
+	
 	// config
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;
 	//private static final int FWA_APPTIMEOFANTHARAS = 1800000;

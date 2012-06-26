@@ -155,7 +155,6 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public abstract class L2Character extends L2Object
 {
-	
 	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
 
@@ -616,7 +615,6 @@ public abstract class L2Character extends L2Object
 			return;
 		}
 		
-
 		//if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
 
 		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
@@ -639,12 +637,9 @@ public abstract class L2Character extends L2Object
 				}
 				catch(NullPointerException e)
 				{
-					//null
 					e.printStackTrace();
 				}
-				
 			}
-			
 		}
 	}
 
@@ -693,7 +688,6 @@ public abstract class L2Character extends L2Object
 			}
 			catch(NullPointerException e)
 			{
-				//null
 				e.printStackTrace();
 			}
 		}
@@ -727,7 +721,6 @@ public abstract class L2Character extends L2Object
 				_hpUpdateDecCheck = _hpUpdateInterval * (doubleMulti < intMulti ? intMulti-- : intMulti);
 				_hpUpdateIncCheck = _hpUpdateDecCheck + _hpUpdateInterval;
 			}
-
 			return true;
 		}
 
@@ -797,8 +790,6 @@ public abstract class L2Character extends L2Object
 			}
 		}
 		*/
-
-		su = null;
 	}
 
 	/**
@@ -813,9 +804,9 @@ public abstract class L2Character extends L2Object
 	 */
 	public void sendPacket(L2GameServerPacket mov)
 	{
-	// default implementation
+		// default implementation
 	}
-
+	
 	/** The _in town war. */
 	private boolean _inTownWar;
 	

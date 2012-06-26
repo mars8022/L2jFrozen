@@ -973,7 +973,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 	}
 
-	private class LockUpDoorOfAltar implements Runnable
+	protected class LockUpDoorOfAltar implements Runnable
 	{
 		@Override
 		public void run()
@@ -1022,7 +1022,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 	}
 
-	private class OpenDoorOfAltar implements Runnable
+	protected class OpenDoorOfAltar implements Runnable
 	{
 		@Override
 		public void run()
@@ -1057,7 +1057,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 	}
 
-	private class CloseDoorOfAltar implements Runnable
+	protected class CloseDoorOfAltar implements Runnable
 	{
 		@Override
 		public void run()
@@ -1178,7 +1178,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 	}
 
-	private class CallRoyalGuardHelper implements Runnable
+	protected class CallRoyalGuardHelper implements Runnable
 	{
 		@Override
 		public void run()
@@ -1204,7 +1204,7 @@ public class VanHalter extends Quest implements Runnable
 		}
 	}
 
-	private class HalterEscape implements Runnable
+	protected class HalterEscape implements Runnable
 	{
 		@Override
 		public void run()
@@ -1308,7 +1308,7 @@ public class VanHalter extends Quest implements Runnable
 		_bleedingPlayers.remove(npcId);
 	}
 
-	private class Bleeding implements Runnable
+	protected class Bleeding implements Runnable
 	{
 		@Override
 		public void run()
@@ -1414,7 +1414,7 @@ public class VanHalter extends Quest implements Runnable
 	}
 
 	// Interval.
-	private class Interval implements Runnable
+	protected class Interval implements Runnable
 	{
 		@Override
 		public void run()
@@ -1513,7 +1513,7 @@ public class VanHalter extends Quest implements Runnable
 	}
 
 	// Time up.
-	private class TimeUp implements Runnable
+	protected class TimeUp implements Runnable
 	{
 		@Override
 		public void run()

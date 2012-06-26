@@ -464,6 +464,7 @@ public abstract class L2PlayableInstance extends L2Character
 	 *
 	 * @return the acting player
 	 */
+	@Override
 	public L2PcInstance getActingPlayer()
 	{
 		if(this instanceof L2PcInstance){

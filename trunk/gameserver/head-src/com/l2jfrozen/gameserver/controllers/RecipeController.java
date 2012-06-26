@@ -53,7 +53,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class RecipeController
 {
-	private static final Logger _log = Logger.getLogger(RecipeController.class.getName());
+	protected static final Logger _log = Logger.getLogger(RecipeController.class.getName());
 
 	private static RecipeController _instance;
 	protected static final Map<L2PcInstance, RecipeItemMaker> _activeMakers = Collections.synchronizedMap(new WeakHashMap<L2PcInstance, RecipeItemMaker>());

@@ -7276,211 +7276,196 @@ private int _reviveRequested = 0;
 			}
 		}
 		
-		 
-		
 		if(killer != null)
 		{
-			L2PcInstance pk = null;
-
-			if(killer instanceof L2PcInstance)
+			final L2PcInstance pk = killer.getActingPlayer();
+			if(pk != null)
 			{
-				pk = (L2PcInstance) killer;
 				if(Config.ENABLE_PK_INFO)
 				{
 					doPkInfo(pk);
 				}
-			}
-
-			if(atEvent && pk != null)
-			{
-				pk.kills.add(getName());
-			}
-
-			L2PcInstance src = null;
-			
-			if(_inEventTvT && ((killer instanceof L2PcInstance && (src = (L2PcInstance) killer)._inEventTvT) 
-					|| (killer instanceof L2Summon && (src = ((L2Summon) killer).getOwner())._inEventTvT)))
-			{
-				if(TvT.is_teleport() || TvT.is_started())
-				{
-					if(!(src._teamNameTvT.equals(_teamNameTvT)))
-					{
-						PlaySound ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
-						_countTvTdies++;
-						src._countTvTkills++;
-						src.setTitle("Kills: " + src._countTvTkills);
-						src.sendPacket(ps);
-						src.broadcastUserInfo();
-						TvT.setTeamKillsCount(src._teamNameTvT, TvT.teamKillsCount(src._teamNameTvT) + 1);
-						src.broadcastUserInfo();
-					}
-					else
-					{
-						src.sendMessage("You are a teamkiller !!! Teamkills not counting.");
-					}
-					sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
-					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)),
-									false);
-							doRevive();
-						}
-					}, Config.TVT_REVIVE_DELAY);
-				}
-			}
-            else if (_inEventTvT)
-            {
-                if (TvT.is_teleport() || TvT.is_started())
-                {
-                    sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
-                    ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-                    {
-                        @Override
-						public void run()
-                        {
-                            teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)), false);
-                            doRevive();
-                            broadcastPacket(new SocialAction(getObjectId(), 15));
-                        }
-                    }, Config.TVT_REVIVE_DELAY);
-                }
-            }
-			else if(_inEventCTF)
-			{
-				if(CTF.is_teleport() || CTF.is_started())
-				{
-					sendMessage("You will be revived and teleported to team flag in 20 seconds!");
-					if(_haveFlagCTF)
-					removeCTFFlagOnDie();
-					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							teleToLocation(CTF._teamsX.get(CTF._teams.indexOf(_teamNameCTF)), CTF._teamsY.get(CTF._teams.indexOf(_teamNameCTF)), CTF._teamsZ.get(CTF._teams.indexOf(_teamNameCTF)), false);
-							doRevive();
-						}
-					}, 20000);
-				}
-			}
-			else if(_inEventDM && ((killer instanceof L2PcInstance && (src = (L2PcInstance) killer)._inEventDM) 
-					|| (killer instanceof L2Summon && (src = ((L2Summon) killer).getOwner())._inEventDM)))
-			{
-				if(DM.is_teleport() || DM.is_started())
-				{
-					src._countDMkills++;
-					PlaySound ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
-					src.setTitle("Kills: " + src._countDMkills);
-					src.sendPacket(ps);
-					src.broadcastUserInfo();
-					
-					if (Config.DM_ENABLE_KILL_REWARD){
-						
-						L2Item reward = ItemTable.getInstance().getTemplate(Config.DM_KILL_REWARD_ID);
-						
-						src.getInventory().addItem("DM Kill Reward", Config.DM_KILL_REWARD_ID, Config.DM_KILL_REWARD_AMOUNT, this, null);
-						src.sendMessage("You have earned " + Config.DM_KILL_REWARD_AMOUNT + " item(s) of ID " + reward.getName() + ".");
-						
-						reward = null;
-						
-					}
-					
-					sendMessage("You will be revived and teleported to spot in 20 seconds!");
-					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							Location p_loc = DM.get_playersSpawnLocation();
-							teleToLocation(p_loc._x, p_loc._y, p_loc._z, false);
-							doRevive();
-						}
-					}, Config.DM_REVIVE_DELAY);
-				}
-			}
-			else if(_inEventDM)
-			{
-				if(DM.is_teleport() || DM.is_started())
-				{
-					sendMessage("You will be revived and teleported to spot in 20 seconds!");
-					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							Location players_loc = DM.get_playersSpawnLocation();
-							teleToLocation(players_loc._x, players_loc._y, players_loc._z, false);
-							doRevive();
-						}
-					}, 20000);
-				}
-			}else if(_inEventVIP && VIP._started){
 				
-				if(killer instanceof L2PcInstance)
-					src = (L2PcInstance) killer;
-				else if(killer instanceof L2Summon)
-					src = ((L2Summon) killer).getOwner();
+				if(atEvent)
+				{
+					pk.kills.add(getName());
+				}
 				
-				if(_isTheVIP && (src==null || !src._inEventVIP)){
-					
-					Announcements.getInstance().announceToAll("VIP Killed by non-event character. VIP going back to initial spawn.");
-					doRevive();
-					teleToLocation(VIP._startX, VIP._startY, VIP._startZ);
-					
-				}else{
-					
-					if(_isTheVIP && src._inEventVIP)
+				if(_inEventTvT && pk._inEventTvT)
+				{
+					if(TvT.is_teleport() || TvT.is_started())
 					{
-						VIP.vipDied();
-					}
-					else
-					{
-						sendMessage("You will be revived and teleported to team spot in 20 seconds!");
+						if(!(pk._teamNameTvT.equals(_teamNameTvT)))
+						{
+							PlaySound ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
+							_countTvTdies++;
+							pk._countTvTkills++;
+							pk.setTitle("Kills: " + pk._countTvTkills);
+							pk.sendPacket(ps);
+							pk.broadcastUserInfo();
+							TvT.setTeamKillsCount(pk._teamNameTvT, TvT.teamKillsCount(pk._teamNameTvT) + 1);
+							pk.broadcastUserInfo();
+						}
+						else
+						{
+							pk.sendMessage("You are a teamkiller !!! Teamkills not counting.");
+						}
+						sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
 							@Override
 							public void run()
 							{
+								teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)),
+										false);
 								doRevive();
-								if(_isVIP)
-									teleToLocation(VIP._startX, VIP._startY, VIP._startZ);
-								else
-									teleToLocation(VIP._endX, VIP._endY, VIP._endZ);
+							}
+						}, Config.TVT_REVIVE_DELAY);
+					}
+				}
+	            else if (_inEventTvT)
+	            {
+	                if (TvT.is_teleport() || TvT.is_started())
+	                {
+	                    sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
+	                    ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+	                    {
+	                        @Override
+							public void run()
+	                        {
+	                            teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)), false);
+	                            doRevive();
+	                            broadcastPacket(new SocialAction(getObjectId(), 15));
+	                        }
+	                    }, Config.TVT_REVIVE_DELAY);
+	                }
+	            }
+				else if(_inEventCTF)
+				{
+					if(CTF.is_teleport() || CTF.is_started())
+					{
+						sendMessage("You will be revived and teleported to team flag in 20 seconds!");
+						if(_haveFlagCTF)
+						removeCTFFlagOnDie();
+						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								teleToLocation(CTF._teamsX.get(CTF._teams.indexOf(_teamNameCTF)), CTF._teamsY.get(CTF._teams.indexOf(_teamNameCTF)), CTF._teamsZ.get(CTF._teams.indexOf(_teamNameCTF)), false);
+								doRevive();
 							}
 						}, 20000);
 					}
-					
 				}
-				broadcastUserInfo();
+				else if (_inEventDM && pk._inEventDM)
+				{
+					if(DM.is_teleport() || DM.is_started())
+					{
+						pk._countDMkills++;
+						PlaySound ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
+						pk.setTitle("Kills: " + pk._countDMkills);
+						pk.sendPacket(ps);
+						pk.broadcastUserInfo();
+						
+						if (Config.DM_ENABLE_KILL_REWARD){
+							
+							L2Item reward = ItemTable.getInstance().getTemplate(Config.DM_KILL_REWARD_ID);
+							pk.getInventory().addItem("DM Kill Reward", Config.DM_KILL_REWARD_ID, Config.DM_KILL_REWARD_AMOUNT, this, null);
+							pk.sendMessage("You have earned " + Config.DM_KILL_REWARD_AMOUNT + " item(s) of ID " + reward.getName() + ".");
+							
+						}
+						
+						sendMessage("You will be revived and teleported to spot in 20 seconds!");
+						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								Location p_loc = DM.get_playersSpawnLocation();
+								teleToLocation(p_loc._x, p_loc._y, p_loc._z, false);
+								doRevive();
+							}
+						}, Config.DM_REVIVE_DELAY);
+					}
+				}
+				else if(_inEventDM)
+				{
+					if(DM.is_teleport() || DM.is_started())
+					{
+						sendMessage("You will be revived and teleported to spot in 20 seconds!");
+						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								Location players_loc = DM.get_playersSpawnLocation();
+								teleToLocation(players_loc._x, players_loc._y, players_loc._z, false);
+								doRevive();
+							}
+						}, 20000);
+					}
+				}
+				else if(_inEventVIP && VIP._started)
+				{
+					if(_isTheVIP && !pk._inEventVIP)
+					{
+						Announcements.getInstance().announceToAll("VIP Killed by non-event character. VIP going back to initial spawn.");
+						doRevive();
+						teleToLocation(VIP._startX, VIP._startY, VIP._startZ);
+						
+					}
+					else
+					{
+						if(_isTheVIP && pk._inEventVIP)
+						{
+							VIP.vipDied();
+						}
+						else
+						{
+							sendMessage("You will be revived and teleported to team spot in 20 seconds!");
+							ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									doRevive();
+									if(_isVIP)
+										teleToLocation(VIP._startX, VIP._startY, VIP._startZ);
+									else
+										teleToLocation(VIP._endX, VIP._endY, VIP._endZ);
+								}
+							}, 20000);
+						}
+						
+					}
+					broadcastUserInfo();
+				}
 			}
 			
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);
 
-			if(isCursedWeaponEquiped())
+			if (isCursedWeaponEquiped())
 			{
 				CursedWeaponsManager.getInstance().drop(_cursedWeaponEquipedId, killer);
 			}
 			else
 			{
-				if(pk == null || !pk.isCursedWeaponEquiped())
+				if (pk == null || !pk.isCursedWeaponEquiped())
 				{
 					//if (getKarma() > 0)
 					onDieDropItem(killer); // Check if any item should be dropped
 
-					if(!(isInsideZone(ZONE_PVP) && !isInsideZone(ZONE_SIEGE)))
+					if (!(isInsideZone(ZONE_PVP) && !isInsideZone(ZONE_SIEGE)))
 					{
-						boolean isKillerPc = killer instanceof L2PcInstance;
-						if(isKillerPc && ((L2PcInstance) killer).getClan() != null && getClan() != null && !isAcademyMember() && !((L2PcInstance) killer).isAcademyMember() && _clan.isAtWarWith(((L2PcInstance) killer).getClanId()) && ((L2PcInstance) killer).getClan().isAtWarWith(_clan.getClanId()))
+						if ((pk != null) && pk.getClan() != null && getClan() != null && !isAcademyMember() && !pk.isAcademyMember() && _clan.isAtWarWith(pk.getClanId()) && pk.getClan().isAtWarWith(_clan.getClanId()))
 						{
-							if(getClan().getReputationScore() > 0)
+							if (getClan().getReputationScore() > 0)
 							{
-								((L2PcInstance) killer).getClan().setReputationScore(((L2PcInstance) killer).getClan().getReputationScore() + 2, true);
+								pk.getClan().setReputationScore(((L2PcInstance) killer).getClan().getReputationScore() + 2, true);
 							}
-							if(((L2PcInstance) killer).getClan().getReputationScore() > 0)
+							if (pk.getClan().getReputationScore() > 0)
 							{
 								_clan.setReputationScore(_clan.getReputationScore() - 2, true);
 							}
@@ -7501,7 +7486,6 @@ private int _reviveRequested = 0;
 					}
 				}
 			}
-			pk = null;
 		}
 
 		setPvpFlag(0); // Clear the pvp flag
@@ -19630,4 +19614,9 @@ public boolean dismount()
 		
 	}
 	
+	@Override
+	public L2PcInstance getActingPlayer()
+	{
+		return this;
+	}
 }
