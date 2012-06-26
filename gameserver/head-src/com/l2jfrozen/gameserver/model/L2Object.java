@@ -594,11 +594,15 @@ public abstract class L2Object
 			}
 		}
 	}
-
+	
+	public L2PcInstance getActingPlayer()
+	{
+		return null;
+	}
+	
 	@Override
 	public String toString()
 	{
 		return "" + getObjectId();
 	}
-
 }

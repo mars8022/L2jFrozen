@@ -135,7 +135,7 @@ public class TradeController
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "error while creating trade controller in linenr: " + lnr.getLineNumber(), e);
+				_log.log(Level.WARNING, "error while creating trade controller in line: " + (lnr == null ? 0 : lnr.getLineNumber()), e);
 				
 			}finally{
 				

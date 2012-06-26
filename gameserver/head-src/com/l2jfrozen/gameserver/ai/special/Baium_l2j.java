@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
@@ -49,9 +50,6 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
-
-
-
 
 /**
  * Baium AI
@@ -85,6 +83,8 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Baium_l2j  extends Quest implements Runnable
 {
+	protected static final Logger _log = Logger.getLogger(Baium_l2j.class.getName());
+	
 	private L2Character _target;
 	private L2Skill _skill;
 	private static final int STONE_BAIUM = 29025;
@@ -109,7 +109,7 @@ public class Baium_l2j  extends Quest implements Runnable
 	
 	private long _LastAttackVsBaiumTime = 0;
 	private List<L2NpcInstance> _Minions = new ArrayList<L2NpcInstance>(5);
-	private L2BossZone _Zone;
+	protected L2BossZone _Zone;
 	
 	public Baium_l2j (int questId, String name, String descr)
 	{

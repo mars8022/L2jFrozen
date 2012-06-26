@@ -14,8 +14,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.ArrayList;
-
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Attackable;
@@ -28,40 +26,15 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class FairyTrees extends Quest implements Runnable
 {
-	private ArrayList<mobs> _mobs = new ArrayList<mobs>();
-
-	private static class mobs
-	{
-		private int _id;
-
-		private mobs(int id)
-		{
-			_id = id;
-		}
-
-		private int getId()
-		{
-			return _id;
-		}
-	}
+	private static final int[] trees = { 27185, 27186, 27187, 27188 };
 
 	public FairyTrees(int questId, String name, String descr)
 	{
 		super(questId, name, descr);
 
-		_mobs.add(new mobs(27185));
-		_mobs.add(new mobs(27186));
-		_mobs.add(new mobs(27187));
-		_mobs.add(new mobs(27188));
-
-		int[] mobsKill =
+		for(int mob : trees)
 		{
-				27185, 27186, 27187, 27188
-		};
-
-		for(int mob : mobsKill)
-		{
-			addEventId(mob, Quest.QuestEventType.ON_KILL);
+			addEventId(mob, QuestEventType.ON_KILL);
 		}
 	}
 
@@ -69,9 +42,9 @@ public class FairyTrees extends Quest implements Runnable
 	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
 		int npcId = npc.getNpcId();
-		for(mobs monster : _mobs)
+		for(int treeId : trees)
 		{
-			if(npcId == monster.getId())
+			if(npcId == treeId)
 			{
 				for(int i = 0; i < 20; i++)
 				{
@@ -80,22 +53,26 @@ public class FairyTrees extends Quest implements Runnable
 					newNpc.setRunning();
 					newNpc.addDamageHate(originalKiller, 0, 999);
 					newNpc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, originalKiller);
-					if(Rnd.get(1, 2) == 1)
+					if(Rnd.nextBoolean())
 					{
-						L2Skill skill = SkillTable.getInstance().getInfo(4243, 1);
-						if(skill != null && originalKiller != null)
+						if (originalKiller != null)
 						{
-							skill.getEffects(newNpc, originalKiller, false, false, false);
+							final L2Skill skill = SkillTable.getInstance().getInfo(4243, 1);
+							if(skill != null)
+							{
+								skill.getEffects(newNpc, originalKiller, false, false, false);
+							}
 						}
 					}
 				}
 			}
 		}
-
 		return super.onKill(npc, killer, isPet);
 	}
-
+	
 	@Override
 	public void run()
-	{}
+	{
+		
+	}
 }

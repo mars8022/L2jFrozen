@@ -41,7 +41,7 @@ public class Transform extends Quest implements Runnable
 		private int _chance;
 		private int _message;
 
-		private Transformer(int id, int idPoly, int chance, int message)
+		protected Transformer(int id, int idPoly, int chance, int message)
 		{
 			_id = id;
 			_idPoly = idPoly;
@@ -49,22 +49,22 @@ public class Transform extends Quest implements Runnable
 			_message = message;
 		}
 
-		private int getId()
+		protected int getId()
 		{
 			return _id;
 		}
 
-		private int getIdPoly()
+		protected int getIdPoly()
 		{
 			return _idPoly;
 		}
 
-		private int getChance()
+		protected int getChance()
 		{
 			return _chance;
 		}
 
-		private int getMessage()
+		protected int getMessage()
 		{
 			return _message;
 		}

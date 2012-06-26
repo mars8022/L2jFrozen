@@ -105,7 +105,6 @@ public class TerritoryTable
 		_log.finest("TerritoryTable: Loaded {} locations "+ _territory.size());
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final TerritoryTable _instance = new TerritoryTable();
