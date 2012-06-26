@@ -8614,7 +8614,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public void onMagicLaunchedTimer(final L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
 	{
-		if((skill == null || targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
+		if(skill == null || (targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
 		{
 			_skillCast = null;
 			enableAllSkills();
@@ -8765,7 +8765,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public void onMagicHitTimer(final L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
 	{
-		if((skill == null || targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
+		if(skill == null || (targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
 		{
 			_skillCast = null;
 			enableAllSkills();
@@ -8789,7 +8789,11 @@ public abstract class L2Character extends L2Object
 		{
 			_skillCast = null;
 			mog.exit(true);
-			notifyQuestEventSkillFinished(skill, targets[0]);
+			L2Object target = targets == null ? null : targets[0];
+			if (target != null)
+			{
+				notifyQuestEventSkillFinished(skill, target);
+			}
 			return;
 		}
 
@@ -8801,7 +8805,7 @@ public abstract class L2Character extends L2Object
 				// Go through targets table
 				for(int i=0;i<targets2.length;i++)//L2Object target2 : targets)
 				{
-					L2Object target2 = targets[i];
+					L2Object target2 = targets2[i];
 					if(target2==null){
 						continue;
 					}

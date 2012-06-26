@@ -187,7 +187,6 @@ public class CoupleManager
 		return _couples;
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final CoupleManager _instance = new CoupleManager();

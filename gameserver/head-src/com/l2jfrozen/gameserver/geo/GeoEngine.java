@@ -55,7 +55,7 @@ public final class GeoEngine extends GeoData
 	
 	private static final class SingletonHolder
 	{
-		private static final GeoEngine INSTANCE = new GeoEngine();
+		protected static final GeoEngine INSTANCE = new GeoEngine();
 	}
 	
 	public static GeoEngine getInstance()
@@ -67,7 +67,7 @@ public final class GeoEngine extends GeoData
 	private final LookupTable<IntBuffer> _geodataIndex = new LookupTable<IntBuffer>();
 	private BufferedOutputStream _geoBugsOut;
 	
-	private GeoEngine()
+	protected GeoEngine()
 	{
 		nInitGeodata();
 	}

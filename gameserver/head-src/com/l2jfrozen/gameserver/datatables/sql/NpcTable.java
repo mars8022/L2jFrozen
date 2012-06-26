@@ -144,6 +144,10 @@ public class NpcTable
 			if(Config.CUSTOM_NPC_TABLE)
 				try
 				{
+					if (con == null)
+					{
+						con = L2DatabaseFactory.getInstance().getConnection(false);
+					}
 					statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 					{
 							"id",
@@ -200,6 +204,10 @@ public class NpcTable
 				}
 			try
 			{
+				if (con == null)
+				{
+					con = L2DatabaseFactory.getInstance().getConnection(false);
+				}
 				statement = con.prepareStatement("SELECT npcid, skillid, level FROM npcskills");
 				final ResultSet npcskills = statement.executeQuery();
 				L2NpcTemplate npcDat = null;
@@ -245,6 +253,10 @@ public class NpcTable
 			if(Config.CUSTOM_DROPLIST_TABLE)
 				try
 				{
+					if (con == null)
+					{
+						con = L2DatabaseFactory.getInstance().getConnection(false);
+					}
 					statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 					{
 							"mobId", "itemId", "min", "max", "category", "chance"
@@ -293,6 +305,10 @@ public class NpcTable
 
 			try
 			{
+				if (con == null)
+				{
+					con = L2DatabaseFactory.getInstance().getConnection(false);
+				}
 				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"mobId", "itemId", "min", "max", "category", "chance"
@@ -336,6 +352,10 @@ public class NpcTable
 
 			try
 			{
+				if (con == null)
+				{
+					con = L2DatabaseFactory.getInstance().getConnection(false);
+				}
 				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 				   "npc_id", "class_id"
@@ -373,6 +393,10 @@ public class NpcTable
 
 			try
 			{
+				if (con == null)
+				{
+					con = L2DatabaseFactory.getInstance().getConnection(false);
+				}
 				statement = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
 				{
 						"boss_id", "minion_id", "amount_min", "amount_max"

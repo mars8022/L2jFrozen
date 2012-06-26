@@ -34,6 +34,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -41,7 +42,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  * @author Olympic
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
-
 public class CompactionIDFactory extends IdFactory
 {
     private static Logger _log = Logger.getLogger(CompactionIDFactory.class.getName());
@@ -78,7 +78,7 @@ public class CompactionIDFactory extends IdFactory
         }
         finally
         {
-            try { con.close(); } catch (Exception e) {}
+        	CloseUtil.close(con);
         }
     }
 

@@ -35,7 +35,7 @@ public class GeoEditorListener extends Thread
 	
 	private static final class SingletonHolder
 	{
-		private static final GeoEditorListener INSTANCE = new GeoEditorListener();
+		protected static final GeoEditorListener INSTANCE = new GeoEditorListener();
 	}
 	
 	public static GeoEditorListener getInstance()
@@ -46,7 +46,7 @@ public class GeoEditorListener extends Thread
 	private ServerSocket _serverSocket;
 	private GeoEditorThread _geoEditor;
 	
-	private GeoEditorListener()
+	protected GeoEditorListener()
 	{
 		try
 		{

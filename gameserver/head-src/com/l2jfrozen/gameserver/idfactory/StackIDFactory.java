@@ -25,6 +25,7 @@ import java.util.Stack;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -77,7 +78,7 @@ public class StackIDFactory extends IdFactory
         }
         finally
         {
-            try { con.close(); } catch (Exception e) {}
+        	CloseUtil.close(con);
         }
 	}
 

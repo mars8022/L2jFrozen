@@ -488,7 +488,10 @@ public class Base64
 		{
 			try
 			{
-				oos.close();
+				if (oos != null)
+				{
+					oos.close();
+				}
 			}
 			catch(Exception e)
 			{
@@ -497,7 +500,10 @@ public class Base64
 			}
 			try
 			{
-				gzos.close();
+				if (gzos != null)
+				{
+					gzos.close();
+				}
 			}
 			catch(Exception e)
 			{
@@ -506,7 +512,10 @@ public class Base64
 			}
 			try
 			{
-				b64os.close();
+				if (b64os != null)
+				{
+					b64os.close();
+				}
 			}
 			catch(Exception e)
 			{
@@ -515,7 +524,10 @@ public class Base64
 			}
 			try
 			{
-				baos.close();
+				if (baos != null)
+				{
+					baos.close();
+				}
 			}
 			catch(Exception e)
 			{
@@ -525,18 +537,21 @@ public class Base64
 		} // end finally
 
 		// Return value according to relevant encoding.
-		try
+		if (baos != null)
 		{
-			return new String(baos.toByteArray(), PREFERRED_ENCODING);
-		} // end try
-		catch(java.io.UnsupportedEncodingException uue)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				uue.printStackTrace();
-			
-			return new String(baos.toByteArray());
-		} // end catch
-
+			try
+			{
+				return new String(baos.toByteArray(), PREFERRED_ENCODING);
+			} // end try
+			catch(java.io.UnsupportedEncodingException uue)
+			{
+				if(Config.ENABLE_ALL_EXCEPTIONS)
+					uue.printStackTrace();
+				
+				return new String(baos.toByteArray());
+			} // end catch
+		}
+		return null;
 	} // end encode
 
 	/**
@@ -648,7 +663,10 @@ public class Base64
 			{
 				try
 				{
-					gzos.close();
+					if (gzos != null)
+					{
+						gzos.close();
+					}
 				}
 				catch(Exception e)
 				{
@@ -657,7 +675,10 @@ public class Base64
 				}
 				try
 				{
-					b64os.close();
+					if (b64os != null)
+					{
+						b64os.close();
+					}
 				}
 				catch(Exception e)
 				{
@@ -666,7 +687,10 @@ public class Base64
 				}
 				try
 				{
-					baos.close();
+					if (baos != null)
+					{
+						baos.close();
+					}
 				}
 				catch(Exception e)
 				{
@@ -676,17 +700,21 @@ public class Base64
 			} // end finally
 
 			// Return value according to relevant encoding.
-			try
+			if (baos != null)
 			{
-				return new String(baos.toByteArray(), PREFERRED_ENCODING);
-			} // end try
-			catch(java.io.UnsupportedEncodingException uue)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					uue.printStackTrace();
-				
-				return new String(baos.toByteArray());
-			} // end catch
+				try
+				{
+					return new String(baos.toByteArray(), PREFERRED_ENCODING);
+				} // end try
+				catch(java.io.UnsupportedEncodingException uue)
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						uue.printStackTrace();
+					
+					return new String(baos.toByteArray());
+				} // end catch
+			}
+			return null;
 		} // end if: compress
 
 		// Convert option to boolean in way that code likes it.

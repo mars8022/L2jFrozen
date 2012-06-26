@@ -242,7 +242,6 @@ public class AuctionManager
 		}
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final AuctionManager _instance = new AuctionManager();

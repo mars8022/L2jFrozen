@@ -209,10 +209,8 @@ public class FortManager
 		return _forts;
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final FortManager _instance = new FortManager();
 	}
-
 }

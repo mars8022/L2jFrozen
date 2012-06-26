@@ -604,7 +604,6 @@ public class RaidBossSpawnManager
 		return _bosses.get(bossId);
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final RaidBossSpawnManager _instance = new RaidBossSpawnManager();

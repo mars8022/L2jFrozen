@@ -18,11 +18,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 public class ClanGate implements ISkillHandler
 {
 	private static final SkillType[] SKILL_IDS = { SkillType.CLAN_GATE };
-
-	/* (non-Javadoc)
-	 * @see com.l2jfree.gameserver.handler.ISkillHandler#getSkillIds()
-	 */
-
+	
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
@@ -72,15 +68,12 @@ public class ClanGate implements ISkillHandler
 		private final int castle;
 		private final L2PcInstance player;
 
-		private RemoveClanGate(int castle, L2PcInstance player)
+		protected RemoveClanGate(int castle, L2PcInstance player)
 		{
 			this.castle = castle;
 			this.player = player;
 		}
-
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
+		
 		@Override
 		public void run()
 		{

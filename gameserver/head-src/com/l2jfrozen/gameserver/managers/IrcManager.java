@@ -77,7 +77,6 @@ public class IrcManager
 		}
     }
     
-    @SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final IrcManager _instance = new IrcManager();

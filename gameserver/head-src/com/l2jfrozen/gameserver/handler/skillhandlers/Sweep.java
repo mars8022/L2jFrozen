@@ -44,9 +44,12 @@ public class Sweep implements ISkillHandler
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
-		if(!(activeChar instanceof L2PcInstance)){ return; }
+		if(!(activeChar instanceof L2PcInstance))
+		{
+			return;
+		}
 
-		L2PcInstance player = (L2PcInstance) activeChar;
+		final L2PcInstance player = (L2PcInstance) activeChar;
 		InventoryUpdate iu = Config.FORCE_INVENTORY_UPDATE ? null : new InventoryUpdate();
 		boolean send = false;
 
@@ -110,11 +113,6 @@ public class Sweep implements ISkillHandler
 				else
 					player.sendPacket(new ItemList(player, false));
 			}
-
-			player = null;
-			iu = null;
-			target = null;
-			items = null;
 		}
 	}
 

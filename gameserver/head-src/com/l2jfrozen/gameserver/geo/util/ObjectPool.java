@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.thread.L2Thread;
 
 public abstract class ObjectPool<E>
 {
-	private static final WeakHashMap<ObjectPool<?>, Object> POOLS = new WeakHashMap<ObjectPool<?>, Object>();
+	protected static final WeakHashMap<ObjectPool<?>, Object> POOLS = new WeakHashMap<ObjectPool<?>, Object>();
 
 	static
 	{

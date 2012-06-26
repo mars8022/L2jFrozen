@@ -373,7 +373,6 @@ public class CastleManager
 		player = null;
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final CastleManager _instance = new CastleManager();

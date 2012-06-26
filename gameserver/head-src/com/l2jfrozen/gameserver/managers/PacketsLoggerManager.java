@@ -25,8 +25,6 @@ import java.util.List;
 import com.l2jfrozen.logs.Log;
 
 /**
- * 
- * 
  * @author Shyla
  */
 public class PacketsLoggerManager
@@ -34,7 +32,8 @@ public class PacketsLoggerManager
 	private List<String> _monitored_characters = new ArrayList<String>();
 	private Hashtable<String, List<String>> _character_blocked_packets = new Hashtable<String, List<String>>();
 	
-	private PacketsLoggerManager(){
+	protected PacketsLoggerManager()
+	{
 		_character_blocked_packets.clear();
 		_monitored_characters.clear();
 	}
@@ -107,15 +106,13 @@ public class PacketsLoggerManager
 		
 	}
 	
-	public static PacketsLoggerManager getInstance(){
+	public static PacketsLoggerManager getInstance()
+	{
 		return SingletonHolder._instance;
 	}
 	
-	private static class SingletonHolder{
-		
-		public static PacketsLoggerManager _instance = new PacketsLoggerManager();
-		
+	private static class SingletonHolder
+	{
+		public static final PacketsLoggerManager _instance = new PacketsLoggerManager();
 	}
-	
-	
 }

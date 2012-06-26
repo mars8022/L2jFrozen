@@ -355,10 +355,11 @@ public class L2Party
 		// update partySpelled
 		for (L2PcInstance member : getPartyMembers()) 
 		{ 
-			if (member != null) 
+			if (member != null)
+			{
 				member.updateEffectIcons(true); // update party icons only
-			
-			member.broadcastUserInfo(); 
+				member.broadcastUserInfo();
+			}
 		}
 
 		if(isInDimensionalRift())

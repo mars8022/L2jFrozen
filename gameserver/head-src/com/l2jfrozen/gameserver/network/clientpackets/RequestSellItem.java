@@ -100,38 +100,25 @@ public final class RequestSellItem extends L2GameClientPacket
 				|| !(target instanceof L2MerchantInstance) // Target not a merchant and not mercmanager
 		|| !player.isInsideRadius(target, L2NpcInstance.INTERACTION_DISTANCE, false, false)))
 			return; // Distance is too far
-
-		boolean ok = true;
+		
 		String htmlFolder = "";
-
-		if(target != null)
+		L2NpcInstance merchant = null;
+		if(target instanceof L2MerchantInstance)
 		{
-			if(target instanceof L2MerchantInstance)
-			{
-				htmlFolder = "merchant";
-			}
-			else if(target instanceof L2FishermanInstance)
-			{
-				htmlFolder = "fisherman";
-			}
-			else
-			{
-				ok = false;
-			}
+			htmlFolder = "merchant";
+			merchant = (L2NpcInstance) target;
+		}
+		else if(target instanceof L2FishermanInstance)
+		{
+			htmlFolder = "fisherman";
+			merchant = (L2NpcInstance) target;
 		}
 		else
 		{
-			ok = false;
+			return;
 		}
-
-		L2NpcInstance merchant = null;
-
-		if(ok)
-		{
-			merchant = (L2NpcInstance) target;
-		}
-
-		if(merchant != null && _listId > 1000000) // lease
+		
+		if(_listId > 1000000) // lease
 		{
 			if(merchant.getTemplate().npcId != _listId - 1000000)
 			{

@@ -906,7 +906,6 @@ public class MercTicketManager
 		return _droppedTickets;
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final MercTicketManager _instance = new MercTicketManager();

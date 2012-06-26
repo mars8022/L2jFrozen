@@ -31,11 +31,11 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public final class L2Collections
 {
-	private static final Object[] EMPTY_ARRAY = new Object[0];
+	protected static final Object[] EMPTY_ARRAY = new Object[0];
 
 	private static final class EmptyListIterator implements ListIterator<Object>
 	{
-		private static final ListIterator<Object> INSTANCE = new EmptyListIterator();
+		protected static final ListIterator<Object> INSTANCE = new EmptyListIterator();
 
 		@Override
 		public boolean hasNext()
@@ -94,8 +94,13 @@ public final class L2Collections
 
 	private static class EmptyCollection implements Collection<Object>
 	{
-		private static final Collection<Object> INSTANCE = new EmptyCollection();
-
+		protected static final Collection<Object> INSTANCE = new EmptyCollection();
+	
+		protected EmptyCollection()
+		{
+			
+		}
+		
 		@Override
 		public boolean add(Object e)
 		{
@@ -176,15 +181,15 @@ public final class L2Collections
 			return a;
 		}
 	}
-
+	
 	private static final class EmptySet extends EmptyCollection implements Set<Object>
 	{
-		private static final Set<Object> INSTANCE = new EmptySet();
+		protected static final Set<Object> INSTANCE = new EmptySet();
 	}
-
+	
 	private static final class EmptyList extends EmptyCollection implements List<Object>
 	{
-		private static final List<Object> INSTANCE = new EmptyList();
+		protected static final List<Object> INSTANCE = new EmptyList();
 
 		@Override
 		public void add(int index, Object element)
@@ -249,7 +254,7 @@ public final class L2Collections
 
 	private static final class EmptyMap implements Map<Object, Object>
 	{
-		private static final Map<Object, Object> INSTANCE = new EmptyMap();
+		protected static final Map<Object, Object> INSTANCE = new EmptyMap();
 
 		@Override
 		public void clear()
@@ -325,7 +330,7 @@ public final class L2Collections
 
 	private static final class EmptyBunch implements Bunch<Object>
 	{
-		private static final Bunch<Object> INSTANCE = new EmptyBunch();
+		protected static final Bunch<Object> INSTANCE = new EmptyBunch();
 
 		@Override
 		public Bunch<Object> add(Object e)
@@ -426,12 +431,12 @@ public final class L2Collections
 		}
 	}
 
-	private static <T> ListIterator<T> emptyListIterator()
+	protected static <T> ListIterator<T> emptyListIterator()
 	{
 		return (ListIterator<T>)EmptyListIterator.INSTANCE;
 	}
 
-	private static <T> Collection<T> emptyCollection()
+	protected static <T> Collection<T> emptyCollection()
 	{
 		return (Collection<T>)EmptyCollection.INSTANCE;
 	}
@@ -487,7 +492,7 @@ public final class L2Collections
 		private final Filter<E> _filter;
 		private final Class<E> _clazz;
 
-		private FilteredIterable(Class<E> clazz, Iterable<? super E> iterable, Filter<E> filter)
+		protected FilteredIterable(Class<E> clazz, Iterable<? super E> iterable, Filter<E> filter)
 		{
 			_iterable = iterable;
 			_filter = filter;
@@ -509,7 +514,7 @@ public final class L2Collections
 
 		private E _next;
 
-		private FilteredIterator(Class<E> clazz, Iterable<? super E> iterable, Filter<E> filter)
+		protected FilteredIterator(Class<E> clazz, Iterable<? super E> iterable, Filter<E> filter)
 		{
 			_iterator = iterable.iterator();
 			_filter = filter;
@@ -583,7 +588,7 @@ public final class L2Collections
 		private final Iterable<? extends S> _iterable;
 		private final Converter<S, T> _converter;
 
-		private ConvertingIterable(Iterable<? extends S> iterable, Converter<S, T> converter)
+		protected ConvertingIterable(Iterable<? extends S> iterable, Converter<S, T> converter)
 		{
 			_iterable = iterable;
 			_converter = converter;
@@ -603,7 +608,7 @@ public final class L2Collections
 
 		private T _next;
 
-		private ConvertingIterator(Iterable<? extends S> iterable, Converter<S, T> converter)
+		protected ConvertingIterator(Iterable<? extends S> iterable, Converter<S, T> converter)
 		{
 			_iterator = iterable.iterator();
 			_converter = converter;
@@ -694,7 +699,7 @@ public final class L2Collections
 	{
 		private final Iterable<? extends E>[] _iterables;
 
-		private ConcatenatedIterable(Iterable<? extends E>... iterables)
+		protected ConcatenatedIterable(Iterable<? extends E>... iterables)
 		{
 			_iterables = iterables;
 		}
@@ -713,7 +718,7 @@ public final class L2Collections
 		private Iterator<? extends E> _iterator;
 		private int _index = -1;
 
-		private ConcatenatedIterator(Iterable<? extends E>... iterables)
+		protected ConcatenatedIterator(Iterable<? extends E>... iterables)
 		{
 			_iterables = iterables;
 			

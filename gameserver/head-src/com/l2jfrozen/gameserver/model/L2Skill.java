@@ -2086,19 +2086,21 @@ public abstract class L2Skill
 
 				targetList.add(activeChar);
 
-				L2PcInstance player = null;
-
+				L2PcInstance player = activeChar.getActingPlayer();
+				if (player == null)
+				{
+					return new L2Character[] { activeChar };
+				}
+				
 				if(activeChar instanceof L2Summon)
 				{
-					player = ((L2Summon) activeChar).getOwner();
 					targetList.add(player);
 				}
 				else if(activeChar instanceof L2PcInstance)
 				{
-					player = (L2PcInstance) activeChar;
-					if(activeChar.getPet() != null)
+					if(player.getPet() != null)
 					{
-						targetList.add(activeChar.getPet());
+						targetList.add(player.getPet());
 					}
 				}
 

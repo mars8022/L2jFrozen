@@ -39,7 +39,7 @@ public class GeoData
 			_log.info("Geodata Engine: Disabled.");
 		}
 
-		private static final GeoData INSTANCE = new GeoData();
+		protected static final GeoData INSTANCE = new GeoData();
 	}
 	
 	protected GeoData()

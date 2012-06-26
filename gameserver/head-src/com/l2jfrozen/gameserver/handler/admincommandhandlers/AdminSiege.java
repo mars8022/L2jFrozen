@@ -40,7 +40,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * This class handles all siege commands: Todo: change the class name, and neaten it up
+ * This class handles all siege commands:
+ * TODO: change the class name, and neaten it up
  */
 public class AdminSiege implements IAdminCommandHandler
 {
@@ -67,6 +68,7 @@ public class AdminSiege implements IAdminCommandHandler
 			"admin_clanhallteleportself"
 	};
 
+	@SuppressWarnings("null")
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
