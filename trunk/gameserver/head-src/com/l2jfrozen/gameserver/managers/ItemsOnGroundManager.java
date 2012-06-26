@@ -256,7 +256,7 @@ public class ItemsOnGroundManager
 		}
 	}
 
-	private class StoreInDb extends Thread
+	protected class StoreInDb extends Thread
 	{
 		@Override
 		public void run()
@@ -321,7 +321,6 @@ public class ItemsOnGroundManager
 				finally
 				{
 					CloseUtil.close(con);
-					con = null;
 				}
 			}
 			if(Config.DEBUG)

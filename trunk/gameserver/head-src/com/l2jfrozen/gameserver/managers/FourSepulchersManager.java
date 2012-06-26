@@ -61,7 +61,6 @@ import com.l2jfrozen.util.random.Rnd;
  *         will try to search where is this prevented but still is unknown which npc u need to save to survive in next
  *         room without debuffs
  */
-
 public class FourSepulchersManager extends GrandBossManager
 {
 	private static final String QUEST_ID = "620_FourGoblets";
@@ -1973,7 +1972,6 @@ public class FourSepulchersManager extends GrandBossManager
 		html = null;
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final FourSepulchersManager _instance = new FourSepulchersManager();

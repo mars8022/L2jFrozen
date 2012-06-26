@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 public final class CellPathFinding extends PathFinding
 {
 	private static final class SingletonHolder {
-		private static final CellPathFinding INSTANCE = new CellPathFinding();
+		protected static final CellPathFinding INSTANCE = new CellPathFinding();
 	}
 	
 	public static CellPathFinding getInstance()
@@ -66,7 +66,7 @@ public final class CellPathFinding extends PathFinding
 		return new CellNode(gx, gy, z, 0);
 	}
 
-	private CellPathFinding()
+	protected CellPathFinding()
 	{
 		//
 	}

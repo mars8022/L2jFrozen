@@ -297,7 +297,6 @@ public class ChristmasManager
 	/**
 	 * Main function - spawns all trees.
 	 */
-
 	public void spawnTrees()
 	{
 		GetTreePos gtp = new GetTreePos(first);
@@ -310,8 +309,7 @@ public class ChristmasManager
 	 * 
 	 * @return int tree Npc Id.
 	 */
-
-	private int getTreeId()
+	protected int getTreeId()
 	{
 		int[] ids =
 		{
@@ -323,7 +321,6 @@ public class ChristmasManager
 	/**
 	 * gets random world positions according to spawned world objects and spawns x-mas trees around them...
 	 */
-
 	public class GetTreePos implements Runnable
 	{
 		private int _iterator;
@@ -449,8 +446,7 @@ public class ChristmasManager
 	 * @param y - int loc y
 	 * @param z - int loc z
 	 */
-
-	private void spawnOneTree(int id, int x, int y, int z)
+	protected void spawnOneTree(int id, int x, int y, int z)
 	{
 		try
 		{
@@ -545,8 +541,7 @@ public class ChristmasManager
 	 * 
 	 * @return CreatureSay message
 	 */
-
-	private CreatureSay getXMasMessage()
+	protected CreatureSay getXMasMessage()
 	{
 		CreatureSay cs = new CreatureSay(0, 17, getRandomSender(), getRandomXMasMessage());
 		return cs;
@@ -639,7 +634,7 @@ public class ChristmasManager
 		}
 	}
 
-	private int getSantaRandomPresent()
+	protected int getSantaRandomPresent()
 	{
 		return presents[rand.nextInt(presents.length)];
 	}
@@ -647,7 +642,6 @@ public class ChristmasManager
 	/**
 	 * Ends X-Mas present giving to players, and terminates the thread.
 	 */
-
 	private void endPresentGivingAtFixedRate()
 	{
 		if(_XMasPresentsTask != null)
@@ -728,12 +722,12 @@ public class ChristmasManager
 		}
 	}
 
-	private int getSantaId()
+	protected int getSantaId()
 	{
 		return rand.nextInt(100) < 50 ? 31863 : 31864;
 	}
 
-	private void checkIfOkToAnnounce()
+	protected void checkIfOkToAnnounce()
 	{
 		if(isManagerInit == 4)
 		{
@@ -781,7 +775,6 @@ public class ChristmasManager
 		}
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final ChristmasManager _instance = new ChristmasManager();

@@ -281,27 +281,17 @@ public class SqlUtils
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(GAME_QUICK_OPTIMIZE);
 			statement.execute();
+			statement.close();
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			
 			System.out.println("Optimization failed");
 		}
 		finally
 		{
-			try
-			{
-				statement.close();
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
 			CloseUtil.close(con);
 		}
 	}
@@ -319,6 +309,7 @@ public class SqlUtils
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(LOGIN_QUICK_OPTIMIZE);
 			statement.execute();
+			statement.close();
 		}
 		catch(Exception e)
 		{
@@ -329,20 +320,7 @@ public class SqlUtils
 		}
 		finally
 		{
-			try
-			{
-				statement.close();
-				statement = null;
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-			}
-			
 			CloseUtil.close(con);
-			con = null;
 		}
 	}
 }

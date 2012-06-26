@@ -27,9 +27,12 @@ import com.l2jfrozen.gameserver.geo.util.ObjectPool;
  */
 public final class CellNodeMap
 {
-	private final L2FastSet<Node> _cellIndex = new L2FastSet<Node>(4096);
+	protected final L2FastSet<Node> _cellIndex = new L2FastSet<Node>(4096);
 
-	private CellNodeMap() {}
+	protected CellNodeMap()
+	{
+		
+	}
 
 	public void add(Node n)
 	{

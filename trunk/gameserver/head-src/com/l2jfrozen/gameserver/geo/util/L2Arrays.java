@@ -129,7 +129,7 @@ public final class L2Arrays
 	{
 		protected final Object[] _array;
 		
-		private ArrayIterable(Object[] array)
+		protected ArrayIterable(Object[] array)
 		{
 			_array = array;
 		}
@@ -141,9 +141,9 @@ public final class L2Arrays
 		}
 	}
 
-	private static final class NullFreeArrayIterable<T> extends ArrayIterable<T>
+	protected static final class NullFreeArrayIterable<T> extends ArrayIterable<T>
 	{
-		private NullFreeArrayIterable(Object[] array)
+		protected NullFreeArrayIterable(Object[] array)
 		{
 			super(array);
 		}
@@ -173,7 +173,7 @@ public final class L2Arrays
 
 		private int _index;
 
-		private ArrayIterator(Object[] array)
+		protected ArrayIterator(Object[] array)
 		{
 			_array = array;
 		}
@@ -216,7 +216,7 @@ public final class L2Arrays
 
 	private static final class NullFreeArrayIterator<T> extends ArrayIterator<T>
 	{
-		private NullFreeArrayIterator(Object[] array)
+		protected NullFreeArrayIterator(Object[] array)
 		{
 			super(array);
 		}

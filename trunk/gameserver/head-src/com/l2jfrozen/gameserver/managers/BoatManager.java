@@ -259,7 +259,6 @@ public class BoatManager
 		return _staticItems.get(boatId);
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final BoatManager _instance = new BoatManager();

@@ -33,7 +33,7 @@ public final class AwayManager
 {
 	protected static final Logger _log = Logger.getLogger(AwayManager.class.getName());
 	private static AwayManager _instance;
-	private Map<L2PcInstance, RestoreData> _awayPlayers;
+	protected Map<L2PcInstance, RestoreData> _awayPlayers;
 
 	public static final AwayManager getInstance()
 	{

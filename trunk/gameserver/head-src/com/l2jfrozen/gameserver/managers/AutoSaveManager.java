@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AutoSaveManager
 {
-	private static final Logger _log = Logger.getLogger(AutoSaveManager.class.getName());
+	protected static final Logger _log = Logger.getLogger(AutoSaveManager.class.getName());
 	private ScheduledFuture<?> _autoSaveInDB;
 	private ScheduledFuture<?> _autoCheckConnectionStatus;
 	
@@ -70,8 +70,8 @@ public class AutoSaveManager
 		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PlayersSaveTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
 	}
 
-	private class AutoSaveTask implements Runnable{
-		
+	protected class AutoSaveTask implements Runnable
+	{
 		@Override
 		public void run()
 		{		
@@ -100,8 +100,8 @@ public class AutoSaveManager
 		}		
 	}
 	
-	private class PlayersSaveTask implements Runnable{
-		
+	protected class PlayersSaveTask implements Runnable
+	{
 		@Override
 		public void run()
 		{
@@ -157,11 +157,9 @@ public class AutoSaveManager
 				_log.info("AutoSaveManager: players connections checked..");			
 		}	
 	}
-
-	@SuppressWarnings("synthetic-access")
+	
 	private static class SingletonHolder
 	{
 		protected static final AutoSaveManager _instance = new AutoSaveManager();
 	}
-	
 }

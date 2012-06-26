@@ -60,10 +60,10 @@ public class CastleManorManager
 	private static final String CASTLE_MANOR_LOAD_PROCURE = "SELECT * FROM castle_manor_procure WHERE castle_id=?";
 	private static final String CASTLE_MANOR_LOAD_PRODUCTION = "SELECT * FROM castle_manor_production WHERE castle_id=?";
 
-	private static final int NEXT_PERIOD_APPROVE = Config.ALT_MANOR_APPROVE_TIME; // 6:00
-	private static final int NEXT_PERIOD_APPROVE_MIN = Config.ALT_MANOR_APPROVE_MIN; //
-	private static final int MANOR_REFRESH = Config.ALT_MANOR_REFRESH_TIME; // 20:00
-	private static final int MANOR_REFRESH_MIN = Config.ALT_MANOR_REFRESH_MIN; //
+	protected static final int NEXT_PERIOD_APPROVE = Config.ALT_MANOR_APPROVE_TIME; // 6:00
+	protected static final int NEXT_PERIOD_APPROVE_MIN = Config.ALT_MANOR_APPROVE_MIN; //
+	protected static final int MANOR_REFRESH = Config.ALT_MANOR_REFRESH_TIME; // 20:00
+	protected static final int MANOR_REFRESH_MIN = Config.ALT_MANOR_REFRESH_MIN; //
 	protected static final long MAINTENANCE_PERIOD = Config.ALT_MANOR_MAINTENANCE_PERIOD / 60000; // 6 mins
 
 	private boolean _underMaintenance;
@@ -528,7 +528,7 @@ public class CastleManorManager
 		}
 	}
 
-	private class ManorTask implements Runnable
+	protected class ManorTask implements Runnable
 	{
 		@Override
 		public void run()

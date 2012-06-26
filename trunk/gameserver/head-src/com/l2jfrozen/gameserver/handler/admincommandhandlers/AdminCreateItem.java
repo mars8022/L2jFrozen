@@ -307,7 +307,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 			i++;
 		}
 		activeChar.sendMessage("Mass-created items in the inventory of " + i + " player(s).");
-		_log.info("GM " + activeChar.getName() + " mass_created " + item.getItemName() + " (" + num + ")");
+		_log.info("GM " + activeChar.getName() + " mass_created item Id: " + id + " (" + num + ")");
 	}
 
 	private void removeAllItems(L2PcInstance activeChar)

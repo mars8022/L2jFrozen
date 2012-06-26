@@ -68,7 +68,7 @@ public final class Rnd
 	{
 		private final Random _random;
 		
-		private RandomContainer(final Random random)
+		protected RandomContainer(final Random random)
 		{
 			_random = random;
 		}
@@ -320,7 +320,7 @@ public final class Rnd
 	
 	private static final RandomContainer rnd = newInstance(RandomType.UNSECURE_THREAD_LOCAL);
 	
-	private static volatile long SEED_UNIQUIFIER = 8682522807148012L;
+	protected static volatile long SEED_UNIQUIFIER = 8682522807148012L;
 	
 	public static final Random directRandom()
 	{

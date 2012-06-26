@@ -27,11 +27,14 @@ import com.l2jfrozen.gameserver.geo.util.ObjectPool;
 
 public final class BinaryNodeHeap
 {
-	private final Node[] _list = new Node[800 + 1];
-	private final L2FastSet<Node> _set = new L2FastSet<Node>();
-	private int _size = 0;
+	protected final Node[] _list = new Node[800 + 1];
+	protected final L2FastSet<Node> _set = new L2FastSet<Node>();
+	protected int _size = 0;
 
-	private BinaryNodeHeap() {}
+	protected BinaryNodeHeap()
+	{
+		
+	}
 
 	public void add(Node n)
 	{

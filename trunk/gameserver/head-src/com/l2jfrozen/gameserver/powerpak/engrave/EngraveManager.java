@@ -20,20 +20,20 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class EngraveManager
 {
-	private Connection _con = null;
+	protected Connection _con = null;
 	protected static final Logger _log = Logger.getLogger(EngraveManager.class.getName());
 	public static boolean LOG_ITEMS = Config.LOG_ITEMS;
 	private PreparedStatement LOG_UPDATE;
 	private PreparedStatement LOG_DELETE;
 	private PreparedStatement ITEM_INSERT;
 	private PreparedStatement ITEM_DELETE;
-	private PreparedStatement LOG_READ;
+	protected PreparedStatement LOG_READ;
 	private PreparedStatement LOG_CLEANUP0;
 	private PreparedStatement LOG_CLEANUP1;
 	private PreparedStatement LOG_CLEANUP2;
 	private final Map<Integer, int[]> _engravedItems;
 	
-	private EngraveManager()
+	protected EngraveManager()
 	{
 		_engravedItems = new FastMap<Integer, int[]>();
 		try
@@ -302,12 +302,12 @@ public class EngraveManager
 					LOG_UPDATE.setString(5, actor.getName());
 					LOG_UPDATE.setString(6, reference.getName());
 				}
-				else if (process.compareToIgnoreCase("pickup") == 0)
+				else if ((reference != null) && (process.compareToIgnoreCase("pickup") == 0))
 				{
 					LOG_UPDATE.setString(6, reference.getName());
 					LOG_UPDATE.setString(5, "");
 				}
-				else if (process.compareToIgnoreCase("drop") == 0)
+				else if ((actor != null) && (process.compareToIgnoreCase("drop") == 0))
 				{
 					LOG_UPDATE.setString(5, actor.getName());
 					LOG_UPDATE.setString(6, "");
@@ -320,7 +320,6 @@ public class EngraveManager
 				_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
 				e.printStackTrace();
 			}
-			
 		}
 	}
 	
@@ -329,7 +328,6 @@ public class EngraveManager
 		return SingletonHolder._instance;
 	}
 	
-	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
 		protected static final EngraveManager _instance = new EngraveManager();

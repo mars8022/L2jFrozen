@@ -45,8 +45,9 @@ public final class GeoPathFinding extends PathFinding
 {
 	protected static final Logger _log = Logger.getLogger(GeoPathFinding.class.getName());
 	
-	private static final class SingletonHolder {
-		private static final GeoPathFinding INSTANCE = new GeoPathFinding();
+	private static final class SingletonHolder
+	{
+		protected static final GeoPathFinding INSTANCE = new GeoPathFinding();
 	}
 	
 	public static GeoPathFinding getInstance()
@@ -263,7 +264,7 @@ public final class GeoPathFinding extends PathFinding
 		return new GeoNode(node_x, node_y, last_z, idx2);
 	}
 
-	private GeoPathFinding()
+	protected GeoPathFinding()
 	{
 		FileReader reader = null;
 		BufferedReader buff = null;

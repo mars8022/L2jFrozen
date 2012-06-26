@@ -24,6 +24,7 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -138,13 +139,7 @@ public abstract class IdFactory
         }
         finally
         {
-            try
-            {
-                con2.close();
-            }
-            catch (Exception e)
-            {
-            }
+        	CloseUtil.close(con2);
         }
     }
 
@@ -205,13 +200,7 @@ public abstract class IdFactory
         }
         finally
         {
-            try
-            {
-                conn.close();
-            }
-            catch (Exception e)
-            {
-            }
+        	CloseUtil.close(conn);
         }
     }
 
@@ -267,7 +256,7 @@ public abstract class IdFactory
         }
         finally
         {
-            try { con.close(); } catch (Exception e) {}
+        	CloseUtil.close(con);
         }
     }
 

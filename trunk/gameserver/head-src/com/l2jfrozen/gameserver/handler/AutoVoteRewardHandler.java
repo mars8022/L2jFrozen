@@ -21,14 +21,14 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AutoVoteRewardHandler
 {
-	private static Logger _log = Logger.getLogger(AutoVoteRewardHandler.class.getName());
+	protected static final Logger _log = Logger.getLogger(AutoVoteRewardHandler.class.getName());
 
 	private int hopzoneVotesCount = 0;
 	private int topzoneVotesCount = 0;
-	private List<String> already_rewarded;
+	protected List<String> already_rewarded;
 	
-	private static boolean topzone = false;
-	private static boolean hopzone = false;
+	protected static boolean topzone = false;
+	protected static boolean hopzone = false;
 	
 	private AutoVoteRewardHandler()
 	{
@@ -57,7 +57,7 @@ public class AutoVoteRewardHandler
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoReward(), PowerPakConfig.VOTES_SYSYEM_INITIAL_DELAY, PowerPakConfig.VOTES_SYSYEM_STEP_DELAY);
 	}
 
-	private class AutoReward implements Runnable
+	protected class AutoReward implements Runnable
 	{
 		@Override
 		public void run()
@@ -171,7 +171,7 @@ public class AutoVoteRewardHandler
 		}
 	}
 
-	private boolean checkSingleBox(L2PcInstance player){
+	protected boolean checkSingleBox(L2PcInstance player){
 		
 		if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed() && !player.isOffline()){
 			
@@ -187,7 +187,7 @@ public class AutoVoteRewardHandler
 		return false;
 	}
 	
-	private int getHopZoneVotes()
+	protected int getHopZoneVotes()
 	{
 		int votes = -1;
 		URL url = null;
@@ -253,7 +253,7 @@ public class AutoVoteRewardHandler
 		return votes;
 	}
 
-	private int getTopZoneVotes()
+	protected int getTopZoneVotes()
 	{
 		int votes = -1;
 		URL url = null;
@@ -320,22 +320,22 @@ public class AutoVoteRewardHandler
 		return votes;
 	}
 	
-	private void setHopZoneVoteCount(int voteCount)
+	protected void setHopZoneVoteCount(int voteCount)
 	{
 		hopzoneVotesCount = voteCount;
 	}
 
-	private int getHopZoneVoteCount()
+	protected int getHopZoneVoteCount()
 	{
 		return hopzoneVotesCount;
 	}
 
-	private void setTopZoneVoteCount(int voteCount)
+	protected void setTopZoneVoteCount(int voteCount)
 	{
 		topzoneVotesCount = voteCount;
 	}
 
-	private int getTopZoneVoteCount()
+	protected int getTopZoneVoteCount()
 	{
 		return topzoneVotesCount;
 	}

@@ -202,7 +202,10 @@ public class SkillTreeTable
 		{
 			_fishingSkillTrees = new FastList<L2SkillLearn>();
 			_expandDwarfCraftSkillTrees = new FastList<L2SkillLearn>();
-
+			if (con == null)
+			{
+				con = L2DatabaseFactory.getInstance().getConnection(false);
+			}
 			final PreparedStatement statement = con.prepareStatement("SELECT skill_id, level, name, sp, min_level, costid, cost, isfordwarf FROM fishing_skill_trees ORDER BY skill_id, level");
 			final ResultSet skilltree2 = statement.executeQuery();
 
@@ -251,7 +254,10 @@ public class SkillTreeTable
 		try
 		{
 			_enchantSkillTrees = new FastList<L2EnchantSkillLearn>();
-
+			if (con == null)
+			{
+				con = L2DatabaseFactory.getInstance().getConnection(false);
+			}
 			final PreparedStatement statement = con.prepareStatement("SELECT skill_id, level, name, base_lvl, sp, min_skill_lvl, exp, success_rate76, success_rate77, success_rate78 FROM enchant_skill_trees ORDER BY skill_id, level");
 			final ResultSet skilltree3 = statement.executeQuery();
 
@@ -292,7 +298,10 @@ public class SkillTreeTable
 		try
 		{
 			_pledgeSkillTrees = new FastList<L2PledgeSkillLearn>();
-
+			if (con == null)
+			{
+				con = L2DatabaseFactory.getInstance().getConnection(false);
+			}
 			final PreparedStatement statement = con.prepareStatement("SELECT skill_id, level, name, clan_lvl, repCost, itemId FROM pledge_skill_trees ORDER BY skill_id, level");
 			final ResultSet skilltree4 = statement.executeQuery();
 
