@@ -16,11 +16,6 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-
-/**
- * @author godson
- */
-
 package com.l2jfrozen.gameserver.model.entity;
 
 import java.sql.Connection;
@@ -52,18 +47,21 @@ import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
+/**
+ * @author godson
+ */
 public class Hero
 {
-	private static Logger _log = Logger.getLogger(Hero.class.getName());
+	private static final Logger _log = Logger.getLogger(Hero.class.getName());
 	
 	private static final String GET_HEROES = "SELECT * FROM heroes WHERE played = 1";
 	private static final String GET_ALL_HEROES = "SELECT * FROM heroes";
 	private static final String UPDATE_ALL = "UPDATE heroes SET played = 0";
 	private static final String INSERT_HERO = "INSERT INTO heroes VALUES (?,?,?,?,?)";
-	private static final String UPDATE_HERO = "UPDATE heroes SET count = ?, played = ?" + " WHERE char_id = ?";
-	private static final String GET_CLAN_ALLY = "SELECT characters.clanid AS clanid, coalesce(clan_data.ally_Id, 0) AS allyId FROM characters LEFT JOIN clan_data ON clan_data.clan_id = characters.clanid " + " WHERE characters.obj_Id = ?";
+	private static final String UPDATE_HERO = "UPDATE heroes SET count = ?, played = ? WHERE char_id = ?";
+	private static final String GET_CLAN_ALLY = "SELECT characters.clanid AS clanid, coalesce(clan_data.ally_Id, 0) AS allyId FROM characters LEFT JOIN clan_data ON clan_data.clan_id = characters.clanid WHERE characters.obj_Id = ?";
 	private static final String GET_CLAN_NAME = "SELECT clan_name FROM clan_data WHERE clan_id = (SELECT clanid FROM characters WHERE char_name = ?)";
-	private static final String DELETE_ITEMS = "DELETE FROM items WHERE item_id IN " + "(6842, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621) " + "AND owner_id NOT IN (SELECT obj_id FROM characters WHERE accesslevel > 0)";
+	private static final String DELETE_ITEMS = "DELETE FROM items WHERE item_id IN (6842, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621) AND owner_id NOT IN (SELECT obj_id FROM characters WHERE accesslevel > 0)";
 	
 	private static final int[] _heroItems =
 	{
@@ -81,8 +79,8 @@ public class Hero
 		6621
 	};
 	
-	private static Map<Integer, StatsSet> _heroes = new FastMap<Integer, StatsSet>();
-	private static Map<Integer, StatsSet> _completeHeroes;
+	private static final FastMap<Integer, StatsSet> _heroes = new FastMap<Integer, StatsSet>();
+	private static final FastMap<Integer, StatsSet> _completeHeroes = new FastMap<Integer, StatsSet>();
 	
 	public static final String COUNT = "count";
 	public static final String PLAYED = "played";
@@ -96,15 +94,17 @@ public class Hero
 		return SingletonHolder._instance;
 	}
 	
-	public Hero()
+	protected Hero()
 	{
+		_heroes.shared();
+		_completeHeroes.shared();
 		init();
 	}
 	
-	private synchronized void init()
+	private void init()
 	{
 		_heroes.clear();
-		_completeHeroes = new FastMap<Integer, StatsSet>();
+		_completeHeroes.clear();
 		
 		Connection con = null;
 		try
@@ -261,7 +261,7 @@ public class Hero
 		_log.info("Hero System: Loaded " + _completeHeroes.size() + " all time Heroes.");
 	}
 	
-	public synchronized Map<Integer, StatsSet> getHeroes()
+	public Map<Integer, StatsSet> getHeroes()
 	{
 		return _heroes;
 	}
@@ -310,7 +310,6 @@ public class Hero
 					}
 					
 					player.sendPacket(iu);
-					iu = null;
 					
 					items = player.getInventory().unEquipItemInBodySlotAndRecord(L2Item.SLOT_HAIR);
 					iu = new InventoryUpdate();
@@ -321,7 +320,6 @@ public class Hero
 					}
 					
 					player.sendPacket(iu);
-					iu = null;
 					
 					items = player.getInventory().unEquipItemInBodySlotAndRecord(L2Item.SLOT_FACE);
 					iu = new InventoryUpdate();
@@ -332,7 +330,6 @@ public class Hero
 					}
 					
 					player.sendPacket(iu);
-					iu = null;
 					
 					items = player.getInventory().unEquipItemInBodySlotAndRecord(L2Item.SLOT_DHAIR);
 					iu = new InventoryUpdate();
@@ -343,7 +340,6 @@ public class Hero
 					}
 					
 					player.sendPacket(iu);
-					iu = null;
 					
 					for (L2ItemInstance item : player.getInventory().getAvailableItems(false))
 					{
@@ -393,6 +389,7 @@ public class Hero
 				int count = oldHero.getInteger(COUNT);
 				oldHero.set(COUNT, count + 1);
 				oldHero.set(PLAYED, 1);
+				heroes.put(charId, oldHero);
 			}
 			else
 			{
@@ -401,7 +398,6 @@ public class Hero
 				newHero.set(Olympiad.CLASS_ID, hero.getInteger(Olympiad.CLASS_ID));
 				newHero.set(COUNT, 1);
 				newHero.set(PLAYED, 1);
-				
 				heroes.put(charId, newHero);
 			}
 		}
@@ -483,7 +479,7 @@ public class Hero
 		}
 	}
 	
-	public synchronized void updateHeroes(boolean setDefault)
+	public void updateHeroes(boolean setDefault)
 	{
 		Connection con = null;
 		try
@@ -504,7 +500,7 @@ public class Hero
 				{
 					hero = entry.getValue();
 					heroId = entry.getKey();
-					if ((_completeHeroes == null) || !_completeHeroes.containsKey(heroId))
+					if (!_completeHeroes.containsKey(heroId))
 					{
 						statement = con.prepareStatement(INSERT_HERO);
 						statement.setInt(1, heroId);
@@ -589,7 +585,6 @@ public class Hero
 	private void deleteItemsInDb()
 	{
 		Connection con = null;
-		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
