@@ -22,9 +22,8 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 
 /**
- * Character Sub-Class Definition <BR>
+ * Character Sub-Class Definition.<br>
  * Used to store key information about a character's sub-class.
- * 
  * @author programmos, l2jfrozen dev
  */
 public final class SubClass
@@ -32,7 +31,7 @@ public final class SubClass
 	private PlayerClass _class;
 	private long _exp = ExperienceData.getInstance().getExpForLevel(Config.BASE_SUBCLASS_LEVEL);
 	private int _sp = 0;
-	private int _level = 40;
+	private int _level = Config.BASE_SUBCLASS_LEVEL;
 	private int _classIndex = 1;
 
 	public SubClass(int classId, long exp, int sp, byte level, int classIndex)
