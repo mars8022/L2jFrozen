@@ -25,9 +25,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 
 public class AllyInfo extends L2GameServerPacket
 {
-	//private static Logger _log = Logger.getLogger(AllyInfo.class.getName());
 	private static final String _S__7A_FRIENDLIST = "[S] 7a AllyInfo";
-	private static L2PcInstance _cha;
+	private L2PcInstance _cha;
 
 	public AllyInfo(L2PcInstance cha)
 	{

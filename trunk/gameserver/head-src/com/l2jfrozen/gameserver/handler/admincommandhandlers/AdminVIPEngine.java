@@ -84,7 +84,7 @@ public class AdminVIPEngine implements IAdminCommandHandler
 
 		else if(command.startsWith("admin_vip_randomteam"))
 		{
-			if(VIP._started == true || VIP._joining == true)
+			if(VIP._started || VIP._joining)
 			{
 				activeChar.sendMessage("Cannot change variables when event has already started");
 				return false;

@@ -103,7 +103,7 @@ public class IceFairySirra extends Quest implements Runnable
 			String filename = "";
 			if(player.isInParty() && player.getParty().getPartyLeaderOID() == player.getObjectId())
 			{		
-				if(checkItems(player) == true)
+				if(checkItems(player))
 				{
 					startQuestTimer("start", 100000, null, player);
 					_player = player;

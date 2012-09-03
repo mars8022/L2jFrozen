@@ -176,21 +176,7 @@ public final class L2RaidBossInstance extends L2MonsterInstance
 	{
 		return _raidStatus;
 	}
-
-	/**
-	 * Reduce the current HP of the L2Attackable, update its _aggroList and launch the doDie Task if necessary.<BR>
-	 * <BR>
-	 *
-	 * @param damage the damage
-	 * @param attacker the attacker
-	 * @param awake the awake
-	 */
-	@Override
-	public void reduceCurrentHp(double damage, L2Character attacker, boolean awake)
-	{
-		super.reduceCurrentHp(damage, attacker, awake);
-	}
-
+	
 	/**
 	 * Heal full.
 	 */

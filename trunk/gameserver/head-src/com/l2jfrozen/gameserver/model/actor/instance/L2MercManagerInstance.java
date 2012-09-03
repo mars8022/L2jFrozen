@@ -104,7 +104,7 @@ public final class L2MercManagerInstance extends L2FolkInstance
 
 			if(actualCommand.equalsIgnoreCase("hire"))
 			{
-				if(val == "")
+				if(val.isEmpty())
 					return;
 
 				showBuyWindow(player, Integer.parseInt(val));

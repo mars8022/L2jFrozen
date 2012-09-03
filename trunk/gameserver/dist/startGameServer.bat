@@ -54,7 +54,7 @@ echo Send you bug to : http://www.l2jfrozen.com
 echo .
 :error
 echo.
-echo Server terminated abnormaly
+echo Server terminated abnormally
 echo Send you bug to : http://www.l2jfrozen.com
 echo.
 :end

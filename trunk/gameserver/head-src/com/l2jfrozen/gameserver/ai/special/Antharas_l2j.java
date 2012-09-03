@@ -98,7 +98,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	
 	// Tasks.
 	protected ScheduledFuture<?> _cubeSpawnTask = null;
-	protected ScheduledFuture<?> _monsterSpawnTask = null;
+	protected volatile ScheduledFuture<?> _monsterSpawnTask = null;
 	protected ScheduledFuture<?> _activityCheckTask = null;
 	protected ScheduledFuture<?> _socialTask = null;
 	protected ScheduledFuture<?> _mobiliseTask = null;

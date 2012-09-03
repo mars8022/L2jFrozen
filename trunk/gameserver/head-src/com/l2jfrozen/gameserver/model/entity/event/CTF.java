@@ -1479,7 +1479,6 @@ public class CTF implements EventTask
 
 			for(int i=0;i<loopCount;i++)
 			{
-				if(_playersShuffle != null)
 					playersShuffleTemp.add(_playersShuffle.get(i));
 			}
 
@@ -2396,8 +2395,8 @@ public class CTF implements EventTask
 		synchronized(_players){
 			for(L2PcInstance player : _players)
 			{
-				if(player != null && (player.isOnline() != 0) && (player._inEventCTF == true)){
-					
+				if(player != null && (player.isOnline() != 0) && (player._inEventCTF))
+				{
 					if(teamName!=null && (player._teamNameCTF.equals(teamName)) ){
 						
 						player.addItem(_eventName+" Event: " + _eventName, _rewardId, _rewardAmount, player, true);
@@ -2763,7 +2762,7 @@ public class CTF implements EventTask
 		long interval = totalTime - actualTime;
 		int seconds = (int) (interval / 1000);
 
-		return Math.round(seconds / 60);
+		return seconds / 60;
 	}
 	
 	@Override
@@ -2903,7 +2902,7 @@ public class CTF implements EventTask
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.info(""+"CTF Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception: " + e.getStackTrace());
+			_log.info("CTF Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception: " + e.getStackTrace());
 		}
 	}
 

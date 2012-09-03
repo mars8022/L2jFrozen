@@ -181,13 +181,12 @@ public class AdminWalker implements IAdminCommandHandler
 	private void setPoint(int x, int y, int z)
 	{
 		Connection con = null;
-
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 
-			if(_text == "")
+			if(_text.isEmpty())
 			{
 				statement = con.prepareStatement("INSERT INTO `lineage`.`walker_routes` (`route_id` ,`npc_id` ,`move_point` ,`chatText` ,`move_x` ,`move_y` ,`move_z` ,`delay` ,`running` )" + "VALUES (?, ?, ?, NULL, ?, ?, ?, ?, ?);");
 				statement.setInt(1, _routeid);
@@ -214,7 +213,6 @@ public class AdminWalker implements IAdminCommandHandler
 			}
 			statement.execute();
 			statement.close();
-			statement = null;
 		}
 		catch(Exception e)
 		{
@@ -224,7 +222,6 @@ public class AdminWalker implements IAdminCommandHandler
 		finally
 		{
 			CloseUtil.close(con);
-			
 		}
 	}
 
@@ -245,9 +242,6 @@ public class AdminWalker implements IAdminCommandHandler
 		sb.append("</body></html>");
 		html.setHtml(sb.toString());
 		activeChar.sendPacket(html);
-
-		html = null;
-		sb = null;
 	}
 
 	/**
@@ -272,7 +266,7 @@ public class AdminWalker implements IAdminCommandHandler
 			sb.append("Mode: Step<br>");
 		}
 
-		if(_text == "")
+		if(_text.isEmpty())
 		{
 			sb.append("The phrase is not established<br>");
 		}
@@ -289,8 +283,5 @@ public class AdminWalker implements IAdminCommandHandler
 		sb.append("</body></html>");
 		html.setHtml(sb.toString());
 		activeChar.sendPacket(html);
-
-		html = null;
-		sb = null;
 	}
 }

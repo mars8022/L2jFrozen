@@ -3087,16 +3087,7 @@ public class L2NpcInstance extends L2Character
 			}
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.model.L2Character#onSpawn()
-	 */
-	@Override
-	public void onSpawn()
-	{
-		super.onSpawn();
-	}
-
+	
 	/**
 	 * Remove the L2NpcInstance from the world and update its spawn object (for a complete removal use the deleteMe
 	 * method).<BR>

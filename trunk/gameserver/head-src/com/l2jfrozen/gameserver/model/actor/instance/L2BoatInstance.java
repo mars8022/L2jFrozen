@@ -543,15 +543,10 @@ public class L2BoatInstance extends L2Character
 						player.revalidateZone(false);
 					}
 				}
-				if(check == true)
+				
+				if(check && needOnVehicleCheckLocation && (player != null))
 				{
-					if(needOnVehicleCheckLocation == true)
-					{
-						if (player != null)
-						{
-							player.sendPacket(new OnVehicleCheckLocation(this, x, y, z));
-						}
-					}
+					player.sendPacket(new OnVehicleCheckLocation(this, x, y, z));
 				}
 			}
 		}

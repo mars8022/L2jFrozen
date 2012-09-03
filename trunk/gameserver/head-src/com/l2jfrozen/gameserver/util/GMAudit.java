@@ -33,11 +33,11 @@ public class GMAudit
 	}
 	
 	private static final Logger _log = Logger.getLogger(Log.class.getName());
-	private static final SimpleDateFormat _formatter = new SimpleDateFormat("dd/MM/yyyy H:mm:ss");
 	
 	public static void auditGMAction(String gmName, String action, String target, String params)
 	{
-		String today = _formatter.format(new Date());
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy H:mm:ss");
+		String today = formatter.format(new Date());
 		
 		FileWriter save = null;
 		try

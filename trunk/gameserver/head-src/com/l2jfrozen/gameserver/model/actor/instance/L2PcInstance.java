@@ -6448,32 +6448,6 @@ private int _reviveRequested = 0;
 	}
 
 	/**
-	 * Manage hit process (called by Hit Task of L2Character).<BR>
-	 * <BR>
-	 * <B><U> Actions</U> :</B><BR>
-	 * <BR>
-	 * <li>If the attacker/target is dead or use fake death, notify the AI with EVT_CANCEL and send a Server->Client
-	 * packet ActionFailed (if attacker is a L2PcInstance)</li> <li>If attack isn't aborted, send a message system
-	 * (critical hit, missed...) to attacker/target if they are L2PcInstance</li> <li>If attack isn't aborted and hit
-	 * isn't missed, reduce HP of the target and calculate reflection damage to reduce HP of attacker if necessary</li>
-	 * <li>if attack isn't aborted and hit isn't missed, manage attack or cast break of the target (calculating rate,
-	 * sending message...)</li><BR>
-	 * <BR>
-	 * 
-	 * @param target The L2Character targeted
-	 * @param damage Nb of HP to reduce
-	 * @param crit True if hit is critical
-	 * @param miss True if hit is missed
-	 * @param soulshot True if SoulShot are charged
-	 * @param shld True if shield is efficient
-	 */
-	@Override
-	protected void onHitTimer(L2Character target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld)
-	{
-		super.onHitTimer(target, damage, crit, miss, soulshot, shld);
-	}
-
-	/**
 	 * Send a Server->Client packet StatusUpdate to the L2PcInstance.<BR>
 	 * <BR>
 	 *
@@ -7165,7 +7139,7 @@ private int _reviveRequested = 0;
 	 */
 	public void EngageAnswer(int answer)
 	{
-		if(_engagerequest == false)
+		if(!_engagerequest)
 			return;
 		else if(_engageid == 0)
 			return;
@@ -15478,9 +15452,9 @@ private int _reviveRequested = 0;
 		if(_reviveRequested != 1 || !isDead() && !_revivePet || _revivePet && getPet() != null && !getPet().isDead())
 			return;
 		//If character refuse a PhoenixBlessed autoress, cancel all buffs he had
-		if(answer == 0 && ((L2PlayableInstance) this).isPhoenixBlessed())
+		if(answer == 0 && isPhoenixBlessed())
 		{
-			((L2PlayableInstance) this).stopPhoenixBlessing(null);
+			stopPhoenixBlessing(null);
 			stopAllEffects();
 		}
 		if(answer == 1)
@@ -18276,7 +18250,7 @@ public boolean dismount()
 				break;
 
 			case 5:
-				color = new StringBuilder().append("0").append(color).toString();
+				color = new StringBuilder().append('0').append(color).toString();
 				break;
 		}
 		return color;
@@ -18643,9 +18617,7 @@ public boolean dismount()
 			
 			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
 			final Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
-			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
-
-			for(L2PcInstance player : players)
+			for(L2PcInstance player : allPlayers)
 			{
 				if(player != null)
 				{

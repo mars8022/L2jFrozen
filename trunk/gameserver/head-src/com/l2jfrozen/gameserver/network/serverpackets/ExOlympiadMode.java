@@ -31,7 +31,7 @@ public class ExOlympiadMode extends L2GameServerPacket
 	private static final String _S__FE_2B_OLYMPIADMODE = "[S] FE:2B ExOlympiadMode";
 	
 	/** The _mode. */
-	private static int _mode;
+	private int _mode;
 
 	/**
 	 * Instantiates a new ex olympiad mode.
@@ -42,10 +42,7 @@ public class ExOlympiadMode extends L2GameServerPacket
 	{
 		_mode = mode;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
-	 */
+	
 	@Override
 	protected final void writeImpl()
 	{

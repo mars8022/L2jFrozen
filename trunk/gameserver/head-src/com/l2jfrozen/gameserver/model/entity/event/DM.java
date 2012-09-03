@@ -2230,7 +2230,7 @@ public static void addPlayer(L2PcInstance player)
 		long interval = totalTime - actualTime;
 		int seconds = (int) (interval / 1000);
 
-		return Math.round(seconds / 60);
+		return seconds / 60;
 	}
 
 	/**

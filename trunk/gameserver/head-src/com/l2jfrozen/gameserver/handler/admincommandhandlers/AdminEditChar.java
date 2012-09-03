@@ -1223,7 +1223,7 @@ public class AdminEditChar implements IAdminCommandHandler
 		}
 		else if(CharactersFound == 1)
 		{
-			replyMSG.append(".");
+			replyMSG.append('.');
 		}
 		else
 		{
@@ -1371,7 +1371,7 @@ public class AdminEditChar implements IAdminCommandHandler
 		}
 		else if(CharactersFound == 1)
 		{
-			replyMSG.append(".");
+			replyMSG.append('.');
 		}
 		else
 		{

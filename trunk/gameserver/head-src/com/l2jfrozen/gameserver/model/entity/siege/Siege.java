@@ -179,28 +179,28 @@ public class Siege
 				}
 				else if(timeRemaining <= 3600000 && timeRemaining > 600000)
 				{
-					announceToPlayer(Math.round(timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege conclusion.", true);
+					announceToPlayer((timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege conclusion.", true);
 
 					// Prepare task for 10 minute left.
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(_castleInst), timeRemaining - 600000);
 				}
 				else if(timeRemaining <= 600000 && timeRemaining > 300000)
 				{
-					announceToPlayer(Math.round(timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege conclusion.", true);
+					announceToPlayer((timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege conclusion.", true);
 
 					// Prepare task for 5 minute left.
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(_castleInst), timeRemaining - 300000);
 				}
 				else if(timeRemaining <= 300000 && timeRemaining > 10000)
 				{
-					announceToPlayer(Math.round(timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege conclusion.", true);
+					announceToPlayer((timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege conclusion.", true);
 
 					// Prepare task for 10 seconds count down
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(_castleInst), timeRemaining - 10000);
 				}
 				else if(timeRemaining <= 10000 && timeRemaining > 0)
 				{
-					announceToPlayer(getCastle().getName() + " siege " + Math.round(timeRemaining / 1000) + " second(s) left!", true);
+					announceToPlayer(getCastle().getName() + " siege " + (timeRemaining / 1000) + " second(s) left!", true);
 
 					// Prepare task for second count down
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(_castleInst), timeRemaining);
@@ -266,28 +266,28 @@ public class Siege
 				}
 				else if(timeRemaining <= 13600000 && timeRemaining > 600000)
 				{
-					announceToPlayer(Math.round(timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege begin.", false);
+					announceToPlayer((timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege begin.", false);
 
 					// Prepare task for 10 minute left.
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleStartSiegeTask(_castleInst), timeRemaining - 600000);
 				}
 				else if(timeRemaining <= 600000 && timeRemaining > 300000)
 				{
-					announceToPlayer(Math.round(timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege begin.", false);
+					announceToPlayer((timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege begin.", false);
 
 					// Prepare task for 5 minute left.
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleStartSiegeTask(_castleInst), timeRemaining - 300000);
 				}
 				else if(timeRemaining <= 300000 && timeRemaining > 10000)
 				{
-					announceToPlayer(Math.round(timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege begin.", false);
+					announceToPlayer((timeRemaining / 60000) + " minute(s) until " + getCastle().getName() + " siege begin.", false);
 
 					// Prepare task for 10 seconds count down
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleStartSiegeTask(_castleInst), timeRemaining - 10000);
 				}
 				else if(timeRemaining <= 10000 && timeRemaining > 0)
 				{
-					announceToPlayer(getCastle().getName() + " siege " + Math.round(timeRemaining / 1000) + " second(s) to start!", false);
+					announceToPlayer(getCastle().getName() + " siege " + (timeRemaining / 1000) + " second(s) to start!", false);
 
 					// Prepare task for second count down
 					ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleStartSiegeTask(_castleInst), timeRemaining);

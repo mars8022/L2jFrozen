@@ -632,7 +632,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 
 		for(int i = 0; i < teamnumbers; i++)
 		{
-			replyMSG.append(i + 1 + ".- <edit var=\"event_teams_name" + (i + 1) + "\" width=100 height=20><br>");
+			replyMSG.append((i + 1) + ".- <edit var=\"event_teams_name" + (i + 1) + "\" width=100 height=20><br>");
 		}
 
 		replyMSG.append("<br><br>Announcer NPC id<edit var=\"event_npcid\" width=100 height=20><br><br><button value=\"Announce Event!!\" " + "action=\"bypass -h admin_event_announce $event_npcid " + teamnumbers + " ");

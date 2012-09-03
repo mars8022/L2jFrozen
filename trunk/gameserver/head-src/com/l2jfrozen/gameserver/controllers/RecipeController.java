@@ -575,7 +575,7 @@ public class RecipeController
 
 			for(L2RecipeInstance recipe : recipes)
 			{
-				int quantity = _recipeList.isConsumable() ? (int) (recipe.getQuantity() * Config.RATE_CONSUMABLE_COST) : (int) recipe.getQuantity();
+				int quantity = _recipeList.isConsumable() ? (int) (recipe.getQuantity() * Config.RATE_CONSUMABLE_COST) : recipe.getQuantity();
 
 				if(quantity > 0)
 				{

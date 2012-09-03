@@ -228,17 +228,14 @@ public class L2Potion extends L2Object
 	public void setCurrentMpPotion1(L2Character activeChar, int item)
 	{
 		_potion = item;
-//		_target = activeChar;
-
-		switch(_potion)
-		{
+		//_target = activeChar;
+		//
+		//switch(_potion)
+		//{
 		//null
-		}
+		//}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.model.L2Object#isAttackable()
-	 */
+	
 	@Override
 	public boolean isAutoAttackable(L2Character attacker)
 	{

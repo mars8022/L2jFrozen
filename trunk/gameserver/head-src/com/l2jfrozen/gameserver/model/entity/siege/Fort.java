@@ -92,7 +92,7 @@ public class Fort
 	 */
 	public void addToTreasury(int amount)
 	{
-		return;
+		// TODO: Implement?
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class Fort
 				door.spawnMe(door.getX(), door.getY(), door.getZ());
 				getDoors().set(i, door);
 			}
-			else if(door.getOpen() == false)
+			else if(!door.getOpen())
 			{
 				door.closeMe();
 			}

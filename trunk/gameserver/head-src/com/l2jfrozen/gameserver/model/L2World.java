@@ -298,10 +298,7 @@ public final class L2World
 	 */
 	public Collection<L2PcInstance> getAllPlayers()
 	{
-		synchronized(_allPlayers){
-			return _allPlayers.values();
-		}
-		
+		return _allPlayers.values();
 	}
 
 	/**
@@ -312,25 +309,17 @@ public final class L2World
 	 */
 	public static Integer getAllPlayersCount()
 	{
-		synchronized(_allPlayers){
-			return _allPlayers.size();
-		}
-		
+		return _allPlayers.size();
 	}
 
 	/**
-	 * Return the player instance corresponding to the given name.<BR>
-	 * <BR>
-	 *
+	 * Return the player instance corresponding to the given name.
 	 * @param name Name of the player to get Instance
 	 * @return the player
 	 */
 	public L2PcInstance getPlayer(String name)
 	{
-		synchronized(_allPlayers){
-			return _allPlayers.get(name.toLowerCase());
-		}
-		
+		return _allPlayers.get(name.toLowerCase());
 	}
 	
 	/**
@@ -341,13 +330,13 @@ public final class L2World
 	 */
 	public L2PcInstance getPlayer(int playerObjId)
 	{
-		synchronized(_allPlayers){
-			for(L2PcInstance actual:_allPlayers.values())
-				if(actual.getObjectId()==playerObjId)
-					return actual;
-			
+		for(L2PcInstance actual:_allPlayers.values())
+		{
+			if(actual.getObjectId() == playerObjId)
+			{
+				return actual;
+			}
 		}
-		
 		return null;
 	}
 
@@ -452,12 +441,7 @@ public final class L2World
 		if(object instanceof L2PcInstance)
 		{
 			L2PcInstance player = (L2PcInstance) object;
-			L2PcInstance tmp = null;
-			
-			synchronized(_allPlayers){
-				tmp =_allPlayers.get(player.getName().toLowerCase());
-			}
-			
+			L2PcInstance tmp =_allPlayers.get(player.getName().toLowerCase());
 			if(tmp != null && tmp != player) //just kick the player previous instance
 			{
 				tmp.store(); // Store character and items
@@ -587,17 +571,12 @@ public final class L2World
 	}
 
 	/**
-	 * Add the L2PcInstance to _allPlayers of L2World.<BR>
-	 * <BR>
-	 *
+	 * Add the L2PcInstance to _allPlayers of L2World.
 	 * @param cha the cha
 	 */
 	public void addToAllPlayers(L2PcInstance cha)
 	{
-		synchronized(_allPlayers){
-			_allPlayers.put(cha.getName().toLowerCase(), cha);
-		}
-		
+		_allPlayers.put(cha.getName().toLowerCase(), cha);
 	}
 
 	/**
@@ -617,11 +596,7 @@ public final class L2World
 			{
 				_log.info("Removed player: "+cha.getName().toLowerCase());
 		    }
-			
-			synchronized(_allPlayers){
-				_allPlayers.remove(cha.getName().toLowerCase());
-			}
-				
+			_allPlayers.remove(cha.getName().toLowerCase());
 		}
 	}
 	
@@ -1130,16 +1105,11 @@ public final class L2World
 	public FastList<L2PcInstance> getAccountPlayers(String account_name){
 		
 		FastList<L2PcInstance> players_for_account = new FastList<L2PcInstance>();
-		
-		synchronized(_allPlayers){
-			
-			for(L2PcInstance actual:_allPlayers.values()){
-				if(actual.getAccountName().equals(account_name))
-					players_for_account.add(actual);
-			}
-			
+		for(L2PcInstance actual:_allPlayers.values())
+		{
+			if(actual.getAccountName().equals(account_name))
+				players_for_account.add(actual);
 		}
-		
 		return players_for_account;
 	}
 }

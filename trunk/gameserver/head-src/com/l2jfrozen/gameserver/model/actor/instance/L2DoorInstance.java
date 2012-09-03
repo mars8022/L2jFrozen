@@ -188,20 +188,14 @@ public class L2DoorInstance extends L2Character
 		{
 		//null;
 		}
-
-		/* (non-Javadoc)
-		 * @see com.l2jfrozen.gameserver.model.L2Character.AIAccessor#doCast(com.l2jfrozen.gameserver.model.L2Skill)
-		 */
+		
 		@Override
 		public void doCast(L2Skill skill)
 		{
 		//null;
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.model.L2Character#getAI()
-	 */
+	
 	@Override
 	public L2CharacterAI getAI()
 	{
