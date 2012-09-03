@@ -122,9 +122,12 @@ public class PacketsFloodProtector
 		clients_nextGameTick.put(account, account_nextGameTicks);
 		
 		Boolean _punishmentInProgress = punishes_in_progress.get(account);
-		if(_punishmentInProgress == null){
+		if(_punishmentInProgress == null)
+		{
 			_punishmentInProgress = false;
-		}else if(_punishmentInProgress == true){
+		}
+		else if(_punishmentInProgress)
+		{
 			AtomicInteger actions = clients_concurrent_actions.get(account);
 			actions.decrementAndGet();
 			clients_concurrent_actions.put(account,actions);

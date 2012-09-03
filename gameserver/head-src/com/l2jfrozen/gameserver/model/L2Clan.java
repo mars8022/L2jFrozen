@@ -734,11 +734,15 @@ public class L2Clan
 		{
 			if(_level >= 2)
 			{
-				_forum = ForumsBBSManager.getInstance().getForumByName("ClanRoot").getChildByName(_name);
-
-				if(_forum == null)
+				final ForumsBBSManager fbbsm = ForumsBBSManager.getInstance();
+				final Forum clanRootForum = fbbsm.getForumByName("ClanRoot");
+				if (clanRootForum != null)
 				{
-					_forum = ForumsBBSManager.getInstance().createNewForum(_name, ForumsBBSManager.getInstance().getForumByName("ClanRoot"), Forum.CLAN, Forum.CLANMEMBERONLY, getClanId());
+					_forum = clanRootForum.getChildByName(_name);
+					if(_forum == null)
+					{
+						_forum = fbbsm.createNewForum(_name, clanRootForum, Forum.CLAN, Forum.CLANMEMBERONLY, getClanId());
+					}
 				}
 			}
 		}

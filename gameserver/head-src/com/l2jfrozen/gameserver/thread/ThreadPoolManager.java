@@ -130,7 +130,7 @@ public class ThreadPoolManager
 		_generalThreadPool = new ThreadPoolExecutor(Config.GENERAL_THREAD_CORE_SIZE, Config.GENERAL_THREAD_CORE_SIZE + 2, 5L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new PriorityThreadFactory("General Pool", Thread.NORM_PRIORITY));
 		_aiScheduledThreadPool = new ScheduledThreadPoolExecutor(Config.AI_MAX_THREAD, new PriorityThreadFactory("AISTPool", Thread.NORM_PRIORITY));
 		
-		scheduleGeneralAtFixedRate(new PurgeTask(), 10*60*1000l, 5*60*1000l);
+		scheduleGeneralAtFixedRate(new PurgeTask(), 10*60*1000L, 5*60*1000L);
 	}
 	
 	public static long validateDelay(long delay)

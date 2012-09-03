@@ -85,8 +85,8 @@ public class AdminLogin implements IAdminCommandHandler
 				String number = st.nextToken();
 				try
 				{
-					LoginServerThread.getInstance().setMaxPlayer(new Integer(number).intValue());
-					activeChar.sendMessage("maxPlayer set to " + new Integer(number).intValue());
+					LoginServerThread.getInstance().setMaxPlayer(Integer.parseInt(number));
+					activeChar.sendMessage("maxPlayer set to " + Integer.parseInt(number));
 					showMainPage(activeChar);
 				}
 				catch(NumberFormatException e)

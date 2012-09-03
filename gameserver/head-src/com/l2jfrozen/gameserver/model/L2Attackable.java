@@ -331,7 +331,7 @@ public class L2Attackable extends L2NpcInstance
 	private L2Character _overhitAttacker;
 
 	/** First CommandChannel who attacked the L2Attackable and meet the requirements **/
-	private L2CommandChannel _firstCommandChannelAttacked = null;
+	private volatile L2CommandChannel _firstCommandChannelAttacked = null;
 	private CommandChannelTimer _commandChannelTimer = null;
 	private long _commandChannelLastAttack = 0;
 	
@@ -1369,7 +1369,7 @@ public class L2Attackable extends L2NpcInstance
 
 				if(drop.getItemId() == 57)
 				{
-					deepBlueDrop *= isRaid() ? (int) 1 : (int) Config.RATE_DROP_ITEMS;
+					deepBlueDrop *= isRaid() ? 1 : Config.RATE_DROP_ITEMS;
 				}
 			}
 		}
@@ -1634,10 +1634,6 @@ public class L2Attackable extends L2NpcInstance
 		{
 			categoryDropChance *= Config.L2JMOD_CHAMPION_REWARDS;
 		}
-
-		// Round drop chance
-		categoryDropChance = Math.round(categoryDropChance);
-
 		
 		// Set our limits for chance of drop
 		if(categoryDropChance < 1)

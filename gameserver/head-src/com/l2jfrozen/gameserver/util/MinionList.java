@@ -255,7 +255,7 @@ public class MinionList
 			spawnConstant *= -1;
 		}
 
-		int newX = master.getX() + Math.round(spawnConstant);
+		int newX = master.getX() + spawnConstant;
 		spawnConstant = Rnd.nextInt(randSpawnLim);
 		//randomize +/-
 		randPlusMin = Rnd.nextInt(2);
@@ -265,7 +265,7 @@ public class MinionList
 			spawnConstant *= -1;
 		}
 
-		int newY = master.getY() + Math.round(spawnConstant);
+		int newY = master.getY() + spawnConstant;
 
 		monster.spawnMe(newX, newY, master.getZ());
 

@@ -131,6 +131,10 @@ public final class TaskManager
 		@Override
 		public boolean equals(Object object)
 		{
+			if (object == null)
+			{
+				return false;
+			}
 			return id == ((ExecutedTask) object).id;
 		}
 		

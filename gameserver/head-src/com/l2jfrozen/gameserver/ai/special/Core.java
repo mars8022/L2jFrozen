@@ -36,11 +36,9 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
- * AI РґР»СЏ РµРїРёРє Р±РѕСЃР° "Core"
- * 
+ * Core AI
  * @author qwerty
  */
-
 public class Core extends Quest implements Runnable
 {
 	private static final int CORE = 29006;

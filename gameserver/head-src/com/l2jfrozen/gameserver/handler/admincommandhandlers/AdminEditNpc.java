@@ -1018,9 +1018,9 @@ public class AdminEditNpc implements IAdminCommandHandler
 			adminReply.replace("%npcId%", String.valueOf(npc.npcId));
 			adminReply.replace("%templateId%", String.valueOf(npc.idTemplate));
 			adminReply.replace("%name%", npc.name);
-			adminReply.replace("%serverSideName%", npc.serverSideName == true ? "1" : "0");
+			adminReply.replace("%serverSideName%", npc.serverSideName ? "1" : "0");
 			adminReply.replace("%title%", npc.title);
-			adminReply.replace("%serverSideTitle%", npc.serverSideTitle == true ? "1" : "0");
+			adminReply.replace("%serverSideTitle%", npc.serverSideTitle ? "1" : "0");
 			adminReply.replace("%collisionRadius%", String.valueOf(npc.collisionRadius));
 			adminReply.replace("%collisionHeight%", String.valueOf(npc.collisionHeight));
 			adminReply.replace("%level%", String.valueOf(npc.level));
@@ -1293,12 +1293,18 @@ public class AdminEditNpc implements IAdminCommandHandler
 		replyMSG.append("<br>Notes: click[drop_id]to show the detail of drop data,click[del] to delete the drop data!");
 		replyMSG.append("<table>");
 		replyMSG.append("<tr><td>npc_id itemId category</td><td>item[id]</td><td>type</td><td>del</td></tr>");
-
+		L2Item itemTemplate;
 		for(L2DropCategory cat : npcData.getDropData())
 		{
 			for(L2DropData drop : cat.getAllDrops())
 			{
-				replyMSG.append("<tr><td><a action=\"bypass -h admin_edit_drop " + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "\">" + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "</a></td>" + "<td>" + ItemTable.getInstance().getTemplate(drop.getItemId()).getName() + "[" + drop.getItemId() + "]" + "</td><td>" + (drop.isQuestDrop() ? "Q" : cat.isSweep() ? "S" : "D") + "</td><td>" + "<a action=\"bypass -h admin_del_drop " + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "\">del</a></td></tr>");
+				itemTemplate = ItemTable.getInstance().getTemplate(drop.getItemId());
+				if (itemTemplate == null)
+				{
+					_log.warning(getClass().getSimpleName() + ": Unkown item Id: " + drop.getItemId() + " for NPC: " + npcData.npcId);
+					continue;
+				}
+				replyMSG.append("<tr><td><a action=\"bypass -h admin_edit_drop " + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "\">" + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "</a></td>" + "<td>" + itemTemplate.getName() + "[" + drop.getItemId() + "]" + "</td><td>" + (drop.isQuestDrop() ? "Q" : cat.isSweep() ? "S" : "D") + "</td><td>" + "<a action=\"bypass -h admin_del_drop " + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "\">del</a></td></tr>");
 			}
 		}
 

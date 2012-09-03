@@ -62,10 +62,10 @@ public abstract class LoginServerBasePacket
 		result |= _decrypt[_off++] << 8 & 0xff00;
 		result |= _decrypt[_off++] << 0x10 & 0xff0000;
 		result |= _decrypt[_off++] << 0x18 & 0xff000000;
-		result |= _decrypt[_off++] << 0x20 & 0xff00000000l;
-		result |= _decrypt[_off++] << 0x28 & 0xff0000000000l;
-		result |= _decrypt[_off++] << 0x30 & 0xff000000000000l;
-		result |= _decrypt[_off++] << 0x38 & 0xff00000000000000l;
+		result |= _decrypt[_off++] << 0x20 & 0xff00000000L;
+		result |= _decrypt[_off++] << 0x28 & 0xff0000000000L;
+		result |= _decrypt[_off++] << 0x30 & 0xff000000000000L;
+		result |= _decrypt[_off++] << 0x38 & 0xff00000000000000L;
 		return Double.longBitsToDouble(result);
 	}
 

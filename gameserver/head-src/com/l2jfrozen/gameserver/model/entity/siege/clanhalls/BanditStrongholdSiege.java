@@ -46,9 +46,8 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
- * @author: MHard
+ * @author MHard
  */
-
 public class BanditStrongholdSiege extends ClanHallSiege
 {
 	protected static Logger _log = Logger.getLogger(BanditStrongholdSiege.class.getName());

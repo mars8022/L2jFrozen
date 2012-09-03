@@ -505,7 +505,7 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 			{
 				if((player.getClanPrivileges() & L2Clan.CP_CS_OPEN_DOOR) == L2Clan.CP_CS_OPEN_DOOR)
 				{
-					if(val != "")
+					if(!val.isEmpty())
 					{
 						boolean open = Integer.parseInt(val) == 1;
 						while(st.hasMoreTokens())
@@ -533,7 +533,7 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 			{
 				if((player.getClanPrivileges() & L2Clan.CP_CS_TAXES) == L2Clan.CP_CS_TAXES)
 				{
-					if(val != "")
+					if(!val.isEmpty())
 					{
 						getCastle().setTaxPercent(player, Integer.parseInt(val));
 					}

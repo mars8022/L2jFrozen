@@ -73,14 +73,7 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 		_spawnNextMysteriousBoxTask = null;
 		_spawnMonsterTask = null;
 	}
-
-	@Override
-	public void onSpawn()
-	{
-		super.onSpawn();
-		//setShowSummonAnimation(false);
-	}
-
+	
 	@Override
 	public void deleteMe()
 	{

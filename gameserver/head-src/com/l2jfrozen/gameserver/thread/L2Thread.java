@@ -63,8 +63,10 @@ public abstract class L2Thread extends Thread
 				}
 			}
 		}
-		finally
-		{}
+		catch (Exception e)
+		{
+			// TODO: Log this exception.
+		}
 	}
 
 	protected abstract void runTurn();

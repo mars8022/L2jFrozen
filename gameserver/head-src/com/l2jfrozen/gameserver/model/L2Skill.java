@@ -1737,7 +1737,7 @@ public abstract class L2Skill
 						continue;
 					}
 
-					if(onlyFirst == false)
+					if(!onlyFirst)
 					{
 						targetList.add((L2Character) obj);
 					}
@@ -1995,7 +1995,7 @@ public abstract class L2Skill
 					return null;
 				}
 
-				if(onlyFirst == false)
+				if(!onlyFirst)
 				{
 					targetList.add(target);
 				}
@@ -2231,7 +2231,7 @@ public abstract class L2Skill
 								player
 							};
 						
-						if(onlyFirst == false)
+						if(!onlyFirst)
 						{
 							targetList.add(player);
 						}
@@ -2380,7 +2380,7 @@ public abstract class L2Skill
 								continue;
 							}
 
-							if(onlyFirst == false)
+							if(!onlyFirst)
 							{
 								targetList.add((L2Character) newTarget);
 							}
@@ -2415,7 +2415,7 @@ public abstract class L2Skill
 								player
 							};
 						
-						if(onlyFirst == false)
+						if(!onlyFirst)
 						{
 							targetList.add(player);
 						}
@@ -2622,7 +2622,7 @@ public abstract class L2Skill
 
 						if(condGood)
 						{
-							if(onlyFirst == false)
+							if(!onlyFirst)
 							{
 								targetList.add(target);
 								return targetList.toArray(new L2Object[targetList.size()]);
@@ -2652,7 +2652,7 @@ public abstract class L2Skill
 					return null;
 				}
 
-				if(onlyFirst == false)
+				if(!onlyFirst)
 				{
 					targetList.add(target);
 					return targetList.toArray(new L2Object[targetList.size()]);
@@ -2672,7 +2672,7 @@ public abstract class L2Skill
 					return null;
 				}
 
-				if(onlyFirst == false)
+				if(!onlyFirst)
 				{
 					targetList.add(target);
 				}
@@ -2820,7 +2820,7 @@ public abstract class L2Skill
 					//activeChar.sendPacket(new SystemMessage(SystemMessage.TARGET_IS_INCORRECT));
 					return null;
 
-				if(onlyFirst == false)
+				if(!onlyFirst)
 				{
 					targetList.add(target);
 					return targetList.toArray(new L2Object[targetList.size()]);
@@ -2850,7 +2850,7 @@ public abstract class L2Skill
 						return null;
 					}
 
-					if(onlyFirst == false)
+					if(!onlyFirst)
 					{
 						targetList.add(target);
 					}
@@ -2875,7 +2875,7 @@ public abstract class L2Skill
 				{
 					cha = target;
 
-					if(onlyFirst == false)
+					if(!onlyFirst)
 					{
 						targetList.add(cha); // Add target to target list
 					}
@@ -2930,7 +2930,7 @@ public abstract class L2Skill
 								continue;
 							}
 
-							if(onlyFirst == false)
+							if(!onlyFirst)
 							{
 								targetList.add((L2Character) obj); // Add obj to target lists
 							}

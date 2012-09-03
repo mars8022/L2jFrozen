@@ -597,10 +597,14 @@ public class TradeList
 	 */
 	private boolean validate()
 	{
-		L2PcInstance _worldInstance = (L2PcInstance) L2World.getInstance().findObject(_owner.getObjectId());
+		if (_owner == null)
+		{
+			_log.warning("Invalid owner of TradeList");
+			return false;
+		}
 		
-		// Check for Owner validity
-		if(_owner == null || _worldInstance == null || _worldInstance.get_instanceLoginTime() != _owner.get_instanceLoginTime())
+		L2PcInstance _worldInstance = (L2PcInstance) L2World.getInstance().findObject(_owner.getObjectId());
+		if(_worldInstance == null || _worldInstance.get_instanceLoginTime() != _owner.get_instanceLoginTime())
 		{
 			_log.warning("Invalid owner of TradeList");
 			return false;

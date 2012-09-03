@@ -596,9 +596,10 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	 */
 	private void thinkAttack()
 	{
-		if (_actor.isCastingNow())
+		if ((_actor == null) || _actor.isCastingNow())
+		{
 			return;
-		
+		}
 		if(_attackTimeout < GameTimeController.getGameTicks())
 		{
 			// Check if the actor is running
@@ -714,10 +715,9 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 					}
 
 					// Check if the L2Object is inside the Faction Range of the actor
-					if(_actor != null && _actor.getAttackByList()!=null && _actor.isInsideRadius(npc, npc.getFactionRange(), true, false) && npc.getAI() != null && 
+					if(_actor.getAttackByList()!=null && _actor.isInsideRadius(npc, npc.getFactionRange(), true, false) && npc.getAI() != null && 
 							_actor.getAttackByList().contains(originalAttackTarget))
 					{
-						
 						if(npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE || npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_ACTIVE){
 							
 							if(GeoData.getInstance().canSeeTarget(_actor, npc) && Math.abs(originalAttackTarget.getZ() - npc.getZ()) < 600){

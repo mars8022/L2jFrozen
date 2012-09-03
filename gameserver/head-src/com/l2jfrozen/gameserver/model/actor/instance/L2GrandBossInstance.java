@@ -118,17 +118,7 @@ public final class L2GrandBossInstance extends L2MonsterInstance
 			}
 		}, 60000, getMaintenanceInterval());
 	}
-
-	/**
-	 * Reduce the current HP of the L2Attackable, update its _aggroList and launch the doDie Task if necessary.<BR>
-	 * <BR>
-	 */
-	@Override
-	public void reduceCurrentHp(double damage, L2Character attacker, boolean awake)
-	{
-		super.reduceCurrentHp(damage, attacker, awake);
-	}
-
+	
 	@Override
 	public boolean isRaid()
 	{

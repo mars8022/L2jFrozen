@@ -1416,7 +1416,6 @@ public class TvT implements EventTask
 
 			for(int i=0;i<loopCount;i++)
 			{
-				if(_playersShuffle != null)
 					playersShuffleTemp.add(_playersShuffle.get(i));
 			}
 
@@ -2284,8 +2283,8 @@ public class TvT implements EventTask
 		synchronized(_players){
 			for(L2PcInstance player : _players)
 			{
-				if(player != null && (player.isOnline() != 0) && (player._inEventTvT == true)&& (!player.equals(looser)) && (player._countTvTkills > 0 || Config.TVT_PRICE_NO_KILLS)){
-					
+				if(player != null && (player.isOnline() != 0) && (player._inEventTvT)&& (!player.equals(looser)) && (player._countTvTkills > 0 || Config.TVT_PRICE_NO_KILLS))
+				{
 					if((bestKiller != null) && (bestKiller.equals(player)))
 					{
 						player.addItem(_eventName+" Event: " + _eventName, _rewardId, _rewardAmount, player, true);
@@ -2626,14 +2625,9 @@ public class TvT implements EventTask
 		long interval = totalTime - actualTime;
 		int seconds = (int) (interval / 1000);
 
-		return Math.round(seconds / 60);
+		return seconds / 60;
 	}
 	
-	
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	public void run()
 	{
@@ -2641,9 +2635,6 @@ public class TvT implements EventTask
 		eventOnceStart();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.model.entity.event.manager.EventTask#getEventIdentifier()
-	 */
 	@Override
 	public String getEventIdentifier()
 	{

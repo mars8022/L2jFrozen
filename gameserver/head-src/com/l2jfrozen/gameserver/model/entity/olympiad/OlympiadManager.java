@@ -338,7 +338,7 @@ class OlympiadManager extends Olympiad implements Runnable
 
 		for(L2OlympiadGame instance : _olympiadInstances.values())
 		{
-			if(instance._gamestarted == true)
+			if(instance._gamestarted)
 			{
 				showbattle = 1;
 			}

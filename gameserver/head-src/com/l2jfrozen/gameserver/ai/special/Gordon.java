@@ -250,7 +250,7 @@ public class Gordon extends Quest implements Runnable
 		else if(event.equalsIgnoreCase("check_ai"))
 		{
 			cancelQuestTimer("check_ai", null, null);
-			if(_isSpawned == false)
+			if(!_isSpawned)
 			{
 				L2NpcInstance gordon_ai = findTemplate(GORDON);
 				if(gordon_ai != null)
@@ -264,7 +264,7 @@ public class Gordon extends Quest implements Runnable
 		else if(event.equalsIgnoreCase("Start"))
 		{
 			//startQuestTimer("Start", 1000, npc, null);
-			if(npc != null && _isSpawned == true)
+			if(npc != null && _isSpawned)
 			{
 				// check if player have Cursed Weapon and in radius
 				if(npc.getNpcId() == GORDON)
@@ -288,7 +288,7 @@ public class Gordon extends Quest implements Runnable
 					}
 				}
 				// end check
-				if(_isAttacked == true)
+				if(_isAttacked)
 					return super.onAdvEvent(event, npc, player);
 
 				if(npc.getNpcId() == GORDON && npc.getX() - 50 <= X && npc.getX() + 50 >= X && npc.getY() - 50 <= Y && npc.getY() + 50 >= Y)
