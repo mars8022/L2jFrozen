@@ -4948,6 +4948,15 @@ private int _reviveRequested = 0;
 			}
 			newitem = null;
 		}
+		
+		// If you pickup arrows.
+		if (item.getItem().getItemType() == L2EtcItemType.ARROW)
+		{
+		       // If a bow is equipped, try to equip them if no arrows is currently equipped.
+		       L2Weapon currentWeapon = getActiveWeaponItem();
+		       if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW && getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND) == null)
+		          checkAndEquipArrows();
+	    }
 	}
 
 	/**
@@ -14521,6 +14530,48 @@ private int _reviveRequested = 0;
 	{
 		// Reload skills from armors / jewels / weapons
 		getInventory().reloadEquippedItems();
+		
+		// Remove Item RHAND
+		if(Config.REMOVE_WEAPON_SUBCLASS)
+		{
+		  L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+		  if (rhand != null)
+		  {		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);     
+		  }	
+		}
+		
+		// Remove Item CHEST
+		if(Config.REMOVE_CHEST_SUBCLASS)
+		{
+		  L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
+		  if (chest != null)
+		  {		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);     
+		  }	
+		}
+		
+		// Remove Item LEG
+		if(Config.REMOVE_LEG_SUBCLASS)
+		{
+		  L2ItemInstance legs = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
+		  if (legs != null)
+		  {		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(legs.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);     
+		  }	
+		}		
 			
 		if(getTotalSubClasses() == Config.ALLOWED_SUBCLASS || classIndex == 0)
 			return false;
@@ -14924,6 +14975,47 @@ private int _reviveRequested = 0;
 		
 		// Reload skills from armors / jewels / weapons
 		getInventory().reloadEquippedItems();
+		
+		// Remove Item RHAND
+		if(Config.REMOVE_WEAPON_SUBCLASS)
+		{
+		  L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+		  if (rhand != null)
+		  {		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);     
+		  }	
+		}
+		// Remove Item CHEST
+		if(Config.REMOVE_CHEST_SUBCLASS)
+		{
+		  L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
+		  if (chest != null)
+		  {		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);     
+		  }	
+		}
+		
+		// Remove Item LEG
+		if(Config.REMOVE_LEG_SUBCLASS)
+		{
+		  L2ItemInstance legs = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
+		  if (legs != null)
+		  {		            
+		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(legs.getItem().getBodyPart());
+		               InventoryUpdate iu = new InventoryUpdate();
+		               for (L2ItemInstance element : unequipped)
+		                  iu.addModifiedItem(element);
+		               sendPacket(iu);     
+		  }	
+		}		
 		
 		checkAllowedSkills();
 
