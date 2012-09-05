@@ -3490,6 +3490,12 @@ public final class Config
 	public static float DEBUFF_CHANCE_MODIFIER;
 	public static float BUFF_CHANCE_MODIFIER;
 	public static boolean SEND_SKILLS_CHANCE_TO_PLAYERS;
+	
+	/* Remove equip during subclass change */
+	public static boolean REMOVE_WEAPON_SUBCLASS;
+	public static boolean REMOVE_CHEST_SUBCLASS;
+	public static boolean REMOVE_LEG_SUBCLASS;
+	
 	public static boolean ENABLE_CLASS_DAMAGES;
 	public static boolean ENABLE_CLASS_DAMAGES_IN_OLY;
 	public static boolean ENABLE_CLASS_DAMAGES_LOGGER;
@@ -3580,6 +3586,11 @@ public final class Config
 			
 			SEND_SKILLS_CHANCE_TO_PLAYERS = Boolean.parseBoolean(PHYSICSSetting.getProperty("SendSkillsChanceToPlayers", "False"));
 		
+			/* Remove equip during subclass change */
+			REMOVE_WEAPON_SUBCLASS = Boolean.parseBoolean(PHYSICSSetting.getProperty("RemoveWeaponSubclass", "False"));
+			REMOVE_CHEST_SUBCLASS = Boolean.parseBoolean(PHYSICSSetting.getProperty("RemoveChestSubclass", "False"));
+			REMOVE_LEG_SUBCLASS = Boolean.parseBoolean(PHYSICSSetting.getProperty("RemoveLegSubclass", "False"));
+			
 			DISABLE_BOW_CLASSES_STRING = PHYSICSSetting.getProperty("DisableBowForClasses", "");
 			DISABLE_BOW_CLASSES = new FastList<Integer>();
 			for (String class_id : DISABLE_BOW_CLASSES_STRING.split(",")){
