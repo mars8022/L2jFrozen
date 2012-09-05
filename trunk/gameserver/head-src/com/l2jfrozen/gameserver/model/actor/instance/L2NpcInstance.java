@@ -783,7 +783,7 @@ public class L2NpcInstance extends L2Character
 	@Override
 	public void onAction(L2PcInstance player)
 	{
-		if(!canTarget(player))
+        if(!canTarget(player) || System.currentTimeMillis() - player.getTimerToAttack() < Config.CLICK_TASK)
 			return;
 
 		// Check if the L2PcInstance already target the L2NpcInstance
@@ -821,6 +821,7 @@ public class L2NpcInstance extends L2Character
 				my = null;
 			}
 
+			player.setTimerToAttack(System.currentTimeMillis());
 			// Send a Server->Client packet ValidateLocation to correct the L2NpcInstance position and heading on the client
 			player.sendPacket(new ValidateLocation(this));
 		}

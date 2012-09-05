@@ -617,6 +617,7 @@ public final class Config
 	public static boolean ALLOW_QUAKE_SYSTEM;
 	public static boolean ENABLE_ANTI_PVP_FARM_MSG;
 	
+	public static long CLICK_TASK;
 	
 	//============================================================
 	public static void loadOtherConfig()
@@ -637,6 +638,9 @@ public final class Config
 			STRIDER_SPEED = Integer.parseInt(otherSettings.getProperty("StriderSpeed", "80"));
 			ALLOW_WYVERN_UPGRADER = Boolean.valueOf(otherSettings.getProperty("AllowWyvernUpgrader", "False"));
 
+			/* Select hit task */
+			CLICK_TASK = Integer.parseInt(otherSettings.getProperty("ClickTask", "50"));
+			
 			/* Inventory slots limits */
 			INVENTORY_MAXIMUM_NO_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForNoDwarf", "80"));
 			INVENTORY_MAXIMUM_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForDwarf", "100"));
@@ -2736,6 +2740,8 @@ public final class Config
 	public static int ALT_OLY_PERIOD_MULTIPLIER;
 	public static boolean ALLOW_EVENTS_DURING_OLY;
 	public static boolean ALT_OLY_RECHARGE_SKILLS;
+	/* Remove cubic at the enter of olympiad */
+	public static boolean REMOVE_CUBIC_OLYMPIAD;
 	//============================================================
 	public static void loadOlympConfig()
 	{
@@ -2776,6 +2782,9 @@ public final class Config
 			ALLOW_EVENTS_DURING_OLY = Boolean.parseBoolean(OLYMPSetting.getProperty("AllowEventsDuringOly", "False"));
 			
 			ALT_OLY_RECHARGE_SKILLS = Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyRechargeSkills", "False"));
+			
+			/* Remove cubic at the enter of olympiad */
+			REMOVE_CUBIC_OLYMPIAD = Boolean.parseBoolean(OLYMPSetting.getProperty("RemoveCubicOlympiad", "False"));
 
 		}
 		catch(Exception e)

@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -204,6 +205,19 @@ class L2OlympiadGame extends Olympiad
 			
 				// C4 patch note: Summons/Cubics do not disappear but are moved to the tournament arena together with their masters.
 
+				if (Config.REMOVE_CUBIC_OLYMPIAD)
+				{
+				  if(player.getCubics() != null)
+				  {
+					  for(L2CubicInstance cubic : player.getCubics().values())
+					  {
+						cubic.stopAction();
+						player.delCubic(cubic.getId());
+					  }
+					  player.getCubics().clear();
+				  }				
+			    }
+				
 				//Remove Tamed Beast
 				if(player.getTrainedBeast() != null)
 					player.getTrainedBeast().doDespawn();
