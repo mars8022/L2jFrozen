@@ -410,6 +410,19 @@ public class Disablers implements ISkillHandler
 
 					if(skill.getId() == 1056)
 					{
+						// If target isInvul (for example Celestial shield) CANCEL doesn't work
+						if(target.isInvul())
+                        {
+                            if(activeChar instanceof L2PcInstance)
+                            {
+                                SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
+                                sm.addString(target.getName());
+                                sm.addSkillName(skill.getDisplayId());
+                                activeChar.sendPacket(sm);
+                                sm = null;
+                            }
+                            break;
+                        }
 						if(target.isRaid())
 						{
 							if(activeChar instanceof L2PcInstance)

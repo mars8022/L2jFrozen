@@ -1357,6 +1357,8 @@ private int _reviveRequested = 0;
 	/** The _mp update interval. */
 	private double _mpUpdateInterval = .0;
 
+	private long timerToAttack;
+	
 	//private boolean isInDangerArea;
 	////////////////////////////////////////////////////////////////////
 	//START CHAT BAN SYSTEM
@@ -1857,6 +1859,16 @@ private int _reviveRequested = 0;
 	public void setTemplate(ClassId newclass)
 	{
 		super.setTemplate(CharTemplateTable.getInstance().getTemplate(newclass));
+	}
+	
+	public void setTimerToAttack (long time)
+	{
+	   timerToAttack = time;
+	}
+	      
+    public long getTimerToAttack ()
+	{
+	   return timerToAttack;
 	}
 
 	/**
@@ -13080,7 +13092,8 @@ private int _reviveRequested = 0;
 		@Override
 		public void run()
 		{
-			if(isOnline() == 1 && getPrivateStoreType()==0)
+			/* Start bot checker if player is in combat online without shop and in a zone not peacefull */
+			if(isOnline() == 1 && isInCombat() && getPrivateStoreType() == 0 && !isInsideZone(L2Character.ZONE_PEACE))
 			{
 				try
 				{
