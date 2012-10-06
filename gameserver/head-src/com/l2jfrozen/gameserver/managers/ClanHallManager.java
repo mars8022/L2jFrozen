@@ -225,14 +225,36 @@ public class ClanHallManager
 	public final ClanHall getNearbyClanHall(int x, int y, int maxDist)
 	{
 
-		for(Map.Entry<Integer, ClanHall> ch : _clanHall.entrySet())
-			if(ch.getValue().getZone().getDistanceToZone(x, y) < maxDist)
-				return ch.getValue();
-
-		for(Map.Entry<Integer, ClanHall> ch : _freeClanHall.entrySet())
-			if(ch.getValue().getZone().getDistanceToZone(x, y) < maxDist)
-				return ch.getValue();
-
+		for(Integer ch_id:_clanHall.keySet()){
+			
+			ClanHall ch = _clanHall.get(ch_id);
+			
+			if(ch == null){
+				_log.warning("ATTENTION: Clah Hall "+ch_id+" is not defined.");
+				_clanHall.remove(ch_id);
+				continue;
+			}
+			
+			if(ch.getZone().getDistanceToZone(x, y) < maxDist)
+				return ch;
+			
+		}
+		
+		for(Integer ch_id:_freeClanHall.keySet()){
+			
+			ClanHall ch = _freeClanHall.get(ch_id);
+			
+			if(ch == null){
+				_log.warning("ATTENTION: Clah Hall "+ch_id+" is not defined.");
+				_freeClanHall.remove(ch_id);
+				continue;
+			}
+			
+			if(ch.getZone().getDistanceToZone(x, y) < maxDist)
+				return ch;
+			
+		}
+		
 		return null;
 	}
 

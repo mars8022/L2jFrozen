@@ -14,8 +14,12 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import java.util.logging.Logger;
+
+import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.L2GamePacketHandler;
 
 /**
  * @author zabbix Lets drink to code!
@@ -25,6 +29,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class GameGuardReply extends L2GameClientPacket
 {
 	private int[] _reply = new int[4];
+	private static final Logger _log = Logger.getLogger(GameGuardReply.class.getName());
 
 	@Override
 	protected void readImpl()
@@ -37,13 +42,17 @@ public class GameGuardReply extends L2GameClientPacket
 
 	@Override
 	protected void runImpl()
-	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if (activeChar == null)
-			return;
-		
+	{	
+		//TODO: clean nProtect System
 		if (!nProtect.getInstance().checkGameGuardRepy(getClient(), _reply))
 			return;
+		
+		//L2jFrozen cannot be reached with GameGuard: L2Net notification --> Close Client connection
+		if(Config.GAMEGUARD_L2NET_CHECK){
+			getClient().closeNow();
+			_log.warning("Player with account name "+getClient().accountName +" kicked to use L2Net ");
+			return;
+		}
 		
 		getClient().setGameGuardOk(true);
 	}

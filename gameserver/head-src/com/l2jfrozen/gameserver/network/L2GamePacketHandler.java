@@ -157,7 +157,8 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				
 				if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES.contains(opcode)){
 					
-					if(client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
+					if(client.getActiveChar() == null 
+						|| client.getActiveChar().isOnline() == 0)
 					{
 						_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" without enterning in the world (online status is FALSE)..");
 						break;

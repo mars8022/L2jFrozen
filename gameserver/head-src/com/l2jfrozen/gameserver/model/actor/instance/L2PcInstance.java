@@ -1379,7 +1379,7 @@ private int _reviveRequested = 0;
 	private long _offlineShopStart = 0;
 
 	/** The _original name color offline. */
-	public int _originalNameColorOffline = 0;
+	public int _originalNameColorOffline = 0xFFFFFF;
 	
 	/** Herbs Task Time *. */
 	private int _herbstask = 0;
@@ -9854,12 +9854,7 @@ private int _reviveRequested = 0;
 			statement.setInt(55, isNoble() ? 1 : 0);
 			statement.setLong(56, 0);
 			statement.setLong(57, System.currentTimeMillis());
-			/*statement.setLong(58, getChatBanTimer());
-			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
-			statement.setString(60, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
-	        statement.setInt(61, isAio() ? 1 :0);
-	        statement.setLong(62, 0);
-	        */
+			
 			statement.setString(58, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
 			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
 	        statement.setInt(60, isAio() ? 1 :0);
@@ -10576,7 +10571,7 @@ private int _reviveRequested = 0;
 			/////
 			statement.setInt(57, getPcBangScore());
 			
-			statement.setString(58, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
+			statement.setString(58, StringToHex(Integer.toHexString(_originalNameColorOffline).toUpperCase()));
 			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
 
 	        statement.setInt(60, isAio() ? 1 : 0);

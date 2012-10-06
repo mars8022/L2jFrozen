@@ -232,8 +232,9 @@ public final class StatsSet
 	{
 		Object val = _set.get(name);
 		if(val == null){
-			throw new RuntimeException();
-			//throw new IllegalArgumentException("Integer value required, but not specified");
+			
+			throw new IllegalArgumentException("Integer value required, but not specified");
+			
 		}
 		if(val instanceof Number)
 			return ((Number) val).intValue();
@@ -660,4 +661,11 @@ public final class StatsSet
 		
 		set(name, value);
 	}
+
+	@Override
+	public String toString()
+	{
+		return "StatsSet [_set=" + _set + "]";
+	}
+	
 }

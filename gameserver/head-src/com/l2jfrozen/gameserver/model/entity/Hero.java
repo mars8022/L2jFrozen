@@ -277,10 +277,14 @@ public class Hero
 			L2PcInstance player;
 			for (StatsSet hero : _heroes.values())
 			{
-				if (hero == null)
+				if (hero == null
+					|| hero.getSet().get(Olympiad.CHAR_ID) == null)
 				{
+					_log.warning("ATTENTION: hero stats is null or char_id cannot be retrieved. ");
+					_log.warning("\tDEBUG INFO: Hero Stats: \n"+hero);
 					continue;
 				}
+				
 				player = L2World.getInstance().getPlayer(hero.getInteger(Olympiad.CHAR_ID));
 				if (player == null)
 				{
