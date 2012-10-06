@@ -26,8 +26,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 
 /**
@@ -163,7 +165,9 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
+			if((actor instanceof L2RaidBossInstance 
+				|| actor instanceof L2GrandBossInstance) 
+				&& Config.ALT_RAIDS_STATS_BONUS){
 				
 				/*
 				if(actor.getSTR()>MAX_STAT_VALUE){
@@ -174,6 +178,20 @@ public enum BaseStats
 				*/
 				return 1;
 			}
+			
+			if(actor instanceof L2MonsterInstance 
+				&& Config.ALT_MOBS_STATS_BONUS){
+				
+				/*
+				if(actor.getSTR()>MAX_STAT_VALUE){
+					_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+					return STRbonus_legacy[MAX_STAT_VALUE];
+				}
+				return STRbonus_legacy[actor.getSTR()];
+				*/
+				return 1;
+			}
+			
 			if(actor.getSTR()>MAX_STAT_VALUE){
 				_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 				return STRbonus[MAX_STAT_VALUE];
@@ -198,6 +216,13 @@ public enum BaseStats
 				*/
 				return 1;
 			}
+			
+			if(actor instanceof L2MonsterInstance 
+				&& Config.ALT_MOBS_STATS_BONUS){
+				
+				return 1;
+			}
+			
 			if(actor.getINT()>MAX_STAT_VALUE){
 				_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 				return INTbonus[MAX_STAT_VALUE];
@@ -222,6 +247,13 @@ public enum BaseStats
 				*/
 				return 1;
 			}
+			
+			if(actor instanceof L2MonsterInstance 
+				&& Config.ALT_MOBS_STATS_BONUS){
+				
+				return 1;
+			}
+			
 			if(actor.getDEX()>MAX_STAT_VALUE){
 				_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 				return DEXbonus[MAX_STAT_VALUE];
@@ -247,6 +279,13 @@ public enum BaseStats
 				*/
 				return 1;
 			}
+			
+			if(actor instanceof L2MonsterInstance 
+				&& Config.ALT_MOBS_STATS_BONUS){
+				
+				return 1;
+			}
+			
 			if(actor.getWIT()>MAX_STAT_VALUE){
 				_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 				return WITbonus[MAX_STAT_VALUE];
@@ -270,6 +309,13 @@ public enum BaseStats
 				*/
 				return 1;
 			}
+			
+			if(actor instanceof L2MonsterInstance 
+				&& Config.ALT_MOBS_STATS_BONUS){
+				
+				return 1;
+			}
+			
 			if(actor.getCON()>MAX_STAT_VALUE){
 				_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 				return CONbonus[MAX_STAT_VALUE];
@@ -293,6 +339,13 @@ public enum BaseStats
 				*/
 				return 1;
 			}
+			
+			if(actor instanceof L2MonsterInstance 
+				&& Config.ALT_MOBS_STATS_BONUS){
+				
+				return 1;
+			}
+			
 			if(actor.getMEN()>MAX_STAT_VALUE){
 				_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
 				return MENbonus[MAX_STAT_VALUE];

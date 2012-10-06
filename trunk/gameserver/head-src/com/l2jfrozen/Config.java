@@ -1134,6 +1134,8 @@ public final class Config
 	public static String DISABLE_BOW_CLASSES_STRING;
 	public static FastList<Integer> DISABLE_BOW_CLASSES = new FastList<Integer>();
 	
+	public static boolean ALT_MOBS_STATS_BONUS;
+	
 	//============================================================
 	public static void loadAltConfig()
 	{
@@ -1295,6 +1297,9 @@ public final class Config
 			ALLOWED_SUBCLASS = Integer.parseInt(altSettings.getProperty("AllowedSubclass", "3"));
 			BASE_SUBCLASS_LEVEL = Byte.parseByte(altSettings.getProperty("BaseSubclassLevel", "40"));
 			MAX_SUBCLASS_LEVEL = Byte.parseByte(altSettings.getProperty("MaxSubclassLevel", "81"));
+			
+			ALT_MOBS_STATS_BONUS = Boolean.parseBoolean(altSettings.getProperty("AltMobsStatsBonus", "True"));
+			
 		}
 		catch(Exception e)
 		{
@@ -1885,12 +1890,8 @@ public final class Config
 	public static boolean LOG_CHAT;
 	public static boolean LOG_ITEMS;
 	public static boolean LOG_HIGH_DAMAGES;
-	public static boolean GAMEGUARD_ENFORCE;
-	public static boolean GAMEGUARD_PROHIBITACTION;
-	public static int GAMEGUARD_KEY;
-	public static int GAMEGUARD_NUM_WINDOW;
-	public static boolean GAMEGUARD_ANNOUNCE_ABOUT_HACK;
-	public static int GAMEGUARD_CHECK_INTERVAL;
+	public static boolean GAMEGUARD_L2NET_CHECK;
+
 	// Threads
 	public static int THREAD_P_EFFECTS;
 	public static int THREAD_P_GENERAL;
@@ -1951,13 +1952,8 @@ public final class Config
 			LOG_ITEMS = Boolean.valueOf(devSettings.getProperty("LogItems", "false"));
 			LOG_HIGH_DAMAGES = Boolean.valueOf(devSettings.getProperty("LogHighDamages", "false"));
 			
-			GAMEGUARD_ENFORCE = Boolean.valueOf(devSettings.getProperty("GameGuardEnforce", "False"));
-			GAMEGUARD_PROHIBITACTION = Boolean.valueOf(devSettings.getProperty("GameGuardProhibitAction", "False"));
-			GAMEGUARD_KEY = Integer.parseInt(devSettings.getProperty("GameGuardKey", "0"));
-			GAMEGUARD_NUM_WINDOW = Integer.parseInt(devSettings.getProperty("GameGuardNumWindowFromSamePC", "0"));
-			GAMEGUARD_ANNOUNCE_ABOUT_HACK = Boolean.valueOf(devSettings.getProperty("GameGuardAnnounceAllAboutHack", "true"));
-			GAMEGUARD_CHECK_INTERVAL = Integer.parseInt(devSettings.getProperty("GameGuardCheckInterval", "180"));
-
+			GAMEGUARD_L2NET_CHECK = Boolean.valueOf(devSettings.getProperty("GameGuardL2NetCheck", "False"));
+			
 			THREAD_P_EFFECTS = Integer.parseInt(devSettings.getProperty("ThreadPoolSizeEffects", "6"));
 			THREAD_P_GENERAL = Integer.parseInt(devSettings.getProperty("ThreadPoolSizeGeneral", "15"));
 			GENERAL_PACKET_THREAD_CORE_SIZE = Integer.parseInt(devSettings.getProperty("GeneralPacketThreadCoreSize", "4"));
