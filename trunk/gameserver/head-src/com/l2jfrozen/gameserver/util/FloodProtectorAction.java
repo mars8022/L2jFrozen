@@ -46,7 +46,7 @@ public final class FloodProtectorAction
 	/**
 	 * Next game tick when new request is allowed.
 	 */
-	private volatile int _nextGameTick = GameTimeController.getGameTicks();
+	private volatile float _nextGameTick = GameTimeController.getGameTicks();
 	/**
 	 * Request counter.
 	 */

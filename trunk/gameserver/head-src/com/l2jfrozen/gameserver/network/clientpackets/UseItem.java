@@ -64,11 +64,22 @@ public final class UseItem extends L2GameClientPacket
 		if(activeChar == null)
 			return;
 
+		L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
+		
+		if(item == null)
+			return;
+		
 		// Flood protect UseItem
+		if(item.isPotion())
+		{
+		if (!getClient().getFloodProtectors().getUsePotion().tryPerformAction("use potion"))
+			return;
+		}
+		else
+		{
 		if (!getClient().getFloodProtectors().getUseItem().tryPerformAction("use item"))
 			return;
-
-		
+		}
 		if(activeChar.isStunned() || activeChar.isConfused() || activeChar.isAway() || activeChar.isParalyzed() || activeChar.isSleeping())
 		{
 			activeChar.sendMessage("You Cannot Use Items Right Now.");
@@ -90,10 +101,6 @@ public final class UseItem extends L2GameClientPacket
 		// NOTE: disabled due to deadlocks
 		//        synchronized (activeChar.getInventory())
 		//		{
-		L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
-
-		if(item == null)
-			return;
 
 		if(item.isWear())
 			// No unequipping wear-items

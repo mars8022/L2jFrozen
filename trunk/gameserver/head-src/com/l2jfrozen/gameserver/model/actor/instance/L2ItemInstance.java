@@ -344,6 +344,11 @@ public final class L2ItemInstance extends L2Object
 		return _loc;
 	}
 
+	public boolean isPotion()
+	{
+		return _item.isPotion();
+	}
+	
 	/**
 	 * Returns the quantity of item.
 	 *
