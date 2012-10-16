@@ -15,10 +15,8 @@ package com.l2jfrozen.gameserver.util;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 
-
 /**
  * Collection of flood protectors for single player.
- * 
  * @author fordfrog
  */
 public final class FloodProtectors
@@ -77,10 +75,6 @@ public final class FloodProtectors
 	 */
 	private final FloodProtectorAction _manor;
 	/**
-	 * Send mail flood protector.
-	 */
-	private final FloodProtectorAction _sendMail;
-	/**
 	 * Character Select protector
 	 */
 	private final FloodProtectorAction _characterSelect;
@@ -99,16 +93,20 @@ public final class FloodProtectors
 	/**
 	 * Move Action protector
 	 */
-	private final FloodProtectorAction _moveAction;	
+	private final FloodProtectorAction _moveAction;
 	/**
 	 * Generic Action protector
 	 */
 	private final FloodProtectorAction _genericAction;
 	/**
-	 * Generic Action protector
+	 * Macro protector
 	 */
 	private final FloodProtectorAction _macro;
-
+	/**
+	 * Potion protector
+	 */
+	private final FloodProtectorAction _potion;
+	
 	/**
 	 * Creates new instance of FloodProtectors.
 	 * @param client for which the collection of flood protectors is being created.
@@ -129,7 +127,6 @@ public final class FloodProtectors
 		_transaction = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_TRANSACTION);
 		_manufacture = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_MANUFACTURE);
 		_manor = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_MANOR);
-		_sendMail = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_SENDMAIL);
 		_characterSelect = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_CHARACTER_SELECT);
 		
 		_unknownPackets = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_UNKNOWN_PACKETS);
@@ -138,11 +135,11 @@ public final class FloodProtectors
 		_moveAction = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_MOVE_ACTION);
 		_genericAction = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_GENERIC_ACTION);
 		_macro = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_MACRO);
+		_potion = new FloodProtectorAction(client, Config.FLOOD_PROTECTOR_POTION);
 	}
 	
 	/**
 	 * Returns {@link #_useItem}.
-	 * 
 	 * @return {@link #_useItem}
 	 */
 	public FloodProtectorAction getUseItem()
@@ -152,7 +149,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_rollDice}.
-	 * 
 	 * @return {@link #_rollDice}
 	 */
 	public FloodProtectorAction getRollDice()
@@ -162,7 +158,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_firework}.
-	 * 
 	 * @return {@link #_firework}
 	 */
 	public FloodProtectorAction getFirework()
@@ -172,7 +167,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_itemPetSummon}.
-	 * 
 	 * @return {@link #_itemPetSummon}
 	 */
 	public FloodProtectorAction getItemPetSummon()
@@ -182,7 +176,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_heroVoice}.
-	 * 
 	 * @return {@link #_heroVoice}
 	 */
 	public FloodProtectorAction getHeroVoice()
@@ -192,7 +185,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_globalChat}.
-	 * 
 	 * @return {@link #_globalChat}
 	 */
 	public FloodProtectorAction getGlobalChat()
@@ -202,7 +194,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_subclass}.
-	 * 
 	 * @return {@link #_subclass}
 	 */
 	public FloodProtectorAction getSubclass()
@@ -212,7 +203,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_dropItem}.
-	 * 
 	 * @return {@link #_dropItem}
 	 */
 	public FloodProtectorAction getDropItem()
@@ -222,7 +212,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_serverBypass}.
-	 * 
 	 * @return {@link #_serverBypass}
 	 */
 	public FloodProtectorAction getServerBypass()
@@ -234,50 +223,36 @@ public final class FloodProtectors
 	{
 		return _multiSell;
 	}
-
+	
 	/**
 	 * Returns {@link #_transaction}.
-	 * 
 	 * @return {@link #_transaction}
 	 */
 	public FloodProtectorAction getTransaction()
 	{
 		return _transaction;
 	}
-
+	
 	/**
 	 * Returns {@link #_manufacture}.
-	 * 
 	 * @return {@link #_manufacture}
 	 */
 	public FloodProtectorAction getManufacture()
 	{
 		return _manufacture;
 	}
-
+	
 	/**
 	 * Returns {@link #_manor}.
-	 * 
 	 * @return {@link #_manor}
 	 */
 	public FloodProtectorAction getManor()
 	{
 		return _manor;
 	}
-
-	/**
-	 * Returns {@link #_sendMail}.
-	 * 
-	 * @return {@link #_sendMail}
-	 */
-	public FloodProtectorAction getSendMail()
-	{
-		return _sendMail;
-	}
-
+	
 	/**
 	 * Returns {@link #_characterSelect}.
-	 * 
 	 * @return {@link #_characterSelect}
 	 */
 	public FloodProtectorAction getCharacterSelect()
@@ -287,7 +262,6 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_unknownPackets}.
-	 * 
 	 * @return {@link #_unknownPackets}
 	 */
 	public FloodProtectorAction getUnknownPackets()
@@ -297,17 +271,15 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_partyInvitation}.
-	 * 
 	 * @return {@link #_partyInvitation}
 	 */
 	public FloodProtectorAction getPartyInvitation()
 	{
 		return _partyInvitation;
 	}
-
+	
 	/**
 	 * Returns {@link #_sayAction}.
-	 * 
 	 * @return {@link #_sayAction}
 	 */
 	public FloodProtectorAction getSayAction()
@@ -317,17 +289,15 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_moveAction}.
-	 * 
 	 * @return {@link #_moveAction}
 	 */
 	public FloodProtectorAction getMoveAction()
 	{
 		return _moveAction;
 	}
-
+	
 	/**
 	 * Returns {@link #_genericAction}.
-	 * 
 	 * @return {@link #_genericAction}
 	 */
 	public FloodProtectorAction getGenericAction()
@@ -337,11 +307,19 @@ public final class FloodProtectors
 	
 	/**
 	 * Returns {@link #_macro}.
-	 * 
 	 * @return {@link #_macro}
 	 */
 	public FloodProtectorAction getMacro()
 	{
 		return _macro;
+	}
+	
+	/**
+	 * Returns {@link #_potion}.
+	 * @return {@link #_potion}
+	 */
+	public FloodProtectorAction getUsePotion()
+	{
+		return _potion;
 	}
 }

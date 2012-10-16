@@ -26,7 +26,7 @@ public final class FloodProtectorConfig
 	/**
 	 * Flood protection interval in game ticks.
 	 */
-	public int FLOOD_PROTECTION_INTERVAL;
+	public float FLOOD_PROTECTION_INTERVAL;
 	/**
 	 * Whether flooding should be logged.
 	 */

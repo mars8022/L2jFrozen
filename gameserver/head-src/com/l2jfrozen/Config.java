@@ -3176,7 +3176,6 @@ public final class Config
 	public static FloodProtectorConfig FLOOD_PROTECTOR_TRANSACTION;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_MANUFACTURE;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_MANOR;
-	public static FloodProtectorConfig FLOOD_PROTECTOR_SENDMAIL;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_CHARACTER_SELECT;
 
 	public static FloodProtectorConfig FLOOD_PROTECTOR_UNKNOWN_PACKETS;
@@ -3185,6 +3184,7 @@ public final class Config
 	public static FloodProtectorConfig FLOOD_PROTECTOR_MOVE_ACTION;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_GENERIC_ACTION;
 	public static FloodProtectorConfig FLOOD_PROTECTOR_MACRO;
+	public static FloodProtectorConfig FLOOD_PROTECTOR_POTION;
 	
 	//============================================================
 	public static void loadFloodConfig()
@@ -3225,8 +3225,6 @@ public final class Config
 				new FloodProtectorConfig("ManufactureFloodProtector");
 			FLOOD_PROTECTOR_MANOR =
 				new FloodProtectorConfig("ManorFloodProtector");
-			FLOOD_PROTECTOR_SENDMAIL =
-				new FloodProtectorConfig("SendMailFloodProtector");
 			FLOOD_PROTECTOR_CHARACTER_SELECT =
 				new FloodProtectorConfig("CharacterSelectFloodProtector");
 			
@@ -3242,6 +3240,8 @@ public final class Config
 				new FloodProtectorConfig("GenericActionFloodProtector",true);
 			FLOOD_PROTECTOR_MACRO = 
 				new FloodProtectorConfig("MacroFloodProtector",true);
+			FLOOD_PROTECTOR_POTION = 
+				new FloodProtectorConfig("PotionFloodProtector",true);
 			
 			// Load FloodProtector L2Properties file
 			try
@@ -3274,7 +3274,7 @@ public final class Config
 	 */
 	private static void loadFloodProtectorConfigs(final L2Properties properties)
 	{
-		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_USE_ITEM, "UseItem", "4");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_USE_ITEM, "UseItem", "1");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_ROLL_DICE, "RollDice", "42");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_FIREWORK, "Firework", "42");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_ITEM_PET_SUMMON, "ItemPetSummon", "16");
@@ -3287,7 +3287,6 @@ public final class Config
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_TRANSACTION, "Transaction", "10");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MANUFACTURE, "Manufacture", "3");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MANOR, "Manor", "30");
-		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_SENDMAIL, "SendMail", "100");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_CHARACTER_SELECT, "CharacterSelect", "30");
 		
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_UNKNOWN_PACKETS, "UnknownPackets", "5");
@@ -3297,6 +3296,7 @@ public final class Config
 		
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_GENERIC_ACTION, "GenericAction", "5");
 		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_MACRO, "Macro", "10");
+		loadFloodProtectorConfig(properties, FLOOD_PROTECTOR_POTION, "Potion", "4");
 	}
 	
 	/**
@@ -3314,7 +3314,7 @@ public final class Config
 	 */
 	private static void loadFloodProtectorConfig(final L2Properties properties, final FloodProtectorConfig config, final String configString, final String defaultInterval)
 	{
-		config.FLOOD_PROTECTION_INTERVAL = Integer.parseInt(properties.getProperty(StringUtil.concat("FloodProtector", configString, "Interval"), defaultInterval));
+		config.FLOOD_PROTECTION_INTERVAL = Float.parseFloat(properties.getProperty(StringUtil.concat("FloodProtector", configString, "Interval"), defaultInterval));
 		config.LOG_FLOODING = Boolean.parseBoolean(properties.getProperty(StringUtil.concat("FloodProtector", configString, "LogFlooding"), "False"));
 		config.PUNISHMENT_LIMIT = Integer.parseInt(properties.getProperty(StringUtil.concat("FloodProtector", configString, "PunishmentLimit"), "0"));
 		config.PUNISHMENT_TYPE = properties.getProperty(StringUtil.concat("FloodProtector", configString, "PunishmentType"), "none");

@@ -8636,6 +8636,7 @@ public abstract class L2Character extends L2Object
 		}
 
 		L2Object[] final_targets = null; 
+		int _skipped = 0;
 		
 		if(escapeRange > 0)
 		{
@@ -8650,6 +8651,13 @@ public abstract class L2Character extends L2Object
 						continue;
 					}
 
+					// Check if the target is behind a wall
+					if (skill.getSkillRadius() > 0 && skill.isOffensive() && Config.GEODATA > 0 && !GeoData.getInstance().canSeeTarget(this, targets[i]))
+					{
+						_skipped++;
+						continue;
+					}
+					
 					if(skill.isOffensive())
 					{
 						if(this instanceof L2PcInstance)
@@ -8677,6 +8685,13 @@ public abstract class L2Character extends L2Object
 			}
 			if(targetList.isEmpty() && skill.getTargetType() != SkillTargetType.TARGET_AURA)
 			{
+				if(this instanceof L2PcInstance)
+				{
+					for(int i=0;i<_skipped;i++)
+						sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_SEE_TARGET));
+										
+				}
+				
 				abortCast();
 				return;
 			}

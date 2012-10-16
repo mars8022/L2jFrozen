@@ -400,6 +400,11 @@ public abstract class L2Item
 	{
 		return _tradeable;
 	}
+	
+	public boolean isPotion() 
+	{ 
+		return (getItemType() == L2EtcItemType.POTION);
+	}
 
 	/**
 	 * Returns if item is for hatchling
