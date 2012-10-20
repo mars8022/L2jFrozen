@@ -18,12 +18,10 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-
 import javolution.util.FastList;
 
 /**
  * MagicEffectIcons format h (dhd)
- * 
  * @version $Revision: 1.3.2.1.2.6 $ $Date: 2005/04/05 19:41:08 $
  */
 public class MagicEffectIcons extends L2GameServerPacket
@@ -31,13 +29,13 @@ public class MagicEffectIcons extends L2GameServerPacket
 	private static final String _S__97_MAGICEFFECTICONS = "[S] 7f MagicEffectIcons";
 	private FastList<Effect> _effects;
 	private FastList<Effect> _debuffs;
-
+	
 	private class Effect
 	{
 		protected int _skillId;
 		protected int _level;
 		protected int _duration;
-
+		
 		public Effect(int pSkillId, int pLevel, int pDuration)
 		{
 			_skillId = pSkillId;
@@ -45,34 +43,37 @@ public class MagicEffectIcons extends L2GameServerPacket
 			_duration = pDuration;
 		}
 	}
-
+	
 	public MagicEffectIcons()
 	{
 		_effects = new FastList<Effect>();
 		_debuffs = new FastList<Effect>();
 	}
-
+	
 	public void addEffect(int skillId, int level, int duration, boolean debuff)
 	{
-		if(debuff)
+		if (skillId == 2031 || skillId == 2032 || skillId == 2037)
+			return;
+		
+		if (debuff)
 			_debuffs.add(new Effect(skillId, level, duration));
 		else
 			_effects.add(new Effect(skillId, level, duration));
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x7f);
-
-		writeH(_effects.size()+_debuffs.size());
-
-		for(Effect temp : _effects)
+		
+		writeH(_effects.size() + _debuffs.size());
+		
+		for (Effect temp : _effects)
 		{
 			writeD(temp._skillId);
 			writeH(temp._level);
-
-			if(temp._duration == -1)
+			
+			if (temp._duration == -1)
 			{
 				writeD(-1);
 			}
@@ -82,12 +83,12 @@ public class MagicEffectIcons extends L2GameServerPacket
 			}
 		}
 		
-		for(Effect temp : _debuffs)
+		for (Effect temp : _debuffs)
 		{
 			writeD(temp._skillId);
 			writeH(temp._level);
-
-			if(temp._duration == -1)
+			
+			if (temp._duration == -1)
 			{
 				writeD(-1);
 			}
@@ -97,8 +98,9 @@ public class MagicEffectIcons extends L2GameServerPacket
 			}
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
