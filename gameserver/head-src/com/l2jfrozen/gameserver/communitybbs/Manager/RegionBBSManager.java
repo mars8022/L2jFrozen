@@ -270,7 +270,9 @@ public class RegionBBSManager extends BaseBBSManager
 
 				ar3 = ar3.replaceAll("\\\\n", "");
 
-				if(!BlockList.isBlocked(receiver, activeChar))
+				boolean blocked = receiver.getBlockList().isInBlockList(activeChar.getName());
+				
+				if(!blocked)
 				{
 					if(!receiver.getMessageRefusal())
 					{
@@ -299,7 +301,6 @@ public class RegionBBSManager extends BaseBBSManager
 					sm = null;
 				}
 
-				receiver = null;
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{

@@ -38,66 +38,68 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public final class RequestAnswerFriendInvite extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(RequestAnswerFriendInvite.class.getName());
-
+	
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
-		if(player != null)
+		if (player != null)
 		{
 			L2PcInstance requestor = player.getActiveRequester();
-			if(requestor == null)
+			if (requestor == null)
 				return;
-
-			if(_response == 1)
+			
+			if (_response == 1)
 			{
 				Connection con = null;
 				try
 				{
 					con = L2DatabaseFactory.getInstance().getConnection(false);
-					PreparedStatement statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name) VALUES (?, ?, ?), (?, ?, ?)");
+					PreparedStatement statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name, not_blocked) VALUES (?, ?, ?, ?), (?, ?, ?,?)");
 					statement.setInt(1, requestor.getObjectId());
 					statement.setInt(2, player.getObjectId());
 					statement.setString(3, player.getName());
-					statement.setInt(4, player.getObjectId());
-					statement.setInt(5, requestor.getObjectId());
-					statement.setString(6, requestor.getName());
+					statement.setInt(4, 1);
+					statement.setInt(5, player.getObjectId());
+					statement.setInt(6, requestor.getObjectId());
+					statement.setString(7, requestor.getName());
+					statement.setInt(8, 1);
 					statement.execute();
 					statement.close();
 					SystemMessage msg = new SystemMessage(SystemMessageId.YOU_HAVE_SUCCEEDED_INVITING_FRIEND);
 					requestor.sendPacket(msg);
-
-					//Player added to your friendlist
+					
+					// Player added to your friendlist
 					msg = new SystemMessage(SystemMessageId.S1_ADDED_TO_FRIENDS);
 					msg.addString(player.getName());
 					requestor.sendPacket(msg);
 					requestor.getFriendList().add(player.getName());
 					
-					//has joined as friend.
+					// has joined as friend.
 					msg = new SystemMessage(SystemMessageId.S1_JOINED_AS_FRIEND);
 					msg.addString(requestor.getName());
 					player.sendPacket(msg);
 					player.getFriendList().add(requestor.getName());
 					
 					msg = null;
-
-					//friend list rework ;)
+					
+					// friend list rework ;)
 					notifyFriends(player);
 					notifyFriends(requestor);
 					player.sendPacket(new FriendList(player));
 					requestor.sendPacket(new FriendList(requestor));
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					_log.warning("could not add friend objectid: " + e);
@@ -113,53 +115,53 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 				SystemMessage msg = new SystemMessage(SystemMessageId.FAILED_TO_INVITE_A_FRIEND);
 				requestor.sendPacket(msg);
 			}
-
+			
 			player.setActiveRequester(null);
 			requestor.onTransactionResponse();
 		}
 	}
-
+	
 	private void notifyFriends(L2PcInstance cha)
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=?");
+			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=? AND not_blocked = 1 ");
 			statement.setInt(1, cha.getObjectId());
 			ResultSet rset = statement.executeQuery();
 			L2PcInstance friend;
 			String friendName;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				friendName = rset.getString("friend_name");
 				friend = L2World.getInstance().getPlayer(friendName);
-
-				if(friend != null) //friend loggined.
+				
+				if (friend != null) // friend loggined.
 				{
 					friend.sendPacket(new FriendList(friend));
 				}
 			}
-
+			
 			rset.close();
 			statement.close();
 		}
-
-		catch(Exception e)
+		
+		catch (Exception e)
 		{
 			_log.warning("could not restore friend data:" + e);
 		}
-
+		
 		finally
 		{
 			CloseUtil.close(con);
 			con = null;
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

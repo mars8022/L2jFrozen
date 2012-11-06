@@ -18,6 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import java.util.logging.Logger;
+
+import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -26,50 +29,71 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestFriendInvite extends L2GameClientPacket
 {
+	
+	private static Logger _log = Logger.getLogger(RequestFriendInvite.class.getName());
+	
 	private String _name;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_name = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		SystemMessage sm;
-		//Connection con = null;
+		// Connection con = null;
 		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		
+		if (activeChar == null)
 			return;
-
+		
 		L2PcInstance friend = L2World.getInstance().getPlayer(_name);
-		//_name = Util.capitalizeFirst(_name); //FIXME: is it right to capitalize a nickname?
-
-		if(friend == null)
+		
+		// _name = Util.capitalizeFirst(_name); //FIXME: is it right to capitalize a nickname?
+		
+		if (friend == null)
 		{
-			//Target is not found in the game.
+			// Target is not found in the game.
 			sm = new SystemMessage(SystemMessageId.THE_USER_YOU_REQUESTED_IS_NOT_IN_GAME);
 			activeChar.sendPacket(sm);
 			sm = null;
 			return;
 		}
 		
-		if(friend == activeChar)
+		if (friend == activeChar)
 		{
-			//You cannot add yourself to your own friend list.
+			// You cannot add yourself to your own friend list.
 			sm = new SystemMessage(SystemMessageId.YOU_CANNOT_ADD_YOURSELF_TO_OWN_FRIEND_LIST);
 			activeChar.sendPacket(sm);
 			sm = null;
 			return;
 		}
 		
-		if(activeChar.isInCombat() || friend.isInCombat())
+		if (activeChar.getBlockList().isInBlockList(_name))
 		{
-		    sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
-		    activeChar.sendPacket(sm);
-		    sm = null;
+			sm = new SystemMessage(SystemMessageId.FAILED_TO_INVITE_A_FRIEND);
+			activeChar.sendPacket(sm);
+			return;
+		}
+		
+		if (friend.getBlockList().isInBlockList(activeChar.getName()))
+		{
+			sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
+			sm.addString(friend.getName());
+			activeChar.sendPacket(sm);
+			sm = new SystemMessage(SystemMessageId.FAILED_TO_INVITE_A_FRIEND);
+			activeChar.sendPacket(sm);
+			return;
+		}
+		
+		if (activeChar.isInCombat() || friend.isInCombat())
+		{
+			sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
+			activeChar.sendPacket(sm);
+			sm = null;
 			return;
 		}
 		
@@ -81,10 +105,10 @@ public final class RequestFriendInvite extends L2GameClientPacket
 			activeChar.sendPacket(sm);
 			return;
 		}
-
-		if(!friend.isProcessingRequest())
+		
+		if (!friend.isProcessingRequest())
 		{
-			//requets to become friend
+			// requets to become friend
 			activeChar.onTransactionRequest(friend);
 			sm = new SystemMessage(SystemMessageId.S1_REQUESTED_TO_BECOME_FRIENDS);
 			sm.addString(_name);
@@ -98,61 +122,8 @@ public final class RequestFriendInvite extends L2GameClientPacket
 		
 		friend.sendPacket(sm);
 		
-		/*
-		try
-		{
-			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement("SELECT char_id FROM character_friends WHERE char_id=? AND friend_id=?");
-			statement.setInt(1, activeChar.getObjectId());
-			statement.setInt(2, friend.getObjectId());
-			ResultSet rset = statement.executeQuery();
-
-			if(rset.next())
-			{
-				//Player already is in your friendlist
-				sm = new SystemMessage(SystemMessageId.S1_ALREADY_IN_FRIENDS_LIST);
-				sm.addString(_name);
-			}
-			else
-			{
-				if(!friend.isProcessingRequest())
-				{
-					//requets to become friend
-					activeChar.onTransactionRequest(friend);
-					sm = new SystemMessage(SystemMessageId.S1_REQUESTED_TO_BECOME_FRIENDS);
-					sm.addString(_name);
-					AskJoinFriend ajf = new AskJoinFriend(activeChar.getName());
-					friend.sendPacket(ajf);
-				}
-				else
-				{
-					sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
-				}
-			}
-
-			friend.sendPacket(sm);
-			sm = null;
-			rset.close();
-			statement.close();
-
-			rset = null;
-			statement = null;
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.WARNING, "could not add friend objectid: ", e);
-		}
-		finally
-		{
-			CloseUtil.close(con);
-			con = null;
-		}
-		*/
 	}
-
+	
 	@Override
 	public String getType()
 	{
