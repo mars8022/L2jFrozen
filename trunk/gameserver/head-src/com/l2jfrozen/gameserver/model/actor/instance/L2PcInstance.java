@@ -154,6 +154,7 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.clientpackets.RequestBlock;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
@@ -1266,7 +1267,7 @@ private AccessLevel _accessLevel;
 	private int _race[] = new int[2];
 
 	/** The _block list. */
-	private final BlockList _blockList = new BlockList();
+	private final BlockList _blockList = new BlockList(this);
 
 	/** The _team. */
 	private int _team = 0;
@@ -16754,7 +16755,7 @@ private int _reviveRequested = 0;
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=?");
+			statement = con.prepareStatement("SELECT friend_name,not_blocked FROM character_friends WHERE char_id=?");
 			statement.setInt(1, getObjectId());
 			ResultSet rset = statement.executeQuery();
 
@@ -16765,7 +16766,18 @@ private int _reviveRequested = 0;
 				if (friendName.equals(getName()))
 					continue;
 				
-				_friendList.add(friendName);
+				Integer blockedType = rset.getInt("not_blocked");
+				
+				if(blockedType == 1){
+
+					_friendList.add(friendName);
+					
+				}else{
+					
+					_blockList.getBlockList().add(friendName);
+					
+				}
+						
 			}
 			
 			rset.close();
@@ -16799,11 +16811,10 @@ private int _reviveRequested = 0;
 			if(friend != null) //friend logged in.
 			{
 				friend.sendPacket(new FriendList(friend));
-				if(closing)
-				  friend.sendMessage("Friend: " + getName() + " has logged off.");
 			}
 		}
 	}
+	
 	/*
 	private void notifyFriends2(L2PcInstance cha)
 	{
@@ -19690,5 +19701,13 @@ public boolean dismount()
 	public L2PcInstance getActingPlayer()
 	{
 		return this;
+	}
+	
+	public void sendBlockList()
+	{
+		for(String playerName : getBlockList().getBlockList())
+		{
+			sendPacket(new SystemMessage(SystemMessageId.S1_S2).addString(playerName));
+		}
 	}
 }

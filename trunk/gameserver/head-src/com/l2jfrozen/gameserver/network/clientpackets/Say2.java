@@ -281,7 +281,19 @@ public final class Say2 extends L2GameClientPacket
 		{
 			case TELL:
 				L2PcInstance receiver = L2World.getInstance().getPlayer(_target);
-				if ((receiver != null) && (!BlockList.isBlocked(receiver, activeChar) || activeChar.isGM()))
+				
+				if(receiver == null){
+					
+					SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_NOT_ONLINE);
+					sm.addString(_target);
+					activeChar.sendPacket(sm);
+					sm = null;
+					return;
+					
+				}
+				
+				if (!receiver.getBlockList().isInBlockList(activeChar.getName()) 
+					|| activeChar.isGM())
 				{
 					if(receiver.isAway())
 					{
@@ -318,20 +330,14 @@ public final class Say2 extends L2GameClientPacket
 						activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_PERSON_IS_IN_MESSAGE_REFUSAL_MODE));
 					}
 				}
-				else if(receiver != null && BlockList.isBlocked(receiver, activeChar))
+				else if(receiver.getBlockList().isInBlockList(activeChar.getName()))
 				{
 					SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
 					sm.addString(_target);
 					activeChar.sendPacket(sm);
 					sm = null;
 				}
-				else
-				{
-					SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_NOT_ONLINE);
-					sm.addString(_target);
-					activeChar.sendPacket(sm);
-					sm = null;
-				}
+				
 				break;
 			case SHOUT:
 				
@@ -346,7 +352,9 @@ public final class Say2 extends L2GameClientPacket
 		              {
 		                 if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
 		                 {
-		                    player.sendPacket(cs);
+							// Like L2OFF if player is blocked can't read the message
+							if(!player.getBlockList().isInBlockList(activeChar.getName()))               	 
+		                       player.sendPacket(cs);
 		                 }
 		              }
 		           }
@@ -361,14 +369,18 @@ public final class Say2 extends L2GameClientPacket
 		                 }
 		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		                 {
-		                    player.sendPacket(cs);
+							// Like L2OFF if player is blocked can't read the message
+							if(!player.getBlockList().isInBlockList(activeChar.getName()))
+		                       player.sendPacket(cs);
 		                 }
 		              }
 		              else
 		              {
 		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		                 {
-		                    player.sendPacket(cs);
+							// Like L2OFF if player is blocked can't read the message
+							if(!player.getBlockList().isInBlockList(activeChar.getName()))
+		                       player.sendPacket(cs);
 		                 }
 		              }
 		           }
@@ -385,14 +397,18 @@ public final class Say2 extends L2GameClientPacket
 		                 }
 		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		                 {
-		                    player.sendPacket(cs);
+							// Like L2OFF if player is blocked can't read the message
+							if(!player.getBlockList().isInBlockList(activeChar.getName()))
+		                       player.sendPacket(cs);
 		                 }
 		              }
 		              else
 		              {
 		                 for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		                 {
-		                    player.sendPacket(cs);
+							// Like L2OFF if player is blocked can't read the message
+							if(!player.getBlockList().isInBlockList(activeChar.getName()))
+		                       player.sendPacket(cs);
 		                 }
 		              }
 		           }
@@ -412,7 +428,9 @@ public final class Say2 extends L2GameClientPacket
 						{
 							if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
 							{
-								player.sendPacket(cs);
+								// Like L2OFF if player is blocked can't read the message
+								if(!player.getBlockList().isInBlockList(activeChar.getName()))
+								   player.sendPacket(cs);
 							}
 						}
 						
@@ -424,7 +442,9 @@ public final class Say2 extends L2GameClientPacket
 						{
 							if(region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
 							{
-								player.sendPacket(cs);
+								// Like L2OFF if player is blocked can't read the message
+								if(!player.getBlockList().isInBlockList(activeChar.getName()))
+								   player.sendPacket(cs);
 							}
 						}
 					}
@@ -467,7 +487,9 @@ public final class Say2 extends L2GameClientPacket
 				{
 					if(player != null && activeChar.isInsideRadius(player, 1250, false, true))
 					{
-						player.sendPacket(cs);
+						// Like L2OFF if player is blocked can't read the message
+						if(!player.getBlockList().isInBlockList(activeChar.getName()))
+						  player.sendPacket(cs);
 					}
 				}
 				activeChar.sendPacket(cs);
@@ -522,11 +544,13 @@ public final class Say2 extends L2GameClientPacket
 			case HERO_VOICE:
 				if(activeChar.isGM())
 				{
-					for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-						if(!BlockList.isBlocked(player, activeChar))
-						{
-							player.sendPacket(cs);
-						}
+					for(L2PcInstance player : L2World.getInstance().getAllPlayers()){
+						
+						if(player==null)
+							continue;
+						
+					    player.sendPacket(cs);	
+					}		
 				}
 				else if(activeChar.isHero())
 				{
@@ -534,11 +558,15 @@ public final class Say2 extends L2GameClientPacket
 					if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
 						return;
 
-					for(L2PcInstance player : L2World.getInstance().getAllPlayers())
-						if(!BlockList.isBlocked(player, activeChar))
-						{
-							player.sendPacket(cs);
-						}
+					for(L2PcInstance player : L2World.getInstance().getAllPlayers()){
+						
+						if(player==null)
+							continue;
+						
+						// Like L2OFF if player is blocked can't read the message
+						if(!player.getBlockList().isInBlockList(activeChar.getName()))
+							player.sendPacket(cs);					
+					}						
 				}
 				break;
 		}

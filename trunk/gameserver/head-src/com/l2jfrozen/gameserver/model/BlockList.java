@@ -46,108 +46,159 @@ public class BlockList
 {
 	private final Set<String> _blockSet;
 	private boolean _blockAll;
-
-	public BlockList()
+	private L2PcInstance _owner;
+	
+	public BlockList(L2PcInstance owner)
 	{
+		_owner = owner;
 		_blockSet = new FastSet<String>();
 		_blockAll = false;
 	}
 
-	private void addToBlockList(L2PcInstance character)
+	public void addToBlockList(String character)
 	{
 		if(character != null)
 		{
-			_blockSet.add(character.getName());
+			_blockSet.add(character);
+			
+			SystemMessage sm = null;
+			
+			L2PcInstance target = L2World.getInstance().getPlayer(character);
+			if(target != null){
+				sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
+				sm.addString(_owner.getName());
+				target.sendPacket(sm);
+			}
+			
+			sm = new SystemMessage(SystemMessageId.S1_WAS_ADDED_TO_YOUR_IGNORE_LIST);
+			sm.addString(character);
+			_owner.sendPacket(sm);
 		}
 	}
 
-	private void removeFromBlockList(L2PcInstance character)
+	public void removeFromBlockList(String character)
 	{
 		if(character != null)
 		{
-			_blockSet.remove(character.getName());
+			_blockSet.remove(character);
+			SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_REMOVED_FROM_YOUR_IGNORE_LIST);
+			sm.addString(character);
+			_owner.sendPacket(sm);
 		}
 	}
 
-	private boolean isInBlockList(L2PcInstance character)
+	public boolean isInBlockList(String character)
 	{
-		return _blockSet.contains(character.getName());
+		return _blockSet.contains(character);
 	}
-
-	private boolean isBlockAll()
+	
+	
+	public boolean isBlockAll()
 	{
 		return _blockAll;
 	}
-
-	public static boolean isBlocked(L2PcInstance listOwner, L2PcInstance character)
-	{
-		BlockList blockList = listOwner.getBlockList();
-		return blockList.isBlockAll() || blockList.isInBlockList(character);
-	}
-
-	private void setBlockAll(boolean state)
+	
+	public void setBlockAll(boolean state)
 	{
 		_blockAll = state;
 	}
 
-	private Set<String> getBlockList()
+	public Set<String> getBlockList()
 	{
 		return _blockSet;
 	}
-
-	public static void addToBlockList(L2PcInstance listOwner, L2PcInstance character)
+	
+	/*
+	public static boolean isInBlockList(String ownerName, String targetName) throws Exception
 	{
-		if (listOwner.getFriendList().contains(character.getName()))
+		L2PcInstance listOwner = L2World.getInstance().getPlayer(ownerName);
+		if(listOwner == null){
+			throw new Exception ("Attention: cannot check blocked list because owner is offline");
+		}
+		
+		BlockList blockList = listOwner.getBlockList();
+		return blockList.isBlockAll() || blockList.isInBlockList(targetName);
+	}
+	
+	public static void add_ToBlockList(String listOwnerName, String targetCharacter) throws Exception
+	{
+		L2PcInstance listOwner = L2World.getInstance().getPlayer(listOwnerName);
+		if(listOwner == null){
+			throw new Exception ("Attention: cannot add character to blocked list because owner is offline");
+		}
+		
+		if (listOwner.getFriendList().contains(targetCharacter))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_ALREADY_IN_FRIENDS_LIST);
-			sm.addString(character.getName());
+			sm.addString(targetCharacter);
 			listOwner.sendPacket(sm);
 			return;
 		}
 		
-		listOwner.getBlockList().addToBlockList(character);
+		listOwner.getBlockList().addToBlockList(targetCharacter);
 
-		SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
-		sm.addString(listOwner.getName());
-		character.sendPacket(sm);
-		sm = null;
-
+		SystemMessage sm = null;
+		
+		L2PcInstance target = L2World.getInstance().getPlayer(targetCharacter);
+		if(target != null){
+			sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
+			sm.addString(listOwner.getName());
+			target.sendPacket(sm);
+		}
+		
 		sm = new SystemMessage(SystemMessageId.S1_WAS_ADDED_TO_YOUR_IGNORE_LIST);
-		sm.addString(character.getName());
+		sm.addString(targetCharacter);
 		listOwner.sendPacket(sm);
-		sm = null;
+	
 	}
 
-	public static void removeFromBlockList(L2PcInstance listOwner, L2PcInstance character)
+	public static void removeFromBlockList(String listOwnerName, String targetCharacter) throws Exception
 	{
-		listOwner.getBlockList().removeFromBlockList(character);
+		L2PcInstance listOwner = L2World.getInstance().getPlayer(listOwnerName);
+		if(listOwner == null){
+			throw new Exception ("Attention: cannot remove character from blocked list because owner is offline");
+		}
+		
+		listOwner.getBlockList().removeFromBlockList(targetCharacter);
 
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_REMOVED_FROM_YOUR_IGNORE_LIST);
-		sm.addString(character.getName());
+		sm.addString(targetCharacter);
 		listOwner.sendPacket(sm);
-		sm = null;
+	
 	}
 
-	public static boolean isInBlockList(L2PcInstance listOwner, L2PcInstance character)
+	public static boolean isBlockingAll(String listOwnerName) throws Exception
 	{
-		return listOwner.getBlockList().isInBlockList(character);
-	}
-
-	public static boolean isBlockAll(L2PcInstance listOwner)
-	{
+		L2PcInstance listOwner = L2World.getInstance().getPlayer(listOwnerName);
+		if(listOwner == null){
+			throw new Exception ("Attention: cannot check blocked list because owner is offline");
+		}
+		
 		return listOwner.getBlockList().isBlockAll();
 	}
 
-	public static void setBlockAll(L2PcInstance listOwner, boolean newValue)
+	public static void setBlockAll(String listOwnerName, boolean newValue) throws Exception
 	{
+		L2PcInstance listOwner = L2World.getInstance().getPlayer(listOwnerName);
+		if(listOwner == null){
+			throw new Exception ("Attention: cannot set blocked list because owner is offline");
+		}
+		
 		listOwner.getBlockList().setBlockAll(newValue);
 	}
 
-	public static void sendListToOwner(L2PcInstance listOwner)
+	public static void sendListToOwner(String listOwnerName) throws Exception
 	{
+		L2PcInstance listOwner = L2World.getInstance().getPlayer(listOwnerName);
+		if(listOwner == null){
+			throw new Exception ("Attention: cannot send blocked list because owner is offline");
+		}
+		
 		for(String playerName : listOwner.getBlockList().getBlockList())
 		{
 			listOwner.sendPacket(new SystemMessage(SystemMessageId.S1_S2).addString(playerName));
 		}
 	}
+	*/
+
 }

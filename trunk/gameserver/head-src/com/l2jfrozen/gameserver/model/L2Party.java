@@ -300,7 +300,13 @@ public class L2Party
 	{ 
 		for (L2PcInstance member : getPartyMembers()) 
 		{ 
-			if (member != null && !BlockList.isBlocked(member, broadcaster)) 
+			if(member == null
+				|| broadcaster == null)
+				continue;
+			
+			boolean blocked = member.getBlockList().isInBlockList(broadcaster.getName());
+			
+			if (!blocked) 
 				member.sendPacket(msg); 
 		} 
 	} 
