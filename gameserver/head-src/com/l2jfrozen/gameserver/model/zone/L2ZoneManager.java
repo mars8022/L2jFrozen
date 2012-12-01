@@ -106,4 +106,12 @@ public class L2ZoneManager
 			}
 		}
 	}
+
+	/**
+	 * @return
+	 */
+	public FastList<L2ZoneType> getZones()
+	{
+		return _zones;
+	}
 }

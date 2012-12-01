@@ -41,11 +41,14 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.Point3D;
 
 /**
- * @author Forsaiken
+ * @author Shyla
  */
 public final class EffectSignetMDam extends L2Effect
 {
 	private L2EffectPointInstance _actor;
+	private boolean bss;
+	private boolean sps;
+//	private SigmetMDAMTask skill_task;
 
 	public EffectSignetMDam(Env env, EffectTemplate template)
 	{
@@ -72,6 +75,7 @@ public final class EffectSignetMDam extends L2Effect
 		L2EffectPointInstance effectPoint = new L2EffectPointInstance(IdFactory.getInstance().getNextId(), template, getEffector());
 		effectPoint.getStatus().setCurrentHp(effectPoint.getMaxHp());
 		effectPoint.getStatus().setCurrentMp(effectPoint.getMaxMp());
+		
 		L2World.getInstance().storeObject(effectPoint);
 
 		int x = getEffector().getX();
@@ -93,6 +97,8 @@ public final class EffectSignetMDam extends L2Effect
 		effectPoint.spawnMe(x, y, z);
 
 		_actor = effectPoint;
+		
+//		skill_task = new SigmetMDAMTask();
 	}
 
 	@Override
@@ -100,15 +106,15 @@ public final class EffectSignetMDam extends L2Effect
 	{
 		if(getCount() >= getTotalCount() - 2)
 			return true; // do nothing first 2 times
+		
 		int mpConsume = getSkill().getMpConsume();
-
 		L2PcInstance caster = (L2PcInstance) getEffector();
 
+		sps = caster.checkSps();
+		bss = caster.checkBss();
+		
 		FastList<L2Character> targets = new FastList<L2Character>();
 
-		boolean sps = caster.checkSps();
-		boolean bss = caster.checkBss();
-		
 		for(L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
 		{
 			if(cha == null || cha == caster)
@@ -133,9 +139,8 @@ public final class EffectSignetMDam extends L2Effect
 
 				if(cha instanceof L2PlayableInstance)
 				{
-					if(cha instanceof L2Summon && ((L2Summon) cha).getOwner() == caster)
-					{}
-					else
+					if(!(cha instanceof L2Summon 
+						&& ((L2Summon) cha).getOwner() == caster))
 					{
 						caster.updatePvPStatus(cha);
 					}
@@ -172,12 +177,6 @@ public final class EffectSignetMDam extends L2Effect
 			}
 		}
 		
-		if (bss){
-			caster.removeBss();
-		}else if(sps){
-			caster.removeSps();
-		}
-		
 		return true;
 	}
 
@@ -186,7 +185,18 @@ public final class EffectSignetMDam extends L2Effect
 	{
 		if(_actor != null)
 		{
+			L2PcInstance caster = (L2PcInstance) getEffector();
+
+			//remove shots
+			if (bss){
+				caster.removeBss();
+				
+			}else if(sps){
+				caster.removeSps();
+			}
 			_actor.deleteMe();
 		}
 	}
+	
+	
 }
