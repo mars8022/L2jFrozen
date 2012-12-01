@@ -698,4 +698,11 @@ public abstract class L2Effect
 	{
 		return _template.showIcon;
 	}
+
+	public EffectState get_state()
+	{
+		return _state;
+	}
+	
+	
 }

@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.skills;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -50,6 +51,7 @@ import com.l2jfrozen.gameserver.skills.conditions.ConditionGameTime.CheckGameTim
 import com.l2jfrozen.gameserver.skills.conditions.ConditionLogicAnd;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionLogicNot;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionLogicOr;
+import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerClassIdRestriction;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerHp;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerHpPercentage;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionPlayerLevel;
@@ -78,6 +80,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+
 
 /**
  * @author mkizub
@@ -609,6 +612,17 @@ abstract class DocumentBase
 			else if("spell_force".equalsIgnoreCase(a.getNodeName()))
 			{
 				forces[1] = Integer.decode(getValue(a.getNodeValue(), null));
+			}
+			else if ("class_id_restriction".equalsIgnoreCase(a.getNodeName()))
+			{
+				StringTokenizer st = new StringTokenizer(a.getNodeValue(), ",");
+				ArrayList<Integer> array = new ArrayList<Integer>(st.countTokens());
+				while (st.hasMoreTokens())
+				{
+					String item = st.nextToken().trim();
+					array.add(Integer.decode(getValue(item, null)));
+				}
+				cond = joinAnd(cond, new ConditionPlayerClassIdRestriction(array));
 			}
 		}
 

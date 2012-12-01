@@ -133,6 +133,7 @@ import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
@@ -1832,6 +1833,41 @@ public abstract class L2Character extends L2Object
 			sendPacket(sm);
 			sm = null;
 			return;
+		}
+		
+		// prevent casting signets to peace zone
+        if (skill.getSkillType() == SkillType.SIGNET || skill.getSkillType() == SkillType.SIGNET_CASTTIME)
+		{
+			/*for (L2Effect effect : getAllEffects())
+			{
+				if (effect.getEffectType() == L2Effect.EffectType.SIGNET_EFFECT
+					|| effect.getEffectType() == L2Effect.EffectType.SIGNET_GROUND)
+				{
+					SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+					sm.addSkillName(skill.getId());
+					sendPacket(sm);
+					return;
+				}
+			}*/
+			
+			L2WorldRegion region = getWorldRegion();
+			if (region == null) return;
+			boolean canCast = true;
+			if (skill.getTargetType() == SkillTargetType.TARGET_GROUND && this instanceof L2PcInstance)
+			{
+				Point3D wp = ((L2PcInstance) this).getCurrentSkillWorldPosition();
+				if (!region.checkEffectRangeInsidePeaceZone(skill, wp.getX(), wp.getY(), wp.getZ()))
+					canCast = false;
+			}
+			else if (!region.checkEffectRangeInsidePeaceZone(skill, getX(), getY(), getZ()))
+				canCast = false;
+			if (!canCast)
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+				sm.addSkillName(skill.getId());
+				sendPacket(sm);
+				return;
+			}
 		}
 
 		//Recharge AutoSoulShot
@@ -5960,6 +5996,14 @@ public abstract class L2Character extends L2Object
 	 */
 	public final boolean isCastingNow()
 	{
+		
+		
+		L2Effect mog = getFirstEffect(L2Effect.EffectType.SIGNET_GROUND);
+		if(mog != null)
+		{
+			return true;
+		}
+		
 		return _castEndTime > GameTimeController.getGameTicks();
 	}
 	
@@ -6064,7 +6108,13 @@ public abstract class L2Character extends L2Object
 			{
 				getForceBuff().onCastAbort();
 			}
-
+			
+			L2Effect mog = getFirstEffect(L2Effect.EffectType.SIGNET_GROUND);
+			if(mog != null)
+			{
+				mog.exit(true);
+			}
+			
 			// cancels the skill hit scheduled task
 			enableAllSkills(); // re-enables the skills
 			if(this instanceof L2PcInstance)
@@ -7659,7 +7709,8 @@ public abstract class L2Character extends L2Object
 	public void breakCast()
 	{
 		// damage can only cancel magical skills
-		if(isCastingNow() && canAbortCast() && getLastSkillCast() != null && getLastSkillCast().isMagic())
+		if(isCastingNow() && canAbortCast() 
+			&& getLastSkillCast() != null && getLastSkillCast().isMagic())
 		{
 			// Abort the cast of the L2Character and send Server->Client MagicSkillCanceld/ActionFailed packet.
 			abortCast();
@@ -8751,7 +8802,7 @@ public abstract class L2Character extends L2Object
 		{
 			broadcastPacket(new MagicSkillLaunched(this, magicId, level, final_targets));
 		}
-
+		
 		if(instant)
 		{
 			onMagicHitTimer(final_targets, skill, coolTime, true);
@@ -8780,7 +8831,8 @@ public abstract class L2Character extends L2Object
 	 */
 	public void onMagicHitTimer(final L2Object[] targets, L2Skill skill, int coolTime, boolean instant)
 	{
-		if(skill == null || (targets == null || targets.length <= 0) && skill.getTargetType() != SkillTargetType.TARGET_AURA)
+		if(skill == null || (targets == null || targets.length <= 0) 
+			&& skill.getTargetType() != SkillTargetType.TARGET_AURA)
 		{
 			_skillCast = null;
 			enableAllSkills();
@@ -8803,7 +8855,13 @@ public abstract class L2Character extends L2Object
 		if(mog != null)
 		{
 			_skillCast = null;
-			mog.exit(true);
+			enableAllSkills();
+
+			//close skill if it's not SIGNET_CASTTIME
+			if(mog.getSkill().getSkillType() != SkillType.SIGNET_CASTTIME){
+				mog.exit(true);
+			}
+			
 			L2Object target = targets == null ? null : targets[0];
 			if (target != null)
 			{
@@ -8927,7 +8985,9 @@ public abstract class L2Character extends L2Object
 
 		if(instant || coolTime == 0)
 		{
-			onMagicFinalizer(targets, skill);
+			
+				onMagicFinalizer(targets, skill);
+				
 		}
 		else
 		{

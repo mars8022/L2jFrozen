@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneManager;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
+import com.l2jfrozen.gameserver.model.zone.type.L2PeaceZone;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.object.L2ObjectSet;
 
@@ -465,4 +466,46 @@ public final class L2WorldRegion
 		}if(Config.DEBUG){
 		_log.info("All visible NPC's deleted in Region: " + getName());}
 	}
+
+	/**
+	 * @param skill
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	public boolean checkEffectRangeInsidePeaceZone(L2Skill skill, final int x, final int y, final int z)
+    {
+        if (_zoneManager != null)
+        {
+            final int range = skill.getEffectRange();
+            final int up = y + range;
+            final int down = y - range;
+            final int left = x + range;
+            final int right = x - range;
+            
+            for (L2ZoneType e : _zoneManager.getZones())
+            {
+            	if (e instanceof L2PeaceZone)
+            	{
+            		if (e.isInsideZone(x, up, z))
+            			return false;
+                        
+            		if (e.isInsideZone(x, down, z))
+            			return false;
+                        	
+            		if (e.isInsideZone(left, y, z))
+            			return false;
+            		
+            		if (e.isInsideZone(right, y, z))
+            			return false;
+                        
+            		if (e.isInsideZone(x, y, z))
+            			return false;
+            	}
+            }
+            return true;
+        }
+        return true;
+    }
 }

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19705,9 +19706,18 @@ public boolean dismount()
 	
 	public void sendBlockList()
 	{
-		for(String playerName : getBlockList().getBlockList())
+		sendMessage("======<Ignore List>======");
+		
+		int i=1;
+		Iterator<String> blockListIt = getBlockList().getBlockList().iterator();
+		while(blockListIt.hasNext())
 		{
-			sendPacket(new SystemMessage(SystemMessageId.S1_S2).addString(playerName));
+			String playerId = blockListIt.next();
+			sendMessage((new StringBuilder()).append(i++).append(". ").append(playerId).toString());
+		
 		}
+		
+		sendMessage("========================");
+		
 	}
 }

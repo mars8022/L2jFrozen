@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class BlockList
 {
-	private final Set<String> _blockSet;
+	private Set<String> _blockSet;
 	private boolean _blockAll;
 	private L2PcInstance _owner;
 	
