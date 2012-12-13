@@ -33,7 +33,6 @@ import javolution.util.FastMap;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
-import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;

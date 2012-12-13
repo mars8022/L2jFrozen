@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 import com.l2jfrozen.gameserver.model.L2Manor;
-import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ManorManagerInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;

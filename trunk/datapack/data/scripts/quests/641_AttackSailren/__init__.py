@@ -1,5 +1,6 @@
-# Made by Vice
+#Quest reworked by OnePaTuBHuK special for L2JFrozen. All rights reserved.
 import sys
+from com.l2jfrozen import Config
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
 from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
@@ -50,7 +51,14 @@ class Quest (JQuest):
    if npcId == STATUE :
      if id == CREATED :
        if player.getLevel() >= 77 :
-         htmltext = "32109-01.htm"
+         first = player.getQuestState("125_TheNameofEvilPart1")
+         second = player.getQuestState("126_TheNameofEvilPart2")
+         if first and second and first.getState().getName() == 'Completed' and second.getState().getName() == 'Completed' :
+           htmltext = "32109-01.htm"
+         else:
+           htmltext = "Quest only for the characters, that finished quest <font color=LEVEL>The Name Of Evil - Part 2</font>"
+           st.exitQuest(1)
+           return
        else :
          st.exitQuest(1)
          return

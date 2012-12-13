@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.logging.Logger;
 
-import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;

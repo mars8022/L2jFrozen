@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.network.L2GamePacketHandler;
 
 /**
  * @author zabbix Lets drink to code!

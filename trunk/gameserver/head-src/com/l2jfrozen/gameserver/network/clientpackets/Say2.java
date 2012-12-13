@@ -30,7 +30,6 @@ import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.handler.VoicedCommandHandler;
 import com.l2jfrozen.gameserver.managers.PetitionManager;
-import com.l2jfrozen.gameserver.model.BlockList;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;

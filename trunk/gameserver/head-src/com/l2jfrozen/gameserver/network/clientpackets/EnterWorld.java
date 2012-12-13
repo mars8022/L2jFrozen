@@ -42,6 +42,7 @@ import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
 import com.l2jfrozen.gameserver.managers.FortSiegeManager;
 import com.l2jfrozen.gameserver.managers.PetitionManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
+import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -248,7 +249,7 @@ public class EnterWorld extends L2GameClientPacket
 				}
 			}
 		}
-
+  
 		// Restores custom status
 		activeChar.restoreCustomStatus();
 
@@ -273,6 +274,7 @@ public class EnterWorld extends L2GameClientPacket
 		
 		// Reload inventory to give SA skill
 		activeChar.getInventory().reloadEquippedItems();
+		
 		
 		// Welcome to Lineage II
 		sendPacket(new SystemMessage(SystemMessageId.WELCOME_TO_LINEAGE));
@@ -475,6 +477,23 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.setIsImobilised(true);
 			activeChar.disableAllSkills();
 			ThreadPoolManager.getInstance().scheduleGeneral(new Disconnection(activeChar), 20000);
+		}
+		
+		// Elrokian Trap like L2OFF
+		L2ItemInstance rhand = activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+		if (rhand != null && rhand.getItemId() == 8763)
+		{
+				activeChar.addSkill(SkillTable.getInstance().getInfo(3626, 1));
+				activeChar.addSkill(SkillTable.getInstance().getInfo(3627, 1));
+				activeChar.addSkill(SkillTable.getInstance().getInfo(3628, 1));
+				activeChar.sendSkillList();
+		}
+		else
+		{
+			activeChar.removeSkill(3626, true);
+			activeChar.removeSkill(3627, true);
+			activeChar.removeSkill(3628, true);
+			activeChar.sendSkillList();
 		}
 		
 		// Close lock at login
