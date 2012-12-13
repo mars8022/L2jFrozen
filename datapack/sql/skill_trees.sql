@@ -13942,33 +13942,34 @@ INSERT INTO skill_trees VALUES (115,427,1,'Spell Force',11000000,77); -- Dominat
 INSERT INTO skill_trees VALUES (116,427,1,'Spell Force',14670000,77); -- Doomcryer --
 
 -- Kabokula,Tapirawa,Shabonoba.
-INSERT INTO skill_trees VALUES (0,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (10,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (18,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (25,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (31,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (38,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (44,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (49,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (53,3626,1,'Kabokula',0,75);
-INSERT INTO skill_trees VALUES (0,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (10,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (18,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (25,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (31,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (38,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (44,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (49,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (53,3627,1,'Tapirawa',0,75);
-INSERT INTO skill_trees VALUES (0,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (10,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (18,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (25,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (31,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (38,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (44,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (49,3628,1,'Shabonoba',0,75);
-INSERT INTO skill_trees VALUES (53,3628,1,'Shabonoba',0,75);
+-- Like L2OFF skills are added when weapon is equiped.
+--INSERT INTO skill_trees VALUES (0,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (10,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (18,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (25,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (31,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (38,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (44,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (49,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (53,3626,1,'Kabokula',0,75);
+--INSERT INTO skill_trees VALUES (0,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (10,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (18,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (25,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (31,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (38,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (44,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (49,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (53,3627,1,'Tapirawa',0,75);
+--INSERT INTO skill_trees VALUES (0,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (10,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (18,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (25,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (31,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (38,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (44,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (49,3628,1,'Shabonoba',0,75);
+--INSERT INTO skill_trees VALUES (53,3628,1,'Shabonoba',0,75);
 
 -- Divine Inspiration 1405 Humans
 INSERT INTO skill_trees VALUES (5,1405,1,'Divine Inspiration',0,52);

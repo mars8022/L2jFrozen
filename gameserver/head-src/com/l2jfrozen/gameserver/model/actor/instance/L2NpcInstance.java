@@ -23,10 +23,10 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE;
 import java.text.DateFormat;
 import java.util.List;
 
-import org.omg.PortableServer.POAManagerPackage.State;
-
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
+
+import org.omg.PortableServer.POAManagerPackage.State;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -96,7 +96,6 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.util.StringUtil;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
