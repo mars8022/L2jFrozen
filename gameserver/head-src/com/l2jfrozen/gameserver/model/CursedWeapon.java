@@ -231,7 +231,15 @@ public class CursedWeapon
 
 		// Delete infos from table if any
 		CursedWeaponsManager.removeFromDb(_itemId);
-
+		
+		// Force reload inventory
+		_player.sendPacket(new ItemList(_player, false));
+		L2ItemInstance rhand = _player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+		if (rhand != null)
+		{	
+			_player.getInventory().unEquipItemInSlotAndRecord(rhand.getEquipSlot());
+		}
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_DISAPPEARED);
 		sm.addItemName(_itemId);
 		CursedWeaponsManager.announce(sm);
@@ -316,6 +324,14 @@ public class CursedWeapon
 
 		_isDropped = true;
 
+		// Force reload inventory
+		_player.sendPacket(new ItemList(_player, false));
+		L2ItemInstance rhand = _player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+		if (rhand != null)
+		{	
+			_player.getInventory().unEquipItemInSlotAndRecord(rhand.getEquipSlot());
+		}
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S2_WAS_DROPPED_IN_THE_S1_REGION);
 
 		if(player != null)

@@ -6767,8 +6767,8 @@ INSERT INTO `etcitem` VALUES ('8782', 'Gazkh Fragment', 'false', 'none', '0', 's
 INSERT INTO `etcitem` VALUES ('8783', 'Bone Powder', 'false', 'none', '0', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
 INSERT INTO `etcitem` VALUES ('8784', 'Gazkh', 'false', 'none', '0', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
 INSERT INTO `etcitem` VALUES ('8785', 'Dinosaur Fang Necklace', 'false', 'none', '0', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
-INSERT INTO `etcitem` VALUES ('8786', 'Primeval Potion', 'false', 'none', '2', 'stackable', 'none', '-1', '5000', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
-INSERT INTO `etcitem` VALUES ('8787', 'Sprigant\'s Fruit', 'false', 'none', '2', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
+INSERT INTO `etcitem` VALUES ('8786', 'Primeval Potion', 'false', 'potion', '2', 'stackable', 'none', '-1', '5000', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
+INSERT INTO `etcitem` VALUES ('8787', 'Sprigant\'s Fruit', 'false', 'potion', '2', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
 INSERT INTO `etcitem` VALUES ('8868', 'Ziggo\'s Gemstone', 'false', 'none', '0', 'stackable', 'none', '-1', '0', '0', 'true', 'true', 'true', 'true', 'InterludeItem', 'none');
 INSERT INTO `etcitem` VALUES ('8869', 'Shadow Item Exchange Coupon: D Grade', 'false', 'none', '0', 'stackable', 'none', '-1', '0', '0', 'false', 'false', 'true', 'false', 'InterludeItem', 'none');
 INSERT INTO `etcitem` VALUES ('8870', 'Shadow Item Exchange Coupon: C Grade', 'false', 'none', '0', 'stackable', 'none', '-1', '0', '0', 'false', 'false', 'true', 'false', 'InterludeItem', 'none');

@@ -42,66 +42,70 @@ public class ScrollOfResurrection implements IItemHandler
 	// all the items ids that this handler knows
 	private static final int[] ITEM_IDS =
 	{
-			737, 3936, 3959, 6387
+		737,
+		3936,
+		3959,
+		6387
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
-
-		if(activeChar.isSitting())
+		
+		if (activeChar.isSitting())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANT_MOVE_SITTING));
 			return;
 		}
-
-		if(activeChar.isInOlympiadMode())
+		
+		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendMessage("This Item Cannot Be Used On Olympiad Games.");
 		}
-
-		if(activeChar.isMovementDisabled())
+		
+		if (activeChar.isMovementDisabled())
 			return;
-
+		
 		int itemId = item.getItemId();
-		//boolean blessedScroll = (itemId != 737);
+		// boolean blessedScroll = (itemId != 737);
 		boolean humanScroll = itemId == 3936 || itemId == 3959 || itemId == 737;
 		boolean petScroll = itemId == 6387 || itemId == 737;
-
+		
 		// SoR Animation section
 		L2Character target = (L2Character) activeChar.getTarget();
-
-		if(target != null && target.isDead())
+		
+		if (target != null && target.isDead())
 		{
 			L2PcInstance targetPlayer = null;
-			if(target instanceof L2PcInstance)
+			if (target instanceof L2PcInstance)
 			{
 				targetPlayer = (L2PcInstance) target;
 			}
-
+			
 			L2PetInstance targetPet = null;
-			if(target instanceof L2PetInstance)
+			if (target instanceof L2PetInstance)
 			{
 				targetPet = (L2PetInstance) target;
 			}
-
+			
 			target = null;
-
-			if(targetPlayer != null || targetPet != null)
+			
+			if (targetPlayer != null || targetPet != null)
 			{
 				boolean condGood = true;
-
-				//check target is not in a active siege zone
+				
+				// check target is not in a active siege zone
 				Castle castle = null;
-
-				if(targetPlayer != null)
+				
+				if (targetPlayer != null)
 				{
 					castle = CastleManager.getInstance().getCastle(targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getZ());
 				}
@@ -109,22 +113,22 @@ public class ScrollOfResurrection implements IItemHandler
 				{
 					castle = CastleManager.getInstance().getCastle(targetPet.getX(), targetPet.getY(), targetPet.getZ());
 				}
-
-				if(castle != null && castle.getSiege().getIsInProgress())
+				
+				if (castle != null && castle.getSiege().getIsInProgress())
 				{
 					condGood = false;
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_BE_RESURRECTED_DURING_SIEGE));
 				}
-
+				
 				castle = null;
-
-				if(targetPet != null)
+				
+				if (targetPet != null)
 				{
-					if(targetPet.getOwner() != activeChar)
+					if (targetPet.getOwner() != activeChar)
 					{
-						if(targetPet.getOwner().isReviveRequested())
+						if (targetPet.getOwner().isReviveRequested())
 						{
-							if(targetPet.getOwner().isRevivingPet())
+							if (targetPet.getOwner().isRevivingPet())
 							{
 								activeChar.sendPacket(new SystemMessage(SystemMessageId.RES_HAS_ALREADY_BEEN_PROPOSED)); // Resurrection is already been proposed.
 							}
@@ -135,7 +139,7 @@ public class ScrollOfResurrection implements IItemHandler
 							condGood = false;
 						}
 					}
-					else if(!petScroll)
+					else if (!petScroll)
 					{
 						condGood = false;
 						activeChar.sendMessage("You do not have the correct scroll");
@@ -143,14 +147,14 @@ public class ScrollOfResurrection implements IItemHandler
 				}
 				else if (targetPlayer != null)
 				{
-					if(targetPlayer.isFestivalParticipant()) // Check to see if the current player target is in a festival.
+					if (targetPlayer.isFestivalParticipant()) // Check to see if the current player target is in a festival.
 					{
 						condGood = false;
 						activeChar.sendPacket(SystemMessage.sendString("You may not resurrect participants in a festival."));
 					}
-					if(targetPlayer.isReviveRequested())
+					if (targetPlayer.isReviveRequested())
 					{
-						if(targetPlayer.isRevivingPet())
+						if (targetPlayer.isRevivingPet())
 						{
 							activeChar.sendPacket(new SystemMessage(SystemMessageId.MASTER_CANNOT_RES)); // While a pet is attempting to resurrect, it cannot help in resurrecting its master.
 						}
@@ -160,22 +164,19 @@ public class ScrollOfResurrection implements IItemHandler
 						}
 						condGood = false;
 					}
-					else if(!humanScroll)
+					else if (!humanScroll)
 					{
 						condGood = false;
 						activeChar.sendMessage("You do not have the correct scroll");
 					}
 				}
-
-				if(condGood)
+				
+				if (condGood)
 				{
-					if(!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
-						return;
-
 					int skillId = 0;
 					int skillLevel = 1;
-
-					switch(itemId)
+					
+					switch (itemId)
 					{
 						case 737:
 							skillId = 2014;
@@ -190,23 +191,29 @@ public class ScrollOfResurrection implements IItemHandler
 							skillId = 2179;
 							break; // Blessed Scroll of Resurrection: For Pets
 					}
-
-					if(skillId != 0)
+					
+					if (skillId != 0)
 					{
 						L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 						activeChar.useMagic(skill, true, true);
-						/* Micht : Unusefull, already done in useMagic()
-						MagicSkillUser msu = new MagicSkillUser(activeChar, skillId, skillLevel, skill.getHitTime(),0);
-						activeChar.broadcastPacket(msu);
-						SetupGauge sg = new SetupGauge(0, skill.getHitTime());
-						activeChar.sendPacket(sg);
-						*/
+						/*
+						 * Micht : Unusefull, already done in useMagic() MagicSkillUser msu = new MagicSkillUser(activeChar, skillId, skillLevel, skill.getHitTime(),0); activeChar.broadcastPacket(msu); SetupGauge sg = new SetupGauge(0, skill.getHitTime()); activeChar.sendPacket(sg);
+						 */
 						skill = null;
-
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
-						sm.addItemName(itemId);
-						activeChar.sendPacket(sm);
-						sm = null;
+						
+						// Comsume the scroll only after the cast like L2OFF
+						if (activeChar.isInsideRadius(targetPlayer, 450, false, false))
+						{
+							
+							if (!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
+								return;
+							
+							SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
+							sm.addItemName(itemId);
+							activeChar.sendPacket(sm);
+							sm = null;
+						}
+						
 					}
 				}
 			}
@@ -215,10 +222,10 @@ public class ScrollOfResurrection implements IItemHandler
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 		}
-
+		
 		activeChar = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{
