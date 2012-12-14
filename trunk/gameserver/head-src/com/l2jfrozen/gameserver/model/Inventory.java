@@ -1524,6 +1524,10 @@ public abstract class Inventory extends ItemContainer
 		if(bow == null)
 		   return null;
 		
+		// Check if char has the bow equiped
+		if(bow.getItemType() != L2WeaponType.BOW)
+	         return null;
+		
 		int arrowsId = 0;
 
 		switch(bow.getCrystalType())

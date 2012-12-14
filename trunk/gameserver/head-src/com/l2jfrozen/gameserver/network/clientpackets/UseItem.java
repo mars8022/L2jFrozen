@@ -194,6 +194,10 @@ public final class UseItem extends L2GameClientPacket
 			return;
 		}
 		
+		// Scroll of resurrection like L2OFF if you are casting you can't use them
+		if ((itemId == 737 || itemId == 3936 || itemId == 3959 || itemId == 6387) && activeChar.isCastingNow())
+			return;
+		
 		// Castle circlets used by the members of a clan that owns a castle, academy members are excluded.
 		if (Config.CASTLE_CIRCLETS && (itemId >= 6834 && itemId <= 6840 || itemId == 8182 || itemId == 8183))
 		{

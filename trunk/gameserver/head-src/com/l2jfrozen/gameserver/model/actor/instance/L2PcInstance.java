@@ -3368,44 +3368,54 @@ private int _reviveRequested = 0;
 		
 		L2Skill[] char_skills = this.getAllSkills();
 		
-		for(L2Skill actual_skill : char_skills){
+		for (L2Skill actual_skill : char_skills)
+		{
 			
-			if(actual_skill.getName().contains("Blunt Mastery")){
+			if (actual_skill.getName().contains("Sword Blunt Mastery"))
+			{
+				_sword_mastery = true;
 				_blunt_mastery = true;
 				continue;
 			}
 			
-			if(actual_skill.getName().contains("Bow Mastery")){
+			if (actual_skill.getName().contains("Blunt Mastery"))
+			{
+				_blunt_mastery = true;
+				continue;
+			}
+			
+			if (actual_skill.getName().contains("Bow Mastery"))
+			{
 				_bow_mastery = true;
 				continue;
 			}
 			
-			if(actual_skill.getName().contains("Dagger Mastery")){
+			if (actual_skill.getName().contains("Dagger Mastery"))
+			{
 				_dagger_mastery = true;
 				continue;
 			}
-
-			if(actual_skill.getName().contains("Fist Mastery")){
+			
+			if (actual_skill.getName().contains("Fist Mastery"))
+			{
 				_fist_mastery = true;
 				continue;
 			}
-
-			if(actual_skill.getName().contains("Dual Weapon Mastery")){
+			
+			if (actual_skill.getName().contains("Dual Weapon Mastery"))
+			{
 				_dual_mastery = true;
 				continue;
 			}
-
-			if(actual_skill.getName().contains("Polearm Mastery")){
+			
+			if (actual_skill.getName().contains("Polearm Mastery"))
+			{
 				_pole_mastery = true;
 				continue;
 			}
 			
-			if(actual_skill.getName().contains("Sword Blunt Mastery")){
-				_sword_mastery = true;
-				continue;
-			}
-			
-			if(actual_skill.getName().contains("Two-handed Weapon Mastery")){
+			if (actual_skill.getName().contains("Two-handed Weapon Mastery"))
+			{
 				_2hands_mastery = true;
 				continue;
 			}
@@ -3428,7 +3438,7 @@ private int _reviveRequested = 0;
 			
 			for(L2ItemInstance item : getInventory().getItems())
 			{
-				if(item != null && item.isEquipped() && item.getItem() instanceof L2Weapon)
+				if(item != null && item.isEquipped() && item.getItem() instanceof L2Weapon && !isCursedWeaponEquiped())
 				{
 					L2Weapon weap_item = (L2Weapon) item.getItem();
 					
