@@ -196,11 +196,6 @@ public class CursedWeaponsManager
 
 	private final void restore()
 	{
-		if(Config.DEBUG)
-		{
-			_log.info("  Restoring ... ");
-		}
-
 		Connection con = null;
 		try
 		{
@@ -228,17 +223,16 @@ public class CursedWeaponsManager
 				cw.reActivate();
 
 				cw = null;
+				
+				// clean up the cursed weapons table.
+				removeFromDb(itemId);
 			}
 
 			rset.close();
 			statement.close();
 			rset = null;
 			statement = null;
-
-			if(Config.DEBUG)
-			{
-				System.out.println("OK");
-			}
+			
 		}
 		catch(Exception e)
 		{
@@ -252,13 +246,13 @@ public class CursedWeaponsManager
 			CloseUtil.close(con);
 			con = null;
 		}
+		
+		
 	}
 
 	private final void controlPlayers()
 	{
-		if(Config.DEBUG)
-			_log.info("  Checking players ... ");
-
+		
 		Connection con = null;
 		try
 		{
@@ -311,8 +305,7 @@ public class CursedWeaponsManager
 						{
 							_log.warning("Error while updating karma & pkkills for userId " + cw.getPlayerId());
 						}
-						// clean up the cursed weapons table.
-						removeFromDb(itemId);
+						
 					}
 					rset.close();
 					statement.close();
@@ -337,16 +330,19 @@ public class CursedWeaponsManager
 			CloseUtil.close(con);
 			con = null;
 		}
-
-		if(Config.DEBUG)
-			System.out.println("DONE");
+		
 	}
 
 	// =========================================================
 	// Properties - Public
 	public synchronized void checkDrop(L2Attackable attackable, L2PcInstance player)
 	{
-		if(attackable instanceof L2SiegeGuardInstance || attackable instanceof L2RiftInvaderInstance || attackable instanceof L2FestivalMonsterInstance || attackable instanceof L2GrandBossInstance || attackable instanceof L2FortSiegeGuardInstance || attackable instanceof L2CommanderInstance)
+		if(attackable instanceof L2SiegeGuardInstance 
+			|| attackable instanceof L2RiftInvaderInstance 
+			|| attackable instanceof L2FestivalMonsterInstance 
+			|| attackable instanceof L2GrandBossInstance 
+			|| attackable instanceof L2FortSiegeGuardInstance 
+			|| attackable instanceof L2CommanderInstance)
 			return;
 
 		if(player.isCursedWeaponEquiped())
@@ -386,6 +382,7 @@ public class CursedWeaponsManager
 			// erase the newly obtained cursed weapon
 			cw.setPlayer(player); // NECESSARY in order to find which inventory the weapon is in!
 			cw.endOfLife(); // expire the weapon and clean up.
+			
 		}
 		else
 		{
@@ -395,6 +392,7 @@ public class CursedWeaponsManager
 		cw = null;
 	}
 
+	
 	public void drop(int itemId, L2Character killer)
 	{
 		CursedWeapon cw = _cursedWeapons.get(itemId);
@@ -429,10 +427,7 @@ public class CursedWeaponsManager
 
 			player.sendPacket(sm);
 		}
-		if(Config.DEBUG)
-		{
-			_log.info("MessageID: " + sm.getMessageID());
-		}
+		
 	}
 
 	public void checkPlayer(L2PcInstance player)

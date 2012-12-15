@@ -8,7 +8,7 @@ from com.l2jfrozen.util.random import Rnd
 	
 qn = "8009_HotSpringsBuffs"
 	
-#print "8009. Hot Springs Buffs"
+#print "HotSpringsBuffs"
 	
 HSMOBS = [21316, 21321, 21314, 21319]
 	
@@ -42,29 +42,7 @@ class Quest (JQuest) :
           else:
             npc.setTarget(player)
             npc.doCast(SkillTable.getInstance().getInfo(4554,1))
-      else:
-        if (Rnd.get(2) == 1):
-          if player.getFirstEffect(int(4551)):
-            rheumatism = player.getFirstEffect(int(4551)).getLevel()
-            if (Rnd.get(100) < 30):
-              if rheumatism < 10:
-                newrheumatism = int(rheumatism + 1)
-                npc.setTarget(player)
-                npc.doCast(SkillTable.getInstance().getInfo(4551,newrheumatism))
-          else:
-            npc.setTarget(player)
-            npc.doCast(SkillTable.getInstance().getInfo(4551,1))
-        else:
-          if player.getFirstEffect(int(4553)):
-            flu = player.getFirstEffect(int(4553)).getLevel()
-            if (Rnd.get(100) < 15):
-              if flu < 10:
-                newflu = int(flu + 1)
-                npc.setTarget(player)
-                npc.doCast(SkillTable.getInstance().getInfo(4553,newflu))
-          else:
-            npc.setTarget(player)
-            npc.doCast(SkillTable.getInstance().getInfo(4553,1))
+      
     return 
         
 QUEST       = Quest(8009,qn,"custom")

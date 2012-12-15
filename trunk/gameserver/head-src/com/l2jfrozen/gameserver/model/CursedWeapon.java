@@ -101,32 +101,13 @@ public class CursedWeapon
 				_player.setCursedWeaponEquipedId(0);
 				removeSkill();
 
-				// Remove
+				// Remove and destroy
 				_player.getInventory().unEquipItemInBodySlotAndRecord(L2Item.SLOT_LR_HAND);
+				_player.getInventory().destroyItemByItemId("", _itemId, 1, _player, null);
 				_player.store();
 
-				// Destroy
-				L2ItemInstance removedItem = _player.getInventory().destroyItemByItemId("", _itemId, 1, _player, null);
-				if(removedItem!= null && !Config.FORCE_INVENTORY_UPDATE)
-				{
-					InventoryUpdate iu = new InventoryUpdate();
-					if(removedItem.getCount() == 0)
-					{
-						iu.addRemovedItem(removedItem);
-					}
-					else
-					{
-						iu.addModifiedItem(removedItem);
-					}
-
-					_player.sendPacket(iu);
-					iu = null;
-				}
-				else
-				{
-					_player.sendPacket(new ItemList(_player, true));
-				}
-
+				//update inventory and userInfo
+				_player.sendPacket(new ItemList(_player, true));
 				_player.broadcastUserInfo();
 			}
 			else
@@ -151,17 +132,6 @@ public class CursedWeapon
 
 					statement.close();
 					statement = null;
-
-					/* Yesod: Skill is not stored into database any more.
-					// Delete the skill
-					statement = con.prepareStatement("DELETE FROM character_skills WHERE char_obj_id=? AND skill_id=?");
-					statement.setInt(1, _playerId);
-					statement.setInt(2, _skillId);
-					if (statement.executeUpdate() != 1)
-					{
-						_log.warning("Error while deleting skillId "+ _skillId +" from userId "+_playerId);
-					}
-					*/
 
 					// Restore the karma
 					statement = con.prepareStatement("UPDATE characters SET karma=?, pkkills=? WHERE obj_id=?");
@@ -194,31 +164,19 @@ public class CursedWeapon
 			// OR this cursed weapon is on the ground.
 			if(_player != null && _player.getInventory().getItemByItemId(_itemId) != null)
 			{
+				L2ItemInstance rhand = _player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+				if (rhand != null)
+				{	
+					_player.getInventory().unEquipItemInSlotAndRecord(rhand.getEquipSlot());
+				}
+				
 				// Destroy
-				L2ItemInstance removedItem = _player.getInventory().destroyItemByItemId("", _itemId, 1, _player, null);
+				_player.getInventory().destroyItemByItemId("", _itemId, 1, _player, null);
+				_player.store();
 
-				if(!Config.FORCE_INVENTORY_UPDATE)
-				{
-					InventoryUpdate iu = new InventoryUpdate();
-					if(removedItem.getCount() == 0)
-					{
-						iu.addRemovedItem(removedItem);
-					}
-					else
-					{
-						iu.addModifiedItem(removedItem);
-					}
-
-					_player.sendPacket(iu);
-					iu = null;
-				}
-				else
-				{
-					_player.sendPacket(new ItemList(_player, true));
-				}
-
+				//update inventory and userInfo
+				_player.sendPacket(new ItemList(_player, true));
 				_player.broadcastUserInfo();
-				removedItem = null;
 			}
 			//  is dropped on the ground
 			else if(_item != null)
@@ -229,17 +187,6 @@ public class CursedWeapon
 			}
 		}
 
-		// Delete infos from table if any
-		CursedWeaponsManager.removeFromDb(_itemId);
-		
-		// Force reload inventory
-		_player.sendPacket(new ItemList(_player, false));
-		L2ItemInstance rhand = _player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-		if (rhand != null)
-		{	
-			_player.getInventory().unEquipItemInSlotAndRecord(rhand.getEquipSlot());
-		}
-		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_DISAPPEARED);
 		sm.addItemName(_itemId);
 		CursedWeaponsManager.announce(sm);
@@ -287,12 +234,16 @@ public class CursedWeapon
 		dropIt(attackable, player, null, true);
 	}
 
-	private void dropIt(L2Attackable attackable, L2PcInstance player, L2Character killer, boolean fromMonster)
+	public void dropIt(L2Attackable attackable, L2PcInstance player, L2Character killer, boolean fromMonster)
 	{
 		_isActivated = false;
-
+		
+		SystemMessage sm = new SystemMessage(SystemMessageId.S2_WAS_DROPPED_IN_THE_S1_REGION);
+		sm.addItemName(_itemId);
+		
 		if(fromMonster)
 		{
+			
 			_item = attackable.DropItem(player, _itemId, 1);
 			_item.setDropTime(0); // Prevent item from being removed by ItemsAutoDestroy
 
@@ -306,50 +257,54 @@ public class CursedWeapon
 				aPlayer.sendPacket(eq);
 			}
 
+			sm.addZoneName(attackable.getX(), attackable.getY(), attackable.getZ()); // Region Name
+			
 			packet = null;
 			eq = null;
+			
+			//EndTime: if dropped from monster, the endTime is a new endTime
+			cancelTask();
+			_endTime = 0;
+			
 		}
 		else
 		{
-			_player.dropItem("DieDrop", _item, killer, true, true);
+			// Remove from player
+			_player.abortAttack();
+
 			_player.setKarma(_playerKarma);
 			_player.setPkKills(_playerPkKills);
 			_player.setCursedWeaponEquipedId(0);
 			removeSkill();
-			_player.abortAttack();
-			//L2ItemInstance item = _player.getInventory().getItemByItemId(_itemId);
-			//_player.getInventory().dropItem("DieDrop", item, _player, null);
-			//_player.getInventory().getItemByItemId(_itemId).dropMe(_player, _player.getX(), _player.getY(), _player.getZ());
-		}
 
-		_isDropped = true;
+			// Remove
+			_player.getInventory().unEquipItemInBodySlotAndRecord(L2Item.SLOT_LR_HAND);
+			
+			//drop
+			_player.dropItem("DieDrop", _item, killer, true, true);
+			_player.store();
+			
+			//update Inventory and UserInfo
+			_player.sendPacket(new ItemList(_player, false));
+			_player.broadcastUserInfo();
+			
+			sm.addZoneName(_player.getX(), _player.getY(), _player.getZ()); // Region Name
 
-		// Force reload inventory
-		_player.sendPacket(new ItemList(_player, false));
-		L2ItemInstance rhand = _player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-		if (rhand != null)
-		{	
-			_player.getInventory().unEquipItemInSlotAndRecord(rhand.getEquipSlot());
+			//EndTime: if dropped from player, the endTime is the same then before
+//			cancelTask();
+//			_endTime = 0;
+		
 		}
 		
-		SystemMessage sm = new SystemMessage(SystemMessageId.S2_WAS_DROPPED_IN_THE_S1_REGION);
+		//reset
+		_player = null;
+		_playerId = 0;
+		_playerKarma = 0;
+		_playerPkKills = 0;
+		_nbKills = 0;
+		_isDropped = true;
 
-		if(player != null)
-		{
-			sm.addZoneName(player.getX(), player.getY(), player.getZ()); // Region Name
-		}
-		else if(_player != null)
-		{
-			sm.addZoneName(_player.getX(), _player.getY(), _player.getZ()); // Region Name
-		}
-		else
-		{
-			sm.addZoneName(killer.getX(), killer.getY(), killer.getZ()); // Region Name
-		}
-
-		sm.addItemName(_itemId);
-		CursedWeaponsManager.announce(sm); // in the Hot Spring region
-		sm = null;
+		CursedWeaponsManager.announce(sm);
 	}
 
 	/**
@@ -411,6 +366,7 @@ public class CursedWeapon
 
 	public boolean checkDrop(L2Attackable attackable, L2PcInstance player)
 	{
+		
 		if(Rnd.get(100000) < _dropRate)
 		{
 			// Drop the item
@@ -418,6 +374,7 @@ public class CursedWeapon
 
 			// Start the Life Task
 			_endTime = System.currentTimeMillis() + _duration * 60000L;
+			
 			_removeTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new RemoveTask(), _durationLost * 12000L, _durationLost * 12000L);
 
 			return true;
@@ -506,18 +463,7 @@ public class CursedWeapon
 		_player.setCurrentCp(_player.getMaxCp());
 
 		// Refresh inventory
-		if(!Config.FORCE_INVENTORY_UPDATE)
-		{
-			InventoryUpdate iu = new InventoryUpdate();
-			iu.addItem(_item);
-			//iu.addItems(Arrays.asList(items));
-			_player.sendPacket(iu);
-			iu = null;
-		}
-		else
-		{
-			_player.sendPacket(new ItemList(_player, false));
-		}
+		_player.sendPacket(new ItemList(_player, false));
 
 		// Refresh player stats
 		_player.broadcastUserInfo();
@@ -589,18 +535,7 @@ public class CursedWeapon
 		{
 			// Unequip & Drop
 			dropIt(null, null, killer, false);
-			// Reset player stats
-			_player.setKarma(_playerKarma);
-			_player.setPkKills(_playerPkKills);
-			_player.setCursedWeaponEquipedId(0);
-			removeSkill();
 
-			_player.abortAttack();
-
-			// Unequip weapon
-			//_player.getInventory().unEquipItemInSlot(Inventory.PAPERDOLL_LRHAND);
-
-			_player.broadcastUserInfo();
 		}
 	}
 
@@ -681,6 +616,7 @@ public class CursedWeapon
 	public void setEndTime(long endTime)
 	{
 		_endTime = endTime;
+		
 	}
 
 	public void setPlayer(L2PcInstance player)
@@ -697,8 +633,7 @@ public class CursedWeapon
 	// Getter
 	public boolean isActivated()
 	{
-		final L2PcInstance player = _player;
-		return _isActivated && player!=null && player.isOnline()>0;
+		return _isActivated;
 	}
 
 	public boolean isDropped()
@@ -771,6 +706,11 @@ public class CursedWeapon
 	public long getTimeLeft()
 	{
 		return _endTime - System.currentTimeMillis();
+	}
+	
+	public int getDuration()
+	{
+		return _duration;
 	}
 
 	public void goTo(L2PcInstance player)
