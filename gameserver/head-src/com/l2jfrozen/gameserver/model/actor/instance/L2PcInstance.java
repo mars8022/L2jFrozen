@@ -1194,6 +1194,8 @@ private AccessLevel _accessLevel;
 	/** The _party. */
 	private L2Party _party;
 
+	private long _lastAttackPacket = 0;
+	
 	// this is needed to find the inviting player for Party response
 	// there can only be one active party request at once
 	/** The _active requester. */
@@ -19728,5 +19730,15 @@ public boolean dismount()
 		
 		sendMessage("========================");
 		
+	}
+
+	public long getLastAttackPacket()
+	{
+		return _lastAttackPacket;
+	}
+
+	public void setLastAttackPacket()
+	{
+		_lastAttackPacket = System.currentTimeMillis();
 	}
 }

@@ -978,8 +978,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					if(!player.isKicked() && !Olympiad.getInstance().isRegistered(player) 
 							&& !player.isInOlympiadMode() 
 							&& !player.isInFunEvent() 
-							&& (player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE 
-							|| player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
+							&& ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) 
+							|| (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)))
 					{
 						player.setOffline(true);
 						player.leaveParty();

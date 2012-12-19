@@ -185,9 +185,10 @@ public class Pdam implements ISkillHandler
 						else
 						{
 							// activate attacked effects, if any
-							target.stopSkillEffects(skill.getId());
 							if(f.calcSkillSuccess(activeChar, target, skill, soul, false, false))
 							{
+								// Like L2OFF must remove the first effect if the second effect lands
+								// target.stopSkillEffects(skill.getId());
 								skill.getEffects(activeChar, target,ss,sps,bss);
 								SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 								sm.addSkillName(skill.getId());

@@ -49,6 +49,13 @@ public final class AttackRequest extends L2GameClientPacket
 		if (activeChar == null)
 			return;
 		
+		if (System.currentTimeMillis() - activeChar.getLastAttackPacket() < 500)
+		{
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		activeChar.setLastAttackPacket();
+		
 		// avoid using expensive operations if not needed
 		final L2Object target;
 		

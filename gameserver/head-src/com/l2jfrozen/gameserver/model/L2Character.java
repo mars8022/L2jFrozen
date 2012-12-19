@@ -1464,6 +1464,12 @@ public abstract class L2Character extends L2Object
 			});
 		}
 
+		// Like L2OFF wait that the hit task finish and then player can move
+		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
+		{
+			((L2PcInstance) this).startMovingTask();
+		}
+		
 		// Notify AI with EVT_READY_TO_ACT
 		ThreadPoolManager.getInstance().scheduleAi(new NotifyAITask(CtrlEvent.EVT_READY_TO_ACT), timeAtk + reuse);
 
@@ -4366,8 +4372,9 @@ public abstract class L2Character extends L2Object
 					continue;
 					
 				}
-					
-				if (effects[i].getSkill().getId() == skillId){ 
+				
+				if (effects[i].getSkill().getId() == skillId)
+				{ 
 					effects[i].exit(true);
 				}
 				
@@ -4701,95 +4708,90 @@ public abstract class L2Character extends L2Object
 	{
 		// Create a L2PcInstance of this if needed
 		L2PcInstance player = null;
-
-		if(this instanceof L2PcInstance)
+		
+		if (this instanceof L2PcInstance)
 		{
 			player = (L2PcInstance) this;
 		}
 
 		// Create a L2Summon of this if needed
 		L2Summon summon = null;
-		if(this instanceof L2Summon)
+		if (this instanceof L2Summon)
 		{
 			summon = (L2Summon) this;
 			player = summon.getOwner();
 			summon.getOwner().sendPacket(new PetInfo(summon));
 		}
-
+		
 		// Create the main packet if needed
 		MagicEffectIcons mi = null;
-		if(!partyOnly)
+		if (!partyOnly)
 		{
 			mi = new MagicEffectIcons();
 		}
-
+		
 		// Create the party packet if needed
 		PartySpelled ps = null;
-		if(summon != null)
+		if (summon != null)
 		{
 			ps = new PartySpelled(summon);
 		}
-		else if(player != null && player.isInParty())
+		else if (player != null && player.isInParty())
 		{
 			ps = new PartySpelled(player);
 		}
-
+		
 		// Create the olympiad spectator packet if needed
 		ExOlympiadSpelledInfo os = null;
-		if(player != null && player.isInOlympiadMode())
+		if (player != null && player.isInOlympiadMode())
 		{
 			os = new ExOlympiadSpelledInfo(player);
 		}
-
-		if(mi == null && ps == null && os == null)
+		
+		if (mi == null && ps == null && os == null)
 			return; // nothing to do (should not happen)
-
+			
 		// Add special effects
 		// Note: Now handled by EtcStatusUpdate packet
 		// NOTE: CHECK IF THEY WERE EVEN VISIBLE TO OTHERS...
-		/* if (player != null && mi != null)
-		{
-			if (player.getWeightPenalty() > 0)
-				mi.addEffect(4270, player.getWeightPenalty(), -1);
-			if (player.getExpertisePenalty() > 0)
-				mi.addEffect(4267, 1, -1);
-			if (player.getMessageRefusal())
-				mi.addEffect(4269, 1, -1);
-		}*/
-
+		/*
+		 * if (player != null && mi != null) { if (player.getWeightPenalty() > 0) mi.addEffect(4270, player.getWeightPenalty(), -1); if (player.getExpertisePenalty() > 0) mi.addEffect(4267, 1, -1); if (player.getMessageRefusal()) mi.addEffect(4269, 1, -1); }
+		 */
+		
 		// Go through all effects if any
-		synchronized(_effects){
+		synchronized (_effects)
+		{
 			
-			for(int i = 0;i<_effects.size();i++)
+			for (int i = 0; i < _effects.size(); i++)
 			{
 				
-				if(_effects.get(i) == null
-						|| _effects.get(i).getSkill() == null){
+				if (_effects.get(i) == null || _effects.get(i).getSkill() == null)
+				{
 					
 					_effects.remove(i);
 					i--;
 					continue;
 					
 				}
-					
-				if(_effects.get(i).getEffectType() == L2Effect.EffectType.CHARGE 
-						&& player != null)
+				
+				if (_effects.get(i).getEffectType() == L2Effect.EffectType.CHARGE && player != null)
 				{
 					// handled by EtcStatusUpdate
 					continue;
 				}
-
-				if(_effects.get(i).getInUse())
+				
+				if (_effects.get(i).getInUse())
 				{
-					if(mi != null)
+					if (mi != null)
 					{
 						_effects.get(i).addIcon(mi);
 					}
-					if(ps != null)
+					// Like L2OFF toggle must not be showed on party buff list
+					if (ps != null && !_effects.get(i).getSkill().isToggle())
 					{
 						_effects.get(i).addPartySpelledIcon(ps);
 					}
-					if(os != null)
+					if (os != null)
 					{
 						_effects.get(i).addOlympiadSpelledIcon(os);
 					}
@@ -4797,21 +4799,20 @@ public abstract class L2Character extends L2Object
 				
 			}
 			
-			
 		}
-	
+		
 		// Send the packets if needed
-		if(mi != null)
+		if (mi != null)
 		{
 			sendPacket(mi);
 		}
-
-		if(ps != null && player != null)
+		
+		if (ps != null && player != null)
 		{
 			// summon info only needs to go to the owner, not to the whole party
 			// player info: if in party, send to all party members except one's self.
-			// 				if not in party, send to self.
-			if(player.isInParty() && summon == null)
+			// if not in party, send to self.
+			if (player.isInParty() && summon == null)
 			{
 				player.getParty().broadcastToPartyMembers(player, ps);
 			}
@@ -4820,14 +4821,14 @@ public abstract class L2Character extends L2Object
 				player.sendPacket(ps);
 			}
 		}
-
-		if(os != null)
+		
+		if (os != null)
 		{
-			if((player != null) && Olympiad.getInstance().getSpectators(player.getOlympiadGameId()) != null)
+			if ((player != null) && Olympiad.getInstance().getSpectators(player.getOlympiadGameId()) != null)
 			{
-				for(L2PcInstance spectator : Olympiad.getInstance().getSpectators(player.getOlympiadGameId()))
+				for (L2PcInstance spectator : Olympiad.getInstance().getSpectators(player.getOlympiadGameId()))
 				{
-					if(spectator == null)
+					if (spectator == null)
 					{
 						continue;
 					}
@@ -4900,20 +4901,15 @@ public abstract class L2Character extends L2Object
 	 * 
 	 * @return A table containing all active skills effect in progress on the L2Character
 	 */
-	
 	public final L2Effect[] getAllEffects()
 	{
-	
-		synchronized(_effects){
-			
+		synchronized (_effects)
+		{
 			L2Effect[] output = _effects.toArray(new L2Effect[_effects.size()]);
 			
 			return output;
-			
 		}
-		
 	}
-	
 
 	/**
 	 * Return L2Effect in progress on the L2Character corresponding to the L2Skill Identifier.<BR>
@@ -7665,19 +7661,20 @@ public abstract class L2Character extends L2Object
 			*/
 
 			activeWeapon = null;
-
+			/*
 			if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined()){
 				((L2PcInstance) this).startMovingTask();
 			}
-			
+			*/
 			return;
 			
 		}
 		
+		/*
 		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined()){
 			((L2PcInstance) this).startMovingTask();
 		}
-
+		*/
 		getAI().notifyEvent(CtrlEvent.EVT_CANCEL);
 	}
 
@@ -9000,102 +8997,107 @@ public abstract class L2Character extends L2Object
 	}
 
 	/*
-	 * Runs after skill hitTime+coolTime 
+	 * Runs after skill hitTime+coolTime
 	 */
 	/**
 	 * On magic finalizer.
-	 *
 	 * @param targets the targets
 	 * @param skill the skill
 	 */
 	public void onMagicFinalizer(L2Object[] targets, L2Skill skill)
 	{
-		if(skill.isPotion()){
+		if (skill.isPotion())
+		{
 			_potionCast = null;
 			_castPotionEndTime = 0;
 			_castPotionInterruptTime = 0;
 			
-		}else {
+		}
+		else
+		{
 			_skillCast = null;
 			_castEndTime = 0;
 			_castInterruptTime = 0;
 			
-			
 			enableAllSkills();
-
-			//if the skill has changed the character's state to something other than STATE_CASTING
-			//then just leave it that way, otherwise switch back to STATE_IDLE.
-			//if(isCastingNow())
-			//  getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
-
-			if(skill.getId()!=345 && skill.getId()!=346){
-				
-				// If the skill type is PDAM or DRAIN_SOUL, notify the AI of the target with AI_INTENTION_ATTACK
-				if(skill.nextActionIsAttack() || skill.getSkillType() == SkillType.PDAM || skill.getSkillType() == SkillType.BLOW || skill.getSkillType() == SkillType.DRAIN_SOUL || skill.getSkillType() == SkillType.SOW || skill.getSkillType() == SkillType.SPOIL)
-				{
-					if(getTarget() != null && getTarget() instanceof L2Character)
-					{
-						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
-					}
-				}
 			
-				if((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId()!=345 && skill.getId()!=346)
+			// if the skill has changed the character's state to something other than STATE_CASTING
+			// then just leave it that way, otherwise switch back to STATE_IDLE.
+			// if(isCastingNow())
+			// getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
+			
+			if (skill.getId() != 345 && skill.getId() != 346)
+			{
+				
+				// Like L2OFF while use a skill and next interntion == null the char stop auto attack
+				if (getAI().getNextIntention() == null && (skill.getSkillType() == SkillType.PDAM && skill.getCastRange() < 400) || skill.getSkillType() == SkillType.BLOW || skill.getSkillType() == SkillType.DRAIN_SOUL || skill.getSkillType() == SkillType.SOW || skill.getSkillType() == SkillType.SPOIL)
 				{
-					getAI().clientStartAutoAttack();
+					{
+						if (getTarget() != null && getTarget() instanceof L2Character)
+						{
+							getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						}
+					}
+					
+					if ((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
+					{
+						getAI().clientStartAutoAttack();
+					}
+					
 				}
 				
-				
-				
-			}else{
+			}
+			else
+			{
 				getAI().clientStopAutoAttack();
 			}
 			
 			// Notify the AI of the L2Character with EVT_FINISH_CASTING
 			getAI().notifyEvent(CtrlEvent.EVT_FINISH_CASTING);
-
+			
 			notifyQuestEventSkillFinished(skill, getTarget());
 			
 			// Like L2OFF after a skill the player must stop the movement, also with toggle
 			stopMove(null);
 			
 			/*
-			 * If character is a player, then wipe their current cast state and
-			 * check if a skill is queued.
-			 *
-			 * If there is a queued skill, launch it and wipe the queue.
+			 * If character is a player, then wipe their current cast state and check if a skill is queued. If there is a queued skill, launch it and wipe the queue.
 			 */
-			if(this instanceof L2PcInstance)
+			if (this instanceof L2PcInstance)
 			{
 				L2PcInstance currPlayer = (L2PcInstance) this;
 				SkillDat queuedSkill = currPlayer.getQueuedSkill();
-
+				
 				currPlayer.setCurrentSkill(null, false, false);
-
-				if(queuedSkill != null)
+				
+				if (queuedSkill != null)
 				{
 					currPlayer.setQueuedSkill(null, false, false);
-
+					
 					// DON'T USE : Recursive call to useMagic() method
 					// currPlayer.useMagic(queuedSkill.getSkill(), queuedSkill.isCtrlPressed(), queuedSkill.isShiftPressed());
 					ThreadPoolManager.getInstance().executeTask(new QueuedMagicUseTask(currPlayer, queuedSkill.getSkill(), queuedSkill.isCtrlPressed(), queuedSkill.isShiftPressed()));
 				}
-
-				queuedSkill = null;
 				
+				queuedSkill = null;
 				
 				final L2Weapon activeWeapon = getActiveWeaponItem();
 				// Launch weapon Special ability skill effect if available
-				if(activeWeapon != null){
+				if (activeWeapon != null)
+				{
 					
-					try{
-						if(targets!=null && targets.length>0){
-							for(L2Object target: targets){
+					try
+					{
+						if (targets != null && targets.length > 0)
+						{
+							for (L2Object target : targets)
+							{
 								
-								if(target!=null && target instanceof L2Character  && !((L2Character) target).isDead())
+								if (target != null && target instanceof L2Character && !((L2Character) target).isDead())
 								{
-									final L2Character player = (L2Character)target; 
+									final L2Character player = (L2Character) target;
 									
-									if(activeWeapon.getSkillEffects(this, player, skill))
+									if (activeWeapon.getSkillEffects(this, player, skill))
 									{
 										sendPacket(SystemMessage.sendString("Target affected by weapon special ability!"));
 									}
@@ -9103,7 +9105,9 @@ public abstract class L2Character extends L2Object
 								
 							}
 						}
-					}catch(Exception e){
+					}
+					catch (Exception e)
+					{
 						e.printStackTrace();
 					}
 					
@@ -9114,7 +9118,7 @@ public abstract class L2Character extends L2Object
 			}
 			
 		}
-	
+		
 	}
 
 	// Quest event ON_SPELL_FNISHED
