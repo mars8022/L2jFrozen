@@ -267,11 +267,19 @@ public final class UseItem extends L2GameClientPacket
 			}
 			
 			int bodyPart = item.getItem().getBodyPart();
-			// Prevent player to remove the weapon on special conditions
-			if ((/* activeChar.isAttackingNow() || */activeChar.isCastingNow() || activeChar.isCastingPotionNow() || activeChar.isMounted() || (activeChar._inEventCTF && activeChar._haveFlagCTF)) && ((bodyPart == L2Item.SLOT_LR_HAND) || (bodyPart == L2Item.SLOT_L_HAND) || (bodyPart == L2Item.SLOT_R_HAND)))
+			
+			// Like L2OFF you can't use equips while you are casting
+			if ((activeChar.isCastingNow() || activeChar.isCastingPotionNow() || activeChar.isMounted() || (activeChar._inEventCTF && activeChar._haveFlagCTF)))
 			{
 				if (activeChar._inEventCTF && activeChar._haveFlagCTF)
+				{
 					activeChar.sendMessage("This item can not be equipped when you have the flag.");
+				}
+				else
+				{
+					SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_USE_ITEM_WHILE_USING_MAGIC);
+				    activeChar.sendPacket(sm);
+				}
 				return;
 			}
 			
@@ -473,6 +481,15 @@ public final class UseItem extends L2GameClientPacket
 				
 				int tempBodyPart = item.getItem().getBodyPart();
 				L2ItemInstance tempItem = activeChar.getInventory().getPaperdollItemByL2ItemId(tempBodyPart);
+				
+				// Elrokian Trap like L2OFF, remove skills
+				if (tempItem != null && tempItem.getItemId() == 8763)
+				{
+					activeChar.removeSkill(3626, true);
+					activeChar.removeSkill(3627, true);
+					activeChar.removeSkill(3628, true);
+					activeChar.sendSkillList();
+				}
 				
 				// remove augmentation stats for replaced items
 				// currently weapons only..

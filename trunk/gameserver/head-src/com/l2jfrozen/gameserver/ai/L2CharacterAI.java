@@ -28,6 +28,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_MOVE_TO;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
 
+import com.l2jfrozen.gameserver.ai.L2PlayerAI.IntentionCommand;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -1212,5 +1213,10 @@ public class L2CharacterAI extends AbstractAI
 	{
 		this._skill = _skill;
 	}
+	
+    public IntentionCommand getNextIntention()
+    {
+    	return null;
+    }
 
 }

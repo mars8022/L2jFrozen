@@ -115,7 +115,7 @@ public final class Logout extends L2GameClientPacket
 		if(player.isFlying())
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 
-		if(player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE || player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)
+		if((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
 		{
 			player.store();
 			player.closeNetConnection();

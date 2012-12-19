@@ -84,13 +84,22 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		}
 		
 		// Like L2OFF movements prohibited when char is sitting
-		if(activeChar.isSitting()){
+		if(activeChar.isSitting())
+		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
+		// Like L2OFF movements prohibited when char is teleporting
+		if(activeChar.isTeleporting())
+		{
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		// Like L2OFF the enchant window will close
-		if(activeChar.getActiveEnchantItem() != null){
+		if(activeChar.getActiveEnchantItem() != null)
+		{
             activeChar.sendPacket(new EnchantResult(0));
             activeChar.setActiveEnchantItem(null);
 		}

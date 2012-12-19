@@ -131,9 +131,12 @@ public class Mdam implements ISkillHandler
 					else
 					{
 						// activate attacked effects, if any
-						target.stopSkillEffects(skill.getId());
 						if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill,false,sps,bss))
+						{
+							// Like L2OFF must remove the first effect only if the second effect is successful
+							target.stopSkillEffects(skill.getId());
 							skill.getEffects(activeChar, target,false,sps,bss);
+						}
 						else
 						{
 							SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);

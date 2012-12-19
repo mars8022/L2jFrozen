@@ -2947,7 +2947,8 @@ public class L2Attackable extends L2NpcInstance
 					player.sendPacket(new SystemMessage(SystemMessageId.SOUL_CRYSTAL_ABSORBING_FAILED_RESONATION));
 				}
 				// The soul crystal stage of the player is way too high
-				else if(!doLevelup)
+				// Like L2OFF message must not appear if char hasn't crystal on inventory
+				else if(!doLevelup && crystalQTY > 0)
 				{
 					player.sendPacket(new SystemMessage(SystemMessageId.SOUL_CRYSTAL_ABSORBING_REFUSED));
 				}
