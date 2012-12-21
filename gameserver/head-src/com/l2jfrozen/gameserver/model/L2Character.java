@@ -10389,6 +10389,17 @@ public abstract class L2Character extends L2Object
 	{
 		return getStat().getPAtkDragons(target);
 	}
+	
+	/**
+	 * Gets the p atk angels.
+	 *
+	 * @param target the target
+	 * @return the p atk angels
+	 */
+	public double getPAtkAngels(L2Character target)
+	{
+		return getStat().getPAtkAngels(target);
+	}
 
 	/**
 	 * Gets the p atk insects.
@@ -10508,6 +10519,17 @@ public abstract class L2Character extends L2Object
 	public double getPDefDragons(L2Character target)
 	{
 		return getStat().getPDefDragons(target);
+	}
+	
+	/**
+	 * Gets the p def angels.
+	 *
+	 * @param target the target
+	 * @return the p def angels
+	 */
+	public double getPDefAngels(L2Character target)
+	{
+		return getStat().getPDefAngels(target);
 	}
 
 	/**

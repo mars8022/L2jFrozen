@@ -139,7 +139,10 @@ public class Orfen extends Quest implements Runnable
 	@Override
 	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
 	{
-		if(npc.getNpcId()==ORFEN && !npc.getSpawn().is_customBossInstance()){
+		if(npc == null || npc.getSpawn() == null)
+			_log.warning("[WARNING] ORFEN is null or getSpawn null!");
+		
+		if (npc != null && npc.getSpawn() != null && npc.getNpcId()==ORFEN && !npc.getSpawn().is_customBossInstance()){
 			
 			double saved_hp = GrandBossManager.getInstance().getStatsSet(ORFEN).getDouble("currentHP");
 			

@@ -282,14 +282,18 @@ public final class UseItem extends L2GameClientPacket
 				}
 				return;
 			}
-			
+
+			// Like L2OFF, since c5 you can equip weapon	
 			// Don't allow weapon/shield equipment if wearing formal wear
+			/*
 			if (activeChar.isWearingFormalWear() && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND))
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_USE_ITEMS_SKILLS_WITH_FORMALWEAR);
 				activeChar.sendPacket(sm);
 				return;
 			}
+			*/
+			
 			// fix enchant
 			if (Config.PROTECTED_ENCHANT)
 			{
@@ -482,15 +486,6 @@ public final class UseItem extends L2GameClientPacket
 				int tempBodyPart = item.getItem().getBodyPart();
 				L2ItemInstance tempItem = activeChar.getInventory().getPaperdollItemByL2ItemId(tempBodyPart);
 				
-				// Elrokian Trap like L2OFF, remove skills
-				if (tempItem != null && tempItem.getItemId() == 8763)
-				{
-					activeChar.removeSkill(3626, true);
-					activeChar.removeSkill(3627, true);
-					activeChar.removeSkill(3628, true);
-					activeChar.sendSkillList();
-				}
-				
 				// remove augmentation stats for replaced items
 				// currently weapons only..
 				if (tempItem != null && tempItem.isAugmented())
@@ -523,6 +518,17 @@ public final class UseItem extends L2GameClientPacket
 					tempItem = activeChar.getInventory().getPaperdollItem(11);
 					if (tempItem != null && tempItem.isWear())
 						return;
+				}
+				
+				// Left hand
+				tempItem = activeChar.getInventory().getPaperdollItem(7);
+				// Elrokian Trap like L2OFF, remove skills
+				if (tempItem != null && tempItem.getItemId() == 8763)
+				{
+					activeChar.removeSkill(3626, true);
+					activeChar.removeSkill(3627, true);
+					activeChar.removeSkill(3628, true);
+					activeChar.sendSkillList();
 				}
 				
 				if (item.getEnchantLevel() > 0)

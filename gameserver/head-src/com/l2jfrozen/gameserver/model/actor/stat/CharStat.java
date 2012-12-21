@@ -648,6 +648,17 @@ public class CharStat
 	{
 		return calcStat(Stats.PATK_DRAGONS, 1, target, null);
 	}
+	
+	/**
+	 * Return the PAtk Modifier against angels.
+	 *
+	 * @param target the target
+	 * @return the p atk angels
+	 */
+	public final double getPAtkAngels(L2Character target)
+	{
+		return calcStat(Stats.PATK_ANGELS, 1, target, null);
+	}
 
 	/**
 	 * Return the PAtk Modifier against insects.
@@ -786,6 +797,17 @@ public class CharStat
 	public final double getPDefDragons(L2Character target)
 	{
 		return calcStat(Stats.PDEF_DRAGONS, 1, target, null);
+	}
+	
+	/**
+	 * Gets the p def angels.
+	 *
+	 * @param target the target
+	 * @return the p def angels
+	 */
+	public final double getPDefAngels(L2Character target)
+	{
+		return calcStat(Stats.PDEF_ANGELS, 1, target, null);
 	}
 
 	/**

@@ -643,7 +643,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(skill == null)
 				return;
 						
-			if (skill.isOffensive() && isInsidePeaceZone(L2PcInstance.this, getTarget())) //check limited to active target
+			// Like L2OFF you can use cupid bow skills on peace zone
+			if (skill.isOffensive() && isInsidePeaceZone(L2PcInstance.this, getTarget()) && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)) //check limited to active target
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
@@ -12248,8 +12249,10 @@ private int _reviveRequested = 0;
 		{
 			Boolean peace = isInsidePeaceZone(this, target);
 			
-			//if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			if(peace/* && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started))*/)
+			// if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
+			
+			// Like L2OFF you can use cupid bow skills on peace zone
+			if(peace && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)/* && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started))*/)
 			{
 //				if(target instanceof L2PcInstance){
 //					
@@ -12292,7 +12295,7 @@ private int _reviveRequested = 0;
 
 			// Check if a Forced ATTACK is in progress on non-attackable target
 			//if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._started) && !(_inEventDM && DM._started) && !(_inEventCTF && CTF._started) && !(_inEventVIP && VIP._started)
-			if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started)
+			if (!target.isAutoAttackable(this) && (!forceUse && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)) && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started)
 					&& sklTargetType != SkillTargetType.TARGET_AURA
 					&& sklTargetType != SkillTargetType.TARGET_CLAN
 					&& sklTargetType != SkillTargetType.TARGET_ALLY
@@ -12423,7 +12426,7 @@ private int _reviveRequested = 0;
 				break;
 			default:
 				//if pvp skill is not allowed for given target
-				if(!checkPvpSkill(target, skill) && !getAccessLevel().allowPeaceAttack())
+				if(!checkPvpSkill(target, skill) && !getAccessLevel().allowPeaceAttack() && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262))
 				{
 					// Send a System Message to the L2PcInstance
 					sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));

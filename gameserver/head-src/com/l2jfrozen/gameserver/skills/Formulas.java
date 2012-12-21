@@ -1666,6 +1666,9 @@ public final class Formulas
 				case DRAGON:
 					damage *= attacker.getPAtkDragons(target);
 					break;
+				case ANGEL:
+					damage *= attacker.getPAtkAngels(target);
+					break;
 				case BUG:
 					damage *= attacker.getPAtkInsects(target);
 					break;
@@ -3263,6 +3266,10 @@ public final class Formulas
 					break;
 				case DRAGON:
 					multiplier = 1 + ((attacker.getPAtkDragons(target) - target.getPDefDragons(target))/100);
+					damage *= multiplier;
+					break;
+				case ANGEL:
+					multiplier = 1 + ((attacker.getPAtkAngels(target) - target.getPDefAngels(target))/100);
 					damage *= multiplier;
 					break;
 				case BUG:
