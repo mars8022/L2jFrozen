@@ -357,7 +357,7 @@ public final class Say2 extends L2GameClientPacket
 		                 }
 		              }
 		           }
-		           else if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("global"))
+		           else if(Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("GLOBAL"))
 		           {
 		              if(Config.GLOBAL_CHAT_WITH_PVP)
 		              {
@@ -385,7 +385,7 @@ public final class Say2 extends L2GameClientPacket
 		           }
 		           break;
 		        case TRADE:
-		           if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("on"))
+		           if(Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("ON"))
 		           {
 		              if(Config.TRADE_CHAT_WITH_PVP)
 		              {

@@ -168,6 +168,7 @@ public enum Stats
 	PATK_MONSTERS("pAtk-monsters"),
 	PATK_DRAGONS("pAtk-dragons"),
 	PATK_UNDEAD("pAtk-undead"),
+	PATK_ANGELS("pAtk-angels"),
 
 	PATK_GIANTS("pAtk-giants"),
 	PATK_MCREATURES("pAtk-magicCreature"),
@@ -180,6 +181,7 @@ public enum Stats
 	PDEF_ANIMALS("pDef-animals"),
 	PDEF_MONSTERS("pDef-monsters"),
 	PDEF_DRAGONS("pDef-dragons"),
+	PDEF_ANGELS("pDef-angels"),
 
 	ATK_REUSE("atkReuse"),
 	P_REUSE("pReuse"),

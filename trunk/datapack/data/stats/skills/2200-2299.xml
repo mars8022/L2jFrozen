@@ -561,6 +561,8 @@
   <set name="reuseDelay" val="500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7906"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
       <mul order="0x30" stat="pAtk-insects" val="1.3"/>
@@ -574,6 +576,8 @@
   <set name="reuseDelay" val="500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7907"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
       <mul order="0x30" stat="pAtk-dragons" val="1.3"/>
@@ -586,6 +590,8 @@
   <set name="reuseDelay" val="500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7908"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
       <mul order="0x30" stat="pAtk-plants" val="1.3"/>
@@ -598,43 +604,55 @@
   <set name="reuseDelay" val="500"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7909"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0">
       <mul order="0x30" stat="pAtk-monsters" val="1.3"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2252" levels="1" name="Bless of Darkness">
-  <set name="target" val="TARGET_SELF"/>
-  <set name="hitTime" val="1000"/>
-  <set name="reuseDelay" val="500"/>
-  <set name="skillType" val="BUFF"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <for>
-  <!--  <effect count="1" name="Buff" time="1200" val="0">
-      <mul order="0x30" stat="pAtk" val="1.3">
-        <target race_id="8"/>
-      </mul>
-    </effect> -->
-  </for>
+	<set name="isMagic" val="2" /> <!-- Static Skill -->
+	<set name="element" val="5" /> <!-- Dark -->
+	<set name="hitTime" val="1000" />
+	<set name="target" val="TARGET_SELF" />
+	<set name="reuseDelay" val="10000" />
+	<set name="skillType" val="BUFF" />
+	<set name="operateType" val="OP_ACTIVE"/>
+	<set name="itemConsumeId" val="7910"/>
+  <set name="itemConsumeCount" val="1"/>
+	<for>
+		<effect count="1" name="Buff" time="600" val="0" abnormalLvl="1" abnormalType="holy_attack">
+			<mul order="0x30" stat="pAtk-angels" val="1.2"/>
+		</effect>
+	</for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="2253" levels="1" name="Bless of Sacredness">
-  <set name="target" val="TARGET_SELF"/>
-  <set name="hitTime" val="1000"/>
-  <set name="reuseDelay" val="500"/>
-  <set name="skillType" val="BUFF"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <for>
-    <effect count="1" name="Buff" time="1200" val="0">
-      <mul order="030" stat="pAtk-undead" val="1.3"/>
-    </effect>
-  </for>
+	<set name="isMagic" val="2" /> <!-- Static Skill -->
+	<set name="element" val="4" /> <!-- Holy -->
+	<set name="hitTime" val="1000" />
+	<set name="target" val="TARGET_SELF" />
+	<set name="reuseDelay" val="10000" />
+	<set name="skillType" val="BUFF" />
+	<set name="operateType" val="OP_ACTIVE"/>
+	<set name="itemConsumeId" val="7911"/>
+  <set name="itemConsumeCount" val="1"/>
+	<for>
+		<effect count="1" name="Buff" time="600" val="0" abnormalLvl="1" abnormalType="holy_attack">
+			<mul order="0x30" stat="pAtk-undead" val="1.2"/>
+		</effect>
+	</for>
 </skill>
 <skill id="2254" levels="3" name="Crystal of Fire">
   <set name="target" val="TARGET_SELF"/>
   <set name="hitTime" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7912"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="CrystalAtr">
       <add order="0x40" stat="fireVuln" val="0.7"/>
@@ -646,6 +664,8 @@
   <set name="hitTime" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7913"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="CrystalAtr">
       <add order="0x40" stat="waterVuln" val="0.7"/>
@@ -657,6 +677,8 @@
   <set name="hitTime" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7914"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="CrystalAtr">
       <add order="0x40" stat="windVuln" val="0.7"/>
@@ -668,33 +690,45 @@
   <set name="hitTime" val="1000"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="itemConsumeId" val="7915"/>
+  <set name="itemConsumeCount" val="1"/>
   <for>
     <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="CrystalAtr">
       <add order="0x40" stat="earthVuln" val="0.7"/>
     </effect>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:L2Emu -->
 <skill id="2258" levels="3" name="Crystal of Darkness">
-  <set name="target" val="TARGET_SELF"/>
-  <set name="hitTime" val="1000"/>
-  <set name="skillType" val="BUFF"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="CrystalAtr">
-	  <add order="0x40" stat="holyVuln" val="0.7"/>
-    </effect>
-  </for>
+   <table name="#magicLvl"> 20 40 70 </table>
+   <table name="#Lvl"> 2 3 4 </table>
+   <set name="itemConsumeCount" val="1" />
+   <set name="magicLvl" val="#magicLvl" />
+   <set name="negateAbnormals" val="armor_unholy,#Lvl" />
+   <set name="operateType" val="OP_ACTIVE" />
+   <set name="skillType" val="NEGATE" />
+   <set name="target" val="TARGET_SELF" />
+   <set name="reuseDelay" val="10000" />
+   <set name="hitTime" val="1000" />
+   <set name="staticHitTime" val="true" />
+   <set name="itemConsumeId" val="7916"/>
+  <set name="itemConsumeCount" val="1"/>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:L2Emu -->
 <skill id="2259" levels="3" name="Crystal of Sacredness">
-  <set name="target" val="TARGET_SELF"/>
-  <set name="hitTime" val="1000"/>
-  <set name="skillType" val="BUFF"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <for>
-    <effect count="1" name="Buff" time="1200" val="0" stackOrder="1" stackType="CrystalAtr">
-      <add order="0x40" stat="darkVuln" val="0.7"/>
-    </effect>
-  </for>
+  <table name="#magicLvl"> 20 40 70 </table>
+  <table name="#Lvl"> 2 3 4 </table>
+  <set name="itemConsumeCount" val="1" />
+  <set name="magicLvl" val="#magicLvl" />
+  <set name="negateAbnormals" val="armor_holy,#Lvl" />
+  <set name="operateType" val="OP_ACTIVE" />
+  <set name="skillType" val="NEGATE" />
+  <set name="target" val="TARGET_SELF" />
+  <set name="reuseDelay" val="10000" />
+  <set name="hitTime" val="1000" />
+  <set name="staticHitTime" val="true" />
+  <set name="itemConsumeId" val="7917"/>
+  <set name="itemConsumeCount" val="1"/>
 </skill>
 <skill id="2260" levels="1" name="Key of Riddles">
   <set name="target" val="TARGET_SELF"/>
