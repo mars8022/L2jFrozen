@@ -180,8 +180,9 @@
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
     <!-- SA: Conversion -->
-    <mul val='0.6' order='0x30' stat='maxHp'/>
-    <mul val='1.6' order='0x30' stat='maxMp'/>
+    <!-- We have SA on XML -->
+    <!-- <mul val='0.6' order='0x30' stat='maxHp'/> -->
+    <!-- <mul val='1.6' order='0x30' stat='maxMp'/> -->
   </for>
 </item>
 <item id='7716' name="inferno_staff_acumen">

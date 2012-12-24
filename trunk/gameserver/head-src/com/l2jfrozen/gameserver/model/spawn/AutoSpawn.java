@@ -20,11 +20,14 @@ package com.l2jfrozen.gameserver.model.spawn;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import org.python.modules.synchronize;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -90,9 +93,12 @@ public class AutoSpawn
 		return _instance;
 	}
 
-	public final int size()
+	public int size()
 	{
-		return _registeredSpawns.size();
+		synchronized(_registeredSpawns){
+			return _registeredSpawns.size();
+		}
+		
 	}
 
 	private void restoreSpawnData()
@@ -205,8 +211,11 @@ public class AutoSpawn
 
 		int newId = IdFactory.getInstance().getNextId();
 		newSpawn._objectId = newId;
-		_registeredSpawns.put(newId, newSpawn);
-
+		
+		synchronized(_registeredSpawns){
+			_registeredSpawns.put(newId, newSpawn);
+		}
+		
 		setSpawnActive(newSpawn, true);
 
 		if(Config.DEBUG)
@@ -241,35 +250,44 @@ public class AutoSpawn
 	 */
 	public boolean removeSpawn(AutoSpawnInstance spawnInst)
 	{
-		if(!isSpawnRegistered(spawnInst))
-			return false;
-
-		try
-		{
+		synchronized(_registeredSpawns){
+			
+			if(!_registeredSpawns.containsValue(spawnInst))
+				return false;
+			
 			// Try to remove from the list of registered spawns if it exists.
 			_registeredSpawns.remove(spawnInst.getNpcId());
+			
+			synchronized(_runningSpawns){
+				
+				// Cancel the currently associated running scheduled task.
+				ScheduledFuture<?> respawnTask = _runningSpawns.remove(spawnInst._objectId);
+				
+				try
+				{
+					respawnTask.cancel(false);
 
-			// Cancel the currently associated running scheduled task.
-			ScheduledFuture<?> respawnTask = _runningSpawns.remove(spawnInst._objectId);
-			respawnTask.cancel(false);
+				}catch(Exception e)
+				{
+					if(Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+					
+					_log.warning("AutoSpawnHandler: Could not auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + "): " + e);
+
+					return false;
+				}
+				
+			}
+			
 
 			if(Config.DEBUG)
 			{
 				_log.config("AutoSpawnHandler: Removed auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + ").");
 			}
-
-			respawnTask = null;
+				
+				
 		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("AutoSpawnHandler: Could not auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + "): " + e);
-
-			return false;
-		}
-
+		
 		return true;
 	}
 
@@ -279,7 +297,14 @@ public class AutoSpawn
 	 */
 	public void removeSpawn(int objectId)
 	{
-		removeSpawn(_registeredSpawns.get(objectId));
+		AutoSpawnInstance spawn_inst = null;
+		
+		synchronized(_registeredSpawns){
+			spawn_inst = _registeredSpawns.get(objectId);
+		}
+		
+		removeSpawn(spawn_inst);
+		
 	}
 
 	/**
@@ -312,15 +337,20 @@ public class AutoSpawn
 					spawnTask = ThreadPoolManager.getInstance().scheduleEffect(rs, spawnInst._initDelay);
 				}
 
-				_runningSpawns.put(objectId, spawnTask);
-
+				synchronized(_runningSpawns){
+					_runningSpawns.put(objectId, spawnTask);
+				}
+				
 				rs = null;
 			}
 			else
 			{
 				AutoDespawner rd = new AutoDespawner(objectId);
-				spawnTask = _runningSpawns.remove(objectId);
-
+				
+				synchronized(_runningSpawns){
+					spawnTask = _runningSpawns.remove(objectId);
+				}
+				
 				if(spawnTask != null)
 				{
 					spawnTask.cancel(false);
@@ -347,7 +377,12 @@ public class AutoSpawn
 		if(_activeState == isActive)
 			return;
 
-		for(AutoSpawnInstance spawnInst : _registeredSpawns.values())
+		Collection<AutoSpawnInstance> instances;
+		synchronized(_registeredSpawns){
+			instances = _registeredSpawns.values();
+		}
+		
+		for(AutoSpawnInstance spawnInst : instances)
 		{
 			setSpawnActive(spawnInst, isActive);
 		}
@@ -366,9 +401,14 @@ public class AutoSpawn
 		if(spawnInst == null)
 			return -1;
 		int objectId = spawnInst.getObjectId();
-		ScheduledFuture<?> future_task = _runningSpawns.get(objectId);
-		if(future_task!=null)
-			return future_task.getDelay(TimeUnit.MILLISECONDS);
+		
+		synchronized(_runningSpawns){
+			
+			ScheduledFuture<?> future_task = _runningSpawns.get(objectId);
+			if(future_task!=null)
+				return future_task.getDelay(TimeUnit.MILLISECONDS);
+		}
+		
 		return -1;
 	}
 
@@ -383,15 +423,17 @@ public class AutoSpawn
 	public final AutoSpawnInstance getAutoSpawnInstance(int id, boolean isObjectId)
 	{
 		if(isObjectId)
-		{
-			if(isSpawnRegistered(id))
-				return _registeredSpawns.get(id);
+			return _registeredSpawns.get(id);
+		
+		Collection<AutoSpawnInstance> instances;
+		synchronized(_registeredSpawns){
+			instances = _registeredSpawns.values();
 		}
-		else
+		
+		for(final AutoSpawnInstance spawnInst : instances)
 		{
-			for(AutoSpawnInstance spawnInst : _registeredSpawns.values())
-				if(spawnInst.getNpcId() == id)
-					return spawnInst;
+			if(spawnInst.getNpcId() == id)
+				return spawnInst;
 		}
 		return null;
 	}
@@ -400,12 +442,19 @@ public class AutoSpawn
 	{
 		Map<Integer, AutoSpawnInstance> spawnInstList = new FastMap<Integer, AutoSpawnInstance>();
 
-		for(AutoSpawnInstance spawnInst : _registeredSpawns.values())
+		Collection<AutoSpawnInstance> instances;
+		synchronized(_registeredSpawns){
+			instances = _registeredSpawns.values();
+		}
+		
+		for(final AutoSpawnInstance spawnInst : instances)
+		{
 			if(spawnInst.getNpcId() == npcId)
 			{
 				spawnInstList.put(spawnInst.getObjectId(), spawnInst);
 			}
-
+		}
+		
 		return spawnInstList;
 	}
 
@@ -417,7 +466,10 @@ public class AutoSpawn
 	 */
 	public final boolean isSpawnRegistered(int objectId)
 	{
-		return _registeredSpawns.containsKey(objectId);
+		synchronized(_registeredSpawns){
+			return _registeredSpawns.containsKey(objectId);
+		}
+		
 	}
 
 	/**
@@ -426,9 +478,12 @@ public class AutoSpawn
 	 * @param spawnInst
 	 * @return boolean isAssigned
 	 */
-	public final boolean isSpawnRegistered(AutoSpawnInstance spawnInst)
+	public boolean isSpawnRegistered(AutoSpawnInstance spawnInst)
 	{
-		return _registeredSpawns.containsValue(spawnInst);
+		synchronized(_registeredSpawns){
+			return _registeredSpawns.containsValue(spawnInst);
+		}
+		
 	}
 
 	/**
@@ -452,9 +507,14 @@ public class AutoSpawn
 		{
 			try
 			{
-				// Retrieve the required spawn instance for this spawn task.
-				AutoSpawnInstance spawnInst = _registeredSpawns.get(_objectId);
+				AutoSpawnInstance spawnInst = null;
+				
+				synchronized(_registeredSpawns){
+					// Retrieve the required spawn instance for this spawn task.
+					spawnInst = _registeredSpawns.get(_objectId);
 
+				}
+				
 				// If the spawn is not scheduled to be active, cancel the spawn
 				// task.
 				if(!spawnInst.isSpawnActive())
@@ -610,7 +670,11 @@ public class AutoSpawn
 		{
 			try
 			{
-				AutoSpawnInstance spawnInst = _registeredSpawns.get(_objectId);
+				AutoSpawnInstance spawnInst = null;
+				synchronized(_registeredSpawns){
+					spawnInst = _registeredSpawns.get(_objectId);
+				}
+				
 
 				if(spawnInst == null)
 				{

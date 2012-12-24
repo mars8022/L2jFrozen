@@ -3115,6 +3115,7 @@ public abstract class L2Skill
 			skillMastery = true;
 		}
 		
+		/*
 		if(getSkillType()==SkillType.BUFF)
 			for(final L2Effect ef: effector.getAllEffects()) {
 				if(ef!=null && ef.getSkill()!=null){
@@ -3124,6 +3125,7 @@ public abstract class L2Skill
 				}
 				
 			}
+			*/
 				
 		Env env = new Env();
 		env.player = effector;
