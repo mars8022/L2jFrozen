@@ -211,26 +211,31 @@ public class Continuous implements ISkillHandler
 				}
 			}
 			
-			boolean stopped = false;
 
-			L2Effect[] effects = target.getAllEffects();
-			if(effects != null)
-			{
-				for(L2Effect e : effects)
-				{
-					if(e != null)
-						if(e.getSkill().getId() == skill.getId())
-						{
-							e.exit(false);
-							stopped = true;
-						}
-				}
+
+			if(skill.isToggle()){
+
+				boolean stopped = false;
+				
+							L2Effect[] effects = target.getAllEffects();
+							if(effects != null)
+							{
+								for(L2Effect e : effects)
+								{
+									if(e != null)
+										if(e.getSkill().getId() == skill.getId())
+										{
+											e.exit(false);
+											stopped = true;
+										}
+								}
+							}
+							
+							
+				if(stopped)
+					break;
 			}
-			
-			effects = null;
-
-			if(skill.isToggle() && stopped)
-				break;
+				
 
 			// If target is not in game anymore...
 			if((target instanceof L2PcInstance) && ((L2PcInstance) target).isOnline()==0)
@@ -249,7 +254,7 @@ public class Continuous implements ISkillHandler
 				DuelManager dm = DuelManager.getInstance();
 				if(dm!=null)
 				{
-					effects = skill.getEffects(activeChar, target, ss, sps, bss);
+					L2Effect[] effects = skill.getEffects(activeChar, target, ss, sps, bss);
 					if(effects!=null)
 						for(L2Effect buff : effects)
 							if(buff != null)
@@ -299,16 +304,16 @@ public class Continuous implements ISkillHandler
 		
 		player = null;
 		
-		// self Effect :]
-		L2Effect effect = activeChar.getFirstEffect(skill.getId());
-		if(effect != null && effect.isSelfEffect())
-		{
-			//Replace old effect with new one.
-			effect.exit(false);
-		}
+//		// self Effect :]
+//		L2Effect effect = activeChar.getFirstEffect(skill.getId());
+//		if(effect != null && effect.isSelfEffect())
+//		{
+//			//Replace old effect with new one.
+//			effect.exit(false);
+//		}
 		skill.getEffectsSelf(activeChar);
 
-		effect = null;
+//		effect = null;
 	}
 
 	@Override
