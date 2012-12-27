@@ -2785,7 +2785,7 @@ public class L2NpcInstance extends L2Character
 			case 31688:
 				if (player.isNoble())
 				{
-					filename = Olympiad.OLYMPIAD_HTML_FILE + "noble_main.htm";
+					filename = Olympiad.OLYMPIAD_HTML_PATH + "noble_main.htm";
 				}
 				else
 				{
@@ -2799,7 +2799,7 @@ public class L2NpcInstance extends L2Character
 			case 31772:
 				if (player.isHero())
 				{
-					filename = Olympiad.OLYMPIAD_HTML_FILE + "hero_main.htm";
+					filename = Olympiad.OLYMPIAD_HTML_PATH + "hero_main.htm";
 				}
 				else
 				{

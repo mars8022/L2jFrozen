@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -66,6 +67,7 @@ import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.csv.RecipeTable;
 import com.l2jfrozen.gameserver.datatables.sql.AccessLevels;
+import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -905,7 +907,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	private int _olympiadSide = -1;
 	
 	/** The dmg dealt. */
-	public int dmgDealt = 0;
+	//public int dmgDealt = 0;
 
 	/** Duel. */
 	private boolean _isInDuel = false;
@@ -6271,51 +6273,29 @@ private int _reviveRequested = 0;
 			update = null;
 		}
 
-		if(isInOlympiadMode() && isOlympiadStart())
+		if (isInOlympiadMode())
 		{
-			/*Collection<L2PcInstance> plrs = getKnownList().getKnownPlayers().values(); 
-			//synchronized (getKnownList().getKnownPlayers()) 
-			{ 
-				for (L2PcInstance player : plrs) 
-				{ 
-					if (player.getOlympiadGameId() == getOlympiadGameId() && player.isOlympiadStart()) 
-					{ 
-						if (Config.DEBUG) 
-							_log.fine("Send status for Olympia window of " + getObjectId() + "(" + getName() + ") to " 
-								+ player.getObjectId() + "(" + player.getName()
-								+ "). CP: " + getCurrentCp()
-								+ " HP: " + getCurrentHp()
-								+ " MP: " + getCurrentMp());
-								
-						player.sendPacket(new ExOlympiadUserInfo(this));
-					}
-				}
-			}
-			plrs = null;*/
-
-			if(Olympiad.getInstance().getPlayers(_olympiadGameId) != null)
+			// TODO: implement new OlympiadUserInfo
+			for (L2PcInstance player : getKnownList().getKnownPlayers().values())
 			{
-				for(L2PcInstance player : Olympiad.getInstance().getPlayers(_olympiadGameId))
+				if (player.getOlympiadGameId()==getOlympiadGameId() && player.isOlympiadStart())
 				{
-					if(player != null && player != this)
+					if (Config.DEBUG)
 					{
-						player.sendPacket(new ExOlympiadUserInfo(this, 1));
+						_log.fine("Send status for Olympia window of " + getObjectId() + "(" + getName() + ") to " + player.getObjectId() + "(" + player.getName() +"). CP: " + getCurrentCp() + " HP: " + getCurrentHp() + " MP: " + getCurrentMp());
 					}
+					player.sendPacket(new ExOlympiadUserInfo(this, 1));
 				}
 			}
-			
-			final L2FastList<L2PcInstance> spectators = Olympiad.getInstance().getSpectators(_olympiadGameId);
-			if((spectators != null) && !spectators.isEmpty())
+			if(Olympiad.getInstance().getSpectators(_olympiadGameId) != null && this.isOlympiadStart())
 			{
-				for(L2PcInstance spectator : spectators)
+				for(L2PcInstance spectator : Olympiad.getInstance().getSpectators(_olympiadGameId))
 				{
-					if(spectator != null)
-					{
-						spectator.sendPacket(new ExOlympiadUserInfo(this, getOlympiadSide()));
-					}
+					if (spectator == null) continue;
+					spectator.sendPacket(new ExOlympiadUserInfo(this, getOlympiadSide()));
 				}
 			}
-		}
+		}	
 		if(isInDuel())
 		{
 			ExDuelUpdateUserInfo update = new ExDuelUpdateUserInfo(this);
@@ -17380,7 +17360,7 @@ private int _reviveRequested = 0;
 	 *
 	 * @return the int
 	 */
-	public int GetInventoryLimit()
+	public int getInventoryLimit()
 	{
 		int ivlim;
 		if(isGM())
@@ -18045,10 +18025,11 @@ private int _reviveRequested = 0;
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT_MAGIC));
 			
 		}
-
-		if(isInOlympiadMode() && target instanceof L2PcInstance && ((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == getOlympiadGameId())
+		
+		if (isInOlympiadMode() && target instanceof L2PcInstance &&
+			((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == getOlympiadGameId())
 		{
-			dmgDealt += damage;
+			Olympiad.getInstance().notifyCompetitorDamage(this, damage, getOlympiadGameId());
 		}
 		
 		SystemMessage sm = new SystemMessage(SystemMessageId.YOU_DID_S1_DMG);
@@ -18056,6 +18037,8 @@ private int _reviveRequested = 0;
 		sendPacket(sm);
 		sm = null;
 	}
+	
+	
 
 	/**
 	 * Update title.
@@ -19545,7 +19528,7 @@ public boolean dismount()
      */
 	public boolean isInventoryUnder80()
 	{
-		if (getInventory().getSize() <= (GetInventoryLimit() * 0.8))
+		if (getInventory().getSize() <= (getInventoryLimit() * 0.8))
 		{
 			return true;
 		}
@@ -19743,5 +19726,124 @@ public boolean dismount()
 	public void setLastAttackPacket()
 	{
 		_lastAttackPacket = System.currentTimeMillis();
+	}
+	
+	public void checkItemRestriction()
+    {
+    	for (int i = 0; i < Inventory.PAPERDOLL_TOTALSLOTS; i++)
+    	{
+    		L2ItemInstance equippedItem = getInventory().getPaperdollItem(i);
+    		if (equippedItem != null && !equippedItem.checkOlympCondition())
+    		{
+				if (equippedItem.isAugmented())
+					equippedItem.getAugmentation().removeBoni(this);
+				L2ItemInstance[] items = getInventory().unEquipItemInSlotAndRecord(i);
+				if (equippedItem.isWear())
+					continue;
+				SystemMessage sm = null;
+				if (equippedItem.getEnchantLevel() > 0)
+				{
+					sm = new SystemMessage(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
+					sm.addNumber(equippedItem.getEnchantLevel());
+					sm.addItemName(equippedItem.getItemId());
+				}
+				else
+				{
+					sm = new SystemMessage(SystemMessageId.S1_DISARMED);
+					sm.addItemName(equippedItem.getItemId());
+				}
+				sendPacket(sm);
+				InventoryUpdate iu = new InventoryUpdate();
+				iu.addItems(Arrays.asList(items));
+				sendPacket(iu);
+				broadcastUserInfo();
+    		}
+    	}
+    }
+	
+	public void enterOlympiadObserverMode(int x, int y, int z, int id, boolean storeCoords)
+    {
+        if (getPet() != null)
+            getPet().unSummon(this);
+
+        if (getCubics().size() > 0)
+        {
+            for (L2CubicInstance cubic : getCubics().values())
+            {
+                cubic.stopAction();
+                cubic.cancelDisappear();
+            }
+
+            getCubics().clear();
+        }
+
+    	_olympiadGameId = id;
+        if (isSitting())
+            standUp();
+		if (storeCoords)
+		{
+			_obsX = getX();
+			_obsY = getY();
+			_obsZ = getZ();
+		}
+        setTarget(null);
+        setIsInvul(true);
+        getAppearance().setInvisible();
+		//sendPacket(new GMHide(1));
+        teleToLocation(x, y, z, true);
+        sendPacket(new ExOlympiadMode(3));
+        _observerMode = true;
+		broadcastUserInfo();
+    }
+	
+	public void leaveOlympiadObserverMode(boolean olymp)
+    {
+		setTarget(null);
+		sendPacket(new ExOlympiadMode(0));
+        teleToLocation(_obsX, _obsY, _obsZ, true);
+		if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invis", getAccessLevel()))
+			getAppearance().setVisible();
+        if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invul", getAccessLevel()))
+			setIsInvul(false);
+        if (getAI() != null)
+		{
+            getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+        }
+		if (!olymp)
+			Olympiad.removeSpectator(_olympiadGameId, this);
+        _olympiadGameId = -1;
+        _observerMode = false;
+		broadcastUserInfo();
+    }
+	
+	public void setHero(boolean hero)
+	{
+		_hero = hero;
+		if (_hero && _baseClass == _activeClass)
+		{
+			giveHeroSkills();
+		}
+		else
+		{
+			removeHeroSkills();
+		}
+	}
+
+	public void giveHeroSkills()
+	{
+		for (L2Skill s : HeroSkillTable.getHeroSkills())
+		{
+			addSkill(s, false); //Dont Save Hero skills to database
+		}
+		sendSkillList();
+	}
+
+	public void removeHeroSkills()
+	{
+		for (L2Skill s : HeroSkillTable.getHeroSkills())
+		{
+			super.removeSkill(s); //Just Remove skills from nonHero characters
+		}
+		sendSkillList();
 	}
 }

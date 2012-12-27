@@ -44,7 +44,6 @@ import javolution.text.TypeFormat;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
-import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
 import com.l2jfrozen.gameserver.util.FloodProtectorConfig;
 import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.util.StringUtil;
@@ -2713,12 +2712,20 @@ public final class Config
 	}
 
 	//============================================================
+	
+	public static int ALT_OLY_NUMBER_HEROS_EACH_CLASS;
+	public static boolean ALT_OLY_LOG_FIGHTS;
+	public static boolean ALT_OLY_SHOW_MONTHLY_WINNERS;
+	public static boolean ALT_OLY_ANNOUNCE_GAMES;
+	public static List<Integer> LIST_OLY_RESTRICTED_SKILLS = new FastList<Integer>();
+	public static boolean ALT_OLY_AUGMENT_ALLOW;
+	public static int ALT_OLY_TELEPORT_COUNTDOWN;
+	
 	public static int ALT_OLY_START_TIME;
 	public static int ALT_OLY_MIN;
 	public static long ALT_OLY_CPERIOD;
 	public static long ALT_OLY_BATTLE;
-	public static long ALT_OLY_BWAIT;
-	public static long ALT_OLY_IWAIT;
+
 	public static long ALT_OLY_WPERIOD;
 	public static long ALT_OLY_VPERIOD;
 	public static int ALT_OLY_CLASSED;
@@ -2726,18 +2733,19 @@ public final class Config
 	public static int ALT_OLY_BATTLE_REWARD_ITEM;
 	public static int ALT_OLY_CLASSED_RITEM_C;
 	public static int ALT_OLY_NONCLASSED_RITEM_C;
-	public static int ALT_OLY_COMP_RITEM;
+
 	public static int ALT_OLY_GP_PER_POINT;
 	public static int ALT_OLY_MIN_POINT_FOR_EXCH;
 	public static int ALT_OLY_HERO_POINTS;
 	public static String ALT_OLY_RESTRICTED_ITEMS;
+
 	public static List<Integer> LIST_OLY_RESTRICTED_ITEMS = new FastList<Integer>();
-	public static OlympiadPeriod ALT_OLY_PERIOD;
-	public static int ALT_OLY_PERIOD_MULTIPLIER;
 	public static boolean ALLOW_EVENTS_DURING_OLY;
 	public static boolean ALT_OLY_RECHARGE_SKILLS;
-	/* Remove cubic at the enter of olympiad */
+	
+	public static int ALT_OLY_COMP_RITEM;
 	public static boolean REMOVE_CUBIC_OLYMPIAD;
+
 	//============================================================
 	public static void loadOlympConfig()
 	{
@@ -2753,8 +2761,6 @@ public final class Config
 			ALT_OLY_MIN = Integer.parseInt(OLYMPSetting.getProperty("AltOlyMin", "00"));
 			ALT_OLY_CPERIOD = Long.parseLong(OLYMPSetting.getProperty("AltOlyCPeriod", "21600000"));
 			ALT_OLY_BATTLE = Long.parseLong(OLYMPSetting.getProperty("AltOlyBattle", "360000"));
-			ALT_OLY_BWAIT = Long.parseLong(OLYMPSetting.getProperty("AltOlyBWait", "600000"));
-			ALT_OLY_IWAIT = Long.parseLong(OLYMPSetting.getProperty("AltOlyIWait", "300000"));
 			ALT_OLY_WPERIOD = Long.parseLong(OLYMPSetting.getProperty("AltOlyWPeriod", "604800000"));
 			ALT_OLY_VPERIOD = Long.parseLong(OLYMPSetting.getProperty("AltOlyVPeriod", "86400000"));
 			ALT_OLY_CLASSED = Integer.parseInt(OLYMPSetting.getProperty("AltOlyClassedParticipants", "5"));
@@ -2772,9 +2778,6 @@ public final class Config
 			{
 				LIST_OLY_RESTRICTED_ITEMS.add(Integer.parseInt(id));
 			}
-			ALT_OLY_PERIOD = OlympiadPeriod.valueOf(OLYMPSetting.getProperty("AltOlyPeriod", "MONTH"));
-			ALT_OLY_PERIOD_MULTIPLIER = Integer.parseInt(OLYMPSetting.getProperty("AltOlyPeriodMultiplier", "1"));
-			
 			ALLOW_EVENTS_DURING_OLY = Boolean.parseBoolean(OLYMPSetting.getProperty("AllowEventsDuringOly", "False"));
 			
 			ALT_OLY_RECHARGE_SKILLS = Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyRechargeSkills", "False"));
@@ -2782,6 +2785,17 @@ public final class Config
 			/* Remove cubic at the enter of olympiad */
 			REMOVE_CUBIC_OLYMPIAD = Boolean.parseBoolean(OLYMPSetting.getProperty("RemoveCubicOlympiad", "False"));
 
+			ALT_OLY_NUMBER_HEROS_EACH_CLASS	= Integer.parseInt(OLYMPSetting.getProperty("AltOlyNumberHerosEachClass", "1"));
+			ALT_OLY_LOG_FIGHTS				= Boolean.parseBoolean(OLYMPSetting.getProperty("AlyOlyLogFights", "false"));
+			ALT_OLY_SHOW_MONTHLY_WINNERS	= Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyShowMonthlyWinners", "true"));
+			ALT_OLY_ANNOUNCE_GAMES			= Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyAnnounceGames", "true"));
+			LIST_OLY_RESTRICTED_SKILLS		= new FastList<Integer>();
+			for (String id : OLYMPSetting.getProperty("AltOlyRestrictedSkills", "0").split(","))
+			{
+				LIST_OLY_RESTRICTED_SKILLS.add(Integer.parseInt(id));
+			}
+			ALT_OLY_AUGMENT_ALLOW			= Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyAugmentAllow", "true"));
+			ALT_OLY_TELEPORT_COUNTDOWN 		= Integer.parseInt(OLYMPSetting.getProperty("AltOlyTeleportCountDown", "120"));
 		}
 		catch(Exception e)
 		{

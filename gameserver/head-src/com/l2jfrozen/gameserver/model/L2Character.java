@@ -102,6 +102,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ChangeMoveType;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicEffectIcons;
@@ -621,6 +622,7 @@ public abstract class L2Character extends L2Object
 		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
 			if(player!=null){
+				
 				
 				try
 				{
@@ -4836,6 +4838,7 @@ public abstract class L2Character extends L2Object
 				}
 			}
 		}
+		
 	}
 
 	// Property - Public

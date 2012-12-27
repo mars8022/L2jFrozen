@@ -48,8 +48,11 @@ public class TaskOlympiadSave extends Task
 	{
 		try
 		{
-			Olympiad.getInstance().save();
-			_log.info("Olympiad System: Data updated successfully.");
+			if (Olympiad.getInstance().inCompPeriod())
+    		{
+    			Olympiad.getInstance().saveOlympiadStatus();
+    			_log.info("Olympiad System: Data updated successfully.");
+    		}
 		}
 		catch(Exception e)
 		{

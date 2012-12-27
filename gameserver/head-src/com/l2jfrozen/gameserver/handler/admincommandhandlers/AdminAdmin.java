@@ -144,19 +144,10 @@ public class AdminAdmin implements IAdminCommandHandler
 				}
 				return true;
 			case admin_saveolymp:
-				try
-				{
-					Olympiad.getInstance().save();
-				}
-
-				catch(Exception e)
-				{
-					e.printStackTrace();
-					return false;
-
-				}
-
+				
+				Olympiad.getInstance().saveOlympiadStatus();
 				activeChar.sendMessage("Olympiad stuff saved!");
+				
 				return true;
 
 			case admin_manualhero:
@@ -164,13 +155,11 @@ public class AdminAdmin implements IAdminCommandHandler
 				{
 					Olympiad.getInstance().manualSelectHeroes();
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					e.printStackTrace();
-					return false;
-
 				}
-
+				
 				activeChar.sendMessage("Heroes formed!");
 				return true;
 

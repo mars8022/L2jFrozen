@@ -396,7 +396,7 @@ public class GameServer
 		AutoChatHandler.getInstance();
 
 		Util.printSection("Olympiad System");
-		Olympiad.getInstance().load();
+		Olympiad.getInstance();
 		Hero.getInstance();
 
 		Util.printSection("Access Levels");

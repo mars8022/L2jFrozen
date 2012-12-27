@@ -297,7 +297,7 @@ public class UserInfo extends L2GameServerPacket
 		writeH(_activeChar.getRecomLeft()); //c2  recommendations remaining
 		writeH(_activeChar.getRecomHave()); //c2  recommendations received
 		writeD(0x00); // FIXME: MOUNT NPC ID
-		writeH(_activeChar.GetInventoryLimit());
+		writeH(_activeChar.getInventoryLimit());
 
 		writeD(_activeChar.getClassId().getId());
 		writeD(0x00); // FIXME: special effects? circles around player...

@@ -29,6 +29,7 @@ import javolution.util.FastMap;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.CloseUtil;
@@ -106,6 +107,10 @@ public class SpawnTable
 					{
 						// Don't spawn raidboss
 					}
+					else if (template1.type.equalsIgnoreCase("L2GrandBoss"))
+					{
+						// Don't spawn grandboss
+					}
 					else if(!Config.ALLOW_CLASS_MASTERS && template1.type.equals("L2ClassMaster"))
 					{
 						// Dont' spawn class masters
@@ -125,7 +130,7 @@ public class SpawnTable
 
 						spawnDat.setLocation(loc_id);
 
-						template1 = null;
+						//template1 = null;
 
 						switch(rset.getInt("periodOfDay"))
 						{
@@ -147,7 +152,10 @@ public class SpawnTable
 						{
 							_highestId = spawnDat.getId();
 						}
-
+						if (spawnDat.getTemplate().getNpcId() == Olympiad.OLY_MANAGER)
+						{
+							Olympiad.olymanagers.add(spawnDat);
+						}
 						spawnDat = null;
 					}
 				}
