@@ -30,19 +30,24 @@ import javolution.text.TextBuilder;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
+import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
+import com.l2jfrozen.gameserver.model.entity.Hero;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAll;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
 import com.l2jfrozen.gameserver.network.serverpackets.SetSummonRemainTime;
+import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
@@ -79,7 +84,8 @@ public class AdminEditChar implements IAdminCommandHandler
 			"admin_setmp",
 			"admin_setchar_cp",
 			"admin_setchar_hp",
-			"admin_setchar_mp"
+			"admin_setchar_mp",
+			"admin_sethero"
 	};
 	
 	private enum CommandEnum
@@ -110,7 +116,8 @@ public class AdminEditChar implements IAdminCommandHandler
 		admin_setmp,
 		admin_setchar_cp,
 		admin_setchar_hp,
-		admin_setchar_mp
+		admin_setchar_mp,
+		admin_sethero
 	}
 
 	@Override
@@ -894,6 +901,76 @@ public class AdminEditChar implements IAdminCommandHandler
 				}
 				
 				return true;
+				
+			}
+			case admin_sethero:{
+				
+				try
+				{
+					L2PcInstance target;
+					if (activeChar.getTarget() != null && activeChar.getTarget() instanceof L2PcInstance)
+					{
+						target = (L2PcInstance) activeChar.getTarget();// Target - player
+					}
+					else
+					{
+						target = activeChar;// No target
+					}
+
+					if (target != null)
+					{
+						String[] tokens = command.split(" ");
+
+						boolean param = true, save = false;
+
+						if (tokens.length == 2)
+						{
+							param = Boolean.parseBoolean(tokens[1]);
+						}
+						else if (tokens.length == 3)
+						{
+							param = Boolean.parseBoolean(tokens[1]);
+							save = Boolean.parseBoolean(tokens[2]);
+						}
+						else if (tokens.length > 3)
+						{
+							throw new Exception("too many tokens");
+						}
+
+						target.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, target);
+						target.setTarget(target);
+						target.setHero(param);
+
+						if (!target.isHero()){
+							
+							for (L2Skill skill : HeroSkillTable.getHeroSkills())
+							{
+								target.removeSkill(skill, false);
+							}
+							Hero.getInstance().deleteHero(target, false);
+						}
+						else{
+							target.broadcastPacket(new SocialAction(target.getObjectId(), 16));
+							for (L2Skill skill : HeroSkillTable.getHeroSkills())
+							{
+								target.addSkill(skill);
+							}
+							Hero.getInstance().putHero(target, false);
+						}
+						target.broadcastStatusUpdate();
+						target.broadcastUserInfo();
+
+						if (save)
+						{
+							Olympiad.getInstance().saveOlympiadStatus();
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					activeChar.sendMessage("Example: //sethero <trigger> <save>");
+				}
+				
 			}
 		}
 

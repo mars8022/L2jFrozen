@@ -599,7 +599,7 @@ public class ChristmasManager
 					{
 						continue;
 					}
-					else if(pc.GetInventoryLimit() <= pc.getInventory().getSize())
+					else if(pc.getInventoryLimit() <= pc.getInventory().getSize())
 					{
 						pc.sendMessage("Santa wanted to give you a Present but your inventory was full :(");
 						continue;

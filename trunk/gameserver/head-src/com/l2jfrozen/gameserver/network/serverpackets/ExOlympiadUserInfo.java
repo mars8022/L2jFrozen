@@ -20,56 +20,53 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
+
+
 /**
  * This class ...
  * 
  * @version $Revision: 1.4.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
+ * 
  * @author godson
  */
 public class ExOlympiadUserInfo extends L2GameServerPacket
 {
 	// chcdSddddd
-	/** The Constant _S__FE_29_OLYMPIADUSERINFO. */
-	private static final String _S__FE_29_OLYMPIADUSERINFO = "[S] FE:29 OlympiadUserInfo";
-	
-	/** The _side. */
+	private static final String _S__FE_29_OLYMPIADUSERINFO = "[S] FE:29 ExOlympiadUserInfo";
 	private int _side;
+	private L2PcInstance _activeChar;
 	
-	/** The _player. */
-	private L2PcInstance _player;
 
 	/**
-	 * Instantiates a new ex olympiad user info.
-	 *
-	 * @param player the player
-	 * @param side the side
+	 * @param _player
+	 * @param _side (1 = right, 2 = left)
 	 */
 	public ExOlympiadUserInfo(L2PcInstance player, int side)
 	{
-		_player = player;
+		_activeChar = player;
 		_side = side;
 	}
+	
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
-	 */
 	@Override
 	protected final void writeImpl()
 	{
+        if (_activeChar == null)
+            return;
 		writeC(0xfe);
 		writeH(0x29);
 		writeC(_side);
-		writeD(_player.getObjectId());
-		writeS(_player.getName());
-		writeD(_player.getClassId().getId());
-		writeD((int) _player.getCurrentHp());
-		writeD(_player.getMaxHp());
-		writeD((int) _player.getCurrentCp());
-		writeD(_player.getMaxCp());
+		writeD(_activeChar.getObjectId());
+		writeS(_activeChar.getName());
+		writeD(_activeChar.getClassId().getId());
+		writeD((int)_activeChar.getCurrentHp());
+		writeD(_activeChar.getMaxHp());
+		writeD((int)_activeChar.getCurrentCp());
+		writeD(_activeChar.getMaxCp());
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
+	 * @see net.sf.l2j.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
 	public String getType()
@@ -77,3 +74,4 @@ public class ExOlympiadUserInfo extends L2GameServerPacket
 		return _S__FE_29_OLYMPIADUSERINFO;
 	}
 }
+	

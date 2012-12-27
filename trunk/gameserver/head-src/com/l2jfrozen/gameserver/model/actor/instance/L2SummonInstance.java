@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SetSummonRemainTime;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -368,9 +369,12 @@ public class L2SummonInstance extends L2Summon
 				getOwner().sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT_BY_SUMMONED_MOB));
 			}
 
-			if(getOwner().isInOlympiadMode() && target instanceof L2PcInstance && ((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == getOwner().getOlympiadGameId())
+			if (getOwner().isInOlympiadMode() &&
+				target instanceof L2PcInstance &&
+				((L2PcInstance)target).isInOlympiadMode() &&
+				((L2PcInstance)target).getOlympiadGameId() == getOwner().getOlympiadGameId())
 			{
-				getOwner().dmgDealt += damage;
+				Olympiad.getInstance().notifyCompetitorDamage(getOwner(), damage, getOwner().getOlympiadGameId());
 			}
 
 			SystemMessage sm = new SystemMessage(SystemMessageId.SUMMON_GAVE_DAMAGE_S1);

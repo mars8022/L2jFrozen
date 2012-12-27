@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.PcInventory;
 import com.l2jfrozen.gameserver.model.PetInventory;
 import com.l2jfrozen.gameserver.model.actor.stat.PetStat;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
@@ -1448,6 +1449,14 @@ public class L2PetInstance extends L2Summon
 			sm.addNumber(damage);
 			getOwner().sendPacket(sm);
 			sm = null;
+		}
+		
+		if (getOwner().isInOlympiadMode() &&
+			target instanceof L2PcInstance &&
+			((L2PcInstance)target).isInOlympiadMode() &&
+			((L2PcInstance)target).getOlympiadGameId() == getOwner().getOlympiadGameId())
+		{
+			Olympiad.getInstance().notifyCompetitorDamage(getOwner(), damage, getOwner().getOlympiadGameId());
 		}
 	}
 }

@@ -43,7 +43,7 @@ public class ExStorageMaxCount extends L2GameServerPacket
 	public ExStorageMaxCount(L2PcInstance character)
 	{
 		_activeChar = character;
-		_inventory = _activeChar.GetInventoryLimit();
+		_inventory = _activeChar.getInventoryLimit();
 		_warehouse = _activeChar.GetWareHouseLimit();
 		_privateSell = _activeChar.GetPrivateSellStoreLimit();
 		_privateBuy = _activeChar.GetPrivateBuyStoreLimit();

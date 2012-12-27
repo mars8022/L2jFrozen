@@ -1716,5 +1716,20 @@ public final class L2ItemInstance extends L2Object
 		return false;
 		
 	}
+	
+	public boolean isOlyRestrictedItem()
+	{
+		return (Config.LIST_OLY_RESTRICTED_ITEMS.contains(_itemId));
+	}
+    public boolean isHeroItem()
+    {
+        return ((_itemId >= 6611 && _itemId <= 6621) || (_itemId >= 9388 && _itemId <= 9390) || _itemId == 6842);
+    }
+	public boolean checkOlympCondition()
+	{
+		if (isHeroItem() || isOlyRestrictedItem() || isWear() || (!Config.ALT_OLY_AUGMENT_ALLOW && isAugmented()))
+			return false;
+		return true;
+	}
 
 }

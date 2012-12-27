@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.BaseStats;
@@ -261,6 +262,11 @@ public class Blow implements ISkillHandler
 					L2PcInstance activePlayer = (L2PcInstance) activeChar;
 					
 					activePlayer.sendDamageMessage(target, (int)damage, false, true, false);
+					if (activePlayer.isInOlympiadMode() && target instanceof L2PcInstance &&
+		        		((L2PcInstance)target).isInOlympiadMode() && ((L2PcInstance)target).getOlympiadGameId() == activePlayer.getOlympiadGameId())
+					{
+						Olympiad.getInstance().notifyCompetitorDamage(activePlayer, (int) damage, activePlayer.getOlympiadGameId());
+					}
 				}
 				
 				//Possibility of a lethal strike

@@ -40,6 +40,7 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.L2Event;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.util.GMAudit;
@@ -313,6 +314,10 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			{
 				L2PcInstance player = getClient().getActiveChar();
 				CustomBypassHandler.getInstance().handleBypass(player, _command);
+			}
+			else if (_command.startsWith("OlympiadArenaChange"))
+			{
+				Olympiad.bypassChangeArena(_command, activeChar);
 			}
 		}
 		catch(Exception e)

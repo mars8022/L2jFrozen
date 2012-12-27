@@ -658,7 +658,7 @@ public class Shutdown extends Thread
 		System.err.println("TradeController: All count Item Saved");
 		try
 		{
-			Olympiad.getInstance().save();
+			Olympiad.getInstance().saveOlympiadStatus();
 		}
 		catch(Exception e)
 		{

@@ -770,7 +770,7 @@ public class PcInventory extends Inventory
 	@Override
 	public boolean validateCapacity(int slots)
 	{
-		return _items.size() + slots <= _owner.GetInventoryLimit();
+		return _items.size() + slots <= _owner.getInventoryLimit();
 	}
 
 	@Override

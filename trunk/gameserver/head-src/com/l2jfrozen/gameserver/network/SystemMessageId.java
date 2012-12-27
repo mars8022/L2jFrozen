@@ -5006,7 +5006,48 @@ public enum SystemMessageId
 	* ID: 1709<br>
 	* Message: You are using $s1 point.
 	*/
-	USING_S1_PCPOINT(1709);
+	USING_S1_PCPOINT(1709),
+	
+	/**
+     * ID: 1499<br>
+     * Message: You will be moved back to town in $s1 second(s).
+     */
+    YOU_WILL_BE_MOVED_TO_TOWN_IN_S1_SECONDS(1499),
+	
+	/**
+	 * ID: 1750<br>
+	 * Message: If you posses $s1, you cannot participate in the Olympiad.
+	 */
+	CANNOT_JOIN_OLYMPIAD_POSSESSING_S1(1750),
+	
+	/**
+	 * ID: 1803<br>
+	 * Message: The request to participate in the game cannot be made starting from 10 minutes before the end of the game.
+	 */
+	GAME_REQUEST_CANNOT_BE_MADE(1803),
+
+	/**
+	 * ID: 1858<br>
+	 * Message: You are currently dead and cannot participate in the Olympiad.
+	 */
+	CANNOT_PARTICIPATE_OLYMPIAD_WHILE_DEAD(1858),
+	
+	/**
+	* ID: 1919<br>
+	* Message: The Grand Olympiad registration period has ended.
+	*/
+	OLYMPIAD_REGISTRATION_PERIOD_ENDED(1919),
+	
+	/**
+     * ID: 1673<br>
+     * TODO: Correct this message
+     * Message: A manor cannot be set up between 6 a.m. and 8 p.m.
+     */
+    THE_CURRENT_RECORD_FOR_THIS_OLYMPIAD_SESSION_IS_S1_MATCHES_S2_WINS_S3_DEFEATS_YOU_HAVE_EARNED_S4_OLYMPIAD_POINTS(1673),
+    
+	;
+	
+	
 
 
 	private int _id;

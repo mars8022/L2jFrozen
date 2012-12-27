@@ -21,41 +21,39 @@ package com.l2jfrozen.gameserver.handler.usercommandhandlers;
 import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
+import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+
 
 /**
- * Support for /olympiadstat command Added by kamy
+ * Support for /olympiadstat command  
+ * Added by kamy
  */
 public class OlympiadStat implements IUserCommandHandler
 {
-	private static final int[] COMMAND_IDS =
-	{
-		109
-	};
+    private static final int[] COMMAND_IDS = { 109 }; 
+	
+    /* (non-Javadoc)
+     * @see net.sf.l2j.gameserver.handler.IUserCommandHandler#useUserCommand(int, net.sf.l2j.gameserver.model.L2PcInstance)
+     */
+    public boolean useUserCommand(int id, L2PcInstance activeChar)
+    {
+        if (id != COMMAND_IDS[0]) return false;
+        
+        SystemMessage sm = new SystemMessage(SystemMessageId.THE_CURRENT_RECORD_FOR_THIS_OLYMPIAD_SESSION_IS_S1_MATCHES_S2_WINS_S3_DEFEATS_YOU_HAVE_EARNED_S4_OLYMPIAD_POINTS);
+		sm.addNumber(Olympiad.getInstance().getCompetitionDone(activeChar.getObjectId()));
+		sm.addNumber(Olympiad.getInstance().getCompetitionWon(activeChar.getObjectId()));
+		sm.addNumber(Olympiad.getInstance().getCompetitionLost(activeChar.getObjectId()));
+		sm.addNumber(Olympiad.getInstance().getNoblePoints(activeChar.getObjectId()));
+    	activeChar.sendPacket(sm);
+    	return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
-	 */
-	@Override
-	public boolean useUserCommand(int id, L2PcInstance activeChar)
-	{
-		if(id != COMMAND_IDS[0])
-			return false;
-
-		if(activeChar.isNoble())
-		{
-			activeChar.sendMessage("Your current record for this Grand Olympiad is " + Olympiad.getInstance().getCompetitionDone(activeChar.getObjectId()) + " match(s) played. You have earned " + Olympiad.getInstance().getNoblePoints(activeChar.getObjectId()) + " Olympiad Point(s)");
-			return true;
-		}
-		activeChar.sendMessage("This command can only be used by a Noblesse."); //Retail-like
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
-	 */
-	@Override
-	public int[] getUserCommandList()
-	{
-		return COMMAND_IDS;
-	}
+    /* (non-Javadoc)
+     * @see net.sf.l2j.gameserver.handler.IUserCommandHandler#getUserCommandList()
+     */
+    public int[] getUserCommandList()
+    {
+        return COMMAND_IDS;
+    }
 }
