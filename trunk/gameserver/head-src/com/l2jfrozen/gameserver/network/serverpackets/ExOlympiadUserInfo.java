@@ -20,8 +20,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-
-
 /**
  * This class ...
  * 
@@ -38,8 +36,8 @@ public class ExOlympiadUserInfo extends L2GameServerPacket
 	
 
 	/**
-	 * @param _player
-	 * @param _side (1 = right, 2 = left)
+	 * @param player
+	 * @param side (1 = right, 2 = left)
 	 */
 	public ExOlympiadUserInfo(L2PcInstance player, int side)
 	{
@@ -65,9 +63,6 @@ public class ExOlympiadUserInfo extends L2GameServerPacket
 		writeD(_activeChar.getMaxCp());
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.l2j.gameserver.serverpackets.ServerBasePacket#getType()
-	 */
 	@Override
 	public String getType()
 	{

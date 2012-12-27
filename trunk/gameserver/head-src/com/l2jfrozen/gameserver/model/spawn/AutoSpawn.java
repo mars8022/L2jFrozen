@@ -27,8 +27,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import org.python.modules.synchronize;
-
 import javolution.util.FastList;
 import javolution.util.FastMap;
 

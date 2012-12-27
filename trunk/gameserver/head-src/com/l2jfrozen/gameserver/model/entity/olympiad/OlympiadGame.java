@@ -25,12 +25,10 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
 import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2TamedBeastInstance;
-import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad.COMP_TYPE;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -1068,6 +1066,7 @@ class OlympiadGameTask implements Runnable
 		return _game._playerOneDefaulted || _game._playerTwoDefaulted;
 	}
 	
+	@Override
 	public void run()
 	{
 		_started = true;

@@ -193,7 +193,8 @@ public class Olympiad
 		{
 			try
 			{
-				is.close();
+				if (is != null)
+					is.close();
 			}
 			catch (Exception e)
 			{
@@ -348,6 +349,7 @@ public class Olympiad
 	
 	protected class OlympiadEndTask implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.OLYMPIAD_PERIOD_S1_HAS_ENDED);
@@ -378,6 +380,7 @@ public class Olympiad
 	
 	protected class ValidationEndTask implements Runnable
 	{
+		@Override
 		public void run()
 		{
 			Announcements.getInstance().announceToAll("Olympiad Validation Period has ended");
@@ -705,6 +708,7 @@ public class Olympiad
 		}
 		
 		_scheduledCompStart = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			@Override
 			public void run()
 			{
 				if (isOlympiadEnd())
@@ -723,6 +727,7 @@ public class Olympiad
 				if (regEnd > 0)
 				{
 					ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+						@Override
 						public void run()
 						{
 							Announcements.getInstance().announceToAll(new SystemMessage(SystemMessageId.OLYMPIAD_REGISTRATION_PERIOD_ENDED));
@@ -731,6 +736,7 @@ public class Olympiad
 				}
 				
 				_scheduledCompEnd = ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+					@Override
 					public void run()
 					{
 						if (isOlympiadEnd())
@@ -853,6 +859,7 @@ public class Olympiad
 	private void scheduleWeeklyChange()
 	{
 		_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable() {
+			@Override
 			public void run()
 			{
 				addWeeklyPoints();
@@ -1042,6 +1049,7 @@ public class Olympiad
 
 	/**
 	 * Save noblesse data to database
+	 * @param nobleId 
 	 */
 	protected synchronized void saveOldNobleData(int nobleId)
 	{
@@ -1111,7 +1119,8 @@ public class Olympiad
 		{
 			try
 			{
-				fos.close();
+				if (fos != null)
+					fos.close();
 			}
 			catch (Exception e)
 			{
@@ -1293,25 +1302,23 @@ public class Olympiad
 
 			return points;
 		}
-		else
-		{
-			if (_oldnobles.isEmpty())
-				return 0;
+		
+		if (_oldnobles.isEmpty())
+			return 0;
 
-			StatsSet noble = _oldnobles.get(objId);
-			if (noble == null)
-				return 0;
-			int points = noble.getInteger(POINTS);
-			if (points <= Config.ALT_OLY_MIN_POINT_FOR_EXCH)
-				return 0;
+		StatsSet noble = _oldnobles.get(objId);
+		if (noble == null)
+			return 0;
+		int points = noble.getInteger(POINTS);
+		if (points <= Config.ALT_OLY_MIN_POINT_FOR_EXCH)
+			return 0;
 
-			noble.set(POINTS, 0);
-			updateOldNobleStats(objId, noble);
+		noble.set(POINTS, 0);
+		updateOldNobleStats(objId, noble);
 
-			points *= Config.ALT_OLY_GP_PER_POINT;
+		points *= Config.ALT_OLY_GP_PER_POINT;
 
-			return points;
-		}
+		return points;
 	}
 	
 	public boolean isRegisteredInComp(L2PcInstance player)
@@ -1420,6 +1427,7 @@ public class Olympiad
 	 * @param p2dmg
 	 * @param result
 	 * @param points
+	 * @param classed 
 	 */
 	public static synchronized void logResult(String playerOne, String playerTwo, Double p1hp, Double p2hp,
 			int p1dmg, int p2dmg, String result, int points, String classed)
@@ -1458,7 +1466,8 @@ public class Olympiad
 		{
 			try
 			{
-				save.close();
+				if (save != null)
+					save.close();
 			}
 			catch (Exception e)
 			{

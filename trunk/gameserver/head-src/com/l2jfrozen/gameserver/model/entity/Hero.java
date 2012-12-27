@@ -16,11 +16,6 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-
-/**
- * @author godson
- */
-
 package com.l2jfrozen.gameserver.model.entity;
 
 import java.sql.Connection;
@@ -51,10 +46,12 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 import javolution.util.FastMap;
 
-
+/**
+ * @author godson
+ */
 public class Hero 
 {
-	private static Logger _log = Logger.getLogger(Hero.class.getName());
+	private static final Logger _log = Logger.getLogger(Hero.class.getName());
 
 	private static Hero _instance;
 	private static final String GET_HEROES = "SELECT * FROM heroes WHERE played = 1";
@@ -65,7 +62,7 @@ public class Hero
 	private static final String GET_CLAN_ALLY = "SELECT characters.clanid AS clanid, coalesce(clan_data.ally_Id, 0) AS allyId FROM characters LEFT JOIN clan_data ON clan_data.clan_id = characters.clanid " + " WHERE characters.obj_Id = ?";
 	private static final String GET_CLAN_NAME = "SELECT clan_name FROM clan_data WHERE clan_id = (SELECT clanid FROM characters WHERE char_name = ?)";
 	private static final String DELETE_ITEMS = "DELETE FROM items WHERE item_id IN " + "(6842, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621) " + "AND owner_id NOT IN (SELECT obj_id FROM characters WHERE accesslevel > 0)";
-	private static final int[] _heroItems = {6842, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621};
+	private static final List<Integer> _heroItems = Arrays.asList(6842, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621);
 	private static Map<Integer, StatsSet> _heroes;
 	private static Map<Integer, StatsSet> _completeHeroes;
 
@@ -242,7 +239,6 @@ public class Hero
 	public synchronized void computeNewHeroes(List<StatsSet> newHeroes)
 	{
 		updateHeroes(true);
-		List heroItems = Arrays.asList(_heroItems);
 		L2ItemInstance[] items;
 		InventoryUpdate iu;
 		if (_heroes.size() != 0)
@@ -293,7 +289,7 @@ public class Hero
 					for(L2ItemInstance item : player.getInventory().getAvailableItems(false))
 					{
 						if (item == null) continue;
-						if (!heroItems.contains(item.getItemId())) continue;
+						if (!_heroItems.contains(item.getItemId())) continue;
 						player.destroyItem("Hero", item, null, true);
 						iu = new InventoryUpdate();
 						iu.addRemovedItem(item);
@@ -486,7 +482,7 @@ public class Hero
 		}
 	}
 
-	public int[] getHeroItems()
+	public List<Integer> getHeroItems()
 	{
 		return _heroItems;
 	}
