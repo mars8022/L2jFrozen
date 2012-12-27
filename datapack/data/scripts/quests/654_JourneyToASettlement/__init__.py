@@ -4,7 +4,7 @@ from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
 from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
 
-qn = "654_JourneyToSettlement"
+qn = "654_JourneyToASettlement"
 
 #NPCs
 NAM_SPIRIT = 31453
@@ -83,7 +83,7 @@ class Quest (JQuest) :
     return
 
 
-QUEST = Quest(654,qn,"Journey To Settlement")
+QUEST = Quest(654, qn,"Journey To A Settlement")
 CREATED     = State('Start',     QUEST)
 STARTED     = State('Started',   QUEST)
 COMPLETED   = State('Completed', QUEST)
