@@ -384,14 +384,16 @@ public class ClanTable
 
 			if(leader == null && leaderId != 0 && Config.CLAN_LEADER_COLOR_ENABLED && clanLvl >= Config.CLAN_LEADER_COLOR_CLAN_LEVEL)
 			{
+				String query;
 				if(Config.CLAN_LEADER_COLORED == 1)
 				{
-					statement = con.prepareStatement("UPDATE characters SET name_color = '000000' WHERE obj_Id = ?");
+					query = "UPDATE characters SET name_color = '000000' WHERE obj_Id = ?";
 				}
 				else
 				{
-					statement = con.prepareStatement("UPDATE characters SET title_color = 'FFFF77' WHERE obj_Id = ?");
+					query = "UPDATE characters SET title_color = 'FFFF77' WHERE obj_Id = ?";
 				}
+				statement = con.prepareStatement(query);
 				statement.setInt(1, leaderId);
 				statement.execute();
 			}

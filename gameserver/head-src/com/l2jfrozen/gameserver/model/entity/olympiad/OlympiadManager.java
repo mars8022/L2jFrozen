@@ -26,7 +26,6 @@ import com.l2jfrozen.util.random.Rnd;
 import javolution.util.FastMap;
 
 /**
- * 
  * @author GodKratos
  */
 class OlympiadManager implements Runnable
@@ -68,6 +67,7 @@ class OlympiadManager implements Runnable
 		return SingletonHolder._instance;
 	}
 	
+	@Override
 	public synchronized void run()
 	{
 		if (Olympiad.getInstance().isOlympiadEnd())
@@ -397,12 +397,10 @@ class OlympiadManager implements Runnable
 		if (list.isEmpty())
 			return false;
 		int loopCount = list.size() >> 1;
-		
 		if (loopCount < 1)
 			return false;
-		else
-			return true;
 		
+		return true;
 	}
 	
 	protected FastMap<Integer, String> getAllTitles()

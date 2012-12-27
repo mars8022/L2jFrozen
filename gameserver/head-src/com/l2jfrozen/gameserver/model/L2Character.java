@@ -102,7 +102,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ChangeMoveType;
 import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
 import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicEffectIcons;

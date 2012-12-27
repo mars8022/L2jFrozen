@@ -232,7 +232,6 @@ import com.l2jfrozen.gameserver.util.FloodProtectors;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;

@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
-
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -28,9 +26,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestFriendInvite extends L2GameClientPacket
 {
-	
-	private static Logger _log = Logger.getLogger(RequestFriendInvite.class.getName());
-	
 	private String _name;
 	
 	@Override
@@ -43,7 +38,6 @@ public final class RequestFriendInvite extends L2GameClientPacket
 	protected void runImpl()
 	{
 		SystemMessage sm;
-		// Connection con = null;
 		L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
