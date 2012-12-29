@@ -511,6 +511,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1323" levels="1" name="Noblesse Blessing">
   <set name="mpInitialConsume" val="14"/>
   <set name="mpConsume" val="55"/>
@@ -526,7 +527,7 @@
   <set name="effectRange" val="900"/>
   <set name="aggroPoints" val="1"/>
   <for>
-    <effect count="1" name="NoblesseBless" time="3600" val="0"/>
+    <effect count="1" name="NoblesseBless" time="3600" val="0" stackOrder="1" stackType="noblebless"/>
   </for>
 </skill>
 <skill id="1324" levels="1" name="Summon CP Potion">
