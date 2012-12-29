@@ -222,6 +222,8 @@ public abstract class L2PlayableInstance extends L2Character
 		return true;
 	}
 
+	private L2Effect _lastNoblessEffect = null;
+	
 	// Support for Noblesse Blessing skill, where buffs are retained
 	// after resurrect
 	/**
@@ -247,12 +249,43 @@ public abstract class L2PlayableInstance extends L2Character
 	/**
 	 * Start noblesse blessing.
 	 */
-	public final void startNoblesseBlessing()
+	public final void startNoblesseBlessing(L2Effect effect)
 	{
+		_lastNoblessEffect = effect;
 		setIsNoblesseBlessed(true);
 		updateAbnormalEffect();
 	}
 
+	/**
+	 * Stop noblesse blessing.
+	 *
+	 * @param effect the effect
+	 */
+	public final void stopNoblesseBlessing(L2Effect effect)
+	{
+		//to avoid multiple buffs effects removal
+		if(effect!= null &&
+			_lastNoblessEffect != effect){
+			return;
+		}
+		
+		if(effect == null)
+		{
+			stopEffects(L2Effect.EffectType.NOBLESSE_BLESSING);
+		}
+		else
+		{
+			removeEffect(effect);
+		}
+
+		setIsNoblesseBlessed(false);
+		updateAbnormalEffect();
+		_lastNoblessEffect = null;
+		
+	}
+	
+	private L2Effect _lastProtectionBlessingEffect = null;
+	
 	// for Newbie Protection Blessing skill, keeps you safe from an attack by a chaotic character >= 10 levels apart from you
 	/**
 	 * Gets the protection blessing.
@@ -277,8 +310,9 @@ public abstract class L2PlayableInstance extends L2Character
 	/**
 	 * Start protection blessing.
 	 */
-	public void startProtectionBlessing()
+	public void startProtectionBlessing(L2Effect effect)
 	{
+		_lastProtectionBlessingEffect = effect;
 		setProtectionBlessing(true);
 		updateAbnormalEffect();
 	}
@@ -290,6 +324,11 @@ public abstract class L2PlayableInstance extends L2Character
 	 */
 	public void stopProtectionBlessing(L2Effect effect)
 	{
+		if(effect!=null
+			&& _lastProtectionBlessingEffect != effect){
+			return;
+		}
+		
 		if(effect == null)
 		{
 			stopEffects(L2Effect.EffectType.PROTECTION_BLESSING);
@@ -301,8 +340,11 @@ public abstract class L2PlayableInstance extends L2Character
 
 		setProtectionBlessing(false);
 		updateAbnormalEffect();
+		_lastProtectionBlessingEffect = null;
 	}
 
+	private L2Effect _lastPhoenixBlessedEffect = null;
+	
 	// Support for Soul of the Phoenix and Salvation skills
 	/**
 	 * Checks if is phoenix blessed.
@@ -327,8 +369,9 @@ public abstract class L2PlayableInstance extends L2Character
 	/**
 	 * Start phoenix blessing.
 	 */
-	public final void startPhoenixBlessing()
+	public final void startPhoenixBlessing(L2Effect effect)
 	{
+		_lastPhoenixBlessedEffect = effect;
 		setIsPhoenixBlessed(true);
 		updateAbnormalEffect();
 	}
@@ -340,6 +383,11 @@ public abstract class L2PlayableInstance extends L2Character
 	 */
 	public final void stopPhoenixBlessing(L2Effect effect)
 	{
+		if(effect != null
+			&& _lastPhoenixBlessedEffect != effect){
+			return;
+		}
+		
 		if(effect == null)
 		{
 			stopEffects(L2Effect.EffectType.PHOENIX_BLESSING);
@@ -351,27 +399,11 @@ public abstract class L2PlayableInstance extends L2Character
 
 		setIsPhoenixBlessed(false);
 		updateAbnormalEffect();
+		_lastPhoenixBlessedEffect = null;
+		
 	}
 
-	/**
-	 * Stop noblesse blessing.
-	 *
-	 * @param effect the effect
-	 */
-	public final void stopNoblesseBlessing(L2Effect effect)
-	{
-		if(effect == null)
-		{
-			stopEffects(L2Effect.EffectType.NOBLESSE_BLESSING);
-		}
-		else
-		{
-			removeEffect(effect);
-		}
-
-		setIsNoblesseBlessed(false);
-		updateAbnormalEffect();
-	}
+	
 
 	/**
 	 * Destroy item by item id.
@@ -398,6 +430,8 @@ public abstract class L2PlayableInstance extends L2Character
 	public abstract boolean destroyItem(String process, int objectId, int count, L2Object reference, boolean sendMessage);
 
 	//Charm of Luck - During a Raid/Boss war, decreased chance for death penalty
+	private L2Effect _lastCharmOfLuckEffect = null;
+	
 	/**
 	 * Gets the charm of luck.
 	 *
@@ -421,10 +455,11 @@ public abstract class L2PlayableInstance extends L2Character
 	/**
 	 * Start charm of luck.
 	 */
-	public final void startCharmOfLuck()
+	public final void startCharmOfLuck(L2Effect effect)
 	{
 		setCharmOfLuck(true);
 		updateAbnormalEffect();
+		_lastCharmOfLuckEffect = effect;
 	}
 
 	/**
@@ -434,6 +469,11 @@ public abstract class L2PlayableInstance extends L2Character
 	 */
 	public final void stopCharmOfLuck(L2Effect effect)
 	{
+		if(effect != null
+			&& _lastCharmOfLuckEffect != effect){
+			return;
+		}
+		
 		if(effect == null)
 		{
 			stopEffects(L2Effect.EffectType.CHARM_OF_LUCK);
@@ -445,6 +485,8 @@ public abstract class L2PlayableInstance extends L2Character
 
 		setCharmOfLuck(false);
 		updateAbnormalEffect();
+		_lastCharmOfLuckEffect = null;
+		
 	}
 	
 	/**

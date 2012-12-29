@@ -178,7 +178,9 @@ public final class RequestActionUse extends L2GameClientPacket
 						return;
 					}
 
-					if(target instanceof L2PcInstance && !activeChar.getAccessLevel().allowPeaceAttack() && L2Character.isInsidePeaceZone(pet, target))
+					if(target instanceof L2PcInstance 
+						&& !activeChar.getAccessLevel().allowPeaceAttack() 
+						&& L2Character.isInsidePeaceZone(pet, target))
 					{
 						if(!activeChar.isInFunEvent() || !((L2PcInstance)target).isInFunEvent())
 						{

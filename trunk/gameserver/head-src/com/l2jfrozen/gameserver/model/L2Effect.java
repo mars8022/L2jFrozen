@@ -472,29 +472,6 @@ public abstract class L2Effect
 		{
 			_state = EffectState.ACTING;
 			
-			/*
-			if(_skill.isToggle()){
-				
-				if(Config.DEVELOPER){
-					_log.info("Player "+getEffected().getName()+" Toggle skill "+_skill.getName()+" activated... Waiting 2 Seconds before start");
-				}
-				
-				try
-				{
-					Thread.sleep(2000);
-				}
-				catch(InterruptedException e)
-				{
-					//e.printStackTrace();
-				}
-				
-			}
-			
-			if(!_skill.isActive()){
-				return;
-			}
-			*/
-			
 			onStart();
 
 			if(_skill.isPvpSkill() && getEffected() != null && getEffected() instanceof L2PcInstance && getShowIcon())

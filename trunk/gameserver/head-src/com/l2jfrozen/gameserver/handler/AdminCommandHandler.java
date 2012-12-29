@@ -56,7 +56,6 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminGm;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminGmChat;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminHeal;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminHelpPage;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminHero;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminInvul;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminKick;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminKill;
@@ -182,7 +181,6 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminTownWar());
 		registerAdminCommandHandler(new AdminTvTEngine());
 		registerAdminCommandHandler(new AdminDonator());
-		registerAdminCommandHandler(new AdminHero());
 		registerAdminCommandHandler(new AdminNoble());
 		registerAdminCommandHandler(new AdminBuffs());
 		registerAdminCommandHandler(new AdminAio());

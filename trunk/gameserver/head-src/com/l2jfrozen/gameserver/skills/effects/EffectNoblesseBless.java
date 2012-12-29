@@ -45,7 +45,7 @@ final class EffectNoblesseBless extends L2Effect
 	{
 		if(getEffected() instanceof L2PlayableInstance)
 		{
-			((L2PlayableInstance) getEffected()).startNoblesseBlessing();
+			((L2PlayableInstance) getEffected()).startNoblesseBlessing(this);
 		}
 	}
 

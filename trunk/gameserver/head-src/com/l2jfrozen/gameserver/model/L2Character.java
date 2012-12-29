@@ -55,6 +55,7 @@ import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
+import com.l2jfrozen.gameserver.model.L2Effect.EffectType;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2BoatInstance;
@@ -76,6 +77,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RiftInvaderInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeFlagInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2SymbolMakerInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.CharKnownList;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
@@ -241,7 +243,7 @@ public abstract class L2Character extends L2Object
 	
 	/** The _is teleporting. */
 	protected boolean _isTeleporting = false;
-	//private L2Character _lastBuffer							  = null;
+	
 	/** The _is invul. */
 	protected boolean _isInvul = false;
 	
@@ -3813,7 +3815,13 @@ public abstract class L2Character extends L2Object
 		L2Skill tempskill = newEffect.getSkill();
 
 		// Remove first Buff if number of buffs > BUFFS_MAX_AMOUNT
-		if(getBuffCount() >= getMaxBuffCount() && !doesStack(tempskill) && (tempskill.getSkillType() == L2Skill.SkillType.BUFF || tempskill.getSkillType() == L2Skill.SkillType.REFLECT || tempskill.getSkillType() == L2Skill.SkillType.HEAL_PERCENT || tempskill.getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) && !(tempskill.getId() > 4360 && tempskill.getId() < 4367) && !(tempskill.getId() > 4550 && tempskill.getId() < 4555))
+		if(getBuffCount() >= getMaxBuffCount() 
+			&& !doesStack(tempskill) && (tempskill.getSkillType() == L2Skill.SkillType.BUFF 
+			|| tempskill.getSkillType() == L2Skill.SkillType.REFLECT 
+			|| tempskill.getSkillType() == L2Skill.SkillType.HEAL_PERCENT 
+			|| tempskill.getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) 
+			&& !(tempskill.getId() > 4360 && tempskill.getId() < 4367) 
+			&& !(tempskill.getId() > 4550 && tempskill.getId() < 4555))
 		{
 			if(newEffect.isHerbEffect())
 			{
@@ -7825,10 +7833,8 @@ public abstract class L2Character extends L2Object
 	 */
 	public boolean isInsidePeaceZone(L2PcInstance attacker)
 	{
-		if(!(this instanceof L2PcInstance) || !((L2PcInstance)this).isInFunEvent() || !attacker.isInFunEvent())
-			return isInsidePeaceZone(attacker, this);
+		return isInsidePeaceZone(attacker, this);
 
-		return false;
 	}
 
 	/**
@@ -7865,14 +7871,16 @@ public abstract class L2Character extends L2Object
 		}
 		
 		//Attack Monster on Peace Zone like L2OFF.
-		if (target instanceof L2MonsterInstance || attacker instanceof L2MonsterInstance)
-		return false;
+		if (target instanceof L2MonsterInstance || 
+			attacker instanceof L2MonsterInstance && Config.ALT_MOB_AGRO_IN_PEACEZONE)
+			return false;
+		
 		//Attack Guard on Peace Zone like L2OFF.
 		if (target instanceof L2GuardInstance || attacker instanceof L2GuardInstance)
-		return false;
+			return false;
 		//Attack NPC on Peace Zone like L2OFF.
 		if (target instanceof L2NpcInstance || attacker instanceof L2NpcInstance)
-		return false;
+			return false;
 
 		if(Config.ALT_GAME_KARMA_PLAYER_CAN_BE_KILLED_IN_PEACEZONE)
 		{
@@ -7901,26 +7909,15 @@ public abstract class L2Character extends L2Object
 					return false;
 			}
 		}
+		
 		// Right now only L2PcInstance has up-to-date zone status...
 		// 
-
-		if(attacker instanceof L2PlayableInstance
+		L2PcInstance src = null;
+		L2PcInstance dst = null;
+		
+		if(attacker instanceof L2PlayableInstance 
 				&& target instanceof L2PlayableInstance){
-			
-			if(attacker instanceof L2PcInstance && target instanceof L2PcInstance){
-				
-				L2PcInstance src = (L2PcInstance) attacker;
-				L2PcInstance dst = (L2PcInstance) target;
-				
-				if(src.isInOlympiadMode() && src.isOlympiadStart() && dst.isInOlympiadMode() && dst.isOlympiadStart()){
-					return false;
-				}
-				
-			}
-			
-			L2PcInstance src = null;
-			L2PcInstance dst = null;
-			
+		
 			if(attacker instanceof L2PcInstance){
 				src = (L2PcInstance) attacker;
 			}else if(attacker instanceof L2Summon){
@@ -7933,33 +7930,57 @@ public abstract class L2Character extends L2Object
 				dst = ((L2Summon) target).getOwner();
 			}
 			
-			if(src != null
+		}
+			
+		 //checks on event status
+		if(src != null
 					&& dst != null){
 				
 				if(dst.isInFunEvent() && src.isInFunEvent()){
 					
-					//checks for events
-					if((dst._inEventTvT && src._inEventTvT && TvT.is_started() && !dst._teamNameTvT.equals(src._teamNameTvT)) 
-							|| (dst._inEventCTF && src._inEventCTF && CTF.is_started() && !dst._teamNameCTF.equals(src._teamNameCTF)) 
-							|| (dst._inEventDM && src._inEventDM && DM.is_started()) 
-							|| (dst._inEventVIP && src._inEventVIP && VIP._started))
-					{
+					if(src.isInStartedTVTEvent()
+						&& dst.isInStartedTVTEvent())
 						return false;
-					}
-					return true;
+					
+					if(src.isInStartedDMEvent()
+						&& dst.isInStartedDMEvent())
+						return false;
+					
+					if(src.isInStartedCTFEvent()
+						&& dst.isInStartedCTFEvent())
+						return false;
+					
+					if(src.isInStartedVIPEvent()
+						&& dst.isInStartedVIPEvent())
+						return false;
+					
+					if(src.isInStartedVIPEvent()
+						&& dst.isInStartedVIPEvent())
+						return false;
+					
+					if(src.isInOlympiadMode()
+						&& dst.isInOlympiadMode())
+						return false;
+					
 				}
-				
-			}
 			
 		}
+			
+		if(attacker instanceof L2Character &&
+			((L2Character) attacker).isInsideZone(ZONE_PEACE)
+			//the townzone has to be already peace zone
+			//|| TownManager.getInstance().getTown(attacker.getX(), attacker.getY(), attacker.getZ())!= null
+			)
+			return true;
 		
-		if(attacker instanceof L2Character && target instanceof L2Character)
-			return ((L2Character) target).isInsideZone(ZONE_PEACE) || ((L2Character) attacker).isInsideZone(ZONE_PEACE);
-
-		if(attacker instanceof L2Character)
-			return TownManager.getInstance().getTown(target.getX(), target.getY(), target.getZ()) != null || ((L2Character) attacker).isInsideZone(ZONE_PEACE);
-
-		return TownManager.getInstance().getTown(target.getX(), target.getY(), target.getZ()) != null || TownManager.getInstance().getTown(attacker.getX(), attacker.getY(), attacker.getZ()) != null;
+		if(target instanceof L2Character
+			&& ((L2Character) target).isInsideZone(ZONE_PEACE)
+			//the townzone has to be already peace zone
+			//|| TownManager.getInstance().getTown(target.getX(), target.getY(), target.getZ())!= null
+			)
+			return true;
+		
+		return false;
 	}
 
 	/**

@@ -1826,6 +1826,12 @@ public abstract class L2Skill
 						continue;
 					}
 
+					if(isOffensive()
+						&& L2Character.isInsidePeaceZone(src, target))
+					{
+						continue;
+					}
+					
 					if(!target.isAlikeDead() && target != activeChar)
 					{
 						if(!Util.checkIfInRange(radius, obj, cha, true))
@@ -1884,12 +1890,6 @@ public abstract class L2Skill
 									continue;
 								}
 								
-
-								if(trg.isInsideZone(L2Character.ZONE_PEACE))
-								{
-									continue;
-								}
-
 								if(!srcInArena && !(trg.isInsideZone(L2Character.ZONE_PVP) && !trg.isInsideZone(L2Character.ZONE_SIEGE)))
 								{
 									if(src.getAllyId() == trg.getAllyId() && src.getAllyId() != 0)
@@ -1956,11 +1956,6 @@ public abstract class L2Skill
 									{
 										continue;
 									}
-								}
-
-								if(((L2Summon) obj).isInsideZone(L2Character.ZONE_PEACE))
-								{
-									continue;
 								}
 
 								trg = null;
@@ -2717,17 +2712,18 @@ public abstract class L2Skill
 						{
 							continue;
 						}
+						
+						if(isOffensive()
+							&& L2Character.isInsidePeaceZone(activeChar, obj))
+						{
+							continue;
+						}
 
 						if(obj instanceof L2PcInstance && src != null)
 						{
 							trg = (L2PcInstance) obj;
 
 							if(src.getParty() != null && trg.getParty() != null && src.getParty().getPartyLeaderOID() == trg.getParty().getPartyLeaderOID())
-							{
-								continue;
-							}
-
-							if(trg.isInsideZone(L2Character.ZONE_PEACE))
 							{
 								continue;
 							}
@@ -2783,10 +2779,6 @@ public abstract class L2Skill
 								}
 							}
 
-							if(((L2Summon) obj).isInsideZone(L2Character.ZONE_PEACE))
-							{
-								continue;
-							}
 						}
 
 						//check for Events
