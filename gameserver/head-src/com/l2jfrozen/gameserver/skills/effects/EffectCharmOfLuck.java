@@ -43,7 +43,7 @@ public class EffectCharmOfLuck extends L2Effect
 	{
 		if(getEffected() instanceof L2PlayableInstance)
 		{
-			((L2PlayableInstance) getEffected()).startCharmOfLuck();
+			((L2PlayableInstance) getEffected()).startCharmOfLuck(this);
 		}
 	}
 

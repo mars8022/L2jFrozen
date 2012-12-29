@@ -54,7 +54,7 @@ public class HeroCustomItem implements IItemHandler
 			else
 			{
 				activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 16));
-				activeChar.setIsHero(true);
+				activeChar.setHero(true);
 				updateDatabase(activeChar, Config.HERO_CUSTOM_DAY * 24L * 60L * 60L * 1000L);
 				activeChar.sendMessage("You Are Now a Hero,You Are Granted With Hero Status , Skills ,Aura.");
 				activeChar.broadcastUserInfo();

@@ -44,6 +44,7 @@ import javolution.text.TypeFormat;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
 import com.l2jfrozen.gameserver.util.FloodProtectorConfig;
 import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.util.StringUtil;
@@ -2746,7 +2747,11 @@ public final class Config
 	public static int ALT_OLY_COMP_RITEM;
 	public static boolean REMOVE_CUBIC_OLYMPIAD;
 
+	public static boolean ALT_OLY_USE_CUSTOM_PERIOD_SETTINGS;
+	public static OlympiadPeriod ALT_OLY_PERIOD;
+	public static int ALT_OLY_PERIOD_MULTIPLIER;
 	//============================================================
+	
 	public static void loadOlympConfig()
 	{
 		final String OLYMPC = FService.OLYMP_CONFIG_FILE;
@@ -2796,6 +2801,12 @@ public final class Config
 			}
 			ALT_OLY_AUGMENT_ALLOW			= Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyAugmentAllow", "true"));
 			ALT_OLY_TELEPORT_COUNTDOWN 		= Integer.parseInt(OLYMPSetting.getProperty("AltOlyTeleportCountDown", "120"));
+		
+			ALT_OLY_USE_CUSTOM_PERIOD_SETTINGS = Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyUseCustomPeriodSettings", "false"));
+			ALT_OLY_PERIOD = OlympiadPeriod.valueOf(OLYMPSetting.getProperty("AltOlyPeriod", "MONTH"));
+			ALT_OLY_PERIOD_MULTIPLIER = Integer.parseInt(OLYMPSetting.getProperty("AltOlyPeriodMultiplier", "1"));
+			
+			
 		}
 		catch(Exception e)
 		{

@@ -3991,7 +3991,7 @@ private int _reviveRequested = 0;
 		// Add Hero skills if hero
 		if(isHero())
 		{
-			setIsHero(true);
+			setHero(true);
 		}
 
 		/*
@@ -6129,8 +6129,39 @@ private int _reviveRequested = 0;
 	@Override
 	public boolean isInFunEvent()
 	{
-		//return (atEvent || (TvT._started && _inEventTvT) || (DM._started && _inEventDM) || (CTF._started && _inEventCTF) || (VIP._started && _inEventVIP));
-		return (atEvent || (TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP));
+		return (atEvent || isInStartedTVTEvent() || isInStartedDMEvent() || isInStartedCTFEvent() || isInStartedVIPEvent());
+	}
+	
+	public boolean isInStartedTVTEvent(){
+		return (TvT.is_started() && _inEventTvT);
+	}
+	
+	public boolean isRegisteredInTVTEvent(){
+		return _inEventTvT;
+	}
+	
+	public boolean isInStartedDMEvent(){
+		return (DM.is_started() && _inEventDM);
+	}
+	
+	public boolean isRegisteredInDMEvent(){
+		return _inEventDM;
+	}
+	
+	public boolean isInStartedCTFEvent(){
+		return (CTF.is_started() && _inEventCTF);
+	}
+	
+	public boolean isRegisteredInCTFEvent(){
+		return _inEventCTF;
+	}
+	
+	public boolean isInStartedVIPEvent(){
+		return (VIP._started && _inEventVIP);
+	}
+	
+	public boolean isRegisteredInVIPEvent(){
+		return _inEventVIP;
 	}
 
 	/**
@@ -11755,7 +11786,7 @@ private int _reviveRequested = 0;
 			}
 		}
 		
-		if(isInsideZone(ZONE_PEACE)){
+		if(L2Character.isInsidePeaceZone(attacker, this)){
 			return false;
 		}
 			
@@ -12228,22 +12259,15 @@ private int _reviveRequested = 0;
 		{
 			Boolean peace = isInsidePeaceZone(this, target);
 			
-			// if(isInsidePeaceZone(this, target) && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT._started) || !(_inEventCTF && CTF._started)	|| !(_inEventDM && DM._started) || !(_inEventVIP && VIP._started)))
-			
-			// Like L2OFF you can use cupid bow skills on peace zone
-			if(peace && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)/* && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started))*/)
+			if(peace 
+				&& (skill.getId() != 3261 // Like L2OFF you can use cupid bow skills on peace zone
+				&& skill.getId() != 3260 
+				&& skill.getId() != 3262))
 			{
-//				if(target instanceof L2PcInstance){
-//					
-//					if(!isInFunEvent() || !((L2PcInstance)target).isInFunEvent())
-//					{
-						// If L2Character or target is in a peace zone, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed
-						sendPacket(new SystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
-						sendPacket(ActionFailed.STATIC_PACKET);
-						return;
-//					}
-//				}
-				
+				// If L2Character or target is in a peace zone, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed
+				sendPacket(new SystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
 			}
 			if(isInOlympiadMode() && !isOlympiadStart() && sklTargetType != SkillTargetType.TARGET_AURA)
 			{
@@ -13083,7 +13107,10 @@ private int _reviveRequested = 0;
 		public void run()
 		{
 			/* Start bot checker if player is in combat online without shop and in a zone not peacefull */
-			if(isOnline() == 1 && isInCombat() && getPrivateStoreType() == 0 && !isInsideZone(L2Character.ZONE_PEACE))
+			if(isOnline() == 1 
+				&& isInCombat() 
+				&& getPrivateStoreType() == 0
+				&& !isInsideZone(L2Character.ZONE_PEACE))
 			{
 				try
 				{
@@ -13964,6 +13991,7 @@ private int _reviveRequested = 0;
 	 *
 	 * @param hero the new checks if is hero
 	 */
+	/*
 	public void setIsHero(boolean hero)
 	{
 		if(hero && _baseClass == _activeClass)
@@ -13991,6 +14019,7 @@ private int _reviveRequested = 0;
 
 		sendSkillList();
 	}
+	*/
 
 	/**
 	 * Sets the donator.
@@ -17806,7 +17835,7 @@ private int _reviveRequested = 0;
 		
 		if(hero > 0 && (hero_end == 0 || hero_end > System.currentTimeMillis()))
 		{
-			setIsHero(true);
+			setHero(true);
 		}else{
 			//delete wings of destiny
 			destroyItem("HeroEnd", 6842, 1, null, false);
@@ -19822,12 +19851,15 @@ public boolean dismount()
 		{
 			giveHeroSkills();
 		}
+		else if(getCount() >= Config.HERO_COUNT && _hero && Config.ALLOW_HERO_SUBSKILL){
+			giveHeroSkills();
+		}
 		else
 		{
 			removeHeroSkills();
 		}
 	}
-
+	
 	public void giveHeroSkills()
 	{
 		for (L2Skill s : HeroSkillTable.getHeroSkills())

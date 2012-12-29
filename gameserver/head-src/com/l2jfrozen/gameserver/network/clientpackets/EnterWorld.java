@@ -314,7 +314,7 @@ public class EnterWorld extends L2GameClientPacket
 			activeChar.checkWaterState();
 
 		if (Hero.getInstance().getHeroes() != null && Hero.getInstance().getHeroes().containsKey(activeChar.getObjectId()))
-			activeChar.setIsHero(true);
+			activeChar.setHero(true);
 
 		setPledgeClass(activeChar);
 

@@ -394,13 +394,25 @@ public class LoginServerThread extends Thread
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.info("Deconnected from Login, Trying to reconnect:");
-				_log.info(e.toString());
+				_log.info("Deconnected from Login, Trying to reconnect..");
+				//_log.info(e.toString());
 			}
 			finally
 			{
-				synchronized (_out) //avoids tow threads writing in the mean time
-				{
+				if(_out!=null)
+					synchronized (_out) //avoids tow threads writing in the mean time
+					{
+						try
+						{
+							_loginSocket.close();
+						}
+						catch(Exception e)
+						{
+							if(Config.ENABLE_ALL_EXCEPTIONS)
+								e.printStackTrace();
+						}
+					}
+				else
 					try
 					{
 						_loginSocket.close();
@@ -410,13 +422,12 @@ public class LoginServerThread extends Thread
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 					}
-				}
 				
 			}
 
 			try
 			{
-				Thread.sleep(1000); // 5 seconds
+				Thread.sleep(5000); // 5 seconds
 			}
 			catch(InterruptedException e)
 			{

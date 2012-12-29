@@ -505,7 +505,8 @@ public class L2CubicInstance
 				// get target in pvp or in siege
 				L2PcInstance enemy = null;
 				
-				if ((_owner.getPvpFlag() > 0 && !_owner.isInsideZone(L2Character.ZONE_PEACE))
+				if ((_owner.getPvpFlag() > 0 
+					&& !_owner.isInsideZone(L2Character.ZONE_PEACE))
 						|| _owner.isInsideZone(L2Character.ZONE_PVP))
 				{
 					if (!((L2Character) ownerTarget).isDead() && ownerTarget instanceof L2PcInstance)
