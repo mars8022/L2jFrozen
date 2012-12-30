@@ -13815,7 +13815,27 @@ private int _reviveRequested = 0;
 		return _chatUnbanTask;
 	}
 */
+	/**
+	 * Send a Server->Client packet StatusUpdate to the L2PcInstance.<BR><BR>
+	 */
+	@Override
+	public void sendPacket(L2GameServerPacket packet)
+	{
+		if (_client != null)
+		{
+			_client.sendPacket(packet);
+		}
+	}
 	
+	/**
+	 * Send SystemMessage packet.<BR><BR>
+	 * @param id
+	 */
+	public void sendPacket(SystemMessageId id)
+	{
+		sendPacket(SystemMessage.getSystemMessage(id));
+	}
+
 	/**
 	 * Gets the message refusal.
 	 *
@@ -15186,15 +15206,6 @@ private int _reviveRequested = 0;
 				_taskRentPet = null;
 			}
 		}
-	}
-	
-	/**
-	 * Send SystemMessage packet.<BR><BR>
-	 * @param id
-	 */
-	public void sendPacket(SystemMessageId id)
-	{
-		sendPacket(SystemMessage.getSystemMessage(id));
 	}
 	
 	/**
