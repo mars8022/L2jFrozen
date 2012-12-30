@@ -1827,7 +1827,7 @@ public abstract class L2Skill
 					}
 
 					if(isOffensive()
-						&& L2Character.isInsidePeaceZone(src, target))
+						&& L2Character.isInsidePeaceZone(activeChar, target))
 					{
 						continue;
 					}

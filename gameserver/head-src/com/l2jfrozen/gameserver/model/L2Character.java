@@ -7844,18 +7844,6 @@ public abstract class L2Character extends L2Object
 	 * @param target the target
 	 * @return true, if is inside peace zone
 	 */
-	public static boolean isInsidePeaceZone(L2PcInstance attacker, L2Object target)
-	{
-		return !attacker.getAccessLevel().allowPeaceAttack() && isInsidePeaceZone((L2Object) attacker, target);
-	}
-
-	/**
-	 * Checks if is inside peace zone.
-	 *
-	 * @param attacker the attacker
-	 * @param target the target
-	 * @return true, if is inside peace zone
-	 */
 	public static boolean isInsidePeaceZone(L2Object attacker, L2Object target)
 	{
 		if(target == null)
@@ -7931,37 +7919,37 @@ public abstract class L2Character extends L2Object
 			}
 			
 		}
+		
+		if(src != null
+			&& src.getAccessLevel().allowPeaceAttack()){
+			return false;
+		}
 			
 		 //checks on event status
 		if(src != null
 					&& dst != null){
 				
-				if(dst.isInFunEvent() && src.isInFunEvent()){
+				if(dst.isInFunEvent() 
+					&& src.isInFunEvent()){
 					
 					if(src.isInStartedTVTEvent()
 						&& dst.isInStartedTVTEvent())
 						return false;
-					
-					if(src.isInStartedDMEvent()
+					else if(src.isInStartedDMEvent()
 						&& dst.isInStartedDMEvent())
 						return false;
-					
-					if(src.isInStartedCTFEvent()
+					else if(src.isInStartedCTFEvent()
 						&& dst.isInStartedCTFEvent())
 						return false;
-					
-					if(src.isInStartedVIPEvent()
+					else if(src.isInStartedVIPEvent()
 						&& dst.isInStartedVIPEvent())
 						return false;
-					
-					if(src.isInStartedVIPEvent()
+					else if(src.isInStartedVIPEvent()
 						&& dst.isInStartedVIPEvent())
 						return false;
-					
-					if(src.isInOlympiadMode()
-						&& dst.isInOlympiadMode())
-						return false;
-					
+					//else 
+						//different events in same location --> already checked
+						
 				}
 			
 		}

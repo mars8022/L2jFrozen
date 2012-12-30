@@ -22,7 +22,6 @@ import com.l2jfrozen.gameserver.model.L2Character;
 
 /**
  * format ddddd sample 0000: 59 1a 95 20 48 44 17 02 00 03 f0 fc ff 98 f1 ff Y.. HD.......... 0010: ff c1 1a 00 00 .....
- * 
  * @version $Revision: 1.3.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class StopMove extends L2GameServerPacket
@@ -33,18 +32,18 @@ public class StopMove extends L2GameServerPacket
 	private int _y;
 	private int _z;
 	private int _heading;
-
+	
 	public StopMove(L2Character cha)
 	{
 		this(cha.getObjectId(), cha.getX(), cha.getY(), cha.getZ(), cha.getHeading());
 	}
-
+	
 	/**
-	 * @param objectId 
-	 * @param x 
-	 * @param y 
-	 * @param z 
-	 * @param heading 
+	 * @param objectId
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param heading
 	 */
 	public StopMove(int objectId, int x, int y, int z, int heading)
 	{
@@ -54,7 +53,7 @@ public class StopMove extends L2GameServerPacket
 		_z = z;
 		_heading = heading;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -65,8 +64,9 @@ public class StopMove extends L2GameServerPacket
 		writeD(_z);
 		writeD(_heading);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

@@ -475,13 +475,13 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			statement.close();
 			statement = null;
 
-			statement = con.prepareStatement("DELETE FROM heroes WHERE char_id=?");
+			statement = con.prepareStatement("DELETE FROM heroes WHERE charId=?");
 			statement.setInt(1, objid);
 			statement.execute();
 			statement.close();
 			statement = null;
 
-			statement = con.prepareStatement("DELETE FROM olympiad_nobles WHERE char_id=?");
+			statement = con.prepareStatement("DELETE FROM olympiad_nobles WHERE charId=?");
 			statement.setInt(1, objid);
 			statement.execute();
 			statement.close();

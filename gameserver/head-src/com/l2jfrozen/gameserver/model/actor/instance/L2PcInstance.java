@@ -1036,6 +1036,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	/** Last NPC Id talked on a quest. */
 	private int _questNpcObject = 0;
 
+	private int _party_find = 0;
+	
 	//summon friend
 	/** The _summon request. */
 	private SummonRequest _summonRequest = new SummonRequest();
@@ -6490,34 +6492,6 @@ private int _reviveRequested = 0;
 		if(getClan().getAllyId() == 0)
 			return 0;
 		return getClan().getAllyCrestId();
-	}
-
-	/**
-	 * Send a Server->Client packet StatusUpdate to the L2PcInstance.<BR>
-	 * <BR>
-	 *
-	 * @param packet the packet
-	 */
-	@Override
-	public void sendPacket(L2GameServerPacket packet)
-	{
-		if(_client != null)
-		{
-			_client.sendPacket(packet);
-		}
-		/*
-		if(_isConnected)
-		{
-			try
-			{
-				if (_connection != null)
-					_connection.sendPacket(packet);
-			}
-			catch (Exception e)
-			{
-				_log.log(Level.INFO, "", e);
-			}
-		}*/
 	}
 
 	/**
@@ -15213,17 +15187,16 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
-	 * Send packet.
-	 *
-	 * @param hacking_tool the hacking_tool
+	 * Send SystemMessage packet.<BR><BR>
+	 * @param id
 	 */
-	public void sendPacket(SystemMessageId hacking_tool)
+	public void sendPacket(SystemMessageId id)
 	{
-		sendMessage("Please try again after closing unnecessary programs!.");
+		sendPacket(SystemMessage.getSystemMessage(id));
 	}
-
+	
 	/**
 	 * Start rent pet.
 	 *
@@ -17362,6 +17335,16 @@ private int _reviveRequested = 0;
 	{
 		return _fishz;
 	}
+	
+    public void SetPartyFind(int find)
+    {
+    _party_find = find;
+    }
+
+    public int GetPartyFind()
+    {
+       return _party_find;
+    }
 
 	/**
 	 * Sets the lure.
