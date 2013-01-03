@@ -15,10 +15,13 @@
 package com.l2jfrozen.gameserver.handler.custom;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
+import com.l2jfrozen.gameserver.idfactory.BitSetIDFactory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
 
@@ -26,61 +29,61 @@ import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
  * This 'Bypass Handler' is a handy tool indeed!<br>
  * Basically, you can send any custom bypass commmands to it from ANY npc and it will call the appropriate function.<br>
  * <strong>Example:</strong><br>
- * <button value=" Request Rebirth " action="bypass -h custom_rebirth_confirmrequest" width=110 height=36
- * back="L2UI_ct1.button_df" fore="L2UI_ct1.button_df">
- * 
+ * <button value=" Request Rebirth " action="bypass -h custom_rebirth_confirmrequest" width=110 height=36 back="L2UI_ct1.button_df" fore="L2UI_ct1.button_df">
  * @author JStar
  */
 public class CustomBypassHandler
 {
+	private static Logger _log = Logger.getLogger(BitSetIDFactory.class.getName());
+	
 	private static CustomBypassHandler _instance = null;
 	private Map<String, ICustomByPassHandler> _handlers;
-
+	
 	private CustomBypassHandler()
 	{
 		_handlers = new FastMap<String, ICustomByPassHandler>();
-
+		
 		registerCustomBypassHandler(new ExtractableByPassHandler());
 	}
-
+	
 	/**
-	 * Receives the non-static instance of the RebirthManager. 
+	 * Receives the non-static instance of the RebirthManager.
 	 * @return
 	 */
 	public static CustomBypassHandler getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new CustomBypassHandler();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	/**
 	 * @param handler as ICustomByPassHandler
 	 */
 	public void registerCustomBypassHandler(ICustomByPassHandler handler)
 	{
-		for(String s : handler.getByPassCommands())
+		for (String s : handler.getByPassCommands())
 		{
 			_handlers.put(s, handler);
 		}
 	}
-
+	
 	/**
-	 * Handles player's Bypass request to the Custom Content. 
-	 * @param player 
+	 * Handles player's Bypass request to the Custom Content.
+	 * @param player
 	 * @param command
 	 */
 	public void handleBypass(L2PcInstance player, String command)
 	{
-		//Rebirth Manager and Engine Caller
-
+		// Rebirth Manager and Engine Caller
+		
 		String cmd = "";
 		String params = "";
 		int iPos = command.indexOf(" ");
-		if(iPos != -1)
+		if (iPos != -1)
 		{
 			cmd = command.substring(7, iPos);
 			params = command.substring(iPos + 1);
@@ -90,14 +93,21 @@ public class CustomBypassHandler
 			cmd = command.substring(7);
 		}
 		ICustomByPassHandler ch = _handlers.get(cmd);
-		if(ch != null)
+		if (ch != null)
 		{
 			ch.handleCommand(cmd, player, params);
 		}
 		else
 		{
-			if(command.startsWith("custom_rebirth"))
+			if (command.startsWith("custom_rebirth"))
 			{
+				// Check to see if Rebirth is enabled to avoid hacks
+				if (!Config.REBIRTH_ENABLE)
+				{
+					_log.warning("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
+					return;
+				}
+				
 				L2Rebirth.getInstance().handleCommand(player, command);
 			}
 		}

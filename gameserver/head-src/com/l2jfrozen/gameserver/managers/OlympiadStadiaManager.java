@@ -19,10 +19,10 @@ package com.l2jfrozen.gameserver.managers;
 
 import java.util.logging.Logger;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
-
-import javolution.util.FastList;
 
 public class OlympiadStadiaManager
 {
