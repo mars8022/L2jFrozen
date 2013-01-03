@@ -116,14 +116,18 @@ public class L2SignsPriestInstance extends L2FolkInstance
 				case 2: // Purchase Record of the Seven Signs
 					if(!player.getInventory().validateCapacity(1))
 					{
-						player.sendPacket(new SystemMessage(SystemMessageId.SLOTS_FULL));
+						player.sendPacket(new SystemMessage(SystemMessageId.INVENTORY_VOLUME));
 						break;
 					}
 
 					//L2ItemInstance adenaItem = player.getInventory().getAdenaInstance(); ???
-					if(!player.reduceAdena("SevenSigns", SevenSigns.RECORD_SEVEN_SIGNS_COST, this, true))
+					if(!player.reduceAdena("SevenSigns", SevenSigns.RECORD_SEVEN_SIGNS_COST, this, false))
 					{
-						player.sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
+						String filename = "data/html/seven_signs/noadena.htm";					                  
+						NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
+						html.setFile(filename);
+						html.replace("%objectId%", String.valueOf(getObjectId()));
+						player.sendPacket(html);
 						break;
 					}
 					

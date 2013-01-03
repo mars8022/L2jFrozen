@@ -7839,16 +7839,15 @@ public abstract class L2Character extends L2Object
 
 	/**
 	 * Checks if is inside peace zone.
-	 *
 	 * @param attacker the attacker
 	 * @param target the target
 	 * @return true, if is inside peace zone
 	 */
 	public static boolean isInsidePeaceZone(L2Object attacker, L2Object target)
 	{
-		if(target == null)
+		if (target == null)
 			return false;
-
+		
 		if (target instanceof L2NpcInstance && Config.DISABLE_ATTACK_NPC_TYPE)
 		{
 			String mobtype = ((L2NpcInstance) target).getTemplate().type;
@@ -7858,114 +7857,111 @@ public abstract class L2Character extends L2Object
 			}
 		}
 		
-		//Attack Monster on Peace Zone like L2OFF.
-		if (target instanceof L2MonsterInstance || 
-			attacker instanceof L2MonsterInstance && Config.ALT_MOB_AGRO_IN_PEACEZONE)
+		// Attack Monster on Peace Zone like L2OFF.
+		if (target instanceof L2MonsterInstance || attacker instanceof L2MonsterInstance && Config.ALT_MOB_AGRO_IN_PEACEZONE)
 			return false;
 		
-		//Attack Guard on Peace Zone like L2OFF.
+		// Attack Guard on Peace Zone like L2OFF.
 		if (target instanceof L2GuardInstance || attacker instanceof L2GuardInstance)
 			return false;
-		//Attack NPC on Peace Zone like L2OFF.
+		// Attack NPC on Peace Zone like L2OFF.
 		if (target instanceof L2NpcInstance || attacker instanceof L2NpcInstance)
 			return false;
-
-		if(Config.ALT_GAME_KARMA_PLAYER_CAN_BE_KILLED_IN_PEACEZONE)
+		
+		if (Config.ALT_GAME_KARMA_PLAYER_CAN_BE_KILLED_IN_PEACEZONE)
 		{
 			// allows red to be attacked and red to attack flagged players
-			if(target instanceof L2PcInstance && ((L2PcInstance) target).getKarma() > 0)
+			if (target instanceof L2PcInstance && ((L2PcInstance) target).getKarma() > 0)
 				return false;
-
-			if(target instanceof L2Summon && ((L2Summon) target).getOwner().getKarma() > 0)
+			
+			if (target instanceof L2Summon && ((L2Summon) target).getOwner().getKarma() > 0)
 				return false;
-
-			if(attacker instanceof L2PcInstance && ((L2PcInstance) attacker).getKarma() > 0)
+			
+			if (attacker instanceof L2PcInstance && ((L2PcInstance) attacker).getKarma() > 0)
 			{
-				if(target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() > 0)
+				if (target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() > 0)
 					return false;
-
-				if(target instanceof L2Summon && ((L2Summon) target).getOwner().getPvpFlag() > 0)
+				
+				if (target instanceof L2Summon && ((L2Summon) target).getOwner().getPvpFlag() > 0)
 					return false;
 			}
-
-			if(attacker instanceof L2Summon && ((L2Summon) attacker).getOwner().getKarma() > 0)
+			
+			if (attacker instanceof L2Summon && ((L2Summon) attacker).getOwner().getKarma() > 0)
 			{
-				if(target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() > 0)
+				if (target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() > 0)
 					return false;
-
-				if(target instanceof L2Summon && ((L2Summon) target).getOwner().getPvpFlag() > 0)
+				
+				if (target instanceof L2Summon && ((L2Summon) target).getOwner().getPvpFlag() > 0)
 					return false;
 			}
 		}
 		
 		// Right now only L2PcInstance has up-to-date zone status...
-		// 
+		//
 		L2PcInstance src = null;
 		L2PcInstance dst = null;
 		
-		if(attacker instanceof L2PlayableInstance 
-				&& target instanceof L2PlayableInstance){
-		
-			if(attacker instanceof L2PcInstance){
+		if (attacker instanceof L2PlayableInstance && target instanceof L2PlayableInstance)
+		{	
+			if (attacker instanceof L2PcInstance)
+			{
 				src = (L2PcInstance) attacker;
-			}else if(attacker instanceof L2Summon){
+			}
+			else if (attacker instanceof L2Summon)
+			{
 				src = ((L2Summon) attacker).getOwner();
 			}
 			
-			if(target instanceof L2PcInstance){
+			if (target instanceof L2PcInstance)
+			{
 				dst = (L2PcInstance) target;
-			}else if(target instanceof L2Summon){
-				dst = ((L2Summon) target).getOwner();
 			}
-			
+			else if (target instanceof L2Summon)
+			{
+				dst = ((L2Summon) target).getOwner();
+			}			
 		}
 		
-		if(src != null
-			&& src.getAccessLevel().allowPeaceAttack()){
+		if (src != null && src.getAccessLevel().allowPeaceAttack())
+		{
 			return false;
 		}
+		
+		// checks on event status
+		if (src != null && dst != null)
+		{		
+			// Attacker and target can fight in olympiad with peace zone
+			if (src.isInOlympiadMode() && src.isOlympiadStart() && dst.isInOlympiadMode() && dst.isOlympiadStart())
+				return false;
 			
-		 //checks on event status
-		if(src != null
-					&& dst != null){
+			if (dst.isInFunEvent() && src.isInFunEvent())
+			{
 				
-				if(dst.isInFunEvent() 
-					&& src.isInFunEvent()){
-					
-					if(src.isInStartedTVTEvent()
-						&& dst.isInStartedTVTEvent())
-						return false;
-					else if(src.isInStartedDMEvent()
-						&& dst.isInStartedDMEvent())
-						return false;
-					else if(src.isInStartedCTFEvent()
-						&& dst.isInStartedCTFEvent())
-						return false;
-					else if(src.isInStartedVIPEvent()
-						&& dst.isInStartedVIPEvent())
-						return false;
-					else if(src.isInStartedVIPEvent()
-						&& dst.isInStartedVIPEvent())
-						return false;
-					//else 
-						//different events in same location --> already checked
-						
-				}
-			
+				if (src.isInStartedTVTEvent() && dst.isInStartedTVTEvent())
+					return false;
+				else if (src.isInStartedDMEvent() && dst.isInStartedDMEvent())
+					return false;
+				else if (src.isInStartedCTFEvent() && dst.isInStartedCTFEvent())
+					return false;
+				else if (src.isInStartedVIPEvent() && dst.isInStartedVIPEvent())
+					return false;
+				else if (src.isInStartedVIPEvent() && dst.isInStartedVIPEvent())
+					return false;
+				// else
+				// different events in same location --> already checked				
+			}		
 		}
-			
-		if(attacker instanceof L2Character &&
-			((L2Character) attacker).isInsideZone(ZONE_PEACE)
-			//the townzone has to be already peace zone
-			//|| TownManager.getInstance().getTown(attacker.getX(), attacker.getY(), attacker.getZ())!= null
-			)
+		
+		if (attacker instanceof L2Character && ((L2Character) attacker).isInsideZone(ZONE_PEACE)
+		// the townzone has to be already peace zone
+		// || TownManager.getInstance().getTown(attacker.getX(), attacker.getY(), attacker.getZ())!= null
+		)
 			return true;
 		
-		if(target instanceof L2Character
-			&& ((L2Character) target).isInsideZone(ZONE_PEACE)
-			//the townzone has to be already peace zone
-			//|| TownManager.getInstance().getTown(target.getX(), target.getY(), target.getZ())!= null
-			)
+		if (target instanceof L2Character && ((L2Character) target).isInsideZone(ZONE_PEACE)
+		// the townzone has to be already peace zone
+		// || TownManager.getInstance().getTown(target.getX(), target.getY(), target.getZ())!= null
+		)
 			return true;
 		
 		return false;

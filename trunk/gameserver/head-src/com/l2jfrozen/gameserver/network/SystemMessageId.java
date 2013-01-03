@@ -3621,6 +3621,12 @@ public enum SystemMessageId
 	NPC_SERVER_NOT_OPERATING(1278),
 
 	/**
+	* ID: 836<br>
+	* Message: You have exceeded your inventory volume limit and cannot take this item..
+	*/
+	INVENTORY_VOLUME(836),
+	
+	/**
 	 * ID: 840<br>
 	 * Message: That recipe is already registered.
 	 */
@@ -5047,10 +5053,7 @@ public enum SystemMessageId
     
 	;
 	
-	
-
-
-	private int _id;
+    private int _id;
 
 	private SystemMessageId(int id)
 	{
