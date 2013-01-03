@@ -1788,6 +1788,7 @@ public final class Config
  	
 
 	//============================================================
+	public static boolean REBIRTH_ENABLE;
 	public static String[] REBIRTH_ITEM_PRICE;
 	public static String[] REBIRTH_MAGE_SKILL;
 	public static String[] REBIRTH_FIGHTER_SKILL;
@@ -1807,6 +1808,7 @@ public final class Config
 			REBIRTHSettings.load(is);
 			is.close();
 
+			REBIRTH_ENABLE = Boolean.parseBoolean(REBIRTHSettings.getProperty("REBIRTH_ENABLE", "false"));
 			REBIRTH_MIN_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MIN_LEVEL", "80"));
 			REBIRTH_MAX = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_MAX", "3"));
 			REBIRTH_RETURN_TO_LEVEL = Integer.parseInt(REBIRTHSettings.getProperty("REBIRTH_RETURN_TO_LEVEL", "1"));
