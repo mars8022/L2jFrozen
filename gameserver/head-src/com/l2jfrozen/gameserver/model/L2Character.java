@@ -1470,7 +1470,9 @@ public abstract class L2Character extends L2Object
 		// Like L2OFF wait that the hit task finish and then player can move
 		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
 		{
-			((L2PcInstance) this).startMovingTask();
+			L2ItemInstance rhand = ((L2PcInstance) this).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if ((rhand != null && rhand.getItemType() != L2WeaponType.BOW) || (rhand == null))
+			   ((L2PcInstance) this).startMovingTask();
 		}
 		
 		// Notify AI with EVT_READY_TO_ACT
@@ -7671,20 +7673,23 @@ public abstract class L2Character extends L2Object
 			*/
 
 			activeWeapon = null;
-			/*
-			if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined()){
-				((L2PcInstance) this).startMovingTask();
-			}
-			*/
-			return;
 			
+			if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
+			{
+				L2ItemInstance rhand = ((L2PcInstance) this).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+				if (rhand != null && rhand.getItemType() == L2WeaponType.BOW)
+				   ((L2PcInstance) this).startMovingTask();
+			}			
+			return;			
 		}
 		
-		/*
-		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined()){
-			((L2PcInstance) this).startMovingTask();
+		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
+		{
+			L2ItemInstance rhand = ((L2PcInstance) this).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if (rhand != null && rhand.getItemType() == L2WeaponType.BOW)
+			   ((L2PcInstance) this).startMovingTask();
 		}
-		*/
+		
 		getAI().notifyEvent(CtrlEvent.EVT_CANCEL);
 	}
 
