@@ -139,6 +139,7 @@ import com.l2jfrozen.gameserver.model.base.Race;
 import com.l2jfrozen.gameserver.model.base.SubClass;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.Duel;
+import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.L2Event;
@@ -15093,6 +15094,10 @@ private int _reviveRequested = 0;
 		_shortCuts.restore();
 		sendPacket(new ShortCutInit(this));
 
+		// Rebirth Caller - if player has any skills, they will be granted them.
+		if(Config.REBIRTH_ENABLE)
+		   L2Rebirth.getInstance().grantRebirthSkills(this);
+		
 		broadcastPacket(new SocialAction(getObjectId(), 15));
 
 		if (getClan() != null) 

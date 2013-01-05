@@ -249,9 +249,9 @@ public class L2Rebirth
 			player.giveAvailableSkills();
 			
 			// restore Hp-Mp-Cp
-			player.setCurrentCpDirect(actual_cp);
-			player.setCurrentMpDirect(player.getMaxMp());
-			player.setCurrentHpDirect(actual_hp);
+			player.setCurrentCp(actual_cp);
+			player.setCurrentMp(player.getMaxMp());
+			player.setCurrentHp(actual_hp);
 			player.broadcastStatusUpdate();
 			
 			// Updates the player's information in the Character Database.

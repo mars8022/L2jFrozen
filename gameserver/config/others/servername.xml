@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <servers_list>
-	<!-- server list from c3 (only english names) -->
+	<!-- server list from c3 (only English names) -->
 	<server id="1" name="Extreme" />
 	<server id="2" name="Frozen" />
 	<server id="3" name="Test-Server" />

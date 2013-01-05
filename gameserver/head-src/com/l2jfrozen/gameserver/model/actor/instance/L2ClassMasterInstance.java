@@ -690,7 +690,15 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		}
 		else
 		{
-			player.setBaseClass(player.getActiveClass());
+			ClassId classId = ClassId.getClassIdByOrdinal(player.getActiveClass());
+			
+			while(classId.level() == 0){ //go to root
+				classId = classId.getParent();
+			}
+			
+			player.setBaseClass(classId);
+			
+			//player.setBaseClass(player.getActiveClass());
 		}
 
 		player.broadcastUserInfo();

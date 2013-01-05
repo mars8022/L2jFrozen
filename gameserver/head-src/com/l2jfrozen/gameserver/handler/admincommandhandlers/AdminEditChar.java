@@ -509,9 +509,15 @@ public class AdminEditChar implements IAdminCommandHandler
 				{
 					player.setClassId(classidval);
 
+					ClassId classId = ClassId.getClassIdByOrdinal(classidval);
+					
 					if(!player.isSubClassActive())
 					{
-						player.setBaseClass(classidval);
+						while(classId.level() != 0){ //go to root
+							classId = classId.getParent();
+						}
+						
+						player.setBaseClass(classId);
 					}
 
 					String newclass = player.getTemplate().className;
