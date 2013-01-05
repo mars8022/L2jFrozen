@@ -79,8 +79,8 @@ public class Olympiad
 	        + "olympiad_nobles.competitions_won, olympiad_nobles.competitions_lost, olympiad_nobles.competitions_drawn "
 	        + "FROM olympiad_nobles, characters WHERE characters.obj_Id = olympiad_nobles.charId";
 	private static final String OLYMPIAD_SAVE_NOBLES = "INSERT INTO olympiad_nobles "
-		    + "(`charId`,`class_id`,`olympiad_points`,`competitions_done`,`competitions_won`,`competitions_lost`,"
-		    + "`competitions_drawn`) VALUES (?,?,?,?,?,?,?)";
+		    + "(`charId`,`class_id`,`char_name`,`olympiad_points`,`competitions_done`,`competitions_won`,`competitions_lost`,"
+		    + "`competitions_drawn`) VALUES (?,?,?,?,?,?,?,?)";
 	private static final String OLYMPIAD_UPDATE_NOBLES = "UPDATE olympiad_nobles SET "
 	        + "olympiad_points = ?, competitions_done = ?, competitions_won = ?, competitions_lost = ?, competitions_drawn = ? WHERE charId = ?";
 	private static final String OLYMPIAD_UPDATE_OLD_NOBLES = "UPDATE olympiad_nobles_eom SET "
@@ -1015,6 +1015,7 @@ public class Olympiad
 				
 				int charId = nobleId;
 				int classId = nobleInfo.getInteger(CLASS_ID);
+				String charName = nobleInfo.getString(CHAR_NAME);
 				int points = nobleInfo.getInteger(POINTS);
 				int compDone = nobleInfo.getInteger(COMP_DONE);
 				int compWon = nobleInfo.getInteger(COMP_WON);
@@ -1027,11 +1028,12 @@ public class Olympiad
 					statement = con.prepareStatement(OLYMPIAD_SAVE_NOBLES);
 					statement.setInt(1, charId);
 					statement.setInt(2, classId);
-					statement.setInt(3, points);
-					statement.setInt(4, compDone);
-					statement.setInt(5, compWon);
-					statement.setInt(6, compLost);
-					statement.setInt(7, compDrawn);
+					statement.setString(3, charName);
+					statement.setInt(4, points);
+					statement.setInt(5, compDone);
+					statement.setInt(6, compWon);
+					statement.setInt(7, compLost);
+					statement.setInt(8, compDrawn);
 					
 					nobleInfo.set("to_save", false);
 					

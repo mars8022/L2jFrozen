@@ -520,4 +520,17 @@ public enum ClassId
 		return _parent;
 	}
 
+	public static ClassId getClassIdByOrdinal(int id){
+		
+		for(ClassId current:values()){
+			
+			if(current._id == id){
+				return current;
+			}
+			
+		}
+		
+		return null;
+		
+	}
 }
