@@ -281,88 +281,88 @@ public class Potions implements IItemHandler
 			case 726: // mana drug, xml: 2003
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.MANA_HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2003, 1);
+				usePotion(activeChar, 2003, 1);
 				break;
 			case 728: // mana_potion, xml: 2005
-				usePotion(playable, 2005, 1);
+				usePotion(activeChar, 2005, 1);
 				break;
 			
 			// HEALING AND SPEED POTIONS
 			case 65: // red_potion, xml: 2001
-				usePotion(playable, 2001, 1);
+				usePotion(activeChar, 2001, 1);
 				break;
 			case 725: // healing_drug, xml: 2002
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2002, 1);
+				usePotion(activeChar, 2002, 1);
 				break;
 			case 727: // _healing_potion, xml: 2032
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2032, 1);
+				usePotion(activeChar, 2032, 1);
 				break;
 			case 733: // endeavor_potion
-				usePotion(playable, 2010, 1);
+				usePotion(activeChar, 2010, 1);
 				break;
 			case 734: // quick_step_potion, xml: 2011
-				usePotion(playable, 2011, 1);
+				usePotion(activeChar, 2011, 1);
 				break;
 			case 735: // swift_attack_potion, xml: 2012
-				usePotion(playable, 2012, 1);
+				usePotion(activeChar, 2012, 1);
 				break;
 			case 1060: // lesser_healing_potion,
 			case 1073: // beginner's potion, xml: 2031
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2031, 1);
+				usePotion(activeChar, 2031, 1);
 				break;
 			case 1061: // healing_potion, xml: 2032
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2032, 1);
+				usePotion(activeChar, 2032, 1);
 				break;
 			case 1062: // haste_potion, xml: 2011
-				usePotion(playable, 2011, 1);
+				usePotion(activeChar, 2011, 1);
 				break;
 			case 1374: // adv_quick_step_potion, xml: 2034
-				usePotion(playable, 2034, 1);
+				usePotion(activeChar, 2034, 1);
 				break;
 			case 1375: // adv_swift_attack_potion, xml: 2035
-				usePotion(playable, 2035, 1);
+				usePotion(activeChar, 2035, 1);
 				break;
 			case 1539: // greater_healing_potion, xml: 2037
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2037, 1);
+				usePotion(activeChar, 2037, 1);
 				break;
 			case 1540: // quick_healing_potion, xml: 2038
-				usePotion(playable, 2038, 1);
+				usePotion(activeChar, 2038, 1);
 				break;
 			case 4667: // potion_of_critical_escape
-				usePotion(playable, 2074, 1);
+				usePotion(activeChar, 2074, 1);
 				break;
 			case 4679: // bless of eva
-				usePotion(playable, 2076, 1);
+				usePotion(activeChar, 2076, 1);
 				break;
 			case 4680: // rsk_damage_shield_potion
-				usePotion(playable, 2077, 1);
+				usePotion(activeChar, 2077, 1);
 				break;
 			case 5283: // Rice Cake, xml: 2136
 				if (!isEffectReplaceable(playable, L2Effect.EffectType.HEAL_OVER_TIME, itemId))
 					return;
-				usePotion(playable, 2136, 1);
+				usePotion(activeChar, 2136, 1);
 				break;
 			case 5591: // CP
-				usePotion(playable, 2166, 1);
+				usePotion(activeChar, 2166, 1);
 				break;
 			case 5592: // Greater CP
-				usePotion(playable, 2166, 2);
+				usePotion(activeChar, 2166, 2);
 				break;
 			case 6035: // Magic Haste Potion, xml: 2169
-				usePotion(playable, 2169, 1);
+				usePotion(activeChar, 2169, 1);
 				break;
 			case 6036: // Greater Magic Haste Potion, xml: 2169
-				usePotion(playable, 2169, 2);
+				usePotion(activeChar, 2169, 2);
 				break;
 			
 			// ELIXIR
@@ -441,67 +441,67 @@ public class Potions implements IItemHandler
 			
 			// VALAKAS AMULETS
 			case 6652: // Amulet Protection of Valakas
-				usePotion(playable, 2231, 1);
+				usePotion(activeChar, 2231, 1);
 				break;
 			case 6653: // Amulet Flames of Valakas
-				usePotion(playable, 2233, 1);
+				usePotion(activeChar, 2233, 1);
 				break;
 			case 6654: // Amulet Flames of Valakas
-				usePotion(playable, 2233, 1);
+				usePotion(activeChar, 2233, 1);
 				break;
 			case 6655: // Amulet Slay Valakas
-				usePotion(playable, 2232, 1);
+				usePotion(activeChar, 2232, 1);
 				break;
 			
 			// HERBS
 			case 8600: // Herb of Life
-				usePotion(playable, 2278, 1);
+				usePotion(activeChar, 2278, 1);
 				break;
 			case 8601: // Greater Herb of Life
-				usePotion(playable, 2278, 2);
+				usePotion(activeChar, 2278, 2);
 				break;
 			case 8602: // Superior Herb of Life
-				usePotion(playable, 2278, 3);
+				usePotion(activeChar, 2278, 3);
 				break;
 			case 8603: // Herb of Mana
-				usePotion(playable, 2279, 1);
+				usePotion(activeChar, 2279, 1);
 				break;
 			case 8604: // Greater Herb of Mane
-				usePotion(playable, 2279, 2);
+				usePotion(activeChar, 2279, 2);
 				break;
 			case 8605: // Superior Herb of Mane
-				usePotion(playable, 2279, 3);
+				usePotion(activeChar, 2279, 3);
 				break;
 			case 8606: // Herb of Strength
-				usePotion(playable, 2280, 1);
+				usePotion(activeChar, 2280, 1);
 				break;
 			case 8607: // Herb of Magic
-				usePotion(playable, 2281, 1);
+				usePotion(activeChar, 2281, 1);
 				break;
 			case 8608: // Herb of Atk. Spd.
-				usePotion(playable, 2282, 1);
+				usePotion(activeChar, 2282, 1);
 				break;
 			case 8609: // Herb of Casting Spd.
-				usePotion(playable, 2283, 1);
+				usePotion(activeChar, 2283, 1);
 				break;
 			case 8610: // Herb of Critical Attack
-				usePotion(playable, 2284, 1);
+				usePotion(activeChar, 2284, 1);
 				break;
 			case 8611: // Herb of Speed
-				usePotion(playable, 2285, 1);
+				usePotion(activeChar, 2285, 1);
 				break;
 			case 8612: // Herb of Warrior
-				usePotion(playable, 2280, 1);
-				usePotion(playable, 2282, 1);
-				usePotion(playable, 2284, 1);
+				usePotion(activeChar, 2280, 1);
+				usePotion(activeChar, 2282, 1);
+				usePotion(activeChar, 2284, 1);
 				break;
 			case 8613: // Herb of Mystic
-				usePotion(playable, 2281, 1);
-				usePotion(playable, 2283, 1);
+				usePotion(activeChar, 2281, 1);
+				usePotion(activeChar, 2283, 1);
 				break;
 			case 8614: // Herb of Warrior
-				usePotion(playable, 2278, 3);
-				usePotion(playable, 2279, 3);
+				usePotion(activeChar, 2278, 3);
+				usePotion(activeChar, 2279, 3);
 				break;
 			
 			// FISHERMAN POTIONS
@@ -512,7 +512,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 1);
+				usePotion(activeChar, 2274, 1);
 				break;
 			case 8194: // Fisherman's Potion - Jade
 				if (playable.getSkillLevel(1315) <= 6)
@@ -521,7 +521,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 2);
+				usePotion(activeChar, 2274, 2);
 				break;
 			case 8195: // Fisherman's Potion - Blue
 				if (playable.getSkillLevel(1315) <= 9)
@@ -530,7 +530,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 3);
+				usePotion(activeChar, 2274, 3);
 				break;
 			case 8196: // Fisherman's Potion - Yellow
 				if (playable.getSkillLevel(1315) <= 12)
@@ -539,7 +539,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 4);
+				usePotion(activeChar, 2274, 4);
 				break;
 			case 8197: // Fisherman's Potion - Orange
 				if (playable.getSkillLevel(1315) <= 15)
@@ -548,7 +548,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 5);
+				usePotion(activeChar, 2274, 5);
 				break;
 			case 8198: // Fisherman's Potion - Purple
 				if (playable.getSkillLevel(1315) <= 18)
@@ -557,7 +557,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 6);
+				usePotion(activeChar, 2274, 6);
 				break;
 			case 8199: // Fisherman's Potion - Red
 				if (playable.getSkillLevel(1315) <= 21)
@@ -566,7 +566,7 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 7);
+				usePotion(activeChar, 2274, 7);
 				break;
 			case 8200: // Fisherman's Potion - White
 				if (playable.getSkillLevel(1315) <= 24)
@@ -575,19 +575,19 @@ public class Potions implements IItemHandler
 					playable.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 					return;
 				}
-				usePotion(playable, 2274, 8);
+				usePotion(activeChar, 2274, 8);
 				break;
 			case 8201: // Fisherman's Potion - Black
-				usePotion(playable, 2274, 9);
+				usePotion(activeChar, 2274, 9);
 				break;
 			case 8202: // Fishing Potion
-				usePotion(playable, 2275, 1);
+				usePotion(activeChar, 2275, 1);
 				break;
 			case 8786:
-				usePotion(playable, 2305, 1);
+				usePotion(activeChar, 2305, 1);
 				break;
 			case 8787:
-				usePotion(playable, 2305, 1);
+				usePotion(activeChar, 2305, 1);
 				break;
 			default:
 		}
@@ -629,54 +629,40 @@ public class Potions implements IItemHandler
 		return true;
 	}
 	
-	public boolean usePotion(L2PlayableInstance activeChar, int magicId, int level)
+	public boolean usePotion(L2PcInstance activeChar, int magicId, int level)
 	{
-		if (activeChar.isCastingNow() && magicId > 2277 && magicId < 2285 && activeChar instanceof L2PcInstance)
+		if (activeChar.isCastingNow() && magicId>2277 && magicId<2285)
 		{
 			_herbstask += 100;
-			ThreadPoolManager.getInstance().scheduleAi(new HerbTask((L2PcInstance) activeChar, magicId, level), _herbstask);
+			ThreadPoolManager.getInstance().scheduleAi(new HerbTask(activeChar, magicId, level), _herbstask);
 		}
 		else
 		{
-			if (magicId > 2277 && magicId < 2285 && _herbstask >= 100)
-			{
-				_herbstask -= 100;
-			}
+			if (magicId>2277 && magicId<2285 && _herbstask>=100) _herbstask -= 100;
 			L2Skill skill = SkillTable.getInstance().getInfo(magicId, level);
-			if (activeChar.getTarget() instanceof L2StaticObjectInstance)
-			{
-				activeChar.setTarget(activeChar);
-			}
 			if (skill != null)
 			{
-				activeChar.doCast(skill);
+				// Return false if potion is in reuse
+			    // so is not destroyed from inventory
+			    if (activeChar.isSkillDisabled(skill.getId()))
+		        {
+	                SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
+	                sm.addSkillName(skill.getId(),skill.getLevel());
+	                activeChar.sendPacket(sm);
+
+		            return false;
+		        }
+			    
+			    activeChar.doCast(skill);
 				
-				// Heal potios
-				if (magicId == 2031 || magicId == 2032 || magicId == 2037)
+				//only for Heal potions
+				if (magicId == 2031 ||magicId == 2032 ||magicId == 2037)
 				{
-					activeChar.sendPacket(new ShortBuffStatusUpdate(magicId, level, 15));
-					ThreadPoolManager.getInstance().scheduleGeneral(new ShortBuffTask((L2PcInstance) activeChar), 15000);
+					activeChar.shortBuffStatusUpdate(magicId, level, 15);
 				}
 				
-				if (skill.isPotion() && !activeChar.isParalyzed())
-				{
-					
-					if (activeChar instanceof L2PcInstance)
-					{
-						
-						L2PcInstance instance = (L2PcInstance) activeChar;
-						
-						if (!instance.isSitting() && !instance.isAway() && !instance.isFakeDeath())
-							return true;
-						
-					}
-					else
-						return true;
-					
-				}
-				
-				// if(!((activeChar.isSitting() || activeChar.isParalyzed() || activeChar.isAway() || activeChar.isFakeDeath()) && !skill.isPotion()))
-				// return true;
+				if (!(activeChar.isSitting() && !skill.isPotion()))
+					return true;
 			}
 		}
 		return false;
@@ -686,24 +672,6 @@ public class Potions implements IItemHandler
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;
-	}
-	
-	class ShortBuffTask implements Runnable
-	{
-		private L2PcInstance player = null;
-		
-		public ShortBuffTask(L2PcInstance activeChar)
-		{
-			player = activeChar;
-		}
-		
-		@Override
-		public void run()
-		{
-			if (player == null)
-				return;
-			player.sendPacket(new ShortBuffStatusUpdate(0, 0, 0));
-		}
 	}
 	
 	public static void delete_Potion_Item(L2PlayableInstance playable, Integer skill_id, Integer skill_level)

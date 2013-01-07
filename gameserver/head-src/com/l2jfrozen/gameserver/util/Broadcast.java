@@ -85,75 +85,77 @@ public final class Broadcast
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * L2PcInstance in the detection area of the L2Character are identified in <B>_knownPlayers</B>.<BR>
-	 * In order to inform other players of state modification on the L2Character, server just need to go through
-	 * _knownPlayers to send Server->Client Packet<BR>
+	 * In order to inform other players of state modification on the L2Character, server just need to go through _knownPlayers to send Server->Client Packet<BR>
 	 * <BR>
-	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to
-	 * do this use method toSelfAndKnownPlayers)</B></FONT><BR>
+	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to do this use method toSelfAndKnownPlayers)</B></FONT><BR>
 	 * <BR>
-	 * @param character 
-	 * @param mov 
+	 * @param character
+	 * @param mov
 	 */
 	public static void toKnownPlayers(L2Character character, L2GameServerPacket mov)
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			_log.fine("players to notify:" + character.getKnownList().getKnownPlayers().size() + " packet:" + mov.getType());
 		}
-
-		for(L2PcInstance player : character.getKnownList().getKnownPlayers().values())
+		
+		for (L2PcInstance player : character.getKnownList().getKnownPlayers().values())
 		{
+			/*
+			 * TEMP FIX: If player is not visible don't send packets broadcast to all his KnowList. This will avoid GM detection with l2net and olympiad's crash. We can now find old problems with invisible mode.
+			 */
+			if (character instanceof L2PcInstance && !player.isGM() && (((L2PcInstance) character).getAppearance().getInvisible() || ((L2PcInstance) character).inObserverMode()))
+				return;
+			
 			try
 			{
 				player.sendPacket(mov);
-				if(mov instanceof CharInfo && character instanceof L2PcInstance)
+				if (mov instanceof CharInfo && character instanceof L2PcInstance)
 				{
 					int relation = ((L2PcInstance) character).getRelation(player);
-
-					if(character.getKnownList().getKnownRelations().get(player.getObjectId()) != null && character.getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
+					
+					if (character.getKnownList().getKnownRelations().get(player.getObjectId()) != null && character.getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
 					{
 						player.sendPacket(new RelationChanged((L2PcInstance) character, relation, player.isAutoAttackable(character)));
 					}
 				}
 			}
-			catch(NullPointerException e)
+			catch (NullPointerException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 		}
 	}
-
+	
 	/**
 	 * Send a packet to all L2PcInstance in the _KnownPlayers (in the specified radius) of the L2Character.<BR>
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * L2PcInstance in the detection area of the L2Character are identified in <B>_knownPlayers</B>.<BR>
-	 * In order to inform other players of state modification on the L2Character, server just needs to go through
-	 * _knownPlayers to send Server->Client Packet and check the distance between the targets.<BR>
+	 * In order to inform other players of state modification on the L2Character, server just needs to go through _knownPlayers to send Server->Client Packet and check the distance between the targets.<BR>
 	 * <BR>
-	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to
-	 * do this use method toSelfAndKnownPlayers)</B></FONT><BR>
+	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T SEND Server->Client packet to this L2Character (to do this use method toSelfAndKnownPlayers)</B></FONT><BR>
 	 * <BR>
-	 * @param character 
-	 * @param mov 
-	 * @param radius 
+	 * @param character
+	 * @param mov
+	 * @param radius
 	 */
 	public static void toKnownPlayersInRadius(L2Character character, L2GameServerPacket mov, int radius)
 	{
-		if(radius < 0)
+		if (radius < 0)
 		{
 			radius = 1500;
 		}
-
-		for(L2PcInstance player : character.getKnownList().getKnownPlayers().values())
+		
+		for (L2PcInstance player : character.getKnownList().getKnownPlayers().values())
 		{
-			if(player == null)
+			if (player == null)
 			{
 				continue;
 			}
-
-			if(character.isInsideRadius(player, radius, false, false))
+			
+			if (character.isInsideRadius(player, radius, false, false))
 			{
 				player.sendPacket(mov);
 			}

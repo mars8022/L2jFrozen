@@ -598,116 +598,116 @@ public abstract class L2Character extends L2Object
 	
 	/**
 	 * Broadcast packet.
-	 *
 	 * @param mov the mov
 	 */
 	public final void broadcastPacket(L2GameServerPacket mov)
 	{
-		if(!(mov instanceof CharInfo))
+		if (!(mov instanceof CharInfo))
 		{
 			sendPacket(mov);
 		}
 		
-		//don't broadcast anytime the rotating packet
-		if(mov instanceof BeginRotation  && !isStartingRotationAllowed()){
+		// don't broadcast anytime the rotating packet
+		if (mov instanceof BeginRotation && !isStartingRotationAllowed())
+		{
 			return;
 		}
 		
-		//if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
-
-		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
+		// if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
+		
+		for (L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
-			if(player!=null){
-				
+			if (player != null)
+			{				
+				/*
+				 * TEMP FIX: If player is not visible don't send packets broadcast to all his KnowList. This will avoid GM detection with l2net and olympiad's crash. We can now find old problems with invisible mode.
+				 */
+				if (this instanceof L2PcInstance && !player.isGM() && (((L2PcInstance) this).getAppearance().getInvisible() || ((L2PcInstance) this).inObserverMode()))
+					return;
 				
 				try
 				{
 					player.sendPacket(mov);
-
-					if(mov instanceof CharInfo && this instanceof L2PcInstance)
+					
+					if (mov instanceof CharInfo && this instanceof L2PcInstance)
 					{
 						int relation = ((L2PcInstance) this).getRelation(player);
-						if(getKnownList().getKnownRelations().get(player.getObjectId()) != null && getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
+						if (getKnownList().getKnownRelations().get(player.getObjectId()) != null && getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
 						{
 							player.sendPacket(new RelationChanged((L2PcInstance) this, relation, player.isAutoAttackable(this)));
 						}
 					}
-					//if(Config.DEVELOPER && !isInsideRadius(player, 3500, false, false)) _log.warning("broadcastPacket: Too far player see event!");
+					// if(Config.DEVELOPER && !isInsideRadius(player, 3500, false, false)) _log.warning("broadcastPacket: Too far player see event!");
 				}
-				catch(NullPointerException e)
+				catch (NullPointerException e)
 				{
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-
+	
 	/**
-	 * Send a packet to the L2Character AND to all L2PcInstance in the radius (max knownlist radius) from the
-	 * L2Character.<BR>
+	 * Send a packet to the L2Character AND to all L2PcInstance in the radius (max knownlist radius) from the L2Character.<BR>
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
-	 * L2PcInstance in the detection area of the L2Character are identified in <B>_knownPlayers</B>. In order to inform
-	 * other players of state modification on the L2Character, server just need to go through _knownPlayers to send
-	 * Server->Client Packet<BR>
+	 * L2PcInstance in the detection area of the L2Character are identified in <B>_knownPlayers</B>. In order to inform other players of state modification on the L2Character, server just need to go through _knownPlayers to send Server->Client Packet<BR>
 	 * <BR>
-	 *
 	 * @param mov the mov
 	 * @param radiusInKnownlist the radius in knownlist
 	 */
 	public final void broadcastPacket(L2GameServerPacket mov, int radiusInKnownlist)
 	{
-		if(!(mov instanceof CharInfo))
+		if (!(mov instanceof CharInfo))
 		{
 			sendPacket(mov);
 		}
-
-		//if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
-
-		for(L2PcInstance player : getKnownList().getKnownPlayers().values())
+		
+		// if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
+		
+		for (L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
 			try
 			{
-				if(!isInsideRadius(player, radiusInKnownlist, false, false))
+				if (!isInsideRadius(player, radiusInKnownlist, false, false))
 				{
 					continue;
 				}
-
+				
 				player.sendPacket(mov);
-
-				if(mov instanceof CharInfo && this instanceof L2PcInstance)
+				
+				if (mov instanceof CharInfo && this instanceof L2PcInstance)
 				{
 					int relation = ((L2PcInstance) this).getRelation(player);
-					if(getKnownList().getKnownRelations().get(player.getObjectId()) != null && getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
+					if (getKnownList().getKnownRelations().get(player.getObjectId()) != null && getKnownList().getKnownRelations().get(player.getObjectId()) != relation)
 					{
 						player.sendPacket(new RelationChanged((L2PcInstance) this, relation, player.isAutoAttackable(this)));
 					}
 				}
 			}
-			catch(NullPointerException e)
+			catch (NullPointerException e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
-
+	
 	/**
 	 * Need hp update.
-	 *
 	 * @param barPixels the bar pixels
 	 * @return true if hp update should be done, false if not
 	 */
 	protected boolean needHpUpdate(int barPixels)
 	{
 		double currentHp = getCurrentHp();
-
-		if(currentHp <= 1.0 || getMaxHp() < barPixels)
+		
+		if (currentHp <= 1.0 || getMaxHp() < barPixels)
 			return true;
-
-		if(currentHp <= _hpUpdateDecCheck || currentHp >= _hpUpdateIncCheck)
+		
+		if (currentHp <= _hpUpdateDecCheck || currentHp >= _hpUpdateIncCheck)
 		{
-			if(currentHp == getMaxHp())
+			if (currentHp == getMaxHp())
 			{
 				_hpUpdateIncCheck = currentHp + 1;
 				_hpUpdateDecCheck = currentHp - _hpUpdateInterval;
@@ -716,13 +716,13 @@ public abstract class L2Character extends L2Object
 			{
 				double doubleMulti = currentHp / _hpUpdateInterval;
 				int intMulti = (int) doubleMulti;
-
+				
 				_hpUpdateDecCheck = _hpUpdateInterval * (doubleMulti < intMulti ? intMulti-- : intMulti);
 				_hpUpdateIncCheck = _hpUpdateDecCheck + _hpUpdateInterval;
 			}
 			return true;
 		}
-
+		
 		return false;
 	}
 
@@ -3770,7 +3770,7 @@ public abstract class L2Character extends L2Object
 	 *
 	 * @param newEffect the new effect
 	 */
-	public final void addEffect(L2Effect newEffect)
+	public synchronized void addEffect(L2Effect newEffect)
 	{
 		if(newEffect == null)
 			return;

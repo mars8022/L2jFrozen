@@ -245,28 +245,53 @@ public class PcKnownList extends PlayableKnownList
 	}
 
 	/**
-	 * Remove a L2Object from L2PcInstance _knownObjects and _knownPlayer (if necessary) and send Server-Client Packet
-	 * DeleteObject to the L2PcInstance.<BR>
+	 * Remove a L2Object from L2PcInstance _knownObjects and _knownPlayer (if necessary) and send Server-Client Packet DeleteObject to the L2PcInstance.<BR>
 	 * <BR>
-	 * 
 	 * @param object The L2Object to remove from _knownObjects and _knownPlayer
 	 */
 	@Override
 	public boolean removeKnownObject(L2Object object)
 	{
-		if(!super.removeKnownObject(object))
+		if (!super.removeKnownObject(object))
 			return false;
-
+		
 		L2PcInstance active_char = getActiveChar();
 		
-		// Send Server-Client Packet DeleteObject to the L2PcInstance
-		active_char.sendPacket(new DeleteObject(object));
-
-		if(Config.CHECK_KNOWN && object instanceof L2NpcInstance)
+		L2PcInstance object_char = null;
+		if (object instanceof L2PcInstance)
+		{
+			object_char = (L2PcInstance) object;
+		}
+		
+		/*
+		 * TEMP FIX: If player is not visible don't send packets broadcast to all his KnowList. This will avoid GM detection with l2net and olympiad's crash. We can now find old problems with invisible mode.
+		 */
+		if (object_char != null && !active_char.isGM())
+		{ // GM has to receive remove however because he can see any invisible or inobservermode player
+		
+			if (!object_char.getAppearance().getInvisible() && !object_char.inObserverMode())
+			{
+				// Send Server-Client Packet DeleteObject to the L2PcInstance
+				active_char.sendPacket(new DeleteObject(object));
+			}
+			else if (object_char.isGM() && object_char.getAppearance().getInvisible() && !object_char.isTeleporting())
+			{
+				// Send Server-Client Packet DeleteObject to the L2PcInstance
+				active_char.sendPacket(new DeleteObject(object));
+			}
+		}
+		else
+		{ // All other objects has to be removed
+		
+			// Send Server-Client Packet DeleteObject to the L2PcInstance
+			active_char.sendPacket(new DeleteObject(object));
+		}
+		
+		if (Config.CHECK_KNOWN && object instanceof L2NpcInstance)
 		{
 			active_char.sendMessage("Removed NPC: " + ((L2NpcInstance) object).getName());
 		}
-
+		
 		return true;
 	}
 

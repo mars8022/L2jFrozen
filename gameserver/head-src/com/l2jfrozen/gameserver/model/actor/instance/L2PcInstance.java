@@ -198,6 +198,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.RelationChanged;
 import com.l2jfrozen.gameserver.network.serverpackets.Ride;
 import com.l2jfrozen.gameserver.network.serverpackets.SendTradeDone;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
+import com.l2jfrozen.gameserver.network.serverpackets.ShortBuffStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
 import com.l2jfrozen.gameserver.network.serverpackets.SkillList;
 import com.l2jfrozen.gameserver.network.serverpackets.Snoop;
@@ -7482,8 +7483,10 @@ private int _reviveRequested = 0;
 			}
 		}
 
-		setPvpFlag(0); // Clear the pvp flag
-
+		// ERROR: The flag is automatically updated after task time as L2Off
+		// Clear the pvp flag.. 
+		// setPvpFlag(0); 
+		
 		// Unsummon Cubics
 		if(_cubics.size() > 0)
 		{
@@ -16739,6 +16742,45 @@ private int _reviveRequested = 0;
 		L2World.getInstance().removeObject(this);
 		L2World.getInstance().removeFromAllPlayers(this); // force remove in case of crash during teleport
 		
+	}
+	
+	/** ShortBuff clearing Task */
+	private ScheduledFuture<?> _shortBuffTask = null;
+	
+	private class ShortBuffTask implements Runnable
+	{
+		private L2PcInstance _player = null;
+		
+		public ShortBuffTask(L2PcInstance activeChar)
+		{
+			_player = activeChar;
+		}
+		
+		@Override
+		public void run()
+		{
+			if (_player == null)
+				return;
+			
+			_player.sendPacket(new ShortBuffStatusUpdate(0, 0, 0));
+		}
+	}
+	
+	/**
+	 * @param magicId
+	 * @param level
+	 * @param time
+	 */
+	public void shortBuffStatusUpdate(int magicId, int level, int time)
+	{
+		if (_shortBuffTask != null)
+		{
+			_shortBuffTask.cancel(false);
+			_shortBuffTask = null;
+		}
+		_shortBuffTask = ThreadPoolManager.getInstance().scheduleGeneral(new ShortBuffTask(this), 15000);
+		
+		sendPacket(new ShortBuffStatusUpdate(magicId, level, time));
 	}
 
 	/** list of character friends. */

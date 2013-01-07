@@ -310,6 +310,16 @@ class OlympiadGame
 			return false;
 		}
 		
+		// To avoid possible bug during Olympiad
+		if (_playerOne.inObserverMode() || _playerTwo.inObserverMode())
+		{	
+			_playerOne = null;
+			_playerTwo = null;
+			_aborted = true;
+			return false;
+			
+		}
+		
 		try
 		{
 			x1 = _playerOne.getX();

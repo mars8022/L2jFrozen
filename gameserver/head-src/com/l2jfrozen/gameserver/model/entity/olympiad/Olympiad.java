@@ -444,6 +444,14 @@ public class Olympiad
 			noble.sendPacket(sm);
 			return false;
 		}
+		
+		// To avoid possible bug during Olympiad, observer char can't join
+		if(noble.inObserverMode())
+		{
+			noble.sendMessage("You can't participate to Olympiad. You are in Observer Mode, try to restart!");
+			return false;
+		}
+		
 		/** End Olympiad Restrictions */
 		
 		if (_classBasedRegisters.containsKey(noble.getClassId().getId()))
