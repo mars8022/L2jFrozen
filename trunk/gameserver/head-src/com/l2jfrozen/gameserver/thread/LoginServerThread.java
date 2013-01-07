@@ -576,13 +576,17 @@ public class LoginServerThread extends Thread
 		data = _blowfish.crypt(data);
 
 		int len = data.length + 2;
-		synchronized (_out) //avoids tow threads writing in the mean time
-		{
-			_out.write(len & 0xff);
-			_out.write(len >> 8 & 0xff);
-			_out.write(data);
-			_out.flush();
-		}
+		
+		if(_out != null
+			&& !_loginSocket.isClosed()
+			&& _loginSocket.isConnected())
+			synchronized (_out) //avoids tow threads writing in the mean time
+			{
+				_out.write(len & 0xff);
+				_out.write(len >> 8 & 0xff);
+				_out.write(data);
+				_out.flush();
+			}
 	}
 
 	/**
