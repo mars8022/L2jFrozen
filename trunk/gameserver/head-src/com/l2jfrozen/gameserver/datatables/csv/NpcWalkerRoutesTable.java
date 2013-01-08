@@ -75,7 +75,7 @@ public class NpcWalkerRoutesTable
 		
 		try
 		{
-			File fileData = new File("./data/csv/walker_routes.csv");
+			File fileData = new File(Config.DATAPACK_ROOT+"/data/csv/walker_routes.csv");
 			
 			reader = new FileReader(fileData);
 			buff = new BufferedReader(reader);

@@ -90,7 +90,7 @@
 
 	<target name="export" depends="jar">
 
-		<copy todir="${build.dist.login}">
+		<!-- copy todir="${build.dist.login}">
 			<fileset dir="config/others">
 				<include name="log.cfg" />
 				<include name="servername.xml" />
@@ -101,7 +101,7 @@
 			<fileset dir="config/others">
 				<include name="log.cfg" />
 			</fileset>
-		</copy>
+		</copy -->
 
 		<copy todir="${build.dist.game.lib}">
 			<fileset dir="${src-lib}">
@@ -164,6 +164,8 @@
 		<mkdir dir="${build.dist.game}/config/network" />
 		<mkdir dir="${build.dist.game}/config/fun" />
 
+		<mkdir dir="${build.dist.game}/config/others" />
+
 		<!-- game server -->
 		<copy todir="${build.dist.game}/config">
 			<fileset dir="config">
@@ -172,7 +174,7 @@
 				<include name="chatfilter.txt" />
 				<include name="questionwords.txt" />
 				<include name="key.cfg" />
-				<include name="banned_ip.cfg" />
+				<!-- include name="banned_ip.cfg" / -->
 			</fileset>
 		</copy>
 
@@ -224,11 +226,17 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${build.dist.game}/">
+		<copy todir="${build.dist.game}/others">
+					<fileset dir="config/others">
+						<include name="*.*" />
+					</fileset>
+		</copy>
+		
+		<!-- copy todir="${build.dist.game}/">
 			<fileset dir="config/others">
 				<include name="*.*" />
 			</fileset>
-		</copy>
+		</copy -->
 
 
 		<!-- login server -->
@@ -236,9 +244,9 @@
 			<fileset dir="config">
 				<include name="telnet.properties" />
 			</fileset>
-			<fileset dir="config/others">
+			<!-- fileset dir="config/others">
 				<include name="banned_ip.cfg" />
-			</fileset>
+			</fileset -->
 		</copy>
 
 		<copy todir="${build.dist.login}/config/protected">
@@ -254,6 +262,12 @@
 				<include name="loginserver.properties" />
 			</fileset>
 		</copy>
+		
+		<copy todir="${build.dist.login}/others">
+							<fileset dir="config/others">
+								<include name="*.*" />
+							</fileset>
+				</copy>
 
 
 		<delete dir="${build.classes}" />

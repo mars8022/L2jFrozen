@@ -87,7 +87,7 @@ public class MapRegionTable
 		
 		try
 		{
-			File fileData = new File("./data/csv/mapregion.csv");
+			File fileData = new File(Config.DATAPACK_ROOT+"/data/csv/mapregion.csv");
 			
 			reader = new FileReader(fileData);
 			buff = new BufferedReader(reader);

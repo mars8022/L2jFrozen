@@ -120,7 +120,7 @@ public class GameServerRegister
 						gameServerTable.registerServerOnDB(hexId, id, ip);
 						Config.saveHexid(id, new BigInteger(hexId).toString(16), "hexid.txt");
 						System.out.println("Server Registered hexid saved to 'hexid.txt'");
-						System.out.println("Put this file in the /config/system folder of your gameserver.");
+						System.out.println("Put this file in the /config folder of your gameserver.");
 						return;
 					}
 				}

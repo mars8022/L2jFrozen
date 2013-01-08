@@ -62,7 +62,7 @@ public class FishTable
 		
 		try
 		{
-			File fileData = new File("./data/csv/fish.csv");
+			File fileData = new File(Config.DATAPACK_ROOT+"/data/csv/fish.csv");
 			
 			reader = new FileReader(fileData);
 			buff = new BufferedReader(reader);

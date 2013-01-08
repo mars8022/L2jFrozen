@@ -273,7 +273,7 @@ public final class GeoPathFinding extends PathFinding
 		try
 		{
 			_log.info("PathFinding Engine: - Loading Path Nodes...");
-			File Data = new File("./data/pathnode/pn_index.txt");
+			File Data = new File(Config.DATAPACK_ROOT+"/data/pathnode/pn_index.txt");
 			if(!Data.exists())
 				return;
 
@@ -336,7 +336,7 @@ public final class GeoPathFinding extends PathFinding
 
 	private void LoadPathNodeFile(byte rx, byte ry)
 	{
-		String fname = "./data/pathnode/" + rx + "_" + ry + ".pn";
+		String fname = Config.DATAPACK_ROOT+"/data/pathnode/" + rx + "_" + ry + ".pn";
 		short regionoffset = getRegionOffset(rx, ry);
 		_log.info("PathFinding Engine: - Loading: " + fname + " -> region offset: " + regionoffset + "X: " + rx + " Y: " + ry);
 		File Pn = new File(fname);

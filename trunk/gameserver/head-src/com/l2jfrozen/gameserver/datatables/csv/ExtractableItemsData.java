@@ -60,7 +60,7 @@ public class ExtractableItemsData
 
 		try
 		{
-			s = new Scanner(new File("./data/extractable_items.csv"));
+			s = new Scanner(new File(Config.DATAPACK_ROOT+"/data/extractable_items.csv"));
 			
 			int lineCount = 0;
 
@@ -178,7 +178,7 @@ public class ExtractableItemsData
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			//if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			System.out.println("Extractable items data: Can not find './data/extractable_items.csv'");

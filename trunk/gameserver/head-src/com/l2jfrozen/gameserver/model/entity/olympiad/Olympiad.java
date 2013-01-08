@@ -188,8 +188,9 @@ public class Olympiad
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, "Olympiad System: Error loading olympiad properties: ", e);
-			return;
+			_log.info(OLYMPIAD_DATA_FILE+ " cannot be loaded... It will be created on next save or server shutdown..");
+//			_log.log(Level.SEVERE, "Olympiad System: Error loading olympiad properties: ", e);
+//			return;
 		}
 		finally
 		{
