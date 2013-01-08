@@ -437,7 +437,6 @@ public final class Config
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Load " + SV + " File.");
 		}
 	}
 
@@ -463,7 +462,6 @@ public final class Config
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			throw new Error("Failed to Load " + DP + " File.");
 		}
 	}
 
@@ -3426,7 +3424,7 @@ public final class Config
 
 			ALLOW_DUALBOX_OLY = Boolean.parseBoolean(POtherSetting.getProperty("AllowDualBoxInOly", "True"));
 			ALLOW_DUALBOX_EVENT = Boolean.parseBoolean(POtherSetting.getProperty("AllowDualBoxInEvent", "True"));
-			ALLOWED_BOXES = Integer.parseInt(POtherSetting.getProperty("AllowedBoxes", "2"));
+			ALLOWED_BOXES = Integer.parseInt(POtherSetting.getProperty("AllowedBoxes", "99"));
 			ALLOW_DUALBOX = Boolean.parseBoolean(POtherSetting.getProperty("AllowDualBox", "True"));
 			
 			BOT_PROTECTOR = Boolean.parseBoolean(POtherSetting.getProperty("BotProtect", "False"));
@@ -4301,8 +4299,6 @@ public final class Config
 			LOGIN_TRY_BEFORE_BAN = Integer.parseInt(serverSettings.getProperty("LoginTryBeforeBan", "10"));
 			LOGIN_BLOCK_AFTER_BAN = Integer.parseInt(serverSettings.getProperty("LoginBlockAfterBan", "600"));
 
-			DATAPACK_ROOT = new File(serverSettings.getProperty("DatapackRoot", ".")).getCanonicalFile();
-
 			INTERNAL_HOSTNAME = serverSettings.getProperty("InternalHostname", "localhost");
 			EXTERNAL_HOSTNAME = serverSettings.getProperty("ExternalHostname", "localhost");
 
@@ -4358,15 +4354,19 @@ public final class Config
 	//============================================================
 	public static void loadBanFile()
 	{
-		final String BAN_IP_FILE = FService.BANNED_IP;
-
-		File bannedFile = new File(BAN_IP_FILE);
-		if (bannedFile.exists() && bannedFile.isFile())
+		
+		File conf_file = new File(FService.BANNED_IP);
+		if(!conf_file.exists()){
+			//old file position
+			conf_file = new File(FService.LEGACY_BANNED_IP);
+		}
+		
+		if (conf_file.exists() && conf_file.isFile())
 		{
 			FileInputStream fis = null;
 			try
 			{
-				fis = new FileInputStream(bannedFile);
+				fis = new FileInputStream(conf_file);
 				
 				LineNumberReader reader = null;
 				String line;
@@ -4401,7 +4401,7 @@ public final class Config
 								}
 								catch (NumberFormatException e)
 								{
-									_log.warning("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
+									_log.warning("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + conf_file.getName() + "). Line: " + reader.getLineNumber());
 									continue;
 								}
 							}
@@ -4412,14 +4412,14 @@ public final class Config
 							}
 							catch (UnknownHostException e)
 							{
-								_log.warning("Skipped: Invalid address (" + parts[0] + ") on (" + bannedFile.getName() + "). Line: " + reader.getLineNumber());
+								_log.warning("Skipped: Invalid address (" + parts[0] + ") on (" + conf_file.getName() + "). Line: " + reader.getLineNumber());
 							}
 						}
 					}
 				}
 				catch (IOException e)
 				{
-					_log.log(Level.WARNING, "Error while reading the bans file (" + bannedFile.getName() + "). Details: " + e.getMessage(), e);
+					_log.log(Level.WARNING, "Error while reading the bans file (" + conf_file.getName() + "). Details: " + e.getMessage(), e);
 				}
 				
 				_log.info("Loaded " + LoginController.getInstance().getBannedIps().size() + " IP Bans.");
@@ -4427,7 +4427,7 @@ public final class Config
 			}
 			catch (FileNotFoundException e)
 			{
-				_log.log(Level.WARNING, "Failed to load banned IPs file (" + bannedFile.getName() + ") for reading. Reason: " + e.getMessage(), e);
+				_log.log(Level.WARNING, "Failed to load banned IPs file (" + conf_file.getName() + ") for reading. Reason: " + e.getMessage(), e);
 			}finally{
 				
 				if(fis != null)
@@ -4445,7 +4445,7 @@ public final class Config
 		}
 		else
 		{
-			_log.warning("IP Bans file (" + bannedFile.getName() + ") is missing or is a directory, skipped.");
+			_log.warning("IP Bans file (" + conf_file.getName() + ") is missing or is a directory, skipped.");
 		}
 	}
 

@@ -17,6 +17,7 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -119,7 +120,13 @@ public class GameServerTable
 		InputStream in = null;
 		try
 		{
-			in = new FileInputStream(FService.SERVER_NAME_FILE);
+			File conf_file = new File(FService.SERVER_NAME_FILE);
+			if(!conf_file.exists()){
+				//old file position
+				conf_file = new File(FService.LEGACY_SERVER_NAME_FILE);
+			}
+			
+			in = new FileInputStream(conf_file);
 			xpp.setInput(reader.setInput(in));
 
 			for(int e = xpp.getEventType(); e != XMLStreamConstants.END_DOCUMENT; e = xpp.next())

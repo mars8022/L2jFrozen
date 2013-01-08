@@ -27,13 +27,12 @@ public class FService
 	public static final String EXTENDER_FILE = "./config/extender.properties";
 	public static final String SCRIPT_FILE = "./config/script.properties";
 	public static final String DAEMONS_FILE = "./config/daemons.properties";
-
-	public static final String BANNED_IP = "./config/banned_ip.cfg";
-	public static final String HEXID_FILE = "./config/hexid.txt";
 	public static final String PROTECT_KEY_FILE = "./config/key.cfg";
 	public static final String FILTER_FILE = "./config/chatfilter.txt";
 	public static final String QUESTION_FILE = "./config/questionwords.txt";
-
+	public static final String HEXID_FILE = "./config/hexid.txt";
+	public static final String TELNET_FILE = "./config/telnet.properties";
+	
 	//head
 	public static final String ALT_SETTINGS_FILE = "./config/head/altsettings.properties";
 	public static final String CLANHALL_CONFIG_FILE = "./config/head/clanhall.properties";
@@ -84,13 +83,19 @@ public class FService
 	//network
 	public static final String CONFIGURATION_FILE = "./config/network/gameserver.properties";
 	public static final String LOGIN_CONFIGURATION_FILE = "./config/network/loginserver.properties";
-
+	
 	//version
 	public static final String SERVER_VERSION_FILE = "./config/version/l2jfrozen-server.properties";
 	public static final String DATAPACK_VERSION_FILE = "./config/version/l2jfrozen-datapack.properties";
 	
-	public static final String SERVER_NAME_FILE = "./servername.xml";
-	public static final String LOG_CONF_FILE = "./log.cfg";
-	public static final String TELNET_FILE = "./config/telnet.properties";
+	//others
+	public static final String LOG_CONF_FILE = "./config/others/log.cfg";
+	public static final String BANNED_IP = "./config/others/banned_ip.cfg";
+	public static final String SERVER_NAME_FILE = "./config/others/servername.xml";
+	
+	//Legacy others position
+	public static final String LEGACY_LOG_CONF_FILE = "./log.cfg";
+	public static final String LEGACY_BANNED_IP = "./banned_ip.cfg";
+	public static final String LEGACY_SERVER_NAME_FILE = "./servername.xml";
 	
 }

@@ -72,7 +72,7 @@ public class HennaTable
 		
 		try
 		{
-			File fileData = new File("./data/csv/henna.csv");
+			File fileData = new File(Config.DATAPACK_ROOT+"/data/csv/henna.csv");
 			
 			reader = new FileReader(fileData);
 			buff = new BufferedReader(reader);
@@ -117,7 +117,7 @@ public class HennaTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("./data/csv/henna.csv is missing in data folder");
+			_log.warning(Config.DATAPACK_ROOT+"/data/csv/henna.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{

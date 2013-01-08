@@ -65,18 +65,29 @@ public class L2LoginServer
 	{
 		ServerType.serverMode = ServerType.MODE_LOGINSERVER;
 		//      Local Constants
-		final String LOG_FOLDER = "log"; // Name of folder for log file
+		final String LOG_FOLDER_BASE = "log"; // Name of folder for log base file
+		File logFolderBase = new File(LOG_FOLDER_BASE);
+		logFolderBase.mkdir();
+		
+		final String LOG_FOLDER = "log/login"; // Name of folder for log file
 		
 		/*** Main ***/
 		// Create log folder
-		File logFolder = new File(Config.DATAPACK_ROOT, LOG_FOLDER);
+		File logFolder = new File(LOG_FOLDER);
 		logFolder.mkdir();
 
 		// Create input stream for log file -- or store file data into memory
 		InputStream is = null;
 		try
 		{
-			is = new FileInputStream(new File(FService.LOG_CONF_FILE));
+			//check for legacy Implementation
+			File log_conf_file = new File(FService.LOG_CONF_FILE);
+			if(!log_conf_file.exists()){
+				//old file position
+				log_conf_file = new File(FService.LEGACY_LOG_CONF_FILE);
+			}
+			
+			is = new FileInputStream(log_conf_file);
 			LogManager.getLogManager().readConfiguration(is);
 
 		}

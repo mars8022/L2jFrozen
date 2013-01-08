@@ -57,7 +57,7 @@ public class SummonItemsData
 
 		try
 		{
-			s = new Scanner(new File("./data/summon_items.csv"));
+			s = new Scanner(new File(Config.DATAPACK_ROOT+"/data/summon_items.csv"));
 			
 			int lineCount = 0;
 

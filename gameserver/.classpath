@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="**/.svn/*|.svn" kind="src" path="head-src"/>
-	<classpathentry excluding="**/.svn/*|.svn" kind="src" path="config"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/bsh-2.0b5.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-engine.jar"/>
