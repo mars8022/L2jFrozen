@@ -1516,6 +1516,12 @@ public enum SystemMessageId
 	CANNOT_DISSOLVE_WHILE_OWNING_CLAN_HALL_OR_CASTLE(266),
 
 	/**
+	 * ID: 266<br>
+	 * Message: $s1 has been aborted.
+	 */
+	S1_HAS_BEEN_ABORTED(335),
+	
+	/**
 	 * ID: 13<br>
 	 * Message: Unable to disperse: your clan has requested to participate in a castle siege.
 	 */

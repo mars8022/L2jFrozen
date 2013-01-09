@@ -292,6 +292,8 @@ public abstract class L2Character extends L2Object
 	
 	/** The _meditated. */
 	private boolean _meditated;
+	
+	public static long TOGGLE_USE = 0;
 
 	/** Zone system<br> x^2 or x*x. */
 	public static final int ZONE_PVP = 1;
@@ -10697,6 +10699,32 @@ public abstract class L2Character extends L2Object
 		{
 			getStatus().reduceHp(i, attacker, awake);
 		}
+	}
+	
+	private long _nextReducingHPByOverTime = -1;
+	
+	public void reduceCurrentHpByDamOverTime(double i, L2Character attacker, boolean awake, int period)
+	{
+		if(_nextReducingHPByOverTime > System.currentTimeMillis()){
+			return;
+		}
+		
+		_nextReducingHPByOverTime = System.currentTimeMillis()+(period*1000);
+		reduceCurrentHp(i,attacker,awake);
+		
+	}
+	
+	private long _nextReducingMPByOverTime = -1;
+	
+	public void reduceCurrentMpByDamOverTime(double i, int period)
+	{
+		if(_nextReducingMPByOverTime > System.currentTimeMillis()){
+			return;
+		}
+		
+		_nextReducingMPByOverTime = System.currentTimeMillis()+(period*1000);
+		reduceCurrentMp(i);
+		
 	}
 
 	/**

@@ -226,7 +226,7 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${build.dist.game}/others">
+		<copy todir="${build.dist.game}/config/others">
 					<fileset dir="config/others">
 						<include name="*.*" />
 					</fileset>
@@ -263,7 +263,7 @@
 			</fileset>
 		</copy>
 		
-		<copy todir="${build.dist.login}/others">
+		<copy todir="${build.dist.login}/config/others">
 							<fileset dir="config/others">
 								<include name="*.*" />
 							</fileset>

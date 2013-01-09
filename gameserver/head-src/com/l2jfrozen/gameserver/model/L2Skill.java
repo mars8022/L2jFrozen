@@ -1622,6 +1622,10 @@ public abstract class L2Skill
 				{
 					if(obj == null || !(activeChar instanceof L2PlayableInstance) && !(obj instanceof L2PlayableInstance))
 						continue;
+					
+					// Like L2OFF you can cast the skill on peace zone but hasn't any effect
+					if(isOffensive() && L2Character.isInsidePeaceZone(target, activeChar))
+						continue;
 						
 					if(src != null && (obj instanceof L2Attackable || obj instanceof L2PlayableInstance))
 					{
@@ -2809,9 +2813,12 @@ public abstract class L2Skill
 			case TARGET_UNLOCKABLE:
 			{
 				if(!(target instanceof L2DoorInstance) && !(target instanceof L2ChestInstance))
-					//activeChar.sendPacket(new SystemMessage(SystemMessage.TARGET_IS_INCORRECT));
+				{
+					// Like L2OFF if target isn't door or chest send message of incorrect target
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 					return null;
-
+				}
+				
 				if(!onlyFirst)
 				{
 					targetList.add(target);

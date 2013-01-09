@@ -54,7 +54,7 @@ class EffectManaDamOverTime extends L2Effect
 			}
 		}
 
-		getEffected().reduceCurrentMp(manaDam);
+		getEffected().reduceCurrentMpByDamOverTime(manaDam,this.getPeriod());
 		return true;
 	}
 }

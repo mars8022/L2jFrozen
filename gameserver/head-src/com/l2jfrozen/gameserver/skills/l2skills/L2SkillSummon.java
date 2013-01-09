@@ -149,12 +149,7 @@ public class L2SkillSummon extends L2Skill
 					if (mastery == 0 && !player.getCubics().isEmpty())
 					{
 						// Player can have only 1 cubic - we shuld replace old cubic with new one
-						for (L2CubicInstance c: player.getCubics().values())
-						{
-							c.stopAction();
-							c = null;
-						}
-						player.getCubics().clear();
+						player.unsummonAllCubics();
 					}
 					// TODO: Should remove first cubic summoned and replace with new cubic
 					if (player.getCubics().containsKey(_npcId))

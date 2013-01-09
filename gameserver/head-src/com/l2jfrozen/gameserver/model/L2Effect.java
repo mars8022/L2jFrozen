@@ -520,7 +520,14 @@ public abstract class L2Effect
 					&& getShowIcon()
 					&& !getEffected().isDead()){
 				
-				if(_cancelEffect){
+				// Like L2OFF message S1_HAS_BEEN_ABORTED for toogle skills
+				if (getSkill().isToggle())
+				{
+					SystemMessage smsg3 = new SystemMessage(SystemMessageId.S1_HAS_BEEN_ABORTED);
+					smsg3.addString(getSkill().getName());
+					getEffected().sendPacket(smsg3);
+				}
+				else if(_cancelEffect){
 					SystemMessage smsg3 = new SystemMessage(SystemMessageId.EFFECT_S1_DISAPPEARED);
 					smsg3.addString(getSkill().getName());
 					getEffected().sendPacket(smsg3);

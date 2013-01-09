@@ -628,11 +628,14 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			*/
 
-			for(L2CubicInstance cubic : getCubics().values())
-				if(cubic.getId() != L2CubicInstance.LIFE_CUBIC)
-				{
-					cubic.doAction(/*target*/);
-				}
+			synchronized(_cubics){
+				for(L2CubicInstance cubic : _cubics.values())
+					if(cubic.getId() != L2CubicInstance.LIFE_CUBIC)
+					{
+						cubic.doAction(/*target*/);
+					}
+			}
+			
 		}
 
 		/* (non-Javadoc)
@@ -688,11 +691,17 @@ public final class L2PcInstance extends L2PlayableInstance
 					L2Object mainTarget = skill.getFirstOfTargetList(L2PcInstance.this);
 					if(mainTarget == null || !(mainTarget instanceof L2Character))
 						return;
-					for(L2CubicInstance cubic : getCubics().values())
-						if(cubic!=null && cubic.getId() != L2CubicInstance.LIFE_CUBIC)
-						{
-							cubic.doAction(/*(L2Character) mainTarget*/);
-						}
+					
+					synchronized(_cubics){
+						
+						for(L2CubicInstance cubic : _cubics.values())
+							if(cubic!=null && cubic.getId() != L2CubicInstance.LIFE_CUBIC)
+							{
+								cubic.doAction(/*(L2Character) mainTarget*/);
+							}
+						
+					}
+					
 					mainTarget = null;
 				}
 					break;
@@ -4714,29 +4723,38 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Add adena to Inventory of the L2PcInstance and send a Server->Client InventoryUpdate packet to the L2PcInstance.
-	 * 
 	 * @param process : String Identifier of process triggering this action
 	 * @param count : int Quantity of adena to be added
-	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
-	 *            transformation
+	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in transformation
 	 * @param sendMessage : boolean Specifies whether to send message to Client about this action
 	 */
 	public void addAdena(String process, int count, L2Object reference, boolean sendMessage)
 	{
-		if(sendMessage)
+		if (count > 0)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.EARNED_ADENA);
-			sm.addNumber(count);
-			sendPacket(sm);
-			sm = null;
-		}
-
-		if(count > 0)
-		{
-			_inventory.addAdena(process, count, this, reference);
-
+			if (_inventory.getAdena() == Integer.MAX_VALUE)
+			{
+				return;
+			}
+			else if (_inventory.getAdena() >= Integer.MAX_VALUE - count)
+			{
+				count = Integer.MAX_VALUE - _inventory.getAdena();
+				_inventory.addAdena(process, count, this, reference);
+			}
+			else if (_inventory.getAdena() < Integer.MAX_VALUE - count)
+			{
+				_inventory.addAdena(process, count, this, reference);
+			}
+			if (sendMessage)
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.EARNED_ADENA);
+				sm.addNumber(count);
+				sendPacket(sm);
+				sm = null;
+			}
+			
 			// Send update packet
-			if(!Config.FORCE_INVENTORY_UPDATE)
+			if (!Config.FORCE_INVENTORY_UPDATE)
 			{
 				InventoryUpdate iu = new InventoryUpdate();
 				iu.addItem(_inventory.getAdenaInstance());
@@ -5876,14 +5894,11 @@ private int _reviveRequested = 0;
 	 * <BR>
 	 * <B><U> Actions on first click on the L2PcInstance (Select it)</U> :</B><BR>
 	 * <BR>
-	 * <li>Set the target of the player</li> <li>Send a Server->Client packet MyTargetSelected to the player (display
-	 * the select window)</li><BR>
+	 * <li>Set the target of the player</li> <li>Send a Server->Client packet MyTargetSelected to the player (display the select window)</li><BR>
 	 * <BR>
 	 * <B><U> Actions on second click on the L2PcInstance (Follow it/Attack it/Intercat with it)</U> :</B><BR>
 	 * <BR>
-	 * <li>Send a Server->Client packet MyTargetSelected to the player (display the select window)</li> <li>If this
-	 * L2PcInstance has a Private Store, notify the player AI with AI_INTENTION_INTERACT</li> <li>If this L2PcInstance
-	 * is autoAttackable, notify the player AI with AI_INTENTION_ATTACK</li><BR>
+	 * <li>Send a Server->Client packet MyTargetSelected to the player (display the select window)</li> <li>If this L2PcInstance has a Private Store, notify the player AI with AI_INTENTION_INTERACT</li> <li>If this L2PcInstance is autoAttackable, notify the player AI with AI_INTENTION_ATTACK</li><BR>
 	 * <BR>
 	 * <li>If this L2PcInstance is NOT autoAttackable, notify the player AI with AI_INTENTION_FOLLOW</li><BR>
 	 * <BR>
@@ -5891,68 +5906,67 @@ private int _reviveRequested = 0;
 	 * <BR>
 	 * <li>Client packet : Action, AttackRequest</li><BR>
 	 * <BR>
-	 * 
 	 * @param player The player that start an action on this L2PcInstance
 	 */
 	@Override
 	public void onAction(L2PcInstance player)
 	{
-        //if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
-		//no Interaction with not participant to events
-		if (((TvT.is_started() || TvT.is_teleport())  && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
-	    {
-            if ((_inEventTvT && !player._inEventTvT)  || (!_inEventTvT && player._inEventTvT))
-            {
-                player.sendPacket(ActionFailed.STATIC_PACKET);
-                return;
-            }
-            else if ((_inEventCTF && !player._inEventCTF) || (!_inEventCTF && player._inEventCTF))
-            {
-                player.sendPacket(ActionFailed.STATIC_PACKET);
-                return;
-            }
-            else if ((_inEventDM && !player._inEventDM) || (!_inEventDM && player._inEventDM))
-            {
-                player.sendPacket(ActionFailed.STATIC_PACKET);
-                return;
-            }
-        }
+		// if ((TvT._started && !Config.TVT_ALLOW_INTERFERENCE) || (CTF._started && !Config.CTF_ALLOW_INTERFERENCE) || (DM._started && !Config.DM_ALLOW_INTERFERENCE))
+		// no Interaction with not participant to events
+		if (((TvT.is_started() || TvT.is_teleport()) && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
+		{
+			if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
+			{
+				player.sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			else if ((_inEventCTF && !player._inEventCTF) || (!_inEventCTF && player._inEventCTF))
+			{
+				player.sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			else if ((_inEventDM && !player._inEventDM) || (!_inEventDM && player._inEventDM))
+			{
+				player.sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+		}
 		// Check if the L2PcInstance is confused
-		if(player.isOutOfControl())
+		if (player.isOutOfControl())
 		{
 			// Send a Server->Client packet ActionFailed to the player
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if the player already target this L2PcInstance
-		if(player.getTarget() != this)
+		if (player.getTarget() != this)
 		{
 			// Set the target of the player
 			player.setTarget(this);
-
+			
 			// Send a Server->Client packet MyTargetSelected to the player
 			// The color to display in the select window is White
 			player.sendPacket(new MyTargetSelected(getObjectId(), 0));
-			if(player != this)
+			if (player != this)
 			{
 				player.sendPacket(new ValidateLocation(this));
 			}
 		}
 		else
 		{
-			if(player != this)
+			if (player != this)
 			{
 				player.sendPacket(new ValidateLocation(this));
 			}
 			// Check if this L2PcInstance has a Private Store
-			if(getPrivateStoreType() != 0)
+			if (getPrivateStoreType() != 0)
 			{
 				// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
 				
 				// Calculate the distance between the L2PcInstance
-				if(canInteract(player))
+				if (canInteract(player))
 				{
 					// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
 					player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
@@ -5961,94 +5975,75 @@ private int _reviveRequested = 0;
 			else
 			{
 				/*
-				//during teleport phase, players cant do any attack
-				if((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM)){
-					player.sendPacket(ActionFailed.STATIC_PACKET);
-	                return;
-				}
-				
-				if (TvT.is_started())
-			    {
-		            if ((_inEventTvT && player._teamNameTvT.equals(_teamNameTvT)))
-		            {
-		            	player.sendPacket(ActionFailed.STATIC_PACKET);
-		                return;
-		            }
-		        }
-				
-				if(CTF.is_started()){
-					if ((_inEventCTF && player._teamNameCTF.equals(_teamNameCTF)))
-		            {
-		                player.sendPacket(ActionFailed.STATIC_PACKET);
-		                return;
-		            }
-				}
-				*/
+				 * //during teleport phase, players cant do any attack if((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM)){ player.sendPacket(ActionFailed.STATIC_PACKET); return; } if (TvT.is_started()) { if ((_inEventTvT &&
+				 * player._teamNameTvT.equals(_teamNameTvT))) { player.sendPacket(ActionFailed.STATIC_PACKET); return; } } if(CTF.is_started()){ if ((_inEventCTF && player._teamNameCTF.equals(_teamNameCTF))) { player.sendPacket(ActionFailed.STATIC_PACKET); return; } }
+				 */
 				// Check if this L2PcInstance is autoAttackable
-				//if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
-				if (isAutoAttackable(player)) {
+				// if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
+				if (isAutoAttackable(player))
+				{
 					
-					if(Config.ALLOW_CHAR_KILL_PROTECT)
+					if (Config.ALLOW_CHAR_KILL_PROTECT)
 					{
 						Siege siege = SiegeManager.getInstance().getSiege(player);
-
-						if(siege != null && siege.getIsInProgress())
+						
+						if (siege != null && siege.getIsInProgress())
 						{
-							if(player.getLevel() > 20 && ((L2Character) player.getTarget()).getLevel() < 20)
+							if (player.getLevel() > 20 && ((L2Character) player.getTarget()).getLevel() < 20)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() > 40 && ((L2Character) player.getTarget()).getLevel() < 40)
+							
+							if (player.getLevel() > 40 && ((L2Character) player.getTarget()).getLevel() < 40)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() > 52 && ((L2Character) player.getTarget()).getLevel() < 52)
+							
+							if (player.getLevel() > 52 && ((L2Character) player.getTarget()).getLevel() < 52)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() > 61 && ((L2Character) player.getTarget()).getLevel() < 61)
+							
+							if (player.getLevel() > 61 && ((L2Character) player.getTarget()).getLevel() < 61)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() > 76 && ((L2Character) player.getTarget()).getLevel() < 76)
+							
+							if (player.getLevel() > 76 && ((L2Character) player.getTarget()).getLevel() < 76)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() < 20 && ((L2Character) player.getTarget()).getLevel() > 20)
+							
+							if (player.getLevel() < 20 && ((L2Character) player.getTarget()).getLevel() > 20)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() < 40 && ((L2Character) player.getTarget()).getLevel() > 40)
+							
+							if (player.getLevel() < 40 && ((L2Character) player.getTarget()).getLevel() > 40)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() < 52 && ((L2Character) player.getTarget()).getLevel() > 52)
+							
+							if (player.getLevel() < 52 && ((L2Character) player.getTarget()).getLevel() > 52)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() < 61 && ((L2Character) player.getTarget()).getLevel() > 61)
+							
+							if (player.getLevel() < 61 && ((L2Character) player.getTarget()).getLevel() > 61)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
 							}
-
-							if(player.getLevel() < 76 && ((L2Character) player.getTarget()).getLevel() > 76)
+							
+							if (player.getLevel() < 76 && ((L2Character) player.getTarget()).getLevel() > 76)
 							{
 								player.sendMessage("Your target is not in your grade!");
 								player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -6056,22 +6051,22 @@ private int _reviveRequested = 0;
 						}
 						siege = null;
 					}
-					if(player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
+					if (player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
 					{
 						player.sendMessage("You Can't Hit a Player That Is Lower Level From You. Target's Level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL));
 						player.sendPacket(ActionFailed.STATIC_PACKET);
 					}
 					// Player with lvl < 21 can't attack a cursed weapon holder
-					// And a cursed weapon holder  can't attack players with lvl < 21
-					if(isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
+					// And a cursed weapon holder can't attack players with lvl < 21
+					if (isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
 					{
 						player.sendPacket(ActionFailed.STATIC_PACKET);
 					}
 					else
 					{
-						if(Config.GEODATA > 0)
+						if (Config.GEODATA > 0)
 						{
-							if(GeoData.getInstance().canSeeTarget(player, this))
+							if (GeoData.getInstance().canSeeTarget(player, this))
 							{
 								player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
 								player.onActionRequest();
@@ -6086,9 +6081,9 @@ private int _reviveRequested = 0;
 				}
 				else
 				{
-					if(Config.GEODATA > 0)
+					if (Config.GEODATA > 0)
 					{
-						if(GeoData.getInstance().canSeeTarget(player, this))
+						if (GeoData.getInstance().canSeeTarget(player, this))
 						{
 							player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
 						}
@@ -6101,28 +6096,267 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Object#onActionShift(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
-	public void onActionShift(L2PcInstance gm)
+	public void onActionShift(L2PcInstance player)
 	{
-		gm.sendPacket(ActionFailed.STATIC_PACKET);
-		if(gm.isGM())
+		L2Weapon currentWeapon = player.getActiveWeaponItem();
+		
+		if (player.isGM())
 		{
-			if(this != gm.getTarget())
+			if (this != player.getTarget())
 			{
-				gm.setTarget(this);
-				gm.sendPacket(new MyTargetSelected(getObjectId(), 0));
-				if(gm != this)
+				player.setTarget(this);
+				player.sendPacket(new MyTargetSelected(getObjectId(), 0));
+				if (player != this)
 				{
-					gm.sendPacket(new ValidateLocation(this));
+					player.sendPacket(new ValidateLocation(this));
 				}
 			}
 			else
 			{
-				AdminEditChar.gatherCharacterInfo(gm, this, "charinfo.htm");
+				AdminEditChar.gatherCharacterInfo(player, this, "charinfo.htm");
+			}
+		}
+		else
+		// Like L2OFF set the target of the L2PcInstance player
+		{
+			if (((TvT.is_started() || TvT.is_teleport()) && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
+			{
+				if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
+				{
+					player.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+				else if ((_inEventCTF && !player._inEventCTF) || (!_inEventCTF && player._inEventCTF))
+				{
+					player.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+				else if ((_inEventDM && !player._inEventDM) || (!_inEventDM && player._inEventDM))
+				{
+					player.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+			}
+			// Check if the L2PcInstance is confused
+			if (player.isOutOfControl())
+			{
+				// Send a Server->Client packet ActionFailed to the player
+				player.sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
+			// Check if the player already target this L2PcInstance
+			if (player.getTarget() != this)
+			{
+				// Set the target of the player
+				player.setTarget(this);
+				
+				// Send a Server->Client packet MyTargetSelected to the player
+				// The color to display in the select window is White
+				player.sendPacket(new MyTargetSelected(getObjectId(), 0));
+				if (player != this)
+				{
+					player.sendPacket(new ValidateLocation(this));
+				}
+			}
+			else
+			{
+				if (player != this)
+				{
+					player.sendPacket(new ValidateLocation(this));
+				}
+				// Check if this L2PcInstance has a Private Store
+				if (getPrivateStoreType() != 0)
+				{
+					// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
+					player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
+					
+					// Calculate the distance between the L2PcInstance
+					if (canInteract(player))
+					{
+						// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
+						player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
+					}
+				}
+				else
+				{
+					// Check if this L2PcInstance is autoAttackable
+					// if (isAutoAttackable(player) || (player._inEventTvT && TvT._started) || (player._inEventCTF && CTF._started) || (player._inEventDM && DM._started) || (player._inEventVIP && VIP._started))
+					if (isAutoAttackable(player))
+					{
+						
+						if (Config.ALLOW_CHAR_KILL_PROTECT)
+						{
+							Siege siege = SiegeManager.getInstance().getSiege(player);
+							
+							if (siege != null && siege.getIsInProgress())
+							{
+								if (player.getLevel() > 20 && ((L2Character) player.getTarget()).getLevel() < 20)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() > 40 && ((L2Character) player.getTarget()).getLevel() < 40)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() > 52 && ((L2Character) player.getTarget()).getLevel() < 52)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() > 61 && ((L2Character) player.getTarget()).getLevel() < 61)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() > 76 && ((L2Character) player.getTarget()).getLevel() < 76)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() < 20 && ((L2Character) player.getTarget()).getLevel() > 20)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() < 40 && ((L2Character) player.getTarget()).getLevel() > 40)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() < 52 && ((L2Character) player.getTarget()).getLevel() > 52)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() < 61 && ((L2Character) player.getTarget()).getLevel() > 61)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+								if (player.getLevel() < 76 && ((L2Character) player.getTarget()).getLevel() > 76)
+								{
+									player.sendMessage("Your target is not in your grade!");
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+							}
+							siege = null;
+						}
+						if (player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
+						{
+							player.sendMessage("You Can't Hit a Player That Is Lower Level From You. Target's Level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL));
+							player.sendPacket(ActionFailed.STATIC_PACKET);
+						}
+						// Player with lvl < 21 can't attack a cursed weapon holder
+						// And a cursed weapon holder can't attack players with lvl < 21
+						if (isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
+						{
+							player.sendPacket(ActionFailed.STATIC_PACKET);
+						}
+						else
+						{
+							if (Config.GEODATA > 0)
+							{
+								if (GeoData.getInstance().canSeeTarget(player, this))
+								{
+									// Calculate the distance between the L2PcInstance
+									// Only archer can hit from long
+									if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW)
+									{
+										player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
+										player.onActionRequest();
+									}
+									else if (canInteract(player))
+									{
+										player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
+										player.onActionRequest();
+									}
+									else
+									{
+										player.sendPacket(ActionFailed.STATIC_PACKET);
+									}
+								}
+							}
+							else
+							{
+								// Calculate the distance between the L2PcInstance
+								// Only archer can hit from long
+								if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW)
+								{
+									player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
+									player.onActionRequest();
+								}
+								else if (canInteract(player))
+								{
+									player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
+									player.onActionRequest();
+								}
+								else
+								{
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+							}
+						}
+					}
+					else
+					{
+						if (Config.GEODATA > 0)
+						{
+							if (GeoData.getInstance().canSeeTarget(player, this))
+							{
+								// Calculate the distance between the L2PcInstance
+								// Only archer can hit from long
+								if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW)
+								{
+									player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
+								}
+								else if (canInteract(player))
+								{
+									player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
+								}
+								else
+								{
+									player.sendPacket(ActionFailed.STATIC_PACKET);
+								}
+								
+							}
+						}
+						else
+						{
+							// Calculate the distance between the L2PcInstance
+							// Only archer can hit from long
+							if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW)
+							{
+								player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
+							}
+							else if (canInteract(player))
+							{
+								player.getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, this);
+							}
+							else
+							{
+								player.sendPacket(ActionFailed.STATIC_PACKET);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -6679,7 +6913,13 @@ private int _reviveRequested = 0;
 				}
 				return;
 			}
-
+			
+			if (target.getItemId() == 57 && _inventory.getAdena() == Integer.MAX_VALUE)
+			{
+				sendMessage("You have reached the maximum amount of adena, please spend or deposit the adena so you may continue obtaining adena.");
+				return;
+			}
+			
 			if(target.getItemLootShedule() != null && (target.getOwnerId() == getObjectId() || isInLooterParty(target.getOwnerId())))
 			{
 				target.resetOwnerTimer();
@@ -7488,17 +7728,8 @@ private int _reviveRequested = 0;
 		// setPvpFlag(0); 
 		
 		// Unsummon Cubics
-		if(_cubics.size() > 0)
-		{
-			for(L2CubicInstance cubic : _cubics.values())
-			{
-				cubic.stopAction();
-				cubic.cancelDisappear();
-			}
-
-			_cubics.clear();
-		}
-
+		unsummonAllCubics();
+		
 		if(_forceBuff != null)
 		{
 			abortCast();
@@ -11168,11 +11399,17 @@ private int _reviveRequested = 0;
 		}
 	}
 
+	public void restoreEffects()
+	{
+		restoreEffects(true);
+	}
+	
 	/**
 	 * Retrieve from the database all skill effects of this L2PcInstance and add them to the player.<BR>
 	 * <BR>
+	 * @param activateEffects 
 	 */
-	public void restoreEffects()
+	public void restoreEffects(boolean activateEffects)
 	{
 		Connection con = null;
 
@@ -11206,25 +11443,29 @@ private int _reviveRequested = 0;
 					continue;
 				}
 
-				L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
+				if(activateEffects){
+					
+					L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
 
-				skill.getEffects(this, this,false,false,false);
-				skill = null;
+					skill.getEffects(this, this,false,false,false);
+					skill = null;
 
+					for(L2Effect effect : getAllEffects())
+					{
+						if(effect.getSkill().getId() == skillId)
+						{
+							effect.setCount(effectCount);
+							effect.setFirstTime(effectCurTime);
+						}
+					}
+				}
+				
 				if(reuseDelay > 10)
 				{
 					disableSkill(skillId, reuseDelay);
 					addTimeStamp(new TimeStamp(skillId, reuseDelay));
 				}
 
-				for(L2Effect effect : getAllEffects())
-				{
-					if(effect.getSkill().getId() == skillId)
-					{
-						effect.setCount(effectCount);
-						effect.setFirstTime(effectCurTime);
-					}
-				}
 			}
 			rset.close();
 			statement.close();
@@ -11930,6 +12171,12 @@ private int _reviveRequested = 0;
 			// Get effects of the skill
 			L2Effect effect = getFirstEffect(skill);
 
+			// Like L2OFF toogle skills have little delay
+			if(TOGGLE_USE + 400 > System.currentTimeMillis())
+			{
+				return;
+			}
+			
 			if(effect != null)
 			{
 				//fake death exception
@@ -11940,6 +12187,7 @@ private int _reviveRequested = 0;
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			TOGGLE_USE = System.currentTimeMillis();
 		}
 
 		// Check if the skill is active
@@ -12056,7 +12304,8 @@ private int _reviveRequested = 0;
 		}
 		
 		// skills can be used on Walls and Doors only durring siege
-		if(target instanceof L2DoorInstance )
+		// Ignore skill UNLOCK
+		if(skill.isOffensive() && target instanceof L2DoorInstance )
 		{
 			boolean isCastle = (((L2DoorInstance) target).getCastle() != null
 					&& ((L2DoorInstance) target).getCastle().getCastleId() > 0
@@ -12240,7 +12489,7 @@ private int _reviveRequested = 0;
 			if(peace 
 				&& (skill.getId() != 3261 // Like L2OFF you can use cupid bow skills on peace zone
 				&& skill.getId() != 3260 
-				&& skill.getId() != 3262))
+				&& skill.getId() != 3262 && sklTargetType != SkillTargetType.TARGET_AURA)) // Like L2OFF people can use TARGET_AURE skills on peace zone
 			{
 				// If L2Character or target is in a peace zone, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed
 				sendPacket(new SystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
@@ -12786,7 +13035,10 @@ private int _reviveRequested = 0;
 	 */
 	public Map<Integer, L2CubicInstance> getCubics()
 	{
-		return _cubics;
+		synchronized(_cubics){
+			return _cubics;
+		}
+		
 	}
 
 	/**
@@ -12814,7 +13066,10 @@ private int _reviveRequested = 0;
 			_log.info("L2PcInstance(" + getName() + "): addCubic(" + id + "|" + level + "|" + matk + ")");
 		L2CubicInstance cubic = new L2CubicInstance(this, id, level, (int) matk, activationtime, activationchance, totalLifetime, givenByOther);
 		
-		_cubics.put(id, cubic);
+		synchronized(_cubics){
+			_cubics.put(id, cubic);
+		}
+		
 	}
 	
 
@@ -12826,7 +13081,10 @@ private int _reviveRequested = 0;
 	 */
 	public void delCubic(int id)
 	{
-		_cubics.remove(id);
+		synchronized(_cubics){
+			_cubics.remove(id);
+		}
+		
 	}
 
 	/**
@@ -12838,7 +13096,30 @@ private int _reviveRequested = 0;
 	 */
 	public L2CubicInstance getCubic(int id)
 	{
-		return _cubics.get(id);
+		synchronized(_cubics){
+			return _cubics.get(id);
+		}
+		
+	}
+	
+	public void unsummonAllCubics(){
+		
+		// Unsummon Cubics
+				synchronized(_cubics){
+					
+					if(_cubics.size() > 0)
+					{
+						for(L2CubicInstance cubic : _cubics.values())
+						{
+							cubic.stopAction();
+							cubic.cancelDisappear();
+						}
+
+						_cubics.clear();
+					}
+
+				}
+				
 	}
 
 	/* (non-Javadoc)
@@ -13431,16 +13712,8 @@ private int _reviveRequested = 0;
 			getPet().unSummon(this);
 		}
 
-		if(getCubics().size() > 0)
-		{
-			for(L2CubicInstance cubic : getCubics().values())
-			{
-				cubic.stopAction();
-				cubic.cancelDisappear();
-			}
-			getCubics().clear();
-		}
-
+		unsummonAllCubics();
+		
 		setTarget(null);
 		stopMove(null);
 		setIsParalyzed(true);
@@ -13471,16 +13744,7 @@ private int _reviveRequested = 0;
 			getPet().unSummon(this);
 		}
 
-		if(getCubics().size() > 0)
-		{
-			for(L2CubicInstance cubic : getCubics().values())
-			{
-				cubic.stopAction();
-				cubic.cancelDisappear();
-			}
-
-			getCubics().clear();
-		}
+		unsummonAllCubics();
 
 		_olympiadGameId = id;
 		if(isSitting())
@@ -14946,16 +15210,8 @@ private int _reviveRequested = 0;
 			getPet().unSummon(this);
 		}
 
-		if(getCubics().size() > 0)
-		{
-			for(L2CubicInstance cubic : getCubics().values())
-			{
-				cubic.stopAction();
-				cubic.cancelDisappear();
-			}
-
-			getCubics().clear();
-		}
+		unsummonAllCubics();
+		
 
 		for(L2Character character : getKnownList().getKnownCharacters())
 		{
@@ -14998,10 +15254,7 @@ private int _reviveRequested = 0;
 		restoreSkills();
 		regiveTemporarySkills();
 		rewardSkills();
-		if (Config.ALT_RESTORE_EFFECTS_ON_SUBCLASS_CHANGE)
-        {
-            restoreEffects();
-        }
+		restoreEffects(Config.ALT_RESTORE_EFFECTS_ON_SUBCLASS_CHANGE);
 		
 		// Reload skills from armors / jewels / weapons
 		getInventory().reloadEquippedItems();
@@ -19835,17 +20088,8 @@ public boolean dismount()
         if (getPet() != null)
             getPet().unSummon(this);
 
-        if (getCubics().size() > 0)
-        {
-            for (L2CubicInstance cubic : getCubics().values())
-            {
-                cubic.stopAction();
-                cubic.cancelDisappear();
-            }
-
-            getCubics().clear();
-        }
-
+        unsummonAllCubics();
+        
     	_olympiadGameId = id;
         if (isSitting())
             standUp();

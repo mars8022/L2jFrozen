@@ -155,7 +155,8 @@ public abstract class L2Object
 
 	public void onActionShift(L2GameClient client)
 	{
-		client.getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
+		// Like L2OFF send to L2PcInstance
+		onActionShift(client.getActiveChar());
 	}
 
 	/**

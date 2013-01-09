@@ -29,33 +29,33 @@ public class PlayableStat extends CharStat
 	
 	public boolean addExp(long value)
 	{
-		if(getExp() + value < 0 || getExp() == getExpForLevel(ExperienceData.getInstance().getMaxLevel()) - 1)
+		if ((getExp() + value) < 0 || (value > 0 && getExp() == getExpForLevel(ExperienceData.getInstance().getMaxLevel()) - 1))
 			return true;
-
-		if(getExp() + value >= getExpForLevel(ExperienceData.getInstance().getMaxLevel()))
+		
+		if (getExp() + value >= getExpForLevel(ExperienceData.getInstance().getMaxLevel()))
 		{
 			value = getExpForLevel(ExperienceData.getInstance().getMaxLevel()) - 1 - getExp();
 		}
-
+		
 		setExp(getExp() + value);
-
+		
 		byte level = 1;
-
-		for(level = 1; level <= ExperienceData.getInstance().getMaxLevel(); level++)
+		
+		for (level = 1; level <= ExperienceData.getInstance().getMaxLevel(); level++)
 		{
-			if(getExp() >= getExpForLevel(level))
+			if (getExp() >= getExpForLevel(level))
 			{
 				continue;
 			}
 			--level;
 			break;
 		}
-
-		if(level != getLevel())
+		
+		if (level != getLevel())
 		{
 			addLevel((byte) (level - getLevel()));
 		}
-
+		
 		return true;
 	}
 

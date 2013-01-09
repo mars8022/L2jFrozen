@@ -95,6 +95,7 @@ import com.l2jfrozen.gameserver.templates.L2HelperBuff;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
+import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -919,6 +920,8 @@ public class L2NpcInstance extends L2Character
 		if (player == null)
 			return;
 		
+		L2Weapon currentWeapon = player.getActiveWeaponItem();
+		
 		// Check if the L2PcInstance is a GM
 		if (player.getAccessLevel().isGm())
 		{
@@ -1079,13 +1082,166 @@ public class L2NpcInstance extends L2Character
 			html = null;
 			html1 = null;
 		}
-		
-		// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
-		player.sendPacket(ActionFailed.STATIC_PACKET);
-		
-		player = null;
+		else
+		// Like L2OFF set the target of the L2PcInstance player
+		{
+			// Check if the L2PcInstance already target the L2NpcInstance
+			if (this != player.getTarget())
+			{
+				// Set the target of the L2PcInstance player
+				player.setTarget(this);
+				
+				// Check if the player is attackable (without a forced attack)
+				if (isAutoAttackable(player))
+				{
+					// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
+					// The player.getLevel() - getLevel() permit to display the correct color in the select window
+					MyTargetSelected my = new MyTargetSelected(getObjectId(), player.getLevel() - getLevel());
+					player.sendPacket(my);
+					my = null;
+					
+					// Send a Server->Client packet StatusUpdate of the L2NpcInstance to the L2PcInstance to update its HP bar
+					StatusUpdate su = new StatusUpdate(getObjectId());
+					su.addAttribute(StatusUpdate.CUR_HP, (int) getCurrentHp());
+					su.addAttribute(StatusUpdate.MAX_HP, getMaxHp());
+					player.sendPacket(su);
+					su = null;
+				}
+				else
+				{
+					// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
+					MyTargetSelected my = new MyTargetSelected(getObjectId(), 0);
+					player.sendPacket(my);
+					my = null;
+				}
+				
+				player.setTimerToAttack(System.currentTimeMillis());
+				player.sendPacket(new ValidateLocation(this));
+			}
+			else
+			{
+				player.sendPacket(new ValidateLocation(this));
+				// Check if the player is attackable (without a forced attack) and isn't dead
+				if (isAutoAttackable(player) && !isAlikeDead())
+				{
+					// Check the height difference
+					if (Math.abs(player.getZ() - getZ()) < 400) // this max heigth difference might need some tweaking
+					{
+						// Like L2OFF player must not move with shift pressed
+						// Only archer can hit from long
+						if (!canInteract(player) && (currentWeapon != null && currentWeapon.getItemType() != L2WeaponType.BOW))
+						{
+							// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+							player.sendPacket(ActionFailed.STATIC_PACKET);
+						}
+						else if (!canInteract(player) && currentWeapon == null)
+						{
+							// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+							player.sendPacket(ActionFailed.STATIC_PACKET);
+						}
+						else
+						{
+							// Set the L2PcInstance Intention to AI_INTENTION_ATTACK
+							player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
+						}
+					}
+					else
+					{
+						// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+						player.sendPacket(ActionFailed.STATIC_PACKET);
+					}
+				}
+				else if (!isAutoAttackable(player))
+				{
+					// Like L2OFF player must not move with shift pressed
+					// Only archer can hit from long
+					if (!canInteract(player) && (currentWeapon != null && currentWeapon.getItemType() != L2WeaponType.BOW))
+					{
+						// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+						player.sendPacket(ActionFailed.STATIC_PACKET);
+					}
+					else if (!canInteract(player) && currentWeapon == null)
+					{
+						// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+						player.sendPacket(ActionFailed.STATIC_PACKET);
+					}
+					else
+					{
+						// Like L2OFF if char is dead, is sitting, is in trade or is in fakedeath can't interact with npc
+						if (player.isSitting() || player.isDead() || player.isFakeDeath() || player.getActiveTradeList() != null)
+							return;
+						
+						// Send a Server->Client packet SocialAction to the all L2PcInstance on the _knownPlayer of the L2NpcInstance to display a social action of the L2NpcInstance on their client
+						SocialAction sa = new SocialAction(getObjectId(), Rnd.get(8));
+						broadcastPacket(sa);
+						// Open a chat window on client with the text of the L2NpcInstance
+						if (isEventMob)
+						{
+							L2Event.showEventHtml(player, String.valueOf(getObjectId()));
+						}
+						else if (_isEventMobTvT)
+						{
+							TvT.showEventHtml(player, String.valueOf(getObjectId()));
+						}
+						else if (_isEventMobDM)
+						{
+							DM.showEventHtml(player, String.valueOf(this.getObjectId()));
+						}
+						else if (_isEventMobCTF)
+						{
+							CTF.showEventHtml(player, String.valueOf(getObjectId()));
+						}
+						else if (_isCTF_Flag && player._inEventCTF)
+						{
+							CTF.showFlagHtml(player, String.valueOf(this.getObjectId()), _CTF_FlagTeamName);
+						}
+						else if (_isCTF_throneSpawn)
+						{
+							CTF.checkRestoreFlags();
+						}
+						else if (this._isEventVIPNPC)
+						{
+							VIP.showJoinHTML(player, String.valueOf(this.getObjectId()));
+						}
+						else if (this._isEventVIPNPCEnd)
+						{
+							VIP.showEndHTML(player, String.valueOf(this.getObjectId()));
+						}
+						else
+						{
+							// Open a chat window on client with the text of the L2NpcInstance
+							/*
+							 * Quest[] qlsa = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START); if ( (qlsa != null) && qlsa.length > 0) player.setLastQuestNpcObject(getObjectId());
+							 */
+							
+							Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.NPC_FIRST_TALK);
+							if (qlst != null && qlst.length == 1)
+							{
+								qlst[0].notifyFirstTalk(this, player);
+							}
+							else
+							{
+								showChatWindow(player, 0);
+							}
+						}
+					}
+					
+					// to avoid player stuck
+					player.sendPacket(ActionFailed.STATIC_PACKET);
+				}
+				else
+				{
+					player.sendPacket(ActionFailed.STATIC_PACKET);
+				}
+			}
+			
+			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			
+			player = null;
+		}
 	}
-	
+
 	/**
 	 * Return the L2Castle this L2NpcInstance belongs to.
 	 * @return the castle

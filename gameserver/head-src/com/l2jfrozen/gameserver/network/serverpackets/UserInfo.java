@@ -18,11 +18,14 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import java.util.Map;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
@@ -281,8 +284,9 @@ public class UserInfo extends L2GameServerPacket
 		writeD(_activeChar.getPkKills());
 		writeD(_activeChar.getPvpKills());
 
-		writeH(_activeChar.getCubics().size());
-		for(int id : _activeChar.getCubics().keySet())
+		final Map<Integer, L2CubicInstance> cubics = _activeChar.getCubics();
+		writeH(cubics.size());
+		for(Integer id : cubics.keySet())
 		{
 			writeH(id);
 		}
