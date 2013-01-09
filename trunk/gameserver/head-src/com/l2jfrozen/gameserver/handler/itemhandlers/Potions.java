@@ -36,14 +36,12 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.ShortBuffStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -631,32 +629,44 @@ public class Potions implements IItemHandler
 	
 	public boolean usePotion(L2PcInstance activeChar, int magicId, int level)
 	{
-		if (activeChar.isCastingNow() && magicId>2277 && magicId<2285)
+		if (activeChar.isCastingNow() && magicId > 2277 && magicId < 2285)
 		{
 			_herbstask += 100;
 			ThreadPoolManager.getInstance().scheduleAi(new HerbTask(activeChar, magicId, level), _herbstask);
 		}
 		else
 		{
-			if (magicId>2277 && magicId<2285 && _herbstask>=100) _herbstask -= 100;
+			if (magicId > 2277 && magicId < 2285 && _herbstask >= 100)
+				_herbstask -= 100;
 			L2Skill skill = SkillTable.getInstance().getInfo(magicId, level);
 			if (skill != null)
 			{
 				// Return false if potion is in reuse
-			    // so is not destroyed from inventory
-			    if (activeChar.isSkillDisabled(skill.getId()))
-		        {
-	                SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-	                sm.addSkillName(skill.getId(),skill.getLevel());
-	                activeChar.sendPacket(sm);
-
-		            return false;
-		        }
-			    
-			    activeChar.doCast(skill);
+				// so is not destroyed from inventory
+				if (activeChar.isSkillDisabled(skill.getId()))
+				{
+					if (!(skill.getId() == 2166))
+					{
+						SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
+						sm.addSkillName(skill.getId(), skill.getLevel());
+						activeChar.sendPacket(sm);
+					}
+					// Cp potion message
+					else if (skill.getId() == 2166)
+					{
+						if (skill.getLevel() == 2)
+							activeChar.sendMessage("Greater CP Potion is not available at this time: being prepared for reuse.");
+						else if (skill.getLevel() == 1)
+							activeChar.sendMessage("CP Potion is not available at this time: being prepared for reuse.");
+					}
+					
+					return false;
+				}
 				
-				//only for Heal potions
-				if (magicId == 2031 ||magicId == 2032 ||magicId == 2037)
+				activeChar.doCast(skill);
+				
+				// only for Heal potions
+				if (magicId == 2031 || magicId == 2032 || magicId == 2037)
 				{
 					activeChar.shortBuffStatusUpdate(magicId, level, 15);
 				}

@@ -34,33 +34,36 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Unlock implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(Unlock.class.getName());
-	private static final SkillType[] SKILL_IDS = { SkillType.UNLOCK };
-
+	// private static Logger _log = Logger.getLogger(Unlock.class.getName());
+	private static final SkillType[] SKILL_IDS =
+	{
+		SkillType.UNLOCK
+	};
+	
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 		L2Object[] targetList = skill.getTargetList(activeChar);
-
-		if(targetList == null)
+		
+		if (targetList == null)
 			return;
-
-		for(L2Object element : targetList)
+		
+		for (L2Object element : targetList)
 		{
 			L2Object target = element;
-
+			
 			boolean success = Formulas.getInstance().calculateUnlockChance(skill);
-			if(target instanceof L2DoorInstance)
+			if (target instanceof L2DoorInstance)
 			{
 				L2DoorInstance door = (L2DoorInstance) target;
-				if(!door.isUnlockable())
+				if (!door.isUnlockable())
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.UNABLE_TO_UNLOCK_DOOR));
 					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
-
-				if(success && (!door.getOpen()))
+				
+				if (success && (!door.getOpen()))
 				{
 					door.openMe();
 					door.onOpen();
@@ -75,11 +78,11 @@ public class Unlock implements ISkillHandler
 				}
 				door = null;
 			}
-			else if(target instanceof L2ChestInstance)
+			else if (target instanceof L2ChestInstance)
 			{
 				L2ChestInstance chest = (L2ChestInstance) element;
-
-				if(chest.getCurrentHp() <= 0 || chest.isInteracted())
+				
+				if (chest.getCurrentHp() <= 0 || chest.isInteracted())
 				{
 					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -88,91 +91,91 @@ public class Unlock implements ISkillHandler
 				int chestChance = 0;
 				int chestGroup = 0;
 				int chestTrapLimit = 0;
-
-				if(chest.getLevel() > 60)
+				
+				if (chest.getLevel() > 60)
 					chestGroup = 4;
-				else if(chest.getLevel() > 40)
+				else if (chest.getLevel() > 40)
 					chestGroup = 3;
-				else if(chest.getLevel() > 30)
+				else if (chest.getLevel() > 30)
 					chestGroup = 2;
 				else
 					chestGroup = 1;
-
-				switch(chestGroup)
+				
+				switch (chestGroup)
 				{
 					case 1:
 					{
-						if(skill.getLevel() > 10)
+						if (skill.getLevel() > 10)
 							chestChance = 100;
-						else if(skill.getLevel() >= 3)
+						else if (skill.getLevel() >= 3)
 							chestChance = 50;
-						else if(skill.getLevel() == 2)
+						else if (skill.getLevel() == 2)
 							chestChance = 45;
-						else if(skill.getLevel() == 1)
+						else if (skill.getLevel() == 1)
 							chestChance = 40;
-
+						
 						chestTrapLimit = 10;
 					}
 						break;
 					case 2:
 					{
-						if(skill.getLevel() > 12)
+						if (skill.getLevel() > 12)
 							chestChance = 100;
-						else if(skill.getLevel() >= 7)
+						else if (skill.getLevel() >= 7)
 							chestChance = 50;
-						else if(skill.getLevel() == 6)
+						else if (skill.getLevel() == 6)
 							chestChance = 45;
-						else if(skill.getLevel() == 5)
+						else if (skill.getLevel() == 5)
 							chestChance = 40;
-						else if(skill.getLevel() == 4)
+						else if (skill.getLevel() == 4)
 							chestChance = 35;
-						else if(skill.getLevel() == 3)
+						else if (skill.getLevel() == 3)
 							chestChance = 30;
-
+						
 						chestTrapLimit = 30;
 					}
 						break;
 					case 3:
 					{
-						if(skill.getLevel() >= 14)
+						if (skill.getLevel() >= 14)
 							chestChance = 50;
-						else if(skill.getLevel() == 13)
+						else if (skill.getLevel() == 13)
 							chestChance = 45;
-						else if(skill.getLevel() == 12)
+						else if (skill.getLevel() == 12)
 							chestChance = 40;
-						else if(skill.getLevel() == 11)
+						else if (skill.getLevel() == 11)
 							chestChance = 35;
-						else if(skill.getLevel() == 10)
+						else if (skill.getLevel() == 10)
 							chestChance = 30;
-						else if(skill.getLevel() == 9)
+						else if (skill.getLevel() == 9)
 							chestChance = 25;
-						else if(skill.getLevel() == 8)
+						else if (skill.getLevel() == 8)
 							chestChance = 20;
-						else if(skill.getLevel() == 7)
+						else if (skill.getLevel() == 7)
 							chestChance = 15;
-						else if(skill.getLevel() == 6)
+						else if (skill.getLevel() == 6)
 							chestChance = 10;
-
+						
 						chestTrapLimit = 50;
 					}
 						break;
 					case 4:
 					{
-						if(skill.getLevel() >= 14)
+						if (skill.getLevel() >= 14)
 							chestChance = 50;
-						else if(skill.getLevel() == 13)
+						else if (skill.getLevel() == 13)
 							chestChance = 45;
-						else if(skill.getLevel() == 12)
+						else if (skill.getLevel() == 12)
 							chestChance = 40;
-						else if(skill.getLevel() == 11)
+						else if (skill.getLevel() == 11)
 							chestChance = 35;
-
+						
 						chestTrapLimit = 80;
 					}
 						break;
 				}
-
-				if(Rnd.get(100) <= chestChance)
+				
+				if (Rnd.get(100) <= chestChance)
 				{
 					activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 3));
 					chest.setSpecialDrop();
@@ -183,7 +186,7 @@ public class Unlock implements ISkillHandler
 				else
 				{
 					activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 13));
-					if(Rnd.get(100) < chestTrapLimit)
+					if (Rnd.get(100) < chestTrapLimit)
 						chest.chestTrap(activeChar);
 					chest.setInteracted();
 					chest.addDamageHate(activeChar, 0, 1);
@@ -195,7 +198,7 @@ public class Unlock implements ISkillHandler
 		}
 		targetList = null;
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

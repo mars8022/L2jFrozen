@@ -25,11 +25,13 @@ import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
+import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
@@ -67,6 +69,8 @@ public class AdminTeleport implements IAdminCommandHandler
 			"admin_gowest",
 			"admin_goup",
 			"admin_godown",
+			"admin_instant_move",
+			"admin_sendhome",
 			"admin_tele",
 			"admin_teleto",
 			"admin_recall_party",
@@ -90,6 +94,8 @@ public class AdminTeleport implements IAdminCommandHandler
 		admin_gowest,
 		admin_goup,
 		admin_godown,
+		admin_instant_move,
+		admin_sendhome,
 		admin_tele,
 		admin_teleto,
 		admin_recall_party
@@ -99,10 +105,39 @@ public class AdminTeleport implements IAdminCommandHandler
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		StringTokenizer st = new StringTokenizer(command);
-		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
-		
-		if(comm == null)
+		CommandEnum comm = CommandEnum.valueOf(st.nextToken());		
+		//Alt+g window (instant move)
+		if (command.equals("admin_instant_move"))
+			{
+				activeChar.setTeleMode(1);
+			}
+		//Send player to town (alt+g)
+		else if (command.startsWith("admin_sendhome"))
+							       {
+							           try
+							           {
+							               String[] param = command.split(" ");
+							               if (param.length != 2)
+							               {
+							                   activeChar.sendMessage("Usage: //sendhome <playername>");
+							                   return false;
+							               }
+							               String targetName = param[1];
+						               L2PcInstance player = L2World.getInstance().getPlayer(targetName);
+						               if (player != null)
+							               {
+							                   Location loc = MapRegionTable.getInstance().getTeleToLocation(player, MapRegionTable.TeleportWhereType.Town);
+						                   player.setInstanceId(0);
+							                   player.teleToLocation(loc, true);
+							               }
+							               else
+							                   activeChar.sendMessage("User is not online.");
+							           }
+							           catch (StringIndexOutOfBoundsException e)
+							           {
+		      }
+		   }
+		else if(comm == null)
 			return false;
 		
 		switch(comm)
@@ -428,7 +463,7 @@ public class AdminTeleport implements IAdminCommandHandler
 					activeChar.sendMessage("Usage: //go<north|south|east|west|up|down> [offset] (default 150)");
 					return false;
 				}
-			} 
+			}
 			case admin_tele:{
 				showTeleportWindow(activeChar);
 			} 

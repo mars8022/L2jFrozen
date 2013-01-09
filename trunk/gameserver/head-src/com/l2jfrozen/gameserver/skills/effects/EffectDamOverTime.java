@@ -73,7 +73,8 @@ class EffectDamOverTime extends L2Effect
 		
 		boolean awake = !(getEffected() instanceof L2Attackable) && !(getSkill().getTargetType() == SkillTargetType.TARGET_SELF && getSkill().isToggle());
 		
-		getEffected().reduceCurrentHp(damage, getEffector(), awake);
+		//getEffected().reduceCurrentHp(damage, getEffector(), awake);
+		getEffected().reduceCurrentHpByDamOverTime(damage, getEffector(), awake,this.getPeriod());
 		
 		return true;
 	}
