@@ -49,7 +49,8 @@ public class TradeList
 		private int _enchant;
 		private int _count;
 		private int _price;
-
+		private int _curcount; 
+		 
 		/** Augmented Item */
 		private L2Augmentation _augmentation = null;
 
@@ -125,6 +126,16 @@ public class TradeList
 			return _price;
 		}
 
+		public void setCurCount(int count)
+		{
+			_curcount = count;
+		}
+		
+		public int getCurCount()
+		{
+			return _curcount;
+		}
+		
 		/**
 		 * Returns whether this item is augmented or not
 		 * 
@@ -220,8 +231,7 @@ public class TradeList
 		for(TradeList.TradeItem item : _items)
 		{
 			item = new TradeItem(item, item.getCount(), item.getPrice());
-			inventory.adjustAvailableItem(item,list);
-			list.add(item);
+			list.add(inventory.adjustAvailableItem(item,list));
 		}
 
 		return list.toArray(new TradeList.TradeItem[list.size()]);
@@ -247,7 +257,7 @@ public class TradeList
 		if(item.isStackable())
 		{
 			for(TradeItem exclItem : _items)
-				if(exclItem.getItem().getItemId() == item.getItemId())
+				if(exclItem.getItem().getItemId() == item.getItemId()  && (exclItem.getEnchant() == item.getEnchantLevel()))
 				{
 					if(item.getCount() <= exclItem.getCount())
 						return null;
@@ -266,7 +276,7 @@ public class TradeList
 	public void adjustItemRequest(ItemRequest item)
 	{
 		for(TradeItem filtItem : _items)
-			if(filtItem.getObjectId() == item.getObjectId())
+			if(filtItem.getObjectId() == item.getObjectId() && (filtItem.getEnchant() == item.getEnchant()))
 			{
 				if(filtItem.getCount() < item.getCount())
 				{
@@ -287,7 +297,7 @@ public class TradeList
 	public void adjustItemRequestByItemId(ItemRequest item)
 	{
 		for(TradeItem filtItem : _items)
-			if(filtItem.getItem().getItemId() == item.getItemId())
+			if(filtItem.getItem().getItemId() == item.getItemId() && (filtItem.getEnchant() == item.getEnchant()))
 			{
 				if(filtItem.getCount() < item.getCount())
 				{
@@ -379,7 +389,7 @@ public class TradeList
 	 * @param price : int
 	 * @return
 	 */
-	public synchronized TradeItem addItemByItemId(int itemId, int count, int price)
+	public synchronized TradeItem addItemByItemId(int itemId, int count, int price, int enchant)
 	{
 		if(isLocked())
 		{
@@ -415,6 +425,7 @@ public class TradeList
 		}
 
 		TradeItem titem = new TradeItem(item, count, price);
+		titem.setEnchant(enchant);
 		_items.add(titem);
 
 		// If Player has already confirmed this trade, invalidate the confirmation
@@ -1130,18 +1141,47 @@ public class TradeList
 			}
 			
 			boolean found = false;
-			for(TradeItem ti : _items)
+			for (TradeItem ti : _items)
 			{
-				if(ti.getItem().getItemId() == item.getItemId()){
+				if (ti.getItem().getItemId() == item.getItemId())
+				{
 					
-					if(ti.getPrice() != item.getPrice()){
-						if(Config.DEBUG){
+					if (ti.getPrice() != item.getPrice())
+					{
+						if (Config.DEBUG)
+						{
 							_log.info("[PrivateStoreSell] ti.getPrice() != item.getPrice(), return false");
 						}
 						return false;
 					}
+					
+					if (ti.getEnchant() != item.getEnchant())
+					{
+						
+						player.sendMessage("Incorect enchant level.");
+						return false;
+						
+					}
+					
+					L2Object obj = L2World.getInstance().findObject(item.getObjectId());
+					if ((obj == null) || (!(obj instanceof L2ItemInstance)))
+					{
+						String msgErr = "[RequestPrivateStoreSell] player " + _owner.getName() + " tried to sell null item in a private store (buy), ban this player!";
+						Util.handleIllegalPlayerAction(_owner, msgErr, Config.DEFAULT_PUNISH);
+						return false;
+					}
+					
+					L2ItemInstance itemInstance = (L2ItemInstance) obj;
+					if (item.getEnchant() != itemInstance.getEnchantLevel())
+					{
+						String msgErr = "[RequestPrivateStoreSell] player " + _owner.getName() + " tried to change enchant level in a private store (buy), ban this player!";
+						Util.handleIllegalPlayerAction(_owner, msgErr, Config.DEFAULT_PUNISH);
+						return false;
+					}
+					
 					found = true;
 					break;
+					
 				}
 			}
 			
@@ -1379,4 +1419,6 @@ public class TradeList
 		}
 		return null;
 	}
+	
+	
 }

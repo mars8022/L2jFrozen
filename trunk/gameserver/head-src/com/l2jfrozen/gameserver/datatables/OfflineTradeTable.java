@@ -52,7 +52,7 @@ public class OfflineTradeTable
 
 	//SQL DEFINITIONS
 	private static final String SAVE_OFFLINE_STATUS = "INSERT INTO character_offline_trade (`charId`,`time`,`type`,`title`) VALUES (?,?,?,?)";
-	private static final String SAVE_ITEMS = "INSERT INTO character_offline_trade_items (`charId`,`item`,`count`,`price`) VALUES (?,?,?,?)";
+	private static final String SAVE_ITEMS = "INSERT INTO character_offline_trade_items (`charId`,`item`,`count`,`price`,`enchant`) VALUES (?,?,?,?,?)";
 	private static final String DELETE_OFFLINE_TABLE_ALL_ITEMS = "delete from character_offline_trade_items where charId=?";
 	private static final String DELETE_OFFLINE_TRADER = "DELETE FROM character_offline_trade where charId=?";
 	private static final String CLEAR_OFFLINE_TABLE = "DELETE FROM character_offline_trade";
@@ -103,6 +103,7 @@ public class OfflineTradeTable
 									stm_items.setInt(2, i.getItem().getItemId());
 									stm_items.setLong(3, i.getCount());
 									stm_items.setLong(4, i.getPrice());
+									stm_items.setLong(5, i.getEnchant());
 									stm_items.executeUpdate();
 									stm_items.clearParameters();
 								}
@@ -112,12 +113,14 @@ public class OfflineTradeTable
 								if (!Config.OFFLINE_TRADE_ENABLE)
 									continue;
 								title = pc.getSellList().getTitle();
+								pc.getSellList().updateItems();
 								for (TradeItem i : pc.getSellList().getItems())
 								{
 									stm_items.setInt(1, pc.getObjectId());
 									stm_items.setInt(2, i.getObjectId());
 									stm_items.setLong(3, i.getCount());
 									stm_items.setLong(4, i.getPrice());
+									stm_items.setLong(5, i.getEnchant());
 									stm_items.executeUpdate();
 									stm_items.clearParameters();
 								}
@@ -133,6 +136,7 @@ public class OfflineTradeTable
 									stm_items.setInt(2, i.getRecipeId());
 									stm_items.setLong(3, 0);
 									stm_items.setLong(4, i.getCost());
+									stm_items.setLong(5, 0);
 									stm_items.executeUpdate();
 									stm_items.clearParameters();
 								}
@@ -225,7 +229,7 @@ public class OfflineTradeTable
 						case L2PcInstance.STORE_PRIVATE_BUY:
 							while (items.next())
 							{
-								player.getBuyList().addItemByItemId(items.getInt(2), items.getInt(3), items.getInt(4));
+								player.getBuyList().addItemByItemId(items.getInt(2), items.getInt(3), items.getInt(4), items.getInt(5));
 							}
 							player.getBuyList().setTitle(rs.getString("title"));
 							break;
@@ -233,7 +237,7 @@ public class OfflineTradeTable
 						case L2PcInstance.STORE_PRIVATE_PACKAGE_SELL:
 							while (items.next())
 							{
-								player.getSellList().addItem(items.getInt(2), items.getInt(3), items.getInt(4));
+								player.getSellList().addItemByItemId(items.getInt(2), items.getInt(3), items.getInt(4), items.getInt(5));
 							}
 							player.getSellList().setTitle(rs.getString("title"));
 							player.getSellList().setPackaged(type == L2PcInstance.STORE_PRIVATE_PACKAGE_SELL);
@@ -340,6 +344,7 @@ public class OfflineTradeTable
 							stm_items.setInt(2, i.getItem().getItemId());
 							stm_items.setLong(3, i.getCount());
 							stm_items.setLong(4, i.getPrice());
+							stm_items.setLong(5, i.getEnchant());
 							stm_items.executeUpdate();
 							stm_items.clearParameters();
 						}
@@ -349,12 +354,14 @@ public class OfflineTradeTable
 						if (!Config.OFFLINE_TRADE_ENABLE)
 							break;
 						title = pc.getSellList().getTitle();
+						pc.getSellList().updateItems();
 						for (TradeItem i : pc.getSellList().getItems())
 						{
 							stm_items.setInt(1, pc.getObjectId());
 							stm_items.setInt(2, i.getObjectId());
 							stm_items.setLong(3, i.getCount());
 							stm_items.setLong(4, i.getPrice());
+							stm_items.setLong(5, i.getEnchant());
 							stm_items.executeUpdate();
 							stm_items.clearParameters();
 						}
@@ -370,6 +377,7 @@ public class OfflineTradeTable
 							stm_items.setInt(2, i.getRecipeId());
 							stm_items.setLong(3, 0);
 							stm_items.setLong(4, i.getCost());
+							stm_items.setLong(5, 0);
 							stm_items.executeUpdate();
 							stm_items.clearParameters();
 						}

@@ -650,7 +650,8 @@ public final class L2PcInstance extends L2PlayableInstance
 				return;
 						
 			// Like L2OFF you can use cupid bow skills on peace zone
-			if (skill.isOffensive() && isInsidePeaceZone(L2PcInstance.this, getTarget()) && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)) //check limited to active target
+			// Like L2OFF players can use TARGET_AURA skills on peace zone, all targets will be ignored.
+			if (skill.isOffensive() && (isInsidePeaceZone(L2PcInstance.this, getTarget()) && skill.getTargetType() != SkillTargetType.TARGET_AURA) && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)) //check limited to active target
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
@@ -3237,7 +3238,7 @@ private int _reviveRequested = 0;
 	 */
 	public void refreshMasteryPenality()
 	{
-		if (!Config.MASTERY_PENALTY || this.getLevel()<=Config.LEVEL_TO_GET_PENALITY)
+		if (!Config.MASTERY_PENALTY || this.getLevel() <= Config.LEVEL_TO_GET_PENALITY)
 			return;
 		
 		_heavy_mastery = false;
@@ -3246,70 +3247,73 @@ private int _reviveRequested = 0;
 		
 		L2Skill[] char_skills = this.getAllSkills();
 		
-		for(L2Skill actual_skill : char_skills){
-			
-			if(actual_skill.getName().contains("Heavy Armor Mastery")){
+		for (L2Skill actual_skill : char_skills)
+		{		
+			if (actual_skill.getName().contains("Heavy Armor Mastery"))
+			{
 				_heavy_mastery = true;
 			}
 			
-			if(actual_skill.getName().contains("Light Armor Mastery")){
+			if (actual_skill.getName().contains("Light Armor Mastery"))
+			{
 				_light_mastery = true;
 			}
 			
-			if(actual_skill.getName().contains("Robe Mastery")){
+			if (actual_skill.getName().contains("Robe Mastery"))
+			{
 				_robe_mastery = true;
 			}
-			
 		}
 		
 		int newMasteryPenalty = 0;
 		
-		if(!_heavy_mastery && !_light_mastery && !_robe_mastery)
+		if (!_heavy_mastery && !_light_mastery && !_robe_mastery)
 		{
-			//not completed 1st class transfer or not acquired yet the mastery skills
+			// not completed 1st class transfer or not acquired yet the mastery skills
 			newMasteryPenalty = 0;
 		}
 		else
 		{
-			for(L2ItemInstance item : getInventory().getItems())
+			for (L2ItemInstance item : getInventory().getItems())
 			{
-				if(item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
+				if (item != null && item.isEquipped() && item.getItem() instanceof L2Armor)
 				{
+					// No penality for formal wear
+					if (item.getItemId() == 6408)
+						continue;
+					
 					L2Armor armor_item = (L2Armor) item.getItem();
 					
-					switch(armor_item.getItemType()){
-						
-						case HEAVY:{
-							
-							if(!_heavy_mastery)
+					switch (armor_item.getItemType())
+					{				
+						case HEAVY:
+						{							
+							if (!_heavy_mastery)
 								newMasteryPenalty++;
 						}
-						break;
-						case LIGHT:{
-							
-							if(!_light_mastery)
+							break;
+						case LIGHT:
+						{							
+							if (!_light_mastery)
 								newMasteryPenalty++;
 						}
-						break;
-						case MAGIC:{
-							
-							if(!_robe_mastery)
-								newMasteryPenalty++;
-							
+							break;
+						case MAGIC:
+						{						
+							if (!_robe_mastery)
+								newMasteryPenalty++;							
 						}
-						break;
-
+							break;					
 					}
 				}
-			}
-
+			}			
 		}
 		
-		if(_masteryPenalty!=newMasteryPenalty){
-			
+		if (_masteryPenalty != newMasteryPenalty)
+		{			
 			int penalties = _masteryWeapPenalty + _expertisePenalty + newMasteryPenalty;
 			
-			if(penalties > 0)
+			if (penalties > 0)
 			{
 				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
 			}
@@ -3320,9 +3324,7 @@ private int _reviveRequested = 0;
 			
 			sendPacket(new EtcStatusUpdate(this));
 			_masteryPenalty = newMasteryPenalty;
-			
 		}
-		
 	}
 	
 	/**
