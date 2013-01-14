@@ -288,29 +288,32 @@ public class PcInventory extends Inventory
 	 * 
 	 * @param item : L2ItemInstance to be adjusted
 	 * @param list 
+	 * @return 
 	 */
-	public void adjustAvailableItem(TradeItem item, List<TradeList.TradeItem> list)
+	public TradeItem adjustAvailableItem(TradeItem item, List<TradeList.TradeItem> list)
 	{
 		for(L2ItemInstance adjItem : _items)
 		{
 			if(adjItem.isStackable()){
 				
-				if(adjItem.getItemId() == item.getItem().getItemId())
+				if(adjItem.getItemId() == item.getItem().getItemId()
+					 && (adjItem.getEnchantLevel() == item.getEnchant()))
 				{
 					item.setObjectId(adjItem.getObjectId());
-					item.setEnchant(adjItem.getEnchantLevel());
-
-					if(adjItem.getCount() < item.getCount())
-					{
-						item.setCount(adjItem.getCount());
+					
+					if (adjItem.getCount() < item.getCount()) 
+					 	item.setCurCount(adjItem.getCount()); 
+					else { 
+						item.setCurCount(item.getCount()); 
 					}
 
-					return;
+					return item;
 				}
 				
 			}else{
 				
-				if(adjItem.getItemId() == item.getItem().getItemId())
+				if(adjItem.getItemId() == item.getItem().getItemId()
+					&& (adjItem.getEnchantLevel() == item.getEnchant()))
 				{
 					boolean found = false;
 					for(TradeList.TradeItem actual:list){
@@ -328,17 +331,17 @@ public class PcInventory extends Inventory
 					}
 					
 					item.setObjectId(adjItem.getObjectId());
-					item.setEnchant(adjItem.getEnchantLevel());
-
-					if(adjItem.getCount() < item.getCount())
-					{
-						item.setCount(adjItem.getCount());
+					if (adjItem.getCount() < item.getCount()) 
+					 	item.setCurCount(adjItem.getCount()); 
+					else { 
+						item.setCurCount(item.getCount()); 
 					}
-					return;
+					return item;
 				}
 			}
 		}
-		item.setCount(0);
+		item.setCurCount(0);
+		return item;
 	}
 
 	/**

@@ -56,7 +56,7 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		{
 			int objectId = readD();
 			int itemId = readD();
-			readH(); //TODO analyse this
+			int enchant = readH(); 
 			readH(); //TODO analyse this
 			long count = readD();
 			int price = readD();
@@ -69,7 +69,7 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 				_items = null;
 				return;
 			}
-			_items[i] = new ItemRequest(objectId, itemId, (int) count, price);
+			_items[i] = new ItemRequest(objectId, itemId, enchant, (int)count, price);
 			priceTotal += price * count;
 		}
 
@@ -91,6 +91,7 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 				_log.info("Requested Item ObjectID: "+_items[i].getObjectId());
 				_log.info("Requested Item Id: "+_items[i].getItemId());
 				_log.info("Requested Item count: "+_items[i].getCount());
+				_log.info("Requested Item enchant: "+_items[i].getCount());
 				_log.info("Requested Item price: "+_items[i].getPrice());
 				
 			}

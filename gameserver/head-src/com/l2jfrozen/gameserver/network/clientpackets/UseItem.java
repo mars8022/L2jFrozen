@@ -471,7 +471,8 @@ public final class UseItem extends L2GameClientPacket
 			}
 			else
 			{
-				if (item.getItem() instanceof L2Weapon && ((L2Weapon) item.getItem()).getItemType() == L2WeaponType.BOW)
+				// Restrict bow weapon for class except Cupid bow.
+				if (item.getItem() instanceof L2Weapon && ((L2Weapon) item.getItem()).getItemType() == L2WeaponType.BOW && !item.isCupidBow())
 				{
 					
 					if (Config.DISABLE_BOW_CLASSES.contains(activeChar.getClassId().getId()))

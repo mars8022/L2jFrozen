@@ -12,5 +12,6 @@ CREATE TABLE `character_offline_trade_items` (
   `charId` int(10) NOT NULL DEFAULT '0',
   `item` int(10) NOT NULL DEFAULT '0',
   `count` int(20) NOT NULL DEFAULT '0',
-  `price` int(20) NOT NULL DEFAULT '0'
+  `price` int(20) NOT NULL DEFAULT '0',
+  `enchant` int(20) NOT NULL DEFAULT '0'
 ) ;

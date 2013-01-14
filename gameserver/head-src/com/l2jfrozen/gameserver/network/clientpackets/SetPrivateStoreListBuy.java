@@ -44,13 +44,14 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			return;
 		}
 
-		_items = new int[_count * 3];
+		_items = new int[_count * 4];
 
 		for(int x = 0; x < _count; x++)
 		{
 			int itemId = readD();
-			_items[x * 3 + 0] = itemId;
-			readH();//it's the enchant value, but the interlude client has a bug, so it dnt send back the correct enchant value
+			_items[x * 4 + 0] = itemId;
+			_items[(x * 4 + 3)] = readH(); 
+			//readH();//it's the enchant value, but the interlude client has a bug, so it dnt send back the correct enchant value
 			readH();//TODO analyse this
 			long cnt = readD();
 
@@ -61,9 +62,9 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 				return;
 			}
 
-			_items[x * 3 + 1] = (int) cnt;
+			_items[x * 4 + 1] = (int) cnt;
 			int price = readD();
-			_items[x * 3 + 2] = price;
+			_items[x * 4 + 2] = price;
 		}
 	}
 
@@ -102,11 +103,12 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 		int cost = 0;
 		for(int i = 0; i < _count; i++)
 		{
-			int itemId = _items[i * 3 + 0];
-			int count = _items[i * 3 + 1];
-			int price = _items[i * 3 + 2];
+			int itemId = _items[i * 4 + 0];
+			int count = _items[i * 4 + 1];
+			int price = _items[i * 4 + 2];
+			int enchant = _items[i * 4 + 3];
 
-			tradeList.addItemByItemId(itemId, count, price);
+			tradeList.addItemByItemId(itemId, count, price, enchant);
 			cost += count * price;
 			
 			if (cost > Integer.MAX_VALUE)

@@ -24,36 +24,38 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.3.2.6 $ $Date: 2005/03/27 15:29:57 $
  */
 public class PrivateStoreListSell extends L2GameServerPacket
 {
-	//	private static final String _S__B4_PRIVATEBUYLISTSELL = "[S] 9b PrivateBuyListSell";
+	// private static final String _S__B4_PRIVATEBUYLISTSELL = "[S] 9b PrivateBuyListSell";
 	private static final String _S__B4_PRIVATESTORELISTSELL = "[S] 9b PrivateStoreListSell";
 	private L2PcInstance _storePlayer;
 	private L2PcInstance _activeChar;
 	private int _playerAdena;
 	private boolean _packageSale;
 	private TradeList.TradeItem[] _items;
-
+	
 	// player's private shop
 	public PrivateStoreListSell(L2PcInstance player, L2PcInstance storePlayer)
 	{
 		_activeChar = player;
 		_storePlayer = storePlayer;
 		
-		if(Config.SELL_BY_ITEM){
+		if (Config.SELL_BY_ITEM)
+		{
 			CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
 			_activeChar.sendPacket(cs11);
 			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
-		}else
+		}
+		else
 			_playerAdena = _activeChar.getAdena();
 		
+		_storePlayer.getSellList().updateItems();
 		_items = _storePlayer.getSellList().getItems();
 		_packageSale = _storePlayer.getSellList().isPackaged();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -61,9 +63,9 @@ public class PrivateStoreListSell extends L2GameServerPacket
 		writeD(_storePlayer.getObjectId());
 		writeD(_packageSale ? 1 : 0);
 		writeD(_playerAdena);
-
+		
 		writeD(_items.length);
-		for(TradeList.TradeItem item : _items)
+		for (TradeList.TradeItem item : _items)
 		{
 			writeD(item.getItem().getType2());
 			writeD(item.getObjectId());
@@ -73,12 +75,13 @@ public class PrivateStoreListSell extends L2GameServerPacket
 			writeH(item.getEnchant());
 			writeH(0x00);
 			writeD(item.getItem().getBodyPart());
-			writeD(item.getPrice()); //your price
-			writeD(item.getItem().getReferencePrice()); //store price
+			writeD(item.getPrice()); // your price
+			writeD(item.getItem().getReferencePrice()); // store price
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
