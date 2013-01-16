@@ -91,11 +91,11 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTownWar;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTvTEngine;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminUnblockIp;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminVIPEngine;
+import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminWho;
 import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminZone;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.4.5 $ $Date: 2005/03/27 15:30:09 $
  */
 public class AdminCommandHandler
@@ -103,18 +103,18 @@ public class AdminCommandHandler
 	protected static final Logger _log = Logger.getLogger(AdminCommandHandler.class.getName());
 	
 	private static AdminCommandHandler _instance;
-
+	
 	private FastMap<String, IAdminCommandHandler> _datatable;
-
+	
 	public static AdminCommandHandler getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new AdminCommandHandler();
 		}
 		return _instance;
 	}
-
+	
 	private AdminCommandHandler()
 	{
 		_datatable = new FastMap<String, IAdminCommandHandler>();
@@ -146,7 +146,7 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminChristmas());
 		registerAdminCommandHandler(new AdminBan());
 		registerAdminCommandHandler(new AdminPolymorph());
-		//registerAdminCommandHandler(new AdminBanChat());
+		// registerAdminCommandHandler(new AdminBanChat());
 		registerAdminCommandHandler(new AdminReload());
 		registerAdminCommandHandler(new AdminKick());
 		registerAdminCommandHandler(new AdminMonsterRace());
@@ -185,12 +185,13 @@ public class AdminCommandHandler
 		registerAdminCommandHandler(new AdminBuffs());
 		registerAdminCommandHandler(new AdminAio());
 		registerAdminCommandHandler(new AdminCharSupervision());
-		//ATTENTION: adding new command handlers, you have to change the
-		//sql file containing the access levels rights
+		registerAdminCommandHandler(new AdminWho()); // L2OFF command
+		// ATTENTION: adding new command handlers, you have to change the
+		// sql file containing the access levels rights
 		
 		_log.info("AdminCommandHandler: Loaded " + _datatable.size() + " handlers.");
 		
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			String[] commands = new String[_datatable.keySet().size()];
 			
@@ -198,27 +199,29 @@ public class AdminCommandHandler
 			
 			Arrays.sort(commands);
 			
-			for(String command : commands){
-				if(AdminCommandAccessRights.getInstance().accessRightForCommand(command)<0){
-					_log.info("ATTENTION: admin command "+command+" has not an access right");
+			for (String command : commands)
+			{
+				if (AdminCommandAccessRights.getInstance().accessRightForCommand(command) < 0)
+				{
+					_log.info("ATTENTION: admin command " + command + " has not an access right");
 				}
 			}
 			
 		}
 		
 	}
-
+	
 	public void registerAdminCommandHandler(IAdminCommandHandler handler)
 	{
 		String[] ids = handler.getAdminCommandList();
-		for(String element : ids)
+		for (String element : ids)
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
 				_log.info("Adding handler for command " + element);
 			}
-
-			if(_datatable.keySet().contains(new String(element)))
+			
+			if (_datatable.keySet().contains(new String(element)))
 			{
 				_log.log(Level.WARNING, "Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
 			}
@@ -229,21 +232,21 @@ public class AdminCommandHandler
 		}
 		ids = null;
 	}
-
+	
 	public IAdminCommandHandler getAdminCommandHandler(String adminCommand)
 	{
 		String command = adminCommand;
-
-		if(adminCommand.indexOf(" ") != -1)
+		
+		if (adminCommand.indexOf(" ") != -1)
 		{
 			command = adminCommand.substring(0, adminCommand.indexOf(" "));
 		}
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
 			_log.info("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
 		}
-
+		
 		return _datatable.get(command);
 	}
 }

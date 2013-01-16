@@ -48,7 +48,7 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 			_playerAdena = _activeChar.getAdena();
 		}
 		
-		_itemList = _activeChar.getInventory().getUniqueItems(false, true);
+		_itemList = _activeChar.getInventory().getUniqueItems(false, true, true);
 		_buyList = _activeChar.getBuyList().getItems();
 	}
 	

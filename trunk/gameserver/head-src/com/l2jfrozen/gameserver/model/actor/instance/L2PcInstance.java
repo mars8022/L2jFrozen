@@ -12413,6 +12413,16 @@ private int _reviveRequested = 0;
 			}
 		}
 		
+		// Like L2OFF if you are mounted on wyvern you can't use own skills
+		if (isFlying())
+		{
+			if (skill_id != 327 && skill_id != 4289 && !skill.isPotion())
+			{
+				sendMessage("You cannot use skills while riding a wyvern.");
+				return;
+			}
+		}
+		
 		// Like L2OFF if you have a summon you can't summon another one (ignore cubics)
 		if(sklType == L2Skill.SkillType.SUMMON && skill instanceof L2SkillSummon && !((L2SkillSummon) skill).isCubic())
 		{

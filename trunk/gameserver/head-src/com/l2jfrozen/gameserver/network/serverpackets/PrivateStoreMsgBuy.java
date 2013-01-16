@@ -22,7 +22,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class PrivateStoreMsgBuy extends L2GameServerPacket
@@ -30,16 +29,16 @@ public class PrivateStoreMsgBuy extends L2GameServerPacket
 	private static final String _S__D2_PRIVATESTOREMSGBUY = "[S] b9 PrivateStoreMsgBuy";
 	private L2PcInstance _activeChar;
 	private String _storeMsg;
-
+	
 	public PrivateStoreMsgBuy(L2PcInstance player)
 	{
 		_activeChar = player;
-		if(_activeChar.getBuyList() != null)
+		if (_activeChar.getBuyList() != null)
 		{
 			_storeMsg = _activeChar.getBuyList().getTitle();
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -47,8 +46,9 @@ public class PrivateStoreMsgBuy extends L2GameServerPacket
 		writeD(_activeChar.getObjectId());
 		writeS(_storeMsg);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -56,5 +56,5 @@ public class PrivateStoreMsgBuy extends L2GameServerPacket
 	{
 		return _S__D2_PRIVATESTOREMSGBUY;
 	}
-
+	
 }

@@ -16,33 +16,32 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.network.clientpackets;
+package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-public class RequestPrivateStoreQuitBuy extends L2GameClientPacket
+public class AdminWho implements IAdminCommandHandler
 {
-	@Override
-	protected void readImpl()
+	private static final String[] ADMIN_COMMANDS =
 	{
-		// trigger
+		"admin_who"
+	};
+	
+	@Override
+	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	{
+		if (command.equalsIgnoreCase("admin_who"))
+		{
+			activeChar.sendMessage("SYS: current(" + L2World.getInstance().getAllPlayers().size() + "), playing(" + L2World.getInstance().getAllPlayers().size() + ")");
+		}
+		return true;
 	}
 	
 	@Override
-	protected void runImpl()
+	public String[] getAdminCommandList()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if (player == null)
-			return;
-		
-		player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
-		player.standUp();
-		player.broadcastUserInfo();
-	}
-	
-	@Override
-	public String getType()
-	{
-		return "[C] 93 RequestPrivateStoreQuitBuy";
+		return ADMIN_COMMANDS;
 	}
 }

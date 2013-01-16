@@ -28,6 +28,7 @@
  */
 package com.l2jfrozen.gameserver.util;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
@@ -99,12 +100,20 @@ public final class Broadcast
 			_log.fine("players to notify:" + character.getKnownList().getKnownPlayers().size() + " packet:" + mov.getType());
 		}
 		
-		for (L2PcInstance player : character.getKnownList().getKnownPlayers().values())
+		final Collection<L2PcInstance> knownlist_players = character.getKnownList().getKnownPlayers().values();
+		
+		for (L2PcInstance player : knownlist_players)
 		{
+			if(player == null)
+				continue;
+			
 			/*
 			 * TEMP FIX: If player is not visible don't send packets broadcast to all his KnowList. This will avoid GM detection with l2net and olympiad's crash. We can now find old problems with invisible mode.
 			 */
-			if (character instanceof L2PcInstance && !player.isGM() && (((L2PcInstance) character).getAppearance().getInvisible() || ((L2PcInstance) character).inObserverMode()))
+			if (character instanceof L2PcInstance 
+				&& !player.isGM() 
+				&& (((L2PcInstance) character).getAppearance().getInvisible() 
+					|| ((L2PcInstance) character).inObserverMode()))
 				return;
 			
 			try

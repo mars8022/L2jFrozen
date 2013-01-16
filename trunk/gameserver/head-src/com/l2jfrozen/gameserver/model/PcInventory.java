@@ -94,12 +94,12 @@ public class PcInventory extends Inventory
 	 * 
 	 * @return L2ItemInstance : items in inventory
 	 */
-	public L2ItemInstance[] getUniqueItems(boolean allowAdena, boolean allowAncientAdena)
+	public L2ItemInstance[] getUniqueItems(boolean allowAdena, boolean allowAncientAdena, boolean allowEquipped)
 	{
-		return getUniqueItems(allowAdena, allowAncientAdena, true);
+		return getUniqueItems(allowAdena, allowAncientAdena, true, allowEquipped);
 	}
 
-	public L2ItemInstance[] getUniqueItems(boolean allowAdena, boolean allowAncientAdena, boolean onlyAvailable)
+	public L2ItemInstance[] getUniqueItems(boolean allowAdena, boolean allowAncientAdena, boolean onlyAvailable, boolean allowEquipped)
 	{
 		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
 
@@ -125,7 +125,8 @@ public class PcInventory extends Inventory
 					break;
 				}
 			}
-			if(!isDuplicate && (!onlyAvailable || item.getItem().isSellable() && item.isAvailable(getOwner(), false)))
+			if(!isDuplicate 
+				&& (!onlyAvailable || item.getItem().isSellable() && item.isAvailable(getOwner(), false, allowEquipped)))
 			{
 				list.add(item);
 			}
@@ -139,15 +140,16 @@ public class PcInventory extends Inventory
 	 * there is a difference in enchantment level.
 	 * @param allowAdena 
 	 * @param allowAncientAdena 
+	 * @param allowEquipped 
 	 * 
 	 * @return L2ItemInstance : items in inventory
 	 */
-	public L2ItemInstance[] getUniqueItemsByEnchantLevel(boolean allowAdena, boolean allowAncientAdena)
+	public L2ItemInstance[] getUniqueItemsByEnchantLevel(boolean allowAdena, boolean allowAncientAdena, boolean allowEquipped)
 	{
-		return getUniqueItemsByEnchantLevel(allowAdena, allowAncientAdena, true);
+		return getUniqueItemsByEnchantLevel(allowAdena, allowAncientAdena, true, allowEquipped);
 	}
 
-	public L2ItemInstance[] getUniqueItemsByEnchantLevel(boolean allowAdena, boolean allowAncientAdena, boolean onlyAvailable)
+	public L2ItemInstance[] getUniqueItemsByEnchantLevel(boolean allowAdena, boolean allowAncientAdena, boolean onlyAvailable, boolean allowEquipped)
 	{
 		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
 
@@ -171,7 +173,7 @@ public class PcInventory extends Inventory
 					break;
 				}
 
-			if(!isDuplicate && (!onlyAvailable || item.getItem().isSellable() && item.isAvailable(getOwner(), false)))
+			if(!isDuplicate && (!onlyAvailable || item.getItem().isSellable() && item.isAvailable(getOwner(), false, allowEquipped)))
 			{
 				list.add(item);
 			}
@@ -234,7 +236,7 @@ public class PcInventory extends Inventory
 		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
 
 		for(L2ItemInstance item : _items)
-			if(item != null && item.isAvailable(getOwner(), allowAdena))
+			if(item != null && item.isAvailable(getOwner(), allowAdena, false))
 			{
 				list.add(item);
 			}
@@ -271,7 +273,7 @@ public class PcInventory extends Inventory
 		List<TradeList.TradeItem> list = new FastList<TradeList.TradeItem>();
 
 		for(L2ItemInstance item : _items)
-			if(item.isAvailable(getOwner(), false))
+			if(item.isAvailable(getOwner(), false, false))
 			{
 				TradeList.TradeItem adjItem = tradeList.adjustAvailableItem(item);
 				if(adjItem != null)
