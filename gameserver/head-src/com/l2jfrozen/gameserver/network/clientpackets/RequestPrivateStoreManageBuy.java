@@ -33,17 +33,18 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 	
 	@Override
 	protected void readImpl()
-	{}
-
+	{
+	}
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		if (player == null)
 			return;
-
+		
 		// Fix for privatestore exploit during login
-		if(!player.isVisible() || player.isLocked())
+		if (!player.isVisible() || player.isLocked())
 		{
 			Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " try exploit at login with privatestore!", Config.DEFAULT_PUNISH);
 			_log.warning("Player " + player.getName() + " try exploit at login with privatestore!");
@@ -51,55 +52,56 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 		}
 		
 		// Player shouldn't be able to set stores if he/she is alike dead (dead or fake death)
-		if(player.isAlikeDead())
+		if (player.isAlikeDead())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(player.isInOlympiadMode())
+		
+		if (player.isInOlympiadMode())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
 		// Like L2OFF - You can't open buy/sell when you are sitting
-		if(player.isSitting() && player.getPrivateStoreType() == 0)
+		if (player.isSitting() && player.getPrivateStoreType() == 0)
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
-		if(player.isSitting() && player.getPrivateStoreType() != 0)
+		if (player.isSitting() && player.getPrivateStoreType() != 0)
 		{
 			player.standUp();
 		}
-
-		if(player.getMountType() != 0)
+		
+		if (player.getMountType() != 0)
 			return;
-
-		if(player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY + 1)
+		
+		if (player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY + 1)
 		{
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
 		}
-
-		if(player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE)
+		
+		if (player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE)
 		{
-			if(player.isSitting())
+			if (player.isSitting())
 			{
 				player.standUp();
 			}
-
-			if(Config.SELL_BY_ITEM){
+			
+			if (Config.SELL_BY_ITEM)
+			{
 				CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
 				player.sendPacket(cs11);
 			}
-				
+			
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_BUY + 1);
 			player.sendPacket(new PrivateStoreManageListBuy(player));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

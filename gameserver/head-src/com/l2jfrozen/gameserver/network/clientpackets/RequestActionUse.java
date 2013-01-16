@@ -315,13 +315,15 @@ public final class RequestActionUse extends L2GameClientPacket
 
 						if(activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND) != null || activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND) != null)
 						{
+							if(activeChar.isFlying())
+							{
+								// Remove skill Wyvern Breath
+								activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+								activeChar.sendSkillList();
+							}
+							
 							if(activeChar.setMountType(0))
 							{
-								if(activeChar.isFlying())
-								{
-									activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
-								}
-
 								Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 								activeChar.broadcastPacket(dismount);
 								activeChar.setMountObjectID(0);
@@ -335,12 +337,15 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				else if(activeChar.isMounted())
 				{
+					if(activeChar.isFlying())
+					{		
+						// Remove skill Wyvern Breath
+						activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
+						activeChar.sendSkillList();
+					}
+					
 					if(activeChar.setMountType(0))
 					{
-						if(activeChar.isFlying())
-						{
-							activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
-						}
 						Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 						activeChar.broadcastPacket(dismount);
 						activeChar.setMountObjectID(0);

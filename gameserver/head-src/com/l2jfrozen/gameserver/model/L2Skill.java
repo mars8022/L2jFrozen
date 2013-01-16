@@ -1759,7 +1759,8 @@ public abstract class L2Skill
 			}
 			case TARGET_AREA:
 			{
-				if(!(target instanceof L2Attackable || target instanceof L2PlayableInstance) || //   Target is not L2Attackable or L2PlayableInstance
+				// Like L2OFF players can use TARGET_AREA skills on NPC in peacezone
+				if(!(target instanceof L2Attackable || target instanceof L2PlayableInstance || target instanceof L2NpcInstance) || //   Target is not L2Attackable or L2PlayableInstance or L2NpcInstance
 				getCastRange() >= 0 && (target == activeChar || target.isAlikeDead())) //target is null or self or dead/faking
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));

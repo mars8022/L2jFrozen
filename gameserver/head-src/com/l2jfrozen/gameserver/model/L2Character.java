@@ -4794,8 +4794,8 @@ public abstract class L2Character extends L2Object
 					{
 						_effects.get(i).addIcon(mi);
 					}
-					// Like L2OFF toggle must not be showed on party buff list
-					if (ps != null && !_effects.get(i).getSkill().isToggle())
+					// Like L2OFF toggle and potions must not be showed on party buff list
+					if (ps != null && !_effects.get(i).getSkill().isToggle() && !_effects.get(i).getSkill().isPotion())
 					{
 						_effects.get(i).addPartySpelledIcon(ps);
 					}

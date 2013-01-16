@@ -744,11 +744,16 @@ public final class L2ItemInstance extends L2Object
 	 * @param allowAdena the allow adena
 	 * @return boolean
 	 */
-	public boolean isAvailable(L2PcInstance player, boolean allowAdena)
+	public boolean isAvailable(L2PcInstance player, boolean allowAdena, boolean allowEquipped)
 	{
-		return !isEquipped() && getItem().getType2() != 3 && (getItem().getType2() != 4 || getItem().getType1() != 1) // TODO: what does this mean?
-				&& (player.getPet() == null || getObjectId() != player.getPet().getControlItemId()) // Not Control item of currently summoned pet
-				&& player.getActiveEnchantItem() != this && (allowAdena || getItemId() != 57) && (player.getCurrentSkill() == null || player.getCurrentSkill().getSkill().getItemConsumeId() != getItemId()) && isTradeable();
+		return (!isEquipped() || allowEquipped)
+			&& getItem().getType2() != L2Item.TYPE2_QUEST 
+			&& (getItem().getType2() != L2Item.TYPE2_MONEY || getItem().getType1() != L2Item.TYPE1_SHIELD_ARMOR) // TODO: what does this mean?
+			&& (player.getPet() == null || getObjectId() != player.getPet().getControlItemId()) // Not Control item of currently summoned pet
+			&& player.getActiveEnchantItem() != this 
+			&& (allowAdena || getItemId() != 57) 
+			&& (player.getCurrentSkill() == null || player.getCurrentSkill().getSkill().getItemConsumeId() != getItemId()) 
+			&& isTradeable();
 	}
 
 	/* (non-Javadoc)

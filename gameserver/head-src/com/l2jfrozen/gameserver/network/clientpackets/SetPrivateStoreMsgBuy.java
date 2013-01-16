@@ -24,31 +24,31 @@ import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreMsgBuy;
 public final class SetPrivateStoreMsgBuy extends L2GameClientPacket
 {
 	private String _storeMsg;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_storeMsg = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance player = getClient().getActiveChar();
-		if(player == null || player.getBuyList() == null)
+		if (player == null || player.getBuyList() == null)
 			return;
-
-		if(_storeMsg.length() < 30)
+		
+		if (_storeMsg.length() < 30)
 		{
 			player.getBuyList().setTitle(_storeMsg);
 			player.sendPacket(new PrivateStoreMsgBuy(player));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] 94 SetPrivateStoreMsgBuy";
 	}
-
+	
 }
