@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.TradeList;
+import com.l2jfrozen.gameserver.model.TradeList.TradeItem;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
@@ -67,18 +68,21 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 		writeD(_playerAdena);
 		
 		// section2
-		writeD(_itemList.length); // for potential sells
+		writeD(_itemList.length - _sellList.length); // for potential sells
 		for (TradeList.TradeItem item : _itemList)
 		{
-			writeD(item.getItem().getType2());
-			writeD(item.getObjectId());
-			writeD(item.getItem().getItemId());
-			writeD(item.getCount());
-			writeH(0);
-			writeH(item.getEnchant());// enchant lvl
-			writeH(0);
-			writeD(item.getItem().getBodyPart());
-			writeD(item.getPrice()); // store price
+			if (isItemInSelling(item) == false)
+			{
+				writeD(item.getItem().getType2());
+				writeD(item.getObjectId());
+				writeD(item.getItem().getItemId());
+				writeD(item.getCount());
+				writeH(0);
+				writeH(item.getEnchant());// enchant lvl
+				writeH(0);
+				writeD(item.getItem().getBodyPart());
+				writeD(item.getPrice()); // store price
+			}
 		}
 		// section 3
 		writeD(_sellList.length); // count for any items already added for sell
@@ -95,6 +99,18 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 			writeD(item.getPrice());// your price
 			writeD(item.getItem().getReferencePrice()); // store price
 		}
+	}
+	
+	private boolean isItemInSelling(TradeItem item_)
+	{
+		for (TradeList.TradeItem itemSell : _sellList)
+		{
+			if (itemSell.getObjectId() == item_.getObjectId())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*

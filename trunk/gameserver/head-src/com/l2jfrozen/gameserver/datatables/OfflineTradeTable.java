@@ -237,7 +237,7 @@ public class OfflineTradeTable
 						case L2PcInstance.STORE_PRIVATE_PACKAGE_SELL:
 							while (items.next())
 							{
-								player.getSellList().addItemByItemId(items.getInt(2), items.getInt(3), items.getInt(4), items.getInt(5));
+								player.getSellList().addItem(items.getInt(2), items.getInt(3), items.getInt(4));
 							}
 							player.getSellList().setTitle(rs.getString("title"));
 							player.getSellList().setPackaged(type == L2PcInstance.STORE_PRIVATE_PACKAGE_SELL);

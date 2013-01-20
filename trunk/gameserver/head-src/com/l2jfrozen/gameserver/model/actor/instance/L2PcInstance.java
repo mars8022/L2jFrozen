@@ -3373,7 +3373,7 @@ private int _reviveRequested = 0;
 	 */
 	public void refreshMasteryWeapPenality()
 	{
-		if (!Config.MASTERY_WEAPON_PENALTY || this.getLevel()<=Config.LEVEL_TO_GET_WEAPON_PENALITY)
+		if (!Config.MASTERY_WEAPON_PENALTY || this.getLevel() <= Config.LEVEL_TO_GET_WEAPON_PENALITY)
 			return;
 		
 		_blunt_mastery = false;
@@ -3442,95 +3442,87 @@ private int _reviveRequested = 0;
 		
 		int newMasteryPenalty = 0;
 		
-		if(!_bow_mastery
-				&& !_blunt_mastery
-				&& !_dagger_mastery 
-				&& !_fist_mastery
-				&& !_dual_mastery
-				&& !_pole_mastery
-				&& !_sword_mastery 
-				&& !_2hands_mastery){ //not completed 1st class transfer or not acquired yet the mastery skills
-			
+		if (!_bow_mastery && !_blunt_mastery && !_dagger_mastery && !_fist_mastery && !_dual_mastery && !_pole_mastery && !_sword_mastery && !_2hands_mastery)
+		{ // not completed 1st class transfer or not acquired yet the mastery skills
 			newMasteryPenalty = 0;
-		
-		}else{
-			
-			for(L2ItemInstance item : getInventory().getItems())
+		}
+		else
+		{
+			for (L2ItemInstance item : getInventory().getItems())
 			{
-				if(item != null && item.isEquipped() && item.getItem() instanceof L2Weapon && !isCursedWeaponEquiped())
+				if (item != null && item.isEquipped() && item.getItem() instanceof L2Weapon && !isCursedWeaponEquiped())
 				{
+					// No penality for cupid's bow
+					if (item.isCupidBow())
+						continue;
+					
 					L2Weapon weap_item = (L2Weapon) item.getItem();
 					
-					switch(weap_item.getItemType()){
-						
+					switch (weap_item.getItemType())
+					{
+					
 						case BIGBLUNT:
-						case BIGSWORD:{
-							
-							if(!_2hands_mastery)
+						case BIGSWORD:
+						{
+							if (!_2hands_mastery)
 								newMasteryPenalty++;
 						}
-						break;
-						case BLUNT:{
-							
-							if(!_blunt_mastery)
+							break;
+						case BLUNT:
+						{
+							if (!_blunt_mastery)
 								newMasteryPenalty++;
 						}
-						break;
-						case BOW:{
-							
-							if(!_bow_mastery)
+							break;
+						case BOW:
+						{
+							if (!_bow_mastery)
 								newMasteryPenalty++;
-							
 						}
-						break;
-						case DAGGER:{
-							
-							if(!_dagger_mastery)
+							break;
+						case DAGGER:
+						{
+							if (!_dagger_mastery)
 								newMasteryPenalty++;
-							
 						}
-						break;
-						case DUAL:{
-							
-							if(!_dual_mastery)
+							break;
+						case DUAL:
+						{
+							if (!_dual_mastery)
 								newMasteryPenalty++;
-							
 						}
-						break;
+							break;
 						case DUALFIST:
-						case FIST:{
-							
-							if(!_fist_mastery)
+						case FIST:
+						{
+							if (!_fist_mastery)
 								newMasteryPenalty++;
-							
 						}
-						break;
-						case POLE:{
-							
-							if(!_pole_mastery)
+							break;
+						case POLE:
+						{
+							if (!_pole_mastery)
 								newMasteryPenalty++;
-							
 						}
-						break;
-						case SWORD:{
-							
-							if(!_sword_mastery)
+							break;
+						case SWORD:
+						{
+							if (!_sword_mastery)
 								newMasteryPenalty++;
-							
 						}
-						break;
-						
+							break;
+					
 					}
 				}
 			}
-
+			
 		}
 		
-		if(_masteryWeapPenalty!=newMasteryPenalty){
-			
+		if (_masteryWeapPenalty != newMasteryPenalty)
+		{
 			int penalties = _masteryPenalty + _expertisePenalty + newMasteryPenalty;
 			
-			if(penalties > 0)
+			if (penalties > 0)
 			{
 				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
 			}
@@ -3541,12 +3533,9 @@ private int _reviveRequested = 0;
 			
 			sendPacket(new EtcStatusUpdate(this));
 			_masteryWeapPenalty = newMasteryPenalty;
-			
 		}
-		
-		
 	}
-	
+
 	/**
 	 * Refresh expertise penalty.
 	 */
@@ -16482,7 +16471,6 @@ private int _reviveRequested = 0;
 			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
 			return false;
 		}
-
 		if(getActiveEnchantItem() != null && getActiveEnchantItem().getItemId() == itemId)
 		{
 			_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
@@ -19539,6 +19527,42 @@ public boolean dismount()
 		{
 			return punString;
 		}
+	}
+    
+	// open/close gates
+	private GatesRequest _gatesRequest = new GatesRequest();
+	
+	private static class GatesRequest
+	{
+		private L2DoorInstance _target = null;
+		
+		public void setTarget(L2DoorInstance door)
+		{
+			_target = door;
+		}
+		
+		public L2DoorInstance getDoor()
+		{
+			return _target;
+		}
+	}
+	
+	public void gatesRequest(L2DoorInstance door)
+	{
+		_gatesRequest.setTarget(door);
+	}
+	
+	public void gatesAnswer(int answer, int type)
+	{
+		if (_gatesRequest.getDoor() == null)
+			return;
+		
+		if (answer == 1 && getTarget() == _gatesRequest.getDoor() && type == 1)
+			_gatesRequest.getDoor().openMe();
+		else if (answer == 1 && getTarget() == _gatesRequest.getDoor() && type == 0)
+			_gatesRequest.getDoor().closeMe();
+		
+		_gatesRequest.setTarget(null);
 	}
     
     /**

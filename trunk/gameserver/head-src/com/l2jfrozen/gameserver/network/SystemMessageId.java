@@ -3671,6 +3671,18 @@ public enum SystemMessageId
 	CANT_REGISTER_NO_ABILITY_TO_CRAFT(1061),
 
 	/**
+	 * ID: 1140<br>
+	 * Message: Would you like to open the gate?
+	 */
+	WOULD_YOU_LIKE_TO_OPEN_THE_GATE(1140),
+	
+	/**
+	 * ID: 1141<br>
+	 * Message: Would you like to close the gate?
+	 */
+	WOULD_YOU_LIKE_TO_CLOSE_THE_GATE(1141),
+	
+	/**
 	 * ID: 1135<br>
 	 * Message: While you are engaged in combat, you cannot operate a private store or private workshop.
 	 */
