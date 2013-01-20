@@ -1477,11 +1477,11 @@ public abstract class L2Skill
 
 		switch(targetType)
 		{
-			// The skill can only be used on the L2Character targeted, or on the caster itself
+		// The skill can only be used on the L2Character targeted, or on the caster itself
 			case TARGET_ONE:
 			{
 				boolean canTargetSelf = false;
-				switch(skillType)
+				switch (skillType)
 				{
 					case BUFF:
 					case HEAL:
@@ -1492,7 +1492,7 @@ public abstract class L2Skill
 					case NEGATE:
 					case REFLECT:
 					case UNBLEED:
-					case UNPOISON: //case CANCEL: 
+					case UNPOISON: // case CANCEL:
 					case SEED:
 					case COMBATPOINTHEAL:
 					case COMBATPOINTPERCENTHEAL:
@@ -1504,8 +1504,8 @@ public abstract class L2Skill
 						canTargetSelf = true;
 						break;
 				}
-
-				switch(skillType)
+				
+				switch (skillType)
 				{
 					case CONFUSION:
 					case DEBUFF:
@@ -1519,21 +1519,53 @@ public abstract class L2Skill
 					case CANCEL:
 					case MAGE_BANE:
 					case WARRIOR_BANE:
-						if(checkPartyClan(activeChar, target))
+						if (checkPartyClan(activeChar, target))
 						{
 							activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 							return null;
 						}
 						break;
 				}
-
-				// Check for null target or any other invalid target
-				if(target == null || target.isDead() || target == activeChar && !canTargetSelf)
+				
+				switch (skillType)
+				{
+					case AGGDEBUFF:
+					case DEBUFF:
+					case BLEED:
+					case CONFUSION:
+					case FEAR:
+					case PARALYZE:
+					case SLEEP:
+					case ROOT:
+					case WEAKNESS:
+					case MUTE:
+					case CANCEL:
+					case DOT:
+					case POISON:
+					case AGGREDUCE_CHAR:
+						// Like L2OFF if the skills is TARGET_ONE (skillType) can't be used on Npc
+						if (target instanceof L2NpcInstance && !(target instanceof L2MonsterInstance))
+						{
+							activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
+							return null;
+						}
+						break;
+				}
+				
+				// Like L2OFF Shield stun can't be used on Npc
+				if (getId() == 92 && target instanceof L2NpcInstance && !(target instanceof L2MonsterInstance))
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 					return null;
 				}
-
+				
+				// Check for null target or any other invalid target
+				if (target == null || target.isDead() || target == activeChar && !canTargetSelf)
+				{
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
+					return null;
+				}
+				
 				// If a target is found, return it in a table else send a system message TARGET_IS_INCORRECT
 				return new L2Character[]
 				{

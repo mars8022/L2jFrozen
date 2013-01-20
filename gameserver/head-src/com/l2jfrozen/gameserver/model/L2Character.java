@@ -198,7 +198,7 @@ public abstract class L2Character extends L2Object
 	private boolean _isKilledAlready = false;
 	
 	/** The _is imobilised. */
-	private boolean _isImobilised = false;
+	private int _isImobilised = 0;
 	
 	/** The _is overloaded. */
 	private boolean _isOverloaded = false; // the char is carrying too much
@@ -2786,22 +2786,27 @@ public abstract class L2Character extends L2Object
 
 	/**
 	 * Checks if is imobilised.
-	 *
 	 * @return true, if is imobilised
 	 */
 	public boolean isImobilised()
 	{
-		return _isImobilised;
+		return _isImobilised > 0;
 	}
-
+	
 	/**
 	 * Sets the checks if is imobilised.
-	 *
 	 * @param value the new checks if is imobilised
 	 */
 	public void setIsImobilised(boolean value)
 	{
-		_isImobilised = value;
+		if (value)
+		{
+			_isImobilised++;
+		}
+		else
+		{
+			_isImobilised--;
+		}
 	}
 
 	/**
@@ -4794,8 +4799,8 @@ public abstract class L2Character extends L2Object
 					{
 						_effects.get(i).addIcon(mi);
 					}
-					// Like L2OFF toggle and potions must not be showed on party buff list
-					if (ps != null && !_effects.get(i).getSkill().isToggle() && !_effects.get(i).getSkill().isPotion())
+					// Like L2OFF toggle and healing potions must not be showed on party buff list
+					if (ps != null && !_effects.get(i).getSkill().isToggle() && !(_effects.get(i).getSkill().getId() == 2031) && !(_effects.get(i).getSkill().getId() == 2037) && !(_effects.get(i).getSkill().getId() == 2032))
 					{
 						_effects.get(i).addPartySpelledIcon(ps);
 					}

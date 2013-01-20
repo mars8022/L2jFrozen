@@ -348,6 +348,13 @@ public class TradeList
 			return null;
 		}
 
+		if(!_owner.validateItemManipulation(objectId, "Modify TradeList"))
+		{
+			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify TradeList without valid conditions! ",  Config.DEFAULT_PUNISH);
+			_log.warning(_owner.getName() + ": Attempt to modify TradeList without valid conditions!");
+			return null;
+		}
+		
 		L2ItemInstance item = (L2ItemInstance) o;
 
 		if(!item.isTradeable() || (getOwner().isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)
@@ -387,6 +394,7 @@ public class TradeList
 	 * @param itemId : int
 	 * @param count : int
 	 * @param price : int
+	 * @param enchant 
 	 * @return
 	 */
 	public synchronized TradeItem addItemByItemId(int itemId, int count, int price, int enchant)
@@ -397,9 +405,7 @@ public class TradeList
 			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}
-
-		L2Item item = ItemTable.getInstance().getTemplate(itemId);
-
+		
 		if(!_owner.validateItemManipulationByItemId(itemId, "Modify TradeList"))
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify TradeList without valid conditions! ",  Config.DEFAULT_PUNISH);
@@ -407,7 +413,8 @@ public class TradeList
 			return null;
 		}
 		
-		
+
+		L2Item item = ItemTable.getInstance().getTemplate(itemId);
 		if(item == null)
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to add invalid item to TradeList! Banned ",  Config.DEFAULT_PUNISH);

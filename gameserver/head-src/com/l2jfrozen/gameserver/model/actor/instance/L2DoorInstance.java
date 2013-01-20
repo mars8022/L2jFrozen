@@ -47,6 +47,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
 import com.l2jfrozen.gameserver.network.serverpackets.DoorStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -649,82 +650,84 @@ public class L2DoorInstance extends L2Character
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Object#onAction(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
 	public void onAction(L2PcInstance player)
 	{
-		if(player == null)
+		if (player == null)
 			return;
-
-
-		if(Config.DEBUG){
-		    log.info("player "+player.getObjectId());
-		    log.info("Door "+getObjectId());
-		    log.info("player clan "+player.getClan());		   
-		   if(player.getClan()!=null){
-		    log.info("player clanid "+player.getClanId());
-		    log.info("player clanleaderid "+player.getClan().getLeaderId());}
-		    log.info("clanhall "+getClanHall());
-		   if(getClanHall()!=null){
-		    log.info("clanhallID "+getClanHall().getId());
-		    log.info("clanhallOwner "+getClanHall().getOwnerId());
-		   for(L2DoorInstance door:getClanHall().getDoors()){
-		    log.info("clanhallDoor "+door.getObjectId());}}}
 		
-
+		if (Config.DEBUG)
+		{
+			log.info("player " + player.getObjectId());
+			log.info("Door " + getObjectId());
+			log.info("player clan " + player.getClan());
+			if (player.getClan() != null)
+			{
+				log.info("player clanid " + player.getClanId());
+				log.info("player clanleaderid " + player.getClan().getLeaderId());
+			}
+			log.info("clanhall " + getClanHall());
+			if (getClanHall() != null)
+			{
+				log.info("clanhallID " + getClanHall().getId());
+				log.info("clanhallOwner " + getClanHall().getOwnerId());
+				for (L2DoorInstance door : getClanHall().getDoors())
+				{
+					log.info("clanhallDoor " + door.getObjectId());
+				}
+			}
+		}
+		
 		// Check if the L2PcInstance already target the L2NpcInstance
-		if(this != player.getTarget())
+		if (this != player.getTarget())
 		{
 			// Set the target of the L2PcInstance player
 			player.setTarget(this);
-
+			
 			// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
 			MyTargetSelected my = new MyTargetSelected(getObjectId(), 0);
 			player.sendPacket(my);
 			my = null;
-
-			//            if (isAutoAttackable(player))
-			//            {
+			
+			// if (isAutoAttackable(player))
+			// {
 			DoorStatusUpdate su = new DoorStatusUpdate(this);
 			player.sendPacket(su);
 			su = null;
-			//            }
-
+			// }
+			
 			// Send a Server->Client packet ValidateLocation to correct the L2NpcInstance position and heading on the client
 			player.sendPacket(new ValidateLocation(this));
 		}
 		else
 		{
-			//            MyTargetSelected my = new MyTargetSelected(getObjectId(), player.getLevel());
-			//            player.sendPacket(my);
-			if(isAutoAttackable(player))
+			// MyTargetSelected my = new MyTargetSelected(getObjectId(), player.getLevel());
+			// player.sendPacket(my);
+			if (isAutoAttackable(player))
 			{
-				if(Math.abs(player.getZ() - getZ()) < 400) // this max heigth difference might need some tweaking
+				if (Math.abs(player.getZ() - getZ()) < 400) // this max heigth difference might need some tweaking
 				{
 					player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
 				}
 			}
-			else if(player.getClan() != null && getClanHall() != null && player.getClanId() == getClanHall().getOwnerId())
+			else if (player.getClan() != null && getClanHall() != null && player.getClanId() == getClanHall().getOwnerId())
 			{
-				if(!isInsideRadius(player, L2NpcInstance.INTERACTION_DISTANCE, false, false))
+				if (!isInsideRadius(player, L2NpcInstance.INTERACTION_DISTANCE, false, false))
 				{
 					player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
 				}
 				else
 				{
-					//need find serverpacket which ask open/close gate. now auto
-					//if (getOpen() == 1) player.sendPacket(new SystemMessage(1140));
-					//else player.sendPacket(new SystemMessage(1141));
-					if(!getOpen())
-					{
-						openMe();
-					}
+					// Like L2OFF Clanhall's doors get request to be closed/opened
+					player.gatesRequest(this);
+					if (!this.getOpen())
+						player.sendPacket(new ConfirmDlg(1140));
 					else
-					{
-						closeMe();
-					}
+						player.sendPacket(new ConfirmDlg(1141));
 				}
 			}
 		}
