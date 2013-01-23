@@ -157,36 +157,23 @@ public final class QuestState
 	/**
 	 * Return state of the quest after its initialization.<BR>
 	 * <BR>
-	 * <U><I>Actions :</I></U> <LI>Remove drops from previous state</LI> <LI>Set new state of the quest</LI> <LI>Add
-	 * drop for new state</LI> <LI>Update information in database</LI> <LI>Send packet QuestList to client</LI>
-	 * 
+	 * <U><I>Actions :</I></U> <LI>Remove drops from previous state</LI> <LI>Set new state of the quest</LI> <LI>Add drop for new state</LI> <LI>Update information in database</LI> <LI>Send packet QuestList to client</LI>
 	 * @param state
 	 * @return object
 	 */
 	public Object setState(State state)
 	{
-		// set new state if it is not already in that state
-		if(_state != state)
-		{
-			if(state == null)
-				return null;
-
-			if(getStateId().equals("Completed"))
-			{
-				_isCompleted = true;
-			}
-			else
-			{
-				_isCompleted = false;
-			}
-
-			_state = state;
-			Quest.updateQuestInDb(this);
-			QuestList ql = new QuestList();
-			getPlayer().sendPacket(ql);
-			ql = null;
-		}
-
+		// set new state
+		_state = state;
+		if (state == null)
+			return null;
+		if (getStateId().equals("Completed"))
+			_isCompleted = true;
+		else
+			_isCompleted = false;
+		Quest.updateQuestInDb(this);
+		QuestList ql = new QuestList();
+		getPlayer().sendPacket(ql);
 		return state;
 	}
 

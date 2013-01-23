@@ -81,4 +81,12 @@ public class ItemRequest
 	{
 		return _enchant;
 	}
+	
+	/**
+	 * @param enchant
+	 */
+	public void setEnchant(int enchant)
+	{
+		_enchant = enchant;
+	}
 }

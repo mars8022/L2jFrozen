@@ -51,6 +51,13 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 			return;
 		}
 		
+		// If player is in store mode /offline_shop like L2OFF
+		if (player.isStored())
+		{
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		// Player shouldn't be able to set stores if he/she is alike dead (dead or fake death)
 		if (player.isAlikeDead())
 		{

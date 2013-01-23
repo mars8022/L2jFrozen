@@ -951,7 +951,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public int _telemode = 0;
 
 	/** The _is silent moving. */
-	private boolean _isSilentMoving = false;
+	private int _isSilentMoving = 0;
 
 	/** The _in crystallize. */
 	private boolean _inCrystallize;
@@ -1493,6 +1493,9 @@ private int _reviveRequested = 0;
 	
 	/** The _is locked. */
 	private boolean _isLocked = false;
+	
+	/** The _is stored. */
+	private boolean _isStored = false;
 	
 	/**
 	 * Skill casting information (used to queue when several skills are cast in a short time) *.
@@ -13169,27 +13172,28 @@ private int _reviveRequested = 0;
 	{
 		return _lastFolkNpc;
 	}
-
+	
 	/**
 	 * Set the Silent Moving mode Flag.<BR>
 	 * <BR>
-	 *
 	 * @param flag the new silent moving
 	 */
 	public void setSilentMoving(boolean flag)
 	{
-		_isSilentMoving = flag;
+		if (flag)
+			_isSilentMoving++;
+		else
+			_isSilentMoving--;
 	}
-
+	
 	/**
 	 * Return True if the Silent Moving mode is active.<BR>
 	 * <BR>
-	 *
 	 * @return true, if is silent moving
 	 */
 	public boolean isSilentMoving()
 	{
-		return _isSilentMoving;
+		return _isSilentMoving > 0;
 	}
 
 	/**
@@ -16319,68 +16323,41 @@ private int _reviveRequested = 0;
 		}
 	}
 
-	/**
-	 * Broadcast snoop.
-	 *
-	 * @param type the type
-	 * @param name the name
-	 * @param _text the _text
-	 */
-	public void broadcastSnoop(int type, String name, String _text)
+	public void broadcastSnoop(int type, String name, String _text, CreatureSay cs)
 	{
-		if(_snoopListener.size() > 0)
+		if (_snoopListener.size() > 0)
 		{
-			Snoop sn = new Snoop(getObjectId(), getName(), type, name, _text);
-
-			for(L2PcInstance pci : _snoopListener)
-				if(pci != null)
+			Snoop sn = new Snoop(this, type, name, _text);
+			for (L2PcInstance pci : _snoopListener)
+			{
+				if (pci != null)
 				{
+					pci.sendPacket(cs);
 					pci.sendPacket(sn);
 				}
+			}
 		}
 	}
-
-	/**
-	 * Adds the snooper.
-	 *
-	 * @param pci the pci
-	 */
+	
 	public void addSnooper(L2PcInstance pci)
 	{
-		if(!_snoopListener.contains(pci))
+		if (!_snoopListener.contains(pci))
 		{
 			_snoopListener.add(pci);
 		}
 	}
-
-	/**
-	 * Removes the snooper.
-	 *
-	 * @param pci the pci
-	 */
+	
 	public void removeSnooper(L2PcInstance pci)
 	{
 		_snoopListener.remove(pci);
 	}
-
-	/**
-	 * Adds the snooped.
-	 *
-	 * @param pci the pci
-	 */
+	
 	public void addSnooped(L2PcInstance pci)
 	{
-		if(!_snoopedPlayer.contains(pci))
-		{
+		if (!_snoopedPlayer.contains(pci))
 			_snoopedPlayer.add(pci);
-		}
 	}
-
-	/**
-	 * Removes the snooped.
-	 *
-	 * @param pci the pci
-	 */
+	
 	public void removeSnooped(L2PcInstance pci)
 	{
 		_snoopedPlayer.remove(pci);
@@ -19458,6 +19435,25 @@ public boolean dismount()
         _isLocked = a;  
     }	
     
+	/**
+	 * Checks if is stored.
+	 *
+	 * @return true, if is stored
+	 */
+	public boolean isStored()  
+    {  
+        return _isStored;  
+    }  
+      
+    /**
+     * Sets the stored.
+     *
+     * @param a the new stored
+     */
+    public void setStored(boolean a)  
+    {  
+        _isStored = a;  
+    }	
 
     
     /** The _punish level. */

@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2ManufactureItem;
 import com.l2jfrozen.gameserver.model.L2ManufactureList;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -218,6 +219,7 @@ public class OfflineTradeTable
 					player.setClient(client);
 					player.setOffline(true);
 					player.setOfflineStartTime(time);
+					player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
 					player.spawnMe(player.getX(), player.getY(), player.getZ());
 					LoginServerThread.getInstance().addGameServerLogin(player.getAccountName(), client);
 					PreparedStatement stm_items = con.prepareStatement(LOAD_OFFLINE_ITEMS);

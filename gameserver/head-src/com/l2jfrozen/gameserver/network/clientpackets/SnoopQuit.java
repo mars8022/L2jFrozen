@@ -27,33 +27,31 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public final class SnoopQuit extends L2GameClientPacket
 {
 	private int _snoopID;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_snoopID = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance player = (L2PcInstance) L2World.getInstance().findObject(_snoopID);
-		if(player == null)
+		if (player == null)
 			return;
-
+		
 		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
-
+		
 		player.removeSnooper(activeChar);
 		activeChar.removeSnooped(player);
-
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] AB SnoopQuit";
 	}
-
 }
