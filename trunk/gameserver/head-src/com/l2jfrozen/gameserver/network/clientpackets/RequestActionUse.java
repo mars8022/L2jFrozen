@@ -224,7 +224,11 @@ public final class RequestActionUse extends L2GameClientPacket
 					}
 					else if(pet.isAttackingNow() || pet.isRooted())
 					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.PET_CANNOT_SENT_BACK_DURING_BATTLE));
+						activeChar.sendMessage("You cannot despawn a summon during combat."); // Message like L2OFF
+					}
+					else if (pet.isInCombat() || activeChar.isInCombat())
+					{
+						activeChar.sendMessage("You cannot despawn a summon during combat."); // Message like L2OFF
 					}
 					else
 					{
@@ -454,9 +458,20 @@ public final class RequestActionUse extends L2GameClientPacket
 				activeChar.sendPacket(new RecipeShopManageList(activeChar, false));
 				break;
 			case 52: // unsummon
-				if(pet != null && pet instanceof L2SummonInstance)
+				if (pet != null && pet instanceof L2SummonInstance)
 				{
-					pet.unSummon(activeChar);
+					if (pet.isInCombat() || activeChar.isInCombat())
+					{
+						activeChar.sendMessage("You cannot despawn a summon during combat."); // Message like L2OFF
+					}
+					else if (pet.isAttackingNow() || pet.isRooted())
+					{
+						activeChar.sendMessage("You cannot despawn a summon during combat."); // Message like L2OFF
+					}
+					else
+					{
+						pet.unSummon(activeChar);
+					}
 				}
 				break;
 			case 53: // move to target

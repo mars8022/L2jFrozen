@@ -1543,6 +1543,9 @@ public abstract class L2Skill
 					case DOT:
 					case POISON:
 					case AGGREDUCE_CHAR:
+					case AGGDAMAGE:
+					case AGGREMOVE:
+					case MANADAM:
 						// Like L2OFF if the skills is TARGET_ONE (skillType) can't be used on Npc
 						if (target instanceof L2NpcInstance && !(target instanceof L2MonsterInstance))
 						{

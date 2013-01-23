@@ -56,6 +56,7 @@
   <set name="castRange" val="900"/>
   <set name="effectRange" val="1400"/>
   <set name="isDebuff" val="true" />
+  <set name="nextActionAttack" val="false" />
   <enchant1 name="effectPower" val="#ench1effectPower"/>
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>

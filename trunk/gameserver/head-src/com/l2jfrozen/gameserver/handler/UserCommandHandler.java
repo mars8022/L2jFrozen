@@ -34,33 +34,33 @@ import com.l2jfrozen.gameserver.handler.usercommandhandlers.DisMount;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.Escape;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.Loc;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.Mount;
+import com.l2jfrozen.gameserver.handler.usercommandhandlers.OfflineShop;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.OlympiadStat;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.PartyInfo;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.Time;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.1.2.5 $ $Date: 2005/03/27 15:30:09 $
  */
 public class UserCommandHandler
 {
 	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
-
+	
 	private static UserCommandHandler _instance;
-
+	
 	private Map<Integer, IUserCommandHandler> _datatable;
-
+	
 	public static UserCommandHandler getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new UserCommandHandler();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private UserCommandHandler()
 	{
 		_datatable = new FastMap<Integer, IUserCommandHandler>();
@@ -76,16 +76,18 @@ public class UserCommandHandler
 		registerUserCommandHandler(new Loc());
 		registerUserCommandHandler(new Mount());
 		registerUserCommandHandler(new PartyInfo());
+		if (Config.OFFLINE_TRADE_ENABLE && Config.OFFLINE_COMMAND1)
+			registerUserCommandHandler(new OfflineShop());
 		_log.config("UserCommandHandler: Loaded " + _datatable.size() + " handlers.");
 	}
-
+	
 	public void registerUserCommandHandler(IUserCommandHandler handler)
 	{
 		int[] ids = handler.getUserCommandList();
-
-		for(int id : ids)
+		
+		for (int id : ids)
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
 				_log.fine("Adding handler for user command " + id);
 			}
@@ -93,17 +95,17 @@ public class UserCommandHandler
 		}
 		ids = null;
 	}
-
+	
 	public IUserCommandHandler getUserCommandHandler(int userCommand)
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			_log.fine("getting handler for user command: " + userCommand);
 		}
-
+		
 		return _datatable.get(new Integer(userCommand));
 	}
-
+	
 	/**
 	 * @return
 	 */

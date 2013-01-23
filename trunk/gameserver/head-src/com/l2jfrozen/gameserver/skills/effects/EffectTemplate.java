@@ -36,10 +36,10 @@ import com.l2jfrozen.gameserver.skills.funcs.Lambda;
 public final class EffectTemplate
 {
 	static Logger _log = Logger.getLogger(EffectTemplate.class.getName());
-
+	
 	private final Class<?> _func;
 	private final Constructor<?> _constructor;
-
+	
 	public final Condition attachCond;
 	public final Condition applayCond;
 	public final Lambda lambda;
@@ -48,19 +48,19 @@ public final class EffectTemplate
 	public final int abnormalEffect;
 	public FuncTemplate[] funcTemplates;
 	public boolean showIcon;
-
+	
 	public final String stackType;
 	public final float stackOrder;
 	public final double effectPower; // to thandle chance
 	public final SkillType effectType; // to handle resistences etc...
-
-	public EffectTemplate(Condition pAttachCond, Condition pApplayCond, String func, Lambda pLambda, int pCounter, int pPeriod, int pAbnormalEffect, String pStackType, float pStackOrder, int pShowIcon,SkillType eType, double ePower)
+	
+	public EffectTemplate(Condition pAttachCond, Condition pApplayCond, String func, Lambda pLambda, int pCounter, int pPeriod, int pAbnormalEffect, String pStackType, float pStackOrder, int pShowIcon, SkillType eType, double ePower)
 	{
 		attachCond = pAttachCond;
 		applayCond = pApplayCond;
 		lambda = pLambda;
 		counter = pCounter;
-		period = pPeriod; 
+		period = pPeriod;
 		abnormalEffect = pAbnormalEffect;
 		stackType = pStackType;
 		stackOrder = pStackOrder;
@@ -72,9 +72,9 @@ public final class EffectTemplate
 		{
 			_func = Class.forName("com.l2jfrozen.gameserver.skills.effects.Effect" + func);
 		}
-		catch(ClassNotFoundException e)
+		catch (ClassNotFoundException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			throw new RuntimeException(e);
@@ -83,48 +83,48 @@ public final class EffectTemplate
 		{
 			_constructor = _func.getConstructor(Env.class, EffectTemplate.class);
 		}
-		catch(NoSuchMethodException e)
+		catch (NoSuchMethodException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public L2Effect getEffect(Env env)
 	{
-		if(attachCond != null && !attachCond.test(env))
+		if (attachCond != null && !attachCond.test(env))
 			return null;
 		try
 		{
 			L2Effect effect = (L2Effect) _constructor.newInstance(env, this);
-			//if (_applayCond != null)
-			//	effect.setCondition(_applayCond);
+			// if (_applayCond != null)
+			// effect.setCondition(_applayCond);
 			return effect;
 		}
-		catch(IllegalAccessException e)
+		catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		catch(InstantiationException e)
+		catch (InstantiationException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		catch(InvocationTargetException e)
+		catch (InvocationTargetException e)
 		{
 			_log.warning("Error creating new instance of Class " + _func + " Exception was:");
 			e.getTargetException().printStackTrace();
 			return null;
 		}
-
+		
 	}
-
+	
 	public void attach(FuncTemplate f)
 	{
-		if(funcTemplates == null)
+		if (funcTemplates == null)
 		{
 			funcTemplates = new FuncTemplate[]
 			{
@@ -140,5 +140,5 @@ public final class EffectTemplate
 			funcTemplates = tmp;
 		}
 	}
-
+	
 }

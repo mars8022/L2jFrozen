@@ -785,6 +785,12 @@ public abstract class L2Summon extends L2PlayableInstance
 	{
 		_showSummonAnimation = showSummonAnimation;
 	}
+	
+	@Override
+	public boolean isInCombat()
+	{
+		return getOwner() != null ? getOwner().isInCombat() : false;
+	}
 
 	/**
 	 * Servitors' skills automatically change their level based on the servitor's level. Until level 70, the servitor

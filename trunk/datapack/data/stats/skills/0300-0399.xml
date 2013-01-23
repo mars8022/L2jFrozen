@@ -622,7 +622,6 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
-  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="condition" val="16"/>
   <set name="reuseDelay" val="180000"/>
@@ -1001,7 +1000,6 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="344" levels="1" name="Lethal Blow">
-  <set name="nextActionAttack" val="true" />
   <set name="mpConsume" val="77"/>
   <set name="weaponsAllowed" val="16"/>
   <set name="magicLvl" val="76"/>

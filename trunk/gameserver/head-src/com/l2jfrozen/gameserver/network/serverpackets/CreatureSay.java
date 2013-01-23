@@ -22,7 +22,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.4.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class CreatureSay extends L2GameServerPacket
@@ -33,12 +32,12 @@ public class CreatureSay extends L2GameServerPacket
 	private int _textType;
 	private String _charName;
 	private String _text;
-
+	
 	/**
-	 * @param objectId 
-	 * @param messageType 
-	 * @param charName 
-	 * @param text 
+	 * @param objectId
+	 * @param messageType
+	 * @param charName
+	 * @param text
 	 */
 	public CreatureSay(int objectId, int messageType, String charName, String text)
 	{
@@ -46,9 +45,9 @@ public class CreatureSay extends L2GameServerPacket
 		_textType = messageType;
 		_charName = charName;
 		_text = text;
-		//setLifeTime(0);
+		// setLifeTime(0);
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -57,27 +56,16 @@ public class CreatureSay extends L2GameServerPacket
 		writeD(_textType);
 		writeS(_charName);
 		writeS(_text);
-
-		L2PcInstance _pci = getClient().getActiveChar();
-		if(_pci != null)
-		{
-			_pci.broadcastSnoop(_textType, _charName, _text);
-		}
 		
-	}
-
-	/*
-	@Override
-	public final void runImpl()
-	{
 		L2PcInstance _pci = getClient().getActiveChar();
 		if (_pci != null)
 		{
-			_pci.broadcastSnoop(_textType,_charName,_text);
+			_pci.broadcastSnoop(_textType, _charName, _text, this);
 		}
 	}
-	*/
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -85,5 +73,4 @@ public class CreatureSay extends L2GameServerPacket
 	{
 		return _S__4A_CREATURESAY;
 	}
-
 }

@@ -116,6 +116,10 @@ public class L2SkillChargeDmg extends L2Skill
 			// damage calculation
 			int damage = (int) Formulas.calcChargeSkillsDam(caster, target, this, shld, crit, ss, effect.numCharges);
 			
+			// Like L2OFF damage calculation crit is static 2x
+			if (crit)
+				damage *= 2;
+			
 			if(damage > 0)
 			{
 				double finalDamage = damage/* * modifier*/;

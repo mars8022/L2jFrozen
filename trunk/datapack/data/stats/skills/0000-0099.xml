@@ -415,7 +415,6 @@
   <set name="weaponsAllowed" val="16"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="mpConsume" val="#mpConsume"/>
-  <set name="nextActionAttack" val="true" />
   <set name="power" val="#power"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="condition" val="16"/>
@@ -781,7 +780,6 @@
   <set name="mpConsume" val="#mpConsume"/>
   <set name="magicLvl" val="#magicLvl"/>
   <set name="power" val="#power"/>
-  <set name="nextActionAttack" val="true" />
   <set name="target" val="TARGET_ONE"/>
   <set name="condition" val="24"/> <!-- Behind/Crit -->
   <set name="reuseDelay" val="12000"/>

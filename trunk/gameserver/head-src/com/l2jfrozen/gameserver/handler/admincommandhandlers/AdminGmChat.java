@@ -29,52 +29,40 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * This class handles following admin commands: - gmchat text = sends text to all online GM's - gmchat_menu text = same
- * as gmchat, displays the admin panel after chat
- * 
+ * This class handles following admin commands: - gmchat text = sends text to all online GM's - gmchat_menu text = same as gmchat, displays the admin panel after chat
  * @version $Revision: 1.2.4.3 $ $Date: 2005/04/11 10:06:06 $
  */
 public class AdminGmChat implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_gmchat", "admin_snoop", "admin_gmchat_menu"
+		"admin_gmchat",
+		"admin_snoop",
+		"admin_gmchat_menu"
 	};
-
+	
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.log(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.startsWith("admin_gmchat"))
+		if (command.startsWith("admin_gmchat"))
 		{
 			handleGmChat(command, activeChar);
 		}
-		else if(command.startsWith("admin_snoop"))
+		else if (command.startsWith("admin_snoop"))
 		{
 			snoop(command, activeChar);
 		}
-
-		if(command.startsWith("admin_gmchat_menu"))
+		
+		if (command.startsWith("admin_gmchat_menu"))
 		{
 			AdminHelpPage.showHelpPage(activeChar, "main_menu.htm");
 		}
-
+		
 		return true;
 	}
 	
@@ -109,13 +97,13 @@ public class AdminGmChat implements IAdminCommandHandler
 		target = null;
 		player = null;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	/**
 	 * @param command
 	 * @param activeChar
@@ -125,10 +113,10 @@ public class AdminGmChat implements IAdminCommandHandler
 		try
 		{
 			int offset = 0;
-
+			
 			String text;
-
-			if(command.contains("menu"))
+			
+			if (command.contains("menu"))
 			{
 				offset = 17;
 			}
@@ -136,20 +124,19 @@ public class AdminGmChat implements IAdminCommandHandler
 			{
 				offset = 13;
 			}
-
+			
 			text = command.substring(offset);
 			CreatureSay cs = new CreatureSay(0, 9, activeChar.getName(), text);
 			GmListTable.broadcastToGMs(cs);
-
+			
 			text = null;
 			cs = null;
 		}
-		catch(StringIndexOutOfBoundsException e)
+		catch (StringIndexOutOfBoundsException e)
 		{
 			// empty message.. ignore
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			
 		}
 	}
 }

@@ -18,48 +18,51 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+
+/**
+ * CDSDDSS -> (0xd5)(objId)(name)(0x00)(type)(speaker)(name)
+ */
+
 public class Snoop extends L2GameServerPacket
 {
 	private static final String _S__D5_SNOOP = "[S] D5 Snoop";
-	private int _convoId;
-	private String _name;
+	private final L2PcInstance _snooped;
 	private int _type;
 	private String _speaker;
 	private String _msg;
-
-	public Snoop(int id, String name, int type, String speaker, String msg)
+	
+	public Snoop(L2PcInstance snooped, int type, String speaker, String msg)
 	{
-		_convoId = id;
-		_name = name;
+		_snooped = snooped;
 		_type = type;
 		_speaker = speaker;
 		_msg = msg;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.sf.l2j.gameserver.serverpackets.ServerBasePacket#writeImpl()
 	 */
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xd5);
-
-		writeD(_convoId);
-		writeS(_name);
-		writeD(0x00); //??
+		writeD(_snooped.getObjectId());
+		writeS(_snooped.getName());
+		writeD(0); // ??
 		writeD(_type);
 		writeS(_speaker);
 		writeS(_msg);
-
 	}
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.sf.l2j.gameserver.BasePacket#getType()
 	 */
 	@Override
 	public String getType()
 	{
 		return _S__D5_SNOOP;
 	}
-
 }

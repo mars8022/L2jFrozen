@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.TradeList.TradeItem;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
@@ -142,6 +143,18 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
 				return;
 			}
+			
+			L2ItemInstance iEnchant = storePlayer.getInventory().getItemByObjectId(ir.getObjectId());
+			int enchant = 0;
+			if (iEnchant == null)
+			{
+				enchant = 0;
+			}
+			else
+			{
+				enchant = iEnchant.getEnchantLevel();
+			}
+			ir.setEnchant(enchant);
 			
 			priceTotal += ir.getPrice() * ir.getCount();
 		}

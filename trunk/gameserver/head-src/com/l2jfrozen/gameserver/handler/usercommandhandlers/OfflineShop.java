@@ -1,24 +1,27 @@
 /*
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * http://www.gnu.org/copyleft/gpl.html
  */
-package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+package com.l2jfrozen.gameserver.handler.usercommandhandlers;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -29,47 +32,55 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
-public final class Logout extends L2GameClientPacket
+/**
+ * Command /offline_shop like L2OFF
+ * @author Nefer
+ */
+public class OfflineShop implements IUserCommandHandler
 {
-	private static Logger _log = Logger.getLogger(Logout.class.getName());
-	
-	@Override
-	protected void readImpl()
+	private static final int[] COMMAND_IDS =
 	{
-	}
+		114
+	};
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
+	 */
 	@Override
-	protected void runImpl()
+	public synchronized boolean useUserCommand(int id, L2PcInstance player)
 	{
-		// Dont allow leaving if player is fighting
-		L2PcInstance player = getClient().getActiveChar();
-		
 		if (player == null)
-			return;
+			return false;
+		
+		// Message like L2OFF
+		if (!player.isInStoreMode() && (!player.isInCraftMode()))
+		{
+			player.sendMessage("You are not running a private store or private work shop.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return false;
+		}
 		
 		if (player.isInFunEvent() && !player.isGM())
 		{
 			player.sendMessage("You cannot Logout while in registered in an Event.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
+			return false;
 		}
 		
 		if (player.isAway())
 		{
 			player.sendMessage("You can't restart in Away mode.");
-			return;
+			return false;
 		}
 		
 		player.getInventory().updateDatabase();
 		
 		if (AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
-			if (Config.DEBUG)
-				_log.fine("DEBUG " + getType() + ": Player " + player.getName() + " tried to logout while Fighting");
-			
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_LOGOUT_WHILE_FIGHTING));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
+			return false;
 		}
 		
 		// Dont allow leaving if player is in combat
@@ -77,7 +88,7 @@ public final class Logout extends L2GameClientPacket
 		{
 			player.sendMessage("You cannot Logout while is in Combat mode.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
+			return false;
 		}
 		
 		// Dont allow leaving if player is teleporting
@@ -85,19 +96,19 @@ public final class Logout extends L2GameClientPacket
 		{
 			player.sendMessage("You cannot Logout while is Teleporting.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
+			return false;
 		}
 		
 		if (player.atEvent)
 		{
 			player.sendPacket(SystemMessage.sendString("A superior power doesn't allow you to leave the event."));
-			return;
+			return false;
 		}
 		
 		if (player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
 		{
 			player.sendMessage("You can't Logout in Olympiad mode.");
-			return;
+			return false;
 		}
 		
 		// Prevent player from logging out if they are a festival participant nd it is in progress,
@@ -107,7 +118,7 @@ public final class Logout extends L2GameClientPacket
 			if (SevenSignsFestival.getInstance().isFestivalInitialized())
 			{
 				player.sendMessage("You cannot Logout while you are a participant in a Festival.");
-				return;
+				return false;
 			}
 			
 			L2Party playerParty = player.getParty();
@@ -118,44 +129,26 @@ public final class Logout extends L2GameClientPacket
 		if (player.isFlying())
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 		
-		if (Config.OFFLINE_LOGOUT)
+		if ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
 		{
-			if ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
-			{
-				// Sleep effect, not official feature but however L2OFF features (like offline trade)
-				player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
-				
-				player.store();
-				player.closeNetConnection();
-				
-				if (player.getOfflineStartTime() == 0)
-					player.setOfflineStartTime(System.currentTimeMillis());
-				return;
-			}
-		}
-		else if (player.isStored())
-		{
-			player.store();
-			player.closeNetConnection();
+			// Sleep effect, not official feature but however L2OFF features (like offline trade)
+			player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
 			
-			if (player.getOfflineStartTime() == 0)
-				player.setOfflineStartTime(System.currentTimeMillis());
-			return;
+			player.sendMessage("Your private store has succesfully been flagged as an offline shop and will remain active for ever.");
+			player.setStored(true);
+			
+			return true;
 		}
-		
-		if (player.isCastingNow())
-		{
-			player.abortCast();
-			player.sendPacket(new ActionFailed());
-		}
-		
-		RegionBBSManager.getInstance().changeCommunityBoard();
-		player.deleteMe();
+		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
+	 */
 	@Override
-	public String getType()
+	public int[] getUserCommandList()
 	{
-		return "[C] 09 Logout";
+		return COMMAND_IDS;
 	}
 }

@@ -5947,14 +5947,9 @@ public abstract class L2Character extends L2Object
 	 *
 	 * @return true, if is in combat
 	 */
-	public final boolean isInCombat()
+	public boolean isInCombat()
 	{
-		if(getAI() == null
-				 || getAI().getAttackTarget() == null){
-			return false;
-		}
-		
-		return true;
+		return (getAI().getAttackTarget() != null || getAI().isAutoAttacking());
 	}
 
 	/**
@@ -9025,7 +9020,6 @@ public abstract class L2Character extends L2Object
 			_potionCast = null;
 			_castPotionEndTime = 0;
 			_castPotionInterruptTime = 0;
-			
 		}
 		else
 		{
@@ -9042,24 +9036,21 @@ public abstract class L2Character extends L2Object
 			
 			if (skill.getId() != 345 && skill.getId() != 346)
 			{
-				
 				// Like L2OFF while use a skill and next interntion == null the char stop auto attack
 				if (getAI().getNextIntention() == null && (skill.getSkillType() == SkillType.PDAM && skill.getCastRange() < 400) || skill.getSkillType() == SkillType.BLOW || skill.getSkillType() == SkillType.DRAIN_SOUL || skill.getSkillType() == SkillType.SOW || skill.getSkillType() == SkillType.SPOIL)
 				{
+					// Like L2OFF if the skill is BLOW the player doesn't auto attack
+					// If on XML skill nextActionAttack = true the char auto attack
+					if (skill.nextActionIsAttack() && getTarget() != null && getTarget() instanceof L2Character)
 					{
-						if (getTarget() != null && getTarget() instanceof L2Character)
-						{
-							getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
-						}
+						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
 					}
 					
-					if ((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
+					if ((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
 					{
 						getAI().clientStartAutoAttack();
 					}
-					
 				}
-				
 			}
 			else
 			{
@@ -9099,14 +9090,12 @@ public abstract class L2Character extends L2Object
 				// Launch weapon Special ability skill effect if available
 				if (activeWeapon != null)
 				{
-					
 					try
 					{
 						if (targets != null && targets.length > 0)
 						{
 							for (L2Object target : targets)
 							{
-								
 								if (target != null && target instanceof L2Character && !((L2Character) target).isDead())
 								{
 									final L2Character player = (L2Character) target;
@@ -9124,15 +9113,11 @@ public abstract class L2Character extends L2Object
 					{
 						e.printStackTrace();
 					}
-					
 				}
 				
 				currPlayer = null;
-				
 			}
-			
 		}
-		
 	}
 
 	// Quest event ON_SPELL_FNISHED
