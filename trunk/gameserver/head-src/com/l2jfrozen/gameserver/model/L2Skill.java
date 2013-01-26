@@ -3323,7 +3323,27 @@ public abstract class L2Skill
 			tmp = null;
 		}
 	}
-
+	
+	// Author Jose Moreira
+	public boolean isAbnormalEffectByName(int abnormalEffect)
+	{
+		// Function to know if the skill has "abnormalEffect"
+		if (isPassive())
+			return false;
+		
+		if (_effectTemplates == null)
+			return false;
+		
+		for (EffectTemplate et : _effectTemplates)
+		{
+			if (et.abnormalEffect == abnormalEffect)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public final void attach(Condition c, boolean itemOrWeapon)
 	{
 		if(itemOrWeapon)

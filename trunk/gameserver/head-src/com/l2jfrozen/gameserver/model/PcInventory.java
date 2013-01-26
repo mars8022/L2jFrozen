@@ -91,6 +91,7 @@ public class PcInventory extends Inventory
 	 * Returns the list of items in inventory available for transaction
 	 * @param allowAdena 
 	 * @param allowAncientAdena 
+	 * @param allowEquipped 
 	 * 
 	 * @return L2ItemInstance : items in inventory
 	 */

@@ -33,14 +33,14 @@ import com.l2jfrozen.util.random.Rnd;
 public class Transform extends Quest implements Runnable
 {
 	private ArrayList<Transformer> _mobs = new ArrayList<Transformer>();
-
+	
 	private static class Transformer
 	{
 		private int _id;
 		private int _idPoly;
 		private int _chance;
 		private int _message;
-
+		
 		protected Transformer(int id, int idPoly, int chance, int message)
 		{
 			_id = id;
@@ -48,41 +48,41 @@ public class Transform extends Quest implements Runnable
 			_chance = chance;
 			_message = message;
 		}
-
+		
 		protected int getId()
 		{
 			return _id;
 		}
-
+		
 		protected int getIdPoly()
 		{
 			return _idPoly;
 		}
-
+		
 		protected int getChance()
 		{
 			return _chance;
 		}
-
+		
 		protected int getMessage()
 		{
 			return _message;
 		}
 	}
-
+	
 	private static String[] Message =
 	{
-			"I cannot despise the fellow! I see his sincerity in the duel.",
-			"Nows we truly begin!",
-			"Fool! Right now is only practice!",
-			"Have a look at my true strength.",
-			"This time at the last! The end!"
+		"I cannot despise the fellow! I see his sincerity in the duel.",
+		"Nows we truly begin!",
+		"Fool! Right now is only practice!",
+		"Have a look at my true strength.",
+		"This time at the last! The end!"
 	};
-
+	
 	public Transform(int questId, String name, String descr)
 	{
 		super(questId, name, descr);
-
+		
 		_mobs.add(new Transformer(21261, 21262, 1, 5)); // 1st mutation Ol Mahum Transcender
 		_mobs.add(new Transformer(21262, 21263, 1, 5)); // 2st mutation Ol Mahum Transcender
 		_mobs.add(new Transformer(21263, 21264, 1, 5)); // 3rd mutation Ol Mahum Transcender
@@ -102,38 +102,52 @@ public class Transform extends Quest implements Runnable
 		_mobs.add(new Transformer(21062, 21063, 100, 0)); // Angels
 		_mobs.add(new Transformer(20831, 20860, 100, 0)); //
 		_mobs.add(new Transformer(21070, 21071, 100, 0)); //
-
+		
 		int[] mobsKill =
 		{
-				20830, 21067, 21062, 20831, 21070
+			20830,
+			21067,
+			21062,
+			20831,
+			21070
 		};
-
-		for(int mob : mobsKill)
+		
+		for (int mob : mobsKill)
 		{
 			addEventId(mob, Quest.QuestEventType.ON_KILL);
 		}
-
+		
 		int[] mobsAttack =
 		{
-				21620, 20842, 21623, 21625, 21605, 20833, 21602, 20832, 21608, 20835, 21258
+			21620,
+			20842,
+			21623,
+			21625,
+			21605,
+			20833,
+			21602,
+			20832,
+			21608,
+			20835,
+			21258
 		};
-
-		for(int mob : mobsAttack)
+		
+		for (int mob : mobsAttack)
 		{
 			addEventId(mob, Quest.QuestEventType.ON_ATTACK);
 		}
 	}
-
+	
 	@Override
 	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
 	{
-		for(Transformer monster : _mobs)
+		for (Transformer monster : _mobs)
 		{
-			if(npc.getNpcId() == monster.getId())
+			if (npc.getNpcId() == monster.getId())
 			{
-				if(Rnd.get(100) <= monster.getChance() * Config.RATE_DROP_QUEST)
+				if (Rnd.get(100) <= monster.getChance() * Config.RATE_DROP_QUEST)
 				{
-					if(monster.getMessage() != 0)
+					if (monster.getMessage() != 0)
 					{
 						npc.broadcastPacket(new CreatureSay(npc.getObjectId(), 0, npc.getName(), Message[Rnd.get(monster.getMessage())]));
 					}
@@ -143,20 +157,28 @@ public class Transform extends Quest implements Runnable
 					newNpc.setRunning();
 					newNpc.addDamageHate(originalAttacker, 0, 999);
 					newNpc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, originalAttacker);
+					
+					// NPC Spawn Effect L2OFF
+					NPCSpawnTask spawnEffectTask = new NPCSpawnTask(newNpc, 4000, 800000);
+					Thread effectThread = new Thread(spawnEffectTask);
+					effectThread.start();
+					
+					// Like L2OFF auto target new mob (like an aggression)
+					originalAttacker.setTargetTrasformedNpc(newNpc);
 				}
 			}
 		}
 		return super.onAttack(npc, attacker, damage, isPet);
 	}
-
+	
 	@Override
 	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
 	{
-		for(Transformer monster : _mobs)
+		for (Transformer monster : _mobs)
 		{
-			if(npc.getNpcId() == monster.getId())
+			if (npc.getNpcId() == monster.getId())
 			{
-				if(monster.getMessage() != 0)
+				if (monster.getMessage() != 0)
 				{
 					npc.broadcastPacket(new CreatureSay(npc.getObjectId(), 0, npc.getName(), Message[Rnd.get(monster.getMessage())]));
 				}
@@ -172,5 +194,43 @@ public class Transform extends Quest implements Runnable
 
 	@Override
 	public void run()
-	{}
+	{
+	}
+	
+	private class NPCSpawnTask implements Runnable
+	{
+		
+		private L2NpcInstance spawn;
+		private long spawnEffectTime;
+		private int spawnAbnormalEffect;
+		
+		/**
+		 * @param spawn
+		 * @param spawnEffectTime
+		 * @param spawnAbnormalEffect
+		 */
+		public NPCSpawnTask(L2NpcInstance spawn, long spawnEffectTime, int spawnAbnormalEffect)
+		{
+			super();
+			this.spawn = spawn;
+			this.spawnEffectTime = spawnEffectTime;
+			this.spawnAbnormalEffect = Integer.decode("0x" + spawnAbnormalEffect);
+		}
+		
+		@Override
+		public void run()
+		{
+			spawn.startAbnormalEffect(spawnAbnormalEffect);
+			
+			try
+			{
+				Thread.sleep(spawnEffectTime);
+			}
+			catch (InterruptedException e)
+			{
+			}
+			
+			spawn.stopAbnormalEffect(spawnAbnormalEffect);
+		}
+	}
 }

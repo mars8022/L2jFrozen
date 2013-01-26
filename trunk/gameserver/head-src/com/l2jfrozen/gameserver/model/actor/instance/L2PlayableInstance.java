@@ -248,6 +248,7 @@ public abstract class L2PlayableInstance extends L2Character
 
 	/**
 	 * Start noblesse blessing.
+	 * @param effect 
 	 */
 	public final void startNoblesseBlessing(L2Effect effect)
 	{
@@ -309,6 +310,7 @@ public abstract class L2PlayableInstance extends L2Character
 
 	/**
 	 * Start protection blessing.
+	 * @param effect 
 	 */
 	public void startProtectionBlessing(L2Effect effect)
 	{
@@ -368,6 +370,7 @@ public abstract class L2PlayableInstance extends L2Character
 
 	/**
 	 * Start phoenix blessing.
+	 * @param effect 
 	 */
 	public final void startPhoenixBlessing(L2Effect effect)
 	{
@@ -454,6 +457,7 @@ public abstract class L2PlayableInstance extends L2Character
 
 	/**
 	 * Start charm of luck.
+	 * @param effect 
 	 */
 	public final void startCharmOfLuck(L2Effect effect)
 	{
