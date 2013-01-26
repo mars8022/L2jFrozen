@@ -581,6 +581,8 @@ public final class Config
 	public static int UNSTUCK_INTERVAL;
 	public static int DEATH_PENALTY_CHANCE;
 	public static int PLAYER_SPAWN_PROTECTION;
+	public static int PLAYER_TELEPORT_PROTECTION;
+	public static boolean EFFECT_TELEPORT_PROTECTION;
 	public static int PLAYER_FAKEDEATH_UP_PROTECTION;
 	public static String PARTY_XP_CUTOFF_METHOD;
 	public static int PARTY_XP_CUTOFF_LEVEL;
@@ -638,6 +640,8 @@ public final class Config
 
 			/* Select hit task */
 			CLICK_TASK = Integer.parseInt(otherSettings.getProperty("ClickTask", "50"));
+			
+			GM_CRITANNOUNCER_NAME = Boolean.parseBoolean(otherSettings.getProperty("GMShowCritAnnouncerName", "False"));
 			
 			/* Inventory slots limits */
 			INVENTORY_MAXIMUM_NO_DWARF = Integer.parseInt(otherSettings.getProperty("MaximumSlotsForNoDwarf", "80"));
@@ -758,7 +762,9 @@ public final class Config
 
 			/* Player protection after teleport or login */
 			PLAYER_SPAWN_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerSpawnProtection", "0"));
-
+			PLAYER_TELEPORT_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerTeleportProtection", "0"));
+			EFFECT_TELEPORT_PROTECTION = Boolean.parseBoolean(otherSettings.getProperty("EffectTeleportProtection", "False"));
+			
 			/* Player protection after recovering from fake death (works against mobs only) */
 			PLAYER_FAKEDEATH_UP_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerFakeDeathUpProtection", "0"));
 
@@ -2082,6 +2088,7 @@ public final class Config
 	public static boolean OFFLINE_COMMAND1;
 	public static boolean OFFLINE_COMMAND2;
 	public static boolean OFFLINE_LOGOUT;
+	public static boolean OFFLINE_SLEEP_EFFECT;
 	
 	public static boolean RESTORE_OFFLINERS;
 	public static int OFFLINE_MAX_DAYS;
@@ -2107,6 +2114,7 @@ public final class Config
 			OFFLINE_COMMAND1 = Boolean.parseBoolean(OfflineSettings.getProperty("OfflineCommand1", "True"));
 			OFFLINE_COMMAND2 = Boolean.parseBoolean(OfflineSettings.getProperty("OfflineCommand2", "False"));
 			OFFLINE_LOGOUT = Boolean.parseBoolean(OfflineSettings.getProperty("OfflineLogout", "False"));
+			OFFLINE_SLEEP_EFFECT = Boolean.parseBoolean(OfflineSettings.getProperty("OfflineSleepEffect", "True"));
 
 			RESTORE_OFFLINERS = Boolean.parseBoolean(OfflineSettings.getProperty("RestoreOffliners", "false")); 
 			OFFLINE_MAX_DAYS = Integer.parseInt(OfflineSettings.getProperty("OfflineMaxDays", "10"));
@@ -2122,6 +2130,7 @@ public final class Config
 
 	//============================================================
 	public static boolean GM_TRADE_RESTRICTED_ITEMS;
+	public static boolean GM_CRITANNOUNCER_NAME;
 	public static boolean GM_RESTART_FIGHTING;
 	public static boolean PM_MESSAGE_ON_START;
 	public static boolean SERVER_TIME_ON_START;
@@ -2592,6 +2601,7 @@ public final class Config
 	public static int ANTI_FARM_MAX_PATK_DIFF;
 	public static boolean ANTI_FARM_PARTY_ENABLED;
 	public static boolean ANTI_FARM_IP_ENABLED;
+	public static boolean ANTI_FARM_SUMMON;
 	
 	//============================================================
 	public static void loadPvpConfig()
@@ -2712,6 +2722,7 @@ public final class Config
 			ANTI_FARM_MAX_PATK_DIFF = Integer.parseInt(pvpSettings.getProperty("AntiFarmMaxPatkDiff", "300"));
 			ANTI_FARM_PARTY_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmParty", "False"));
 			ANTI_FARM_IP_ENABLED = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmIP", "False"));
+			ANTI_FARM_SUMMON = Boolean.parseBoolean(pvpSettings.getProperty("AntiFarmSummon", "False"));
 		}
 		catch(Exception e)
 		{

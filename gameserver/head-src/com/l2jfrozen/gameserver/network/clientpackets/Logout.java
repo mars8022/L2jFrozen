@@ -123,7 +123,8 @@ public final class Logout extends L2GameClientPacket
 			if ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
 			{
 				// Sleep effect, not official feature but however L2OFF features (like offline trade)
-				player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+				if (Config.OFFLINE_SLEEP_EFFECT)
+					player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
 				
 				player.store();
 				player.closeNetConnection();

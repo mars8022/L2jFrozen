@@ -219,7 +219,8 @@ public class OfflineTradeTable
 					player.setClient(client);
 					player.setOffline(true);
 					player.setOfflineStartTime(time);
-					player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+					if (Config.OFFLINE_SLEEP_EFFECT)
+						player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
 					player.spawnMe(player.getX(), player.getY(), player.getZ());
 					LoginServerThread.getInstance().addGameServerLogin(player.getAccountName(), client);
 					PreparedStatement stm_items = con.prepareStatement(LOAD_OFFLINE_ITEMS);

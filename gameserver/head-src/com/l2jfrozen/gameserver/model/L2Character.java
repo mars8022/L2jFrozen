@@ -105,6 +105,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.MagicEffectIcons;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillLaunched;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
+import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySpelled;
 import com.l2jfrozen.gameserver.network.serverpackets.PetInfo;
@@ -2090,7 +2091,7 @@ public abstract class L2Character extends L2Object
 		}
 		
 		// To turn local player in target direction
-		if(skill.isOffensive() && target.isBehind(this))
+		if(skill.isOffensive() && skill.getTargetType() != SkillTargetType.TARGET_AURA && target.isBehind(this))
 		{ 
 			moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
 			stopMove(null);
@@ -8892,7 +8893,15 @@ public abstract class L2Character extends L2Object
 					if(target2 instanceof L2PlayableInstance)
 					{
 						L2Character target = (L2Character) target2;
-
+						
+						// If the skill is type STEALTH(ex: Dance of Shadow)
+						if (skill.isAbnormalEffectByName(ABNORMAL_EFFECT_STEALTH))
+						{
+							L2Effect silentMove = target.getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
+							if (silentMove != null)
+								silentMove.exit(true);
+						}
+						
 						if(skill.getSkillType() == L2Skill.SkillType.BUFF || skill.getSkillType() == L2Skill.SkillType.SEED)
 						{
 							SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
@@ -11366,5 +11375,32 @@ public abstract class L2Character extends L2Object
 	public Map<Integer, L2Skill> get_triggeredSkills()
 	{
 		return _triggeredSkills;
+	}
+	
+	/**
+	 * Set target of L2Attackable and update it.
+	 * @author: Nefer
+	 * @param trasformedNpc
+	 */
+	public void setTargetTrasformedNpc(L2Attackable trasformedNpc)
+	{
+		if (trasformedNpc == null || this == null)
+			return;
+		
+		// Set the target of the L2PcInstance player
+		this.setTarget(trasformedNpc);
+		
+		// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
+		// The player.getLevel() - getLevel() permit to display the correct color in the select window
+		MyTargetSelected my = new MyTargetSelected(trasformedNpc.getObjectId(), this.getLevel() - trasformedNpc.getLevel());
+		this.sendPacket(my);
+		my = null;
+		
+		// Send a Server->Client packet StatusUpdate of the L2NpcInstance to the L2PcInstance to update its HP bar
+		StatusUpdate su = new StatusUpdate(trasformedNpc.getObjectId());
+		su.addAttribute(StatusUpdate.CUR_HP, (int) trasformedNpc.getCurrentHp());
+		su.addAttribute(StatusUpdate.MAX_HP, trasformedNpc.getMaxHp());
+		this.sendPacket(su);
+		su = null;
 	}
 }

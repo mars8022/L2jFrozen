@@ -36,6 +36,7 @@ INSERT IGNORE INTO `admin_command_access_rights` VALUES
 ('admin_add_announcement','3'),
 ('admin_del_announcement','3'),
 ('admin_announce','3'),
+('admin_critannounce','1'),
 ('admin_announce_menu','3'),
 ('admin_list_autoannouncements','3'),
 ('admin_add_autoannouncement','3'),

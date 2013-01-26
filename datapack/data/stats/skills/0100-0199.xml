@@ -25,7 +25,7 @@
   <set name="effectRange" val="400"/>
   <set name="isDebuff" val="true" />
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
+    <effect count="1" name="Stun" time="9" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
@@ -61,7 +61,7 @@
   <enchant2 name="mpConsume" val="#ench2MpConsume"/>
   <enchant2 name="power" val="#ench2Power"/>
    <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
+    <effect count="1" name="Stun" time="9" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
     <effect count="1" name="RemoveTarget" noicon="1" time="1" val="0" effectPower="50" effectType="DEBUFF" />
   </for>
 </skill>
@@ -493,7 +493,7 @@
   <set name="castRange" val="40"/>
   <set name="effectRange" val="400"/>
   <for>
-    <effect count="1" name="Stun" time="5" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
+    <effect count="1" name="Stun" time="9" val="0" stackOrder="1" stackType="Stun" effectPower="50" effectType="STUN"/>
   </for>
 </skill>
 <skill id="121" levels="6" name="Battle Roar" enchantLevels1="30">
@@ -540,7 +540,7 @@
   <set name="power" val="80"/>
   <set name="saveVs" val="MEN"/>
   <set name="target" val="TARGET_ONE"/>
-  <set name="reuseDelay" val="8000"/>
+  <set name="reuseDelay" val="6000"/>
   <set name="hitTime" val="1200"/>
   <set name="skillType" val="DEBUFF"/>
   <set name="isMagic" val="true"/>

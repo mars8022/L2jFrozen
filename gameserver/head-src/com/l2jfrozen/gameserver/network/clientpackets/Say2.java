@@ -63,6 +63,7 @@ public final class Say2 extends L2GameClientPacket
 	public final static int PARTYROOM_ALL = 16; //(Red)
 	public final static int PARTYROOM_COMMANDER = 15; //(Yellow)
 	public final static int HERO_VOICE = 17; //%
+	public final static int CRITICAL_ANNOUNCE = 18;
 
 	private final static String[] CHAT_NAMES =
 	{
@@ -73,7 +74,8 @@ public final class Say2 extends L2GameClientPacket
 			"FAKEALL?",
 			"PARTYROOM_ALL",
 			"PARTYROOM_COMMANDER",
-			"HERO_VOICE"
+			"CRITICAL_ANNOUNCE",
+			"HERO_VOICE"	
 	};
 
 	private String _text;

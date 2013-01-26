@@ -1228,7 +1228,10 @@ private AccessLevel _accessLevel;
 
 	// Used for protection after teleport
 	/** The _protect end time. */
-	private long _protectEndTime = 0;
+	private long _protectEndTime = 0;	
+	public boolean isSpawnProtected() { return  _protectEndTime > GameTimeController.getGameTicks(); }
+	private long _teleportProtectEndTime = 0;
+	public boolean isTeleportProtected() { return  _teleportProtectEndTime > GameTimeController.getGameTicks(); }
 
 	// protects a char from agro mobs when getting up from fake death
 	/** The _recent fake death end time. */
@@ -5814,14 +5817,34 @@ private int _reviveRequested = 0;
 	public void setProtection(boolean protect)
 	{
 		if(Config.DEVELOPER && (protect || _protectEndTime > 0))
-		{
 			_log.info(getName() + ": Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
-		}
 
 		if(isInOlympiadMode())
 			return;
 		
 		_protectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
+	}
+	
+	public void setTeleportProtection(boolean protect)
+	{
+		if (Config.DEVELOPER && (protect || _teleportProtectEndTime > 0))
+			_log.warning(getName() + ": Tele Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
+		
+		_teleportProtectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
+		
+		if (Config.EFFECT_TELEPORT_PROTECTION)
+		{
+			if (protect)
+			{
+				startAbnormalEffect(2097152);
+				sendMessage("The effects of Teleport Spawn Protection flow through you.");
+			}			
+			else if (!protect)
+			{
+				stopAbnormalEffect(2097152);
+				sendMessage("The effect of Teleport Spawn Protection has been removed.");
+			}
+		}
 	}
 
 	/**
@@ -7898,21 +7921,20 @@ private int _reviveRequested = 0;
 
 	/**
 	 * On kill update pvp karma.
-	 *
 	 * @param target the target
 	 */
 	public void onKillUpdatePvPKarma(L2Character target)
 	{
-		if(target == null)
+		if (target == null)
 			return;
-
-		if(!(target instanceof L2PlayableInstance))
+		
+		if (!(target instanceof L2PlayableInstance))
 			return;
-
+		
 		if ((_inEventCTF && CTF.is_started()) || (_inEventTvT && TvT.is_started()) || (_inEventVIP && VIP._started) || (_inEventDM && DM.is_started()))
 			return;
-
-		if(isCursedWeaponEquipped())
+		
+		if (isCursedWeaponEquipped())
 		{
 			CursedWeaponsManager.getInstance().increaseKills(_cursedWeaponEquipedId);
 			// Custom message for time left
@@ -7924,66 +7946,72 @@ private int _reviveRequested = 0;
 			// sendPacket(msg);
 			return;
 		}
-
+		
 		L2PcInstance targetPlayer = null;
-
-		if(target instanceof L2PcInstance)
+		
+		if (target instanceof L2PcInstance)
 		{
 			targetPlayer = (L2PcInstance) target;
 		}
-		else if(target instanceof L2Summon)
+		else if (target instanceof L2Summon)
 		{
 			targetPlayer = ((L2Summon) target).getOwner();
 		}
-
-		if(targetPlayer == null)
+		
+		if (targetPlayer == null)
 			return; // Target player is null
-
-		if(targetPlayer == this)
+			
+		if (targetPlayer == this)
 		{
 			targetPlayer = null;
 			return; // Target player is self
 		}
-
-		if(isCursedWeaponEquiped())
+		
+		if (isCursedWeaponEquiped())
 		{
 			CursedWeaponsManager.getInstance().increaseKills(_cursedWeaponEquipedId);
 			return;
 		}
-
+		
 		// If in duel and you kill (only can kill l2summon), do nothing
-		if(isInDuel() && targetPlayer.isInDuel())
-			return;
-
-		// If in Arena, do nothing
-		if(isInsideZone(ZONE_PVP) || targetPlayer.isInsideZone(ZONE_PVP))
+		if (isInDuel() && targetPlayer.isInDuel())
 			return;
 		
-		//check anti-farm
-		if(!checkAntiFarm(targetPlayer))
+		// If in Arena, do nothing
+		if (isInsideZone(ZONE_PVP) || targetPlayer.isInsideZone(ZONE_PVP))
 			return;
-			
+		
+		// check anti-farm
+		if (!checkAntiFarm(targetPlayer))
+			return;
+		
+		if (Config.ANTI_FARM_SUMMON)
+		{
+			if (target instanceof L2SummonInstance)
+				return;
+		}
+		
 		// Check if it's pvp
-		if(checkIfPvP(target) && targetPlayer.getPvpFlag() != 0 || isInsideZone(ZONE_PVP) && targetPlayer.isInsideZone(ZONE_PVP))
+		if (checkIfPvP(target) && targetPlayer.getPvpFlag() != 0 || isInsideZone(ZONE_PVP) && targetPlayer.isInsideZone(ZONE_PVP))
 		{
 			increasePvpKills();
 		}
 		else
 		{
 			// check about wars
-			if(targetPlayer.getClan() != null && getClan() != null)
+			if (targetPlayer.getClan() != null && getClan() != null)
 			{
-				if(getClan().isAtWarWith(targetPlayer.getClanId()))
+				if (getClan().isAtWarWith(targetPlayer.getClanId()))
 				{
-					if(targetPlayer.getClan().isAtWarWith(getClanId()))
+					if (targetPlayer.getClan().isAtWarWith(getClanId()))
 					{
 						// 'Both way war' -> 'PvP Kill'
 						increasePvpKills();
-						if(target instanceof L2PcInstance && Config.ANNOUNCE_PVP_KILL)
+						if (target instanceof L2PcInstance && Config.ANNOUNCE_PVP_KILL)
 						{
 							Announcements.getInstance().announceToAll("Player " + getName() + " hunted Player " + target.getName());
 						}
-						else if(target instanceof L2PcInstance && Config.ANNOUNCE_ALL_KILL)
+						else if (target instanceof L2PcInstance && Config.ANNOUNCE_ALL_KILL)
 						{
 							Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 						}
@@ -7992,58 +8020,56 @@ private int _reviveRequested = 0;
 					}
 				}
 			}
-
+			
 			// 'No war' or 'One way war' -> 'Normal PK'
-			if(!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started()) || !(_inEventVIP && VIP._started) || !(_inEventDM && DM.is_started())) {
-				if(targetPlayer.getKarma() > 0) // Target player has karma
+			if (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started()) || !(_inEventVIP && VIP._started) || !(_inEventDM && DM.is_started()))
+			{
+				if (targetPlayer.getKarma() > 0) // Target player has karma
 				{
-					if(Config.KARMA_AWARD_PK_KILL)
+					if (Config.KARMA_AWARD_PK_KILL)
 					{
 						increasePvpKills();
 					}
-	
-					if(target instanceof L2PcInstance && Config.ANNOUNCE_PVP_KILL)
+					
+					if (target instanceof L2PcInstance && Config.ANNOUNCE_PVP_KILL)
 					{
 						Announcements.getInstance().announceToAll("Player " + getName() + " hunted Player " + target.getName());
 					}
 				}
-				else if(targetPlayer.getPvpFlag() == 0) // Target player doesn't have karma
+				else if (targetPlayer.getPvpFlag() == 0) // Target player doesn't have karma
 				{
 					increasePkKillsAndKarma(targetPlayer.getLevel());
-					if(target instanceof L2PcInstance && Config.ANNOUNCE_PK_KILL)
+					if (target instanceof L2PcInstance && Config.ANNOUNCE_PK_KILL)
 					{
 						Announcements.getInstance().announceToAll("Player " + getName() + " has assassinated Player " + target.getName());
 					}
 				}
 			}
 		}
-		if(target instanceof L2PcInstance && Config.ANNOUNCE_ALL_KILL)
+		if (target instanceof L2PcInstance && Config.ANNOUNCE_ALL_KILL)
 		{
 			Announcements.getInstance().announceToAll("Player " + getName() + " killed Player " + target.getName());
 		}
-
 		
-		if(_inEventDM && DM.is_started()){ 
+		if (_inEventDM && DM.is_started())
+		{
 			return;
 		}
 		
-		if(targetPlayer.getObjectId() == _lastKill){
-			
-			count += 1;
-			
-		}else{
-			
+		if (targetPlayer.getObjectId() == _lastKill)
+		{			
+			count += 1;			
+		}
+		else
+		{			
 			count = 1;
-			_lastKill = targetPlayer.getObjectId();
-			
+			_lastKill = targetPlayer.getObjectId();			
 		}
 		
-
-		if(Config.REWARD_PROTECT == 0 
-				|| count <= Config.REWARD_PROTECT){
+		if (Config.REWARD_PROTECT == 0 || count <= Config.REWARD_PROTECT)
+		{
 			addItemReward(targetPlayer);
-		}
-		
+		}		
 	}
 	
 	/**
@@ -8121,64 +8147,63 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Adds the item reword.
-	 *
 	 * @param targetPlayer the target player
 	 */
 	private void addItemReward(L2PcInstance targetPlayer)
-	{	
-	
-        //IP check
-		if(targetPlayer.getClient()!=null)
-		if(targetPlayer.getClient().getConnection().getInetAddress() != getClient().getConnection().getInetAddress())
+	{
+		// IP check
+		if (targetPlayer.getClient() != null && targetPlayer.getClient().getConnection() != null)
 		{
-
-			if(targetPlayer.getKarma() > 0 || targetPlayer.getPvpFlag() > 0) //killing target pk or in pvp
+			if (targetPlayer.getClient().getConnection().getInetAddress() != getClient().getConnection().getInetAddress())
 			{
-				if(Config.PVP_REWARD_ENABLED)
+				
+				if (targetPlayer.getKarma() > 0 || targetPlayer.getPvpFlag() > 0) // killing target pk or in pvp
 				{
-					int item = Config.PVP_REWARD_ID;
-					L2Item reward = ItemTable.getInstance().getTemplate(item);
+					if (Config.PVP_REWARD_ENABLED)
+					{
+						int item = Config.PVP_REWARD_ID;
+						L2Item reward = ItemTable.getInstance().getTemplate(item);
+						
+						int amount = Config.PVP_REWARD_AMOUNT;
+						
+						getInventory().addItem("Winning PvP", Config.PVP_REWARD_ID, Config.PVP_REWARD_AMOUNT, this, null);
+						sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
+					}
 					
-					int amount = Config.PVP_REWARD_AMOUNT;
-					
-					getInventory().addItem("Winning PvP", Config.PVP_REWARD_ID, Config.PVP_REWARD_AMOUNT, this, null);
-					sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
+					if (!Config.FORCE_INVENTORY_UPDATE)
+					{
+						InventoryUpdate iu = new InventoryUpdate();
+						iu.addItem(_inventory.getItemByItemId(Config.PVP_REWARD_ID));
+						sendPacket(iu);
+						iu = null;
+					}
 				}
-
-				if(!Config.FORCE_INVENTORY_UPDATE)
+				else
+				// target is not pk and not in pvp ---> PK KILL
 				{
-					InventoryUpdate iu = new InventoryUpdate();
-					iu.addItem(_inventory.getItemByItemId(Config.PVP_REWARD_ID));
-					sendPacket(iu);
-					iu = null;
+					if (Config.PK_REWARD_ENABLED)
+					{
+						int item = Config.PK_REWARD_ID;
+						L2Item reward = ItemTable.getInstance().getTemplate(item);
+						int amount = Config.PK_REWARD_AMOUNT;
+						getInventory().addItem("Winning PK", Config.PK_REWARD_ID, Config.PK_REWARD_AMOUNT, this, null);
+						sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
+					}
+					
+					if (!Config.FORCE_INVENTORY_UPDATE)
+					{
+						InventoryUpdate iu = new InventoryUpdate();
+						iu.addItem(_inventory.getItemByItemId(Config.PK_REWARD_ID));
+						sendPacket(iu);
+						iu = null;
+					}
 				}
 			}
-			else //target is not pk and not in pvp ---> PK KILL
+			else
 			{
-				if(Config.PK_REWARD_ENABLED)
-				{
-					int item = Config.PK_REWARD_ID;
-					L2Item reward = ItemTable.getInstance().getTemplate(item);
-					int amount = Config.PK_REWARD_AMOUNT;
-					getInventory().addItem("Winning PK", Config.PK_REWARD_ID, Config.PK_REWARD_AMOUNT, this, null);
-					sendMessage("You have earned " + amount + " item(s) of " + reward.getName() + ".");
-				}
-
-				if(!Config.FORCE_INVENTORY_UPDATE)
-				{
-					InventoryUpdate iu = new InventoryUpdate();
-					iu.addItem(_inventory.getItemByItemId(Config.PK_REWARD_ID));
-					sendPacket(iu);
-					iu = null;
-				}
+				this.sendMessage("Farm is punishable with Ban! Don't kill your Box!");
+				_log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
 			}
-
-		}else{
-			
-			 this.sendMessage("Farm is punishable with Ban! Don't kill your Box!");
-	        _log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
-	        
-			
 		}
 	}
 
@@ -9523,7 +9548,7 @@ private int _reviveRequested = 0;
 	@Override
 	public boolean isInvul()
 	{
-		return _isInvul || _isTeleporting || _protectEndTime > GameTimeController.getGameTicks();
+		return _isInvul || _isTeleporting || _protectEndTime > GameTimeController.getGameTicks() || _teleportProtectEndTime > GameTimeController.getGameTicks();
 	}
 
 	/**
@@ -13427,58 +13452,60 @@ private int _reviveRequested = 0;
 	class kickBot implements Runnable
 	{
 		
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
+		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run()
 		{
-			if(isOnline() == 1 && getPrivateStoreType()==0){
+			if (isOnline() == 1 && getPrivateStoreType() == 0)
+			{
 				
-				for(int i = Config.BOT_PROTECTOR_WAIT_ANSVER; i >= 10; i -= 10)
+				for (int i = Config.BOT_PROTECTOR_WAIT_ANSVER; i >= 10; i -= 10)
 				{
-					if(_stopKickBotTask)
+					if (_stopKickBotTask)
 					{
-						if(_taskKickBot != null)
+						if (_taskKickBot != null)
 						{
 							_taskKickBot = null;
 						}
 						_stopKickBotTask = false;
 						return;
 					}
-
+					
 					L2PcInstance.this.sendMessage("You have " + i + " seconds to choose the answer.");
-
+					
 					try
 					{
 						Thread.sleep(10000);
 					}
-					catch(InterruptedException e)
+					catch (InterruptedException e)
 					{
 						e.printStackTrace();
 					}
 				}
-				if(_stopKickBotTask)
+				if (_stopKickBotTask)
 				{
-					if(_taskKickBot != null)
+					if (_taskKickBot != null)
 					{
 						_taskKickBot = null;
 					}
 					_stopKickBotTask = false;
 					return;
 				}
+				_log.warning("Player " + L2PcInstance.this.getName() + " kicked from game, no/wrong answer on ANTI BOT!");
 				L2PcInstance.this.closeNetConnection();
-				
 			}
 			else
 			{
-				if(_taskKickBot != null)
+				if (_taskKickBot != null)
 				{
 					_taskKickBot = null;
 				}
 				_stopKickBotTask = false;
 			}
-			
 		}
 	}
 
@@ -13818,7 +13845,8 @@ private int _reviveRequested = 0;
 		{
 			getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		}
-		Olympiad.getInstance().removeSpectator(_olympiadGameId, this);
+		Olympiad.getInstance();
+		Olympiad.removeSpectator(_olympiadGameId, this);
 		_olympiadGameId = -1;
 		_observerMode = false;
 		
@@ -15894,7 +15922,13 @@ private int _reviveRequested = 0;
 	 */
 	public void onActionRequest()
 	{
+		if (isSpawnProtected())
+			sendMessage("The effect of Spawn Protection has been removed.");
+		
 		setProtection(false);
+		
+		if (Config.PLAYER_TELEPORT_PROTECTION > 0)
+			setTeleportProtection(false);
 	}
 
 	/**
@@ -15917,38 +15951,37 @@ private int _reviveRequested = 0;
 		return _expertiseIndex;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#onTeleported()
 	 */
 	@Override
 	public final void onTeleported()
 	{
 		super.onTeleported();
-
+		
 		// Force a revalidation
 		revalidateZone(true);
-
-		if(Config.PLAYER_SPAWN_PROTECTION > 0)
+		
+		if ((Config.PLAYER_TELEPORT_PROTECTION > 0) && !isInOlympiadMode())
 		{
-			setProtection(true);
+			setTeleportProtection(true);
 		}
-
-		if(Config.ALLOW_WATER)
+		if (Config.ALLOW_WATER)
 		{
 			checkWaterState();
 		}
-
+		
 		// Modify the position of the tamed beast if necessary (normal pets are handled by super...though
 		// L2PcInstance is the only class that actually has pets!!! )
-		if(getTrainedBeast() != null)
+		if (getTrainedBeast() != null)
 		{
 			getTrainedBeast().getAI().stopFollow();
 			getTrainedBeast().teleToLocation(getPosition().getX() + Rnd.get(-100, 100), getPosition().getY() + Rnd.get(-100, 100), getPosition().getZ(), false);
 			getTrainedBeast().getAI().startFollow(this);
 		}
 		
-		broadcastUserInfo();
-
+		broadcastUserInfo();		
 	}
 
 	/* (non-Javadoc)
@@ -16675,7 +16708,7 @@ private int _reviveRequested = 0;
 	        {
 	         try
 	         {
-	          Thread.sleep(2000);
+	          wait(2000);
 	         }
 	         catch(InterruptedException e)
 	         {
@@ -19526,6 +19559,7 @@ public boolean dismount()
 	}
     
 	// open/close gates
+	@SuppressWarnings("synthetic-access")
 	private GatesRequest _gatesRequest = new GatesRequest();
 	
 	private static class GatesRequest

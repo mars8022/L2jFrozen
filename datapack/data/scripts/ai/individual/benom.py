@@ -116,15 +116,14 @@ class benom (JQuest):
           self.BenomIsSpawned = 1
         elif self.BenomIsSpawned == 1 :
           self.Benomm.teleToLocation(11025, -49152, -537)
-        self.startQuestTimer("BenomSpawnEffect", 100, npc, None)
-        self.startQuestTimer("BenomBossDespawn", 5400000, npc, None)
-        self.cancelQuestTimer("BenomSpawn", npc, None)
+        self.startQuestTimer("BenomSpawnEffect", 100, None, None)
+        self.startQuestTimer("BenomBossDespawn", 5400000, None, None)
         self.Teleport.deleteMe()
     elif event == "BenomSpawnEffect" :
-      npc.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE)
-      npc.broadcastPacket(SpecialCamera(npc.getObjectId(), 200, 0, 150, 0, 5000))
-      npc.broadcastPacket(SocialAction(npc.getObjectId(), 3))
-      self.startQuestTimer("BenomWalk", 5000, npc, None)
+      self.Benomm.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE)
+      self.Benomm.broadcastPacket(SpecialCamera(self.Benomm.getObjectId(), 200, 0, 150, 0, 5000))
+      self.Benomm.broadcastPacket(SocialAction(self.Benomm.getObjectId(), 3))
+      self.startQuestTimer("BenomWalk", 5000, self.Benomm, None)
       self.BenomWalkRouteStep = 0
     elif event == "Attacking" :
       NumPlayers = []

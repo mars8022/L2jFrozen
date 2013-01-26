@@ -742,6 +742,7 @@ public final class L2ItemInstance extends L2Object
 	 *
 	 * @param player the player
 	 * @param allowAdena the allow adena
+	 * @param allowEquipped 
 	 * @return boolean
 	 */
 	public boolean isAvailable(L2PcInstance player, boolean allowAdena, boolean allowEquipped)

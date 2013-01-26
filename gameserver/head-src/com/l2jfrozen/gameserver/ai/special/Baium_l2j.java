@@ -570,7 +570,7 @@ public class Baium_l2j  extends Quest implements Runnable
 				npc.broadcastPacket(new MoveToPawn(npc,target,getDist(skill.getCastRange())));
 			try
 			{
-				Thread.sleep(1000);
+				wait(1000);
 				npc.stopMove(null);
 				npc.doCast(skill);
 			}

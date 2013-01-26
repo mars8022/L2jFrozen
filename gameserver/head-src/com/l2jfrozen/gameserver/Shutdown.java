@@ -623,7 +623,7 @@ public class Shutdown extends Thread
 
         try
 		{
-			Thread.sleep(1000);
+			wait(1000);
 		}
 		catch(InterruptedException e1)
 		{
@@ -634,7 +634,7 @@ public class Shutdown extends Thread
 		
 		try
 		{
-			Thread.sleep(5000);
+			wait(5000);
 		}
 		catch(InterruptedException e1)
 		{
@@ -689,7 +689,7 @@ public class Shutdown extends Thread
 
 		try
 		{
-			Thread.sleep(10000);
+			wait(10000);
 		}
 		catch(InterruptedException e)
 		{
