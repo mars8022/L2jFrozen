@@ -637,12 +637,9 @@ public class L2Spawn
 				_log.finest("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
 			}
 
-			if(mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN) != null)
+			for(Quest quest : mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN))
 			{
-				for(Quest quest : mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN))
-				{
-					quest.notifySpawn(mob);
-				}
+				quest.notifySpawn(mob);
 			}
 
 			// Increase the current number of L2NpcInstance managed by this L2Spawn

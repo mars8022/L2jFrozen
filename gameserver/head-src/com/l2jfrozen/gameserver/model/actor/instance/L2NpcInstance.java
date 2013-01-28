@@ -873,7 +873,7 @@ public class L2NpcInstance extends L2Character
 						 */
 						
 						Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.NPC_FIRST_TALK);
-						if (qlst != null && qlst.length == 1)
+						if (qlst.length == 1)
 						{
 							qlst[0].notifyFirstTalk(this, player);
 						}
@@ -1215,7 +1215,7 @@ public class L2NpcInstance extends L2Character
 							 */
 							
 							Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.NPC_FIRST_TALK);
-							if (qlst != null && qlst.length == 1)
+							if (qlst.length == 1)
 							{
 								qlst[0].notifyFirstTalk(this, player);
 							}
@@ -2045,17 +2045,12 @@ public class L2NpcInstance extends L2Character
 					}
 				}
 				// Check for start point
-				Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
-				
-				if (qlst != null && qlst.length > 0)
+				for (Quest temp : getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START))
 				{
-					for (Quest temp : qlst)
+					if (temp == q)
 					{
-						if (temp == q)
-						{
-							qs = q.newQuestState(player);
-							break;
-						}
+						qs = q.newQuestState(player);
+						break;
 					}
 				}
 			}
@@ -2121,16 +2116,13 @@ public class L2NpcInstance extends L2Character
 			}
 		}
 		
-		if (starts != null)
+		for (Quest x : starts)
 		{
-			for (Quest x : starts)
-			{
-				if (!options.contains(x))
-					if (x.getQuestIntId() > 0 && x.getQuestIntId() < 1000)
-					{
-						options.add(x);
-					}
-			}
+			if (!options.contains(x))
+				if (x.getQuestIntId() > 0 && x.getQuestIntId() < 1000)
+				{
+					options.add(x);
+				}
 		}
 		
 		// Display a QuestChooseWindow (if several quests are available) or QuestWindow

@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import javolution.util.FastMap;
@@ -372,9 +373,7 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 		// use of more than one debuff at this moment is acceptable
 		if(HPRatio >= 0.8)
 		{
-			FastMap<Integer, L2Skill> skills = (FastMap<Integer, L2Skill>) getTemplate().getSkills();
-
-			for(L2Skill skill : skills.values())
+			for(L2Skill skill : getTemplate().getSkills().values())
 			{
 				// if the skill is a debuff, check if the attacker has it already [  attacker.getEffect(L2Skill skill) ]
 				if(skill.getSkillType() == L2Skill.SkillType.DEBUFF && Rnd.get(3) < 1 && attacker.getFirstEffect(skill) != null)
@@ -382,7 +381,6 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 					sitCastAndFollow(skill, attacker);
 				}
 			}
-			skills = null;
 		}
 		// for HP levels between 80% and 50%, do not react to attack events (so that MP can regenerate a bit)
 		// for lower HP ranges, heal or recharge the owner with 1 skill use per attack.
@@ -395,9 +393,7 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 			}
 
 			// if the owner has a lot of HP, then debuff the enemy with a random debuff among the available skills
-			FastMap<Integer, L2Skill> skills = (FastMap<Integer, L2Skill>) getTemplate().getSkills();
-
-			for(L2Skill skill : skills.values())
+			for(L2Skill skill : getTemplate().getSkills().values())
 			{
 				// if the skill is a buff, check if the owner has it already [  owner.getEffect(L2Skill skill) ]
 				if(Rnd.get(5) < chance && (skill.getSkillType() == L2Skill.SkillType.HEAL || skill.getSkillType() == L2Skill.SkillType.HOT || skill.getSkillType() == L2Skill.SkillType.BALANCE_LIFE || skill.getSkillType() == L2Skill.SkillType.HEAL_PERCENT || skill.getSkillType() == L2Skill.SkillType.HEAL_STATIC || skill.getSkillType() == L2Skill.SkillType.COMBATPOINTHEAL || skill.getSkillType() == L2Skill.SkillType.COMBATPOINTPERCENTHEAL || skill.getSkillType() == L2Skill.SkillType.CPHOT || skill.getSkillType() == L2Skill.SkillType.MANAHEAL || skill.getSkillType() == L2Skill.SkillType.MANA_BY_LEVEL || skill.getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT || skill.getSkillType() == L2Skill.SkillType.MANARECHARGE || skill.getSkillType() == L2Skill.SkillType.MPHOT))
@@ -406,7 +402,6 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 					return;
 				}
 			}
-			skills = null;
 		}
 	}
 
@@ -575,9 +570,7 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 			L2Skill buffToGive = null;
 
 			// get this npc's skills:  getSkills()
-			FastMap<Integer, L2Skill> skills = (FastMap<Integer, L2Skill>) _tamedBeast.getTemplate().getSkills();
-
-			for(L2Skill skill : skills.values())
+			for(L2Skill skill : _tamedBeast.getTemplate().getSkills().values())
 			{
 				// if the skill is a buff, check if the owner has it already [  owner.getEffect(L2Skill skill) ]
 				if(skill.getSkillType() == L2Skill.SkillType.BUFF)
@@ -600,7 +593,6 @@ public final class L2TamedBeastInstance extends L2FeedableBeastInstance
 			}
 			getAI().setIntention(CtrlIntention.AI_INTENTION_FOLLOW, _tamedBeast.getOwner());
 			buffToGive = null;
-			skills = null;
 		}
 	}
 }

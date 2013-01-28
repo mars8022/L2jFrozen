@@ -116,12 +116,12 @@ public final class L2NpcTemplate extends L2CharTemplate
 	/** The table containing all Minions that must be spawn with the L2NpcInstance using this L2NpcTemplate */
 	private final List<L2MinionData> _minions = new FastList<L2MinionData>(0);
 
-	private List<ClassId> _teachInfo;
-	private Map<Integer, L2Skill> _skills;
-	private Map<Stats, Double> _vulnerabilities;
+	private List<ClassId> _teachInfo = new FastList<ClassId>();
+	private Map<Integer, L2Skill> _skills = new FastMap<Integer, L2Skill>();
+	private Map<Stats, Double> _vulnerabilities = new FastMap<Stats, Double>();
 	// contains a list of quests for each event type (questStart, questAttack, questKill, etc)
-	private Map<Quest.QuestEventType, Quest[]> _questEvents;
-	private static FastMap<AIExtend.Action, AIExtend[]> _aiEvents;
+	private Map<Quest.QuestEventType, Quest[]> _questEvents = new FastMap<Quest.QuestEventType, Quest[]>();
+	private static FastMap<AIExtend.Action, AIExtend[]> _aiEvents = new FastMap<AIExtend.Action, AIExtend[]>();
 
 	/**
 	 * Constructor of L2Character.<BR>
@@ -160,33 +160,22 @@ public final class L2NpcTemplate extends L2CharTemplate
 		factionRange = set.getInteger("factionRange", 0);
 		absorbLevel = set.getInteger("absorb_level", 0);
 		absorbType = AbsorbCrystalType.valueOf(set.getString("absorb_type"));
-		race = null;
 		_npcStatsSet = set;
-		_teachInfo = null;
 		_custom = custom;
 	}
 
 	public void addTeachInfo(ClassId classId)
 	{
-		if(_teachInfo == null)
-		{
-			_teachInfo = new FastList<ClassId>();
-		}
 		_teachInfo.add(classId);
 	}
 
 	public ClassId[] getTeachInfo()
 	{
-		if(_teachInfo == null)
-			return null;
 		return _teachInfo.toArray(new ClassId[_teachInfo.size()]);
 	}
 
 	public boolean canTeach(ClassId classId)
 	{
-		if(_teachInfo == null)
-			return false;
-
 		// If the player is on a third class, fetch the class teacher
 		// information for its parent class.
 		if(classId.getId() >= 88)
@@ -236,26 +225,19 @@ public final class L2NpcTemplate extends L2CharTemplate
 
 	public void addSkill(L2Skill skill)
 	{
-		if(_skills == null)
-		{
-			_skills = new FastMap<Integer, L2Skill>();
-		}
 		_skills.put(skill.getId(), skill);
 	}
 
 	public void addVulnerability(Stats id, double vuln)
 	{
-		if(_vulnerabilities == null)
-		{
-			_vulnerabilities = new FastMap<Stats, Double>();
-		}
 		_vulnerabilities.put(id, new Double(vuln));
 	}
 
 	public double getVulnerability(Stats id)
 	{
-		if(_vulnerabilities == null || _vulnerabilities.get(id) == null)
+		if(_vulnerabilities.get(id) == null)
 			return 1;
+		
 		return _vulnerabilities.get(id);
 	}
 
@@ -321,11 +303,6 @@ public final class L2NpcTemplate extends L2CharTemplate
 
 	public void addQuestEvent(Quest.QuestEventType EventType, Quest q)
 	{
-		if(_questEvents == null)
-		{
-			_questEvents = new FastMap<Quest.QuestEventType, Quest[]>();
-		}
-
 		if(_questEvents.get(EventType) == null)
 		{
 			_questEvents.put(EventType, new Quest[]
@@ -378,19 +355,15 @@ public final class L2NpcTemplate extends L2CharTemplate
 
 	public Quest[] getEventQuests(Quest.QuestEventType EventType)
 	{
-		if(_questEvents == null)
-			return null;
+		if(_questEvents.get(EventType) == null)
+			return new Quest[0];
+		
 		return _questEvents.get(EventType);
 	}
 
 	//TODO
 	public void addAIEvent(AIExtend.Action actionType, AIExtend ai)
 	{
-		if(_aiEvents == null)
-		{
-			_aiEvents = new FastMap<AIExtend.Action, AIExtend[]>();
-		}
-
 		if(_aiEvents.get(actionType) == null)
 		{
 			_aiEvents.put(actionType, new AIExtend[]
@@ -444,10 +417,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 
 	public static void clearAI()
 	{
-		if(_aiEvents != null)
-		{
-			_aiEvents.clear();
-		}
+		_aiEvents.clear();
 	}
 
 	public StatsSet getStatsSet()

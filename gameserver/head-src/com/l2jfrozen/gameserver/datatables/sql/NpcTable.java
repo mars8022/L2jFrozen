@@ -715,175 +715,165 @@ public class NpcTable
 	public void reloadNpc(int id)
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			// save a copy of the old data
 			L2NpcTemplate old = getTemplate(id);
 			Map<Integer, L2Skill> skills = new FastMap<Integer, L2Skill>();
-
-			if(old.getSkills() != null)
-			{
-				skills.putAll(old.getSkills());
-			}
-
+			
+			skills.putAll(old.getSkills());
+			
 			FastList<L2DropCategory> categories = new FastList<L2DropCategory>();
-
-			if(old.getDropData() != null)
+			
+			if (old.getDropData() != null)
 			{
 				categories.addAll(old.getDropData());
 			}
-			ClassId[] classIds = null;
-
-			if(old.getTeachInfo() != null)
-			{
-				classIds = old.getTeachInfo().clone();
-			}
-
+			ClassId[] classIds = old.getTeachInfo().clone();
+			
 			List<L2MinionData> minions = new FastList<L2MinionData>();
-
-			if(old.getMinionData() != null)
+			
+			if (old.getMinionData() != null)
 			{
 				minions.addAll(old.getMinionData());
 			}
-
+			
 			// reload the NPC base data
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-
-			if(old.isCustom()){
-
+			
+			if (old.isCustom())
+			{
+				
 				final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
-				                                                                                                                      {
-						"id",
-						"idTemplate",
-						"name",
-						"serverSideName",
-						"title",
-						"serverSideTitle",
-						"class",
-						"collision_radius",
-						"collision_height",
-						"level",
-						"sex",
-						"type",
-						"attackrange",
-						"hp",
-						"mp",
-						"hpreg",
-						"mpreg",
-						"str",
-						"con",
-						"dex",
-						"int",
-						"wit",
-						"men",
-						"exp",
-						"sp",
-						"patk",
-						"pdef",
-						"matk",
-						"mdef",
-						"atkspd",
-						"aggro",
-						"matkspd",
-						"rhand",
-						"lhand",
-						"armor",
-						"walkspd",
-						"runspd",
-						"faction_id",
-						"faction_range",
-						"isUndead",
-						"absorb_level",
-						"absorb_type"
-			    }) + " FROM custom_npc WHERE id=?");
+				{
+					"id",
+					"idTemplate",
+					"name",
+					"serverSideName",
+					"title",
+					"serverSideTitle",
+					"class",
+					"collision_radius",
+					"collision_height",
+					"level",
+					"sex",
+					"type",
+					"attackrange",
+					"hp",
+					"mp",
+					"hpreg",
+					"mpreg",
+					"str",
+					"con",
+					"dex",
+					"int",
+					"wit",
+					"men",
+					"exp",
+					"sp",
+					"patk",
+					"pdef",
+					"matk",
+					"mdef",
+					"atkspd",
+					"aggro",
+					"matkspd",
+					"rhand",
+					"lhand",
+					"armor",
+					"walkspd",
+					"runspd",
+					"faction_id",
+					"faction_range",
+					"isUndead",
+					"absorb_level",
+					"absorb_type"
+				}) + " FROM custom_npc WHERE id=?");
 				st.setInt(1, id);
 				final ResultSet rs = st.executeQuery();
 				fillNpcTable(rs, true);
 				rs.close();
 				st.close();
-
-
-			}else{
-
+				
+			}
+			else
+			{
+				
 				final PreparedStatement st = con.prepareStatement("SELECT " + L2DatabaseFactory.getInstance().safetyString(new String[]
-				                                                                                                                      {
-						"id",
-						"idTemplate",
-						"name",
-						"serverSideName",
-						"title",
-						"serverSideTitle",
-						"class",
-						"collision_radius",
-						"collision_height",
-						"level",
-						"sex",
-						"type",
-						"attackrange",
-						"hp",
-						"mp",
-						"hpreg",
-						"mpreg",
-						"str",
-						"con",
-						"dex",
-						"int",
-						"wit",
-						"men",
-						"exp",
-						"sp",
-						"patk",
-						"pdef",
-						"matk",
-						"mdef",
-						"atkspd",
-						"aggro",
-						"matkspd",
-						"rhand",
-						"lhand",
-						"armor",
-						"walkspd",
-						"runspd",
-						"faction_id",
-						"faction_range",
-						"isUndead",
-						"absorb_level",
-						"absorb_type"
+				{
+					"id",
+					"idTemplate",
+					"name",
+					"serverSideName",
+					"title",
+					"serverSideTitle",
+					"class",
+					"collision_radius",
+					"collision_height",
+					"level",
+					"sex",
+					"type",
+					"attackrange",
+					"hp",
+					"mp",
+					"hpreg",
+					"mpreg",
+					"str",
+					"con",
+					"dex",
+					"int",
+					"wit",
+					"men",
+					"exp",
+					"sp",
+					"patk",
+					"pdef",
+					"matk",
+					"mdef",
+					"atkspd",
+					"aggro",
+					"matkspd",
+					"rhand",
+					"lhand",
+					"armor",
+					"walkspd",
+					"runspd",
+					"faction_id",
+					"faction_range",
+					"isUndead",
+					"absorb_level",
+					"absorb_type"
 				}) + " FROM npc WHERE id=?");
 				st.setInt(1, id);
 				final ResultSet rs = st.executeQuery();
 				fillNpcTable(rs, false);
 				rs.close();
 				st.close();
-
+				
 			}
-
 			
 			// restore additional data from saved copy
 			L2NpcTemplate created = getTemplate(id);
-
-			for(L2Skill skill : skills.values())
+			
+			for (L2Skill skill : skills.values())
 			{
 				created.addSkill(skill);
 			}
-
-			if(classIds != null)
+			
+			for (ClassId classId : classIds)
 			{
-				for(ClassId classId : classIds)
-				{
-					created.addTeachInfo(classId);
-				}
+				created.addTeachInfo(classId);
 			}
-
-			for(L2MinionData minion : minions)
+			
+			for (L2MinionData minion : minions)
 			{
 				created.addRaidData(minion);
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
-			_log.severe("NPCTable: Could not reload data for NPC {}"+" "+ id+" "+ e);
+			_log.severe("NPCTable: Could not reload data for NPC {}" + " " + id + " " + e);
 		}
 		finally
 		{
