@@ -238,30 +238,29 @@ public class CursedWeapon
 		_isActivated = false;
 		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S2_WAS_DROPPED_IN_THE_S1_REGION);
-		sm.addItemName(_itemId);
 		
-		if(fromMonster)
+		if (fromMonster)
 		{
 			
 			_item = attackable.DropItem(player, _itemId, 1);
 			_item.setDropTime(0); // Prevent item from being removed by ItemsAutoDestroy
-
+			
 			// RedSky and Earthquake
 			ExRedSky packet = new ExRedSky(10);
 			Earthquake eq = new Earthquake(player.getX(), player.getY(), player.getZ(), 14, 3);
-
-			for(L2PcInstance aPlayer : L2World.getInstance().getAllPlayers())
+			
+			for (L2PcInstance aPlayer : L2World.getInstance().getAllPlayers())
 			{
 				aPlayer.sendPacket(packet);
 				aPlayer.sendPacket(eq);
 			}
-
+			
 			sm.addZoneName(attackable.getX(), attackable.getY(), attackable.getZ()); // Region Name
 			
 			packet = null;
 			eq = null;
 			
-			//EndTime: if dropped from monster, the endTime is a new endTime
+			// EndTime: if dropped from monster, the endTime is a new endTime
 			cancelTask();
 			_endTime = 0;
 			
@@ -270,39 +269,40 @@ public class CursedWeapon
 		{
 			// Remove from player
 			_player.abortAttack();
-
+			
 			_player.setKarma(_playerKarma);
 			_player.setPkKills(_playerPkKills);
 			_player.setCursedWeaponEquipedId(0);
 			removeSkill();
-
+			
 			// Remove
 			_player.getInventory().unEquipItemInBodySlotAndRecord(L2Item.SLOT_LR_HAND);
 			
-			//drop
+			// drop
 			_player.dropItem("DieDrop", _item, killer, true, true);
 			_player.store();
 			
-			//update Inventory and UserInfo
+			// update Inventory and UserInfo
 			_player.sendPacket(new ItemList(_player, false));
 			_player.broadcastUserInfo();
 			
 			sm.addZoneName(_player.getX(), _player.getY(), _player.getZ()); // Region Name
-
-			//EndTime: if dropped from player, the endTime is the same then before
-//			cancelTask();
-//			_endTime = 0;
-		
+			
+			// EndTime: if dropped from player, the endTime is the same then before
+			// cancelTask();
+			// _endTime = 0;		
 		}
 		
-		//reset
+		sm.addItemName(_itemId);
+		
+		// reset
 		_player = null;
 		_playerId = 0;
 		_playerKarma = 0;
 		_playerPkKills = 0;
 		_nbKills = 0;
 		_isDropped = true;
-
+		
 		CursedWeaponsManager.announce(sm);
 	}
 

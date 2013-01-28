@@ -408,18 +408,16 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 					targetPlayer = null;
 				}
 
-				if(obj instanceof L2PcInstance || obj instanceof L2Summon)
+				if(obj instanceof L2PcInstance 
+					|| obj instanceof L2Summon)
 				{
-					if(!((L2Character) obj).isAlikeDead() && !npc.isInsideRadius(obj, npc.getAggroRange(), true, false))
+					if(!target.isAlikeDead() && !npc.isInsideRadius(obj, npc.getAggroRange(), true, false))
 					{
 						L2PcInstance targetPlayer = obj instanceof L2PcInstance ? (L2PcInstance) obj : ((L2Summon) obj).getOwner();
 
-						if(npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_AGGRO_RANGE_ENTER) != null)
+						for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_AGGRO_RANGE_ENTER))
 						{
-							for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_AGGRO_RANGE_ENTER))
-							{
-								quest.notifyAggroRangeEnter(npc, targetPlayer, obj instanceof L2Summon);
-							}
+							quest.notifyAggroRangeEnter(npc, targetPlayer, obj instanceof L2Summon);
 						}
 					}
 				}
@@ -744,13 +742,10 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 							
 							if(originalAttackTarget instanceof L2PcInstance || originalAttackTarget instanceof L2Summon)
 							{
-								if(npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_FACTION_CALL) != null)
+								L2PcInstance player = originalAttackTarget instanceof L2PcInstance ? (L2PcInstance) originalAttackTarget : ((L2Summon) originalAttackTarget).getOwner();
+								for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_FACTION_CALL))
 								{
-									L2PcInstance player = originalAttackTarget instanceof L2PcInstance ? (L2PcInstance) originalAttackTarget : ((L2Summon) originalAttackTarget).getOwner();
-									for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_FACTION_CALL))
-									{
-										quest.notifyFactionCall(npc, (L2NpcInstance) _actor, player, (originalAttackTarget instanceof L2Summon));
-									}
+									quest.notifyFactionCall(npc, (L2NpcInstance) _actor, player, (originalAttackTarget instanceof L2Summon));
 								}
 							}
 							

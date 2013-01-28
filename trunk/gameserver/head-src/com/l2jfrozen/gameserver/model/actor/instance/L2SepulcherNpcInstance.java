@@ -253,13 +253,12 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 
 			default:
 			{
-				Quest[] qlsa = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
-				if(qlsa != null && qlsa.length > 0)
+				if(getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START).length > 0)
 				{
 					player.setLastQuestNpcObject(getObjectId());
 				}
 				Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_TALK);
-				if(qlst != null && qlst.length == 1)
+				if(qlst.length == 1)
 				{
 					qlst[0].notifyFirstTalk(this, player);
 				}

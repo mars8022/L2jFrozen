@@ -18,6 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import javolution.util.FastMap;
@@ -44,11 +45,10 @@ public final class L2BabyPetInstance extends L2PetInstance
 		super(objectId, template, owner, control);
 
 		// look through the skills that this template has and find the weak and strong heal.
-		FastMap<Integer, L2Skill> skills = (FastMap<Integer, L2Skill>) getTemplate().getSkills();
 		L2Skill skill1 = null;
 		L2Skill skill2 = null;
 
-		for(L2Skill skill : skills.values())
+		for(L2Skill skill : getTemplate().getSkills().values())
 		{
 			// just in case, also allow cp heal and mp recharges to be considered here...you never know ;)
 			if(skill.isActive() && skill.getTargetType() == L2Skill.SkillTargetType.TARGET_OWNER_PET && (skill.getSkillType() == L2Skill.SkillType.HEAL || skill.getSkillType() == L2Skill.SkillType.HOT || skill.getSkillType() == L2Skill.SkillType.BALANCE_LIFE || skill.getSkillType() == L2Skill.SkillType.HEAL_PERCENT || skill.getSkillType() == L2Skill.SkillType.HEAL_STATIC || skill.getSkillType() == L2Skill.SkillType.COMBATPOINTHEAL || skill.getSkillType() == L2Skill.SkillType.COMBATPOINTPERCENTHEAL || skill.getSkillType() == L2Skill.SkillType.CPHOT || skill.getSkillType() == L2Skill.SkillType.MANAHEAL || skill.getSkillType() == L2Skill.SkillType.MANA_BY_LEVEL || skill.getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT || skill.getSkillType() == L2Skill.SkillType.MANARECHARGE || skill.getSkillType() == L2Skill.SkillType.MPHOT))
@@ -66,7 +66,7 @@ public final class L2BabyPetInstance extends L2PetInstance
 				}
 			}
 		}
-		skills = null;
+		
 		// process the results.  Only store the ID of the skills.  The levels are generated on the fly, based on the pet's level!
 		if(skill1 != null)
 		{

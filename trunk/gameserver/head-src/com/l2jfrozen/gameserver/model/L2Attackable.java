@@ -535,85 +535,72 @@ public class L2Attackable extends L2NpcInstance
 	}
 
 	/**
-	 * Kill the L2Attackable (the corpse disappeared after 7 seconds), distribute rewards (EXP, SP, Drops...) and notify
-	 * Quest Engine.<BR>
+	 * Kill the L2Attackable (the corpse disappeared after 7 seconds), distribute rewards (EXP, SP, Drops...) and notify Quest Engine.<BR>
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Distribute Exp and SP rewards to L2PcInstance (including Summon owner) that hit the L2Attackable and to their
-	 * Party members</li> <li>Notify the Quest Engine of the L2Attackable death if necessary</li> <li>Kill the
-	 * L2NpcInstance (the corpse disappeared after 7 seconds)</li><BR>
+	 * <li>Distribute Exp and SP rewards to L2PcInstance (including Summon owner) that hit the L2Attackable and to their Party members</li> <li>Notify the Quest Engine of the L2Attackable death if necessary</li> <li>Kill the L2NpcInstance (the corpse disappeared after 7 seconds)</li><BR>
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T GIVE rewards to L2PetInstance</B></FONT><BR>
 	 * <BR>
-	 * 
 	 * @param killer The L2Character that has killed the L2Attackable
 	 */
 	@Override
 	public boolean doDie(L2Character killer)
 	{
 		// Kill the L2NpcInstance (the corpse disappeared after 7 seconds)
-		if(!super.doDie(killer))
+		if (!super.doDie(killer))
 			return false;
-
+		
 		// Enhance soul crystals of the attacker if this L2Attackable had its soul absorbed
 		try
 		{
-			if(killer instanceof L2PcInstance)
+			if (killer instanceof L2PcInstance)
 			{
 				levelSoulCrystals(killer);
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			_log.log(Level.SEVERE, "", e);
 		}
-
+		
 		// Notify the Quest Engine of the L2Attackable death if necessary
 		try
 		{
-			if(killer instanceof L2PcInstance || killer instanceof L2Summon)
+			if (killer instanceof L2PcInstance || killer instanceof L2Summon)
 			{
 				L2PcInstance player = killer instanceof L2PcInstance ? (L2PcInstance) killer : ((L2Summon) killer).getOwner();
-
-				//only 1 randomly choosen quest of all quests registered to this character can be applied
-				Quest[] allOnKillQuests = getTemplate().getEventQuests(Quest.QuestEventType.ON_KILL);
-
-				if(allOnKillQuests != null)
+				
+				// only 1 randomly choosen quest of all quests registered to this character can be applied
+				for (Quest quest : getTemplate().getEventQuests(Quest.QuestEventType.ON_KILL))
 				{
-					for(Quest quest : allOnKillQuests)
-					{
-						quest.notifyKill(this, player, killer instanceof L2Summon);
-					}
+					quest.notifyKill(this, player, killer instanceof L2Summon);
 				}
-
-				player = null;
-				allOnKillQuests = null;
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			_log.log(Level.SEVERE, "", e);
 		}
-
+		
 		setChampion(false);
-		//TODO
-		if(Config.L2JMOD_CHAMPION_ENABLE)
+		// TODO
+		if (Config.L2JMOD_CHAMPION_ENABLE)
 		{
-			//Set champion on next spawn
-			if(!(this instanceof L2GrandBossInstance) && !(this instanceof L2RaidBossInstance) && this instanceof L2MonsterInstance
-			/*&& !getTemplate().isQuestMonster*/&& Config.L2JMOD_CHAMPION_FREQUENCY > 0 && getLevel() >= Config.L2JMOD_CHAMP_MIN_LVL && getLevel() <= Config.L2JMOD_CHAMP_MAX_LVL)
+			// Set champion on next spawn
+			if (!(this instanceof L2GrandBossInstance) && !(this instanceof L2RaidBossInstance) && this instanceof L2MonsterInstance
+			/* && !getTemplate().isQuestMonster */&& Config.L2JMOD_CHAMPION_FREQUENCY > 0 && getLevel() >= Config.L2JMOD_CHAMP_MIN_LVL && getLevel() <= Config.L2JMOD_CHAMP_MAX_LVL)
 			{
 				int random = Rnd.get(100);
-				if(random < Config.L2JMOD_CHAMPION_FREQUENCY)
+				if (random < Config.L2JMOD_CHAMPION_FREQUENCY)
 				{
 					setChampion(true);
 				}
 			}
 		}
-
-		return true;
-
+		
+		return true;	
 	}
 
 	class OnKillNotifyTask implements Runnable
@@ -1065,12 +1052,9 @@ public class L2Attackable extends L2NpcInstance
 				{
 					L2PcInstance player = attacker instanceof L2PcInstance ? (L2PcInstance) attacker : ((L2Summon) attacker).getOwner();
 
-					if(getTemplate().getEventQuests(Quest.QuestEventType.ON_ATTACK) != null)
+					for(Quest quest : getTemplate().getEventQuests(Quest.QuestEventType.ON_ATTACK))
 					{
-						for(Quest quest : getTemplate().getEventQuests(Quest.QuestEventType.ON_ATTACK))
-						{
-							quest.notifyAttack(this, player, damage, attacker instanceof L2Summon);
-						}
+						quest.notifyAttack(this, player, damage, attacker instanceof L2Summon);
 					}
 
 					player = null;
@@ -1274,7 +1258,7 @@ public class L2Attackable extends L2NpcInstance
 		if(ai == null)
 			return 0;
 
-		if(ai._attacker instanceof L2PcInstance && (((L2PcInstance) ai._attacker).getAppearance().getInvisible() || ai._attacker.isInvul()))
+		if(ai._attacker instanceof L2PcInstance && (((L2PcInstance) ai._attacker).getAppearance().getInvisible() || ((L2PcInstance) ai._attacker).isSpawnProtected() || ((L2PcInstance) ai._attacker).isTeleportProtected() || ai._attacker.isInvul()))
 		{
 			//Remove Object Should Use This Method and Can be Blocked While Interating
 			getAggroList().remove(target);
@@ -3208,11 +3192,8 @@ public class L2Attackable extends L2NpcInstance
 		_seedType = id;
 		int count = 1;
 
-		Map<Integer, L2Skill> skills = getTemplate().getSkills();
-
-		if(skills != null)
-		{
-			for(int skillId : skills.keySet())
+		
+			for(int skillId : getTemplate().getSkills().keySet())
 			{
 				switch(skillId)
 				{
@@ -3241,8 +3222,8 @@ public class L2Attackable extends L2NpcInstance
 						count *= 9;
 						break;
 				}
+			
 			}
-		}
 
 		int diff = getLevel() - (L2Manor.getInstance().getSeedLevel(_seedType) - 5);
 
@@ -3258,7 +3239,6 @@ public class L2Attackable extends L2NpcInstance
 
 		_harvestItems = harvested.toArray(new RewardItem[harvested.size()]);
 
-		skills = null;
 		harvested = null;
 	}
 

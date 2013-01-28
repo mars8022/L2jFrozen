@@ -2437,31 +2437,26 @@ private int _reviveRequested = 0;
 		QuestState[] states = null;
 
 		// Go through the QuestState of the L2PcInstance quests
-		Quest[] quests = NpcTable.getInstance().getTemplate(npcId).getEventQuests(Quest.QuestEventType.QUEST_TALK);
-		if(quests != null)
+		for(Quest quest : NpcTable.getInstance().getTemplate(npcId).getEventQuests(Quest.QuestEventType.QUEST_TALK))
 		{
-			for(Quest quest : quests)
+			if(quest != null)
 			{
-				if(quest != null)
+				// Copy the current L2PcInstance QuestState in the QuestState table
+				if(getQuestState(quest.getName()) != null)
 				{
-					// Copy the current L2PcInstance QuestState in the QuestState table
-					if(getQuestState(quest.getName()) != null)
+					if(states == null)
 					{
-						if(states == null)
+						states = new QuestState[]
 						{
-							states = new QuestState[]
-							{
-								getQuestState(quest.getName())
-							};
-						}
-						else
-						{
-							states = addToQuestStateArray(states, getQuestState(quest.getName()));
-						}
+							getQuestState(quest.getName())
+						};
+					}
+					else
+					{
+						states = addToQuestStateArray(states, getQuestState(quest.getName()));
 					}
 				}
 			}
-			quests = null;
 		}
 
 		// Return a table containing all QuestState to modify
@@ -5831,19 +5826,13 @@ private int _reviveRequested = 0;
 			_log.warning(getName() + ": Tele Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
 		
 		_teleportProtectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
-		
+	
 		if (Config.EFFECT_TELEPORT_PROTECTION)
 		{
 			if (protect)
-			{
-				startAbnormalEffect(2097152);
-				sendMessage("The effects of Teleport Spawn Protection flow through you.");
-			}			
+				startAbnormalEffect(2097152);		
 			else if (!protect)
-			{
 				stopAbnormalEffect(2097152);
-				sendMessage("The effect of Teleport Spawn Protection has been removed.");
-			}
 		}
 	}
 
@@ -15924,8 +15913,11 @@ private int _reviveRequested = 0;
 	{
 		if (isSpawnProtected())
 			sendMessage("The effect of Spawn Protection has been removed.");
+		else if (isTeleportProtected())
+			sendMessage("The effect of Teleport Spawn Protection has been removed.");
 		
-		setProtection(false);
+		if (Config.PLAYER_SPAWN_PROTECTION > 0)
+			setProtection(false);
 		
 		if (Config.PLAYER_TELEPORT_PROTECTION > 0)
 			setTeleportProtection(false);
@@ -15966,7 +15958,9 @@ private int _reviveRequested = 0;
 		if ((Config.PLAYER_TELEPORT_PROTECTION > 0) && !isInOlympiadMode())
 		{
 			setTeleportProtection(true);
+			sendMessage("The effects of Teleport Spawn Protection flow through you.");
 		}
+		
 		if (Config.ALLOW_WATER)
 		{
 			checkWaterState();
@@ -15981,7 +15975,7 @@ private int _reviveRequested = 0;
 			getTrainedBeast().getAI().startFollow(this);
 		}
 		
-		broadcastUserInfo();		
+		broadcastUserInfo();
 	}
 
 	/* (non-Javadoc)

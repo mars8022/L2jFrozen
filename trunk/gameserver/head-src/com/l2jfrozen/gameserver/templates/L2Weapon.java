@@ -441,13 +441,9 @@ public final class L2Weapon extends L2Item
 
 				if(caster instanceof L2PcInstance && target instanceof L2NpcInstance)
 				{
-					Quest[] quests = ((L2NpcInstance) target).getTemplate().getEventQuests(Quest.QuestEventType.ON_SKILL_USE);
-					if(quests != null)
+					for(Quest quest : ((L2NpcInstance) target).getTemplate().getEventQuests(Quest.QuestEventType.ON_SKILL_USE))
 					{
-						for(Quest quest : quests)
-						{
-							quest.notifySkillUse((L2NpcInstance) target, (L2PcInstance) caster, skill);
-						}
+						quest.notifySkillUse((L2NpcInstance) target, (L2PcInstance) caster, skill);
 					}
 				}
 				

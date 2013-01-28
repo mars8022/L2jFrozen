@@ -590,55 +590,51 @@ public final class RequestActionUse extends L2GameClientPacket
 	}
 
 	/*
-	 * Cast a skill for active pet/servitor.
-	 * Target is specified as a parameter but can be
-	 * overwrited or ignored depending on skill type.
+	 * Cast a skill for active pet/servitor. Target is specified as a parameter but can be overwrited or ignored depending on skill type.
 	 */
 	private void useSkill(int skillId, L2Object target)
 	{
 		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
-
+		
 		L2Summon activeSummon = activeChar.getPet();
-
-		if(activeChar.getPrivateStoreType() != 0)
+		
+		if (activeChar.getPrivateStoreType() != 0)
 		{
 			activeChar.sendMessage("Cannot use skills while trading");
 			return;
 		}
-
-		if(activeSummon != null && !activeChar.isBetrayed())
+		
+		if (activeSummon != null && !activeChar.isBetrayed())
 		{
 			Map<Integer, L2Skill> _skills = activeSummon.getTemplate().getSkills();
-
-			if(_skills == null)
-				return;
-
-			if(_skills.size() == 0)
+			
+			if (_skills.size() == 0)
 			{
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE));
 				return;
 			}
-
+			
 			L2Skill skill = _skills.get(skillId);
-
-			if(skill == null)
+			
+			if (skill == null)
 			{
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
 					_log.warning("Skill " + skillId + " missing from npcskills.sql for a summon id " + activeSummon.getNpcId());
 				}
 				return;
 			}
-
+			
 			activeSummon.setTarget(target);
 			
 			boolean force = _ctrlPressed;
 			
-			if(target instanceof L2Character){
-				if(activeSummon.isInsideZone(L2Character.ZONE_PVP) 
-						&& ((L2Character)target).isInsideZone(L2Character.ZONE_PVP)){
+			if (target instanceof L2Character)
+			{
+				if (activeSummon.isInsideZone(L2Character.ZONE_PVP) && ((L2Character) target).isInsideZone(L2Character.ZONE_PVP))
+				{
 					force = true;
 				}
 			}

@@ -397,83 +397,71 @@ public abstract class L2Character extends L2Object
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
-	 * Each L2Character owns generic and static properties (ex : all Keltir have the same number of HP...). All of those
-	 * properties are stored in a different template for each type of L2Character. Each template is loaded once in the
-	 * server cache memory (reduce memory use). When a new instance of L2Character is spawned, server just create a link
-	 * between the instance and the template This link is stored in <B>_template</B><BR>
+	 * Each L2Character owns generic and static properties (ex : all Keltir have the same number of HP...). All of those properties are stored in a different template for each type of L2Character. Each template is loaded once in the server cache memory (reduce memory use). When a new instance of
+	 * L2Character is spawned, server just create a link between the instance and the template This link is stored in <B>_template</B><BR>
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Set the _template of the L2Character</li> <li>Set _overloaded to false (the charcater can take more items)</li>
+	 * <li>Set the _template of the L2Character</li> <li>Set _overloaded to false (the charcater can take more items)</li> <BR>
 	 * <BR>
+	 * <li>If L2Character is a L2NPCInstance, copy skills from template to object</li> <li>If L2Character is a L2NPCInstance, link _calculators to NPC_STD_CALCULATOR</li><BR>
 	 * <BR>
-	 * <li>If L2Character is a L2NPCInstance, copy skills from template to object</li> <li>If L2Character is a
-	 * L2NPCInstance, link _calculators to NPC_STD_CALCULATOR</li><BR>
+	 * <li>If L2Character is NOT a L2NPCInstance, create an empty _skills slot</li> <li>If L2Character is a L2PcInstance or L2Summon, copy basic Calculator set to object</li><BR>
 	 * <BR>
-	 * <li>If L2Character is NOT a L2NPCInstance, create an empty _skills slot</li> <li>If L2Character is a L2PcInstance
-	 * or L2Summon, copy basic Calculator set to object</li><BR>
-	 * <BR>
-	 * 
 	 * @param objectId Identifier of the object to initialized
 	 * @param template The L2CharTemplate to apply to the object
 	 */
-	//MAKE TO US From DREAM
-	//int attackcountmax = (int) Math.round(calcStat(Stats.POLE_TARGERT_COUNT, 3, null, null));
+	// MAKE TO US From DREAM
+	// int attackcountmax = (int) Math.round(calcStat(Stats.POLE_TARGERT_COUNT, 3, null, null));
 	public L2Character(int objectId, L2CharTemplate template)
 	{
 		super(objectId);
 		getKnownList();
-
+		
 		// Set its template to the new L2Character
 		_template = template;
-
+		
 		_triggeredSkills = new FastMap<Integer, L2Skill>();
-				 
-		if(template != null && this instanceof L2NpcInstance)
+		
+		if (template != null && this instanceof L2NpcInstance)
 		{
 			// Copy the Standard Calcultors of the L2NPCInstance in _calculators
 			_calculators = NPC_STD_CALCULATOR;
-
+			
 			// Copy the skills of the L2NPCInstance from its template to the L2Character Instance
 			// The skills list can be affected by spell effects so it's necessary to make a copy
 			// to avoid that a spell affecting a L2NPCInstance, affects others L2NPCInstance of the same type too.
 			_skills = ((L2NpcTemplate) template).getSkills();
-
-			if(_skills != null)
+			
+			for (Map.Entry<Integer, L2Skill> skill : _skills.entrySet())
 			{
-				for(Map.Entry<Integer, L2Skill> skill : _skills.entrySet())
-				{
-					addStatFuncs(skill.getValue().getStatFuncs(null, this));
-				}
+				addStatFuncs(skill.getValue().getStatFuncs(null, this));
 			}
 			
-			if(!Config.NPC_ATTACKABLE || !(this instanceof L2Attackable) && !(this instanceof L2ControlTowerInstance) && !(this instanceof L2SiegeFlagInstance) && !(this instanceof L2EffectPointInstance)){
-				
-				setIsInvul(true);
-				
-			}
-			
+			if (!Config.NPC_ATTACKABLE || !(this instanceof L2Attackable) && !(this instanceof L2ControlTowerInstance) && !(this instanceof L2SiegeFlagInstance) && !(this instanceof L2EffectPointInstance))
+			{			
+				setIsInvul(true);			
+			}		
 		}
-		else //not L2NpcInstance
+		else
+		// not L2NpcInstance
 		{
 			// Initialize the FastMap _skills to null
 			_skills = new FastMap<Integer, L2Skill>().shared();
-
+			
 			// If L2Character is a L2PcInstance or a L2Summon, create the basic calculator set
 			_calculators = new Calculator[Stats.NUM_STATS];
 			Formulas.getInstance().addFuncsToNewCharacter(this);
 			
-			if(!(this instanceof L2Attackable) && !this.isAttackable() && !(this instanceof L2DoorInstance))
+			if (!(this instanceof L2Attackable) && !this.isAttackable() && !(this instanceof L2DoorInstance))
 				setIsInvul(true);
 		}
-
+		
 		/*
-		if(!(this instanceof L2PcInstance) && !(this instanceof L2MonsterInstance) && !(this instanceof L2GuardInstance) && !(this instanceof L2SiegeGuardInstance) && !(this instanceof L2ControlTowerInstance) && !(this instanceof L2DoorInstance) && !(this instanceof L2FriendlyMobInstance) && !(this instanceof L2SiegeSummonInstance) && !(this instanceof L2PetInstance) && !(this instanceof L2SummonInstance) && !(this instanceof L2SiegeFlagInstance) && !(this instanceof L2EffectPointInstance) && !(this instanceof L2CommanderInstance) && !(this instanceof L2FortSiegeGuardInstance))
-		{
-			/////////////////////////////////////////////////////////////////////////////////////////////
-			setIsInvul(true);
-		}
-		*/
+		 * if(!(this instanceof L2PcInstance) && !(this instanceof L2MonsterInstance) && !(this instanceof L2GuardInstance) && !(this instanceof L2SiegeGuardInstance) && !(this instanceof L2ControlTowerInstance) && !(this instanceof L2DoorInstance) && !(this instanceof L2FriendlyMobInstance) &&
+		 * !(this instanceof L2SiegeSummonInstance) && !(this instanceof L2PetInstance) && !(this instanceof L2SummonInstance) && !(this instanceof L2SiegeFlagInstance) && !(this instanceof L2EffectPointInstance) && !(this instanceof L2CommanderInstance) && !(this instanceof
+		 * L2FortSiegeGuardInstance)) { ///////////////////////////////////////////////////////////////////////////////////////////// setIsInvul(true); }
+		 */
 	}
 
 	/**
@@ -8327,22 +8315,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public final L2Skill[] getAllSkills()
 	{
-		if(_skills == null)
-			return new L2Skill[0];
-
-		try
-		{
-			return _skills.values().toArray(new L2Skill[_skills.values().size()]);
-		}
-		catch(UnsupportedOperationException e)
-		{
-			e.printStackTrace();
-			if(this instanceof L2PcInstance)
-			{
-				new Disconnection((L2PcInstance) this);
-			}
-		}
-		return new L2Skill[0];
+		return _skills.values().toArray(new L2Skill[_skills.values().size()]);
 	}
 
 	/**
@@ -8364,9 +8337,6 @@ public abstract class L2Character extends L2Object
 	 */
 	public int getSkillLevel(int skillId)
 	{
-		if(_skills == null)
-			return -1;
-
 		L2Skill skill = _skills.get(skillId);
 
 		if(skill == null)
@@ -8384,9 +8354,6 @@ public abstract class L2Character extends L2Object
 	 */
 	public final L2Skill getKnownSkill(int skillId)
 	{
-		if(_skills == null)
-			return null;
-
 		return _skills.get(skillId);
 	}
 
@@ -9138,32 +9105,15 @@ public abstract class L2Character extends L2Object
 	 */
 	private void notifyQuestEventSkillFinished(L2Skill skill, L2Object target)
 	{
-		if(this instanceof L2NpcInstance)
+		if(this instanceof L2NpcInstance
+			&& (target instanceof L2PcInstance || target instanceof L2Summon))
 		{
-			try
+			
+			L2PcInstance player = target instanceof L2PcInstance ? (L2PcInstance) target : ((L2Summon) target).getOwner();
+			
+			for(Quest quest : ((L2NpcTemplate) getTemplate()).getEventQuests(Quest.QuestEventType.ON_SPELL_FINISHED))
 			{
-				if(((L2NpcTemplate) getTemplate()).getEventQuests(Quest.QuestEventType.ON_SPELL_FINISHED) != null)
-				{
-					L2PcInstance player=null;
-					if(target instanceof L2SummonInstance)
-					{
-						player = ((L2SummonInstance) target).getOwner();
-					}
-					else if(target instanceof L2PcInstance)
-					{
-						player = (L2PcInstance) target;
-					}
-
-					if(player!=null)
-						for(Quest quest : ((L2NpcTemplate) getTemplate()).getEventQuests(Quest.QuestEventType.ON_SPELL_FINISHED))
-						{
-							quest.notifySpellFinished(((L2NpcInstance) this), player, skill);
-						}
-				}
-			}
-			catch(Exception e)
-			{
-				_log.log(Level.SEVERE, "", e);
+				quest.notifySpellFinished(((L2NpcInstance) this), player, skill);
 			}
 		}
 	}
@@ -9764,12 +9714,9 @@ public abstract class L2Character extends L2Object
 					{
 						L2NpcInstance npc = (L2NpcInstance) target;
 
-						if(npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_SKILL_USE) != null)
+						for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_SKILL_USE))
 						{
-							for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_SKILL_USE))
-							{
-								quest.notifySkillUse(npc, caster, skill);
-							}
+							quest.notifySkillUse(npc, caster, skill);
 						}
 
 						npc = null;

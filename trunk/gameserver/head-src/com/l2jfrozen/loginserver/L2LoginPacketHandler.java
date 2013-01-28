@@ -32,7 +32,6 @@ import com.l2jfrozen.util.PacketsFloodProtector;
 
 /**
  * Handler for packets received by Login Server
- * 
  * @author ProGramMoS
  */
 
@@ -42,22 +41,29 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 	public ReceivablePacket<L2LoginClient> handlePacket(ByteBuffer buf, L2LoginClient client)
 	{
 		int opcode = buf.get() & 0xFF;
-
-		if(!PacketsFloodProtector.tryPerformAction(opcode, -1, client)){
+		
+		/*
+		 * Disabled for now
+		 * PacketsFloodProtector for now used only on GameServer
+		 * 
+		if (!PacketsFloodProtector.tryPerformAction(opcode, -1, client))
+		{
 			return null;
 		}
+		*/
 		
 		ReceivablePacket<L2LoginClient> packet = null;
 		LoginClientState state = client.getState();
-
-		if(Config.DEBUG_PACKETS){
+		
+		if (Config.DEBUG_PACKETS)
+		{
 			Log.add("Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString(), "LoginPacketsLog");
 		}
 		
-		switch(state)
+		switch (state)
 		{
 			case CONNECTED:
-				if(opcode == 0x07)
+				if (opcode == 0x07)
 				{
 					packet = new AuthGameGuard();
 				}
@@ -67,7 +73,7 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 				}
 				break;
 			case AUTHED_GG:
-				if(opcode == 0x00)
+				if (opcode == 0x00)
 				{
 					packet = new RequestAuthLogin();
 				}
@@ -77,11 +83,11 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 				}
 				break;
 			case AUTHED_LOGIN:
-				if(opcode == 0x05)
+				if (opcode == 0x05)
 				{
 					packet = new RequestServerList();
 				}
-				else if(opcode == 0x02)
+				else if (opcode == 0x02)
 				{
 					packet = new RequestServerLogin();
 				}
@@ -91,12 +97,12 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 				}
 				break;
 		}
-
+		
 		state = null;
-
+		
 		return packet;
 	}
-
+	
 	private void debugOpcode(int opcode, LoginClientState state)
 	{
 		System.out.println("Unknown Opcode: " + opcode + " for state: " + state.name());

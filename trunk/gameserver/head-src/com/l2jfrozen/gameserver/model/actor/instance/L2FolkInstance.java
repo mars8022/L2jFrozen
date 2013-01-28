@@ -79,7 +79,7 @@ public class L2FolkInstance extends L2NpcInstance
 
 		int npcId = getTemplate().npcId;
 
-		if(_classesToTeach == null)
+		if(_classesToTeach.length==0)
 		{
 			NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			TextBuilder sb = new TextBuilder();
@@ -169,7 +169,7 @@ public class L2FolkInstance extends L2NpcInstance
 
 		int npcId = getTemplate().npcId;
 
-		if(_classesToTeach == null)
+		if(_classesToTeach.length == 0)
 		{
 			NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			TextBuilder sb = new TextBuilder();
@@ -279,15 +279,12 @@ public class L2FolkInstance extends L2NpcInstance
 				{
 					boolean own_class = false;
 
-					if(_classesToTeach != null)
+					for(ClassId cid : _classesToTeach)
 					{
-						for(ClassId cid : _classesToTeach)
+						if(cid.equalsOrChildOf(player.getClassId()))
 						{
-							if(cid.equalsOrChildOf(player.getClassId()))
-							{
-								own_class = true;
-								break;
-							}
+							own_class = true;
+							break;
 						}
 					}
 
@@ -300,7 +297,7 @@ public class L2FolkInstance extends L2NpcInstance
 					}
 
 					// make a list of classes
-					if(_classesToTeach != null)
+					if(_classesToTeach.length != 0)
 					{
 						int count = 0;
 						ClassId classCheck = player.getClassId();
