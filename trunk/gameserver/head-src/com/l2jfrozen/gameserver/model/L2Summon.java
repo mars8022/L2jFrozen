@@ -26,6 +26,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -793,10 +794,7 @@ public abstract class L2Summon extends L2PlayableInstance
 	}
 
 	/**
-	 * Servitors' skills automatically change their level based on the servitor's level. Until level 70, the servitor
-	 * gets 1 lv of skill per 10 levels. After that, it is 1 skill level per 5 servitor levels. If the resulting skill
-	 * level doesn't exist use the max that does exist!
-	 * 
+	 * Servitors' skills automatically change their level based on the servitor's level. Until level 70, the servitor gets 1 lv of skill per 10 levels. After that, it is 1 skill level per 5 servitor levels. If the resulting skill level doesn't exist use the max that does exist!
 	 * @see com.l2jfrozen.gameserver.model.L2Character#doCast(com.l2jfrozen.gameserver.model.L2Skill)
 	 */
 	@Override
@@ -804,21 +802,43 @@ public abstract class L2Summon extends L2PlayableInstance
 	{
 		int petLevel = getLevel();
 		int skillLevel = petLevel / 10;
-
-		if(petLevel >= 70)
+		
+		if (skill.getSkillType() == SkillType.BUFF)
 		{
-			skillLevel += (petLevel - 65) / 10;
+			if (petLevel > 77)
+			{
+				skillLevel = (petLevel - 77) + 3; // max buff lvl 11 with pet lvl 85
+			}
+			else if (petLevel >= 70)
+			{
+				skillLevel = 3;
+			}
+			else if (petLevel >= 64)
+			{
+				skillLevel = 2;
+			}
+			else
+			{
+				skillLevel = 1;
+			}
 		}
-
-		// adjust the level for servitors less than lv 10
-		if(skillLevel < 1)
+		else
 		{
-			skillLevel = 1;
+			if (petLevel >= 70)
+			{
+				skillLevel += (petLevel - 65) / 10;
+			}
+			
+			// adjust the level for servitors less than lv 10
+			if (skillLevel < 1)
+			{
+				skillLevel = 1;
+			}
 		}
-
+		
 		L2Skill skillToCast = SkillTable.getInstance().getInfo(skill.getId(), skillLevel);
-
-		if(skillToCast != null)
+		
+		if (skillToCast != null)
 		{
 			super.doCast(skillToCast);
 		}
@@ -826,7 +846,7 @@ public abstract class L2Summon extends L2PlayableInstance
 		{
 			super.doCast(skill);
 		}
-
+		
 		skillToCast = null;
 	}
 	

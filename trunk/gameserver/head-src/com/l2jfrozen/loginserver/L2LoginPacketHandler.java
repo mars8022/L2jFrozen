@@ -28,7 +28,6 @@ import com.l2jfrozen.loginserver.network.clientpackets.RequestServerLogin;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.IPacketHandler;
 import com.l2jfrozen.netcore.ReceivablePacket;
-import com.l2jfrozen.util.PacketsFloodProtector;
 
 /**
  * Handler for packets received by Login Server

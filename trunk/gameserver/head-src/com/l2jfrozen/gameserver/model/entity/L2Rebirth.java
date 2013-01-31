@@ -272,6 +272,9 @@ public class L2Rebirth
 			// Displays a congratulation message to the player.
 			displayCongrats(player);
 			returnToLevel = null;
+			
+			// Update skill list
+			player.sendSkillList();
 		}
 		catch (Exception e)
 		{

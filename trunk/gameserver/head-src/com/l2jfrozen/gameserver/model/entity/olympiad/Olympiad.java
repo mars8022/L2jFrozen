@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ScheduledFuture;
@@ -46,6 +47,7 @@ import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.Hero;
@@ -400,11 +402,9 @@ public class Olympiad
 		SystemMessage sm;
 		
 		/*
-		 * if (_compStarted) {
-		 * noble.sendMessage("Cant Register whilst competition is under way");
-		 * return false; }
+		 * if (_compStarted) { noble.sendMessage("Cant Register whilst competition is under way"); return false; }
 		 */
-
+		
 		if (!_inCompPeriod)
 		{
 			sm = new SystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_IS_NOT_CURRENTLY_IN_PROGRESS);
@@ -420,25 +420,28 @@ public class Olympiad
 		}
 		
 		/** Begin Olympiad Restrictions */
-        if (noble.getBaseClass() != noble.getClassId().getId())
+		if (noble.getBaseClass() != noble.getClassId().getId())
 		{
 			sm = new SystemMessage(SystemMessageId.YOU_CANT_JOIN_THE_OLYMPIAD_WITH_A_SUB_JOB_CHARACTER);
 			noble.sendPacket(sm);
 			return false;
 		}
-        if (noble.isCursedWeaponEquiped())
-        {
-        	sm = new SystemMessage(SystemMessageId.CANNOT_JOIN_OLYMPIAD_POSSESSING_S1);
+		
+		if (noble.isCursedWeaponEquiped())
+		{
+			sm = new SystemMessage(SystemMessageId.CANNOT_JOIN_OLYMPIAD_POSSESSING_S1);
 			sm.addItemName(noble.getCursedWeaponEquipedId());
 			noble.sendPacket(sm);
 			return false;
-        }
-		if (noble.getInventoryLimit()*0.8 <= noble.getInventory().getSize())
+		}
+		
+		if (noble.getInventoryLimit() * 0.8 <= noble.getInventory().getSize())
 		{
 			sm = new SystemMessage(SystemMessageId.SINCE_80_PERCENT_OR_MORE_OF_YOUR_INVENTORY_SLOTS_ARE_FULL_YOU_CANNOT_PARTICIPATE_IN_THE_OLYMPIAD);
 			noble.sendPacket(sm);
 			return false;
 		}
+		
 		if (getMillisToCompEnd() < 600000)
 		{
 			sm = new SystemMessage(SystemMessageId.GAME_REQUEST_CANNOT_BE_MADE);
@@ -447,10 +450,28 @@ public class Olympiad
 		}
 		
 		// To avoid possible bug during Olympiad, observer char can't join
-		if(noble.inObserverMode())
+		if (noble.inObserverMode())
 		{
 			noble.sendMessage("You can't participate to Olympiad. You are in Observer Mode, try to restart!");
 			return false;
+		}
+		
+		// Olympiad dualbox protection
+		if (noble._active_boxes > 1 && !Config.ALLOW_DUALBOX_OLY)
+		{
+			List<String> players_in_boxes = noble.active_boxes_characters;
+			
+			if (players_in_boxes != null && players_in_boxes.size() > 1)
+				for (String character_name : players_in_boxes)
+				{
+					L2PcInstance player = L2World.getInstance().getPlayer(character_name);
+					
+					if (player != null && (player.getOlympiadGameId() > 0 || player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player)))
+					{
+						noble.sendMessage("You are already participating in Olympiad with another char!");
+						return false;
+					}
+				}
 		}
 		
 		/** End Olympiad Restrictions */
@@ -490,7 +511,7 @@ public class Olympiad
 			
 			_nobles.put(noble.getObjectId(), statDat);
 		}
-
+		
 		if (classBased && getNoblePoints(noble.getObjectId()) < 3)
 		{
 			noble.sendMessage("Cant register when you have less than 3 points");
@@ -501,7 +522,7 @@ public class Olympiad
 			noble.sendMessage("Cant register when you have less than 5 points");
 			return false;
 		}
-
+		
 		if (classBased)
 		{
 			if (_classBasedRegisters.containsKey(noble.getClassId().getId()))

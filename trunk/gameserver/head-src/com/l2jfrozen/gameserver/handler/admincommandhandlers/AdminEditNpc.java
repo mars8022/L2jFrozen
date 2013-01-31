@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
-import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;

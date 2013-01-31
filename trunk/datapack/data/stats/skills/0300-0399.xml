@@ -1261,12 +1261,14 @@
       <mul order="0x30" stat="cAtk" val="0.70">
         <and>
           <player front="True"/>
+          <using kind="Dagger"/>
         </and>
       </mul>
       <!-- Crit attack power +90% from behind -->
       <mul order="0x30" stat="cAtk" val="1.90">
         <and>
           <player behind="True"/>
+          <using kind="Dagger"/>
         </and>
       </mul>
     </effect>
@@ -1325,17 +1327,20 @@
         <mul order="0x30" stat="cAtk" val="0.70">
           <and>
             <player front="True"/>
+             <using kind="Dagger"/>
           </and>
         </mul>
         <mul order="0x30" stat="cAtk" val="1.30">
           <and>
             <player front="False"/>
             <player behind="False"/>
+             <using kind="Dagger"/>
           </and>
         </mul>
         <mul order="0x30" stat="cAtk" val="1.60">
           <and>
             <player behind="True"/>
+             <using kind="Dagger"/>
           </and>
         </mul>
     </effect>

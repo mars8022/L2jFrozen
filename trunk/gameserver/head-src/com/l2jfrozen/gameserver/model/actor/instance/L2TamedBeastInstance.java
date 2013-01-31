@@ -20,10 +20,7 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
-import java.util.Map;
 import java.util.concurrent.Future;
-
-import javolution.util.FastMap;
 
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;

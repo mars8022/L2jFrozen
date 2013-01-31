@@ -21,37 +21,37 @@ import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 
 /**
  * This class trades Gold Bars for Adena and vice versa.
- * 
  * @author Ahmed
  */
 public class BankingCmd implements IVoicedCommandHandler
 {
 	private static String[] _voicedCommands =
 	{
-			"bank", "withdraw", "deposit"
+		"bank",
+		"withdraw",
+		"deposit"
 	};
-
+	
 	/**
-	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#useVoicedCommand(java.lang.String,
-	 *      com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
+	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#useVoicedCommand(java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
 	 */
 	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
 	{
-
+		
 		if (!activeChar.getClient().getFloodProtectors().getTransaction().tryPerformAction("bank"))
 		{
 			activeChar.sendMessage("You Cannot Use The Banking System So Fast!");
 			return true;
 		}
 		
-		if(command.equalsIgnoreCase("bank"))
+		if (command.equalsIgnoreCase("bank"))
 		{
 			activeChar.sendMessage(".deposit (" + Config.BANKING_SYSTEM_ADENA + " Adena = " + Config.BANKING_SYSTEM_GOLDBARS + " Goldbar) / .withdraw (" + Config.BANKING_SYSTEM_GOLDBARS + " Goldbar = " + Config.BANKING_SYSTEM_ADENA + " Adena)");
 		}
-		else if(command.equalsIgnoreCase("deposit"))
+		else if (command.equalsIgnoreCase("deposit"))
 		{
-			if(activeChar.getInventory().getInventoryItemCount(57, 0) >= Config.BANKING_SYSTEM_ADENA)
+			if (activeChar.getInventory().getInventoryItemCount(57, 0) >= Config.BANKING_SYSTEM_ADENA)
 			{
 				activeChar.getInventory().reduceAdena("Goldbar", Config.BANKING_SYSTEM_ADENA, activeChar, null);
 				activeChar.getInventory().addItem("Goldbar", 3470, Config.BANKING_SYSTEM_GOLDBARS, activeChar, null);
@@ -64,9 +64,18 @@ public class BankingCmd implements IVoicedCommandHandler
 				activeChar.sendMessage("You do not have enough Adena to convert to Goldbar(s), you need " + Config.BANKING_SYSTEM_ADENA + " Adena.");
 			}
 		}
-		else if(command.equalsIgnoreCase("withdraw"))
+		else if (command.equalsIgnoreCase("withdraw"))
 		{
-			if(activeChar.getInventory().getInventoryItemCount(3470, 0) >= Config.BANKING_SYSTEM_GOLDBARS)
+			// If player hasn't enough space for adena
+			long a = activeChar.getInventory().getInventoryItemCount(57, 0);
+			long b = Config.BANKING_SYSTEM_ADENA;
+			if (a + b > Integer.MAX_VALUE)
+			{
+				activeChar.sendMessage("You do not have enough space for all the adena in inventory!");
+				return false;
+			}
+			
+			if (activeChar.getInventory().getInventoryItemCount(3470, 0) >= Config.BANKING_SYSTEM_GOLDBARS)
 			{
 				activeChar.getInventory().destroyItemByItemId("Adena", 3470, Config.BANKING_SYSTEM_GOLDBARS, activeChar, null);
 				activeChar.getInventory().addAdena("Adena", Config.BANKING_SYSTEM_ADENA, activeChar, null);
@@ -81,7 +90,7 @@ public class BankingCmd implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#getVoicedCommandList()
 	 */
