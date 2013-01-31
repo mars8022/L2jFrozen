@@ -768,7 +768,7 @@ public class DM implements EventTask
 		_joining = true;
 		spawnEventNpc();
 		Announcements.getInstance().gameAnnounceToAll("Event: " + _eventName + "!");
-		if(Config.DM_ANNOUNCE_REWARD)
+		if(Config.DM_ANNOUNCE_REWARD && ItemTable.getInstance().getTemplate(_rewardId ) != null)
 			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
 		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
 		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName);

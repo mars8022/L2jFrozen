@@ -141,17 +141,17 @@
   <for>
   	<effect count="5" name="DamOverTime" time="#time" val="#Plague"/>
   	<effect count="1" name="Confusion" time="#time" val="0">
-      <div order="0x40" stat="pAtkSpd" val="#Psycho"/>
-      <div order="0x40" stat="mAtkSpd" val="#Psycho"/>
-      <div order="0x40" stat="runSpd" val="#Psycho"/>
-      <div order="0x40" stat="accCombat" val="#Psycho"/>
-      <div order="0x40" stat="rEvas" val="#Psycho"/>
-      <div order="0x40" stat="pDef" val="#Psycho"/>
+      <div order="0x30" stat="pAtkSpd" val="#Psycho"/>
+      <div order="0x30" stat="mAtkSpd" val="#Psycho"/>
+      <div order="0x30" stat="runSpd" val="#Psycho"/>
+      <div order="0x30" stat="accCombat" val="#Psycho"/>
+      <div order="0x30" stat="rEvas" val="#Psycho"/>
+      <div order="0x30" stat="pDef" val="#Psycho"/>
     </effect>
-  	<effect count="1" name="Buff" time="#time" val="0">
-      <div order="0x40" stat="pAtkSpd" val="#Power"/>
-      <div order="0x40" stat="runSpd" val="#Power"/>
-      <div order="0x40" stat="regHp" val="#Heal"/>
+  	<effect count="1" name="Buff" time="#time" val="0" noicon="1">
+      <div order="0x30" stat="pAtkSpd" val="#Power"/>
+      <div order="0x30" stat="runSpd" val="#Power"/>
+      <div order="0x30" stat="regHp" val="#Heal"/>
     </effect>
   </for>
 </skill>
@@ -187,18 +187,18 @@
   <set name="isMagic" val="#isMagic"/>
   <for>
   	<effect count="5" name="DamOverTime" time="#time" val="#Plague"/>
-  	<effect count="1" name="Confusion" time="#time" val="0">
-      <div order="0x40" stat="pAtkSpd" val="#Psycho"/>
-      <div order="0x40" stat="mAtkSpd" val="#Psycho"/>
-      <div order="0x40" stat="runSpd" val="#Psycho"/>
-      <div order="0x40" stat="accCombat" val="#Psycho"/>
-      <div order="0x40" stat="rEvas" val="#Psycho"/>
-      <div order="0x40" stat="pDef" val="#Psycho"/>
+  	<effect count="1" name="Confusion" time="#time" val="0" noicon="1">
+      <div order="0x30" stat="pAtkSpd" val="#Psycho"/>
+      <div order="0x30" stat="mAtkSpd" val="#Psycho"/>
+      <div order="0x30" stat="runSpd" val="#Psycho"/>
+      <div order="0x30" stat="accCombat" val="#Psycho"/>
+      <div order="0x30" stat="rEvas" val="#Psycho"/>
+      <div order="0x30" stat="pDef" val="#Psycho"/>
     </effect>
-  	<effect count="1" name="Buff" time="#time" val="0">
-      <div order="0x40" stat="pAtkSpd" val="#Power"/>
-      <div order="0x40" stat="runSpd" val="#Power"/>
-      <div order="0x40" stat="regHp" val="#Heal"/>
+  	<effect count="1" name="Buff" time="#time" val="0" noicon="1">
+      <div order="0x30" stat="pAtkSpd" val="#Power"/>
+      <div order="0x30" stat="runSpd" val="#Power"/>
+      <div order="0x30" stat="regHp" val="#Heal"/>
     </effect>
   </for>
 </skill>

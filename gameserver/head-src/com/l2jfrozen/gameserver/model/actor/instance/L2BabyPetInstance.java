@@ -18,10 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.Map;
 import java.util.concurrent.Future;
-
-import javolution.util.FastMap;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
