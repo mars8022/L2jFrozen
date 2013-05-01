@@ -62,7 +62,7 @@ public class IceFairySirra extends Quest implements Runnable
 
 		for(int mob : mobs)
 		{
-			//TODO: РїСЂРѕРІРµСЂРёС‚СЊ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅС‹С… РґРµР№СЃС‚РІРёР№ РЅР° РјРѕР±Р°С… (РЅСѓР¶РЅС‹ Р»Рё РѕР±С‹С‡РЅС‹Рј РјРѕР±Р°Рј (РЅРµ Р Р‘) РёР»Рё РЅРµС‚)
+			//TODO:
 			addEventId(mob, Quest.QuestEventType.QUEST_START);
 			addEventId(mob, Quest.QuestEventType.QUEST_TALK);
 			addEventId(mob, Quest.QuestEventType.NPC_FIRST_TALK);

@@ -33,7 +33,7 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * This class represents the Newbie Helper Buff list РўСЂРµР±СѓРµС‚СЃСЏ РїРµСЂРµРґРµР»Р°С‚СЊ РїРѕРґ csv. Author: Ayor
+ * This class represents the Newbie Helper Buff list. Author: Ayor
  */
 
 public class HelperBuffTable

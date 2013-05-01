@@ -553,7 +553,8 @@ public class L2PetInstance extends L2Summon
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Summon#doPickupItem(com.l2jfrozen.gameserver.model.L2Object)
 	 */
 	@Override
@@ -561,27 +562,27 @@ public class L2PetInstance extends L2Summon
 	{
 		getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		StopMove sm = new StopMove(getObjectId(), getX(), getY(), getZ(), getHeading());
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
 			_logPet.fine("Pet pickup pos: " + object.getX() + " " + object.getY() + " " + object.getZ());
 		}
-
+		
 		broadcastPacket(sm);
 		sm = null;
-
-		if(!(object instanceof L2ItemInstance))
+		
+		if (!(object instanceof L2ItemInstance))
 		{
 			// dont try to pickup anything that is not an item :)
 			_logPet.warning("trying to pickup wrong target." + object);
 			getOwner().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		L2ItemInstance target = (L2ItemInstance) object;
-
+		
 		// Herbs
-		if(target.getItemId() > 8599 && target.getItemId() < 8615)
+		if (target.getItemId() > 8599 && target.getItemId() < 8615)
 		{
 			SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1);
 			smsg.addItemName(target.getItemId());
@@ -590,7 +591,7 @@ public class L2PetInstance extends L2Summon
 			return;
 		}
 		// Cursed weapons
-		if(CursedWeaponsManager.getInstance().isCursed(target.getItemId()))
+		if (CursedWeaponsManager.getInstance().isCursed(target.getItemId()))
 		{
 			SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1);
 			smsg.addItemName(target.getItemId());
@@ -598,27 +599,36 @@ public class L2PetInstance extends L2Summon
 			smsg = null;
 			return;
 		}
-
+		
 		synchronized (target)
 		{
-			if(!target.isVisible())
+			if (!target.isVisible())
 			{
 				getOwner().sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
-			if(target.getOwnerId() != 0 && target.getOwnerId() != getOwner().getObjectId() && !getOwner().isInLooterParty(target.getOwnerId()))
+			
+			if (!target.getDropProtection().tryPickUp(this))
+			{
+				sendPacket(ActionFailed.STATIC_PACKET);
+				SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1);
+				smsg.addItemName(target.getItemId());
+				getOwner().sendPacket(smsg);
+				return;
+			}
+			
+			if (target.getOwnerId() != 0 && target.getOwnerId() != getOwner().getObjectId() && !getOwner().isInLooterParty(target.getOwnerId()))
 			{
 				getOwner().sendPacket(ActionFailed.STATIC_PACKET);
-
-				if(target.getItemId() == 57)
+				
+				if (target.getItemId() == 57)
 				{
 					SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1_ADENA);
 					smsg.addNumber(target.getCount());
 					getOwner().sendPacket(smsg);
 					smsg = null;
 				}
-				else if(target.getCount() > 1)
+				else if (target.getCount() > 1)
 				{
 					SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S2_S1_S);
 					smsg.addItemName(target.getItemId());
@@ -633,35 +643,35 @@ public class L2PetInstance extends L2Summon
 					getOwner().sendPacket(smsg);
 					smsg = null;
 				}
-
+				
 				return;
 			}
-			if(target.getItemLootShedule() != null && (target.getOwnerId() == getOwner().getObjectId() || getOwner().isInLooterParty(target.getOwnerId())))
+			if (target.getItemLootShedule() != null && (target.getOwnerId() == getOwner().getObjectId() || getOwner().isInLooterParty(target.getOwnerId())))
 			{
 				target.resetOwnerTimer();
 			}
-
+			
 			target.pickupMe(this);
-
-			if(Config.SAVE_DROPPED_ITEM)
+			
+			if (Config.SAVE_DROPPED_ITEM)
 			{
 				ItemsOnGroundManager.getInstance().removeObject(target);
 			}
 		}
-
+		
 		getInventory().addItem("Pickup", target, getOwner(), this);
-		//FIXME Just send the updates if possible (old way wasn't working though)
+		// FIXME Just send the updates if possible (old way wasn't working though)
 		PetItemList iu = new PetItemList(this);
 		getOwner().sendPacket(iu);
 		iu = null;
-
+		
 		getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-
-		if(getFollowStatus())
+		
+		if (getFollowStatus())
 		{
 			followOwner();
 		}
-
+		
 		target = null;
 	}
 

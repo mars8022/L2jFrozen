@@ -42,67 +42,67 @@ import com.l2jfrozen.util.random.Rnd;
 public class ExtractableItems implements IItemHandler
 {
 	private static Logger _log = Logger.getLogger(ItemTable.class.getName());
-
+	
 	public void doExtract(L2PlayableInstance playable, L2ItemInstance item, int count)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		int itemID = item.getItemId();
-
-		if(count > item.getCount())
+		
+		if (count > item.getCount())
 			return;
-		while(count-- > 0)
+		while (count-- > 0)
 		{
 			L2ExtractableItem exitem = ExtractableItemsData.getInstance().getExtractableItem(itemID);
-			if(exitem == null)
+			if (exitem == null)
 				return;
 			int createItemID = 0, createAmount = 0, rndNum = Rnd.get(100), chanceFrom = 0;
-			for(L2ExtractableProductItem expi : exitem.getProductItemsArray())
+			for (L2ExtractableProductItem expi : exitem.getProductItemsArray())
 			{
 				int chance = expi.getChance();
-
-				if(rndNum >= chanceFrom && rndNum <= chance + chanceFrom)
+				
+				if (rndNum >= chanceFrom && rndNum <= chance + chanceFrom)
 				{
 					createItemID = expi.getId();
 					createAmount = expi.getAmmount();
 					break;
 				}
-
+				
 				chanceFrom += chance;
 			}
-
+			
 			exitem = null;
-
-			if(createItemID == 0)
+			
+			if (createItemID == 0)
 			{
 				activeChar.sendMessage("Nothing happened.");
 				return;
 			}
-
-			if(createItemID > 0)
+			
+			if (createItemID > 0)
 			{
-				if(ItemTable.getInstance().createDummyItem(createItemID) == null)
+				if (ItemTable.getInstance().createDummyItem(createItemID) == null)
 				{
 					_log.warning("createItemID " + createItemID + " doesn't have template!");
 					activeChar.sendMessage("Nothing happened.");
 					return;
 				}
-
-				if(ItemTable.getInstance().createDummyItem(createItemID).isStackable())
+				
+				if (ItemTable.getInstance().createDummyItem(createItemID).isStackable())
 				{
 					activeChar.addItem("Extract", createItemID, createAmount, item, false);
 				}
 				else
 				{
-					for(int i = 0; i < createAmount; i++)
+					for (int i = 0; i < createAmount; i++)
 					{
 						activeChar.addItem("Extract", createItemID, 1, item, false);
 					}
 				}
 				SystemMessage sm;
-
-				if(createAmount > 1)
+				
+				if (createAmount > 1)
 				{
 					sm = new SystemMessage(SystemMessageId.EARNED_S2_S1_S);
 					sm.addItemName(createItemID);
@@ -120,21 +120,21 @@ public class ExtractableItems implements IItemHandler
 			{
 				activeChar.sendMessage("Item failed to open"); // TODO: Put a more proper message here.
 			}
-
+			
 			activeChar.destroyItemByItemId("Extract", itemID, 1, activeChar.getTarget(), true);
 		}
 	}
-
-	// by Azagthtot РџРѕРґРґРµСЂР¶РєР° РјРЅРѕР¶РµСЃС‚РІРµРЅРЅРѕР№ СЂР°СЃРїР°РєРѕРІРєРё 
+	
+	// by Azagthtot
 	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-		if(item.getCount() > 1)
+		if (item.getCount() > 1)
 		{
 			String message = HtmCache.getInstance().getHtm("data/html/others/extractable.htm");
-			if(message == null)
+			if (message == null)
 			{
 				doExtract(playable, item, 1);
 			}
@@ -151,7 +151,7 @@ public class ExtractableItems implements IItemHandler
 			doExtract(playable, item, 1);
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{
