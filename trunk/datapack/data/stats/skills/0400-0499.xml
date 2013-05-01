@@ -987,7 +987,8 @@
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="447" levels="1" name="Counterattack">
   <set name="aggroPoints" val="669" />
-  <set name="mpConsume" val="29"/>
+  <set name="mpInitialConsume" val="29" />
+  <set name="mpConsume" val="20" />
   <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>

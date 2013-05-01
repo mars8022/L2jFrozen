@@ -4206,20 +4206,20 @@ public abstract class L2Character extends L2Object
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Calculate the success rate of the Stun Abnormal Effect on this L2Character</li> <li>If Stun succeed, active
-	 * the abnormal effect Stun flag, notify the L2Character AI and send Server->Client UserInfo/CharInfo packet</li>
-	 * <li>If Stun NOT succeed, send a system message Failed to the L2PcInstance attacker</li><BR>
+	 * <li>Calculate the success rate of the Stun Abnormal Effect on this L2Character</li> <li>If Stun succeed, active the abnormal effect Stun flag, notify the L2Character AI and send Server->Client UserInfo/CharInfo packet</li> <li>If Stun NOT succeed, send a system message Failed to the
+	 * L2PcInstance attacker</li><BR>
 	 * <BR>
 	 */
 	public final void startStunning()
 	{
-		if(isStunned())
+		if (isStunned())
 			return;
 		
 		setIsStunned(true);
 		/* Aborts any attacks/casts if stunned */
 		abortAttack();
 		abortCast();
+		getAI().stopFollow(); // Like L2OFF char stop to follow if sticked to another one
 		stopMove(null);
 		getAI().notifyEvent(CtrlEvent.EVT_STUNNED, null);
 		updateAbnormalEffect();

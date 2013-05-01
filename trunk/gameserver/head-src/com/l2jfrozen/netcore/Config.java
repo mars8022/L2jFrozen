@@ -119,7 +119,7 @@ public class Config
 			CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxPacketsPerSecond", "80"));	// default 80
 			CLIENT_PACKET_QUEUE_MEASURE_INTERVAL= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMeasureInterval", "5"));	// default 5
 			CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND	= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxAveragePacketsPerSecond", "40"));	// default 40
-			CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxFloodPerMin", "2"));	// default 2
+			CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxFloodPerMin", "6"));	// default 6
 			CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueOverflowsPerMin", "3"));	// default 3
 			CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueUnderflowsPerMin", "3"));	// default 3
 			CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN	= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueUnknownPerMin", "5"));	// default 5

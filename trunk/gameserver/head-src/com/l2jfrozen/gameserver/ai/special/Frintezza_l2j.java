@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.Earthquake;
+import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
@@ -57,6 +58,7 @@ import com.l2jfrozen.util.random.Rnd;
  * 
  * Update by rocknow
  * Updated by L2jOff team
+ * Updated by L2jFrozen team
  *
  * <BR>
  * Warn: be careful with adding new spawns {@link #getXFix(int)}
@@ -820,7 +822,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 		{
 			_Zone.broadcastPacket(new SpecialCamera(frintezza.getObjectId(),250, 120, 15, 0, 10000));
 			
-			//cancelQuestTimers("loc_check");
+			//cancelQuestTimer("loc_check");
 			
 			_Scarlet_x = weakScarlet.getX();
 			_Scarlet_y = weakScarlet.getY();
@@ -943,6 +945,34 @@ public class Frintezza_l2j extends Quest implements Runnable
 					_OnSong = 2;
 				}
 				
+				String SongName = "";
+				
+				// Name of the songs are custom, named with client side description.
+				switch(_OnSong)
+				{
+					case 1:
+						SongName = "Frintezza's Healing Rhapsody";
+						break;
+					case 2:
+						SongName = "Frintezza's Rampaging Opus";
+						break;
+					case 3:
+						SongName = "Frintezza's Power Concerto";
+						break;
+					case 4:
+						SongName = "Frintezza's Plagued Concerto";
+						break;
+					case 5:
+						SongName = "Frintezza's Psycho Symphony";
+						break;
+					default:
+						SongName = "Frintezza's Song";
+						break;
+				}
+				
+				// Like L2OFF the skill name is printed on screen
+				_Zone.broadcastPacket(new ExShowScreenMessage(SongName , 6000));
+				
 				if (_OnSong == 1 && _ThirdMorph == 1 && strongScarlet.getCurrentHp() < strongScarlet.getMaxHp() * 0.6 && Rnd.get(100) < 80)
 				{
 					_Zone.broadcastPacket(new MagicSkillUser(frintezza, frintezza, 5007, 1, 32000, 0));
@@ -978,10 +1008,41 @@ public class Frintezza_l2j extends Quest implements Runnable
 			if (skill == null)
 				return null;
 			
+			String SongName = "";
+			
+			// Name of the songs are custom, named with client side description.
+			switch(_OnSong)
+			{
+				case 1:
+					SongName = "Frintezza's Concert Hall Melody";
+					break;
+				case 2:
+					SongName = "Frintezza's Rampaging Opus en masse";
+					break;
+				case 3:
+					SongName = "Frintezza Power Encore";
+					break;
+				case 4:
+					SongName = "Mournful Chorale Prelude";
+					break;
+				case 5:
+					SongName = "Hypnotic Mazurka ";
+					break;
+				default:
+					SongName = "Frintezza's Song";
+					break;
+			}
+			
+			// Like L2OFF the skill name is printed on screen
+			_Zone.broadcastPacket(new ExShowScreenMessage(SongName , 6000));
+			
 			if (_OnSong == 1 || _OnSong == 2 || _OnSong == 3)
 			{
+				/* TODO: Frintezza songs to be fixed like retail
+				 * 
 				if (frintezza != null && !frintezza.isDead() && activeScarlet != null && !activeScarlet.isDead())
 					skill.getEffects(frintezza, activeScarlet, false, false, false);
+				*/
 			}
 			else if (_OnSong == 4)
 			{
@@ -1032,11 +1093,11 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		else if (event.equalsIgnoreCase("attack_stop"))
 		{
-			cancelQuestTimers("skill01");
-			cancelQuestTimers("skill02");
-			cancelQuestTimers("skill03");
-			cancelQuestTimers("songs_play");
-			cancelQuestTimers("songs_effect");
+			cancelQuestTimer("skill01", npc, null);
+			cancelQuestTimer("skill02", npc, null);
+			cancelQuestTimer("skill03", npc, null);
+			cancelQuestTimer("songs_play", npc, null);
+			cancelQuestTimer("songs_effect", npc, null);
 			
 			if (frintezza != null)
 				_Zone.broadcastPacket(new MagicSkillCanceld(frintezza.getObjectId()));
@@ -1173,8 +1234,8 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.broadcastPacket(new CreatureSay(npc.getObjectId(),1,npc.getName(),"Exceeded his time limit, challenge failed!"));
 			_Zone.oustAllPlayers();
 			
-			cancelQuestTimers("waiting");
-			cancelQuestTimers("frintezza_despawn");
+			cancelQuestTimer("waiting", npc, null);
+			cancelQuestTimer("frintezza_despawn", npc, null);
 			startQuestTimer("clean", 1000, npc, null);
 			startQuestTimer("close", 1000, npc, null);
 			startQuestTimer("room1_del", 1000, npc, null);
@@ -1189,10 +1250,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			{
 				_Zone.oustAllPlayers();
 				
-				cancelQuestTimers("waiting");
-				//cancelQuestTimers("loc_check");
-				cancelQuestTimers("room_final");
-				cancelQuestTimers("spawn_minion");
+				cancelQuestTimer("waiting", npc, null);
+				//cancelQuestTimer("loc_check");
+				cancelQuestTimer("room_final", npc, null);
+				cancelQuestTimer("spawn_minion", npc, null);
 				startQuestTimer("clean", 1000, npc, null);
 				startQuestTimer("close", 1000, npc, null);
 				startQuestTimer("attack_stop", 1000, npc, null);
@@ -1203,7 +1264,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				
 				GrandBossManager.getInstance().setBossStatus(FRINTEZZA,DORMANT);
 				
-				cancelQuestTimers("frintezza_despawn");
+				cancelQuestTimer("frintezza_despawn", npc, null);
 			}
 		}
 		else if (event.equalsIgnoreCase("minions_despawn"))
@@ -1503,9 +1564,9 @@ public class Frintezza_l2j extends Quest implements Runnable
 		{
 			if(!npc.getSpawn().is_customBossInstance()){
 				
-				//cancelQuestTimers("loc_check");
-				cancelQuestTimers("spawn_minion");
-				cancelQuestTimers("frintezza_despawn");
+				//cancelQuestTimer("loc_check");
+				cancelQuestTimer("spawn_minion", npc, null);
+				cancelQuestTimer("frintezza_despawn", npc, null);
 				startQuestTimer("clean", 30000, npc, null);
 				startQuestTimer("close", 30000, npc, null);
 				startQuestTimer("room3_del", 60000, npc, null);
@@ -1575,7 +1636,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				{
 					startQuestTimer("room2_del", 100, npc, null);
 					startQuestTimer("waiting", 180000, npc, null);
-					cancelQuestTimers("room_final");
+					cancelQuestTimer("room_final", npc, null);
 				}
 				else
 				{
@@ -1598,7 +1659,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				DoorTable.getInstance().getDoor(25150046).openMe();
 				
 				startQuestTimer("waiting", 180000, npc, null);
-				cancelQuestTimers("room_final");
+				cancelQuestTimer("room_final", npc, null);
 			}
 		}
 		

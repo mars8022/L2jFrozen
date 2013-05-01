@@ -37,88 +37,81 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-
 public class CommunityBoard
 {
 	private static CommunityBoard _instance;
 	private Map<String, IBBSHandler> _handlers;
-
+	
 	public CommunityBoard()
 	{
 		_handlers = new FastMap<String, IBBSHandler>();
-		//null;
+		// null;
 	}
-
+	
 	public static CommunityBoard getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new CommunityBoard();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	/**
-	 * by Azagthtot<br>
-	 * <br>
-	 * РћР±СЂР°Р±РѕС‚РєР° РєР°СЃС‚РѕРјРЅС‹С… _bbs РєРѕРјРјР°РЅРґ С‡РµСЂРµР· RequestByPassToServer<br>
-	 * 
-	 * @param handler as IBBSHandler - РѕР±СЂР°Р±РѕС‚С‡РёРє РєР°СЃС‚РѕРјРЅС‹С… РєРѕРјРјР°РЅРґ
+	 * by Azagthtot
+	 * @param handler as IBBSHandler
 	 */
 	public void registerBBSHandler(IBBSHandler handler)
 	{
-		for(String s : handler.getBBSCommands())
+		for (String s : handler.getBBSCommands())
 		{
 			_handlers.put(s, handler);
 		}
 	}
-
+	
 	/**
-	 * by Azagthtot - РЎРќРђР§РђР›Рђ РїСЂРѕРІРµСЂСЏРµРј РєР°СЃС‚РѕРјРЅС‹Р№ С…Р°РЅРґР»РµСЂ, РїРѕС‚РѕРј СЋР·Р°РµРј
-	 * РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє<br>
-	 * <br>
-	 * 
-	 * @param client - Р®Р·РµСЂ С‚РёРїРѕ<br>
-	 * @param command - РєРѕРјР°РЅРґР° СЃ РїРµСЂРµС„РёРєСЃРѕРј _bbs
+	 * by Azagthtot
+	 * @param client
+	 * @param command
 	 */
 	public void handleCommands(L2GameClient client, String command)
 	{
 		L2PcInstance activeChar = client.getActiveChar();
-
-		if(activeChar == null)
+		
+		if (activeChar == null)
 			return;
-
-		if(Config.COMMUNITY_TYPE.equals("full"))
+		
+		if (Config.COMMUNITY_TYPE.equals("full"))
 		{
 			String cmd = command.substring(4);
 			String params = "";
 			int iPos = cmd.indexOf(" ");
-			if(iPos != -1)
+			if (iPos != -1)
 			{
 				params = cmd.substring(iPos + 1);
 				cmd = cmd.substring(0, iPos);
-
+				
 			}
 			IBBSHandler bbsh = _handlers.get(cmd);
-			if(bbsh != null)
+			if (bbsh != null)
 			{
 				bbsh.handleCommand(cmd, activeChar, params);
 			}
 			else
 			{
-				if(command.startsWith("_bbsclan"))
+				if (command.startsWith("_bbsclan"))
 				{
 					ClanBBSManager.getInstance().parsecmd(command, activeChar);
 				}
-				else if(command.startsWith("_bbsmemo"))
+				else if (command.startsWith("_bbsmemo"))
 				{
 					TopicBBSManager.getInstance().parsecmd(command, activeChar);
 				}
-				else if(command.startsWith("_bbsgetfav"))
+				else if (command.startsWith("_bbsgetfav"))
 				{
 					String text = HtmCache.getInstance().getHtm("data/html/CommunityBoard/favorites.htm");
-					if(text != null)
+					if (text != null)
 					{
 						text = text.replace("%username%", activeChar.getName());
 						text = text.replace("%charId%", String.valueOf(activeChar.getObjectId()));
@@ -132,25 +125,25 @@ public class CommunityBoard
 						activeChar.sendPacket(new ShowBoard(null, "102"));
 						activeChar.sendPacket(new ShowBoard(null, "103"));
 					}
-
+					
 				}
-				else if(command.startsWith("_bbstopics"))
+				else if (command.startsWith("_bbstopics"))
 				{
 					TopicBBSManager.getInstance().parsecmd(command, activeChar);
 				}
-				else if(command.startsWith("_bbsposts"))
+				else if (command.startsWith("_bbsposts"))
 				{
 					PostBBSManager.getInstance().parsecmd(command, activeChar);
 				}
-				else if(command.startsWith("_bbstop"))
+				else if (command.startsWith("_bbstop"))
 				{
 					TopBBSManager.getInstance().parsecmd(command, activeChar);
 				}
-				else if(command.startsWith("_bbshome"))
+				else if (command.startsWith("_bbshome"))
 				{
 					TopBBSManager.getInstance().parsecmd(command, activeChar);
 				}
-				else if(command.startsWith("_bbsloc"))
+				else if (command.startsWith("_bbsloc"))
 				{
 					RegionBBSManager.getInstance().parsecmd(command, activeChar);
 				}
@@ -161,12 +154,12 @@ public class CommunityBoard
 					sb = null;
 					activeChar.sendPacket(new ShowBoard(null, "102"));
 					activeChar.sendPacket(new ShowBoard(null, "103"));
-
+					
 				}
 			}
-
+			
 		}
-		else if(Config.COMMUNITY_TYPE.equals("old"))
+		else if (Config.COMMUNITY_TYPE.equals("old"))
 		{
 			RegionBBSManager.getInstance().parsecmd(command, activeChar);
 		}
@@ -174,10 +167,10 @@ public class CommunityBoard
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CB_OFFLINE));
 		}
-
+		
 		activeChar = null;
 	}
-
+	
 	/**
 	 * @param client
 	 * @param url
@@ -190,21 +183,21 @@ public class CommunityBoard
 	public void handleWriteCommands(L2GameClient client, String url, String arg1, String arg2, String arg3, String arg4, String arg5)
 	{
 		L2PcInstance activeChar = client.getActiveChar();
-
-		if(activeChar == null)
+		
+		if (activeChar == null)
 			return;
-
-		if(Config.COMMUNITY_TYPE.equals("full"))
+		
+		if (Config.COMMUNITY_TYPE.equals("full"))
 		{
-			if(url.equals("Topic"))
+			if (url.equals("Topic"))
 			{
 				TopicBBSManager.getInstance().parsewrite(arg1, arg2, arg3, arg4, arg5, activeChar);
 			}
-			else if(url.equals("Post"))
+			else if (url.equals("Post"))
 			{
 				PostBBSManager.getInstance().parsewrite(arg1, arg2, arg3, arg4, arg5, activeChar);
 			}
-			else if(url.equals("Region"))
+			else if (url.equals("Region"))
 			{
 				RegionBBSManager.getInstance().parsewrite(arg1, arg2, arg3, arg4, arg5, activeChar);
 			}
@@ -221,7 +214,7 @@ public class CommunityBoard
 				activeChar.sendPacket(new ShowBoard(null, "103"));
 			}
 		}
-		else if(Config.COMMUNITY_TYPE.equals("old"))
+		else if (Config.COMMUNITY_TYPE.equals("old"))
 		{
 			RegionBBSManager.getInstance().parsewrite(arg1, arg2, arg3, arg4, arg5, activeChar);
 		}
@@ -233,7 +226,7 @@ public class CommunityBoard
 			activeChar.sendPacket(new ShowBoard(null, "102"));
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
-
+		
 		activeChar = null;
 	}
 }

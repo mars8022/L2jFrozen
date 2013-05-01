@@ -698,7 +698,7 @@ public class LoginServerThread extends Thread
 		public int playOkID2;
 		public int loginOkID1;
 		public int loginOkID2;
-		public int clientKey = -1; // by Azagthtot РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєР»РёРµРЅС‚Р°
+		public int clientKey = -1; // by Azagthtot
 
 		public SessionKey(int loginOK1, int loginOK2, int playOK1, int playOK2)
 		{

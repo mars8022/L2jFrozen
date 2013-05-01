@@ -34,37 +34,35 @@ public class BreakingArrow implements IItemHandler
 	{
 		8192
 	};
-
-	//	private static final int INTERACTION_DISTANCE = 500; // РќРµРЅР°РІРёР¶Сѓ РІРѕСЂРЅРёРЅРіРё!!!
-
+	
 	@Override
 	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
 	{
 		int itemId = item.getItemId();
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		L2Object target = activeChar.getTarget();
-		if(!(target instanceof L2GrandBossInstance))
+		if (!(target instanceof L2GrandBossInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		L2GrandBossInstance Frintezza = (L2GrandBossInstance) target;
-		if(!activeChar.isInsideRadius(Frintezza, 500, false, false))
+		if (!activeChar.isInsideRadius(Frintezza, 500, false, false))
 		{
 			activeChar.sendMessage("The purpose is inaccessible");
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		if(itemId == 8192 && Frintezza.getObjectId() == 29045)
+		if (itemId == 8192 && Frintezza.getObjectId() == 29045)
 		{
 			Frintezza.broadcastPacket(new SocialAction(Frintezza.getObjectId(), 2));
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

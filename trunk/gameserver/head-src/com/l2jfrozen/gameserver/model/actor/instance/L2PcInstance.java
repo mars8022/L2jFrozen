@@ -6819,50 +6819,45 @@ private int _reviveRequested = 0;
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Send a Server->Client packet StopMove to this L2PcInstance</li> <li>Remove the L2ItemInstance from the world
-	 * and send server->client GetItem packets</li> <li>Send a System Message to the L2PcInstance :
-	 * YOU_PICKED_UP_S1_ADENA or YOU_PICKED_UP_S1_S2</li> <li>Add the Item to the L2PcInstance inventory</li> <li>Send a
-	 * Server->Client packet InventoryUpdate to this L2PcInstance with NewItem (use a new slot) or ModifiedItem
-	 * (increase amount)</li> <li>Send a Server->Client packet StatusUpdate to this L2PcInstance with current weight</li>
+	 * <li>Send a Server->Client packet StopMove to this L2PcInstance</li> <li>Remove the L2ItemInstance from the world and send server->client GetItem packets</li> <li>Send a System Message to the L2PcInstance : YOU_PICKED_UP_S1_ADENA or YOU_PICKED_UP_S1_S2</li> <li>Add the Item to the L2PcInstance
+	 * inventory</li> <li>Send a Server->Client packet InventoryUpdate to this L2PcInstance with NewItem (use a new slot) or ModifiedItem (increase amount)</li> <li>Send a Server->Client packet StatusUpdate to this L2PcInstance with current weight</li> <BR>
 	 * <BR>
+	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : If a Party is in progress, distribute Items between party members</B></FONT><BR>
 	 * <BR>
-	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : If a Party is in progress, distribute Items between party
-	 * members</B></FONT><BR>
-	 * <BR>
-	 * 
 	 * @param object The L2ItemInstance to pick up
 	 */
 	protected void doPickupItem(L2Object object)
 	{
-		if(isAlikeDead() || isFakeDeath()) return;
-
+		if (isAlikeDead() || isFakeDeath())
+			return;
+		
 		// Set the AI Intention to AI_INTENTION_IDLE
 		getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-
+		
 		// Check if the L2Object to pick up is a L2ItemInstance
-		if(!(object instanceof L2ItemInstance))
+		if (!(object instanceof L2ItemInstance))
 		{
 			// dont try to pickup anything that is not an item :)
-			_log.warning(this+"trying to pickup wrong target." + getTarget());
+			_log.warning(this + "trying to pickup wrong target." + getTarget());
 			return;
 		}
-
+		
 		L2ItemInstance target = (L2ItemInstance) object;
-
+		
 		// Send a Server->Client packet ActionFailed to this L2PcInstance
 		sendPacket(ActionFailed.STATIC_PACKET);
-
+		
 		// Send a Server->Client packet StopMove to this L2PcInstance
 		StopMove sm = new StopMove(this);
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 			_log.fine("pickup pos: " + target.getX() + " " + target.getY() + " " + target.getZ());
 		sendPacket(sm);
 		sm = null;
-
+		
 		synchronized (target)
 		{
 			// Check if the target to pick up is visible
-			if(!target.isVisible())
+			if (!target.isVisible())
 			{
 				// Send a Server->Client packet ActionFailed to this L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -6875,14 +6870,14 @@ private int _reviveRequested = 0;
 				smsg.addItemName(target.getItemId());
 				sendPacket(smsg);
 				return;
-			}			
-			if((isInParty() && getParty().getLootDistribution() == L2Party.ITEM_LOOTER || !isInParty()) && !_inventory.validateCapacity(target))
+			}
+			if ((isInParty() && getParty().getLootDistribution() == L2Party.ITEM_LOOTER || !isInParty()) && !_inventory.validateCapacity(target))
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				sendPacket(new SystemMessage(SystemMessageId.SLOTS_FULL));
 				return;
 			}
-			if(isInvul() && !isGM())
+			if (isInvul() && !isGM())
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1);
@@ -6891,18 +6886,18 @@ private int _reviveRequested = 0;
 				smsg = null;
 				return;
 			}
-			if(target.getOwnerId() != 0 && target.getOwnerId() != getObjectId() && !isInLooterParty(target.getOwnerId()))
+			if (target.getOwnerId() != 0 && target.getOwnerId() != getObjectId() && !isInLooterParty(target.getOwnerId()))
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
-
-				if(target.getItemId() == 57)
+				
+				if (target.getItemId() == 57)
 				{
 					SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1_ADENA);
 					smsg.addNumber(target.getCount());
 					sendPacket(smsg);
 					smsg = null;
 				}
-				else if(target.getCount() > 1)
+				else if (target.getCount() > 1)
 				{
 					SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S2_S1_S);
 					smsg.addItemName(target.getItemId());
@@ -6926,41 +6921,41 @@ private int _reviveRequested = 0;
 				return;
 			}
 			
-			if(target.getItemLootShedule() != null && (target.getOwnerId() == getObjectId() || isInLooterParty(target.getOwnerId())))
+			if (target.getItemLootShedule() != null && (target.getOwnerId() == getObjectId() || isInLooterParty(target.getOwnerId())))
 			{
 				target.resetOwnerTimer();
 			}
-
+			
 			// Remove the L2ItemInstance from the world and send server->client GetItem packets
 			target.pickupMe(this);
-			if(Config.SAVE_DROPPED_ITEM)
+			if (Config.SAVE_DROPPED_ITEM)
 				ItemsOnGroundManager.getInstance().removeObject(target);
 		}
-
-		//Auto use herbs - pick up
-		if(target.getItemType() == L2EtcItemType.HERB)
+		
+		// Auto use herbs - pick up
+		if (target.getItemType() == L2EtcItemType.HERB)
 		{
 			IItemHandler handler = ItemHandler.getInstance().getItemHandler(target.getItemId());
-			if(handler == null)
+			if (handler == null)
 				_log.fine("No item handler registered for item ID " + target.getItemId() + ".");
 			else
 				handler.useItem(this, target);
-				ItemTable.getInstance().destroyItem("Consume", target, this, null);
-				handler = null;
+			ItemTable.getInstance().destroyItem("Consume", target, this, null);
+			handler = null;
 		}
 		// Cursed Weapons are not distributed
-		else if(CursedWeaponsManager.getInstance().isCursed(target.getItemId()))
+		else if (CursedWeaponsManager.getInstance().isCursed(target.getItemId()))
 		{
 			addItem("Pickup", target, null, true);
 		}
-		else if(FortSiegeManager.getInstance().isCombat(target.getItemId()))
+		else if (FortSiegeManager.getInstance().isCombat(target.getItemId()))
 		{
 			addItem("Pickup", target, null, true);
 		}
 		else
 		{
 			// if item is instance of L2ArmorType or L2WeaponType broadcast an "Attention" system message
-			if(target.getItemType() instanceof L2ArmorType || target.getItemType() instanceof L2WeaponType || target.getItem() instanceof L2Armor || target.getItem() instanceof L2Weapon)
+			if (target.getItemType() instanceof L2ArmorType || target.getItemType() instanceof L2WeaponType || target.getItem() instanceof L2Armor || target.getItem() instanceof L2Weapon)
 			{
 				SystemMessage msg = new SystemMessage(SystemMessageId.ATTENTION_S1_PICKED_UP_S2);
 				msg.addString(getName());
@@ -6968,13 +6963,13 @@ private int _reviveRequested = 0;
 				broadcastPacket(msg, 1400);
 				msg = null;
 			}
-
+			
 			// Check if a Party is in progress
-			if(isInParty())
+			if (isInParty())
 			{
 				getParty().distributeItem(this, target);
 			}
-			else if(target.getItemId() == 57 && getInventory().getAdenaInstance() != null)
+			else if (target.getItemId() == 57 && getInventory().getAdenaInstance() != null)
 			{
 				addAdena("Pickup", target.getCount(), null, true);
 				ItemTable.getInstance().destroyItem("Pickup", target, this, null);
@@ -6983,10 +6978,10 @@ private int _reviveRequested = 0;
 			else
 			{
 				addItem("Pickup", target, null, true);
-
-			    //Like L2OFF Auto-Equip arrows if player has a bow and player picks up arrows. 
-				if(target.getItem() != null && target.getItem().getItemType() == L2EtcItemType.ARROW)
-					 checkAndEquipArrows();
+				
+				// Like L2OFF Auto-Equip arrows if player has a bow and player picks up arrows.
+				if (target.getItem() != null && target.getItem().getItemType() == L2EtcItemType.ARROW)
+					checkAndEquipArrows();
 			}
 		}
 		target = null;
@@ -12722,23 +12717,20 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Checks if is in looter party.
-	 *
 	 * @param LooterId the looter id
 	 * @return true, if is in looter party
 	 */
 	public boolean isInLooterParty(int LooterId)
 	{
-		L2PcInstance looter = (L2PcInstance) L2World.getInstance().findObject(LooterId);
-
+		L2PcInstance looter = L2World.getInstance().getPlayer(LooterId);
+		
 		// if L2PcInstance is in a CommandChannel
-		if(isInParty() && getParty().isInCommandChannel() && looter != null)
+		if (isInParty() && getParty().isInCommandChannel() && looter != null)
 			return getParty().getCommandChannel().getMembers().contains(looter);
-
-		if(isInParty() && looter != null)
+		
+		if (isInParty() && looter != null)
 			return getParty().getPartyMembers().contains(looter);
-
-		looter = null;
-
+		
 		return false;
 	}
 

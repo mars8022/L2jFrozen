@@ -1817,7 +1817,8 @@
   <set name="saveVs" val="MEN"/>
   <set name="target" val="TARGET_ONE"/>
   <set name="skillRadius" val="300"/>
-  <set name="reuseDelay" val="4000"/>
+  <set name="reuseDelay" val="30000"/>
+  <set name="isMagic" val="true" />
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="PARALYZE"/>
   <set name="operateType" val="OP_ACTIVE"/>
