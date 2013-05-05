@@ -26,48 +26,46 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
-
 /**
  * Updates all data of Olympiad nobles in db
- *
  * @author godson
  */
 public class TaskOlympiadSave extends Task
 {
 	private static final Logger _log = Logger.getLogger(TaskOlympiadSave.class.getName());
 	public static final String NAME = "OlympiadSave";
-
+	
 	@Override
 	public String getName()
 	{
 		return NAME;
 	}
-
+	
 	@Override
 	public void onTimeElapsed(ExecutedTask task)
 	{
 		try
 		{
 			if (Olympiad.getInstance().inCompPeriod())
-    		{
-    			Olympiad.getInstance().saveOlympiadStatus();
-    			_log.info("Olympiad System: Data updated successfully.");
-    		}
+			{
+				Olympiad.getInstance().saveOlympiadStatus();
+				_log.info("Olympiad System: Data updated successfully.");
+			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			_log.warning("Olympiad System: Failed to save Olympiad configuration: " + e);
 		}
 	}
-
+	
 	@Override
 	public void initializate()
 	{
 		super.initializate();
 		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "900000", "1800000", "");
 	}
-
+	
 }

@@ -26,29 +26,28 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
 /**
  * @author Tempy
- *
  */
 public final class TaskCleanUp extends Task
 {
 	private static final Logger _log = Logger.getLogger(TaskCleanUp.class.getName());
 	public static final String NAME = "CleanUp";
-
+	
 	@Override
 	public String getName()
 	{
 		return NAME;
 	}
-
+	
 	@Override
 	public void onTimeElapsed(ExecutedTask task)
 	{
 		System.runFinalization();
 		System.gc();
-		_log.config("Java Memory Cleanup Global Task: launched.");
+		_log.info("Java Memory Cleanup Global Task: launched.");
 	}
 	
 	@Override
-	public void  initializate()
+	public void initializate()
 	{
 		super.initializate();
 		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "1800000", "3600000", "");

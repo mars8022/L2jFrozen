@@ -2115,7 +2115,6 @@ public class L2Clan
 
 	/**
 	 * Checks if activeChar and target meet various conditions to join a clan
-	 * 
 	 * @param activeChar
 	 * @param target
 	 * @param pledgeType
@@ -2123,28 +2122,28 @@ public class L2Clan
 	 */
 	public boolean checkClanJoinCondition(L2PcInstance activeChar, L2PcInstance target, int pledgeType)
 	{
-		if(activeChar == null)
+		if (activeChar == null)
 			return false;
-
-		if((activeChar.getClanPrivileges() & L2Clan.CP_CL_JOIN_CLAN) != L2Clan.CP_CL_JOIN_CLAN)
+		
+		if ((activeChar.getClanPrivileges() & L2Clan.CP_CL_JOIN_CLAN) != L2Clan.CP_CL_JOIN_CLAN)
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_DO_THAT));
 			return false;
 		}
-
-		if(target == null)
+		
+		if (target == null)
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_HAVE_INVITED_THE_WRONG_TARGET));
 			return false;
 		}
-
-		if(activeChar.getObjectId() == target.getObjectId())
+		
+		if (activeChar.getObjectId() == target.getObjectId())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_INVITE_YOURSELF));
 			return false;
 		}
-
-		if(getCharPenaltyExpiryTime() > System.currentTimeMillis())
+		
+		if (getCharPenaltyExpiryTime() > System.currentTimeMillis())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.YOU_MUST_WAIT_BEFORE_ACCEPTING_A_NEW_MEMBER);
 			sm.addString(target.getName());
@@ -2152,8 +2151,8 @@ public class L2Clan
 			sm = null;
 			return false;
 		}
-
-		if(target.getClanId() != 0)
+		
+		if (target.getClanId() != 0)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_WORKING_WITH_ANOTHER_CLAN);
 			sm.addString(target.getName());
@@ -2161,8 +2160,8 @@ public class L2Clan
 			sm = null;
 			return false;
 		}
-
-		if(target.getClanJoinExpiryTime() > System.currentTimeMillis())
+		
+		if (target.getClanJoinExpiryTime() > System.currentTimeMillis())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_MUST_WAIT_BEFORE_JOINING_ANOTHER_CLAN);
 			sm.addString(target.getName());
@@ -2170,8 +2169,8 @@ public class L2Clan
 			sm = null;
 			return false;
 		}
-
-		if((target.getLevel() > 40 || target.getClassId().level() >= 2) && pledgeType == -1)
+		
+		if ((target.getLevel() > 40 || target.getClassId().level() >= 2) && pledgeType == -1)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_DOESNOT_MEET_REQUIREMENTS_TO_JOIN_ACADEMY);
 			sm.addString(target.getName());
@@ -2180,10 +2179,10 @@ public class L2Clan
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.ACADEMY_REQUIREMENTS));
 			return false;
 		}
-
-		if(getSubPledgeMembersCount(pledgeType) >= getMaxNrOfMembers(pledgeType))
+		
+		if (getSubPledgeMembersCount(pledgeType) >= getMaxNrOfMembers(pledgeType))
 		{
-			if(pledgeType == 0)
+			if (pledgeType == 0)
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CLAN_IS_FULL);
 				sm.addString(getName());
@@ -2196,31 +2195,34 @@ public class L2Clan
 			}
 			return false;
 		}
-
+		/*
+		 * Custom feature working, member with privileges can invite only in their pledge
+		 * 
 		int leadssubpledge = getLeaderSubPledge(activeChar.getName());
-
-		if(pledgeType != -1 && !activeChar.isClanLeader())
+		
+		if (pledgeType != -1 && !activeChar.isClanLeader())
 		{
-			if(activeChar.getPledgeType() != pledgeType)
+			if (activeChar.getPledgeType() != pledgeType)
 			{
-				if(leadssubpledge == 0)
+				if (leadssubpledge == 0)
 				{
 					activeChar.sendMessage("Invite to another subunit is not allowed.");
 					return false;
 				}
-				else if(leadssubpledge != pledgeType)
+				else if (leadssubpledge != pledgeType)
 				{
 					activeChar.sendMessage("Invite to another subunit is not allowed.");
 					return false;
 				}
 			}
-			else if(leadssubpledge != 0)
+			else if (leadssubpledge != 0)
 			{
 				activeChar.sendMessage("Invite to another subunit is not allowed.");
 				return false;
 			}
 		}
-
+		*/
+		
 		return true;
 	}
 

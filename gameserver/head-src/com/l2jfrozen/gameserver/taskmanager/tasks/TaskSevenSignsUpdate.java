@@ -27,45 +27,42 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
-
 /**
- * Updates all data for the Seven Signs and Festival of Darkness engines,
- * when time is elapsed.
- *
+ * Updates all data for the Seven Signs and Festival of Darkness engines, when time is elapsed.
  * @author Tempy
  */
 public class TaskSevenSignsUpdate extends Task
 {
 	private static final Logger _log = Logger.getLogger(TaskSevenSignsUpdate.class.getName());
 	public static final String NAME = "SevenSignsUpdate";
-
+	
 	@Override
 	public String getName()
 	{
 		return NAME;
 	}
-
+	
 	@Override
 	public void onTimeElapsed(ExecutedTask task)
 	{
 		try
 		{
 			SevenSigns.getInstance().saveSevenSignsData(null, true);
-
-			if(!SevenSigns.getInstance().isSealValidationPeriod())
+			
+			if (!SevenSigns.getInstance().isSealValidationPeriod())
 				SevenSignsFestival.getInstance().saveFestivalData(false);
-
+			
 			_log.info("SevenSigns: Data updated successfully.");
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			_log.warning("SevenSigns: Failed to save Seven Signs configuration: " + e);
 		}
 	}
-
+	
 	@Override
 	public void initializate()
 	{

@@ -35,36 +35,36 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
 public class TaskRaidPointsReset extends Task
 {
-	private static final Logger _log	= Logger.getLogger(TaskRaidPointsReset.class.getName());
-	public static final	String	NAME	= "raid_points_reset";
-
+	private static final Logger _log = Logger.getLogger(TaskRaidPointsReset.class.getName());
+	public static final String NAME = "raid_points_reset";
+	
 	@Override
 	public String getName()
 	{
 		return NAME;
 	}
-
+	
 	@Override
 	public void onTimeElapsed(ExecutedTask task)
 	{
 		String playerName = "";
 		Calendar cal = Calendar.getInstance();
-
-		if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+		
+		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
 		{
 			// reward clan reputation points
 			Map<Integer, Integer> rankList = RaidBossPointsManager.getRankList();
-			for(L2Clan c : ClanTable.getInstance().getClans())
+			for (L2Clan c : ClanTable.getInstance().getClans())
 			{
-				for(Map.Entry<Integer, Integer> entry : rankList.entrySet())
+				for (Map.Entry<Integer, Integer> entry : rankList.entrySet())
 				{
 					L2Object obj = L2World.getInstance().findObject(entry.getKey());
-					if(obj instanceof L2PcInstance)
+					if (obj instanceof L2PcInstance)
 						playerName = ((L2PcInstance) obj).getName();
-					if(entry.getValue() <= 100 && c.isMember(playerName))
+					if (entry.getValue() <= 100 && c.isMember(playerName))
 					{
 						int reputation = 0;
-						switch(entry.getValue())
+						switch (entry.getValue())
 						{
 							case 1:
 								reputation = Config.RAID_RANKING_1ST;
@@ -97,7 +97,7 @@ public class TaskRaidPointsReset extends Task
 								reputation = Config.RAID_RANKING_10TH;
 								break;
 							default:
-								if(entry.getValue() <= 50)
+								if (entry.getValue() <= 50)
 									reputation = Config.RAID_RANKING_UP_TO_50TH;
 								else
 									reputation = Config.RAID_RANKING_UP_TO_100TH;
@@ -107,12 +107,12 @@ public class TaskRaidPointsReset extends Task
 					}
 				}
 			}
-
+			
 			RaidBossPointsManager.cleanUp();
 			_log.info("Raid Points Reset Global Task: launched.");
 		}
 	}
-
+	
 	@Override
 	public void initializate()
 	{
