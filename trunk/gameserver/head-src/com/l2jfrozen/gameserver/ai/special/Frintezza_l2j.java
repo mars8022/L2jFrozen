@@ -264,10 +264,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 	private L2GrandBossInstance frintezza, weakScarlet, strongScarlet, activeScarlet;
 	private L2MonsterInstance demon1, demon2, demon3, demon4, portrait1, portrait2, portrait3, portrait4;
 	private L2NpcInstance _frintezzaDummy, _overheadDummy, _portraitDummy1, _portraitDummy3, _scarletDummy;
-	private static List<L2PcInstance> _PlayersInside = new FastList<L2PcInstance>();
-	private static List<L2NpcInstance> _Room1Mobs = new FastList<L2NpcInstance>();
-	private static List<L2NpcInstance> _Room2Mobs = new FastList<L2NpcInstance>();
-	private static List<L2Attackable> Minions = new FastList<L2Attackable>();
+	private List<L2PcInstance> _PlayersInside = new FastList<L2PcInstance>();
+	private List<L2NpcInstance> _Room1Mobs = new FastList<L2NpcInstance>();
+	private List<L2NpcInstance> _Room2Mobs = new FastList<L2NpcInstance>();
+	private List<L2Attackable> Minions = new FastList<L2Attackable>();
 	
 	// Boss: Frintezza
 	public Frintezza_l2j(int id, String name, String descr)
@@ -315,7 +315,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			for (int i = 0; i <= 17; i++)
 			{
 				L2NpcInstance mob = addSpawn(_mobLoc[i][0],_mobLoc[i][1],_mobLoc[i][2],_mobLoc[i][3],_mobLoc[i][4],false,0);
-				_Room1Mobs.add(mob);
+				synchronized(_Room1Mobs){
+					_Room1Mobs.add(mob);
+				}
+				
 			}
 		}
 		else if (event.equalsIgnoreCase("room1_spawn2"))
@@ -323,7 +326,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			for (int i = 18; i <= 26; i++)
 			{
 				L2NpcInstance mob = addSpawn(_mobLoc[i][0],_mobLoc[i][1],_mobLoc[i][2],_mobLoc[i][3],_mobLoc[i][4],false,0);
-				_Room1Mobs.add(mob);
+				synchronized(_Room1Mobs){
+					_Room1Mobs.add(mob);
+				}
+				
 			}
 		}
 		else if (event.equalsIgnoreCase("room1_spawn3"))
@@ -331,7 +337,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			for (int i = 27; i <= 32; i++)
 			{
 				L2NpcInstance mob = addSpawn(_mobLoc[i][0],_mobLoc[i][1],_mobLoc[i][2],_mobLoc[i][3],_mobLoc[i][4],false,0);
-				_Room1Mobs.add(mob);
+				synchronized(_Room1Mobs){
+					_Room1Mobs.add(mob);
+				}
+				
 			}
 		}
 		else if (event.equalsIgnoreCase("room1_spawn4"))
@@ -339,7 +348,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			for (int i = 33; i <= 40; i++)
 			{
 				L2NpcInstance mob = addSpawn(_mobLoc[i][0],_mobLoc[i][1],_mobLoc[i][2],_mobLoc[i][3],_mobLoc[i][4],false,0);
-				_Room1Mobs.add(mob);
+				synchronized(_Room1Mobs){
+					_Room1Mobs.add(mob);
+				}
+				
 			}
 		}
 		else if (event.equalsIgnoreCase("room2_spawn"))
@@ -347,7 +359,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 			for (int i = 41; i <= 44; i++)
 			{
 				L2NpcInstance mob = addSpawn(_mobLoc[i][0],_mobLoc[i][1],_mobLoc[i][2],_mobLoc[i][3],_mobLoc[i][4],false,0);
-				_Room2Mobs.add(mob);
+				synchronized(_Room2Mobs){
+					_Room2Mobs.add(mob);
+				}
+				
 			}
 		}
 		else if (event.equalsIgnoreCase("room2_spawn2"))
@@ -355,26 +370,35 @@ public class Frintezza_l2j extends Quest implements Runnable
 			for (int i = 45; i <= 131; i++)
 			{
 				L2NpcInstance mob = addSpawn(_mobLoc[i][0],_mobLoc[i][1],_mobLoc[i][2],_mobLoc[i][3],_mobLoc[i][4],false,0);
-				_Room2Mobs.add(mob);
+				synchronized(_Room2Mobs){
+					_Room2Mobs.add(mob);
+				}
+				
 			}
 		}
 		else if (event.equalsIgnoreCase("room1_del"))
 		{
-			for (L2NpcInstance mob : _Room1Mobs)
-			{
-				if (mob != null)
-					mob.deleteMe();
+			synchronized(_Room1Mobs){
+				for (L2NpcInstance mob : _Room1Mobs)
+				{
+					if (mob != null)
+						mob.deleteMe();
+				}
+				_Room1Mobs.clear();
 			}
-			_Room1Mobs.clear();
+			
 		}
 		else if (event.equalsIgnoreCase("room2_del"))
 		{
-			for (L2NpcInstance mob : _Room2Mobs)
-			{
-				if (mob != null)
-					mob.deleteMe();
+			synchronized(_Room2Mobs){
+				for (L2NpcInstance mob : _Room2Mobs)
+				{
+					if (mob != null)
+						mob.deleteMe();
+				}
+				_Room2Mobs.clear();
 			}
-			_Room2Mobs.clear();
+			
 		}
 		else if (event.equalsIgnoreCase("room3_del"))
 		{
@@ -1269,13 +1293,16 @@ public class Frintezza_l2j extends Quest implements Runnable
 		}
 		else if (event.equalsIgnoreCase("minions_despawn"))
 		{
-			for (int i = 0; i < Minions.size(); i++)
-			{
-				L2Attackable mob = Minions.get(i);
-				if (mob != null)
-					mob.decayMe();
+			synchronized(Minions){
+				for (int i = 0; i < Minions.size(); i++)
+				{
+					L2Attackable mob = Minions.get(i);
+					if (mob != null)
+						mob.decayMe();
+				}
+				Minions.clear();
 			}
-			Minions.clear();
+			
 		}
 		else if (event.equalsIgnoreCase("spawn_minion"))
 		{
@@ -1283,7 +1310,9 @@ public class Frintezza_l2j extends Quest implements Runnable
 			{
 				L2NpcInstance mob = addSpawn(npc.getNpcId()+2,npc.getX(),npc.getY(),npc.getZ(),npc.getHeading(),false,0);
 				//mob.setIsRaidMinion(true);
-				Minions.add((L2Attackable)mob);
+				synchronized(Minions){
+					Minions.add((L2Attackable)mob);
+				}
 				
 				startQuestTimer("action", 200, mob, null);
 				startQuestTimer("spawn_minion", 18000, npc, null);
@@ -1376,23 +1405,28 @@ public class Frintezza_l2j extends Quest implements Runnable
 								{
 									if (party == null)
 										continue;
-									for (L2PcInstance member : party.getPartyMembers())
-									{
-										if (member == null || member.getLevel() < 74)
-											continue;
-										if (!member.isInsideRadius(npc, 700, false, false))
-											continue;
-										if (_PlayersInside.size() > 45)
+									
+									synchronized(_PlayersInside){
+										
+										for (L2PcInstance member : party.getPartyMembers())
 										{
-											member.sendMessage("The number of challenges have been full, so can not enter.");
-											break;
+											if (member == null || member.getLevel() < 74)
+												continue;
+											if (!member.isInsideRadius(npc, 700, false, false))
+												continue;
+											if (_PlayersInside.size() > 45)
+											{
+												member.sendMessage("The number of challenges have been full, so can not enter.");
+												break;
+											}
+											_PlayersInside.add(member);
+											_Zone.allowPlayerEntry(member, 300);
+											member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
 										}
-										_PlayersInside.add(member);
-										_Zone.allowPlayerEntry(member, 300);
-										member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
+										if (_PlayersInside.size() > 45)
+											break;
+										
 									}
-									if (_PlayersInside.size() > 45)
-										break;
 									
 									_LocCycle++;
 									if (_LocCycle >= 6)
@@ -1409,12 +1443,16 @@ public class Frintezza_l2j extends Quest implements Runnable
 										continue;
 									if (!member.isInsideRadius(npc, 700, false, false))
 										continue;
-									if (_PlayersInside.size() > 45)
-									{
-										member.sendMessage("The number of challenges have been full, so can not enter.");
-										break;
+									
+									synchronized(_PlayersInside){
+										if (_PlayersInside.size() > 45)
+										{
+											member.sendMessage("The number of challenges have been full, so can not enter.");
+											break;
+										}
+										_PlayersInside.add(member);
 									}
-									_PlayersInside.add(member);
+									
 									_Zone.allowPlayerEntry(member, 300);
 									member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
 								}
@@ -1429,7 +1467,10 @@ public class Frintezza_l2j extends Quest implements Runnable
 							
 							if (player.isInsideRadius(npc, 700, false, false)){
 								
-								_PlayersInside.add(player);
+								synchronized(_PlayersInside){
+									_PlayersInside.add(player);
+									
+								}
 								_Zone.allowPlayerEntry(player, 300);
 								player.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
 								
@@ -1445,23 +1486,27 @@ public class Frintezza_l2j extends Quest implements Runnable
 						{
 							if (party == null)
 								continue;
-							for (L2PcInstance member : party.getPartyMembers())
-							{
-								if (member == null || member.getLevel() < 74)
-									continue;
-								if (!member.isInsideRadius(npc, 700, false, false))
-									continue;
-								if (_PlayersInside.size() > 45)
+							
+							synchronized(_PlayersInside){
+								for (L2PcInstance member : party.getPartyMembers())
 								{
-									member.sendMessage("The number of challenges have been full, so can not enter.");
-									break;
+									if (member == null || member.getLevel() < 74)
+										continue;
+									if (!member.isInsideRadius(npc, 700, false, false))
+										continue;
+									if (_PlayersInside.size() > 45)
+									{
+										member.sendMessage("The number of challenges have been full, so can not enter.");
+										break;
+									}
+									_PlayersInside.add(member);
+									_Zone.allowPlayerEntry(member, 300);
+									member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
 								}
-								_PlayersInside.add(member);
-								_Zone.allowPlayerEntry(member, 300);
-								member.teleToLocation(getXFix(_invadeLoc[_LocCycle][0]) + Rnd.get(50), getYFix(_invadeLoc[_LocCycle][1]) + Rnd.get(50), getZFix(_invadeLoc[_LocCycle][2]));
+								if (_PlayersInside.size() > 45)
+									break;
+								
 							}
-							if (_PlayersInside.size() > 45)
-								break;
 							
 							_LocCycle++;
 							if (_LocCycle >= 6)
@@ -1626,11 +1671,14 @@ public class Frintezza_l2j extends Quest implements Runnable
 				DoorTable.getInstance().getDoor(25150045).closeMe();
 				DoorTable.getInstance().getDoor(25150046).closeMe();
 				int outside = 0;
-				for (L2PcInstance room2_pc : _PlayersInside)
-				{
-					if (_Zone.isInsideZone(room2_pc) && room2_pc.getY() > -86130)
-						outside++;
+				synchronized(_PlayersInside){
+					for (L2PcInstance room2_pc : _PlayersInside)
+					{
+						if (_Zone.isInsideZone(room2_pc) && room2_pc.getY() > -86130)
+							outside++;
+					}
 				}
+				
 
 				if (outside == 0)
 				{

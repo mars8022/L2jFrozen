@@ -24,14 +24,14 @@ public class ShortBuffStatusUpdate extends L2GameServerPacket
 	private int _skillId;
 	private int _skillLvl;
 	private int _duration;
-
+	
 	public ShortBuffStatusUpdate(int skillId, int skillLvl, int duration)
 	{
 		_skillId = skillId;
 		_skillLvl = skillLvl;
 		_duration = duration;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -40,8 +40,9 @@ public class ShortBuffStatusUpdate extends L2GameServerPacket
 		writeD(_skillLvl);
 		writeD(_duration);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

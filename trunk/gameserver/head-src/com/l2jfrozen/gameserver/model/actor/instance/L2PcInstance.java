@@ -7700,10 +7700,12 @@ private int _reviveRequested = 0;
 							if (getClan().getReputationScore() > 0)
 							{
 								pk.getClan().setReputationScore(((L2PcInstance) killer).getClan().getReputationScore() + 2, true);
+								pk.getClan().broadcastToOnlineMembers(new PledgeShowInfoUpdate(pk.getClan())); // Update status to all members
 							}
 							if (pk.getClan().getReputationScore() > 0)
 							{
 								_clan.setReputationScore(_clan.getReputationScore() - 2, true);
+								_clan.broadcastToOnlineMembers(new PledgeShowInfoUpdate(_clan)); // Update status to all members
 							}
 						}
 						if(Config.ALT_GAME_DELEVEL)
@@ -11939,12 +11941,9 @@ private int _reviveRequested = 0;
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Check if the attacker isn't the L2PcInstance Pet</li> <li>Check if the attacker is L2MonsterInstance</li> <li>
-	 * If the attacker is a L2PcInstance, check if it is not in the same party</li> <li>Check if the L2PcInstance has
-	 * Karma</li> <li>If the attacker is a L2PcInstance, check if it is not in the same siege clan (Attacker, Defender)</li>
+	 * <li>Check if the attacker isn't the L2PcInstance Pet</li> <li>Check if the attacker is L2MonsterInstance</li> <li>If the attacker is a L2PcInstance, check if it is not in the same party</li> <li>Check if the L2PcInstance has Karma</li> <li>If the attacker is a L2PcInstance, check if it is not
+	 * in the same siege clan (Attacker, Defender)</li> <BR>
 	 * <BR>
-	 * <BR>
-	 *
 	 * @param attacker the attacker
 	 * @return true, if is auto attackable
 	 */
@@ -11953,140 +11952,142 @@ private int _reviveRequested = 0;
 	{
 		
 		// Check if the attacker isn't the L2PcInstance Pet
-		if(attacker == this || attacker == getPet())
+		if (attacker == this || attacker == getPet())
 			return false;
-
+		
 		// Check if the attacker is a L2MonsterInstance
-		if(attacker instanceof L2MonsterInstance)
+		if (attacker instanceof L2MonsterInstance)
 			return true;
-
+		
 		// Check if the attacker is not in the same party
-		if(getParty() != null && getParty().getPartyMembers().contains(attacker))
+		if (getParty() != null && getParty().getPartyMembers().contains(attacker))
 			return false;
-
+		
 		// Check if the attacker is in olympia and olympia start
-		if(attacker instanceof L2PcInstance && ((L2PcInstance) attacker).isInOlympiadMode())
+		if (attacker instanceof L2PcInstance && ((L2PcInstance) attacker).isInOlympiadMode())
 		{
-			if(isInOlympiadMode() && isOlympiadStart() && ((L2PcInstance) attacker).getOlympiadGameId() == getOlympiadGameId())
+			if (isInOlympiadMode() && isOlympiadStart() && ((L2PcInstance) attacker).getOlympiadGameId() == getOlympiadGameId())
 			{
-				if(isFakeDeath())
+				if (isFakeDeath())
 					return false;
 				return true;
 			}
 			return false;
 		}
-
-		// Check if the attacker is not in the same clan
-		if(getClan() != null && attacker != null && getClan().isMember(attacker.getName()))
+		
+		// Check if the attacker is not in the same clan, excluding duels like L2OFF
+		if (getClan() != null && attacker != null && getClan().isMember(attacker.getName()) && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
 			return false;
-
-		if(attacker instanceof L2PlayableInstance
-				&& isInFunEvent()){
+		
+		if (attacker instanceof L2PlayableInstance && isInFunEvent())
+		{
 			
 			L2PcInstance player = null;
-			if(attacker instanceof L2PcInstance){
+			if (attacker instanceof L2PcInstance)
+			{
 				player = (L2PcInstance) attacker;
-			}else if(attacker instanceof L2Summon){
+			}
+			else if (attacker instanceof L2Summon)
+			{
 				player = ((L2Summon) attacker).getOwner();
 			}
 			
-			if(player != null){
+			if (player != null)
+			{
 				
-				if(player.isInFunEvent()){
+				if (player.isInFunEvent())
+				{
 					
-					//checks for events
-					if((_inEventTvT && player._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(player._teamNameTvT)) 
-							|| (_inEventCTF && player._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(player._teamNameCTF)) 
-							|| (_inEventDM && player._inEventDM && DM.is_started()) 
-							|| (_inEventVIP && player._inEventVIP && VIP._started))
-						{
-							return true;
-						}
+					// checks for events
+					if ((_inEventTvT && player._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(player._teamNameTvT)) || (_inEventCTF && player._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(player._teamNameCTF)) || (_inEventDM && player._inEventDM && DM.is_started()) || (_inEventVIP && player._inEventVIP && VIP._started))
+					{
+						return true;
+					}
 					return false;
 				}
 				return false;
 			}
 		}
 		
-		if(L2Character.isInsidePeaceZone(attacker, this)){
+		if (L2Character.isInsidePeaceZone(attacker, this))
+		{
 			return false;
 		}
-			
-
+		
 		// Check if the L2PcInstance has Karma
-		if(getKarma() > 0 || getPvpFlag() > 0)
+		if (getKarma() > 0 || getPvpFlag() > 0)
 			return true;
-
+		
 		// Check if the attacker is a L2PcInstance
-		if(attacker instanceof L2PcInstance)
+		if (attacker instanceof L2PcInstance)
 		{
 			// is AutoAttackable if both players are in the same duel and the duel is still going on
-			if(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId())
+			if (getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId())
 				return true;
 			// Check if the L2PcInstance is in an arena or a siege area
-			if(isInsideZone(ZONE_PVP) && ((L2PcInstance) attacker).isInsideZone(ZONE_PVP))
+			if (isInsideZone(ZONE_PVP) && ((L2PcInstance) attacker).isInsideZone(ZONE_PVP))
 				return true;
-
-			if(getClan() != null)
+			
+			if (getClan() != null)
 			{
 				Siege siege = SiegeManager.getInstance().getSiege(getX(), getY(), getZ());
 				FortSiege fortsiege = FortSiegeManager.getInstance().getSiege(getX(), getY(), getZ());
-				if(siege != null)
+				if (siege != null)
 				{
 					// Check if a siege is in progress and if attacker and the L2PcInstance aren't in the Defender clan
-					if(siege.checkIsDefender(((L2PcInstance) attacker).getClan()) && siege.checkIsDefender(getClan()))
+					if (siege.checkIsDefender(((L2PcInstance) attacker).getClan()) && siege.checkIsDefender(getClan()))
 					{
 						siege = null;
 						return false;
 					}
-
+					
 					// Check if a siege is in progress and if attacker and the L2PcInstance aren't in the Attacker clan
-					if(siege.checkIsAttacker(((L2PcInstance) attacker).getClan()) && siege.checkIsAttacker(getClan()))
+					if (siege.checkIsAttacker(((L2PcInstance) attacker).getClan()) && siege.checkIsAttacker(getClan()))
 					{
 						siege = null;
 						return false;
 					}
 				}
-				if(fortsiege != null)
+				if (fortsiege != null)
 				{
 					// Check if a siege is in progress and if attacker and the L2PcInstance aren't in the Defender clan
-					if(fortsiege.checkIsDefender(((L2PcInstance) attacker).getClan()) && fortsiege.checkIsDefender(getClan()))
+					if (fortsiege.checkIsDefender(((L2PcInstance) attacker).getClan()) && fortsiege.checkIsDefender(getClan()))
 					{
 						fortsiege = null;
 						return false;
 					}
-
+					
 					// Check if a siege is in progress and if attacker and the L2PcInstance aren't in the Attacker clan
-					if(fortsiege.checkIsAttacker(((L2PcInstance) attacker).getClan()) && fortsiege.checkIsAttacker(getClan()))
+					if (fortsiege.checkIsAttacker(((L2PcInstance) attacker).getClan()) && fortsiege.checkIsAttacker(getClan()))
 					{
 						fortsiege = null;
 						return false;
 					}
 				}
-
+				
 				// Check if clan is at war
-				if(getClan() != null && ((L2PcInstance) attacker).getClan() != null && getClan().isAtWarWith(((L2PcInstance) attacker).getClanId()) && getWantsPeace() == 0 && ((L2PcInstance) attacker).getWantsPeace() == 0 && !isAcademyMember())
+				if (getClan() != null && ((L2PcInstance) attacker).getClan() != null && getClan().isAtWarWith(((L2PcInstance) attacker).getClanId()) && getWantsPeace() == 0 && ((L2PcInstance) attacker).getWantsPeace() == 0 && !isAcademyMember())
 					return true;
 			}
 			
 		}
-		else if(attacker instanceof L2SiegeGuardInstance)
+		else if (attacker instanceof L2SiegeGuardInstance)
 		{
-			if(getClan() != null)
+			if (getClan() != null)
 			{
 				Siege siege = SiegeManager.getInstance().getSiege(this);
 				return siege != null && siege.checkIsAttacker(getClan()) || DevastatedCastle.getInstance().getIsInProgress();
 			}
 		}
-		else if(attacker instanceof L2FortSiegeGuardInstance)
+		else if (attacker instanceof L2FortSiegeGuardInstance)
 		{
-			if(getClan() != null)
+			if (getClan() != null)
 			{
 				FortSiege fortsiege = FortSiegeManager.getInstance().getSiege(this);
 				return fortsiege != null && fortsiege.checkIsAttacker(getClan());
 			}
 		}
-
+		
 		return false;
 	}
 
@@ -12807,7 +12808,6 @@ private int _reviveRequested = 0;
 	
 	/**
 	 * Check if the requested casting is a Pc->Pc skill cast and if it's a valid pvp condition.
-	 *
 	 * @param target L2Object instance containing the target
 	 * @param skill L2Skill instance with the skill being casted
 	 * @param srcIsSummon is L2Summon - caster?
@@ -12817,46 +12817,43 @@ private int _reviveRequested = 0;
 	{
 		if ((_inEventTvT && TvT.is_started()) || (_inEventDM && DM.is_started()) || (_inEventCTF && CTF.is_started()) || (_inEventVIP && VIP._started))
 			return true;
-
+		
 		// check for PC->PC Pvp status
-		if(target instanceof L2Summon)
+		if (target instanceof L2Summon)
 			target = ((L2Summon) target).getOwner();
 		
-		if (
-				target != null &&                                           			// target not null and
-				target != this &&                                           			// target is not self and
-				target instanceof L2PcInstance &&                           			// target is L2PcInstance and
-				!(isInDuel() && ((L2PcInstance)target).getDuelId() == getDuelId()) &&	// self is not in a duel and attacking opponent
-				!isInsideZone(ZONE_PVP) &&        						// Pc is not in PvP zone
-				!((L2PcInstance)target).isInsideZone(ZONE_PVP)         	// target is not in PvP zone
+		if (target != null && // target not null and
+		target != this && // target is not self and
+		target instanceof L2PcInstance && // target is L2PcInstance and
+		!(isInDuel() && ((L2PcInstance) target).getDuelId() == getDuelId()) && // self is not in a duel and attacking opponent
+		!isInsideZone(ZONE_PVP) && // Pc is not in PvP zone
+		!((L2PcInstance) target).isInsideZone(ZONE_PVP) // target is not in PvP zone
 		)
 		{
 			SkillDat skilldat = getCurrentSkill();
-			//SkillDat skilldatpet = getCurrentPetSkill();
-			if(skill.isPvpSkill()) // pvp skill
+			// SkillDat skilldatpet = getCurrentPetSkill();
+			if (skill.isPvpSkill()) // pvp skill
 			{
-				if(getClan() != null && ((L2PcInstance)target).getClan() != null)
+				if (getClan() != null && ((L2PcInstance) target).getClan() != null)
 				{
-					if(getClan().isAtWarWith(((L2PcInstance)target).getClan().getClanId()) && ((L2PcInstance)target).getClan().isAtWarWith(getClan().getClanId()))
+					if (getClan().isAtWarWith(((L2PcInstance) target).getClan().getClanId()) && ((L2PcInstance) target).getClan().isAtWarWith(getClan().getClanId()))
 						return true; // in clan war player can attack whites even with sleep etc.
 				}
-				if (
-						((L2PcInstance)target).getPvpFlag() == 0 &&             //   target's pvp flag is not set and
-						((L2PcInstance)target).getKarma() == 0                  //   target has no karma
+				if (((L2PcInstance) target).getPvpFlag() == 0 && // target's pvp flag is not set and
+				((L2PcInstance) target).getKarma() == 0 // target has no karma
 				)
 					return false;
 			}
 			else if ((skilldat != null && !skilldat.isCtrlPressed() && skill.isOffensive() && !srcIsSummon)
-					/*|| (skilldatpet != null && !skilldatpet.isCtrlPressed() && skill.isOffensive() && srcIsSummon)*/)
+			/* || (skilldatpet != null && !skilldatpet.isCtrlPressed() && skill.isOffensive() && srcIsSummon) */)
 			{
-				if(getClan() != null && ((L2PcInstance)target).getClan() != null)
+				if (getClan() != null && ((L2PcInstance) target).getClan() != null)
 				{
-					if(getClan().isAtWarWith(((L2PcInstance)target).getClan().getClanId()) && ((L2PcInstance)target).getClan().isAtWarWith(getClan().getClanId()))
+					if (getClan().isAtWarWith(((L2PcInstance) target).getClan().getClanId()) && ((L2PcInstance) target).getClan().isAtWarWith(getClan().getClanId()))
 						return true; // in clan war player can attack whites even without ctrl
 				}
-				if (
-						((L2PcInstance)target).getPvpFlag() == 0 &&             //   target's pvp flag is not set and
-						((L2PcInstance)target).getKarma() == 0                  //   target has no karma
+				if (((L2PcInstance) target).getPvpFlag() == 0 && // target's pvp flag is not set and
+				((L2PcInstance) target).getKarma() == 0 // target has no karma
 				)
 					return false;
 			}
@@ -15350,12 +15347,15 @@ private int _reviveRequested = 0;
 			setCurrentCp(getMaxCp());
 		}
 
+		// Refresh player infos and update new status
 		broadcastUserInfo();
 		refreshOverloaded();
 		refreshExpertisePenalty();
 		refreshMasteryPenality();
 		refreshMasteryWeapPenality();
-		
+		sendPacket(new UserInfo(this));
+		sendPacket(new ItemList(this, false));
+		getInventory().refreshWeight();
 		
 		// Clear resurrect xp calculation
 		setExpBeforeDeath(0);

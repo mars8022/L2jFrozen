@@ -14,6 +14,7 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
+import java.util.List;
 import java.util.Map;
 
 import javolution.util.FastMap;
@@ -46,7 +47,7 @@ public class L2BossZone extends L2ZoneType
 	// track the players admitted to the zone who should be allowed back in 
 	// after reboot/server downtime (outside of their control), within 30 
 	// of server restart
-	private L2FastList<Integer> _playersAllowed;
+	private List<Integer> _playersAllowed;
 
 	private int _bossId;
 	
@@ -228,15 +229,15 @@ public class L2BossZone extends L2ZoneType
 		return _timeInvade;
 	}
 
-	public void setAllowedPlayers(L2FastList<Integer> players)
+	public void setAllowedPlayers(List<Integer> list)
 	{
-		if(players != null)
+		if(list != null)
 		{
-			_playersAllowed = players;
+			_playersAllowed = list;
 		}
 	}
 
-	public L2FastList<Integer> getAllowedPlayers()
+	public List<Integer> getAllowedPlayers()
 	{
 		return _playersAllowed;
 	}

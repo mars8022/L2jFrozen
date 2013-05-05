@@ -25,7 +25,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -371,77 +370,130 @@ public class Quest extends ManagedScript
 			_log.info(info+" Repeat:"+repeating);
 		}
 		
-		// Add quest timer if timer doesn't already exist
-		ArrayList<QuestTimer> timers = getQuestTimers(name);
-		// no timer exists with the same name, at all
-		if (timers == null)
-		{
-			timers = new ArrayList<QuestTimer>();
-			timers.add(new QuestTimer(this, name, time, npc, player, repeating));
-			_allEventTimers.put(name, timers);
-		}
-		// a timer with this name exists, but may not be for the same set of npc and player
-		else
-		{
-			// if there exists a timer with this name, allow the timer only if the [npc, player] set is unique
-			// nulls act as wildcards
-			if (getQuestTimer(name, npc, player) == null)
-			{
+		synchronized(_allEventTimers){
+			
+			ArrayList<QuestTimer> timers = _allEventTimers.get(name);
+
+			// no timer exists with the same name, at all
+			if(timers == null){
+				
+				timers = new ArrayList<QuestTimer>();
 				timers.add(new QuestTimer(this, name, time, npc, player, repeating));
+				
+			// a timer with this name exists, but may not be for the same set of npc and player
+			}else{
+				
+				QuestTimer timer = null;
+				for(int i=0;i<timers.size();i++){
+					
+					QuestTimer tmp = timers.get(i);
+					
+					if(tmp != null
+						&& tmp.isMatch(this, name, npc, player)){
+						timer = tmp;
+						break;
+					}
+					
+				}
+				
+				// if there exists a timer with this name, allow the timer only if the [npc, player] set is unique
+				// nulls act as wildcards
+				if (timer == null)
+				{
+					timers.add(new QuestTimer(this, name, time, npc, player, repeating));
+				}
+				
+			}
+			
+			_allEventTimers.put(name, timers);
+			
+		}
+		
+	}
+	
+	public QuestTimer getQuestTimer(String name, L2NpcInstance npc, L2PcInstance player)
+	{
+		if (name == null)
+			return null;
+		
+		synchronized (_allEventTimers)
+		{		
+			ArrayList<QuestTimer> qt = _allEventTimers.get(name);
+			
+			if (qt == null || qt.isEmpty())
+				return null;
+			
+			for (int i = 0; i < qt.size(); i++)
+			{
+				
+				QuestTimer timer = qt.get(i);
+				
+				if (timer != null && timer.isMatch(this, name, npc, player))
+					return timer;
+			}		
+			return null;
+		}
+	}
+	
+	public void cancelQuestTimer(String name, L2NpcInstance npc, L2PcInstance player)
+	{
+		if (name == null)
+			return;
+		
+		synchronized (_allEventTimers)
+		{
+			ArrayList<QuestTimer> qt = _allEventTimers.get(name);
+			if (qt == null || qt.isEmpty())
+				return;
+			for (int i = 0; i < qt.size(); i++)
+			{
+				
+				QuestTimer timer = qt.get(i);
+				if (timer != null)
+				{
+					timer.cancel();
+					return;
+				}
 			}
 		}
 	}
 	
-	public synchronized QuestTimer getQuestTimer(String name, L2NpcInstance npc, L2PcInstance player)
+	public void cancelQuestTimers(String name)
 	{
-		ArrayList<QuestTimer> qt = getQuestTimers(name);
-
-		if(qt == null || qt.isEmpty())
-			return null;
-
-		for(int i=0;i<qt.size();i++){
-			
-			QuestTimer timer = qt.get(i);
-			
-			if(timer != null
-				&& timer.isMatch(this, name, npc, player))
-					return timer;
-			
-		}
-			
-
-		return null;
-	}
-
-	public ArrayList<QuestTimer> getQuestTimers(String name)
-	{
-		if(name == null)
-			return null;
+		if (name == null)
+			return;
 		
-		return _allEventTimers.get(name);
-	}
-
-	public void cancelQuestTimer(String name, L2NpcInstance npc, L2PcInstance player)
-	{
-		QuestTimer timer = getQuestTimer(name, npc, player);
-
-		if(timer != null)
-		{
-			timer.cancel();
+		synchronized (_allEventTimers)
+		{			
+			ArrayList<QuestTimer> timers = _allEventTimers.get(name);
+			
+			if (timers == null)
+				return;
+			
+			for (QuestTimer timer : timers)
+			{
+				if (timer != null)
+				{
+					timer.cancel();
+				}
+			}
 		}
 	}
-
-	public synchronized void removeQuestTimer(QuestTimer timer)
+	
+	public void removeQuestTimer(QuestTimer timer)
 	{
-		if(timer == null)
+		if (timer == null)
 			return;
-
-		ArrayList<QuestTimer> timers = getQuestTimers(timer.getName());
-
-		if(timers == null)
-			return;
-
-		timers.remove(timer);
+		
+		synchronized (_allEventTimers)
+		{			
+			ArrayList<QuestTimer> timers = _allEventTimers.get(timer.getName());
+			
+			if (timers == null)
+				return;
+			
+			timers.remove(timer);		
+		}	
 	}
 
 	// these are methods to call from java
@@ -1768,18 +1820,5 @@ public class Quest extends ManagedScript
 		}
 	}
 	
-	public synchronized void cancelQuestTimers(String name)
-	{
-		ArrayList<QuestTimer> timers = getQuestTimers(name);
-		if (timers == null)
-			return;
-		
-		for (QuestTimer timer : timers)
-		{
-			if (timer != null)
-			{
-				timer.cancel();
-			}
-		}
-	}
+	
 }

@@ -23,13 +23,13 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 
 /**
  * @author Layane
- *
  */
 public class TaskShutdown extends Task
 {
 	public static final String NAME = "shutdown";
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.taskmanager.Task#getName()
 	 */
 	@Override
@@ -37,15 +37,15 @@ public class TaskShutdown extends Task
 	{
 		return NAME;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.taskmanager.Task#onTimeElapsed(com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask)
 	 */
 	@Override
 	public void onTimeElapsed(ExecutedTask task)
 	{
-		Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]),false,true,false);
+		Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), false, true, false);
 		handler.start();
 	}
-
 }
