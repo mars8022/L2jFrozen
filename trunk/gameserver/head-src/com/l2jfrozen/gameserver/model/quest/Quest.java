@@ -445,13 +445,16 @@ public class Quest extends ManagedScript
 			ArrayList<QuestTimer> qt = _allEventTimers.get(name);
 			if (qt == null || qt.isEmpty())
 				return;
+			
 			for (int i = 0; i < qt.size(); i++)
 			{
 				
 				QuestTimer timer = qt.get(i);
-				if (timer != null)
+				if (timer != null
+					&& timer.isMatch(this, name, npc, player))
 				{
-					timer.cancel();
+					timer.cancel(false);
+					qt.remove(timer);
 					return;
 				}
 			}
@@ -474,9 +477,13 @@ public class Quest extends ManagedScript
 			{
 				if (timer != null)
 				{
-					timer.cancel();
+					timer.cancel(false);
+					
 				}
 			}
+			
+			timers.clear();
+			
 		}
 	}
 	
@@ -1752,21 +1759,27 @@ public class Quest extends ManagedScript
 	}
 
 	@Override
-	public synchronized boolean unload()
+	public boolean unload()
 	{
 		saveGlobalData();
 		// cancel all pending timers before reloading.
 		// if timers ought to be restarted, the quest can take care of it
 		// with its code (example: save global data indicating what timer must 
 		// be restarted).
-		for(ArrayList<QuestTimer> timers : _allEventTimers.values())
-		{
-			for(QuestTimer timer : timers)
+		
+		synchronized(_allEventTimers){
+			
+			for(ArrayList<QuestTimer> timers : _allEventTimers.values())
 			{
-				timer.cancel();
+				for(QuestTimer timer : timers)
+				{
+					timer.cancel(false);
+				}
 			}
+			_allEventTimers.clear();
+			
 		}
-		_allEventTimers.clear();
+		
 		return QuestManager.getInstance().removeQuest(this);
 	}
 

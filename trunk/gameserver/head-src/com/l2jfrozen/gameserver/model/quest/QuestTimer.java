@@ -109,6 +109,11 @@ public class QuestTimer
 	// Method - Public
 	public void cancel()
 	{
+		cancel(true);
+	}
+	
+	public void cancel(boolean removeTimer)
+	{
 		_isActive = false;
 
 		if(_schedular != null)
@@ -116,7 +121,9 @@ public class QuestTimer
 			_schedular.cancel(false);
 		}
 
-		getQuest().removeQuestTimer(this);
+		if(removeTimer)
+			getQuest().removeQuestTimer(this);
+		
 	}
 
 	// public method to compare if this timer matches with the key attributes passed.
