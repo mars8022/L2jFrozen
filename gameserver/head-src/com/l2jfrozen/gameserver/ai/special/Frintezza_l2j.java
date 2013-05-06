@@ -1611,7 +1611,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				
 				//cancelQuestTimer("loc_check");
 				cancelQuestTimer("spawn_minion", npc, null);
-				cancelQuestTimer("frintezza_despawn", npc, null);
+				cancelQuestTimers("frintezza_despawn");
 				startQuestTimer("clean", 30000, npc, null);
 				startQuestTimer("close", 30000, npc, null);
 				startQuestTimer("room3_del", 60000, npc, null);
