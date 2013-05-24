@@ -160,13 +160,13 @@
   <set name="reuseDelay" val="20000"/>
   <set name="power" val="30" /> <!-- Base Land Rate -->
   <set name="hitTime" val="2000"/>
-  <set name="target" val="TARGET_AREA_UNDEAD"/>
+  <set name="target" val="TARGET_UNDEAD"/>
   <set name="skillRadius" val="150"/>
   <set name="skillType" val="FEAR"/>
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="lethal2" val="#lethal2"/>
   <set name="castRange" val="150"/>
-  <set name="effectRange" val="550"/>
+  <set name="effectRange" val="300"/>
   <set name="isMagic" val="false"/>
   <set name="isDebuff" val="true" />
   <enchant1 name="mpConsume" val="#cost"/> 

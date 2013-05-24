@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ServerClose;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.util.GMAudit;
@@ -416,12 +417,34 @@ public class AdminBan implements IAdminCommandHandler {
 		if (targetPlayer != null)
 		{
 			targetPlayer.setAccessLevel(lvl);
-			targetPlayer.sendMessage("Your character has been banned. Goodbye.");
-			targetPlayer.logout();
+			targetPlayer.sendMessage("Your character has been banned. Contact the administrator for more informations.");
+			
+			try
+			{
+				// Save player status
+				targetPlayer.store();
+				
+				// Player Disconnect like L2OFF, no client crash.
+				if (targetPlayer.getClient() != null)
+				{
+					targetPlayer.getClient().sendPacket(ServerClose.STATIC_PACKET);
+					targetPlayer.getClient().setActiveChar(null);
+					targetPlayer.setClient(null);
+				}
+			}
+			catch (Throwable t)
+			{
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
+			
+			targetPlayer.setOffline(true);
+			targetPlayer.deleteMe();
+			
 			RegionBBSManager.getInstance().changeCommunityBoard();
 			activeChar.sendMessage("The character " + targetPlayer.getName() + " has now been banned.");
 			
-			output=true;
+			output = true;
 		}
 		else
 		{
@@ -440,7 +463,8 @@ public class AdminBan implements IAdminCommandHandler {
 				{
 					activeChar.sendMessage("Character not found or access level unaltered.");
 				}
-				else{
+				else
+				{
 					activeChar.sendMessage(player + " now has an access level of " + lvl);
 					output = true;
 					

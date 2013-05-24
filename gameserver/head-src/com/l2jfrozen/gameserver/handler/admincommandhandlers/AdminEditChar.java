@@ -46,6 +46,8 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAll;
 import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
+import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListAll;
+import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SetSummonRemainTime;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
@@ -133,65 +135,72 @@ public class AdminEditChar implements IAdminCommandHandler
 		switch(comm)
 		{
 			case admin_changename:
-			case admin_setname:{
-				
+			case admin_setname:
+			{			
 				String val = "";
 				
-				if(st.hasMoreTokens()){
-					
-					while(st.hasMoreTokens())
+				if (st.hasMoreTokens())
+				{				
+					while (st.hasMoreTokens())
 					{
-						if(val.equals("")){
+						if (val.equals(""))
+						{
 							val = st.nextToken();
-						}else{
+						}
+						else
+						{
 							val += " " + st.nextToken();
 						}
-					}
-					
-				}else{
+					}				
+				}
+				else
+				{
 					activeChar.sendMessage("Usage: //changename|setname <new_name_for_target>");
 					return false;
 				}
 				
 				L2Object target = activeChar.getTarget();
 				L2PcInstance player = null;
-
+				
 				String oldName = null;
-
-				if(target instanceof L2PcInstance)
+				
+				if (target instanceof L2PcInstance)
 				{
 					player = (L2PcInstance) target;
 					oldName = player.getName();
-
+					
 					L2World.getInstance().removeFromAllPlayers(player);
 					player.setName(val);
 					player.store();
 					L2World.getInstance().addToAllPlayers(player);
-
+					
 					player.sendMessage("Your name has been changed by a GM.");
 					player.broadcastUserInfo();
-
-					if(player.isInParty())
+					
+					if (player.isInParty())
 					{
 						// Delete party window for other party members
 						player.getParty().broadcastToPartyMembers(player, new PartySmallWindowDeleteAll());
-						for(L2PcInstance member : player.getParty().getPartyMembers())
+						for (L2PcInstance member : player.getParty().getPartyMembers())
 						{
 							// And re-add
-							if(member != player)
+							if (member != player)
 							{
 								member.sendPacket(new PartySmallWindowAll(player, player.getParty()));
 							}
 						}
 					}
+					
 					if(player.getClan() != null)
 					{
-						player.getClan().broadcastClanStatus();
+						player.getClan().updateClanMember(player);
+						player.getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(player));
+				        player. sendPacket(new PledgeShowMemberListAll(player.getClan(), player));
 					}
-
+					
 					RegionBBSManager.getInstance().changeCommunityBoard();
 				}
-				else if(target instanceof L2NpcInstance)
+				else if (target instanceof L2NpcInstance)
 				{
 					L2NpcInstance npc = (L2NpcInstance) target;
 					oldName = npc.getName();
@@ -199,7 +208,7 @@ public class AdminEditChar implements IAdminCommandHandler
 					npc.updateAbnormalEffect();
 				}
 				
-				if(oldName == null)
+				if (oldName == null)
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 					return false;

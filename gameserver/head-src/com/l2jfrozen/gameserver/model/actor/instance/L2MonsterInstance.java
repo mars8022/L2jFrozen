@@ -91,12 +91,13 @@ public class L2MonsterInstance extends L2Attackable
 	 */
 	public void returnHome()
 	{
-		ThreadPoolManager.getInstance().scheduleAi(new Runnable() {
+		ThreadPoolManager.getInstance().scheduleAi(new Runnable()
+		{
 			@Override
 			public void run()
 			{
 				L2Spawn mobSpawn = getSpawn();
-				if(!isInCombat() && !isAlikeDead() && !isDead() && mobSpawn != null && !isInsideRadius(mobSpawn.getLocx(), mobSpawn.getLocy(), Config.MAX_DRIFT_RANGE, false))
+				if (!isInCombat() && !isAlikeDead() && !isDead() && mobSpawn != null && !isInsideRadius(mobSpawn.getLocx(), mobSpawn.getLocy(), Config.MAX_DRIFT_RANGE, false))
 				{
 					teleToLocation(mobSpawn.getLocx(), mobSpawn.getLocy(), mobSpawn.getLocz(), false);
 				}

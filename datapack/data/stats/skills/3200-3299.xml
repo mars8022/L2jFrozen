@@ -580,6 +580,7 @@
   <set name="effectRange" val="-1"/>
   <for>
     <mul order="0x30" stat="pvpPhysDmg" val="#rate"/>
+    <mul order="0x30" stat="pvpPhysSkillsDmg" val="#rate"/>
   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->

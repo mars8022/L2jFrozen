@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
@@ -321,14 +322,15 @@ public class CharInfo extends L2GameServerPacket
 
 			final Map<Integer, L2CubicInstance> cubics = _activeChar.getCubics();
 			
-			writeH(cubics.size());
+			Set<Integer> cubicsIds = cubics.keySet();
 			
-			if(cubics.size()>0 && cubics.keySet()!=null && cubics.size()>0)
-				for(int id : cubics.keySet())
-				{
+			writeH(cubicsIds.size());
+			for (Integer id : cubicsIds)
+			{
+				if (id != null)
 					writeH(id);
-				}
-
+			}
+			
 			writeC(_activeChar.isInPartyMatchRoom() ? 1 : 0);
 			//writeC(0x00); // find party members
 

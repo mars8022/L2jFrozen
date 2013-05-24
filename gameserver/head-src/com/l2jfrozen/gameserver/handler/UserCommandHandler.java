@@ -37,6 +37,7 @@ import com.l2jfrozen.gameserver.handler.usercommandhandlers.Mount;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.OfflineShop;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.OlympiadStat;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.PartyInfo;
+import com.l2jfrozen.gameserver.handler.usercommandhandlers.SiegeStatus;
 import com.l2jfrozen.gameserver.handler.usercommandhandlers.Time;
 
 /**
@@ -76,6 +77,7 @@ public class UserCommandHandler
 		registerUserCommandHandler(new Loc());
 		registerUserCommandHandler(new Mount());
 		registerUserCommandHandler(new PartyInfo());
+		registerUserCommandHandler(new SiegeStatus());
 		if (Config.OFFLINE_TRADE_ENABLE && Config.OFFLINE_COMMAND1)
 			registerUserCommandHandler(new OfflineShop());
 		_log.config("UserCommandHandler: Loaded " + _datatable.size() + " handlers.");

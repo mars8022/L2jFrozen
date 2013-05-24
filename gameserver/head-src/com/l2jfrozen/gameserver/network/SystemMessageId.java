@@ -4966,6 +4966,12 @@ public enum SystemMessageId
 	THE_PORTAL_HAS_BEEN_CREATED(1923),
 
 	/**
+	* ID: 1694<br>
+	* Message: Only a clan leader that is a Noblesse can view the Siege War Status window during a siege war.
+	*/
+	ONLY_NOBLESSE_LEADER_CAN_VIEW_SIEGE_STATUS_WINDOW(1694),
+	
+	/**
 	 * ID 1983<br>
 	 * Message: $S1
 	 */

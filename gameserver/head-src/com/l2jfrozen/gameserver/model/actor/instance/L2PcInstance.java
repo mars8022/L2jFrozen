@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -5957,6 +5958,10 @@ private int _reviveRequested = 0;
 			if (player != this)
 			{
 				player.sendPacket(new ValidateLocation(this));
+				
+				// To be sure update also the pvp flag / war tag status
+				if (!player.inObserverMode())
+					this.broadcastUserInfo();
 			}
 		}
 		else
@@ -6121,6 +6126,10 @@ private int _reviveRequested = 0;
 				if (player != this)
 				{
 					player.sendPacket(new ValidateLocation(this));
+					
+					// To be sure update also the pvp flag / war tag status
+					if (!player.inObserverMode())
+						this.broadcastUserInfo();
 				}
 			}
 			else
@@ -6863,7 +6872,7 @@ private int _reviveRequested = 0;
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-			if (!target.getDropProtection().tryPickUp(this))
+			if (!target.getDropProtection().tryPickUp(this) && target.getItemId() != 8190 && target.getItemId() != 8689)
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				SystemMessage smsg = new SystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1);
@@ -6946,6 +6955,12 @@ private int _reviveRequested = 0;
 		// Cursed Weapons are not distributed
 		else if (CursedWeaponsManager.getInstance().isCursed(target.getItemId()))
 		{
+			/*
+			 * Lineage2.com: When a player that controls Akamanah acquires Zariche, 
+			 * the newly-acquired Zariche automatically disappeared, 
+			 * and the equipped Akamanah's level increases by 1. 
+			 * The same rules also apply in the opposite instance.
+			 */
 			addItem("Pickup", target, null, true);
 		}
 		else if (FortSiegeManager.getInstance().isCombat(target.getItemId()))
@@ -12321,6 +12336,24 @@ private int _reviveRequested = 0;
 				return;
 		}
 		
+		// Like L2OFF you can't heal random purple people without using CTRL
+		SkillDat skilldat = getCurrentSkill();
+		if (skill.getSkillType() == SkillType.HEAL && !skilldat.isCtrlPressed() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 1)
+		{
+			if ((getClanId() == 0 || ((L2PcInstance) target).getClanId() == 0) || (getClanId() != ((L2PcInstance) target).getClanId()))
+			{
+				if ((getAllyId() == 0 || ((L2PcInstance) target).getAllyId() == 0) || (getAllyId() != ((L2PcInstance) target).getAllyId()))
+				{
+					if ((getParty() == null || ((L2PcInstance) target).getParty() == null) || (!getParty().equals(((L2PcInstance) target).getParty())))
+					{
+						sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
+						sendPacket(ActionFailed.STATIC_PACKET);
+						return;
+					}
+				}
+			}
+		}
+		
 		// Are the target and the player in the same duel?
 		if(isInDuel())
 		{
@@ -12554,26 +12587,38 @@ private int _reviveRequested = 0;
 			}
 
 			// Check if the target is in the skill cast range
-			if(dontMove)
+			if (dontMove)
 			{
 				// Calculate the distance between the L2PcInstance and the target
-				if(sklTargetType == SkillTargetType.TARGET_GROUND)
+				if (sklTargetType == SkillTargetType.TARGET_GROUND)
 				{
-					if(!isInsideRadius(getCurrentSkillWorldPosition().getX(), getCurrentSkillWorldPosition().getY(), getCurrentSkillWorldPosition().getZ(), (int) (skill.getCastRange() + getTemplate().getCollisionRadius()), false, false))
+					if (!isInsideRadius(getCurrentSkillWorldPosition().getX(), getCurrentSkillWorldPosition().getY(), getCurrentSkillWorldPosition().getZ(), (int) (skill.getCastRange() + getTemplate().getCollisionRadius()), false, false))
 					{
 						// Send a System Message to the caster
 						sendPacket(SystemMessageId.TARGET_TOO_FAR);
-
+						
 						// Send a Server->Client packet ActionFailed to the L2PcInstance
 						sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}
 				}
-				else if(skill.getCastRange() > 0 && !isInsideRadius(target, skill.getCastRange() + getTemplate().collisionRadius, false, false)) // Calculate the distance between the L2PcInstance and the target
+				else if (skill.getCastRange() > 0 && !isInsideRadius(target, skill.getCastRange() + getTemplate().collisionRadius, false, false)) // Calculate the distance between the L2PcInstance and the target
 				{
 					// Send a System Message to the caster
 					sendPacket(new SystemMessage(SystemMessageId.TARGET_TOO_FAR));
-
+					
+					// Send a Server->Client packet ActionFailed to the L2PcInstance
+					sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+			}
+			else if (sklType == SkillType.SIGNET) // Check range for SIGNET skills
+			{
+				if (!isInsideRadius(getCurrentSkillWorldPosition().getX(), getCurrentSkillWorldPosition().getY(), getCurrentSkillWorldPosition().getZ(), (int) (skill.getCastRange() + getTemplate().getCollisionRadius()), false, false))
+				{
+					// Send a System Message to the caster
+					sendPacket(SystemMessageId.TARGET_TOO_FAR);
+					
 					// Send a Server->Client packet ActionFailed to the L2PcInstance
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -13037,15 +13082,31 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Gets the cubics.
-	 *
 	 * @return the cubics
 	 */
 	public Map<Integer, L2CubicInstance> getCubics()
 	{
-		synchronized(_cubics){
+		synchronized (_cubics)
+		{		
+			// clean cubics instances
+			Set<Integer> cubicsIds = _cubics.keySet();
+			
+			for (Integer id : cubicsIds)
+			{				
+				if (id == null || _cubics.get(id) == null)
+					
+					try
+					{
+						_cubics.remove(id);
+					}
+					catch (NullPointerException e)
+					{
+						// FIXME: tried to remove a null key, to be found where this action has been performed (DEGUB)
+					}				
+			}
+			
 			return _cubics;
-		}
-		
+		}		
 	}
 
 	/**
@@ -15967,7 +16028,9 @@ private int _reviveRequested = 0;
 			getTrainedBeast().getAI().startFollow(this);
 		}
 		
-		broadcastUserInfo();
+		// To be sure update also the pvp flag / war tag status
+		if (!inObserverMode())
+			broadcastUserInfo();
 	}
 
 	/* (non-Javadoc)
