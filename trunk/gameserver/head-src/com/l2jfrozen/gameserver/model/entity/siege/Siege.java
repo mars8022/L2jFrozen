@@ -21,8 +21,11 @@ package com.l2jfrozen.gameserver.model.entity.siege;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
@@ -58,7 +61,6 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-
 /**
  * The Class Siege.
  */
@@ -101,6 +103,9 @@ public class Siege
 	//  id=285 msg=[Clan $s1 has succeeded in engraving the ruler!]
 	//  - id=287 msg=[The opponent clan has begun to engrave the ruler.]
 
+	protected static final Logger _log = Logger.getLogger(Siege.class.getName());
+	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+	
 	/**
 	 * The Enum TeleportWhoType.
 	 */
@@ -367,56 +372,61 @@ public class Siege
 	// Siege phases
 	/**
 	 * When siege ends<BR>
-	 * <BR>.
+	 * <BR>
+	 * .
 	 */
 	public void endSiege()
 	{
-		if(getIsInProgress())
+		if (getIsInProgress())
 		{
 			announceToPlayer("The siege of " + getCastle().getName() + " has finished!", false);
-
-			if(getCastle().getOwnerId() <= 0)
+			
+			_log.info("[SIEGE] The siege of " + getCastle().getName() + " has finished! " + fmt.format(new Date(System.currentTimeMillis())));
+			
+			if (getCastle().getOwnerId() <= 0)
 			{
 				announceToPlayer("The siege of " + getCastle().getName() + " has ended in a draw.", false);
+				
+				_log.info("[SIEGE] The siege of " + getCastle().getName() + " has ended in a draw. " + fmt.format(new Date(System.currentTimeMillis())));
 			}
-
+			
 			// Removes all flags. Note: Remove flag before teleporting players
 			removeFlags();
-
+			
 			// Teleport to the second closest town
 			teleportPlayer(Siege.TeleportWhoType.Attacker, MapRegionTable.TeleportWhereType.Town);
-
+			
 			// Teleport to the second closest town
 			teleportPlayer(Siege.TeleportWhoType.DefenderNotOwner, MapRegionTable.TeleportWhereType.Town);
-
+			
 			// Teleport to the second closest town
 			teleportPlayer(Siege.TeleportWhoType.Spectator, MapRegionTable.TeleportWhereType.Town);
-
+			
 			// Flag so that siege instance can be started
 			_isInProgress = false;
-
+			
 			updatePlayerSiegeStateFlags(true);
-
+			
 			// Save castle specific data
 			saveCastleSiege();
-
+			
 			// Clear siege clan from db
 			clearSiegeClan();
-
+			
 			// Remove artifact from this castle
 			removeArtifact();
-
+			
 			// Remove all control tower from this castle
 			removeControlTower();
-
+			
 			// Remove all spawned siege guard from this castle
 			_siegeGuardManager.unspawnSiegeGuard();
-
-			if(getCastle().getOwnerId() > 0)
+			
+			if (getCastle().getOwnerId() > 0)
 			{
 				_siegeGuardManager.removeMercs();
 			}
-
+			
 			// Respawn door to castle
 			getCastle().spawnDoor();
 			getCastle().getZone().updateZoneStatusForCharactersInside();
@@ -605,17 +615,18 @@ public class Siege
 
 	/**
 	 * When siege starts<BR>
-	 * <BR>.
+	 * <BR>
+	 * .
 	 */
 	public void startSiege()
 	{
-		if(!getIsInProgress())
+		if (!getIsInProgress())
 		{
-			if(getAttackerClans().size() <= 0)
+			if (getAttackerClans().size() <= 0)
 			{
 				SystemMessage sm;
-
-				if(getCastle().getOwnerId() <= 0)
+				
+				if (getCastle().getOwnerId() <= 0)
 				{
 					sm = new SystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_BEEN_CANCELED_DUE_TO_LACK_OF_INTEREST);
 				}
@@ -623,61 +634,64 @@ public class Siege
 				{
 					sm = new SystemMessage(SystemMessageId.S1_SIEGE_WAS_CANCELED_BECAUSE_NO_CLANS_PARTICIPATED);
 				}
-
+				
 				sm.addString(getCastle().getName());
 				Announcements.getInstance().announceToAll(sm);
 				sm = null;
-
+				
 				return;
 			}
-
+			
 			// Atk is now atk
 			_isNormalSide = true;
-
+			
 			// Flag so that same siege instance cannot be started again
 			_isInProgress = true;
-
+			
 			// Load siege clan from db
 			loadSiegeClan();
 			updatePlayerSiegeStateFlags(false);
-
+			
 			// Teleport to the closest town
 			teleportPlayer(Siege.TeleportWhoType.Attacker, MapRegionTable.TeleportWhereType.Town);
-
+			
 			_controlTowerCount = 0;
 			_controlTowerMaxCount = 0;
-
+			
 			// Spawn artifact
 			spawnArtifact(getCastle().getCastleId());
-
+			
 			// Spawn control tower
 			spawnControlTower(getCastle().getCastleId());
-
+			
 			// Spawn door
 			getCastle().spawnDoor();
-
+			
 			// Spawn siege guard
 			spawnSiegeGuard();
-
+			
 			// remove the tickets from the ground
 			MercTicketManager.getInstance().deleteTickets(getCastle().getCastleId());
-
+			
 			// Reset respawn delay
 			_defenderRespawnDelayPenalty = 0;
-
+			
 			getCastle().getZone().updateZoneStatusForCharactersInside();
-
+			
 			// Schedule a task to prepare auto siege end
 			_siegeEndDate = Calendar.getInstance();
 			_siegeEndDate.add(Calendar.MINUTE, SiegeManager.getInstance().getSiegeLength());
 			nProtect.getInstance().checkRestriction(null, RestrictionType.RESTRICT_EVENT, new Object[]
 			{
-					Siege.class, this
+				Siege.class,
+				this
 			});
 			// Prepare auto end task
 			ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(getCastle()), 1000);
-
+			
 			announceToPlayer("The siege of " + getCastle().getName() + " has started!", false);
+			
+			_log.info("[SIEGE] The siege of " + getCastle().getName() + " has started! "+fmt.format(new Date(System.currentTimeMillis())));
 		}
 	}
 

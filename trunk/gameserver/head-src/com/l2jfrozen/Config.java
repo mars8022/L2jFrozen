@@ -2484,7 +2484,7 @@ public final class Config
 			CRUMA_TOWER_LEVEL_RESTRICT = Integer.parseInt(L2JFrozenSettings.getProperty("CrumaTowerLevelRestrict", "56"));
 			ALLOW_RAID_BOSS_PETRIFIED = Boolean.valueOf(L2JFrozenSettings.getProperty("AllowRaidBossPetrified", "True"));
 			ALT_PLAYER_PROTECTION_LEVEL = Integer.parseInt(L2JFrozenSettings.getProperty("AltPlayerProtectionLevel", "0"));
-			MONSTER_RETURN_DELAY = Integer.parseInt(L2JFrozenSettings.getProperty("MonsterReturnDelay", "0"));
+			MONSTER_RETURN_DELAY = Integer.parseInt(L2JFrozenSettings.getProperty("MonsterReturnDelay", "1200"));
 			SCROLL_STACKABLE = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ScrollStackable", "False"));
 			ALLOW_CHAR_KILL_PROTECT = Boolean.parseBoolean(L2JFrozenSettings.getProperty("AllowLowLvlProtect", "False"));
 			CLAN_LEADER_COLOR_ENABLED = Boolean.parseBoolean(L2JFrozenSettings.getProperty("ClanLeaderNameColorEnabled", "true"));

@@ -249,8 +249,9 @@
     <enchant val='0' order='0x0C' stat='pAtk'/>
     <enchant val='0' order='0x0C' stat='mAtk'/>
     <!-- Enhances damage to target during PvP -->
-    <mul val='1.05' order='0x30' stat='pvpPhysDmg'/>
-    <mul val='1.05' order='0x30' stat='pvpMagicalDmg'/>
+    <!-- We have SA on SQL -->
+    <!-- <mul val='1.05' order='0x30' stat='pvpPhysDmg'/> -->
+    <!-- <mul val='1.05' order='0x30' stat='pvpMagicalDmg'/> -->
   </for>
 </item>
 <item id='6591' name="angel_slayer__hp_drain">

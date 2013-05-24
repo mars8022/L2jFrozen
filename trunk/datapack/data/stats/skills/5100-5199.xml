@@ -943,6 +943,7 @@
   <for>
  	<effect name="Buff" time="15" count="1" val="0">
       <mul order="0x30" stat="pvpPhysDmg" val="#rate"/>
+      <mul order="0x30" stat="pvpPhysSkillsDmg" val="#rate"/>
  	</effect>
   </for>
 </skill>

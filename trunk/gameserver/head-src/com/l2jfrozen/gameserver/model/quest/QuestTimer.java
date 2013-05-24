@@ -131,6 +131,45 @@ public class QuestTimer
 	// null npc or player act as wildcards for the match
 	public boolean isMatch(Quest quest, String name, L2NpcInstance npc, L2PcInstance player)
 	{
+		/*
+		if (quest instanceof Frintezza_l2j)
+		{			
+			System.out.println("#### INPUT Parameters ####");
+			System.out.println("Quest Name: " + quest.getName());
+			System.out.println("Quest Timer Name: " + name);
+			System.out.println("Quest NPC: " + npc);
+			if (npc != null)
+			{
+				System.out.println(" NPC Name: " + npc.getName());
+				System.out.println(" NPC Id: " + npc.getNpcId());
+				System.out.println(" NPC Instance: " + npc.getInstanceId());
+			}
+			System.out.println("Quest Player: " + player);
+			if (player != null)
+			{
+				System.out.println(" Player Name: " + player.getName());
+				System.out.println(" Player Instance: " + player.getInstanceId());
+			}
+			
+			System.out.println("\n#### LOCAL Parameters ####");
+			System.out.println("Quest Name: " + getQuest().getName());
+			System.out.println("Quest Timer Name: " + getName());
+			System.out.println("Quest NPC: " + getNpc());
+			if (getNpc() != null)
+			{
+				System.out.println(" NPC Name: " + getNpc().getName());
+				System.out.println(" NPC Id: " + getNpc().getNpcId());
+				System.out.println(" NPC Instance: " + getNpc().getInstanceId());
+			}
+			System.out.println("Quest Player: " + getPlayer());
+			if (getPlayer() != null)
+			{
+				System.out.println(" Player Name: " + getPlayer().getName());
+				System.out.println(" Player Instance: " + getPlayer().getInstanceId());
+			}			
+		}
+		*/
+		
 		if(quest == null || name == null)
 			return false;
 

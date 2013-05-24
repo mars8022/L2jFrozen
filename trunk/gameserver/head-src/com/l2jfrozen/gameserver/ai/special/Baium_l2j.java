@@ -197,13 +197,13 @@ public class Baium_l2j  extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onAdvEvent (String event, L2NpcInstance npc, L2PcInstance player)
+	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
 	{
 		if (event.equalsIgnoreCase("baium_unlock"))
 		{
 			GrandBossManager.getInstance().setBossStatus(LIVE_BAIUM, ASLEEP);
 			addSpawn(STONE_BAIUM, 116033, 17447, 10104, 40188, false, 0);
-			if(Config.ANNOUNCE_TO_ALL_SPAWN_RB)
+			if (Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 			{
 				Announcements.getInstance().announceToAll("Raid boss Baium Stone spawned in world.");
 			}
@@ -220,15 +220,16 @@ public class Baium_l2j  extends Quest implements Runnable
 		{
 			if (npc.getNpcId() == LIVE_BAIUM)
 			{
-				npc.broadcastPacket(new SocialAction(npc.getObjectId(),1));
-				npc.broadcastPacket(new Earthquake(npc.getX(), npc.getY(), npc.getZ(),40,5));
+				npc.broadcastPacket(new SocialAction(npc.getObjectId(), 1));
+				npc.broadcastPacket(new Earthquake(npc.getX(), npc.getY(), npc.getZ(), 40, 5));
 				// start monitoring baium's inactivity
 				_LastAttackVsBaiumTime = System.currentTimeMillis();
 				
-				if(!npc.getSpawn().is_customBossInstance())
+				if (!npc.getSpawn().is_customBossInstance())
 					startQuestTimer("baium_despawn", 60000, npc, null, true);
 				
-				if(player!=null){
+				if (player != null)
+				{
 					player.reduceCurrentHp(99999999, player);
 				}
 				
@@ -236,16 +237,17 @@ public class Baium_l2j  extends Quest implements Runnable
 				
 				startQuestTimer("skill_range", 500, npc, null, true);
 				final L2NpcInstance baium = npc;
-				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+				ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+				{
 					@Override
 					public void run()
 					{
 						try
 						{
 							baium.setIsInvul(false);
-							//baium.setIsImobilised(false);
-							//for (L2NpcInstance minion : _Minions)
-							//	minion.setShowSummonAnimation(false);
+							// baium.setIsImobilised(false);
+							// for (L2NpcInstance minion : _Minions)
+							// minion.setShowSummonAnimation(false);
 							baium.getAttackByList().addAll(_Zone.getCharactersInside().values());
 							
 						}
@@ -254,16 +256,16 @@ public class Baium_l2j  extends Quest implements Runnable
 							_log.log(Level.WARNING, "", e);
 						}
 					}
-				},11100L);
+				}, 11100L);
 				// TODO: the person who woke baium up should be knocked across the room, onto a wall, and
 				// lose massive amounts of HP.
 				for (int i = 0; i < ANGEL_LOCATION.length; i++)
 				{
 					L2MonsterInstance angel = (L2MonsterInstance) addSpawn(ARCHANGEL, ANGEL_LOCATION[i][0], ANGEL_LOCATION[i][1], ANGEL_LOCATION[i][2], ANGEL_LOCATION[i][3], false, 0);
-					angel.getAttackByList().addAll(_Zone.getCharactersInside().values());
-					//angel.setIsInvul(true);
+					angel.setIsInvul(true);
 					_Minions.add(angel);
-					
+					angel.getAttackByList().addAll(_Zone.getCharactersInside().values());
+				    angel.isAggressive();
 				}
 			}
 			// despawn the live baium after 30 minutes of inactivity
@@ -274,11 +276,11 @@ public class Baium_l2j  extends Quest implements Runnable
 			if (npc.getNpcId() == LIVE_BAIUM)
 			{
 				// just in case the zone reference has been lost (somehow...), restore the reference
-				if(_Zone == null)
+				if (_Zone == null)
 				{
 					_Zone = GrandBossManager.getInstance().getZone(113100, 14500, 10077);
 				}
-				if(_LastAttackVsBaiumTime + Config.BAIUM_SLEEP * 1000 < System.currentTimeMillis())
+				if (_LastAttackVsBaiumTime + Config.BAIUM_SLEEP * 1000 < System.currentTimeMillis())
 				{
 					npc.deleteMe(); // despawn the live-baium
 					for (L2NpcInstance minion : _Minions)
@@ -293,12 +295,12 @@ public class Baium_l2j  extends Quest implements Runnable
 					_Zone.oustAllPlayers();
 					cancelQuestTimer("baium_despawn", npc, null);
 				}
-				else if ((_LastAttackVsBaiumTime + 300000 < System.currentTimeMillis()) && npc.getCurrentHp() < ( ( npc.getMaxHp() * 3 ) / 4.0 ))
+				else if ((_LastAttackVsBaiumTime + 300000 < System.currentTimeMillis()) && npc.getCurrentHp() < ((npc.getMaxHp() * 3) / 4.0))
 				{
-					//npc.setIsCastingNow(false); //just in case
+					// npc.setIsCastingNow(false); //just in case
 					npc.setTarget(npc);
-					npc.doCast(SkillTable.getInstance().getInfo(4135,1));
-					//npc.setIsCastingNow(true);
+					npc.doCast(SkillTable.getInstance().getInfo(4135, 1));
+					// npc.setIsCastingNow(true);
 				}
 				
 			}

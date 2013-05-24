@@ -261,6 +261,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 	private static int _KillDarkChoirCaptain = 0;
 	
 	private static L2BossZone _Zone;
+	@SuppressWarnings("unused")
 	private L2GrandBossInstance frintezza, weakScarlet, strongScarlet, activeScarlet;
 	private L2MonsterInstance demon1, demon2, demon3, demon4, portrait1, portrait2, portrait3, portrait4;
 	private L2NpcInstance _frintezzaDummy, _overheadDummy, _portraitDummy1, _portraitDummy3, _scarletDummy;
@@ -1259,7 +1260,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 			_Zone.oustAllPlayers();
 			
 			cancelQuestTimer("waiting", npc, null);
-			cancelQuestTimer("frintezza_despawn", npc, null);
+			cancelQuestTimer("frintezza_despawn", null, null);
 			startQuestTimer("clean", 1000, npc, null);
 			startQuestTimer("close", 1000, npc, null);
 			startQuestTimer("room1_del", 1000, npc, null);
@@ -1276,7 +1277,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				
 				cancelQuestTimer("waiting", npc, null);
 				//cancelQuestTimer("loc_check");
-				cancelQuestTimer("room_final", npc, null);
+				cancelQuestTimer("room_final", null, null);
 				cancelQuestTimer("spawn_minion", npc, null);
 				startQuestTimer("clean", 1000, npc, null);
 				startQuestTimer("close", 1000, npc, null);
@@ -1288,7 +1289,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				
 				GrandBossManager.getInstance().setBossStatus(FRINTEZZA,DORMANT);
 				
-				cancelQuestTimer("frintezza_despawn", npc, null);
+				cancelQuestTimer("frintezza_despawn", null, null);
 			}
 		}
 		else if (event.equalsIgnoreCase("minions_despawn"))
@@ -1388,8 +1389,8 @@ public class Frintezza_l2j extends Quest implements Runnable
 					
 					startQuestTimer("close", 0, npc, null);
 					startQuestTimer("room1_spawn", 5000, npc, null);
-					startQuestTimer("room_final", 2100000, npc, null);
-					startQuestTimer("frintezza_despawn", 60000, npc, null, true);
+					startQuestTimer("room_final", 2100000, null, null);
+					startQuestTimer("frintezza_despawn", 60000, null, null, true);
 					
 					_LastAction = System.currentTimeMillis();
 					
@@ -1611,7 +1612,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				
 				//cancelQuestTimer("loc_check");
 				cancelQuestTimer("spawn_minion", npc, null);
-				cancelQuestTimers("frintezza_despawn");
+				cancelQuestTimer("frintezza_despawn", null, null);
 				startQuestTimer("clean", 30000, npc, null);
 				startQuestTimer("close", 30000, npc, null);
 				startQuestTimer("room3_del", 60000, npc, null);
@@ -1684,7 +1685,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				{
 					startQuestTimer("room2_del", 100, npc, null);
 					startQuestTimer("waiting", 180000, npc, null);
-					cancelQuestTimer("room_final", npc, null);
+					cancelQuestTimer("room_final", null, null);
 				}
 				else
 				{
@@ -1707,7 +1708,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 				DoorTable.getInstance().getDoor(25150046).openMe();
 				
 				startQuestTimer("waiting", 180000, npc, null);
-				cancelQuestTimer("room_final", npc, null);
+				cancelQuestTimer("room_final", null, null);
 			}
 		}
 		

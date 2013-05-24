@@ -2276,17 +2276,13 @@ public abstract class L2Character extends L2Object
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Set target to null and cancel Attack or Cast</li> <li>Stop movement</li> <li>Stop HP/MP/CP Regeneration task</li>
-	 * <li>Stop all active skills effects in progress on the L2Character</li> <li>Send the Server->Client packet
-	 * StatusUpdate with current HP and MP to all other L2PcInstance to inform</li> <li>Notify L2Character AI</li><BR>
+	 * <li>Set target to null and cancel Attack or Cast</li> <li>Stop movement</li> <li>Stop HP/MP/CP Regeneration task</li> <li>Stop all active skills effects in progress on the L2Character</li> <li>Send the Server->Client packet StatusUpdate with current HP and MP to all other L2PcInstance to
+	 * inform</li> <li>Notify L2Character AI</li><BR>
 	 * <BR>
 	 * <B><U> Overriden in </U> :</B><BR>
 	 * <BR>
-	 * <li>L2NpcInstance : Create a DecayTask to remove the corpse of the L2NpcInstance after 7 seconds</li> <li>
-	 * L2Attackable : Distribute rewards (EXP, SP, Drops...) and notify Quest Engine</li> <li>L2PcInstance : Apply Death
-	 * Penalty, Manage gain/loss Karma and Item Drop</li><BR>
+	 * <li>L2NpcInstance : Create a DecayTask to remove the corpse of the L2NpcInstance after 7 seconds</li> <li>L2Attackable : Distribute rewards (EXP, SP, Drops...) and notify Quest Engine</li> <li>L2PcInstance : Apply Death Penalty, Manage gain/loss Karma and Item Drop</li><BR>
 	 * <BR>
-	 *
 	 * @param killer The L2Character who killed it
 	 * @return true, if successful
 	 */
@@ -2295,94 +2291,100 @@ public abstract class L2Character extends L2Object
 		// killing is only possible one time
 		synchronized (this)
 		{
-			if(isKilledAlready())
+			if (isKilledAlready())
 				return false;
-
+			
 			setIsKilledAlready(true);
 		}
 		// Set target to null and cancel Attack or Cast
 		setTarget(null);
-
+		
+		// Stop fear to avoid possible bug with char position after death
+		if (isAfraid())
+			stopFear(null);
+		
 		// Stop movement
 		stopMove(null);
-
+		
 		// Stop HP/MP/CP Regeneration task
 		getStatus().stopHpMpRegeneration();
-
+		
 		// Stop all active skills effects in progress on the L2Character,
 		// if the Character isn't affected by Soul of The Phoenix or Salvation
-		if(this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isPhoenixBlessed())
+		if (this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isPhoenixBlessed())
 		{
-			if(((L2PlayableInstance) this).isNoblesseBlessed())
+			if (((L2PlayableInstance) this).isNoblesseBlessed())
 			{
 				((L2PlayableInstance) this).stopNoblesseBlessing(null);
 			}
-			if(((L2PlayableInstance) this).getCharmOfLuck())
+			if (((L2PlayableInstance) this).getCharmOfLuck())
 			{
 				((L2PlayableInstance) this).stopCharmOfLuck(null);
 			}
 		}
 		// Same thing if the Character isn't a Noblesse Blessed L2PlayableInstance
-		else if(this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isNoblesseBlessed())
+		else if (this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isNoblesseBlessed())
 		{
 			((L2PlayableInstance) this).stopNoblesseBlessing(null);
-
-			if(((L2PlayableInstance) this).getCharmOfLuck())
+			
+			if (((L2PlayableInstance) this).getCharmOfLuck())
 			{
 				((L2PlayableInstance) this).stopCharmOfLuck(null);
 			}
 		}
 		else
 		{
-			//to avoid DM Remove buffs on die
-			if((this instanceof L2PcInstance && ((L2PcInstance)this)._inEventDM && DM.is_started())){
-				
-				if(Config.DM_REMOVE_BUFFS_ON_DIE)
+			// to avoid DM Remove buffs on die
+			if ((this instanceof L2PcInstance && ((L2PcInstance) this)._inEventDM && DM.is_started()))
+			{
+				if (Config.DM_REMOVE_BUFFS_ON_DIE)
 					stopAllEffects();
-				
 			}
-			else if (Config.LEAVE_BUFFS_ON_DIE) //this means that the player is not in event dm or is not player 
+			else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
 			{
 				stopAllEffects();
 			}
-			
-		}
-
-		//if killer is the same then the most damager/hated
-		L2Character mostHated = null;
-		if(this instanceof L2Attackable){
-			mostHated = ((L2Attackable)this)._mostHated;
 		}
 		
-		if(mostHated!=null && isInsideRadius(mostHated, 200, false, false)){
+		// if killer is the same then the most damager/hated
+		L2Character mostHated = null;
+		if (this instanceof L2Attackable)
+		{
+			mostHated = ((L2Attackable) this)._mostHated;
+		}
+		
+		if (mostHated != null && isInsideRadius(mostHated, 200, false, false))
+		{
 			calculateRewards(mostHated);
-		}else{
+		}
+		else
+		{
 			calculateRewards(killer);
 		}
 		
 		// Send the Server->Client packet StatusUpdate with current HP and MP to all other L2PcInstance to inform
 		broadcastStatusUpdate();
-
+		
 		// Notify L2Character AI
 		getAI().notifyEvent(CtrlEvent.EVT_DEAD, null);
-
-		if(getWorldRegion() != null)
+		
+		if (getWorldRegion() != null)
 		{
 			getWorldRegion().onDeath(this);
 		}
-
+		
 		// Notify Quest of character's death
-		for(QuestState qs : getNotifyQuestOfDeath())
+		for (QuestState qs : getNotifyQuestOfDeath())
 		{
 			qs.getQuest().notifyDeath((killer == null ? this : killer), this, qs);
 		}
-
+		
 		getNotifyQuestOfDeath().clear();
-
+		
 		getAttackByList().clear();
-
-		//If character is PhoenixBlessed a resurrection popup will show up
-		if(this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isPhoenixBlessed())
+		
+		// If character is PhoenixBlessed a resurrection popup will show up
+		if (this instanceof L2PlayableInstance && ((L2PlayableInstance) this).isPhoenixBlessed())
 		{
 			((L2PcInstance) this).reviveRequest(((L2PcInstance) this), null, false);
 		}

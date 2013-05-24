@@ -1035,7 +1035,7 @@
   <set name="castRange" val="50"/>
   <set name="effectRange" val="200"/>
   <for>
-    <effect count="1" name="Paralyze" time="30" val="0" effectPower="90" effectType="PARALYZE"/>
+    <effect count="1" name="Paralyze" time="120" val="0" effectPower="90" effectType="PARALYZE"/>
   </for>
 </skill>
 <skill id="4064" levels="1" name="Paralysis">
@@ -1052,7 +1052,7 @@
   <set name="castRange" val="800"/>
   <set name="effectRange" val="1300"/>
   <for>
-    <effect count="1" name="Paralyze" time="30" val="0"/>
+    <effect count="1" name="Paralyze" time="120" val="0"/>
   </for>
 </skill>
 <skill id="4065" levels="12" name="NPC Heal">
