@@ -421,15 +421,12 @@ public class MultiSellChoose extends L2GameClientPacket
                                 for (int i = 0; i < e.getItemCount() * _amount; i++)
                                 {
                                         product = inv.addItem("Multisell["+_listId+"]", e.getItemId(), 1, player, player.getTarget());
-
-                                        if (maintainEnchantment)
+                                        if (maintainEnchantment && (product != null))
                                         {
-                                                
                                                 if (i < augmentation.size())
                                                 {
                                                         product.setAugmentation(new L2Augmentation(product, augmentation.get(i).getAugmentationId(), augmentation.get(i).getSkill(), true));
                                                 }
-
                                                 product.setEnchantLevel(e.getEnchantmentLevel());
                                         }
                                 }

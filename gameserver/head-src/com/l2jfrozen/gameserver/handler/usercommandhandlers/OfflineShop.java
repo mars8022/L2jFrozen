@@ -24,6 +24,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IUserCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Party;
+import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
@@ -64,6 +65,22 @@ public class OfflineShop implements IUserCommandHandler
 		if (player.isInFunEvent() && !player.isGM())
 		{
 			player.sendMessage("You cannot Logout while in registered in an Event.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return false;
+		}
+		
+		TradeList storeListBuy = player.getBuyList();
+		if (storeListBuy == null || storeListBuy.getItemCount() == 0)
+		{
+			player.sendMessage("Your buy list is empty.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return false;
+		}
+		
+		TradeList storeListSell = player.getSellList();
+		if (storeListSell == null || storeListSell.getItemCount() == 0)
+		{
+			player.sendMessage("Your sell list is empty.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return false;
 		}

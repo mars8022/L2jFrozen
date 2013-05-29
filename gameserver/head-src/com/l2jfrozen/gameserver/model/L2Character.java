@@ -11332,7 +11332,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public void setTargetTrasformedNpc(L2Attackable trasformedNpc)
 	{
-		if (trasformedNpc == null || this == null)
+		if (trasformedNpc == null)
 			return;
 		
 		// Set the target of the L2PcInstance player

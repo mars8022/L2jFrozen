@@ -29,24 +29,10 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-/**
- * This class ...
- * 
- * @version $Revision: 1.1.2.2.2.1 $ $Date: 2005/03/02 15:38:36 $
- */
-
 public class CombatPointHeal implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(CombatPointHeal.class.getName());
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
-	 */
 	private static final SkillType[] SKILL_IDS = { SkillType.COMBATPOINTHEAL, SkillType.COMBATPOINTPERCENTHEAL };
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
-	 */
+	
 	@Override
 	public void useSkill(L2Character actChar, L2Skill skill, L2Object[] targets)
 	{
@@ -65,13 +51,15 @@ public class CombatPointHeal implements ISkillHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
-
-		L2Character target = null;
-
-		for(L2Object target2 : targets)
+		
+		for(L2Object object : targets)
 		{
-			target = (L2Character) target2;
-
+			if (!(object instanceof L2Character))
+			{
+				continue;
+			}
+			
+			L2Character target = (L2Character) object;
 			double cp = skill.getPower();
 			if(skill.getSkillType() == SkillType.COMBATPOINTPERCENTHEAL)
 			{
@@ -80,15 +68,11 @@ public class CombatPointHeal implements ISkillHandler
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CP_WILL_BE_RESTORED);
 			sm.addNumber((int) cp);
 			target.sendPacket(sm);
-			sm = null;
-
+			
 			target.setCurrentCp(cp + target.getCurrentCp());
 			StatusUpdate sump = new StatusUpdate(target.getObjectId());
 			sump.addAttribute(StatusUpdate.CUR_CP, (int) target.getCurrentCp());
 			target.sendPacket(sump);
-
-			sump = null;
-			target = null;
 		}
 	}
 

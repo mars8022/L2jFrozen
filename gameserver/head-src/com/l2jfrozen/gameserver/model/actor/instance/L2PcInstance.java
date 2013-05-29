@@ -4412,6 +4412,17 @@ private int _reviveRequested = 0;
 	{
 		return _waitTypeSitting || sittingTaskLaunched;
 	}
+	
+	/**
+	 * Return True if the L2PcInstance is sitting task lunched.<BR>
+	 * <BR>
+	 *
+	 * @return true, if is sitting task lunched
+	 */
+	public boolean isSittingTaskLunched()
+	{
+		return sittingTaskLaunched;
+	}
 
 	/**
 	 * Set _waitTypeSitting to given value.
@@ -13499,7 +13510,7 @@ private int _reviveRequested = 0;
 		@Override
 		public void run()
 		{
-			if (isOnline() == 1 && getPrivateStoreType() == 0)
+			if (isOnline() == 1 && getPrivateStoreType() == 0 && !isGM())
 			{
 				
 				for (int i = Config.BOT_PROTECTOR_WAIT_ANSVER; i >= 10; i -= 10)
