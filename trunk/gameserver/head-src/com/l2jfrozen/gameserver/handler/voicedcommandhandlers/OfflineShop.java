@@ -19,6 +19,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Party;
+import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
@@ -56,6 +57,22 @@ public class OfflineShop implements IVoicedCommandHandler
 		if (player.isInFunEvent() && !player.isGM())
 		{
 			player.sendMessage("You cannot Logout while in registered in an Event.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return false;
+		}
+		
+		TradeList storeListBuy = player.getBuyList();
+		if (storeListBuy == null || storeListBuy.getItemCount() == 0)
+		{
+			player.sendMessage("Your buy list is empty.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return false;
+		}
+		
+		TradeList storeListSell = player.getSellList();
+		if (storeListSell == null || storeListSell.getItemCount() == 0)
+		{
+			player.sendMessage("Your sell list is empty.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return false;
 		}
@@ -126,13 +143,12 @@ public class OfflineShop implements IVoicedCommandHandler
 			// Sleep effect, not official feature but however L2OFF features (like offline trade)
 			player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
 			
-			player.store();
-			player.closeNetConnection();
+			player.sendMessage("Your private store has succesfully been flagged as an offline shop and will remain active for ever.");
+			player.setStored(true);
 			
-			if (player.getOfflineStartTime() == 0)
-				player.setOfflineStartTime(System.currentTimeMillis());
 			return true;
 		}
+		
 		return false;
 	}
 	

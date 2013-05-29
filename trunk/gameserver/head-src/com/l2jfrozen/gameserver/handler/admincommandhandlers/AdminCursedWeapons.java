@@ -71,7 +71,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 				if (cw.isActivated())
 				{
 					L2PcInstance pl = cw.getPlayer();
-					activeChar.sendMessage(("  Player holding: " + pl) == null ? "null" : pl.getName());
+					activeChar.sendMessage("  Player holding: " + (pl == null ? "null" : pl.getName()));
 					activeChar.sendMessage("    Player karma: " + cw.getPlayerKarma());
 					activeChar.sendMessage("    Time Remaining: " + (cw.getTimeLeft() / 60000) + " min.");
 					activeChar.sendMessage("    Kills : " + cw.getNbKills());

@@ -71,6 +71,13 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 			return;
 		}
 		
+		// You can't open store when the task is lunched
+		if(player.isSittingTaskLunched())
+		{
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		// Like L2OFF - You can't open buy/sell when you are sitting
 		if (player.isSitting() && player.getPrivateStoreType() == 0)
 		{
@@ -89,6 +96,13 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 		if (player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY + 1)
 		{
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+		}
+		
+		if(player.isSittingTaskLunched())
+		{
+			_log.warning("a");
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
 		}
 		
 		if (player.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE)

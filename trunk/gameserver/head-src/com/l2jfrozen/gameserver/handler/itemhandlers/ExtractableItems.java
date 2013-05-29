@@ -16,7 +16,6 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
 import java.util.logging.Logger;
@@ -38,7 +37,6 @@ import com.l2jfrozen.util.random.Rnd;
 /**
  * @author FBIagent 11/12/2006
  */
-
 public class ExtractableItems implements IItemHandler
 {
 	private static Logger _log = Logger.getLogger(ItemTable.class.getName());
@@ -58,7 +56,7 @@ public class ExtractableItems implements IItemHandler
 			if (exitem == null)
 				return;
 			int createItemID = 0, createAmount = 0, rndNum = Rnd.get(100), chanceFrom = 0;
-			for (L2ExtractableProductItem expi : exitem.getProductItemsArray())
+			for (L2ExtractableProductItem expi : exitem.getProductItems())
 			{
 				int chance = expi.getChance();
 				

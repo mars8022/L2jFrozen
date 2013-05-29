@@ -363,37 +363,47 @@ public final class RequestActionUse extends L2GameClientPacket
 				useSkill(4259);
 				break;
 			case 37:
-				if(activeChar.isAlikeDead())
+				
+				if (activeChar.isAlikeDead())
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
 				
 				// Like L2OFF - You can't open Manufacture when you are in private store
-				if(activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
+				if (activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
-				
 				
 				// Like L2OFF - You can't open Manufacture when you are sitting
-				if(activeChar.isSitting() && activeChar.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_MANUFACTURE)
+				if (activeChar.isSitting() && activeChar.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_MANUFACTURE)
 				{
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					return;
-				}	
-				
-				if(activeChar.isSitting() && activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
-				{
-					activeChar.standUp();
 				}
-
-				if(activeChar.getCreateList() == null)
+				
+				// You can't open Manufacture when the task is lunched
+				if(activeChar.isSittingTaskLunched())
+				{
+					sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+				
+				if (activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
+				{
+					activeChar.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+					
+					if (activeChar.isSitting())
+						activeChar.standUp();
+				}
+				
+				if (activeChar.getCreateList() == null)
 				{
 					activeChar.setCreateList(new L2ManufactureList());
 				}
-
+				
 				activeChar.sendPacket(new RecipeShopManageList(activeChar, true));
 				break;
 			case 39: // Soulless - Parasite Burst
@@ -424,37 +434,48 @@ public final class RequestActionUse extends L2GameClientPacket
 				useSkill(4068);
 				break;
 			case 51:
-				// Player shouldn't be able to set stores if he/she is alike dead (dead or fake death)
-				if(activeChar.isAlikeDead())
-				{
-					getClient().sendPacket(ActionFailed.STATIC_PACKET);
-					return;
-				}
-
-				// Like L2OFF - You can't open Manufacture when you are in private store
-				if(activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
-				{
-					getClient().sendPacket(ActionFailed.STATIC_PACKET);
-					return;
-				}
-
-				// Like L2OFF - You can't open Manufacture when you are sitting
-				if(activeChar.isSitting() && activeChar.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_MANUFACTURE)
-				{
-					getClient().sendPacket(ActionFailed.STATIC_PACKET);
-					return;
-				}	
 				
-				if(activeChar.isSitting() && activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
+				// Player shouldn't be able to set stores if he/she is alike dead (dead or fake death)
+				if (activeChar.isAlikeDead())
 				{
-					activeChar.standUp();
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
 				}
-
-				if(activeChar.getCreateList() == null)
+				
+				// Like L2OFF - You can't open Manufacture when you are in private store
+				if (activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_BUY || activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_SELL)
+				{
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+				
+				// Like L2OFF - You can't open Manufacture when you are sitting
+				if (activeChar.isSitting() && activeChar.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_MANUFACTURE)
+				{
+					getClient().sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+				
+				// You can't open Manufacture when the task is lunched
+				if(activeChar.isSittingTaskLunched())
+				{
+					sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
+				
+				if (activeChar.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_MANUFACTURE)
+				{
+					activeChar.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
+					
+					if (activeChar.isSitting())
+						activeChar.standUp();
+				}
+				
+				if (activeChar.getCreateList() == null)
 				{
 					activeChar.setCreateList(new L2ManufactureList());
 				}
-
+				
 				activeChar.sendPacket(new RecipeShopManageList(activeChar, false));
 				break;
 			case 52: // unsummon

@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import javolution.util.FastList;
+import java.util.List;
 
 /**
  * @author -Nemesiss-
@@ -25,13 +25,12 @@ import javolution.util.FastList;
 public class L2ExtractableItem
 {
 	private final int _itemId;
-	private final L2ExtractableProductItem[] _products;
+	private final List<L2ExtractableProductItem> _products;
 
-	public L2ExtractableItem(int itemid, FastList<L2ExtractableProductItem> products)
+	public L2ExtractableItem(int itemid, List<L2ExtractableProductItem> products)
 	{
 		_itemId = itemid;
-		_products = new L2ExtractableProductItem[products.size()];
-		products.toArray(_products);
+		_products = products;
 	}
 
 	public int getItemId()
@@ -39,9 +38,8 @@ public class L2ExtractableItem
 		return _itemId;
 	}
 
-	public L2ExtractableProductItem[] getProductItemsArray()
+	public List<L2ExtractableProductItem> getProductItems()
 	{
 		return _products;
 	}
-
 }
