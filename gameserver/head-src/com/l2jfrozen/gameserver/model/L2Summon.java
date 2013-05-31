@@ -619,6 +619,9 @@ public abstract class L2Summon extends L2PlayableInstance
 		// If a skill is currently being used
 		if(isCastingNow())
 			return;
+		
+		 // Set current pet skill
+        getOwner().setCurrentPetSkill(skill, forceUse, dontMove);
 
 		//************************************* Check Target *******************************************
 

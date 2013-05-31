@@ -71,8 +71,8 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 			return;
 		}
 		
-		// You can't open store when the task is lunched
-		if(player.isSittingTaskLunched())
+		// You can't open store when the task is launched
+		if(player.isSittingTaskLaunched())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;

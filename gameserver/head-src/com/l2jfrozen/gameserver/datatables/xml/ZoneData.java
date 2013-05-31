@@ -60,6 +60,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2JailZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2MotherTreeZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2NoHqZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2NoLandingZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2NoStoreZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2PeaceZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2PoisonZone;
@@ -223,6 +224,10 @@ public class ZoneData
 								else if(zoneType.equals("NoLandingZone"))
 								{
 									temp = new L2NoLandingZone(zoneId);
+								}
+								else if (zoneType.equals("NoStoreZone"))
+								{						
+									temp = new L2NoStoreZone(zoneId);
 								}
 								else if(zoneType.equals("JailZone"))
 								{

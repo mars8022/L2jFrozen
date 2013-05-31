@@ -484,7 +484,7 @@ abstract class AbstractAI implements Ctrl
 	 * @param pawn 
 	 * @param offset 
 	 */
-	protected void moveToPawn(L2Object pawn, int offset)
+	public void moveToPawn(L2Object pawn, int offset)
 	{
 		// Chek if actor can move
 		if(!_actor.isMovementDisabled())
