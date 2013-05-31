@@ -339,6 +339,9 @@ public abstract class L2Character extends L2Object
 	
 	/** The Constant ZONE_DANGERAREA. */
 	public static final int ZONE_DANGERAREA = 16384;
+	
+	/** The Constant ZONE_NOSTORE. */
+	public static final int ZONE_NOSTORE = 32768;
 
 	/** The _current zones. */
 	private int _currentZones = 0;
@@ -1208,6 +1211,36 @@ public abstract class L2Character extends L2Object
 
 		// Get the active weapon item corresponding to the active weapon instance (always equiped in the right hand)
 		L2Weapon weaponItem = getActiveWeaponItem();
+		
+		// Update the position/heading while rotating during the attack
+		if (!this.isMoving() && !target.isMoving() && Util.checkIfInRange(300, this, target, true))
+		{
+			// You can't make an attack with a fishing pole.
+			if (_moveToPawndelay <= GameTimeController.getGameTicks())
+			{
+				if (weaponItem != null && weaponItem.getItemType() != L2WeaponType.BOW && weaponItem.getItemType() != L2WeaponType.POLE)
+				{
+					this.moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
+					this.getAI().moveToPawn(target, 0);
+					
+					_moveToPawndelay = 2 + GameTimeController.getGameTicks();
+				}
+				else if (weaponItem != null && weaponItem.getItemType() == L2WeaponType.BOW && !(this instanceof L2PcInstance))
+				{
+					this.moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
+					this.getAI().moveToPawn(target, 0);
+					
+					_moveToPawndelay = 2 + GameTimeController.getGameTicks();
+				}
+				else if (weaponItem == null)
+				{
+					this.moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
+					this.getAI().moveToPawn(target, 0);
+					
+					_moveToPawndelay = 2 + GameTimeController.getGameTicks();
+				}
+			}
+		}	
 
 		if(weaponItem != null && weaponItem.getItemType() == L2WeaponType.ROD)
 		{
@@ -1276,6 +1309,10 @@ public abstract class L2Character extends L2Object
 
 					// Set the period of bow non re-use
 					_disableBowAttackEndTime = 5 * GameTimeController.TICKS_PER_SECOND + GameTimeController.getGameTicks();
+				
+										
+					// Update the position/heading while rotating during the attack with BOW
+					this.moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
 				}
 				else
 				{
@@ -1373,7 +1410,17 @@ public abstract class L2Character extends L2Object
 		{
 			hitted = doAttackHitSimple(attack, target, timeToHit);
 		}
-
+		
+		// Update the position/heading while rotating during the attack with POLE
+		if (!this.isMoving() && !target.isMoving() && Util.checkIfInRange(300, this, target, true))
+		{
+			if (weaponItem != null && weaponItem.getItemType() == L2WeaponType.POLE)
+			{
+				this.moveToLocation(target.getX(), target.getY(), target.getZ(), 0);
+				this.getAI().moveToPawn(target, 0);
+			}
+		}
+		
 		// Flag the attacker if it's a L2PcInstance outside a PvP area
 		L2PcInstance player = null;
 
@@ -1673,6 +1720,10 @@ public abstract class L2Character extends L2Object
 		    	}
 		    	
 		    	target = (L2Character) obj;
+		    	
+		    	// Flag player if the target is another player
+		    	if(this instanceof L2PcInstance && obj instanceof L2PcInstance)
+		    	    ((L2PcInstance)this).updatePvPStatus(target);
 		    	
 		    	if(!target.isAlikeDead())
 		    	{
@@ -5315,6 +5366,9 @@ public abstract class L2Character extends L2Object
 	
 	/** The _disable bow attack end time. */
 	private int _disableBowAttackEndTime;
+	
+	/** The _moveToPawndelay. */
+	private int _moveToPawndelay;
 
 	/** Table of calculators containing all standard NPC calculator (ex : ACCURACY_COMBAT, EVASION_RATE. */
 	private static final Calculator[] NPC_STD_CALCULATOR;
@@ -9863,53 +9917,26 @@ public abstract class L2Character extends L2Object
 		return false;
 	}
 	
-	/**
-	 * Return True if the L2Character is behind the target and can't be seen.<BR>
-	 * <BR>
-	 *
-	 * @param target the target
-	 * @return true, if is front
-	 */
-	public boolean isFront(L2Object target)
+	public boolean isInFrontOf(L2Character target)
 	{
-		double angleChar, angleTarget, angleDiff, maxAngleDiff = 45;
-
-		if(target == null)
-			return false;
-
-		if(target instanceof L2Character)
+		double angleChar, angleTarget, angleDiff, maxAngleDiff = 60;
+		if (target == null)
 		{
-			((L2Character) target).sendPacket(new ValidateLocation(this));
-			this.sendPacket(new ValidateLocation(((L2Character) target)));
-			
-			L2Character target1 = (L2Character) target;
-			angleChar = Util.calculateAngleFrom(target1, this);
-			angleTarget = Util.convertHeadingToDegree(target1.getHeading());
-			angleDiff = angleChar - angleTarget;
-
-			if(angleDiff <= -180 + maxAngleDiff)
-			{
-				angleDiff += 180;
-			}
-
-			if(angleDiff >= 180 - maxAngleDiff)
-			{
-				angleDiff -= 180;
-			}
-
-			if(Math.abs(angleDiff) <= maxAngleDiff)
-			{
-				if(Config.DEBUG)
-				{
-					_log.info("Char " + getName() + " is side " + target.getName());
-				}
-				return true;
-			}
-
-			target1 = null;
+			return false;
 		}
 		
-		return false;
+		angleTarget = Util.calculateAngleFrom(target, this);
+		angleChar = Util.convertHeadingToDegree(target.getHeading());
+		angleDiff = angleChar - angleTarget;
+		if (angleDiff <= (-360 + maxAngleDiff))
+		{
+			angleDiff += 360;
+		}
+		if (angleDiff >= (360 - maxAngleDiff))
+		{
+			angleDiff -= 360;
+		}
+		return Math.abs(angleDiff) <= maxAngleDiff;
 	}
 
 	/**
@@ -9919,7 +9946,7 @@ public abstract class L2Character extends L2Object
 	 */
 	public boolean isFrontTarget()
 	{
-		return isFront(getTarget());
+		return isInFrontOf((L2Character) getTarget());
 	}
 
 	/**

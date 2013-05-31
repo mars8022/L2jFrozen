@@ -45,6 +45,7 @@ INSERT INTO `mods_buffer_skills` (`id`, `level`, `skill_group`, `adena`) VALUES
 (310,1,'Dances',0),
 (311,1,'Dances',0),
 (307,1,'Dances',0),
+(365,1,'Dances',0),
 (1002,3,'WarCryer',0),
 (1006,3,'WarCryer',0),
 (1007,3,'WarCryer',0),

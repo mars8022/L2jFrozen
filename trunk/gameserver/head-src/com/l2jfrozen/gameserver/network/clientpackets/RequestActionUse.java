@@ -384,8 +384,8 @@ public final class RequestActionUse extends L2GameClientPacket
 					return;
 				}
 				
-				// You can't open Manufacture when the task is lunched
-				if(activeChar.isSittingTaskLunched())
+				// You can't open Manufacture when the task is launched
+				if(activeChar.isSittingTaskLaunched())
 				{
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -456,8 +456,8 @@ public final class RequestActionUse extends L2GameClientPacket
 					return;
 				}
 				
-				// You can't open Manufacture when the task is lunched
-				if(activeChar.isSittingTaskLunched())
+				// You can't open Manufacture when the task is launched
+				if(activeChar.isSittingTaskLaunched())
 				{
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;

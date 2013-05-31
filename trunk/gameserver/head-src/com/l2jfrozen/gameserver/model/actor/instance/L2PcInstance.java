@@ -585,7 +585,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			L2PcInstance.this.doInteract(target);
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see com.l2jfrozen.gameserver.model.L2Character.AIAccessor#doAttack(com.l2jfrozen.gameserver.model.L2Character)
 		 */
 		@Override
@@ -593,50 +594,49 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if (isInsidePeaceZone(L2PcInstance.this, target))
 			{
-//				if(target instanceof L2PcInstance){ //the only case where to avoid the attack is if the attacked is L2PcInstance
-//													//and one of them is not into a fun event, otherwise continue
-//					
-//					if (!isInFunEvent() || !((L2PcInstance)target).isInFunEvent()) {
-						//getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-						sendPacket(ActionFailed.STATIC_PACKET);
-						return;
-//					}
-					
-//				}
-				
-			}
-			
-			//during teleport phase, players cant do any attack
-			if((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM)){
+				// if(target instanceof L2PcInstance){ //the only case where to avoid the attack is if the attacked is L2PcInstance
+				// //and one of them is not into a fun event, otherwise continue
+				//
+				// if (!isInFunEvent() || !((L2PcInstance)target).isInFunEvent()) {
+				// getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 				sendPacket(ActionFailed.STATIC_PACKET);
-                return;
+				return;
+				// }				
+				// }				
 			}
 			
+			// during teleport phase, players cant do any attack
+			if ((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM))
+			{
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
 			
 			super.doAttack(target);
-
+			
 			// cancel the recent fake-death protection instantly if the player attacks or casts spells
 			getPlayer().setRecentFakeDeath(false);
-
+			
 			/*
-			if(getPlayer().isSilentMoving())
+			 * if(getPlayer().isSilentMoving()) { L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE); if(silentMove != null) { silentMove.exit(true); } }
+			 */
+			
+			synchronized (_cubics)
 			{
-				L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
-				if(silentMove != null)
-				{
-					silentMove.exit(true);
-				}
-			}
-			*/
-
-			synchronized(_cubics){
-				for(L2CubicInstance cubic : _cubics.values())
-					if(cubic.getId() != L2CubicInstance.LIFE_CUBIC)
+				for (L2CubicInstance cubic : _cubics.values())
+					if (cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 					{
-						cubic.doAction(/*target*/);
+						cubic.doAction(/* target */);
 					}
 			}
 			
+			// Like L2OFF if target is not auto attackable you give only one hit
+			if (!target.isAutoAttackable(L2PcInstance.this))
+			{
+				L2PcInstance.this.getAI().clientStopAutoAttack();
+				((L2Character) L2PcInstance.this).abortAttack();
+				L2PcInstance.this.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, L2PcInstance.this);
+			}		
 		}
 
 		/* (non-Javadoc)
@@ -1338,6 +1338,7 @@ private AccessLevel _accessLevel;
 
 	/** Current skill in use. */
 	private SkillDat _currentSkill;
+	private SkillDat _currentPetSkill;
 
 	/** Skills queued because a skill is already in progress. */
 	private SkillDat _queuedSkill;
@@ -4414,12 +4415,12 @@ private int _reviveRequested = 0;
 	}
 	
 	/**
-	 * Return True if the L2PcInstance is sitting task lunched.<BR>
+	 * Return True if the L2PcInstance is sitting task launched.<BR>
 	 * <BR>
 	 *
-	 * @return true, if is sitting task lunched
+	 * @return true, if is sitting task launched
 	 */
-	public boolean isSittingTaskLunched()
+	public boolean isSittingTaskLaunched()
 	{
 		return sittingTaskLaunched;
 	}
@@ -20288,4 +20289,39 @@ public boolean dismount()
 		}
 		sendSkillList();
 	}
+	
+    /**
+     * Get the current pet skill in use or return null.<br><br>
+     * @return 
+     *
+     */
+    public SkillDat getCurrentPetSkill()
+    {
+    	return _currentPetSkill;
+    }
+
+    /**
+     * Create a new SkillDat object and set the player _currentPetSkill.<br><br>
+     * @param currentSkill 
+     * @param ctrlPressed 
+     * @param shiftPressed 
+     *
+     */
+    public void setCurrentPetSkill(L2Skill currentSkill, boolean ctrlPressed, boolean shiftPressed)
+    {
+        if (currentSkill == null)
+        {
+            if (Config.DEBUG)
+                _log.info("Setting current pet skill: NULL for " + getName() + ".");
+
+            _currentPetSkill = null;
+            return;
+        }
+
+        if (Config.DEBUG)
+            _log.info("Setting current Pet skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
+
+        _currentPetSkill = new SkillDat(currentSkill, ctrlPressed, shiftPressed);
+    }
+    
 }

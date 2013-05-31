@@ -180,17 +180,17 @@ public final class RequestRefine extends L2GameClientPacket
 				modifyGemstoneCount = 20;
 				break;
 			case L2Item.CRYSTAL_B:
-				if (lifeStoneLevel < 3 || player.getLevel() < 52 || gemstoneItemId != 2130)
+				if (player.getLevel() < 52 || gemstoneItemId != 2130)
 					return false;
 				modifyGemstoneCount = 30;
 				break;
 			case L2Item.CRYSTAL_A:
-				if (lifeStoneLevel < 6 || player.getLevel() < 61 || gemstoneItemId != 2131)
+				if (player.getLevel() < 61 || gemstoneItemId != 2131)
 					return false;
 				modifyGemstoneCount = 20;
 				break;
 			case L2Item.CRYSTAL_S:
-				if (lifeStoneLevel != 10 || player.getLevel() < 76 || gemstoneItemId != 2131)
+				if (player.getLevel() < 76 || gemstoneItemId != 2131)
 					return false;
 				modifyGemstoneCount = 25;
 				break;

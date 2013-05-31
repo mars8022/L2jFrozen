@@ -1229,6 +1229,7 @@
  	<effect count="1" name="Sleep" time="5" val="0" stackOrder="1" stackType="sleep"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5171" levels="10" name="Paralyze">
   <table name="#magicLvl">46 49 52 55 58 61 64 67 70 76</table>
   <set name="magicLvl" val="#magicLvl"/>
@@ -1236,6 +1237,8 @@
   <set name="target" val="TARGET_ONE"/>
   <set name="skillType" val="PARALYZE"/>
   <set name="operateType" val="OP_ACTIVE"/>
+  <set name="lvlDepend" val="1" />
+  <set name="saveVs" val="MEN" />
   <set name="isMagic" val="true"/>
   <set name="isDebuff" val="true"/>
   <set name="bestowed" val="true"/>

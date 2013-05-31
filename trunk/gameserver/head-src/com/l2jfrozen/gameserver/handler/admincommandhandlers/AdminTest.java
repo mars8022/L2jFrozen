@@ -45,13 +45,13 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
-
 public class AdminTest implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_test",
 			"admin_stats",
+			"admin_mcrit",
 			"admin_skill_test",
 			"admin_st",
 			"admin_mp",
@@ -69,6 +69,19 @@ public class AdminTest implements IAdminCommandHandler
 			{
 				activeChar.sendMessage(line);
 			}
+		}
+		if(command.equals("admin_mcrit"))
+		{
+			L2Character target = (L2Character) activeChar.getTarget();
+			
+			activeChar.sendMessage("Activechar Mcrit "+activeChar.getMCriticalHit(null, null));
+			activeChar.sendMessage("Activechar baseMCritRate "+activeChar.getTemplate().baseMCritRate);
+			
+			if(target != null)
+			{
+				activeChar.sendMessage("Target Mcrit "+target.getMCriticalHit(null, null));
+			    activeChar.sendMessage("Target baseMCritRate "+target.getTemplate().baseMCritRate);
+		    }
 		}
 		else if(command.startsWith("admin_skill_test") || command.startsWith("admin_st"))
 		{
@@ -173,6 +186,7 @@ public class AdminTest implements IAdminCommandHandler
 		}
 		return true;
 	}
+	
 
 	/**
 	 * @param activeChar
@@ -206,5 +220,4 @@ public class AdminTest implements IAdminCommandHandler
 	{
 		return ADMIN_COMMANDS;
 	}
-
 }

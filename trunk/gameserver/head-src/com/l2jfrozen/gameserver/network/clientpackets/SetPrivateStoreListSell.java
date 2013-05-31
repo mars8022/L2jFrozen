@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -86,6 +87,7 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 		{
 			player.sendMessage("Trade are disable here. Try in another place.");
 			player.sendPacket(new PrivateStoreManageListSell(player));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
@@ -93,9 +95,18 @@ public class SetPrivateStoreListSell extends L2GameClientPacket
 		{
 			player.sendMessage("You cannot start store now..");
 			player.sendPacket(new PrivateStoreManageListSell(player));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
+		if (player.isInsideZone(L2Character.ZONE_NOSTORE))
+		{
+			player.sendPacket(new PrivateStoreManageListSell(player));
+			player.sendMessage("Trade are disable here. Try in another place.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+
 		TradeList tradeList = player.getSellList();
 		tradeList.clear();
 		tradeList.setPackaged(_packageSale);
