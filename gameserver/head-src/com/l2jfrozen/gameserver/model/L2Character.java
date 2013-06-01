@@ -123,6 +123,7 @@ import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
+import com.l2jfrozen.gameserver.skills.holders.ISkillsHolder;
 import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
@@ -151,7 +152,7 @@ import com.l2jfrozen.util.random.Rnd;
  * @version $Revision: 1.5.5 $ $Date: 2009/05/12 19:45:27 $
  * @authors eX1steam, programmos, L2Scoria dev&sword dev
  */
-public abstract class L2Character extends L2Object
+public abstract class L2Character extends L2Object implements ISkillsHolder
 {
 	/** The Constant _log. */
 	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
@@ -8163,6 +8164,7 @@ public abstract class L2Character extends L2Object
 	 * @param newSkill The L2Skill to add to the L2Character
 	 * @return The L2Skill replaced or null if just added a new L2Skill
 	 */
+	@Override
 	public L2Skill addSkill(L2Skill newSkill)
 	{
 		L2Skill oldSkill = null;
@@ -8374,6 +8376,15 @@ public abstract class L2Character extends L2Object
 	}
 
 	/**
+	* @return the map containing this character skills.
+	*/
+	@Override
+	public Map<Integer, L2Skill> getSkills()
+	{
+	    return _skills;
+	}
+	
+	/**
 	 * Gets the chance skills.
 	 *
 	 * @return the chance skills
@@ -8390,6 +8401,7 @@ public abstract class L2Character extends L2Object
 	 * @param skillId The identifier of the L2Skill whose level must be returned
 	 * @return The level of the L2Skill identified by skillId
 	 */
+	@Override
 	public int getSkillLevel(int skillId)
 	{
 		L2Skill skill = _skills.get(skillId);
@@ -8407,6 +8419,7 @@ public abstract class L2Character extends L2Object
 	 * @param skillId The identifier of the L2Skill to check the knowledge
 	 * @return the known skill
 	 */
+	@Override
 	public final L2Skill getKnownSkill(int skillId)
 	{
 		return _skills.get(skillId);
