@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2EnchantSkillLearn;
 import com.l2jfrozen.gameserver.model.L2PledgeSkillLearn;
@@ -36,6 +38,8 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2SkillLearn;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
+import com.l2jfrozen.gameserver.skills.holders.ISkillsHolder;
+import com.l2jfrozen.gameserver.skills.holders.PlayerSkillHolder;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
@@ -354,8 +358,25 @@ public class SkillTreeTable
 		return _skillTrees;
 	}
 
-	public L2SkillLearn[] getAvailableSkills(L2PcInstance cha, ClassId classId)
+	public L2SkillLearn[] getAvailableSkills(L2PcInstance player, ClassId classId)
 	{
+		List<L2SkillLearn> result = getAvailableSkills(player, classId, player);
+		return result.toArray(new L2SkillLearn[result.size()]);
+	}
+	
+	/**
+	 * Gets the available skills.
+	 * @param player the learning skill player.
+	 * @param classId the learning skill class ID.
+	 * @param includeByFs if {@code true} skills from Forgotten Scroll will be included.
+	 * @param includeAutoGet if {@code true} Auto-Get skills will be included.
+	 * @param holder
+	 * @return all available skills for a given {@code player}, {@code classId}, {@code includeByFs} and {@code includeAutoGet}.
+	 */
+	/*
+	private List<L2SkillLearn> getAvailableSkills(L2PcInstance cha, ClassId classId, ISkillsHolder holder)
+	{
+		
 		List<L2SkillLearn> result = new FastList<L2SkillLearn>();
 		Collection<L2SkillLearn> skills = getSkillTrees().get(classId).values();
 
@@ -389,7 +410,47 @@ public class SkillTreeTable
 			}
 		}
 
-		return result.toArray(new L2SkillLearn[result.size()]);
+		return result;
+	}
+	*/
+	/**
+	 * Gets the available skills.
+	 * @param player the learning skill player.
+	 * @param classId the learning skill class ID.
+	 * @param holder
+	 * @return all available skills for a given {@code player}, {@code classId}, {@code includeByFs} and {@code includeAutoGet}.
+	 */
+	private List<L2SkillLearn> getAvailableSkills(L2PcInstance player, ClassId classId, ISkillsHolder holder)
+	{
+		final List<L2SkillLearn> result = new ArrayList<L2SkillLearn>();
+		Collection<L2SkillLearn> skills = getSkillTrees().get(classId).values();
+
+		if (skills.isEmpty())
+		{
+			// The Skill Tree for this class is undefined.
+			_log.warning(getClass().getSimpleName() + ": Skilltree for class " + classId + " is not defined!");
+			return result;
+		}
+		
+		for (L2SkillLearn skill : skills)
+		{
+			if ((player.getLevel() >= skill.getLevel()))
+			{
+				final L2Skill oldSkill = holder.getKnownSkill(skill.getId());
+				if (oldSkill != null)
+				{
+					if (oldSkill.getLevel() == (skill.getLevel() - 1))
+					{
+						result.add(skill);
+					}
+				}
+				else if (skill.getLevel() == 1)
+				{
+					result.add(skill);
+				}
+			}
+		}
+		return result;
 	}
 
 	public L2SkillLearn[] getAvailableSkills(L2PcInstance cha)
@@ -688,5 +749,36 @@ public class SkillTreeTable
 		}
 
 		return 0;
+	}
+
+	/**
+	 * @param player
+	 * @param classId
+	 * @return
+	 */
+	public Collection<L2Skill> getAllAvailableSkills(L2PcInstance player, ClassId classId)
+	{
+		// Get available skills
+		int unLearnable = 0;
+		PlayerSkillHolder holder = new PlayerSkillHolder();
+		List<L2SkillLearn> learnable = getAvailableSkills(player, classId, holder);
+		while (learnable.size() > unLearnable)
+		{
+			for (L2SkillLearn s : learnable)
+			{
+				L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
+				if ((sk == null) || ((sk.getId() == L2Skill.SKILL_DIVINE_INSPIRATION) && !Config.AUTO_LEARN_DIVINE_INSPIRATION && !player.isGM()))
+				{
+					unLearnable++;
+					continue;
+				}
+				
+				holder.addSkill(sk);
+			}
+			
+			// Get new available skills, some skills depend of previous skills to be available.
+			learnable = getAvailableSkills(player, classId, holder);
+		}
+		return holder.getSkills().values();
 	}
 }

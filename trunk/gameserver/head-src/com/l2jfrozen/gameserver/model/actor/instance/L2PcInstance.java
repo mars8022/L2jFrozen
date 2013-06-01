@@ -631,10 +631,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			
 			// Like L2OFF if target is not auto attackable you give only one hit
-			if (!target.isAutoAttackable(L2PcInstance.this))
+			if (target instanceof L2PcInstance && !target.isAutoAttackable(L2PcInstance.this))
 			{
 				L2PcInstance.this.getAI().clientStopAutoAttack();
-				((L2Character) L2PcInstance.this).abortAttack();
 				L2PcInstance.this.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, L2PcInstance.this);
 			}		
 		}
@@ -4034,22 +4033,24 @@ private int _reviveRequested = 0;
 	 */
 	public void giveAvailableSkills()
 	{
-		int unLearnable = 0;
+//		int unLearnable = 0;
 		int skillCounter = 0;
 
 		// Get available skills
-		L2SkillLearn[] skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
-		while(skills.length > unLearnable)
-		{
-			unLearnable = 0;
-			for(L2SkillLearn s : skills)
-			{
-				L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
-				if(sk == null || (sk.getId() == L2Skill.SKILL_DIVINE_INSPIRATION && !Config.AUTO_LEARN_DIVINE_INSPIRATION))
-				{
-					unLearnable++;
-					continue;
-				}
+//		L2SkillLearn[] skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
+//		while(skills.length > unLearnable)
+//		{
+//			unLearnable = 0;
+//			for(L2SkillLearn s : skills)
+		Collection<L2Skill> skills = SkillTreeTable.getInstance().getAllAvailableSkills(this, getClassId()); 
+	 	for (L2Skill sk : skills){ 
+//			{
+//				L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
+//				if(sk == null || (sk.getId() == L2Skill.SKILL_DIVINE_INSPIRATION && !Config.AUTO_LEARN_DIVINE_INSPIRATION))
+//				{
+//					unLearnable++;
+//					continue;
+//				}
 
 				if(getSkillLevel(sk.getId()) == -1)
 				{
@@ -4071,9 +4072,9 @@ private int _reviveRequested = 0;
 				addSkill(sk, true);
 			}
 
-			// Get new available skills
-			skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
-		}
+//			// Get new available skills
+//			skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
+//		}
 
 		sendMessage("You have learned " + skillCounter + " new skills.");
 		skills = null;
