@@ -97,7 +97,8 @@ public class CharNameTable
 		}
 		catch(SQLException e)
 		{
-			_log.severe("could not check existing char number"+" "+ e);
+			_log.severe("could not check existing char number");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -129,7 +130,8 @@ public class CharNameTable
 		}
 		catch(SQLException e)
 		{
-			_log.severe("could not check existing char number"+" "+ e);
+			_log.severe("could not check existing char number");
+			e.printStackTrace();
 		}
 		finally
 		{

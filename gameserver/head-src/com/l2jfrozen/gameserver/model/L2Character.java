@@ -9121,7 +9121,9 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 					SkillDat skilldat = currPlayer.getCurrentSkill();
 					if (skilldat != null && !skilldat.isCtrlPressed() && (skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
 					{
-						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						if(!skill.isMagic())
+						  getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						
 						getAI().clientStartAutoAttack();
 					}
 				}
@@ -9130,7 +9132,9 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				{
 					if ((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
 					{
-						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						if(!skill.isMagic())
+						  getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						
 						getAI().clientStartAutoAttack();
 					}
 				}
