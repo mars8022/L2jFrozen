@@ -605,7 +605,8 @@ public class ClanTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("could not restore clan wars data"+" "+ e);
+			_log.severe("could not restore clan wars data:");
+			e.printStackTrace();
 		}
 		finally
 		{

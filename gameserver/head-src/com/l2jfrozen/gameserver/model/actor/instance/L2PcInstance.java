@@ -3590,37 +3590,34 @@ private int _reviveRequested = 0;
 		}
 	}
 
-	/*
 	public void checkIfWeaponIsAllowed()
 	{
 		// Override for Gamemasters
-		if(isGM())
+		if (isGM())
+		{
 			return;
-
+		}
 		// Iterate through all effects currently on the character.
-		for(L2Effect currenteffect : getAllEffects())
+		for (L2Effect currenteffect : getAllEffects())
 		{
 			L2Skill effectSkill = currenteffect.getSkill();
-
 			// Ignore all buff skills that are party related (ie. songs, dances) while still remaining weapon dependant on cast though.
-			if(!effectSkill.isOffensive() && !(effectSkill.getTargetType() == SkillTargetType.TARGET_PARTY && effectSkill.getSkillType() == SkillType.BUFF))
+			if (!effectSkill.isOffensive() && !(effectSkill.getTargetType() == SkillTargetType.TARGET_PARTY && effectSkill.getSkillType() == SkillType.BUFF))
 			{
 				// Check to rest to assure current effect meets weapon requirements.
-				if(!effectSkill.getWeaponDependancy(this))
+				if (!effectSkill.getWeaponDependancy(this))
 				{
 					sendMessage(effectSkill.getName() + " cannot be used with this weapon.");
-
-					if(Config.DEBUG)
+					if (Config.DEBUG)
+					{
 						_log.info("   | Skill " + effectSkill.getName() + " has been disabled for (" + getName() + "); Reason: Incompatible Weapon Type.");
-
+					}
 					currenteffect.exit();
 				}
 			}
-
 			continue;
 		}
 	}
-	*/
 
 	/**
 	 * Check ss match.
@@ -4056,6 +4053,10 @@ private int _reviveRequested = 0;
 				{
 					skillCounter++;
 				}
+				
+				// Penality skill are not auto learn
+				if(sk.getId() == 4267 || sk.getId() == 4270)
+					continue;
 
 				// fix when learning toggle skills
 				if(sk.isToggle())
@@ -4354,54 +4355,45 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Define new moving task.
-	 *
 	 * @param pos the pos
 	 */
 	public void defineNewMovingTask(L2CharPosition pos)
 	{
-
-		synchronized(_movingTaskDefined){
+		synchronized (_movingTaskDefined)
+		{
 			launchedMovingTask = new MoveOnAttack(this, pos);
 			_movingTaskDefined = true;
 		}
-		
-		
 	}
 
 	/**
 	 * Modify moving task.
-	 *
 	 * @param pos the pos
 	 */
 	public void modifyMovingTask(L2CharPosition pos)
 	{
-
-		synchronized(_movingTaskDefined){
+		synchronized (_movingTaskDefined)
+		{
 			
-			if(!_movingTaskDefined)
+			if (!_movingTaskDefined)
 				return;
 			
 			launchedMovingTask.setNewPosition(pos);
-			
 		}
-
 	}
-
+	
 	/**
 	 * Start moving task.
 	 */
 	public void startMovingTask()
 	{
-
-		synchronized(_movingTaskDefined){
-			
-			if(!_movingTaskDefined)
+		synchronized (_movingTaskDefined)
+		{		
+			if (!_movingTaskDefined)
 				return;
 			
 			ThreadPoolManager.getInstance().executeTask(launchedMovingTask);
-			
 		}
-
 	}
 
 	/**

@@ -122,7 +122,7 @@ public class TakeCastle implements ISkillHandler
 
 		if(castle == null || castle.getCastleId() <= 0)
 			sm.addString("You must be on castle ground to use this skill");
-		else if(player.getTarget() == null && !(player.getTarget() instanceof L2ArtefactInstance))
+		else if(player.getTarget() == null || !(player.getTarget() instanceof L2ArtefactInstance))
 			sm.addString("You can only use this skill on an artifact");
 		else if(!castle.getSiege().getIsInProgress())
 			sm.addString("You can only use this skill during a siege.");

@@ -1722,10 +1722,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		    	
 		    	target = (L2Character) obj;
 		    	
-		    	// Flag player if the target is another player
-		    	if(this instanceof L2PcInstance && obj instanceof L2PcInstance)
-		    	    ((L2PcInstance)this).updatePvPStatus(target);
-		    	
 		    	if(!target.isAlikeDead())
 		    	{
 		    	  attackcount += 1;
@@ -1736,6 +1732,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 						{
 		    		    	hitted |= doAttackHitSimple(attack, target, attackpercent, sAtk);
 							attackpercent /= 1.15;
+							
+					    	// Flag player if the target is another player
+					    	if(this instanceof L2PcInstance && obj instanceof L2PcInstance)
+					    	    ((L2PcInstance)this).updatePvPStatus(target);
 						}
 					}
 				}
@@ -6551,10 +6551,17 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 * @param offset The size of the interaction area of the L2Character targeted
 	 */
 	protected void moveToLocation(int x, int y, int z, int offset)
-	{
+	{	
 		//when start to move again, it has to stop sitdown task
-		if(this instanceof L2PcInstance){
+		if(this instanceof L2PcInstance)			
 			((L2PcInstance)this).setPosticipateSit(false);
+		
+		// Fix archer bug with movment/hittask
+		if (this instanceof L2PcInstance && this.isAttackingNow())
+		{
+			L2ItemInstance rhand = ((L2PcInstance) this).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if ((rhand != null && rhand.getItemType() == L2WeaponType.BOW))
+				return;
 		}
 		
 		// Get the Move Speed of the L2Charcater
@@ -9077,21 +9084,53 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			// then just leave it that way, otherwise switch back to STATE_IDLE.
 			// if(isCastingNow())
 			// getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
-			
 			if (skill.getId() != 345 && skill.getId() != 346)
-			{
+			{			
 				// Like L2OFF while use a skill and next interntion == null the char stop auto attack
 				if (getAI().getNextIntention() == null && (skill.getSkillType() == SkillType.PDAM && skill.getCastRange() < 400) || skill.getSkillType() == SkillType.BLOW || skill.getSkillType() == SkillType.DRAIN_SOUL || skill.getSkillType() == SkillType.SOW || skill.getSkillType() == SkillType.SPOIL)
 				{
-					// Like L2OFF if the skill is BLOW the player doesn't auto attack
-					// If on XML skill nextActionAttack = true the char auto attack
-					if (skill.nextActionIsAttack() && getTarget() != null && getTarget() instanceof L2Character)
+					if (this instanceof L2PcInstance)
+					{
+						L2PcInstance currPlayer = (L2PcInstance) this;
+						SkillDat skilldat = currPlayer.getCurrentSkill();
+						// Like L2OFF if the skill is BLOW the player doesn't auto attack
+						// If on XML skill nextActionAttack = true the char auto attack
+						// If CTRL is pressed the autoattack is aborted (like L2OFF)
+						if (skilldat != null && !skilldat.isCtrlPressed() && skill.nextActionIsAttack() && getTarget() != null && getTarget() instanceof L2Character)
+						{
+							getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						}
+					}
+					else
+					// case NPC
+					{
+						if (skill.nextActionIsAttack() && getTarget() != null && getTarget() instanceof L2Character)
+						{
+							getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						}
+						else if ((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
+						{
+							getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+							getAI().clientStartAutoAttack();
+						}
+					}
+				}
+				if (this instanceof L2PcInstance)
+				{
+					L2PcInstance currPlayer = (L2PcInstance) this;
+					SkillDat skilldat = currPlayer.getCurrentSkill();
+					if (skilldat != null && !skilldat.isCtrlPressed() && (skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
 					{
 						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
+						getAI().clientStartAutoAttack();
 					}
-					
+				}
+				else
+				// case npc
+				{
 					if ((skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
 					{
+						getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
 						getAI().clientStartAutoAttack();
 					}
 				}
