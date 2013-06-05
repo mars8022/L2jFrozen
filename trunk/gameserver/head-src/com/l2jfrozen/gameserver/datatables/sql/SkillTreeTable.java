@@ -760,7 +760,7 @@ public class SkillTreeTable
 	{
 		// Get available skills
 		int unLearnable = 0;
-		PlayerSkillHolder holder = new PlayerSkillHolder();
+		PlayerSkillHolder holder = new PlayerSkillHolder(player.getSkills());
 		List<L2SkillLearn> learnable = getAvailableSkills(player, classId, holder);
 		while (learnable.size() > unLearnable)
 		{

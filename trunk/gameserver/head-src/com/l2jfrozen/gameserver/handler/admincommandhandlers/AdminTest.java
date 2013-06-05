@@ -32,9 +32,11 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
@@ -52,6 +54,7 @@ public class AdminTest implements IAdminCommandHandler
 			"admin_test",
 			"admin_stats",
 			"admin_mcrit",
+			"admin_addbufftest",
 			"admin_skill_test",
 			"admin_st",
 			"admin_mp",
@@ -82,6 +85,28 @@ public class AdminTest implements IAdminCommandHandler
 				activeChar.sendMessage("Target Mcrit "+target.getMCriticalHit(null, null));
 			    activeChar.sendMessage("Target baseMCritRate "+target.getTemplate().baseMCritRate);
 		    }
+		}
+		if(command.equals("admin_addbufftest"))
+		{
+			L2Character target = (L2Character) activeChar.getTarget();
+			activeChar.sendMessage("cast");
+			
+			L2Skill skill = SkillTable.getInstance().getInfo(1085,3);
+
+			if (target != null)
+			{
+				activeChar.sendMessage("target locked");
+				
+				for (int i = 0; i < 100;)
+				{
+					if (activeChar.isCastingNow())
+						continue;
+					
+					activeChar.sendMessage("Casting "+i);
+					activeChar.useMagic(skill, false, false);
+					i++;
+				}
+			}
 		}
 		else if(command.startsWith("admin_skill_test") || command.startsWith("admin_st"))
 		{

@@ -30,6 +30,11 @@ public class PlayerSkillHolder implements ISkillsHolder
 {
 	private final Map<Integer, L2Skill> _skills = new HashMap<Integer, L2Skill>();
 	
+	public PlayerSkillHolder(Map<Integer, L2Skill> map)
+	{
+		_skills.putAll(map);
+	}
+
 	/**
 	 * @return the map containing this character skills.
 	 */

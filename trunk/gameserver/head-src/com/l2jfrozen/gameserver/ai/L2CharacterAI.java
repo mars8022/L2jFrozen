@@ -29,6 +29,7 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
 
 import com.l2jfrozen.gameserver.ai.L2PlayerAI.IntentionCommand;
+import com.l2jfrozen.gameserver.model.Inventory;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -43,6 +44,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
+import com.l2jfrozen.gameserver.templates.L2WeaponType;
 /**
  * This class manages AI of L2Character.<BR>
  * <BR>
@@ -316,56 +318,72 @@ public class L2CharacterAI extends AbstractAI
 	 * <BR>
 	 * <B><U> Actions</U> : </B><BR>
 	 * <BR>
-	 * <li>Stop the actor auto-attack server side AND client side by sending Server->Client packet AutoAttackStop
-	 * (broadcast)</li> <li>Set the Intention of this AI to AI_INTENTION_MOVE_TO</li> <li>Move the actor to Location
-	 * (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)</li><BR>
+	 * <li>Stop the actor auto-attack server side AND client side by sending Server->Client packet AutoAttackStop (broadcast)</li> <li>Set the Intention of this AI to AI_INTENTION_MOVE_TO</li> <li>Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet
+	 * CharMoveToLocation (broadcast)</li><BR>
 	 * <BR>
 	 */
 	@Override
 	protected void onIntentionMoveTo(L2CharPosition pos)
 	{
-		if(getIntention() == AI_INTENTION_REST)
+		if (getIntention() == AI_INTENTION_REST)
 		{
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();
 			return;
 		}
-
-		/*
-		if(_actor.isAllSkillsDisabled() )
-		{
-			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
-			clientActionFailed();
-			return;
-		}
-		*/
 		
-		if(_actor instanceof L2PcInstance && (_actor.isAttackingNow() || _actor.isCastingNow()) && !_actor.isMoving()){
-			
+		if (_actor.isAllSkillsDisabled() || _actor.isCastingNow())
+		{
+			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
+			clientActionFailed();
+			return;
+		}
+		
+		if (_actor instanceof L2PcInstance && (_actor.isAttackingNow() || _actor.isCastingNow()) && !_actor.isMoving())
+		{
 			L2PcInstance player = (L2PcInstance) _actor;
-			//start MoveOnAttack Task
+			// start MoveOnAttack Task
 			// Schedule a move task
-			if(!player.isMovingTaskDefined()){ //if not already started the task
+			if (!player.isMovingTaskDefined())
+			{ // if not already started the task
 				player.defineNewMovingTask(pos);
-			}else{
+			}
+			else
+			{
 				player.modifyMovingTask(pos);
 			}
-				
+			
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();
 			return;
-			
 		}
-
+		
 		// Set the Intention of this AbstractAI to AI_INTENTION_MOVE_TO
 		changeIntention(AI_INTENTION_MOVE_TO, pos, null);
-
+		
 		// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
 		clientStopAutoAttack();
-
+		
 		// Abort the attack of the L2Character and send Server->Client ActionFailed packet
-		_actor.abortAttack();
-
+		if (_actor instanceof L2PcInstance)
+		{
+			L2ItemInstance rhand = ((L2PcInstance) _actor).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if ((rhand != null && rhand.getItemType() == L2WeaponType.BOW))
+			{
+				if (!_actor.isAttackingNow())
+					_actor.abortAttack();
+			}
+			else
+			{
+				_actor.abortAttack();
+			}
+		}
+		else
+		// case Npc
+		{
+			_actor.abortAttack();
+		}
+		
 		// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
 		moveTo(pos.x, pos.y, pos.z);
 	}
