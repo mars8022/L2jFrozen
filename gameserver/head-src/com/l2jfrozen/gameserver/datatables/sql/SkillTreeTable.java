@@ -434,7 +434,7 @@ public class SkillTreeTable
 		
 		for (L2SkillLearn skill : skills)
 		{
-			if ((player.getLevel() >= skill.getLevel()))
+			if (skill.getMinLevel() <= player.getLevel())
 			{
 				final L2Skill oldSkill = holder.getKnownSkill(skill.getId());
 				if (oldSkill != null)

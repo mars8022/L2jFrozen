@@ -401,16 +401,20 @@ public abstract class L2Effect
 	public synchronized void stopEffectTask()
 	{
 		// Cancel the task
-		if(_currentFuture!=null){
-			if(!_currentFuture.isCancelled())
+		if (_currentFuture != null)
+		{
+			if (!_currentFuture.isCancelled())
 				_currentFuture.cancel(false);
 			
 			_currentFuture = null;
 			_currentTask = null;
-
-			_effected.removeEffect(this);
-		}
 			
+			// To avoid possible NPE caused by player crash
+			if (_effected != null)
+				_effected.removeEffect(this);
+			else
+				_log.warning("Effected is null for skill " + _skill.getId() + " on effect " + getEffectType());
+		}
 	}
 
 	/**
