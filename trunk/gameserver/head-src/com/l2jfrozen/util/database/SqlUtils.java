@@ -294,6 +294,7 @@ public class SqlUtils
 		{
 			CloseUtil.close(con);
 		}
+		System.out.println("Optimization gameserver tables completed.");
 	}
 
 	public static void OpzLogin()
@@ -322,5 +323,7 @@ public class SqlUtils
 		{
 			CloseUtil.close(con);
 		}
+		
+		System.out.println("Optimization loginserver tables completed.");
 	}
 }

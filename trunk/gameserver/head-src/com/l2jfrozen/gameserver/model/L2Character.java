@@ -9973,26 +9973,53 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		return false;
 	}
 	
-	public boolean isInFrontOf(L2Character target)
+	/**
+	 * Return True if the L2Character is behind the target and can't be seen.<BR>
+	 * <BR>
+	 *
+	 * @param target the target
+	 * @return true, if is front
+	 */
+	public boolean isFront(L2Object target)
 	{
-		double angleChar, angleTarget, angleDiff, maxAngleDiff = 60;
-		if (target == null)
-		{
+		double angleChar, angleTarget, angleDiff, maxAngleDiff = 45;
+
+		if(target == null)
 			return false;
+
+		if(target instanceof L2Character)
+		{
+			((L2Character) target).sendPacket(new ValidateLocation(this));
+			this.sendPacket(new ValidateLocation(((L2Character) target)));
+			
+			L2Character target1 = (L2Character) target;
+			angleChar = Util.calculateAngleFrom(target1, this);
+			angleTarget = Util.convertHeadingToDegree(target1.getHeading());
+			angleDiff = angleChar - angleTarget;
+
+			if(angleDiff <= -180 + maxAngleDiff)
+			{
+				angleDiff += 180;
+			}
+
+			if(angleDiff >= 180 - maxAngleDiff)
+			{
+				angleDiff -= 180;
+			}
+
+			if(Math.abs(angleDiff) <= maxAngleDiff)
+			{
+				if(Config.DEBUG)
+				{
+					_log.info("Char " + getName() + " is side " + target.getName());
+				}
+				return true;
+			}
+
+			target1 = null;
 		}
 		
-		angleTarget = Util.calculateAngleFrom(target, this);
-		angleChar = Util.convertHeadingToDegree(target.getHeading());
-		angleDiff = angleChar - angleTarget;
-		if (angleDiff <= (-360 + maxAngleDiff))
-		{
-			angleDiff += 360;
-		}
-		if (angleDiff >= (360 - maxAngleDiff))
-		{
-			angleDiff -= 360;
-		}
-		return Math.abs(angleDiff) <= maxAngleDiff;
+		return false;
 	}
 
 	/**
@@ -10002,7 +10029,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	public boolean isFrontTarget()
 	{
-		return isInFrontOf((L2Character) getTarget());
+		return isFront(getTarget());
 	}
 
 	/**

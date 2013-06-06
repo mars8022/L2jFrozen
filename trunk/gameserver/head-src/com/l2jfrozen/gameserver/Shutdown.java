@@ -248,30 +248,17 @@ public class Shutdown extends Thread
 	}
 
 	/**
-	 * this function is called, when a new thread starts if this thread is the thread of getInstance, then this is the
-	 * shutdown hook and we save all data and disconnect all clients. after this thread ends, the server will completely
-	 * exit if this is not the thread of getInstance, then this is a countdown thread. we start the countdown, and when
-	 * we finished it, and it was not aborted, we tell the shutdown-hook why we call exit, and then call exit when the
-	 * exit status of the server is 1, startServer.sh / startServer.bat will restart the server.
+	 * this function is called, when a new thread starts if this thread is the thread of getInstance, then this is the shutdown hook and we save all data and disconnect all clients. after this thread ends, the server will completely exit if this is not the thread of getInstance, then this is a
+	 * countdown thread. we start the countdown, and when we finished it, and it was not aborted, we tell the shutdown-hook why we call exit, and then call exit when the exit status of the server is 1, startServer.sh / startServer.bat will restart the server.
 	 */
 	@Override
 	public void run()
 	{
 		/*
-		// disallow new logins
-		try
-		{
-			//Doesnt actually do anything
-			//Server.gameServer.getLoginController().setMaxAllowedOnlinePlayers(0);
-		}
-		catch(Throwable t)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
-		}
-		*/
-
-		if(this == _instance)
+		 * // disallow new logins try { //Doesnt actually do anything //Server.gameServer.getLoginController().setMaxAllowedOnlinePlayers(0); } catch(Throwable t) { if(Config.ENABLE_ALL_EXCEPTIONS) t.printStackTrace(); }
+		 */
+		
+		if (this == _instance)
 		{
 			// last byebye, save all data and quit this server
 			// logging doesnt work here :(
@@ -280,12 +267,12 @@ public class Shutdown extends Thread
 			{
 				LoginServerThread.getInstance().interrupt();
 			}
-			catch(Throwable t)
+			catch (Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
-
+			
 			AutoSaveManager.getInstance().stopAutoSaveManager();
 			
 			// ensure all services are stopped
@@ -293,26 +280,26 @@ public class Shutdown extends Thread
 			
 			// saveData sends messages to exit players, so shutdown selector after it
 			saveData();
-
+			
 			try
 			{
 				GameTimeController.getInstance().stopTimer();
 			}
-			catch(Throwable t)
+			catch (Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
-
+			
 			try
 			{
-				//GameServer.getSelectorThread().setDaemon(true);
+				// GameServer.getSelectorThread().setDaemon(true);
 				GameServer.getSelectorThread().shutdown();
 				
 			}
-			catch(Throwable t)
+			catch (Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
 			
@@ -321,54 +308,72 @@ public class Shutdown extends Thread
 			{
 				ThreadPoolManager.getInstance().shutdown();
 			}
-			catch(Throwable t)
+			catch (Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
-
+			
 			try
 			{
 				SqlUtils.OpzGame();
 			}
-			catch(Throwable t)
+			catch (Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
-
+			
+			try
+			{
+				SqlUtils.OpzLogin();
+			}
+			catch (Throwable t)
+			{
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+					t.printStackTrace();
+			}
+			
+			System.out.println("Committing all data, last chance...");
+			
 			// commit data, last chance
 			try
 			{
 				L2DatabaseFactory.getInstance().shutdown();
 			}
-			catch(Throwable t)
+			catch (Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
-
+			
+			System.out.println("All database data committed.");
+			
 			System.runFinalization();
 			System.gc();
-
+			
+			System.out.println("Memory cleanup, recycled unused objects.");
+			
+			System.out.println("[STATUS] Server shutdown successfully.");
+			
 			// server will quit, when this function ends.
-			if(_instance._shutdownMode == GM_RESTART)
+			if (_instance._shutdownMode == GM_RESTART)
 			{
 				Runtime.getRuntime().halt(2);
 			}
-			else if(_instance._shutdownMode == TASK_RESTART)
+			else if (_instance._shutdownMode == TASK_RESTART)
 			{
 				Runtime.getRuntime().halt(5);
 			}
-			else if(_instance._shutdownMode == TASK_SHUTDOWN)
+			else if (_instance._shutdownMode == TASK_SHUTDOWN)
 			{
 				Runtime.getRuntime().halt(4);
 			}
-			else if(_instance._shutdownMode == TELL_RESTART)
+			else if (_instance._shutdownMode == TELL_RESTART)
 			{
 				Runtime.getRuntime().halt(7);
 			}
-			else if(_instance._shutdownMode == TELL_SHUTDOWN)
+			else if (_instance._shutdownMode == TELL_SHUTDOWN)
 			{
 				Runtime.getRuntime().halt(6);
 			}
@@ -382,34 +387,34 @@ public class Shutdown extends Thread
 			// gm shutdown: send warnings and then call exit to start shutdown sequence
 			countdown();
 			// last point where logging is operational :(
-			_log.log(Level.WARNING,"GM shutdown countdown is over. " + MODE_TEXT[_shutdownMode] + " NOW!");
-			switch(_shutdownMode)
+			_log.log(Level.WARNING, "GM shutdown countdown is over. " + MODE_TEXT[_shutdownMode] + " NOW!");
+			switch (_shutdownMode)
 			{
 				case GM_SHUTDOWN:
 					_instance.setMode(GM_SHUTDOWN);
 					System.exit(0);
 					break;
-
+				
 				case GM_RESTART:
 					_instance.setMode(GM_RESTART);
 					System.exit(2);
 					break;
-
+				
 				case TASK_SHUTDOWN:
 					_instance.setMode(TASK_SHUTDOWN);
 					System.exit(4);
 					break;
-
+				
 				case TASK_RESTART:
 					_instance.setMode(TASK_RESTART);
 					System.exit(5);
 					break;
-
+				
 				case TELL_SHUTDOWN:
 					_instance.setMode(TELL_SHUTDOWN);
 					System.exit(6);
 					break;
-
+				
 				case TELL_RESTART:
 					_instance.setMode(TELL_RESTART);
 					System.exit(7);
