@@ -30,7 +30,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * <b>AutoSave</b> only
- * 
  * @author Shyla
  */
 public class AutoSaveManager
@@ -43,61 +42,64 @@ public class AutoSaveManager
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	public AutoSaveManager()
 	{
 		_log.info("Initializing AutoSaveManager");
 	}
 	
-	public void stopAutoSaveManager(){
-		
-		if(_autoSaveInDB!=null){
+	public void stopAutoSaveManager()
+	{		
+		if (_autoSaveInDB != null)
+		{
 			_autoSaveInDB.cancel(true);
 			_autoSaveInDB = null;
 		}
 		
-		if(_autoCheckConnectionStatus!=null){
+		if (_autoCheckConnectionStatus != null)
+		{
 			_autoCheckConnectionStatus.cancel(true);
 			_autoCheckConnectionStatus = null;
-		}
-		
+		}	
 	}
 	
-	public void startAutoSaveManager(){
+	public void startAutoSaveManager()
+	{
 		
 		stopAutoSaveManager();
 		_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSaveTask(), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
 		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PlayersSaveTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
 	}
-
+	
 	protected class AutoSaveTask implements Runnable
 	{
 		@Override
 		public void run()
-		{		
+		{
 			_log.info("AutoSaveManager: saving players data..");
 			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
 			
-			for(final L2PcInstance player:players){
+			for (final L2PcInstance player : players)
+			{
 				
-				if(player != null)
+				if (player != null)
 				{
 					try
 					{
 						player.store();
 					}
-					catch(Exception e)
+					catch (Exception e)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
 						_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
 					}
-				}				
-			}			
-			_log.info("AutoSaveManager: players data saved..");			
-		}		
+				}
+			}
+			_log.info("AutoSaveManager: players data saved..");
+		}
 	}
 	
 	protected class PlayersSaveTask implements Runnable
@@ -105,57 +107,57 @@ public class AutoSaveManager
 		@Override
 		public void run()
 		{
-			if(Config.DEBUG)
-			  _log.info("AutoSaveManager: checking players connection..");
-					
+			if (Config.DEBUG)
+				_log.info("AutoSaveManager: checking players connection..");
+			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
 			
-			for(final L2PcInstance player:players){
-				
-				if(player != null && !player.isOffline())
-				{				
-					if(player.getClient() == null || player.isOnline() == 0)
-					{					
-						_log.info("AutoSaveManager: player "+player.getName()+" status == 0 ---> Closing Connection..");
+			for (final L2PcInstance player : players)
+			{			
+				if (player != null && !player.isOffline())
+				{
+					if (player.getClient() == null || player.isOnline() == 0)
+					{
+						_log.info("AutoSaveManager: player " + player.getName() + " status == 0 ---> Closing Connection..");
 						player.store();
-						player.deleteMe();				
+						player.deleteMe();
 					}
-					else if(!player.getClient().isConnectionAlive())
-					{					
+					else if (!player.getClient().isConnectionAlive())
+					{
 						try
 						{
-							_log.info("AutoSaveManager: player "+player.getName()+" connection is not alive ---> Closing Connection..");
+							_log.info("AutoSaveManager: player " + player.getName() + " connection is not alive ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
-							if(Config.ENABLE_ALL_EXCEPTIONS)
+							if (Config.ENABLE_ALL_EXCEPTIONS)
 								e.printStackTrace();
 							
 							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
-						}				
+						}
 					}
-					else if(player.checkTeleportOverTime())
-					{					
+					else if (player.checkTeleportOverTime())
+					{
 						try
 						{
-							_log.info("AutoSaveManager: player "+player.getName()+" has a teleport overtime ---> Closing Connection..");				
+							_log.info("AutoSaveManager: player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
-							if(Config.ENABLE_ALL_EXCEPTIONS)
+							if (Config.ENABLE_ALL_EXCEPTIONS)
 								e.printStackTrace();
 							
 							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
-						}	
+						}
 					}
-				}	
+				}
 			}
 			
-			if(Config.DEBUG)
-				_log.info("AutoSaveManager: players connections checked..");			
-		}	
+			if (Config.DEBUG)
+				_log.info("AutoSaveManager: players connections checked..");
+		}
 	}
 	
 	private static class SingletonHolder

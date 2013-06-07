@@ -601,8 +601,8 @@ public final class L2PcInstance extends L2PlayableInstance
 				// getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
-				// }				
-				// }				
+				// }
+				// }
 			}
 			
 			// during teleport phase, players cant do any attack
@@ -629,13 +629,6 @@ public final class L2PcInstance extends L2PlayableInstance
 						cubic.doAction(/* target */);
 					}
 			}
-			
-			// Like L2OFF if target is not auto attackable you give only one hit
-			if (target instanceof L2PcInstance && !target.isAutoAttackable(L2PcInstance.this))
-			{
-				L2PcInstance.this.getAI().clientStopAutoAttack();
-				L2PcInstance.this.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, L2PcInstance.this);
-			}		
 		}
 
 		/* (non-Javadoc)
@@ -10686,17 +10679,16 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Store.
-	 *
 	 * @param force the force
 	 */
 	public synchronized void store(boolean force)
 	{
-		//update client coords, if these look like true
-		if(!force && isInsideRadius(getClientX(), getClientY(), 1000, true))
+		// update client coords, if these look like true
+		if (!force && isInsideRadius(getClientX(), getClientY(), 1000, true))
 		{
 			setXYZ(getClientX(), getClientY(), getClientZ());
 		}
-
+		
 		storeCharBase();
 		storeCharSub();
 		storeEffect();
@@ -10710,19 +10702,6 @@ private int _reviveRequested = 0;
 	 */
 	public synchronized void store()
 	{
-		/*
-		//update client coords, if these look like true
-		if(isInsideRadius(getClientX(), getClientY(), 1000, true))
-		{
-			setXYZ(getClientX(), getClientY(), getClientZ());
-		}
-
-		storeCharBase();
-		storeCharSub();
-		storeEffect();
-		storeRecipeBook();
-		fireEvent(EventType.STORE.name, (Object[]) null);
-		*/
 		store(false);
 	}
 
@@ -10906,103 +10885,89 @@ private int _reviveRequested = 0;
 		}
 	}
 
-	/**
-	 * Store effect.
-	 */
-	private synchronized void storeEffect()
+	@SuppressWarnings("null")
+	private void storeEffect()
 	{
-		if(!Config.STORE_SKILL_COOLTIME)
+		if (!Config.STORE_SKILL_COOLTIME)
 			return;
-
+		
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
 			// Delete all current stored effects for char to avoid dupe
 			statement = con.prepareStatement(DELETE_SKILL_SAVE);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, getClassIndex());
 			statement.execute();
 			statement.close();
-			statement = null;
-
-			List<String> saved_skills = new ArrayList<String>();
 			
-			int buff_index = 0;
-
 			// Store all effect data along with calulated remaining
 			// reuse delays for matching skills. 'restore_type'= 0.
 			final L2Effect[] effects = getAllEffects();
+			statement = con.prepareStatement(ADD_SKILL_SAVE);
 			
-			for(L2Effect effect : effects)
+			List<Integer> storedSkills = new FastList<Integer>();
+			
+			int buff_index = 0;
+			
+			for (L2Effect effect : effects)
 			{
-				if(effect != null && effect.getInUse() 
-						&& !effect.getSkill().isToggle()
-						&& effect.getSkill().getSkillType() != SkillType.FORCE_BUFF)
+				int skillId = effect.getSkill().getId();
+				
+				if (storedSkills.contains(skillId))
+					continue;
+				storedSkills.add(skillId);
+				
+				if (effect != null && effect.getInUse() && !effect.getSkill().isToggle() && !effect.getStackType().equals("BattleForce") && !effect.getStackType().equals("SpellForce") && effect.getSkill().getSkillType() != SkillType.FORCE_BUFF)
 				{
-					int skillId = effect.getSkill().getId();
-					
-					String saved_buff_id = getObjectId()+"-"+skillId+"-"+effect.getSkill().getLevel();
-					if(saved_skills.contains(saved_buff_id))
-						continue;
-					
-					buff_index++;
-
-					statement = con.prepareStatement(ADD_SKILL_SAVE);
 					statement.setInt(1, getObjectId());
 					statement.setInt(2, skillId);
 					statement.setInt(3, effect.getSkill().getLevel());
 					statement.setInt(4, effect.getCount());
 					statement.setInt(5, effect.getTime());
-
-					if(ReuseTimeStamps.containsKey(skillId))
+					if (ReuseTimeStamps.containsKey(skillId))
 					{
-						TimeStamp t = ReuseTimeStamps.remove(skillId);
+						TimeStamp t = ReuseTimeStamps.get(skillId);
 						statement.setLong(6, t.hasNotPassed() ? t.getReuse() : 0);
 					}
 					else
 					{
 						statement.setLong(6, 0);
 					}
-
 					statement.setInt(7, 0);
 					statement.setInt(8, getClassIndex());
-					statement.setInt(9, buff_index);
+					statement.setInt(9, ++buff_index);
 					statement.execute();
-					statement.close();
-					statement = null;
-					
-					saved_skills.add(saved_buff_id);
 				}
 			}
-
 			// Store the reuse delays of remaining skills which
 			// lost effect but still under reuse delay. 'restore_type' 1.
-			for(TimeStamp t : ReuseTimeStamps.values())
+			for (TimeStamp t : ReuseTimeStamps.values())
 			{
-				if(t.hasNotPassed())
+				if (t.hasNotPassed())
 				{
-					buff_index++;
-					statement = con.prepareStatement(ADD_SKILL_SAVE);
+					int skillId = t.getSkill();
+					if (storedSkills.contains(skillId))
+						continue;
+					storedSkills.add(skillId);
+					
 					statement.setInt(1, getObjectId());
-					statement.setInt(2, t.getSkill());
+					statement.setInt(2, skillId);
 					statement.setInt(3, -1);
 					statement.setInt(4, -1);
 					statement.setInt(5, -1);
 					statement.setLong(6, t.getReuse());
 					statement.setInt(7, 1);
 					statement.setInt(8, getClassIndex());
-					statement.setInt(9, buff_index);
+					statement.setInt(9, ++buff_index);
 					statement.execute();
-					statement.close();
-					statement = null;
 				}
 			}
-			ReuseTimeStamps.clear();
+			statement.close();
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			_log.warning("Could not store char effect data: ");
 			e.printStackTrace();
@@ -11011,8 +10976,6 @@ private int _reviveRequested = 0;
 		{
 			CloseUtil.close(con);
 		}
-		
-		
 	}
 
 	/**

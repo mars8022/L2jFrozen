@@ -344,10 +344,14 @@ public abstract class L2Effect
 		stopEffectTask();
 		_currentTask = new EffectTask(duration, -1);
 		_currentFuture = ThreadPoolManager.getInstance().scheduleEffect(_currentTask, duration);
-
-		if(_state == EffectState.ACTING)
-		{
-			_effected.addEffect(this);
+		
+		if (_state == EffectState.ACTING)
+		{		
+			// To avoid possible NPE caused by player crash
+			if (_effected != null)
+				_effected.addEffect(this);
+			else
+				_log.warning("Effected is null for skill " + _skill.getId() + " on effect " + getEffectType());
 		}
 	}
 
