@@ -2601,7 +2601,7 @@ public final class Formulas
 		float physics_mult = getChanceMultiplier(skill);
 		rate *= physics_mult;
 		
-		if(Config.DEVELOPER)
+		if(Config.SKILLSDEBUG)
 		{
 			final StringBuilder stat = new StringBuilder(100);
 			StringUtil.append(stat,

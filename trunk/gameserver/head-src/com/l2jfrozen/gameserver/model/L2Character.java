@@ -1499,6 +1499,14 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				getTarget()
 			});
 		}
+		
+		
+		// Like L2OFF if target is not auto attackable you give only one hit
+		if (target instanceof L2PcInstance && !target.isAutoAttackable(this))
+		{
+			((L2PcInstance) this).getAI().clientStopAutoAttack();
+			((L2PcInstance) this).getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, this);
+		}	
 
 		// Like L2OFF wait that the hit task finish and then player can move
 		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())

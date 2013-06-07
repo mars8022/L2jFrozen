@@ -1874,6 +1874,7 @@ public final class Config
 	public static boolean ALT_DEV_NO_SCRIPT;
 	public static boolean ALT_DEV_NO_RB;
 	public static boolean ALT_DEV_NO_AI;
+	public static boolean SKILLSDEBUG;
 	public static boolean DEBUG;
 	public static boolean ASSERT;
 	public static boolean DEVELOPER;
@@ -1920,6 +1921,7 @@ public final class Config
 			devSettings.load(is);
 			is.close();
 
+			SKILLSDEBUG = Boolean.parseBoolean(devSettings.getProperty("SkillsDebug", "false"));
 			DEBUG = Boolean.parseBoolean(devSettings.getProperty("Debug", "false"));
 			ASSERT = Boolean.parseBoolean(devSettings.getProperty("Assert", "false"));
 			DEVELOPER = Boolean.parseBoolean(devSettings.getProperty("Developer", "false"));

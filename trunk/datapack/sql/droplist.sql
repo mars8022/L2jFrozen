@@ -6248,9 +6248,9 @@ INSERT INTO `droplist` VALUES
 (20638,2351,1,1,2,122), -- Recipe: Scorpion
 (20638,3005,1,1,2,2365), -- Recipe: Demon\'s Boots
 (20638,4042,1,1,2,966), -- Enria
-(20639,951,1,1,-1,4502), -- Scroll: Enchant Weapon (Grade C)
-(20639,2334,1,1,-1,5758), -- Recipe: Sword of Whispering Death
-(20639,2342,1,1,-1,5758), -- Recipe: Club of Nature
+(20639,951,1,1,-1,5510),-- Scroll: Enchant Weapon (Grade C)
+(20639,2334,1,1,-1,7048),-- Recipe: Sword of Whispering Death
+(20639,2342,1,1,-1,7048),-- Recipe: Club of Nature
 (20639,57,997,2033,0,700000), -- Adena
 (20639,227,1,1,1,20), -- Stiletto
 (20639,242,1,1,1,20), -- Soulfire Dirk
