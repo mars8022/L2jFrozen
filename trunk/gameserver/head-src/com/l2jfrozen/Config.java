@@ -1139,6 +1139,7 @@ public final class Config
 	public static FastList<Integer> DISABLE_BOW_CLASSES = new FastList<Integer>();
 	
 	public static boolean ALT_MOBS_STATS_BONUS;
+	public static boolean ALT_PETS_STATS_BONUS;
 	
 	//============================================================
 	public static void loadAltConfig()
@@ -1303,7 +1304,7 @@ public final class Config
 			MAX_SUBCLASS_LEVEL = Byte.parseByte(altSettings.getProperty("MaxSubclassLevel", "81"));
 			
 			ALT_MOBS_STATS_BONUS = Boolean.parseBoolean(altSettings.getProperty("AltMobsStatsBonus", "True"));
-			
+			ALT_PETS_STATS_BONUS = Boolean.parseBoolean(altSettings.getProperty("AltPetsStatsBonus", "True"));		
 		}
 		catch(Exception e)
 		{

@@ -396,80 +396,98 @@ public final class Formulas
 	static class FuncAtkAccuracy extends Func
 	{
 		static final FuncAtkAccuracy _faa_instance = new FuncAtkAccuracy();
-
+		
 		static Func getInstance()
 		{
 			return _faa_instance;
 		}
-
+		
 		private FuncAtkAccuracy()
 		{
 			super(Stats.ACCURACY_COMBAT, 0x10, null);
 		}
-
+		
 		@Override
 		public void calc(Env env)
 		{
 			final int level = env.player.getLevel();
-			//[Square(DEX)]*6 + lvl + weapon hitbonus;
-			env.value += Math.sqrt(env.player.getDEX()) * 6;
-			env.value += level;
-			if (level > 77)
-				env.value += (level - 77);
-			if (level > 69)
-				env.value += (level - 69);
-			if (env.player instanceof L2Summon)
-				env.value += (level < 60) ? 4 : 5;
+			// [Square(DEX)]*6 + lvl + weapon hitbonus;
+			
+			L2Character p = env.player;
+			if (p instanceof L2PetInstance)
+				env.value += Math.sqrt(env.player.getDEX());
+			else
+			{
+				env.value += Math.sqrt(env.player.getDEX()) * 6;
+				env.value += level;
+				if (level > 77)
+					env.value += (level - 77);
+				if (level > 69)
+					env.value += (level - 69);
+				if (env.player instanceof L2Summon)
+					env.value += (level < 60) ? 4 : 5;
+			}
 		}
 	}
 
 	static class FuncAtkEvasion extends Func
 	{
 		static final FuncAtkEvasion _fae_instance = new FuncAtkEvasion();
-
+		
 		static Func getInstance()
 		{
 			return _fae_instance;
 		}
-
+		
 		private FuncAtkEvasion()
 		{
 			super(Stats.EVASION_RATE, 0x10, null);
 		}
-
+		
 		@Override
 		public void calc(Env env)
 		{
 			final int level = env.player.getLevel();
-			//[Square(DEX)]*6 + lvl;
-			env.value += Math.sqrt(env.player.getDEX()) * 6;
-			env.value += level;
-			if (level > 77)
-				env.value += (level - 77);
-			if (level > 69)
-				env.value += (level - 69);
+			// [Square(DEX)]*6 + lvl;
+			
+			L2Character p = env.player;
+			if (p instanceof L2PetInstance)
+				env.value += Math.sqrt(env.player.getDEX());
+			else
+			{
+				env.value += Math.sqrt(env.player.getDEX()) * 6;
+				env.value += level;
+				if (level > 77)
+					env.value += (level - 77);
+				if (level > 69)
+					env.value += (level - 69);
+			}
 		}
 	}
 
 	static class FuncAtkCritical extends Func
 	{
 		static final FuncAtkCritical _fac_instance = new FuncAtkCritical();
-
+		
 		static Func getInstance()
 		{
 			return _fac_instance;
 		}
-
+		
 		private FuncAtkCritical()
 		{
 			super(Stats.CRITICAL_RATE, 0x09, null);
 		}
-
+		
 		@Override
 		public void calc(Env env)
 		{
 			env.value *= BaseStats.DEX.calcBonus(env.player);
-			env.value *= 10;
+			
+			L2Character p = env.player;		
+			if (!(p instanceof L2PetInstance))
+				env.value *= 10;
+			
 			env.baseValue = env.value;
 		}
 	}
@@ -2739,7 +2757,7 @@ public final class Formulas
 		float physics_mult = getChanceMultiplier(skill);
 		rate *= physics_mult;
 		
-		if(Config.DEVELOPER)
+		if(Config.SKILLSDEBUG)
 		{
 			final StringBuilder stat = new StringBuilder(100);
 			StringUtil.append(stat,

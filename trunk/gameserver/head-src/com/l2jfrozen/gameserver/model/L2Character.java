@@ -1502,7 +1502,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		
 		// Like L2OFF if target is not auto attackable you give only one hit
-		if (target instanceof L2PcInstance && !target.isAutoAttackable(this))
+		if (this instanceof L2PcInstance && target instanceof L2PcInstance && !target.isAutoAttackable(this))
 		{
 			((L2PcInstance) this).getAI().clientStopAutoAttack();
 			((L2PcInstance) this).getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, this);
@@ -3809,108 +3809,92 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 * <BR>
 	 * <B><U> Concept</U> :</B><BR>
 	 * <BR>
-	 * All active skills effects in progress on the L2Character are identified in ConcurrentHashMap(Integer,L2Effect)
-	 * <B>_effects</B>. The Integer key of _effects is the L2Skill Identifier that has created the L2Effect.<BR>
+	 * All active skills effects in progress on the L2Character are identified in ConcurrentHashMap(Integer,L2Effect) <B>_effects</B>. The Integer key of _effects is the L2Skill Identifier that has created the L2Effect.<BR>
 	 * <BR>
-	 * Several same effect can't be used on a L2Character at the same time. Indeed, effects are not stackable and the
-	 * last cast will replace the previous in progress. More, some effects belong to the same Stack Group (ex WindWald
-	 * and Haste Potion). If 2 effects of a same group are used at the same time on a L2Character, only the more
-	 * efficient (identified by its priority order) will be preserve.<BR>
+	 * Several same effect can't be used on a L2Character at the same time. Indeed, effects are not stackable and the last cast will replace the previous in progress. More, some effects belong to the same Stack Group (ex WindWald and Haste Potion). If 2 effects of a same group are used at the same
+	 * time on a L2Character, only the more efficient (identified by its priority order) will be preserve.<BR>
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Add the L2Effect to the L2Character _effects</li> <li>If this effect doesn't belong to a Stack Group, add its
-	 * Funcs to the Calculator set of the L2Character (remove the old one if necessary)</li> <li>If this effect has
-	 * higher priority in its Stack Group, add its Funcs to the Calculator set of the L2Character (remove previous
-	 * stacked effect Funcs if necessary)</li> <li>If this effect has NOT higher priority in its Stack Group, set the
-	 * effect to Not In Use</li> <li>Update active skills in progress icones on player client</li><BR>
-	 *
+	 * <li>Add the L2Effect to the L2Character _effects</li> <li>If this effect doesn't belong to a Stack Group, add its Funcs to the Calculator set of the L2Character (remove the old one if necessary)</li> <li>If this effect has higher priority in its Stack Group, add its Funcs to the Calculator
+	 * set of the L2Character (remove previous stacked effect Funcs if necessary)</li> <li>If this effect has NOT higher priority in its Stack Group, set the effect to Not In Use</li> <li>Update active skills in progress icones on player client</li><BR>
 	 * @param newEffect the new effect
 	 */
 	public synchronized void addEffect(L2Effect newEffect)
 	{
-		if(newEffect == null)
+		if (newEffect == null)
 			return;
-
+		
 		final L2Effect[] effects = getAllEffects();
 		
-			// Make sure there's no same effect previously
-			for(int i = 0; i < effects.length; i++)
+		// Make sure there's no same effect previously
+		for (int i = 0; i < effects.length; i++)
+		{
+			if (effects[i] == null)
 			{
-				if(effects[i] == null){
-					
-					synchronized (_effects)
-					{
-						_effects.remove(effects[i]);
-					}
-					continue;
-				}
 				
-				if(effects[i].getSkill().getId() == newEffect.getSkill().getId() 
-						&& effects[i].getEffectType() == newEffect.getEffectType() 
-						&& effects[i].getStackType() == newEffect.getStackType())
+				synchronized (_effects)
 				{
-					if((newEffect.getSkill().getSkillType() == L2Skill.SkillType.BUFF 
-							|| newEffect.getEffectType() == L2Effect.EffectType.BUFF) 
-							&& newEffect.getStackOrder() >= effects[i].getStackOrder())
-					{
-						effects[i].exit(false);
-					}
-					else
-					{
-						//newEffect.exit(false);
-						newEffect.stopEffectTask();
-						return;
-					}
+					_effects.remove(effects[i]);
 				}
+				continue;
 			}
 			
-
+			if (effects[i].getSkill().getId() == newEffect.getSkill().getId() && effects[i].getEffectType() == newEffect.getEffectType() && effects[i].getStackType() == newEffect.getStackType())
+			{
+				if ((newEffect.getSkill().getSkillType() == L2Skill.SkillType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.HEAL_OVER_TIME) && newEffect.getStackOrder() >= effects[i].getStackOrder())
+				{
+					effects[i].exit(false);
+				}
+				else
+				{
+					// newEffect.exit(false);
+					newEffect.stopEffectTask();
+					return;
+				}
+			}
+		}
+		
 		L2Skill tempskill = newEffect.getSkill();
-
+		
 		// Remove first Buff if number of buffs > BUFFS_MAX_AMOUNT
-		if(getBuffCount() >= getMaxBuffCount() 
-			&& !doesStack(tempskill) && (tempskill.getSkillType() == L2Skill.SkillType.BUFF 
-			|| tempskill.getSkillType() == L2Skill.SkillType.REFLECT 
-			|| tempskill.getSkillType() == L2Skill.SkillType.HEAL_PERCENT 
-			|| tempskill.getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) 
-			&& !(tempskill.getId() > 4360 && tempskill.getId() < 4367) 
-			&& !(tempskill.getId() > 4550 && tempskill.getId() < 4555))
+		if (getBuffCount() >= getMaxBuffCount() && !doesStack(tempskill) && (tempskill.getSkillType() == L2Skill.SkillType.BUFF || tempskill.getSkillType() == L2Skill.SkillType.REFLECT || tempskill.getSkillType() == L2Skill.SkillType.HEAL_PERCENT || tempskill.getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) && !(tempskill.getId() > 4360 && tempskill.getId() < 4367) && !(tempskill.getId() > 4550 && tempskill.getId() < 4555))
 		{
-			if(newEffect.isHerbEffect())
+			if (newEffect.isHerbEffect())
 			{
 				newEffect.exit(false);
 				return;
 			}
 			removeFirstBuff(tempskill.getId());
 		}
-
+		
 		// Remove first DeBuff if number of debuffs > DEBUFFS_MAX_AMOUNT
-		if(getDeBuffCount() >= Config.DEBUFFS_MAX_AMOUNT && !doesStack(tempskill) && tempskill.getSkillType() == L2Skill.SkillType.DEBUFF)
+		if (getDeBuffCount() >= Config.DEBUFFS_MAX_AMOUNT && !doesStack(tempskill) && tempskill.getSkillType() == L2Skill.SkillType.DEBUFF)
 		{
 			removeFirstDeBuff(tempskill.getId());
 		}
-
+		
 		synchronized (_effects)
 		{
 			// Add the L2Effect to all effect in progress on the L2Character
-			if(!newEffect.getSkill().isToggle())
+			if (!newEffect.getSkill().isToggle())
 			{
 				int pos = 0;
-
-				for(int i = 0; i < _effects.size(); i++)
+				
+				for (int i = 0; i < _effects.size(); i++)
 				{
-					if(_effects.get(i) == null){
+					if (_effects.get(i) == null)
+					{
 						_effects.remove(i);
 						i--;
 						continue;
 					}
 					
-					if(_effects.get(i) != null)
+					if (_effects.get(i) != null)
 					{
 						int skillid = _effects.get(i).getSkill().getId();
-
-						if(!_effects.get(i).getSkill().isToggle() && !(skillid > 4360 && skillid < 4367))
+						
+						if (!_effects.get(i).getSkill().isToggle() && !(skillid > 4360 && skillid < 4367))
 						{
 							pos++;
 						}
@@ -3926,71 +3910,67 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			{
 				_effects.addLast(newEffect);
 			}
-
+			
 		}
-
+		
 		// Check if a stack group is defined for this effect
-		if(newEffect.getStackType().equals("none"))
+		if (newEffect.getStackType().equals("none"))
 		{
 			// Set this L2Effect to In Use
 			newEffect.setInUse(true);
-
+			
 			// Add Funcs of this effect to the Calculator set of the L2Character
 			addStatFuncs(newEffect.getStatFuncs());
-
+			
 			// Update active skills in progress icones on player client
 			updateEffectIcons();
 			return;
 		}
-
+		
 		// Get the list of all stacked effects corresponding to the stack type of the L2Effect to add
 		List<L2Effect> stackQueue = _stackedEffects.get(newEffect.getStackType());
-
-		if(stackQueue == null)
+		
+		if (stackQueue == null)
 		{
 			stackQueue = new FastList<L2Effect>();
 		}
-
-		//L2Effect tempEffect = null;
-
-		if(stackQueue.size() > 0)
-		{	
-				// Get the first stacked effect of the Stack group selected
-				if(_effects.contains(stackQueue.get(0)))
-				{
-					// Remove all Func objects corresponding to this stacked effect from the Calculator set of the L2Character
-					removeStatsOwner(stackQueue.get(0));
-
-					// Set the L2Effect to Not In Use
-					stackQueue.get(0).setInUse(false);
-				}
+		
+		// L2Effect tempEffect = null;
+		
+		if (stackQueue.size() > 0)
+		{
+			// Get the first stacked effect of the Stack group selected
+			if (_effects.contains(stackQueue.get(0)))
+			{
+				// Remove all Func objects corresponding to this stacked effect from the Calculator set of the L2Character
+				removeStatsOwner(stackQueue.get(0));
 				
+				// Set the L2Effect to Not In Use
+				stackQueue.get(0).setInUse(false);
+			}	
 		}
-
+		
 		// Add the new effect to the stack group selected at its position
 		stackQueue = effectQueueInsert(newEffect, stackQueue);
-
-		if(stackQueue == null)
+		
+		if (stackQueue == null)
 			return;
-
+		
 		// Update the Stack Group table _stackedEffects of the L2Character
 		_stackedEffects.put(newEffect.getStackType(), stackQueue);
-
-			// Get the first stacked effect of the Stack group selected
-			if(_effects.contains(stackQueue.get(0)))
-			{
-
-				// Set this L2Effect to In Use
-				stackQueue.get(0).setInUse(true);
-
-				// Add all Func objects corresponding to this stacked effect to the Calculator set of the L2Character
-				addStatFuncs(stackQueue.get(0).getStatFuncs());
-
-			}
+		
+		// Get the first stacked effect of the Stack group selected
+		if (_effects.contains(stackQueue.get(0)))
+		{		
+			// Set this L2Effect to In Use
+			stackQueue.get(0).setInUse(true);
+			
+			// Add all Func objects corresponding to this stacked effect to the Calculator set of the L2Character
+			addStatFuncs(stackQueue.get(0).getStatFuncs());			
+		}
 		
 		// Update active skills in progress (In Use and Not In Use because stacked) icones on client
-		updateEffectIcons();
-		
+		updateEffectIcons();		
 	}
 
 	/**

@@ -678,13 +678,13 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 	 */
 	private void changeClass(L2PcInstance player, int val)
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			_log.info("Changing class to ClassId:" + val);
 		}
 		player.setClassId(val);
-
-		if(player.isSubClassActive())
+		
+		if (player.isSubClassActive())
 		{
 			player.getSubClasses().get(player.getClassIndex()).setClassId(player.getActiveClass());
 		}
@@ -692,15 +692,19 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 		{
 			ClassId classId = ClassId.getClassIdByOrdinal(player.getActiveClass());
 			
-			while(classId.level() == 0){ //go to root
-				classId = classId.getParent();
+			if (classId.getParent() != null)
+			{
+				while (classId.level() == 0)
+				{ // go to root
+					classId = classId.getParent();
+				}
 			}
 			
 			player.setBaseClass(classId);
 			
-			//player.setBaseClass(player.getActiveClass());
+			// player.setBaseClass(player.getActiveClass());
 		}
-
+		
 		player.broadcastUserInfo();
 		player.broadcastClassIcon();
 	}
