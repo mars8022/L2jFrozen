@@ -29,12 +29,11 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 
 /**
- * 
  * @author DS
- *
  */
 public enum BaseStats
 {
@@ -58,69 +57,16 @@ public enum BaseStats
 	protected static final double[] MENbonus = new double[MAX_STAT_VALUE];
 	
 	/*
-	private static final double[] STRCompute_legacy = new double[]
-	{
-			1.036, 34.845
-	}; //{1.016, 28.515}; for C1
-	private static final double[] INTCompute_legacy = new double[]
-	{
-			1.020, 31.375
-	}; //{1.020, 31.375}; for C1
-	private static final double[] DEXCompute_legacy = new double[]
-	{
-			1.009, 19.360
-	}; //{1.009, 19.360}; for C1
-	private static final double[] WITCompute_legacy = new double[]
-	{
-			1.050, 20.000
-	}; //{1.050, 20.000}; for C1
-	private static final double[] CONCompute_legacy = new double[]
-	{
-			1.030, 27.632
-	}; //{1.015, 12.488}; for C1
-	private static final double[] MENCompute_legacy = new double[]
-	{
-			1.010, -0.060
-	}; //{1.010, -0.060}; for C1
-
-	protected static final double[] WITbonus_legacy = new double[MAX_STAT_VALUE];
-	protected static final double[] MENbonus_legacy = new double[MAX_STAT_VALUE];
-	protected static final double[] INTbonus_legacy = new double[MAX_STAT_VALUE];
-	protected static final double[] STRbonus_legacy = new double[MAX_STAT_VALUE];
-	protected static final double[] DEXbonus_legacy = new double[MAX_STAT_VALUE];
-	protected static final double[] CONbonus_legacy = new double[MAX_STAT_VALUE];
-	 
-	// These values are 100% matching retail tables, no need to change and no need add
-	// calculation into the stat bonus when accessing (not efficient),
-	// better to have everything precalculated and use values directly (saves CPU)
-	static
-	{
-		for(int i = 0; i < STRbonus_legacy.length; i++)
-		{
-			STRbonus_legacy[i] = Math.floor(Math.pow(STRCompute_legacy[0], i - STRCompute_legacy[1]) * 100 + .5d) / 100;
-		}
-		for(int i = 0; i < INTbonus_legacy.length; i++)
-		{
-			INTbonus_legacy[i] = Math.floor(Math.pow(INTCompute_legacy[0], i - INTCompute_legacy[1]) * 100 + .5d) / 100;
-		}
-		for(int i = 0; i < DEXbonus_legacy.length; i++)
-		{
-			DEXbonus_legacy[i] = Math.floor(Math.pow(DEXCompute_legacy[0], i - DEXCompute_legacy[1]) * 100 + .5d) / 100;
-		}
-		for(int i = 0; i < WITbonus_legacy.length; i++)
-		{
-			WITbonus_legacy[i] = Math.floor(Math.pow(WITCompute_legacy[0], i - WITCompute_legacy[1]) * 100 + .5d) / 100;
-		}
-		for(int i = 0; i < CONbonus_legacy.length; i++)
-		{
-			CONbonus_legacy[i] = Math.floor(Math.pow(CONCompute_legacy[0], i - CONCompute_legacy[1]) * 100 + .5d) / 100;
-		}
-		for(int i = 0; i < MENbonus_legacy.length; i++)
-		{
-			MENbonus_legacy[i] = Math.floor(Math.pow(MENCompute_legacy[0], i - MENCompute_legacy[1]) * 100 + .5d) / 100;
-		}
-	}
-	*/
+	 * private static final double[] STRCompute_legacy = new double[] { 1.036, 34.845 }; //{1.016, 28.515}; for C1 private static final double[] INTCompute_legacy = new double[] { 1.020, 31.375 }; //{1.020, 31.375}; for C1 private static final double[] DEXCompute_legacy = new double[] { 1.009,
+	 * 19.360 }; //{1.009, 19.360}; for C1 private static final double[] WITCompute_legacy = new double[] { 1.050, 20.000 }; //{1.050, 20.000}; for C1 private static final double[] CONCompute_legacy = new double[] { 1.030, 27.632 }; //{1.015, 12.488}; for C1 private static final double[]
+	 * MENCompute_legacy = new double[] { 1.010, -0.060 }; //{1.010, -0.060}; for C1 protected static final double[] WITbonus_legacy = new double[MAX_STAT_VALUE]; protected static final double[] MENbonus_legacy = new double[MAX_STAT_VALUE]; protected static final double[] INTbonus_legacy = new
+	 * double[MAX_STAT_VALUE]; protected static final double[] STRbonus_legacy = new double[MAX_STAT_VALUE]; protected static final double[] DEXbonus_legacy = new double[MAX_STAT_VALUE]; protected static final double[] CONbonus_legacy = new double[MAX_STAT_VALUE]; // These values are 100% matching
+	 * retail tables, no need to change and no need add // calculation into the stat bonus when accessing (not efficient), // better to have everything precalculated and use values directly (saves CPU) static { for(int i = 0; i < STRbonus_legacy.length; i++) { STRbonus_legacy[i] =
+	 * Math.floor(Math.pow(STRCompute_legacy[0], i - STRCompute_legacy[1]) * 100 + .5d) / 100; } for(int i = 0; i < INTbonus_legacy.length; i++) { INTbonus_legacy[i] = Math.floor(Math.pow(INTCompute_legacy[0], i - INTCompute_legacy[1]) * 100 + .5d) / 100; } for(int i = 0; i < DEXbonus_legacy.length;
+	 * i++) { DEXbonus_legacy[i] = Math.floor(Math.pow(DEXCompute_legacy[0], i - DEXCompute_legacy[1]) * 100 + .5d) / 100; } for(int i = 0; i < WITbonus_legacy.length; i++) { WITbonus_legacy[i] = Math.floor(Math.pow(WITCompute_legacy[0], i - WITCompute_legacy[1]) * 100 + .5d) / 100; } for(int i = 0;
+	 * i < CONbonus_legacy.length; i++) { CONbonus_legacy[i] = Math.floor(Math.pow(CONCompute_legacy[0], i - CONCompute_legacy[1]) * 100 + .5d) / 100; } for(int i = 0; i < MENbonus_legacy.length; i++) { MENbonus_legacy[i] = Math.floor(Math.pow(MENCompute_legacy[0], i - MENCompute_legacy[1]) * 100 +
+	 * .5d) / 100; } }
+	 */
 	
 	private final BaseStat _stat;
 	
@@ -164,35 +110,18 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance 
-				|| actor instanceof L2GrandBossInstance) 
-				&& Config.ALT_RAIDS_STATS_BONUS){
-				
-				/*
-				if(actor.getSTR()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return STRbonus_legacy[MAX_STAT_VALUE];
-				}
-				return STRbonus_legacy[actor.getSTR()];
-				*/
+			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor instanceof L2MonsterInstance 
-				&& Config.ALT_MOBS_STATS_BONUS){
-				
-				/*
-				if(actor.getSTR()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return STRbonus_legacy[MAX_STAT_VALUE];
-				}
-				return STRbonus_legacy[actor.getSTR()];
-				*/
+			if (actor instanceof L2MonsterInstance && Config.ALT_MOBS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor.getSTR()>MAX_STAT_VALUE){
-				_log.warning("Character "+actor.getName()+" has STR over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+			if (actor instanceof L2PetInstance && Config.ALT_PETS_STATS_BONUS)
+				return 1;
+			
+			if (actor.getSTR() > MAX_STAT_VALUE)
+			{
+				_log.warning("Character " + actor.getName() + " has STR over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return STRbonus[MAX_STAT_VALUE];
 			}
 			return STRbonus[actor.getSTR()];
@@ -205,25 +134,18 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				/*
-				if(actor.getINT()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return INTbonus_legacy[MAX_STAT_VALUE];
-				}
-				return INTbonus_legacy[actor.getINT()];
-				*/
+			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor instanceof L2MonsterInstance 
-				&& Config.ALT_MOBS_STATS_BONUS){
-				
+			if (actor instanceof L2MonsterInstance && Config.ALT_MOBS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor.getINT()>MAX_STAT_VALUE){
-				_log.warning("Character "+actor.getName()+" has INT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+			if (actor instanceof L2PetInstance && Config.ALT_PETS_STATS_BONUS)
+				return 1;
+			
+			if (actor.getINT() > MAX_STAT_VALUE)
+			{
+				_log.warning("Character " + actor.getName() + " has INT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return INTbonus[MAX_STAT_VALUE];
 			}
 			return INTbonus[actor.getINT()];
@@ -236,29 +158,21 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				/*
-				if(actor.getDEX()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return DEXbonus_legacy[MAX_STAT_VALUE];
-				}
-				return DEXbonus_legacy[actor.getDEX()];
-				*/
+			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor instanceof L2MonsterInstance 
-				&& Config.ALT_MOBS_STATS_BONUS){
-				
+			if (actor instanceof L2MonsterInstance && Config.ALT_MOBS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor.getDEX()>MAX_STAT_VALUE){
-				_log.warning("Character "+actor.getName()+" has DEX over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+			if (actor instanceof L2PetInstance && Config.ALT_PETS_STATS_BONUS)
+				return 1;
+			
+			if (actor.getDEX() > MAX_STAT_VALUE)
+			{
+				_log.warning("Character " + actor.getName() + " has DEX over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return DEXbonus[MAX_STAT_VALUE];
 			}
 			return DEXbonus[actor.getDEX()];
-				
 			
 		}
 	}
@@ -268,25 +182,18 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				/*
-				if(actor.getWIT()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return WITbonus_legacy[MAX_STAT_VALUE];
-				}
-				return WITbonus_legacy[actor.getWIT()];
-				*/
+			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor instanceof L2MonsterInstance 
-				&& Config.ALT_MOBS_STATS_BONUS){
-				
+			if (actor instanceof L2MonsterInstance && Config.ALT_MOBS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor.getWIT()>MAX_STAT_VALUE){
-				_log.warning("Character "+actor.getName()+" has WIT over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+			if (actor instanceof L2PetInstance && Config.ALT_PETS_STATS_BONUS)
+				return 1;
+			
+			if (actor.getWIT() > MAX_STAT_VALUE)
+			{
+				_log.warning("Character " + actor.getName() + " has WIT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return WITbonus[MAX_STAT_VALUE];
 			}
 			return WITbonus[actor.getWIT()];
@@ -298,25 +205,18 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				/*
-				if(actor.getCON()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return CONbonus_legacy[MAX_STAT_VALUE];
-				}
-				return CONbonus_legacy[actor.getCON()];
-				*/
+			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor instanceof L2MonsterInstance 
-				&& Config.ALT_MOBS_STATS_BONUS){
-				
+			if (actor instanceof L2MonsterInstance && Config.ALT_MOBS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor.getCON()>MAX_STAT_VALUE){
-				_log.warning("Character "+actor.getName()+" has CON over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+			if (actor instanceof L2PetInstance && Config.ALT_PETS_STATS_BONUS)
+				return 1;
+			
+			if (actor.getCON() > MAX_STAT_VALUE)
+			{
+				_log.warning("Character " + actor.getName() + " has CON over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return CONbonus[MAX_STAT_VALUE];
 			}
 			return CONbonus[actor.getCON()];
@@ -328,25 +228,18 @@ public enum BaseStats
 		@Override
 		public final double calcBonus(L2Character actor)
 		{
-			if((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS){
-				/*
-				if(actor.getMEN()>MAX_STAT_VALUE){
-					_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
-					return MENbonus_legacy[MAX_STAT_VALUE];
-				}
-				return MENbonus_legacy[actor.getMEN()];
-				*/
+			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor instanceof L2MonsterInstance 
-				&& Config.ALT_MOBS_STATS_BONUS){
-				
+			if (actor instanceof L2MonsterInstance && Config.ALT_MOBS_STATS_BONUS)
 				return 1;
-			}
 			
-			if(actor.getMEN()>MAX_STAT_VALUE){
-				_log.warning("Character "+actor.getName()+" has MEN over max value "+MAX_STAT_VALUE+"... Using "+MAX_STAT_VALUE);
+			if (actor instanceof L2PetInstance && Config.ALT_PETS_STATS_BONUS)
+				return 1;
+			
+			if (actor.getMEN() > MAX_STAT_VALUE)
+			{
+				_log.warning("Character " + actor.getName() + " has MEN over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return MENbonus[MAX_STAT_VALUE];
 			}
 			return MENbonus[actor.getMEN()];
@@ -406,7 +299,7 @@ public enum BaseStats
 									}
 									catch (Exception e)
 									{
-										_log.severe("[BaseStats] Invalid stats value: "+value.getNodeValue()+", skipping");
+										_log.severe("[BaseStats] Invalid stats value: " + value.getNodeValue() + ", skipping");
 										continue;
 									}
 									
@@ -423,7 +316,7 @@ public enum BaseStats
 									else if ("MEN".equalsIgnoreCase(statName))
 										MENbonus[val] = bonus;
 									else
-										_log.severe("[BaseStats] Invalid stats name: "+statName+", skipping");
+										_log.severe("[BaseStats] Invalid stats name: " + statName + ", skipping");
 								}
 							}
 						}
@@ -433,7 +326,7 @@ public enum BaseStats
 		}
 		else
 		{
-			throw new Error("[BaseStats] File not found: "+file.getName());
+			throw new Error("[BaseStats] File not found: " + file.getName());
 		}
 	}
 }

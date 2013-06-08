@@ -10886,7 +10886,7 @@ private int _reviveRequested = 0;
 	}
 
 	@SuppressWarnings("null")
-	private void storeEffect()
+	private synchronized void storeEffect()
 	{
 		if (!Config.STORE_SKILL_COOLTIME)
 			return;
@@ -11942,8 +11942,8 @@ private int _reviveRequested = 0;
 		if (attacker instanceof L2MonsterInstance)
 			return true;
 		
-		// Check if the attacker is not in the same party
-		if (getParty() != null && getParty().getPartyMembers().contains(attacker))
+		// Check if the attacker is not in the same party, excluding duels like L2OFF
+		if (getParty() != null && getParty().getPartyMembers().contains(attacker) && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
 			return false;
 		
 		// Check if the attacker is in olympia and olympia start
