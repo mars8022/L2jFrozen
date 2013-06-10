@@ -117,6 +117,10 @@ public class L2SkillSummon extends L2Skill
 		
 		L2PcInstance activeChar = (L2PcInstance) caster;
 		
+		// Skill 2046 only used for animation
+		if(getId() == 2046)
+			return;
+		
 		if (_npcId == 0)
 		{
 			activeChar.sendMessage("Summon skill "+getId()+" not described yet");

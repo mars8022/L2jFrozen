@@ -3615,6 +3615,12 @@ public enum SystemMessageId
 	ONLY_LEVEL_SUP_10_CAN_RECOMMEND(898),
 
 	/**
+	 * ID: 1018<br>
+	 * Message: Your pet uses $s1.
+	 */
+	PET_USES_S1(1018),
+	
+	/**
 	 * ID: 1188<br>
 	 * Message: Your selected target can no longer receive a recommendation.
 	 */

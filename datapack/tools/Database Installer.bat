@@ -109,7 +109,7 @@ echo *** Sucesfull 4 percents. ***
 echo *** Sucesfull 5 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/auction_bid.sql
 
-echo *** Sucesfull 9 percents. ***
+echo *** Sucesfull 6 percents. ***
 %mysqlPath% -h %gshost% -u %gsuser% --password=%gspass% -D %gsdb% < ../sql/auction_watch.sql
 
 echo *** Sucesfull 7 percents. ***

@@ -23,37 +23,37 @@ import com.l2jfrozen.gameserver.model.L2Character;
 public final class RequestTargetCanceld extends L2GameClientPacket
 {
 	private int _unselect;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_unselect = readH();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2Character activeChar = getClient().getActiveChar();
-		if(activeChar != null)
+		if (activeChar != null)
 		{
-			if(_unselect == 0)
+			if (_unselect == 0)
 			{
-				if(activeChar.isCastingNow() && activeChar.canAbortCast())
+				if (activeChar.isCastingNow() && activeChar.canAbortCast())
 				{
 					activeChar.abortCast();
 				}
-				else if(activeChar.getTarget() != null)
+				else if (activeChar.getTarget() != null)
 				{
 					activeChar.setTarget(null);
 				}
 			}
-			else if(activeChar.getTarget() != null)
+			else if (activeChar.getTarget() != null)
 			{
 				activeChar.setTarget(null);
 			}
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
