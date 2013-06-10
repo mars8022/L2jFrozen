@@ -1891,6 +1891,17 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			return;
 		}
 		
+		// Like L2OFF you can't use skills when you are attacking now
+		if (activeChar instanceof L2PcInstance && !skill.isPotion())
+		{
+			L2ItemInstance rhand = ((L2PcInstance) this).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if ((rhand != null && rhand.getItemType() == L2WeaponType.BOW))
+			{
+				if (isAttackingNow())
+					return;
+			}
+		}
+		
 		// prevent casting signets to peace zone
         if (skill.getSkillType() == SkillType.SIGNET || skill.getSkillType() == SkillType.SIGNET_CASTTIME)
 		{
@@ -2155,43 +2166,46 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		broadcastPacket(new MagicSkillUser(this, target, displayId, level, hitTime, reuseDelay));
 
 		// Send a system message USE_S1 to the L2Character
-		if(activeChar instanceof L2PcInstance && magicId != 1312)
+		if (activeChar instanceof L2PcInstance && magicId != 1312)
 		{
-			if(skill.isPotion())
+			if (skill.isPotion())
 			{
-			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1_);
-			if(magicId==2005)
-				sm.addItemName(728);
-			else if(magicId==2003)
-				sm.addItemName(726);
-			// Message greater cp potions like retail
-			else if(magicId==2166 && skill.getLevel() == 2)
-				sm.addItemName(5592);
-			// Message cp potions like retail
-			else if(magicId==2166 && skill.getLevel() == 1)
-				sm.addItemName(5591);
-			else
-				sm.addSkillName(magicId, skill.getLevel());
-			sendPacket(sm);
-			sm = null;
+				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1_);
+				if (magicId == 2005)
+					sm.addItemName(728);
+				else if (magicId == 2003)
+					sm.addItemName(726);
+				// Message greater cp potions like retail
+				else if (magicId == 2166 && skill.getLevel() == 2)
+					sm.addItemName(5592);
+				// Message cp potions like retail
+				else if (magicId == 2166 && skill.getLevel() == 1)
+					sm.addItemName(5591);
+				else
+					sm.addSkillName(magicId, skill.getLevel());
+				sendPacket(sm);
+				sm = null;
 			}
 			else
 			{
-			SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
-			if(magicId==2005)
-				sm.addItemName(728);
-			else if(magicId==2003)
-				sm.addItemName(726);
-			// Message greater cp potions like retail
-			else if(magicId==2166 && skill.getLevel() == 2)
-				sm.addItemName(5592);
-			// Message cp potions like retail
-			else if(magicId==2166 && skill.getLevel() == 1)
-				sm.addItemName(5591);
-			else
-				sm.addSkillName(magicId, skill.getLevel());
-			sendPacket(sm);
-			sm = null;
+				SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
+				if (magicId == 2005)
+					sm.addItemName(728);
+				else if (magicId == 2003)
+					sm.addItemName(726);
+				// Message greater cp potions like retail
+				else if (magicId == 2166 && skill.getLevel() == 2)
+					sm.addItemName(5592);
+				// Message cp potions like retail
+				else if (magicId == 2166 && skill.getLevel() == 1)
+					sm.addItemName(5591);
+				else
+					sm.addSkillName(magicId, skill.getLevel());
+				
+				// Skill 2046 is used only for animation on pets
+				if (magicId != 2046)
+					sendPacket(sm);
+				sm = null;
 			}
 		}
 
@@ -9800,8 +9814,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				skill.useSkill(this, targets);
 			}
 			
-			if(skill.isPotion() && this instanceof L2PlayableInstance){ //if the skill is a potion, must delete the potion item
-				Potions.delete_Potion_Item((L2PlayableInstance)this, skill.getId(), skill.getLevel());
+			//if the skill is a potion, must delete the potion item
+			if(skill.isPotion() && this instanceof L2PlayableInstance)
+			{
+				Potions.delete_Potion_Item((L2PlayableInstance) this, skill.getId(), skill.getLevel());
 			}
 
 			if(this instanceof L2PcInstance || this instanceof L2Summon)

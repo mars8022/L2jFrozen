@@ -433,8 +433,11 @@ public class GameServer
 		try
 		{
 			DoorTable doorTable = DoorTable.getInstance();
-			doorTable.getDoor(19160010).openMe();
-			doorTable.getDoor(19160011).openMe();
+			
+			// Opened by players like L2OFF
+			//doorTable.getDoor(19160010).openMe();
+			//doorTable.getDoor(19160011).openMe();
+			
 			doorTable.getDoor(19160012).openMe();
 			doorTable.getDoor(19160013).openMe();
 			doorTable.getDoor(19160014).openMe();
