@@ -2480,7 +2480,7 @@ public final class Formulas
 		else if (rate < skill.getMinChance())
 			rate = skill.getMinChance();
 		
-		if (Config.DEVELOPER)
+		if (Config.SKILLSDEBUG)
 		{
 			final StringBuilder stat = new StringBuilder(100);
 			StringUtil.append(stat,

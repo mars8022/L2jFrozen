@@ -1,3 +1,17 @@
+/*
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.l2jfrozen.gameserver.model.entity.event;
 
 import java.sql.PreparedStatement;
@@ -198,7 +212,7 @@ public class DM implements EventTask
 	{
 		Location npc_loc = new Location(_npcX, _npcY, _npcZ, _npcHeading);
 		
-		return npc_loc;	
+		return npc_loc;
 	}
 	
 	/**
@@ -579,7 +593,7 @@ public class DM implements EventTask
 		if (!checkOptionalEventStartJoinOk())
 			return false;
 		
-		return true;		
+		return true;
 	}
 	
 	/**
@@ -587,9 +601,9 @@ public class DM implements EventTask
 	 * @return true, if successful
 	 */
 	private static boolean checkStartJoinTeamInfo()
-	{	
+	{
 		// TODO be integrated
-		return true;		
+		return true;
 	}
 	
 	/**
@@ -597,13 +611,13 @@ public class DM implements EventTask
 	 * @return true, if successful
 	 */
 	private static boolean checkStartJoinPlayerInfo()
-	{	
+	{
 		if (_playerX == 0 || _playerY == 0 || _playerZ == 0 || _playerColors == 0)
 		{
 			return false;
 		}
 		
-		return true;		
+		return true;
 	}
 	
 	/**
@@ -611,7 +625,7 @@ public class DM implements EventTask
 	 * @return true, if successful
 	 */
 	private static boolean checkAutoEventStartJoinOk()
-	{	
+	{
 		if (_joinTime == 0 || _eventTime == 0)
 		{
 			return false;
@@ -625,9 +639,9 @@ public class DM implements EventTask
 	 * @return true, if successful
 	 */
 	private static boolean checkOptionalEventStartJoinOk()
-	{		
+	{
 		// TODO be integrated
-		return true;		
+		return true;
 	}
 	
 	/**
@@ -736,14 +750,14 @@ public class DM implements EventTask
 		removeOfflinePlayers();
 		
 		if (_teamEvent)
-		{			
+		{
 			/*
 			 * if(Config.EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size())) { shuffleTeams(); } else if(Config.EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size())) {
 			 * Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size()); return false; }
-			 */			
+			 */
 		}
 		else
-		{			
+		{
 			// final int size = getPlayers().size();
 			synchronized (_players)
 			{
@@ -756,7 +770,7 @@ public class DM implements EventTask
 					
 					return false;
 				}
-			}			
+			}
 		}
 		
 		_joining = false;
@@ -867,7 +881,7 @@ public class DM implements EventTask
 	 * Removes the parties.
 	 */
 	private static void removeParties()
-	{		
+	{
 		// final Vector<L2PcInstance> players = getPlayers();
 		synchronized (_players)
 		{
@@ -879,8 +893,8 @@ public class DM implements EventTask
 					L2Party party = player.getParty();
 					party.removePartyMember(player);
 				}
-			}		
-		}		
+			}
+		}
 	}
 	
 	/**
@@ -912,7 +926,7 @@ public class DM implements EventTask
 			if (!_aborted)
 				autoEvent(); // start a new event
 			else
-				Announcements.getInstance().gameAnnounceToAll(_eventName + ": next event aborted!");		
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": next event aborted!");
 		}
 		catch (Exception e)
 		{
@@ -941,14 +955,14 @@ public class DM implements EventTask
 		
 		if (_teamEvent)
 		{
-			processTopTeam();			
+			processTopTeam();
 		}
 		else
 		{
 			processTopPlayer();
 			
 			if (_topKills != 0)
-			{			
+			{
 				String winners = "";
 				for (L2PcInstance winner : _topPlayers)
 				{
@@ -961,15 +975,15 @@ public class DM implements EventTask
 				{
 					_log.info("**** " + _eventName + " ****");
 					_log.info(_eventName + ": " + winners + " win the match! " + _topKills + " kills.");
-				}			
+				}
 			}
 			else
 			{
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No players win the match(nobody killed).");
 				if (Config.DM_STATS_LOGGER)
-					_log.info(_eventName + ": No players win the match(nobody killed).");			
-			}		
+					_log.info(_eventName + ": No players win the match(nobody killed).");
+			}
 		}
 		
 		teleportFinish();
@@ -1151,7 +1165,7 @@ public class DM implements EventTask
 	 * Event once start.
 	 */
 	public static void eventOnceStart()
-	{	
+	{
 		if (startJoin() && !_aborted)
 		{
 			if (_joinTime > 0)
@@ -1174,7 +1188,7 @@ public class DM implements EventTask
 			{
 				abortEvent();
 			}
-		}	
+		}
 	}
 	
 	/**
@@ -1315,10 +1329,12 @@ public class DM implements EventTask
 				if (_players == null || _players.isEmpty())
 					return;
 				
+				List<L2PcInstance> toBeRemoved = new ArrayList<L2PcInstance>();
+				
 				for (L2PcInstance player : _players)
 				{
 					if (player == null)
-						_players.remove(player);
+						continue;
 					else if (player._inEventDM && player.isOnline() == 0 || player.isInJail() || player.isOffline())
 					{
 						
@@ -1339,12 +1355,16 @@ public class DM implements EventTask
 						player._countDMkills = 0;
 						player._inEventDM = false;
 						
-						_players.remove(player);
+						toBeRemoved.add(player);
+						// _players.remove(player);
 						
-						player.sendMessage("Your participation in the DeathMatch event has been removed.");					
+						player.sendMessage("Your participation in the DeathMatch event has been removed.");
 					}
-				}			
-			}		
+					
+				}
+				_players.removeAll(toBeRemoved);
+				
+			}
 		}
 		catch (Exception e)
 		{
@@ -1427,14 +1447,14 @@ public class DM implements EventTask
 		}
 		
 		if (!Config.DM_ALLOW_HEALER_CLASSES && (eventPlayer.getClassId() == ClassId.cardinal || eventPlayer.getClassId() == ClassId.evaSaint || eventPlayer.getClassId() == ClassId.shillienSaint))
-		{			
+		{
 			eventPlayer.sendMessage("You cant join with Healer Class!");
-			return false;			
+			return false;
 		}
 		
 		// final Vector<L2PcInstance> players = getPlayers();
 		synchronized (_players)
-		{			
+		{
 			if (_players.contains(eventPlayer))
 			{
 				eventPlayer.sendMessage("You already participated in the event!");
@@ -1480,7 +1500,7 @@ public class DM implements EventTask
 				player.setTitle("Kills: " + player._countDMkills);
 				
 				if (player.isMounted())
-				{				
+				{
 					if (player.setMountType(0))
 					{
 						if (player.isFlying())
@@ -1491,11 +1511,11 @@ public class DM implements EventTask
 						Ride dismount = new Ride(player.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 						player.broadcastPacket(dismount);
 						player.setMountObjectID(0);
-					}				
+					}
 				}
 				player.broadcastUserInfo();
-			}			
-		}		
+			}
+		}
 	}
 	
 	/**
@@ -1565,7 +1585,7 @@ public class DM implements EventTask
 		_log.info("");
 		_log.info("");
 		
-		dumpLocalEventInfo();		
+		dumpLocalEventInfo();
 	}
 	
 	/**
@@ -1655,7 +1675,7 @@ public class DM implements EventTask
 				_playerZ = rs.getInt("playerZ");
 				_intervalBetweenMatchs = rs.getInt("delayForNextEvent");
 			}
-			statement.close();			
+			statement.close();
 		}
 		catch (Exception e)
 		{
@@ -1917,7 +1937,7 @@ public class DM implements EventTask
 						player._countDMkills = 0;
 						player._inEventDM = false;
 						
-						_players.remove(player);
+						// _players.remove(player);
 						
 						player.sendMessage("Your participation in the DeathMatch event has been removed.");
 						
@@ -1948,7 +1968,7 @@ public class DM implements EventTask
 	 * Clean local event info.
 	 */
 	private static void cleanLocalEventInfo()
-	{		
+	{
 		// nothing
 	}
 	
@@ -1957,8 +1977,8 @@ public class DM implements EventTask
 	 * @param player the player
 	 */
 	private static void cleanEventPlayer(L2PcInstance player)
-	{		
-		// nothing		
+	{
+		// nothing
 	}
 	
 	/*
@@ -1999,8 +2019,8 @@ public class DM implements EventTask
 					player.broadcastUserInfo();
 					player.teleToLocation(_playerX + Rnd.get(Config.DM_SPAWN_OFFSET), _playerY + Rnd.get(Config.DM_SPAWN_OFFSET), _playerZ);
 				}
-			}		
-		}	
+			}
+		}
 	}
 	
 	/**
@@ -2085,8 +2105,8 @@ public class DM implements EventTask
 					if (!_topPlayers.contains(player))
 						_topPlayers.add(player);
 				}
-			}		
-		}	
+			}
+		}
 	}
 	
 	/**
@@ -2105,7 +2125,7 @@ public class DM implements EventTask
 	{
 		Location npc_loc = new Location(_playerX + Rnd.get(Config.DM_SPAWN_OFFSET), _playerY + Rnd.get(Config.DM_SPAWN_OFFSET), _playerZ, 0);
 		
-		return npc_loc;		
+		return npc_loc;
 	}
 	
 	/**

@@ -2827,6 +2827,9 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	public void setIsImobilised(boolean value)
 	{
+		// Stop this if he is moving
+		this.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE); 
+		
 		if (value)
 		{
 			_isImobilised++;
