@@ -177,27 +177,33 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5110" levels="1" name="Cannon Fodder">
-  <set name="power" val="232048"/>
-  <set name="target" val="TARGET_SIEGE"/>
-  <set name="hitTime" val="10000"/>
-  <set name="reuseDelay" val="10500"/>
+  <set name="power" val="40000"/> <!-- custom value -->
   <set name="skillType" val="PDAM"/>
-  <set name="operateType" val="OP_ACTIVE"/>
+  <set name="operateType" val="OP_ACTIVE"/> 
   <set name="castRange" val="1600"/>
+  <set name="effectRange" val="1600" />
+  <set name="hitTime" val="10000"/>
   <set name="itemConsumeId" val="8872"/>
   <set name="itemConsumeCount" val="4"/>
+  <set name="magicLvl" val="70" />
+  <set name="reuseDelay" val="10500" />
+  <set name="skillRadius" val="200" />
+  <set name="target" val="TARGET_AREA" />
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5111" levels="1" name="Big Bang">
-  <set name="power" val="332048"/>
-  <set name="target" val="TARGET_SIEGE"/>
-  <set name="hitTime" val="10000"/>
-  <set name="reuseDelay" val="10500"/>
+  <set name="power" val="50000"/> <!-- custom value -->
   <set name="skillType" val="PDAM"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="castRange" val="2000"/>
+  <set name="operateType" val="OP_ACTIVE"/> 
+  <set name="castRange" val="1600"/>
+  <set name="effectRange" val="1600" />
+  <set name="hitTime" val="10000"/>
   <set name="itemConsumeId" val="8872"/>
   <set name="itemConsumeCount" val="5"/>
+  <set name="magicLvl" val="70" />
+  <set name="reuseDelay" val="10500" />
+  <set name="skillRadius" val="200" />
+  <set name="target" val="TARGET_AREA" />
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="5112" levels="12" name="Shock">

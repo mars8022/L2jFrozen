@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.SummonKnownList;
 import com.l2jfrozen.gameserver.model.actor.stat.SummonStat;
 import com.l2jfrozen.gameserver.model.actor.status.SummonStatus;
@@ -302,8 +303,11 @@ public abstract class L2Summon extends L2PlayableInstance
 		}
 		if(!target.isAttackable())
 		{
+			if (!(this instanceof L2SiegeSummonInstance))
+			{
 			getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE);
 			return;
+			}
 		}
 
 		super.doAttack(target);

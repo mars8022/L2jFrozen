@@ -177,10 +177,8 @@ public class L2CharacterAI extends AbstractAI
 	 * <BR>
 	 * <B><U> Actions</U> : </B><BR>
 	 * <BR>
-	 * <li>Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)</li> <li>
-	 * Set the Intention of this AI to AI_INTENTION_ATTACK</li> <li>Set or change the AI attack target</li> <li>Start
-	 * the actor Auto Attack client side by sending Server->Client packet AutoAttackStart (broadcast)</li> <li>Launch
-	 * the Think Event</li><BR>
+	 * <li>Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)</li> <li>Set the Intention of this AI to AI_INTENTION_ATTACK</li> <li>Set or change the AI attack target</li> <li>Start the actor Auto Attack client side by sending Server->Client packet
+	 * AutoAttackStart (broadcast)</li> <li>Launch the Think Event</li><BR>
 	 * <BR>
 	 * <B><U> Overridden in</U> :</B><BR>
 	 * <BR>
@@ -190,40 +188,39 @@ public class L2CharacterAI extends AbstractAI
 	@Override
 	protected void onIntentionAttack(L2Character target)
 	{
-		if(target == null)
+		if (target == null)
 		{
 			clientActionFailed();
 			return;
 		}
-
-		if(getIntention() == AI_INTENTION_REST)
-		{
-			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
-			clientActionFailed();
-			return;
-		}
-
-		if(_actor.isAllSkillsDisabled() || _actor.isAfraid())
+		
+		if (getIntention() == AI_INTENTION_REST)
 		{
 			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
 			clientActionFailed();
 			return;
 		}
-
+		
+		if (_actor.isAllSkillsDisabled() || _actor.isAfraid())
+		{
+			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
+			clientActionFailed();
+			return;
+		}
+		
 		// Check if the Intention is already AI_INTENTION_ATTACK
-		if(getIntention() == AI_INTENTION_ATTACK)
+		if (getIntention() == AI_INTENTION_ATTACK)
 		{
 			// Check if the AI already targets the L2Character
-			if(getAttackTarget() != target)
+			if (getAttackTarget() != target)
 			{
 				// Set the AI attack target (change target)
 				setAttackTarget(target);
-
+				
 				stopFollow();
-
+				
 				// Launch the Think Event
-				notifyEvent(CtrlEvent.EVT_THINK, null);
-
+				notifyEvent(CtrlEvent.EVT_THINK, null);		
 			}
 			else
 			{
@@ -234,12 +231,12 @@ public class L2CharacterAI extends AbstractAI
 		{
 			// Set the Intention of this AbstractAI to AI_INTENTION_ATTACK
 			changeIntention(AI_INTENTION_ATTACK, target, null);
-
+			
 			// Set the AI attack target
 			setAttackTarget(target);
-
+			
 			stopFollow();
-
+			
 			// Launch the Think Event
 			notifyEvent(CtrlEvent.EVT_THINK, null);
 		}
@@ -331,15 +328,6 @@ public class L2CharacterAI extends AbstractAI
 			clientActionFailed();
 			return;
 		}
-		
-		/*
-		if (_actor.isAllSkillsDisabled() || _actor.isCastingNow())
-		{
-			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
-			clientActionFailed();
-			return;
-		}
-		*/
 		
 		if (_actor instanceof L2PcInstance && (_actor.isAttackingNow() || _actor.isCastingNow()) && !_actor.isMoving())
 		{

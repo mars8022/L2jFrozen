@@ -284,7 +284,7 @@ public final class RequestActionUse extends L2GameClientPacket
 						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
 						activeChar.sendPacket(msg);
 					}
-					else if(activeChar.isSitting() || activeChar.isMoving())
+					else if(activeChar.isSitting()) // Like L2OFF you can mount also during movement
 					{
 						//A strider can be ridden only when standing
 						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CAN_BE_RIDDEN_ONLY_WHILE_STANDING);
@@ -353,6 +353,10 @@ public final class RequestActionUse extends L2GameClientPacket
 						Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 						activeChar.broadcastPacket(dismount);
 						activeChar.setMountObjectID(0);
+						
+						// Update status after unmount to avoid visual bug
+						activeChar.broadcastStatusUpdate();
+						activeChar.broadcastUserInfo();
 					}
 				}
 				break;

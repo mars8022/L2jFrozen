@@ -26,7 +26,6 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionPlayerState extends Condition
 {
-
 	public enum CheckPlayerState
 	{
 		RESTING,
@@ -34,25 +33,26 @@ public class ConditionPlayerState extends Condition
 		RUNNING,
 		FLYING,
 		BEHIND,
-		FRONT
+		FRONT,
+		SIDE
 	}
-
+	
 	private final CheckPlayerState _check;
 	private final boolean _required;
-
+	
 	public ConditionPlayerState(CheckPlayerState check, boolean required)
 	{
 		_check = check;
 		_required = required;
 	}
-
+	
 	@Override
 	public boolean testImpl(Env env)
 	{
-		switch(_check)
+		switch (_check)
 		{
 			case RESTING:
-				if(env.player instanceof L2PcInstance)
+				if (env.player instanceof L2PcInstance)
 					return ((L2PcInstance) env.player).isSitting() == _required;
 				return !_required;
 			case MOVING:
@@ -65,6 +65,8 @@ public class ConditionPlayerState extends Condition
 				return env.player.isBehindTarget() == _required;
 			case FRONT:
 				return env.player.isFrontTarget() == _required;
+			case SIDE:
+				return env.player.isSideTarget() == _required;
 		}
 		return !_required;
 	}

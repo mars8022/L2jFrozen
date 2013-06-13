@@ -116,7 +116,8 @@ public class SummonItems implements IItemHandler
 			return;
 		}
 		
-		if (activeChar.isAttackingNow())
+		// Like L2OFF you can't summon pet in combat
+		if (activeChar.isAttackingNow() || activeChar.isInCombat())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_CANNOT_SUMMON_IN_COMBAT));
 			return;

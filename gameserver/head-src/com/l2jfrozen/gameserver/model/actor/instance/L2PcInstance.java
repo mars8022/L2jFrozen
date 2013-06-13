@@ -201,6 +201,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SendTradeDone;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortBuffStatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
+import com.l2jfrozen.gameserver.network.serverpackets.SkillCoolTime;
 import com.l2jfrozen.gameserver.network.serverpackets.SkillList;
 import com.l2jfrozen.gameserver.network.serverpackets.Snoop;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
@@ -263,7 +264,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	private static final String DELETE_CHAR_SKILLS = "DELETE FROM character_skills WHERE char_obj_id=? AND class_index=?";
 
 	/** The Constant ADD_SKILL_SAVE. */
-	private static final String ADD_SKILL_SAVE = "INSERT INTO character_skills_save (char_obj_id,skill_id,skill_level,effect_count,effect_cur_time,reuse_delay,restore_type,class_index,buff_index) VALUES (?,?,?,?,?,?,?,?,?)";
+	//private static final String ADD_SKILL_SAVE = "INSERT INTO character_skills_save (char_obj_id,skill_id,skill_level,effect_count,effect_cur_time,reuse_delay,restore_type,class_index,buff_index) VALUES (?,?,?,?,?,?,?,?,?)";
+	private static final String ADD_SKILL_SAVE = "INSERT INTO character_skills_save (char_obj_id,skill_id,skill_level,effect_count,effect_cur_time,reuse_delay,systime,restore_type,class_index,buff_index) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
 	/** The Constant RESTORE_SKILL_SAVE. */
 	private static final String RESTORE_SKILL_SAVE = "SELECT skill_id,skill_level,effect_count,effect_cur_time, reuse_delay FROM character_skills_save WHERE char_obj_id=? AND class_index=? AND restore_type=? ORDER BY buff_index ASC";
@@ -4287,7 +4289,6 @@ private int _reviveRequested = 0;
 
 		/**
 		 * Instantiates a new move on attack.
-		 *
 		 * @param player the player
 		 * @param pos the pos
 		 */
@@ -4295,10 +4296,11 @@ private int _reviveRequested = 0;
 		{
 			_player = player;
 			_pos = pos;
-			//launchedMovingTask = this;
+			// launchedMovingTask = this;
 		}
-
-		/* (non-Javadoc)
+		
+		/*
+		 * (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
@@ -4308,31 +4310,28 @@ private int _reviveRequested = 0;
 			{
 				launchedMovingTask = null;
 				_movingTaskDefined = false;
-			}	
-
+			}
 			// Set the Intention of this AbstractAI to AI_INTENTION_MOVE_TO
 			_player.getAI().changeIntention(AI_INTENTION_MOVE_TO, _pos, null);
-
+			
 			// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
 			_player.getAI().clientStopAutoAttack();
-
+			
 			// Abort the attack of the L2Character and send Server->Client ActionFailed packet
 			_player.abortAttack();
-
+			
 			// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
 			_player.getAI().moveTo(_pos.x, _pos.y, _pos.z);
 		}
-
+		
 		/**
 		 * Sets the new position.
-		 *
 		 * @param pos the new new position
 		 */
 		public void setNewPosition(L2CharPosition pos)
 		{
 			_pos = pos;
 		}
-
 	}
 
 	/**
@@ -4383,6 +4382,9 @@ private int _reviveRequested = 0;
 		synchronized (_movingTaskDefined)
 		{		
 			if (!_movingTaskDefined)
+				return;
+			
+			if((isMoving() && isAttackingNow()))
 				return;
 			
 			ThreadPoolManager.getInstance().executeTask(launchedMovingTask);
@@ -6970,11 +6972,21 @@ private int _reviveRequested = 0;
 			// if item is instance of L2ArmorType or L2WeaponType broadcast an "Attention" system message
 			if (target.getItemType() instanceof L2ArmorType || target.getItemType() instanceof L2WeaponType || target.getItem() instanceof L2Armor || target.getItem() instanceof L2Weapon)
 			{
-				SystemMessage msg = new SystemMessage(SystemMessageId.ATTENTION_S1_PICKED_UP_S2);
-				msg.addString(getName());
-				msg.addItemName(target.getItemId());
-				broadcastPacket(msg, 1400);
-				msg = null;
+				if (target.getEnchantLevel() > 0)
+				{
+					SystemMessage msg = new SystemMessage(SystemMessageId.ATTENTION_S1_PICKED_UP_S2_S3);
+					msg.addString(getName());
+					msg.addNumber(target.getEnchantLevel());
+					msg.addItemName(target.getItemId());
+					broadcastPacket(msg, 1400);
+				}
+				else
+				{
+					SystemMessage msg = new SystemMessage(SystemMessageId.ATTENTION_S1_PICKED_UP_S2);
+					msg.addString(getName());
+					msg.addItemName(target.getItemId());
+					broadcastPacket(msg, 1400);
+				}
 			}
 			
 			// Check if a Party is in progress
@@ -10931,14 +10943,16 @@ private int _reviveRequested = 0;
 					{
 						TimeStamp t = ReuseTimeStamps.get(skillId);
 						statement.setLong(6, t.hasNotPassed() ? t.getReuse() : 0);
+						statement.setLong(7, t.hasNotPassed() ? t.getStamp() : 0);
 					}
 					else
 					{
 						statement.setLong(6, 0);
+						statement.setLong(7, 0);
 					}
-					statement.setInt(7, 0);
-					statement.setInt(8, getClassIndex());
-					statement.setInt(9, ++buff_index);
+					statement.setInt(8, 0);
+					statement.setInt(9, getClassIndex());
+					statement.setInt(10, ++buff_index);
 					statement.execute();
 				}
 			}
@@ -10959,9 +10973,10 @@ private int _reviveRequested = 0;
 					statement.setInt(4, -1);
 					statement.setInt(5, -1);
 					statement.setLong(6, t.getReuse());
-					statement.setInt(7, 1);
-					statement.setInt(8, getClassIndex());
-					statement.setInt(9, ++buff_index);
+					statement.setLong(7, t.getStamp());
+					statement.setInt(8, 1);
+					statement.setInt(9, getClassIndex());
+					statement.setInt(10, ++buff_index);
 					statement.execute();
 				}
 			}
@@ -15398,7 +15413,8 @@ private int _reviveRequested = 0;
 		   L2Rebirth.getInstance().grantRebirthSkills(this);
 		
 		broadcastPacket(new SocialAction(getObjectId(), 15));
-
+		sendPacket(new SkillCoolTime(this));
+        
 		if (getClan() != null) 
 			getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(this));
 		//decayMe();
@@ -18205,25 +18221,14 @@ private int _reviveRequested = 0;
 	 * Filter this carefully as it becomes redundant to store reuse for small delays.
 	 * 
 	 * @author Yesod
-	 */
-	private class TimeStamp
+	
+	public class TimeStamp
 	{
 		
-		/** The skill. */
 		private int skill;
-		
-		/** The reuse. */
 		private long reuse;
-		
-		/** The stamp. */
 		private Date stamp;
 
-		/**
-		 * Instantiates a new time stamp.
-		 *
-		 * @param _skill the _skill
-		 * @param _reuse the _reuse
-		 */
 		public TimeStamp(int _skill, long _reuse)
 		{
 			skill = _skill;
@@ -18231,35 +18236,16 @@ private int _reviveRequested = 0;
 			stamp = new Date(new Date().getTime() + reuse);
 		}
 
-		/**
-		 * Gets the skill.
-		 *
-		 * @return the skill
-		 */
 		public int getSkill()
 		{
 			return skill;
 		}
 
-		/**
-		 * Gets the reuse.
-		 *
-		 * @return the reuse
-		 */
 		public long getReuse()
 		{
 			return reuse;
 		}
 
-		/* Check if the reuse delay has passed and
-		 * if it has not then update the stored reuse time
-		 * according to what is currently remaining on
-		 * the delay. */
-		/**
-		 * Checks for not passed.
-		 *
-		 * @return true, if successful
-		 */
 		public boolean hasNotPassed()
 		{
 			Date d = new Date();
@@ -18271,6 +18257,56 @@ private int _reviveRequested = 0;
 			return false;
 		}
 	}
+	 */
+	
+	
+	
+	public static class TimeStamp
+    {
+
+        public long getStamp()
+        {
+            return stamp;
+        }
+
+        public int getSkill()
+        {
+            return skill;
+        }
+
+        public long getReuse()
+        {
+            return reuse;
+        }
+
+        public long getRemaining()
+        {
+            return Math.max(stamp - System.currentTimeMillis(), 0L);
+        }
+
+        protected boolean hasNotPassed()
+        {
+            return System.currentTimeMillis() < stamp;
+        }
+
+        private int skill;
+        private long reuse;
+        private long stamp;
+
+        protected TimeStamp(int _skill, long _reuse)
+        {
+            skill = _skill;
+            reuse = _reuse;
+            stamp = System.currentTimeMillis() + reuse;
+        }
+
+        protected TimeStamp(int _skill, long _reuse, long _systime)
+        {
+            skill = _skill;
+            reuse = _reuse;
+            stamp = _systime;
+        }
+    }
 
 	/**
 	 * Index according to skill id the current timestamp of use.
@@ -18304,6 +18340,27 @@ private int _reviveRequested = 0;
 	{
 		ReuseTimeStamps.remove(s);
 	}
+	
+	public Collection<TimeStamp> getReuseTimeStamps()
+	{
+		return ReuseTimeStamps.values();
+	}
+	
+	 public void resetSkillTime(boolean ssl)
+	    {
+	        L2Skill arr$[] = getAllSkills();
+	        int len$ = arr$.length;
+	        for(int i$ = 0; i$ < len$; i$++)
+	        {
+	            L2Skill skill = arr$[i$];
+	            if(skill != null && skill.isActive() && skill.getId() != 1324)
+	                enableSkill(skill.getId());
+	        }
+
+	        if(ssl)
+	            sendSkillList();
+	        sendPacket(new SkillCoolTime(this));
+	    }
 
 	/*
 	public boolean isInDangerArea()

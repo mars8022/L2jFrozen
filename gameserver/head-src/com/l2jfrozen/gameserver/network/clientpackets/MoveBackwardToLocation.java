@@ -33,12 +33,12 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 {
 	private int _targetX, _targetY, _targetZ, _originX, _originY, _originZ, _moveMovement;
 	private int _curX, _curY, _curZ; // for geodata
-
+		
 	public TaskPriority getPriority()
 	{
 		return TaskPriority.PR_HIGH;
 	}
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -51,13 +51,13 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		
 		try
 		{
-			_moveMovement = readD(); // is 0 if cursor keys are used  1 if mouse is used
+			_moveMovement = readD(); // is 0 if cursor keys are used 1 if mouse is used
 		}
 		catch (BufferUnderflowException e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-
+			
 			// Ignore for now
 			if (Config.L2WALKER_PROTEC)
 			{
@@ -67,13 +67,13 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			}
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		
+		if (activeChar == null)
 			return;
 		
 		// Move flood protection
@@ -84,71 +84,76 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		}
 		
 		// Like L2OFF movements prohibited when char is sitting
-		if(activeChar.isSitting())
+		if (activeChar.isSitting())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
 		// Like L2OFF movements prohibited when char is teleporting
-		if(activeChar.isTeleporting())
+		if (activeChar.isTeleporting())
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
 		// Like L2OFF the enchant window will close
-		if(activeChar.getActiveEnchantItem() != null)
+		if (activeChar.getActiveEnchantItem() != null)
 		{
-            activeChar.sendPacket(new EnchantResult(0));
-            activeChar.setActiveEnchantItem(null);
+			activeChar.sendPacket(new EnchantResult(0));
+			activeChar.setActiveEnchantItem(null);
 		}
 		
-		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ) 
+		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ)
 		{
 			activeChar.sendPacket(new StopMove(activeChar));
 			return;
 		}
-
-		/*// Correcting targetZ from floor level to head level (?)
-		// Client is giving floor level as targetZ but that floor level doesn't
-		// match our current geodata and teleport coords as good as head level!
-		// L2J uses floor, not head level as char coordinates. This is some
-		// sort of incompatibility fix.
-		// Validate position packets sends head level.
-		_targetZ += activeChar.getTemplate().collisionHeight;*/
-
+		
+		/*
+		 * // Correcting targetZ from floor level to head level (?) // Client is giving floor level as targetZ but that floor level doesn't // match our current geodata and teleport coords as good as head level! // L2J uses floor, not head level as char coordinates. This is some // sort of
+		 * incompatibility fix. // Validate position packets sends head level. _targetZ += activeChar.getTemplate().collisionHeight;
+		 */
+		
 		_curX = activeChar.getX();
 		_curY = activeChar.getY();
 		_curZ = activeChar.getZ();
-
+		
 		if (activeChar.getTeleMode() > 0)
 		{
 			if (activeChar.getTeleMode() == 1)
 				activeChar.setTeleMode(0);
-
+			
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			activeChar.teleToLocation(_targetX, _targetY, _targetZ, false);
 			return;
 		}
-
+		
 		if (_moveMovement == 0 && !Config.ALLOW_USE_CURSOR_FOR_WALK)
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 		else
 		{
 			double dx = _targetX - _curX;
 			double dy = _targetY - _curY;
-
+			
 			// Can't move if character is confused, or trying to move a huge distance
 			if (activeChar.isOutOfControl() || dx * dx + dy * dy > 98010000) // 9900*9900
 			{
 				activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			
+			// This is to avoid exploit with Hit + Fast movement
+			if((activeChar.isMoving() && activeChar.isAttackingNow()))
+			{
+				activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
 			activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(_targetX, _targetY, _targetZ, 0));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

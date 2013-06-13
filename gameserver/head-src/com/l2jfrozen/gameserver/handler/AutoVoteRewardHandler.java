@@ -206,7 +206,7 @@ public class AutoVoteRewardHandler
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
 			{
-				if (inputLine.contains("Anonymous User Votes"))
+				if (inputLine.contains("rank anonymous tooltip"))
 				{
 					votes = Integer.valueOf(inputLine.split(">")[2].replace("</span", ""));
 					break;
