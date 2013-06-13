@@ -1301,9 +1301,13 @@ public final class Formulas
 	 */
 	public static double calcBlowDamage(L2Character attacker, L2Character target, L2Skill skill, boolean shld, boolean crit, boolean ss)
 	{
+		/*
+		 * wtf is this shit -Nefer
+		 * 
 		if((skill.getCondition() & L2Skill.COND_BEHIND) != 0 && !attacker.isBehind(target))
 			return 0;
-
+        */
+		
 		double damage = attacker.getPAtk(target);
 		double defence = target.getPDef(attacker);
 		
@@ -2159,23 +2163,24 @@ public final class Formulas
 	}
 
 	/**
-	 * @param attacker 
-	 * @param target 
+	 * @param attacker
+	 * @param target
 	 * @return true if shield defence successfull
 	 */
 	public static boolean calcShldUse(L2Character attacker, L2Character target)
 	{
 		L2Weapon at_weapon = attacker.getActiveWeaponItem();
-		//double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
+		// double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
 		double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * BaseStats.DEX.calcBonus(target);
-		if(shldRate == 0.0)
+		if (shldRate == 0.0)
 			return false;
 		// Check for passive skill Aegis (316) or Aegis Stance (318)
-		if(target.getKnownSkill(316) == null && target.getFirstEffect(318) == null)
-			if(!target.isFront(attacker))
+		// Like L2OFF you can't parry if your target is behind you
+		if (target.getKnownSkill(316) == null && target.getFirstEffect(318) == null)
+			if (target.isBehind(attacker) || !target.isFront(attacker) || !attacker.isFront(target))
 				return false;
 		// if attacker use bow and target wear shield, shield block rate is multiplied by 1.3 (30%)
-		if(at_weapon != null && at_weapon.getItemType() == L2WeaponType.BOW)
+		if (at_weapon != null && at_weapon.getItemType() == L2WeaponType.BOW)
 		{
 			shldRate *= 1.3;
 		}

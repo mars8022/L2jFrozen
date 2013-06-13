@@ -31,7 +31,7 @@ public final class AttackRequest extends L2GameClientPacket
 	private int _originY;
 	private int _originZ;
 	private int _attackId;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -41,7 +41,7 @@ public final class AttackRequest extends L2GameClientPacket
 		_originZ = readD();
 		_attackId = readC(); // 0 for simple click - 1 for shift-click
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -67,81 +67,83 @@ public final class AttackRequest extends L2GameClientPacket
 		if (target == null)
 			return;
 		
+		// Like L2OFF
+		if(activeChar.isAttackingNow() && activeChar.isMoving())
+		{
+			// If target is not attackable, send a Server->Client packet ActionFailed
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		// Players can't attack objects in the other instances except from multiverse
-		if (target.getInstanceId() != activeChar.getInstanceId()
-				&& activeChar.getInstanceId() != -1)
+		if (target.getInstanceId() != activeChar.getInstanceId() && activeChar.getInstanceId() != -1)
 			return;
 		
 		// Only GMs can directly attack invisible characters
-		if (target instanceof L2PcInstance
-				&& ((L2PcInstance)target).getAppearance().getInvisible()
-				&& !activeChar.isGM())
+		if (target instanceof L2PcInstance && ((L2PcInstance) target).getAppearance().getInvisible() && !activeChar.isGM())
 			return;
 		
 		// During teleport phase, players cant do any attack
-		if ((TvT.is_teleport() && activeChar._inEventTvT)
-				|| (CTF.is_teleport() && activeChar._inEventCTF)
-				|| (DM.is_teleport() && activeChar._inEventDM))
+		if ((TvT.is_teleport() && activeChar._inEventTvT) || (CTF.is_teleport() && activeChar._inEventCTF) || (DM.is_teleport() && activeChar._inEventDM))
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-            return;
+			return;
 		}
-
+		
 		// No attacks to same team in Event
 		if (TvT.is_started())
-	    {
+		{
 			if (target instanceof L2PcInstance)
 			{
-	            if ((activeChar._inEventTvT && ((L2PcInstance)target)._inEventTvT) && activeChar._teamNameTvT.equals(((L2PcInstance)target)._teamNameTvT))
-	            {
-	            	activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-	                return;
-	            }
+				if ((activeChar._inEventTvT && ((L2PcInstance) target)._inEventTvT) && activeChar._teamNameTvT.equals(((L2PcInstance) target)._teamNameTvT))
+				{
+					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
 			}
 			else if (target instanceof L2SummonInstance)
 			{
-				if ((activeChar._inEventTvT && ((L2SummonInstance)target).getOwner()._inEventTvT) && activeChar._teamNameTvT.equals(((L2SummonInstance)target).getOwner()._teamNameTvT))
-	            {
-	            	activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-	                return;
-	            }
+				if ((activeChar._inEventTvT && ((L2SummonInstance) target).getOwner()._inEventTvT) && activeChar._teamNameTvT.equals(((L2SummonInstance) target).getOwner()._teamNameTvT))
+				{
+					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
 			}
-        }
+		}
 		
 		// No attacks to same team in Event
 		if (CTF.is_started())
-	    {
+		{
 			if (target instanceof L2PcInstance)
 			{
-	            if ((activeChar._inEventCTF && ((L2PcInstance)target)._inEventCTF) && activeChar._teamNameCTF.equals(((L2PcInstance)target)._teamNameCTF))
-	            {
-	            	activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-	                return;
-	            }
+				if ((activeChar._inEventCTF && ((L2PcInstance) target)._inEventCTF) && activeChar._teamNameCTF.equals(((L2PcInstance) target)._teamNameCTF))
+				{
+					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
 			}
 			else if (target instanceof L2SummonInstance)
 			{
-				if ((activeChar._inEventCTF && ((L2SummonInstance)target).getOwner()._inEventCTF) && activeChar._teamNameCTF.equals(((L2SummonInstance)target).getOwner()._teamNameCTF))
-	            {
-	            	activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-	                return;
-	            }
+				if ((activeChar._inEventCTF && ((L2SummonInstance) target).getOwner()._inEventCTF) && activeChar._teamNameCTF.equals(((L2SummonInstance) target).getOwner()._teamNameCTF))
+				{
+					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+					return;
+				}
 			}
-        }
+		}
 		
 		if (activeChar.getTarget() != target)
 			target.onAction(activeChar);
 		else
 		{
-			if ((target.getObjectId() != activeChar.getObjectId())
-					&& activeChar.getPrivateStoreType() ==0
-					/*&& activeChar.getActiveRequester() ==null*/)
+			if ((target.getObjectId() != activeChar.getObjectId()) && activeChar.getPrivateStoreType() == 0
+			/* && activeChar.getActiveRequester() ==null */)
 				target.onForcedAttack(activeChar);
 			else
 				sendPacket(ActionFailed.STATIC_PACKET);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

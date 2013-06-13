@@ -574,7 +574,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						//						// RequestSurrenderAllianceWar
 						break;
 					case 0x9d:
-						// RequestSkillCoolTime
+						msg = new RequestSkillCoolTime();
 						/*if (Config.DEBUG)
 							_log.info("Request Skill Cool Time .. ignored");
 						msg = null;*/

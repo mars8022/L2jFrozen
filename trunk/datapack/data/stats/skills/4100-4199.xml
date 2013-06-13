@@ -1079,6 +1079,7 @@
   <for>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="4161" levels="1" name="Summon PC">
   <!-- Teleports player to mob (Porta/Perum skill) -->
   <set name="target" val="TARGET_ONE"/>
@@ -1087,8 +1088,6 @@
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="600"/>
   <set name="effectRange" val="1100"/>
-  <for>
-  </for>
 </skill>
 <skill id="4162" levels="3" name="Decrease P. Atk.">
   <!-- NOT USED IN C4 -->

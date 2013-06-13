@@ -35,10 +35,8 @@ import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.gameserver.util.Util;
 
-
 /**
- *
- * @author  Steuf-Shyla
+ * @author Steuf-Shyla-L2jFrozen
  */
 public class Blow implements ISkillHandler
 {
@@ -46,12 +44,6 @@ public class Blow implements ISkillHandler
 	{
 		SkillType.BLOW
 	};
-	
-	/*
-	public final static byte FRONT = 50;
-	public final static byte SIDE = 60;
-	public final static byte BEHIND = 70;
-	*/
 	
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
@@ -65,7 +57,7 @@ public class Blow implements ISkillHandler
 		
 		Formulas.getInstance();
 		
-		for (L2Character target: (L2Character[]) targets)
+		for (L2Character target : (L2Character[]) targets)
 		{
 			if (target.isAlikeDead())
 				continue;
@@ -75,123 +67,125 @@ public class Blow implements ISkillHandler
 			
 			byte _successChance = 0;// = SIDE;
 			
-			/*if (activeChar.isBehindTarget())
-				_successChance = BEHIND;
-			else if (activeChar.isFront(target))
-				_successChance = FRONT;
-			*/
-			
-			if(skill.getName().equals("Backstab")){
-				if(activeChar.isBehindTarget())
+			if (skill.getName().equals("Backstab"))
+			{
+				if (activeChar.isBehindTarget())
 					_successChance = (byte) Config.BACKSTAB_ATTACK_BEHIND;
-				else if(activeChar.isFrontTarget())
+				else if (activeChar.isFrontTarget())
 					_successChance = (byte) Config.BACKSTAB_ATTACK_FRONT;
 				else
 					_successChance = (byte) Config.BACKSTAB_ATTACK_SIDE;
-			}else{
-				if(activeChar.isBehindTarget())
+			}
+			else
+			{
+				if (activeChar.isBehindTarget())
 					_successChance = (byte) Config.BLOW_ATTACK_BEHIND;
-				else if(activeChar.isFrontTarget())
+				else if (activeChar.isFrontTarget())
 					_successChance = (byte) Config.BLOW_ATTACK_FRONT;
 				else
 					_successChance = (byte) Config.BLOW_ATTACK_SIDE;
 			}
 			
-			
-			
-			
-			//If skill requires Crit or skill requires behind,
-			//calculate chance based on DEX, Position and on self BUFF
-			boolean success = true;
-			if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0){
-				if(skill.getName().equals("Backstab")){
-					success = (_successChance == Config.BACKSTAB_ATTACK_BEHIND);
-				}else{
-					success = (_successChance == Config.BLOW_ATTACK_BEHIND);
+			// If skill requires Crit or skill requires behind,
+			// calculate chance based on DEX, Position and on self BUFF
+			/*
+			if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0)
+			{
+				if (skill.getName().equals("Backstab"))
+				{
+					_successChance = (byte) Config.BACKSTAB_ATTACK_BEHIND;
+				}
+				else
+				{
+					_successChance = (byte) Config.BLOW_ATTACK_BEHIND;
 				}
 			}
-				
+			*/
+			
+			boolean success = true;
+			
 			if ((skill.getCondition() & L2Skill.COND_CRIT) != 0)
 				success = (success && Formulas.getInstance().calcBlow(activeChar, target, _successChance));
 			
 			if (!skillIsEvaded && success)
 			{
-				//no reflection implemented
-				//final byte reflect = Formulas.getInstance().calcSkillReflect(target, skill);
+				// no reflection implemented
+				// final byte reflect = Formulas.getInstance().calcSkillReflect(target, skill);
 				
 				if (skill.hasEffects())
 				{
-					/*if (reflect == Formulas.getInstance().SKILL_REFLECT_SUCCEED)
+					/*
+					 * if (reflect == Formulas.getInstance().SKILL_REFLECT_SUCCEED) { activeChar.stopSkillEffects(skill.getId()); skill.getEffects(target, activeChar); SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT); sm.addSkillName(skill); activeChar.sendPacket(sm); } else
+					 * {
+					 */
+					// no shield reflection
+					// final byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
+					target.stopSkillEffects(skill.getId());
+					// if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, shld, false, false, true))
+					
+					if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
 					{
-						activeChar.stopSkillEffects(skill.getId());
-						skill.getEffects(target, activeChar);
+						// skill.getEffects(activeChar, target, new Env(shld, false, false, false));
+						skill.getEffects(activeChar, target, ss, sps, bss);
 						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(skill);
-						activeChar.sendPacket(sm);
+						target.sendPacket(sm);
 					}
 					else
-					{*/
-						//no shield reflection 
-						//final byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
-						target.stopSkillEffects(skill.getId());
-						//if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, shld, false, false, true))
-						
-						if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
-						{
-							//skill.getEffects(activeChar, target, new Env(shld, false, false, false));
-							skill.getEffects(activeChar, target, ss, sps, bss);
-							SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
-							sm.addSkillName(skill);
-							target.sendPacket(sm);
-						}
-						else
-						{
-							SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
-							sm.addSkillName(skill);
-							activeChar.sendPacket(sm);
-							return;
-						}
-					//}
+					{
+						SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
+						sm.addSkillName(skill);
+						activeChar.sendPacket(sm);
+						return;
+					}
+					// }
 				}
 				
 				L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
 				boolean soul = false;
-				if(weapon!=null){
-					soul = (ss && (weapon.getItemType() == L2WeaponType.DAGGER ));
+				if (weapon != null)
+				{
+					soul = (ss && (weapon.getItemType() == L2WeaponType.DAGGER));
 				}
 				
-				//byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
+				// byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
 				boolean shld = Formulas.calcShldUse(activeChar, target);
 				
 				// Critical hit
 				boolean crit = false;
 				
-				//Critical damage condition is applied for sure if there is skill critical condition
-				if((skill.getCondition() & L2Skill.COND_CRIT) != 0){
+				// Critical damage condition is applied for sure if there is skill critical condition
+				if ((skill.getCondition() & L2Skill.COND_CRIT) != 0)
+				{
 					crit = true;
-				//if there is not critical condition, calculate critical chance
-				}else if(Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.DEX.calcBonus(activeChar)))
+					// if there is not critical condition, calculate critical chance
+				}
+				else if (Formulas.calcCrit(skill.getBaseCritRate() * 10 * BaseStats.DEX.calcBonus(activeChar)))
 					crit = true;
 				
 				double damage = (int) Formulas.calcBlowDamage(activeChar, target, skill, shld, crit, soul);
 				
-				//if (soul)
-				//	weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
+				// if (soul)
+				// weapon.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
 				
 				if (skill.getDmgDirectlyToHP() && target instanceof L2PcInstance)
 				{
-					//no vegeange implementation
-					final L2Character[] ts = {target, activeChar};
+					// no vegeange implementation
+					final L2Character[] ts =
+					{
+						target,
+						activeChar
+					};
 					
 					/*
-					 * This loop iterates over previous array but, if skill damage is not reflected
-					 * it stops on first iteration (target) and misses activeChar
+					 * This loop iterates over previous array but, if skill damage is not reflected it stops on first iteration (target) and misses activeChar
 					 */
 					for (L2Character targ : ts)
 					{
 						L2PcInstance player = (L2PcInstance) targ;
-						//L2PcInstance player = (L2PcInstance)target;
-						if (!player.isInvul()) {
+						// L2PcInstance player = (L2PcInstance)target;
+						if (!player.isInvul())
+						{
 							// Check and calculate transfered damage
 							L2Summon summon = player.getPet();
 							if (summon instanceof L2SummonInstance && Util.checkIfInRange(900, player, summon, true))
@@ -220,10 +214,10 @@ public class Blow implements ISkillHandler
 										player.abortAttack();
 										player.abortCast();
 										player.getStatus().stopHpMpRegeneration();
-										//player.setIsDead(true);
+										// player.setIsDead(true);
 										player.setIsPendingRevive(true);
 										if (player.getPet() != null)
-											player.getPet().getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE,null);
+											player.getPet().getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, null);
 									}
 									else
 										player.doDie(activeChar);
@@ -257,27 +251,25 @@ public class Blow implements ISkillHandler
 					target.breakAttack();
 					target.breakCast();
 				}
-				if(activeChar instanceof L2PcInstance)
+				if (activeChar instanceof L2PcInstance)
 				{
 					L2PcInstance activePlayer = (L2PcInstance) activeChar;
 					
-					activePlayer.sendDamageMessage(target, (int)damage, false, true, false);
-					if (activePlayer.isInOlympiadMode() && target instanceof L2PcInstance &&
-		        		((L2PcInstance)target).isInOlympiadMode() && ((L2PcInstance)target).getOlympiadGameId() == activePlayer.getOlympiadGameId())
+					activePlayer.sendDamageMessage(target, (int) damage, false, true, false);
+					if (activePlayer.isInOlympiadMode() && target instanceof L2PcInstance && ((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == activePlayer.getOlympiadGameId())
 					{
 						Olympiad.getInstance().notifyCompetitorDamage(activePlayer, (int) damage, activePlayer.getOlympiadGameId());
 					}
 				}
 				
-				//Possibility of a lethal strike
+				// Possibility of a lethal strike
 				Formulas.calcLethalHit(activeChar, target, skill);
 				
-				
 			}
-			else 
+			else
 			{
-				if(skillIsEvaded)
-					if(target instanceof L2PcInstance)
+				if (skillIsEvaded)
+					if (target instanceof L2PcInstance)
 					{
 						SystemMessage sm = new SystemMessage(SystemMessageId.AVOIDED_S1S_ATTACK);
 						sm.addString(activeChar.getName());
@@ -290,7 +282,7 @@ public class Blow implements ISkillHandler
 				return;
 			}
 			
-			//Self Effect
+			// Self Effect
 			if (skill.hasSelfEffects())
 			{
 				final L2Effect effect = activeChar.getFirstEffect(skill.getId());
@@ -302,16 +294,18 @@ public class Blow implements ISkillHandler
 		
 		if (skill.isMagic())
 		{
-			if (bss){
+			if (bss)
+			{
 				activeChar.removeBss();
-			}else if(sps){
+			}
+			else if (sps)
+			{
 				activeChar.removeSps();
 			}
-			
-		}else{
-			
+		}
+		else
+		{
 			activeChar.removeSs();
-			
 		}
 	}
 	
