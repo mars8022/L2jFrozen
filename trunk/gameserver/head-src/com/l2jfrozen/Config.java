@@ -4373,13 +4373,13 @@ public final class Config
 		}
 	}
 
-	//============================================================
+	// ============================================================
 	public static void loadBanFile()
 	{
-		
 		File conf_file = new File(FService.BANNED_IP);
-		if(!conf_file.exists()){
-			//old file position
+		if (!conf_file.exists())
+		{
+			// old file position
 			conf_file = new File(FService.LEGACY_BANNED_IP);
 		}
 		
@@ -4445,25 +4445,23 @@ public final class Config
 				}
 				
 				_log.info("Loaded " + LoginController.getInstance().getBannedIps().size() + " IP Bans.");
-				
 			}
 			catch (FileNotFoundException e)
 			{
 				_log.log(Level.WARNING, "Failed to load banned IPs file (" + conf_file.getName() + ") for reading. Reason: " + e.getMessage(), e);
-			}finally{
-				
-				if(fis != null)
+			}
+			finally
+			{
+				if (fis != null)
 					try
 					{
 						fis.close();
 					}
-					catch(IOException e)
+					catch (IOException e)
 					{
 						e.printStackTrace();
 					}
 			}
-			
-			
 		}
 		else
 		{

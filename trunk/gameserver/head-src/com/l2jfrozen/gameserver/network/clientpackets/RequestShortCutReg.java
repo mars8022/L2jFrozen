@@ -29,7 +29,7 @@ public final class RequestShortCutReg extends L2GameClientPacket
 	private int _slot;
 	private int _page;
 	private int _unk;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -37,20 +37,19 @@ public final class RequestShortCutReg extends L2GameClientPacket
 		int slot = readD();
 		_id = readD();
 		_unk = readD();
-
+		
 		_slot = slot % 12;
-		_page = slot / 12;
-
+		_page = slot / 12;	
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
-
-		switch(_type)
+		
+		switch (_type)
 		{
 			case 0x01: // item
 			case 0x03: // action
@@ -65,7 +64,7 @@ public final class RequestShortCutReg extends L2GameClientPacket
 			case 0x02: // skill
 			{
 				int level = activeChar.getSkillLevel(_id);
-				if(level > 0)
+				if (level > 0)
 				{
 					L2ShortCut sc = new L2ShortCut(_slot, _page, _type, _id, level, _unk);
 					sendPacket(new ShortCutRegister(sc));
@@ -73,10 +72,9 @@ public final class RequestShortCutReg extends L2GameClientPacket
 				}
 				break;
 			}
-		}
-
+		}	
 	}
-
+	
 	@Override
 	public String getType()
 	{

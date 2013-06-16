@@ -433,12 +433,10 @@ public abstract class ItemContainer
 
 	/**
 	 * Destroy item from inventory and updates database
-	 * 
 	 * @param process : String Identifier of process triggering this action
 	 * @param item : L2ItemInstance to be destroyed
 	 * @param actor : L2PcInstance Player requesting the item destroy
-	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
-	 *            transformation
+	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in transformation
 	 * @return L2ItemInstance corresponding to the destroyed item or the updated item in inventory
 	 */
 	public L2ItemInstance destroyItem(String process, L2ItemInstance item, L2PcInstance actor, L2Object reference)
@@ -446,54 +444,53 @@ public abstract class ItemContainer
 		synchronized (item)
 		{
 			// check if item is present in this container
-			if(!_items.contains(item))
+			if (!_items.contains(item))
 				return null;
-
+			
 			removeItem(item);
 			ItemTable.getInstance().destroyItem(process, item, actor, reference);
-
+			
 			item.updateDatabase();
 			
-			if(item.isVarkaKetraAllyQuestItem()){
+			if (item.isVarkaKetraAllyQuestItem())
+			{
 				actor.setAllianceWithVarkaKetra(0);
 			}
 			
 			refreshWeight();
 		}
-
+		
 		return item;
 	}
-
+	
 	/**
 	 * Destroy item from inventory by using its <B>objectID</B> and updates database
-	 * 
 	 * @param process : String Identifier of process triggering this action
 	 * @param objectId : int Item Instance identifier of the item to be destroyed
 	 * @param count : int Quantity of items to be destroyed
 	 * @param actor : L2PcInstance Player requesting the item destroy
-	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
-	 *            transformation
+	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in transformation
 	 * @return L2ItemInstance corresponding to the destroyed item or the updated item in inventory
 	 */
 	public L2ItemInstance destroyItem(String process, int objectId, int count, L2PcInstance actor, L2Object reference)
 	{
 		L2ItemInstance item = getItemByObjectId(objectId);
-
-		if(item == null)
+		
+		if (item == null)
 			return null;
-
+		
 		// Adjust item quantity
-		if(item.getCount() > count)
+		if (item.getCount() > count)
 		{
 			synchronized (item)
 			{
 				item.changeCount(process, -count, actor, reference);
 				item.setLastChange(L2ItemInstance.MODIFIED);
-
+				
 				item.updateDatabase();
 				refreshWeight();
 			}
-
+			
 			return item;
 		}
 		// Directly drop entire item
@@ -502,26 +499,24 @@ public abstract class ItemContainer
 
 	/**
 	 * Destroy item from inventory by using its <B>itemId</B> and updates database
-	 * 
 	 * @param process : String Identifier of process triggering this action
 	 * @param itemId : int Item identifier of the item to be destroyed
 	 * @param count : int Quantity of items to be destroyed
 	 * @param actor : L2PcInstance Player requesting the item destroy
-	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
-	 *            transformation
+	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in transformation
 	 * @return L2ItemInstance corresponding to the destroyed item or the updated item in inventory
 	 */
 	public L2ItemInstance destroyItemByItemId(String process, int itemId, int count, L2PcInstance actor, L2Object reference)
 	{
 		L2ItemInstance item = getItemByItemId(itemId);
-
-		if(item == null)
+		
+		if (item == null)
 			return null;
-
+		
 		synchronized (item)
 		{
 			// Adjust item quantity
-			if(item.getCount() > count)
+			if (item.getCount() > count)
 			{
 				item.changeCount(process, -count, actor, reference);
 				item.setLastChange(L2ItemInstance.MODIFIED);
@@ -529,25 +524,23 @@ public abstract class ItemContainer
 			// Directly drop entire item
 			else
 				return destroyItem(process, item, actor, reference);
-
+			
 			item.updateDatabase();
 			refreshWeight();
 		}
-
+		
 		return item;
 	}
-
+	
 	/**
 	 * Destroy all items from inventory and updates database
-	 * 
 	 * @param process : String Identifier of process triggering this action
 	 * @param actor : L2PcInstance Player requesting the item destroy
-	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in
-	 *            transformation
+	 * @param reference : L2Object Object referencing current action like NPC selling item or previous item in transformation
 	 */
 	public synchronized void destroyAllItems(String process, L2PcInstance actor, L2Object reference)
 	{
-		for(L2ItemInstance item : _items)
+		for (L2ItemInstance item : _items)
 		{
 			destroyItem(process, item, actor, reference);
 		}

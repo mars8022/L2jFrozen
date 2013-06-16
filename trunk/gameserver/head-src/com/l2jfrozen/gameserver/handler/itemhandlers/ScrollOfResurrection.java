@@ -33,7 +33,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.2.2.7 $ $Date: 2005/04/05 19:41:13 $
  */
 
@@ -196,24 +195,14 @@ public class ScrollOfResurrection implements IItemHandler
 					{
 						L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 						activeChar.useMagic(skill, true, true);
-						/*
-						 * Micht : Unusefull, already done in useMagic() MagicSkillUser msu = new MagicSkillUser(activeChar, skillId, skillLevel, skill.getHitTime(),0); activeChar.broadcastPacket(msu); SetupGauge sg = new SetupGauge(0, skill.getHitTime()); activeChar.sendPacket(sg);
-						 */
-						skill = null;
 						
-						// Comsume the scroll only after the cast like L2OFF
-						if (activeChar.isInsideRadius(targetPlayer, 450, false, false))
-						{
-							
-							if (!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
-								return;
-							
-							SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
-							sm.addItemName(itemId);
-							activeChar.sendPacket(sm);
-							sm = null;
-						}
+						// Consume the scroll	
+						if (!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
+							return;
 						
+						SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
+						sm.addItemName(itemId);
+						activeChar.sendPacket(sm);
 					}
 				}
 			}

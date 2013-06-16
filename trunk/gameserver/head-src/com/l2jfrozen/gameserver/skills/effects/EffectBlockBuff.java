@@ -27,25 +27,25 @@ public class EffectBlockBuff extends L2Effect
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return L2Effect.EffectType.BLOCK_BUFF;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		getEffected().setBlockBuff(true);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{

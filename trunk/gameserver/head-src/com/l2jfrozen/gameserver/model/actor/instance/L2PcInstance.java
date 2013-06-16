@@ -10723,7 +10723,7 @@ private int _reviveRequested = 0;
 	private synchronized void storeCharBase()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			// Get the exp, level, and sp of base class to store in base table
@@ -10733,10 +10733,10 @@ private int _reviveRequested = 0;
 			int level = getStat().getLevel();
 			int sp = getStat().getSp();
 			_classIndex = currentClassIndex;
-
+			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			// Update base class
 			statement = con.prepareStatement(UPDATE_CHARACTER);
 			statement.setInt(1, level);
@@ -10770,40 +10770,42 @@ private int _reviveRequested = 0;
 			statement.setInt(29, getClanId());
 			statement.setInt(30, getMaxLoad());
 			statement.setInt(31, getRace().ordinal());
-
-			//			if (!isSubClassActive())
-
-			//			else
-			//			statement.setInt(30, getBaseTemplate().race.ordinal());
-
+			
+			// if (!isSubClassActive())
+			
+			// else
+			// statement.setInt(30, getBaseTemplate().race.ordinal());
+			
 			statement.setInt(32, getClassId().getId());
 			statement.setLong(33, getDeleteTimer());
 			statement.setString(34, getTitle());
 			statement.setInt(35, getAccessLevel().getLevel());
 			
-			if(_isOffline || isOnline()==1){ //in offline mode or online
+			if (_isOffline || isOnline() == 1)
+			{ // in offline mode or online
 				statement.setInt(36, 1);
-			}else
+			}
+			else
 				statement.setInt(36, isOnline());
 			
-			//statement.setInt(36, _isOffline ? 0 : isOnline()); 
+			// statement.setInt(36, _isOffline ? 0 : isOnline());
 			statement.setInt(37, isIn7sDungeon() ? 1 : 0);
 			statement.setInt(38, getClanPrivileges());
 			statement.setInt(39, getWantsPeace());
 			statement.setInt(40, getBaseClass());
-
+			
 			long totalOnlineTime = _onlineTime;
-
-			if(_onlineBeginTime > 0)
+			
+			if (_onlineBeginTime > 0)
 			{
 				totalOnlineTime += (System.currentTimeMillis() - _onlineBeginTime) / 1000;
 			}
-
+			
 			statement.setLong(41, totalOnlineTime);
-			//statement.setInt(42, isInJail() ? 1 : 0);
-			//statement.setLong(43, getJailTimer());
+			// statement.setInt(42, isInJail() ? 1 : 0);
+			// statement.setLong(43, getJailTimer());
 			statement.setInt(42, getPunishLevel().value());
-            statement.setLong(43, getPunishTimer());
+			statement.setLong(43, getPunishTimer());
 			statement.setInt(44, isNewbie() ? 1 : 0);
 			statement.setInt(45, isNoble() ? 1 : 0);
 			statement.setLong(46, getPowerGrade());
@@ -10817,35 +10819,25 @@ private int _reviveRequested = 0;
 			statement.setLong(54, getClanCreateExpiryTime());
 			statement.setString(55, getName());
 			statement.setLong(56, getDeathPenaltyBuffLevel());
-			/////
 			statement.setInt(57, getPcBangScore());
 			
 			statement.setString(58, StringToHex(Integer.toHexString(_originalNameColorOffline).toUpperCase()));
 			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
-
-	        statement.setInt(60, isAio() ? 1 : 0);
-	        statement.setLong(61, getAioEndTime());
-	                     
-	        statement.setInt(62, getObjectId());
-	        
-			//statement.setLong(58, getChatBanTimer());
-
-			//TODO allow different colors support to players store
-			//statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
-			/*statement.setString(59, StringToHex(Integer.toHexString(getAccessLevel().getNameColor()).toUpperCase()));
-			statement.setString(60, StringToHex(Integer.toHexString(getAccessLevel().getTitleColor()).toUpperCase()));
-
-	        statement.setInt(61, isAio() ? 1 : 0);
-	        statement.setLong(62, getAioEndTime());
-	                     
-	        statement.setInt(63, getObjectId());*/
 			
+			// TODO allow different colors support to players store
+			// statement.setString(58, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
+			// statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
+			
+			statement.setInt(60, isAio() ? 1 : 0);
+			statement.setLong(61, getAioEndTime());
+			
+			statement.setInt(62, getObjectId());
 			
 			statement.execute();
 			statement.close();
 			statement = null;
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			_log.warning("Could not store char base data: ");
 			e.printStackTrace();
@@ -12321,7 +12313,7 @@ private int _reviveRequested = 0;
 		
 		// Like L2OFF you can't heal random purple people without using CTRL
 		SkillDat skilldat = getCurrentSkill();
-		if (skill.getSkillType() == SkillType.HEAL && !skilldat.isCtrlPressed() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 1)
+		if (skilldat != null && skill.getSkillType() == SkillType.HEAL && !skilldat.isCtrlPressed() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 1 && this != target)
 		{
 			if ((getClanId() == 0 || ((L2PcInstance) target).getClanId() == 0) || (getClanId() != ((L2PcInstance) target).getClanId()))
 			{
@@ -12331,7 +12323,7 @@ private int _reviveRequested = 0;
 					{
 						sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 						sendPacket(ActionFailed.STATIC_PACKET);
-						return;
+						return;			
 					}
 				}
 			}
