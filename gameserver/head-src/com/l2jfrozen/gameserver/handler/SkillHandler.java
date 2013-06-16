@@ -62,27 +62,26 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.4.4 $ $Date: 2005/04/03 15:55:06 $
  */
 public class SkillHandler
 {
 	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
-
+	
 	private static SkillHandler _instance;
-
+	
 	private Map<L2Skill.SkillType, ISkillHandler> _datatable;
-
+	
 	public static SkillHandler getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new SkillHandler();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private SkillHandler()
 	{
 		_datatable = new TreeMap<SkillType, ISkillHandler>();
@@ -121,25 +120,25 @@ public class SkillHandler
 		registerSkillHandler(new ZakenPlayer());
 		registerSkillHandler(new ZakenSelf());
 		_log.config("SkillHandler: Loaded " + _datatable.size() + " handlers.");
-
+		
 	}
-
+	
 	public void registerSkillHandler(ISkillHandler handler)
 	{
 		SkillType[] types = handler.getSkillIds();
-
-		for(SkillType t : types)
+		
+		for (SkillType t : types)
 		{
 			_datatable.put(t, handler);
 		}
 		types = null;
 	}
-
+	
 	public ISkillHandler getSkillHandler(SkillType skillType)
 	{
 		return _datatable.get(skillType);
 	}
-
+	
 	/**
 	 * @return
 	 */

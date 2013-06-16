@@ -1082,8 +1082,6 @@
   <set name="itemConsumeId" val="6387"/>
   <set name="itemConsumeCount" val="1"/>
   <set name="magicLvl" val="1"/>
-  <for>
-  </for>
 </skill>
 <skill id="2180" levels="1" name="Feed: Castle Strider">
   <set name="target" val="TARGET_ONE"/>

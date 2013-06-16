@@ -458,12 +458,14 @@ public class EnterWorld extends L2GameClientPacket
 					SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.NIGHT_EFFECT_APPLIES);
 					sm.addSkillName(294);
 					sendPacket(sm);
+					activeChar.sendSkillList(); 
 				}
 				else
 				{
 					SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.DAY_EFFECT_DISAPPEARS);
 					sm.addSkillName(294);
 					sendPacket(sm);
+					activeChar.sendSkillList(); 
 				}
 			}
 		}

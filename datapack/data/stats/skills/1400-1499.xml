@@ -501,32 +501,30 @@
     <effect self="1" count="9" name="SignetMDam" time="2" val="0"/>
   </for>
 </skill>
+<!-- Status:Fixed Pack:l2jfrozen author:OnePaTuBHuK -->
 <skill id="1422" levels="1" name="Day of Doom">
-  <!-- Done by BoDiE - Needs to be Finished
-    Creates a seal that casts a powerful curse that decreases all the abilities of nearby enemies.
-    The seal's effect disappears upon leaving the area. Consumes 1 Magic Symbol.
-  -->
-  <set name="mpConsume" val="89"/>
-  <set name="target" val="TARGET_SELF"/>
-  <set name="skillType" val="BUFF"/>
-  <set name="staticReuse" val="true"/>
-  <set name="staticHitTime" val="true"/>
-  <set name="operateType" val="OP_ACTIVE"/>
-  <set name="hitTime" val="5000"/>
-  <set name="reuseDelay" val="3600000"/>
-  <set name="skillRadius" val="200"/>
-  <set name="itemConsumeId" val="8876"/>
-  <set name="itemConsumeCount" val="1"/>
-  <set name="castRange" val="900"/>
+   <set name="target" val="TARGET_GROUND" />
+   <set name="skillType" val="SIGNET" />
+   <set name="operateType" val="OP_ACTIVE" />
+   <set name="hitTime" val="5000" />
+   <set name="reuseDelay" val="1800000" />
+   <set name="staticReuse" val="true" />
+   <set name="castRange" val="900" />
+   <set name="skillRadius" val="180" />
+   <set name="magicLvl" val="80" />
+   <set name="effectNpcId" val="13025" />
+   <set name="effectId" val="5145" />
+   <set name="offensive" val="true" />
+   <set name="itemConsumeId" val="8876" />
+   <set name="itemConsumeCount" val="1" />
+   <set name="mpInitialConsume" val="15" />
+   <set name="mpConsume" val="58" />
   <cond msg="Day of Doom cannot be used due to unsuitable terms.">
-  	<player spell_force="3"/>
+     <player spell_force="3"/>
   </cond>
-  <for>
-    <!--
-      Require Core support to generate a static effect bassed on skill effect range,
-      further information on skill desc <effect name="Symbol" time="60" val="0"/>
-    -->
-  </for>
+   <for>
+      <effect count="5" name="Signet" time="3" val="0" />
+   </for>
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1423" levels="1" name="Gehenna">

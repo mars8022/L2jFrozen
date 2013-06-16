@@ -3850,7 +3850,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		
 		// Remove first DeBuff if number of debuffs > DEBUFFS_MAX_AMOUNT
-		if (getDeBuffCount() >= Config.DEBUFFS_MAX_AMOUNT && !doesStack(tempskill) && tempskill.getSkillType() == L2Skill.SkillType.DEBUFF)
+		if (getDeBuffCount() >= Config.DEBUFFS_MAX_AMOUNT && !doesStack(tempskill) && tempskill.is_Debuff())
 		{
 			removeFirstDeBuff(tempskill.getId());
 		}
@@ -8357,19 +8357,18 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	/**
 	 * Return the number of skills of type(Buff, Debuff, HEAL_PERCENT, MANAHEAL_PERCENT) affecting this L2Character.<BR>
 	 * <BR>
-	 * 
 	 * @return The number of Buffs affecting this L2Character
 	 */
 	public int getBuffCount()
-	{
-		
+	{	
 		L2Effect[] effects = getAllEffects();
-
+		
 		int numBuffs = 0;
 		
-		for(L2Effect e : effects)
+		for (L2Effect e : effects)
 		{
-			if(e == null){
+			if (e == null)
+			{
 				synchronized (_effects)
 				{
 					_effects.remove(e);
@@ -8377,37 +8376,30 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				continue;
 			}
 			
-			if((e.getSkill().getSkillType() == L2Skill.SkillType.BUFF ||
-					e.getSkill().getSkillType() == L2Skill.SkillType.REFLECT 
-					|| e.getSkill().getSkillType() == L2Skill.SkillType.HEAL_PERCENT 
-					|| e.getSkill().getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) 
-					&& !(e.getSkill().getId() > 4360 && e.getSkill().getId() < 4367)) // 7s buffs
-					{
-						numBuffs++;
-					}
-			
+			if ((e.getSkill().getSkillType() == L2Skill.SkillType.BUFF || e.getSkill().getSkillType() == L2Skill.SkillType.REFLECT || e.getSkill().getSkillType() == L2Skill.SkillType.HEAL_PERCENT || e.getSkill().getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) && !(e.getSkill().getId() > 4360 && e.getSkill().getId() < 4367)) // 7s
+																																																																																			// buffs
+			{
+				numBuffs++;
+			}		
 		}
-
-		return numBuffs;
 		
-		
+		return numBuffs;	
 	}
-
+	
 	/**
-	 * Return the number of skills of type(Buff, Debuff, HEAL_PERCENT, MANAHEAL_PERCENT) affecting this L2Character.<BR>
+	 * Return the number of skills of type(Debuff, poison, slow, etc.) affecting this L2Character.<BR>
 	 * <BR>
-	 * 
-	 * @return The number of Buffs affecting this L2Character
+	 * @return The number of debuff affecting this L2Character
 	 */
 	public int getDeBuffCount()
 	{
-		
 		L2Effect[] effects = getAllEffects();
 		int numDeBuffs = 0;
-
-		for(L2Effect e : effects)
+		
+		for (L2Effect e : effects)
 		{
-			if(e == null){
+			if (e == null)
+			{
 				synchronized (_effects)
 				{
 					_effects.remove(e);
@@ -8415,16 +8407,14 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				continue;
 			}
 			
-			if(e.getSkill().getSkillType() == L2Skill.SkillType.DEBUFF)
+			// Check for all debuff skills
+			if (e.getSkill().is_Debuff())
 			{
 				numDeBuffs++;
 			}
-			
 		}
-
+		
 		return numDeBuffs;
-		
-		
 	}
 
 	/**
