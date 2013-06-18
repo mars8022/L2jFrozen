@@ -3129,46 +3129,38 @@ public abstract class L2Skill
 	
 	public final L2Effect[] getEffects(L2Character effector, L2Character effected, boolean ss, boolean sps, boolean bss)
 	{
-		if(isPassive())
-			return _emptyEffectSet;
-
-		if(_effectTemplates == null)
-			return _emptyEffectSet;
-
-		if(effector != effected && effected.isInvul())
+		if (isPassive())
 			return _emptyEffectSet;
 		
-		if(getSkillType() == SkillType.BUFF && effector != effected && effected.isBlockBuff())
+		if (_effectTemplates == null)
 			return _emptyEffectSet;
-
+		
+		if (effector != effected && effected.isInvul())
+			return _emptyEffectSet;
+		
+		if (getSkillType() == SkillType.BUFF && effected.isBlockBuff())
+			return _emptyEffectSet;
+		
 		List<L2Effect> effects = new FastList<L2Effect>();
-
+		
 		boolean skillMastery = false;
-
-		if(!isToggle() && Formulas.getInstance().calcSkillMastery(effector))
+		
+		if (!isToggle() && Formulas.getInstance().calcSkillMastery(effector))
 		{
 			skillMastery = true;
 		}
 		
 		/*
-		if(getSkillType()==SkillType.BUFF)
-			for(final L2Effect ef: effector.getAllEffects()) {
-				if(ef!=null && ef.getSkill()!=null){
-					if(ef.getSkill().getId() == getId() &&
-							   ef.getSkill().getLevel() > getLevel())
-								return _emptyEffectSet;
-				}
-				
-			}
-			*/
-				
+		 * if(getSkillType()==SkillType.BUFF) for(final L2Effect ef: effector.getAllEffects()) { if(ef!=null && ef.getSkill()!=null){ if(ef.getSkill().getId() == getId() && ef.getSkill().getLevel() > getLevel()) return _emptyEffectSet; } }
+		 */
+		
 		Env env = new Env();
 		env.player = effector;
 		env.target = effected;
 		env.skill = this;
 		env.skillMastery = skillMastery;
 		
-		for(EffectTemplate et : _effectTemplates)
+		for (EffectTemplate et : _effectTemplates)
 		{
 			boolean success = true;
 			if (et.effectPower > -1)
@@ -3179,26 +3171,20 @@ public abstract class L2Skill
 				L2Effect e = et.getEffect(env);
 				if (e != null)
 				{
-					//e.scheduleEffect();
+					// e.scheduleEffect();
 					effects.add(e);
 				}
-
-				e = null;
 				
+				e = null;			
 			}
 			/*
-			L2Effect e = et.getEffect(env);
-			if(e != null)
-			{
-				effects.add(e);
-			}
-			e = null;
-			*/
+			 * L2Effect e = et.getEffect(env); if(e != null) { effects.add(e); } e = null;
+			 */
 		}
-
-		if(effects.size() == 0)
+		
+		if (effects.size() == 0)
 			return _emptyEffectSet;
-
+		
 		return effects.toArray(new L2Effect[effects.size()]);
 	}
 	

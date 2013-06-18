@@ -126,6 +126,13 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		if (storeList == null)
 			return;
 		
+		// Check if player didn't choose any items
+		if (_items == null || _items.length == 0)
+		{
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		if (storeList.getItemCount() == 0)
 		{
 			storePlayer.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);

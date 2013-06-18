@@ -5807,33 +5807,75 @@ private int _reviveRequested = 0;
 
 	/**
 	 * Set _protectEndTime according settings.
-	 *
 	 * @param protect the new protection
 	 */
 	public void setProtection(boolean protect)
 	{
-		if(Config.DEVELOPER && (protect || _protectEndTime > 0))
+		if (Config.DEVELOPER && (protect || _protectEndTime > 0))
 			_log.info(getName() + ": Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
-
-		if(isInOlympiadMode())
+		
+		if (isInOlympiadMode())
 			return;
 		
 		_protectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
+	
+		if (protect)
+			ThreadPoolManager.getInstance().scheduleGeneral(new TeleportProtectionFinalizer(this), (Config.PLAYER_SPAWN_PROTECTION - 1) * 1000);	
 	}
 	
+	/**
+	 * Set _teleportProtectEndTime according settings.
+	 * @param protect the new protection
+	 */
 	public void setTeleportProtection(boolean protect)
 	{
 		if (Config.DEVELOPER && (protect || _teleportProtectEndTime > 0))
 			_log.warning(getName() + ": Tele Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
 		
 		_teleportProtectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
-	
+		
+		if (protect)
+			ThreadPoolManager.getInstance().scheduleGeneral(new TeleportProtectionFinalizer(this), (Config.PLAYER_TELEPORT_PROTECTION - 1) * 1000);
+		
 		if (Config.EFFECT_TELEPORT_PROTECTION)
 		{
 			if (protect)
-				startAbnormalEffect(2097152);		
+				startAbnormalEffect(2097152);
 			else if (!protect)
 				stopAbnormalEffect(2097152);
+		}
+	}
+	
+	static class TeleportProtectionFinalizer implements Runnable
+	{
+		private L2PcInstance _activeChar;
+		
+		TeleportProtectionFinalizer(L2PcInstance activeChar)
+		{
+			_activeChar = activeChar;
+		}
+		
+		@Override
+		public void run()
+		{
+			try
+			{
+				if (_activeChar.isSpawnProtected())
+					_activeChar.sendMessage("The effect of Spawn Protection has been removed.");
+				else if (_activeChar.isTeleportProtected())
+					_activeChar.sendMessage("The effect of Teleport Spawn Protection has been removed.");
+				
+				if (Config.PLAYER_SPAWN_PROTECTION > 0)
+					_activeChar.setProtection(false);
+				
+				if (Config.PLAYER_TELEPORT_PROTECTION > 0)
+					_activeChar.setTeleportProtection(false);		
+			}
+			catch (Throwable e)
+			{
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 		}
 	}
 
@@ -7491,72 +7533,70 @@ private int _reviveRequested = 0;
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Reduce the Experience of the L2PcInstance in function of the calculated Death Penalty</li> <li>If necessary,
-	 * unsummon the Pet of the killed L2PcInstance</li> <li>Manage Karma gain for attacker and Karam loss for the killed
-	 * L2PcInstance</li> <li>If the killed L2PcInstance has Karma, manage Drop Item</li> <li>Kill the L2PcInstance</li><BR>
+	 * <li>Reduce the Experience of the L2PcInstance in function of the calculated Death Penalty</li> <li>If necessary, unsummon the Pet of the killed L2PcInstance</li> <li>Manage Karma gain for attacker and Karam loss for the killed L2PcInstance</li> <li>If the killed L2PcInstance has Karma, manage
+	 * Drop Item</li> <li>Kill the L2PcInstance</li><BR>
 	 * <BR>
-	 *
 	 * @param killer the killer
 	 * @return true, if successful
 	 */
 	@Override
 	public boolean doDie(L2Character killer)
 	{
-		if(Config.TW_RESS_ON_DIE)
+		if (Config.TW_RESS_ON_DIE)
 		{
-			int x1,y1,z1;
+			int x1, y1, z1;
 			x1 = getX();
 			y1 = getY();
 			z1 = getZ();
 			L2TownZone Town;
-			Town = TownManager.getInstance().getTown(x1,y1,z1);
-			if(Town != null && isinTownWar())
+			Town = TownManager.getInstance().getTown(x1, y1, z1);
+			if (Town != null && isinTownWar())
 			{
-				if(Town.getTownId() == Config.TW_TOWN_ID && !Config.TW_ALL_TOWNS)
+				if (Town.getTownId() == Config.TW_TOWN_ID && !Config.TW_ALL_TOWNS)
 				{
 					reviveRequest(this, null, false);
 				}
-				else if(Config.TW_ALL_TOWNS)
+				else if (Config.TW_ALL_TOWNS)
 				{
 					reviveRequest(this, null, false);
 				}
 			}
 		}
 		// Kill the L2PcInstance
-		if(!super.doDie(killer))
+		if (!super.doDie(killer))
 			return false;
-
+		
 		Castle castle = null;
-		if(getClan() != null)
+		if (getClan() != null)
 		{
 			castle = CastleManager.getInstance().getCastleByOwner(getClan());
-			if(castle != null)
+			if (castle != null)
 			{
 				castle.destroyClanGate();
 				castle = null;
 			}
 		}
 		
-		if(killer != null)
+		if (killer != null)
 		{
 			final L2PcInstance pk = killer.getActingPlayer();
-			if(pk != null)
+			if (pk != null)
 			{
-				if(Config.ENABLE_PK_INFO)
+				if (Config.ENABLE_PK_INFO)
 				{
 					doPkInfo(pk);
 				}
 				
-				if(atEvent)
+				if (atEvent)
 				{
 					pk.kills.add(getName());
 				}
 				
-				if(_inEventTvT && pk._inEventTvT)
+				if (_inEventTvT && pk._inEventTvT)
 				{
-					if(TvT.is_teleport() || TvT.is_started())
+					if (TvT.is_teleport() || TvT.is_started())
 					{
-						if(!(pk._teamNameTvT.equals(_teamNameTvT)))
+						if (!(pk._teamNameTvT.equals(_teamNameTvT)))
 						{
 							PlaySound ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
 							_countTvTdies++;
@@ -7577,37 +7617,36 @@ private int _reviveRequested = 0;
 							@Override
 							public void run()
 							{
-								teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)),
-										false);
+								teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)) + Rnd.get(201) - 100, TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)), false);
 								doRevive();
 							}
 						}, Config.TVT_REVIVE_DELAY);
 					}
 				}
-	            else if (_inEventTvT)
-	            {
-	                if (TvT.is_teleport() || TvT.is_started())
-	                {
-	                    sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
-	                    ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
-	                    {
-	                        @Override
-							public void run()
-	                        {
-	                            teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)), false);
-	                            doRevive();
-	                            broadcastPacket(new SocialAction(getObjectId(), 15));
-	                        }
-	                    }, Config.TVT_REVIVE_DELAY);
-	                }
-	            }
-				else if(_inEventCTF)
+				else if (_inEventTvT)
 				{
-					if(CTF.is_teleport() || CTF.is_started())
+					if (TvT.is_teleport() || TvT.is_started())
+					{
+						sendMessage("You will be revived and teleported to team spot in " + Config.TVT_REVIVE_DELAY / 1000 + " seconds!");
+						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								teleToLocation(TvT._teamsX.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsY.get(TvT._teams.indexOf(_teamNameTvT)), TvT._teamsZ.get(TvT._teams.indexOf(_teamNameTvT)), false);
+								doRevive();
+								broadcastPacket(new SocialAction(getObjectId(), 15));
+							}
+						}, Config.TVT_REVIVE_DELAY);
+					}
+				}
+				else if (_inEventCTF)
+				{
+					if (CTF.is_teleport() || CTF.is_started())
 					{
 						sendMessage("You will be revived and teleported to team flag in 20 seconds!");
-						if(_haveFlagCTF)
-						removeCTFFlagOnDie();
+						if (_haveFlagCTF)
+							removeCTFFlagOnDie();
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
 							@Override
@@ -7621,7 +7660,7 @@ private int _reviveRequested = 0;
 				}
 				else if (_inEventDM && pk._inEventDM)
 				{
-					if(DM.is_teleport() || DM.is_started())
+					if (DM.is_teleport() || DM.is_started())
 					{
 						pk._countDMkills++;
 						PlaySound ps = new PlaySound(0, "ItemSound.quest_itemget", 1, getObjectId(), getX(), getY(), getZ());
@@ -7629,7 +7668,8 @@ private int _reviveRequested = 0;
 						pk.sendPacket(ps);
 						pk.broadcastUserInfo();
 						
-						if (Config.DM_ENABLE_KILL_REWARD){
+						if (Config.DM_ENABLE_KILL_REWARD)
+						{
 							
 							L2Item reward = ItemTable.getInstance().getTemplate(Config.DM_KILL_REWARD_ID);
 							pk.getInventory().addItem("DM Kill Reward", Config.DM_KILL_REWARD_ID, Config.DM_KILL_REWARD_AMOUNT, this, null);
@@ -7650,9 +7690,9 @@ private int _reviveRequested = 0;
 						}, Config.DM_REVIVE_DELAY);
 					}
 				}
-				else if(_inEventDM)
+				else if (_inEventDM)
 				{
-					if(DM.is_teleport() || DM.is_started())
+					if (DM.is_teleport() || DM.is_started())
 					{
 						sendMessage("You will be revived and teleported to spot in 20 seconds!");
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
@@ -7667,9 +7707,9 @@ private int _reviveRequested = 0;
 						}, 20000);
 					}
 				}
-				else if(_inEventVIP && VIP._started)
+				else if (_inEventVIP && VIP._started)
 				{
-					if(_isTheVIP && !pk._inEventVIP)
+					if (_isTheVIP && !pk._inEventVIP)
 					{
 						Announcements.getInstance().announceToAll("VIP Killed by non-event character. VIP going back to initial spawn.");
 						doRevive();
@@ -7678,7 +7718,7 @@ private int _reviveRequested = 0;
 					}
 					else
 					{
-						if(_isTheVIP && pk._inEventVIP)
+						if (_isTheVIP && pk._inEventVIP)
 						{
 							VIP.vipDied();
 						}
@@ -7691,7 +7731,7 @@ private int _reviveRequested = 0;
 								public void run()
 								{
 									doRevive();
-									if(_isVIP)
+									if (_isVIP)
 										teleToLocation(VIP._startX, VIP._startY, VIP._startZ);
 									else
 										teleToLocation(VIP._endX, VIP._endY, VIP._endZ);
@@ -7706,7 +7746,7 @@ private int _reviveRequested = 0;
 			
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);
-
+			
 			if (isCursedWeaponEquiped())
 			{
 				CursedWeaponsManager.getInstance().drop(_cursedWeaponEquipedId, killer);
@@ -7715,9 +7755,9 @@ private int _reviveRequested = 0;
 			{
 				if (pk == null || !pk.isCursedWeaponEquiped())
 				{
-					//if (getKarma() > 0)
+					// if (getKarma() > 0)
 					onDieDropItem(killer); // Check if any item should be dropped
-
+					
 					if (!(isInsideZone(ZONE_PVP) && !isInsideZone(ZONE_SIEGE)))
 					{
 						if ((pk != null) && pk.getClan() != null && getClan() != null && !isAcademyMember() && !pk.isAcademyMember() && _clan.isAtWarWith(pk.getClanId()) && pk.getClan().isAtWarWith(_clan.getClanId()))
@@ -7733,11 +7773,11 @@ private int _reviveRequested = 0;
 								_clan.broadcastToOnlineMembers(new PledgeShowInfoUpdate(_clan)); // Update status to all members
 							}
 						}
-						if(Config.ALT_GAME_DELEVEL)
+						if (Config.ALT_GAME_DELEVEL)
 						{
 							// Reduce the Experience of the L2PcInstance in function of the calculated Death Penalty
 							// NOTE: deathPenalty +- Exp will update karma
-							if(getSkillLevel(L2Skill.SKILL_LUCKY) < 0 || getStat().getLevel() > 9)
+							if (getSkillLevel(L2Skill.SKILL_LUCKY) < 0 || getStat().getLevel() > 9)
 							{
 								deathPenalty((pk != null && getClan() != null && pk.getClan() != null && pk.getClan().isAtWarWith(getClanId())));
 							}
@@ -7750,43 +7790,44 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-
-		// ERROR: The flag is automatically updated after task time as L2Off
-		// Clear the pvp flag.. 
-		// setPvpFlag(0); 
 		
 		// Unsummon Cubics
 		unsummonAllCubics();
 		
-		if(_forceBuff != null)
+		if (_forceBuff != null)
 		{
 			abortCast();
 		}
-
-		for(L2Character character : getKnownList().getKnownCharacters())
-			if(character.getTarget() == this) {
-				if(character.isCastingNow())
+		
+		for (L2Character character : getKnownList().getKnownCharacters())
+			if (character.getTarget() == this)
+			{
+				if (character.isCastingNow())
 					character.abortCast();
 			}
-
-		if(isInParty() && getParty().isInDimensionalRift())
+		
+		if (isInParty() && getParty().isInDimensionalRift())
 		{
 			getParty().getDimensionalRift().getDeadMemberList().add(this);
 		}
-
+		
 		// calculate death penalty buff
 		calculateDeathPenaltyBuffLevel(killer);
-
+		
 		stopRentPet();
 		stopWaterTask();
 		quakeSystem = 0;
-        
-		//leave war legend aura if enabled
-		heroConsecutiveKillCount=0;
-		if(Config.WAR_LEGEND_AURA && !_hero && isPVPHero){
+		
+		// leave war legend aura if enabled
+		heroConsecutiveKillCount = 0;
+		if (Config.WAR_LEGEND_AURA && !_hero && isPVPHero)
+		{
 			setHeroAura(false);
 			this.sendMessage("You leaved War Legend State");
 		}
+		
+		// Refresh focus force like L2OFF
+		sendPacket(new EtcStatusUpdate(this));
 		
 		return true;
 	}
