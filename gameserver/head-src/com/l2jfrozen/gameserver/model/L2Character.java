@@ -1099,13 +1099,14 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			return;
 		
 		// Like L2OFF wait that the hit task finish and then player can move
-		if(this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined() && !((L2PcInstance) this).isAttackingNow())
+		if (this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined() && !((L2PcInstance) this).isAttackingNow())
 		{
 			L2ItemInstance rhand = ((L2PcInstance) this).getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
 			if ((rhand != null && rhand.getItemType() != L2WeaponType.BOW) || (rhand == null))
-			   ((L2PcInstance) this).startMovingTask();
-			
-			return;
+			{
+				((L2PcInstance) this).startMovingTask();			
+				return;
+			}
 		}
 
 		if(isAlikeDead())
@@ -8430,18 +8431,18 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	/**
 	 * Removes the first Buff of this L2Character.<BR>
 	 * <BR>
-	 * 
 	 * @param preferSkill If != 0 the given skill Id will be removed instead of first
 	 */
 	public void removeFirstBuff(int preferSkill)
 	{
 		L2Effect[] effects = getAllEffects();
-
+		
 		L2Effect removeMe = null;
-
-		for(L2Effect e : effects)
+		
+		for (L2Effect e : effects)
 		{
-			if(e == null){
+			if (e == null)
+			{
 				synchronized (_effects)
 				{
 					_effects.remove(e);
@@ -8449,53 +8450,46 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				continue;
 			}
 			
-			if((e.getSkill().getSkillType() == L2Skill.SkillType.BUFF ||
-					e.getSkill().getSkillType() == L2Skill.SkillType.REFLECT 
-					|| e.getSkill().getSkillType() == L2Skill.SkillType.HEAL_PERCENT 
-					|| e.getSkill().getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) 
-					&& !(e.getSkill().getId() > 4360 && e.getSkill().getId() < 4367))
-					{
-						if(preferSkill == 0)
-						{
-							removeMe = e;
-							break;
-						}
-						else if(e.getSkill().getId() == preferSkill)
-						{
-							removeMe = e;
-							break;
-						}
-						else if(removeMe == null)
-						{
-							removeMe = e;
-						}
-					}
-			
+			if ((e.getSkill().getSkillType() == L2Skill.SkillType.BUFF || e.getSkill().getSkillType() == L2Skill.SkillType.REFLECT || e.getSkill().getSkillType() == L2Skill.SkillType.HEAL_PERCENT || e.getSkill().getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) && !(e.getSkill().getId() > 4360 && e.getSkill().getId() < 4367))
+			{
+				if (preferSkill == 0)
+				{
+					removeMe = e;
+					break;
+				}
+				else if (e.getSkill().getId() == preferSkill)
+				{
+					removeMe = e;
+					break;
+				}
+				else if (removeMe == null)
+				{
+					removeMe = e;
+				}
+			}	
 		}
-
-		if(removeMe != null)
+		
+		if (removeMe != null)
 		{
 			removeMe.exit(true);
 		}
-		
-		
 	}
-
+	
 	/**
 	 * Removes the first DeBuff of this L2Character.<BR>
 	 * <BR>
-	 * 
 	 * @param preferSkill If != 0 the given skill Id will be removed instead of first
 	 */
 	public void removeFirstDeBuff(int preferSkill)
 	{
 		L2Effect[] effects = getAllEffects();
-
+		
 		L2Effect removeMe = null;
-
-		for(L2Effect e : effects)
+		
+		for (L2Effect e : effects)
 		{
-			if(e == null){
+			if (e == null)
+			{
 				
 				synchronized (_effects)
 				{
@@ -8504,49 +8498,45 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				continue;
 			}
 			
-			if(e.getSkill().getSkillType() == L2Skill.SkillType.DEBUFF)
+			if (e.getSkill().is_Debuff())
 			{
-				if(preferSkill == 0)
+				if (preferSkill == 0)
 				{
 					removeMe = e;
 					break;
 				}
-				else if(e.getSkill().getId() == preferSkill)
+				else if (e.getSkill().getId() == preferSkill)
 				{
 					removeMe = e;
 					break;
 				}
-				else if(removeMe == null)
+				else if (removeMe == null)
 				{
 					removeMe = e;
 				}
-			}
-			
+			}	
 		}
 		
-		if(removeMe != null)
+		if (removeMe != null)
 		{
 			removeMe.exit(true);
 		}
-		
-		
 	}
 
 	/**
 	 * Gets the dance count.
-	 *
 	 * @return the dance count
 	 */
 	public int getDanceCount()
 	{
 		int danceCount = 0;
-
+		
 		L2Effect[] effects = getAllEffects();
-
-		for(L2Effect e : effects)
+		
+		for (L2Effect e : effects)
 		{
-			if(e == null){
-				
+			if (e == null)
+			{		
 				synchronized (_effects)
 				{
 					_effects.remove(e);
@@ -8554,16 +8544,13 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				continue;
 			}
 			
-
-			if(e.getSkill().isDance() 
-					&& e.getInUse())
+			if (e.getSkill().isDance() && e.getInUse())
 			{
 				danceCount++;
 			}
 		}
-
-		return danceCount;
 		
+		return danceCount;	
 	}
 
 	/**

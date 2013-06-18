@@ -117,6 +117,13 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		if (storeList == null)
 			return;
 		
+		// Check if player didn't choose any items
+		if (_items == null || _items.length == 0)
+		{
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		// FIXME: this check should be (and most probabliy is) done in the TradeList mechanics
 		long priceTotal = 0;
 		for (ItemRequest ir : _items)

@@ -39,6 +39,7 @@ public class OfflineShop implements IVoicedCommandHandler
 		"offline_shop"
 	};
 	
+	@SuppressWarnings("null")
 	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance player, String target)
 	{
@@ -47,7 +48,7 @@ public class OfflineShop implements IVoicedCommandHandler
 			return false;
 		
 		// Message like L2OFF
-		if (!player.isInStoreMode() && (!player.isInCraftMode()))
+		if ((!player.isInStoreMode() && (!player.isInCraftMode())) || !player.isSitting())
 		{
 			player.sendMessage("You are not running a private store or private work shop.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -62,7 +63,7 @@ public class OfflineShop implements IVoicedCommandHandler
 		}
 		
 		TradeList storeListBuy = player.getBuyList();
-		if (storeListBuy == null || storeListBuy.getItemCount() == 0)
+		if (storeListBuy == null && storeListBuy.getItemCount() == 0)
 		{
 			player.sendMessage("Your buy list is empty.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -70,7 +71,7 @@ public class OfflineShop implements IVoicedCommandHandler
 		}
 		
 		TradeList storeListSell = player.getSellList();
-		if (storeListSell == null || storeListSell.getItemCount() == 0)
+		if (storeListSell == null && storeListSell.getItemCount() == 0)
 		{
 			player.sendMessage("Your sell list is empty.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);

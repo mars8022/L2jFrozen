@@ -48,6 +48,7 @@ public class OfflineShop implements IUserCommandHandler
 	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public synchronized boolean useUserCommand(int id, L2PcInstance player)
 	{
@@ -55,7 +56,7 @@ public class OfflineShop implements IUserCommandHandler
 			return false;
 		
 		// Message like L2OFF
-		if (!player.isInStoreMode() && (!player.isInCraftMode()))
+		if ((!player.isInStoreMode() && (!player.isInCraftMode())) || !player.isSitting())
 		{
 			player.sendMessage("You are not running a private store or private work shop.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -70,7 +71,7 @@ public class OfflineShop implements IUserCommandHandler
 		}
 		
 		TradeList storeListBuy = player.getBuyList();
-		if (storeListBuy == null || storeListBuy.getItemCount() == 0)
+		if (storeListBuy == null && storeListBuy.getItemCount() == 0)
 		{
 			player.sendMessage("Your buy list is empty.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -78,7 +79,7 @@ public class OfflineShop implements IUserCommandHandler
 		}
 		
 		TradeList storeListSell = player.getSellList();
-		if (storeListSell == null || storeListSell.getItemCount() == 0)
+		if (storeListSell == null && storeListSell.getItemCount() == 0)
 		{
 			player.sendMessage("Your sell list is empty.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
