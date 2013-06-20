@@ -6977,6 +6977,13 @@ private int _reviveRequested = 0;
 				target.resetOwnerTimer();
 			}
 			
+			// Fixed it's not possible pick up the object if you exceed the maximum weight.
+			if (_inventory.getTotalWeight() + target.getItem().getWeight() * target.getCount() > getMaxLoad())
+			{
+				sendMessage("You have reached the maximun weight.");
+				return;
+			}
+			
 			// Remove the L2ItemInstance from the world and send server->client GetItem packets
 			target.pickupMe(this);
 			if (Config.SAVE_DROPPED_ITEM)

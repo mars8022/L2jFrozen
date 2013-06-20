@@ -221,19 +221,19 @@ public class L2PlayerAI extends L2CharacterAI
 	private void thinkAttack()
 	{
 		final L2Character target = getAttackTarget();
-		if(target == null)
+		if (target == null)
 			return;
-
-		if(checkTargetLostOrDead(target))
+		
+		if (checkTargetLostOrDead(target))
 		{
 			// Notify the target
 			setAttackTarget(null);
 			return;
 		}
-
-		if(maybeMoveToPawn(target, _actor.getPhysicalAttackRange()))
+		
+		if (maybeMoveToPawn(target, _actor.getPhysicalAttackRange()))
 			return;
-
+		
 		_accessor.doAttack(target);
 		return;
 	}
@@ -333,30 +333,25 @@ public class L2PlayerAI extends L2CharacterAI
 	@Override
 	protected void onEvtThink()
 	{
-		if(_thinking || _actor.isAllSkillsDisabled())
+		if (_thinking || _actor.isAllSkillsDisabled())
 			return;
-
-		/*
-		 if (Config.DEBUG)
-		 _log.warning("L2PlayerAI: onEvtThink -> Check intention");
-		 */
-
+		
 		_thinking = true;
 		try
 		{
-			if(getIntention() == AI_INTENTION_ATTACK)
+			if (getIntention() == AI_INTENTION_ATTACK)
 			{
 				thinkAttack();
 			}
-			else if(getIntention() == AI_INTENTION_CAST)
+			else if (getIntention() == AI_INTENTION_CAST)
 			{
 				thinkCast();
 			}
-			else if(getIntention() == AI_INTENTION_PICK_UP)
+			else if (getIntention() == AI_INTENTION_PICK_UP)
 			{
 				thinkPickUp();
 			}
-			else if(getIntention() == AI_INTENTION_INTERACT)
+			else if (getIntention() == AI_INTENTION_INTERACT)
 			{
 				thinkInteract();
 			}

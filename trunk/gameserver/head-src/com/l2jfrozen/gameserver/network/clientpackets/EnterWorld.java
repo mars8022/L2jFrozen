@@ -214,6 +214,9 @@ public class EnterWorld extends L2GameClientPacket
 		for (L2ItemInstance temp : activeChar.getInventory().getAugmentedItems())
 			if (temp != null && temp.isEquipped())
 				temp.getAugmentation().applyBoni(activeChar);
+		
+		// Apply death penalty
+		activeChar.restoreDeathPenaltyBuffLevel();
 
 		if(L2Event.active && L2Event.connectionLossData.containsKey(activeChar.getName()) && L2Event.isOnEvent(activeChar))
 			L2Event.restoreChar(activeChar);
