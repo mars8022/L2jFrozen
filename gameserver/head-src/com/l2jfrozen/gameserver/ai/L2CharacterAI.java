@@ -220,7 +220,7 @@ public class L2CharacterAI extends AbstractAI
 				stopFollow();
 				
 				// Launch the Think Event
-				notifyEvent(CtrlEvent.EVT_THINK, null);		
+				notifyEvent(CtrlEvent.EVT_THINK, null);
 			}
 			else
 			{
@@ -1100,32 +1100,31 @@ public class L2CharacterAI extends AbstractAI
 	 * <BR>
 	 * <B><U> Actions</U> : <I>If the target is lost or dead</I></B><BR>
 	 * <BR>
-	 * <li>Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)</li> <li>
-	 * Stop the actor movement server side AND client side by sending Server->Client packet StopMove/StopRotation
+	 * <li>Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)</li> <li><BR>
+	 * Stop the actor movement server side AND client side by sending Server->Client packet StopMove/StopRotation<BR>
 	 * (broadcast)</li> <li>Set the Intention of this AbstractAI to AI_INTENTION_ACTIVE</li><BR>
 	 * <BR>
 	 * <B><U> Example of use </U> :</B><BR>
 	 * <BR>
 	 * <li>L2PLayerAI, L2SummonAI</li><BR>
 	 * <BR>
-	 * 
 	 * @param target The targeted L2Object
 	 * @return True if the target is lost or dead (false if fakedeath)
 	 */
 	protected boolean checkTargetLostOrDead(L2Character target)
 	{
-		if(target == null || target.isAlikeDead())
+		if (target == null || target.isAlikeDead())
 		{
-			//check if player is fakedeath
-			if(target != null && target.isFakeDeath())
+			// check if player is fakedeath
+			if (target != null && target.isFakeDeath())
 			{
-				target.stopFakeDeath(null);
+				// target.stopFakeDeath(null);
 				return false;
 			}
-
+			
 			// Set the Intention of this AbstractAI to AI_INTENTION_ACTIVE
 			setIntention(AI_INTENTION_ACTIVE);
-
+			
 			return true;
 		}
 		return false;

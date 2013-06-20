@@ -2153,6 +2153,8 @@ public final class Formulas
 	 */
 	public static boolean calcHitMiss(L2Character attacker, L2Character target)
 	{
+		/*
+		// OLD FORMULA
 		// accuracy+dexterity => probability to hit in percents
 		int acc_attacker;
 		int evas_target;
@@ -2160,6 +2162,16 @@ public final class Formulas
 		evas_target = target.getEvasionRate(attacker);
 		int d = 85 + acc_attacker - evas_target;
 		return d < Rnd.get(100);
+		*/
+		
+		int chance = (80 + (2 * (attacker.getAccuracy() - target.getEvasionRate(attacker))))*10;		
+		// Get additional bonus from the conditions when you are attacking
+		chance *= hitConditionBonus.getConditionBonus(attacker, target);
+		
+		chance = Math.max(chance, 200);
+		chance = Math.min(chance, 980);
+		
+		return chance < Rnd.get(1000);
 	}
 
 	/**

@@ -346,6 +346,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 
 	/** The _current zones. */
 	private int _currentZones = 0;
+		   
+	/** Advance Headquarters */
+	private boolean _advanceFlag = false;
+	private int _advanceMultiplier = 1;
 
 	/**
 	 * Checks if is inside zone.
@@ -7725,37 +7729,34 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>If L2Character or target is in a town area, send a system message TARGET_IN_PEACEZONE a Server->Client packet
-	 * ActionFailed</li> <li>If target is confused, send a Server->Client packet ActionFailed</li> <li>If L2Character is
-	 * a L2ArtefactInstance, send a Server->Client packet ActionFailed</li> <li>Send a Server->Client packet
-	 * MyTargetSelected to start attack and Notify AI with AI_INTENTION_ATTACK</li><BR>
+	 * <li>If L2Character or target is in a town area, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed</li> <li>If target is confused, send a Server->Client packet ActionFailed</li> <li>If L2Character is a L2ArtefactInstance, send a Server->Client packet ActionFailed</li>
+	 * <li>Send a Server->Client packet MyTargetSelected to start attack and Notify AI with AI_INTENTION_ATTACK</li><BR>
 	 * <BR>
-	 * 
 	 * @param player The L2PcInstance to attack
 	 */
 	@Override
 	public void onForcedAttack(L2PcInstance player)
 	{
-		if(player.getTarget() == null || !(player.getTarget() instanceof L2Character))
+		if (player.getTarget() == null || !(player.getTarget() instanceof L2Character))
 		{
 			// If target is not attackable, send a Server->Client packet ActionFailed
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(isInsidePeaceZone(player))
+		
+		if (isInsidePeaceZone(player))
 		{
 			// If L2Character or target is in a peace zone, send a system message TARGET_IN_PEACEZONE a Server->Client packet ActionFailed
 			player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(player.isInOlympiadMode() && player.getTarget() != null && player.getTarget() instanceof L2PlayableInstance)
+		
+		if (player.isInOlympiadMode() && player.getTarget() != null && player.getTarget() instanceof L2PlayableInstance)
 		{
 			L2PcInstance target;
-
-			if(player.getTarget() instanceof L2Summon)
+			
+			if (player.getTarget() instanceof L2Summon)
 			{
 				target = ((L2Summon) player.getTarget()).getOwner();
 			}
@@ -7763,35 +7764,26 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			{
 				target = (L2PcInstance) player.getTarget();
 			}
-
-			if(target.isInOlympiadMode() && !player.isOlympiadStart() && player.getOlympiadGameId() == target.getOlympiadGameId())
+			
+			if (target.isInOlympiadMode() && !player.isOlympiadStart() && player.getOlympiadGameId() == target.getOlympiadGameId())
 			{
 				// if L2PcInstance is in Olympia and the match isn't already start, send a Server->Client packet ActionFailed
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
+			
 			target = null;
 		}
-
-		/*
-		if(!player.isAttackable() && !player.getAccessLevel().allowPeaceAttack() && !isInFunEvent())
-		{
-			// If target is not attackable, send a Server->Client packet ActionFailed
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-		*/
-
-		if(player.isConfused() || player.isBlocked())
+		
+		if (player.isConfused() || player.isBlocked())
 		{
 			// If target is confused, send a Server->Client packet ActionFailed
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// GeoData Los Check or dz > 1000
-		if(!GeoData.getInstance().canSeeTarget(player, this))
+		if (!GeoData.getInstance().canSeeTarget(player, this))
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_SEE_TARGET));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -10636,7 +10628,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 
 	/**
 	 * Reduce current hp.
-	 *
 	 * @param i the i
 	 * @param attacker the attacker
 	 * @param awake the awake
@@ -10647,9 +10638,13 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			if (Config.INVUL_NPC_LIST.contains(Integer.valueOf(((L2NpcInstance) this).getNpcId())))
 				return;
 		
-		if(Config.L2JMOD_CHAMPION_ENABLE && isChampion() && Config.L2JMOD_CHAMPION_HP != 0)
+		if (Config.L2JMOD_CHAMPION_ENABLE && isChampion() && Config.L2JMOD_CHAMPION_HP != 0)
 		{
 			getStatus().reduceHp(i / Config.L2JMOD_CHAMPION_HP, attacker, awake);
+		}
+		if (is_advanceFlag())
+		{
+			getStatus().reduceHp(i / _advanceMultiplier, attacker, awake);
 		}
 		else
 		{
@@ -10904,6 +10899,30 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public void setLastHealAmount(int hp)
 	{
 		_lastHealAmount = hp;
+	}
+	
+	/**
+	 * @return the _advanceFlag
+	 */
+	public boolean is_advanceFlag()
+	{
+		return _advanceFlag;
+	}
+	
+	/**
+	 * @param advanceFlag 
+	 */
+	public void set_advanceFlag(boolean advanceFlag)
+	{
+		_advanceFlag = advanceFlag;
+	}
+	
+	/**
+	 * @param advanceMultiplier 
+	 */
+	public void set_advanceMultiplier(int advanceMultiplier)
+	{
+		_advanceMultiplier = advanceMultiplier;
 	}
 
 	/**

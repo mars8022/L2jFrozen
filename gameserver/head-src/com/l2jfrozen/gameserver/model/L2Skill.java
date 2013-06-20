@@ -514,10 +514,16 @@ public abstract class L2Skill
 	
 	private final boolean _isDebuff;
 	
+	private final boolean _advancedFlag;
+	private final int _advancedMultiplier;  
+	
 	protected L2Skill(StatsSet set)
 	{
 		_id = set.getInteger("skill_id",0);
 		_level = set.getInteger("level",1);
+		
+		_advancedFlag = set.getBool("advancedFlag", false);
+		_advancedMultiplier = set.getInteger("advancedMultiplier",1);
 
 		_displayId = set.getInteger("displayId", _id);
 		_name = set.getString("name");
@@ -708,6 +714,8 @@ public abstract class L2Skill
 			case PARALYZE:
 			case SLEEP:
 			case ROOT:
+			case POISON:
+			case MUTE:
 			case WEAKNESS:
 				type_debuff = true;
 				
@@ -3423,5 +3431,21 @@ public abstract class L2Skill
 	public final int getMaxChance()
 	{
 		return _maxChance;
+	}
+	
+	/**
+	 * @return the _advancedFlag
+	 */
+	public boolean is_advancedFlag()
+	{
+		return _advancedFlag;
+	}
+	
+	/**
+	 * @return the _advancedMultiplier
+	 */
+	public int get_advancedMultiplier()
+	{
+		return _advancedMultiplier;
 	}
 }

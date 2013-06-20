@@ -601,7 +601,7 @@ public abstract class L2Effect
 			}
 			else if(!sk.isToggle())
 			{
-				if(sk.getSkillType()==SkillType.DEBUFF)
+				if(sk.is_Debuff())
 					mi.addEffect(sk.getId(), getLevel(), (_count * _period) * 1000,true);
 				else
 					mi.addEffect(sk.getId(), getLevel(), (_count * _period) * 1000,false);
