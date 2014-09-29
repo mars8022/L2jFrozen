@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<list>
+<skill id="9050" levels="1" name="Dynasty Light Set">
+<!-- Done by Inferiun -->
+  <set name="power" val="0.0"/>
+  <set name="target" val="TARGET_SELF"/>
+  <set name="skillType" val="BUFF"/>
+  <set name="operateType" val="OP_PASSIVE"/>
+  <set name="castRange" val="-1"/>
+  <set name="effectRange" val="-1"/>
+  <for>
+    <add val='20' order='0x40' stat='darkVuln'/> <!-- Dark resistence -->
+    <add order="0x40" stat="maxHp" val="393"/> <!-- hp +393 -->
+    <add order="0x40" stat="rEvas" val="1.5"/> <!-- Evasion+1.5 -->
+    <add order="0x40" stat="accCombat" val="1.5"/> <!-- Accuren +1.5 -->
+    <add order="0x40" stat="DEX" val="1"/> <!-- DEX +1 -->
+    <sub order="0x40" stat="CON" val="1"/> <!-- CON -1 -->
+  </for>
+</skill>
+<skill id="9051" levels="1" name="Dynasty Heavy Set">
+<!-- Done by Inferiun -->
+  <set name="power" val="0.0"/>
+  <set name="target" val="TARGET_SELF"/>
+  <set name="skillType" val="BUFF"/>
+  <set name="operateType" val="OP_PASSIVE"/>
+  <set name="castRange" val="-1"/>
+  <set name="effectRange" val="-1"/>
+  <for>
+    <add val='20' order='0x40' stat='darkVuln'/> <!-- Dark resistence -->
+    <add order="0x40" stat="maxHp" val="393"/> <!-- hp +393 -->
+    <mul order="0x30" stat="pDef" val="1.0524"/> <!-- P. Def. +5.24% -->
+    <add order="0x40" stat="STR" val="1"/> <!-- STR +1 -->
+    <sub order="0x40" stat="DEX" val="1"/> <!-- DEX -1 -->
+  </for>
+</skill>
+<skill id="9052" levels="1" name="Dynasty Robe Set">
+<!-- Done by Inferiun -->
+  <set name="power" val="0.0"/>
+  <set name="target" val="TARGET_SELF"/>
+  <set name="skillType" val="BUFF"/>
+  <set name="operateType" val="OP_PASSIVE"/>
+  <set name="castRange" val="-1"/>
+  <set name="effectRange" val="-1"/>
+  <for>
+    <add val='20' order='0x40' stat='darkVuln'/> <!-- Dark resistence -->
+    <add order="0x40" stat="maxMp" val="257"/> <!-- hp +257 -->
+    <mul order="0x30" stat="mAtkSpd" val="1.0524"/> <!-- Casting Spd. +5,24% -->
+    <add order="0x40" stat="MEN" val="1"/> <!-- MEN +1 -->
+    <sub order="0x40" stat="INT" val="1"/> <!-- INT -1 -->
+  </for>
+</skill>
+</list>
