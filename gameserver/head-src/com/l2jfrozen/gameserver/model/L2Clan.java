@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -52,7 +55,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeSkillListAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
-import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -2424,8 +2426,21 @@ public class L2Clan
 			player.sendPacket(new SystemMessage(SystemMessageId.YOU_MAY_NOT_CREATE_ALLY_WHILE_DISSOLVING));
 			return;
 		}
-
-		if(!Util.isAlphaNumeric(allyName))
+		
+		Pattern pattern;
+		try
+		{
+			pattern = Pattern.compile(Config.ALLY_NAME_TEMPLATE);
+		}
+		catch(PatternSyntaxException e) // case of illegal pattern
+		{
+			_log.info("ERROR: Ally name pattern of config is wrong!");
+			pattern = Pattern.compile(".*");
+		}
+		
+		Matcher match = pattern.matcher(allyName);
+		
+		if(!match.matches())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_ALLIANCE_NAME));
 			return;

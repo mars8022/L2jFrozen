@@ -114,8 +114,8 @@
   <set name="castRange" val="-1"/>
 </skill>
 <skill id="1406" levels="1" name="Summon Feline King">
-  <set name="mpInitialConsume" val="30"/> <!-- Guessing -->
-  <set name="mpConsume" val="114"/> <!-- Guessing -->
+  <set name="mpInitialConsume" val="29"/>
+  <set name="mpConsume" val="115"/>
   <set name="itemConsumeId" val="1461"/>
   <set name="itemConsumeCount" val="2"/>
   <set name="itemConsumeIdOT" val="1461"/>
@@ -125,7 +125,7 @@
   <set name="summonTimeLostIdle" val="500"/>
   <set name="summonTimeLostActive" val="1000"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="20000"/> <!-- Guessing -->
+  <set name="reuseDelay" val="300000"/>
   <set name="hitTime" val="15000"/>
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
@@ -140,8 +140,8 @@
   </for>
 </skill>
 <skill id="1407" levels="1" name="Summon Magnus the Unicorn">
-  <set name="mpInitialConsume" val="30"/> <!-- Guessing -->
-  <set name="mpConsume" val="114"/> <!-- Guessing -->
+  <set name="mpInitialConsume" val="29"/>
+  <set name="mpConsume" val="115"/> 
   <set name="itemConsumeId" val="1461"/>
   <set name="itemConsumeCount" val="2"/>
   <set name="itemConsumeIdOT" val="1461"/>
@@ -151,7 +151,7 @@
   <set name="summonTimeLostIdle" val="500"/>
   <set name="summonTimeLostActive" val="1000"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="20000"/> <!-- Guessing -->
+  <set name="reuseDelay" val="300000"/>
   <set name="hitTime" val="15000"/>
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
@@ -166,8 +166,8 @@
   </for>
 </skill>
 <skill id="1408" levels="1" name="Summon Spectral Lord">
-  <set name="mpInitialConsume" val="30"/> <!-- Guessing -->
-  <set name="mpConsume" val="114"/> <!-- Guessing -->
+  <set name="mpInitialConsume" val="29"/>
+  <set name="mpConsume" val="115"/>
   <set name="itemConsumeId" val="1461"/>
   <set name="itemConsumeCount" val="2"/>
   <set name="itemConsumeIdOT" val="1461"/>
@@ -177,7 +177,7 @@
   <set name="summonTimeLostIdle" val="500"/>
   <set name="summonTimeLostActive" val="1000"/>
   <set name="target" val="TARGET_SELF"/>
-  <set name="reuseDelay" val="20000"/> <!-- Guessing -->
+  <set name="reuseDelay" val="300000"/> 
   <set name="hitTime" val="15000"/>
   <set name="skillType" val="SUMMON"/>
   <set name="isMagic" val="true"/>
@@ -234,16 +234,17 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="1411" levels="1" name="Mystic Immunity">
-  <set name="mpConsume" val="73"/>
+  <set name="mpConsume" val="59"/>
+  <set name="mpInitialConsume" val="15"/>
   <set name="magicLvl" val="79"/>
   <set name="target" val="TARGET_PARTY_MEMBER"/>
-  <set name="reuseDelay" val="600000"/>
+  <set name="reuseDelay" val="120000"/>
   <set name="hitTime" val="4000"/>
   <set name="skillType" val="BUFF"/>
   <set name="isMagic" val="true" />
   <set name="operateType" val="OP_ACTIVE"/>
   <set name="castRange" val="400"/>
-  <set name="effecRange" val="900"/>
+  <set name="effectRange" val="600"/>
   <for>
     <effect name="Buff" time="30" count="1" val="0" stackOrder="3" stackType="abnormal_invincibility">
       <set order="0x08" stat="debuffImmunity" val="1" /> <!-- Immunity to debuff 100% -->

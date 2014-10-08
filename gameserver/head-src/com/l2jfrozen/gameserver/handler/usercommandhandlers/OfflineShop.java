@@ -155,6 +155,8 @@ public class OfflineShop implements IUserCommandHandler
 			player.sendMessage("Your private store has succesfully been flagged as an offline shop and will remain active for ever.");
 			player.setStored(true);
 			
+			player.logout();
+			
 			return true;
 		}
 		return false;

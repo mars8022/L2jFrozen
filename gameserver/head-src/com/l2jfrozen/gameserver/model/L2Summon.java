@@ -663,8 +663,8 @@ public abstract class L2Summon extends L2PlayableInstance
 		//************************************* Check skill availability *******************************************
 
 		// Check if this skill is enabled (ex : reuse time)
-		if(isSkillDisabled(skill.getId()) && getOwner() != null && getOwner().getAccessLevel().allowPeaceAttack())
-		{
+		if(isSkillDisabled(skill) && getOwner() != null && getOwner().getAccessLevel().allowPeaceAttack())
+	 	{
 			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
 			sm.addString(skill.getName());
 			getOwner().sendPacket(sm);

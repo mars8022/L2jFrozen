@@ -1890,6 +1890,7 @@ public final class Config
 	public static String CNAME_TEMPLATE;
 	public static String PET_NAME_TEMPLATE;
 	public static String CLAN_NAME_TEMPLATE;
+	public static String ALLY_NAME_TEMPLATE;
 	public static int MAX_CHARACTERS_NUMBER_PER_IP;
 	public static int MAX_CHARACTERS_NUMBER_PER_ACCOUNT;
 	public static int MIN_PROTOCOL_REVISION;
@@ -1943,6 +1944,7 @@ public final class Config
 			CNAME_TEMPLATE = devSettings.getProperty("CnameTemplate", ".*");
 			PET_NAME_TEMPLATE = devSettings.getProperty("PetNameTemplate", ".*");
 			CLAN_NAME_TEMPLATE = devSettings.getProperty("ClanNameTemplate", ".*");
+			ALLY_NAME_TEMPLATE = devSettings.getProperty("AllyNameTemplate", ".*");
 			MAX_CHARACTERS_NUMBER_PER_ACCOUNT = Integer.parseInt(devSettings.getProperty("CharMaxNumber", "0"));
 
 			MAX_CHARACTERS_NUMBER_PER_IP = Integer.parseInt(devSettings.getProperty("CharMaxNumberPerIP", "0"));
