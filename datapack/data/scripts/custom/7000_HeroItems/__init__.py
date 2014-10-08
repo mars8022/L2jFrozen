@@ -4,9 +4,11 @@ from com.l2jfrozen.gameserver.datatables.sql import ItemTable
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
 from com.l2jfrozen.gameserver.model.quest.jython import QuestJython as JQuest
+
 qn = "7000_HeroItems"
 
 MONUMENTS = [31690]+range(31769,31773)
+
 HERO_ITEMS={
 6611:["weapon_the_sword_of_hero_i00","Infinity Blade","During a critical attack, decreases one's P. Def and increases de-buff casting ability, damage shield effect, Max HP, Max MP, Max CP, and shield defense power. Also enhances damage to target during PvP.","379/169","Sword"],
 6612:["weapon_the_two_handed_sword_of_hero_i00","Infinity Cleaver","Increases Max HP, Max CP, critical power and critical chance. Inflicts extra damage when a critical attack occurs and has possibility of reflecting the skill back on the player. Also enhances damage to target during PvP.","461/169","Double Handed Sword"],
@@ -31,7 +33,7 @@ def render_list(mode,item) :
 <button value=Back action=\"bypass -h Quest 7000_HeroItems buy\" width=80 height=27 back=L2UI_ch3.Btn1_normalOn fore=L2UI_ch3.Btn1_normal>\
 </td><td width=5><br></td></tr></table><table border=0 bgcolor=\"000000\" width=500 height=160><tr><td valign=top>\
 <table border=0><tr><td valign=top width=35><img src=icon."+HERO_ITEMS[item][0]+" width=32 height=32 align=left></td>\
-<td valign=top width=400><table border=0 width=100%><tr><td><font color=\"FFFFFF\">"+HERO_ITEMS[item][1]+"</font></td>\ 
+<td valign=top width=400><table border=0 width=100%><tr><td><font color=\"FFFFFF\">"+HERO_ITEMS[item][1]+"</font></td>\
 </tr></table></td></tr></table><br><font color=\"LEVEL\">Item info:</font>\
 <table border=0 bgcolor=\"000000\" width=290 height=220><tr><td valign=top><font color=\"B09878\">"+HERO_ITEMS[item][2]+"</font>\
 </td></tr><tr><td><br>Type: "+HERO_ITEMS[item][4]+"<br><br>Patk/Matk: "+HERO_ITEMS[item][3]+"<br><br>\
@@ -42,7 +44,7 @@ def render_list(mode,item) :
 class Quest (JQuest) :
 
  def __init__(self,id,name,descr): JQuest.__init__(self,id,name,descr)
- 
+
  def onEvent (self,event,st) :
    if st.getPlayer().isHero() :
      if event == "buy" :
