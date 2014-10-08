@@ -284,7 +284,7 @@ class OlympiadGame
 				{
 					for (L2Skill skill : player.getAllSkills())
 						if(skill.getId() != 1324)
-							player.enableSkill(skill.getId());
+							player.enableSkill(skill);
 					
 					player.updateEffectIcons();
 				}

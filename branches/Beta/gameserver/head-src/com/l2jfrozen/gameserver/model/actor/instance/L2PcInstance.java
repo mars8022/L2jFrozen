@@ -250,38 +250,38 @@ public final class L2PcInstance extends L2PlayableInstance
 {
 	/** The Constant RESTORE_SKILLS_FOR_CHAR. */
 	private static final String RESTORE_SKILLS_FOR_CHAR = "SELECT skill_id,skill_level FROM character_skills WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant ADD_NEW_SKILL. */
 	private static final String ADD_NEW_SKILL = "INSERT INTO character_skills (char_obj_id,skill_id,skill_level,skill_name,class_index) VALUES (?,?,?,?,?)";
-
+	
 	/** The Constant UPDATE_CHARACTER_SKILL_LEVEL. */
 	private static final String UPDATE_CHARACTER_SKILL_LEVEL = "UPDATE character_skills SET skill_level=? WHERE skill_id=? AND char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant DELETE_SKILL_FROM_CHAR. */
 	private static final String DELETE_SKILL_FROM_CHAR = "DELETE FROM character_skills WHERE skill_id=? AND char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant DELETE_CHAR_SKILLS. */
 	private static final String DELETE_CHAR_SKILLS = "DELETE FROM character_skills WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant ADD_SKILL_SAVE. */
 	//private static final String ADD_SKILL_SAVE = "INSERT INTO character_skills_save (char_obj_id,skill_id,skill_level,effect_count,effect_cur_time,reuse_delay,restore_type,class_index,buff_index) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String ADD_SKILL_SAVE = "INSERT INTO character_skills_save (char_obj_id,skill_id,skill_level,effect_count,effect_cur_time,reuse_delay,systime,restore_type,class_index,buff_index) VALUES (?,?,?,?,?,?,?,?,?,?)";
-
+	
 	/** The Constant RESTORE_SKILL_SAVE. */
 	private static final String RESTORE_SKILL_SAVE = "SELECT skill_id,skill_level,effect_count,effect_cur_time, reuse_delay FROM character_skills_save WHERE char_obj_id=? AND class_index=? AND restore_type=? ORDER BY buff_index ASC";
-
+	
 	/** The Constant DELETE_SKILL_SAVE. */
 	private static final String DELETE_SKILL_SAVE = "DELETE FROM character_skills_save WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The _is the vip. */
 	public boolean _isVIP = false, _inEventVIP = false, _isNotVIP = false, _isTheVIP = false;
-
+	
 	/** The _original karma vip. */
 	public int _originalNameColourVIP, _originalKarmaVIP;
 	
 	/** The _vote timestamp. */
 	private long _voteTimestamp = 0;
-
+	
 	/** The _posticipate sit. */
 	private boolean _posticipateSit;
 	
@@ -329,7 +329,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		return _voteTimestamp;
 	}
-
+	
 	/**
 	 * Sets the vote timestamp.
 	 *
@@ -356,7 +356,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement = con.prepareStatement("select votePoints from accounts where login=?");
 			statement.setString(1, _accountName);
 			
-
+			
 			ResultSet rset = statement.executeQuery();
 			while(rset.next())
 			{
@@ -425,7 +425,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement = con.prepareStatement("select lastVote from accounts where login=?");
 			statement.setString(1, _accountName);
 			
-
+			
 			ResultSet rset = statement.executeQuery();
 			while(rset.next())
 			{
@@ -448,7 +448,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		return lastVote;
 	}
-
+	
 	/** The _active_boxes. */
 	public int _active_boxes = -1;
 	
@@ -457,57 +457,57 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,str=?,con=?,dex=?,_int=?,men=?,wit=? ,face=?,hairStyle=?,hairColor =?,heading=?,x=?,y=?,z=?,exp=?,expBeforeDeath=?,sp=?,karma=?,pvpkills=?,pkkills=?,rec_have =?,rec_left=?,clanid=?,maxload =?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs =?,wantspeace=?,base_class =?,onlinetime=?,in_jail=?,jail_timer=?,newbie=?,nobless=?,power_grade=?,subpledge=?,last_recom_date =?,lvl_joined_academy =?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=? ,char_name=?,death_penalty_level=?,good=?,evil=?,gve_kills=? WHERE obj_id=?. */
 	private static final String UPDATE_CHARACTER = "UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,str=?,con=?,dex=?,_int=?,men=?,wit=?,face=?,hairStyle=?,hairColor=?,heading=?,x=?,y=?,z=?,exp=?,expBeforeDeath=?,sp=?,karma=?,pvpkills=?,pkkills=?,rec_have=?,rec_left=?,clanid=?,maxload=?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs=?,wantspeace=?,base_class=?,onlinetime=?,punish_level=?,punish_timer=?,newbie=?,nobless=?,power_grade=?,subpledge=?,last_recom_date=?,lvl_joined_academy=?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?,char_name=?,death_penalty_level=?,pc_point=?,name_color=?,title_color=?,aio=?,aio_end=? WHERE obj_id=?";
-
+	
 	/** SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,good,evil,gve_kills FROM characters WHERE obj_id=?. */
 	//private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point,banchat_time,name_color,title_color,first_log,aio,aio_end FROM characters WHERE obj_id=?";
 	private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon,punish_level,punish_timer,"+/* in_jail, jail_timer,*/ "newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point"+/*,banchat_time*/",name_color,title_color,first_log,aio,aio_end FROM characters WHERE obj_id=?";
-
+	
 	/** The Constant STATUS_DATA_GET. */
 	private static final String STATUS_DATA_GET = "SELECT hero, noble, donator, hero_end_date FROM characters_custom_data WHERE obj_Id = ?";
-
+	
 	/** The Constant RESTORE_SKILLS_FOR_CHAR_ALT_SUBCLASS. */
 	private static final String RESTORE_SKILLS_FOR_CHAR_ALT_SUBCLASS = "SELECT skill_id,skill_level FROM character_skills WHERE char_obj_id=? ORDER BY (skill_level+0)";
-
+	
 	// ----------------------  L2JFrozen Addons ---------------------------------- //
 	/** The Constant RESTORE_CHAR_SUBCLASSES. */
 	private static final String RESTORE_CHAR_SUBCLASSES = "SELECT class_id,exp,sp,level,class_index FROM character_subclasses WHERE char_obj_id=? ORDER BY class_index ASC";
-
+	
 	/** The Constant ADD_CHAR_SUBCLASS. */
 	private static final String ADD_CHAR_SUBCLASS = "INSERT INTO character_subclasses (char_obj_id,class_id,exp,sp,level,class_index) VALUES (?,?,?,?,?,?)";
-
+	
 	/** The Constant UPDATE_CHAR_SUBCLASS. */
 	private static final String UPDATE_CHAR_SUBCLASS = "UPDATE character_subclasses SET exp=?,sp=?,level=?,class_id=? WHERE char_obj_id=? AND class_index =?";
-
+	
 	/** The Constant DELETE_CHAR_SUBCLASS. */
 	private static final String DELETE_CHAR_SUBCLASS = "DELETE FROM character_subclasses WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant RESTORE_CHAR_HENNAS. */
 	private static final String RESTORE_CHAR_HENNAS = "SELECT slot,symbol_id FROM character_hennas WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant ADD_CHAR_HENNA. */
 	private static final String ADD_CHAR_HENNA = "INSERT INTO character_hennas (char_obj_id,symbol_id,slot,class_index) VALUES (?,?,?,?)";
-
+	
 	/** The Constant DELETE_CHAR_HENNA. */
 	private static final String DELETE_CHAR_HENNA = "DELETE FROM character_hennas WHERE char_obj_id=? AND slot=? AND class_index=?";
-
+	
 	/** The Constant DELETE_CHAR_HENNAS. */
 	private static final String DELETE_CHAR_HENNAS = "DELETE FROM character_hennas WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant DELETE_CHAR_SHORTCUTS. */
 	private static final String DELETE_CHAR_SHORTCUTS = "DELETE FROM character_shortcuts WHERE char_obj_id=? AND class_index=?";
-
+	
 	/** The Constant RESTORE_CHAR_RECOMS. */
 	private static final String RESTORE_CHAR_RECOMS = "SELECT char_id,target_id FROM character_recommends WHERE char_id=?";
-
+	
 	/** The Constant ADD_CHAR_RECOM. */
 	private static final String ADD_CHAR_RECOM = "INSERT INTO character_recommends (char_id,target_id) VALUES (?,?)";
-
+	
 	/** The Constant DELETE_CHAR_RECOMS. */
 	private static final String DELETE_CHAR_RECOMS = "DELETE FROM character_recommends WHERE char_id=?";
-
+	
 	/** The Constant REQUEST_TIMEOUT. */
 	public static final int REQUEST_TIMEOUT = 15;
-
+	
 	/** The Constant STORE_PRIVATE_NONE. */
 	public static final int STORE_PRIVATE_NONE = 0;
 	
@@ -522,29 +522,29 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The Constant STORE_PRIVATE_PACKAGE_SELL. */
 	public static final int STORE_PRIVATE_PACKAGE_SELL = 8;
-
+	
 	/** The fmt. */
 	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	
 	/** The table containing all minimum level needed for each Expertise (None, D, C, B, A, S). */
 	private static final int[] EXPERTISE_LEVELS =
 	{
-			SkillTreeTable.getInstance().getExpertiseLevel(0), //NONE
-			SkillTreeTable.getInstance().getExpertiseLevel(1), //D
-			SkillTreeTable.getInstance().getExpertiseLevel(2), //C
-			SkillTreeTable.getInstance().getExpertiseLevel(3), //B
-			SkillTreeTable.getInstance().getExpertiseLevel(4), //A
-			SkillTreeTable.getInstance().getExpertiseLevel(5), //S
+		SkillTreeTable.getInstance().getExpertiseLevel(0), //NONE
+		SkillTreeTable.getInstance().getExpertiseLevel(1), //D
+		SkillTreeTable.getInstance().getExpertiseLevel(2), //C
+		SkillTreeTable.getInstance().getExpertiseLevel(3), //B
+		SkillTreeTable.getInstance().getExpertiseLevel(4), //A
+		SkillTreeTable.getInstance().getExpertiseLevel(5), //S
 	};
-
+	
 	/** The Constant COMMON_CRAFT_LEVELS. */
 	private static final int[] COMMON_CRAFT_LEVELS =
 	{
-			5, 20, 28, 36, 43, 49, 55, 62
+		5, 20, 28, 36, 43, 49, 55, 62
 	};
-
+	
 	//private static Logger _log = Logger.getLogger(L2PcInstance.class.getName());
-
+	
 	/**
 	 * The Class AIAccessor.
 	 */
@@ -556,7 +556,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		 */
 		protected AIAccessor()
 		{}
-
+		
 		/**
 		 * Gets the player.
 		 *
@@ -566,7 +566,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			return L2PcInstance.this;
 		}
-
+		
 		/**
 		 * Do pickup item.
 		 *
@@ -576,7 +576,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			L2PcInstance.this.doPickupItem(object);
 		}
-
+		
 		/**
 		 * Do interact.
 		 *
@@ -586,7 +586,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			L2PcInstance.this.doInteract(target);
 		}
-
+		
 		/*
 		 * (non-Javadoc)
 		 * @see com.l2jfrozen.gameserver.model.L2Character.AIAccessor#doAttack(com.l2jfrozen.gameserver.model.L2Character)
@@ -632,7 +632,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					}
 			}
 		}
-
+		
 		/* (non-Javadoc)
 		 * @see com.l2jfrozen.gameserver.model.L2Character.AIAccessor#doCast(com.l2jfrozen.gameserver.model.L2Skill)
 		 */
@@ -643,7 +643,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			getPlayer().setRecentFakeDeath(false);
 			if(skill == null)
 				return;
-						
+			
 			// Like L2OFF you can use cupid bow skills on peace zone
 			// Like L2OFF players can use TARGET_AURA skills on peace zone, all targets will be ignored.
 			if (skill.isOffensive() && (isInsidePeaceZone(L2PcInstance.this, getTarget()) && skill.getTargetType() != SkillTargetType.TARGET_AURA) && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)) //check limited to active target
@@ -655,14 +655,14 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			//during teleport phase, players cant do any attack
 			if((TvT.is_teleport() && _inEventTvT) 
-					|| (CTF.is_teleport() && _inEventCTF) 
-					|| (DM.is_teleport() && _inEventDM)){
+				|| (CTF.is_teleport() && _inEventCTF) 
+				|| (DM.is_teleport() && _inEventDM)){
 				sendPacket(ActionFailed.STATIC_PACKET);
-                return;
+				return;
 			}
 			
 			super.doCast(skill);
-
+			
 			
 			if(!skill.isOffensive())
 				return;
@@ -676,8 +676,8 @@ public final class L2PcInstance extends L2PlayableInstance
 					silentMove.exit(true);
 				}
 			}
-			*/
-
+			 */
+			
 			switch(skill.getTargetType())
 			{
 				case TARGET_GROUND:
@@ -700,23 +700,23 @@ public final class L2PcInstance extends L2PlayableInstance
 					
 					mainTarget = null;
 				}
-					break;
+				break;
 			}
 		}
 	}
-
+	
 	/** The _client. */
 	private L2GameClient _client;
-
+	
 	/** The _account name. */
 	private String _accountName;
 	
 	/** The _delete timer. */
 	private long _deleteTimer;
-
+	
 	/** The _is online. */
 	private boolean _isOnline = false;
-
+	
 	/** The _online time. */
 	private long _onlineTime;
 	
@@ -728,7 +728,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _uptime. */
 	private long _uptime;
-
+	
 	/** The _base class. */
 	protected int _baseClass;
 	
@@ -737,68 +737,68 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _class index. */
 	protected int _classIndex = 0;
-
+	
 	/** Fireworks on first login. */
 	private boolean _first_log;
-
+	
 	/** PC BANG POINT. */
 	private int pcBangPoint = 0;
-
+	
 	/** The list of sub-classes this character has. */
 	private Map<Integer, SubClass> _subClasses;
-
+	
 	/** The _appearance. */
 	private PcAppearance _appearance;
-
+	
 	/** The Identifier of the L2PcInstance. */
 	private int _charId = 0x00030b7a;
-
+	
 	/** The Experience of the L2PcInstance before the last Death Penalty. */
 	private long _expBeforeDeath;
-
+	
 	/** The Karma of the L2PcInstance (if higher than 0, the name of the L2PcInstance appears in red). */
 	private int _karma;
-
+	
 	/** The number of player killed during a PvP (the player killed was PvP Flagged). */
 	private int _pvpKills;
-
+	
 	/** The PK counter of the L2PcInstance (= Number of non PvP Flagged player killed). */
 	private int _pkKills;
-
+	
 	/** The _last kill. */
 	private int _lastKill = 0;
 	
 	/** The count. */
 	private int count = 0;
-
+	
 	/** The PvP Flag state of the L2PcInstance (0=White, 1=Purple). */
 	private byte _pvpFlag;
-
+	
 	/** The Siege state of the L2PcInstance. */
 	private byte _siegeState = 0;
-
+	
 	/** The _cur weight penalty. */
 	private int _curWeightPenalty = 0;
-
+	
 	/** The _last compass zone. */
 	private int _lastCompassZone; // the last compass zone update send to the client
 	
 	/** The _zone validate counter. */
 	private byte _zoneValidateCounter = 4;
-
+	
 	/** The _is in7s dungeon. */
 	private boolean _isIn7sDungeon = false;
-
+	
 	//private boolean _inJail = false;
 	//private long _jailTimer = 0;
 	//private ScheduledFuture<?> _jailTask;
-
-	 /** Special hero aura values. */
-	 private int heroConsecutiveKillCount = 0;
-	 
- 	/** The is pvp hero. */
- 	private boolean isPVPHero = false;
-	 
+	
+	/** Special hero aura values. */
+	private int heroConsecutiveKillCount = 0;
+	
+	/** The is pvp hero. */
+	private boolean isPVPHero = false;
+	
 	
 	/** character away mode *. */
 	private boolean _awaying = false;
@@ -811,13 +811,13 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _original title away. */
 	public String _originalTitleAway;
-	   
+	
 	/** The _is aio. */
 	private boolean _isAio = false;
 	
 	/** The _aio_end time. */
 	private long _aio_endTime = 0;
-	   
+	
 	/** Event parameters. */
 	public int eventX;
 	
@@ -856,7 +856,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _in event tv t. */
 	public boolean _inEventTvT = false;
-
+	
 	/** CTF Engine parameters. */
 	public String _teamNameCTF,
 	_teamNameHaveFlagCTF,
@@ -864,39 +864,39 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _count ct fflags. */
 	public int _originalNameColorCTF = 0,
-	_originalKarmaCTF,
-	_countCTFflags;
+		_originalKarmaCTF,
+		_countCTFflags;
 	
 	/** The _have flag ctf. */
 	public boolean _inEventCTF = false,
-	_haveFlagCTF = false;
+		_haveFlagCTF = false;
 	
 	/** The _pos checker ctf. */
 	public Future<?> _posCheckerCTF = null;
-
+	
 	/** DM Engine parameters. */
 	public String _originalTitleDM;
 	
 	/** The _original karma dm. */
 	public int _originalNameColorDM = 0,
-	_countDMkills,
-	_originalKarmaDM;
+		_countDMkills,
+		_originalKarmaDM;
 	
 	/** The _in event dm. */
 	public boolean _inEventDM = false;
-
+	
 	/** The _correct word. */
 	public int _correctWord = -1;
 	
 	/** The _stop kick bot task. */
 	public boolean _stopKickBotTask = false;
-
+	
 	/** Event Engine parameters. */
 	public int _originalNameColor, _countKills, _originalKarma, _eventKills;
 	
 	/** The _in event. */
 	public boolean _inEvent = false;
-
+	
 	/** Olympiad. */
 	private boolean _inOlympiadMode = false;
 	
@@ -914,7 +914,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The dmg dealt. */
 	//public int dmgDealt = 0;
-
+	
 	/** Duel. */
 	private boolean _isInDuel = false;
 	
@@ -926,7 +926,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _no duel reason. */
 	private SystemMessageId _noDuelReason = SystemMessageId.THERE_IS_NO_OPPONENT_TO_RECEIVE_YOUR_CHALLENGE_FOR_A_DUEL;
-
+	
 	/** Boat. */
 	private boolean _inBoat;
 	
@@ -935,37 +935,37 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _in boat position. */
 	private Point3D _inBoatPosition;
-
+	
 	/** The _mount type. */
 	private int _mountType;
 	
 	/** Store object used to summon the strider you are mounting *. */
 	private int _mountObjectID = 0;
-
+	
 	/** The _telemode. */
 	public int _telemode = 0;
-
+	
 	/** The _is silent moving. */
 	private int _isSilentMoving = 0;
-
+	
 	/** The _in crystallize. */
 	private boolean _inCrystallize;
-
+	
 	/** The _in craft mode. */
 	private boolean _inCraftMode;
-
+	
 	/** The table containing all L2RecipeList of the L2PcInstance. */
 	private Map<Integer, L2RecipeList> _dwarvenRecipeBook = new FastMap<Integer, L2RecipeList>();
 	
 	/** The _common recipe book. */
 	private Map<Integer, L2RecipeList> _commonRecipeBook = new FastMap<Integer, L2RecipeList>();
-
+	
 	/** True if the L2PcInstance is sitting. */
 	private boolean _waitTypeSitting;
-
+	
 	/** True if the L2PcInstance is using the relax skill. */
 	private boolean _relax;
-
+	
 	/** Location before entering Observer Mode. */
 	private int _obsX;
 	
@@ -977,28 +977,28 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _observer mode. */
 	private boolean _observerMode = false;
-
+	
 	/** Stored from last ValidatePosition *. */
 	private Location _lastClientPosition = new Location(0, 0, 0);
 	
 	/** The _last server position. */
 	private Location _lastServerPosition = new Location(0, 0, 0);
-
+	
 	/** The number of recommandation obtained by the L2PcInstance. */
 	private int _recomHave; // how much I was recommended by others
-
+	
 	/** The number of recommandation that the L2PcInstance can give. */
 	private int _recomLeft; // how many recomendations I can give to others
-
+	
 	/** Date when recom points were updated last time. */
 	private long _lastRecomUpdate;
 	
 	/** List with the recomendations that I've give. */
 	private List<Integer> _recomChars = new FastList<Integer>();
-
+	
 	/** The random number of the L2PcInstance. */
 	//private static final Random _rnd = new Random();
-
+	
 	private PcInventory _inventory = new PcInventory(this);
 	
 	/** The _warehouse. */
@@ -1006,10 +1006,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _freight. */
 	private PcFreight _freight = new PcFreight(this);
-
+	
 	/** The Private Store type of the L2PcInstance (STORE_PRIVATE_NONE=0, STORE_PRIVATE_SELL=1, sellmanage=2, STORE_PRIVATE_BUY=3, buymanage=4, STORE_PRIVATE_MANUFACTURE=5). */
 	private int _privatestore;
-
+	
 	/** The _active trade list. */
 	private TradeList _activeTradeList;
 	
@@ -1024,10 +1024,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _buy list. */
 	private TradeList _buyList;
-
+	
 	/** True if the L2PcInstance is newbie. */
 	private boolean _newbie;
-
+	
 	/** The _noble. */
 	private boolean _noble = false;
 	
@@ -1036,13 +1036,13 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _donator. */
 	private boolean _donator = false;
-
+	
 	/** The L2FolkInstance corresponding to the last Folk wich one the player talked. */
 	private L2FolkInstance _lastFolkNpc = null;
-
+	
 	/** Last NPC Id talked on a quest. */
 	private int _questNpcObject = 0;
-
+	
 	private int _party_find = 0;
 	
 	//summon friend
@@ -1095,22 +1095,22 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The table containing all Quests began by the L2PcInstance. */
 	private Map<String, QuestState> _quests = new FastMap<String, QuestState>();
-
+	
 	/** The list containing all shortCuts of this L2PcInstance. */
 	private ShortCuts _shortCuts = new ShortCuts(this);
-
+	
 	/** The list containing all macroses of this L2PcInstance. */
 	private MacroList _macroses = new MacroList(this);
-
+	
 	/** The _snoop listener. */
 	private List<L2PcInstance> _snoopListener = new FastList<L2PcInstance>();
 	
 	/** The _snooped player. */
 	private List<L2PcInstance> _snoopedPlayer = new FastList<L2PcInstance>();
-
+	
 	/** The _skill learning class id. */
 	private ClassId _skillLearningClassId;
-
+	
 	// hennas
 	/** The _henna. */
 	private final L2HennaInstance[] _henna = new L2HennaInstance[3];
@@ -1132,65 +1132,65 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _henna con. */
 	private int _hennaCON;
-
+	
 	/** The L2Summon of the L2PcInstance. */
 	private L2Summon _summon = null;
 	// apparently, a L2PcInstance CAN have both a summon AND a tamed beast at the same time!!
 	/** The _tamed beast. */
 	private L2TamedBeastInstance _tamedBeast = null;
-
+	
 	// client radar
 	/** The _radar. */
 	private L2Radar _radar;
-
+	
 	// Clan related attributes
 	/** The Clan Identifier of the L2PcInstance. */
 	private int _clanId = 0;
-
+	
 	/** The Clan object of the L2PcInstance. */
 	private L2Clan _clan;
-
+	
 	/** Apprentice and Sponsor IDs. */
 	private int _apprentice = 0;
 	
 	/** The _sponsor. */
 	private int _sponsor = 0;
-
+	
 	/** The _clan join expiry time. */
 	private long _clanJoinExpiryTime;
 	
 	/** The _clan create expiry time. */
 	private long _clanCreateExpiryTime;
-
+	
 	/** The _power grade. */
 	private int _powerGrade = 0;
 	
 	/** The _clan privileges. */
 	private int _clanPrivileges = 0;
-
+	
 	/** L2PcInstance's pledge class (knight, Baron, etc.) */
 	private int _pledgeClass = 0;
 	
 	/** The _pledge type. */
 	private int _pledgeType = 0;
-
+	
 	/** Level at which the player joined the clan as an academy member. */
 	private int _lvlJoinedAcademy = 0;
-
+	
 	/** The _wants peace. */
 	private int _wantsPeace = 0;
-
+	
 	//Death Penalty Buff Level
 	/** The _death penalty buff level. */
 	private int _deathPenaltyBuffLevel = 0;
-
-//	private int _ChatFilterCount = 0;
-
+	
+	//	private int _ChatFilterCount = 0;
+	
 	//GM related variables
-//	private boolean _isGm;
+	//	private boolean _isGm;
 	/** The _access level. */
-private AccessLevel _accessLevel;
-
+	private AccessLevel _accessLevel;
+	
 	//private boolean _chatBanned = false; // Chat Banned
 	//private ScheduledFuture<?> _chatUnbanTask = null;
 	/** The _message refusal. */
@@ -1201,10 +1201,10 @@ private AccessLevel _accessLevel;
 	
 	/** The _exchange refusal. */
 	private boolean _exchangeRefusal = false; // Exchange refusal
-
+	
 	/** The _party. */
 	private L2Party _party;
-
+	
 	private long _lastAttackPacket = 0;
 	
 	// this is needed to find the inviting player for Party response
@@ -1220,26 +1220,26 @@ private AccessLevel _accessLevel;
 	
 	/** The _arrow item. */
 	private L2ItemInstance _arrowItem;
-
+	
 	// Used for protection after teleport
 	/** The _protect end time. */
 	private long _protectEndTime = 0;	
 	public boolean isSpawnProtected() { return  _protectEndTime > GameTimeController.getGameTicks(); }
 	private long _teleportProtectEndTime = 0;
 	public boolean isTeleportProtected() { return  _teleportProtectEndTime > GameTimeController.getGameTicks(); }
-
+	
 	// protects a char from agro mobs when getting up from fake death
 	/** The _recent fake death end time. */
 	private long _recentFakeDeathEndTime = 0;
-
+	
 	/** The fists L2Weapon of the L2PcInstance (used when no weapon is equiped). */
 	private L2Weapon _fistsWeaponItem;
-
+	
 	/** The _chars. */
 	private final Map<Integer, String> _chars = new FastMap<Integer, String>();
-
+	
 	//private byte _updateKnownCounter = 0;
-
+	
 	/** The current higher Expertise of the L2PcInstance (None=0, D=1, C=2, B=3, A=4, S=5). */
 	private int _expertiseIndex; // index in EXPERTISE_LEVELS
 	
@@ -1257,37 +1257,37 @@ private AccessLevel _accessLevel;
 	
 	/** The _mastery penalty. */
 	private int _masteryPenalty = 0;
-
+	
 	/** The _active enchant item. */
 	private L2ItemInstance _activeEnchantItem = null;
-
+	
 	/** The _inventory disable. */
 	protected boolean _inventoryDisable = false;
-
+	
 	/** The _cubics. */
 	protected Map<Integer, L2CubicInstance> _cubics = new FastMap<Integer, L2CubicInstance>();
-
+	
 	/** Active shots. A FastSet variable would actually suffice but this was changed to fix threading stability... */
 	protected Map<Integer, Integer> _activeSoulShots = new FastMap<Integer, Integer>().shared();
-
+	
 	/** The soul shot lock. */
 	public final ReentrantLock soulShotLock = new ReentrantLock();
-
+	
 	/** The dialog. */
 	public Quest dialog = null;
-
+	
 	/** new loto ticket *. */
 	private int _loto[] = new int[5];
 	//public static int _loto_nums[] = {0,1,2,3,4,5,6,7,8,9,};
 	/** new race ticket *. */
 	private int _race[] = new int[2];
-
+	
 	/** The _block list. */
 	private final BlockList _blockList = new BlockList(this);
-
+	
 	/** The _team. */
 	private int _team = 0;
-
+	
 	/** lvl of alliance with ketra orcs or varka silenos, used in quests and aggro checks [-5,-1] varka, 0 neutral, [1,5] ketra. */
 	private int _alliedVarkaKetra = 0;
 	
@@ -1314,7 +1314,7 @@ private AccessLevel _accessLevel;
 	
 	/** The _task water. */
 	private ScheduledFuture<?> _taskWater;
-
+	
 	/** Bypass validations. */
 	private List<String> _validBypass = new FastList<String>();
 	
@@ -1323,40 +1323,40 @@ private AccessLevel _accessLevel;
 	
 	/** The _valid link. */
 	private List<String> _validLink = new FastList<String>();
-
+	
 	/** The _forum mail. */
 	private Forum _forumMail;
 	
 	/** The _forum memo. */
 	private Forum _forumMemo;
-
+	
 	/** Current skill in use. */
 	private SkillDat _currentSkill;
 	private SkillDat _currentPetSkill;
-
+	
 	/** Skills queued because a skill is already in progress. */
 	private SkillDat _queuedSkill;
-
+	
 	/* Flag to disable equipment/skills while wearing formal wear **/
 	/** The _ is wearing formal wear. */
 	private boolean _IsWearingFormalWear = false;
-
+	
 	/** The _current skill world position. */
 	private Point3D _currentSkillWorldPosition;
-
+	
 	/** The _cursed weapon equiped id. */
 	private int _cursedWeaponEquipedId = 0;
-//	private boolean _combatFlagEquippedId = false;
-
+	//	private boolean _combatFlagEquippedId = false;
+	
 	/** The _revive requested. */
-private int _reviveRequested = 0;
+	private int _reviveRequested = 0;
 	
 	/** The _revive power. */
 	private double _revivePower = 0;
 	
 	/** The _revive pet. */
 	private boolean _revivePet = false;
-
+	
 	/** The _cp update inc check. */
 	private double _cpUpdateIncCheck = .0;
 	
@@ -1374,7 +1374,7 @@ private int _reviveRequested = 0;
 	
 	/** The _mp update interval. */
 	private double _mpUpdateInterval = .0;
-
+	
 	private long timerToAttack;
 	
 	//private boolean isInDangerArea;
@@ -1386,22 +1386,22 @@ private int _reviveRequested = 0;
 	////////////////////////////////////////////////////////////////////
 	//END CHAT BAN SYSTEM
 	////////////////////////////////////////////////////////////////////
-
+	
 	/** The _is offline. */
 	private boolean _isOffline = false;
-
+	
 	/** The _is trade off. */
 	private boolean _isTradeOff = false;
-
+	
 	/** The _offline shop start. */
 	private long _offlineShopStart = 0;
-
+	
 	/** The _original name color offline. */
 	public int _originalNameColorOffline = 0xFFFFFF;
 	
 	/** Herbs Task Time *. */
 	private int _herbstask = 0;
-
+	
 	/**
 	 * Task for Herbs.
 	 */
@@ -1422,7 +1422,7 @@ private int _reviveRequested = 0;
 		
 		/** The _send message. */
 		private boolean _sendMessage;
-
+		
 		/**
 		 * Instantiates a new herb task.
 		 *
@@ -1440,7 +1440,7 @@ private int _reviveRequested = 0;
 			_reference = reference;
 			_sendMessage = sendMessage;
 		}
-
+		
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
@@ -1461,7 +1461,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	// L2JMOD Wedding
 	/** The _married. */
 	private boolean _married = false;
@@ -1486,7 +1486,7 @@ private int _reviveRequested = 0;
 	
 	/** The _marryaccepted. */
 	private boolean _marryaccepted = false;
-
+	
 	/** Quake System. */
 	private int quakeSystem = 0;
 	
@@ -1510,7 +1510,7 @@ private int _reviveRequested = 0;
 		
 		/** The _shift pressed. */
 		private boolean _shiftPressed;
-
+		
 		/**
 		 * Instantiates a new skill dat.
 		 *
@@ -1524,7 +1524,7 @@ private int _reviveRequested = 0;
 			_ctrlPressed = ctrlPressed;
 			_shiftPressed = shiftPressed;
 		}
-
+		
 		/**
 		 * Checks if is ctrl pressed.
 		 *
@@ -1534,7 +1534,7 @@ private int _reviveRequested = 0;
 		{
 			return _ctrlPressed;
 		}
-
+		
 		/**
 		 * Checks if is shift pressed.
 		 *
@@ -1544,7 +1544,7 @@ private int _reviveRequested = 0;
 		{
 			return _shiftPressed;
 		}
-
+		
 		/**
 		 * Gets the skill.
 		 *
@@ -1554,7 +1554,7 @@ private int _reviveRequested = 0;
 		{
 			return _skill;
 		}
-
+		
 		/**
 		 * Gets the skill id.
 		 *
@@ -1565,7 +1565,7 @@ private int _reviveRequested = 0;
 			return getSkill() != null ? getSkill().getId() : -1;
 		}
 	}
-
+	
 	/**
 	 * Create a new L2PcInstance and add it in the characters table of the database.<BR>
 	 * <BR>
@@ -1591,27 +1591,27 @@ private int _reviveRequested = 0;
 		PcAppearance app = new PcAppearance(face, hairColor, hairStyle, sex);
 		L2PcInstance player = new L2PcInstance(objectId, template, accountName, app);
 		app = null;
-
+		
 		// Set the name of the L2PcInstance
 		player.setName(name);
-
+		
 		// Set the base class ID to that of the actual class ID.
 		player.setBaseClass(player.getClassId());
-
+		
 		if(Config.ALT_GAME_NEW_CHAR_ALWAYS_IS_NEWBIE)
 		{
 			player.setNewbie(true);
 		}
-
+		
 		// Add the player in the characters table of the database
 		boolean ok = player.createDb();
-
+		
 		if(!ok)
 			return null;
-
+		
 		return player;
 	}
-
+	
 	/**
 	 * Creates the dummy player.
 	 *
@@ -1624,10 +1624,10 @@ private int _reviveRequested = 0;
 		// Create a new L2PcInstance with an account name
 		L2PcInstance player = new L2PcInstance(objectId);
 		player.setName(name);
-
+		
 		return player;
 	}
-
+	
 	/**
 	 * Gets the account name.
 	 *
@@ -1639,7 +1639,7 @@ private int _reviveRequested = 0;
 			return getClient().getAccountName();
 		return _accountName;
 	}
-
+	
 	/**
 	 * Gets the account chars.
 	 *
@@ -1649,7 +1649,7 @@ private int _reviveRequested = 0;
 	{
 		return _chars;
 	}
-
+	
 	/**
 	 * Gets the relation.
 	 *
@@ -1659,7 +1659,7 @@ private int _reviveRequested = 0;
 	public int getRelation(L2PcInstance target)
 	{
 		int result = 0;
-
+		
 		// karma and pvp may not be required
 		if(getPvpFlag() != 0)
 		{
@@ -1669,12 +1669,12 @@ private int _reviveRequested = 0;
 		{
 			result |= RelationChanged.RELATION_HAS_KARMA;
 		}
-
+		
 		if(isClanLeader())
 		{
 			result |= RelationChanged.RELATION_LEADER;
 		}
-
+		
 		if(getSiegeState() != 0)
 		{
 			result |= RelationChanged.RELATION_INSIEGE;
@@ -1691,7 +1691,7 @@ private int _reviveRequested = 0;
 				result |= RelationChanged.RELATION_ATTACKER;
 			}
 		}
-
+		
 		if(getClan() != null && target.getClan() != null)
 		{
 			if(target.getPledgeType() != L2Clan.SUBUNIT_ACADEMY && getPledgeType() != L2Clan.SUBUNIT_ACADEMY && target.getClan().isAtWarWith(getClan().getClanId()))
@@ -1705,7 +1705,7 @@ private int _reviveRequested = 0;
 		}
 		return result;
 	}
-
+	
 	/**
 	 * Retrieve a L2PcInstance from the characters table of the database and add it in _allObjects of the L2world (call
 	 * restore method).<BR>
@@ -1724,7 +1724,7 @@ private int _reviveRequested = 0;
 	{
 		return restore(objectId);
 	}
-
+	
 	/**
 	 * Inits the pc status update values.
 	 */
@@ -1737,7 +1737,7 @@ private int _reviveRequested = 0;
 		_mpUpdateIncCheck = getMaxMp();
 		_mpUpdateDecCheck = getMaxMp() - _mpUpdateInterval;
 	}
-
+	
 	/**
 	 * Constructor of L2PcInstance (use L2Character constructor).<BR>
 	 * <BR>
@@ -1762,16 +1762,16 @@ private int _reviveRequested = 0;
 		getStatus(); // init status
 		super.initCharStatusUpdateValues();
 		initPcStatusUpdateValues();
-
+		
 		_accountName = accountName;
 		_appearance = app;
-
+		
 		// Create an AI
 		_ai = new L2PlayerAI(new L2PcInstance.AIAccessor());
-
+		
 		// Create a L2Radar object
 		_radar = new L2Radar(this);
-
+		
 		// Retrieve from the database all skills of this L2PcInstance and add them to _skills
 		// Retrieve from the database all items of this L2PcInstance and add them to _inventory
 		getInventory().restore();
@@ -1783,7 +1783,7 @@ private int _reviveRequested = 0;
 		
 		_instanceLoginTime = System.currentTimeMillis();
 	}
-
+	
 	/**
 	 * Instantiates a new l2 pc instance.
 	 *
@@ -1800,7 +1800,7 @@ private int _reviveRequested = 0;
 		
 		_instanceLoginTime = System.currentTimeMillis();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance#getKnownList()
 	 */
@@ -1813,7 +1813,7 @@ private int _reviveRequested = 0;
 		}
 		return (PcKnownList) super.getKnownList();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance#getStat()
 	 */
@@ -1826,7 +1826,7 @@ private int _reviveRequested = 0;
 		}
 		return (PcStat) super.getStat();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance#getStatus()
 	 */
@@ -1839,7 +1839,7 @@ private int _reviveRequested = 0;
 		}
 		return (PcStatus) super.getStatus();
 	}
-
+	
 	/**
 	 * Gets the appearance.
 	 *
@@ -1849,7 +1849,7 @@ private int _reviveRequested = 0;
 	{
 		return _appearance;
 	}
-
+	
 	/**
 	 * Return the base L2PcTemplate link to the L2PcInstance.<BR>
 	 * <BR>
@@ -1860,7 +1860,7 @@ private int _reviveRequested = 0;
 	{
 		return CharTemplateTable.getInstance().getTemplate(_baseClass);
 	}
-
+	
 	/**
 	 * Return the L2PcTemplate link to the L2PcInstance.
 	 *
@@ -1871,7 +1871,7 @@ private int _reviveRequested = 0;
 	{
 		return (L2PcTemplate) super.getTemplate();
 	}
-
+	
 	/**
 	 * Sets the template.
 	 *
@@ -1884,14 +1884,14 @@ private int _reviveRequested = 0;
 	
 	public void setTimerToAttack (long time)
 	{
-	   timerToAttack = time;
+		timerToAttack = time;
 	}
-	      
-    public long getTimerToAttack ()
+	
+	public long getTimerToAttack ()
 	{
-	   return timerToAttack;
+		return timerToAttack;
 	}
-
+	
 	/**
 	 * Return the AI of the L2PcInstance (create it if necessary).<BR>
 	 * <BR>
@@ -1911,10 +1911,10 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-
+		
 		return _ai;
 	}
-
+	
 	/**
 	 * Calculate a destination to explore the area and set the AI Intension to AI_INTENTION_MOVE_TO.<BR>
 	 * <BR>
@@ -1963,7 +1963,7 @@ private int _reviveRequested = 0;
 
 		pos = null;
 	}*/
-
+	
 	/** Return the Level of the L2PcInstance. */
 	@Override
 	public final int getLevel()
@@ -1978,13 +1978,13 @@ private int _reviveRequested = 0;
 				level = local_char.getLevel();
 			
 		}
-			
+		
 		if(level<0)
 			level = 1;
 		
 		return level;
 	}
-
+	
 	/**
 	 * Return the _newbie state of the L2PcInstance.<BR>
 	 * <BR>
@@ -1995,7 +1995,7 @@ private int _reviveRequested = 0;
 	{
 		return _newbie;
 	}
-
+	
 	/**
 	 * Set the _newbie state of the L2PcInstance.<BR>
 	 * <BR>
@@ -2007,7 +2007,7 @@ private int _reviveRequested = 0;
 	{
 		_newbie = isNewbie;
 	}
-
+	
 	/**
 	 * Sets the base class.
 	 *
@@ -2017,7 +2017,7 @@ private int _reviveRequested = 0;
 	{
 		_baseClass = baseClass;
 	}
-
+	
 	/**
 	 * Sets the base class.
 	 *
@@ -2027,7 +2027,7 @@ private int _reviveRequested = 0;
 	{
 		_baseClass = classId.ordinal();
 	}
-
+	
 	/**
 	 * Checks if is in store mode.
 	 *
@@ -2037,9 +2037,9 @@ private int _reviveRequested = 0;
 	{
 		return getPrivateStoreType() > 0;
 	}
-
+	
 	//	public boolean isInCraftMode() { return (getPrivateStoreType() == STORE_PRIVATE_MANUFACTURE); }
-
+	
 	/**
 	 * Checks if is in craft mode.
 	 *
@@ -2049,7 +2049,7 @@ private int _reviveRequested = 0;
 	{
 		return _inCraftMode;
 	}
-
+	
 	/**
 	 * Checks if is in craft mode.
 	 *
@@ -2059,7 +2059,7 @@ private int _reviveRequested = 0;
 	{
 		_inCraftMode = b;
 	}
-
+	
 	/** The _kicked. */
 	private boolean _kicked = false;
 	
@@ -2113,7 +2113,7 @@ private int _reviveRequested = 0;
 		if(_active_boxes!=-1){ //normal logout
 			this.decreaseBoxes();
 		}
-		*/
+		 */
 		/*
 		_active_boxes = _active_boxes-1;
 		if(getClient()!=null && !getClient().getConnection().isClosed()){
@@ -2137,10 +2137,10 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-		*/
+		 */
 		
 	}
-
+	
 	/**
 	 * Return a table containing all Common L2RecipeList of the L2PcInstance.<BR>
 	 * <BR>
@@ -2151,7 +2151,7 @@ private int _reviveRequested = 0;
 	{
 		return _commonRecipeBook.values().toArray(new L2RecipeList[_commonRecipeBook.values().size()]);
 	}
-
+	
 	/**
 	 * Return a table containing all Dwarf L2RecipeList of the L2PcInstance.<BR>
 	 * <BR>
@@ -2162,7 +2162,7 @@ private int _reviveRequested = 0;
 	{
 		return _dwarvenRecipeBook.values().toArray(new L2RecipeList[_dwarvenRecipeBook.values().size()]);
 	}
-
+	
 	/**
 	 * Add a new L2RecipList to the table _commonrecipebook containing all L2RecipeList of the L2PcInstance <BR>
 	 * <BR>.
@@ -2173,7 +2173,7 @@ private int _reviveRequested = 0;
 	{
 		_commonRecipeBook.put(recipe.getId(), recipe);
 	}
-
+	
 	/**
 	 * Add a new L2RecipList to the table _recipebook containing all L2RecipeList of the L2PcInstance <BR>
 	 * <BR>.
@@ -2184,7 +2184,7 @@ private int _reviveRequested = 0;
 	{
 		_dwarvenRecipeBook.put(recipe.getId(), recipe);
 	}
-
+	
 	/**
 	 * Checks for recipe list.
 	 *
@@ -2200,7 +2200,7 @@ private int _reviveRequested = 0;
 		else
 			return false;
 	}
-
+	
 	/**
 	 * Tries to remove a L2RecipList from the table _DwarvenRecipeBook or from table _CommonRecipeBook, those table
 	 * contain all L2RecipeList of the L2PcInstance <BR>
@@ -2222,9 +2222,9 @@ private int _reviveRequested = 0;
 		{
 			_log.warning("Attempted to remove unknown RecipeList: " + recipeId);
 		}
-
+		
 		L2ShortCut[] allShortCuts = getAllShortCuts();
-
+		
 		for(L2ShortCut sc : allShortCuts)
 		{
 			if(sc != null && sc.getId() == recipeId && sc.getType() == L2ShortCut.TYPE_RECIPE)
@@ -2232,10 +2232,10 @@ private int _reviveRequested = 0;
 				deleteShortCut(sc.getSlot(), sc.getPage());
 			}
 		}
-
+		
 		allShortCuts = null;
 	}
-
+	
 	/**
 	 * Returns the Id for the last talked quest NPC.<BR>
 	 * <BR>
@@ -2246,7 +2246,7 @@ private int _reviveRequested = 0;
 	{
 		return _questNpcObject;
 	}
-
+	
 	/**
 	 * Sets the last quest npc object.
 	 *
@@ -2256,7 +2256,7 @@ private int _reviveRequested = 0;
 	{
 		_questNpcObject = npcId;
 	}
-
+	
 	/**
 	 * Return the QuestState object corresponding to the quest name.<BR>
 	 * <BR>
@@ -2268,7 +2268,7 @@ private int _reviveRequested = 0;
 	{
 		return _quests.get(quest);
 	}
-
+	
 	/**
 	 * Add a QuestState to the table _quest containing all quests began by the L2PcInstance.<BR>
 	 * <BR>
@@ -2279,7 +2279,7 @@ private int _reviveRequested = 0;
 	{
 		_quests.put(qs.getQuestName(), qs);
 	}
-
+	
 	/**
 	 * Remove a QuestState from the table _quest containing all quests began by the L2PcInstance.<BR>
 	 * <BR>
@@ -2290,7 +2290,7 @@ private int _reviveRequested = 0;
 	{
 		_quests.remove(quest);
 	}
-
+	
 	/**
 	 * Adds the to quest state array.
 	 *
@@ -2309,7 +2309,7 @@ private int _reviveRequested = 0;
 		tmp[len] = state;
 		return tmp;
 	}
-
+	
 	/**
 	 * Return a table containing all Quest in progress from the table _quests.<BR>
 	 * <BR>
@@ -2319,7 +2319,7 @@ private int _reviveRequested = 0;
 	public Quest[] getAllActiveQuests()
 	{
 		FastList<Quest> quests = new FastList<Quest>();
-
+		
 		for(QuestState qs : _quests.values())
 		{
 			if(qs != null)
@@ -2328,24 +2328,24 @@ private int _reviveRequested = 0;
 				{
 					continue;
 				}
-
+				
 				if(qs.isCompleted() && !Config.DEVELOPER)
 				{
 					continue;
 				}
-
+				
 				if(!qs.isStarted() && !Config.DEVELOPER)
 				{
 					continue;
 				}
-
+				
 				quests.add(qs.getQuest());
 			}
 		}
-
+		
 		return quests.toArray(new Quest[quests.size()]);
 	}
-
+	
 	/**
 	 * Return a table containing all QuestState to modify after a L2Attackable killing.<BR>
 	 * <BR>
@@ -2357,7 +2357,7 @@ private int _reviveRequested = 0;
 	{
 		// Create a QuestState table that will contain all QuestState to modify
 		QuestState[] states = null;
-
+		
 		// Go through the QuestState of the L2PcInstance quests
 		for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_ATTACK))
 		{
@@ -2368,9 +2368,9 @@ private int _reviveRequested = 0;
 				if(states == null)
 				{
 					states = new QuestState[]
-					{
+						{
 						getQuestState(quest.getName())
-					};
+						};
 				}
 				else
 				{
@@ -2378,11 +2378,11 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-
+		
 		// Return a table containing all QuestState to modify
 		return states;
 	}
-
+	
 	/**
 	 * Return a table containing all QuestState to modify after a L2Attackable killing.<BR>
 	 * <BR>
@@ -2394,7 +2394,7 @@ private int _reviveRequested = 0;
 	{
 		// Create a QuestState table that will contain all QuestState to modify
 		QuestState[] states = null;
-
+		
 		// Go through the QuestState of the L2PcInstance quests
 		for(Quest quest : npc.getTemplate().getEventQuests(Quest.QuestEventType.ON_KILL))
 		{
@@ -2405,9 +2405,9 @@ private int _reviveRequested = 0;
 				if(states == null)
 				{
 					states = new QuestState[]
-					{
+						{
 						getQuestState(quest.getName())
-					};
+						};
 				}
 				else
 				{
@@ -2415,11 +2415,11 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-
+		
 		// Return a table containing all QuestState to modify
 		return states;
 	}
-
+	
 	/**
 	 * Return a table containing all QuestState from the table _quests in which the L2PcInstance must talk to the NPC.<BR>
 	 * <BR>
@@ -2431,7 +2431,7 @@ private int _reviveRequested = 0;
 	{
 		// Create a QuestState table that will contain all QuestState to modify
 		QuestState[] states = null;
-
+		
 		// Go through the QuestState of the L2PcInstance quests
 		for(Quest quest : NpcTable.getInstance().getTemplate(npcId).getEventQuests(Quest.QuestEventType.QUEST_TALK))
 		{
@@ -2443,9 +2443,9 @@ private int _reviveRequested = 0;
 					if(states == null)
 					{
 						states = new QuestState[]
-						{
+							{
 							getQuestState(quest.getName())
-						};
+							};
 					}
 					else
 					{
@@ -2454,11 +2454,11 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-
+		
 		// Return a table containing all QuestState to modify
 		return states;
 	}
-
+	
 	/**
 	 * Process quest event.
 	 *
@@ -2473,14 +2473,14 @@ private int _reviveRequested = 0;
 		{
 			event = "";
 		}
-
+		
 		if(!_quests.containsKey(quest))
 			return retval;
-
+		
 		QuestState qs = getQuestState(quest);
 		if(qs == null && event.length() == 0)
 			return retval;
-
+		
 		if(qs == null)
 		{
 			Quest q = null;
@@ -2500,7 +2500,7 @@ private int _reviveRequested = 0;
 				{
 					L2NpcInstance npc = (L2NpcInstance) object;
 					QuestState[] states = getQuestsForTalk(npc.getNpcId());
-
+					
 					if(states != null)
 					{
 						for(QuestState state : states)
@@ -2511,7 +2511,7 @@ private int _reviveRequested = 0;
 								{
 									showQuestWindow(quest, qs.getStateId());
 								}
-
+								
 								retval = qs;
 							}
 						}
@@ -2521,10 +2521,10 @@ private int _reviveRequested = 0;
 			}
 			qs = null;
 		}
-
+		
 		return retval;
 	}
-
+	
 	/**
 	 * Show quest window.
 	 *
@@ -2535,25 +2535,25 @@ private int _reviveRequested = 0;
 	{
 		String path = "data/scripts/quests/" + questId + "/" + stateId + ".htm";
 		String content = HtmCache.getInstance().getHtm(path);
-
+		
 		if(content != null)
 		{
 			if(Config.DEBUG)
 			{
 				_log.fine("Showing quest window for quest " + questId + " state " + stateId + " html path: " + path);
 			}
-
+			
 			NpcHtmlMessage npcReply = new NpcHtmlMessage(5);
 			npcReply.setHtml(content);
 			sendPacket(npcReply);
 			content = null;
 			npcReply = null;
 		}
-
+		
 		sendPacket(ActionFailed.STATIC_PACKET);
 		path = null;
 	}
-
+	
 	/**
 	 * Return a table containing all L2ShortCut of the L2PcInstance.<BR>
 	 * <BR>
@@ -2564,7 +2564,7 @@ private int _reviveRequested = 0;
 	{
 		return _shortCuts.getAllShortCuts();
 	}
-
+	
 	/**
 	 * Return the L2ShortCut of the L2PcInstance corresponding to the position (page-slot).<BR>
 	 * <BR>
@@ -2577,7 +2577,7 @@ private int _reviveRequested = 0;
 	{
 		return _shortCuts.getShortCut(slot, page);
 	}
-
+	
 	/**
 	 * Add a L2shortCut to the L2PcInstance _shortCuts<BR>
 	 * <BR>.
@@ -2588,7 +2588,7 @@ private int _reviveRequested = 0;
 	{
 		_shortCuts.registerShortCut(shortcut);
 	}
-
+	
 	/**
 	 * Delete the L2ShortCut corresponding to the position (page-slot) from the L2PcInstance _shortCuts.<BR>
 	 * <BR>
@@ -2600,7 +2600,7 @@ private int _reviveRequested = 0;
 	{
 		_shortCuts.deleteShortCut(slot, page);
 	}
-
+	
 	/**
 	 * Add a L2Macro to the L2PcInstance _macroses<BR>
 	 * <BR>.
@@ -2611,7 +2611,7 @@ private int _reviveRequested = 0;
 	{
 		_macroses.registerMacro(macro);
 	}
-
+	
 	/**
 	 * Delete the L2Macro corresponding to the Identifier from the L2PcInstance _macroses.<BR>
 	 * <BR>
@@ -2622,7 +2622,7 @@ private int _reviveRequested = 0;
 	{
 		_macroses.deleteMacro(id);
 	}
-
+	
 	/**
 	 * Return all L2Macro of the L2PcInstance.<BR>
 	 * <BR>
@@ -2633,7 +2633,7 @@ private int _reviveRequested = 0;
 	{
 		return _macroses;
 	}
-
+	
 	/**
 	 * Set the siege state of the L2PcInstance.<BR>
 	 * <BR>
@@ -2645,7 +2645,7 @@ private int _reviveRequested = 0;
 	{
 		_siegeState = siegeState;
 	}
-
+	
 	/**
 	 * Get the siege state of the L2PcInstance.<BR>
 	 * <BR>
@@ -2657,7 +2657,7 @@ private int _reviveRequested = 0;
 	{
 		return _siegeState;
 	}
-
+	
 	/**
 	 * Set the PvP Flag of the L2PcInstance.<BR>
 	 * <BR>
@@ -2668,7 +2668,7 @@ private int _reviveRequested = 0;
 	{
 		_pvpFlag = (byte) pvpFlag;
 	}
-
+	
 	/**
 	 * Gets the pvp flag.
 	 *
@@ -2678,7 +2678,7 @@ private int _reviveRequested = 0;
 	{
 		return _pvpFlag;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#updatePvPFlag(int)
 	 */
@@ -2688,15 +2688,15 @@ private int _reviveRequested = 0;
 		if(getPvpFlag() == value)
 			return;
 		setPvpFlag(value);
-
+		
 		sendPacket(new UserInfo(this));
-
+		
 		// If this player has a pet update the pets pvp flag as well
 		if(getPet() != null)
 		{
 			sendPacket(new RelationChanged(getPet(), getRelation(this), false));
 		}
-
+		
 		for(L2PcInstance target : getKnownList().getKnownPlayers().values())
 		{
 			if(target==null)
@@ -2709,7 +2709,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#revalidateZone(boolean)
 	 */
@@ -2720,9 +2720,9 @@ private int _reviveRequested = 0;
 		if(getWorldRegion() == null)
 			return;
 		
-		 if (Config.ALLOW_WATER)
-	         checkWaterState();
-
+		if (Config.ALLOW_WATER)
+			checkWaterState();
+		
 		// This function is called very often from movement code
 		if(force)
 		{
@@ -2738,9 +2738,9 @@ private int _reviveRequested = 0;
 			else
 				return;
 		}
-
+		
 		getWorldRegion().revalidateZones(this);
-
+		
 		if(isInsideZone(ZONE_SIEGE))
 		{
 			if(_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2)
@@ -2791,7 +2791,7 @@ private int _reviveRequested = 0;
 			cz = null;
 		}
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance can Craft Dwarven Recipes.<BR>
 	 * <BR>
@@ -2802,7 +2802,7 @@ private int _reviveRequested = 0;
 	{
 		return getSkillLevel(L2Skill.SKILL_CREATE_DWARVEN) >= 1;
 	}
-
+	
 	/**
 	 * Gets the dwarven craft.
 	 *
@@ -2812,7 +2812,7 @@ private int _reviveRequested = 0;
 	{
 		return getSkillLevel(L2Skill.SKILL_CREATE_DWARVEN);
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance can Craft Dwarven Recipes.<BR>
 	 * <BR>
@@ -2823,7 +2823,7 @@ private int _reviveRequested = 0;
 	{
 		return getSkillLevel(L2Skill.SKILL_CREATE_COMMON) >= 1;
 	}
-
+	
 	/**
 	 * Gets the common craft.
 	 *
@@ -2833,7 +2833,7 @@ private int _reviveRequested = 0;
 	{
 		return getSkillLevel(L2Skill.SKILL_CREATE_COMMON);
 	}
-
+	
 	/**
 	 * Return the PK counter of the L2PcInstance.<BR>
 	 * <BR>
@@ -2844,7 +2844,7 @@ private int _reviveRequested = 0;
 	{
 		return _pkKills;
 	}
-
+	
 	/**
 	 * Set the PK counter of the L2PcInstance.<BR>
 	 * <BR>
@@ -2855,7 +2855,7 @@ private int _reviveRequested = 0;
 	{
 		_pkKills = pkKills;
 	}
-
+	
 	/**
 	 * Return the _deleteTimer of the L2PcInstance.<BR>
 	 * <BR>
@@ -2866,7 +2866,7 @@ private int _reviveRequested = 0;
 	{
 		return _deleteTimer;
 	}
-
+	
 	/**
 	 * Set the _deleteTimer of the L2PcInstance.<BR>
 	 * <BR>
@@ -2877,7 +2877,7 @@ private int _reviveRequested = 0;
 	{
 		_deleteTimer = deleteTimer;
 	}
-
+	
 	/**
 	 * Return the current weight of the L2PcInstance.<BR>
 	 * <BR>
@@ -2888,7 +2888,7 @@ private int _reviveRequested = 0;
 	{
 		return _inventory.getTotalWeight();
 	}
-
+	
 	/**
 	 * Return date of las update of recomPoints.
 	 *
@@ -2898,7 +2898,7 @@ private int _reviveRequested = 0;
 	{
 		return _lastRecomUpdate;
 	}
-
+	
 	/**
 	 * Sets the last recom update.
 	 *
@@ -2908,7 +2908,7 @@ private int _reviveRequested = 0;
 	{
 		_lastRecomUpdate = date;
 	}
-
+	
 	/**
 	 * Return the number of recommandation obtained by the L2PcInstance.<BR>
 	 * <BR>
@@ -2919,7 +2919,7 @@ private int _reviveRequested = 0;
 	{
 		return _recomHave;
 	}
-
+	
 	/**
 	 * Increment the number of recommandation obtained by the L2PcInstance (Max : 255).<BR>
 	 * <BR>
@@ -2931,7 +2931,7 @@ private int _reviveRequested = 0;
 			_recomHave++;
 		}
 	}
-
+	
 	/**
 	 * Set the number of recommandation obtained by the L2PcInstance (Max : 255).<BR>
 	 * <BR>
@@ -2953,7 +2953,7 @@ private int _reviveRequested = 0;
 			_recomHave = value;
 		}
 	}
-
+	
 	/**
 	 * Return the number of recommandation that the L2PcInstance can give.<BR>
 	 * <BR>
@@ -2964,7 +2964,7 @@ private int _reviveRequested = 0;
 	{
 		return _recomLeft;
 	}
-
+	
 	/**
 	 * Increment the number of recommandation that the L2PcInstance can give.<BR>
 	 * <BR>
@@ -2976,7 +2976,7 @@ private int _reviveRequested = 0;
 			_recomLeft--;
 		}
 	}
-
+	
 	/**
 	 * Give recom.
 	 *
@@ -3014,7 +3014,7 @@ private int _reviveRequested = 0;
 		decRecomLeft();
 		_recomChars.add(target.getObjectId());
 	}
-
+	
 	/**
 	 * Can recom.
 	 *
@@ -3025,7 +3025,7 @@ private int _reviveRequested = 0;
 	{
 		return !_recomChars.contains(target.getObjectId());
 	}
-
+	
 	/**
 	 * Set the exp of the L2PcInstance before a death.
 	 *
@@ -3035,7 +3035,7 @@ private int _reviveRequested = 0;
 	{
 		_expBeforeDeath = exp;
 	}
-
+	
 	/**
 	 * Gets the exp before death.
 	 *
@@ -3045,7 +3045,7 @@ private int _reviveRequested = 0;
 	{
 		return _expBeforeDeath;
 	}
-
+	
 	/**
 	 * Return the Karma of the L2PcInstance.<BR>
 	 * <BR>
@@ -3056,7 +3056,7 @@ private int _reviveRequested = 0;
 	{
 		return _karma;
 	}
-
+	
 	/**
 	 * Set the Karma of the L2PcInstance and send a Server->Client packet StatusUpdate (broadcast).<BR>
 	 * <BR>
@@ -3069,7 +3069,7 @@ private int _reviveRequested = 0;
 		{
 			karma = 0;
 		}
-
+		
 		if(_karma == 0 && karma > 0)
 		{
 			for(L2Object object : getKnownList().getKnownObjects().values())
@@ -3078,7 +3078,7 @@ private int _reviveRequested = 0;
 				{
 					continue;
 				}
-
+				
 				if(((L2GuardInstance) object).getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
 				{
 					((L2GuardInstance) object).getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
@@ -3090,11 +3090,11 @@ private int _reviveRequested = 0;
 			// Send a Server->Client StatusUpdate packet with Karma and PvP Flag to the L2PcInstance and all L2PcInstance to inform (broadcast)
 			setKarmaFlag(0);
 		}
-
+		
 		_karma = karma;
 		broadcastKarma();
 	}
-
+	
 	/**
 	 * Return the max weight that the L2PcInstance can load.<BR>
 	 * <BR>
@@ -3109,14 +3109,14 @@ private int _reviveRequested = 0;
 		int con = getCON();
 		if(con < 1)
 			return 31000;
-
+		
 		if(con > 59)
 			return 176000;
-
+		
 		double baseLoad = Math.pow(1.029993928, con) * 30495.627366;
 		return (int) calcStat(Stats.MAX_LOAD, baseLoad * Config.ALT_WEIGHT_LIMIT, this, null);
 	}
-
+	
 	/**
 	 * Gets the expertise penalty.
 	 *
@@ -3146,7 +3146,7 @@ private int _reviveRequested = 0;
 	{
 		return _masteryWeapPenalty;
 	}
-
+	
 	/**
 	 * Gets the weight penalty.
 	 *
@@ -3158,7 +3158,7 @@ private int _reviveRequested = 0;
 			return 0;
 		return _curWeightPenalty;
 	}
-
+	
 	/**
 	 * Update the overloaded status of the L2PcInstance.<BR>
 	 * <BR>
@@ -3185,7 +3185,7 @@ private int _reviveRequested = 0;
 				setIsOverloaded(getCurrentLoad() > maxLoad);
 				int weightproc = getCurrentLoad() * 1000 / maxLoad;
 				int newWeightPenalty;
-
+				
 				if(weightproc < 500)
 				{
 					newWeightPenalty = 0;
@@ -3206,7 +3206,7 @@ private int _reviveRequested = 0;
 				{
 					newWeightPenalty = 4;
 				}
-
+				
 				if(_curWeightPenalty != newWeightPenalty)
 				{
 					_curWeightPenalty = newWeightPenalty;
@@ -3220,7 +3220,7 @@ private int _reviveRequested = 0;
 						super.removeSkill(getKnownSkill(4270));
 						sendSkillList(); // Fix visual bug
 					}
-
+					
 					sendPacket(new EtcStatusUpdate(this));
 					Broadcast.toKnownPlayers(this, new CharInfo(this));
 				}
@@ -3229,7 +3229,7 @@ private int _reviveRequested = 0;
 		
 		sendPacket(new UserInfo(this));
 	}
-
+	
 	/**
 	 * Refresh mastery penality.
 	 */
@@ -3288,19 +3288,19 @@ private int _reviveRequested = 0;
 							if (!_heavy_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case LIGHT:
 						{							
 							if (!_light_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case MAGIC:
 						{						
 							if (!_robe_mastery)
 								newMasteryPenalty++;							
 						}
-							break;					
+						break;					
 					}
 				}
 			}			
@@ -3334,7 +3334,7 @@ private int _reviveRequested = 0;
 	{
 		if(!isInsideRadius(player, 50, false, false))
 			return false;
-
+		
 		return true;
 	}
 	
@@ -3457,58 +3457,58 @@ private int _reviveRequested = 0;
 					
 					switch (weap_item.getItemType())
 					{
-					
+						
 						case BIGBLUNT:
 						case BIGSWORD:
 						{
 							if (!_2hands_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case BLUNT:
 						{
 							if (!_blunt_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case BOW:
 						{
 							if (!_bow_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case DAGGER:
 						{
 							if (!_dagger_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case DUAL:
 						{
 							if (!_dual_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case DUALFIST:
 						case FIST:
 						{
 							if (!_fist_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case POLE:
 						{
 							if (!_pole_mastery)
 								newMasteryPenalty++;
 						}
-							break;
+						break;
 						case SWORD:
 						{
 							if (!_sword_mastery)
 								newMasteryPenalty++;
 						}
-							break;
-					
+						break;
+						
 					}
 				}
 			}
@@ -3532,7 +3532,7 @@ private int _reviveRequested = 0;
 			_masteryWeapPenalty = newMasteryPenalty;
 		}
 	}
-
+	
 	/**
 	 * Refresh expertise penalty.
 	 */
@@ -3542,27 +3542,27 @@ private int _reviveRequested = 0;
 			return;
 		
 		int newPenalty = 0;
-
+		
 		for(L2ItemInstance item : getInventory().getItems())
 		{
 			if(item != null && item.isEquipped())
 			{
 				int crystaltype = item.getItem().getCrystalType();
-
+				
 				if(crystaltype > newPenalty)
 				{
 					newPenalty = crystaltype;
 				}
 			}
 		}
-
+		
 		newPenalty = newPenalty - getExpertiseIndex();
-
+		
 		if(newPenalty <= 0)
 		{
 			newPenalty = 0;
 		}
-
+		
 		if(getExpertisePenalty() != newPenalty)
 		{
 			int penalties = _masteryPenalty + _masteryWeapPenalty + newPenalty;
@@ -3584,7 +3584,7 @@ private int _reviveRequested = 0;
 			
 		}
 	}
-
+	
 	public void checkIfWeaponIsAllowed()
 	{
 		// Override for Gamemasters
@@ -3613,7 +3613,7 @@ private int _reviveRequested = 0;
 			continue;
 		}
 	}
-
+	
 	/**
 	 * Check ss match.
 	 *
@@ -3624,18 +3624,18 @@ private int _reviveRequested = 0;
 	{
 		if(unequipped == null)
 			return;
-
+		
 		if(unequipped.getItem().getType2() == L2Item.TYPE2_WEAPON && (equipped == null ? true : equipped.getItem().getCrystalType() != unequipped.getItem().getCrystalType()))
-		// && getInventory().getItem() != null - must be fixed.
+			// && getInventory().getItem() != null - must be fixed.
 		{
 			for(L2ItemInstance ss : getInventory().getItems())
 			{
 				int _itemId = ss.getItemId();
-
+				
 				if((_itemId >= 2509 && _itemId <= 2514 || _itemId >= 3947 && _itemId <= 3952 || _itemId <= 1804 && _itemId >= 1808 || _itemId == 5789 || _itemId == 5790 || _itemId == 1835) && ss.getItem().getCrystalType() == unequipped.getItem().getCrystalType())
 				{
 					sendPacket(new ExAutoSoulShot(_itemId, 0));
-
+					
 					SystemMessage sm = new SystemMessage(SystemMessageId.AUTO_USE_OF_S1_CANCELLED);
 					sm.addString(ss.getItemName());
 					sendPacket(sm);
@@ -3643,7 +3643,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Return the the PvP Kills of the L2PcInstance (Number of player killed during a PvP).<BR>
 	 * <BR>
@@ -3654,7 +3654,7 @@ private int _reviveRequested = 0;
 	{
 		return _pvpKills;
 	}
-
+	
 	/**
 	 * Set the the PvP Kills of the L2PcInstance (Number of player killed during a PvP).<BR>
 	 * <BR>
@@ -3665,14 +3665,14 @@ private int _reviveRequested = 0;
 	{
 		_pvpKills = pvpKills;
 		
-		 /*// Set hero aura if pvp kills > 100
+		/*// Set hero aura if pvp kills > 100
 		 if (pvpKills > 100)
 		 {
 		 isPermaHero = true;
 		 setHeroAura(true);
 		 }*/ 
 	}
-
+	
 	/**
 	 * Return the ClassId object of the L2PcInstance contained in L2PcTemplate.<BR>
 	 * <BR>
@@ -3683,7 +3683,7 @@ private int _reviveRequested = 0;
 	{
 		return getTemplate().classId;
 	}
-
+	
 	/**
 	 * Set the template of the L2PcInstance.<BR>
 	 * <BR>
@@ -3692,7 +3692,7 @@ private int _reviveRequested = 0;
 	 */
 	public void setClassId(int Id)
 	{
-
+		
 		if(getLvlJoinedAcademy() != 0 && _clan != null && PlayerClass.values()[Id].getLevel() == ClassLevel.Third)
 		{
 			if(getLvlJoinedAcademy() <= 16)
@@ -3707,7 +3707,7 @@ private int _reviveRequested = 0;
 			{
 				_clan.setReputationScore(_clan.getReputationScore() + 400 - (getLvlJoinedAcademy() - 16) * 10, true);
 			}
-
+			
 			_clan.broadcastToOnlineMembers(new PledgeShowInfoUpdate(_clan));
 			setLvlJoinedAcademy(0);
 			//oust pledge member from the academy, cuz he has finished his 2nd class transfer
@@ -3718,7 +3718,7 @@ private int _reviveRequested = 0;
 			_clan.removeClanMember(getName(), 0);
 			sendPacket(new SystemMessage(SystemMessageId.ACADEMY_MEMBERSHIP_TERMINATED));
 			msg = null;
-
+			
 			// receive graduation gift
 			getInventory().addItem("Gift", 8181, 1, this, null); // give academy circlet
 			getInventory().updateDatabase(); // update database
@@ -3730,7 +3730,7 @@ private int _reviveRequested = 0;
 		doCast(SkillTable.getInstance().getInfo(5103, 1));
 		setClassTemplate(Id);
 	}
-
+	
 	/**
 	 * Return the Experience of the L2PcInstance.
 	 *
@@ -3740,7 +3740,7 @@ private int _reviveRequested = 0;
 	{
 		return getStat().getExp();
 	}
-
+	
 	/**
 	 * Sets the active enchant item.
 	 *
@@ -3750,7 +3750,7 @@ private int _reviveRequested = 0;
 	{
 		_activeEnchantItem = scroll;
 	}
-
+	
 	/**
 	 * Gets the active enchant item.
 	 *
@@ -3760,7 +3760,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeEnchantItem;
 	}
-
+	
 	/**
 	 * Set the fists weapon of the L2PcInstance (used when no weapon is equiped).<BR>
 	 * <BR>
@@ -3771,7 +3771,7 @@ private int _reviveRequested = 0;
 	{
 		_fistsWeaponItem = weaponItem;
 	}
-
+	
 	/**
 	 * Return the fists weapon of the L2PcInstance (used when no weapon is equiped).<BR>
 	 * <BR>
@@ -3782,7 +3782,7 @@ private int _reviveRequested = 0;
 	{
 		return _fistsWeaponItem;
 	}
-
+	
 	/**
 	 * Return the fists weapon of the L2PcInstance Class (used when no weapon is equiped).<BR>
 	 * <BR>
@@ -3856,10 +3856,10 @@ private int _reviveRequested = 0;
 			weaponItem = (L2Weapon) temp;
 			temp = null;
 		}
-
+		
 		return weaponItem;
 	}
-
+	
 	/**
 	 * Give Expertise skill of this level and remove beginner Lucky skill.<BR>
 	 * <BR>
@@ -3876,21 +3876,21 @@ private int _reviveRequested = 0;
 	{
 		// Get the Level of the L2PcInstance
 		int lvl = getLevel();
-
+		
 		// Remove beginner Lucky skill
 		if(lvl == 10)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(194, 1);
 			skill = removeSkill(skill);
-
+			
 			if(Config.DEBUG && skill != null)
 			{
 				_log.fine("removed skill 'Lucky' from " + getName());
 			}
-
+			
 			skill = null;
 		}
-
+		
 		// Calculate the current higher Expertise of the L2PcInstance
 		for(int i = 0; i < EXPERTISE_LEVELS.length; i++)
 		{
@@ -3899,18 +3899,18 @@ private int _reviveRequested = 0;
 				setExpertiseIndex(i);
 			}
 		}
-
+		
 		// Add the Expertise skill corresponding to its Expertise level
 		if(getExpertiseIndex() > 0)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(239, getExpertiseIndex());
 			addSkill(skill, true);
-
+			
 			if(Config.DEBUG)
 			{
 				_log.fine("awarded " + getName() + " with new expertise.");
 			}
-
+			
 			skill = null;
 		}
 		else
@@ -3920,16 +3920,16 @@ private int _reviveRequested = 0;
 				_log.fine("No skills awarded at lvl: " + lvl);
 			}
 		}
-
+		
 		//Active skill dwarven craft
-
+		
 		if(getSkillLevel(1321) < 1 && getRace() == Race.dwarf)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(1321, 1);
 			addSkill(skill, true);
 			skill = null;
 		}
-
+		
 		//Active skill common craft
 		if(getSkillLevel(1322) < 1)
 		{
@@ -3937,7 +3937,7 @@ private int _reviveRequested = 0;
 			addSkill(skill, true);
 			skill = null;
 		}
-
+		
 		for(int i = 0; i < COMMON_CRAFT_LEVELS.length; i++)
 		{
 			if(lvl >= COMMON_CRAFT_LEVELS[i] && getSkillLevel(1320) < i + 1)
@@ -3947,7 +3947,7 @@ private int _reviveRequested = 0;
 				skill = null;
 			}
 		}
-
+		
 		// Auto-Learn skills if activated
 		if(Config.AUTO_LEARN_SKILLS)
 		{
@@ -3963,7 +3963,7 @@ private int _reviveRequested = 0;
 		
 		// This function gets called on login, so not such a bad place to check weight
 		refreshOverloaded(); // Update the overloaded status of the L2PcInstance
-
+		
 		refreshExpertisePenalty(); // Update the expertise status of the L2PcInstance
 		
 		refreshMasteryPenality();
@@ -3971,7 +3971,7 @@ private int _reviveRequested = 0;
 		refreshMasteryWeapPenality();
 		
 	}
-
+	
 	/**
 	 * Regive all skills which aren't saved to database, like Noble, Hero, Clan Skills<BR>
 	 * <BR>.
@@ -3979,26 +3979,26 @@ private int _reviveRequested = 0;
 	private synchronized void regiveTemporarySkills()
 	{
 		// Do not call this on enterworld or char load
-
+		
 		// Add noble skills if noble
 		if(isNoble())
 		{
 			setNoble(true);
 		}
-
+		
 		// Add Hero skills if hero
 		if(isHero())
 		{
 			setHero(true);
 		}
-
+		
 		/*
 		// Add clan leader skills if clanleader
 		if(isClanLeader())
 		{
 			setClanLeader(true);
 		}
-		*/
+		 */
 		
 		// Add clan skills
 		if(getClan() != null && getClan().getReputationScore() >= 0)
@@ -4013,69 +4013,69 @@ private int _reviveRequested = 0;
 			}
 			skills = null;
 		}
-
+		
 		// Reload passive skills from armors / jewels / weapons
 		getInventory().reloadEquippedItems();
-
+		
 	}
-
+	
 	/**
 	 * Give all available skills to the player.<br>
 	 * <br>
 	 */
 	public void giveAvailableSkills()
 	{
-//		int unLearnable = 0;
+		//		int unLearnable = 0;
 		int skillCounter = 0;
-
+		
 		// Get available skills
-//		L2SkillLearn[] skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
-//		while(skills.length > unLearnable)
-//		{
-//			unLearnable = 0;
-//			for(L2SkillLearn s : skills)
+		//		L2SkillLearn[] skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
+		//		while(skills.length > unLearnable)
+		//		{
+		//			unLearnable = 0;
+		//			for(L2SkillLearn s : skills)
 		Collection<L2Skill> skills = SkillTreeTable.getInstance().getAllAvailableSkills(this, getClassId()); 
-	 	for (L2Skill sk : skills){ 
-//			{
-//				L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
-//				if(sk == null || (sk.getId() == L2Skill.SKILL_DIVINE_INSPIRATION && !Config.AUTO_LEARN_DIVINE_INSPIRATION))
-//				{
-//					unLearnable++;
-//					continue;
-//				}
-
-				if(getSkillLevel(sk.getId()) == -1)
-				{
-					skillCounter++;
-				}
-				
-				// Penality skill are not auto learn
-				if(sk.getId() == 4267 || sk.getId() == 4270)
-					continue;
-
-				// fix when learning toggle skills
-				if(sk.isToggle())
-				{
-					L2Effect toggleEffect = getFirstEffect(sk.getId());
-					if(toggleEffect != null)
-					{
-						// stop old toggle skill effect, and give new toggle skill effect back
-						toggleEffect.exit(false);
-						sk.getEffects(this, this,false,false,false);
-					}
-				}
-
-				addSkill(sk, true);
+		for (L2Skill sk : skills){ 
+			//			{
+			//				L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
+			//				if(sk == null || (sk.getId() == L2Skill.SKILL_DIVINE_INSPIRATION && !Config.AUTO_LEARN_DIVINE_INSPIRATION))
+			//				{
+			//					unLearnable++;
+			//					continue;
+			//				}
+			
+			if(getSkillLevel(sk.getId()) == -1)
+			{
+				skillCounter++;
 			}
-
-//			// Get new available skills
-//			skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
-//		}
-
+			
+			// Penality skill are not auto learn
+			if(sk.getId() == 4267 || sk.getId() == 4270)
+				continue;
+			
+			// fix when learning toggle skills
+			if(sk.isToggle())
+			{
+				L2Effect toggleEffect = getFirstEffect(sk.getId());
+				if(toggleEffect != null)
+				{
+					// stop old toggle skill effect, and give new toggle skill effect back
+					toggleEffect.exit(false);
+					sk.getEffects(this, this,false,false,false);
+				}
+			}
+			
+			addSkill(sk, true);
+		}
+		
+		//			// Get new available skills
+		//			skills = SkillTreeTable.getInstance().getAvailableSkills(this, getClassId());
+		//		}
+		
 		sendMessage("You have learned " + skillCounter + " new skills.");
 		skills = null;
 	}
-
+	
 	/**
 	 * Set the Experience value of the L2PcInstance.
 	 *
@@ -4085,7 +4085,7 @@ private int _reviveRequested = 0;
 	{
 		getStat().setExp(exp);
 	}
-
+	
 	/**
 	 * Return the Race object of the L2PcInstance.<BR>
 	 * <BR>
@@ -4096,11 +4096,11 @@ private int _reviveRequested = 0;
 	{
 		if(!isSubClassActive())
 			return getTemplate().race;
-
+		
 		L2PcTemplate charTemp = CharTemplateTable.getInstance().getTemplate(_baseClass);
 		return charTemp.race;
 	}
-
+	
 	/**
 	 * Gets the radar.
 	 *
@@ -4110,7 +4110,7 @@ private int _reviveRequested = 0;
 	{
 		return _radar;
 	}
-
+	
 	/**
 	 * Return the SP amount of the L2PcInstance.
 	 *
@@ -4120,7 +4120,7 @@ private int _reviveRequested = 0;
 	{
 		return getStat().getSp();
 	}
-
+	
 	/**
 	 * Set the SP amount of the L2PcInstance.
 	 *
@@ -4130,7 +4130,7 @@ private int _reviveRequested = 0;
 	{
 		super.getStat().setSp(sp);
 	}
-
+	
 	/**
 	 * Return true if this L2PcInstance is a clan leader in ownership of the passed castle.
 	 *
@@ -4140,7 +4140,7 @@ private int _reviveRequested = 0;
 	public boolean isCastleLord(int castleId)
 	{
 		L2Clan clan = getClan();
-
+		
 		// player has clan and is the clan leader, check the castle info
 		if(clan != null && clan.getLeader().getPlayerInstance() == this)
 		{
@@ -4156,7 +4156,7 @@ private int _reviveRequested = 0;
 		clan = null;
 		return false;
 	}
-
+	
 	/**
 	 * Return the Clan Identifier of the L2PcInstance.<BR>
 	 * <BR>
@@ -4167,7 +4167,7 @@ private int _reviveRequested = 0;
 	{
 		return _clanId;
 	}
-
+	
 	/**
 	 * Return the Clan Crest Identifier of the L2PcInstance or 0.<BR>
 	 * <BR>
@@ -4178,10 +4178,10 @@ private int _reviveRequested = 0;
 	{
 		if(_clan != null && _clan.hasCrest())
 			return _clan.getCrestId();
-
+		
 		return 0;
 	}
-
+	
 	/**
 	 * Gets the clan crest large id.
 	 *
@@ -4191,10 +4191,10 @@ private int _reviveRequested = 0;
 	{
 		if(_clan != null && _clan.hasCrestLarge())
 			return _clan.getCrestLargeId();
-
+		
 		return 0;
 	}
-
+	
 	/**
 	 * Gets the clan join expiry time.
 	 *
@@ -4204,7 +4204,7 @@ private int _reviveRequested = 0;
 	{
 		return _clanJoinExpiryTime;
 	}
-
+	
 	/**
 	 * Sets the clan join expiry time.
 	 *
@@ -4214,7 +4214,7 @@ private int _reviveRequested = 0;
 	{
 		_clanJoinExpiryTime = time;
 	}
-
+	
 	/**
 	 * Gets the clan create expiry time.
 	 *
@@ -4224,7 +4224,7 @@ private int _reviveRequested = 0;
 	{
 		return _clanCreateExpiryTime;
 	}
-
+	
 	/**
 	 * Sets the clan create expiry time.
 	 *
@@ -4234,7 +4234,7 @@ private int _reviveRequested = 0;
 	{
 		_clanCreateExpiryTime = time;
 	}
-
+	
 	/**
 	 * Sets the online time.
 	 *
@@ -4245,7 +4245,7 @@ private int _reviveRequested = 0;
 		_onlineTime = time;
 		_onlineBeginTime = System.currentTimeMillis();
 	}
-
+	
 	/**
 	 * Return the PcInventory Inventory of the L2PcInstance contained in _inventory.<BR>
 	 * <BR>
@@ -4256,7 +4256,7 @@ private int _reviveRequested = 0;
 	{
 		return _inventory;
 	}
-
+	
 	/**
 	 * Delete a ShortCut of the L2PcInstance _shortCuts.<BR>
 	 * <BR>
@@ -4286,7 +4286,7 @@ private int _reviveRequested = 0;
 		
 		/** The _pos. */
 		L2CharPosition _pos;
-
+		
 		/**
 		 * Instantiates a new move on attack.
 		 * @param player the player
@@ -4333,7 +4333,7 @@ private int _reviveRequested = 0;
 			_pos = pos;
 		}
 	}
-
+	
 	/**
 	 * Checks if is moving task defined.
 	 *
@@ -4344,7 +4344,7 @@ private int _reviveRequested = 0;
 		return _movingTaskDefined;
 		//return launchedMovingTask != null;
 	}
-
+	
 	/**
 	 * Define new moving task.
 	 * @param pos the pos
@@ -4357,7 +4357,7 @@ private int _reviveRequested = 0;
 			_movingTaskDefined = true;
 		}
 	}
-
+	
 	/**
 	 * Modify moving task.
 	 * @param pos the pos
@@ -4390,7 +4390,7 @@ private int _reviveRequested = 0;
 			ThreadPoolManager.getInstance().executeTask(launchedMovingTask);
 		}
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance is sitting.<BR>
 	 * <BR>
@@ -4412,7 +4412,7 @@ private int _reviveRequested = 0;
 	{
 		return sittingTaskLaunched;
 	}
-
+	
 	/**
 	 * Set _waitTypeSitting to given value.
 	 *
@@ -4429,21 +4429,21 @@ private int _reviveRequested = 0;
 	 * @param act the new posticipate sit
 	 */
 	public void setPosticipateSit(boolean act)
-    {
-        _posticipateSit = act;
-    }
-
-    /**
-     * Gets the posticipate sit.
-     *
-     * @return the posticipate sit
-     */
-    public boolean getPosticipateSit()
-    {
-        return _posticipateSit;
-    }
-    
-
+	{
+		_posticipateSit = act;
+	}
+	
+	/**
+	 * Gets the posticipate sit.
+	 *
+	 * @return the posticipate sit
+	 */
+	public boolean getPosticipateSit()
+	{
+		return _posticipateSit;
+	}
+	
+	
 	/**
 	 * Sit down the L2PcInstance, set the AI Intention to AI_INTENTION_REST and send a Server->Client ChangeWaitType
 	 * packet (broadcast)<BR>
@@ -4457,22 +4457,22 @@ private int _reviveRequested = 0;
 		}
 		
 		if(isMoving()) //since you are moving and want sit down
-					   //the posticipate sitdown task will be always true
-        {
-            setPosticipateSit(true);
-            return;
-        }
+			//the posticipate sitdown task will be always true
+		{
+			setPosticipateSit(true);
+			return;
+		}
 		
 		//we are going to sitdown, so posticipate is false
 		setPosticipateSit(false);
-       
+		
 		if(isCastingNow() && !_relax)
 			return;
 		
 		if(sittingTaskLaunched) //if already started the task
-								//just return
-            return;
-
+			//just return
+			return;
+		
 		if(!_waitTypeSitting && !isAttackingDisabled() && !isOutOfControl() && !isImobilised())
 		{
 			breakAttack();
@@ -4484,7 +4484,7 @@ private int _reviveRequested = 0;
 			setIsParalyzed(true);
 		}
 	}
-
+	
 	/**
 	 * Sit down Task.
 	 */
@@ -4493,21 +4493,21 @@ private int _reviveRequested = 0;
 		
 		/** The _player. */
 		L2PcInstance _player;
-        
-        /** The this$0. */
-        final L2PcInstance this$0;
-
-        /**
-         * Instantiates a new sit down task.
-         *
-         * @param player the player
-         */
-        SitDownTask(L2PcInstance player)
-        {
-            this$0 = L2PcInstance.this;
-            _player = player;
-        }
-
+		
+		/** The this$0. */
+		final L2PcInstance this$0;
+		
+		/**
+		 * Instantiates a new sit down task.
+		 *
+		 * @param player the player
+		 */
+		SitDownTask(L2PcInstance player)
+		{
+			this$0 = L2PcInstance.this;
+			_player = player;
+		}
+		
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
@@ -4520,7 +4520,7 @@ private int _reviveRequested = 0;
 			_player.getAI().setIntention(CtrlIntention.AI_INTENTION_REST);
 		}
 	}
-
+	
 	/**
 	 * Stand up Task.
 	 */
@@ -4529,7 +4529,7 @@ private int _reviveRequested = 0;
 		
 		/** The _player. */
 		L2PcInstance _player;
-
+		
 		/**
 		 * Instantiates a new stand up task.
 		 *
@@ -4539,7 +4539,7 @@ private int _reviveRequested = 0;
 		{
 			_player = player;
 		}
-
+		
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
@@ -4551,7 +4551,7 @@ private int _reviveRequested = 0;
 			_player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		}
 	}
-
+	
 	/**
 	 * Stand up the L2PcInstance, set the AI Intention to AI_INTENTION_IDLE and send a Server->Client ChangeWaitType
 	 * packet (broadcast)<BR>
@@ -4595,7 +4595,7 @@ private int _reviveRequested = 0;
 				setRelax(false);
 				stopEffects(L2Effect.EffectType.RELAXING);
 			}
-
+			
 			broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_STANDING));
 			// Schedule a stand up task to wait for the animation to finish
 			setIsImobilised(true);
@@ -4603,7 +4603,7 @@ private int _reviveRequested = 0;
 			
 		}
 	}
-
+	
 	/**
 	 * Set the value of the _relax value. Must be True if using skill Relax and False if not.
 	 *
@@ -4613,7 +4613,7 @@ private int _reviveRequested = 0;
 	{
 		_relax = val;
 	}
-
+	
 	/**
 	 * Return the PcWarehouse object of the L2PcInstance.<BR>
 	 * <BR>
@@ -4633,7 +4633,7 @@ private int _reviveRequested = 0;
 		}
 		return _warehouse;
 	}
-
+	
 	/**
 	 * Free memory used by Warehouse.
 	 */
@@ -4645,7 +4645,7 @@ private int _reviveRequested = 0;
 		}
 		_warehouse = null;
 	}
-
+	
 	/**
 	 * Return the PcFreight object of the L2PcInstance.<BR>
 	 * <BR>
@@ -4656,7 +4656,7 @@ private int _reviveRequested = 0;
 	{
 		return _freight;
 	}
-
+	
 	/**
 	 * Return the Identifier of the L2PcInstance.<BR>
 	 * <BR>
@@ -4667,7 +4667,7 @@ private int _reviveRequested = 0;
 	{
 		return _charId;
 	}
-
+	
 	/**
 	 * Set the Identifier of the L2PcInstance.<BR>
 	 * <BR>
@@ -4678,7 +4678,7 @@ private int _reviveRequested = 0;
 	{
 		_charId = charId;
 	}
-
+	
 	/**
 	 * Return the Adena amount of the L2PcInstance.<BR>
 	 * <BR>
@@ -4702,7 +4702,7 @@ private int _reviveRequested = 0;
 	{
 		return _inventory.getInventoryItemCount(itemId, enchantLevel);
 	}
-
+	
 	/**
 	 * Return the Ancient Adena amount of the L2PcInstance.<BR>
 	 * <BR>
@@ -4713,7 +4713,7 @@ private int _reviveRequested = 0;
 	{
 		return _inventory.getAncientAdena();
 	}
-
+	
 	/**
 	 * Add adena to Inventory of the L2PcInstance and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 * @param process : String Identifier of process triggering this action
@@ -4760,7 +4760,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Reduce adena in Inventory of the L2PcInstance and send a Server->Client InventoryUpdate packet to the
 	 * L2PcInstance.
@@ -4780,15 +4780,15 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
 			}
-
+			
 			return false;
 		}
-
+		
 		if(count > 0)
 		{
 			L2ItemInstance adenaItem = _inventory.getAdenaInstance();
 			_inventory.reduceAdena(process, count, this, reference);
-
+			
 			// Send update packet
 			if(!Config.FORCE_INVENTORY_UPDATE)
 			{
@@ -4801,7 +4801,7 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new ItemList(this, false));
 			}
-
+			
 			if(sendMessage)
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ADENA);
@@ -4811,10 +4811,10 @@ private int _reviveRequested = 0;
 			}
 			adenaItem = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Add ancient adena to Inventory of the L2PcInstance and send a Server->Client InventoryUpdate packet to the
 	 * L2PcInstance.
@@ -4835,11 +4835,11 @@ private int _reviveRequested = 0;
 			sendPacket(sm);
 			sm = null;
 		}
-
+		
 		if(count > 0)
 		{
 			_inventory.addAncientAdena(process, count, this, reference);
-
+			
 			if(!Config.FORCE_INVENTORY_UPDATE)
 			{
 				InventoryUpdate iu = new InventoryUpdate();
@@ -4853,7 +4853,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Reduce ancient adena in Inventory of the L2PcInstance and send a Server->Client InventoryUpdate packet to the
 	 * L2PcInstance.
@@ -4873,15 +4873,15 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
 			}
-
+			
 			return false;
 		}
-
+		
 		if(count > 0)
 		{
 			L2ItemInstance ancientAdenaItem = _inventory.getAncientAdenaInstance();
 			_inventory.reduceAncientAdena(process, count, this, reference);
-
+			
 			if(!Config.FORCE_INVENTORY_UPDATE)
 			{
 				InventoryUpdate iu = new InventoryUpdate();
@@ -4893,7 +4893,7 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new ItemList(this, false));
 			}
-
+			
 			if(sendMessage)
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.DISSAPEARED_ITEM);
@@ -4904,10 +4904,10 @@ private int _reviveRequested = 0;
 			}
 			ancientAdenaItem = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Adds item to inventory and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 * 
@@ -4956,10 +4956,10 @@ private int _reviveRequested = 0;
 					sm = null;
 				}
 			}
-
+			
 			// Add the item to inventory
 			L2ItemInstance newitem = _inventory.addItem(process, item, this, reference);
-
+			
 			// Send inventory update packet
 			if(!Config.FORCE_INVENTORY_UPDATE)
 			{
@@ -4972,13 +4972,13 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new ItemList(this, false));
 			}
-
+			
 			// Update current load as well
 			StatusUpdate su = new StatusUpdate(getObjectId());
 			su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 			sendPacket(su);
 			su = null;
-
+			
 			// If over capacity, Drop the item
 			if(!isGM() && !_inventory.validateCapacity(0))
 			{
@@ -4994,13 +4994,13 @@ private int _reviveRequested = 0;
 		// If you pickup arrows.
 		if (item.getItem().getItemType() == L2EtcItemType.ARROW)
 		{
-		       // If a bow is equipped, try to equip them if no arrows is currently equipped.
-		       L2Weapon currentWeapon = getActiveWeaponItem();
-		       if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW && getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND) == null)
-		          checkAndEquipArrows();
-	    }
+			// If a bow is equipped, try to equip them if no arrows is currently equipped.
+			L2Weapon currentWeapon = getActiveWeaponItem();
+			if (currentWeapon != null && currentWeapon.getItemType() == L2WeaponType.BOW && getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND) == null)
+				checkAndEquipArrows();
+		}
 	}
-
+	
 	/**
 	 * Adds item to Inventory and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 * 
@@ -5017,8 +5017,8 @@ private int _reviveRequested = 0;
 		{
 			// Sends message to client if requested
 			if(sendMessage && (!isCastingNow() 
-					&& ItemTable.getInstance().createDummyItem(itemId).getItemType() == L2EtcItemType.HERB 
-					|| ItemTable.getInstance().createDummyItem(itemId).getItemType() != L2EtcItemType.HERB))
+				&& ItemTable.getInstance().createDummyItem(itemId).getItemType() == L2EtcItemType.HERB 
+				|| ItemTable.getInstance().createDummyItem(itemId).getItemType() != L2EtcItemType.HERB))
 			{
 				if(count > 1)
 				{
@@ -5064,7 +5064,7 @@ private int _reviveRequested = 0;
 				{
 					L2ItemInstance herb = new L2ItemInstance(_charId, itemId);
 					IItemHandler handler = ItemHandler.getInstance().getItemHandler(herb.getItemId());
-
+					
 					if(handler == null)
 					{
 						_log.warning("No item handler registered for Herb - item ID " + herb.getItemId() + ".");
@@ -5072,15 +5072,15 @@ private int _reviveRequested = 0;
 					else
 					{
 						handler.useItem(this, herb);
-
+						
 						if(_herbstask >= 100)
 						{
 							_herbstask -= 100;
 						}
-
+						
 						handler = null;
 					}
-
+					
 					herb = null;
 				}
 				else
@@ -5093,7 +5093,7 @@ private int _reviveRequested = 0;
 			{
 				// Add the item to inventory
 				L2ItemInstance item = _inventory.addItem(process, itemId, count, this, reference);
-
+				
 				// Send inventory update packet
 				if(!Config.FORCE_INVENTORY_UPDATE)
 				{
@@ -5106,13 +5106,13 @@ private int _reviveRequested = 0;
 				{
 					sendPacket(new ItemList(this, false));
 				}
-
+				
 				// Update current load as well
 				StatusUpdate su = new StatusUpdate(getObjectId());
 				su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 				sendPacket(su);
 				su = null;
-
+				
 				// If over capacity, drop the item
 				if(!isGM() && !_inventory.validateCapacity(item))
 				{
@@ -5122,12 +5122,12 @@ private int _reviveRequested = 0;
 				{
 					CursedWeaponsManager.getInstance().activate(this, item);
 				}
-
+				
 				item = null;
 			}
 		}
 	}
-
+	
 	/**
 	 * Destroy item from inventory and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 * 
@@ -5141,15 +5141,15 @@ private int _reviveRequested = 0;
 	public boolean destroyItem(String process, L2ItemInstance item, L2Object reference, boolean sendMessage)
 	{
 		item = _inventory.destroyItem(process, item, this, reference);
-
+		
 		if(item == null)
 		{
 			if(sendMessage)
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
-
+			
 			return false;
 		}
-
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
@@ -5162,13 +5162,13 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Sends message to client if requested
 		if (sendMessage)
 		{
@@ -5188,10 +5188,10 @@ private int _reviveRequested = 0;
 				sm = null;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Destroys item from inventory and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 * 
@@ -5207,15 +5207,15 @@ private int _reviveRequested = 0;
 	public boolean destroyItem(String process, int objectId, int count, L2Object reference, boolean sendMessage)
 	{
 		L2ItemInstance item = _inventory.getItemByObjectId(objectId);
-
+		
 		if(item == null || item.getCount() < count || _inventory.destroyItem(process, objectId, count, this, reference) == null)
 		{
 			if(sendMessage)
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
-
+			
 			return false;
 		}
-
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
@@ -5228,13 +5228,13 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Sends message to client if requested
 		if (sendMessage)
 		{
@@ -5255,10 +5255,10 @@ private int _reviveRequested = 0;
 			}
 		}
 		item = null;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Destroys shots from inventory without logging and only occasional saving to database. Sends a Server->Client
 	 * InventoryUpdate packet to the L2PcInstance.
@@ -5274,7 +5274,7 @@ private int _reviveRequested = 0;
 	public boolean destroyItemWithoutTrace(String process, int objectId, int count, L2Object reference, boolean sendMessage)
 	{
 		L2ItemInstance item = _inventory.getItemByObjectId(objectId);
-
+		
 		if(item == null || item.getCount() < count)
 		{
 			if(sendMessage)
@@ -5283,7 +5283,7 @@ private int _reviveRequested = 0;
 			}
 			return false;
 		}
-
+		
 		// Adjust item quantity
 		if(item.getCount() > count)
 		{
@@ -5291,7 +5291,7 @@ private int _reviveRequested = 0;
 			{
 				item.changeCountWithoutTrace(process, -count, this, reference);
 				item.setLastChange(L2ItemInstance.MODIFIED);
-
+				
 				// could do also without saving, but let's save approx 1 of 10
 				if(GameTimeController.getGameTicks() % 10 == 0)
 				{
@@ -5305,7 +5305,7 @@ private int _reviveRequested = 0;
 			// Destroy entire item and save to database
 			_inventory.destroyItem(process, item, this, reference);
 		}
-
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
@@ -5318,13 +5318,13 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Sends message to client if requested
 		if(sendMessage)
 		{
@@ -5335,10 +5335,10 @@ private int _reviveRequested = 0;
 			sm = null;
 		}
 		item = null;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Destroy item from inventory by using its <B>itemId</B> and send a Server->Client InventoryUpdate packet to the
 	 * L2PcInstance.
@@ -5355,15 +5355,15 @@ private int _reviveRequested = 0;
 	public boolean destroyItemByItemId(String process, int itemId, int count, L2Object reference, boolean sendMessage)
 	{
 		L2ItemInstance item = _inventory.getItemByItemId(itemId);
-
+		
 		if(item == null || item.getCount() < count || _inventory.destroyItemByItemId(process, itemId, count, this, reference) == null)
 		{
 			if(sendMessage)
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
-
+			
 			return false;
 		}
-
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
@@ -5376,13 +5376,13 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Sends message to client if requested
 		if (sendMessage)
 		{
@@ -5403,10 +5403,10 @@ private int _reviveRequested = 0;
 			}
 		}
 		item = null;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Destroy all weared items from inventory and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 * 
@@ -5417,7 +5417,7 @@ private int _reviveRequested = 0;
 	 */
 	public void destroyWearedItems(String process, L2Object reference, boolean sendMessage)
 	{
-
+		
 		// Go through all Items of the inventory
 		for(L2ItemInstance item : getInventory().getItems())
 		{
@@ -5428,13 +5428,13 @@ private int _reviveRequested = 0;
 				{
 					getInventory().unEquipItemInSlotAndRecord(item.getEquipSlot());
 				}
-
+				
 				if(_inventory.destroyItem(process, item, this, reference) == null)
 				{
 					_log.warning("Player " + getName() + " can't destroy weared item: " + item.getName() + "[ " + item.getObjectId() + " ]");
 					continue;
 				}
-
+				
 				// Send an Unequipped Message in system window of the player for each Item
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISARMED);
 				sm.addItemName(item.getItemId());
@@ -5442,26 +5442,26 @@ private int _reviveRequested = 0;
 				sm = null;
 			}
 		}
-
+		
 		// Send the StatusUpdate Server->Client Packet to the player with new CUR_LOAD (0x0e) information
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Send the ItemList Server->Client Packet to the player in order to refresh its Inventory
 		ItemList il = new ItemList(getInventory().getItems(), true);
 		sendPacket(il);
 		il = null;
-
+		
 		// Send a Server->Client packet UserInfo to this L2PcInstance and CharInfo to all L2PcInstance in its _KnownPlayers
 		broadcastUserInfo();
-
+		
 		// Sends message to client if requested
 		sendMessage("Trying-on mode has ended.");
-
+		
 	}
-
+	
 	/**
 	 * Transfers item to another ItemContainer and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 *
@@ -5478,16 +5478,16 @@ private int _reviveRequested = 0;
 		L2ItemInstance oldItem = checkItemManipulation(objectId, count, "transfer");
 		if(oldItem == null)
 			return null;
-
+		
 		L2ItemInstance newItem = getInventory().transferItem(process, objectId, count, target, this, reference);
 		if(newItem == null)
 			return null;
-
+		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
 		{
 			InventoryUpdate playerIU = new InventoryUpdate();
-
+			
 			if(oldItem.getCount() > 0 && oldItem != newItem)
 			{
 				playerIU.addModifiedItem(oldItem);
@@ -5496,7 +5496,7 @@ private int _reviveRequested = 0;
 			{
 				playerIU.addRemovedItem(oldItem);
 			}
-
+			
 			sendPacket(playerIU);
 			playerIU = null;
 		}
@@ -5504,22 +5504,22 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate playerSU = new StatusUpdate(getObjectId());
 		playerSU.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(playerSU);
 		playerSU = null;
-
+		
 		// Send target update packet
 		if(target instanceof PcInventory)
 		{
 			L2PcInstance targetPlayer = ((PcInventory) target).getOwner();
-
+			
 			if(!Config.FORCE_INVENTORY_UPDATE)
 			{
 				InventoryUpdate playerIU = new InventoryUpdate();
-
+				
 				if(newItem.getCount() > count)
 				{
 					playerIU.addModifiedItem(newItem);
@@ -5528,14 +5528,14 @@ private int _reviveRequested = 0;
 				{
 					playerIU.addNewItem(newItem);
 				}
-
+				
 				targetPlayer.sendPacket(playerIU);
 			}
 			else
 			{
 				targetPlayer.sendPacket(new ItemList(targetPlayer, false));
 			}
-
+			
 			// Update current load as well
 			playerSU = new StatusUpdate(targetPlayer.getObjectId());
 			playerSU.addAttribute(StatusUpdate.CUR_LOAD, targetPlayer.getCurrentLoad());
@@ -5546,7 +5546,7 @@ private int _reviveRequested = 0;
 		else if(target instanceof PetInventory)
 		{
 			PetInventoryUpdate petIU = new PetInventoryUpdate();
-
+			
 			if(newItem.getCount() > count)
 			{
 				petIU.addModifiedItem(newItem);
@@ -5555,15 +5555,15 @@ private int _reviveRequested = 0;
 			{
 				petIU.addNewItem(newItem);
 			}
-
+			
 			((PetInventory) target).getOwner().getOwner().sendPacket(petIU);
 			petIU = null;
 		}
 		oldItem = null;
-
+		
 		return newItem;
 	}
-
+	
 	/**
 	 * Drop item from inventory and send a Server->Client InventoryUpdate packet to the L2PcInstance.
 	 *
@@ -5578,24 +5578,24 @@ private int _reviveRequested = 0;
 	public boolean dropItem(String process, L2ItemInstance item, L2Object reference, boolean sendMessage, boolean protectItem)
 	{
 		item = _inventory.dropItem(process, item, this, reference);
-
+		
 		if(item == null)
 		{
 			if(sendMessage)
 			{
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
 			}
-
+			
 			return false;
 		}
-
+		
 		item.dropMe(this, getClientX() + Rnd.get(50) - 25, getClientY() + Rnd.get(50) - 25, getClientZ() + 20);
-
+		
 		if(Config.DESTROY_DROPPED_PLAYER_ITEM
-				&& !Config.LIST_PROTECTED_ITEMS.contains(item.getItemId())){
+			&& !Config.LIST_PROTECTED_ITEMS.contains(item.getItemId())){
 			
 			if(Config.AUTODESTROY_ITEM_AFTER > 0){ //autodestroy enabled
-			
+				
 				if(item.isEquipable() && Config.DESTROY_EQUIPABLE_PLAYER_ITEM || !item.isEquipable())
 				{
 					ItemsAutoDestroy.getInstance().addItem(item);
@@ -5614,8 +5614,8 @@ private int _reviveRequested = 0;
 		}
 		
 		if (protectItem) 
-		    item.getDropProtection().protect(this); 
-
+			item.getDropProtection().protect(this); 
+		
 		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
@@ -5629,13 +5629,13 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Sends message to client if requested
 		if(sendMessage)
 		{
@@ -5644,10 +5644,10 @@ private int _reviveRequested = 0;
 			sendPacket(sm);
 			sm = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Drop item from inventory by using its <B>objectID</B> and send a Server->Client InventoryUpdate packet to the
 	 * L2PcInstance.
@@ -5666,22 +5666,22 @@ private int _reviveRequested = 0;
 	 */
 	public L2ItemInstance dropItem(String process, int objectId, int count, int x, int y, int z, L2Object reference, boolean sendMessage, boolean protectItem)
 	{
-
+		
 		L2ItemInstance invitem = _inventory.getItemByObjectId(objectId);
 		L2ItemInstance item = _inventory.dropItem(process, objectId, count, this, reference);
-
+		
 		if(item == null)
 		{
 			if(sendMessage)
 			{
 				sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_ITEMS));
 			}
-
+			
 			return null;
 		}
-
+		
 		item.dropMe(this, x, y, z);
-
+		
 		if(Config.AUTODESTROY_ITEM_AFTER > 0 && Config.DESTROY_DROPPED_PLAYER_ITEM && !Config.LIST_PROTECTED_ITEMS.contains(item.getItemId()))
 		{
 			if(item.isEquipable() && Config.DESTROY_EQUIPABLE_PLAYER_ITEM || !item.isEquipable())
@@ -5704,10 +5704,10 @@ private int _reviveRequested = 0;
 		{
 			item.setProtected(true);
 		}
-
+		
 		if (protectItem) 
-		    item.getDropProtection().protect(this); 
-
+			item.getDropProtection().protect(this); 
+		
 		
 		// Send inventory update packet
 		if(!Config.FORCE_INVENTORY_UPDATE)
@@ -5721,13 +5721,13 @@ private int _reviveRequested = 0;
 		{
 			sendPacket(new ItemList(this, false));
 		}
-
+		
 		// Update current load as well
 		StatusUpdate su = new StatusUpdate(getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, getCurrentLoad());
 		sendPacket(su);
 		su = null;
-
+		
 		// Sends message to client if requested
 		if(sendMessage)
 		{
@@ -5737,10 +5737,10 @@ private int _reviveRequested = 0;
 			sm = null;
 		}
 		invitem = null;
-
+		
 		return item;
 	}
-
+	
 	/**
 	 * Check item manipulation.
 	 *
@@ -5756,27 +5756,27 @@ private int _reviveRequested = 0;
 			_log.finest(getObjectId() + ": player tried to " + action + " item not available in L2World");
 			return null;
 		}
-
+		
 		L2ItemInstance item = getInventory().getItemByObjectId(objectId);
-
+		
 		if(item == null || item.getOwnerId() != getObjectId())
 		{
 			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
 			return null;
 		}
-
+		
 		if(count < 0 || count > 1 && !item.isStackable())
 		{
 			_log.finest(getObjectId() + ": player tried to " + action + " item with invalid count: " + count);
 			return null;
 		}
-
+		
 		if(count > item.getCount())
 		{
 			_log.finest(getObjectId() + ": player tried to " + action + " more items than he owns");
 			return null;
 		}
-
+		
 		// Pet is summoned and not the item that summoned the pet AND not the buggle from strider you're mounting
 		if(getPet() != null && getPet().getControlItemId() == objectId || getMountObjectID() == objectId)
 		{
@@ -5784,27 +5784,27 @@ private int _reviveRequested = 0;
 			{
 				_log.finest(getObjectId() + ": player tried to " + action + " item controling pet");
 			}
-
+			
 			return null;
 		}
-
+		
 		if(getActiveEnchantItem() != null && getActiveEnchantItem().getObjectId() == objectId)
 		{
 			if(Config.DEBUG)
 			{
 				_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			}
-
+			
 			return null;
 		}
-
+		
 		if(item.isWear())
 			// cannot drop/trade wear-items
 			return null;
-
+		
 		return item;
 	}
-
+	
 	/**
 	 * Set _protectEndTime according settings.
 	 * @param protect the new protection
@@ -5818,7 +5818,7 @@ private int _reviveRequested = 0;
 			return;
 		
 		_protectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
-	
+		
 		if (protect)
 			ThreadPoolManager.getInstance().scheduleGeneral(new TeleportProtectionFinalizer(this), (Config.PLAYER_SPAWN_PROTECTION - 1) * 1000);	
 	}
@@ -5878,7 +5878,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Set protection from agro mobs when getting up from fake death, according settings.
 	 *
@@ -5888,7 +5888,7 @@ private int _reviveRequested = 0;
 	{
 		_recentFakeDeathEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_FAKEDEATH_UP_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
 	}
-
+	
 	/**
 	 * Checks if is recent fake death.
 	 *
@@ -5898,7 +5898,7 @@ private int _reviveRequested = 0;
 	{
 		return _recentFakeDeathEndTime > GameTimeController.getGameTicks();
 	}
-
+	
 	/**
 	 * Get the client owner of this char.<BR>
 	 * <BR>
@@ -5909,7 +5909,7 @@ private int _reviveRequested = 0;
 	{
 		return _client;
 	}
-
+	
 	/**
 	 * Sets the client.
 	 *
@@ -5924,7 +5924,7 @@ private int _reviveRequested = 0;
 		}
 		_client = client;
 	}
-
+	
 	/**
 	 * Close the active connection with the client.<BR>
 	 * <BR>
@@ -5937,7 +5937,7 @@ private int _reviveRequested = 0;
 			setClient(null);
 		}
 	}
-
+	
 	/**
 	 * Manage actions when a player click on this L2PcInstance.<BR>
 	 * <BR>
@@ -6180,7 +6180,7 @@ private int _reviveRequested = 0;
 			}
 		}
 		else
-		// Like L2OFF set the target of the L2PcInstance player
+			// Like L2OFF set the target of the L2PcInstance player
 		{
 			if (((TvT.is_started() || TvT.is_teleport()) && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
 			{
@@ -6417,7 +6417,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance#isInFunEvent()
 	 */
@@ -6458,7 +6458,7 @@ private int _reviveRequested = 0;
 	public boolean isRegisteredInVIPEvent(){
 		return _inEventVIP;
 	}
-
+	
 	/**
 	 * Checks if is registered in fun event.
 	 *
@@ -6488,10 +6488,10 @@ private int _reviveRequested = 0;
 	private boolean needCpUpdate(int barPixels)
 	{
 		double currentCp = getCurrentCp();
-
+		
 		if(currentCp <= 1.0 || getMaxCp() < barPixels)
 			return true;
-
+		
 		if(currentCp <= _cpUpdateDecCheck || currentCp >= _cpUpdateIncCheck)
 		{
 			if(currentCp == getMaxCp())
@@ -6503,17 +6503,17 @@ private int _reviveRequested = 0;
 			{
 				double doubleMulti = currentCp / _cpUpdateInterval;
 				int intMulti = (int) doubleMulti;
-
+				
 				_cpUpdateDecCheck = _cpUpdateInterval * (doubleMulti < intMulti ? intMulti-- : intMulti);
 				_cpUpdateIncCheck = _cpUpdateDecCheck + _cpUpdateInterval;
 			}
-
+			
 			return true;
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Returns true if mp update should be done, false if not.
 	 *
@@ -6523,10 +6523,10 @@ private int _reviveRequested = 0;
 	private boolean needMpUpdate(int barPixels)
 	{
 		double currentMp = getCurrentMp();
-
+		
 		if(currentMp <= 1.0 || getMaxMp() < barPixels)
 			return true;
-
+		
 		if(currentMp <= _mpUpdateDecCheck || currentMp >= _mpUpdateIncCheck)
 		{
 			if(currentMp == getMaxMp())
@@ -6538,17 +6538,17 @@ private int _reviveRequested = 0;
 			{
 				double doubleMulti = currentMp / _mpUpdateInterval;
 				int intMulti = (int) doubleMulti;
-
+				
 				_mpUpdateDecCheck = _mpUpdateInterval * (doubleMulti < intMulti ? intMulti-- : intMulti);
 				_mpUpdateIncCheck = _mpUpdateDecCheck + _mpUpdateInterval;
 			}
-
+			
 			return true;
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Send packet StatusUpdate with current HP,MP and CP to the L2PcInstance and only current HP, MP and Level to all
 	 * other L2PcInstance of the Party.<BR>
@@ -6569,7 +6569,7 @@ private int _reviveRequested = 0;
 		//We mustn't send these informations to other players
 		// Send the Server->Client packet StatusUpdate with current HP and MP to all L2PcInstance that must be informed of HP/MP updates of this L2PcInstance
 		//super.broadcastStatusUpdate();
-
+		
 		// Send the Server->Client packet StatusUpdate with current HP, MP and CP to this L2PcInstance
 		if(Config.FORCE_COMPLETE_STATUS_UPDATE){
 			StatusUpdate su = new StatusUpdate(this);
@@ -6597,7 +6597,7 @@ private int _reviveRequested = 0;
 			getParty().broadcastToPartyMembers(this, update);
 			update = null;
 		}
-
+		
 		if (isInOlympiadMode())
 		{
 			// TODO: implement new OlympiadUserInfo
@@ -6628,7 +6628,7 @@ private int _reviveRequested = 0;
 			update = null;
 		}
 	}
-
+	
 	// Custom PVP Color System - Start
 	/**
 	 * Update pvp color.
@@ -6646,7 +6646,7 @@ private int _reviveRequested = 0;
 			//Check if the character is donator and if so, let them be.
 			if(isDonator())
 				return;
-
+			
 			if(pvpKillAmount >= Config.PVP_AMOUNT1 && pvpKillAmount < Config.PVP_AMOUNT2)
 			{
 				getAppearance().setNameColor(Config.NAME_COLOR_FOR_PVP_AMOUNT1);
@@ -6669,9 +6669,9 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	//Custom PVP Color System - End
-
+	
 	// Custom Pk Color System - Start
 	/**
 	 * Update pk color.
@@ -6685,7 +6685,7 @@ private int _reviveRequested = 0;
 			//Check if the character has GM access and if so, let them be, like above.
 			if(isGM())
 				return;
-
+			
 			if(pkKillAmount >= Config.PK_AMOUNT1 && pkKillAmount < Config.PVP_AMOUNT2)
 			{
 				getAppearance().setTitleColor(Config.TITLE_COLOR_FOR_PK_AMOUNT1);
@@ -6708,9 +6708,9 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	//Custom Pk Color System - End
-
+	
 	/**
 	 * Send a Server->Client packet UserInfo to this L2PcInstance and CharInfo to all L2PcInstance in its _KnownPlayers.<BR>
 	 * <BR>
@@ -6733,16 +6733,16 @@ private int _reviveRequested = 0;
 	{
 		// Send a Server->Client packet UserInfo to this L2PcInstance
 		sendPacket(new UserInfo(this));
-
+		
 		// Send a Server->Client packet CharInfo to all L2PcInstance in _KnownPlayers of the L2PcInstance
 		if(Config.DEBUG)
 		{
 			_log.fine("players to notify:" + getKnownList().getKnownPlayers().size() + " packet: [S] 03 CharInfo");
 		}
-
+		
 		Broadcast.toKnownPlayers(this, new CharInfo(this));
 	}
-
+	
 	/**
 	 * Broadcast title info.
 	 */
@@ -6750,16 +6750,16 @@ private int _reviveRequested = 0;
 	{
 		// Send a Server->Client packet UserInfo to this L2PcInstance
 		sendPacket(new UserInfo(this));
-
+		
 		// Send a Server->Client packet TitleUpdate to all L2PcInstance in _KnownPlayers of the L2PcInstance
 		if(Config.DEBUG)
 		{
 			_log.fine("players to notify:" + getKnownList().getKnownPlayers().size() + " packet: [S] cc TitleUpdate");
 		}
-
+		
 		Broadcast.toKnownPlayers(this, new TitleUpdate(this));
 	}
-
+	
 	/**
 	 * Return the Alliance Identifier of the L2PcInstance.<BR>
 	 * <BR>
@@ -6772,7 +6772,7 @@ private int _reviveRequested = 0;
 			return 0;
 		return _clan.getAllyId();
 	}
-
+	
 	/**
 	 * Gets the ally crest id.
 	 *
@@ -6786,7 +6786,7 @@ private int _reviveRequested = 0;
 			return 0;
 		return getClan().getAllyCrestId();
 	}
-
+	
 	/**
 	 * Manage Interact Task with another L2PcInstance.<BR>
 	 * <BR>
@@ -6806,7 +6806,7 @@ private int _reviveRequested = 0;
 		{
 			L2PcInstance temp = (L2PcInstance) target;
 			sendPacket(ActionFailed.STATIC_PACKET);
-
+			
 			if(temp.getPrivateStoreType() == STORE_PRIVATE_SELL || temp.getPrivateStoreType() == STORE_PRIVATE_PACKAGE_SELL)
 			{
 				sendPacket(new PrivateStoreListSell(this, temp));
@@ -6819,7 +6819,7 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new RecipeShopSellList(this, temp));
 			}
-
+			
 			temp = null;
 		}
 		else
@@ -6831,7 +6831,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Manage AutoLoot Task.<BR>
 	 * <BR>
@@ -6864,7 +6864,7 @@ private int _reviveRequested = 0;
 			addItem("AutoLoot", item.getItemId(), item.getCount(), target, true);
 		}
 	}
-
+	
 	/**
 	 * Manage Pickup Task.<BR>
 	 * <BR>
@@ -7060,7 +7060,7 @@ private int _reviveRequested = 0;
 		}
 		target = null;
 	}
-
+	
 	/**
 	 * Set a target.<BR>
 	 * <BR>
@@ -7081,7 +7081,7 @@ private int _reviveRequested = 0;
 		{
 			newTarget = null;
 		}
-
+		
 		// Prevents /target exploiting
 		if(newTarget != null)
 		{
@@ -7093,7 +7093,7 @@ private int _reviveRequested = 0;
 				}
 			}
 		}
-
+		
 		if(!isGM())
 		{
 			// Can't target and attack festival monsters if not participant
@@ -7105,22 +7105,22 @@ private int _reviveRequested = 0;
 			{
 				byte riftType = getParty().getDimensionalRift().getType();
 				byte riftRoom = getParty().getDimensionalRift().getCurrentRoom();
-
+				
 				if(newTarget != null && !DimensionalRiftManager.getInstance().getRoom(riftType, riftRoom).checkIfInZone(newTarget.getX(), newTarget.getY(), newTarget.getZ()))
 				{
 					newTarget = null;
 				}
 			}
 		}
-
+		
 		// Get the current target
 		L2Object oldTarget = getTarget();
-
+		
 		if(oldTarget != null)
 		{
 			if(oldTarget.equals(newTarget))
 				return; // no target change
-
+			
 			// Remove the L2PcInstance from the _statusListener of the old target if it was a L2Character
 			if(oldTarget instanceof L2Character)
 			{
@@ -7128,7 +7128,7 @@ private int _reviveRequested = 0;
 			}
 		}
 		oldTarget = null;
-
+		
 		// Add the L2PcInstance to the _statusListener of the new target if it's a L2Character
 		if(newTarget != null && newTarget instanceof L2Character)
 		{
@@ -7137,11 +7137,11 @@ private int _reviveRequested = 0;
 			broadcastPacket(my);
 			my = null;
 		}
-
+		
 		// Target the new L2Object (add the target to the L2PcInstance _target, _knownObject and L2PcInstance to _KnownObject of the L2Object)
 		super.setTarget(newTarget);
 	}
-
+	
 	/**
 	 * Return the active weapon instance (always equiped in the right hand).<BR>
 	 * <BR>
@@ -7153,7 +7153,7 @@ private int _reviveRequested = 0;
 	{
 		return getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
 	}
-
+	
 	/**
 	 * Return the active weapon item (always equiped in the right hand).<BR>
 	 * <BR>
@@ -7164,13 +7164,13 @@ private int _reviveRequested = 0;
 	public L2Weapon getActiveWeaponItem()
 	{
 		L2ItemInstance weapon = getActiveWeaponInstance();
-
+		
 		if(weapon == null)
 			return getFistsWeaponItem();
-
+		
 		return (L2Weapon) weapon.getItem();
 	}
-
+	
 	/**
 	 * Gets the chest armor instance.
 	 *
@@ -7190,7 +7190,7 @@ private int _reviveRequested = 0;
 	{
 		return getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
 	}
-
+	
 	/**
 	 * Gets the active chest armor item.
 	 *
@@ -7199,10 +7199,10 @@ private int _reviveRequested = 0;
 	public L2Armor getActiveChestArmorItem()
 	{
 		L2ItemInstance armor = getChestArmorInstance();
-
+		
 		if(armor == null)
 			return null;
-
+		
 		return (L2Armor) armor.getItem();
 	}
 	
@@ -7220,7 +7220,7 @@ private int _reviveRequested = 0;
 		
 		return (L2Armor) legs.getItem();
 	}
-
+	
 	/**
 	 * Checks if is wearing heavy armor.
 	 *
@@ -7234,18 +7234,18 @@ private int _reviveRequested = 0;
 		if (armor != null && legs != null)
 		{
 			if ((L2ArmorType)legs.getItemType() == L2ArmorType.HEAVY
-					&& ((L2ArmorType)armor.getItemType() == L2ArmorType.HEAVY))
+				&& ((L2ArmorType)armor.getItemType() == L2ArmorType.HEAVY))
 				return true;
 		}
 		if (armor != null)
 		{
 			if ((getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST).getItem().getBodyPart() == L2Item.SLOT_FULL_ARMOR
-					&& (L2ArmorType)armor.getItemType() == L2ArmorType.HEAVY))
+				&& (L2ArmorType)armor.getItemType() == L2ArmorType.HEAVY))
 				return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Checks if is wearing light armor.
 	 *
@@ -7259,18 +7259,18 @@ private int _reviveRequested = 0;
 		if (armor != null && legs != null)
 		{
 			if ((L2ArmorType)legs.getItemType() == L2ArmorType.LIGHT
-					&& ((L2ArmorType)armor.getItemType() == L2ArmorType.LIGHT))
+				&& ((L2ArmorType)armor.getItemType() == L2ArmorType.LIGHT))
 				return true;
 		}
 		if (armor != null)
 		{
 			if ((getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST).getItem().getBodyPart() == L2Item.SLOT_FULL_ARMOR
-					&& (L2ArmorType)armor.getItemType() == L2ArmorType.LIGHT))
+				&& (L2ArmorType)armor.getItemType() == L2ArmorType.LIGHT))
 				return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Checks if is wearing magic armor.
 	 *
@@ -7284,18 +7284,18 @@ private int _reviveRequested = 0;
 		if (armor != null && legs != null)
 		{
 			if ((L2ArmorType)legs.getItemType() == L2ArmorType.MAGIC
-					&& ((L2ArmorType)armor.getItemType() == L2ArmorType.MAGIC))
+				&& ((L2ArmorType)armor.getItemType() == L2ArmorType.MAGIC))
 				return true;
 		}
 		if (armor != null)
 		{
 			if ((getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST).getItem().getBodyPart() == L2Item.SLOT_FULL_ARMOR
-					&& (L2ArmorType)armor.getItemType() == L2ArmorType.MAGIC))
+				&& (L2ArmorType)armor.getItemType() == L2ArmorType.MAGIC))
 				return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Checks if is wearing formal wear.
 	 *
@@ -7305,7 +7305,7 @@ private int _reviveRequested = 0;
 	{
 		return _IsWearingFormalWear;
 	}
-
+	
 	/**
 	 * Sets the checks if is wearing formal wear.
 	 *
@@ -7315,7 +7315,7 @@ private int _reviveRequested = 0;
 	{
 		_IsWearingFormalWear = value;
 	}
-
+	
 	/**
 	 * Checks if is married.
 	 *
@@ -7325,7 +7325,7 @@ private int _reviveRequested = 0;
 	{
 		return _married;
 	}
-
+	
 	/**
 	 * Sets the married.
 	 *
@@ -7335,7 +7335,7 @@ private int _reviveRequested = 0;
 	{
 		_married = state;
 	}
-
+	
 	/**
 	 * Married type.
 	 *
@@ -7345,7 +7345,7 @@ private int _reviveRequested = 0;
 	{
 		return _marriedType;
 	}
-
+	
 	/**
 	 * Sets the married type.
 	 *
@@ -7355,7 +7355,7 @@ private int _reviveRequested = 0;
 	{
 		_marriedType = type;
 	}
-
+	
 	/**
 	 * Checks if is engage request.
 	 *
@@ -7365,7 +7365,7 @@ private int _reviveRequested = 0;
 	{
 		return _engagerequest;
 	}
-
+	
 	/**
 	 * Sets the engage request.
 	 *
@@ -7377,7 +7377,7 @@ private int _reviveRequested = 0;
 		_engagerequest = state;
 		_engageid = playerid;
 	}
-
+	
 	/**
 	 * Sets the mary request.
 	 *
@@ -7387,7 +7387,7 @@ private int _reviveRequested = 0;
 	{
 		_marryrequest = state;
 	}
-
+	
 	/**
 	 * Checks if is mary request.
 	 *
@@ -7397,7 +7397,7 @@ private int _reviveRequested = 0;
 	{
 		return _marryrequest;
 	}
-
+	
 	/**
 	 * Sets the marry accepted.
 	 *
@@ -7407,7 +7407,7 @@ private int _reviveRequested = 0;
 	{
 		_marryaccepted = state;
 	}
-
+	
 	/**
 	 * Checks if is marry accepted.
 	 *
@@ -7417,7 +7417,7 @@ private int _reviveRequested = 0;
 	{
 		return _marryaccepted;
 	}
-
+	
 	/**
 	 * Gets the engage id.
 	 *
@@ -7427,7 +7427,7 @@ private int _reviveRequested = 0;
 	{
 		return _engageid;
 	}
-
+	
 	/**
 	 * Gets the partner id.
 	 *
@@ -7437,7 +7437,7 @@ private int _reviveRequested = 0;
 	{
 		return _partnerId;
 	}
-
+	
 	/**
 	 * Sets the partner id.
 	 *
@@ -7447,7 +7447,7 @@ private int _reviveRequested = 0;
 	{
 		_partnerId = partnerid;
 	}
-
+	
 	/**
 	 * Gets the couple id.
 	 *
@@ -7457,7 +7457,7 @@ private int _reviveRequested = 0;
 	{
 		return _coupleId;
 	}
-
+	
 	/**
 	 * Sets the couple id.
 	 *
@@ -7467,7 +7467,7 @@ private int _reviveRequested = 0;
 	{
 		_coupleId = coupleId;
 	}
-
+	
 	/**
 	 * Engage answer.
 	 *
@@ -7494,12 +7494,12 @@ private int _reviveRequested = 0;
 				{
 					ptarget.sendMessage("Request to Engage has been >DENIED<!");
 				}
-
+				
 				ptarget = null;
 			}
 		}
 	}
-
+	
 	/**
 	 * Return the secondary weapon instance (always equiped in the left hand).<BR>
 	 * <BR>
@@ -7511,7 +7511,7 @@ private int _reviveRequested = 0;
 	{
 		return getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
 	}
-
+	
 	/**
 	 * Return the secondary weapon item (always equiped in the left hand) or the fists weapon.<BR>
 	 * <BR>
@@ -7522,19 +7522,19 @@ private int _reviveRequested = 0;
 	public L2Weapon getSecondaryWeaponItem()
 	{
 		L2ItemInstance weapon = getSecondaryWeaponInstance();
-
+		
 		if(weapon == null)
 			return getFistsWeaponItem();
-
+		
 		L2Item item = weapon.getItem();
-
+		
 		if(item instanceof L2Weapon)
 			return (L2Weapon) item;
-
+		
 		weapon = null;
 		return null;
 	}
-
+	
 	/**
 	 * Kill the L2Character, Apply Death Penalty, Manage gain/loss Karma and Item Drop.<BR>
 	 * <BR>
@@ -7838,7 +7838,7 @@ private int _reviveRequested = 0;
 		
 		return true;
 	}
-
+	
 	/**
 	 * Removes the ctf flag on die.
 	 */
@@ -7851,7 +7851,7 @@ private int _reviveRequested = 0;
 		_haveFlagCTF = false;
 		Announcements.getInstance().gameAnnounceToAll(CTF.get_eventName() + "(CTF): " + _teamNameHaveFlagCTF + "'s flag returned.");
 	}
-
+	
 	/**
 	 * On die drop item.
 	 *
@@ -7861,23 +7861,23 @@ private int _reviveRequested = 0;
 	{
 		if(atEvent || (TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP) || killer == null)
 			return;
-
+		
 		if(getKarma() <= 0 && killer instanceof L2PcInstance && ((L2PcInstance) killer).getClan() != null && getClan() != null && ((L2PcInstance) killer).getClan().isAtWarWith(getClanId()))
-		//|| this.getClan().isAtWarWith(((L2PcInstance)killer).getClanId()))
+			//|| this.getClan().isAtWarWith(((L2PcInstance)killer).getClanId()))
 			return;
-
+		
 		if(!isInsideZone(ZONE_PVP) && (!isGM() || Config.KARMA_DROP_GM))
 		{
 			boolean isKarmaDrop = false;
 			boolean isKillerNpc = killer instanceof L2NpcInstance;
 			int pkLimit = Config.KARMA_PK_LIMIT;
-
+			
 			int dropEquip = 0;
 			int dropEquipWeapon = 0;
 			int dropItem = 0;
 			int dropLimit = 0;
 			int dropPercent = 0;
-
+			
 			if(getKarma() > 0 && getPkKills() >= pkLimit)
 			{
 				isKarmaDrop = true;
@@ -7895,32 +7895,32 @@ private int _reviveRequested = 0;
 				dropItem = Config.PLAYER_RATE_DROP_ITEM;
 				dropLimit = Config.PLAYER_DROP_LIMIT;
 			}
-
+			
 			int dropCount = 0;
 			while(dropPercent > 0 && Rnd.get(100) < dropPercent && dropCount < dropLimit)
 			{
 				int itemDropPercent = 0;
 				List<Integer> nonDroppableList = new FastList<Integer>();
 				List<Integer> nonDroppableListPet = new FastList<Integer>();
-
+				
 				nonDroppableList = Config.KARMA_LIST_NONDROPPABLE_ITEMS;
 				nonDroppableListPet = Config.KARMA_LIST_NONDROPPABLE_ITEMS;
-
+				
 				for(L2ItemInstance itemDrop : getInventory().getItems())
 				{
 					// Don't drop
 					if(itemDrop.isAugmented() || // Dont drop augmented items
-					itemDrop.isShadowItem() || // Dont drop Shadow Items
-					itemDrop.getItemId() == 57 || // Adena
-					itemDrop.getItem().getType2() == L2Item.TYPE2_QUEST || // Quest Items
-					nonDroppableList.contains(itemDrop.getItemId()) || // Item listed in the non droppable item list
-					nonDroppableListPet.contains(itemDrop.getItemId()) || // Item listed in the non droppable pet item list
-					getPet() != null && getPet().getControlItemId() == itemDrop.getItemId() // Control Item of active pet
-					)
+						itemDrop.isShadowItem() || // Dont drop Shadow Items
+						itemDrop.getItemId() == 57 || // Adena
+						itemDrop.getItem().getType2() == L2Item.TYPE2_QUEST || // Quest Items
+						nonDroppableList.contains(itemDrop.getItemId()) || // Item listed in the non droppable item list
+						nonDroppableListPet.contains(itemDrop.getItemId()) || // Item listed in the non droppable pet item list
+						getPet() != null && getPet().getControlItemId() == itemDrop.getItemId() // Control Item of active pet
+						)
 					{
 						continue;
 					}
-
+					
 					if(itemDrop.isEquipped())
 					{
 						// Set proper chance according to Item type of equipped Item
@@ -7931,7 +7931,7 @@ private int _reviveRequested = 0;
 					{
 						itemDropPercent = dropItem; // Item in inventory
 					}
-
+					
 					// NOTE: Each time an item is dropped, the chance of another item being dropped gets lesser (dropCount * 2)
 					if(Rnd.get(100) < itemDropPercent)
 					{
@@ -7947,7 +7947,7 @@ private int _reviveRequested = 0;
 							String text = getName() + " dropped id = " + itemDrop.getItemId() + ", count = " + itemDrop.getCount();
 							Log.add(text, "dieDrop");
 						}
-
+						
 						dropCount++;
 						break;
 					}
@@ -7955,7 +7955,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * On die update karma.
 	 */
@@ -7972,12 +7972,12 @@ private int _reviveRequested = 0;
 			karmaLost *= getLevel() / 100.0; // divide by 0.charLVL
 			karmaLost = Math.round(karmaLost);
 			if ( karmaLost < 0 ) karmaLost = 1;
-
+			
 			// Decrease Karma of the L2PcInstance and Send it a Server->Client StatusUpdate packet with Karma and PvP Flag if necessary
 			setKarma(getKarma() - (int) karmaLost);
 		}
 	}
-
+	
 	/**
 	 * On kill update pvp karma.
 	 * @param target the target
@@ -8019,7 +8019,7 @@ private int _reviveRequested = 0;
 		
 		if (targetPlayer == null)
 			return; // Target player is null
-			
+		
 		if (targetPlayer == this)
 		{
 			targetPlayer = null;
@@ -8138,9 +8138,9 @@ private int _reviveRequested = 0;
 	 * @return true, if successful
 	 */
 	private boolean checkAntiFarm(L2PcInstance targetPlayer){
-
+		
 		if(Config.ANTI_FARM_ENABLED){
-
+			
 			//Anti FARM Clan - Ally
 			if(Config.ANTI_FARM_CLAN_ALLY_ENABLED && (getClanId() > 0 && targetPlayer.getClanId() > 0 && getClanId() == targetPlayer.getClanId()) || (getAllyId() > 0 && targetPlayer.getAllyId() > 0 && getAllyId() == targetPlayer.getAllyId()))
 			{
@@ -8148,7 +8148,7 @@ private int _reviveRequested = 0;
 				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". CLAN or ALLY.");
 				return false;
 			}
-
+			
 			//Anti FARM level player < 40
 			if(Config.ANTI_FARM_LVL_DIFF_ENABLED && targetPlayer.getLevel() < Config.ANTI_FARM_MAX_LVL_DIFF)
 			{
@@ -8156,7 +8156,7 @@ private int _reviveRequested = 0;
 				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". LVL DIFF.");
 				return false;
 			}       
-
+			
 			//Anti FARM pdef < 300
 			if(Config.ANTI_FARM_PDEF_DIFF_ENABLED && targetPlayer.getPDef(targetPlayer) < Config.ANTI_FARM_MAX_PDEF_DIFF)
 			{
@@ -8164,7 +8164,7 @@ private int _reviveRequested = 0;
 				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". MAX PDEF DIFF.");
 				return false;
 			}    
-
+			
 			//Anti FARM p atk < 300
 			if(Config.ANTI_FARM_PATK_DIFF_ENABLED && targetPlayer.getPAtk(targetPlayer) < Config.ANTI_FARM_MAX_PATK_DIFF)
 			{
@@ -8172,11 +8172,11 @@ private int _reviveRequested = 0;
 				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". MAX PATK DIFF.");
 				return false;
 			}
-
+			
 			//Anti FARM Party   
 			if(Config.ANTI_FARM_PARTY_ENABLED && this.getParty() != null 
-					&& targetPlayer.getParty() != null 
-					&& this.getParty().equals(targetPlayer.getParty()))
+				&& targetPlayer.getParty() != null 
+				&& this.getParty().equals(targetPlayer.getParty()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");   
 				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME PARTY.");
@@ -8186,24 +8186,24 @@ private int _reviveRequested = 0;
 			//Anti FARM same Ip
 			if(Config.ANTI_FARM_IP_ENABLED){
 				
-			   if(this.getClient() != null && targetPlayer.getClient() != null)
-			   {
-		         String ip1 = this.getClient().getConnection().getInetAddress().getHostAddress();
-		         String ip2 = targetPlayer.getClient().getConnection().getInetAddress().getHostAddress();
-		 
-		         if (ip1.equals(ip2))
-		         {
-		         this.sendMessage("Farm is punishable with Ban! Gm informed.");
-		         _log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
-		         return false;
-		         }
-			   }
+				if(this.getClient() != null && targetPlayer.getClient() != null)
+				{
+					String ip1 = this.getClient().getConnection().getInetAddress().getHostAddress();
+					String ip2 = targetPlayer.getClient().getConnection().getInetAddress().getHostAddress();
+					
+					if (ip1.equals(ip2))
+					{
+						this.sendMessage("Farm is punishable with Ban! Gm informed.");
+						_log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
+						return false;
+					}
+				}
 			}
 			return true;
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Adds the item reword.
 	 * @param targetPlayer the target player
@@ -8238,7 +8238,7 @@ private int _reviveRequested = 0;
 					}
 				}
 				else
-				// target is not pk and not in pvp ---> PK KILL
+					// target is not pk and not in pvp ---> PK KILL
 				{
 					if (Config.PK_REWARD_ENABLED)
 					{
@@ -8265,7 +8265,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Increase the pvp kills count and send the info to the player.
 	 */
@@ -8290,24 +8290,24 @@ private int _reviveRequested = 0;
 				sendMessage("You received your prize for a town war kill!");
 			}
 		}
-
+		
 		if((TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP)) 
 			return;
 		
 		// Add karma to attacker and increase its PK counter
 		setPvpKills(getPvpKills() + 1);
-
-		 // Increase the kill count for a special hero aura
-		 heroConsecutiveKillCount++;
 		
-		 // If heroConsecutiveKillCount == 30 give hero aura
-		 if(heroConsecutiveKillCount == Config.KILLS_TO_GET_WAR_LEGEND_AURA && Config.WAR_LEGEND_AURA)
-	     {
-			 setHeroAura(true);
-			 Announcements.getInstance().gameAnnounceToAll(getName()+" becames War Legend with "+Config.KILLS_TO_GET_WAR_LEGEND_AURA+" PvP!!");
-			 
-		 }
-		 
+		// Increase the kill count for a special hero aura
+		heroConsecutiveKillCount++;
+		
+		// If heroConsecutiveKillCount == 30 give hero aura
+		if(heroConsecutiveKillCount == Config.KILLS_TO_GET_WAR_LEGEND_AURA && Config.WAR_LEGEND_AURA)
+		{
+			setHeroAura(true);
+			Announcements.getInstance().gameAnnounceToAll(getName()+" becames War Legend with "+Config.KILLS_TO_GET_WAR_LEGEND_AURA+" PvP!!");
+			
+		}
+		
 		
 		if(Config.PVPEXPSP_SYSTEM)
 		{
@@ -8316,25 +8316,25 @@ private int _reviveRequested = 0;
 				sendMessage("Earned Exp & SP for a pvp kill");
 			}
 		}
-
+		
 		if(Config.PVP_PK_TITLE)
 		{
 			updateTitle();
 		}
-
+		
 		//Update the character's name color if they reached any of the 5 PvP levels.
 		updatePvPColor(getPvpKills());
 		broadcastUserInfo();
-
+		
 		if(Config.ALLOW_QUAKE_SYSTEM)
 		{
 			QuakeSystem();
 		}
-
+		
 		// Send a Server->Client UserInfo packet to attacker with its Karma and PK Counter
 		sendPacket(new UserInfo(this));
 	}
-
+	
 	/**
 	 * Quake system.
 	 */
@@ -8449,7 +8449,7 @@ private int _reviveRequested = 0;
 				}
 		}
 	}
-
+	
 	/**
 	 * Get info on pk's from pk table.
 	 *
@@ -8549,7 +8549,7 @@ private int _reviveRequested = 0;
 		killer = null;
 		killed = null;
 	}
-
+	
 	/**
 	 * Increase pk count, karma and send the info to the player.
 	 *
@@ -8559,17 +8559,17 @@ private int _reviveRequested = 0;
 	{
 		if((TvT.is_started() && _inEventTvT) || (DM.is_started() && _inEventDM) || (CTF.is_started() && _inEventCTF) || (VIP._started && _inEventVIP))
 			return;
-
+		
 		int baseKarma = Config.KARMA_MIN_KARMA;
 		int newKarma = baseKarma;
 		int karmaLimit = Config.KARMA_MAX_KARMA;
-
+		
 		int pkLVL = getLevel();
 		int pkPKCount = getPkKills();
-
+		
 		int lvlDiffMulti = 0;
 		int pkCountMulti = 0;
-
+		
 		// Check if the attacker has a PK counter greater than 0
 		if(pkPKCount > 0)
 		{
@@ -8579,12 +8579,12 @@ private int _reviveRequested = 0;
 		{
 			pkCountMulti = 1;
 		}
-
+		
 		if(pkCountMulti < 1)
 		{
 			pkCountMulti = 1;
 		}
-
+		
 		// Calculate the level difference Multiplier between attacker and killed L2PcInstance
 		if(pkLVL > targLVL)
 		{
@@ -8594,33 +8594,33 @@ private int _reviveRequested = 0;
 		{
 			lvlDiffMulti = 1;
 		}
-
+		
 		if(lvlDiffMulti < 1)
 		{
 			lvlDiffMulti = 1;
 		}
-
+		
 		// Calculate the new Karma of the attacker : newKarma = baseKarma*pkCountMulti*lvlDiffMulti
 		newKarma *= pkCountMulti;
 		newKarma *= lvlDiffMulti;
-
+		
 		// Make sure newKarma is less than karmaLimit and higher than baseKarma
 		if(newKarma < baseKarma)
 		{
 			newKarma = baseKarma;
 		}
-
+		
 		if(newKarma > karmaLimit)
 		{
 			newKarma = karmaLimit;
 		}
-
+		
 		// Fix to prevent overflow (=> karma has a  max value of 2 147 483 647)
 		if(getKarma() > Integer.MAX_VALUE - newKarma)
 		{
 			newKarma = Integer.MAX_VALUE - getKarma();
 		}
-
+		
 		// Add karma to attacker and increase its PK counter
 		int x,y,z;
 		x = getX();
@@ -8629,7 +8629,7 @@ private int _reviveRequested = 0;
 		
 		//get local town
 		L2TownZone Town = TownManager.getInstance().getTown(x,y,z);
-
+		
 		setPkKills(getPkKills() + 1);
 		
 		/*if(!Config.TW_ALLOW_KARMA && Town != null && isinTownWar())
@@ -8645,7 +8645,7 @@ private int _reviveRequested = 0;
 		{
 			setKarma(getKarma() + newKarma);
 		}*/
-
+		
 		if(Town != null && isinTownWar())
 		{
 			if(Town.getTownId() == Config.TW_TOWN_ID && !Config.TW_ALL_TOWNS)
@@ -8659,20 +8659,20 @@ private int _reviveRequested = 0;
 				sendMessage("You received your prize for a town war kill!");
 			}
 		}
-
+		
 		if(Config.PVP_PK_TITLE)
 		{
 			updateTitle();
 		}
-
+		
 		//Update the character's title color if they reached any of the 5 PK levels.
 		updatePkColor(getPkKills());
 		broadcastUserInfo();
-
+		
 		// Send a Server->Client UserInfo packet to attacker with its Karma and PK Counter
 		sendPacket(new UserInfo(this));
 	}
-
+	
 	/**
 	 * Calculate karma lost.
 	 *
@@ -8686,22 +8686,22 @@ private int _reviveRequested = 0;
 		// this (with defaults) results in a level 1 losing about ~2 karma per death, and a lvl 70 loses about 11760 karma per death...
 		// You lose karma as long as you were not in a pvp zone and you did not kill urself.
 		// NOTE: exp for death (if delevel is allowed) is based on the players level
-
+		
 		long expGained = Math.abs(exp);
 		expGained /= Config.KARMA_XP_DIVIDER;
-
+		
 		int karmaLost = 0;
 		if(expGained > Integer.MAX_VALUE)
 			karmaLost = Integer.MAX_VALUE;
 		else
 			karmaLost = (int) expGained;
-
+		
 		if (karmaLost < Config.KARMA_LOST_BASE) karmaLost = Config.KARMA_LOST_BASE;
 		if (karmaLost > getKarma()) karmaLost = getKarma();
-
+		
 		return karmaLost;
 	}
-
+	
 	/**
 	 * Update pvp status.
 	 */
@@ -8709,18 +8709,18 @@ private int _reviveRequested = 0;
 	{
 		if((TvT.is_started() && _inEventTvT) || (CTF.is_started() && _inEventCTF) || (DM.is_started() && _inEventDM) || (VIP._started && _inEventVIP))
 			return;
-
+		
 		if(isInsideZone(ZONE_PVP))
 			return;
-
+		
 		setPvpFlagLasts(System.currentTimeMillis() + Config.PVP_NORMAL_TIME);
-
+		
 		if(getPvpFlag() == 0)
 		{
 			startPvPFlag();
 		}
 	}
-
+	
 	/**
 	 * Update pvp status.
 	 *
@@ -8729,7 +8729,7 @@ private int _reviveRequested = 0;
 	public void updatePvPStatus(L2Character target)
 	{
 		L2PcInstance player_target = null;
-
+		
 		if(target instanceof L2PcInstance)
 		{
 			player_target = (L2PcInstance) target;
@@ -8738,16 +8738,16 @@ private int _reviveRequested = 0;
 		{
 			player_target = ((L2Summon) target).getOwner();
 		}
-
+		
 		if(player_target == null)
 			return;
-
+		
 		if((TvT.is_started() && _inEventTvT && player_target._inEventTvT) || (DM.is_started() && _inEventDM && player_target._inEventDM) || (CTF.is_started() && _inEventCTF && player_target._inEventCTF) || (VIP._started && _inEventVIP && player_target._inEventVIP))
 			return;
-
+		
 		if(isInDuel() && player_target.getDuelId() == getDuelId())
 			return;
-
+		
 		if((!isInsideZone(ZONE_PVP) || !player_target.isInsideZone(ZONE_PVP)) && player_target.getKarma() == 0)
 		{
 			if(checkIfPvP(player_target))
@@ -8765,7 +8765,7 @@ private int _reviveRequested = 0;
 		}
 		player_target = null;
 	}
-
+	
 	/**
 	 * Restore the specified % of experience this L2PcInstance has lost and sends a Server->Client StatusUpdate packet.<BR>
 	 * <BR>
@@ -8781,7 +8781,7 @@ private int _reviveRequested = 0;
 			setExpBeforeDeath(0);
 		}
 	}
-
+	
 	/**
 	 * Reduce the Experience (and level if necessary) of the L2PcInstance in function of the calculated Death Penalty.<BR>
 	 * <BR>
@@ -8798,10 +8798,10 @@ private int _reviveRequested = 0;
 	{
 		// Get the level of the L2PcInstance
 		final int lvl = getLevel();
-
+		
 		//The death steal you some Exp
 		double percentLost = 4.0; //standart 4% (lvl>20)
-
+		
 		if(getLevel() < 20)
 		{
 			percentLost = 10.0;
@@ -8818,23 +8818,23 @@ private int _reviveRequested = 0;
 		{
 			percentLost = 2.0;
 		}
-
+		
 		if(getKarma() > 0)
 		{
 			percentLost *= Config.RATE_KARMA_EXP_LOST;
 		}
-
+		
 		if(isFestivalParticipant() || atwar || isInsideZone(ZONE_SIEGE))
 		{
 			percentLost /= 4.0;
 		}
-
+		
 		// Calculate the Experience loss
 		long lostExp = 0;
 		if(!atEvent && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started))
 		{
 			final byte maxLvl = ExperienceData.getInstance().getMaxLevel();
-		    if(lvl < maxLvl)
+			if(lvl < maxLvl)
 			{
 				lostExp = Math.round((getStat().getExpForLevel(lvl + 1) - getStat().getExpForLevel(lvl)) * percentLost / 100);
 			}
@@ -8845,7 +8845,7 @@ private int _reviveRequested = 0;
 		}
 		// Get the Experience before applying penalty
 		setExpBeforeDeath(getExp());
-
+		
 		if(getCharmOfCourage())
 		{
 			if(getSiegeState() > 0 && isInsideZone(ZONE_SIEGE))
@@ -8854,16 +8854,16 @@ private int _reviveRequested = 0;
 			}
 			setCharmOfCourage(false);
 		}
-
+		
 		if(Config.DEBUG)
 		{
 			_log.fine(getName() + " died and lost " + lostExp + " experience.");
 		}
-
+		
 		// Set the new Experience value of the L2PcInstance
 		getStat().addExp(-lostExp);
 	}
-
+	
 	/**
 	 * Manage the increase level task of a L2PcInstance (Max MP, Max MP, Recommandation, Expertise and beginner
 	 * skills...).<BR>
@@ -8884,7 +8884,7 @@ private int _reviveRequested = 0;
 		setCurrentHpMp(getMaxHp(), getMaxMp());
 		setCurrentCp(getMaxCp());
 	}
-
+	
 	/**
 	 * Stop the HP/MP/CP Regeneration task.<BR>
 	 * <BR>
@@ -8904,7 +8904,7 @@ private int _reviveRequested = 0;
 		stopBotChecker();
 		quakeSystem = 0;
 	}
-
+	
 	/**
 	 * Return the L2Summon of the L2PcInstance or null.<BR>
 	 * <BR>
@@ -8916,7 +8916,7 @@ private int _reviveRequested = 0;
 	{
 		return _summon;
 	}
-
+	
 	/**
 	 * Set the L2Summon of the L2PcInstance.<BR>
 	 * <BR>
@@ -8927,7 +8927,7 @@ private int _reviveRequested = 0;
 	{
 		_summon = summon;
 	}
-
+	
 	/**
 	 * Return the L2Summon of the L2PcInstance or null.<BR>
 	 * <BR>
@@ -8938,7 +8938,7 @@ private int _reviveRequested = 0;
 	{
 		return _tamedBeast;
 	}
-
+	
 	/**
 	 * Set the L2Summon of the L2PcInstance.<BR>
 	 * <BR>
@@ -8949,7 +8949,7 @@ private int _reviveRequested = 0;
 	{
 		_tamedBeast = tamedBeast;
 	}
-
+	
 	/**
 	 * Return the L2PcInstance requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).<BR>
 	 * <BR>
@@ -8960,7 +8960,7 @@ private int _reviveRequested = 0;
 	{
 		return _request;
 	}
-
+	
 	/**
 	 * Set the L2PcInstance requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).<BR>
 	 * <BR>
@@ -8971,7 +8971,7 @@ private int _reviveRequested = 0;
 	{
 		_activeRequester = requester;
 	}
-
+	
 	/**
 	 * Return the L2PcInstance requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...).<BR>
 	 * <BR>
@@ -8988,7 +8988,7 @@ private int _reviveRequested = 0;
 		}
 		return _activeRequester;
 	}
-
+	
 	/**
 	 * Return True if a transaction is in progress.<BR>
 	 * <BR>
@@ -8999,7 +8999,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeRequester != null || _requestExpireTime > GameTimeController.getGameTicks();
 	}
-
+	
 	/**
 	 * Return True if a transaction is in progress.<BR>
 	 * <BR>
@@ -9010,7 +9010,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeRequester != null || _activeTradeList != null || _requestExpireTime > GameTimeController.getGameTicks();
 	}
-
+	
 	/**
 	 * Select the Warehouse to be used in next activity.<BR>
 	 * <BR>
@@ -9025,7 +9025,7 @@ private int _reviveRequested = 0;
 			partner.setActiveRequester(this);
 		}
 	}
-
+	
 	/**
 	 * Select the Warehouse to be used in next activity.<BR>
 	 * <BR>
@@ -9034,7 +9034,7 @@ private int _reviveRequested = 0;
 	{
 		_requestExpireTime = 0;
 	}
-
+	
 	/**
 	 * Select the Warehouse to be used in next activity.<BR>
 	 * <BR>
@@ -9045,7 +9045,7 @@ private int _reviveRequested = 0;
 	{
 		_activeWarehouse = warehouse;
 	}
-
+	
 	/**
 	 * Return active Warehouse.<BR>
 	 * <BR>
@@ -9056,7 +9056,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeWarehouse;
 	}
-
+	
 	/**
 	 * Select the TradeList to be used in next activity.<BR>
 	 * <BR>
@@ -9067,7 +9067,7 @@ private int _reviveRequested = 0;
 	{
 		_activeTradeList = tradeList;
 	}
-
+	
 	/**
 	 * Return active TradeList.<BR>
 	 * <BR>
@@ -9078,7 +9078,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeTradeList;
 	}
-
+	
 	/**
 	 * On trade start.
 	 *
@@ -9088,14 +9088,14 @@ private int _reviveRequested = 0;
 	{
 		_activeTradeList = new TradeList(this);
 		_activeTradeList.setPartner(partner);
-
+		
 		SystemMessage msg = new SystemMessage(SystemMessageId.BEGIN_TRADE_WITH_S1);
 		msg.addString(partner.getName());
 		sendPacket(msg);
 		sendPacket(new TradeStart(this));
 		msg = null;
 	}
-
+	
 	/**
 	 * On trade confirm.
 	 *
@@ -9108,9 +9108,9 @@ private int _reviveRequested = 0;
 		sendPacket(msg);
 		msg = null;
 		partner.sendPacket(TradePressOwnOk.STATIC_PACKET);
-        sendPacket(TradePressOtherOk.STATIC_PACKET);
+		sendPacket(TradePressOtherOk.STATIC_PACKET);
 	}
-
+	
 	/**
 	 * On trade cancel.
 	 *
@@ -9120,17 +9120,17 @@ private int _reviveRequested = 0;
 	{
 		if(_activeTradeList == null)
 			return;
-
+		
 		_activeTradeList.lock();
 		_activeTradeList = null;
-
+		
 		sendPacket(new SendTradeDone(0));
 		SystemMessage msg = new SystemMessage(SystemMessageId.S1_CANCELED_TRADE);
 		msg.addString(partner.getName());
 		sendPacket(msg);
 		msg = null;
 	}
-
+	
 	/**
 	 * On trade finish.
 	 *
@@ -9145,7 +9145,7 @@ private int _reviveRequested = 0;
 			sendPacket(new SystemMessage(SystemMessageId.TRADE_SUCCESSFUL));
 		}
 	}
-
+	
 	/**
 	 * Start trade.
 	 *
@@ -9156,7 +9156,7 @@ private int _reviveRequested = 0;
 		onTradeStart(partner);
 		partner.onTradeStart(this);
 	}
-
+	
 	/**
 	 * Cancel active trade.
 	 */
@@ -9164,7 +9164,7 @@ private int _reviveRequested = 0;
 	{
 		if(_activeTradeList == null)
 			return;
-
+		
 		L2PcInstance partner = _activeTradeList.getPartner();
 		if(partner != null)
 		{
@@ -9173,7 +9173,7 @@ private int _reviveRequested = 0;
 		}
 		onTradeCancel(this);
 	}
-
+	
 	/**
 	 * Return the _createList object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9184,7 +9184,7 @@ private int _reviveRequested = 0;
 	{
 		return _createList;
 	}
-
+	
 	/**
 	 * Set the _createList object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9195,7 +9195,7 @@ private int _reviveRequested = 0;
 	{
 		_createList = x;
 	}
-
+	
 	/**
 	 * Return the _sellList object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9210,7 +9210,7 @@ private int _reviveRequested = 0;
 		}
 		return _sellList;
 	}
-
+	
 	/**
 	 * Return the _buyList object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9225,7 +9225,7 @@ private int _reviveRequested = 0;
 		}
 		return _buyList;
 	}
-
+	
 	/**
 	 * Set the Private Store type of the L2PcInstance.<BR>
 	 * <BR>
@@ -9250,7 +9250,7 @@ private int _reviveRequested = 0;
 				getAppearance().setNameColor(this._originalNameColorOffline);
 			else
 				getAppearance().setNameColor(_accessLevel.getNameColor());
-			*/
+			 */
 			this.store();
 			if (Config.OFFLINE_DISCONNECT_FINISHED) {
 				this.deleteMe();
@@ -9262,7 +9262,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Return the Private Store type of the L2PcInstance.<BR>
 	 * <BR>
@@ -9279,7 +9279,7 @@ private int _reviveRequested = 0;
 	{
 		return _privatestore;
 	}
-
+	
 	/**
 	 * Set the _skillLearningClassId object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9290,7 +9290,7 @@ private int _reviveRequested = 0;
 	{
 		_skillLearningClassId = classId;
 	}
-
+	
 	/**
 	 * Return the _skillLearningClassId object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9301,7 +9301,7 @@ private int _reviveRequested = 0;
 	{
 		return _skillLearningClassId;
 	}
-
+	
 	/**
 	 * Set the _clan object, _clanId, _clanLeader Flag and title of the L2PcInstance.<BR>
 	 * <BR>
@@ -9312,7 +9312,7 @@ private int _reviveRequested = 0;
 	{
 		_clan = clan;
 		setTitle("");
-
+		
 		if(clan == null)
 		{
 			_clanId = 0;
@@ -9324,14 +9324,14 @@ private int _reviveRequested = 0;
 			_sponsor = 0;
 			return;
 		}
-
+		
 		if(!clan.isMember(getName()))
 		{
 			// char has been kicked from clan
 			setClan(null);
 			return;
 		}
-
+		
 		_clanId = clan.getClanId();
 		
 		// Add clan leader skills if clanleader
@@ -9343,7 +9343,7 @@ private int _reviveRequested = 0;
 		}
 		
 	}
-
+	
 	/**
 	 * Return the _clan object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9354,7 +9354,7 @@ private int _reviveRequested = 0;
 	{
 		return _clan;
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance is the leader of its clan.<BR>
 	 * <BR>
@@ -9367,7 +9367,7 @@ private int _reviveRequested = 0;
 			return false;
 		return getObjectId() == getClan().getLeaderId();
 	}
-
+	
 	/**
 	 * Reduce the number of arrows owned by the L2PcInstance and send it Server->Client Packet InventoryUpdate or
 	 * ItemList (to unequip if the last arrow was consummed).<BR>
@@ -9377,22 +9377,22 @@ private int _reviveRequested = 0;
 	protected void reduceArrowCount()
 	{
 		L2ItemInstance arrows = getInventory().destroyItem("Consume", getInventory().getPaperdollObjectId(Inventory.PAPERDOLL_LHAND), 1, this, null);
-
+		
 		if(Config.DEBUG)
 		{
 			_log.fine("arrow count:" + (arrows == null ? 0 : arrows.getCount()));
 		}
-
+		
 		if(arrows == null || arrows.getCount() == 0)
 		{
 			getInventory().unEquipItemInSlot(Inventory.PAPERDOLL_LHAND);
 			_arrowItem = null;
-
+			
 			if(Config.DEBUG)
 			{
 				_log.fine("removed arrows count");
 			}
-
+			
 			sendPacket(new ItemList(this, false));
 		}
 		else
@@ -9407,11 +9407,11 @@ private int _reviveRequested = 0;
 			{
 				sendPacket(new ItemList(this, false));
 			}
-
+			
 			arrows = null;
 		}
 	}
-
+	
 	/**
 	 * Equip arrows needed in left hand and send a Server->Client packet ItemList to the L2PcINstance then return True.<BR>
 	 * <BR>
@@ -9426,12 +9426,12 @@ private int _reviveRequested = 0;
 		{
 			// Get the L2ItemInstance of the arrows needed for this bow
 			_arrowItem = getInventory().findArrowForBow(getActiveWeaponItem());
-
+			
 			if(_arrowItem != null)
 			{
 				// Equip arrows needed in left hand
 				getInventory().setPaperdollItem(Inventory.PAPERDOLL_LHAND, _arrowItem);
-
+				
 				// Send a Server->Client packet ItemList to this L2PcINstance to update left hand equipement
 				ItemList il = new ItemList(this, false);
 				sendPacket(il);
@@ -9442,10 +9442,10 @@ private int _reviveRequested = 0;
 			// Get the L2ItemInstance of arrows equiped in left hand
 			_arrowItem = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
 		}
-
+		
 		return _arrowItem != null;
 	}
-
+	
 	/**
 	 * Disarm the player's weapon and shield.<BR>
 	 * <BR>
@@ -9457,25 +9457,25 @@ private int _reviveRequested = 0;
 		// Don't allow disarming a cursed weapon
 		if(isCursedWeaponEquiped() && !getAccessLevel().isGm())
 			return false;
-
+		
 		// Unequip the weapon
 		L2ItemInstance wpn = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
 		if(wpn == null)
 		{
 			wpn = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND);
 		}
-
+		
 		if(wpn != null)
 		{
 			if(wpn.isWear())
 				return false;
-
+			
 			// Remove augementation boni on unequip
 			if(wpn.isAugmented())
 			{
 				wpn.getAugmentation().removeBoni(this);
 			}
-
+			
 			L2ItemInstance[] unequiped = getInventory().unEquipItemInBodySlotAndRecord(wpn.getItem().getBodyPart());
 			InventoryUpdate iu = new InventoryUpdate();
 			for(L2ItemInstance element : unequiped)
@@ -9484,10 +9484,10 @@ private int _reviveRequested = 0;
 			}
 			sendPacket(iu);
 			iu = null;
-
+			
 			abortAttack();
 			broadcastUserInfo();
-
+			
 			// this can be 0 if the user pressed the right mousebutton twice very fast
 			if(unequiped.length > 0)
 			{
@@ -9509,14 +9509,14 @@ private int _reviveRequested = 0;
 			wpn = null;
 			unequiped = null;
 		}
-
+		
 		// Unequip the shield
 		L2ItemInstance sld = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LHAND);
 		if(sld != null)
 		{
 			if(sld.isWear())
 				return false;
-
+			
 			L2ItemInstance[] unequiped = getInventory().unEquipItemInBodySlotAndRecord(sld.getItem().getBodyPart());
 			InventoryUpdate iu = new InventoryUpdate();
 			for(L2ItemInstance element : unequiped)
@@ -9525,10 +9525,10 @@ private int _reviveRequested = 0;
 			}
 			sendPacket(iu);
 			iu = null;
-
+			
 			abortAttack();
 			broadcastUserInfo();
-
+			
 			// this can be 0 if the user pressed the right mousebutton twice very fast
 			if(unequiped.length > 0)
 			{
@@ -9552,7 +9552,7 @@ private int _reviveRequested = 0;
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance use a dual weapon.<BR>
 	 * <BR>
@@ -9565,7 +9565,7 @@ private int _reviveRequested = 0;
 		L2Weapon weaponItem = getActiveWeaponItem();
 		if(weaponItem == null)
 			return false;
-
+		
 		if(weaponItem.getItemType() == L2WeaponType.DUAL)
 			return true;
 		else if(weaponItem.getItemType() == L2WeaponType.DUALFIST)
@@ -9577,7 +9577,7 @@ private int _reviveRequested = 0;
 		else
 			return false;
 	}
-
+	
 	/**
 	 * Sets the uptime.
 	 *
@@ -9587,7 +9587,7 @@ private int _reviveRequested = 0;
 	{
 		_uptime = time;
 	}
-
+	
 	/**
 	 * Gets the uptime.
 	 *
@@ -9597,7 +9597,7 @@ private int _reviveRequested = 0;
 	{
 		return System.currentTimeMillis() - _uptime;
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance is invulnerable.<BR>
 	 * <BR>
@@ -9609,7 +9609,7 @@ private int _reviveRequested = 0;
 	{
 		return _isInvul || _isTeleporting || _protectEndTime > GameTimeController.getGameTicks() || _teleportProtectEndTime > GameTimeController.getGameTicks();
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance has a Party in progress.<BR>
 	 * <BR>
@@ -9621,7 +9621,7 @@ private int _reviveRequested = 0;
 	{
 		return _party != null;
 	}
-
+	
 	/**
 	 * Set the _party object of the L2PcInstance (without joining it).<BR>
 	 * <BR>
@@ -9632,7 +9632,7 @@ private int _reviveRequested = 0;
 	{
 		_party = party;
 	}
-
+	
 	/**
 	 * Set the _party object of the L2PcInstance AND join it.<BR>
 	 * <BR>
@@ -9664,7 +9664,7 @@ private int _reviveRequested = 0;
 			party.addPartyMember(this);
 		}
 	}
-
+	
 	/**
 	 * Return true if the L2PcInstance is a GM.<BR>
 	 * <BR>
@@ -9675,7 +9675,7 @@ private int _reviveRequested = 0;
 	{
 		return getAccessLevel().isGm();
 	}
-
+	
 	/**
 	 * Return true if the L2PcInstance is a Administrator.<BR>
 	 * <BR>
@@ -9686,7 +9686,7 @@ private int _reviveRequested = 0;
 	{
 		return getAccessLevel().getLevel() == Config.MASTERACCESS_LEVEL;
 	}
-
+	
 	/**
 	 * Return true if the L2PcInstance is a User.<BR>
 	 * <BR>
@@ -9697,7 +9697,7 @@ private int _reviveRequested = 0;
 	{
 		return getAccessLevel().getLevel() == Config.USERACCESS_LEVEL;
 	}
-
+	
 	/**
 	 * Checks if is normal gm.
 	 *
@@ -9707,7 +9707,7 @@ private int _reviveRequested = 0;
 	{
 		return !isAdministrator() && !isUser();
 	}
-
+	
 	/**
 	 * Manage the Leave Party task of the L2PcInstance.<BR>
 	 * <BR>
@@ -9720,7 +9720,7 @@ private int _reviveRequested = 0;
 			_party = null;
 		}
 	}
-
+	
 	/**
 	 * Return the _party object of the L2PcInstance.<BR>
 	 * <BR>
@@ -9732,18 +9732,18 @@ private int _reviveRequested = 0;
 	{
 		return _party;
 	}
-
+	
 	/**
 	 * Set the _isGm Flag of the L2PcInstance.<BR>
 	 * <BR>
 	 *
 	 * @param firstlog the new first log
 	 */
-//	public void setIsGM(boolean status)
-//	{
-//		_isGm = status;
-//	}
-
+	//	public void setIsGM(boolean status)
+	//	{
+	//		_isGm = status;
+	//	}
+	
 	public void setFirstLog(int firstlog)
 	{
 		_first_log = false;
@@ -9752,7 +9752,7 @@ private int _reviveRequested = 0;
 			_first_log = true;
 		}
 	}
-
+	
 	/**
 	 * Sets the first log.
 	 *
@@ -9762,7 +9762,7 @@ private int _reviveRequested = 0;
 	{
 		_first_log = firstlog;
 	}
-
+	
 	/**
 	 * Gets the first log.
 	 *
@@ -9772,7 +9772,7 @@ private int _reviveRequested = 0;
 	{
 		return _first_log;
 	}
-
+	
 	/**
 	 * Manage a cancel cast task for the L2PcInstance.<BR>
 	 * <BR>
@@ -9787,18 +9787,18 @@ private int _reviveRequested = 0;
 	{
 		// Set the Intention of the AI to AI_INTENTION_IDLE
 		getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-
+		
 		// Enable all skills (set _allSkillsDisabled to False)
 		enableAllSkills();
-
+		
 		// Send a Server->Client Packet MagicSkillCanceld to the L2PcInstance and all L2PcInstance in the _KnownPlayers of the L2Character (broadcast)
 		MagicSkillCanceld msc = new MagicSkillCanceld(getObjectId());
-
+		
 		// Broadcast the packet to self and known players.
 		Broadcast.toSelfAndKnownPlayersInRadius(this, msc, 810000/*900*/);
 		msc = null;
 	}
-
+	
 	/**
 	 * Set the _accessLevel of the L2PcInstance.<BR>
 	 * <BR>
@@ -9819,29 +9819,29 @@ private int _reviveRequested = 0;
 		else
 		{   if(level > 0){ 
 			_log.warning("GM Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");}
-			AccessLevel accessLevel = AccessLevels.getInstance().getAccessLevel(level);
-
-			if(accessLevel == null)
+		AccessLevel accessLevel = AccessLevels.getInstance().getAccessLevel(level);
+		
+		if(accessLevel == null)
+		{
+			if(level < 0)
 			{
-				if(level < 0)
-				{
-					AccessLevels.getInstance().addBanAccessLevel(level);
-					_accessLevel = AccessLevels.getInstance().getAccessLevel(level);
-				}
-				else
-				{
-					_log.warning("Tried to set unregistered access level " + level + " to character " + getName() + ". Setting access level without privileges!");
-					_accessLevel = AccessLevels.getInstance()._userAccessLevel;
-				}
+				AccessLevels.getInstance().addBanAccessLevel(level);
+				_accessLevel = AccessLevels.getInstance().getAccessLevel(level);
 			}
 			else
 			{
-				_accessLevel = accessLevel;
+				_log.warning("Tried to set unregistered access level " + level + " to character " + getName() + ". Setting access level without privileges!");
+				_accessLevel = AccessLevels.getInstance()._userAccessLevel;
 			}
-
-			accessLevel = null;
 		}
-
+		else
+		{
+			_accessLevel = accessLevel;
+		}
+		
+		accessLevel = null;
+		}
+		
 		if(_accessLevel != AccessLevels.getInstance()._userAccessLevel)
 		{
 			//L2EMU_EDIT
@@ -9857,7 +9857,7 @@ private int _reviveRequested = 0;
 			broadcastUserInfo();
 		}
 	}
-
+	
 	/**
 	 * Sets the account accesslevel.
 	 *
@@ -9867,7 +9867,7 @@ private int _reviveRequested = 0;
 	{
 		LoginServerThread.getInstance().sendAccessLevel(getAccountName(), level);
 	}
-
+	
 	/**
 	 * Return the _accessLevel of the L2PcInstance.<BR>
 	 * <BR>
@@ -9884,7 +9884,7 @@ private int _reviveRequested = 0;
 		}
 		return _accessLevel;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#getLevelMod()
 	 */
@@ -9893,7 +9893,7 @@ private int _reviveRequested = 0;
 	{
 		return (100.0 - 11 + getLevel()) / 100.0;
 	}
-
+	
 	/**
 	 * Update Stats of the L2PcInstance client side by sending Server->Client packet UserInfo/StatusUpdate to this
 	 * L2PcInstance and CharInfo/StatusUpdate to all L2PcInstance in its _KnownPlayers (broadcast).<BR>
@@ -9910,13 +9910,13 @@ private int _reviveRequested = 0;
 		{
 			this.sendPacket(new UserInfo(this));
 		}
-
+		
 		if(broadcastType == 2)
 		{
 			broadcastUserInfo();
 		}
 	}
-
+	
 	/**
 	 * Send a Server->Client StatusUpdate packet with Karma and PvP Flag to the L2PcInstance and all L2PcInstance to
 	 * inform (broadcast).<BR>
@@ -9936,7 +9936,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Send a Server->Client StatusUpdate packet with Karma to the L2PcInstance and all L2PcInstance to inform
 	 * (broadcast).<BR>
@@ -9954,7 +9954,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Set the online Flag to True or False and update the characters table of the database with online status and
 	 * lastAccess (called when login and logout).<BR>
@@ -9968,11 +9968,11 @@ private int _reviveRequested = 0;
 		{
 			_isOnline = isOnline;
 		}
-
+		
 		// Update the characters table of the database with online status and lastAccess (called when login and logout)
 		updateOnlineStatus();
 	}
-
+	
 	/**
 	 * Sets the checks if is in7s dungeon.
 	 *
@@ -9984,10 +9984,10 @@ private int _reviveRequested = 0;
 		{
 			_isIn7sDungeon = isIn7sDungeon;
 		}
-
+		
 		updateIsIn7sDungeonStatus();
 	}
-
+	
 	/**
 	 * Update the characters table of the database with online status and lastAccess of this L2PcInstance (called when
 	 * login and logout).<BR>
@@ -9996,7 +9996,7 @@ private int _reviveRequested = 0;
 	public void updateOnlineStatus()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -10021,14 +10021,14 @@ private int _reviveRequested = 0;
 			
 		}
 	}
-
+	
 	/**
 	 * Update is in7s dungeon status.
 	 */
 	public void updateIsIn7sDungeonStatus()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -10052,7 +10052,7 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * Update first log.
 	 */
@@ -10063,7 +10063,7 @@ private int _reviveRequested = 0;
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET first_log=? WHERE obj_id=?");
-
+			
 			int _fl;
 			if(getFirstLog())
 			{
@@ -10091,7 +10091,7 @@ private int _reviveRequested = 0;
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Create a new player in the characters table of the database.<BR>
 	 * <BR>
@@ -10168,8 +10168,8 @@ private int _reviveRequested = 0;
 			
 			statement.setString(58, StringToHex(Integer.toHexString(getAppearance().getNameColor()).toUpperCase()));
 			statement.setString(59, StringToHex(Integer.toHexString(getAppearance().getTitleColor()).toUpperCase()));
-	        statement.setInt(60, isAio() ? 1 :0);
-	        statement.setLong(61, 0);
+			statement.setInt(60, isAio() ? 1 :0);
+			statement.setLong(61, 0);
 			
 			statement.executeUpdate();
 			statement.close();
@@ -10199,7 +10199,7 @@ private int _reviveRequested = 0;
 		
 		return output;
 	}
-
+	
 	/**
 	 * Retrieve a L2PcInstance from the characters table of the database and add it in _allObjects of the L2world.<BR>
 	 * <BR>
@@ -10225,31 +10225,31 @@ private int _reviveRequested = 0;
 		{
 			// Retrieve the L2PcInstance from the characters table of the database
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-
+			
 			PreparedStatement statement = con.prepareStatement(RESTORE_CHARACTER);
 			statement.setInt(1, objectId);
 			ResultSet rset = statement.executeQuery();
-
+			
 			while(rset.next())
 			{
 				final int activeClassId = rset.getInt("classid");
 				final boolean female = rset.getInt("sex") != 0;
 				final L2PcTemplate template = CharTemplateTable.getInstance().getTemplate(activeClassId);
 				PcAppearance app = new PcAppearance(rset.getByte("face"), rset.getByte("hairColor"), rset.getByte("hairStyle"), female);
-
+				
 				player = new L2PcInstance(objectId, template, rset.getString("account_name"), app);
 				player.setName(rset.getString("char_name"));
 				player._lastAccess = rset.getLong("lastAccess");
-
+				
 				player.getStat().setExp(rset.getLong("exp"));
 				player.setExpBeforeDeath(rset.getLong("expBeforeDeath"));
 				player.getStat().setLevel(rset.getByte("level"));
 				player.getStat().setSp(rset.getInt("sp"));
-
+				
 				player.setWantsPeace(rset.getInt("wantspeace"));
-
+				
 				player.setHeading(rset.getInt("heading"));
-
+				
 				player.setKarma(rset.getInt("karma"));
 				player.setPvpKills(rset.getInt("pvpkills"));
 				player.setPkKills(rset.getInt("pkkills"));
@@ -10260,7 +10260,7 @@ private int _reviveRequested = 0;
 				player.setFirstLog(rset.getInt("first_log"));
 				player.pcBangPoint = rset.getInt("pc_point");
 				app = null;
-
+				
 				if(player.getClanJoinExpiryTime() < System.currentTimeMillis())
 				{
 					player.setClanJoinExpiryTime(0);
@@ -10270,18 +10270,18 @@ private int _reviveRequested = 0;
 				{
 					player.setClanCreateExpiryTime(0);
 				}
-
+				
 				int clanId = rset.getInt("clanid");
 				player.setPowerGrade((int) rset.getLong("power_grade"));
 				player.setPledgeType(rset.getInt("subpledge"));
 				player.setLastRecomUpdate(rset.getLong("last_recom_date"));
 				//player.setApprentice(rset.getInt("apprentice"));
-
+				
 				if(clanId > 0)
 				{
 					player.setClan(ClanTable.getInstance().getClan(clanId));
 				}
-
+				
 				if(player.getClan() != null)
 				{
 					if(player.getClan().getLeaderId() != player.getObjectId())
@@ -10302,14 +10302,14 @@ private int _reviveRequested = 0;
 				{
 					player.setClanPrivileges(L2Clan.CP_NOTHING);
 				}
-
+				
 				player.setDeleteTimer(rset.getLong("deletetime"));
-
+				
 				player.setTitle(rset.getString("title"));
 				player.setAccessLevel(rset.getInt("accesslevel"));
 				player.setFistsWeaponItem(player.findFistsWeaponItem(activeClassId));
 				player.setUptime(System.currentTimeMillis());
-
+				
 				curHp = rset.getDouble("curHp");
 				curCp = rset.getDouble("curCp");
 				curMp = rset.getDouble("curMp");
@@ -10318,11 +10318,11 @@ private int _reviveRequested = 0;
 				player.setCurrentHp(rset.getDouble("curHp"));
 				player.setCurrentCp(rset.getDouble("curCp"));
 				player.setCurrentMp(rset.getDouble("curMp"));
-				*/
-
+				 */
+				
 				//Check recs
 				player.checkRecom(rset.getInt("rec_have"), rset.getInt("rec_left"));
-
+				
 				player._classIndex = 0;
 				try
 				{
@@ -10335,7 +10335,7 @@ private int _reviveRequested = 0;
 					
 					player.setBaseClass(activeClassId);
 				}
-
+				
 				// Restore Subclass Data (cannot be done earlier in function)
 				if(restoreSubClassData(player))
 				{
@@ -10360,18 +10360,18 @@ private int _reviveRequested = 0;
 				{
 					player._activeClass = activeClassId;
 				}
-
+				
 				player.setApprentice(rset.getInt("apprentice"));
 				player.setSponsor(rset.getInt("sponsor"));
 				player.setLvlJoinedAcademy(rset.getInt("lvl_joined_academy"));
 				player.setIsIn7sDungeon(rset.getInt("isin7sdungeon") == 1 ? true : false);
 				
 				player.setPunishLevel(rset.getInt("punish_level"));
-                if (player.getPunishLevel() != PunishLevel.NONE)
-                	player.setPunishTimer(rset.getLong("punish_timer"));
-                else
-                	player.setPunishTimer(0);
-                /*
+				if (player.getPunishLevel() != PunishLevel.NONE)
+					player.setPunishTimer(rset.getLong("punish_timer"));
+				else
+					player.setPunishTimer(0);
+				/*
 				player.setInJail(rset.getInt("in_jail") == 1 ? true : false);
 				if(player.isInJail())
 				{
@@ -10384,8 +10384,8 @@ private int _reviveRequested = 0;
 
 				player.setChatBanTimer(rset.getLong("banchat_time"));
 				player.updateChatBanState();
-				*/
-                
+				 */
+				
 				try{
 					player.getAppearance().setNameColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("name_color")).toString()).intValue());
 					player.getAppearance().setTitleColor(Integer.decode(new StringBuilder().append("0x").append(rset.getString("title_color")).toString()).intValue());
@@ -10397,39 +10397,39 @@ private int _reviveRequested = 0;
 				}
 				
 				CursedWeaponsManager.getInstance().checkPlayer(player);
-
+				
 				player.setAllianceWithVarkaKetra(rset.getInt("varka_ketra_ally"));
-
+				
 				player.setDeathPenaltyBuffLevel(rset.getInt("death_penalty_level"));
-                player.setAio(rset.getInt("aio") == 1 ? true : false);
-                player.setAioEndTime(rset.getLong("aio_end"));
+				player.setAio(rset.getInt("aio") == 1 ? true : false);
+				player.setAioEndTime(rset.getLong("aio_end"));
 				// Add the L2PcInstance object in _allObjects
 				//L2World.getInstance().storeObject(player);
-
+				
 				// Set the x,y,z position of the L2PcInstance and make it invisible
 				player.setXYZInvisible(rset.getInt("x"), rset.getInt("y"), rset.getInt("z"));
-
+				
 				// Retrieve the name and ID of the other characters assigned to this account.
 				PreparedStatement stmt = con.prepareStatement("SELECT obj_Id, char_name FROM characters WHERE account_name=? AND obj_Id<>?");
 				stmt.setString(1, player._accountName);
 				stmt.setInt(2, objectId);
 				ResultSet chars = stmt.executeQuery();
-
+				
 				while(chars.next())
 				{
 					Integer charId = chars.getInt("obj_Id");
 					String charName = chars.getString("char_name");
 					player._chars.put(charId, charName);
 				}
-
+				
 				chars.close();
 				stmt.close();
 				chars = null;
 				stmt = null;
-
+				
 				break;
 			}
-
+			
 			rset.close();
 			statement.close();
 			
@@ -10438,20 +10438,20 @@ private int _reviveRequested = 0;
 				// TODO: Log this!
 				return null;
 			}
-
+			
 			// Retrieve from the database all secondary data of this L2PcInstance
 			// and reward expertise/lucky skills if necessary.
 			// Note that Clan, Noblesse and Hero skills are given separately and not here.
 			player.restoreCharData();
 			player.rewardSkills();
-
+			
 			// Restore pet if exists in the world
 			player.setPet(L2World.getInstance().getPet(player.getObjectId()));
 			if(player.getPet() != null)
 			{
 				player.getPet().setOwner(player);
 			}
-
+			
 			// Update the overloaded status of the L2PcInstance
 			player.refreshOverloaded();
 			
@@ -10466,7 +10466,7 @@ private int _reviveRequested = 0;
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		if(player != null)
 		{
 			player.fireEvent(EventType.LOAD.name, (Object[]) null);
@@ -10489,7 +10489,7 @@ private int _reviveRequested = 0;
 		}
 		return player;
 	}
-
+	
 	/**
 	 * Gets the mail.
 	 *
@@ -10500,17 +10500,17 @@ private int _reviveRequested = 0;
 		if(_forumMail == null)
 		{
 			setMail(ForumsBBSManager.getInstance().getForumByName("MailRoot").getChildByName(getName()));
-
+			
 			if(_forumMail == null)
 			{
 				ForumsBBSManager.getInstance().createNewForum(getName(), ForumsBBSManager.getInstance().getForumByName("MailRoot"), Forum.MAIL, Forum.OWNERONLY, getObjectId());
 				setMail(ForumsBBSManager.getInstance().getForumByName("MailRoot").getChildByName(getName()));
 			}
 		}
-
+		
 		return _forumMail;
 	}
-
+	
 	/**
 	 * Sets the mail.
 	 *
@@ -10520,7 +10520,7 @@ private int _reviveRequested = 0;
 	{
 		_forumMail = forum;
 	}
-
+	
 	/**
 	 * Gets the memo.
 	 *
@@ -10531,17 +10531,17 @@ private int _reviveRequested = 0;
 		if(_forumMemo == null)
 		{
 			setMemo(ForumsBBSManager.getInstance().getForumByName("MemoRoot").getChildByName(_accountName));
-
+			
 			if(_forumMemo == null)
 			{
 				ForumsBBSManager.getInstance().createNewForum(_accountName, ForumsBBSManager.getInstance().getForumByName("MemoRoot"), Forum.MEMO, Forum.OWNERONLY, getObjectId());
 				setMemo(ForumsBBSManager.getInstance().getForumByName("MemoRoot").getChildByName(_accountName));
 			}
 		}
-
+		
 		return _forumMemo;
 	}
-
+	
 	/**
 	 * Sets the memo.
 	 *
@@ -10551,7 +10551,7 @@ private int _reviveRequested = 0;
 	{
 		_forumMemo = forum;
 	}
-
+	
 	/**
 	 * Restores sub-class data for the L2PcInstance, used to check the current class index for the character.
 	 *
@@ -10561,15 +10561,15 @@ private int _reviveRequested = 0;
 	private static boolean restoreSubClassData(L2PcInstance player)
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(RESTORE_CHAR_SUBCLASSES);
 			statement.setInt(1, player.getObjectId());
-
+			
 			ResultSet rset = statement.executeQuery();
-
+			
 			while(rset.next())
 			{
 				SubClass subClass = new SubClass();
@@ -10578,11 +10578,11 @@ private int _reviveRequested = 0;
 				subClass.setExp(rset.getLong("exp"));
 				subClass.setSp(rset.getInt("sp"));
 				subClass.setClassIndex(rset.getInt("class_index"));
-
+				
 				// Enforce the correct indexing of _subClasses against their class indexes.
 				player.getSubClasses().put(subClass.getClassIndex(), subClass);
 			}
-
+			
 			statement.close();
 			rset.close();
 			rset = null;
@@ -10598,10 +10598,10 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 			con = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Restores secondary data for the L2PcInstance, based on the current class index.
 	 */
@@ -10609,29 +10609,29 @@ private int _reviveRequested = 0;
 	{
 		// Retrieve from the database all skills of this L2PcInstance and add them to _skills.
 		restoreSkills();
-
+		
 		// Retrieve from the database all macroses of this L2PcInstance and add them to _macroses.
 		_macroses.restore();
-
+		
 		// Retrieve from the database all shortCuts of this L2PcInstance and add them to _shortCuts.
 		_shortCuts.restore();
-
+		
 		// Retrieve from the database all henna of this L2PcInstance and add them to _henna.
 		restoreHenna();
-
+		
 		// Retrieve from the database all recom data of this L2PcInstance and add to _recomChars.
 		if(Config.ALT_RECOMMEND)
 		{
 			restoreRecom();
 		}
-
+		
 		// Retrieve from the database the recipe book of this L2PcInstance.
 		if(!isSubClassActive())
 		{
 			restoreRecipeBook();
 		}
 	}
-
+	
 	/**
 	 * Store recipe book data for this L2PcInstance, if not on an active sub-class.
 	 */
@@ -10640,12 +10640,12 @@ private int _reviveRequested = 0;
 		// If the player is on a sub-class don't even attempt to store a recipe book.
 		if(isSubClassActive())
 			return;
-
+		
 		if(getCommonRecipeBook().length == 0 && getDwarvenRecipeBook().length == 0)
 			return;
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -10654,9 +10654,9 @@ private int _reviveRequested = 0;
 			statement.execute();
 			statement.close();
 			statement = null;
-
+			
 			L2RecipeList[] recipes = getCommonRecipeBook();
-
+			
 			for(L2RecipeList recipe : recipes)
 			{
 				statement = con.prepareStatement("INSERT INTO character_recipebook (char_id, id, type) values(?,?,0)");
@@ -10666,7 +10666,7 @@ private int _reviveRequested = 0;
 				statement.close();
 				statement = null;
 			}
-
+			
 			recipes = getDwarvenRecipeBook();
 			for(L2RecipeList recipe : recipes)
 			{
@@ -10690,26 +10690,26 @@ private int _reviveRequested = 0;
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Restore recipe book data for this L2PcInstance.
 	 */
 	private void restoreRecipeBook()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT id, type FROM character_recipebook WHERE char_id=?");
 			statement.setInt(1, getObjectId());
 			ResultSet rset = statement.executeQuery();
-
+			
 			L2RecipeList recipe;
 			while(rset.next())
 			{
 				recipe = RecipeTable.getInstance().getRecipeList(rset.getInt("id") - 1);
-
+				
 				if(rset.getInt("type") == 1)
 				{
 					registerDwarvenRecipeList(recipe);
@@ -10719,7 +10719,7 @@ private int _reviveRequested = 0;
 					registerCommonRecipeList(recipe);
 				}
 			}
-
+			
 			rset.close();
 			statement.close();
 			rset = null;
@@ -10736,7 +10736,7 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * Store.
 	 * @param force the force
@@ -10764,7 +10764,7 @@ private int _reviveRequested = 0;
 	{
 		store(false);
 	}
-
+	
 	/**
 	 * Store char base.
 	 */
@@ -10895,19 +10895,19 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * Store char sub.
 	 */
 	private synchronized void storeCharSub()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			if(getTotalSubClasses() > 0)
 			{
 				for(SubClass subClass : getSubClasses().values())
@@ -10919,7 +10919,7 @@ private int _reviveRequested = 0;
 					statement.setInt(4, subClass.getClassId());
 					statement.setInt(5, getObjectId());
 					statement.setInt(6, subClass.getClassIndex());
-
+					
 					statement.execute();
 					statement.close();
 					statement = null;
@@ -10936,7 +10936,7 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	@SuppressWarnings("null")
 	private synchronized void storeEffect()
 	{
@@ -11002,7 +11002,7 @@ private int _reviveRequested = 0;
 			{
 				if (t.hasNotPassed())
 				{
-					int skillId = t.getSkill();
+					int skillId = t.getSkill().getId();
 					if (storedSkills.contains(skillId))
 						continue;
 					storedSkills.add(skillId);
@@ -11032,7 +11032,7 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance is on line.<BR>
 	 * <BR>
@@ -11043,7 +11043,7 @@ private int _reviveRequested = 0;
 	{
 		return _isOnline ? 1 : 0;
 	}
-
+	
 	/**
 	 * Checks if is in7s dungeon.
 	 *
@@ -11053,7 +11053,7 @@ private int _reviveRequested = 0;
 	{
 		return _isIn7sDungeon;
 	}
-
+	
 	/** Add a skill to the L2PcInstance _skills and its Func objects to the calculator set of the L2PcInstance and save update in the character_skills table of the database.<BR> <BR> <B><U> Concept</U> :</B><BR> <BR> All skills own by a L2PcInstance are identified in <B>_skills</B><BR> <BR> <B><U> Actions</U> :</B><BR> <BR> <li>Replace oldSkill by newSkill or Add the newSkill</li> <li>If an old skill has been replaced, remove all its Func objects of L2Character calculator set</li> <li>Add Func objects of newSkill to the calculator set of the L2Character</li><BR> <BR> */
 	private boolean _learningSkill = false;
 	
@@ -11069,13 +11069,13 @@ private int _reviveRequested = 0;
 		_learningSkill = true;
 		// Add a skill to the L2PcInstance _skills and its Func objects to the calculator set of the L2PcInstance
 		L2Skill oldSkill = super.addSkill(newSkill);
-
+		
 		// Add or update a L2PcInstance skill in the character_skills table of the database
 		if(store)
 		{
 			storeSkill(newSkill, oldSkill, -1);
 		}
-
+		
 		_learningSkill = false;
 		
 		return oldSkill;
@@ -11089,7 +11089,7 @@ private int _reviveRequested = 0;
 	public boolean isLearningSkill(){
 		return _learningSkill;
 	}
-
+	
 	/**
 	 * Removes the skill.
 	 *
@@ -11103,7 +11103,7 @@ private int _reviveRequested = 0;
 			return removeSkill(skill);
 		return super.removeSkill(skill);
 	}
-
+	
 	/**
 	 * Remove a skill from the L2Character and its Func objects from calculator set of the L2Character and save update
 	 * in the character_skills table of the database.<BR>
@@ -11130,15 +11130,15 @@ private int _reviveRequested = 0;
 	{
 		// Remove a skill from the L2Character and its Func objects from calculator set of the L2Character
 		L2Skill oldSkill = super.removeSkill(skill);
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			// Remove or update a L2PcInstance skill from the character_skills table of the database
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			if(oldSkill != null)
 			{
 				statement = con.prepareStatement(DELETE_SKILL_FROM_CHAR);
@@ -11161,9 +11161,9 @@ private int _reviveRequested = 0;
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		L2ShortCut[] allShortCuts = getAllShortCuts();
-
+		
 		for(L2ShortCut sc : allShortCuts)
 		{
 			if(sc != null && skill != null && sc.getId() == skill.getId() && sc.getType() == L2ShortCut.TYPE_SKILL)
@@ -11172,10 +11172,10 @@ private int _reviveRequested = 0;
 			}
 		}
 		allShortCuts = null;
-
+		
 		return oldSkill;
 	}
-
+	
 	/**
 	 * Add or update a L2PcInstance skill in the character_skills table of the database. <BR>
 	 * <BR>
@@ -11188,19 +11188,19 @@ private int _reviveRequested = 0;
 	private void storeSkill(L2Skill newSkill, L2Skill oldSkill, int newClassIndex)
 	{
 		int classIndex = _classIndex;
-
+		
 		if(newClassIndex > -1)
 		{
 			classIndex = newClassIndex;
 		}
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			if(oldSkill != null && newSkill != null)
 			{
 				statement = con.prepareStatement(UPDATE_CHARACTER_SKILL_LEVEL);
@@ -11240,7 +11240,7 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * check player skills and remove unlegit ones (excludes hero, noblesse and cursed weapon skills).
 	 */
@@ -11255,7 +11255,7 @@ private int _reviveRequested = 0;
 			{
 				int skillid = skill.getId();
 				//int skilllevel = skill.getLevel();
-
+				
 				foundskill = false;
 				// loop through all skills in players skilltree
 				for(L2SkillLearn temp : skillTree)
@@ -11266,77 +11266,77 @@ private int _reviveRequested = 0;
 						foundskill = true;
 					}
 				}
-
+				
 				// exclude noble skills
 				if(isNoble() && skillid >= 325 && skillid <= 397)
 				{
 					foundskill = true;
 				}
-
+				
 				if(isNoble() && skillid >= 1323 && skillid <= 1327)
 				{
 					foundskill = true;
 				}
-
+				
 				// exclude hero skills
 				if(isHero() && skillid >= 395 && skillid <= 396)
 				{
 					foundskill = true;
 				}
-
+				
 				if(isHero() && skillid >= 1374 && skillid <= 1376)
 				{
 					foundskill = true;
 				}
-
+				
 				// exclude cursed weapon skills
 				if(isCursedWeaponEquiped() && skillid == CursedWeaponsManager.getInstance().getCursedWeapon(_cursedWeaponEquipedId).getSkillId())
 				{
 					foundskill = true;
 				}
-
+				
 				// exclude clan skills
 				if(getClan() != null && skillid >= 370 && skillid <= 391)
 				{
 					foundskill = true;
 				}
-
+				
 				// exclude seal of ruler / build siege hq
 				if(getClan() != null && (skillid == 246 || skillid == 247))
 					if(getClan().getLeaderId() == getObjectId())
 					{
 						foundskill = true;
 					}
-
+				
 				// exclude fishing skills and common skills + dwarfen craft
 				if(skillid >= 1312 && skillid <= 1322)
 				{
 					foundskill = true;
 				}
-
+				
 				if(skillid >= 1368 && skillid <= 1373)
 				{
 					foundskill = true;
 				}
-
+				
 				// exclude sa / enchant bonus / penality etc. skills
 				if(skillid >= 3000 && skillid < 7000)
 				{
 					foundskill = true;
 				}
-
+				
 				// exclude Skills from AllowedSkills in options.properties
 				if(Config.ALLOWED_SKILLS_LIST.contains(skillid))
 				{
 					foundskill = true;
 				}
-
+				
 				//exclude Donator character
 				if(isDonator())
 				{
 					foundskill = true;
 				}
-
+				
 				// remove skill and do a lil log message
 				if(!foundskill)
 				{
@@ -11345,14 +11345,14 @@ private int _reviveRequested = 0;
 					if(Config.DEBUG){
 						//sendMessage("Skill " + skill.getName() + " removed and gm informed!");
 						_log.warning("Character " + getName() + " of Account " + getAccountName() + " got skill " + skill.getName() + ".. Removed!"/* + IllegalPlayerAction.PUNISH_KICK*/);
-					
+						
 					}
 				}
 			}
 			skillTree = null;
 		}
 	}
-
+	
 	/**
 	 * Retrieve from the database all skills of this L2PcInstance and add them to _skills.<BR>
 	 * <BR>
@@ -11360,7 +11360,7 @@ private int _reviveRequested = 0;
 	public synchronized void restoreSkills()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			if(!Config.KEEP_SUBCLASS_SKILLS)
@@ -11371,25 +11371,25 @@ private int _reviveRequested = 0;
 				statement.setInt(1, getObjectId());
 				statement.setInt(2, getClassIndex());
 				ResultSet rset = statement.executeQuery();
-
+				
 				// Go though the recordset of this SQL query
 				while(rset.next())
 				{
 					int id = rset.getInt("skill_id");
 					int level = rset.getInt("skill_level");
-
+					
 					if(id > 9000)
 					{
 						continue; // fake skills for base stats
 					}
-
+					
 					// Create a L2Skill object for each record
 					L2Skill skill = SkillTable.getInstance().getInfo(id, level);
-
+					
 					// Add the L2Skill object to the L2Character _skills and its Func objects to the calculator set of the L2Character
 					super.addSkill(skill);
 				}
-
+				
 				rset.close();
 				statement.close();
 				rset = null;
@@ -11402,31 +11402,31 @@ private int _reviveRequested = 0;
 				PreparedStatement statement = con.prepareStatement(RESTORE_SKILLS_FOR_CHAR_ALT_SUBCLASS);
 				statement.setInt(1, getObjectId());
 				ResultSet rset = statement.executeQuery();
-
+				
 				// Go though the recordset of this SQL query
 				while(rset.next())
 				{
 					int id = rset.getInt("skill_id");
 					int level = rset.getInt("skill_level");
-
+					
 					if(id > 9000)
 					{
 						continue; // fake skills for base stats
 					}
-
+					
 					// Create a L2Skill object for each record
 					L2Skill skill = SkillTable.getInstance().getInfo(id, level);
-
+					
 					// Add the L2Skill object to the L2Character _skills and its Func objects to the calculator set of the L2Character
 					super.addSkill(skill);
 				}
-
+				
 				rset.close();
 				statement.close();
 				rset = null;
 				statement = null;
 			}
-
+			
 		}
 		catch(Exception e)
 		{
@@ -11441,7 +11441,7 @@ private int _reviveRequested = 0;
 			con = null;
 		}
 	}
-
+	
 	public void restoreEffects()
 	{
 		restoreEffects(true);
@@ -11455,13 +11455,13 @@ private int _reviveRequested = 0;
 	public void restoreEffects(boolean activateEffects)
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
 			ResultSet rset;
-
+			
 			/**
 			 * Restore Type 0 These skill were still in effect on the character upon logout. Some of which were self
 			 * casted and might still have had a long reuse delay which also is restored.
@@ -11471,7 +11471,7 @@ private int _reviveRequested = 0;
 			statement.setInt(2, getClassIndex());
 			statement.setInt(3, 0);
 			rset = statement.executeQuery();
-
+			
 			while(rset.next())
 			{
 				int skillId = rset.getInt("skill_id");
@@ -11479,20 +11479,20 @@ private int _reviveRequested = 0;
 				int effectCount = rset.getInt("effect_count");
 				int effectCurTime = rset.getInt("effect_cur_time");
 				long reuseDelay = rset.getLong("reuse_delay");
-
+				
 				// Just incase the admin minipulated this table incorrectly :x
 				if(skillId == -1 || effectCount == -1 || effectCurTime == -1 || reuseDelay < 0)
 				{
 					continue;
 				}
-
+				
 				if(activateEffects){
 					
 					L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
-
+					
 					skill.getEffects(this, this,false,false,false);
 					skill = null;
-
+					
 					for(L2Effect effect : getAllEffects())
 					{
 						if(effect.getSkill().getId() == skillId)
@@ -11505,16 +11505,17 @@ private int _reviveRequested = 0;
 				
 				if(reuseDelay > 10)
 				{
-					disableSkill(skillId, reuseDelay);
-					addTimeStamp(new TimeStamp(skillId, reuseDelay));
+					L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
+					disableSkill(skill, reuseDelay);
+					addTimeStamp(new TimeStamp(skill, reuseDelay));
 				}
-
+				
 			}
 			rset.close();
 			statement.close();
 			rset = null;
 			statement = null;
-
+			
 			/**
 			 * Restore Type 1 The remaning skills lost effect upon logout but were still under a high reuse delay.
 			 */
@@ -11523,24 +11524,26 @@ private int _reviveRequested = 0;
 			statement.setInt(2, getClassIndex());
 			statement.setInt(3, 1);
 			rset = statement.executeQuery();
-
+			
 			while(rset.next())
 			{
 				int skillId = rset.getInt("skill_id");
+				int skillLvl = rset.getInt("skill_level");
 				long reuseDelay = rset.getLong("reuse_delay");
-
+				
 				if(reuseDelay <= 0)
 				{
 					continue;
 				}
-
-				disableSkill(skillId, reuseDelay);
-				addTimeStamp(new TimeStamp(skillId, reuseDelay));
+				
+				L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
+				disableSkill(skill, reuseDelay);
+				addTimeStamp(new TimeStamp(skill, reuseDelay));
 			}
 			rset.close();
 			statement.close();
 			rset = null;
-
+			
 			statement = con.prepareStatement(DELETE_SKILL_SAVE);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, getClassIndex());
@@ -11559,10 +11562,10 @@ private int _reviveRequested = 0;
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		updateEffectIcons();
 	}
-
+	
 	/**
 	 * Retrieve from the database all Henna of this L2PcInstance, add them to _henna and calculate stats of the
 	 * L2PcInstance.<BR>
@@ -11571,7 +11574,7 @@ private int _reviveRequested = 0;
 	private void restoreHenna()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -11579,29 +11582,29 @@ private int _reviveRequested = 0;
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, getClassIndex());
 			ResultSet rset = statement.executeQuery();
-
+			
 			for(int i = 0; i < 3; i++)
 			{
 				_henna[i] = null;
 			}
-
+			
 			while(rset.next())
 			{
 				int slot = rset.getInt("slot");
-
+				
 				if(slot < 1 || slot > 3)
 				{
 					continue;
 				}
-
+				
 				int symbol_id = rset.getInt("symbol_id");
-
+				
 				L2HennaInstance sym = null;
-
+				
 				if(symbol_id != 0)
 				{
 					L2Henna tpl = HennaTable.getInstance().getTemplate(symbol_id);
-
+					
 					if(tpl != null)
 					{
 						sym = new L2HennaInstance(tpl);
@@ -11611,7 +11614,7 @@ private int _reviveRequested = 0;
 					}
 				}
 			}
-
+			
 			rset.close();
 			statement.close();
 			rset = null;
@@ -11628,11 +11631,11 @@ private int _reviveRequested = 0;
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		// Calculate Henna modifiers of this L2PcInstance
 		recalcHennaStats();
 	}
-
+	
 	/**
 	 * Retrieve from the database all Recommendation data of this L2PcInstance, add to _recomChars and calculate stats
 	 * of the L2PcInstance.<BR>
@@ -11641,7 +11644,7 @@ private int _reviveRequested = 0;
 	private void restoreRecom()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -11652,7 +11655,7 @@ private int _reviveRequested = 0;
 			{
 				_recomChars.add(rset.getInt("target_id"));
 			}
-
+			
 			rset.close();
 			statement.close();
 			rset = null;
@@ -11671,7 +11674,7 @@ private int _reviveRequested = 0;
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Return the number of Henna empty slot of the L2PcInstance.<BR>
 	 * <BR>
@@ -11681,19 +11684,19 @@ private int _reviveRequested = 0;
 	public int getHennaEmptySlots()
 	{
 		int totalSlots = 1 + getClassId().level();
-
+		
 		for(int i = 0; i < 3; i++)
 			if(_henna[i] != null)
 			{
 				totalSlots--;
 			}
-
+		
 		if(totalSlots <= 0)
 			return 0;
-
+		
 		return totalSlots;
 	}
-
+	
 	/**
 	 * Remove a Henna of the L2PcInstance, save update in the character_hennas table of the database and send
 	 * Server->Client HennaInfo/UserInfo packet to this L2PcInstance.<BR>
@@ -11706,17 +11709,17 @@ private int _reviveRequested = 0;
 	{
 		if(slot < 1 || slot > 3)
 			return false;
-
+		
 		slot--;
-
+		
 		if(_henna[slot] == null)
 			return false;
-
+		
 		L2HennaInstance henna = _henna[slot];
 		_henna[slot] = null;
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -11740,29 +11743,29 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 			con = null;
 		}
-
+		
 		// Calculate Henna modifiers of this L2PcInstance
 		recalcHennaStats();
-
+		
 		// Send Server->Client HennaInfo packet to this L2PcInstance
 		sendPacket(new HennaInfo(this));
-
+		
 		// Send Server->Client UserInfo packet to this L2PcInstance
 		sendPacket(new UserInfo(this));
-
+		
 		// Add the recovered dyes to the player's inventory and notify them.
 		getInventory().addItem("Henna", henna.getItemIdDye(), henna.getAmountDyeRequire() / 2, this, null);
-
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.EARNED_S2_S1_S);
 		sm.addItemName(henna.getItemIdDye());
 		sm.addNumber(henna.getAmountDyeRequire() / 2);
 		sendPacket(sm);
 		sm = null;
 		henna = null;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Add a Henna to the L2PcInstance, save update in the character_hennas table of the database and send
 	 * Server->Client HennaInfo/UserInfo packet to this L2PcInstance.<BR>
@@ -11778,19 +11781,19 @@ private int _reviveRequested = 0;
 			sendMessage("You may not have more than three equipped symbols at a time.");
 			return false;
 		}
-
+		
 		// int slot = 0;
 		for(int i = 0; i < 3; i++)
 		{
 			if(_henna[i] == null)
 			{
 				_henna[i] = henna;
-
+				
 				// Calculate Henna modifiers of this L2PcInstance
 				recalcHennaStats();
-
+				
 				Connection con = null;
-
+				
 				try
 				{
 					con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -11815,26 +11818,26 @@ private int _reviveRequested = 0;
 					CloseUtil.close(con);
 					con = null;
 				}
-
+				
 				// Send Server->Client HennaInfo packet to this L2PcInstance
 				HennaInfo hi = new HennaInfo(this);
 				sendPacket(hi);
 				hi = null;
-
+				
 				// Send Server->Client UserInfo packet to this L2PcInstance
 				UserInfo ui = new UserInfo(this);
 				sendPacket(ui);
 				ui = null;
 				
 				getInventory().refreshWeight();
-
+				
 				return true;
 			}
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Calculate Henna modifiers of this L2PcInstance.<BR>
 	 * <BR>
@@ -11847,7 +11850,7 @@ private int _reviveRequested = 0;
 		_hennaMEN = 0;
 		_hennaWIT = 0;
 		_hennaDEX = 0;
-
+		
 		for(int i = 0; i < 3; i++)
 		{
 			if(_henna[i] == null)
@@ -11861,38 +11864,38 @@ private int _reviveRequested = 0;
 			_hennaWIT += _henna[i].getStatWIT();
 			_hennaDEX += _henna[i].getStatDEX();
 		}
-
+		
 		if(_hennaINT > 5)
 		{
 			_hennaINT = 5;
 		}
-
+		
 		if(_hennaSTR > 5)
 		{
 			_hennaSTR = 5;
 		}
-
+		
 		if(_hennaMEN > 5)
 		{
 			_hennaMEN = 5;
 		}
-
+		
 		if(_hennaCON > 5)
 		{
 			_hennaCON = 5;
 		}
-
+		
 		if(_hennaWIT > 5)
 		{
 			_hennaWIT = 5;
 		}
-
+		
 		if(_hennaDEX > 5)
 		{
 			_hennaDEX = 5;
 		}
 	}
-
+	
 	/**
 	 * Return the Henna of this L2PcInstance corresponding to the selected slot.<BR>
 	 * <BR>
@@ -11904,10 +11907,10 @@ private int _reviveRequested = 0;
 	{
 		if(slot < 1 || slot > 3)
 			return null;
-
+		
 		return _henna[slot - 1];
 	}
-
+	
 	/**
 	 * Return the INT Henna modifier of this L2PcInstance.<BR>
 	 * <BR>
@@ -11918,7 +11921,7 @@ private int _reviveRequested = 0;
 	{
 		return _hennaINT;
 	}
-
+	
 	/**
 	 * Return the STR Henna modifier of this L2PcInstance.<BR>
 	 * <BR>
@@ -11929,7 +11932,7 @@ private int _reviveRequested = 0;
 	{
 		return _hennaSTR;
 	}
-
+	
 	/**
 	 * Return the CON Henna modifier of this L2PcInstance.<BR>
 	 * <BR>
@@ -11940,7 +11943,7 @@ private int _reviveRequested = 0;
 	{
 		return _hennaCON;
 	}
-
+	
 	/**
 	 * Return the MEN Henna modifier of this L2PcInstance.<BR>
 	 * <BR>
@@ -11951,7 +11954,7 @@ private int _reviveRequested = 0;
 	{
 		return _hennaMEN;
 	}
-
+	
 	/**
 	 * Return the WIT Henna modifier of this L2PcInstance.<BR>
 	 * <BR>
@@ -11962,7 +11965,7 @@ private int _reviveRequested = 0;
 	{
 		return _hennaWIT;
 	}
-
+	
 	/**
 	 * Return the DEX Henna modifier of this L2PcInstance.<BR>
 	 * <BR>
@@ -11973,7 +11976,7 @@ private int _reviveRequested = 0;
 	{
 		return _hennaDEX;
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance is autoAttackable.<BR>
 	 * <BR>
@@ -12128,7 +12131,7 @@ private int _reviveRequested = 0;
 		
 		return false;
 	}
-
+	
 	/**
 	 * Check if the active L2Skill can be casted.<BR>
 	 * <BR>
@@ -12166,7 +12169,7 @@ private int _reviveRequested = 0;
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		int skill_id = skill.getId();
 		int curr_skill_id = -1;
 		SkillDat current = null;
@@ -12183,7 +12186,7 @@ private int _reviveRequested = 0;
 		    abortCast();
 		    return;
 		}
-		*/
+		 */
 		if(inObserverMode())
 		{
 			sendPacket(new SystemMessage(SystemMessageId.OBSERVERS_CANNOT_PARTICIPATE));
@@ -12191,28 +12194,28 @@ private int _reviveRequested = 0;
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if the caster is sitting 
 		if(isSitting() && !skill.isPotion())
 		{
 			// Send a System Message to the caster 
 			sendPacket(new SystemMessage(SystemMessageId.CANT_MOVE_SITTING));
-
+			
 			// Send a Server->Client packet ActionFailed to the L2PcInstance 
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if the skill type is TOGGLE
 		if(skill.isToggle())
 		{
 			// Like L2OFF you can't use fake death if you are mounted
 			if (skill.getId() == 60 && isMounted())
-			return;
+				return;
 			
 			// Get effects of the skill
 			L2Effect effect = getFirstEffect(skill);
-
+			
 			// Like L2OFF toogle skills have little delay
 			if(TOGGLE_USE + 400 > System.currentTimeMillis())
 			{
@@ -12224,14 +12227,14 @@ private int _reviveRequested = 0;
 				//fake death exception
 				if (skill.getId() != 60)
 					effect.exit(false);
-
+				
 				// Send a Server->Client packet ActionFailed to the L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 			TOGGLE_USE = System.currentTimeMillis();
 		}
-
+		
 		// Check if the skill is active
 		if(skill.isPassive())
 		{
@@ -12240,7 +12243,7 @@ private int _reviveRequested = 0;
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		if(_disabledSkills != null && _disabledSkills.contains(skill_id))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
@@ -12249,14 +12252,14 @@ private int _reviveRequested = 0;
 			sm = null;
 			return;
 		}
-
+		
 		// Check if it's ok to summon
 		// siege golem (13), Wild Hog Cannon (299), Swoop Cannon (448)
 		if((skill_id == 13 || skill_id == 299 || skill_id == 448) && !SiegeManager.getInstance().checkIfOkToSummon(this, false) && !FortSiegeManager.getInstance().checkIfOkToSummon(this, false))
 			return;
-
+		
 		//************************************* Check Casting in Progress *******************************************
-
+		
 		// If a skill is currently being used, queue this one if this is not the same
 		// Note that this check is currently imperfect: getCurrentSkill() isn't always null when a skill has
 		// failed to cast, or the casting is not yet in progress when this is rechecked
@@ -12269,12 +12272,12 @@ private int _reviveRequested = 0;
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
+			
 			if(Config.DEBUG && getQueuedSkill() != null)
 			{
 				_log.info(getQueuedSkill().getSkill().getName() + " is already queued for " + getName() + ".");
 			}
-
+			
 			// Create a new SkillDat object and queue it in the player _queuedSkill
 			setQueuedSkill(skill, forceUse, dontMove);
 			sendPacket(ActionFailed.STATIC_PACKET);
@@ -12289,7 +12292,7 @@ private int _reviveRequested = 0;
 		if (getQueuedSkill() != null) // wiping out previous values, after casting has been aborted
 			setQueuedSkill(null, false, false);
 		
-
+		
 		//triggered skills cannot be used directly
 		if(_triggeredSkills.size()>0){
 			
@@ -12315,7 +12318,7 @@ private int _reviveRequested = 0;
 		L2Object target = null;
 		SkillTargetType sklTargetType = skill.getTargetType();
 		SkillType sklType = skill.getSkillType();
-
+		
 		switch(sklTargetType)
 		{
 			// Target the player if skill type is AURA, PARTY, CLAN or SELF
@@ -12336,7 +12339,7 @@ private int _reviveRequested = 0;
 				target = getTarget();
 				break;
 		}
-
+		
 		// Check the validity of the target
 		if(target == null)
 		{
@@ -12350,11 +12353,11 @@ private int _reviveRequested = 0;
 		if(skill.isOffensive() && target instanceof L2DoorInstance )
 		{
 			boolean isCastle = (((L2DoorInstance) target).getCastle() != null
-					&& ((L2DoorInstance) target).getCastle().getCastleId() > 0
-					&& ((L2DoorInstance) target).getCastle().getSiege().getIsInProgress());
+				&& ((L2DoorInstance) target).getCastle().getCastleId() > 0
+				&& ((L2DoorInstance) target).getCastle().getSiege().getIsInProgress());
 			boolean isFort = (((L2DoorInstance) target).getFort() != null
-					&& ((L2DoorInstance) target).getFort().getFortId() > 0
-					&& ((L2DoorInstance) target).getFort().getSiege().getIsInProgress());
+				&& ((L2DoorInstance) target).getFort().getFortId() > 0
+				&& ((L2DoorInstance) target).getFort().getSiege().getIsInProgress());
 			if ((!isCastle && !isFort))
 				return;
 		}
@@ -12387,21 +12390,21 @@ private int _reviveRequested = 0;
 				return;
 			}
 		}
-
+		
 		//************************************* Check skill availability *******************************************
-
-		// Check if this skill is enabled (ex : reuse time)
-		if(isSkillDisabled(skill_id) /* && !getAccessLevel().allowPeaceAttack() */)
-		{
-			// SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
-			// sm.addString(skill.getName());
-			// sendPacket(sm);
-
-			// Send a Server->Client packet ActionFailed to the L2PcInstance
-			sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-
+		
+		//		Check if this skill is enabled (ex : reuse time)
+		//		if(isSkillDisabled(skill_id) /* && !getAccessLevel().allowPeaceAttack() */)
+		//		{
+		//			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_NOT_AVAILABLE);
+		//			sm.addString(skill.getName());
+		//			sendPacket(sm);
+		//
+		//			Send a Server->Client packet ActionFailed to the L2PcInstance
+		//			sendPacket(ActionFailed.STATIC_PACKET);
+		//			return;
+		//		}
+		
 		// Check if all skills are disabled
 		if(isAllSkillsDisabled() && !getAccessLevel().allowPeaceAttack())
 		{
@@ -12409,7 +12412,7 @@ private int _reviveRequested = 0;
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// prevent casting signets to peace zone
 		if(skill.getSkillType() == SkillType.SIGNET || skill.getSkillType() == SkillType.SIGNET_CASTTIME)
 		{
@@ -12422,35 +12425,35 @@ private int _reviveRequested = 0;
 			}
 		}
 		//************************************* Check Consumables *******************************************
-
+		
 		// Check if the caster has enough MP
 		if(getCurrentMp() < getStat().getMpConsume(skill) + getStat().getMpInitialConsume(skill))
 		{
 			// Send a System Message to the caster
 			sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_MP));
-
+			
 			// Send a Server->Client packet ActionFailed to the L2PcInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if the caster has enough HP
 		if(getCurrentHp() <= skill.getHpConsume())
 		{
 			// Send a System Message to the caster
 			sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_HP));
-
+			
 			// Send a Server->Client packet ActionFailed to the L2PcInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if the spell consummes an Item
 		if(skill.getItemConsume() > 0)
 		{
 			// Get the L2ItemInstance consummed by the spell
 			L2ItemInstance requiredItems = getInventory().getItemByItemId(skill.getItemConsumeId());
-
+			
 			// Check if the caster owns enought consummed Item to cast
 			if(requiredItems == null || requiredItems.getCount() < skill.getItemConsume())
 			{
@@ -12490,7 +12493,7 @@ private int _reviveRequested = 0;
 				return;
 			}
 		}
-
+		
 		if(skill.getNumCharges() > 0 
 			&& skill.getSkillType() != SkillType.CHARGE
 			&& skill.getSkillType() != SkillType.CHARGEDAM 
@@ -12506,14 +12509,14 @@ private int _reviveRequested = 0;
 			
 			effect.numCharges -= skill.getNumCharges();
 			sendPacket(new EtcStatusUpdate(this));
-
+			
 			if(effect.numCharges == 0)
 			{
 				effect.exit(false);
 			}
 		}
 		//************************************* Check Casting Conditions *******************************************
-
+		
 		// Check if the caster own the weapon needed
 		if(!skill.getWeaponDependancy(this))
 		{
@@ -12528,29 +12531,29 @@ private int _reviveRequested = 0;
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		//************************************* Check Player State *******************************************
-
+		
 		// Abnormal effects(ex : Stun, Sleep...) are checked in L2Character useMagic()
-
+		
 		// Check if the player use "Fake Death" skill
 		if(isAlikeDead() && !skill.isPotion() && skill.getSkillType() != L2Skill.SkillType.FAKE_DEATH)
 		{
-
+			
 			// Send a Server->Client packet ActionFailed to the L2PcInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		if(isFishing() && sklType != SkillType.PUMPING && sklType != SkillType.REELING && sklType != SkillType.FISHING)
 		{
 			//Only fishing skills are available
 			sendPacket(new SystemMessage(SystemMessageId.ONLY_FISHING_SKILLS_NOW));
 			return;
 		}
-
+		
 		//************************************* Check Skill Type *******************************************
-
+		
 		// Check if this is offensive magic skill
 		if(skill.isOffensive())
 		{
@@ -12572,13 +12575,13 @@ private int _reviveRequested = 0;
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
+			
 			if(!(target instanceof L2MonsterInstance) && sklType == SkillType.CONFUSE_MOB_ONLY)
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
+			
 			/*
 			// Check if the target is attackable
 			if(target instanceof L2PcInstance && !target.isAttackable() && !getAccessLevel().allowPeaceAttack() && (!(_inEventTvT && TvT.is_started()) || !(_inEventCTF && CTF.is_started())	|| !(_inEventDM && DM.is_started()) || !(_inEventVIP && VIP._started)))
@@ -12591,24 +12594,24 @@ private int _reviveRequested = 0;
 				}
 				
 			}
-			*/
-
+			 */
+			
 			// Check if a Forced ATTACK is in progress on non-attackable target
 			//if (!target.isAutoAttackable(this) && !forceUse && !(_inEventTvT && TvT._started) && !(_inEventDM && DM._started) && !(_inEventCTF && CTF._started) && !(_inEventVIP && VIP._started)
 			if (!target.isAutoAttackable(this) && (!forceUse && (skill.getId() != 3261 && skill.getId() != 3260 && skill.getId() != 3262)) && !(_inEventTvT && TvT.is_started()) && !(_inEventDM && DM.is_started()) && !(_inEventCTF && CTF.is_started()) && !(_inEventVIP && VIP._started)
-					&& sklTargetType != SkillTargetType.TARGET_AURA
-					&& sklTargetType != SkillTargetType.TARGET_CLAN
-					&& sklTargetType != SkillTargetType.TARGET_ALLY
-					&& sklTargetType != SkillTargetType.TARGET_PARTY
-					&& sklTargetType != SkillTargetType.TARGET_SELF
-					&& sklTargetType != SkillTargetType.TARGET_GROUND)
+				&& sklTargetType != SkillTargetType.TARGET_AURA
+				&& sklTargetType != SkillTargetType.TARGET_CLAN
+				&& sklTargetType != SkillTargetType.TARGET_ALLY
+				&& sklTargetType != SkillTargetType.TARGET_PARTY
+				&& sklTargetType != SkillTargetType.TARGET_SELF
+				&& sklTargetType != SkillTargetType.TARGET_GROUND)
 				
 			{
 				// Send a Server->Client packet ActionFailed to the L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
+			
 			// Check if the target is in the skill cast range
 			if (dontMove)
 			{
@@ -12659,7 +12662,7 @@ private int _reviveRequested = 0;
 				return;
 			}
 		}
-
+		
 		// Check if the skill is Spoil type and if the target isn't already spoiled
 		if(sklType == SkillType.SPOIL)
 		{
@@ -12667,42 +12670,42 @@ private int _reviveRequested = 0;
 			{
 				// Send a System Message to the L2PcInstance
 				sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
-
+				
 				// Send a Server->Client packet ActionFailed to the L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 		}
-
+		
 		// Check if the skill is Sweep type and if conditions not apply
 		if(sklType == SkillType.SWEEP && target instanceof L2Attackable)
 		{
 			int spoilerId = ((L2Attackable) target).getIsSpoiledBy();
-
+			
 			if(((L2Attackable) target).isDead())
 			{
 				if(!((L2Attackable) target).isSpoil())
 				{
 					// Send a System Message to the L2PcInstance
 					sendPacket(new SystemMessage(SystemMessageId.SWEEPER_FAILED_TARGET_NOT_SPOILED));
-
+					
 					// Send a Server->Client packet ActionFailed to the L2PcInstance
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
-
+				
 				if(getObjectId() != spoilerId && !isInLooterParty(spoilerId))
 				{
 					// Send a System Message to the L2PcInstance
 					sendPacket(new SystemMessage(SystemMessageId.SWEEP_NOT_ALLOWED));
-
+					
 					// Send a Server->Client packet ActionFailed to the L2PcInstance
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
 			}
 		}
-
+		
 		// Check if the skill is Drain Soul (Soul Crystals) and if the target is a MOB
 		if(sklType == SkillType.DRAIN_SOUL)
 		{
@@ -12710,22 +12713,22 @@ private int _reviveRequested = 0;
 			{
 				// Send a System Message to the L2PcInstance
 				sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
-
+				
 				// Send a Server->Client packet ActionFailed to the L2PcInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
 		}
-
+		
 		final Point3D worldPosition = getCurrentSkillWorldPosition();
-
+		
 		if(sklTargetType == SkillTargetType.TARGET_GROUND && worldPosition == null)
 		{
 			_log.info("WorldPosition is null for skill: " + skill.getName() + ", player: " + getName() + ".");
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if this is a Pvp skill and target isn't a non-flagged/non-karma player
 		switch(sklTargetType)
 		{
@@ -12742,20 +12745,20 @@ private int _reviveRequested = 0;
 				{
 					// Send a System Message to the L2PcInstance
 					sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
-
+					
 					// Send a Server->Client packet ActionFailed to the L2PcInstance
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
 				}
 		}
-
+		
 		if(sklTargetType == SkillTargetType.TARGET_HOLY && !TakeCastle.checkIfOkToCastSealOfRule(this, false))
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			abortCast();
 			return;
 		}
-
+		
 		if(sklType == SkillType.SIEGEFLAG && !SiegeFlag.checkIfOkToPlaceFlag(this, false))
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
@@ -12768,7 +12771,7 @@ private int _reviveRequested = 0;
 			abortCast();
 			return;
 		}
-
+		
 		// GeoData Los Check here
 		if(skill.getCastRange() > 0 && !GeoData.getInstance().canSeeTarget(this, target))
 		{
@@ -12776,14 +12779,14 @@ private int _reviveRequested = 0;
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// If all conditions are checked, create a new SkillDat object and set the player _currentSkill
 		setCurrentSkill(skill, forceUse, dontMove);
-
+		
 		// Check if the active L2Skill can be casted (ex : not sleeping...), Check if the target is correct and Notify the AI with AI_INTENTION_CAST and target
 		super.useMagic(skill);
 	}
-
+	
 	/**
 	 * Checks if is in looter party.
 	 * @param LooterId the looter id
@@ -12802,7 +12805,7 @@ private int _reviveRequested = 0;
 		
 		return false;
 	}
-
+	
 	/*
 	public boolean checkPvpSkill(L2Object target, L2Skill skill)
 	{
@@ -12861,7 +12864,7 @@ private int _reviveRequested = 0;
 
 		return true;
 	}
-	*/
+	 */
 	/**
 	 * Check if the requested casting is a Pc->Pc skill cast and if it's a valid pvp condition.
 	 *
@@ -12891,12 +12894,12 @@ private int _reviveRequested = 0;
 			target = ((L2Summon) target).getOwner();
 		
 		if (target != null && // target not null and
-		target != this && // target is not self and
-		target instanceof L2PcInstance && // target is L2PcInstance and
-		!(isInDuel() && ((L2PcInstance) target).getDuelId() == getDuelId()) && // self is not in a duel and attacking opponent
-		!isInsideZone(ZONE_PVP) && // Pc is not in PvP zone
-		!((L2PcInstance) target).isInsideZone(ZONE_PVP) // target is not in PvP zone
-		)
+			target != this && // target is not self and
+			target instanceof L2PcInstance && // target is L2PcInstance and
+			!(isInDuel() && ((L2PcInstance) target).getDuelId() == getDuelId()) && // self is not in a duel and attacking opponent
+			!isInsideZone(ZONE_PVP) && // Pc is not in PvP zone
+			!((L2PcInstance) target).isInsideZone(ZONE_PVP) // target is not in PvP zone
+			)
 		{
 			SkillDat skilldat = getCurrentSkill();
 			// SkillDat skilldatpet = getCurrentPetSkill();
@@ -12908,12 +12911,12 @@ private int _reviveRequested = 0;
 						return true; // in clan war player can attack whites even with sleep etc.
 				}
 				if (((L2PcInstance) target).getPvpFlag() == 0 && // target's pvp flag is not set and
-				((L2PcInstance) target).getKarma() == 0 // target has no karma
-				)
+					((L2PcInstance) target).getKarma() == 0 // target has no karma
+					)
 					return false;
 			}
 			else if ((skilldat != null && !skilldat.isCtrlPressed() && skill.isOffensive() && !srcIsSummon)
-			/* || (skilldatpet != null && !skilldatpet.isCtrlPressed() && skill.isOffensive() && srcIsSummon) */)
+				/* || (skilldatpet != null && !skilldatpet.isCtrlPressed() && skill.isOffensive() && srcIsSummon) */)
 			{
 				if (getClan() != null && ((L2PcInstance) target).getClan() != null)
 				{
@@ -12921,8 +12924,8 @@ private int _reviveRequested = 0;
 						return true; // in clan war player can attack whites even without ctrl
 				}
 				if (((L2PcInstance) target).getPvpFlag() == 0 && // target's pvp flag is not set and
-				((L2PcInstance) target).getKarma() == 0 // target has no karma
-				)
+					((L2PcInstance) target).getKarma() == 0 // target has no karma
+					)
 					return false;
 			}
 		}
@@ -12930,7 +12933,7 @@ private int _reviveRequested = 0;
 		return true;
 	}
 	
-
+	
 	/**
 	 * Reduce Item quantity of the L2PcInstance Inventory and send it a Server->Client packet InventoryUpdate.<BR>
 	 * <BR>
@@ -12946,7 +12949,7 @@ private int _reviveRequested = 0;
 			destroyItemByItemId("Consume", itemConsumeId, itemCount, null, true);
 		}
 	}
-
+	
 	/**
 	 * Return True if the L2PcInstance is a Mage.<BR>
 	 * <BR>
@@ -12957,7 +12960,7 @@ private int _reviveRequested = 0;
 	{
 		return getClassId().isMage();
 	}
-
+	
 	/**
 	 * Checks if is mounted.
 	 *
@@ -12967,7 +12970,7 @@ private int _reviveRequested = 0;
 	{
 		return _mountType > 0;
 	}
-
+	
 	/**
 	 * Set the type of Pet mounted (0 : none, 1 : Stridder, 2 : Wyvern) and send a Server->Client packet InventoryUpdate
 	 * to the L2PcInstance.<BR>
@@ -12981,15 +12984,15 @@ private int _reviveRequested = 0;
 		if(isInsideZone(ZONE_NOLANDING))
 			return true;
 		else
-		// if this is a castle that is currently being sieged, and the rider is NOT a castle owner
-		// he cannot land.
-		// castle owner is the leader of the clan that owns the castle where the pc is
-		if(isInsideZone(ZONE_SIEGE) && !(getClan() != null && CastleManager.getInstance().getCastle(this) == CastleManager.getInstance().getCastleByOwner(getClan()) && this == getClan().getLeader().getPlayerInstance()))
-			return true;
-
+			// if this is a castle that is currently being sieged, and the rider is NOT a castle owner
+			// he cannot land.
+			// castle owner is the leader of the clan that owns the castle where the pc is
+			if(isInsideZone(ZONE_SIEGE) && !(getClan() != null && CastleManager.getInstance().getCastle(this) == CastleManager.getInstance().getCastleByOwner(getClan()) && this == getClan().getLeader().getPlayerInstance()))
+				return true;
+		
 		return false;
 	}
-
+	
 	// returns false if the change of mount type fails.
 	/**
 	 * Sets the mount type.
@@ -13001,7 +13004,7 @@ private int _reviveRequested = 0;
 	{
 		if(checkLandingState() && mountType == 2)
 			return false;
-
+		
 		switch(mountType)
 		{
 			case 0:
@@ -13020,16 +13023,16 @@ private int _reviveRequested = 0;
 				setIsFlying(true);
 				break; //Flying Wyvern
 		}
-
+		
 		_mountType = mountType;
-
+		
 		// Send a Server->Client packet InventoryUpdate to the L2PcInstance in order to update speed
 		UserInfo ui = new UserInfo(this);
 		sendPacket(ui);
 		ui = null;
 		return true;
 	}
-
+	
 	/**
 	 * Return the type of Pet mounted (0 : none, 1 : Stridder, 2 : Wyvern).<BR>
 	 * <BR>
@@ -13040,7 +13043,7 @@ private int _reviveRequested = 0;
 	{
 		return _mountType;
 	}
-
+	
 	/**
 	 * Send a Server->Client packet UserInfo to this L2PcInstance and CharInfo to all L2PcInstance in its _KnownPlayers.<BR>
 	 * <BR>
@@ -13064,7 +13067,7 @@ private int _reviveRequested = 0;
 	{
 		broadcastUserInfo();
 	}
-
+	
 	/**
 	 * Disable the Inventory and create a new task to enable it after 1.5s.<BR>
 	 * <BR>
@@ -13072,10 +13075,10 @@ private int _reviveRequested = 0;
 	public void tempInvetoryDisable()
 	{
 		_inventoryDisable = true;
-
+		
 		ThreadPoolManager.getInstance().scheduleGeneral(new InventoryEnable(), 1500);
 	}
-
+	
 	/**
 	 * Return True if the Inventory is disabled.<BR>
 	 * <BR>
@@ -13086,7 +13089,7 @@ private int _reviveRequested = 0;
 	{
 		return _inventoryDisable;
 	}
-
+	
 	/**
 	 * The Class InventoryEnable.
 	 */
@@ -13102,7 +13105,7 @@ private int _reviveRequested = 0;
 			_inventoryDisable = false;
 		}
 	}
-
+	
 	/**
 	 * Gets the cubics.
 	 * @return the cubics
@@ -13119,19 +13122,19 @@ private int _reviveRequested = 0;
 				if (id == null || _cubics.get(id) == null)
 					
 					try
-					{
+				{
 						_cubics.remove(id);
-					}
-					catch (NullPointerException e)
-					{
-						// FIXME: tried to remove a null key, to be found where this action has been performed (DEGUB)
-					}				
+				}
+				catch (NullPointerException e)
+				{
+					// FIXME: tried to remove a null key, to be found where this action has been performed (DEGUB)
+				}				
 			}
 			
 			return _cubics;
 		}		
 	}
-
+	
 	/**
 	 * Add a L2CubicInstance to the L2PcInstance _cubics.<BR>
 	 * <BR>
@@ -13163,7 +13166,7 @@ private int _reviveRequested = 0;
 		
 	}
 	
-
+	
 	/**
 	 * Remove a L2CubicInstance from the L2PcInstance _cubics.<BR>
 	 * <BR>
@@ -13177,7 +13180,7 @@ private int _reviveRequested = 0;
 		}
 		
 	}
-
+	
 	/**
 	 * Return the L2CubicInstance corresponding to the Identifier of the L2PcInstance _cubics.<BR>
 	 * <BR>
@@ -13196,23 +13199,23 @@ private int _reviveRequested = 0;
 	public void unsummonAllCubics(){
 		
 		// Unsummon Cubics
-				synchronized(_cubics){
-					
-					if(_cubics.size() > 0)
-					{
-						for(L2CubicInstance cubic : _cubics.values())
-						{
-							cubic.stopAction();
-							cubic.cancelDisappear();
-						}
-
-						_cubics.clear();
-					}
-
+		synchronized(_cubics){
+			
+			if(_cubics.size() > 0)
+			{
+				for(L2CubicInstance cubic : _cubics.values())
+				{
+					cubic.stopAction();
+					cubic.cancelDisappear();
 				}
 				
+				_cubics.clear();
+			}
+			
+		}
+		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#toString()
 	 */
@@ -13221,7 +13224,7 @@ private int _reviveRequested = 0;
 	{
 		return "player " + getName();
 	}
-
+	
 	/**
 	 * Return the modifier corresponding to the Enchant Effect of the Active Weapon (Min : 127).<BR>
 	 * <BR>
@@ -13231,13 +13234,13 @@ private int _reviveRequested = 0;
 	public int getEnchantEffect()
 	{
 		L2ItemInstance wpn = getActiveWeaponInstance();
-
+		
 		if(wpn == null)
 			return 0;
-
+		
 		return Math.min(127, wpn.getEnchantLevel());
 	}
-
+	
 	/**
 	 * Set the _lastFolkNpc of the L2PcInstance corresponding to the last Folk wich one the player talked.<BR>
 	 * <BR>
@@ -13248,7 +13251,7 @@ private int _reviveRequested = 0;
 	{
 		_lastFolkNpc = folkNpc;
 	}
-
+	
 	/**
 	 * Return the _lastFolkNpc of the L2PcInstance corresponding to the last Folk wich one the player talked.<BR>
 	 * <BR>
@@ -13282,7 +13285,7 @@ private int _reviveRequested = 0;
 	{
 		return _isSilentMoving > 0;
 	}
-
+	
 	/**
 	 * Return True if L2PcInstance is a participant in the Festival of Darkness.<BR>
 	 * <BR>
@@ -13293,7 +13296,7 @@ private int _reviveRequested = 0;
 	{
 		return SevenSignsFestival.getInstance().isPlayerParticipant(this);
 	}
-
+	
 	/**
 	 * Adds the auto soul shot.
 	 *
@@ -13303,7 +13306,7 @@ private int _reviveRequested = 0;
 	{
 		_activeSoulShots.put(itemId, itemId);
 	}
-
+	
 	/**
 	 * Removes the auto soul shot.
 	 *
@@ -13313,7 +13316,7 @@ private int _reviveRequested = 0;
 	{
 		_activeSoulShots.remove(itemId);
 	}
-
+	
 	/**
 	 * Gets the auto soul shot.
 	 *
@@ -13323,7 +13326,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeSoulShots;
 	}
-
+	
 	/**
 	 * Recharge auto soul shot.
 	 *
@@ -13335,14 +13338,14 @@ private int _reviveRequested = 0;
 	{
 		L2ItemInstance item;
 		IItemHandler handler;
-
+		
 		if(_activeSoulShots == null || _activeSoulShots.size() == 0)
 			return;
-
+		
 		for(int itemId : _activeSoulShots.values())
 		{
 			item = getInventory().getItemByItemId(itemId);
-
+			
 			if(item != null)
 			{
 				if(magic)
@@ -13352,7 +13355,7 @@ private int _reviveRequested = 0;
 						if(itemId == 2509 || itemId == 2510 || itemId == 2511 || itemId == 2512 || itemId == 2513 || itemId == 2514 || itemId == 3947 || itemId == 3948 || itemId == 3949 || itemId == 3950 || itemId == 3951 || itemId == 3952 || itemId == 5790)
 						{
 							handler = ItemHandler.getInstance().getItemHandler(itemId);
-
+							
 							if(handler != null)
 							{
 								handler.useItem(this, item);
@@ -13364,7 +13367,7 @@ private int _reviveRequested = 0;
 						if(itemId == 6646 || itemId == 6647)
 						{
 							handler = ItemHandler.getInstance().getItemHandler(itemId);
-
+							
 							if(handler != null)
 							{
 								handler.useItem(this, item);
@@ -13372,7 +13375,7 @@ private int _reviveRequested = 0;
 						}
 					}
 				}
-
+				
 				if(physical)
 				{
 					if(!summon)
@@ -13381,7 +13384,7 @@ private int _reviveRequested = 0;
 																																						itemId == 6535 || itemId == 6536 || itemId == 6537 || itemId == 6538 || itemId == 6539 || itemId == 6540*/)
 						{
 							handler = ItemHandler.getInstance().getItemHandler(itemId);
-
+							
 							if(handler != null)
 							{
 								handler.useItem(this, item);
@@ -13393,7 +13396,7 @@ private int _reviveRequested = 0;
 						if(itemId == 6645)
 						{
 							handler = ItemHandler.getInstance().getItemHandler(itemId);
-
+							
 							if(handler != null)
 							{
 								handler.useItem(this, item);
@@ -13410,10 +13413,10 @@ private int _reviveRequested = 0;
 		item = null;
 		handler = null;
 	}
-
+	
 	/** The _task warn user take break. */
 	private ScheduledFuture<?> _taskWarnUserTakeBreak;
-
+	
 	/**
 	 * The Class WarnUserTakeBreak.
 	 */
@@ -13438,13 +13441,13 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/** The _task bot checker. */
 	private ScheduledFuture<?> _taskBotChecker;
 	
 	/** The _task kick bot. */
 	protected ScheduledFuture<?> _taskKickBot;
-
+	
 	/**
 	 * The Class botChecker.
 	 */
@@ -13479,17 +13482,17 @@ private int _reviveRequested = 0;
 						}else{
 							output = word;
 						}
-
+						
 						text = text.replace("%Word"+i+"%", output);
 						if(i == _correctWord)
 						{
 							text = text.replace("%Word%", output);
 						}
-					
+						
 					}
-
+					
 					L2PcInstance.this.sendPacket(new TutorialShowHtml(text));
-
+					
 					if(_taskKickBot == null)
 					{
 						_stopKickBotTask = false;
@@ -13507,7 +13510,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * The Class kickBot.
 	 */
@@ -13570,7 +13573,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * The Class RentPetTask.
 	 */
@@ -13586,10 +13589,10 @@ private int _reviveRequested = 0;
 			stopRentPet();
 		}
 	}
-
+	
 	/** The _taskforfish. */
 	public ScheduledFuture<?> _taskforfish;
-
+	
 	/**
 	 * The Class WaterTask.
 	 */
@@ -13603,12 +13606,12 @@ private int _reviveRequested = 0;
 		public void run()
 		{
 			double reduceHp = getMaxHp() / 100.0;
-
+			
 			if(reduceHp < 1)
 			{
 				reduceHp = 1;
 			}
-
+			
 			reduceCurrentHp(reduceHp, L2PcInstance.this, false);
 			//reduced hp, becouse not rest
 			SystemMessage sm = new SystemMessage(SystemMessageId.DROWN_DAMAGE_S1);
@@ -13617,7 +13620,7 @@ private int _reviveRequested = 0;
 			sm = null;
 		}
 	}
-
+	
 	/**
 	 * The Class LookingForFishTask.
 	 */
@@ -13632,7 +13635,7 @@ private int _reviveRequested = 0;
 		
 		/** The _end task time. */
 		long _endTaskTime;
-
+		
 		/**
 		 * Instantiates a new looking for fish task.
 		 *
@@ -13650,7 +13653,7 @@ private int _reviveRequested = 0;
 			_isNoob = isNoob;
 			_isUpperGrade = isUpperGrade;
 		}
-
+		
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
@@ -13671,9 +13674,9 @@ private int _reviveRequested = 0;
 				StartFishCombat(_isNoob, _isUpperGrade);
 			}
 		}
-
+		
 	}
-
+	
 	/**
 	 * Gets the clan privileges.
 	 *
@@ -13683,7 +13686,7 @@ private int _reviveRequested = 0;
 	{
 		return _clanPrivileges;
 	}
-
+	
 	/**
 	 * Sets the clan privileges.
 	 *
@@ -13693,7 +13696,7 @@ private int _reviveRequested = 0;
 	{
 		_clanPrivileges = n;
 	}
-
+	
 	// baron etc
 	/**
 	 * Sets the pledge class.
@@ -13704,7 +13707,7 @@ private int _reviveRequested = 0;
 	{
 		_pledgeClass = classId;
 	}
-
+	
 	/**
 	 * Gets the pledge class.
 	 *
@@ -13714,7 +13717,7 @@ private int _reviveRequested = 0;
 	{
 		return _pledgeClass;
 	}
-
+	
 	/**
 	 * Sets the pledge type.
 	 *
@@ -13724,7 +13727,7 @@ private int _reviveRequested = 0;
 	{
 		_pledgeType = typeId;
 	}
-
+	
 	/**
 	 * Gets the pledge type.
 	 *
@@ -13734,7 +13737,7 @@ private int _reviveRequested = 0;
 	{
 		return _pledgeType;
 	}
-
+	
 	/**
 	 * Gets the apprentice.
 	 *
@@ -13744,7 +13747,7 @@ private int _reviveRequested = 0;
 	{
 		return _apprentice;
 	}
-
+	
 	/**
 	 * Sets the apprentice.
 	 *
@@ -13754,7 +13757,7 @@ private int _reviveRequested = 0;
 	{
 		_apprentice = apprentice_id;
 	}
-
+	
 	/**
 	 * Gets the sponsor.
 	 *
@@ -13764,7 +13767,7 @@ private int _reviveRequested = 0;
 	{
 		return _sponsor;
 	}
-
+	
 	/**
 	 * Sets the sponsor.
 	 *
@@ -13774,7 +13777,7 @@ private int _reviveRequested = 0;
 	{
 		_sponsor = sponsor_id;
 	}
-
+	
 	/**
 	 * Send message.
 	 *
@@ -13787,7 +13790,7 @@ private int _reviveRequested = 0;
 	
 	/** The _was invisible. */
 	private boolean _wasInvisible = false;
-
+	
 	/**
 	 * Enter observer mode.
 	 *
@@ -13800,12 +13803,12 @@ private int _reviveRequested = 0;
 		_obsX = getX();
 		_obsY = getY();
 		_obsZ = getZ();
-
+		
 		if(getPet() != null)
 		{
 			getPet().unSummon(this);
 		}
-
+		
 		unsummonAllCubics();
 		
 		setTarget(null);
@@ -13822,7 +13825,7 @@ private int _reviveRequested = 0;
 		_observerMode = true;
 		broadcastUserInfo();
 	}
-
+	
 	/**
 	 * Enter olympiad observer mode.
 	 *
@@ -13837,9 +13840,9 @@ private int _reviveRequested = 0;
 		{
 			getPet().unSummon(this);
 		}
-
+		
 		unsummonAllCubics();
-
+		
 		_olympiadGameId = id;
 		if(isSitting())
 		{
@@ -13858,7 +13861,7 @@ private int _reviveRequested = 0;
 		_observerMode = true;
 		broadcastUserInfo();
 	}
-
+	
 	/**
 	 * Leave observer mode.
 	 */
@@ -13879,12 +13882,12 @@ private int _reviveRequested = 0;
 			getAppearance().setVisible();
 		
 		setIsInvul(false);
-
+		
 		if(getAI() != null)
 		{
 			getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		}
-
+		
 		teleToLocation(_obsX, _obsY, _obsZ, false);
 		_observerMode = false;
 		sendPacket(new ObservationReturn(this));
@@ -13892,7 +13895,7 @@ private int _reviveRequested = 0;
 		if(!_wasInvisible)
 			broadcastUserInfo();
 	}
-
+	
 	/**
 	 * Leave olympiad observer mode.
 	 */
@@ -13916,7 +13919,7 @@ private int _reviveRequested = 0;
 			broadcastUserInfo();
 		
 	}
-
+	
 	/**
 	 * Update name title color.
 	 */
@@ -13944,7 +13947,7 @@ private int _reviveRequested = 0;
 			getAppearance().setTitleColor(Config.DONATOR_TITLE_COLOR);
 		}
 	}
-
+	
 	/**
 	 * Update gm name title color.
 	 */
@@ -13956,7 +13959,7 @@ private int _reviveRequested = 0;
 			getAppearance().setNameColor(0xFFFFFF);
 			getAppearance().setTitleColor(0xFFFF77);
 		}
-
+		
 		// this is a GM but has  GM status enabled, so we must set proper values
 		else if(isGM() && hasGmStatusActive())
 		{
@@ -13977,7 +13980,7 @@ private int _reviveRequested = 0;
 			{
 				getAppearance().setNameColor(0xFFFFFF);
 			}
-
+			
 			// Title Updates
 			if(getAccessLevel().useTitleColor())
 			{
@@ -13997,7 +14000,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Sets the olympiad side.
 	 *
@@ -14007,7 +14010,7 @@ private int _reviveRequested = 0;
 	{
 		_olympiadSide = i;
 	}
-
+	
 	/**
 	 * Gets the olympiad side.
 	 *
@@ -14017,7 +14020,7 @@ private int _reviveRequested = 0;
 	{
 		return _olympiadSide;
 	}
-
+	
 	/**
 	 * Sets the olympiad game id.
 	 *
@@ -14027,7 +14030,7 @@ private int _reviveRequested = 0;
 	{
 		_olympiadGameId = id;
 	}
-
+	
 	/**
 	 * Gets the olympiad game id.
 	 *
@@ -14037,7 +14040,7 @@ private int _reviveRequested = 0;
 	{
 		return _olympiadGameId;
 	}
-
+	
 	/**
 	 * Gets the obs x.
 	 *
@@ -14047,7 +14050,7 @@ private int _reviveRequested = 0;
 	{
 		return _obsX;
 	}
-
+	
 	/**
 	 * Gets the obs y.
 	 *
@@ -14057,7 +14060,7 @@ private int _reviveRequested = 0;
 	{
 		return _obsY;
 	}
-
+	
 	/**
 	 * Gets the obs z.
 	 *
@@ -14067,7 +14070,7 @@ private int _reviveRequested = 0;
 	{
 		return _obsZ;
 	}
-
+	
 	/**
 	 * In observer mode.
 	 *
@@ -14077,7 +14080,7 @@ private int _reviveRequested = 0;
 	{
 		return _observerMode;
 	}
-
+	
 	/**
 	 * Gets the tele mode.
 	 *
@@ -14087,7 +14090,7 @@ private int _reviveRequested = 0;
 	{
 		return _telemode;
 	}
-
+	
 	/**
 	 * Sets the tele mode.
 	 *
@@ -14097,7 +14100,7 @@ private int _reviveRequested = 0;
 	{
 		_telemode = mode;
 	}
-
+	
 	/**
 	 * Sets the loto.
 	 *
@@ -14108,7 +14111,7 @@ private int _reviveRequested = 0;
 	{
 		_loto[i] = val;
 	}
-
+	
 	/**
 	 * Gets the loto.
 	 *
@@ -14119,7 +14122,7 @@ private int _reviveRequested = 0;
 	{
 		return _loto[i];
 	}
-
+	
 	/**
 	 * Sets the race.
 	 *
@@ -14130,7 +14133,7 @@ private int _reviveRequested = 0;
 	{
 		_race[i] = val;
 	}
-
+	
 	/**
 	 * Gets the race.
 	 *
@@ -14141,7 +14144,7 @@ private int _reviveRequested = 0;
 	{
 		return _race[i];
 	}
-
+	
 	/*
 	public void setChatBanned(boolean isBanned)
 	{
@@ -14177,7 +14180,7 @@ private int _reviveRequested = 0;
 	{
 		return _chatUnbanTask;
 	}
-*/
+	 */
 	/**
 	 * Send a Server->Client packet StatusUpdate to the L2PcInstance.<BR><BR>
 	 */
@@ -14198,7 +14201,7 @@ private int _reviveRequested = 0;
 	{
 		sendPacket(SystemMessage.getSystemMessage(id));
 	}
-
+	
 	/**
 	 * Gets the message refusal.
 	 *
@@ -14208,7 +14211,7 @@ private int _reviveRequested = 0;
 	{
 		return _messageRefusal;
 	}
-
+	
 	/**
 	 * Sets the message refusal.
 	 *
@@ -14219,7 +14222,7 @@ private int _reviveRequested = 0;
 		_messageRefusal = mode;
 		sendPacket(new EtcStatusUpdate(this));
 	}
-
+	
 	/**
 	 * Sets the diet mode.
 	 *
@@ -14229,7 +14232,7 @@ private int _reviveRequested = 0;
 	{
 		_dietMode = mode;
 	}
-
+	
 	/**
 	 * Gets the diet mode.
 	 *
@@ -14239,7 +14242,7 @@ private int _reviveRequested = 0;
 	{
 		return _dietMode;
 	}
-
+	
 	/**
 	 * Sets the exchange refusal.
 	 *
@@ -14249,7 +14252,7 @@ private int _reviveRequested = 0;
 	{
 		_exchangeRefusal = mode;
 	}
-
+	
 	/**
 	 * Gets the exchange refusal.
 	 *
@@ -14259,7 +14262,7 @@ private int _reviveRequested = 0;
 	{
 		return _exchangeRefusal;
 	}
-
+	
 	/**
 	 * Gets the block list.
 	 *
@@ -14271,26 +14274,26 @@ private int _reviveRequested = 0;
 	}
 	
 	
-	 /**
- 	 * Sets the hero aura.
- 	 *
- 	 * @param heroAura the new hero aura
- 	 */
- 	public void setHeroAura (boolean heroAura)
-	 {
-		 isPVPHero = heroAura;
-		 return;
-	 }
+	/**
+	 * Sets the hero aura.
+	 *
+	 * @param heroAura the new hero aura
+	 */
+	public void setHeroAura (boolean heroAura)
+	{
+		isPVPHero = heroAura;
+		return;
+	}
 	
-	 /**
- 	 * Gets the checks if is pvp hero.
- 	 *
- 	 * @return the checks if is pvp hero
- 	 */
- 	public boolean getIsPVPHero()
-	 {
-		 return isPVPHero;
-	 }
+	/**
+	 * Gets the checks if is pvp hero.
+	 *
+	 * @return the checks if is pvp hero
+	 */
+	public boolean getIsPVPHero()
+	{
+		return isPVPHero;
+	}
 	
 	/**
 	 * Gets the count.
@@ -14299,11 +14302,11 @@ private int _reviveRequested = 0;
 	 */
 	public int getCount()
 	{
-
+		
 		String HERO_COUNT = "SELECT count FROM heroes WHERE char_name=?";
 		int _count = 0;
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -14314,7 +14317,7 @@ private int _reviveRequested = 0;
 			{
 				_count = rset.getInt("count");
 			}
-
+			
 			rset.close();
 			statement.close();
 			statement = null;
@@ -14329,12 +14332,12 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 			con = null;
 		}
-
+		
 		if(_count != 0)
 			return _count;
 		return 0;
 	}
-
+	
 	/**
 	 * Reload pvp hero aura.
 	 */
@@ -14342,7 +14345,7 @@ private int _reviveRequested = 0;
 	{
 		sendPacket(new UserInfo(this));
 	}
-
+	
 	/**
 	 * Sets the checks if is hero.
 	 *
@@ -14376,8 +14379,8 @@ private int _reviveRequested = 0;
 
 		sendSkillList();
 	}
-	*/
-
+	 */
+	
 	/**
 	 * Sets the donator.
 	 *
@@ -14387,7 +14390,7 @@ private int _reviveRequested = 0;
 	{
 		_donator = value;
 	}
-
+	
 	/**
 	 * Checks if is donator.
 	 *
@@ -14397,7 +14400,7 @@ private int _reviveRequested = 0;
 	{
 		return _donator;
 	}
-
+	
 	/**
 	 * Checks if is away.
 	 *
@@ -14407,7 +14410,7 @@ private int _reviveRequested = 0;
 	{
 		return _isAway;
 	}
-
+	
 	/**
 	 * Sets the checks if is away.
 	 *
@@ -14417,7 +14420,7 @@ private int _reviveRequested = 0;
 	{
 		_isAway = state;
 	}
-
+	
 	/**
 	 * Sets the checks if is in olympiad mode.
 	 *
@@ -14427,7 +14430,7 @@ private int _reviveRequested = 0;
 	{
 		_inOlympiadMode = b;
 	}
-
+	
 	/**
 	 * Sets the checks if is olympiad start.
 	 *
@@ -14437,7 +14440,7 @@ private int _reviveRequested = 0;
 	{
 		_OlympiadStart = b;
 	}
-
+	
 	/**
 	 * Checks if is olympiad start.
 	 *
@@ -14447,7 +14450,7 @@ private int _reviveRequested = 0;
 	{
 		return _OlympiadStart;
 	}
-
+	
 	/**
 	 * Sets the olympiad position.
 	 *
@@ -14457,7 +14460,7 @@ private int _reviveRequested = 0;
 	{
 		_OlympiadPosition = pos;
 	}
-
+	
 	/**
 	 * Gets the olympiad position.
 	 *
@@ -14467,7 +14470,7 @@ private int _reviveRequested = 0;
 	{
 		return _OlympiadPosition;
 	}
-
+	
 	/**
 	 * Checks if is hero.
 	 *
@@ -14477,7 +14480,7 @@ private int _reviveRequested = 0;
 	{
 		return _hero;
 	}
-
+	
 	/**
 	 * Checks if is in olympiad mode.
 	 *
@@ -14487,7 +14490,7 @@ private int _reviveRequested = 0;
 	{
 		return _inOlympiadMode;
 	}
-
+	
 	/**
 	 * Checks if is in duel.
 	 *
@@ -14497,7 +14500,7 @@ private int _reviveRequested = 0;
 	{
 		return _isInDuel;
 	}
-
+	
 	/**
 	 * Gets the duel id.
 	 *
@@ -14507,7 +14510,7 @@ private int _reviveRequested = 0;
 	{
 		return _duelId;
 	}
-
+	
 	/**
 	 * Sets the duel state.
 	 *
@@ -14517,7 +14520,7 @@ private int _reviveRequested = 0;
 	{
 		_duelState = mode;
 	}
-
+	
 	/**
 	 * Gets the duel state.
 	 *
@@ -14527,7 +14530,7 @@ private int _reviveRequested = 0;
 	{
 		return _duelState;
 	}
-
+	
 	/**
 	 * Sets the coupon.
 	 *
@@ -14540,7 +14543,7 @@ private int _reviveRequested = 0;
 			_hasCoupon = coupon;
 		}
 	}
-
+	
 	/**
 	 * Adds the coupon.
 	 *
@@ -14553,7 +14556,7 @@ private int _reviveRequested = 0;
 			_hasCoupon += coupon;
 		}
 	}
-
+	
 	/**
 	 * Gets the coupon.
 	 *
@@ -14564,7 +14567,7 @@ private int _reviveRequested = 0;
 	{
 		return (_hasCoupon == 1 || _hasCoupon == 3) && coupon == 0 || (_hasCoupon == 2 || _hasCoupon == 3) && coupon == 1;
 	}
-
+	
 	/**
 	 * Sets up the duel state using a non 0 duelId.
 	 * 
@@ -14590,7 +14593,7 @@ private int _reviveRequested = 0;
 			_duelId = 0;
 		}
 	}
-
+	
 	/**
 	 * This returns a SystemMessage stating why the player is not available for duelling.
 	 * 
@@ -14603,7 +14606,7 @@ private int _reviveRequested = 0;
 		_noDuelReason = SystemMessageId.THERE_IS_NO_OPPONENT_TO_RECEIVE_YOUR_CHALLENGE_FOR_A_DUEL;
 		return sm;
 	}
-
+	
 	/**
 	 * Checks if this player might join / start a duel. To get the reason use getNoDuelReason() after calling this
 	 * function.
@@ -14659,7 +14662,7 @@ private int _reviveRequested = 0;
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Checks if is noble.
 	 *
@@ -14669,7 +14672,7 @@ private int _reviveRequested = 0;
 	{
 		return _noble;
 	}
-
+	
 	/**
 	 * Sets the noble.
 	 *
@@ -14692,7 +14695,7 @@ private int _reviveRequested = 0;
 			}
 		}
 		_noble = val;
-
+		
 		sendSkillList();
 	}
 	
@@ -14711,7 +14714,7 @@ private int _reviveRequested = 0;
 			{
 				addSkill(s, false); //Dont Save Noble skills to Sql
 			}
-			*/
+			 */
 		}
 		else
 		{
@@ -14721,11 +14724,11 @@ private int _reviveRequested = 0;
 			{
 				super.removeSkill(s); //Just Remove skills without deleting from Sql
 			}
-			*/
+			 */
 		}
 		sendSkillList();
 	}
-
+	
 	/**
 	 * Sets the lvl joined academy.
 	 *
@@ -14735,7 +14738,7 @@ private int _reviveRequested = 0;
 	{
 		_lvlJoinedAcademy = lvl;
 	}
-
+	
 	/**
 	 * Gets the lvl joined academy.
 	 *
@@ -14745,7 +14748,7 @@ private int _reviveRequested = 0;
 	{
 		return _lvlJoinedAcademy;
 	}
-
+	
 	/**
 	 * Checks if is academy member.
 	 *
@@ -14755,7 +14758,7 @@ private int _reviveRequested = 0;
 	{
 		return _lvlJoinedAcademy > 0;
 	}
-
+	
 	/**
 	 * Sets the team.
 	 *
@@ -14765,7 +14768,7 @@ private int _reviveRequested = 0;
 	{
 		_team = team;
 	}
-
+	
 	/**
 	 * Gets the team.
 	 *
@@ -14775,7 +14778,7 @@ private int _reviveRequested = 0;
 	{
 		return _team;
 	}
-
+	
 	/**
 	 * Sets the wants peace.
 	 *
@@ -14785,7 +14788,7 @@ private int _reviveRequested = 0;
 	{
 		_wantsPeace = wantsPeace;
 	}
-
+	
 	/**
 	 * Gets the wants peace.
 	 *
@@ -14795,7 +14798,7 @@ private int _reviveRequested = 0;
 	{
 		return _wantsPeace;
 	}
-
+	
 	/**
 	 * Checks if is fishing.
 	 *
@@ -14805,7 +14808,7 @@ private int _reviveRequested = 0;
 	{
 		return _fishing;
 	}
-
+	
 	/**
 	 * Sets the fishing.
 	 *
@@ -14815,7 +14818,7 @@ private int _reviveRequested = 0;
 	{
 		_fishing = fishing;
 	}
-
+	
 	/**
 	 * Sets the alliance with varka ketra.
 	 *
@@ -14826,7 +14829,7 @@ private int _reviveRequested = 0;
 		// [-5,-1] varka, 0 neutral, [1,5] ketra
 		_alliedVarkaKetra = sideAndLvlOfAlliance;
 	}
-
+	
 	/**
 	 * Gets the alliance with varka ketra.
 	 *
@@ -14836,7 +14839,7 @@ private int _reviveRequested = 0;
 	{
 		return _alliedVarkaKetra;
 	}
-
+	
 	/**
 	 * Checks if is allied with varka.
 	 *
@@ -14846,7 +14849,7 @@ private int _reviveRequested = 0;
 	{
 		return _alliedVarkaKetra < 0;
 	}
-
+	
 	/**
 	 * Checks if is allied with ketra.
 	 *
@@ -14856,7 +14859,7 @@ private int _reviveRequested = 0;
 	{
 		return _alliedVarkaKetra > 0;
 	}
-
+	
 	/**
 	 * Send skill list.
 	 */
@@ -14864,7 +14867,7 @@ private int _reviveRequested = 0;
 	{
 		sendSkillList(this);
 	}
-
+	
 	/**
 	 * Send skill list.
 	 *
@@ -14881,17 +14884,17 @@ private int _reviveRequested = 0;
 				{
 					continue;
 				}
-
+				
 				if(s.getId() > 9000)
 				{
 					continue; // Fake skills to change base stats
 				}
-
+				
 				if(s.bestowed())
 				{
 					continue;
 				}
-
+				
 				if(s.isChance())
 				{
 					sl.addSkill(s.getId(), s.getLevel(), s.isChance());
@@ -14905,7 +14908,7 @@ private int _reviveRequested = 0;
 		sendPacket(sl);
 		sl = null;
 	}
-
+	
 	/**
 	 * 1. Add the specified class ID as a subclass (up to the maximum number of <b>three</b>) for this character.<BR>
 	 * 2. This method no longer changes the active _classIndex of the player. This is only done by the calling of
@@ -14923,61 +14926,61 @@ private int _reviveRequested = 0;
 		// Remove Item RHAND
 		if(Config.REMOVE_WEAPON_SUBCLASS)
 		{
-		  L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-		  if (rhand != null)
-		  {		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);     
-		  }	
+			L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if (rhand != null)
+			{		            
+				L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
+				InventoryUpdate iu = new InventoryUpdate();
+				for (L2ItemInstance element : unequipped)
+					iu.addModifiedItem(element);
+				sendPacket(iu);     
+			}	
 		}
 		
 		// Remove Item CHEST
 		if(Config.REMOVE_CHEST_SUBCLASS)
 		{
-		  L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
-		  if (chest != null)
-		  {		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);     
-		  }	
+			L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
+			if (chest != null)
+			{		            
+				L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
+				InventoryUpdate iu = new InventoryUpdate();
+				for (L2ItemInstance element : unequipped)
+					iu.addModifiedItem(element);
+				sendPacket(iu);     
+			}	
 		}
 		
 		// Remove Item LEG
 		if(Config.REMOVE_LEG_SUBCLASS)
 		{
-		  L2ItemInstance legs = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
-		  if (legs != null)
-		  {		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(legs.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);     
-		  }	
+			L2ItemInstance legs = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
+			if (legs != null)
+			{		            
+				L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(legs.getItem().getBodyPart());
+				InventoryUpdate iu = new InventoryUpdate();
+				for (L2ItemInstance element : unequipped)
+					iu.addModifiedItem(element);
+				sendPacket(iu);     
+			}	
 		}		
-			
+		
 		if(getTotalSubClasses() == Config.ALLOWED_SUBCLASS || classIndex == 0)
 			return false;
-
+		
 		if(getSubClasses().containsKey(classIndex))
 			return false;
-
+		
 		// Note: Never change _classIndex in any method other than setActiveClass().
-
+		
 		SubClass newClass = new SubClass();
 		newClass.setClassId(classId);
 		newClass.setClassIndex(classIndex);
-
+		
 		boolean output = false;
 		
 		Connection con = null;
-
+		
 		try
 		{
 			// Store the basic info about this new sub-class.
@@ -15007,55 +15010,55 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 			con = null;
 		}
-
+		
 		if(output){
 			
 			// Commit after database INSERT incase exception is thrown.
 			getSubClasses().put(newClass.getClassIndex(), newClass);
-
+			
 			if(Config.DEBUG)
 			{
 				_log.info(getName() + " added class ID " + classId + " as a sub class at index " + classIndex + ".");
 			}
-
+			
 			ClassId subTemplate = ClassId.values()[classId];
 			Collection<L2SkillLearn> skillTree = SkillTreeTable.getInstance().getAllowedSkills(subTemplate);
 			subTemplate = null;
-
+			
 			if(skillTree == null)
 				return true;
-
+			
 			Map<Integer, L2Skill> prevSkillList = new FastMap<Integer, L2Skill>();
-
+			
 			for(L2SkillLearn skillInfo : skillTree)
 			{
 				if(skillInfo.getMinLevel() <= 40)
 				{
 					final L2Skill prevSkill = prevSkillList.get(skillInfo.getId());
 					final L2Skill newSkill = SkillTable.getInstance().getInfo(skillInfo.getId(), skillInfo.getLevel());
-
+					
 					if(newSkill== null || prevSkill != null && prevSkill.getLevel() > newSkill.getLevel())
 					{
 						continue;
 					}
-
+					
 					prevSkillList.put(newSkill.getId(), newSkill);
 					storeSkill(newSkill, prevSkill, classIndex);
 				}
 			}
 			skillTree = null;
 			prevSkillList = null;
-
+			
 			if(Config.DEBUG)
 			{
 				_log.info(getName() + " was given " + getAllSkills().length + " skills for their new sub class.");
 			}
-
+			
 		}
 		
 		return output;
 	}
-
+	
 	/**
 	 * 1. Completely erase all existance of the subClass linked to the classIndex.<BR>
 	 * 2. Send over the newClassId to addSubClass()to create a new instance on this classIndex.<BR>
@@ -15068,49 +15071,49 @@ private int _reviveRequested = 0;
 	public boolean modifySubClass(int classIndex, int newClassId)
 	{
 		int oldClassId = getSubClasses().get(classIndex).getClassId();
-
+		
 		if(Config.DEBUG)
 		{
 			_log.info(getName() + " has requested to modify sub class index " + classIndex + " from class ID " + oldClassId + " to " + newClassId + ".");
 		}
 		
 		boolean output = false;
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			// Remove all henna info stored for this sub-class.
 			statement = con.prepareStatement(DELETE_CHAR_HENNAS);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, classIndex);
 			statement.execute();
 			statement.close();
-
+			
 			// Remove all shortcuts info stored for this sub-class.
 			statement = con.prepareStatement(DELETE_CHAR_SHORTCUTS);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, classIndex);
 			statement.execute();
 			statement.close();
-
+			
 			// Remove all effects info stored for this sub-class.
 			statement = con.prepareStatement(DELETE_SKILL_SAVE);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, classIndex);
 			statement.execute();
 			statement.close();
-
+			
 			// Remove all skill info stored for this sub-class.
 			statement = con.prepareStatement(DELETE_CHAR_SKILLS);
 			statement.setInt(1, getObjectId());
 			statement.setInt(2, classIndex);
 			statement.execute();
 			statement.close();
-
+			
 			// Remove all basic info stored about this sub-class.
 			statement = con.prepareStatement(DELETE_CHAR_SUBCLASS);
 			statement.setInt(1, getObjectId());
@@ -15133,7 +15136,7 @@ private int _reviveRequested = 0;
 			CloseUtil.close(con);
 			con = null;
 		}
-
+		
 		getSubClasses().remove(classIndex);
 		
 		if(output){
@@ -15141,7 +15144,7 @@ private int _reviveRequested = 0;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Checks if is sub class active.
 	 *
@@ -15151,7 +15154,7 @@ private int _reviveRequested = 0;
 	{
 		return _classIndex > 0;
 	}
-
+	
 	/**
 	 * Gets the sub classes.
 	 *
@@ -15163,10 +15166,10 @@ private int _reviveRequested = 0;
 		{
 			_subClasses = new FastMap<Integer, SubClass>();
 		}
-
+		
 		return _subClasses;
 	}
-
+	
 	/**
 	 * Gets the total sub classes.
 	 *
@@ -15176,7 +15179,7 @@ private int _reviveRequested = 0;
 	{
 		return getSubClasses().size();
 	}
-
+	
 	/**
 	 * Gets the base class.
 	 *
@@ -15186,7 +15189,7 @@ private int _reviveRequested = 0;
 	{
 		return _baseClass;
 	}
-
+	
 	/**
 	 * Gets the active class.
 	 *
@@ -15196,7 +15199,7 @@ private int _reviveRequested = 0;
 	{
 		return _activeClass;
 	}
-
+	
 	/**
 	 * Gets the class index.
 	 *
@@ -15206,7 +15209,7 @@ private int _reviveRequested = 0;
 	{
 		return _classIndex;
 	}
-
+	
 	/**
 	 * Sets the class template.
 	 *
@@ -15215,20 +15218,20 @@ private int _reviveRequested = 0;
 	private synchronized void setClassTemplate(int classId)
 	{
 		_activeClass = classId;
-
+		
 		L2PcTemplate t = CharTemplateTable.getInstance().getTemplate(classId);
-
+		
 		if(t == null)
 		{
 			_log.severe("Missing template for classId: " + classId);
 			throw new Error();
 		}
-
+		
 		// Set the template of the L2PcInstance
 		setTemplate(t);
 		t = null;
 	}
-
+	
 	/**
 	 * Changes the character's class based on the given class index. <BR>
 	 * <BR>
@@ -15245,14 +15248,14 @@ private int _reviveRequested = 0;
 			sendPacket( ActionFailed.STATIC_PACKET );
 			return false;
 		}
-
+		
 		// Delete a force buff upon class change.
 		//thank l2j-arhid
 		if(_forceBuff != null)
 		{
 			abortCast();
 		}
-
+		
 		/**
 		 * 1. Call store() before modifying _classIndex to avoid skill effects rollover. 2. Register the correct
 		 * _classId against applied 'classIndex'.
@@ -15279,12 +15282,12 @@ private int _reviveRequested = 0;
 			}
 		}
 		_classIndex = classIndex;
-
+		
 		if(isInParty())
 		{
 			getParty().recalculatePartyLevel();
 		}
-
+		
 		/*
 		 * Update the character's change in class status.
 		 *
@@ -15299,15 +15302,15 @@ private int _reviveRequested = 0;
 		 * 9. Resend a class change animation effect to broadcast to all nearby players.
 		 * 10.Unsummon any active servitor from the player.
 		 */
-
+		
 		if(getPet() != null && getPet() instanceof L2SummonInstance)
 		{
 			getPet().unSummon(this);
 		}
-
+		
 		unsummonAllCubics();
 		
-
+		
 		for(L2Character character : getKnownList().getKnownCharacters())
 		{
 			if(character.getForceBuff() != null && character.getForceBuff().getTarget() == this)
@@ -15315,14 +15318,14 @@ private int _reviveRequested = 0;
 				character.abortCast();
 			}
 		}
-
+		
 		synchronized (getAllSkills()){
 			
 			for(L2Skill oldSkill : getAllSkills())
 			{
 				super.removeSkill(oldSkill);
 			}
-
+			
 		}
 		
 		// Yesod: Rebind CursedWeapon passive.
@@ -15330,9 +15333,9 @@ private int _reviveRequested = 0;
 		{
 			CursedWeaponsManager.getInstance().givePassive(_cursedWeaponEquipedId);
 		}
-
+		
 		stopAllEffects();
-
+		
 		if(isSubClassActive())
 		{
 			_dwarvenRecipeBook.clear();
@@ -15342,10 +15345,10 @@ private int _reviveRequested = 0;
 		{
 			restoreRecipeBook();
 		}
-
+		
 		// Restore any Death Penalty Buff
 		restoreDeathPenaltyBuffLevel();
-
+		
 		restoreSkills();
 		regiveTemporarySkills();
 		rewardSkills();
@@ -15357,80 +15360,80 @@ private int _reviveRequested = 0;
 		// Remove Item RHAND
 		if(Config.REMOVE_WEAPON_SUBCLASS)
 		{
-		  L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
-		  if (rhand != null)
-		  {		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);     
-		  }	
+			L2ItemInstance rhand = getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND);
+			if (rhand != null)
+			{		            
+				L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(rhand.getItem().getBodyPart());
+				InventoryUpdate iu = new InventoryUpdate();
+				for (L2ItemInstance element : unequipped)
+					iu.addModifiedItem(element);
+				sendPacket(iu);     
+			}	
 		}
 		// Remove Item CHEST
 		if(Config.REMOVE_CHEST_SUBCLASS)
 		{
-		  L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
-		  if (chest != null)
-		  {		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);     
-		  }	
+			L2ItemInstance chest = getInventory().getPaperdollItem(Inventory.PAPERDOLL_CHEST);
+			if (chest != null)
+			{		            
+				L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(chest.getItem().getBodyPart());
+				InventoryUpdate iu = new InventoryUpdate();
+				for (L2ItemInstance element : unequipped)
+					iu.addModifiedItem(element);
+				sendPacket(iu);     
+			}	
 		}
 		
 		// Remove Item LEG
 		if(Config.REMOVE_LEG_SUBCLASS)
 		{
-		  L2ItemInstance legs = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
-		  if (legs != null)
-		  {		            
-		               L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(legs.getItem().getBodyPart());
-		               InventoryUpdate iu = new InventoryUpdate();
-		               for (L2ItemInstance element : unequipped)
-		                  iu.addModifiedItem(element);
-		               sendPacket(iu);     
-		  }	
+			L2ItemInstance legs = getInventory().getPaperdollItem(Inventory.PAPERDOLL_LEGS);
+			if (legs != null)
+			{		            
+				L2ItemInstance[] unequipped = getInventory().unEquipItemInBodySlotAndRecord(legs.getItem().getBodyPart());
+				InventoryUpdate iu = new InventoryUpdate();
+				for (L2ItemInstance element : unequipped)
+					iu.addModifiedItem(element);
+				sendPacket(iu);     
+			}	
 		}		
 		
 		checkAllowedSkills();
-
+		
 		sendPacket(new EtcStatusUpdate(this));
-
+		
 		//if player has quest 422: Repent Your Sins, remove it
 		QuestState st = getQuestState("422_RepentYourSins");
-
+		
 		if(st != null)
 		{
 			st.exitQuest(true);
 			st = null;
 		}
-
+		
 		for(int i = 0; i < 3; i++)
 		{
 			_henna[i] = null;
 		}
-
+		
 		restoreHenna();
 		sendPacket(new HennaInfo(this));
-
+		
 		if(getCurrentHp() > getMaxHp())
 		{
 			setCurrentHp(getMaxHp());
 		}
-
+		
 		if(getCurrentMp() > getMaxMp())
 		{
 			setCurrentMp(getMaxMp());
 		}
-
+		
 		if(getCurrentCp() > getMaxCp())
 		{
 			setCurrentCp(getMaxCp());
 		}
-
+		
 		// Refresh player infos and update new status
 		broadcastUserInfo();
 		refreshOverloaded();
@@ -15447,19 +15450,19 @@ private int _reviveRequested = 0;
 		_macroses.sendUpdate();
 		_shortCuts.restore();
 		sendPacket(new ShortCutInit(this));
-
+		
 		// Rebirth Caller - if player has any skills, they will be granted them.
 		if(Config.REBIRTH_ENABLE)
-		   L2Rebirth.getInstance().grantRebirthSkills(this);
+			L2Rebirth.getInstance().grantRebirthSkills(this);
 		
 		broadcastPacket(new SocialAction(getObjectId(), 15));
 		sendPacket(new SkillCoolTime(this));
-        
+		
 		if (getClan() != null) 
 			getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(this));
 		//decayMe();
 		//spawnMe(getX(), getY(), getZ());
-
+		
 		return true;
 	}
 	
@@ -15471,7 +15474,7 @@ private int _reviveRequested = 0;
 		// Update class icon in party and clan 
 		if (isInParty()) 
 			getParty().broadcastToPartyMembers(new PartySmallWindowUpdate(this)); 
-
+		
 		if (getClan() != null) 
 			getClan().broadcastToOnlineMembers(new PledgeShowMemberListUpdate(this)); 
 	}	
@@ -15487,7 +15490,7 @@ private int _reviveRequested = 0;
 			_taskWarnUserTakeBreak = null;
 		}
 	}
-
+	
 	/**
 	 * Start warn user take break.
 	 */
@@ -15498,7 +15501,7 @@ private int _reviveRequested = 0;
 			_taskWarnUserTakeBreak = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new WarnUserTakeBreak(), 7200000, 7200000);
 		}
 	}
-
+	
 	/**
 	 * Start bot checker.
 	 */
@@ -15513,7 +15516,7 @@ private int _reviveRequested = 0;
 			}
 		}
 	}
-
+	
 	/**
 	 * Stop bot checker.
 	 */
@@ -15525,7 +15528,7 @@ private int _reviveRequested = 0;
 			_taskBotChecker = null;
 		}
 	}
-
+	
 	/**
 	 * Check answer.
 	 *
@@ -15542,7 +15545,7 @@ private int _reviveRequested = 0;
 			closeNetConnection();
 		}
 	}
-
+	
 	/**
 	 * Stop rent pet.
 	 */
@@ -15555,7 +15558,7 @@ private int _reviveRequested = 0;
 			{
 				teleToLocation(MapRegionTable.TeleportWhereType.Town);
 			}
-
+			
 			if(setMountType(0)) // this should always be true now, since we teleported already
 			{
 				_taskRentPet.cancel(true);
@@ -15580,7 +15583,7 @@ private int _reviveRequested = 0;
 			_taskRentPet = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new RentPetTask(), seconds * 1000L, seconds * 1000L);
 		}
 	}
-
+	
 	/**
 	 * Checks if is rented pet.
 	 *
@@ -15590,10 +15593,10 @@ private int _reviveRequested = 0;
 	{
 		if(_taskRentPet != null)
 			return true;
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Stop water task.
 	 */
@@ -15608,7 +15611,7 @@ private int _reviveRequested = 0;
 			broadcastUserInfo();
 		}
 	}
-
+	
 	/**
 	 * Start water task.
 	 */
@@ -15618,12 +15621,12 @@ private int _reviveRequested = 0;
 		if(!isDead() && _taskWater == null)
 		{
 			int timeinwater = 86000;
-
+			
 			sendPacket(new SetupGauge(2, timeinwater));
 			_taskWater = ThreadPoolManager.getInstance().scheduleEffectAtFixedRate(new WaterTask(), timeinwater, 1000);
 		}
 	}
-
+	
 	/**
 	 * Checks if is in water.
 	 *
@@ -15633,10 +15636,10 @@ private int _reviveRequested = 0;
 	{
 		if(_taskWater != null)
 			return true;
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Check water state.
 	 */
@@ -15648,7 +15651,7 @@ private int _reviveRequested = 0;
 			stopWaterTask();
 			return;
 		}
-
+		
 		if(isInsideZone(ZONE_WATER))
 		{
 			startWaterTask();
@@ -15659,19 +15662,19 @@ private int _reviveRequested = 0;
 			return;
 		}
 	}
-
+	
 	/**
 	 * On player enter.
 	 */
 	public void onPlayerEnter()
 	{
 		startWarnUserTakeBreak();
-
+		
 		if(Config.BOT_PROTECTOR)
 		{
 			startBotChecker();
 		}
-
+		
 		if(SevenSigns.getInstance().isSealValidationPeriod() || SevenSigns.getInstance().isCompResultsPeriod())
 		{
 			if(!isGM() && isIn7sDungeon() && SevenSigns.getInstance().getPlayerCabal(this) != SevenSigns.getInstance().getCabalHighestScore())
@@ -15690,37 +15693,37 @@ private int _reviveRequested = 0;
 				sendMessage("You have been teleported to the nearest town because you have not signed for any cabal.");
 			}
 		}
-
+		
 		// jail task
-        updatePunishState();
-
-
+		updatePunishState();
+		
+		
 		if(_isInvul)
 		{
 			sendMessage("Entering world in Invulnerable mode.");
 		}
-
+		
 		if(getAppearance().getInvisible())
 		{
 			sendMessage("Entering world in Invisible mode.");
 		}
-
+		
 		if(getMessageRefusal())
 		{
 			sendMessage("Entering world in Message Refusal mode.");
 		}
-
+		
 		revalidateZone(true);
-
+		
 		notifyFriends(false);
-
+		
 		// Fix against exploit on anti-target on login
 		decayMe();
 		spawnMe();
 		broadcastUserInfo();
-
+		
 	}
-
+	
 	/**
 	 * Gets the last access.
 	 *
@@ -15730,7 +15733,7 @@ private int _reviveRequested = 0;
 	{
 		return _lastAccess;
 	}
-
+	
 	/**
 	 * Check recom.
 	 *
@@ -15742,18 +15745,18 @@ private int _reviveRequested = 0;
 		Calendar check = Calendar.getInstance();
 		check.setTimeInMillis(_lastRecomUpdate);
 		check.add(Calendar.DAY_OF_MONTH, 1);
-
+		
 		Calendar min = Calendar.getInstance();
-
+		
 		_recomHave = recsHave;
 		_recomLeft = recsLeft;
-
+		
 		if(getStat().getLevel() < 10 || check.after(min))
 			return;
-
+		
 		restartRecom();
 	}
-
+	
 	/**
 	 * Restart recom.
 	 */
@@ -15770,7 +15773,7 @@ private int _reviveRequested = 0;
 				statement.execute();
 				statement.close();
 				statement = null;
-
+				
 				_recomChars.clear();
 			}
 			catch(Exception e)
@@ -15786,7 +15789,7 @@ private int _reviveRequested = 0;
 				con = null;
 			}
 		}
-
+		
 		if(getStat().getLevel() < 20)
 		{
 			_recomLeft = 3;
@@ -15802,23 +15805,23 @@ private int _reviveRequested = 0;
 			_recomLeft = 9;
 			_recomHave -= 3;
 		}
-
+		
 		if(_recomHave < 0)
 		{
 			_recomHave = 0;
 		}
-
+		
 		// If we have to update last update time, but it's now before 13, we should set it to yesterday
 		Calendar update = Calendar.getInstance();
 		if(update.get(Calendar.HOUR_OF_DAY) < 13)
 		{
 			update.add(Calendar.DAY_OF_MONTH, -1);
 		}
-
+		
 		update.set(Calendar.HOUR_OF_DAY, 13);
 		_lastRecomUpdate = update.getTimeInMillis();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#doRevive()
 	 */
@@ -15830,7 +15833,7 @@ private int _reviveRequested = 0;
 		sendPacket(new EtcStatusUpdate(this));
 		_reviveRequested = 0;
 		_revivePower = 0;
-
+		
 		if(isInParty() && getParty().isInDimensionalRift())
 		{
 			if(!DimensionalRiftManager.getInstance().checkIfInPeaceZone(getX(), getY(), getZ()))
@@ -15838,7 +15841,7 @@ private int _reviveRequested = 0;
 				getParty().getDimensionalRift().memberRessurected(this);
 			}
 		}
-
+		
 		if((_inEventTvT && TvT.is_started() && Config.TVT_REVIVE_RECOVERY) || (_inEventCTF && CTF.is_started() && Config.CTF_REVIVE_RECOVERY) || (_inEventDM && DM.is_started() && Config.DM_REVIVE_RECOVERY))
 		{
 			getStatus().setCurrentHp(getMaxHp());
@@ -15846,7 +15849,7 @@ private int _reviveRequested = 0;
 			getStatus().setCurrentCp(getMaxCp());
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#doRevive(double)
 	 */
@@ -15858,7 +15861,7 @@ private int _reviveRequested = 0;
 		restoreExp(revivePower);
 		doRevive();
 	}
-
+	
 	/**
 	 * Revive request.
 	 *
@@ -15909,7 +15912,7 @@ private int _reviveRequested = 0;
 			dlg = null;
 		}
 	}
-
+	
 	/**
 	 * Revive answer.
 	 *
@@ -15953,7 +15956,7 @@ private int _reviveRequested = 0;
 		_reviveRequested = 0;
 		_revivePower = 0;
 	}
-
+	
 	/**
 	 * Checks if is revive requested.
 	 *
@@ -15963,7 +15966,7 @@ private int _reviveRequested = 0;
 	{
 		return _reviveRequested == 1;
 	}
-
+	
 	/**
 	 * Checks if is reviving pet.
 	 *
@@ -15973,7 +15976,7 @@ private int _reviveRequested = 0;
 	{
 		return _revivePet;
 	}
-
+	
 	/**
 	 * Removes the reviving.
 	 */
@@ -15982,7 +15985,7 @@ private int _reviveRequested = 0;
 		_reviveRequested = 0;
 		_revivePower = 0;
 	}
-
+	
 	/**
 	 * On action request.
 	 */
@@ -15999,7 +16002,7 @@ private int _reviveRequested = 0;
 		if (Config.PLAYER_TELEPORT_PROTECTION > 0)
 			setTeleportProtection(false);
 	}
-
+	
 	/**
 	 * Sets the expertise index.
 	 *
@@ -16009,7 +16012,7 @@ private int _reviveRequested = 0;
 	{
 		_expertiseIndex = expertiseIndex;
 	}
-
+	
 	/**
 	 * Gets the expertise index.
 	 *
@@ -16019,7 +16022,7 @@ private int _reviveRequested = 0;
 	{
 		return _expertiseIndex;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#onTeleported()
@@ -16056,7 +16059,7 @@ private int _reviveRequested = 0;
 		if (!inObserverMode())
 			broadcastUserInfo();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#updatePosition(int)
 	 */
@@ -16066,36 +16069,36 @@ private int _reviveRequested = 0;
 		// Disables custom movement for L2PCInstance when Old Synchronization is selected
 		if(Config.COORD_SYNCHRONIZE == -1)
 			return super.updatePosition(gameTicks);
-
+		
 		// Get movement data
 		MoveData m = _move;
-
+		
 		if(_move == null)
 			return true;
-
+		
 		if(!isVisible())
 		{
 			_move = null;
 			return true;
 		}
-
+		
 		// Check if the position has alreday be calculated
 		if(m._moveTimestamp == 0)
 		{
 			m._moveTimestamp = m._moveStartTime;
 		}
-
+		
 		// Check if the position has alreday be calculated
 		if(m._moveTimestamp == gameTicks)
 			return false;
-
+		
 		double dx = m._xDestination - getX();
 		double dy = m._yDestination - getY();
 		double dz = m._zDestination - getZ();
 		int distPassed = (int) getStat().getMoveSpeed() * (gameTicks - m._moveTimestamp) / GameTimeController.TICKS_PER_SECOND;
 		double distFraction = distPassed / Math.sqrt(dx * dx + dy * dy + dz * dz);
 		//		if (Config.DEVELOPER) System.out.println("Move Ticks:" + (gameTicks - m._moveTimestamp) + ", distPassed:" + distPassed + ", distFraction:" + distFraction);
-
+		
 		if(distFraction > 1)
 		{
 			// Set the position of the L2Character to the destination
@@ -16106,15 +16109,15 @@ private int _reviveRequested = 0;
 			// Set the position of the L2Character to estimated after parcial move
 			super.setXYZ(getX() + (int) (dx * distFraction + 0.5), getY() + (int) (dy * distFraction + 0.5), getZ() + (int) (dz * distFraction));
 		}
-
+		
 		// Set the timer of last position update to now
 		m._moveTimestamp = gameTicks;
-
+		
 		revalidateZone(false);
-
+		
 		return distFraction > 1;
 	}
-
+	
 	/**
 	 * Sets the last client position.
 	 *
@@ -16135,7 +16138,7 @@ private int _reviveRequested = 0;
 	public void setLastClientPosition(Location loc) {
 		_lastClientPosition = loc;
 	}
-
+	
 	/**
 	 * Check last client position.
 	 *
@@ -16148,7 +16151,7 @@ private int _reviveRequested = 0;
 	{
 		return _lastClientPosition.equals(x, y, z);
 	}
-
+	
 	/**
 	 * Gets the last client distance.
 	 *
@@ -16162,10 +16165,10 @@ private int _reviveRequested = 0;
 		double dx = x - _lastClientPosition.getX();
 		double dy = y - _lastClientPosition.getY();
 		double dz = z - _lastClientPosition.getZ();
-
+		
 		return (int) Math.sqrt(dx * dx + dy * dy + dz * dz);
 	}
-
+	
 	/**
 	 * Sets the last server position.
 	 *
@@ -16186,7 +16189,7 @@ private int _reviveRequested = 0;
 	public void setLastServerPosition(Location loc) {
 		_lastServerPosition = loc;
 	}
-
+	
 	/**
 	 * Check last server position.
 	 *
@@ -16199,7 +16202,7 @@ private int _reviveRequested = 0;
 	{
 		return _lastServerPosition.equals(x, y, z);
 	}
-
+	
 	/**
 	 * Gets the last server distance.
 	 *
@@ -16213,10 +16216,10 @@ private int _reviveRequested = 0;
 		double dx = x - _lastServerPosition.getX();
 		double dy = y - _lastServerPosition.getY();
 		double dz = z - _lastServerPosition.getZ();
-
+		
 		return (int) Math.sqrt(dx * dx + dy * dy + dz * dz);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#addExpAndSp(long, int)
 	 */
@@ -16225,7 +16228,7 @@ private int _reviveRequested = 0;
 	{
 		getStat().addExpAndSp(addToExp, addToSp);
 	}
-
+	
 	/**
 	 * Removes the exp and sp.
 	 *
@@ -16236,7 +16239,7 @@ private int _reviveRequested = 0;
 	{
 		getStat().removeExpAndSp(removeExp, removeSp);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#reduceCurrentHp(double, com.l2jfrozen.gameserver.model.L2Character)
 	 */
@@ -16244,7 +16247,7 @@ private int _reviveRequested = 0;
 	public void reduceCurrentHp(double i, L2Character attacker)
 	{
 		getStatus().reduceHp(i, attacker);
-
+		
 		// notify the tamed beast of attacks
 		if(getTrainedBeast() != null)
 		{
@@ -16323,7 +16326,7 @@ private int _reviveRequested = 0;
 		}
 		targetChar.teleToLocation(summonerChar.getX(), summonerChar.getY(), summonerChar.getZ(), true);
 	}
-
+	
 	/**
 	 * Check summoner status.
 	 *
@@ -16421,14 +16424,14 @@ private int _reviveRequested = 0;
 	public void reduceCurrentHp(double value, L2Character attacker, boolean awake)
 	{
 		getStatus().reduceHp(value, attacker, awake);
-
+		
 		// notify the tamed beast of attacks
 		if(getTrainedBeast() != null)
 		{
 			getTrainedBeast().onOwnerGotAttacked(attacker);
 		}
 	}
-
+	
 	public void broadcastSnoop(int type, String name, String _text, CreatureSay cs)
 	{
 		if (_snoopListener.size() > 0)
@@ -16468,7 +16471,7 @@ private int _reviveRequested = 0;
 	{
 		_snoopedPlayer.remove(pci);
 	}
-
+	
 	/**
 	 * Adds the bypass.
 	 *
@@ -16481,7 +16484,7 @@ private int _reviveRequested = 0;
 		_validBypass.add(bypass);
 		//_log.warning("[BypassAdd]"+getName()+" '"+bypass+"'");
 	}
-
+	
 	/**
 	 * Adds the bypass2.
 	 *
@@ -16494,7 +16497,7 @@ private int _reviveRequested = 0;
 		_validBypass2.add(bypass);
 		//_log.warning("[BypassAdd]"+getName()+" '"+bypass+"'");
 	}
-
+	
 	/**
 	 * Validate bypass.
 	 *
@@ -16505,39 +16508,39 @@ private int _reviveRequested = 0;
 	{
 		if(!Config.BYPASS_VALIDATION)
 			return true;
-
+		
 		for(String bp : _validBypass)
 		{
 			if(bp == null)
 			{
 				continue;
 			}
-
+			
 			//_log.warning("[BypassValidation]"+getName()+" '"+bp+"'");
 			if(bp.equals(cmd))
 				return true;
 		}
-
+		
 		for(String bp : _validBypass2)
 		{
 			if(bp == null)
 			{
 				continue;
 			}
-
+			
 			//_log.warning("[BypassValidation]"+getName()+" '"+bp+"'");
 			if(cmd.startsWith(bp))
 				return true;
 		}
 		if(cmd.startsWith("npc_") && cmd.endsWith("_SevenSigns 7"))
 			return true;
-
+		
 		L2PcInstance player = getClient().getActiveChar();
 		// We decided to put a kick because when a player is doing quest with a BOT he sends invalid bypass.
 		Util.handleIllegalPlayerAction(player,"[L2PcInstance] player [" + player.getName() + "] sent invalid bypass '" + cmd + "'", Config.DEFAULT_PUNISH);
 		return false;
 	}
-
+	
 	/**
 	 * Validate item manipulation by item id.
 	 *
@@ -16548,7 +16551,7 @@ private int _reviveRequested = 0;
 	public boolean validateItemManipulationByItemId(int itemId, String action)
 	{
 		L2ItemInstance item = getInventory().getItemByItemId(itemId);
-
+		
 		if(item == null || item.getOwnerId() != getObjectId())
 		{
 			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
@@ -16559,17 +16562,17 @@ private int _reviveRequested = 0;
 			_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			return false;
 		}
-
+		
 		if(CursedWeaponsManager.getInstance().isCursed(itemId))
 			// can not trade a cursed weapon
 			return false;
-
+		
 		if(item.isWear())
 			// cannot drop/trade wear-items
 			return false;
-
+		
 		item = null;
-
+		
 		return true;
 	}
 	
@@ -16583,13 +16586,13 @@ private int _reviveRequested = 0;
 	public boolean validateItemManipulation(int objectId, String action)
 	{
 		L2ItemInstance item = getInventory().getItemByObjectId(objectId);
-
+		
 		if(item == null || item.getOwnerId() != getObjectId())
 		{
 			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
 			return false;
 		}
-
+		
 		// Pet is summoned and not the item that summoned the pet AND not the buggle from strider you're mounting
 		if(getPet() != null && getPet().getControlItemId() == objectId || getMountObjectID() == objectId)
 		{
@@ -16597,33 +16600,33 @@ private int _reviveRequested = 0;
 			{
 				_log.finest(getObjectId() + ": player tried to " + action + " item controling pet");
 			}
-
+			
 			return false;
 		}
-
+		
 		if(getActiveEnchantItem() != null && getActiveEnchantItem().getObjectId() == objectId)
 		{
 			if(Config.DEBUG)
 			{
 				_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			}
-
+			
 			return false;
 		}
-
+		
 		if(CursedWeaponsManager.getInstance().isCursed(item.getItemId()))
 			// can not trade a cursed weapon
 			return false;
-
+		
 		if(item.isWear())
 			// cannot drop/trade wear-items
 			return false;
-
+		
 		item = null;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Clear bypass.
 	 */
@@ -16632,7 +16635,7 @@ private int _reviveRequested = 0;
 		_validBypass.clear();
 		_validBypass2.clear();
 	}
-
+	
 	/**
 	 * Validate link.
 	 *
@@ -16643,19 +16646,19 @@ private int _reviveRequested = 0;
 	{
 		if(!Config.BYPASS_VALIDATION)
 			return true;
-
+		
 		for(String bp : _validLink)
 		{
 			if(bp == null)
 				continue;
-
+			
 			if(bp.equals(cmd))
 				return true;
 		}
 		_log.warning("[L2PcInstance] player ["+getName()+"] sent invalid link '"+cmd+"', ban this player!");
-			return false;
+		return false;
 	}
-
+	
 	/**
 	 * Clear links.
 	 */
@@ -16663,7 +16666,7 @@ private int _reviveRequested = 0;
 	{
 		_validLink.clear();
 	}
-
+	
 	/**
 	 * Adds the link.
 	 *
@@ -16672,9 +16675,9 @@ private int _reviveRequested = 0;
 	public synchronized void addLink(String link)
 	{
 		if(link == null) return;
-			_validLink.add(link);
+		_validLink.add(link);
 	}
-
+	
 	/**
 	 * Checks if is in boat.
 	 *
@@ -16684,7 +16687,7 @@ private int _reviveRequested = 0;
 	{
 		return _inBoat;
 	}
-
+	
 	/**
 	 * Sets the in boat.
 	 *
@@ -16694,7 +16697,7 @@ private int _reviveRequested = 0;
 	{
 		_inBoat = inBoat;
 	}
-
+	
 	/**
 	 * Gets the boat.
 	 *
@@ -16704,7 +16707,7 @@ private int _reviveRequested = 0;
 	{
 		return _boat;
 	}
-
+	
 	/**
 	 * Sets the boat.
 	 *
@@ -16714,7 +16717,7 @@ private int _reviveRequested = 0;
 	{
 		_boat = boat;
 	}
-
+	
 	/**
 	 * Sets the in crystallize.
 	 *
@@ -16724,7 +16727,7 @@ private int _reviveRequested = 0;
 	{
 		_inCrystallize = inCrystallize;
 	}
-
+	
 	/**
 	 * Checks if is in crystallize.
 	 *
@@ -16734,7 +16737,7 @@ private int _reviveRequested = 0;
 	{
 		return _inCrystallize;
 	}
-
+	
 	/**
 	 * Gets the in boat position.
 	 *
@@ -16744,7 +16747,7 @@ private int _reviveRequested = 0;
 	{
 		return _inBoatPosition;
 	}
-
+	
 	/**
 	 * Sets the in boat position.
 	 *
@@ -16754,7 +16757,7 @@ private int _reviveRequested = 0;
 	{
 		_inBoatPosition = pt;
 	}
-
+	
 	/**
 	 * Manage the delete task of a L2PcInstance (Leave Party, Unsummon pet, Save its inventory in the database, Remove
 	 * it from the world...).<BR>
@@ -16777,20 +16780,20 @@ private int _reviveRequested = 0;
 			setXYZ(_obsX, _obsY, _obsZ);
 		}
 		
-	      if(isTeleporting())
-	        {
-	         try
-	         {
-	          wait(2000);
-	         }
-	         catch(InterruptedException e)
-	         {
-	          // TODO Auto-generated catch block
-	          e.printStackTrace();
-	         }
-	         onTeleported();
-	        }
-
+		if(isTeleporting())
+		{
+			try
+			{
+				wait(2000);
+			}
+			catch(InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			onTeleported();
+		}
+		
 		Castle castle = null;
 		if(getClan() != null)
 		{
@@ -16800,7 +16803,7 @@ private int _reviveRequested = 0;
 				castle.destroyClanGate();
 			}
 		}
-
+		
 		// Set the online Flag to True or False and update the characters table of the database with online status and lastAccess (called when login and logout)
 		try
 		{
@@ -16813,7 +16816,7 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Stop the HP/MP/CP Regeneration task (scheduled tasks)
 		try
 		{
@@ -16826,7 +16829,7 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Stop crafting, if in progress
 		try
 		{
@@ -16839,7 +16842,7 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Cancel Attak or Cast
 		try
 		{
@@ -16863,20 +16866,20 @@ private int _reviveRequested = 0;
 				room.deleteMember(this);
 		}
 		
-
+		
 		// Remove from world regions zones
 		if(getWorldRegion() != null)
 		{
 			getWorldRegion().removeFromZones(this);
 		}
-
+		
 		try
 		{
 			if(_forceBuff != null)
 			{
 				abortCast();
 			}
-
+			
 			for(L2Character character : getKnownList().getKnownCharacters())
 				if(character.getForceBuff() != null && character.getForceBuff().getTarget() == this)
 				{
@@ -16890,7 +16893,7 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Remove the L2PcInstance from the world
 		if(isVisible())
 		{
@@ -16906,7 +16909,7 @@ private int _reviveRequested = 0;
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
-
+		
 		// If a Party is in progress, leave it
 		if(isInParty())
 		{
@@ -16922,7 +16925,7 @@ private int _reviveRequested = 0;
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
-
+		
 		// If the L2PcInstance has Pet, unsummon it
 		if(getPet() != null)
 		{
@@ -16938,7 +16941,7 @@ private int _reviveRequested = 0;
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}// returns pet to control item
 		}
-
+		
 		if(getClanId() != 0 && getClan() != null)
 		{
 			// set the status for pledge member list to OFFLINE
@@ -16959,18 +16962,18 @@ private int _reviveRequested = 0;
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
-
+		
 		if(getActiveRequester() != null)
 		{
 			// deals with sudden exit in the middle of transaction
 			setActiveRequester(null);
 		}
-
+		
 		if(getOlympiadGameId() != -1)
 		{
 			Olympiad.getInstance().removeDisconnectedCompetitor(this);
 		}
-
+		
 		// If the L2PcInstance is a GM, remove it from the GM List
 		if(isGM())
 		{
@@ -16986,7 +16989,7 @@ private int _reviveRequested = 0;
 				_log.log(Level.SEVERE, "deleteMe()", t);
 			}
 		}
-
+		
 		// Update database with items in its inventory and remove them from the world
 		try
 		{
@@ -16999,7 +17002,7 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Update database with items in its warehouse and remove them from the world
 		try
 		{
@@ -17012,12 +17015,12 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		if(Config.WAREHOUSE_CACHE)
 		{
 			WarehouseCacheManager.getInstance().remCacheTask(this);
 		}
-
+		
 		// Update database with items in its freight and remove them from the world
 		try
 		{
@@ -17030,7 +17033,7 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Remove all L2Object from _knownObjects and _knownPlayer of the L2Character then cancel Attak or Cast and notify AI
 		try
 		{
@@ -17043,37 +17046,37 @@ private int _reviveRequested = 0;
 			
 			_log.log(Level.SEVERE, "deleteMe()", t);
 		}
-
+		
 		// Close the connection with the client
 		closeNetConnection();
-
+		
 		// remove from flood protector
 		//FloodProtector.getInstance().removePlayer(getObjectId());
-
+		
 		if(getClanId() > 0)
 		{
 			getClan().broadcastToOtherOnlineMembers(new PledgeShowMemberListUpdate(this), this);
 			//ClanTable.getInstance().getClan(getClanId()).broadcastToOnlineMembers(new PledgeShowMemberListAdd(this));
 		}
-
+		
 		for(L2PcInstance player : _snoopedPlayer)
 		{
 			player.removeSnooper(this);
 		}
-
+		
 		for(L2PcInstance player : _snoopListener)
 		{
 			player.removeSnooped(this);
 		}
-
+		
 		if(_chanceSkills != null)
 		{
 			_chanceSkills.setOwner(null);
 			_chanceSkills = null;
 		}
-
+		
 		notifyFriends(true);
-
+		
 		// Remove L2Object object from _allObjects of L2World
 		L2World.getInstance().removeObject(this);
 		L2World.getInstance().removeFromAllPlayers(this); // force remove in case of crash during teleport
@@ -17118,7 +17121,7 @@ private int _reviveRequested = 0;
 		
 		sendPacket(new ShortBuffStatusUpdate(magicId, level, time));
 	}
-
+	
 	/** list of character friends. */
 	private List<String> _friendList = new FastList<String>();
 	
@@ -17148,18 +17151,18 @@ private int _reviveRequested = 0;
 			statement = con.prepareStatement("SELECT friend_name,not_blocked FROM character_friends WHERE char_id=?");
 			statement.setInt(1, getObjectId());
 			ResultSet rset = statement.executeQuery();
-
+			
 			while(rset.next())
 			{
 				String friendName = rset.getString("friend_name");
-
+				
 				if (friendName.equals(getName()))
 					continue;
 				
 				Integer blockedType = rset.getInt("not_blocked");
 				
 				if(blockedType == 1){
-
+					
 					_friendList.add(friendName);
 					
 				}else{
@@ -17167,7 +17170,7 @@ private int _reviveRequested = 0;
 					_blockList.getBlockList().add(friendName);
 					
 				}
-						
+				
 			}
 			
 			rset.close();
@@ -17197,7 +17200,7 @@ private int _reviveRequested = 0;
 		for(String friendName : _friendList)
 		{
 			L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
-
+			
 			if(friend != null) //friend logged in.
 			{
 				friend.sendPacket(new FriendList(friend));
@@ -17247,11 +17250,11 @@ private int _reviveRequested = 0;
 			con = null;
 		}
 	}
-	*/
-
+	 */
+	
 	/** The _fish. */
 	private FishData _fish;
-
+	
 	/*  startFishing() was stripped of any pre-fishing related checks, namely the fishing zone check.
 	 * Also worthy of note is the fact the code to find the hook landing position was also striped. The
 	 * stripped code was moved into fishing.java. In my opinion it makes more sense for it to be there
@@ -17294,19 +17297,19 @@ private int _reviveRequested = 0;
 		fishs = null;
 		sendPacket(new SystemMessage(SystemMessageId.CAST_LINE_AND_START_FISHING));
 		ExFishingStart efs = null;
-
+		
 		if(!GameTimeController.getInstance().isNowNight() && _lure.isNightLure())
 		{
 			_fish.setType(-1);
 		}
-
+		
 		//sendMessage("Hook x,y: " + _x + "," + _y + " - Water Z, Player Z:" + _z + ", " + getZ()); //debug line, uncoment to show coordinates used in fishing.
 		efs = new ExFishingStart(this, _fish.getType(), _x, _y, _z, _lure.isNightLure());
 		broadcastPacket(efs);
 		efs = null;
 		StartLookingForFishTask();
 	}
-
+	
 	/**
 	 * Stop looking for fish task.
 	 */
@@ -17318,7 +17321,7 @@ private int _reviveRequested = 0;
 			_taskforfish = null;
 		}
 	}
-
+	
 	/**
 	 * Start looking for fish task.
 	 */
@@ -17329,7 +17332,7 @@ private int _reviveRequested = 0;
 			int checkDelay = 0;
 			boolean isNoob = false;
 			boolean isUpperGrade = false;
-
+			
 			if(_lure != null)
 			{
 				int lureid = _lure.getItemId();
@@ -17351,7 +17354,7 @@ private int _reviveRequested = 0;
 			_taskforfish = ThreadPoolManager.getInstance().scheduleEffectAtFixedRate(new LookingForFishTask(_fish.getWaitTime(), _fish.getFishGuts(), _fish.getType(), isNoob, isUpperGrade), 10000, checkDelay);
 		}
 	}
-
+	
 	/**
 	 * Gets the random group.
 	 *
@@ -17375,7 +17378,7 @@ private int _reviveRequested = 0;
 				return 1;
 		}
 	}
-
+	
 	/**
 	 * Gets the random fish type.
 	 *
@@ -17603,7 +17606,7 @@ private int _reviveRequested = 0;
 		}
 		return type;
 	}
-
+	
 	/**
 	 * Gets the random fish lvl.
 	 *
@@ -17624,7 +17627,7 @@ private int _reviveRequested = 0;
 			return 1;
 		int randomlvl;
 		int check = Rnd.get(100);
-
+		
 		if(check <= 50)
 		{
 			randomlvl = skilllvl;
@@ -17646,10 +17649,10 @@ private int _reviveRequested = 0;
 			}
 		}
 		effects = null;
-
+		
 		return randomlvl;
 	}
-
+	
 	/**
 	 * Start fish combat.
 	 *
@@ -17660,7 +17663,7 @@ private int _reviveRequested = 0;
 	{
 		_fishCombat = new L2Fishing(this, _fish, isNoob, isUpperGrade);
 	}
-
+	
 	/**
 	 * End fishing.
 	 *
@@ -17676,12 +17679,12 @@ private int _reviveRequested = 0;
 		_fishy = 0;
 		_fishz = 0;
 		broadcastUserInfo();
-
+		
 		if(_fishCombat == null)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.BAIT_LOST_FISH_GOT_AWAY));
 		}
-
+		
 		_fishCombat = null;
 		_lure = null;
 		//Ends fishing
@@ -17689,7 +17692,7 @@ private int _reviveRequested = 0;
 		setIsImobilised(false);
 		stopLookingForFishTask();
 	}
-
+	
 	/**
 	 * Gets the fish combat.
 	 *
@@ -17699,7 +17702,7 @@ private int _reviveRequested = 0;
 	{
 		return _fishCombat;
 	}
-
+	
 	/**
 	 * Gets the fishx.
 	 *
@@ -17709,7 +17712,7 @@ private int _reviveRequested = 0;
 	{
 		return _fishx;
 	}
-
+	
 	/**
 	 * Gets the fishy.
 	 *
@@ -17719,7 +17722,7 @@ private int _reviveRequested = 0;
 	{
 		return _fishy;
 	}
-
+	
 	/**
 	 * Gets the fishz.
 	 *
@@ -17730,16 +17733,16 @@ private int _reviveRequested = 0;
 		return _fishz;
 	}
 	
-    public void SetPartyFind(int find)
-    {
-    _party_find = find;
-    }
-
-    public int GetPartyFind()
-    {
-       return _party_find;
-    }
-
+	public void SetPartyFind(int find)
+	{
+		_party_find = find;
+	}
+	
+	public int GetPartyFind()
+	{
+		return _party_find;
+	}
+	
 	/**
 	 * Sets the lure.
 	 *
@@ -17749,7 +17752,7 @@ private int _reviveRequested = 0;
 	{
 		_lure = lure;
 	}
-
+	
 	/**
 	 * Gets the lure.
 	 *
@@ -17759,7 +17762,7 @@ private int _reviveRequested = 0;
 	{
 		return _lure;
 	}
-
+	
 	/**
 	 * Gets the inventory limit.
 	 *
@@ -17781,10 +17784,10 @@ private int _reviveRequested = 0;
 			ivlim = Config.INVENTORY_MAXIMUM_NO_DWARF;
 		}
 		ivlim += (int) getStat().calcStat(Stats.INV_LIM, 0, null, null);
-
+		
 		return ivlim;
 	}
-
+	
 	/**
 	 * Gets the ware house limit.
 	 *
@@ -17802,10 +17805,10 @@ private int _reviveRequested = 0;
 			whlim = Config.WAREHOUSE_SLOTS_NO_DWARF;
 		}
 		whlim += (int) getStat().calcStat(Stats.WH_LIM, 0, null, null);
-
+		
 		return whlim;
 	}
-
+	
 	/**
 	 * Gets the private sell store limit.
 	 *
@@ -17818,16 +17821,16 @@ private int _reviveRequested = 0;
 		{
 			pslim = Config.MAX_PVTSTORE_SLOTS_DWARF;
 		}
-
+		
 		else
 		{
 			pslim = Config.MAX_PVTSTORE_SLOTS_OTHER;
 		}
 		pslim += (int) getStat().calcStat(Stats.P_SELL_LIM, 0, null, null);
-
+		
 		return pslim;
 	}
-
+	
 	/**
 	 * Gets the private buy store limit.
 	 *
@@ -17845,10 +17848,10 @@ private int _reviveRequested = 0;
 			pblim = Config.MAX_PVTSTORE_SLOTS_OTHER;
 		}
 		pblim += (int) getStat().calcStat(Stats.P_BUY_LIM, 0, null, null);
-
+		
 		return pblim;
 	}
-
+	
 	/**
 	 * Gets the freight limit.
 	 *
@@ -17858,7 +17861,7 @@ private int _reviveRequested = 0;
 	{
 		return Config.FREIGHT_SLOTS + (int) getStat().calcStat(Stats.FREIGHT_LIM, 0, null, null);
 	}
-
+	
 	/**
 	 * Gets the dwarf recipe limit.
 	 *
@@ -17870,7 +17873,7 @@ private int _reviveRequested = 0;
 		recdlim += (int) getStat().calcStat(Stats.REC_D_LIM, 0, null, null);
 		return recdlim;
 	}
-
+	
 	/**
 	 * Gets the common recipe limit.
 	 *
@@ -17882,7 +17885,7 @@ private int _reviveRequested = 0;
 		recclim += (int) getStat().calcStat(Stats.REC_C_LIM, 0, null, null);
 		return recclim;
 	}
-
+	
 	/**
 	 * Sets the mount object id.
 	 *
@@ -17892,7 +17895,7 @@ private int _reviveRequested = 0;
 	{
 		_mountObjectID = newID;
 	}
-
+	
 	/**
 	 * Gets the mount object id.
 	 *
@@ -17902,10 +17905,10 @@ private int _reviveRequested = 0;
 	{
 		return _mountObjectID;
 	}
-
+	
 	/** The _lure. */
 	private L2ItemInstance _lure = null;
-
+	
 	/**
 	 * Get the current skill in use or return null.<BR>
 	 * <BR>
@@ -17916,7 +17919,7 @@ private int _reviveRequested = 0;
 	{
 		return _currentSkill;
 	}
-
+	
 	/**
 	 * Create a new SkillDat object and set the player _currentSkill.<BR>
 	 * <BR>
@@ -17933,19 +17936,19 @@ private int _reviveRequested = 0;
 			{
 				_log.info("Setting current skill: NULL for " + getName() + ".");
 			}
-
+			
 			_currentSkill = null;
 			return;
 		}
-
+		
 		if(Config.DEBUG)
 		{
 			_log.info("Setting current skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
 		}
-
+		
 		_currentSkill = new SkillDat(currentSkill, ctrlPressed, shiftPressed);
 	}
-
+	
 	/**
 	 * Gets the queued skill.
 	 *
@@ -17955,7 +17958,7 @@ private int _reviveRequested = 0;
 	{
 		return _queuedSkill;
 	}
-
+	
 	/**
 	 * Create a new SkillDat object and queue it in the player _queuedSkill.<BR>
 	 * <BR>
@@ -17972,19 +17975,19 @@ private int _reviveRequested = 0;
 			{
 				_log.info("Setting queued skill: NULL for " + getName() + ".");
 			}
-
+			
 			_queuedSkill = null;
 			return;
 		}
-
+		
 		if(Config.DEBUG)
 		{
 			_log.info("Setting queued skill: " + queuedSkill.getName() + " (ID: " + queuedSkill.getId() + ") for " + getName() + ".");
 		}
-
+		
 		_queuedSkill = new SkillDat(queuedSkill, ctrlPressed, shiftPressed);
 	}
-
+	
 	/**
 	 * Gets the power grade.
 	 *
@@ -17994,7 +17997,7 @@ private int _reviveRequested = 0;
 	{
 		return _powerGrade;
 	}
-
+	
 	/**
 	 * Sets the power grade.
 	 *
@@ -18004,7 +18007,7 @@ private int _reviveRequested = 0;
 	{
 		_powerGrade = power;
 	}
-
+	
 	/**
 	 * Checks if is cursed weapon equiped.
 	 *
@@ -18014,7 +18017,7 @@ private int _reviveRequested = 0;
 	{
 		return _cursedWeaponEquipedId != 0;
 	}
-
+	
 	/**
 	 * Sets the cursed weapon equiped id.
 	 *
@@ -18024,7 +18027,7 @@ private int _reviveRequested = 0;
 	{
 		_cursedWeaponEquipedId = value;
 	}
-
+	
 	/**
 	 * Gets the cursed weapon equiped id.
 	 *
@@ -18034,10 +18037,10 @@ private int _reviveRequested = 0;
 	{
 		return _cursedWeaponEquipedId;
 	}
-
+	
 	/** The _charm of courage. */
 	private boolean _charmOfCourage = false;
-
+	
 	/**
 	 * Gets the charm of courage.
 	 *
@@ -18047,7 +18050,7 @@ private int _reviveRequested = 0;
 	{
 		return _charmOfCourage;
 	}
-
+	
 	/**
 	 * Sets the charm of courage.
 	 *
@@ -18058,7 +18061,7 @@ private int _reviveRequested = 0;
 		_charmOfCourage = val;
 		sendPacket(new EtcStatusUpdate(this));
 	}
-
+	
 	/**
 	 * Gets the death penalty buff level.
 	 *
@@ -18068,7 +18071,7 @@ private int _reviveRequested = 0;
 	{
 		return _deathPenaltyBuffLevel;
 	}
-
+	
 	/**
 	 * Sets the death penalty buff level.
 	 *
@@ -18078,7 +18081,7 @@ private int _reviveRequested = 0;
 	{
 		_deathPenaltyBuffLevel = level;
 	}
-
+	
 	/**
 	 * Calculate death penalty buff level.
 	 *
@@ -18091,7 +18094,7 @@ private int _reviveRequested = 0;
 			increaseDeathPenaltyBuffLevel();
 		}
 	}
-
+	
 	/**
 	 * Increase death penalty buff level.
 	 */
@@ -18099,20 +18102,20 @@ private int _reviveRequested = 0;
 	{
 		if(getDeathPenaltyBuffLevel() >= 15) //maximum level reached
 			return;
-
+		
 		if(getDeathPenaltyBuffLevel() != 0)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(5076, getDeathPenaltyBuffLevel());
-
+			
 			if(skill != null)
 			{
 				removeSkill(skill, true);
 				skill = null;
 			}
 		}
-
+		
 		_deathPenaltyBuffLevel++;
-
+		
 		addSkill(SkillTable.getInstance().getInfo(5076, getDeathPenaltyBuffLevel()), false);
 		sendPacket(new EtcStatusUpdate(this));
 		SystemMessage sm = new SystemMessage(SystemMessageId.DEATH_PENALTY_LEVEL_S1_ADDED);
@@ -18121,7 +18124,7 @@ private int _reviveRequested = 0;
 		sm = null;
 		sendSkillList(); 
 	}
-
+	
 	/**
 	 * Reduce death penalty buff level.
 	 */
@@ -18129,18 +18132,18 @@ private int _reviveRequested = 0;
 	{
 		if(getDeathPenaltyBuffLevel() <= 0)
 			return;
-
+		
 		L2Skill skill = SkillTable.getInstance().getInfo(5076, getDeathPenaltyBuffLevel());
-
+		
 		if(skill != null)
 		{
 			removeSkill(skill, true);
 			skill = null;
 			sendSkillList(); 
 		}
-
+		
 		_deathPenaltyBuffLevel--;
-
+		
 		if(getDeathPenaltyBuffLevel() > 0)
 		{
 			addSkill(SkillTable.getInstance().getInfo(5076, getDeathPenaltyBuffLevel()), false);
@@ -18157,7 +18160,7 @@ private int _reviveRequested = 0;
 			sendPacket(new SystemMessage(SystemMessageId.DEATH_PENALTY_LIFTED));
 		}
 	}
-
+	
 	/**
 	 * restore all Custom Data hero/noble/donator.
 	 */
@@ -18167,23 +18170,23 @@ private int _reviveRequested = 0;
 		{
 			_log.info("Restoring character status "+getName()+" from database...");
 		}
-
+		
 		int hero = 0;
 		int noble = 0;
 		int donator = 0;
 		long hero_end = 0;
-
+		
 		Connection con = null;
-
+		
 		try
 		{
-
+			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(STATUS_DATA_GET);
 			statement.setInt(1, getObjectId());
-
+			
 			ResultSet rset = statement.executeQuery();
-
+			
 			while(rset.next())
 			{
 				hero = rset.getInt("hero");
@@ -18195,7 +18198,7 @@ private int _reviveRequested = 0;
 			statement.close();
 			statement = null;
 			rset = null;
-
+			
 			
 		}
 		catch(Exception e)
@@ -18217,31 +18220,31 @@ private int _reviveRequested = 0;
 			//delete wings of destiny
 			destroyItem("HeroEnd", 6842, 1, null, false);
 		}
-
+		
 		if(noble > 0)
 		{
 			setNoble(true);
 		}
-
+		
 		if(donator > 0)
 		{
 			setDonator(true);
 		}
 	}
-
+	
 	/**
 	 * Restore death penalty buff level.
 	 */
 	public void restoreDeathPenaltyBuffLevel()
 	{
 		L2Skill skill = SkillTable.getInstance().getInfo(5076, getDeathPenaltyBuffLevel());
-
+		
 		if(skill != null)
 		{
 			removeSkill(skill, true);
 			skill = null;
 		}
-
+		
 		if(getDeathPenaltyBuffLevel() > 0)
 		{
 			addSkill(SkillTable.getInstance().getInfo(5076, getDeathPenaltyBuffLevel()), false);
@@ -18252,10 +18255,10 @@ private int _reviveRequested = 0;
 		}
 		sendPacket(new EtcStatusUpdate(this));
 	}
-
+	
 	/** The Reuse time stamps. */
 	private FastMap<Integer, TimeStamp> ReuseTimeStamps = new FastMap<Integer, TimeStamp>().shared();
-
+	
 	/**
 	 * Simple class containing all neccessary information to maintain valid timestamps and reuse for skills upon relog.
 	 * Filter this carefully as it becomes redundant to store reuse for small delays.
@@ -18302,52 +18305,52 @@ private int _reviveRequested = 0;
 	
 	
 	public static class TimeStamp
-    {
-
-        public long getStamp()
-        {
-            return stamp;
-        }
-
-        public int getSkill()
-        {
-            return skill;
-        }
-
-        public long getReuse()
-        {
-            return reuse;
-        }
-
-        public long getRemaining()
-        {
-            return Math.max(stamp - System.currentTimeMillis(), 0L);
-        }
-
-        protected boolean hasNotPassed()
-        {
-            return System.currentTimeMillis() < stamp;
-        }
-
-        private int skill;
-        private long reuse;
-        private long stamp;
-
-        protected TimeStamp(int _skill, long _reuse)
-        {
-            skill = _skill;
-            reuse = _reuse;
-            stamp = System.currentTimeMillis() + reuse;
-        }
-
-        protected TimeStamp(int _skill, long _reuse, long _systime)
-        {
-            skill = _skill;
-            reuse = _reuse;
-            stamp = _systime;
-        }
-    }
-
+	{
+		
+		public long getStamp()
+		{
+			return stamp;
+		}
+		
+		public L2Skill getSkill()
+		{
+			return skill;
+		}
+		
+		public long getReuse()
+		{
+			return reuse;
+		}
+		
+		public long getRemaining()
+		{
+			return Math.max(stamp - System.currentTimeMillis(), 0L);
+		}
+		
+		protected boolean hasNotPassed()
+		{
+			return System.currentTimeMillis() < stamp;
+		}
+		
+		private L2Skill skill;
+		private long reuse;
+		private long stamp;
+		
+		protected TimeStamp(L2Skill _skill, long _reuse)
+		{
+			skill = _skill;
+			reuse = _reuse;
+			stamp = System.currentTimeMillis() + reuse;
+		}
+		
+		protected TimeStamp(L2Skill _skill, long _reuse, long _systime)
+		{
+			skill = _skill;
+			reuse = _reuse;
+			stamp = _systime;
+		}
+	}
+	
 	/**
 	 * Index according to skill id the current timestamp of use.
 	 *
@@ -18355,11 +18358,11 @@ private int _reviveRequested = 0;
 	 * @param r the r
 	 */
 	@Override
-	public void addTimeStamp(int s, int r)
+	public void addTimeStamp(L2Skill s, int r)
 	{
-		ReuseTimeStamps.put(s, new TimeStamp(s, r));
+		ReuseTimeStamps.put(s.getReuseHashCode(), new TimeStamp(s, r));
 	}
-
+	
 	/**
 	 * Index according to skill this TimeStamp instance for restoration purposes only.
 	 *
@@ -18367,18 +18370,18 @@ private int _reviveRequested = 0;
 	 */
 	private void addTimeStamp(TimeStamp T)
 	{
-		ReuseTimeStamps.put(T.getSkill(), T);
+		ReuseTimeStamps.put(T.getSkill().getId(), T);
 	}
-
+	
 	/**
 	 * Index according to skill id the current timestamp of use.
 	 *
 	 * @param s the s
 	 */
 	@Override
-	public void removeTimeStamp(int s)
+	public void removeTimeStamp(L2Skill s)
 	{
-		ReuseTimeStamps.remove(s);
+		ReuseTimeStamps.remove(s.getReuseHashCode());
 	}
 	
 	public Collection<TimeStamp> getReuseTimeStamps()
@@ -18386,22 +18389,22 @@ private int _reviveRequested = 0;
 		return ReuseTimeStamps.values();
 	}
 	
-	 public void resetSkillTime(boolean ssl)
-	    {
-	        L2Skill arr$[] = getAllSkills();
-	        int len$ = arr$.length;
-	        for(int i$ = 0; i$ < len$; i$++)
-	        {
-	            L2Skill skill = arr$[i$];
-	            if(skill != null && skill.isActive() && skill.getId() != 1324)
-	                enableSkill(skill.getId());
-	        }
-
-	        if(ssl)
-	            sendSkillList();
-	        sendPacket(new SkillCoolTime(this));
-	    }
-
+	public void resetSkillTime(boolean ssl)
+	{
+		L2Skill arr$[] = getAllSkills();
+		int len$ = arr$.length;
+		for(int i$ = 0; i$ < len$; i$++)
+		{
+			L2Skill skill = arr$[i$];
+			if(skill != null && skill.isActive() && skill.getId() != 1324)
+				enableSkill(skill);
+		}
+		
+		if(ssl)
+			sendSkillList();
+		sendPacket(new SkillCoolTime(this));
+	}
+	
 	/*
 	public boolean isInDangerArea()
 	{
@@ -18444,8 +18447,8 @@ private int _reviveRequested = 0;
 		sendPacket(sm);
 		sm = null;
 	}
-	*/
-
+	 */
+	
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.L2Character#sendDamageMessage(com.l2jfrozen.gameserver.model.L2Character, int, boolean, boolean, boolean)
 	 */
@@ -18458,14 +18461,14 @@ private int _reviveRequested = 0;
 			sendPacket(new SystemMessage(SystemMessageId.MISSED_TARGET));
 			return;
 		}
-
+		
 		// Check if hit is critical
 		if(pcrit)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT));
-
+			
 		}
-
+		
 		if(mcrit)
 		{
 			sendPacket(new SystemMessage(SystemMessageId.CRITICAL_HIT_MAGIC));
@@ -18485,7 +18488,7 @@ private int _reviveRequested = 0;
 	}
 	
 	
-
+	
 	/**
 	 * Update title.
 	 */
@@ -18493,7 +18496,7 @@ private int _reviveRequested = 0;
 	{
 		setTitle(Config.PVP_TITLE_PREFIX + getPvpKills() + Config.PK_TITLE_PREFIX + getPkKills() + " ");
 	}
-
+	
 	/**
 	 * Return true if last request is expired.
 	 *
@@ -18503,14 +18506,14 @@ private int _reviveRequested = 0;
 	{
 		return !(_requestExpireTime > GameTimeController.getGameTicks());
 	}
-
+	
 	/** The _gm status. */
 	boolean _gmStatus = true; //true by default sincce this is used by GMS
-
+	
 	//	private Object _BanChatTask;
-
+	
 	//	private long _banchat_timer;
-
+	
 	/**
 	 * Sets the gm status active.
 	 *
@@ -18520,7 +18523,7 @@ private int _reviveRequested = 0;
 	{
 		_gmStatus = state;
 	}
-
+	
 	/**
 	 * Checks for gm status active.
 	 *
@@ -18530,7 +18533,7 @@ private int _reviveRequested = 0;
 	{
 		return _gmStatus;
 	}
-/*
+	/*
 	//////////////////////////////////////////////////////////////////
 	//START CHAT BAN SYSTEM
 	//////////////////////////////////////////////////////////////////
@@ -18615,14 +18618,14 @@ private int _reviveRequested = 0;
 			_player.setChatBanned(false, 0);
 		}
 	}
-*/
+	 */
 	//////////////////////////////////////////////////////////////////
 	//END CHAT BAN SYSTEM
 	//////////////////////////////////////////////////////////////////
-
+	
 	/** The _saymode. */
-public L2Object _saymode = null;
-
+	public L2Object _saymode = null;
+	
 	/**
 	 * Gets the say mode.
 	 *
@@ -18632,7 +18635,7 @@ public L2Object _saymode = null;
 	{
 		return _saymode;
 	}
-
+	
 	/**
 	 * Sets the say mode.
 	 *
@@ -18642,7 +18645,7 @@ public L2Object _saymode = null;
 	{
 		_saymode = say;
 	}
-
+	
 	/**
 	 * Save event stats.
 	 */
@@ -18652,7 +18655,7 @@ public L2Object _saymode = null;
 		_originalKarma = getKarma();
 		_eventKills = 0;
 	}
-
+	
 	/**
 	 * Restore event stats.
 	 */
@@ -18662,7 +18665,7 @@ public L2Object _saymode = null;
 		setKarma(_originalKarma);
 		_eventKills = 0;
 	}
-
+	
 	/**
 	 * Gets the current skill world position.
 	 *
@@ -18672,7 +18675,7 @@ public L2Object _saymode = null;
 	{
 		return _currentSkillWorldPosition;
 	}
-
+	
 	/**
 	 * Sets the current skill world position.
 	 *
@@ -18682,7 +18685,7 @@ public L2Object _saymode = null;
 	{
 		_currentSkillWorldPosition = worldPosition;
 	}
-
+	
 	////////////////////////////////////////////////
 	/**
 	 * Checks if is cursed weapon equipped.
@@ -18693,18 +18696,18 @@ public L2Object _saymode = null;
 	{
 		return _cursedWeaponEquipedId != 0;
 	}
-
-//	public void setCombatFlagEquipped(boolean value)
-//	{
-//		_combatFlagEquippedId = value;
-//	}
-
+	
+	//	public void setCombatFlagEquipped(boolean value)
+	//	{
+	//		_combatFlagEquippedId = value;
+	//	}
+	
 	/**
- * Dismount.
- *
- * @return true, if successful
- */
-public boolean dismount()
+	 * Dismount.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean dismount()
 	{
 		if(setMountType(0))
 		{
@@ -18712,19 +18715,19 @@ public boolean dismount()
 			{
 				removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 			}
-
+			
 			Ride dismount = new Ride(getObjectId(), Ride.ACTION_DISMOUNT, 0);
 			broadcastPacket(dismount);
 			dismount = null;
 			setMountObjectID(0);
-
+			
 			// Notify self and others about speed change
 			broadcastUserInfo();
 			return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Gets the pc bang score.
 	 *
@@ -18734,7 +18737,7 @@ public boolean dismount()
 	{
 		return pcBangPoint;
 	}
-
+	
 	/**
 	 * Reduce pc bang score.
 	 *
@@ -18745,7 +18748,7 @@ public boolean dismount()
 		pcBangPoint -= to;
 		updatePcBangWnd(to, false, false);
 	}
-
+	
 	/**
 	 * Adds the pc bang score.
 	 *
@@ -18755,7 +18758,7 @@ public boolean dismount()
 	{
 		pcBangPoint += to;
 	}
-
+	
 	/**
 	 * Update pc bang wnd.
 	 *
@@ -18768,7 +18771,7 @@ public boolean dismount()
 		ExPCCafePointInfo wnd = new ExPCCafePointInfo(this, score, add, 24, duble);
 		sendPacket(wnd);
 	}
-
+	
 	/**
 	 * Show pc bang window.
 	 */
@@ -18777,7 +18780,7 @@ public boolean dismount()
 		ExPCCafePointInfo wnd = new ExPCCafePointInfo(this, 0, false, 24, false);
 		sendPacket(wnd);
 	}
-
+	
 	/**
 	 * String to hex.
 	 *
@@ -18791,19 +18794,19 @@ public boolean dismount()
 			case 1:
 				color = new StringBuilder().append("00000").append(color).toString();
 				break;
-
+				
 			case 2:
 				color = new StringBuilder().append("0000").append(color).toString();
 				break;
-
+				
 			case 3:
 				color = new StringBuilder().append("000").append(color).toString();
 				break;
-
+				
 			case 4:
 				color = new StringBuilder().append("00").append(color).toString();
 				break;
-
+				
 			case 5:
 				color = new StringBuilder().append('0').append(color).toString();
 				break;
@@ -19130,10 +19133,10 @@ public boolean dismount()
 		html.setHtml(text.toString());
 		sendPacket(html);
 	}
-
+	
 	/** The isintwtown. */
 	private boolean isintwtown = false;
-
+	
 	/**
 	 * Checks if is inside tw town.
 	 *
@@ -19145,7 +19148,7 @@ public boolean dismount()
 			return true;
 		return false;
 	}
-
+	
 	/**
 	 * Sets the inside tw town.
 	 *
@@ -19214,7 +19217,7 @@ public boolean dismount()
 		for(String name:active_boxes_characters){
 			System.out.println("*** "+name+" ***");
 		}
-		*/
+		 */
 		return output;
 	}
 	
@@ -19228,7 +19231,7 @@ public boolean dismount()
 			String thisip = getClient().getConnection().getInetAddress().getHostAddress();
 			final Collection<L2PcInstance> allPlayers = L2World.getInstance().getAllPlayers();
 			L2PcInstance[] players = allPlayers.toArray(new L2PcInstance[allPlayers.size()]);
-
+			
 			for(L2PcInstance player : players)
 			{
 				if(player != null && !player.isOffline())
@@ -19245,7 +19248,7 @@ public boolean dismount()
 							for(String name:player.active_boxes_characters){
 								System.out.println("*** "+name+" ***");
 							}
-							*/
+							 */
 						}
 					}
 				}
@@ -19291,141 +19294,141 @@ public boolean dismount()
 				}
 			}
 		}
-		*/
+		 */
 		/*
 		System.out.println("Player "+getName()+" has this boxes");
 		for(String name:active_boxes_characters){
 			System.out.println("*** "+name+" ***");
 		}
-		*/
+		 */
 	}
-	   
-   	/**
-   	 * Aio System Start.
-   	 *
-   	 * @return true, if is aio
-   	 */
-	   public boolean isAio()
-	   {
-	      return _isAio;
-	   }
 	
-	   /**
-   	 * Sets the aio.
-   	 *
-   	 * @param val the new aio
-   	 */
-   	public void setAio(boolean val)
-	   {
-	      _isAio = val;
-	      
-	   }
+	/**
+	 * Aio System Start.
+	 *
+	 * @return true, if is aio
+	 */
+	public boolean isAio()
+	{
+		return _isAio;
+	}
 	
-	   /**
-   	 * Reward aio skills.
-   	 */
-   	public void rewardAioSkills()
-	   {
-	      L2Skill skill;
-	      for(Integer skillid : Config.AIO_SKILLS.keySet())
-	      {
-	         int skilllvl = Config.AIO_SKILLS.get(skillid);
-	         skill = SkillTable.getInstance().getInfo(skillid,skilllvl);
-	         if(skill != null)
-	         {
-	            addSkill(skill, true);
-	         }
-	      }
-	      sendMessage("GM give to you Aio's skills");
-	   }
+	/**
+	 * Sets the aio.
+	 *
+	 * @param val the new aio
+	 */
+	public void setAio(boolean val)
+	{
+		_isAio = val;
+		
+	}
 	
-	   /**
-   	 * Lost aio skills.
-   	 */
-   	public void lostAioSkills()
-	   {
-	      L2Skill skill;
-	      for(Integer skillid : Config.AIO_SKILLS.keySet())
-	      {
-	         int skilllvl = Config.AIO_SKILLS.get(skillid);
-	         skill = SkillTable.getInstance().getInfo(skillid,skilllvl);
-	         removeSkill(skill);
-	      }
-	   }
+	/**
+	 * Reward aio skills.
+	 */
+	public void rewardAioSkills()
+	{
+		L2Skill skill;
+		for(Integer skillid : Config.AIO_SKILLS.keySet())
+		{
+			int skilllvl = Config.AIO_SKILLS.get(skillid);
+			skill = SkillTable.getInstance().getInfo(skillid,skilllvl);
+			if(skill != null)
+			{
+				addSkill(skill, true);
+			}
+		}
+		sendMessage("GM give to you Aio's skills");
+	}
 	
-	  /**
-  	 * Sets the aio end time.
-  	 *
-  	 * @param val the new aio end time
-  	 */
-  	public void setAioEndTime(long val)
-	   {
-	      _aio_endTime = val;
-	   }
+	/**
+	 * Lost aio skills.
+	 */
+	public void lostAioSkills()
+	{
+		L2Skill skill;
+		for(Integer skillid : Config.AIO_SKILLS.keySet())
+		{
+			int skilllvl = Config.AIO_SKILLS.get(skillid);
+			skill = SkillTable.getInstance().getInfo(skillid,skilllvl);
+			removeSkill(skill);
+		}
+	}
 	
-	   /**
-   	 * Sets the end time.
-   	 *
-   	 * @param process the process
-   	 * @param val the val
-   	 */
-   	public void setEndTime(String process, int val)
-	   {
-	      if (val > 0)
-	      {
-	         long end_day;
-	         Calendar calendar = Calendar.getInstance();
-	         if (val >= 30)
-	         {
-	           while(val >= 30)
-	            {
-	               if(calendar.get(Calendar.MONTH)== 11)
-	                  calendar.roll(Calendar.YEAR, true);
-	               calendar.roll(Calendar.MONTH, true);
-	               val -= 30;
-	            }
-	         }
-	         if (val < 30 && val > 0)
-	         {
-	            while(val > 0)
-	            {
-	               if(calendar.get(Calendar.DATE)== 28 && calendar.get(Calendar.MONTH) == 1)
-	                  calendar.roll(Calendar.MONTH, true);         
-	               if(calendar.get(Calendar.DATE)== 30)
-	               {
-	                  if(calendar.get(Calendar.MONTH) == 11)
-	                     calendar.roll(Calendar.YEAR, true);
-	                  calendar.roll(Calendar.MONTH, true);
-	                  
-	               }
-	               calendar.roll(Calendar.DATE, true);
-	               val--;
-	            }
-	         }
+	/**
+	 * Sets the aio end time.
+	 *
+	 * @param val the new aio end time
+	 */
+	public void setAioEndTime(long val)
+	{
+		_aio_endTime = val;
+	}
 	
-	         end_day = calendar.getTimeInMillis();
-	         if(process.equals("aio"))
-	            _aio_endTime = end_day;
-	
-	         else
-	         {
-	            System.out.println("process "+ process + "no Known while try set end date");
-	            return;
-	         }
-	         Date dt = new Date(end_day);
-	         System.out.println(""+process +" end time for player " + getName() + " is " + dt);
-	      }
-	      else
-	      {
-	         if(process.equals("aio"))
-	            _aio_endTime = 0;
-	
-	         else
-	         {
-	            System.out.println("process "+ process + "no Known while try set end date");
-	           return;
-	  }
-	 }
+	/**
+	 * Sets the end time.
+	 *
+	 * @param process the process
+	 * @param val the val
+	 */
+	public void setEndTime(String process, int val)
+	{
+		if (val > 0)
+		{
+			long end_day;
+			Calendar calendar = Calendar.getInstance();
+			if (val >= 30)
+			{
+				while(val >= 30)
+				{
+					if(calendar.get(Calendar.MONTH)== 11)
+						calendar.roll(Calendar.YEAR, true);
+					calendar.roll(Calendar.MONTH, true);
+					val -= 30;
+				}
+			}
+			if (val < 30 && val > 0)
+			{
+				while(val > 0)
+				{
+					if(calendar.get(Calendar.DATE)== 28 && calendar.get(Calendar.MONTH) == 1)
+						calendar.roll(Calendar.MONTH, true);         
+					if(calendar.get(Calendar.DATE)== 30)
+					{
+						if(calendar.get(Calendar.MONTH) == 11)
+							calendar.roll(Calendar.YEAR, true);
+						calendar.roll(Calendar.MONTH, true);
+						
+					}
+					calendar.roll(Calendar.DATE, true);
+					val--;
+				}
+			}
+			
+			end_day = calendar.getTimeInMillis();
+			if(process.equals("aio"))
+				_aio_endTime = end_day;
+			
+			else
+			{
+				System.out.println("process "+ process + "no Known while try set end date");
+					return;
+			}
+			Date dt = new Date(end_day);
+					System.out.println(""+process +" end time for player " + getName() + " is " + dt);
+		}
+		else
+		{
+			if(process.equals("aio"))
+				_aio_endTime = 0;
+			
+			else
+			{
+				System.out.println("process "+ process + "no Known while try set end date");
+				return;
+			}
+		}
 	}
 	
 	/**
@@ -19435,7 +19438,7 @@ public boolean dismount()
 	 */
 	public long getAioEndTime()
 	{
-	return _aio_endTime;
+		return _aio_endTime;
 	}
 	
 	/**
@@ -19447,7 +19450,7 @@ public boolean dismount()
 	{
 		return _offlineShopStart;
 	}
-
+	
 	/**
 	 * Sets the offline start time.
 	 *
@@ -19465,7 +19468,7 @@ public boolean dismount()
 	
 	/** The _falling timestamp. */
 	private long _fallingTimestamp = 0;
-
+	
 	
 	/**
 	 * Return true if character falling now
@@ -19477,28 +19480,28 @@ public boolean dismount()
 	public final boolean isFalling(int z)
 	{
 		if (isDead()
-				|| isFlying()
-				|| isInvul() 
-				|| isInFunEvent()
-				|| isInsideZone(ZONE_WATER))
+			|| isFlying()
+			|| isInvul() 
+			|| isInFunEvent()
+			|| isInsideZone(ZONE_WATER))
 			return false;
 		
 		if (System.currentTimeMillis() < _fallingTimestamp)
 			return true;
-
+		
 		final int deltaZ = getZ() - z;
 		if (deltaZ <= getBaseTemplate().getFallHeight())
 			return false;
-
+		
 		final int damage = (int)Formulas.calcFallDam(this, deltaZ);
 		if (damage > 0)
 		{
 			reduceCurrentHp(Math.min(damage, getCurrentHp() - 1), null, false);
 			sendPacket(new SystemMessage(SystemMessageId.FALL_DAMAGE_S1).addNumber(damage));
 		}
-
+		
 		setFalling();
-
+		
 		return false;
 	}
 	
@@ -19524,7 +19527,7 @@ public boolean dismount()
 	{
 		_lastPartyPosition.setXYZ(x,y,z);
 	}
-
+	
 	/**
 	 * Gets the last party position distance.
 	 *
@@ -19538,10 +19541,10 @@ public boolean dismount()
 		double dx = (x - _lastPartyPosition.getX());
 		double dy = (y - _lastPartyPosition.getY());
 		double dz = (z - _lastPartyPosition.getZ());
-
+		
 		return (int)Math.sqrt(dx*dx + dy*dy + dz*dz);
 	}
-
+	
 	/**
 	 * Checks if is awaying.
 	 *
@@ -19551,7 +19554,7 @@ public boolean dismount()
 	{
 		return _awaying;
 	}
-
+	
 	/**
 	 * Sets the _awaying.
 	 *
@@ -19568,54 +19571,54 @@ public boolean dismount()
 	 * @return true, if is locked
 	 */
 	public boolean isLocked()  
-    {  
-        return _isLocked;  
-    }  
-      
-    /**
-     * Sets the locked.
-     *
-     * @param a the new locked
-     */
-    public void setLocked(boolean a)  
-    {  
-        _isLocked = a;  
-    }	
-    
+	{  
+		return _isLocked;  
+	}  
+	
+	/**
+	 * Sets the locked.
+	 *
+	 * @param a the new locked
+	 */
+	public void setLocked(boolean a)  
+	{  
+		_isLocked = a;  
+	}	
+	
 	/**
 	 * Checks if is stored.
 	 *
 	 * @return true, if is stored
 	 */
 	public boolean isStored()  
-    {  
-        return _isStored;  
-    }  
-      
-    /**
-     * Sets the stored.
-     *
-     * @param a the new stored
-     */
-    public void setStored(boolean a)  
-    {  
-        _isStored = a;  
-    }	
-
-    
-    /** The _punish level. */
-    private PunishLevel _punishLevel = PunishLevel.NONE;
+	{  
+		return _isStored;  
+	}  
+	
+	/**
+	 * Sets the stored.
+	 *
+	 * @param a the new stored
+	 */
+	public void setStored(boolean a)  
+	{  
+		_isStored = a;  
+	}	
+	
+	
+	/** The _punish level. */
+	private PunishLevel _punishLevel = PunishLevel.NONE;
 	
 	/** The _punish timer. */
 	private long _punishTimer = 0;
 	
 	/** The _punish task. */
 	private ScheduledFuture<?> _punishTask;
-    
-    /**
-     * The Enum PunishLevel.
-     */
-    public enum PunishLevel
+	
+	/**
+	 * The Enum PunishLevel.
+	 */
+	public enum PunishLevel
 	{
 		
 		/** The NONE. */
@@ -19671,7 +19674,7 @@ public boolean dismount()
 			return punString;
 		}
 	}
-    
+	
 	// open/close gates
 	@SuppressWarnings("synthetic-access")
 	private GatesRequest _gatesRequest = new GatesRequest();
@@ -19708,168 +19711,168 @@ public boolean dismount()
 		
 		_gatesRequest.setTarget(null);
 	}
-    
-    /**
-     * returns punishment level of player.
-     *
-     * @return the punish level
-     */
-    public PunishLevel getPunishLevel()
-    {
-        return _punishLevel;
-    }
-
-    /**
-     * Checks if is in jail.
-     *
-     * @return True if player is jailed
-     */
-    public boolean isInJail()
-    {
-    	return _punishLevel == PunishLevel.JAIL;
-    }
-    
-    /**
-     * Checks if is chat banned.
-     *
-     * @return True if player is chat banned
-     */
-    public boolean isChatBanned()
-    {
-    	return _punishLevel == PunishLevel.CHAT;
-    }
-    
-    /**
-     * Sets the punish level.
-     *
-     * @param state the new punish level
-     */
-    public void setPunishLevel(int state)
-    {
-    	switch (state){
-    		case 0 :
-    		{
-    			_punishLevel = PunishLevel.NONE;
-    			break;
-    		}
-    		case 1 :
-    		{
-    			_punishLevel = PunishLevel.CHAT;
-    			break;
-    		}
-    		case 2 :
-    		{
-    			_punishLevel = PunishLevel.JAIL;
-    			break;
-    		}
-    		case 3 :
-    		{
-    			_punishLevel = PunishLevel.CHAR;
-    			break;
-    		}
-    		case 4 :
-    		{
-    			_punishLevel = PunishLevel.ACC;
-    			break;
-    		}
-    	}
-    }
-
-    /**
-     * Sets the punish level.
-     *
-     * @param state the state
-     * @param delayInMinutes the delay in minutes
-     */
-    public void setPunishLevel(PunishLevel state, int delayInMinutes)
-    {
-    	long delayInMilliseconds = delayInMinutes * 60000L;
-    	setPunishLevel(state, delayInMilliseconds);
-    	
-    }
-    
-    /**
-     * Sets punish level for player based on delay.
-     *
-     * @param state the state
-     * @param delayInMilliseconds 0 - Indefinite
-     */
-    public void setPunishLevel(PunishLevel state, long delayInMilliseconds)
-    {
-    	switch (state)
-    	{
-    		case NONE: // Remove Punishments
-	    	{
-	    		switch (_punishLevel)
-	    		{
-	    			case CHAT:
-		    		{
-		    			_punishLevel = state;
-		    			stopPunishTask(true);
-		    			sendPacket(new EtcStatusUpdate(this));
-			            sendMessage("Your Chat ban has been lifted");
-			            break;
-		    		}
-	    			case JAIL:
-		    		{
-		    			_punishLevel = state;
-		    			// Open a Html message to inform the player
-		        		NpcHtmlMessage htmlMsg = new NpcHtmlMessage(0);
-			            String jailInfos = HtmCache.getInstance().getHtm("data/html/jail_out.htm");
-			            if (jailInfos != null)
-			                htmlMsg.setHtml(jailInfos);
-			            else
-			                htmlMsg.setHtml("<html><body>You are free for now, respect server rules!</body></html>");
-			            sendPacket(htmlMsg);
-			            stopPunishTask(true);
-			            teleToLocation(17836, 170178, -3507, true);  // Floran
-			            break;
-		    		}
-	    		}
-	    		break;
-	    	}
-    		case CHAT: // Chat Ban
-	    	{
-	    		// not allow player to escape jail using chat ban
-	    		if (_punishLevel == PunishLevel.JAIL)
-	    			break;
-	    		_punishLevel = state;
-	    		_punishTimer = 0;
-	    		sendPacket(new EtcStatusUpdate(this));
-	    		// Remove the task if any
-	    		stopPunishTask(false);
-	    		
-	    		if (delayInMilliseconds > 0)
-	    		{
-	    			_punishTimer = delayInMilliseconds;
-	    			
-	    			// start the countdown
-	    			int minutes = (int) (delayInMilliseconds/60000);
-	    			_punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
-	                sendMessage("You are chat banned for "+minutes+" minutes.");
-	    		}
-	    		else
-	    			sendMessage("You have been chat banned");
-	    		break;
-	    		
-	    	}
-    		case JAIL: // Jail Player
-	    	{
-	    		_punishLevel = state;
-	    		_punishTimer = 0;
-		        // Remove the task if any
-		        stopPunishTask(false);
 	
-	            if (delayInMilliseconds > 0)
-	            {
-	                _punishTimer = delayInMilliseconds; // Delay in milliseconds
+	/**
+	 * returns punishment level of player.
+	 *
+	 * @return the punish level
+	 */
+	public PunishLevel getPunishLevel()
+	{
+		return _punishLevel;
+	}
 	
-	                // start the countdown
-	                _punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
-	                sendMessage("You are in jail for "+delayInMilliseconds/60000+" minutes.");
-	            }
-	            
-	            if(_inEventCTF){
+	/**
+	 * Checks if is in jail.
+	 *
+	 * @return True if player is jailed
+	 */
+	public boolean isInJail()
+	{
+		return _punishLevel == PunishLevel.JAIL;
+	}
+	
+	/**
+	 * Checks if is chat banned.
+	 *
+	 * @return True if player is chat banned
+	 */
+	public boolean isChatBanned()
+	{
+		return _punishLevel == PunishLevel.CHAT;
+	}
+	
+	/**
+	 * Sets the punish level.
+	 *
+	 * @param state the new punish level
+	 */
+	public void setPunishLevel(int state)
+	{
+		switch (state){
+			case 0 :
+			{
+				_punishLevel = PunishLevel.NONE;
+				break;
+			}
+			case 1 :
+			{
+				_punishLevel = PunishLevel.CHAT;
+				break;
+			}
+			case 2 :
+			{
+				_punishLevel = PunishLevel.JAIL;
+				break;
+			}
+			case 3 :
+			{
+				_punishLevel = PunishLevel.CHAR;
+				break;
+			}
+			case 4 :
+			{
+				_punishLevel = PunishLevel.ACC;
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Sets the punish level.
+	 *
+	 * @param state the state
+	 * @param delayInMinutes the delay in minutes
+	 */
+	public void setPunishLevel(PunishLevel state, int delayInMinutes)
+	{
+		long delayInMilliseconds = delayInMinutes * 60000L;
+		setPunishLevel(state, delayInMilliseconds);
+		
+	}
+	
+	/**
+	 * Sets punish level for player based on delay.
+	 *
+	 * @param state the state
+	 * @param delayInMilliseconds 0 - Indefinite
+	 */
+	public void setPunishLevel(PunishLevel state, long delayInMilliseconds)
+	{
+		switch (state)
+		{
+			case NONE: // Remove Punishments
+			{
+				switch (_punishLevel)
+				{
+					case CHAT:
+					{
+						_punishLevel = state;
+						stopPunishTask(true);
+						sendPacket(new EtcStatusUpdate(this));
+						sendMessage("Your Chat ban has been lifted");
+						break;
+					}
+					case JAIL:
+					{
+						_punishLevel = state;
+						// Open a Html message to inform the player
+						NpcHtmlMessage htmlMsg = new NpcHtmlMessage(0);
+						String jailInfos = HtmCache.getInstance().getHtm("data/html/jail_out.htm");
+						if (jailInfos != null)
+							htmlMsg.setHtml(jailInfos);
+						else
+							htmlMsg.setHtml("<html><body>You are free for now, respect server rules!</body></html>");
+						sendPacket(htmlMsg);
+						stopPunishTask(true);
+						teleToLocation(17836, 170178, -3507, true);  // Floran
+						break;
+					}
+				}
+				break;
+			}
+			case CHAT: // Chat Ban
+			{
+				// not allow player to escape jail using chat ban
+				if (_punishLevel == PunishLevel.JAIL)
+					break;
+				_punishLevel = state;
+				_punishTimer = 0;
+				sendPacket(new EtcStatusUpdate(this));
+				// Remove the task if any
+				stopPunishTask(false);
+				
+				if (delayInMilliseconds > 0)
+				{
+					_punishTimer = delayInMilliseconds;
+					
+					// start the countdown
+					int minutes = (int) (delayInMilliseconds/60000);
+					_punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
+					sendMessage("You are chat banned for "+minutes+" minutes.");
+				}
+				else
+					sendMessage("You have been chat banned");
+				break;
+				
+			}
+			case JAIL: // Jail Player
+			{
+				_punishLevel = state;
+				_punishTimer = 0;
+				// Remove the task if any
+				stopPunishTask(false);
+				
+				if (delayInMilliseconds > 0)
+				{
+					_punishTimer = delayInMilliseconds; // Delay in milliseconds
+					
+					// start the countdown
+					_punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
+					sendMessage("You are in jail for "+delayInMilliseconds/60000+" minutes.");
+				}
+				
+				if(_inEventCTF){
 					CTF.onDisconnect(this);
 				}else if(_inEventDM){
 					DM.onDisconnect(this);
@@ -19878,23 +19881,23 @@ public boolean dismount()
 				}else if(_inEventVIP){
 					VIP.onDisconnect(this);
 				}
-	            if (Olympiad.getInstance().isRegisteredInComp(this))
-	                Olympiad.getInstance().removeDisconnectedCompetitor(this);
-	
-	            // Open a Html message to inform the player
-	            NpcHtmlMessage htmlMsg = new NpcHtmlMessage(0);
-	            String jailInfos = HtmCache.getInstance().getHtm("data/html/jail_in.htm");
-	            if (jailInfos != null)
-	                htmlMsg.setHtml(jailInfos);
-	            else
-	                htmlMsg.setHtml("<html><body>You have been put in jail by an admin.</body></html>");
-	            sendPacket(htmlMsg);
-	            setInstanceId(0);
-	            setIsIn7sDungeon(false);
-	
-	            teleToLocation(-114356, -249645, -2984, false);  // Jail
-	            break;
-	        }
+				if (Olympiad.getInstance().isRegisteredInComp(this))
+					Olympiad.getInstance().removeDisconnectedCompetitor(this);
+				
+				// Open a Html message to inform the player
+				NpcHtmlMessage htmlMsg = new NpcHtmlMessage(0);
+				String jailInfos = HtmCache.getInstance().getHtm("data/html/jail_in.htm");
+				if (jailInfos != null)
+					htmlMsg.setHtml(jailInfos);
+				else
+					htmlMsg.setHtml("<html><body>You have been put in jail by an admin.</body></html>");
+				sendPacket(htmlMsg);
+				setInstanceId(0);
+				setIsIn7sDungeon(false);
+				
+				teleToLocation(-114356, -249645, -2984, false);  // Jail
+				break;
+			}
 			case CHAR: // Ban Character
 			{
 				setAccessLevel(-100);
@@ -19907,127 +19910,127 @@ public boolean dismount()
 				logout();
 				break;
 			}
-	    	default:
-	    	{
-	    		_punishLevel = state;
-	    		break;
-	    	}
-    	}
-
-        // store in database
-        storeCharBase();
-    }
-
-    /**
-     * Gets the punish timer.
-     *
-     * @return the punish timer
-     */
-    public long getPunishTimer()
-    {
-        return _punishTimer;
-    }
-
-    /**
-     * Sets the punish timer.
-     *
-     * @param time the new punish timer
-     */
-    public void setPunishTimer(long time)
-    {
-        _punishTimer = time;
-    }
-
-    /**
-     * Update punish state.
-     */
-    private void updatePunishState()
-    {
-    	if (getPunishLevel() != PunishLevel.NONE)
-        {
-            // If punish timer exists, restart punishtask.
-            if (_punishTimer > 0)
-            {
-                _punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
-                sendMessage("You are still " + getPunishLevel().string() + " for " + (_punishTimer / 60000) + " minutes.");
-            }
-            if (getPunishLevel() == PunishLevel.JAIL)
-            {
-            	// If player escaped, put him back in jail
-                if (!isInsideZone(ZONE_JAIL))
-                    teleToLocation(-114356,-249645,-2984, true);
-            }
-        }
-    }
-
-    /**
-     * Stop punish task.
-     *
-     * @param save the save
-     */
-    public void stopPunishTask(boolean save)
-    {
-        if (_punishTask != null)
-        {
-            if (save)
-            {
-            	long delay = _punishTask.getDelay(TimeUnit.MILLISECONDS);
-            	if (delay < 0)
-            		delay = 0;
-            	setPunishTimer(delay);
-            }
-            _punishTask.cancel(false);
-            ThreadPoolManager.getInstance().removeGeneral((Runnable)_punishTask);
-            _punishTask = null;
-        }
-    }
-
-    /**
-     * The Class PunishTask.
-     */
-    private class PunishTask implements Runnable
-    {
-        
-        /** The _player. */
-        L2PcInstance _player;
-        // protected long _startedAt;
-
-        /**
-         * Instantiates a new punish task.
-         *
-         * @param player the player
-         */
-        protected PunishTask(L2PcInstance player)
-        {
-            _player = player;
-            // _startedAt = System.currentTimeMillis();
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Runnable#run()
-         */
-        @Override
+			default:
+			{
+				_punishLevel = state;
+				break;
+			}
+		}
+		
+		// store in database
+		storeCharBase();
+	}
+	
+	/**
+	 * Gets the punish timer.
+	 *
+	 * @return the punish timer
+	 */
+	public long getPunishTimer()
+	{
+		return _punishTimer;
+	}
+	
+	/**
+	 * Sets the punish timer.
+	 *
+	 * @param time the new punish timer
+	 */
+	public void setPunishTimer(long time)
+	{
+		_punishTimer = time;
+	}
+	
+	/**
+	 * Update punish state.
+	 */
+	private void updatePunishState()
+	{
+		if (getPunishLevel() != PunishLevel.NONE)
+		{
+			// If punish timer exists, restart punishtask.
+			if (_punishTimer > 0)
+			{
+				_punishTask = ThreadPoolManager.getInstance().scheduleGeneral(new PunishTask(this), _punishTimer);
+				sendMessage("You are still " + getPunishLevel().string() + " for " + (_punishTimer / 60000) + " minutes.");
+			}
+			if (getPunishLevel() == PunishLevel.JAIL)
+			{
+				// If player escaped, put him back in jail
+				if (!isInsideZone(ZONE_JAIL))
+					teleToLocation(-114356,-249645,-2984, true);
+			}
+		}
+	}
+	
+	/**
+	 * Stop punish task.
+	 *
+	 * @param save the save
+	 */
+	public void stopPunishTask(boolean save)
+	{
+		if (_punishTask != null)
+		{
+			if (save)
+			{
+				long delay = _punishTask.getDelay(TimeUnit.MILLISECONDS);
+				if (delay < 0)
+					delay = 0;
+				setPunishTimer(delay);
+			}
+			_punishTask.cancel(false);
+			ThreadPoolManager.getInstance().removeGeneral((Runnable)_punishTask);
+			_punishTask = null;
+		}
+	}
+	
+	/**
+	 * The Class PunishTask.
+	 */
+	private class PunishTask implements Runnable
+	{
+		
+		/** The _player. */
+		L2PcInstance _player;
+		// protected long _startedAt;
+		
+		/**
+		 * Instantiates a new punish task.
+		 *
+		 * @param player the player
+		 */
+		protected PunishTask(L2PcInstance player)
+		{
+			_player = player;
+			// _startedAt = System.currentTimeMillis();
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
 		public void run()
-        {
-            _player.setPunishLevel(PunishLevel.NONE, 0);
-        }
-    }
-    
-    /**
-     * Gets the flood protectors.
-     *
-     * @return the flood protectors
-     */
-    public FloodProtectors getFloodProtectors()
-    {
-    	return getClient().getFloodProtectors();
-    }
-
-    /**
-     * Test if player inventory is under 80% capaity.
-     *
-     * @return true, if is inventory under80
-     */
+		{
+			_player.setPunishLevel(PunishLevel.NONE, 0);
+		}
+	}
+	
+	/**
+	 * Gets the flood protectors.
+	 *
+	 * @return the flood protectors
+	 */
+	public FloodProtectors getFloodProtectors()
+	{
+		return getClient().getFloodProtectors();
+	}
+	
+	/**
+	 * Test if player inventory is under 80% capaity.
+	 *
+	 * @return true, if is inventory under80
+	 */
 	public boolean isInventoryUnder80()
 	{
 		if (getInventory().getSize() <= (getInventoryLimit() * 0.8))
@@ -20061,7 +20064,7 @@ public boolean dismount()
 		_currentMultiSellId = listid;
 	}
 	
-
+	
 	/**
 	 * Checks if is party waiting.
 	 *
@@ -20105,7 +20108,7 @@ public boolean dismount()
 	{
 		return _partyroom > 0;
 	}
-
+	
 	/**
 	 * Checks if is item equipped by item id.
 	 *
@@ -20118,12 +20121,12 @@ public boolean dismount()
 			return false;
 		
 		if(_inventory.getAllItemsByItemId(item_id) == null
-				|| _inventory.getAllItemsByItemId(item_id).length == 0)
+			|| _inventory.getAllItemsByItemId(item_id).length == 0)
 			return false;
 		
 		return _inventory.checkIfEquipped(item_id);
 	}
-
+	
 	/**
 	 * Gets the _instance login time.
 	 *
@@ -20133,7 +20136,7 @@ public boolean dismount()
 	{
 		return _instanceLoginTime;
 	}
-
+	
 	/**
 	 * Sets the sex db.
 	 *
@@ -20141,21 +20144,21 @@ public boolean dismount()
 	 * @param mode the mode
 	 */
 	public static void setSexDB(L2PcInstance player, int mode)
-    {
-        Connection con;
-        if(player == null)
-            return;
-        con = null;
-        try
-        {
-            con = L2DatabaseFactory.getInstance().getConnection();
-            PreparedStatement statement = con.prepareStatement("UPDATE characters SET sex=? WHERE obj_Id=?");
-            statement.setInt(1, player.getAppearance().getSex() ? 1 : 0);
-            statement.setInt(2, player.getObjectId());
-            statement.execute();
-            statement.close();
-        }
-        catch(Exception e)
+	{
+		Connection con;
+		if(player == null)
+			return;
+		con = null;
+		try
+		{
+			con = L2DatabaseFactory.getInstance().getConnection();
+			PreparedStatement statement = con.prepareStatement("UPDATE characters SET sex=? WHERE obj_Id=?");
+			statement.setInt(1, player.getAppearance().getSex() ? 1 : 0);
+			statement.setInt(2, player.getObjectId());
+			statement.execute();
+			statement.close();
+		}
+		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -20167,9 +20170,9 @@ public boolean dismount()
 			CloseUtil.close(con);
 			
 		}
-    }
-    
-    public boolean checkTeleportOverTime(){
+	}
+	
+	public boolean checkTeleportOverTime(){
 		
 		if(!isTeleporting())
 			return false;
@@ -20213,30 +20216,30 @@ public boolean dismount()
 		{
 			String playerId = blockListIt.next();
 			sendMessage((new StringBuilder()).append(i++).append(". ").append(playerId).toString());
-		
+			
 		}
 		
 		sendMessage("========================");
 		
 	}
-
+	
 	public long getLastAttackPacket()
 	{
 		return _lastAttackPacket;
 	}
-
+	
 	public void setLastAttackPacket()
 	{
 		_lastAttackPacket = System.currentTimeMillis();
 	}
 	
 	public void checkItemRestriction()
-    {
-    	for (int i = 0; i < Inventory.PAPERDOLL_TOTALSLOTS; i++)
-    	{
-    		L2ItemInstance equippedItem = getInventory().getPaperdollItem(i);
-    		if (equippedItem != null && !equippedItem.checkOlympCondition())
-    		{
+	{
+		for (int i = 0; i < Inventory.PAPERDOLL_TOTALSLOTS; i++)
+		{
+			L2ItemInstance equippedItem = getInventory().getPaperdollItem(i);
+			if (equippedItem != null && !equippedItem.checkOlympCondition())
+			{
 				if (equippedItem.isAugmented())
 					equippedItem.getAugmentation().removeBoni(this);
 				L2ItemInstance[] items = getInventory().unEquipItemInSlotAndRecord(i);
@@ -20259,55 +20262,55 @@ public boolean dismount()
 				iu.addItems(Arrays.asList(items));
 				sendPacket(iu);
 				broadcastUserInfo();
-    		}
-    	}
-    }
+			}
+		}
+	}
 	
 	public void enterOlympiadObserverMode(int x, int y, int z, int id, boolean storeCoords)
-    {
-        if (getPet() != null)
-            getPet().unSummon(this);
-
-        unsummonAllCubics();
-        
-    	_olympiadGameId = id;
-        if (isSitting())
-            standUp();
+	{
+		if (getPet() != null)
+			getPet().unSummon(this);
+		
+		unsummonAllCubics();
+		
+		_olympiadGameId = id;
+		if (isSitting())
+			standUp();
 		if (storeCoords)
 		{
 			_obsX = getX();
 			_obsY = getY();
 			_obsZ = getZ();
 		}
-        setTarget(null);
-        setIsInvul(true);
-        getAppearance().setInvisible();
+		setTarget(null);
+		setIsInvul(true);
+		getAppearance().setInvisible();
 		//sendPacket(new GMHide(1));
-        teleToLocation(x, y, z, true);
-        sendPacket(new ExOlympiadMode(3));
-        _observerMode = true;
+		teleToLocation(x, y, z, true);
+		sendPacket(new ExOlympiadMode(3));
+		_observerMode = true;
 		broadcastUserInfo();
-    }
+	}
 	
 	public void leaveOlympiadObserverMode(boolean olymp)
-    {
+	{
 		setTarget(null);
 		sendPacket(new ExOlympiadMode(0));
-        teleToLocation(_obsX, _obsY, _obsZ, true);
+		teleToLocation(_obsX, _obsY, _obsZ, true);
 		if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invis", getAccessLevel()))
 			getAppearance().setVisible();
-        if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invul", getAccessLevel()))
+		if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invul", getAccessLevel()))
 			setIsInvul(false);
-        if (getAI() != null)
+		if (getAI() != null)
 		{
-            getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-        }
+			getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+		}
 		if (!olymp)
 			Olympiad.removeSpectator(_olympiadGameId, this);
-        _olympiadGameId = -1;
-        _observerMode = false;
+		_olympiadGameId = -1;
+		_observerMode = false;
 		broadcastUserInfo();
-    }
+	}
 	
 	public void setHero(boolean hero)
 	{
@@ -20333,7 +20336,7 @@ public boolean dismount()
 		}
 		sendSkillList();
 	}
-
+	
 	public void removeHeroSkills()
 	{
 		for (L2Skill s : HeroSkillTable.getHeroSkills())
@@ -20343,38 +20346,38 @@ public boolean dismount()
 		sendSkillList();
 	}
 	
-    /**
-     * Get the current pet skill in use or return null.<br><br>
-     * @return 
-     *
-     */
-    public SkillDat getCurrentPetSkill()
-    {
-    	return _currentPetSkill;
-    }
-
-    /**
-     * Create a new SkillDat object and set the player _currentPetSkill.<br><br>
-     * @param currentSkill 
-     * @param ctrlPressed 
-     * @param shiftPressed 
-     *
-     */
-    public void setCurrentPetSkill(L2Skill currentSkill, boolean ctrlPressed, boolean shiftPressed)
-    {
-        if (currentSkill == null)
-        {
-            if (Config.DEBUG)
-                _log.info("Setting current pet skill: NULL for " + getName() + ".");
-
-            _currentPetSkill = null;
-            return;
-        }
-
-        if (Config.DEBUG)
-            _log.info("Setting current Pet skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
-
-        _currentPetSkill = new SkillDat(currentSkill, ctrlPressed, shiftPressed);
-    }
-    
+	/**
+	 * Get the current pet skill in use or return null.<br><br>
+	 * @return 
+	 *
+	 */
+	public SkillDat getCurrentPetSkill()
+	{
+		return _currentPetSkill;
+	}
+	
+	/**
+	 * Create a new SkillDat object and set the player _currentPetSkill.<br><br>
+	 * @param currentSkill 
+	 * @param ctrlPressed 
+	 * @param shiftPressed 
+	 *
+	 */
+	public void setCurrentPetSkill(L2Skill currentSkill, boolean ctrlPressed, boolean shiftPressed)
+	{
+		if (currentSkill == null)
+		{
+			if (Config.DEBUG)
+				_log.info("Setting current pet skill: NULL for " + getName() + ".");
+			
+			_currentPetSkill = null;
+			return;
+		}
+		
+		if (Config.DEBUG)
+			_log.info("Setting current Pet skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
+		
+		_currentPetSkill = new SkillDat(currentSkill, ctrlPressed, shiftPressed);
+	}
+	
 }

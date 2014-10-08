@@ -1050,7 +1050,9 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="191" levels="6" name="Focus Mind">
+  <table name="#magicLvl">36 43 49 55 64 72</table>
   <table name="#regMp">1.1 1.5 1.9 2.3 2.7 3.1</table>
+  <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>
@@ -1060,7 +1062,9 @@
 </skill>
 <!-- Status:Fixed Pack:l2jfrozen author:Nefer -->
 <skill id="193" levels="6" name="Critical Power">
+  <table name="#magicLvl">24 32 40 52 64 72</table>
   <table name="#crit">32 56 93 177 295 384</table>
+  <set name="magicLvl" val="#magicLvl"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
   <set name="operateType" val="OP_PASSIVE"/>

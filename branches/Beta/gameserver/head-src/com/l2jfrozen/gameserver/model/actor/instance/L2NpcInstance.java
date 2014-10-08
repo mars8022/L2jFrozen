@@ -183,7 +183,7 @@ public class L2NpcInstance extends L2Character
 			{
 				if (this != _rAniTask)
 					return; // Shouldn't happen, but who knows... just to make sure every active npc has only one timer.
-					
+				
 				if (isMob())
 				{
 					// Cancel further animation timers until intention is changed to ACTIVE again.
@@ -1083,7 +1083,7 @@ public class L2NpcInstance extends L2Character
 			html1 = null;
 		}
 		else
-		// Like L2OFF set the target of the L2PcInstance player
+			// Like L2OFF set the target of the L2PcInstance player
 		{
 			// Check if the L2PcInstance already target the L2NpcInstance
 			if (this != player.getTarget())
@@ -1241,7 +1241,7 @@ public class L2NpcInstance extends L2Character
 			player = null;
 		}
 	}
-
+	
 	/**
 	 * Return the L2Castle this L2NpcInstance belongs to.
 	 * @return the castle
@@ -1933,9 +1933,9 @@ public class L2NpcInstance extends L2Character
 	private void showQuestChooseWindow(L2PcInstance player, Quest[] quests)
 	{
 		TextBuilder sb = new TextBuilder();
-
+		
 		sb.append("<html><body><title>Talk about:</title><br>");
-
+		
 		String state = "";
 		
 		for (Quest q : quests)
@@ -1947,7 +1947,7 @@ public class L2NpcInstance extends L2Character
 			}
 			
 			sb.append("<a action=\"bypass -h npc_").append(getObjectId()).append("_Quest ").append(q.getName()).append("\">[");
-		
+			
 			final QuestState qs = player.getQuestState(q.getScriptName());
 			
 			if ((qs == null) 
@@ -2940,12 +2940,22 @@ public class L2NpcInstance extends L2Character
 					filename = getHtmlPath(npcId, val);
 				}
 				break;
+				//fixed Monument of Heroes HTML for noble characters like L2OFF
 			case 31690:
+				if (player.isNoble())
+				{
+					filename = Olympiad.OLYMPIAD_HTML_PATH + "hero_main.htm";
+				}
+				else
+				{
+					filename = getHtmlPath(npcId, val);
+				}
+				break;
 			case 31769:
 			case 31770:
 			case 31771:
 			case 31772:
-				if (player.isHero())
+				if (player.isNoble())
 				{
 					filename = Olympiad.OLYMPIAD_HTML_PATH + "hero_main.htm";
 				}

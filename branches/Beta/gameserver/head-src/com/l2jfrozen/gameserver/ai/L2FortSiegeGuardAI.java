@@ -495,8 +495,8 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 							{
 								continue;
 							}
-							if(_actor.isSkillDisabled(sk.getId()))
-							{
+							if(_actor.isSkillDisabled(sk))
+	 						{
 								continue;
 							}
 							if(!Util.checkIfInRange(sk.getCastRange(), _actor, cha, true))
@@ -555,8 +555,8 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 						{
 							continue;
 						}
-						if(_actor.isSkillDisabled(sk.getId()))
-						{
+						if(_actor.isSkillDisabled(sk))
+	 					{
 							continue;
 						}
 						if(!Util.checkIfInRange(sk.getCastRange(), _actor, npc, true))
@@ -646,8 +646,8 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 			{
 				int castRange = sk.getCastRange();
 
-				if(dist_2 <= castRange * castRange && castRange > 70 && !_actor.isSkillDisabled(sk.getId()) && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !sk.isPassive())
-				{
+				if(dist_2 <= castRange * castRange && castRange > 70 && !_actor.isSkillDisabled(sk) && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !sk.isPassive())
+	 			{
 
 					L2Object OldTarget = _actor.getTarget();
 					if(sk.getSkillType() == SkillType.BUFF || sk.getSkillType() == SkillType.HEAL)
@@ -790,8 +790,8 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 				{
 					int castRange = sk.getCastRange();
 
-					if(castRange * castRange >= dist_2 && !sk.isPassive() && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !_actor.isSkillDisabled(sk.getId()))
-					{
+					if(castRange * castRange >= dist_2 && !sk.isPassive() && _actor.getCurrentMp() >= _actor.getStat().getMpConsume(sk) && !_actor.isSkillDisabled(sk))
+	 				{
 						L2Object OldTarget = _actor.getTarget();
 						if(sk.getSkillType() == SkillType.BUFF || sk.getSkillType() == SkillType.HEAL)
 						{

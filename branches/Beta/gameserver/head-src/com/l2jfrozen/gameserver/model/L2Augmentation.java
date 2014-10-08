@@ -218,9 +218,9 @@ public final class L2Augmentation
 			player.addSkill(_skill);
 			
 			if(_skill.isActive() && Config.ACTIVE_AUGMENTS_START_REUSE_TIME>0){
-				player.disableSkill(_skill.getId(), Config.ACTIVE_AUGMENTS_START_REUSE_TIME);
-				player.addTimeStamp(_skill.getId(), Config.ACTIVE_AUGMENTS_START_REUSE_TIME);
-			}
+				player.disableSkill(_skill, Config.ACTIVE_AUGMENTS_START_REUSE_TIME);
+				player.addTimeStamp(_skill, Config.ACTIVE_AUGMENTS_START_REUSE_TIME);
+				}
 			
 			player.sendSkillList();
 		}

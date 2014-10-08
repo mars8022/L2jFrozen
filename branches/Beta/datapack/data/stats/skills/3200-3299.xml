@@ -292,7 +292,7 @@
   <set name="triggeredLevel" val="#triggeredLevel"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="BUFF"/>
-  <set name="operateType" val="OP_CHANCE"/>
+  <set name="operateType" val="OP_PASSIVE"/>
   <set name="chanceType" val="ON_ATTACKED"/>
   <set name="activationChance" val="#chance"/>
   <set name="castRange" val="-1"/>

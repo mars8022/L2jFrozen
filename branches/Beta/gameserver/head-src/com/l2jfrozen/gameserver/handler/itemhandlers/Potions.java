@@ -687,7 +687,7 @@ public class Potions implements IItemHandler
 				{
 					// Return false if potion is in reuse
 					// so is not destroyed from inventory
-					if (activeChar.isSkillDisabled(skill.getId()))
+					if (activeChar.isSkillDisabled(skill))
 					{
 						if (!(skill.getId() == 2166))
 						{
@@ -728,7 +728,7 @@ public class Potions implements IItemHandler
 			{
 				// Return false if potion is in reuse
 				// so is not destroyed from inventory
-				if (activeChar.isSkillDisabled(skill.getId()))
+				if (activeChar.isSkillDisabled(skill))
 				{
 					if (!(skill.getId() == 2166))
 					{
