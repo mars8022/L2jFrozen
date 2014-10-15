@@ -433,8 +433,12 @@ public class Shutdown extends Thread
 	public void startShutdown(L2PcInstance activeChar, int seconds, boolean restart)
 	{
 		Announcements _an = Announcements.getInstance();
-		_log.log(Level.WARNING,"GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
-
+		
+		if(activeChar != null)
+			_log.log(Level.WARNING,"GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
+		else
+			_log.log(Level.WARNING,"External Service issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
+		
 		if(restart)
 		{
 			_shutdownMode = GM_RESTART;
@@ -474,7 +478,12 @@ public class Shutdown extends Thread
 	public void abort(L2PcInstance activeChar)
 	{
 		Announcements _an = Announcements.getInstance();
-		_log.log(Level.WARNING,"GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
+		
+		if(activeChar != null)
+			_log.log(Level.WARNING,"GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
+		else
+			_log.log(Level.WARNING,"External Service issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
+		
 		_an.announceToAll("Server aborts " + MODE_TEXT[_shutdownMode] + " and continues normal operation!");
 		_an = null;
 
