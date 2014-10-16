@@ -89,63 +89,26 @@ public final class EffectSignet extends L2Effect
 			
 			if (_skill.isOffensive())
 			{
-				/*
-				 * Like L2OFF if the skill is offensive must not effect the caster, clan, ally, party
-				 */
-				
-				if (cha instanceof L2PlayableInstance)
-				{
-					if ((cha instanceof L2Summon && ((L2Summon) cha).getOwner() == caster))
-						continue;
-				}
-				
-				if (cha instanceof L2Summon)
-					cha = ((L2Summon) cha).getOwner();
-				
-				if (cha instanceof L2PcInstance)
-				{
-					if (((L2PcInstance) cha).getClanId() > 0 && ((L2PcInstance) getEffector()).getClanId() > 0 && ((L2PcInstance) cha).getClanId() == ((L2PcInstance) getEffector()).getClanId())
-						continue;
+				if(cha instanceof L2PcInstance){
 					
-					if (((L2PcInstance) cha).getAllyId() > 0 && ((L2PcInstance) getEffector()).getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() == ((L2PcInstance) getEffector()).getAllyId())
+					if((((L2PcInstance) cha).getClanId() > 0 && caster.getClanId() > 0 && ((L2PcInstance) cha).getClanId() != caster.getClanId()) ||
+						(((L2PcInstance) cha).getAllyId() > 0 && caster.getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() != caster.getAllyId()) ||
+						(cha.getParty() != null && caster.getParty() != null && !cha.getParty().equals(caster.getParty()))){
+						_skill.getEffects(_actor, cha, false, false, false);
 						continue;
-					
-					if ((getEffector().getParty() != null && cha.getParty() != null && getEffector().getParty().equals(cha.getParty())))
-						continue;
+					}
 				}
-				_skill.getEffects(_actor, cha, false, false, false);
+			}else{
+				if(cha instanceof L2PcInstance){
+					if((cha.getParty() != null && caster.getParty() != null && cha.getParty().equals(caster.getParty())) ||
+						(((L2PcInstance) cha).getClanId() > 0 && caster.getClanId() > 0 && ((L2PcInstance) cha).getClanId() == caster.getClanId()) ||
+						(((L2PcInstance) cha).getAllyId() > 0 && caster.getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() == caster.getAllyId())){
+						_skill.getEffects(_actor, cha, false, false, false);
+						_skill.getEffects(_actor, caster, false, false, false);  //Affect caster too.
+						continue;
+					}
+				}
 			}
-			else
-			{
-				/*
-				 * Like L2OFF if the skill is not offensive must effect only the caster, clan, ally, party
-				 */
-				
-				if (cha instanceof L2PlayableInstance)
-				{
-					if (!(cha instanceof L2Summon && ((L2Summon) cha).getOwner() == caster))
-						continue;
-				}
-				
-				if (cha instanceof L2Summon)
-					cha = ((L2Summon) cha).getOwner();
-				
-				if (cha instanceof L2PcInstance)
-				{
-					if (((L2PcInstance) cha).getClanId() > 0 && ((L2PcInstance) getEffector()).getClanId() > 0 && ((L2PcInstance) cha).getClanId() != ((L2PcInstance) getEffector()).getClanId())
-						continue;
-					
-					if (((L2PcInstance) cha).getAllyId() > 0 && ((L2PcInstance) getEffector()).getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() != ((L2PcInstance) getEffector()).getAllyId())
-						continue;
-					
-					if ((getEffector().getParty() != null && cha.getParty() != null && !getEffector().getParty().equals(cha.getParty())))
-						continue;
-				}
-				_skill.getEffects(_actor, cha, false, false, false);
-			}
-			
-			// there doesn't seem to be a visible effect with MagicSkillLaunched packet...
-			_actor.broadcastPacket(new MagicSkillUser(_actor, cha, _skill.getId(), _skill.getLevel(), 0, 0));
 		}
 		return true;
 	}
