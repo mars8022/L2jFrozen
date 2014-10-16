@@ -745,22 +745,21 @@
   <set name="effectRange" val="400"/>
 </skill>
 <skill id="256" levels="1" name="Accuracy" enchantLevels1="30">
+  <table name="#ench1val">0.19 0.19 0.19 0.19 0.19 0.19 0.18 0.18 0.18 0.18 0.18 0.18 0.17 0.17 0.17 0.17 0.17 0.17 0.16 0.16 0.16 0.16 0.16 0.16 0.15 0.15 0.15 0.15 0.15 0.15</table>
   <table name="#enchantMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 82 83 83 83 84 84 85 85 85</table>
   <enchant1 name="magicLvl" val="#enchantMagicLvl"/>
-  <table name="#ench1val">4.56 4.56 4.56 4.56 4.56 4.56 4.32 4.32 4.32 4.32 4.32 4.32 4.08 4.08 4.08 4.08 4.08 4.08 3.84 3.84 3.84 3.84 3.84 3.84 3.6 3.6 3.6 3.6 3.6 3.6</table>
   <set name="mpConsume" val="1"/>
+  <set name="magicLvl" val="24"/>
   <set name="target" val="TARGET_SELF"/>
   <set name="skillType" val="CONT"/>
   <set name="operateType" val="OP_TOGGLE"/>
-  <set name="castRange" val="-1"/>
-  <set name="effectRange" val="-1"/>
   <for>
-    <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="4.8">
+    <effect count="0x7fffffff" name="MpConsumePerLevel" time="5" val="0.2">
       <add order="0x40" stat="accCombat" val="3"/>
     </effect>
   </for>
   <enchant1for>
-    <effect count="0x7fffffff" name="ManaDamOverTime" time="5" val="#ench1val">
+    <effect count="0x7fffffff" name="MpConsumePerLevel" time="5" val="#ench1val">
       <add order="0x40" stat="accCombat" val="3"/>
     </effect>
   </enchant1for>
