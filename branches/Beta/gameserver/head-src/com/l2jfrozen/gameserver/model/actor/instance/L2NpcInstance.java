@@ -766,6 +766,9 @@ public class L2NpcInstance extends L2Character
 			// Set the target of the L2PcInstance player
 			player.setTarget(this);
 			
+			// Remove player spawn protection
+			player.onActionRequest();
+			
 			// Check if the player is attackable (without a forced attack)
 			if (isAutoAttackable(player))
 			{
