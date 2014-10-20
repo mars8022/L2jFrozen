@@ -1,0 +1,2 @@
+Server=com.l2jfrozen.gameserver.powerpak.xmlrpc.Server
+Management=com.l2jfrozen.gameserver.powerpak.xmlrpc.Management
