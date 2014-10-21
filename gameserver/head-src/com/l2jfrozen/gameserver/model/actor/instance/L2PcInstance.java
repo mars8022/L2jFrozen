@@ -3115,7 +3115,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (con > 59)
 			return 176000;
 
-		double baseLoad = Math.floor(BaseStats.CON.calcBonus(this) * 69000 * GameServerConfig.ALT_WEIGHT_LIMIT);
+		double baseLoad = Math.floor(BaseStats.CON.calcBonus(this) * 69000 * Config.ALT_WEIGHT_LIMIT);
 		return (int) calcStat(Stats.MAX_LOAD, baseLoad, this, null);
 	}
 	
