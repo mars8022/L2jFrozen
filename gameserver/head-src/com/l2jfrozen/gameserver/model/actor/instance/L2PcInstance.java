@@ -233,6 +233,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.util.Broadcast;
 import com.l2jfrozen.gameserver.util.FloodProtectors;
+import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
@@ -5577,6 +5578,17 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean dropItem(String process, L2ItemInstance item, L2Object reference, boolean sendMessage, boolean protectItem)
 	{
+		
+		if(_freight.getItemByObjectId(item.getObjectId())!=null){
+			
+			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+			this.sendPacket(ActionFailed.STATIC_PACKET);
+			
+			Util.handleIllegalPlayerAction(this, "Warning!! Character " + this.getName() + " of account " + this.getAccountName() + " tried to drop Freight Items", IllegalPlayerAction.PUNISH_KICK);
+			return false;
+			
+		}
+		
 		item = _inventory.dropItem(process, item, this, reference);
 		
 		if(item == null)
@@ -5666,7 +5678,17 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public L2ItemInstance dropItem(String process, int objectId, int count, int x, int y, int z, L2Object reference, boolean sendMessage, boolean protectItem)
 	{
-		
+
+		if(_freight.getItemByObjectId(objectId)!=null){
+			
+			// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+			this.sendPacket(ActionFailed.STATIC_PACKET);
+			
+			Util.handleIllegalPlayerAction(this, "Warning!! Character " + this.getName() + " of account " + this.getAccountName() + " tried to drop Freight Items", IllegalPlayerAction.PUNISH_KICK);
+			return null;
+			
+		}
+
 		L2ItemInstance invitem = _inventory.getItemByObjectId(objectId);
 		L2ItemInstance item = _inventory.dropItem(process, objectId, count, this, reference);
 		
@@ -7134,7 +7156,17 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			((L2Character) newTarget).addStatusListener(this);
 			TargetSelected my = new TargetSelected(getObjectId(), newTarget.getObjectId(), getX(), getY(), getZ());
-			broadcastPacket(my);
+			
+			//Send packet just to me and to party, not to any other that does not use the information
+			if(!this.isInParty()){
+				this.sendPacket(my);
+			}else{
+				this._party.broadcastToPartyMembers(my);
+			}
+			
+			//to avoid unuseful packet broadcasting
+			//broadcastPacket(my);
+			
 			my = null;
 		}
 		

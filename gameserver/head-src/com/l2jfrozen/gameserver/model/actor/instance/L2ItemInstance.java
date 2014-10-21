@@ -50,6 +50,8 @@ import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2EtcItem;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
+import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -780,7 +782,22 @@ public final class L2ItemInstance extends L2Object
 		}
 		else
 		{
-			player.getAI().setIntention(CtrlIntention.AI_INTENTION_PICK_UP, this);
+			
+			if(player.getFreight().getItemByObjectId(this.getObjectId())!=null){
+				
+				player.setTarget(this);
+				player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+				// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+				player.sendPacket(ActionFailed.STATIC_PACKET);
+				
+				Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to pickup Freight Items", IllegalPlayerAction.PUNISH_KICK);
+				
+			}else{
+				
+				player.getAI().setIntention(CtrlIntention.AI_INTENTION_PICK_UP, this);
+				
+			}
+			
 		}
 	}
 
