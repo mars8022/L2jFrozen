@@ -381,8 +381,8 @@ INSERT INTO teleport VALUES
 ('Schuttgart -> Graveyard of disgrace',1119,56095,-118952,-3290,1900,0),
 ('Schuttgart -> Farbel Ruins',1120,88288,-125692,-3816,2100,0),
 
-('Pagan Temple - > exit', 11999, -16307, -36591, -10725, 0, 0),
-('Pagan Chapel - > exit', 11998, -16359, -43803, -10725, 0, 0);
+('Rune -> Pagan Temple Entry', 11996, -12241, -35884, -10856, 0, 0),
+('Pagan Temple Entry -> Rune', 11997, 36640, -51218, 718, 0, 0);
 
 INSERT INTO teleport VALUES
 ('Clan Hall -> Execution Grounds',502,51055,141959,-2869,500,0),

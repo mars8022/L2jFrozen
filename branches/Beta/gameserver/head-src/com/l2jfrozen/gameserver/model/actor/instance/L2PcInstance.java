@@ -216,6 +216,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.TradeStart;
 import com.l2jfrozen.gameserver.network.serverpackets.TutorialShowHtml;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
+import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
@@ -3105,17 +3106,17 @@ public final class L2PcInstance extends L2PlayableInstance
 	public int getMaxLoad()
 	{
 		// Weight Limit = (CON Modifier*69000)*Skills
-		// Source http://l2p.bravehost.com/weightlimit.html (May 2007)
-		// Fitted exponential curve to the data
-		int con = getCON();
-		if(con < 1)
+		
+    int con = getCON();
+
+		if (con < 1)
 			return 31000;
-		
-		if(con > 59)
+
+		if (con > 59)
 			return 176000;
-		
-		double baseLoad = Math.pow(1.029993928, con) * 30495.627366;
-		return (int) calcStat(Stats.MAX_LOAD, baseLoad * Config.ALT_WEIGHT_LIMIT, this, null);
+
+		double baseLoad = Math.floor(BaseStats.CON.calcBonus(this) * 69000 * GameServerConfig.ALT_WEIGHT_LIMIT);
+		return (int) calcStat(Stats.MAX_LOAD, baseLoad, this, null);
 	}
 	
 	/**
@@ -3183,8 +3184,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			int maxLoad = getMaxLoad();
 			if(maxLoad > 0)
 			{
-				setIsOverloaded(getCurrentLoad() > maxLoad);
-				int weightproc = getCurrentLoad() * 1000 / maxLoad;
+				//setIsOverloaded(getCurrentLoad() > maxLoad);
+				//int weightproc = getCurrentLoad() * 1000 / maxLoad;
+				long weightproc = (long) ((getCurrentLoad() - calcStat(Stats.WEIGHT_PENALTY, 1, this, null)) * 1000 / maxLoad);
 				int newWeightPenalty;
 				
 				if(weightproc < 500)

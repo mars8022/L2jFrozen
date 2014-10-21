@@ -249,8 +249,22 @@ public class Disablers implements ISkillHandler
 				case AGGREDUCE_CHAR:
 				{
 					// these skills needs to be rechecked
-					if(Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss))
-					{
+					if (skill.getName().equals("Bluff")) {
+                        if (target instanceof L2Attackable) {
+                            L2Attackable _target = (L2Attackable) target;
+                            _target.stopHating(activeChar);
+                            if (_target.getMostHated() == null) {
+                               ((L2AttackableAI) _target.getAI()).setGlobalAggro(-25);
+                               _target.clearAggroList();
+                               _target.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+                               _target.getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE);
+                               _target.setWalking();
+                           }
+                           _target = null;
+                       }
+                       skill.getEffects(activeChar, target, ss, sps, bss);
+                   } else if (Formulas.getInstance().calcSkillSuccess(activeChar, target, skill, ss, sps, bss)) {
+					
 						if(target instanceof L2Attackable)
 						{
 							L2Attackable targ = (L2Attackable) target;
