@@ -19,9 +19,9 @@
 package com.l2jfrozen.gameserver.skills.effects;
 
 import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.skills.Env;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.skills.Env;
 
 public class EffectMpConsumePerLevel extends L2Effect {
 	public EffectMpConsumePerLevel(Env env, EffectTemplate template) {
