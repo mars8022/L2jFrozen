@@ -14,7 +14,6 @@
  */
 package com.l2jfrozen.gameserver.powerpak.xmlrpc;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 
