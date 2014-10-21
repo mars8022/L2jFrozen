@@ -606,4 +606,89 @@ public abstract class L2Object
 	{
 		return "" + getObjectId();
 	}
+	
+		public boolean isCharacter()
+	{
+		return false;
+	}
+
+	public boolean isPlayable()
+	{
+		return false;
+	}
+
+	public boolean isPlayer()
+	{
+		return false;
+	}
+
+	public boolean isPet()
+	{
+		return false;
+	}
+
+	public boolean isSummon()
+	{
+		return false;
+	}
+
+	public boolean isNpc()
+	{
+		return false;
+	}
+
+	public boolean isMonster()
+	{
+		return false;
+	}
+
+	public boolean isItem()
+	{
+		return false;
+	}
+
+	public boolean isRaid()
+	{
+		return false;
+	}
+
+	public boolean isBoss()
+	{
+		return false;
+	}
+
+	public boolean isTrap()
+	{
+		return false;
+	}
+
+	public boolean isDoor()
+	{
+		return false;
+	}
+
+	public boolean isArtefact()
+	{
+		return false;
+	}
+
+	public boolean isSiegeGuard()
+	{
+		return false;
+	}
+
+	public boolean isBoat()
+	{
+		return false;
+	}
+
+	public boolean isVehicle()
+	{
+		return false;
+	}
+
+	public boolean isMinion()
+	{
+		return false;
+	}
 }
