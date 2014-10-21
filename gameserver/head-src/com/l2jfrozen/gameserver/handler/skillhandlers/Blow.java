@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Formulas;
@@ -264,6 +265,8 @@ public class Blow implements ISkillHandler
 				
 				// Possibility of a lethal strike
 				Formulas.calcLethalHit(activeChar, target, skill);
+				PlaySound PlaySound = new PlaySound("skillsound.critical_hit_02");
+        activeChar.sendPacket(PlaySound);
 				
 			}
 			else

@@ -61,7 +61,7 @@ public class Nectar implements IItemHandler
 		int itemId = item.getItemId();
 		if(itemId == 6391)
 		{
-			activeChar.useMagic(SkillTable.getInstance().getInfo(9999, 1), false, false);
+			activeChar.useMagic(SkillTable.getInstance().getInfo(9998, 1), false, false);
 		}
 
 		activeChar = null;

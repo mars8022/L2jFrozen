@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.skills;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * @author ProGramMoS, eX1steam, L2JFrozen An Env object is just a class to pass parameters to a calculator such as
@@ -37,4 +38,18 @@ public final class Env
 	public double value;
 	public double baseValue;
 	public boolean skillMastery = false;
+	private L2Character _character;
+  private L2Character _target;
+  public L2Character getTarget()
+  {
+      return _target;
+  }
+  public L2Character getCharacter()
+  {
+      return _character;
+  }
+  public L2PcInstance getPlayer()
+  {
+      return _character == null ? null : _character.getActingPlayer();
+  }
 }
