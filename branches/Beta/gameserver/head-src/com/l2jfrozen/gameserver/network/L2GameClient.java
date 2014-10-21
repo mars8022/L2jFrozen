@@ -895,6 +895,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				}
 				
 				L2GameClient.this.setActiveChar(null);
+				L2GameClient.this.setDetached(true);
 			}
 			catch (Exception e1)
 			{
@@ -1017,7 +1018,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				}
 
 				L2GameClient.this.setActiveChar(null);
-
+				L2GameClient.this.setDetached(true);
 				player = null;
 			}
 			catch(Exception e1)
