@@ -12798,6 +12798,20 @@ public final class L2PcInstance extends L2PlayableInstance
 			return;
 		}
 		
+		/*
+		 * TEMPFIX: Check client Z coordinate instead of server
+		 *  z to avoid exploit killing Zaken from others floor
+		 */
+		if ((target instanceof L2GrandBossInstance)
+			&& ((L2GrandBossInstance) target).getNpcId() == 29022) {
+			if (Math.abs(this.getClientZ() - target.getZ()) > 200) {
+				sendPacket(new SystemMessage(SystemMessageId.CANT_SEE_TARGET));
+				getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+		}
+		
 		// GeoData Los Check here
 		if(skill.getCastRange() > 0 && !GeoData.getInstance().canSeeTarget(this, target))
 		{

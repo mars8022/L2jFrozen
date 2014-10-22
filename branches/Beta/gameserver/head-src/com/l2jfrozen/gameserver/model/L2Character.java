@@ -434,7 +434,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		// Set its template to the new L2Character
 		_template = template;
 		
-		_triggeredSkills = new FastMap<Integer, L2Skill>();
+		_triggeredSkills = new FastMap<>();
 		
 		if (template != null && this instanceof L2NpcInstance)
 		{
@@ -1242,6 +1242,20 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
+		}
+		        
+		/*
+		 * TEMPFIX: Check client Z coordinate instead of server
+		 *  z to avoid exploit killing Zaken from others floor
+		 */
+		if ((target instanceof L2GrandBossInstance)
+			&& ((L2GrandBossInstance) target).getNpcId() == 29022) {
+			if (Math.abs(this.getClientZ() - target.getZ()) > 200) {
+				sendPacket(new SystemMessage(SystemMessageId.CANT_SEE_TARGET));
+				getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
 		}
 		
 		// GeoData Los Check here (or dz > 1000)
@@ -2614,6 +2628,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 *
 	 * @return true, if is raid
 	 */
+	@Override
 	public boolean isRaid()
 	{
 		return false;
@@ -2624,6 +2639,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 *
 	 * @return true, if is npc
 	 */
+	@Override
 	public boolean isNpc()
 	{
 		return false;
@@ -2638,7 +2654,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	{
 		if(_attackByList == null)
 		{
-			_attackByList = new FastList<L2Character>();
+			_attackByList = new FastList<>();
 		}
 		
 		return _attackByList;
@@ -3416,7 +3432,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		/**
 		 * Instantiates a new enable skill.
 		 *
-		 * @param skillId the skill id
+		 * @param skill the skill
 		 */
 		public EnableSkill(L2Skill skill)
 		{
@@ -3723,10 +3739,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	/**
 	 * FastTable containing all active skills effects in progress of a L2Character.
 	 */
-	private FastTable<L2Effect> _effects  = new FastTable<L2Effect>();
+	private FastTable<L2Effect> _effects  = new FastTable<>();
 	
 	/** The table containing the List of all stacked effect in progress for each Stack group Identifier. */
-	protected Map<String, List<L2Effect>> _stackedEffects = new FastMap<String, List<L2Effect>>();
+	protected Map<String, List<L2Effect>> _stackedEffects = new FastMap<>();
 	
 	/** The Constant ABNORMAL_EFFECT_BLEEDING. */
 	public static final int ABNORMAL_EFFECT_BLEEDING = 0x000001;
@@ -3935,7 +3951,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		if (stackQueue == null)
 		{
-			stackQueue = new FastList<L2Effect>();
+			stackQueue = new FastList<>();
 		}
 		
 		// L2Effect tempEffect = null;
@@ -5388,7 +5404,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	private int _clientHeading;
 	
 	/** List of all QuestState instance that needs to be notified of this character's death. */
-	private List<QuestState> _NotifyQuestOfDeathList = new FastList<QuestState>();
+	private List<QuestState> _NotifyQuestOfDeathList = new FastList<>();
 	
 	/**
 	 * Add QuestState instance that is to be notified of character's death.<BR>
@@ -5414,7 +5430,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	{
 		if(_NotifyQuestOfDeathList == null)
 		{
-			_NotifyQuestOfDeathList = new FastList<QuestState>();
+			_NotifyQuestOfDeathList = new FastList<>();
 		}
 		
 		return _NotifyQuestOfDeathList;
@@ -5495,7 +5511,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public final synchronized void addStatFuncs(Func[] funcs)
 	{
 		
-		FastList<Stats> modifiedStats = new FastList<Stats>();
+		FastList<Stats> modifiedStats = new FastList<>();
 		
 		for(Func f : funcs)
 		{
@@ -5591,7 +5607,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public final synchronized void removeStatFuncs(Func[] funcs)
 	{
 		
-		FastList<Stats> modifiedStats = new FastList<Stats>();
+		FastList<Stats> modifiedStats = new FastList<>();
 		
 		for(Func f : funcs)
 		{
@@ -8648,7 +8664,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		if(escapeRange > 0)
 		{
-			List<L2Character> targetList = new FastList<L2Character>();
+			List<L2Character> targetList = new FastList<>();
 			
 			for(int i = 0;targets!=null && i < targets.length; i++)
 			{
@@ -9158,8 +9174,8 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 * <BR>
 	 * All skills disabled are identified by their skillId in <B>_disabledSkills</B> of the L2Character <BR>
 	 * <BR>
+	 * @param _skill 
 	 * 
-	 * @param skillId The identifier of the L2Skill to enable
 	 */
 	public void enableSkill(L2Skill _skill)
 	{
@@ -9182,7 +9198,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 * All skills disabled are identified by their skillId in <B>_disabledSkills</B> of the L2Character <BR>
 	 * <BR>
 	 * 
-	 * @param skillId The identifier of the L2Skill to disable
+	 * @param skill The identifier of the L2Skill to disable
 	 */
 	public void disableSkill(L2Skill skill)
 	{
@@ -9196,8 +9212,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	
 	/**
 	 * Disable this skill id for the duration of the delay in milliseconds.
-	 *
-	 * @param skillId the skill id
+	 * @param skill the skill thats going to be disabled
 	 * @param delay (seconds * 1000)
 	 */
 	public void disableSkill(L2Skill skill, long delay)
@@ -9217,8 +9232,8 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 * <BR>
 	 * All skills disabled are identified by their skillId in <B>_disabledSkills</B> of the L2Character <BR>
 	 * <BR>
+	 * @param _skill the skill to know if its disabled
 	 *
-	 * @param skillId The identifier of the L2Skill to disable
 	 * @return true, if is skill disabled
 	 */
 	public boolean isSkillDisabled(L2Skill _skill)
@@ -9587,8 +9602,20 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 										break;
 									default:
 										((L2Character) target).addAttackerToAttackByList(this);
-										// notify the AI that she is attacked
-										((L2Character) target).getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, this);
+										/*
+										 * ((L2Character) target).getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, this); - Deprecated
+										 * Notify the AI that is being attacked. 
+										 * It should be notified once the skill is finished 
+										 * in order to avoid AI action previous to skill end. 
+										 * IE: Backstab on monsters, the AI rotates previous to skill 
+										 * end so it doesn't make affect.
+										 * 
+										 * We calculate the hit time to know when the AI should rotate.
+										 */
+										int hitTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, skill.getHitTime());
+										if((checkBss() || checkSps()) && !skill.isStaticHitTime() && !skill.isPotion() && skill.isMagic())
+											hitTime = (int) (0.70 * hitTime);
+										ThreadPoolManager.getInstance().scheduleGeneral(new notifyAiTaskDelayed(CtrlEvent.EVT_ATTACKED, this, target), hitTime);
 										break;
 								}
 							}
@@ -11406,8 +11433,8 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	}
 	
 	/**
-	+	 * @return the _isKillable
-	+	 */
+	* @return if the object can be killed
+	*/
 	public boolean isUnkillable()
 	{
 		return _isUnkillable;
@@ -11435,5 +11462,27 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public void setIsAttackDisabled(boolean value)
 	{
 		_isAttackDisabled = value;
+	}
+	
+	/*
+	 * AI not. Task
+	 */
+	static class notifyAiTaskDelayed implements Runnable{
+		
+		CtrlEvent event;
+		Object object;
+		L2Object tgt;
+		
+		notifyAiTaskDelayed(CtrlEvent evt, Object obj, L2Object target){
+			event = evt;
+			object = obj;
+			tgt = target;
+		}
+		
+		@Override
+		public void run() {
+			((L2Character) tgt).getAI().notifyEvent(event, object);		
+		}
+		
 	}
 }
