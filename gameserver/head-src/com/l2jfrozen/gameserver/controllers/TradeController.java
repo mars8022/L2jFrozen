@@ -235,6 +235,13 @@ public class TradeController
 							LimitedItem = true;
 						}
 
+						if(!rset1.getString("npc_id").equals("gm") 
+							&& price < (item.getReferencePrice()/2)){
+							
+							_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+							price = item.getReferencePrice();
+						}
+						
 						item.setPriceToSell(price);
 						item.setTime(time);
 						item.setInitCount(count);
@@ -274,7 +281,16 @@ public class TradeController
 									item2.setCountDecrease(true);
 									LimitedItem = true;
 								}
+								
+								if(!rset1.getString("npc_id").equals("gm") 
+									&& price < item2.getReferencePrice()){
+									
+									_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+									price = item2.getReferencePrice();
+								}
+								
 								item2.setPriceToSell(price);
+								
 								item2.setTime(time);
 								item2.setInitCount(count);
 								if(currentCount > -1)
@@ -431,6 +447,14 @@ public class TradeController
 								item.setCountDecrease(true);
 								LimitedItem = true;
 							}
+							
+							if(!rset1.getString("npc_id").equals("gm") 
+								&& price < (item.getReferencePrice()/2)){
+								
+								_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+								price = item.getReferencePrice();
+							}
+							
 							item.setPriceToSell(price);
 							item.setTime(time);
 							item.setInitCount(count);
@@ -468,6 +492,14 @@ public class TradeController
 										item2.setCountDecrease(true);
 										LimitedItem = true;
 									}
+									
+									if(!rset1.getString("npc_id").equals("gm") 
+										&& price < item2.getReferencePrice()){
+										
+										_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+										price = item2.getReferencePrice();
+									}
+									
 									item2.setPriceToSell(price);
 									item2.setTime(time);
 									item2.setInitCount(count);
@@ -588,6 +620,13 @@ public class TradeController
 			int itemId = Integer.parseInt(st.nextToken());
 			int price = Integer.parseInt(st.nextToken());
 			L2ItemInstance item = ItemTable.getInstance().createDummyItem(itemId);
+			
+			if(price < (item.getReferencePrice()/2)){
+				
+				_log.log(Level.WARNING, "L2TradeList "+listId+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+				price = item.getReferencePrice();
+			}
+			
 			item.setPriceToSell(price);
 			buy1.addItem(item);
 			itemCreated++;

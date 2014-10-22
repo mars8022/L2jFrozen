@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
@@ -713,6 +714,12 @@ public class AdminEditNpc implements IAdminCommandHandler
 			int price = Integer.parseInt(args[3]);
 
 			L2ItemInstance newItem = ItemTable.getInstance().createDummyItem(itemID);
+			
+			if(price < newItem.getReferencePrice()){
+				
+				_log.log(Level.WARNING, "L2TradeList "+tradeList.getListId()+" itemId  "+ itemID+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+				price = newItem.getReferencePrice();
+			}
 			newItem.setPriceToSell(price);
 			newItem.setCount(-1);
 			tradeList.addItem(newItem);

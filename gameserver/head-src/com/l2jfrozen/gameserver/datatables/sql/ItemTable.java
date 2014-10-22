@@ -599,7 +599,7 @@ public class ItemTable
 
 		item.set.set("duration", rset.getInt("duration"));
 		item.set.set("price", rset.getInt("price"));
-
+		
 		return item;
 	}
 
