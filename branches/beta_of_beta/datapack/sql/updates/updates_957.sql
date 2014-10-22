@@ -1,1 +1,0 @@
-ALTER TABLE character_friends ADD not_blocked int NOT NULL DEFAULT 1;

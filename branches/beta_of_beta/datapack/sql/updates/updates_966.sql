@@ -1,1 +1,0 @@
-UPDATE character_quests SET name='654_JourneyToASettlement' WHERE name='654_JourneyToSettlement';
