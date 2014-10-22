@@ -50,7 +50,7 @@ public class ExEnchantSkillList extends L2GameServerPacket
 
 	public ExEnchantSkillList()
 	{
-		_skills = new FastList<Skill>();
+		_skills = new FastList<>();
 	}
 
 	/* (non-Javadoc)

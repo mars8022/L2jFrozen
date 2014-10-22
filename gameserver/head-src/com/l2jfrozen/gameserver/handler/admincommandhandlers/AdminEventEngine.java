@@ -91,23 +91,6 @@ public class AdminEventEngine implements IAdminCommandHandler
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
-		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		if(command.equals("admin_event"))
 		{
 			showMainPage(activeChar);
@@ -303,7 +286,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 
 				for(int j = 0; j < L2Event.teamsNumber; j++)
 				{
-					LinkedList<String> link = new LinkedList<String>();
+					LinkedList<String> link = new LinkedList<>();
 					L2Event.players.put(j + 1, link);
 					link = null;
 				}
@@ -655,7 +638,7 @@ public class AdminEventEngine implements IAdminCommandHandler
 	void muestraNpcConInfoAPlayers(L2PcInstance activeChar, int id)
 	{
 		L2Event.npcs.clear();
-		LinkedList<L2PcInstance> temp = new LinkedList<L2PcInstance>();
+		LinkedList<L2PcInstance> temp = new LinkedList<>();
 		temp.clear();
 
 		for(L2PcInstance player : L2World.getInstance().getAllPlayers())
