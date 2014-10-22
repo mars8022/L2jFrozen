@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
-import com.l2jfrozen.netcore.Config;
+import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.MMOClient;
 
 /**
@@ -58,7 +58,7 @@ public class PacketsFloodProtector
 	 */
 	public static boolean tryPerformAction(final int opcode, final int opcode2, MMOClient<?> client)
 	{
-		if (Config.getInstance().DISABLE_FULL_PACKETS_FLOOD_PROTECTOR)
+		if (NetcoreConfig.getInstance().DISABLE_FULL_PACKETS_FLOOD_PROTECTOR)
 			return true;
 		
 		// filter on opcodes
@@ -91,7 +91,7 @@ public class PacketsFloodProtector
 		{			
 			int actions = actions_per_account.incrementAndGet();
 			
-			if (Config.getInstance().ENABLE_MMOCORE_DEBUG)
+			if (NetcoreConfig.getInstance().ENABLE_MMOCORE_DEBUG)
 			{
 				_log.info(" -- account " + account + " has performed " + actions + " concurrent actions until now");
 			}
@@ -148,30 +148,30 @@ public class PacketsFloodProtector
 			command_count.incrementAndGet();
 			clients_actions.get(account).put(opcode, command_count);
 			
-			if (Config.getInstance().ENABLE_MMOCORE_DEBUG)
+			if (NetcoreConfig.getInstance().ENABLE_MMOCORE_DEBUG)
 			{
-				_log.info("-- called OpCode " + Integer.toHexString(opcode) + " ~" + String.valueOf((Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK) + " ms after first command...");
+				_log.info("-- called OpCode " + Integer.toHexString(opcode) + " ~" + String.valueOf((NetcoreConfig.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK) + " ms after first command...");
 				_log.info("   total received packets with OpCode " + Integer.toHexString(opcode) + " into the Interval: " + command_count.get());
 			}
 			
-			if (Config.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT > 0 && command_count.get() >= Config.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT && Config.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE != null)
+			if (NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT > 0 && command_count.get() >= NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT && NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE != null)
 			{
 				punishes_in_progress.put(account, true);
 				
 				if (!isOpCodeToBeTested(opcode, opcode2, client instanceof L2LoginClient))
 				{					
-					if (Config.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
+					if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
 						_log.warning("ATTENTION: Account " + account + " is flooding the server...");
 					
-					if ("kick".equals(Config.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE))
+					if ("kick".equals(NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE))
 					{
-						if (Config.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
+						if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
 							_log.warning(" ------- kicking account " + account);
 						kickPlayer(client, opcode);
 					}
-					else if ("ban".equals(Config.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE))
+					else if ("ban".equals(NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE))
 					{
-						if (Config.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
+						if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
 							_log.warning(" ------- banning account " + account);
 						banAccount(client, opcode);
 					}					
@@ -187,7 +187,7 @@ public class PacketsFloodProtector
 			
 			if (curTick == _nextGameTick)
 			{ // if is the first time, just calculate the next game tick
-				_nextGameTick = curTick + Config.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL;
+				_nextGameTick = curTick + NetcoreConfig.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL;
 				clients_nextGameTick.get(account).put(opcode, _nextGameTick);
 			}
 			
@@ -212,19 +212,19 @@ public class PacketsFloodProtector
 	{	
 		if (loginclient)
 		{			
-			return !Config.getInstance().LS_LIST_PROTECTED_OPCODES.contains(opcode);			
+			return !NetcoreConfig.getInstance().LS_LIST_PROTECTED_OPCODES.contains(opcode);			
 		}
 		
 		if (opcode == 0xd0)
 		{			
-			if (Config.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode))
+			if (NetcoreConfig.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode))
 			{				
-				return !Config.getInstance().GS_LIST_PROTECTED_OPCODES2.contains(opcode2);				
+				return !NetcoreConfig.getInstance().GS_LIST_PROTECTED_OPCODES2.contains(opcode2);				
 			}
 			return true;
 			
 		}
-		return !Config.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode);
+		return !NetcoreConfig.getInstance().GS_LIST_PROTECTED_OPCODES.contains(opcode);
 	}
 	
 	/**

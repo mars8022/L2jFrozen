@@ -48,7 +48,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -67,7 +67,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -87,7 +87,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -110,7 +110,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -131,7 +131,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -152,7 +152,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -172,7 +172,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){
@@ -198,7 +198,7 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 			
 		}catch(BufferUnderflowException e){
 			
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			if(getClient() instanceof L2GameClient){

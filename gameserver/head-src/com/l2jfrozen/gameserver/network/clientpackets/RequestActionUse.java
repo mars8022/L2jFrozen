@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.model.Inventory;
@@ -50,14 +51,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class RequestActionUse extends L2GameClientPacket
 {
 	private static Logger _log = Logger.getLogger(RequestActionUse.class.getName());
-
+	
 	private int _actionId;
 	private boolean _ctrlPressed;
 	private boolean _shiftPressed;
 	
 	//List of Pet Actions
 	private static List<Integer> _petActions = Arrays.asList(new Integer[]{15,16,17,21,22,23,52,53,54});
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -65,34 +66,34 @@ public final class RequestActionUse extends L2GameClientPacket
 		_ctrlPressed = readD() == 1;
 		_shiftPressed = readC() == 1;
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		L2PcInstance activeChar = getClient().getActiveChar();
-
+		
 		if(activeChar == null)
 			return;
-
+		
 		if(Config.DEBUG)
 		{
 			_log.finest(activeChar.getName() + " request Action use: id " + _actionId + " 2:" + _ctrlPressed + " 3:" + _shiftPressed);
 		}
-
+		
 		// dont do anything if player is dead
 		if(_actionId != 0 && activeChar.isAlikeDead())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// don't do anything if player is confused
 		if(activeChar.isOutOfControl())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// don't do anything if player is casting and the action is not a Pet one (skills too) 
 		if((_petActions.contains(_actionId) || _actionId >= 1000)){
 			if(Config.DEBUG)
@@ -103,15 +104,15 @@ public final class RequestActionUse extends L2GameClientPacket
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		L2Summon pet = activeChar.getPet();
 		L2Object target = activeChar.getTarget();
-
+		
 		if(Config.DEBUG)
 		{
 			_log.info("Requested Action ID: " + String.valueOf(_actionId));
 		}
-
+		
 		switch(_actionId)
 		{
 			case 0:
@@ -119,7 +120,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				{
 					break;
 				}
-
+				
 				if(target != null && !activeChar.isSitting() && target instanceof L2StaticObjectInstance && ((L2StaticObjectInstance) target).getType() == 1 && CastleManager.getInstance().getCastle(target) != null && activeChar.isInsideRadius(target, L2StaticObjectInstance.INTERACTION_DISTANCE, false, false))
 				{
 					ChairSit cs = new ChairSit(activeChar, ((L2StaticObjectInstance) target).getStaticObjectId());
@@ -128,7 +129,7 @@ public final class RequestActionUse extends L2GameClientPacket
 					activeChar.broadcastPacket(cs);
 					break;
 				}
-
+				
 				if(activeChar.isSitting() || activeChar.isFakeDeath())
 				{
 					activeChar.standUp();
@@ -137,12 +138,12 @@ public final class RequestActionUse extends L2GameClientPacket
 				{
 					activeChar.sitDown();
 				}
-
+				
 				if(Config.DEBUG)
 				{
 					_log.fine("new wait type: " + (activeChar.isSitting() ? "SITTING" : "STANDING"));
 				}
-
+				
 				break;
 			case 1:
 				if(activeChar.isRunning())
@@ -153,7 +154,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				{
 					activeChar.setRunning();
 				}
-
+				
 				if(Config.DEBUG)
 				{
 					_log.fine("new move type: " + (activeChar.isRunning() ? "RUNNING" : "WALKIN"));
@@ -165,19 +166,26 @@ public final class RequestActionUse extends L2GameClientPacket
 				{
 					pet.setFollowStatus(!pet.getFollowStatus());
 				}
-
+				
 				break;
 			case 16:
 			case 22: // pet attack
-				if(target != null && pet != null && pet != target && !pet.isAttackingDisabled() && !activeChar.isBetrayed())
+				if(target != null && pet != null && pet != target && !activeChar.isBetrayed())
 				{
+					if (pet.isAttackingDisabled()) {
+						if (pet.getAttackEndTime() > GameTimeController.getGameTicks())
+							pet.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
+						else
+							return;
+					}
+					
 					if(activeChar.isInOlympiadMode() && !activeChar.isOlympiadStart())
 					{
 						// if L2PcInstance is in Olympia and the match isn't already start, send a Server->Client packet ActionFailed
 						activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}
-
+					
 					if(target instanceof L2PcInstance 
 						&& !activeChar.getAccessLevel().allowPeaceAttack() 
 						&& L2Character.isInsidePeaceZone(pet, target))
@@ -188,7 +196,7 @@ public final class RequestActionUse extends L2GameClientPacket
 							return;
 						}
 					}
-
+					
 					if(target.isAutoAttackable(activeChar) || _ctrlPressed)
 					{
 						if(target instanceof L2DoorInstance)
@@ -212,7 +220,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				{
 					pet.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, null);
 				}
-
+				
 				break;
 			case 19: // pet unsummon
 				if(pet != null && !activeChar.isBetrayed())
@@ -236,7 +244,7 @@ public final class RequestActionUse extends L2GameClientPacket
 						if(pet instanceof L2PetInstance)
 						{
 							L2PetInstance petInst = (L2PetInstance) pet;
-
+							
 							// if the pet is more than 40% fed
 							if(petInst.getCurrentFed() > petInst.getMaxFed() * 0.40)
 							{
@@ -310,13 +318,13 @@ public final class RequestActionUse extends L2GameClientPacket
 						if (!activeChar.getFloodProtectors().getItemPetSummon().tryPerformAction("mount"))
 							return;
 						
-
+						
 						Ride mount = new Ride(activeChar.getObjectId(), Ride.ACTION_MOUNT, pet.getTemplate().npcId);
 						activeChar.broadcastPacket(mount);
 						activeChar.setMountType(mount.getMountType());
 						activeChar.setMountObjectID(pet.getControlItemId());
 						pet.unSummon(activeChar);
-
+						
 						if(activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND) != null || activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND) != null)
 						{
 							if(activeChar.isFlying())
@@ -613,7 +621,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				_log.warning(activeChar.getName() + ": unhandled action type " + _actionId);
 		}
 	}
-
+	
 	/*
 	 * Cast a skill for active pet/servitor. Target is specified as a parameter but can be overwrited or ignored depending on skill type.
 	 */
@@ -667,7 +675,7 @@ public final class RequestActionUse extends L2GameClientPacket
 			activeSummon.useMagic(skill, force, _shiftPressed);
 		}
 	}
-
+	
 	/*
 	 * Cast a skill for active pet/servitor.
 	 * Target is retrieved from owner' target,
@@ -678,10 +686,10 @@ public final class RequestActionUse extends L2GameClientPacket
 		L2PcInstance activeChar = getClient().getActiveChar();
 		if(activeChar == null)
 			return;
-
+		
 		useSkill(skillId, activeChar.getTarget());
 	}
-
+	
 	@Override
 	public String getType()
 	{

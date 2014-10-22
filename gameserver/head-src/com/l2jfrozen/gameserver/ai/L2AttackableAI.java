@@ -1141,32 +1141,38 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Add the target to the actor _aggroList or update hate if already present</li> <li>Set the actor Intention to
-	 * AI_INTENTION_ATTACK (if actor is L2GuardInstance check if it isn't too far from its home location)</li><BR>
+	 * <li>Add the target to the actor _aggroList or update hate if already
+	 * present</li> <li>Set the actor Intention to AI_INTENTION_ATTACK (if actor
+	 * is L2GuardInstance check if it isn't too far from its home location)</li><BR>
 	 * <BR>
 	 * 
-	 * @param target the L2Character that attacks
-	 * @param aggro The value of hate to add to the actor against the target
+	 * @param target
+	 *            the L2Character that attacks
+	 * @param aggro
+	 *            The value of hate to add to the actor against the target
 	 */
 	@Override
-	protected void onEvtAggression(L2Character target, int aggro)
-	{
+	protected void onEvtAggression(L2Character target, int aggro) {
 		L2Attackable me = (L2Attackable) _actor;
-
-		if(target != null)
-		{
-			// Add the target to the actor _aggroList or update hate if already present
+		
+		// To avoid lag issue
+		if (me.isDead())
+			return;
+		
+		if (target != null) {
+			// Add the target to the actor _aggroList or update hate if already
+			// present
 			me.addDamageHate(target, 0, aggro);
-
+			
 			// Set the actor AI Intention to AI_INTENTION_ATTACK
-			if(getIntention() != CtrlIntention.AI_INTENTION_ATTACK)
-			{
-				// Set the L2Character movement type to run and send Server->Client packet ChangeMoveType to all others L2PcInstance
-				if(!_actor.isRunning())
-				{
+			if (getIntention() != CtrlIntention.AI_INTENTION_ATTACK) {
+				// Set the L2Character movement type to run and send
+				// Server->Client packet ChangeMoveType to all others
+				// L2PcInstance
+				if (!_actor.isRunning()) {
 					_actor.setRunning();
 				}
-
+				
 				setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
 			}
 		}

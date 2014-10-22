@@ -221,7 +221,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		catch (IOException e)
 		{
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 			con.getClient().onForcedDisconnection(true);
@@ -293,7 +293,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 					critical = false;
 				}else{
 					// error handling goes bellow
-					if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+					if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 						e.printStackTrace();
 				}
 			}
@@ -502,7 +502,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				catch (IOException e)
 				{
 					// error handling goes on the if bellow
-					if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+					if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 						e.printStackTrace();
 					
 				}
@@ -531,7 +531,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		catch (IOException e)
 		{
 			// error handling goes on the if bellow
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 		}
@@ -674,7 +674,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			catch (IOException e)
 			{
 				// ignore, we are closing anyway
-				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -709,7 +709,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			}
 			catch (IOException e)
 			{
-				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -721,7 +721,7 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		catch (IOException e)
 		{
-			if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 				e.printStackTrace();
 			
 		}

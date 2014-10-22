@@ -67,6 +67,14 @@ public class L2SummonAI extends L2CharacterAI
 
 	private void thinkAttack()
 	{
+		final L2Summon summon = (L2Summon) _actor;
+		L2Object target = null;
+		target = summon.getTarget();
+		
+		// Like L2OFF if the target is dead the summon must go back to his owner
+		if (target != null && summon != null && ((L2Character) target).isDead())
+			summon.setFollowStatus(true);
+		
 		if(checkTargetLostOrDead(getAttackTarget()))
 		{
 			setAttackTarget(null);
@@ -174,20 +182,21 @@ public class L2SummonAI extends L2CharacterAI
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.ai.L2CharacterAI#onEvtFinishCasting()
-	 */
 	@Override
-	protected void onEvtFinishCasting()
-	{
-		// TODO Auto-generated method stub
+	protected void onEvtFinishCasting() {
 		super.onEvtFinishCasting();
 		
 		final L2Summon summon = (L2Summon) _actor;
-
-		summon.setFollowStatus(true);
+		L2Object target = null;
+		target = summon.getTarget();
 		
-	}
-	
-	
+		if (target == null)
+			return;
+		
+		if (summon.getAI().getIntention() != AI_INTENTION_ATTACK)
+			summon.setFollowStatus(true);
+		else if (((L2Character) target).isDead())
+			summon.setFollowStatus(true);
+		
+	}	
 }

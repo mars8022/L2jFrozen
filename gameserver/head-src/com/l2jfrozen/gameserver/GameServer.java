@@ -608,10 +608,10 @@ public class GameServer
 		_loginThread.start();
 		
 		final SelectorConfig sc = new SelectorConfig();
-		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.Config.getInstance().MMO_MAX_READ_PER_PASS;
-		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.Config.getInstance().MMO_MAX_SEND_PER_PASS;
-		sc.SLEEP_TIME = com.l2jfrozen.netcore.Config.getInstance().MMO_SELECTOR_SLEEP_TIME;
-		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.Config.getInstance().MMO_HELPER_BUFFER_COUNT;
+		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_MAX_READ_PER_PASS;
+		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_MAX_SEND_PER_PASS;
+		sc.SLEEP_TIME = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_SELECTOR_SLEEP_TIME;
+		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_HELPER_BUFFER_COUNT;
 		
 		_gamePacketHandler = new L2GamePacketHandler();
 		

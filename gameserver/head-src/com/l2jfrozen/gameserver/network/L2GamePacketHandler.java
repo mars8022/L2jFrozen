@@ -155,7 +155,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				break;
 			case IN_GAME:{
 				
-				if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES.contains(opcode)){
+				if(!com.l2jfrozen.netcore.NetcoreConfig.getInstance().LIST_ALLOWED_OFFLINE_OPCODES.contains(opcode)){
 					
 					if(client.getActiveChar() == null 
 						|| client.getActiveChar().isOnline() == 0)
@@ -730,7 +730,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						}
 						
 						
-						if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES2.contains(opcode2)){
+						if(!com.l2jfrozen.netcore.NetcoreConfig.getInstance().LIST_ALLOWED_OFFLINE_OPCODES2.contains(opcode2)){
 							
 							if(client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 							{
@@ -910,7 +910,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 			 client.checkUnknownPackets();
 		}
 		
-		if (!com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
+		if (!com.l2jfrozen.netcore.NetcoreConfig.getInstance().PACKET_HANDLER_DEBUG)
 			return;
 		
 		//int size = buf.remaining();
@@ -942,7 +942,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 			 client.checkUnknownPackets();
 		}
 		
-		if (!com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
+		if (!com.l2jfrozen.netcore.NetcoreConfig.getInstance().PACKET_HANDLER_DEBUG)
 			return;
 		
 		//int size = buf.remaining();
