@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.model.actor.instance;
 
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import javolution.util.FastList;
 
@@ -188,7 +189,14 @@ public class L2ManorManagerInstance extends L2MerchantInstance
 						for(SeedProduction s : seeds)
 						{
 							L2ItemInstance item = ItemTable.getInstance().createDummyItem(s.getId());
-							item.setPriceToSell(s.getPrice());
+							int price = s.getPrice();
+							if(price < (item.getReferencePrice()/2)){
+								
+								_log.log(Level.WARNING, "L2TradeList "+tradeList.getListId()+" itemId  "+ s.getId()+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+								price = item.getReferencePrice();
+							}
+							
+							item.setPriceToSell(price);
 							item.setCount(s.getCanProduce());
 							if(item.getCount() > 0 && item.getPriceToSell() > 0)
 							{

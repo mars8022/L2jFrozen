@@ -346,6 +346,9 @@ public class L2Multisell
 			{
 				MultiSellListContainer list = parseDocument(doc);
 				list.setListId(id);
+				
+				updateReferencePrice(list);
+				
 				_entries.add(list);
 				list = null;
 			}
@@ -429,6 +432,7 @@ public class L2Multisell
 
 				int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
 				int count = Integer.parseInt(n.getAttributes().getNamedItem("count").getNodeValue());
+				
 				boolean isTaxIngredient = false, mantainIngredient = false;
 
 				attribute = n.getAttributes().getNamedItem("isTaxIngredient");
@@ -471,6 +475,43 @@ public class L2Multisell
 		first = null;
 
 		return entry;
+	}
+	
+	/**
+	 * This method checks and update the container to avoid possible items buy/sell duplication.
+	 * Currently support ADENA check.
+	 * @param container
+	 */
+	private void updateReferencePrice(MultiSellListContainer container){
+		
+		for(MultiSellEntry entry: container.getEntries()){
+			
+			//if ingredient is just 1 and is adena
+			if(entry.getIngredients().size() == 1
+				&& entry.getIngredients().get(0).getItemId() == 57){
+				
+				//the buy price must necessarily higher then total reference item price / 2 that is the default sell price
+				
+				int totalProductReferencePrice = 0;
+				for(MultiSellIngredient product:entry.getProducts()){
+					
+					totalProductReferencePrice += (ItemTable.getInstance().getTemplate(product.getItemId()).getReferencePrice() 
+						* product.getItemCount());
+					
+				}
+				
+				if(entry.getIngredients().get(0).getItemCount()<(totalProductReferencePrice/2)){
+					
+					_log.log(Level.WARNING, "Multisell "+container.getListId()+" entryId  "+ entry.getEntryId()+" has an ADENA price less then total products reference price.. Automatically Updating it..");
+					entry.getIngredients().get(0).setItemCount(totalProductReferencePrice);
+					
+				}
+				
+			}
+			
+		}
+		
+		
 	}
 
 }

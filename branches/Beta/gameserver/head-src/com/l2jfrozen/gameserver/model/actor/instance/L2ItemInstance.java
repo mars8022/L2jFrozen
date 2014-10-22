@@ -652,10 +652,10 @@ public final class L2ItemInstance extends L2Object
 	 *
 	 * @return int
 	 */
-	public int getPriceToBuy()
-	{
-		return isConsumable() ? (int) (_priceBuy * Config.RATE_CONSUMABLE_COST) : _priceBuy;
-	}
+//	public int getPriceToBuy()
+//	{
+//		return isConsumable() ? (int) (_priceBuy * Config.RATE_CONSUMABLE_COST) : _priceBuy;
+//	}
 
 	/**
 	 * Sets the price of the item for buying <U><I>Remark :</I></U> If loc and loc_data different from database, say
@@ -663,11 +663,11 @@ public final class L2ItemInstance extends L2Object
 	 *
 	 * @param price : int
 	 */
-	public void setPriceToBuy(int price)
-	{
-		_priceBuy = price;
-		_storedInDb = false;
-	}
+//	public void setPriceToBuy(int price)
+//	{
+//		_priceBuy = price;
+//		_storedInDb = false;
+//	}
 
 	/**
 	 * Returns the last change of the item.

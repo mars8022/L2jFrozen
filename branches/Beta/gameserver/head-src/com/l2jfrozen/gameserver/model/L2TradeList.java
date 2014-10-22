@@ -19,6 +19,8 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javolution.util.FastList;
 
@@ -32,7 +34,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class L2TradeList
 {
-	//private static Logger _log = Logger.getLogger(L2TradeList.class.getName());
+	private static Logger _log = Logger.getLogger(L2TradeList.class.getName());
 
 	private List<L2ItemInstance> _items;
 	private int _listId;
@@ -52,6 +54,12 @@ public class L2TradeList
 	public void setNpcId(String id)
 	{
 		_npcId = id;
+		
+		if(id.equals("gm"))
+			_gm = true;
+		else
+			_gm = false;
+		
 	}
 
 	public String getNpcId()
@@ -72,6 +80,12 @@ public class L2TradeList
 
 			if(item.getItemId() == itemID)
 			{
+				
+				if(price < (item.getReferencePrice()/2)){
+					
+					_log.log(Level.WARNING, "L2TradeList "+this.getListId()+" itemId  "+ itemID+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+					price = item.getReferencePrice();
+				}
 				item.setPriceToSell(price);
 			}
 
