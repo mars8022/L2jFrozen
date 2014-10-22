@@ -279,7 +279,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		}
 
 		LoginController.getInstance().removeLoginClient(this);
-		if(!hasJoinedGS())
+		if(!hasJoinedGS() && getAccount() != null)
 		{
 			LoginController.getInstance().removeAuthedLoginClient(getAccount());
 		}

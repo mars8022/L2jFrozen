@@ -360,60 +360,53 @@ public class Disablers implements ISkillHandler
 						}
 					}
 					break;
-				}
-				case MAGE_BANE:
-				{
-					for(L2Object t : targets)
-					{
+				}			
+				case MAGE_BANE: {
+					
+					for (L2Object t : targets) {
 						L2Character target1 = (L2Character) t;
-
-						if(target1.reflectSkill(skill))
+						
+						if (target1.reflectSkill(skill)) {
 							target1 = activeChar;
-
-						if(!Formulas.getInstance().calcSkillSuccess(activeChar, target1, skill, ss, sps, bss))
-							continue;
-
-						L2Effect[] effects = target1.getAllEffects();
-
-						for(L2Effect e : effects)
-						{
-							if(e.getSkill().getId() == 1059 || e.getSkill().getId() == 1085 ||
-								e.getSkill().getId() == 4356 || e.getSkill().getId() == 4355)
-							{
-								e.exit(true);
-							}
 						}
-
-						effects = null;
-						target1 = null;
+						if (!Formulas.getInstance().calcSkillSuccess(activeChar,
+							target1, skill, ss, sps, bss)) {
+							continue;
+						}
+						L2Effect[] effects = target1.getAllEffects();
+						for (L2Effect e : effects) {
+							
+							if (e.getStackType().equals("mAtkSpeedUp")
+								|| e.getStackType().equals("mAtk")
+								|| e.getSkill().getId() == 1059
+								|| e.getSkill().getId() == 1085
+								|| e.getSkill().getId() == 4356
+								|| e.getSkill().getId() == 4355)
+								e.exit();
+						}
 					}
 					break;
 				}
-				case WARRIOR_BANE:
-				{
-					for(L2Object t : targets)
-					{
+				case WARRIOR_BANE: {
+					for (L2Object t : targets) {
 						L2Character target1 = (L2Character) t;
-
-						if(target1.reflectSkill(skill))
+						if (target1.reflectSkill(skill)) {
 							target1 = activeChar;
-
-						if(!Formulas.getInstance().calcSkillSuccess(activeChar, target1, skill, ss, sps, bss))
-							continue;
-
-						L2Effect[] effects = target1.getAllEffects();
-
-						for(L2Effect e : effects)
-						{
-							if(e.getSkill().getId() == 1204 || e.getSkill().getId() == 1086 ||
-								e.getSkill().getId() == 4342  || e.getSkill().getId() == 4357)
-							{
-								e.exit(true);
-							}
 						}
-
-						target1 = null;
-						effects = null;
+						if (!Formulas.getInstance().calcSkillSuccess(activeChar,
+							target1, skill, ss, sps, bss)) {
+							continue;
+						}
+						L2Effect[] effects = target1.getAllEffects();
+						for (L2Effect e : effects) {
+							if (e.getStackType().equals("SpeedUp")
+								|| e.getStackType().equals("pAtkSpeedUp")
+								|| e.getSkill().getId() == 1204
+								|| e.getSkill().getId() == 1086
+								|| e.getSkill().getId() == 4342
+								|| e.getSkill().getId() == 4357)
+								e.exit();
+						}
 					}
 					break;
 				}

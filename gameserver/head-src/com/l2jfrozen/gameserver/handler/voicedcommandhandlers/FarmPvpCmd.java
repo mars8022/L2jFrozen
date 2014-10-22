@@ -22,6 +22,7 @@ package com.l2jfrozen.gameserver.handler.voicedcommandhandlers;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -106,7 +107,10 @@ public class FarmPvpCmd implements IVoicedCommandHandler
 			activeChar.sendMessage("Sorry,you are PK");
 			return false;
 		}
-
+		else if (Olympiad.getInstance().isRegistered(activeChar)) {
+			activeChar.sendMessage("Sorry, you can't use this command while registered in Olympiad");
+			return false;
+		}
 		SetupGauge sg = new SetupGauge(SetupGauge.BLUE, 15000);
 		activeChar.sendPacket(sg);
 		sg = null;

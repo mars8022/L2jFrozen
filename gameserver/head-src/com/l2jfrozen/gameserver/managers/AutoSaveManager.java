@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
@@ -27,6 +29,8 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * <b>AutoSave</b> only
@@ -37,6 +41,7 @@ public class AutoSaveManager
 	protected static final Logger _log = Logger.getLogger(AutoSaveManager.class.getName());
 	private ScheduledFuture<?> _autoSaveInDB;
 	private ScheduledFuture<?> _autoCheckConnectionStatus;
+	private ScheduledFuture<?> _autoCleanDatabase;
 	
 	public static final AutoSaveManager getInstance()
 	{
@@ -60,7 +65,12 @@ public class AutoSaveManager
 		{
 			_autoCheckConnectionStatus.cancel(true);
 			_autoCheckConnectionStatus = null;
-		}	
+		}
+		if (_autoCleanDatabase != null)
+		{
+			_autoCleanDatabase.cancel(true);
+			_autoCleanDatabase = null;
+		}
 	}
 	
 	public void startAutoSaveManager()
@@ -69,6 +79,7 @@ public class AutoSaveManager
 		stopAutoSaveManager();
 		_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSaveTask(), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
 		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PlayersSaveTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
+		_autoCleanDatabase = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoCleanDBTask(), 300000, 900000); //Fixed rate.
 	}
 	
 	protected class AutoSaveTask implements Runnable
@@ -159,6 +170,35 @@ public class AutoSaveManager
 				_log.info("AutoSaveManager: players connections checked..");
 		}
 	}
+	
+	protected class AutoCleanDBTask implements Runnable{
+		
+				@Override
+				public void run() {
+					int erased = 0;
+					_log.info("AutoSaveManager: cleaning database..");
+					/* Perform the clean here instead of every time that the skills are saved
+					in order to do it in once step because if skill have 0 reuse delay
+					doesn't affect the game, just makes the table grows bigger */
+					Connection con = null;
+					try{
+						con = L2DatabaseFactory.getInstance().getConnection(false);
+						PreparedStatement statement;
+						statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
+						erased = statement.executeUpdate();
+						statement.close();
+						statement = null;
+					}catch (Exception e){
+						_log.info("Error while cleaning skill with 0 reuse time from table.");
+						if (Config.ENABLE_ALL_EXCEPTIONS)
+							e.printStackTrace();
+					}finally{
+						CloseUtil.close(con);
+					}
+					_log.info(erased + " entries cleaned from db");
+				}
+				
+			}
 	
 	private static class SingletonHolder
 	{

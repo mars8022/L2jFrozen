@@ -68,10 +68,10 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 		writeD(_playerAdena);
 		
 		// section2
-		writeD(_itemList.length - _sellList.length); // for potential sells
+		writeD(_itemList.length); // for potential sells
 		for (TradeList.TradeItem item : _itemList)
 		{
-			if (isItemInSelling(item) == false)
+			if (!isItemInSelling(item))
 			{
 				writeD(item.getItem().getType2());
 				writeD(item.getObjectId());
