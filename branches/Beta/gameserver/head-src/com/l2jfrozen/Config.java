@@ -132,7 +132,7 @@ public final class Config
 	public static int AUTODESTROY_ITEM_AFTER;
 	public static int HERB_AUTO_DESTROY_TIME;
 	public static String PROTECTED_ITEMS;
-	public static FastList<Integer> LIST_PROTECTED_ITEMS = new FastList<Integer>();
+	public static FastList<Integer> LIST_PROTECTED_ITEMS = new FastList<>();
 	public static boolean DESTROY_DROPPED_PLAYER_ITEM;
 	public static boolean DESTROY_EQUIPABLE_PLAYER_ITEM;
 	public static boolean SAVE_DROPPED_ITEM;
@@ -205,7 +205,7 @@ public final class Config
 			AUTODESTROY_ITEM_AFTER = Integer.parseInt(optionsSettings.getProperty("AutoDestroyDroppedItemAfter", "0"));
 			HERB_AUTO_DESTROY_TIME = Integer.parseInt(optionsSettings.getProperty("AutoDestroyHerbTime", "15")) * 1000;
 			PROTECTED_ITEMS = optionsSettings.getProperty("ListOfProtectedItems");
-			LIST_PROTECTED_ITEMS = new FastList<Integer>();
+			LIST_PROTECTED_ITEMS = new FastList<>();
 			for(String id : PROTECTED_ITEMS.split(","))
 			{
 				LIST_PROTECTED_ITEMS.add(Integer.parseInt(id));
@@ -546,9 +546,9 @@ public final class Config
 	public static int WAREHOUSE_SLOTS_CLAN;
 	public static int FREIGHT_SLOTS;
 	public static String NONDROPPABLE_ITEMS;
-	public static FastList<Integer> LIST_NONDROPPABLE_ITEMS = new FastList<Integer>();
+	public static FastList<Integer> LIST_NONDROPPABLE_ITEMS = new FastList<>();
 	public static String PET_RENT_NPC;
-	public static FastList<Integer> LIST_PET_RENT_NPC = new FastList<Integer>();
+	public static FastList<Integer> LIST_PET_RENT_NPC = new FastList<>();
 	public static boolean EFFECT_CANCELING;
 	public static double HP_REGEN_MULTIPLIER;
 	public static double MP_REGEN_MULTIPLIER;
@@ -574,8 +574,8 @@ public final class Config
 	
 	/** Configuration to allow custom items to be given on character creation */
 	public static boolean CUSTOM_STARTER_ITEMS_ENABLED;
-	public static List<int[]> STARTING_CUSTOM_ITEMS_F = new ArrayList<int[]>();
-	public static List<int[]> STARTING_CUSTOM_ITEMS_M = new ArrayList<int[]>();
+	public static List<int[]> STARTING_CUSTOM_ITEMS_F = new ArrayList<>();
+	public static List<int[]> STARTING_CUSTOM_ITEMS_M = new ArrayList<>();
 	
 	public static boolean DEEPBLUE_DROP_RULES;
 	public static int UNSTUCK_INTERVAL;
@@ -607,7 +607,7 @@ public final class Config
 	public static boolean USE_SAY_FILTER;
 	public static String CHAT_FILTER_CHARS;
 	public static String CHAT_FILTER_PUNISHMENT;
-	public static ArrayList<String> FILTER_LIST = new ArrayList<String>();
+	public static ArrayList<String> FILTER_LIST = new ArrayList<>();
 
 	public static int FS_TIME_ATTACK;
 	public static int FS_TIME_COOLDOWN;
@@ -678,7 +678,7 @@ public final class Config
         	if(ENABLE_AIO_SYSTEM) //create map if system is enabled
         	{
         		String[] AioSkillsSplit = otherSettings.getProperty("AioSkills", "").split(";");
-        		AIO_SKILLS = new FastMap<Integer, Integer>(AioSkillsSplit.length);
+        		AIO_SKILLS = new FastMap<>(AioSkillsSplit.length);
         		for (String skill : AioSkillsSplit)
         		{
         			String[] skillSplit = skill.split(",");
@@ -788,14 +788,14 @@ public final class Config
 			STORE_SKILL_COOLTIME = Boolean.parseBoolean(otherSettings.getProperty("StoreSkillCooltime", "true"));
 
 			PET_RENT_NPC = otherSettings.getProperty("ListPetRentNpc", "30827");
-			LIST_PET_RENT_NPC = new FastList<Integer>();
+			LIST_PET_RENT_NPC = new FastList<>();
 			for(String id : PET_RENT_NPC.split(","))
 			{
 				LIST_PET_RENT_NPC.add(Integer.parseInt(id));
 			}
 			NONDROPPABLE_ITEMS = otherSettings.getProperty("ListOfNonDroppableItems", "1147,425,1146,461,10,2368,7,6,2370,2369,5598");
 
-			LIST_NONDROPPABLE_ITEMS = new FastList<Integer>();
+			LIST_NONDROPPABLE_ITEMS = new FastList<>();
 			for(String id : NONDROPPABLE_ITEMS.split(","))
 			{
 				LIST_NONDROPPABLE_ITEMS.add(Integer.parseInt(id));
@@ -812,7 +812,7 @@ public final class Config
 			ENABLE_MODIFY_SKILL_DURATION = Boolean.parseBoolean(otherSettings.getProperty("EnableModifySkillDuration", "false"));
 			if(ENABLE_MODIFY_SKILL_DURATION)
 			{
-				SKILL_DURATION_LIST = new FastMap<Integer, Integer>();
+				SKILL_DURATION_LIST = new FastMap<>();
 
 				String[] propertySplit;
 				propertySplit = otherSettings.getProperty("SkillDurationList", "").split(";");
@@ -1127,7 +1127,7 @@ public final class Config
 	 */
 	public static String ALLOWED_NPC_TYPES;
 	/** List of NPC types that won't allow casting */
-	public static FastList<String> LIST_ALLOWED_NPC_TYPES = new FastList<String>();
+	public static FastList<String> LIST_ALLOWED_NPC_TYPES = new FastList<>();
 	
 	public static boolean SELL_BY_ITEM;
 	public static int SELL_ITEM;
@@ -1136,7 +1136,7 @@ public final class Config
 	public static byte MAX_SUBCLASS_LEVEL;
 	
 	public static String DISABLE_BOW_CLASSES_STRING;
-	public static FastList<Integer> DISABLE_BOW_CLASSES = new FastList<Integer>();
+	public static FastList<Integer> DISABLE_BOW_CLASSES = new FastList<>();
 	
 	public static boolean ALT_MOBS_STATS_BONUS;
 	public static boolean ALT_PETS_STATS_BONUS;
@@ -1273,7 +1273,7 @@ public final class Config
 			/** augmentation start reuse time **/
 			ACTIVE_AUGMENTS_START_REUSE_TIME = Integer.parseInt(altSettings.getProperty("AugmStartReuseTime", "0"));
 			
-			INVUL_NPC_LIST = new FastList<Integer>();
+			INVUL_NPC_LIST = new FastList<>();
 			String t = altSettings.getProperty("InvulNpcList", "30001-32132,35092-35103,35142-35146,35176-35187,35218-35232,35261-35278,35308-35319,35352-35367,35382-35407,35417-35427,35433-35469,35497-35513,35544-35587,35600-35617,35623-35628,35638-35640,35644,35645,50007,70010,99999");
 			String as[];
 			int k = (as = t.split(",")).length;
@@ -1291,7 +1291,7 @@ public final class Config
 			}
 			DISABLE_ATTACK_NPC_TYPE = Boolean.parseBoolean(altSettings.getProperty("DisableAttackToNpcs", "False"));
 			ALLOWED_NPC_TYPES = altSettings.getProperty("AllowedNPCTypes");
-			LIST_ALLOWED_NPC_TYPES = new FastList<String>();
+			LIST_ALLOWED_NPC_TYPES = new FastList<>();
 			for (String npc_type : ALLOWED_NPC_TYPES.split(","))
 				LIST_ALLOWED_NPC_TYPES.add(npc_type);
 			NPC_ATTACKABLE = Boolean.parseBoolean(altSettings.getProperty("NpcAttackable", "False"));
@@ -1937,6 +1937,7 @@ public final class Config
 			ALT_DEV_NO_SCRIPT = Boolean.parseBoolean(devSettings.getProperty("AltDevNoScript", "False"));
 			ALT_DEV_NO_AI = Boolean.parseBoolean(devSettings.getProperty("AltDevNoAI", "False"));
 			ALT_DEV_NO_RB = Boolean.parseBoolean(devSettings.getProperty("AltDevNoRB", "False"));
+			ENABLE_OLYMPIAD_DISCONNECTION_DEBUG = Boolean.parseBoolean(devSettings.getProperty("EnableOlympiadDisconnectionDebug"));
 
 			REQUEST_ID = Integer.parseInt(devSettings.getProperty("RequestServerID", "0"));
 			ACCEPT_ALTERNATE_ID = Boolean.parseBoolean(devSettings.getProperty("AcceptAlternateID", "True"));
@@ -2324,7 +2325,7 @@ public final class Config
 	public static boolean ALLOW_ONLINE_VIEW;
 	public static boolean WELCOME_HTM;
 	public static String ALLOWED_SKILLS;
-	public static FastList<Integer> ALLOWED_SKILLS_LIST = new FastList<Integer>();
+	public static FastList<Integer> ALLOWED_SKILLS_LIST = new FastList<>();
 	public static boolean PROTECTOR_PLAYER_PK;
 	public static boolean PROTECTOR_PLAYER_PVP;
 	public static int PROTECTOR_RADIUS_ACTION;
@@ -2457,7 +2458,7 @@ public final class Config
 			KEEP_SUBCLASS_SKILLS = Boolean.parseBoolean(L2JFrozenSettings.getProperty("KeepSubClassSkills", "False"));
 
 			ALLOWED_SKILLS = L2JFrozenSettings.getProperty("AllowedSkills", "541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,617,618,619");
-			ALLOWED_SKILLS_LIST = new FastList<Integer>();
+			ALLOWED_SKILLS_LIST = new FastList<>();
 			for(String id : ALLOWED_SKILLS.trim().split(","))
 			{
 				ALLOWED_SKILLS_LIST.add(Integer.parseInt(id.trim()));
@@ -2537,8 +2538,8 @@ public final class Config
 	public static int KARMA_PK_LIMIT;
 	public static String KARMA_NONDROPPABLE_PET_ITEMS;
 	public static String KARMA_NONDROPPABLE_ITEMS;
-	public static FastList<Integer> KARMA_LIST_NONDROPPABLE_PET_ITEMS = new FastList<Integer>();
-	public static FastList<Integer> KARMA_LIST_NONDROPPABLE_ITEMS = new FastList<Integer>();
+	public static FastList<Integer> KARMA_LIST_NONDROPPABLE_PET_ITEMS = new FastList<>();
+	public static FastList<Integer> KARMA_LIST_NONDROPPABLE_ITEMS = new FastList<>();
 	public static int PVP_NORMAL_TIME;
 	public static int PVP_PVP_TIME;
 	public static boolean PVP_COLOR_SYSTEM_ENABLED;
@@ -2634,13 +2635,13 @@ public final class Config
 			KARMA_NONDROPPABLE_PET_ITEMS = pvpSettings.getProperty("ListOfPetItems", "2375,3500,3501,3502,4422,4423,4424,4425,6648,6649,6650");
 			KARMA_NONDROPPABLE_ITEMS = pvpSettings.getProperty("ListOfNonDroppableItems", "57,1147,425,1146,461,10,2368,7,6,2370,2369,6842,6611,6612,6613,6614,6615,6616,6617,6618,6619,6620,6621");
 
-			KARMA_LIST_NONDROPPABLE_PET_ITEMS = new FastList<Integer>();
+			KARMA_LIST_NONDROPPABLE_PET_ITEMS = new FastList<>();
 			for(String id : KARMA_NONDROPPABLE_PET_ITEMS.split(","))
 			{
 				KARMA_LIST_NONDROPPABLE_PET_ITEMS.add(Integer.parseInt(id));
 			}
 
-			KARMA_LIST_NONDROPPABLE_ITEMS = new FastList<Integer>();
+			KARMA_LIST_NONDROPPABLE_ITEMS = new FastList<>();
 			for(String id : KARMA_NONDROPPABLE_ITEMS.split(","))
 			{
 				KARMA_LIST_NONDROPPABLE_ITEMS.add(Integer.parseInt(id));
@@ -2742,7 +2743,7 @@ public final class Config
 	public static boolean ALT_OLY_LOG_FIGHTS;
 	public static boolean ALT_OLY_SHOW_MONTHLY_WINNERS;
 	public static boolean ALT_OLY_ANNOUNCE_GAMES;
-	public static List<Integer> LIST_OLY_RESTRICTED_SKILLS = new FastList<Integer>();
+	public static List<Integer> LIST_OLY_RESTRICTED_SKILLS = new FastList<>();
 	public static boolean ALT_OLY_AUGMENT_ALLOW;
 	public static int ALT_OLY_TELEPORT_COUNTDOWN;
 	
@@ -2764,7 +2765,7 @@ public final class Config
 	public static int ALT_OLY_HERO_POINTS;
 	public static String ALT_OLY_RESTRICTED_ITEMS;
 
-	public static List<Integer> LIST_OLY_RESTRICTED_ITEMS = new FastList<Integer>();
+	public static List<Integer> LIST_OLY_RESTRICTED_ITEMS = new FastList<>();
 	public static boolean ALLOW_EVENTS_DURING_OLY;
 	public static boolean ALT_OLY_RECHARGE_SKILLS;
 	
@@ -2802,7 +2803,7 @@ public final class Config
 			ALT_OLY_MIN_POINT_FOR_EXCH = Integer.parseInt(OLYMPSetting.getProperty("AltOlyMinPointForExchange", "50"));
 			ALT_OLY_HERO_POINTS = Integer.parseInt(OLYMPSetting.getProperty("AltOlyHeroPoints", "100"));
 			ALT_OLY_RESTRICTED_ITEMS = OLYMPSetting.getProperty("AltOlyRestrictedItems", "0");
-			LIST_OLY_RESTRICTED_ITEMS = new FastList<Integer>();
+			LIST_OLY_RESTRICTED_ITEMS = new FastList<>();
 			for(String id : ALT_OLY_RESTRICTED_ITEMS.split(","))
 			{
 				LIST_OLY_RESTRICTED_ITEMS.add(Integer.parseInt(id));
@@ -2818,7 +2819,7 @@ public final class Config
 			ALT_OLY_LOG_FIGHTS				= Boolean.parseBoolean(OLYMPSetting.getProperty("AlyOlyLogFights", "false"));
 			ALT_OLY_SHOW_MONTHLY_WINNERS	= Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyShowMonthlyWinners", "true"));
 			ALT_OLY_ANNOUNCE_GAMES			= Boolean.parseBoolean(OLYMPSetting.getProperty("AltOlyAnnounceGames", "true"));
-			LIST_OLY_RESTRICTED_SKILLS		= new FastList<Integer>();
+			LIST_OLY_RESTRICTED_SKILLS		= new FastList<>();
 			for (String id : OLYMPSetting.getProperty("AltOlyRestrictedSkills", "0").split(","))
 			{
 				LIST_OLY_RESTRICTED_SKILLS.add(Integer.parseInt(id));
@@ -2841,17 +2842,17 @@ public final class Config
 
 	//============================================================
 	// Enchant map
-	public static FastMap<Integer, Integer> NORMAL_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> BLESS_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> CRYSTAL_WEAPON_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
+	public static FastMap<Integer, Integer> NORMAL_WEAPON_ENCHANT_LEVEL = new FastMap<>();
+	public static FastMap<Integer, Integer> BLESS_WEAPON_ENCHANT_LEVEL = new FastMap<>();
+	public static FastMap<Integer, Integer> CRYSTAL_WEAPON_ENCHANT_LEVEL = new FastMap<>();
 
-	public static FastMap<Integer, Integer> NORMAL_ARMOR_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> BLESS_ARMOR_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> CRYSTAL_ARMOR_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
+	public static FastMap<Integer, Integer> NORMAL_ARMOR_ENCHANT_LEVEL = new FastMap<>();
+	public static FastMap<Integer, Integer> BLESS_ARMOR_ENCHANT_LEVEL = new FastMap<>();
+	public static FastMap<Integer, Integer> CRYSTAL_ARMOR_ENCHANT_LEVEL = new FastMap<>();
 
-	public static FastMap<Integer, Integer> NORMAL_JEWELRY_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> BLESS_JEWELRY_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
-	public static FastMap<Integer, Integer> CRYSTAL_JEWELRY_ENCHANT_LEVEL = new FastMap<Integer, Integer>();
+	public static FastMap<Integer, Integer> NORMAL_JEWELRY_ENCHANT_LEVEL = new FastMap<>();
+	public static FastMap<Integer, Integer> BLESS_JEWELRY_ENCHANT_LEVEL = new FastMap<>();
+	public static FastMap<Integer, Integer> CRYSTAL_JEWELRY_ENCHANT_LEVEL = new FastMap<>();
 
 	public static int ENCHANT_SAFE_MAX;
 	public static int ENCHANT_SAFE_MAX_FULL;
@@ -3528,7 +3529,7 @@ public final class Config
 						  ALLOW_LETHAL_PROTECTION_MOBS;
 	
 	public static String LETHAL_PROTECTED_MOBS;
-	public static FastList<Integer> LIST_LETHAL_PROTECTED_MOBS = new FastList<Integer>();
+	public static FastList<Integer> LIST_LETHAL_PROTECTED_MOBS = new FastList<>();
 	
 
 	public static float MAGIC_CRITICAL_POWER;
@@ -3632,7 +3633,7 @@ public final class Config
 			
 			LETHAL_PROTECTED_MOBS = PHYSICSSetting.getProperty("LethalProtectedMobs", "");
 			
-			LIST_LETHAL_PROTECTED_MOBS = new FastList<Integer>();
+			LIST_LETHAL_PROTECTED_MOBS = new FastList<>();
 			for(String id : LETHAL_PROTECTED_MOBS.split(","))
 			{
 				LIST_LETHAL_PROTECTED_MOBS.add(Integer.parseInt(id));
@@ -3646,7 +3647,7 @@ public final class Config
 			REMOVE_LEG_SUBCLASS = Boolean.parseBoolean(PHYSICSSetting.getProperty("RemoveLegSubclass", "False"));
 			
 			DISABLE_BOW_CLASSES_STRING = PHYSICSSetting.getProperty("DisableBowForClasses", "");
-			DISABLE_BOW_CLASSES = new FastList<Integer>();
+			DISABLE_BOW_CLASSES = new FastList<>();
 			for (String class_id : DISABLE_BOW_CLASSES_STRING.split(",")){
 				if(!class_id.equals(""))
 					DISABLE_BOW_CLASSES.add(Integer.parseInt(class_id));
@@ -3805,7 +3806,7 @@ public final class Config
 	public static int FRINTEZZA_MAX_PARTIES;
 	
 	public static String RAID_INFO_IDS;
-	public static FastList<Integer> RAID_INFO_IDS_LIST = new FastList<Integer>();
+	public static FastList<Integer> RAID_INFO_IDS_LIST = new FastList<>();
 	
 	//============================================================
 	public static void loadBossConfig()
@@ -3829,7 +3830,7 @@ public final class Config
 				RBLOCKRAGE = 100;
 			}
 			
-			RBS_SPECIFIC_LOCK_RAGE = new HashMap<Integer, Integer>();
+			RBS_SPECIFIC_LOCK_RAGE = new HashMap<>();
 			
 			String RBS_SPECIFIC_LOCK_RAGE_String = bossSettings.getProperty("RaidBossesSpecificLockRage","");
 			
@@ -3923,7 +3924,7 @@ public final class Config
 			LEVEL_DIFF_MULTIPLIER_MINION = Float.parseFloat(bossSettings.getProperty("LevelDiffMultiplierMinion", "0.5"));
 			
 			RAID_INFO_IDS = bossSettings.getProperty("RaidInfoIDs", "");
-			RAID_INFO_IDS_LIST = new FastList<Integer>();
+			RAID_INFO_IDS_LIST = new FastList<>();
 			for(String id : RAID_INFO_IDS.split(","))
 			{
 				RAID_INFO_IDS_LIST.add(Integer.parseInt(id));
@@ -4060,7 +4061,7 @@ public final class Config
 	{
 		final String EXTENDER_FILE = FService.EXTENDER_FILE;
 
-		EXTENDERS = new FastMap<String, List<String>>();
+		EXTENDERS = new FastMap<>();
 		File f = new File(EXTENDER_FILE);
 		if(f.exists())
 		{
@@ -4209,7 +4210,7 @@ public final class Config
 	}
 
 	//============================================================
-	public static ArrayList<String> QUESTION_LIST = new ArrayList<String>();
+	public static ArrayList<String> QUESTION_LIST = new ArrayList<>();
 	public static void loadQuestion()
 	{
 		final String QUESTION_FILE = FService.QUESTION_FILE;
@@ -4251,6 +4252,7 @@ public final class Config
 
 	//============================================================
 	private static final String HEXID_FILE = FService.HEXID_FILE;
+	public static boolean ENABLE_OLYMPIAD_DISCONNECTION_DEBUG = false;
 	public static int SERVER_ID;
 	public static byte[] HEX_ID;
 

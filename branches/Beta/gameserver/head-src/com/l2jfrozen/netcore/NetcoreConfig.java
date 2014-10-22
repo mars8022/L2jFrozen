@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 import javolution.util.FastList;
 
-public class Config
+public class NetcoreConfig
 {
 	
 	//public short MMOCORE_IP_TOS;
@@ -37,6 +37,7 @@ public class Config
 	public boolean ENABLE_MMOCORE_DEVELOP = false;
 	
 	/** Client Packets Queue settings */
+	public static boolean ENABLE_CLIENT_FLOOD_PROTECTION = true;
 	public int CLIENT_PACKET_QUEUE_SIZE;	// default MMO_MAX_READ_PER_PASS + 2
 	public int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE;	// default MMO_MAX_READ_PER_PASS + 1
 	public int CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND;	// default 80
@@ -56,27 +57,27 @@ public class Config
 	public String PACKET_FLOODING_PUNISHMENT_TYPE;
 	
 	public String PROTECTED_OPCODES;
-	public FastList<Integer> GS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
-	public FastList<Integer> GS_LIST_PROTECTED_OPCODES2 = new FastList<Integer>();
-	public FastList<Integer> LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
+	public FastList<Integer> GS_LIST_PROTECTED_OPCODES = new FastList<>();
+	public FastList<Integer> GS_LIST_PROTECTED_OPCODES2 = new FastList<>();
+	public FastList<Integer> LS_LIST_PROTECTED_OPCODES = new FastList<>();
 	
 	public String ALLOWED_OFFLINE_OPCODES;
-	public FastList<Integer> LIST_ALLOWED_OFFLINE_OPCODES = new FastList<Integer>();
-	public FastList<Integer> LIST_ALLOWED_OFFLINE_OPCODES2 = new FastList<Integer>();
+	public FastList<Integer> LIST_ALLOWED_OFFLINE_OPCODES = new FastList<>();
+	public FastList<Integer> LIST_ALLOWED_OFFLINE_OPCODES2 = new FastList<>();
 	
 	public boolean DUMP_CLOSE_CONNECTIONS;
 	
 	
 	//============================================================
-	private static Config _instance;
-	public static Config getInstance()
+	private static NetcoreConfig _instance;
+	public static NetcoreConfig getInstance()
 	{
 		if(_instance==null)
-			_instance = new Config();
+			_instance = new NetcoreConfig();
 		return _instance;
 	}
 	
-	private Config()
+	private NetcoreConfig()
 	{
 		final String MMO_CONFIG = "./config/protected/mmocore.properties";
 
@@ -114,6 +115,7 @@ public class Config
 			PACKET_FLOODING_PUNISHMENT_TYPE = mmoSetting.getProperty("PacketFloodingPunishmentType", "kick");
 			
 			//CLIENT-QUEUE-SETTINGS
+			ENABLE_CLIENT_FLOOD_PROTECTION = Boolean.getBoolean(mmoSetting.getProperty("EnableClientFloodProtection"));
 			CLIENT_PACKET_QUEUE_SIZE= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueSize", "14"));	// default MMO_MAX_READ_PER_PASS + 2
 			CLIENT_PACKET_QUEUE_MAX_BURST_SIZE= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxBurstSize", "13"));	// default MMO_MAX_READ_PER_PASS + 1
 			CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND= Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxPacketsPerSecond", "80"));	// default 80
@@ -128,9 +130,9 @@ public class Config
 			//OPCODES Flood Protector
 			PROTECTED_OPCODES = mmoSetting.getProperty("ListOfProtectedOpCodes");
 			
-			LS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
-			GS_LIST_PROTECTED_OPCODES = new FastList<Integer>();
-			GS_LIST_PROTECTED_OPCODES2 = new FastList<Integer>();
+			LS_LIST_PROTECTED_OPCODES = new FastList<>();
+			GS_LIST_PROTECTED_OPCODES = new FastList<>();
+			GS_LIST_PROTECTED_OPCODES2 = new FastList<>();
 			
 			if(PROTECTED_OPCODES!=null && !PROTECTED_OPCODES.equals("")){
 				
@@ -184,8 +186,8 @@ public class Config
 			//OPCODES Offline Protection
 			ALLOWED_OFFLINE_OPCODES = mmoSetting.getProperty("ListOfAllowedOfflineOpCodes","0x03;0x9d;0xd0,0x08;0x13;0x81;");
 			
-			LIST_ALLOWED_OFFLINE_OPCODES = new FastList<Integer>();
-			LIST_ALLOWED_OFFLINE_OPCODES2 = new FastList<Integer>();
+			LIST_ALLOWED_OFFLINE_OPCODES = new FastList<>();
+			LIST_ALLOWED_OFFLINE_OPCODES2 = new FastList<>();
 			
 			if(ALLOWED_OFFLINE_OPCODES!=null && !ALLOWED_OFFLINE_OPCODES.equals("")){
 				

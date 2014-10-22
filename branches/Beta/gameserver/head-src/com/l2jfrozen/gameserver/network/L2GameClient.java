@@ -62,8 +62,10 @@ import com.l2jfrozen.gameserver.util.FloodProtectors;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.MMOConnection;
+import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.ReceivablePacket;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.OlympiadLogger;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -99,7 +101,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 
 	private boolean _isAuthedGG;
 	private long _connectionStartTime;
-	private List<Integer> _charSlotMapping = new FastList<Integer>();
+	private List<Integer> _charSlotMapping = new FastList<>();
 
 	// Task
 	private ScheduledFuture<?> _guardCheckTask = null;
@@ -134,7 +136,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		_connectionStartTime = System.currentTimeMillis();
 		crypt = new GameCrypt();
 		_stats = new ClientStats();
-		_packetQueue = new ArrayBlockingQueue<ReceivablePacket<L2GameClient>>(com.l2jfrozen.netcore.Config.getInstance().CLIENT_PACKET_QUEUE_SIZE);
+		_packetQueue = new ArrayBlockingQueue<>(NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_SIZE);
 		
 		_guardCheckTask = nProtect.getInstance().startTask(this);
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
@@ -838,6 +840,40 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				L2PcInstance player = L2GameClient.this.getActiveChar();
 				if (player != null) // this should only happen on connection loss
 				{
+					if (Config.ENABLE_OLYMPIAD_DISCONNECTION_DEBUG) {
+						if (player.isInOlympiadMode()
+								|| player.inObserverMode()) {
+							if (player.isInOlympiadMode()) {
+								String text = "Player " + player.getName()
+										+ ", Class:" + player.getClassId()
+										+ ", Level:" + player.getLevel()
+										+ ", Mode: Olympiad, Loc: "
+										+ player.getX() + " Y:" + player.getY()
+										+ " Z:" + player.getZ()
+										+ ", Critical?: " + _forcedToClose;
+								OlympiadLogger.add(text, "Olympiad_crash_debug");
+							} else if (player.inObserverMode()) {
+								String text = "Player " + player.getName()
+										+ ", Class:" + player.getClassId()
+										+ ", Level:" + player.getLevel()
+										+ ", Mode: Observer, Loc: "
+										+ player.getX() + " Y:" + player.getY()
+										+ " Z:" + player.getZ()
+										+ ", Critical?: " + _forcedToClose;
+								OlympiadLogger.add(text, "Olympiad_crash_debug");
+							} else {
+								String text = "Player " + player.getName()
+										+ ", Class:" + player.getClassId()
+										+ ", Level:" + player.getLevel()
+										+ ", Mode: Default, Loc: "
+										+ player.getX() + " Y:" + player.getY()
+										+ " Z:" + player.getZ()
+										+ ", Critical?: " + _forcedToClose;
+								OlympiadLogger.add(text, "Olympiad_crash_debug");
+							}
+						}
+					}
+
 					// we store all data from players who are disconnected while in an event in order to restore it in the next login
 					if(player.atEvent)
 					{
@@ -1074,19 +1110,23 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	 * True if detached, or flood detected, or queue overflow detected and queue still not empty.
 	 * @return 
 	 */
-	public boolean dropPacket()
-	{
-		if (_isDetached) // detached clients can't receive any packets
-			return true;
-		
-		// flood protection
-		if (getStats().countPacket(_packetQueue.size()))
-		{
-			sendPacket(ActionFailed.STATIC_PACKET);
+	public boolean dropPacket() {
+		if (NetcoreConfig.ENABLE_CLIENT_FLOOD_PROTECTION) {
+			if (_isDetached) // detached clients can't receive any packets
+				return true;
+			
+			// flood protection
+			if (getStats().countPacket(_packetQueue.size())) {
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return true;
+			}
+			
+			return getStats().dropPacket();
+		}
+		if (_isDetached) {
 			return true;
 		}
-		
-		return getStats().dropPacket();
+		return false;
 	}
 	
 	/**

@@ -110,7 +110,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 			catch (CancelledKeyException e)
 			{
-				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
+				if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -295,7 +295,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			
 		}
 		
-		if(Config.getInstance().DUMP_CLOSE_CONNECTIONS){
+		if(NetcoreConfig.getInstance().DUMP_CLOSE_CONNECTIONS){
 			Thread.dumpStack();
 		}
 		//_closePacket = sp;

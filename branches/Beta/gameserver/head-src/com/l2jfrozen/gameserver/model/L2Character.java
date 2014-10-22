@@ -8402,8 +8402,8 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				continue;
 			}
 			
-			if ((e.getSkill().getSkillType() == L2Skill.SkillType.BUFF || e.getSkill().getSkillType() == L2Skill.SkillType.REFLECT || e.getSkill().getSkillType() == L2Skill.SkillType.HEAL_PERCENT || e.getSkill().getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) && !(e.getSkill().getId() > 4360 && e.getSkill().getId() < 4367)) // 7s
-				// buffs
+			if ((e.getSkill().getSkillType() == L2Skill.SkillType.BUFF || e.getSkill().getId() == 1416 || e.getSkill().getSkillType() == L2Skill.SkillType.REFLECT || e.getSkill().getSkillType() == L2Skill.SkillType.HEAL_PERCENT || e.getSkill().getSkillType() == L2Skill.SkillType.MANAHEAL_PERCENT) && !(e.getSkill().getId() > 4360 && e.getSkill().getId() < 4367)) // 7s
+	             // buffs
 			{
 				numBuffs++;
 			}		
@@ -9045,7 +9045,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 					SkillDat skilldat = currPlayer.getCurrentSkill();
 					if (skilldat != null && !skilldat.isCtrlPressed() && (skill.isOffensive()) && !(skill.getSkillType() == SkillType.UNLOCK) && !(skill.getSkillType() == SkillType.BLOW) && !(skill.getSkillType() == SkillType.DELUXE_KEY_UNLOCK) && skill.getId() != 345 && skill.getId() != 346)
 					{
-						if(!skill.isMagic())
+						if (!skill.isMagic() && skill.nextActionIsAttack()) 
 							getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, getTarget());
 						
 						getAI().clientStartAutoAttack();
@@ -9072,10 +9072,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			getAI().notifyEvent(CtrlEvent.EVT_FINISH_CASTING);
 			
 			notifyQuestEventSkillFinished(skill, getTarget());
-			
-			// Like L2OFF after a skill the player must stop the movement, also with toggle
-			stopMove(null);
-			
+						
 			/*
 			 * If character is a player, then wipe their current cast state and check if a skill is queued. If there is a queued skill, launch it and wipe the queue.
 			 */
