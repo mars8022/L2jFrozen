@@ -78,8 +78,8 @@ public class AutoSaveManager
 		
 		stopAutoSaveManager();
 		_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSaveTask(), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
-		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PlayersSaveTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
-		_autoCleanDatabase = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoCleanDBTask(), 300000, 900000); //Fixed rate.
+		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ConnectionCheckTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
+		_autoCleanDatabase = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoCleanDBTask(), Config.CLEANDB_INITIAL_TIME, Config.CLEANDB_DELAY_TIME);
 	}
 	
 	protected class AutoSaveTask implements Runnable
@@ -87,17 +87,17 @@ public class AutoSaveManager
 		@Override
 		public void run()
 		{
-			_log.info("AutoSaveManager: saving players data..");
+			int playerscount = 0;
 			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
 			
 			for (final L2PcInstance player : players)
-			{
-				
+			{	
 				if (player != null)
 				{
 					try
 					{
+						playerscount++;
 						player.store();
 					}
 					catch (Exception e)
@@ -109,18 +109,15 @@ public class AutoSaveManager
 					}
 				}
 			}
-			_log.info("AutoSaveManager: players data saved..");
+			_log.info(" [AutoSaveManager] AutoSaveTask, "+playerscount+" players data saved.");
 		}
 	}
 	
-	protected class PlayersSaveTask implements Runnable
+	protected class ConnectionCheckTask implements Runnable
 	{
 		@Override
 		public void run()
-		{
-			if (Config.DEBUG)
-				_log.info("AutoSaveManager: checking players connection..");
-			
+		{			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
 			
 			for (final L2PcInstance player : players)
@@ -165,40 +162,45 @@ public class AutoSaveManager
 					}
 				}
 			}
-			
-			if (Config.DEBUG)
-				_log.info("AutoSaveManager: players connections checked..");
+				_log.info(" [AutoSaveManager] ConnectionCheckTask, players connections checked.");
 		}
 	}
 	
-	protected class AutoCleanDBTask implements Runnable{
+	protected class AutoCleanDBTask implements Runnable
+	{
 		
-				@Override
-				public void run() {
-					int erased = 0;
-					_log.info("AutoSaveManager: cleaning database..");
-					/* Perform the clean here instead of every time that the skills are saved
-					in order to do it in once step because if skill have 0 reuse delay
-					doesn't affect the game, just makes the table grows bigger */
-					Connection con = null;
-					try{
-						con = L2DatabaseFactory.getInstance().getConnection(false);
-						PreparedStatement statement;
-						statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
-						erased = statement.executeUpdate();
-						statement.close();
-						statement = null;
-					}catch (Exception e){
-						_log.info("Error while cleaning skill with 0 reuse time from table.");
-						if (Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-					}finally{
-						CloseUtil.close(con);
-					}
-					_log.info(erased + " entries cleaned from db");
-				}
-				
+		@Override
+		public void run()
+		{
+			int erased = 0;
+			
+			/*
+			 * Perform the clean here instead of every time that the skills are saved in order to do it in once step because if skill have 0 reuse delay doesn't affect the game, just makes the table grows bigger
+			 */
+			Connection con = null;
+			try
+			{
+				con = L2DatabaseFactory.getInstance().getConnection(false);
+				PreparedStatement statement;
+				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
+				erased = statement.executeUpdate();
+				statement.close();
+				statement = null;
 			}
+			catch (Exception e)
+			{
+				_log.info("Error while cleaning skill with 0 reuse time from table.");
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
+			finally
+			{
+				CloseUtil.close(con);
+			}
+
+			_log.info(" [AutoSaveManager] AutoCleanDBTask, "+erased+" entries cleaned from db.");
+		}	
+	}
 	
 	private static class SingletonHolder
 	{

@@ -49,7 +49,7 @@ public class TaskOlympiadSave extends Task
 			if (Olympiad.getInstance().inCompPeriod())
 			{
 				Olympiad.getInstance().saveOlympiadStatus();
-				_log.info("Olympiad System save Global Task: launched.");
+				_log.info(" [GlobalTask] Olympiad System save launched.");
 			}
 		}
 		catch (Exception e)

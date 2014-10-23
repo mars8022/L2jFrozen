@@ -46,7 +46,7 @@ public class TaskJython extends Task
 		_python.cleanup();
 		_python.exec("import sys");
 		_python.execfile("data/scripts/cron/" + task.getParams()[2]);
-		LOGGER.info("Python Cleanup Global Task: launched.");
+		LOGGER.info(" [GlobalTask] Python Cleanup launched.");
 	}
 	
 }

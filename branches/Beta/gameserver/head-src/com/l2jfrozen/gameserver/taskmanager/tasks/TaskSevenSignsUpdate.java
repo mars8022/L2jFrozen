@@ -52,7 +52,7 @@ public class TaskSevenSignsUpdate extends Task
 			if (!SevenSigns.getInstance().isSealValidationPeriod())
 				SevenSignsFestival.getInstance().saveFestivalData(false);
 			
-			_log.info("SevenSigns save Global Task: launched.");
+			_log.info(" [GlobalTask] SevenSigns save launched.");
 		}
 		catch (Exception e)
 		{
