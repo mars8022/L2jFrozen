@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 public class TaskSevenSignsUpdate extends Task
 {
 	private static final Logger _log = Logger.getLogger(TaskSevenSignsUpdate.class.getName());
-	public static final String NAME = "SevenSignsUpdate";
+	public static final String NAME = "sevensignsupdate";
 	
 	@Override
 	public String getName()
@@ -52,7 +52,7 @@ public class TaskSevenSignsUpdate extends Task
 			if (!SevenSigns.getInstance().isSealValidationPeriod())
 				SevenSignsFestival.getInstance().saveFestivalData(false);
 			
-			_log.info("SevenSigns: Data updated successfully.");
+			_log.info("SevenSigns save Global Task: launched.");
 		}
 		catch (Exception e)
 		{

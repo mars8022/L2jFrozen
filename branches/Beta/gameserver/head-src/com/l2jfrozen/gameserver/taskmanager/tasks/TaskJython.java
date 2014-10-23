@@ -18,6 +18,8 @@
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
 import org.python.util.PythonInterpreter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jfrozen.gameserver.taskmanager.Task;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
@@ -27,6 +29,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public class TaskJython extends Task
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(TaskJython.class.getName());
 	public static final String NAME = "jython";
 	
 	private final PythonInterpreter _python = new PythonInterpreter();
@@ -43,6 +46,7 @@ public class TaskJython extends Task
 		_python.cleanup();
 		_python.exec("import sys");
 		_python.execfile("data/scripts/cron/" + task.getParams()[2]);
+		LOGGER.info("Python Cleanup Global Task: launched.");
 	}
 	
 }
