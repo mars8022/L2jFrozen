@@ -143,6 +143,7 @@ import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.gameserver.thread.daemons.PcPoint;
 import com.l2jfrozen.gameserver.util.DynamicExtension;
 import com.l2jfrozen.gameserver.util.sql.SQLQueue;
+import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
 import com.l2jfrozen.status.Status;
@@ -608,14 +609,14 @@ public class GameServer
 		_loginThread.start();
 		
 		final SelectorConfig sc = new SelectorConfig();
-		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_MAX_READ_PER_PASS;
-		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_MAX_SEND_PER_PASS;
-		sc.SLEEP_TIME = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_SELECTOR_SLEEP_TIME;
-		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_HELPER_BUFFER_COUNT;
+		sc.setMaxReadPerPass(NetcoreConfig.getInstance().MMO_MAX_READ_PER_PASS);
+		sc.setMaxSendPerPass(NetcoreConfig.getInstance().MMO_MAX_SEND_PER_PASS);
+		sc.setSleepTime(NetcoreConfig.getInstance().MMO_SELECTOR_SLEEP_TIME);
+		sc.setHelperBufferCount(NetcoreConfig.getInstance().MMO_HELPER_BUFFER_COUNT);
 		
 		_gamePacketHandler = new L2GamePacketHandler();
 		
-		_selectorThread = new SelectorThread<L2GameClient>(sc, _gamePacketHandler, _gamePacketHandler, _gamePacketHandler, new IPv4Filter());
+		_selectorThread = new SelectorThread<>(sc, _gamePacketHandler, _gamePacketHandler, _gamePacketHandler, new IPv4Filter());
 		
 		InetAddress bindAddress = null;
 		if (!Config.GAMESERVER_HOSTNAME.equals("*"))

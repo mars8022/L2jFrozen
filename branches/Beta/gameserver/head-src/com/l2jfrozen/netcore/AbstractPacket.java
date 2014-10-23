@@ -20,15 +20,15 @@ package com.l2jfrozen.netcore;
 import java.nio.ByteBuffer;
 
 /**
+ * @param <T>
  * @author KenM
- * @param <T> 
  */
 public abstract class AbstractPacket<T extends MMOClient<?>>
 {
 	protected ByteBuffer _buf;
-	
+
 	T _client;
-	
+
 	public final T getClient()
 	{
 		return _client;

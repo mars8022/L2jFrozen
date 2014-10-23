@@ -18,8 +18,8 @@
 package com.l2jfrozen.netcore;
 
 /**
+ * @param <T>
  * @author KenM
- * @param <T> 
  */
 public interface IClientFactory<T extends MMOClient<?>>
 {

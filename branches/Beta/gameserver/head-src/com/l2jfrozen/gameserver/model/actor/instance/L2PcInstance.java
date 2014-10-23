@@ -3100,21 +3100,22 @@ public final class L2PcInstance extends L2PlayableInstance
 	/**
 	 * Return the max weight that the L2PcInstance can load.<BR>
 	 * <BR>
-	 *
+	 * 
 	 * @return the max load
 	 */
-	public int getMaxLoad()
-	{
-		// Weight Limit = (CON Modifier*69000)*Skills
+	public int getMaxLoad() {
 		
-    int con = getCON();
-
+		// Weight Limit = (CON Modifier*69000)*Skills
+		// Source http://l2p.bravehost.com/weightlimit.html (May 2007)
+		
+		int con = getCON();
+		
 		if (con < 1)
 			return 31000;
-
+		
 		if (con > 59)
 			return 176000;
-
+		
 		double baseLoad = Math.floor(BaseStats.CON.calcBonus(this) * 69000 * Config.ALT_WEIGHT_LIMIT);
 		return (int) calcStat(Stats.MAX_LOAD, baseLoad, this, null);
 	}

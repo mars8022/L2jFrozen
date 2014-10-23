@@ -34,6 +34,7 @@ import com.l2jfrozen.FService;
 import com.l2jfrozen.L2Frozen;
 import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
+import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.SelectorConfig;
 import com.l2jfrozen.netcore.SelectorThread;
 import com.l2jfrozen.status.Status;
@@ -204,16 +205,16 @@ public class L2LoginServer
 		}
 
 		final SelectorConfig sc = new SelectorConfig();
-		sc.MAX_READ_PER_PASS = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_MAX_READ_PER_PASS;
-		sc.MAX_SEND_PER_PASS = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_MAX_SEND_PER_PASS;
-		sc.SLEEP_TIME = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_SELECTOR_SLEEP_TIME;
-		sc.HELPER_BUFFER_COUNT = com.l2jfrozen.netcore.NetcoreConfig.getInstance().MMO_HELPER_BUFFER_COUNT;
+		sc.setMaxReadPerPass(NetcoreConfig.getInstance().MMO_MAX_READ_PER_PASS);
+		sc.setMaxSendPerPass(NetcoreConfig.getInstance().MMO_MAX_SEND_PER_PASS);
+		sc.setSleepTime(NetcoreConfig.getInstance().MMO_SELECTOR_SLEEP_TIME);
+		sc.setHelperBufferCount(NetcoreConfig.getInstance().MMO_HELPER_BUFFER_COUNT);
 		
 		final L2LoginPacketHandler lph = new L2LoginPacketHandler();
 		final SelectorHelper sh = new SelectorHelper();
 		try
 		{
-			_selectorThread = new SelectorThread<L2LoginClient>(sc, sh, lph, sh, sh);
+			_selectorThread = new SelectorThread<>(sc, sh, lph, sh, sh);
 		}
 		catch(IOException e)
 		{
