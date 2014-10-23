@@ -29,8 +29,8 @@ import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
-import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.MMOClient;
+import com.l2jfrozen.netcore.NetcoreConfig;
 
 /**
  * @author Enzo
