@@ -20,198 +20,176 @@ package com.l2jfrozen.netcore;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 
-import com.l2jfrozen.gameserver.network.L2GameClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * @param <T>
  * @author KenM
- * @param <T> 
  */
 public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractPacket<T> implements Runnable
 {
 	NioNetStringBuffer _sbuf;
-	
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ReceivablePacket.class);
+
 	protected ReceivablePacket()
 	{
-		
+
 	}
-	
+
 	protected abstract boolean read();
-	
+
 	@Override
 	public abstract void run();
-	
+
 	protected final void readB(final byte[] dst)
 	{
-		try{
-			
+		try
+		{
+
 			_buf.get(dst);
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
 		}
-		
+		catch (final BufferUnderflowException e)
+		{
+
+			LOGGER.warn("", e);
+
+		}
+
 	}
-	
+
 	protected final void readB(final byte[] dst, final int offset, final int len)
 	{
-		try{
-			
+		try
+		{
+
 			_buf.get(dst, offset, len);
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
-		
 	}
-	
+
 	protected final int readC()
 	{
-		try{
-			
+		try
+		{
+
 			return _buf.get() & 0xFF;
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
 		return -1;
-		
+
 	}
-	
+
 	protected final int readH()
 	{
-		
-		try{
-			
+
+		try
+		{
+
 			return _buf.getShort() & 0xFFFF;
-			
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
 		return -1;
 	}
-	
+
 	protected final int readD()
 	{
-		
-		try{
-			
+
+		try
+		{
+
 			return _buf.getInt();
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
 		return -1;
 	}
-	
+
 	protected final long readQ()
 	{
-		
-		try{
-			
+
+		try
+		{
+
 			return _buf.getLong();
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
 		return -1;
 	}
-	
+
 	protected final double readF()
 	{
-		try{
-			
+		try
+		{
+
 			return _buf.getDouble();
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
 		return -1;
 	}
-	
+
 	protected final String readS()
 	{
 		_sbuf.clear();
-		
-		try{
-			
+
+		try
+		{
+
 			char ch;
 			while ((ch = _buf.getChar()) != 0)
 			{
 				_sbuf.append(ch);
 			}
-			
-		}catch(BufferUnderflowException e){
-			
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
-			if(getClient() instanceof L2GameClient){
-				((L2GameClient)getClient()).onBufferUnderflow();
-			}
-			
+
+		}
+		catch (final BufferUnderflowException e)
+		{
+			LOGGER.warn("", e);
+
 		}
 
 		return _sbuf.toString();
 	}
-	
+
 	/**
 	 * packet forge purpose
+	 * 
 	 * @param data
 	 * @param client
 	 * @param sBuffer

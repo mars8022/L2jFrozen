@@ -90,8 +90,7 @@ public class Heal implements ISkillHandler
 		{
 			target = (L2Character) target2;
 			
-			// We should not heal if char is dead
-			if (target == null || target.isDead())
+			if (target == null || target.isDead() || target.isInvul())
 				continue;
 			
 			// We should not heal walls and door

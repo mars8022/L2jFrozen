@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public final class Env
 {
-
+	
 	public L2Character player;
 	public L2Character target;
 	public L2ItemInstance item;
@@ -38,18 +38,21 @@ public final class Env
 	public double value;
 	public double baseValue;
 	public boolean skillMastery = false;
-	private L2Character _character;
-  private L2Character _target;
-  public L2Character getTarget()
-  {
-      return _target;
-  }
-  public L2Character getCharacter()
-  {
-      return _character;
-  }
-  public L2PcInstance getPlayer()
-  {
-      return _character == null ? null : _character.getActingPlayer();
-  }
+	private L2Character character;
+	private L2Character _target;
+	
+	public L2Character getCharacter()
+	{
+		return character;
+	}
+	
+	public L2PcInstance getPlayer()
+	{
+		return character == null ? null : character.getActingPlayer();
+	}
+	
+	public L2Character getTarget()
+	{
+		return _target;
+	}
 }

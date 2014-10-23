@@ -175,10 +175,10 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 			
 			// Check if player is an ally //TODO! [Nemesiss] it should be rather boolean or smth like that
 			// Comparing String isnt good idea!
-			if(me.getFactionId() == "varka" && ((L2PcInstance) target).isAlliedWithVarka())
+			if (me.getFactionId() != null && me.getFactionId().equals("varka") && ((L2PcInstance) target).isAlliedWithVarka()) 
 				return false;
-
-			if(me.getFactionId() == "ketra" && ((L2PcInstance) target).isAlliedWithKetra())
+			
+			if (me.getFactionId() != null && me.getFactionId().equals("ketra") && ((L2PcInstance) target).isAlliedWithKetra()) 
 				return false;
 
 			// check if the target is within the grace period for JUST getting up from fake death
@@ -209,9 +209,9 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 				if (owner.isGM() && (owner.isInvul() || !owner.getAccessLevel().canTakeAggro()))
 					return false;
 				// Check if player is an ally (comparing mem addr)		
-				if (me.getFactionId() == "varka" && owner.isAlliedWithVarka())
+				if (me.getFactionId() != null && me.getFactionId() == "varka" && owner.isAlliedWithVarka())
 					return false;
-				if (me.getFactionId() == "ketra" && owner.isAlliedWithKetra())
+				if (me.getFactionId() != null && me.getFactionId() == "ketra" && owner.isAlliedWithKetra())
 					return false;
 			}
 		}

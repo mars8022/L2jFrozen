@@ -31,15 +31,17 @@ import java.util.Iterator;
 
 import javolution.util.FastList;
 
-import com.l2jfrozen.gameserver.network.L2GameClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * @param <T>
  * @author KenM<BR>
  *         Parts of design based on networkcore from WoodenGil
- * @param <T> 
  */
 public final class SelectorThread<T extends MMOClient<?>> extends Thread
 {
+	private static Logger LOGGER = LoggerFactory.getLogger(SelectorThread.class.getName());
 	// default BYTE_ORDER
 	private static final ByteOrder BYTE_ORDER = ByteOrder.LITTLE_ENDIAN;
 	// default HEADER_SIZE
@@ -67,64 +69,70 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 	private final FastList<ByteBuffer> _bufferPool;
 	// Pending Close
 	private final NioNetStackList<MMOConnection<T>> _pendingClose;
-	
+
 	private boolean _shutdown;
-	
+
 	public SelectorThread(final SelectorConfig sc, final IMMOExecutor<T> executor, final IPacketHandler<T> packetHandler, final IClientFactory<T> clientFactory, final IAcceptFilter acceptFilter) throws IOException
 	{
 		super.setName("SelectorThread-" + super.getId());
-		
-		HELPER_BUFFER_SIZE = sc.HELPER_BUFFER_SIZE;
-		HELPER_BUFFER_COUNT = sc.HELPER_BUFFER_COUNT;
-		MAX_SEND_PER_PASS = sc.MAX_SEND_PER_PASS;
-		MAX_READ_PER_PASS = sc.MAX_READ_PER_PASS;
-		
-		SLEEP_TIME = sc.SLEEP_TIME;
-		
-		DIRECT_WRITE_BUFFER = ByteBuffer.allocateDirect(sc.WRITE_BUFFER_SIZE).order(BYTE_ORDER);
-		WRITE_BUFFER = ByteBuffer.wrap(new byte[sc.WRITE_BUFFER_SIZE]).order(BYTE_ORDER);
-		READ_BUFFER = ByteBuffer.wrap(new byte[sc.READ_BUFFER_SIZE]).order(BYTE_ORDER);
-		
+
+		HELPER_BUFFER_SIZE = sc.getHelperBufferSize();
+		HELPER_BUFFER_COUNT = sc.getHelperBufferCount();
+		MAX_SEND_PER_PASS = sc.getMaxSendPerPass();
+		MAX_READ_PER_PASS = sc.getMaxReadPerPass();
+
+		SLEEP_TIME = sc.getSleepTime();
+
+		DIRECT_WRITE_BUFFER = ByteBuffer.allocateDirect(sc.getWriteBufferSize()).order(BYTE_ORDER);
+		WRITE_BUFFER = ByteBuffer.wrap(new byte[sc.getWriteBufferSize()]).order(BYTE_ORDER);
+		READ_BUFFER = ByteBuffer.wrap(new byte[sc.getReadBufferSize()]).order(BYTE_ORDER);
+
 		STRING_BUFFER = new NioNetStringBuffer(64 * 1024);
-		
-		_pendingClose = new NioNetStackList<MMOConnection<T>>();
-		_bufferPool = new FastList<ByteBuffer>();
-		
+
+		_pendingClose = new NioNetStackList<>();
+		_bufferPool = new FastList<>();
+
 		for (int i = 0; i < HELPER_BUFFER_COUNT; i++)
 		{
 			_bufferPool.addLast(ByteBuffer.wrap(new byte[HELPER_BUFFER_SIZE]).order(BYTE_ORDER));
 		}
-		
+
 		_acceptFilter = acceptFilter;
 		_packetHandler = packetHandler;
 		_clientFactory = clientFactory;
 		_executor = executor;
 		_selector = Selector.open();
 	}
-	
+
 	public final void openServerSocket(InetAddress address, int tcpPort) throws IOException
 	{
-		ServerSocketChannel selectable = ServerSocketChannel.open();
+		final ServerSocketChannel selectable = ServerSocketChannel.open();
 		selectable.configureBlocking(false);
-		
-		ServerSocket ss = selectable.socket();
-		
+
+		final ServerSocket ss = selectable.socket();
+
 		if (address == null)
+		{
 			ss.bind(new InetSocketAddress(tcpPort));
+		}
 		else
+		{
 			ss.bind(new InetSocketAddress(address, tcpPort));
-		
+		}
+
 		selectable.register(_selector, SelectionKey.OP_ACCEPT);
 	}
-	
+
 	final ByteBuffer getPooledBuffer()
 	{
 		if (_bufferPool.isEmpty())
+		{
 			return ByteBuffer.wrap(new byte[HELPER_BUFFER_SIZE]).order(BYTE_ORDER);
-		
+		}
+
 		return _bufferPool.removeFirst();
 	}
-	
+
 	final void recycleBuffer(final ByteBuffer buf)
 	{
 		if (_bufferPool.size() < HELPER_BUFFER_COUNT)
@@ -133,40 +141,40 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			_bufferPool.addLast(buf);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void run()
 	{
 		int selectedKeysCount = 0;
-		
+
 		SelectionKey key;
 		MMOConnection<T> con;
-		
+
 		Iterator<SelectionKey> selectedKeys;
-		
+
 		while (!_shutdown)
 		{
 			try
 			{
 				selectedKeysCount = _selector.selectNow();
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
-				e.printStackTrace();
+				LOGGER.error("unhandled exception", e);
 			}
-			
+
 			if (selectedKeysCount > 0)
 			{
 				selectedKeys = _selector.selectedKeys().iterator();
-				
+
 				while (selectedKeys.hasNext())
 				{
 					key = selectedKeys.next();
 					selectedKeys.remove();
-					
+
 					con = (MMOConnection<T>) key.attachment();
-					
+
 					switch (key.readyOps())
 					{
 						case SelectionKey.OP_CONNECT:
@@ -184,12 +192,14 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 						case SelectionKey.OP_READ | SelectionKey.OP_WRITE:
 							writePacket(key, con);
 							if (key.isValid())
+							{
 								readPacket(key, con);
+							}
 							break;
 					}
 				}
 			}
-			
+
 			synchronized (_pendingClose)
 			{
 				while (!_pendingClose.isEmpty())
@@ -197,37 +207,36 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 					con = _pendingClose.removeFirst();
 					writeClosePacket(con);
 					closeConnectionImpl(con.getSelectionKey(), con);
-					
+
 				}
 			}
-			
+
 			try
 			{
 				Thread.sleep(SLEEP_TIME);
 			}
-			catch (InterruptedException e)
+			catch (final InterruptedException e)
 			{
-				e.printStackTrace();
+				LOGGER.error("unhandled exception", e);
 			}
 		}
 		closeSelectorThread();
 	}
-	
+
 	private final void finishConnection(final SelectionKey key, final MMOConnection<T> con)
 	{
 		try
 		{
 			((SocketChannel) key.channel()).finishConnect();
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
+			LOGGER.warn("", e);
+
 			con.getClient().onForcedDisconnection(true);
 			closeConnectionImpl(key, con);
 		}
-		
+
 		// key might have been invalidated on finishConnect()
 		if (key.isValid())
 		{
@@ -235,12 +244,12 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			key.interestOps(key.interestOps() & ~SelectionKey.OP_CONNECT);
 		}
 	}
-	
+
 	private final void acceptConnection(final SelectionKey key, MMOConnection<T> con)
 	{
-		ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+		final ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
 		SocketChannel sc;
-		
+
 		try
 		{
 			while ((sc = ssc.accept()) != null)
@@ -248,99 +257,110 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				if (_acceptFilter == null || _acceptFilter.accept(sc))
 				{
 					sc.configureBlocking(false);
-					SelectionKey clientKey = sc.register(_selector, SelectionKey.OP_READ);
-					con = new MMOConnection<T>(this, sc.socket(), clientKey);
+					final SelectionKey clientKey = sc.register(_selector, SelectionKey.OP_READ);
+					con = new MMOConnection<>(this, sc.socket(), clientKey);
 					con.setClient(_clientFactory.create(con));
 					clientKey.attach(con);
 				}
 				else
+				{
 					sc.socket().close();
+				}
 			}
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
-			e.printStackTrace();
+			LOGGER.error("unhandled exception", e);
 		}
 	}
-	
+
 	private final void readPacket(final SelectionKey key, final MMOConnection<T> con)
 	{
-		//if (!con.isClosed())
-		//{
-			ByteBuffer buf;
-			if ((buf = con.getReadBuffer()) == null)
+		// if (!con.isClosed())
+		// {
+		ByteBuffer buf;
+		if ((buf = con.getReadBuffer()) == null)
+		{
+			buf = READ_BUFFER;
+		}
+
+		// if we try to to do a read with no space in the buffer it will
+		// read 0 bytes
+		// going into infinite loop
+		if (buf.position() == buf.limit())
+		{
+			System.exit(0);
+		}
+
+		int result = -2;
+
+		boolean critical = true;
+
+		try
+		{
+			result = con.read(buf);
+		}
+		catch (final IOException e)
+		{
+			if (!con.isConnected() || !con.isChannelConnected())
 			{
-				buf = READ_BUFFER;
-			}
-			
-			// if we try to to do a read with no space in the buffer it will
-			// read 0 bytes
-			// going into infinite loop
-			if (buf.position() == buf.limit())
-				System.exit(0);
-			
-			int result = -2;
-			
-			boolean critical = true;
-			
-			try
-			{
-				result = con.read(buf);
-			}
-			catch (IOException e)
-			{
-				if(!con.isConnected() || !con.isChannelConnected()){
-					critical = false;
-				}else{
-					// error handling goes bellow
-					if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-						e.printStackTrace();
-				}
-			}
-			
-			if (result > 0)
-			{
-				buf.flip();
-				
-				final T client = con.getClient();
-				
-				for (int i = 0; i < MAX_READ_PER_PASS; i++)
-				{
-					if (!tryReadPacket(key, client, buf, con))
-						return;
-				}
-				
-				// only reachable if MAX_READ_PER_PASS has been reached
-				// check if there are some more bytes in buffer
-				// and allocate/compact to prevent content lose.
-				if (buf.remaining() > 0)
-				{
-					// did we use the READ_BUFFER ?
-					if (buf == READ_BUFFER)
-						// move the pending byte to the connections READ_BUFFER
-						allocateReadBuffer(con);
-					else
-						// move the first byte to the beginning :)
-						buf.compact();
-				}
+				critical = false;
 			}
 			else
 			{
-				switch (result)
+				LOGGER.warn("", e);
+			}
+		}
+
+		if (result > 0)
+		{
+			buf.flip();
+
+			final T client = con.getClient();
+
+			for (int i = 0; i < MAX_READ_PER_PASS; i++)
+			{
+				if (!tryReadPacket(key, client, buf, con))
 				{
-					case 0:
-					case -1:
-						closeConnectionImpl(key, con);
-						break;
-					case -2:
-						con.getClient().onForcedDisconnection(critical);
-						closeConnectionImpl(key, con);
-						break;
+					return;
 				}
 			}
-		//}
+
+			// only reachable if maxReadPerPass has been reached
+			// check if there are some more bytes in buffer
+			// and allocate/compact to prevent content lose.
+			if (buf.remaining() > 0)
+			{
+				// did we use the READ_BUFFER ?
+				if (buf == READ_BUFFER)
+				// move the pending byte to the connections READ_BUFFER
+				{
+					allocateReadBuffer(con);
+				}
+				else
+				// move the first byte to the beginning :)
+				{
+					buf.compact();
+				}
+			}
+		}
+		else
+		{
+			switch (result)
+			{
+				case 0:
+				case -1:
+					closeConnectionImpl(key, con);
+					break;
+				case -2:
+					con.getClient().onForcedDisconnection(critical);
+					closeConnectionImpl(key, con);
+					break;
+			}
+		}
+		// }
 	}
-	
+
 	private final boolean tryReadPacket(final SelectionKey key, final T client, final ByteBuffer buf, final MMOConnection<T> con)
 	{
 		switch (buf.remaining())
@@ -352,38 +372,42 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			case 1:
 				// we don`t have enough data for header so we need to read
 				key.interestOps(key.interestOps() | SelectionKey.OP_READ);
-				
+
 				// did we use the READ_BUFFER ?
 				if (buf == READ_BUFFER)
-					// move the pending byte to the connections READ_BUFFER
+				// move the pending byte to the connections READ_BUFFER
+				{
 					allocateReadBuffer(con);
+				}
 				else
-					// move the first byte to the beginning :)
+				// move the first byte to the beginning :)
+				{
 					buf.compact();
+				}
 				return false;
 			default:
 				// data size excluding header size :>
 				final int dataPending = (buf.getShort() & 0xFFFF) - HEADER_SIZE;
-				
+
 				// do we got enough bytes for the packet?
 				if (dataPending <= buf.remaining())
 				{
 					boolean read = true;
-					
+
 					// avoid parsing dummy packets (packets without body)
 					if (dataPending > 0)
 					{
 						final int pos = buf.position();
-						
-						
-						if(!parseClientPacket(pos, buf, dataPending, client)){
+
+						if (!parseClientPacket(pos, buf, dataPending, client))
+						{
 							read = false;
 						}
-							
+
 						buf.position(pos + dataPending);
-						
+
 					}
-					
+
 					// if we are done with this buffer
 					if (!buf.hasRemaining())
 					{
@@ -400,11 +424,11 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 					}
 					return read;
 				}
-				
+
 				// we don`t have enough bytes for the dataPacket so we need
 				// to read
 				key.interestOps(key.interestOps() | SelectionKey.OP_READ);
-				
+
 				// did we use the READ_BUFFER ?
 				if (buf == READ_BUFFER)
 				{
@@ -421,95 +445,82 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				return false;
 		}
 	}
-	
+
 	private final void allocateReadBuffer(final MMOConnection<T> con)
 	{
 		con.setReadBuffer(getPooledBuffer().put(READ_BUFFER));
 		READ_BUFFER.clear();
 	}
-	
+
 	private final boolean parseClientPacket(final int pos, final ByteBuffer buf, final int dataSize, final T client)
 	{
 		final boolean ret = client.decrypt(buf, dataSize);
-		
+
 		if (ret && buf.hasRemaining())
 		{
 			// apply limit
 			final int limit = buf.limit();
 			buf.limit(pos + dataSize);
-			
-			//check for flood action
-			/*int opcode = buf.get() & 0xFF;
-			int opcode2 = -1;
-			
-			if(opcode == 0xd0){
-				
-				if(buf.remaining() >= 2)
-				{
-					opcode2 = buf.getShort() & 0xffff;
-				}
-				
-			}
-			
-			if(!tryPerformAction(opcode,opcode2,client)){
-				
-				return false;
-			}
-			*/
-			final ReceivablePacket<T> cp = _packetHandler.handlePacket( buf, client);
-			
+
+			// check for flood action
+			/*
+			 * int opcode = buf.get() & 0xFF; int opcode2 = -1; if(opcode == 0xd0){ if(buf.remaining() >= 2) { opcode2 = buf.getShort() & 0xffff; } } if(!tryPerformAction(opcode,opcode2,client)){ return false; }
+			 */
+			final ReceivablePacket<T> cp = _packetHandler.handlePacket(buf, client);
+
 			if (cp != null)
 			{
 				cp._buf = buf;
 				cp._sbuf = STRING_BUFFER;
 				cp._client = client;
-				
+
 				if (cp.read())
+				{
 					_executor.execute(cp);
-				
+				}
+
 				cp._buf = null;
 				cp._sbuf = null;
 			}
-			
+
 			buf.limit(limit);
-			
+
 		}
-		
+
 		return true;
 	}
-	
-	
+
 	private final void writeClosePacket(final MMOConnection<T> con)
 	{
 		SendablePacket<T> sp;
 		synchronized (con.getSendQueue())
 		{
 			if (con.getSendQueue().isEmpty())
+			{
 				return;
-			
+			}
+
 			while ((sp = con.getSendQueue().removeFirst()) != null)
 			{
 				WRITE_BUFFER.clear();
-				
+
 				putPacketIntoWriteBuffer(con.getClient(), sp);
-				
+
 				WRITE_BUFFER.flip();
-				
+
 				try
 				{
 					con.write(WRITE_BUFFER);
 				}
-				catch (IOException e)
+				catch (final IOException e)
 				{
-					// error handling goes on the if bellow
-					if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-						e.printStackTrace();
-					
+					LOGGER.warn("", e);
+
 				}
 			}
 		}
 	}
-	
+
 	protected final void writePacket(final SelectionKey key, final MMOConnection<T> con)
 	{
 		if (!prepareWriteBuffer(con))
@@ -517,25 +528,23 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			key.interestOps(key.interestOps() & ~SelectionKey.OP_WRITE);
 			return;
 		}
-		
+
 		DIRECT_WRITE_BUFFER.flip();
-		
+
 		final int size = DIRECT_WRITE_BUFFER.remaining();
-		
+
 		int result = -1;
-		
+
 		try
 		{
 			result = con.write(DIRECT_WRITE_BUFFER);
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
-			// error handling goes on the if bellow
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
+			LOGGER.warn("", e);
+
 		}
-		
+
 		// check if no error happened
 		if (result >= 0)
 		{
@@ -552,8 +561,10 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				}
 			}
 			else
-				// incomplete write
+			// incomplete write
+			{
 				con.createWriteBuffer(DIRECT_WRITE_BUFFER);
+			}
 		}
 		else
 		{
@@ -561,47 +572,55 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			closeConnectionImpl(key, con);
 		}
 	}
-	
+
 	private final boolean prepareWriteBuffer(final MMOConnection<T> con)
 	{
 		boolean hasPending = false;
 		DIRECT_WRITE_BUFFER.clear();
-		
+
 		// if there is pending content add it
 		if (con.hasPendingWriteBuffer())
 		{
 			con.movePendingWriteBufferTo(DIRECT_WRITE_BUFFER);
 			hasPending = true;
 		}
-		
+
 		if (DIRECT_WRITE_BUFFER.remaining() > 1 && !con.hasPendingWriteBuffer())
 		{
 			final NioNetStackList<SendablePacket<T>> sendQueue = con.getSendQueue();
 			final T client = con.getClient();
 			SendablePacket<T> sp;
-			
+
 			for (int i = 0; i < MAX_SEND_PER_PASS; i++)
 			{
 				synchronized (con.getSendQueue())
 				{
 					if (sendQueue.isEmpty())
+					{
 						sp = null;
+					}
 					else
+					{
 						sp = sendQueue.removeFirst();
+					}
 				}
-				
+
 				if (sp == null)
+				{
 					break;
-				
+				}
+
 				hasPending = true;
-				
+
 				// put into WriteBuffer
 				putPacketIntoWriteBuffer(client, sp);
-				
+
 				WRITE_BUFFER.flip();
-				
+
 				if (DIRECT_WRITE_BUFFER.remaining() >= WRITE_BUFFER.limit())
+				{
 					DIRECT_WRITE_BUFFER.put(WRITE_BUFFER);
+				}
 				else
 				{
 					con.createWriteBuffer(WRITE_BUFFER);
@@ -611,37 +630,37 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 		}
 		return hasPending;
 	}
-	
+
 	private final void putPacketIntoWriteBuffer(final T client, final SendablePacket<T> sp)
 	{
 		WRITE_BUFFER.clear();
-		
+
 		// reserve space for the size
 		final int headerPos = WRITE_BUFFER.position();
 		final int dataPos = headerPos + HEADER_SIZE;
 		WRITE_BUFFER.position(dataPos);
-		
+
 		// set the write buffer
 		sp._buf = WRITE_BUFFER;
 		// write content to buffer
 		sp.write();
 		// delete the write buffer
 		sp._buf = null;
-		
+
 		// size (inclusive header)
 		int dataSize = WRITE_BUFFER.position() - dataPos;
 		WRITE_BUFFER.position(dataPos);
 		client.encrypt(WRITE_BUFFER, dataSize);
-		
+
 		// recalculate size after encryption
 		dataSize = WRITE_BUFFER.position() - dataPos;
-		
+
 		WRITE_BUFFER.position(headerPos);
 		// write header
 		WRITE_BUFFER.putShort((short) (dataSize + HEADER_SIZE));
 		WRITE_BUFFER.position(dataPos + dataSize);
 	}
-	
+
 	final void closeConnection(final MMOConnection<T> con)
 	{
 		synchronized (_pendingClose)
@@ -649,20 +668,18 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			_pendingClose.addLast(con);
 		}
 	}
-	
+
 	private final void closeConnectionImpl(final SelectionKey key, final MMOConnection<T> con)
 	{
 		try
 		{
-			// notify connection
-			if(con.getClient() instanceof L2GameClient){
-				if(!((L2GameClient)con.getClient()).is_forcedToClose()){
-					con.getClient().onDisconnection();
-				}
-			}else{
-				con.getClient().onDisconnection();
-			}
-			
+
+			/*
+			 * TODO this code must be contains on game module if(con.getClient() instanceof L2GameClient){ if(!((L2GameClient)con.getClient()).is_forcedToClose()){ con.getClient().onDisconnection(); } }else{
+			 */
+			con.getClient().onDisconnection();
+			// }
+
 		}
 		finally
 		{
@@ -671,12 +688,10 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 				// close socket and the SocketChannel
 				con.close();
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
-				// ignore, we are closing anyway
-				if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-					e.printStackTrace();
-				
+				LOGGER.warn("", e);
+
 			}
 			finally
 			{
@@ -688,17 +703,17 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			}
 		}
 	}
-	
+
 	public final void shutdown()
 	{
 		_shutdown = true;
 	}
-	
+
 	public boolean isShutdown()
 	{
 		return _shutdown;
 	}
-	
+
 	protected void closeSelectorThread()
 	{
 		for (final SelectionKey key : _selector.keys())
@@ -707,23 +722,21 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			{
 				key.channel().close();
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
-				if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-					e.printStackTrace();
-				
+				LOGGER.warn("", e);
+
 			}
 		}
-		
+
 		try
 		{
 			_selector.close();
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
-			if(NetcoreConfig.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-				e.printStackTrace();
-			
+			LOGGER.warn("", e);
+
 		}
 	}
 }
