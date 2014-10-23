@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class DrainSoul implements ISkillHandler
 {
-	private static Logger _log = Logger.getLogger(DrainSoul.class.getName());
+	private static Logger LOGGER = Logger.getLogger(DrainSoul.class.getClass());
 	private static final SkillType[] SKILL_IDS = { SkillType.DRAIN_SOUL };
 
 	@Override
@@ -48,7 +48,7 @@ public class DrainSoul implements ISkillHandler
 
 		targetList = null;
 
-		_log.fine("Soul Crystal casting succeded.");
+		LOGGER.info("Soul Crystal casting succeded.");
 
 		// This is just a dummy skill handler for the soul crystal skill,
 		// since the Soul Crystal item handler already does everything.

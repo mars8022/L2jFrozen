@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.ClanWarehouse;
@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class SendWareHouseWithDrawList extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(SendWareHouseWithDrawList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SendWareHouseWithDrawList.class.getClass());
 
 	private int _count;
 	private int[] _items;
@@ -193,7 +193,7 @@ public final class SendWareHouseWithDrawList extends L2GameClientPacket
 			L2ItemInstance newItem = warehouse.transferItem("Warehouse", objectId, count, player.getInventory(), player, player.getLastFolkNPC());
 			if(newItem == null)
 			{
-				_log.warning("Error withdrawing a warehouse object for char " + player.getName());
+				LOGGER.warn("Error withdrawing a warehouse object for char " + player.getName());
 				continue;
 			}
 

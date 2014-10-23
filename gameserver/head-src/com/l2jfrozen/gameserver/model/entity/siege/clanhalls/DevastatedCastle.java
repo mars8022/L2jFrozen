@@ -31,9 +31,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -51,7 +52,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class DevastatedCastle
 {
-	private static final Logger _log = Logger.getLogger(DevastatedCastle.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DevastatedCastle.class.getClass());
 	private static DevastatedCastle _instance;
 	private FastMap<Integer, DamageInfo> _clansDamageInfo;
 
@@ -154,7 +155,7 @@ public class DevastatedCastle
 			cal.setTimeInMillis(total_millis);
 			String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
 			
-			_log.info("Devastated Castle: siege will start the "+next_ch_siege_date);
+			LOGGER.info("Devastated Castle: siege will start the "+next_ch_siege_date);
 			rms = null;
 		}
 	}

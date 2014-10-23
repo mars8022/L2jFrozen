@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
@@ -81,7 +80,7 @@ public class Shutdown extends Thread
 		}
 	}
 
-	protected static final Logger _log = Logger.getLogger(Shutdown.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Shutdown.class.getClass());
 	
 	private static Shutdown _instance;
 	private static Shutdown _counterInstance = null;
@@ -127,7 +126,7 @@ public class Shutdown extends Thread
 	public void startTelnetShutdown(String IP, int seconds, boolean restart)
 	{
 		Announcements _an = Announcements.getInstance();
-		_log.log(Level.WARNING,"IP: " + IP + " issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
+		LOGGER.warn("IP: " + IP + " issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
 		_an.announceToAll("Server is " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
 
 		if(restart)
@@ -161,7 +160,7 @@ public class Shutdown extends Thread
 	public void telnetAbort(String IP)
 	{
 		Announcements _an = Announcements.getInstance();
-		_log.log(Level.WARNING,"IP: " + IP + " issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
+		LOGGER.warn("IP: " + IP + " issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
 		_an.announceToAll("Server aborts " + MODE_TEXT[_shutdownMode] + " and continues normal operation!");
 		_an = null;
 
@@ -387,7 +386,7 @@ public class Shutdown extends Thread
 			// gm shutdown: send warnings and then call exit to start shutdown sequence
 			countdown();
 			// last point where logging is operational :(
-			_log.log(Level.WARNING, "GM shutdown countdown is over. " + MODE_TEXT[_shutdownMode] + " NOW!");
+			LOGGER.warn( "GM shutdown countdown is over. " + MODE_TEXT[_shutdownMode] + " NOW!");
 			switch (_shutdownMode)
 			{
 				case GM_SHUTDOWN:
@@ -435,9 +434,9 @@ public class Shutdown extends Thread
 		Announcements _an = Announcements.getInstance();
 		
 		if(activeChar != null)
-			_log.log(Level.WARNING,"GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
+			LOGGER.warn("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
 		else
-			_log.log(Level.WARNING,"External Service issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
+			LOGGER.warn("External Service issued shutdown command. " + MODE_TEXT[_shutdownMode] + " in " + seconds + " seconds!");
 		
 		if(restart)
 		{
@@ -480,9 +479,9 @@ public class Shutdown extends Thread
 		Announcements _an = Announcements.getInstance();
 		
 		if(activeChar != null)
-			_log.log(Level.WARNING,"GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
+			LOGGER.warn("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
 		else
-			_log.log(Level.WARNING,"External Service issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
+			LOGGER.warn("External Service issued shutdown ABORT. " + MODE_TEXT[_shutdownMode] + " has been stopped!");
 		
 		_an.announceToAll("Server aborts " + MODE_TEXT[_shutdownMode] + " and continues normal operation!");
 		_an = null;
@@ -632,7 +631,7 @@ public class Shutdown extends Thread
         	if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
         	
-        	_log.log(Level.SEVERE,"Error saving offline shops.",t);
+        	LOGGER.error("Error saving offline shops.",t);
         }
 
         try
@@ -753,10 +752,10 @@ public class Shutdown extends Thread
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE,"", t);
+			LOGGER.error("", t);
 		}
 		
-		_log.info("Players: All players save to disk");
+		LOGGER.info("Players: All players save to disk");
 		
 		for(L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{

@@ -22,13 +22,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -254,7 +253,7 @@ public class RegionBBSManager extends BaseBBSManager
 					activeChar.sendMessage(receiver.getName() + " is Away please try again later.");
 					return;
 				}
-
+				/*
 				if(Config.LOG_CHAT)
 				{
 					LogRecord record = new LogRecord(Level.INFO, ar3);
@@ -263,10 +262,10 @@ public class RegionBBSManager extends BaseBBSManager
 					{
 							"TELL ", "[" + activeChar.getName() + " to " + receiver.getName() + "]"
 					});
-					_logChat.log(record);
+					_logChat.LOGGER(record);
 					record = null;
 				}
-
+				*/
 				ar3 = ar3.replaceAll("\\\\n", "");
 
 				boolean blocked = receiver.getBlockList().isInBlockList(activeChar.getName());

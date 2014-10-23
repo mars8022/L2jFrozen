@@ -21,9 +21,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -37,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class SiegeGuardManager
 {
 
-	private static Logger _log = Logger.getLogger(SiegeGuardManager.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SiegeGuardManager.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -137,7 +138,7 @@ public class SiegeGuardManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
-			_log.warning("Error deleting hired siege guard at " + x + ',' + y + ',' + z + ":" + e1);
+			LOGGER.warn("Error deleting hired siege guard at " + x + ',' + y + ',' + z + ":" + e1);
 		}
 		finally
 		{
@@ -167,7 +168,7 @@ public class SiegeGuardManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
-			_log.warning("Error deleting hired siege guard for castle " + getCastle().getName() + ":" + e1);
+			LOGGER.warn("Error deleting hired siege guard for castle " + getCastle().getName() + ":" + e1);
 		}
 		finally
 		{
@@ -256,7 +257,7 @@ public class SiegeGuardManager
 				}
 				else
 				{
-					_log.warning("Missing npc data in npc table for id: " + rs.getInt("npcId"));
+					LOGGER.warn("Missing npc data in npc table for id: " + rs.getInt("npcId"));
 				}
 				template1 = null;
 			}
@@ -270,7 +271,7 @@ public class SiegeGuardManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
-			_log.warning("Error loading siege guard for castle " + getCastle().getName() + ":" + e1);
+			LOGGER.warn("Error loading siege guard for castle " + getCastle().getName() + ":" + e1);
 		}
 		finally
 		{
@@ -320,7 +321,7 @@ public class SiegeGuardManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
-			_log.warning("Error adding siege guard for castle " + getCastle().getName() + ":" + e1);
+			LOGGER.warn("Error adding siege guard for castle " + getCastle().getName() + ":" + e1);
 		}
 		finally
 		{

@@ -28,9 +28,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -54,7 +55,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class WildBeastFarmSiege extends ClanHallSiege
 {
-	protected static Logger _log = Logger.getLogger(WildBeastFarmSiege.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(WildBeastFarmSiege.class.getClass());
 	private static WildBeastFarmSiege _instance;
 	private boolean _registrationPeriod = false;
 	private int _clanCounter = 0;
@@ -76,7 +77,7 @@ public class WildBeastFarmSiege extends ClanHallSiege
 
 	private WildBeastFarmSiege()
 	{
-		_log.info("SiegeManager of Wild Beasts Farm");
+		LOGGER.info("SiegeManager of Wild Beasts Farm");
 		long siegeDate = restoreSiegeDate(63);
 		Calendar tmpDate = Calendar.getInstance();
 		tmpDate.setTimeInMillis(siegeDate);

@@ -25,9 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
@@ -103,7 +104,7 @@ public class Siege
 	//  id=285 msg=[Clan $s1 has succeeded in engraving the ruler!]
 	//  - id=287 msg=[The opponent clan has begun to engrave the ruler.]
 
-	protected static final Logger _log = Logger.getLogger(Siege.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Siege.class.getClass());
 	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	
 	/**
@@ -381,13 +382,13 @@ public class Siege
 		{
 			announceToPlayer("The siege of " + getCastle().getName() + " has finished!", false);
 			
-			_log.info("[SIEGE] The siege of " + getCastle().getName() + " has finished! " + fmt.format(new Date(System.currentTimeMillis())));
+			LOGGER.info("[SIEGE] The siege of " + getCastle().getName() + " has finished! " + fmt.format(new Date(System.currentTimeMillis())));
 			
 			if (getCastle().getOwnerId() <= 0)
 			{
 				announceToPlayer("The siege of " + getCastle().getName() + " has ended in a draw.", false);
 				
-				_log.info("[SIEGE] The siege of " + getCastle().getName() + " has ended in a draw. " + fmt.format(new Date(System.currentTimeMillis())));
+				LOGGER.info("[SIEGE] The siege of " + getCastle().getName() + " has ended in a draw. " + fmt.format(new Date(System.currentTimeMillis())));
 			}
 			
 			// Removes all flags. Note: Remove flag before teleporting players
@@ -691,7 +692,7 @@ public class Siege
 			
 			announceToPlayer("The siege of " + getCastle().getName() + " has started!", false);
 			
-			_log.info("[SIEGE] The siege of " + getCastle().getName() + " has started! "+fmt.format(new Date(System.currentTimeMillis())));
+			LOGGER.info("[SIEGE] The siege of " + getCastle().getName() + " has started! "+fmt.format(new Date(System.currentTimeMillis())));
 		}
 	}
 

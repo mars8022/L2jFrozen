@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.stat;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
@@ -39,7 +39,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 
 public class PcStat extends PlayableStat
 {
-	private static Logger _log = Logger.getLogger(PcStat.class.getName());
+	private static Logger LOGGER = Logger.getLogger(PcStat.class.getClass());
 
 	private int _oldMaxHp; // stats watch
 	private int _oldMaxMp; // stats watch
@@ -204,7 +204,7 @@ public class PcStat extends PlayableStat
 
 			}else{
 				
-				_log.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
+				LOGGER.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
 				
 			}
 			
@@ -218,7 +218,7 @@ public class PcStat extends PlayableStat
 
 				if(Config.DEBUG)
 				{
-					_log.info("Newbie character ended: " + getActiveChar().getCharId());
+					LOGGER.info("Newbie character ended: " + getActiveChar().getCharId());
 				}
 			}
 

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
+	private static Logger LOGGER = Logger.getLogger(EnterWorld.class.getClass());
 	
 	@Override
 	protected void readImpl()
@@ -47,7 +47,7 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 		if (!player.isVisible() || player.isLocked())
 		{
 			Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " try exploit at login with privatestore!", Config.DEFAULT_PUNISH);
-			_log.warning("Player " + player.getName() + " try exploit at login with privatestore!");
+			LOGGER.warn("Player " + player.getName() + " try exploit at login with privatestore!");
 			return;
 		}
 		

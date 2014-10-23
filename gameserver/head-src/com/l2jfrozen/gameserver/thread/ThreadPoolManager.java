@@ -28,12 +28,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.StringUtil;
@@ -72,7 +72,7 @@ import com.l2jfrozen.util.StringUtil;
  */
 public class ThreadPoolManager
 {
-	protected static final Logger _log = Logger.getLogger(ThreadPoolManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(ThreadPoolManager.class.getClass());
 	
 	private static final class RunnableWrapper implements Runnable
 	{
@@ -412,7 +412,7 @@ public class ThreadPoolManager
 			_generalPacketsThreadPool.shutdown();
 			_ioPacketsThreadPool.shutdown();
 			_generalThreadPool.shutdown();
-			_log.info("All ThreadPools are now stopped.");
+			LOGGER.info("All ThreadPools are now stopped.");
 			
 		}
 		catch (InterruptedException e)
@@ -420,7 +420,7 @@ public class ThreadPoolManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "", e);
+			LOGGER.warn( "", e);
 		}
 	}
 	

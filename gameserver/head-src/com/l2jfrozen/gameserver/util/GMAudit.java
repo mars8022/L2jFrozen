@@ -19,8 +19,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.logs.Log;
 
@@ -29,10 +29,10 @@ public class GMAudit
 {
 	static
 	{
-		new File("log/GMAudit").mkdirs();
+		new File("LOGGER/GMAudit").mkdirs();
 	}
 	
-	private static final Logger _log = Logger.getLogger(Log.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Log.class.getClass());
 	
 	public static void auditGMAction(String gmName, String action, String target, String params)
 	{
@@ -42,7 +42,7 @@ public class GMAudit
 		FileWriter save = null;
 		try
 		{
-			File file = new File("log/GMAudit/" + gmName + ".txt");
+			File file = new File("LOGGER/GMAudit/" + gmName + ".txt");
 			save = new FileWriter(file, true);
 			
 			String out = "["+today+"] --> GM: "+gmName+", Target: ["+target+"], Action: ["+action+"], Params: ["+params+"] \r\n";
@@ -52,7 +52,7 @@ public class GMAudit
 		}
 		catch (IOException e)
 		{
-			_log.log(Level.SEVERE, "GMAudit for GM " + gmName +" could not be saved: ", e);
+			LOGGER.error( "GMAudit for GM " + gmName +" could not be saved: ", e);
 		}
 		finally
 		{

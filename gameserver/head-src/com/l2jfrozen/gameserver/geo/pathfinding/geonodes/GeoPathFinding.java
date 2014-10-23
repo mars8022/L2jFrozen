@@ -28,8 +28,8 @@ import java.nio.IntBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.geo.GeoData;
@@ -43,7 +43,7 @@ import com.l2jfrozen.gameserver.model.Location;
 
 public final class GeoPathFinding extends PathFinding
 {
-	protected static final Logger _log = Logger.getLogger(GeoPathFinding.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(GeoPathFinding.class.getClass());
 	
 	private static final class SingletonHolder
 	{
@@ -228,7 +228,7 @@ public final class GeoPathFinding extends PathFinding
 		idx += layer * 10 + 1;//byte + layer*10byte
 		if(nodes < layer)
 		{
-			_log.log(Level.WARNING, "SmthWrong!");
+			LOGGER.warn( "SmthWrong!");
 		}
 		short node_z = pn.getShort(idx);
 		idx += 2;
@@ -272,7 +272,7 @@ public final class GeoPathFinding extends PathFinding
 		
 		try
 		{
-			_log.info("PathFinding Engine: - Loading Path Nodes...");
+			LOGGER.info("PathFinding Engine: - Loading Path Nodes...");
 			File Data = new File(Config.DATAPACK_ROOT+"/data/pathnode/pn_index.txt");
 			if(!Data.exists())
 				return;
@@ -338,7 +338,7 @@ public final class GeoPathFinding extends PathFinding
 	{
 		String fname = Config.DATAPACK_ROOT+"/data/pathnode/" + rx + "_" + ry + ".pn";
 		short regionoffset = getRegionOffset(rx, ry);
-		_log.info("PathFinding Engine: - Loading: " + fname + " -> region offset: " + regionoffset + "X: " + rx + " Y: " + ry);
+		LOGGER.info("PathFinding Engine: - Loading: " + fname + " -> region offset: " + regionoffset + "X: " + rx + " Y: " + ry);
 		File Pn = new File(fname);
 		int node = 0,size, index = 0;
 		RandomAccessFile raf = null;
@@ -373,7 +373,7 @@ public final class GeoPathFinding extends PathFinding
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "Failed to Load PathNode File: "+fname+"\n", e);
+			LOGGER.warn( "Failed to Load PathNode File: "+fname+"\n", e);
 		}
 		finally
 		{

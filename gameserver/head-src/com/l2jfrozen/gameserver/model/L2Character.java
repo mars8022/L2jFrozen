@@ -26,12 +26,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import javolution.util.FastTable;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
@@ -154,8 +154,8 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public abstract class L2Character extends L2Object implements ISkillsHolder
 {
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class.getClass());
 	
 	// =========================================================
 	// Data Field
@@ -617,7 +617,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			return;
 		}
 		
-		// if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
+		// if (Config.DEBUG) LOGGER.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
 		
 		for (L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
@@ -641,7 +641,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 							player.sendPacket(new RelationChanged((L2PcInstance) this, relation, player.isAutoAttackable(this)));
 						}
 					}
-					// if(Config.DEVELOPER && !isInsideRadius(player, 3500, false, false)) _log.warning("broadcastPacket: Too far player see event!");
+					// if(Config.DEVELOPER && !isInsideRadius(player, 3500, false, false)) LOGGER.warn("broadcastPacket: Too far player see event!");
 				}
 				catch (NullPointerException e)
 				{
@@ -668,7 +668,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			sendPacket(mov);
 		}
 		
-		// if (Config.DEBUG) _log.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
+		// if (Config.DEBUG) LOGGER.fine("players to notify:" + knownPlayers.size() + " packet:"+mov.getType());
 		
 		for (L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
@@ -757,7 +757,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		if(Config.DEBUG)
 		{
-			_log.fine("Broadcast Status Update for " + getObjectId() + "(" + getName() + "). HP: " + getCurrentHp());
+			LOGGER.debug("Broadcast Status Update for " + getObjectId() + "(" + getName() + "). HP: " + getCurrentHp());
 		}
 		
 		// Create the Server->Client packet StatusUpdate with current HP and MP
@@ -877,7 +877,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Teleporting to: " + x + ", " + y + ", " + z);
+			LOGGER.fine("Teleporting to: " + x + ", " + y + ", " + z);
 		}
 
 		// Send a Server->Client packet TeleportToLocationt to the L2Character AND to all L2PcInstance in the _KnownPlayers of the L2Character
@@ -959,7 +959,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		z += 5;
 		
 		if (Config.DEBUG)
-			_log.fine("Teleporting to: " + x + ", " + y + ", " + z);
+			LOGGER.debug("Teleporting to: " + x + ", " + y + ", " + z);
 		
 		// Send a Server->Client packet TeleportToLocationt to the L2Character AND to all L2PcInstance in the _KnownPlayers of the L2Character
 		broadcastPacket(new TeleportToLocation(this, x, y, z));
@@ -1102,7 +1102,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine(getName() + " doAttack: target=" + target);
+			LOGGER.debug(getName() + " doAttack: target=" + target);
 		}
 		
 		if(target == null)
@@ -3451,7 +3451,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			}
 			catch(Throwable e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}
@@ -3522,7 +3522,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			}
 			catch(Throwable e)
 			{
-				_log.severe(e.toString());
+				LOGGER.error("fixme:hit task unhandled exception", e);
 			}
 		}
 	}
@@ -3586,7 +3586,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			}
 			catch(Throwable e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 				e.printStackTrace();
 				enableAllSkills();
 			}
@@ -3639,7 +3639,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			}
 			catch(Throwable e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}
@@ -3675,7 +3675,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			}
 			catch(Throwable t)
 			{
-				_log.log(Level.WARNING, "", t);
+				LOGGER.warn( "", t);
 			}
 		}
 	}
@@ -3702,12 +3702,12 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		{
 			try
 			{
-				// _log.fine("Checking pvp time: " + getlastPvpAttack());
+				// LOGGER.fine("Checking pvp time: " + getlastPvpAttack());
 				// "lastattack: " _lastAttackTime "currenttime: "
 				// System.currentTimeMillis());
 				if(System.currentTimeMillis() > getPvpFlagLasts())
 				{
-					//  _log.fine("Stopping PvP");
+					//  LOGGER.fine("Stopping PvP");
 					stopPvPFlag();
 				}
 				else if(System.currentTimeMillis() > getPvpFlagLasts() - 5000)
@@ -3723,7 +3723,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			}
 			catch(Exception e)
 			{
-				_log.log(Level.WARNING, "error in pvp flag task:", e);
+				LOGGER.warn( "error in pvp flag task:", e);
 			}
 		}
 	}
@@ -6308,7 +6308,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			distFraction = distPassed / Math.sqrt(dx * dx + dy * dy + dz * dz);
 		}
 		
-		// if (Config.DEVELOPER) _log.warning("Move Ticks:" + (gameTicks - m._moveTimestamp) + ", distPassed:" + distPassed + ", distFraction:" + distFraction);
+		// if (Config.DEVELOPER) LOGGER.warn("Move Ticks:" + (gameTicks - m._moveTimestamp) + ", distPassed:" + distPassed + ", distFraction:" + distFraction);
 		
 		if(distFraction > 1) // already there
 		{
@@ -6600,7 +6600,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		/*if(Config.DEBUG)
 		{
-			_log.fine("distance to target:" + distance);
+			LOGGER.fine("distance to target:" + distance);
 		}*/
 		
 		// Define movement angles needed
@@ -6639,7 +6639,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				
 				if(Config.DEBUG)
 				{
-					_log.fine("already in range, no movement needed.");
+					LOGGER.debug("Already in range, no movement needed.");
 				}
 				
 				// Notify the AI that the L2Character is arrived at destination
@@ -6704,7 +6704,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			if(curX < L2World.MAP_MIN_X || curX > L2World.MAP_MAX_X || curY < L2World.MAP_MIN_Y || curY > L2World.MAP_MAX_Y)
 			{
 				// Temporary fix for character outside world region errors
-				_log.warning("Character " + getName() + " outside world area, in coordinates x:" + curX + " y:" + curY);
+				LOGGER.warn("Character " + getName() + " outside world area, in coordinates x:" + curX + " y:" + curY);
 				getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 				if(this instanceof L2PcInstance)
 				{
@@ -6824,7 +6824,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		/*if(Config.DEBUG)
 		{
-			_log.fine("dist:" + distance + "speed:" + speed + " ttt:" + ticksToMove + " heading:" + getHeading());
+			LOGGER.fine("dist:" + distance + "speed:" + speed + " ttt:" + ticksToMove + " heading:" + getHeading());
 		}*/
 		
 		m._xDestination = x;
@@ -6836,7 +6836,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		/*if(Config.DEBUG)
 		{
-			_log.fine("time to target:" + ticksToMove);
+			LOGGER.fine("time to target:" + ticksToMove);
 		}*/
 		
 		// Set the L2Character _move object to MoveData object
@@ -6927,7 +6927,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		if(Config.DEBUG)
 		{
-			_log.fine("time to target:" + ticksToMove);
+			LOGGER.debug("Time to target:" + ticksToMove);
 		}
 		
 		// Set the L2Character _move object to MoveData object
@@ -7175,7 +7175,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	//	stopMove();
 	//
 	//	if (Config.DEBUG)
-	//	_log.fine(this.getName() +":: target reached at: x "+getX()+" y "+getY()+ " z:" + getZ());
+	//	LOGGER.fine(this.getName() +":: target reached at: x "+getX()+" y "+getY()+ " z:" + getZ());
 	//
 	//	if (getPawnTarget() != null)
 	//	{
@@ -7216,7 +7216,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	//	}
 	//	else
 	//	{
-	//	_log.info("multiple attacks want to start in parallel. prevented.");
+	//	LOGGER.info("multiple attacks want to start in parallel. prevented.");
 	//	}
 	//	}
 	//
@@ -7479,7 +7479,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 						}				
 					}
 					else
-						_log.warning("Skill 4515 at level 1 is missing in DP.");
+						LOGGER.warn("Skill 4515 at level 1 is missing in DP.");
 					
 					skill = null;
 					
@@ -7608,7 +7608,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 							// Custom messages - nice but also more network load
 							/*
 							 * if (this instanceof L2PcInstance) ((L2PcInstance)this).sendMessage("You absorbed " + absorbDamage + " damage."); else if (this instanceof L2Summon) ((L2Summon)this).getOwner().sendMessage("Summon absorbed " + absorbDamage + " damage."); else if (Config.DEBUG)
-							 * _log.info(getName() + " absorbed " + absorbDamage + " damage.");
+							 * LOGGER.info(getName() + " absorbed " + absorbDamage + " damage.");
 							 */
 						}
 					}
@@ -7985,14 +7985,14 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		{
 			if(this instanceof L2PcInstance)
 			{
-				_log.warning("Player " + getName() + " at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
+				LOGGER.warn("Player " + getName() + " at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
 				
 				((L2PcInstance) this).sendMessage("Error with your coordinates! Please reboot your game fully!");
 				((L2PcInstance) this).teleToLocation(80753, 145481, -3532, false); // Near Giran luxury shop
 			}
 			else
 			{
-				_log.warning("Object " + getName() + " at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
+				LOGGER.warn("Object " + getName() + " at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
 				decayMe();
 			}
 			return false;
@@ -8704,7 +8704,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				//else
 				//{
 				//	if (Config.DEBUG)
-				//        _log.warning("Class cast bad: "+targets[i].getClass().toString());
+				//        LOGGER.warn("Class cast bad: "+targets[i].getClass().toString());
 				//}
 			}
 			if(targetList.isEmpty() && skill.getTargetType() != SkillTargetType.TARGET_AURA)
@@ -9314,7 +9314,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("all skills disabled");
+			LOGGER.debug("All skills disabled");
 		}
 		
 		_allSkillsDisabled = true;
@@ -9328,7 +9328,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("all skills enabled");
+			LOGGER.debug("All skills enabled");
 		}
 		
 		_allSkillsDisabled = false;
@@ -9480,7 +9480,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 									
 								}
 								else
-									_log.warning("Skill 4215 at level 1 is missing in DP.");
+									LOGGER.warn("Skill 4215 at level 1 is missing in DP.");
 								
 								tempSkill = null;
 							}
@@ -9493,7 +9493,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 								}
 								else
 								{
-									_log.warning("Skill 4515 at level 1 is missing in DP.");
+									LOGGER.warn("Skill 4515 at level 1 is missing in DP.");
 								}
 								
 								tempSkill = null;
@@ -9765,7 +9765,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.WARNING, "", e);
+			LOGGER.warn( "", e);
 		}
 		
 		if (this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
@@ -9825,7 +9825,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			{
 				if(Config.DEBUG)
 				{
-					_log.info("Char " + getName() + " is behind " + target.getName());
+					LOGGER.info("Char " + getName() + " is behind " + target.getName());
 				}
 				
 				return true;
@@ -9913,7 +9913,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				
 				if(Config.DEBUG)
 				{
-					_log.info("Char " + getName() + " is side " + target.getName());
+					LOGGER.info("Char " + getName() + " is side " + target.getName());
 				}
 				
 				return true;
@@ -10081,10 +10081,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	
 	//	public void checkPvPFlag()
 	//	{
-	//	if (Config.DEBUG) _log.fine("Checking PvpFlag");
+	//	if (Config.DEBUG) LOGGER.fine("Checking PvpFlag");
 	//	_PvPRegTask = ThreadPoolManager.getInstance().scheduleLowAtFixedRate(new PvPFlag(), 1000, 5000);
 	//	_PvPRegActive = true;
-	//	//  _log.fine("PvP recheck");
+	//	//  LOGGER.fine("PvP recheck");
 	//	}
 	//
 	

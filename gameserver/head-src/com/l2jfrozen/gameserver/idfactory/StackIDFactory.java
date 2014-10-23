@@ -22,7 +22,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Stack;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
@@ -35,12 +36,12 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class StackIDFactory extends IdFactory
 {
-	private static Logger _log = Logger.getLogger(IdFactory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(IdFactory.class.getClass());
 
 	private int _curOID;
 	private int _tempOID;
 
-	private Stack<Integer> _freeOIDStack = new Stack<Integer>();
+	private Stack<Integer> _freeOIDStack = new Stack<>();
 
 	protected StackIDFactory()
 	{
@@ -68,13 +69,12 @@ public class StackIDFactory extends IdFactory
             }
 
             _curOID++;
-            _log.config("IdFactory: Next usable Object ID is: " + _curOID);
+            LOGGER.info("IdFactory: Next usable Object ID is: " + _curOID);
             _initialized = true;
         }
         catch (Exception e1)
         {
-			e1.printStackTrace();
-            _log.severe("ID Factory could not be initialized correctly:" + e1);
+            LOGGER.error("ID Factory could not be initialized correctly", e1);
         }
         finally
         {
@@ -103,7 +103,7 @@ public class StackIDFactory extends IdFactory
             while (rs.next())
             {
                 int badId = rs.getInt(1);
-                _log.severe("Bad ID " + badId + " in DB found by: " + check);
+                LOGGER.warn("Bad ID " + badId + " in DB found by: " + check);
                 throw new RuntimeException();
             }
             rs.close();

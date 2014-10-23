@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class BeastFeed implements ISkillHandler
 {
-	private static Logger _log = Logger.getLogger(BeastFeed.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BeastFeed.class.getClass());
 
 	private static final SkillType[] SKILL_IDS = { SkillType.BEAST_FEED };
 
@@ -47,7 +47,7 @@ public class BeastFeed implements ISkillHandler
 
 		if(targetList == null){ return; }
 
-		_log.fine("Beast Feed casting succeded.");
+		LOGGER.info("Beast Feed casting succeded.");
 
 		targetList = null;
 		// This is just a dummy skill handler for the golden food and crystal food skills,

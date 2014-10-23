@@ -21,7 +21,8 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -35,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class FriendList extends L2GameServerPacket
 {
-	private static Logger _log = Logger.getLogger(FriendList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(FriendList.class.getClass());
 	private static final String _S__FA_FRIENDLIST = "[S] FA FriendList";
 	
 	private L2PcInstance _activeChar;
@@ -112,7 +113,7 @@ public class FriendList extends L2GameServerPacket
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error found in " + _activeChar.getName() + "'s FriendList: " + e);
+			LOGGER.warn("Error found in " + _activeChar.getName() + "'s FriendList: " + e);
 		}
 		finally
 		{

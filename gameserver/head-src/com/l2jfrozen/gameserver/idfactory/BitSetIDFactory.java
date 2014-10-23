@@ -30,7 +30,8 @@ package com.l2jfrozen.gameserver.idfactory;
 
 import java.util.BitSet;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -45,7 +46,7 @@ import com.l2jfrozen.util.PrimeFinder;
 
 public class BitSetIDFactory extends IdFactory
 {
-    private static Logger _log = Logger.getLogger(BitSetIDFactory.class.getName());
+    private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class.getClass());
 
     private BitSet          _freeIds;
     private AtomicInteger   _freeIdCount;
@@ -73,7 +74,7 @@ public class BitSetIDFactory extends IdFactory
         super();
         ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new BitSetCapacityCheck(), 30000, 30000);
         initialize();
-        _log.info("IDFactory: "+ _freeIds.size() + " id's available.");
+        LOGGER.info("IDFactory: "+ _freeIds.size() + " id's available.");
     }
 
     public synchronized void initialize()
@@ -90,7 +91,7 @@ public class BitSetIDFactory extends IdFactory
                 if (objectID < 0)
                 {
                 	if(Config.DEBUG)
-                		_log.warning("Object ID " + usedObjectId + " in DB is less than minimum ID of " + FIRST_OID);
+                		LOGGER.warn("Object ID " + usedObjectId + " in DB is less than minimum ID of " + FIRST_OID);
                     continue;
                 }
                 _freeIds.set(usedObjectId - FIRST_OID);
@@ -103,7 +104,7 @@ public class BitSetIDFactory extends IdFactory
         catch (Exception e)
         {
             _initialized = false;
-            _log.severe("BitSet ID Factory could not be initialized correctly");
+            LOGGER.error("BitSet ID Factory could not be initialized correctly", e);
             e.printStackTrace();
         }
     }
@@ -116,7 +117,7 @@ public class BitSetIDFactory extends IdFactory
             _freeIds.clear(objectID - FIRST_OID);
             _freeIdCount.incrementAndGet();
         } else
-            _log.warning("BitSet ID Factory: release objectID "+objectID+" failed (< "+FIRST_OID+")");
+            LOGGER.warn("BitSet ID Factory: release objectID "+objectID+" failed (< "+FIRST_OID+")");
     }
 
     @Override

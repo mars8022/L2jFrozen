@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.model.L2Clan.SubPledge;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-//import java.util.logging.Logger;
+//import org.apache.log4j.Logger;
 /**
  * sample 0000: 68 b1010000 48 00 61 00 6d 00 62 00 75 00 72 00 67 00 00 00 H.a.m.b.u.r.g... 43 00 61 00 6c 00 61 00 64
  * 00 6f 00 6e 00 00 00 C.a.l.a.d.o.n... 00000000 crestid | not used (nuocnam) 00000000 00000000 00000000 00000000
@@ -43,7 +43,7 @@ public class PledgeShowMemberListAll extends L2GameServerPacket
 	private L2ClanMember[] _members;
 	private int _pledgeType;
 
-	//private static Logger _log = Logger.getLogger(PledgeShowMemberListAll.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(PledgeShowMemberListAll.class.getClass());
 
 	public PledgeShowMemberListAll(L2Clan clan, L2PcInstance activeChar)
 	{

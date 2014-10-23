@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList;
@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.TradeUpdate;
 
 public final class AddTradeItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(AddTradeItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AddTradeItem.class.getClass());
 	private int _tradeId, _objectId, _count;
 	
 	public AddTradeItem() { }
@@ -50,7 +50,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		final TradeList trade = player.getActiveTradeList();
 		if (trade == null) // Trade null
 		{
-			_log.warning("Character: " + player.getName() + " requested item:" + _objectId + " add without active tradelist:" + _tradeId);
+			LOGGER.warn("Character: " + player.getName() + " requested item:" + _objectId + " add without active tradelist:" + _tradeId);
 			return;
 		}
 
@@ -59,7 +59,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		{
 			// Trade partner not found, cancel trade
 			if(trade.getPartner() != null)
-				_log.warning("Character:" + player.getName() + " requested invalid trade object: " + _objectId);
+				LOGGER.warn("Character:" + player.getName() + " requested invalid trade object: " + _objectId);
 
 			player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
 			player.cancelActiveTrade();
@@ -84,7 +84,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		// Java Emulator Security
 		if (player.getInventory().getItemByObjectId(_objectId) == null || _count <= 0)
 		{
-			_log.info("Character:" + player.getName() + " requested invalid trade object");
+			LOGGER.info("Character:" + player.getName() + " requested invalid trade object");
 			return;
 		}
 		

@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2SignsPriestInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2SignsPriestInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2SignsPriestInstance.class.getClass());
 
 	public L2SignsPriestInstance(int objectId, L2NpcTemplate template)
 	{
@@ -105,7 +105,7 @@ public class L2SignsPriestInstance extends L2FolkInstance
 							if(Config.ENABLE_ALL_EXCEPTIONS)
 								e3.printStackTrace();
 							
-							_log.warning("Failed to retrieve cabal from bypass command. NpcId: " + getNpcId() + "; Command: " + command);
+							LOGGER.warn("Failed to retrieve cabal from bypass command. NpcId: " + getNpcId() + "; Command: " + command);
 						}
 					}
 				}
@@ -453,7 +453,7 @@ public class L2SignsPriestInstance extends L2FolkInstance
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.warning("SevenSigns: Error occurred while teleporting player: " + e);
+						LOGGER.warn("SevenSigns: Error occurred while teleporting player: " + e);
 					}
 					break;
 				case 17: // Exchange Seal Stones for Ancient Adena (Type Choice) - SevenSigns 17 x
@@ -508,7 +508,7 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Problem with HTML text " + SevenSigns.SEVEN_SIGNS_HTML_PATH + "signs_17.htm: " + path);
+						LOGGER.warn("Problem with HTML text " + SevenSigns.SEVEN_SIGNS_HTML_PATH + "signs_17.htm: " + path);
 					}
 
 					stoneInstance = null;

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 public class EquipUpdate extends L2GameServerPacket
 {
 	private static final String _S__5E_EQUIPUPDATE = "[S] 4b EquipUpdate";
-	private static Logger _log = Logger.getLogger(EquipUpdate.class.getName());
+	private static Logger LOGGER = Logger.getLogger(EquipUpdate.class.getClass());
 
 	private L2ItemInstance _item;
 	private int _change;
@@ -104,7 +104,7 @@ public class EquipUpdate extends L2GameServerPacket
 
 		if(Config.DEBUG)
 		{
-			_log.fine("body:" + bodypart);
+			LOGGER.debug("body:" + bodypart);
 		}
 		writeD(bodypart);
 	}

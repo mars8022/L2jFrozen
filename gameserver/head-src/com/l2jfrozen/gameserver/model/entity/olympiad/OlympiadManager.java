@@ -15,10 +15,10 @@
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad.COMP_TYPE;
@@ -30,7 +30,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 class OlympiadManager implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(OlympiadManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(OlympiadManager.class.getClass());
 	private Map<Integer, OlympiadGame> _olympiadInstances;
 	
 	protected static final OlympiadStadium[] STADIUMS = {
@@ -247,7 +247,7 @@ class OlympiadManager implements Runnable
 							}
 							catch (Exception e)
 							{
-								_log.log(Level.WARNING, "Exception on OlympiadManager.run(): " + e.getMessage(), e);
+								LOGGER.warn( "Exception on OlympiadManager.run(): " + e.getMessage(), e);
 							}
 						}
 					}

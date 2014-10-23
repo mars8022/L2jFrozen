@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.util.Util;
 /*
 public class TakeFort implements ISkillHandler
 {
- //private static Logger _log = Logger.getLogger(TakeFort.class.getName());
+ //private static Logger LOGGER = Logger.getLogger(TakeFort.class.getClass());
  //private static final SkillType[] SKILL_IDS =
 {
 	SkillType.TAKEFORT

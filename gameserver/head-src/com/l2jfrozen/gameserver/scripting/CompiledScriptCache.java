@@ -28,7 +28,6 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -36,6 +35,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
@@ -51,7 +52,7 @@ public class CompiledScriptCache implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class.getName());
+	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class.getClass());
 
 	private Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<String, CompiledScriptHolder>();
 	private transient boolean _modified = false;
@@ -66,7 +67,7 @@ public class CompiledScriptCache implements Serializable
 		{
 			if(Config.DEBUG)
 			{
-				LOG.fine("Reusing cached compiled script: " + file);
+				LOG.debug("Reusing cached compiled script: " + file);
 			}
 			return csh.getCompiledScript();
 		}

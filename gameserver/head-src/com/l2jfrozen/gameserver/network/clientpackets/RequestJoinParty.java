@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Party;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestJoinParty extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestJoinParty.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestJoinParty.class.getClass());
 	
 	private String _name;
 	private int _itemDistribution;
@@ -178,7 +178,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 			
 			if (Config.DEBUG)
 			{
-				_log.fine("sent out a party invitation to:" + target.getName());
+				LOGGER.debug("sent out a party invitation to:" + target.getName());
 			}
 			
 			msg = new SystemMessage(SystemMessageId.YOU_INVITED_S1_TO_PARTY);
@@ -193,7 +193,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 			
 			if (Config.DEBUG)
 			{
-				_log.warning(requestor.getName() + " already received a party invitation");
+				LOGGER.warn(requestor.getName() + " already received a party invitation");
 			}
 		}
 		msg = null;
@@ -217,7 +217,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 			
 			if (Config.DEBUG)
 			{
-				_log.fine("sent out a party invitation to:" + target.getName());
+				LOGGER.debug("sent out a party invitation to:" + target.getName());
 			}
 			
 			msg = new SystemMessage(SystemMessageId.YOU_INVITED_S1_TO_PARTY);
@@ -232,7 +232,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 			
 			if (Config.DEBUG)
 			{
-				_log.warning(requestor.getName() + " already received a party invitation");
+				LOGGER.warn(requestor.getName() + " already received a party invitation");
 			}
 		}
 	}

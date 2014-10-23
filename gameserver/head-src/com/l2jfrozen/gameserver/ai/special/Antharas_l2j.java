@@ -18,9 +18,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -57,7 +58,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Antharas_l2j extends Quest implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(Antharas_l2j.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Antharas_l2j.class.getClass());
 	
 	// config
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;
@@ -188,7 +189,7 @@ public class Antharas_l2j extends Quest implements Runnable
 		}
 		catch (Exception e)
 		{
-			_log.warning(e.getMessage());
+			LOGGER.warn(e.getMessage());
 		}
 		
 		// Setting spawn data of teleport cube.
@@ -212,7 +213,7 @@ public class Antharas_l2j extends Quest implements Runnable
 		}
 		catch (Exception e)
 		{
-			_log.warning(e.getMessage());
+			LOGGER.warn(e.getMessage());
 		}
 		
 		Integer status = GrandBossManager.getInstance().getBossStatus(ANTHARASOLDID);
@@ -596,7 +597,7 @@ public class Antharas_l2j extends Quest implements Runnable
 			}
 			catch (Exception e)
 			{
-				_log.warning(e.getMessage());
+				LOGGER.warn(e.getMessage());
 			}
 		}
 	}

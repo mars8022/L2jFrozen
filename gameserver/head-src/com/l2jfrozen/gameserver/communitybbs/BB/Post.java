@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
@@ -36,7 +37,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Post
 {
-	private static Logger _log = Logger.getLogger(Post.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Post.class.getClass());
 
 	public class CPost
 	{
@@ -102,7 +103,7 @@ public class Post
 				e.printStackTrace();
 			
 			
-			_log.warning("error while saving new Post to db " + e);
+			LOGGER.warn("error while saving new Post to db " + e);
 		}
 		finally
 		{
@@ -188,7 +189,7 @@ public class Post
 		}
 		catch(Exception e)
 		{
-			_log.warning("data error on Post " + t.getForumID() + "/" + t.getID() + " : " + e);
+			LOGGER.warn("data error on Post " + t.getForumID() + "/" + t.getID() + " : " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -223,7 +224,7 @@ public class Post
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("error while saving new Post to db " + e);
+			LOGGER.warn("error while saving new Post to db " + e);
 		}
 		finally
 		{

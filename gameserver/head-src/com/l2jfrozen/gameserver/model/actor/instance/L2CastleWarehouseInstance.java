@@ -132,7 +132,7 @@ public class L2CastleWarehouseInstance extends L2FolkInstance
 	{
 		if(player.getActiveEnchantItem() != null)
 		{
-			_log.info("Player " + player.getName() + " trying to use enchant exploit, ban this player!");
+			LOGGER.info("Player " + player.getName() + " trying to use enchant exploit, ban this player!");
 			player.closeNetConnection();
 			return;
 		}

@@ -21,7 +21,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Level;
 
 import javolution.util.FastList;
 
@@ -721,7 +720,7 @@ public class PcInventory extends Inventory
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.WARNING, "could not restore inventory:");
+			LOGGER.warn( "could not restore inventory:");
 			e.printStackTrace();
 		}
 		finally

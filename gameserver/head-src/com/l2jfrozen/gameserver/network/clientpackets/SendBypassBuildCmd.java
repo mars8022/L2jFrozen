@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
@@ -33,7 +32,7 @@ import com.l2jfrozen.gameserver.util.GMAudit;
  */
 public final class SendBypassBuildCmd extends L2GameClientPacket
 {
-	protected static final Logger _log = Logger.getLogger(SendBypassBuildCmd.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(SendBypassBuildCmd.class.getClass());
 	public final static int GM_MESSAGE = 9;
 	public final static int ANNOUNCEMENT = 10;
 
@@ -56,7 +55,7 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		if(!AdminCommandAccessRights.getInstance().hasAccess(_command, activeChar.getAccessLevel()))
 		{
 			activeChar.sendMessage("You don't have the access right to use this command!");
-			_log.log(Level.WARNING, "Character " + activeChar.getName() + " tried to use admin command " + _command + ", but doesn't have access to it!");
+			LOGGER.warn( "Character " + activeChar.getName() + " tried to use admin command " + _command + ", but doesn't have access to it!");
 			return;
 		}
 
@@ -77,7 +76,7 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		else
 		{
 			activeChar.sendMessage("The command " + _command + " doesn't exists!");
-			_log.log(Level.WARNING, "No handler registered for admin command '" + _command + "'");
+			LOGGER.warn( "No handler registered for admin command '" + _command + "'");
 			return;
 		}
 	}

@@ -20,8 +20,8 @@ package com.l2jfrozen.util;
 
 import java.util.Hashtable;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -41,7 +41,7 @@ public class PacketsFloodProtector
 	
 	private static Hashtable<String, AtomicInteger> clients_concurrent_actions = new Hashtable<String, AtomicInteger>();
 	
-	private static final Logger _log = Logger.getLogger(PacketsFloodProtector.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(PacketsFloodProtector.class.getClass());
 	
 	private static Hashtable<String, Hashtable<Integer, AtomicInteger>> clients_actions = new Hashtable<String, Hashtable<Integer, AtomicInteger>>();
 	
@@ -93,7 +93,7 @@ public class PacketsFloodProtector
 			
 			if (NetcoreConfig.getInstance().ENABLE_MMOCORE_DEBUG)
 			{
-				_log.info(" -- account " + account + " has performed " + actions + " concurrent actions until now");
+				LOGGER.info(" -- account " + account + " has performed " + actions + " concurrent actions until now");
 			}
 			
 			clients_concurrent_actions.put(account, actions_per_account);
@@ -150,8 +150,8 @@ public class PacketsFloodProtector
 			
 			if (NetcoreConfig.getInstance().ENABLE_MMOCORE_DEBUG)
 			{
-				_log.info("-- called OpCode " + Integer.toHexString(opcode) + " ~" + String.valueOf((NetcoreConfig.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK) + " ms after first command...");
-				_log.info("   total received packets with OpCode " + Integer.toHexString(opcode) + " into the Interval: " + command_count.get());
+				LOGGER.info("-- called OpCode " + Integer.toHexString(opcode) + " ~" + String.valueOf((NetcoreConfig.getInstance().FLOOD_PACKET_PROTECTION_INTERVAL - (_nextGameTick - curTick)) * GameTimeController.MILLIS_IN_TICK) + " ms after first command...");
+				LOGGER.info("   total received packets with OpCode " + Integer.toHexString(opcode) + " into the Interval: " + command_count.get());
 			}
 			
 			if (NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT > 0 && command_count.get() >= NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_LIMIT && NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE != null)
@@ -160,19 +160,19 @@ public class PacketsFloodProtector
 				
 				if (!isOpCodeToBeTested(opcode, opcode2, client instanceof L2LoginClient))
 				{					
-					if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
-						_log.warning("ATTENTION: Account " + account + " is flooding the server...");
+					if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING)
+						LOGGER.warn("ATTENTION: Account " + account + " is flooding the server...");
 					
 					if ("kick".equals(NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE))
 					{
-						if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
-							_log.warning(" ------- kicking account " + account);
+						if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING)
+							LOGGER.warn(" ------- kicking account " + account);
 						kickPlayer(client, opcode);
 					}
 					else if ("ban".equals(NetcoreConfig.getInstance().PACKET_FLOODING_PUNISHMENT_TYPE))
 					{
-						if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING && _log.isLoggable(Level.WARNING))
-							_log.warning(" ------- banning account " + account);
+						if (NetcoreConfig.getInstance().LOG_PACKET_FLOODING)
+							LOGGER.warn(" ------- banning account " + account);
 						banAccount(client, opcode);
 					}					
 				}				
@@ -239,14 +239,14 @@ public class PacketsFloodProtector
 			L2LoginClient login_cl = (L2LoginClient) _client;
 			login_cl.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			
-			_log.warning("Player with account " + login_cl.getAccount() + " kicked for flooding with packet " + Integer.toHexString(opcode));			
+			LOGGER.warn("Player with account " + login_cl.getAccount() + " kicked for flooding with packet " + Integer.toHexString(opcode));			
 		}
 		else if (_client instanceof L2GameClient)
 		{		
 			L2GameClient game_cl = (L2GameClient) _client;
 			game_cl.closeNow();
 			
-			_log.warning("Player with account " + game_cl.accountName + " kicked for flooding with packet " + Integer.toHexString(opcode));			
+			LOGGER.warn("Player with account " + game_cl.accountName + " kicked for flooding with packet " + Integer.toHexString(opcode));			
 		}		
 	}
 	
@@ -263,7 +263,7 @@ public class PacketsFloodProtector
 			LoginController.getInstance().setAccountAccessLevel(login_cl.getAccount(), -100);
 			login_cl.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			
-			_log.warning("Player with account " + login_cl.getAccount() + " banned for flooding forever with packet " + Integer.toHexString(opcode));			
+			LOGGER.warn("Player with account " + login_cl.getAccount() + " banned for flooding forever with packet " + Integer.toHexString(opcode));			
 		}
 		else if (_client instanceof L2GameClient)
 		{			
@@ -272,12 +272,12 @@ public class PacketsFloodProtector
 			if (game_cl.getActiveChar() != null)
 			{
 				game_cl.getActiveChar().setPunishLevel(L2PcInstance.PunishLevel.ACC, 0);			
-				_log.warning("Player " + game_cl.getActiveChar() + " of account " + game_cl.accountName + " banned forever for flooding with packet " + Integer.toHexString(opcode));				
+				LOGGER.warn("Player " + game_cl.getActiveChar() + " of account " + game_cl.accountName + " banned forever for flooding with packet " + Integer.toHexString(opcode));				
 				game_cl.getActiveChar().logout();
 			}
 			
 			game_cl.closeNow();
-			_log.warning("Player with account " + game_cl.accountName + " kicked for flooding with packet " + Integer.toHexString(opcode));			
+			LOGGER.warn("Player with account " + game_cl.accountName + " kicked for flooding with packet " + Integer.toHexString(opcode));			
 		}		
 	}	
 }

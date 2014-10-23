@@ -22,7 +22,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -69,7 +70,7 @@ public class L2PetInstance extends L2Summon
 {
 	
 	/** The Constant _logPet. */
-	protected static final Logger _logPet = Logger.getLogger(L2PetInstance.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2PetInstance.class.getClass());
 
 	//private byte _pvpFlag;
 	/** The _cur fed. */
@@ -212,7 +213,7 @@ public class L2PetInstance extends L2Summon
 				
 				if(Config.DEBUG)
 				{
-					_logPet.warning("Pet [#" + getObjectId() + "] a feed task error has occurred: " + e);
+					LOGGER.debug("Pet [#" + getObjectId() + "] a feed task error has occurred: " + e);
 				}
 			}
 		}
@@ -343,7 +344,7 @@ public class L2PetInstance extends L2Summon
 		{
 			if(Config.DEBUG)
 			{
-				_logPet.fine("new target selected:" + getObjectId());
+				LOGGER.debug("new target selected:" + getObjectId());
 			}
 
 			player.setTarget(this);
@@ -565,7 +566,7 @@ public class L2PetInstance extends L2Summon
 		
 		if (Config.DEBUG)
 		{
-			_logPet.fine("Pet pickup pos: " + object.getX() + " " + object.getY() + " " + object.getZ());
+			LOGGER.debug("Pet pickup pos: " + object.getX() + " " + object.getY() + " " + object.getZ());
 		}
 		
 		broadcastPacket(sm);
@@ -574,7 +575,7 @@ public class L2PetInstance extends L2Summon
 		if (!(object instanceof L2ItemInstance))
 		{
 			// dont try to pickup anything that is not an item :)
-			_logPet.warning("trying to pickup wrong target." + object);
+			LOGGER.warn("Trying to pickup wrong target." + object);
 			getOwner().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
@@ -837,10 +838,7 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("Give all items error " + e);
+			LOGGER.error("Give all items error", e);
 		}
 	}
 
@@ -865,10 +863,7 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("Error while giving item to owner: " + e);
+			LOGGER.error("Error while giving item to owner", e);
 		}
 	}
 
@@ -908,10 +903,7 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("Error while destroying control item: " + e);
+			LOGGER.error("Error while destroying control item", e);
 		}
 
 		// pet control item no longer exists, delete the pet from the db
@@ -927,10 +919,7 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("could not delete pet:" + e);
+			LOGGER.error("could not delete pet", e);
 		}
 		finally
 		{
@@ -954,11 +943,8 @@ public class L2PetInstance extends L2Summon
 			items = null;
 		}
 		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("Pet Drop Error: " + e);
+		{	
+			LOGGER.error("Pet Drop Error", e);
 		}
 	}
 
@@ -989,7 +975,7 @@ public class L2PetInstance extends L2Summon
 			if (protect) 
 				dropit.getDropProtection().protect(getOwner()); 
 
-			_logPet.finer("Item id to drop: " + dropit.getItemId() + " amount: " + dropit.getCount());
+			LOGGER.debug("Item id to drop: " + dropit.getItemId() + " amount: " + dropit.getCount());
 			dropit.dropMe(this, getX(), getY(), getZ() + 100);
 		}
 	}
@@ -1092,11 +1078,8 @@ public class L2PetInstance extends L2Summon
 
 		}
 		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("could not restore pet data: " + e);
+		{	
+			LOGGER.error("Could not restore pet data", e);
 		
 		}
 		finally
@@ -1149,10 +1132,7 @@ public class L2PetInstance extends L2Summon
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_logPet.warning("could not store pet data: " + e);
+			LOGGER.error("could not store pet data", e);
 		}
 		finally
 		{
@@ -1180,7 +1160,7 @@ public class L2PetInstance extends L2Summon
 			_feedTask = null;
 			if(Config.DEBUG)
 			{
-				_logPet.fine("Pet [#" + getObjectId() + "] feed task stop");
+				LOGGER.debug("Pet [#" + getObjectId() + "] feed task stop");
 			}
 		}
 	}

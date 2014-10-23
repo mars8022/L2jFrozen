@@ -22,10 +22,10 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
@@ -81,7 +81,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public abstract class L2Skill
 {
-	protected static final Logger _log = Logger.getLogger(L2Skill.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2Skill.class.getClass());
 	
 	public static final int SKILL_CUBIC_MASTERY = 143;
 	public static final int SKILL_LUCKY = 194;
@@ -642,7 +642,7 @@ public abstract class L2Skill
 				}
 				catch(Throwable t)
 				{
-					_log.log(Level.SEVERE, "Bad class " + cls + " to learn skill", t);
+					LOGGER.error( "Bad class " + cls + " to learn skill", t);
 				}
 				cls = null;
 			}
@@ -670,7 +670,7 @@ public abstract class L2Skill
 				}
 				catch(Throwable t)
 				{
-					_log.log(Level.SEVERE, "Bad teacher id " + npcid + " to teach skill", t);
+					LOGGER.error( "Bad teacher id " + npcid + " to teach skill", t);
 				}
 				
 				npcid = null;

@@ -20,9 +20,10 @@ package com.l2jfrozen.loginserver;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
@@ -31,7 +32,7 @@ import com.l2jfrozen.Config;
  */
 public class GameServerListener extends FloodProtectedListener
 {
-	private static Logger _log = Logger.getLogger(GameServerListener.class.getName());
+	private static Logger LOGGER = Logger.getLogger(GameServerListener.class.getClass());
 	private static List<GameServerThread> _gameServers = new FastList<GameServerThread>();
 
 	public GameServerListener() throws IOException
@@ -47,7 +48,7 @@ public class GameServerListener extends FloodProtectedListener
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("Received gameserver connection from: " + s.getInetAddress().getHostAddress());
+			LOGGER.info("Received gameserver connection from: " + s.getInetAddress().getHostAddress());
 		}
 
 		GameServerThread gst = new GameServerThread(s);

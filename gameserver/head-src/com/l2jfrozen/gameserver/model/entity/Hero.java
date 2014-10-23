@@ -25,9 +25,10 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -51,7 +52,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Hero 
 {
-	private static final Logger _log = Logger.getLogger(Hero.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Hero.class.getClass());
 
 	private static Hero _instance;
 	private static final String GET_HEROES = "SELECT * FROM heroes WHERE played = 1";
@@ -184,7 +185,7 @@ public class Hero
 		}
 		catch(SQLException e)
 		{
-			_log.warning("Hero System: Couldnt load Heroes");
+			LOGGER.warn("Hero System: Couldnt load Heroes");
 			if (Config.DEBUG) e.printStackTrace();
 		}
 		finally
@@ -192,8 +193,8 @@ public class Hero
 			DatabaseUtils.closeDatabaseSR(statement2, rset2);
 			DatabaseUtils.closeDatabaseCSR(con, statement, rset);
 		}
-		_log.info("Hero System: Loaded " + _heroes.size() + " Heroes.");
-		_log.info("Hero System: Loaded " + _completeHeroes.size() + " all time Heroes.");
+		LOGGER.info("Hero System: Loaded " + _heroes.size() + " Heroes.");
+		LOGGER.info("Hero System: Loaded " + _completeHeroes.size() + " all time Heroes.");
 	}
 
     public void putHero(L2PcInstance player, boolean isComplete)
@@ -387,7 +388,7 @@ public class Hero
 				}
 				catch (Exception e)
 				{
-					_log.warning("could not get clan name of " + name + ": "+e);
+					LOGGER.warn("could not get clan name of " + name + ": "+e);
 				}
 				finally
 				{
@@ -472,7 +473,7 @@ public class Hero
 		}
 		catch(SQLException e)
 		{
-			_log.warning("Hero System: Couldnt update Heroes");
+			LOGGER.warn("Hero System: Couldnt update Heroes");
 			if (Config.DEBUG) e.printStackTrace();
 		}
 		finally

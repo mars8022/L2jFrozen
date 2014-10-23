@@ -105,7 +105,7 @@ public class L2FortSiegeGuardInstance extends L2Attackable
 		{
 			if(Config.DEBUG)
 			{
-				_log.info(getObjectId() + ": moving home");
+				LOGGER.info(getObjectId() + ": moving home");
 			}
 			setisReturningToSpawnPoint(true);
 			clearAggroList();
@@ -135,7 +135,7 @@ public class L2FortSiegeGuardInstance extends L2Attackable
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("new target selected:" + getObjectId());
+				LOGGER.info("new target selected:" + getObjectId());
 			}
 
 			// Set the target of the L2PcInstance player

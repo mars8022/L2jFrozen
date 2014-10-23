@@ -22,8 +22,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Wedding
 {
-	protected static final Logger _log = Logger.getLogger(Wedding.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Wedding.class.getClass());
 	
 	// =========================================================
 	// Data Field
@@ -90,7 +90,7 @@ public class Wedding
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Couple.load(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Couple.load(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -141,7 +141,7 @@ public class Wedding
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "", e);
+			LOGGER.error( "", e);
 		}
 		finally
 		{
@@ -178,7 +178,7 @@ public class Wedding
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "", e);
+			LOGGER.error( "", e);
 		}
 		finally
 		{
@@ -206,7 +206,7 @@ public class Wedding
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Couple.divorce(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Couple.divorce(): " + e.getMessage(), e);
 		}
 		finally
 		{

@@ -6,7 +6,7 @@
  * $Revision$
  * $Log$
  * Revision 1.1.2.1  2005/04/08 08:03:40  luisantonioa
- * *** empty log message ***
+ * *** empty LOGGER message ***
  *
  * Revision 1.1  4/04/2005 17:15:07  luisantonioa
  * Created New Class

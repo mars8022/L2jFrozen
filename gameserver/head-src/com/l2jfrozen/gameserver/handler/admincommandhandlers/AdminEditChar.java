@@ -22,10 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -56,7 +56,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class AdminEditChar implements IAdminCommandHandler
 {
-	protected static final Logger _log = Logger.getLogger(AdminEditChar.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AdminEditChar.class.getClass());
 	
 	private static String[] ADMIN_COMMANDS =
 	{
@@ -1076,11 +1076,11 @@ public class AdminEditChar implements IAdminCommandHandler
 			if (actual_player != null && actual_player.isOnline() == 1 && !actual_player.isOffline())
 				online_players_list.add(actual_player);
 			else if (actual_player == null)
-				_log.log(Level.WARNING, "listCharacters: found player null into L2World Instance..");
+				LOGGER.warn( "listCharacters: found player null into L2World Instance..");
 			else if (actual_player.isOnline() == 0 && Config.DEBUG)
-				_log.log(Level.WARNING, "listCharacters: player " + actual_player.getName() + " not online into L2World Instance..");
+				LOGGER.warn( "listCharacters: player " + actual_player.getName() + " not online into L2World Instance..");
 			else if (actual_player.isOffline() && Config.DEBUG)
-				_log.log(Level.WARNING, "listCharacters: player " + actual_player.getName() + " offline into L2World Instance..");
+				LOGGER.warn( "listCharacters: player " + actual_player.getName() + " offline into L2World Instance..");
 		
 		L2PcInstance[] players = online_players_list.toArray(new L2PcInstance[online_players_list.size()]);
 		online_players_list = null;
@@ -1316,7 +1316,7 @@ public class AdminEditChar implements IAdminCommandHandler
 		
 		if (Config.DEBUG)
 		{
-			_log.log(Level.WARNING, "[GM]" + activeChar.getName() + " changed stats of " + player.getName() + ". " + " HP: " + hpval + " MP: " + mpval + " CP: " + cpval + " PvP: " + pvpflagval + " / " + pvpkillsval);
+			LOGGER.warn( "[GM]" + activeChar.getName() + " changed stats of " + player.getName() + ". " + " HP: " + hpval + " MP: " + mpval + " CP: " + cpval + " PvP: " + pvpflagval + " / " + pvpkillsval);
 		}
 		
 		showCharacterInfo(activeChar, null); // Back to start

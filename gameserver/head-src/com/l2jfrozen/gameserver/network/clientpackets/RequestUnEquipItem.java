@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 
 public class RequestUnEquipItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestUnEquipItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestUnEquipItem.class.getClass());
 
 	// cd
 	private int _slot;
@@ -51,7 +51,7 @@ public class RequestUnEquipItem extends L2GameClientPacket
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("request unequip slot " + _slot);
+			LOGGER.debug("request unequip slot " + _slot);
 		}
 
 		L2PcInstance activeChar = getClient().getActiveChar();

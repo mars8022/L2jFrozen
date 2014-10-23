@@ -99,7 +99,7 @@ public class L2CommanderInstance extends L2Attackable
 
 		if(Config.DEBUG)
 		{
-			_log.finer(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
+			LOGGER.debug(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class L2CommanderInstance extends L2Attackable
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine(getObjectId() + ": moving home");
+				LOGGER.debug(getObjectId() + ": moving home");
 			}
 			setisReturningToSpawnPoint(true);
 			clearAggroList();

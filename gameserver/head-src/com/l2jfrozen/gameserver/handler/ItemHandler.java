@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.handler.itemhandlers.BeastSoulShot;
@@ -73,7 +74,7 @@ import com.l2jfrozen.gameserver.handler.itemhandlers.SummonItems;
  */
 public class ItemHandler
 {
-	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
 
 	private static ItemHandler _instance;
 
@@ -152,7 +153,7 @@ public class ItemHandler
 		registerItemHandler(new BreakingArrow());
 		registerItemHandler(new ChristmasTree());
 		registerItemHandler(new Crystals());
-		_log.config("ItemHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("ItemHandler: Loaded " + _datatable.size() + " handlers.");
 	}
 
 	/**

@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.cache.CrestCache;
 public class AllyCrest extends L2GameServerPacket
 {
 	private static final String _S__C7_ALLYCREST = "[S] ae AllyCrest";
-	//private static Logger _log = Logger.getLogger(AllyCrest.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AllyCrest.class.getClass());
 	private int _crestId;
 	private byte[] _data;
 	

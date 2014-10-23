@@ -89,12 +89,12 @@ public class FService
 	public static final String DATAPACK_VERSION_FILE = "./config/version/l2jfrozen-datapack.properties";
 	
 	// others
-	public static final String LOG_CONF_FILE = "./config/others/log.cfg";
+	public static final String LOG_CONF_FILE = "./config/others/logger.properties";
 	public static final String BANNED_IP = "./config/others/banned_ip.cfg";
 	public static final String SERVER_NAME_FILE = "./config/others/servername.xml";
 	
 	// Legacy others position
-	public static final String LEGACY_LOG_CONF_FILE = "./log.cfg";
+	public static final String LEGACY_LOG_CONF_FILE = "./LOGGER.cfg";
 	public static final String LEGACY_BANNED_IP = "./config/banned_ip.cfg";
 	public static final String LEGACY_SERVER_NAME_FILE = "./servername.xml";
 }

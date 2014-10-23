@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
  */
 public final class RequestMagicSkillUse extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestMagicSkillUse.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestMagicSkillUse.class.getClass());
 
 	private int _magicId;
 	private boolean _ctrlPressed;
@@ -78,10 +78,10 @@ public final class RequestMagicSkillUse extends L2GameClientPacket
 		if (skill != null)
 		{
 
-			// _log.fine(" [FINE] 	skill:"+skill.getName() + " level:"+skill.getLevel() + " passive:"+skill.isPassive());
-			// _log.fine(" [FINE] 	range:"+skill.getCastRange()+" targettype:"+skill.getTargetType()+" optype:"+skill.getOperateType()+" power:"+skill.getPower());
-			// _log.fine(" [FINE] 	reusedelay:"+skill.getReuseDelay()+" hittime:"+skill.getHitTime());
-			// _log.fine(" [FINE] 	currentState:"+activeChar.getCurrentState());	//for debug
+			// LOGGER.fine(" [FINE] 	skill:"+skill.getName() + " level:"+skill.getLevel() + " passive:"+skill.isPassive());
+			// LOGGER.fine(" [FINE] 	range:"+skill.getCastRange()+" targettype:"+skill.getTargetType()+" optype:"+skill.getOperateType()+" power:"+skill.getPower());
+			// LOGGER.fine(" [FINE] 	reusedelay:"+skill.getReuseDelay()+" hittime:"+skill.getHitTime());
+			// LOGGER.fine(" [FINE] 	currentState:"+activeChar.getCurrentState());	//for debug
 			
 			// If Alternate rule Karma punishment is set to true, forbid skill Return to player with Karma
 			if (skill.getSkillType() == SkillType.RECALL && !Config.ALT_GAME_KARMA_PLAYER_CAN_TELEPORT && activeChar.getKarma() > 0)
@@ -101,7 +101,7 @@ public final class RequestMagicSkillUse extends L2GameClientPacket
 		else
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-			_log.severe(" [ERROR] [WARNING]No skill found with id " + _magicId + " and level " + level + " !!");
+			LOGGER.warn("No skill found with id " + _magicId + " and level " + level + " !!");
 		}
 	}
 

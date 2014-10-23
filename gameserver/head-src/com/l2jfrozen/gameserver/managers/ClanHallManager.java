@@ -21,9 +21,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -36,7 +37,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanHallManager
 {
-	private static final Logger _log = Logger.getLogger(ClanHallManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ClanHallManager.class.getClass());
 
 	private static final Map<Integer, ClanHall> _clanHall = new FastMap<Integer, ClanHall>();
 	private static final Map<Integer, ClanHall> _freeClanHall = new FastMap<Integer, ClanHall>();
@@ -69,7 +70,7 @@ public class ClanHallManager
 	/** Load All Clan Hall */
 	private final void load()
 	{
-		_log.info("Initializing ClanHallManager");
+		LOGGER.info("Initializing ClanHallManager");
 		Connection con = null;
 		try
 		{
@@ -119,13 +120,13 @@ public class ClanHallManager
 			rs.close();
 			statement.close();
 			
-			_log.info("Loaded: " + getClanHalls().size() + " clan halls");
-			_log.info("Loaded: " + getFreeClanHalls().size() + " free clan halls");
+			LOGGER.info("Loaded: " + getClanHalls().size() + " clan halls");
+			LOGGER.info("Loaded: " + getFreeClanHalls().size() + " free clan halls");
 			_loaded = true;
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: ClanHallManager.load(): " + e.getMessage());
+			LOGGER.warn("Exception: ClanHallManager.load(): " + e.getMessage());
 		}
 		finally
 		{
@@ -230,7 +231,7 @@ public class ClanHallManager
 			ClanHall ch = _clanHall.get(ch_id);
 			
 			if(ch == null){
-				_log.warning("ATTENTION: Clah Hall "+ch_id+" is not defined.");
+				LOGGER.warn("ATTENTION: Clah Hall "+ch_id+" is not defined.");
 				_clanHall.remove(ch_id);
 				continue;
 			}
@@ -245,7 +246,7 @@ public class ClanHallManager
 			ClanHall ch = _freeClanHall.get(ch_id);
 			
 			if(ch == null){
-				_log.warning("ATTENTION: Clah Hall "+ch_id+" is not defined.");
+				LOGGER.warn("ATTENTION: Clah Hall "+ch_id+" is not defined.");
 				_freeClanHall.remove(ch_id);
 				continue;
 			}

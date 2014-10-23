@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -46,7 +47,7 @@ import com.l2jfrozen.gameserver.handler.usercommandhandlers.Time;
  */
 public class UserCommandHandler
 {
-	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
 	
 	private static UserCommandHandler _instance;
 	
@@ -80,7 +81,7 @@ public class UserCommandHandler
 		registerUserCommandHandler(new SiegeStatus());
 		if (Config.OFFLINE_TRADE_ENABLE && Config.OFFLINE_COMMAND1)
 			registerUserCommandHandler(new OfflineShop());
-		_log.config("UserCommandHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("UserCommandHandler: Loaded " + _datatable.size() + " handlers.");
 	}
 	
 	public void registerUserCommandHandler(IUserCommandHandler handler)
@@ -91,7 +92,7 @@ public class UserCommandHandler
 		{
 			if (Config.DEBUG)
 			{
-				_log.fine("Adding handler for user command " + id);
+				LOGGER.debug("Adding handler for user command " + id);
 			}
 			_datatable.put(new Integer(id), handler);
 		}
@@ -102,7 +103,7 @@ public class UserCommandHandler
 	{
 		if (Config.DEBUG)
 		{
-			_log.fine("getting handler for user command: " + userCommand);
+			LOGGER.debug("getting handler for user command: " + userCommand);
 		}
 		
 		return _datatable.get(new Integer(userCommand));

@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.thread.daemons;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.ItemsOnGroundManager;
@@ -32,7 +33,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class ItemsAutoDestroy
 {
-	protected static final Logger _log = Logger.getLogger("ItemsAutoDestroy");
+	protected static final Logger LOGGER = Logger.getLogger("ItemsAutoDestroy");
 	private static ItemsAutoDestroy _instance;
 	protected List<L2ItemInstance> _items = null;
 	protected static long _sleep;
@@ -52,7 +53,7 @@ public class ItemsAutoDestroy
 	{
 		if(_instance == null)
 		{
-			_log.info("Initializing ItemsAutoDestroy.");
+			LOGGER.info("Initializing ItemsAutoDestroy.");
 			_instance = new ItemsAutoDestroy();
 		}
 		return _instance;
@@ -68,7 +69,7 @@ public class ItemsAutoDestroy
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("[ItemsAutoDestroy] : " + _items.size() + " items to check.");
+			LOGGER.info("[ItemsAutoDestroy] : " + _items.size() + " items to check.");
 		}
 
 		if(_items.isEmpty())
@@ -114,7 +115,7 @@ public class ItemsAutoDestroy
 
 		if(Config.DEBUG)
 		{
-			_log.info("[ItemsAutoDestroy] : " + _items.size() + " items remaining.");
+			LOGGER.info("[ItemsAutoDestroy] : " + _items.size() + " items remaining.");
 		}
 	}
 

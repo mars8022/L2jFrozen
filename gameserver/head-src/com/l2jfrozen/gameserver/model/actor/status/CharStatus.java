@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.model.actor.status;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -44,8 +44,8 @@ import com.l2jfrozen.util.random.Rnd;
 public class CharStatus
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(CharStatus.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(CharStatus.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -281,7 +281,7 @@ public class CharStatus
 			// then overhit may be calculated
 			if(Config.DEBUG)
 			{
-				_log.fine("char is dead.");
+				LOGGER.debug("char is dead.");
 			}
 
 			// Start the doDie process
@@ -355,7 +355,7 @@ public class CharStatus
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("HP/MP/CP regen started");
+				LOGGER.debug("HP/MP/CP regen started");
 			}
 
 			// Get the Regeneration periode
@@ -380,7 +380,7 @@ public class CharStatus
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("HP/MP/CP regen stop");
+				LOGGER.debug("HP/MP/CP regen stop");
 			}
 
 			// Stop the HP/MP/CP Regeneration task
@@ -765,7 +765,7 @@ public class CharStatus
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "RegenTask failed for " + getActiveChar().getName(), e);
+				LOGGER.error( "RegenTask failed for " + getActiveChar().getName(), e);
 			}
 		}
 	}

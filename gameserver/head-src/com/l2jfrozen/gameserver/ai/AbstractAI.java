@@ -23,8 +23,8 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
 import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
@@ -61,7 +61,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 abstract class AbstractAI implements Ctrl
 {
 
-	protected static final Logger _log = Logger.getLogger(AbstractAI.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AbstractAI.class.getClass());
 
 	class FollowTask implements Runnable
 	{
@@ -108,7 +108,7 @@ abstract class AbstractAI implements Ctrl
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.WARNING, "", t);
+				LOGGER.warn( "", t);
 			}
 		}
 	}
@@ -189,7 +189,7 @@ abstract class AbstractAI implements Ctrl
 	{
 		/*
 		 if (Config.DEBUG)
-		 _log.warning("AbstractAI: changeIntention -> " + intention + " " + arg0 + " " + arg1);
+		 LOGGER.warn("AbstractAI: changeIntention -> " + intention + " " + arg0 + " " + arg1);
 		 */
 
 		_intention = intention;
@@ -244,7 +244,7 @@ abstract class AbstractAI implements Ctrl
 
 		/*
 		 if (Config.DEBUG)
-		 _log.warning("AbstractAI: setIntention -> " + intention + " " + arg0 + " " + arg1);
+		 LOGGER.warn("AbstractAI: setIntention -> " + intention + " " + arg0 + " " + arg1);
 		 */
 
 		// Stop the follow mode if necessary
@@ -343,7 +343,7 @@ abstract class AbstractAI implements Ctrl
 
 		/*
 		 if (Config.DEBUG)
-		 _log.warning("AbstractAI: notifyEvent -> " + evt + " " + arg0 + " " + arg1);
+		 LOGGER.warn("AbstractAI: notifyEvent -> " + evt + " " + arg0 + " " + arg1);
 		 */
 
 		switch(evt)
@@ -626,7 +626,7 @@ abstract class AbstractAI implements Ctrl
 	{
 		/*
 		if (true && _actor instanceof L2PcInstance){
-			_log.warning("clientStopMoving();");
+			LOGGER.warn("clientStopMoving();");
 			Thread.dumpStack();
 		}
 		*/

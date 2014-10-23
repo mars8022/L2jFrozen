@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 public final class L2MercManagerInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2MercManagerInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2MercManagerInstance.class.getClass());
 
 	private static final int COND_ALL_FALSE = 0;
 	private static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
@@ -122,7 +122,7 @@ public final class L2MercManagerInstance extends L2FolkInstance
 		player.tempInvetoryDisable();
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing buylist");
+			LOGGER.debug("Showing buylist");
 		}
 		L2TradeList list = TradeController.getInstance().getBuyList(val);
 		if(list != null && list.getNpcId().equals(String.valueOf(getNpcId())))
@@ -134,8 +134,8 @@ public final class L2MercManagerInstance extends L2FolkInstance
 		}
 		else
 		{
-			_log.warning("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2MercManagerIntance)");
-			_log.warning("buylist id:" + val);
+			LOGGER.warn("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2MercManagerIntance)");
+			LOGGER.warn("buylist id:" + val);
 		}
 	}
 

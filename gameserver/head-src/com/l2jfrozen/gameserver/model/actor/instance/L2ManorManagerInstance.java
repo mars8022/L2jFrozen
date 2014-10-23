@@ -19,7 +19,6 @@
 package com.l2jfrozen.gameserver.model.actor.instance;
 
 import java.util.StringTokenizer;
-import java.util.logging.Level;
 
 import javolution.util.FastList;
 
@@ -48,7 +47,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 public class L2ManorManagerInstance extends L2MerchantInstance
 {
 
-	//private static Logger _log = Logger.getLogger(L2ManorManagerInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2ManorManagerInstance.class.getClass());
 
 	public L2ManorManagerInstance(int objectId, L2NpcTemplate template)
 	{
@@ -130,8 +129,8 @@ public class L2ManorManagerInstance extends L2MerchantInstance
 		}
 		else
 		{
-			_log.info("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2ManorManagerIntance)");
-			_log.info("buylist id:" + val);
+			LOGGER.info("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2ManorManagerIntance)");
+			LOGGER.info("buylist id:" + val);
 		}
 
 		list = null;
@@ -192,7 +191,7 @@ public class L2ManorManagerInstance extends L2MerchantInstance
 							int price = s.getPrice();
 							if(price < (item.getReferencePrice()/2)){
 								
-								_log.log(Level.WARNING, "L2TradeList "+tradeList.getListId()+" itemId  "+ s.getId()+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+								LOGGER.warn( "L2TradeList "+tradeList.getListId()+" itemId  "+ s.getId()+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 								price = item.getReferencePrice();
 							}
 							

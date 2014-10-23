@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.TradeController;
@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.BuyList;
  */
 public class AdminShop implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminShop.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminShop.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -58,7 +58,7 @@ public class AdminShop implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -103,7 +103,7 @@ public class AdminShop implements IAdminCommandHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("admin buylist failed:" + command);
+			LOGGER.warn("admin buylist failed:" + command);
 		}
 
 		L2TradeList list = TradeController.getInstance().getBuyList(val);
@@ -114,12 +114,12 @@ public class AdminShop implements IAdminCommandHandler
 
 			if(Config.DEBUG)
 			{
-				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") opened GM shop id " + val);
+				LOGGER.debug("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") opened GM shop id " + val);
 			}
 		}
 		else
 		{
-			_log.warning("no buylist with id:" + val);
+			LOGGER.warn("no buylist with id:" + val);
 		}
 
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);

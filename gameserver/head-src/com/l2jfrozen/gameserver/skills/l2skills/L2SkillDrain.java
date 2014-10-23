@@ -183,7 +183,7 @@ public class L2SkillDrain extends L2Skill
 	public void useCubicSkill(L2CubicInstance activeCubic, L2Object[] targets)
 	{
 		if (Config.DEBUG)
-			_log.info("L2SkillDrain: useCubicSkill()");
+			LOGGER.info("L2SkillDrain: useCubicSkill()");
 		
 		for (L2Character target : (L2Character[]) targets)
 		{
@@ -194,7 +194,7 @@ public class L2SkillDrain extends L2Skill
 			
 			int damage = (int) Formulas.calcMagicDam(activeCubic, target, this, mcrit);
 			if (Config.DEBUG)
-				_log.info("L2SkillDrain: useCubicSkill() -> damage = " + damage);
+				LOGGER.info("L2SkillDrain: useCubicSkill() -> damage = " + damage);
 			
 			double hpAdd = _absorbAbs + _absorbPart * damage;
 			L2PcInstance owner = activeCubic.getOwner();

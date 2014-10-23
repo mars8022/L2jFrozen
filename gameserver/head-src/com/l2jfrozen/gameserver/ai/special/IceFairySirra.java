@@ -15,7 +15,6 @@
 package com.l2jfrozen.gameserver.ai.special;
 
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 import javolution.util.FastList;
 
@@ -128,7 +127,7 @@ public class IceFairySirra extends Quest implements Runnable
 		{
 			if(_freyasZone == null)
 			{
-				_log.warning("IceFairySirraManager: Failed to load zone");
+				LOGGER.warn("IceFairySirraManager: Failed to load zone");
 				cleanUp();
 				return super.onAdvEvent(event, npc, player);
 			}
@@ -171,7 +170,7 @@ public class IceFairySirra extends Quest implements Runnable
 		_freyasZone = GrandBossManager.getInstance().getZone(105546, -127892, -2768);
 		if(_freyasZone == null)
 		{
-			_log.warning("IceFairySirraManager: Failed to load zone");
+			LOGGER.warn("IceFairySirraManager: Failed to load zone");
 			return;
 		}
 		_freyasZone.setZoneEnabled(false);
@@ -202,7 +201,7 @@ public class IceFairySirra extends Quest implements Runnable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "IceFairySirraManager: Failed deleting mob.", e);
+				LOGGER.error( "IceFairySirraManager: Failed deleting mob.", e);
 			}
 		}
 		_allMobs.clear();
@@ -235,7 +234,7 @@ public class IceFairySirra extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("IceFairySirraManager: Attempted to open undefined door. doorId: " + i);
+					LOGGER.warn("IceFairySirraManager: Attempted to open undefined door. doorId: " + i);
 				}
 			}
 			catch(Exception e)
@@ -243,7 +242,7 @@ public class IceFairySirra extends Quest implements Runnable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "IceFairySirraManager: Failed closing door", e);
+				LOGGER.error( "IceFairySirraManager: Failed closing door", e);
 			}
 		}
 	}
@@ -261,7 +260,7 @@ public class IceFairySirra extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("IceFairySirraManager: Attempted to close undefined door. doorId: " + i);
+					LOGGER.warn("IceFairySirraManager: Attempted to close undefined door. doorId: " + i);
 				}
 			}
 			catch(Exception e)
@@ -269,7 +268,7 @@ public class IceFairySirra extends Quest implements Runnable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "IceFairySirraManager: Failed closing door", e);
+				LOGGER.error( "IceFairySirraManager: Failed closing door", e);
 			}
 		}
 	}
@@ -315,7 +314,7 @@ public class IceFairySirra extends Quest implements Runnable
 				pc.teleToLocation(113533, -126159, -3488, false);
 				if(_freyasZone == null)
 				{
-					_log.warning("IceFairySirraManager: Failed to load zone");
+					LOGGER.warn("IceFairySirraManager: Failed to load zone");
 					cleanUp();
 					return;
 				}
@@ -385,7 +384,7 @@ public class IceFairySirra extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("IceFairySirraManager: Data missing in NPC table for ID: " + mobs[i][0]);
+					LOGGER.warn("IceFairySirraManager: Data missing in NPC table for ID: " + mobs[i][0]);
 				}
 			}
 		}
@@ -394,7 +393,7 @@ public class IceFairySirra extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("IceFairySirraManager: Spawns could not be initialized: " + e);
+			LOGGER.warn("IceFairySirraManager: Spawns could not be initialized: " + e);
 		}
 	}
 

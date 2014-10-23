@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminHeal implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminRes.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminRes.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -59,7 +59,7 @@ public class AdminHeal implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -161,7 +161,7 @@ public class AdminHeal implements IAdminCommandHandler
 
 			if(Config.DEBUG)
 			{
-				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") healed character " + target.getName());
+				LOGGER.debug("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") healed character " + target.getName());
 			}
 
 		}

@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2AdventurerInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2AdventurerInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2AdventurerInstance.class.getClass());
 
 	public L2AdventurerInstance(int objectId, L2NpcTemplate template)
 	{
@@ -66,7 +66,7 @@ public class L2AdventurerInstance extends L2FolkInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("Invalid Bypass to Server command parameter.");
+				LOGGER.warn("Invalid Bypass to Server command parameter.");
 			}
 		}
 		else if(command.startsWith("raidInfo"))

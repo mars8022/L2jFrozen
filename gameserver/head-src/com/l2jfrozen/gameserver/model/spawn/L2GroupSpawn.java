@@ -99,7 +99,7 @@ public class L2GroupSpawn extends L2Spawn
 
 			if(Config.DEBUG)
 			{
-				_log.finest("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
+				LOGGER.debug("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
 			}
 
 			parameters = null;
@@ -113,7 +113,7 @@ public class L2GroupSpawn extends L2Spawn
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("NPC class not found: " + e);
+			LOGGER.warn("NPC class not found: " + e);
 			return null;
 		}
 	}

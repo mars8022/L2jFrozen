@@ -21,9 +21,10 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
 import com.l2jfrozen.util.CloseUtil;
@@ -31,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ArmorSetsTable
 {
-	private final static Logger _log = Logger.getLogger(ArmorSetsTable.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(ArmorSetsTable.class.getClass());
 	private static ArmorSetsTable _instance;
 
 	public FastMap<Integer, L2ArmorSet> _armorSets;
@@ -49,8 +50,8 @@ public class ArmorSetsTable
 
 	private ArmorSetsTable()
 	{
-		_armorSets = new FastMap<Integer, L2ArmorSet>();
-		_cusArmorSets = new FastMap<Integer, ArmorDummy>();
+		_armorSets = new FastMap<>();
+		_cusArmorSets = new FastMap<>();
 		loadData();
 	}
 
@@ -80,14 +81,14 @@ public class ArmorSetsTable
 					_cusArmorSets.put(id, new ArmorDummy(chest, legs, head, gloves, feet, skill_id, shield));
 				}
 
-				_log.finest("Loaded: {} armor sets."+" "+ _armorSets.size());
+				LOGGER.info("Loaded: {} armor sets."+" "+ _armorSets.size());
 
 				rset.close();
 				statement.close();
 		}
 		catch(Exception e)
 		{
-			_log.severe(e.getMessage()+" "+ e);
+			LOGGER.error("Error while loading armor sets data", e);
 		} finally {
 			CloseUtil.close(con);
 		}

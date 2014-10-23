@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.RecipeTable;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class RecipeItemMakeInfo extends L2GameServerPacket
 {
 	private static final String _S__D7_RECIPEITEMMAKEINFO = "[S] D7 RecipeItemMakeInfo";
-	private static Logger _log = Logger.getLogger(RecipeItemMakeInfo.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RecipeItemMakeInfo.class.getClass());
 
 	private int _id;
 	private L2PcInstance _activeChar;
@@ -70,7 +70,7 @@ public class RecipeItemMakeInfo extends L2GameServerPacket
 		}
 		else if(Config.DEBUG)
 		{
-			_log.info("No recipe found with ID = " + _id);
+			LOGGER.info("No recipe found with ID = " + _id);
 		}
 	}
 

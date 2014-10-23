@@ -15,7 +15,8 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.Calendar;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -45,7 +46,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 public class FortressSiegeInfo extends L2GameServerPacket
 {
 	private static final String _S__C9_SIEGEINFO = "[S] c9 SiegeInfo";
-	private static Logger _log = Logger.getLogger(FortressSiegeInfo.class.getName());
+	private static Logger LOGGER = Logger.getLogger(FortressSiegeInfo.class.getClass());
 	private Fort _fort;
 
 	public FortressSiegeInfo(Fort fort)
@@ -76,7 +77,7 @@ public class FortressSiegeInfo extends L2GameServerPacket
 			}
 			else
 			{
-				_log.warning("Null owner for fort: " + _fort.getName());
+				LOGGER.warn("Null owner for fort: " + _fort.getName());
 			}
 		}
 		else

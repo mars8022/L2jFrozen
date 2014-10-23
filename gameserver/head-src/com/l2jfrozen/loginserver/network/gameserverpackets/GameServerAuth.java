@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.loginserver.network.gameserverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
 
@@ -30,7 +30,7 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class GameServerAuth extends ClientBasePacket
 {
-	protected static Logger _log = Logger.getLogger(GameServerAuth.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(GameServerAuth.class.getClass());
 	private byte[] _hexId;
 	private int _desiredId;
 	private boolean _hostReserved;

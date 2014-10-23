@@ -20,14 +20,15 @@ package com.l2jfrozen.util.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
 
 public class SqlUtils
 {
-	private static Logger _log = Logger.getLogger(SqlUtils.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SqlUtils.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -75,7 +76,7 @@ public class SqlUtils
 		}
 		catch(Exception e)
 		{
-			_log.warning("Error in query '" + query + "':" + e);
+			LOGGER.warn("Error in query '" + query + "':" + e);
 			e.printStackTrace();
 		}
 		finally
@@ -154,7 +155,7 @@ public class SqlUtils
 		}
 		catch(Exception e)
 		{
-			_log.warning("mSGI: Error in query '" + query + "':" + e);
+			LOGGER.warn("mSGI: Error in query '" + query + "':" + e);
 			e.printStackTrace();
 		}
 		finally
@@ -232,7 +233,7 @@ public class SqlUtils
 		}
 		catch(Exception e)
 		{
-			_log.warning("Error in query '" + query + "':" + e);
+			LOGGER.warn("Error in query '" + query + "':" + e);
 			e.printStackTrace();
 		}
 		finally
@@ -263,7 +264,7 @@ public class SqlUtils
 			
 		}
 
-		_log.fine("Get all rows in query '" + query + "' in " + (System.currentTimeMillis() - start) + "ms");
+		LOGGER.error("Get all rows in query '" + query + "' in " + (System.currentTimeMillis() - start) + "ms");
 
 		return res;
 	}

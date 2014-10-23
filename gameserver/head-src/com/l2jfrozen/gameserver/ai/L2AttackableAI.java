@@ -63,7 +63,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class L2AttackableAI extends L2CharacterAI implements Runnable
 {
 
-	//protected static final Logger _log = Logger.getLogger(L2AttackableAI.class.getName());
+	//protected static final Logger LOGGER = Logger.getLogger(L2AttackableAI.class.getClass());
 
 	private static final int RANDOM_WALK_RATE = 30; // confirmed
 	// private static final int MAX_DRIFT_RANGE = 300;
@@ -588,7 +588,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 				z1 = npc.getZ();
 			}
 
-			//_log.config("Curent pos ("+getX()+", "+getY()+"), moving to ("+x1+", "+y1+").");
+			//LOGGER.config("Curent pos ("+getX()+", "+getY()+"), moving to ("+x1+", "+y1+").");
 			// Move the actor to Location (x,y,z) server side AND client side by sending Server->Client packet CharMoveToLocation (broadcast)
 			moveTo(x1, y1, z1);
 		}
@@ -708,7 +708,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 			}
 			catch (NullPointerException e)
 			{
-				_log.log(Level.WARNING, "L2AttackableAI: thinkAttack() faction call failed: " + e.getMessage(), e);
+				LOGGER.warn( "L2AttackableAI: thinkAttack() faction call failed: " + e.getMessage(), e);
 			}
 		}
 		*/
@@ -792,7 +792,7 @@ public class L2AttackableAI extends L2CharacterAI implements Runnable
 		}
 		catch(NullPointerException e)
 		{
-			//_log.warning("AttackableAI: Attack target is NULL.");
+			//LOGGER.warn("AttackableAI: Attack target is NULL.");
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			

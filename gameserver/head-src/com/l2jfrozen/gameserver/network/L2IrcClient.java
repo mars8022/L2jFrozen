@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.network;
 
 import java.io.IOException;
 import java.security.cert.X509Certificate;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.schwering.irc.lib.IRCConnection;
 import org.schwering.irc.lib.IRCEventListener;
 import org.schwering.irc.lib.IRCModeParser;
@@ -42,7 +42,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2IrcClient extends Thread
 {
-	protected static final Logger _log = Logger.getLogger(L2IrcClient.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2IrcClient.class.getClass());
 	protected static final Logger _logChat = Logger.getLogger("irc");
 	
 	protected IRCConnection conn;
@@ -152,7 +152,7 @@ public class L2IrcClient extends Thread
 		@Override
 		public void onRegistered() 
 		{
-			_log.info("IRC: Connected");
+			LOGGER.info("IRC: Connected");
 
 			if(Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Connected");
@@ -169,7 +169,7 @@ public class L2IrcClient extends Thread
 		@Override
 		public void onDisconnected() 
 		{
-			_log.info("IRC: Disconnected");
+			LOGGER.info("IRC: Disconnected");
 
 			if(Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Disconnected");
@@ -181,7 +181,7 @@ public class L2IrcClient extends Thread
 		@Override
 		public void onError(String msg) 
 		{
-			_log.info("IRC: Error: "+ msg);
+			LOGGER.info("IRC: Error: "+ msg);
 
 			if(Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Error: "+ msg);
@@ -190,7 +190,7 @@ public class L2IrcClient extends Thread
 		@Override
 		public void onError(int num, String msg) 
 		{
-			_log.info("IRC: Error #"+ num +": "+ msg);
+			LOGGER.info("IRC: Error #"+ num +": "+ msg);
 			
 			if(Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Error #"+ num +": "+ msg);
@@ -374,7 +374,7 @@ public class L2IrcClient extends Thread
 		@Override
 		public void unknown(String a, String b, String c, String d) 
 		{
-			_log.warning("IRC UNKNOWN: "+ a +" b "+ c +" "+ d);
+			LOGGER.warn("IRC UNKNOWN: "+ a +" b "+ c +" "+ d);
 		}
 		
 		public boolean isConnected()

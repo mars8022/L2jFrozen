@@ -17,10 +17,11 @@ package com.l2jfrozen.gameserver.datatables;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -45,7 +46,7 @@ public class BufferSkillsTable
 	private static FastList<String> _buffTypes = new FastList<String>();
 	private static FastMap<Integer, Integer> _buffPrizes = new FastMap<Integer, Integer>();
 	private static FastMap<Integer, SkillInfo> _allSkills = new FastMap<Integer, SkillInfo>();
-	private static Logger _log = Logger.getLogger(BufferSkillsTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BufferSkillsTable.class.getClass());
 	private static final String SQL_LOAD_SKILLS = "SELECT * FROM `mods_buffer_skills`";
 
 	BufferSkillsTable()
@@ -98,12 +99,12 @@ public class BufferSkillsTable
 				e.printStackTrace();
 			
 			
-			_log.warning("Error while loading BufferSkillsTable at entry: " + "ID: " + id + ", Level: " + level + "Type: " + type);
+			LOGGER.warn("Error while loading BufferSkillsTable at entry: " + "ID: " + id + ", Level: " + level + "Type: " + type);
 		}
 		finally
 		{
 			CloseUtil.close(con);
-			_log.fine("BufferSkillsTable: Loaded " + count + " skills and " + typesCount + " types.");
+			LOGGER.info("BufferSkillsTable: Loaded " + count + " skills and " + typesCount + " types.");
 		}
 		/*
 		 * Now building final maps with sorted info. Firstly _bufferSkillsMap allocates one new map as value per each skill type

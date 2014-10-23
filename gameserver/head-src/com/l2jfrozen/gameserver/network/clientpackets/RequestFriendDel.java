@@ -21,8 +21,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestFriendDel extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestFriendDel.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestFriendDel.class.getClass());
 	
 	private String _name;
 	
@@ -144,7 +144,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not del friend objectid: ", e);
+			LOGGER.warn( "could not del friend objectid: ", e);
 		}
 		finally
 		{

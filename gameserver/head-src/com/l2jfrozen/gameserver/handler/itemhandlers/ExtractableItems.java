@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.datatables.csv.ExtractableItemsData;
@@ -39,7 +39,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class ExtractableItems implements IItemHandler
 {
-	private static Logger _log = Logger.getLogger(ItemTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ItemTable.class.getClass());
 	
 	public void doExtract(L2PlayableInstance playable, L2ItemInstance item, int count)
 	{
@@ -82,7 +82,7 @@ public class ExtractableItems implements IItemHandler
 			{
 				if (ItemTable.getInstance().createDummyItem(createItemID) == null)
 				{
-					_log.warning("createItemID " + createItemID + " doesn't have template!");
+					LOGGER.warn("createItemID " + createItemID + " doesn't have template!");
 					activeChar.sendMessage("Nothing happened.");
 					return;
 				}

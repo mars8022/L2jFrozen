@@ -18,7 +18,8 @@
 package com.l2jfrozen.gameserver.network;
 
 import java.nio.ByteBuffer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.PacketsLoggerManager;
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.Util;
 
 public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, IClientFactory<L2GameClient>, IMMOExecutor<L2GameClient>
 {
-	private static final Logger _log = Logger.getLogger(L2GamePacketHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2GamePacketHandler.class.getClass());
 
 	// implementation
 	@Override
@@ -161,7 +162,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					if(client.getActiveChar() == null 
 						|| client.getActiveChar().isOnline() == 0)
 					{
-						_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" without enterning in the world (online status is FALSE)..");
+						LOGGER.warn("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" without enterning in the world (online status is FALSE)..");
 						break;
 					}
 					
@@ -577,7 +578,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					case 0x9d:
 						msg = new RequestSkillCoolTime();
 						/*if (Config.DEBUG)
-							_log.info("Request Skill Cool Time .. ignored");
+							LOGGER.info("Request Skill Cool Time .. ignored");
 						msg = null;*/
 						break;
 					case 0x9e:
@@ -720,13 +721,13 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						}
 						else
 						{
-							_log.warning("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
+							LOGGER.warn("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
 							break;
 						}
 */
 						if(opcode2==-1)
 						{
-							_log.warning("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
+							LOGGER.warn("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
 							break;
 						}
 						
@@ -735,7 +736,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 							
 							if(client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 							{
-								_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" (opcode2 = "+opcode2+") without enterning in the world (online status is FALSE)..");
+								LOGGER.warn("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" (opcode2 = "+opcode2+") without enterning in the world (online status is FALSE)..");
 								break;
 							}
 							
@@ -919,7 +920,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 		if(Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning("Unknown Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString());
+			LOGGER.warn("Unknown Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString());
 		}
 
 		byte[] array = new byte[v];
@@ -928,7 +929,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 		if(Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning(Util.printData(array, v));
+			LOGGER.warn(Util.printData(array, v));
 		}
 
 		array = null;
@@ -951,7 +952,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 		if(Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning("Unknown Packet: " + Integer.toHexString(opcode) + ":" + Integer.toHexString(id2) + " on State: " + state.name() + " Client: " + client.toString());
+			LOGGER.warn("Unknown Packet: " + Integer.toHexString(opcode) + ":" + Integer.toHexString(id2) + " on State: " + state.name() + " Client: " + client.toString());
 		}
 
 		byte[] array = new byte[v];
@@ -960,7 +961,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 
 		if(Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning(Util.printData(array, v));
+			LOGGER.warn(Util.printData(array, v));
 		}
 
 		array = null;
@@ -998,11 +999,11 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				{
 					GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets.");
 				}
-				_log.warning("Player " + client.getActiveChar().toString() + " flooding unknown packets.");
+				LOGGER.warn("Player " + client.getActiveChar().toString() + " flooding unknown packets.");
 				break;
 
 			case 2:
-				_log.warning("PacketProtection: " + client.toString() + " got kicked due flooding of unknown packets");
+				LOGGER.warn("PacketProtection: " + client.toString() + " got kicked due flooding of unknown packets");
 
 				if(client.getActiveChar() != null)
 				{
@@ -1013,7 +1014,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				break;
 
 			case 3:
-				_log.warning("PacketProtection: " + client.toString() + " got banned due flooding of unknown packets");
+				LOGGER.warn("PacketProtection: " + client.toString() + " got banned due flooding of unknown packets");
 				client.getActiveChar().setAccessLevel(-1);
 
 				if(client.getActiveChar() != null)

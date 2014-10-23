@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
  */
 public final class DlgAnswer extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(DlgAnswer.class.getName());
+	private static Logger LOGGER = Logger.getLogger(DlgAnswer.class.getClass());
 	private int _messageId, _answer, _requestId;
 	
 	@Override
@@ -44,7 +44,7 @@ public final class DlgAnswer extends L2GameClientPacket
 			return;
 		
 		if (Config.DEBUG)
-			_log.fine("DEBUG " + getType() + ": Answer acepted. Message ID " + _messageId + ", asnwer " + _answer + ", unknown field " + _requestId);
+			LOGGER.debug(getType() + ": Answer acepted. Message ID " + _messageId + ", asnwer " + _answer + ", unknown field " + _requestId);
 		
 		if (_messageId == SystemMessageId.RESSURECTION_REQUEST.getId())
 			activeChar.reviveAnswer(_answer);	

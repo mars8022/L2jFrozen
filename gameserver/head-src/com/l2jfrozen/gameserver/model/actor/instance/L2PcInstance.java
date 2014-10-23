@@ -39,7 +39,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
@@ -461,8 +460,8 @@ public final class L2PcInstance extends L2PlayableInstance
 	private static final String UPDATE_CHARACTER = "UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,str=?,con=?,dex=?,_int=?,men=?,wit=?,face=?,hairStyle=?,hairColor=?,heading=?,x=?,y=?,z=?,exp=?,expBeforeDeath=?,sp=?,karma=?,pvpkills=?,pkkills=?,rec_have=?,rec_left=?,clanid=?,maxload=?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs=?,wantspeace=?,base_class=?,onlinetime=?,punish_level=?,punish_timer=?,newbie=?,nobless=?,power_grade=?,subpledge=?,last_recom_date=?,lvl_joined_academy=?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?,char_name=?,death_penalty_level=?,pc_point=?,name_color=?,title_color=?,aio=?,aio_end=? WHERE obj_id=?";
 	
 	/** SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,good,evil,gve_kills FROM characters WHERE obj_id=?. */
-	//private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point,banchat_time,name_color,title_color,first_log,aio,aio_end FROM characters WHERE obj_id=?";
-	private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon,punish_level,punish_timer,"+/* in_jail, jail_timer,*/ "newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point"+/*,banchat_time*/",name_color,title_color,first_log,aio,aio_end FROM characters WHERE obj_id=?";
+	//private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon, in_jail, jail_timer, newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point,banchat_time,name_color,title_color,firstlog,aio,aio_end FROM characters WHERE obj_id=?";
+	private static final String RESTORE_CHARACTER = "SELECT account_name, obj_Id, char_name, level, maxHp, curHp, maxCp, curCp, maxMp, curMp, acc, crit, evasion, mAtk, mDef, mSpd, pAtk, pDef, pSpd, runSpd, walkSpd, str, con, dex, _int, men, wit, face, hairStyle, hairColor, sex, heading, x, y, z, movement_multiplier, attack_speed_multiplier, colRad, colHeight, exp, expBeforeDeath, sp, karma, pvpkills, pkkills, clanid, maxload, race, classid, deletetime, cancraft, title, rec_have, rec_left, accesslevel, online, char_slot, lastAccess, clan_privs, wantspeace, base_class, onlinetime, isin7sdungeon,punish_level,punish_timer,"+/* in_jail, jail_timer,*/ "newbie, nobless, power_grade, subpledge, last_recom_date, lvl_joined_academy, apprentice, sponsor, varka_ketra_ally,clan_join_expiry_time,clan_create_expiry_time,death_penalty_level,pc_point"+/*,banchat_time*/",name_color,title_color,firstlog,aio,aio_end FROM characters WHERE obj_id=?";
 	
 	/** The Constant STATUS_DATA_GET. */
 	private static final String STATUS_DATA_GET = "SELECT hero, noble, donator, hero_end_date FROM characters_custom_data WHERE obj_Id = ?";
@@ -545,7 +544,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		5, 20, 28, 36, 43, 49, 55, 62
 	};
 	
-	//private static Logger _log = Logger.getLogger(L2PcInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2PcInstance.class.getClass());
 	
 	/**
 	 * The Class AIAccessor.
@@ -741,7 +740,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	protected int _classIndex = 0;
 	
 	/** Fireworks on first login. */
-	private boolean _first_log;
+	private boolean _firstlog;
 	
 	/** PC BANG POINT. */
 	private int pcBangPoint = 0;
@@ -1459,7 +1458,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.WARNING, "", t);
+				LOGGER.warn( "", t);
 			}
 		}
 	}
@@ -2222,7 +2221,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else
 		{
-			_log.warning("Attempted to remove unknown RecipeList: " + recipeId);
+			LOGGER.warn("Attempted to remove unknown RecipeList: " + recipeId);
 		}
 		
 		L2ShortCut[] allShortCuts = getAllShortCuts();
@@ -2542,7 +2541,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("Showing quest window for quest " + questId + " state " + stateId + " html path: " + path);
+				LOGGER.debug("Showing quest window for quest " + questId + " state " + stateId + " html path: " + path);
 			}
 			
 			NpcHtmlMessage npcReply = new NpcHtmlMessage(5);
@@ -3004,7 +3003,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("could not update char recommendations:" + e);
+				LOGGER.warn("could not update char recommendations:" + e);
 			}
 			finally
 			{
@@ -3609,7 +3608,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					sendMessage(effectSkill.getName() + " cannot be used with this weapon.");
 					if (Config.DEBUG)
 					{
-						_log.info("   | Skill " + effectSkill.getName() + " has been disabled for (" + getName() + "); Reason: Incompatible Weapon Type.");
+						LOGGER.info("   | Skill " + effectSkill.getName() + " has been disabled for (" + getName() + "); Reason: Incompatible Weapon Type.");
 					}
 					currenteffect.exit();
 				}
@@ -3889,7 +3888,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(Config.DEBUG && skill != null)
 			{
-				_log.fine("removed skill 'Lucky' from " + getName());
+				LOGGER.debug("Removed skill 'Lucky' from " + getName());
 			}
 			
 			skill = null;
@@ -3912,7 +3911,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(Config.DEBUG)
 			{
-				_log.fine("awarded " + getName() + " with new expertise.");
+				LOGGER.debug("Awarded " + getName() + " with new expertise.");
 			}
 			
 			skill = null;
@@ -3921,7 +3920,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("No skills awarded at lvl: " + lvl);
+				LOGGER.debug("No skills awarded at lvl: " + lvl);
 			}
 		}
 		
@@ -5071,7 +5070,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					
 					if(handler == null)
 					{
-						_log.warning("No item handler registered for Herb - item ID " + herb.getItemId() + ".");
+						LOGGER.warn("No item handler registered for Herb - item ID " + herb.getItemId() + ".");
 					}
 					else
 					{
@@ -5435,7 +5434,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				
 				if(_inventory.destroyItem(process, item, this, reference) == null)
 				{
-					_log.warning("Player " + getName() + " can't destroy weared item: " + item.getName() + "[ " + item.getObjectId() + " ]");
+					LOGGER.warn("Player " + getName() + " can't destroy weared item: " + item.getName() + "[ " + item.getObjectId() + " ]");
 					continue;
 				}
 				
@@ -5778,7 +5777,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(L2World.getInstance().findObject(objectId) == null)
 		{
-			_log.finest(getObjectId() + ": player tried to " + action + " item not available in L2World");
+			LOGGER.warn(getObjectId() + ": player tried to " + action + " item not available in L2World");
 			return null;
 		}
 		
@@ -5786,19 +5785,19 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(item == null || item.getOwnerId() != getObjectId())
 		{
-			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
+			LOGGER.warn(getObjectId() + ": player tried to " + action + " item he is not owner of");
 			return null;
 		}
 		
 		if(count < 0 || count > 1 && !item.isStackable())
 		{
-			_log.finest(getObjectId() + ": player tried to " + action + " item with invalid count: " + count);
+			LOGGER.warn(getObjectId() + ": player tried to " + action + " item with invalid count: " + count);
 			return null;
 		}
 		
 		if(count > item.getCount())
 		{
-			_log.finest(getObjectId() + ": player tried to " + action + " more items than he owns");
+			LOGGER.warn(getObjectId() + ": player tried to " + action + " more items than he owns");
 			return null;
 		}
 		
@@ -5807,7 +5806,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.finest(getObjectId() + ": player tried to " + action + " item controling pet");
+				LOGGER.debug(getObjectId() + ": player tried to " + action + " item controling pet");
 			}
 			
 			return null;
@@ -5817,7 +5816,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
+				LOGGER.debug(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			}
 			
 			return null;
@@ -5837,7 +5836,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void setProtection(boolean protect)
 	{
 		if (Config.DEVELOPER && (protect || _protectEndTime > 0))
-			_log.info(getName() + ": Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
+			LOGGER.info(getName() + ": Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_SPAWN_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
 		
 		if (isInOlympiadMode())
 			return;
@@ -5855,7 +5854,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void setTeleportProtection(boolean protect)
 	{
 		if (Config.DEVELOPER && (protect || _teleportProtectEndTime > 0))
-			_log.warning(getName() + ": Tele Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
+			LOGGER.warn(getName() + ": Tele Protection " + (protect ? "ON " + (GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND) : "OFF") + " (currently " + GameTimeController.getGameTicks() + ")");
 		
 		_teleportProtectEndTime = protect ? GameTimeController.getGameTicks() + Config.PLAYER_TELEPORT_PROTECTION * GameTimeController.TICKS_PER_SECOND : 0;
 		
@@ -6599,7 +6598,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("Send status for party window of " + getObjectId() + "(" + getName() + ") to his party. CP: " + getCurrentCp() + " HP: " + getCurrentHp() + " MP: " + getCurrentMp());
+				LOGGER.debug("Send status for party window of " + getObjectId() + "(" + getName() + ") to his party. CP: " + getCurrentCp() + " HP: " + getCurrentHp() + " MP: " + getCurrentMp());
 			}
 			// Send the Server->Client packet PartySmallWindowUpdate with current HP, MP and Level to all other L2PcInstance of the Party
 			PartySmallWindowUpdate update = new PartySmallWindowUpdate(this);
@@ -6616,7 +6615,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				{
 					if (Config.DEBUG)
 					{
-						_log.fine("Send status for Olympia window of " + getObjectId() + "(" + getName() + ") to " + player.getObjectId() + "(" + player.getName() +"). CP: " + getCurrentCp() + " HP: " + getCurrentHp() + " MP: " + getCurrentMp());
+						LOGGER.debug("Send status for Olympia window of " + getObjectId() + "(" + getName() + ") to " + player.getObjectId() + "(" + player.getName() +"). CP: " + getCurrentCp() + " HP: " + getCurrentHp() + " MP: " + getCurrentMp());
 					}
 					player.sendPacket(new ExOlympiadUserInfo(this, 1));
 				}
@@ -6746,7 +6745,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Send a Server->Client packet CharInfo to all L2PcInstance in _KnownPlayers of the L2PcInstance
 		if(Config.DEBUG)
 		{
-			_log.fine("players to notify:" + getKnownList().getKnownPlayers().size() + " packet: [S] 03 CharInfo");
+			LOGGER.debug("players to notify:" + getKnownList().getKnownPlayers().size() + " packet: [S] 03 CharInfo");
 		}
 		
 		Broadcast.toKnownPlayers(this, new CharInfo(this));
@@ -6763,7 +6762,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Send a Server->Client packet TitleUpdate to all L2PcInstance in _KnownPlayers of the L2PcInstance
 		if(Config.DEBUG)
 		{
-			_log.fine("players to notify:" + getKnownList().getKnownPlayers().size() + " packet: [S] cc TitleUpdate");
+			LOGGER.debug("players to notify:" + getKnownList().getKnownPlayers().size() + " packet: [S] cc TitleUpdate");
 		}
 		
 		Broadcast.toKnownPlayers(this, new TitleUpdate(this));
@@ -6898,7 +6897,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (!(object instanceof L2ItemInstance))
 		{
 			// dont try to pickup anything that is not an item :)
-			_log.warning(this + "trying to pickup wrong target." + getTarget());
+			LOGGER.warn(this + "trying to pickup wrong target." + getTarget());
 			return;
 		}
 		
@@ -6910,7 +6909,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Send a Server->Client packet StopMove to this L2PcInstance
 		StopMove sm = new StopMove(this);
 		if (Config.DEBUG)
-			_log.fine("pickup pos: " + target.getX() + " " + target.getY() + " " + target.getZ());
+			LOGGER.debug("pickup pos: " + target.getX() + " " + target.getY() + " " + target.getZ());
 		sendPacket(sm);
 		sm = null;
 		
@@ -7004,7 +7003,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			IItemHandler handler = ItemHandler.getInstance().getItemHandler(target.getItemId());
 			if (handler == null)
-				_log.fine("No item handler registered for item ID " + target.getItemId() + ".");
+				LOGGER.debug("No item handler registered for item ID " + target.getItemId() + ".");
 			else
 				handler.useItem(this, target);
 			ItemTable.getInstance().destroyItem("Consume", target, this, null);
@@ -8164,7 +8163,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ANTI_FARM_CLAN_ALLY_ENABLED && (getClanId() > 0 && targetPlayer.getClanId() > 0 && getClanId() == targetPlayer.getClanId()) || (getAllyId() > 0 && targetPlayer.getAllyId() > 0 && getAllyId() == targetPlayer.getAllyId()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". CLAN or ALLY.");
+				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". CLAN or ALLY.");
 				return false;
 			}
 			
@@ -8172,7 +8171,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ANTI_FARM_LVL_DIFF_ENABLED && targetPlayer.getLevel() < Config.ANTI_FARM_MAX_LVL_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Don't kill new players! Gm informed.");
-				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". LVL DIFF.");
+				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". LVL DIFF.");
 				return false;
 			}       
 			
@@ -8180,7 +8179,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ANTI_FARM_PDEF_DIFF_ENABLED && targetPlayer.getPDef(targetPlayer) < Config.ANTI_FARM_MAX_PDEF_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". MAX PDEF DIFF.");
+				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". MAX PDEF DIFF.");
 				return false;
 			}    
 			
@@ -8188,7 +8187,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ANTI_FARM_PATK_DIFF_ENABLED && targetPlayer.getPAtk(targetPlayer) < Config.ANTI_FARM_MAX_PATK_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". MAX PATK DIFF.");
+				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". MAX PATK DIFF.");
 				return false;
 			}
 			
@@ -8198,7 +8197,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				&& this.getParty().equals(targetPlayer.getParty()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");   
-				_log.warning("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME PARTY.");
+				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() +". SAME PARTY.");
 				return false;
 			}      
 			
@@ -8213,7 +8212,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					if (ip1.equals(ip2))
 					{
 						this.sendMessage("Farm is punishable with Ban! Gm informed.");
-						_log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
+						LOGGER.warn("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() +". SAME IP.");
 						return false;
 					}
 				}
@@ -8280,7 +8279,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			else
 			{
 				this.sendMessage("Farm is punishable with Ban! Don't kill your Box!");
-				_log.warning("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
+				LOGGER.warn("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
 			}
 		}
 	}
@@ -8876,7 +8875,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(Config.DEBUG)
 		{
-			_log.fine(getName() + " died and lost " + lostExp + " experience.");
+			LOGGER.debug(getName() + " died and lost " + lostExp + " experience.");
 		}
 		
 		// Set the new Experience value of the L2PcInstance
@@ -9399,7 +9398,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(Config.DEBUG)
 		{
-			_log.fine("arrow count:" + (arrows == null ? 0 : arrows.getCount()));
+			LOGGER.debug("arrow count:" + (arrows == null ? 0 : arrows.getCount()));
 		}
 		
 		if(arrows == null || arrows.getCount() == 0)
@@ -9409,7 +9408,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(Config.DEBUG)
 			{
-				_log.fine("removed arrows count");
+				LOGGER.debug("removed arrows count");
 			}
 			
 			sendPacket(new ItemList(this, false));
@@ -9756,7 +9755,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Set the _isGm Flag of the L2PcInstance.<BR>
 	 * <BR>
 	 *
-	 * @param firstlog the new first log
+	 * @param firstlog the new first LOGGER
 	 */
 	//	public void setIsGM(boolean status)
 	//	{
@@ -9765,31 +9764,31 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	public void setFirstLog(int firstlog)
 	{
-		_first_log = false;
+		_firstlog = false;
 		if(firstlog == 1)
 		{
-			_first_log = true;
+			_firstlog = true;
 		}
 	}
 	
 	/**
-	 * Sets the first log.
+	 * Sets the first LOGGER.
 	 *
-	 * @param firstlog the new first log
+	 * @param firstlog the new first LOGGER
 	 */
 	public void setFirstLog(boolean firstlog)
 	{
-		_first_log = firstlog;
+		_firstlog = firstlog;
 	}
 	
 	/**
-	 * Gets the first log.
+	 * Gets the first LOGGER.
 	 *
-	 * @return the first log
+	 * @return the first LOGGER
 	 */
 	public boolean getFirstLog()
 	{
-		return _first_log;
+		return _firstlog;
 	}
 	
 	/**
@@ -9828,7 +9827,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(level == Config.MASTERACCESS_LEVEL)
 		{						
-			_log.warning("Admin Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");
+			LOGGER.warn("Admin Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");
 			_accessLevel = AccessLevels.getInstance()._masterAccessLevel;
 		}
 		else if(level == Config.USERACCESS_LEVEL)
@@ -9837,7 +9836,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else
 		{   if(level > 0){ 
-			_log.warning("GM Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");}
+			LOGGER.warn("GM Login at "+ fmt.format(new Date(System.currentTimeMillis())) +" " + getName() + " logs in game with AccessLevel "+ level +".");}
 		AccessLevel accessLevel = AccessLevels.getInstance().getAccessLevel(level);
 		
 		if(accessLevel == null)
@@ -9849,7 +9848,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else
 			{
-				_log.warning("Tried to set unregistered access level " + level + " to character " + getName() + ". Setting access level without privileges!");
+				LOGGER.warn("Tried to set unregistered access level " + level + " to character " + getName() + ". Setting access level without privileges!");
 				_accessLevel = AccessLevels.getInstance()._userAccessLevel;
 			}
 		}
@@ -10032,7 +10031,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not set char online status:" + e);
+			LOGGER.warn("could not set char online status:" + e);
 		}
 		finally
 		{
@@ -10064,7 +10063,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not set char isIn7sDungeon status:" + e);
+			LOGGER.warn("could not set char isIn7sDungeon status:" + e);
 		}
 		finally
 		{
@@ -10073,7 +10072,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	}
 	
 	/**
-	 * Update first log.
+	 * Update first LOGGER.
 	 */
 	public void updateFirstLog()
 	{
@@ -10081,7 +10080,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement("UPDATE characters SET first_log=? WHERE obj_id=?");
+			PreparedStatement statement = con.prepareStatement("UPDATE characters SET firstLOGGER=? WHERE obj_id=?");
 			
 			int _fl;
 			if(getFirstLog())
@@ -10102,7 +10101,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not set char first login:" + e);
+			LOGGER.warn("could not set char first login:" + e);
 		}
 		finally
 		{
@@ -10198,10 +10197,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("Could not insert char data: " + e);
+			LOGGER.error("Could not insert char data", e);
 		}
 		finally
 		{
@@ -10276,7 +10272,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				player.setNewbie(rset.getInt("newbie") == 1);
 				player.setNoble(rset.getInt("nobless") == 1);
 				player.setClanJoinExpiryTime(rset.getLong("clan_join_expiry_time"));
-				player.setFirstLog(rset.getInt("first_log"));
+				player.setFirstLog(rset.getInt("firstLOGGER"));
 				player.pcBangPoint = rset.getInt("pc_point");
 				app = null;
 				
@@ -10373,7 +10369,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					// a possible restart-while-modifysubclass cheat has been attempted.
 					// Switching to use base class
 					player.setClassId(player.getBaseClass());
-					_log.warning("Player " + player.getName() + " reverted to base class. Possibly has tried a relogin exploit while subclassing.");
+					LOGGER.warn("Player " + player.getName() + " reverted to base class. Possibly has tried a relogin exploit while subclassing.");
 				}
 				else
 				{
@@ -10478,7 +10474,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.severe("Could not restore char data: ");
+			LOGGER.error("Could not restore char data", e);
 			e.printStackTrace();
 		}
 		finally
@@ -10609,7 +10605,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not restore classes for " + player.getName() + ": " + e);
+			LOGGER.warn("Could not restore classes for " + player.getName() + ": " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -10700,7 +10696,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not store recipe book data: " + e);
+			LOGGER.warn("Could not store recipe book data: " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -10747,7 +10743,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not restore recipe book data:" + e);
+			LOGGER.warn("Could not restore recipe book data:" + e);
 			e.printStackTrace();
 		}
 		finally
@@ -10906,7 +10902,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch (Exception e)
 		{
-			_log.warning("Could not store char base data: ");
+			LOGGER.warn("Could not store char base data: ");
 			e.printStackTrace();
 		}
 		finally
@@ -10947,7 +10943,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not store sub class data for " + getName() + ": " + e);
+			LOGGER.warn("Could not store sub class data for " + getName() + ": " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -11043,7 +11039,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		catch (Exception e)
 		{
-			_log.warning("Could not store char effect data: ");
+			LOGGER.warn("Could not store char effect data: ");
 			e.printStackTrace();
 		}
 		finally
@@ -11174,7 +11170,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error could not delete skill: " + e);
+			LOGGER.warn("Error could not delete skill: " + e);
 		}
 		finally
 		{
@@ -11243,7 +11239,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			else
 			{
-				_log.warning("could not store new skill. its NULL");
+				LOGGER.warn("could not store new skill. its NULL");
 			}
 			statement = null;
 		}
@@ -11252,7 +11248,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error could not store char skills: " + e);
+			LOGGER.warn("Error could not store char skills: " + e);
 		}
 		finally
 		{
@@ -11356,14 +11352,14 @@ public final class L2PcInstance extends L2PlayableInstance
 					foundskill = true;
 				}
 				
-				// remove skill and do a lil log message
+				// remove skill and do a lil LOGGER message
 				if(!foundskill)
 				{
 					removeSkill(skill);
 					
 					if(Config.DEBUG){
 						//sendMessage("Skill " + skill.getName() + " removed and gm informed!");
-						_log.warning("Character " + getName() + " of Account " + getAccountName() + " got skill " + skill.getName() + ".. Removed!"/* + IllegalPlayerAction.PUNISH_KICK*/);
+						LOGGER.warn("Character " + getName() + " of Account " + getAccountName() + " got skill " + skill.getName() + ".. Removed!"/* + IllegalPlayerAction.PUNISH_KICK*/);
 						
 					}
 				}
@@ -11452,7 +11448,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Could not restore character skills: " + e);
+			LOGGER.warn("Could not restore character skills: " + e);
 		}
 		finally
 		{
@@ -11575,7 +11571,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Could not restore active effect data: " + e);
+			LOGGER.warn("Could not restore active effect data: " + e);
 		}
 		finally
 		{
@@ -11644,7 +11640,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not restore henna: " + e);
+			LOGGER.warn("could not restore henna: " + e);
 		}
 		finally
 		{
@@ -11685,7 +11681,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not restore recommendations: " + e);
+			LOGGER.warn("could not restore recommendations: " + e);
 		}
 		finally
 		{
@@ -11755,7 +11751,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not remove char henna: " + e);
+			LOGGER.warn("could not remove char henna: " + e);
 		}
 		finally
 		{
@@ -11830,7 +11826,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warning("could not save char henna: " + e);
+					LOGGER.warn("could not save char henna: " + e);
 				}
 				finally
 				{
@@ -12294,7 +12290,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(Config.DEBUG && getQueuedSkill() != null)
 			{
-				_log.info(getQueuedSkill().getSkill().getName() + " is already queued for " + getName() + ".");
+				LOGGER.info(getQueuedSkill().getSkill().getName() + " is already queued for " + getName() + ".");
 			}
 			
 			// Create a new SkillDat object and queue it in the player _queuedSkill
@@ -12743,7 +12739,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(sklTargetType == SkillTargetType.TARGET_GROUND && worldPosition == null)
 		{
-			_log.info("WorldPosition is null for skill: " + skill.getName() + ", player: " + getName() + ".");
+			LOGGER.info("WorldPosition is null for skill: " + skill.getName() + ", player: " + getName() + ".");
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
@@ -13144,7 +13140,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void addCubic(int id, int level, double matk, int activationtime, int activationchance, int totalLifetime, boolean givenByOther)
 	{
 		if (Config.DEBUG)
-			_log.info("L2PcInstance(" + getName() + "): addCubic(" + id + "|" + level + "|" + matk + ")");
+			LOGGER.info("L2PcInstance(" + getName() + "): addCubic(" + id + "|" + level + "|" + matk + ")");
 		L2CubicInstance cubic = new L2CubicInstance(this, id, level, (int) matk, activationtime, activationchance, totalLifetime, givenByOther);
 		
 		synchronized(_cubics){
@@ -13547,7 +13543,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					_stopKickBotTask = false;
 					return;
 				}
-				_log.warning("Player " + L2PcInstance.this.getName() + " kicked from game, no/wrong answer on ANTI BOT!");
+				LOGGER.warn("Player " + L2PcInstance.this.getName() + " kicked from game, no/wrong answer on ANTI BOT!");
 				L2PcInstance.this.closeNetConnection();
 			}
 			else
@@ -13868,7 +13864,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(!_observerMode)
 		{
-			_log.warning("Player " + L2PcInstance.this.getName() + " request leave observer mode when he not use it!");
+			LOGGER.warn("Player " + L2PcInstance.this.getName() + " request leave observer mode when he not use it!");
 			Util.handleIllegalPlayerAction(L2PcInstance.this, "Warning!! Character " + L2PcInstance.this.getName() + " tried to cheat in observer mode.", Config.DEFAULT_PUNISH);
 		}
 		setTarget(null);
@@ -15002,7 +14998,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("WARNING: Could not add character sub class for " + getName() + ": " + e);
+			LOGGER.warn("WARNING: Could not add character sub class for " + getName() + ": " + e);
 		}
 		finally
 		{
@@ -15017,7 +15013,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(Config.DEBUG)
 			{
-				_log.info(getName() + " added class ID " + classId + " as a sub class at index " + classIndex + ".");
+				LOGGER.info(getName() + " added class ID " + classId + " as a sub class at index " + classIndex + ".");
 			}
 			
 			ClassId subTemplate = ClassId.values()[classId];
@@ -15050,7 +15046,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			if(Config.DEBUG)
 			{
-				_log.info(getName() + " was given " + getAllSkills().length + " skills for their new sub class.");
+				LOGGER.info(getName() + " was given " + getAllSkills().length + " skills for their new sub class.");
 			}
 			
 		}
@@ -15073,7 +15069,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(Config.DEBUG)
 		{
-			_log.info(getName() + " has requested to modify sub class index " + classIndex + " from class ID " + oldClassId + " to " + newClassId + ".");
+			LOGGER.info(getName() + " has requested to modify sub class index " + classIndex + " from class ID " + oldClassId + " to " + newClassId + ".");
 		}
 		
 		boolean output = false;
@@ -15128,7 +15124,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Could not modify sub class for " + getName() + " to class index " + classIndex + ": " + e);
+			LOGGER.warn("Could not modify sub class for " + getName() + " to class index " + classIndex + ": " + e);
 		}
 		finally
 		{
@@ -15222,7 +15218,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(t == null)
 		{
-			_log.severe("Missing template for classId: " + classId);
+			LOGGER.warn("Missing template for classId: " + classId);
 			throw new Error();
 		}
 		
@@ -15276,7 +15272,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.info("Could not switch " + getName() + "'s sub class to class index " + classIndex + ": " + e);
+				LOGGER.info("Could not switch " + getName() + "'s sub class to class index " + classIndex + ": " + e);
 				return false;
 			}
 		}
@@ -15511,7 +15507,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.QUESTION_LIST.size() != 0){
 				_taskBotChecker = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new botChecker(), Config.BOT_PROTECTOR_FIRST_CHECK * 60000, Config.BOT_PROTECTOR_NEXT_CHECK * 60000);
 			}else{
-				_log.warning("ATTENTION: Bot Checker is bad configured because config/questionwords.txt has 0 words of 6 to 15 keys");
+				LOGGER.warn("ATTENTION: Bot Checker is bad configured because config/questionwords.txt has 0 words of 6 to 15 keys");
 			}
 		}
 	}
@@ -15780,7 +15776,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("could not clear char recommendations: " + e);
+				LOGGER.warn("could not clear char recommendations: " + e);
 			}
 			finally
 			{
@@ -16486,7 +16482,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(bypass == null)
 			return;
 		_validBypass.add(bypass);
-		//_log.warning("[BypassAdd]"+getName()+" '"+bypass+"'");
+		//LOGGER.warn("[BypassAdd]"+getName()+" '"+bypass+"'");
 	}
 	
 	/**
@@ -16499,7 +16495,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if(bypass == null)
 			return;
 		_validBypass2.add(bypass);
-		//_log.warning("[BypassAdd]"+getName()+" '"+bypass+"'");
+		//LOGGER.warn("[BypassAdd]"+getName()+" '"+bypass+"'");
 	}
 	
 	/**
@@ -16520,7 +16516,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				continue;
 			}
 			
-			//_log.warning("[BypassValidation]"+getName()+" '"+bp+"'");
+			//LOGGER.warn("[BypassValidation]"+getName()+" '"+bp+"'");
 			if(bp.equals(cmd))
 				return true;
 		}
@@ -16532,7 +16528,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				continue;
 			}
 			
-			//_log.warning("[BypassValidation]"+getName()+" '"+bp+"'");
+			//LOGGER.warn("[BypassValidation]"+getName()+" '"+bp+"'");
 			if(cmd.startsWith(bp))
 				return true;
 		}
@@ -16558,12 +16554,12 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(item == null || item.getOwnerId() != getObjectId())
 		{
-			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
+			LOGGER.warn(getObjectId() + ": player tried to " + action + " item he is not owner of");
 			return false;
 		}
 		if(getActiveEnchantItem() != null && getActiveEnchantItem().getItemId() == itemId)
 		{
-			_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
+			LOGGER.warn(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			return false;
 		}
 		
@@ -16593,7 +16589,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(item == null || item.getOwnerId() != getObjectId())
 		{
-			_log.finest(getObjectId() + ": player tried to " + action + " item he is not owner of");
+			LOGGER.warn(getObjectId() + ": player tried to " + action + " item he is not owner of");
 			return false;
 		}
 		
@@ -16602,7 +16598,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.finest(getObjectId() + ": player tried to " + action + " item controling pet");
+				LOGGER.debug(getObjectId() + ": player tried to " + action + " item controling pet");
 			}
 			
 			return false;
@@ -16612,7 +16608,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.finest(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
+				LOGGER.debug(getObjectId() + ":player tried to " + action + " an enchant scroll he was using");
 			}
 			
 			return false;
@@ -16659,7 +16655,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(bp.equals(cmd))
 				return true;
 		}
-		_log.warning("[L2PcInstance] player ["+getName()+"] sent invalid link '"+cmd+"', ban this player!");
+		LOGGER.warn("[L2PcInstance] player ["+getName()+"] sent invalid link '"+cmd+"', ban this player!");
 		return false;
 	}
 	
@@ -16818,7 +16814,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Stop the HP/MP/CP Regeneration task (scheduled tasks)
@@ -16831,7 +16827,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Stop crafting, if in progress
@@ -16844,7 +16840,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Cancel Attak or Cast
@@ -16859,7 +16855,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		PartyMatchWaitingList.getInstance().removePlayer(this);
@@ -16895,7 +16891,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Remove the L2PcInstance from the world
@@ -16910,7 +16906,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.SEVERE, "deleteMe()", t);
+				LOGGER.error( "deleteMe()", t);
 			}
 		}
 		
@@ -16926,7 +16922,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.SEVERE, "deleteMe()", t);
+				LOGGER.error( "deleteMe()", t);
 			}
 		}
 		
@@ -16942,7 +16938,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.SEVERE, "deleteMe()", t);
+				LOGGER.error( "deleteMe()", t);
 			}// returns pet to control item
 		}
 		
@@ -16963,7 +16959,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.SEVERE, "deleteMe()", t);
+				LOGGER.error( "deleteMe()", t);
 			}
 		}
 		
@@ -16990,7 +16986,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.SEVERE, "deleteMe()", t);
+				LOGGER.error( "deleteMe()", t);
 			}
 		}
 		
@@ -17004,7 +17000,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Update database with items in its warehouse and remove them from the world
@@ -17017,7 +17013,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		if(Config.WAREHOUSE_CACHE)
@@ -17035,7 +17031,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Remove all L2Object from _knownObjects and _knownPlayer of the L2Character then cancel Attak or Cast and notify AI
@@ -17048,7 +17044,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.log(Level.SEVERE, "deleteMe()", t);
+			LOGGER.error( "deleteMe()", t);
 		}
 		
 		// Close the connection with the client
@@ -17185,7 +17181,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not restore friend data:" + e);
+			LOGGER.warn("could not restore friend data:" + e);
 		}
 		finally
 		{
@@ -17246,7 +17242,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not restore friend data:" + e);
+			LOGGER.warn("could not restore friend data:" + e);
 		}
 		finally
 		{
@@ -17938,7 +17934,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("Setting current skill: NULL for " + getName() + ".");
+				LOGGER.info("Setting current skill: NULL for " + getName() + ".");
 			}
 			
 			_currentSkill = null;
@@ -17947,7 +17943,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(Config.DEBUG)
 		{
-			_log.info("Setting current skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
+			LOGGER.info("Setting current skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
 		}
 		
 		_currentSkill = new SkillDat(currentSkill, ctrlPressed, shiftPressed);
@@ -17977,7 +17973,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("Setting queued skill: NULL for " + getName() + ".");
+				LOGGER.info("Setting queued skill: NULL for " + getName() + ".");
 			}
 			
 			_queuedSkill = null;
@@ -17986,7 +17982,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(Config.DEBUG)
 		{
-			_log.info("Setting queued skill: " + queuedSkill.getName() + " (ID: " + queuedSkill.getId() + ") for " + getName() + ".");
+			LOGGER.info("Setting queued skill: " + queuedSkill.getName() + " (ID: " + queuedSkill.getId() + ") for " + getName() + ".");
 		}
 		
 		_queuedSkill = new SkillDat(queuedSkill, ctrlPressed, shiftPressed);
@@ -18172,7 +18168,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		if(Config.DEVELOPER)
 		{
-			_log.info("Restoring character status "+getName()+" from database...");
+			LOGGER.info("Restoring character status "+getName()+" from database...");
 		}
 		
 		int hero = 0;
@@ -18210,7 +18206,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error: could not restore char custom data info: " + e);
+			LOGGER.warn("Error: could not restore char custom data info: " + e);
 		}
 		finally
 		{
@@ -20167,7 +20163,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("SetSex:  Could not store data:" + e);
+			LOGGER.warn("SetSex:  Could not store data:" + e);
 		}
 		finally
 		{
@@ -20184,7 +20180,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if(System.currentTimeMillis() - _lastTeleportAction > Config.CHECK_TELEPORT_ZOMBIE_DELAY_TIME){
 			
-			_log.warning("Player "+getName()+" has been in teleport more then "+Config.CHECK_TELEPORT_ZOMBIE_DELAY_TIME/1000+" seconds.. --> Kicking it");
+			LOGGER.warn("Player "+getName()+" has been in teleport more then "+Config.CHECK_TELEPORT_ZOMBIE_DELAY_TIME/1000+" seconds.. --> Kicking it");
 			
 			return true;
 			
@@ -20372,14 +20368,14 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (currentSkill == null)
 		{
 			if (Config.DEBUG)
-				_log.info("Setting current pet skill: NULL for " + getName() + ".");
+				LOGGER.info("Setting current pet skill: NULL for " + getName() + ".");
 			
 			_currentPetSkill = null;
 			return;
 		}
 		
 		if (Config.DEBUG)
-			_log.info("Setting current Pet skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
+			LOGGER.info("Setting current Pet skill: " + currentSkill.getName() + " (ID: " + currentSkill.getId() + ") for " + getName() + ".");
 		
 		_currentPetSkill = new SkillDat(currentSkill, ctrlPressed, shiftPressed);
 	}

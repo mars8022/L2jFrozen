@@ -25,13 +25,12 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -59,9 +58,9 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CursedWeaponsManager
 {
-	private static final Logger _log = Logger.getLogger(CursedWeaponsManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CursedWeaponsManager.class.getClass());
 	
-	private static final Map<Integer, CursedWeapon> _cursedWeapons = new FastMap<Integer, CursedWeapon>();
+	private static final Map<Integer, CursedWeapon> _cursedWeapons = new FastMap<>();
 	
 	public static final CursedWeaponsManager getInstance()
 	{
@@ -77,7 +76,7 @@ public class CursedWeaponsManager
 		restore();
 		controlPlayers();
 
-		_log.info("Loaded: " + _cursedWeapons.size() + " cursed weapon(s).");
+		LOGGER.info("Loaded: " + _cursedWeapons.size() + " cursed weapon(s).");
 	}
 
 	// =========================================================
@@ -95,15 +94,15 @@ public class CursedWeaponsManager
 		restore();
 		controlPlayers();
 
-		_log.info("Reloaded: " + _cursedWeapons.size() + " cursed weapon(s).");
+		LOGGER.info("Reloaded: " + _cursedWeapons.size() + " cursed weapon(s).");
 	}
 
 	private final void load()
 	{
-		_log.info("Initializing CursedWeaponsManager");
+		LOGGER.info("Initializing CursedWeaponsManager");
 		if(Config.DEBUG)
 		{
-			_log.info("Loading data: ");
+			LOGGER.info("Loading data: ");
 		}
 		try
 		{
@@ -186,7 +185,7 @@ public class CursedWeaponsManager
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.SEVERE, "Error parsing cursed weapons file.", e);
+			LOGGER.error( "Error parsing cursed weapons file.", e);
 
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -236,7 +235,7 @@ public class CursedWeaponsManager
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not restore CursedWeapons data: " + e);
+			LOGGER.warn("Could not restore CursedWeapons data: " + e);
 
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -284,7 +283,7 @@ public class CursedWeaponsManager
 					{
 						// A player has the cursed weapon in his inventory ...
 						int playerId = rset.getInt("owner_id");
-						_log.info("PROBLEM : Player " + playerId + " owns the cursed weapon " + itemId + " but he shouldn't.");
+						LOGGER.info("PROBLEM : Player " + playerId + " owns the cursed weapon " + itemId + " but he shouldn't.");
 
 						// Delete the item
 						statement = con.prepareStatement("DELETE FROM items WHERE owner_id=? AND item_id=?");
@@ -292,7 +291,7 @@ public class CursedWeaponsManager
 						statement.setInt(2, itemId);
 						if(statement.executeUpdate() != 1)
 						{
-							_log.warning("Error while deleting cursed weapon " + itemId + " from userId " + playerId);
+							LOGGER.warn("Error while deleting cursed weapon " + itemId + " from userId " + playerId);
 						}
 						statement.close();
 
@@ -303,7 +302,7 @@ public class CursedWeaponsManager
 						statement.setInt(3, playerId);
 						if(statement.executeUpdate() != 1)
 						{
-							_log.warning("Error while updating karma & pkkills for userId " + cw.getPlayerId());
+							LOGGER.warn("Error while updating karma & pkkills for userId " + cw.getPlayerId());
 						}
 						
 					}
@@ -322,7 +321,7 @@ public class CursedWeaponsManager
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not check CursedWeapons data: ");
+			LOGGER.warn("Could not check CursedWeapons data: ");
 			e.printStackTrace();			
 		}
 		finally
@@ -477,10 +476,7 @@ public class CursedWeaponsManager
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("CursedWeaponsManager: Failed to remove data: " + e);
+			LOGGER.error("CursedWeaponsManager: Failed to remove data", e);
 		}
 		finally
 		{

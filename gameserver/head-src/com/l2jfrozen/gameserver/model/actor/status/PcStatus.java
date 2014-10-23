@@ -156,7 +156,7 @@ public class PcStatus extends PlayableStatus
 
 			if(Config.DEBUG)
 			{
-				_log.fine("Attacker:" + attacker.getName());
+				LOGGER.debug("Attacker:" + attacker.getName());
 			}
 
 			if(attacker instanceof L2NpcInstance)
@@ -165,7 +165,7 @@ public class PcStatus extends PlayableStatus
 
 				if(Config.DEBUG)
 				{
-					_log.fine("mob id:" + mobId);
+					LOGGER.debug("mob id:" + mobId);
 				}
 
 				smsg.addNpcName(mobId);

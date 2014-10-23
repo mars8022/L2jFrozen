@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.model.entity;
 
 import java.util.Calendar;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -49,8 +50,8 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 public class Duel
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(Duel.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(Duel.class.getClass());
 
 	/** The Constant DUELSTATE_NODUEL. */
 	public static final int DUELSTATE_NODUEL = 0;
@@ -1195,7 +1196,7 @@ public class Duel
 		{
 			if(player != _playerA && player != _playerB)
 			{
-				_log.warning("Error in onPlayerDefeat(): player is not part of this 1vs1 duel");
+				LOGGER.warn("Error in onPlayerDefeat(): player is not part of this 1vs1 duel");
 			}
 
 			if(_playerA == player)

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -46,7 +46,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2SiegeGuardInstance extends L2Attackable
 {
-	private static Logger _log = Logger.getLogger(L2GuardInstance.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2GuardInstance.class.getClass());
 
 	private int _homeX;
 	private int _homeY;
@@ -113,7 +113,7 @@ public class L2SiegeGuardInstance extends L2Attackable
 
 		if(Config.DEBUG)
 		{
-			_log.finer(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
+			LOGGER.debug(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
 		}
 	}
 
@@ -136,7 +136,7 @@ public class L2SiegeGuardInstance extends L2Attackable
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine(getObjectId() + ": moving home");
+				LOGGER.debug(getObjectId() + ": moving home");
 			}
 			setisReturningToSpawnPoint(true);
 			clearAggroList();
@@ -163,7 +163,7 @@ public class L2SiegeGuardInstance extends L2Attackable
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("new target selected:" + getObjectId());
+				LOGGER.debug("new target selected:" + getObjectId());
 			}
 
 			// Set the target of the L2PcInstance player

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
@@ -67,7 +67,7 @@ import com.l2jfrozen.util.random.Rnd;
 public final class Formulas
 {
 	/** Regen Task period */
-	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class.getClass());
 	private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 
 	/*
@@ -1267,7 +1267,7 @@ public final class Formulas
 
 		if(Config.DEBUG)
 		{
-			_log.info("Distance: " + distToCenter + ", RegenMulti: " + distToCenter * 2.5 / 50);
+			LOGGER.info("Distance: " + distToCenter + ", RegenMulti: " + distToCenter * 2.5 / 50);
 		}
 
 		return 1.0 - distToCenter * 0.0005; // Maximum Decreased Regen of ~ -65%;
@@ -2504,7 +2504,7 @@ public final class Formulas
 					" total:", String.valueOf(rate)
 			);
 			final String result = stat.toString();
-			_log.info(result);
+			LOGGER.info(result);
 		}
 		return (Rnd.get(100) < rate);
 	}
@@ -2652,7 +2652,7 @@ public final class Formulas
 			);
 			final String result = stat.toString();
 			if (Config.DEVELOPER)
-				_log.info(result);
+				LOGGER.info(result);
 			
 		}
 		
@@ -2788,7 +2788,7 @@ public final class Formulas
 			);
 			final String result = stat.toString();
 			if (Config.DEVELOPER)
-				_log.info(result);
+				LOGGER.info(result);
 			
 		}
 		

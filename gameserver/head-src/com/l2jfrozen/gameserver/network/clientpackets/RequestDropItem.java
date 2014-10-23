@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestDropItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestDropItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestDropItem.class.getClass());
 
 	private int _objectId;
 	private int _count;
@@ -161,7 +161,7 @@ public final class RequestDropItem extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.finest(activeChar.getObjectId() + ":player tried to drop quest item");
+				LOGGER.debug(activeChar.getObjectId() + ":player tried to drop quest item");
 			}
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_EXCHANGE_ITEM));
 			return;
@@ -171,7 +171,7 @@ public final class RequestDropItem extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.finest(activeChar.getObjectId() + ": trying to drop too far away");
+				LOGGER.debug(activeChar.getObjectId() + ": trying to drop too far away");
 			}
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_DISTANCE_TOO_FAR));
 			return;
@@ -179,7 +179,7 @@ public final class RequestDropItem extends L2GameClientPacket
 
 		if(Config.DEBUG)
 		{
-			_log.fine("requested drop item " + _objectId + "(" + item.getCount() + ") at " + _x + "/" + _y + "/" + _z);
+			LOGGER.debug("requested drop item " + _objectId + "(" + item.getCount() + ") at " + _x + "/" + _y + "/" + _z);
 		}
 
 		if(item.isEquipped())
@@ -210,13 +210,13 @@ public final class RequestDropItem extends L2GameClientPacket
 
 		if(Config.DEBUG)
 		{
-			_log.fine("dropping " + _objectId + " item(" + _count + ") at: " + _x + " " + _y + " " + _z);
+			LOGGER.debug("dropping " + _objectId + " item(" + _count + ") at: " + _x + " " + _y + " " + _z);
 		}
 
 		if(dropedItem != null && dropedItem.getItemId() == 57 && dropedItem.getCount() >= 1000000 && Config.RATE_DROP_ADENA<=200)
 		{
 			String msg = "Character (" + activeChar.getName() + ") has dropped (" + dropedItem.getCount() + ")adena at (" + _x + "," + _y + "," + _z + ")";
-			_log.warning(msg);
+			LOGGER.warn(msg);
 			GmListTable.broadcastMessageToGMs(msg);
 		}
 		

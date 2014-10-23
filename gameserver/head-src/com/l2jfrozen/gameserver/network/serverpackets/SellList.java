@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -35,11 +36,11 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class SellList extends L2GameServerPacket
 {
 	private static final String _S__10_SELLLIST = "[S] 10 SellList";
-	private static Logger _log = Logger.getLogger(SellList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SellList.class.getClass());
 	private final L2PcInstance _activeChar;
 	private final L2MerchantInstance _lease;
 	private int _money;
-	private List<L2ItemInstance> _selllist = new FastList<L2ItemInstance>();
+	private List<L2ItemInstance> _selllist = new FastList<>();
 	
 	public SellList(L2PcInstance player)
 	{
@@ -72,7 +73,7 @@ public class SellList extends L2GameServerPacket
 					_selllist.add(item);
 					if (Config.DEBUG)
 					{
-						_log.fine("item added to selllist: " + item.getItem().getName());
+						LOGGER.debug("item added to selllist: " + item.getItem().getName());
 					}
 				}
 			}

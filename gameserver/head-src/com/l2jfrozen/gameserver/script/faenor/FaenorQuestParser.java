@@ -18,10 +18,9 @@
  */
 package com.l2jfrozen.gameserver.script.faenor;
 
-import java.util.logging.Logger;
-
 import javax.script.ScriptContext;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
@@ -34,14 +33,14 @@ import com.l2jfrozen.gameserver.script.ScriptEngine;
  */
 public class FaenorQuestParser extends FaenorParser
 {
-	protected static final Logger _log = Logger.getLogger(FaenorQuestParser.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(FaenorQuestParser.class.getClass());
 
 	@Override
 	public void parseScript(Node questNode, ScriptContext context)
 	{
 		if(DEBUG)
 		{
-			_log.info("Parsing Quest.");
+			LOGGER.info("Parsing Quest.");
 		}
 
 		String questID = attribute(questNode, "ID");
@@ -71,7 +70,7 @@ public class FaenorQuestParser extends FaenorParser
 	{
 		if(DEBUG)
 		{
-			_log.info("Parsing Droplist.");
+			LOGGER.info("Parsing Droplist.");
 		}
 
 		for(Node node = dropList.getFirstChild(); node != null; node = node.getNextSibling())
@@ -87,7 +86,7 @@ public class FaenorQuestParser extends FaenorParser
 	{
 		if(DEBUG)
 		{
-			_log.info("Parsing Drop.");
+			LOGGER.info("Parsing Drop.");
 		}
 
 		int npcID;
@@ -115,7 +114,7 @@ public class FaenorQuestParser extends FaenorParser
 
 		if(DEBUG)
 		{
-			_log.info("Adding Drop to NpcID: " + npcID);
+			LOGGER.info("Adding Drop to NpcID: " + npcID);
 		}
 
 		_bridge.addQuestDrop(npcID, itemID, min, max, chance, questID, states);

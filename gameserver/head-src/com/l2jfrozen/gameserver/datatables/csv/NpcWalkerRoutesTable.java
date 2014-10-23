@@ -25,10 +25,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2NpcWalkerNode;
@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.model.L2NpcWalkerNode;
  */
 public class NpcWalkerRoutesTable
 {
-	protected static final Logger _log = Logger.getLogger(NpcWalkerRoutesTable.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(NpcWalkerRoutesTable.class.getClass());
 	
 	private static NpcWalkerRoutesTable _instance;
 
@@ -53,7 +53,7 @@ public class NpcWalkerRoutesTable
 		if(_instance == null)
 		{
 			_instance = new NpcWalkerRoutesTable();
-			_log.info("Initializing Walkers Routes Table.");
+			LOGGER.info("Initializing Walkers Routes Table.");
 		}
 
 		return _instance;
@@ -66,7 +66,7 @@ public class NpcWalkerRoutesTable
 
 	public void load()
 	{
-		_routes = new FastList<L2NpcWalkerNode>();
+		_routes = new FastList<>();
 		//java.sql.Connection con = null;
 
 		FileReader reader = null;
@@ -120,7 +120,7 @@ public class NpcWalkerRoutesTable
 				route = null;
 			}
 
-			_log.info("WalkerRoutesTable: Loaded " + _routes.size() + " Npc Walker Routes.");
+			LOGGER.info("WalkerRoutesTable: Loaded " + _routes.size() + " Npc Walker Routes.");
 
 		}
 		catch(FileNotFoundException e)
@@ -128,14 +128,14 @@ public class NpcWalkerRoutesTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING,"walker_routes.csv is missing in data folder");
+			LOGGER.warn("walker_routes.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e0.printStackTrace();
 			
-			_log.log(Level.WARNING,"Error while creating table: " + e0.getMessage() + "\n" + e0);
+			LOGGER.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
 		{
@@ -175,7 +175,7 @@ public class NpcWalkerRoutesTable
 
 	public FastList<L2NpcWalkerNode> getRouteForNpc(int id)
 	{
-		FastList<L2NpcWalkerNode> _return = new FastList<L2NpcWalkerNode>();
+		FastList<L2NpcWalkerNode> _return = new FastList<>();
 
 		for(FastList.Node<L2NpcWalkerNode> n = _routes.head(), end = _routes.tail(); (n = n.getNext()) != end;)
 		{

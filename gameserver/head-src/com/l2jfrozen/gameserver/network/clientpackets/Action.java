@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 @SuppressWarnings("unused")
 public final class Action extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(Action.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Action.class.getClass());
 	private int _objectId;
 	private int _originX;
 	private int _originY;
@@ -49,7 +49,7 @@ public final class Action extends L2GameClientPacket
 	protected void runImpl()
 	{
 		if (Config.DEBUG)
-			_log.fine("DEBUG "+getType()+": ActionId: " + _actionId + " , ObjectID: " + _objectId);
+			LOGGER.debug("DEBUG "+getType()+": ActionId: " + _actionId + " , ObjectID: " + _objectId);
 
 		// Get the current L2PcInstance of the player
 		final L2PcInstance activeChar = getClient().getActiveChar();
@@ -75,7 +75,7 @@ public final class Action extends L2GameClientPacket
 		if (obj == null)
 		{
 			// pressing e.g. pickup many times quickly would get you here
-			// _log.warning("Character: " + activeChar.getName() + " request action with non existent ObjectID:" + _objectId);
+			// LOGGER.warn("Character: " + activeChar.getName() + " request action with non existent ObjectID:" + _objectId);
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
@@ -112,8 +112,8 @@ public final class Action extends L2GameClientPacket
 						obj.onActionShift(getClient());
 					break;
 				default:
-					// Invalid action detected (probably client cheating), log this
-					_log.warning("Character: " + activeChar.getName() + " requested invalid action: " + _actionId);
+					// Invalid action detected (probably client cheating), LOGGER this
+					LOGGER.warn("Character: " + activeChar.getName() + " requested invalid action: " + _actionId);
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					break;
 			}

@@ -17,16 +17,16 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
 
 public class OlympiadStadiaManager
 {
-    protected static Logger _log = Logger.getLogger(OlympiadStadiaManager.class.getName());
+    protected static Logger LOGGER = Logger.getLogger(OlympiadStadiaManager.class.getClass());
 
     // =========================================================
     private static OlympiadStadiaManager _instance;

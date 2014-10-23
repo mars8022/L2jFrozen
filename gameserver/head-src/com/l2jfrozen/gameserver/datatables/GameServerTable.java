@@ -35,13 +35,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
 import javolution.io.UTF8StreamReader;
 import javolution.util.FastMap;
 import javolution.xml.stream.XMLStreamConstants;
 import javolution.xml.stream.XMLStreamException;
 import javolution.xml.stream.XMLStreamReaderImpl;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -56,7 +57,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class GameServerTable
 {
-	private static Logger _log = Logger.getLogger(GameServerTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(GameServerTable.class.getClass());
 	private static GameServerTable _instance;
 
 	// Server Names Config
@@ -87,13 +88,13 @@ public class GameServerTable
 	public GameServerTable() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException
 	{
 		loadServerNames();
-		_log.info("Loaded " + _serverNames.size() + " server names");
+		LOGGER.info("Loaded " + _serverNames.size() + " server names");
 
 		loadRegisteredGameServers();
-		_log.info("Loaded " + _gameServerTable.size() + " registered Game Servers");
+		LOGGER.info("Loaded " + _gameServerTable.size() + " registered Game Servers");
 
 		loadRSAKeys();
-		_log.info("Cached " + _keyPairs.length + " RSA keys for Game Server communication.");
+		LOGGER.info("Cached " + _keyPairs.length + " RSA keys for Game Server communication.");
 	}
 
 	private void loadRSAKeys() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException
@@ -151,7 +152,7 @@ public class GameServerTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("servername.xml could not be loaded: file not found");
+			LOGGER.warn("servername.xml could not be loaded: file not found");
 		}
 		catch(XMLStreamException xppe)
 		{
@@ -304,7 +305,7 @@ public class GameServerTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("SQL error while saving gameserver: " + e);
+			LOGGER.warn("SQL error while saving gameserver: " + e);
 		}
 		finally
 		{

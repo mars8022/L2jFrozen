@@ -24,7 +24,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -34,7 +35,7 @@ import com.l2jfrozen.loginserver.LoginController;
 
 public class LoginStatusThread extends Thread
 {
-	private static final Logger _log = Logger.getLogger(LoginStatusThread.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(LoginStatusThread.class.getClass());
 	
 	private Socket _cSocket;
 	
@@ -207,7 +208,7 @@ public class LoginStatusThread extends Thread
 						_usrCommand = _usrCommand.substring(8);
 						if (LoginController.getInstance().removeBanForAddress(_usrCommand))
 						{
-							_log.warning("IP removed via TELNET by host: " + _cSocket.getInetAddress().getHostAddress());
+							LOGGER.warn("IP removed via TELNET by host: " + _cSocket.getInetAddress().getHostAddress());
 							_print.println("The IP " + _usrCommand + " has been removed from the hack protection list!");
 						}
 						else

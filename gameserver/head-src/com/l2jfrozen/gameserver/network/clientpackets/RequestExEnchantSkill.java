@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -47,7 +47,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class RequestExEnchantSkill extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestAquireSkill.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestAquireSkill.class.getClass());
 	private int _skillId;
 	private int _skillLvl;
 
@@ -157,7 +157,7 @@ public final class RequestExEnchantSkill extends L2GameClientPacket
 
 			if(Config.DEBUG)
 			{
-				_log.fine("Learned skill " + _skillId + " for " + _requiredSp + " SP.");
+				LOGGER.debug("Learned skill " + _skillId + " for " + _requiredSp + " SP.");
 			}
 
 			player.getStat().removeExpAndSp(_requiredExp, _requiredSp);

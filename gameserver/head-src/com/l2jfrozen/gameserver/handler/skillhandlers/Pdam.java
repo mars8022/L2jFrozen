@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.handler.skillhandlers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -55,7 +56,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class Pdam implements ISkillHandler
 {
 	// all the items ids that this handler knowns
-	private static Logger _log = Logger.getLogger(Pdam.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Pdam.class.getClass());
 	
 	/*
 	 * (non-Javadoc)
@@ -81,10 +82,10 @@ public class Pdam implements ISkillHandler
 		int damage = 0;
 		
 		if (Config.DEBUG)
-			_log.fine("Begin Skill processing in Pdam.java " + skill.getSkillType());
+			LOGGER.debug("Begin Skill processing in Pdam.java " + skill.getSkillType());
 		
 		// Calculate targets based on vegeance
-		List<L2Object> target_s = new ArrayList<L2Object>();
+		List<L2Object> target_s = new ArrayList<>();
 		
 		for (L2Object _target : targets)
 		{

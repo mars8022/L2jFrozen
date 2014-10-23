@@ -21,9 +21,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class CastleManorManager
 {
-	protected static Logger _log = Logger.getLogger(CastleManorManager.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(CastleManorManager.class.getClass());
 
 	private static CastleManorManager _instance;
 
@@ -73,7 +74,7 @@ public class CastleManorManager
 	{
 		if(_instance == null)
 		{
-			_log.info("Initializing CastleManorManager");
+			LOGGER.info("Initializing CastleManorManager");
 			_instance = new CastleManorManager();
 		}
 		return _instance;
@@ -272,7 +273,7 @@ public class CastleManorManager
 
 				if(!procure.isEmpty() || !procureNext.isEmpty() || !production.isEmpty() || !productionNext.isEmpty())
 				{
-					_log.info(castle.getName() + ": Data loaded");
+					LOGGER.info(castle.getName() + ": Data loaded");
 				}
 			}
 		}
@@ -281,7 +282,7 @@ public class CastleManorManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error restoring manor data: " + e.getMessage());
+			LOGGER.info("Error restoring manor data: " + e.getMessage());
 		}
 		finally
 		{
@@ -336,7 +337,7 @@ public class CastleManorManager
 			ItemContainer cwh = clan.getWarehouse();
 			if(!(cwh instanceof ClanWarehouse))
 			{
-				_log.info("Can't get clan warehouse for clan " + ClanTable.getInstance().getClan(c.getOwnerId()));
+				LOGGER.info("Can't get clan warehouse for clan " + ClanTable.getInstance().getClan(c.getOwnerId()));
 				return;
 			}
 
@@ -385,7 +386,7 @@ public class CastleManorManager
 				manor_cost = c.getManorCost(PERIOD_CURRENT);
 				if(manor_cost > 0)
 				{
-					_log.info(c.getName() + "|" + -manor_cost + "|ManorManager Error@setNextPeriod");
+					LOGGER.info(c.getName() + "|" + -manor_cost + "|ManorManager Error@setNextPeriod");
 				}
 			}
 			else
@@ -444,7 +445,7 @@ public class CastleManorManager
 					manor_cost = c.getManorCost(PERIOD_NEXT);
 					if(manor_cost > 0)
 					{
-						_log.info(c.getName() + "|" + -manor_cost + "|ManorManager Error@approveNextPeriod");
+						LOGGER.info(c.getName() + "|" + -manor_cost + "|ManorManager Error@approveNextPeriod");
 					}
 					L2Clan clan = ClanTable.getInstance().getClan(c.getOwnerId());
 					L2PcInstance clanLeader = null;
@@ -460,7 +461,7 @@ public class CastleManorManager
 				else
 				{
 					c.addToTreasuryNoTax(-manor_cost);
-					_log.info(c.getName() + "|" + -manor_cost + "|ManorManager");
+					LOGGER.info(c.getName() + "|" + -manor_cost + "|ManorManager");
 				}
 			}
 			c.setNextPeriodApproved(true);
@@ -542,7 +543,7 @@ public class CastleManorManager
 				{
 					APPROVE = 0;
 					setUnderMaintenance(true);
-					_log.info("Manor System: Under maintenance mode started");
+					LOGGER.info("Manor System: Under maintenance mode started");
 				}
 			}
 			else if(isUnderMaintenance()) // 20:00 - 20:06
@@ -550,7 +551,7 @@ public class CastleManorManager
 				if(H != MANOR_REFRESH || M >= MANOR_REFRESH_MIN + MAINTENANCE_PERIOD)
 				{
 					setUnderMaintenance(false);
-					_log.info("Manor System: Next period started");
+					LOGGER.info("Manor System: Next period started");
 					if(isDisabled())
 						return;
 					setNextPeriod();
@@ -563,7 +564,7 @@ public class CastleManorManager
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.info("Manor System: Failed to save manor data: " + e);
+						LOGGER.info("Manor System: Failed to save manor data: " + e);
 					}
 				}
 			}
@@ -573,7 +574,7 @@ public class CastleManorManager
 				if(H > NEXT_PERIOD_APPROVE && H < MANOR_REFRESH || H == NEXT_PERIOD_APPROVE && M >= NEXT_PERIOD_APPROVE_MIN)
 				{
 					APPROVE = 1;
-					_log.info("Manor System: Next period approved");
+					LOGGER.info("Manor System: Next period approved");
 					if(isDisabled())
 						return;
 					approveNextPeriod();

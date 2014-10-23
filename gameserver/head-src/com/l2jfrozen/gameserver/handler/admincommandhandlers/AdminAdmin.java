@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -42,7 +43,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminAdmin implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminAdmin.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminAdmin.class.getClass());
 	
 	
 	private static final String[] ADMIN_COMMANDS =
@@ -99,7 +100,7 @@ public class AdminAdmin implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -303,7 +304,7 @@ public class AdminAdmin implements IAdminCommandHandler
 			catch(NumberFormatException e)
 			{
 				if(Config.DEBUG){
-					_log.warning("Impossible to parse to integer the string "+mode_s+", exception "+e.getMessage());
+					LOGGER.warn("Impossible to parse to integer the string "+mode_s+", exception "+e.getMessage());
 				}
 				
 			}

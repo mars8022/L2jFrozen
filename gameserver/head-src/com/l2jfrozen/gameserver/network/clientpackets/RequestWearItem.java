@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.List;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.TradeController;
@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestWearItem extends L2GameClientPacket
 {
-	protected static final Logger _log = Logger.getLogger(RequestWearItem.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(RequestWearItem.class.getClass());
 
 	protected Future<?> _removeWearItemsTask;
 
@@ -77,7 +77,7 @@ public final class RequestWearItem extends L2GameClientPacket
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}
@@ -151,7 +151,7 @@ public final class RequestWearItem extends L2GameClientPacket
 		final L2MerchantInstance merchant = target != null && target instanceof L2MerchantInstance ? (L2MerchantInstance) target : null;
 		if (merchant == null)
 		{
-			_log.warning("Null merchant!");
+			LOGGER.warn("Null merchant!");
 			return;
 		}
 		

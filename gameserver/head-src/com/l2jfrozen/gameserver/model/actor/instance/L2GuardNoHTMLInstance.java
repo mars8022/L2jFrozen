@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -41,8 +41,8 @@ import com.l2jfrozen.util.random.Rnd;
 public final class L2GuardNoHTMLInstance extends L2Attackable
 {
 	
-	/** The _log. */
-	private static Logger _log = Logger.getLogger(L2GuardNoHTMLInstance.class.getName());
+	/** The LOGGER. */
+	private static Logger LOGGER = Logger.getLogger(L2GuardNoHTMLInstance.class.getClass());
 	
 	/** The _home x. */
 	private int _homeX;
@@ -130,7 +130,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 		_homeY = getY();
 		_homeZ = getZ();
 		if(Config.DEBUG) {
-			_log.finer(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
+			LOGGER.debug(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
 		}
 	}
 
@@ -153,7 +153,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 		if(!isInsideRadius(_homeX, _homeY, 150, false))
 		{
 			if(Config.DEBUG) {
-				_log.fine(getObjectId() + ": moving hometo" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
+				LOGGER.debug(getObjectId() + ": moving hometo" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
 			}
 			clearAggroList();
 			getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(_homeX, _homeY, _homeZ, 0));
@@ -171,7 +171,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 		_homeY = getY();
 		_homeZ = getZ();
 		if(Config.DEBUG) {
-			_log.finer(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
+			LOGGER.debug(getObjectId() + ": Home location set to" + " X:" + _homeX + " Y:" + _homeY + " Z:" + _homeZ);
 		}
 		// check the region where this mob is, do not activate the AI if region is inactive.
 		L2WorldRegion region = L2World.getInstance().getRegion(getX(), getY());
@@ -208,7 +208,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 			// Set the L2PcInstance Intention to AI_INTENTION_IDLE
 			player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, null);
 			if(Config.DEBUG) {
-				_log.fine(player.getObjectId() + ": Targetted guard " + getObjectId());
+				LOGGER.debug(player.getObjectId() + ": Targetted guard " + getObjectId());
 			}
 			// Set the target of the L2PcInstance player
 			player.setTarget(this);
@@ -226,7 +226,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 			if(containsTarget(player))
 			{
 				if(Config.DEBUG) {
-					_log.fine(player.getObjectId() + ": Attacked guard " + getObjectId());
+					LOGGER.debug(player.getObjectId() + ": Attacked guard " + getObjectId());
 				}
 				// Set the L2PcInstance Intention to AI_INTENTION_ATTACK
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);

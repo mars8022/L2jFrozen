@@ -79,7 +79,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("Class master activated!");
+			LOGGER.info("Class master activated!");
 		}
 
 		player.setLastFolkNPC(this);
@@ -680,7 +680,7 @@ public final class L2ClassMasterInstance extends L2FolkInstance
 	{
 		if (Config.DEBUG)
 		{
-			_log.info("Changing class to ClassId:" + val);
+			LOGGER.info("Changing class to ClassId:" + val);
 		}
 		player.setClassId(val);
 		

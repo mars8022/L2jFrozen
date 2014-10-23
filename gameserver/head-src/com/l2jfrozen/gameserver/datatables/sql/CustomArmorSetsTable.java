@@ -21,7 +21,8 @@ package com.l2jfrozen.gameserver.datatables.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
 import com.l2jfrozen.util.CloseUtil;
@@ -34,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class CustomArmorSetsTable
 {
-	private static final Logger _log = Logger.getLogger(CustomArmorSetsTable.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CustomArmorSetsTable.class.getClass());
 	private static CustomArmorSetsTable _instance;
 	public static CustomArmorSetsTable getInstance() {
 		if(_instance == null)
@@ -64,14 +65,14 @@ public final class CustomArmorSetsTable
 				int enchant6skill = rset.getInt("enchant6skill");
 				ArmorSetsTable.getInstance().addObj(chest, new L2ArmorSet(chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill));
 			}
-			_log.finest("ArmorSetsTable: Loaded custom armor sets.");
+			LOGGER.info("ArmorSetsTable: Loaded custom armor sets.");
 
 			statement.close();
 			rset.close();
 		}
 		catch(Exception e)
 		{
-			_log.severe("ArmorSetsTable: Error reading Custom ArmorSets table"+" "+ e);
+			LOGGER.error("ArmorSetsTable: Error reading Custom ArmorSets table", e);
 		}
 		finally {
 			CloseUtil.close(con);

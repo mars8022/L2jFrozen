@@ -22,9 +22,10 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.util.Util;
@@ -34,7 +35,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class HtmCache
 {
-	private static Logger _log = Logger.getLogger(HtmCache.class.getName());
+	private static Logger LOGGER = Logger.getLogger(HtmCache.class.getClass());
 	private static HtmCache _instance;
 
 	private FastMap<Integer, String> _cache;
@@ -67,23 +68,23 @@ public class HtmCache
 	{
 		if(!Config.LAZY_CACHE)
 		{
-			_log.info("Html cache start...");
+			LOGGER.info("Html cache start...");
 			parseDir(f);
-			_log.info("Cache[HTML]: " + String.format("%.3f", getMemoryUsage()) + " megabytes on " + getLoadedFiles() + " files loaded");
+			LOGGER.info("Cache[HTML]: " + String.format("%.3f", getMemoryUsage()) + " megabytes on " + getLoadedFiles() + " files loaded");
 		}
 		else
 		{
 			_cache.clear();
 			_loadedFiles = 0;
 			_bytesBuffLen = 0;
-			_log.info("Cache[HTML]: Running lazy cache");
+			LOGGER.info("Cache[HTML]: Running lazy cache");
 		}
 	}
 
 	public void reloadPath(File f)
 	{
 		parseDir(f);
-		_log.info("Cache[HTML]: Reloaded specified path.");
+		LOGGER.info("Cache[HTML]: Reloaded specified path.");
 	}
 
 	public double getMemoryUsage()
@@ -170,7 +171,7 @@ public class HtmCache
 			}
 			catch(Exception e)
 			{
-				_log.warning("problem with htm file " + e);
+				LOGGER.warn("problem with htm file " + e);
 				e.printStackTrace();
 			}
 			finally
@@ -208,7 +209,7 @@ public class HtmCache
 		if(content == null)
 		{
 			content = "<html><body>My text is missing:<br>" + path + "</body></html>";
-			_log.warning("Cache[HTML]: Missing HTML page: " + path);
+			LOGGER.warn("Cache[HTML]: Missing HTML page: " + path);
 		}
 
 		return content;

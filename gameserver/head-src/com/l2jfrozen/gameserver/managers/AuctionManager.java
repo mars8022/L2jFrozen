@@ -21,10 +21,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.Auction;
@@ -33,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class AuctionManager
 {
-	protected static final Logger _log = Logger.getLogger(AuctionManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AuctionManager.class.getClass());
 	private List<Auction> _auctions  = new FastList<Auction>();
 	private static final String[] ITEM_INIT_DATA =
 	{
@@ -124,7 +124,7 @@ public class AuctionManager
 
 	public AuctionManager()
 	{
-		_log.info("Initializing AuctionManager");
+		LOGGER.info("Initializing AuctionManager");
 		_auctions.clear();
 		load();
 	}
@@ -214,7 +214,7 @@ public class AuctionManager
 
 		if(i >= ItemInitDataId.length)
 		{
-			_log.warning("Clan Hall auction not found for Id :" + id);
+			LOGGER.warn("Clan Hall auction not found for Id :" + id);
 			return;
 		}
 		try
@@ -233,7 +233,7 @@ public class AuctionManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Auction.initNPC(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Auction.initNPC(): " + e.getMessage(), e);
 		}
 		finally
 		{

@@ -217,7 +217,7 @@ public class L2ClanMember
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			//_log.warning("could not set char power_grade:"+e);
+			//LOGGER.warn("could not set char power_grade:"+e);
 		}
 		finally
 		{
@@ -270,7 +270,7 @@ public class L2ClanMember
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			//_log.warning("could not set char power_grade:"+e);
+			//LOGGER.warn("could not set char power_grade:"+e);
 		}
 		finally
 		{
@@ -507,7 +507,7 @@ public class L2ClanMember
 		catch(SQLException e)
 		{
 			e.printStackTrace();
-			//_log.warning("could not set apprentice/sponsor:"+e.getMessage());
+			//LOGGER.warn("could not set apprentice/sponsor:"+e.getMessage());
 		}
 		finally
 		{

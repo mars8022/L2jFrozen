@@ -17,9 +17,9 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 
 public class TownManager
 {
-	private static final Logger _log = Logger.getLogger(TownManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TownManager.class.getClass());
 
 	// =========================================================
 	private static TownManager _instance;
@@ -37,7 +37,7 @@ public class TownManager
 	{
 		if(_instance == null)
 		{
-			_log.info("Initializing TownManager");
+			LOGGER.info("Initializing TownManager");
 			_instance = new TownManager();
 		}
 		return _instance;

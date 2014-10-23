@@ -25,9 +25,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -47,7 +47,7 @@ public class L2LoginServer
 	public static final int PROTOCOL_REV = 0x0102;
 
 	private static L2LoginServer _instance;
-	private Logger _log = Logger.getLogger(L2LoginServer.class.getName());
+	private Logger LOGGER = Logger.getLogger(L2LoginServer.class.getClass());
 	private GameServerListener _gameServerListener;
 	private SelectorThread<L2LoginClient> _selectorThread;
 	private Status _statusServer;
@@ -66,18 +66,18 @@ public class L2LoginServer
 	{
 		ServerType.serverMode = ServerType.MODE_LOGINSERVER;
 		//      Local Constants
-		final String LOG_FOLDER_BASE = "log"; // Name of folder for log base file
+		final String LOG_FOLDER_BASE = "LOGGER"; // Name of folder for LOGGER base file
 		File logFolderBase = new File(LOG_FOLDER_BASE);
 		logFolderBase.mkdir();
 		
-		final String LOG_FOLDER = "log/login"; // Name of folder for log file
+		final String LOG_FOLDER = "LOGGER/login"; // Name of folder for LOGGER file
 		
 		/*** Main ***/
-		// Create log folder
+		// Create LOGGER folder
 		File logFolder = new File(LOG_FOLDER);
 		logFolder.mkdir();
 
-		// Create input stream for log file -- or store file data into memory
+		// Create input stream for LOGGER file -- or store file data into memory
 		InputStream is = null;
 		try
 		{
@@ -127,12 +127,7 @@ public class L2LoginServer
 		}
 		catch(SQLException e)
 		{
-			_log.severe("FATAL: Failed initializing database. Reason: " + e.getMessage());
-
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-
+			LOGGER.fatal("Failed initializing database", e);
 			System.exit(1);
 		}
 
@@ -142,11 +137,7 @@ public class L2LoginServer
 		}
 		catch(GeneralSecurityException e)
 		{
-			_log.severe("FATAL: Failed initializing LoginController. Reason: " + e.getMessage());
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-
+			LOGGER.fatal("Failed initializing LoginController", e);
 			System.exit(1);
 		}
 
@@ -156,17 +147,12 @@ public class L2LoginServer
 		}
 		catch(GeneralSecurityException e)
 		{
-			_log.severe("FATAL: Failed to load GameServerTable. Reason: " + e.getMessage());
-
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-
+			LOGGER.fatal("Failed to load GameServerTable", e);
 			System.exit(1);
 		}
 		catch(Exception e)
 		{
-			_log.severe("FATAL: Failed to load GameServerTable. Reason: " + e.getMessage());
+			LOGGER.fatal("Failed to load GameServerTable", e);
 
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -183,11 +169,7 @@ public class L2LoginServer
 			}
 			catch(UnknownHostException e1)
 			{
-				_log.severe("WARNING: The LoginServer bind address is invalid, using all avaliable IPs. Reason: " + e1.getMessage());
-
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e1.printStackTrace();
-				
+				LOGGER.warn("WARNING: The LoginServer bind address is invalid, using all avaliable IPs", e1);
 			}
 		}		
 		// Load telnet status
@@ -200,7 +182,7 @@ public class L2LoginServer
 			}
 			catch (IOException e)
 			{
-				_log.log(Level.WARNING, "Failed to start the Telnet Server. Reason: " + e.getMessage(), e);
+				LOGGER.warn( "Failed to start the Telnet Server. Reason: " + e.getMessage(), e);
 			}
 		}
 
@@ -218,12 +200,7 @@ public class L2LoginServer
 		}
 		catch(IOException e)
 		{
-			_log.severe("FATAL: Failed to open Selector. Reason: " + e.getMessage());
-
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-
+			LOGGER.fatal("Failed to open Selector", e);
 			System.exit(1);
 		}
 
@@ -231,16 +208,11 @@ public class L2LoginServer
 		{
 			_gameServerListener = new GameServerListener();
 			_gameServerListener.start();
-			_log.info("Listening for GameServers on " + Config.GAME_SERVER_LOGIN_HOST + ":" + Config.GAME_SERVER_LOGIN_PORT);
+			LOGGER.info("Listening for GameServers on " + Config.GAME_SERVER_LOGIN_HOST + ":" + Config.GAME_SERVER_LOGIN_PORT);
 		}
 		catch(IOException e)
 		{
-			_log.severe("FATAL: Failed to start the Game Server Listener. Reason: " + e.getMessage());
-
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-
+			LOGGER.fatal("Failed to start the Game Server Listener" + e);
 			System.exit(1);
 		}
 
@@ -248,16 +220,12 @@ public class L2LoginServer
 		{
 			_selectorThread.openServerSocket(bindAddress, Config.PORT_LOGIN);
 			_selectorThread.start();
-			_log.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
+			LOGGER.info("Login Server ready on " + (bindAddress == null ? "*" : bindAddress.getHostAddress()) + ":" + Config.PORT_LOGIN);
 
 		}
 		catch(IOException e)
 		{
-			_log.severe("FATAL: Failed to open server socket. Reason: " + e.getMessage());
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-
+			LOGGER.error("Failed to open server socket", e);
 			System.exit(1);
 		}
 		

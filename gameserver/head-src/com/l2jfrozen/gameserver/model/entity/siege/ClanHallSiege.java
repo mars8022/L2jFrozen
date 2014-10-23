@@ -21,7 +21,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
@@ -31,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class ClanHallSiege
 {
-	private static Logger _log = Logger.getLogger(ClanHallSiege.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ClanHallSiege.class.getClass());
 	private Calendar _siegeDate;
 	public Calendar _siegeEndDate;
 	private boolean _isInProgress = false;
@@ -57,7 +58,7 @@ public abstract class ClanHallSiege
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: can't get clanhall siege date: ");
+			LOGGER.warn("Exception: can't get clanhall siege date: ");
 			e.printStackTrace();
 		}
 		finally
@@ -93,7 +94,7 @@ public abstract class ClanHallSiege
 			}
 			catch(Exception e)
 			{
-				_log.warning("Exception: can't save clanhall siege date: ");
+				LOGGER.warn("Exception: can't save clanhall siege date: ");
 				e.printStackTrace();
 			}
 			finally

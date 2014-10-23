@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -58,7 +58,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class GrandBossManager
 {
-	protected static final Logger _log = Logger.getLogger(GrandBossManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(GrandBossManager.class.getClass());
 	
 	private static final String DELETE_GRAND_BOSS_LIST = "DELETE FROM grandboss_list";
 	private static final String INSERT_GRAND_BOSS_LIST = "INSERT INTO grandboss_list (player_id,zone) VALUES (?,?)";
@@ -79,7 +79,7 @@ public class GrandBossManager
 	{
 		if(_instance == null)
 		{
-			_log.info("Initializing GrandBossManager");
+			LOGGER.info("Initializing GrandBossManager");
 			_instance = new GrandBossManager();
 		}
 		return _instance;
@@ -126,7 +126,7 @@ public class GrandBossManager
 				info = null;
 			}
 
-			_log.info("GrandBossManager: Loaded " + _storedInfo.size() + " Instances");
+			LOGGER.info("GrandBossManager: Loaded " + _storedInfo.size() + " Instances");
 
 			rset.close();
 			statement.close();
@@ -136,7 +136,7 @@ public class GrandBossManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("GrandBossManager: Could not load grandboss_data table");
+			LOGGER.warn("GrandBossManager: Could not load grandboss_data table");
 		}
 		catch(Exception e)
 		{
@@ -152,7 +152,7 @@ public class GrandBossManager
 	{
 		if(_zones == null)
 		{
-			_log.warning("GrandBossManager: Could not read Grand Boss zone data");
+			LOGGER.warn("GrandBossManager: Could not read Grand Boss zone data");
 			return;
 		}
 
@@ -178,11 +178,11 @@ public class GrandBossManager
 			}
 			rset.close();
 			statement.close();
-			_log.info("GrandBossManager: Initialized " + _zones.size() + " Grand Boss Zones");
+			LOGGER.info("GrandBossManager: Initialized " + _zones.size() + " Grand Boss Zones");
 		}
 		catch(SQLException e)
 		{
-			_log.warning("GrandBossManager: Could not load grandboss_list table");
+			LOGGER.warn("GrandBossManager: Could not load grandboss_list table");
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
@@ -268,7 +268,7 @@ public class GrandBossManager
 	public void setBossStatus(int bossId, int status)
 	{
 		_bossStatus.put(bossId, status);
-		_log.info(getClass().getSimpleName()+": Updated "+NpcTable.getInstance().getTemplate(bossId).getName()+"(" +bossId+ ") status to " +status);
+		LOGGER.info(getClass().getSimpleName()+": Updated "+NpcTable.getInstance().getTemplate(bossId).getName()+"(" +bossId+ ") status to " +status);
 		updateDb(bossId, true);
 	}
 	
@@ -352,7 +352,7 @@ public class GrandBossManager
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.warning("GrandBossManager[fastStoreToDb]: Couldn't store grandbosses to database:" + e);
+			LOGGER.warn("GrandBossManager[fastStoreToDb]: Couldn't store grandbosses to database:" + e);
 		}
 		finally
 		{
@@ -434,7 +434,7 @@ public class GrandBossManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("GrandBossManager: Couldn't store grandbosses to database:" + e);
+			LOGGER.warn("GrandBossManager: Couldn't store grandbosses to database:" + e);
 		}
 		finally
 		{
@@ -483,7 +483,7 @@ public class GrandBossManager
 		}
 		catch (SQLException e)
 		{
-			_log.log(Level.WARNING, "GrandBossManager: Couldn't update grandbosses to database:" + e.getMessage(), e);
+			LOGGER.warn( "GrandBossManager: Couldn't update grandbosses to database:" + e.getMessage(), e);
 		}
 		finally
 		{

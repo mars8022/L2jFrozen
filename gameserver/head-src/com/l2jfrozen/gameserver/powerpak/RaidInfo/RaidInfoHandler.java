@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.powerpak.RaidInfo;
 
-import java.util.logging.Logger;
-
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 public class RaidInfoHandler implements ICustomByPassHandler
 {
-	private static Logger _log = Logger.getLogger(RaidInfoHandler.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RaidInfoHandler.class.getClass());
 
 	private static final int NPC_ID = 93000;
 
@@ -80,7 +80,7 @@ public class RaidInfoHandler implements ICustomByPassHandler
 			if((template = NpcTable.getInstance().getTemplate(boss)) != null){
 				name = template.getName();
 			}else{
-				_log.warning("[RaidInfoHandler][sendInfo] Raid Boss with ID "+boss+" is not defined into NpcTable");
+				LOGGER.warn("[RaidInfoHandler][sendInfo] Raid Boss with ID "+boss+" is not defined into NpcTable");
 				continue;
 			}
 			 

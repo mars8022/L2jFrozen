@@ -25,11 +25,11 @@ import java.io.LineNumberReader;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.RecipeController;
@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RecipeInstance;
  */
 public class RecipeTable extends RecipeController
 {
-	private static final Logger _log = Logger.getLogger(RecipeTable.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(RecipeTable.class.getClass());
 	private Map<Integer, L2RecipeList> _lists;
 
 	private static RecipeTable instance;
@@ -58,7 +58,7 @@ public class RecipeTable extends RecipeController
 
 	private RecipeTable()
 	{
-		_lists = new FastMap<Integer, L2RecipeList>();
+		_lists = new FastMap<>();
 		String line = null;
 		
 		FileReader reader = null;
@@ -83,7 +83,7 @@ public class RecipeTable extends RecipeController
 				parseList(line);
 
 			}
-			_log.config("RecipeController: Loaded " + _lists.size() + " Recipes.");
+			LOGGER.info("RecipeController: Loaded " + _lists.size() + " Recipes.");
 		}
 		catch(Exception e)
 		{
@@ -92,11 +92,11 @@ public class RecipeTable extends RecipeController
 			
 			if(lnr != null)
 			{
-				_log.log(Level.WARNING, "error while creating recipe controller in linenr: " + lnr.getLineNumber(), e);
+				LOGGER.warn( "error while creating recipe controller in linenr: " + lnr.getLineNumber(), e);
 			}
 			else
 			{
-				_log.warning("No recipes were found in data folder");
+				LOGGER.warn("No recipes were found in data folder");
 			}
 
 		}
@@ -141,7 +141,7 @@ public class RecipeTable extends RecipeController
 		try
 		{
 			StringTokenizer st = new StringTokenizer(line, ";");
-			List<L2RecipeInstance> recipePartList = new FastList<L2RecipeInstance>();
+			List<L2RecipeInstance> recipePartList = new FastList<>();
 
 			//we use common/dwarf for easy reading of the recipes.csv file
 			String recipeTypeString = st.nextToken();
@@ -159,7 +159,7 @@ public class RecipeTable extends RecipeController
 			}
 			else
 			{ //prints a helpfull message
-				_log.warning("Error parsing recipes.csv, unknown recipe type " + recipeTypeString);
+				LOGGER.warn("Error parsing recipes.csv, unknown recipe type " + recipeTypeString);
 				return;
 			}
 
@@ -207,10 +207,7 @@ public class RecipeTable extends RecipeController
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("Exception in RecipeController.parseList() - " + e);
+			LOGGER.error("Exception in RecipeController.parseList()", e);
 		}
 	}
 

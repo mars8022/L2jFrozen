@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.ItemRequest;
@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestPrivateStoreBuy extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestPrivateStoreBuy.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestPrivateStoreBuy.class.getClass());
 	
 	private int _storePlayerId;
 	private int _count;
@@ -71,14 +71,14 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		if (Config.DEBUG)
 		{
 			
-			_log.info("Player " + getClient().getActiveChar().getName() + " requested to buy to storeId " + _storePlayerId + " Items Number: " + _count);
+			LOGGER.info("Player " + getClient().getActiveChar().getName() + " requested to buy to storeId " + _storePlayerId + " Items Number: " + _count);
 			
 			for (int i = 0; i < _count; i++)
 			{
-				_log.info("Requested Item ObjectID: " + _items[i].getObjectId());
-				_log.info("Requested Item Id: " + _items[i].getItemId());
-				_log.info("Requested Item count: " + _items[i].getCount());
-				_log.info("Requested Item price: " + _items[i].getPrice());
+				LOGGER.info("Requested Item ObjectID: " + _items[i].getObjectId());
+				LOGGER.info("Requested Item Id: " + _items[i].getItemId());
+				LOGGER.info("Requested Item count: " + _items[i].getCount());
+				LOGGER.info("Requested Item price: " + _items[i].getPrice());
 				
 			}
 		}
@@ -207,9 +207,9 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		if (!storeList.PrivateStoreBuy(player, _items, (int) priceTotal))
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
-			// Punishment e log in audit
+			// Punishment e LOGGER in audit
 			Util.handleIllegalPlayerAction(storePlayer, "PrivateStore buy has failed due to invalid list or request. Player: " + player.getName(), Config.DEFAULT_PUNISH);
-			_log.warning("PrivateStore buy has failed due to invalid list or request. Player: " + player.getName() + ", Private store of: " + storePlayer.getName());
+			LOGGER.warn("PrivateStore buy has failed due to invalid list or request. Player: " + player.getName() + ", Private store of: " + storePlayer.getName());
 			return;
 		}
 		

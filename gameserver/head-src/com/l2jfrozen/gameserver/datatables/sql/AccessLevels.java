@@ -18,9 +18,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
@@ -32,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AccessLevels
 {
-	private static final Logger _log = Logger.getLogger(AccessLevels.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AccessLevels.class.getClass());
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AccessLevels _instance = null;
 	/** Reserved master access level<br> */
@@ -52,7 +53,7 @@ public class AccessLevels
 	//L2EMU_EDIT
 
 	/** FastMap of access levels defined in database<br> */
-	private final FastMap<Integer, AccessLevel> _accessLevels = new FastMap<Integer, AccessLevel>();
+	private final FastMap<Integer, AccessLevel> _accessLevels = new FastMap<>();
 
 	/**
 	 * Loads the access levels from database<br>
@@ -94,17 +95,17 @@ public class AccessLevels
 				name = rset.getString("name");
 
 				if(accessLevel == Config.USERACCESS_LEVEL) {
-					_log.finest("AccessLevels: Access level with name {} is using reserved user access level {}. Ignoring it.. "+ name+" "+ Config.USERACCESS_LEVEL);
+					LOGGER.info("AccessLevels: Access level with name {} is using reserved user access level {}. Ignoring it.. "+ name+" "+ Config.USERACCESS_LEVEL);
 					continue;
 				}
 				else if(accessLevel == Config.MASTERACCESS_LEVEL)
 				{
-					_log.finest("AccessLevels: Access level with name {} is using reserved master access level {}. Ignoring it.. "+ name+" "+ Config.MASTERACCESS_LEVEL );
+					LOGGER.info("AccessLevels: Access level with name {} is using reserved master access level {}. Ignoring it.. "+ name+" "+ Config.MASTERACCESS_LEVEL );
 					continue;
 				}
 				else if(accessLevel < 0)
 				{
-					_log.finest("AccessLevels: Access level with name {} is using banned access level state(below 0). Ignoring it.. "+ name);
+					LOGGER.info("AccessLevels: Access level with name {} is using banned access level state(below 0). Ignoring it.. "+ name);
 					continue;
 				}
 
@@ -114,7 +115,7 @@ public class AccessLevels
 				}
 				catch(NumberFormatException nfe)
 				{
-					_log.finest(nfe.getMessage()+" "+ nfe);
+					LOGGER.error(nfe);
 					
 					try
 					{
@@ -122,7 +123,7 @@ public class AccessLevels
 					}
 					catch(NumberFormatException nfe2)
 					{
-						_log.finest(nfe.getMessage() + nfe);
+						LOGGER.error(nfe);
 					}
 				}
 
@@ -133,7 +134,7 @@ public class AccessLevels
 				}
 				catch(NumberFormatException nfe)
 				{
-					_log.finest(nfe.getMessage()+" "+ nfe);
+					LOGGER.error(nfe);
 					
 					try
 					{
@@ -141,7 +142,7 @@ public class AccessLevels
 					}
 					catch(NumberFormatException nfe2)
 					{
-						_log.finest(nfe.getMessage()+" "+ nfe);
+						LOGGER.error(nfe);
 					}
 				}
 
@@ -169,18 +170,18 @@ public class AccessLevels
 		}
 		catch(SQLException e)
 		{
-			_log.severe("AccessLevels: Error loading from database "+ e);
+			LOGGER.error("AccessLevels: Error loading from database ", e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
-		//_log.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");
-		_log.finest("AccessLevels: Master Access Level is " + Config.MASTERACCESS_LEVEL);
-		_log.finest("AccessLevels: User Access Level is " + Config.USERACCESS_LEVEL);
+		//LOGGER.info("AccessLevels: Loaded " + _accessLevels.size() + " Access Levels from database.");
+		LOGGER.info("AccessLevels: Master Access Level is " + Config.MASTERACCESS_LEVEL);
+		LOGGER.info("AccessLevels: User Access Level is " + Config.USERACCESS_LEVEL);
 		if(Config.DEBUG) for(int actual : _accessLevels.keySet()){
 			AccessLevel actual_access = _accessLevels.get(actual);
-			_log.finest("AccessLevels: {} Access Level is {} "+ actual_access.getName()+" "+ actual_access.getLevel());
+			LOGGER.debug("AccessLevels: {} Access Level is {} "+ actual_access.getName()+" "+ actual_access.getLevel());
 		}
 	}
 

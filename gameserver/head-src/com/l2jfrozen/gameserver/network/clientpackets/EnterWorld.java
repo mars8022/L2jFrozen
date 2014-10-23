@@ -18,10 +18,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
@@ -101,7 +102,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class EnterWorld extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
+	private static Logger LOGGER = Logger.getLogger(EnterWorld.class.getClass());
 
 	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	private long _daysleft;
@@ -125,7 +126,7 @@ public class EnterWorld extends L2GameClientPacket
 
 		if (activeChar == null)
 		{
-			_log.warning("EnterWorld failed! activeChar is null...");
+			LOGGER.warn("EnterWorld failed! activeChar is null...");
 			getClient().closeNow();
 			return;
 		}
@@ -140,7 +141,7 @@ public class EnterWorld extends L2GameClientPacket
 		{
 			if (Config.DEBUG)
 			{
-				_log.warning("DEBUG "+getType()+": User already exist in OID map! User " + activeChar.getName() + " is character clone");
+				LOGGER.warn("DEBUG "+getType()+": User already exist in OID map! User " + activeChar.getName() + " is character clone");
 				//activeChar.closeNetConnection(); // Do nothing?
 			}
 		}
@@ -149,7 +150,7 @@ public class EnterWorld extends L2GameClientPacket
 		{
 			if (activeChar.getName().length() < 3 || activeChar.getName().length() > 16 || !Util.isAlphaNumeric(activeChar.getName()) || !isValidName(activeChar.getName()))
 			{
-				_log.warning("Charname: " + activeChar.getName() + " is invalid. EnterWorld failed.");
+				LOGGER.warn("Charname: " + activeChar.getName() + " is invalid. EnterWorld failed.");
 				getClient().closeNow();
 				return;
 			}	
@@ -241,11 +242,11 @@ public class EnterWorld extends L2GameClientPacket
 							activeChar.sendMessage("[Server]: Respect our server rules.");
 							//Message with screen
 							sendPacket(new ExShowScreenMessage(" You have an over enchanted item, you will be kicked from server! ", 6000));
-							//Punishment e log in audit
+							//Punishment e LOGGER in audit
 							Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " has Overenchanted  item! Kicked! ", Config.DEFAULT_PUNISH);                     
 							//Logger in console
-							_log.info("#### ATTENTION ####");
-							_log.info(i+" item has been removed from "+activeChar);
+							LOGGER.info("#### ATTENTION ####");
+							LOGGER.info(i+" item has been removed from "+activeChar);
 						}
 
 					}
@@ -445,7 +446,7 @@ public class EnterWorld extends L2GameClientPacket
 				
 			}else{
 				
-				_log.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
+				LOGGER.info("Attention: Remote ClassMaster is Enabled, but not inserted into DataBase. Remember to install 31288 Custom_Npc ..");
 				
 			}
 		}
@@ -520,7 +521,7 @@ public class EnterWorld extends L2GameClientPacket
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 
-			_log.warning("ERROR "+getType()+": Character name pattern of config is wrong!");
+			LOGGER.warn("ERROR "+getType()+": Character name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
 

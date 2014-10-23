@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.templates.L2WeaponType;
  */
 public class SkillTable
 {
-	//private static Logger _log = Logger.getLogger(SkillTable.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(SkillTable.class.getClass());
 	private static SkillTable _instance;
 
 	private Map<Integer, L2Skill> _skills;

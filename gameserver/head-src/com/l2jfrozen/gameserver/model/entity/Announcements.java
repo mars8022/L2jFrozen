@@ -26,11 +26,11 @@ import java.io.LineNumberReader;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -49,11 +49,11 @@ import com.l2jfrozen.gameserver.script.DateRange;
  */
 public class Announcements
 {
-	private static Logger _log = Logger.getLogger(Announcements.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Announcements.class.getClass());
 
 	private static Announcements _instance;
-	private List<String> _announcements = new FastList<String>();
-	private List<List<Object>> _eventAnnouncements = new FastList<List<Object>>();
+	private List<String> _announcements = new FastList<>();
+	private List<List<Object>> _eventAnnouncements = new FastList<>();
 
 	public Announcements()
 	{
@@ -81,7 +81,7 @@ public class Announcements
 		}
 		else
 		{
-			_log.config("data/announcements.txt doesn't exist");
+			LOGGER.warn("data/announcements.txt doesn't exist");
 		}
 
 	}
@@ -125,7 +125,7 @@ public class Announcements
 
 	public void addEventAnnouncement(DateRange validDateRange, String[] msg)
 	{
-		List<Object> entry = new FastList<Object>();
+		List<Object> entry = new FastList<>();
 		entry.add(validDateRange);
 		entry.add(msg);
 		_eventAnnouncements.add(entry);
@@ -189,14 +189,14 @@ public class Announcements
 					i++;
 				}
 			}
-			_log.config("Announcements: Loaded " + i + " Announcements.");
+			LOGGER.info("Announcements: Loaded " + i + " Announcements.");
 		}
 		catch(IOException e1)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error reading announcements", e1);
+			LOGGER.error( "Error reading announcements", e1);
 		}
 		finally
 		{
@@ -242,7 +242,7 @@ public class Announcements
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("saving the announcements file has failed: " + e);
+			LOGGER.warn("saving the announcements file has failed: " + e);
 		}finally{
 			
 			if(save != null)

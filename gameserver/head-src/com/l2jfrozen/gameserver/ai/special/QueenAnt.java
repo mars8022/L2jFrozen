@@ -344,7 +344,7 @@ public class QueenAnt extends Quest implements Runnable
 				break;
 			default:
 			{
-				_log.info("QUEEN: Not defined event: " + event + "!");
+				LOGGER.info("QUEEN: Not defined event: " + event + "!");
 			}
 		}
 		

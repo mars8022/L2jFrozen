@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2LvlupData;
 import com.l2jfrozen.gameserver.model.base.ClassId;
@@ -52,11 +53,11 @@ public class LevelUpData
 	private static final String CP_BASE = "defaultcpbase";
 	private static final String CLASS_ID = "classid";
 
-	private final static Logger _log = Logger.getLogger(LevelUpData.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(LevelUpData.class.getClass());
 
 	private static LevelUpData _instance;
 
-	private final Map<Integer, L2LvlupData> _lvlTable;
+	private final Map<Integer, L2LvlupData> lvlTable;
 
 	public static LevelUpData getInstance()
 	{
@@ -70,7 +71,7 @@ public class LevelUpData
 
 	private LevelUpData()
 	{
-		_lvlTable = new FastMap<Integer, L2LvlupData>();
+		lvlTable = new FastMap<>();
 		Connection con = null;
 		try
 		{
@@ -94,17 +95,17 @@ public class LevelUpData
 				lvlDat.setClassMpAdd(rset.getFloat(MP_ADD));
 				lvlDat.setClassMpModifier(rset.getFloat(MP_MOD));
 
-				_lvlTable.put(new Integer(lvlDat.getClassid()), lvlDat);
+				lvlTable.put(new Integer(lvlDat.getClassid()), lvlDat);
 			}
 
 			statement.close();
 			rset.close();
 
-			_log.finest("LevelUpData: Loaded {} Character Level Up Templates."+" "+ _lvlTable.size());
+			LOGGER.info ("LevelUpData: Loaded " + lvlTable.size() + " Character Level Up Templates.");
 		}
 		catch(Exception e)
 		{
-			_log.severe("error while creating Lvl up data table"+" "+ e);
+			LOGGER.error("Error while creating Lvl up data table", e);
 		}
 		finally
 		{
@@ -118,11 +119,11 @@ public class LevelUpData
 	 */
 	public L2LvlupData getTemplate(int classId)
 	{
-		return _lvlTable.get(classId);
+		return lvlTable.get(classId);
 	}
 
 	public L2LvlupData getTemplate(ClassId classId)
 	{
-		return _lvlTable.get(classId.getId());
+		return lvlTable.get(classId.getId());
 	}
 }

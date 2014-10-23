@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public final class L2ObservationInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2TeleporterInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2TeleporterInstance.class.getClass());
 
 	/**
 	 * Instantiates a new l2 observation instance.

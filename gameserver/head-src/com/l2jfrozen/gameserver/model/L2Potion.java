@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -31,7 +32,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class L2Potion extends L2Object
 {
-	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class.getClass());
 
 //	private L2Character _target;
 
@@ -77,7 +78,7 @@ public class L2Potion extends L2Object
 			}
 			catch(Exception e)
 			{
-				_log.warning("Error in hp potion task:" + e);
+				LOGGER.warn("Error in hp potion task:" + e);
 			}
 		}
 	}
@@ -98,7 +99,7 @@ public class L2Potion extends L2Object
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Potion HP regen stop");
+			LOGGER.debug("Potion HP regen stop");
 		}
 	}
 
@@ -186,7 +187,7 @@ public class L2Potion extends L2Object
 			}
 			catch(Exception e)
 			{
-				_log.warning("error in mp potion task:" + e);
+				LOGGER.warn("error in mp potion task:" + e);
 			}
 		}
 	}
@@ -197,7 +198,7 @@ public class L2Potion extends L2Object
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Potion MP regen Started");
+			LOGGER.debug("Potion MP regen Started");
 		}
 	}
 
@@ -212,7 +213,7 @@ public class L2Potion extends L2Object
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Potion MP regen stop");
+			LOGGER.debug("Potion MP regen stop");
 		}
 	}
 

@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 
 public abstract class L2Summon extends L2PlayableInstance
 {
-	//private static Logger _log = Logger.getLogger(L2Summon.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2Summon.class.getClass());
 
 	protected int _pkKills;
 	private L2PcInstance _owner;
@@ -195,7 +195,7 @@ public abstract class L2Summon extends L2PlayableInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("new target selected:" + getObjectId());
+				LOGGER.debug("New target selected:" + getObjectId());
 			}
 
 			player.setTarget(this);

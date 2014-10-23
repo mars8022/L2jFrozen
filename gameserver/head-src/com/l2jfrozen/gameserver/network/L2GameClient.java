@@ -28,10 +28,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
@@ -73,7 +73,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(L2GameClient.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2GameClient.class.getClass());
 
 	/**
 	 * CONNECTED - client has just connected AUTHED - client has authed but doesn't has character attached to it yet
@@ -358,7 +358,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Data error on update delete time of char: " + e);
+			LOGGER.warn("Data error on update delete time of char: " + e);
 			
 			answer = -1;
 		}
@@ -377,7 +377,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		/*if (getActiveChar() != null)
 		{
 			saveCharToDisk (getActiveChar());
-			if (Config.DEBUG) _log.fine("active Char saved");
+			if (Config.DEBUG) LOGGER.fine("active Char saved");
 			this.setActiveChar(null);
 		}*/
 
@@ -398,10 +398,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("Data error on restoring char: " + e);
+			LOGGER.error("Data error on restoring char", e);
 		}
 		finally
 		{
@@ -530,7 +527,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Data error on deleting char: " + e);
+			LOGGER.warn("Data error on deleting char: " + e);
 		}
 		finally
 		{
@@ -551,8 +548,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if (character != null)
 		{
 			// exploit prevention, should not happens in normal way
-			if(Config.DEBUG)
-				_log.severe("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
+
+			LOGGER.warn("Attempt of double login: " + character.getName()+"("+objId+") "+getAccountName());
 			
 			if (character.getClient() != null)
 				character.getClient().closeNow();
@@ -565,8 +562,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				}
 				catch(Exception e2)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e2.printStackTrace();
+					LOGGER.error("fixme:unhandled exception" , e2);
 				}
 				
 			}
@@ -598,7 +594,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 //		}
 //		if(character == null)
 //		{
-//			_log.severe("could not restore in slot: " + charslot);
+//			LOGGER.severe("could not restore in slot: " + charslot);
 //		}
 
 		//setCharacter(character);
@@ -635,7 +631,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	{
 		if(charslot < 0 || charslot >= _charSlotMapping.size())
 		{
-			_log.warning(toString() + " tried to delete Character in slot " + charslot + " but no characters exits at that slot.");
+			LOGGER.warn(toString() + " tried to delete Character in slot " + charslot + " but no characters exits at that slot.");
 			return -1;
 		}
 
@@ -650,7 +646,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		_forcedToClose = true;
 		
 		if(critical)
-			_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
+			LOGGER.warn( "Client " + toString() + " disconnected abnormally.");
 		
 		//the force operation will allow to not save client position to prevent again criticals
 		//and stuck
@@ -662,9 +658,9 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		if((player = getActiveChar()) !=null){
 			
 			if(critical){
-				_log.log(Level.WARNING, "Client " + toString() + " disconnected abnormally.");
-				_log.log(Level.WARNING, "Character disconnected at Loc X:"+player.getX()+" Y:"+player.getY()+" Z:"+player.getZ());
-				_log.log(Level.WARNING, "Character disconnected in (closest) zone: "+MapRegionTable.getInstance().getClosestTownName(player));
+				LOGGER.warn( "Client " + toString() + " disconnected abnormally.");
+				LOGGER.warn( "Character disconnected at Loc X:"+player.getX()+" Y:"+player.getY()+" Z:"+player.getZ());
+				LOGGER.warn( "Character disconnected in (closest) zone: "+MapRegionTable.getInstance().getClosestTownName(player));
 			}
 			
 			if(player.isFlying())
@@ -938,7 +934,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e1.printStackTrace();
 				
-				_log.log(Level.WARNING, "Error while cleanup client.", e1);
+				LOGGER.warn( "Error while cleanup client.", e1);
 			}
 			finally
 			{
@@ -1062,7 +1058,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e1.printStackTrace();
 				
-				_log.log(Level.WARNING, "error while disconnecting client", e1);
+				LOGGER.warn( "error while disconnecting client", e1);
 			}
 			finally
 			{
@@ -1136,13 +1132,13 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	{
 		if (getStats().countUnderflowException())
 		{
-			_log.severe("Client " + toString() + " - Disconnected: Too many buffer underflow exceptions.");
+			LOGGER.warn("Client " + toString() + " - Disconnected: Too many buffer underflow exceptions.");
 			closeNow();
 			return;
 		}
 		if (state == GameClientState.CONNECTED) // in CONNECTED state kick client immediately
 		{
-			_log.severe("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
+			LOGGER.warn("Client " + toString() + " - Disconnected, too many buffer underflows in non-authed state.");
 			closeNow();
 		}
 	}
@@ -1155,7 +1151,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	{
 		if (getStats().countFloods())
 		{
-			_log.severe("Client " + toString() + " - Disconnected, too many floods:"+getStats().longFloods+" long and "+getStats().shortFloods+" short.");
+			LOGGER.warn("Client " + toString() + " - Disconnected, too many floods:"+getStats().longFloods+" long and "+getStats().shortFloods+" short.");
 			closeNow();
 			return;
 		}
@@ -1164,7 +1160,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		{
 			if (getStats().countQueueOverflow())
 			{
-				_log.severe("Client " + toString() + " - Disconnected, too many queue overflows.");
+				LOGGER.warn("Client " + toString() + " - Disconnected, too many queue overflows.");
 				closeNow();
 			}
 			else
@@ -1178,7 +1174,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		
 		//save last action time
 		_last_received_packet_action_time = System.currentTimeMillis();
-		//_log.severe("Client " + toString() + " - updated last action state "+_last_received_packet_action_time);
+		//LOGGER.severe("Client " + toString() + " - updated last action state "+_last_received_packet_action_time);
 						
 		try
 		{
@@ -1186,7 +1182,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			{
 				if (getStats().processedPackets > 3)
 				{
-					_log.severe("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
+					LOGGER.warn("Client " + toString() + " - Disconnected, too many packets in non-authed state.");
 					closeNow();
 					return;
 				}
@@ -1198,13 +1194,11 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		}
 		catch (RejectedExecutionException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
+			LOGGER.error("fixme:unhandled exception", e);
 			// if the server is shutdown we ignore
 			if (!ThreadPoolManager.getInstance().isShutdown())
 			{
-				_log.severe("Failed executing: "+packet.getClass().getSimpleName()+" for Client: "+toString());
+				LOGGER.warn("Failed executing: "+packet.getClass().getSimpleName()+" for Client: "+toString());
 			}
 		}
 	}
@@ -1236,10 +1230,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 				}
 				catch (Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-					
-					_log.severe("Exception during execution "+packet.getClass().getSimpleName()+", client: "+toString()+","+e.getMessage());
+					LOGGER.error("Exception during execution "+packet.getClass().getSimpleName()+", client: "+toString()+","+e.getMessage(), e);
 				}
 				
 				count++;

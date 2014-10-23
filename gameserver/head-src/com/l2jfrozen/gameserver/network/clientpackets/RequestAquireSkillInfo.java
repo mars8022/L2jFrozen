@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.AquireSkillInfo;
 
 public class RequestAquireSkillInfo extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestAquireSkillInfo.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestAquireSkillInfo.class.getClass());
 
 	private int _id;
 	private int _level;
@@ -72,7 +72,7 @@ public class RequestAquireSkillInfo extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.warning("skill id " + _id + " level " + _level + " is undefined. aquireSkillInfo failed.");
+				LOGGER.warn("skill id " + _id + " level " + _level + " is undefined. aquireSkillInfo failed.");
 			}
 			return;
 		}

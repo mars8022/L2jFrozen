@@ -21,7 +21,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -50,7 +51,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestActionUse extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestActionUse.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestActionUse.class.getClass());
 	
 	private int _actionId;
 	private boolean _ctrlPressed;
@@ -77,7 +78,7 @@ public final class RequestActionUse extends L2GameClientPacket
 		
 		if(Config.DEBUG)
 		{
-			_log.finest(activeChar.getName() + " request Action use: id " + _actionId + " 2:" + _ctrlPressed + " 3:" + _shiftPressed);
+			LOGGER.debug(activeChar.getName() + " request Action use: id " + _actionId + " 2:" + _ctrlPressed + " 3:" + _shiftPressed);
 		}
 		
 		// dont do anything if player is dead
@@ -98,7 +99,7 @@ public final class RequestActionUse extends L2GameClientPacket
 		if((_petActions.contains(_actionId) || _actionId >= 1000)){
 			if(Config.DEBUG)
 			{
-				_log.finest(activeChar.getName() + " request Pet Action use: id " + _actionId + " ctrl:" + _ctrlPressed + " shift:" + _shiftPressed);
+				LOGGER.debug(activeChar.getName() + " request Pet Action use: id " + _actionId + " ctrl:" + _ctrlPressed + " shift:" + _shiftPressed);
 			}
 		}else if(activeChar.isCastingNow()){
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
@@ -110,7 +111,7 @@ public final class RequestActionUse extends L2GameClientPacket
 		
 		if(Config.DEBUG)
 		{
-			_log.info("Requested Action ID: " + String.valueOf(_actionId));
+			LOGGER.info("Requested Action ID: " + String.valueOf(_actionId));
 		}
 		
 		switch(_actionId)
@@ -141,7 +142,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				
 				if(Config.DEBUG)
 				{
-					_log.fine("new wait type: " + (activeChar.isSitting() ? "SITTING" : "STANDING"));
+					LOGGER.debug("new wait type: " + (activeChar.isSitting() ? "SITTING" : "STANDING"));
 				}
 				
 				break;
@@ -157,7 +158,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				
 				if(Config.DEBUG)
 				{
-					_log.fine("new move type: " + (activeChar.isRunning() ? "RUNNING" : "WALKIN"));
+					LOGGER.debug("new move type: " + (activeChar.isRunning() ? "RUNNING" : "WALKIN"));
 				}
 				break;
 			case 15:
@@ -520,12 +521,12 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				break;
 			case 96: // Quit Party Command Channel
-				_log.info("98 Accessed");
+				LOGGER.info("98 Accessed");
 				break;
 			case 97: // Request Party Command Channel Info
 				//if (!PartyCommandManager.getInstance().isPlayerInChannel(activeChar))
 				//return;
-				_log.info("97 Accessed");
+				LOGGER.info("97 Accessed");
 				//PartyCommandManager.getInstance().getActiveChannelInfo(activeChar);
 				break;
 			case 1000: // Siege Golem - Siege Hammer
@@ -618,7 +619,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				break;
 			default:
-				_log.warning(activeChar.getName() + ": unhandled action type " + _actionId);
+				LOGGER.warn(activeChar.getName() + ": unhandled action type " + _actionId);
 		}
 	}
 	
@@ -655,7 +656,7 @@ public final class RequestActionUse extends L2GameClientPacket
 			{
 				if (Config.DEBUG)
 				{
-					_log.warning("Skill " + skillId + " missing from npcskills.sql for a summon id " + activeSummon.getNpcId());
+					LOGGER.warn("Skill " + skillId + " missing from npcskills.sql for a summon id " + activeSummon.getNpcId());
 				}
 				return;
 			}

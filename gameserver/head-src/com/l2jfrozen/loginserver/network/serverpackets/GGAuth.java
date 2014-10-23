@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.loginserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
@@ -27,7 +27,7 @@ import com.l2jfrozen.Config;
  */
 public final class GGAuth extends L2LoginServerPacket
 {
-	static final Logger _log = Logger.getLogger(GGAuth.class.getName());
+	static final Logger LOGGER = Logger.getLogger(GGAuth.class.getClass());
 	public static final int SKIP_GG_AUTH_REQUEST = 0x0b;
 
 	private int _response;
@@ -38,7 +38,7 @@ public final class GGAuth extends L2LoginServerPacket
 
 		if(Config.DEBUG)
 		{
-			_log.warning("Reason Hex: " + Integer.toHexString(response));
+			LOGGER.warn("Reason Hex: " + Integer.toHexString(response));
 		}
 	}
 	

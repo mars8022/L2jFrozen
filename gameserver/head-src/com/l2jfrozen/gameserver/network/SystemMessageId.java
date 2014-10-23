@@ -24,7 +24,7 @@ public enum SystemMessageId
 {
 	/**
 	 * ID: 1<br>
-	 * Message: The server will be coming down in $1 seconds. Please find a safe place to log out.
+	 * Message: The server will be coming down in $1 seconds. Please find a safe place to LOGGER out.
 	 */
 	THE_SERVER_WILL_BE_COMING_DOWN_IN_S1_SECONDS(1),
 

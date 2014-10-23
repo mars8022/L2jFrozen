@@ -19,7 +19,6 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.List;
-import java.util.logging.Level;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -78,7 +77,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2Attackable extends L2NpcInstance
 {
-	//protected static Logger _log = Logger.getLogger(L2Attackable.class.getName());
+	//protected static Logger LOGGER = Logger.getLogger(L2Attackable.class.getClass());
 
 	/**
 	 * This class contains all AggroInfo of the L2Attackable against the attacker L2Character.<BR>
@@ -561,7 +560,7 @@ public class L2Attackable extends L2NpcInstance
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, "", e);
+			LOGGER.error( "", e);
 		}
 		
 		// Notify the Quest Engine of the L2Attackable death if necessary
@@ -580,7 +579,7 @@ public class L2Attackable extends L2NpcInstance
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, "", e);
+			LOGGER.error( "", e);
 		}
 		
 		setChampion(false);
@@ -827,7 +826,7 @@ public class L2Attackable extends L2NpcInstance
 						partyLvl = 0;
 
 						// Get all L2Character that can be rewarded in the party
-						List<L2PlayableInstance> rewardedMembers = new FastList<L2PlayableInstance>();
+						List<L2PlayableInstance> rewardedMembers = new FastList<>();
 
 						// Go through all L2PcInstance in the party
 						List<L2PcInstance> groupMembers;
@@ -972,7 +971,7 @@ public class L2Attackable extends L2NpcInstance
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.SEVERE, "", e);
+			LOGGER.error( "", e);
 		}
 	}
 
@@ -1061,7 +1060,7 @@ public class L2Attackable extends L2NpcInstance
 			}
 			catch(Exception e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}
@@ -1525,7 +1524,7 @@ public class L2Attackable extends L2NpcInstance
 			return new RewardItem(drop.getItemId(), itemCount);
 		else if(itemCount == 0 && Config.DEBUG)
 		{
-			_log.fine("Roll produced 0 items to drop...");
+			LOGGER.debug("Roll produced 0 items to drop...");
 		}
 
 		return null;
@@ -1804,7 +1803,7 @@ public class L2Attackable extends L2NpcInstance
 				return new RewardItem(drop.getItemId(), itemCount);
 			else if(itemCount == 0 && Config.DEBUG)
 			{
-				_log.fine("Roll produced 0 items to drop...");
+				LOGGER.debug("Roll produced 0 items to drop...");
 			}
 
 			drop = null;
@@ -1905,7 +1904,7 @@ public class L2Attackable extends L2NpcInstance
 				// according to sh1ny, seeded mobs CAN be spoiled and swept.
 				if(isSpoil()/* && !isSeeded() */)
 				{
-					FastList<RewardItem> sweepList = new FastList<RewardItem>();
+					FastList<RewardItem> sweepList = new FastList<>();
 
 					for(L2DropData drop : cat.getAllDrops())
 					{
@@ -1918,7 +1917,7 @@ public class L2Attackable extends L2NpcInstance
 
 						if(Config.DEBUG)
 						{
-							_log.fine("Item id to spoil: " + item.getItemId() + " amount: " + item.getCount());
+							LOGGER.debug("Item id to spoil: " + item.getItemId() + " amount: " + item.getCount());
 						}
 
 						sweepList.add(item);
@@ -1958,7 +1957,7 @@ public class L2Attackable extends L2NpcInstance
 				{
 					if(Config.DEBUG)
 					{
-						_log.fine("Item id to drop: " + item.getItemId() + " amount: " + item.getCount());
+						LOGGER.debug("Item id to drop: " + item.getItemId() + " amount: " + item.getCount());
 					}
 
 					// Check if the autoLoot mode is active
@@ -1967,7 +1966,7 @@ public class L2Attackable extends L2NpcInstance
 						L2Item item_templ = ItemTable.getInstance().getTemplate(item.getItemId());
 						
 						if(item_templ == null){
-							_log.info("ERROR: Item id to autoloot " + item.getItemId() + " has not template into items/armor/weapon tables.. It cannot be dropped..");
+							LOGGER.info("ERROR: Item id to autoloot " + item.getItemId() + " has not template into items/armor/weapon tables.. It cannot be dropped..");
 							//DropItem(player, item);
 						}else{
 							
@@ -2796,7 +2795,7 @@ public class L2Attackable extends L2NpcInstance
 		// 3- Everything is correct, but it failed. The crystal scatters. A sound event is played. (10%)
 		// 4- Everything is correct, the crystal level up. A sound event is played. (32.5%)
 
-		List<L2PcInstance> players = new FastList<L2PcInstance>();
+		List<L2PcInstance> players = new FastList<>();
 
 		if(absorbType == L2NpcTemplate.AbsorbCrystalType.FULL_PARTY && killer.isInParty())
 		{
@@ -2881,7 +2880,7 @@ public class L2Attackable extends L2NpcInstance
 							}
 							catch(NumberFormatException nfe)
 							{
-								_log.log(Level.WARNING, "An attempt to identify a soul crystal failed, " + "verify the names have not changed in etcitem table.", nfe);
+								LOGGER.warn( "An attempt to identify a soul crystal failed, " + "verify the names have not changed in etcitem table.", nfe);
 
 								player.sendMessage("There has been an error handling your soul crystal." + " Please notify your server admin.");
 
@@ -3232,7 +3231,7 @@ public class L2Attackable extends L2NpcInstance
 			count += diff;
 		}
 
-		FastList<RewardItem> harvested = new FastList<RewardItem>();
+		FastList<RewardItem> harvested = new FastList<>();
 
 		harvested.add(new RewardItem(L2Manor.getInstance().getCropType(_seedType), count * Config.RATE_DROP_MANOR));
 

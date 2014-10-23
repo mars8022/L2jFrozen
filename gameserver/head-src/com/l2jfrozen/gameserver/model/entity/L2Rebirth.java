@@ -18,7 +18,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -44,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class L2Rebirth
 {
-	private static Logger _log = Logger.getLogger(BitSetIDFactory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class.getClass());
 	
 	/** The current instance - static repeller. */
 	private static L2Rebirth _instance = null;
@@ -139,7 +140,7 @@ public class L2Rebirth
 		// Check to see if Rebirth is enabled to avoid hacks
 		if (!Config.REBIRTH_ENABLE)
 		{
-			_log.warning("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
+			LOGGER.warn("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
 			return;
 		}
 		

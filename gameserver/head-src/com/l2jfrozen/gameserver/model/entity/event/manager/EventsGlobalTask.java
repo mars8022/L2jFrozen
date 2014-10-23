@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class EventsGlobalTask implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(EventsGlobalTask.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(EventsGlobalTask.class.getClass());
 	
 	private static EventsGlobalTask instance;
 	
@@ -64,7 +64,7 @@ public class EventsGlobalTask implements Runnable
 		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
 				event.getEventStartTime()==null || event.getEventStartTime().equals("")){
 			
-			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			LOGGER.error( "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 			
 		}
@@ -141,7 +141,7 @@ public class EventsGlobalTask implements Runnable
 	public void clearEventTasksByEventName(String eventId){
 		
 		if(eventId==null){
-			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			LOGGER.error( "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 		}
 		
@@ -184,7 +184,7 @@ public class EventsGlobalTask implements Runnable
 		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
 				event.getEventStartTime() == null || event.getEventStartTime().equals("")){
 			
-			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			LOGGER.error( "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 			
 		}

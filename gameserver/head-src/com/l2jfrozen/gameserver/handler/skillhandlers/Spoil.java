@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.skills.Formulas;
  */
 public class Spoil implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(Spoil.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(Spoil.class.getClass());
 	private static final SkillType[] SKILL_IDS = { SkillType.SPOIL };
 
 	@Override

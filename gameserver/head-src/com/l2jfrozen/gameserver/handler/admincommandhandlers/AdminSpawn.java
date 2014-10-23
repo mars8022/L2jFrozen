@@ -20,9 +20,10 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -68,7 +69,7 @@ public class AdminSpawn implements IAdminCommandHandler
 			"admin_spawnday"
 	};
 
-	public static Logger _log = Logger.getLogger(AdminSpawn.class.getName());
+	public static Logger LOGGER = Logger.getLogger(AdminSpawn.class.getClass());
 
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)

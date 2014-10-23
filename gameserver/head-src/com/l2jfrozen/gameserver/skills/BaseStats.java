@@ -16,11 +16,10 @@ package com.l2jfrozen.gameserver.skills;
 
 import java.io.File;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -45,7 +44,7 @@ public enum BaseStats
 	MEN(new MEN()),
 	NULL(new NULL());
 	
-	protected static final Logger _log = Logger.getLogger(BaseStats.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(BaseStats.class.getClass());
 	
 	public static final int MAX_STAT_VALUE = 100;
 	
@@ -121,7 +120,7 @@ public enum BaseStats
 			
 			if (actor.getSTR() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has STR over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has STR over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return STRbonus[MAX_STAT_VALUE];
 			}
 			return STRbonus[actor.getSTR()];
@@ -145,7 +144,7 @@ public enum BaseStats
 			
 			if (actor.getINT() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has INT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has INT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return INTbonus[MAX_STAT_VALUE];
 			}
 			return INTbonus[actor.getINT()];
@@ -169,7 +168,7 @@ public enum BaseStats
 			
 			if (actor.getDEX() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has DEX over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has DEX over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return DEXbonus[MAX_STAT_VALUE];
 			}
 			return DEXbonus[actor.getDEX()];
@@ -193,7 +192,7 @@ public enum BaseStats
 			
 			if (actor.getWIT() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has WIT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has WIT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return WITbonus[MAX_STAT_VALUE];
 			}
 			return WITbonus[actor.getWIT()];
@@ -216,7 +215,7 @@ public enum BaseStats
 			
 			if (actor.getCON() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has CON over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has CON over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return CONbonus[MAX_STAT_VALUE];
 			}
 			return CONbonus[actor.getCON()];
@@ -239,7 +238,7 @@ public enum BaseStats
 			
 			if (actor.getMEN() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has MEN over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has MEN over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return MENbonus[MAX_STAT_VALUE];
 			}
 			return MENbonus[actor.getMEN()];
@@ -271,7 +270,7 @@ public enum BaseStats
 			}
 			catch (Exception e)
 			{
-				_log.log(Level.WARNING, "[BaseStats] Could not parse file: " + e.getMessage(), e);
+				LOGGER.warn( "[BaseStats] Could not parse file: " + e.getMessage(), e);
 			}
 			
 			if (doc != null)
@@ -299,7 +298,7 @@ public enum BaseStats
 									}
 									catch (Exception e)
 									{
-										_log.severe("[BaseStats] Invalid stats value: " + value.getNodeValue() + ", skipping");
+										LOGGER.error("[BaseStats] Invalid stats value: " + value.getNodeValue() + ", skipping", e);
 										continue;
 									}
 									
@@ -316,7 +315,7 @@ public enum BaseStats
 									else if ("MEN".equalsIgnoreCase(statName))
 										MENbonus[val] = bonus;
 									else
-										_log.severe("[BaseStats] Invalid stats name: " + statName + ", skipping");
+										LOGGER.warn("[BaseStats] Invalid stats name: " + statName + ", skipping");
 								}
 							}
 						}

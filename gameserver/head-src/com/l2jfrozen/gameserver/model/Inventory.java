@@ -48,7 +48,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class Inventory extends ItemContainer
 {
-	//protected static final Logger _log = Logger.getLogger(Inventory.class.getName());
+	//protected static final Logger LOGGER = Logger.getLogger(Inventory.class.getClass());
 
 	public interface PaperdollListener
 	{
@@ -157,7 +157,7 @@ public abstract class Inventory extends ItemContainer
 		ChangeRecorder(Inventory inventory)
 		{
 			_inventory = inventory;
-			_changed = new FastList<L2ItemInstance>();
+			_changed = new FastList<>();
 			_inventory.addPaperdollListener(this);
 		}
 
@@ -457,7 +457,7 @@ public abstract class Inventory extends ItemContainer
 					}
 					else
 					{
-						_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getSkillId() + ".");
+						LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getSkillId() + ".");
 					}
 
 					if(armorSet.containShield(player)) // has shield from set
@@ -471,7 +471,7 @@ public abstract class Inventory extends ItemContainer
 						}
 						else
 						{
-							_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getShieldSkillId() + ".");
+							LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getShieldSkillId() + ".");
 						}
 
 						skills = null;
@@ -492,7 +492,7 @@ public abstract class Inventory extends ItemContainer
 							}
 							else
 							{
-								_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getEnchant6skillId() + ".");
+								LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getEnchant6skillId() + ".");
 							}
 
 							skille = null;
@@ -515,7 +515,7 @@ public abstract class Inventory extends ItemContainer
 					}
 					else
 					{
-						_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getShieldSkillId() + ".");
+						LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + armorSet.getShieldSkillId() + ".");
 					}
 
 					skills = null;
@@ -588,7 +588,7 @@ public abstract class Inventory extends ItemContainer
 					}
 					else
 					{
-						_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + removeSkillId1 + ".");
+						LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + removeSkillId1 + ".");
 					}
 
 					skill = null;
@@ -604,7 +604,7 @@ public abstract class Inventory extends ItemContainer
 					}
 					else
 					{
-						_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + removeSkillId2 + ".");
+						LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + removeSkillId2 + ".");
 					}
 
 					skill = null;
@@ -620,7 +620,7 @@ public abstract class Inventory extends ItemContainer
 					}
 					else
 					{
-						_log.warning("Inventory.ArmorSetListener: Incorrect skill: " + removeSkillId3 + ".");
+						LOGGER.warn("Inventory.ArmorSetListener: Incorrect skill: " + removeSkillId3 + ".");
 					}
 
 					skill = null;
@@ -688,7 +688,7 @@ public abstract class Inventory extends ItemContainer
 	protected Inventory()
 	{
 		_paperdoll = new L2ItemInstance[0x12];
-		_paperdollListeners = new FastList<PaperdollListener>();
+		_paperdollListeners = new FastList<>();
 		addPaperdollListener(new ArmorSetListener());
 		addPaperdollListener(new BowListener());
 		addPaperdollListener(new ItemPassiveSkillsListener());
@@ -1184,7 +1184,7 @@ public abstract class Inventory extends ItemContainer
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("--- unequip body slot:" + slot);
+			LOGGER.debug("--- unequip body slot:" + slot);
 		}
 
 		int pdollSlot = -1;
@@ -1481,7 +1481,7 @@ public abstract class Inventory extends ItemContainer
 				setPaperdollItem(PAPERDOLL_BACK, item);
 				break;
 			default:
-				_log.warning("unknown body slot:" + targetSlot);
+				LOGGER.warn("unknown body slot:" + targetSlot);
 		}
 	}
 
@@ -1628,7 +1628,7 @@ public abstract class Inventory extends ItemContainer
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not restore inventory : ");
+			LOGGER.warn("Could not restore inventory : ");
 			e.printStackTrace();
 		}
 		finally

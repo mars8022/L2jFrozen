@@ -26,10 +26,10 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.util.EventData;
  */
 public class L2Event
 {
-	protected static final Logger _log = Logger.getLogger(L2Event.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2Event.class.getClass());
 	
 	public static String eventName = "";
 	public static int teamsNumber = 0;
@@ -210,7 +210,7 @@ public class L2Event
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, e.getMessage());
+			LOGGER.error( e.getMessage());
 		}finally{
 			
 			if(inbr != null)
@@ -307,7 +307,7 @@ public class L2Event
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, e.getMessage());
+			LOGGER.error( e.getMessage());
 		}
 
 		template1 = null;
@@ -369,7 +369,7 @@ public class L2Event
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "error when signing in the event:" + e.getMessage(), e);
+			LOGGER.error( "error when signing in the event:" + e.getMessage(), e);
 		}
 	}
 

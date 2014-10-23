@@ -20,10 +20,10 @@ package com.l2jfrozen.gameserver.handler.itemhandlers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class Potions implements IItemHandler
 {
-	protected static final Logger _log = Logger.getLogger(Potions.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Potions.class.getClass());
 	private int _herbstask = 0;
 	
 	private static FastMap<Integer, PotionsSkills> potions = new FastMap<Integer, PotionsSkills>();
@@ -128,7 +128,7 @@ public class Potions implements IItemHandler
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				_log.log(Level.WARNING, "", t);
+				LOGGER.warn( "", t);
 			}
 		}
 	}
@@ -788,7 +788,7 @@ public class Potions implements IItemHandler
 					else
 					{
 						if (Config.DEBUG)
-							_log.log(Level.WARNING, "Attention: playable " + playable.getName() + " has not potions " + potion + "!");
+							LOGGER.warn( "Attention: playable " + playable.getName() + " has not potions " + potion + "!");
 					}
 				}
 				else if (playable instanceof L2Summon)
@@ -803,7 +803,7 @@ public class Potions implements IItemHandler
 					else
 					{
 						if (Config.DEBUG)
-							_log.log(Level.WARNING, "Attention: playable " + playable.getName() + " has not potions " + potion + "!");
+							LOGGER.warn( "Attention: playable " + playable.getName() + " has not potions " + potion + "!");
 					}
 				}
 				
@@ -812,7 +812,7 @@ public class Potions implements IItemHandler
 		}
 		else
 		{
-			_log.log(Level.WARNING, "Attention: Can't destroy potion for skill " + skill_id + " level " + skill_level);
+			LOGGER.warn( "Attention: Can't destroy potion for skill " + skill_id + " level " + skill_level);
 		}
 		
 	}

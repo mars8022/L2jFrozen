@@ -185,7 +185,7 @@ public class L2SkillSummon extends L2Skill
 			}
 			if (activeChar.getCubics().size() > mastery) {
 				if (Config.DEBUG)
-					_log.fine("player can't summon any more cubics. ignore summon skill");
+					LOGGER.debug("player can't summon any more cubics. ignore summon skill");
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.CUBIC_SUMMONING_FAILED));
 				return;
 			}
@@ -196,7 +196,7 @@ public class L2SkillSummon extends L2Skill
 		
 		if (activeChar.getPet() != null || activeChar.isMounted()) {
 			if (Config.DEBUG)
-				_log.fine("player has a pet already. ignore summon skill");
+				LOGGER.debug("player has a pet already. ignore summon skill");
 			return;
 		}
 		
@@ -204,7 +204,7 @@ public class L2SkillSummon extends L2Skill
 		L2NpcTemplate summonTemplate = NpcTable.getInstance().getTemplate(_npcId);
 		if (summonTemplate == null)
 		{
-			_log.warning("Summon attempt for nonexisting NPC ID:"+_npcId+", skill ID:"+this.getId());
+			LOGGER.warn("Summon attempt for nonexisting NPC ID:"+_npcId+", skill ID:"+this.getId());
 			return; // npcID doesn't exist
 		}
 		if (summonTemplate.type.equalsIgnoreCase("L2SiegeSummon"))
@@ -218,7 +218,7 @@ public class L2SkillSummon extends L2Skill
 		if (summon.getLevel() >= ExperienceData.getInstance().getMaxLevel())
 		{
 			summon.getStat().setExp(ExperienceData.getInstance().getExpForLevel(ExperienceData.getInstance().getMaxPetLevel() - 1));
-			_log.warning("Summon ("+summon.getName()+") NpcID: "+summon.getNpcId()+" has a level above 75. Please rectify.");
+			LOGGER.warn("Summon ("+summon.getName()+") NpcID: "+summon.getNpcId()+" has a level above 75. Please rectify.");
 		}
 		else
 		{

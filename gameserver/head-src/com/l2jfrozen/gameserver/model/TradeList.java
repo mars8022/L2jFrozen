@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
@@ -147,7 +148,7 @@ public class TradeList
 		}
 	}
 
-	private static Logger _log = Logger.getLogger(TradeList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(TradeList.class.getClass());
 
 	private L2PcInstance _owner;
 	private L2PcInstance _partner;
@@ -335,7 +336,7 @@ public class TradeList
 		if(isLocked())
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify locked TradeList! ", Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
+			LOGGER.warn(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}
 
@@ -344,14 +345,14 @@ public class TradeList
 		if(o == null || !(o instanceof L2ItemInstance))
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to add invalid item to TradeList! ",  Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to add invalid item to TradeList!");
+			LOGGER.warn(_owner.getName() + ": Attempt to add invalid item to TradeList!");
 			return null;
 		}
 
 		if(!_owner.validateItemManipulation(objectId, "Modify TradeList"))
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify TradeList without valid conditions! ",  Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to modify TradeList without valid conditions!");
+			LOGGER.warn(_owner.getName() + ": Attempt to modify TradeList without valid conditions!");
 			return null;
 		}
 		
@@ -366,7 +367,7 @@ public class TradeList
 
 		if(!item.isStackable() && count > 1)
 		{
-			_log.warning(_owner.getName() + ": Attempt to add non-stackable item to TradeList with count > 1!");
+			LOGGER.warn(_owner.getName() + ": Attempt to add non-stackable item to TradeList with count > 1!");
 			return null;
 		}
 
@@ -402,14 +403,14 @@ public class TradeList
 		if(isLocked())
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify locked TradeList! Banned ",  Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
+			LOGGER.warn(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}
 		
 		if(!_owner.validateItemManipulationByItemId(itemId, "Modify TradeList"))
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify TradeList without valid conditions! ",  Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to modify TradeList without valid conditions!");
+			LOGGER.warn(_owner.getName() + ": Attempt to modify TradeList without valid conditions!");
 			return null;
 		}
 		
@@ -418,7 +419,7 @@ public class TradeList
 		if(item == null)
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to add invalid item to TradeList! Banned ",  Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to add invalid item to TradeList!");
+			LOGGER.warn(_owner.getName() + ": Attempt to add invalid item to TradeList!");
 			return null;
 		}
 
@@ -427,7 +428,7 @@ public class TradeList
 
 		if(!item.isStackable() && count > 1)
 		{
-			_log.warning(_owner.getName() + ": Attempt to add non-stackable item to TradeList with count > 1!");
+			LOGGER.warn(_owner.getName() + ": Attempt to add non-stackable item to TradeList with count > 1!");
 			return null;
 		}
 
@@ -456,7 +457,7 @@ public class TradeList
 		if(isLocked())
 		{
 			Util.handleIllegalPlayerAction(_owner, "Player " + _owner.getName() + " Attempt to modify locked TradeList! Banned ",  Config.DEFAULT_PUNISH);
-			_log.warning(_owner.getName() + ": Attempt to modify locked TradeList!");
+			LOGGER.warn(_owner.getName() + ": Attempt to modify locked TradeList!");
 			return null;
 		}
 
@@ -469,7 +470,7 @@ public class TradeList
 					TradeList partnerList = _partner.getActiveTradeList();
 					if(partnerList == null)
 					{
-						_log.warning(_partner.getName() + ": Trading partner (" + _partner.getName() + ") is invalid in this trade!");
+						LOGGER.warn(_partner.getName() + ": Trading partner (" + _partner.getName() + ") is invalid in this trade!");
 						return null;
 					}
 					partnerList.invalidateConfirmation();
@@ -547,7 +548,7 @@ public class TradeList
 			TradeList partnerList = _partner.getActiveTradeList();
 			if(partnerList == null)
 			{
-				_log.warning(_partner.getName() + ": Trading partner (" + _partner.getName() + ") is invalid in this trade!");
+				LOGGER.warn(_partner.getName() + ": Trading partner (" + _partner.getName() + ") is invalid in this trade!");
 				return false;
 			}
 
@@ -617,14 +618,14 @@ public class TradeList
 	{
 		if (_owner == null)
 		{
-			_log.warning("Invalid owner of TradeList");
+			LOGGER.warn("Invalid owner of TradeList");
 			return false;
 		}
 		
 		L2PcInstance _worldInstance = (L2PcInstance) L2World.getInstance().findObject(_owner.getObjectId());
 		if(_worldInstance == null || _worldInstance.get_instanceLoginTime() != _owner.get_instanceLoginTime())
 		{
-			_log.warning("Invalid owner of TradeList");
+			LOGGER.warn("Invalid owner of TradeList");
 			return false;
 		}
 
@@ -635,7 +636,7 @@ public class TradeList
 
 			if(item == null || titem.getCount() < 1)
 			{
-				//_log.warning(_owner.getName() + ": Invalid Item in TradeList");
+				//LOGGER.warn(_owner.getName() + ": Invalid Item in TradeList");
 				return false;
 			}
 
@@ -881,7 +882,7 @@ public class TradeList
 			//store is not selling that item...
 			if(!found){
 				String msg = "Requested Item is not available to buy... You are perfoming illegal operation, it has been segnalated";
-				_log.warning("ATTENTION: Player "+player.getName()+" has performed buy illegal operation..");
+				LOGGER.warn("ATTENTION: Player "+player.getName()+" has performed buy illegal operation..");
 				player.sendMessage(msg);
 				msg = null;
 				return false;
@@ -1115,14 +1116,14 @@ public class TradeList
 		if(_locked){
 			
 			if(Config.DEBUG){
-				_log.info("[PrivateStoreSell] Locked, return false");
+				LOGGER.info("[PrivateStoreSell] Locked, return false");
 			}
 			return false;
 		}
 		
 		if(items==null || items.length == 0){
 			if(Config.DEBUG){
-				_log.info("[PrivateStoreSell] items==null || items.length == 0, return false");
+				LOGGER.info("[PrivateStoreSell] items==null || items.length == 0, return false");
 			}
 			return false;
 		}
@@ -1142,7 +1143,7 @@ public class TradeList
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), item.getCount(), "sell");
 			if(oldItem == null){
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] player.checkItemManipulation(item.getObjectId(), item.getCount(), 'sell') null, return false");
+					LOGGER.info("[PrivateStoreSell] player.checkItemManipulation(item.getObjectId(), item.getCount(), 'sell') null, return false");
 				}
 				return false;
 			}
@@ -1157,7 +1158,7 @@ public class TradeList
 					{
 						if (Config.DEBUG)
 						{
-							_log.info("[PrivateStoreSell] ti.getPrice() != item.getPrice(), return false");
+							LOGGER.info("[PrivateStoreSell] ti.getPrice() != item.getPrice(), return false");
 						}
 						return false;
 					}
@@ -1195,7 +1196,7 @@ public class TradeList
 			//store is not buying that item...
 			if(!found){
 				String msg = "Requested Item is not available to sell... You are perfoming illegal operation, it has been segnalated";
-				_log.warning("ATTENTION: Player "+player.getName()+" has performed sell illegal operation..");
+				LOGGER.warn("ATTENTION: Player "+player.getName()+" has performed sell illegal operation..");
 				player.sendMessage(msg);
 				msg = null;
 				return false;
@@ -1227,7 +1228,7 @@ public class TradeList
 			L2ItemInstance oldItem = player.checkItemManipulation(item.getObjectId(), item.getCount(), "sell");
 			if(oldItem == null){
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] oldItem == null, return false");
+					LOGGER.info("[PrivateStoreSell] oldItem == null, return false");
 				}
 				return false;
 			}
@@ -1243,7 +1244,7 @@ public class TradeList
 			L2ItemInstance newItem = playerInventory.transferItem("PrivateStore", item.getObjectId(), item.getCount(), ownerInventory, player, _owner);
 			if(newItem == null){
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] newItem == null, return false");
+					LOGGER.info("[PrivateStoreSell] newItem == null, return false");
 				}
 				
 				return false;
@@ -1312,7 +1313,7 @@ public class TradeList
 			{
 				lock();
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] price > ownerInventory.getInventoryItemCount(Config.SELL_ITEM, -1), return false");
+					LOGGER.info("[PrivateStoreSell] price > ownerInventory.getInventoryItemCount(Config.SELL_ITEM, -1), return false");
 				}
 				
 				return false;
@@ -1322,7 +1323,7 @@ public class TradeList
 			
 			if(item==null){
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] item==null, return false");
+					LOGGER.info("[PrivateStoreSell] item==null, return false");
 				}
 				
 				lock();
@@ -1336,7 +1337,7 @@ public class TradeList
 			{
 				lock();
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] _owner.checkItemManipulation(item.getObjectId(), price, 'sell')==null, return false");
+					LOGGER.info("[PrivateStoreSell] _owner.checkItemManipulation(item.getObjectId(), price, 'sell')==null, return false");
 				}
 				
 				return false;
@@ -1346,7 +1347,7 @@ public class TradeList
 			L2ItemInstance newItem = ownerInventory.transferItem("PrivateStore", item.getObjectId(), price, playerInventory,_owner, player);
 			if(newItem == null){
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] newItem = ownerInventory.transferItem('PrivateStore', item.getObjectId(), price, playerInventory,_owner, player) == null, return false");
+					LOGGER.info("[PrivateStoreSell] newItem = ownerInventory.transferItem('PrivateStore', item.getObjectId(), price, playerInventory,_owner, player) == null, return false");
 				}
 				
 				return false;
@@ -1383,7 +1384,7 @@ public class TradeList
 			// Transfer adena
 			if(price > ownerInventory.getAdena()){
 				if(Config.DEBUG){
-					_log.info("[PrivateStoreSell] price > ownerInventory.getAdena(), return false");
+					LOGGER.info("[PrivateStoreSell] price > ownerInventory.getAdena(), return false");
 				}
 				
 				return false;

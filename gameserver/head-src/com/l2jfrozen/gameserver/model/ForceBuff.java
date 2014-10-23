@@ -19,7 +19,7 @@
 
 package com.l2jfrozen.gameserver.model;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -35,7 +35,7 @@ public final class ForceBuff
 	protected L2Character _caster;
 	protected L2Character _target;
 
-	static final Logger _log = Logger.getLogger(ForceBuff.class.getName());
+	static final Logger LOGGER = Logger.getLogger(ForceBuff.class.getClass());
 
 	public L2Character getCaster()
 	{
@@ -68,7 +68,7 @@ public final class ForceBuff
 			}
 			else
 			{
-				_log.warning("Triggered skill [" + _forceId + ";" + _forceLevel + "] not found!");
+				LOGGER.warn("Triggered skill [" + _forceId + ";" + _forceLevel + "] not found!");
 			}
 		}
 		effect = null;
@@ -81,7 +81,7 @@ public final class ForceBuff
 		if(effect != null)
 		{
 			if(Config.DEVELOPER){
-				_log.info(" -- Removing ForceBuff "+effect.getSkill().getId());
+				LOGGER.info(" -- Removing ForceBuff "+effect.getSkill().getId());
 			}
 			
 			if(effect instanceof EffectForce)

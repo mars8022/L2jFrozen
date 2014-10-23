@@ -29,7 +29,8 @@
 package com.l2jfrozen.gameserver.util;
 
 import java.util.Collection;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -47,7 +48,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.RelationChanged;
 
 public final class Broadcast
 {
-	private static Logger _log = Logger.getLogger(Broadcast.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Broadcast.class.getClass());
 
 	/**
 	 * Send a packet to all L2PcInstance in the _KnownPlayers of the L2Character that have the Character targetted.<BR>
@@ -67,7 +68,7 @@ public final class Broadcast
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("players to notify:" + character.getKnownList().getKnownPlayers().size() + " packet:" + mov.getType());
+			LOGGER.debug("players to notify:" + character.getKnownList().getKnownPlayers().size() + " packet:" + mov.getType());
 		}
 
 		for(L2PcInstance player : character.getKnownList().getKnownPlayers().values())
@@ -97,7 +98,7 @@ public final class Broadcast
 	{
 		if (Config.DEBUG)
 		{
-			_log.fine("players to notify:" + character.getKnownList().getKnownPlayers().size() + " packet:" + mov.getType());
+			LOGGER.debug("players to notify:" + character.getKnownList().getKnownPlayers().size() + " packet:" + mov.getType());
 		}
 		
 		final Collection<L2PcInstance> knownlist_players = character.getKnownList().getKnownPlayers().values();
@@ -230,7 +231,7 @@ public final class Broadcast
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("Players to notify: " + L2World.getAllPlayersCount() + " (with packet " + mov.getType() + ")");
+			LOGGER.debug("Players to notify: " + L2World.getAllPlayersCount() + " (with packet " + mov.getType() + ")");
 		}
 
 		for(L2PcInstance onlinePlayer : L2World.getInstance().getAllPlayers())

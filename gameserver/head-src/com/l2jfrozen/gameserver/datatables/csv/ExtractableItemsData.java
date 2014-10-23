@@ -51,7 +51,7 @@ public class ExtractableItemsData
 
 	public ExtractableItemsData()
 	{
-		_items = new HashMap<Integer, L2ExtractableItem>();
+		_items = new HashMap<>();
 
 		Scanner s = null;
 		try
@@ -90,7 +90,7 @@ public class ExtractableItemsData
 					return;
 				}
 				
-				List<L2ExtractableProductItem> product_temp = new ArrayList<L2ExtractableProductItem>(lineSplit.length);
+				List<L2ExtractableProductItem> product_temp = new ArrayList<>(lineSplit.length);
 				for(int i = 0; i < lineSplit.length - 1; i++)
 				{
 					String[] lineSplit2 = lineSplit[i + 1].split(",");

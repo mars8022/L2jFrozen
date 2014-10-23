@@ -19,13 +19,12 @@ package com.l2jfrozen.gameserver.model.multisell;
 
 import java.io.File;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import javolution.util.FastList;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -45,8 +44,8 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
  */
 public class L2Multisell
 {
-	private static Logger _log = Logger.getLogger(L2Multisell.class.getName());
-	private List<MultiSellListContainer> _entries = new FastList<MultiSellListContainer>();
+	private static Logger LOGGER = Logger.getLogger(L2Multisell.class.getClass());
+	private List<MultiSellListContainer> _entries = new FastList<>();
 	private static L2Multisell _instance;/* = new L2Multisell();*/
 
 	public MultiSellListContainer getList(int id)
@@ -60,7 +59,7 @@ public class L2Multisell
 			}
 		}
 
-		_log.warning("[L2Multisell] can't find list with id: " + id);
+		LOGGER.warn("[L2Multisell] can't find list with id: " + id);
 		return null;
 	}
 
@@ -298,7 +297,7 @@ public class L2Multisell
 
 		if(!dir.exists())
 		{
-			_log.config("Dir " + dir.getAbsolutePath() + " not exists");
+			LOGGER.warn("Dir " + dir.getAbsolutePath() + " not exists");
 			return;
 		}
 
@@ -320,7 +319,7 @@ public class L2Multisell
 
 		int id = 0;
 
-		List<File> files = new FastList<File>();
+		List<File> files = new FastList<>();
 		hashFiles("multisell", files);
 
 		for(File f : files)
@@ -340,7 +339,7 @@ public class L2Multisell
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "Error loading file " + f, e);
+				LOGGER.error( "Error loading file " + f, e);
 			}
 			try
 			{
@@ -357,7 +356,7 @@ public class L2Multisell
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "Error in file " + f, e);
+				LOGGER.error( "Error in file " + f, e);
 			}
 		}
 
@@ -502,7 +501,7 @@ public class L2Multisell
 				
 				if(entry.getIngredients().get(0).getItemCount()<(totalProductReferencePrice/2)){
 					
-					_log.log(Level.WARNING, "Multisell "+container.getListId()+" entryId  "+ entry.getEntryId()+" has an ADENA price less then total products reference price.. Automatically Updating it..");
+					LOGGER.warn( "Multisell "+container.getListId()+" entryId  "+ entry.getEntryId()+" has an ADENA price less then total products reference price.. Automatically Updating it..");
 					entry.getIngredients().get(0).setItemCount(totalProductReferencePrice);
 					
 				}

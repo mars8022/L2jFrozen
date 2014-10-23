@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.util.CloseUtil;
@@ -35,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class SkillSpellbookTable
 {
-	private final static Logger _log = Logger.getLogger(SkillTreeTable.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(SkillTreeTable.class.getClass());
 	private static SkillSpellbookTable _instance;
 
 	private static Map<Integer, Integer> _skillSpellbooks;
@@ -52,7 +53,7 @@ public class SkillSpellbookTable
 
 	private SkillSpellbookTable()
 	{
-		_skillSpellbooks = new FastMap<Integer, Integer>();
+		_skillSpellbooks = new FastMap<>();
 		Connection con = null;
 
 		try
@@ -69,11 +70,11 @@ public class SkillSpellbookTable
 			spbooks.close();
 			statement.close();
 
-			_log.finest("SkillSpellbookTable: Loaded {} Spellbooks."+" "+ _skillSpellbooks.size());
+			LOGGER.info("SkillSpellbookTable: Loaded {} Spellbooks."+" "+ _skillSpellbooks.size());
 		}
 		catch(Exception e)
 		{
-			_log.severe("Error while loading spellbook data"+" "+ e);
+			LOGGER.error("Error while loading spellbook data", e);
 		}
 		finally
 		{

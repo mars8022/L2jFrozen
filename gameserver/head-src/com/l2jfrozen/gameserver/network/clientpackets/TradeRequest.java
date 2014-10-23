@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class TradeRequest extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(TradeRequest.class.getName());
+	private static Logger LOGGER = Logger.getLogger(TradeRequest.class.getClass());
 	
 	private int _objectId;
 	
@@ -256,7 +256,7 @@ public final class TradeRequest extends L2GameClientPacket
 		{
 			if (Config.DEBUG)
 			{
-				_log.fine("Already trading with someone");
+				LOGGER.debug("Already trading with someone");
 			}
 			
 			player.sendPacket(new SystemMessage(SystemMessageId.ALREADY_TRADING));
@@ -268,7 +268,7 @@ public final class TradeRequest extends L2GameClientPacket
 		{
 			if (Config.DEBUG)
 			{
-				_log.info("Transaction already in progress.");
+				LOGGER.info("Transaction already in progress.");
 			}
 			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);

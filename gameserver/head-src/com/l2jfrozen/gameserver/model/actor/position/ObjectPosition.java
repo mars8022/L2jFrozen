@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.position;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -33,8 +33,8 @@ import com.l2jfrozen.util.Point3D;
 public class ObjectPosition
 {
 	
-	/** The Constant _log. */
-	private static final Logger _log = Logger.getLogger(ObjectPosition.class.getName());
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = Logger.getLogger(ObjectPosition.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -104,7 +104,7 @@ public class ObjectPosition
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Object Id at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
+			LOGGER.warn("Object Id at bad coords: (x: " + getX() + ", y: " + getY() + ", z: " + getZ() + ").");
 
 			if(getActiveObject() instanceof L2PcInstance)
 			{

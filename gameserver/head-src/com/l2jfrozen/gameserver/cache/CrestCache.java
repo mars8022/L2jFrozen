@@ -26,10 +26,10 @@ import java.io.RandomAccessFile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -43,7 +43,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CrestCache
 {
-	private static Logger _log = Logger.getLogger(CrestCache.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CrestCache.class.getClass());
 
 	private static CrestCache _instance;
 
@@ -127,7 +127,7 @@ public class CrestCache
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warning("problem with crest bmp file " + e);
+					LOGGER.warn("problem with crest bmp file " + e);
 				}
 				finally
 				{
@@ -144,7 +144,7 @@ public class CrestCache
 			}
 		}
 
-		_log.info("Cache[Crest]: " + String.format("%.3f", getMemoryUsage()) + "MB on " + getLoadedFiles() + " files loaded. (Forget Time: " + _cachePledge.getForgetTime() / 1000 + "s , Capacity: " + _cachePledge.capacity() + ")");
+		LOGGER.info("Cache[Crest]: " + String.format("%.3f", getMemoryUsage()) + "MB on " + getLoadedFiles() + " files loaded. (Forget Time: " + _cachePledge.getForgetTime() / 1000 + "s , Capacity: " + _cachePledge.capacity() + ")");
 	}
 
 	public void convertOldPedgeFiles()
@@ -155,7 +155,7 @@ public class CrestCache
 
 		if(files == null)
 		{
-			_log.info("No old crest files found in \"data/crests/\"!!! May be you deleted them?");
+			LOGGER.info("No old crest files found in \"data/crests/\"!!! May be you deleted them?");
 			return;
 		}
 
@@ -163,7 +163,7 @@ public class CrestCache
 		{
 			int clanId = Integer.parseInt(file.getName().substring(7, file.getName().length() - 4));
 
-			_log.info("Found old crest file \"" + file.getName() + "\" for clanId " + clanId);
+			LOGGER.info("Found old crest file \"" + file.getName() + "\" for clanId " + clanId);
 
 			int newId = IdFactory.getInstance().getNextId();
 
@@ -174,7 +174,7 @@ public class CrestCache
 				removeOldPledgeCrest(clan.getCrestId());
 
 				file.renameTo(new File(Config.DATAPACK_ROOT, "data/crests/Crest_" + newId + ".bmp"));
-				_log.info("Renamed Clan crest to new format: Crest_" + newId + ".bmp");
+				LOGGER.info("Renamed Clan crest to new format: Crest_" + newId + ".bmp");
 
 				Connection con = null;
 
@@ -193,7 +193,7 @@ public class CrestCache
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warning("could not update the crest id:" + e.getMessage());
+					LOGGER.warn("could not update the crest id:" + e.getMessage());
 				}
 				finally
 				{
@@ -205,7 +205,7 @@ public class CrestCache
 			}
 			else
 			{
-				_log.info("Clan Id: " + clanId + " does not exist in table.. deleting.");
+				LOGGER.info("Clan Id: " + clanId + " does not exist in table.. deleting.");
 				file.delete();
 			}
 
@@ -328,12 +328,7 @@ public class CrestCache
 		}
 		catch(IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			
-			_log.log(Level.INFO, "Error saving pledge crest" + crestFile + ":", e);
-			
+			LOGGER.error("Error saving pledge crest" + crestFile, e);		
 		}finally{
 			
 			if(out != null)
@@ -366,11 +361,7 @@ public class CrestCache
 		}
 		catch(IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			
-			_log.log(Level.INFO, "Error saving Large pledge crest" + crestFile + ":", e);
+			LOGGER.error("Error saving Large pledge crest" + crestFile, e);
 			
 		
 		}finally{
@@ -405,10 +396,7 @@ public class CrestCache
 		}
 		catch(IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-		
-			_log.log(Level.INFO, "Error saving ally crest" + crestFile + ":", e);
+			LOGGER.error("Error saving ally crest" + crestFile, e);
 		
 		}finally{
 			

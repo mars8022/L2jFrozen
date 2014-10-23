@@ -24,13 +24,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 public final class L2Properties extends Properties
 {
 	private static final long serialVersionUID = -4599023842346938325L;
-	protected static final Logger _log = Logger.getLogger(Config.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Config.class.getClass());
 	
 	private boolean _warn = false;
 
@@ -129,7 +129,7 @@ public final class L2Properties extends Properties
 		{
 			if(_warn)
 			{
-				_log.log(Level.WARNING,"L2Properties: Missing property for key - " + key);
+				LOGGER.warn("L2Properties: Missing property for key - " + key);
 			}
 			return null;
 		}
@@ -145,7 +145,7 @@ public final class L2Properties extends Properties
 		{
 			if(_warn)
 			{
-				_log.log(Level.WARNING,"L2Properties: Missing defaultValue for key - " + key);
+				LOGGER.warn("L2Properties: Missing defaultValue for key - " + key);
 			}
 			return null;
 		}

@@ -121,7 +121,7 @@ public final class RequestFriendList extends L2GameClientPacket
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error in /friendlist for " + activeChar + ": " + e);
+			LOGGER.warn("Error in /friendlist for " + activeChar + ": " + e);
 		}
 		finally
 		{

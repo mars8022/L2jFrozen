@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MMOConnection<T extends MMOClient<?>>
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MMOConnection.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MMOConnection.class.getClass());
 	private final SelectorThread<T> _selectorThread;
 
 	private final Socket _socket;
@@ -301,7 +301,7 @@ public class MMOConnection<T extends MMOClient<?>>
 			}
 			catch (final CancelledKeyException e)
 			{
-				// not useful log
+				// not useful LOGGER
 			}
 
 		}

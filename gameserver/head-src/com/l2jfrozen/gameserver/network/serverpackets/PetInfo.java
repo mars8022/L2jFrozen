@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
  */
 public class PetInfo extends L2GameServerPacket
 {
-	//private static Logger _log = Logger.getLogger(PetInfo.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(PetInfo.class.getClass());
 
 	private static final String _S__CA_PETINFO = "[S] b1 PetInfo";
 	private L2Summon _summon;

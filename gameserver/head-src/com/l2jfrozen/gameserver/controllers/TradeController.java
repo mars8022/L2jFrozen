@@ -28,11 +28,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TradeController
 {
-	private static Logger _log = Logger.getLogger(TradeController.class.getName());
+	private static Logger LOGGER = Logger.getLogger(TradeController.class.getClass());
 	private static TradeController _instance;
 
 	private int _nextListId;
@@ -100,7 +100,7 @@ public class TradeController
 
 		if(buylistData.exists())
 		{
-			_log.warning("Do, please, remove buylists from data folder and use SQL buylist instead");
+			LOGGER.warn("Do, please, remove buylists from data folder and use SQL buylist instead");
 			String line = null;
 			int dummyItemCount = 0;
 
@@ -125,17 +125,17 @@ public class TradeController
 
 				if(Config.DEBUG)
 				{
-					_log.fine("created " + dummyItemCount + " Dummy-Items for buylists");
+					LOGGER.debug("created " + dummyItemCount + " Dummy-Items for buylists");
 				}
 
-				_log.config("TradeController: Loaded " + _lists.size() + " Buylists.");
+				LOGGER.info("TradeController: Loaded " + _lists.size() + " Buylists.");
 			}
 			catch(Exception e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "error while creating trade controller in line: " + (lnr == null ? 0 : lnr.getLineNumber()), e);
+				LOGGER.warn( "error while creating trade controller in line: " + (lnr == null ? 0 : lnr.getLineNumber()), e);
 				
 			}finally{
 				
@@ -174,7 +174,7 @@ public class TradeController
 		}
 		else
 		{
-			_log.finer("No buylists were found in data folder, using SQL buylist instead");
+			LOGGER.info("No buylists were found in data folder, using SQL buylist instead");
 			Connection con = null;
 
 			/**
@@ -238,7 +238,7 @@ public class TradeController
 						if(!rset1.getString("npc_id").equals("gm") 
 							&& price < (item.getReferencePrice()/2)){
 							
-							_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+							LOGGER.warn( "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 							price = item.getReferencePrice();
 						}
 						
@@ -285,7 +285,7 @@ public class TradeController
 								if(!rset1.getString("npc_id").equals("gm") 
 									&& price < item2.getReferencePrice()/2){
 									
-									_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+									LOGGER.warn( "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 									price = item2.getReferencePrice();
 								}
 								
@@ -309,7 +309,7 @@ public class TradeController
 							if(Config.ENABLE_ALL_EXCEPTIONS)
 								e.printStackTrace();
 							
-							_log.warning("TradeController: Problem with buylist " + buy1.getListId() + " item " + itemId);
+							LOGGER.warn("TradeController: Problem with buylist " + buy1.getListId() + " item " + itemId);
 						}
 						if(LimitedItem)
 						{
@@ -338,11 +338,11 @@ public class TradeController
 
 				if(Config.DEBUG)
 				{
-					_log.fine("created " + dummyItemCount + " Dummy-Items for buylists");
+					LOGGER.debug("created " + dummyItemCount + " Dummy-Items for buylists");
 				}
 
-				_log.config("TradeController: Loaded " + _lists.size() + " Buylists.");
-				_log.config("TradeController: Loaded " + _listsTaskItem.size() + " Limited Buylists.");
+				LOGGER.info("TradeController: Loaded " + _lists.size() + " Buylists.");
+				LOGGER.info("TradeController: Loaded " + _listsTaskItem.size() + " Limited Buylists.");
 				/*
 				 *  Restore Task for reinitialyze count of buy item
 				 */
@@ -376,14 +376,14 @@ public class TradeController
 				}
 				catch(Exception e)
 				{
-					_log.warning("TradeController: Could not restore Timer for Item count.");
+					LOGGER.warn("TradeController: Could not restore Timer for Item count.");
 					e.printStackTrace();
 				}
 			}
 			catch(Exception e)
 			{
 				// problem with initializing spawn, go to next one
-				_log.warning("TradeController: Buylists could not be initialized.");
+				LOGGER.warn("TradeController: Buylists could not be initialized.");
 				e.printStackTrace();
 			}
 			finally
@@ -451,7 +451,7 @@ public class TradeController
 							if(!rset1.getString("npc_id").equals("gm") 
 								&& price < (item.getReferencePrice()/2)){
 								
-								_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+								LOGGER.warn( "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 								price = item.getReferencePrice();
 							}
 							
@@ -496,7 +496,7 @@ public class TradeController
 									if(!rset1.getString("npc_id").equals("gm") 
 										&& price < item2.getReferencePrice()/2){
 										
-										_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+										LOGGER.warn( "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 										price = item2.getReferencePrice();
 									}
 									
@@ -521,7 +521,7 @@ public class TradeController
 								if(Config.ENABLE_ALL_EXCEPTIONS)
 									e.printStackTrace();
 								
-								_log.warning("TradeController: Problem with buylist " + buy1.getListId() + " item " + itemId);
+								LOGGER.warn("TradeController: Problem with buylist " + buy1.getListId() + " item " + itemId);
 							}
 							if(LimitedItem)
 							{
@@ -550,10 +550,10 @@ public class TradeController
 
 					if(Config.DEBUG)
 					{
-						_log.fine("created " + dummyItemCount + " Dummy-Items for buylists");
+						LOGGER.debug("created " + dummyItemCount + " Dummy-Items for buylists");
 					}
 
-					_log.config("TradeController: Loaded " + (_lists.size() - initialSize) + " Custom Buylists.");
+					LOGGER.info("TradeController: Loaded " + (_lists.size() - initialSize) + " Custom Buylists.");
 
 					/**
 					 * Restore Task for reinitialyze count of buy item
@@ -589,14 +589,14 @@ public class TradeController
 					}
 					catch(Exception e)
 					{
-						_log.warning("TradeController: Could not restore Timer for Item count.");
+						LOGGER.warn("TradeController: Could not restore Timer for Item count.");
 						e.printStackTrace();
 					}
 				}
 				catch(Exception e)
 				{
 					// problem with initializing spawn, go to next one
-					_log.warning("TradeController: Buylists could not be initialized.");
+					LOGGER.warn("TradeController: Buylists could not be initialized.");
 					e.printStackTrace();
 				}
 				finally
@@ -623,7 +623,7 @@ public class TradeController
 			
 			if(price < (item.getReferencePrice()/2)){
 				
-				_log.log(Level.WARNING, "L2TradeList "+listId+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+				LOGGER.warn( "L2TradeList "+listId+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 				price = item.getReferencePrice();
 			}
 			
@@ -707,7 +707,7 @@ public class TradeController
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "TradeController: Could not update Timer save in Buylist");
+			LOGGER.error( "TradeController: Could not update Timer save in Buylist");
 		}
 		finally
 		{
@@ -758,7 +758,7 @@ public class TradeController
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.log(Level.SEVERE, "TradeController: Could not store Count Item");
+			LOGGER.error( "TradeController: Could not store Count Item");
 		}
 		finally
 		{

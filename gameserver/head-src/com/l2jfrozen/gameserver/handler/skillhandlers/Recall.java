@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class Recall implements ISkillHandler
 {
-	// private static Logger _log = Logger.getLogger(Recall.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(Recall.class.getClass());
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.RECALL

@@ -30,13 +30,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 
 import javolution.util.FastCollection.Record;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.Base64;
@@ -72,7 +73,7 @@ public class LoginController
 
 					if(cl!=null && now - cl.getConnectionStartTime() > Config.SESSION_TTL)
 					{
-//						_log.info("Closing "+cl.getIntetAddress()+" because idle time too long");
+//						LOGGER.info("Closing "+cl.getIntetAddress()+" because idle time too long");
 						cl.close(LoginFailReason.REASON_TEMP_PASS_EXPIRED);
 					}else{
 						_clients.remove(cl);
@@ -97,7 +98,7 @@ public class LoginController
 			}
 		}
 	}
-	protected static final Logger _log = Logger.getLogger(LoginController.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(LoginController.class.getClass());
 
 	private static LoginController _instance;
 	
@@ -152,7 +153,7 @@ public class LoginController
 			_keyPairs[i] = new ScrambledKeyPair(keygen.generateKeyPair());
 		}
 
-		_log.info("Cached 10 KeyPairs for RSA communication");
+		LOGGER.info("Cached 10 KeyPairs for RSA communication");
 
 		testCipher((RSAPrivateKey) _keyPairs[0]._pair.getPrivate());
 
@@ -207,7 +208,7 @@ public class LoginController
 				_blowfishKeys[i][j] = (byte) (Rnd.nextInt(255) + 1);
 			}
 		}
-		_log.info("Stored " + _blowfishKeys.length + " keys for Blowfish communication");
+		LOGGER.info("Stored " + _blowfishKeys.length + " keys for Blowfish communication");
 	}
 
 	/**
@@ -534,7 +535,7 @@ public class LoginController
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warning("Could not set lastServer: " + e);
+					LOGGER.warn("Could not set lastServer: " + e);
 				}
 				finally
 				{
@@ -567,7 +568,7 @@ public class LoginController
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Could not set accessLevel: " + e);
+			LOGGER.warn("Could not set accessLevel: " + e);
 		}
 		finally
 		{
@@ -607,7 +608,7 @@ public class LoginController
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("could not check gm state:" + e);
+			LOGGER.warn("could not check gm state:" + e);
 			ok = false;
 		}
 		finally
@@ -643,7 +644,7 @@ public class LoginController
 	{
 		boolean ok = false;
 		InetAddress address = client.getConnection().getInetAddress();
-		// log it anyway
+		// LOGGER it anyway
 		Log.add("'" + (user == null ? "null" : user) + "' " + (address == null ? "null" : address.getHostAddress()), "logins_ip");
 
 		// player disconnected meanwhile
@@ -679,7 +680,7 @@ public class LoginController
 
 				if(Config.DEBUG)
 				{
-					_log.fine("Account already exists.");
+					LOGGER.debug("Account already exists.");
 				}
 			}
 
@@ -705,18 +706,18 @@ public class LoginController
 						statement.close();
 						statement = null;
 
-						_log.info("Created new account : " + user + " on IP : " + address.getHostAddress());
+						LOGGER.info("Created new account : " + user + " on IP : " + address.getHostAddress());
 						CloseUtil.close(con);
 						con = null;
 						return true;
 
 					}
-					_log.warning("Invalid username creation/use attempt: " + user);
+					LOGGER.warn("Invalid username creation/use attempt: " + user);
 					CloseUtil.close(con);
 					con = null;
 					return false;
 				}
-				_log.warning("Account missing for user "+user+" IP: "+address.getHostAddress());
+				LOGGER.warn("Account missing for user "+user+" IP: "+address.getHostAddress());
 				CloseUtil.close(con);
 				con = null;
 				return false;
@@ -762,7 +763,7 @@ public class LoginController
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Could not check password:" + e);
+			LOGGER.warn("Could not check password:" + e);
 			ok = false;
 		}
 		finally
@@ -791,7 +792,7 @@ public class LoginController
 
 			if(failedCount >= Config.LOGIN_TRY_BEFORE_BAN)
 			{
-				_log.info("Banning '" + address.getHostAddress() + "' for " + Config.LOGIN_BLOCK_AFTER_BAN + " seconds due to " + failedCount + " invalid user/pass attempts");
+				LOGGER.info("Banning '" + address.getHostAddress() + "' for " + Config.LOGIN_BLOCK_AFTER_BAN + " seconds due to " + failedCount + " invalid user/pass attempts");
 				this.addBanForAddress(address, Config.LOGIN_BLOCK_AFTER_BAN * 1000);
 			}
 
@@ -842,7 +843,7 @@ public class LoginController
 			
 			// digest algo not found ??
 			// out of bounds should not be possible
-			_log.warning("could not check ban state:" + e);
+			LOGGER.warn("could not check ban state:" + e);
 			ok = false;
 		}
 		finally

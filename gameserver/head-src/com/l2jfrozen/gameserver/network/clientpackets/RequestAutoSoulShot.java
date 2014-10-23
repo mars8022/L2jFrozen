@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestAutoSoulShot extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestAutoSoulShot.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestAutoSoulShot.class.getClass());
 
 	// format  cd
 	private int _itemId;
@@ -54,7 +54,7 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("AutoSoulShot:" + _itemId);
+				LOGGER.debug("AutoSoulShot:" + _itemId);
 			}
 
 			L2ItemInstance item = activeChar.getInventory().getItemByItemId(_itemId);

@@ -19,9 +19,10 @@ package com.l2jfrozen.gameserver.managers;
 
 import java.io.File;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -30,7 +31,7 @@ import com.l2jfrozen.gameserver.scripting.ScriptManager;
 
 public class QuestManager extends ScriptManager<Quest>
 {
-	protected static final Logger _log = Logger.getLogger(QuestManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(QuestManager.class.getClass());
 	private Map<String, Quest> _quests = new FastMap<String, Quest>();
 	private static QuestManager _instance;
 
@@ -45,7 +46,7 @@ public class QuestManager extends ScriptManager<Quest>
 
 	public QuestManager()
 	{
-		_log.info("Initializing QuestManager");
+		LOGGER.info("Initializing QuestManager");
 	}
 
 	public final boolean reload(String questFolder)
@@ -73,7 +74,7 @@ public class QuestManager extends ScriptManager<Quest>
 
 	public final void reloadAllQuests()
 	{
-		_log.info("Reloading Server Scripts");
+		LOGGER.info("Reloading Server Scripts");
 		// unload all scripts
 		for(Quest quest : _quests.values())
 		{
@@ -90,7 +91,7 @@ public class QuestManager extends ScriptManager<Quest>
 
 	public final void report()
 	{
-		_log.info("Loaded: " + _quests.size() + " quests");
+		LOGGER.info("Loaded: " + _quests.size() + " quests");
 	}
 
 	public final void save()
@@ -122,7 +123,7 @@ public class QuestManager extends ScriptManager<Quest>
 	{
 		if(getQuests().containsKey(newQuest.getName()))
 		{
-			_log.info("Replaced: " + newQuest.getName() + " with a new version");
+			LOGGER.info("Replaced: " + newQuest.getName() + " with a new version");
 		}
 
 		// Note: FastMap will replace the old value if the key already exists

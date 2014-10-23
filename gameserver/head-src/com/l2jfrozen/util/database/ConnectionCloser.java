@@ -20,7 +20,8 @@ package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionCloser implements Runnable
 {
-	private static final Logger _log = Logger.getLogger(ConnectionCloser.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ConnectionCloser.class.getClass());
 	
 	
 	private final Connection c ;
@@ -51,7 +52,7 @@ public class ConnectionCloser implements Runnable
 		{
 			if (c!=null && !c.isClosed())
 			{
-				_log.severe( "Unclosed connection! Trace: " + exp.getStackTrace()[1]+" "+ exp);
+				LOGGER.warn( "Unclosed connection! Trace: " + exp);
 				//c.close();
 				
 			}

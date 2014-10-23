@@ -11,7 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -26,7 +27,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2TopDeamon implements Runnable
 {
-	private static final Logger _log = Logger.getLogger(L2TopDeamon.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2TopDeamon.class.getClass());
 	protected ScheduledFuture<?> _task;
 	private Timestamp _lastVote;
 	private boolean _firstRun = false;
@@ -79,7 +80,7 @@ public class L2TopDeamon implements Runnable
 				
 				_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, PowerPakConfig.L2TOPDEMON_POLLINTERVAL * 60000);
 				Runtime.getRuntime().addShutdownHook(new Terminator());
-				_log.info("L2TopDeamon: Started with poll interval " + PowerPakConfig.L2TOPDEMON_POLLINTERVAL + " minute(s)");
+				LOGGER.info("L2TopDeamon: Started with poll interval " + PowerPakConfig.L2TOPDEMON_POLLINTERVAL + " minute(s)");
 			}
 			catch (SQLException e)
 			{
@@ -88,7 +89,7 @@ public class L2TopDeamon implements Runnable
 					e.printStackTrace();
 				}
 				
-				_log.info("L2TopDeamon: Error connection to database: " + e.getMessage());
+				LOGGER.info("L2TopDeamon: Error connection to database: " + e.getMessage());
 			}
 			finally
 			{
@@ -161,7 +162,7 @@ public class L2TopDeamon implements Runnable
 		BufferedReader reader = null;
 		try
 		{
-			_log.info("L2TopDeamon: Checking l2top.ru....");
+			LOGGER.info("L2TopDeamon: Checking l2top.ru....");
 			int nVotes = 0;
 			URL url = new URL(PowerPakConfig.L2TOPDEMON_URL);
 			is = url.openStream();
@@ -198,7 +199,7 @@ public class L2TopDeamon implements Runnable
 				}
 			}
 			_lastVote = last;
-			_log.info("L2TopDeamon: " + nVotes + " vote(s) parsed");
+			LOGGER.info("L2TopDeamon: " + nVotes + " vote(s) parsed");
 			output = true;
 		}
 		catch (Exception e)
@@ -208,7 +209,7 @@ public class L2TopDeamon implements Runnable
 				e.printStackTrace();
 			}
 			
-			_log.info("L2TopDeamon: Error while reading data" + e);
+			LOGGER.info("L2TopDeamon: Error while reading data" + e);
 		}
 		finally
 		{

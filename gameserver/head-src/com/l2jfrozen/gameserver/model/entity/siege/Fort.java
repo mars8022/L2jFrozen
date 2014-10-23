@@ -19,9 +19,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -44,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Fort
 {
-	protected static final Logger _log = Logger.getLogger(Fort.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Fort.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -400,7 +401,7 @@ public class Fort
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: loadFortData(): " + e.getMessage());
+			LOGGER.warn("Exception: loadFortData(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -442,7 +443,7 @@ public class Fort
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: loadFortDoor(): " + e.getMessage());
+			LOGGER.warn("Exception: loadFortDoor(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -474,7 +475,7 @@ public class Fort
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: loadFortDoorUpgrade(): " + e.getMessage());
+			LOGGER.warn("Exception: loadFortDoorUpgrade(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -498,7 +499,7 @@ public class Fort
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: removeDoorUpgrade(): " + e.getMessage());
+			LOGGER.warn("Exception: removeDoorUpgrade(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -525,7 +526,7 @@ public class Fort
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: saveDoorUpgrade(int doorId, int hp, int pDef, int mDef): " + e.getMessage());
+			LOGGER.warn("Exception: saveDoorUpgrade(int doorId, int hp, int pDef, int mDef): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -573,7 +574,7 @@ public class Fort
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: updateOwnerInDB(L2Clan clan): " + e.getMessage());
+			LOGGER.warn("Exception: updateOwnerInDB(L2Clan clan): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

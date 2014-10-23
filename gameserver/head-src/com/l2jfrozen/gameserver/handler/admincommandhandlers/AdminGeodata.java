@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AdminGeodata implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminKill.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminKill.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_geo_z",
@@ -68,7 +68,7 @@ public class AdminGeodata implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 

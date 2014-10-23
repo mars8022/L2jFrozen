@@ -18,9 +18,10 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.ItemContainer;
@@ -43,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
  */
 public final class RequestPackageSend extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestPackageSend.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestPackageSend.class.getClass());
 	private List<Item> _items = new FastList<Item>();
 	private int _objectID;
 	private int _count;
@@ -141,7 +142,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 			// Check if item is null
 			if(item == null)
 			{
-				_log.warning("Error depositing a warehouse object for char " + player.getName() + " (validity check)");
+				LOGGER.warn("Error depositing a warehouse object for char " + player.getName() + " (validity check)");
 				i.id = 0;
 				i.count = 0;
 				continue;
@@ -150,7 +151,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 			// Fix exploit for trade Augmented weapon with freight
 			if(item.isAugmented())
 			{
-				_log.warning("Error depositing a warehouse object for char "+player.getName()+" (item is augmented)");
+				LOGGER.warn("Error depositing a warehouse object for char "+player.getName()+" (item is augmented)");
 				return;
 			}
 			
@@ -204,7 +205,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 
 			if(oldItem == null)
 			{
-				_log.warning("Error depositing a warehouse object for char " + player.getName() + " (olditem == null)");
+				LOGGER.warn("Error depositing a warehouse object for char " + player.getName() + " (olditem == null)");
 				continue;
 			}
 			
@@ -219,7 +220,7 @@ public final class RequestPackageSend extends L2GameClientPacket
 
 			if(newItem == null)
 			{
-				_log.warning("Error depositing a warehouse object for char " + player.getName() + " (newitem == null)");
+				LOGGER.warn("Error depositing a warehouse object for char " + player.getName() + " (newitem == null)");
 				continue;
 			}
 

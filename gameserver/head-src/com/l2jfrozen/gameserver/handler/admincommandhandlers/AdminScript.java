@@ -20,9 +20,10 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.io.File;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javax.script.ScriptException;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
@@ -36,7 +37,7 @@ import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
 public class AdminScript implements IAdminCommandHandler
 {
 	private static final File SCRIPT_FOLDER = new File(Config.DATAPACK_ROOT.getAbsolutePath(), "data/scripts");
-	private static final Logger _log = Logger.getLogger(AdminScript.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AdminScript.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -59,7 +60,7 @@ public class AdminScript implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -90,7 +91,7 @@ public class AdminScript implements IAdminCommandHandler
 				}
 				else
 				{
-					_log.warning("Failed loading: (" + file.getCanonicalPath() + " - Reason: doesnt exists or is not a file.");
+					LOGGER.warn("Failed loading: (" + file.getCanonicalPath() + " - Reason: doesnt exists or is not a file.");
 				}
 			}
 			catch(Exception e)

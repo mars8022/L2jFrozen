@@ -24,10 +24,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -63,7 +64,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class VanHalter extends Quest implements Runnable
 {
-	private static final Logger _log = Logger.getLogger(VanHalter.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(VanHalter.class.getClass());
 
 	// List of intruders.
 	protected Map<Integer, List<L2PcInstance>> _bleedingPlayers = new FastMap<Integer, List<L2PcInstance>>();
@@ -228,7 +229,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager : " + e.getMessage() + " :" + e);
+			LOGGER.warn("VanHalterManager : " + e.getMessage() + " :" + e);
 		}
 
 		// Set time up.
@@ -324,7 +325,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadRoyalGuard: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadRoyalGuard: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -332,7 +333,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadRoyalGuard: Loaded " + _royalGuardSpawn.size() + " Royal Guard spawn locations.");
+				LOGGER.info("VanHalterManager.loadRoyalGuard: Loaded " + _royalGuardSpawn.size() + " Royal Guard spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -341,7 +342,7 @@ public class VanHalter extends Quest implements Runnable
 				e.printStackTrace();
 			
 			// Problem with initializing spawn, go to next one
-			_log.warning("VanHalterManager.loadRoyalGuard: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadRoyalGuard: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -409,7 +410,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadTriolRevelation: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadTriolRevelation: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -417,7 +418,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadTriolRevelation: Loaded " + _triolRevelationSpawn.size() + " Triol's Revelation spawn locations.");
+				LOGGER.info("VanHalterManager.loadTriolRevelation: Loaded " + _triolRevelationSpawn.size() + " Triol's Revelation spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -426,7 +427,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadTriolRevelation: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadTriolRevelation: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -497,7 +498,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadRoyalGuardCaptain: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadRoyalGuardCaptain: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -505,7 +506,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadRoyalGuardCaptain: Loaded " + _royalGuardCaptainSpawn.size() + " Royal Guard Captain spawn locations.");
+				LOGGER.info("VanHalterManager.loadRoyalGuardCaptain: Loaded " + _royalGuardCaptainSpawn.size() + " Royal Guard Captain spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -514,7 +515,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadRoyalGuardCaptain: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadRoyalGuardCaptain: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -582,7 +583,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadRoyalGuardHelper: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadRoyalGuardHelper: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -590,7 +591,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadRoyalGuardHelper: Loaded " + _royalGuardHelperSpawn.size() + " Royal Guard Helper spawn locations.");
+				LOGGER.info("VanHalterManager.loadRoyalGuardHelper: Loaded " + _royalGuardHelperSpawn.size() + " Royal Guard Helper spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -599,7 +600,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadRoyalGuardHelper: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadRoyalGuardHelper: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -660,7 +661,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadGuardOfAltar: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadGuardOfAltar: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -668,7 +669,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadGuardOfAltar: Loaded " + _guardOfAltarSpawn.size() + " Guard Of Altar spawn locations.");
+				LOGGER.info("VanHalterManager.loadGuardOfAltar: Loaded " + _guardOfAltarSpawn.size() + " Guard Of Altar spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -677,7 +678,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadGuardOfAltar: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadGuardOfAltar: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -744,7 +745,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadVanHalter: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadVanHalter: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -752,7 +753,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadVanHalter: Loaded High Priestess van Halter spawn locations.");
+				LOGGER.info("VanHalterManager.loadVanHalter: Loaded High Priestess van Halter spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -761,7 +762,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadVanHalter: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadVanHalter: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -819,7 +820,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadRitualOffering: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadRitualOffering: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -827,7 +828,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadRitualOffering: Loaded Ritual Offering spawn locations.");
+				LOGGER.info("VanHalterManager.loadRitualOffering: Loaded Ritual Offering spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -836,7 +837,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadRitualOffering: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadRitualOffering: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -895,7 +896,7 @@ public class VanHalter extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("VanHalterManager.loadRitualSacrifice: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
+					LOGGER.warn("VanHalterManager.loadRitualSacrifice: Data missing in NPC table for ID: " + rset.getInt("npc_templateid") + ".");
 				}
 			}
 
@@ -903,7 +904,7 @@ public class VanHalter extends Quest implements Runnable
 			statement.close();
 			if(Config.DEBUG)
 			{
-				_log.info("VanHalterManager.loadRitualSacrifice: Loaded Ritual Sacrifice spawn locations.");
+				LOGGER.info("VanHalterManager.loadRitualSacrifice: Loaded Ritual Sacrifice spawn locations.");
 			}
 		}
 		catch(Exception e)
@@ -912,7 +913,7 @@ public class VanHalter extends Quest implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("VanHalterManager.loadRitualSacrifice: Spawn could not be initialized: " + e);
+			LOGGER.warn("VanHalterManager.loadRitualSacrifice: Spawn could not be initialized: " + e);
 		}
 		finally
 		{
@@ -997,7 +998,7 @@ public class VanHalter extends Quest implements Runnable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning(e.getMessage() + " :" + e);
+				LOGGER.warn(e.getMessage() + " :" + e);
 			}
 		}
 
@@ -1079,7 +1080,7 @@ public class VanHalter extends Quest implements Runnable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning(e.getMessage() + " :" + e);
+				LOGGER.warn(e.getMessage() + " :" + e);
 			}
 		}
 	}
@@ -1097,7 +1098,7 @@ public class VanHalter extends Quest implements Runnable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning(e.getMessage() + " :" + e);
+				LOGGER.warn(e.getMessage() + " :" + e);
 			}
 		}
 	}

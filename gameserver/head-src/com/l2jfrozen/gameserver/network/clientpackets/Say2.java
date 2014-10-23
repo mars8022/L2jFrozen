@@ -23,7 +23,8 @@ import java.util.Collection;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -46,8 +47,8 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class Say2 extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(Say2.class.getName());
-	private static Logger _logChat = Logger.getLogger("chat");
+	private static Logger LOGGER = Logger.getLogger(Say2.class.getClass());
+	private static java.util.logging.Logger _logChat = java.util.logging.Logger.getLogger("chat");
 
 	public final static int ALL = 0;
 	public final static int SHOUT = 1; //!
@@ -109,12 +110,12 @@ public final class Say2 extends L2GameClientPacket
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("Say2: Msg Type = '" + _type + "' Text = '" + _text + "'.");
+			LOGGER.info("Say2: Msg Type = '" + _type + "' Text = '" + _text + "'.");
 		}
 
 		if(_type < 0 || _type >= CHAT_NAMES.length)
 		{
-			_log.warning("Say2: Invalid type: " + _type);
+			LOGGER.warn("Say2: Invalid type: " + _type);
 			return;
 		}
 		
@@ -128,13 +129,13 @@ public final class Say2 extends L2GameClientPacket
 				|| _type2Check == SystemChatChannelId.CHAT_CUSTOM
 				|| (_type2Check == SystemChatChannelId.CHAT_GM_PET && !activeChar.isGM()))
 		{
-		   _log.warning("[Anti-PHX Announce] Illegal Chat channel was used by character: [" + activeChar.getName() + "]");
+		   LOGGER.warn("[Anti-PHX Announce] Illegal Chat channel was used by character: [" + activeChar.getName() + "]");
 		   return;
 		}
 		
 		if(activeChar == null)
 		{
-			_log.warning("[Say2.java] Active Character is null.");
+			LOGGER.warn("[Say2.java] Active Character is null.");
 			return;
 		}
 		
@@ -174,7 +175,7 @@ public final class Say2 extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("Say2: Msg Type = '" + _type + "' Text length more than " + Config.MAX_CHAT_LENGTH + " truncate them.");
+				LOGGER.info("Say2: Msg Type = '" + _type + "' Text length more than " + Config.MAX_CHAT_LENGTH + " truncate them.");
 			}
 			_text = _text.substring(0, Config.MAX_CHAT_LENGTH);
 			//return;
@@ -472,7 +473,7 @@ public final class Say2 extends L2GameClientPacket
 						command = _text.substring(1);
 						if(Config.DEBUG)
 						{
-							_log.info("Command: " + command);
+							LOGGER.info("Command: " + command);
 						}
 						vch = VoicedCommandHandler.getInstance().getVoicedCommandHandler(command);
 					}

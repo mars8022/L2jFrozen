@@ -15,7 +15,8 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.managers.PacketsLoggerManager;
@@ -26,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class AdminCharSupervision implements IAdminCommandHandler
 {
-	protected static final Logger _log = Logger.getLogger(AdminCharSupervision.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCharSupervision.class.getClass());
 	
 	private static String[] ADMIN_COMMANDS =
 	{

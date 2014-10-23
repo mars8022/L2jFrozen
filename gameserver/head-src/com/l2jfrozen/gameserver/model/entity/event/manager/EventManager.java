@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.entity.event.TvT;
  */
 public class EventManager
 {
-	protected static final Logger _log = Logger.getLogger(EventManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(EventManager.class.getClass());
 	
 	private final static String EVENT_MANAGER_CONFIGURATION_FILE = "./config/frozen/eventmanager.properties";
 	
@@ -146,7 +146,7 @@ public class EventManager
 		
 		TvT.loadData();
 		if(!TvT.checkStartJoinOk()){
-			_log.log(Level.SEVERE, "registerTvT: TvT Event is not setted Properly");
+			LOGGER.error( "registerTvT: TvT Event is not setted Properly");
 		}
 		
 		//clear all tvt
@@ -168,7 +168,7 @@ public class EventManager
 		
 		CTF.loadData();
 		if(!CTF.checkStartJoinOk()){
-			_log.log(Level.SEVERE, "registerCTF: CTF Event is not setted Properly");
+			LOGGER.error( "registerCTF: CTF Event is not setted Properly");
 		}
 		
 		//clear all tvt
@@ -189,7 +189,7 @@ public class EventManager
 	private static void registerDM(){
 		DM.loadData();
 		if(!DM.checkStartJoinOk()){
-			_log.log(Level.SEVERE, "registerDM: DM Event is not setted Properly");
+			LOGGER.error( "registerDM: DM Event is not setted Properly");
 		}
 		
 		//clear all tvt

@@ -106,7 +106,7 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("new target selected:" + getObjectId());
+				LOGGER.info("new target selected:" + getObjectId());
 			}
 
 			// Set the target of the L2PcInstance player
@@ -415,7 +415,7 @@ public class L2SepulcherNpcInstance extends L2NpcInstance
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning(e.getMessage());
+				LOGGER.warn(e.getMessage());
 			}
 		}
 	}

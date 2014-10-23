@@ -17,10 +17,11 @@ package com.l2jfrozen.gameserver.datatables;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -37,7 +38,7 @@ public class CharSchemesTable
 {
 	private static FastMap<Integer, FastMap<String, FastList<L2Skill>>> _schemesTable = new FastMap<Integer, FastMap<String, FastList<L2Skill>>>();
 	private static CharSchemesTable _instance = null;
-	private static Logger _log = Logger.getLogger(CharSchemesTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharSchemesTable.class.getClass());
 	private static final String SQL_LOAD_SCHEME = "SELECT * FROM mods_buffer_schemes WHERE ownerId=?";
 	private static final String SQL_DELETE_SCHEME = "DELETE FROM mods_buffer_schemes WHERE ownerId=?";
 	private static final String SQL_INSERT_SCHEME = "INSERT INTO mods_buffer_schemes (ownerId, id, level, scheme) VALUES (?,?,?,?)";
@@ -83,7 +84,7 @@ public class CharSchemesTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error trying to load buff scheme from object id: " + objectId);
+			LOGGER.warn("Error trying to load buff scheme from object id: " + objectId);
 		}
 		finally
 		{
@@ -131,7 +132,7 @@ public class CharSchemesTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("CharSchemesTable: Error while trying to delete schemes");
+			LOGGER.warn("CharSchemesTable: Error while trying to delete schemes");
 		}
 		finally
 		{
@@ -178,7 +179,7 @@ public class CharSchemesTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("CharSchemesTable: Error while trying to delete schemes");
+			LOGGER.warn("CharSchemesTable: Error while trying to delete schemes");
 		}
 		finally
 		{

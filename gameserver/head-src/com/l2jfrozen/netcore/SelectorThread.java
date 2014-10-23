@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class SelectorThread<T extends MMOClient<?>> extends Thread
 {
-	private static Logger LOGGER = LoggerFactory.getLogger(SelectorThread.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(SelectorThread.class.getClass());
 	// default BYTE_ORDER
 	private static final ByteOrder BYTE_ORDER = ByteOrder.LITTLE_ENDIAN;
 	// default HEADER_SIZE

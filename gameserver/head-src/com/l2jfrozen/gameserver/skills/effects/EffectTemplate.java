@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.skills.effects;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -35,7 +36,7 @@ import com.l2jfrozen.gameserver.skills.funcs.Lambda;
  */
 public final class EffectTemplate
 {
-	static Logger _log = Logger.getLogger(EffectTemplate.class.getName());
+	static Logger LOGGER = Logger.getLogger(EffectTemplate.class.getClass());
 	
 	private final Class<?> _func;
 	private final Constructor<?> _constructor;
@@ -115,7 +116,7 @@ public final class EffectTemplate
 		}
 		catch (InvocationTargetException e)
 		{
-			_log.warning("Error creating new instance of Class " + _func + " Exception was:");
+			LOGGER.warn("Error creating new instance of Class " + _func + " Exception was:");
 			e.getTargetException().printStackTrace();
 			return null;
 		}

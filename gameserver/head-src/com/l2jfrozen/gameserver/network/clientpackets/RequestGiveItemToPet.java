@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestGiveItemToPet extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestGetItemFromPet.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestGetItemFromPet.class.getClass());
 
 	private int _objectId;
 	private int _amount;
@@ -105,7 +105,7 @@ public final class RequestGiveItemToPet extends L2GameClientPacket
 
 		if(player.transferItem("Transfer", _objectId, _amount, pet.getInventory(), pet) == null)
 		{
-			_log.warning("Invalid item transfer request: " + pet.getName() + "(pet) --> " + player.getName());
+			LOGGER.warn("Invalid item transfer request: " + pet.getName() + "(pet) --> " + player.getName());
 		}
 	}
 

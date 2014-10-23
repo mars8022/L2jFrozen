@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AdminGm implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminGm.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminGm.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_gm"
@@ -54,7 +54,7 @@ public class AdminGm implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -83,7 +83,7 @@ public class AdminGm implements IAdminCommandHandler
 
 			if(Config.DEBUG)
 			{
-				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") turned his GM status off");
+				LOGGER.debug("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") turned his GM status off");
 			}
 		}
 		else
@@ -95,7 +95,7 @@ public class AdminGm implements IAdminCommandHandler
 
 			if(Config.DEBUG)
 			{
-				_log.fine("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") turned his GM status on");
+				LOGGER.debug("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") turned his GM status on");
 			}
 		}
 	}

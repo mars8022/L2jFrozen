@@ -21,9 +21,10 @@ package com.l2jfrozen.loginserver.network.clientpackets;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.security.GeneralSecurityException;
-import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
@@ -42,7 +43,7 @@ import com.l2jfrozen.loginserver.network.serverpackets.ServerList;
  */
 public class RequestAuthLogin extends L2LoginClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestAuthLogin.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestAuthLogin.class.getClass());
 
 	private byte[] _raw = new byte[128];
 
@@ -111,7 +112,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 		L2LoginClient client = getClient();
 		InetAddress address = getClient().getConnection().getInetAddress();
 		if(address == null) {
-			_log.warning("Socket is not connected: " + client.getAccount());
+			LOGGER.warn("Socket is not connected: " + client.getAccount());
 			client.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			return;
 		}
@@ -140,15 +141,15 @@ public class RequestAuthLogin extends L2LoginClientPacket
 					{
 						Runtime.getRuntime().exec(deny_comms);
 						if(Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM) {
-							_log.info("Accepted IP access GS by "+addhost);
-							_log.info("Command is"+deny_comms);
+							LOGGER.info("Accepted IP access GS by "+addhost);
+							LOGGER.info("Command is"+deny_comms);
 						}
 					
 					}
 					catch(IOException e1)
 					{
-						_log.info("Accepts by ip "+addhost+" no allowed");
-						_log.info("Command is"+deny_comms);	
+						LOGGER.info("Accepts by ip "+addhost+" no allowed");
+						LOGGER.info("Command is"+deny_comms);	
 					}
 					
 				}

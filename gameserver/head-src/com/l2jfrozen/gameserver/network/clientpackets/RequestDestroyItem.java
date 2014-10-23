@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
@@ -39,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestDestroyItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestDestroyItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestDestroyItem.class.getClass());
 	
 	private int _objectId;
 	private int _count;
@@ -164,7 +164,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "could not delete pet objectid: ", e);
+				LOGGER.warn( "could not delete pet objectid: ", e);
 			}
 			finally
 			{

@@ -25,10 +25,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -51,7 +52,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AutoChatHandler implements SpawnListener
 {
-	protected static final Logger _log = Logger.getLogger(AutoChatHandler.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AutoChatHandler.class.getClass());
 	private static AutoChatHandler _instance;
 
 	private static final long DEFAULT_CHAT_DELAY = 30000; // 30 secs by default
@@ -114,12 +115,12 @@ public class AutoChatHandler implements SpawnListener
 
 			if(Config.DEBUG)
 			{
-				_log.config("AutoChatHandler: Loaded " + numLoaded + " chat group(s) from the database.");
+				LOGGER.debug("AutoChatHandler: Loaded " + numLoaded + " chat group(s) from the database.");
 			}
 		}
 		catch(Exception e)
 		{
-			_log.warning("AutoSpawnHandler: Could not restore chat data: " + e);
+			LOGGER.warn("AutoSpawnHandler: Could not restore chat data: " + e);
 		}
 		finally
 		{
@@ -229,7 +230,7 @@ public class AutoChatHandler implements SpawnListener
 
 		if(Config.DEBUG)
 		{
-			_log.config("AutoChatHandler: Removed auto chat for NPC ID " + chatInst.getNPCId());
+			LOGGER.debug("AutoChatHandler: Removed auto chat for NPC ID " + chatInst.getNPCId());
 		}
 
 		return true;
@@ -327,7 +328,7 @@ public class AutoChatHandler implements SpawnListener
 
 			if(Config.DEBUG)
 			{
-				_log.config("AutoChatHandler: Registered auto chat for NPC ID " + _npcId + " (Global Chat = " + _globalChat + ").");
+				LOGGER.debug("AutoChatHandler: Registered auto chat for NPC ID " + _npcId + " (Global Chat = " + _globalChat + ").");
 			}
 
 			setActive(true);
@@ -634,7 +635,7 @@ public class AutoChatHandler implements SpawnListener
 
 				if(Config.DEBUG)
 				{
-					_log.info("AutoChatHandler: Chat definition added for NPC ID " + _npcInstance.getNpcId() + " (Object ID = " + _npcInstance.getObjectId() + ").");
+					LOGGER.info("AutoChatHandler: Chat definition added for NPC ID " + _npcInstance.getNpcId() + " (Object ID = " + _npcInstance.getObjectId() + ").");
 				}
 
 				// If global chat isn't enabled for the parent instance,
@@ -754,7 +755,7 @@ public class AutoChatHandler implements SpawnListener
 
 					if(chatDef == null)
 					{
-						_log.warning("AutoChatHandler: Auto chat definition is NULL for NPC ID " + _npcId + ".");
+						LOGGER.warn("AutoChatHandler: Auto chat definition is NULL for NPC ID " + _npcId + ".");
 						return;
 					}
 
@@ -767,7 +768,7 @@ public class AutoChatHandler implements SpawnListener
 
 				if(Config.DEBUG)
 				{
-					_log.info("AutoChatHandler: Running auto chat for " + chatDefinitions.length + " instances of NPC ID " + _npcId + "." + " (Global Chat = " + chatInst.isGlobal() + ")");
+					LOGGER.info("AutoChatHandler: Running auto chat for " + chatDefinitions.length + " instances of NPC ID " + _npcId + "." + " (Global Chat = " + chatInst.isGlobal() + ")");
 				}
 
 				for(AutoChatDefinition chatDef : chatDefinitions)
@@ -891,7 +892,7 @@ public class AutoChatHandler implements SpawnListener
 
 						if(Config.DEBUG)
 						{
-							_log.fine("AutoChatHandler: Chat propogation for object ID " + chatNpc.getObjectId() + " (" + creatureName + ") with text '" + text + "' sent to " + nearbyPlayers.size() + " nearby players.");
+							LOGGER.debug("AutoChatHandler: Chat propogation for object ID " + chatNpc.getObjectId() + " (" + creatureName + ") with text '" + text + "' sent to " + nearbyPlayers.size() + " nearby players.");
 						}
 
 						text = null;

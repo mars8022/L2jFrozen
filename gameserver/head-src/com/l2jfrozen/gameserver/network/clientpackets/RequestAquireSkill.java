@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -45,7 +45,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class RequestAquireSkill extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestAquireSkill.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestAquireSkill.class.getClass());
 
 	private int _id;
 
@@ -267,7 +267,7 @@ public class RequestAquireSkill extends L2GameClientPacket
 
 			if(Config.DEBUG)
 			{
-				_log.fine("Learned pledge skill " + _id + " for " + _requiredSp + " SP.");
+				LOGGER.debug("Learned pledge skill " + _id + " for " + _requiredSp + " SP.");
 			}
 
 			SystemMessage cr = new SystemMessage(SystemMessageId.S1_DEDUCTED_FROM_CLAN_REP);
@@ -293,7 +293,7 @@ public class RequestAquireSkill extends L2GameClientPacket
 
 		else
 		{
-			_log.warning("Recived Wrong Packet Data in Aquired Skill - unk1:" + _skillType);
+			LOGGER.warn("Recived Wrong Packet Data in Aquired Skill - unk1:" + _skillType);
 			return;
 		}
 
@@ -301,7 +301,7 @@ public class RequestAquireSkill extends L2GameClientPacket
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Learned skill " + _id + " for " + _requiredSp + " SP.");
+			LOGGER.debug("Learned skill " + _id + " for " + _requiredSp + " SP.");
 		}
 
 		player.setSp(player.getSp() - _requiredSp);

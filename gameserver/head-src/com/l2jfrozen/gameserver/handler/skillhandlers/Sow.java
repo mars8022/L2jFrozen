@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -42,7 +42,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Sow implements ISkillHandler
 {
-	protected static final Logger _log = Logger.getLogger(Sow.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Sow.class.getClass());
 	private static final SkillType[] SKILL_IDS = { SkillType.SOW };
 
 	private L2PcInstance _activeChar;
@@ -61,7 +61,7 @@ public class Sow implements ISkillHandler
 		if(targetList == null){ return; }
 
 		if(Config.DEBUG)
-			_log.info("Casting sow");
+			LOGGER.info("Casting sow");
 
 		for(int index = 0; index < targetList.length; index++)
 		{

@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver.model.quest;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -35,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class QuestSpawn
 {
-	private Logger _log = Quest._log;
+	private Logger LOGGER = Quest.LOGGER;
 	private static QuestSpawn instance;
 
 	public static QuestSpawn getInstance()
@@ -105,7 +104,7 @@ public final class QuestSpawn
 				// default spawn location, which is at the player's loc.
 				if(x == 0 && y == 0)
 				{
-					_log.log(Level.SEVERE, "Failed to adjust bad locks for quest spawn!  Spawn aborted!");
+					LOGGER.error( "Failed to adjust bad locks for quest spawn!  Spawn aborted!");
 					return null;
 				}
 
@@ -157,7 +156,7 @@ public final class QuestSpawn
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
-			_log.warning("Could not spawn Npc " + npcId);
+			LOGGER.warn("Could not spawn Npc " + npcId);
 		}
 
 		return null;

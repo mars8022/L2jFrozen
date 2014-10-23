@@ -21,7 +21,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -37,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class RequestAnswerFriendInvite extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestAnswerFriendInvite.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestAnswerFriendInvite.class.getClass());
 	
 	private int _response;
 	
@@ -102,7 +103,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warning("could not add friend objectid: " + e);
+					LOGGER.warn("could not add friend objectid: " + e);
 				}
 				finally
 				{
@@ -152,7 +153,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 		
 		catch (Exception e)
 		{
-			_log.warning("could not restore friend data:" + e);
+			LOGGER.warn("could not restore friend data:" + e);
 		}
 		
 		finally

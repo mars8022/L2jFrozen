@@ -14,7 +14,7 @@ import javolution.util.FastList;
 
 public abstract class L2Thread extends Thread
 {
-	//private static final Logger _log = Logger.getLogger(L2Thread.class.getName);
+	//private static final Logger LOGGER = Logger.getLogger(L2Thread.class.getName);
 
 	protected L2Thread()
 	{

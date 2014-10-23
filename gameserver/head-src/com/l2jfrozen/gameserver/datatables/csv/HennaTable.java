@@ -26,9 +26,10 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.templates.L2Henna;
@@ -41,7 +42,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 public class HennaTable
 {
-	private static Logger _log = Logger.getLogger(HennaTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(HennaTable.class.getClass());
 
 	private static HennaTable _instance;
 
@@ -60,7 +61,7 @@ public class HennaTable
 
 	private HennaTable()
 	{
-		_henna = new FastMap<Integer, L2Henna>();
+		_henna = new FastMap<>();
 		restoreHennaData();
 	}
 
@@ -110,21 +111,21 @@ public class HennaTable
 				template = null;
 			}
 
-			_log.config("HennaTable: Loaded " + _henna.size() + " Templates.");
+			LOGGER.info("HennaTable: Loaded " + _henna.size() + " Templates.");
 		}
 		catch(FileNotFoundException e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning(Config.DATAPACK_ROOT+"/data/csv/henna.csv is missing in data folder");
+			LOGGER.warn(Config.DATAPACK_ROOT+"/data/csv/henna.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e0.printStackTrace();
 			
-			_log.warning("Error while creating table: " + e0.getMessage() + "\n" + e0);
+			LOGGER.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
 		{

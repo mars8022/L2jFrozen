@@ -24,8 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
@@ -37,7 +37,7 @@ import com.l2jfrozen.Config;
  */
 public class DynamicExtension
 {
-	private static Logger _log = Logger.getLogger(DynamicExtension.class.getCanonicalName());
+	private static Logger LOGGER = Logger.getLogger(DynamicExtension.class.getCanonicalName());
 	private JarClassLoader _classLoader;
 	private static final String CONFIG = "config/extensions.properties";
 	private Properties _prop;
@@ -107,14 +107,14 @@ public class DynamicExtension
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				ex.printStackTrace();
 			
-			_log.info(ex.getMessage() + ": no extensions to load");
+			LOGGER.info(ex.getMessage() + ": no extensions to load");
 		}
 		catch(Exception ex)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				ex.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not load properties", ex);
+			LOGGER.warn( "could not load properties", ex);
 		
 		}finally{
 			
@@ -171,7 +171,7 @@ public class DynamicExtension
 			Class<?> extension = Class.forName(className, true, _classLoader);
 			Object obj = extension.newInstance();
 			extension.getMethod("init", new Class[0]).invoke(obj, new Object[0]);
-			_log.info("Extension " + className + " loaded.");
+			LOGGER.info("Extension " + className + " loaded.");
 			_loadedExtensions.put(className, obj);
 		}
 		catch(Exception ex)
@@ -179,7 +179,7 @@ public class DynamicExtension
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				ex.printStackTrace();
 			
-			_log.log(Level.WARNING, name, ex);
+			LOGGER.warn( name, ex);
 			res = ex.toString();
 		}
 		return res;
@@ -246,14 +246,14 @@ public class DynamicExtension
 			Class<?> extension = obj.getClass();
 			_loadedExtensions.remove(className);
 			extension.getMethod("unload", new Class[0]).invoke(obj, new Object[0]);
-			_log.info("Extension " + className + " unloaded.");
+			LOGGER.info("Extension " + className + " unloaded.");
 		}
 		catch(Exception ex)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				ex.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not unload " + className, ex);
+			LOGGER.warn( "could not unload " + className, ex);
 			res = ex.toString();
 		}
 		return res;

@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskRecom extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskRecom.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TaskRecom.class.getClass());
 	private static final String NAME = "sp_recommendations";
 	
 	/*
@@ -57,7 +57,7 @@ public class TaskRecom extends Task
 			player.restartRecom();
 			player.sendPacket(new UserInfo(player));
 		}
-		_log.config(" [GlobalTask] Restart Recommendation launched.");
+		LOGGER.info(" [GlobalTask] Restart Recommendation launched.");
 	}
 	
 	@Override

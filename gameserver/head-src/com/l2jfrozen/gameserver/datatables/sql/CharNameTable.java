@@ -22,7 +22,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
@@ -35,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CharNameTable
 {
-	private final static Logger _log = Logger.getLogger(CharNameTable.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(CharNameTable.class.getClass());
 
 	private static CharNameTable _instance;
 
@@ -66,7 +67,7 @@ public class CharNameTable
 		}
 		catch(SQLException e)
 		{
-			_log.severe("could not check existing charname"+" "+ e);
+			LOGGER.error("Could not check existing charname", e);
 		}
 		finally
 		{
@@ -97,7 +98,7 @@ public class CharNameTable
 		}
 		catch(SQLException e)
 		{
-			_log.severe("could not check existing char number");
+			LOGGER.error("Could not check existing char number", e);
 			e.printStackTrace();
 		}
 		finally
@@ -130,7 +131,7 @@ public class CharNameTable
 		}
 		catch(SQLException e)
 		{
-			_log.severe("could not check existing char number");
+			LOGGER.error("Could not check existing char number", e);
 			e.printStackTrace();
 		}
 		finally

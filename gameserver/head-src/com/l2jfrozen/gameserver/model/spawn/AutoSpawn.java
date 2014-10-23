@@ -25,10 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -60,7 +61,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AutoSpawn
 {
-	protected static final Logger _log = Logger.getLogger(AutoSpawn.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AutoSpawn.class.getClass());
 
 	private static AutoSpawn _instance;
 
@@ -152,7 +153,7 @@ public class AutoSpawn
 
 			if(Config.DEBUG)
 			{
-				_log.config("AutoSpawnHandler: Loaded " + numLoaded + " spawn group(s) from the database.");
+				LOGGER.debug("AutoSpawnHandler: Loaded " + numLoaded + " spawn group(s) from the database.");
 			}
 		}
 		catch(Exception e)
@@ -160,7 +161,7 @@ public class AutoSpawn
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("AutoSpawnHandler: Could not restore spawn data: " + e);
+			LOGGER.warn("AutoSpawnHandler: Could not restore spawn data: " + e);
 		}
 		finally
 		{
@@ -218,7 +219,7 @@ public class AutoSpawn
 
 		if(Config.DEBUG)
 		{
-			_log.config("AutoSpawnHandler: Registered auto spawn for NPC ID " + npcId + " (Object ID = " + newId + ").");
+			LOGGER.debug("AutoSpawnHandler: Registered auto spawn for NPC ID " + npcId + " (Object ID = " + newId + ").");
 		}
 
 		return newSpawn;
@@ -270,7 +271,7 @@ public class AutoSpawn
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.warning("AutoSpawnHandler: Could not auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + "): " + e);
+					LOGGER.warn("AutoSpawnHandler: Could not auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + "): " + e);
 
 					return false;
 				}
@@ -280,7 +281,7 @@ public class AutoSpawn
 
 			if(Config.DEBUG)
 			{
-				_log.config("AutoSpawnHandler: Removed auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + ").");
+				LOGGER.debug("AutoSpawnHandler: Removed auto spawn for NPC ID " + spawnInst._npcId + " (Object ID = " + spawnInst._objectId + ").");
 			}
 				
 				
@@ -523,7 +524,7 @@ public class AutoSpawn
 				// If there are no set co-ordinates, cancel the spawn task.
 				if(locationList.length == 0)
 				{
-					_log.info("AutoSpawnHandler: No location co-ords specified for spawn instance (Object ID = " + _objectId + ").");
+					LOGGER.info("AutoSpawnHandler: No location co-ords specified for spawn instance (Object ID = " + _objectId + ").");
 					return;
 				}
 
@@ -560,7 +561,7 @@ public class AutoSpawn
 
 				if(npcTemp == null)
 				{
-					_log.warning("Couldnt find NPC id" + spawnInst.getNpcId() + " Try to update your DP");
+					LOGGER.warn("Couldnt find NPC id" + spawnInst.getNpcId() + " Try to update your DP");
 					return;
 				}
 
@@ -621,7 +622,7 @@ public class AutoSpawn
 
 				if(Config.DEBUG)
 				{
-					_log.info("AutoSpawnHandler: Spawned NPC ID " + spawnInst.getNpcId() + " at " + x + ", " + y + ", " + z + " (Near " + nearestTown + ") for " + spawnInst.getRespawnDelay() / 60000 + " minute(s).");
+					LOGGER.info("AutoSpawnHandler: Spawned NPC ID " + spawnInst.getNpcId() + " at " + x + ", " + y + ", " + z + " (Near " + nearestTown + ") for " + spawnInst.getRespawnDelay() / 60000 + " minute(s).");
 				}
 
 				// If there is no despawn time, do not create a despawn task.
@@ -641,7 +642,7 @@ public class AutoSpawn
 			}
 			catch(Exception e)
 			{
-				_log.warning("AutoSpawnHandler: An error occurred while initializing spawn instance (Object ID = " + _objectId + "): " + e);
+				LOGGER.warn("AutoSpawnHandler: An error occurred while initializing spawn instance (Object ID = " + _objectId + "): " + e);
 				e.printStackTrace();
 			}
 		}
@@ -676,13 +677,13 @@ public class AutoSpawn
 
 				if(spawnInst == null)
 				{
-					_log.info("AutoSpawnHandler: No spawn registered for object ID = " + _objectId + ".");
+					LOGGER.info("AutoSpawnHandler: No spawn registered for object ID = " + _objectId + ".");
 					return;
 				}
 
 				L2NpcInstance[] npc_instances = spawnInst.getNPCInstanceList();
 				if(npc_instances == null){
-					_log.info("AutoSpawnHandler: No spawn registered");
+					LOGGER.info("AutoSpawnHandler: No spawn registered");
 					return;
 				}
 				
@@ -698,7 +699,7 @@ public class AutoSpawn
 
 					if(Config.DEBUG)
 					{
-						_log.info("AutoSpawnHandler: Spawns removed for spawn instance (Object ID = " + _objectId + ").");
+						LOGGER.info("AutoSpawnHandler: Spawns removed for spawn instance (Object ID = " + _objectId + ").");
 					}
 				}
 
@@ -709,7 +710,7 @@ public class AutoSpawn
 				//if(Config.ENABLE_ALL_EXCEPTIONS)
 				//	e.printStackTrace();
 				
-				_log.warning("AutoSpawnHandler: An error occurred while despawning spawn (Object ID = " + _objectId + "): " + e);
+				LOGGER.warn("AutoSpawnHandler: An error occurred while despawning spawn (Object ID = " + _objectId + "): " + e);
 				e.printStackTrace();
 			}
 		}

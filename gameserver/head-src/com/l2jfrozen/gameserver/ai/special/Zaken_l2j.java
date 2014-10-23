@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -41,7 +41,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Zaken_l2j extends Quest implements Runnable
 {
-	protected static final Logger log = Logger.getLogger(Zaken_l2j.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Zaken_l2j.class.getClass());
 	
 	private int _1001 = 0; // used for first cancel of QuestTimer "1001"
 	private int _ai0 = 0; // used for zaken coords updater
@@ -138,7 +138,7 @@ public class Zaken_l2j extends Quest implements Runnable
 				{
 					if (getTimeHour() == 0)
 					{
-						_log.info("Zaken door id 21240006 opened, game time 00.00.");
+						LOGGER.info("Zaken door id 21240006 opened, game time 00.00.");
 						DoorTable.getInstance().getDoor(21240006).openMe();
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
@@ -147,7 +147,7 @@ public class Zaken_l2j extends Quest implements Runnable
 							{
 								try
 								{
-									_log.info("Zaken door id 21240006 closed.");
+									LOGGER.info("Zaken door id 21240006 closed.");
 									DoorTable.getInstance().getDoor(21240006).closeMe();
 								}
 								catch (Throwable e)
@@ -155,7 +155,7 @@ public class Zaken_l2j extends Quest implements Runnable
 									if (Config.ENABLE_ALL_EXCEPTIONS)
 										e.printStackTrace();
 									
-									log.warning("Cannot close door ID: 21240006 " + e);
+									LOGGER.warn("Cannot close door ID: 21240006 " + e);
 								}
 							}
 						}, 300000L);
@@ -166,7 +166,7 @@ public class Zaken_l2j extends Quest implements Runnable
 					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					log.warning("Cannot open door ID: 21240006 " + e);
+					LOGGER.warn("Cannot open door ID: 21240006 " + e);
 				}
 			}
 		}, 2000L, 600000L);
@@ -212,7 +212,7 @@ public class Zaken_l2j extends Quest implements Runnable
 	{
 		if (npc == null)
 		{
-			log.warning("Zaken AI failed to load, missing Zaken in grandboss_data.sql");
+			LOGGER.warn("Zaken AI failed to load, missing Zaken in grandboss_data.sql");
 			return;
 		}
 		GrandBossManager.getInstance().addBoss(npc);
@@ -227,7 +227,7 @@ public class Zaken_l2j extends Quest implements Runnable
 		_quest2 = 3;
 		if (_Zone == null)
 		{
-			log.warning("Zaken AI failed to load, missing zone for Zaken");
+			LOGGER.warn("Zaken AI failed to load, missing zone for Zaken");
 			return;
 		}
 		if (_Zone.isInsideZone(npc))

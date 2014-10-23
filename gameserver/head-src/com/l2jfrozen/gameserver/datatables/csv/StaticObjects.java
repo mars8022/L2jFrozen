@@ -25,9 +25,10 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -35,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 
 public class StaticObjects
 {
-	private static Logger _log = Logger.getLogger(StaticObjects.class.getName());
+	private static Logger LOGGER = Logger.getLogger(StaticObjects.class.getClass());
 
 	private static StaticObjects _instance;
 	private Map<Integer, L2StaticObjectInstance> _staticObjects;
@@ -52,9 +53,9 @@ public class StaticObjects
 
 	public StaticObjects()
 	{
-		_staticObjects = new FastMap<Integer, L2StaticObjectInstance>();
+		_staticObjects = new FastMap<>();
 		parseData();
-		_log.config("StaticObject: Loaded " + _staticObjects.size() + " StaticObject Templates.");
+		LOGGER.info("StaticObject: Loaded " + _staticObjects.size() + " StaticObject Templates.");
 	}
 
 	private void parseData()
@@ -89,14 +90,14 @@ public class StaticObjects
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("staticobjects.csv is missing in data folder");
+			LOGGER.warn("staticobjects.csv is missing in data folder");
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("error while creating StaticObjects table " + e);
+			LOGGER.warn("error while creating StaticObjects table " + e);
 		}
 		finally
 		{

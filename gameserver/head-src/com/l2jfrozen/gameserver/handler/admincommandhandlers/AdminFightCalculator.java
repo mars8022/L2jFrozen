@@ -43,7 +43,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AdminFightCalculator implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminFightCalculator.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminFightCalculator.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -67,7 +67,7 @@ public class AdminFightCalculator implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 

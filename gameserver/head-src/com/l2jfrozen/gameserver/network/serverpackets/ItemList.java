@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class ItemList extends L2GameServerPacket
 {
-        private static Logger _log = Logger.getLogger(ItemList.class.getName());
+        private static Logger LOGGER = Logger.getLogger(ItemList.class.getClass());
         private static final String _S__27_ITEMLIST = "[S] 1b ItemList";
         private L2ItemInstance[] _items;
         private boolean _showWindow;
@@ -60,7 +60,7 @@ public class ItemList extends L2GameServerPacket
         private void showDebug()
         {
                 for (L2ItemInstance temp : _items)
-                        _log.fine("item:" + temp.getItem().getName() + " type1:" + temp.getItem().getType1() + " type2:" + temp.getItem().getType2());
+                        LOGGER.debug("item:" + temp.getItem().getName() + " type1:" + temp.getItem().getType1() + " type2:" + temp.getItem().getType2());
         }
 
         @Override

@@ -17,8 +17,8 @@ package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -26,7 +26,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 {
-	static Logger _log = Logger.getLogger(L2DatabaseFactory_c3p0.class.getName());
+	static Logger LOGGER = Logger.getLogger(L2DatabaseFactory_c3p0.class.getClass());
 	
 	private ComboPooledDataSource _source;
 	
@@ -39,7 +39,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			if (Config.DATABASE_MAX_CONNECTIONS < 2)
 			{
 				Config.DATABASE_MAX_CONNECTIONS = 2;
-				_log.warning("A minimum of " + Config.DATABASE_MAX_CONNECTIONS + " db connections are required.");
+				LOGGER.warn("A minimum of " + Config.DATABASE_MAX_CONNECTIONS + " db connections are required.");
 			}
 			
 			_source = new ComboPooledDataSource();
@@ -88,25 +88,17 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			_source.getConnection().close();
 			
 			if (Config.DEBUG)
-				_log.fine("Database Connection Working");
+				LOGGER.debug("Database Connection Working");
 			
 			if (Config.DATABASE_DRIVER.toLowerCase().contains("microsoft"))
 				_providerType = ProviderType.MsSql;
 			else
 				_providerType = ProviderType.MySql;
 		}
-		catch (SQLException x)
-		{
-			if (Config.DEBUG)
-				_log.fine("Database Connection FAILED");
-			// re-throw the exception
-			throw x;
-		}
 		catch (Exception e)
 		{
-			if (Config.DEBUG)
-				_log.fine("Database Connection FAILED");
-			throw new SQLException("Could not init DB connection:" + e.getMessage());
+			LOGGER.error("Couldn't init DB connection, im dead x.x", e);
+			System.exit(1);
 		}
 	}
 	
@@ -126,8 +118,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
-			_log.log(Level.INFO, "", e);
+			LOGGER.equals(e);
 		}
 		try
 		{
@@ -135,8 +126,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
-			_log.log(Level.INFO, "", e);
+			LOGGER.equals(e);
 		}
 	}
 	
@@ -155,7 +145,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			}
 			catch(SQLException e)
 			{
-				_log.severe("L2DatabaseFactory: getConnection() failed, trying again" + e);
+				LOGGER.error("L2DatabaseFactory: getConnection() failed, trying again", e);
 			}
 		}
 
@@ -177,10 +167,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			}
 			catch(SQLException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+				LOGGER.error("L2DatabaseFactory: getConnection() failed, trying again", e);
 			}
 		}
 

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.QuestManager;
@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestQuestAbort extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestQuestAbort.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestQuestAbort.class.getClass());
 
 	private int _questId;
 
@@ -69,7 +69,7 @@ public final class RequestQuestAbort extends L2GameClientPacket
 			{
 				if(Config.DEBUG)
 				{
-					_log.info("Player '" + activeChar.getName() + "' try to abort quest " + qe.getName() + " but he didn't have it started.");
+					LOGGER.info("Player '" + activeChar.getName() + "' try to abort quest " + qe.getName() + " but he didn't have it started.");
 				}
 			}
 		}
@@ -77,7 +77,7 @@ public final class RequestQuestAbort extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.warning("Quest (id='" + _questId + "') not found.");
+				LOGGER.warn("Quest (id='" + _questId + "') not found.");
 			}
 		}
 	}

@@ -20,10 +20,10 @@ package com.l2jfrozen.gameserver.model.spawn;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.TerritoryTable;
@@ -51,7 +51,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2Spawn
 {
-	protected static final Logger _log = Logger.getLogger(L2Spawn.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2Spawn.class.getClass());
 
 	/**
 	 * The link on the L2NpcTemplate object containing generic and static properties of this spawn (ex : RewardExp,
@@ -106,7 +106,7 @@ public class L2Spawn
 	private int _instanceId = 0;
 
 	private L2NpcInstance _lastSpawn;
-	private static List<SpawnListener> _spawnListeners = new FastList<SpawnListener>();
+	private static List<SpawnListener> _spawnListeners = new FastList<>();
 
 	/** The task launching the function doSpawn() */
 	class SpawnTask implements Runnable
@@ -134,7 +134,7 @@ public class L2Spawn
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "", e);
+				LOGGER.warn( "", e);
 			}
 
 			_scheduledCount--;
@@ -548,7 +548,7 @@ public class L2Spawn
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "NPC " + _template.npcId + " class not found", e);
+			LOGGER.warn( "NPC " + _template.npcId + " class not found", e);
 		}
 		return mob;
 	}
@@ -634,7 +634,7 @@ public class L2Spawn
 
 			if(Config.DEBUG)
 			{
-				_log.finest("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
+				LOGGER.debug("spawned Mob ID: " + _template.npcId + " ,at: " + mob.getX() + " x, " + mob.getY() + " y, " + mob.getZ() + " z");
 			}
 
 			for(Quest quest : mob.getTemplate().getEventQuests(Quest.QuestEventType.ON_SPAWN))
@@ -682,7 +682,7 @@ public class L2Spawn
 	{
 		if(i < 0)
 		{
-			_log.warning("respawn delay is negative for spawnId:" + _id);
+			LOGGER.warn("respawn delay is negative for spawnId:" + _id);
 		}
 
 		if(i < 10)

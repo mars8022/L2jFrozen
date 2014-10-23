@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class DeluxeKey implements ISkillHandler
 {
-	private static Logger _log = Logger.getLogger(BeastFeed.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BeastFeed.class.getClass());
 
 	private static final SkillType[] SKILL_IDS = { SkillType.DELUXE_KEY_UNLOCK };
 
@@ -47,7 +47,7 @@ public class DeluxeKey implements ISkillHandler
 
 		targetList = null;
 
-		_log.fine("Delux key casting succeded.");
+		LOGGER.info("Delux key casting succeded.");
 
 		// This is just a dummy skill handler for the golden food and crystal food skills,
 		// since the AI responce onSkillUse handles the rest.

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class Charge implements ISkillHandler
 {
-	static Logger _log = Logger.getLogger(Charge.class.getName());
+	static Logger LOGGER = Logger.getLogger(Charge.class.getClass());
 
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)

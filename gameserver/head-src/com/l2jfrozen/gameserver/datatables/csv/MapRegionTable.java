@@ -27,7 +27,8 @@ import java.io.LineNumberReader;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.ArenaManager;
@@ -52,7 +53,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
  */
 public class MapRegionTable
 {
-	private static Logger _log = Logger.getLogger(MapRegionTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(MapRegionTable.class.getClass());
 
 	private static MapRegionTable _instance;
 
@@ -120,16 +121,16 @@ public class MapRegionTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("mapregion.csv is missing in data folder");
+			LOGGER.warn("mapregion.csv is missing in data folder");
 		}
 		catch(NoSuchElementException e1)
 		{
-			_log.warning("Error for structure CSV file: ");
+			LOGGER.warn("Error for structure CSV file: ");
 			e1.printStackTrace();
 		}
 		catch(IOException e0)
 		{
-			_log.warning("Error while creating table: " + e0);
+			LOGGER.warn("Error while creating table: " + e0);
 			e0.printStackTrace();
 		}
 		finally

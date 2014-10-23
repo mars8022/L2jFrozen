@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestDuelStart extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestDuelStart.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestDuelStart.class.getClass());
 	private String _player;
 	private int _partyDuel;
 
@@ -139,7 +139,7 @@ public final class RequestDuelStart extends L2GameClientPacket
 	
 					if(Config.DEBUG)
 					{
-						_log.fine(activeChar.getName() + " requested a duel with " + partyLeader.getName());
+						LOGGER.debug(activeChar.getName() + " requested a duel with " + partyLeader.getName());
 					}
 	
 					SystemMessage msg = new SystemMessage(SystemMessageId.S1S_PARTY_HAS_BEEN_CHALLENGED_TO_A_DUEL);
@@ -168,7 +168,7 @@ public final class RequestDuelStart extends L2GameClientPacket
 
 				if(Config.DEBUG)
 				{
-					_log.fine(activeChar.getName() + " requested a duel with " + targetChar.getName());
+					LOGGER.debug(activeChar.getName() + " requested a duel with " + targetChar.getName());
 				}
 
 				SystemMessage msg = new SystemMessage(SystemMessageId.S1_HAS_BEEN_CHALLENGED_TO_A_DUEL);

@@ -88,7 +88,7 @@ public class L2NpcWalkerInstance extends L2NpcInstance
 		{
 			if(Config.DEVELOPER)
 			{
-				_log.info("broadcastChat _players == null");
+				LOGGER.info("broadcastChat _players == null");
 			}
 			return;
 		}

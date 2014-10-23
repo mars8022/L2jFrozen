@@ -8,10 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
@@ -24,7 +24,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class SMSOnline implements HttpHandler
 {
-	protected static final Logger _log = Logger.getLogger(SMSOnline.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(SMSOnline.class.getClass());
 	
 	private class DBUpdater implements SQLQuery {
 	private L2PcInstance _pc;
@@ -66,7 +66,7 @@ public class SMSOnline implements HttpHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "WebServices: SMSOnline error updating database",e);
+				LOGGER.warn( "WebServices: SMSOnline error updating database",e);
 				return;
 			}
 			if(doAdd)
@@ -121,7 +121,7 @@ public class SMSOnline implements HttpHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "WebService: SMSOnline error reading config :",e);
+			LOGGER.warn( "WebService: SMSOnline error reading config :",e);
 		}
 	}
 	@Override

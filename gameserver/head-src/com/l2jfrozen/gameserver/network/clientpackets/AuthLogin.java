@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 
 public final class AuthLogin extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(AuthLogin.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AuthLogin.class.getClass());
 
 	// loginName + keys must match what the loginserver used.
 	private String _loginName;
@@ -48,7 +48,7 @@ public final class AuthLogin extends L2GameClientPacket
 		SessionKey key = new SessionKey(_loginKey1, _loginKey2, _playKey1, _playKey2);
 
 		if (Config.DEBUG)
-			_log.info("DEBUG "+getType()+": user: " + _loginName + " key:" + key);
+			LOGGER.info("DEBUG "+getType()+": user: " + _loginName + " key:" + key);
 
 		L2GameClient client = getClient();
 

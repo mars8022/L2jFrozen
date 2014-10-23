@@ -2,8 +2,8 @@ package com.l2jfrozen.gameserver.powerpak.Servers;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
@@ -23,7 +23,7 @@ public class WebServer extends Thread
 	}
 
 	private HttpServer _server;
-	protected static final Logger _log = Logger.getLogger(WebServer.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(WebServer.class.getClass());
 
 	private WebServer()
 	{
@@ -50,7 +50,7 @@ public class WebServer extends Thread
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 
-						_log.log(Level.WARNING, "WebServer: Error while creating handler " + contextHandlerName + " for '" + s.toString() + "': " + e);
+						LOGGER.warn( "WebServer: Error while creating handler " + contextHandlerName + " for '" + s.toString() + "': " + e);
 						continue;
 					}
 
@@ -59,8 +59,8 @@ public class WebServer extends Thread
 				{
 					_server.start();
 					Runtime.getRuntime().addShutdownHook(this);
-					_log.info("WebServer: Listen at " + PowerPakConfig.WEBSERVER_HOST + ":" + PowerPakConfig.WEBSERVER_PORT);
-					_log.info("WebServer: " + handlers + " context handler(s) registred");
+					LOGGER.info("WebServer: Listen at " + PowerPakConfig.WEBSERVER_HOST + ":" + PowerPakConfig.WEBSERVER_PORT);
+					LOGGER.info("WebServer: " + handlers + " context handler(s) registred");
 				}
 			}
 			catch(Exception e)
@@ -68,7 +68,7 @@ public class WebServer extends Thread
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 
-				_log.log(Level.WARNING, "WebServer: Error " + e + " while staring");
+				LOGGER.warn( "WebServer: Error " + e + " while staring");
 				_server = null;
 			}
 	}

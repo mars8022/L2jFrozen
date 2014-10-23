@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.custom;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
@@ -34,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class ExtractableByPassHandler implements ICustomByPassHandler
 {
-	protected static final Logger _log = Logger.getLogger(ExtractableByPassHandler.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(ExtractableByPassHandler.class.getClass());
 	private static String[] _IDS =
 	{
 			"extractOne", "extractAll"
@@ -73,7 +72,7 @@ public class ExtractableByPassHandler implements ICustomByPassHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "ExtractableByPassHandler: Error while running ", e);
+			LOGGER.warn( "ExtractableByPassHandler: Error while running ", e);
 		}
 
 	}

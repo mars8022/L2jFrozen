@@ -14,11 +14,10 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -33,7 +32,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class GmListTable
 {
-	protected static final Logger _log = Logger.getLogger(GmListTable.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(GmListTable.class.getClass());
 	private static GmListTable _instance;
 
 	/** Set(L2PcInstance>) containing all the GM in game */
@@ -56,7 +55,7 @@ public class GmListTable
 	
 	public FastList<L2PcInstance> getAllGms(boolean includeHidden)
 	{
-		FastList<L2PcInstance> tmpGmList = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> tmpGmList = new FastList<>();
 
 		for(FastMap.Entry<L2PcInstance, Boolean> n = _gmList.head(), end = _gmList.tail(); (n = n.getNext()) != end;)
 		{
@@ -70,7 +69,7 @@ public class GmListTable
 
 	public FastList<String> getAllGmNames(boolean includeHidden)
 	{
-		FastList<String> tmpGmList = new FastList<String>();
+		FastList<String> tmpGmList = new FastList<>();
 
 		for(FastMap.Entry<L2PcInstance, Boolean> n = _gmList.head(), end = _gmList.tail(); (n = n.getNext()) != end;)
 		{
@@ -88,7 +87,7 @@ public class GmListTable
 
 	private GmListTable()
 	{
-		_log.info("GmListTable: initalized.");
+		LOGGER.info("GmListTable: initalized.");
 		_gmList = new FastMap<L2PcInstance, Boolean>().shared();
 	}
 
@@ -101,7 +100,7 @@ public class GmListTable
 	{
 		if( Config.DEBUG)
 		{
-			_log.log(Level.FINE, "added gm: " + player.getName());
+			LOGGER.debug("added gm: " + player.getName());
 		}
 
 		_gmList.put(player, hidden);
@@ -111,7 +110,7 @@ public class GmListTable
 	{
 		if(Config.DEBUG)
 		{
-			_log.log(Level.FINE, "deleted gm: " + player.getName());
+			LOGGER.debug("deleted gm: " + player.getName());
 		}
 		
 		_gmList.remove(player);

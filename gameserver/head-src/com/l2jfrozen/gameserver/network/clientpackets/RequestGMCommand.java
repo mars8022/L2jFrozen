@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GMViewWarehouseWithdrawLis
 
 public final class RequestGMCommand extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(RequestGMCommand.class.getName());
+	static Logger LOGGER = Logger.getLogger(RequestGMCommand.class.getClass());
 
 	private String _targetName;
 	private int _command;

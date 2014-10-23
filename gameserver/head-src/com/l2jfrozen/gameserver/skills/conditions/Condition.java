@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.skills.conditions;
 
-//import java.util.logging.Logger;
+//import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.skills.Env;
 
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 public abstract class Condition implements ConditionListener
 {
 
-	//private static final Logger _log = Logger.getLogger(Condition.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(Condition.class.getClass());
 
 	private ConditionListener _listener;
 	private String _msg;

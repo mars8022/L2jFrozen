@@ -1,6 +1,6 @@
 package com.l2jfrozen.gameserver.taskmanager;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -12,7 +12,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class KnownListUpdateTaskManager
 {
-	protected static final Logger _log = Logger.getLogger(DecayTaskManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(DecayTaskManager.class.getClass());
 
 	private static KnownListUpdateTaskManager _instance;
 
@@ -75,7 +75,7 @@ public class KnownListUpdateTaskManager
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning(e.toString());
+				LOGGER.warn(e.toString());
 			}
 		}
 	}

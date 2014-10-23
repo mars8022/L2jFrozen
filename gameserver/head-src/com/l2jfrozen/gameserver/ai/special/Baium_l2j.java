@@ -20,10 +20,10 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -83,7 +83,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Baium_l2j  extends Quest implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(Baium_l2j.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Baium_l2j.class.getClass());
 	
 	private L2Character _target;
 	private L2Skill _skill;
@@ -253,7 +253,7 @@ public class Baium_l2j  extends Quest implements Runnable
 						}
 						catch (Exception e)
 						{
-							_log.log(Level.WARNING, "", e);
+							LOGGER.warn( "", e);
 						}
 					}
 				}, 11100L);
@@ -345,7 +345,7 @@ public class Baium_l2j  extends Quest implements Runnable
 						}
 						catch (Throwable e)
 						{
-							_log.log(Level.WARNING, "", e);
+							LOGGER.warn( "", e);
 						}
 					}
 				},100L);
