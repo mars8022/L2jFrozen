@@ -192,6 +192,13 @@ public class RaidBossSpawnManager
 			}
 
 			_schedules.remove(bossId);
+			
+			 // To update immediately the database, used for website to show up RaidBoss status.
+			if(Config.SAVE_RAIDBOSS_STATUS_INTO_DB)
+			{
+				updateDb();
+			}
+
 		}
 	}
 
@@ -224,6 +231,8 @@ public class RaidBossSpawnManager
 
 			_schedules.put(boss.getNpcId(), futureSpawn);
 			futureSpawn = null;
+			
+			// To update immediately the database, used for website to show up RaidBoss status.
 			if(Config.SAVE_RAIDBOSS_STATUS_INTO_DB)
 			{
 				updateDb();

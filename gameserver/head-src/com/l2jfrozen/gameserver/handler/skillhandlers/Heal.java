@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.handler.skillhandlers;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -92,6 +93,12 @@ public class Heal implements ISkillHandler
 			
 			if (target == null || target.isDead() || target.isInvul())
 				continue;
+			
+			// Avoid players heal inside Baium lair from outside		
+			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(player) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
+			{		
+				continue;		
+			}
 			
 			// We should not heal walls and door
 			if (target instanceof L2DoorInstance)
