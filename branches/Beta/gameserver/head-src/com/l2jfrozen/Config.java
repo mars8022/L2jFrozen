@@ -582,7 +582,6 @@ public final class Config
 	public static int DEATH_PENALTY_CHANCE;
 	public static int PLAYER_SPAWN_PROTECTION;
 	public static int PLAYER_TELEPORT_PROTECTION;
-	public static boolean EFFECT_TELEPORT_PROTECTION;
 	public static int PLAYER_FAKEDEATH_UP_PROTECTION;
 	public static String PARTY_XP_CUTOFF_METHOD;
 	public static int PARTY_XP_CUTOFF_LEVEL;
@@ -763,7 +762,6 @@ public final class Config
 			/* Player protection after teleport or login */
 			PLAYER_SPAWN_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerSpawnProtection", "0"));
 			PLAYER_TELEPORT_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerTeleportProtection", "0"));
-			EFFECT_TELEPORT_PROTECTION = Boolean.parseBoolean(otherSettings.getProperty("EffectTeleportProtection", "False"));
 			
 			/* Player protection after recovering from fake death (works against mobs only) */
 			PLAYER_FAKEDEATH_UP_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerFakeDeathUpProtection", "0"));

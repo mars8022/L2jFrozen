@@ -5861,14 +5861,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		if (protect)
 			ThreadPoolManager.getInstance().scheduleGeneral(new TeleportProtectionFinalizer(this), (Config.PLAYER_TELEPORT_PROTECTION - 1) * 1000);
-		
-		if (Config.EFFECT_TELEPORT_PROTECTION)
-		{
-			if (protect)
-				startAbnormalEffect(2097152);
-			else if (!protect)
-				stopAbnormalEffect(2097152);
-		}
 	}
 	
 	static class TeleportProtectionFinalizer implements Runnable
@@ -15998,6 +15990,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void onActionRequest()
 	{
+		/*
+		 * Important: dont send here a broadcast like removeAbnornalstatus
+		 * cause they will create mass lag on pvp
+		 */
+		
 		if (isSpawnProtected())
 			sendMessage("The effect of Spawn Protection has been removed.");
 		else if (isTeleportProtected())
