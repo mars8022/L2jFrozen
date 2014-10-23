@@ -12849,65 +12849,6 @@ public final class L2PcInstance extends L2PlayableInstance
 		return false;
 	}
 	
-	/*
-	public boolean checkPvpSkill(L2Object target, L2Skill skill)
-	{
-		if(target != null && (target instanceof L2PcInstance || target instanceof L2Summon))
-		{
-			L2PcInstance character;
-			if(target instanceof L2Summon)
-			{
-				if(((L2Summon) target).isInsideZone(ZONE_PVP))
-				{
-					return true;
-				}
-				character = ((L2Summon) target).getOwner();
-			}
-			else
-			{
-				character = (L2PcInstance) target;
-			}
-
-			if ((_inEventTvT && TvT.is_started()) || (_inEventDM && DM.is_started()) || (_inEventCTF && CTF.is_started()) || (_inEventVIP && VIP._started))
-				return true;
-
-			// check for PC->PC Pvp status
-			if(character != this && // target is not self and
-				!(isInDuel() && character.getDuelId() == getDuelId()) && // self is not in a duel and attacking opponent
-				!isInsideZone(ZONE_PVP) && // Pc is not in PvP zone
-				!character.isInsideZone(ZONE_PVP) // target is not in PvP zone
-			)
-			{
-				if(skill.isPvpSkill()) // pvp skill
-				{
-					if(getClan() != null && character.getClan() != null)
-					{
-						if(getClan().isAtWarWith(character.getClan().getClanId()) && character.getClan().isAtWarWith(getClan().getClanId()))
-							return true; // in clan war player can attack whites even with sleep etc.
-					}
-					if(character.getPvpFlag() == 0 && //   target's pvp flag is not set and
-					character.getKarma() == 0 //   target has no karma
-					)
-						return false;
-				}
-				else if(getCurrentSkill() != null && !getCurrentSkill().isCtrlPressed() && skill.isOffensive())
-				{
-					if(getClan() != null && character.getClan() != null)
-					{
-						if(getClan().isAtWarWith(character.getClan().getClanId()) && character.getClan().isAtWarWith(getClan().getClanId()))
-							return true; // in clan war player can attack whites even without ctrl
-					}
-					if(character.getPvpFlag() == 0 && //   target's pvp flag is not set and
-					character.getKarma() == 0 //   target has no karma
-					)
-						return false;
-				}
-			}
-		}
-
-		return true;
-	}
-	 */
 	/**
 	 * Check if the requested casting is a Pc->Pc skill cast and if it's a valid pvp condition.
 	 *
@@ -12929,8 +12870,18 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean checkPvpSkill(L2Object target, L2Skill skill, boolean srcIsSummon)
 	{
-		if ((_inEventTvT && TvT.is_started()) || (_inEventDM && DM.is_started()) || (_inEventCTF && CTF.is_started()) || (_inEventVIP && VIP._started))
-			return true;
+		// Check if player and target are in events and on the same team.	
+		if (target instanceof L2PcInstance)	
+		{	
+			if (skill.isOffensive() && (_inEventTvT && ((L2PcInstance) target)._inEventTvT && TvT.is_started() && !_teamNameTvT.equals(((L2PcInstance) target)._teamNameTvT)) || (_inEventCTF && ((L2PcInstance) target)._inEventCTF && CTF.is_started() && !_teamNameCTF.equals(((L2PcInstance) target)._teamNameCTF)) || (_inEventDM && ((L2PcInstance) target)._inEventDM && DM.is_started()) || (_inEventVIP && ((L2PcInstance) target)._inEventVIP && VIP._started))
+			{		
+				return true;			
+			}
+			else if (isInFunEvent() && skill.isOffensive()) // same team return false		
+			{
+				return false;		
+			}
+		}
 		
 		// check for PC->PC Pvp status
 		if (target instanceof L2Summon)
