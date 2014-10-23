@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 public class TaskOlympiadSave extends Task
 {
 	private static final Logger _log = Logger.getLogger(TaskOlympiadSave.class.getName());
-	public static final String NAME = "OlympiadSave";
+	public static final String NAME = "olympiadsave";
 	
 	@Override
 	public String getName()
@@ -49,7 +49,7 @@ public class TaskOlympiadSave extends Task
 			if (Olympiad.getInstance().inCompPeriod())
 			{
 				Olympiad.getInstance().saveOlympiadStatus();
-				_log.info("Olympiad System: Data updated successfully.");
+				_log.info("Olympiad System save Global Task: launched.");
 			}
 		}
 		catch (Exception e)

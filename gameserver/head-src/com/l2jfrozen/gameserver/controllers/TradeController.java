@@ -283,7 +283,7 @@ public class TradeController
 								}
 								
 								if(!rset1.getString("npc_id").equals("gm") 
-									&& price < item2.getReferencePrice()){
+									&& price < item2.getReferencePrice()/2){
 									
 									_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 									price = item2.getReferencePrice();
@@ -494,7 +494,7 @@ public class TradeController
 									}
 									
 									if(!rset1.getString("npc_id").equals("gm") 
-										&& price < item2.getReferencePrice()){
+										&& price < item2.getReferencePrice()/2){
 										
 										_log.log(Level.WARNING, "L2TradeList "+buy1.getListId()+" itemId  "+ itemId+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 										price = item2.getReferencePrice();
