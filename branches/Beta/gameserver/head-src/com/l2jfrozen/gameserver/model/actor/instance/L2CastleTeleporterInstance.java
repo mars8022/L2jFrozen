@@ -15,8 +15,8 @@ package com.l2jfrozen.gameserver.model.actor.instance;
  */
 
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
@@ -30,8 +30,8 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 public final class L2CastleTeleporterInstance extends L2NpcInstance
 {
 	
-	/** The Constant _log. */
-	public static final Logger _log = Logger.getLogger(L2CastleTeleporterInstance.class.getName());
+	/** The Constant LOGGER. */
+	public static final Logger LOGGER = Logger.getLogger(L2CastleTeleporterInstance.class.getClass());
 	
 	/** The _current task. */
 	private boolean _currentTask = false;
@@ -142,7 +142,7 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 			}
 			catch (NullPointerException e)
 			{
-				_log.log(Level.WARNING, "" + e.getMessage(), e);
+				LOGGER.warn( "" + e.getMessage(), e);
 			}
 		}
 	}

@@ -25,9 +25,10 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -37,7 +38,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 public class BoatManager
 {
-	private static final Logger _log = Logger.getLogger(BoatManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(BoatManager.class.getClass());
 
 	public static final BoatManager getInstance()
 	{
@@ -52,7 +53,7 @@ public class BoatManager
 
 	public BoatManager()
 	{
-		_log.info("Initializing BoatManager");
+		LOGGER.info("Initializing BoatManager");
 		load();
 	}
 
@@ -103,11 +104,11 @@ public class BoatManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 
-			_log.warning("boat.csv is missing in data folder");
+			LOGGER.warn("boat.csv is missing in data folder");
 		}
 		catch(Exception e)
 		{
-			_log.warning("error while creating boat table " + e);
+			LOGGER.warn("error while creating boat table " + e);
 			e.printStackTrace();
 		}
 		finally

@@ -18,9 +18,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -34,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortManager
 {
-	protected static final Logger _log = Logger.getLogger(FortManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(FortManager.class.getClass());
 	
 	public static final FortManager getInstance()
 	{
@@ -49,7 +50,7 @@ public class FortManager
 	// Constructor
 	public FortManager()
 	{
-		_log.info("Initializing FortManager");
+		LOGGER.info("Initializing FortManager");
 		_forts.clear();
 		load();
 	}
@@ -107,11 +108,11 @@ public class FortManager
 			rs.close();
 			statement.close();
 
-			_log.info("Loaded: " + getForts().size() + " fortress");
+			LOGGER.info("Loaded: " + getForts().size() + " fortress");
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: loadFortData(): " + e.getMessage());
+			LOGGER.warn("Exception: loadFortData(): " + e.getMessage());
 			e.printStackTrace();
 		}
 

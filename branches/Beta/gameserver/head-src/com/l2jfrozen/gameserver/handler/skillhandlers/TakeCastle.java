@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class TakeCastle implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(TakeCastle.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(TakeCastle.class.getClass());
 	private static final SkillType[] SKILL_IDS = { SkillType.TAKECASTLE };
 
 	@Override

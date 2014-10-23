@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -40,7 +40,7 @@ public class AdminDonator implements IAdminCommandHandler
 		"admin_setdonator"
 	};
 
-	protected static final Logger _log = Logger.getLogger(AdminDonator.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AdminDonator.class.getClass());
 	
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
@@ -58,7 +58,7 @@ public class AdminDonator implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -97,7 +97,7 @@ public class AdminDonator implements IAdminCommandHandler
 			else
 			{
 				activeChar.sendMessage("Impossible to set a non Player Target as Donator.");
-				_log.info("GM: " + activeChar.getName() + " is trying to set a non Player Target as Donator.");
+				LOGGER.info("GM: " + activeChar.getName() + " is trying to set a non Player Target as Donator.");
 
 				return false;
 			}
@@ -187,7 +187,7 @@ public class AdminDonator implements IAdminCommandHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error: could not update database: ", e);
+			LOGGER.error( "Error: could not update database: ", e);
 		}
 		finally
 		{

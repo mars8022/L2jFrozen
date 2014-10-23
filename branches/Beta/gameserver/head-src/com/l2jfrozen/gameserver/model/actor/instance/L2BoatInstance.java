@@ -26,9 +26,10 @@ import java.io.LineNumberReader;
 import java.util.Collection;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
@@ -51,7 +52,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class L2BoatInstance extends L2Character
 {
-	protected static final Logger _logBoat = Logger.getLogger(L2BoatInstance.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2BoatInstance.class.getClass());
 
 	public float boatSpeed;
 
@@ -120,7 +121,7 @@ public class L2BoatInstance extends L2Character
 		public void parseLine(String line)
 		{
 			//L2BoatPath bp = new L2BoatPath();
-			_path = new FastMap<Integer, L2BoatPoint>();
+			_path = new FastMap<>();
 			StringTokenizer st = new StringTokenizer(line, ";");
 			Integer.parseInt(st.nextToken());
 			max = Integer.parseInt(st.nextToken());
@@ -166,21 +167,15 @@ public class L2BoatInstance extends L2Character
 					break;
 				}
 				if(!token)
-					_logBoat.warning("No path for boat " + boatName + " !!!");
+					LOGGER.warn("No path for boat " + boatName + " !!!");
 			}
 			catch(FileNotFoundException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_logBoat.warning("boatpath.csv is missing in data folder");
+				LOGGER.error("boatpath.csv is missing in data folder", e);
 			}
 			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_logBoat.warning("error while creating boat table " + e);
+			{			
+				LOGGER.error("Error while creating boat table ", e);
 			}
 			finally
 			{
@@ -563,7 +558,7 @@ public class L2BoatInstance extends L2Character
 			Collection<L2PcInstance> knownPlayers = getKnownList().getKnownPlayers().values();
 			if(knownPlayers != null && !knownPlayers.isEmpty())
 			{
-				_inboat = new FastMap<Integer, L2PcInstance>();
+				_inboat = new FastMap<>();
 				int i = 0;
 				for(L2PcInstance player : knownPlayers)
 				{
@@ -602,7 +597,7 @@ public class L2BoatInstance extends L2Character
 			Collection<L2PcInstance> knownPlayers = getKnownList().getKnownPlayers().values();
 			if(knownPlayers != null && !knownPlayers.isEmpty())
 			{
-				_inboat = new FastMap<Integer, L2PcInstance>();
+				_inboat = new FastMap<>();
 				int i = 0;
 				for(L2PcInstance player : knownPlayers)
 				{

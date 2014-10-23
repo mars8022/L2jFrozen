@@ -22,11 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -46,7 +47,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class PetitionManager
 {
-	protected static final Logger _log = Logger.getLogger(PetitionManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(PetitionManager.class.getClass());
 	private static PetitionManager _instance;
 
 	private Map<Integer, Petition> _pendingPetitions;
@@ -110,7 +111,7 @@ public final class PetitionManager
 			_id = IdFactory.getInstance().getNextId();
 			if(petitionType >= PetitionType.values().length)
 			{
-				_log.warning("PetitionManager:Petition : invalid petition type (received type was +1) : " + petitionType);
+				LOGGER.warn("PetitionManager:Petition : invalid petition type (received type was +1) : " + petitionType);
 			}
 			_type = PetitionType.values()[petitionType];
 			_content = petitionText;
@@ -253,7 +254,7 @@ public final class PetitionManager
 		int numPetitions = getPendingPetitionCount();
 
 		getCompletedPetitions().clear();
-		_log.info("PetitionManager: Completed petition data cleared. " + numPetitions + " petition(s) removed.");
+		LOGGER.info("PetitionManager: Completed petition data cleared. " + numPetitions + " petition(s) removed.");
 	}
 
 	public void clearPendingPetitions()
@@ -261,7 +262,7 @@ public final class PetitionManager
 		int numPetitions = getPendingPetitionCount();
 
 		getPendingPetitions().clear();
-		_log.info("PetitionManager: Pending petition queue cleared. " + numPetitions + " petition(s) removed.");
+		LOGGER.info("PetitionManager: Pending petition queue cleared. " + numPetitions + " petition(s) removed.");
 	}
 
 	public boolean acceptPetition(L2PcInstance respondingAdmin, int petitionId)

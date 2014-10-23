@@ -19,10 +19,10 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class L2TradeList
 {
-	private static Logger _log = Logger.getLogger(L2TradeList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2TradeList.class.getClass());
 
 	private List<L2ItemInstance> _items;
 	private int _listId;
@@ -83,7 +83,7 @@ public class L2TradeList
 				
 				if(price < (item.getReferencePrice()/2)){
 					
-					_log.log(Level.WARNING, "L2TradeList "+this.getListId()+" itemId  "+ itemID+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+					LOGGER.warn( "L2TradeList "+this.getListId()+" itemId  "+ itemID+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 					price = item.getReferencePrice();
 				}
 				item.setPriceToSell(price);
@@ -352,7 +352,7 @@ public class L2TradeList
 
 			if(playerItem == null)
 			{
-				_log.warning("L2TradeList: PlayersInv.destroyItem returned NULL!");
+				LOGGER.warn("L2TradeList: PlayersInv.destroyItem returned NULL!");
 				continue;
 			}
 
@@ -421,7 +421,7 @@ public class L2TradeList
 		}
 		catch(Exception e)
 		{
-			_log.warning("could not change pet item object id: " + e);
+			LOGGER.warn("could not change pet item object id: " + e);
 		}
 		finally
 		{
@@ -558,7 +558,7 @@ public class L2TradeList
 
 				if(buyerItem.getCount() > Integer.MAX_VALUE / buyerItem.getOwnersPrice())
 				{
-					_log.warning("Integer Overflow on Cost. Possible Exploit attempt between " + buyer.getName() + " and " + seller.getName() + ".");
+					LOGGER.warn("Integer Overflow on Cost. Possible Exploit attempt between " + buyer.getName() + " and " + seller.getName() + ".");
 					return;
 				}
 

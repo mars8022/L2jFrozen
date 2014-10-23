@@ -1,16 +1,17 @@
 package com.l2jfrozen.loginserver;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
 
 public class BruteProtector
 {
-	private static final Logger _log = Logger.getLogger(BruteProtector.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(BruteProtector.class.getClass());
 	private static final FastMap<String, ArrayList<Integer>> _clients = new FastMap<String, ArrayList<Integer>>();
 	
 	public static boolean canLogin(String ip)
@@ -50,7 +51,7 @@ public class BruteProtector
 		// Minimum average time difference (in seconds) between attempts
 		if (avg < Config.BRUT_AVG_TIME)
 		{
-			_log.warning("IP " + ip + " has " + avg + " seconds between login attempts. Possible BruteForce.");
+			LOGGER.warn("IP " + ip + " has " + avg + " seconds between login attempts. Possible BruteForce.");
 			// Deleting 2 first elements because if ban will disappear user should have a possibility to logon
 			synchronized(_clients.get(ip))
 			{

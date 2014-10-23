@@ -8,10 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
@@ -26,7 +26,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class PayStream implements HttpHandler
 {
-	protected static final Logger _log = Logger.getLogger(PayStream.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(PayStream.class.getClass());
 	// An indication that all options are read, and the handler can be created
 
 	// Security Key - defined in the study Lisnoe paystream
@@ -128,7 +128,7 @@ public class PayStream implements HttpHandler
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 
-				_log.log(Level.WARNING, "WebServer: Paystream can't update data : " + e);
+				LOGGER.warn( "WebServer: Paystream can't update data : " + e);
 			}
 
 		}
@@ -201,7 +201,7 @@ public class PayStream implements HttpHandler
 									response.append(String.format(_MessageOK, amount, charName));
 								else
 									response.append(String.format(_MessageFail, charName));
-								_log.info("WebServer: Paystream accepted payment from " + query.get("user_id") + " for character " + charName);
+								LOGGER.info("WebServer: Paystream accepted payment from " + query.get("user_id") + " for character " + charName);
 							}
 							catch(NumberFormatException e)
 							{

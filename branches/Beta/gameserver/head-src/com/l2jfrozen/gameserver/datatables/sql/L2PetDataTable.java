@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2PetData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -33,7 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class L2PetDataTable
 {
-	private final static Logger _log = Logger.getLogger(L2PetInstance.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(L2PetInstance.class.getClass());
 	private static L2PetDataTable _instance;
 
 	//private static final int[] PET_LIST = { 12077, 12312, 12313, 12311, 12527, 12528, 12526 };
@@ -51,7 +52,7 @@ public class L2PetDataTable
 
 	private L2PetDataTable()
 	{
-		_petTable = new FastMap<Integer, Map<Integer, L2PetData>>();
+		_petTable = new FastMap<>();
 	}
 
 	public void loadPetsData()
@@ -112,7 +113,7 @@ public class L2PetDataTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("Could not load pets stats"+" "+ e);
+			LOGGER.error("Could not load pets stats", e);
 		}
 		finally
 		{
@@ -126,7 +127,7 @@ public class L2PetDataTable
 
 		if(h == null)
 		{
-			Map<Integer, L2PetData> statTable = new FastMap<Integer, L2PetData>();
+			Map<Integer, L2PetData> statTable = new FastMap<>();
 			statTable.put(petData.getPetLevel(), petData);
 			_petTable.put(petData.getPetID(), statTable);
 			return;

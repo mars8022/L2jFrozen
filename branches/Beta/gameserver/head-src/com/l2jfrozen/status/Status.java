@@ -22,9 +22,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.FService;
 import com.l2jfrozen.ServerType;
@@ -33,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Status extends Thread
 {
-	protected static final Logger _log = Logger.getLogger(Status.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Status.class.getClass());
 	
 	private ServerSocket statusServerSocket;
 	
@@ -118,12 +119,12 @@ public class Status extends Thread
 		{
 			if (_statusPw == null)
 			{
-				_log.info("Server's Telnet Function Has No Password Defined!");
-				_log.info("A Password Has Been Automaticly Created!");
+				LOGGER.info("Server's Telnet Function Has No Password Defined!");
+				LOGGER.info("A Password Has Been Automaticly Created!");
 				_statusPw = rndPW(10);
-				_log.info("Password Has Been Set To: " + _statusPw);
+				LOGGER.info("Password Has Been Set To: " + _statusPw);
 			}
-			_log.info("Telnet StatusServer started successfully, listening on Port: " + _statusPort);
+			LOGGER.info("Telnet StatusServer started successfully, listening on Port: " + _statusPort);
 		}
 		statusServerSocket = new ServerSocket(_statusPort);
 		_uptime = (int) System.currentTimeMillis();

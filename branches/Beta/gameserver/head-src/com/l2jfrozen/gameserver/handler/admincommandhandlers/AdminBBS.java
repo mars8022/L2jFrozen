@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class AdminBBS implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminKick.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminKick.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_bbs"
@@ -50,7 +50,7 @@ public class AdminBBS implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 		

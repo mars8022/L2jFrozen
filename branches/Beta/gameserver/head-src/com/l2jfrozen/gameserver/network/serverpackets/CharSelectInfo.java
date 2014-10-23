@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.CharSelectInfoPackage;
@@ -44,7 +45,7 @@ public class CharSelectInfo extends L2GameServerPacket
 	// d SdSddddddddddffddddddddddddddddddddddddddddddddddddddddddddddffd
 	private static final String _S__1F_CHARSELECTINFO = "[S] 1F CharSelectInfo";
 	
-	private static Logger _log = Logger.getLogger(CharSelectInfo.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharSelectInfo.class.getClass());
 	
 	private String _loginName;
 	
@@ -374,7 +375,7 @@ public class CharSelectInfo extends L2GameServerPacket
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("Could not restore augmentation info: " + e);
+				LOGGER.warn("Could not restore augmentation info: " + e);
 			}
 			finally
 			{

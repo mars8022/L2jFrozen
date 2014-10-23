@@ -24,10 +24,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.InfoCache;
@@ -51,11 +52,11 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class NpcTable
 {
-	private final static Logger _log = Logger.getLogger(NpcTable.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(NpcTable.class.getClass());
 
 	private static NpcTable _instance;
 
-	private final Map<Integer, L2NpcTemplate> _npcs;
+	private final Map<Integer, L2NpcTemplate> npcs;
 	private boolean _initialized = false;
 
 	public static NpcTable getInstance()
@@ -70,7 +71,7 @@ public class NpcTable
 
 	private NpcTable()
 	{
-		_npcs = new FastMap<Integer, L2NpcTemplate>();
+		npcs = new FastMap<>();
 
 		restoreNpcData();
 	}
@@ -138,7 +139,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.severe("NPCTable: Error creating NPC table"+" "+ e);
+				LOGGER.error("NPCTable: Error creating NPC table", e);
 			}
 
 			if(Config.CUSTOM_NPC_TABLE)
@@ -200,7 +201,7 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
-					_log.severe("NPCTable: Error creating custom NPC table"+" "+ e);
+					LOGGER.error("NPCTable: Error creating custom NPC table", e);
 				}
 			try
 			{
@@ -216,7 +217,7 @@ public class NpcTable
 				while(npcskills.next())
 				{
 					int mobId = npcskills.getInt("npcid");
-					npcDat = _npcs.get(mobId);
+					npcDat = npcs.get(mobId);
 
 					if(npcDat == null)
 					{
@@ -247,7 +248,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.severe("NPCTable: Error reading NPC skills table"+" "+ e);
+				LOGGER.error("NPCTable: Error reading NPC skills table", e);
 			}
 
 			if(Config.CUSTOM_DROPLIST_TABLE)
@@ -269,11 +270,11 @@ public class NpcTable
 					{
 						int mobId = dropData.getInt("mobId");
 
-						L2NpcTemplate npcDat = _npcs.get(mobId);
+						L2NpcTemplate npcDat = npcs.get(mobId);
 
 						if(npcDat == null)
 						{
-							_log.warning("NPCTable: CUSTOM DROPLIST No npc correlating with id: {}"+" "+ mobId);
+							LOGGER.warn("NPCTable: CUSTOM DROPLIST No npc correlating with id: " + mobId);
 							continue;
 						}
 
@@ -291,7 +292,7 @@ public class NpcTable
 					}
 					dropData.close();
 					statement.close();
-					_log.finest("CustomDropList : Added {} custom droplist"+" "+ cCount);
+					LOGGER.info("CustomDropList : Added " + cCount + " custom droplist");
 
 					if(Config.ENABLE_CACHE_INFO)
 					{
@@ -300,7 +301,7 @@ public class NpcTable
 				}
 				catch(Exception e)
 				{
-					_log.severe("NPCTable: Error reading NPC CUSTOM drop data"+" "+ e);
+					LOGGER.error("NPCTable: Error reading NPC CUSTOM drop data", e);
 				}
 
 			try
@@ -321,11 +322,11 @@ public class NpcTable
 				{
 					int mobId = dropData.getInt("mobId");
 
-					npcDat = _npcs.get(mobId);
+					npcDat = npcs.get(mobId);
 
 					if(npcDat == null)
 					{
-						_log.warning("NPCTable: No npc correlating with id: {}"+" "+ mobId);
+						LOGGER.info("NPCTable: No npc correlating with id: " + mobId);
 						continue;
 					}
 
@@ -347,7 +348,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.severe("NPCTable: Error reading NPC drop data"+" "+ e);
+				LOGGER.error("NPCTable: Error reading NPC drop data", e);
 			}
 
 			try
@@ -371,12 +372,12 @@ public class NpcTable
 					L2NpcTemplate npc = getTemplate(npcId);
 					if (npc == null)
 					{
-						_log.warning("NPCTable: Error getting NPC template ID {} while trying to load skill trainer data."+" "+ npcId);
+						LOGGER.warn("NPCTable: Error getting NPC template ID " + npcId + " while trying to load skill trainer data.");
 						continue;
 					}
 					
 					if(classId >= ClassId.values().length){
-						_log.warning("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+(ClassId.values().length-1)+" specified into ClassID Enum --> check your Database to be complient with it"+" "+ classId);
+						LOGGER.warn("NPCTable: Error defining learning data for NPC "+npcId+": specified classId "+classId+" is higher then max one "+(ClassId.values().length-1)+" specified into ClassID Enum --> check your Database to be complient with it");
 						continue;
 					}
 
@@ -388,7 +389,7 @@ public class NpcTable
 			}
 			catch(Exception e)
 			{
-				_log.severe("NPCTable: Error reading NPC trainer data"+" "+ e);
+				LOGGER.error("NPCTable: Error reading NPC trainer data", e);
 			}
 
 			try
@@ -410,7 +411,7 @@ public class NpcTable
 				{
 					int raidId = minionData.getInt("boss_id");
 
-					npcDat = _npcs.get(raidId);
+					npcDat = npcs.get(raidId);
 					minionDat = new L2MinionData();
 					minionDat.setMinionId(minionData.getInt("minion_id"));
 					minionDat.setAmountMin(minionData.getInt("amount_min"));
@@ -421,11 +422,11 @@ public class NpcTable
 
 				minionData.close();
 				statement.close();
-				_log.finest("NpcTable: Loaded {} Minions."+" "+ cnt);
+				LOGGER.info("NpcTable: Loaded " + cnt  + " Minions.");
 			}
 			catch(Exception e)
 			{
-				_log.severe("Error loading minion data");
+				LOGGER.info("Error loading minion data");
 				e.printStackTrace();
 			}
 		}
@@ -706,10 +707,10 @@ public class NpcTable
 			template.addVulnerability(Stats.BLUNT_WPN_VULN, 1);
 			template.addVulnerability(Stats.DAGGER_WPN_VULN, 1);
 
-			_npcs.put(id, template);
+			npcs.put(id, template);
 		}
 
-		_log.finest("NpcTable: Loaded {} Npc Templates."+" "+ _npcs.size());
+		LOGGER.info("NpcTable: Loaded " + npcs.size() + " Npc Templates.");
 	}
 
 	public void reloadNpc(int id)
@@ -720,11 +721,11 @@ public class NpcTable
 		{
 			// save a copy of the old data
 			L2NpcTemplate old = getTemplate(id);
-			Map<Integer, L2Skill> skills = new FastMap<Integer, L2Skill>();
+			Map<Integer, L2Skill> skills = new FastMap<>();
 			
 			skills.putAll(old.getSkills());
 			
-			FastList<L2DropCategory> categories = new FastList<L2DropCategory>();
+			FastList<L2DropCategory> categories = new FastList<>();
 			
 			if (old.getDropData() != null)
 			{
@@ -732,7 +733,7 @@ public class NpcTable
 			}
 			ClassId[] classIds = old.getTeachInfo().clone();
 			
-			List<L2MinionData> minions = new FastList<L2MinionData>();
+			List<L2MinionData> minions = new FastList<>();
 			
 			if (old.getMinionData() != null)
 			{
@@ -873,7 +874,7 @@ public class NpcTable
 		}
 		catch (Exception e)
 		{
-			_log.severe("NPCTable: Could not reload data for NPC {}" + " " + id + " " + e);
+			LOGGER.error("NPCTable: Could not reload data for NPC " + " " + id, e);
 		}
 		finally
 		{
@@ -931,7 +932,7 @@ public class NpcTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("NPCTable: Could not store new NPC data in database"+" "+ e);
+			LOGGER.error("NPCTable: Could not store new NPC data in database", e);
 		}
 		finally
 		{
@@ -946,17 +947,17 @@ public class NpcTable
 
 	public void replaceTemplate(L2NpcTemplate npc)
 	{
-		_npcs.put(npc.npcId, npc);
+		npcs.put(npc.npcId, npc);
 	}
 
 	public L2NpcTemplate getTemplate(int id)
 	{
-		return _npcs.get(id);
+		return npcs.get(id);
 	}
 
 	public L2NpcTemplate getTemplateByName(String name)
 	{
-		for(L2NpcTemplate npcTemplate : _npcs.values())
+		for(L2NpcTemplate npcTemplate : npcs.values())
 			if(npcTemplate.name.equalsIgnoreCase(name))
 				return npcTemplate;
 
@@ -965,9 +966,9 @@ public class NpcTable
 
 	public L2NpcTemplate[] getAllOfLevel(int lvl)
 	{
-		List<L2NpcTemplate> list = new FastList<L2NpcTemplate>();
+		List<L2NpcTemplate> list = new FastList<>();
 
-		for(L2NpcTemplate t : _npcs.values())
+		for(L2NpcTemplate t : npcs.values())
 			if(t.level == lvl)
 			{
 				list.add(t);
@@ -978,9 +979,9 @@ public class NpcTable
 
 	public L2NpcTemplate[] getAllMonstersOfLevel(int lvl)
 	{
-		List<L2NpcTemplate> list = new FastList<L2NpcTemplate>();
+		List<L2NpcTemplate> list = new FastList<>();
 
-		for(L2NpcTemplate t : _npcs.values())
+		for(L2NpcTemplate t : npcs.values())
 			if(t.level == lvl && "L2Monster".equals(t.type))
 			{
 				list.add(t);
@@ -991,9 +992,9 @@ public class NpcTable
 
 	public L2NpcTemplate[] getAllNpcStartingWith(String letter)
 	{
-		List<L2NpcTemplate> list = new FastList<L2NpcTemplate>();
+		List<L2NpcTemplate> list = new FastList<>();
 
-		for(L2NpcTemplate t : _npcs.values())
+		for(L2NpcTemplate t : npcs.values())
 			if(t.name.startsWith(letter) && "L2Npc".equals(t.type))
 			{
 				list.add(t);
@@ -1031,17 +1032,17 @@ public class NpcTable
 
 	public Map<Integer, L2NpcTemplate> getAllTemplates()
 	{
-		return _npcs;
+		return npcs;
 	}
 
 	public void FillDropList()
 	{
-		for(L2NpcTemplate npc : _npcs.values())
+		for(L2NpcTemplate npc : npcs.values())
 		{
 			InfoCache.addToDroplistCache(npc.npcId, npc.getAllDropData());
 		}
 
-		_log.info("Players droplist was cached");
+		LOGGER.info("Players droplist was cached");
 	}
 
 }

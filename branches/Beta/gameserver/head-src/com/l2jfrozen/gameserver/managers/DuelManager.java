@@ -17,9 +17,9 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 
 public class DuelManager
 {
-	private static final Logger _log = Logger.getLogger(DuelManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DuelManager.class.getClass());
 
 	// =========================================================
 	private static DuelManager _instance;
@@ -51,7 +51,7 @@ public class DuelManager
 	// Constructor
 	private DuelManager()
 	{
-		_log.info("Initializing DuelManager");
+		LOGGER.info("Initializing DuelManager");
 		_duels = new FastList<Duel>();
 	}
 

@@ -19,10 +19,11 @@
 package com.l2jfrozen.gameserver.model.actor.instance;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
@@ -43,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 public class L2OlympiadManagerInstance extends L2FolkInstance
 {
-    private static Logger _logOlymp = Logger.getLogger(L2OlympiadManagerInstance.class.getName());
+    private static Logger LOGGER = Logger.getLogger(L2OlympiadManagerInstance.class.getClass());
     
     private static final int GATE_PASS = Config.ALT_OLY_COMP_RITEM;
 
@@ -168,7 +169,7 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
                 	L2Multisell.getInstance().SeparateAndSend(102, player, false, getCastle().getTaxRate());
                     break;
                     default:
-                        _logOlymp.warning("Olympiad System: Couldnt send packet for request " + val);
+                        LOGGER.warn("Olympiad System: Couldnt send packet for request " + val);
                     break;
                         
             }
@@ -253,7 +254,7 @@ public class L2OlympiadManagerInstance extends L2FolkInstance
                     player.sendPacket(new ExHeroList());
                     break;
                     default:
-                        _logOlymp.warning("Olympiad System: Couldnt send packet for request " + val);
+                        LOGGER.warn("Olympiad System: Couldnt send packet for request " + val);
                     break;
             }
         }

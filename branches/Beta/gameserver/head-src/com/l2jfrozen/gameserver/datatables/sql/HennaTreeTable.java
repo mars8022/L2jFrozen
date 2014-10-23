@@ -23,10 +23,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2HennaInstance;
@@ -43,7 +44,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HennaTreeTable
 {
-	private static Logger _log = Logger.getLogger(HennaTreeTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(HennaTreeTable.class.getClass());
 	private static final HennaTreeTable _instance = new HennaTreeTable();
 	private final Map<ClassId, List<L2HennaInstance>> _hennaTrees;
 	private final boolean _initialized = true;
@@ -55,7 +56,7 @@ public class HennaTreeTable
 
 	private HennaTreeTable()
 	{
-		_hennaTrees = new FastMap<ClassId, List<L2HennaInstance>>();
+		_hennaTrees = new FastMap<>();
 		int classId = 0;
 		int count = 0;
 
@@ -72,7 +73,7 @@ public class HennaTreeTable
 
 			classlist: while(classlist.next())
 			{
-				list = new FastList<L2HennaInstance>();
+				list = new FastList<>();
 				classId = classlist.getInt("id");
 				PreparedStatement statement2 = con.prepareStatement("SELECT class_id, symbol_id FROM henna_trees where class_id=? ORDER BY symbol_id");
 				statement2.setInt(1, classId);
@@ -113,7 +114,7 @@ public class HennaTreeTable
 				statement2.close();
 
 				count += list.size();
-				_log.finest("Henna Tree for Class: " + classId + " has " + list.size() + " Henna Templates.");
+				LOGGER.info("Henna Tree for Class: " + classId + " has " + list.size() + " Henna Templates.");
 			}
 
 			classlist.close();
@@ -122,14 +123,14 @@ public class HennaTreeTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("error while creating henna tree for classId {}"+" "+ classId+" "+ e);
+			LOGGER.error("Error while creating henna tree for classId {}"+" "+ classId, e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 
-		_log.finest("HennaTreeTable: Loaded {} Henna Tree Templates."+" "+ count);
+		LOGGER.info("HennaTreeTable: Loaded {} Henna Tree Templates."+" "+ count);
 
 	}
 
@@ -139,7 +140,7 @@ public class HennaTreeTable
 		if(henna == null)
 		{
 			// the hennatree for this class is undefined, so we give an empty list
-			_log.warning("Hennatree for class {} is not defined !"+" "+ classId);
+			LOGGER.warn("Hennatree for class {} is not defined !"+" "+ classId);
 			return new L2HennaInstance[0];
 		}
 		

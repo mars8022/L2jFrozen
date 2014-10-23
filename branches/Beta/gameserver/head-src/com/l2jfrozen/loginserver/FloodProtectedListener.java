@@ -22,10 +22,10 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
@@ -34,7 +34,7 @@ import com.l2jfrozen.Config;
  */
 public abstract class FloodProtectedListener extends Thread
 {
-	private Logger _log = Logger.getLogger(FloodProtectedListener.class.getName());
+	private Logger LOGGER = Logger.getLogger(FloodProtectedListener.class.getClass());
 	private Map<String, ForeignConnection> _floodProtection = new FastMap<String, ForeignConnection>();
 	private String _listenIp;
 	private int _port;
@@ -81,7 +81,7 @@ public abstract class FloodProtectedListener extends Thread
 
 							if(!fConnection.isFlooding)
 							{
-								_log.warning("Potential Flood from " + connection.getInetAddress().getHostAddress());
+								LOGGER.warn("Potential Flood from " + connection.getInetAddress().getHostAddress());
 							}
 
 							fConnection.isFlooding = true;
@@ -91,7 +91,7 @@ public abstract class FloodProtectedListener extends Thread
 						if(fConnection.isFlooding) //if connection was flooding server but now passed the check
 						{
 							fConnection.isFlooding = false;
-							_log.info(connection.getInetAddress().getHostAddress() + " is not considered as flooding anymore.");
+							LOGGER.info(connection.getInetAddress().getHostAddress() + " is not considered as flooding anymore.");
 						}
 
 						fConnection.lastConnection = System.currentTimeMillis();
@@ -132,10 +132,7 @@ public abstract class FloodProtectedListener extends Thread
 					}
 					catch(IOException io)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
-							e.printStackTrace();
-						
-						_log.log(Level.INFO, "", io);
+						LOGGER.error("fixme:unhandled exception", io);
 					}
 					break;
 				}
@@ -179,7 +176,7 @@ public abstract class FloodProtectedListener extends Thread
 		}
 		else
 		{
-			_log.warning("Removing a flood protection for a GameServer that was not in the connection map??? :" + ip);
+			LOGGER.warn("Removing a flood protection for a GameServer that was not in the connection map??? :" + ip);
 		}
 
 		fConnection = null;

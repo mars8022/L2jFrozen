@@ -21,10 +21,10 @@ package com.l2jfrozen.gameserver.model;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
@@ -49,7 +49,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public abstract class L2Effect
 {
-	static final Logger _log = Logger.getLogger(L2Effect.class.getName());
+	static final Logger LOGGER = Logger.getLogger(L2Effect.class.getClass());
 
 	public static enum EffectState
 	{
@@ -185,7 +185,7 @@ public abstract class L2Effect
 			}
 			catch(Throwable e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}
@@ -254,7 +254,7 @@ public abstract class L2Effect
 			_currentTask = null;
 			_periodfirsttime = newfirsttime;
 			int duration = _period - _periodfirsttime;
-			//_log.warning("Period: "+_period+"-"+_periodfirsttime+"="+duration);
+			//LOGGER.warn("Period: "+_period+"-"+_periodfirsttime+"="+duration);
 			_currentTask = new EffectTask(duration * 1000, -1);
 			_currentFuture = ThreadPoolManager.getInstance().scheduleEffect(_currentTask, duration * 1000);
 		}
@@ -352,7 +352,7 @@ public abstract class L2Effect
 			if (_effected != null)
 				_effected.addEffect(this);
 			else
-				_log.warning("Effected is null for skill " + _skill.getId() + " on effect " + getEffectType());
+				LOGGER.warn("Effected is null for skill " + _skill.getId() + " on effect " + getEffectType());
 		}
 	}
 
@@ -418,7 +418,7 @@ public abstract class L2Effect
 			if (_effected != null)
 				_effected.removeEffect(this);
 			else
-				_log.warning("Effected is null for skill " + _skill.getId() + " on effect " + getEffectType());
+				LOGGER.warn("Effected is null for skill " + _skill.getId() + " on effect " + getEffectType());
 		}
 	}
 

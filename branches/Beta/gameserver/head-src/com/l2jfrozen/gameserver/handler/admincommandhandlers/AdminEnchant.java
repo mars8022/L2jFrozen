@@ -39,7 +39,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class AdminEnchant implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminEnchant.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminEnchant.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_seteh",//6
@@ -75,7 +75,7 @@ public class AdminEnchant implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 

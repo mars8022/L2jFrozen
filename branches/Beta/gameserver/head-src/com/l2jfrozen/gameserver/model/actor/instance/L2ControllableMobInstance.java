@@ -117,7 +117,7 @@ public class L2ControllableMobInstance extends L2MonsterInstance
 			// then overhit may be calculated
 			if(Config.DEBUG)
 			{
-				_log.fine("char is dead.");
+				LOGGER.debug("char is dead.");
 			}
 
 			stopMove(null);

@@ -24,11 +24,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -61,13 +60,13 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ItemTable
 {
-	private final static Logger _log = Logger.getLogger(ItemTable.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(ItemTable.class.getClass());
 	private final static java.util.logging.Logger _logItems = java.util.logging.Logger.getLogger("item");
 
-	private static final Map<String, Integer> _crystalTypes = new FastMap<String, Integer>();
-	private static final Map<String, L2WeaponType> _weaponTypes = new FastMap<String, L2WeaponType>();
-	private static final Map<String, L2ArmorType> _armorTypes = new FastMap<String, L2ArmorType>();
-	private static final Map<String, Integer> _slots = new FastMap<String, Integer>();
+	private static final Map<String, Integer> _crystalTypes = new FastMap<>();
+	private static final Map<String, L2WeaponType> _weaponTypes = new FastMap<>();
+	private static final Map<String, L2ArmorType> _armorTypes = new FastMap<>();
+	private static final Map<String, Integer> _slots = new FastMap<>();
 
 	private L2Item[] _allTemplates;
 
@@ -149,11 +148,11 @@ public class ItemTable
 	};
 
 	/** List of etcItem */
-	private static final Map<Integer, Item> itemData = new FastMap<Integer, Item>();
+	private static final Map<Integer, Item> itemData = new FastMap<>();
 	/** List of weapons */
-	private static final Map<Integer, Item> weaponData = new FastMap<Integer, Item>();
+	private static final Map<Integer, Item> weaponData = new FastMap<>();
 	/** List of armor */
-	private static final Map<Integer, Item> armorData = new FastMap<Integer, Item>();
+	private static final Map<Integer, Item> armorData = new FastMap<>();
 
 	/**
 	 * Returns instance of ItemTable
@@ -184,9 +183,9 @@ public class ItemTable
 	 */
 	public ItemTable()
 	{
-		Map<Integer, L2EtcItem> etcItems = new FastMap<Integer, L2EtcItem>();
-		Map<Integer, L2Armor> armors = new FastMap<Integer, L2Armor>();
-		Map<Integer, L2Weapon> weapons = new FastMap<Integer, L2Weapon>();
+		Map<Integer, L2EtcItem> etcItems = new FastMap<>();
+		Map<Integer, L2Armor> armors = new FastMap<>();
+		Map<Integer, L2Weapon> weapons = new FastMap<>();
 
 		Connection con = null;
 		try
@@ -223,7 +222,7 @@ public class ItemTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("data error on item"+" "+ e);
+			LOGGER.error("Data error on item", e);
 		}
 		finally
 		{
@@ -284,7 +283,7 @@ public class ItemTable
 			}
 			catch(Exception e)
 			{
-				_log.severe("data error on custom_item"+" "+ e);
+				LOGGER.error("Data error on custom_item", e);
 			}
 			finally
 			{
@@ -296,19 +295,19 @@ public class ItemTable
 		{
 			armors.put(armor.getItemId(), armor);
 		}
-		_log.finest("ItemTable: Loaded " + armors.size() + " Armors.");
+		LOGGER.info("ItemTable: Loaded " + armors.size() + " Armors.");
 
 		for(L2EtcItem item : SkillsEngine.getInstance().loadItems(itemData))
 		{
 			etcItems.put(item.getItemId(), item);
 		}
-		_log.finest("ItemTable: Loaded " + etcItems.size() + " Items.");
+		LOGGER.info("ItemTable: Loaded " + etcItems.size() + " Items.");
 
 		for(L2Weapon weapon : SkillsEngine.getInstance().loadWeapons(weaponData))
 		{
 			weapons.put(weapon.getItemId(), weapon);
 		}
-		_log.finest("ItemTable: Loaded " + weapons.size() + " Weapons.");
+		LOGGER.info("ItemTable: Loaded " + weapons.size() + " Weapons.");
 
 		//fillEtcItemsTable();
 		//fillArmorsTable();
@@ -568,7 +567,7 @@ public class ItemTable
 		}
 		else
 		{
-			_log.finest("unknown etcitem type:" + itemType);
+			LOGGER.info("Unknown etcitem type:" + itemType);
 			item.type = L2EtcItemType.OTHER;
 		}
 		itemType = null;
@@ -691,7 +690,7 @@ public class ItemTable
 		}
 
 		// Create a FastLookUp Table called _allTemplates of size : value of the highest item ID
-		_log.finest("highest item id used: {}"+" "+ highestId);
+		LOGGER.info("Highest item id used: {}"+" "+ highestId);
 
 		_allTemplates = new L2Item[highestId + 1];
 
@@ -733,7 +732,7 @@ public class ItemTable
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
 	 * <li>Create and Init the L2ItemInstance corresponding to the Item Identifier and quantity</li> <li>Add the
-	 * L2ItemInstance object to _allObjects of L2world</li> <li>Logs Item creation according to log settings</li><BR>
+	 * L2ItemInstance object to _allObjects of L2world</li> <li>Logs Item creation according to LOGGER settings</li><BR>
 	 * <BR>
 	 * 
 	 * @param process : String Identifier of process triggering this action
@@ -777,7 +776,7 @@ public class ItemTable
 			item.setItemLootShedule(itemLootShedule);
 		}
 
-		_log.finest("ItemTable: Item created  oid: {} itemid: {}"+" "+ item.getObjectId()+" "+ itemId);
+		LOGGER.info("ItemTable: Item created  oid: {} itemid: {}"+" "+ item.getObjectId()+" "+ itemId);
 
 		// Add the L2ItemInstance object to _allObjects of L2world
 		L2World.getInstance().storeObject(item);
@@ -788,6 +787,7 @@ public class ItemTable
 			item.setCount(count);
 		}
 
+		/*
 		if(Config.LOG_ITEMS)
 		{
 			LogRecord record = new LogRecord(Level.INFO, "CREATE:" + process);
@@ -796,9 +796,9 @@ public class ItemTable
 			{
 					item, actor, reference
 			});
-			_logItems.log(record);
+			_logItems.LOGGER(record);
 		}
-
+		*/
 		return item;
 	}
 
@@ -839,7 +839,7 @@ public class ItemTable
 
 		if(temp.getItem() == null)
 		{
-			_log.warning("ItemTable: Item Template missing for Id: {}"+" "+ itemId);
+			LOGGER.warn("ItemTable: Item Template missing for Id: {}"+" "+ itemId);
 		}
 
 		return temp;
@@ -851,7 +851,7 @@ public class ItemTable
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
 	 * <li>Sets L2ItemInstance parameters to be unusable</li> <li>Removes the L2ItemInstance object to _allObjects of
-	 * L2world</li> <li>Logs Item delettion according to log settings</li><BR>
+	 * L2world</li> <li>Logs Item delettion according to LOGGER settings</li><BR>
 	 * <BR>
 	 * 
 	 * @param process : String Identifier of process triggering this action
@@ -871,7 +871,7 @@ public class ItemTable
 
 			L2World.getInstance().removeObject(item);
 			IdFactory.getInstance().releaseId(item.getObjectId());
-
+			/*
 			if(Config.LOG_ITEMS)
 			{
 				LogRecord record = new LogRecord(Level.INFO, "DELETE:" + process);
@@ -880,9 +880,9 @@ public class ItemTable
 				{
 						item, actor, reference
 				});
-				_logItems.log(record);
+				_logItems.LOGGER(record);
 			}
-
+			*/
 			// if it's a pet control item, delete the pet as well
 			if(L2PetDataTable.isPetItem(item.getItemId()))
 			{
@@ -898,7 +898,7 @@ public class ItemTable
 				}
 				catch(Exception e)
 				{
-					_log.severe("could not delete pet objectid"+" "+ e);
+					LOGGER.error("Could not delete pet objectid", e);
 				}
 				finally
 				{

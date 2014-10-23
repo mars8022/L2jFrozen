@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 public final class Logout extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(Logout.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Logout.class.getClass());
 	
 	@Override
 	protected void readImpl()
@@ -65,7 +65,7 @@ public final class Logout extends L2GameClientPacket
 		if (AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
 			if (Config.DEBUG)
-				_log.fine("DEBUG " + getType() + ": Player " + player.getName() + " tried to logout while Fighting");
+				LOGGER.debug(getType() + ": Player " + player.getName() + " tried to logout while Fighting");
 			
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_LOGOUT_WHILE_FIGHTING));
 			player.sendPacket(ActionFailed.STATIC_PACKET);

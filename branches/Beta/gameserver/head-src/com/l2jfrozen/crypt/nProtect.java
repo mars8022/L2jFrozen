@@ -21,7 +21,8 @@ package com.l2jfrozen.crypt;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -35,7 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
  */
 public class nProtect
 {
-	private static Logger _log = Logger.getLogger("nProtect");
+	private static Logger LOGGER = Logger.getLogger(nProtect.class.getClass());
 	
 	public static enum RestrictionType
 	{
@@ -111,7 +112,7 @@ public class nProtect
 		catch(ClassNotFoundException e)
 		{
 			if(Config.DEBUG)
-				_log.warning("nProtect System will be not loaded due to ClassNotFoundException of 'com.l2jfrozen.protection.main' class" );
+				LOGGER.warn("nProtect System will be not loaded due to ClassNotFoundException of 'com.l2jfrozen.protection.main' class" );
 		}
 		catch(SecurityException e)
 		{

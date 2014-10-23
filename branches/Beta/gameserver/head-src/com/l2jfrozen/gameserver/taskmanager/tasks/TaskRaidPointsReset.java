@@ -19,7 +19,8 @@ package com.l2jfrozen.gameserver.taskmanager.tasks;
 
 import java.util.Calendar;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -35,7 +36,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
 public class TaskRaidPointsReset extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskRaidPointsReset.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TaskRaidPointsReset.class.getClass());
 	public static final String NAME = "raid_points_reset";
 	
 	@Override
@@ -109,7 +110,7 @@ public class TaskRaidPointsReset extends Task
 			}
 			
 			RaidBossPointsManager.cleanUp();
-			_log.info(" [GlobalTask] Raid Points Reset launched.");
+			LOGGER.info(" [GlobalTask] Raid Points Reset launched.");
 		}
 	}
 	

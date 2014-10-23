@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -61,7 +61,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AdminEditNpc implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminEditChar.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminEditChar.class.getClass());
 	private final static int PAGE_LIMIT = 7;
 
 	private static final String[] ADMIN_COMMANDS =
@@ -102,7 +102,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -303,7 +303,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
-						_log.fine("admin_edit_skill_npc parements error: " + command);
+						LOGGER.warn("admin_edit_skill_npc parements error: " + command);
 					}
 				}
 				else
@@ -351,7 +351,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 					}
 					catch(Exception e)
 					{
-						_log.fine("admin_add_skill_npc parements error: " + command);
+						LOGGER.warn("admin_add_skill_npc parements error: " + command);
 					}
 				}
 				else
@@ -426,7 +426,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.fine("admin_edit_drop parements error: " + command);
+						LOGGER.warn("admin_edit_drop parements error: " + command);
 					}
 				}
 				else
@@ -493,7 +493,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.fine("admin_add_drop parements error: " + command);
+						LOGGER.warn("admin_add_drop parements error: " + command);
 					}
 				}
 				else
@@ -582,7 +582,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.info("box_access: " + e);
+						LOGGER.info("box_access: " + e);
 					}
 				}
 
@@ -717,7 +717,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			
 			if(price < newItem.getReferencePrice()){
 				
-				_log.log(Level.WARNING, "L2TradeList "+tradeList.getListId()+" itemId  "+ itemID+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
+				LOGGER.warn( "L2TradeList "+tradeList.getListId()+" itemId  "+ itemID+" has an ADENA sell price lower then reference price.. Automatically Updating it..");
 				price = newItem.getReferencePrice();
 			}
 			newItem.setPriceToSell(price);
@@ -1263,7 +1263,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error saving new npc value: " + e);
+			LOGGER.warn("Error saving new npc value: " + e);
 		}
 
 		int npcId = newNpcData.getInteger("npcId");
@@ -1307,7 +1307,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 				itemTemplate = ItemTable.getInstance().getTemplate(drop.getItemId());
 				if (itemTemplate == null)
 				{
-					_log.warning(getClass().getSimpleName() + ": Unkown item Id: " + drop.getItemId() + " for NPC: " + npcData.npcId);
+					LOGGER.warn(getClass().getSimpleName() + ": Unkown item Id: " + drop.getItemId() + " for NPC: " + npcData.npcId);
 					continue;
 				}
 				replyMSG.append("<tr><td><a action=\"bypass -h admin_edit_drop " + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "\">" + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "</a></td>" + "<td>" + itemTemplate.getName() + "[" + drop.getItemId() + "]" + "</td><td>" + (drop.isQuestDrop() ? "Q" : cat.isSweep() ? "S" : "D") + "</td><td>" + "<a action=\"bypass -h admin_del_drop " + npcData.npcId + " " + drop.getItemId() + " " + cat.getCategoryType() + "\">del</a></td></tr>");

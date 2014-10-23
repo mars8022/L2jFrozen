@@ -21,13 +21,12 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import javolution.util.FastList;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -78,7 +77,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ZoneData
 {
-	private static final Logger _log = Logger.getLogger(ZoneData.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ZoneData.class.getClass());
 
 	// =========================================================
 	private static ZoneData _instance;
@@ -100,7 +99,7 @@ public class ZoneData
 	// Constructor
 	public ZoneData()
 	{
-		_log.info("Loading zones...");
+		LOGGER.info("Loading zones...");
 
 		load();
 	}
@@ -143,7 +142,7 @@ public class ZoneData
 			{
 				if(Config.DEBUG)
 				{
-					_log.info("The zone.xml file is missing.");
+					LOGGER.info("The zone.xml file is missing.");
 				}
 				
 			}else{
@@ -287,7 +286,7 @@ public class ZoneData
 								// Check for unknown type
 								if(temp == null)
 								{
-									_log.warning("ZoneData: No such zone type: " + zoneType);
+									LOGGER.warn("ZoneData: No such zone type: " + zoneType);
 									continue;
 								}
 
@@ -359,7 +358,7 @@ public class ZoneData
 												}
 												else
 												{
-													_log.warning("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
+													LOGGER.warn("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
 													statement.close();
 													rset.close();
 													successfulLoad = false;
@@ -406,7 +405,7 @@ public class ZoneData
 											}
 											else
 											{
-												_log.warning("ZoneData: Bad sql data for zone: " + zoneId);
+												LOGGER.warn("ZoneData: Bad sql data for zone: " + zoneId);
 												statement.close();
 												rset.close();
 												continue;
@@ -416,7 +415,7 @@ public class ZoneData
 										}
 										else
 										{
-											_log.warning("ZoneData: Unknown shape: " + zoneShape);
+											LOGGER.warn("ZoneData: Unknown shape: " + zoneShape);
 											statement.close();
 											rset.close();
 											continue;
@@ -433,7 +432,7 @@ public class ZoneData
 											e.printStackTrace();
 										
 										
-										_log.warning("ZoneData: Failed to load zone coordinates: " + e);
+										LOGGER.warn("ZoneData: Failed to load zone coordinates: " + e);
 									}
 
 								}else{ //use file one
@@ -449,7 +448,7 @@ public class ZoneData
 											temp.setZone(new ZoneCuboid(coords[0][0], coords[1][0], coords[0][1], coords[1][1], minZ, maxZ));
 										else
 										{
-											_log.warning("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
+											LOGGER.warn("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
 											continue;
 										}
 									}
@@ -469,7 +468,7 @@ public class ZoneData
 										}
 										else
 										{
-											_log.warning("ZoneData: Bad data for zone: " + zoneId);
+											LOGGER.warn("ZoneData: Bad data for zone: " + zoneId);
 											continue;
 										}
 									}
@@ -483,13 +482,13 @@ public class ZoneData
 											temp.setZone(new ZoneCylinder(coords[0][0], coords[0][1], minZ, maxZ, zoneRad));
 										else
 										{
-											_log.warning("ZoneData: Bad data for zone: " + zoneId);
+											LOGGER.warn("ZoneData: Bad data for zone: " + zoneId);
 											continue;
 										}
 									}
 									else
 									{
-										_log.warning("ZoneData: Unknown shape: " + zoneShape);
+										LOGGER.warn("ZoneData: Unknown shape: " + zoneShape);
 										continue;
 									}
 									
@@ -546,7 +545,7 @@ public class ZoneData
 										{
 											if(Config.DEBUG)
 											{
-												_log.info("Zone (" + zoneId + ") added to: " + x + " " + y);
+												LOGGER.info("Zone (" + zoneId + ") added to: " + x + " " + y);
 											}
 											worldRegions[x][y].addZone(temp);
 										}
@@ -593,7 +592,7 @@ public class ZoneData
 				e.printStackTrace();
 			
 			
-			_log.log(Level.SEVERE, "Error while loading zones.", e);
+			LOGGER.error( "Error while loading zones.", e);
 			
 		}
 		finally
@@ -605,6 +604,6 @@ public class ZoneData
 		if(done)
 			GrandBossManager.getInstance().initZones();
 
-		_log.info("Done: loaded " + zoneCount + " zones.");
+		LOGGER.info("Done: loaded " + zoneCount + " zones.");
 	}
 }

@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.knownlist;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class GuardNoHTMLKnownList extends AttackableKnownList
 {
-	private static Logger _log = Logger.getLogger(GuardKnownList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(GuardKnownList.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -71,7 +71,7 @@ public class GuardNoHTMLKnownList extends AttackableKnownList
 			{
 				if(Config.DEBUG)
 				{
-					_log.fine(getActiveChar().getObjectId() + ": PK " + player.getObjectId() + " entered scan range");
+					LOGGER.debug(getActiveChar().getObjectId() + ": PK " + player.getObjectId() + " entered scan range");
 				}
 
 				// Set the L2GuardInstance Intention to AI_INTENTION_ACTIVE
@@ -92,7 +92,7 @@ public class GuardNoHTMLKnownList extends AttackableKnownList
 			{
 				if(Config.DEBUG)
 				{
-					_log.fine(getActiveChar().getObjectId() + ": Aggressive mob " + mob.getObjectId() + " entered scan range");
+					LOGGER.debug(getActiveChar().getObjectId() + ": Aggressive mob " + mob.getObjectId() + " entered scan range");
 				}
 
 				// Set the L2GuardInstance Intention to AI_INTENTION_ACTIVE

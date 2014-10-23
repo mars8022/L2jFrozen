@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -71,7 +72,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class CharInfo extends L2GameServerPacket
 {
-	private static final Logger _log = Logger.getLogger(CharInfo.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CharInfo.class.getClass());
 
 	private static final String _S__03_CHARINFO = "[S] 03 CharInfo";
 	private L2PcInstance _activeChar;
@@ -198,7 +199,7 @@ public class CharInfo extends L2GameServerPacket
 			}
 			else
 			{
-				_log.warning("Character " + _activeChar.getName() + " (" + _activeChar.getObjectId() + ") morphed in a Npc (" + _activeChar.getPoly().getPolyId() + ") w/o template.");
+				LOGGER.warn("Character " + _activeChar.getName() + " (" + _activeChar.getObjectId() + ") morphed in a Npc (" + _activeChar.getPoly().getPolyId() + ") w/o template.");
 			}
 		}
 		else

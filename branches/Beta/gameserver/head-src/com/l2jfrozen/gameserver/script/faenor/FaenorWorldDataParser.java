@@ -19,12 +19,12 @@
 package com.l2jfrozen.gameserver.script.faenor;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.script.ScriptContext;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.script.ScriptEngine;
  */
 public class FaenorWorldDataParser extends FaenorParser
 {
-	static Logger _log = Logger.getLogger(FaenorWorldDataParser.class.getName());
+	static Logger LOGGER = Logger.getLogger(FaenorWorldDataParser.class.getClass());
 	//Script Types
 	private final static String PET_DATA = "PetData";
 
@@ -47,7 +47,7 @@ public class FaenorWorldDataParser extends FaenorParser
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("Parsing WorldData");
+			LOGGER.info("Parsing WorldData");
 		}
 
 		for(Node node = eventNode.getFirstChild(); node != null; node = node.getNextSibling())
@@ -75,7 +75,7 @@ public class FaenorWorldDataParser extends FaenorParser
 
 	private void parsePetData(Node petNode, ScriptContext context)
 	{
-		//if (Config.DEBUG) _log.info("Parsing PetData.");
+		//if (Config.DEBUG) LOGGER.info("Parsing PetData.");
 
 		PetData petData = new PetData();
 
@@ -98,14 +98,14 @@ public class FaenorWorldDataParser extends FaenorParser
 		catch(Exception e)
 		{
 			petData.petId = -1;
-			_log.warning("Error in pet Data parser.");
+			LOGGER.warn("Error in pet Data parser.");
 			e.printStackTrace();
 		}
 	}
 
 	private void parseStat(Node stat, PetData petData)
 	{
-		//if (Config.DEBUG) _log.info("Parsing Pet Statistic.");
+		//if (Config.DEBUG) LOGGER.info("Parsing Pet Statistic.");
 
 		try
 		{
@@ -126,7 +126,7 @@ public class FaenorWorldDataParser extends FaenorParser
 				e.printStackTrace();
 			
 			petData.petId = -1;
-			_log.warning("ERROR(parseStat):" + e.getMessage());
+			LOGGER.warn("ERROR(parseStat):" + e.getMessage());
 		}
 	}
 

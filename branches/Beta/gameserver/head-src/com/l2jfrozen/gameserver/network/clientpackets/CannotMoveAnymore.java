@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 
 public final class CannotMoveAnymore extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(CannotMoveAnymore.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CannotMoveAnymore.class.getClass());
 	private int _x, _y, _z, _heading;
 
 	@Override
@@ -44,7 +44,7 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 			return;
 
 		if (Config.DEBUG)
-			_log.fine("DEBUG "+getType()+": client: x:" + _x + " y:" + _y + " z:" + _z + " server x:" + player.getX() + " y:" + player.getY() + " z:" + player.getZ());
+			LOGGER.debug("DEBUG "+getType()+": client: x:" + _x + " y:" + _y + " z:" + _z + " server x:" + player.getX() + " y:" + player.getY() + " z:" + player.getZ());
 
 		if (player.getAI() != null)
 			player.getAI().notifyEvent(CtrlEvent.EVT_ARRIVED_BLOCKED, new L2CharPosition(_x, _y, _z, _heading));

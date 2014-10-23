@@ -20,9 +20,10 @@ import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
 import java.util.List;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
@@ -50,7 +51,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 {
-	protected static final Logger _log1 = Logger.getLogger(L2FortSiegeGuardAI.class.getName());
+	protected static final Logger _log1 = Logger.getLogger(L2FortSiegeGuardAI.class.getClass());
 
 	//SelfAnalisis ))
 	public List<L2Skill> pdamSkills = new FastList<L2Skill>();
@@ -612,7 +613,7 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			//_log.warning("AttackableAI: Attack target is NULL.");
+			//LOGGER.warn("AttackableAI: Attack target is NULL.");
 			_actor.setTarget(null);
 			setIntention(AI_INTENTION_IDLE, null, null);
 			return;

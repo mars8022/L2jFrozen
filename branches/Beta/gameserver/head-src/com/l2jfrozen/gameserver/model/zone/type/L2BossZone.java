@@ -40,7 +40,7 @@ public class L2BossZone extends L2ZoneType
 	private boolean _IsFlyingEnable = true; // default value, unless overridden by xml...
 
 	// track the times that players got disconnected. Players are allowed
-	// to log back into the zone as long as their log-out was within _timeInvade
+	// to LOGGER back into the zone as long as their LOGGER-out was within _timeInvade
 	// time...
 	// <player objectId, expiration time in milliseconds>
 	private FastMap<Integer, Long> _playerAllowedReEntryTimes;
@@ -213,7 +213,7 @@ public class L2BossZone extends L2ZoneType
 				}
 
 				// if the player just got disconnected/logged out, store the dc time so that
-				// decisions can be made later about allowing or not the player to log into the zone
+				// decisions can be made later about allowing or not the player to LOGGER into the zone
 				if(player.isOnline() == 0 && _playersAllowed.contains(character.getObjectId()))
 				{
 					// mark the time that the player left the zone
@@ -274,7 +274,7 @@ public class L2BossZone extends L2ZoneType
 	/**
 	 * Occasionally, all players need to be sent out of the zone (for example, if the players are just running around
 	 * without fighting for too long, or if all players die, etc). This call sends all online players to town and marks
-	 * offline players to be teleported (by clearing their relog expiration times) when they log back in (no real need
+	 * offline players to be teleported (by clearing their relog expiration times) when they LOGGER back in (no real need
 	 * for off-line teleport).
 	 */
 	public void oustAllPlayers()

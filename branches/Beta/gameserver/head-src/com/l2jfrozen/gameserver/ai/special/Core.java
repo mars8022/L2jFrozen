@@ -58,7 +58,7 @@ public class Core extends Quest implements Runnable
 
 	List<L2Attackable> Minions = new FastList<L2Attackable>();
 
-	//private static final Logger _log = Logger.getLogger(Core.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(Core.class.getClass());
 
 	public Core(int id, String name, String descr)
 	{
@@ -148,7 +148,7 @@ public class Core extends Quest implements Runnable
 		}
 		else if(status ==null){
 			
-			_log.warning("GrandBoss with Id "+CORE+" has not valid status into GrandBossManager");
+			LOGGER.warn("GrandBoss with Id "+CORE+" has not valid status into GrandBossManager");
 			
 		}else if(event.equalsIgnoreCase("spawn_minion") && status == ALIVE)
 		{

@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AdminMonsterRace implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminMonsterRace.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminMonsterRace.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -60,7 +60,7 @@ public class AdminMonsterRace implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 

@@ -21,8 +21,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.CrestCache;
@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestSetPledgeCrest extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(RequestSetPledgeCrest.class.getName());
+	static Logger LOGGER = Logger.getLogger(RequestSetPledgeCrest.class.getClass());
 
 	private int _length;
 	private byte[] _data;
@@ -116,7 +116,7 @@ public final class RequestSetPledgeCrest extends L2GameClientPacket
 
 			if(!crestCache.savePledgeCrest(newId, _data))
 			{
-				_log.log(Level.INFO, "Error loading crest of clan:" + clan.getName());
+				LOGGER.warn("Error loading crest of clan:" + clan.getName());
 				return;
 			}
 
@@ -138,7 +138,7 @@ public final class RequestSetPledgeCrest extends L2GameClientPacket
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("could not update the crest id:" + e.getMessage());
+				LOGGER.warn("could not update the crest id:" + e.getMessage());
 			}
 			finally
 			{

@@ -20,7 +20,8 @@ package com.l2jfrozen.util;
 
 import java.io.Closeable;
 import java.sql.Connection;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -30,14 +31,13 @@ import java.util.logging.Logger;
  */
 public final class CloseUtil 
 {
-	private final static Logger _log = Logger.getLogger(CloseUtil.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(CloseUtil.class.getClass());
 	public static void close(Connection con) {
 		if(con != null) try {
 			con.close();
 			con=null;
 		} catch(Throwable e) {
-			e.printStackTrace();
-			_log.severe(e.getMessage());
+			LOGGER.error(e);
 		}
 	}
 	
@@ -45,8 +45,7 @@ public final class CloseUtil
 		if(closeable != null) try {
 			closeable.close();
 		} catch(Throwable e) {
-			e.printStackTrace();
-			_log.severe(e.getMessage());
+			LOGGER.error(e);
 		}
 	}
 }

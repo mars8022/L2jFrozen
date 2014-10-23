@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -32,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestBlock extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestBlock.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestBlock.class.getClass());
 	
 	private final static int BLOCK = 0;
 	private final static int UNBLOCK = 1;
@@ -137,7 +138,7 @@ public final class RequestBlock extends L2GameClientPacket
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.warning("could not add blocked objectid: ");
+						LOGGER.warn("could not add blocked objectid: ");
 						e.printStackTrace();
 					}
 					finally
@@ -167,7 +168,7 @@ public final class RequestBlock extends L2GameClientPacket
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.warning("could not add blocked objectid: ");
+						LOGGER.warn("could not add blocked objectid: ");
 						e.printStackTrace();
 					}
 					finally
@@ -196,7 +197,7 @@ public final class RequestBlock extends L2GameClientPacket
 				
 				break;
 			default:
-				_log.info("Unknown 0x0a block type: " + _type);
+				LOGGER.info("Unknown 0x0a block type: " + _type);
 		}
 	}
 	

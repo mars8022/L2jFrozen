@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -49,7 +50,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class AdminTeleport implements IAdminCommandHandler
 {
-	private static final Logger _log = Logger.getLogger(AdminTeleport.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -624,7 +625,7 @@ public class AdminTeleport implements IAdminCommandHandler
 			if(template1 == null)
 			{
 				activeChar.sendMessage("Incorrect monster template.");
-				_log.warning("ERROR: NPC " + target.getObjectId() + " has a 'null' template.");
+				LOGGER.warn("ERROR: NPC " + target.getObjectId() + " has a 'null' template.");
 				return;
 			}
 
@@ -633,7 +634,7 @@ public class AdminTeleport implements IAdminCommandHandler
 			if(spawn == null)
 			{
 				activeChar.sendMessage("Incorrect monster spawn.");
-				_log.warning("ERROR: NPC " + target.getObjectId() + " has a 'null' spawn.");
+				LOGGER.warn("ERROR: NPC " + target.getObjectId() + " has a 'null' spawn.");
 				return;
 			}
 
@@ -667,8 +668,8 @@ public class AdminTeleport implements IAdminCommandHandler
 
 				if(Config.DEBUG)
 				{
-					_log.fine("Spawn at X=" + spawn.getLocx() + " Y=" + spawn.getLocy() + " Z=" + spawn.getLocz());
-					_log.warning("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") moved NPC " + target.getObjectId());
+					LOGGER.debug("Spawn at X=" + spawn.getLocx() + " Y=" + spawn.getLocy() + " Z=" + spawn.getLocz());
+					LOGGER.debug("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") moved NPC " + target.getObjectId());
 				}
 
 				spawn = null;

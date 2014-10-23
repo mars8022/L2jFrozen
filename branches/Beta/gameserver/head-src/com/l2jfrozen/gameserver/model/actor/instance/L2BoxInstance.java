@@ -100,7 +100,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 	}
 
-	//private static Logger _log = Logger.getLogger(L2BoxInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2BoxInstance.class.getClass());
 	private static final int MAX_ITEMS_PER_PAGE = 25;
 	private static final String INSERT_GRANT = "INSERT INTO boxaccess (charname,spawn) VALUES(?,?)";
 	private static final String DELETE_GRANT = "DELETE FROM boxaccess WHERE charname=? AND spawn=?";
@@ -150,7 +150,7 @@ public class L2BoxInstance extends L2NpcInstance
 		else
 		{
 			super.onBypassFeedback(player, command);
-			//else _log.info("onBypassFeedback unknown command "+command);
+			//else LOGGER.info("onBypassFeedback unknown command "+command);
 		}
 	}
 
@@ -202,7 +202,7 @@ public class L2BoxInstance extends L2NpcInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("hasAccess failed: " + e);
+			LOGGER.info("hasAccess failed: " + e);
 		}
 		finally
 		{
@@ -237,7 +237,7 @@ public class L2BoxInstance extends L2NpcInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("getAccess failed: " + e);
+			LOGGER.info("getAccess failed: " + e);
 		}
 		finally
 		{
@@ -340,7 +340,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		button += "\">";
 		content += "</table><br>" + button + "</body></html>";
-		_log.fine("setHtml(" + content + "); items=" + nitems);
+		LOGGER.info("setHtml(" + content + "); items=" + nitems);
 		html.setHtml(content);
 		player.sendPacket(html);
 
@@ -376,7 +376,7 @@ public class L2BoxInstance extends L2NpcInstance
 		
 		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		int nitems = 0;
-		Set<L2BoxItem> _items = new FastSet<L2BoxItem>();
+		Set<L2BoxItem> _items = new FastSet<>();
 		for(L2ItemInstance i : player.getInventory().getItems())
 		{
 			if(i.getItemId() == 57 || i.isEquipped())
@@ -419,7 +419,7 @@ public class L2BoxInstance extends L2NpcInstance
 
 		button += "\">";
 		content += "</table><br>" + button + "</body></html>";
-		_log.fine("setHtml(" + content + "); items=" + nitems);
+		LOGGER.info("setHtml(" + content + "); items=" + nitems);
 		html.setHtml(content);
 		player.sendPacket(html);
 
@@ -437,7 +437,7 @@ public class L2BoxInstance extends L2NpcInstance
 
 	private Set<L2BoxItem> getItems(String drawer)
 	{
-		Set<L2BoxItem> it = new FastSet<L2BoxItem>();
+		Set<L2BoxItem> it = new FastSet<>();
 		Connection con = null;
 		try
 		{
@@ -449,7 +449,7 @@ public class L2BoxInstance extends L2NpcInstance
 			ResultSet rs = statement.executeQuery();
 			while(rs.next())
 			{
-				_log.fine("found: itemid=" + rs.getInt("itemid") + ", count=" + rs.getInt("count"));
+				LOGGER.info("found: itemid=" + rs.getInt("itemid") + ", count=" + rs.getInt("count"));
 				it.add(new L2BoxItem(rs.getInt("itemid"), rs.getInt("count"), rs.getString("name"), rs.getInt("id")/*, rs.getInt("enchant")*/));
 			}
 			rs.close();
@@ -462,7 +462,7 @@ public class L2BoxInstance extends L2NpcInstance
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("getItems failed: " + e);
+			LOGGER.info("getItems failed: " + e);
 		}
 		finally
 		{
@@ -502,7 +502,7 @@ public class L2BoxInstance extends L2NpcInstance
 			}
 			catch (Exception e)
 			{
-				_log.fine("putInBox "+command+" failed: "+e);
+				LOGGER.fine("putInBox "+command+" failed: "+e);
 			}
 		}
 		}
@@ -556,7 +556,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		catch (Exception e)
 		{
-			_log.info("could not store item to box "+getSpawn().getId()+"-"+drawer+" for char "+charname);
+			LOGGER.info("could not store item to box "+getSpawn().getId()+"-"+drawer+" for char "+charname);
 		}
 		finally
 		{
@@ -601,7 +601,7 @@ public class L2BoxInstance extends L2NpcInstance
 			}
 			catch (Exception e)
 			{
-				_log.fine("takeOutBox "+command+" failed: "+e);
+				LOGGER.fine("takeOutBox "+command+" failed: "+e);
 			}
 		}
 		}
@@ -653,7 +653,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 		catch (Exception e)
 		{
-			_log.info("could not delete/update item, box "+getSpawn().getId()+"-"+drawer+" for char "+charname+": "+e);
+			LOGGER.info("could not delete/update item, box "+getSpawn().getId()+"-"+drawer+" for char "+charname+": "+e);
 		}
 		finally
 		{

@@ -26,9 +26,10 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
@@ -39,7 +40,7 @@ import com.l2jfrozen.gameserver.model.FishData;
  */
 public class FishTable
 {
-	private static Logger _log = Logger.getLogger(SkillTreeTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SkillTreeTable.class.getClass());
 	private static final FishTable _instance = new FishTable();
 
 	private static List<FishData> _fishsNormal;
@@ -70,9 +71,9 @@ public class FishTable
 		
 			String line = null;
 
-			_fishsEasy = new FastList<FishData>();
-			_fishsNormal = new FastList<FishData>();
-			_fishsHard = new FastList<FishData>();
+			_fishsEasy = new FastList<>();
+			_fishsNormal = new FastList<>();
+			_fishsHard = new FastList<>();
 			FishData fish;
 
 			//format:
@@ -121,14 +122,14 @@ public class FishTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("fish.csv is missing in data folder");
+			LOGGER.warn("fish.csv is missing in data folder");
 		}
 		catch(IOException e0)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e0.printStackTrace();
 		
-			_log.warning("Error while creating table: " + e0.getMessage() + "\n" + e0);
+			LOGGER.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
 		{
@@ -162,7 +163,7 @@ public class FishTable
 					e1.printStackTrace();
 				}
 		}
-		_log.config("FishTable: Loaded " + count + " Fishes.");
+		LOGGER.info("FishTable: Loaded " + count + " Fishes.");
 
 	}
 
@@ -174,7 +175,7 @@ public class FishTable
 	 */
 	public List<FishData> getfish(int lvl, int type, int group)
 	{
-		List<FishData> result = new FastList<FishData>();
+		List<FishData> result = new FastList<>();
 		List<FishData> _Fishs = null;
 
 		switch(group)
@@ -191,7 +192,7 @@ public class FishTable
 		if(_Fishs == null)
 		{
 			// the fish list is empty
-			_log.warning("Fish are not defined !");
+			LOGGER.warn("Fish are not defined !");
 			return null;
 		}
 		for(FishData f : _Fishs)
@@ -210,7 +211,7 @@ public class FishTable
 		}
 		if(result.size() == 0)
 		{
-			_log.warning("Cant Find Any Fish!? - Lvl: " + lvl + " Type: " + type);
+			LOGGER.warn("Cant Find Any Fish!? - Lvl: " + lvl + " Type: " + type);
 		}
 
 		_Fishs = null;

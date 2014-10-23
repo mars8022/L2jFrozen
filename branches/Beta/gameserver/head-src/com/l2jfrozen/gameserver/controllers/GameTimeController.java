@@ -22,9 +22,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
@@ -39,7 +40,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class GameTimeController
 {
-	static final Logger _log = Logger.getLogger(GameTimeController.class.getName());
+	static final Logger LOGGER = Logger.getLogger(GameTimeController.class.getClass());
 
 	public static final int TICKS_PER_SECOND = 10;
 	public static final int MILLIS_IN_TICK = 1000 / TICKS_PER_SECOND;
@@ -207,7 +208,7 @@ public class GameTimeController
 					// calculate sleep time... time needed to next tick minus time it takes to call moveObjects()
 					int sleepTime = 1 + MILLIS_IN_TICK - (int) runtime % MILLIS_IN_TICK;
 
-					//_log.finest("TICK: "+_gameTicks);
+					//LOGGER.finest("TICK: "+_gameTicks);
 
 					try{
 						sleep(sleepTime); // hope other threads will have much more cpu time available now
@@ -230,7 +231,7 @@ public class GameTimeController
 			if(!_timer.isAlive())
 			{
 				String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
-				_log.warning(time + " TimerThread stop with following error. restart it.");
+				LOGGER.warn(time + " TimerThread stop with following error. restart it.");
 				if(_timer._error != null)
 				{
 					_timer._error.printStackTrace();

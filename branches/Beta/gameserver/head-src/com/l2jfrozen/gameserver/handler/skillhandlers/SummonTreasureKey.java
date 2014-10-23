@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -34,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class SummonTreasureKey implements ISkillHandler
 {
-	static Logger _log = Logger.getLogger(SummonTreasureKey.class.getName());
+	static Logger LOGGER = Logger.getLogger(SummonTreasureKey.class.getClass());
 	private static final SkillType[] SKILL_IDS = { SkillType.SUMMON_TREASURE_KEY };
 
 	@Override
@@ -81,7 +81,7 @@ public class SummonTreasureKey implements ISkillHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error using skill summon Treasure Key:" + e);
+			LOGGER.warn("Error using skill summon Treasure Key:" + e);
 		}
 	}
 

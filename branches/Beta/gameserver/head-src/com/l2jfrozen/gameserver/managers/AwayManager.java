@@ -17,7 +17,8 @@ package com.l2jfrozen.gameserver.managers;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -31,7 +32,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public final class AwayManager
 {
-	protected static final Logger _log = Logger.getLogger(AwayManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AwayManager.class.getClass());
 	private static AwayManager _instance;
 	protected Map<L2PcInstance, RestoreData> _awayPlayers;
 
@@ -40,7 +41,7 @@ public final class AwayManager
 		if(_instance == null)
 		{
 			_instance = new AwayManager();
-			_log.info("AwayManager: initialized.");
+			LOGGER.info("AwayManager: initialized.");
 		}
 		return _instance;
 	}

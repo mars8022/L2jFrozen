@@ -208,7 +208,7 @@ public class Orfen extends Quest implements Runnable
 				break;
 			default:
 			{
-				_log.info("ORFEN: Not defined event: " + event + "!");
+				LOGGER.info("ORFEN: Not defined event: " + event + "!");
 			}			
 		}
 		

@@ -15,7 +15,7 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 //import java.util.Calendar; //signed time related
-//import java.util.logging.Logger;
+//import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 public final class FortSiegeAttackerList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeAttackerList = "[S] ca SiegeAttackerList";
-	//private static Logger _log = Logger.getLogger(SiegeAttackerList.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class.getClass());
 	private Fort _fort;
 
 	public FortSiegeAttackerList(Fort fort)

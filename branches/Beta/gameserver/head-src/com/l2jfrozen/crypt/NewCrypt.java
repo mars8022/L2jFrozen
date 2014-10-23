@@ -19,7 +19,8 @@
 package com.l2jfrozen.crypt;
 
 import java.io.IOException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * This class ...
@@ -28,7 +29,7 @@ import java.util.logging.Logger;
  */
 public class NewCrypt
 {
-	protected static Logger _log = Logger.getLogger(NewCrypt.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(NewCrypt.class.getClass());
 	BlowfishEngine _crypt;
 	BlowfishEngine _decrypt;
 

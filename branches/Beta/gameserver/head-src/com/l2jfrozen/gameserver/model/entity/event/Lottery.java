@@ -23,7 +23,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -41,7 +42,7 @@ public class Lottery
 	public static final long MINUTE = 60000;
 
 	private static Lottery _instance;
-	protected static final Logger _log = Logger.getLogger(Lottery.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Lottery.class.getClass());
 
 	private static final String INSERT_LOTTERY = "INSERT INTO games(id, idnr, enddate, prize, newprize) VALUES (?, ?, ?, ?, ?)";
 	private static final String UPDATE_PRICE = "UPDATE games SET prize=?, newprize=? WHERE id = 1 AND idnr = ?";
@@ -115,7 +116,7 @@ public class Lottery
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Lottery: Could not increase current lottery prize: " + e);
+			LOGGER.warn("Lottery: Could not increase current lottery prize: " + e);
 		}
 		finally
 		{
@@ -207,7 +208,7 @@ public class Lottery
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				_log.warning("Lottery: Could not restore lottery data: " + e);
+				LOGGER.warn("Lottery: Could not restore lottery data: " + e);
 			}
 			finally
 			{
@@ -217,7 +218,7 @@ public class Lottery
 
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: Starting ticket sell for lottery #" + getId() + ".");
+				LOGGER.info("Lottery: Starting ticket sell for lottery #" + getId() + ".");
 			}
 
 			_isSellingTickets = true;
@@ -264,7 +265,7 @@ public class Lottery
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("Lottery: Could not store new lottery data: " + e);
+				LOGGER.warn("Lottery: Could not store new lottery data: " + e);
 			}
 			finally
 			{
@@ -286,7 +287,7 @@ public class Lottery
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: Stopping ticket sell for lottery #" + getId() + ".");
+				LOGGER.info("Lottery: Stopping ticket sell for lottery #" + getId() + ".");
 			}
 
 			_isSellingTickets = false;
@@ -307,7 +308,7 @@ public class Lottery
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: Ending lottery #" + getId() + ".");
+				LOGGER.info("Lottery: Ending lottery #" + getId() + ".");
 			}
 
 			int[] luckynums = new int[5];
@@ -334,7 +335,7 @@ public class Lottery
 
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: The lucky numbers are " + luckynums[0] + ", " + luckynums[1] + ", " + luckynums[2] + ", " + luckynums[3] + ", " + luckynums[4] + ".");
+				LOGGER.info("Lottery: The lucky numbers are " + luckynums[0] + ", " + luckynums[1] + ", " + luckynums[2] + ", " + luckynums[3] + ", " + luckynums[4] + ".");
 			}
 
 			int enchant = 0;
@@ -354,7 +355,7 @@ public class Lottery
 
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: Encoded lucky numbers are " + enchant + ", " + type2);
+				LOGGER.info("Lottery: Encoded lucky numbers are " + enchant + ", " + type2);
 			}
 
 			int count1 = 0;
@@ -430,7 +431,7 @@ public class Lottery
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("Lottery: Could restore lottery data: " + e);
+				LOGGER.warn("Lottery: Could restore lottery data: " + e);
 			}
 			finally
 			{
@@ -460,16 +461,16 @@ public class Lottery
 
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: " + count1 + " players with all FIVE numbers each win " + prize1 + ".");
-				_log.info("Lottery: " + count2 + " players with FOUR numbers each win " + prize2 + ".");
-				_log.info("Lottery: " + count3 + " players with THREE numbers each win " + prize3 + ".");
-				_log.info("Lottery: " + count4 + " players with ONE or TWO numbers each win " + prize4 + ".");
+				LOGGER.info("Lottery: " + count1 + " players with all FIVE numbers each win " + prize1 + ".");
+				LOGGER.info("Lottery: " + count2 + " players with FOUR numbers each win " + prize2 + ".");
+				LOGGER.info("Lottery: " + count3 + " players with THREE numbers each win " + prize3 + ".");
+				LOGGER.info("Lottery: " + count4 + " players with ONE or TWO numbers each win " + prize4 + ".");
 			}
 
 			int newprize = getPrize() - (prize1 + prize2 + prize3 + prize4);
 			if(Config.DEBUG)
 			{
-				_log.info("Lottery: Jackpot for next lottery is " + newprize + ".");
+				LOGGER.info("Lottery: Jackpot for next lottery is " + newprize + ".");
 			}
 
 			SystemMessage sm;
@@ -515,7 +516,7 @@ public class Lottery
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("Lottery: Could not store finished lottery data: " + e);
+				LOGGER.warn("Lottery: Could not store finished lottery data: " + e);
 			}
 			finally
 			{
@@ -642,7 +643,7 @@ public class Lottery
 
 				if(Config.DEBUG)
 				{
-					_log.warning("count: " + count + ", id: " + id + ", enchant: " + enchant + ", type2: " + type2);
+					LOGGER.warn("count: " + count + ", id: " + id + ", enchant: " + enchant + ", type2: " + type2);
 				}
 			}
 
@@ -656,7 +657,7 @@ public class Lottery
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Lottery: Could not check lottery ticket #" + id + ": " + e);
+			LOGGER.warn("Lottery: Could not check lottery ticket #" + id + ": " + e);
 		}
 		finally
 		{

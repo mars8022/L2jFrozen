@@ -28,20 +28,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
 public class OlympiadLogger
 {
-	private static final Logger _log = Logger.getLogger(OlympiadLogger.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(OlympiadLogger.class.getClass());
 
 	public static final void add(String text, String cat)
 	{
 		String date = new SimpleDateFormat("yy.MM.dd H:mm:ss").format(new Date());
 
-		new File("log/game").mkdirs();
-		File file = new File("log/game/" + (cat != null ? cat : "_all") + ".txt");
+		new File("LOGGER/game").mkdirs();
+		File file = new File("LOGGER/game/" + (cat != null ? cat : "_all") + ".txt");
 		FileWriter save = null;
 		try
 		{
@@ -52,7 +53,7 @@ public class OlympiadLogger
 		}
 		catch(IOException e)
 		{
-			_log.warning("saving chat log failed: " + e);
+			LOGGER.warn("saving chat LOGGER failed: " + e);
 			e.printStackTrace();
 		}finally{
 			
@@ -80,7 +81,7 @@ public class OlympiadLogger
 		if(exp || !Config.ASSERT)
 			return;
 
-		_log.info("Assertion error [" + cmt + "]");
+		LOGGER.info("Assertion error [" + cmt + "]");
 		Thread.dumpStack();
 	}
 }

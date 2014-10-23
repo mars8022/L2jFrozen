@@ -26,11 +26,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -59,7 +59,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
  */
 public class Quest extends ManagedScript
 {
-	protected static final Logger _log = Logger.getLogger(Quest.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Quest.class.getClass());
 
 	/** HashMap containing events from String value of the event */
 	private static Map<String, Quest> _allEventsS = new FastMap<String, Quest>();
@@ -358,7 +358,7 @@ public class Quest extends ManagedScript
 	public synchronized void startQuestTimer(String name, long time, L2NpcInstance npc, L2PcInstance player, boolean repeating)
 	{
 		if(Config.DEBUG){
-			_log.info("StartingQuestTimer for Quest "+this.getName());
+			LOGGER.info("StartingQuestTimer for Quest "+this.getName());
 			
 			String info = "Event:"+name+" Time:"+time;
 			if(npc!=null)
@@ -367,7 +367,7 @@ public class Quest extends ManagedScript
 			if(player!=null)
 				info = info+" Player:"+player.getName();
 			
-			_log.info(info+" Repeat:"+repeating);
+			LOGGER.info(info+" Repeat:"+repeating);
 		}
 		
 		synchronized(_allEventTimers){
@@ -811,7 +811,7 @@ public class Quest extends ManagedScript
 	public boolean showError(L2Character object, Throwable t)
 	{
 		if(getScriptFile()!=null)
-			_log.log(Level.WARNING, getScriptFile().getAbsolutePath(), t);
+			LOGGER.warn( getScriptFile().getAbsolutePath(), t);
 
 		if(object == null)
 			return false;
@@ -1034,7 +1034,7 @@ public class Quest extends ManagedScript
 	public final static void playerEnter(L2PcInstance player)
 	{
 		if(Config.DEBUG){
-			_log.info("Quest.playerEnter " + player.getName());
+			LOGGER.info("Quest.playerEnter " + player.getName());
 			
 		}
 		
@@ -1068,7 +1068,7 @@ public class Quest extends ManagedScript
 
 				if(q == null)
 				{   if(Config.DEVELOPER){
-					_log.info("Unknown quest " + questId + " for player " + player.getName());}
+					LOGGER.info("Unknown quest " + questId + " for player " + player.getName());}
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());
@@ -1090,7 +1090,7 @@ public class Quest extends ManagedScript
 				State state = q._states.get(stateId);
 				if(state == null)
 				{   if(Config.DEVELOPER){
-					_log.info("Unknown state in quest " + questId + " for player " + player.getName());}
+					LOGGER.info("Unknown state in quest " + questId + " for player " + player.getName());}
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
 					{
 						invalidQuestData.setInt(1, player.getObjectId());
@@ -1129,7 +1129,7 @@ public class Quest extends ManagedScript
 				if(qs == null)
 				{   
 					if(Config.DEVELOPER){
-						_log.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());
+						LOGGER.info("Lost variable " + var + " in quest " + questId + " for player " + player.getName());
 					}
 
 					if(Config.AUTODELETE_INVALID_QUEST_DATA)
@@ -1164,7 +1164,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not insert char quest:", e);
+			LOGGER.warn( "could not insert char quest:", e);
 		}
 		finally
 		{
@@ -1208,7 +1208,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not insert global quest variable:", e);
+			LOGGER.warn( "could not insert global quest variable:", e);
 		}
 		finally
 		{
@@ -1256,7 +1256,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not load global quest variable:", e);
+			LOGGER.warn( "could not load global quest variable:", e);
 		}
 		finally
 		{
@@ -1289,7 +1289,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not delete global quest variable:", e);
+			LOGGER.warn( "could not delete global quest variable:", e);
 		}
 		finally
 		{
@@ -1319,7 +1319,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not delete global quest variables:", e);
+			LOGGER.warn( "could not delete global quest variables:", e);
 		}
 		finally
 		{
@@ -1364,7 +1364,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not insert char quest:", e);
+			LOGGER.warn( "could not insert char quest:", e);
 		}
 		finally
 		{
@@ -1407,7 +1407,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not update char quest:", e);
+			LOGGER.warn( "could not update char quest:", e);
 		}
 		finally
 		{
@@ -1441,7 +1441,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not delete char quest:", e);
+			LOGGER.warn( "could not delete char quest:", e);
 		}
 		finally
 		{
@@ -1474,7 +1474,7 @@ public class Quest extends ManagedScript
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not delete char quest:", e);
+			LOGGER.warn( "could not delete char quest:", e);
 		}
 		finally
 		{

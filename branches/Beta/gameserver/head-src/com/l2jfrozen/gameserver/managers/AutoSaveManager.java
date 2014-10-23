@@ -22,8 +22,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AutoSaveManager
 {
-	protected static final Logger _log = Logger.getLogger(AutoSaveManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AutoSaveManager.class.getClass());
 	private ScheduledFuture<?> _autoSaveInDB;
 	private ScheduledFuture<?> _autoCheckConnectionStatus;
 	private ScheduledFuture<?> _autoCleanDatabase;
@@ -50,7 +50,7 @@ public class AutoSaveManager
 	
 	public AutoSaveManager()
 	{
-		_log.info("Initializing AutoSaveManager");
+		LOGGER.info("Initializing AutoSaveManager");
 	}
 	
 	public void stopAutoSaveManager()
@@ -105,11 +105,11 @@ public class AutoSaveManager
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+						LOGGER.error( "Error saving player character: " + player.getName(), e);
 					}
 				}
 			}
-			_log.info(" [AutoSaveManager] AutoSaveTask, "+playerscount+" players data saved.");
+			LOGGER.info(" [AutoSaveManager] AutoSaveTask, "+playerscount+" players data saved.");
 		}
 	}
 	
@@ -126,7 +126,7 @@ public class AutoSaveManager
 				{
 					if (player.getClient() == null || player.isOnline() == 0)
 					{
-						_log.info("AutoSaveManager: player " + player.getName() + " status == 0 ---> Closing Connection..");
+						LOGGER.info("AutoSaveManager: player " + player.getName() + " status == 0 ---> Closing Connection..");
 						player.store();
 						player.deleteMe();
 					}
@@ -134,7 +134,7 @@ public class AutoSaveManager
 					{
 						try
 						{
-							_log.info("AutoSaveManager: player " + player.getName() + " connection is not alive ---> Closing Connection..");
+							LOGGER.info("AutoSaveManager: player " + player.getName() + " connection is not alive ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
 						catch (Exception e)
@@ -142,14 +142,14 @@ public class AutoSaveManager
 							if (Config.ENABLE_ALL_EXCEPTIONS)
 								e.printStackTrace();
 							
-							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+							LOGGER.error( "Error saving player character: " + player.getName(), e);
 						}
 					}
 					else if (player.checkTeleportOverTime())
 					{
 						try
 						{
-							_log.info("AutoSaveManager: player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
+							LOGGER.info("AutoSaveManager: player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
 						catch (Exception e)
@@ -157,12 +157,12 @@ public class AutoSaveManager
 							if (Config.ENABLE_ALL_EXCEPTIONS)
 								e.printStackTrace();
 							
-							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+							LOGGER.error( "Error saving player character: " + player.getName(), e);
 						}
 					}
 				}
 			}
-				_log.info(" [AutoSaveManager] ConnectionCheckTask, players connections checked.");
+				LOGGER.info(" [AutoSaveManager] ConnectionCheckTask, players connections checked.");
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class AutoSaveManager
 			}
 			catch (Exception e)
 			{
-				_log.info("Error while cleaning skill with 0 reuse time from table.");
+				LOGGER.info("Error while cleaning skill with 0 reuse time from table.");
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
@@ -198,7 +198,7 @@ public class AutoSaveManager
 				CloseUtil.close(con);
 			}
 
-			_log.info(" [AutoSaveManager] AutoCleanDBTask, "+erased+" entries cleaned from db.");
+			LOGGER.info(" [AutoSaveManager] AutoCleanDBTask, "+erased+" entries cleaned from db.");
 		}	
 	}
 	

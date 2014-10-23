@@ -20,10 +20,10 @@
 package com.l2jfrozen.gameserver.taskmanager;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Summon;
@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AttackStanceTaskManager
 {
-	protected static final Logger _log = Logger.getLogger(AttackStanceTaskManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AttackStanceTaskManager.class.getClass());
 	
 	protected Map<L2Character, Long> _attackStanceTasks = new FastMap<L2Character, Long>().shared();
 	
@@ -125,7 +125,7 @@ public class AttackStanceTaskManager
 			{
 				// TODO: Find out the reason for exception. Unless caught here,
 				// players remain in attack positions.
-				_log.log(Level.WARNING, "Error in FightModeScheduler: " + e.getMessage(), e);
+				LOGGER.warn( "Error in FightModeScheduler: " + e.getMessage(), e);
 			}
 		}
 	}

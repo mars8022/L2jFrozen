@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -35,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestSendFriendMsg extends L2GameClientPacket
 {
-	private static Logger _logChat = Logger.getLogger("chat");
+	private static java.util.logging.Logger _logChat = java.util.logging.Logger.getLogger("chat");
 
 	private String _message;
 	private String _reciever;

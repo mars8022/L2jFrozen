@@ -27,7 +27,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class ZakenSelf implements ISkillHandler
 {
-	// private static Logger _log = Logger.getLogger(ZakenSelf.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(ZakenSelf.class.getClass());
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.ZAKENSELF

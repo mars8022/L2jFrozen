@@ -20,9 +20,10 @@ package com.l2jfrozen.gameserver.managers;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -44,7 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class DayNightSpawnManager
 {
 
-	private static Logger _log = Logger.getLogger(DayNightSpawnManager.class.getName());
+	private static Logger LOGGER = Logger.getLogger(DayNightSpawnManager.class.getClass());
 
 	private static DayNightSpawnManager _instance;
 	private static Map<L2Spawn, L2NpcInstance> _dayCreatures;
@@ -69,14 +70,14 @@ public class DayNightSpawnManager
 		_nightCreatures = new FastMap<L2Spawn, L2NpcInstance>();
 		_bosses = new FastMap<L2Spawn, L2RaidBossInstance>();
 
-		_log.info("DayNightSpawnManager: Day/Night handler initialised");
+		LOGGER.info("DayNightSpawnManager: Day/Night handler initialised");
 	}
 
 	public void addDayCreature(L2Spawn spawnDat)
 	{
 		if(_dayCreatures.containsKey(spawnDat))
 		{
-			_log.warning("DayNightSpawnManager: Spawn already added into day map");
+			LOGGER.warn("DayNightSpawnManager: Spawn already added into day map");
 			return;
 		}
 		_dayCreatures.put(spawnDat, null);
@@ -86,7 +87,7 @@ public class DayNightSpawnManager
 	{
 		if(_nightCreatures.containsKey(spawnDat))
 		{
-			_log.warning("DayNightSpawnManager: Spawn already added into night map");
+			LOGGER.warn("DayNightSpawnManager: Spawn already added into night map");
 			return;
 		}
 		_nightCreatures.put(spawnDat, null);
@@ -112,8 +113,8 @@ public class DayNightSpawnManager
 	 * Manage Spawn/Respawn
 	 * Arg 1 : Map with L2NpcInstance must be unspawned
 	 * Arg 2 : Map with L2NpcInstance must be spawned
-	 * Arg 3 : String for log info for unspawned L2NpcInstance
-	 * Arg 4 : String for log info for spawned L2NpcInstance
+	 * Arg 3 : String for LOGGER info for unspawned L2NpcInstance
+	 * Arg 4 : String for LOGGER info for spawned L2NpcInstance
 	 */
 	private void spawnCreatures(Map<L2Spawn, L2NpcInstance> UnSpawnCreatures, Map<L2Spawn, L2NpcInstance> SpawnCreatures, String UnspawnLogInfo, String SpawnLogInfo)
 	{
@@ -133,7 +134,7 @@ public class DayNightSpawnManager
 					dayCreature.deleteMe();
 					i++;
 				}
-				_log.info("DayNightSpawnManager: Deleted " + i + " " + UnspawnLogInfo + " creatures");
+				LOGGER.info("DayNightSpawnManager: Deleted " + i + " " + UnspawnLogInfo + " creatures");
 			}
 
 			int i = 0;
@@ -175,7 +176,7 @@ public class DayNightSpawnManager
 
 			creature = null;
 
-			_log.info("DayNightSpawnManager: Spawning " + i + " " + SpawnLogInfo + " creatures");
+			LOGGER.info("DayNightSpawnManager: Spawning " + i + " " + SpawnLogInfo + " creatures");
 		}
 		catch(Exception e)
 		{
@@ -201,7 +202,7 @@ public class DayNightSpawnManager
 				ShadowSenseMsg(1);
 				break;
 			default:
-				_log.warning("DayNightSpawnManager: Wrong mode sent");
+				LOGGER.warn("DayNightSpawnManager: Wrong mode sent");
 				break;
 		}
 	}
@@ -275,11 +276,11 @@ public class DayNightSpawnManager
 		{
 			case 0:
 				boss.deleteMe();
-				_log.info("DayNightSpawnManager: Deleting Hellman raidboss");
+				LOGGER.info("DayNightSpawnManager: Deleting Hellman raidboss");
 				break;
 			case 1:
 				boss.spawnMe();
-				_log.info("DayNightSpawnManager: Spawning Hellman raidboss");
+				LOGGER.info("DayNightSpawnManager: Spawning Hellman raidboss");
 				break;
 		}
 	}

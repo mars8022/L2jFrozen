@@ -110,7 +110,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2NpcInstance extends L2Character
 {
-	// private static Logger _log = Logger.getLogger(L2NpcInstance.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(L2NpcInstance.class.getClass());
 	
 	/** The interaction distance of the L2NpcInstance(is used as offset in MovetoLocation method). */
 	public static final int INTERACTION_DISTANCE = 150;
@@ -760,7 +760,7 @@ public class L2NpcInstance extends L2Character
 		{
 			if (Config.DEBUG)
 			{
-				_log.fine("new target selected:" + getObjectId());
+				LOGGER.debug("new target selected:" + getObjectId());
 			}
 			
 			// Set the target of the L2PcInstance player
@@ -1996,7 +1996,7 @@ public class L2NpcInstance extends L2Character
 	 * if(!qs.getQuest().notifyTalk(this, qs)) return; } else { if(q != null) { // check for start point Quest[] qlst = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START); if(qlst != null && qlst.length > 0) { for(Quest element : qlst) { if(element == q) { qs = q.newQuestState(player);
 	 * //disabled by mr. becouse quest dialog only show on second click. //if(qs.getState().getName().equalsIgnoreCase("completed")) //{ if(!qs.getQuest().notifyTalk(this, qs)) return; // no need to show a window //} break; } } } q = null; } } if(qs == null) { // no quests found content =
 	 * "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>"; } else { questId = qs.getQuest().getName(); String stateId = qs.getStateId(); String path = Config.DATAPACK_ROOT + "/data/scripts/quests/" + questId + "/" + stateId + ".htm"; content =
-	 * HtmCache.getInstance().getHtm(path); if(Config.DEBUG) { if(content != null) { _log.fine("Showing quest window for quest " + questId + " html path: " + path); } else { _log.fine("File not exists for quest " + questId + " html path: " + path); } } qs = null; } // Send a Server->Client packet
+	 * HtmCache.getInstance().getHtm(path); if(Config.DEBUG) { if(content != null) { LOGGER.fine("Showing quest window for quest " + questId + " html path: " + path); } else { LOGGER.fine("File not exists for quest " + questId + " html path: " + path); } } qs = null; } // Send a Server->Client packet
 	 * NpcHtmlMessage to the L2PcInstance in order to display the message of the L2NpcInstance if(content != null) { insertObjectIdAndShowChatWindow(player, content); content = null; } // Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 	 * player.sendPacket(ActionFailed.STATIC_PACKET); } }
 	 */
@@ -2074,11 +2074,11 @@ public class L2NpcInstance extends L2Character
 			{
 				if (content != null)
 				{
-					_log.info("Showing quest window for quest " + questId + " html path: " + path);
+					LOGGER.info("Showing quest window for quest " + questId + " html path: " + path);
 				}
 				else
 				{
-					_log.info("File not exists for quest " + questId + " html path: " + path);
+					LOGGER.info("File not exists for quest " + questId + " html path: " + path);
 				}
 			}
 			
@@ -2100,7 +2100,7 @@ public class L2NpcInstance extends L2Character
 	public void showQuestWindow(L2PcInstance player)
 	{
 		// collect awaiting quests and start points
-		List<Quest> options = new FastList<Quest>();
+		List<Quest> options = new FastList<>();
 		
 		QuestState[] awaits = player.getQuestsForTalk(getTemplate().npcId);
 		Quest[] starts = getTemplate().getEventQuests(Quest.QuestEventType.QUEST_START);
@@ -3149,7 +3149,7 @@ public class L2NpcInstance extends L2Character
 		if (getWorldRegion() != null)
 		{
 			getWorldRegion().removeFromZones(this);
-			// FIXME this is just a temp hack, we should find a better solution
+			// FIXME this is just a temp hack, we should find a better solution | for what ?
 		}
 		
 		try
@@ -3158,10 +3158,7 @@ public class L2NpcInstance extends L2Character
 		}
 		catch (Throwable t)
 		{
-			if (Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
-			
-			_log.severe("deletedMe(): " + t);
+			LOGGER.error(t);
 		}
 		
 		// Remove all L2Object from _knownObjects and _knownPlayer of the L2Character then cancel Attak or Cast and notify AI
@@ -3171,10 +3168,7 @@ public class L2NpcInstance extends L2Character
 		}
 		catch (Throwable t)
 		{
-			if (Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
-			
-			_log.severe("deletedMe(): " + t);
+			LOGGER.error(t);
 		}
 		
 		// Remove L2Object object from _allObjects of L2World

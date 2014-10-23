@@ -26,7 +26,8 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.awt.Polygon;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.geo.GeoData;
@@ -34,7 +35,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2Territory
 {
-	private static Logger _log = Logger.getLogger(L2Territory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2Territory.class.getClass());
 
 	protected class Point
 	{
@@ -123,7 +124,7 @@ public class L2Territory
 	{
 		for(Point p : _points)
 		{
-			_log.info("(" + p._x + "," + p._y + ")");
+			LOGGER.info("(" + p._x + "," + p._y + ")");
 		}
 	}
 
@@ -166,7 +167,7 @@ public class L2Territory
 
 			if(i == 40)
 			{
-				_log.warning("Heavy territory: " + this + ", need manual correction");
+				LOGGER.warn("Heavy territory: " + this + ", need manual correction");
 			}
 
 			if(poly.contains(p[0], p[1]))
@@ -219,7 +220,7 @@ public class L2Territory
 				return p;
 			}
 		}
-		_log.warning("Can't make point for " + this);
+		LOGGER.warn("Can't make point for " + this);
 		return p;
 	}
 

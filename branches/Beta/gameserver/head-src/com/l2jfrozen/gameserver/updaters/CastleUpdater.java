@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.updaters;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.CastleManager;
@@ -32,7 +32,7 @@ import com.l2jfrozen.logs.Log;
  */
 public class CastleUpdater implements Runnable
 {
-	protected static Logger _log = Logger.getLogger(CastleUpdater.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(CastleUpdater.class.getClass());
 	private L2Clan _clan;
 	private int _runCount = 0;
 

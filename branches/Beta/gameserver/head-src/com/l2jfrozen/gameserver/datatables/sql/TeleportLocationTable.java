@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2TeleportLocation;
@@ -38,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TeleportLocationTable
 {
-	private final static Logger _log = Logger.getLogger(TeleportLocationTable.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(TeleportLocationTable.class.getClass());
 
 	private static TeleportLocationTable _instance;
 
@@ -61,7 +62,7 @@ public class TeleportLocationTable
 
 	public void reloadAll()
 	{
-		_teleports = new FastMap<Integer, L2TeleportLocation>();
+		_teleports = new FastMap<>();
 
 		Connection con = null;
 		try
@@ -88,11 +89,11 @@ public class TeleportLocationTable
 			statement.close();
 			rset.close();
 
-			_log.finest("TeleportLocationTable: Loaded {} Teleport Location Templates. "+ _teleports.size());
+			LOGGER.info("TeleportLocationTable: Loaded {} Teleport Location Templates. "+ _teleports.size());
 		}
 		catch(Exception e)
 		{
-			_log.severe("error while creating teleport table "+ e);
+			LOGGER.error("Error while creating teleport table ", e);
 		}
 		finally
 		{
@@ -128,13 +129,13 @@ public class TeleportLocationTable
 
 				if(_cTeleCount > 0)
 				{
-					_log.finest("TeleportLocationTable: Loaded {} Custom Teleport Location Templates. "+ _cTeleCount);
+					LOGGER.info("TeleportLocationTable: Loaded {} Custom Teleport Location Templates. "+ _cTeleCount);
 				}
 
 			}
 			catch(Exception e)
 			{
-				_log.severe("error while creating custom teleport table "+ e);
+				LOGGER.error("Error while creating custom teleport table ", e);
 			}
 			finally
 			{

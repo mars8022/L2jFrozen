@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.List;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -50,7 +51,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class RequestBuyItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestBuyItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestBuyItem.class.getClass());
 
 	private int _listId;
 	private int _count;
@@ -285,7 +286,7 @@ public final class RequestBuyItem extends L2GameClientPacket
 			*/
 			if(price < 0)
 			{
-				_log.warning("ERROR, no price found .. wrong buylist ??");
+				LOGGER.warn("ERROR, no price found .. wrong buylist ??");
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}

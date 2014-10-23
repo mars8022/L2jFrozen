@@ -21,7 +21,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -39,8 +39,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShowTownMap;
 public class L2StaticObjectInstance extends L2Object
 {
 	
-	/** The _log. */
-	private static Logger _log = Logger.getLogger(L2StaticObjectInstance.class.getName());
+	/** The LOGGER. */
+	private static Logger LOGGER = Logger.getLogger(L2StaticObjectInstance.class.getClass());
 
 	/** The interaction distance of the L2StaticObjectInstance. */
 	public static final int INTERACTION_DISTANCE = 150;
@@ -155,7 +155,7 @@ public class L2StaticObjectInstance extends L2Object
 	{
 		if(_type < 0)
 		{
-			_log.info("L2StaticObjectInstance: StaticObject with invalid type! StaticObjectId: " + getStaticObjectId());
+			LOGGER.info("L2StaticObjectInstance: StaticObject with invalid type! StaticObjectId: " + getStaticObjectId());
 		}
 		// Check if the L2PcInstance already target the L2NpcInstance
 		if(this != player.getTarget())

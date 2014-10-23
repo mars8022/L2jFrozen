@@ -15,7 +15,8 @@
 package com.l2jfrozen.gameserver.powerpak.Buffer;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -113,5 +114,5 @@ public class L2BufferInstance
 		return (L2Character) efector;
 	}
 	
-	static Logger _log = Logger.getLogger(Config.class.getName());
+	static Logger LOGGER = Logger.getLogger(Config.class.getClass());
 }

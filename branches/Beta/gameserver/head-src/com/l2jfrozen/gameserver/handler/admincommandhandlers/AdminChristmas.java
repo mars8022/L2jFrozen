@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AdminChristmas implements IAdminCommandHandler
 {
-	//private final static Logger _log = LogFactory.getLog(AdminChristmas.class.getName());
+	//private final static Logger LOGGER = LogFactory.getLog(AdminChristmas.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -50,7 +50,7 @@ public class AdminChristmas implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 

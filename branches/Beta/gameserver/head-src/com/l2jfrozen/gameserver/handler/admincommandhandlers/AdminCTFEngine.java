@@ -71,7 +71,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 		
@@ -390,7 +390,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 					showMainPage(activeChar);
 					return true;
 				}
-				activeChar.sendMessage("Cannot startJoin, check log for info..");
+				activeChar.sendMessage("Cannot startJoin, check LOGGER for info..");
 				return false;
 			case admin_ctf_teleport:
 				CTF.startTeleport();
@@ -401,7 +401,7 @@ public class AdminCTFEngine implements IAdminCommandHandler
 					showMainPage(activeChar);
 					return true;
 				}
-				activeChar.sendMessage("Cannot startEvent, check log for info..");
+				activeChar.sendMessage("Cannot startEvent, check LOGGER for info..");
 				return false;
 			
 			case admin_ctf_startevent:

@@ -20,16 +20,17 @@ package com.l2jfrozen.gameserver.network.gameserverpackets;
 
 import java.security.GeneralSecurityException;
 import java.security.interfaces.RSAPublicKey;
-import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author -Wooden-
  */
 public class BlowFishKey extends GameServerBasePacket
 {
-	private static Logger _log = Logger.getLogger(BlowFishKey.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BlowFishKey.class.getClass());
 
 	/**
 	 * @param blowfishKey
@@ -48,7 +49,7 @@ public class BlowFishKey extends GameServerBasePacket
 		}
 		catch(GeneralSecurityException e)
 		{
-			_log.severe("Error While encrypting blowfish key for transmision (Crypt error)");
+			LOGGER.warn("Error While encrypting blowfish key for transmision (Crypt error)");
 			e.printStackTrace();
 		}
 		

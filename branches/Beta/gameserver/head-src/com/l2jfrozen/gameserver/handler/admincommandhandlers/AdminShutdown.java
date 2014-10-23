@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
  */
 public class AdminShutdown implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminShutdown.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminShutdown.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_server_shutdown", "admin_server_restart", "admin_server_abort"

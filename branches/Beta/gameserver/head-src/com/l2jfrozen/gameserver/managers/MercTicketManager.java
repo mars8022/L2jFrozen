@@ -21,9 +21,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.AutoChatHandler;
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class MercTicketManager
 {
-	protected static Logger _log = Logger.getLogger(MercTicketManager.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(MercTicketManager.class.getClass());
 
 	// =========================================================
 
@@ -64,7 +65,7 @@ public class MercTicketManager
 	}
 	
 	public MercTicketManager(){
-		_log.info("Initializing MercTicketManager");
+		LOGGER.info("Initializing MercTicketManager");
 		_droppedTickets.clear();
 		load();
 	}
@@ -678,11 +679,11 @@ public class MercTicketManager
 			rs.close();
 			rs = null;
 
-			_log.info("Loaded: " + getDroppedTickets().size() + " Mercenary Tickets");
+			LOGGER.info("Loaded: " + getDroppedTickets().size() + " Mercenary Tickets");
 		}
 		catch(Exception e)
 		{
-			_log.info("Exception: loadMercenaryData(): " + e.getMessage());
+			LOGGER.info("Exception: loadMercenaryData(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

@@ -21,7 +21,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.security.interfaces.RSAPrivateKey;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.LoginCrypt;
@@ -44,7 +45,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 {
-	private static Logger _log = Logger.getLogger(L2LoginClient.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2LoginClient.class.getClass());
 
 	public static enum LoginClientState
 	{
@@ -99,7 +100,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		if (!BruteProtector.canLogin(ip))
 		{
 			LoginController.getInstance().addBanForAddress(getConnection().getInetAddress(), Config.BRUT_BAN_IP_TIME * 1000);
-			_log.warning("Drop connection from IP " + ip + " because of BruteForce.");
+			LOGGER.warn("Drop connection from IP " + ip + " because of BruteForce.");
 		}
 //		Closer.getInstance().add(this);
 	}
@@ -132,7 +133,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 		{
 			byte[] dump = new byte[size];
 			System.arraycopy(buf.array(), buf.position(), dump, 0, size);
-			_log.warning("Wrong checksum from client: " + toString());
+			LOGGER.warn("Wrong checksum from client: " + toString());
 			super.getConnection().close((SendablePacket<L2LoginClient>)null);
 			dump = null;
 		}
@@ -275,7 +276,7 @@ public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 //		Closer.getInstance().close(this);
 		if(Config.DEBUG)
 		{
-			_log.info("DISCONNECTED: " + toString());
+			LOGGER.info("DISCONNECTED: " + toString());
 		}
 
 		LoginController.getInstance().removeLoginClient(this);

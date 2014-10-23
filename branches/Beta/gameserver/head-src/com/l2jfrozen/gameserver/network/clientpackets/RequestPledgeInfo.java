@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeInfo;
 
 public final class RequestPledgeInfo extends L2GameClientPacket
 {
-	private static Logger log = Logger.getLogger(RequestPledgeInfo.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestPledgeInfo.class.getClass());
 
 	private int clanId;
 
@@ -43,7 +43,7 @@ public final class RequestPledgeInfo extends L2GameClientPacket
 	{
 		if(Config.DEBUG)
 		{
-			log.fine("infos for clan " + clanId + " requested");
+			LOGGER.debug("infos for clan " + clanId + " requested");
 		}
 
 		L2PcInstance activeChar = getClient().getActiveChar();
@@ -54,7 +54,7 @@ public final class RequestPledgeInfo extends L2GameClientPacket
 		
 		if(clan == null)
 		{   if (Config.DEBUG && clanId > 0){ 
-			log.warning("Clan data for clanId " + clanId + " is missing for player " + activeChar.getName());}
+			LOGGER.debug("Clan data for clanId " + clanId + " is missing for player " + activeChar.getName());}
 			return; // we have no clan data ?!? should not happen
 		}
 		activeChar.sendPacket(new PledgeInfo(clan));

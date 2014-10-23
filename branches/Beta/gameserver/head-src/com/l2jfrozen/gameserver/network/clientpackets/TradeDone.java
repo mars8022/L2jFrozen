@@ -52,7 +52,7 @@ public final class TradeDone extends L2GameClientPacket
 		TradeList trade = player.getActiveTradeList();
 		if(trade == null)
 		{
-			//_log.warning("player.getTradeList == null in " + getType() + " for player " + player.getName());
+			//LOGGER.warn("player.getTradeList == null in " + getType() + " for player " + player.getName());
 			return;
 		}
 

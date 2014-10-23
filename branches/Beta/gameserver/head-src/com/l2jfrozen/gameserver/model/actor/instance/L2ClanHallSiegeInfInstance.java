@@ -238,7 +238,7 @@ public class L2ClanHallSiegeInfInstance extends L2NpcInstance
 			L2Clan playerClan = player.getClan();
 			if(playerClan == null || !playerClan.getLeaderName().equalsIgnoreCase(player.getName()) || playerClan.getLevel() < 4)
 			{
-				_log.warning("Attention!!! player " + player.getName() + " use packet hack, try unregister clan.");
+				LOGGER.warn("Attention!!! player " + player.getName() + " use packet hack, try unregister clan.");
 				return;
 			}
 			if(!BanditStrongholdSiege.getInstance().isRegistrationPeriod())
@@ -262,7 +262,7 @@ public class L2ClanHallSiegeInfInstance extends L2NpcInstance
 			}
 			else
 			{
-				_log.warning("Attention!!! player " + player.getName() + " use packet hack, try unregister clan.");
+				LOGGER.warn("Attention!!! player " + player.getName() + " use packet hack, try unregister clan.");
 			}
 		}
 		else if(command.startsWith("PlayerList"))

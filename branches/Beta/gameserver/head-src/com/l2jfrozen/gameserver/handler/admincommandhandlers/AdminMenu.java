@@ -22,7 +22,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
@@ -44,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AdminMenu implements IAdminCommandHandler
 {
-	private static final Logger _log = Logger.getLogger(AdminMenu.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AdminMenu.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -76,7 +77,7 @@ public class AdminMenu implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -441,7 +442,7 @@ public class AdminMenu implements IAdminCommandHandler
 		}
 		catch(Exception e)
 		{
-			_log.warning("Could not set accessLevel:" + e);
+			LOGGER.warn("Could not set accessLevel:" + e);
 
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

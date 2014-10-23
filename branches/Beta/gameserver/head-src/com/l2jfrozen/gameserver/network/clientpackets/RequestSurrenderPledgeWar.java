@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestSurrenderPledgeWar extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestSurrenderPledgeWar.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestSurrenderPledgeWar.class.getClass());
 
 	private String _pledgeName;
 	private L2Clan _clan;
@@ -59,7 +59,7 @@ public final class RequestSurrenderPledgeWar extends L2GameClientPacket
 			return;
 		}
 
-		_log.info("RequestSurrenderPledgeWar by " + getClient().getActiveChar().getClan().getName() + " with " + _pledgeName);
+		LOGGER.info("RequestSurrenderPledgeWar by " + getClient().getActiveChar().getClan().getName() + " with " + _pledgeName);
 
 		if(!_clan.isAtWarWith(clan.getClanId()))
 		{

@@ -30,11 +30,12 @@ package com.l2jfrozen.gameserver.util;
 
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -53,7 +54,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class MinionList
 {
-	private static Logger _log = Logger.getLogger(L2MonsterInstance.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2MonsterInstance.class.getClass());
 
 	/** List containing the current spawned minions for this L2MonsterInstance */
 	private final List<L2MinionInstance> minionReferences;
@@ -62,7 +63,7 @@ public class MinionList
 
 	public MinionList(L2MonsterInstance pMaster)
 	{
-		minionReferences = new FastList<L2MinionInstance>();
+		minionReferences = new FastList<>();
 		master = pMaster;
 	}
 
@@ -271,7 +272,7 @@ public class MinionList
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Spawned minion template " + minionTemplate.npcId + " with objid: " + monster.getObjectId() + " to boss " + master.getObjectId() + " ,at: " + monster.getX() + " x, " + monster.getY() + " y, " + monster.getZ() + " z");
+			LOGGER.debug("Spawned minion template " + minionTemplate.npcId + " with objid: " + monster.getObjectId() + " to boss " + master.getObjectId() + " ,at: " + monster.getX() + " x, " + monster.getY() + " y, " + monster.getZ() + " z");
 		}
 	}
 }

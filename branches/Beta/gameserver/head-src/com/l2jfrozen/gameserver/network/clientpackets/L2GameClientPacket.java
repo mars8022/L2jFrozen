@@ -16,8 +16,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -30,7 +30,7 @@ import com.l2jfrozen.netcore.ReceivablePacket;
  */
 public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 {
-	private static final Logger _log = Logger.getLogger(L2GameClientPacket.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2GameClientPacket.class.getClass());
 
 	@Override
 	protected boolean read()
@@ -48,7 +48,7 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 			if (getClient() != null)
 				getClient().closeNow();
 
-			_log.severe("Client: " + getClient().toString() + " - Buffer overflow and has been kicked");
+			LOGGER.warn("Client: " + getClient().toString() + " - Buffer overflow and has been kicked");
 		}
 		catch (BufferUnderflowException e)
 		{
@@ -59,7 +59,7 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch (Throwable t)
 		{
-			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
+			LOGGER.error( "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
 			t.printStackTrace();
 		}
 		return false;
@@ -79,7 +79,7 @@ public abstract class L2GameClientPacket extends ReceivablePacket<L2GameClient>
 		}
 		catch (Throwable t)
 		{
-			_log.log(Level.SEVERE, "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
+			LOGGER.error( "Client: " + getClient().toString() + " - Failed reading: " + getType() + " ; " + t.getMessage(), t);
 			t.printStackTrace();
 
 			if (this instanceof EnterWorld)

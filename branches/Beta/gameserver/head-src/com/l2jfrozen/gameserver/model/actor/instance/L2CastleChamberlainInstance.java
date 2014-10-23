@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class L2CastleChamberlainInstance extends L2FolkInstance
 {
-	//    private static Logger _log = Logger.getLogger(L2CastleChamberlainInstance.class.getName());
+	//    private static Logger LOGGER = Logger.getLogger(L2CastleChamberlainInstance.class.getClass());
 
 	protected static final int COND_ALL_FALSE = 0;
 	protected static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
@@ -253,7 +253,7 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 
 					if(Config.DEBUG)
 					{
-						_log.fine("Showing chamberlain buylist");
+						LOGGER.debug("Showing chamberlain buylist");
 					}
 					int buy;
 					{
@@ -277,8 +277,8 @@ public class L2CastleChamberlainInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("player: " + player.getName() + " attempting to buy from chamberlain that don't have buylist!");
-						_log.warning("buylist id:" + buy);
+						LOGGER.warn("player: " + player.getName() + " attempting to buy from chamberlain that don't have buylist!");
+						LOGGER.warn("buylist id:" + buy);
 					}
 					list = null;
 

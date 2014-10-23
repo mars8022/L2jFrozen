@@ -15,9 +15,10 @@
 package com.l2jfrozen.gameserver.handler.custom;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
@@ -34,7 +35,7 @@ import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
  */
 public class CustomBypassHandler
 {
-	private static Logger _log = Logger.getLogger(BitSetIDFactory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class.getClass());
 	
 	private static CustomBypassHandler _instance = null;
 	private Map<String, ICustomByPassHandler> _handlers;
@@ -104,7 +105,7 @@ public class CustomBypassHandler
 				// Check to see if Rebirth is enabled to avoid hacks
 				if (!Config.REBIRTH_ENABLE)
 				{
-					_log.warning("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
+					LOGGER.warn("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
 					return;
 				}
 				

@@ -64,7 +64,7 @@ public class L2Party
 			1, 1.30, 1.39, 1.50, 1.54, 1.58, 1.63, 1.67, 1.71
 	};
 
-	//private static final Logger _log = Logger.getLogger(L2Party.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(L2Party.class.getClass());
 
 	private static final int PARTY_POSITION_BROADCAST = 10000;
 	

@@ -21,14 +21,13 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -48,7 +47,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AugmentationData
 {
-	private static final Logger _log = Logger.getLogger(AugmentationData.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AugmentationData.class.getClass());
 
 	// =========================================================
 	private static AugmentationData _instance;
@@ -96,7 +95,7 @@ public class AugmentationData
 	@SuppressWarnings("unchecked")
 	private AugmentationData()
 	{
-		_log.info("Initializing AugmentationData.");
+		LOGGER.info("Initializing AugmentationData.");
 
 		_augmentationStats = new FastList[4];
 		_augmentationStats[0] = new FastList<augmentationStat>();
@@ -117,13 +116,13 @@ public class AugmentationData
 		load();
 
 		// Use size*4: since theres 4 blocks of stat-data with equivalent size
-		_log.info("AugmentationData: Loaded: " + _augmentationStats[0].size() * 4 + " augmentation stats.");
+		LOGGER.info("AugmentationData: Loaded: " + _augmentationStats[0].size() * 4 + " augmentation stats.");
 
 		if(Config.DEBUG)
 		{
 			for(int i = 1; i <= 10; i++)
 			{
-				_log.info("AugmentationData: Loaded: " + _blueSkills.get(i).size() + " blue, " + _purpleSkills.get(i).size() + " purple and " + _redSkills.get(i).size() + " red skills for lifeStoneLevel " + i);
+				LOGGER.info("AugmentationData: Loaded: " + _blueSkills.get(i).size() + " blue, " + _purpleSkills.get(i).size() + " purple and " + _redSkills.get(i).size() + " red skills for lifeStoneLevel " + i);
 			}
 		}
 
@@ -278,7 +277,7 @@ public class AugmentationData
 							{
 								if(Config.DEBUG)
 								{
-									_log.log(Level.SEVERE, "Bad skillId in augmentation_skillmap.xml in the augmentationId:" + augmentationId);
+									LOGGER.error( "Bad skillId in augmentation_skillmap.xml in the augmentationId:" + augmentationId);
 								}
 								badAugmantData++;
 								continue;
@@ -287,7 +286,7 @@ public class AugmentationData
 							{
 								if(Config.DEBUG)
 								{
-									_log.log(Level.SEVERE, "Bad skillLevel in augmentation_skillmap.xml in the augmentationId:" + augmentationId);
+									LOGGER.error( "Bad skillLevel in augmentation_skillmap.xml in the augmentationId:" + augmentationId);
 								}
 								badAugmantData++;
 								continue;
@@ -320,7 +319,7 @@ public class AugmentationData
 
 			if(badAugmantData != 0)
 			{
-				_log.info("AugmentationData: " + badAugmantData + " bad skill(s) were skipped.");
+				LOGGER.info("AugmentationData: " + badAugmantData + " bad skill(s) were skipped.");
 			}
 
 			doc = null;
@@ -331,7 +330,7 @@ public class AugmentationData
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error parsing augmentation_skillmap.xml.", e);
+			LOGGER.error( "Error parsing augmentation_skillmap.xml.", e);
 
 			return;
 		}
@@ -431,7 +430,7 @@ public class AugmentationData
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "Error parsing augmentation_stats" + i + ".xml.", e);
+				LOGGER.error( "Error parsing augmentation_stats" + i + ".xml.", e);
 				return;
 			}
 		}
@@ -614,7 +613,7 @@ public class AugmentationData
 		}
 		if(Config.DEBUG)
 		{
-			_log.info("Augmentation success: stat12=" + stat12 + "; stat34=" + stat34 + "; resultColor=" + resultColor + "; level=" + lifeStoneLevel + "; grade=" + lifeStoneGrade);
+			LOGGER.info("Augmentation success: stat12=" + stat12 + "; stat34=" + stat34 + "; resultColor=" + resultColor + "; level=" + lifeStoneLevel + "; grade=" + lifeStoneGrade);
 		}
 
 		return new L2Augmentation(item, ((stat34 << 16) + stat12), skill, true);

@@ -24,10 +24,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -46,7 +47,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortSiegeManager
 {
-	private static final Logger _log = Logger.getLogger(FortSiegeManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(FortSiegeManager.class.getClass());
 	
 	public static final FortSiegeManager getInstance()
 	{
@@ -164,7 +165,7 @@ public class FortSiegeManager
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: checkIsRegistered(): " + e.getMessage());
+			LOGGER.warn("Exception: checkIsRegistered(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -185,7 +186,7 @@ public class FortSiegeManager
 	// Method - Private
 	private final void load()
 	{
-		_log.info("Initializing FortSiegeManager");
+		LOGGER.info("Initializing FortSiegeManager");
 		InputStream is = null;
 		try
 		{
@@ -239,7 +240,7 @@ public class FortSiegeManager
 							e.printStackTrace();
 						
 						
-						_log.warning("Error while loading commander(s) for " + fort.getName() + " fort.");
+						LOGGER.warn("Error while loading commander(s) for " + fort.getName() + " fort.");
 					}
 				}
 
@@ -271,7 +272,7 @@ public class FortSiegeManager
 							e.printStackTrace();
 						
 						
-						_log.warning("Error while loading flag(s) for " + fort.getName() + " fort.");
+						LOGGER.warn("Error while loading flag(s) for " + fort.getName() + " fort.");
 					}
 				}
 				_flagList.put(fort.getFortId(), _flagSpawns);

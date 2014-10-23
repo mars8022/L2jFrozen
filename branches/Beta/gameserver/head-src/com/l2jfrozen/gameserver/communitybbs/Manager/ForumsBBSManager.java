@@ -22,9 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -33,7 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ForumsBBSManager extends BaseBBSManager
 {
-	private static Logger _log = Logger.getLogger(ForumsBBSManager.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ForumsBBSManager.class.getClass());
 	private List<Forum> _table;
 	private static ForumsBBSManager _instance;
 	private int _lastid = 1;
@@ -93,7 +94,7 @@ public class ForumsBBSManager extends BaseBBSManager
 		}
 		catch(Exception e)
 		{
-			_log.warning("data error on Forum (root): " + e);
+			LOGGER.warn("data error on Forum (root): " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -106,7 +107,7 @@ public class ForumsBBSManager extends BaseBBSManager
 	{
 		for (Forum f : _table)
 			f.vload();
-		_log.info("Loaded " + _table.size() + " forums. Last forum id used: " + _lastid);
+		LOGGER.info("Loaded " + _table.size() + " forums. Last forum id used: " + _lastid);
 	}
 	
 	@Override

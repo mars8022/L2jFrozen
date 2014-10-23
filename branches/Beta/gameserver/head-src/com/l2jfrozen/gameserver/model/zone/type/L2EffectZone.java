@@ -17,9 +17,10 @@ package com.l2jfrozen.gameserver.model.zone.type;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -38,7 +39,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2EffectZone extends L2ZoneType
 {
-	public static final Logger _log = Logger.getLogger(L2EffectZone.class.getName());
+	public static final Logger LOGGER = Logger.getLogger(L2EffectZone.class.getClass());
 	
 	private int _chance;
 	private int _initialDelay;
@@ -77,7 +78,7 @@ public class L2EffectZone extends L2ZoneType
 			{
 				String[] skillSplit = skill.split("-");
 				if (skillSplit.length != 2)
-					_log.warning(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skill, "\""));
+					LOGGER.warn(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skill, "\""));
 				else
 				{
 					try
@@ -87,7 +88,7 @@ public class L2EffectZone extends L2ZoneType
 					catch (NumberFormatException nfe)
 					{
 						if (!skill.isEmpty())
-							_log.warning(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skillSplit[0], "\"", skillSplit[1]));
+							LOGGER.warn(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skillSplit[0], "\"", skillSplit[1]));
 					}
 				}
 			}
@@ -228,7 +229,7 @@ public class L2EffectZone extends L2ZoneType
 								L2Skill skill = getSkill(e.getKey(), e.getValue());
 								
 								if(skill == null){
-									_log.warning("ATTENTION: Skill "+e.getKey()+" cannot be loaded.. Verify Skill definition into data/stats/skill folder...");
+									LOGGER.warn("ATTENTION: Skill "+e.getKey()+" cannot be loaded.. Verify Skill definition into data/stats/skill folder...");
 									continue;
 								}
 								

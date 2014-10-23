@@ -22,12 +22,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -58,7 +59,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanTable
 {
-	private static Logger _log = Logger.getLogger(ClanTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ClanTable.class.getClass());
 
 	private static ClanTable _instance;
 
@@ -115,7 +116,7 @@ public class ClanTable
 
 	private ClanTable()
 	{
-		_clans = new FastMap<Integer, L2Clan>();
+		_clans = new FastMap<>();
 		L2Clan clan;
 		Connection con = null;
 		try
@@ -147,11 +148,11 @@ public class ClanTable
 			result.close();
 			statement.close();
 
-			_log.finest("Restored " + clanCount + " clans from the database.");
+			LOGGER.info("Restored " + clanCount + " clans from the database.");
 		}
 		catch(Exception e)
 		{
-			_log.severe("data error on ClanTable"+" "+ e);
+			LOGGER.error("Data error on ClanTable", e);
 		}
 		finally
 		{
@@ -194,7 +195,7 @@ public class ClanTable
 		if(null == player)
 			return null;
 
-		_log.finest( "{}({}) requested a clan creation."+" "+ player.getObjectId()+" "+ player.getName());
+		LOGGER.info( "{}({}) requested a clan creation."+" "+ player.getObjectId()+" "+ player.getName());
 
 		if(10 > player.getLevel())
 		{
@@ -227,7 +228,7 @@ public class ClanTable
 		player.setPledgeClass(leader.calculatePledgeClass(player));
 		player.setClanPrivileges(L2Clan.CP_ALL);
 
-		_log.finest("New clan created: {} {}"+" "+ clan.getClanId()+" "+ clan.getName());
+		LOGGER.info("New clan created: {} {}"+" "+ clan.getClanId()+" "+ clan.getName());
 
 		_clans.put(new Integer(clan.getClanId()), clan);
 
@@ -270,7 +271,7 @@ public class ClanTable
 		}
 		catch(PatternSyntaxException e) // case of illegal pattern
 		{
-			_log.warning("ERROR: Clan name pattern of config is wrong!");
+			LOGGER.warn("ERROR: Clan name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
 
@@ -418,13 +419,13 @@ public class ClanTable
 				}
 			}
 
-			_log.finest("clan removed in db: {}"+" "+ clanId);
+			LOGGER.info("Clan removed in db: {}"+" "+ clanId);
 			
 			statement.close();
 		}
 		catch(Exception e)
 		{
-			_log.severe("error while removing clan in db"+" "+ e);
+			LOGGER.error("Error while removing clan in db", e);
 		}
 		finally
 		{
@@ -483,7 +484,7 @@ public class ClanTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("could not store clans wars data"+" "+ e);
+			LOGGER.error("Could not store clans wars data", e);
 		}
 		finally
 		{
@@ -544,7 +545,7 @@ public class ClanTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("could not restore clans wars data"+" "+ e);
+			LOGGER.error("Could not restore clans wars data", e);
 		}
 		finally
 		{
@@ -605,7 +606,7 @@ public class ClanTable
 		}
 		catch(Exception e)
 		{
-			_log.severe("could not restore clan wars data:");
+			LOGGER.error("Could not restore clan wars data:");
 			e.printStackTrace();
 		}
 		finally

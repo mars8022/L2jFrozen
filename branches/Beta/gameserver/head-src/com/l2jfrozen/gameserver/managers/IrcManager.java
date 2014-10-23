@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2IrcClient;
@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.L2IrcClient;
  */
 public class IrcManager
 {
-	static final Logger _log = Logger.getLogger(IrcManager.class.getName());
+	static final Logger LOGGER = Logger.getLogger(IrcManager.class.getClass());
 
     private static L2IrcClient _ircConnection;
     
@@ -38,7 +38,7 @@ public class IrcManager
     }
     
     public IrcManager(){
-    	_log.info("Initializing IRCManager");
+    	LOGGER.info("Initializing IRCManager");
         load();
     }
     
@@ -53,7 +53,7 @@ public class IrcManager
 		} 
     	catch (Exception e) 
     	{ 
-			_log.warning(e.toString());
+			LOGGER.warn(e.toString());
 		}
     }
 
@@ -73,7 +73,7 @@ public class IrcManager
 		} 
     	catch (Exception e) 
     	{ 
-    		_log.warning(e.toString());
+    		LOGGER.warn(e.toString());
 		}
     }
     

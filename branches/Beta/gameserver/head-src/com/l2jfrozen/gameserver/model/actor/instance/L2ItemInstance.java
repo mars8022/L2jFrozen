@@ -25,7 +25,8 @@ import java.sql.SQLException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -64,11 +65,11 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 public final class L2ItemInstance extends L2Object
 {
 	
-	/** The Constant _log. */
-	private static final Logger _log = Logger.getLogger(L2ItemInstance.class.getName());
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = Logger.getLogger(L2ItemInstance.class.getClass());
 	
 	/** The Constant _logItems. */
-	private static final Logger _logItems = Logger.getLogger("item");
+	private static final java.util.logging.Logger _logItems = java.util.logging.Logger.getLogger("item");
 
 	/** The _drop protection. */
 	private final DropProtection _dropProtection = new DropProtection(); 
@@ -267,6 +268,7 @@ public final class L2ItemInstance extends L2Object
 		int oldOwner = _ownerId;
 		setOwnerId(owner_id);
 		
+		/*
 		if(Config.LOG_ITEMS)
 		{
 			LogRecord record = new LogRecord(Level.INFO, "CHANGE:" + process);
@@ -275,10 +277,10 @@ public final class L2ItemInstance extends L2Object
 			{
 					this, creator, reference
 			});
-			_logItems.log(record);
+			_logItems.LOGGER(record);
 			record = null;
 		}
-		
+		*/
 		fireEvent(EventType.SETOWNER.name, new Object[]
 		                                      		{
 		                                      				process, oldOwner
@@ -1238,7 +1240,7 @@ public final class L2ItemInstance extends L2Object
 
 				if(item == null)
 				{
-					_log.severe("Item item_id=" + item_id + " not known, object_id=" + objectId);
+					LOGGER.warn("Item item_id=" + item_id + " not known, object_id=" + objectId);
 					rs.close();
 					statement.close();
 					CloseUtil.close(con);
@@ -1286,7 +1288,7 @@ public final class L2ItemInstance extends L2Object
 			}
 			else
 			{
-				_log.severe("Item object_id=" + objectId + " not found");
+				LOGGER.warn("Item object_id=" + objectId + " not found");
 
 				rs.close();
 				statement.close();
@@ -1313,10 +1315,7 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.log(Level.SEVERE, "Could not restore item " + objectId + " from DB:", e);
+			LOGGER.error("Could not restore item " + objectId + " from DB", e);
 		}
 		finally
 		{
@@ -1441,7 +1440,7 @@ public final class L2ItemInstance extends L2Object
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Could not update item " + getObjectId() + " in DB: Reason: ");
+			LOGGER.error( "Could not update item " + getObjectId() + " in DB: Reason: ");
 			e.printStackTrace();
 		}
 		finally
@@ -1497,7 +1496,7 @@ public final class L2ItemInstance extends L2Object
 			//	e.printStackTrace();
 			
 			if(Config.DEBUG)
-				_log.log(Level.SEVERE, "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getObjectId());
+				LOGGER.error( "ATTENTION: Update Item instead of Insert one, check player with id "+this.getOwnerId()+" actions on item "+this.getObjectId());
 			updateInDb();
 		
 		}
@@ -1541,7 +1540,7 @@ public final class L2ItemInstance extends L2Object
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.SEVERE, "Could not delete item " + getObjectId() + " in DB:", e);
+			LOGGER.error( "Could not delete item " + getObjectId() + " in DB:", e);
 			e.printStackTrace();
 		}
 		finally

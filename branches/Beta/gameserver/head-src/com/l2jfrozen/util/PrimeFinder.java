@@ -25,7 +25,7 @@ import java.util.Arrays;
  * However, JDK 1.2, JGL 3.1 and many other toolkits do nothing to keep capacities prime. This class provides efficient
  * means to choose prime capacities.
  * <p>
- * Choosing a prime is <tt>O(log 300)</tt> (binary search in a list of 300 ints). Memory requirements: 1 KB static
+ * Choosing a prime is <tt>O(LOGGER 300)</tt> (binary search in a list of 300 ints). Memory requirements: 1 KB static
  * memory.
  * 
  * @author wolfgang.hoschek@cern.ch

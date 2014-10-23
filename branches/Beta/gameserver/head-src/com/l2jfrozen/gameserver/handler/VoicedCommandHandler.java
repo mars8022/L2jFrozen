@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -44,7 +45,7 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
  */
 public class VoicedCommandHandler
 {
-	private static Logger _log = Logger.getLogger(GameServer.class.getName());
+	private static Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
 	
 	private static VoicedCommandHandler _instance;
 	
@@ -118,7 +119,7 @@ public class VoicedCommandHandler
 			registerVoicedCommandHandler(new OfflineShop());
 		}
 		
-		_log.config("VoicedCommandHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("VoicedCommandHandler: Loaded " + _datatable.size() + " handlers.");
 		
 	}
 	
@@ -130,7 +131,7 @@ public class VoicedCommandHandler
 		{
 			if (Config.DEBUG)
 			{
-				_log.fine("Adding handler for command " + id);
+				LOGGER.debug("Adding handler for command " + id);
 			}
 			
 			_datatable.put(id, handler);
@@ -150,7 +151,7 @@ public class VoicedCommandHandler
 		
 		if (Config.DEBUG)
 		{
-			_log.fine("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
+			LOGGER.debug("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
 		}
 		
 		return _datatable.get(command);

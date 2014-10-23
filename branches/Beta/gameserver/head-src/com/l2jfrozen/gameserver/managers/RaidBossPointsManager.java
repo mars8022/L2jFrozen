@@ -27,11 +27,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -44,7 +44,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class RaidBossPointsManager
 {
-	private final static Logger _log = Logger.getLogger(RaidBossPointsManager.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(RaidBossPointsManager.class.getClass());
 	protected static FastMap<Integer, Map<Integer, Integer>> _list;
 	
 	private static final Comparator<Map.Entry<Integer, Integer>> _comparator = new Comparator<Map.Entry<Integer, Integer>>()
@@ -93,14 +93,14 @@ public class RaidBossPointsManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("RaidPointsManager: Couldnt load raid points ");
+			LOGGER.warn("RaidPointsManager: Couldnt load raid points ");
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning(e.getMessage());
+			LOGGER.warn(e.getMessage());
 		}
 		finally
 		{
@@ -128,7 +128,7 @@ public class RaidBossPointsManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not update char raid points:", e);
+			LOGGER.warn( "could not update char raid points:", e);
 		}
 		finally
 		{
@@ -202,7 +202,7 @@ public class RaidBossPointsManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "could not clean raid points: ", e);
+			LOGGER.warn( "could not clean raid points: ", e);
 		}
 		finally
 		{

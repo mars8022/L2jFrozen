@@ -21,10 +21,10 @@ package com.l2jfrozen.gameserver.managers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CoupleManager
 {
-	protected static final Logger _log = Logger.getLogger(CoupleManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(CoupleManager.class.getClass());
 	
 	// =========================================================
 	// Data Field
@@ -51,7 +51,7 @@ public class CoupleManager
 	}
 
 	public CoupleManager(){
-		_log.info("Initializing CoupleManager");
+		LOGGER.info("Initializing CoupleManager");
 		_couples.clear();
 		load();
 	}
@@ -88,14 +88,14 @@ public class CoupleManager
 			rs.close();
 			rs = null;
 
-			_log.info("Loaded: " + getCouples().size() + " couples(s)");
+			LOGGER.info("Loaded: " + getCouples().size() + " couples(s)");
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: CoupleManager.load(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: CoupleManager.load(): " + e.getMessage(), e);
 		}
 		finally
 		{

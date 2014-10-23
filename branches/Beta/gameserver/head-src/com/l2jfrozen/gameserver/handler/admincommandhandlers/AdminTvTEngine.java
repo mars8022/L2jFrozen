@@ -59,7 +59,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 		
@@ -221,7 +221,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			if(TvT.startJoin())
 				showMainPage(activeChar);
 			else
-				activeChar.sendMessage("Cannot startJoin, check log for info..");
+				activeChar.sendMessage("Cannot startJoin, check LOGGER for info..");
 		}
 		else if(command.equals("admin_tvt_teleport"))
 		{
@@ -233,7 +233,7 @@ public class AdminTvTEngine implements IAdminCommandHandler
 			if(TvT.startEvent())
 				showMainPage(activeChar);
 			else
-				activeChar.sendMessage("Cannot startEvent, check log for info..");
+				activeChar.sendMessage("Cannot startEvent, check LOGGER for info..");
 		}
 		else if(command.equals("admin_tvt_startevent"))
 		{

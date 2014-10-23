@@ -19,11 +19,10 @@
 package com.l2jfrozen.gameserver.skills;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -36,7 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
  */
 public class hitConditionBonus
 {
-	protected static final Logger _log = Logger.getLogger(hitConditionBonus.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(hitConditionBonus.class.getClass());
 	
 	private static int frontBonus = 0;
 	private static int sideBonus = 0;
@@ -90,7 +89,7 @@ public class hitConditionBonus
 			}
 			catch (Exception e)
 			{
-				_log.log(Level.WARNING, "[hitConditionBonus] Could not parse file: " + e.getMessage(), e);
+				LOGGER.warn( "[hitConditionBonus] Could not parse file: " + e.getMessage(), e);
 			}
 			
 			String name;
@@ -110,7 +109,7 @@ public class hitConditionBonus
 						}
 						catch (Exception e)
 						{
-							_log.log(Level.WARNING, "[hitConditionBonus] Could not parse condition: " + e.getMessage(), e);
+							LOGGER.warn( "[hitConditionBonus] Could not parse condition: " + e.getMessage(), e);
 						}
 						finally
 						{

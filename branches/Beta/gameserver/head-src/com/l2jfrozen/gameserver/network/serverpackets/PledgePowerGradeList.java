@@ -46,7 +46,7 @@ public class PledgePowerGradeList extends L2GameServerPacket
 		{
 			writeD(priv.getRank());
 			writeD(priv.getParty());
-			//_log.warning("rank: "+_privs[i].getRank()+" party: "+_privs[i].getParty());
+			//LOGGER.warn("rank: "+_privs[i].getRank()+" party: "+_privs[i].getParty());
 		}
 
 	}

@@ -20,9 +20,10 @@ package com.l2jfrozen.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 /**
  * This class ...
@@ -32,7 +33,7 @@ import javolution.text.TextBuilder;
  */
 public class Util
 {
-	protected static final Logger _log = Logger.getLogger(Util.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Util.class.getClass());
 	
 	public static boolean isInternalIP(String ipAddress)
 	{
@@ -128,7 +129,7 @@ public class Util
 		int slen = s.length();
 		if(slen > maxlength)
 		{
-			_log.info(s);
+			LOGGER.info(s);
 			return;
 		}
 		int i;
@@ -136,7 +137,7 @@ public class Util
 		{
 			s = "=" + s;
 		}
-		_log.info(s);
+		LOGGER.info(s);
 	}
 
 	/**
@@ -153,10 +154,10 @@ public class Util
 	 */
 	private static void printCpuInfo()
 	{
-		_log.info("Avaible CPU(s): " + Runtime.getRuntime().availableProcessors());
-		_log.info("Processor(s) Identifier: " + System.getenv("PROCESSOR_IDENTIFIER"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Avaible CPU(s): " + Runtime.getRuntime().availableProcessors());
+		LOGGER.info("Processor(s) Identifier: " + System.getenv("PROCESSOR_IDENTIFIER"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
 
 	/**
@@ -164,10 +165,10 @@ public class Util
 	 */
 	private static void printOSInfo()
 	{
-		_log.info("OS: " + System.getProperty("os.name") + " Build: " + System.getProperty("os.version"));
-		_log.info("OS Arch: " + System.getProperty("os.arch"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("OS: " + System.getProperty("os.name") + " Build: " + System.getProperty("os.version"));
+		LOGGER.info("OS Arch: " + System.getProperty("os.arch"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
 
 	/**
@@ -175,12 +176,12 @@ public class Util
 	 */
 	private static void printJreInfo()
 	{
-		_log.info("Java Platform Information");
-		_log.info("Java Runtime  Name: " + System.getProperty("java.runtime.name"));
-		_log.info("Java Version: " + System.getProperty("java.version"));
-		_log.info("Java Class Version: " + System.getProperty("java.class.version"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Java Platform Information");
+		LOGGER.info("Java Runtime  Name: " + System.getProperty("java.runtime.name"));
+		LOGGER.info("Java Version: " + System.getProperty("java.version"));
+		LOGGER.info("Java Class Version: " + System.getProperty("java.class.version"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
 
 	/**
@@ -188,12 +189,12 @@ public class Util
 	 */
 	private static void printRuntimeInfo()
 	{
-		_log.info("Runtime Information");
-		_log.info("Current Free Heap Size: " + Runtime.getRuntime().freeMemory() / 1024 / 1024 + " mb");
-		_log.info("Current Heap Size: " + Runtime.getRuntime().totalMemory() / 1024 / 1024 + " mb");
-		_log.info("Maximum Heap Size: " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + " mb");
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Runtime Information");
+		LOGGER.info("Current Free Heap Size: " + Runtime.getRuntime().freeMemory() / 1024 / 1024 + " mb");
+		LOGGER.info("Current Heap Size: " + Runtime.getRuntime().totalMemory() / 1024 / 1024 + " mb");
+		LOGGER.info("Maximum Heap Size: " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + " mb");
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 
 	}
 
@@ -211,9 +212,9 @@ public class Util
 		//generates String that will get the formater info with values
 		String dayInfo = df.format(dateInfo);
 
-		_log.info("..................................................");
-		_log.info("System Time: " + dayInfo);
-		_log.info("..................................................");
+		LOGGER.info("..................................................");
+		LOGGER.info("System Time: " + dayInfo);
+		LOGGER.info("..................................................");
 	}
 
 	/**
@@ -221,14 +222,14 @@ public class Util
 	 */
 	private static void printJvmInfo()
 	{
-		_log.info("Virtual Machine Information (JVM)");
-		_log.info("JVM Name: " + System.getProperty("java.vm.name"));
-		_log.info("JVM installation directory: " + System.getProperty("java.home"));
-		_log.info("JVM version: " + System.getProperty("java.vm.version"));
-		_log.info("JVM Vendor: " + System.getProperty("java.vm.vendor"));
-		_log.info("JVM Info: " + System.getProperty("java.vm.info"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Virtual Machine Information (JVM)");
+		LOGGER.info("JVM Name: " + System.getProperty("java.vm.name"));
+		LOGGER.info("JVM installation directory: " + System.getProperty("java.home"));
+		LOGGER.info("JVM version: " + System.getProperty("java.vm.version"));
+		LOGGER.info("JVM Vendor: " + System.getProperty("java.vm.vendor"));
+		LOGGER.info("JVM Info: " + System.getProperty("java.vm.info"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
 
 	/**

@@ -23,10 +23,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
@@ -48,7 +49,7 @@ public class Forum
 	public static final int CLANMEMBERONLY = 2;
 	public static final int OWNERONLY = 3;
 
-	private static Logger _log = Logger.getLogger(Forum.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Forum.class.getClass());
 	private List<Forum> _children;
 	private Map<Integer, Topic> _topic;
 	private int _forumId;
@@ -124,7 +125,7 @@ public class Forum
 		}
 		catch(Exception e)
 		{
-			_log.warning("data error on Forum " + _forumId + " : " + e);
+			LOGGER.warn("data error on Forum " + _forumId + " : " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -156,7 +157,7 @@ public class Forum
 		}
 		catch(Exception e)
 		{
-			_log.warning("data error on Forum " + _forumId + " : " + e);
+			LOGGER.warn("data error on Forum " + _forumId + " : " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -189,7 +190,7 @@ public class Forum
 		}
 		catch(Exception e)
 		{
-			_log.warning("data error on Forum (children): " + e);
+			LOGGER.warn("data error on Forum (children): " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -284,7 +285,7 @@ public class Forum
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("error while saving new Forum to db " + e);
+			LOGGER.warn("error while saving new Forum to db " + e);
 		}
 		finally
 		{

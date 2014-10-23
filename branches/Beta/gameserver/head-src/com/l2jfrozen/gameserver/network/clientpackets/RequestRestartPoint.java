@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class RequestRestartPoint extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestRestartPoint.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestRestartPoint.class.getClass());
 	
 	protected int _requestedPointType;
 	protected boolean _continuation;
@@ -217,7 +217,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 			catch (Throwable e)
 			{
 				e.printStackTrace();				
-				// _log.log(Level.SEVERE, "", e);
+				// LOGGER.error( "", e);
 			}
 		}
 	}
@@ -238,7 +238,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 		}
 		else if (!activeChar.isAlikeDead())
 		{
-			_log.warning("Living player [" + activeChar.getName() + "] called RestartPointPacket! Ban this player!");
+			LOGGER.warn("Living player [" + activeChar.getName() + "] called RestartPointPacket! Ban this player!");
 			return;
 		}
 		

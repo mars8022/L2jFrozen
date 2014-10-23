@@ -49,7 +49,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 {
 
-	//protected static final Logger _log = Logger.getLogger(L2SiegeGuardAI.class.getName());
+	//protected static final Logger LOGGER = Logger.getLogger(L2SiegeGuardAI.class.getClass());
 
 	private static final int MAX_ATTACK_TIMEOUT = 300; // int ticks, i.e. 30 seconds
 
@@ -169,7 +169,7 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("L2SiegeAI.changeIntention(" + intention + ", " + arg0 + ", " + arg1 + ")");
+			LOGGER.info("L2SiegeAI.changeIntention(" + intention + ", " + arg0 + ", " + arg1 + ")");
 		}
 
 		((L2Attackable) _actor).setisReturningToSpawnPoint(false);
@@ -357,7 +357,7 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			//_log.warning("AttackableAI: Attack target is NULL.");
+			//LOGGER.warn("AttackableAI: Attack target is NULL.");
 			_actor.setTarget(null);
 			setIntention(AI_INTENTION_IDLE, null, null);
 			return;
@@ -597,7 +597,7 @@ public class L2SiegeGuardAI extends L2CharacterAI implements Runnable
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("L2SiegeGuardAI.thinkAttack(); timeout=" + (_attackTimeout - GameTimeController.getGameTicks()));
+			LOGGER.info("L2SiegeGuardAI.thinkAttack(); timeout=" + (_attackTimeout - GameTimeController.getGameTicks()));
 		}
 
 		if(_attackTimeout < GameTimeController.getGameTicks())

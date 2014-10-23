@@ -24,10 +24,11 @@ import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
@@ -56,7 +57,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Castle
 {
-	protected static Logger _log = Logger.getLogger(Castle.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(Castle.class.getClass());
 
 	// =========================================================
 	// Data Field
@@ -1045,7 +1046,7 @@ public class Castle
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error adding seed production data for castle " + getName() + ": " + e.getMessage());
+			LOGGER.info("Error adding seed production data for castle " + getName() + ": " + e.getMessage());
 		}
 		finally
 		{
@@ -1109,7 +1110,7 @@ public class Castle
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error adding seed production data for castle " + getName() + ": " + e.getMessage());
+			LOGGER.info("Error adding seed production data for castle " + getName() + ": " + e.getMessage());
 		}
 		finally
 		{
@@ -1200,7 +1201,7 @@ public class Castle
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error adding crop data for castle " + getName() + ": " + e.getMessage());
+			LOGGER.info("Error adding crop data for castle " + getName() + ": " + e.getMessage());
 		}
 		finally
 		{
@@ -1266,7 +1267,7 @@ public class Castle
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error adding crop data for castle " + getName() + ": " + e.getMessage());
+			LOGGER.info("Error adding crop data for castle " + getName() + ": " + e.getMessage());
 		}
 		finally
 		{
@@ -1297,7 +1298,7 @@ public class Castle
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error adding crop data for castle " + getName() + ": " + e.getMessage());
+			LOGGER.info("Error adding crop data for castle " + getName() + ": " + e.getMessage());
 		}
 		finally
 		{
@@ -1328,7 +1329,7 @@ public class Castle
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("Error adding seed production data for castle " + getName() + ": " + e.getMessage());
+			LOGGER.info("Error adding seed production data for castle " + getName() + ": " + e.getMessage());
 		}
 		finally
 		{

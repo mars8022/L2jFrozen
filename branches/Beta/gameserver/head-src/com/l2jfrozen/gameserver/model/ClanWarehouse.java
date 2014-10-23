@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public final class ClanWarehouse extends Warehouse
 {
-	//private static final Logger _log = Logger.getLogger(PcWarehouse.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(PcWarehouse.class.getClass());
 
 	private L2Clan _clan;
 

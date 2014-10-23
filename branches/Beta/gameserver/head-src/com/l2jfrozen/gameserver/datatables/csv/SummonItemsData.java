@@ -51,7 +51,7 @@ public class SummonItemsData
 
 	public SummonItemsData()
 	{
-		_summonitems = new FastMap<Integer, L2SummonItem>();
+		_summonitems = new FastMap<>();
 
 		Scanner s = null;
 

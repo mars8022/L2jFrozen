@@ -14,10 +14,10 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 
 import java.util.List;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
@@ -48,8 +48,8 @@ import com.l2jfrozen.util.random.Rnd;
 public class L2CubicInstance
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(L2CubicInstance.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(L2CubicInstance.class.getClass());
 	
 	// Type of Cubics
 	/** The Constant STORM_CUBIC. */
@@ -557,7 +557,7 @@ public class L2CubicInstance
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, "", e);
+			LOGGER.error( "", e);
 		}
 	}
 	
@@ -670,8 +670,8 @@ public class L2CubicInstance
 						{
 							if (Config.DEBUG)
 							{
-								_log.info("L2CubicInstance: Action.run();");
-								_log.info("Cubic Id: "
+								LOGGER.info("L2CubicInstance: Action.run();");
+								LOGGER.info("Cubic Id: "
 										+ _id
 										+ " Target: "
 										+ target.getName()
@@ -690,13 +690,13 @@ public class L2CubicInstance
 									|| (type == SkillType.AGGDAMAGE))
 							{
 								if (Config.DEBUG)
-									_log.info("L2CubicInstance: Action.run() handler " + type);
+									LOGGER.info("L2CubicInstance: Action.run() handler " + type);
 								useCubicDisabler(type, L2CubicInstance.this, skill, targets);
 							}
 							else if (type == SkillType.MDAM)
 							{
 								if (Config.DEBUG)
-									_log.info("L2CubicInstance: Action.run() handler " + type);
+									LOGGER.info("L2CubicInstance: Action.run() handler " + type);
 								useCubicMdam(L2CubicInstance.this, skill, targets);
 							}
 							else if ((type == SkillType.POISON)
@@ -704,20 +704,20 @@ public class L2CubicInstance
 									|| (type == SkillType.DOT))
 							{
 								if (Config.DEBUG)
-									_log.info("L2CubicInstance: Action.run() handler " + type);
+									LOGGER.info("L2CubicInstance: Action.run() handler " + type);
 								useCubicContinuous(L2CubicInstance.this, skill, targets);
 							}
 							else if (type == SkillType.DRAIN)
 							{
 								if (Config.DEBUG)
-									_log.info("L2CubicInstance: Action.run() skill " + type);
+									LOGGER.info("L2CubicInstance: Action.run() skill " + type);
 								((L2SkillDrain) skill).useCubicSkill(L2CubicInstance.this, targets);
 							}
 							else
 							{
 								handler.useSkill(owner, skill, targets);
 								if (Config.DEBUG)
-									_log.info("L2CubicInstance: Action.run(); other handler");
+									LOGGER.info("L2CubicInstance: Action.run(); other handler");
 							}
 						}
 					}
@@ -725,7 +725,7 @@ public class L2CubicInstance
 			}
 			catch (Exception e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}
@@ -796,7 +796,7 @@ public class L2CubicInstance
 			int damage = (int) Formulas.calcMagicDam(activeCubic, target, skill, mcrit);
 			
 			if (Config.DEBUG)
-				_log.info("L2SkillMdam: useCubicSkill() -> damage = " + damage);
+				LOGGER.info("L2SkillMdam: useCubicSkill() -> damage = " + damage);
 			
 			if (damage > 0)
 			{
@@ -835,7 +835,7 @@ public class L2CubicInstance
 	public void useCubicDisabler(SkillType type, L2CubicInstance activeCubic, L2Skill skill, L2Object[] targets)
 	{
 		if (Config.DEBUG)
-			_log.info("Disablers: useCubicSkill()");
+			LOGGER.info("Disablers: useCubicSkill()");
 		
 		for (L2Character target : (L2Character[]) targets)
 		{
@@ -864,12 +864,12 @@ public class L2CubicInstance
 						else
 							skill.getEffects(activeCubic.getOwner(), target);
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> success");
+							LOGGER.info("Disablers: useCubicSkill() -> success");
 					}
 					else
 					{
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> failed");
+							LOGGER.info("Disablers: useCubicSkill() -> failed");
 					}
 					break;
 				}
@@ -894,12 +894,12 @@ public class L2CubicInstance
 							skill.getEffects(activeCubic.getOwner(), target);
 						
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> success");
+							LOGGER.info("Disablers: useCubicSkill() -> success");
 					}
 					else
 					{
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> failed");
+							LOGGER.info("Disablers: useCubicSkill() -> failed");
 					}
 					break;
 				}
@@ -950,12 +950,12 @@ public class L2CubicInstance
 							skill.getEffects(activeCubic.getOwner(), target);
 						
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> success");
+							LOGGER.info("Disablers: useCubicSkill() -> success");
 					}
 					else
 					{
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> failed");
+							LOGGER.info("Disablers: useCubicSkill() -> failed");
 					}
 					break;
 				}
@@ -968,12 +968,12 @@ public class L2CubicInstance
 						skill.getEffects(activeCubic.getOwner(), target);
 						
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> success");
+							LOGGER.info("Disablers: useCubicSkill() -> success");
 					}
 					else
 					{
 						if (Config.DEBUG)
-							_log.info("Disablers: useCubicSkill() -> failed");
+							LOGGER.info("Disablers: useCubicSkill() -> failed");
 					}
 					break;
 				}
@@ -1162,7 +1162,7 @@ public class L2CubicInstance
 			}
 			catch (Exception e)
 			{
-				_log.log(Level.SEVERE, "", e);
+				LOGGER.error( "", e);
 			}
 		}
 	}

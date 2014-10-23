@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharSelected;
 @SuppressWarnings("unused")
 public class CharacterSelected extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(CharacterSelected.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharacterSelected.class.getClass());
 	private int _charSlot;
 	private int _unk1, _unk2, _unk3, _unk4; // new in C4
 
@@ -46,7 +46,7 @@ public class CharacterSelected extends L2GameClientPacket
 		// if there is a playback.dat file in the current directory, it will be sent to the client instead of any regular packets
 		// to make this work, the first packet in the playback.dat has to be a  [S]0x21 packet
 		// after playback is done, the client will not work correct and need to exit
-		// playLogFile(getConnection()); // try to play log file
+		// playLogFile(getConnection()); // try to play LOGGER file
 		
 		if (!getClient().getFloodProtectors().getCharacterSelect().tryPerformAction("CharacterSelect"))
 			return;
@@ -61,14 +61,14 @@ public class CharacterSelected extends L2GameClientPacket
 				{
 					// The L2PcInstance must be created here, so that it can be attached to the L2GameClient
 					if (Config.DEBUG)
-						_log.fine("DEBUG "+getType()+": selected slot:" + _charSlot);
+						LOGGER.debug("DEBUG "+getType()+": selected slot:" + _charSlot);
 
 					// Load up character from disk
 					L2PcInstance cha = getClient().loadCharFromDisk(_charSlot);
 
 					if (cha == null)
 					{
-						_log.severe("DEBUG "+getType()+": Character could not be loaded (slot:" + _charSlot + ")");
+						LOGGER.warn(getType()+": Character could not be loaded (slot:" + _charSlot + ")");
 						sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}

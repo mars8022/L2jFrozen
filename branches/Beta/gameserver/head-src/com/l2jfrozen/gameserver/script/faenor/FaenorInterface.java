@@ -20,11 +20,12 @@ package com.l2jfrozen.gameserver.script.faenor;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.script.ScriptContext;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2DropCategory;
@@ -42,7 +43,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class FaenorInterface implements EngineInterface
 {
-	protected static final Logger _log = Logger.getLogger(FaenorInterface.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(FaenorInterface.class.getClass());
 
 	public static FaenorInterface getInstance()
 	{
@@ -68,7 +69,7 @@ public class FaenorInterface implements EngineInterface
 	{
 		L2NpcTemplate npc = npcTable.getTemplate(npcID);
 		if(npc == null){
-			_log.info("FeanorInterface: Npc "+npcID+" is null..");
+			LOGGER.info("FeanorInterface: Npc "+npcID+" is null..");
 			return;
 		}
 		L2DropData drop = new L2DropData();
@@ -100,7 +101,7 @@ public class FaenorInterface implements EngineInterface
 		{
 			if(Config.DEBUG)
 			{
-				_log.warning("Npc doesnt Exist");
+				LOGGER.warn("Npc doesnt Exist");
 			}
 			throw new NullPointerException();
 		}

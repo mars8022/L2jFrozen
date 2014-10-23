@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.loginserver.network.gameserverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
@@ -29,7 +29,7 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class ServerStatus extends ClientBasePacket
 {
-	protected static Logger _log = Logger.getLogger(ServerStatus.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(ServerStatus.class.getClass());
 
 	public static final String[] STATUS_STRING =
 	{

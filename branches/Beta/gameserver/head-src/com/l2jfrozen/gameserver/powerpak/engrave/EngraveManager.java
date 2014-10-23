@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -21,7 +21,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class EngraveManager
 {
 	protected Connection _con = null;
-	protected static final Logger _log = Logger.getLogger(EngraveManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(EngraveManager.class.getClass());
 	public static boolean LOG_ITEMS = Config.LOG_ITEMS;
 	private PreparedStatement LOG_UPDATE;
 	private PreparedStatement LOG_DELETE;
@@ -39,14 +39,14 @@ public class EngraveManager
 		try
 		{
 			_con = L2DatabaseFactory.getInstance().getConnection(false);
-			LOG_UPDATE = _con.prepareStatement("insert into engraved_log values(?,?,?,?,?,?)");
-			LOG_DELETE = _con.prepareStatement("delete from engraved_log where object_id=?");
+			LOG_UPDATE = _con.prepareStatement("insert into engravedLOGGER values(?,?,?,?,?,?)");
+			LOG_DELETE = _con.prepareStatement("delete from engravedLOGGER where object_id=?");
 			ITEM_INSERT = _con.prepareStatement("insert into engraved_items values (?,?,?)");
 			ITEM_DELETE = _con.prepareStatement("delete from engraved_items where object_id=?");
-			LOG_READ = _con.prepareStatement("select FROM_UNIXTIME(actiondate, '%d-%m %h:%i'),process,form_char,to_char from engraved_log where object_id=? order by actiondate");
+			LOG_READ = _con.prepareStatement("select FROM_UNIXTIME(actiondate, '%d-%m %h:%i'),process,form_char,to_char from engravedLOGGER where object_id=? order by actiondate");
 			LOG_CLEANUP0 = _con.prepareStatement("select object_id from engraved_items where engraver_id=? and " + "object_id not in (select object_id from items union all select object_id from itemsonground)");
 			
-			LOG_CLEANUP1 = _con.prepareStatement("delete from engraved_log where object_id in " + "(select object_id from engraved_items where engraver_id=? and " + "object_id not in (select object_id from items union all select object_id from itemsonground)) ");
+			LOG_CLEANUP1 = _con.prepareStatement("delete from engravedLOGGER where object_id in " + "(select object_id from engraved_items where engraver_id=? and " + "object_id not in (select object_id from items union all select object_id from itemsonground)) ");
 			LOG_CLEANUP2 = _con.prepareStatement("delete from engraved_items where engraver_id=? and " + "object_id not in (select object_id from items union all select object_id from itemsonground)");
 			PreparedStatement stm;
 			stm = _con.prepareStatement("select object_id,engraver_id,item_id from engraved_items");
@@ -91,11 +91,11 @@ public class EngraveManager
 			{
 				Config.EXTENDERS.get(L2ItemInstance.class.getName()).add(EngraveExtender.class.getName());
 			}
-			_log.info("...Loaded " + _engravedItems.size() + " engraved items");
+			LOGGER.info("...Loaded " + _engravedItems.size() + " engraved items");
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, "...Database error " + e);
+			LOGGER.error( "...Database error " + e);
 			e.printStackTrace();
 		}
 		
@@ -123,7 +123,7 @@ public class EngraveManager
 					e.printStackTrace();
 				}
 				
-				_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
+				LOGGER.warn( "EngraveManager: Unable to store item LOGGER " + e);
 			}
 		}
 		return result;
@@ -159,7 +159,7 @@ public class EngraveManager
 						e.printStackTrace();
 					}
 					
-					_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
+					LOGGER.warn( "EngraveManager: Unable to store item LOGGER " + e);
 				}
 			}
 		}
@@ -243,7 +243,7 @@ public class EngraveManager
 						e.printStackTrace();
 					}
 					
-					_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
+					LOGGER.warn( "EngraveManager: Unable to store item LOGGER " + e);
 				}
 			}
 		}
@@ -274,7 +274,7 @@ public class EngraveManager
 					e.printStackTrace();
 				}
 				
-				_log.log(Level.WARNING, "EngraveManager: Unable to cleanup " + e);
+				LOGGER.warn( "EngraveManager: Unable to cleanup " + e);
 			}
 		}
 	}
@@ -317,7 +317,7 @@ public class EngraveManager
 			}
 			catch (Exception e)
 			{
-				_log.log(Level.WARNING, "EngraveManager: Unable to store item log " + e);
+				LOGGER.warn( "EngraveManager: Unable to store item LOGGER " + e);
 				e.printStackTrace();
 			}
 		}

@@ -27,10 +27,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class SiegeManager
 {
-	private static final Logger _log = Logger.getLogger(SiegeManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SiegeManager.class.getClass());
 	
 	public static final SiegeManager getInstance()
 	{
@@ -207,7 +208,7 @@ public class SiegeManager
 	// Method - Private
 	private final void load()
 	{
-		_log.info("Initializing SiegeManager");
+		LOGGER.info("Initializing SiegeManager");
 		InputStream is = null;
 		try
 		{
@@ -266,7 +267,7 @@ public class SiegeManager
 					{
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
-						_log.warning("Error while loading control tower(s) for " + castle.getName() + " castle.");
+						LOGGER.warn("Error while loading control tower(s) for " + castle.getName() + " castle.");
 					}
 				}
 
@@ -300,7 +301,7 @@ public class SiegeManager
 					{
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
-						_log.warning("Error while loading artefact(s) for " + castle.getName() + " castle.");
+						LOGGER.warn("Error while loading artefact(s) for " + castle.getName() + " castle.");
 					}
 				}
 

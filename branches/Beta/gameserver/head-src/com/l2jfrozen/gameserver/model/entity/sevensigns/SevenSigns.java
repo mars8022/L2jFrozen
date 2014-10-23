@@ -23,9 +23,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -51,8 +52,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class SevenSigns
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(SevenSigns.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(SevenSigns.class.getClass());
 	
 	/** The _instance. */
 	private static SevenSigns _instance;
@@ -267,10 +268,10 @@ public class SevenSigns
 	 */
 	public SevenSigns()
 	{
-		_signsPlayerData = new FastMap<Integer, StatsSet>();
-		_signsSealOwners = new FastMap<Integer, Integer>();
-		_signsDuskSealTotals = new FastMap<Integer, Integer>();
-		_signsDawnSealTotals = new FastMap<Integer, Integer>();
+		_signsPlayerData = new FastMap<>();
+		_signsSealOwners = new FastMap<>();
+		_signsDuskSealTotals = new FastMap<>();
+		_signsDawnSealTotals = new FastMap<>();
 
 		try
 		{
@@ -278,31 +279,28 @@ public class SevenSigns
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("SevenSigns: Failed to load configuration: " + e);
+			LOGGER.error("SevenSigns: Failed to load configuration",e);
 		}
 
-		_log.info("SevenSigns: Currently in the " + getCurrentPeriodName() + " period!");
+		LOGGER.info("SevenSigns: Currently in the " + getCurrentPeriodName() + " period!");
 		initializeSeals();
 
 		if(isSealValidationPeriod())
 			if(getCabalHighestScore() == CABAL_NULL)
 			{
-				_log.info("SevenSigns: The competition ended with a tie last week.");
+				LOGGER.info("SevenSigns: The competition ended with a tie last week.");
 			}
 			else
 			{
-				_log.info("SevenSigns: The " + getCabalName(getCabalHighestScore()) + " were victorious last week.");
+				LOGGER.info("SevenSigns: The " + getCabalName(getCabalHighestScore()) + " were victorious last week.");
 			}
 		else if(getCabalHighestScore() == CABAL_NULL)
 		{
-			_log.info("SevenSigns: The competition, if the current trend continues, will end in a tie this week.");
+			LOGGER.info("SevenSigns: The competition, if the current trend continues, will end in a tie this week.");
 		}
 		else
 		{
-			_log.info("SevenSigns: The " + getCabalName(getCabalHighestScore()) + " are in the lead this week.");
+			LOGGER.info("SevenSigns: The " + getCabalName(getCabalHighestScore()) + " are in the lead this week.");
 		}
 
 		synchronized (this)
@@ -322,7 +320,7 @@ public class SevenSigns
 			int numHours = (int) Math.floor(countDown % 24);
 			int numDays = (int) Math.floor((countDown - numHours) / 24);
 
-			_log.info("SevenSigns: Next period begins in " + numDays + " days, " + numHours + " hours and " + numMins + " mins.");
+			LOGGER.info("SevenSigns: Next period begins in " + numDays + " days, " + numHours + " hours and " + numMins + " mins.");
 		}
 
 		spawnSevenSignsNPC();
@@ -1010,7 +1008,7 @@ public class SevenSigns
 
 				if(Config.DEBUG)
 				{
-					_log.info("SevenSigns: Loaded data from DB for char ID " + charObjId + " (" + sevenDat.getString("cabal") + ")");
+					LOGGER.info("SevenSigns: Loaded data from DB for char ID " + charObjId + " (" + sevenDat.getString("cabal") + ")");
 				}
 
 				_signsPlayerData.put(charObjId, sevenDat);
@@ -1058,10 +1056,7 @@ public class SevenSigns
 		}
 		catch(SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("SevenSigns: Unable to load Seven Signs data from database: " + e);
+			LOGGER.error("SevenSigns: Unable to load Seven Signs data from database", e);
 		}
 		finally
 		{
@@ -1087,7 +1082,7 @@ public class SevenSigns
 
 		if(Config.DEBUG)
 		{
-			_log.info("SevenSigns: Saving data to disk.");
+			LOGGER.info("SevenSigns: Saving data to disk.");
 		}
 
 		try
@@ -1118,7 +1113,7 @@ public class SevenSigns
 
 				if(Config.DEBUG)
 				{
-					_log.info("SevenSigns: Updated data in database for char ID " + sevenDat.getInteger("char_obj_id") + " (" + sevenDat.getString("cabal") + ")");
+					LOGGER.info("SevenSigns: Updated data in database for char ID " + sevenDat.getInteger("char_obj_id") + " (" + sevenDat.getString("cabal") + ")");
 				}
 			}
 
@@ -1164,7 +1159,7 @@ public class SevenSigns
 				
 				if(Config.DEBUG)
 				{
-					_log.info("SevenSigns: Updated data in database.");
+					LOGGER.info("SevenSigns: Updated data in database.");
 				}
 
 				sqlQuery = null;
@@ -1172,11 +1167,8 @@ public class SevenSigns
 			}
 		}
 		catch(SQLException e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("SevenSigns: Unable to save data to database: " + e);
+		{	
+			LOGGER.error("SevenSigns: Unable to save data to database", e);
 		}
 		finally
 		{
@@ -1193,7 +1185,7 @@ public class SevenSigns
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("SevenSigns: Resetting player data for new event period.");
+			LOGGER.info("SevenSigns: Resetting player data for new event period.");
 		}
 
 		// Reset each player's contribution data as well as seal and cabal.
@@ -1276,15 +1268,12 @@ public class SevenSigns
 
 				if(Config.DEBUG)
 				{
-					_log.info("SevenSigns: Inserted data in DB for char ID " + currPlayerData.getInteger("char_obj_id") + " (" + currPlayerData.getString("cabal") + ")");
+					LOGGER.info("SevenSigns: Inserted data in DB for char ID " + currPlayerData.getInteger("char_obj_id") + " (" + currPlayerData.getString("cabal") + ")");
 				}
 			}
 			catch(SQLException e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("SevenSigns: Failed to save data: " + e);
+			{		
+				LOGGER.error("SevenSigns: Failed to save data", e);
 			}
 			finally
 			{
@@ -1309,7 +1298,7 @@ public class SevenSigns
 
 		if(Config.DEBUG)
 		{
-			_log.info("SevenSigns: " + player.getName() + " has joined the " + getCabalName(chosenCabal) + " for the " + getSealName(chosenSeal, false) + "!");
+			LOGGER.info("SevenSigns: " + player.getName() + " has joined the " + getCabalName(chosenCabal) + " for the " + getSealName(chosenSeal, false) + "!");
 		}
 
 		return chosenCabal;
@@ -1389,7 +1378,7 @@ public class SevenSigns
 
 		if(Config.DEBUG)
 		{
-			_log.info("SevenSigns: " + player.getName() + " contributed " + contribScore + " seal stone points to their cabal.");
+			LOGGER.info("SevenSigns: " + player.getName() + " contributed " + contribScore + " seal stone points to their cabal.");
 		}
 
 		return contribScore;
@@ -1483,15 +1472,15 @@ public class SevenSigns
 			if(sealOwner != CABAL_NULL)
 				if(isSealValidationPeriod())
 				{
-					_log.info("SevenSigns: The " + getCabalName(sealOwner) + " have won the " + getSealName(currSeal, false) + ".");
+					LOGGER.info("SevenSigns: The " + getCabalName(sealOwner) + " have won the " + getSealName(currSeal, false) + ".");
 				}
 				else
 				{
-					_log.info("SevenSigns: The " + getSealName(currSeal, false) + " is currently owned by " + getCabalName(sealOwner) + ".");
+					LOGGER.info("SevenSigns: The " + getSealName(currSeal, false) + " is currently owned by " + getCabalName(sealOwner) + ".");
 				}
 			else
 			{
-				_log.info("SevenSigns: The " + getSealName(currSeal, false) + " remains unclaimed.");
+				LOGGER.info("SevenSigns: The " + getSealName(currSeal, false) + " remains unclaimed.");
 			}
 		}
 	}
@@ -1518,9 +1507,9 @@ public class SevenSigns
 	{
 		if(Config.DEBUG)
 		{
-			_log.info("SevenSigns: (Avarice) Dawn = " + _signsDawnSealTotals.get(SEAL_AVARICE) + ", Dusk = " + _signsDuskSealTotals.get(SEAL_AVARICE));
-			_log.info("SevenSigns: (Gnosis) Dawn = " + _signsDawnSealTotals.get(SEAL_GNOSIS) + ", Dusk = " + _signsDuskSealTotals.get(SEAL_GNOSIS));
-			_log.info("SevenSigns: (Strife) Dawn = " + _signsDawnSealTotals.get(SEAL_STRIFE) + ", Dusk = " + _signsDuskSealTotals.get(SEAL_STRIFE));
+			LOGGER.info("SevenSigns: (Avarice) Dawn = " + _signsDawnSealTotals.get(SEAL_AVARICE) + ", Dusk = " + _signsDuskSealTotals.get(SEAL_AVARICE));
+			LOGGER.info("SevenSigns: (Gnosis) Dawn = " + _signsDawnSealTotals.get(SEAL_GNOSIS) + ", Dusk = " + _signsDuskSealTotals.get(SEAL_GNOSIS));
+			LOGGER.info("SevenSigns: (Strife) Dawn = " + _signsDawnSealTotals.get(SEAL_STRIFE) + ", Dusk = " + _signsDuskSealTotals.get(SEAL_STRIFE));
 		}
 
 		for(Integer currSeal : _signsDawnSealTotals.keySet())
@@ -1792,7 +1781,7 @@ public class SevenSigns
 					// Send message that Seal Validation has begun.
 					sendMessageToAll(SystemMessageId.SEAL_VALIDATION_PERIOD_BEGUN);
 
-					_log.info("SevenSigns: The " + getCabalName(_previousWinner) + " have won the competition with " + getCurrentScore(_previousWinner) + " points!");
+					LOGGER.info("SevenSigns: The " + getCabalName(_previousWinner) + " have won the competition with " + getCurrentScore(_previousWinner) + " points!");
 					break;
 				case PERIOD_SEAL_VALIDATION: // Reset for New Cycle
 
@@ -1839,7 +1828,7 @@ public class SevenSigns
 
 			spawnSevenSignsNPC();
 
-			_log.info("SevenSigns: The " + getCurrentPeriodName() + " period has begun!");
+			LOGGER.info("SevenSigns: The " + getCurrentPeriodName() + " period has begun!");
 
 			setCalendarForNextPeriodChange();
 

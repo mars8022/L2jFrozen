@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.communitybbs.BB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.TopicBBSManager;
@@ -29,7 +30,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Topic
 {
-	private static Logger _log = Logger.getLogger(Topic.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Topic.class.getClass());
 	public static final int MORMAL = 0;
 	public static final int MEMO = 1;
 
@@ -100,7 +101,7 @@ public class Topic
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("error while saving new Topic to db " + e);
+			LOGGER.warn("error while saving new Topic to db " + e);
 		}
 		finally
 		{

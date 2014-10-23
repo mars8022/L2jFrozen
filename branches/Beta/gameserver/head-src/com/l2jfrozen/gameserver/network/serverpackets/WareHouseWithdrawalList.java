@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -35,7 +35,7 @@ public class WareHouseWithdrawalList extends L2GameServerPacket
 	public static final int CLAN = 2;
 	public static final int CASTLE = 3; //not sure
 	public static final int FREIGHT = 4; //not sure
-	private static Logger _log = Logger.getLogger(WareHouseWithdrawalList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(WareHouseWithdrawalList.class.getClass());
 	private static final String _S__54_WAREHOUSEWITHDRAWALLIST = "[S] 42 WareHouseWithdrawalList";
 	private L2PcInstance _activeChar;
 	private int _playerAdena;
@@ -51,7 +51,7 @@ public class WareHouseWithdrawalList extends L2GameServerPacket
 		if(_activeChar.getActiveWarehouse() == null)
 		{
 			// Something went wrong!
-			_log.warning("error while sending withdraw request to: " + _activeChar.getName());
+			LOGGER.warn("error while sending withdraw request to: " + _activeChar.getName());
 			return;
 		}
 		_items = _activeChar.getActiveWarehouse().getItems();
@@ -60,7 +60,7 @@ public class WareHouseWithdrawalList extends L2GameServerPacket
 		{
 			for(L2ItemInstance item : _items)
 			{
-				_log.fine("item:" + item.getItem().getName() + " type1:" + item.getItem().getType1() + " type2:" + item.getItem().getType2());
+				LOGGER.debug("item:" + item.getItem().getName() + " type1:" + item.getItem().getType1() + " type2:" + item.getItem().getType2());
 			}
 		}
 	}

@@ -17,9 +17,10 @@ package com.l2jfrozen.gameserver.managers;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -47,7 +48,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class ChristmasManager
 {
-	private static final Logger _log = Logger.getLogger(ChristmasManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ChristmasManager.class.getClass());
 	
 	protected List<L2NpcInstance> objectQueue = new FastList<L2NpcInstance>();
 	protected Random rand = new Random();
@@ -733,7 +734,7 @@ public class ChristmasManager
 		{
 			Announcements.getInstance().announceToAll("Christmas Event has begun, have a Merry Christmas and a Happy New Year.");
 			Announcements.getInstance().announceToAll("Christmas Event will end in 24 hours.");
-			_log.info("ChristmasManager:Init ChristmasManager was started successfully, have a festive holiday.");
+			LOGGER.info("ChristmasManager:Init ChristmasManager was started successfully, have a festive holiday.");
 
 			EndEvent ee = new EndEvent();
 			Future<?> task = ThreadPoolManager.getInstance().scheduleGeneral(ee, 86400000);
@@ -746,7 +747,7 @@ public class ChristmasManager
 		if(isManagerInit == 0)
 		{
 			Announcements.getInstance().announceToAll("Christmas Event has ended... Hope you enjoyed the festivities.");
-			_log.info("ChristmasManager:Terminated ChristmasManager.");
+			LOGGER.info("ChristmasManager:Terminated ChristmasManager.");
 
 			isManagerInit = -1;
 		}

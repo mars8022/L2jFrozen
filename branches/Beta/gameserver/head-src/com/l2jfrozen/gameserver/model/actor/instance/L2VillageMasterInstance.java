@@ -62,7 +62,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class L2VillageMasterInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2VillageMasterInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2VillageMasterInstance.class.getClass());
 
 	/**
 	 * Instantiates a new l2 village master instance.
@@ -344,7 +344,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					// Subclass exploit fix during add subclass
 					if (!player.getFloodProtectors().getSubclass().tryPerformAction("add subclass"))
 					{
-						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
+						LOGGER.warn("Player "+player.getName()+" has performed a subclass change too fast");
 						player.setLocked(false);
 						return;
 					}
@@ -464,7 +464,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					// Subclass exploit fix during change subclass
 					if (!player.getFloodProtectors().getSubclass().tryPerformAction("change subclass"))
 					{
-						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
+						LOGGER.warn("Player "+player.getName()+" has performed a subclass change too fast");
 						player.setLocked(false);
 						return;
 					}
@@ -533,7 +533,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					// Subclass exploit fix during delete subclass
 					if (!player.getFloodProtectors().getSubclass().tryPerformAction("delete subclass"))
 					{
-						_log.warning("Player "+player.getName()+" has performed a subclass change too fast");
+						LOGGER.warn("Player "+player.getName()+" has performed a subclass change too fast");
 						player.setLocked(false);
 						return;
 					}
@@ -650,7 +650,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine(player.getObjectId() + "(" + player.getName() + ") requested dissolve a clan from " + getObjectId() + "(" + getName() + ")");
+			LOGGER.debug(player.getObjectId() + "(" + player.getName() + ") requested dissolve a clan from " + getObjectId() + "(" + getName() + ")");
 		}
 
 		if(!player.isClanLeader())
@@ -729,7 +729,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine(player.getObjectId() + "(" + player.getName() + ") requested recover a clan from " + getObjectId() + "(" + getName() + ")");
+			LOGGER.debug(player.getObjectId() + "(" + player.getName() + ") requested recover a clan from " + getObjectId() + "(" + getName() + ")");
 		}
 
 		if(!player.isClanLeader())
@@ -755,7 +755,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine(player.getObjectId() + "(" + player.getName() + ") requested change a clan leader from " + getObjectId() + "(" + getName() + ")");
+			LOGGER.debug(player.getObjectId() + "(" + player.getName() + ") requested change a clan leader from " + getObjectId() + "(" + getName() + ")");
 		}
 
 		if(!player.isClanLeader())
@@ -822,7 +822,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine(player.getObjectId() + "(" + player.getName() + ") requested sub clan creation from " + getObjectId() + "(" + getName() + ")");
+			LOGGER.debug(player.getObjectId() + "(" + player.getName() + ") requested sub clan creation from " + getObjectId() + "(" + getName() + ")");
 		}
 
 		if(!player.isClanLeader())
@@ -979,7 +979,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine(player.getObjectId() + "(" + player.getName() + ") requested to assign sub clan" + clanName + "leader " + "(" + leaderName + ")");
+			LOGGER.debug(player.getObjectId() + "(" + player.getName() + ") requested to assign sub clan" + clanName + "leader " + "(" + leaderName + ")");
 		}
 
 		if(!player.isClanLeader())
@@ -1141,7 +1141,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("PledgeSkillList activated on: " + getObjectId());
+			LOGGER.debug("PledgeSkillList activated on: " + getObjectId());
 		}
 		if(player.getClan() == null)
 			return;

@@ -23,10 +23,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -46,8 +46,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class Auction
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(Auction.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(Auction.class.getClass());
 	
 	/** The _id. */
 	private int _id = 0;
@@ -430,7 +430,7 @@ public class Auction
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: saveAuctionDate(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: saveAuctionDate(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -570,7 +570,7 @@ public class Auction
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.SEVERE, "Exception: Auction.updateInDB(L2PcInstance bidder, int bid): " + e.getMessage());
+			LOGGER.error( "Exception: Auction.updateInDB(L2PcInstance bidder, int bid): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -603,7 +603,7 @@ public class Auction
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Auction.deleteFromDB(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Auction.deleteFromDB(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -648,7 +648,7 @@ public class Auction
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Auction.deleteFromDB(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Auction.deleteFromDB(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -729,7 +729,7 @@ public class Auction
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Auction.cancelBid(String bidder): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Auction.cancelBid(String bidder): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -786,7 +786,7 @@ public class Auction
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: Auction.load(): " + e.getMessage(), e);
+			LOGGER.error( "Exception: Auction.load(): " + e.getMessage(), e);
 		}
 		finally
 		{

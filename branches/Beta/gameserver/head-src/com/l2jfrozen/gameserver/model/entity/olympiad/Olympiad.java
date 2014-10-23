@@ -38,12 +38,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
@@ -63,7 +63,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Olympiad
 {
-	protected static final Logger _log = Logger.getLogger(Olympiad.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Olympiad.class.getClass());
 	private static Olympiad _instance;
 	
 	private static Map<Integer, StatsSet> _nobles;
@@ -190,8 +190,8 @@ public class Olympiad
 		}
 		catch (Exception e)
 		{
-			_log.info(OLYMPIAD_DATA_FILE+ " cannot be loaded... It will be created on next save or server shutdown..");
-//			_log.log(Level.SEVERE, "Olympiad System: Error loading olympiad properties: ", e);
+			LOGGER.info(OLYMPIAD_DATA_FILE+ " cannot be loaded... It will be created on next save or server shutdown..");
+//			LOGGER.error( "Olympiad System: Error loading olympiad properties: ", e);
 //			return;
 		}
 		finally
@@ -234,7 +234,7 @@ public class Olympiad
 				}
 				break;
 			default:
-				_log.warning("Olympiad System: Omg something went wrong in loading!! Period = " + _period);
+				LOGGER.warn("Olympiad System: Omg something went wrong in loading!! Period = " + _period);
 				return;
 		}
 
@@ -265,7 +265,7 @@ public class Olympiad
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.WARNING, "Olympiad System: Error loading noblesse data from database: ", e);
+			LOGGER.warn( "Olympiad System: Error loading noblesse data from database: ", e);
 		}
 		finally
 		{
@@ -296,7 +296,7 @@ public class Olympiad
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.WARNING, "Olympiad System: Error loading noblesse data from database: ", e);
+			LOGGER.warn( "Olympiad System: Error loading noblesse data from database: ", e);
 		}
 		finally
 		{
@@ -305,11 +305,11 @@ public class Olympiad
 		
 		synchronized (this)
 		{
-			_log.info("Olympiad System: Loading Olympiad System....");
+			LOGGER.info("Olympiad System: Loading Olympiad System....");
 			if (_period == 0)
-				_log.info("Olympiad System: Currently in Olympiad Period");
+				LOGGER.info("Olympiad System: Currently in Olympiad Period");
 			else
-				_log.info("Olympiad System: Currently in Validation Period");
+				LOGGER.info("Olympiad System: Currently in Validation Period");
 			
 			long milliToEnd;
 			if (_period == 0)
@@ -317,17 +317,17 @@ public class Olympiad
 			else
 				milliToEnd = getMillisToValidationEnd();
 			
-			_log.info("Olympiad System: " + Math.round(milliToEnd / 60000) + " minutes until period ends");
+			LOGGER.info("Olympiad System: " + Math.round(milliToEnd / 60000) + " minutes until period ends");
 			
 			if (_period == 0)
 			{
 				milliToEnd = getMillisToWeekChange();
 				
-				_log.info("Olympiad System: Next weekly change is in " + Math.round(milliToEnd / 60000) + " minutes");
+				LOGGER.info("Olympiad System: Next weekly change is in " + Math.round(milliToEnd / 60000) + " minutes");
 			}
 		}
 		
-		_log.info("Olympiad System: Loaded " + _nobles.size() + " Nobles");
+		LOGGER.info("Olympiad System: Loaded " + _nobles.size() + " Nobles");
 		
 	}
 	
@@ -731,11 +731,11 @@ public class Olympiad
 			int numHours = (int) Math.floor(countDown % 24);
 			int numDays = (int) Math.floor((countDown - numHours) / 24);
 			
-			_log.info("Olympiad System: Competition Period Starts in "
+			LOGGER.info("Olympiad System: Competition Period Starts in "
 			        + numDays + " days, " + numHours + " hours and " + numMins
 			        + " mins.");
 			
-			_log.info("Olympiad System: Event starts/started : "
+			LOGGER.info("Olympiad System: Event starts/started : "
 			        + _compStart.getTime());
 		}
 		
@@ -750,7 +750,7 @@ public class Olympiad
 				OlympiadManager om = OlympiadManager.getInstance();
 				
 				Announcements.getInstance().announceToAll(new SystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_HAS_STARTED));
-				_log.info("Olympiad System: Olympiad Game Started");
+				LOGGER.info("Olympiad System: Olympiad Game Started");
 				
 				Thread olyCycle = new Thread(om);
 				olyCycle.start();
@@ -775,7 +775,7 @@ public class Olympiad
 							return;
 						_inCompPeriod = false;
 						Announcements.getInstance().announceToAll(new SystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_HAS_ENDED));
-						_log.info("Olympiad System: Olympiad Game Ended");
+						LOGGER.info("Olympiad System: Olympiad Game Ended");
 						
 						while (OlympiadGame._battleStarted)
 						{
@@ -875,7 +875,7 @@ public class Olympiad
 		_compStart.add(Calendar.HOUR_OF_DAY, 24);
 		_compEnd = _compStart.getTimeInMillis() + COMP_PERIOD;
 		
-		_log.info("Olympiad System: New Schedule @ " + _compStart.getTime());
+		LOGGER.info("Olympiad System: New Schedule @ " + _compStart.getTime());
 		
 		return (_compStart.getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
 	}
@@ -907,7 +907,7 @@ public class Olympiad
 			public void run()
 			{
 				addWeeklyPoints();
-				_log.info("Olympiad System: Added weekly points to nobles");
+				LOGGER.info("Olympiad System: Added weekly points to nobles");
 				
 				Calendar nextChange = Calendar.getInstance();
 				_nextWeeklyChange = nextChange.getTimeInMillis() + WEEKLY_PERIOD;
@@ -1085,7 +1085,7 @@ public class Olympiad
 		}
 		catch (SQLException e)
 		{
-			_log.log(Level.SEVERE, "Olympiad System: Failed to save noblesse data to database: ", e);
+			LOGGER.error( "Olympiad System: Failed to save noblesse data to database: ", e);
 		}
 		finally
 		{
@@ -1128,7 +1128,7 @@ public class Olympiad
 		}
 		catch (SQLException e)
 		{
-			_log.log(Level.SEVERE, "Olympiad System: Failed to save old noblesse data to database: ", e);
+			LOGGER.error( "Olympiad System: Failed to save old noblesse data to database: ", e);
 		}
 		finally
 		{
@@ -1172,7 +1172,7 @@ public class Olympiad
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.WARNING, "Olympiad System: Unable to save olympiad properties to file: ", e);
+			LOGGER.warn( "Olympiad System: Unable to save olympiad properties to file: ", e);
 		}
 		finally
 		{
@@ -1203,7 +1203,7 @@ public class Olympiad
 		}
 		catch (SQLException e)
 		{
-			_log.log(Level.SEVERE, "Olympiad System: Failed to update monthly noblese data: ", e);
+			LOGGER.error( "Olympiad System: Failed to update monthly noblese data: ", e);
 		}
 		finally
 		{
@@ -1265,7 +1265,7 @@ public class Olympiad
 		}
 		catch (SQLException e)
 		{
-			_log.warning("Olympiad System: Couldnt load heros from DB : "+e.getMessage());
+			LOGGER.warn("Olympiad System: Couldnt load heros from DB : "+e.getMessage());
 		}
 		finally
 		{
@@ -1311,7 +1311,7 @@ public class Olympiad
 		}
 		catch (SQLException e)
 		{
-			_log.warning("Olympiad System: Couldnt load olympiad leaders from DB");
+			LOGGER.warn("Olympiad System: Couldnt load olympiad leaders from DB");
 		}
 		finally
 		{
@@ -1463,7 +1463,7 @@ public class Olympiad
 		}
 		catch (SQLException e)
 		{
-			_log.warning("Olympiad System: Couldnt delete nobles from DB");
+			LOGGER.warn("Olympiad System: Couldnt delete nobles from DB");
 		}
 		finally
 		{
@@ -1499,7 +1499,7 @@ public class Olympiad
 		FileWriter save = null;
 		try
 		{
-			File file = new File("log/olympiad.csv");
+			File file = new File("LOGGER/olympiad.csv");
 			
 			boolean writeHead = false;
 			if (!file.exists())
@@ -1519,7 +1519,7 @@ public class Olympiad
 		}
 		catch (IOException e)
 		{
-			_log.log(Level.WARNING, "Olympiad System: Olympiad log could not be saved: ", e);
+			LOGGER.warn( "Olympiad System: Olympiad LOGGER could not be saved: ", e);
 		}
 		finally
 		{
@@ -1690,7 +1690,7 @@ public class Olympiad
 		public void run()
 		{
 			addWeeklyPoints();
-			_log.info("Olympiad System: Added points to nobles");
+			LOGGER.info("Olympiad System: Added points to nobles");
 			
 			Calendar nextChange = Calendar.getInstance();
 			_nextWeeklyChange = nextChange.getTimeInMillis() + restoreTime;

@@ -20,13 +20,14 @@ package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
 public abstract class L2DatabaseFactory
 {
-	private static final Logger _log = Logger.getLogger(L2DatabaseFactory.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory.class.getClass());
 	
 	protected enum ProviderType
 	{
@@ -133,7 +134,7 @@ public abstract class L2DatabaseFactory
 		}
 		catch (SQLException e)
 		{
-			_log.severe("Failed to close database connection! "+ e);
+			LOGGER.error("Failed to close database connection!", e);
 		}
 	}
 	

@@ -19,10 +19,10 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
@@ -100,7 +100,7 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminZone;
  */
 public class AdminCommandHandler
 {
-	protected static final Logger _log = Logger.getLogger(AdminCommandHandler.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCommandHandler.class.getClass());
 	
 	private static AdminCommandHandler _instance;
 	
@@ -189,7 +189,7 @@ public class AdminCommandHandler
 		// ATTENTION: adding new command handlers, you have to change the
 		// sql file containing the access levels rights
 		
-		_log.info("AdminCommandHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("AdminCommandHandler: Loaded " + _datatable.size() + " handlers.");
 		
 		if (Config.DEBUG)
 		{
@@ -203,7 +203,7 @@ public class AdminCommandHandler
 			{
 				if (AdminCommandAccessRights.getInstance().accessRightForCommand(command) < 0)
 				{
-					_log.info("ATTENTION: admin command " + command + " has not an access right");
+					LOGGER.info("ATTENTION: admin command " + command + " has not an access right");
 				}
 			}
 			
@@ -218,12 +218,12 @@ public class AdminCommandHandler
 		{
 			if (Config.DEBUG)
 			{
-				_log.info("Adding handler for command " + element);
+				LOGGER.info("Adding handler for command " + element);
 			}
 			
 			if (_datatable.keySet().contains(new String(element)))
 			{
-				_log.log(Level.WARNING, "Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
+				LOGGER.warn( "Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
 			}
 			else
 			{
@@ -244,7 +244,7 @@ public class AdminCommandHandler
 		
 		if (Config.DEBUG)
 		{
-			_log.info("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
+			LOGGER.info("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
 		}
 		
 		return _datatable.get(command);

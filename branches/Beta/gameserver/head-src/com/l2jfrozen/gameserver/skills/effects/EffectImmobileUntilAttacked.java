@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.skills.effects;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.skills.Env;
@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class EffectImmobileUntilAttacked extends L2Effect
 {
-	static final Logger _log = Logger.getLogger(EffectImmobileUntilAttacked.class.getName());
+	static final Logger LOGGER = Logger.getLogger(EffectImmobileUntilAttacked.class.getClass());
 
 	public EffectImmobileUntilAttacked(final Env env, final EffectTemplate template)
 	{

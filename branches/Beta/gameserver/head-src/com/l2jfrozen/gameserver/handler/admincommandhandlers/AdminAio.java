@@ -21,8 +21,8 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AdminAio implements IAdminCommandHandler
 {   
-	private final static Logger _log = Logger.getLogger(AdminAio.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(AdminAio.class.getClass());
 
 	private static String[] _adminCommands =
 	{
@@ -78,7 +78,7 @@ public class AdminAio implements IAdminCommandHandler
 			                                {
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			                                });
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -233,7 +233,7 @@ public class AdminAio implements IAdminCommandHandler
 				if(Config.DEBUG)
 					e.printStackTrace();
 
-				_log.log(Level.WARNING,"could not set Aio stats to char:", e);
+				LOGGER.warn("could not set Aio stats to char:", e);
 			}
 			finally
 			{
@@ -277,7 +277,7 @@ public class AdminAio implements IAdminCommandHandler
 			if(Config.DEBUG)
 				e.printStackTrace();
 
-			_log.log(Level.WARNING,"could not remove Aio stats of char:", e);
+			LOGGER.warn("could not remove Aio stats of char:", e);
 		}
 		finally
 		{

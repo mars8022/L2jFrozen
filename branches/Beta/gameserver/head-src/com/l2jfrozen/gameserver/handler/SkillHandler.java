@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.handler.skillhandlers.BalanceLife;
@@ -66,7 +67,7 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
  */
 public class SkillHandler
 {
-	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
 	
 	private static SkillHandler _instance;
 	
@@ -119,7 +120,7 @@ public class SkillHandler
 		registerSkillHandler(new GetPlayer());
 		registerSkillHandler(new ZakenPlayer());
 		registerSkillHandler(new ZakenSelf());
-		_log.config("SkillHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("SkillHandler: Loaded " + _datatable.size() + " handlers.");
 		
 	}
 	

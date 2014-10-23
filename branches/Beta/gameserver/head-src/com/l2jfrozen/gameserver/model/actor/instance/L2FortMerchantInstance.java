@@ -87,8 +87,8 @@ public class L2FortMerchantInstance extends L2NpcWalkerInstance
 			par = st.nextToken();
 		}
 
-		//_log.info("actualCommand : " + actualCommand);
-		//_log.info("par : " + par);
+		//LOGGER.info("actualCommand : " + actualCommand);
+		//LOGGER.info("par : " + par);
 
 		if(actualCommand.equalsIgnoreCase("Chat"))
 		{

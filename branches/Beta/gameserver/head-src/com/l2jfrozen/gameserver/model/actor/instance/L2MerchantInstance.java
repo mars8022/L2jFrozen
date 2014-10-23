@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2MerchantInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2MerchantInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2MerchantInstance.class.getClass());
 
 	/**
 	 * Instantiates a new l2 merchant instance.
@@ -89,7 +89,7 @@ public class L2MerchantInstance extends L2FolkInstance
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing wearlist");
+			LOGGER.debug("Showing wearlist");
 		}
 
 		L2TradeList list = TradeController.getInstance().getBuyList(val);
@@ -103,7 +103,7 @@ public class L2MerchantInstance extends L2FolkInstance
 		}
 		else
 		{
-			_log.warning("no buylist with id:" + val);
+			LOGGER.warn("no buylist with id:" + val);
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 	}
@@ -127,7 +127,7 @@ public class L2MerchantInstance extends L2FolkInstance
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing buylist");
+			LOGGER.debug("Showing buylist");
 		}
 
 		L2TradeList list = TradeController.getInstance().getBuyList(val);
@@ -141,8 +141,8 @@ public class L2MerchantInstance extends L2FolkInstance
 		}
 		else
 		{
-			_log.warning("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2MechantInstance)");
-			_log.warning("buylist id:" + val);
+			LOGGER.warn("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2MechantInstance)");
+			LOGGER.warn("buylist id:" + val);
 		}
 
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -157,14 +157,14 @@ public class L2MerchantInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing selllist");
+			LOGGER.debug("Showing selllist");
 		}
 
 		player.sendPacket(new SellList(player));
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing sell window");
+			LOGGER.debug("Showing sell window");
 		}
 
 		player.sendPacket(ActionFailed.STATIC_PACKET);

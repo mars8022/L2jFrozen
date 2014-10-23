@@ -21,9 +21,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -39,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class CastleManager
 {
 	
-	protected static final Logger _log = Logger.getLogger(CastleManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(CastleManager.class.getClass());
 	
 	public static final CastleManager getInstance()
 	{
@@ -101,7 +102,7 @@ public class CastleManager
 	// Method - Private
 	private final void load()
 	{
-		_log.info("Initializing CastleManager");
+		LOGGER.info("Initializing CastleManager");
 		Connection con = null;
 		try
 		{
@@ -117,7 +118,7 @@ public class CastleManager
 			rs.close();
 			statement.close();
 
-			_log.info("Loaded: " + getCastles().size() + " castles");
+			LOGGER.info("Loaded: " + getCastles().size() + " castles");
 		}
 		catch(Exception e)
 		{
@@ -361,7 +362,7 @@ public class CastleManager
 			}
 			catch(Exception e)
 			{
-				_log.info("Failed to remove castle circlets offline for player " + member.getName());
+				LOGGER.info("Failed to remove castle circlets offline for player " + member.getName());
 				e.printStackTrace();
 			}
 			finally

@@ -1,6 +1,6 @@
 package com.l2jfrozen.gameserver.thread.daemons;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -15,7 +15,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class PcPoint implements Runnable
 {
-	Logger _log = Logger.getLogger(PcPoint.class.getName());
+	Logger LOGGER = Logger.getLogger(PcPoint.class.getClass());
 	private static PcPoint _instance;
 
 	public static PcPoint getInstance()
@@ -30,7 +30,7 @@ public class PcPoint implements Runnable
 
 	private PcPoint()
 	{
-		_log.info("PcBang point event started.");
+		LOGGER.info("PcBang point event started.");
 	}
 
 	@Override

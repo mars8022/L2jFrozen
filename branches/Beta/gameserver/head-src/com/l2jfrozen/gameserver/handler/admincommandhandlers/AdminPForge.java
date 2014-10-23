@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
  */
 public class AdminPForge implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminKick.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AdminKick.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_forge", "admin_forge2", "admin_forge3"
@@ -56,7 +56,7 @@ public class AdminPForge implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 

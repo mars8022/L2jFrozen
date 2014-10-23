@@ -21,7 +21,8 @@ package com.l2jfrozen.gameserver.idfactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
@@ -34,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class IdFactory
 {
-	private static Logger _log = Logger.getLogger(IdFactory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(IdFactory.class.getClass());
 
 	protected static final String[] ID_UPDATES =
 	{
@@ -130,7 +131,7 @@ public abstract class IdFactory
             con2 = L2DatabaseFactory.getInstance().getConnection();
             Statement s2 = con2.createStatement();
             s2.executeUpdate("update characters set online=0");
-            _log.info("Updated characters online status.");
+            LOGGER.info("Updated characters online status.");
 
             s2.close();
         }
@@ -193,7 +194,7 @@ public abstract class IdFactory
             cleanCount += stmt.executeUpdate("DELETE FROM posts WHERE posts.post_forum_id NOT IN (SELECT forum_id FROM forums);");
 
             stmt.close();
-            _log.info("Cleaned " + cleanCount + " elements from database.");
+            LOGGER.info("Cleaned " + cleanCount + " elements from database.");
         }
         catch (SQLException e)
         {

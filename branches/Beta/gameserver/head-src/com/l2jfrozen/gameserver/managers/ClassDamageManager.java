@@ -25,7 +25,8 @@ import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -39,7 +40,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class ClassDamageManager
 {
-	private static final Logger _log = Logger.getLogger(ClassDamageManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ClassDamageManager.class.getClass());
 	
 	private static Hashtable<Integer, Double> damage_to_mage = new Hashtable<Integer, Double>();
 	private static Hashtable<Integer, Double> damage_to_fighter = new Hashtable<Integer, Double>();
@@ -95,7 +96,7 @@ public class ClassDamageManager
 				
 			}
 			
-			_log.info("Loaded "+id_to_name.size()+" classes Damages configurations");
+			LOGGER.info("Loaded "+id_to_name.size()+" classes Damages configurations");
 			
 			/*int class_id = 114;
 			System.out.println("class: "+id_to_name.get(class_id)+" classid: "+class_id);
@@ -202,11 +203,11 @@ public class ClassDamageManager
 		double output = attackerMulti*attackedMulti;
 		
 		if(Config.ENABLE_CLASS_DAMAGES_LOGGER){
-			_log.info("ClassDamageManager -");
-			_log.info("ClassDamageManager - Attacker: "+attacker.getName()+" Class: "+getNameById(attacker.getClassId().getId())+" ClassId: "+attacker.getClassId().getId()+" isMage: "+attacker.isMageClass()+" mult: "+attackerMulti);
-			_log.info("ClassDamageManager - Attacked: "+attacked.getName()+" Class: "+getNameById(attacked.getClassId().getId())+" ClassId: "+attacked.getClassId().getId()+" isMage: "+attacked.isMageClass()+" mult: "+attackedMulti);
-			_log.info("ClassDamageManager - FinalMultiplier: "+output);
-			_log.info("ClassDamageManager -");
+			LOGGER.info("ClassDamageManager -");
+			LOGGER.info("ClassDamageManager - Attacker: "+attacker.getName()+" Class: "+getNameById(attacker.getClassId().getId())+" ClassId: "+attacker.getClassId().getId()+" isMage: "+attacker.isMageClass()+" mult: "+attackerMulti);
+			LOGGER.info("ClassDamageManager - Attacked: "+attacked.getName()+" Class: "+getNameById(attacked.getClassId().getId())+" ClassId: "+attacked.getClassId().getId()+" isMage: "+attacked.isMageClass()+" mult: "+attackedMulti);
+			LOGGER.info("ClassDamageManager - FinalMultiplier: "+output);
+			LOGGER.info("ClassDamageManager -");
 		}
 		
 		return output;

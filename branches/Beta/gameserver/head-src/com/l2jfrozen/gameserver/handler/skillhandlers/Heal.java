@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
 public class Heal implements ISkillHandler
 {
 	// all the items ids that this handler knowns
-	// private static Logger _log = Logger.getLogger(Heal.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(Heal.class.getClass());
 	
 	/*
 	 * (non-Javadoc)

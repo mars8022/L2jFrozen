@@ -22,10 +22,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -44,8 +45,8 @@ import com.l2jfrozen.util.object.L2ObjectSet;
 public final class L2World
 {
 	
-	/** The _log. */
-	private static Logger _log = Logger.getLogger(L2World.class.getName());
+	/** The LOGGER. */
+	private static Logger LOGGER = Logger.getLogger(L2World.class.getClass());
 
 	/*
 	 * biteshift, defines number of regions
@@ -142,7 +143,7 @@ public final class L2World
 		{
 			if(Config.DEBUG)
 			{
-				_log.warning("[L2World] objectId " + object.getObjectId() + " already exist in OID map!");
+				LOGGER.warn("[L2World] objectId " + object.getObjectId() + " already exist in OID map!");
 			}
 
 			return;
@@ -456,7 +457,7 @@ public final class L2World
 				/*
 				if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && tmp.isOffline())
 				{
-					_log.warning("Offline: Duplicate character!? Closing offline character (" + tmp.getName() + ")");
+					LOGGER.warn("Offline: Duplicate character!? Closing offline character (" + tmp.getName() + ")");
 					
 					tmp.store(); // Store character and items
 					tmp.logout();
@@ -470,7 +471,7 @@ public final class L2World
 				}
 				else
 				{
-					_log.warning("EnterWorld: Duplicate character!? Closing both characters (" + player.getName() + ")");
+					LOGGER.warn("EnterWorld: Duplicate character!? Closing both characters (" + player.getName() + ")");
 					L2GameClient client = player.getClient();
 					
 					player.store(); // Store character
@@ -500,7 +501,7 @@ public final class L2World
 			// in a circular area of 2000 units
 			List<L2Object> visibles = getVisibleObjects(object, 2000);
 			if (Config.DEBUG)
-				_log.finest("objects in range:" + visibles.size());
+				LOGGER.debug("objects in range:" + visibles.size());
 			
 			// tell the player about the surroundings
 			// Go through the visible objects contained in the circular area
@@ -527,7 +528,7 @@ public final class L2World
 				//L2PcInstance tmp = _allPlayers.get(player.getName().toLowerCase());
 				if(tmp != null)
 				{
-					_log.warning("Teleporting: Duplicate character!? Closing both characters (" + player.getName() + ")");
+					LOGGER.warn("Teleporting: Duplicate character!? Closing both characters (" + player.getName() + ")");
 					player.closeNetConnection();
 					tmp.closeNetConnection();
 					return;
@@ -548,7 +549,7 @@ public final class L2World
 		FastList<L2Object> visibles = getVisibleObjects(object, 2000);
 		if(Config.DEBUG)
 		{
-			_log.finest("objects in range:" + visibles.size());
+			LOGGER.debug("objects in range:" + visibles.size());
 		}
 
 		// tell the player about the surroundings
@@ -594,7 +595,7 @@ public final class L2World
 		{
 			if(Config.DEBUG)
 			{
-				_log.info("Removed player: "+cha.getName().toLowerCase());
+				LOGGER.info("Removed player: "+cha.getName().toLowerCase());
 		    }
 			_allPlayers.remove(cha.getName().toLowerCase());
 		}
@@ -718,7 +719,7 @@ public final class L2World
 			return null;
 
 		// Create an FastList in order to contain all visible L2Object
-		FastList<L2Object> result = new FastList<L2Object>();
+		FastList<L2Object> result = new FastList<>();
 
 		// Create a FastList containing all regions around the current region
 		FastList<L2WorldRegion> regions = reg.getSurroundingRegions();
@@ -779,19 +780,19 @@ public final class L2World
 	public FastList<L2Object> getVisibleObjects(final L2Object object, int radius)
 	{
 		if(object == null || !object.isVisible())
-			return new FastList<L2Object>();
+			return new FastList<>();
 
 		final L2WorldRegion region = object.getWorldRegion();
 		
 		if(region == null)
-			return new FastList<L2Object>();
+			return new FastList<>();
 		
 		int x = object.getX();
 		int y = object.getY();
 		int sqRadius = radius * radius;
 
 		// Create an FastList in order to contain all visible L2Object
-		FastList<L2Object> result = new FastList<L2Object>();
+		FastList<L2Object> result = new FastList<>();
 
 		// Create an FastList containing all regions around the current region
 		FastList<L2WorldRegion> regions = region.getSurroundingRegions();
@@ -857,7 +858,7 @@ public final class L2World
 	public FastList<L2Object> getVisibleObjects3D(L2Object object, int radius)
 	{
 		if(object == null || !object.isVisible())
-			return new FastList<L2Object>();
+			return new FastList<>();
 
 		int x = object.getX();
 		int y = object.getY();
@@ -865,7 +866,7 @@ public final class L2World
 		int sqRadius = radius * radius;
 
 		// Create an FastList in order to contain all visible L2Object
-		FastList<L2Object> result = new FastList<L2Object>();
+		FastList<L2Object> result = new FastList<>();
 
 		// Create an FastList containing all regions around the current region
 		FastList<L2WorldRegion> regions = object.getWorldRegion().getSurroundingRegions();
@@ -933,7 +934,7 @@ public final class L2World
 			return null;
 
 		// Create an FastList in order to contain all visible L2Object
-		FastList<L2PlayableInstance> result = new FastList<L2PlayableInstance>();
+		FastList<L2PlayableInstance> result = new FastList<>();
 
 		// Create a FastList containing all regions around the current region
 		FastList<L2WorldRegion> regions = reg.getSurroundingRegions();
@@ -1046,7 +1047,7 @@ public final class L2World
 	 */
 	private void initRegions()
 	{
-		_log.config("L2World: Setting up World Regions");
+		LOGGER.info("L2World: Setting up World Regions");
 
 		_worldRegions = new L2WorldRegion[REGIONS_X + 1][REGIONS_Y + 1];
 
@@ -1074,9 +1075,7 @@ public final class L2World
 				}
 			}
 		}
-
-		_log.config("L2World: ("+ REGIONS_X + "x" + REGIONS_Y +") World Region Grid set up.");
-
+		LOGGER.info("L2World: ("+ REGIONS_X + "x" + REGIONS_Y +") World Region Grid set up.");
 	}
 
 	/**
@@ -1084,7 +1083,7 @@ public final class L2World
 	 */
 	public synchronized void deleteVisibleNpcSpawns()
 	{
-		_log.info("Deleting all visible NPC's.");
+		LOGGER.info("Deleting all visible NPC's.");
 
 		for(int i = 0; i <= REGIONS_X; i++)
 		{
@@ -1093,7 +1092,7 @@ public final class L2World
 				_worldRegions[i][j].deleteVisibleNpcSpawns();
 			}
 		}
-		_log.info("All visible NPC's deleted.");
+		LOGGER.info("All visible NPC's deleted.");
 	}
 	
 	/**
@@ -1104,7 +1103,7 @@ public final class L2World
 	 */
 	public FastList<L2PcInstance> getAccountPlayers(String account_name){
 		
-		FastList<L2PcInstance> players_for_account = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> players_for_account = new FastList<>();
 		for(L2PcInstance actual:_allPlayers.values())
 		{
 			if(actual.getAccountName().equals(account_name))

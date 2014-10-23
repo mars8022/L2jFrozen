@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 
 public final class NewCharacter extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(NewCharacter.class.getName());
+	private static Logger LOGGER = Logger.getLogger(NewCharacter.class.getClass());
 
 	@Override
 	protected void readImpl() { }
@@ -33,7 +33,7 @@ public final class NewCharacter extends L2GameClientPacket
 	protected void runImpl()
 	{
 		if (Config.DEBUG)
-			_log.fine("DEBUG "+getType()+": Create New Char");
+			LOGGER.debug(getType()+": Create New Char");
 
 		CharTemplates ct = new CharTemplates();
 

@@ -21,8 +21,8 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class AdminRepairChar implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminRepairChar.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminRepairChar.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -61,7 +61,7 @@ public class AdminRepairChar implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -134,7 +134,7 @@ public class AdminRepairChar implements IAdminCommandHandler
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "Could not repair char:", e);
+			LOGGER.warn( "Could not repair char:", e);
 		}
 		finally
 		{

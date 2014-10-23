@@ -19,10 +19,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -59,8 +59,8 @@ import com.l2jfrozen.util.random.Rnd;
 public class DM implements EventTask
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(DM.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(DM.class.getClass());
 	
 	/** The _joining location name. */
 	private static String _eventName = new String(), _eventDesc = new String(), _joiningLocationName = new String();
@@ -691,7 +691,7 @@ public class DM implements EventTask
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, _eventName + " Engine[spawnEventNpc(exception: " + e.getMessage());
+			LOGGER.error( _eventName + " Engine[spawnEventNpc(exception: " + e.getMessage());
 		}
 	}
 	
@@ -717,7 +717,7 @@ public class DM implements EventTask
 		if (!checkStartJoinOk())
 		{
 			if (Config.DEBUG)
-				_log.log(Level.WARNING, _eventName + " Engine[startJoin]: startJoinOk() = false");
+				LOGGER.warn( _eventName + " Engine[startJoin]: startJoinOk() = false");
 			return false;
 		}
 		
@@ -766,7 +766,7 @@ public class DM implements EventTask
 				{
 					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
 					if (Config.DM_STATS_LOGGER)
-						_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
+						LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
 					
 					return false;
 				}
@@ -860,7 +860,7 @@ public class DM implements EventTask
 		if (!startEventOk())
 		{
 			if (Config.DEBUG)
-				_log.log(Level.WARNING, _eventName + " Engine[startEvent()]: startEventOk() = false");
+				LOGGER.warn( _eventName + " Engine[startEvent()]: startEventOk() = false");
 			return false;
 		}
 		
@@ -910,7 +910,7 @@ public class DM implements EventTask
 	 */
 	public synchronized static void restartEvent()
 	{
-		_log.info(_eventName + ": Event has been restarted...");
+		LOGGER.info(_eventName + ": Event has been restarted...");
 		_joining = false;
 		_started = false;
 		_inProgress = false;
@@ -930,7 +930,7 @@ public class DM implements EventTask
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, _eventName + ": Error While Trying to restart Event...", e);
+			LOGGER.error( _eventName + ": Error While Trying to restart Event...", e);
 			e.printStackTrace();
 		}
 	}
@@ -943,7 +943,7 @@ public class DM implements EventTask
 		if (!finishEventOk())
 		{
 			if (Config.DEBUG)
-				_log.log(Level.WARNING, _eventName + " Engine[finishEvent]: finishEventOk() = false");
+				LOGGER.warn( _eventName + " Engine[finishEvent]: finishEventOk() = false");
 			return;
 		}
 		
@@ -973,8 +973,8 @@ public class DM implements EventTask
 				
 				if (Config.DM_STATS_LOGGER)
 				{
-					_log.info("**** " + _eventName + " ****");
-					_log.info(_eventName + ": " + winners + " win the match! " + _topKills + " kills.");
+					LOGGER.info("**** " + _eventName + " ****");
+					LOGGER.info(_eventName + ": " + winners + " win the match! " + _topKills + " kills.");
 				}
 			}
 			else
@@ -982,7 +982,7 @@ public class DM implements EventTask
 				
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": No players win the match(nobody killed).");
 				if (Config.DM_STATS_LOGGER)
-					_log.info(_eventName + ": No players win the match(nobody killed).");
+					LOGGER.info(_eventName + ": No players win the match(nobody killed).");
 			}
 		}
 		
@@ -1079,7 +1079,7 @@ public class DM implements EventTask
 									if (Config.ENABLE_ALL_EXCEPTIONS)
 										e.printStackTrace();
 									
-									_log.log(Level.SEVERE, e.getMessage(), e);
+									LOGGER.error( e.getMessage(), e);
 								}
 								finally
 								{
@@ -1103,15 +1103,15 @@ public class DM implements EventTask
 	 */
 	public static void autoEvent()
 	{
-		_log.info("Starting " + _eventName + "!");
-		_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
+		LOGGER.info("Starting " + _eventName + "!");
+		LOGGER.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
 		if (checkAutoEventStartJoinOk() && startJoin() && !_aborted)
 		{
 			if (_joinTime > 0)
 				waiter(_joinTime * 60 * 1000); // minutes for join event
 			else if (_joinTime <= 0)
 			{
-				_log.info(_eventName + ": join time <=0 aborting event.");
+				LOGGER.info(_eventName + ": join time <=0 aborting event.");
 				abortEvent();
 				return;
 			}
@@ -1120,19 +1120,19 @@ public class DM implements EventTask
 				waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
 				if (startEvent() && !_aborted)
 				{
-					_log.log(Level.WARNING, _eventName + ": waiting.....minutes for event time " + _eventTime);
+					LOGGER.warn( _eventName + ": waiting.....minutes for event time " + _eventTime);
 					
 					waiter(_eventTime * 60 * 1000); // minutes for event time
 					finishEvent();
 					
-					_log.info(_eventName + ": waiting... delay for final messages ");
+					LOGGER.info(_eventName + ": waiting... delay for final messages ");
 					waiter(60000);// just a give a delay delay for final messages
 					sendFinalMessages();
 					
 					if (!_started && !_aborted)
 					{ // if is not already started and it's not aborted
 					
-						_log.info(_eventName + ": waiting.....delay for restart event  " + _intervalBetweenMatchs + " minutes.");
+						LOGGER.info(_eventName + ": waiting.....delay for restart event  " + _intervalBetweenMatchs + " minutes.");
 						waiter(60000);// just a give a delay to next restart
 						
 						try
@@ -1142,7 +1142,7 @@ public class DM implements EventTask
 						}
 						catch (Exception e)
 						{
-							_log.log(Level.SEVERE, "Error while tying to Restart Event", e);
+							LOGGER.error( "Error while tying to Restart Event", e);
 							e.printStackTrace();
 						}
 						
@@ -1371,7 +1371,7 @@ public class DM implements EventTask
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, e.getMessage(), e);
+			LOGGER.error( e.getMessage(), e);
 			return;
 		}
 	}
@@ -1523,39 +1523,39 @@ public class DM implements EventTask
 	 */
 	public static void dumpData()
 	{
-		_log.info("");
-		_log.info("");
+		LOGGER.info("");
+		LOGGER.info("");
 		
 		if (!_joining && !_teleport && !_started)
 		{
-			_log.info("<<---------------------------------->>");
-			_log.info(">> " + _eventName + " Engine infos dump (INACTIVE) <<");
-			_log.info("<<--^----^^-----^----^^------^^----->>");
+			LOGGER.info("<<---------------------------------->>");
+			LOGGER.info(">> " + _eventName + " Engine infos dump (INACTIVE) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^^----->>");
 		}
 		else if (_joining && !_teleport && !_started)
 		{
-			_log.info("<<--------------------------------->>");
-			_log.info(">> " + _eventName + " Engine infos dump (JOINING) <<");
-			_log.info("<<--^----^^-----^----^^------^----->>");
+			LOGGER.info("<<--------------------------------->>");
+			LOGGER.info(">> " + _eventName + " Engine infos dump (JOINING) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^----->>");
 		}
 		else if (!_joining && _teleport && !_started)
 		{
-			_log.info("<<---------------------------------->>");
-			_log.info(">> " + _eventName + " Engine infos dump (TELEPORT) <<");
-			_log.info("<<--^----^^-----^----^^------^^----->>");
+			LOGGER.info("<<---------------------------------->>");
+			LOGGER.info(">> " + _eventName + " Engine infos dump (TELEPORT) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^^----->>");
 		}
 		else if (!_joining && !_teleport && _started)
 		{
-			_log.info("<<--------------------------------->>");
-			_log.info(">> " + _eventName + " Engine infos dump (STARTED) <<");
-			_log.info("<<--^----^^-----^----^^------^----->>");
+			LOGGER.info("<<--------------------------------->>");
+			LOGGER.info(">> " + _eventName + " Engine infos dump (STARTED) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^----->>");
 		}
 		
-		_log.info("Name: " + _eventName);
-		_log.info("Desc: " + _eventDesc);
-		_log.info("Join location: " + _joiningLocationName);
-		_log.info("Min lvl: " + _minlvl);
-		_log.info("Max lvl: " + _maxlvl);
+		LOGGER.info("Name: " + _eventName);
+		LOGGER.info("Desc: " + _eventDesc);
+		LOGGER.info("Join location: " + _joiningLocationName);
+		LOGGER.info("Min lvl: " + _minlvl);
+		LOGGER.info("Max lvl: " + _maxlvl);
 		
 		System.out.println("");
 		System.out.println("##################################");
@@ -1582,8 +1582,8 @@ public class DM implements EventTask
 		for (String player : _savePlayers)
 			System.out.println("Name: " + player);
 		
-		_log.info("");
-		_log.info("");
+		LOGGER.info("");
+		LOGGER.info("");
 		
 		dumpLocalEventInfo();
 	}
@@ -1681,7 +1681,7 @@ public class DM implements EventTask
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.log(Level.SEVERE, "Exception: DM.loadData(): " + e.getMessage());
+			LOGGER.error( "Exception: DM.loadData(): " + e.getMessage());
 		}
 		finally
 		{
@@ -1735,7 +1735,7 @@ public class DM implements EventTask
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: DM.saveData(): " + e.getMessage());
+			LOGGER.error( "Exception: DM.saveData(): " + e.getMessage());
 		}
 		finally
 		{
@@ -1828,7 +1828,7 @@ public class DM implements EventTask
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, _eventName + " Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
+			LOGGER.error( _eventName + " Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}
 	
@@ -1843,7 +1843,7 @@ public class DM implements EventTask
 	 * replyMSG.append("<td width=\"200\">Admin set max lvl : <font color=\"00FF00\">" + _maxlvl + "</font></td><br><br>"); replyMSG.append("<button value=\"Join\" action=\"bypass -h npc_" + objectId + "_dmevent_player_join\" width=50 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\">"); } } else
 	 * if(_started && !_joining) replyMSG.append("<center>"+_eventName+" match is in progress.</center>"); else if(eventPlayer.getLevel() < _minlvl || eventPlayer.getLevel() > _maxlvl) { replyMSG.append("Your lvl: <font color=\"00FF00\">" + eventPlayer.getLevel() + "</font><br>");
 	 * replyMSG.append("Min lvl: <font color=\"00FF00\">" + _minlvl + "</font><br>"); replyMSG.append("Max lvl: <font color=\"00FF00\">" + _maxlvl + "</font><br><br>"); replyMSG.append("<font color=\"FFFF00\">You can't participate to this event.</font><br>"); } replyMSG.append("</body></html>");
-	 * adminReply.setHtml(replyMSG.toString()); eventPlayer.sendPacket(adminReply); // Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet eventPlayer.sendPacket( ActionFailed.STATIC_PACKET ); } catch(Exception e) { _log.log(Level.SEVERE,
+	 * adminReply.setHtml(replyMSG.toString()); eventPlayer.sendPacket(adminReply); // Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet eventPlayer.sendPacket( ActionFailed.STATIC_PACKET ); } catch(Exception e) { LOGGER.error(
 	 * _eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage()); } }
 	 */
 	

@@ -68,7 +68,7 @@ public final class RequestStopPledgeWar extends L2GameClientPacket
 			return;
 		}
 
-		//_log.info("RequestStopPledgeWar: By leader or authorized player: " + playerClan.getLeaderName() + " of clan: "
+		//LOGGER.info("RequestStopPledgeWar: By leader or authorized player: " + playerClan.getLeaderName() + " of clan: "
 		//	+ playerClan.getName() + " to clan: " + _pledgeName);
 
 		//        L2PcInstance leader = L2World.getInstance().getPlayer(clan.getLeaderName());

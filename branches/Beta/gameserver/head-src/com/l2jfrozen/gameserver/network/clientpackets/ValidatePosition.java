@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
 
 public final class ValidatePosition extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(ValidatePosition.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ValidatePosition.class.getClass());
 
 	private int _x;
 	private int _y;
@@ -99,7 +99,7 @@ public final class ValidatePosition extends L2GameClientPacket
 				|| !activeChar.validateMovementHeading(_heading))) // Heading changed on client = possible obstacle
 				{
 					if(Config.DEVELOPER)
-						_log.info(activeChar.getName() + ": Synchronizing position Client --> Server" + (activeChar.isMoving() ? " (collision)" : " (stay sync)"));
+						LOGGER.info(activeChar.getName() + ": Synchronizing position Client --> Server" + (activeChar.isMoving() ? " (collision)" : " (stay sync)"));
 					
 					if(diffSq < 2500){
 						
@@ -146,7 +146,7 @@ public final class ValidatePosition extends L2GameClientPacket
 						&& diffSq > 10000) // more than can be considered to be result of latency
 				{
 					if(Config.DEVELOPER)
-						_log.info(activeChar.getName() + ": Synchronizing position Server --> Client");
+						LOGGER.info(activeChar.getName() + ": Synchronizing position Server --> Client");
 
 					if(activeChar.isInBoat())
 						sendPacket(new ValidateLocationInVehicle(activeChar));
@@ -236,8 +236,8 @@ public final class ValidatePosition extends L2GameClientPacket
 			if(Config.DEBUG)
 			{
 				int realHeading = activeChar.getHeading();
-				_log.fine("client pos: " + _x + " " + _y + " " + _z + " head " + _heading);
-				_log.fine("server pos: " + realX + " " + realY + " " + realZ + " head " + realHeading);
+				LOGGER.fine("client pos: " + _x + " " + _y + " " + _z + " head " + _heading);
+				LOGGER.fine("server pos: " + realX + " " + realY + " " + realZ + " head " + realHeading);
 			}
 		}
 		*/
@@ -246,9 +246,9 @@ public final class ValidatePosition extends L2GameClientPacket
 		if(Config.DEBUG){
 			
 			int realHeading = activeChar.getHeading();
-			_log.info("client pos: " + _x + " " + _y + " " + _z + " head " + _heading);
-			_log.info("server pos: " + realX + " " + realY + " " + realZ + " head " + realHeading);
-			_log.info("finalZ"+ finalZ + " geoZ: " + geoZ+" destZ: "+activeChar.getZdestination());
+			LOGGER.info("client pos: " + _x + " " + _y + " " + _z + " head " + _heading);
+			LOGGER.info("server pos: " + realX + " " + realY + " " + realZ + " head " + realHeading);
+			LOGGER.info("finalZ"+ finalZ + " geoZ: " + geoZ+" destZ: "+activeChar.getZdestination());
 			
 		}
 		

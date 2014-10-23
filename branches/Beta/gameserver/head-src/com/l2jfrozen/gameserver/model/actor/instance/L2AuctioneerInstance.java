@@ -241,7 +241,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for AuctionId : " + auctionId);
+						LOGGER.warn("Auctioneer Auction null for AuctionId : " + auctionId);
 					}
 					player.sendPacket(html);
 
@@ -480,7 +480,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
+						LOGGER.warn("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
 					}
 					player.sendPacket(html);
 
@@ -516,7 +516,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for getHasHideout : " + player.getClan().getHasHideout());
+						LOGGER.warn("Auctioneer Auction null for getHasHideout : " + player.getClan().getHasHideout());
 					}
 					player.sendPacket(html);
 
@@ -545,7 +545,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Clan Hall ID NULL : " + ItemId + " Can be caused by concurent write in ClanHallManager");
+						LOGGER.warn("Clan Hall ID NULL : " + ItemId + " Can be caused by concurent write in ClanHallManager");
 					}
 					player.sendPacket(html);
 
@@ -666,7 +666,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
+						LOGGER.warn("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
 					}
 					player.sendPacket(html);
 					filename = null;

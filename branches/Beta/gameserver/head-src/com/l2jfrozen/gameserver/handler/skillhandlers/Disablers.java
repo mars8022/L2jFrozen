@@ -19,8 +19,8 @@
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
@@ -75,12 +75,17 @@ public class Disablers implements ISkillHandler
 			L2Skill.SkillType.WARRIOR_BANE,
 			L2Skill.SkillType.BETRAY };
 
-	protected static final Logger _log = Logger.getLogger(L2Skill.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2Skill.class.getClass());
 	private String[] _negateSkillTypes = null;
 	private String[] _negateEffectTypes = null;
 	private float _negatePower = 0.f;
 	private int _negateId = 0;
 
+	/*
+	 * Suppress null warnings, all are checked if target is null
+	 * go to the next iteration.
+	 */
+	@SuppressWarnings("null")
 	@Override
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
@@ -580,7 +585,7 @@ public class Disablers implements ISkillHandler
 						_negatePower = skill.getNegatePower();
 
 						/* 
-						 * Negate log
+						 * Negate LOGGER
 						 * 
 						System.out.println("EFFECT-TYPES: ");
 						 
@@ -650,7 +655,7 @@ public class Disablers implements ISkillHandler
 								ISkillHandler Healhandler = SkillHandler.getInstance().getSkillHandler(SkillType.HEAL);
 								if(Healhandler == null)
 								{
-									_log.severe("Couldn't find skill handler for HEAL.");
+									LOGGER.warn("Couldn't find skill handler for HEAL.");
 									continue;
 								}
 
@@ -664,7 +669,7 @@ public class Disablers implements ISkillHandler
 									if(Config.ENABLE_ALL_EXCEPTIONS)
 										e.printStackTrace();
 									
-									_log.log(Level.WARNING, "", e);
+									LOGGER.warn( "", e);
 								}
 								Healhandler = null;
 							}

@@ -19,9 +19,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
@@ -62,8 +63,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class FortSiege
 {
 	
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(FortSiege.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(FortSiege.class.getClass());
 
 	/**
 	 * The Enum TeleportWhoType.
@@ -704,7 +705,7 @@ public class FortSiege
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: clearSiegeClan(): " + e.getMessage());
+			LOGGER.warn("Exception: clearSiegeClan(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -740,7 +741,7 @@ public class FortSiege
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: clearSiegeWaitingClan(): " + e.getMessage());
+			LOGGER.warn("Exception: clearSiegeWaitingClan(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -1337,7 +1338,7 @@ public class FortSiege
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: loadSiegeClan(): " + e.getMessage());
+			LOGGER.warn("Exception: loadSiegeClan(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -1408,7 +1409,7 @@ public class FortSiege
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: saveSiegeDate(): " + e.getMessage());
+			LOGGER.warn("Exception: saveSiegeDate(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -1486,7 +1487,7 @@ public class FortSiege
 		}
 		catch(Exception e)
 		{
-			_log.warning("Exception: saveSiegeClan(L2Clan clan, int typeId, boolean isUpdateRegistration): " + e.getMessage());
+			LOGGER.warn("Exception: saveSiegeClan(L2Clan clan, int typeId, boolean isUpdateRegistration): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

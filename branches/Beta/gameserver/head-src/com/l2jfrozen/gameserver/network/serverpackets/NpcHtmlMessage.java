@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -50,8 +50,8 @@ public class NpcHtmlMessage extends L2GameServerPacket
 	/** The Constant _S__1B_NPCHTMLMESSAGE. */
 	private static final String _S__1B_NPCHTMLMESSAGE = "[S] 0f NpcHtmlMessage";
 	
-	/** The _log. */
-	private static Logger _log = Logger.getLogger(RequestBypassToServer.class.getName());
+	/** The LOGGER. */
+	private static Logger LOGGER = Logger.getLogger(RequestBypassToServer.class.getClass());
 	
 	/** The _npc obj id. */
 	private int _npcObjId;
@@ -105,14 +105,14 @@ public class NpcHtmlMessage extends L2GameServerPacket
 	public void setHtml(String text)
 	{
 		if(text==null){
-			_log.warning("Html is null! this will crash the client!");
+			LOGGER.warn("Html is null! this will crash the client!");
 			_html = "<html><body></body></html>";
 			return;
 		}
 		
 		if(text.length() > 8192)
 		{
-			_log.warning("Html is too long! this will crash the client!");
+			LOGGER.warn("Html is too long! this will crash the client!");
 			_html = "<html><body>Html was too long,<br>Try to use DB for this action</body></html>";
 			return;
 		}
@@ -133,7 +133,7 @@ public class NpcHtmlMessage extends L2GameServerPacket
 		if(content == null)
 		{
 			setHtml("<html><body>My Text is missing:<br>" + path + "</body></html>");
-			_log.warning("missing html page " + path);
+			LOGGER.warn("missing html page " + path);
 			return false;
 		}
 

@@ -34,7 +34,7 @@ import javolution.util.FastList;
  */
 public class AquireSkillList extends L2GameServerPacket
 {
-	//private static Logger _log = Logger.getLogger(AquireSkillList.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(AquireSkillList.class.getClass());
 	public enum skillType
 	{
 		Usual,

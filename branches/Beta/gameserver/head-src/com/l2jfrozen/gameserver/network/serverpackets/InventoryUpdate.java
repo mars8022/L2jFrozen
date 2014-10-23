@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.ItemInfo;
@@ -52,7 +53,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
  */
 public class InventoryUpdate extends L2GameServerPacket
 {
-        private static Logger _log = Logger.getLogger(InventoryUpdate.class.getName());
+        private static Logger LOGGER = Logger.getLogger(InventoryUpdate.class.getClass());
         private static final String _S__37_INVENTORYUPDATE = "[S] 27 InventoryUpdate";
         private List<ItemInfo> _items;
 
@@ -108,7 +109,7 @@ public class InventoryUpdate extends L2GameServerPacket
         private void showDebug()
         {
                 for (ItemInfo item : _items)
-                        _log.fine("oid:" + Integer.toHexString(item.getObjectId()) + " item:" + item.getItem().getName() + " last change:" + item.getChange());
+                        LOGGER.debug("oid:" + Integer.toHexString(item.getObjectId()) + " item:" + item.getItem().getName() + " last change:" + item.getChange());
         }
 
         @Override

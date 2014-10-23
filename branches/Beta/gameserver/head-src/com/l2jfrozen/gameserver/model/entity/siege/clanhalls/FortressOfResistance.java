@@ -30,9 +30,10 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortressOfResistance
 {
-	private static final Logger _log = Logger.getLogger(FortressOfResistance.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(FortressOfResistance.class.getClass());
 	private static FortressOfResistance _instance;
 	private FastMap<Integer, DamageInfo> _clansDamageInfo;
 
@@ -134,7 +135,7 @@ public class FortressOfResistance
 
 			RunMessengerSpawn rms = new RunMessengerSpawn();
 			ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToCapture);
-			_log.info("Fortress of Resistanse: " + milliToCapture / 1000 + " sec. to capture");
+			LOGGER.info("Fortress of Resistanse: " + milliToCapture / 1000 + " sec. to capture");
 		}
 		*/
 		synchronized (this)
@@ -151,7 +152,7 @@ public class FortressOfResistance
 			cal.setTimeInMillis(total_millis);
 			String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
 			
-			_log.info("Fortress of Resistanse: siege will start the "+next_ch_siege_date);
+			LOGGER.info("Fortress of Resistanse: siege will start the "+next_ch_siege_date);
 			rms = null;
 		}
 	}
@@ -235,7 +236,7 @@ public class FortressOfResistance
 		}
 		RunBossSpawn rbs = new RunBossSpawn();
 		ThreadPoolManager.getInstance().scheduleGeneral(rbs, 3600000); //60 * 60 * 1000
-		_log.info("Fortress of Resistanse: Messenger spawned!");
+		LOGGER.info("Fortress of Resistanse: Messenger spawned!");
 		ThreadPoolManager.getInstance().scheduleGeneral(new DeSpawnTimer(result), 3600000); //60 * 60 * 1000
 	}
 
@@ -273,7 +274,7 @@ public class FortressOfResistance
 			e.printStackTrace();
 		}
 
-		_log.info("Fortress of Resistanse: Boss spawned!");
+		LOGGER.info("Fortress of Resistanse: Boss spawned!");
 		Announce("Capture of Partisan Hideout has begun!");
 		Announce("You have one hour to kill Nurka!");
 

@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestPetUseItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestPetUseItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestPetUseItem.class.getClass());
 	private int _objectId;
 
 	@Override
@@ -80,7 +80,7 @@ public final class RequestPetUseItem extends L2GameClientPacket
 
 		if(Config.DEBUG)
 		{
-			_log.finest(activeChar.getObjectId() + ": pet use item " + _objectId);
+			LOGGER.debug(activeChar.getObjectId() + ": pet use item " + _objectId);
 		}
 
 		//check if the item matches the pet
@@ -188,12 +188,12 @@ public final class RequestPetUseItem extends L2GameClientPacket
 		}
 		else
 		{
-			//_log.finest("item not equipable id:"+ item.getItemId());
+			//LOGGER.finest("item not equipable id:"+ item.getItemId());
 			IItemHandler handler = ItemHandler.getInstance().getItemHandler(item.getItemId());
 
 			if(handler == null)
 			{
-				_log.warning("no itemhandler registered for itemId:" + item.getItemId());
+				LOGGER.warn("no itemhandler registered for itemId:" + item.getItemId());
 			}
 			else
 			{

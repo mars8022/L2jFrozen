@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class L2Frozen
 {
-	private static final Logger _log = Logger.getLogger(L2Frozen.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2Frozen.class.getClass());
 
 	/**
 	 * L2-Frozen Info
@@ -30,12 +30,12 @@ public class L2Frozen
 	public static void info()
 
 	{
-		_log.info("                                                                            ");
-		_log.info("         #     #####          ##### ##### ##### ##### ##### ##    #         ");
-		_log.info("         #         #          #     #   # #   #     # #     # #   #         ");
-		_log.info("         #      ###    ####   ###   #   # #   #   #   ###   #  #  #         ");
-		_log.info("         #     #              #     ###   #   # #     #     #   # #         ");
-		_log.info("         ##### #####          #     #  ## ##### ##### ##### #    ##         ");
-		_log.info("                                                                            ");
+		LOGGER.info("                                                                            ");
+		LOGGER.info("         #     #####          ##### ##### ##### ##### ##### ##    #         ");
+		LOGGER.info("         #         #          #     #   # #   #     # #     # #   #         ");
+		LOGGER.info("         #      ###    ####   ###   #   # #   #   #   ###   #  #  #         ");
+		LOGGER.info("         #     #              #     ###   #   # #     #     #   # #         ");
+		LOGGER.info("         ##### #####          #     #  ## ##### ##### ##### #    ##         ");
+		LOGGER.info("                                                                            ");
 	}
 }

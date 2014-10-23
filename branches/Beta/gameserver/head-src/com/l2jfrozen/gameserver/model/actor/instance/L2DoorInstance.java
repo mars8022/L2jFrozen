@@ -20,11 +20,11 @@ package com.l2jfrozen.gameserver.model.actor.instance;
 
 import java.util.Collection;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -64,8 +64,8 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class L2DoorInstance extends L2Character
 {
-	/** The Constant log. */
-	protected static final Logger log = Logger.getLogger(L2DoorInstance.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(L2DoorInstance.class.getClass());
 
 	/** The castle index in the array of L2Castle this L2NpcInstance belongs to. */
 	private int _castleIndex = -2;
@@ -240,10 +240,7 @@ public class L2DoorInstance extends L2Character
 			}
 			catch(Throwable e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				log.log(Level.SEVERE, "", e);
+				LOGGER.error(e);
 			}
 		}
 	}
@@ -277,7 +274,7 @@ public class L2DoorInstance extends L2Character
 
 				if(Config.DEBUG)
 				{
-					log.info("Auto " + doorAction + " door ID " + _doorId + " (" + _name + ") for " + _autoActionDelay / 60000 + " minute(s).");
+					LOGGER.info("Auto " + doorAction + " door ID " + _doorId + " (" + _name + ") for " + _autoActionDelay / 60000 + " minute(s).");
 				}
 			}
 			catch(Exception e)
@@ -285,7 +282,7 @@ public class L2DoorInstance extends L2Character
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				log.warning("Could not auto open/close door ID " + _doorId + " (" + _name + ")");
+				LOGGER.warn("Could not auto open/close door ID " + _doorId + " (" + _name + ")");
 			}
 		}
 	}
@@ -662,22 +659,22 @@ public class L2DoorInstance extends L2Character
 		
 		if (Config.DEBUG)
 		{
-			log.info("player " + player.getObjectId());
-			log.info("Door " + getObjectId());
-			log.info("player clan " + player.getClan());
+			LOGGER.info("player " + player.getObjectId());
+			LOGGER.info("Door " + getObjectId());
+			LOGGER.info("player clan " + player.getClan());
 			if (player.getClan() != null)
 			{
-				log.info("player clanid " + player.getClanId());
-				log.info("player clanleaderid " + player.getClan().getLeaderId());
+				LOGGER.info("player clanid " + player.getClanId());
+				LOGGER.info("player clanleaderid " + player.getClan().getLeaderId());
 			}
-			log.info("clanhall " + getClanHall());
+			LOGGER.info("clanhall " + getClanHall());
 			if (getClanHall() != null)
 			{
-				log.info("clanhallID " + getClanHall().getId());
-				log.info("clanhallOwner " + getClanHall().getOwnerId());
+				LOGGER.info("clanhallID " + getClanHall().getId());
+				LOGGER.info("clanhallOwner " + getClanHall().getOwnerId());
 				for (L2DoorInstance door : getClanHall().getDoors())
 				{
-					log.info("clanhallDoor " + door.getObjectId());
+					LOGGER.info("clanhallDoor " + door.getObjectId());
 				}
 			}
 		}
@@ -746,18 +743,18 @@ public class L2DoorInstance extends L2Character
 			return;
 		
 		if(Config.DEBUG){
-		    log.info("player "+player.getObjectId());
-		    log.info("Door "+getObjectId());
-		    log.info("player clan "+player.getClan());		   
+		    LOGGER.info("player "+player.getObjectId());
+		    LOGGER.info("Door "+getObjectId());
+		    LOGGER.info("player clan "+player.getClan());		   
 		   if(player.getClan()!=null){
-		    log.info("player clanid "+player.getClanId());
-		    log.info("player clanleaderid "+player.getClan().getLeaderId());}
-		    log.info("clanhall "+getClanHall());
+		    LOGGER.info("player clanid "+player.getClanId());
+		    LOGGER.info("player clanleaderid "+player.getClan().getLeaderId());}
+		    LOGGER.info("clanhall "+getClanHall());
 		   if(getClanHall()!=null){
-		    log.info("clanhallID "+getClanHall().getId());
-		    log.info("clanhallOwner "+getClanHall().getOwnerId());
+		    LOGGER.info("clanhallID "+getClanHall().getId());
+		    LOGGER.info("clanhallOwner "+getClanHall().getOwnerId());
 		   for(L2DoorInstance door:getClanHall().getDoors()){
-		    log.info("clanhallDoor "+door.getObjectId());}}}
+		    LOGGER.info("clanhallDoor "+door.getObjectId());}}}
 		
 		if(player.getAccessLevel().isGm())
 		{

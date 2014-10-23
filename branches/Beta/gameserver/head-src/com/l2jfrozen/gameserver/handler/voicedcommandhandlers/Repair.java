@@ -19,7 +19,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
@@ -49,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 {
-	static final Logger _log = Logger.getLogger(Repair.class.getName());
+	static final Logger LOGGER = Logger.getLogger(Repair.class.getClass());
 	
 	private static final String[]	_voicedCommands	=
 		{ 
@@ -74,7 +75,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		}
 		// Command for enter repairFunction from html
 		
-		//_log.warning("Repair Attempt: Failed. ");
+		//LOGGER.warn("Repair Attempt: Failed. ");
 		return false;
 	}
 	
@@ -94,7 +95,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 				if (activeChar.getName().compareTo(rset.getString(1)) != 0)
 					result += rset.getString(1)+";";
 			}
-			//_log.warning("Repair Attempt: Output Result for searching characters on account:"+result);
+			//LOGGER.warn("Repair Attempt: Output Result for searching characters on account:"+result);
 			rset.close();
 			statement.close();
 		}
@@ -260,7 +261,7 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 		}
 		catch (Exception e)
 		{
-			_log.warning("GameServer: could not repair character:" + e);
+			LOGGER.warn("GameServer: could not repair character:" + e);
 		}
 		finally
 		{

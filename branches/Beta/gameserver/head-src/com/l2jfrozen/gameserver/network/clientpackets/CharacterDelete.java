@@ -14,8 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -28,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
  */
 public final class CharacterDelete extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(CharacterDelete.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharacterDelete.class.getClass());
 	private int _charSlot;
 
 	@Override
@@ -45,7 +44,7 @@ public final class CharacterDelete extends L2GameClientPacket
 			return;
 
 		if (Config.DEBUG)
-			_log.fine("DEBUG "+getType()+": deleting slot:" + _charSlot);
+			LOGGER.debug("DEBUG "+getType()+": deleting slot:" + _charSlot);
 
 		try
 		{
@@ -71,7 +70,7 @@ public final class CharacterDelete extends L2GameClientPacket
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 
-			_log.log(Level.SEVERE, "ERROR "+getType()+":", e);
+			LOGGER.error( "ERROR "+getType()+":", e);
 		}
 
 		// Before the char selection, check shutdown status

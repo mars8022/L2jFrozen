@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class RequestSocialAction extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestSocialAction.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestSocialAction.class.getClass());
 	private int _actionId;
 
 	@Override
@@ -66,7 +66,7 @@ public class RequestSocialAction extends L2GameClientPacket
 		{
 			if(Config.DEBUG)
 			{
-				_log.fine("Social Action:" + _actionId);
+				LOGGER.debug("Social Action:" + _actionId);
 			}
 
 			SocialAction atk = new SocialAction(activeChar.getObjectId(), _actionId);

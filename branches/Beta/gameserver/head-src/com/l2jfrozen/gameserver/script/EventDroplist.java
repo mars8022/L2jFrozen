@@ -31,7 +31,7 @@ import javolution.util.FastList;
  */
 public class EventDroplist
 {
-	//private static Logger _log = Logger.getLogger(EventDroplist.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(EventDroplist.class.getClass());
 
 	private static EventDroplist _instance;
 

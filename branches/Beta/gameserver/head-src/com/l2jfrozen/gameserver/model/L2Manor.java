@@ -23,10 +23,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -39,7 +40,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  */
 public class L2Manor
 {
-	private static Logger _log = Logger.getLogger(L2Manor.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2Manor.class.getClass());
 	private static L2Manor _instance;
 
 	private static FastMap<Integer, SeedData> _seeds;
@@ -384,15 +385,15 @@ public class L2Manor
 				seed = null;
 			}
 
-			_log.info("ManorManager: Loaded " + _seeds.size() + " seeds");
+			LOGGER.info("ManorManager: Loaded " + _seeds.size() + " seeds");
 		}
 		catch(FileNotFoundException e)
 		{
-			_log.info("seeds.csv is missing in data folder");
+			LOGGER.info("seeds.csv is missing in data folder");
 		}
 		catch(Exception e)
 		{
-			_log.info("error while loading seeds: " + e.getMessage());
+			LOGGER.info("error while loading seeds: " + e.getMessage());
 		}
 		finally
 		{

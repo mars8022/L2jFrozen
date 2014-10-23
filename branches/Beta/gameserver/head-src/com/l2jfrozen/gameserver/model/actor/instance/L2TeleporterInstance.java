@@ -43,7 +43,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public final class L2TeleporterInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2TeleporterInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2TeleporterInstance.class.getClass());
 
 	/** The Constant COND_ALL_FALSE. */
 	private static final int COND_ALL_FALSE = 0;
@@ -306,7 +306,7 @@ public final class L2TeleporterInstance extends L2FolkInstance
 			{
 				if(Config.DEBUG)
 				{
-					_log.fine("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
+					LOGGER.debug("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
 				}
 				L2BossZone _zone = GrandBossManager.getInstance().getZone(list.getLocX(), list.getLocY(), list.getLocZ());
 				_zone.allowPlayerEntry(player, 300);
@@ -316,7 +316,7 @@ public final class L2TeleporterInstance extends L2FolkInstance
 			{
 				if(Config.DEBUG)
 				{
-					_log.fine("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
+					LOGGER.debug("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
 				}
 				player.teleToLocation(list.getLocX(), list.getLocY(), list.getLocZ(), true);
 			}
@@ -324,14 +324,14 @@ public final class L2TeleporterInstance extends L2FolkInstance
 			{
 				if(Config.DEBUG)
 				{
-					_log.fine("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
+					LOGGER.debug("Teleporting player " + player.getName() + " to new location: " + list.getLocX() + ":" + list.getLocY() + ":" + list.getLocZ());
 				}
 				player.teleToLocation(list.getLocX(), list.getLocY(), list.getLocZ(), true);
 			}
 		}
 		else
 		{
-			_log.warning("No teleport destination with id:" + val);
+			LOGGER.warn("No teleport destination with id:" + val);
 		}
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		list = null;

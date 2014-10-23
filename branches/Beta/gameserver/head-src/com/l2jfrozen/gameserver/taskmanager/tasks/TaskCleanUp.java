@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.taskmanager.Task;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager;
@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public final class TaskCleanUp extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskCleanUp.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TaskCleanUp.class.getClass());
 	public static final String NAME = "cleanup";
 	
 	@Override
@@ -43,7 +43,7 @@ public final class TaskCleanUp extends Task
 	{
 		System.runFinalization();
 		System.gc();
-		_log.info(" [GlobalTask] Java Memory Cleanup launched.");
+		LOGGER.info(" [GlobalTask] Java Memory Cleanup launched.");
 	}
 	
 	@Override

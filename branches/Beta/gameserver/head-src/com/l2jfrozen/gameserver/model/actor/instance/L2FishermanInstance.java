@@ -76,7 +76,7 @@ public class L2FishermanInstance extends L2FolkInstance
 		player.tempInvetoryDisable();
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing buylist");
+			LOGGER.debug("Showing buylist");
 		}
 		L2TradeList list = TradeController.getInstance().getBuyList(val);
 
@@ -89,8 +89,8 @@ public class L2FishermanInstance extends L2FolkInstance
 		}
 		else
 		{
-			_log.warning("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2FishermanInstance)");
-			_log.warning("buylist id:" + val);
+			LOGGER.warn("possible client hacker: " + player.getName() + " attempting to buy from GM shop! (L2FishermanInstance)");
+			LOGGER.warn("buylist id:" + val);
 		}
 
 		player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -100,14 +100,14 @@ public class L2FishermanInstance extends L2FolkInstance
 	{
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing selllist");
+			LOGGER.debug("Showing selllist");
 		}
 
 		player.sendPacket(new SellList(player));
 
 		if(Config.DEBUG)
 		{
-			_log.fine("Showing sell window");
+			LOGGER.debug("Showing sell window");
 		}
 
 		player.sendPacket(ActionFailed.STATIC_PACKET);

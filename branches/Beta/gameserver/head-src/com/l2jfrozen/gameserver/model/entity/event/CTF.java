@@ -18,10 +18,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -64,8 +64,8 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class CTF implements EventTask
 {
-	/** The Constant _log. */
-	protected static final Logger _log = Logger.getLogger(CTF.class.getName());
+	/** The Constant LOGGER. */
+	protected static final Logger LOGGER = Logger.getLogger(CTF.class.getClass());
 	
 	/** The _joining location name. */
 	protected static String _eventName = new String(),
@@ -800,7 +800,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, _eventName+" Engine[spawnEventNpc(exception: " + e.getMessage());
+			LOGGER.error( _eventName+" Engine[spawnEventNpc(exception: " + e.getMessage());
 		}
 	}
 
@@ -827,7 +827,7 @@ public class CTF implements EventTask
 		if(!checkStartJoinOk())
 		{
 			if(Config.DEBUG)
-				_log.log(Level.WARNING, _eventName+" Engine[startJoin]: startJoinOk() = false");
+				LOGGER.warn( _eventName+" Engine[startJoin]: startJoinOk() = false");
 			return false;
 		}
 
@@ -868,7 +868,7 @@ public class CTF implements EventTask
 			{
 				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
 				if(Config.CTF_STATS_LOGGER)
-					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
+					LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size());
 				
 				return false;
 			}
@@ -879,7 +879,7 @@ public class CTF implements EventTask
 			{
 				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
 				if(Config.CTF_STATS_LOGGER)
-					_log.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+					LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
 				return false;
 			}
 			
@@ -968,7 +968,7 @@ public class CTF implements EventTask
 		if(!startEventOk())
 		{
 			if(Config.DEBUG)
-				_log.log(Level.WARNING, _eventName+" Engine[startEvent()]: startEventOk() = false");
+				LOGGER.warn( _eventName+" Engine[startEvent()]: startEventOk() = false");
 			return false;
 		}
 
@@ -1007,7 +1007,7 @@ public class CTF implements EventTask
 	 */
 	public synchronized static void restartEvent()
 	{
-		_log.info(_eventName+": Event has been restarted...");
+		LOGGER.info(_eventName+": Event has been restarted...");
 		_joining = false;
 		_started = false;
 		_inProgress = false;
@@ -1028,7 +1028,7 @@ public class CTF implements EventTask
 		}
 		catch (Exception e)
 		{
-			_log.log(Level.SEVERE, _eventName+": Error While Trying to restart Event...", e);
+			LOGGER.error( _eventName+": Error While Trying to restart Event...", e);
 			e.printStackTrace();
 		}
 	}
@@ -1041,7 +1041,7 @@ public class CTF implements EventTask
 		if(!finishEventOk())
 		{
 			if(Config.DEBUG)
-				_log.log(Level.WARNING, _eventName+" Engine[finishEvent]: finishEventOk() = false");
+				LOGGER.warn( _eventName+" Engine[finishEvent]: finishEventOk() = false");
 			return;
 		}
 
@@ -1078,15 +1078,15 @@ public class CTF implements EventTask
 				
 				if(Config.CTF_STATS_LOGGER){
 					
-					_log.info("**** "+_eventName+" ****");
-					_log.info(_eventName + " Team Statistics:");
+					LOGGER.info("**** "+_eventName+" ****");
+					LOGGER.info(_eventName + " Team Statistics:");
 					for(String team : _teams)
 					{
 						int _flags_ = teamPointsCount(team);
-						_log.info("Team: " + team + " - Flags taken: " + _flags_);
+						LOGGER.info("Team: " + team + " - Flags taken: " + _flags_);
 					}
 					
-					_log.info(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
+					LOGGER.info(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!");
 					
 				}
 				
@@ -1096,7 +1096,7 @@ public class CTF implements EventTask
 				Announcements.getInstance().gameAnnounceToAll(_eventName + ": The event finished with a TIE: No team wins the match(nobody took flags)!");
 				
 				if(Config.CTF_STATS_LOGGER)
-					_log.info(_eventName + ": No team win the match(nobody took flags).");
+					LOGGER.info(_eventName + ": No team win the match(nobody took flags).");
 				
 				rewardTeam(_topTeam);
 				
@@ -1194,7 +1194,7 @@ public class CTF implements EventTask
 									if(Config.ENABLE_ALL_EXCEPTIONS)
 										e.printStackTrace();
 									
-									_log.log(Level.SEVERE, e.getMessage(), e);
+									LOGGER.error( e.getMessage(), e);
 								}
 								finally
 								{
@@ -1218,15 +1218,15 @@ public class CTF implements EventTask
 		@Override
 		public void run()
 		{
-			_log.info("Starting "+_eventName+"!");
-			_log.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
+			LOGGER.info("Starting "+_eventName+"!");
+			LOGGER.info("Matchs Are Restarted At Every: " + getIntervalBetweenMatchs() + " Minutes.");
 			if (checkAutoEventStartJoinOk() && startJoin() && !_aborted)
 			{
 				if (_joinTime > 0)
 					waiter(_joinTime * 60 * 1000); // minutes for join event
 				else if (_joinTime <= 0)
 				{
-					_log.info(_eventName+": join time <=0 aborting event.");
+					LOGGER.info(_eventName+": join time <=0 aborting event.");
 					abortEvent();
 					return;
 				}
@@ -1235,18 +1235,18 @@ public class CTF implements EventTask
 					waiter(30 * 1000); // 30 sec wait time untill start fight after teleported
 					if (startEvent() && !_aborted)
 					{
-						_log.log(Level.WARNING, _eventName+": waiting.....minutes for event time " + _eventTime);
+						LOGGER.warn( _eventName+": waiting.....minutes for event time " + _eventTime);
 
 						waiter(_eventTime * 60 * 1000); // minutes for event time
 						finishEvent();
 
-						_log.info(_eventName+": waiting... delay for final messages ");
+						LOGGER.info(_eventName+": waiting... delay for final messages ");
 						waiter(60000);//just a give a delay delay for final messages
 						sendFinalMessages();
 
 						if (!_started && !_aborted){ //if is not already started and it's not aborted
 							
-							_log.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatches + " minutes.");
+							LOGGER.info(_eventName+": waiting.....delay for restart event  " + _intervalBetweenMatches + " minutes.");
 							waiter(60000);//just a give a delay to next restart
 
 							try
@@ -1256,7 +1256,7 @@ public class CTF implements EventTask
 							}
 							catch (Exception e)
 							{
-								_log.log(Level.SEVERE, "Error while tying to Restart Event", e);
+								LOGGER.error( "Error while tying to Restart Event", e);
 								e.printStackTrace();
 							}
 							
@@ -1463,7 +1463,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, e.getMessage(), e);
+			LOGGER.error( e.getMessage(), e);
 			return;
 		}
 	}
@@ -1683,85 +1683,85 @@ public class CTF implements EventTask
 	 */
 	public static void dumpData()
 	{
-		_log.info("");
-		_log.info("");
+		LOGGER.info("");
+		LOGGER.info("");
 
 		if(!_joining && !_teleport && !_started)
 		{
-			_log.info("<<---------------------------------->>");
-			_log.info(">> "+_eventName + " Engine infos dump (INACTIVE) <<");
-			_log.info("<<--^----^^-----^----^^------^^----->>");
+			LOGGER.info("<<---------------------------------->>");
+			LOGGER.info(">> "+_eventName + " Engine infos dump (INACTIVE) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^^----->>");
 		}
 		else if(_joining && !_teleport && !_started)
 		{
-			_log.info("<<--------------------------------->>");
-			_log.info(">> "+_eventName + " Engine infos dump (JOINING) <<");
-			_log.info("<<--^----^^-----^----^^------^----->>");
+			LOGGER.info("<<--------------------------------->>");
+			LOGGER.info(">> "+_eventName + " Engine infos dump (JOINING) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^----->>");
 		}
 		else if(!_joining && _teleport && !_started)
 		{
-			_log.info("<<---------------------------------->>");
-			_log.info(">> "+_eventName + " Engine infos dump (TELEPORT) <<");
-			_log.info("<<--^----^^-----^----^^------^^----->>");
+			LOGGER.info("<<---------------------------------->>");
+			LOGGER.info(">> "+_eventName + " Engine infos dump (TELEPORT) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^^----->>");
 		}
 		else if(!_joining && !_teleport && _started)
 		{
-			_log.info("<<--------------------------------->>");
-			_log.info(">> "+_eventName + " Engine infos dump (STARTED) <<");
-			_log.info("<<--^----^^-----^----^^------^----->>");
+			LOGGER.info("<<--------------------------------->>");
+			LOGGER.info(">> "+_eventName + " Engine infos dump (STARTED) <<");
+			LOGGER.info("<<--^----^^-----^----^^------^----->>");
 		}
 
-		_log.info("Name: " + _eventName);
-		_log.info("Desc: " + _eventDesc);
-		_log.info("Join location: " + _joiningLocationName);
-		_log.info("Min lvl: " + _minlvl);
-		_log.info("Max lvl: " + _maxlvl);
-		_log.info("");
-		_log.info("##########################");
-		_log.info("# _teams(Vector<String>) #");
-		_log.info("##########################");
+		LOGGER.info("Name: " + _eventName);
+		LOGGER.info("Desc: " + _eventDesc);
+		LOGGER.info("Join location: " + _joiningLocationName);
+		LOGGER.info("Min lvl: " + _minlvl);
+		LOGGER.info("Max lvl: " + _maxlvl);
+		LOGGER.info("");
+		LOGGER.info("##########################");
+		LOGGER.info("# _teams(Vector<String>) #");
+		LOGGER.info("##########################");
 
 		for(String team : _teams)
-			_log.info(team + " Flags Taken :" + _teamPointsCount.get(_teams.indexOf(team)));
+			LOGGER.info(team + " Flags Taken :" + _teamPointsCount.get(_teams.indexOf(team)));
 
 		if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
 		{
-			_log.info("");
-			_log.info("#########################################");
-			_log.info("# _playersShuffle(Vector<L2PcInstance>) #");
-			_log.info("#########################################");
+			LOGGER.info("");
+			LOGGER.info("#########################################");
+			LOGGER.info("# _playersShuffle(Vector<L2PcInstance>) #");
+			LOGGER.info("#########################################");
 
 			for(L2PcInstance player : _playersShuffle)
 			{
 				if(player != null)
-					_log.info("Name: " + player.getName());
+					LOGGER.info("Name: " + player.getName());
 			}
 		}
 
-		_log.info("");
-		_log.info("##################################");
-		_log.info("# _players(Vector<L2PcInstance>) #");
-		_log.info("##################################");
+		LOGGER.info("");
+		LOGGER.info("##################################");
+		LOGGER.info("# _players(Vector<L2PcInstance>) #");
+		LOGGER.info("##################################");
 
 		synchronized(_players){
 			for(L2PcInstance player : _players)
 			{
 				if(player != null)
-					_log.info("Name: " + player.getName() + "   Team: " + player._teamNameCTF + "  Flags :" + player._countCTFflags);
+					LOGGER.info("Name: " + player.getName() + "   Team: " + player._teamNameCTF + "  Flags :" + player._countCTFflags);
 			}
 
 		}
 		
-		_log.info("");
-		_log.info("#####################################################################");
-		_log.info("# _savePlayers(Vector<String>) and _savePlayerTeams(Vector<String>) #");
-		_log.info("#####################################################################");
+		LOGGER.info("");
+		LOGGER.info("#####################################################################");
+		LOGGER.info("# _savePlayers(Vector<String>) and _savePlayerTeams(Vector<String>) #");
+		LOGGER.info("#####################################################################");
 
 		for(String player : _savePlayers)
-			_log.info("Name: " + player + "	Team: " + _savePlayerTeams.get(_savePlayers.indexOf(player)));
+			LOGGER.info("Name: " + player + "	Team: " + _savePlayerTeams.get(_savePlayers.indexOf(player)));
 
-		_log.info("");
-		_log.info("");
+		LOGGER.info("");
+		LOGGER.info("");
 		
 		dumpLocalEventInfo();
 		
@@ -1771,17 +1771,17 @@ public class CTF implements EventTask
 	 * Dump local event info.
 	 */
 	private static void dumpLocalEventInfo(){
-		_log.info("**********==CTF==************");
-		_log.info("CTF._teamPointsCount:"+_teamPointsCount.toString());
-		_log.info("CTF._flagIds:"+_flagIds.toString());
-		_log.info("CTF._flagSpawns:"+_flagSpawns.toString());
-		_log.info("CTF._throneSpawns:"+_throneSpawns.toString());
-		_log.info("CTF._flagsTaken:"+_flagsTaken.toString());
-		_log.info("CTF._flagsX:"+_flagsX.toString());
-		_log.info("CTF._flagsY:"+_flagsY.toString());
-		_log.info("CTF._flagsZ:"+_flagsZ.toString());
-		_log.info("************EOF**************\n");
-		_log.info("");
+		LOGGER.info("**********==CTF==************");
+		LOGGER.info("CTF._teamPointsCount:"+_teamPointsCount.toString());
+		LOGGER.info("CTF._flagIds:"+_flagIds.toString());
+		LOGGER.info("CTF._flagSpawns:"+_flagSpawns.toString());
+		LOGGER.info("CTF._throneSpawns:"+_throneSpawns.toString());
+		LOGGER.info("CTF._flagsTaken:"+_flagsTaken.toString());
+		LOGGER.info("CTF._flagsX:"+_flagsX.toString());
+		LOGGER.info("CTF._flagsY:"+_flagsY.toString());
+		LOGGER.info("CTF._flagsZ:"+_flagsZ.toString());
+		LOGGER.info("************EOF**************\n");
+		LOGGER.info("");
 	}
 	
 	/**
@@ -1918,7 +1918,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: loadData(): " + e.getMessage());
+			LOGGER.error( "Exception: loadData(): " + e.getMessage());
 		}
 		finally
 		{
@@ -1995,7 +1995,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Exception: saveData(): " + e.getMessage());
+			LOGGER.error( "Exception: saveData(): " + e.getMessage());
 		}
 		finally
 		{
@@ -2111,7 +2111,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, _eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
+			LOGGER.error( _eventName+" Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception" + e.getMessage());
 		}
 	}
 
@@ -2535,7 +2535,7 @@ public class CTF implements EventTask
 		if(is_inProgress())
 		{
 			if(Config.DEBUG)
-				_log.log(Level.WARNING, _eventName + " Engine[addTeam(" + teamName + ")]: checkTeamOk() = false");
+				LOGGER.warn( _eventName + " Engine[addTeam(" + teamName + ")]: checkTeamOk() = false");
 			return;
 		}
 
@@ -2575,14 +2575,14 @@ public class CTF implements EventTask
 		if(is_inProgress() || _teams.isEmpty())
 		{
 			if(Config.DEBUG)
-				_log.log(Level.WARNING, _eventName + " Engine[removeTeam(" + teamName + ")]: checkTeamOk() = false");
+				LOGGER.warn( _eventName + " Engine[removeTeam(" + teamName + ")]: checkTeamOk() = false");
 			return;
 		}
 
 		if(teamPlayersCount(teamName) > 0)
 		{
 			if(Config.DEBUG)
-				_log.log(Level.WARNING, _eventName + " Engine[removeTeam(" + teamName + ")]: teamPlayersCount(teamName) > 0");
+				LOGGER.warn( _eventName + " Engine[removeTeam(" + teamName + ")]: teamPlayersCount(teamName) > 0");
 			return;
 		}
 
@@ -2781,7 +2781,7 @@ public class CTF implements EventTask
 	@Override
 	public void run()
 	{
-		_log.info(_eventName + ": Event notification start");
+		LOGGER.info(_eventName + ": Event notification start");
 		eventOnceStart();
 	}
 	
@@ -2915,7 +2915,7 @@ public class CTF implements EventTask
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.info("CTF Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception: " + e.getStackTrace());
+			LOGGER.info("CTF Engine[showEventHtlm(" + eventPlayer.getName() + ", " + objectId + ")]: exception: " + e.getStackTrace());
 		}
 	}
 
@@ -3000,7 +3000,7 @@ public class CTF implements EventTask
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.info("CTF.restoreFlags() Error:"+e.toString());
+			LOGGER.info("CTF.restoreFlags() Error:"+e.toString());
 				return;
 		}
 	}
@@ -3134,7 +3134,7 @@ public class CTF implements EventTask
 			}
 			catch(Exception e)
 			{
-				_log.info("CTF Engine[spawnAllFlags()]: exception: ");
+				LOGGER.info("CTF Engine[spawnAllFlags()]: exception: ");
 				e.printStackTrace();
 			}
 		}
@@ -3169,7 +3169,7 @@ public class CTF implements EventTask
 		}
 		catch(Exception e)
 		{
-			_log.info("CTF Engine[unspawnAllFlags()]: exception: ");
+			LOGGER.info("CTF Engine[unspawnAllFlags()]: exception: ");
 			e.printStackTrace();
 		}
 	}
@@ -3221,7 +3221,7 @@ public class CTF implements EventTask
 		}
 		catch(Exception e)
 		{
-			_log.info("CTF Engine[spawnFlag(" + teamName + ")]: exception: ");
+			LOGGER.info("CTF Engine[spawnFlag(" + teamName + ")]: exception: ");
 			e.printStackTrace();
 		}
 	}

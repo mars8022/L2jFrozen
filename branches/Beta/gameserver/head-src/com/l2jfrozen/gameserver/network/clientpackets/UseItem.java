@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.Arrays;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -48,7 +49,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class UseItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(UseItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(UseItem.class.getClass());
 	private int _objectId;
 	
 	@Override
@@ -245,7 +246,7 @@ public final class UseItem extends L2GameClientPacket
 		
 		if (Config.DEBUG)
 		{
-			_log.finest(activeChar.getObjectId() + ": use item " + _objectId);
+			LOGGER.debug(activeChar.getObjectId() + ": use item " + _objectId);
 		}
 		
 		if (item.isEquipable())
@@ -612,7 +613,7 @@ public final class UseItem extends L2GameClientPacket
 		{
 			L2Weapon weaponItem = activeChar.getActiveWeaponItem();
 			int itemid = item.getItemId();
-			// _log.log(Level.WARNING, "item not equipable id:"+ item.getItemId());
+			// LOGGER.warn( "item not equipable id:"+ item.getItemId());
 			if (itemid == 4393)
 			{
 				activeChar.sendPacket(new ShowCalculator(4393));
@@ -632,7 +633,7 @@ public final class UseItem extends L2GameClientPacket
 				if (handler == null)
 				{
 					if (Config.DEBUG)
-						_log.warning("No item handler registered for item ID " + itemId + ".");
+						LOGGER.warn("No item handler registered for item ID " + itemId + ".");
 				}
 				else
 				{

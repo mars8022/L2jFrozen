@@ -25,9 +25,10 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Calendar;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -154,7 +155,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class GameServer
 {
-	private static Logger _log = Logger.getLogger("Loader");
+	private static Logger LOGGER = Logger.getLogger("Loader");
 	private static SelectorThread<L2GameClient> _selectorThread;
 	private static LoginServerThread _loginThread;
 	private static L2GamePacketHandler _gamePacketHandler;
@@ -164,20 +165,21 @@ public class GameServer
 	
 	public static void main(String[] args) throws Exception
 	{
+		PropertyConfigurator.configure(FService.LOG_CONF_FILE);
 		ServerType.serverMode = ServerType.MODE_GAMESERVER;
 		
-		final String LOG_FOLDER_BASE = "log"; // Name of folder for log base file
+		final String LOG_FOLDER_BASE = "LOGGER"; // Name of folder for LOGGER base file
 		File logFolderBase = new File(LOG_FOLDER_BASE);
 		logFolderBase.mkdir();
 		
 		// Local Constants
-		final String LOG_FOLDER = "log/game";
+		final String LOG_FOLDER = "LOGGER/game";
 		
-		// Create log folder
+		// Create LOGGER folder
 		File logFolder = new File(LOG_FOLDER);
 		logFolder.mkdir();
 		
-		// Create input stream for log file -- or store file data into memory
+		// Create input stream for LOGGER file -- or store file data into memory
 		
 		// check for legacy Implementation
 		File log_conf_file = new File(FService.LOG_CONF_FILE);
@@ -205,7 +207,7 @@ public class GameServer
 		
 		Util.printSection("Database");
 		L2DatabaseFactory.getInstance();
-		_log.info("L2DatabaseFactory: loaded.");
+		LOGGER.info("L2DatabaseFactory: loaded.");
 		
 		Util.printSection("Threads");
 		ThreadPoolManager.getInstance();
@@ -224,7 +226,7 @@ public class GameServer
 		
 		nProtect.getInstance();
 		if (nProtect.isEnabled())
-			_log.info("nProtect System Enabled");
+			LOGGER.info("nProtect System Enabled");
 		
 		Util.printSection("World");
 		L2World.getInstance();
@@ -233,7 +235,7 @@ public class GameServer
 		AutoAnnouncementHandler.getInstance();
 		if (!IdFactory.getInstance().isInitialized())
 		{
-			_log.info("Could not read object IDs from DB. Please Check Your Data.");
+			LOGGER.info("Could not read object IDs from DB. Please Check Your Data.");
 			throw new Exception("Could not initialize the ID factory");
 		}
 		StaticObjects.getInstance();
@@ -256,19 +258,19 @@ public class GameServer
 		Util.printSection("Skills");
 		if (!SkillTable.getInstance().isInitialized())
 		{
-			_log.info("Could not find the extraced files. Please Check Your Data.");
+			LOGGER.info("Could not find the extraced files. Please Check Your Data.");
 			throw new Exception("Could not initialize the skill table");
 		}
 		SkillTreeTable.getInstance();
 		SkillSpellbookTable.getInstance();
 		NobleSkillTable.getInstance();
 		HeroSkillTable.getInstance();
-		_log.info("Skills: All skills loaded.");
+		LOGGER.info("Skills: All skills loaded.");
 		
 		Util.printSection("Items");
 		if (!ItemTable.getInstance().isInitialized())
 		{
-			_log.info("Could not find the extraced files. Please Check Your Data.");
+			LOGGER.info("Could not find the extraced files. Please Check Your Data.");
 			throw new Exception("Could not initialize the item table");
 		}
 		ArmorSetsTable.getInstance();
@@ -285,7 +287,7 @@ public class GameServer
 		NpcWalkerRoutesTable.getInstance().load();
 		if (!NpcTable.getInstance().isInitialized())
 		{
-			_log.info("Could not find the extraced files. Please Check Your Data.");
+			LOGGER.info("Could not find the extraced files. Please Check Your Data.");
 			throw new Exception("Could not initialize the npc table");
 		}
 		
@@ -323,7 +325,7 @@ public class GameServer
 		Util.printSection("Economy");
 		TradeController.getInstance();
 		L2Multisell.getInstance();
-		_log.info("Multisell: loaded.");
+		LOGGER.info("Multisell: loaded.");
 		
 		Util.printSection("Clan Halls");
 		ClanHallManager.getInstance();
@@ -342,7 +344,7 @@ public class GameServer
 		}
 		else
 		{
-			_log.info("Spawn: disable load.");
+			LOGGER.info("Spawn: disable load.");
 		}
 		if (!Config.ALT_DEV_NO_RB)
 		{
@@ -352,7 +354,7 @@ public class GameServer
 		}
 		else
 		{
-			_log.info("RaidBoss: disable load.");
+			LOGGER.info("RaidBoss: disable load.");
 		}
 		DayNightSpawnManager.getInstance().notifyChangeMode();
 		
@@ -426,8 +428,8 @@ public class GameServer
 		UserCommandHandler.getInstance();
 		VoicedCommandHandler.getInstance();
 		
-		_log.info("AutoChatHandler : Loaded " + AutoChatHandler.getInstance().size() + " handlers in total.");
-		_log.info("AutoSpawnHandler : Loaded " + AutoSpawn.getInstance().size() + " handlers in total.");
+		LOGGER.info("AutoChatHandler : Loaded " + AutoChatHandler.getInstance().size() + " handlers in total.");
+		LOGGER.info("AutoSpawnHandler : Loaded " + AutoSpawn.getInstance().size() + " handlers in total.");
 		
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());
 		
@@ -460,7 +462,7 @@ public class GameServer
 		}
 		catch (NullPointerException e)
 		{
-			_log.info("There is errors in your Door.csv file. Update door.csv");
+			LOGGER.info("There is errors in your Door.csv file. Update door.csv");
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
@@ -472,7 +474,7 @@ public class GameServer
 			QuestManager.getInstance().report();
 		}
 		else
-			_log.info("Quest: disable load.");
+			LOGGER.info("Quest: disable load.");
 		
 		Util.printSection("AI");
 		if (!Config.ALT_DEV_NO_AI)
@@ -481,7 +483,7 @@ public class GameServer
 		}
 		else
 		{
-			_log.info("AI: disable load.");
+			LOGGER.info("AI: disable load.");
 		}
 		
 		Util.printSection("Scripts");
@@ -492,23 +494,23 @@ public class GameServer
 			
 			CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
 			if (compiledScriptCache == null)
-				_log.info("Compiled Scripts Cache is disabled.");
+				LOGGER.info("Compiled Scripts Cache is disabled.");
 			else
 			{
 				compiledScriptCache.purge();
 				if (compiledScriptCache.isModified())
 				{
 					compiledScriptCache.save();
-					_log.info("Compiled Scripts Cache was saved.");
+					LOGGER.info("Compiled Scripts Cache was saved.");
 				}
 				else
-					_log.info("Compiled Scripts Cache is up-to-date.");
+					LOGGER.info("Compiled Scripts Cache is up-to-date.");
 			}
 			FaenorScriptEngine.getInstance();
 		}
 		else
 		{
-			_log.info("Script: disable load.");
+			LOGGER.info("Script: disable load.");
 		}
 		
 		Util.printSection("Game Server");
@@ -516,7 +518,7 @@ public class GameServer
 		if (Config.IRC_ENABLED)
 			IrcManager.getInstance().getConnection().sendChan(Config.IRC_MSG_START);
 		
-		_log.info("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
+		LOGGER.info("IdFactory: Free ObjectID's remaining: " + IdFactory.getInstance().size());
 		try
 		{
 			DynamicExtension.getInstance();
@@ -526,7 +528,7 @@ public class GameServer
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				ex.printStackTrace();
 			
-			_log.info("DynamicExtension could not be loaded and initialized" + ex);
+			LOGGER.info("DynamicExtension could not be loaded and initialized" + ex);
 		}
 		
 		Util.printSection("Custom Mods");
@@ -546,7 +548,7 @@ public class GameServer
 				PowerPak.getInstance();
 		}
 		else
-			_log.info("All custom mods are Disabled.");
+			LOGGER.info("All custom mods are Disabled.");
 		
 		Util.printSection("EventManager");
 		EventManager.getInstance().startEventRegistration();
@@ -554,42 +556,42 @@ public class GameServer
 		if (EventManager.TVT_EVENT_ENABLED || EventManager.CTF_EVENT_ENABLED || EventManager.DM_EVENT_ENABLED)
 		{
 			if (EventManager.TVT_EVENT_ENABLED)
-				_log.info("TVT Event is Enabled.");
+				LOGGER.info("TVT Event is Enabled.");
 			if (EventManager.CTF_EVENT_ENABLED)
-				_log.info("CTF Event is Enabled.");
+				LOGGER.info("CTF Event is Enabled.");
 			if (EventManager.DM_EVENT_ENABLED)
-				_log.info("DM Event is Enabled.");
+				LOGGER.info("DM Event is Enabled.");
 		}
 		else
-			_log.info("All events are Disabled.");
+			LOGGER.info("All events are Disabled.");
 		
 		if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && Config.RESTORE_OFFLINERS)
 			OfflineTradeTable.restoreOfflineTraders();
 		
 		Util.printSection("Info");
-		_log.info("Operating System: " + Util.getOSName() + " " + Util.getOSVersion() + " " + Util.getOSArch());
-		_log.info("Available CPUs: " + Util.getAvailableProcessors());
-		_log.info("Maximum Numbers of Connected Players: " + Config.MAXIMUM_ONLINE_USERS);
-		_log.info("GameServer Started, free memory " + Memory.getFreeMemory() + " Mb of " + Memory.getTotalMemory() + " Mb");
-		_log.info("Used memory: " + Memory.getUsedMemory() + " MB");
+		LOGGER.info("Operating System: " + Util.getOSName() + " " + Util.getOSVersion() + " " + Util.getOSArch());
+		LOGGER.info("Available CPUs: " + Util.getAvailableProcessors());
+		LOGGER.info("Maximum Numbers of Connected Players: " + Config.MAXIMUM_ONLINE_USERS);
+		LOGGER.info("GameServer Started, free memory " + Memory.getFreeMemory() + " Mb of " + Memory.getTotalMemory() + " Mb");
+		LOGGER.info("Used memory: " + Memory.getUsedMemory() + " MB");
 		
 		Util.printSection("Java specific");
-		_log.info("JRE name: " + System.getProperty("java.vendor"));
-		_log.info("JRE specification version: " + System.getProperty("java.specification.version"));
-		_log.info("JRE version: " + System.getProperty("java.version"));
-		_log.info("--- Detecting Java Virtual Machine (JVM)");
-		_log.info("JVM installation directory: " + System.getProperty("java.home"));
-		_log.info("JVM Avaible Memory(RAM): " + Runtime.getRuntime().maxMemory() / 1048576 + " MB");
-		_log.info("JVM specification version: " + System.getProperty("java.vm.specification.version"));
-		_log.info("JVM specification vendor: " + System.getProperty("java.vm.specification.vendor"));
-		_log.info("JVM specification name: " + System.getProperty("java.vm.specification.name"));
-		_log.info("JVM implementation version: " + System.getProperty("java.vm.version"));
-		_log.info("JVM implementation vendor: " + System.getProperty("java.vm.vendor"));
-		_log.info("JVM implementation name: " + System.getProperty("java.vm.name"));
+		LOGGER.info("JRE name: " + System.getProperty("java.vendor"));
+		LOGGER.info("JRE specification version: " + System.getProperty("java.specification.version"));
+		LOGGER.info("JRE version: " + System.getProperty("java.version"));
+		LOGGER.info("--- Detecting Java Virtual Machine (JVM)");
+		LOGGER.info("JVM installation directory: " + System.getProperty("java.home"));
+		LOGGER.info("JVM Avaible Memory(RAM): " + Runtime.getRuntime().maxMemory() / 1048576 + " MB");
+		LOGGER.info("JVM specification version: " + System.getProperty("java.vm.specification.version"));
+		LOGGER.info("JVM specification vendor: " + System.getProperty("java.vm.specification.vendor"));
+		LOGGER.info("JVM specification name: " + System.getProperty("java.vm.specification.name"));
+		LOGGER.info("JVM implementation version: " + System.getProperty("java.vm.version"));
+		LOGGER.info("JVM implementation vendor: " + System.getProperty("java.vm.vendor"));
+		LOGGER.info("JVM implementation name: " + System.getProperty("java.vm.name"));
 		
 		Util.printSection("Status");
 		System.gc();
-		_log.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
+		LOGGER.info("Server Loaded in " + (System.currentTimeMillis() - serverLoadStart) / 1000 + " seconds");
 		ServerStatus.getInstance();
 		
 		// Load telnet status
@@ -601,7 +603,7 @@ public class GameServer
 		}
 		else
 		{
-			_log.info("Telnet server is disabled.");
+			LOGGER.info("Telnet server is disabled.");
 		}
 		
 		Util.printSection("Login");
@@ -630,7 +632,7 @@ public class GameServer
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e1.printStackTrace();
 				
-				_log.log(Level.SEVERE, "WARNING: The GameServer bind address is invalid, using all avaliable IPs. Reason: " + e1.getMessage(), e1);
+				LOGGER.warn("The GameServer bind address is invalid, using all avaliable IPs. Reason: ", e1);
 			}
 		}
 		
@@ -643,7 +645,7 @@ public class GameServer
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "FATAL: Failed to open server socket. Reason: " + e.getMessage(), e);
+			LOGGER.fatal("Failed to open server socket. Reason: ", e);
 			System.exit(1);
 		}
 		_selectorThread.start();		

@@ -37,12 +37,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.text.TypeFormat;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.entity.olympiad.OlympiadPeriod;
 import com.l2jfrozen.gameserver.util.FloodProtectorConfig;
@@ -52,7 +52,7 @@ import com.l2jfrozen.util.StringUtil;
 
 public final class Config
 {
-	private static final Logger LOGGER = Logger.getLogger(Config.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Config.class.getClass());
 
 	//============================================================
 	public static boolean EVERYBODY_HAS_ADMIN_RIGHTS;
@@ -436,7 +436,7 @@ public final class Config
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 
@@ -461,7 +461,7 @@ public final class Config
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 
@@ -582,6 +582,7 @@ public final class Config
 	public static int DEATH_PENALTY_CHANCE;
 	public static int PLAYER_SPAWN_PROTECTION;
 	public static int PLAYER_TELEPORT_PROTECTION;
+	public static boolean EFFECT_TELEPORT_PROTECTION;
 	public static int PLAYER_FAKEDEATH_UP_PROTECTION;
 	public static String PARTY_XP_CUTOFF_METHOD;
 	public static int PARTY_XP_CUTOFF_LEVEL;
@@ -715,7 +716,7 @@ public final class Config
 				{
 					String[] rewardSplit = reward.split(",");
 					if (rewardSplit.length != 2)
-						LOGGER.warning("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
+						LOGGER.warn("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
 					else
 					{
 						try
@@ -727,7 +728,7 @@ public final class Config
 							if(Config.ENABLE_ALL_EXCEPTIONS)
 								nfe.printStackTrace();
 							if (!reward.isEmpty())
-								LOGGER.warning("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
+								LOGGER.warn("StartingCustomItemsMage[Config.load()]: invalid config property -> StartingCustomItemsMage \"" + reward + "\"");
 						}
 					}
 				}
@@ -738,7 +739,7 @@ public final class Config
 				{
 					String[] rewardSplit = reward.split(",");
 					if (rewardSplit.length != 2)
-						LOGGER.warning("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
+						LOGGER.warn("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
 					else
 					{
 						try
@@ -751,7 +752,7 @@ public final class Config
 								nfe.printStackTrace();
 							
 							if (!reward.isEmpty())
-								LOGGER.warning("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
+								LOGGER.warn("StartingCustomItemsFighter[Config.load()]: invalid config property -> StartingCustomItemsFighter \"" + reward + "\"");
 						}
 					}
 				}
@@ -762,6 +763,7 @@ public final class Config
 			/* Player protection after teleport or login */
 			PLAYER_SPAWN_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerSpawnProtection", "0"));
 			PLAYER_TELEPORT_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerTeleportProtection", "0"));
+			EFFECT_TELEPORT_PROTECTION = Boolean.parseBoolean(otherSettings.getProperty("EffectTeleportProtection", "False"));
 			
 			/* Player protection after recovering from fake death (works against mobs only) */
 			PLAYER_FAKEDEATH_UP_PROTECTION = Integer.parseInt(otherSettings.getProperty("PlayerFakeDeathUpProtection", "0"));
@@ -4047,7 +4049,7 @@ public final class Config
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.warning("Failed to load " + POWERPAK + " file");
+			LOGGER.warn("Failed to load " + POWERPAK + " file");
 		}
 	}
 
@@ -4102,7 +4104,7 @@ public final class Config
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				LOGGER.warning("Failed to Load " + EXTENDER_FILE + " File.");
+				LOGGER.warn("Failed to Load " + EXTENDER_FILE + " File.");
 			}
 			finally
 			{
@@ -4158,7 +4160,7 @@ public final class Config
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.warning("Failed to load " + DAEMONS + " file.");
+			LOGGER.warn("Failed to load " + DAEMONS + " file.");
 		}
 	}
 
@@ -4272,10 +4274,7 @@ public final class Config
 		}
 		catch(Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			LOGGER.warning("Could not load HexID file (" + HEXID_FILE + "). Hopefully login will give us one.");
+			LOGGER.warn("Could not load HexID file (" + HEXID_FILE + "). Hopefully login will give us one.");
 		}
 	}
 
@@ -4429,7 +4428,7 @@ public final class Config
 								}
 								catch (NumberFormatException e)
 								{
-									LOGGER.warning("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + conf_file.getName() + "). Line: " + reader.getLineNumber());
+									LOGGER.warn("Skipped: Incorrect ban duration (" + parts[1] + ") on (" + conf_file.getName() + "). Line: " + reader.getLineNumber());
 									continue;
 								}
 							}
@@ -4440,21 +4439,21 @@ public final class Config
 							}
 							catch (UnknownHostException e)
 							{
-								LOGGER.warning("Skipped: Invalid address (" + parts[0] + ") on (" + conf_file.getName() + "). Line: " + reader.getLineNumber());
+								LOGGER.warn("Skipped: Invalid address (" + parts[0] + ") on (" + conf_file.getName() + "). Line: " + reader.getLineNumber());
 							}
 						}
 					}
 				}
 				catch (IOException e)
 				{
-					LOGGER.log(Level.WARNING, "Error while reading the bans file (" + conf_file.getName() + "). Details: " + e.getMessage(), e);
+					LOGGER.warn("Error while reading the bans file (" + conf_file.getName() + "). Details: ", e);
 				}
 				
 				LOGGER.info("Loaded " + LoginController.getInstance().getBannedIps().size() + " IP Bans.");
 			}
 			catch (FileNotFoundException e)
 			{
-				LOGGER.log(Level.WARNING, "Failed to load banned IPs file (" + conf_file.getName() + ") for reading. Reason: " + e.getMessage(), e);
+				LOGGER.warn("Failed to load banned IPs file (" + conf_file.getName() + ") for reading. Reason: ", e);
 			}
 			finally
 			{
@@ -4471,7 +4470,7 @@ public final class Config
 		}
 		else
 		{
-			LOGGER.warning("IP Bans file (" + conf_file.getName() + ") is missing or is a directory, skipped.");
+			LOGGER.info("IP Bans file (" + conf_file.getName() + ") is missing or is a directory, skipped.");
 		}
 	}
 
@@ -4583,7 +4582,7 @@ public final class Config
 		}
 		else
 		{
-			LOGGER.severe("Could not Load Config: server mode was not set");
+			LOGGER.fatal("Could not Load Config: server mode was not set");
 		}
 	}
 
@@ -5545,7 +5544,7 @@ public final class Config
 		}
 		catch(Exception e)
 		{
-			LOGGER.warning("Failed to save hex id to " + fileName + " File.");
+			LOGGER.warn("Failed to save hex id to " + fileName + " File.");
 			e.printStackTrace();
 		}finally{
 			

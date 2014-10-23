@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestOustPledgeMember extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(RequestOustPledgeMember.class.getName());
+	static Logger LOGGER = Logger.getLogger(RequestOustPledgeMember.class.getClass());
 	
 	private String _target;
 	
@@ -71,7 +71,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 		
 		if (member == null)
 		{
-			_log.warning("Target (" + _target + ") is not member of the clan");
+			LOGGER.warn("Target (" + _target + ") is not member of the clan");
 			return;
 		}
 		

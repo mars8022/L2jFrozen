@@ -18,7 +18,7 @@
 */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ManagePledgePower;
 
 public final class RequestPledgePower extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(ManagePledgePower.class.getName());
+	static Logger LOGGER = Logger.getLogger(ManagePledgePower.class.getClass());
 	private int _rank;
 	private int _action;
 	private int _privs;

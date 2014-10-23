@@ -18,8 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -47,7 +46,7 @@ import com.l2jfrozen.gameserver.util.GMAudit;
 
 public final class RequestBypassToServer extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestBypassToServer.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestBypassToServer.class.getClass());
 
 	// S
 	private String _command;
@@ -74,7 +73,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 		{
 			if(_command.startsWith("admin_"))
 			{
-				// DaDummy: this way we log _every_ admincommand with all related info
+				// DaDummy: this way we LOGGER _every_ admincommand with all related info
 				String command;
 
 				if(_command.indexOf(" ") != -1)
@@ -95,7 +94,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 						activeChar.sendMessage("The command " + command + " does not exists!");
 					}
 
-					_log.warning("No handler registered for admin command '" + command + "'");
+					LOGGER.warn("No handler registered for admin command '" + command + "'");
 					return;
 				}
 
@@ -104,7 +103,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 					activeChar.sendMessage("You don't have the access right to use this command!");
 					if(Config.DEBUG)
 					{
-						_log.warning("Character " + activeChar.getName() + " tried to use admin command " + command + ", but doesn't have access to it!");
+						LOGGER.warn("Character " + activeChar.getName() + " tried to use admin command " + command + ", but doesn't have access to it!");
 					}
 					return;
 				}
@@ -325,7 +324,7 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "Bad RequestBypassToServer: ", e);
+			LOGGER.warn( "Bad RequestBypassToServer: ", e);
 		}
 		//		finally
 		//		{

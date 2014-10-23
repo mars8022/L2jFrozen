@@ -28,8 +28,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class OfflineTradeTable
 {
-	private static Logger _log = Logger.getLogger(OfflineTradeTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(OfflineTradeTable.class.getClass());
 
 	//SQL DEFINITIONS
 	private static final String SAVE_OFFLINE_STATUS = "INSERT INTO character_offline_trade (`charId`,`time`,`type`,`title`) VALUES (?,?,?,?)";
@@ -143,7 +143,7 @@ public class OfflineTradeTable
 								}
 								break;
 							default:
-								//_log.info( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
+								//LOGGER.info( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 								//no save for this kind of shop
 								continue;
 						}
@@ -158,19 +158,19 @@ public class OfflineTradeTable
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					_log.log(Level.WARNING, "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
+					LOGGER.warn( "OfflineTradersTable[storeTradeItems()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
 				}
 			}
 			stm.close();
 			stm_items.close();
-			_log.info("Offline traders stored.");
+			LOGGER.info("Offline traders stored.");
 		}
 		catch (Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING,"OfflineTradersTable[storeTradeItems()]: Error while saving offline traders: " + e,e);
+			LOGGER.warn("OfflineTradersTable[storeTradeItems()]: Error while saving offline traders: " + e,e);
 		}
 		finally
 		{
@@ -180,7 +180,7 @@ public class OfflineTradeTable
 
 	public static void restoreOfflineTraders()
 	{
-		_log.info("Loading offline traders...");
+		LOGGER.info("Loading offline traders...");
 		Connection con = null;
 		int nTraders = 0;
 		try
@@ -198,7 +198,7 @@ public class OfflineTradeTable
 					cal.add(Calendar.DAY_OF_YEAR, Config.OFFLINE_MAX_DAYS);
 					if (cal.getTimeInMillis() <= System.currentTimeMillis())
 					{
-						_log.info("Offline trader with id "+rs.getInt("charId")+" reached OfflineMaxDays, kicked.");
+						LOGGER.info("Offline trader with id "+rs.getInt("charId")+" reached OfflineMaxDays, kicked.");
 						continue;
 					}
 				}
@@ -255,7 +255,7 @@ public class OfflineTradeTable
 							player.getCreateList().setStoreName(rs.getString("title"));
 							break;
 						default:
-							_log.info("Offline trader "+player.getName()+" finished to sell his items");
+							LOGGER.info("Offline trader "+player.getName()+" finished to sell his items");
 					}
 					items.close();
 					stm_items.close();
@@ -277,14 +277,14 @@ public class OfflineTradeTable
 						e.printStackTrace();
 					
 					
-					_log.log(Level.WARNING, "OfflineTradersTable[loadOffliners()]: Error loading trader: ",e);
+					LOGGER.warn( "OfflineTradersTable[loadOffliners()]: Error loading trader: ",e);
 					if (player != null)
 						player.logout();
 				}
 			}
 			rs.close();
 			stm.close();
-			_log.info("Loaded: " +nTraders+ " offline trader(s)");
+			LOGGER.info("Loaded: " +nTraders+ " offline trader(s)");
 		
 		}
 		catch (Exception e)
@@ -293,7 +293,7 @@ public class OfflineTradeTable
 				e.printStackTrace();
 			
 			
-			_log.log(Level.WARNING, "OfflineTradersTable[loadOffliners()]: Error while loading offline traders: ",e);
+			LOGGER.warn( "OfflineTradersTable[loadOffliners()]: Error while loading offline traders: ",e);
 		}
 		finally
 		{
@@ -386,7 +386,7 @@ public class OfflineTradeTable
 						}
 						break;
 					default:
-						//_log.info( "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
+						//LOGGER.info( "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + ", store type: "+pc.getPrivateStoreType());
 						//no save for this kind of shop
 						save = false;
 				}
@@ -403,7 +403,7 @@ public class OfflineTradeTable
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
+				LOGGER.warn( "OfflineTradersTable[storeOffliner()]: Error while saving offline trader: " + pc.getObjectId() + " " + e, e);
 			}
 			
 			stm.close();
@@ -416,7 +416,7 @@ public class OfflineTradeTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING,"OfflineTradersTable[storeOffliner()]: Error while saving offline traders: " + e,e);
+			LOGGER.warn("OfflineTradersTable[storeOffliner()]: Error while saving offline traders: " + e,e);
 		}
 		finally
 		{

@@ -21,9 +21,10 @@ package com.l2jfrozen.gameserver.skills;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -41,14 +42,14 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 public class SkillsEngine
 {
 
-	protected static final Logger _log = Logger.getLogger(SkillsEngine.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(SkillsEngine.class.getClass());
 
 	private static final SkillsEngine _instance = new SkillsEngine();
 
-	private List<File> _armorFiles = new FastList<File>();
-	private List<File> _weaponFiles = new FastList<File>();
-	private List<File> _etcitemFiles = new FastList<File>();
-	private List<File> _skillFiles = new FastList<File>();
+	private List<File> _armorFiles = new FastList<>();
+	private List<File> _weaponFiles = new FastList<>();
+	private List<File> _etcitemFiles = new FastList<>();
+	private List<File> _skillFiles = new FastList<>();
 
 	public static SkillsEngine getInstance()
 	{
@@ -68,7 +69,7 @@ public class SkillsEngine
 		File dir = new File(Config.DATAPACK_ROOT, dirname);
 		if(!dir.exists())
 		{
-			_log.config("Dir " + dir.getAbsolutePath() + " not exists");
+			LOGGER.info("Dir " + dir.getAbsolutePath() + " not exists");
 			return;
 		}
 		File[] files = dir.listFiles();
@@ -91,7 +92,7 @@ public class SkillsEngine
 	{
 		if(file == null)
 		{
-			_log.config("Skill file not found.");
+			LOGGER.warn("Skill file not found.");
 			return null;
 		}
 		DocumentSkill doc = new DocumentSkill(file);
@@ -115,12 +116,12 @@ public class SkillsEngine
 				count++;
 			}
 		}
-		_log.config("SkillsEngine: Loaded " + count + " Skill templates from XML files.");
+		LOGGER.info("SkillsEngine: Loaded " + count + " Skill templates from XML files.");
 	}
 
 	public List<L2Armor> loadArmors(Map<Integer, Item> armorData)
 	{
-		List<L2Armor> list = new FastList<L2Armor>();
+		List<L2Armor> list = new FastList<>();
 		for(L2Item item : loadData(armorData, _armorFiles))
 		{
 			list.add((L2Armor) item);
@@ -130,7 +131,7 @@ public class SkillsEngine
 
 	public List<L2Weapon> loadWeapons(Map<Integer, Item> weaponData)
 	{
-		List<L2Weapon> list = new FastList<L2Weapon>();
+		List<L2Weapon> list = new FastList<>();
 		for(L2Item item : loadData(weaponData, _weaponFiles))
 		{
 			list.add((L2Weapon) item);
@@ -140,7 +141,7 @@ public class SkillsEngine
 
 	public List<L2EtcItem> loadItems(Map<Integer, Item> itemData)
 	{
-		List<L2EtcItem> list = new FastList<L2EtcItem>();
+		List<L2EtcItem> list = new FastList<>();
 		for(L2Item item : loadData(itemData, _etcitemFiles))
 		{
 			list.add((L2EtcItem) item);
@@ -157,7 +158,7 @@ public class SkillsEngine
 
 	public List<L2Item> loadData(Map<Integer, Item> itemData, List<File> files)
 	{
-		List<L2Item> list = new FastList<L2Item>();
+		List<L2Item> list = new FastList<>();
 		for(File f : files)
 		{
 			DocumentItem document = new DocumentItem(itemData, f);

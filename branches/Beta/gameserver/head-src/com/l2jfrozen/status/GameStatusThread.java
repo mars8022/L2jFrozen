@@ -90,7 +90,7 @@ import com.l2jfrozen.util.object.L2ObjectMap;
 
 public class GameStatusThread extends Thread
 {
-	//private static final Logger _log = Logger.getLogger(AdminTeleport.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class.getClass());
 	
 	private Socket _cSocket;
 	
@@ -419,7 +419,7 @@ public class GameStatusThread extends Thread
 				        _usrCommand = _usrCommand.substring(8);
 				        if (LoginServer.getInstance().unblockIp(_usrCommand))
 				        {
-				            _log.warning("IP removed via TELNET by host: " + _csocket.getInetAddress().getHostAddress());
+				            LOGGER.warn("IP removed via TELNET by host: " + _csocket.getInetAddress().getHostAddress());
 				            _print.println("The IP " + _usrCommand + " has been removed from the hack protection list!");
 				        }
 				        else
@@ -707,11 +707,11 @@ public class GameStatusThread extends Thread
 							String str = ThreadPoolManager.getInstance().getPacketStats();
 							_print.println(str);
 							int i = 0;
-							File f = new File("./log/StackTrace-PacketTP-" + i + ".txt");
+							File f = new File("./LOGGER/StackTrace-PacketTP-" + i + ".txt");
 							while (f.exists())
 							{
 								i++;
-								f = new File("./log/StackTrace-PacketTP-" + i + ".txt");
+								f = new File("./LOGGER/StackTrace-PacketTP-" + i + ".txt");
 							}
 							f.getParentFile().mkdirs();
 							fos = new FileOutputStream(f);
@@ -723,11 +723,11 @@ public class GameStatusThread extends Thread
 							String str = ThreadPoolManager.getInstance().getIOPacketStats();
 							_print.println(str);
 							int i = 0;
-							File f = new File("./log/StackTrace-IOPacketTP-" + i + ".txt");
+							File f = new File("./LOGGER/StackTrace-IOPacketTP-" + i + ".txt");
 							while (f.exists())
 							{
 								i++;
-								f = new File("./log/StackTrace-IOPacketTP-" + i + ".txt");
+								f = new File("./LOGGER/StackTrace-IOPacketTP-" + i + ".txt");
 							}
 							f.getParentFile().mkdirs();
 							fos = new FileOutputStream(f);
@@ -739,11 +739,11 @@ public class GameStatusThread extends Thread
 							String str = ThreadPoolManager.getInstance().getGeneralStats();
 							_print.println(str);
 							int i = 0;
-							File f = new File("./log/StackTrace-GeneralTP-" + i + ".txt");
+							File f = new File("./LOGGER/StackTrace-GeneralTP-" + i + ".txt");
 							while (f.exists())
 							{
 								i++;
-								f = new File("./log/StackTrace-GeneralTP-" + i + ".txt");
+								f = new File("./LOGGER/StackTrace-GeneralTP-" + i + ".txt");
 							}
 							f.getParentFile().mkdirs();
 							fos = new FileOutputStream(f);
@@ -971,7 +971,7 @@ public class GameStatusThread extends Thread
 			activeChar.sendMessage("Changed enchantment of " + activeChar.getName() + "'s " + itemInstance.getItem().getName() + " from " + curEnchant + " to " + ench + ".");
 			activeChar.sendMessage("Admin has changed the enchantment of your " + itemInstance.getItem().getName() + " from " + curEnchant + " to " + ench + ".");
 			
-			// log
+			// LOGGER
 			GMAudit.auditGMAction("TelnetAdministrator", "enchant", activeChar.getName(), itemInstance.getItem().getName() + "(" + itemInstance.getObjectId() + ")" + " from " + curEnchant + " to " + ench);
 			return true;
 		}
@@ -1267,11 +1267,11 @@ public class GameStatusThread extends Thread
 		}
 		
 		int i = 0;
-		File f = new File("./log/Debug-" + i + ".txt");
+		File f = new File("./LOGGER/Debug-" + i + ".txt");
 		while (f.exists())
 		{
 			i++;
-			f = new File("./log/Debug-" + i + ".txt");
+			f = new File("./LOGGER/Debug-" + i + ".txt");
 		}
 		f.getParentFile().mkdirs();
 		
@@ -1320,7 +1320,7 @@ public class GameStatusThread extends Thread
 		}
 			
 		
-		_print.println("Debug output saved to log/" + f.getName());
+		_print.println("Debug output saved to LOGGER/" + f.getName());
 		_print.flush();
 	}
 	

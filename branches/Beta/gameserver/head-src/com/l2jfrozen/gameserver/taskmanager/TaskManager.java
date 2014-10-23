@@ -33,10 +33,11 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskCleanUp;
@@ -55,7 +56,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class TaskManager
 {
-	protected static final Logger _log = Logger.getLogger(TaskManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(TaskManager.class.getClass());
 	private static TaskManager _instance;
 
 	protected static final String[] SQL_STATEMENTS =
@@ -66,8 +67,8 @@ public final class TaskManager
 			"INSERT INTO global_tasks (task,type,last_activation,param1,param2,param3) VALUES(?,?,?,?,?,?)"
 	};
 
-	private final FastMap<Integer, Task> _tasks = new FastMap<Integer, Task>();
-	protected final FastList<ExecutedTask> _currentTasks = new FastList<ExecutedTask>();
+	private final FastMap<Integer, Task> _tasks = new FastMap<>();
+	protected final FastList<ExecutedTask> _currentTasks = new FastList<>();
 
 	public class ExecutedTask implements Runnable
 	{
@@ -114,7 +115,7 @@ public final class TaskManager
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning("cannot updated the Global Task " + id + ": " + e.getMessage());
+				LOGGER.warn("cannot updated the Global Task " + id + ": " + e.getMessage());
 			}
 			finally
 			{
@@ -256,8 +257,7 @@ public final class TaskManager
 		}
 		catch(Exception e)
 		{
-			_log.severe("error while loading Global Task table " + e);
-			e.printStackTrace();
+			LOGGER.error("Error while loading Global Task table ", e);
 		}
 		finally
 		{
@@ -301,7 +301,7 @@ public final class TaskManager
 					task.scheduled = scheduler.scheduleGeneral(task, diff);
 					return true;
 				}
-				_log.info("Task " + task.getId() + " is obsoleted.");
+				LOGGER.info("Task " + task.getId() + " is obsoleted.");
 			}
 			catch(Exception e)
 			{
@@ -325,7 +325,7 @@ public final class TaskManager
 
 			if(hour.length != 3)
 			{
-				_log.warning("Task " + task.getId() + " has incorrect parameters");
+				LOGGER.warn("Task " + task.getId() + " has incorrect parameters");
 				return false;
 			}
 
@@ -343,7 +343,7 @@ public final class TaskManager
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-				_log.warning("Bad parameter on task " + task.getId() + ": " + e.getMessage());
+				LOGGER.warn("Bad parameter on task " + task.getId() + ": " + e.getMessage());
 				return false;
 			}
 
@@ -403,7 +403,7 @@ public final class TaskManager
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.warning("cannot add the unique task: " + e.getMessage());
+			LOGGER.warn("cannot add the unique task: " + e.getMessage());
 		}
 		finally
 		{
@@ -445,7 +445,7 @@ public final class TaskManager
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			_log.warning("cannot add the task:  " + e.getMessage());
+			LOGGER.warn("cannot add the task:  " + e.getMessage());
 		}
 		finally
 		{

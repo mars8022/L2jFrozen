@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 public final class RequestRestart extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestRestart.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestRestart.class.getClass());
 
 	@Override
 	protected void readImpl()
@@ -56,7 +56,7 @@ public final class RequestRestart extends L2GameClientPacket
 		// Check if player is == null
 		if(player == null)
 		{
-			_log.warning("[RequestRestart] activeChar null!?");
+			LOGGER.warn("[RequestRestart] activeChar null!?");
 			return;
 		}
 
@@ -70,7 +70,7 @@ public final class RequestRestart extends L2GameClientPacket
 		// Check if player are changing class
 		if (player.isLocked())
 		{
-			_log.severe(" [ERROR] [WARNING]Player " + player.getName() + " tried to restart during class change.");
+			LOGGER.warn("Player " + player.getName() + " tried to restart during class change.");
 			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
@@ -89,7 +89,7 @@ public final class RequestRestart extends L2GameClientPacket
 		if(AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
 			if(Config.DEBUG)
-				_log.fine("Player " + player.getName() + " tried to logout while fighting.");
+				LOGGER.debug("Player " + player.getName() + " tried to logout while fighting.");
 
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_RESTART_WHILE_FIGHTING));
 			sendPacket(RestartResponse.valueOf(false));

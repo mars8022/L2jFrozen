@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2SiegeNpcInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2SiegeNpcInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2SiegeNpcInstance.class.getClass());
 
 	public L2SiegeNpcInstance(int objectID, L2NpcTemplate template)
 	{

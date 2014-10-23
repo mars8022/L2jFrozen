@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.geo;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
@@ -30,13 +30,13 @@ import com.l2jfrozen.util.Point3D;
 
 public class GeoData
 {
-	protected static final Logger _log = Logger.getLogger(GeoData.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(GeoData.class.getClass());
 	
 	private static final class SingletonHolder
 	{
 		static
 		{
-			_log.info("Geodata Engine: Disabled.");
+			LOGGER.info("Geodata Engine: Disabled.");
 		}
 
 		protected static final GeoData INSTANCE = new GeoData();

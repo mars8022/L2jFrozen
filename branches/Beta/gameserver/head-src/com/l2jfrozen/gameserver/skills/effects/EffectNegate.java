@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.skills.effects;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class EffectNegate extends L2Effect
 {
-	protected static final Logger _log = Logger.getLogger(EffectNegate.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(EffectNegate.class.getClass());
 
 	public EffectNegate(Env env, EffectTemplate template)
 	{
@@ -49,7 +49,7 @@ public class EffectNegate extends L2Effect
 		final L2Skill skill = getSkill();
 		
 		if(Config.DEBUG)
-			_log.fine("effectNegate on "+getEffected().getName()+" with skill "+skill.getId());
+			LOGGER.debug("effectNegate on "+getEffected().getName()+" with skill "+skill.getId());
 		
 		if (skill.getNegateId() != 0)
 			getEffected().stopSkillEffects(skill.getNegateId());
@@ -57,7 +57,7 @@ public class EffectNegate extends L2Effect
 		for (String negateSkillType : skill.getNegateSkillTypes())
 		{
 			if(Config.DEBUG)
-				_log.fine("effectNegate on Type "+negateSkillType +" with power "+skill.getPower());
+				LOGGER.debug("effectNegate on Type "+negateSkillType +" with power "+skill.getPower());
 			
 			SkillType type = null;
 			try{
@@ -73,7 +73,7 @@ public class EffectNegate extends L2Effect
 		for (String negateEffectType : skill.getNegateEffectTypes())
 		{
 			if(Config.DEBUG)
-				_log.fine("effectNegate on Effect Type "+negateEffectType +" with power "+skill.getPower());
+				LOGGER.debug("effectNegate on Effect Type "+negateEffectType +" with power "+skill.getPower());
 			
 			EffectType type = null;
 			try{

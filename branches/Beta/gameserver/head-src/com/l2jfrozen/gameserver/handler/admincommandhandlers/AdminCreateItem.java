@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -41,7 +42,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  */
 public class AdminCreateItem implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminCreateItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminCreateItem.class.getClass());
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_l2jfrozen", "admin_itemcreate", "admin_create_item", "admin_mass_create", "admin_clear_inventory"
@@ -73,7 +74,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -399,7 +400,7 @@ public class AdminCreateItem implements IAdminCommandHandler
 			i++;
 		}
 		activeChar.sendMessage("Mass-created items in the inventory of " + i + " player(s).");
-		_log.info("GM " + activeChar.getName() + " mass_created item Id: " + id + " (" + num + ")");
+		LOGGER.info("GM " + activeChar.getName() + " mass_created item Id: " + id + " (" + num + ")");
 	}
 
 	private void removeAllItems(L2PcInstance activeChar)

@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -44,7 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminSkill implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminSkill.class.getName());
+	private static Logger LOGGER = Logger.getLogger(AdminSkill.class.getClass());
 
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -79,7 +80,7 @@ public class AdminSkill implements IAdminCommandHandler
 			{
 					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
 			});
-			_logAudit.log(record);
+			_logAudit.LOGGER(record);
 		}
 		*/
 
@@ -576,7 +577,7 @@ public class AdminSkill implements IAdminCommandHandler
 
 				if(Config.DEBUG)
 				{
-					_log.fine("[GM]" + activeChar.getName() + " gave skill " + name + " to " + player.getName() + ".");
+					LOGGER.debug("[GM]" + activeChar.getName() + " gave skill " + name + " to " + player.getName() + ".");
 				}
 
 				activeChar.sendSkillList();
@@ -625,7 +626,7 @@ public class AdminSkill implements IAdminCommandHandler
 
 			if(Config.DEBUG)
 			{
-				_log.fine("[GM]" + activeChar.getName() + " removed skill " + skillname + " from " + player.getName() + ".");
+				LOGGER.debug("[GM]" + activeChar.getName() + " removed skill " + skillname + " from " + player.getName() + ".");
 			}
 
 			activeChar.sendSkillList();

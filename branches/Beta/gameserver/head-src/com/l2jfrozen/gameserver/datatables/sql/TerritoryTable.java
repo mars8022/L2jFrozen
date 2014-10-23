@@ -32,7 +32,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.controllers.TradeController;
 import com.l2jfrozen.gameserver.model.L2Territory;
@@ -41,8 +42,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class TerritoryTable
 {
-	private final static Logger _log = Logger.getLogger(TradeController.class.getName());
-	private static Map<Integer, L2Territory> _territory = new HashMap<Integer, L2Territory>();
+	private final static Logger LOGGER = Logger.getLogger(TradeController.class.getClass());
+	private static Map<Integer, L2Territory> _territory = new HashMap<>();
 
 	public static TerritoryTable getInstance()
 	{
@@ -95,14 +96,14 @@ public class TerritoryTable
 		}
 		catch(Exception e1)
 		{
-			_log.severe("locations couldnt be initialized "+ e1);
+			LOGGER.error("Locations couldnt be initialized ", e1);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 
-		_log.finest("TerritoryTable: Loaded {} locations "+ _territory.size());
+		LOGGER.info("TerritoryTable: Loaded {} locations "+ _territory.size());
 	}
 	
 	private static class SingletonHolder

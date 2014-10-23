@@ -21,9 +21,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -50,7 +51,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class BanditStrongholdSiege extends ClanHallSiege
 {
-	protected static Logger _log = Logger.getLogger(BanditStrongholdSiege.class.getName());
+	protected static Logger LOGGER = Logger.getLogger(BanditStrongholdSiege.class.getClass());
 	private static BanditStrongholdSiege _instance;
 	private boolean _registrationPeriod = false;
 	private int _clanCounter = 0;
@@ -72,7 +73,7 @@ public class BanditStrongholdSiege extends ClanHallSiege
 
 	private BanditStrongholdSiege()
 	{
-		_log.info("SiegeManager of Bandits Stronghold");
+		LOGGER.info("SiegeManager of Bandits Stronghold");
 		long siegeDate = restoreSiegeDate(35);
 		Calendar tmpDate = Calendar.getInstance();
 		tmpDate.setTimeInMillis(siegeDate);

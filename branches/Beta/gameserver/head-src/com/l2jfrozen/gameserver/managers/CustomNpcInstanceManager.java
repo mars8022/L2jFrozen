@@ -17,9 +17,10 @@ package com.l2jfrozen.gameserver.managers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
@@ -34,7 +35,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class CustomNpcInstanceManager
 {
-	private final static Logger _log = Logger.getLogger(CustomNpcInstanceManager.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(CustomNpcInstanceManager.class.getClass());
 	private static CustomNpcInstanceManager _instance;
 	private FastMap<Integer, customInfo> spawns; // <Object id , info>
 	private FastMap<Integer, customInfo> templates; // <Npc Template Id , info>
@@ -188,7 +189,7 @@ public final class CustomNpcInstanceManager
 						if(Config.ENABLE_ALL_EXCEPTIONS)
 							t.printStackTrace();
 						
-						_log.warning("Failed to load Npc Morph data for Object Id: " + ci.integerData[26] + " template: " + ci.integerData[25]);
+						LOGGER.warn("Failed to load Npc Morph data for Object Id: " + ci.integerData[26] + " template: " + ci.integerData[25]);
 					}
 					ci = null;
 				}
@@ -197,13 +198,13 @@ public final class CustomNpcInstanceManager
 				rset.close();
 				rset = null;
 			}
-			_log.info("CustomNpcInstanceManager: loaded " + count + " NPC to PC polymorphs.");
+			LOGGER.info("CustomNpcInstanceManager: loaded " + count + " NPC to PC polymorphs.");
 		}
 		catch(Exception e)
 		{
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			/** _log.warning( "CustomNpcInstanceManager: Passed "); **/
+			/** LOGGER.warn( "CustomNpcInstanceManager: Passed "); **/
 		}
 		finally
 		{
@@ -313,7 +314,7 @@ public final class CustomNpcInstanceManager
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.warning("Could not add Npc Morph info into the DB: ");
+			LOGGER.warn("Could not add Npc Morph info into the DB: ");
 		}
 		finally
 		{

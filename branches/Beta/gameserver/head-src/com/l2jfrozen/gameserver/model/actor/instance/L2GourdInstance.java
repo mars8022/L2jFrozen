@@ -21,7 +21,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 public final class L2GourdInstance extends L2MonsterInstance
 {
-	//private static Logger _log = Logger.getLogger(L2GourdInstance.class.getName());
+	//private static Logger LOGGER = Logger.getLogger(L2GourdInstance.class.getClass());
 
 	private String _name;
 	private byte _nectar = 0;

@@ -20,10 +20,10 @@ package com.l2jfrozen.gameserver.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -43,7 +43,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class L2Augmentation
 {
-	private static final Logger _log = Logger.getLogger(L2Augmentation.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2Augmentation.class.getClass());
 
 	private L2ItemInstance _item;
 	private int _effectsId = 0;
@@ -151,7 +151,7 @@ public final class L2Augmentation
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.SEVERE, "Could not save augmentation for item: " + _item.getObjectId() + " from DB:", e);
+			LOGGER.error( "Could not save augmentation for item: " + _item.getObjectId() + " from DB:", e);
 		}
 		finally
 		{
@@ -178,7 +178,7 @@ public final class L2Augmentation
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.SEVERE, "Could not delete augmentation for item: " + _item.getObjectId() + " from DB:", e);
+			LOGGER.error( "Could not delete augmentation for item: " + _item.getObjectId() + " from DB:", e);
 		}
 		finally
 		{

@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -37,7 +37,7 @@ public class WareHouseDepositList extends L2GameServerPacket
 	public static final int CLAN = 2;
 	public static final int CASTLE = 3; //not sure
 	public static final int FREIGHT = 4; //not sure
-	private static Logger _log = Logger.getLogger(WareHouseDepositList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(WareHouseDepositList.class.getClass());
 	private static final String _S__53_WAREHOUSEDEPOSITLIST = "[S] 41 WareHouseDepositList";
 	private L2PcInstance _activeChar;
 	private int _playerAdena;
@@ -82,7 +82,7 @@ public class WareHouseDepositList extends L2GameServerPacket
 		int count = _items.size();
 		if(Config.DEBUG)
 		{
-			_log.fine("count:" + count);
+			LOGGER.debug("count:" + count);
 		}
 		writeH(count);
 

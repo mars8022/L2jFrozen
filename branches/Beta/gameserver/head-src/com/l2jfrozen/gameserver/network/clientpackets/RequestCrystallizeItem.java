@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestCrystallizeItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestCrystallizeItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestCrystallizeItem.class.getClass());
 
 	private int _objectId;
 	private int _count;
@@ -57,7 +57,7 @@ public final class RequestCrystallizeItem extends L2GameClientPacket
 
 		if(activeChar == null)
 		{
-			_log.fine("RequestCrystalizeItem: activeChar was null");
+			LOGGER.warn("RequestCrystalizeItem: activeChar was null");
 			return;
 		}
 		
@@ -125,7 +125,7 @@ public final class RequestCrystallizeItem extends L2GameClientPacket
 
 		if(!itemToRemove.getItem().isCrystallizable() || itemToRemove.getItem().getCrystalCount() <= 0 || itemToRemove.getItem().getCrystalType() == L2Item.CRYSTAL_NONE)
 		{
-			_log.warning("" + activeChar.getObjectId() + " tried to crystallize " + itemToRemove.getItem().getItemId());
+			LOGGER.warn("" + activeChar.getObjectId() + " tried to crystallize " + itemToRemove.getItem().getItemId());
 			return;
 		}
 

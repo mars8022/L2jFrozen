@@ -23,9 +23,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.base.ClassId;
@@ -39,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CharTemplateTable
 {
-	private static Logger _log = Logger.getLogger(CharTemplateTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharTemplateTable.class.getClass());
 
 	private static CharTemplateTable _instance;
 
@@ -180,7 +181,7 @@ public class CharTemplateTable
 
 	private CharTemplateTable()
 	{
-		_templates = new FastMap<Integer, L2PcTemplate>();
+		_templates = new FastMap<>();
 		Connection con = null;
 
 		try
@@ -260,14 +261,14 @@ public class CharTemplateTable
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("error while loading char templates " + e.getMessage());
+			LOGGER.warn("error while loading char templates " + e.getMessage());
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 
-		_log.config("CharTemplateTable: Loaded " + _templates.size() + " Character Templates.");
+		LOGGER.info("CharTemplateTable: Loaded " + _templates.size() + " Character Templates.");
 	}
 
 	public L2PcTemplate getTemplate(ClassId classId)

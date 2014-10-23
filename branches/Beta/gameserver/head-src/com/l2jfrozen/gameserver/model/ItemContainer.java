@@ -22,10 +22,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
@@ -42,13 +42,13 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class ItemContainer
 {
-	protected static final Logger _log = Logger.getLogger(ItemContainer.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(ItemContainer.class.getClass());
 
 	protected final List<L2ItemInstance> _items;
 
 	protected ItemContainer()
 	{
-		_items = new FastList<L2ItemInstance>();
+		_items = new FastList<>();
 	}
 
 	protected abstract L2Character getOwner();
@@ -272,7 +272,7 @@ public abstract class ItemContainer
 
 				if(template == null)
 				{
-					_log.log(Level.WARNING, (actor != null ? "[" + actor.getName() + "] " : "") + "Invalid ItemId requested: ", itemId);
+					LOGGER.warn( (actor != null ? "[" + actor.getName() + "] " : "") + "Invalid ItemId requested: " + itemId);
 					return null;
 				}
 
@@ -607,7 +607,7 @@ public abstract class ItemContainer
 		}
 		catch(Throwable t)
 		{
-			_log.log(Level.SEVERE, "deletedMe()", t);
+			LOGGER.error( "deletedMe()", t);
 		}
 
 		List<L2Object> items = new FastList<L2Object>(_items);
@@ -693,7 +693,7 @@ public abstract class ItemContainer
 		}
 		catch(Exception e)
 		{
-			_log.log(Level.WARNING, "could not restore container:", e);
+			LOGGER.warn( "could not restore container:", e);
 		}
 		finally
 		{

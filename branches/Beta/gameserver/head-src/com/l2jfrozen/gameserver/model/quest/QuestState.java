@@ -19,10 +19,11 @@
 package com.l2jfrozen.gameserver.model.quest;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -54,7 +55,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class QuestState
 {
-	protected static final Logger _log = Logger.getLogger(Quest.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Quest.class.getClass());
 
 	/** Quest associated to the QuestState */
 	private final String _questName;
@@ -255,7 +256,7 @@ public final class QuestState
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				//_log.info(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent: " + e);
+				//LOGGER.info(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent: " + e);
 				
 			}
 			
@@ -279,13 +280,13 @@ public final class QuestState
 				}
 				catch(NumberFormatException e)
 				{
-					_log.info(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent... ");
+					LOGGER.info(getPlayer().getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent... ");
 					e.printStackTrace();
 				}
 				
 			}else{
 				
-				_log.info(getPlayer().getName() + ", " + getQuestName() + " cond [null] is not an integer.  Value stored, but no packet was sent... ");
+				LOGGER.info(getPlayer().getName() + ", " + getQuestName() + " cond [null] is not an integer.  Value stored, but no packet was sent... ");
 				
 			}
 		
@@ -459,7 +460,7 @@ public final class QuestState
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.info(getPlayer().getName() + ": variable " + var + " isn't an integer: returned value will be " + varint + e);
+				LOGGER.info(getPlayer().getName() + ": variable " + var + " isn't an integer: returned value will be " + varint + e);
 				
 				if(Config.AUTODELETE_INVALID_QUEST_DATA)
 				{
@@ -1003,7 +1004,7 @@ public final class QuestState
 
 		if(text == null)
 		{
-			_log.warning("missing html page data/scripts/quests/255_Tutorial/" + html);
+			LOGGER.warn("missing html page data/scripts/quests/255_Tutorial/" + html);
 			text = "<html><body>File data/scripts/quests/255_Tutorial/" + html + " not found or file is empty.</body></html>";
 		}
 

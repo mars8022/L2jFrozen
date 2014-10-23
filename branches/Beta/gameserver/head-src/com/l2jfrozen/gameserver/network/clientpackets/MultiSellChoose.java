@@ -14,9 +14,9 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
  */
 public class MultiSellChoose extends L2GameClientPacket
 {
-        private static Logger _log = Logger.getLogger(MultiSellChoose.class.getName());
+        private static Logger LOGGER = Logger.getLogger(MultiSellChoose.class.getClass());
         private int _listId;
         private int _entryId;
         private int _amount;
@@ -264,7 +264,7 @@ public class MultiSellChoose extends L2GameClientPacket
                                 //this is a cheat, transaction will be aborted and if any items already tanken will not be returned back to inventory!
                                 if (itemToTake == null)
                                 {
-                                        _log.severe("Character: " + player.getName() + " is trying to cheat in multisell, merchatnt id:" + (merchant!=null?merchant.getNpcId():0));
+                                        LOGGER.warn("Character: " + player.getName() + " is trying to cheat in multisell, merchatnt id:" + (merchant!=null?merchant.getNpcId():0));
                                         return;
                                 }
                                 if (itemToTake.fireEvent("MULTISELL", (Object[]) null) != null)
@@ -272,7 +272,7 @@ public class MultiSellChoose extends L2GameClientPacket
 
                                 if (itemToTake.isWear())
                                 {
-                                        _log.severe("Character: " + player.getName() + " is trying to cheat in multisell with weared item");
+                                        LOGGER.warn("Character: " + player.getName() + " is trying to cheat in multisell with weared item");
                                         return;
                                 }
 
@@ -329,13 +329,13 @@ public class MultiSellChoose extends L2GameClientPacket
                                                          *   Worst case scenario for algorithm 1 will make it run in a number of cycles given by:
                                                          * m*(2n-m+1)/2 where m is the number of items to be exchanged and n is the total
                                                          * number of inventory items that have a matching id.
-                                                         *   With algorithm 2 (sort), sorting takes n*log(n) time and the choice is done in a single cycle
+                                                         *   With algorithm 2 (sort), sorting takes n*LOGGER(n) time and the choice is done in a single cycle
                                                          * for case b (just grab the m first items) or in linear time for case a (find the beginning of items
                                                          * with correct enchantment, index x, and take all items from x to x+m).
-                                                         * Basically, whenever m > log(n) we have: m*(2n-m+1)/2 = (2nm-m*m+m)/2 >
-                                                         * (2nlogn-logn*logn+logn)/2 = nlog(n) - log(n*n) + log(n) = nlog(n) + log(n/n*n) =
-                                                         * nlog(n) + log(1/n) = nlog(n) - log(n) = (n-1)log(n)
-                                                         * So for m < log(n) then m*(2n-m+1)/2 > (n-1)log(n) and m*(2n-m+1)/2 > nlog(n)
+                                                         * Basically, whenever m > LOGGER(n) we have: m*(2n-m+1)/2 = (2nm-m*m+m)/2 >
+                                                         * (2nlogn-logn*logn+logn)/2 = nlog(n) - LOGGER(n*n) + LOGGER(n) = nlog(n) + LOGGER(n/n*n) =
+                                                         * nlog(n) + LOGGER(1/n) = nlog(n) - LOGGER(n) = (n-1)LOGGER(n)
+                                                         * So for m < LOGGER(n) then m*(2n-m+1)/2 > (n-1)LOGGER(n) and m*(2n-m+1)/2 > nlog(n)
                                                          *
                                                          * IDEALLY:
                                                          * In order to best optimize the performance, choose which algorithm to run, based on whether 2^m > n

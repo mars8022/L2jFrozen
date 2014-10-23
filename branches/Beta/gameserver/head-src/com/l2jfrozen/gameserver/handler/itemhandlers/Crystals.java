@@ -19,7 +19,7 @@
  
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class Crystals implements IItemHandler
 {
-	protected static final Logger _log = Logger.getLogger(Crystals.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Crystals.class.getClass());
 
 	private static final int[] ITEM_IDS =
 	{

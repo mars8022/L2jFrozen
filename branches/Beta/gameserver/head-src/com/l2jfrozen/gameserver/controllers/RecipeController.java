@@ -23,9 +23,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.RecipeTable;
@@ -53,7 +54,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class RecipeController
 {
-	protected static final Logger _log = Logger.getLogger(RecipeController.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(RecipeController.class.getClass());
 
 	private static RecipeController _instance;
 	protected static final Map<L2PcInstance, RecipeItemMaker> _activeMakers = Collections.synchronizedMap(new WeakHashMap<L2PcInstance, RecipeItemMaker>());
@@ -339,14 +340,14 @@ public class RecipeController
 
 			if(_player == null || _target == null)
 			{
-				_log.warning("player or target == null (disconnected?), aborting" + _target + _player);
+				LOGGER.warn("player or target == null (disconnected?), aborting" + _target + _player);
 				abort();
 				return;
 			}
 
 			if(_player.isOnline() == 0 || _target.isOnline() == 0)
 			{
-				_log.warning("player or target is not online, aborting " + _target + _player);
+				LOGGER.warn("player or target is not online, aborting " + _target + _player);
 				abort();
 				return;
 			}

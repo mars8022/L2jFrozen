@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -21,7 +22,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AutoVoteRewardHandler
 {
-	protected static final Logger _log = Logger.getLogger(AutoVoteRewardHandler.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AutoVoteRewardHandler.class.getClass());
 
 	private int hopzoneVotesCount = 0;
 	private int topzoneVotesCount = 0;
@@ -32,7 +33,7 @@ public class AutoVoteRewardHandler
 	
 	private AutoVoteRewardHandler()
 	{
-		_log.info("Vote Reward System Initiated.");
+		LOGGER.info("Vote Reward System Initiated.");
 		
 		if(hopzone){
 			int hopzone_votes = getHopZoneVotes();
@@ -68,7 +69,7 @@ public class AutoVoteRewardHandler
 				int hopzone_votes = getHopZoneVotes();
 				
 				if(hopzone_votes != -1){
-					_log.info("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
+					LOGGER.info("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
 					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual HOPZONE Votes are " + hopzone_votes + "...");
 					
 					if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
@@ -125,7 +126,7 @@ public class AutoVoteRewardHandler
 				
 				if(topzone_votes != -1){
 					
-					_log.info("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
+					LOGGER.info("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
 					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
 					
 					if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
@@ -215,7 +216,7 @@ public class AutoVoteRewardHandler
 		}
 		catch (Exception e)
 		{
-			_log.info("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
+			LOGGER.info("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] HOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
 		}
@@ -283,7 +284,7 @@ public class AutoVoteRewardHandler
 		}
 		catch (Exception e)
 		{
-			_log.info("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
+			LOGGER.info("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] TOPZONE is offline. We will check reward as it will be online again");
 			//e.printStackTrace();
 		}
