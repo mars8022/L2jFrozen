@@ -1579,17 +1579,13 @@ public final class Formulas
 			damage = improvedDamageByCriticalMulAndAdd;
 			
 		}
-		
-		damage = 70 * damage / defence;
-		
 
 		if(shld && !Config.ALT_GAME_SHIELD_BLOCKS)
 		{
 			defence += target.getShldDef();
 		}
-
 		
-		//damage = 70 * damage / defence;
+		damage = 70 * damage / defence;
 
 		if(stat != null)
 		{

@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -43,17 +44,19 @@ public class AdminCreateItem implements IAdminCommandHandler
 	private static Logger _log = Logger.getLogger(AdminCreateItem.class.getName());
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_itemcreate", "admin_create_item", "admin_mass_create", "admin_clear_inventory"
+		"admin_l2jfrozen", "admin_itemcreate", "admin_create_item", "admin_mass_create", "admin_clear_inventory"
 	};
 
 	private enum CommandEnum
 	{
+		admin_l2jfrozen,
 		admin_itemcreate,
 		admin_create_item,
 		admin_mass_create,
 		admin_clear_inventory
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)
 	{
@@ -83,6 +86,95 @@ public class AdminCreateItem implements IAdminCommandHandler
 		
 		switch(comm)
 		{
+			
+		/*
+		 * Command //l2jfrozen, it gives useful items to Gm character Crystals, Gemstones, Bss-ss, scrolls, elixirs, etc To be complete...
+		 */
+			case admin_l2jfrozen:
+				
+				// Command usable only by Administrator
+				if (activeChar.getAccessLevel().getLevel() != 1 || !activeChar.isGM())
+				{
+					activeChar.sendMessage("Only Administrators can use this command!");
+					return false;
+				}
+				
+				L2PcInstance Player = null;
+				// Items can be added only to self Gm
+				if (Player == null)
+				{
+					activeChar.setTarget(activeChar);
+					Player = activeChar;
+				}
+				
+				Player.getInventory().addItem("Admin", 1458, 5000, Player, activeChar); // Cry d
+				Player.getInventory().addItem("Admin", 1459, 5000, Player, activeChar); // Cry c
+				Player.getInventory().addItem("Admin", 1460, 5000, Player, activeChar); // Cry b
+				Player.getInventory().addItem("Admin", 1461, 5000, Player, activeChar); // Cry a
+				Player.getInventory().addItem("Admin", 1462, 5000, Player, activeChar); // Cry s
+				
+				Player.getInventory().addItem("Admin", 2130, 200, Player, activeChar); // Gem d
+				Player.getInventory().addItem("Admin", 2131, 200, Player, activeChar); // Gem c
+				Player.getInventory().addItem("Admin", 2132, 200, Player, activeChar); // Gem b
+				Player.getInventory().addItem("Admin", 2133, 200, Player, activeChar); // Gem a
+				Player.getInventory().addItem("Admin", 2134, 200, Player, activeChar); // Gem s
+				
+				Player.getInventory().addItem("Admin", 736, 10, Player, activeChar); // Scroll of Escape
+				Player.getInventory().addItem("Admin", 737, 10, Player, activeChar); // Scroll of Resurrection
+				Player.getInventory().addItem("Admin", 1538, 10, Player, activeChar); // Blessed Scroll of Escape
+				Player.getInventory().addItem("Admin", 1829, 10, Player, activeChar); // Scroll of Escape: Clan Hall
+				Player.getInventory().addItem("Admin", 1830, 10, Player, activeChar); // Scroll of Escape: Castle
+				Player.getInventory().addItem("Admin", 3936, 10, Player, activeChar); // Blessed Scroll of Resurrection
+				Player.getInventory().addItem("Admin", 5858, 10, Player, activeChar); // Blessed Scroll of Escape: Clan Hall
+				Player.getInventory().addItem("Admin", 5859, 10, Player, activeChar); // Blessed Scroll of Escape: Castle
+				
+				Player.getInventory().addItem("Admin", 1467, 1000, Player, activeChar); // Soulshot: S-grade
+				Player.getInventory().addItem("Admin", 2514, 1000, Player, activeChar); // Spiritshot: S-grade
+				Player.getInventory().addItem("Admin", 3952, 1000, Player, activeChar); // Blessed Spiritshot: S Grade
+				
+				Player.getInventory().addItem("Admin", 8627, 10, Player, activeChar); // Elixir of Life (S-Grade)
+				Player.getInventory().addItem("Admin", 8633, 10, Player, activeChar); // Elixir of Mental Strength (S-Grade)
+				Player.getInventory().addItem("Admin", 8639, 10, Player, activeChar); // Elixir of CP (S-Grade)
+				
+				Player.getInventory().addItem("Admin", 8874, 10, Player, activeChar); // Einhasad's Holy Water
+				
+				final ItemList il = new ItemList(Player, true);
+				Player.sendPacket(il);
+				activeChar.sendMessage("Items added successfully!");
+				
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7029, 4), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7041, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7042, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7043, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7044, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7045, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7046, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7047, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7048, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7049, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7050, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7051, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7052, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7053, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7054, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7055, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7056, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7057, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7058, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7059, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7058, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7059, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7060, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7061, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7062, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7063, 1), true);
+				activeChar.addSkill(SkillTable.getInstance().getInfo(7064, 1), true);
+				
+				activeChar.sendSkillList();
+				activeChar.sendMessage("Gm skills added successfully!");
+				
+				return true;
+	
 			case admin_itemcreate:
 
 				AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
