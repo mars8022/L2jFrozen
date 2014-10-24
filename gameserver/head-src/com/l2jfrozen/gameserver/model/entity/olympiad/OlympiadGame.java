@@ -113,6 +113,9 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
+				if (Config.DEBUG)
+					LOGGER.warn( "Olympiad System: Game - " + id + " aborted due to ", e);
+				
 				_aborted = true;
 				clearPlayers();
 			}
@@ -122,6 +125,9 @@ class OlympiadGame
 		}
 		else
 		{
+			if (Config.DEBUG)
+				LOGGER.warn( "Olympiad System: Game - " + id + " aborted beacause player list is null ");
+			
 			_aborted = true;
 			clearPlayers();
 			return;
@@ -148,6 +154,9 @@ class OlympiadGame
 	{
 		if (_gamestarted)
 		{
+			if (Config.DEBUG)
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " player "+player.getName()+" of account "+player.getAccountName()+" has been disconnected");
+			
 			if (player == _playerOne)
 				_playerOneDisconnected = true;
 			else if (player == _playerTwo)
@@ -294,6 +303,7 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+player.getName()+" removals, an error has been occurred:", e);
 			}
 		}
 	}
@@ -371,6 +381,7 @@ class OlympiadGame
 		}
 		catch (NullPointerException e)
 		{
+			LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on players portPlayersToArena, an error has been occurred:", e);
 			return false;
 		}
 		return true;
@@ -418,6 +429,7 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+player.getName()+" additions, an error has been occurred:", e);
 			}
 		}
 	}
@@ -430,14 +442,20 @@ class OlympiadGame
 			_sm = new SystemMessage(SystemMessageId.THE_GAME_WILL_START_IN_S1_SECOND_S);
 		
 		_sm.addNumber(nsecond);
-		try
-		{
-			for (L2PcInstance player : _players)
-				player.sendPacket(_sm);
+		
+		for (L2PcInstance player : _players){
+			try
+			{
+					player.sendPacket(_sm);
+			}
+			catch (Exception e)
+			{
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+player.getName()+" sendMessage, an error has been occurred:", e);
+				
+			}
 		}
-		catch (Exception e)
-		{
-		}
+		
+		
 	}
 	
 	protected void portPlayersBack()
@@ -496,6 +514,9 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
+				
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+player.getName()+" PlayersStatusBack, an error has been occurred:", e);
+				
 			}
 		}
 	}
@@ -519,6 +540,7 @@ class OlympiadGame
 		}
 		catch (Exception e)
 		{
+			LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+_playerOne.getName()+" haveWinner, an error has been occurred:", e);
 			playerOneHp = 0;
 		}
 		
@@ -532,6 +554,7 @@ class OlympiadGame
 		}
 		catch (Exception e)
 		{
+			LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+_playerTwo.getName()+" haveWinner, an error has been occurred:", e);
 			playerTwoHp = 0;
 		}
 		
@@ -654,7 +677,7 @@ class OlympiadGame
 				}
 				catch (Exception e)
 				{
-					e.printStackTrace();
+					LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player crashed evaluation, an error has been occurred:", e);
 				}
 				
 			}
@@ -688,7 +711,8 @@ class OlympiadGame
 				}
 				catch (Exception e)
 				{
-					e.printStackTrace();
+					LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player crashed evaluation, an error has been occurred:", e);
+					
 				}
 			}
 			else if (_pOneCrash && _pTwoCrash)
@@ -709,7 +733,8 @@ class OlympiadGame
 				}
 				catch (Exception e)
 				{
-					e.printStackTrace();
+					LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player crashed evaluation, an error has been occurred:", e);
+					
 				}
 			}
 			playerOneStat.set(COMP_DONE, playerOnePlayed + 1);
@@ -786,6 +811,8 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player validateWinner, an error has been occurred:", e);
+				
 			}
 		}
 		else if (_playerOne == null
@@ -825,6 +852,8 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
+				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player validateWinner, an error has been occurred:", e);
+				
 			}
 		}
 		else
@@ -894,19 +923,21 @@ class OlympiadGame
 		
 		_sm = new SystemMessage(SystemMessageId.STARTS_THE_GAME);
 		broadcastMessage(_sm, true);
-		try
-		{
+		
 			for (L2PcInstance player : _players)
 			{
-				player.setIsOlympiadStart(true);
+				try
+				{
+					player.setIsOlympiadStart(true);
+				}
+				catch (Exception e)
+				{
+					LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+player.getName()+" makeCompetitionStart, an error has been occurred:", e);
+					_aborted = true;
+				}
 			}
-		}
-		catch (Exception e)
-		{
-			_aborted = true;
-			return false;
-		}
-		return true;
+		
+		return !_aborted;
 	}
 	
 	protected void addDamage(L2PcInstance player, int damage)
@@ -948,14 +979,25 @@ class OlympiadGame
 		}
 		catch (Exception e)
 		{
+			LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on players broadcastMessage, an error has been occurred:", e);
+			
 		}
 		
 		if (toAll && OlympiadManager.STADIUMS[_stadiumID].getSpectators() != null)
 		{
 			for (L2PcInstance spec : OlympiadManager.STADIUMS[_stadiumID].getSpectators())
 			{
-				if (spec != null)
-					spec.sendPacket(sm);
+				if (spec != null){
+					try
+					{
+						spec.sendPacket(sm);
+					}catch (Exception e)
+					{
+						LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " on player "+spec.getName()+" broadcastMessage, an error has been occurred:", e);
+						
+					}
+					
+				}
 			}
 		}
 	}
@@ -1209,14 +1251,16 @@ class OlympiadGameTask implements Runnable
 			try
 			{
 				Thread.sleep(2000);
-				// If game haveWinner then stop waiting battle_period
-				// and validate winner
-				if (_game.haveWinner())
-					break;
+				
 			}
 			catch (InterruptedException e)
 			{
 			}
+			
+			// If game haveWinner then stop waiting battle_period
+			// and validate winner
+			if (_game.haveWinner())
+				break;
 		}
 		
 		return checkBattleStatus();

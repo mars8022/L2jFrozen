@@ -1307,7 +1307,6 @@ public class Olympiad
 					names.add(rset.getString(CHAR_NAME));
 				}
 			}
-			return names;
 		}
 		catch (SQLException e)
 		{
