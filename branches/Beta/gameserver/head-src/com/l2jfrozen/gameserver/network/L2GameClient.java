@@ -965,9 +965,33 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 //					_autoSaveInDB.cancel(true);
 
 				L2PcInstance player = L2GameClient.this.getActiveChar();
-				if(player != null) // this should only happen on connection loss
+				if (player != null) // this should only happen on connection loss
 				{
-
+					// Olympiad crash DEBUG
+					if (Config.ENABLE_OLYMPIAD_DISCONNECTION_DEBUG)
+					{
+						if (player.isInOlympiadMode()
+						
+						|| player.inObserverMode())
+						{
+							if (player.isInOlympiadMode())
+							{
+								String text = "Player " + player.getName() + ", Class:" + player.getClassId() + ", Level:" + player.getLevel() + ", Mode: Olympiad, Loc: " + player.getX() + " Y:" + player.getY() + " Z:" + player.getZ() + ", Critical?: " + _forcedToClose;
+								Log.add(text, "Olympiad_crash_debug");
+							}
+							else if (player.inObserverMode())
+							{
+								String text = "Player " + player.getName() + ", Class:" + player.getClassId() + ", Level:" + player.getLevel() + ", Mode: Observer, Loc: " + player.getX() + " Y:" + player.getY() + " Z:" + player.getZ() + ", Critical?: " + _forcedToClose;
+								Log.add(text, "Olympiad_crash_debug");
+							}
+							else
+							{
+								String text = "Player " + player.getName() + ", Class:" + player.getClassId() + ", Level:" + player.getLevel() + ", Mode: Default, Loc: " + player.getX() + " Y:" + player.getY() + " Z:" + player.getZ() + ", Critical?: " + _forcedToClose;
+								Log.add(text, "Olympiad_crash_debug");
+							}
+						}
+					}
+					
 					// we store all data from players who are disconnected while in an event in order to restore it in the next login
 					if(player.atEvent)
 					{

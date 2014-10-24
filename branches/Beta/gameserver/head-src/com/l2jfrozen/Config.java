@@ -1876,6 +1876,7 @@ public final class Config
 	public static boolean ALT_DEV_NO_RB;
 	public static boolean ALT_DEV_NO_AI;
 	public static boolean SKILLSDEBUG;
+	public static boolean ENABLE_OLYMPIAD_DEBUG;
 	public static boolean DEBUG;
 	public static boolean ASSERT;
 	public static boolean DEVELOPER;
@@ -1923,6 +1924,7 @@ public final class Config
 			devSettings.load(is);
 			is.close();
 
+			ENABLE_OLYMPIAD_DEBUG = Boolean.parseBoolean(devSettings.getProperty("EnableOlympiadDebug",  "false"));
 			SKILLSDEBUG = Boolean.parseBoolean(devSettings.getProperty("SkillsDebug", "false"));
 			DEBUG = Boolean.parseBoolean(devSettings.getProperty("Debug", "false"));
 			ASSERT = Boolean.parseBoolean(devSettings.getProperty("Assert", "false"));

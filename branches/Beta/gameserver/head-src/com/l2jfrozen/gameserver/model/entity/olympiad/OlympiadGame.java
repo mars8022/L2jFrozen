@@ -113,19 +113,19 @@ class OlympiadGame
 			}
 			catch (Exception e)
 			{
-				if (Config.DEBUG)
+				if (Config.ENABLE_OLYMPIAD_DEBUG)
 					LOGGER.warn( "Olympiad System: Game - " + id + " aborted due to ", e);
 				
 				_aborted = true;
 				clearPlayers();
 			}
 			
-			if (Config.DEBUG)
+			if (Config.ENABLE_OLYMPIAD_DEBUG)
 				LOGGER.info("Olympiad System: Game - " + id + ": " + _playerOne.getName() + " Vs " + _playerTwo.getName());
 		}
 		else
 		{
-			if (Config.DEBUG)
+			if (Config.ENABLE_OLYMPIAD_DEBUG)
 				LOGGER.warn( "Olympiad System: Game - " + id + " aborted beacause player list is null ");
 			
 			_aborted = true;
@@ -154,7 +154,7 @@ class OlympiadGame
 	{
 		if (_gamestarted)
 		{
-			if (Config.DEBUG)
+			if (Config.ENABLE_OLYMPIAD_DEBUG)
 				LOGGER.warn( "Olympiad System: Game - " + _stadiumID + " player "+player.getName()+" of account "+player.getAccountName()+" has been disconnected");
 			
 			if (player == _playerOne)
@@ -621,7 +621,7 @@ class OlympiadGame
 				sm.addNumber(lostPoints);
 				broadcastMessage(sm, false);
 
-				if (Config.DEBUG)
+				if (Config.ENABLE_OLYMPIAD_DEBUG)
 					LOGGER.info("Olympia Result: " + _playerOneName + " lost " + lostPoints + " points for defaulting");
 				
 				Olympiad.logResult(_playerOneName,_playerTwoName,0D,0D,0,0,_playerOneName+" default",lostPoints,classed);
@@ -636,7 +636,7 @@ class OlympiadGame
 				sm.addNumber(lostPoints);
 				broadcastMessage(sm, false);
 
-				if (Config.DEBUG)
+				if (Config.ENABLE_OLYMPIAD_DEBUG)
 					LOGGER.info("Olympia Result: " + _playerTwoName + " lost " + lostPoints + " points for defaulting");
 				
 				Olympiad.logResult(_playerOneName,_playerTwoName,0D,0D,0,0,_playerTwoName+" default",lostPoints,classed);
@@ -654,7 +654,7 @@ class OlympiadGame
 					playerOneStat.set(POINTS, playerOnePoints - pointDiff);
 					playerOneStat.set(COMP_LOST, playerOneLost + 1);
 					
-					if (Config.DEBUG)
+					if (Config.ENABLE_OLYMPIAD_DEBUG)
 						LOGGER.info("Olympia Result: " + _playerOneName + " vs " + _playerTwoName + " ... "
 						        + _playerOneName + " lost " + pointDiff + " points for crash");
 					
@@ -663,7 +663,7 @@ class OlympiadGame
 					playerTwoStat.set(POINTS, playerTwoPoints + pointDiff);
 					playerTwoStat.set(COMP_WON, playerTwoWon + 1);
 					
-					if (Config.DEBUG)
+					if (Config.ENABLE_OLYMPIAD_DEBUG)
 						LOGGER.info("Olympia Result: " + _playerOneName + " vs " + _playerTwoName + " ... "
 						        + _playerTwoName + " Win " + pointDiff + " points");
 					
@@ -688,7 +688,7 @@ class OlympiadGame
 					playerTwoStat.set(POINTS, playerTwoPoints - pointDiff);
 					playerTwoStat.set(COMP_LOST, playerTwoLost + 1);
 					
-					if (Config.DEBUG)
+					if (Config.ENABLE_OLYMPIAD_DEBUG)
 						LOGGER.info("Olympia Result: " + _playerTwoName + " vs " + _playerOneName + " ... " 
 								+ _playerTwoName + " lost " + pointDiff + " points for crash");
 					
@@ -697,7 +697,7 @@ class OlympiadGame
 					playerOneStat.set(POINTS, playerOnePoints + pointDiff);
 					playerOneStat.set(COMP_WON, playerOneWon + 1);
 					
-					if (Config.DEBUG)
+					if (Config.ENABLE_OLYMPIAD_DEBUG)
 						LOGGER.info("Olympia Result: " + _playerTwoName + " vs " + _playerOneName + " ... "
 						        + _playerOneName + " Win " + pointDiff + " points");
 					
@@ -725,7 +725,7 @@ class OlympiadGame
 					playerTwoStat.set(POINTS, playerTwoPoints - pointDiff);
 					playerTwoStat.set(COMP_LOST, playerTwoLost + 1);
 					
-					if (Config.DEBUG)
+					if (Config.ENABLE_OLYMPIAD_DEBUG)
 						LOGGER.info("Olympia Result: " + _playerOneName + " vs " + _playerTwoName + " ... " 
 								+ " both lost " + pointDiff + " points for crash");
 					
@@ -877,7 +877,7 @@ class OlympiadGame
 		 	broadcastMessage(_sm3, false);
 		}
 		
-		if (Config.DEBUG)
+		if (Config.ENABLE_OLYMPIAD_DEBUG)
 			LOGGER.info("Olympia Result: " + _playerOneName + " vs " + _playerTwoName + " ... " + result);
 		
 		playerOneStat.set(COMP_DONE, playerOnePlayed + 1);
