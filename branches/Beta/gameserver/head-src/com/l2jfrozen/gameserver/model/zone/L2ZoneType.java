@@ -19,6 +19,7 @@ package com.l2jfrozen.gameserver.model.zone;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
@@ -34,6 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
  */
 public abstract class L2ZoneType
 {
+	private final Logger LOGGER = Logger.getLogger(L2ZoneType.class.getClass());
 	private final int _id;
 	protected L2ZoneForm _zone;
 	public FastMap<Integer, L2Character> _characterList;
@@ -283,11 +285,11 @@ public abstract class L2ZoneType
 		
 		if(Config.DEBUG &&  character instanceof L2PcInstance && ((L2PcInstance)character).isGM()){
 			
-			System.out.println("Character "+character.getName() +" has coords: ");
-			System.out.println("	X: "+character.getX());
-			System.out.println("	Y: "+character.getY());
-			System.out.println("	Z: "+character.getZ());
-			System.out.println(" -  is inside zone "+_id+"?: "+_zone.isInsideZone(character.getX(), character.getY(), character.getZ()));
+			LOGGER.info("Character "+character.getName() +" has coords: ");
+			LOGGER.info("	X: "+character.getX());
+			LOGGER.info("	Y: "+character.getY());
+			LOGGER.info("	Z: "+character.getZ());
+			LOGGER.info(" -  is inside zone "+_id+"?: "+_zone.isInsideZone(character.getX(), character.getY(), character.getZ()));
 			
 		}
 		
@@ -316,7 +318,7 @@ public abstract class L2ZoneType
 			
 			for(L2Character actual: _characterList.values()){
 				if(actual instanceof L2PcInstance)
-					System.out.println("	 -  "+actual.getName()+" is inside zone "+_id);
+					LOGGER.info("	 -  "+actual.getName()+" is inside zone "+_id);
 			}
 		}
 		

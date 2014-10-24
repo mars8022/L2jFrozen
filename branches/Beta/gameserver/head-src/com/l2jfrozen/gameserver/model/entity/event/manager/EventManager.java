@@ -155,7 +155,7 @@ public class EventManager
 		for(String time:TVT_TIMES_LIST){
 			
 			TvT newInstance = TvT.getNewInstance();
-			//System.out.println("registerTvT: reg.time: "+time);
+			//LOGGER.info("registerTvT: reg.time: "+time);
 			newInstance.setEventStartTime(time);
 			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
 			
@@ -178,7 +178,7 @@ public class EventManager
 		for(String time:CTF_TIMES_LIST){
 			
 			CTF newInstance = CTF.getNewInstance();
-			//System.out.println("registerCTF: reg.time: "+time);
+			//LOGGER.info("registerCTF: reg.time: "+time);
 			newInstance.setEventStartTime(time);
 			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
 			
@@ -199,7 +199,7 @@ public class EventManager
 		for(String time:DM_TIMES_LIST){
 			
 			DM newInstance = DM.getNewInstance();
-			//System.out.println("registerDM: reg.time: "+time);
+			//LOGGER.info("registerDM: reg.time: "+time);
 			newInstance.setEventStartTime(time);
 			EventsGlobalTask.getInstance().registerNewEventTask(newInstance);
 			

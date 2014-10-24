@@ -567,7 +567,8 @@ public class ItemTable
 		}
 		else
 		{
-			LOGGER.info("Unknown etcitem type:" + itemType);
+			if (Config.DEBUG)
+				LOGGER.info("Unknown etcitem type:" + itemType);
 			item.type = L2EtcItemType.OTHER;
 		}
 		itemType = null;
@@ -690,7 +691,7 @@ public class ItemTable
 		}
 
 		// Create a FastLookUp Table called _allTemplates of size : value of the highest item ID
-		LOGGER.info("Highest item id used: {}"+" "+ highestId);
+		LOGGER.info("Highest item id used: " + highestId);
 
 		_allTemplates = new L2Item[highestId + 1];
 
@@ -776,7 +777,8 @@ public class ItemTable
 			item.setItemLootShedule(itemLootShedule);
 		}
 
-		LOGGER.info("ItemTable: Item created  oid: {} itemid: {}"+" "+ item.getObjectId()+" "+ itemId);
+		if (Config.DEBUG)
+			LOGGER.info("ItemTable: Item created  oid: {} itemid: {}"+" "+ item.getObjectId()+" "+ itemId);
 
 		// Add the L2ItemInstance object to _allObjects of L2world
 		L2World.getInstance().storeObject(item);

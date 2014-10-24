@@ -17,6 +17,8 @@
  */
 package com.l2jfrozen.gameserver.model.zone;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastList;
 
 import com.l2jfrozen.Config;
@@ -30,6 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class L2ZoneManager
 {
+	private final Logger LOGGER = Logger.getLogger(L2ZoneManager.class.getClass());
 	private FastList<L2ZoneType> _zones;
 
 	/**
@@ -37,7 +40,7 @@ public class L2ZoneManager
 	 */
 	public L2ZoneManager()
 	{
-		_zones = new FastList<L2ZoneType>();
+		_zones = new FastList<>();
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class L2ZoneManager
 	public void revalidateZones(L2Character character)
 	{
 		if(Config.DEBUG && character!=null && character instanceof L2PcInstance && character.getName()!=null)
-			System.out.println("Revalidating Zone for character: "+character.getName());
+			LOGGER.debug("Revalidating Zone for character: "+character.getName());
 		
 		for(L2ZoneType e : _zones)
 		{

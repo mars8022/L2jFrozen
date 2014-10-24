@@ -1430,10 +1430,10 @@ public class Castle
 	public void oustAllPlayers()
 	{
 		if(Config.DEBUG && _teleZone!=null){
-			System.out.println("Castle Teleport Zone ID: "+_teleZone.getId());
-			System.out.println("Players Number in Castle Teleport Zone: "+_teleZone.getAllPlayers().size());
+			LOGGER.info("Castle Teleport Zone ID: "+_teleZone.getId());
+			LOGGER.info("Players Number in Castle Teleport Zone: "+_teleZone.getAllPlayers().size());
 			for(L2Character actual:_teleZone.getAllPlayers()){
-				System.out.println("	Player Name: "+actual.getName());
+				LOGGER.info("	Player Name: "+actual.getName());
 			}
 		}
 		getTeleZone().oustAllPlayers();

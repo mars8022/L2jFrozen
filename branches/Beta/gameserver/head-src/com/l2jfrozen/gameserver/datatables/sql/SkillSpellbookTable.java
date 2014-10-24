@@ -39,7 +39,7 @@ public class SkillSpellbookTable
 	private final static Logger LOGGER = Logger.getLogger(SkillTreeTable.class.getClass());
 	private static SkillSpellbookTable _instance;
 
-	private static Map<Integer, Integer> _skillSpellbooks;
+	private static Map<Integer, Integer> skillSpellbooks;
 
 	public static SkillSpellbookTable getInstance()
 	{
@@ -53,7 +53,7 @@ public class SkillSpellbookTable
 
 	private SkillSpellbookTable()
 	{
-		_skillSpellbooks = new FastMap<>();
+		skillSpellbooks = new FastMap<>();
 		Connection con = null;
 
 		try
@@ -64,13 +64,13 @@ public class SkillSpellbookTable
 
 			while(spbooks.next())
 			{
-				_skillSpellbooks.put(spbooks.getInt("skill_id"), spbooks.getInt("item_id"));
+				skillSpellbooks.put(spbooks.getInt("skill_id"), spbooks.getInt("item_id"));
 			}
 
 			spbooks.close();
 			statement.close();
 
-			LOGGER.info("SkillSpellbookTable: Loaded {} Spellbooks."+" "+ _skillSpellbooks.size());
+			LOGGER.info("SkillSpellbookTable: Loaded " + skillSpellbooks.size() + " spellbooks");
 		}
 		catch(Exception e)
 		{
@@ -101,10 +101,10 @@ public class SkillSpellbookTable
 			}
 		}
 
-		if(!_skillSpellbooks.containsKey(skillId))
+		if(!skillSpellbooks.containsKey(skillId))
 			return -1;
 
-		return _skillSpellbooks.get(skillId);
+		return skillSpellbooks.get(skillId);
 	}
 
 	public int getBookForSkill(L2Skill skill)

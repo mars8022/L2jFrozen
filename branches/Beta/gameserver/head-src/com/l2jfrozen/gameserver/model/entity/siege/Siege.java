@@ -1246,7 +1246,7 @@ public class Siege
 	{
 		correctSiegeDateTime();
 
-		System.out.println("Siege of " + getCastle().getName() + ": " + getCastle().getSiegeDate().getTime());
+		LOGGER.info("Siege of " + getCastle().getName() + ": " + getCastle().getSiegeDate().getTime());
 
 		loadSiegeClan();
 
@@ -1509,7 +1509,7 @@ public class Siege
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: loadSiegeClan(): " + e.getMessage());
+			LOGGER.info("Exception: loadSiegeClan(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -1610,7 +1610,7 @@ public class Siege
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: saveSiegeDate(): " + e.getMessage());
+			LOGGER.info("Exception: saveSiegeDate(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -1689,7 +1689,7 @@ public class Siege
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: saveSiegeClan(L2Clan clan, int typeId, boolean isUpdateRegistration): " + e.getMessage());
+			LOGGER.info("Exception: saveSiegeClan(L2Clan clan, int typeId, boolean isUpdateRegistration): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

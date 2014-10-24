@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.util.logging.LogManager;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
@@ -54,6 +55,7 @@ public class L2LoginServer
 	
 	public static void main(String[] args)
 	{
+		PropertyConfigurator.configure(FService.LOG_CONF_FILE);
 		_instance = new L2LoginServer();
 	}
 
@@ -70,7 +72,7 @@ public class L2LoginServer
 		File logFolderBase = new File(LOG_FOLDER_BASE);
 		logFolderBase.mkdir();
 		
-		final String LOG_FOLDER = "LOGGER/login"; // Name of folder for LOGGER file
+		final String LOG_FOLDER = "log/login"; // Name of folder for LOGGER file
 		
 		/*** Main ***/
 		// Create LOGGER folder

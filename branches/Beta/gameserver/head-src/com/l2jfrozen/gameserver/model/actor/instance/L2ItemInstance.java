@@ -1176,7 +1176,7 @@ public final class L2ItemInstance extends L2Object
 	 */
 	public void updateDatabase()
 	{
-		//System.out.println("Item: "+getItemId()+" Loc: "+_loc.name()+" ExistInDb: "+_existsInDb+" owner: "+_ownerId);
+		//LOGGER.info("Item: "+getItemId()+" Loc: "+_loc.name()+" ExistInDb: "+_existsInDb+" owner: "+_ownerId);
 		
 		
 		if(isWear())

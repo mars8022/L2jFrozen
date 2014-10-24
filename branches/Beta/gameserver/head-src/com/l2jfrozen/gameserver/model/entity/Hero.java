@@ -203,9 +203,9 @@ public class Hero
         {
             if (Config.DEBUG)
             {
-                System.out.println("Adding new hero");
-                System.out.println("Name:" + player.getName());
-                System.out.println("ClassId:" + player.getClassId().getId());
+                LOGGER.info("Adding new hero");
+                LOGGER.info("Name:" + player.getName());
+                LOGGER.info("ClassId:" + player.getClassId().getId());
             }
             StatsSet newHero = new StatsSet();
             newHero.set(Olympiad.CHAR_NAME, player.getName());

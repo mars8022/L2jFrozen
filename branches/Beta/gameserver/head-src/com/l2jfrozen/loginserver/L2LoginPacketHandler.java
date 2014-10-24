@@ -19,6 +19,8 @@ package com.l2jfrozen.loginserver;
 
 import java.nio.ByteBuffer;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.loginserver.L2LoginClient.LoginClientState;
 import com.l2jfrozen.loginserver.network.clientpackets.AuthGameGuard;
@@ -36,6 +38,8 @@ import com.l2jfrozen.netcore.ReceivablePacket;
 
 public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 {
+	private final Logger LOGGER = Logger.getLogger(L2LoginPacketHandler.class.getClass());
+	
 	@Override
 	public ReceivablePacket<L2LoginClient> handlePacket(ByteBuffer buf, L2LoginClient client)
 	{
@@ -104,6 +108,6 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 	
 	private void debugOpcode(int opcode, LoginClientState state)
 	{
-		System.out.println("Unknown Opcode: " + opcode + " for state: " + state.name());
+		LOGGER.debug("Unknown Opcode: " + opcode + " for state: " + state.name());
 	}
 }

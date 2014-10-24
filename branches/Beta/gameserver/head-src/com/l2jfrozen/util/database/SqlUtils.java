@@ -278,7 +278,7 @@ public class SqlUtils
 
 		try
 		{
-			System.out.println("Optimization gameserver tables...");
+			LOGGER.info("Optimization gameserver tables...");
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(GAME_QUICK_OPTIMIZE);
 			statement.execute();
@@ -289,13 +289,13 @@ public class SqlUtils
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			System.out.println("Optimization failed");
+			LOGGER.info("Optimization failed");
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
-		System.out.println("Optimization gameserver tables completed.");
+		LOGGER.info("Optimization gameserver tables completed.");
 	}
 
 	public static void OpzLogin()
@@ -307,7 +307,7 @@ public class SqlUtils
 
 		try
 		{
-			System.out.println("Optimization loginserver tables...");
+			LOGGER.info("Optimization loginserver tables...");
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(LOGIN_QUICK_OPTIMIZE);
 			statement.execute();
@@ -318,13 +318,13 @@ public class SqlUtils
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			System.out.println("Optimization failed");
+			LOGGER.info("Optimization failed");
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 		
-		System.out.println("Optimization loginserver tables completed.");
+		LOGGER.info("Optimization loginserver tables completed.");
 	}
 }

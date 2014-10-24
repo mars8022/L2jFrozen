@@ -17,11 +17,14 @@
  */
 package com.l2jfrozen.gameserver.model.actor.stat;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 
 public class PlayableStat extends CharStat
 {
+	private final Logger LOGGER = Logger.getLogger(PlayableStat.class.getClass());
 	public PlayableStat(L2PlayableInstance activeChar)
 	{
 		super(activeChar);
@@ -160,7 +163,7 @@ public class PlayableStat extends CharStat
 	{
 		if(value < 0)
 		{
-			System.out.println("wrong usage");
+			LOGGER.info("wrong usage");
 			return false;
 		}
 

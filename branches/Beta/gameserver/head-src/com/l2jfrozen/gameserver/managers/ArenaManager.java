@@ -17,6 +17,8 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -25,13 +27,14 @@ import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;
 public class ArenaManager
 {
 	// =========================================================
-	private static ArenaManager _instance;
+	private static ArenaManager _instance;	
+	private static final Logger LOGGER = Logger.getLogger(ArenaManager.class.getClass());
 
 	public static final ArenaManager getInstance()
 	{
 		if(_instance == null)
 		{
-			System.out.println("Initializing ArenaManager");
+			LOGGER.info("Initializing ArenaManager");
 			_instance = new ArenaManager();
 		}
 		return _instance;

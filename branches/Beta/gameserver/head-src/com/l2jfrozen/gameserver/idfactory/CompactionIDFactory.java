@@ -116,7 +116,7 @@ public class CompactionIDFactory extends IdFactory
         for (int i = 1; i <= hole; i++)
         {
             id = tmp_obj_ids[N - i];
-            System.out.println("Compacting DB object ID=" + id + " into " + (_curOID));
+            LOGGER.info("Compacting DB object ID=" + id + " into " + (_curOID));
             for (String update : ID_UPDATES)
             {
                 PreparedStatement ps = con.prepareStatement(update);

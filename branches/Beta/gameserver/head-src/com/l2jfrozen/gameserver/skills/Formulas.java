@@ -1328,10 +1328,10 @@ public final class Formulas
 			double improvedDamageByCriticalVulnAndAdd =  (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, improvedDamageByCriticalVuln, target, skill));
 			
 			if(Config.DEBUG){
-				System.out.println("Attacker '"+attacker.getName()+"' Dagger Critical Damage Debug:");
-				System.out.println("	-	Initial Damage:  "+damage);
-				System.out.println("	-	improvedDamageByCriticalVuln: "+improvedDamageByCriticalVuln);
-				System.out.println("	-	improvedDamageByCriticalVulnAndAdd: "+improvedDamageByCriticalVulnAndAdd);
+				LOGGER.info("Attacker '"+attacker.getName()+"' Dagger Critical Damage Debug:");
+				LOGGER.info("	-	Initial Damage:  "+damage);
+				LOGGER.info("	-	improvedDamageByCriticalVuln: "+improvedDamageByCriticalVuln);
+				LOGGER.info("	-	improvedDamageByCriticalVulnAndAdd: "+improvedDamageByCriticalVulnAndAdd);
 			}
 			
 			damage = improvedDamageByCriticalVulnAndAdd;
@@ -1568,12 +1568,12 @@ public final class Formulas
 			double improvedDamageByCriticalMulAndAdd = improvedDamageByCriticalMulAndVuln + attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill);
 			
 			if(Config.DEBUG){
-				System.out.println("Attacker '"+attacker.getName()+"' Critical Damage Debug:");
-				System.out.println("	-	Initial Damage:  "+damage);
-				System.out.println("	-	Damage increased of mult:  "+cAtkMultiplied);
-				System.out.println("	-	cAtkVuln Mult:  "+cAtkVuln);
-				System.out.println("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
-				System.out.println("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
+				LOGGER.info("Attacker '"+attacker.getName()+"' Critical Damage Debug:");
+				LOGGER.info("	-	Initial Damage:  "+damage);
+				LOGGER.info("	-	Damage increased of mult:  "+cAtkMultiplied);
+				LOGGER.info("	-	cAtkVuln Mult:  "+cAtkVuln);
+				LOGGER.info("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
+				LOGGER.info("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
 			}
 			
 			damage = improvedDamageByCriticalMulAndAdd;
@@ -3143,10 +3143,10 @@ public final class Formulas
 			double improvedDamageByCriticalVulnAndAdd =  (attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, improvedDamageByCriticalVuln, target, skill));
 			
 			if(Config.DEBUG){
-				System.out.println("Attacker '"+attacker.getName()+"' Charge Skills Critical Damage Debug:");
-				System.out.println("	-	Initial Damage:  "+damage);
-				System.out.println("	-	improvedDamageByCriticalVuln: "+improvedDamageByCriticalVuln);
-				System.out.println("	-	improvedDamageByCriticalVulnAndAdd: "+improvedDamageByCriticalVulnAndAdd);
+				LOGGER.info("Attacker '"+attacker.getName()+"' Charge Skills Critical Damage Debug:");
+				LOGGER.info("	-	Initial Damage:  "+damage);
+				LOGGER.info("	-	improvedDamageByCriticalVuln: "+improvedDamageByCriticalVuln);
+				LOGGER.info("	-	improvedDamageByCriticalVulnAndAdd: "+improvedDamageByCriticalVulnAndAdd);
 			}
 			
 			damage = improvedDamageByCriticalVulnAndAdd;
@@ -3159,12 +3159,12 @@ public final class Formulas
 			double improvedDamageByCriticalMulAndAdd = improvedDamageByCriticalMulAndVuln + attacker.calcStat(Stats.CRITICAL_DAMAGE_ADD, 0, target, skill);
 			
 			if(Config.DEBUG){
-				System.out.println("Attacker '"+attacker.getName()+"' Critical Skill Damage Debug:");
-				System.out.println("	-	Initial Damage:  "+damage);
-				System.out.println("	-	Damage increased of mult:  "+cAtkMultiplied);
-				System.out.println("	-	cAtkVuln Mult:  "+cAtkVuln);
-				System.out.println("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
-				System.out.println("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
+				LOGGER.info("Attacker '"+attacker.getName()+"' Critical Skill Damage Debug:");
+				LOGGER.info("	-	Initial Damage:  "+damage);
+				LOGGER.info("	-	Damage increased of mult:  "+cAtkMultiplied);
+				LOGGER.info("	-	cAtkVuln Mult:  "+cAtkVuln);
+				LOGGER.info("	-	improvedDamageByCriticalMulAndVuln: "+improvedDamageByCriticalMulAndVuln);
+				LOGGER.info("	-	improvedDamageByCriticalMulAndAdd: "+improvedDamageByCriticalMulAndAdd);
 			}
 			
 			damage = improvedDamageByCriticalMulAndAdd;
@@ -3267,7 +3267,7 @@ public final class Formulas
 			damage *= 1.04;
 		}
 
-		//System.out.println("	-	Final damage: "+damage);
+		//LOGGER.info("	-	Final damage: "+damage);
 		
 		if(shld && Config.ALT_GAME_SHIELD_BLOCKS)
 		{

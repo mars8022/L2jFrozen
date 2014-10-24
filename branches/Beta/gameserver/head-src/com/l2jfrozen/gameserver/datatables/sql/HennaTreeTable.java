@@ -29,6 +29,7 @@ import javolution.util.FastMap;
 
 import org.apache.log4j.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2HennaInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
@@ -114,7 +115,8 @@ public class HennaTreeTable
 				statement2.close();
 
 				count += list.size();
-				LOGGER.info("Henna Tree for Class: " + classId + " has " + list.size() + " Henna Templates.");
+				if (Config.DEBUG)
+					LOGGER.info("Henna Tree for Class: " + classId + " has " + list.size() + " Henna Templates.");
 			}
 
 			classlist.close();
@@ -130,7 +132,7 @@ public class HennaTreeTable
 			CloseUtil.close(con);
 		}
 
-		LOGGER.info("HennaTreeTable: Loaded {} Henna Tree Templates."+" "+ count);
+		LOGGER.info("HennaTreeTable: Loaded " + count + " Henna Tree Templates.");
 
 	}
 

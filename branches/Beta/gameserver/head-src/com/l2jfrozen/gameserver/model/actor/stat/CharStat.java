@@ -17,6 +17,8 @@
  */
 package com.l2jfrozen.gameserver.model.actor.stat;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -30,6 +32,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
  */
 public class CharStat
 {
+	private final Logger LOGGER = Logger.getLogger(CharStat.class.getClass());
 	// =========================================================
 	// Data Field
 	/** The _active char. */
@@ -847,7 +850,7 @@ public class CharStat
 		int range = (int) calcStat(Stats.POWER_ATTACK_RANGE, _activeChar.getTemplate().baseAtkRange, null, null);
 
 		if(Config.DEBUG && _activeChar instanceof L2PcInstance){
-			System.out.println("	Player 	- "+_activeChar.getName()+" - PhysicalAttackRange is - "+range+" -");
+			LOGGER.debug("	Player 	- "+_activeChar.getName()+" - PhysicalAttackRange is - "+range+" -");
 		}
 		
 		return range;

@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.crypt;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 
 /**
@@ -37,6 +39,8 @@ public class Base64
 {
 
 	/* ********  P U B L I C   F I E L D S  ******** */
+	
+	public final static Logger LOGGER = Logger.getLogger(Base64.class.getClass());
 
 	/** No options specified. Value is zero. */
 	public final static int NO_OPTIONS = 0;
@@ -847,13 +851,12 @@ public class Base64
 			}
 			catch(Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
+				LOGGER.error(e);
 				
-				System.out.println("" + source[srcOffset] + ": " + DECODABET[source[srcOffset]]);
-				System.out.println("" + source[srcOffset + 1] + ": " + DECODABET[source[srcOffset + 1]]);
-				System.out.println("" + source[srcOffset + 2] + ": " + DECODABET[source[srcOffset + 2]]);
-				System.out.println("" + source[srcOffset + 3] + ": " + DECODABET[source[srcOffset + 3]]);
+				LOGGER.error("" + source[srcOffset] + ": " + DECODABET[source[srcOffset]]);
+				LOGGER.error("" + source[srcOffset + 1] + ": " + DECODABET[source[srcOffset + 1]]);
+				LOGGER.error("" + source[srcOffset + 2] + ": " + DECODABET[source[srcOffset + 2]]);
+				LOGGER.error("" + source[srcOffset + 3] + ": " + DECODABET[source[srcOffset + 3]]);
 				return -1;
 			} //e nd catch
 		}

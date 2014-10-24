@@ -333,7 +333,7 @@ public class Shutdown extends Thread
 					t.printStackTrace();
 			}
 			
-			System.out.println("Committing all data, last chance...");
+			LOGGER.info("Committing all data, last chance...");
 			
 			// commit data, last chance
 			try
@@ -346,14 +346,14 @@ public class Shutdown extends Thread
 					t.printStackTrace();
 			}
 			
-			System.out.println("All database data committed.");
+			LOGGER.info("All database data committed.");
 			
 			System.runFinalization();
 			System.gc();
 			
-			System.out.println("Memory cleanup, recycled unused objects.");
+			LOGGER.info("Memory cleanup, recycled unused objects.");
 			
-			System.out.println("[STATUS] Server shutdown successfully.");
+			LOGGER.info("[STATUS] Server shutdown successfully.");
 			
 			// server will quit, when this function ends.
 			if (_instance._shutdownMode == GM_RESTART)

@@ -898,7 +898,7 @@ public class DevastatedCastle
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: updateOwnerInDB(L2Clan clan): " + e.getMessage());
+			LOGGER.info("Exception: updateOwnerInDB(L2Clan clan): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

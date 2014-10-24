@@ -153,12 +153,12 @@ public class AuctionManager
 			statement = null;
 			rs.close();
 			rs = null;
-			System.out.println("Loaded: " + getAuctions().size() + " auction(s)");
+			LOGGER.info("Loaded: " + getAuctions().size() + " auction(s)");
 		}
 
 		catch(Exception e)
 		{
-			System.out.println("Exception: AuctionManager.load(): " + e.getMessage());
+			LOGGER.info("Exception: AuctionManager.load(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

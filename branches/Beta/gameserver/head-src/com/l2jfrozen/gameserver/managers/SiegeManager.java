@@ -187,7 +187,7 @@ public class SiegeManager
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception: checkIsRegistered(): " + e.getMessage());
+			LOGGER.info("Exception: checkIsRegistered(): " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

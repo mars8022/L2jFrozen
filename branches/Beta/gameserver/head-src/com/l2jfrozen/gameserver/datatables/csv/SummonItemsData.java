@@ -28,6 +28,8 @@ package com.l2jfrozen.gameserver.datatables.csv;
 import java.io.File;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
@@ -35,6 +37,8 @@ import com.l2jfrozen.gameserver.model.L2SummonItem;
 
 public class SummonItemsData
 {
+	private static Logger LOGGER = Logger.getLogger(SummonItemsData.class.getClass());	
+	
 	private FastMap<Integer, L2SummonItem> _summonitems;
 
 	private static SummonItemsData _instance;
@@ -94,8 +98,8 @@ public class SummonItemsData
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					System.out.println("Summon items data: Error in line " + lineCount + " -> incomplete/invalid data or wrong seperator!");
-					System.out.println("		" + line);
+					LOGGER.info("Summon items data: Error in line " + lineCount + " -> incomplete/invalid data or wrong seperator!");
+					LOGGER.info("		" + line);
 					ok = false;
 				}
 
@@ -115,14 +119,14 @@ public class SummonItemsData
 			if(Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			System.out.println("Summon items data: Can not find './data/summon_items.csv'");
+			LOGGER.info("Summon items data: Can not find './data/summon_items.csv'");
 		}finally{
 			
 			if(s!=null)
 				s.close();
 		}
 
-		System.out.println("Summon items data: Loaded " + _summonitems.size() + " summon items.");
+		LOGGER.info("Summon items data: Loaded " + _summonitems.size() + " summon items.");
 	}
 
 	public L2SummonItem getSummonItem(int itemId)

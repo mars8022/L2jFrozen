@@ -684,7 +684,7 @@ public final class Config
         			String[] skillSplit = skill.split(",");
         			if (skillSplit.length != 2)
         			{
-        				System.out.println("[Aio System]: invalid config property in "+OTHER+" -> AioSkills \"" + skill + "\"");
+        				LOGGER.info("[Aio System]: invalid config property in "+OTHER+" -> AioSkills \"" + skill + "\"");
         			}
         			else
         			{
@@ -698,7 +698,7 @@ public final class Config
     							nfe.printStackTrace();
     						if (!skill.equals(""))
         					{
-        						System.out.println("[Aio System]: invalid config property in "+OTHER+" -> AioSkills \"" + skillSplit[0] + "\"" + skillSplit[1]);
+        						LOGGER.info("[Aio System]: invalid config property in "+OTHER+" -> AioSkills \"" + skillSplit[0] + "\"" + skillSplit[1]);
         					}
         				}
         			}
@@ -822,7 +822,7 @@ public final class Config
 					String[] skillSplit = skill.split(",");
 					if(skillSplit.length != 2)
 					{
-						System.out.println("[SkillDurationList]: invalid config property -> SkillDurationList \"" + skill + "\"");
+						LOGGER.info("[SkillDurationList]: invalid config property -> SkillDurationList \"" + skill + "\"");
 					}
 					else
 					{
@@ -837,7 +837,7 @@ public final class Config
 							
 							if(!skill.equals(""))
 							{
-								System.out.println("[SkillDurationList]: invalid config property -> SkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
+								LOGGER.info("[SkillDurationList]: invalid config property -> SkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
 							}
 						}
 					}
@@ -2916,7 +2916,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -2930,7 +2930,7 @@ public final class Config
 							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -2942,7 +2942,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -2956,7 +2956,7 @@ public final class Config
 							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -2968,7 +2968,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -2982,7 +2982,7 @@ public final class Config
 							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -2994,7 +2994,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -3008,7 +3008,7 @@ public final class Config
 							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -3020,7 +3020,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -3034,7 +3034,7 @@ public final class Config
 							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -3046,7 +3046,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -3060,7 +3060,7 @@ public final class Config
 							nfe.printStackTrace();
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -3072,7 +3072,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -3088,7 +3088,7 @@ public final class Config
 						
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -3100,7 +3100,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -3115,7 +3115,7 @@ public final class Config
 						
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}
@@ -3127,7 +3127,7 @@ public final class Config
 				String[] writeData = readData.split(",");
 				if(writeData.length != 2)
 				{
-					System.out.println("invalid config property");
+					LOGGER.info("invalid config property");
 				}
 				else
 				{
@@ -3142,7 +3142,7 @@ public final class Config
 						
 						if(!readData.equals(""))
 						{
-							System.out.println("invalid config property");
+							LOGGER.info("invalid config property");
 						}
 					}
 				}

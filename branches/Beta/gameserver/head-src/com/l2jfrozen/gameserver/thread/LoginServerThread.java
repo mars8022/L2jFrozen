@@ -443,7 +443,7 @@ public class LoginServerThread extends Thread
 	{
 		if (Config.DEBUG)
 		{
-			System.out.println(key);
+			LOGGER.info(key);
 		}
 		
 		WaitingClient wc = new WaitingClient(acc, client, key);

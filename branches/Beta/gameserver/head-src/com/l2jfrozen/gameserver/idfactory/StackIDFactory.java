@@ -60,7 +60,7 @@ public class StackIDFactory extends IdFactory
             {
                 _curOID = tmp_obj_ids[tmp_obj_ids.length-1];
             }
-            System.out.println("Max Id = " + _curOID);
+            LOGGER.info("Max Id = " + _curOID);
 
             int N = tmp_obj_ids.length;
             for (int idx = 0; idx < N; idx++)
@@ -116,7 +116,7 @@ public class StackIDFactory extends IdFactory
         if (hole > N - idx) hole = N - idx;
         for (int i = 1; i <= hole; i++)
         {
-            //System.out.println("Free ID added " + (_tempOID));
+            //LOGGER.info("Free ID added " + (_tempOID));
             _freeOIDStack.push(_tempOID);
             _tempOID++;
             //_curOID++;

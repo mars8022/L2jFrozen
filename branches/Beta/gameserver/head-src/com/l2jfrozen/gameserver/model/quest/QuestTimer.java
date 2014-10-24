@@ -134,38 +134,38 @@ public class QuestTimer
 		/*
 		if (quest instanceof Frintezza_l2j)
 		{			
-			System.out.println("#### INPUT Parameters ####");
-			System.out.println("Quest Name: " + quest.getName());
-			System.out.println("Quest Timer Name: " + name);
-			System.out.println("Quest NPC: " + npc);
+			LOGGER.info("#### INPUT Parameters ####");
+			LOGGER.info("Quest Name: " + quest.getName());
+			LOGGER.info("Quest Timer Name: " + name);
+			LOGGER.info("Quest NPC: " + npc);
 			if (npc != null)
 			{
-				System.out.println(" NPC Name: " + npc.getName());
-				System.out.println(" NPC Id: " + npc.getNpcId());
-				System.out.println(" NPC Instance: " + npc.getInstanceId());
+				LOGGER.info(" NPC Name: " + npc.getName());
+				LOGGER.info(" NPC Id: " + npc.getNpcId());
+				LOGGER.info(" NPC Instance: " + npc.getInstanceId());
 			}
-			System.out.println("Quest Player: " + player);
+			LOGGER.info("Quest Player: " + player);
 			if (player != null)
 			{
-				System.out.println(" Player Name: " + player.getName());
-				System.out.println(" Player Instance: " + player.getInstanceId());
+				LOGGER.info(" Player Name: " + player.getName());
+				LOGGER.info(" Player Instance: " + player.getInstanceId());
 			}
 			
-			System.out.println("\n#### LOCAL Parameters ####");
-			System.out.println("Quest Name: " + getQuest().getName());
-			System.out.println("Quest Timer Name: " + getName());
-			System.out.println("Quest NPC: " + getNpc());
+			LOGGER.info("\n#### LOCAL Parameters ####");
+			LOGGER.info("Quest Name: " + getQuest().getName());
+			LOGGER.info("Quest Timer Name: " + getName());
+			LOGGER.info("Quest NPC: " + getNpc());
 			if (getNpc() != null)
 			{
-				System.out.println(" NPC Name: " + getNpc().getName());
-				System.out.println(" NPC Id: " + getNpc().getNpcId());
-				System.out.println(" NPC Instance: " + getNpc().getInstanceId());
+				LOGGER.info(" NPC Name: " + getNpc().getName());
+				LOGGER.info(" NPC Id: " + getNpc().getNpcId());
+				LOGGER.info(" NPC Instance: " + getNpc().getInstanceId());
 			}
-			System.out.println("Quest Player: " + getPlayer());
+			LOGGER.info("Quest Player: " + getPlayer());
 			if (getPlayer() != null)
 			{
-				System.out.println(" Player Name: " + getPlayer().getName());
-				System.out.println(" Player Instance: " + getPlayer().getInstanceId());
+				LOGGER.info(" Player Name: " + getPlayer().getName());
+				LOGGER.info(" Player Instance: " + getPlayer().getInstanceId());
 			}			
 		}
 		*/

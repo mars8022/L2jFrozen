@@ -48,9 +48,9 @@ public class SpawnTable
 
 	private static final SpawnTable _instance = new SpawnTable();
 
-	private final Map<Integer, L2Spawn> _spawntable = new FastMap<Integer, L2Spawn>().shared();
-	private int _npcSpawnCount;
-	private int _customSpawnCount;
+	private final Map<Integer, L2Spawn> spawntable = new FastMap<Integer, L2Spawn>().shared();
+	private int npcSpawnCount;
+	private int customSpawnCount;
 
 	private int _highestId;
 
@@ -69,7 +69,7 @@ public class SpawnTable
 
 	public Map<Integer, L2Spawn> getSpawnTable()
 	{
-		return _spawntable;
+		return spawntable;
 	}
 
 	private void fillSpawnTable()
@@ -136,19 +136,19 @@ public class SpawnTable
 						switch(rset.getInt("periodOfDay"))
 						{
 							case 0: // default
-								_npcSpawnCount += spawnDat.init();
+								npcSpawnCount += spawnDat.init();
 								break;
 							case 1: // Day
 								DayNightSpawnManager.getInstance().addDayCreature(spawnDat);
-								_npcSpawnCount++;
+								npcSpawnCount++;
 								break;
 							case 2: // Night
 								DayNightSpawnManager.getInstance().addNightCreature(spawnDat);
-								_npcSpawnCount++;
+								npcSpawnCount++;
 								break;
 						}
 
-						_spawntable.put(spawnDat.getId(), spawnDat);
+						spawntable.put(spawnDat.getId(), spawnDat);
 						if(spawnDat.getId() > _highestId)
 						{
 							_highestId = spawnDat.getId();
@@ -177,8 +177,8 @@ public class SpawnTable
 			CloseUtil.close(con);
 		}
 
-		LOGGER.info("SpawnTable: Loaded {} Npc Spawn Locations. "+ _spawntable.size());
-		LOGGER.info("SpawnTable: Spawning completed, total number of NPCs in the world: {} "+ _npcSpawnCount);
+		LOGGER.info("SpawnTable: Loaded " + spawntable.size() + " Npc Spawn Locations. ");
+		LOGGER.info("SpawnTable: Spawning completed, total number of NPCs in the world: "+ npcSpawnCount);
 
 		//-------------------------------Custom Spawnlist----------------------------//
 		if(Config.CUSTOM_SPAWNLIST_TABLE)
@@ -240,19 +240,19 @@ public class SpawnTable
 							switch(rset.getInt("periodOfDay"))
 							{
 								case 0: // default
-									_customSpawnCount += spawnDat.init();
+									customSpawnCount += spawnDat.init();
 									break;
 								case 1: // Day
 									DayNightSpawnManager.getInstance().addDayCreature(spawnDat);
-									_customSpawnCount++;
+									customSpawnCount++;
 									break;
 								case 2: // Night
 									DayNightSpawnManager.getInstance().addNightCreature(spawnDat);
-									_customSpawnCount++;
+									customSpawnCount++;
 									break;
 							}
 
-							_spawntable.put(spawnDat.getId(), spawnDat);
+							spawntable.put(spawnDat.getId(), spawnDat);
 							if(spawnDat.getId() > _highestId)
 							{
 								_highestId = spawnDat.getId();
@@ -276,21 +276,21 @@ public class SpawnTable
 				CloseUtil.close(con);
 			}
 
-			LOGGER.info("CustomSpawnTable: Loaded {} Npc Spawn Locations. "+ _customSpawnCount);
-			LOGGER.info("CustomSpawnTable: Spawning completed, total number of NPCs in the world: {} "+ _customSpawnCount);
+			LOGGER.info("CustomSpawnTable: Loaded " + customSpawnCount + " Npc Spawn Locations. ");
+			LOGGER.info("CustomSpawnTable: Spawning completed, total number of NPCs in the world: "+ customSpawnCount);
 		}
 	}
 
 	public L2Spawn getTemplate(int id)
 	{
-		return _spawntable.get(id);
+		return spawntable.get(id);
 	}
 
 	public void addNewSpawn(L2Spawn spawn, boolean storeInDb)
 	{
 		_highestId++;
 		spawn.setId(_highestId);
-		_spawntable.put(_highestId, spawn);
+		spawntable.put(_highestId, spawn);
 
 		if(storeInDb)
 		{
@@ -325,7 +325,7 @@ public class SpawnTable
 
 	public void deleteSpawn(L2Spawn spawn, boolean updateDb)
 	{
-		if(_spawntable.remove(spawn.getId()) == null)
+		if(spawntable.remove(spawn.getId()) == null)
 			return;
 
 		if(updateDb)
@@ -391,7 +391,7 @@ public class SpawnTable
 	public void findNPCInstances(L2PcInstance activeChar, int npcId, int teleportIndex)
 	{
 		int index = 0;
-		for(L2Spawn spawn : _spawntable.values())
+		for(L2Spawn spawn : spawntable.values())
 		{
 			if(npcId == spawn.getNpcid())
 			{
@@ -419,6 +419,6 @@ public class SpawnTable
 
 	public Map<Integer, L2Spawn> getAllTemplates()
 	{
-		return _spawntable;
+		return spawntable;
 	}
 }

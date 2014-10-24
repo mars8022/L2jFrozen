@@ -29,7 +29,7 @@ public class GMAudit
 {
 	static
 	{
-		new File("LOGGER/GMAudit").mkdirs();
+		new File("log/GMAudit").mkdirs();
 	}
 	
 	private static final Logger LOGGER = Logger.getLogger(Log.class.getClass());
@@ -42,7 +42,7 @@ public class GMAudit
 		FileWriter save = null;
 		try
 		{
-			File file = new File("LOGGER/GMAudit/" + gmName + ".txt");
+			File file = new File("log/GMAudit/" + gmName + ".txt");
 			save = new FileWriter(file, true);
 			
 			String out = "["+today+"] --> GM: "+gmName+", Target: ["+target+"], Action: ["+action+"], Params: ["+params+"] \r\n";

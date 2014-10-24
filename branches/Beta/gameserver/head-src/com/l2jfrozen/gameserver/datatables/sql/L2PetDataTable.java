@@ -146,7 +146,7 @@ public class L2PetDataTable
 
 	public L2PetData getPetData(int petID, int petLevel)
 	{
-		//System.out.println("Getting id "+petID+" level "+ petLevel);
+		//LOGGER.info("Getting id "+petID+" level "+ petLevel);
 		return _petTable.get(petID).get(petLevel);
 	}
 

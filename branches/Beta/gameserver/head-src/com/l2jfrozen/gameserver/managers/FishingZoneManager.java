@@ -17,6 +17,8 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.model.zone.type.L2FishingZone;
@@ -26,12 +28,13 @@ public class FishingZoneManager
 {
 	// =========================================================
 	private static FishingZoneManager _instance;
+	private static final Logger LOGGER = Logger.getLogger(FishingZoneManager.class.getClass());
 
 	public static final FishingZoneManager getInstance()
 	{
 		if(_instance == null)
 		{
-			System.out.println("Initializing FishingZoneManager");
+			LOGGER.info("Initializing FishingZoneManager");
 			_instance = new FishingZoneManager();
 		}
 		return _instance;

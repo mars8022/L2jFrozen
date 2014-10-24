@@ -587,13 +587,13 @@ public class Disablers implements ISkillHandler
 						/* 
 						 * Negate LOGGER
 						 * 
-						System.out.println("EFFECT-TYPES: ");
+						LOGGER.info("EFFECT-TYPES: ");
 						 
 						for(String effect: _negateEffectTypes)
-							System.out.println("	"+effect);
-						System.out.println("SKILL-TYPES: ");
+							LOGGER.info("	"+effect);
+						LOGGER.info("SKILL-TYPES: ");
 						for(String skillt: _negateSkillTypes)
-							System.out.println("	"+skillt);
+							LOGGER.info("	"+skillt);
 						*/
 						
 						for(String stat : _negateSkillTypes)

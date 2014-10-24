@@ -1,5 +1,6 @@
 @echo off
 title L2J-Frozen: Game Server Console
+mode con: cols=140
 :start
 echo Starting L2J-Frozen Core Game Server.
 echo Official website : http://www.l2jfrozen.com

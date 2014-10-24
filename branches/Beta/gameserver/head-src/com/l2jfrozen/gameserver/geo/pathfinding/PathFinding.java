@@ -146,7 +146,7 @@ public abstract class PathFinding
 				{
 					//path found! note that node z coordinate is updated only in attach
 					//to improve performance (alternative: much more checks)
-					//System.out.println("path found, i:"+i);
+					//LOGGER.info("path found, i:"+i);
 					return constructPath(node);
 				}
 
@@ -180,7 +180,7 @@ public abstract class PathFinding
 				}
 			}
 			//No Path found
-			//System.out.println("no path found");
+			//LOGGER.info("no path found");
 			return null;
 		}
 		finally
