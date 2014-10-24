@@ -20,6 +20,7 @@ import javolution.util.FastMap;
 
 import org.apache.log4j.Logger;
 
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad.COMP_TYPE;
 import com.l2jfrozen.util.L2FastList;
@@ -84,7 +85,7 @@ class OlympiadManager implements Runnable
 				}
 				catch (InterruptedException ex)
 				{
-					return;
+					//return;
 				}
 				continue;
 			}
@@ -118,6 +119,9 @@ class OlympiadManager implements Runnable
 								}
 								catch (Exception ex)
 								{
+									if(Config.DEBUG)
+										LOGGER.warn( "Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
 										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
@@ -149,6 +153,9 @@ class OlympiadManager implements Runnable
 								}
 								catch (Exception ex)
 								{
+									if(Config.DEBUG)
+										LOGGER.warn( "Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
 										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
@@ -182,6 +189,9 @@ class OlympiadManager implements Runnable
 								}
 								catch (Exception ex)
 								{
+									if(Config.DEBUG)
+										LOGGER.warn( "Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
 										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
@@ -212,6 +222,9 @@ class OlympiadManager implements Runnable
 								}
 								catch (Exception ex)
 								{
+									if(Config.DEBUG)
+										LOGGER.warn( "Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
 										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
@@ -247,7 +260,7 @@ class OlympiadManager implements Runnable
 							}
 							catch (Exception e)
 							{
-								LOGGER.warn( "Exception on OlympiadManager.run(): " + e.getMessage(), e);
+								LOGGER.warn( "Exception on OlympiadManager.run() " , e);
 							}
 						}
 					}
@@ -279,7 +292,7 @@ class OlympiadManager implements Runnable
 					}
 					catch (InterruptedException e)
 					{
-						return;
+						//return;
 					}
 				}
 			}
@@ -291,7 +304,7 @@ class OlympiadManager implements Runnable
 			}
 			catch (InterruptedException e)
 			{
-				return;
+				//return;
 			}
 		}
 		
