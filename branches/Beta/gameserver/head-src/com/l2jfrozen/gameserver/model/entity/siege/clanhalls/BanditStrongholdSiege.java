@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class BanditStrongholdSiege extends ClanHallSiege
 {
-	protected static Logger LOGGER = Logger.getLogger(BanditStrongholdSiege.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(BanditStrongholdSiege.class);
 	private static BanditStrongholdSiege _instance;
 	private boolean _registrationPeriod = false;
 	private int _clanCounter = 0;

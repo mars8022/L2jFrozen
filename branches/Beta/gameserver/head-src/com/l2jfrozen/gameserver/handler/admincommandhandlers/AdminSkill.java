@@ -45,7 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminSkill implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminSkill.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminSkill.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

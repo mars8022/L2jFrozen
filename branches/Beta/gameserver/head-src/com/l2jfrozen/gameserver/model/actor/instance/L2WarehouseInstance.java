@@ -39,7 +39,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public final class L2WarehouseInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2WarehouseInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2WarehouseInstance.class);
 
 	/**
 	 * Instantiates a new l2 warehouse instance.

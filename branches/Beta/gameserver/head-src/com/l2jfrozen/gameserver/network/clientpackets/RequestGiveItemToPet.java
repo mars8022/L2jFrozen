@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestGiveItemToPet extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestGetItemFromPet.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestGetItemFromPet.class);
 
 	private int _objectId;
 	private int _amount;

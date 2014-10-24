@@ -40,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CharTemplateTable
 {
-	private static Logger LOGGER = Logger.getLogger(CharTemplateTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CharTemplateTable.class);
 
 	private static CharTemplateTable _instance;
 

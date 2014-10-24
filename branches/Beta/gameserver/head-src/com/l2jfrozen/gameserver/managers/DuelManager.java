@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
 
 public class DuelManager
 {
-	private static final Logger LOGGER = Logger.getLogger(DuelManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(DuelManager.class);
 
 	// =========================================================
 	private static DuelManager _instance;

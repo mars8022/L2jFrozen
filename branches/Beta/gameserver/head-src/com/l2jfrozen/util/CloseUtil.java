@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
  */
 public final class CloseUtil 
 {
-	private final static Logger LOGGER = Logger.getLogger(CloseUtil.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(CloseUtil.class);
 	public static void close(Connection con) {
 		if(con != null) try {
 			con.close();

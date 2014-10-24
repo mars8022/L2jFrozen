@@ -56,7 +56,7 @@ import com.l2jserver.script.jython.JythonScriptEngine;
  */
 public final class L2ScriptEngineManager
 {
-	private static final Logger LOGGER = Logger.getLogger(L2ScriptEngineManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2ScriptEngineManager.class);
 
 	public final static File SCRIPT_FOLDER = new File(Config.DATAPACK_ROOT.getAbsolutePath(), "data/scripts");
 

@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestDropItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestDropItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestDropItem.class);
 
 	private int _objectId;
 	private int _count;

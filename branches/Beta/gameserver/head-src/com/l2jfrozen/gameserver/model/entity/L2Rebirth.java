@@ -45,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class L2Rebirth
 {
-	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class);
 	
 	/** The current instance - static repeller. */
 	private static L2Rebirth _instance = null;

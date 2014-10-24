@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class DeluxeKey implements ISkillHandler
 {
-	private static Logger LOGGER = Logger.getLogger(BeastFeed.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(BeastFeed.class);
 
 	private static final SkillType[] SKILL_IDS = { SkillType.DELUXE_KEY_UNLOCK };
 

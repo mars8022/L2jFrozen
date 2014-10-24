@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AutoSaveManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(AutoSaveManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AutoSaveManager.class);
 	private ScheduledFuture<?> _autoSaveInDB;
 	private ScheduledFuture<?> _autoCheckConnectionStatus;
 	private ScheduledFuture<?> _autoCleanDatabase;

@@ -70,7 +70,7 @@ public class SevenSignsFestival implements SpawnListener
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(SevenSignsFestival.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(SevenSignsFestival.class);
 	
 	/** The _instance. */
 	private static SevenSignsFestival _instance;

@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestJoinParty extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestJoinParty.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestJoinParty.class);
 	
 	private String _name;
 	private int _itemDistribution;

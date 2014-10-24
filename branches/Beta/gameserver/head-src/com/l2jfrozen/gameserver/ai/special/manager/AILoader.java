@@ -49,7 +49,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AILoader
 {
-	private static final Logger LOGGER = Logger.getLogger(AILoader.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AILoader.class);
 
 	public static void init()
 	{

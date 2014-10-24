@@ -39,7 +39,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 
 public class PcStat extends PlayableStat
 {
-	private static Logger LOGGER = Logger.getLogger(PcStat.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(PcStat.class);
 
 	private int _oldMaxHp; // stats watch
 	private int _oldMaxMp; // stats watch

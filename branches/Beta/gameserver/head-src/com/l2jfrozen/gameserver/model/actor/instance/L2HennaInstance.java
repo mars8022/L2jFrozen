@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.templates.L2Henna;
 
 public class L2HennaInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2HennaInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2HennaInstance.class);
 
 	private L2Henna _template;
 	private int _symbolId;

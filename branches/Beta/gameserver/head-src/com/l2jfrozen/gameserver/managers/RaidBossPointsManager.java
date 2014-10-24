@@ -44,7 +44,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class RaidBossPointsManager
 {
-	private final static Logger LOGGER = Logger.getLogger(RaidBossPointsManager.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(RaidBossPointsManager.class);
 	protected static FastMap<Integer, Map<Integer, Integer>> _list;
 	
 	private static final Comparator<Map.Entry<Integer, Integer>> _comparator = new Comparator<Map.Entry<Integer, Integer>>()

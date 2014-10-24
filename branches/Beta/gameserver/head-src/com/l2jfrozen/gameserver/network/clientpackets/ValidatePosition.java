@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
 
 public final class ValidatePosition extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(ValidatePosition.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ValidatePosition.class);
 
 	private int _x;
 	private int _y;

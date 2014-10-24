@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 public class SkillsEngine
 {
 
-	protected static final Logger LOGGER = Logger.getLogger(SkillsEngine.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(SkillsEngine.class);
 
 	private static final SkillsEngine _instance = new SkillsEngine();
 

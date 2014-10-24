@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class Charge implements ISkillHandler
 {
-	static Logger LOGGER = Logger.getLogger(Charge.class.getClass());
+	static Logger LOGGER = Logger.getLogger(Charge.class);
 
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)

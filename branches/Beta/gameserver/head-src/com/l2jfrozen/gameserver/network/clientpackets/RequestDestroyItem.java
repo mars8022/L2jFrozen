@@ -39,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestDestroyItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestDestroyItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestDestroyItem.class);
 	
 	private int _objectId;
 	private int _count;

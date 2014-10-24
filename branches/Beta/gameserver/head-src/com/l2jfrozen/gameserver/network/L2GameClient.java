@@ -73,7 +73,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2GameClient.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2GameClient.class);
 
 	/**
 	 * CONNECTED - client has just connected AUTHED - client has authed but doesn't has character attached to it yet

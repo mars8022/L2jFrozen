@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 public final class Logout extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(Logout.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Logout.class);
 	
 	@Override
 	protected void readImpl()

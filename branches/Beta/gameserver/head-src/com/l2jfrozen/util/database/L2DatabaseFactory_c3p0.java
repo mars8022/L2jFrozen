@@ -26,7 +26,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 {
-	static Logger LOGGER = Logger.getLogger(L2DatabaseFactory_c3p0.class.getClass());
+	static Logger LOGGER = Logger.getLogger(L2DatabaseFactory_c3p0.class);
 	
 	private ComboPooledDataSource _source;
 	

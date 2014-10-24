@@ -56,7 +56,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class Pdam implements ISkillHandler
 {
 	// all the items ids that this handler knowns
-	private static Logger LOGGER = Logger.getLogger(Pdam.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Pdam.class);
 	
 	/*
 	 * (non-Javadoc)

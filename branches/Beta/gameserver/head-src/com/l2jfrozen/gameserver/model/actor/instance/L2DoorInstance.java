@@ -65,7 +65,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 public class L2DoorInstance extends L2Character
 {
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(L2DoorInstance.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2DoorInstance.class);
 
 	/** The castle index in the array of L2Castle this L2NpcInstance belongs to. */
 	private int _castleIndex = -2;

@@ -92,7 +92,7 @@ import com.l2jfrozen.util.object.L2ObjectMap;
 
 public class GameStatusThread extends Thread
 {
-	private static final Logger LOGGER = Logger.getLogger(GameStatusThread.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameStatusThread.class);
 	
 	private Socket _cSocket;
 	

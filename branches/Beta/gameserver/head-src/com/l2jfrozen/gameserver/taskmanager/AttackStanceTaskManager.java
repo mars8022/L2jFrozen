@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AttackStanceTaskManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(AttackStanceTaskManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AttackStanceTaskManager.class);
 	
 	protected Map<L2Character, Long> _attackStanceTasks = new FastMap<L2Character, Long>().shared();
 	

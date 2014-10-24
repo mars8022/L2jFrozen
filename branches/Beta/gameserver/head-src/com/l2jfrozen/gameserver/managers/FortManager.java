@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(FortManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(FortManager.class);
 	
 	public static final FortManager getInstance()
 	{

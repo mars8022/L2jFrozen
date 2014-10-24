@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AdminGm implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminGm.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminGm.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_gm"

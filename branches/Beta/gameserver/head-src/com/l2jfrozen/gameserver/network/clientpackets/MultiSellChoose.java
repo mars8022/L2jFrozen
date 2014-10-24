@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
  */
 public class MultiSellChoose extends L2GameClientPacket
 {
-        private static Logger LOGGER = Logger.getLogger(MultiSellChoose.class.getClass());
+        private static Logger LOGGER = Logger.getLogger(MultiSellChoose.class);
         private int _listId;
         private int _entryId;
         private int _amount;

@@ -30,7 +30,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 class OlympiadManager implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(OlympiadManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(OlympiadManager.class);
 	private Map<Integer, OlympiadGame> _olympiadInstances;
 	
 	protected static final OlympiadStadium[] STADIUMS = {

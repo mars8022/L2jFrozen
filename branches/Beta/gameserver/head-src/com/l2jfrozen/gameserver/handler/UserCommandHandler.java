@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.handler.usercommandhandlers.Time;
  */
 public class UserCommandHandler
 {
-	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class);
 	
 	private static UserCommandHandler _instance;
 	

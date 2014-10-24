@@ -80,7 +80,7 @@ public class Shutdown extends Thread
 		}
 	}
 
-	protected static final Logger LOGGER = Logger.getLogger(Shutdown.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Shutdown.class);
 	
 	private static Shutdown _instance;
 	private static Shutdown _counterInstance = null;

@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskSevenSignsUpdate extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskSevenSignsUpdate.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskSevenSignsUpdate.class);
 	public static final String NAME = "sevensignsupdate";
 	
 	@Override

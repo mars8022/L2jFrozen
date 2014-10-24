@@ -28,7 +28,7 @@ import com.l2jfrozen.util.CloseUtil;
 
 public class SqlUtils
 {
-	private static Logger LOGGER = Logger.getLogger(SqlUtils.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SqlUtils.class);
 
 	// =========================================================
 	// Data Field

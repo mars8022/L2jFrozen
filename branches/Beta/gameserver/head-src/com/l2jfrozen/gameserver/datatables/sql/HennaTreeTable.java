@@ -45,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HennaTreeTable
 {
-	private static Logger LOGGER = Logger.getLogger(HennaTreeTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(HennaTreeTable.class);
 	private static final HennaTreeTable _instance = new HennaTreeTable();
 	private final Map<ClassId, List<L2HennaInstance>> _hennaTrees;
 	private final boolean _initialized = true;

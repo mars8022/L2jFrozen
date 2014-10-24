@@ -46,7 +46,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ItemsOnGroundManager
 {
-	static final Logger LOGGER = Logger.getLogger(ItemsOnGroundManager.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(ItemsOnGroundManager.class);
 	protected List<L2ItemInstance> _items = new FastList<L2ItemInstance>();
 
 	private ItemsOnGroundManager()

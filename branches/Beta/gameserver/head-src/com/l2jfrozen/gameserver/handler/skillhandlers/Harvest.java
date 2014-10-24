@@ -41,7 +41,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Harvest implements ISkillHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(Harvest.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Harvest.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.HARVEST };
 
 	private L2PcInstance _activeChar;

@@ -86,7 +86,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 abstract class DocumentBase
 {
-	static Logger LOGGER = Logger.getLogger(DocumentBase.class.getClass());
+	static Logger LOGGER = Logger.getLogger(DocumentBase.class);
 
 	private File _file;
 	protected Map<String, String[]> _tables;

@@ -34,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class SummonTreasureKey implements ISkillHandler
 {
-	static Logger LOGGER = Logger.getLogger(SummonTreasureKey.class.getClass());
+	static Logger LOGGER = Logger.getLogger(SummonTreasureKey.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.SUMMON_TREASURE_KEY };
 
 	@Override

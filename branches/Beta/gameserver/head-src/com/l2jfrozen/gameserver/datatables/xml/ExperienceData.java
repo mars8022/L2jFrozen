@@ -33,7 +33,7 @@ import com.l2jfrozen.Config;
  */
 public class ExperienceData
 {
-	private static Logger LOGGER = Logger.getLogger(ExperienceData.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ExperienceData.class);
 	
 	private byte MAX_LEVEL;
 	private byte MAX_PET_LEVEL;

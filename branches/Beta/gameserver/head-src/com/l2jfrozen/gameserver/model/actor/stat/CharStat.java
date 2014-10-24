@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
  */
 public class CharStat
 {
-	private final Logger LOGGER = Logger.getLogger(CharStat.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(CharStat.class);
 	// =========================================================
 	// Data Field
 	/** The _active char. */

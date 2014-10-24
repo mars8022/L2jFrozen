@@ -27,7 +27,7 @@ import com.l2jfrozen.crypt.nProtect;
 public class GameGuardReply extends L2GameClientPacket
 {
 	private int[] _reply = new int[4];
-	private static final Logger LOGGER = Logger.getLogger(GameGuardReply.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameGuardReply.class);
 
 	@Override
 	protected void readImpl()

@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class GeoEditorThread extends Thread
 {
-	protected static final Logger LOGGER = Logger.getLogger(GeoEditorThread.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(GeoEditorThread.class);
 	
 	private boolean					_working	= false;
 

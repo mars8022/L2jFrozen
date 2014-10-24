@@ -46,7 +46,7 @@ public class BufferSkillsTable
 	private static FastList<String> _buffTypes = new FastList<String>();
 	private static FastMap<Integer, Integer> _buffPrizes = new FastMap<Integer, Integer>();
 	private static FastMap<Integer, SkillInfo> _allSkills = new FastMap<Integer, SkillInfo>();
-	private static Logger LOGGER = Logger.getLogger(BufferSkillsTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(BufferSkillsTable.class);
 	private static final String SQL_LOAD_SKILLS = "SELECT * FROM `mods_buffer_skills`";
 
 	BufferSkillsTable()

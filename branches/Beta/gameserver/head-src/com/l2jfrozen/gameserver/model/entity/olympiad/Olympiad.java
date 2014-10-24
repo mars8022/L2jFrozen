@@ -63,7 +63,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Olympiad
 {
-	protected static final Logger LOGGER = Logger.getLogger(Olympiad.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Olympiad.class);
 	private static Olympiad _instance;
 	
 	private static Map<Integer, StatsSet> _nobles;

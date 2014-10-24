@@ -40,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class RequestExSetPledgeCrestLarge extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(RequestExSetPledgeCrestLarge.class.getClass());
+	static Logger LOGGER = Logger.getLogger(RequestExSetPledgeCrestLarge.class);
 	private int _size;
 	private byte[] _data;
 

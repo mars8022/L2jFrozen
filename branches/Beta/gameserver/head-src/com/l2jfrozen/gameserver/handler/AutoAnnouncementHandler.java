@@ -41,7 +41,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AutoAnnouncementHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(AutoAnnouncementHandler.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AutoAnnouncementHandler.class);
 	private static AutoAnnouncementHandler _instance;
 	private static final long DEFAULT_ANNOUNCEMENT_DELAY = 180000; // 3 mins by default
 	protected Map<Integer, AutoAnnouncementInstance> _registeredAnnouncements;

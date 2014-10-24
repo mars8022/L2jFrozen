@@ -29,7 +29,7 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class ServerStatus extends ClientBasePacket
 {
-	protected static Logger LOGGER = Logger.getLogger(ServerStatus.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(ServerStatus.class);
 
 	public static final String[] STATUS_STRING =
 	{

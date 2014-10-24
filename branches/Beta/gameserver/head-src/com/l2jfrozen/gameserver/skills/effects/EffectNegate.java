@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class EffectNegate extends L2Effect
 {
-	protected static final Logger LOGGER = Logger.getLogger(EffectNegate.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(EffectNegate.class);
 
 	public EffectNegate(Env env, EffectTemplate template)
 	{

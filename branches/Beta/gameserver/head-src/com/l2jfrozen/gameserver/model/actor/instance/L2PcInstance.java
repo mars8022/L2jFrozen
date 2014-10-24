@@ -544,7 +544,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		5, 20, 28, 36, 43, 49, 55, 62
 	};
 	
-	//private static Logger LOGGER = Logger.getLogger(L2PcInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2PcInstance.class);
 	
 	/**
 	 * The Class AIAccessor.

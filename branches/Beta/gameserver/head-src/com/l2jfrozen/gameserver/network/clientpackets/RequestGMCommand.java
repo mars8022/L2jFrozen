@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GMViewWarehouseWithdrawLis
 
 public final class RequestGMCommand extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(RequestGMCommand.class.getClass());
+	static Logger LOGGER = Logger.getLogger(RequestGMCommand.class);
 
 	private String _targetName;
 	private int _command;

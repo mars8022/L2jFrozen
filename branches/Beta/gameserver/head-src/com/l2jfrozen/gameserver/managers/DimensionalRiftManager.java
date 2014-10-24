@@ -57,7 +57,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class DimensionalRiftManager
 {
 
-	protected static final Logger LOGGER = Logger.getLogger(DimensionalRiftManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(DimensionalRiftManager.class);
 	private static DimensionalRiftManager _instance;
 	private FastMap<Byte, FastMap<Byte, DimensionalRiftRoom>> _rooms = new FastMap<Byte, FastMap<Byte, DimensionalRiftRoom>>();
 	private final short DIMENSIONAL_FRAGMENT_ITEM_ID = 7079;

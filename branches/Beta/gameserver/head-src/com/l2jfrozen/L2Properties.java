@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 public final class L2Properties extends Properties
 {
 	private static final long serialVersionUID = -4599023842346938325L;
-	protected static final Logger LOGGER = Logger.getLogger(Config.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Config.class);
 	
 	private boolean _warn = false;
 

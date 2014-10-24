@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class EffectForce extends L2Effect
 {
-	protected static final Logger LOGGER = Logger.getLogger(EffectForce.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(EffectForce.class);
 	
 	public int forces = 0;
 	private int _range = -1;

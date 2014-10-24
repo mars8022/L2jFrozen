@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskRecom extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskRecom.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskRecom.class);
 	private static final String NAME = "sp_recommendations";
 	
 	/*

@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class L2SummonInstance extends L2Summon
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2SummonInstance.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2SummonInstance.class);
 
 	private float _expPenalty = 0; // exp decrease multiplier (i.e. 0.3 (= 30%) for shadow)
 	private int _itemConsumeId;

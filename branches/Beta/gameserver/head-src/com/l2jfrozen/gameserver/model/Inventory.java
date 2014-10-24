@@ -48,7 +48,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class Inventory extends ItemContainer
 {
-	//protected static final Logger LOGGER = Logger.getLogger(Inventory.class.getClass());
+	//protected static final Logger LOGGER = Logger.getLogger(Inventory.class);
 
 	public interface PaperdollListener
 	{

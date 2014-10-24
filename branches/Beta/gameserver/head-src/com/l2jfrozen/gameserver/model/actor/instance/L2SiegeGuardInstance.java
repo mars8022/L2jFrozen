@@ -46,7 +46,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2SiegeGuardInstance extends L2Attackable
 {
-	private static Logger LOGGER = Logger.getLogger(L2GuardInstance.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2GuardInstance.class);
 
 	private int _homeX;
 	private int _homeY;

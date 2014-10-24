@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
 public class TaskRaidPointsReset extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskRaidPointsReset.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskRaidPointsReset.class);
 	public static final String NAME = "raid_points_reset";
 	
 	@Override

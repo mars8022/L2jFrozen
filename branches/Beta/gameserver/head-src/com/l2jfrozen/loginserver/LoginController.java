@@ -98,7 +98,7 @@ public class LoginController
 			}
 		}
 	}
-	protected static final Logger LOGGER = Logger.getLogger(LoginController.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(LoginController.class);
 
 	private static LoginController _instance;
 	

@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestSetPledgeCrest extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(RequestSetPledgeCrest.class.getClass());
+	static Logger LOGGER = Logger.getLogger(RequestSetPledgeCrest.class);
 
 	private int _length;
 	private byte[] _data;

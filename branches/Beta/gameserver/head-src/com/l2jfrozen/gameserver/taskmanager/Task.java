@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public abstract class Task
 {
-	private static Logger LOGGER = Logger.getLogger(Task.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Task.class);
 
 	public void initializate()
 	{

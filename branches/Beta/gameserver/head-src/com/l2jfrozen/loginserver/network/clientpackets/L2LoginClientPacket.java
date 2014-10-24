@@ -28,7 +28,7 @@ import com.l2jfrozen.netcore.ReceivablePacket;
 
 public abstract class L2LoginClientPacket extends ReceivablePacket<L2LoginClient>
 {
-	private static Logger LOGGER = Logger.getLogger(L2LoginClientPacket.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2LoginClientPacket.class);
 	
 	@Override
 	protected final boolean read()

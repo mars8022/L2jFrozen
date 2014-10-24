@@ -22,7 +22,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AutoVoteRewardHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(AutoVoteRewardHandler.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AutoVoteRewardHandler.class);
 
 	private int hopzoneVotesCount = 0;
 	private int topzoneVotesCount = 0;

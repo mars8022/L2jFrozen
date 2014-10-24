@@ -32,7 +32,7 @@ public class GMAudit
 		new File("log/GMAudit").mkdirs();
 	}
 	
-	private static final Logger LOGGER = Logger.getLogger(Log.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(Log.class);
 	
 	public static void auditGMAction(String gmName, String action, String target, String params)
 	{

@@ -75,7 +75,7 @@ public class Disablers implements ISkillHandler
 			L2Skill.SkillType.WARRIOR_BANE,
 			L2Skill.SkillType.BETRAY };
 
-	protected static final Logger LOGGER = Logger.getLogger(L2Skill.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Skill.class);
 	private String[] _negateSkillTypes = null;
 	private String[] _negateEffectTypes = null;
 	private float _negatePower = 0.f;

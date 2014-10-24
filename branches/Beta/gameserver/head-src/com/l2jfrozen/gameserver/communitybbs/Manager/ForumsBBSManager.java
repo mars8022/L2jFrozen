@@ -34,7 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ForumsBBSManager extends BaseBBSManager
 {
-	private static Logger LOGGER = Logger.getLogger(ForumsBBSManager.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ForumsBBSManager.class);
 	private List<Forum> _table;
 	private static ForumsBBSManager _instance;
 	private int _lastid = 1;

@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
  */
 public final class RequestExFishRanking extends L2GameClientPacket
 {
-	private final Logger LOGGER = Logger.getLogger(RequestExFishRanking.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(RequestExFishRanking.class);
 	
 	@Override
 	protected void readImpl()

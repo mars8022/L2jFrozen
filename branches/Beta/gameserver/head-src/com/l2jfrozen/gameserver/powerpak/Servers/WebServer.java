@@ -23,7 +23,7 @@ public class WebServer extends Thread
 	}
 
 	private HttpServer _server;
-	protected static final Logger LOGGER = Logger.getLogger(WebServer.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(WebServer.class);
 
 	private WebServer()
 	{

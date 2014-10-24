@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
  */
 public class hitConditionBonus
 {
-	protected static final Logger LOGGER = Logger.getLogger(hitConditionBonus.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(hitConditionBonus.class);
 	
 	private static int frontBonus = 0;
 	private static int sideBonus = 0;

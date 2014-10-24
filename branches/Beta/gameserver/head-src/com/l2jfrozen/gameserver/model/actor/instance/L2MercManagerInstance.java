@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 public final class L2MercManagerInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2MercManagerInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2MercManagerInstance.class);
 
 	private static final int COND_ALL_FALSE = 0;
 	private static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;

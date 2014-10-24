@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ManagePledgePower;
 
 public final class RequestPledgePower extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(ManagePledgePower.class.getClass());
+	static Logger LOGGER = Logger.getLogger(ManagePledgePower.class);
 	private int _rank;
 	private int _action;
 	private int _privs;

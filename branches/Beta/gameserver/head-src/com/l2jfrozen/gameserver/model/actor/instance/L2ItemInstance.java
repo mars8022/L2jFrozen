@@ -66,7 +66,7 @@ public final class L2ItemInstance extends L2Object
 {
 	
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(L2ItemInstance.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2ItemInstance.class);
 	
 	/** The Constant _logItems. */
 	private static final java.util.logging.Logger _logItems = java.util.logging.Logger.getLogger("item");

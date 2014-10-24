@@ -45,7 +45,7 @@ public class CharSelectInfo extends L2GameServerPacket
 	// d SdSddddddddddffddddddddddddddddddddddddddddddddddddddddddddddffd
 	private static final String _S__1F_CHARSELECTINFO = "[S] 1F CharSelectInfo";
 	
-	private static Logger LOGGER = Logger.getLogger(CharSelectInfo.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CharSelectInfo.class);
 	
 	private String _loginName;
 	

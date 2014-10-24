@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class L2CastleChamberlainInstance extends L2FolkInstance
 {
-	//    private static Logger LOGGER = Logger.getLogger(L2CastleChamberlainInstance.class.getClass());
+	//    private static Logger LOGGER = Logger.getLogger(L2CastleChamberlainInstance.class);
 
 	protected static final int COND_ALL_FALSE = 0;
 	protected static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;

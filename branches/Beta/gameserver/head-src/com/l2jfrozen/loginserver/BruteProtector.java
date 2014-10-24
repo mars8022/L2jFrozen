@@ -11,7 +11,7 @@ import com.l2jfrozen.Config;
 
 public class BruteProtector
 {
-	private static final Logger LOGGER = Logger.getLogger(BruteProtector.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(BruteProtector.class);
 	private static final FastMap<String, ArrayList<Integer>> _clients = new FastMap<String, ArrayList<Integer>>();
 	
 	public static boolean canLogin(String ip)

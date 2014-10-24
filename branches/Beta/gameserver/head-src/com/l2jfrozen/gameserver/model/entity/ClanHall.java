@@ -51,7 +51,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class ClanHall
 {
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(ClanHall.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(ClanHall.class);
 
 	/** The _clan hall id. */
 	private int _clanHallId;

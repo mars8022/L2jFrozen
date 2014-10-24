@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  */
 public class L2Manor
 {
-	private static Logger LOGGER = Logger.getLogger(L2Manor.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2Manor.class);
 	private static L2Manor _instance;
 
 	private static FastMap<Integer, SeedData> _seeds;

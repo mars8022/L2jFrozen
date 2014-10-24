@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.skills.Formulas;
 
 public class CpDam implements ISkillHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(Mdam.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(Mdam.class);
 
 	/* (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)

@@ -114,5 +114,5 @@ public class L2BufferInstance
 		return (L2Character) efector;
 	}
 	
-	static Logger LOGGER = Logger.getLogger(Config.class.getClass());
+	static Logger LOGGER = Logger.getLogger(Config.class);
 }

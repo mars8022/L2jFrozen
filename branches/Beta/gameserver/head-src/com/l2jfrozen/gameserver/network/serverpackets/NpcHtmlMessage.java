@@ -51,7 +51,7 @@ public class NpcHtmlMessage extends L2GameServerPacket
 	private static final String _S__1B_NPCHTMLMESSAGE = "[S] 0f NpcHtmlMessage";
 	
 	/** The LOGGER. */
-	private static Logger LOGGER = Logger.getLogger(RequestBypassToServer.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestBypassToServer.class);
 	
 	/** The _npc obj id. */
 	private int _npcObjId;

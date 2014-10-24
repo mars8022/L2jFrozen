@@ -100,7 +100,7 @@ public class L2BoxInstance extends L2NpcInstance
 		}
 	}
 
-	//private static Logger LOGGER = Logger.getLogger(L2BoxInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2BoxInstance.class);
 	private static final int MAX_ITEMS_PER_PAGE = 25;
 	private static final String INSERT_GRANT = "INSERT INTO boxaccess (charname,spawn) VALUES(?,?)";
 	private static final String DELETE_GRANT = "DELETE FROM boxaccess WHERE charname=? AND spawn=?";

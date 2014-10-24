@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 
 public abstract class L2Summon extends L2PlayableInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2Summon.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2Summon.class);
 
 	protected int _pkKills;
 	private L2PcInstance _owner;

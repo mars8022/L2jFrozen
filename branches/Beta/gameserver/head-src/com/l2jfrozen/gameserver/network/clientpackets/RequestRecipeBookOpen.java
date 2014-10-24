@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.controllers.RecipeController;
 
 public final class RequestRecipeBookOpen extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestRecipeBookOpen.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestRecipeBookOpen.class);
 
 	private boolean _isDwarvenCraft;
 

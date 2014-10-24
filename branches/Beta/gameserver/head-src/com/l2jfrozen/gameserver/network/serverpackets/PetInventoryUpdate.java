@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
  */
 public class PetInventoryUpdate extends L2GameServerPacket
 {
-	private static Logger LOGGER = Logger.getLogger(InventoryUpdate.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(InventoryUpdate.class);
 	private static final String _S__37_INVENTORYUPDATE = "[S] b3 InventoryUpdate";
 	private List<ItemInfo> _items;
 

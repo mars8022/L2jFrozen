@@ -34,7 +34,7 @@ public final class FloodProtectorAction
 	/**
 	 * Logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FloodProtectorAction.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(FloodProtectorAction.class);
 	/**
 	 * Client for this instance of flood protector.
 	 */

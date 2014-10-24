@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestFriendDel extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestFriendDel.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestFriendDel.class);
 	
 	private String _name;
 	

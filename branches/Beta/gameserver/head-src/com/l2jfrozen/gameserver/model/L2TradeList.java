@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class L2TradeList
 {
-	private static Logger LOGGER = Logger.getLogger(L2TradeList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2TradeList.class);
 
 	private List<L2ItemInstance> _items;
 	private int _listId;

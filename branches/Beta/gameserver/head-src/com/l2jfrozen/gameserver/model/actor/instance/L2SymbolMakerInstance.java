@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2SymbolMakerInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2SymbolMakerInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2SymbolMakerInstance.class);
 
 	@Override
 	public void onBypassFeedback(L2PcInstance player, String command)

@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MMOConnection<T extends MMOClient<?>>
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MMOConnection.class.getClass());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MMOConnection.class);
 	private final SelectorThread<T> _selectorThread;
 
 	private final Socket _socket;

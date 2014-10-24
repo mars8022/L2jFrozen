@@ -20,7 +20,7 @@ package com.l2jfrozen.gameserver.datatables;
 public class AccessLevel
 {
 	/** The logger<br> */
-	//private final static Log	LOGGER				= LogFactory.getLog(AccessLevel.class.getClass());
+	//private final static Log	LOGGER				= LogFactory.getLog(AccessLevel.class);
 	/** The access level<br> */
 	private int _accessLevel = 0;
 	/** The access level name<br> */

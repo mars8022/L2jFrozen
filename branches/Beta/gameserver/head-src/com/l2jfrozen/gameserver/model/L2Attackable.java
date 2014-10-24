@@ -77,7 +77,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2Attackable extends L2NpcInstance
 {
-	//protected static Logger LOGGER = Logger.getLogger(L2Attackable.class.getClass());
+	//protected static Logger LOGGER = Logger.getLogger(L2Attackable.class);
 
 	/**
 	 * This class contains all AggroInfo of the L2Attackable against the attacker L2Character.<BR>

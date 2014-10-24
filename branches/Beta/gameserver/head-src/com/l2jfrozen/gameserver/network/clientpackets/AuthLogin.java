@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 
 public final class AuthLogin extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(AuthLogin.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AuthLogin.class);
 
 	// loginName + keys must match what the loginserver used.
 	private String _loginName;

@@ -81,7 +81,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public abstract class L2Skill
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2Skill.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Skill.class);
 	
 	public static final int SKILL_CUBIC_MASTERY = 143;
 	public static final int SKILL_LUCKY = 194;

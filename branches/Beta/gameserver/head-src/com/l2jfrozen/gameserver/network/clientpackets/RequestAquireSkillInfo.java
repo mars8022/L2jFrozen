@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.AquireSkillInfo;
 
 public class RequestAquireSkillInfo extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestAquireSkillInfo.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestAquireSkillInfo.class);
 
 	private int _id;
 	private int _level;

@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 
 public final class SendWareHouseDepositList extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(SendWareHouseDepositList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SendWareHouseDepositList.class);
 
 	private int _count;
 	private int[] _items;

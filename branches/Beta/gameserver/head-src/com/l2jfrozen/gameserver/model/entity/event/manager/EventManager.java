@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.entity.event.TvT;
  */
 public class EventManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(EventManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(EventManager.class);
 	
 	private final static String EVENT_MANAGER_CONFIGURATION_FILE = "./config/frozen/eventmanager.properties";
 	

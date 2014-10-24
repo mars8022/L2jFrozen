@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeInfo;
 
 public final class RequestPledgeInfo extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestPledgeInfo.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestPledgeInfo.class);
 
 	private int clanId;
 

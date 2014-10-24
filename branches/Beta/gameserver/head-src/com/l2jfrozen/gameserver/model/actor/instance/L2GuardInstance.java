@@ -48,7 +48,7 @@ public final class L2GuardInstance extends L2Attackable
 {
 	
 	/** The LOGGER. */
-	private static Logger LOGGER = Logger.getLogger(L2GuardInstance.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2GuardInstance.class);
 
 	/** The _home x. */
 	private int _homeX;

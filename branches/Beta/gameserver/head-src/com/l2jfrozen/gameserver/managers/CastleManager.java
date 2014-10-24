@@ -40,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class CastleManager
 {
 	
-	protected static final Logger LOGGER = Logger.getLogger(CastleManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(CastleManager.class);
 	
 	public static final CastleManager getInstance()
 	{

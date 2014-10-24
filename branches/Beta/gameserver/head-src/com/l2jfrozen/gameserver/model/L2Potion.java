@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class L2Potion extends L2Object
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2Character.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class);
 
 //	private L2Character _target;
 

@@ -45,7 +45,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class L2LoginClient extends MMOClient<MMOConnection<L2LoginClient>>
 {
-	private static Logger LOGGER = Logger.getLogger(L2LoginClient.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2LoginClient.class);
 
 	public static enum LoginClientState
 	{

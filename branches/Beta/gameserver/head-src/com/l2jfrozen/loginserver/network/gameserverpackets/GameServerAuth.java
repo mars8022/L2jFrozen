@@ -30,7 +30,7 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class GameServerAuth extends ClientBasePacket
 {
-	protected static Logger LOGGER = Logger.getLogger(GameServerAuth.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(GameServerAuth.class);
 	private byte[] _hexId;
 	private int _desiredId;
 	private boolean _hostReserved;

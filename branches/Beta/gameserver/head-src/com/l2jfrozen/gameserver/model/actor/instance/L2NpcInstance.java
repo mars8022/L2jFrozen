@@ -110,7 +110,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2NpcInstance extends L2Character
 {
-	// private static Logger LOGGER = Logger.getLogger(L2NpcInstance.class.getClass());
+	// private static Logger LOGGER = Logger.getLogger(L2NpcInstance.class);
 	
 	/** The interaction distance of the L2NpcInstance(is used as offset in MovetoLocation method). */
 	public static final int INTERACTION_DISTANCE = 150;

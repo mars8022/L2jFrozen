@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RecipeInstance;
  */
 public class RecipeTable extends RecipeController
 {
-	private static final Logger LOGGER = Logger.getLogger(RecipeTable.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(RecipeTable.class);
 	private Map<Integer, L2RecipeList> _lists;
 
 	private static RecipeTable instance;

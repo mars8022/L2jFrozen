@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 public class BoatManager
 {
-	private static final Logger LOGGER = Logger.getLogger(BoatManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(BoatManager.class);
 
 	public static final BoatManager getInstance()
 	{

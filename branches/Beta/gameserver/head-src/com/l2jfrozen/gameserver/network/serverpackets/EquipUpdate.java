@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 public class EquipUpdate extends L2GameServerPacket
 {
 	private static final String _S__5E_EQUIPUPDATE = "[S] 4b EquipUpdate";
-	private static Logger LOGGER = Logger.getLogger(EquipUpdate.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(EquipUpdate.class);
 
 	private L2ItemInstance _item;
 	private int _change;

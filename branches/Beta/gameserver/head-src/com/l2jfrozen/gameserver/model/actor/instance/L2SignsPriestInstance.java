@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2SignsPriestInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2SignsPriestInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2SignsPriestInstance.class);
 
 	public L2SignsPriestInstance(int objectId, L2NpcTemplate template)
 	{

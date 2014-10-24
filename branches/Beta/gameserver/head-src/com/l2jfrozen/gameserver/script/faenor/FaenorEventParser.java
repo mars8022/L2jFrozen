@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class FaenorEventParser extends FaenorParser
 {
-	static Logger LOGGER = Logger.getLogger(FaenorEventParser.class.getClass());
+	static Logger LOGGER = Logger.getLogger(FaenorEventParser.class);
 	private DateRange _eventDates = null;
 
 	@Override

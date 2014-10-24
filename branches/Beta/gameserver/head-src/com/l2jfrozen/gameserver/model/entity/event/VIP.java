@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class VIP
 {
-	private static final Logger LOGGER = Logger.getLogger(VIP.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(VIP.class);
 	public static String	_teamName = "", _joinArea = "";
 	
 	public static int		_time = 0, _winners = 0,

@@ -57,7 +57,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class GameServerTable
 {
-	private static Logger LOGGER = Logger.getLogger(GameServerTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(GameServerTable.class);
 	private static GameServerTable _instance;
 
 	// Server Names Config

@@ -50,7 +50,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 public class SiegeInfo extends L2GameServerPacket
 {
 	private static final String _S__C9_SIEGEINFO = "[S] c9 SiegeInfo";
-	private static Logger LOGGER = Logger.getLogger(SiegeInfo.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SiegeInfo.class);
 	private Castle _castle;
 
 	public SiegeInfo(Castle castle)

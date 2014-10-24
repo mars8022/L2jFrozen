@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(EnterWorld.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(EnterWorld.class);
 	
 	@Override
 	protected void readImpl()

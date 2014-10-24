@@ -48,7 +48,7 @@ public class L2LoginServer
 	public static final int PROTOCOL_REV = 0x0102;
 
 	private static L2LoginServer _instance;
-	private Logger LOGGER = Logger.getLogger(L2LoginServer.class.getClass());
+	private Logger LOGGER = Logger.getLogger(L2LoginServer.class);
 	private GameServerListener _gameServerListener;
 	private SelectorThread<L2LoginClient> _selectorThread;
 	private Status _statusServer;

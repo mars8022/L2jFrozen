@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class CustomArmorSetsTable
 {
-	private static final Logger LOGGER = Logger.getLogger(CustomArmorSetsTable.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(CustomArmorSetsTable.class);
 	private static CustomArmorSetsTable _instance;
 	public static CustomArmorSetsTable getInstance() {
 		if(_instance == null)

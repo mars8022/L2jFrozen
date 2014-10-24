@@ -55,7 +55,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class QuestState
 {
-	protected static final Logger LOGGER = Logger.getLogger(Quest.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Quest.class);
 
 	/** Quest associated to the QuestState */
 	private final String _questName;

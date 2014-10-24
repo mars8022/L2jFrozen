@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 public abstract class Condition implements ConditionListener
 {
 
-	//private static final Logger LOGGER = Logger.getLogger(Condition.class.getClass());
+	//private static final Logger LOGGER = Logger.getLogger(Condition.class);
 
 	private ConditionListener _listener;
 	private String _msg;

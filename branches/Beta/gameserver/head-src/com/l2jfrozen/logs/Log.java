@@ -35,7 +35,7 @@ import com.l2jfrozen.Config;
 
 public class Log
 {
-	private static final Logger LOGGER = Logger.getLogger(Log.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(Log.class);
 
 	public static final void add(String text, String cat)
 	{

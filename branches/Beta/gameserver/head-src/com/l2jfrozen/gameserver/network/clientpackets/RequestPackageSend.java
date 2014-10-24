@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
  */
 public final class RequestPackageSend extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestPackageSend.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestPackageSend.class);
 	private List<Item> _items = new FastList<Item>();
 	private int _objectID;
 	private int _count;

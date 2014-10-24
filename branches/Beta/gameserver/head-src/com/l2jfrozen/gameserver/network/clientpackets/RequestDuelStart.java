@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestDuelStart extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestDuelStart.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestDuelStart.class);
 	private String _player;
 	private int _partyDuel;
 

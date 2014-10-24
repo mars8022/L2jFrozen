@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 public class SiegeDefenderList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeDefenderList = "[S] cb SiegeDefenderList";
-	//private static Logger LOGGER = Logger.getLogger(SiegeDefenderList.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(SiegeDefenderList.class);
 	private Castle _castle;
 
 	public SiegeDefenderList(Castle castle)

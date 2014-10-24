@@ -39,7 +39,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public final class RequestEnchantItem extends L2GameClientPacket
 {
-	protected static final Logger LOGGER = Logger.getLogger(Inventory.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Inventory.class);
 	private static final int[] CRYSTAL_SCROLLS =
 	{
 			731, 732, 949, 950, 953, 954, 957, 958, 961, 962

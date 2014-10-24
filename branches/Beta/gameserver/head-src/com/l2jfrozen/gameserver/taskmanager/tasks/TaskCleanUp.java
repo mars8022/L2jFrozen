@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public final class TaskCleanUp extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskCleanUp.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskCleanUp.class);
 	public static final String NAME = "cleanup";
 	
 	@Override

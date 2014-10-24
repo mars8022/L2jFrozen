@@ -64,7 +64,7 @@ public class FortSiege
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(FortSiege.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(FortSiege.class);
 
 	/**
 	 * The Enum TeleportWhoType.

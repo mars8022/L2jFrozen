@@ -35,7 +35,7 @@ public class WareHouseWithdrawalList extends L2GameServerPacket
 	public static final int CLAN = 2;
 	public static final int CASTLE = 3; //not sure
 	public static final int FREIGHT = 4; //not sure
-	private static Logger LOGGER = Logger.getLogger(WareHouseWithdrawalList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(WareHouseWithdrawalList.class);
 	private static final String _S__54_WAREHOUSEWITHDRAWALLIST = "[S] 42 WareHouseWithdrawalList";
 	private L2PcInstance _activeChar;
 	private int _playerAdena;

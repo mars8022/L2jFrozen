@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 public class HennaTable
 {
-	private static Logger LOGGER = Logger.getLogger(HennaTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(HennaTable.class);
 
 	private static HennaTable _instance;
 

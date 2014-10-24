@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 public final class RequestRestart extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestRestart.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestRestart.class);
 
 	@Override
 	protected void readImpl()

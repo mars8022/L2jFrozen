@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.TradeUpdate;
 
 public final class AddTradeItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(AddTradeItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AddTradeItem.class);
 	private int _tradeId, _objectId, _count;
 	
 	public AddTradeItem() { }

@@ -50,7 +50,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class AdminTeleport implements IAdminCommandHandler
 {
-	private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

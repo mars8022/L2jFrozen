@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class RecipeItemMakeInfo extends L2GameServerPacket
 {
 	private static final String _S__D7_RECIPEITEMMAKEINFO = "[S] D7 RecipeItemMakeInfo";
-	private static Logger LOGGER = Logger.getLogger(RecipeItemMakeInfo.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RecipeItemMakeInfo.class);
 
 	private int _id;
 	private L2PcInstance _activeChar;

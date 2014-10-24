@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.L2IrcClient;
  */
 public class IrcManager
 {
-	static final Logger LOGGER = Logger.getLogger(IrcManager.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(IrcManager.class);
 
     private static L2IrcClient _ircConnection;
     

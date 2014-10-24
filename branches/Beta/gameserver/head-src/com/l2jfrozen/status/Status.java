@@ -34,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Status extends Thread
 {
-	protected static final Logger LOGGER = Logger.getLogger(Status.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Status.class);
 	
 	private ServerSocket statusServerSocket;
 	

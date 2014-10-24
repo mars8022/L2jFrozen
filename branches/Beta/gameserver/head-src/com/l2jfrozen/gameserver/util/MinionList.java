@@ -54,7 +54,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class MinionList
 {
-	private static Logger LOGGER = Logger.getLogger(L2MonsterInstance.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2MonsterInstance.class);
 
 	/** List containing the current spawned minions for this L2MonsterInstance */
 	private final List<L2MinionInstance> minionReferences;

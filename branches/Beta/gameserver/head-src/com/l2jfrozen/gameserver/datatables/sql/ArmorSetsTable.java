@@ -32,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ArmorSetsTable
 {
-	private final static Logger LOGGER = Logger.getLogger(ArmorSetsTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(ArmorSetsTable.class);
 	private static ArmorSetsTable _instance;
 
 	public FastMap<Integer, L2ArmorSet> armorSets;

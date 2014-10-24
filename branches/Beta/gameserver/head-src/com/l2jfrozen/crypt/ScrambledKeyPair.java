@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
  */
 public class ScrambledKeyPair
 {
-	private static Logger LOGGER = Logger.getLogger(ScrambledKeyPair.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ScrambledKeyPair.class);
 	public KeyPair _pair;
 	public byte[] _scrambledModulus;
 

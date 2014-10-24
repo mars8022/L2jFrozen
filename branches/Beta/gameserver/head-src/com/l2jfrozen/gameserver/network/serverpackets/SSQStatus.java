@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 public class SSQStatus extends L2GameServerPacket
 {
-	private static Logger LOGGER = Logger.getLogger(SSQStatus.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SSQStatus.class);
 
 	private static final String _S__F5_SSQStatus = "[S] F5 RecordUpdate";
 	private L2PcInstance _activevChar;

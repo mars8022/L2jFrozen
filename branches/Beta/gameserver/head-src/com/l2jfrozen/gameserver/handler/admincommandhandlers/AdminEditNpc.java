@@ -61,7 +61,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AdminEditNpc implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminEditChar.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminEditChar.class);
 	private final static int PAGE_LIMIT = 7;
 
 	private static final String[] ADMIN_COMMANDS =

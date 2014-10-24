@@ -26,7 +26,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class PayStream implements HttpHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(PayStream.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(PayStream.class);
 	// An indication that all options are read, and the handler can be created
 
 	// Security Key - defined in the study Lisnoe paystream

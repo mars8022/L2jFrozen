@@ -32,7 +32,7 @@ import com.l2jfrozen.util.Util;
  */
 public final class DeadlockDetector implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(DeadlockDetector.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(DeadlockDetector.class);
 	private final Set<Long> _logged = new FastSet<Long>();
 
 	private static DeadlockDetector _instance;

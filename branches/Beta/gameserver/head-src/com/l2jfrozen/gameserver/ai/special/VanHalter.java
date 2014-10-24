@@ -64,7 +64,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class VanHalter extends Quest implements Runnable
 {
-	private static final Logger LOGGER = Logger.getLogger(VanHalter.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(VanHalter.class);
 
 	// List of intruders.
 	protected Map<Integer, List<L2PcInstance>> _bleedingPlayers = new FastMap<Integer, List<L2PcInstance>>();

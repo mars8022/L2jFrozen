@@ -49,7 +49,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public abstract class L2Effect
 {
-	static final Logger LOGGER = Logger.getLogger(L2Effect.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(L2Effect.class);
 
 	public static enum EffectState
 	{

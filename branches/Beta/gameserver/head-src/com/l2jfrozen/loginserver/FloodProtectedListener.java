@@ -34,7 +34,7 @@ import com.l2jfrozen.Config;
  */
 public abstract class FloodProtectedListener extends Thread
 {
-	private Logger LOGGER = Logger.getLogger(FloodProtectedListener.class.getClass());
+	private Logger LOGGER = Logger.getLogger(FloodProtectedListener.class);
 	private Map<String, ForeignConnection> _floodProtection = new FastMap<String, ForeignConnection>();
 	private String _listenIp;
 	private int _port;

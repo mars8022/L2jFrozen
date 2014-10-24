@@ -39,7 +39,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class ExtractableItems implements IItemHandler
 {
-	private static Logger LOGGER = Logger.getLogger(ItemTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ItemTable.class);
 	
 	public void doExtract(L2PlayableInstance playable, L2ItemInstance item, int count)
 	{

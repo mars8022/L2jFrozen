@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public final class AwayManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(AwayManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AwayManager.class);
 	private static AwayManager _instance;
 	protected Map<L2PcInstance, RestoreData> _awayPlayers;
 

@@ -21,7 +21,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class BuffTable
 {
-	private final Logger LOGGER = Logger.getLogger(BuffTable.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(BuffTable.class);
 	
 	public class Buff
 	{

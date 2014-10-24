@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class Crystals implements IItemHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(Crystals.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Crystals.class);
 
 	private static final int[] ITEM_IDS =
 	{

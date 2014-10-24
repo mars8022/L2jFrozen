@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class SendWareHouseWithDrawList extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(SendWareHouseWithDrawList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SendWareHouseWithDrawList.class);
 
 	private int _count;
 	private int[] _items;

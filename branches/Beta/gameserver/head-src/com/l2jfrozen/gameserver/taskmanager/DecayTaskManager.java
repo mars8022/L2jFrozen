@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class DecayTaskManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(DecayTaskManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(DecayTaskManager.class);
 	protected Map<L2Character, Long> _decayTasks = new FastMap<L2Character, Long>().shared();
 
 	private static DecayTaskManager _instance;

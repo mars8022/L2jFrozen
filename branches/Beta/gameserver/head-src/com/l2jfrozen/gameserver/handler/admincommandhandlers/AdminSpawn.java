@@ -69,7 +69,7 @@ public class AdminSpawn implements IAdminCommandHandler
 			"admin_spawnday"
 	};
 
-	public static Logger LOGGER = Logger.getLogger(AdminSpawn.class.getClass());
+	public static Logger LOGGER = Logger.getLogger(AdminSpawn.class);
 
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)

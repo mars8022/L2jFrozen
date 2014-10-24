@@ -27,7 +27,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class ZakenPlayer implements ISkillHandler
 {
-	// private static Logger LOGGER = Logger.getLogger(ZakenPlayer.class.getClass());
+	// private static Logger LOGGER = Logger.getLogger(ZakenPlayer.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.ZAKENPLAYER

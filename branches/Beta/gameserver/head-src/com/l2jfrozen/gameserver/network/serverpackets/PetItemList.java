@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
  */
 public class PetItemList extends L2GameServerPacket
 {
-	private static Logger LOGGER = Logger.getLogger(PetItemList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(PetItemList.class);
 	private static final String _S__cb_PETITEMLIST = "[S] b2  PetItemList";
 	private L2PetInstance _activeChar;
 

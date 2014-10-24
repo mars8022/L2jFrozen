@@ -48,7 +48,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class CursedWeapon
 {
-	private static final Logger LOGGER = Logger.getLogger(CursedWeaponsManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(CursedWeaponsManager.class);
 
 	private final String _name;
 	private final int _itemId;

@@ -74,7 +74,7 @@ import com.l2jfrozen.gameserver.handler.itemhandlers.SummonItems;
  */
 public class ItemHandler
 {
-	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class);
 
 	private static ItemHandler _instance;
 

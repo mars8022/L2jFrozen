@@ -15,7 +15,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class PcPoint implements Runnable
 {
-	Logger LOGGER = Logger.getLogger(PcPoint.class.getClass());
+	Logger LOGGER = Logger.getLogger(PcPoint.class);
 	private static PcPoint _instance;
 
 	public static PcPoint getInstance()

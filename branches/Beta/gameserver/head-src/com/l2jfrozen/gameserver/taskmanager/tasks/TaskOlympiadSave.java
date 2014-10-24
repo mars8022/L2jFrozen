@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskOlympiadSave extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskOlympiadSave.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskOlympiadSave.class);
 	public static final String NAME = "olympiadsave";
 	
 	@Override

@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestPrivateStoreSell extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestPrivateStoreSell.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestPrivateStoreSell.class);
 	
 	private int _storePlayerId;
 	private int _count;

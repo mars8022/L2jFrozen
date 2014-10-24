@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestSurrenderPersonally extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestSurrenderPledgeWar.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestSurrenderPledgeWar.class);
 
 	private String _pledgeName;
 	private L2Clan _clan;

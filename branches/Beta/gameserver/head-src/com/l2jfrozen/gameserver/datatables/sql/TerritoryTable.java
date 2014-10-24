@@ -42,7 +42,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class TerritoryTable
 {
-	private final static Logger LOGGER = Logger.getLogger(TradeController.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(TradeController.class);
 	private static Map<Integer, L2Territory> _territory = new HashMap<>();
 
 	public static TerritoryTable getInstance()

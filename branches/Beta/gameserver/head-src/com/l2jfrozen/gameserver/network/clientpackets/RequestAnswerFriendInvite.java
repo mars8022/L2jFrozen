@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class RequestAnswerFriendInvite extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestAnswerFriendInvite.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestAnswerFriendInvite.class);
 	
 	private int _response;
 	

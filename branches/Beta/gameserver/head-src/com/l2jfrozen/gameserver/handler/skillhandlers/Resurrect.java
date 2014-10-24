@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
 
 public class Resurrect implements ISkillHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(Resurrect.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(Resurrect.class);
 
 	private static final SkillType[] SKILL_IDS = { SkillType.RESURRECT };
 

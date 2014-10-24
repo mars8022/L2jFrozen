@@ -47,7 +47,7 @@ public class Auction
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(Auction.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Auction.class);
 	
 	/** The _id. */
 	private int _id = 0;

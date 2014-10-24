@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 public class DoorTable
 {
-	private static Logger LOGGER = Logger.getLogger(DoorTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(DoorTable.class);
 
 	private Map<Integer, L2DoorInstance> _staticItems;
 

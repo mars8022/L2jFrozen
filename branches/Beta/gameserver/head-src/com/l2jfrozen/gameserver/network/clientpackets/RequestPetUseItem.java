@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestPetUseItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestPetUseItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestPetUseItem.class);
 	private int _objectId;
 
 	@Override

@@ -50,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class MercTicketManager
 {
-	protected static Logger LOGGER = Logger.getLogger(MercTicketManager.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(MercTicketManager.class);
 
 	// =========================================================
 

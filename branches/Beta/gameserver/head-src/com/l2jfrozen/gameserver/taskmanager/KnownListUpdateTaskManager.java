@@ -12,7 +12,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class KnownListUpdateTaskManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(DecayTaskManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(DecayTaskManager.class);
 
 	private static KnownListUpdateTaskManager _instance;
 

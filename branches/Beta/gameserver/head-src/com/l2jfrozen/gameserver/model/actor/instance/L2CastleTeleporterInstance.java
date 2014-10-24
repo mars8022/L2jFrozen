@@ -31,7 +31,7 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 {
 	
 	/** The Constant LOGGER. */
-	public static final Logger LOGGER = Logger.getLogger(L2CastleTeleporterInstance.class.getClass());
+	public static final Logger LOGGER = Logger.getLogger(L2CastleTeleporterInstance.class);
 	
 	/** The _current task. */
 	private boolean _currentTask = false;

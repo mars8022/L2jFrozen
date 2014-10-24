@@ -41,7 +41,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Zaken_l2j extends Quest implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(Zaken_l2j.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Zaken_l2j.class);
 	
 	private int _1001 = 0; // used for first cancel of QuestTimer "1001"
 	private int _ai0 = 0; // used for zaken coords updater

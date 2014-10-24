@@ -58,7 +58,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class GrandBossManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(GrandBossManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(GrandBossManager.class);
 	
 	private static final String DELETE_GRAND_BOSS_LIST = "DELETE FROM grandboss_list";
 	private static final String INSERT_GRAND_BOSS_LIST = "INSERT INTO grandboss_list (player_id,zone) VALUES (?,?)";

@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class SellList extends L2GameServerPacket
 {
 	private static final String _S__10_SELLLIST = "[S] 10 SellList";
-	private static Logger LOGGER = Logger.getLogger(SellList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SellList.class);
 	private final L2PcInstance _activeChar;
 	private final L2MerchantInstance _lease;
 	private int _money;

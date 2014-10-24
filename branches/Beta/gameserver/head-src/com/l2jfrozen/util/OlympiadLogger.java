@@ -35,7 +35,7 @@ import com.l2jfrozen.Config;
 
 public class OlympiadLogger
 {
-	private static final Logger LOGGER = Logger.getLogger(OlympiadLogger.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(OlympiadLogger.class);
 
 	public static final void add(String text, String cat)
 	{

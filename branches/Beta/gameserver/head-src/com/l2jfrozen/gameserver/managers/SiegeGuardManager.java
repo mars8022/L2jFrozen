@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class SiegeGuardManager
 {
 
-	private static Logger LOGGER = Logger.getLogger(SiegeGuardManager.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SiegeGuardManager.class);
 
 	// =========================================================
 	// Data Field

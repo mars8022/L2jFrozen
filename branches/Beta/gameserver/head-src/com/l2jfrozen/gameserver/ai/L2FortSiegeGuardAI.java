@@ -51,7 +51,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 {
-	protected static final Logger _log1 = Logger.getLogger(L2FortSiegeGuardAI.class.getClass());
+	protected static final Logger _log1 = Logger.getLogger(L2FortSiegeGuardAI.class);
 
 	//SelfAnalisis ))
 	public List<L2Skill> pdamSkills = new FastList<L2Skill>();

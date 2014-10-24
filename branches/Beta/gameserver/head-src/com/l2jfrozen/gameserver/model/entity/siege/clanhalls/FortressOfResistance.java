@@ -50,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortressOfResistance
 {
-	private static final Logger LOGGER = Logger.getLogger(FortressOfResistance.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(FortressOfResistance.class);
 	private static FortressOfResistance _instance;
 	private FastMap<Integer, DamageInfo> _clansDamageInfo;
 

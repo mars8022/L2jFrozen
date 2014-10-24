@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class DrainSoul implements ISkillHandler
 {
-	private static Logger LOGGER = Logger.getLogger(DrainSoul.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(DrainSoul.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.DRAIN_SOUL };
 
 	@Override

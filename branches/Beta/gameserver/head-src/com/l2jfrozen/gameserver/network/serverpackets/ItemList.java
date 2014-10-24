@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class ItemList extends L2GameServerPacket
 {
-        private static Logger LOGGER = Logger.getLogger(ItemList.class.getClass());
+        private static Logger LOGGER = Logger.getLogger(ItemList.class);
         private static final String _S__27_ITEMLIST = "[S] 1b ItemList";
         private L2ItemInstance[] _items;
         private boolean _showWindow;

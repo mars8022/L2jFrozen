@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminUnblockIp implements IAdminCommandHandler
 {
-	private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

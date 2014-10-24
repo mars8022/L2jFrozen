@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.util.GMAudit;
  */
 public final class SendBypassBuildCmd extends L2GameClientPacket
 {
-	protected static final Logger LOGGER = Logger.getLogger(SendBypassBuildCmd.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(SendBypassBuildCmd.class);
 	public final static int GM_MESSAGE = 9;
 	public final static int ANNOUNCEMENT = 10;
 

@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
  */
 public class CustomBypassHandler
 {
-	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class);
 	
 	private static CustomBypassHandler _instance = null;
 	private Map<String, ICustomByPassHandler> _handlers;

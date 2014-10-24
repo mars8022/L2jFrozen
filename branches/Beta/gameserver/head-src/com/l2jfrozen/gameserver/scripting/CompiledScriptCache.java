@@ -52,7 +52,7 @@ public class CompiledScriptCache implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class.getClass());
+	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class);
 
 	private Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<String, CompiledScriptHolder>();
 	private transient boolean _modified = false;

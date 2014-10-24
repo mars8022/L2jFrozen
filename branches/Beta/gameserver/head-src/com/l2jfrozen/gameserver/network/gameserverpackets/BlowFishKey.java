@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
  */
 public class BlowFishKey extends GameServerBasePacket
 {
-	private static Logger LOGGER = Logger.getLogger(BlowFishKey.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(BlowFishKey.class);
 
 	/**
 	 * @param blowfishKey

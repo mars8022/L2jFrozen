@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2MerchantInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2MerchantInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2MerchantInstance.class);
 
 	/**
 	 * Instantiates a new l2 merchant instance.

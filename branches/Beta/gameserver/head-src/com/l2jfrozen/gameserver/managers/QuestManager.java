@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.scripting.ScriptManager;
 
 public class QuestManager extends ScriptManager<Quest>
 {
-	protected static final Logger LOGGER = Logger.getLogger(QuestManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(QuestManager.class);
 	private Map<String, Quest> _quests = new FastMap<String, Quest>();
 	private static QuestManager _instance;
 

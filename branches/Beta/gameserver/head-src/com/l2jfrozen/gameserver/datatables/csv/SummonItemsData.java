@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.model.L2SummonItem;
 
 public class SummonItemsData
 {
-	private static Logger LOGGER = Logger.getLogger(SummonItemsData.class.getClass());	
+	private static Logger LOGGER = Logger.getLogger(SummonItemsData.class);	
 	
 	private FastMap<Integer, L2SummonItem> _summonitems;
 

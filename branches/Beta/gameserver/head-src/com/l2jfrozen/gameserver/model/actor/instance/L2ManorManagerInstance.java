@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 public class L2ManorManagerInstance extends L2MerchantInstance
 {
 
-	//private static Logger LOGGER = Logger.getLogger(L2ManorManagerInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2ManorManagerInstance.class);
 
 	public L2ManorManagerInstance(int objectId, L2NpcTemplate template)
 	{

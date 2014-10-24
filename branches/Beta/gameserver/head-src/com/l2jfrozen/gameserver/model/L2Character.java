@@ -155,7 +155,7 @@ import com.l2jfrozen.util.random.Rnd;
 public abstract class L2Character extends L2Object implements ISkillsHolder
 {
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(L2Character.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class);
 	
 	// =========================================================
 	// Data Field

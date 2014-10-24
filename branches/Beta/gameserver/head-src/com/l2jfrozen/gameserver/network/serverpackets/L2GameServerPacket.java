@@ -32,7 +32,7 @@ public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 {
 	
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(L2GameServerPacket.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2GameServerPacket.class);
 	
 	@Override
 	protected void write()

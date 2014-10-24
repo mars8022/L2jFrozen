@@ -51,7 +51,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class RaidBossSpawnManager
 {
-	private static Logger LOGGER = Logger.getLogger(RaidBossSpawnManager.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RaidBossSpawnManager.class);
 	
 	protected static Map<Integer, L2RaidBossInstance> _bosses = new FastMap<Integer, L2RaidBossInstance>();
 	protected static Map<Integer, L2Spawn> _spawns = new FastMap<Integer, L2Spawn>();

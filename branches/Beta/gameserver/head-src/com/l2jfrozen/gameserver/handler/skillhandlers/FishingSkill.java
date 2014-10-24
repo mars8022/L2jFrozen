@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.templates.L2WeaponType;
 
 public class FishingSkill implements ISkillHandler
 {
-    //private static Logger LOGGER = Logger.getLogger(SiegeFlag.class.getClass());
+    //private static Logger LOGGER = Logger.getLogger(SiegeFlag.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.PUMPING,

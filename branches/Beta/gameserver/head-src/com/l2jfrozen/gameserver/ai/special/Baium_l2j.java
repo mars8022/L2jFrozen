@@ -83,7 +83,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Baium_l2j  extends Quest implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(Baium_l2j.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Baium_l2j.class);
 	
 	private L2Character _target;
 	private L2Skill _skill;

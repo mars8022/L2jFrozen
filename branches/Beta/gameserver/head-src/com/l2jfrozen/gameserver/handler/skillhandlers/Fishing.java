@@ -41,7 +41,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Fishing implements ISkillHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(SiegeFlag.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(SiegeFlag.class);
 	//protected SkillType[] _skillIds = {SkillType.FISHING};
 	private static final SkillType[] SKILL_IDS = { SkillType.FISHING };
 

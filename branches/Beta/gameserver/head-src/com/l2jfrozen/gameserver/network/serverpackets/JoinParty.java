@@ -32,7 +32,7 @@ public final class JoinParty extends L2GameServerPacket
 	
 	/** The Constant _S__4C_JOINPARTY. */
 	private static final String _S__4C_JOINPARTY = "[S] 3a JoinParty";
-	//private static Logger LOGGER = Logger.getLogger(JoinParty.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(JoinParty.class);
 
 	/** The _response. */
 	private int _response;

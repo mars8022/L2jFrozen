@@ -48,7 +48,7 @@ import com.l2jfrozen.gameserver.util.Util;
 @SuppressWarnings("unused")
 public final class CharacterCreate extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(CharacterCreate.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CharacterCreate.class);
 	private static final Object CREATION_LOCK = new Object();
 
 	private String _name;

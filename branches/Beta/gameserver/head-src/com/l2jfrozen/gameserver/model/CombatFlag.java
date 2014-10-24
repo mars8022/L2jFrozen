@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class CombatFlag
 {
-	//private static final Logger LOGGER = Logger.getLogger(CombatFlag.class.getClass());
+	//private static final Logger LOGGER = Logger.getLogger(CombatFlag.class);
 
 	protected L2PcInstance _player = null;
 	public int playerId = 0;

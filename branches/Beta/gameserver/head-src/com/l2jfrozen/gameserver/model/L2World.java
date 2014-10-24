@@ -46,7 +46,7 @@ public final class L2World
 {
 	
 	/** The LOGGER. */
-	private static Logger LOGGER = Logger.getLogger(L2World.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2World.class);
 
 	/*
 	 * biteshift, defines number of regions

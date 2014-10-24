@@ -44,7 +44,7 @@ public enum BaseStats
 	MEN(new MEN()),
 	NULL(new NULL());
 	
-	protected static final Logger LOGGER = Logger.getLogger(BaseStats.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(BaseStats.class);
 	
 	public static final int MAX_STAT_VALUE = 100;
 	

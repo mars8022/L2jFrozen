@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread;
  */
 public class AdminLogin implements IAdminCommandHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(AdminDelete.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(AdminDelete.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

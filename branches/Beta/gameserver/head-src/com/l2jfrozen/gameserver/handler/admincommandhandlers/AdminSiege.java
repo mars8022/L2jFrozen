@@ -45,7 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class AdminSiege implements IAdminCommandHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(AdminSiege.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(AdminSiege.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_siege",

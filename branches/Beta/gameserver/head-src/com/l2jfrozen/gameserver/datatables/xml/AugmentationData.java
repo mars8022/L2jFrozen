@@ -47,7 +47,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AugmentationData
 {
-	private static final Logger LOGGER = Logger.getLogger(AugmentationData.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AugmentationData.class);
 
 	// =========================================================
 	private static AugmentationData _instance;

@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class FriendList extends L2GameServerPacket
 {
-	private static Logger LOGGER = Logger.getLogger(FriendList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(FriendList.class);
 	private static final String _S__FA_FRIENDLIST = "[S] FA FriendList";
 	
 	private L2PcInstance _activeChar;

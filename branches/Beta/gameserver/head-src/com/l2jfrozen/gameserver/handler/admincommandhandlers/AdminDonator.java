@@ -40,7 +40,7 @@ public class AdminDonator implements IAdminCommandHandler
 		"admin_setdonator"
 	};
 
-	protected static final Logger LOGGER = Logger.getLogger(AdminDonator.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AdminDonator.class);
 	
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)

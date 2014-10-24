@@ -45,7 +45,7 @@ public class CharStatus
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(CharStatus.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(CharStatus.class);
 
 	// =========================================================
 	// Data Field

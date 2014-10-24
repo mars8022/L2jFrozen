@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class Util
 {
-	protected static final Logger LOGGER = Logger.getLogger(Util.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Util.class);
 	
 	public static boolean isInternalIP(String ipAddress)
 	{

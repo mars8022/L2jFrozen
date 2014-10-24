@@ -43,7 +43,7 @@ public class PledgeShowMemberListAll extends L2GameServerPacket
 	private L2ClanMember[] _members;
 	private int _pledgeType;
 
-	//private static Logger LOGGER = Logger.getLogger(PledgeShowMemberListAll.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(PledgeShowMemberListAll.class);
 
 	public PledgeShowMemberListAll(L2Clan clan, L2PcInstance activeChar)
 	{

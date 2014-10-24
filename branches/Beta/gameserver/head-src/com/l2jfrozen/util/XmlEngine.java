@@ -39,7 +39,7 @@ import com.l2jfrozen.Config;
  */
 public abstract class XmlEngine
 {
-	protected static final Logger LOGGER = Logger.getLogger(XmlEngine.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(XmlEngine.class);
 	
 	private File _file;
 	

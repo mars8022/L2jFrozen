@@ -61,7 +61,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AutoSpawn
 {
-	protected static final Logger LOGGER = Logger.getLogger(AutoSpawn.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AutoSpawn.class);
 
 	private static AutoSpawn _instance;
 

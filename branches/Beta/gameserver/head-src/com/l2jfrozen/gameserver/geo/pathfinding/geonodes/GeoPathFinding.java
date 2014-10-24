@@ -43,7 +43,7 @@ import com.l2jfrozen.gameserver.model.Location;
 
 public final class GeoPathFinding extends PathFinding
 {
-	protected static final Logger LOGGER = Logger.getLogger(GeoPathFinding.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(GeoPathFinding.class);
 	
 	private static final class SingletonHolder
 	{

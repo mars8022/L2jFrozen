@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SendStatus;
 
 public final class ProtocolVersion extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(ProtocolVersion.class.getClass());
+	static Logger LOGGER = Logger.getLogger(ProtocolVersion.class);
 	private int _version;
 
 	@Override

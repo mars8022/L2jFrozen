@@ -34,7 +34,7 @@ public class ObjectPosition
 {
 	
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(ObjectPosition.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ObjectPosition.class);
 
 	// =========================================================
 	// Data Field

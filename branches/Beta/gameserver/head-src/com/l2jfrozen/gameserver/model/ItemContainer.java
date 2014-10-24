@@ -42,7 +42,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class ItemContainer
 {
-	protected static final Logger LOGGER = Logger.getLogger(ItemContainer.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(ItemContainer.class);
 
 	protected final List<L2ItemInstance> _items;
 

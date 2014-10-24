@@ -44,7 +44,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class SpawnTable
 {
-	private final static Logger LOGGER = Logger.getLogger(SpawnTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(SpawnTable.class);
 
 	private static final SpawnTable _instance = new SpawnTable();
 

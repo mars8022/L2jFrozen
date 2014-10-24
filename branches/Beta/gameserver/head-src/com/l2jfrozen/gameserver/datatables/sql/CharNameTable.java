@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CharNameTable
 {
-	private final static Logger LOGGER = Logger.getLogger(CharNameTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(CharNameTable.class);
 
 	private static CharNameTable _instance;
 

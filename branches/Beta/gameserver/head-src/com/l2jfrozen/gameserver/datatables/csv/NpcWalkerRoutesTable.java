@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.model.L2NpcWalkerNode;
  */
 public class NpcWalkerRoutesTable
 {
-	protected static final Logger LOGGER = Logger.getLogger(NpcWalkerRoutesTable.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(NpcWalkerRoutesTable.class);
 	
 	private static NpcWalkerRoutesTable _instance;
 

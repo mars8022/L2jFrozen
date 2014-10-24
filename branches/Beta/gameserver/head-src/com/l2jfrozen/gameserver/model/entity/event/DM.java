@@ -60,7 +60,7 @@ public class DM implements EventTask
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(DM.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(DM.class);
 	
 	/** The _joining location name. */
 	private static String _eventName = new String(), _eventDesc = new String(), _joiningLocationName = new String();

@@ -45,7 +45,7 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
  */
 public class VoicedCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(GameServer.class);
 	
 	private static VoicedCommandHandler _instance;
 	

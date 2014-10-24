@@ -33,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AccessLevels
 {
-	private static final Logger LOGGER = Logger.getLogger(AccessLevels.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AccessLevels.class);
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AccessLevels _instance = null;
 	/** Reserved master access level<br> */

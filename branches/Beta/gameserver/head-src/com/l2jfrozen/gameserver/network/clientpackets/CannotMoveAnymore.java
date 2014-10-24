@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 
 public final class CannotMoveAnymore extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(CannotMoveAnymore.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CannotMoveAnymore.class);
 	private int _x, _y, _z, _heading;
 
 	@Override

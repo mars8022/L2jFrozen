@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 @SuppressWarnings("unused")
 public final class Action extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(Action.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Action.class);
 	private int _objectId;
 	private int _originX;
 	private int _originY;

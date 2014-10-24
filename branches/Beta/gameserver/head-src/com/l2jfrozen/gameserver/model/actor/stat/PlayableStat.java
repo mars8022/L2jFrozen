@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 
 public class PlayableStat extends CharStat
 {
-	private final Logger LOGGER = Logger.getLogger(PlayableStat.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(PlayableStat.class);
 	public PlayableStat(L2PlayableInstance activeChar)
 	{
 		super(activeChar);

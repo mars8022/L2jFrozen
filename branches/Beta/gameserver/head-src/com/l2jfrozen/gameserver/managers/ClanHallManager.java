@@ -37,7 +37,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanHallManager
 {
-	private static final Logger LOGGER = Logger.getLogger(ClanHallManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ClanHallManager.class);
 
 	private static final Map<Integer, ClanHall> _clanHall = new FastMap<Integer, ClanHall>();
 	private static final Map<Integer, ClanHall> _freeClanHall = new FastMap<Integer, ClanHall>();
