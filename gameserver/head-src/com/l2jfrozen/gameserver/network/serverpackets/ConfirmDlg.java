@@ -152,6 +152,9 @@ public class ConfirmDlg extends L2GameServerPacket
                                 writeD(_time);
                         if (_requesterId != 0)
                                 writeD(_requesterId);
+                        
+			if (_time > 0)
+				getClient().getActiveChar().addConfirmDlgRequestTime(_requesterId, _time);
                 }
                 else
                 {

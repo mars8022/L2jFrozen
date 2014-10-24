@@ -9214,6 +9214,9 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	public void disableSkill(L2Skill skill, long delay)
 	{
+		if (skill == null)
+			return;
+		
 		disableSkill(skill);
 		
 		if(delay > 10)

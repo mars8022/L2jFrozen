@@ -150,8 +150,9 @@ public class OfflineShop implements IUserCommandHandler
 		if ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
 		{
 			// Sleep effect, not official feature but however L2OFF features (like offline trade)
-			player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
-			
+			if (Config.OFFLINE_SLEEP_EFFECT)
+				player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+
 			player.sendMessage("Your private store has succesfully been flagged as an offline shop and will remain active for ever.");
 			player.setStored(true);
 			

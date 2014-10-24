@@ -46,6 +46,14 @@ public final class DlgAnswer extends L2GameClientPacket
 		if (Config.DEBUG)
 			LOGGER.debug(getType() + ": Answer acepted. Message ID " + _messageId + ", asnwer " + _answer + ", unknown field " + _requestId);
 		
+		Long answerTime = getClient().getActiveChar().getConfirmDlgRequestTime(_requestId);
+		if (_answer == 1 && answerTime != null && System.currentTimeMillis() > answerTime)
+		{
+			_answer = 0;
+		}
+		getClient().getActiveChar().removeConfirmDlgRequestTime(_requestId);
+
+		
 		if (_messageId == SystemMessageId.RESSURECTION_REQUEST.getId())
 			activeChar.reviveAnswer(_answer);	
 		else if (_messageId == SystemMessageId.S1_WISHES_TO_SUMMON_YOU_FROM_S2_DO_YOU_ACCEPT.getId())

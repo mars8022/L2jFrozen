@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -20014,6 +20015,23 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			_player.setPunishLevel(PunishLevel.NONE, 0);
 		}
+	}
+	
+	private HashMap<Integer, Long> confirmDlgRequests = new HashMap<Integer, Long>();	
+	public void addConfirmDlgRequestTime(int requestId, int time)
+	
+	{	
+		confirmDlgRequests.put(requestId, System.currentTimeMillis() + time + 2000);
+	}
+	
+	public Long getConfirmDlgRequestTime(int requestId)
+	{	
+	return confirmDlgRequests.get(requestId);	
+	}
+	
+	public void removeConfirmDlgRequestTime(int requestId)
+	{	
+		confirmDlgRequests.remove(requestId);	
 	}
 	
 	/**
