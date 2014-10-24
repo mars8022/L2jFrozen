@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
  */
 public class CrownManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(CrownManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(CrownManager.class);
 	private static CrownManager _instance;
 
 	public static final CrownManager getInstance()

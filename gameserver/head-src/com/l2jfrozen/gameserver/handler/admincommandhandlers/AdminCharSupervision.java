@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class AdminCharSupervision implements IAdminCommandHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(AdminCharSupervision.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCharSupervision.class);
 	
 	private static String[] ADMIN_COMMANDS =
 	{

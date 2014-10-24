@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class SummonFriend implements ISkillHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(SummonFriend.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(SummonFriend.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.SUMMON_FRIEND };
 
 	@Override

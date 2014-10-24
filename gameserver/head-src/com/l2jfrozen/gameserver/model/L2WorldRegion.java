@@ -46,7 +46,7 @@ import com.l2jfrozen.util.object.L2ObjectSet;
  */
 public final class L2WorldRegion
 {
-	private static Logger LOGGER = Logger.getLogger(L2WorldRegion.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2WorldRegion.class);
 
 	/**
 	 * L2ObjectHashSet(L2PlayableInstance) containing L2PlayableInstance of all player & summon in game in this

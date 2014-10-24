@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CoupleManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(CoupleManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(CoupleManager.class);
 	
 	// =========================================================
 	// Data Field

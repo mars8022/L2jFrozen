@@ -53,7 +53,7 @@ public class SevenSigns
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(SevenSigns.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(SevenSigns.class);
 	
 	/** The _instance. */
 	private static SevenSigns _instance;

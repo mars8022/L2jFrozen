@@ -41,7 +41,7 @@ import com.l2jfrozen.gameserver.templates.L2WeaponType;
  */
 public class StrSiegeAssault implements ISkillHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(StrSiegeAssault.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(StrSiegeAssault.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.STRSIEGEASSAULT };
 
 	@Override

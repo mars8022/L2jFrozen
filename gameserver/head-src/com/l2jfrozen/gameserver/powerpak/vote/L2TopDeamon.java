@@ -27,7 +27,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2TopDeamon implements Runnable
 {
-	private static final Logger LOGGER = Logger.getLogger(L2TopDeamon.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2TopDeamon.class);
 	protected ScheduledFuture<?> _task;
 	private Timestamp _lastVote;
 	private boolean _firstRun = false;

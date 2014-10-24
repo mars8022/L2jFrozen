@@ -50,7 +50,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class CastleManorManager
 {
-	protected static Logger LOGGER = Logger.getLogger(CastleManorManager.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(CastleManorManager.class);
 
 	private static CastleManorManager _instance;
 

@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class RequestSocialAction extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestSocialAction.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestSocialAction.class);
 	private int _actionId;
 
 	@Override

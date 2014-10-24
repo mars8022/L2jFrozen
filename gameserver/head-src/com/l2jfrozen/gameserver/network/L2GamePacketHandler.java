@@ -50,7 +50,7 @@ import com.l2jfrozen.util.Util;
 
 public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, IClientFactory<L2GameClient>, IMMOExecutor<L2GameClient>
 {
-	private static final Logger LOGGER = Logger.getLogger(L2GamePacketHandler.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2GamePacketHandler.class);
 
 	// implementation
 	@Override

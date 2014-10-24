@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
  */
 public class RaidInfoHandler implements ICustomByPassHandler
 {
-	private static Logger LOGGER = Logger.getLogger(RaidInfoHandler.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RaidInfoHandler.class);
 
 	private static final int NPC_ID = 93000;
 

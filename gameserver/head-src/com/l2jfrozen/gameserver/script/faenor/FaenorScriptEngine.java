@@ -45,7 +45,7 @@ import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
  */
 public class FaenorScriptEngine extends ScriptEngine
 {
-	static Logger LOGGER = Logger.getLogger(FaenorScriptEngine.class.getClass());
+	static Logger LOGGER = Logger.getLogger(FaenorScriptEngine.class);
 	public final static String PACKAGE_DIRECTORY = "data/faenor/";
 	public final static boolean DEBUG = true;
 

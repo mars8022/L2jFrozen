@@ -52,7 +52,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class DevastatedCastle
 {
-	private static final Logger LOGGER = Logger.getLogger(DevastatedCastle.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(DevastatedCastle.class);
 	private static DevastatedCastle _instance;
 	private FastMap<Integer, DamageInfo> _clansDamageInfo;
 

@@ -42,7 +42,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2IrcClient extends Thread
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2IrcClient.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2IrcClient.class);
 	protected static final Logger _logChat = Logger.getLogger("irc");
 	
 	protected IRCConnection conn;

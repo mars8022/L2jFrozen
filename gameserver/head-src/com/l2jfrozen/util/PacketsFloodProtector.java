@@ -41,7 +41,7 @@ public class PacketsFloodProtector
 	
 	private static Hashtable<String, AtomicInteger> clients_concurrent_actions = new Hashtable<String, AtomicInteger>();
 	
-	private static final Logger LOGGER = Logger.getLogger(PacketsFloodProtector.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(PacketsFloodProtector.class);
 	
 	private static Hashtable<String, Hashtable<Integer, AtomicInteger>> clients_actions = new Hashtable<String, Hashtable<Integer, AtomicInteger>>();
 	

@@ -46,7 +46,7 @@ import com.l2jfrozen.util.PrimeFinder;
 
 public class BitSetIDFactory extends IdFactory
 {
-    private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class.getClass());
+    private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class);
 
     private BitSet          _freeIds;
     private AtomicInteger   _freeIdCount;

@@ -48,7 +48,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.RelationChanged;
 
 public final class Broadcast
 {
-	private static Logger LOGGER = Logger.getLogger(Broadcast.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Broadcast.class);
 
 	/**
 	 * Send a packet to all L2PcInstance in the _KnownPlayers of the L2Character that have the Character targetted.<BR>

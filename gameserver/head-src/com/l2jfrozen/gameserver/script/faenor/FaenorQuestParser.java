@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.script.ScriptEngine;
  */
 public class FaenorQuestParser extends FaenorParser
 {
-	protected static final Logger LOGGER = Logger.getLogger(FaenorQuestParser.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(FaenorQuestParser.class);
 
 	@Override
 	public void parseScript(Node questNode, ScriptContext context)

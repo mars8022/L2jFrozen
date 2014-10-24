@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestOustPledgeMember extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(RequestOustPledgeMember.class.getClass());
+	static Logger LOGGER = Logger.getLogger(RequestOustPledgeMember.class);
 	
 	private String _target;
 	

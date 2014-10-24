@@ -42,7 +42,7 @@ public class Lottery
 	public static final long MINUTE = 60000;
 
 	private static Lottery _instance;
-	protected static final Logger LOGGER = Logger.getLogger(Lottery.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Lottery.class);
 
 	private static final String INSERT_LOTTERY = "INSERT INTO games(id, idnr, enddate, prize, newprize) VALUES (?, ?, ?, ?, ?)";
 	private static final String UPDATE_PRICE = "UPDATE games SET prize=?, newprize=? WHERE id = 1 AND idnr = ?";

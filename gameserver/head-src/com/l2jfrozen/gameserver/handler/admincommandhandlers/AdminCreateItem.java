@@ -42,7 +42,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  */
 public class AdminCreateItem implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminCreateItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminCreateItem.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_l2jfrozen", "admin_itemcreate", "admin_create_item", "admin_mass_create", "admin_clear_inventory"

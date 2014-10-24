@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
  */
 public class NewCrypt
 {
-	protected static Logger LOGGER = Logger.getLogger(NewCrypt.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(NewCrypt.class);
 	BlowfishEngine _crypt;
 	BlowfishEngine _decrypt;
 

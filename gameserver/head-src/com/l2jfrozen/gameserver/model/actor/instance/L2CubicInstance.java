@@ -49,7 +49,7 @@ public class L2CubicInstance
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(L2CubicInstance.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2CubicInstance.class);
 	
 	// Type of Cubics
 	/** The Constant STORM_CUBIC. */

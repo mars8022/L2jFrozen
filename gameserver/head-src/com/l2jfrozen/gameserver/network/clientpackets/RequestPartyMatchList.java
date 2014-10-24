@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class RequestPartyMatchList extends L2GameClientPacket
 {
 
-	private static final Logger LOGGER = Logger.getLogger(RequestPartyMatchList.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(RequestPartyMatchList.class);
 	
 	private int _roomid;
 	private int _membersmax;

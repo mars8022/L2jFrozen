@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestWearItem extends L2GameClientPacket
 {
-	protected static final Logger LOGGER = Logger.getLogger(RequestWearItem.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(RequestWearItem.class);
 
 	protected Future<?> _removeWearItemsTask;
 

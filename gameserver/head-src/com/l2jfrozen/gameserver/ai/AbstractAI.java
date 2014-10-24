@@ -61,7 +61,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 abstract class AbstractAI implements Ctrl
 {
 
-	protected static final Logger LOGGER = Logger.getLogger(AbstractAI.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AbstractAI.class);
 
 	class FollowTask implements Runnable
 	{

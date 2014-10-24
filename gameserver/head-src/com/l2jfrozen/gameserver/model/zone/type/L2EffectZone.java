@@ -39,7 +39,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2EffectZone extends L2ZoneType
 {
-	public static final Logger LOGGER = Logger.getLogger(L2EffectZone.class.getClass());
+	public static final Logger LOGGER = Logger.getLogger(L2EffectZone.class);
 	
 	private int _chance;
 	private int _initialDelay;

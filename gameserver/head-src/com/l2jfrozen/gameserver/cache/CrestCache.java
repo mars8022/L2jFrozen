@@ -43,7 +43,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CrestCache
 {
-	private static Logger LOGGER = Logger.getLogger(CrestCache.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CrestCache.class);
 
 	private static CrestCache _instance;
 

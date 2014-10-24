@@ -52,7 +52,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class NpcTable
 {
-	private final static Logger LOGGER = Logger.getLogger(NpcTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(NpcTable.class);
 
 	private static NpcTable _instance;
 

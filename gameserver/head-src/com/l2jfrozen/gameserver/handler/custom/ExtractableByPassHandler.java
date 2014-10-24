@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class ExtractableByPassHandler implements ICustomByPassHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(ExtractableByPassHandler.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(ExtractableByPassHandler.class);
 	private static String[] _IDS =
 	{
 			"extractOne", "extractAll"

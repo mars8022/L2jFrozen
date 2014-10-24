@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class Sweep implements ISkillHandler
 {
-	//private static Logger LOGGER = Logger.getLogger(Sweep.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(Sweep.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.SWEEP };
 
 	@Override

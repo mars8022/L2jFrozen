@@ -53,7 +53,7 @@ public class LevelUpData
 	private static final String CP_BASE = "defaultcpbase";
 	private static final String CLASS_ID = "classid";
 
-	private final static Logger LOGGER = Logger.getLogger(LevelUpData.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(LevelUpData.class);
 
 	private static LevelUpData _instance;
 

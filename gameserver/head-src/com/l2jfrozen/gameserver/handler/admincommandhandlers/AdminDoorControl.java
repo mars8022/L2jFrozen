@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
  */
 public class AdminDoorControl implements IAdminCommandHandler
 {
-	//private static Logger      LOGGER            = Logger.getLogger(AdminDoorControl.class.getClass());
+	//private static Logger      LOGGER            = Logger.getLogger(AdminDoorControl.class);
 	private static DoorTable _doorTable;
 	private static final String[] ADMIN_COMMANDS =
 	{

@@ -43,7 +43,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class FaenorInterface implements EngineInterface
 {
-	protected static final Logger LOGGER = Logger.getLogger(FaenorInterface.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(FaenorInterface.class);
 
 	public static FaenorInterface getInstance()
 	{

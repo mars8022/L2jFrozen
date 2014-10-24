@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 
 public class StaticObjects
 {
-	private static Logger LOGGER = Logger.getLogger(StaticObjects.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(StaticObjects.class);
 
 	private static StaticObjects _instance;
 	private Map<Integer, L2StaticObjectInstance> _staticObjects;

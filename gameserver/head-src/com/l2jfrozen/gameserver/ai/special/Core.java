@@ -58,7 +58,7 @@ public class Core extends Quest implements Runnable
 
 	List<L2Attackable> Minions = new FastList<L2Attackable>();
 
-	//private static final Logger LOGGER = Logger.getLogger(Core.class.getClass());
+	//private static final Logger LOGGER = Logger.getLogger(Core.class);
 
 	public Core(int id, String name, String descr)
 	{

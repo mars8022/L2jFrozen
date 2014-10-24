@@ -29,7 +29,7 @@ import com.l2jfrozen.Config;
 
 public class GeoEditorListener extends Thread
 {
-	protected static final Logger LOGGER = Logger.getLogger(GeoEditorListener.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(GeoEditorListener.class);
 	
 	private static final int PORT = Config.GEOEDITOR_PORT;
 	

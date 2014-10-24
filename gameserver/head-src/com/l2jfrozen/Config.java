@@ -52,7 +52,7 @@ import com.l2jfrozen.util.StringUtil;
 
 public final class Config
 {
-	private static final Logger LOGGER = Logger.getLogger(Config.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(Config.class);
 
 	//============================================================
 	public static boolean EVERYBODY_HAS_ADMIN_RIGHTS;

@@ -104,7 +104,7 @@ public class Siege
 	//  id=285 msg=[Clan $s1 has succeeded in engraving the ruler!]
 	//  - id=287 msg=[The opponent clan has begun to engrave the ruler.]
 
-	protected static final Logger LOGGER = Logger.getLogger(Siege.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Siege.class);
 	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	
 	/**

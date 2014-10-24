@@ -33,7 +33,7 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
 public class BlowFishKey extends ClientBasePacket
 {
 	byte[] _key;
-	protected static final Logger LOGGER = Logger.getLogger(BlowFishKey.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(BlowFishKey.class);
 
 	/**
 	 * @param decrypt

@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class PcFreight extends ItemContainer
 {
-	//private static final Logger LOGGER = Logger.getLogger(PcFreight.class.getClass());
+	//private static final Logger LOGGER = Logger.getLogger(PcFreight.class);
 
 	private L2PcInstance _owner; // This is the L2PcInstance that owns this Freight;
 	private int _activeLocationId;

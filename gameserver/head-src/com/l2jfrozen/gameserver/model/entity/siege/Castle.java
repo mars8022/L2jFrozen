@@ -57,7 +57,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Castle
 {
-	protected static Logger LOGGER = Logger.getLogger(Castle.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(Castle.class);
 
 	// =========================================================
 	// Data Field

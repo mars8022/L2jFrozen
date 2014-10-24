@@ -32,7 +32,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class ClanHallSiege
 {
-	private static Logger LOGGER = Logger.getLogger(ClanHallSiege.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ClanHallSiege.class);
 	private Calendar _siegeDate;
 	public Calendar _siegeEndDate;
 	private boolean _isInProgress = false;

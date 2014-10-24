@@ -52,7 +52,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class AutoChatHandler implements SpawnListener
 {
-	protected static final Logger LOGGER = Logger.getLogger(AutoChatHandler.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AutoChatHandler.class);
 	private static AutoChatHandler _instance;
 
 	private static final long DEFAULT_CHAT_DELAY = 30000; // 30 secs by default

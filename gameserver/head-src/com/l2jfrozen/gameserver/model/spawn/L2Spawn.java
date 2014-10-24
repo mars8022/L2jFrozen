@@ -51,7 +51,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2Spawn
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2Spawn.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Spawn.class);
 
 	/**
 	 * The link on the L2NpcTemplate object containing generic and static properties of this spawn (ex : RewardExp,

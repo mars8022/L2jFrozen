@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class RequestGiveNickName extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(RequestGiveNickName.class.getClass());
+	static Logger LOGGER = Logger.getLogger(RequestGiveNickName.class);
 
 	private String _target;
 	private String _title;

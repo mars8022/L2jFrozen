@@ -50,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class SiegeManager
 {
-	private static final Logger LOGGER = Logger.getLogger(SiegeManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(SiegeManager.class);
 	
 	public static final SiegeManager getInstance()
 	{

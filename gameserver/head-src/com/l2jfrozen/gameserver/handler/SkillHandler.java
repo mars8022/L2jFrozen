@@ -67,7 +67,7 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
  */
 public class SkillHandler
 {
-	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class);
 	
 	private static SkillHandler _instance;
 	

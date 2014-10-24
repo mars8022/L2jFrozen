@@ -41,7 +41,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ShortCuts
 {
-	private static Logger LOGGER = Logger.getLogger(ShortCuts.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ShortCuts.class);
 
 	private L2PcInstance _owner;
 	private Map<Integer, L2ShortCut> _shortCuts = new TreeMap<Integer, L2ShortCut>();

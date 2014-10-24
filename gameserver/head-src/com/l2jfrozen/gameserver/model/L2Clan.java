@@ -67,7 +67,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
  */
 public class L2Clan
 {
-	private static final Logger LOGGER = Logger.getLogger(L2Clan.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2Clan.class);
 
 	private String _name;
 	private int _clanId;

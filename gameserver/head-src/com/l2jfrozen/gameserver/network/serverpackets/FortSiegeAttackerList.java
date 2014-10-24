@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 public final class FortSiegeAttackerList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeAttackerList = "[S] ca SiegeAttackerList";
-	//private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class);
 	private Fort _fort;
 
 	public FortSiegeAttackerList(Fort fort)

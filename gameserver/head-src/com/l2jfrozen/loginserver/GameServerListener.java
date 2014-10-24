@@ -32,7 +32,7 @@ import com.l2jfrozen.Config;
  */
 public class GameServerListener extends FloodProtectedListener
 {
-	private static Logger LOGGER = Logger.getLogger(GameServerListener.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(GameServerListener.class);
 	private static List<GameServerThread> _gameServers = new FastList<GameServerThread>();
 
 	public GameServerListener() throws IOException

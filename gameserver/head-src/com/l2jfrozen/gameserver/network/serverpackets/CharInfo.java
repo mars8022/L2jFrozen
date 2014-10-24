@@ -72,7 +72,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class CharInfo extends L2GameServerPacket
 {
-	private static final Logger LOGGER = Logger.getLogger(CharInfo.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(CharInfo.class);
 
 	private static final String _S__03_CHARINFO = "[S] 03 CharInfo";
 	private L2PcInstance _activeChar;

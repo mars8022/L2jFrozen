@@ -60,7 +60,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ItemTable
 {
-	private final static Logger LOGGER = Logger.getLogger(ItemTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(ItemTable.class);
 	private final static java.util.logging.Logger _logItems = java.util.logging.Logger.getLogger("item");
 
 	private static final Map<String, Integer> _crystalTypes = new FastMap<>();

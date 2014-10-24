@@ -35,7 +35,7 @@ import com.l2jfrozen.loginserver.LoginController;
 
 public class LoginStatusThread extends Thread
 {
-	private static final Logger LOGGER = Logger.getLogger(LoginStatusThread.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(LoginStatusThread.class);
 	
 	private Socket _cSocket;
 	

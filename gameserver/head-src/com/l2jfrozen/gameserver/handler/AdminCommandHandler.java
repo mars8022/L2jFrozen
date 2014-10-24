@@ -100,7 +100,7 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminZone;
  */
 public class AdminCommandHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(AdminCommandHandler.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCommandHandler.class);
 	
 	private static AdminCommandHandler _instance;
 	

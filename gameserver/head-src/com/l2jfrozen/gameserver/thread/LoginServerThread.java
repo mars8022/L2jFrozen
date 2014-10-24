@@ -66,7 +66,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class LoginServerThread extends Thread
 {
-	protected static final Logger LOGGER = Logger.getLogger(LoginServerThread.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(LoginServerThread.class);
 	
 	/** The LoginServerThread singleton */
 	private static LoginServerThread _instance;

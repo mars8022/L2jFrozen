@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class ClassDamageManager
 {
-	private static final Logger LOGGER = Logger.getLogger(ClassDamageManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ClassDamageManager.class);
 	
 	private static Hashtable<Integer, Double> damage_to_mage = new Hashtable<Integer, Double>();
 	private static Hashtable<Integer, Double> damage_to_fighter = new Hashtable<Integer, Double>();

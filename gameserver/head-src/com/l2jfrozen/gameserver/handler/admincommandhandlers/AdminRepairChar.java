@@ -38,7 +38,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class AdminRepairChar implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminRepairChar.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminRepairChar.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

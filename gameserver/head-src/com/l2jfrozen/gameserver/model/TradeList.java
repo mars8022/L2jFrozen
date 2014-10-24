@@ -148,7 +148,7 @@ public class TradeList
 		}
 	}
 
-	private static Logger LOGGER = Logger.getLogger(TradeList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(TradeList.class);
 
 	private L2PcInstance _owner;
 	private L2PcInstance _partner;

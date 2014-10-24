@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class L2ZoneManager
 {
-	private final Logger LOGGER = Logger.getLogger(L2ZoneManager.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(L2ZoneManager.class);
 	private FastList<L2ZoneType> _zones;
 
 	/**

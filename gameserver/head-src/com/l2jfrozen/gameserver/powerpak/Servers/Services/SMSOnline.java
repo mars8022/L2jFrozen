@@ -24,7 +24,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class SMSOnline implements HttpHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(SMSOnline.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(SMSOnline.class);
 	
 	private class DBUpdater implements SQLQuery {
 	private L2PcInstance _pc;

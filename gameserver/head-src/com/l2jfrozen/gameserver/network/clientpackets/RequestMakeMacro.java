@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestMakeMacro extends L2GameClientPacket
 {
-	private final Logger LOGGER = Logger.getLogger(RequestMakeMacro.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(RequestMakeMacro.class);
 	private L2Macro _macro;
 	private int _commandsLenght = 0;
 	private static final int MAX_MACRO_LENGTH = 12;

@@ -46,7 +46,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 public class FortressSiegeInfo extends L2GameServerPacket
 {
 	private static final String _S__C9_SIEGEINFO = "[S] c9 SiegeInfo";
-	private static Logger LOGGER = Logger.getLogger(FortressSiegeInfo.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(FortressSiegeInfo.class);
 	private Fort _fort;
 
 	public FortressSiegeInfo(Fort fort)

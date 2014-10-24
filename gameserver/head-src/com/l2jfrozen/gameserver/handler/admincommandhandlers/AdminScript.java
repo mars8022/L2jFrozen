@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
 public class AdminScript implements IAdminCommandHandler
 {
 	private static final File SCRIPT_FOLDER = new File(Config.DATAPACK_ROOT.getAbsolutePath(), "data/scripts");
-	private static final Logger LOGGER = Logger.getLogger(AdminScript.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AdminScript.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

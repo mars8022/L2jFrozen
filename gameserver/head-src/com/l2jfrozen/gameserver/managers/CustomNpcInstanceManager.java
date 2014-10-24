@@ -35,7 +35,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class CustomNpcInstanceManager
 {
-	private final static Logger LOGGER = Logger.getLogger(CustomNpcInstanceManager.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(CustomNpcInstanceManager.class);
 	private static CustomNpcInstanceManager _instance;
 	private FastMap<Integer, customInfo> spawns; // <Object id , info>
 	private FastMap<Integer, customInfo> templates; // <Npc Template Id , info>

@@ -33,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class AuctionManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(AuctionManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AuctionManager.class);
 	private List<Auction> _auctions  = new FastList<Auction>();
 	private static final String[] ITEM_INIT_DATA =
 	{

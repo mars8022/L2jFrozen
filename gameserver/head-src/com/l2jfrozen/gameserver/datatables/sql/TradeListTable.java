@@ -40,7 +40,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TradeListTable
 {
-	private static final Logger LOGGER = Logger.getLogger(TradeListTable.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TradeListTable.class);
 	private static TradeListTable _instance;
 
 	private int _nextListId;

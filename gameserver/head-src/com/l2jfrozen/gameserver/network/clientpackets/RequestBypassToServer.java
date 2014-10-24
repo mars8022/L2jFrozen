@@ -46,7 +46,7 @@ import com.l2jfrozen.gameserver.util.GMAudit;
 
 public final class RequestBypassToServer extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestBypassToServer.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestBypassToServer.class);
 
 	// S
 	private String _command;

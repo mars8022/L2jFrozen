@@ -28,7 +28,7 @@ public class FishingZoneManager
 {
 	// =========================================================
 	private static FishingZoneManager _instance;
-	private static final Logger LOGGER = Logger.getLogger(FishingZoneManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(FishingZoneManager.class);
 
 	public static final FishingZoneManager getInstance()
 	{

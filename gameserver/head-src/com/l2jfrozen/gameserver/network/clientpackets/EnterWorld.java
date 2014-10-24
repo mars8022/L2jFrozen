@@ -102,7 +102,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class EnterWorld extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(EnterWorld.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(EnterWorld.class);
 
 	private final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
 	private long _daysleft;

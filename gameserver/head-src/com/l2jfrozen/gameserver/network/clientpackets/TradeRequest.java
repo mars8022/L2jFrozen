@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class TradeRequest extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(TradeRequest.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(TradeRequest.class);
 	
 	private int _objectId;
 	

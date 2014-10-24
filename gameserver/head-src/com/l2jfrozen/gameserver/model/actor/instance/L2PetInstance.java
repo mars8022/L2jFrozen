@@ -70,7 +70,7 @@ public class L2PetInstance extends L2Summon
 {
 	
 	/** The Constant _logPet. */
-	protected static final Logger LOGGER = Logger.getLogger(L2PetInstance.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2PetInstance.class);
 
 	//private byte _pvpFlag;
 	/** The _cur fed. */

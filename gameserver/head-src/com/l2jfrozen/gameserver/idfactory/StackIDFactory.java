@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class StackIDFactory extends IdFactory
 {
-	private static Logger LOGGER = Logger.getLogger(IdFactory.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(IdFactory.class);
 
 	private int _curOID;
 	private int _tempOID;

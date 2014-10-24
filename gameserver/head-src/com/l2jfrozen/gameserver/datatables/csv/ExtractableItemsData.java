@@ -37,7 +37,7 @@ import com.l2jfrozen.gameserver.model.L2ExtractableProductItem;
  */
 public class ExtractableItemsData
 {
-	private static Logger LOGGER = Logger.getLogger(ExtractableItemsData.class.getClass());	
+	private static Logger LOGGER = Logger.getLogger(ExtractableItemsData.class);	
 	
 	//Map<itemid, L2ExtractableItem>
 	private Map<Integer, L2ExtractableItem> _items;

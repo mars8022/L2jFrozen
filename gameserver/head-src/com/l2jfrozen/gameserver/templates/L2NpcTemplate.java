@@ -49,7 +49,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
  */
 public final class L2NpcTemplate extends L2CharTemplate
 {
-	protected static final Logger LOGGER = Logger.getLogger(Quest.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Quest.class);
 
 	public final int npcId;
 	public final int idTemplate;

@@ -27,7 +27,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
  */
 public final class CharacterDelete extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(CharacterDelete.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CharacterDelete.class);
 	private int _charSlot;
 
 	@Override

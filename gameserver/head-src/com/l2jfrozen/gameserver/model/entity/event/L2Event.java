@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.util.EventData;
  */
 public class L2Event
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2Event.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Event.class);
 	
 	public static String eventName = "";
 	public static int teamsNumber = 0;

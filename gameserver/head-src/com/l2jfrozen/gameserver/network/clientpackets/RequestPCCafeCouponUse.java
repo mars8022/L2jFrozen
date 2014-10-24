@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
  */
 public final class RequestPCCafeCouponUse extends L2GameClientPacket
 {
-	private final Logger LOGGER = Logger.getLogger(RequestPCCafeCouponUse.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(RequestPCCafeCouponUse.class);
 	private String _str;
 
 	@Override

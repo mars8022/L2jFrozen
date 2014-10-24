@@ -65,7 +65,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class CTF implements EventTask
 {
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(CTF.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(CTF.class);
 	
 	/** The _joining location name. */
 	protected static String _eventName = new String(),

@@ -61,7 +61,7 @@ import com.l2jfrozen.util.Util;
  */
 public class GameServerThread extends Thread
 {
-	protected static final Logger LOGGER = Logger.getLogger(GameServerThread.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(GameServerThread.class);
 	private Socket _connection;
 	private InputStream _in;
 	private OutputStream _out;

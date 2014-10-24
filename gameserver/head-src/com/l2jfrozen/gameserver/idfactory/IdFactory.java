@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class IdFactory
 {
-	private static Logger LOGGER = Logger.getLogger(IdFactory.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(IdFactory.class);
 
 	protected static final String[] ID_UPDATES =
 	{

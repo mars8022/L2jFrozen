@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class GameServerRegister
 {
-	private static final Logger LOGGER = Logger.getLogger(GameServerRegister.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameServerRegister.class);
 	private static String _choice;
 	private static boolean _choiceOk;
 

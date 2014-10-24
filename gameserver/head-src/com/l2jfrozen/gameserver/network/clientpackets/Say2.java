@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class Say2 extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(Say2.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Say2.class);
 	private static java.util.logging.Logger _logChat = java.util.logging.Logger.getLogger("chat");
 
 	public final static int ALL = 0;

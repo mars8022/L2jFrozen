@@ -32,7 +32,7 @@ import com.l2jfrozen.logs.Log;
  */
 public class CastleUpdater implements Runnable
 {
-	protected static Logger LOGGER = Logger.getLogger(CastleUpdater.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(CastleUpdater.class);
 	private L2Clan _clan;
 	private int _runCount = 0;
 

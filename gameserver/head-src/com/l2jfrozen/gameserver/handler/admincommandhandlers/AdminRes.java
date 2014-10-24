@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
  */
 public class AdminRes implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminRes.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminRes.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
 			"admin_res", "admin_res_monster"

@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class RequestUserCommand extends L2GameClientPacket
 {
-	static Logger LOGGER = Logger.getLogger(RequestUserCommand.class.getClass());
+	static Logger LOGGER = Logger.getLogger(RequestUserCommand.class);
 
 	private int _command;
 

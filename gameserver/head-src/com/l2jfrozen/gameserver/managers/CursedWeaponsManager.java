@@ -58,7 +58,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CursedWeaponsManager
 {
-	private static final Logger LOGGER = Logger.getLogger(CursedWeaponsManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(CursedWeaponsManager.class);
 	
 	private static final Map<Integer, CursedWeapon> _cursedWeapons = new FastMap<>();
 	

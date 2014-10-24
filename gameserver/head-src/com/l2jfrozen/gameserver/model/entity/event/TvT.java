@@ -59,7 +59,7 @@ public class TvT implements EventTask
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(TvT.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(TvT.class);
 	
 	/** The _joining location name. */
 	protected static String _eventName = new String(),

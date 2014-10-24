@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class BeastFeed implements ISkillHandler
 {
-	private static Logger LOGGER = Logger.getLogger(BeastFeed.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(BeastFeed.class);
 
 	private static final SkillType[] SKILL_IDS = { SkillType.BEAST_FEED };
 

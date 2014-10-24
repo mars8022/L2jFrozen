@@ -24,7 +24,7 @@ import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 
 public final class NewCharacter extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(NewCharacter.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(NewCharacter.class);
 
 	@Override
 	protected void readImpl() { }

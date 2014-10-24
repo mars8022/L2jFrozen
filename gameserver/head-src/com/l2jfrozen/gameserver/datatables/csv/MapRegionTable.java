@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
  */
 public class MapRegionTable
 {
-	private static Logger LOGGER = Logger.getLogger(MapRegionTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(MapRegionTable.class);
 
 	private static MapRegionTable _instance;
 

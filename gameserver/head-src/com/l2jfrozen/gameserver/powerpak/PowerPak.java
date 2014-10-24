@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.powerpak.xmlrpc.XMLRPCServer;
 
 public class PowerPak
 {
-	private final Logger LOGGER = Logger.getLogger(PowerPak.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(PowerPak.class);
 	private static PowerPak _instance = null;
 
 	public static PowerPak getInstance()

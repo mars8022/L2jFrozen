@@ -62,7 +62,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class L2VillageMasterInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2VillageMasterInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2VillageMasterInstance.class);
 
 	/**
 	 * Instantiates a new l2 village master instance.

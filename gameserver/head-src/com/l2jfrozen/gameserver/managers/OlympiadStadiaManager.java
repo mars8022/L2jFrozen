@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
 
 public class OlympiadStadiaManager
 {
-    protected static Logger LOGGER = Logger.getLogger(OlympiadStadiaManager.class.getClass());
+    protected static Logger LOGGER = Logger.getLogger(OlympiadStadiaManager.class);
 
     // =========================================================
     private static OlympiadStadiaManager _instance;

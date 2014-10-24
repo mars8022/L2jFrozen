@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public class TaskShutdown extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskShutdown.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskShutdown.class);
 	public static final String NAME = "shutdown";
 	
 	/*

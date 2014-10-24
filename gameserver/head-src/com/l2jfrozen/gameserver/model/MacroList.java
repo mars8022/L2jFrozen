@@ -44,7 +44,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class MacroList
 {
-	private static Logger LOGGER = Logger.getLogger(MacroList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(MacroList.class);
 
 	private L2PcInstance _owner;
 	private int _revision;

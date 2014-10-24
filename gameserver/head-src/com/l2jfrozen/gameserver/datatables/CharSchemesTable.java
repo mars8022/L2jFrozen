@@ -38,7 +38,7 @@ public class CharSchemesTable
 {
 	private static FastMap<Integer, FastMap<String, FastList<L2Skill>>> _schemesTable = new FastMap<Integer, FastMap<String, FastList<L2Skill>>>();
 	private static CharSchemesTable _instance = null;
-	private static Logger LOGGER = Logger.getLogger(CharSchemesTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(CharSchemesTable.class);
 	private static final String SQL_LOAD_SCHEME = "SELECT * FROM mods_buffer_schemes WHERE ownerId=?";
 	private static final String SQL_DELETE_SCHEME = "DELETE FROM mods_buffer_schemes WHERE ownerId=?";
 	private static final String SQL_INSERT_SCHEME = "INSERT INTO mods_buffer_schemes (ownerId, id, level, scheme) VALUES (?,?,?,?)";

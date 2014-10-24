@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 public class L2OlympiadManagerInstance extends L2FolkInstance
 {
-    private static Logger LOGGER = Logger.getLogger(L2OlympiadManagerInstance.class.getClass());
+    private static Logger LOGGER = Logger.getLogger(L2OlympiadManagerInstance.class);
     
     private static final int GATE_PASS = Config.ALT_OLY_COMP_RITEM;
 

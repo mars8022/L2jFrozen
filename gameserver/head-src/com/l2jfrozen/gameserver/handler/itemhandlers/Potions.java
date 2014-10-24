@@ -53,7 +53,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class Potions implements IItemHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(Potions.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Potions.class);
 	private int _herbstask = 0;
 	
 	private static FastMap<Integer, PotionsSkills> potions = new FastMap<Integer, PotionsSkills>();

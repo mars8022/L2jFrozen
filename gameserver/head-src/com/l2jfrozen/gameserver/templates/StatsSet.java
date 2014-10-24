@@ -34,7 +34,7 @@ import com.l2jfrozen.Config;
  */
 public final class StatsSet
 {
-	private final Logger LOGGER = Logger.getLogger(StatsSet.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(StatsSet.class);
 	private final Map<String, Object> _set = new FastMap<>();
 
 	/**

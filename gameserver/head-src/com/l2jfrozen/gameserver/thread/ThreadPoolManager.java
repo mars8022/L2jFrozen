@@ -72,7 +72,7 @@ import com.l2jfrozen.util.StringUtil;
  */
 public class ThreadPoolManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(ThreadPoolManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(ThreadPoolManager.class);
 	
 	private static final class RunnableWrapper implements Runnable
 	{

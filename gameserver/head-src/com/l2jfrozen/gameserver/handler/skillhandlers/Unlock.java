@@ -34,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Unlock implements ISkillHandler
 {
-	// private static Logger LOGGER = Logger.getLogger(Unlock.class.getClass());
+	// private static Logger LOGGER = Logger.getLogger(Unlock.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.UNLOCK

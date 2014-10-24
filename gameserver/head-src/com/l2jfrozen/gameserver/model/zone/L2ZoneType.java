@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
  */
 public abstract class L2ZoneType
 {
-	private final Logger LOGGER = Logger.getLogger(L2ZoneType.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(L2ZoneType.class);
 	private final int _id;
 	protected L2ZoneForm _zone;
 	public FastMap<Integer, L2Character> _characterList;

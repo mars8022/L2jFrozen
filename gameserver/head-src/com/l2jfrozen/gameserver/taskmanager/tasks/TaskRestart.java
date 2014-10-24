@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public final class TaskRestart extends Task
 {
-	private static final Logger LOGGER = Logger.getLogger(TaskRestart.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TaskRestart.class);
 	public static final String NAME = "restart";
 	
 	/*

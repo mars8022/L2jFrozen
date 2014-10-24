@@ -36,7 +36,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
  */
 public class nProtect
 {
-	private static Logger LOGGER = Logger.getLogger(nProtect.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(nProtect.class);
 	
 	public static enum RestrictionType
 	{

@@ -56,7 +56,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class TaskManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(TaskManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(TaskManager.class);
 	private static TaskManager _instance;
 
 	protected static final String[] SQL_STATEMENTS =

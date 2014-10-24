@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.model.FishData;
  */
 public class FishTable
 {
-	private static Logger LOGGER = Logger.getLogger(SkillTreeTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(SkillTreeTable.class);
 	private static final FishTable _instance = new FishTable();
 
 	private static List<FishData> _fishsNormal;

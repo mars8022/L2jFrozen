@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class GuardKnownList extends AttackableKnownList
 {
-	private static Logger LOGGER = Logger.getLogger(GuardKnownList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(GuardKnownList.class);
 
 	// =========================================================
 	// Data Field

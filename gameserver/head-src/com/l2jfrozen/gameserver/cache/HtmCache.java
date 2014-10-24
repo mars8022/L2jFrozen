@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public class HtmCache
 {
-	private static Logger LOGGER = Logger.getLogger(HtmCache.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(HtmCache.class);
 	private static HtmCache _instance;
 
 	private FastMap<Integer, String> _cache;

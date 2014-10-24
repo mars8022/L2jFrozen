@@ -34,7 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2PoisonZone extends L2ZoneType
 {
-	private final Logger LOGGER = Logger.getLogger(L2PoisonZone.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(L2PoisonZone.class);
 	protected int _skillId;
 	private int _chance;
 	private int _initialDelay;

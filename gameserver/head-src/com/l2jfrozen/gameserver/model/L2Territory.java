@@ -35,7 +35,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2Territory
 {
-	private static Logger LOGGER = Logger.getLogger(L2Territory.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2Territory.class);
 
 	protected class Point
 	{

@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 
 public class RequestUnEquipItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestUnEquipItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestUnEquipItem.class);
 
 	// cd
 	private int _slot;

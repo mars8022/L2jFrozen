@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.script.ScriptEngine;
  */
 public class FaenorWorldDataParser extends FaenorParser
 {
-	static Logger LOGGER = Logger.getLogger(FaenorWorldDataParser.class.getClass());
+	static Logger LOGGER = Logger.getLogger(FaenorWorldDataParser.class);
 	//Script Types
 	private final static String PET_DATA = "PetData";
 

@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestQuestAbort extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestQuestAbort.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestQuestAbort.class);
 
 	private int _questId;
 

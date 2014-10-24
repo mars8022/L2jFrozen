@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class PetitionManager
 {
-	protected static final Logger LOGGER = Logger.getLogger(PetitionManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(PetitionManager.class);
 	private static PetitionManager _instance;
 
 	private Map<Integer, Petition> _pendingPetitions;

@@ -21,7 +21,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class EngraveManager
 {
 	protected Connection _con = null;
-	protected static final Logger LOGGER = Logger.getLogger(EngraveManager.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(EngraveManager.class);
 	public static boolean LOG_ITEMS = Config.LOG_ITEMS;
 	private PreparedStatement LOG_UPDATE;
 	private PreparedStatement LOG_DELETE;

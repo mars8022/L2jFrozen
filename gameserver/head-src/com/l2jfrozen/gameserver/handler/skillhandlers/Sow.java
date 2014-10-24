@@ -42,7 +42,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Sow implements ISkillHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(Sow.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Sow.class);
 	private static final SkillType[] SKILL_IDS = { SkillType.SOW };
 
 	private L2PcInstance _activeChar;

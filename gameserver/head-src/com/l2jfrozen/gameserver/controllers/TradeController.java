@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TradeController
 {
-	private static Logger LOGGER = Logger.getLogger(TradeController.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(TradeController.class);
 	private static TradeController _instance;
 
 	private int _nextListId;

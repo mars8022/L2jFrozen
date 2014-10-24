@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 {
-	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory_BoneCP.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory_BoneCP.class);
 	
 	private BoneCPDataSource		_source;
 	

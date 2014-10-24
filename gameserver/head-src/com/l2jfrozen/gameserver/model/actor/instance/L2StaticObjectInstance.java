@@ -40,7 +40,7 @@ public class L2StaticObjectInstance extends L2Object
 {
 	
 	/** The LOGGER. */
-	private static Logger LOGGER = Logger.getLogger(L2StaticObjectInstance.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2StaticObjectInstance.class);
 
 	/** The interaction distance of the L2StaticObjectInstance. */
 	public static final int INTERACTION_DISTANCE = 150;

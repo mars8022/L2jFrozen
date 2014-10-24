@@ -49,7 +49,7 @@ public class Forum
 	public static final int CLANMEMBERONLY = 2;
 	public static final int OWNERONLY = 3;
 
-	private static Logger LOGGER = Logger.getLogger(Forum.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Forum.class);
 	private List<Forum> _children;
 	private Map<Integer, Topic> _topic;
 	private int _forumId;

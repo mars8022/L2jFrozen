@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestAutoSoulShot extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestAutoSoulShot.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestAutoSoulShot.class);
 
 	// format  cd
 	private int _itemId;

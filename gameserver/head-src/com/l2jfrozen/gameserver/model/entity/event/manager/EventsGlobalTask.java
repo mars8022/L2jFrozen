@@ -33,7 +33,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class EventsGlobalTask implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(EventsGlobalTask.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(EventsGlobalTask.class);
 	
 	private static EventsGlobalTask instance;
 	

@@ -55,7 +55,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class WildBeastFarmSiege extends ClanHallSiege
 {
-	protected static Logger LOGGER = Logger.getLogger(WildBeastFarmSiege.class.getClass());
+	protected static Logger LOGGER = Logger.getLogger(WildBeastFarmSiege.class);
 	private static WildBeastFarmSiege _instance;
 	private boolean _registrationPeriod = false;
 	private int _clanCounter = 0;

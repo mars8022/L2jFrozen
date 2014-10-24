@@ -47,7 +47,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class RequestExEnchantSkill extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestAquireSkill.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestAquireSkill.class);
 	private int _skillId;
 	private int _skillLvl;
 

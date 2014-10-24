@@ -35,7 +35,7 @@ public final class ForceBuff
 	protected L2Character _caster;
 	protected L2Character _target;
 
-	static final Logger LOGGER = Logger.getLogger(ForceBuff.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(ForceBuff.class);
 
 	public L2Character getCaster()
 	{

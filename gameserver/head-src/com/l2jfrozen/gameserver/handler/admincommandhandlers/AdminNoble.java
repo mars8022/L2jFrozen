@@ -42,7 +42,7 @@ public class AdminNoble implements IAdminCommandHandler
 		"admin_setnoble"
 	};
 
-	protected static final Logger LOGGER = Logger.getLogger(AdminNoble.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AdminNoble.class);
 	
 	@Override
 	public boolean useAdminCommand(String command, L2PcInstance activeChar)

@@ -45,7 +45,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class DayNightSpawnManager
 {
 
-	private static Logger LOGGER = Logger.getLogger(DayNightSpawnManager.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(DayNightSpawnManager.class);
 
 	private static DayNightSpawnManager _instance;
 	private static Map<L2Spawn, L2NpcInstance> _dayCreatures;

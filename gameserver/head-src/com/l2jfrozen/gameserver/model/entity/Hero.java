@@ -52,7 +52,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Hero 
 {
-	private static final Logger LOGGER = Logger.getLogger(Hero.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(Hero.class);
 
 	private static Hero _instance;
 	private static final String GET_HEROES = "SELECT * FROM heroes WHERE played = 1";

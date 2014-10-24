@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestCrystallizeItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestCrystallizeItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestCrystallizeItem.class);
 
 	private int _objectId;
 	private int _count;

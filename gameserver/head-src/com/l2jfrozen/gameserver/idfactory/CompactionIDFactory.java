@@ -45,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class CompactionIDFactory extends IdFactory
 {
-    private static Logger LOGGER = Logger.getLogger(CompactionIDFactory.class.getClass());
+    private static Logger LOGGER = Logger.getLogger(CompactionIDFactory.class);
     private int _curOID;
     private int _freeSize;
 

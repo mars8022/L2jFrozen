@@ -58,7 +58,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Antharas_l2j extends Quest implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(Antharas_l2j.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Antharas_l2j.class);
 	
 	// config
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;

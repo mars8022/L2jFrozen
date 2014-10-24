@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
  */
 public final class RequestLinkHtml extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestLinkHtml.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestLinkHtml.class);
 	private String _link;
 
 	@Override

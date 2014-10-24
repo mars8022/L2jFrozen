@@ -49,7 +49,7 @@ import com.l2jfrozen.gameserver.script.DateRange;
  */
 public class Announcements
 {
-	private static Logger LOGGER = Logger.getLogger(Announcements.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Announcements.class);
 
 	private static Announcements _instance;
 	private List<String> _announcements = new FastList<>();

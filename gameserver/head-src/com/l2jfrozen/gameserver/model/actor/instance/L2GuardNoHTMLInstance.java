@@ -42,7 +42,7 @@ public final class L2GuardNoHTMLInstance extends L2Attackable
 {
 	
 	/** The LOGGER. */
-	private static Logger LOGGER = Logger.getLogger(L2GuardNoHTMLInstance.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2GuardNoHTMLInstance.class);
 	
 	/** The _home x. */
 	private int _homeX;

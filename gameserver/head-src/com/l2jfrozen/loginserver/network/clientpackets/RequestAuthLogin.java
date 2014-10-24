@@ -43,7 +43,7 @@ import com.l2jfrozen.loginserver.network.serverpackets.ServerList;
  */
 public class RequestAuthLogin extends L2LoginClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestAuthLogin.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestAuthLogin.class);
 
 	private byte[] _raw = new byte[128];
 

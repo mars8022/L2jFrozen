@@ -30,7 +30,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Topic
 {
-	private static Logger LOGGER = Logger.getLogger(Topic.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Topic.class);
 	public static final int MORMAL = 0;
 	public static final int MEMO = 1;
 

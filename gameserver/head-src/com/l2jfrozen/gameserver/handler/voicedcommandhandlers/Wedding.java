@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.util.Broadcast;
  */
 public class Wedding implements IVoicedCommandHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(Wedding.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Wedding.class);
 	
 	private static String[] _voicedCommands =
 	{

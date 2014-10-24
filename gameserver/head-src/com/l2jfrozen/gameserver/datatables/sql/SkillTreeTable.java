@@ -51,7 +51,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  * @version $Revision: 1.13.2.2.2.8 $ $Date: 2005/04/06 16:13:25 $
  */
 public class SkillTreeTable {
-    private final static Logger LOGGER = LoggerFactory.getLogger(SkillTreeTable.class.getClass());
+    private final static Logger LOGGER = LoggerFactory.getLogger(SkillTreeTable.class);
     private static SkillTreeTable _instance;
     private Map<ClassId, Map<Integer, L2SkillLearn>> _skillTrees;
     private List<L2SkillLearn> _fishingSkillTrees; //all common skills (teached by Fisherman)

@@ -40,7 +40,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class GameTimeController
 {
-	static final Logger LOGGER = Logger.getLogger(GameTimeController.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(GameTimeController.class);
 
 	public static final int TICKS_PER_SECOND = 10;
 	public static final int MILLIS_IN_TICK = 1000 / TICKS_PER_SECOND;

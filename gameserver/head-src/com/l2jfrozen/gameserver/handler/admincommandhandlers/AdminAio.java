@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AdminAio implements IAdminCommandHandler
 {   
-	private final static Logger LOGGER = Logger.getLogger(AdminAio.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(AdminAio.class);
 
 	private static String[] _adminCommands =
 	{

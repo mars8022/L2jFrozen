@@ -30,7 +30,7 @@ import com.l2jfrozen.util.Point3D;
 
 public class GeoData
 {
-	protected static final Logger LOGGER = Logger.getLogger(GeoData.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(GeoData.class);
 	
 	private static final class SingletonHolder
 	{

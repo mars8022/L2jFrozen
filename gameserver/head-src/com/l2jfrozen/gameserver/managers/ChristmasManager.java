@@ -48,7 +48,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class ChristmasManager
 {
-	private static final Logger LOGGER = Logger.getLogger(ChristmasManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ChristmasManager.class);
 	
 	protected List<L2NpcInstance> objectQueue = new FastList<L2NpcInstance>();
 	protected Random rand = new Random();

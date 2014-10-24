@@ -35,7 +35,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AdminCommandAccessRights
 {
 	/** The logger<br> */
-	protected static final Logger LOGGER = Logger.getLogger(AdminCommandAccessRights.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCommandAccessRights.class);
 	
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AdminCommandAccessRights _instance = null;

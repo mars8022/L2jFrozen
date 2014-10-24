@@ -33,7 +33,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestBlock extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestBlock.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestBlock.class);
 	
 	private final static int BLOCK = 0;
 	private final static int UNBLOCK = 1;

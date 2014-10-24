@@ -37,7 +37,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Post
 {
-	private static Logger LOGGER = Logger.getLogger(Post.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(Post.class);
 
 	public class CPost
 	{

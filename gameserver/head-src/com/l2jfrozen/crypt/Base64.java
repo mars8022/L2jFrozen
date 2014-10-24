@@ -40,7 +40,7 @@ public class Base64
 
 	/* ********  P U B L I C   F I E L D S  ******** */
 	
-	public final static Logger LOGGER = Logger.getLogger(Base64.class.getClass());
+	public final static Logger LOGGER = Logger.getLogger(Base64.class);
 
 	/** No options specified. Value is zero. */
 	public final static int NO_OPTIONS = 0;

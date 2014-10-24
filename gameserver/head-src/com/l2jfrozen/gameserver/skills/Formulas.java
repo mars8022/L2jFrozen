@@ -67,7 +67,7 @@ import com.l2jfrozen.util.random.Rnd;
 public final class Formulas
 {
 	/** Regen Task period */
-	protected static final Logger LOGGER = Logger.getLogger(L2Character.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class);
 	private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 
 	/*

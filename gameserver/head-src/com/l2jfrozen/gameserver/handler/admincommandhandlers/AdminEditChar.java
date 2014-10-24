@@ -56,7 +56,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class AdminEditChar implements IAdminCommandHandler
 {
-	protected static final Logger LOGGER = Logger.getLogger(AdminEditChar.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(AdminEditChar.class);
 	
 	private static String[] ADMIN_COMMANDS =
 	{

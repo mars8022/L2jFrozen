@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
  */
 public class ConnectionCloser implements Runnable
 {
-	private static final Logger LOGGER = Logger.getLogger(ConnectionCloser.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ConnectionCloser.class);
 	
 	
 	private final Connection c ;

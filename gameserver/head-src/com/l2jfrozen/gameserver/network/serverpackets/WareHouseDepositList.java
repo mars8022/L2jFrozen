@@ -37,7 +37,7 @@ public class WareHouseDepositList extends L2GameServerPacket
 	public static final int CLAN = 2;
 	public static final int CASTLE = 3; //not sure
 	public static final int FREIGHT = 4; //not sure
-	private static Logger LOGGER = Logger.getLogger(WareHouseDepositList.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(WareHouseDepositList.class);
 	private static final String _S__53_WAREHOUSEDEPOSITLIST = "[S] 41 WareHouseDepositList";
 	private L2PcInstance _activeChar;
 	private int _playerAdena;

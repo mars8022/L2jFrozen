@@ -49,7 +49,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class OfflineTradeTable
 {
-	private static Logger LOGGER = Logger.getLogger(OfflineTradeTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(OfflineTradeTable.class);
 
 	//SQL DEFINITIONS
 	private static final String SAVE_OFFLINE_STATUS = "INSERT INTO character_offline_trade (`charId`,`time`,`type`,`title`) VALUES (?,?,?,?)";

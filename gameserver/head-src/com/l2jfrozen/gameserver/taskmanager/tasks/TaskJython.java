@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public class TaskJython extends Task
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(TaskJython.class.getClass());
+	private static final Logger LOGGER = LoggerFactory.getLogger(TaskJython.class);
 	public static final String NAME = "jython";
 	
 	private final PythonInterpreter _python = new PythonInterpreter();

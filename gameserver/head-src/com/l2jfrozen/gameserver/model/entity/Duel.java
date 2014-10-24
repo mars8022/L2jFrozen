@@ -51,7 +51,7 @@ public class Duel
 {
 	
 	/** The Constant LOGGER. */
-	protected static final Logger LOGGER = Logger.getLogger(Duel.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Duel.class);
 
 	/** The Constant DUELSTATE_NODUEL. */
 	public static final int DUELSTATE_NODUEL = 0;

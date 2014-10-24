@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class RequestRestartPoint extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestRestartPoint.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestRestartPoint.class);
 	
 	protected int _requestedPointType;
 	protected boolean _continuation;

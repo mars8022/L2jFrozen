@@ -77,7 +77,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ZoneData
 {
-	private static final Logger LOGGER = Logger.getLogger(ZoneData.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ZoneData.class);
 
 	// =========================================================
 	private static ZoneData _instance;

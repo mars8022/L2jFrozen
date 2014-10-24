@@ -42,7 +42,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2MonsterInstance extends L2Attackable
 {
-	//private static Logger LOGGER = Logger.getLogger(L2MonsterInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2MonsterInstance.class);
 
 	/** The _minion list. */
 	protected final MinionList _minionList;

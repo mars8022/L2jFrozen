@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Wedding
 {
-	protected static final Logger LOGGER = Logger.getLogger(Wedding.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(Wedding.class);
 	
 	// =========================================================
 	// Data Field

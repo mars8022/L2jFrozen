@@ -39,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HelperBuffTable
 {
-	private final static Logger LOGGER = Logger.getLogger(HennaTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(HennaTable.class);
 
 	private static HelperBuffTable _instance;
 

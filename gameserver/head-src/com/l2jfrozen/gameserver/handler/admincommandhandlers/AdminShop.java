@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.BuyList;
  */
 public class AdminShop implements IAdminCommandHandler
 {
-	private static Logger LOGGER = Logger.getLogger(AdminShop.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(AdminShop.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

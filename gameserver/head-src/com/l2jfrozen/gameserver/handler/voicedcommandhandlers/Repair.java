@@ -50,7 +50,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 {
-	static final Logger LOGGER = Logger.getLogger(Repair.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(Repair.class);
 	
 	private static final String[]	_voicedCommands	=
 		{ 

@@ -47,7 +47,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GetItem;
 
 public abstract class L2Object
 {
-	private final Logger LOGGER = Logger.getLogger(L2Object.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(L2Object.class);
 	// =========================================================
 	// Data Field
 	private boolean _isVisible; // Object visibility

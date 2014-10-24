@@ -59,7 +59,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class ClanTable
 {
-	private static Logger LOGGER = Logger.getLogger(ClanTable.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(ClanTable.class);
 
 	private static ClanTable _instance;
 

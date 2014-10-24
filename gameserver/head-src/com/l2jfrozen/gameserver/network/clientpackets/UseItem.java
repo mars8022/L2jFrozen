@@ -49,7 +49,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class UseItem extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(UseItem.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(UseItem.class);
 	private int _objectId;
 	
 	@Override

@@ -34,7 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class L2PetDataTable
 {
-	private final static Logger LOGGER = Logger.getLogger(L2PetInstance.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(L2PetInstance.class);
 	private static L2PetDataTable _instance;
 
 	//private static final int[] PET_LIST = { 12077, 12312, 12313, 12311, 12527, 12528, 12526 };

@@ -27,7 +27,7 @@ import com.l2jfrozen.Config;
 
 public abstract class L2DatabaseFactory
 {
-	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory.class);
 	
 	protected enum ProviderType
 	{

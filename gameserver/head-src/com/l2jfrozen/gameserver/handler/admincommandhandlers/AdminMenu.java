@@ -45,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class AdminMenu implements IAdminCommandHandler
 {
-	private static final Logger LOGGER = Logger.getLogger(AdminMenu.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(AdminMenu.class);
 
 	private static final String[] ADMIN_COMMANDS =
 	{

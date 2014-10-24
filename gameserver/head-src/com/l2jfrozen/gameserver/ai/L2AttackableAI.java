@@ -63,7 +63,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class L2AttackableAI extends L2CharacterAI implements Runnable
 {
 
-	//protected static final Logger LOGGER = Logger.getLogger(L2AttackableAI.class.getClass());
+	//protected static final Logger LOGGER = Logger.getLogger(L2AttackableAI.class);
 
 	private static final int RANDOM_WALK_RATE = 30; // confirmed
 	// private static final int MAX_DRIFT_RANGE = 300;

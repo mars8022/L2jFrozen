@@ -38,7 +38,7 @@ import com.l2jfrozen.netcore.ReceivablePacket;
 
 public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 {
-	private final Logger LOGGER = Logger.getLogger(L2LoginPacketHandler.class.getClass());
+	private final Logger LOGGER = Logger.getLogger(L2LoginPacketHandler.class);
 	
 	@Override
 	public ReceivablePacket<L2LoginClient> handlePacket(ByteBuffer buf, L2LoginClient client)

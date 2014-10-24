@@ -34,7 +34,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class PetNameTable
 {
-	private final static Logger LOGGER = Logger.getLogger(PetNameTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(PetNameTable.class);
 
 	private static PetNameTable _instance;
 

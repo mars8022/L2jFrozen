@@ -38,7 +38,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 public class PowerPakConfig
 {
 	private static String PP_CONFIG_FILE = "config/powerpak/powerpak.properties";
-	private static final Logger LOGGER = Logger.getLogger(PowerPakConfig.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(PowerPakConfig.class);
 	public static boolean ENGRAVER_ENABLED;
 	public static int ENGRAVE_PRICE = 0;
 	public static int ENGRAVE_PRICE_ITEM = 57;

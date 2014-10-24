@@ -52,7 +52,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 public class SiegeAttackerList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeAttackerList = "[S] ca SiegeAttackerList";
-	//private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class);
 	private Castle _castle;
 
 	public SiegeAttackerList(Castle castle)

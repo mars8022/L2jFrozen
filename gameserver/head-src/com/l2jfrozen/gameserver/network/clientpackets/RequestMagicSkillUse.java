@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
  */
 public final class RequestMagicSkillUse extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestMagicSkillUse.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestMagicSkillUse.class);
 
 	private int _magicId;
 	private boolean _ctrlPressed;

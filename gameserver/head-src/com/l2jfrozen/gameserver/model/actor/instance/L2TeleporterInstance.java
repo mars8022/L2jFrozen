@@ -43,7 +43,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public final class L2TeleporterInstance extends L2FolkInstance
 {
-	//private static Logger LOGGER = Logger.getLogger(L2TeleporterInstance.class.getClass());
+	//private static Logger LOGGER = Logger.getLogger(L2TeleporterInstance.class);
 
 	/** The Constant COND_ALL_FALSE. */
 	private static final int COND_ALL_FALSE = 0;

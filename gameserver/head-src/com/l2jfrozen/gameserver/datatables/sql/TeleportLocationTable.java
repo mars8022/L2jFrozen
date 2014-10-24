@@ -39,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class TeleportLocationTable
 {
-	private final static Logger LOGGER = Logger.getLogger(TeleportLocationTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(TeleportLocationTable.class);
 
 	private static TeleportLocationTable _instance;
 

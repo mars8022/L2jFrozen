@@ -52,7 +52,7 @@ import com.l2jfrozen.util.L2FastList;
  */
 class OlympiadGame
 {
-	protected static final Logger LOGGER = Logger.getLogger(OlympiadGame.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(OlympiadGame.class);
 	protected COMP_TYPE _type;
 	protected boolean _aborted;
 	protected boolean _gamestarted;
@@ -991,7 +991,7 @@ class OlympiadGame
  */
 class OlympiadGameTask implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(OlympiadGameTask.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(OlympiadGameTask.class);
 	public OlympiadGame _game = null;
 	protected static final long BATTLE_PERIOD = Config.ALT_OLY_BATTLE; // 3 mins
 	

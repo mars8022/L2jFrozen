@@ -52,7 +52,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class L2BoatInstance extends L2Character
 {
-	protected static final Logger LOGGER = Logger.getLogger(L2BoatInstance.class.getClass());
+	protected static final Logger LOGGER = Logger.getLogger(L2BoatInstance.class);
 
 	public float boatSpeed;
 

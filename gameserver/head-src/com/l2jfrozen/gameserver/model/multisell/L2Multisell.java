@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
  */
 public class L2Multisell
 {
-	private static Logger LOGGER = Logger.getLogger(L2Multisell.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(L2Multisell.class);
 	private List<MultiSellListContainer> _entries = new FastList<>();
 	private static L2Multisell _instance;/* = new L2Multisell();*/
 

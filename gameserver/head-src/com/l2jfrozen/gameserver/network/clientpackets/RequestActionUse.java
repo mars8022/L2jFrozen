@@ -51,7 +51,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestActionUse extends L2GameClientPacket
 {
-	private static Logger LOGGER = Logger.getLogger(RequestActionUse.class.getClass());
+	private static Logger LOGGER = Logger.getLogger(RequestActionUse.class);
 	
 	private int _actionId;
 	private boolean _ctrlPressed;

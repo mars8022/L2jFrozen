@@ -28,7 +28,7 @@ public class ArenaManager
 {
 	// =========================================================
 	private static ArenaManager _instance;	
-	private static final Logger LOGGER = Logger.getLogger(ArenaManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(ArenaManager.class);
 
 	public static final ArenaManager getInstance()
 	{

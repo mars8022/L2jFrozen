@@ -36,7 +36,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class SkillSpellbookTable
 {
-	private final static Logger LOGGER = Logger.getLogger(SkillTreeTable.class.getClass());
+	private final static Logger LOGGER = Logger.getLogger(SkillTreeTable.class);
 	private static SkillSpellbookTable _instance;
 
 	private static Map<Integer, Integer> skillSpellbooks;

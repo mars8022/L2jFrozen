@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 
 public class TownManager
 {
-	private static final Logger LOGGER = Logger.getLogger(TownManager.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(TownManager.class);
 
 	// =========================================================
 	private static TownManager _instance;

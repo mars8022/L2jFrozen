@@ -27,7 +27,7 @@ import com.l2jfrozen.Config;
  */
 public final class GGAuth extends L2LoginServerPacket
 {
-	static final Logger LOGGER = Logger.getLogger(GGAuth.class.getClass());
+	static final Logger LOGGER = Logger.getLogger(GGAuth.class);
 	public static final int SKIP_GG_AUTH_REQUEST = 0x0b;
 
 	private int _response;

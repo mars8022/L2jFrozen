@@ -43,7 +43,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public final class L2Augmentation
 {
-	private static final Logger LOGGER = Logger.getLogger(L2Augmentation.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(L2Augmentation.class);
 
 	private L2ItemInstance _item;
 	private int _effectsId = 0;
