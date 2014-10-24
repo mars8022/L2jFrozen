@@ -34,7 +34,7 @@ public class OlympiadStadiaManager
     {
         if (_instance == null)
         {
-            System.out.println("Initializing OlympiadStadiaManager");
+            LOGGER.info("Initializing OlympiadStadiaManager");
             _instance = new OlympiadStadiaManager();
         }
         return _instance;

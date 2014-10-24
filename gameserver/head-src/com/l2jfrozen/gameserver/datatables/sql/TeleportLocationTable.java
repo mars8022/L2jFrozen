@@ -43,7 +43,7 @@ public class TeleportLocationTable
 
 	private static TeleportLocationTable _instance;
 
-	private Map<Integer, L2TeleportLocation> _teleports;
+	private Map<Integer, L2TeleportLocation> teleports;
 
 	public static TeleportLocationTable getInstance()
 	{
@@ -62,7 +62,7 @@ public class TeleportLocationTable
 
 	public void reloadAll()
 	{
-		_teleports = new FastMap<>();
+		teleports = new FastMap<>();
 
 		Connection con = null;
 		try
@@ -83,13 +83,13 @@ public class TeleportLocationTable
 				teleport.setPrice(rset.getInt("price"));
 				teleport.setIsForNoble(rset.getInt("fornoble") == 1);
 
-				_teleports.put(teleport.getTeleId(), teleport);
+				teleports.put(teleport.getTeleId(), teleport);
 			}
 
 			statement.close();
 			rset.close();
 
-			LOGGER.info("TeleportLocationTable: Loaded {} Teleport Location Templates. "+ _teleports.size());
+			LOGGER.info("TeleportLocationTable: Loaded " + teleports.size() + " Teleport Location Templates");
 		}
 		catch(Exception e)
 		{
@@ -108,7 +108,7 @@ public class TeleportLocationTable
 				ResultSet rset = statement.executeQuery();
 				L2TeleportLocation teleport;
 
-				int _cTeleCount = _teleports.size();
+				int _cTeleCount = teleports.size();
 
 				while(rset.next())
 				{
@@ -119,13 +119,13 @@ public class TeleportLocationTable
 					teleport.setLocZ(rset.getInt("loc_z"));
 					teleport.setPrice(rset.getInt("price"));
 					teleport.setIsForNoble(rset.getInt("fornoble") == 1);
-					_teleports.put(teleport.getTeleId(), teleport);
+					teleports.put(teleport.getTeleId(), teleport);
 				}
 
 				statement.close();
 				rset.close();
 
-				_cTeleCount = _teleports.size() - _cTeleCount;
+				_cTeleCount = teleports.size() - _cTeleCount;
 
 				if(_cTeleCount > 0)
 				{
@@ -150,6 +150,6 @@ public class TeleportLocationTable
 	 */
 	public L2TeleportLocation getTemplate(int id)
 	{
-		return _teleports.get(id);
+		return teleports.get(id);
 	}
 }

@@ -18,7 +18,7 @@ QuestName   = "ClanManager"
 QuestDesc   = "custom"
 InitialHtml = "66667-1.htm"
 
-print "Clan Manager (66667) Enabled..."
+print "INFO  Clan Manager (66667) Enabled..."
 
 class Quest (JQuest) :
 

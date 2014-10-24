@@ -180,11 +180,11 @@ public class ItemsOnGroundManager
 
 				if(count > 0)
 				{
-					System.out.println("ItemsOnGroundManager: restored " + count + " items.");
+					LOGGER.info("ItemsOnGroundManager: restored " + count + " items.");
 				}
 				else
 				{
-					System.out.println("Initializing ItemsOnGroundManager.");
+					LOGGER.info("Initializing ItemsOnGroundManager.");
 				}
 			}
 			catch(Exception e)

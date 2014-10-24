@@ -190,7 +190,7 @@ public class Olympiad
 		}
 		catch (Exception e)
 		{
-			LOGGER.info(OLYMPIAD_DATA_FILE+ " cannot be loaded... It will be created on next save or server shutdown..");
+			LOGGER.warn(OLYMPIAD_DATA_FILE+ " cannot be loaded... It will be created on next save or server shutdown..");
 //			LOGGER.error( "Olympiad System: Error loading olympiad properties: ", e);
 //			return;
 		}
@@ -1160,13 +1160,13 @@ public class Olympiad
 			gc.setTimeInMillis(_nextWeeklyChange);
 			
 			OlympiadProperties.setProperty("NextWeeklyChange_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
-			//System.out.println("NextPoints: "+DateFormat.getInstance().format(gc.getTime()));
+			//LOGGER.info("NextPoints: "+DateFormat.getInstance().format(gc.getTime()));
 			
 			gc.clear();
 			gc.setTimeInMillis(_olympiadEnd);
 			
 			OlympiadProperties.setProperty("OlympiadEnd_DateFormat", DateFormat.getDateTimeInstance().format(gc.getTime()));
-			//System.out.println("NextOlyDate: "+DateFormat.getInstance().format(gc.getTime()));
+			//LOGGER.info("NextOlyDate: "+DateFormat.getInstance().format(gc.getTime()));
 			
 			OlympiadProperties.store(fos, "Olympiad Properties");
 		}
@@ -1499,7 +1499,7 @@ public class Olympiad
 		FileWriter save = null;
 		try
 		{
-			File file = new File("LOGGER/olympiad.csv");
+			File file = new File("log/olympiad.csv");
 			
 			boolean writeHead = false;
 			if (!file.exists())

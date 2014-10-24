@@ -41,8 +41,8 @@ public class OlympiadLogger
 	{
 		String date = new SimpleDateFormat("yy.MM.dd H:mm:ss").format(new Date());
 
-		new File("LOGGER/game").mkdirs();
-		File file = new File("LOGGER/game/" + (cat != null ? cat : "_all") + ".txt");
+		new File("log/game").mkdirs();
+		File file = new File("log/game/" + (cat != null ? cat : "_all") + ".txt");
 		FileWriter save = null;
 		try
 		{

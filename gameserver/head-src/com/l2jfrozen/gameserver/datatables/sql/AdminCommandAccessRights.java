@@ -41,7 +41,7 @@ public class AdminCommandAccessRights
 	private static AdminCommandAccessRights _instance = null;
 
 	/** The access rights<br> */
-	private final Map<String, Integer> _adminCommandAccessRights = new FastMap<>();
+	private final Map<String, Integer> adminCommandAccessRights = new FastMap<>();
 
 	/**
 	 * Loads admin command access rights from database<br>
@@ -62,7 +62,7 @@ public class AdminCommandAccessRights
 			{
 				adminCommand = rset.getString("adminCommand");
 				accessLevels = rset.getInt("accessLevels");
-				_adminCommandAccessRights.put(adminCommand, accessLevels);
+				adminCommandAccessRights.put(adminCommand, accessLevels);
 			}
 			rset.close();
 			stmt.close();
@@ -76,7 +76,7 @@ public class AdminCommandAccessRights
 			CloseUtil.close(con);
 		}
 
-		LOGGER.info("Admin Access Rights: Loaded {} Access Rigths from database."+" "+ _adminCommandAccessRights.size());
+		LOGGER.info("Admin Access Rights: Loaded " + adminCommandAccessRights.size() + " Access Rigths from database.");
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class AdminCommandAccessRights
 	public int accessRightForCommand(String command){
 		int out = -1;
 		
-		if(_adminCommandAccessRights.containsKey(command)){
-			out = _adminCommandAccessRights.get(command);
+		if(adminCommandAccessRights.containsKey(command)){
+			out = adminCommandAccessRights.get(command);
 		}
 		
 		return out;
@@ -125,9 +125,9 @@ public class AdminCommandAccessRights
 		//L2EMU_ADD
 
 		int acar = 0;
-		if(_adminCommandAccessRights.get(command) != null)
+		if(adminCommandAccessRights.get(command) != null)
 		{
-			acar = _adminCommandAccessRights.get(command);
+			acar = adminCommandAccessRights.get(command);
 		}
 
 		if(acar == 0)

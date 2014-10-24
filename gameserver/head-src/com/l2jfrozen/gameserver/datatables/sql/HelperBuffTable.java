@@ -44,7 +44,7 @@ public class HelperBuffTable
 	private static HelperBuffTable _instance;
 
 	/** The table containing all Buff of the Newbie Helper */
-	public List<L2HelperBuff> _helperBuff;
+	public List<L2HelperBuff> helperBuff;
 
 	private final boolean _initialized = true;
 
@@ -82,7 +82,7 @@ public class HelperBuffTable
 	 */
 	private HelperBuffTable()
 	{
-		_helperBuff = new FastList<>();
+		helperBuff = new FastList<>();
 		restoreHelperBuffData();
 	}
 
@@ -160,10 +160,10 @@ public class HelperBuffTable
 
 			// Add this Helper Buff to the Helper Buff List
 			L2HelperBuff template = new L2HelperBuff(helperBuffDat);
-			_helperBuff.add(template);
+			helperBuff.add(template);
 		}
 
-		LOGGER.info("Helper Buff Table: Loaded {} Templates."+" "+ _helperBuff.size());
+		LOGGER.info("Helper Buff Table: Loaded " + helperBuff.size() + " templates");
 
 	}
 
@@ -174,7 +174,7 @@ public class HelperBuffTable
 
 	public L2HelperBuff getHelperBuffTableItem(int id)
 	{
-		return _helperBuff.get(id);
+		return helperBuff.get(id);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class HelperBuffTable
 	 */
 	public List<L2HelperBuff> getHelperBuffTable()
 	{
-		return _helperBuff;
+		return helperBuff;
 	}
 
 	/**

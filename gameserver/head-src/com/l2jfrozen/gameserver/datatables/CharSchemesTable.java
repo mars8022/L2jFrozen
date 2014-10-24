@@ -185,7 +185,7 @@ public class CharSchemesTable
 		{
 			CloseUtil.close(con);
 			
-			System.out.println("CharSchemeTable: Saved " + String.valueOf(count + " scheme(s)"));
+			LOGGER.info("CharSchemeTable: Saved " + String.valueOf(count + " scheme(s)"));
 		}
 	}
 

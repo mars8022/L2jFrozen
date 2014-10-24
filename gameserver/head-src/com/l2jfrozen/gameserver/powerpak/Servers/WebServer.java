@@ -78,7 +78,7 @@ public class WebServer extends Thread
 	{
 		if(_server != null)
 		{
-			System.out.println("WebServer: stopped");
+			LOGGER.info("WebServer: stopped");
 			_server.stop(0);
 			_server = null;
 		}

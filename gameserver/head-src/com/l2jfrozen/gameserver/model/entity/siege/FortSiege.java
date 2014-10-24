@@ -905,7 +905,7 @@ public class FortSiege
 			if(_commanders.size() == 0)
 			{
 				spawnFlag(getFort().getFortId());
-				//System.out.println("Commander empty !");
+				//LOGGER.info("Commander empty !");
 			}
 		}
 
@@ -1130,7 +1130,7 @@ public class FortSiege
 			setSiegeDateTime();
 		}
 
-		System.out.println("Siege of " + getFort().getName() + ": " + getFort().getSiegeDate().getTime());
+		LOGGER.info("Siege of " + getFort().getName() + ": " + getFort().getSiegeDate().getTime());
 		setIsScheduled(true);
 		loadSiegeClan();
 

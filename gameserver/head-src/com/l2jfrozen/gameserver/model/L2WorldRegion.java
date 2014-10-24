@@ -229,7 +229,8 @@ public final class L2WorldRegion
 					//mob.getStatus().stopHpMpRegeneration();
 				}
 			}
-			LOGGER.info(c + " mobs were turned off");
+			if (Config.DEBUG)
+				LOGGER.info(c + " mobs were turned off");
 		}
 		else
 		{
@@ -251,7 +252,8 @@ public final class L2WorldRegion
 					((L2NpcInstance) o).startRandomAnimationTimer();
 				}
 			}
-			LOGGER.info(c + " mobs were turned on");
+			if (Config.DEBUG)
+				LOGGER.info(c + " mobs were turned on");
 		}
 
 	}
@@ -295,14 +297,15 @@ public final class L2WorldRegion
 
 		// TODO
 		// turn the geodata on or off to match the region's activation.
-		if(value)
-		{
-			LOGGER.info("Starting Grid " + _tileX + "," + _tileY);
-		}
-		else
-		{
-			LOGGER.info("Stoping Grid " + _tileX + "," + _tileY);
-		}
+		if (Config.DEBUG)
+			if(value)
+			{
+				LOGGER.info("Starting Grid " + _tileX + "," + _tileY);
+			}
+			else
+			{
+				LOGGER.info("Stoping Grid " + _tileX + "," + _tileY);
+			}
 	}
 
 	/**

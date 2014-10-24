@@ -37,7 +37,7 @@ public class L2TopDeamon implements Runnable
 		@Override
 		public void run()
 		{
-			System.out.println("L2TopDeamon: stopped");
+			LOGGER.info("L2TopDeamon: stopped");
 			try
 			{
 				if (L2TopDeamon.getInstance()._task != null)

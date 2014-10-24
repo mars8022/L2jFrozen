@@ -92,7 +92,7 @@ public class BoatManager
 
 				if(Config.DEBUG)
 				{
-					System.out.println("Boat ID : " + boat.getObjectId());
+					LOGGER.info("Boat ID : " + boat.getObjectId());
 				}
 
 				boat = null;

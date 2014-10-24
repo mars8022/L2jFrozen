@@ -21,6 +21,8 @@ package com.l2jfrozen.gameserver.powerpak;
 /**
  * L2JFrozen
  */
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.CommunityBoard;
 import com.l2jfrozen.gameserver.datatables.BufferSkillsTable;
@@ -42,6 +44,7 @@ import com.l2jfrozen.gameserver.powerpak.xmlrpc.XMLRPCServer;
 
 public class PowerPak
 {
+	private final Logger LOGGER = Logger.getLogger(PowerPak.class.getClass());
 	private static PowerPak _instance = null;
 
 	public static PowerPak getInstance()
@@ -60,7 +63,7 @@ public class PowerPak
 			PowerPakConfig.load();
 			if(PowerPakConfig.BUFFER_ENABLED)
 			{
-				System.out.println("Buffer is Enabled.");
+				LOGGER.info("Buffer is Enabled.");
 				BuffTable.getInstance();				
 				if((PowerPakConfig.BUFFER_COMMAND != null && PowerPakConfig.BUFFER_COMMAND.length() > 0) || PowerPakConfig.BUFFER_USEBBS){	
 					
@@ -95,7 +98,7 @@ public class PowerPak
 					CommunityBoard.getInstance().registerBBSHandler(handler);
 				}
 				CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
-				System.out.println("Global Gatekeeper is Enabled.");
+				LOGGER.info("Global Gatekeeper is Enabled.");
 			}
 
 			if(PowerPakConfig.GMSHOP_ENABLED)
@@ -111,43 +114,43 @@ public class PowerPak
 				{
 					CommunityBoard.getInstance().registerBBSHandler(gs);
 				}
-				System.out.println("GM Shop is Enabled.");
+				LOGGER.info("GM Shop is Enabled.");
 			}
 
 			if(PowerPakConfig.ENGRAVER_ENABLED)
 			{
 				EngraveManager.getInstance();
-				System.out.println("Engrave System is Enabled.");
+				LOGGER.info("Engrave System is Enabled.");
 			}
 
 			if(PowerPakConfig.L2TOPDEMON_ENABLED)
 			{
 				L2TopDeamon.getInstance();
-				System.out.println("L2TOPDEMON is Enabled.");
+				LOGGER.info("L2TOPDEMON is Enabled.");
 			}
 
 			if(PowerPakConfig.WEBSERVER_ENABLED)
 			{
 				WebServer.getInstance();
-				System.out.println("WEBSERVER is Enabled.");
+				LOGGER.info("WEBSERVER is Enabled.");
 			}
 			
 			if(PowerPakConfig.XMLRPC_ENABLED)
 			{
 				XMLRPCServer.getInstance();
-				System.out.println("XMLRPC is Enabled.");
+				LOGGER.info("XMLRPC is Enabled.");
 			}
 			
 			RaidInfoHandler handler = new RaidInfoHandler();
 			CustomBypassHandler.getInstance().registerCustomBypassHandler(handler);
-			System.out.println("Raid Info is Enabled.");
+			LOGGER.info("Raid Info is Enabled.");
 			
 			if(PowerPakConfig.CHAR_REPAIR)
 			{
 				Repair repair_handler = new Repair();
 				VoicedCommandHandler.getInstance().registerVoicedCommandHandler(repair_handler);
 				CustomBypassHandler.getInstance().registerCustomBypassHandler(repair_handler);
-				System.out.println("Char Repair is Enabled.");
+				LOGGER.info("Char Repair is Enabled.");
 			}
 
 			//Vote Reward System

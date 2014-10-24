@@ -21,7 +21,7 @@ public class EngraveQuest extends Quest
 		if(PowerPakConfig.SPAWN_ENGRAVER)
 		{
 			addSpawn(50018, PowerPakConfig.ENGRAVER_X, PowerPakConfig.ENGRAVER_Y, PowerPakConfig.ENGRAVER_Z, 0, false, 0);
-			System.out.println("...spawned engraver");
+			LOGGER.info("...spawned engraver");
 		}
 		addStartNpc(50018);
 		addTalkId(50018);

@@ -35,8 +35,8 @@ public class ArmorSetsTable
 	private final static Logger LOGGER = Logger.getLogger(ArmorSetsTable.class.getClass());
 	private static ArmorSetsTable _instance;
 
-	public FastMap<Integer, L2ArmorSet> _armorSets;
-	private final FastMap<Integer, ArmorDummy> _cusArmorSets;
+	public FastMap<Integer, L2ArmorSet> armorSets;
+	private final FastMap<Integer, ArmorDummy> cusArmorSets;
 
 	public static ArmorSetsTable getInstance()
 	{
@@ -50,8 +50,8 @@ public class ArmorSetsTable
 
 	private ArmorSetsTable()
 	{
-		_armorSets = new FastMap<>();
-		_cusArmorSets = new FastMap<>();
+		armorSets = new FastMap<>();
+		cusArmorSets = new FastMap<>();
 		loadData();
 	}
 
@@ -77,11 +77,11 @@ public class ArmorSetsTable
 					int shield_skill_id = rset.getInt("shield_skill_id");
 					int enchant6skill = rset.getInt("enchant6skill");
 
-					_armorSets.put(chest, new L2ArmorSet(chest, legs, head, gloves, feet,skill_id, shield, shield_skill_id, enchant6skill));
-					_cusArmorSets.put(id, new ArmorDummy(chest, legs, head, gloves, feet, skill_id, shield));
+					armorSets.put(chest, new L2ArmorSet(chest, legs, head, gloves, feet,skill_id, shield, shield_skill_id, enchant6skill));
+					cusArmorSets.put(id, new ArmorDummy(chest, legs, head, gloves, feet, skill_id, shield));
 				}
 
-				LOGGER.info("Loaded: {} armor sets."+" "+ _armorSets.size());
+				LOGGER.info("Loaded: " + armorSets.size() + " armor sets.");
 
 				rset.close();
 				statement.close();
@@ -96,22 +96,22 @@ public class ArmorSetsTable
 
 	public boolean setExists(int chestId)
 	{
-		return _armorSets.containsKey(chestId);
+		return armorSets.containsKey(chestId);
 	}
 
 	public L2ArmorSet getSet(int chestId)
 	{
-		return _armorSets.get(chestId);
+		return armorSets.get(chestId);
 	}
 
 	public void addObj(int v, L2ArmorSet s)
 	{
-		_armorSets.put(v, s);
+		armorSets.put(v, s);
 	}
 
 	public ArmorDummy getCusArmorSets(int id)
 	{
-		return _cusArmorSets.get(id);
+		return cusArmorSets.get(id);
 	}
 
 	public class ArmorDummy

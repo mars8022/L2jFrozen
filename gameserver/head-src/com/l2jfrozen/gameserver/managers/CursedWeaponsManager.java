@@ -115,7 +115,7 @@ public class CursedWeaponsManager
 			{
 				if(Config.DEBUG)
 				{
-					System.out.println("NO FILE");
+					LOGGER.info("NO FILE");
 				}
 				return;
 			}

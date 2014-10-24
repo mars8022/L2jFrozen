@@ -42,6 +42,8 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastComparator;
 import javolution.util.FastTable;
 
@@ -90,7 +92,7 @@ import com.l2jfrozen.util.object.L2ObjectMap;
 
 public class GameStatusThread extends Thread
 {
-	//private static final Logger LOGGER = Logger.getLogger(AdminTeleport.class.getClass());
+	private static final Logger LOGGER = Logger.getLogger(GameStatusThread.class.getClass());
 	
 	private Socket _cSocket;
 	
@@ -104,21 +106,21 @@ public class GameStatusThread extends Thread
 		if (Config.DEVELOPER)
 		{
 			if (type == 1)
-				System.out.println("TELNET | " + text);
+				LOGGER.info("TELNET | " + text);
 			else if (type == 2)
 				System.out.print("TELNET | " + text);
 			else if (type == 3)
 				System.out.print(text);
 			else if (type == 4)
-				System.out.println(text);
+				LOGGER.info(text);
 			else
-				System.out.println("TELNET | " + text);
+				LOGGER.info("TELNET | " + text);
 		}
 		else
 		{
 			//only print output if the message is rejected
 			if (type == 5)
-				System.out.println("TELNET | " + text);
+				LOGGER.info("TELNET | " + text);
 		}
 	}
 	
@@ -707,11 +709,11 @@ public class GameStatusThread extends Thread
 							String str = ThreadPoolManager.getInstance().getPacketStats();
 							_print.println(str);
 							int i = 0;
-							File f = new File("./LOGGER/StackTrace-PacketTP-" + i + ".txt");
+							File f = new File("./log/StackTrace-PacketTP-" + i + ".txt");
 							while (f.exists())
 							{
 								i++;
-								f = new File("./LOGGER/StackTrace-PacketTP-" + i + ".txt");
+								f = new File("./log/StackTrace-PacketTP-" + i + ".txt");
 							}
 							f.getParentFile().mkdirs();
 							fos = new FileOutputStream(f);
@@ -723,11 +725,11 @@ public class GameStatusThread extends Thread
 							String str = ThreadPoolManager.getInstance().getIOPacketStats();
 							_print.println(str);
 							int i = 0;
-							File f = new File("./LOGGER/StackTrace-IOPacketTP-" + i + ".txt");
+							File f = new File("./log/StackTrace-IOPacketTP-" + i + ".txt");
 							while (f.exists())
 							{
 								i++;
-								f = new File("./LOGGER/StackTrace-IOPacketTP-" + i + ".txt");
+								f = new File("./log/StackTrace-IOPacketTP-" + i + ".txt");
 							}
 							f.getParentFile().mkdirs();
 							fos = new FileOutputStream(f);
@@ -739,11 +741,11 @@ public class GameStatusThread extends Thread
 							String str = ThreadPoolManager.getInstance().getGeneralStats();
 							_print.println(str);
 							int i = 0;
-							File f = new File("./LOGGER/StackTrace-GeneralTP-" + i + ".txt");
+							File f = new File("./log/StackTrace-GeneralTP-" + i + ".txt");
 							while (f.exists())
 							{
 								i++;
-								f = new File("./LOGGER/StackTrace-GeneralTP-" + i + ".txt");
+								f = new File("./log/StackTrace-GeneralTP-" + i + ".txt");
 							}
 							f.getParentFile().mkdirs();
 							fos = new FileOutputStream(f);
@@ -1267,11 +1269,11 @@ public class GameStatusThread extends Thread
 		}
 		
 		int i = 0;
-		File f = new File("./LOGGER/Debug-" + i + ".txt");
+		File f = new File("./log/Debug-" + i + ".txt");
 		while (f.exists())
 		{
 			i++;
-			f = new File("./LOGGER/Debug-" + i + ".txt");
+			f = new File("./log/Debug-" + i + ".txt");
 		}
 		f.getParentFile().mkdirs();
 		
@@ -1320,7 +1322,7 @@ public class GameStatusThread extends Thread
 		}
 			
 		
-		_print.println("Debug output saved to LOGGER/" + f.getName());
+		_print.println("Debug output saved to log/" + f.getName());
 		_print.flush();
 	}
 	

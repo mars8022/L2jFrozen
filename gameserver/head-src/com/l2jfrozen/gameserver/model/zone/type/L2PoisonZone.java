@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -32,6 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2PoisonZone extends L2ZoneType
 {
+	private final Logger LOGGER = Logger.getLogger(L2PoisonZone.class.getClass());
 	protected int _skillId;
 	private int _chance;
 	private int _initialDelay;
@@ -161,8 +164,8 @@ public class L2PoisonZone extends L2ZoneType
 						{
 							L2Skill skill = null;
 							if((skill=getSkill())==null){
-								System.out.println("ATTENTION: error on zone with id "+getId());
-								System.out.println("Skill "+_skillId+","+_skillLvl+" not present between skills");
+								LOGGER.warn("ATTENTION: error on zone with id "+getId());
+								LOGGER.warn("Skill "+_skillId+","+_skillLvl+" not present between skills");
 							}else
 								skill.getEffects(temp, temp,false,false,false);
 						}

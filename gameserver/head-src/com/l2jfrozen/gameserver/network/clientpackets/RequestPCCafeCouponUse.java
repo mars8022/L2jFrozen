@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import org.apache.log4j.Logger;
+
 /**
  * Format: (ch) S
  * 
@@ -25,6 +27,7 @@ package com.l2jfrozen.gameserver.network.clientpackets;
  */
 public final class RequestPCCafeCouponUse extends L2GameClientPacket
 {
+	private final Logger LOGGER = Logger.getLogger(RequestPCCafeCouponUse.class.getClass());
 	private String _str;
 
 	@Override
@@ -37,7 +40,7 @@ public final class RequestPCCafeCouponUse extends L2GameClientPacket
 	protected void runImpl()
 	{
 		// TODO
-		System.out.println("C5: RequestPCCafeCouponUse: S: " + _str);
+		LOGGER.info("C5: RequestPCCafeCouponUse: S: " + _str);
 	}
 
 	@Override

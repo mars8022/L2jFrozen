@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
@@ -36,7 +38,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 public class PowerPakConfig
 {
 	private static String PP_CONFIG_FILE = "config/powerpak/powerpak.properties";
-
+	private static final Logger LOGGER = Logger.getLogger(PowerPakConfig.class.getClass());
 	public static boolean ENGRAVER_ENABLED;
 	public static int ENGRAVE_PRICE = 0;
 	public static int ENGRAVE_PRICE_ITEM = 57;
@@ -220,7 +222,7 @@ public class PowerPakConfig
 				String[] skillSplit = skill.split(",");
 				if(skillSplit.length != 2)
 				{
-					System.out.println("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skill + "\"");
+					LOGGER.info("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skill + "\"");
 				}
 				else
 				{
@@ -235,7 +237,7 @@ public class PowerPakConfig
 						
 						if(!skill.equals(""))
 						{
-							System.out.println("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
+							LOGGER.info("[FighterSkillList]: invalid config property -> FighterSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
 						}
 					}
 				}
@@ -246,7 +248,7 @@ public class PowerPakConfig
 				String[] skillSplit = skill.split(",");
 				if(skillSplit.length != 2)
 				{
-					System.out.println("[MageSkillList]: invalid config property -> MageSkillList \"" + skill + "\"");
+					LOGGER.info("[MageSkillList]: invalid config property -> MageSkillList \"" + skill + "\"");
 				}
 				else
 				{
@@ -261,7 +263,7 @@ public class PowerPakConfig
 						
 						if(!skill.equals(""))
 						{
-							System.out.println("[MageSkillList]: invalid config property -> MageSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
+							LOGGER.info("[MageSkillList]: invalid config property -> MageSkillList \"" + skillSplit[0] + "\"" + skillSplit[1]);
 						}
 					}
 				}
@@ -342,7 +344,7 @@ public class PowerPakConfig
 				
 				if(item_count.length != 2)
 				{
-					System.out.println("[VotesRewards]: invalid config property -> VotesRewards \"" + VOTES_REWARDS + "\"");
+					LOGGER.info("[VotesRewards]: invalid config property -> VotesRewards \"" + VOTES_REWARDS + "\"");
 				}
 				else
 					VOTES_REWARDS_LIST.put(Integer.parseInt(item_count[0]), Integer.parseInt(item_count[1]));

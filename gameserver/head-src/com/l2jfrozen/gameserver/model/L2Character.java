@@ -4479,7 +4479,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				
 			}
 			
-			//System.out.println("Character Effect Type: "+effects[i].getEffectType());
+			//LOGGER.info("Character Effect Type: "+effects[i].getEffectType());
 			if (effects[i].getEffectType() == type){ 
 				effects[i].exit(true);
 			}
@@ -8136,7 +8136,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				if(oldSkill.triggerAnotherSkill())
 				{
 					if(Config.DEBUG)
-						System.out.println("Removing Triggherable Skill: "+oldSkill.getTriggeredId());
+						LOGGER.info("Removing Triggherable Skill: "+oldSkill.getTriggeredId());
 					
 					_triggeredSkills.remove(oldSkill.getTriggeredId());
 					removeSkill(oldSkill.getTriggeredId(), true);
@@ -8173,7 +8173,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			
 			if(newSkill.triggerAnotherSkill()){
 				if(Config.DEBUG)
-					System.out.println("Adding Triggherable Skill: "+newSkill.getTriggeredId());
+					LOGGER.info("Adding Triggherable Skill: "+newSkill.getTriggeredId());
 				_triggeredSkills.put(newSkill.getTriggeredId(), SkillTable.getInstance().getInfo(newSkill.getTriggeredId(), newSkill.getTriggeredLevel()));
 			}
 			
@@ -8282,7 +8282,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			if(oldSkill.triggerAnotherSkill())
 			{
 				if(Config.DEBUG)
-					System.out.println("Removing Triggherable Skill: "+oldSkill.getTriggeredId());
+					LOGGER.info("Removing Triggherable Skill: "+oldSkill.getTriggeredId());
 				removeSkill(oldSkill.getTriggeredId(), true);
 				_triggeredSkills.remove(oldSkill.getTriggeredId());
 			}
@@ -9366,7 +9366,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 							continue;
 					
 					/*
-					 * System.out.println("--"+skill.getId()); L2Weapon activeWeapon = getActiveWeaponItem(); // Launch weapon Special ability skill effect if available if(activeWeapon != null && !((L2Character) target).isDead()) { if(activeWeapon.getSkillEffects(this, player, skill).length > 0 &&
+					 * LOGGER.info("--"+skill.getId()); L2Weapon activeWeapon = getActiveWeaponItem(); // Launch weapon Special ability skill effect if available if(activeWeapon != null && !((L2Character) target).isDead()) { if(activeWeapon.getSkillEffects(this, player, skill).length > 0 &&
 					 * this instanceof L2PcInstance) { sendPacket(SystemMessage.sendString("Target affected by weapon special ability!")); } }
 					 */
 					

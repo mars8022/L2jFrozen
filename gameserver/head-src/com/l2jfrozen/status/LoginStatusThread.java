@@ -47,15 +47,15 @@ public class LoginStatusThread extends Thread
 	private void telnetOutput(int type, String text)
 	{
 		if (type == 1)
-			System.out.println("TELNET | " + text);
+			LOGGER.info("TELNET | " + text);
 		else if (type == 2)
 			System.out.print("TELNET | " + text);
 		else if (type == 3)
 			System.out.print(text);
 		else if (type == 4)
-			System.out.println(text);
+			LOGGER.info(text);
 		else
-			System.out.println("TELNET | " + text);
+			LOGGER.info("TELNET | " + text);
 	}
 	
 	private boolean isValidIP(Socket client)

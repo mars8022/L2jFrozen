@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.model;
 
 import java.lang.reflect.Constructor;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.managers.ItemsOnGroundManager;
@@ -45,6 +47,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GetItem;
 
 public abstract class L2Object
 {
+	private final Logger LOGGER = Logger.getLogger(L2Object.class.getClass());
 	// =========================================================
 	// Data Field
 	private boolean _isVisible; // Object visibility
@@ -442,7 +445,7 @@ public abstract class L2Object
 		if(region!=null)
 			region.addVisibleObject(this);
 		else{
-			System.out.println("ATTENTION: no region found for location "+x+","+y+","+z+". It's not possible to spawn object "+_objectId+" here...");
+			LOGGER.info("ATTENTION: no region found for location "+x+","+y+","+z+". It's not possible to spawn object "+_objectId+" here...");
 			return;
 		}
 		// this can synchronize on others instances, so it's out of

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastMap;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -19,6 +21,8 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class BuffTable
 {
+	private final Logger LOGGER = Logger.getLogger(BuffTable.class.getClass());
+	
 	public class Buff
 	{
 		public int _skillId;
@@ -111,12 +115,12 @@ public class BuffTable
 			}
 			rs.close();
 			stm.close();
-			System.out.println("Loaded " + _buffs_by_id.size() + " buff templates");
+			LOGGER.info("Loaded " + _buffs_by_id.size() + " buff templates");
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("...Error while loading buffs. Please, check buff_templates table");
+			LOGGER.info("...Error while loading buffs. Please, check buff_templates table");
 		}finally{
 			CloseUtil.close(con);
 			con = null;

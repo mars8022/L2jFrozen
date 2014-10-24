@@ -173,7 +173,7 @@ public class GameServer
 		logFolderBase.mkdir();
 		
 		// Local Constants
-		final String LOG_FOLDER = "LOGGER/game";
+		final String LOG_FOLDER = "log/game";
 		
 		// Create LOGGER folder
 		File logFolder = new File(LOG_FOLDER);

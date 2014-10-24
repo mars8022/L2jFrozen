@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Macro;
 import com.l2jfrozen.gameserver.model.L2Macro.L2MacroCmd;
@@ -27,6 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestMakeMacro extends L2GameClientPacket
 {
+	private final Logger LOGGER = Logger.getLogger(RequestMakeMacro.class.getClass());
 	private L2Macro _macro;
 	private int _commandsLenght = 0;
 	private static final int MAX_MACRO_LENGTH = 12;
@@ -57,7 +60,7 @@ public final class RequestMakeMacro extends L2GameClientPacket
 		L2MacroCmd[] commands = new L2MacroCmd[_count];
 		if(Config.DEBUG)
 		{
-			System.out.println("Make macro id:" + _id + "\tname:" + _name + "\tdesc:" + _desc + "\tacronym:" + _acronym + "\ticon:" + _icon + "\tcount:" + _count);
+			LOGGER.info("Make macro id:" + _id + "\tname:" + _name + "\tdesc:" + _desc + "\tacronym:" + _acronym + "\ticon:" + _icon + "\tcount:" + _count);
 		}
 		for(int i = 0; i < _count; i++)
 		{
@@ -70,7 +73,7 @@ public final class RequestMakeMacro extends L2GameClientPacket
 			commands[i] = new L2MacroCmd(entry, type, d1, d2, command);
 			if(Config.DEBUG)
 			{
-				System.out.println("entry:" + entry + "\ttype:" + type + "\td1:" + d1 + "\td2:" + d2 + "\tcommand:" + command);
+				LOGGER.info("entry:" + entry + "\ttype:" + type + "\td1:" + d1 + "\td2:" + d2 + "\tcommand:" + command);
 			}
 		}
 		_macro = new L2Macro(_id, _icon, _name, _desc, _acronym, commands);

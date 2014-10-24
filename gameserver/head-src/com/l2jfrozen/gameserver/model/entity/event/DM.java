@@ -1557,30 +1557,30 @@ public class DM implements EventTask
 		LOGGER.info("Min lvl: " + _minlvl);
 		LOGGER.info("Max lvl: " + _maxlvl);
 		
-		System.out.println("");
-		System.out.println("##################################");
-		System.out.println("# _players(Vector<L2PcInstance>) #");
-		System.out.println("##################################");
+		LOGGER.info("");
+		LOGGER.info("##################################");
+		LOGGER.info("# _players(Vector<L2PcInstance>) #");
+		LOGGER.info("##################################");
 		
 		// final Vector<L2PcInstance> players = getPlayers();
 		synchronized (_players)
 		{
-			System.out.println("Total Players : " + _players.size());
+			LOGGER.info("Total Players : " + _players.size());
 			
 			for (final L2PcInstance player : _players)
 			{
 				if (player != null)
-					System.out.println("Name: " + player.getName() + " kills :" + player._countDMkills);
+					LOGGER.info("Name: " + player.getName() + " kills :" + player._countDMkills);
 			}
 		}
 		
-		System.out.println("");
-		System.out.println("################################");
-		System.out.println("# _savePlayers(Vector<String>) #");
-		System.out.println("################################");
+		LOGGER.info("");
+		LOGGER.info("################################");
+		LOGGER.info("# _savePlayers(Vector<String>) #");
+		LOGGER.info("################################");
 		
 		for (String player : _savePlayers)
-			System.out.println("Name: " + player);
+			LOGGER.info("Name: " + player);
 		
 		LOGGER.info("");
 		LOGGER.info("");
@@ -2217,7 +2217,7 @@ public class DM implements EventTask
 	@Override
 	public void run()
 	{
-		System.out.println("DM: Event notification start");
+		LOGGER.info("DM: Event notification start");
 		eventOnceStart();
 	}
 	

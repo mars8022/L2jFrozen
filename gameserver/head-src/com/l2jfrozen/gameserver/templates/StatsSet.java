@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.templates;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import javolution.util.FastMap;
 
 import com.l2jfrozen.Config;
@@ -32,8 +34,8 @@ import com.l2jfrozen.Config;
  */
 public final class StatsSet
 {
-
-	private final Map<String, Object> _set = new FastMap<String, Object>();
+	private final Logger LOGGER = Logger.getLogger(StatsSet.class.getClass());
+	private final Map<String, Object> _set = new FastMap<>();
 
 	/**
 	 * Returns the set of values
@@ -656,7 +658,7 @@ public final class StatsSet
 		
 		if (min <= max && (value < min || value >= max))
 		{
-			System.out.println("[StatsSet][safeSet] Incorrect value: "+value+"for: "+name+ "Ref: "+ reference);
+			LOGGER.info("[StatsSet][safeSet] Incorrect value: "+value+"for: "+name+ "Ref: "+ reference);
 		}
 		
 		set(name, value);
