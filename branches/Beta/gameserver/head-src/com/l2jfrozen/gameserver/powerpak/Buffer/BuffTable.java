@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Skill;

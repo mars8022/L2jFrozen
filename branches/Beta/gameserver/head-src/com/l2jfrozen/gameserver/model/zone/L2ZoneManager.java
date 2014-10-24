@@ -17,9 +17,9 @@
  */
 package com.l2jfrozen.gameserver.model.zone;
 
-import org.apache.log4j.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -65,8 +65,8 @@ public class L2ZoneManager
 
 	public void revalidateZones(L2Character character)
 	{
-		if(Config.DEBUG && character!=null && character instanceof L2PcInstance && character.getName()!=null)
-			LOGGER.debug("Revalidating Zone for character: "+character.getName());
+		if(Config.ZONE_DEBUG && character!=null && character instanceof L2PcInstance && character.getName()!=null)
+			LOGGER.debug("ZONE: Revalidating Zone for character: "+character.getName());
 		
 		for(L2ZoneType e : _zones)
 		{

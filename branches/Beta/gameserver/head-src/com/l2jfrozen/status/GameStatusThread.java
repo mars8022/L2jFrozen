@@ -42,10 +42,10 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
-
 import javolution.util.FastComparator;
 import javolution.util.FastTable;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;

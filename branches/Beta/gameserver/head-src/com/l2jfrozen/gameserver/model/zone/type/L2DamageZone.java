@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.concurrent.Future;
 
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -98,7 +99,7 @@ public class L2DamageZone extends L2ZoneType
 		{
 			for(L2Character temp : _dmgZone.getCharacterList())
 			{
-				if(temp != null && !temp.isDead())
+				if(temp != null && !temp.isDead() && temp instanceof L2PcInstance)
 				{
 					temp.reduceCurrentHp(_dmgZone.getDamagePerSecond(), null);
 				}

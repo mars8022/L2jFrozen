@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
-
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;

@@ -28,7 +28,6 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
 import com.l2jfrozen.gameserver.model.L2ExtractableItem;
 import com.l2jfrozen.gameserver.model.L2ExtractableProductItem;
 
