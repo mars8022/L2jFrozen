@@ -17,9 +17,9 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import org.apache.log4j.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;

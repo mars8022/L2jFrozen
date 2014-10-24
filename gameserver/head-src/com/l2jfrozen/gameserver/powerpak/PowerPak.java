@@ -35,7 +35,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffHandler;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable;
 import com.l2jfrozen.gameserver.powerpak.RaidInfo.RaidInfoHandler;
-import com.l2jfrozen.gameserver.powerpak.Servers.WebServer;
 import com.l2jfrozen.gameserver.powerpak.engrave.EngraveManager;
 import com.l2jfrozen.gameserver.powerpak.globalGK.GKHandler;
 import com.l2jfrozen.gameserver.powerpak.gmshop.GMShop;
@@ -127,12 +126,6 @@ public class PowerPak
 			{
 				L2TopDeamon.getInstance();
 				LOGGER.info("L2TOPDEMON is Enabled.");
-			}
-
-			if(PowerPakConfig.WEBSERVER_ENABLED)
-			{
-				WebServer.getInstance();
-				LOGGER.info("WEBSERVER is Enabled.");
 			}
 			
 			if(PowerPakConfig.XMLRPC_ENABLED)

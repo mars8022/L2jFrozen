@@ -23,9 +23,9 @@ import java.sql.SQLException;
 import java.util.Random;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
-
 import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;

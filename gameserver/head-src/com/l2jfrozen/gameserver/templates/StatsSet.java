@@ -20,9 +20,9 @@ package com.l2jfrozen.gameserver.templates;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
