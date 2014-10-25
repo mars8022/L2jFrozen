@@ -14,11 +14,10 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import javolution.util.FastList;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import java.util.List;
 
 
 /**
@@ -30,7 +29,7 @@ public class PartyMatchWaitingList
 	
 	private PartyMatchWaitingList()
 	{
-		_members = new FastList<L2PcInstance>();
+		_members = new FastList<>();
 	}
 	
 	public void addPlayer(L2PcInstance player)

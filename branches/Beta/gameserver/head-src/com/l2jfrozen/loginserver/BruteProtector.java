@@ -1,18 +1,16 @@
 package com.l2jfrozen.loginserver;
 
-import java.util.ArrayList;
-
+import com.l2jfrozen.Config;
 import javolution.util.FastMap;
-
 import org.apache.log4j.Logger;
 
-import com.l2jfrozen.Config;
+import java.util.ArrayList;
 
 
 public class BruteProtector
 {
 	private static final Logger LOGGER = Logger.getLogger(BruteProtector.class);
-	private static final FastMap<String, ArrayList<Integer>> _clients = new FastMap<String, ArrayList<Integer>>();
+	private static final FastMap<String, ArrayList<Integer>> _clients = new FastMap<>();
 	
 	public static boolean canLogin(String ip)
 	{

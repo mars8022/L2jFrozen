@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
@@ -37,6 +33,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.util.Util;
+import javolution.util.FastList;
+
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class RequestBuyProcure extends L2GameClientPacket
@@ -44,7 +43,7 @@ public class RequestBuyProcure extends L2GameClientPacket
 	private int _listId;
 	private int _count;
 	private int[] _items;
-	private List<CropProcure> _procureList = new FastList<CropProcure>();
+	private List<CropProcure> _procureList = new FastList<>();
 
 	@Override
 	protected void readImpl()

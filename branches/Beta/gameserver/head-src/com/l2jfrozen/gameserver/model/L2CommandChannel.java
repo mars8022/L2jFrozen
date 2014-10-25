@@ -17,19 +17,14 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
-import com.l2jfrozen.gameserver.network.serverpackets.ExCloseMPCC;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOpenMPCC;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * @author chris_00
@@ -47,7 +42,7 @@ public class L2CommandChannel
 	public L2CommandChannel(L2PcInstance leader)
 	{
 		_commandLeader = leader;
-		_partys = new FastList<L2Party>();
+		_partys = new FastList<>();
 		_partys.add(leader.getParty());
 		_channelLvl = leader.getParty().getLevel();
 		leader.getParty().setCommandChannel(this);
@@ -182,7 +177,7 @@ public class L2CommandChannel
 	 */
 	public List<L2PcInstance> getMembers()
 	{
-		List<L2PcInstance> members = new FastList<L2PcInstance>();
+		List<L2PcInstance> members = new FastList<>();
 		for(L2Party party : getPartys())
 		{
 			members.addAll(party.getPartyMembers());

@@ -18,20 +18,18 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import java.io.File;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import javolution.util.FastList;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * @author mkizub
@@ -47,12 +45,12 @@ final class DocumentSkill extends DocumentBase
 		public StatsSet[] enchsets1;
 		public StatsSet[] enchsets2;
 		public int currentLevel;
-		public List<L2Skill> skills = new FastList<L2Skill>();
-		public List<L2Skill> currentSkills = new FastList<L2Skill>();
+		public List<L2Skill> skills = new FastList<>();
+		public List<L2Skill> currentSkills = new FastList<>();
 	}
 
 	private Skill _currentSkill;
-	private List<L2Skill> _skillsInFile = new FastList<L2Skill>();
+	private List<L2Skill> _skillsInFile = new FastList<>();
 
 	DocumentSkill(File file)
 	{
@@ -379,7 +377,7 @@ final class DocumentSkill extends DocumentBase
 	private void makeSkills()
 	{
 		int count = 0;
-		_currentSkill.currentSkills = new FastList<L2Skill>(_currentSkill.sets.length + _currentSkill.enchsets1.length + _currentSkill.enchsets2.length);
+		_currentSkill.currentSkills = new FastList<>(_currentSkill.sets.length + _currentSkill.enchsets1.length + _currentSkill.enchsets2.length);
 
 		for(int i = 0; i < _currentSkill.sets.length; i++)
 		{

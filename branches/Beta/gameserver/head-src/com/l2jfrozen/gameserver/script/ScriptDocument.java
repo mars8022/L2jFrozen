@@ -18,15 +18,14 @@
  */
 package com.l2jfrozen.gameserver.script;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * L2JFrozen
@@ -58,17 +57,11 @@ public class ScriptDocument
 			x.printStackTrace();
 
 		}
-		catch(ParserConfigurationException pce)
+		catch(ParserConfigurationException | IOException pce)
 		{
 			// Parser with specified options can't be built
 			pce.printStackTrace();
-		}
-		catch(IOException ioe)
-		{
-			// I/O error
-			ioe.printStackTrace();
-			
-		}finally{
+		} finally{
 			
 			if(input!= null)
 				try

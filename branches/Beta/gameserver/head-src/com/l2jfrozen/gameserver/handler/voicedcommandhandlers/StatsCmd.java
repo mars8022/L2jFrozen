@@ -18,14 +18,11 @@
  */
 package com.l2jfrozen.gameserver.handler.voicedcommandhandlers;
 
-import java.util.Iterator;
-
-import javolution.text.TextBuilder;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import javolution.text.TextBuilder;
 
 public class StatsCmd implements IVoicedCommandHandler
 {
@@ -174,11 +171,9 @@ public class StatsCmd implements IVoicedCommandHandler
 					replyMSG.append("Total kills <font color=\"FF0000\">" + targetp.kills.size() + "</font><br>");
 					replyMSG.append("<br>Detailed list: <br>");
 
-					Iterator<String> it = targetp.kills.iterator();
-					while(it.hasNext())
-					{
-						replyMSG.append("<font color=\"FF0000\">" + it.next() + "</font><br>");
-					}
+                    for (String kill : targetp.kills) {
+                        replyMSG.append("<font color=\"FF0000\">" + kill + "</font><br>");
+                    }
 
 					replyMSG.append("</body></html>");
 

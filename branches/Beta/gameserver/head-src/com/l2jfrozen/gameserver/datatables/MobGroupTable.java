@@ -17,12 +17,11 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.util.Map;
-
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.model.MobGroup;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ControllableMobInstance;
+import javolution.util.FastMap;
+
+import java.util.Map;
 
 /**
  * @author littlecrow
@@ -37,7 +36,7 @@ public class MobGroupTable
 
 	public MobGroupTable()
 	{
-		_groupMap = new FastMap<Integer, MobGroup>();
+		_groupMap = new FastMap<>();
 	}
 
 	public static MobGroupTable getInstance()

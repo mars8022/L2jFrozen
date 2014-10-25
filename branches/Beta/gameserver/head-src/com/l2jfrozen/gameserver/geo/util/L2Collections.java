@@ -19,14 +19,7 @@
 package com.l2jfrozen.gameserver.geo.util;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public final class L2Collections
@@ -198,7 +191,7 @@ public final class L2Collections
 		}
 
 		@Override
-		public boolean addAll(int index, Collection<? extends Object> c)
+		public boolean addAll(int index, Collection<?> c)
 		{
 			throw new UnsupportedOperationException();
 		}
@@ -304,7 +297,7 @@ public final class L2Collections
 		}
 
 		@Override
-		public void putAll(Map<? extends Object, ? extends Object> m)
+		public void putAll(Map<?, ?> m)
 		{
 			throw new UnsupportedOperationException();
 		}
@@ -339,7 +332,7 @@ public final class L2Collections
 		}
 
 		@Override
-		public Bunch<Object> addAll(Iterable<? extends Object> c)
+		public Bunch<Object> addAll(Iterable<?> c)
 		{
 			throw new UnsupportedOperationException();
 		}
@@ -468,7 +461,7 @@ public final class L2Collections
 
 	public static <T> Iterable<T> filteredIterable(Class<T> clazz, Iterable<? super T> iterable, Filter<T> filter)
 	{
-		return new FilteredIterable<T>(clazz, iterable, filter);
+		return new FilteredIterable<>(clazz, iterable, filter);
 	}
 
 	public static <T> Iterator<T> filteredIterator(Class<T> clazz, Iterable<? super T> iterable)
@@ -478,7 +471,7 @@ public final class L2Collections
 
 	public static <T> Iterator<T> filteredIterator(Class<T> clazz, Iterable<? super T> iterable, Filter<T> filter)
 	{
-		return new FilteredIterator<T>(clazz, iterable, filter);
+		return new FilteredIterator<>(clazz, iterable, filter);
 	}
 
 	public interface Filter<E>
@@ -570,12 +563,12 @@ public final class L2Collections
 
 	public static <S, T> Iterable<T> convertingIterable(Iterable<? extends S> iterable, Converter<S, T> converter)
 	{
-		return new ConvertingIterable<S, T>(iterable, converter);
+		return new ConvertingIterable<>(iterable, converter);
 	}
 
 	public static <S, T> Iterator<T> convertingIterator(Iterable<? extends S> iterable, Converter<S, T> converter)
 	{
-		return new ConvertingIterator<S, T>(iterable, converter);
+		return new ConvertingIterator<>(iterable, converter);
 	}
 
 	public interface Converter<S, T>
@@ -665,34 +658,34 @@ public final class L2Collections
 
 	public static <T> Iterable<T> concatenatedIterable(Iterable<? extends T> iterable1, Iterable<? extends T> iterable2)
 	{
-		return new ConcatenatedIterable<T>(iterable1, iterable2);
+		return new ConcatenatedIterable<>(iterable1, iterable2);
 	}
 
 	public static <T> Iterable<T> concatenatedIterable(Iterable<? extends T> iterable1,
 		Iterable<? extends T> iterable2, Iterable<? extends T> iterable3)
 	{
-		return new ConcatenatedIterable<T>(iterable1, iterable2, iterable3);
+		return new ConcatenatedIterable<>(iterable1, iterable2, iterable3);
 	}
 
 	public static <T> Iterable<T> concatenatedIterable(Iterable<? extends T>... iterables)
 	{
-		return new ConcatenatedIterable<T>(iterables);
+		return new ConcatenatedIterable<>(iterables);
 	}
 
 	public static <T> Iterator<T> concatenatedIterator(Iterable<? extends T> iterable1, Iterable<? extends T> iterable2)
 	{
-		return new ConcatenatedIterator<T>(iterable1, iterable2);
+		return new ConcatenatedIterator<>(iterable1, iterable2);
 	}
 
 	public static <T> Iterator<T> concatenatedIterator(Iterable<? extends T> iterable1,
 		Iterable<? extends T> iterable2, Iterable<? extends T> iterable3)
 	{
-		return new ConcatenatedIterator<T>(iterable1, iterable2, iterable3);
+		return new ConcatenatedIterator<>(iterable1, iterable2, iterable3);
 	}
 
 	public static <T> Iterator<T> concatenatedIterator(Iterable<? extends T>... iterables)
 	{
-		return new ConcatenatedIterator<T>(iterables);
+		return new ConcatenatedIterator<>(iterables);
 	}
 
 	private static final class ConcatenatedIterable<E> implements Iterable<E>

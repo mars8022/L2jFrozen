@@ -1,10 +1,10 @@
 package com.l2jfrozen.gameserver.thread;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-
-import org.apache.commons.lang.ArrayUtils;
 
 /**
  * @author ProGramMoS
@@ -12,7 +12,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 public final class RunnableStatsManager
 {
-	protected static final Map<Class<?>, ClassStat> _classStats = new HashMap<Class<?>, ClassStat>();
+	protected static final Map<Class<?>, ClassStat> _classStats = new HashMap<>();
 
 	private static final class ClassStat
 	{

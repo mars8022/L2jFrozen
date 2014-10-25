@@ -14,18 +14,16 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * control for Custom Npcs that look like players.
@@ -100,8 +98,8 @@ public final class CustomNpcInstanceManager
 	{
 		if(spawns == null || templates == null)
 		{
-			spawns = new FastMap<Integer, customInfo>();
-			templates = new FastMap<Integer, customInfo>();
+			spawns = new FastMap<>();
+			templates = new FastMap<>();
 		}
 
 		String[] SQL_ITEM_SELECTS =

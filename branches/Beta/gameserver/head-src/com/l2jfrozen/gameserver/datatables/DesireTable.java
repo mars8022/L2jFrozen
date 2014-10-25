@@ -31,11 +31,10 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.util.Map;
-
+import com.l2jfrozen.gameserver.model.L2Object;
 import javolution.util.FastMap;
 
-import com.l2jfrozen.gameserver.model.L2Object;
+import java.util.Map;
 
 /**
  * This class ...
@@ -55,8 +54,8 @@ public class DesireTable
 		FEAR,
 		DISLIKE,
 		HATE,
-		DAMAGE;
-	}
+		DAMAGE
+    }
 
 	class DesireValue
 	{
@@ -89,7 +88,7 @@ public class DesireTable
 
 		public Desires(DesireType... desireList)
 		{
-			_desireTable = new FastMap<DesireType, DesireValue>();
+			_desireTable = new FastMap<>();
 
 			for(DesireType desire : desireList)
 			{
@@ -132,7 +131,7 @@ public class DesireTable
 	public DesireTable(DesireType... desireList)
 	{
 		_desireTypes = desireList;
-		_objectDesireTable = new FastMap<L2Object, Desires>();
+		_objectDesireTable = new FastMap<>();
 		_generalDesires = new Desires(_desireTypes);
 	}
 

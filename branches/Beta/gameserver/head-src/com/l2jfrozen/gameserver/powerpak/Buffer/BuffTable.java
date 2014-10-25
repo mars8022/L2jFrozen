@@ -1,5 +1,14 @@
 package com.l2jfrozen.gameserver.powerpak.Buffer;
 
+import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,17 +16,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.gameserver.datatables.SkillTable;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class BuffTable
 {
@@ -85,8 +83,8 @@ public class BuffTable
 
 	private BuffTable()
 	{
-		_buffs = new FastMap<String, ArrayList<Buff>>();
-		_buffs_by_id =  new FastMap<Integer, ArrayList<Buff>>();
+		_buffs = new FastMap<>();
+		_buffs_by_id =  new FastMap<>();
 		Connection con = null;
 		try
 		{
@@ -129,7 +127,7 @@ public class BuffTable
 
 	public ArrayList<Buff> getBuffsForName(String name)
 	{
-		ArrayList<Buff> output = new ArrayList<Buff>();
+		ArrayList<Buff> output = new ArrayList<>();
 		if((name == null) || name.equals("all"))
 		{
 			for(ArrayList<Buff> actual:_buffs.values())

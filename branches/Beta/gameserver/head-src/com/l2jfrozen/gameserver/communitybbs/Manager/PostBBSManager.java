@@ -18,21 +18,20 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.Manager;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.BB.Post;
 import com.l2jfrozen.gameserver.communitybbs.BB.Post.CPost;
 import com.l2jfrozen.gameserver.communitybbs.BB.Topic;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
+import javolution.text.TextBuilder;
+import javolution.util.FastMap;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public class PostBBSManager extends BaseBBSManager
 {
@@ -50,7 +49,7 @@ public class PostBBSManager extends BaseBBSManager
 
 	public PostBBSManager()
 	{
-		_postByTopic = new FastMap<Topic, Post>();
+		_postByTopic = new FastMap<>();
 	}
 
 	public Post getGPosttByTopic(Topic t)

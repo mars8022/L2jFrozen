@@ -18,16 +18,15 @@
 
 package com.l2jfrozen.gameserver.model.zone.type;
 
-import java.util.Iterator;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+
+import java.util.Iterator;
 
 public class L2CastleTeleportZone extends L2ZoneType
 {
@@ -45,36 +44,31 @@ public class L2CastleTeleportZone extends L2ZoneType
 	@Override
 	public void setParameter(String name, String value)
 	{
-		if(name.equals("castleId"))
-		{
-			_castleId = Integer.parseInt(value);
-			_castle = CastleManager.getInstance().getCastleById(_castleId);
-			_castle.setTeleZone(this);
-		}
-		else if(name.equals("spawnMinX"))
-		{
-			_spawnLoc[0] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnMaxX"))
-		{
-			_spawnLoc[1] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnMinY"))
-		{
-			_spawnLoc[2] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnMaxY"))
-		{
-			_spawnLoc[3] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnZ"))
-		{
-			_spawnLoc[4] = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
-		}
+        switch (name) {
+            case "castleId":
+                _castleId = Integer.parseInt(value);
+                _castle = CastleManager.getInstance().getCastleById(_castleId);
+                _castle.setTeleZone(this);
+                break;
+            case "spawnMinX":
+                _spawnLoc[0] = Integer.parseInt(value);
+                break;
+            case "spawnMaxX":
+                _spawnLoc[1] = Integer.parseInt(value);
+                break;
+            case "spawnMinY":
+                _spawnLoc[2] = Integer.parseInt(value);
+                break;
+            case "spawnMaxY":
+                _spawnLoc[3] = Integer.parseInt(value);
+                break;
+            case "spawnZ":
+                _spawnLoc[4] = Integer.parseInt(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 
 	@Override
@@ -99,7 +93,7 @@ public class L2CastleTeleportZone extends L2ZoneType
 
 	public FastList<L2Character> getAllPlayers()
 	{
-		FastList<L2Character> players = new FastList<L2Character>();
+		FastList<L2Character> players = new FastList<>();
 		Iterator<L2Character> i$ = _characterList.values().iterator();
 
 		while(i$.hasNext())

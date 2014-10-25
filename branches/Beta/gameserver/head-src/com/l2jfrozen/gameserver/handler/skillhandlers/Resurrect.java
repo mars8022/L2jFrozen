@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -33,6 +29,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * This class ...
@@ -55,7 +54,7 @@ public class Resurrect implements ISkillHandler
 
 		L2Character target = null;
 		L2PcInstance targetPlayer;
-		List<L2Character> targetToRes = new FastList<L2Character>();
+		List<L2Character> targetToRes = new FastList<>();
 
 		for(L2Object target2 : targets)
 		{

@@ -53,7 +53,7 @@ class OlympiadStadium
 		_coords[0] = x;
 		_coords[1] = y;
 		_coords[2] = z;
-		_spectators = new L2FastList<L2PcInstance>();
+		_spectators = new L2FastList<>();
 	}
 
 	protected void addSpectator(int id, L2PcInstance spec, boolean storeCoords)

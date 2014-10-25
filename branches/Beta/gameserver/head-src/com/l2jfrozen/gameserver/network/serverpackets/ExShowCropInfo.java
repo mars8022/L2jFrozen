@@ -17,10 +17,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 import com.l2jfrozen.gameserver.model.L2Manor;
+import javolution.util.FastList;
 
 /**
  * Format: ch cddd[ddddcdcdcd] c - id (0xFE) h - sub id (0x1D) c d - manor id d d - size [ d - crop id d - residual buy
@@ -42,7 +41,7 @@ public class ExShowCropInfo extends L2GameServerPacket
 		_crops = crops;
 		if(_crops == null)
 		{
-			_crops = new FastList<CropProcure>();
+			_crops = new FastList<>();
 		}
 	}
 

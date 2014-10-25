@@ -18,11 +18,10 @@
  */
 package com.l2jfrozen.loginserver.network.gameserverpackets;
 
-import java.util.List;
-
+import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
 import javolution.util.FastList;
 
-import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
+import java.util.List;
 
 /**
  * @author -Wooden-
@@ -38,7 +37,7 @@ public class PlayerInGame extends ClientBasePacket
 	{
 		super(decrypt);
 
-		_accounts = new FastList<String>();
+		_accounts = new FastList<>();
 
 		int size = readH();
 

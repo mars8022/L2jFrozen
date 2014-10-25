@@ -18,17 +18,15 @@
  */
 package com.l2jfrozen.gameserver.geo.geoeditorcon;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 
 public class GeoEditorThread extends Thread
@@ -53,7 +51,7 @@ public class GeoEditorThread extends Thread
 	{
 		_geSocket = ge;
 		_working = true;
-		_gms = new FastList<L2PcInstance>();
+		_gms = new FastList<>();
 	}
 
 	@Override

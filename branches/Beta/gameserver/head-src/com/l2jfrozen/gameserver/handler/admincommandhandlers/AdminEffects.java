@@ -17,34 +17,18 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ChestInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.Earthquake;
-import com.l2jfrozen.gameserver.network.serverpackets.ExRedSky;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
-import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
-import com.l2jfrozen.gameserver.network.serverpackets.SignsSky;
-import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
-import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
-import com.l2jfrozen.gameserver.network.serverpackets.SunRise;
-import com.l2jfrozen.gameserver.network.serverpackets.SunSet;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
+
+import java.util.StringTokenizer;
 
 /**
  * This class handles following admin commands: <li>invis/invisible/vis/visible = makes yourself invisible or visible
@@ -882,36 +866,27 @@ public class AdminEffects implements IAdminCommandHandler
 	{
 		L2GameServerPacket packet = null;
 
-		if(type.equals("signsky"))
-		{
-			if(state.equals("dawn"))
-			{
-				packet = new SignsSky(2);
-			}
-			else if(state.equals("dusk"))
-			{
-				packet = new SignsSky(1);
-			}
-		}
-		else if(type.equals("sky"))
-		{
-			if(state.equals("night"))
-			{
-				packet = new SunSet();
-			}
-			else if(state.equals("day"))
-			{
-				packet = new SunRise();
-			}
-			else if(state.equals("red"))
-			{
-				packet = new ExRedSky(10);
-			}
-		}
-		else
-		{
-			activeChar.sendMessage("Usage: //atmosphere <signsky dawn|dusk>|<sky day|night|red>");
-		}
+        switch (type) {
+            case "signsky":
+                if (state.equals("dawn")) {
+                    packet = new SignsSky(2);
+                } else if (state.equals("dusk")) {
+                    packet = new SignsSky(1);
+                }
+                break;
+            case "sky":
+                if (state.equals("night")) {
+                    packet = new SunSet();
+                } else if (state.equals("day")) {
+                    packet = new SunRise();
+                } else if (state.equals("red")) {
+                    packet = new ExRedSky(10);
+                }
+                break;
+            default:
+                activeChar.sendMessage("Usage: //atmosphere <signsky dawn|dusk>|<sky day|night|red>");
+                break;
+        }
 
 		if(packet != null)
 		{

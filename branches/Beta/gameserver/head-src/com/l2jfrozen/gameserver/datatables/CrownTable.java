@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.util.List;
-
 import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * This class has just one simple function to return the item id of a crown regarding to castleid
@@ -29,7 +29,7 @@ import javolution.util.FastList;
  */
 public class CrownTable
 {
-	private static List<Integer> _crownList = new FastList<Integer>();
+	private static List<Integer> _crownList = new FastList<>();
 
 	public static List<Integer> getCrownList()
 	{

@@ -14,39 +14,6 @@
  */
 package com.l2jfrozen.status;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.Properties;
-import java.util.StringTokenizer;
-
-import javolution.util.FastComparator;
-import javolution.util.FastTable;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
 import com.l2jfrozen.gameserver.Shutdown;
@@ -63,32 +30,36 @@ import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.managers.Manager;
 import com.l2jfrozen.gameserver.managers.QuestManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
-import com.l2jfrozen.gameserver.model.Inventory;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.TradeList;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.multisell.L2Multisell;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.clientpackets.Say2;
-import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.GMAudit;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.object.L2ObjectMap;
+import javolution.util.FastComparator;
+import javolution.util.FastTable;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class GameStatusThread extends Thread
 {
@@ -625,13 +596,10 @@ public class GameStatusThread extends Thread
 						{
 							delay = Integer.parseInt(st.nextToken());
 						}
-						catch (NumberFormatException nfe)
+						catch (NumberFormatException | NoSuchElementException nfe)
 						{
 						}
-						catch (NoSuchElementException nsee)
-						{
-						}
-						//L2PcInstance playerObj = L2World.getInstance().getPlayer(player);
+                        //L2PcInstance playerObj = L2World.getInstance().getPlayer(player);
 						
 						if (playerObj != null)
 						{
@@ -1216,7 +1184,7 @@ public class GameStatusThread extends Thread
 		sb.append("## Threads Information ##\n");
 		Map<Thread, StackTraceElement[]> allThread = Thread.getAllStackTraces();
 		
-		FastTable<Entry<Thread, StackTraceElement[]>> entries = new FastTable<Entry<Thread, StackTraceElement[]>>();
+		FastTable<Entry<Thread, StackTraceElement[]>> entries = new FastTable<>();
 		entries.setValueComparator(new FastComparator<Entry<Thread, StackTraceElement[]>>()
 		{
 			

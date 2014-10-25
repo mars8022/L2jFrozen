@@ -14,10 +14,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.model.L2Augmentation;
@@ -30,14 +26,12 @@ import com.l2jfrozen.gameserver.model.multisell.MultiSellEntry;
 import com.l2jfrozen.gameserver.model.multisell.MultiSellIngredient;
 import com.l2jfrozen.gameserver.model.multisell.MultiSellListContainer;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
-import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 /**
  * @author programmos
@@ -136,7 +130,7 @@ public class MultiSellChoose extends L2GameClientPacket
 
                 // Generate a list of distinct ingredients and counts in order to check if the correct item-counts
                 // are possessed by the player
-                FastList<MultiSellIngredient> _ingredientsList = new FastList<MultiSellIngredient>();
+                FastList<MultiSellIngredient> _ingredientsList = new FastList<>();
                 boolean newIng = true;
 
                 for (MultiSellIngredient e : entry.getIngredients())
@@ -239,7 +233,7 @@ public class MultiSellChoose extends L2GameClientPacket
 
                 _ingredientsList.clear();
                 _ingredientsList = null;
-                FastList<L2Augmentation> augmentation = new FastList<L2Augmentation>();
+                FastList<L2Augmentation> augmentation = new FastList<>();
                 /** All ok, remove items and add final product */
 
                 for (MultiSellIngredient e : entry.getIngredients())

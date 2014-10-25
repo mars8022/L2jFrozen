@@ -4,20 +4,15 @@ package com.l2jfrozen.gameserver.powerpak;
  * L2JFrozen
  */
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.util.Map;
-
+import com.l2jfrozen.Config;
 import javolution.util.FastMap;
 
-import com.l2jfrozen.Config;
+import java.io.*;
+import java.util.Map;
 
 public final class StringTable
 {
-	private Map<String, String> _messagetable = new FastMap<String, String>();
+	private Map<String, String> _messagetable = new FastMap<>();
 	
 	public StringTable(String name)
 	{

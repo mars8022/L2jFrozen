@@ -18,12 +18,11 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * Format: c ddh[hdddhhd] c - id (0xE8) d - money d - manor id h - size [ h - item type 1 d - object id d - item id d -
@@ -37,7 +36,7 @@ public final class BuyListSeed extends L2GameServerPacket
 	private static final String _S__E8_BUYLISTSEED = "[S] E8 BuyListSeed";
 
 	private int _manorId;
-	private List<L2ItemInstance> _list = new FastList<L2ItemInstance>();
+	private List<L2ItemInstance> _list = new FastList<>();
 	private int _money;
 
 	public BuyListSeed(L2TradeList list, int manorId, int currentMoney)

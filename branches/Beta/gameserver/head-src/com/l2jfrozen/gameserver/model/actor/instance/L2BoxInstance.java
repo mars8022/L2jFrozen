@@ -17,21 +17,20 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Set;
-
-import javolution.util.FastList;
-import javolution.util.FastSet;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastSet;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class implements a L2Box instance which is used like a warehouse but<br>
@@ -215,7 +214,7 @@ public class L2BoxInstance extends L2NpcInstance
 	public List<String> getAccess()
 	{
 		Connection con = null;
-		List<String> acl = new FastList<String>();
+		List<String> acl = new FastList<>();
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);

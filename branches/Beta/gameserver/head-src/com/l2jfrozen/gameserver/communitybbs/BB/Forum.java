@@ -18,22 +18,20 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.BB;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
 import com.l2jfrozen.gameserver.communitybbs.Manager.TopicBBSManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Map;
 
 public class Forum
 {
@@ -70,8 +68,8 @@ public class Forum
 	{
 		_forumId = Forumid;
 		_fParent = FParent;
-		_children = new FastList<Forum>();
-		_topic = new FastMap<Integer, Topic>();
+		_children = new FastList<>();
+		_topic = new FastMap<>();
 	}
 
 	/**
@@ -91,8 +89,8 @@ public class Forum
 		_forumPerm = perm;
 		_fParent = parent;
 		_ownerID = OwnerID;
-		_children = new FastList<Forum>();
-		_topic = new FastMap<Integer, Topic>();
+		_children = new FastList<>();
+		_topic = new FastMap<>();
 		parent._children.add(this);
 		ForumsBBSManager.getInstance().addForum(this);
 		_loaded = true;

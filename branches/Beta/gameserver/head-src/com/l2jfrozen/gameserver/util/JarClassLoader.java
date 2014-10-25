@@ -19,6 +19,8 @@
 
 package com.l2jfrozen.gameserver.util;
 
+import com.l2jfrozen.Config;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +30,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import com.l2jfrozen.Config;
-
 /**
  * This is a class loader for the dynamic extensions used by DynamicExtension class.
  * 
@@ -38,7 +38,7 @@ import com.l2jfrozen.Config;
  */
 public class JarClassLoader extends ClassLoader
 {
-	private final HashSet<String> _jars = new HashSet<String>();
+	private final HashSet<String> _jars = new HashSet<>();
 
 	public void addJarFile(String filename)
 	{

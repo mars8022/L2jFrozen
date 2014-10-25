@@ -14,14 +14,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Future;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -40,6 +32,12 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Future;
 
 /**
  * control for sequence of Christmas.
@@ -50,7 +48,7 @@ public class ChristmasManager
 {
 	private static final Logger LOGGER = Logger.getLogger(ChristmasManager.class);
 	
-	protected List<L2NpcInstance> objectQueue = new FastList<L2NpcInstance>();
+	protected List<L2NpcInstance> objectQueue = new FastList<>();
 	protected Random rand = new Random();
 
 	// X-Mas message list

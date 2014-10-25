@@ -14,9 +14,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -24,6 +21,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.quest.Quest;
+import javolution.util.FastList;
+import javolution.util.FastMap;
 
 public class ZombieGatekeepers extends Quest implements Runnable
 {
@@ -34,7 +33,7 @@ public class ZombieGatekeepers extends Quest implements Runnable
 		super.addAggroRangeEnterId(22136);
 	}
 	
-	private FastMap<Integer, FastList<L2Character>> _attackersList = new FastMap<Integer, FastList<L2Character>>();
+	private FastMap<Integer, FastList<L2Character>> _attackersList = new FastMap<>();
 	
 	@Override
 	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
@@ -45,7 +44,7 @@ public class ZombieGatekeepers extends Quest implements Runnable
 		
 		if (_attackersList.get(npcObjId) == null)
 		{
-			FastList<L2Character> player = new FastList<L2Character>();
+			FastList<L2Character> player = new FastList<>();
 			player.add(target);
 			_attackersList.put(npcObjId, player);
 		}

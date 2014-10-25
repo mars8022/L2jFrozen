@@ -17,16 +17,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -36,6 +26,14 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.List;
 
 /**
  * This class manage all items on ground
@@ -47,7 +45,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class ItemsOnGroundManager
 {
 	static final Logger LOGGER = Logger.getLogger(ItemsOnGroundManager.class);
-	protected List<L2ItemInstance> _items = new FastList<L2ItemInstance>();
+	protected List<L2ItemInstance> _items = new FastList<>();
 
 	private ItemsOnGroundManager()
 	{

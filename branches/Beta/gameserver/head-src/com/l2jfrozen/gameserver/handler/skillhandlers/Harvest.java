@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Attackable;
@@ -35,6 +33,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.random.Rnd;
+import org.apache.log4j.Logger;
 
 /**
  * @author l3x
@@ -64,84 +63,71 @@ public class Harvest implements ISkillHandler
 		if(Config.DEBUG)
 			LOGGER.info("Casting harvest");
 
-		for(int index = 0; index < targetList.length; index++)
-		{
-			if(!(targetList[index] instanceof L2MonsterInstance))
-				continue;
+        for (L2Object aTargetList : targetList) {
+            if (!(aTargetList instanceof L2MonsterInstance))
+                continue;
 
-			_target = (L2MonsterInstance) targetList[index];
+            _target = (L2MonsterInstance) aTargetList;
 
-			if(_activeChar != _target.getSeeder())
-			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_HARVEST);
-				_activeChar.sendPacket(sm);
-				sm = null;
-				continue;
-			}
+            if (_activeChar != _target.getSeeder()) {
+                SystemMessage sm = new SystemMessage(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_HARVEST);
+                _activeChar.sendPacket(sm);
+                sm = null;
+                continue;
+            }
 
-			boolean send = false;
-			int total = 0;
-			int cropId = 0;
+            boolean send = false;
+            int total = 0;
+            int cropId = 0;
 
-			// TODO: check items and amount of items player harvest
-			if(_target.isSeeded())
-			{
-				if(calcSuccess())
-				{
-					L2Attackable.RewardItem[] items = _target.takeHarvest();
-					if(items != null && items.length > 0)
-					{
-						for(L2Attackable.RewardItem ritem : items)
-						{
-							cropId = ritem.getItemId(); // always got 1 type of crop as reward
-							if(_activeChar.isInParty())
-								_activeChar.getParty().distributeItem(_activeChar, ritem, true, _target);
-							else
-							{
-								L2ItemInstance item = _activeChar.getInventory().addItem("Manor", ritem.getItemId(), ritem.getCount(), _activeChar, _target);
-								if(iu != null)
-									iu.addItem(item);
-								send = true;
-								total += ritem.getCount();
-								item = null;
-							}
-						}
-						if(send)
-						{
-							SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1_S2);
-							smsg.addNumber(total);
-							smsg.addItemName(cropId);
-							_activeChar.sendPacket(smsg);
-							smsg = null;
+            // TODO: check items and amount of items player harvest
+            if (_target.isSeeded()) {
+                if (calcSuccess()) {
+                    L2Attackable.RewardItem[] items = _target.takeHarvest();
+                    if (items != null && items.length > 0) {
+                        for (L2Attackable.RewardItem ritem : items) {
+                            cropId = ritem.getItemId(); // always got 1 type of crop as reward
+                            if (_activeChar.isInParty())
+                                _activeChar.getParty().distributeItem(_activeChar, ritem, true, _target);
+                            else {
+                                L2ItemInstance item = _activeChar.getInventory().addItem("Manor", ritem.getItemId(), ritem.getCount(), _activeChar, _target);
+                                if (iu != null)
+                                    iu.addItem(item);
+                                send = true;
+                                total += ritem.getCount();
+                                item = null;
+                            }
+                        }
+                        if (send) {
+                            SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1_S2);
+                            smsg.addNumber(total);
+                            smsg.addItemName(cropId);
+                            _activeChar.sendPacket(smsg);
+                            smsg = null;
 
-							if(_activeChar.getParty() != null)
-							{
-								smsg = new SystemMessage(SystemMessageId.S1_HARVESTED_S3_S2S);
-								smsg.addString(_activeChar.getName());
-								smsg.addNumber(total);
-								smsg.addItemName(cropId);
-								_activeChar.getParty().broadcastToPartyMembers(_activeChar, smsg);
-								smsg = null;
-							}
+                            if (_activeChar.getParty() != null) {
+                                smsg = new SystemMessage(SystemMessageId.S1_HARVESTED_S3_S2S);
+                                smsg.addString(_activeChar.getName());
+                                smsg.addNumber(total);
+                                smsg.addItemName(cropId);
+                                _activeChar.getParty().broadcastToPartyMembers(_activeChar, smsg);
+                                smsg = null;
+                            }
 
-							if(iu != null)
-								_activeChar.sendPacket(iu);
-							else
-								_activeChar.sendPacket(new ItemList(_activeChar, false));
-						}
-					}
-					items = null;
-				}
-				else
-				{
-					_activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_HARVEST_HAS_FAILED));
-				}
-			}
-			else
-			{
-				_activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_HARVEST_FAILED_BECAUSE_THE_SEED_WAS_NOT_SOWN));
-			}
-		}
+                            if (iu != null)
+                                _activeChar.sendPacket(iu);
+                            else
+                                _activeChar.sendPacket(new ItemList(_activeChar, false));
+                        }
+                    }
+                    items = null;
+                } else {
+                    _activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_HARVEST_HAS_FAILED));
+                }
+            } else {
+                _activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_HARVEST_FAILED_BECAUSE_THE_SEED_WAS_NOT_SOWN));
+            }
+        }
 		targetList = null;
 		iu = null;
 	}

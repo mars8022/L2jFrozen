@@ -14,13 +14,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.HashMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -33,6 +26,12 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashMap;
 
 /**
  * <strong>This 'Custom Engine' was developed for L2J Forum Member 'sauron3256' on November 1st, 2008.</strong><br>
@@ -51,7 +50,7 @@ public class L2Rebirth
 	private static L2Rebirth _instance = null;
 	
 	/** Basically, this will act as a cache so it doesnt have to read DB information on relog. */
-	private HashMap<Integer, Integer> _playersRebirthInfo = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> _playersRebirthInfo = new HashMap<>();
 	
 	/**
 	 * Creates a new NON-STATIC instance.

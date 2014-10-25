@@ -18,18 +18,16 @@
  */
 package com.l2jfrozen.gameserver.thread.daemons;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.ItemsOnGroundManager;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 public class ItemsAutoDestroy
 {
@@ -40,7 +38,7 @@ public class ItemsAutoDestroy
 
 	private ItemsAutoDestroy()
 	{
-		_items = new FastList<L2ItemInstance>();
+		_items = new FastList<>();
 		_sleep = Config.AUTODESTROY_ITEM_AFTER * 1000;
 		if(_sleep == 0)
 		{

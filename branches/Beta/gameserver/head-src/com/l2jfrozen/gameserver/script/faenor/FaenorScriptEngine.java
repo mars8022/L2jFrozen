@@ -18,6 +18,14 @@
  */
 package com.l2jfrozen.gameserver.script.faenor;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.script.*;
+import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Node;
+
+import javax.script.ScriptContext;
+import javax.script.ScriptException;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -25,20 +33,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
-import javax.script.ScriptContext;
-import javax.script.ScriptException;
-
-import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.script.Parser;
-import com.l2jfrozen.gameserver.script.ParserNotCreatedException;
-import com.l2jfrozen.gameserver.script.ScriptDocument;
-import com.l2jfrozen.gameserver.script.ScriptEngine;
-import com.l2jfrozen.gameserver.script.ScriptPackage;
-import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
 
 /**
  * @author Luis Arias
@@ -58,7 +52,7 @@ public class FaenorScriptEngine extends ScriptEngine
 
 	private FaenorScriptEngine()
 	{
-		_scripts = new LinkedList<ScriptDocument>();
+		_scripts = new LinkedList<>();
 		loadPackages();
 		parsePackages();
 
@@ -66,7 +60,7 @@ public class FaenorScriptEngine extends ScriptEngine
 
 	public void reloadPackages()
 	{
-		_scripts = new LinkedList<ScriptDocument>();
+		_scripts = new LinkedList<>();
 		parsePackages();
 	}
 

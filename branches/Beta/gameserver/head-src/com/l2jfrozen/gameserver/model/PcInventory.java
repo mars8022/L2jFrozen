@@ -17,13 +17,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.TradeList.TradeItem;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
@@ -32,6 +25,12 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class PcInventory extends Inventory
 {
@@ -101,7 +100,7 @@ public class PcInventory extends Inventory
 
 	public L2ItemInstance[] getUniqueItems(boolean allowAdena, boolean allowAncientAdena, boolean onlyAvailable, boolean allowEquipped)
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 		{
@@ -151,7 +150,7 @@ public class PcInventory extends Inventory
 
 	public L2ItemInstance[] getUniqueItemsByEnchantLevel(boolean allowAdena, boolean allowAncientAdena, boolean onlyAvailable, boolean allowEquipped)
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 		{
@@ -190,7 +189,7 @@ public class PcInventory extends Inventory
 	 */
 	public L2ItemInstance[] getAllItemsByItemId(int itemId)
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 		{
@@ -212,7 +211,7 @@ public class PcInventory extends Inventory
 	 */
 	public L2ItemInstance[] getAllItemsByItemId(int itemId, int enchantment)
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 		{
@@ -233,7 +232,7 @@ public class PcInventory extends Inventory
 	 */
 	public L2ItemInstance[] getAvailableItems(boolean allowAdena)
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 			if(item != null && item.isAvailable(getOwner(), allowAdena, false))
@@ -251,7 +250,7 @@ public class PcInventory extends Inventory
 	 */
 	public L2ItemInstance[] getAugmentedItems()
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 			if(item != null && item.isAugmented())
@@ -270,7 +269,7 @@ public class PcInventory extends Inventory
 	 */
 	public TradeList.TradeItem[] getAvailableItems(TradeList tradeList)
 	{
-		List<TradeList.TradeItem> list = new FastList<TradeList.TradeItem>();
+		List<TradeList.TradeItem> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 			if(item.isAvailable(getOwner(), false, false))

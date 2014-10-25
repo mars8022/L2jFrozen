@@ -18,19 +18,17 @@
  */
 package com.l2jfrozen.gameserver.powerpak;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.L2Properties;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.templates.L2Item;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * @author Nick
@@ -48,12 +46,12 @@ public class PowerPakConfig
 	public static int MAX_ENGRAVED_ITEMS_PER_CHAR;
 	public static boolean SPAWN_ENGRAVER = true;
 	public static boolean ENGRAVE_ALLOW_DESTROY;
-	public static ArrayList<Integer> ENGRAVE_EXCLUDED_ITEMS = new ArrayList<Integer>();
-	public static ArrayList<Integer> ENGRAVE_ALLOW_GRADE = new ArrayList<Integer>();
+	public static ArrayList<Integer> ENGRAVE_EXCLUDED_ITEMS = new ArrayList<>();
+	public static ArrayList<Integer> ENGRAVE_ALLOW_GRADE = new ArrayList<>();
 
 	public static int BUFFER_NPC;
 	public static boolean BUFFER_ENABLED;
-	public static List<String> BUFFER_EXCLUDE_ON = new FastList<String>();
+	public static List<String> BUFFER_EXCLUDE_ON = new FastList<>();
 	public static String BUFFER_COMMAND;
 	public static int BUFFER_PRICE;
 	public static boolean BUFFER_USEBBS;
@@ -208,8 +206,8 @@ public class PowerPakConfig
 			BUFFER_USEBBS = Boolean.parseBoolean(p.getProperty("BufferUseBBS", "false"));
 			BUFFER_USECOMMAND = Boolean.parseBoolean(p.getProperty("BufferUseCommand", "false"));
 
-			FIGHTER_SKILL_LIST = new FastMap<Integer, Integer>();
-			MAGE_SKILL_LIST = new FastMap<Integer, Integer>();
+			FIGHTER_SKILL_LIST = new FastMap<>();
+			MAGE_SKILL_LIST = new FastMap<>();
 
 			String[] fPropertySplit;
 			fPropertySplit = p.getProperty("FighterSkillList", "").split(";");
@@ -285,7 +283,7 @@ public class PowerPakConfig
 			GLOBALGK_PRICE = Integer.parseInt(p.getProperty("GKPrice", "-1"));
 			GLOBALGK_USECOMMAND = Boolean.parseBoolean(p.getProperty("GKUseCommand", "false"));
 			GLOBALGK_USEBBS = Boolean.parseBoolean(p.getProperty("GKUseBBS", "true"));
-			GLOBALGK_EXCLUDE_ON = new FastList<String>();
+			GLOBALGK_EXCLUDE_ON = new FastList<>();
 			st = new StringTokenizer(p.getProperty("GKExcludeOn", ""), " ");
 			while(st.hasMoreTokens())
 			{
@@ -297,7 +295,7 @@ public class PowerPakConfig
 			GMSHOP_COMMAND = p.getProperty("GMShopCommand", "gmshop");
 			GMSHOP_USEBBS = Boolean.parseBoolean(p.getProperty("GMShopUseBBS","false"));
 			GMSHOP_USECOMMAND = Boolean.parseBoolean(p.getProperty("GMShopUseCommand","false"));
-			GMSHOP_EXCLUDE_ON = new FastList<String>();
+			GMSHOP_EXCLUDE_ON = new FastList<>();
 			st = new StringTokenizer(p.getProperty("GMShopExcludeOn", ""), " ");
 			while(st.hasMoreTokens())
 			{
@@ -334,7 +332,7 @@ public class PowerPakConfig
 			VOTES_SITE_TOPZONE_URL = p.getProperty("VotesSiteTopZoneUrl", "");
 			SERVER_WEB_SITE = p.getProperty("ServerWebSite", "");
 			VOTES_REWARDS = p.getProperty("VotesRewards", "");
-			VOTES_REWARDS_LIST = new FastMap<Integer, Integer>();
+			VOTES_REWARDS_LIST = new FastMap<>();
 			
 			String[] splitted_VOTES_REWARDS = VOTES_REWARDS.split(";");
 			

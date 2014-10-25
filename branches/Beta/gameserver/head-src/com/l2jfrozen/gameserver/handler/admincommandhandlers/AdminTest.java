@@ -28,9 +28,6 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
@@ -41,6 +38,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 /**
  * This class ...
@@ -121,21 +121,14 @@ public class AdminTest implements IAdminCommandHandler
 
 				st = null;
 			}
-			catch(NumberFormatException e)
+			catch(NumberFormatException | NoSuchElementException e)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 				activeChar.sendMessage("Command format is //skill_test <ID>");
 			}
-			catch(NoSuchElementException nsee)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					nsee.printStackTrace();
-				
-				activeChar.sendMessage("Command format is //skill_test <ID>");
-			}
-		}
+        }
 		else if(command.equals("admin_mp on"))
 		{
 			//.startPacketMonitor();

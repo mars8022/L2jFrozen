@@ -14,12 +14,11 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
 import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
 
 /**
  * @author Gnacik
@@ -41,7 +40,7 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 		_minlvl = minlvl;
 		_maxlvl = maxlvl;
 		_mode = mode;
-		_members = new FastList<L2PcInstance>();
+		_members = new FastList<>();
 	}
 	
 	@Override

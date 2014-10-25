@@ -18,6 +18,14 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,16 +35,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
   * @author Kerberos
@@ -58,8 +56,8 @@ public class RaidBossPointsManager
 
 	public final static void init()
 	{
-		_list = new FastMap<Integer, Map<Integer, Integer>>();
-		FastList<Integer> _chars = new FastList<Integer>();
+		_list = new FastMap<>();
+		FastList<Integer> _chars = new FastList<>();
 		Connection con = null;
 		try
 		{
@@ -75,7 +73,7 @@ public class RaidBossPointsManager
 			for(FastList.Node<Integer> n = _chars.head(), end = _chars.tail(); (n = n.getNext()) != end;)
 			{
 				int charId = n.getValue();
-				FastMap<Integer, Integer> values = new FastMap<Integer, Integer>();
+				FastMap<Integer, Integer> values = new FastMap<>();
 				statement = con.prepareStatement("SELECT * FROM `character_raid_points` WHERE `charId`=?");
 				statement.setInt(1, charId);
 				rset = statement.executeQuery();
@@ -140,13 +138,13 @@ public class RaidBossPointsManager
 	public final static void addPoints(L2PcInstance player, int bossId, int points)
 	{
 		int ownerId = player.getObjectId();
-		Map<Integer, Integer> tmpPoint = new FastMap<Integer, Integer>();
+		Map<Integer, Integer> tmpPoint = new FastMap<>();
 		if(_list == null)
-			_list = new FastMap<Integer, Map<Integer, Integer>>();
+			_list = new FastMap<>();
 		tmpPoint = _list.get(ownerId);
 		if(tmpPoint == null || tmpPoint.isEmpty())
 		{
-			tmpPoint = new FastMap<Integer, Integer>();
+			tmpPoint = new FastMap<>();
 			tmpPoint.put(bossId, points);
 			updatePointsInDB(player, bossId, points);
 		}
@@ -163,9 +161,9 @@ public class RaidBossPointsManager
 
 	public final static int getPointsByOwnerId(int ownerId)
 	{
-		Map<Integer, Integer> tmpPoint = new FastMap<Integer, Integer>();
+		Map<Integer, Integer> tmpPoint = new FastMap<>();
 		if(_list == null)
-			_list = new FastMap<Integer, Map<Integer, Integer>>();
+			_list = new FastMap<>();
 		tmpPoint = _list.get(ownerId);
 		int totalPoints = 0;
 
@@ -195,7 +193,7 @@ public class RaidBossPointsManager
 			statement.executeUpdate();
 			statement.close();
 			_list.clear();
-			_list = new FastMap<Integer, Map<Integer, Integer>>();
+			_list = new FastMap<>();
 		}
 		catch(Exception e)
 		{
@@ -213,8 +211,8 @@ public class RaidBossPointsManager
 
 	public final static int calculateRanking(int playerObjId)
 	{
-		Map<Integer, Integer> tmpRanking = new FastMap<Integer, Integer>();
-		Map<Integer, Integer> tmpPoints = new FastMap<Integer, Integer>();
+		Map<Integer, Integer> tmpRanking = new FastMap<>();
+		Map<Integer, Integer> tmpPoints = new FastMap<>();
 		int totalPoints;
 
 		for(int ownerId : _list.keySet())
@@ -225,7 +223,7 @@ public class RaidBossPointsManager
 				tmpPoints.put(ownerId, totalPoints);
 			}
 		}
-		ArrayList<Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer, Integer>>(tmpPoints.entrySet());
+		ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
 
 		Collections.sort(list, _comparator);
 
@@ -240,8 +238,8 @@ public class RaidBossPointsManager
 
 	public static Map<Integer, Integer> getRankList()
 	{
-		Map<Integer, Integer> tmpRanking = new FastMap<Integer, Integer>();
-		Map<Integer, Integer> tmpPoints = new FastMap<Integer, Integer>();
+		Map<Integer, Integer> tmpRanking = new FastMap<>();
+		Map<Integer, Integer> tmpPoints = new FastMap<>();
 		int totalPoints;
 
 		for(int ownerId : _list.keySet())
@@ -252,7 +250,7 @@ public class RaidBossPointsManager
 				tmpPoints.put(ownerId, totalPoints);
 			}
 		}
-		ArrayList<Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer, Integer>>(tmpPoints.entrySet());
+		ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
 
 		Collections.sort(list, _comparator);
 

@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen.gameserver.geo.util;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import javolution.util.FastCollection.Record;
 import javolution.util.FastMap;
+
+import java.util.Iterator;
+import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
@@ -33,17 +33,17 @@ public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
 	
 	public L2FastSet()
 	{
-		_map = new FastMap<E, Object>();
+		_map = new FastMap<>();
 	}
 	
 	public L2FastSet(int capacity)
 	{
-		_map = new FastMap<E, Object>(capacity);
+		_map = new FastMap<>(capacity);
 	}
 	
 	public L2FastSet(Set<? extends E> elements)
 	{
-		_map = new FastMap<E, Object>(elements.size());
+		_map = new FastMap<>(elements.size());
 		
 		addAll(elements);
 	}

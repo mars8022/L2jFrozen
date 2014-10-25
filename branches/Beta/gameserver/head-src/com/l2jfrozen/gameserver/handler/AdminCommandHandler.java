@@ -18,81 +18,13 @@
  */
 package com.l2jfrozen.gameserver.handler;
 
-import java.util.Arrays;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAdmin;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAio;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminAnnouncements;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBBS;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBan;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminBuffs;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCTFEngine;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCache;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminChangeAccessLevel;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCharSupervision;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminChristmas;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCreateItem;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminCursedWeapons;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminDMEngine;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminDelete;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminDonator;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminDoorControl;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminEditChar;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminEditNpc;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminEffects;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminEnchant;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminEventEngine;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminExpSp;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminFightCalculator;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminFortSiege;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminGeodata;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminGm;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminGmChat;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminHeal;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminHelpPage;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminInvul;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminKick;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminKill;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminLevel;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminLogin;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminMammon;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminManor;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminMassControl;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminMassRecall;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminMenu;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminMobGroup;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminMonsterRace;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminNoble;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminPForge;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminPetition;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminPledge;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminPolymorph;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminQuest;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminReload;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminRepairChar;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminRes;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminRideWyvern;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminScript;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminShop;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminShutdown;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminSiege;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminSkill;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminSpawn;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTarget;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTeleport;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTest;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTownWar;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminTvTEngine;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminUnblockIp;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminVIPEngine;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminWho;
-import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminZone;
+import com.l2jfrozen.gameserver.handler.admincommandhandlers.*;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Arrays;
 
 /**
  * This class ...
@@ -117,7 +49,7 @@ public class AdminCommandHandler
 	
 	private AdminCommandHandler()
 	{
-		_datatable = new FastMap<String, IAdminCommandHandler>();
+		_datatable = new FastMap<>();
 		registerAdminCommandHandler(new AdminAdmin());
 		registerAdminCommandHandler(new AdminInvul());
 		registerAdminCommandHandler(new AdminDelete());

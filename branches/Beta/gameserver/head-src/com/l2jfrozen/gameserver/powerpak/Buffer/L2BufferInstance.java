@@ -14,16 +14,15 @@
  */
 package com.l2jfrozen.gameserver.powerpak.Buffer;
 
-import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable.Buff;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
 
 public class L2BufferInstance
 {
@@ -60,7 +59,7 @@ public class L2BufferInstance
 		
 		buffer.setTarget(player);
 		
-		ArrayList<Buff> _templateBuffs = new ArrayList<Buff>();
+		ArrayList<Buff> _templateBuffs = new ArrayList<>();
 		_templateBuffs = BuffTable.getInstance().getBuffsForID(_templateId);
 		if ((_templateBuffs == null) || (_templateBuffs.size() == 0))
 		{

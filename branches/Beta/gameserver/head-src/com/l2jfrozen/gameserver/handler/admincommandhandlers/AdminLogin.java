@@ -18,14 +18,14 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.gameserverpackets.ServerStatus;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
+
+import java.util.StringTokenizer;
 
 /**
  * This class handles the admin commands that acts on the login
@@ -115,24 +115,23 @@ public class AdminLogin implements IAdminCommandHandler
 				st.nextToken();
 				String mode = st.nextToken();
 
-				if(mode.equals("on"))
-				{
-					LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.ON);
-					activeChar.sendMessage("A clock will now be displayed next to the server name");
-					Config.SERVER_LIST_CLOCK = true;
-					showMainPage(activeChar);
-				}
-				else if(mode.equals("off"))
-				{
-					LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.OFF);
-					Config.SERVER_LIST_CLOCK = false;
-					activeChar.sendMessage("The clock will not be displayed");
-					showMainPage(activeChar);
-				}
-				else
-				{
-					activeChar.sendMessage("Format is server_list_clock <on/off>");
-				}
+                switch (mode) {
+                    case "on":
+                        LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.ON);
+                        activeChar.sendMessage("A clock will now be displayed next to the server name");
+                        Config.SERVER_LIST_CLOCK = true;
+                        showMainPage(activeChar);
+                        break;
+                    case "off":
+                        LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.OFF);
+                        Config.SERVER_LIST_CLOCK = false;
+                        activeChar.sendMessage("The clock will not be displayed");
+                        showMainPage(activeChar);
+                        break;
+                    default:
+                        activeChar.sendMessage("Format is server_list_clock <on/off>");
+                        break;
+                }
 
 				mode = null;
 			}

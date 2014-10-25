@@ -18,15 +18,13 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.ItemInfo;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * 37 // Packet Identifier <BR>
@@ -59,7 +57,7 @@ public class InventoryUpdate extends L2GameServerPacket
 
         public InventoryUpdate()
         {
-                _items = new FastList<ItemInfo>();
+                _items = new FastList<>();
                 if (Config.DEBUG)
                         showDebug();
         }

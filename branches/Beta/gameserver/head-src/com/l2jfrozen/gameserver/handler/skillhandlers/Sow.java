@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -36,6 +34,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.random.Rnd;
+import org.apache.log4j.Logger;
 
 /**
  * @author l3x
@@ -63,72 +62,60 @@ public class Sow implements ISkillHandler
 		if(Config.DEBUG)
 			LOGGER.info("Casting sow");
 
-		for(int index = 0; index < targetList.length; index++)
-		{
-			if(!(targetList[0] instanceof L2MonsterInstance))
-				continue;
+        for (L2Object aTargetList : targetList) {
+            if (!(targetList[0] instanceof L2MonsterInstance))
+                continue;
 
-			_target = (L2MonsterInstance) targetList[0];
-			if(_target.isSeeded())
-			{
-				_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-				continue;
-			}
+            _target = (L2MonsterInstance) targetList[0];
+            if (_target.isSeeded()) {
+                _activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+                continue;
+            }
 
-			if(_target.isDead())
-			{
-				_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-				continue;
-			}
+            if (_target.isDead()) {
+                _activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+                continue;
+            }
 
-			if(_target.getSeeder() != _activeChar)
-			{
-				_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-				continue;
-			}
+            if (_target.getSeeder() != _activeChar) {
+                _activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+                continue;
+            }
 
-			_seedId = _target.getSeedType();
-			if(_seedId == 0)
-			{
-				_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-				continue;
-			}
+            _seedId = _target.getSeedType();
+            if (_seedId == 0) {
+                _activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+                continue;
+            }
 
-			L2ItemInstance item = _activeChar.getInventory().getItemByItemId(_seedId);
-			if (item == null) 
-			{ 
-				_activeChar.sendPacket(ActionFailed.STATIC_PACKET);  
-			 	break; 
-			}
-			//Consuming used seed
-			_activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
-			item = null;
+            L2ItemInstance item = _activeChar.getInventory().getItemByItemId(_seedId);
+            if (item == null) {
+                _activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+                break;
+            }
+            //Consuming used seed
+            _activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
+            item = null;
 
-			SystemMessage sm = null;
-			if(calcSuccess())
-			{
-				_activeChar.sendPacket(new PlaySound("Itemsound.quest_itemget"));
-				_target.setSeeded();
-				sm = new SystemMessage(SystemMessageId.THE_SEED_WAS_SUCCESSFULLY_SOWN);
-			}
-			else
-			{
-				sm = new SystemMessage(SystemMessageId.THE_SEED_WAS_NOT_SOWN);
-			}
+            SystemMessage sm = null;
+            if (calcSuccess()) {
+                _activeChar.sendPacket(new PlaySound("Itemsound.quest_itemget"));
+                _target.setSeeded();
+                sm = new SystemMessage(SystemMessageId.THE_SEED_WAS_SUCCESSFULLY_SOWN);
+            } else {
+                sm = new SystemMessage(SystemMessageId.THE_SEED_WAS_NOT_SOWN);
+            }
 
-			if(_activeChar.getParty() == null)
-			{
-				_activeChar.sendPacket(sm);
-			}
-			else
-			{
-				_activeChar.getParty().broadcastToPartyMembers(sm);
-			}
-			sm = null;
-			//TODO: Mob should not agro on player, this way doesn't work really nice
-			_target.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+            if (_activeChar.getParty() == null) {
+                _activeChar.sendPacket(sm);
+            } else {
+                _activeChar.getParty().broadcastToPartyMembers(sm);
+            }
+            sm = null;
+            //TODO: Mob should not agro on player, this way doesn't work really nice
+            _target.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 
-		}
+        }
 
 	}
 

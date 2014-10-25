@@ -18,12 +18,11 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager.SeedProduction;
+import javolution.util.FastList;
 
 /**
  * Format: (ch) dd [ddd] d - manor id d - size [ d - seed id d - sales d - price ]
@@ -66,7 +65,7 @@ public class RequestSetSeed extends L2GameClientPacket
 		if(_size < 1)
 			return;
 
-		FastList<SeedProduction> seeds = new FastList<SeedProduction>();
+		FastList<SeedProduction> seeds = new FastList<>();
 
 		for(int i = 0; i < _size; i++)
 		{

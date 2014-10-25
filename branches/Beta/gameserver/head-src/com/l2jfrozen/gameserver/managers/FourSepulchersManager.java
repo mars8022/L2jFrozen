@@ -14,28 +14,11 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SepulcherMonsterInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SepulcherNpcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
@@ -48,6 +31,17 @@ import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ...
@@ -148,30 +142,30 @@ public class FourSepulchersManager extends GrandBossManager
 			},
 	};
 
-	protected FastMap<Integer, Boolean> _archonSpawned = new FastMap<Integer, Boolean>();
-	protected FastMap<Integer, Boolean> _hallInUse = new FastMap<Integer, Boolean>();
-	protected FastMap<Integer, int[]> _startHallSpawns = new FastMap<Integer, int[]>();
-	protected FastMap<Integer, Integer> _hallGateKeepers = new FastMap<Integer, Integer>();
-	protected FastMap<Integer, Integer> _keyBoxNpc = new FastMap<Integer, Integer>();
-	protected FastMap<Integer, Integer> _victim = new FastMap<Integer, Integer>();
-	protected FastMap<Integer, L2PcInstance> _challengers = new FastMap<Integer, L2PcInstance>();
-	protected FastMap<Integer, L2Spawn> _executionerSpawns = new FastMap<Integer, L2Spawn>();
-	protected FastMap<Integer, L2Spawn> _keyBoxSpawns = new FastMap<Integer, L2Spawn>();
-	protected FastMap<Integer, L2Spawn> _mysteriousBoxSpawns = new FastMap<Integer, L2Spawn>();
-	protected FastMap<Integer, L2Spawn> _shadowSpawns = new FastMap<Integer, L2Spawn>();
-	protected FastMap<Integer, FastList<L2Spawn>> _dukeFinalMobs = new FastMap<Integer, FastList<L2Spawn>>();
-	protected FastMap<Integer, FastList<L2SepulcherMonsterInstance>> _dukeMobs = new FastMap<Integer, FastList<L2SepulcherMonsterInstance>>();
-	protected FastMap<Integer, FastList<L2Spawn>> _emperorsGraveNpcs = new FastMap<Integer, FastList<L2Spawn>>();
-	protected FastMap<Integer, FastList<L2Spawn>> _magicalMonsters = new FastMap<Integer, FastList<L2Spawn>>();
-	protected FastMap<Integer, FastList<L2Spawn>> _physicalMonsters = new FastMap<Integer, FastList<L2Spawn>>();
-	protected FastMap<Integer, FastList<L2SepulcherMonsterInstance>> _viscountMobs = new FastMap<Integer, FastList<L2SepulcherMonsterInstance>>();
+	protected FastMap<Integer, Boolean> _archonSpawned = new FastMap<>();
+	protected FastMap<Integer, Boolean> _hallInUse = new FastMap<>();
+	protected FastMap<Integer, int[]> _startHallSpawns = new FastMap<>();
+	protected FastMap<Integer, Integer> _hallGateKeepers = new FastMap<>();
+	protected FastMap<Integer, Integer> _keyBoxNpc = new FastMap<>();
+	protected FastMap<Integer, Integer> _victim = new FastMap<>();
+	protected FastMap<Integer, L2PcInstance> _challengers = new FastMap<>();
+	protected FastMap<Integer, L2Spawn> _executionerSpawns = new FastMap<>();
+	protected FastMap<Integer, L2Spawn> _keyBoxSpawns = new FastMap<>();
+	protected FastMap<Integer, L2Spawn> _mysteriousBoxSpawns = new FastMap<>();
+	protected FastMap<Integer, L2Spawn> _shadowSpawns = new FastMap<>();
+	protected FastMap<Integer, FastList<L2Spawn>> _dukeFinalMobs = new FastMap<>();
+	protected FastMap<Integer, FastList<L2SepulcherMonsterInstance>> _dukeMobs = new FastMap<>();
+	protected FastMap<Integer, FastList<L2Spawn>> _emperorsGraveNpcs = new FastMap<>();
+	protected FastMap<Integer, FastList<L2Spawn>> _magicalMonsters = new FastMap<>();
+	protected FastMap<Integer, FastList<L2Spawn>> _physicalMonsters = new FastMap<>();
+	protected FastMap<Integer, FastList<L2SepulcherMonsterInstance>> _viscountMobs = new FastMap<>();
 
 	protected FastList<L2Spawn> _physicalSpawns;
 	protected FastList<L2Spawn> _magicalSpawns;
 	protected FastList<L2Spawn> _managers;
 	protected FastList<L2Spawn> _dukeFinalSpawns;
 	protected FastList<L2Spawn> _emperorsGraveSpawns;
-	protected FastList<L2NpcInstance> _allMobs = new FastList<L2NpcInstance>();
+	protected FastList<L2NpcInstance> _allMobs = new FastList<>();
 
 	protected long _attackTimeEnd = 0;
 	protected long _coolDownTimeEnd = 0;
@@ -324,7 +318,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 	protected void spawnManagers()
 	{
-		_managers = new FastList<L2Spawn>();
+		_managers = new FastList<>();
 		// L2Spawn spawnDat;
 
 		int i = 31921;
@@ -611,7 +605,7 @@ public class FourSepulchersManager extends GrandBossManager
 				L2Spawn spawnDat;
 				L2NpcTemplate template1;
 
-				_physicalSpawns = new FastList<L2Spawn>();
+				_physicalSpawns = new FastList<>();
 
 				while(rset2.next())
 				{
@@ -692,7 +686,7 @@ public class FourSepulchersManager extends GrandBossManager
 				L2Spawn spawnDat;
 				L2NpcTemplate template1;
 
-				_magicalSpawns = new FastList<L2Spawn>();
+				_magicalSpawns = new FastList<>();
 
 				while(rset2.next())
 				{
@@ -775,7 +769,7 @@ public class FourSepulchersManager extends GrandBossManager
 				L2Spawn spawnDat;
 				L2NpcTemplate template1;
 
-				_dukeFinalSpawns = new FastList<L2Spawn>();
+				_dukeFinalSpawns = new FastList<>();
 
 				while(rset2.next())
 				{
@@ -858,7 +852,7 @@ public class FourSepulchersManager extends GrandBossManager
 				L2Spawn spawnDat;
 				L2NpcTemplate template1;
 
-				_emperorsGraveSpawns = new FastList<L2Spawn>();
+				_emperorsGraveSpawns = new FastList<>();
 
 				while(rset2.next())
 				{
@@ -1140,7 +1134,7 @@ public class FourSepulchersManager extends GrandBossManager
 
 		if(Config.FS_PARTY_MEMBER_COUNT > 1)
 		{
-			List<L2PcInstance> members = new FastList<L2PcInstance>();
+			List<L2PcInstance> members = new FastList<>();
 			for(L2PcInstance mem : player.getParty().getPartyMembers())
 			{
 				if(!mem.isDead() && Util.checkIfInRange(700, player, mem, true))
@@ -1178,7 +1172,7 @@ public class FourSepulchersManager extends GrandBossManager
 		}
 		else if(Config.FS_PARTY_MEMBER_COUNT <= 1 && player.isInParty())
 		{
-			List<L2PcInstance> members = new FastList<L2PcInstance>();
+			List<L2PcInstance> members = new FastList<>();
 			for(L2PcInstance mem : player.getParty().getPartyMembers())
 			{
 				if(!mem.isDead() && Util.checkIfInRange(700, player, mem, true))
@@ -1262,7 +1256,7 @@ public class FourSepulchersManager extends GrandBossManager
 			return;
 
 		FastList<L2Spawn> monsterList;
-		FastList<L2SepulcherMonsterInstance> mobs = new FastList<L2SepulcherMonsterInstance>();
+		FastList<L2SepulcherMonsterInstance> mobs = new FastList<>();
 		L2Spawn keyBoxMobSpawn;
 
 		if(Rnd.get(2) == 0)

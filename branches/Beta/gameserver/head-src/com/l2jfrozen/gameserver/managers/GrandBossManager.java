@@ -14,17 +14,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -35,6 +24,16 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class handles all Grand Bosses:
@@ -92,10 +91,10 @@ public class GrandBossManager
 
 	private void init()
 	{
-		_zones = new CopyOnWriteArrayList<L2BossZone>();
-		_bosses = new ConcurrentHashMap<Integer, L2GrandBossInstance>();
-		_storedInfo = new ConcurrentHashMap<Integer, StatsSet>();
-		_bossStatus = new ConcurrentHashMap<Integer, Integer>();
+		_zones = new CopyOnWriteArrayList<>();
+		_bosses = new ConcurrentHashMap<>();
+		_storedInfo = new ConcurrentHashMap<>();
+		_bossStatus = new ConcurrentHashMap<>();
 		Connection con = null;
 		try
 		{
@@ -156,7 +155,7 @@ public class GrandBossManager
 			return;
 		}
 
-		Map<Integer, List<Integer>> zones = new ConcurrentHashMap<Integer, List<Integer>>();
+		Map<Integer, List<Integer>> zones = new ConcurrentHashMap<>();
 		for(L2BossZone zone : _zones)
 		{
 			if(zone == null)

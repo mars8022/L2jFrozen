@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.Vector;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+
+import java.util.Vector;
 
 /**
  * 01 // Packet Identifier <BR>
@@ -98,7 +98,7 @@ public class StatusUpdate extends L2GameServerPacket
 	
 	public StatusUpdate(int objectId)
 	{
-		_attributes = new Vector<Attribute>();
+		_attributes = new Vector<>();
 		_objectId = objectId;
 	}
 	

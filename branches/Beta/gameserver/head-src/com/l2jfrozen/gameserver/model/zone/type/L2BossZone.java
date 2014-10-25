@@ -14,11 +14,6 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -28,6 +23,10 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.util.L2FastList;
+import javolution.util.FastMap;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author DaRkRaGe
@@ -56,8 +55,8 @@ public class L2BossZone extends L2ZoneType
 	{
 		super(id);
 		_bossId = boss_id;
-		_playerAllowedReEntryTimes = new FastMap<Integer, Long>();
-		_playersAllowed = new L2FastList<Integer>();
+		_playerAllowedReEntryTimes = new FastMap<>();
+		_playersAllowed = new L2FastList<>();
 	}
 	
 	

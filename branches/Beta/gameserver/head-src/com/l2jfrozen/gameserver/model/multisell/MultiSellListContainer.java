@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.model.multisell;
 
-import java.util.List;
-
 import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * @author programmos
@@ -35,7 +35,7 @@ public class MultiSellListContainer
 
 	public MultiSellListContainer()
 	{
-		_entriesC = new FastList<MultiSellEntry>();
+		_entriesC = new FastList<>();
 	}
 
 	/**

@@ -14,26 +14,11 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -50,6 +35,15 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
 
 /**
  * Baium AI
@@ -108,7 +102,7 @@ public class Baium_l2j  extends Quest implements Runnable
 	};
 	
 	private long _LastAttackVsBaiumTime = 0;
-	private List<L2NpcInstance> _Minions = new ArrayList<L2NpcInstance>(5);
+	private List<L2NpcInstance> _Minions = new ArrayList<>(5);
 	protected L2BossZone _Zone;
 	
 	public Baium_l2j (int questId, String name, String descr)
@@ -466,7 +460,7 @@ public class Baium_l2j  extends Quest implements Runnable
 	
 	public L2Character getRandomTarget(L2NpcInstance npc)
 	{
-		FastList<L2Character> result = new FastList<L2Character>();
+		FastList<L2Character> result = new FastList<>();
 		Collection<L2Object> objs = npc.getKnownList().getKnownObjects().values();
 		{
 			/*

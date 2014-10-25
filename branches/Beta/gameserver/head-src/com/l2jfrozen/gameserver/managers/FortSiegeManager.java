@@ -14,22 +14,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -44,6 +28,20 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 public class FortSiegeManager
 {
@@ -205,13 +203,13 @@ public class FortSiegeManager
 			_siegeLength = Integer.decode(siegeSettings.getProperty("SiegeLength", "120"));
 
 			// Siege spawns settings
-			_commanderSpawnList = new FastMap<Integer, FastList<SiegeSpawn>>();
-			_flagList = new FastMap<Integer, FastList<SiegeSpawn>>();
+			_commanderSpawnList = new FastMap<>();
+			_flagList = new FastMap<>();
 
 			for(Fort fort : FortManager.getInstance().getForts())
 			{
-				FastList<SiegeSpawn> _commanderSpawns = new FastList<SiegeSpawn>();
-				FastList<SiegeSpawn> _flagSpawns = new FastList<SiegeSpawn>();
+				FastList<SiegeSpawn> _commanderSpawns = new FastList<>();
+				FastList<SiegeSpawn> _flagSpawns = new FastList<>();
 
 				for(int i = 1; i < 5; i++)
 				{
@@ -371,7 +369,7 @@ public class FortSiegeManager
 	{
 		if(_sieges == null)
 		{
-			_sieges = new FastList<FortSiege>();
+			_sieges = new FastList<>();
 		}
 		return _sieges;
 	}
@@ -380,7 +378,7 @@ public class FortSiegeManager
 	{
 		if(_sieges == null)
 		{
-			_sieges = new FastList<FortSiege>();
+			_sieges = new FastList<>();
 		}
 		_sieges.add(fortSiege);
 	}
@@ -389,7 +387,7 @@ public class FortSiegeManager
 	{
 		if(_sieges == null)
 		{
-			_sieges = new FastList<FortSiege>();
+			_sieges = new FastList<>();
 		}
 		_sieges.remove(fortSiege);
 	}

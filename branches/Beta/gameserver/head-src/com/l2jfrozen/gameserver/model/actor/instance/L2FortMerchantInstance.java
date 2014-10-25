@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.StringTokenizer;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
@@ -27,6 +25,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+
+import java.util.StringTokenizer;
 
 /**
  * @author programmos, scoria dev
@@ -97,17 +97,12 @@ public class L2FortMerchantInstance extends L2NpcWalkerInstance
 			{
 				val = Integer.parseInt(par);
 			}
-			catch(IndexOutOfBoundsException ioobe)
+			catch(IndexOutOfBoundsException | NumberFormatException ioobe)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					ioobe.printStackTrace();
 			}
-			catch(NumberFormatException nfe)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					nfe.printStackTrace();
-			}
-			showMessageWindow(player, val);
+            showMessageWindow(player, val);
 		}
 		else if(actualCommand.equalsIgnoreCase("showSiegeInfo"))
 		{

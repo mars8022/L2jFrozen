@@ -103,10 +103,7 @@ public class Attack extends L2GameServerPacket
 		Hit[] tmp = new Hit[pos + 1];
 
 		// Add the new Hit object to hits table
-		for(int i = 0; i < _hits.length; i++)
-		{
-			tmp[i] = _hits[i];
-		}
+        System.arraycopy(_hits, 0, tmp, 0, _hits.length);
 		tmp[pos] = new Hit(target, damage, miss, crit, shld);
 		_hits = tmp;
 	}

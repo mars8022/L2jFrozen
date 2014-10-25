@@ -18,19 +18,17 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.BB;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * @author Maktakien
@@ -64,7 +62,7 @@ public class Post
 	 */
 	public Post(String _PostOwner, int _PostOwnerID, long date, int tid, int _PostForumID, String txt)
 	{
-		_post = new FastList<CPost>();
+		_post = new FastList<>();
 		CPost cp = new CPost();
 		cp.postId = 0;
 		cp.postOwner = _PostOwner;
@@ -114,7 +112,7 @@ public class Post
 
 	public Post(Topic t)
 	{
-		_post = new FastList<CPost>();
+		_post = new FastList<>();
 		load(t);
 	}
 

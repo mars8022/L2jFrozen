@@ -17,11 +17,11 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.Vector;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.RadarControl;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+
+import java.util.Vector;
 
 public final class L2Radar
 {
@@ -31,7 +31,7 @@ public final class L2Radar
 	public L2Radar(L2PcInstance player)
 	{
 		_player = player;
-		_markers = new Vector<RadarMarker>();
+		_markers = new Vector<>();
 	}
 
 	// Add a marker to player's radar

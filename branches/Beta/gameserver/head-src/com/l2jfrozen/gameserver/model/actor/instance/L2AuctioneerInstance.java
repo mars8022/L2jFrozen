@@ -18,14 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -39,6 +31,13 @@ import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import javolution.util.FastMap;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public final class L2AuctioneerInstance extends L2FolkInstance
 {
@@ -46,7 +45,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 	private static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
 	private static final int COND_REGULAR = 3;
 
-	private Map<Integer, Auction> _pendingAuctions = new FastMap<Integer, Auction>();
+	private Map<Integer, Auction> _pendingAuctions = new FastMap<>();
 
 	public L2AuctioneerInstance(int objectId, L2NpcTemplate template)
 	{

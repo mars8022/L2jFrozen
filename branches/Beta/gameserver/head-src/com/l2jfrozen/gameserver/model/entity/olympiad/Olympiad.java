@@ -19,32 +19,6 @@
 
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -60,6 +34,20 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 public class Olympiad
 {
@@ -72,7 +60,7 @@ public class Olympiad
 	private static L2FastList<L2PcInstance> _nonClassBasedRegisters;
 	private static Map<Integer, L2FastList<L2PcInstance>> _classBasedRegisters;
     public static final int OLY_MANAGER = 31688;
-    public static FastList<L2Spawn> olymanagers = new FastList<L2Spawn>();
+    public static FastList<L2Spawn> olymanagers = new FastList<>();
 	
 	private static final String OLYMPIAD_DATA_FILE = "config/olympiad.cfg";
 	public static final String OLYMPIAD_HTML_PATH = "data/html/olympiad/";
@@ -178,8 +166,8 @@ public class Olympiad
 	
 	private void load()
 	{
-		_nobles = new FastMap<Integer, StatsSet>();
-		_oldnobles = new FastMap<Integer, StatsSet>();
+		_nobles = new FastMap<>();
+		_oldnobles = new FastMap<>();
 		
 		Properties OlympiadProperties = new Properties();
 		InputStream is = null;
@@ -336,8 +324,8 @@ public class Olympiad
 		if (_period == 1)
 			return;
 		
-		_nonClassBasedRegisters = new L2FastList<L2PcInstance>();
-		_classBasedRegisters = new FastMap<Integer, L2FastList<L2PcInstance>>();
+		_nonClassBasedRegisters = new L2FastList<>();
+		_classBasedRegisters = new FastMap<>();
 		
 		_compStart = Calendar.getInstance();
 		_compStart.set(Calendar.HOUR_OF_DAY, COMP_START);
@@ -535,7 +523,7 @@ public class Olympiad
 			}
 			else
 			{
-				L2FastList<L2PcInstance> classed = new L2FastList<L2PcInstance>();
+				L2FastList<L2PcInstance> classed = new L2FastList<>();
 				classed.add(noble);
 				
 				_classBasedRegisters.put(noble.getClassId().getId(), classed);
@@ -588,7 +576,7 @@ public class Olympiad
 	
 	protected static L2FastList<Integer> hasEnoughRegisteredClassed()
 	{
-		L2FastList<Integer> result = new L2FastList<Integer>();
+		L2FastList<Integer> result = new L2FastList<>();
 
 		for (Integer classList : getRegisteredClassBased().keySet())
 		{
@@ -1235,7 +1223,7 @@ public class Olympiad
 			}
 		}
 		
-		_heroesToBe = new L2FastList<StatsSet>();
+		_heroesToBe = new L2FastList<>();
 		
 		Connection con = null;
 		PreparedStatement statement = null;
@@ -1244,24 +1232,22 @@ public class Olympiad
 		{
 			con = L2DatabaseFactory.getInstance().getConnection();
 			StatsSet hero;
-			for (int i = 0; i < HERO_IDS.length; i++)
-			{
-				statement = con.prepareStatement(OLYMPIAD_GET_HEROS);
-				statement.setInt(1, HERO_IDS[i]);
-				rset = statement.executeQuery();
-				
-				while (rset.next())
-				{
-					hero = new StatsSet();
-					hero.set(CLASS_ID, HERO_IDS[i]);
-					hero.set(CHAR_ID, rset.getInt(CHAR_ID));
-					hero.set(CHAR_NAME, rset.getString(CHAR_NAME));
-					
-					logResult(hero.getString(CHAR_NAME), "", hero.getDouble(CHAR_ID), hero.getDouble(CLASS_ID), 0, 0, "awarded hero", 0, "");
-					_heroesToBe.add(hero);
-				}
-				statement.close();
-			}
+            for (int HERO_ID : HERO_IDS) {
+                statement = con.prepareStatement(OLYMPIAD_GET_HEROS);
+                statement.setInt(1, HERO_ID);
+                rset = statement.executeQuery();
+
+                while (rset.next()) {
+                    hero = new StatsSet();
+                    hero.set(CLASS_ID, HERO_ID);
+                    hero.set(CHAR_ID, rset.getInt(CHAR_ID));
+                    hero.set(CHAR_NAME, rset.getString(CHAR_NAME));
+
+                    logResult(hero.getString(CHAR_NAME), "", hero.getDouble(CHAR_ID), hero.getDouble(CLASS_ID), 0, 0, "awarded hero", 0, "");
+                    _heroesToBe.add(hero);
+                }
+                statement.close();
+            }
 		}
 		catch (SQLException e)
 		{
@@ -1278,7 +1264,7 @@ public class Olympiad
 	{
 		// if (_period != 1) return;
 		
-		L2FastList<String> names = new L2FastList<String>();
+		L2FastList<String> names = new L2FastList<>();
 		
 		Connection con = null;
 		PreparedStatement statement = null;
@@ -1471,7 +1457,7 @@ public class Olympiad
 		
 		_oldnobles.clear();
 		_oldnobles = _nobles;
-		_nobles = new FastMap<Integer, StatsSet>();
+		_nobles = new FastMap<>();
 	}
 	
 	/**

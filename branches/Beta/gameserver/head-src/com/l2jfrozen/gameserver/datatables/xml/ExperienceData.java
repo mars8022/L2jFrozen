@@ -14,18 +14,16 @@
  */
 package com.l2jfrozen.gameserver.datatables.xml;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import com.l2jfrozen.Config;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import com.l2jfrozen.Config;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Based on mrTJO's implementation.
@@ -38,7 +36,7 @@ public class ExperienceData
 	private byte MAX_LEVEL;
 	private byte MAX_PET_LEVEL;
 	
-	private final Map<Integer, Long> _expTable = new HashMap<Integer, Long>();
+	private final Map<Integer, Long> _expTable = new HashMap<>();
 	
 	private ExperienceData()
 	{

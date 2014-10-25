@@ -28,14 +28,14 @@
  */
 package com.l2jfrozen.gameserver.util;
 
-import java.io.File;
-import java.util.Collection;
-
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+
+import java.io.File;
+import java.util.Collection;
 
 /**
  * General Utility functions related to Gameserver
@@ -278,14 +278,12 @@ public final class Util
 	{
 		boolean result = true;
 		char[] chars = text.toCharArray();
-		for(int i = 0; i < chars.length; i++)
-		{
-			if(!Character.isLetterOrDigit(chars[i]))
-			{
-				result = false;
-				break;
-			}
-		}
+        for (char aChar : chars) {
+            if (!Character.isLetterOrDigit(aChar)) {
+                result = false;
+                break;
+            }
+        }
 		return result;
 	}
 
@@ -384,13 +382,11 @@ public final class Util
 	
 	public static boolean contains(int[] array, int obj)
 	{
-		for (int i = 0; i < array.length; i++)
-		{
-			if (array[i] == obj)
-			{
-				return true;
-			}
-		}
+        for (int anArray : array) {
+            if (anArray == obj) {
+                return true;
+            }
+        }
 		return false;
 	}
 

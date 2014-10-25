@@ -18,17 +18,17 @@
  */
 package com.l2jfrozen.gameserver.geo.pathfinding.utils;
 
-import java.util.Arrays;
-
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.geo.util.L2FastSet;
 import com.l2jfrozen.gameserver.geo.util.ObjectPool;
+
+import java.util.Arrays;
 
 
 public final class BinaryNodeHeap
 {
 	protected final Node[] _list = new Node[800 + 1];
-	protected final L2FastSet<Node> _set = new L2FastSet<Node>();
+	protected final L2FastSet<Node> _set = new L2FastSet<>();
 	protected int _size = 0;
 
 	protected BinaryNodeHeap()

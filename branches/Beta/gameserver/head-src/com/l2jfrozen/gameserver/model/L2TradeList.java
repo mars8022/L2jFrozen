@@ -18,14 +18,12 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * This class ...
@@ -46,7 +44,7 @@ public class L2TradeList
 
 	public L2TradeList(int listId)
 	{
-		_items = new FastList<L2ItemInstance>();
+		_items = new FastList<>();
 		_listId = listId;
 		_confirmed = false;
 	}

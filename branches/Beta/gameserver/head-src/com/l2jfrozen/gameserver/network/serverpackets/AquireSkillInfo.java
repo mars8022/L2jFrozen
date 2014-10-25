@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * <code>
@@ -58,7 +58,7 @@ public class AquireSkillInfo extends L2GameServerPacket
 
 	public AquireSkillInfo(int id, int level, int spCost, int mode)
 	{
-		_reqs = new FastList<Req>();
+		_reqs = new FastList<>();
 		_id = id;
 		_level = level;
 		_spCost = spCost;

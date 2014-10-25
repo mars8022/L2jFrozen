@@ -1,22 +1,20 @@
 package com.l2jfrozen.gameserver.powerpak.engrave;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class EngraveManager
 {
@@ -35,7 +33,7 @@ public class EngraveManager
 	
 	protected EngraveManager()
 	{
-		_engravedItems = new FastMap<Integer, int[]>();
+		_engravedItems = new FastMap<>();
 		try
 		{
 			_con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -103,7 +101,7 @@ public class EngraveManager
 	
 	public ArrayList<String> getLog(int objectId)
 	{
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		synchronized (_con)
 		{
 			try
@@ -207,7 +205,7 @@ public class EngraveManager
 	{
 		synchronized (_engravedItems)
 		{
-			ArrayList<int[]> result = new ArrayList<int[]>();
+			ArrayList<int[]> result = new ArrayList<>();
 			for (int key : _engravedItems.keySet())
 			{
 				if (_engravedItems.get(key)[0] == player.getObjectId())

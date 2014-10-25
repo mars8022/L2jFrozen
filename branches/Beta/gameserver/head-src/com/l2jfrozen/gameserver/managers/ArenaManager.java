@@ -17,12 +17,10 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 public class ArenaManager
 {
@@ -58,7 +56,7 @@ public class ArenaManager
 	{
 		if(_arenas == null)
 		{
-			_arenas = new FastList<L2ArenaZone>();
+			_arenas = new FastList<>();
 		}
 
 		_arenas.add(arena);

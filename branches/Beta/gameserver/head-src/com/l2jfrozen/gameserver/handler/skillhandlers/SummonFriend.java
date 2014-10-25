@@ -103,146 +103,127 @@ public class SummonFriend implements ISkillHandler
 
 		try
 		{
-			for(int index = 0; index < targets.length; index++)
-			{
-				if(!(targets[index] instanceof L2Character))
-					continue;
+            for (L2Object target1 : targets) {
+                if (!(target1 instanceof L2Character))
+                    continue;
 
-				L2Character target = (L2Character) targets[index];
-				if(activeChar == target)
-					continue;
+                L2Character target = (L2Character) target1;
+                if (activeChar == target)
+                    continue;
 
-				if(target instanceof L2PcInstance)
-				{
-					L2PcInstance targetChar = (L2PcInstance) target;
+                if (target instanceof L2PcInstance) {
+                    L2PcInstance targetChar = (L2PcInstance) target;
 
-					if (!L2PcInstance.checkSummonTargetStatus(targetChar, activePlayer))
-						continue;
-					
-					if(targetChar.isAlikeDead())
-					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_DEAD_AT_THE_MOMENT_AND_CANNOT_BE_SUMMONED);
-						sm.addString(targetChar.getName());
-						activeChar.sendPacket(sm);
-						sm = null;
-						continue;
-					}
-					
-					if (targetChar._inEvent)
-					{
-						targetChar.sendMessage("You cannot use this skill in a Event.");
-						return;
-					}
-					if (targetChar._inEventCTF)
-					{
-						targetChar.sendMessage("You cannot use this skill in a Event.");
-						return;
-					}
-					if (targetChar._inEventDM)
-					{
-						targetChar.sendMessage("You cannot use this skill in a Event.");
-						return;
-					}
-					if (targetChar._inEventTvT)
-					{
-						targetChar.sendMessage("You cannot use this skill in a Event.");
-						return;
-					}
-					if (targetChar._inEventVIP)
-					{
-						targetChar.sendMessage("You cannot use this skill in a Event.");
-						return;
-					}
+                    if (!L2PcInstance.checkSummonTargetStatus(targetChar, activePlayer))
+                        continue;
 
-					if(targetChar.isInStoreMode())
-					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_CURRENTLY_TRADING_OR_OPERATING_PRIVATE_STORE_AND_CANNOT_BE_SUMMONED);
-						sm.addString(targetChar.getName());
-						activeChar.sendPacket(sm);
-						sm = null;
-						continue;
-					}
+                    if (targetChar.isAlikeDead()) {
+                        SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_DEAD_AT_THE_MOMENT_AND_CANNOT_BE_SUMMONED);
+                        sm.addString(targetChar.getName());
+                        activeChar.sendPacket(sm);
+                        sm = null;
+                        continue;
+                    }
 
-					// Target cannot be in combat (or dead, but that's checked by TARGET_PARTY)
-					if(targetChar.isRooted() || targetChar.isInCombat())
-					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_ENGAGED_IN_COMBAT_AND_CANNOT_BE_SUMMONED);
-						sm.addString(targetChar.getName());
-						activeChar.sendPacket(sm);
-						sm = null;
-						continue;
-					}
+                    if (targetChar._inEvent) {
+                        targetChar.sendMessage("You cannot use this skill in a Event.");
+                        return;
+                    }
+                    if (targetChar._inEventCTF) {
+                        targetChar.sendMessage("You cannot use this skill in a Event.");
+                        return;
+                    }
+                    if (targetChar._inEventDM) {
+                        targetChar.sendMessage("You cannot use this skill in a Event.");
+                        return;
+                    }
+                    if (targetChar._inEventTvT) {
+                        targetChar.sendMessage("You cannot use this skill in a Event.");
+                        return;
+                    }
+                    if (targetChar._inEventVIP) {
+                        targetChar.sendMessage("You cannot use this skill in a Event.");
+                        return;
+                    }
 
-					if(GrandBossManager.getInstance().getZone(targetChar) != null && !targetChar.isGM())
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
-						continue;
-					}
-					// Check for the the target's festival status
-					if(targetChar.isInOlympiadMode())
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_CANNOT_SUMMON_PLAYERS_WHO_ARE_IN_OLYMPIAD));
-						continue;
-					}
+                    if (targetChar.isInStoreMode()) {
+                        SystemMessage sm = new SystemMessage(SystemMessageId.S1_CURRENTLY_TRADING_OR_OPERATING_PRIVATE_STORE_AND_CANNOT_BE_SUMMONED);
+                        sm.addString(targetChar.getName());
+                        activeChar.sendPacket(sm);
+                        sm = null;
+                        continue;
+                    }
 
-					// Check for the the target's festival status
-					if(targetChar.isFestivalParticipant())
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
-						continue;
-					}
+                    // Target cannot be in combat (or dead, but that's checked by TARGET_PARTY)
+                    if (targetChar.isRooted() || targetChar.isInCombat()) {
+                        SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_ENGAGED_IN_COMBAT_AND_CANNOT_BE_SUMMONED);
+                        sm.addString(targetChar.getName());
+                        activeChar.sendPacket(sm);
+                        sm = null;
+                        continue;
+                    }
 
-					// Check for the target's jail status, arenas and siege zones
-					if(targetChar.isInsideZone(L2Character.ZONE_PVP))
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
-						continue;
-					}
+                    if (GrandBossManager.getInstance().getZone(targetChar) != null && !targetChar.isGM()) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+                        continue;
+                    }
+                    // Check for the the target's festival status
+                    if (targetChar.isInOlympiadMode()) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_CANNOT_SUMMON_PLAYERS_WHO_ARE_IN_OLYMPIAD));
+                        continue;
+                    }
 
-					activePlayer = null;
+                    // Check for the the target's festival status
+                    if (targetChar.isFestivalParticipant()) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+                        continue;
+                    }
 
-					// Requires a Summoning Crystal
-					/* if (targetChar.getInventory().getItemByItemId(8615) == null) */
-					if((targetChar.getInventory().getItemByItemId(8615) == null) && (skill.getId() != 1429)) //KidZor
-					{
-						((L2PcInstance) activeChar).sendMessage("Your target cannot be summoned while he hasn't got a Summoning Crystal");
-						targetChar.sendMessage("You cannot be summoned while you haven't got a Summoning Crystal");
-						continue;
-					}
+                    // Check for the target's jail status, arenas and siege zones
+                    if (targetChar.isInsideZone(L2Character.ZONE_PVP)) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+                        continue;
+                    }
 
-					if(!Util.checkIfInRange(0, activeChar, target, false))
-					{	
-						// Check already summon
-						if(!targetChar.teleportRequest((L2PcInstance) activeChar, skill))
-						{
-							SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S1_ALREADY_SUMMONED);
-							sm.addString(target.getName());
-							activeChar.sendPacket(sm);
-							continue;
-						}
-						
-						// Summon friend
-						if (skill.getId() == 1403)
-						{
-							// Send message
-							ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1_WISHES_TO_SUMMON_YOU_FROM_S2_DO_YOU_ACCEPT.getId());
-							confirm.addString(activeChar.getName());
-							confirm.addZoneName(activeChar.getX(), activeChar.getY(), activeChar.getZ());
-							confirm.addTime(30000);
-							confirm.addRequesterId(activeChar.getObjectId());
-							targetChar.sendPacket(confirm);
-						}
-						else
-						{
-							L2PcInstance.teleToTarget(targetChar, (L2PcInstance) activeChar, skill);
-							targetChar.teleportRequest(null, null);
-						}
-					}
+                    activePlayer = null;
 
-					target = null;
-					targetChar = null;
-				}
-			}
+                    // Requires a Summoning Crystal
+                    /* if (targetChar.getInventory().getItemByItemId(8615) == null) */
+                    if ((targetChar.getInventory().getItemByItemId(8615) == null) && (skill.getId() != 1429)) //KidZor
+                    {
+                        ((L2PcInstance) activeChar).sendMessage("Your target cannot be summoned while he hasn't got a Summoning Crystal");
+                        targetChar.sendMessage("You cannot be summoned while you haven't got a Summoning Crystal");
+                        continue;
+                    }
+
+                    if (!Util.checkIfInRange(0, activeChar, target, false)) {
+                        // Check already summon
+                        if (!targetChar.teleportRequest((L2PcInstance) activeChar, skill)) {
+                            SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.S1_ALREADY_SUMMONED);
+                            sm.addString(target.getName());
+                            activeChar.sendPacket(sm);
+                            continue;
+                        }
+
+                        // Summon friend
+                        if (skill.getId() == 1403) {
+                            // Send message
+                            ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1_WISHES_TO_SUMMON_YOU_FROM_S2_DO_YOU_ACCEPT.getId());
+                            confirm.addString(activeChar.getName());
+                            confirm.addZoneName(activeChar.getX(), activeChar.getY(), activeChar.getZ());
+                            confirm.addTime(30000);
+                            confirm.addRequesterId(activeChar.getObjectId());
+                            targetChar.sendPacket(confirm);
+                        } else {
+                            L2PcInstance.teleToTarget(targetChar, (L2PcInstance) activeChar, skill);
+                            targetChar.teleportRequest(null, null);
+                        }
+                    }
+
+                    target = null;
+                    targetChar = null;
+                }
+            }
 		}
 		catch(Throwable e)
 		{

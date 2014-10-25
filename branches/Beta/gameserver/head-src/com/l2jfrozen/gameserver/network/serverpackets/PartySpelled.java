@@ -18,13 +18,12 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * This class ...
@@ -53,7 +52,7 @@ public class PartySpelled extends L2GameServerPacket
 
 	public PartySpelled(L2Character cha)
 	{
-		_effects = new FastList<Effect>();
+		_effects = new FastList<>();
 		_activeChar = cha;
 	}
 

@@ -62,7 +62,7 @@ public class ServerStatus extends GameServerBasePacket
 
 	public ServerStatus()
 	{
-		_attributes = new Vector<Attribute>();
+		_attributes = new Vector<>();
 	}
 
 	public void addAttribute(int id, int value)

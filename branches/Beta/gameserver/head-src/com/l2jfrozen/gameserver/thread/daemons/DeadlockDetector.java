@@ -14,17 +14,15 @@
  */
 package com.l2jfrozen.gameserver.thread.daemons;
 
+import com.l2jfrozen.gameserver.thread.L2Thread;
+import com.l2jfrozen.util.Util;
+import javolution.util.FastSet;
+import org.apache.log4j.Logger;
+
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javolution.util.FastSet;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.gameserver.thread.L2Thread;
-import com.l2jfrozen.util.Util;
 
 /**
  * @author ProGramMoS
@@ -33,7 +31,7 @@ import com.l2jfrozen.util.Util;
 public final class DeadlockDetector implements Runnable
 {
 	protected static final Logger LOGGER = Logger.getLogger(DeadlockDetector.class);
-	private final Set<Long> _logged = new FastSet<Long>();
+	private final Set<Long> _logged = new FastSet<>();
 
 	private static DeadlockDetector _instance;
 
@@ -60,7 +58,7 @@ public final class DeadlockDetector implements Runnable
 		if(ids == null)
 			return;
 
-		List<Thread> deadlocked = new ArrayList<Thread>();
+		List<Thread> deadlocked = new ArrayList<>();
 
 		for(long id : ids)
 			if(_logged.add(id))

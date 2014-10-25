@@ -17,22 +17,9 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
-import com.l2jfrozen.gameserver.model.ClanWarehouse;
-import com.l2jfrozen.gameserver.model.ItemContainer;
-import com.l2jfrozen.gameserver.model.L2Clan;
-import com.l2jfrozen.gameserver.model.L2Manor;
-import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -42,6 +29,13 @@ import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
 
 /**
  * Class For Castle Manor Manager Load manor data from DB Update/Reload/Delete Handles all schedule for manor
@@ -209,10 +203,10 @@ public class CastleManorManager
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			for(Castle castle : CastleManager.getInstance().getCastles())
 			{
-				FastList<SeedProduction> production = new FastList<SeedProduction>();
-				FastList<SeedProduction> productionNext = new FastList<SeedProduction>();
-				FastList<CropProcure> procure = new FastList<CropProcure>();
-				FastList<CropProcure> procureNext = new FastList<CropProcure>();
+				FastList<SeedProduction> production = new FastList<>();
+				FastList<SeedProduction> productionNext = new FastList<>();
+				FastList<CropProcure> procure = new FastList<>();
+				FastList<CropProcure> procureNext = new FastList<>();
 
 				// restore seed production info
 				statement = con.prepareStatement(CASTLE_MANOR_LOAD_PRODUCTION);
@@ -391,8 +385,8 @@ public class CastleManorManager
 			}
 			else
 			{
-				FastList<SeedProduction> production = new FastList<SeedProduction>();
-				FastList<CropProcure> procure = new FastList<CropProcure>();
+				FastList<SeedProduction> production = new FastList<>();
+				FastList<CropProcure> procure = new FastList<>();
 				for(SeedProduction s : c.getSeedProduction(PERIOD_CURRENT))
 				{
 					s.setCanProduce(s.getStartProduce());
@@ -470,7 +464,7 @@ public class CastleManorManager
 
 	private FastList<SeedProduction> getNewSeedsList(int castleId)
 	{
-		FastList<SeedProduction> seeds = new FastList<SeedProduction>();
+		FastList<SeedProduction> seeds = new FastList<>();
 		FastList<Integer> seedsIds = L2Manor.getInstance().getSeedsForCastle(castleId);
 		for(int sd : seedsIds)
 		{
@@ -481,7 +475,7 @@ public class CastleManorManager
 
 	private FastList<CropProcure> getNewCropsList(int castleId)
 	{
-		FastList<CropProcure> crops = new FastList<CropProcure>();
+		FastList<CropProcure> crops = new FastList<>();
 		FastList<Integer> cropsIds = L2Manor.getInstance().getCropsForCastle(castleId);
 		for(int cr : cropsIds)
 		{

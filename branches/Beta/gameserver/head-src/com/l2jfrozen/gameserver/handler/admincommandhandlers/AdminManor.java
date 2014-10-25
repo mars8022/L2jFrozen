@@ -18,11 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.managers.CastleManager;
@@ -32,6 +27,10 @@ import com.l2jfrozen.gameserver.managers.CastleManorManager.SeedProduction;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+
+import java.util.StringTokenizer;
 
 /**
  * Admin comand handler for Manor System This class handles following admin commands: - manor_info = shows info about
@@ -72,84 +71,70 @@ public class AdminManor implements IAdminCommandHandler
 		StringTokenizer st = new StringTokenizer(command);
 		command = st.nextToken();
 
-		if(command.equals("admin_manor"))
-		{
-			showMainPage(activeChar);
-		}
-		else if(command.equals("admin_manor_reset"))
-		{
-			int castleId = 0;
+        switch (command) {
+            case "admin_manor":
+                showMainPage(activeChar);
+                break;
+            case "admin_manor_reset":
+                int castleId = 0;
 
-			try
-			{
-				castleId = Integer.parseInt(st.nextToken());
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
+                try {
+                    castleId = Integer.parseInt(st.nextToken());
+                } catch (Exception e) {
+                    if (Config.ENABLE_ALL_EXCEPTIONS)
+                        e.printStackTrace();
+                }
 
-			if(castleId > 0)
-			{
-				Castle castle = CastleManager.getInstance().getCastleById(castleId);
-				castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
-				castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
-				castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
-				castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
+                if (castleId > 0) {
+                    Castle castle = CastleManager.getInstance().getCastleById(castleId);
+                    castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
+                    castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
+                    castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
+                    castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
 
-				if(Config.ALT_MANOR_SAVE_ALL_ACTIONS)
-				{
-					castle.saveCropData();
-					castle.saveSeedData();
-				}
+                    if (Config.ALT_MANOR_SAVE_ALL_ACTIONS) {
+                        castle.saveCropData();
+                        castle.saveSeedData();
+                    }
 
-				activeChar.sendMessage("Manor data for " + castle.getName() + " was nulled");
-			}
-			else
-			{
-				for(Castle castle : CastleManager.getInstance().getCastles())
-				{
-					castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
-					castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
-					castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
-					castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
+                    activeChar.sendMessage("Manor data for " + castle.getName() + " was nulled");
+                } else {
+                    for (Castle castle : CastleManager.getInstance().getCastles()) {
+                        castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
+                        castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
+                        castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
+                        castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
 
-					if(Config.ALT_MANOR_SAVE_ALL_ACTIONS)
-					{
-						castle.saveCropData();
-						castle.saveSeedData();
-					}
-				}
+                        if (Config.ALT_MANOR_SAVE_ALL_ACTIONS) {
+                            castle.saveCropData();
+                            castle.saveSeedData();
+                        }
+                    }
 
-				activeChar.sendMessage("Manor data was nulled");
-			}
+                    activeChar.sendMessage("Manor data was nulled");
+                }
 
-			showMainPage(activeChar);
-		}
-		else if(command.equals("admin_manor_save"))
-		{
-			CastleManorManager.getInstance().save();
-			activeChar.sendMessage("Manor System: all data saved");
-			showMainPage(activeChar);
-		}
-		else if(command.equals("admin_manor_disable"))
-		{
-			boolean mode = CastleManorManager.getInstance().isDisabled();
+                showMainPage(activeChar);
+                break;
+            case "admin_manor_save":
+                CastleManorManager.getInstance().save();
+                activeChar.sendMessage("Manor System: all data saved");
+                showMainPage(activeChar);
+                break;
+            case "admin_manor_disable":
+                boolean mode = CastleManorManager.getInstance().isDisabled();
 
-			CastleManorManager.getInstance().setDisabled(!mode);
+                CastleManorManager.getInstance().setDisabled(!mode);
 
-			if(mode)
-			{
-				activeChar.sendMessage("Manor System: enabled");
-			}
-			else
-			{
-				activeChar.sendMessage("Manor System: disabled");
-			}
+                if (mode) {
+                    activeChar.sendMessage("Manor System: enabled");
+                } else {
+                    activeChar.sendMessage("Manor System: disabled");
+                }
 
-			showMainPage(activeChar);
-		}
+                showMainPage(activeChar);
+                break;
+        }
 
 		st = null;
 

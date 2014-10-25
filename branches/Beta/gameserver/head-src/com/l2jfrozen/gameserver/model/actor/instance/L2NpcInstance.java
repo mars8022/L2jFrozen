@@ -18,16 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE;
-
-import java.text.DateFormat;
-import java.util.List;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-
-import org.omg.PortableServer.POAManagerPackage.State;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.cache.HtmCache;
@@ -38,31 +28,13 @@ import com.l2jfrozen.gameserver.datatables.sql.HelperBuffTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
-import com.l2jfrozen.gameserver.managers.CastleManager;
-import com.l2jfrozen.gameserver.managers.CustomNpcInstanceManager;
-import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
-import com.l2jfrozen.gameserver.managers.FortManager;
-import com.l2jfrozen.gameserver.managers.QuestManager;
-import com.l2jfrozen.gameserver.managers.TownManager;
-import com.l2jfrozen.gameserver.model.L2Attackable;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Clan;
-import com.l2jfrozen.gameserver.model.L2DropCategory;
-import com.l2jfrozen.gameserver.model.L2DropData;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.managers.*;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.knownlist.NpcKnownList;
 import com.l2jfrozen.gameserver.model.actor.stat.NpcStat;
 import com.l2jfrozen.gameserver.model.actor.status.NpcStatus;
-import com.l2jfrozen.gameserver.model.entity.event.CTF;
-import com.l2jfrozen.gameserver.model.entity.event.DM;
-import com.l2jfrozen.gameserver.model.entity.event.L2Event;
-import com.l2jfrozen.gameserver.model.entity.event.Lottery;
-import com.l2jfrozen.gameserver.model.entity.event.TvT;
-import com.l2jfrozen.gameserver.model.entity.event.VIP;
+import com.l2jfrozen.gameserver.model.entity.event.*;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
@@ -76,28 +48,21 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.ExShowVariationCancelWindow;
-import com.l2jfrozen.gameserver.network.serverpackets.ExShowVariationMakeWindow;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.RadarControl;
-import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.powerpak.Buffer.L2BufferInstance;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
-import com.l2jfrozen.gameserver.templates.L2HelperBuff;
-import com.l2jfrozen.gameserver.templates.L2Item;
-import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.templates.L2WeaponType;
+import com.l2jfrozen.gameserver.templates.*;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import org.omg.PortableServer.POAManagerPackage.State;
+
+import java.text.DateFormat;
+import java.util.List;
+
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE;
 
 /**
  * This class represents a Non-Player-Character in the world. It can be a monster or a friendly character. It also uses a template to fetch some static values. The templates are hardcoded in the client, so we can rely on them.<BR>
@@ -1400,17 +1365,12 @@ public class L2NpcInstance extends L2Character
 			{
 				val = Integer.parseInt(command.substring(5));
 			}
-			catch (IndexOutOfBoundsException ioobe)
+			catch (IndexOutOfBoundsException | NumberFormatException ioobe)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					ioobe.printStackTrace();
 			}
-			catch (NumberFormatException nfe)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					nfe.printStackTrace();
-			}
-			showChatWindow(player, val);
+            showChatWindow(player, val);
 		}
 		else if (command.startsWith("Link"))
 		{
@@ -1444,17 +1404,12 @@ public class L2NpcInstance extends L2Character
 			{
 				val = Integer.parseInt(command.substring(5));
 			}
-			catch (IndexOutOfBoundsException ioobe)
+			catch (IndexOutOfBoundsException | NumberFormatException ioobe)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					ioobe.printStackTrace();
 			}
-			catch (NumberFormatException nfe)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					nfe.printStackTrace();
-			}
-			showChatWindow(player, val);
+            showChatWindow(player, val);
 		}
 		else if (command.startsWith("Loto"))
 		{
@@ -1463,17 +1418,12 @@ public class L2NpcInstance extends L2Character
 			{
 				val = Integer.parseInt(command.substring(5));
 			}
-			catch (IndexOutOfBoundsException ioobe)
+			catch (IndexOutOfBoundsException | NumberFormatException ioobe)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					ioobe.printStackTrace();
 			}
-			catch (NumberFormatException nfe)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					nfe.printStackTrace();
-			}
-			if (val == 0)
+            if (val == 0)
 			{
 				// new loto ticket
 				for (int i = 0; i < 5; i++)

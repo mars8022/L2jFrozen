@@ -17,18 +17,17 @@
  */
 package com.l2jfrozen.gameserver.model.actor.knownlist;
 
-import java.util.Collection;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.util.Util;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class CharKnownList extends ObjectKnownList
 {
@@ -141,7 +140,7 @@ public class CharKnownList extends ObjectKnownList
 
 	public Collection<L2Character> getKnownCharacters()
 	{
-		FastList<L2Character> result = new FastList<L2Character>();
+		FastList<L2Character> result = new FastList<>();
 
 		for(L2Object obj : getKnownObjects().values())
 		{
@@ -156,7 +155,7 @@ public class CharKnownList extends ObjectKnownList
 
 	public Collection<L2Character> getKnownCharactersInRadius(long radius)
 	{
-		FastList<L2Character> result = new FastList<L2Character>();
+		FastList<L2Character> result = new FastList<>();
 
 		for(L2Object obj : getKnownObjects().values())
 		{
@@ -208,7 +207,7 @@ public class CharKnownList extends ObjectKnownList
 
 	public final Collection<L2PcInstance> getKnownPlayersInRadius(long radius)
 	{
-		FastList<L2PcInstance> result = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> result = new FastList<>();
 
 		for(L2PcInstance player : getKnownPlayers().values())
 			if(Util.checkIfInRange((int) radius, getActiveChar(), player, true))

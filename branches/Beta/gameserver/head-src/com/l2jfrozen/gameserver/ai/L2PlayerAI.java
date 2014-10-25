@@ -18,16 +18,6 @@
  */
 package com.l2jfrozen.gameserver.ai;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_CAST;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_INTERACT;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_PICK_UP;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_REST;
-
-import java.util.EmptyStackException;
-import java.util.Stack;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Character.AIAccessor;
@@ -38,6 +28,11 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+
+import java.util.EmptyStackException;
+import java.util.Stack;
+
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.*;
 
 public class L2PlayerAI extends L2CharacterAI
 {
@@ -56,7 +51,7 @@ public class L2PlayerAI extends L2CharacterAI
 		}
 	}
 
-	private Stack<IntentionCommand> _interuptedIntentions = new Stack<IntentionCommand>();
+	private Stack<IntentionCommand> _interuptedIntentions = new Stack<>();
 
 	private synchronized Stack<IntentionCommand> getInterruptedIntentions(){
 		return _interuptedIntentions;

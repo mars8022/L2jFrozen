@@ -14,10 +14,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.concurrent.Future;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
@@ -35,6 +31,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import javolution.util.FastList;
+
+import java.util.concurrent.Future;
 
 /**
  * Ice Fairy Sirra AI
@@ -48,7 +47,7 @@ public class IceFairySirra extends Quest implements Runnable
 	private static final int SILVER_HEMOCYTE = 8057;
 	private static L2BossZone _freyasZone;
 	private static L2PcInstance _player = null;
-	protected FastList<L2NpcInstance> _allMobs = new FastList<L2NpcInstance>();
+	protected FastList<L2NpcInstance> _allMobs = new FastList<>();
 	protected Future<?> _onDeadEventTask = null;
 
 	public IceFairySirra(int id, String name, String descr)

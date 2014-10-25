@@ -42,18 +42,17 @@ public class L2CustomZone extends L2ZoneType
 	@Override
 	public void setParameter(String name, String value)
 	{
-		if(name.equals("name"))
-		{
-			_zoneName = value;
-		}
-		else if(name.equals("flying"))
-		{
-			_IsFlyingEnable = Boolean.parseBoolean(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
-		}
+        switch (name) {
+            case "name":
+                _zoneName = value;
+                break;
+            case "flying":
+                _IsFlyingEnable = Boolean.parseBoolean(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 
 	@Override

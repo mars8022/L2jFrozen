@@ -17,10 +17,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.managers.CastleManorManager.SeedProduction;
 import com.l2jfrozen.gameserver.model.L2Manor;
+import javolution.util.FastList;
 
 /**
  * format(packet 0xFE) ch ddd [dddddcdcd] c - id h - sub id d - manor id d d - size [ d - seed id d - left to buy d -
@@ -40,7 +39,7 @@ public class ExShowSeedInfo extends L2GameServerPacket
 		_seeds = seeds;
 		if(_seeds == null)
 		{
-			_seeds = new FastList<SeedProduction>();
+			_seeds = new FastList<>();
 		}
 	}
 

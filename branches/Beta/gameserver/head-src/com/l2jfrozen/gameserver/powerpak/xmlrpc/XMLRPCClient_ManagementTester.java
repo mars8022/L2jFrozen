@@ -14,14 +14,12 @@
  */
 package com.l2jfrozen.gameserver.powerpak.xmlrpc;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.xmlrpc.XmlRpcException;
+import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @author Shyla
@@ -49,12 +47,7 @@ public class XMLRPCClient_ManagementTester
 		catch (MalformedURLException localMalformedURLException)
 		{
 			localMalformedURLException.printStackTrace();
-		}
-		catch (XmlRpcException localXmlRpcException)
-		{
-			localXmlRpcException.printStackTrace();
-		}
-		catch (Exception localException)
+		} catch (Exception localException)
 		{
 			localException.printStackTrace();
 		}

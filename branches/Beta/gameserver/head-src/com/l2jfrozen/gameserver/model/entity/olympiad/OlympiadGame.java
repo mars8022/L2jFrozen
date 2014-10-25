@@ -14,37 +14,23 @@
  */
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
-import java.util.Map;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.actor.instance.L2CubicInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2TamedBeastInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad.COMP_TYPE;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
-import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadMode;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadUserInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.L2FastList;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 /**
  * 
@@ -62,8 +48,8 @@ class OlympiadGame
 	protected boolean _playerTwoDefaulted;
 	protected String _playerOneName;
 	protected String _playerTwoName;
-    protected FastList<L2Skill> _playerOneSkills = new FastList<L2Skill>();
-	protected FastList<L2Skill> _playerTwoSkills = new FastList<L2Skill>();
+    protected FastList<L2Skill> _playerOneSkills = new FastList<>();
+	protected FastList<L2Skill> _playerTwoSkills = new FastList<>();
 
 
 	private static final String POINTS = "olympiad_points";
@@ -108,8 +94,8 @@ class OlympiadGame
 				_playerTwoName = _playerTwo.getName();
 				_playerOne.setOlympiadGameId(id);
 				_playerTwo.setOlympiadGameId(id);
-                _playerOneSkills = new FastList<L2Skill>();
-                _playerTwoSkills = new FastList<L2Skill>();
+                _playerOneSkills = new FastList<>();
+                _playerTwoSkills = new FastList<>();
 			}
 			catch (Exception e)
 			{

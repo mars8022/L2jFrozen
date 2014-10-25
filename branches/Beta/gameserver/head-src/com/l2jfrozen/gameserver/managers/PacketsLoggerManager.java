@@ -18,19 +18,19 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import com.l2jfrozen.logs.Log;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-
-import com.l2jfrozen.logs.Log;
 
 /**
  * @author Shyla
  */
 public class PacketsLoggerManager
 {
-	private List<String> _monitored_characters = new ArrayList<String>();
-	private Hashtable<String, List<String>> _character_blocked_packets = new Hashtable<String, List<String>>();
+	private List<String> _monitored_characters = new ArrayList<>();
+	private Hashtable<String, List<String>> _character_blocked_packets = new Hashtable<>();
 	
 	protected PacketsLoggerManager()
 	{
@@ -56,7 +56,7 @@ public class PacketsLoggerManager
 		
 		List<String> blocked_packets = _character_blocked_packets.get(character);
 		if(blocked_packets==null){
-			blocked_packets = new ArrayList<String>();
+			blocked_packets = new ArrayList<>();
 		}
 		
 		if(!blocked_packets.contains(packet)){

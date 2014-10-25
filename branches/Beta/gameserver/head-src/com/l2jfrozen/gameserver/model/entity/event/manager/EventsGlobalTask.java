@@ -18,15 +18,14 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event.manager;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Iterator;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * @author Shyla
@@ -39,8 +38,8 @@ public class EventsGlobalTask implements Runnable
 	
 	private boolean destroy = false;
 	
-	private Hashtable<String, ArrayList<EventTask>> time_to_tasks = new Hashtable<String,ArrayList<EventTask>>();  //time is in hh:mm 
-	private Hashtable<String, ArrayList<EventTask>> eventid_to_tasks = new Hashtable<String,ArrayList<EventTask>>();
+	private Hashtable<String, ArrayList<EventTask>> time_to_tasks = new Hashtable<>();  //time is in hh:mm
+	private Hashtable<String, ArrayList<EventTask>> eventid_to_tasks = new Hashtable<>();
 	
 	
 	private EventsGlobalTask(){
@@ -80,7 +79,7 @@ public class EventsGlobalTask implements Runnable
 			
 		}else{
 		
-			savedTasksForTime = new ArrayList<EventTask>();
+			savedTasksForTime = new ArrayList<>();
 			savedTasksForTime.add(event);
 			
 		}
@@ -95,7 +94,7 @@ public class EventsGlobalTask implements Runnable
 			
 		}else{
 		
-			savedTasksForId = new ArrayList<EventTask>();
+			savedTasksForId = new ArrayList<>();
 			savedTasksForId.add(event);
 			
 		}

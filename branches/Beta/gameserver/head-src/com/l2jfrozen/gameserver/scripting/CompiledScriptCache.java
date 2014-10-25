@@ -18,27 +18,16 @@
  */
 package com.l2jfrozen.gameserver.scripting;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Map;
+import com.l2jfrozen.Config;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
+import java.io.*;
+import java.util.Map;
 
 /**
  * Cache of Compiled Scripts
@@ -54,7 +43,7 @@ public class CompiledScriptCache implements Serializable
 
 	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class);
 
-	private Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<String, CompiledScriptHolder>();
+	private Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<>();
 	private transient boolean _modified = false;
 
 	public CompiledScript loadCompiledScript(ScriptEngine engine, File file) throws ScriptException

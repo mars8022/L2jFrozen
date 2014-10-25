@@ -18,16 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -36,6 +26,14 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.object.L2ObjectMap;
 import com.l2jfrozen.util.object.L2ObjectSet;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class ...
@@ -872,38 +870,33 @@ public final class L2World
 		FastList<L2WorldRegion> regions = object.getWorldRegion().getSurroundingRegions();
 
 		// Go through visible object of the selected region
-		for(int i = 0; i < regions.size(); i++)
-		{
-			for(L2Object _object : regions.get(i).getVisibleObjects())
-			{
-				if(_object == null)
-				{
-					continue;
-				}
+        for (L2WorldRegion region : regions) {
+            for (L2Object _object : region.getVisibleObjects()) {
+                if (_object == null) {
+                    continue;
+                }
 
-				if(_object.equals(object))
-				{
-					continue; // skip our own character
-				}
+                if (_object.equals(object)) {
+                    continue; // skip our own character
+                }
 
-				int x1 = _object.getX();
-				int y1 = _object.getY();
-				int z1 = _object.getZ();
+                int x1 = _object.getX();
+                int y1 = _object.getY();
+                int z1 = _object.getZ();
 
-				long dx = x1 - x;
-				//if (dx > radius || -dx > radius)
-				//  continue;
-				long dy = y1 - y;
-				//if (dy > radius || -dy > radius)
-				//  continue;
-				long dz = z1 - z;
+                long dx = x1 - x;
+                //if (dx > radius || -dx > radius)
+                //  continue;
+                long dy = y1 - y;
+                //if (dy > radius || -dy > radius)
+                //  continue;
+                long dz = z1 - z;
 
-				if(dx * dx + dy * dy + dz * dz < sqRadius)
-				{
-					result.add(_object);
-				}
-			}
-		}
+                if (dx * dx + dy * dy + dz * dz < sqRadius) {
+                    result.add(_object);
+                }
+            }
+        }
 
 		regions = null;
 
@@ -940,38 +933,33 @@ public final class L2World
 		FastList<L2WorldRegion> regions = reg.getSurroundingRegions();
 
 		// Go through the FastList of region
-		for(int i = 0; i < regions.size(); i++)
-		{
-			// Create an Iterator to go through the visible L2Object of the L2WorldRegion
-			Iterator<L2PlayableInstance> playables = regions.get(i).iterateAllPlayers();
+        for (L2WorldRegion region : regions) {
+            // Create an Iterator to go through the visible L2Object of the L2WorldRegion
+            Iterator<L2PlayableInstance> playables = region.iterateAllPlayers();
 
-			// Go through visible object of the selected region
-			while(playables.hasNext())
-			{
-				L2PlayableInstance _object = playables.next();
+            // Go through visible object of the selected region
+            while (playables.hasNext()) {
+                L2PlayableInstance _object = playables.next();
 
-				if(_object == null)
-				{
-					continue;
-				}
+                if (_object == null) {
+                    continue;
+                }
 
-				if(_object.equals(object))
-				{
-					continue; // skip our own character
-				}
+                if (_object.equals(object)) {
+                    continue; // skip our own character
+                }
 
-				if(!_object.isVisible())
-				{
-					continue; // skip dying objects
-				}
+                if (!_object.isVisible()) {
+                    continue; // skip dying objects
+                }
 
-				result.add(_object);
+                result.add(_object);
 
-				_object = null;
-			}
+                _object = null;
+            }
 
-			playables = null;
-		}
+            playables = null;
+        }
 
 		reg = null;
 		regions = null;

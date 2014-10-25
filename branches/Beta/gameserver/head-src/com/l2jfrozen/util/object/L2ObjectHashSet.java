@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen.util.object;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * This class is a highly optimized hashtable, where keys are integers. The main goal of this class is to allow
@@ -349,11 +349,10 @@ public final class L2ObjectHashSet<T extends L2Object> extends L2ObjectSet<T>
 		if(size <= 11)
 		{
 			// for small tables linear check is fast
-			for(int i = 0; i < size; i++)
-			{
-				if(_table[i] == obj)
-					return true;
-			}
+            for (T a_table : _table) {
+                if (a_table == obj)
+                    return true;
+            }
 			return false;
 		}
 		int hashcode = obj.getObjectId();

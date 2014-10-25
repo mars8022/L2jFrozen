@@ -18,20 +18,18 @@
  */
 package com.l2jfrozen.gameserver.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.managers.DayNightSpawnManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ...
@@ -51,7 +49,7 @@ public class GameTimeController
 	protected static long _gameStartTime;
 	protected static boolean _isNight = false;
 
-	private static List<L2Character> _movingObjects = new FastList<L2Character>();
+	private static List<L2Character> _movingObjects = new FastList<>();
 
 	protected static TimerThread _timer;
 	private ScheduledFuture<?> _timerWatcher;
@@ -149,7 +147,7 @@ public class GameTimeController
 				_movingObjects.remove(cha);
 				if(ended == null)
 				{
-					ended = new FastList<L2Character>();
+					ended = new FastList<>();
 				}
 
 				ended.add(cha);

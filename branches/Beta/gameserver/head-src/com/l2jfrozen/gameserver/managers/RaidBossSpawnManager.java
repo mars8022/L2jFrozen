@@ -18,18 +18,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -45,6 +33,16 @@ import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * @author godson
@@ -53,10 +51,10 @@ public class RaidBossSpawnManager
 {
 	private static Logger LOGGER = Logger.getLogger(RaidBossSpawnManager.class);
 	
-	protected static Map<Integer, L2RaidBossInstance> _bosses = new FastMap<Integer, L2RaidBossInstance>();
-	protected static Map<Integer, L2Spawn> _spawns = new FastMap<Integer, L2Spawn>();
-	protected static Map<Integer, StatsSet> _storedInfo = new FastMap<Integer, StatsSet>();
-	protected static Map<Integer, ScheduledFuture<?>> _schedules = new FastMap<Integer, ScheduledFuture<?>>();
+	protected static Map<Integer, L2RaidBossInstance> _bosses = new FastMap<>();
+	protected static Map<Integer, L2Spawn> _spawns = new FastMap<>();
+	protected static Map<Integer, StatsSet> _storedInfo = new FastMap<>();
+	protected static Map<Integer, ScheduledFuture<?>> _schedules = new FastMap<>();
 
 	public static enum StatusEnum
 	{

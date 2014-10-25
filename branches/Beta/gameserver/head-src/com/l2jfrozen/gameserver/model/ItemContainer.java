@@ -18,15 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -36,6 +27,13 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * @author Advi
@@ -627,16 +625,12 @@ public abstract class ItemContainer
 			List<L2ItemInstance> items = _items;
 			
 			if(items!=null){
-				
-				for(int i=0;i<items.size();i++)
-				{
-					L2ItemInstance item = items.get(i);
-					
-					if(item != null)
-					{
-						item.updateDatabase();
-					}
-				}
+
+                for (L2ItemInstance item : items) {
+                    if (item != null) {
+                        item.updateDatabase();
+                    }
+                }
 				
 			}
 			

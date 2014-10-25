@@ -14,28 +14,13 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Vector;
-
-import javolution.text.TextBuilder;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.managers.CastleManager;
-import com.l2jfrozen.gameserver.model.Inventory;
-import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Party;
-import com.l2jfrozen.gameserver.model.L2Radar;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.Location;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -44,20 +29,19 @@ import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.RadarControl;
-import com.l2jfrozen.gameserver.network.serverpackets.Ride;
-import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.text.TextBuilder;
+import org.apache.log4j.Logger;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * The Class CTF.
@@ -108,28 +92,28 @@ public class CTF implements EventTask
 	protected static boolean _teamEvent = true; //TODO to be integrated
 	
 	/** The _players. */
-	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();
+	public static Vector<L2PcInstance> _players = new Vector<>();
 	
 	/** The _top team. */
 	private static String _topTeam = new String();
 	
 	/** The _players shuffle. */
-	public static Vector<L2PcInstance> _playersShuffle = new Vector<L2PcInstance>();
+	public static Vector<L2PcInstance> _playersShuffle = new Vector<>();
 
 	/** The _save player teams. */
-	public static Vector<String> _teams = new Vector<String>(),
-								_savePlayers = new Vector<String>(),
-								_savePlayerTeams = new Vector<String>();
+	public static Vector<String> _teams = new Vector<>(),
+								_savePlayers = new Vector<>(),
+								_savePlayerTeams = new Vector<>();
 	
 	/** The _teams z. */
-	public static Vector<Integer> _teamPlayersCount = new Vector<Integer>(),
-								_teamColors = new Vector<Integer>(),
-								_teamsX = new Vector<Integer>(),
-								_teamsY = new Vector<Integer>(),
-								_teamsZ = new Vector<Integer>();
+	public static Vector<Integer> _teamPlayersCount = new Vector<>(),
+								_teamColors = new Vector<>(),
+								_teamsX = new Vector<>(),
+								_teamsY = new Vector<>(),
+								_teamsZ = new Vector<>();
 
 	/** The _team points count. */
-	public static Vector<Integer> _teamPointsCount = new Vector<Integer>();
+	public static Vector<Integer> _teamPointsCount = new Vector<>();
 	
 	/** The _top score. */
 	public static int 	_topScore = 0;
@@ -144,17 +128,17 @@ public class CTF implements EventTask
 	private static int _FlagNPC = 35062, _FLAG_IN_HAND_ITEM_ID = 6718;
 	
 	/** The _flags z. */
-	public static Vector<Integer> _flagIds = new Vector<Integer>(),
-									_flagsX = new Vector<Integer>(),
-									_flagsY = new Vector<Integer>(),
-									_flagsZ = new Vector<Integer>();
+	public static Vector<Integer> _flagIds = new Vector<>(),
+									_flagsX = new Vector<>(),
+									_flagsY = new Vector<>(),
+									_flagsZ = new Vector<>();
 	
 	/** The _throne spawns. */
-	public static Vector<L2Spawn> _flagSpawns = new Vector<L2Spawn>(),
-								  _throneSpawns = new Vector<L2Spawn>();
+	public static Vector<L2Spawn> _flagSpawns = new Vector<>(),
+								  _throneSpawns = new Vector<>();
 	
 	/** The _flags taken. */
-	public static Vector<Boolean> _flagsTaken = new Vector<Boolean>();
+	public static Vector<Boolean> _flagsTaken = new Vector<>();
 	
 	
 	/**
@@ -1485,7 +1469,7 @@ public class CTF implements EventTask
 		}
 		else if(Config.CTF_EVEN_TEAMS.equals("SHUFFLE"))
 		{
-			Vector<L2PcInstance> playersShuffleTemp = new Vector<L2PcInstance>();
+			Vector<L2PcInstance> playersShuffleTemp = new Vector<>();
 			int loopCount = 0;
 
 			loopCount = _playersShuffle.size();
@@ -1620,7 +1604,7 @@ public class CTF implements EventTask
 					countBefore = teamPlayerCount;
 			}
 
-			Vector<String> joinableTeams = new Vector<String>();
+			Vector<String> joinableTeams = new Vector<>();
 
 			for(String team : _teams)
 			{
@@ -1792,30 +1776,30 @@ public class CTF implements EventTask
 		_eventName = new String();
 		_eventDesc = new String();
 		_joiningLocationName = new String();
-		_savePlayers = new Vector<String>();
+		_savePlayers = new Vector<>();
 		synchronized(_players){
-			_players = new Vector<L2PcInstance>();
+			_players = new Vector<>();
 		}
 		
 		
 		_topTeam = new String();
-		_teams = new Vector<String>();
-		_savePlayerTeams = new Vector<String>();
-		_playersShuffle = new Vector<L2PcInstance>();
-		_teamPlayersCount = new Vector<Integer>();
-		_teamPointsCount = new Vector<Integer>();
-		_teamColors = new Vector<Integer>();
-		_teamsX = new Vector<Integer>();
-		_teamsY = new Vector<Integer>();
-		_teamsZ = new Vector<Integer>();
+		_teams = new Vector<>();
+		_savePlayerTeams = new Vector<>();
+		_playersShuffle = new Vector<>();
+		_teamPlayersCount = new Vector<>();
+		_teamPointsCount = new Vector<>();
+		_teamColors = new Vector<>();
+		_teamsX = new Vector<>();
+		_teamsY = new Vector<>();
+		_teamsZ = new Vector<>();
 
-		_throneSpawns = new Vector<L2Spawn>();
-		_flagSpawns = new Vector<L2Spawn>();
-		_flagsTaken = new Vector<Boolean>();
-		_flagIds = new Vector<Integer>();
-		_flagsX = new Vector<Integer>();
-		_flagsY = new Vector<Integer>();
-		_flagsZ = new Vector<Integer>();
+		_throneSpawns = new Vector<>();
+		_flagSpawns = new Vector<>();
+		_flagsTaken = new Vector<>();
+		_flagIds = new Vector<>();
+		_flagsX = new Vector<>();
+		_flagsY = new Vector<>();
+		_flagsZ = new Vector<>();
 
 		_joining = false;
 		_teleport = false;
@@ -2221,15 +2205,15 @@ public class CTF implements EventTask
 		_topScore = 0;
 		_topTeam = new String();
 		synchronized(_players){
-			_players = new Vector<L2PcInstance>();
+			_players = new Vector<>();
 		}
 		
-		_playersShuffle = new Vector<L2PcInstance>();
-		_savePlayers = new Vector<String>();
-		_savePlayerTeams = new Vector<String>();
+		_playersShuffle = new Vector<>();
+		_savePlayers = new Vector<>();
+		_savePlayerTeams = new Vector<>();
 		
-		_teamPointsCount = new Vector<Integer>();
-		_teamPlayersCount = new Vector<Integer>();
+		_teamPointsCount = new Vector<>();
+		_teamPlayersCount = new Vector<>();
 		
 		cleanLocalEventInfo();
 		
@@ -2243,8 +2227,8 @@ public class CTF implements EventTask
 	 */
 	private static void cleanLocalEventInfo(){
 		
-		_flagSpawns = new Vector<L2Spawn>();
-		_flagsTaken = new Vector<Boolean>();
+		_flagSpawns = new Vector<>();
+		_flagsTaken = new Vector<>();
 		
 	}
 	
@@ -2924,7 +2908,7 @@ public class CTF implements EventTask
 	 */
 	public static void checkRestoreFlags()
 	{
-		Vector<Integer> teamsTakenFlag = new Vector<Integer>();
+		Vector<Integer> teamsTakenFlag = new Vector<>();
 		try
 		{
 			synchronized(_players){

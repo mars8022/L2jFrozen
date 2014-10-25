@@ -23,7 +23,7 @@ import javolution.util.FastList;
  * @author Julian
  * @param <T> 
  */
-public class L2FastList<T extends Object> extends FastList<T>
+public class L2FastList<T> extends FastList<T>
 {
 	static final long serialVersionUID = 1L;
 

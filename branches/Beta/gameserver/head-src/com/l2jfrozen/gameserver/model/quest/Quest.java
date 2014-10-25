@@ -18,20 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.quest;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -54,6 +40,18 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 /**
  * @author Luis Arias
  */
@@ -62,9 +60,9 @@ public class Quest extends ManagedScript
 	protected static final Logger LOGGER = Logger.getLogger(Quest.class);
 
 	/** HashMap containing events from String value of the event */
-	private static Map<String, Quest> _allEventsS = new FastMap<String, Quest>();
+	private static Map<String, Quest> _allEventsS = new FastMap<>();
 	/** HashMap containing lists of timers from the name of the timer */
-	private Map<String, ArrayList<QuestTimer>> _allEventTimers = new FastMap<String, ArrayList<QuestTimer>>();
+	private Map<String, ArrayList<QuestTimer>> _allEventTimers = new FastMap<>();
 
 	private final int _questId;
 	private final String _name;
@@ -96,7 +94,7 @@ public class Quest extends ManagedScript
 		_questId = questId;
 		_name = name;
 		_descr = descr;
-		_states = new FastMap<String, State>();
+		_states = new FastMap<>();
 
 		// Given the quest instance, create a string representing the path and questName 
 		// like a simplified version of a canonical class name.  That is, if a script is in 
@@ -377,7 +375,7 @@ public class Quest extends ManagedScript
 			// no timer exists with the same name, at all
 			if(timers == null){
 				
-				timers = new ArrayList<QuestTimer>();
+				timers = new ArrayList<>();
 				timers.add(new QuestTimer(this, name, time, npc, player, repeating));
 				
 			// a timer with this name exists, but may not be for the same set of npc and player
@@ -1590,7 +1588,7 @@ public class Quest extends ManagedScript
 
 		// if the player is in a party, gather a list of all matching party members (possibly 
 		// including this player) 
-		FastList<L2PcInstance> candidates = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> candidates = new FastList<>();
 
 		// get the target for enforcing distance limitations.
 		L2Object target = player.getTarget();
@@ -1654,7 +1652,7 @@ public class Quest extends ManagedScript
 
 		// if the player is in a party, gather a list of all matching party members (possibly 
 		// including this player) 
-		FastList<L2PcInstance> candidates = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> candidates = new FastList<>();
 
 		// get the target for enforcing distance limitations.
 		L2Object target = player.getTarget();
@@ -1741,7 +1739,7 @@ public class Quest extends ManagedScript
 	{
 		if(_questItemIds == null)
 		{
-			_questItemIds = new FastList<Integer>();
+			_questItemIds = new FastList<>();
 		}
 
 		_questItemIds.add(itemId);

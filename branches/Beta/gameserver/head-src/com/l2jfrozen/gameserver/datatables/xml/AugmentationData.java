@@ -17,21 +17,6 @@
  */
 package com.l2jfrozen.gameserver.datatables.xml;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Augmentation;
@@ -39,6 +24,18 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * This class manages the augmentation data and can also create new augmentations.
@@ -98,14 +95,14 @@ public class AugmentationData
 		LOGGER.info("Initializing AugmentationData.");
 
 		_augmentationStats = new FastList[4];
-		_augmentationStats[0] = new FastList<augmentationStat>();
-		_augmentationStats[1] = new FastList<augmentationStat>();
-		_augmentationStats[2] = new FastList<augmentationStat>();
-		_augmentationStats[3] = new FastList<augmentationStat>();
+		_augmentationStats[0] = new FastList<>();
+		_augmentationStats[1] = new FastList<>();
+		_augmentationStats[2] = new FastList<>();
+		_augmentationStats[3] = new FastList<>();
 
-		_blueSkills = new FastMap<Integer, FastList<augmentationSkill>>();
-		_purpleSkills = new FastMap<Integer, FastList<augmentationSkill>>();
-		_redSkills = new FastMap<Integer, FastList<augmentationSkill>>();
+		_blueSkills = new FastMap<>();
+		_purpleSkills = new FastMap<>();
+		_redSkills = new FastMap<>();
 		for(int i = 1; i <= 10; i++)
 		{
 			_blueSkills.put(i, new FastList<augmentationSkill>());
@@ -379,7 +376,7 @@ public class AugmentationData
 										String tableName = attrs.getNamedItem("name").getNodeValue();
 
 										StringTokenizer data = new StringTokenizer(cd.getFirstChild().getNodeValue());
-										List<Float> array = new FastList<Float>();
+										List<Float> array = new FastList<>();
 
 										while(data.hasMoreTokens())
 										{
@@ -649,7 +646,7 @@ public class AugmentationData
 	 */
 	public FastList<AugStat> getAugStatsById(int augmentationId)
 	{
-		FastList<AugStat> temp = new FastList<AugStat>();
+		FastList<AugStat> temp = new FastList<>();
 		// An augmentation id contains 2 short vaues so we gotta seperate them here
 		// both values contain a number from 1-16380, the first 14560 values are stats
 		// the 14560 stats are devided into 4 blocks each holding 3640 values

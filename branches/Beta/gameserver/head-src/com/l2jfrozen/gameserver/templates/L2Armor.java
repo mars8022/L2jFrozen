@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.gameserver.templates;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -29,6 +25,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * This class is dedicated to the management of armors.
@@ -163,7 +162,7 @@ public final class L2Armor extends L2Item
 	@Override
 	public Func[] getStatFuncs(L2ItemInstance instance, L2Character player)
 	{
-		List<Func> funcs = new FastList<Func>();
+		List<Func> funcs = new FastList<>();
 		if(_funcTemplates != null)
 		{
 			for(FuncTemplate t : _funcTemplates)

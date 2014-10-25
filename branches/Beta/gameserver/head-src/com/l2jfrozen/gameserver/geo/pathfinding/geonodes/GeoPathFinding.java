@@ -18,19 +18,6 @@
  */
 package com.l2jfrozen.gameserver.geo.pathfinding.geonodes;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.LineNumberReader;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.StringTokenizer;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
@@ -39,6 +26,14 @@ import com.l2jfrozen.gameserver.geo.util.L2Arrays;
 import com.l2jfrozen.gameserver.geo.util.LookupTable;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.Location;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.StringTokenizer;
 
 
 public final class GeoPathFinding extends PathFinding
@@ -55,8 +50,8 @@ public final class GeoPathFinding extends PathFinding
 		return SingletonHolder.INSTANCE;
 	}
 	
-	private final LookupTable<ByteBuffer> _pathNodes = new LookupTable<ByteBuffer>();
-	private final LookupTable<IntBuffer> _pathNodesIndex = new LookupTable<IntBuffer>();
+	private final LookupTable<ByteBuffer> _pathNodes = new LookupTable<>();
+	private final LookupTable<IntBuffer> _pathNodesIndex = new LookupTable<>();
 	
 	private boolean pathNodesExist(short regionoffset)
 	{

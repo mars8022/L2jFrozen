@@ -18,14 +18,6 @@
  */
 package com.l2jfrozen.gameserver.templates;
 
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.ai.special.manager.AIExtend;
 import com.l2jfrozen.gameserver.model.L2DropCategory;
 import com.l2jfrozen.gameserver.model.L2DropData;
@@ -34,6 +26,12 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.skills.Stats;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * This cl contains all generic data of a L2Spawn object.<BR>
@@ -112,17 +110,17 @@ public final class L2NpcTemplate extends L2CharTemplate
 	private final StatsSet _npcStatsSet;
 
 	/** The table containing all Item that can be dropped by L2NpcInstance using this L2NpcTemplate */
-	private final FastList<L2DropCategory> _categories = new FastList<L2DropCategory>();
+	private final FastList<L2DropCategory> _categories = new FastList<>();
 
 	/** The table containing all Minions that must be spawn with the L2NpcInstance using this L2NpcTemplate */
-	private final List<L2MinionData> _minions = new FastList<L2MinionData>(0);
+	private final List<L2MinionData> _minions = new FastList<>(0);
 
-	private List<ClassId> _teachInfo = new FastList<ClassId>();
-	private Map<Integer, L2Skill> _skills = new FastMap<Integer, L2Skill>();
-	private Map<Stats, Double> _vulnerabilities = new FastMap<Stats, Double>();
+	private List<ClassId> _teachInfo = new FastList<>();
+	private Map<Integer, L2Skill> _skills = new FastMap<>();
+	private Map<Stats, Double> _vulnerabilities = new FastMap<>();
 	// contains a list of quests for each event type (questStart, questAttack, questKill, etc)
-	private Map<Quest.QuestEventType, Quest[]> _questEvents = new FastMap<Quest.QuestEventType, Quest[]>();
-	private static FastMap<AIExtend.Action, AIExtend[]> _aiEvents = new FastMap<AIExtend.Action, AIExtend[]>();
+	private Map<Quest.QuestEventType, Quest[]> _questEvents = new FastMap<>();
+	private static FastMap<AIExtend.Action, AIExtend[]> _aiEvents = new FastMap<>();
 
 	/**
 	 * Constructor of L2Character.<BR>
@@ -265,7 +263,7 @@ public final class L2NpcTemplate extends L2CharTemplate
 	 */
 	public List<L2DropData> getAllDropData()
 	{
-		List<L2DropData> lst = new FastList<L2DropData>();
+		List<L2DropData> lst = new FastList<>();
 		for(L2DropCategory tmp : _categories)
 		{
 			lst.addAll(tmp.getAllDrops());

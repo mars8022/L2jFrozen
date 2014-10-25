@@ -14,37 +14,22 @@
  */
 package com.l2jfrozen.gameserver.ai;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_IDLE;
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
+import com.l2jfrozen.gameserver.geo.GeoData;
+import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.Future;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.controllers.GameTimeController;
-import com.l2jfrozen.gameserver.geo.GeoData;
-import com.l2jfrozen.gameserver.model.L2Attackable;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.actor.instance.L2CommanderInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2FortSiegeGuardInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.gameserver.util.Util;
-import com.l2jfrozen.util.random.Rnd;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.*;
 
 /**
  * This class manages AI of L2Attackable.
@@ -54,10 +39,10 @@ public class L2FortSiegeGuardAI extends L2CharacterAI implements Runnable
 	protected static final Logger _log1 = Logger.getLogger(L2FortSiegeGuardAI.class);
 
 	//SelfAnalisis ))
-	public List<L2Skill> pdamSkills = new FastList<L2Skill>();
-	public List<L2Skill> mdamSkills = new FastList<L2Skill>();
-	public List<L2Skill> healSkills = new FastList<L2Skill>();
-	public List<L2Skill> rootSkills = new FastList<L2Skill>();
+	public List<L2Skill> pdamSkills = new FastList<>();
+	public List<L2Skill> mdamSkills = new FastList<>();
+	public List<L2Skill> healSkills = new FastList<>();
+	public List<L2Skill> rootSkills = new FastList<>();
 
 	public boolean hasPDam = false;
 	public boolean hasMDam = false;

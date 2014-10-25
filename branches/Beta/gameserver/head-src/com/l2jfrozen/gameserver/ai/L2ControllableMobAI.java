@@ -18,27 +18,18 @@
  */
 package com.l2jfrozen.gameserver.ai;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
+import com.l2jfrozen.gameserver.datatables.MobGroupTable;
+import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.L2Character.AIAccessor;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
+import com.l2jfrozen.gameserver.util.Util;
+import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
 
 import java.util.List;
 
-import javolution.util.FastList;
-
-import com.l2jfrozen.gameserver.datatables.MobGroupTable;
-import com.l2jfrozen.gameserver.model.L2Attackable;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Character.AIAccessor;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.MobGroup;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ControllableMobInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2FolkInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.util.Util;
-import com.l2jfrozen.util.random.Rnd;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ACTIVE;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
 
 /**
  * @author littlecrow AI for controllable mobs
@@ -415,7 +406,7 @@ public class L2ControllableMobAI extends L2AttackableAI
 		double dy, dx;
 		double dblAggroRange = aggroRange * aggroRange;
 
-		List<L2Character> potentialTarget = new FastList<L2Character>();
+		List<L2Character> potentialTarget = new FastList<>();
 
 		for(L2Object obj : npc.getKnownList().getKnownObjects().values())
 		{

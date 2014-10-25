@@ -91,9 +91,8 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 			{
 				val = Integer.parseInt(command.substring(5));
 			}
-			catch (IndexOutOfBoundsException ioobe){}
-			catch (NumberFormatException nfe){}
-			showChatWindow(player, val);
+			catch (IndexOutOfBoundsException | NumberFormatException ioobe){}
+            showChatWindow(player, val);
 			return;
 		}
 		else if (command.equals("gotoleader"))

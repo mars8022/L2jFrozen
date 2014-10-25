@@ -18,10 +18,10 @@
  */
 package com.l2jfrozen.gameserver.script;
 
+import javolution.util.FastList;
+
 import java.util.Date;
 import java.util.List;
-
-import javolution.util.FastList;
 
 /**
  * This class manage drop of Special Events created by GM for a defined period. During a Special Event all L2Attackable
@@ -72,7 +72,7 @@ public class EventDroplist
 	 */
 	private EventDroplist()
 	{
-		_allNpcDateDrops = new FastList<DateDrop>();
+		_allNpcDateDrops = new FastList<>();
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class EventDroplist
 	 */
 	public List<DateDrop> getAllDrops()
 	{
-		List<DateDrop> list = new FastList<DateDrop>();
+		List<DateDrop> list = new FastList<>();
 
 		for(DateDrop drop : _allNpcDateDrops)
 		{

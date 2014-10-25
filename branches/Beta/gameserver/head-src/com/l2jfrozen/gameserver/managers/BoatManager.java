@@ -18,23 +18,17 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.LineNumberReader;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2BoatInstance;
 import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public class BoatManager
 {
@@ -49,7 +43,7 @@ public class BoatManager
 
 	// =========================================================
 	// Data Field
-	private Map<Integer, L2BoatInstance> _staticItems = new FastMap<Integer, L2BoatInstance>();
+	private Map<Integer, L2BoatInstance> _staticItems = new FastMap<>();
 
 	public BoatManager()
 	{
@@ -255,7 +249,7 @@ public class BoatManager
 	{
 		if(_staticItems == null)
 		{
-			_staticItems = new FastMap<Integer, L2BoatInstance>();
+			_staticItems = new FastMap<>();
 		}
 		return _staticItems.get(boatId);
 	}
