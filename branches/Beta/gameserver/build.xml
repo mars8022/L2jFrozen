@@ -203,12 +203,6 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${build.dist.game}/config/powerpak/webservices">
-			<fileset dir="config/powerpak/webservices">
-				<include name="*.*" />
-			</fileset>
-		</copy>
-
 		<copy todir="${build.dist.game}/config/frozen">
 			<fileset dir="config/frozen">
 				<include name="*.properties" />
