@@ -17,10 +17,9 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
 
 /**
  * @author Fulminus
@@ -35,7 +34,7 @@ public class L2DropCategory
 	public L2DropCategory(int categoryType)
 	{
 		_categoryType = categoryType;
-		_drops = new FastList<L2DropData>(0);
+		_drops = new FastList<>(0);
 		_categoryChance = 0;
 		_categoryBalancedChance = 0;
 	}
@@ -104,7 +103,7 @@ public class L2DropCategory
 	 */
 	public synchronized L2DropData dropSeedAllowedDropsOnly()
 	{
-		FastList<L2DropData> drops = new FastList<L2DropData>();
+		FastList<L2DropData> drops = new FastList<>();
 		int subCatChance = 0;
 		for(L2DropData drop : getAllDrops())
 		{

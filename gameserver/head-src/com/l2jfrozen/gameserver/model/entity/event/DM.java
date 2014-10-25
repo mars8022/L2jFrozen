@@ -14,16 +14,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
-import javolution.text.TextBuilder;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -42,16 +32,20 @@ import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.Ride;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.text.TextBuilder;
+import org.apache.log4j.Logger;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * The Class DM.
@@ -84,13 +78,13 @@ public class DM implements EventTask
 	protected static boolean _teamEvent = false; // TODO to be integrated
 	
 	/** The _players. */
-	public static Vector<L2PcInstance> _players = new Vector<L2PcInstance>();
+	public static Vector<L2PcInstance> _players = new Vector<>();
 	
 	/** The _top players. */
-	public static List<L2PcInstance> _topPlayers = new ArrayList<L2PcInstance>();
+	public static List<L2PcInstance> _topPlayers = new ArrayList<>();
 	
 	/** The _save players. */
-	public static Vector<String> _savePlayers = new Vector<String>();
+	public static Vector<String> _savePlayers = new Vector<>();
 	
 	/**
 	 * Instantiates a new dM.
@@ -1329,7 +1323,7 @@ public class DM implements EventTask
 				if (_players == null || _players.isEmpty())
 					return;
 				
-				List<L2PcInstance> toBeRemoved = new ArrayList<L2PcInstance>();
+				List<L2PcInstance> toBeRemoved = new ArrayList<>();
 				
 				for (L2PcInstance player : _players)
 				{
@@ -1604,14 +1598,14 @@ public class DM implements EventTask
 		_eventName = new String();
 		_eventDesc = new String();
 		_joiningLocationName = new String();
-		_savePlayers = new Vector<String>();
+		_savePlayers = new Vector<>();
 		
 		synchronized (_players)
 		{
 			_players.clear();
 		}
 		
-		_topPlayers = new ArrayList<L2PcInstance>();
+		_topPlayers = new ArrayList<>();
 		_npcSpawn = null;
 		_joining = false;
 		_teleport = false;
@@ -1954,8 +1948,8 @@ public class DM implements EventTask
 		}
 		
 		_topKills = 0;
-		_savePlayers = new Vector<String>();
-		_topPlayers = new ArrayList<L2PcInstance>();
+		_savePlayers = new Vector<>();
+		_topPlayers = new ArrayList<>();
 		
 		cleanLocalEventInfo();
 		

@@ -18,17 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -44,6 +33,15 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The Class ClanHall.
@@ -57,10 +55,10 @@ public class ClanHall
 	private int _clanHallId;
 	
 	/** The _doors. */
-	private List<L2DoorInstance> _doors = new FastList<L2DoorInstance>();
+	private List<L2DoorInstance> _doors = new FastList<>();
 	
 	/** The _door default. */
-	private List<String> _doorDefault = new FastList<String>();
+	private List<String> _doorDefault = new FastList<>();
 	
 	/** The _name. */
 	private String _name;
@@ -420,7 +418,7 @@ public class ClanHall
 		_grade = Grade;
 		_paid = paid;
 		loadDoor();
-		_functions = new FastMap<Integer, ClanHallFunction>();
+		_functions = new FastMap<>();
 
 		if(ownerId != 0)
 		{

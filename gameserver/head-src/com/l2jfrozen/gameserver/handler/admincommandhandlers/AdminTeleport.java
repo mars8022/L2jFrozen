@@ -18,12 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -41,6 +35,10 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import javolution.text.TextBuilder;
+import org.apache.log4j.Logger;
+
+import java.util.StringTokenizer;
 
 /**
  * This class handles following admin commands: - show_moves - show_teleport - teleport_to_character - move_to -
@@ -425,30 +423,26 @@ public class AdminTeleport implements IAdminCommandHandler
 						intVal = Integer.parseInt(st.nextToken());
 					}
 
-					if(dir.equals("east"))
-					{
-						x += intVal;
-					}
-					else if(dir.equals("west"))
-					{
-						x -= intVal;
-					}
-					else if(dir.equals("north"))
-					{
-						y -= intVal;
-					}
-					else if(dir.equals("south"))
-					{
-						y += intVal;
-					}
-					else if(dir.equals("up"))
-					{
-						z += intVal;
-					}
-					else if(dir.equals("down"))
-					{
-						z -= intVal;
-					}
+                    switch (dir) {
+                        case "east":
+                            x += intVal;
+                            break;
+                        case "west":
+                            x -= intVal;
+                            break;
+                        case "north":
+                            y -= intVal;
+                            break;
+                        case "south":
+                            y += intVal;
+                            break;
+                        case "up":
+                            z += intVal;
+                            break;
+                        case "down":
+                            z -= intVal;
+                            break;
+                    }
 
 					activeChar.teleToLocation(x, y, z, false);
 					showTeleportWindow(activeChar);
@@ -479,16 +473,20 @@ public class AdminTeleport implements IAdminCommandHandler
 					
 				}
 
-				if(val.equals("")){
-					activeChar.setTeleMode(1);
-				}else if(val.equals("r")){
-					activeChar.setTeleMode(2);
-				}else if(val.equals("end")){
-					activeChar.setTeleMode(0);
-				}else{
-					activeChar.sendMessage("Defined mode not allowed..");
-					return false;
-				}
+                switch (val) {
+                    case "":
+                        activeChar.setTeleMode(1);
+                        break;
+                    case "r":
+                        activeChar.setTeleMode(2);
+                        break;
+                    case "end":
+                        activeChar.setTeleMode(0);
+                        break;
+                    default:
+                        activeChar.sendMessage("Defined mode not allowed..");
+                        return false;
+                }
 				
 				return true;
 				

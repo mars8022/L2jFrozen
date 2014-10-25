@@ -30,8 +30,8 @@ public class ConfirmDlg extends L2GameServerPacket
         private static final int TYPE_NPC_NAME = 2;
         private static final int TYPE_NUMBER = 1;
         private static final int TYPE_TEXT = 0;
-        private Vector<Integer> _types = new Vector<Integer>();
-        private Vector<Object> _values = new Vector<Object>();
+        private Vector<Integer> _types = new Vector<>();
+        private Vector<Object> _values = new Vector<>();
         private int _time = 0;
         private int _requesterId = 0;
 

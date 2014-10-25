@@ -18,13 +18,13 @@
  */
 package com.l2jfrozen.gameserver.geo.util;
 
+import javolution.util.FastList;
+
 import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import javolution.util.FastList;
 
 @SuppressWarnings("unchecked")
 public final class L2Arrays
@@ -102,9 +102,9 @@ public final class L2Arrays
 			return L2Collections.emptyList();
 		
 		if(newSize <= 8)
-			return new CopyOnWriteArrayList<T>(compact(array));
+			return new CopyOnWriteArrayList<>(compact(array));
 
-		final List<T> result = new FastList<T>(newSize);
+		final List<T> result = new FastList<>(newSize);
 
 		for(T t : array)
 			if(t != null)
@@ -115,14 +115,14 @@ public final class L2Arrays
 
 	public static <T> Iterable<T> iterable(Object[] array)
 	{
-		return new NullFreeArrayIterable<T>(array);
+		return new NullFreeArrayIterable<>(array);
 	}
 
 	public static <T> Iterable<T> iterable(Object[] array, boolean allowNull)
 	{
 		if(allowNull)
-			return new ArrayIterable<T>(array);
-		return new NullFreeArrayIterable<T>(array);
+			return new ArrayIterable<>(array);
+		return new NullFreeArrayIterable<>(array);
 	}
 
 	private static class ArrayIterable<T> implements Iterable<T>
@@ -137,7 +137,7 @@ public final class L2Arrays
 		@Override
 		public Iterator<T> iterator()
 		{
-			return new ArrayIterator<T>(_array);
+			return new ArrayIterator<>(_array);
 		}
 	}
 
@@ -151,20 +151,20 @@ public final class L2Arrays
 		@Override
 		public Iterator<T> iterator()
 		{
-			return new NullFreeArrayIterator<T>(_array);
+			return new NullFreeArrayIterator<>(_array);
 		}
 	}
 
 	public static <T> Iterator<T> iterator(Object[] array)
 	{
-		return new NullFreeArrayIterator<T>(array);
+		return new NullFreeArrayIterator<>(array);
 	}
 
 	public static <T> Iterator<T> iterator(Object[] array, boolean allowNull)
 	{
 		if(allowNull)
-			return new ArrayIterator<T>(array);
-		return new NullFreeArrayIterator<T>(array);
+			return new ArrayIterator<>(array);
+		return new NullFreeArrayIterator<>(array);
 	}
 
 	private static class ArrayIterator<T> implements Iterator<T>

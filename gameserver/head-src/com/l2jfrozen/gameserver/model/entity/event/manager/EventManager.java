@@ -18,18 +18,17 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event.manager;
 
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.gameserver.model.entity.event.CTF;
-import com.l2jfrozen.gameserver.model.entity.event.DM;
-import com.l2jfrozen.gameserver.model.entity.event.TvT;
 
 /**
  * @author Shyla
@@ -76,7 +75,7 @@ public class EventManager
 			//============================================================
 			
 			TVT_EVENT_ENABLED = Boolean.parseBoolean(eventSettings.getProperty("TVTEventEnabled", "false"));
-			TVT_TIMES_LIST = new ArrayList<String>();
+			TVT_TIMES_LIST = new ArrayList<>();
 			
 			String[] propertySplit;
 			propertySplit = eventSettings.getProperty("TVTStartTime", "").split(";");
@@ -87,7 +86,7 @@ public class EventManager
 			}
 			
 			CTF_EVENT_ENABLED = Boolean.parseBoolean(eventSettings.getProperty("CTFEventEnabled", "false"));
-			CTF_TIMES_LIST = new ArrayList<String>();
+			CTF_TIMES_LIST = new ArrayList<>();
 			
 			propertySplit = eventSettings.getProperty("CTFStartTime", "").split(";");
 
@@ -97,7 +96,7 @@ public class EventManager
 			}
 			
 			DM_EVENT_ENABLED = Boolean.parseBoolean(eventSettings.getProperty("DMEventEnabled", "false"));
-			DM_TIMES_LIST = new ArrayList<String>();
+			DM_TIMES_LIST = new ArrayList<>();
 			
 			propertySplit = eventSettings.getProperty("DMStartTime", "").split(";");
 

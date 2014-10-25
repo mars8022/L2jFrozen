@@ -17,15 +17,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.AutoChatHandler;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -38,6 +29,13 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * @author yellowperil & Fulminus This class is similar to the SiegeGuardManager, except it handles the loading of the
@@ -56,7 +54,7 @@ public class MercTicketManager
 
 	// =========================================================
 	// Data Field
-	private List<L2ItemInstance> _droppedTickets = new FastList<L2ItemInstance>(); 
+	private List<L2ItemInstance> _droppedTickets = new FastList<>();
 
 		
 	public static final MercTicketManager getInstance()

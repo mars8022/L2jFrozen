@@ -53,67 +53,57 @@ public class Sweep implements ISkillHandler
 		InventoryUpdate iu = Config.FORCE_INVENTORY_UPDATE ? null : new InventoryUpdate();
 		boolean send = false;
 
-		for(int index = 0; index < targets.length; index++)
-		{
-			if(!(targets[index] instanceof L2Attackable))
-				continue;
+        for (L2Object target1 : targets) {
+            if (!(target1 instanceof L2Attackable))
+                continue;
 
-			L2Attackable target = (L2Attackable) targets[index];
-			L2Attackable.RewardItem[] items = null;
-			boolean isSweeping = false;
-			synchronized (target)
-			{
-				if(target.isSweepActive())
-				{
-					items = target.takeSweep();
-					isSweeping = true;
-				}
-			}
+            L2Attackable target = (L2Attackable) target1;
+            L2Attackable.RewardItem[] items = null;
+            boolean isSweeping = false;
+            synchronized (target) {
+                if (target.isSweepActive()) {
+                    items = target.takeSweep();
+                    isSweeping = true;
+                }
+            }
 
-			if(isSweeping)
-			{
-				if(items == null || items.length == 0)
-					continue;
-				for(L2Attackable.RewardItem ritem : items)
-				{
-					if(player.isInParty())
-						player.getParty().distributeItem(player, ritem, true, target);
-					else
-					{
-						L2ItemInstance item = player.getInventory().addItem("Sweep", ritem.getItemId(), ritem.getCount(), player, target);
-						if(iu != null)
-							iu.addItem(item);
-						send = true;
-						item = null;
+            if (isSweeping) {
+                if (items == null || items.length == 0)
+                    continue;
+                for (L2Attackable.RewardItem ritem : items) {
+                    if (player.isInParty())
+                        player.getParty().distributeItem(player, ritem, true, target);
+                    else {
+                        L2ItemInstance item = player.getInventory().addItem("Sweep", ritem.getItemId(), ritem.getCount(), player, target);
+                        if (iu != null)
+                            iu.addItem(item);
+                        send = true;
+                        item = null;
 
-						SystemMessage smsg;
+                        SystemMessage smsg;
 
-						if(ritem.getCount() > 1)
-						{
-							smsg = new SystemMessage(SystemMessageId.EARNED_S2_S1_S); // earned $s2$s1
-							smsg.addItemName(ritem.getItemId());
-							smsg.addNumber(ritem.getCount());
-						}
-						else
-						{
-							smsg = new SystemMessage(SystemMessageId.EARNED_ITEM); // earned $s1
-							smsg.addItemName(ritem.getItemId());
-						}
-						player.sendPacket(smsg);
-						smsg = null;
-					}
-				}
-			}
-			target.endDecayTask();
+                        if (ritem.getCount() > 1) {
+                            smsg = new SystemMessage(SystemMessageId.EARNED_S2_S1_S); // earned $s2$s1
+                            smsg.addItemName(ritem.getItemId());
+                            smsg.addNumber(ritem.getCount());
+                        } else {
+                            smsg = new SystemMessage(SystemMessageId.EARNED_ITEM); // earned $s1
+                            smsg.addItemName(ritem.getItemId());
+                        }
+                        player.sendPacket(smsg);
+                        smsg = null;
+                    }
+                }
+            }
+            target.endDecayTask();
 
-			if(send)
-			{
-				if(iu != null)
-					player.sendPacket(iu);
-				else
-					player.sendPacket(new ItemList(player, false));
-			}
-		}
+            if (send) {
+                if (iu != null)
+                    player.sendPacket(iu);
+                else
+                    player.sendPacket(new ItemList(player, false));
+            }
+        }
 	}
 
 	@Override

@@ -18,17 +18,15 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import java.io.File;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
+import com.l2jfrozen.gameserver.model.L2Character;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.controllers.GameTimeController;
-import com.l2jfrozen.gameserver.model.L2Character;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 
 /**
  * @author Nik
@@ -113,18 +111,26 @@ public class hitConditionBonus
 						}
 						finally
 						{
-							if ("front".equals(name))
-								frontBonus = bonus;
-							else if ("side".equals(name))
-								sideBonus = bonus;
-							else if ("back".equals(name))
-								backBonus = bonus;
-							else if ("high".equals(name))
-								highBonus = bonus;
-							else if ("low".equals(name))
-								lowBonus = bonus;
-							else if ("dark".equals(name))
-								darkBonus = bonus;
+                            switch (name) {
+                                case "front":
+                                    frontBonus = bonus;
+                                    break;
+                                case "side":
+                                    sideBonus = bonus;
+                                    break;
+                                case "back":
+                                    backBonus = bonus;
+                                    break;
+                                case "high":
+                                    highBonus = bonus;
+                                    break;
+                                case "low":
+                                    lowBonus = bonus;
+                                    break;
+                                case "dark":
+                                    darkBonus = bonus;
+                                    break;
+                            }
 							// else if ("rain".equals(name))
 							// rainBonus = bonus;
 						}

@@ -18,28 +18,13 @@
  */
 package com.l2jfrozen.gameserver.handler;
 
-import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.ChannelDelete;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.ChannelLeave;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.ChannelListUpdate;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.ClanPenalty;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.ClanWarsList;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.DisMount;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.Escape;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.Loc;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.Mount;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.OfflineShop;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.OlympiadStat;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.PartyInfo;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.SiegeStatus;
-import com.l2jfrozen.gameserver.handler.usercommandhandlers.Time;
+import com.l2jfrozen.gameserver.handler.usercommandhandlers.*;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 /**
  * This class ...
@@ -65,7 +50,7 @@ public class UserCommandHandler
 	
 	private UserCommandHandler()
 	{
-		_datatable = new FastMap<Integer, IUserCommandHandler>();
+		_datatable = new FastMap<>();
 		registerUserCommandHandler(new Time());
 		registerUserCommandHandler(new OlympiadStat());
 		registerUserCommandHandler(new ChannelLeave());

@@ -14,16 +14,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity.siege;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -38,6 +28,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author programmos
@@ -50,8 +48,8 @@ public class Fort
 	// =========================================================
 	// Data Field
 	private int _fortId = 0;
-	private List<L2DoorInstance> _doors = new FastList<L2DoorInstance>();
-	private List<String> _doorDefault = new FastList<String>();
+	private List<L2DoorInstance> _doors = new FastList<>();
+	private List<String> _doorDefault = new FastList<>();
 	private String _name = "";
 	private int _ownerId = 0;
 	private L2Clan _fortOwner = null;

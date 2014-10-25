@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.ArrayList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.model.L2Attackable;
@@ -30,9 +28,11 @@ import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.util.random.Rnd;
 
+import java.util.ArrayList;
+
 public class Transform extends Quest implements Runnable
 {
-	private ArrayList<Transformer> _mobs = new ArrayList<Transformer>();
+	private ArrayList<Transformer> _mobs = new ArrayList<>();
 	
 	private static class Transformer
 	{

@@ -18,16 +18,15 @@
  */
 package com.l2jfrozen.crypt;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.concurrent.ScheduledFuture;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
+import org.apache.log4j.Logger;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * The main "engine" of protection ...
@@ -114,29 +113,13 @@ public class nProtect
 			if(Config.DEBUG)
 				LOGGER.warn("nProtect System will be not loaded due to ClassNotFoundException of 'com.l2jfrozen.protection.main' class" );
 		}
-		catch(SecurityException e)
+		catch(SecurityException | InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException e)
 		{
 			e.printStackTrace();
 		}
-		catch(NoSuchMethodException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IllegalArgumentException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch(InvocationTargetException e)
-		{
-			e.printStackTrace();
-		}
-		
 
-	}
+
+    }
 	
 	public void sendGameGuardQuery(GameGuardQuery pkt)
 	{

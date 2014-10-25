@@ -14,8 +14,6 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.text.SimpleDateFormat;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
@@ -29,6 +27,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+
+import java.text.SimpleDateFormat;
 
 /**
  * @author MHard L2EmuRT
@@ -91,17 +91,12 @@ public class L2ClanHallSiegeInfInstance extends L2NpcInstance
 			{
 				val = Integer.parseInt(command.substring(5));
 			}
-			catch(IndexOutOfBoundsException ioobe)
+			catch(IndexOutOfBoundsException | NumberFormatException ioobe)
 			{
 				if(Config.ENABLE_ALL_EXCEPTIONS)
 					ioobe.printStackTrace();
 			}
-			catch(NumberFormatException nfe)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					nfe.printStackTrace();
-			}
-			showMessageWindow(player, val);
+            showMessageWindow(player, val);
 		}
 		else if(command.startsWith("Quest"))
 		{

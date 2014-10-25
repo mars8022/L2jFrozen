@@ -17,24 +17,22 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.entity.Auction;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.entity.Auction;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-
 public class AuctionManager
 {
 	protected static final Logger LOGGER = Logger.getLogger(AuctionManager.class);
-	private List<Auction> _auctions  = new FastList<Auction>();
+	private List<Auction> _auctions  = new FastList<>();
 	private static final String[] ITEM_INIT_DATA =
 	{
 			"(23, 0, 'NPC', 'NPC Clan', 'ClanHall', 23, 0, 'Onyx Hall', 1, 20000000, 0, 1164841200000)",

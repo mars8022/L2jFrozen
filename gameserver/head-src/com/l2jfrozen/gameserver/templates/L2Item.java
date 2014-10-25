@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.gameserver.templates;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -31,6 +27,9 @@ import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.effects.EffectTemplate;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * This class contains all informations concerning the item (weapon, armor, etc).<BR>
@@ -457,7 +456,7 @@ public abstract class L2Item
 	{
 		if(_funcTemplates == null)
 			return _emptyFunctionSet;
-		List<Func> funcs = new FastList<Func>();
+		List<Func> funcs = new FastList<>();
 		for(FuncTemplate t : _funcTemplates)
 		{
 			Env env = new Env();
@@ -486,7 +485,7 @@ public abstract class L2Item
 	{
 		if(_effectTemplates == null)
 			return _emptyEffectSet;
-		List<L2Effect> effects = new FastList<L2Effect>();
+		List<L2Effect> effects = new FastList<>();
 		for(EffectTemplate et : _effectTemplates)
 		{
 			Env env = new Env();
@@ -515,7 +514,7 @@ public abstract class L2Item
 	{
 		if(_skills == null)
 			return _emptyEffectSet;
-		List<L2Effect> effects = new FastList<L2Effect>();
+		List<L2Effect> effects = new FastList<>();
 
 		for(L2Skill skill : _skills)
 		{

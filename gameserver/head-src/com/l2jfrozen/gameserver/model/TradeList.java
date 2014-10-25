@@ -18,12 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.OfflineTradeTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -37,6 +31,10 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.util.Util;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * @author Advi
@@ -161,7 +159,7 @@ public class TradeList
 
 	public TradeList(L2PcInstance owner)
 	{
-		_items = new FastList<TradeItem>();
+		_items = new FastList<>();
 		_owner = owner;
 	}
 
@@ -227,7 +225,7 @@ public class TradeList
 	 */
 	public TradeList.TradeItem[] getAvailableItems(PcInventory inventory)
 	{
-		List<TradeList.TradeItem> list = new FastList<TradeList.TradeItem>();
+		List<TradeList.TradeItem> list = new FastList<>();
 
 		for(TradeList.TradeItem item : _items)
 		{

@@ -17,13 +17,12 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
+
+import java.util.List;
 
 public class PcFreight extends ItemContainer
 {
@@ -87,7 +86,7 @@ public class PcFreight extends ItemContainer
 	@Override
 	public L2ItemInstance[] getItems()
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
+		List<L2ItemInstance> list = new FastList<>();
 
 		for(L2ItemInstance item : _items)
 		{

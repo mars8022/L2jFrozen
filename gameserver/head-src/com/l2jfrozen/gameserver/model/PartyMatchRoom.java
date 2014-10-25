@@ -14,15 +14,14 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExManagePartyRoomMember;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * @author Gnacik
@@ -36,7 +35,7 @@ public class PartyMatchRoom
 	private int _minlvl;
 	private int _maxlvl;
 	private int _maxmem;
-	private final List<L2PcInstance> _members = new FastList<L2PcInstance>();
+	private final List<L2PcInstance> _members = new FastList<>();
 	
 	public PartyMatchRoom(int id, String title, int loot, int minlvl, int maxlvl, int maxmem, L2PcInstance owner)
 	{

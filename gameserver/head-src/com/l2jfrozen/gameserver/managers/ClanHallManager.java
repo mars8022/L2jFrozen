@@ -17,20 +17,18 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.entity.ClanHall;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Map;
 
 /**
  * @author Steuf
@@ -39,8 +37,8 @@ public class ClanHallManager
 {
 	private static final Logger LOGGER = Logger.getLogger(ClanHallManager.class);
 
-	private static final Map<Integer, ClanHall> _clanHall = new FastMap<Integer, ClanHall>();
-	private static final Map<Integer, ClanHall> _freeClanHall = new FastMap<Integer, ClanHall>();
+	private static final Map<Integer, ClanHall> _clanHall = new FastMap<>();
+	private static final Map<Integer, ClanHall> _freeClanHall = new FastMap<>();
 	private static boolean _loaded = false;
 
 	public static ClanHallManager getInstance()

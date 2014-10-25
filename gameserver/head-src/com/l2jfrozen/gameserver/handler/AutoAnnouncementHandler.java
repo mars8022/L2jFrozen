@@ -14,18 +14,6 @@
 */
 package com.l2jfrozen.gameserver.handler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
@@ -33,6 +21,16 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.text.TextBuilder;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * Auto Announcment Handler Automatically send announcment at a set time interval.
@@ -48,7 +46,7 @@ public class AutoAnnouncementHandler
 
 	protected AutoAnnouncementHandler()
 	{
-		_registeredAnnouncements = new FastMap<Integer, AutoAnnouncementInstance>();
+		_registeredAnnouncements = new FastMap<>();
 		restoreAnnouncementData();
 	}
 

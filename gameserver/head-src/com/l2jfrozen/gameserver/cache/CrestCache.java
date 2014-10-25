@@ -18,25 +18,19 @@
  */
 package com.l2jfrozen.gameserver.cache;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * @author Layane
@@ -47,11 +41,11 @@ public class CrestCache
 
 	private static CrestCache _instance;
 
-	private FastMRUCache<Integer, byte[]> _cachePledge = new FastMRUCache<Integer, byte[]>();
+	private FastMRUCache<Integer, byte[]> _cachePledge = new FastMRUCache<>();
 
-	private FastMRUCache<Integer, byte[]> _cachePledgeLarge = new FastMRUCache<Integer, byte[]>();
+	private FastMRUCache<Integer, byte[]> _cachePledgeLarge = new FastMRUCache<>();
 
-	private FastMRUCache<Integer, byte[]> _cacheAlly = new FastMRUCache<Integer, byte[]>();
+	private FastMRUCache<Integer, byte[]> _cacheAlly = new FastMRUCache<>();
 
 	private int _loadedFiles;
 

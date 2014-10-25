@@ -17,13 +17,12 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 import com.l2jfrozen.gameserver.model.L2Manor;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
+import javolution.util.FastMap;
 
 /**
  * format(packet 0xFE) ch dd [ddddcdcdddc] c - id h - sub id d - manor id d - size [ d - Object id d - crop id d - seed
@@ -43,8 +42,8 @@ public class ExShowSellCropList extends L2GameServerPacket
 	public ExShowSellCropList(L2PcInstance player, int manorId, FastList<CropProcure> crops)
 	{
 		_manorId = manorId;
-		_castleCrops = new FastMap<Integer, CropProcure>();
-		_cropsItems = new FastMap<Integer, L2ItemInstance>();
+		_castleCrops = new FastMap<>();
+		_cropsItems = new FastMap<>();
 
 		FastList<Integer> allCrops = L2Manor.getInstance().getAllCrops();
 		for(int cropId : allCrops)

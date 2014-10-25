@@ -18,27 +18,6 @@
  */
 package com.l2jfrozen.loginserver;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.GeneralSecurityException;
-import java.security.KeyPairGenerator;
-import java.security.MessageDigest;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.RSAKeyGenParameterSpec;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.Map;
-
-import javax.crypto.Cipher;
-
-import javolution.util.FastCollection.Record;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.Base64;
 import com.l2jfrozen.crypt.ScrambledKeyPair;
@@ -51,6 +30,24 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Util;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastCollection.Record;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import javax.crypto.Cipher;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.GeneralSecurityException;
+import java.security.KeyPairGenerator;
+import java.security.MessageDigest;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.spec.RSAKeyGenParameterSpec;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * This class ...
@@ -106,7 +103,7 @@ public class LoginController
 	private final static int LOGIN_TIMEOUT = 60 * 1000;
 
 	/** Clients that are on the LS but arent assocated with a account yet */
-	protected FastList<L2LoginClient> _clients = new FastList<L2LoginClient>();
+	protected FastList<L2LoginClient> _clients = new FastList<>();
 
 	/** Authed Clients on LoginServer */
 	protected FastMap<String, L2LoginClient> _loginServerClients = new FastMap<String, L2LoginClient>().shared();
@@ -138,7 +135,7 @@ public class LoginController
 	{
 		Util.printSection("LoginController");
 
-		_hackProtection = new FastMap<InetAddress, FailedLoginAttempt>();
+		_hackProtection = new FastMap<>();
 
 		_keyPairs = new ScrambledKeyPair[10];
 		KeyPairGenerator keygen = null;

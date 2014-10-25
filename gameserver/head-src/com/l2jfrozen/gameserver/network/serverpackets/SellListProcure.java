@@ -18,16 +18,15 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import java.util.List;
+import java.util.Map;
 
 public class SellListProcure extends L2GameServerPacket
 {
@@ -36,8 +35,8 @@ public class SellListProcure extends L2GameServerPacket
 
 	private final L2PcInstance _activeChar;
 	private int _money;
-	private Map<L2ItemInstance, Integer> _sellList = new FastMap<L2ItemInstance, Integer>();
-	private List<CropProcure> _procureList = new FastList<CropProcure>();
+	private Map<L2ItemInstance, Integer> _sellList = new FastMap<>();
+	private List<CropProcure> _procureList = new FastList<>();
 	private int _castle;
 
 	public SellListProcure(L2PcInstance player, int castleId)

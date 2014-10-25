@@ -18,24 +18,18 @@
  */
 package com.l2jfrozen.gameserver.communitybbs;
 
-import java.util.Map;
-
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
-import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
-import com.l2jfrozen.gameserver.communitybbs.Manager.ClanBBSManager;
-import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
-import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
-import com.l2jfrozen.gameserver.communitybbs.Manager.TopBBSManager;
-import com.l2jfrozen.gameserver.communitybbs.Manager.TopicBBSManager;
+import com.l2jfrozen.gameserver.communitybbs.Manager.*;
 import com.l2jfrozen.gameserver.handler.IBBSHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import javolution.util.FastMap;
+
+import java.util.Map;
 
 public class CommunityBoard
 {
@@ -44,7 +38,7 @@ public class CommunityBoard
 	
 	public CommunityBoard()
 	{
-		_handlers = new FastMap<String, IBBSHandler>();
+		_handlers = new FastMap<>();
 		// null;
 	}
 	

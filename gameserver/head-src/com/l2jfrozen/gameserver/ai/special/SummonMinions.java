@@ -14,10 +14,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import javolution.util.FastSet;
-
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -25,13 +21,16 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import javolution.util.FastSet;
 
 public class SummonMinions extends Quest implements Runnable
 {
 	private static int HasSpawned;
-	private static FastSet<Integer> myTrackingSet = new FastSet<Integer>(); //Used to track instances of npcs
+	private static FastSet<Integer> myTrackingSet = new FastSet<>(); //Used to track instances of npcs
 	private FastMap<Integer, FastList<L2PcInstance>> _attackersList = new FastMap<Integer, FastList<L2PcInstance>>().shared();
-	private static final FastMap<Integer, Integer[]> MINIONS = new FastMap<Integer, Integer[]>();
+	private static final FastMap<Integer, Integer[]> MINIONS = new FastMap<>();
 
 	static
 	{
@@ -156,7 +155,7 @@ public class SummonMinions extends Quest implements Runnable
 						{
 							if(_attackersList.get(npcObjId) == null)
 							{
-								FastList<L2PcInstance> player = new FastList<L2PcInstance>();
+								FastList<L2PcInstance> player = new FastList<>();
 								player.add(member);
 								_attackersList.put(npcObjId, player);
 							}
@@ -170,7 +169,7 @@ public class SummonMinions extends Quest implements Runnable
 					{
 						if(_attackersList.get(npcObjId) == null)
 						{
-							FastList<L2PcInstance> player = new FastList<L2PcInstance>();
+							FastList<L2PcInstance> player = new FastList<>();
 							player.add(attacker);
 							_attackersList.put(npcObjId, player);
 						}

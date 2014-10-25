@@ -18,16 +18,15 @@
  */
 package com.l2jfrozen.loginserver.network.serverpackets;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
 import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
+import javolution.util.FastList;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * ServerList Format: cc [cddcchhcdc] c: server list size (number of servers) c: ? [ (repeat for each servers) c: server
@@ -72,7 +71,7 @@ public final class ServerList extends L2LoginServerPacket
 
 	public ServerList(L2LoginClient client)
 	{
-		_servers = new FastList<ServerData>();
+		_servers = new FastList<>();
 		_lastServer = client.getLastServer();
 
 		for(GameServerInfo gsi : GameServerTable.getInstance().getRegisteredGameServers().values())

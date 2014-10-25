@@ -18,17 +18,6 @@
  */
 package com.l2jfrozen.gameserver.datatables.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.Item;
@@ -41,17 +30,19 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.skills.SkillsEngine;
-import com.l2jfrozen.gameserver.templates.L2Armor;
-import com.l2jfrozen.gameserver.templates.L2ArmorType;
-import com.l2jfrozen.gameserver.templates.L2EtcItem;
-import com.l2jfrozen.gameserver.templates.L2EtcItemType;
-import com.l2jfrozen.gameserver.templates.L2Item;
-import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.templates.L2WeaponType;
-import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.gameserver.templates.*;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ...
@@ -510,84 +501,74 @@ public class ItemTable
 		item.set.set("tradeable", Boolean.valueOf(rset.getString("tradeable")));
 		String itemType = rset.getString("item_type");
 
-		if(itemType.equals("none"))
-		{
-			item.type = L2EtcItemType.OTHER; // only for default
-		}
-		else if(itemType.equals("castle_guard"))
-		{
-			item.type = L2EtcItemType.SCROLL; // dummy
-		}
-		else if(itemType.equals("pet_collar"))
-		{
-			item.type = L2EtcItemType.PET_COLLAR;
-		}
-		else if(itemType.equals("potion"))
-		{
-			item.type = L2EtcItemType.POTION;
-		}
-		else if(itemType.equals("recipe"))
-		{
-			item.type = L2EtcItemType.RECEIPE;
-		}
-		else if(itemType.equals("scroll"))
-		{
-			item.type = L2EtcItemType.SCROLL;
-		}
-		else if(itemType.equals("seed"))
-		{
-			item.type = L2EtcItemType.SEED;
-		}
-		else if(itemType.equals("shot"))
-		{
-			item.type = L2EtcItemType.SHOT;
-		}
-		else if(itemType.equals("spellbook"))
-		{
-			item.type = L2EtcItemType.SPELLBOOK; // Spellbook, Amulet, Blueprint
-		}
-		else if(itemType.equals("herb"))
-		{
-			item.type = L2EtcItemType.HERB;
-		}
-		else if(itemType.equals("arrow"))
-		{
-			item.type = L2EtcItemType.ARROW;
-			item.set.set("bodypart", L2Item.SLOT_L_HAND);
-		}
-		else if(itemType.equals("quest"))
-		{
-			item.type = L2EtcItemType.QUEST;
-			item.set.set("type2", L2Item.TYPE2_QUEST);
-		}
-		else if(itemType.equals("lure"))
-		{
-			item.type = L2EtcItemType.OTHER;
-			item.set.set("bodypart", L2Item.SLOT_L_HAND);
-		}
-		else
-		{
-			if (Config.DEBUG)
-				LOGGER.info("Unknown etcitem type:" + itemType);
-			item.type = L2EtcItemType.OTHER;
-		}
+        switch (itemType) {
+            case "none":
+                item.type = L2EtcItemType.OTHER; // only for default
+
+                break;
+            case "castle_guard":
+                item.type = L2EtcItemType.SCROLL; // dummy
+
+                break;
+            case "pet_collar":
+                item.type = L2EtcItemType.PET_COLLAR;
+                break;
+            case "potion":
+                item.type = L2EtcItemType.POTION;
+                break;
+            case "recipe":
+                item.type = L2EtcItemType.RECEIPE;
+                break;
+            case "scroll":
+                item.type = L2EtcItemType.SCROLL;
+                break;
+            case "seed":
+                item.type = L2EtcItemType.SEED;
+                break;
+            case "shot":
+                item.type = L2EtcItemType.SHOT;
+                break;
+            case "spellbook":
+                item.type = L2EtcItemType.SPELLBOOK; // Spellbook, Amulet, Blueprint
+
+                break;
+            case "herb":
+                item.type = L2EtcItemType.HERB;
+                break;
+            case "arrow":
+                item.type = L2EtcItemType.ARROW;
+                item.set.set("bodypart", L2Item.SLOT_L_HAND);
+                break;
+            case "quest":
+                item.type = L2EtcItemType.QUEST;
+                item.set.set("type2", L2Item.TYPE2_QUEST);
+                break;
+            case "lure":
+                item.type = L2EtcItemType.OTHER;
+                item.set.set("bodypart", L2Item.SLOT_L_HAND);
+                break;
+            default:
+                if (Config.DEBUG)
+                    LOGGER.info("Unknown etcitem type:" + itemType);
+                item.type = L2EtcItemType.OTHER;
+                break;
+        }
 		itemType = null;
 
 		String consume = rset.getString("consume_type");
-		if(consume.equals("asset"))
-		{
-			item.type = L2EtcItemType.MONEY;
-			item.set.set("stackable", true);
-			item.set.set("type2", L2Item.TYPE2_MONEY);
-		}
-		else if(consume.equals("stackable"))
-		{
-			item.set.set("stackable", true);
-		}
-		else
-		{
-			item.set.set("stackable", false);
-		}
+        switch (consume) {
+            case "asset":
+                item.type = L2EtcItemType.MONEY;
+                item.set.set("stackable", true);
+                item.set.set("type2", L2Item.TYPE2_MONEY);
+                break;
+            case "stackable":
+                item.set.set("stackable", true);
+                break;
+            default:
+                item.set.set("stackable", false);
+                break;
+        }
 
 		int crystal = _crystalTypes.get(rset.getString("crystal_type"));
 		item.set.set("crystal_type", crystal);

@@ -18,31 +18,13 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.lang.reflect.Constructor;
-import java.util.Collection;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ArtefactInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ChestInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ControlTowerInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
@@ -60,18 +42,16 @@ import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.effects.EffectTemplate;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillCharge;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillChargeDmg;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillChargeEffect;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillCreateItem;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillDefault;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillDrain;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSeed;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSignet;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSignetCasttime;
-import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSummon;
+import com.l2jfrozen.gameserver.skills.l2skills.*;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.util.Util;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.lang.reflect.Constructor;
+import java.util.Collection;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * This class...
@@ -630,7 +610,7 @@ public abstract class L2Skill
 		}
 		else
 		{
-			_canLearn = new FastList<ClassId>();
+			_canLearn = new FastList<>();
 			StringTokenizer st = new StringTokenizer(canLearn, " \r\n\t,;");
 			
 			while(st.hasMoreTokens())
@@ -659,7 +639,7 @@ public abstract class L2Skill
 		}
 		else
 		{
-			_teachers = new FastList<Integer>();
+			_teachers = new FastList<>();
 			StringTokenizer st = new StringTokenizer(teachers, " \r\n\t,;");
 			while(st.hasMoreTokens())
 			{
@@ -1468,7 +1448,7 @@ public abstract class L2Skill
 			
 		}
 		
-		List<L2Character> targetList = new FastList<L2Character>();
+		List<L2Character> targetList = new FastList<>();
 		
 		if(isPotion()){
 			
@@ -3108,7 +3088,7 @@ public abstract class L2Skill
 		if(_funcTemplates == null)
 			return _emptyFunctionSet;
 		
-		List<Func> funcs = new FastList<Func>();
+		List<Func> funcs = new FastList<>();
 		
 		for(FuncTemplate t : _funcTemplates)
 		{
@@ -3152,7 +3132,7 @@ public abstract class L2Skill
 		if (getSkillType() == SkillType.BUFF && effected.isBlockBuff())
 			return _emptyEffectSet;
 		
-		List<L2Effect> effects = new FastList<L2Effect>();
+		List<L2Effect> effects = new FastList<>();
 		
 		boolean skillMastery = false;
 		
@@ -3207,7 +3187,7 @@ public abstract class L2Skill
 		if(_effectTemplatesSelf == null)
 			return _emptyEffectSet;
 		
-		List<L2Effect> effects = new FastList<L2Effect>();
+		List<L2Effect> effects = new FastList<>();
 		
 		Env env = new Env();
 		env.player = effector;

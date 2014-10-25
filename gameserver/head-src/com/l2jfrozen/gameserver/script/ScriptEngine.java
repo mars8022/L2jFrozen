@@ -18,10 +18,10 @@
  */
 package com.l2jfrozen.gameserver.script;
 
-import java.util.Hashtable;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.script.faenor.FaenorInterface;
+
+import java.util.Hashtable;
 
 /**
  * @author Luis Arias
@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.script.faenor.FaenorInterface;
 public class ScriptEngine
 {
 	protected EngineInterface _utils = FaenorInterface.getInstance();
-	public static final Hashtable<String, ParserFactory> parserFactories = new Hashtable<String, ParserFactory>();
+	public static final Hashtable<String, ParserFactory> parserFactories = new Hashtable<>();
 
 	protected static Parser createParser(String name) throws ParserNotCreatedException
 	{

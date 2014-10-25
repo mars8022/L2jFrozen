@@ -17,20 +17,6 @@
  */
 package com.l2jfrozen.gameserver.model.spawn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -44,6 +30,18 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Auto Spawn Handler Allows spawning of a NPC object based on a timer. (From the official idea used for the Merchant
@@ -76,8 +74,8 @@ public class AutoSpawn
 
 	private AutoSpawn()
 	{
-		_registeredSpawns = new FastMap<Integer, AutoSpawnInstance>();
-		_runningSpawns = new FastMap<Integer, ScheduledFuture<?>>();
+		_registeredSpawns = new FastMap<>();
+		_runningSpawns = new FastMap<>();
 
 		restoreSpawnData();
 	}
@@ -439,7 +437,7 @@ public class AutoSpawn
 
 	public Map<Integer, AutoSpawnInstance> getAutoSpawnInstances(int npcId)
 	{
-		Map<Integer, AutoSpawnInstance> spawnInstList = new FastMap<Integer, AutoSpawnInstance>();
+		Map<Integer, AutoSpawnInstance> spawnInstList = new FastMap<>();
 
 		Collection<AutoSpawnInstance> instances;
 		synchronized(_registeredSpawns){
@@ -741,9 +739,9 @@ public class AutoSpawn
 
 		protected int _lastLocIndex = -1;
 
-		private List<L2NpcInstance> _npcList = new FastList<L2NpcInstance>();
+		private List<L2NpcInstance> _npcList = new FastList<>();
 
-		private List<Location> _locList = new FastList<Location>();
+		private List<Location> _locList = new FastList<>();
 
 		private boolean _spawnActive;
 
@@ -824,7 +822,7 @@ public class AutoSpawn
 
 		public L2Spawn[] getSpawns()
 		{
-			List<L2Spawn> npcSpawns = new FastList<L2Spawn>();
+			List<L2Spawn> npcSpawns = new FastList<>();
 
 			for(L2NpcInstance npcInst : _npcList)
 			{

@@ -17,14 +17,12 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.Duel;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 public class DuelManager
 {
@@ -52,7 +50,7 @@ public class DuelManager
 	private DuelManager()
 	{
 		LOGGER.info("Initializing DuelManager");
-		_duels = new FastList<Duel>();
+		_duels = new FastList<>();
 	}
 
 	// =========================================================

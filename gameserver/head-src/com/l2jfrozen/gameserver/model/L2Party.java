@@ -18,38 +18,24 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.Future;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.managers.DuelManager;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
 import com.l2jfrozen.gameserver.model.entity.DimensionalRift;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
-import com.l2jfrozen.gameserver.network.serverpackets.ExCloseMPCC;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOpenMPCC;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.gameserver.network.serverpackets.PartyMemberPosition;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAdd;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowAll;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDelete;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.Future;
 
 /**
  * This class ...
@@ -95,7 +81,7 @@ public class L2Party
 	 */
 	public L2Party(L2PcInstance leader, int itemDistribution)
 	{
-		_members = new FastList<L2PcInstance>();
+		_members = new FastList<>();
 		_itemDistribution = itemDistribution;
 		getPartyMembers().add(leader);
 		_partyLvl = leader.getLevel();
@@ -159,7 +145,7 @@ public class L2Party
 	 */
 	private L2PcInstance getCheckedRandomMember(int ItemId, L2Character target)
 	{
-		List<L2PcInstance> availableMembers = new FastList<L2PcInstance>();
+		List<L2PcInstance> availableMembers = new FastList<>();
 
 		for(L2PcInstance member : getPartyMembers())
 		{
@@ -807,7 +793,7 @@ public class L2Party
 
 	private List<L2PlayableInstance> getValidMembers(List<L2PlayableInstance> members, int topLvl)
 	{
-		List<L2PlayableInstance> validMembers = new FastList<L2PlayableInstance>();
+		List<L2PlayableInstance> validMembers = new FastList<>();
 
 		// Fixed LevelDiff cutoff point
 		if(Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("level"))

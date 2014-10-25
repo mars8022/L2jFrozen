@@ -18,21 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import javolution.util.FastTable;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -57,25 +42,8 @@ import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.actor.instance.L2BoatInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ControlTowerInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2EffectPointInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2GuardInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2MinionInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcWalkerInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.*;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.SkillDat;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2RiftInvaderInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeFlagInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.CharKnownList;
 import com.l2jfrozen.gameserver.model.actor.knownlist.ObjectKnownList.KnownListAsynchronousUpdateTask;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
@@ -91,48 +59,31 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.Attack;
-import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
-import com.l2jfrozen.gameserver.network.serverpackets.ChangeMoveType;
-import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
-import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.CharMoveToLocation;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicEffectIcons;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillLaunched;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
-import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySpelled;
-import com.l2jfrozen.gameserver.network.serverpackets.PetInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.RelationChanged;
-import com.l2jfrozen.gameserver.network.serverpackets.Revive;
-import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.TargetUnselected;
-import com.l2jfrozen.gameserver.network.serverpackets.TeleportToLocation;
-import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
-import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocationInVehicle;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.skills.Calculator;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.holders.ISkillsHolder;
-import com.l2jfrozen.gameserver.templates.L2CharTemplate;
-import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.templates.L2WeaponType;
-import com.l2jfrozen.gameserver.templates.StatsSet;
+import com.l2jfrozen.gameserver.templates.*;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+import org.apache.log4j.Logger;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
+
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_ATTACK;
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_FOLLOW;
 
 /**
  * Mother class of all character objects of the world (PC, NPC...)<BR>
@@ -3847,32 +3798,25 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		final L2Effect[] effects = getAllEffects();
 		
 		// Make sure there's no same effect previously
-		for (int i = 0; i < effects.length; i++)
-		{
-			if (effects[i] == null)
-			{
-				
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-			}
-			
-			if (effects[i].getSkill().getId() == newEffect.getSkill().getId() && effects[i].getEffectType() == newEffect.getEffectType() && effects[i].getStackType() == newEffect.getStackType())
-			{
-				if ((newEffect.getSkill().getSkillType() == L2Skill.SkillType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.HEAL_OVER_TIME) && newEffect.getStackOrder() >= effects[i].getStackOrder())
-				{
-					effects[i].exit(false);
-				}
-				else
-				{
-					// newEffect.exit(false);
-					newEffect.stopEffectTask();
-					return;
-				}
-			}
-		}
+        for (L2Effect effect : effects) {
+            if (effect == null) {
+
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+            }
+
+            if (effect.getSkill().getId() == newEffect.getSkill().getId() && effect.getEffectType() == newEffect.getEffectType() && effect.getStackType() == newEffect.getStackType()) {
+                if ((newEffect.getSkill().getSkillType() == SkillType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.HEAL_OVER_TIME) && newEffect.getStackOrder() >= effect.getStackOrder()) {
+                    effect.exit(false);
+                } else {
+                    // newEffect.exit(false);
+                    newEffect.stopEffectTask();
+                    return;
+                }
+            }
+        }
 		
 		L2Skill tempskill = newEffect.getSkill();
 		
@@ -4326,20 +4270,17 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	{
 		
 		final L2Effect[] effects = getAllEffects();
-		
-		for(int k=0;k<effects.length;k++)
-		{
-			
-			if(effects[k] != null)
-			{
-				effects[k].exit(true);
-			}else{
-				synchronized (_effects)
-				{
-					_effects.remove(effects[k]);
-				}
-			}
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect != null) {
+                effect.exit(true);
+            } else {
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+            }
+        }
 		
 		
 		if(this instanceof L2PcInstance)
@@ -4420,27 +4361,24 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public final void stopSkillEffects(int skillId)
 	{
 		final L2Effect[] effects = getAllEffects();
-		
-		for(int i = 0;i<effects.length;i++)
-		{
-			
-			if(effects[i] == null
-				|| effects[i].getSkill() == null){
-				
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-				
-			}
-			
-			if (effects[i].getSkill().getId() == skillId)
-			{ 
-				effects[i].exit(true);
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null
+                    || effect.getSkill() == null) {
+
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+
+            }
+
+            if (effect.getSkill().getId() == skillId) {
+                effect.exit(true);
+            }
+
+        }
 		
 		
 	}
@@ -4465,26 +4403,24 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public final void stopEffects(L2Effect.EffectType type)
 	{
 		final L2Effect[] effects = getAllEffects();
-		
-		for(int i = 0;i<effects.length;i++)
-		{
-			
-			if(effects[i] == null){
-				
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-				
-			}
-			
-			//LOGGER.info("Character Effect Type: "+effects[i].getEffectType());
-			if (effects[i].getEffectType() == type){ 
-				effects[i].exit(true);
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null) {
+
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+
+            }
+
+            //LOGGER.info("Character Effect Type: "+effects[i].getEffectType());
+            if (effect.getEffectType() == type) {
+                effect.exit(true);
+            }
+
+        }
 		
 	}
 	
@@ -4501,27 +4437,25 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	public final void stopSkillEffects(SkillType skillType, double power)
 	{
 		final L2Effect[] effects = getAllEffects();
-		
-		for(int i = 0;i<effects.length;i++)
-		{
-			
-			if(effects[i] == null
-				|| effects[i].getSkill() == null){
-				
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-				
-			}
-			
-			if (effects[i].getSkill().getSkillType() == skillType 
-				&& (power == 0 || effects[i].getSkill().getPower() <= power)){ 
-				effects[i].exit(true);
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null
+                    || effect.getSkill() == null) {
+
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+
+            }
+
+            if (effect.getSkill().getSkillType() == skillType
+                    && (power == 0 || effect.getSkill().getPower() <= power)) {
+                effect.exit(true);
+            }
+
+        }
 		
 	}
 	
@@ -4989,27 +4923,25 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		final L2Effect[] effects = getAllEffects();
 		
 		L2Effect effNotInUse = null;
-		
-		for(int i = 0;i<effects.length;i++){
-			
-			if(effects[i] == null){
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-			}
-			
-			if(effects[i].getSkill().getId() == index)
-			{
-				if(effects[i].getInUse())
-					return effects[i];
-				
-				if(effNotInUse==null)
-					effNotInUse = effects[i];
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null) {
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+            }
+
+            if (effect.getSkill().getId() == index) {
+                if (effect.getInUse())
+                    return effect;
+
+                if (effNotInUse == null)
+                    effNotInUse = effect;
+            }
+
+        }
 		
 		return effNotInUse;
 		
@@ -5028,27 +4960,25 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		final L2Effect[] effects = getAllEffects();
 		
 		L2Effect effNotInUse = null;
-		
-		for(int i = 0;i<effects.length;i++){
-			
-			if(effects[i] == null){
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-			}
-			
-			if(effects[i].getSkill().getSkillType() == type)
-			{
-				if(effects[i].getInUse())
-					return effects[i];
-				
-				if(effNotInUse==null)
-					effNotInUse = effects[i];
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null) {
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+            }
+
+            if (effect.getSkill().getSkillType() == type) {
+                if (effect.getInUse())
+                    return effect;
+
+                if (effNotInUse == null)
+                    effNotInUse = effect;
+            }
+
+        }
 		
 		return effNotInUse;
 		
@@ -5069,27 +4999,25 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		final L2Effect[] effects = getAllEffects();
 		
 		L2Effect effNotInUse = null;
-		
-		for(int i = 0;i<effects.length;i++){
-			
-			if(effects[i] == null){
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-			}
-			
-			if(effects[i].getSkill() == skill)
-			{
-				if(effects[i].getInUse())
-					return effects[i];
-				
-				if(effNotInUse==null)
-					effNotInUse = effects[i];
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null) {
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+            }
+
+            if (effect.getSkill() == skill) {
+                if (effect.getInUse())
+                    return effect;
+
+                if (effNotInUse == null)
+                    effNotInUse = effect;
+            }
+
+        }
 		
 		return effNotInUse;
 		
@@ -5113,27 +5041,25 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		final L2Effect[] effects = getAllEffects();
 		
 		L2Effect effNotInUse = null;
-		
-		for(int i = 0;i<effects.length;i++){
-			
-			if(effects[i] == null){
-				synchronized (_effects)
-				{
-					_effects.remove(effects[i]);
-				}
-				continue;
-			}
-			
-			if(effects[i].getEffectType() == tp)
-			{
-				if(effects[i].getInUse())
-					return effects[i];
-				
-				if(effNotInUse==null)
-					effNotInUse = effects[i];
-			}
-			
-		}
+
+        for (L2Effect effect : effects) {
+
+            if (effect == null) {
+                synchronized (_effects) {
+                    _effects.remove(effect);
+                }
+                continue;
+            }
+
+            if (effect.getEffectType() == tp) {
+                if (effect.getInUse())
+                    return effect;
+
+                if (effNotInUse == null)
+                    effNotInUse = effect;
+            }
+
+        }
 		
 		return effNotInUse;
 		
@@ -8849,45 +8775,39 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			if(targets2 != null && targets2.length!=0){
 				
 				// Go through targets table
-				for(int i=0;i<targets2.length;i++)//L2Object target2 : targets)
-				{
-					L2Object target2 = targets2[i];
-					if(target2==null){
-						continue;
-					}
-					
-					if(target2 instanceof L2PlayableInstance)
-					{
-						L2Character target = (L2Character) target2;
-						
-						// If the skill is type STEALTH(ex: Dance of Shadow)
-						if (skill.isAbnormalEffectByName(ABNORMAL_EFFECT_STEALTH))
-						{
-							L2Effect silentMove = target.getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
-							if (silentMove != null)
-								silentMove.exit(true);
-						}
-						
-						if(skill.getSkillType() == L2Skill.SkillType.BUFF || skill.getSkillType() == L2Skill.SkillType.SEED)
-						{
-							SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
-							smsg.addString(skill.getName());
-							target.sendPacket(smsg);
-							smsg = null;
-						}
-						
-						if(this instanceof L2PcInstance && target instanceof L2Summon)
-						{
-							((L2Summon) target).getOwner().sendPacket(new PetInfo((L2Summon) target));
-							sendPacket(new NpcInfo((L2Summon) target, this));
-							
-							// The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them
-							((L2Summon) target).updateEffectIcons(true);
-						}
-						
-						target = null;
-					}
-				}
+                for (L2Object target2 : targets2) {
+                    if (target2 == null) {
+                        continue;
+                    }
+
+                    if (target2 instanceof L2PlayableInstance) {
+                        L2Character target = (L2Character) target2;
+
+                        // If the skill is type STEALTH(ex: Dance of Shadow)
+                        if (skill.isAbnormalEffectByName(ABNORMAL_EFFECT_STEALTH)) {
+                            L2Effect silentMove = target.getFirstEffect(L2Effect.EffectType.SILENT_MOVE);
+                            if (silentMove != null)
+                                silentMove.exit(true);
+                        }
+
+                        if (skill.getSkillType() == SkillType.BUFF || skill.getSkillType() == SkillType.SEED) {
+                            SystemMessage smsg = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
+                            smsg.addString(skill.getName());
+                            target.sendPacket(smsg);
+                            smsg = null;
+                        }
+
+                        if (this instanceof L2PcInstance && target instanceof L2Summon) {
+                            ((L2Summon) target).getOwner().sendPacket(new PetInfo((L2Summon) target));
+                            sendPacket(new NpcInfo((L2Summon) target, this));
+
+                            // The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them
+                            ((L2Summon) target).updateEffectIcons(true);
+                        }
+
+                        target = null;
+                    }
+                }
 				
 			}
 			

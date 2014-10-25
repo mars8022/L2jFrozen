@@ -76,89 +76,78 @@ public class Recall implements ISkillHandler
 					return;
 				}			
 			}
-			
-			for (int index = 0; index < targets.length; index++)
-			{
-				if (!(targets[index] instanceof L2Character))
-					continue;
-				
-				L2Character target = (L2Character) targets[index];
-				
-				if (target instanceof L2PcInstance)
-				{
-					L2PcInstance targetChar = (L2PcInstance) target;
-					
-					if (targetChar.isFestivalParticipant())
-					{
-						targetChar.sendPacket(SystemMessage.sendString("You can't use escape skill in a festival."));
-						continue;
-					}
-					
-					if ((targetChar._inEventCTF && CTF.is_started()) || (targetChar._inEventTvT && TvT.is_started()) || (targetChar._inEventDM && DM.is_started()) || (targetChar._inEventVIP && VIP._started))
-					{
-						targetChar.sendMessage("You can't use escape skill in Event.");
-						continue;
-					}
-					
-					if (targetChar.isInJail())
-					{
-						targetChar.sendPacket(SystemMessage.sendString("You can't escape from jail."));
-						continue;
-					}
-					
-					if (targetChar.isInDuel())
-					{
-						targetChar.sendPacket(SystemMessage.sendString("You can't use escape skills during a duel."));
-						continue;
-					}
-					
-					if (targetChar.isAlikeDead())
-					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_DEAD_AT_THE_MOMENT_AND_CANNOT_BE_SUMMONED);
-						sm.addString(targetChar.getName());
-						activeChar.sendPacket(sm);
-						sm = null;
-						continue;
-					}
-					
-					if (targetChar.isInStoreMode())
-					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_CURRENTLY_TRADING_OR_OPERATING_PRIVATE_STORE_AND_CANNOT_BE_SUMMONED);
-						sm.addString(targetChar.getName());
-						activeChar.sendPacket(sm);
-						sm = null;
-						continue;
-					}
-					
+
+            for (L2Object target1 : targets) {
+                if (!(target1 instanceof L2Character))
+                    continue;
+
+                L2Character target = (L2Character) target1;
+
+                if (target instanceof L2PcInstance) {
+                    L2PcInstance targetChar = (L2PcInstance) target;
+
+                    if (targetChar.isFestivalParticipant()) {
+                        targetChar.sendPacket(SystemMessage.sendString("You can't use escape skill in a festival."));
+                        continue;
+                    }
+
+                    if ((targetChar._inEventCTF && CTF.is_started()) || (targetChar._inEventTvT && TvT.is_started()) || (targetChar._inEventDM && DM.is_started()) || (targetChar._inEventVIP && VIP._started)) {
+                        targetChar.sendMessage("You can't use escape skill in Event.");
+                        continue;
+                    }
+
+                    if (targetChar.isInJail()) {
+                        targetChar.sendPacket(SystemMessage.sendString("You can't escape from jail."));
+                        continue;
+                    }
+
+                    if (targetChar.isInDuel()) {
+                        targetChar.sendPacket(SystemMessage.sendString("You can't use escape skills during a duel."));
+                        continue;
+                    }
+
+                    if (targetChar.isAlikeDead()) {
+                        SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_DEAD_AT_THE_MOMENT_AND_CANNOT_BE_SUMMONED);
+                        sm.addString(targetChar.getName());
+                        activeChar.sendPacket(sm);
+                        sm = null;
+                        continue;
+                    }
+
+                    if (targetChar.isInStoreMode()) {
+                        SystemMessage sm = new SystemMessage(SystemMessageId.S1_CURRENTLY_TRADING_OR_OPERATING_PRIVATE_STORE_AND_CANNOT_BE_SUMMONED);
+                        sm.addString(targetChar.getName());
+                        activeChar.sendPacket(sm);
+                        sm = null;
+                        continue;
+                    }
+
 					/*
 					 * Like L2OFF player can be recalled also if he is on combat/rooted 
 					 * 
 					 * if(targetChar.isRooted() || targetChar.isInCombat()) { SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_ENGAGED_IN_COMBAT_AND_CANNOT_BE_SUMMONED); sm.addString(targetChar.getName());
 					 * activeChar.sendPacket(sm); sm = null; continue; }
 					 */
-					
-					if (GrandBossManager.getInstance().getZone(targetChar) != null && !targetChar.isGM())
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
-						continue;
-					}
-					
-					if (targetChar.isInOlympiadMode())
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_CANNOT_SUMMON_PLAYERS_WHO_ARE_IN_OLYMPIAD));
-						continue;
-					}
-					
-					if (targetChar.isInsideZone(L2Character.ZONE_PVP))
-					{
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
-						continue;
-					}
-				}
-				
-				target.teleToLocation(MapRegionTable.TeleportWhereType.Town);
-				target = null;
-			}
+
+                    if (GrandBossManager.getInstance().getZone(targetChar) != null && !targetChar.isGM()) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+                        continue;
+                    }
+
+                    if (targetChar.isInOlympiadMode()) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOU_CANNOT_SUMMON_PLAYERS_WHO_ARE_IN_OLYMPIAD));
+                        continue;
+                    }
+
+                    if (targetChar.isInsideZone(L2Character.ZONE_PVP)) {
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING));
+                        continue;
+                    }
+                }
+
+                target.teleToLocation(MapRegionTable.TeleportWhereType.Town);
+                target = null;
+            }
 		}
 		catch (Throwable e)
 		{

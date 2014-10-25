@@ -18,36 +18,17 @@
  */
 package com.l2jfrozen.gameserver.scripting;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.InvalidClassException;
-import java.io.LineNumberReader;
-import java.io.ObjectInputStream;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import javax.script.SimpleScriptContext;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jserver.script.jython.JythonScriptEngine;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import javax.script.*;
+import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Caches script engines and provides functionality for executing and managing scripts.<BR>
@@ -65,9 +46,9 @@ public final class L2ScriptEngineManager
 		return SingletonHolder._instance;
 	}
 
-	private final Map<String, ScriptEngine> _nameEngines = new FastMap<String, ScriptEngine>();
-	private final Map<String, ScriptEngine> _extEngines = new FastMap<String, ScriptEngine>();
-	private final List<ScriptManager<?>> _scriptManagers = new LinkedList<ScriptManager<?>>();
+	private final Map<String, ScriptEngine> _nameEngines = new FastMap<>();
+	private final Map<String, ScriptEngine> _extEngines = new FastMap<>();
+	private final List<ScriptManager<?>> _scriptManagers = new LinkedList<>();
 
 	private final CompiledScriptCache _cache;
 
@@ -226,13 +207,7 @@ public final class L2ScriptEngineManager
 					}
 				}
 				
-			}
-			catch(FileNotFoundException e1)
-			{
-				e1.printStackTrace();
-			
-			}
-			catch(IOException e)
+			} catch(IOException e)
 			{
 				e.printStackTrace();
 				

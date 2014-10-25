@@ -79,17 +79,12 @@ public class L2CastleBlacksmithInstance extends L2FolkInstance
 				{
 					val = Integer.parseInt(command.substring(5));
 				}
-				catch(IndexOutOfBoundsException ioobe)
+				catch(IndexOutOfBoundsException | NumberFormatException ioobe)
 				{
 					if(Config.ENABLE_ALL_EXCEPTIONS)
 						ioobe.printStackTrace();
 				}
-				catch(NumberFormatException nfe)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						nfe.printStackTrace();
-				}
-				showMessageWindow(player, val);
+                showMessageWindow(player, val);
 			}
 			else
 			{

@@ -18,18 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -46,6 +34,16 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author godson
@@ -90,8 +88,8 @@ public class Hero
 
 	private void init()
 	{
-		_heroes = new FastMap<Integer, StatsSet>();
-		_completeHeroes = new FastMap<Integer, StatsSet>();
+		_heroes = new FastMap<>();
+		_completeHeroes = new FastMap<>();
 		Connection con = null;
 		PreparedStatement statement = null;
 		PreparedStatement statement2 = null;
@@ -310,7 +308,7 @@ public class Hero
 			_heroes.clear();
 			return;
 		}
-		Map<Integer, StatsSet> heroes = new FastMap<Integer, StatsSet>();
+		Map<Integer, StatsSet> heroes = new FastMap<>();
 		for (StatsSet hero : newHeroes)
 		{
 			int charId = hero.getInteger(Olympiad.CHAR_ID);

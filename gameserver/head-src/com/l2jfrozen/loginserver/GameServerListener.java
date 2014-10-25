@@ -17,15 +17,13 @@
  */
 package com.l2jfrozen.loginserver;
 
+import com.l2jfrozen.Config;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
 
 /**
  * @author KenM
@@ -33,7 +31,7 @@ import com.l2jfrozen.Config;
 public class GameServerListener extends FloodProtectedListener
 {
 	private static Logger LOGGER = Logger.getLogger(GameServerListener.class);
-	private static List<GameServerThread> _gameServers = new FastList<GameServerThread>();
+	private static List<GameServerThread> _gameServers = new FastList<>();
 
 	public GameServerListener() throws IOException
 	{

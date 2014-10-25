@@ -12,25 +12,13 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.List;
-import java.util.concurrent.Future;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlEvent;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.managers.DuelManager;
-import com.l2jfrozen.gameserver.model.L2Attackable;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Party;
-import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -41,6 +29,11 @@ import com.l2jfrozen.gameserver.skills.l2skills.L2SkillDrain;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * The Class L2CubicInstance.
@@ -131,7 +124,7 @@ public class L2CubicInstance
 	private boolean _givenByOther;
 	
 	/** The _skills. */
-	protected List<L2Skill> _skills = new FastList<L2Skill>();
+	protected List<L2Skill> _skills = new FastList<>();
 	
 	/** The _disappear task. */
 	private Future<?> _disappearTask;

@@ -28,24 +28,15 @@
  */
 package com.l2jfrozen.gameserver.model.base;
 
-import static com.l2jfrozen.gameserver.model.base.ClassLevel.First;
-import static com.l2jfrozen.gameserver.model.base.ClassLevel.Fourth;
-import static com.l2jfrozen.gameserver.model.base.ClassLevel.Second;
-import static com.l2jfrozen.gameserver.model.base.ClassLevel.Third;
-import static com.l2jfrozen.gameserver.model.base.ClassType.Fighter;
-import static com.l2jfrozen.gameserver.model.base.ClassType.Mystic;
-import static com.l2jfrozen.gameserver.model.base.ClassType.Priest;
-import static com.l2jfrozen.gameserver.model.base.PlayerRace.DarkElf;
-import static com.l2jfrozen.gameserver.model.base.PlayerRace.Dwarf;
-import static com.l2jfrozen.gameserver.model.base.PlayerRace.Human;
-import static com.l2jfrozen.gameserver.model.base.PlayerRace.LightElf;
-import static com.l2jfrozen.gameserver.model.base.PlayerRace.Orc;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Set;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import static com.l2jfrozen.gameserver.model.base.ClassLevel.*;
+import static com.l2jfrozen.gameserver.model.base.ClassType.*;
+import static com.l2jfrozen.gameserver.model.base.PlayerRace.*;
 
 /**
  * This class ...
@@ -201,7 +192,7 @@ public enum PlayerClass
 	private static final Set<PlayerClass> subclasseSet4 = EnumSet.of(Warlock, ElementalSummoner, PhantomSummoner);
 	private static final Set<PlayerClass> subclasseSet5 = EnumSet.of(Sorceror, Spellsinger, Spellhowler);
 
-	private static final EnumMap<PlayerClass, Set<PlayerClass>> subclassSetMap = new EnumMap<PlayerClass, Set<PlayerClass>>(PlayerClass.class);
+	private static final EnumMap<PlayerClass, Set<PlayerClass>> subclassSetMap = new EnumMap<>(PlayerClass.class);
 
 	static
 	{

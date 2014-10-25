@@ -18,6 +18,12 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.FService;
+import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,13 +31,6 @@ import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.FService;
-import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * 
@@ -42,13 +41,13 @@ public class ClassDamageManager
 {
 	private static final Logger LOGGER = Logger.getLogger(ClassDamageManager.class);
 	
-	private static Hashtable<Integer, Double> damage_to_mage = new Hashtable<Integer, Double>();
-	private static Hashtable<Integer, Double> damage_to_fighter = new Hashtable<Integer, Double>();
-	private static Hashtable<Integer, Double> damage_by_mage = new Hashtable<Integer, Double>();
-	private static Hashtable<Integer, Double> damage_by_fighter = new Hashtable<Integer, Double>();
+	private static Hashtable<Integer, Double> damage_to_mage = new Hashtable<>();
+	private static Hashtable<Integer, Double> damage_to_fighter = new Hashtable<>();
+	private static Hashtable<Integer, Double> damage_by_mage = new Hashtable<>();
+	private static Hashtable<Integer, Double> damage_by_fighter = new Hashtable<>();
 
-	private static Hashtable<Integer, String> id_to_name = new Hashtable<Integer, String>();
-	private static Hashtable<String, Integer> name_to_id = new Hashtable<String, Integer>();
+	private static Hashtable<Integer, String> id_to_name = new Hashtable<>();
+	private static Hashtable<String, Integer> name_to_id = new Hashtable<>();
 	
 	public static void loadConfig()
 	{

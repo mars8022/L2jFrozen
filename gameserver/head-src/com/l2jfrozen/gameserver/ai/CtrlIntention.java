@@ -55,5 +55,5 @@ public enum CtrlIntention
 	AI_INTENTION_INTERACT,
 
 	/** Move to another location in a boat */
-	AI_INTENTION_MOVE_TO_IN_A_BOAT;
+	AI_INTENTION_MOVE_TO_IN_A_BOAT
 }

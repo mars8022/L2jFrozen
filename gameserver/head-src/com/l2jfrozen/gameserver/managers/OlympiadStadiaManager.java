@@ -17,12 +17,10 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 public class OlympiadStadiaManager
 {
@@ -58,7 +56,7 @@ public class OlympiadStadiaManager
     public void addStadium(L2OlympiadStadiumZone arena)
     {
     	if (_olympiadStadias == null)
-    		_olympiadStadias = new FastList<L2OlympiadStadiumZone>();
+    		_olympiadStadias = new FastList<>();
     	
     	_olympiadStadias.add(arena);
     }

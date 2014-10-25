@@ -14,14 +14,6 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
-import java.util.Collection;
-import java.util.Map.Entry;
-import java.util.concurrent.Future;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -32,6 +24,12 @@ import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.StringUtil;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Collection;
+import java.util.Map.Entry;
+import java.util.concurrent.Future;
 
 /**
  * another type of damage zone with skills
@@ -62,41 +60,43 @@ public class L2EffectZone extends L2ZoneType
 	@Override
 	public void setParameter(String name, String value)
 	{
-		if (name.equals("chance"))
-			_chance = Integer.parseInt(value);
-		else if (name.equals("initialDelay"))
-			_initialDelay = Integer.parseInt(value);
-		else if (name.equals("defaultStatus"))
-			_enabled = Boolean.parseBoolean(value);
-		else if (name.equals("reuse"))
-			_reuse = Integer.parseInt(value);
-		else if (name.equals("skillIdLvl"))
-		{
-			String[] propertySplit = value.split(";");
-			_skills = new FastMap<Integer, Integer>(propertySplit.length);
-			for (String skill : propertySplit)
-			{
-				String[] skillSplit = skill.split("-");
-				if (skillSplit.length != 2)
-					LOGGER.warn(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skill, "\""));
-				else
-				{
-					try
-					{
-						_skills.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
-					}
-					catch (NumberFormatException nfe)
-					{
-						if (!skill.isEmpty())
-							LOGGER.warn(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skillSplit[0], "\"", skillSplit[1]));
-					}
-				}
-			}
-		}
-		else if (name.equals("showDangerIcon"))
-			_isShowDangerIcon = Boolean.parseBoolean(value);
-		else
-			super.setParameter(name, value);
+        switch (name) {
+            case "chance":
+                _chance = Integer.parseInt(value);
+                break;
+            case "initialDelay":
+                _initialDelay = Integer.parseInt(value);
+                break;
+            case "defaultStatus":
+                _enabled = Boolean.parseBoolean(value);
+                break;
+            case "reuse":
+                _reuse = Integer.parseInt(value);
+                break;
+            case "skillIdLvl":
+                String[] propertySplit = value.split(";");
+                _skills = new FastMap<>(propertySplit.length);
+                for (String skill : propertySplit) {
+                    String[] skillSplit = skill.split("-");
+                    if (skillSplit.length != 2)
+                        LOGGER.warn(StringUtil.concat(getClass().getSimpleName() + ": invalid config property -> skillsIdLvl \"", skill, "\""));
+                    else {
+                        try {
+                            _skills.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
+                        } catch (NumberFormatException nfe) {
+                            if (!skill.isEmpty())
+                                LOGGER.warn(StringUtil.concat(getClass().getSimpleName() + ": invalid config property -> skillsIdLvl \"", skillSplit[0], "\"", skillSplit[1]));
+                        }
+                    }
+                }
+                break;
+            case "showDangerIcon":
+                _isShowDangerIcon = Boolean.parseBoolean(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 	
 	@Override

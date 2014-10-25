@@ -18,23 +18,18 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.Manager;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.BB.Post;
 import com.l2jfrozen.gameserver.communitybbs.BB.Topic;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import java.text.DateFormat;
+import java.util.*;
 
 public class TopicBBSManager extends BaseBBSManager
 {
@@ -53,8 +48,8 @@ public class TopicBBSManager extends BaseBBSManager
 
 	private TopicBBSManager()
 	{
-		_table = new FastList<Topic>();
-		_maxId = new FastMap<Forum, Integer>();
+		_table = new FastList<>();
+		_maxId = new FastMap<>();
 	}
 
 	public void addTopic(Topic tt)
@@ -99,77 +94,68 @@ public class TopicBBSManager extends BaseBBSManager
 	@Override
 	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
 	{
-		if(ar1.equals("crea"))
-		{
-			Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
-			if(f == null)
-			{
-				ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " is not implemented yet</center><br><br></body></html>", "101");
-				activeChar.sendPacket(sb);
-				sb = null;
-				activeChar.sendPacket(new ShowBoard(null, "102"));
-				activeChar.sendPacket(new ShowBoard(null, "103"));
-			}
-			else
-			{
-				f.vload();
-				Topic t = new Topic(Topic.ConstructorType.CREATE, TopicBBSManager.getInstance().getMaxID(f) + 1, Integer.parseInt(ar2), ar5, Calendar.getInstance().getTimeInMillis(), activeChar.getName(), activeChar.getObjectId(), Topic.MEMO, 0);
-				f.addtopic(t);
-				TopicBBSManager.getInstance().setMaxID(t.getID(), f);
-				Post p = new Post(activeChar.getName(), activeChar.getObjectId(), Calendar.getInstance().getTimeInMillis(), t.getID(), f.getID(), ar4);
-				PostBBSManager.getInstance().addPostByTopic(p, t);
-				parsecmd("_bbsmemo", activeChar);
-				t = null;
-				p = null;
-			}
-			f = null;
+        switch (ar1) {
+            case "crea": {
+                Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
+                if (f == null) {
+                    ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " is not implemented yet</center><br><br></body></html>", "101");
+                    activeChar.sendPacket(sb);
+                    sb = null;
+                    activeChar.sendPacket(new ShowBoard(null, "102"));
+                    activeChar.sendPacket(new ShowBoard(null, "103"));
+                } else {
+                    f.vload();
+                    Topic t = new Topic(Topic.ConstructorType.CREATE, TopicBBSManager.getInstance().getMaxID(f) + 1, Integer.parseInt(ar2), ar5, Calendar.getInstance().getTimeInMillis(), activeChar.getName(), activeChar.getObjectId(), Topic.MEMO, 0);
+                    f.addtopic(t);
+                    TopicBBSManager.getInstance().setMaxID(t.getID(), f);
+                    Post p = new Post(activeChar.getName(), activeChar.getObjectId(), Calendar.getInstance().getTimeInMillis(), t.getID(), f.getID(), ar4);
+                    PostBBSManager.getInstance().addPostByTopic(p, t);
+                    parsecmd("_bbsmemo", activeChar);
+                    t = null;
+                    p = null;
+                }
+                f = null;
 
-		}
-		else if(ar1.equals("del"))
-		{
-			Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
-			if(f == null)
-			{
-				ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " does not exist !</center><br><br></body></html>", "101");
-				activeChar.sendPacket(sb);
-				sb = null;
-				activeChar.sendPacket(new ShowBoard(null, "102"));
-				activeChar.sendPacket(new ShowBoard(null, "103"));
-			}
-			else
-			{
-				Topic t = f.gettopic(Integer.parseInt(ar3));
-				if(t == null)
-				{
-					ShowBoard sb = new ShowBoard("<html><body><br><br><center>the topic: " + ar3 + " does not exist !</center><br><br></body></html>", "101");
-					activeChar.sendPacket(sb);
-					sb = null;
-					activeChar.sendPacket(new ShowBoard(null, "102"));
-					activeChar.sendPacket(new ShowBoard(null, "103"));
-				}
-				else
-				{
-					//CPost cp = null;
-					Post p = PostBBSManager.getInstance().getGPosttByTopic(t);
-					if(p != null)
-					{
-						p.deleteme(t);
-					}
-					t.deleteme(f);
-					parsecmd("_bbsmemo", activeChar);
-					p = null;
-				}
-			}
-			f = null;
-		}
-		else
-		{
-			ShowBoard sb = new ShowBoard("<html><body><br><br><center>the command: " + ar1 + " is not implemented yet</center><br><br></body></html>", "101");
-			activeChar.sendPacket(sb);
-			sb = null;
-			activeChar.sendPacket(new ShowBoard(null, "102"));
-			activeChar.sendPacket(new ShowBoard(null, "103"));
-		}
+                break;
+            }
+            case "del": {
+                Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
+                if (f == null) {
+                    ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " does not exist !</center><br><br></body></html>", "101");
+                    activeChar.sendPacket(sb);
+                    sb = null;
+                    activeChar.sendPacket(new ShowBoard(null, "102"));
+                    activeChar.sendPacket(new ShowBoard(null, "103"));
+                } else {
+                    Topic t = f.gettopic(Integer.parseInt(ar3));
+                    if (t == null) {
+                        ShowBoard sb = new ShowBoard("<html><body><br><br><center>the topic: " + ar3 + " does not exist !</center><br><br></body></html>", "101");
+                        activeChar.sendPacket(sb);
+                        sb = null;
+                        activeChar.sendPacket(new ShowBoard(null, "102"));
+                        activeChar.sendPacket(new ShowBoard(null, "103"));
+                    } else {
+                        //CPost cp = null;
+                        Post p = PostBBSManager.getInstance().getGPosttByTopic(t);
+                        if (p != null) {
+                            p.deleteme(t);
+                        }
+                        t.deleteme(f);
+                        parsecmd("_bbsmemo", activeChar);
+                        p = null;
+                    }
+                }
+                f = null;
+                break;
+            }
+            default:
+                ShowBoard sb = new ShowBoard("<html><body><br><br><center>the command: " + ar1 + " is not implemented yet</center><br><br></body></html>", "101");
+                activeChar.sendPacket(sb);
+                sb = null;
+                activeChar.sendPacket(new ShowBoard(null, "102"));
+                activeChar.sendPacket(new ShowBoard(null, "103"));
+                break;
+        }
 	}
 	
 	@Override

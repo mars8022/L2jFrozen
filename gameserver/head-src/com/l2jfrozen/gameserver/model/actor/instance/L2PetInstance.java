@@ -18,41 +18,17 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.concurrent.Future;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.managers.ItemsOnGroundManager;
-import com.l2jfrozen.gameserver.model.Inventory;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2PetData;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.PcInventory;
-import com.l2jfrozen.gameserver.model.PetInventory;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.actor.stat.PetStat;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
-import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
-import com.l2jfrozen.gameserver.network.serverpackets.PetInventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.PetItemList;
-import com.l2jfrozen.gameserver.network.serverpackets.PetStatusShow;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
@@ -60,6 +36,12 @@ import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.concurrent.Future;
 
 /**
  * This class ...
@@ -819,21 +801,17 @@ public class L2PetInstance extends L2Summon
 			Inventory petInventory = getInventory();
 			L2ItemInstance[] items = petInventory.getItems();
 			petInventory = null;
-			for(int i = 0; i < items.length; i++)
-			{
-				L2ItemInstance giveit = items[i];
-				if(giveit.getItem().getWeight() * giveit.getCount() + getOwner().getInventory().getTotalWeight() < getOwner().getMaxLoad())
-				{
-					// If the owner can carry it give it to them
-					giveItemToOwner(giveit);
-				}
-				else
-				{
-					// If they can't carry it, chuck it on the floor :)
-					dropItemHere(giveit);
-				}
-				giveit = null;
-			}
+            for (L2ItemInstance item : items) {
+                L2ItemInstance giveit = item;
+                if (giveit.getItem().getWeight() * giveit.getCount() + getOwner().getInventory().getTotalWeight() < getOwner().getMaxLoad()) {
+                    // If the owner can carry it give it to them
+                    giveItemToOwner(giveit);
+                } else {
+                    // If they can't carry it, chuck it on the floor :)
+                    dropItemHere(giveit);
+                }
+                giveit = null;
+            }
 			items = null;
 		}
 		catch(Exception e)
@@ -936,10 +914,9 @@ public class L2PetInstance extends L2Summon
 		try
 		{
 			L2ItemInstance[] items = getInventory().getItems();
-			for(int i = 0; i < items.length; i++)
-			{
-				dropItemHere(items[i]);
-			}
+            for (L2ItemInstance item : items) {
+                dropItemHere(item);
+            }
 			items = null;
 		}
 		catch(Exception e)

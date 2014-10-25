@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.model.multisell;
 
-import java.util.List;
-
 import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * @author programmos
@@ -29,8 +29,8 @@ public class MultiSellEntry
 {
 	private int _entryId;
 
-	private List<MultiSellIngredient> _products = new FastList<MultiSellIngredient>();
-	private List<MultiSellIngredient> _ingredients = new FastList<MultiSellIngredient>();
+	private List<MultiSellIngredient> _products = new FastList<>();
+	private List<MultiSellIngredient> _ingredients = new FastList<>();
 
 	/**
 	 * @param entryId The entryId to set.

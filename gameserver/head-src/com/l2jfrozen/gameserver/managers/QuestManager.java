@@ -17,22 +17,20 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.io.File;
-import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.quest.Quest;
 import com.l2jfrozen.gameserver.scripting.L2ScriptEngineManager;
 import com.l2jfrozen.gameserver.scripting.ScriptManager;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.util.Map;
 
 public class QuestManager extends ScriptManager<Quest>
 {
 	protected static final Logger LOGGER = Logger.getLogger(QuestManager.class);
-	private Map<String, Quest> _quests = new FastMap<String, Quest>();
+	private Map<String, Quest> _quests = new FastMap<>();
 	private static QuestManager _instance;
 
 	public static QuestManager getInstance()
@@ -135,7 +133,7 @@ public class QuestManager extends ScriptManager<Quest>
 	{
 		if(_quests == null)
 		{
-			_quests = new FastMap<String, Quest>();
+			_quests = new FastMap<>();
 		}
 
 		return (FastMap<String, Quest>) _quests;

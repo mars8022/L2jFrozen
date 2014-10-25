@@ -19,15 +19,14 @@
 
 package com.l2jfrozen.gameserver.util;
 
+import com.l2jfrozen.Config;
+import org.apache.log4j.Logger;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
 
 /**
  * extension loader for L2JFrozen
@@ -55,8 +54,8 @@ public class DynamicExtension
 		{
 			_instance = this;
 		}
-		_getters = new ConcurrentHashMap<String, ExtensionFunction>();
-		_setters = new ConcurrentHashMap<String, ExtensionFunction>();
+		_getters = new ConcurrentHashMap<>();
+		_setters = new ConcurrentHashMap<>();
 		initExtensions();
 	}
 
@@ -93,7 +92,7 @@ public class DynamicExtension
 	{
 		_prop = new Properties();
 		String res = "";
-		_loadedExtensions = new ConcurrentHashMap<String, Object>();
+		_loadedExtensions = new ConcurrentHashMap<>();
 
 		FileInputStream fis = null;
 		

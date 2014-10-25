@@ -18,15 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.CharSelectInfoPackage;
 import com.l2jfrozen.gameserver.model.Inventory;
@@ -35,6 +26,13 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * This class ...
@@ -220,7 +218,7 @@ public class CharSelectInfo extends L2GameServerPacket
 	private CharSelectInfoPackage[] loadCharacterSelectInfo()
 	{
 		CharSelectInfoPackage charInfopackage;
-		List<CharSelectInfoPackage> characterList = new FastList<CharSelectInfoPackage>();
+		List<CharSelectInfoPackage> characterList = new FastList<>();
 		
 		Connection con = null;
 		

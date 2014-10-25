@@ -18,11 +18,10 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
 
 public class PartyMatchList extends L2GameServerPacket
 {
@@ -36,7 +35,7 @@ public class PartyMatchList extends L2GameServerPacket
 		_cha = player;
 		_loc = location;
 		_lim = limit;
-		_rooms = new FastList<PartyMatchRoom>();
+		_rooms = new FastList<>();
 	}
 
 	@Override

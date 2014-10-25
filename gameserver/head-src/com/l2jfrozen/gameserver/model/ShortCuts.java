@@ -18,14 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
@@ -33,6 +25,13 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class ...
@@ -44,7 +43,7 @@ public class ShortCuts
 	private static Logger LOGGER = Logger.getLogger(ShortCuts.class);
 
 	private L2PcInstance _owner;
-	private Map<Integer, L2ShortCut> _shortCuts = new TreeMap<Integer, L2ShortCut>();
+	private Map<Integer, L2ShortCut> _shortCuts = new TreeMap<>();
 
 	public ShortCuts(L2PcInstance owner)
 	{

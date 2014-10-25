@@ -17,12 +17,10 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.model.zone.type.L2FishingZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2WaterZone;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 public class FishingZoneManager
 {
@@ -59,7 +57,7 @@ public class FishingZoneManager
 	{
 		if(_fishingZones == null)
 		{
-			_fishingZones = new FastList<L2FishingZone>();
+			_fishingZones = new FastList<>();
 		}
 
 		_fishingZones.add(fishingZone);
@@ -69,7 +67,7 @@ public class FishingZoneManager
 	{
 		if(_waterZones == null)
 		{
-			_waterZones = new FastList<L2WaterZone>();
+			_waterZones = new FastList<>();
 		}
 
 		_waterZones.add(waterZone);

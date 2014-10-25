@@ -18,10 +18,10 @@
  */
 package com.l2jfrozen.util.object;
 
-import java.util.Iterator;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
+
+import java.util.Iterator;
 
 /**
  * This class ...
@@ -55,9 +55,9 @@ public abstract class L2ObjectMap<T extends L2Object> implements Iterable<T>
 		switch(Config.MAP_TYPE)
 		{
 			case WorldObjectMap:
-				return new WorldObjectMap<L2Object>();
+				return new WorldObjectMap<>();
 			default:
-				return new WorldObjectTree<L2Object>();
+				return new WorldObjectTree<>();
 		}
 	}
 }

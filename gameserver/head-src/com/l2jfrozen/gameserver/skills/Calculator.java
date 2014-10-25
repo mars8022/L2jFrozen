@@ -18,12 +18,11 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import com.l2jfrozen.gameserver.skills.funcs.Func;
 import javolution.util.FastList;
 
-import com.l2jfrozen.gameserver.skills.funcs.Func;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A calculator is created to manage and dynamically calculate the effect of a character property (ex : MAX_HP,
@@ -145,7 +144,7 @@ public final class Calculator
 		if(f == null)
 			return;
 		
-		ArrayList<Func> tmp_arraylist = new ArrayList<Func>();
+		ArrayList<Func> tmp_arraylist = new ArrayList<>();
 		tmp_arraylist.addAll(Arrays.asList(_functions));
 		
 		if(tmp_arraylist.contains(f))
@@ -163,7 +162,7 @@ public final class Calculator
 	public synchronized FastList<Stats> removeOwner(Object owner)
 	{
 		Func[] funcs = _functions;
-		FastList<Stats> modifiedStats = new FastList<Stats>();
+		FastList<Stats> modifiedStats = new FastList<>();
 
 		for(Func func : funcs)
 		{

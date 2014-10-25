@@ -47,44 +47,38 @@ public class Spoil implements ISkillHandler
 
 		if(targets == null){ return; }
 
-		for(int index = 0; index < targets.length; index++)
-		{
-			if(!(targets[index] instanceof L2MonsterInstance))
-				continue;
+        for (L2Object target1 : targets) {
+            if (!(target1 instanceof L2MonsterInstance))
+                continue;
 
-			L2MonsterInstance target = (L2MonsterInstance) targets[index];
+            L2MonsterInstance target = (L2MonsterInstance) target1;
 
-			if(target.isSpoil())
-			{
-				activeChar.sendPacket(new SystemMessage(SystemMessageId.ALREDAY_SPOILED));
-				continue;
-			}
+            if (target.isSpoil()) {
+                activeChar.sendPacket(new SystemMessage(SystemMessageId.ALREDAY_SPOILED));
+                continue;
+            }
 
-			// SPOIL SYSTEM by Lbaldi
-			boolean spoil = false;
-			if(!target.isDead())
-			{
-				spoil = Formulas.calcMagicSuccess(activeChar, (L2Character) targets[index], skill);
+            // SPOIL SYSTEM by Lbaldi
+            boolean spoil = false;
+            if (!target.isDead()) {
+                spoil = Formulas.calcMagicSuccess(activeChar, (L2Character) target1, skill);
 
-				if(spoil)
-				{
-					target.setSpoil(true);
-					target.setIsSpoiledBy(activeChar.getObjectId());
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.SPOIL_SUCCESS));
-				}
-				else
-				{
-					SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
-					sm.addString(target.getName());
-					sm.addSkillName(skill.getDisplayId());
-					activeChar.sendPacket(sm);
-					sm = null;
-				}
-				target.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, activeChar);
-			}
+                if (spoil) {
+                    target.setSpoil(true);
+                    target.setIsSpoiledBy(activeChar.getObjectId());
+                    activeChar.sendPacket(new SystemMessage(SystemMessageId.SPOIL_SUCCESS));
+                } else {
+                    SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
+                    sm.addString(target.getName());
+                    sm.addSkillName(skill.getDisplayId());
+                    activeChar.sendPacket(sm);
+                    sm = null;
+                }
+                target.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, activeChar);
+            }
 
-			target = null;
-		}
+            target = null;
+        }
 	}
 
 	@Override

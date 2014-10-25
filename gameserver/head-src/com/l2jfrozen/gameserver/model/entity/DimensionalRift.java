@@ -18,11 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager.DimensionalRiftRoom;
@@ -30,6 +25,10 @@ import com.l2jfrozen.gameserver.model.L2Party;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Thanks to L2Fortress and balancer.ru - kombat
@@ -38,7 +37,7 @@ public class DimensionalRift
 {
 	protected byte _type;
 	protected L2Party _party;
-	protected FastList<Byte> _completedRooms = new FastList<Byte>();
+	protected FastList<Byte> _completedRooms = new FastList<>();
 	private static final long seconds_5 = 5000L;
 	protected byte jumps_current = 0;
 
@@ -49,8 +48,8 @@ public class DimensionalRift
 
 	protected byte _choosenRoom = -1;
 	private boolean _hasJumped = false;
-	protected FastList<L2PcInstance> deadPlayers = new FastList<L2PcInstance>();
-	protected FastList<L2PcInstance> revivedInWaitingRoom = new FastList<L2PcInstance>();
+	protected FastList<L2PcInstance> deadPlayers = new FastList<>();
+	protected FastList<L2PcInstance> revivedInWaitingRoom = new FastList<>();
 	private boolean isBossRoom = false;
 
 	public DimensionalRift(L2Party party, byte type, byte room)

@@ -17,8 +17,6 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -27,6 +25,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.ClanHall;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.network.serverpackets.ClanHallDecoration;
+import javolution.util.FastMap;
 
 /**
  * A clan hall zone
@@ -48,28 +47,25 @@ public class L2ClanHallZone extends L2ZoneType
 	@Override
 	public void setParameter(String name, String value)
 	{
-		if(name.equals("clanHallId"))
-		{
-			_clanHallId = Integer.parseInt(value);
-			// Register self to the correct clan hall
-			ClanHallManager.getInstance().getClanHallById(_clanHallId).setZone(this);
-		}
-		else if(name.equals("spawnX"))
-		{
-			_spawnLoc[0] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnY"))
-		{
-			_spawnLoc[1] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnZ"))
-		{
-			_spawnLoc[2] = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
-		}
+        switch (name) {
+            case "clanHallId":
+                _clanHallId = Integer.parseInt(value);
+                // Register self to the correct clan hall
+                ClanHallManager.getInstance().getClanHallById(_clanHallId).setZone(this);
+                break;
+            case "spawnX":
+                _spawnLoc[0] = Integer.parseInt(value);
+                break;
+            case "spawnY":
+                _spawnLoc[1] = Integer.parseInt(value);
+                break;
+            case "spawnZ":
+                _spawnLoc[2] = Integer.parseInt(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 
 	@Override

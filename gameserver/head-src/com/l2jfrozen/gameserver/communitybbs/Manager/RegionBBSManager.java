@@ -18,17 +18,6 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.Manager;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
@@ -39,6 +28,15 @@ import com.l2jfrozen.gameserver.network.clientpackets.Say2;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.StringTokenizer;
 
 
 public class RegionBBSManager extends BaseBBSManager
@@ -341,7 +339,7 @@ public class RegionBBSManager extends BaseBBSManager
 	public synchronized void changeCommunityBoard()
 	{
 		Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
-		FastList<L2PcInstance> sortedPlayers = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> sortedPlayers = new FastList<>();
 		sortedPlayers.addAll(players);
 		players = null;
 
@@ -400,7 +398,7 @@ public class RegionBBSManager extends BaseBBSManager
 
 		if(!added)
 		{
-			FastList<L2PcInstance> temp = new FastList<L2PcInstance>();
+			FastList<L2PcInstance> temp = new FastList<>();
 			int page = _onlinePlayers.size() + 1;
 			if(temp.add(player))
 			{
@@ -420,7 +418,7 @@ public class RegionBBSManager extends BaseBBSManager
 	{
 		for(int page : _onlinePlayers.keySet())
 		{
-			FastMap<String, String> communityPage = new FastMap<String, String>();
+			FastMap<String, String> communityPage = new FastMap<>();
 
 			TextBuilder htmlCode = new TextBuilder("<html><body><br>");
 			String tdClose = "</td>";

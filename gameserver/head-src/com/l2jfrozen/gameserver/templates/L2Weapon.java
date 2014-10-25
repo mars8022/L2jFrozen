@@ -18,11 +18,6 @@
  */
 package com.l2jfrozen.gameserver.templates;
 
-import java.io.IOException;
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -39,6 +34,10 @@ import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionGameChance;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
+import javolution.util.FastList;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * This class is dedicated to the management of weapons.
@@ -313,7 +312,7 @@ public final class L2Weapon extends L2Item
 	@Override
 	public Func[] getStatFuncs(L2ItemInstance instance, L2Character player)
 	{
-		List<Func> funcs = new FastList<Func>();
+		List<Func> funcs = new FastList<>();
 		if(_funcTemplates != null)
 		{
 			for(FuncTemplate t : _funcTemplates)
@@ -343,7 +342,7 @@ public final class L2Weapon extends L2Item
 	{
 		if(_skillsOnCrit == null || !crit)
 			return _emptyEffectSet;
-		List<L2Effect> effects = new FastList<L2Effect>();
+		List<L2Effect> effects = new FastList<>();
 
 		for(L2Skill skill : _skillsOnCrit)
 		{

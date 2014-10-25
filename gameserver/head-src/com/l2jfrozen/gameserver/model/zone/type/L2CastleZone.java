@@ -17,8 +17,6 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.managers.CastleManager;
@@ -29,6 +27,7 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import javolution.util.FastList;
 
 /**
  * A castle zone
@@ -51,30 +50,27 @@ public class L2CastleZone extends L2ZoneType
 	@Override
 	public void setParameter(String name, String value)
 	{
-		if(name.equals("castleId"))
-		{
-			_castleId = Integer.parseInt(value);
+        switch (name) {
+            case "castleId":
+                _castleId = Integer.parseInt(value);
 
-			// Register self to the correct castle
-			_castle = CastleManager.getInstance().getCastleById(_castleId);
-			_castle.setZone(this);
-		}
-		else if(name.equals("spawnX"))
-		{
-			_spawnLoc[0] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnY"))
-		{
-			_spawnLoc[1] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnZ"))
-		{
-			_spawnLoc[2] = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
-		}
+                // Register self to the correct castle
+                _castle = CastleManager.getInstance().getCastleById(_castleId);
+                _castle.setZone(this);
+                break;
+            case "spawnX":
+                _spawnLoc[0] = Integer.parseInt(value);
+                break;
+            case "spawnY":
+                _spawnLoc[1] = Integer.parseInt(value);
+                break;
+            case "spawnZ":
+                _spawnLoc[2] = Integer.parseInt(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 
 	@Override
@@ -216,7 +212,7 @@ public class L2CastleZone extends L2ZoneType
 	 */
 	public FastList<L2PcInstance> getAllPlayers()
 	{
-		FastList<L2PcInstance> players = new FastList<L2PcInstance>();
+		FastList<L2PcInstance> players = new FastList<>();
 
 		for(L2Character temp : _characterList.values())
 		{

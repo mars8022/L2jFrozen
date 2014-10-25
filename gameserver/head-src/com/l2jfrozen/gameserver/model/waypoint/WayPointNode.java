@@ -28,13 +28,6 @@
  */
 package com.l2jfrozen.gameserver.model.waypoint;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -42,6 +35,12 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
 import com.l2jfrozen.util.Point3D;
+import javolution.util.FastList;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * This class ...
@@ -209,7 +208,7 @@ public class WayPointNode extends L2Object
 
 		int steps = distance / 40;
 
-		List<WayPointNode> lineNodes = new FastList<WayPointNode>();
+		List<WayPointNode> lineNodes = new FastList<>();
 
 		for(int i = 0; i < steps; i++)
 		{
@@ -276,7 +275,7 @@ public class WayPointNode extends L2Object
 
 	public List<WayPointNode> getLineNodes()
 	{
-		List<WayPointNode> list = new FastList<WayPointNode>();
+		List<WayPointNode> list = new FastList<>();
 
 		for(List<WayPointNode> points : _linkLists.values())
 		{

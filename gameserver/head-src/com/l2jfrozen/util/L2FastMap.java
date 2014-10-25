@@ -24,7 +24,7 @@ import javolution.util.FastMap;
  * @param <K> 
  * @param <V> 
  */
-public class L2FastMap<K extends Object, V extends Object> extends FastMap<K, V>
+public class L2FastMap<K, V> extends FastMap<K, V>
 {
 	static final long serialVersionUID = 1L;
 

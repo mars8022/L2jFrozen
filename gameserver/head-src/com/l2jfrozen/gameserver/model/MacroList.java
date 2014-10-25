@@ -18,24 +18,22 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import com.l2jfrozen.gameserver.model.L2Macro.L2MacroCmd;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.serverpackets.SendMacroList;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.gameserver.model.L2Macro.L2MacroCmd;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.network.serverpackets.SendMacroList;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
@@ -49,7 +47,7 @@ public class MacroList
 	private L2PcInstance _owner;
 	private int _revision;
 	private int _macroId;
-	private Map<Integer, L2Macro> _macroses = new FastMap<Integer, L2Macro>();
+	private Map<Integer, L2Macro> _macroses = new FastMap<>();
 
 	public MacroList(L2PcInstance owner)
 	{
@@ -254,7 +252,7 @@ public class MacroList
 				String name = rset.getString("name");
 				String descr = rset.getString("descr");
 				String acronym = rset.getString("acronym");
-				List<L2MacroCmd> commands = new FastList<L2MacroCmd>();
+				List<L2MacroCmd> commands = new FastList<>();
 				StringTokenizer st1 = new StringTokenizer(rset.getString("commands"), ";");
 
 				while(st1.hasMoreTokens())

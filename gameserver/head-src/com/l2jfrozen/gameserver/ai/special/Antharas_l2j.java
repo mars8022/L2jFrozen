@@ -14,15 +14,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -49,6 +40,13 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ... control for sequence of fight against Antharas.
@@ -81,14 +79,14 @@ public class Antharas_l2j extends Quest implements Runnable
 	private final int _teleportCubeId = 31859;
 	private final int _teleportCubeLocation[][] = { { 177615, 114941, -7709, 0 } };
 	
-	protected List<L2Spawn> _teleportCubeSpawn = new FastList<L2Spawn>();
-	protected List<L2NpcInstance> _teleportCube = new FastList<L2NpcInstance>();
+	protected List<L2Spawn> _teleportCubeSpawn = new FastList<>();
+	protected List<L2NpcInstance> _teleportCube = new FastList<>();
 	
 	// Spawn data of monsters.
-	protected HashMap<Integer, L2Spawn> _monsterSpawn = new HashMap<Integer, L2Spawn>();
+	protected HashMap<Integer, L2Spawn> _monsterSpawn = new HashMap<>();
 	
 	// Instance of monsters.
-	protected List<L2NpcInstance> _monsters = new FastList<L2NpcInstance>();
+	protected List<L2NpcInstance> _monsters = new FastList<>();
 	protected L2GrandBossInstance _antharas = null;
 	
 	// monstersId

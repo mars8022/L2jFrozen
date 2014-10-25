@@ -18,13 +18,11 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
 
 /**
  * 0x53 WareHouseDepositList dh (h dddhh dhhh d)
@@ -49,7 +47,7 @@ public class WareHouseDepositList extends L2GameServerPacket
 		_activeChar = player;
 		_whType = type;
 		_playerAdena = _activeChar.getAdena();
-		_items = new FastList<L2ItemInstance>();
+		_items = new FastList<>();
 
 		for(L2ItemInstance temp : _activeChar.getInventory().getAvailableItems(true))
 		{

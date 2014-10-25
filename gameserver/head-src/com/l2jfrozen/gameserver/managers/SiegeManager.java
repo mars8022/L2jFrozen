@@ -17,22 +17,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -47,6 +31,20 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 public class SiegeManager
 {
@@ -231,12 +229,12 @@ public class SiegeManager
 			_teleport_to_siege_town = Boolean.parseBoolean(siegeSettings.getProperty("AllowTeleportToSiegeTown", "false"));
 			
 			// Siege spawns settings
-			_controlTowerSpawnList = new FastMap<Integer, FastList<SiegeSpawn>>();
-			_artefactSpawnList = new FastMap<Integer, FastList<SiegeSpawn>>();
+			_controlTowerSpawnList = new FastMap<>();
+			_artefactSpawnList = new FastMap<>();
 
 			for(Castle castle : CastleManager.getInstance().getCastles())
 			{
-				FastList<SiegeSpawn> _controlTowersSpawns = new FastList<SiegeSpawn>();
+				FastList<SiegeSpawn> _controlTowersSpawns = new FastList<>();
 
 				for(int i = 1; i < 0xFF; i++)
 				{
@@ -271,7 +269,7 @@ public class SiegeManager
 					}
 				}
 
-				FastList<SiegeSpawn> _artefactSpawns = new FastList<SiegeSpawn>();
+				FastList<SiegeSpawn> _artefactSpawns = new FastList<>();
 
 				for(int i = 1; i < 0xFF; i++)
 				{
@@ -407,7 +405,7 @@ public class SiegeManager
 
 	public final List<Siege> getSieges()
 	{
-		FastList<Siege> _sieges = new FastList<Siege>();
+		FastList<Siege> _sieges = new FastList<>();
 		for(Castle castle : CastleManager.getInstance().getCastles())
 		{
 			_sieges.add(castle.getSiege());

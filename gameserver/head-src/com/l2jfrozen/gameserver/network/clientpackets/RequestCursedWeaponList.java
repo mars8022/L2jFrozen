@@ -17,13 +17,12 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.network.serverpackets.ExCursedWeaponList;
+import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * Format: (ch)
@@ -46,7 +45,7 @@ public class RequestCursedWeaponList extends L2GameClientPacket
 			return;
 
 		//send a ExCursedWeaponList :p
-		List<Integer> list = new FastList<Integer>();
+		List<Integer> list = new FastList<>();
 		for(int id : CursedWeaponsManager.getInstance().getCursedWeaponsIds())
 		{
 			list.add(id);

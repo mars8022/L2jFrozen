@@ -18,14 +18,6 @@
  */
 package com.l2jfrozen.gameserver.powerpak.Buffer;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.communitybbs.Manager.BaseBBSManager;
@@ -45,9 +37,16 @@ import com.l2jfrozen.gameserver.model.entity.event.DM;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.powerpak.Buffer.BuffTable.Buff;
+import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * @author Nick
@@ -70,8 +69,8 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 
 	public BuffHandler()
 	{
-		_buffs = new FastMap<Integer,ArrayList<Buff>>();
-		_visitedPages = new FastMap<Integer,String>();
+		_buffs = new FastMap<>();
+		_visitedPages = new FastMap<>();
 	}
 
 	@Override
@@ -612,7 +611,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		else if (currentCommand.startsWith("fighterbuff") || currentCommand.startsWith("magebuff"))
 		{
 			
-			ArrayList<L2Skill> skills_to_buff = new ArrayList<L2Skill>();
+			ArrayList<L2Skill> skills_to_buff = new ArrayList<>();
 			if(currentCommand.startsWith("magebuff")){
 				
 				for(int skillId:PowerPakConfig.MAGE_SKILL_LIST.keySet()){

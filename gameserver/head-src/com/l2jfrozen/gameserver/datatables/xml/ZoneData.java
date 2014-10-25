@@ -17,57 +17,28 @@
  */
 package com.l2jfrozen.gameserver.datatables.xml;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.managers.ArenaManager;
-import com.l2jfrozen.gameserver.managers.FishingZoneManager;
-import com.l2jfrozen.gameserver.managers.GrandBossManager;
-import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
-import com.l2jfrozen.gameserver.managers.TownManager;
+import com.l2jfrozen.gameserver.managers.*;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.L2WorldRegion;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.model.zone.form.ZoneCuboid;
 import com.l2jfrozen.gameserver.model.zone.form.ZoneCylinder;
 import com.l2jfrozen.gameserver.model.zone.form.ZoneNPoly;
-import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2BigheadZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2CastleTeleportZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2CastleZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2ClanHallZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2CustomZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2DamageZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2DerbyTrackZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2EffectZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2FishingZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2FortZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2JailZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2MotherTreeZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2NoHqZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2NoLandingZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2NoStoreZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2PeaceZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2PoisonZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2SwampZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
-import com.l2jfrozen.gameserver.model.zone.type.L2WaterZone;
+import com.l2jfrozen.gameserver.model.zone.type.*;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * This class manages the augmentation data and can also create new augmentations.
@@ -176,112 +147,91 @@ public class ZoneData
 								// Create the zone
 								L2ZoneType temp = null;
 
-								if(zoneType.equals("FishingZone"))
-								{
-									temp = new L2FishingZone(zoneId);
-								}
-								else if(zoneType.equals("ClanHallZone"))
-								{
-									temp = new L2ClanHallZone(zoneId);
-								}
-								else if(zoneType.equals("PeaceZone"))
-								{
-									temp = new L2PeaceZone(zoneId);
-								}
-								else if(zoneType.equals("Town"))
-								{
-									temp = new L2TownZone(zoneId);
-								}
-								else if(zoneType.equals("OlympiadStadium"))
-								{
-									temp = new L2OlympiadStadiumZone(zoneId);
-								}
-								else if(zoneType.equals("CastleZone"))
-								{
-									temp = new L2CastleZone(zoneId);
-								}
-								else if(zoneType.equals("FortZone"))
-								{
-									temp = new L2FortZone(zoneId);
-								}
-								else if(zoneType.equals("DamageZone"))
-								{
-									temp = new L2DamageZone(zoneId);
-								}
-								else if(zoneType.equals("Arena"))
-								{
-									temp = new L2ArenaZone(zoneId);
-								}
-								else if(zoneType.equals("MotherTree"))
-								{
-									temp = new L2MotherTreeZone(zoneId);
-								}
-								else if(zoneType.equals("BigheadZone"))
-								{
-									temp = new L2BigheadZone(zoneId);
-								}
-								else if(zoneType.equals("NoLandingZone"))
-								{
-									temp = new L2NoLandingZone(zoneId);
-								}
-								else if (zoneType.equals("NoStoreZone"))
-								{						
-									temp = new L2NoStoreZone(zoneId);
-								}
-								else if(zoneType.equals("JailZone"))
-								{
-									temp = new L2JailZone(zoneId);
-								}
-								else if(zoneType.equals("DerbyTrackZone"))
-								{
-									temp = new L2DerbyTrackZone(zoneId);
-								}
-								else if(zoneType.equals("WaterZone"))
-								{
-									temp = new L2WaterZone(zoneId);
-								}
-								else if(zoneType.equals("NoHqZone"))
-								{
-									temp = new L2NoHqZone(zoneId);
-								}
-								else if(zoneType.equals("BossZone"))
-								{
-									int boss_id = -1;
-									
-									try{
-										boss_id = Integer.parseInt(attrs.getNamedItem("bossId").getNodeValue());
-									}catch(IllegalArgumentException e){
-										e.printStackTrace();
-									}
-									
-									temp = new L2BossZone(zoneId, boss_id);
-								}
+                                switch (zoneType) {
+                                    case "FishingZone":
+                                        temp = new L2FishingZone(zoneId);
+                                        break;
+                                    case "ClanHallZone":
+                                        temp = new L2ClanHallZone(zoneId);
+                                        break;
+                                    case "PeaceZone":
+                                        temp = new L2PeaceZone(zoneId);
+                                        break;
+                                    case "Town":
+                                        temp = new L2TownZone(zoneId);
+                                        break;
+                                    case "OlympiadStadium":
+                                        temp = new L2OlympiadStadiumZone(zoneId);
+                                        break;
+                                    case "CastleZone":
+                                        temp = new L2CastleZone(zoneId);
+                                        break;
+                                    case "FortZone":
+                                        temp = new L2FortZone(zoneId);
+                                        break;
+                                    case "DamageZone":
+                                        temp = new L2DamageZone(zoneId);
+                                        break;
+                                    case "Arena":
+                                        temp = new L2ArenaZone(zoneId);
+                                        break;
+                                    case "MotherTree":
+                                        temp = new L2MotherTreeZone(zoneId);
+                                        break;
+                                    case "BigheadZone":
+                                        temp = new L2BigheadZone(zoneId);
+                                        break;
+                                    case "NoLandingZone":
+                                        temp = new L2NoLandingZone(zoneId);
+                                        break;
+                                    case "NoStoreZone":
+                                        temp = new L2NoStoreZone(zoneId);
+                                        break;
+                                    case "JailZone":
+                                        temp = new L2JailZone(zoneId);
+                                        break;
+                                    case "DerbyTrackZone":
+                                        temp = new L2DerbyTrackZone(zoneId);
+                                        break;
+                                    case "WaterZone":
+                                        temp = new L2WaterZone(zoneId);
+                                        break;
+                                    case "NoHqZone":
+                                        temp = new L2NoHqZone(zoneId);
+                                        break;
+                                    case "BossZone":
+                                        int boss_id = -1;
+
+                                        try {
+                                            boss_id = Integer.parseInt(attrs.getNamedItem("bossId").getNodeValue());
+                                        } catch (IllegalArgumentException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        temp = new L2BossZone(zoneId, boss_id);
+                                        break;
 								/*else if(zoneType.equals("SkillZone"))
 								{
 									temp = new L2SkillZone(zoneId);
 								}*/
-								else if(zoneType.equals("EffectZone"))
-								{
-									zoneId = effect_zone_id;
-									effect_zone_id++;
-									temp = new L2EffectZone(zoneId);
-								}
-								else if(zoneType.equals("PoisonZone"))
-								{
-									temp = new L2PoisonZone(zoneId);
-								}
-								else if(zoneType.equals("CastleTeleportZone"))
-								{
-									temp = new L2CastleTeleportZone(zoneId);
-								}
-								else if(zoneType.equals("CustomZone"))
-								{
-									temp = new L2CustomZone(zoneId);
-								}
-								else if(zoneType.equals("SwampZone"))
-								{
-									temp = new L2SwampZone(zoneId);
-								}
+                                    case "EffectZone":
+                                        zoneId = effect_zone_id;
+                                        effect_zone_id++;
+                                        temp = new L2EffectZone(zoneId);
+                                        break;
+                                    case "PoisonZone":
+                                        temp = new L2PoisonZone(zoneId);
+                                        break;
+                                    case "CastleTeleportZone":
+                                        temp = new L2CastleTeleportZone(zoneId);
+                                        break;
+                                    case "CustomZone":
+                                        temp = new L2CustomZone(zoneId);
+                                        break;
+                                    case "SwampZone":
+                                        temp = new L2SwampZone(zoneId);
+                                        break;
+                                }
 
 								// Check for unknown type
 								if(temp == null)
@@ -337,89 +287,75 @@ public class ZoneData
 										
 										// Create this zone.  Parsing for cuboids is a bit different than for other polygons
 										// cuboids need exactly 2 points to be defined.  Other polygons need at least 3 (one per vertex)
-										if(zoneShape.equals("Cuboid"))
-										{
-											int[] x =
-											{
-													0, 0
-											};
-											int[] y =
-											{
-													0, 0
-											};
-											boolean successfulLoad = true;
-	
-											for(int i = 0; i < 2; i++)
-											{
-												if(rset.next())
-												{
-													x[i] = rset.getInt("x");
-													y[i] = rset.getInt("y");
-												}
-												else
-												{
-													LOGGER.warn("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
-													statement.close();
-													rset.close();
-													successfulLoad = false;
-													break;
-												}
-											}
-	
-											if(successfulLoad)
-											{
-												temp.setZone(new ZoneCuboid(x[0], x[1], y[0], y[1], minZ, maxZ));
-											}
-											else
-											{
-												continue;
-											}
-										}
-										else if(zoneShape.equals("NPoly"))
-										{
-											FastList<Integer> fl_x = new FastList<Integer>(), fl_y = new FastList<Integer>();
-	
-											// Load the rest
-											while(rset.next())
-											{
-												fl_x.add(rset.getInt("x"));
-												fl_y.add(rset.getInt("y"));
-											}
-	
-											// An nPoly needs to have at least 3 vertices
-											if(fl_x.size() == fl_y.size() && fl_x.size() > 2)
-											{
-												// Create arrays
-												int[] aX = new int[fl_x.size()];
-												int[] aY = new int[fl_y.size()];
-	
-												// This runs only at server startup so dont complain :>
-												for(int i = 0; i < fl_x.size(); i++)
-												{
-													aX[i] = fl_x.get(i);
-													aY[i] = fl_y.get(i);
-												}
-	
-												// Create the zone
-												temp.setZone(new ZoneNPoly(aX, aY, minZ, maxZ));
-											}
-											else
-											{
-												LOGGER.warn("ZoneData: Bad sql data for zone: " + zoneId);
-												statement.close();
-												rset.close();
-												continue;
-											}
-	
-											fl_x = null;
-										}
-										else
-										{
-											LOGGER.warn("ZoneData: Unknown shape: " + zoneShape);
-											statement.close();
-											rset.close();
-											continue;
-										}
+                                        switch (zoneShape) {
+                                            case "Cuboid":
+                                                int[] x =
+                                                        {
+                                                                0, 0
+                                                        };
+                                                int[] y =
+                                                        {
+                                                                0, 0
+                                                        };
+                                                boolean successfulLoad = true;
+
+                                                for (int i = 0; i < 2; i++) {
+                                                    if (rset.next()) {
+                                                        x[i] = rset.getInt("x");
+                                                        y[i] = rset.getInt("y");
+                                                    } else {
+                                                        LOGGER.warn("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
+                                                        statement.close();
+                                                        rset.close();
+                                                        successfulLoad = false;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (successfulLoad) {
+                                                    temp.setZone(new ZoneCuboid(x[0], x[1], y[0], y[1], minZ, maxZ));
+                                                } else {
+                                                    continue;
+                                                }
+                                                break;
+                                            case "NPoly":
+                                                FastList<Integer> fl_x = new FastList<>(), fl_y = new FastList<>();
+
+                                                // Load the rest
+                                                while (rset.next()) {
+                                                    fl_x.add(rset.getInt("x"));
+                                                    fl_y.add(rset.getInt("y"));
+                                                }
+
+                                                // An nPoly needs to have at least 3 vertices
+                                                if (fl_x.size() == fl_y.size() && fl_x.size() > 2) {
+                                                    // Create arrays
+                                                    int[] aX = new int[fl_x.size()];
+                                                    int[] aY = new int[fl_y.size()];
+
+                                                    // This runs only at server startup so dont complain :>
+                                                    for (int i = 0; i < fl_x.size(); i++) {
+                                                        aX[i] = fl_x.get(i);
+                                                        aY[i] = fl_y.get(i);
+                                                    }
+
+                                                    // Create the zone
+                                                    temp.setZone(new ZoneNPoly(aX, aY, minZ, maxZ));
+                                                } else {
+                                                    LOGGER.warn("ZoneData: Bad sql data for zone: " + zoneId);
+                                                    statement.close();
+                                                    rset.close();
+                                                    continue;
+                                                }
+
+                                                fl_x = null;
+                                                break;
+                                            default:
+                                                LOGGER.warn("ZoneData: Unknown shape: " + zoneShape);
+                                                statement.close();
+                                                rset.close();
+                                                continue;
+                                        }
 	
 										statement.close();
 										rset.close();

@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen.util.object;
 
-import java.util.Iterator;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
+
+import java.util.Iterator;
 
 /**
  * This class ...
@@ -38,9 +38,9 @@ public abstract class L2ObjectSet<T extends L2Object> implements Iterable<T>
 		switch(Config.SET_TYPE)
 		{
 			case WorldObjectSet:
-				return new WorldObjectSet<L2Object>();
+				return new WorldObjectSet<>();
 			default:
-				return new L2ObjectHashSet<L2Object>();
+				return new L2ObjectHashSet<>();
 		}
 	}
 
@@ -49,9 +49,9 @@ public abstract class L2ObjectSet<T extends L2Object> implements Iterable<T>
 		switch(Config.SET_TYPE)
 		{
 			case WorldObjectSet:
-				return new WorldObjectSet<L2PlayableInstance>();
+				return new WorldObjectSet<>();
 			default:
-				return new L2ObjectHashSet<L2PlayableInstance>();
+				return new L2ObjectHashSet<>();
 		}
 	}
 

@@ -48,22 +48,21 @@ public class L2ArenaZone extends L2ZoneType
 //		{
 //			_arenaName = value;
 //		}
-		/*else */if(name.equals("spawnX"))
-		{
-			_spawnLoc[0] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnY"))
-		{
-			_spawnLoc[1] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnZ"))
-		{
-			_spawnLoc[2] = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
-		}
+		/*else */
+        switch (name) {
+            case "spawnX":
+                _spawnLoc[0] = Integer.parseInt(value);
+                break;
+            case "spawnY":
+                _spawnLoc[1] = Integer.parseInt(value);
+                break;
+            case "spawnZ":
+                _spawnLoc[2] = Integer.parseInt(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 
 	@Override

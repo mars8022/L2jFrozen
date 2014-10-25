@@ -18,35 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_MOVE_TO;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.commons.lang.RandomStringUtils;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -58,22 +29,12 @@ import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.controllers.RecipeController;
-import com.l2jfrozen.gameserver.datatables.AccessLevel;
-import com.l2jfrozen.gameserver.datatables.GmListTable;
-import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
-import com.l2jfrozen.gameserver.datatables.NobleSkillTable;
-import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.datatables.*;
 import com.l2jfrozen.gameserver.datatables.csv.FishTable;
 import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.datatables.csv.RecipeTable;
-import com.l2jfrozen.gameserver.datatables.sql.AccessLevels;
-import com.l2jfrozen.gameserver.datatables.sql.AdminCommandAccessRights;
-import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
-import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
-import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
-import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
-import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
+import com.l2jfrozen.gameserver.datatables.sql.*;
 import com.l2jfrozen.gameserver.datatables.xml.ExperienceData;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
@@ -82,70 +43,20 @@ import com.l2jfrozen.gameserver.handler.admincommandhandlers.AdminEditChar;
 import com.l2jfrozen.gameserver.handler.skillhandlers.SiegeFlag;
 import com.l2jfrozen.gameserver.handler.skillhandlers.StrSiegeAssault;
 import com.l2jfrozen.gameserver.handler.skillhandlers.TakeCastle;
-import com.l2jfrozen.gameserver.managers.CastleManager;
-import com.l2jfrozen.gameserver.managers.CoupleManager;
-import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
-import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
-import com.l2jfrozen.gameserver.managers.DuelManager;
-import com.l2jfrozen.gameserver.managers.FortSiegeManager;
-import com.l2jfrozen.gameserver.managers.ItemsOnGroundManager;
-import com.l2jfrozen.gameserver.managers.QuestManager;
-import com.l2jfrozen.gameserver.managers.SiegeManager;
-import com.l2jfrozen.gameserver.managers.TownManager;
-import com.l2jfrozen.gameserver.model.BlockList;
-import com.l2jfrozen.gameserver.model.FishData;
-import com.l2jfrozen.gameserver.model.Inventory;
-import com.l2jfrozen.gameserver.model.ItemContainer;
-import com.l2jfrozen.gameserver.model.L2Attackable;
-import com.l2jfrozen.gameserver.model.L2Character;
-import com.l2jfrozen.gameserver.model.L2Clan;
-import com.l2jfrozen.gameserver.model.L2ClanMember;
-import com.l2jfrozen.gameserver.model.L2Effect;
-import com.l2jfrozen.gameserver.model.L2Fishing;
-import com.l2jfrozen.gameserver.model.L2Macro;
-import com.l2jfrozen.gameserver.model.L2ManufactureList;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Party;
-import com.l2jfrozen.gameserver.model.L2Radar;
-import com.l2jfrozen.gameserver.model.L2RecipeList;
-import com.l2jfrozen.gameserver.model.L2Request;
-import com.l2jfrozen.gameserver.model.L2ShortCut;
-import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.managers.*;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillTargetType;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
-import com.l2jfrozen.gameserver.model.L2SkillLearn;
-import com.l2jfrozen.gameserver.model.L2Summon;
-import com.l2jfrozen.gameserver.model.L2World;
-import com.l2jfrozen.gameserver.model.Location;
-import com.l2jfrozen.gameserver.model.MacroList;
-import com.l2jfrozen.gameserver.model.PartyMatchRoom;
-import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
-import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
-import com.l2jfrozen.gameserver.model.PcFreight;
-import com.l2jfrozen.gameserver.model.PcInventory;
-import com.l2jfrozen.gameserver.model.PcWarehouse;
-import com.l2jfrozen.gameserver.model.PetInventory;
-import com.l2jfrozen.gameserver.model.PlayerStatus;
-import com.l2jfrozen.gameserver.model.ShortCuts;
-import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.appearance.PcAppearance;
 import com.l2jfrozen.gameserver.model.actor.knownlist.PcKnownList;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.PcStat;
 import com.l2jfrozen.gameserver.model.actor.status.PcStatus;
-import com.l2jfrozen.gameserver.model.base.ClassId;
-import com.l2jfrozen.gameserver.model.base.ClassLevel;
-import com.l2jfrozen.gameserver.model.base.PlayerClass;
-import com.l2jfrozen.gameserver.model.base.Race;
-import com.l2jfrozen.gameserver.model.base.SubClass;
+import com.l2jfrozen.gameserver.model.base.*;
 import com.l2jfrozen.gameserver.model.entity.Announcements;
 import com.l2jfrozen.gameserver.model.entity.Duel;
 import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
-import com.l2jfrozen.gameserver.model.entity.event.CTF;
-import com.l2jfrozen.gameserver.model.entity.event.DM;
-import com.l2jfrozen.gameserver.model.entity.event.L2Event;
-import com.l2jfrozen.gameserver.model.entity.event.TvT;
-import com.l2jfrozen.gameserver.model.entity.event.VIP;
+import com.l2jfrozen.gameserver.model.entity.event.*;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSignsFestival;
@@ -159,76 +70,13 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.ChangeWaitType;
-import com.l2jfrozen.gameserver.network.serverpackets.CharInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
-import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
-import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
-import com.l2jfrozen.gameserver.network.serverpackets.ExDuelUpdateUserInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ExFishingEnd;
-import com.l2jfrozen.gameserver.network.serverpackets.ExFishingStart;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadMode;
-import com.l2jfrozen.gameserver.network.serverpackets.ExOlympiadUserInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ExPCCafePointInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ExSetCompassZoneCode;
-import com.l2jfrozen.gameserver.network.serverpackets.FriendList;
-import com.l2jfrozen.gameserver.network.serverpackets.HennaInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.gameserver.network.serverpackets.LeaveWorld;
-import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillCanceld;
-import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ObservationMode;
-import com.l2jfrozen.gameserver.network.serverpackets.ObservationReturn;
-import com.l2jfrozen.gameserver.network.serverpackets.PartySmallWindowUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.PetInventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
-import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListDelete;
-import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowMemberListUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreListBuy;
-import com.l2jfrozen.gameserver.network.serverpackets.PrivateStoreListSell;
-import com.l2jfrozen.gameserver.network.serverpackets.QuestList;
-import com.l2jfrozen.gameserver.network.serverpackets.RecipeShopSellList;
-import com.l2jfrozen.gameserver.network.serverpackets.RelationChanged;
-import com.l2jfrozen.gameserver.network.serverpackets.Ride;
-import com.l2jfrozen.gameserver.network.serverpackets.SendTradeDone;
-import com.l2jfrozen.gameserver.network.serverpackets.SetupGauge;
-import com.l2jfrozen.gameserver.network.serverpackets.ShortBuffStatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
-import com.l2jfrozen.gameserver.network.serverpackets.SkillCoolTime;
-import com.l2jfrozen.gameserver.network.serverpackets.SkillList;
-import com.l2jfrozen.gameserver.network.serverpackets.Snoop;
-import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
-import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.StopMove;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.TargetSelected;
-import com.l2jfrozen.gameserver.network.serverpackets.TitleUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.TradePressOtherOk;
-import com.l2jfrozen.gameserver.network.serverpackets.TradePressOwnOk;
-import com.l2jfrozen.gameserver.network.serverpackets.TradeStart;
-import com.l2jfrozen.gameserver.network.serverpackets.TutorialShowHtml;
-import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Formulas;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSummon;
-import com.l2jfrozen.gameserver.templates.L2Armor;
-import com.l2jfrozen.gameserver.templates.L2ArmorType;
-import com.l2jfrozen.gameserver.templates.L2EtcItemType;
-import com.l2jfrozen.gameserver.templates.L2Henna;
-import com.l2jfrozen.gameserver.templates.L2Item;
-import com.l2jfrozen.gameserver.templates.L2PcTemplate;
-import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.templates.L2WeaponType;
+import com.l2jfrozen.gameserver.templates.*;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
@@ -241,6 +89,23 @@ import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Point3D;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.commons.lang.RandomStringUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static com.l2jfrozen.gameserver.ai.CtrlIntention.AI_INTENTION_MOVE_TO;
 
 /**
  * This class represents all player characters in the world.<br>
@@ -18394,12 +18259,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		L2Skill arr$[] = getAllSkills();
 		int len$ = arr$.length;
-		for(int i$ = 0; i$ < len$; i$++)
-		{
-			L2Skill skill = arr$[i$];
-			if(skill != null && skill.isActive() && skill.getId() != 1324)
-				enableSkill(skill);
-		}
+        for (L2Skill skill : arr$) {
+            if (skill != null && skill.isActive() && skill.getId() != 1324)
+                enableSkill(skill);
+        }
 		
 		if(ssl)
 			sendSkillList();
@@ -20017,7 +19880,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 	}
 	
-	private HashMap<Integer, Long> confirmDlgRequests = new HashMap<Integer, Long>();	
+	private HashMap<Integer, Long> confirmDlgRequests = new HashMap<>();
 	public void addConfirmDlgRequestTime(int requestId, int time)
 	
 	{	

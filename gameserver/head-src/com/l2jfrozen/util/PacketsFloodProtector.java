@@ -18,11 +18,6 @@
  */
 package com.l2jfrozen.util;
 
-import java.util.Hashtable;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -31,6 +26,10 @@ import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.NetcoreConfig;
+import org.apache.log4j.Logger;
+
+import java.util.Hashtable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Enzo
@@ -39,15 +38,15 @@ public class PacketsFloodProtector
 {
 	private final static int MAX_CONCURRENT_ACTIONS_PER_PLAYER = 10;
 	
-	private static Hashtable<String, AtomicInteger> clients_concurrent_actions = new Hashtable<String, AtomicInteger>();
+	private static Hashtable<String, AtomicInteger> clients_concurrent_actions = new Hashtable<>();
 	
 	private static final Logger LOGGER = Logger.getLogger(PacketsFloodProtector.class);
 	
-	private static Hashtable<String, Hashtable<Integer, AtomicInteger>> clients_actions = new Hashtable<String, Hashtable<Integer, AtomicInteger>>();
+	private static Hashtable<String, Hashtable<Integer, AtomicInteger>> clients_actions = new Hashtable<>();
 	
-	private static Hashtable<String, Hashtable<Integer, Integer>> clients_nextGameTick = new Hashtable<String, Hashtable<Integer, Integer>>();
+	private static Hashtable<String, Hashtable<Integer, Integer>> clients_nextGameTick = new Hashtable<>();
 	
-	private static Hashtable<String, Boolean> punishes_in_progress = new Hashtable<String, Boolean>();
+	private static Hashtable<String, Boolean> punishes_in_progress = new Hashtable<>();
 	
 	/**
 	 * Checks whether the request is flood protected or not.
@@ -106,7 +105,7 @@ public class PacketsFloodProtector
 		Hashtable<Integer, Integer> account_nextGameTicks = clients_nextGameTick.get(account);
 		if (account_nextGameTicks == null)
 		{
-			account_nextGameTicks = new Hashtable<Integer, Integer>();
+			account_nextGameTicks = new Hashtable<>();
 		}
 		Integer _nextGameTick = account_nextGameTicks.get(opcode);
 		if (_nextGameTick == null)
@@ -133,7 +132,7 @@ public class PacketsFloodProtector
 		Hashtable<Integer, AtomicInteger> received_commands_actions = clients_actions.get(account);
 		if (received_commands_actions == null)
 		{
-			received_commands_actions = new Hashtable<Integer, AtomicInteger>();
+			received_commands_actions = new Hashtable<>();
 		}
 		AtomicInteger command_count = null;
 		if ((command_count = received_commands_actions.get(opcode)) == null)

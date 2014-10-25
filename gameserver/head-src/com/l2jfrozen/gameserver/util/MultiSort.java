@@ -17,15 +17,10 @@
  */
 package com.l2jfrozen.gameserver.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import com.l2jfrozen.Config;
 import javolution.util.FastList;
 
-import com.l2jfrozen.Config;
+import java.util.*;
 
 /**
  * Descending Integer Sort Algorithm - Fast ordering system. - Can easily be ported elsewhere. - Can handle any number
@@ -149,7 +144,7 @@ public class MultiSort
 		if(getValues().isEmpty())
 			return -1;
 
-		List<Double> tempValList = new FastList<Double>();
+		List<Double> tempValList = new FastList<>();
 
 		int meanValue = getMean();
 		int numValues = getCount();
@@ -188,7 +183,7 @@ public class MultiSort
 	public final List<Integer> getValues()
 	{
 		if(_valueList == null)
-			return new FastList<Integer>();
+			return new FastList<>();
 
 		return _valueList;
 	}
@@ -212,8 +207,8 @@ public class MultiSort
 	{
 		try
 		{
-			List<Object> newKeyList = new FastList<Object>();
-			List<Integer> newValueList = new FastList<Integer>();
+			List<Object> newKeyList = new FastList<>();
+			List<Integer> newValueList = new FastList<>();
 
 			// Sort the list of values in ascending numerical order.
 			Collections.sort(getValues());

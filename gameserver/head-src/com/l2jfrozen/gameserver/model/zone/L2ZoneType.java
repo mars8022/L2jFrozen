@@ -17,16 +17,14 @@
  */
 package com.l2jfrozen.gameserver.model.zone;
 
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Node;
 
 /**
  * Abstract base class for any zone type Handles basic operations
@@ -80,77 +78,63 @@ public abstract class L2ZoneType
 		_checkAffected = true;
 
 		// Minimum level
-		if(name.equals("affectedLvlMin"))
-		{
-			_minLvl = Integer.parseInt(value);
-		}
-		// Maximum level
-		else if(name.equals("affectedLvlMax"))
-		{
-			_maxLvl = Integer.parseInt(value);
-		}
-		// Affected Races
-		else if(name.equals("affectedRace"))
-		{
-			// Create a new array holding the affected race
-			if(_race == null)
-			{
-				_race = new int[1];
-				_race[0] = Integer.parseInt(value);
-			}
-			else
-			{
-				int[] temp = new int[_race.length + 1];
+        switch (name) {
+            case "affectedLvlMin":
+                _minLvl = Integer.parseInt(value);
+                break;
+            // Maximum level
+            case "affectedLvlMax":
+                _maxLvl = Integer.parseInt(value);
+                break;
+            // Affected Races
+            case "affectedRace":
+                // Create a new array holding the affected race
+                if (_race == null) {
+                    _race = new int[1];
+                    _race[0] = Integer.parseInt(value);
+                } else {
+                    int[] temp = new int[_race.length + 1];
 
-				int i = 0;
+                    int i = 0;
 
-				for(; i < _race.length; i++)
-				{
-					temp[i] = _race[i];
-				}
+                    for (; i < _race.length; i++) {
+                        temp[i] = _race[i];
+                    }
 
-				temp[i] = Integer.parseInt(value);
+                    temp[i] = Integer.parseInt(value);
 
-				_race = temp;
-			}
-		}
-		// Affected classes
-		else if(name.equals("affectedClassId"))
-		{
-			// Create a new array holding the affected classIds
-			if(_class == null)
-			{
-				_class = new int[1];
-				_class[0] = Integer.parseInt(value);
-			}
-			else
-			{
-				int[] temp = new int[_class.length + 1];
+                    _race = temp;
+                }
+                break;
+            // Affected classes
+            case "affectedClassId":
+                // Create a new array holding the affected classIds
+                if (_class == null) {
+                    _class = new int[1];
+                    _class[0] = Integer.parseInt(value);
+                } else {
+                    int[] temp = new int[_class.length + 1];
 
-				int i = 0;
+                    int i = 0;
 
-				for(; i < _class.length; i++)
-				{
-					temp[i] = _class[i];
-				}
+                    for (; i < _class.length; i++) {
+                        temp[i] = _class[i];
+                    }
 
-				temp[i] = Integer.parseInt(value);
+                    temp[i] = Integer.parseInt(value);
 
-				_class = temp;
-			}
-		}
-		// Affected class type
-		else if(name.equals("affectedClassType"))
-		{
-			if(value.equals("Fighter"))
-			{
-				_classType = 1;
-			}
-			else
-			{
-				_classType = 2;
-			}
-		}
+                    _class = temp;
+                }
+                break;
+            // Affected class type
+            case "affectedClassType":
+                if (value.equals("Fighter")) {
+                    _classType = 1;
+                } else {
+                    _classType = 2;
+                }
+                break;
+        }
 	}
 
 	public void setSpawnLocs(Node node1)

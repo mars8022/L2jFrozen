@@ -18,13 +18,13 @@
  */
 package com.l2jfrozen.gameserver.script;
 
+import javolution.util.FastList;
+
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import javolution.util.FastList;
 
 /**
  * @author Luis Arias
@@ -37,8 +37,8 @@ public class ScriptPackage
 
 	public ScriptPackage(ZipFile pack)
 	{
-		_scriptFiles = new FastList<ScriptDocument>();
-		_otherFiles = new FastList<String>();
+		_scriptFiles = new FastList<>();
+		_otherFiles = new FastList<>();
 		_name = pack.getName();
 		addFiles(pack);
 	}

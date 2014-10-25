@@ -17,33 +17,6 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.RSAKeyGenParameterSpec;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javolution.io.UTF8StreamReader;
-import javolution.util.FastMap;
-import javolution.xml.stream.XMLStreamConstants;
-import javolution.xml.stream.XMLStreamException;
-import javolution.xml.stream.XMLStreamReaderImpl;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.FService;
 import com.l2jfrozen.loginserver.GameServerThread;
@@ -51,6 +24,23 @@ import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.io.UTF8StreamReader;
+import javolution.util.FastMap;
+import javolution.xml.stream.XMLStreamConstants;
+import javolution.xml.stream.XMLStreamException;
+import javolution.xml.stream.XMLStreamReaderImpl;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.math.BigInteger;
+import java.security.*;
+import java.security.spec.RSAKeyGenParameterSpec;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author KenM
@@ -61,7 +51,7 @@ public class GameServerTable
 	private static GameServerTable _instance;
 
 	// Server Names Config
-	private static Map<Integer, String> _serverNames = new FastMap<Integer, String>();
+	private static Map<Integer, String> _serverNames = new FastMap<>();
 
 	// Game Server Table
 	private Map<Integer, GameServerInfo> _gameServerTable = new FastMap<Integer, GameServerInfo>().shared();

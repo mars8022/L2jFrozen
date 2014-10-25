@@ -17,21 +17,15 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.LineNumberReader;
-import java.util.StringTokenizer;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.templates.L2Item;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.util.StringTokenizer;
 
 /**
  * Service class for manor
@@ -63,7 +57,7 @@ public class L2Manor
 
 	public FastList<Integer> getAllCrops()
 	{
-		FastList<Integer> crops = new FastList<Integer>();
+		FastList<Integer> crops = new FastList<>();
 
 		for(SeedData seed : _seeds.values())
 			if(!crops.contains(seed.getCrop()) && seed.getCrop() != 0 && !crops.contains(seed.getCrop()))
@@ -213,7 +207,7 @@ public class L2Manor
 	 */
 	public FastList<Integer> getCropsForCastle(int castleId)
 	{
-		FastList<Integer> crops = new FastList<Integer>();
+		FastList<Integer> crops = new FastList<>();
 
 		for(SeedData seed : _seeds.values())
 		{
@@ -234,7 +228,7 @@ public class L2Manor
 	 */
 	public FastList<Integer> getSeedsForCastle(int castleId)
 	{
-		FastList<Integer> seedsID = new FastList<Integer>();
+		FastList<Integer> seedsID = new FastList<>();
 
 		for(SeedData seed : _seeds.values())
 		{

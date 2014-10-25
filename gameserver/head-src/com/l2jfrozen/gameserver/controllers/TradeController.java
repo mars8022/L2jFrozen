@@ -18,6 +18,17 @@
  */
 package com.l2jfrozen.gameserver.controllers;
 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
+import com.l2jfrozen.gameserver.model.L2TradeList;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -28,19 +39,6 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
-import com.l2jfrozen.gameserver.model.L2TradeList;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
@@ -94,8 +92,8 @@ public class TradeController
 
 	private TradeController()
 	{
-		_lists = new FastMap<Integer, L2TradeList>();
-		_listsTaskItem = new FastMap<Integer, L2TradeList>();
+		_lists = new FastMap<>();
+		_listsTaskItem = new FastMap<>();
 		File buylistData = new File(Config.DATAPACK_ROOT, "data/buylists.csv");
 
 		if(buylistData.exists())
@@ -648,7 +646,7 @@ public class TradeController
 
 	public List<L2TradeList> getBuyListByNpcId(int npcId)
 	{
-		List<L2TradeList> lists = new FastList<L2TradeList>();
+		List<L2TradeList> lists = new FastList<>();
 
 		for(L2TradeList list : _lists.values())
 		{

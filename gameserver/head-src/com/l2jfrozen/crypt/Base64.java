@@ -18,9 +18,8 @@
  */
 package com.l2jfrozen.crypt;
 
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
+import org.apache.log4j.Logger;
 
 /**
  * Encodes and decodes to and from Base64 notation. The source is based on the work of Robert Harder
@@ -1043,14 +1042,11 @@ public class Base64
 
 			obj = ois.readObject();
 		} // end try
-		catch(java.io.IOException e)
+		catch(java.io.IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		} // end catch
-		catch(java.lang.ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		} // end catch
+        // end catch
 		finally
 		{
 			if(bais != null)

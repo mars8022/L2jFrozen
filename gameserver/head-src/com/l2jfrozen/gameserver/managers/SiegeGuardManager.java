@@ -17,15 +17,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -34,6 +25,13 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class SiegeGuardManager
 {
@@ -43,7 +41,7 @@ public class SiegeGuardManager
 	// =========================================================
 	// Data Field
 	private Castle _castle;
-	private List<L2Spawn> _siegeGuardSpawn = new FastList<L2Spawn>();
+	private List<L2Spawn> _siegeGuardSpawn = new FastList<>();
 
 	// =========================================================
 	// Constructor

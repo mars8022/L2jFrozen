@@ -18,17 +18,16 @@
  */
 package com.l2jfrozen.gameserver.util.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.concurrent.ScheduledFuture;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.util.FastList;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * @author L2JFrozen
@@ -47,7 +46,7 @@ public class SQLQueue implements Runnable
 	private boolean _inShutdown;
 	private boolean _isRuning;
 	private SQLQueue() {
-		_query = new FastList<SQLQuery>();
+		_query = new FastList<>();
 		_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, 60000);
 		
 	}

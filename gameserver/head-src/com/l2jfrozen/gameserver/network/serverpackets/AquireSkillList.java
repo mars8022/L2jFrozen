@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import javolution.util.FastList;
+
+import java.util.List;
 
 /**
  * sample a3 05000000 03000000 03000000 06000000 3c000000 00000000 power strike 10000000 02000000 06000000 3c000000
@@ -67,7 +67,7 @@ public class AquireSkillList extends L2GameServerPacket
 
 	public AquireSkillList(skillType type)
 	{
-		_skills = new FastList<Skill>();
+		_skills = new FastList<>();
 		_fishingSkills = type;
 	}
 

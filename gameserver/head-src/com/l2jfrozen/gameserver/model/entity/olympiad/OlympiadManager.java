@@ -14,17 +14,15 @@
  */
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
-import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad.COMP_TYPE;
 import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 /**
  * @author GodKratos
@@ -60,7 +58,7 @@ class OlympiadManager implements Runnable
 		
 	private OlympiadManager()
 	{
-		_olympiadInstances = new FastMap<Integer, OlympiadGame>();
+		_olympiadInstances = new FastMap<>();
 	}
 	
 	public static OlympiadManager getInstance()
@@ -74,7 +72,7 @@ class OlympiadManager implements Runnable
 		if (Olympiad.getInstance().isOlympiadEnd())
 			return;
 
-		Map<Integer, OlympiadGameTask> _gamesQueue = new FastMap<Integer, OlympiadGameTask>();
+		Map<Integer, OlympiadGameTask> _gamesQueue = new FastMap<>();
 		while (Olympiad.getInstance().inCompPeriod())
 		{
 			if (Olympiad.getNobleCount() == 0)
@@ -380,7 +378,7 @@ class OlympiadManager implements Runnable
 	
 	protected L2FastList<L2PcInstance> nextOpponents(L2FastList<L2PcInstance> list)
 	{
-		L2FastList<L2PcInstance> opponents = new L2FastList<L2PcInstance>();
+		L2FastList<L2PcInstance> opponents = new L2FastList<>();
 		if (list.isEmpty())
 			return opponents;
 		int loopCount = (list.size() / 2);
@@ -418,7 +416,7 @@ class OlympiadManager implements Runnable
 	
 	protected FastMap<Integer, String> getAllTitles()
 	{
-		FastMap<Integer, String> titles = new FastMap<Integer, String>();
+		FastMap<Integer, String> titles = new FastMap<>();
 		
 		for (OlympiadGame instance : _olympiadInstances.values())
 		{

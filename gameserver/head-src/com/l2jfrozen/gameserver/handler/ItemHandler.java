@@ -18,54 +18,12 @@
  */
 package com.l2jfrozen.gameserver.handler;
 
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.l2jfrozen.gameserver.GameServer;
+import com.l2jfrozen.gameserver.handler.itemhandlers.*;
 import org.apache.log4j.Logger;
 
-import com.l2jfrozen.gameserver.GameServer;
-import com.l2jfrozen.gameserver.handler.itemhandlers.BeastSoulShot;
-import com.l2jfrozen.gameserver.handler.itemhandlers.BeastSpice;
-import com.l2jfrozen.gameserver.handler.itemhandlers.BeastSpiritShot;
-import com.l2jfrozen.gameserver.handler.itemhandlers.BlessedSpiritShot;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Book;
-import com.l2jfrozen.gameserver.handler.itemhandlers.BreakingArrow;
-import com.l2jfrozen.gameserver.handler.itemhandlers.CharChangePotions;
-import com.l2jfrozen.gameserver.handler.itemhandlers.ChestKey;
-import com.l2jfrozen.gameserver.handler.itemhandlers.ChristmasTree;
-import com.l2jfrozen.gameserver.handler.itemhandlers.CrystalCarol;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Crystals;
-import com.l2jfrozen.gameserver.handler.itemhandlers.CustomPotions;
-import com.l2jfrozen.gameserver.handler.itemhandlers.EnchantScrolls;
-import com.l2jfrozen.gameserver.handler.itemhandlers.EnergyStone;
-import com.l2jfrozen.gameserver.handler.itemhandlers.ExtractableItems;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Firework;
-import com.l2jfrozen.gameserver.handler.itemhandlers.FishShots;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Harvester;
-import com.l2jfrozen.gameserver.handler.itemhandlers.HeroCustomItem;
-import com.l2jfrozen.gameserver.handler.itemhandlers.JackpotSeed;
-import com.l2jfrozen.gameserver.handler.itemhandlers.MOSKey;
-import com.l2jfrozen.gameserver.handler.itemhandlers.MapForestOfTheDead;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Maps;
-import com.l2jfrozen.gameserver.handler.itemhandlers.MercTicket;
-import com.l2jfrozen.gameserver.handler.itemhandlers.MysteryPotion;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Nectar;
-import com.l2jfrozen.gameserver.handler.itemhandlers.NobleCustomItem;
-import com.l2jfrozen.gameserver.handler.itemhandlers.PaganKeys;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Potions;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Recipes;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Remedy;
-import com.l2jfrozen.gameserver.handler.itemhandlers.RollingDice;
-import com.l2jfrozen.gameserver.handler.itemhandlers.ScrollOfEscape;
-import com.l2jfrozen.gameserver.handler.itemhandlers.ScrollOfResurrection;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Scrolls;
-import com.l2jfrozen.gameserver.handler.itemhandlers.Seed;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SevenSignsRecord;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SoulCrystals;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SoulShots;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SpecialXMas;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SpiritShot;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SummonItems;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class manages handlers of items
@@ -110,7 +68,7 @@ public class ItemHandler
 	 */
 	private ItemHandler()
 	{
-		_datatable = new TreeMap<Integer, IItemHandler>();
+		_datatable = new TreeMap<>();
 		registerItemHandler(new ScrollOfEscape());
 		registerItemHandler(new ScrollOfResurrection());
 		registerItemHandler(new SoulShots());

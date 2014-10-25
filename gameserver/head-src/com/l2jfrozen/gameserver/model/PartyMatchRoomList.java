@@ -14,14 +14,13 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import java.util.Map;
-
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExClosePartyRoom;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import javolution.util.FastMap;
+
+import java.util.Map;
 
 /**
  * @author Gnacik
@@ -33,7 +32,7 @@ public class PartyMatchRoomList
 	
 	private PartyMatchRoomList()
 	{
-		_rooms = new FastMap<Integer, PartyMatchRoom>();
+		_rooms = new FastMap<>();
 	}
 	
 	public synchronized void addPartyMatchRoom(int id, PartyMatchRoom room)

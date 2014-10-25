@@ -18,25 +18,16 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
+import com.l2jfrozen.gameserver.model.Item;
+import com.l2jfrozen.gameserver.templates.*;
 import javolution.util.FastList;
 import javolution.util.FastMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import com.l2jfrozen.gameserver.model.Item;
-import com.l2jfrozen.gameserver.templates.L2Armor;
-import com.l2jfrozen.gameserver.templates.L2ArmorType;
-import com.l2jfrozen.gameserver.templates.L2EtcItem;
-import com.l2jfrozen.gameserver.templates.L2EtcItemType;
-import com.l2jfrozen.gameserver.templates.L2Item;
-import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.templates.L2WeaponType;
-import com.l2jfrozen.gameserver.templates.StatsSet;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author mkizub
@@ -44,8 +35,8 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 final class DocumentItem extends DocumentBase
 {
 	private Item _currentItem = null;
-	private List<L2Item> _itemsInFile = new FastList<L2Item>();
-	private Map<Integer, Item> _itemData = new FastMap<Integer, Item>();
+	private List<L2Item> _itemsInFile = new FastList<>();
+	private Map<Integer, Item> _itemData = new FastMap<>();
 
 	/**
 	 * @param pItemData 

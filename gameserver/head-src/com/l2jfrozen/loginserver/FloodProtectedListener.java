@@ -17,17 +17,15 @@
  */
 package com.l2jfrozen.loginserver;
 
+import com.l2jfrozen.Config;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
-
-import javolution.util.FastMap;
-
-import org.apache.log4j.Logger;
-
-import com.l2jfrozen.Config;
 
 /**
  * @author -Wooden-
@@ -35,7 +33,7 @@ import com.l2jfrozen.Config;
 public abstract class FloodProtectedListener extends Thread
 {
 	private Logger LOGGER = Logger.getLogger(FloodProtectedListener.class);
-	private Map<String, ForeignConnection> _floodProtection = new FastMap<String, ForeignConnection>();
+	private Map<String, ForeignConnection> _floodProtection = new FastMap<>();
 	private String _listenIp;
 	private int _port;
 	private ServerSocket _serverSocket;

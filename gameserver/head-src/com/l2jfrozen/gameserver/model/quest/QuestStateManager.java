@@ -17,13 +17,12 @@
  */
 package com.l2jfrozen.gameserver.model.quest;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import javolution.util.FastList;
+
+import java.util.List;
 
 public class QuestStateManager
 {
@@ -50,7 +49,7 @@ public class QuestStateManager
 	// =========================================================
 	// Data Field
 	private static QuestStateManager _instance;
-	private List<QuestState> _questStates = new FastList<QuestState>();
+	private List<QuestState> _questStates = new FastList<>();
 
 	// =========================================================
 	// Constructor
@@ -132,7 +131,7 @@ public class QuestStateManager
 	{
 		if(_questStates == null)
 		{
-			_questStates = new FastList<QuestState>();
+			_questStates = new FastList<>();
 		}
 
 		return _questStates;

@@ -31,5 +31,5 @@ public enum Race
 	elf,
 	darkelf,
 	orc,
-	dwarf;
+	dwarf
 }

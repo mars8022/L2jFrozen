@@ -18,10 +18,6 @@
 
 package com.l2jfrozen.gameserver.model.zone.type;
 
-import java.util.concurrent.Future;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -31,6 +27,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
+import org.apache.log4j.Logger;
+
+import java.util.concurrent.Future;
 
 public class L2PoisonZone extends L2ZoneType
 {
@@ -59,38 +58,32 @@ public class L2PoisonZone extends L2ZoneType
 	@Override
 	public void setParameter(String name, String value)
 	{
-		if(name.equals("skillId"))
-		{
-			_skillId = Integer.parseInt(value);
-		}
-		else if(name.equals("skillLvl"))
-		{
-			_skillLvl = Integer.parseInt(value);
-		}
-		else if(name.equals("chance"))
-		{
-			_chance = Integer.parseInt(value);
-		}
-		else if(name.equals("initialDelay"))
-		{
-			_initialDelay = Integer.parseInt(value);
-		}
-		else if(name.equals("default_enabled"))
-		{
-			_enabled = Boolean.parseBoolean(value);
-		}
-		else if(name.equals("target"))
-		{
-			_target = String.valueOf(value);
-		}
-		else if(name.equals("reuse"))
-		{
-			_reuse = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
-		}
+        switch (name) {
+            case "skillId":
+                _skillId = Integer.parseInt(value);
+                break;
+            case "skillLvl":
+                _skillLvl = Integer.parseInt(value);
+                break;
+            case "chance":
+                _chance = Integer.parseInt(value);
+                break;
+            case "initialDelay":
+                _initialDelay = Integer.parseInt(value);
+                break;
+            case "default_enabled":
+                _enabled = Boolean.parseBoolean(value);
+                break;
+            case "target":
+                _target = String.valueOf(value);
+                break;
+            case "reuse":
+                _reuse = Integer.parseInt(value);
+                break;
+            default:
+                super.setParameter(name, value);
+                break;
+        }
 	}
 
 	@Override

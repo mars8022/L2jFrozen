@@ -18,25 +18,17 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.actor.knownlist.RaceManagerKnownList;
 import com.l2jfrozen.gameserver.model.entity.MonsterRace;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.DeleteObject;
-import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
-import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
-import com.l2jfrozen.gameserver.network.serverpackets.MonRaceInfo;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
-import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.*;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Broadcast;
+import javolution.util.FastList;
+
+import java.util.List;
 
 public class L2RaceManagerInstance extends L2NpcInstance
 {
@@ -88,7 +80,7 @@ public class L2RaceManagerInstance extends L2NpcInstance
 			_notInitialized = false;
 			//*
 //			_history = new FastList<Race>();
-			_managers = new FastList<L2RaceManagerInstance>();
+			_managers = new FastList<>();
 
 			ThreadPoolManager s = ThreadPoolManager.getInstance();
 			s.scheduleGeneralAtFixedRate(new Announcement(SystemMessageId.MONSRACE_TICKETS_AVAILABLE_FOR_S1_RACE), 0, 10 * MINUTE);

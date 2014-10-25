@@ -18,21 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.controllers.TradeController;
@@ -40,11 +25,7 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
-import com.l2jfrozen.gameserver.model.L2DropCategory;
-import com.l2jfrozen.gameserver.model.L2DropData;
-import com.l2jfrozen.gameserver.model.L2Object;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.gameserver.model.L2TradeList;
+import com.l2jfrozen.gameserver.model.*;
 import com.l2jfrozen.gameserver.model.actor.instance.L2BoxInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -55,6 +36,15 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * @author terry Window - Preferences - Java - Code Style - Code Templates
@@ -1087,162 +1077,126 @@ public class AdminEditNpc implements IAdminCommandHandler
 				else
 					value += " " + commandSplit[i];			
 			}
-			
-			if(statToSet.equals("templateId"))
-			{
-				newNpcData.set("idTemplate", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("name"))
-			{
-				newNpcData.set("name", value);
-			}
-			else if(statToSet.equals("serverSideName"))
-			{
-				newNpcData.set("serverSideName", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("title"))
-			{
-				newNpcData.set("title", value);
-			}
-			else if(statToSet.equals("serverSideTitle"))
-			{
-				newNpcData.set("serverSideTitle", Integer.valueOf(value) == 1 ? 1 : 0);
-			}
-			else if(statToSet.equals("collisionRadius"))
-			{
-				newNpcData.set("collision_radius", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("collisionHeight"))
-			{
-				newNpcData.set("collision_height", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("level"))
-			{
-				newNpcData.set("level", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("sex"))
-			{
-				int intValue = Integer.valueOf(value);
-				newNpcData.set("sex", intValue == 0 ? "male" : intValue == 1 ? "female" : "etc");
-			}
-			else if(statToSet.equals("type"))
-			{
-				Class.forName("com.l2jfrozen.gameserver.model.actor.instance." + value + "Instance");
-				newNpcData.set("type", value);
-			}
-			else if(statToSet.equals("attackRange"))
-			{
-				newNpcData.set("attackrange", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("hp"))
-			{
-				newNpcData.set("hp", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("mp"))
-			{
-				newNpcData.set("mp", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("hpRegen"))
-			{
-				newNpcData.set("hpreg", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("mpRegen"))
-			{
-				newNpcData.set("mpreg", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("str"))
-			{
-				newNpcData.set("str", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("con"))
-			{
-				newNpcData.set("con", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("dex"))
-			{
-				newNpcData.set("dex", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("int"))
-			{
-				newNpcData.set("int", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("wit"))
-			{
-				newNpcData.set("wit", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("men"))
-			{
-				newNpcData.set("men", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("exp"))
-			{
-				newNpcData.set("exp", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("sp"))
-			{
-				newNpcData.set("sp", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("pAtk"))
-			{
-				newNpcData.set("patk", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("pDef"))
-			{
-				newNpcData.set("pdef", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("mAtk"))
-			{
-				newNpcData.set("matk", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("mDef"))
-			{
-				newNpcData.set("mdef", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("pAtkSpd"))
-			{
-				newNpcData.set("atkspd", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("aggro"))
-			{
-				newNpcData.set("aggro", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("mAtkSpd"))
-			{
-				newNpcData.set("matkspd", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("rHand"))
-			{
-				newNpcData.set("rhand", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("lHand"))
-			{
-				newNpcData.set("lhand", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("armor"))
-			{
-				newNpcData.set("armor", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("runSpd"))
-			{
-				newNpcData.set("runspd", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("factionId"))
-			{
-				newNpcData.set("faction_id", value);
-			}
-			else if(statToSet.equals("factionRange"))
-			{
-				newNpcData.set("faction_range", Integer.valueOf(value));
-			}
-			else if(statToSet.equals("isUndead"))
-			{
-				newNpcData.set("isUndead", Integer.valueOf(value) == 1 ? 1 : 0);
-			}
-			else if(statToSet.equals("absorbLevel"))
-			{
-				int intVal = Integer.valueOf(value);
-				newNpcData.set("absorb_level", intVal < 0 ? 0 : intVal > 12 ? 0 : intVal);
-			}
+
+            switch (statToSet) {
+                case "templateId":
+                    newNpcData.set("idTemplate", Integer.valueOf(value));
+                    break;
+                case "name":
+                    newNpcData.set("name", value);
+                    break;
+                case "serverSideName":
+                    newNpcData.set("serverSideName", Integer.valueOf(value));
+                    break;
+                case "title":
+                    newNpcData.set("title", value);
+                    break;
+                case "serverSideTitle":
+                    newNpcData.set("serverSideTitle", Integer.valueOf(value) == 1 ? 1 : 0);
+                    break;
+                case "collisionRadius":
+                    newNpcData.set("collision_radius", Integer.valueOf(value));
+                    break;
+                case "collisionHeight":
+                    newNpcData.set("collision_height", Integer.valueOf(value));
+                    break;
+                case "level":
+                    newNpcData.set("level", Integer.valueOf(value));
+                    break;
+                case "sex":
+                    int intValue = Integer.valueOf(value);
+                    newNpcData.set("sex", intValue == 0 ? "male" : intValue == 1 ? "female" : "etc");
+                    break;
+                case "type":
+                    Class.forName("com.l2jfrozen.gameserver.model.actor.instance." + value + "Instance");
+                    newNpcData.set("type", value);
+                    break;
+                case "attackRange":
+                    newNpcData.set("attackrange", Integer.valueOf(value));
+                    break;
+                case "hp":
+                    newNpcData.set("hp", Integer.valueOf(value));
+                    break;
+                case "mp":
+                    newNpcData.set("mp", Integer.valueOf(value));
+                    break;
+                case "hpRegen":
+                    newNpcData.set("hpreg", Integer.valueOf(value));
+                    break;
+                case "mpRegen":
+                    newNpcData.set("mpreg", Integer.valueOf(value));
+                    break;
+                case "str":
+                    newNpcData.set("str", Integer.valueOf(value));
+                    break;
+                case "con":
+                    newNpcData.set("con", Integer.valueOf(value));
+                    break;
+                case "dex":
+                    newNpcData.set("dex", Integer.valueOf(value));
+                    break;
+                case "int":
+                    newNpcData.set("int", Integer.valueOf(value));
+                    break;
+                case "wit":
+                    newNpcData.set("wit", Integer.valueOf(value));
+                    break;
+                case "men":
+                    newNpcData.set("men", Integer.valueOf(value));
+                    break;
+                case "exp":
+                    newNpcData.set("exp", Integer.valueOf(value));
+                    break;
+                case "sp":
+                    newNpcData.set("sp", Integer.valueOf(value));
+                    break;
+                case "pAtk":
+                    newNpcData.set("patk", Integer.valueOf(value));
+                    break;
+                case "pDef":
+                    newNpcData.set("pdef", Integer.valueOf(value));
+                    break;
+                case "mAtk":
+                    newNpcData.set("matk", Integer.valueOf(value));
+                    break;
+                case "mDef":
+                    newNpcData.set("mdef", Integer.valueOf(value));
+                    break;
+                case "pAtkSpd":
+                    newNpcData.set("atkspd", Integer.valueOf(value));
+                    break;
+                case "aggro":
+                    newNpcData.set("aggro", Integer.valueOf(value));
+                    break;
+                case "mAtkSpd":
+                    newNpcData.set("matkspd", Integer.valueOf(value));
+                    break;
+                case "rHand":
+                    newNpcData.set("rhand", Integer.valueOf(value));
+                    break;
+                case "lHand":
+                    newNpcData.set("lhand", Integer.valueOf(value));
+                    break;
+                case "armor":
+                    newNpcData.set("armor", Integer.valueOf(value));
+                    break;
+                case "runSpd":
+                    newNpcData.set("runspd", Integer.valueOf(value));
+                    break;
+                case "factionId":
+                    newNpcData.set("faction_id", value);
+                    break;
+                case "factionRange":
+                    newNpcData.set("faction_range", Integer.valueOf(value));
+                    break;
+                case "isUndead":
+                    newNpcData.set("isUndead", Integer.valueOf(value) == 1 ? 1 : 0);
+                    break;
+                case "absorbLevel":
+                    int intVal = Integer.valueOf(value);
+                    newNpcData.set("absorb_level", intVal < 0 ? 0 : intVal > 12 ? 0 : intVal);
+                    break;
+            }
 			
 			statToSet = null;
 			value = null;

@@ -18,20 +18,6 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -42,6 +28,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.script.DateRange;
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * @author ProGramMoS
@@ -88,39 +82,33 @@ public class Announcements
 
 	public void showAnnouncements(L2PcInstance activeChar)
 	{
-		for(int i = 0; i < _announcements.size(); i++)
-		{
-			CreatureSay cs = new CreatureSay(0, Say2.ANNOUNCEMENT, activeChar.getName(), _announcements.get(i).replace("%name%", activeChar.getName()));
-			activeChar.sendPacket(cs);
-			cs = null;
-		}
+        for (String _announcement : _announcements) {
+            CreatureSay cs = new CreatureSay(0, Say2.ANNOUNCEMENT, activeChar.getName(), _announcement.replace("%name%", activeChar.getName()));
+            activeChar.sendPacket(cs);
+            cs = null;
+        }
 
-		for(int i = 0; i < _eventAnnouncements.size(); i++)
-		{
-			List<Object> entry = _eventAnnouncements.get(i);
+        for (List<Object> entry : _eventAnnouncements) {
+            DateRange validDateRange = (DateRange) entry.get(0);
+            String[] msg = (String[]) entry.get(1);
+            Date currentDate = new Date();
 
-			DateRange validDateRange = (DateRange) entry.get(0);
-			String[] msg = (String[]) entry.get(1);
-			Date currentDate = new Date();
+            if (!validDateRange.isValid() || validDateRange.isWithinRange(currentDate)) {
+                SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 
-			if(!validDateRange.isValid() || validDateRange.isWithinRange(currentDate))
-			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+                for (String element : msg) {
+                    sm.addString(element);
+                }
 
-				for(String element : msg)
-				{
-					sm.addString(element);
-				}
+                activeChar.sendPacket(sm);
+                sm = null;
+            }
 
-				activeChar.sendPacket(sm);
-				sm = null;
-			}
-
-			entry = null;
-			validDateRange = null;
-			msg = null;
-			currentDate = null;
-		}
+            entry = null;
+            validDateRange = null;
+            msg = null;
+            currentDate = null;
+        }
 	}
 
 	public void addEventAnnouncement(DateRange validDateRange, String[] msg)
@@ -230,11 +218,10 @@ public class Announcements
 		try
 		{
 			save = new FileWriter(file);
-			for(int i = 0; i < _announcements.size(); i++)
-			{
-				save.write(_announcements.get(i));
-				save.write("\r\n");
-			}
+            for (String _announcement : _announcements) {
+                save.write(_announcement);
+                save.write("\r\n");
+            }
 			save.flush();
 		}
 		catch(IOException e)

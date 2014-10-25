@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen;
 
-import java.util.StringTokenizer;
-
 import javolution.util.FastMap;
+
+import java.util.StringTokenizer;
 
 public class ClassMasterSettings
 {
@@ -30,9 +30,9 @@ public class ClassMasterSettings
 
 	public ClassMasterSettings(String _configLine)
 	{
-		_claimItems = new FastMap<Integer, FastMap<Integer, Integer>>();
-		_rewardItems = new FastMap<Integer, FastMap<Integer, Integer>>();
-		_allowedClassChange = new FastMap<Integer, Boolean>();
+		_claimItems = new FastMap<>();
+		_rewardItems = new FastMap<>();
+		_allowedClassChange = new FastMap<>();
 		if(_configLine != null)
 		{
 			parseConfigLine(_configLine.trim());
@@ -49,7 +49,7 @@ public class ClassMasterSettings
 
 			_allowedClassChange.put(job, true);
 
-			FastMap<Integer, Integer> _items = new FastMap<Integer, Integer>();
+			FastMap<Integer, Integer> _items = new FastMap<>();
 
 			if(st.hasMoreTokens())
 			{
@@ -65,7 +65,7 @@ public class ClassMasterSettings
 			}
 
 			_claimItems.put(job, _items);
-			_items = new FastMap<Integer, Integer>();
+			_items = new FastMap<>();
 
 			if(st.hasMoreTokens())
 			{

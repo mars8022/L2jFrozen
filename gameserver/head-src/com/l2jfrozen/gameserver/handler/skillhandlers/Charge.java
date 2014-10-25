@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import org.apache.log4j.Logger;
-
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Effect;
@@ -27,6 +25,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import org.apache.log4j.Logger;
 
 /**
  * This class ...
@@ -49,14 +48,13 @@ public class Charge implements ISkillHandler
 	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
 	{
 
-		for(int index = 0; index < targets.length; index++)
-		{
-			if(!(targets[index] instanceof L2PcInstance))
-				continue;
-			L2PcInstance target = (L2PcInstance) targets[index];
-			skill.getEffects(activeChar, target,false,false,false);
-			target = null;
-		}
+        for (L2Object target1 : targets) {
+            if (!(target1 instanceof L2PcInstance))
+                continue;
+            L2PcInstance target = (L2PcInstance) target1;
+            skill.getEffects(activeChar, target, false, false, false);
+            target = null;
+        }
 		// self Effect :]
 
 		L2Effect effect = activeChar.getFirstEffect(skill.getId());

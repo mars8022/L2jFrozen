@@ -18,10 +18,6 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.List;
-
-import javolution.util.FastList;
-
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -38,6 +34,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.random.Rnd;
+import javolution.util.FastList;
+
+import java.util.List;
 
 public class QueenAnt extends Quest implements Runnable
 {
@@ -55,8 +54,8 @@ public class QueenAnt extends Quest implements Runnable
 	private static L2BossZone _Zone;
 	private L2MonsterInstance _larva = null;
 	private L2MonsterInstance _queen = null;
-	private final List<L2MonsterInstance> _Minions = new FastList<L2MonsterInstance>();
-	private final List<L2MonsterInstance> _Nurses = new FastList<L2MonsterInstance>();
+	private final List<L2MonsterInstance> _Minions = new FastList<>();
+	private final List<L2MonsterInstance> _Nurses = new FastList<>();
 	
 	// L2GrandBossInstance queen = null;
 	

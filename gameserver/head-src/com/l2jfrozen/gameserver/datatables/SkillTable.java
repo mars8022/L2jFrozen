@@ -18,13 +18,12 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.util.Map;
-
-import javolution.util.FastMap;
-
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.skills.SkillsEngine;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
+import javolution.util.FastMap;
+
+import java.util.Map;
 
 /**
  * This class ...
@@ -52,7 +51,7 @@ public class SkillTable
 
 	private SkillTable()
 	{
-		_skills = new FastMap<Integer, L2Skill>();
+		_skills = new FastMap<>();
 		SkillsEngine.getInstance().loadAllSkills(_skills);
 	}
 
