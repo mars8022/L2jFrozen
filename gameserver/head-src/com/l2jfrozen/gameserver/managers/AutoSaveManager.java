@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -184,7 +185,7 @@ public class AutoSaveManager
 				PreparedStatement statement;
 				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
 				erased = statement.executeUpdate();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch (Exception e)

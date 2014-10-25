@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import com.l2jfrozen.gameserver.model.L2LvlupData;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -98,8 +99,8 @@ public class LevelUpData
 				lvlTable.put(new Integer(lvlDat.getClassid()), lvlDat);
 			}
 
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 
 			LOGGER.info ("LevelUpData: Loaded " + lvlTable.size() + " Character Level Up Templates.");
 		}

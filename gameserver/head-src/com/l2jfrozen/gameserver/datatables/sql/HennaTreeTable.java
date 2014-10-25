@@ -35,6 +35,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2HennaInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.templates.L2Henna;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -91,7 +92,7 @@ public class HennaTreeTable
 						hennatree.close();
 						statement2.close();
 						classlist.close();
-						statement.close();
+						DatabaseUtils.close(statement);
 						continue classlist;
 					}
 
@@ -120,7 +121,7 @@ public class HennaTreeTable
 			}
 
 			classlist.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 		}
 		catch(Exception e)

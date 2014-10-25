@@ -136,7 +136,7 @@ public class L2DatabaseFactory_BoneCP extends L2DatabaseFactory
 		final ResultSet resultSet = statement.executeQuery("SHOW TABLES");
 		resultSet.next();
 		resultSet.close();
-		statement.close();
+		DatabaseUtils.close(statement);
 		connect.close();
 		LOGGER.finest("Database Connection Working");
 	}

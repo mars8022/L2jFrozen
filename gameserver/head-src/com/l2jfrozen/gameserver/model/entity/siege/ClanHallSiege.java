@@ -25,6 +25,7 @@ import java.util.Calendar;
 import org.apache.log4j.Logger;
 
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -54,7 +55,7 @@ public abstract class ClanHallSiege
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -90,7 +91,7 @@ public abstract class ClanHallSiege
 				statement.setLong(1, getSiegeDate().getTimeInMillis());
 				statement.setInt(2, ClanHallId);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(Exception e)
 			{

@@ -18,24 +18,6 @@
  */
 package com.l2jfrozen.loginserver;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.crypt.Base64;
-import com.l2jfrozen.crypt.ScrambledKeyPair;
-import com.l2jfrozen.gameserver.datatables.GameServerTable;
-import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
-import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
-import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
-import com.l2jfrozen.logs.Log;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.Util;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastCollection.Record;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import javax.crypto.Cipher;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
@@ -48,6 +30,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Map;
+
+import javax.crypto.Cipher;
+
+import javolution.util.FastCollection.Record;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.crypt.Base64;
+import com.l2jfrozen.crypt.ScrambledKeyPair;
+import com.l2jfrozen.gameserver.datatables.GameServerTable;
+import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
+import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
+import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
+import com.l2jfrozen.logs.Log;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.Util;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.l2jfrozen.util.random.Rnd;
 
 /**
  * This class ...
@@ -524,7 +528,7 @@ public class LoginController
 					statement.setInt(1, serverId);
 					statement.setString(2, client.getAccount());
 					statement.executeUpdate();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				catch(Exception e)
@@ -557,7 +561,7 @@ public class LoginController
 			statement.setInt(1, banLevel);
 			statement.setString(2, account);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -595,8 +599,8 @@ public class LoginController
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 		}
@@ -681,8 +685,8 @@ public class LoginController
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 
@@ -700,7 +704,7 @@ public class LoginController
 						statement.setInt(4, 0);
 						statement.setString(5, address.getHostAddress());
 						statement.execute();
-						statement.close();
+						DatabaseUtils.close(statement);
 						statement = null;
 
 						LOGGER.info("Created new account : " + user + " on IP : " + address.getHostAddress());
@@ -749,7 +753,7 @@ public class LoginController
 				statement.setString(2, address.getHostAddress());
 				statement.setString(3, user);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 
@@ -828,8 +832,8 @@ public class LoginController
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 		}

@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -174,8 +175,8 @@ public class TradeListTable
 					LOGGER.warn("TradeListTable: Empty buylist {}."+ buylist.getListId());
 				}
 
-				statement.close();
-				rset.close();
+				DatabaseUtils.close(statement);
+				DatabaseUtils.close(rset);
 			}
 			rset1.close();
 			statement1.close();
@@ -286,7 +287,7 @@ public class TradeListTable
 			statement.setLong(1, timerSave);
 			statement.setInt(2, time);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -328,7 +329,7 @@ public class TradeListTable
 						statement.setInt(2, Item.getItemId());
 						statement.setInt(3, listId);
 						statement.executeUpdate();
-						statement.close();
+						DatabaseUtils.close(statement);
 					}
 				}
 			}

@@ -18,12 +18,14 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import java.util.List;
+
 import javolution.util.FastList;
+
 import org.apache.log4j.Logger;
 
-import java.util.List;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
@@ -414,7 +416,7 @@ public class L2TradeList
 			statement.setInt(1, newObjectId);
 			statement.setInt(2, oldObjectId);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

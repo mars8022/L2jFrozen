@@ -18,6 +18,19 @@
  */
 package com.l2jfrozen.gameserver.handler;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -29,19 +42,9 @@ import com.l2jfrozen.gameserver.model.spawn.SpawnListener;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * Auto Chat Handler Allows NPCs to automatically send messages to nearby players at a set time interval.
@@ -108,7 +111,7 @@ public class AutoChatHandler implements SpawnListener
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(Config.DEBUG)
@@ -737,6 +740,7 @@ public class AutoChatHandler implements SpawnListener
 				_objectId = pObjectId;
 			}
 
+			@SuppressWarnings("null")
 			@Override
 			public synchronized void run()
 			{

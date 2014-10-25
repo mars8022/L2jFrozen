@@ -17,6 +17,19 @@
  */
 package com.l2jfrozen.gameserver.model.entity.sevensigns;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -44,19 +57,9 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * Seven Signs Festival of Darkness Engine TODO: - Archer mobs should target healer characters over other party members.
@@ -1873,8 +1876,8 @@ public class SevenSignsFestival implements SpawnListener
 				tempData = null;
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 
 			rset = null;
 			statement = null;
@@ -1908,8 +1911,8 @@ public class SevenSignsFestival implements SpawnListener
 				LOGGER.info("SevenSignsFestival: Loaded data from database.");
 			}
 			
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 		}
@@ -1970,11 +1973,11 @@ public class SevenSignsFestival implements SpawnListener
 							LOGGER.info("SevenSignsFestival: Updated data in DB (Cycle = " + festivalCycle + ", Cabal = " + cabal + ", FestID = " + festivalId + ")");
 						}
 
-						statement.close();
+						DatabaseUtils.close(statement);
 						continue;
 					}
 
-					statement.close();
+					DatabaseUtils.close(statement);
 
 					statement = con.prepareStatement("INSERT INTO seven_signs_festival (festivalId, cabal, cycle, date, score, members) VALUES (?,?,?,?,?,?)");
 					statement.setInt(1, festivalId);
@@ -1984,7 +1987,7 @@ public class SevenSignsFestival implements SpawnListener
 					statement.setInt(5, festivalDat.getInteger("score"));
 					statement.setString(6, festivalDat.getString("members"));
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 
 					if(Config.DEBUG)
@@ -2129,8 +2132,8 @@ public class SevenSignsFestival implements SpawnListener
 					clanName = null;
 				}
 
-				rset.close();
-				statement.close();
+				DatabaseUtils.close(rset);
+				DatabaseUtils.close(statement);
 
 				rset = null;
 				statement = null;

@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.FriendList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -74,7 +75,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 					statement.setString(7, requestor.getName());
 					statement.setInt(8, 1);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					SystemMessage msg = new SystemMessage(SystemMessageId.YOU_HAVE_SUCCEEDED_INVITING_FRIEND);
 					requestor.sendPacket(msg);
 					
@@ -147,8 +148,8 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 				}
 			}
 			
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		
 		catch (Exception e)

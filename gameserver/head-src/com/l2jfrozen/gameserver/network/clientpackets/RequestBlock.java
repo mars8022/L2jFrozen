@@ -29,6 +29,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestBlock extends L2GameClientPacket
@@ -58,6 +59,7 @@ public final class RequestBlock extends L2GameClientPacket
 		}
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	protected void runImpl()
 	{
@@ -115,22 +117,19 @@ public final class RequestBlock extends L2GameClientPacket
 							statement.setInt(1, _type);
 							statement.setInt(2, activeChar.getObjectId());
 							statement.setString(3, _name);
-							statement.execute();
-							
+							statement.execute();						
 						}
 						else
-						{
-							
+						{				
 							statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name, not_blocked) VALUES (?, ?, ?, ?)");
 							statement.setInt(1, activeChar.getObjectId());
 							statement.setInt(2, _target.getObjectId());
 							statement.setString(3, _target.getName());
 							statement.setInt(4, _type);
-							statement.execute();
-							
+							statement.execute();							
 						}
-						
-						statement.close();
+						//Added suppression to method, stament is closed but eclipse still throwns resource leak, wtf?
+						DatabaseUtils.close(statement);
 						
 					}
 					catch (Exception e)
@@ -160,7 +159,7 @@ public final class RequestBlock extends L2GameClientPacket
 						statement.setInt(1, activeChar.getObjectId());
 						statement.setString(2, _name);
 						statement.execute();
-						statement.close();
+						DatabaseUtils.close(statement);
 						
 					}
 					catch (Exception e)

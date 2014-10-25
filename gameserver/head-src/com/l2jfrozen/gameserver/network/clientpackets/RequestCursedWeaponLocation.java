@@ -10,15 +10,16 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import java.util.List;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.managers.CursedWeaponsManager;
 import com.l2jfrozen.gameserver.model.CursedWeapon;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.network.serverpackets.ExCursedWeaponLocation;
 import com.l2jfrozen.gameserver.network.serverpackets.ExCursedWeaponLocation.CursedWeaponInfo;
 import com.l2jfrozen.util.Point3D;
-import javolution.util.FastList;
-
-import java.util.List;
 
 /**
  * Format: (ch)

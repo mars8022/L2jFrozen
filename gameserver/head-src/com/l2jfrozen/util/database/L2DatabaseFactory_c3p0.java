@@ -32,7 +32,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	
 	// =========================================================
 	// Constructor
-	public L2DatabaseFactory_c3p0() throws SQLException
+	public L2DatabaseFactory_c3p0()
 	{
 		try
 		{

@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.datatables.csv.HennaTable;
 import com.l2jfrozen.gameserver.templates.L2HelperBuff;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -100,7 +101,7 @@ public class HelperBuffTable
 
 			fillHelperBuffTable(helperbuffdata);
 			helperbuffdata.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

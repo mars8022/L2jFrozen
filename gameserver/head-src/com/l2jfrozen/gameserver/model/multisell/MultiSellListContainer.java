@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.model.multisell;
 
-import javolution.util.FastList;
-
 import java.util.List;
+
+import javolution.util.FastList;
 
 /**
  * @author programmos

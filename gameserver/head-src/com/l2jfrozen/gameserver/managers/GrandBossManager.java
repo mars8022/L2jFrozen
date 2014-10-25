@@ -14,6 +14,17 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -23,17 +34,8 @@ import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class handles all Grand Bosses:
@@ -127,8 +129,8 @@ public class GrandBossManager
 
 			LOGGER.info("GrandBossManager: Loaded " + _storedInfo.size() + " Instances");
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch(SQLException e)
 		{
@@ -175,8 +177,8 @@ public class GrandBossManager
 			{
 				zones.get(rset.getInt("zone")).add(rset.getInt("player_id"));
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			LOGGER.info("GrandBossManager: Initialized " + _zones.size() + " Grand Boss Zones");
 		}
 		catch(SQLException e)
@@ -478,7 +480,7 @@ public class GrandBossManager
 				statement.setInt(9, bossId);
 			}
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch (SQLException e)
 		{

@@ -18,6 +18,10 @@
  */
 package com.l2jfrozen.gameserver.skills.effects;
 
+import java.util.List;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.model.L2Attackable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -25,9 +29,6 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-
-import java.util.List;
 
 /**
  * @author littlecrow Implementation of the Confusion Effect

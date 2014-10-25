@@ -33,6 +33,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -109,7 +110,7 @@ public class Lottery
 			statement.setInt(2, getPrize());
 			statement.setInt(3, getId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(SQLException e)
 		{
@@ -170,8 +171,8 @@ public class Lottery
 						if(_enddate <= System.currentTimeMillis() + 2 * MINUTE)
 						{
 							new finishLottery().run();
-							rset.close();
-							statement.close();
+							DatabaseUtils.close(rset);
+							DatabaseUtils.close(statement);
 							statement = null;
 							rset = null;
 							CloseUtil.close(con);
@@ -189,8 +190,8 @@ public class Lottery
 								_isSellingTickets = true;
 								ThreadPoolManager.getInstance().scheduleGeneral(new stopSellingTickets(), _enddate - System.currentTimeMillis() - 10 * MINUTE);
 							}
-							rset.close();
-							statement.close();
+							DatabaseUtils.close(rset);
+							DatabaseUtils.close(statement);
 							statement = null;
 							rset = null;
 							CloseUtil.close(con);
@@ -199,8 +200,8 @@ public class Lottery
 						}
 					}
 				}
-				rset.close();
-				statement.close();
+				DatabaseUtils.close(rset);
+				DatabaseUtils.close(statement);
 				statement = null;
 				rset = null;
 			}
@@ -258,7 +259,7 @@ public class Lottery
 				statement.setInt(4, getPrize());
 				statement.setInt(5, getPrize());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(SQLException e)
 			{
@@ -421,8 +422,8 @@ public class Lottery
 						count4++;
 					}
 				}
-				rset.close();
-				statement.close();
+				DatabaseUtils.close(rset);
+				DatabaseUtils.close(statement);
 				statement = null;
 				rset = null;
 			}
@@ -508,7 +509,7 @@ public class Lottery
 				statement.setInt(7, prize3);
 				statement.setInt(8, getId());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(SQLException e)
@@ -595,8 +596,8 @@ public class Lottery
 
 				if(curenchant == 0 && curtype2 == 0)
 				{
-					rset.close();
-					statement.close();
+					DatabaseUtils.close(rset);
+					DatabaseUtils.close(statement);
 					CloseUtil.close(con);
 					con = null;
 					return res;
@@ -647,8 +648,8 @@ public class Lottery
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 		}

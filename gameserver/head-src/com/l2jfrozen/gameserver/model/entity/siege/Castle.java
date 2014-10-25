@@ -18,6 +18,18 @@
  */
 package com.l2jfrozen.gameserver.model.entity.siege;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -41,17 +53,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.updaters.CastleUpdater;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 
 public class Castle
 {
@@ -238,7 +241,7 @@ public class Castle
 			statement.setInt(1, getTreasury());
 			statement.setInt(2, getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -451,7 +454,7 @@ public class Castle
 			statement.setInt(1, taxPercent);
 			statement.setInt(2, getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -567,7 +570,7 @@ public class Castle
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 
@@ -590,7 +593,7 @@ public class Castle
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -630,7 +633,7 @@ public class Castle
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -662,7 +665,7 @@ public class Castle
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -686,7 +689,7 @@ public class Castle
 			PreparedStatement statement = con.prepareStatement("delete from castle_doorupgrade where doorId in (select id from castle_door where castleId=?)");
 			statement.setInt(1, getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -712,7 +715,7 @@ public class Castle
 			statement.setInt(3, pDef);
 			statement.setInt(4, mDef);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -749,14 +752,14 @@ public class Castle
 			statement = con.prepareStatement("UPDATE clan_data SET hasCastle=0 WHERE hasCastle=?");
 			statement.setInt(1, getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("UPDATE clan_data SET hasCastle=? WHERE clan_id=?");
 			statement.setInt(1, getCastleId());
 			statement.setInt(2, getOwnerId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			// ============================================================================
 
@@ -974,7 +977,7 @@ public class Castle
 			statement.setInt(1, getCastleId());
 
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(_production != null)
@@ -999,7 +1002,7 @@ public class Castle
 					}
 					statement = con.prepareStatement(query);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 
@@ -1031,7 +1034,7 @@ public class Castle
 
 					statement = con.prepareStatement(query);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 
@@ -1066,7 +1069,7 @@ public class Castle
 			statement.setInt(1, getCastleId());
 			statement.setInt(2, period);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			FastList<SeedProduction> prod = null;
@@ -1093,7 +1096,7 @@ public class Castle
 					}
 					statement = con.prepareStatement(query);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 
@@ -1129,7 +1132,7 @@ public class Castle
 			statement = con.prepareStatement(CASTLE_MANOR_DELETE_PROCURE);
 			statement.setInt(1, getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(_procure != null)
@@ -1156,7 +1159,7 @@ public class Castle
 
 					statement = con.prepareStatement(query);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 
@@ -1186,7 +1189,7 @@ public class Castle
 					}
 					statement = con.prepareStatement(query);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 
@@ -1221,7 +1224,7 @@ public class Castle
 			statement.setInt(1, getCastleId());
 			statement.setInt(2, period);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			FastList<CropProcure> proc = null;
@@ -1251,7 +1254,7 @@ public class Castle
 
 					statement = con.prepareStatement(query);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 
@@ -1288,7 +1291,7 @@ public class Castle
 			statement.setInt(3, getCastleId());
 			statement.setInt(4, period);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1319,7 +1322,7 @@ public class Castle
 			statement.setInt(3, getCastleId());
 			statement.setInt(4, period);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

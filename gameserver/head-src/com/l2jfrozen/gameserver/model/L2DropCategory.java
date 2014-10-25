@@ -17,9 +17,10 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
 
 /**
  * @author Fulminus

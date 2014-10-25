@@ -45,6 +45,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class VIP
@@ -146,8 +147,8 @@ public class VIP
 			_endY = rset.getInt("endy");
 			_endZ = rset.getInt("endz");
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch(SQLException e)
 		{
@@ -173,8 +174,8 @@ public class VIP
 			_startY = rset.getInt("starty");
 			_startZ = rset.getInt("startz");
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch(SQLException e)
 		{

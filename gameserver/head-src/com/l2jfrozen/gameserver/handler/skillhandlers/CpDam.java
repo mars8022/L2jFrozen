@@ -106,6 +106,9 @@ public class CpDam implements ISkillHandler
 	
 		for(L2Object target2 : targets)
 		{
+			if (target2 == null)
+				continue;
+			
 			L2Character target = (L2Character) target2;
 
 			if(activeChar instanceof L2PcInstance && target instanceof L2PcInstance && target.isAlikeDead() && target.isFakeDeath())

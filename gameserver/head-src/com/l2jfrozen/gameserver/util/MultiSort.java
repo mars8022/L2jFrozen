@@ -17,10 +17,15 @@
  */
 package com.l2jfrozen.gameserver.util;
 
-import com.l2jfrozen.Config;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import javolution.util.FastList;
 
-import java.util.*;
+import com.l2jfrozen.Config;
 
 /**
  * Descending Integer Sort Algorithm - Fast ordering system. - Can easily be ported elsewhere. - Can handle any number
@@ -111,7 +116,7 @@ public class MultiSort
 	public final List<?> getKeys()
 	{
 		if(_keyList == null)
-			return new FastList<Object>();
+			return new FastList<>();
 
 		return _keyList;
 	}

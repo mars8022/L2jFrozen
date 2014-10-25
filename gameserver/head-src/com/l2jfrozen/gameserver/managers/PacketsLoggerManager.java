@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import com.l2jfrozen.logs.Log;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+
+import com.l2jfrozen.logs.Log;
 
 /**
  * @author Shyla

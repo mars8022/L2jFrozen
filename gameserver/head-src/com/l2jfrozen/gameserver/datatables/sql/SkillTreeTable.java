@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.skills.holders.ISkillsHolder;
 import com.l2jfrozen.gameserver.skills.holders.PlayerSkillHolder;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -113,7 +114,7 @@ public class SkillTreeTable {
             }
 
             classlist.close();
-            statement.close();
+            DatabaseUtils.close(statement);
         } catch (Exception e) {
             LOGGER.error("Error while creating skill tree (Class ID {}): " + classId + " " + e);
         }
@@ -160,7 +161,7 @@ public class SkillTreeTable {
             }
 
             skilltree2.close();
-            statement.close();
+            DatabaseUtils.close(statement);
 
             count2 = _fishingSkillTrees.size();
             count3 = _expandDwarfCraftSkillTrees.size();
@@ -201,7 +202,7 @@ public class SkillTreeTable {
             }
 
             skilltree3.close();
-            statement.close();
+            DatabaseUtils.close(statement);
 
             count4 = _enchantSkillTrees.size();
         } catch (Exception e) {
@@ -235,7 +236,7 @@ public class SkillTreeTable {
             }
 
             skilltree4.close();
-            statement.close();
+            DatabaseUtils.close(statement);
 
             count5 = _pledgeSkillTrees.size();
         } catch (Exception e) {

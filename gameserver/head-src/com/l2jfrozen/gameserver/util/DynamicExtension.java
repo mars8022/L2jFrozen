@@ -19,14 +19,15 @@
 
 package com.l2jfrozen.gameserver.util;
 
-import com.l2jfrozen.Config;
-import org.apache.log4j.Logger;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
 
 /**
  * extension loader for L2JFrozen

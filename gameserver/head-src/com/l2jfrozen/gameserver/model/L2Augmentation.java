@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.skills.funcs.FuncAdd;
 import com.l2jfrozen.gameserver.skills.funcs.LambdaConst;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -146,7 +147,7 @@ public final class L2Augmentation
 			}
 
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -173,7 +174,7 @@ public final class L2Augmentation
 			PreparedStatement statement = con.prepareStatement("DELETE FROM augmentations WHERE item_id=?");
 			statement.setInt(1, _item.getObjectId());
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

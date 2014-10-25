@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ArmorSetsTable
@@ -83,8 +84,8 @@ public class ArmorSetsTable
 
 				LOGGER.info("Loaded: " + armorSets.size() + " armor sets.");
 
-				rset.close();
-				statement.close();
+				DatabaseUtils.close(rset);
+				DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

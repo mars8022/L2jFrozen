@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -120,9 +121,9 @@ public class ClanWarsList implements IUserCommandHandler
 
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT));
 
-			rset.close();
+			DatabaseUtils.close(rset);
 			rset = null;
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

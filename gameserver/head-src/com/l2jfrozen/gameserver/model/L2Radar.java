@@ -17,11 +17,11 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import java.util.Vector;
+
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.RadarControl;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-
-import java.util.Vector;
 
 public final class L2Radar
 {

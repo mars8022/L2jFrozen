@@ -18,20 +18,22 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.ShortCutInit;
 import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * This class ...
@@ -101,7 +103,7 @@ public class ShortCuts
 			statement.setInt(6, shortcut.getLevel());
 			statement.setInt(7, _owner.getClassIndex());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -188,7 +190,7 @@ public class ShortCuts
 			statement.setInt(3, shortcut.getPage());
 			statement.setInt(4, _owner.getClassIndex());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -228,8 +230,8 @@ public class ShortCuts
 				sc = null;
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 		}

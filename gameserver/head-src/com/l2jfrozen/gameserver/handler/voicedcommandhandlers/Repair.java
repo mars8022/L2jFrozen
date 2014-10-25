@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 
@@ -96,8 +97,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 					result += rset.getString(1)+";";
 			}
 			//LOGGER.warn("Repair Attempt: Output Result for searching characters on account:"+result);
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch (SQLException e)
 		{
@@ -127,8 +128,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 			{
 				repCharAcc = rset.getString(1);
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 
 		}
 		catch (SQLException e)
@@ -163,8 +164,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 				accessLevel = rset.getInt(1);
 				repCharJail = rset.getInt(2);
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 
 		}
 		catch (SQLException e)
@@ -196,8 +197,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 			{
 				repCharKarma = rset.getInt(1);
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch (SQLException e)
 		{
@@ -238,8 +239,8 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 			{
 				objId = rset.getInt(1);
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if (objId == 0)
 			{
 				CloseUtil.close(con);
@@ -249,15 +250,15 @@ public class Repair implements IVoicedCommandHandler, ICustomByPassHandler
 			statement = con.prepareStatement("UPDATE characters SET x=17867, y=170259, z=-3503 WHERE obj_Id=?");
 			statement.setInt(1, objId);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = con.prepareStatement("DELETE FROM character_shortcuts WHERE char_obj_id=?");
 			statement.setInt(1, objId);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = con.prepareStatement("UPDATE items SET loc=\"INVENTORY\" WHERE owner_id=? AND loc=\"PAPERDOLL\"");
 			statement.setInt(1, objId);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch (Exception e)
 		{

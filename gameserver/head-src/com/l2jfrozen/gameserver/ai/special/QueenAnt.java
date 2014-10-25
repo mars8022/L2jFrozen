@@ -18,6 +18,10 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
+import java.util.List;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -34,9 +38,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-
-import java.util.List;
 
 public class QueenAnt extends Quest implements Runnable
 {

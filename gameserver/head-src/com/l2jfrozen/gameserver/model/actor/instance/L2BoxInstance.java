@@ -17,20 +17,22 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import javolution.util.FastSet;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Set;
+
+import javolution.util.FastList;
+import javolution.util.FastSet;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class implements a L2Box instance which is used like a warehouse but<br>
@@ -452,7 +454,7 @@ public class L2BoxInstance extends L2NpcInstance
 				it.add(new L2BoxItem(rs.getInt("itemid"), rs.getInt("count"), rs.getString("name"), rs.getInt("id")/*, rs.getInt("enchant")*/));
 			}
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -542,7 +544,7 @@ public class L2BoxInstance extends L2NpcInstance
 				statement.setInt(6, item.getCount());
 				statement.setInt(7, item.getEnchantLevel());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				}
 				else
 		       {
@@ -550,7 +552,7 @@ public class L2BoxInstance extends L2NpcInstance
 		           statement.setInt(1, foundCount + item.getCount());
 		           statement.setInt(2, foundId);
 		           statement.execute();
-		           statement.close();
+		           DatabaseUtils.close(statement);
 		       }
 		}
 		catch (Exception e)
@@ -648,7 +650,7 @@ public class L2BoxInstance extends L2NpcInstance
 				}
 			}
 		       rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch (Exception e)
 		{

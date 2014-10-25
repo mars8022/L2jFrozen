@@ -35,6 +35,7 @@ public class L2SummonAI extends L2CharacterAI
 {
 
 	private boolean _thinking; // to prevent recursive thinking
+	private L2Summon summon;
 
 	public L2SummonAI(AIAccessor accessor)
 	{
@@ -67,7 +68,7 @@ public class L2SummonAI extends L2CharacterAI
 
 	private void thinkAttack()
 	{
-		final L2Summon summon = (L2Summon) _actor;
+		summon = (L2Summon) _actor;
 		L2Object target = null;
 		target = summon.getTarget();
 		

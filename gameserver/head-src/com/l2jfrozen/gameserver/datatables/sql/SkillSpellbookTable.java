@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -68,7 +69,7 @@ public class SkillSpellbookTable
 			}
 
 			spbooks.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			LOGGER.info("SkillSpellbookTable: Loaded " + skillSpellbooks.size() + " spellbooks");
 		}

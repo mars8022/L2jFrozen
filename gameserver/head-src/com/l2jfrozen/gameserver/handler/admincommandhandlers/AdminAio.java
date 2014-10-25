@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -211,7 +212,7 @@ public class AdminAio implements IAdminCommandHandler
 				statement.setLong(1, _player.getAioEndTime());
 				statement.setInt(2, _player.getObjectId());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				connection.close();
 
 				if(Config.ALLOW_AIO_NCOLOR && activeChar.isAio())
@@ -259,7 +260,7 @@ public class AdminAio implements IAdminCommandHandler
 			PreparedStatement statement = connection.prepareStatement("UPDATE characters SET Aio=0, Aio_end=0 WHERE obj_id=?");
 			statement.setInt(1, _player.getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			connection.close();
 
 			_player.lostAioSkills();

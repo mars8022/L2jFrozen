@@ -18,11 +18,12 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import com.l2jfrozen.gameserver.model.L2TradeList;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import java.util.List;
+
 import javolution.util.FastList;
 
-import java.util.List;
+import com.l2jfrozen.gameserver.model.L2TradeList;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 
 /**
  * Format: c ddh[hdddhhd] c - id (0xE8) d - money d - manor id h - size [ h - item type 1 d - object id d - item id d -

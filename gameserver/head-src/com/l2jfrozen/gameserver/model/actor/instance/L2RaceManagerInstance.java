@@ -18,17 +18,25 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import java.util.List;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.actor.knownlist.RaceManagerKnownList;
 import com.l2jfrozen.gameserver.model.entity.MonsterRace;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.DeleteObject;
+import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
+import com.l2jfrozen.gameserver.network.serverpackets.MonRaceInfo;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Broadcast;
-import javolution.util.FastList;
-
-import java.util.List;
 
 public class L2RaceManagerInstance extends L2NpcInstance
 {

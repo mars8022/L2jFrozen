@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -109,7 +110,7 @@ public class AdminWalker implements IAdminCommandHandler
 							rset1 = null;
 						}
 
-						statement.close();
+						DatabaseUtils.close(statement);
 						statement = null;
 					}
 					catch(Exception e)
@@ -212,7 +213,7 @@ public class AdminWalker implements IAdminCommandHandler
 				statement.setInt(9, _mode);
 			}
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

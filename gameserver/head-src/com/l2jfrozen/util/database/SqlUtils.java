@@ -84,12 +84,12 @@ public class SqlUtils
 			try
 			{
 				if(rset!=null){
-					rset.close();
+					DatabaseUtils.close(rset);
 					rset = null;
 				}
 				
 				if(statement!=null){
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				
@@ -163,12 +163,12 @@ public class SqlUtils
 			try
 			{
 				if(rset!=null){
-					rset.close();
+					DatabaseUtils.close(rset);
 					rset = null;
 				}
 				
 				if(statement!=null){
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				
@@ -241,12 +241,12 @@ public class SqlUtils
 			try
 			{
 				if(rset!=null){
-					rset.close();
+					DatabaseUtils.close(rset);
 					rset = null;
 				}
 				
 				if(statement!=null){
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				
@@ -282,7 +282,7 @@ public class SqlUtils
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(GAME_QUICK_OPTIMIZE);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -311,7 +311,7 @@ public class SqlUtils
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(LOGIN_QUICK_OPTIMIZE);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

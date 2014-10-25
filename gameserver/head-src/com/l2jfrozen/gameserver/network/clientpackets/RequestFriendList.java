@@ -110,8 +110,8 @@ public final class RequestFriendList extends L2GameClientPacket
 			//=========================
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT));
 			sm = null;
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 
 			rset = null;
 			statement = null;

@@ -32,6 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -124,7 +125,7 @@ public final class RequestExSetPledgeCrestLarge extends L2GameClientPacket
 				statement.setInt(1, newId);
 				statement.setInt(2, clan.getClanId());
 				statement.executeUpdate();
-				statement.close();
+				DatabaseUtils.close(statement);
 
 				statement = null;
 			}

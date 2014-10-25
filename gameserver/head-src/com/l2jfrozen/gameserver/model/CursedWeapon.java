@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.Point3D;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
@@ -130,7 +131,7 @@ public class CursedWeapon
 						LOGGER.warn("Error while deleting itemId " + _itemId + " from userId " + _playerId);
 					}
 
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 
 					// Restore the karma
@@ -144,7 +145,7 @@ public class CursedWeapon
 						LOGGER.warn("Error while updating karma & pkkills for userId " + _playerId);
 					}
 
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				catch(Exception e)
@@ -510,7 +511,7 @@ public class CursedWeapon
 				statement.executeUpdate();
 			}
 			
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(SQLException e)

@@ -18,13 +18,25 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import java.util.Collection;
+import java.util.concurrent.ScheduledFuture;
+
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.ai.L2CharacterAI;
 import com.l2jfrozen.gameserver.ai.L2DoorAI;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.FortManager;
-import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.L2Clan;
+import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2Territory;
 import com.l2jfrozen.gameserver.model.actor.knownlist.DoorKnownList;
 import com.l2jfrozen.gameserver.model.actor.position.L2CharPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.DoorStat;
@@ -34,16 +46,16 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.entity.siege.clanhalls.DevastatedCastle;
 import com.l2jfrozen.gameserver.network.L2GameClient;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.ConfirmDlg;
+import com.l2jfrozen.gameserver.network.serverpackets.DoorStatusUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.templates.L2CharTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.util.Collection;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ...

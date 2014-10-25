@@ -18,6 +18,11 @@
  */
 package com.l2jfrozen.gameserver.model.actor.instance;
 
+import java.util.Iterator;
+import java.util.Set;
+
+import javolution.text.TextBuilder;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -31,19 +36,23 @@ import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Clan.SubPledge;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
 import com.l2jfrozen.gameserver.model.L2PledgeSkillLearn;
-import com.l2jfrozen.gameserver.model.base.*;
+import com.l2jfrozen.gameserver.model.base.ClassId;
+import com.l2jfrozen.gameserver.model.base.ClassType;
+import com.l2jfrozen.gameserver.model.base.PlayerClass;
+import com.l2jfrozen.gameserver.model.base.PlayerRace;
+import com.l2jfrozen.gameserver.model.base.SubClass;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 import com.l2jfrozen.gameserver.model.quest.QuestState;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.AquireSkillList;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.util.Util;
-import javolution.text.TextBuilder;
-
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * This class ...

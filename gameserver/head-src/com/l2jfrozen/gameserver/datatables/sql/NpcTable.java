@@ -43,6 +43,7 @@ import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -135,7 +136,7 @@ public class NpcTable
 				final ResultSet npcdata = statement.executeQuery();
 				fillNpcTable(npcdata, false);
 				npcdata.close();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(Exception e)
 			{
@@ -197,7 +198,7 @@ public class NpcTable
 					final ResultSet npcdata = statement.executeQuery();
 					fillNpcTable(npcdata, true);
 					npcdata.close();
-					statement.close();
+					DatabaseUtils.close(statement);
 				}
 				catch(Exception e)
 				{
@@ -244,7 +245,7 @@ public class NpcTable
 				}
 
 				npcskills.close();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(Exception e)
 			{
@@ -291,7 +292,7 @@ public class NpcTable
 						//dropDat = null;
 					}
 					dropData.close();
-					statement.close();
+					DatabaseUtils.close(statement);
 					LOGGER.info("CustomDropList : Added " + cCount + " custom droplist");
 
 					if(Config.ENABLE_CACHE_INFO)
@@ -344,7 +345,7 @@ public class NpcTable
 				}
 
 				dropData.close();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(Exception e)
 			{
@@ -385,7 +386,7 @@ public class NpcTable
 				}
 
 				learndata.close();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(Exception e)
 			{
@@ -421,7 +422,7 @@ public class NpcTable
 				}
 
 				minionData.close();
-				statement.close();
+				DatabaseUtils.close(statement);
 				LOGGER.info("NpcTable: Loaded " + cnt  + " Minions.");
 			}
 			catch(Exception e)
@@ -927,7 +928,7 @@ public class NpcTable
 			}
 			statement.setInt(1, npc.getInteger("npcId"));
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

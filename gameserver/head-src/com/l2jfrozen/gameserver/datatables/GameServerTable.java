@@ -17,23 +17,17 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.FService;
-import com.l2jfrozen.loginserver.GameServerThread;
-import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import com.l2jfrozen.util.random.Rnd;
-import javolution.io.UTF8StreamReader;
-import javolution.util.FastMap;
-import javolution.xml.stream.XMLStreamConstants;
-import javolution.xml.stream.XMLStreamException;
-import javolution.xml.stream.XMLStreamReaderImpl;
-import org.apache.log4j.Logger;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
-import java.security.*;
+import java.security.GeneralSecurityException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,6 +35,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javolution.io.UTF8StreamReader;
+import javolution.util.FastMap;
+import javolution.xml.stream.XMLStreamConstants;
+import javolution.xml.stream.XMLStreamException;
+import javolution.xml.stream.XMLStreamReaderImpl;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.FService;
+import com.l2jfrozen.loginserver.GameServerThread;
+import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.l2jfrozen.util.random.Rnd;
 
 /**
  * @author KenM
@@ -202,8 +213,8 @@ public class GameServerTable
 				_gameServerTable.put(id, gsi);
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			
 			rset = null;
 			statement = null;
@@ -286,7 +297,7 @@ public class GameServerTable
 			statement.setString(3, externalHost);
 			statement.executeUpdate();
 			
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 		}

@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -211,7 +212,7 @@ public class L2ClanMember
 			statement.setLong(1, _pledgeType);
 			statement.setInt(2, getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -265,7 +266,7 @@ public class L2ClanMember
 			statement.setLong(1, _powerGrade);
 			statement.setInt(2, getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -501,7 +502,7 @@ public class L2ClanMember
 			statement.setInt(2, sponsor);
 			statement.setInt(3, getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(SQLException e)

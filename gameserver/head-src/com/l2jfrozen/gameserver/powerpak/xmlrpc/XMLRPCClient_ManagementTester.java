@@ -14,12 +14,13 @@
  */
 package com.l2jfrozen.gameserver.powerpak.xmlrpc;
 
-import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 
 /**
  * @author Shyla

@@ -14,6 +14,16 @@
  */
 package com.l2jfrozen.gameserver.model.entity.siege;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
@@ -25,8 +35,12 @@ import com.l2jfrozen.gameserver.managers.FortSiegeGuardManager;
 import com.l2jfrozen.gameserver.managers.FortSiegeManager;
 import com.l2jfrozen.gameserver.managers.FortSiegeManager.SiegeSpawn;
 import com.l2jfrozen.gameserver.managers.MercTicketManager;
-import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.L2Clan;
+import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2SiegeClan;
 import com.l2jfrozen.gameserver.model.L2SiegeClan.SiegeClanType;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ArtefactInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2CommanderInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -39,15 +53,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * The Class FortSiege.
@@ -681,7 +688,7 @@ public class FortSiege
 			PreparedStatement statement = con.prepareStatement("DELETE FROM fortsiege_clans WHERE fort_id=?");
 			statement.setInt(1, getFort().getFortId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(getFort().getOwnerId() > 0)
@@ -728,7 +735,7 @@ public class FortSiege
 			PreparedStatement statement = con.prepareStatement("DELETE FROM fortsiege_clans WHERE fort_id=? and type = 2");
 			statement.setInt(1, getFort().getFortId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			getDefenderWaitingClans().clear();
@@ -1053,7 +1060,7 @@ public class FortSiege
 			}
 
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			loadSiegeClan();
@@ -1326,7 +1333,7 @@ public class FortSiege
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -1398,7 +1405,7 @@ public class FortSiege
 			statement.setInt(2, getFort().getFortId());
 			statement.execute();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1449,7 +1456,7 @@ public class FortSiege
 				statement.setInt(2, getFort().getFortId());
 				statement.setInt(3, typeId);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			else
@@ -1459,7 +1466,7 @@ public class FortSiege
 				statement.setInt(2, getFort().getFortId());
 				statement.setInt(3, clan.getClanId());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 

@@ -18,17 +18,6 @@
  */
 package com.l2jfrozen.gameserver.controllers;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
-import com.l2jfrozen.gameserver.model.L2TradeList;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
-import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -39,6 +28,20 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
+import com.l2jfrozen.gameserver.model.L2TradeList;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
@@ -219,8 +222,8 @@ public class TradeController
 
 						if(item == null)
 						{
-							rset.close();
-							statement.close();
+							DatabaseUtils.close(rset);
+							DatabaseUtils.close(statement);
 
 							rset = null;
 							statement = null;
@@ -322,8 +325,8 @@ public class TradeController
 						buy1 = null;
 					}
 
-					rset.close();
-					statement.close();
+					DatabaseUtils.close(rset);
+					DatabaseUtils.close(statement);
 
 					rset = null;
 					statement = null;
@@ -432,8 +435,8 @@ public class TradeController
 							L2ItemInstance item = ItemTable.getInstance().createDummyItem(itemId);
 							if(item == null)
 							{
-								rset.close();
-								statement.close();
+								DatabaseUtils.close(rset);
+								DatabaseUtils.close(statement);
 
 								rset = null;
 								statement = null;
@@ -534,8 +537,8 @@ public class TradeController
 							buy1 = null;
 						}
 
-						rset.close();
-						statement.close();
+						DatabaseUtils.close(rset);
+						DatabaseUtils.close(statement);
 
 						rset = null;
 						statement = null;
@@ -697,7 +700,7 @@ public class TradeController
 			statement.setLong(1, timerSave);
 			statement.setInt(2, time);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -746,7 +749,7 @@ public class TradeController
 						statement.setInt(2, Item.getItemId());
 						statement.setInt(3, listId);
 						statement.executeUpdate();
-						statement.close();
+						DatabaseUtils.close(statement);
 						statement = null;
 					}
 				}

@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import javolution.util.FastList;
-
 import java.util.List;
+
+import javolution.util.FastList;
 
 /**
  * <code>

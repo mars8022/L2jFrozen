@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import com.l2jfrozen.gameserver.model.L2PetData;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class L2PetDataTable
@@ -108,8 +109,8 @@ public class L2PetDataTable
 				_petTable.get(petId).put(petLevel, petData);
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

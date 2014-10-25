@@ -14,6 +14,16 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -32,20 +42,17 @@ import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.Ride;
+import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.text.TextBuilder;
-import org.apache.log4j.Logger;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 /**
  * The Class DM.
@@ -1066,7 +1073,7 @@ public class DM implements EventTask
 									statement.setInt(3, _npcZ);
 									statement.setString(4, player.getName());
 									statement.execute();
-									statement.close();
+									DatabaseUtils.close(statement);
 								}
 								catch (Exception e)
 								{
@@ -1669,7 +1676,7 @@ public class DM implements EventTask
 				_playerZ = rs.getInt("playerZ");
 				_intervalBetweenMatchs = rs.getInt("delayForNextEvent");
 			}
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch (Exception e)
 		{
@@ -1697,7 +1704,7 @@ public class DM implements EventTask
 			
 			statement = con.prepareStatement("Delete from dm");
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 			statement = con.prepareStatement("INSERT INTO dm (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, npcHeading, rewardId, rewardAmount, joinTime, eventTime, minPlayers, maxPlayers, color, playerX, playerY, playerZ, delayForNextEvent ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			statement.setString(1, _eventName);
@@ -1722,7 +1729,7 @@ public class DM implements EventTask
 			statement.setInt(20, _playerZ);
 			statement.setLong(21, _intervalBetweenMatchs);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch (Exception e)
 		{

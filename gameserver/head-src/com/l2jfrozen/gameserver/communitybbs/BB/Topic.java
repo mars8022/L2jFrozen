@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.communitybbs.Manager.TopicBBSManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Topic
@@ -91,7 +92,7 @@ public class Topic
 			statement.setInt(7, _type);
 			statement.setInt(8, _cReply);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = null;
 
@@ -154,7 +155,7 @@ public class Topic
 			statement.setInt(1, getID());
 			statement.setInt(2, f.getID());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

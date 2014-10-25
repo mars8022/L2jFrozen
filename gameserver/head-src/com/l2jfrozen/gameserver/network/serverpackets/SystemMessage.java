@@ -14,11 +14,11 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import java.util.Vector;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-
-import java.util.Vector;
 
 public final class SystemMessage extends L2GameServerPacket
 {

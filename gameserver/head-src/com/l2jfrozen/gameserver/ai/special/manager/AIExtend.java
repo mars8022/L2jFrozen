@@ -18,13 +18,14 @@
  */
 package com.l2jfrozen.gameserver.ai.special.manager;
 
+import javolution.util.FastMap;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import javolution.util.FastMap;
 
 /**
  * @author programmos

@@ -14,17 +14,20 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.L2Skill;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class builds a list of skills that L2BufferInstance will be able to cast. Info is directly taken from SQL (table buffer_skills) which should contain at least 4 fields: id (primary key), level, type, adena. "type" will allow administrators to separate and skills in different groups, specially useful to restrict the access to some groups to determined kind of players. Example: <br>
@@ -88,7 +91,7 @@ public class BufferSkillsTable
 					typesCount++;
 				}
 			}
-			statement.close();
+			DatabaseUtils.close(statement);
 			rs.close();
 		}
 		catch (Exception e)

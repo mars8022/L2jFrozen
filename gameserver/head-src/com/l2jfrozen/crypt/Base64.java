@@ -18,8 +18,9 @@
  */
 package com.l2jfrozen.crypt;
 
-import com.l2jfrozen.Config;
 import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
 
 /**
  * Encodes and decodes to and from Base64 notation. The source is based on the work of Robert Harder

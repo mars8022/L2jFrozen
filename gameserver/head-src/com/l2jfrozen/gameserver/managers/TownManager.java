@@ -17,12 +17,14 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
 
 public class TownManager
 {

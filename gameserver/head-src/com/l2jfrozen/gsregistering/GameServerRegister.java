@@ -31,6 +31,7 @@ import com.l2jfrozen.ServerType;
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class GameServerRegister
@@ -150,7 +151,7 @@ public class GameServerRegister
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement("DELETE FROM gameservers");
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch (SQLException e)
 		{

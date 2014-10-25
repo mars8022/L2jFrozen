@@ -18,6 +18,11 @@
  */
 package com.l2jfrozen.gameserver.templates;
 
+import java.io.IOException;
+import java.util.List;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -34,10 +39,6 @@ import com.l2jfrozen.gameserver.skills.Env;
 import com.l2jfrozen.gameserver.skills.conditions.ConditionGameChance;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
-import javolution.util.FastList;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * This class is dedicated to the management of weapons.

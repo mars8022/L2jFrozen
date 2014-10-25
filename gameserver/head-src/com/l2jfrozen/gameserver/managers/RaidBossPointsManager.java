@@ -18,14 +18,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,6 +27,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
   * @author Kerberos
@@ -68,8 +71,8 @@ public class RaidBossPointsManager
 			{
 				_chars.add(rset.getInt("charId"));
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			for(FastList.Node<Integer> n = _chars.head(), end = _chars.tail(); (n = n.getNext()) != end;)
 			{
 				int charId = n.getValue();
@@ -81,8 +84,8 @@ public class RaidBossPointsManager
 				{
 					values.put(rset.getInt("boss_id"), rset.getInt("points"));
 				}
-				rset.close();
-				statement.close();
+				DatabaseUtils.close(rset);
+				DatabaseUtils.close(statement);
 				_list.put(charId, values);
 			}
 		}
@@ -119,7 +122,7 @@ public class RaidBossPointsManager
 			statement.setInt(2, raidId);
 			statement.setInt(3, points);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -191,7 +194,7 @@ public class RaidBossPointsManager
 			PreparedStatement statement;
 			statement = con.prepareStatement("DELETE from character_raid_points WHERE charId > 0");
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			_list.clear();
 			_list = new FastMap<>();
 		}

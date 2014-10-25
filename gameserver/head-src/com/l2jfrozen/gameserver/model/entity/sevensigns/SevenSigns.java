@@ -42,6 +42,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -1014,8 +1015,8 @@ public class SevenSigns
 				_signsPlayerData.put(charObjId, sevenDat);
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("SELECT * FROM seven_signs_status WHERE id=0");
 			rset = statement.executeQuery();
@@ -1043,14 +1044,14 @@ public class SevenSigns
 				_signsDuskSealTotals.put(SEAL_STRIFE, rset.getInt("strife_dusk_score"));
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("UPDATE seven_signs_status SET date=? WHERE id=0");
 			statement.setInt(1, Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
 			statement.execute();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 
 		}
@@ -1109,7 +1110,7 @@ public class SevenSigns
 				statement.setInt(8, sevenDat.getInteger("char_obj_id"));
 				statement.execute();
 
-				statement.close();
+				DatabaseUtils.close(statement);
 
 				if(Config.DEBUG)
 				{
@@ -1155,7 +1156,7 @@ public class SevenSigns
 				statement.setInt(18 + SevenSignsFestival.FESTIVAL_COUNT, Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
 				statement.execute();
 
-				statement.close();
+				DatabaseUtils.close(statement);
 				
 				if(Config.DEBUG)
 				{
@@ -1263,7 +1264,7 @@ public class SevenSigns
 				statement.setInt(3, chosenSeal);
 				statement.execute();
 
-				statement.close();
+				DatabaseUtils.close(statement);
 				
 
 				if(Config.DEBUG)

@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Attackable;
@@ -33,7 +35,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.random.Rnd;
-import org.apache.log4j.Logger;
 
 /**
  * @author l3x
