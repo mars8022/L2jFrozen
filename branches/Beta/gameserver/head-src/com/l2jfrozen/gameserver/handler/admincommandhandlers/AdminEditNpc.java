@@ -18,6 +18,21 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.controllers.TradeController;
@@ -25,7 +40,11 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
-import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.L2DropCategory;
+import com.l2jfrozen.gameserver.model.L2DropData;
+import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.L2TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2BoxInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -35,16 +54,8 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
 
 /**
  * @author terry Window - Preferences - Java - Code Style - Code Templates
@@ -1305,7 +1316,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			
 			dropData.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			dropData = null;
 			
@@ -1371,7 +1382,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			statement.setInt(6, category);
 			
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 			PreparedStatement statement2 = con.prepareStatement("SELECT mobId FROM droplist WHERE mobId=? AND itemId=? AND category=?");
@@ -1437,7 +1448,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			statement.setInt(5, category);
 			statement.setInt(6, chance);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 			reLoadNpcDropList(npcId);
@@ -1549,7 +1560,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 				npcData.addDropData(dropData, category);
 			}
 			dropDataList.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			dropDataList = null;
 			npcData = null;
@@ -1682,7 +1693,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			}
 			
 			skillData.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 			replyMSG.append("</body></html>");
 			adminReply.setHtml(replyMSG.toString());
@@ -1728,7 +1739,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			statement.setInt(3, skillId);
 			
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 			if(npcId > 0)
 			{
@@ -1809,7 +1820,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 			statement.setInt(2, skillId);
 			statement.setInt(3, level);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 			reLoadNpcSkillList(npcId);
 			
@@ -1902,7 +1913,7 @@ public class AdminEditNpc implements IAdminCommandHandler
 				
 			}
 			skillDataList.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

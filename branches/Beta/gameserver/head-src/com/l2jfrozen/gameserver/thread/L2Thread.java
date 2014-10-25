@@ -1,12 +1,12 @@
 package com.l2jfrozen.gameserver.thread;
 
-import javolution.util.FastList;
-
 import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MonitorInfo;
 import java.lang.management.ThreadInfo;
 import java.util.List;
+
+import javolution.util.FastList;
 
 /**
  * @author ProGramMoS

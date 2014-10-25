@@ -19,6 +19,32 @@
 
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ScheduledFuture;
+
+import javolution.text.TextBuilder;
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -34,20 +60,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.L2FastList;
 import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.text.TextBuilder;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ScheduledFuture;
 
 public class Olympiad
 {
@@ -1068,7 +1080,7 @@ public class Olympiad
 					statement.setInt(6, charId);
 				}
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 		}
 		catch (SQLException e)
@@ -1185,7 +1197,7 @@ public class Olympiad
 			
 			statement = con.prepareStatement(OLYMPIAD_MONTH_CLEAR);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = con.prepareStatement(OLYMPIAD_MONTH_CREATE);
 			statement.execute();
 		}
@@ -1246,7 +1258,7 @@ public class Olympiad
                     logResult(hero.getString(CHAR_NAME), "", hero.getDouble(CHAR_ID), hero.getDouble(CLASS_ID), 0, 0, "awarded hero", 0, "");
                     _heroesToBe.add(hero);
                 }
-                statement.close();
+                DatabaseUtils.close(statement);
             }
 		}
 		catch (SQLException e)
@@ -1260,6 +1272,7 @@ public class Olympiad
 		
 	}
 	
+	@SuppressWarnings("resource")
 	public L2FastList<String> getClassLeaderBoard(int classId)
 	{
 		// if (_period != 1) return;
@@ -1287,7 +1300,7 @@ public class Olympiad
 			if (classId == 132) // Male & Female SoulHounds are ranked together
 			{
 				statement.setInt(1, 133);
-				rset = statement.executeQuery();
+				rset = statement.executeQuery(); //Added supress. closed on finally
 				while (rset.next())
 				{
 					names.add(rset.getString(CHAR_NAME));

@@ -18,6 +18,10 @@
 
 package com.l2jfrozen.gameserver.model.zone.type;
 
+import java.util.concurrent.Future;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -27,13 +31,10 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.random.Rnd;
-import org.apache.log4j.Logger;
-
-import java.util.concurrent.Future;
 
 public class L2PoisonZone extends L2ZoneType
 {
-	private final Logger LOGGER = Logger.getLogger(L2PoisonZone.class);
+	protected final Logger LOGGER = Logger.getLogger(L2PoisonZone.class);
 	protected int _skillId;
 	private int _chance;
 	private int _initialDelay;

@@ -17,17 +17,20 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.entity.Auction;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.entity.Auction;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class AuctionManager
 {
@@ -147,7 +150,7 @@ public class AuctionManager
 			{
 				_auctions.add(new Auction(rs.getInt("id")));
 			}
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs.close();
 			rs = null;
@@ -221,7 +224,7 @@ public class AuctionManager
 			PreparedStatement statement;
 			statement = con.prepareStatement("INSERT INTO `auction` VALUES " + ITEM_INIT_DATA[i]);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			_auctions.add(new Auction(id));

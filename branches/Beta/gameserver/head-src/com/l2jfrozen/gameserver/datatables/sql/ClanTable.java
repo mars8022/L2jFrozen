@@ -50,6 +50,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -146,7 +147,7 @@ public class ClanTable
 				clanCount++;
 			}
 			result.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			LOGGER.info("Restored " + clanCount + " clans from the database.");
 		}
@@ -421,7 +422,7 @@ public class ClanTable
 
 			LOGGER.info("Clan removed in db: {}"+" "+ clanId);
 			
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -480,7 +481,7 @@ public class ClanTable
 			statement.setInt(3, 0);
 			statement.setInt(4, 0);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -541,7 +542,7 @@ public class ClanTable
 			//statement.setInt(2,clanId1);
 			//statement.execute();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{
@@ -601,8 +602,8 @@ public class ClanTable
 				getClan(rset.getInt("clan1")).setEnemyClan(rset.getInt("clan2"));
 				getClan(rset.getInt("clan2")).setAttackerClan(rset.getInt("clan1"));
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch(Exception e)
 		{

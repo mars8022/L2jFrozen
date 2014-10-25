@@ -18,6 +18,13 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.util.Collection;
+import java.util.Map;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -28,11 +35,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * This class ...

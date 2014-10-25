@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -62,8 +63,8 @@ public class CharNameTable
 			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
 
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
 		catch(SQLException e)
 		{
@@ -93,8 +94,8 @@ public class CharNameTable
 				number = rset.getInt(1);
 			}
 
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
 		catch(SQLException e)
 		{
@@ -126,8 +127,8 @@ public class CharNameTable
 				number = rset.getInt(1);
 			}
 
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
 		catch(SQLException e)
 		{

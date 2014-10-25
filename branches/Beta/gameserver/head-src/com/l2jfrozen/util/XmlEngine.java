@@ -18,18 +18,21 @@
  */
 package com.l2jfrozen.util;
 
-import com.l2jfrozen.Config;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import javolution.util.FastList;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import com.l2jfrozen.Config;
 
 /**
  * @author programmos

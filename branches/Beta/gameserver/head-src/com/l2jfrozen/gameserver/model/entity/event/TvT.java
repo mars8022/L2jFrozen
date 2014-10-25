@@ -14,6 +14,15 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Vector;
+
+import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
@@ -32,19 +41,17 @@ import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.Ride;
+import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.text.TextBuilder;
-import org.apache.log4j.Logger;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Vector;
 
 /**
  * The Class TvT.
@@ -1118,7 +1125,7 @@ public class TvT implements EventTask
 									statement.setInt(3, _npcZ);
 									statement.setString(4, player.getName());
 									statement.execute();
-									statement.close();
+									DatabaseUtils.close(statement);
 								}
 								catch(Exception e)
 								{
@@ -1779,7 +1786,7 @@ public class TvT implements EventTask
 				_maxPlayers = rs.getInt("maxPlayers");
 				_intervalBetweenMatchs = rs.getLong("delayForNextEvent");
 			}
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			int index = -1;
 			if(teams > 0)
@@ -1805,7 +1812,7 @@ public class TvT implements EventTask
 				
 				}
 				index++;
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 		}
 		catch(Exception e)
@@ -1835,7 +1842,7 @@ public class TvT implements EventTask
 
 			statement = con.prepareStatement("Delete from tvt");
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("INSERT INTO tvt (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, npcHeading, rewardId, rewardAmount, teamsCount, joinTime, eventTime, minPlayers, maxPlayers,delayForNextEvent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 			statement.setString(1, _eventName);
@@ -1857,11 +1864,11 @@ public class TvT implements EventTask
 			statement.setInt(17, _maxPlayers);
 			statement.setLong(18, _intervalBetweenMatchs);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("Delete from tvt_teams");
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			for(String teamName : _teams)
 			{
@@ -1881,7 +1888,7 @@ public class TvT implements EventTask
 				statement.setInt(6, _teamColors.get(index));
 				
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 		}
 		catch(Exception e)

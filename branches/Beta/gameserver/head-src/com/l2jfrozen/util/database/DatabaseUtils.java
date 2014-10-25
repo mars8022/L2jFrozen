@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DatabaseUtils
 {
 
-	public static void closeConnection(Connection conn)
+	public static void close(Connection conn)
 	{
 		if(conn != null)
 			try
@@ -21,7 +21,7 @@ public class DatabaseUtils
 			}
 	}
 
-	public static void closeStatement(PreparedStatement stmt)
+	public static void close(PreparedStatement stmt)
 	{
 		if(stmt != null)
 			try
@@ -33,7 +33,7 @@ public class DatabaseUtils
 			}
 	}
 
-	public static void closeResultSet(ResultSet rs)
+	public static void close(ResultSet rs)
 	{
 		if(rs != null)
 			try
@@ -46,20 +46,20 @@ public class DatabaseUtils
 
 	public static void closeDatabaseCSR(Connection conn, PreparedStatement stmt, ResultSet rs)
 	{
-		closeResultSet(rs);
-		closeStatement(stmt);
-		closeConnection(conn);
+		close(rs);
+		close(stmt);
+		close(conn);
 	}
 
 	public static void closeDatabaseCS(Connection conn, PreparedStatement stmt)
 	{
-		closeStatement(stmt);
-		closeConnection(conn);
+		close(stmt);
+		close(conn);
 	}
 
 	public static void closeDatabaseSR(PreparedStatement stmt, ResultSet rs)
 	{
-		closeResultSet(rs);
-		closeStatement(stmt);
+		close(rs);
+		close(stmt);
 	}
 }

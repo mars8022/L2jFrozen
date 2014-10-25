@@ -18,6 +18,18 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -40,18 +52,9 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ... control for sequence of fight against "High Priestess van Halter".
@@ -327,8 +330,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadRoyalGuard: Loaded " + _royalGuardSpawn.size() + " Royal Guard spawn locations.");
@@ -412,8 +415,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadTriolRevelation: Loaded " + _triolRevelationSpawn.size() + " Triol's Revelation spawn locations.");
@@ -500,8 +503,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadRoyalGuardCaptain: Loaded " + _royalGuardCaptainSpawn.size() + " Royal Guard Captain spawn locations.");
@@ -585,8 +588,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadRoyalGuardHelper: Loaded " + _royalGuardHelperSpawn.size() + " Royal Guard Helper spawn locations.");
@@ -663,8 +666,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadGuardOfAltar: Loaded " + _guardOfAltarSpawn.size() + " Guard Of Altar spawn locations.");
@@ -747,8 +750,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadVanHalter: Loaded High Priestess van Halter spawn locations.");
@@ -822,8 +825,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadRitualOffering: Loaded Ritual Offering spawn locations.");
@@ -898,8 +901,8 @@ public class VanHalter extends Quest implements Runnable
 				}
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			if(Config.DEBUG)
 			{
 				LOGGER.info("VanHalterManager.loadRitualSacrifice: Loaded Ritual Sacrifice spawn locations.");

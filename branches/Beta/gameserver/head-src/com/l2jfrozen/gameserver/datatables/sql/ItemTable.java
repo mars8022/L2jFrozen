@@ -18,6 +18,19 @@
  */
 package com.l2jfrozen.gameserver.datatables.sql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.Item;
@@ -30,19 +43,18 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.skills.SkillsEngine;
-import com.l2jfrozen.gameserver.templates.*;
+import com.l2jfrozen.gameserver.templates.L2Armor;
+import com.l2jfrozen.gameserver.templates.L2ArmorType;
+import com.l2jfrozen.gameserver.templates.L2EtcItem;
+import com.l2jfrozen.gameserver.templates.L2EtcItemType;
+import com.l2jfrozen.gameserver.templates.L2Item;
+import com.l2jfrozen.gameserver.templates.L2Weapon;
+import com.l2jfrozen.gameserver.templates.L2WeaponType;
+import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class ...
@@ -207,8 +219,8 @@ public class ItemTable
 					}
 				}
 
-				statement.close();
-				rset.close();
+				DatabaseUtils.close(statement);
+				DatabaseUtils.close(rset);
 			}
 		}
 		catch(Exception e)
@@ -268,8 +280,8 @@ public class ItemTable
 						}
 					}
 
-					statement.close();
-					rset.close();
+					DatabaseUtils.close(statement);
+					DatabaseUtils.close(rset);
 				}
 			}
 			catch(Exception e)
@@ -770,7 +782,6 @@ public class ItemTable
 			item.setCount(count);
 		}
 
-		/*
 		if(Config.LOG_ITEMS)
 		{
 			LogRecord record = new LogRecord(Level.INFO, "CREATE:" + process);
@@ -779,9 +790,8 @@ public class ItemTable
 			{
 					item, actor, reference
 			});
-			_logItems.LOGGER(record);
+			_logItems.log(record);
 		}
-		*/
 		return item;
 	}
 
@@ -877,7 +887,7 @@ public class ItemTable
 					final PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
 					statement.setInt(1, item.getObjectId());
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 				}
 				catch(Exception e)
 				{

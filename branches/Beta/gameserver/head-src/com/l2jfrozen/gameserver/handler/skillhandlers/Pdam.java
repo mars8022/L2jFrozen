@@ -106,6 +106,9 @@ public class Pdam implements ISkillHandler
 		
 		for (L2Object target2 : target_s)
 		{
+			if (target2 == null)
+				continue;
+			
 			L2Character target = (L2Character) target2;
 			Formulas f = Formulas.getInstance();
 			L2ItemInstance weapon = activeChar.getActiveWeaponInstance();

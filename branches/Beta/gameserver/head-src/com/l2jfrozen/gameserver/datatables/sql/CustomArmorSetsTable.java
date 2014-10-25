@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2ArmorSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -67,8 +68,8 @@ public final class CustomArmorSetsTable
 			}
 			LOGGER.info("ArmorSetsTable: Loaded custom armor sets.");
 
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
 		catch(Exception e)
 		{

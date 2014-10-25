@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
-public abstract class L2DatabaseFactory
+public abstract class L2DatabaseFactory 
 {
 	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory.class);
 	
@@ -42,6 +42,8 @@ public abstract class L2DatabaseFactory
 	
 	// =========================================================
 	// Property - Public
+	// SQLException is thrown in order to avoid aplicattion continue on sql error
+	@SuppressWarnings("unused")
 	public static L2DatabaseFactory getInstance() throws SQLException
 	{
 		if(_instance == null)

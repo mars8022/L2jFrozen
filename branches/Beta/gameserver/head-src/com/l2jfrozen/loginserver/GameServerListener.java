@@ -17,13 +17,15 @@
  */
 package com.l2jfrozen.loginserver;
 
-import com.l2jfrozen.Config;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
 
 /**
  * @author KenM

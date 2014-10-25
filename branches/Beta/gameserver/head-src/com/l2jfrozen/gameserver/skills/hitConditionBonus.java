@@ -18,15 +18,17 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.controllers.GameTimeController;
-import com.l2jfrozen.gameserver.model.L2Character;
+import java.io.File;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.controllers.GameTimeController;
+import com.l2jfrozen.gameserver.model.L2Character;
 
 /**
  * @author Nik

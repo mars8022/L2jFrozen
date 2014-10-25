@@ -18,6 +18,18 @@
  */
 package com.l2jfrozen.gameserver.model.entity.siege;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.crypt.nProtect;
 import com.l2jfrozen.crypt.nProtect.RestrictionType;
@@ -29,8 +41,12 @@ import com.l2jfrozen.gameserver.managers.MercTicketManager;
 import com.l2jfrozen.gameserver.managers.SiegeGuardManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
 import com.l2jfrozen.gameserver.managers.SiegeManager.SiegeSpawn;
-import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.L2Clan;
+import com.l2jfrozen.gameserver.model.L2Object;
+import com.l2jfrozen.gameserver.model.L2SiegeClan;
 import com.l2jfrozen.gameserver.model.L2SiegeClan.SiegeClanType;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ArtefactInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ControlTowerInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
@@ -45,17 +61,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 /**
  * The Class Siege.
  */
@@ -860,7 +867,7 @@ public class Siege
 			PreparedStatement statement = con.prepareStatement("DELETE FROM siege_clans WHERE castle_id=?");
 			statement.setInt(1, getCastle().getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(getCastle().getOwnerId() > 0)
@@ -899,7 +906,7 @@ public class Siege
 			PreparedStatement statement = con.prepareStatement("DELETE FROM siege_clans WHERE castle_id=? and type = 2");
 			statement.setInt(1, getCastle().getCastleId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			getDefenderWaitingClans().clear();
@@ -1191,7 +1198,7 @@ public class Siege
 			statement.setInt(1, getCastle().getCastleId());
 			statement.setInt(2, clanId);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			loadSiegeClan();
@@ -1498,7 +1505,7 @@ public class Siege
 				}
 			}
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1599,7 +1606,7 @@ public class Siege
 			statement.setInt(2, getCastle().getCastleId());
 			statement.execute();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1651,7 +1658,7 @@ public class Siege
 				statement.setInt(2, getCastle().getCastleId());
 				statement.setInt(3, typeId);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			else
@@ -1661,7 +1668,7 @@ public class Siege
 				statement.setInt(2, getCastle().getCastleId());
 				statement.setInt(3, clan.getClanId());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 

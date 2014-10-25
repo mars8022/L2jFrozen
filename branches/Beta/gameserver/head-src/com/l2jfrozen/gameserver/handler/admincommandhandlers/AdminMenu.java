@@ -36,6 +36,7 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -434,7 +435,7 @@ public class AdminMenu implements IAdminCommandHandler
 				activeChar.sendMessage("Specified player name didn't lead to a valid account.");
 			}
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			result.close();
 			result = null;

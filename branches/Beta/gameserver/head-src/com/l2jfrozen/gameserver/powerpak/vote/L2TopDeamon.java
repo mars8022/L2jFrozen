@@ -1,5 +1,19 @@
 package com.l2jfrozen.gameserver.powerpak.vote;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.concurrent.ScheduledFuture;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.powerpak.L2Utils;
@@ -10,19 +24,10 @@ import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import org.apache.log4j.Logger;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.sql.*;
-import java.util.concurrent.ScheduledFuture;
 
 public class L2TopDeamon implements Runnable
 {
-	private static final Logger LOGGER = Logger.getLogger(L2TopDeamon.class);
+	protected static final Logger LOGGER = Logger.getLogger(L2TopDeamon.class);
 	protected ScheduledFuture<?> _task;
 	private Timestamp _lastVote;
 	private boolean _firstRun = false;

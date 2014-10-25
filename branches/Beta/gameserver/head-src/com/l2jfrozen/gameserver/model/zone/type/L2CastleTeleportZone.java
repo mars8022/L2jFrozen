@@ -18,15 +18,16 @@
 
 package com.l2jfrozen.gameserver.model.zone.type;
 
+import java.util.Iterator;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-
-import java.util.Iterator;
 
 public class L2CastleTeleportZone extends L2ZoneType
 {

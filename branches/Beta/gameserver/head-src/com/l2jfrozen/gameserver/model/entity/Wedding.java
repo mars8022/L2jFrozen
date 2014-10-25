@@ -29,6 +29,7 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -81,7 +82,7 @@ public class Wedding
 				_type = rs.getInt("coupleType");
 			}
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -130,7 +131,7 @@ public class Wedding
 			statement.setLong(5, _affiancedDate.getTimeInMillis());
 			statement.setLong(6, _weddingDate.getTimeInMillis());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			_maried = true;
@@ -168,7 +169,7 @@ public class Wedding
 			statement.setInt(3, _type);
 			statement.setInt(4, _Id);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			_maried = true;
@@ -198,7 +199,7 @@ public class Wedding
 			statement = con.prepareStatement("DELETE FROM mods_wedding WHERE id=?");
 			statement.setInt(1, _Id);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

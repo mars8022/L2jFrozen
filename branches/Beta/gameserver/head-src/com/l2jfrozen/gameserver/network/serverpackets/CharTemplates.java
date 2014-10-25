@@ -18,10 +18,11 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import com.l2jfrozen.gameserver.templates.L2PcTemplate;
+import java.util.List;
+
 import javolution.util.FastList;
 
-import java.util.List;
+import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 
 /**
  * This class ...

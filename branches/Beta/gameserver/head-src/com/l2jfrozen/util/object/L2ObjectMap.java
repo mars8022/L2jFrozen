@@ -18,10 +18,10 @@
  */
 package com.l2jfrozen.util.object;
 
+import java.util.Iterator;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
-
-import java.util.Iterator;
 
 /**
  * This class ...

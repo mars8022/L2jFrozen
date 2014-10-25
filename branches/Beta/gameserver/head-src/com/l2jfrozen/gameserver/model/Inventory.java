@@ -39,6 +39,7 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.templates.L2WeaponType;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -1619,7 +1620,7 @@ public abstract class Inventory extends ItemContainer
 			}
 
 			inv.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			refreshWeight();
 
 			statement = null;

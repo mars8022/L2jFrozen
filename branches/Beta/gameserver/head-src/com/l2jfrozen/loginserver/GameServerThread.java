@@ -18,17 +18,6 @@
  */
 package com.l2jfrozen.loginserver;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.crypt.NewCrypt;
-import com.l2jfrozen.gameserver.datatables.GameServerTable;
-import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
-import com.l2jfrozen.loginserver.network.gameserverpackets.*;
-import com.l2jfrozen.loginserver.network.loginserverpackets.*;
-import com.l2jfrozen.loginserver.network.serverpackets.ServerBasePacket;
-import com.l2jfrozen.util.Util;
-import javolution.util.FastSet;
-import org.apache.log4j.Logger;
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +31,29 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import javolution.util.FastSet;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.crypt.NewCrypt;
+import com.l2jfrozen.gameserver.datatables.GameServerTable;
+import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
+import com.l2jfrozen.loginserver.network.gameserverpackets.BlowFishKey;
+import com.l2jfrozen.loginserver.network.gameserverpackets.ChangeAccessLevel;
+import com.l2jfrozen.loginserver.network.gameserverpackets.GameServerAuth;
+import com.l2jfrozen.loginserver.network.gameserverpackets.PlayerAuthRequest;
+import com.l2jfrozen.loginserver.network.gameserverpackets.PlayerInGame;
+import com.l2jfrozen.loginserver.network.gameserverpackets.PlayerLogout;
+import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
+import com.l2jfrozen.loginserver.network.loginserverpackets.AuthResponse;
+import com.l2jfrozen.loginserver.network.loginserverpackets.InitLS;
+import com.l2jfrozen.loginserver.network.loginserverpackets.KickPlayer;
+import com.l2jfrozen.loginserver.network.loginserverpackets.LoginServerFail;
+import com.l2jfrozen.loginserver.network.loginserverpackets.PlayerAuthResponse;
+import com.l2jfrozen.loginserver.network.serverpackets.ServerBasePacket;
+import com.l2jfrozen.util.Util;
 
 /**
  * @author -Wooden-

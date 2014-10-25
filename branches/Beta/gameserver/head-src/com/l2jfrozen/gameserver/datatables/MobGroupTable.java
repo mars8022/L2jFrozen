@@ -17,11 +17,12 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import com.l2jfrozen.gameserver.model.MobGroup;
-import com.l2jfrozen.gameserver.model.actor.instance.L2ControllableMobInstance;
+import java.util.Map;
+
 import javolution.util.FastMap;
 
-import java.util.Map;
+import com.l2jfrozen.gameserver.model.MobGroup;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ControllableMobInstance;
 
 /**
  * @author littlecrow

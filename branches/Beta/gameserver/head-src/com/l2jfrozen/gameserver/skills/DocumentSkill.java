@@ -18,18 +18,20 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
+import java.io.File;
+import java.util.List;
+
+import javolution.util.FastList;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.skills.conditions.Condition;
 import com.l2jfrozen.gameserver.templates.StatsSet;
-import javolution.util.FastList;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * @author mkizub

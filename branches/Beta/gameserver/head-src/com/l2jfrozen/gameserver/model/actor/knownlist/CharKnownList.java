@@ -17,17 +17,18 @@
  */
 package com.l2jfrozen.gameserver.model.actor.knownlist;
 
+import java.util.Collection;
+import java.util.Map;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.util.Util;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-
-import java.util.Collection;
-import java.util.Map;
 
 public class CharKnownList extends ObjectKnownList
 {

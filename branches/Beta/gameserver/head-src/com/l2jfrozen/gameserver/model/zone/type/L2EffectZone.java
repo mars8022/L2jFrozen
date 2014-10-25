@@ -14,6 +14,14 @@
  */
 package com.l2jfrozen.gameserver.model.zone.type;
 
+import java.util.Collection;
+import java.util.Map.Entry;
+import java.util.concurrent.Future;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -24,12 +32,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.EtcStatusUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.StringUtil;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.util.Collection;
-import java.util.Map.Entry;
-import java.util.concurrent.Future;
 
 /**
  * another type of damage zone with skills

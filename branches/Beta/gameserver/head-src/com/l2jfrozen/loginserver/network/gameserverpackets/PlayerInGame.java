@@ -18,10 +18,11 @@
  */
 package com.l2jfrozen.loginserver.network.gameserverpackets;
 
-import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
+import java.util.List;
+
 import javolution.util.FastList;
 
-import java.util.List;
+import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
 
 /**
  * @author -Wooden-

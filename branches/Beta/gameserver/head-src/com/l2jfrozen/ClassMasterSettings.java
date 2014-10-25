@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen;
 
-import javolution.util.FastMap;
-
 import java.util.StringTokenizer;
+
+import javolution.util.FastMap;
 
 public class ClassMasterSettings
 {

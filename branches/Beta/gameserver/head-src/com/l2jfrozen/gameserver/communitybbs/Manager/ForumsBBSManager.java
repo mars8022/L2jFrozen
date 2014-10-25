@@ -18,17 +18,20 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.Manager;
 
-import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ForumsBBSManager extends BaseBBSManager
 {
@@ -85,7 +88,7 @@ public class ForumsBBSManager extends BaseBBSManager
 				addForum(f);
 			}
 			result.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			result = null;
 			statement = null;

@@ -17,6 +17,16 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -25,15 +35,8 @@ import com.l2jfrozen.gameserver.templates.L2EtcItemType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.thread.daemons.ItemsAutoDestroy;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.List;
 
 /**
  * This class manage all items on ground
@@ -99,7 +102,7 @@ public class ItemsOnGroundManager
 				PreparedStatement statement = con.prepareStatement(str);
 				statement.setLong(1, System.currentTimeMillis());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				str = null;
 				statement = null;
 			}
@@ -308,7 +311,7 @@ public class ItemsOnGroundManager
 						statement.setLong(9, 0);
 					}
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				catch(Exception e)

@@ -18,13 +18,31 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import java.lang.reflect.Constructor;
+import java.util.Collection;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
 import com.l2jfrozen.gameserver.geo.GeoData;
 import com.l2jfrozen.gameserver.managers.SiegeManager;
-import com.l2jfrozen.gameserver.model.actor.instance.*;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ArtefactInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ChestInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2ControlTowerInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2MonsterInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
@@ -42,16 +60,18 @@ import com.l2jfrozen.gameserver.skills.effects.EffectCharge;
 import com.l2jfrozen.gameserver.skills.effects.EffectTemplate;
 import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.skills.funcs.FuncTemplate;
-import com.l2jfrozen.gameserver.skills.l2skills.*;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillCharge;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillChargeDmg;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillChargeEffect;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillCreateItem;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillDefault;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillDrain;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSeed;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSignet;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSignetCasttime;
+import com.l2jfrozen.gameserver.skills.l2skills.L2SkillSummon;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.util.Util;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.lang.reflect.Constructor;
-import java.util.Collection;
-import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * This class...
@@ -1718,6 +1738,10 @@ public abstract class L2Skill
 						if(obj instanceof L2Summon)
 						{
 							L2PcInstance trg = ((L2Summon) obj).getOwner();
+							
+							if (trg == null)
+								continue;
+							
 							if(trg == src)
 							{
 								continue;
@@ -1953,6 +1977,10 @@ public abstract class L2Skill
 							if(obj instanceof L2Summon)
 							{
 								L2PcInstance trg = ((L2Summon) obj).getOwner();
+								
+								if (trg == null)
+									continue;
+								
 								if(trg == src)
 								{
 									continue;
@@ -2783,7 +2811,9 @@ public abstract class L2Skill
 						if(obj instanceof L2Summon && src != null)
 						{
 							trg = ((L2Summon) obj).getOwner();
-							
+							if (trg == null)
+								 continue;
+							 
 							if(src.getParty() != null && trg.getParty() != null && src.getParty().getPartyLeaderOID() == trg.getParty().getPartyLeaderOID())
 							{
 								continue;

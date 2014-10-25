@@ -31,6 +31,7 @@ import com.l2jfrozen.gameserver.idfactory.IdFactory;
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestSetAllyCrest extends L2GameClientPacket
@@ -101,7 +102,7 @@ public final class RequestSetAllyCrest extends L2GameClientPacket
 				statement.setInt(1, newId);
 				statement.setInt(2, leaderclan.getAllyId());
 				statement.executeUpdate();
-				statement.close();
+				DatabaseUtils.close(statement);
 
 				statement = null;
 			}

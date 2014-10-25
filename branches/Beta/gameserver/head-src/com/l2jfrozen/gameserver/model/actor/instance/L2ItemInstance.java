@@ -54,6 +54,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
@@ -1242,7 +1243,7 @@ public final class L2ItemInstance extends L2Object
 				{
 					LOGGER.warn("Item item_id=" + item_id + " not known, object_id=" + objectId);
 					rs.close();
-					statement.close();
+					DatabaseUtils.close(statement);
 					CloseUtil.close(con);
 					return null;
 				}
@@ -1273,7 +1274,7 @@ public final class L2ItemInstance extends L2Object
 					inst.removeFromDb();
 
 					rs.close();
-					statement.close();
+					DatabaseUtils.close(statement);
 					CloseUtil.close(con);
 					
 					return null;
@@ -1291,14 +1292,14 @@ public final class L2ItemInstance extends L2Object
 				LOGGER.warn("Item object_id=" + objectId + " not found");
 
 				rs.close();
-				statement.close();
+				DatabaseUtils.close(statement);
 				CloseUtil.close(con);
 				
 				return null;
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			//load augmentation
 			statement = con.prepareStatement("SELECT attributes,skill,level FROM augmentations WHERE item_id=?");
@@ -1309,7 +1310,7 @@ public final class L2ItemInstance extends L2Object
 				inst._augmentation = new L2Augmentation(inst, rs.getInt("attributes"), rs.getInt("skill"), rs.getInt("level"), false);
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			rs = null;
 			statement = null;
 		}
@@ -1431,7 +1432,7 @@ public final class L2ItemInstance extends L2Object
 			statement.executeUpdate();
 			_existsInDb = true;
 			_storedInDb = true;
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 		}
@@ -1486,7 +1487,7 @@ public final class L2ItemInstance extends L2Object
 			statement.executeUpdate();
 			_existsInDb = true;
 			_storedInDb = true;
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 		}
@@ -1534,7 +1535,7 @@ public final class L2ItemInstance extends L2Object
 			statement.executeUpdate();
 			_existsInDb = false;
 			_storedInDb = false;
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 		}

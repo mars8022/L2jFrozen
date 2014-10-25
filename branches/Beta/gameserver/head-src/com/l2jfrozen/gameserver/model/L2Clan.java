@@ -56,6 +56,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
@@ -776,7 +777,7 @@ public class L2Clan
 			statement.setLong(8, getDissolvingExpiryTime());
 			statement.setInt(9, getClanId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(Config.DEBUG)
@@ -813,7 +814,7 @@ public class L2Clan
 			statement.setInt(9, getCrestLargeId());
 			statement.setInt(10, getAllyCrestId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(Config.DEBUG)
@@ -844,7 +845,7 @@ public class L2Clan
 			statement.setLong(3, clanCreateExpiryTime);
 			statement.setInt(4, member.getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			if(Config.DEBUG)
 			{
@@ -854,12 +855,12 @@ public class L2Clan
 			statement = con.prepareStatement("UPDATE characters SET apprentice=0 WHERE apprentice=?");
 			statement.setInt(1, member.getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("UPDATE characters SET sponsor=0 WHERE sponsor=?");
 			statement.setInt(1, member.getObjectId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -884,7 +885,7 @@ public class L2Clan
 			statement.setInt(1, 0);
 			statement.setInt(2, 0);
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -989,7 +990,7 @@ public class L2Clan
 			}
 
 			clanData.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			clanData = null;
 
@@ -1034,7 +1035,7 @@ public class L2Clan
 	         }
 	         
 	         noticeData.close();
-	         statement.close();
+	         DatabaseUtils.close(statement);
 	      }
 	      catch (Exception e)
 	      {
@@ -1072,7 +1073,7 @@ public class L2Clan
 	         else
 	            statement.setString(5, "false");
 	         statement.execute();
-	         statement.close();
+	         DatabaseUtils.close(statement);
 	      }
 	      catch (Exception e)
 	      {
@@ -1137,8 +1138,8 @@ public class L2Clan
 				skill = null;
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 		}
@@ -1212,7 +1213,7 @@ public class L2Clan
 					statement.setInt(2, oldSkill.getId());
 					statement.setInt(3, getClanId());
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				else
@@ -1225,7 +1226,7 @@ public class L2Clan
 						statement.setInt(3, newSkill.getLevel());
 						statement.setString(4, newSkill.getName());
 						statement.execute();
-						statement.close();
+						DatabaseUtils.close(statement);
 						statement = null;
 						
 					}
@@ -1236,7 +1237,7 @@ public class L2Clan
 						statement.setInt(2, newSkill.getId());
 						statement.setInt(3, getClanId());
 						statement.execute();
-						statement.close();
+						DatabaseUtils.close(statement);
 						statement = null;
 						
 					}
@@ -1630,8 +1631,8 @@ public class L2Clan
 				pledge = null;
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 		}
@@ -1743,7 +1744,7 @@ public class L2Clan
 			}
 
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			subPledge = new SubPledge(pledgeType, subPledgeName, leaderName);
@@ -1817,7 +1818,7 @@ public class L2Clan
 			statement.setInt(4, pledgeType);
 			
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			if(Config.DEBUG)
@@ -1863,8 +1864,8 @@ public class L2Clan
 				_privs.get(rank).setPrivs(privileges);
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 		}
@@ -1920,7 +1921,7 @@ public class L2Clan
 				statement.setInt(5, privs);
 
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(Exception e)
@@ -1961,7 +1962,7 @@ public class L2Clan
 				statement.setInt(3, 0);
 				statement.setInt(4, privs);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(Exception e)
@@ -2100,7 +2101,7 @@ public class L2Clan
 				statement.setInt(1, id);
 				statement.setInt(2, getClanId());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(Exception e)
@@ -2714,7 +2715,7 @@ public class L2Clan
 			statement.setInt(1, level);
 			statement.setInt(2, getClanId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -2774,7 +2775,7 @@ public class L2Clan
 			statement.setInt(1, crestId);
 			statement.setInt(2, getClanId());
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = null;
 		}

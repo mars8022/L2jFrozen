@@ -51,6 +51,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeGuardInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -227,8 +228,8 @@ public class CursedWeaponsManager
 				removeFromDb(itemId);
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 			
@@ -293,7 +294,7 @@ public class CursedWeaponsManager
 						{
 							LOGGER.warn("Error while deleting cursed weapon " + itemId + " from userId " + playerId);
 						}
-						statement.close();
+						DatabaseUtils.close(statement);
 
 						// Restore the player's old karma and pk count
 						statement = con.prepareStatement("UPDATE characters SET karma=?, pkkills=? WHERE obj_id=?");
@@ -306,8 +307,8 @@ public class CursedWeaponsManager
 						}
 						
 					}
-					rset.close();
-					statement.close();
+					DatabaseUtils.close(rset);
+					DatabaseUtils.close(statement);
 					rset = null;
 					statement = null;
 
@@ -471,7 +472,7 @@ public class CursedWeaponsManager
 			statement.setInt(1, itemId);
 			statement.executeUpdate();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(SQLException e)

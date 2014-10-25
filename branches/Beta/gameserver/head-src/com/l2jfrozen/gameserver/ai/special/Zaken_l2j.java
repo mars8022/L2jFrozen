@@ -130,7 +130,6 @@ public class Zaken_l2j extends Quest implements Runnable
 		// Zaken doors handling
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable()
 		{
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void run()
 			{

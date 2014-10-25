@@ -18,9 +18,9 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-
 import java.util.Vector;
+
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * 01 // Packet Identifier <BR>

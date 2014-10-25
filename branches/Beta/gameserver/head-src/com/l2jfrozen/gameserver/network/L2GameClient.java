@@ -66,6 +66,7 @@ import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.ReceivablePacket;
 import com.l2jfrozen.util.CloseUtil;
 import com.l2jfrozen.util.OlympiadLogger;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -337,7 +338,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					statement.setLong(1, System.currentTimeMillis() + Config.DELETE_DAYS * 86400000L); // 24*60*60*1000 = 86400000
 					statement.setInt(2, objid);
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 					rs.close();
 					statement = null;
 					rs = null;
@@ -345,7 +346,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			}
 			else
 			{
-				statement.close();
+				DatabaseUtils.close(statement);
 				rs.close();
 				statement = null;
 				rs = null;
@@ -393,7 +394,7 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			PreparedStatement statement = con.prepareStatement("UPDATE characters SET deletetime=0 WHERE obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -423,103 +424,103 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 			statement.setInt(1, objid);
 			statement.setInt(2, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_hennas WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_macroses WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_quests WHERE char_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_recipebook WHERE char_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_shortcuts WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_skills WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_skills_save WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM character_subclasses WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM heroes WHERE charId=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM olympiad_nobles WHERE charId=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM seven_signs WHERE char_obj_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id IN (SELECT object_id FROM items WHERE items.owner_id=?)");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM augmentations WHERE item_id IN (SELECT object_id FROM items WHERE items.owner_id=?)");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM items WHERE owner_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM merchant_lease WHERE player_id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			statement = con.prepareStatement("DELETE FROM characters WHERE obj_Id=?");
 			statement.setInt(1, objid);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

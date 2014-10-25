@@ -18,11 +18,12 @@
  */
 package com.l2jfrozen.gameserver.handler.voicedcommandhandlers;
 
+import javolution.text.TextBuilder;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IVoicedCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
-import javolution.text.TextBuilder;
 
 public class StatsCmd implements IVoicedCommandHandler
 {

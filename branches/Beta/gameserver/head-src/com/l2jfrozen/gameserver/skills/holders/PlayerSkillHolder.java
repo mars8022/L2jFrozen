@@ -18,10 +18,10 @@
  */
 package com.l2jfrozen.gameserver.skills.holders;
 
-import com.l2jfrozen.gameserver.model.L2Skill;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.l2jfrozen.gameserver.model.L2Skill;
 
 /**
  * @author UnAfraid

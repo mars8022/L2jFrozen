@@ -18,6 +18,11 @@
  */
 package com.l2jfrozen.util;
 
+import java.util.Hashtable;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -26,10 +31,6 @@ import com.l2jfrozen.loginserver.LoginController;
 import com.l2jfrozen.loginserver.network.serverpackets.LoginFail.LoginFailReason;
 import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.NetcoreConfig;
-import org.apache.log4j.Logger;
-
-import java.util.Hashtable;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Enzo

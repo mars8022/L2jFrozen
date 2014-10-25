@@ -14,13 +14,28 @@
  */
 package com.l2jfrozen.gameserver.model.entity.event;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Vector;
+
+import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
 import com.l2jfrozen.gameserver.datatables.sql.SpawnTable;
 import com.l2jfrozen.gameserver.managers.CastleManager;
-import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.Inventory;
+import com.l2jfrozen.gameserver.model.L2Effect;
+import com.l2jfrozen.gameserver.model.L2Party;
+import com.l2jfrozen.gameserver.model.L2Radar;
+import com.l2jfrozen.gameserver.model.L2Summon;
+import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.Location;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PetInstance;
@@ -29,19 +44,21 @@ import com.l2jfrozen.gameserver.model.entity.event.manager.EventTask;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
+import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
+import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
+import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.RadarControl;
+import com.l2jfrozen.gameserver.network.serverpackets.Ride;
+import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.text.TextBuilder;
-import org.apache.log4j.Logger;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Vector;
 
 /**
  * The Class CTF.
@@ -1171,7 +1188,7 @@ public class CTF implements EventTask
 									statement.setInt(3, _npcZ);
 									statement.setString(4, player.getName());
 									statement.execute();
-									statement.close();
+									DatabaseUtils.close(statement);
 								}
 								catch(Exception e)
 								{
@@ -1858,7 +1875,7 @@ public class CTF implements EventTask
 				_maxPlayers = rs.getInt("maxPlayers");
 				_intervalBetweenMatches = rs.getLong("delayForNextEvent");
 			}
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			int index = -1;
 			if(teams > 0)
@@ -1894,7 +1911,7 @@ public class CTF implements EventTask
 					
 				}
 				index++;
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 		}
 		catch(Exception e)
@@ -1924,7 +1941,7 @@ public class CTF implements EventTask
 
 			statement = con.prepareStatement("Delete from ctf");
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("INSERT INTO ctf (eventName, eventDesc, joiningLocation, minlvl, maxlvl, npcId, npcX, npcY, npcZ, npcHeading, rewardId, rewardAmount, teamsCount, joinTime, eventTime, minPlayers, maxPlayers,delayForNextEvent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");  
 			statement.setString(1, _eventName);
@@ -1946,11 +1963,11 @@ public class CTF implements EventTask
 			statement.setInt(17, _maxPlayers);
 			statement.setLong(18, _intervalBetweenMatches);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = con.prepareStatement("Delete from ctf_teams");
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			for(String teamName : _teams)
 			{
@@ -1971,7 +1988,7 @@ public class CTF implements EventTask
 				statement.setInt(9, _flagsZ.get(index));
 				
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 		}
 		catch(Exception e)

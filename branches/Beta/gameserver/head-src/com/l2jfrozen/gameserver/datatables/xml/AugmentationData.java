@@ -17,6 +17,21 @@
  */
 package com.l2jfrozen.gameserver.datatables.xml;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Augmentation;
@@ -24,18 +39,6 @@ import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.skills.Stats;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
 
 /**
  * This class manages the augmentation data and can also create new augmentations.

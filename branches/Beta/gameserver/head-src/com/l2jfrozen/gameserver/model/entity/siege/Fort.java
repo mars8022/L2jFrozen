@@ -14,6 +14,16 @@
  */
 package com.l2jfrozen.gameserver.model.entity.siege;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -27,15 +37,8 @@ import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.PledgeShowInfoUpdate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * @author programmos
@@ -377,7 +380,7 @@ public class Fort
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 
@@ -435,7 +438,7 @@ public class Fort
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -467,7 +470,7 @@ public class Fort
 				upgradeDoor(rs.getInt("id"), rs.getInt("hp"), rs.getInt("pDef"), rs.getInt("mDef"));
 			}
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -492,7 +495,7 @@ public class Fort
 			PreparedStatement statement = con.prepareStatement("delete from fort_doorupgrade where doorId in (select id from fort_door where fortId=?)");
 			statement.setInt(1, getFortId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -519,7 +522,7 @@ public class Fort
 			statement.setInt(3, pDef);
 			statement.setInt(4, mDef);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -555,7 +558,7 @@ public class Fort
 			statement.setInt(1, getOwnerId());
 			statement.setInt(2, getFortId());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			// ============================================================================

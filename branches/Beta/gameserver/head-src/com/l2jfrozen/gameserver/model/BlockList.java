@@ -28,12 +28,13 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import java.util.Set;
+
+import javolution.util.FastSet;
+
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
-import javolution.util.FastSet;
-
-import java.util.Set;
 
 /**
  * This class ...

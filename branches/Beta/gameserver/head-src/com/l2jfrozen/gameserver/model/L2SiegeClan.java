@@ -18,10 +18,11 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
+import java.util.List;
+
 import javolution.util.FastList;
 
-import java.util.List;
+import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 
 public class L2SiegeClan
 {

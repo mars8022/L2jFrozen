@@ -14,6 +14,10 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
+import java.util.concurrent.Future;
+
+import javolution.util.FastList;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.datatables.csv.DoorTable;
@@ -31,9 +35,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import javolution.util.FastList;
-
-import java.util.concurrent.Future;
 
 /**
  * Ice Fairy Sirra AI

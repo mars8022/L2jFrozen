@@ -18,11 +18,12 @@
  */
 package com.l2jfrozen.gameserver.skills;
 
-import com.l2jfrozen.gameserver.skills.funcs.Func;
-import javolution.util.FastList;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javolution.util.FastList;
+
+import com.l2jfrozen.gameserver.skills.funcs.Func;
 
 /**
  * A calculator is created to manage and dynamically calculate the effect of a character property (ex : MAX_HP,

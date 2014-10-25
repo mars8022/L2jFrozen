@@ -4,11 +4,16 @@ package com.l2jfrozen.gameserver.powerpak;
  * L2JFrozen
  */
 
-import com.l2jfrozen.Config;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.util.Map;
+
 import javolution.util.FastMap;
 
-import java.io.*;
-import java.util.Map;
+import com.l2jfrozen.Config;
 
 public final class StringTable
 {

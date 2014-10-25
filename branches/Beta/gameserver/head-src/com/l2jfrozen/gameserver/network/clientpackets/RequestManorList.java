@@ -18,9 +18,10 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import javolution.util.FastList;
+
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ExSendManorList;
-import javolution.util.FastList;
 
 /**
  * Format: ch c (id) 0xD0 h (subid) 0x08

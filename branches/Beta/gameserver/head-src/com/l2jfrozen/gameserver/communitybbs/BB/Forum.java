@@ -18,20 +18,23 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.BB;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
-import com.l2jfrozen.gameserver.communitybbs.Manager.TopicBBSManager;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.communitybbs.Manager.ForumsBBSManager;
+import com.l2jfrozen.gameserver.communitybbs.Manager.TopicBBSManager;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class Forum
 {
@@ -116,7 +119,7 @@ public class Forum
 				_ownerID = Integer.parseInt(result.getString("forum_owner_id"));
 			}
 			result.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			result = null;
 			statement = null;
@@ -148,7 +151,7 @@ public class Forum
 				t = null;
 			}
 			result.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			result = null;
 			statement = null;
@@ -181,7 +184,7 @@ public class Forum
 				ForumsBBSManager.getInstance().addForum(f);
 			}
 			result.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			result = null;
 			statement = null;
@@ -273,7 +276,7 @@ public class Forum
 			statement.setInt(6, _forumPerm);
 			statement.setInt(7, _ownerID);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			statement = null;
 

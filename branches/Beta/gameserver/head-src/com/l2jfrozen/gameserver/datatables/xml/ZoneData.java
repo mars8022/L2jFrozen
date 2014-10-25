@@ -17,28 +17,58 @@
  */
 package com.l2jfrozen.gameserver.datatables.xml;
 
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.managers.*;
+import com.l2jfrozen.gameserver.managers.ArenaManager;
+import com.l2jfrozen.gameserver.managers.FishingZoneManager;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
+import com.l2jfrozen.gameserver.managers.OlympiadStadiaManager;
+import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.L2WorldRegion;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.model.zone.form.ZoneCuboid;
 import com.l2jfrozen.gameserver.model.zone.form.ZoneCylinder;
 import com.l2jfrozen.gameserver.model.zone.form.ZoneNPoly;
-import com.l2jfrozen.gameserver.model.zone.type.*;
+import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2BigheadZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2BossZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2CastleTeleportZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2CastleZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2ClanHallZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2CustomZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2DamageZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2DerbyTrackZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2EffectZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2FishingZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2FortZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2JailZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2MotherTreeZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2NoHqZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2NoLandingZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2NoStoreZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2PeaceZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2PoisonZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2SwampZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2TownZone;
+import com.l2jfrozen.gameserver.model.zone.type.L2WaterZone;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 /**
  * This class manages the augmentation data and can also create new augmentations.
@@ -305,8 +335,8 @@ public class ZoneData
                                                         y[i] = rset.getInt("y");
                                                     } else {
                                                         LOGGER.warn("ZoneData: Missing cuboid vertex in sql data for zone: " + zoneId);
-                                                        statement.close();
-                                                        rset.close();
+                                                        DatabaseUtils.close(statement);
+                                                        DatabaseUtils.close(rset);
                                                         successfulLoad = false;
                                                         break;
                                                     }
@@ -343,8 +373,8 @@ public class ZoneData
                                                     temp.setZone(new ZoneNPoly(aX, aY, minZ, maxZ));
                                                 } else {
                                                     LOGGER.warn("ZoneData: Bad sql data for zone: " + zoneId);
-                                                    statement.close();
-                                                    rset.close();
+                                                    DatabaseUtils.close(statement);
+                                                    DatabaseUtils.close(rset);
                                                     continue;
                                                 }
 
@@ -352,13 +382,13 @@ public class ZoneData
                                                 break;
                                             default:
                                                 LOGGER.warn("ZoneData: Unknown shape: " + zoneShape);
-                                                statement.close();
-                                                rset.close();
+                                                DatabaseUtils.close(statement);
+                                                DatabaseUtils.close(rset);
                                                 continue;
                                         }
 	
-										statement.close();
-										rset.close();
+										DatabaseUtils.close(statement);
+										DatabaseUtils.close(rset);
 										statement = null;
 										rset = null;
 									}

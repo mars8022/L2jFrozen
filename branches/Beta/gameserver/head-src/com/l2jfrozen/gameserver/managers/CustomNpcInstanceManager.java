@@ -14,16 +14,19 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
+import com.l2jfrozen.util.random.Rnd;
 
 /**
  * control for Custom Npcs that look like players.
@@ -191,9 +194,9 @@ public final class CustomNpcInstanceManager
 					}
 					ci = null;
 				}
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
-				rset.close();
+				DatabaseUtils.close(rset);
 				rset = null;
 			}
 			LOGGER.info("CustomNpcInstanceManager: loaded " + count + " NPC to PC polymorphs.");
@@ -293,7 +296,7 @@ public final class CustomNpcInstanceManager
 			PreparedStatement statement = con.prepareStatement(Query);
 			ResultSet rset = statement.executeQuery();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 
 			while(rset.next())
@@ -303,7 +306,7 @@ public final class CustomNpcInstanceManager
 				ci.integerData[25] = rset.getInt("template");
 			}
 
-			rset.close();
+			DatabaseUtils.close(rset);
 			rset = null;
 			Query = null;
 		}

@@ -18,6 +18,12 @@
  */
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
+import java.util.StringTokenizer;
+
+import javolution.text.TextBuilder;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -35,10 +41,6 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
-import javolution.text.TextBuilder;
-import org.apache.log4j.Logger;
-
-import java.util.StringTokenizer;
 
 /**
  * This class handles following admin commands: - show_moves - show_teleport - teleport_to_character - move_to -

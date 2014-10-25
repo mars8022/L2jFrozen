@@ -18,6 +18,12 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
+import java.util.Calendar;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.managers.DuelManager;
@@ -27,12 +33,16 @@ import com.l2jfrozen.gameserver.model.L2Effect;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.*;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.ExDuelEnd;
+import com.l2jfrozen.gameserver.network.serverpackets.ExDuelReady;
+import com.l2jfrozen.gameserver.network.serverpackets.ExDuelStart;
+import com.l2jfrozen.gameserver.network.serverpackets.ExDuelUpdateUserInfo;
+import com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket;
+import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
+import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
+import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.util.Calendar;
 
 /**
  * The Class Duel.

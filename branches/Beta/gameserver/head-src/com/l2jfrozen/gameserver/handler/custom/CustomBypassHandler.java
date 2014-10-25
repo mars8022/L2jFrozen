@@ -14,15 +14,17 @@
  */
 package com.l2jfrozen.gameserver.handler.custom;
 
+import java.util.Map;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
 import com.l2jfrozen.gameserver.idfactory.BitSetIDFactory;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.util.Map;
 
 /**
  * This 'Bypass Handler' is a handy tool indeed!<br>

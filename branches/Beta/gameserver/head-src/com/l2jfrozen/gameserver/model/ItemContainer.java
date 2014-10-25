@@ -18,6 +18,15 @@
  */
 package com.l2jfrozen.gameserver.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.GameTimeController;
 import com.l2jfrozen.gameserver.datatables.sql.ItemTable;
@@ -26,14 +35,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance.ItemLocation
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
 
 /**
  * @author Advi
@@ -678,7 +681,7 @@ public abstract class ItemContainer
 			}
 
 			inv.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 
 			inv = null;

@@ -18,10 +18,10 @@
  */
 package com.l2jfrozen.gameserver.script;
 
+import java.util.Hashtable;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.script.faenor.FaenorInterface;
-
-import java.util.Hashtable;
 
 /**
  * @author Luis Arias

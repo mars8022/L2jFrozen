@@ -18,6 +18,20 @@
  */
 package com.l2jfrozen.gameserver.model.quest;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+import javolution.util.FastList;
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.cache.HtmCache;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -37,21 +51,10 @@ import com.l2jfrozen.gameserver.scripting.ManagedScript;
 import com.l2jfrozen.gameserver.scripting.ScriptManager;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import javolution.util.FastList;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 /**
  * @author Luis Arias
  */
@@ -1106,7 +1109,7 @@ public class Quest extends ManagedScript
 
 			rs.close();
 			invalidQuestData.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 
@@ -1150,7 +1153,7 @@ public class Quest extends ManagedScript
 
 			rs.close();
 			invalidQuestDataVar.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 			invalidQuestDataVar = null;
@@ -1198,7 +1201,7 @@ public class Quest extends ManagedScript
 			statement.setString(2, var);
 			statement.setString(3, value);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1245,7 +1248,7 @@ public class Quest extends ManagedScript
 			}
 
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			rs = null;
 		}
@@ -1279,7 +1282,7 @@ public class Quest extends ManagedScript
 			statement.setString(1, getName());
 			statement.setString(2, var);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1309,7 +1312,7 @@ public class Quest extends ManagedScript
 			statement = con.prepareStatement("DELETE FROM quest_global_data WHERE quest_name = ?");
 			statement.setString(1, getName());
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1346,7 +1349,7 @@ public class Quest extends ManagedScript
 			statement.setString(3, var);
 			statement.setString(4, value);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(MySQLIntegrityConstraintViolationException  e)
@@ -1397,7 +1400,7 @@ public class Quest extends ManagedScript
 			statement.setString(3, qs.getQuestName());
 			statement.setString(4, var);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1431,7 +1434,7 @@ public class Quest extends ManagedScript
 			statement.setString(2, qs.getQuestName());
 			statement.setString(3, var);
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -1464,7 +1467,7 @@ public class Quest extends ManagedScript
 			statement.setInt(1, qs.getPlayer().getObjectId());
 			statement.setString(2, qs.getQuestName());
 			statement.executeUpdate();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)

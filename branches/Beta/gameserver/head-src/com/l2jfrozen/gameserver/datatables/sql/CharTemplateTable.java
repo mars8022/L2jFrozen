@@ -33,6 +33,7 @@ import com.l2jfrozen.gameserver.model.base.ClassId;
 import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -251,8 +252,8 @@ public class CharTemplateTable
 				ct = null;
 			}
 
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 			statement = null;
 			rset = null;
 		}

@@ -18,6 +18,18 @@
  */
 package com.l2jfrozen.gameserver.model.entity;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -34,16 +46,6 @@ import com.l2jfrozen.gameserver.templates.L2Item;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author godson
@@ -138,8 +140,8 @@ public class Hero
 				statement2.close();
 				_heroes.put(charId, hero);
 			}
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = con.prepareStatement(GET_ALL_HEROES);
 			rset = statement.executeQuery();
 			while (rset.next())
@@ -409,7 +411,7 @@ public class Hero
 			{
 				statement = con.prepareStatement(UPDATE_ALL);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			else
 			{
@@ -465,7 +467,7 @@ public class Hero
 						statement.setInt(3, heroId);
 						statement.execute();
 					}
-					statement.close();
+					DatabaseUtils.close(statement);
 				}
 			}
 		}

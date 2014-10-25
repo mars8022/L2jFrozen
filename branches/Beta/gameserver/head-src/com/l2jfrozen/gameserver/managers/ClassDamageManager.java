@@ -18,12 +18,6 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.FService;
-import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,6 +25,13 @@ import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.FService;
+import com.l2jfrozen.gameserver.datatables.sql.CharTemplateTable;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * 

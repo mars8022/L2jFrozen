@@ -1,10 +1,10 @@
 package com.l2jfrozen.gameserver.thread;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * @author ProGramMoS

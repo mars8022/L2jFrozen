@@ -18,11 +18,6 @@
  */
 package com.l2jfrozen.gameserver.datatables.sql;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +25,13 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class PetNameTable
 {
@@ -71,8 +73,8 @@ public class PetNameTable
 			statement.setString(2, cond);
 			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
 		catch(SQLException e)
 		{

@@ -30,6 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.LoginServerThread;
 import com.l2jfrozen.gameserver.util.GMAudit;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 
@@ -319,7 +320,7 @@ public class AdminBan implements IAdminCommandHandler {
 			
 			statement.execute();
 			int count = statement.getUpdateCount();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 			if (count == 0)
 				activeChar.sendMessage("Character not found!");
@@ -358,7 +359,7 @@ public class AdminBan implements IAdminCommandHandler {
 			
 			statement.execute();
 			int count = statement.getUpdateCount();
-			statement.close();
+			DatabaseUtils.close(statement);
 			
 			if (count == 0)
 				activeChar.sendMessage("Character not found!");
@@ -392,7 +393,7 @@ public class AdminBan implements IAdminCommandHandler {
 			statement.setString(6, name);
 			statement.execute();
 			int count = statement.getUpdateCount();
-			statement.close();
+			DatabaseUtils.close(statement);
 			if (count == 0)
 				activeChar.sendMessage("Character not found!");
 			else
@@ -458,7 +459,7 @@ public class AdminBan implements IAdminCommandHandler {
 				statement.setString(2, player);
 				statement.execute();
 				int count = statement.getUpdateCount();
-				statement.close();
+				DatabaseUtils.close(statement);
 				if (count == 0)
 				{
 					activeChar.sendMessage("Character not found or access level unaltered.");

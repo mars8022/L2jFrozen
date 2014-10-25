@@ -18,11 +18,12 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.Manager;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
+import java.util.List;
+
 import javolution.util.FastList;
 
-import java.util.List;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 
 public abstract class BaseBBSManager
 {

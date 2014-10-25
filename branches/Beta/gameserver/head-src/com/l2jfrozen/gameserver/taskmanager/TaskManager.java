@@ -49,6 +49,7 @@ import com.l2jfrozen.gameserver.taskmanager.tasks.TaskSevenSignsUpdate;
 import com.l2jfrozen.gameserver.taskmanager.tasks.TaskShutdown;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -107,7 +108,7 @@ public final class TaskManager
 				statement.setLong(1, lastActivation);
 				statement.setInt(2, id);
 				statement.executeUpdate();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(SQLException e)
@@ -249,8 +250,8 @@ public final class TaskManager
 
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 
@@ -392,8 +393,8 @@ public final class TaskManager
 				statement.execute();
 			}
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			rset = null;
 			statement = null;
 
@@ -436,7 +437,7 @@ public final class TaskManager
 			statement.setString(6, param3);
 			statement.execute();
 
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 			
 			output = true;

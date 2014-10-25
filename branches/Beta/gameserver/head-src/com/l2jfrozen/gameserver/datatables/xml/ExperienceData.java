@@ -14,16 +14,18 @@
  */
 package com.l2jfrozen.gameserver.datatables.xml;
 
-import com.l2jfrozen.Config;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import com.l2jfrozen.Config;
 
 /**
  * Based on mrTJO's implementation.

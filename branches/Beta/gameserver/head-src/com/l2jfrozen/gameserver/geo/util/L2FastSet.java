@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen.gameserver.geo.util;
 
-import javolution.util.FastCollection.Record;
-import javolution.util.FastMap;
-
 import java.util.Iterator;
 import java.util.Set;
+
+import javolution.util.FastCollection.Record;
+import javolution.util.FastMap;
 
 @SuppressWarnings("unchecked")
 public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>

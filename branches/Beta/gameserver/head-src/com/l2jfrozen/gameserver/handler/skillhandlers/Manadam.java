@@ -73,9 +73,12 @@ public class Manadam implements ISkillHandler
 		for(L2Object target2 : targets)
 		{
 			target = (L2Character) target2;
-
+			
 			if(target.reflectSkill(skill))
 				target = activeChar;
+			
+			if (target == null) 
+				continue;
 			
 			boolean acted = Formulas.getInstance().calcMagicAffected(activeChar, target, skill);
 			if(target.isInvul() || !acted)

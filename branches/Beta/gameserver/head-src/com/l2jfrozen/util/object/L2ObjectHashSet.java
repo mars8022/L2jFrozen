@@ -18,11 +18,11 @@
  */
 package com.l2jfrozen.util.object;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.model.L2Object;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.model.L2Object;
 
 /**
  * This class is a highly optimized hashtable, where keys are integers. The main goal of this class is to allow

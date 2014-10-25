@@ -17,9 +17,22 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
-import com.l2jfrozen.gameserver.model.*;
+import com.l2jfrozen.gameserver.model.ClanWarehouse;
+import com.l2jfrozen.gameserver.model.ItemContainer;
+import com.l2jfrozen.gameserver.model.L2Clan;
+import com.l2jfrozen.gameserver.model.L2Manor;
+import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -27,15 +40,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
 
 /**
  * Class For Castle Manor Manager Load manor data from DB Update/Reload/Delete Handles all schedule for manor
@@ -228,7 +235,7 @@ public class CastleManorManager
 						productionNext.add(new SeedProduction(seedId, canProduce, price, startProduce));
 					}
 				}
-				statement.close();
+				DatabaseUtils.close(statement);
 				rs.close();
 				statement = null;
 				rs = null;
@@ -257,7 +264,7 @@ public class CastleManorManager
 						procureNext.add(new CropProcure(cropId, canBuy, rewardType, startBuy, price));
 					}
 				}
-				statement.close();
+				DatabaseUtils.close(statement);
 				rs.close();
 				statement = null;
 				rs = null;

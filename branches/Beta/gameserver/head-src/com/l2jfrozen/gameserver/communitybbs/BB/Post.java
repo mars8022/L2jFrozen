@@ -18,17 +18,20 @@
  */
 package com.l2jfrozen.gameserver.communitybbs.BB;
 
-import com.l2jfrozen.Config;
-import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
-import com.l2jfrozen.util.CloseUtil;
-import com.l2jfrozen.util.database.L2DatabaseFactory;
-import javolution.util.FastList;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+
+import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.communitybbs.Manager.PostBBSManager;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * @author Maktakien
@@ -92,7 +95,7 @@ public class Post
 			statement.setInt(6, cp.postForumId);
 			statement.setString(7, cp.postTxt);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -140,7 +143,7 @@ public class Post
 			statement.setInt(1, t.getForumID());
 			statement.setInt(2, t.getID());
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
 		catch(Exception e)
@@ -180,7 +183,7 @@ public class Post
 				cp = null;
 			}
 			result.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			result = null;
 			statement = null;
@@ -212,7 +215,7 @@ public class Post
 			statement.setInt(3, cp.postTopicId);
 			statement.setInt(4, cp.postForumId);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 
 			cp = null;
 			statement = null;

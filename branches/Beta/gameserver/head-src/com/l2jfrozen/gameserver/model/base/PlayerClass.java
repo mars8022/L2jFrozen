@@ -28,15 +28,24 @@
  */
 package com.l2jfrozen.gameserver.model.base;
 
-import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import static com.l2jfrozen.gameserver.model.base.ClassLevel.First;
+import static com.l2jfrozen.gameserver.model.base.ClassLevel.Fourth;
+import static com.l2jfrozen.gameserver.model.base.ClassLevel.Second;
+import static com.l2jfrozen.gameserver.model.base.ClassLevel.Third;
+import static com.l2jfrozen.gameserver.model.base.ClassType.Fighter;
+import static com.l2jfrozen.gameserver.model.base.ClassType.Mystic;
+import static com.l2jfrozen.gameserver.model.base.ClassType.Priest;
+import static com.l2jfrozen.gameserver.model.base.PlayerRace.DarkElf;
+import static com.l2jfrozen.gameserver.model.base.PlayerRace.Dwarf;
+import static com.l2jfrozen.gameserver.model.base.PlayerRace.Human;
+import static com.l2jfrozen.gameserver.model.base.PlayerRace.LightElf;
+import static com.l2jfrozen.gameserver.model.base.PlayerRace.Orc;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static com.l2jfrozen.gameserver.model.base.ClassLevel.*;
-import static com.l2jfrozen.gameserver.model.base.ClassType.*;
-import static com.l2jfrozen.gameserver.model.base.PlayerRace.*;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...

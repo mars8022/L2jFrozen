@@ -18,6 +18,18 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
+
+import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -31,18 +43,9 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.logs.Log;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
-import javolution.util.FastMap;
-import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * @author godson
@@ -124,8 +127,8 @@ public class RaidBossSpawnManager
 			LOGGER.info("RaidBossSpawnManager: Loaded " + _bosses.size() + " Instances");
 			LOGGER.info("RaidBossSpawnManager: Scheduled " + _schedules.size() + " Instances");
 
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 		}
@@ -156,6 +159,7 @@ public class RaidBossSpawnManager
 			bossId = npcId;
 		}
 
+		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run()
 		{
@@ -343,7 +347,7 @@ public class RaidBossSpawnManager
 				statement.setDouble(8, currentHP);
 				statement.setDouble(9, currentMP);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(Exception e)
@@ -402,7 +406,7 @@ public class RaidBossSpawnManager
 				PreparedStatement statement = con.prepareStatement("DELETE FROM raidboss_spawnlist WHERE boss_id=?");
 				statement.setInt(1, bossId);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
 			}
 			catch(Exception e)
@@ -451,7 +455,7 @@ public class RaidBossSpawnManager
 						statement.setInt(4, bossId);
 						statement.execute();
 
-						statement.close();
+						DatabaseUtils.close(statement);
 						statement = null;
 						info = null;
 					}

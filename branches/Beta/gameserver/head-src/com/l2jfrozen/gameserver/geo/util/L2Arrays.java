@@ -18,13 +18,13 @@
  */
 package com.l2jfrozen.gameserver.geo.util;
 
-import javolution.util.FastList;
-
 import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javolution.util.FastList;
 
 @SuppressWarnings("unchecked")
 public final class L2Arrays

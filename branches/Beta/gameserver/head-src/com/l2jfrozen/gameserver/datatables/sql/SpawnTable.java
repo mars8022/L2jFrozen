@@ -34,6 +34,7 @@ import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -165,8 +166,8 @@ public class SpawnTable
 					LOGGER.warn("SpawnTable: Data missing in NPC table for ID: {}. "+ rset.getInt("npc_templateid"));
 				}
 			}
-			statement.close();
-			rset.close();
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
 		catch(Exception e)
 		{
@@ -264,8 +265,8 @@ public class SpawnTable
 						LOGGER.warn("CustomSpawnTable: Data missing in NPC table for ID: {}. "+ rset.getInt("npc_templateid"));
 					}
 				}
-				statement.close();
-				rset.close();
+				DatabaseUtils.close(statement);
+				DatabaseUtils.close(rset);
 			}
 			catch(Exception e)
 			{
@@ -310,7 +311,7 @@ public class SpawnTable
 				statement.setInt(8, spawn.getRespawnDelay() / 1000);
 				statement.setInt(9, spawn.getLocation());
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
 			catch(Exception e)
 			{
@@ -341,7 +342,7 @@ public class SpawnTable
 					statement.setInt(1, spawn.getId());
 					statement.setBoolean(2, spawn.isCustom());
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 				}
 				catch(Exception e)
 				{
@@ -360,7 +361,7 @@ public class SpawnTable
 					final PreparedStatement statement = con.prepareStatement("DELETE FROM " + (spawn.isCustom() ? "custom_spawnlist" : "spawnlist") + " WHERE id=?");
 					statement.setInt(1, spawn.getId());
 					statement.execute();
-					statement.close();
+					DatabaseUtils.close(statement);
 				}
 				catch(Exception e)
 				{
