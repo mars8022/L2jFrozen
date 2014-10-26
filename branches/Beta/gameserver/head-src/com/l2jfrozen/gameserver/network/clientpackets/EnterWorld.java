@@ -555,8 +555,12 @@ public class EnterWorld extends L2GameClientPacket
 				GmListTable.getInstance().addGm(activeChar, false);
 			else
 				GmListTable.getInstance().addGm(activeChar, true);
-
-			activeChar.updateGmNameTitleColor();
+				
+			if(Config.MASTERACCESS_NAME_COLOR_ENABLED)
+        activeChar.getAppearance().setNameColor(Config.MASTERACCESS_NAME_COLOR);
+        
+      if(Config.MASTERACCESS_TITLE_COLOR_ENABLED)
+        activeChar.getAppearance().setTitleColor(Config.MASTERACCESS_TITLE_COLOR);
 		}
 	}
 
