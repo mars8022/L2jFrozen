@@ -1408,6 +1408,10 @@ public class DM implements EventTask
 	 */
 	private static boolean addPlayerOk(L2PcInstance eventPlayer)
 	{
+		if (eventPlayer.isAio() && !Config.ALLOW_AIO_IN_EVENTS)
+		{
+			eventPlayer.sendMessage("AIO charactes are not allowed to participate in events :/");
+		}
 		if (eventPlayer._inEventDM)
 		{
 			eventPlayer.sendMessage("You already participated in the event!");

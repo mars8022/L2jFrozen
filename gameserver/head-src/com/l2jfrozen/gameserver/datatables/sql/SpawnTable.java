@@ -340,7 +340,7 @@ public class SpawnTable
 					con = L2DatabaseFactory.getInstance().getConnection(false);
 					PreparedStatement statement = con.prepareStatement("Replace into custom_notspawned VALUES (?,?)");
 					statement.setInt(1, spawn.getId());
-					statement.setBoolean(2, spawn.isCustom());
+					statement.setBoolean(2, false);
 					statement.execute();
 					DatabaseUtils.close(statement);
 				}

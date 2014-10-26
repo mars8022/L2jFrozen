@@ -19,6 +19,7 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * 0000: 01 7a 73 10 4c b2 0b 00 00 a3 fc 00 00 e8 f1 ff .zs.L........... 0010: ff bd 0b 00 00 b3 fc 00 00 e8 f1 ff ff
@@ -45,6 +46,12 @@ public class CharMoveToLocation extends L2GameServerPacket
 	@Override
 	protected final void writeImpl()
 	{
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		// reset old Moving task
+		if (activeChar != null && activeChar.isMovingTaskDefined())
+			activeChar.setMovingTaskDefined(false);
+		
 		writeC(0x01);
 
 		writeD(_charObjId);

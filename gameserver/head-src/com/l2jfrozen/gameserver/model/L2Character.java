@@ -2470,6 +2470,15 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		// Update active skills in progress (In Use and Not In Use because stacked) icones on client
 		updateEffectIcons();
 		
+		// After dead mob check if the killer got a moving task actived
+		if (killer instanceof L2PcInstance)
+		{
+			if (((L2PcInstance) killer).isMovingTaskDefined())
+			{
+				((L2PcInstance) killer).startMovingTask();
+			}
+		}
+		
 		return true;
 	}
 	

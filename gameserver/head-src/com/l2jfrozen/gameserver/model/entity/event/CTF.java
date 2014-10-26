@@ -1524,6 +1524,10 @@ public class CTF implements EventTask
 	 */
 	private static boolean addPlayerOk(String teamName, L2PcInstance eventPlayer)
 	{
+		if (eventPlayer.isAio() && !Config.ALLOW_AIO_IN_EVENTS)
+		{
+			eventPlayer.sendMessage("AIO charactes are not allowed to participate in events :/");
+		}
 		if(checkShufflePlayers(eventPlayer) || eventPlayer._inEventCTF)
 		{
 			eventPlayer.sendMessage("You already participated in the event!");
