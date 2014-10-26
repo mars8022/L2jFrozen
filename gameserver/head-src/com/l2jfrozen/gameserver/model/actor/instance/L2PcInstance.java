@@ -4784,9 +4784,16 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public boolean reduceAdena(String process, int count, L2Object reference, boolean sendMessage)
 	{
-		if(count > getAdena())
+		// Game master don't need to pay
+		if (isGM())
 		{
-			if(sendMessage)
+			sendMessage("You are a Gm, you don't need to pay! reduceAdena = 0.");
+			return true;
+		}
+		if (count > getAdena())
+		{
+			
+			if (sendMessage)
 			{
 				sendPacket(new SystemMessage(SystemMessageId.YOU_NOT_ENOUGH_ADENA));
 			}
@@ -11368,6 +11375,12 @@ public final class L2PcInstance extends L2PlayableInstance
 					foundskill = true;
 				}
 				
+				// exclude Aio character				
+				if (isAio())
+				{	
+					foundskill = true;					
+				}
+				
 				// remove skill and do a lil LOGGER message
 				if(!foundskill)
 				{
@@ -11380,6 +11393,10 @@ public final class L2PcInstance extends L2PlayableInstance
 					}
 				}
 			}
+			
+			// Update skill list
+            sendSkillList();
+
 			skillTree = null;
 		}
 	}
@@ -15321,7 +15338,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		unsummonAllCubics();
 		
-		
+		/*
 		for(L2Character character : getKnownList().getKnownCharacters())
 		{
 			if(character.getForceBuff() != null && character.getForceBuff().getTarget() == this)
@@ -15329,6 +15346,7 @@ public final class L2PcInstance extends L2PlayableInstance
 				character.abortCast();
 			}
 		}
+		*/
 		
 		synchronized (getAllSkills()){
 			
@@ -15409,7 +15427,9 @@ public final class L2PcInstance extends L2PlayableInstance
 			}	
 		}		
 		
-		checkAllowedSkills();
+		// Check player skills
+		if (Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
+			checkAllowedSkills();
 		
 		sendPacket(new EtcStatusUpdate(this));
 		

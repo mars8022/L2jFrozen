@@ -16,6 +16,7 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 
 /**
  * Appearing Packet Handler
@@ -38,8 +39,7 @@ public final class Appearing extends L2GameClientPacket
 		if (activeChar.isTeleporting())
 			activeChar.onTeleported();
 
-		if (!activeChar.inObserverMode())
-			activeChar.broadcastUserInfo();
+		sendPacket(new UserInfo(activeChar));
 	}
 
 	@Override
