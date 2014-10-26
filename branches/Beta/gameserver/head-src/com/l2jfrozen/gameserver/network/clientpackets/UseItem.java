@@ -295,7 +295,7 @@ public final class UseItem extends L2GameClientPacket
 			}
 			*/
 			
-			// fix enchant
+			// Over enchant protection
 			if (Config.PROTECTED_ENCHANT)
 			{
 				switch (bodyPart)

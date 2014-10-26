@@ -272,9 +272,6 @@ public class EnterWorld extends L2GameClientPacket
 		sendPacket(new FriendList(activeChar));
 		sendPacket(new ItemList(activeChar, false));
 		sendPacket(new ShortCutInit(activeChar));
-
-		// Send all skills to char
-		activeChar.sendSkillList(); 
 		
 		// Reload inventory to give SA skill
 		activeChar.getInventory().reloadEquippedItems();
@@ -297,8 +294,7 @@ public class EnterWorld extends L2GameClientPacket
 
 		// Check player skills
 		if (Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-		    if (!activeChar.isAio())
-		    		activeChar.checkAllowedSkills();
+			activeChar.checkAllowedSkills();
 
 		PetitionManager.getInstance().checkPetitionMessages(activeChar);
 
@@ -462,14 +458,12 @@ public class EnterWorld extends L2GameClientPacket
 					SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.NIGHT_EFFECT_APPLIES);
 					sm.addSkillName(294);
 					sendPacket(sm);
-					activeChar.sendSkillList(); 
 				}
 				else
 				{
 					SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.DAY_EFFECT_DISAPPEARS);
 					sm.addSkillName(294);
 					sendPacket(sm);
-					activeChar.sendSkillList(); 
 				}
 			}
 		}
@@ -492,15 +486,23 @@ public class EnterWorld extends L2GameClientPacket
 				activeChar.addSkill(SkillTable.getInstance().getInfo(3626, 1));
 				activeChar.addSkill(SkillTable.getInstance().getInfo(3627, 1));
 				activeChar.addSkill(SkillTable.getInstance().getInfo(3628, 1));
-				activeChar.sendSkillList();
 		}
 		else
 		{
 			activeChar.removeSkill(3626, true);
 			activeChar.removeSkill(3627, true);
 			activeChar.removeSkill(3628, true);
-			activeChar.sendSkillList();
 		}
+		
+		// If it's a Beta server all players got GM SPEED skill for better testing
+		if (Config.BETASERVER)
+		{
+			activeChar.addSkill(SkillTable.getInstance().getInfo(7029, 4), true);
+			activeChar.sendMessage("Server is on Beta mode. Skill Gm Haste 4 added for better testing.");
+		}
+		
+		// Send all skills to char
+		activeChar.sendSkillList(); 
 		
 		// Close lock at login
 		activeChar.setLocked(false);

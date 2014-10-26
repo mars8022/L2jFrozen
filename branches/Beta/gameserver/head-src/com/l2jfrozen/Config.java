@@ -1889,6 +1889,7 @@ public final class Config
 	public static boolean ZONE_DEBUG;
 	public static boolean ENABLE_ALL_EXCEPTIONS = true;
 	public static boolean SERVER_LIST_TESTSERVER;
+	public static boolean BETASERVER;
 	public static boolean SERVER_LIST_BRACKET;
 	public static boolean SERVER_LIST_CLOCK;
 	public static boolean SERVER_GMONLY;
@@ -1939,6 +1940,7 @@ public final class Config
 			ZONE_DEBUG = Boolean.parseBoolean(devSettings.getProperty("ZoneDebug", "false"));
 			ENABLE_ALL_EXCEPTIONS = Boolean.parseBoolean(devSettings.getProperty("EnableAllExceptionsLog", "false"));
 			SERVER_LIST_TESTSERVER = Boolean.parseBoolean(devSettings.getProperty("TestServer", "false"));
+			BETASERVER = Boolean.parseBoolean(devSettings.getProperty("BetaServer", "false"));
 			SERVER_LIST_BRACKET = Boolean.valueOf(devSettings.getProperty("ServerListBrackets", "false"));
 			SERVER_LIST_CLOCK = Boolean.valueOf(devSettings.getProperty("ServerListClock", "false"));
 			SERVER_GMONLY = Boolean.valueOf(devSettings.getProperty("ServerGMOnly", "false"));

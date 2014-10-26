@@ -429,10 +429,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 
 						player.setActiveClass(player.getTotalSubClasses());
 						
-						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-						{
+						// Check player skills
+						if (Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
 							player.checkAllowedSkills();
-						}
 
 						content.append("Add Subclass:<br>The sub class of <font color=\"LEVEL\">" + className + "</font> has been added.");
 						player.sendPacket(new SystemMessage(SystemMessageId.CLASS_TRANSFER)); // Transfer to new class.
@@ -492,10 +491,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 					player.sendPacket(new SystemMessage(SystemMessageId.SUBCLASS_TRANSFER_COMPLETED)); // Transfer completed.
 					
 					// check player skills
-					if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-					{
-						player.checkAllowedSkills();
-					}
+					// Player skills are already checked during setActiveClass
 					
 					player.setLocked(false);					
 					break;
@@ -563,10 +559,7 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 						player.sendPacket(new SystemMessage(SystemMessageId.ADD_NEW_SUBCLASS)); // Subclass added.
 
 						// check player skills
-						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-						{
-							player.checkAllowedSkills();
-						}
+						// Player skills are already checked during setActiveClass
 
 					}
 					else
@@ -580,10 +573,9 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 
 						player.setActiveClass(0); // Also updates _classIndex plus switching _classid to baseclass.
 						
-						if(Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
-						{
+						// Check player skills
+						if (Config.CHECK_SKILLS_ON_ENTER && !Config.ALT_GAME_SKILL_LEARN)
 							player.checkAllowedSkills();
-						}
 
 						player.sendMessage("The sub class could not be added, you have been reverted to your base class.");
 						player.setLocked(false);
