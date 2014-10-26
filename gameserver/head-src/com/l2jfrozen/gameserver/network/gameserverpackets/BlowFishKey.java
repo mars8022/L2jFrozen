@@ -31,23 +31,23 @@ import org.apache.log4j.Logger;
 public class BlowFishKey extends GameServerBasePacket
 {
 	private static Logger LOGGER = Logger.getLogger(BlowFishKey.class);
-
+	
 	/**
 	 * @param blowfishKey
 	 * @param publicKey
 	 */
-	public BlowFishKey(byte[] blowfishKey, RSAPublicKey publicKey)
+	public BlowFishKey(final byte[] blowfishKey, final RSAPublicKey publicKey)
 	{
 		writeC(0x00);
 		try
 		{
-			Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
+			final Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
 			rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			byte[] encrypted = rsaCipher.doFinal(blowfishKey);
+			final byte[] encrypted = rsaCipher.doFinal(blowfishKey);
 			writeD(encrypted.length);
 			writeB(encrypted);
 		}
-		catch(GeneralSecurityException e)
+		catch (final GeneralSecurityException e)
 		{
 			LOGGER.warn("Error While encrypting blowfish key for transmision (Crypt error)");
 			e.printStackTrace();

@@ -20,28 +20,27 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * sample format d
- * 
  * @version $Revision: 1.1.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public class ShowTownMap extends L2GameServerPacket
 {
 	private static final String _S__DE_ShowTownMap = "[S] DE ShowTownMap";
-	private String _texture;
-	private int _x;
-	private int _y;
-
+	private final String _texture;
+	private final int _x;
+	private final int _y;
+	
 	/**
-	 * @param texture 
-	 * @param x 
-	 * @param y 
+	 * @param texture
+	 * @param x
+	 * @param y
 	 */
-	public ShowTownMap(String texture, int x, int y)
+	public ShowTownMap(final String texture, final int x, final int y)
 	{
 		_texture = texture;
 		_x = x;
 		_y = y;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -50,8 +49,9 @@ public class ShowTownMap extends L2GameServerPacket
 		writeD(_x);
 		writeD(_y);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

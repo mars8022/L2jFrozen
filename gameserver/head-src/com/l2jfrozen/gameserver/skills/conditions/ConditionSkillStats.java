@@ -26,19 +26,19 @@ import com.l2jfrozen.gameserver.skills.Stats;
  */
 public class ConditionSkillStats extends Condition
 {
-
+	
 	private final Stats _stat;
-
-	public ConditionSkillStats(Stats stat)
+	
+	public ConditionSkillStats(final Stats stat)
 	{
 		super();
 		_stat = stat;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(env.skill == null)
+		if (env.skill == null)
 			return false;
 		return env.skill.getStat() == _stat;
 	}

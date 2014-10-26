@@ -35,8 +35,8 @@ import com.l2jfrozen.util.IPv4Filter;
  */
 public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFactory<L2LoginClient>, IAcceptFilter
 {
-	private ThreadPoolExecutor _generalPacketsThreadPool;
-	private IPv4Filter _ipv4filter;
+	private final ThreadPoolExecutor _generalPacketsThreadPool;
+	private final IPv4Filter _ipv4filter;
 	
 	public SelectorHelper()
 	{
@@ -45,24 +45,24 @@ public class SelectorHelper implements IMMOExecutor<L2LoginClient>, IClientFacto
 	}
 	
 	@Override
-	public void execute(ReceivablePacket<L2LoginClient> packet)
+	public void execute(final ReceivablePacket<L2LoginClient> packet)
 	{
 		_generalPacketsThreadPool.execute(packet);
 	}
 	
 	@Override
-	public L2LoginClient create(MMOConnection<L2LoginClient> con)
+	public L2LoginClient create(final MMOConnection<L2LoginClient> con)
 	{
-		L2LoginClient client = new L2LoginClient(con);
+		final L2LoginClient client = new L2LoginClient(con);
 		client.sendPacket(new Init(client));
-
+		
 		return client;
 	}
 	
 	@Override
-	public boolean accept(SocketChannel sc)
+	public boolean accept(final SocketChannel sc)
 	{
-		//return !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
+		// return !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
 		
 		return _ipv4filter.accept(sc) && !LoginController.getInstance().isBannedAddress(sc.socket().getInetAddress());
 	}

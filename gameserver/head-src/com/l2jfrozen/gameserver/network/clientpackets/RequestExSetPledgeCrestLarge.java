@@ -44,80 +44,80 @@ public final class RequestExSetPledgeCrestLarge extends L2GameClientPacket
 	static Logger LOGGER = Logger.getLogger(RequestExSetPledgeCrestLarge.class);
 	private int _size;
 	private byte[] _data;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_size = readD();
-
-		if(_size > 2176)
+		
+		if (_size > 2176)
 			return;
-
-		if(_size > 0) // client CAN send a RequestExSetPledgeCrestLarge with the size set to 0 then format is just chd
+		
+		if (_size > 0) // client CAN send a RequestExSetPledgeCrestLarge with the size set to 0 then format is just chd
 		{
 			_data = new byte[_size];
 			readB(_data);
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null)
 			return;
-
-		L2Clan clan = activeChar.getClan();
-		if(clan == null)
+		
+		final L2Clan clan = activeChar.getClan();
+		if (clan == null)
 			return;
-
-		if(_data == null)
+		
+		if (_data == null)
 		{
 			CrestCache.getInstance().removePledgeCrestLarge(clan.getCrestId());
-
+			
 			clan.setHasCrestLarge(false);
 			activeChar.sendMessage("The insignia has been removed.");
-
-			for(L2PcInstance member : clan.getOnlineMembers(""))
+			
+			for (final L2PcInstance member : clan.getOnlineMembers(""))
 			{
 				member.broadcastUserInfo();
 			}
-
+			
 			return;
 		}
-
-		if(_size > 2176)
+		
+		if (_size > 2176)
 		{
 			activeChar.sendMessage("The insignia file size is greater than 2176 bytes.");
 			return;
 		}
-
-		if((activeChar.getClanPrivileges() & L2Clan.CP_CL_REGISTER_CREST) == L2Clan.CP_CL_REGISTER_CREST)
+		
+		if ((activeChar.getClanPrivileges() & L2Clan.CP_CL_REGISTER_CREST) == L2Clan.CP_CL_REGISTER_CREST)
 		{
-			if(clan.getHasCastle() == 0 && clan.getHasHideout() == 0)
+			if (clan.getHasCastle() == 0 && clan.getHasHideout() == 0)
 			{
-				activeChar.sendMessage("Only a clan that owns a clan hall or a castle can get their emblem displayed on clan related items"); //there is a system message for that but didnt found the id
+				activeChar.sendMessage("Only a clan that owns a clan hall or a castle can get their emblem displayed on clan related items"); // there is a system message for that but didnt found the id
 				return;
 			}
-
-			CrestCache crestCache = CrestCache.getInstance();
-
-			int newId = IdFactory.getInstance().getNextId();
-
-			if(!crestCache.savePledgeCrestLarge(newId, _data))
+			
+			final CrestCache crestCache = CrestCache.getInstance();
+			
+			final int newId = IdFactory.getInstance().getNextId();
+			
+			if (!crestCache.savePledgeCrestLarge(newId, _data))
 			{
 				LOGGER.warn("Error loading large crest of clan:" + clan.getName());
 				return;
 			}
-
-			if(clan.hasCrestLarge())
+			
+			if (clan.hasCrestLarge())
 			{
 				crestCache.removePledgeCrestLarge(clan.getCrestLargeId());
 			}
-
+			
 			Connection con = null;
-
+			
 			try
 			{
 				con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -126,12 +126,12 @@ public final class RequestExSetPledgeCrestLarge extends L2GameClientPacket
 				statement.setInt(2, clan.getClanId());
 				statement.executeUpdate();
 				DatabaseUtils.close(statement);
-
+				
 				statement = null;
 			}
-			catch(SQLException e)
+			catch (final SQLException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 				LOGGER.warn("could not update the large crest id:" + e.getMessage());
@@ -141,24 +141,24 @@ public final class RequestExSetPledgeCrestLarge extends L2GameClientPacket
 				CloseUtil.close(con);
 				con = null;
 			}
-
+			
 			clan.setCrestLargeId(newId);
 			clan.setHasCrestLarge(true);
-
+			
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CLAN_EMBLEM_WAS_SUCCESSFULLY_REGISTERED));
-
-			for(L2PcInstance member : clan.getOnlineMembers(""))
+			
+			for (final L2PcInstance member : clan.getOnlineMembers(""))
 			{
 				member.broadcastUserInfo();
 			}
-
+			
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:11 RequestExSetPledgeCrestLarge";
 	}
-
+	
 }

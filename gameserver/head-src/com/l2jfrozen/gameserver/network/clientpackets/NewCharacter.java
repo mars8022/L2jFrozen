@@ -25,52 +25,54 @@ import com.l2jfrozen.gameserver.templates.L2PcTemplate;
 public final class NewCharacter extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(NewCharacter.class);
-
+	
 	@Override
-	protected void readImpl() { }
-
+	protected void readImpl()
+	{
+	}
+	
 	@Override
 	protected void runImpl()
 	{
 		if (Config.DEBUG)
-			LOGGER.debug(getType()+": Create New Char");
-
-		CharTemplates ct = new CharTemplates();
-
+			LOGGER.debug(getType() + ": Create New Char");
+		
+		final CharTemplates ct = new CharTemplates();
+		
 		L2PcTemplate template = CharTemplateTable.getInstance().getTemplate(0);
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.fighter); // Human Fighter
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.mage); // Human Mage
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.elvenFighter); // Elf Fighter
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.elvenMage); // Elf Mage
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.darkFighter); // DE Fighter
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.darkMage); // DE Mage
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.orcFighter); // Orc Fighter
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.orcMage); // Orc Mage
 		ct.addChar(template);
-
+		
 		template = CharTemplateTable.getInstance().getTemplate(ClassId.dwarvenFighter); // Dwarf Fighter
 		ct.addChar(template);
-
+		
 		// Finally
 		sendPacket(ct);
 	}
-
+	
 	@Override
 	public String getType()
 	{

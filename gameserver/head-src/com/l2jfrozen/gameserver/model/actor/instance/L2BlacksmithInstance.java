@@ -26,27 +26,27 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
  */
 public class L2BlacksmithInstance extends L2FolkInstance
 {
-	public L2BlacksmithInstance(int objectId, L2NpcTemplate template)
+	public L2BlacksmithInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
-	public void onBypassFeedback(L2PcInstance player, String command)
+	public void onBypassFeedback(final L2PcInstance player, final String command)
 	{
-		if(command.startsWith("multisell"))
+		if (command.startsWith("multisell"))
 		{
-			int listId = Integer.parseInt(command.substring(9).trim());
+			final int listId = Integer.parseInt(command.substring(9).trim());
 			L2Multisell.getInstance().SeparateAndSend(listId, player, false, getCastle().getTaxRate());
 		}
 		super.onBypassFeedback(player, command);
 	}
-
+	
 	@Override
-	public String getHtmlPath(int npcId, int val)
+	public String getHtmlPath(final int npcId, final int val)
 	{
 		String pom = "";
-		if(val == 0)
+		if (val == 0)
 		{
 			pom = "" + npcId;
 		}
@@ -54,7 +54,7 @@ public class L2BlacksmithInstance extends L2FolkInstance
 		{
 			pom = npcId + "-" + val;
 		}
-
+		
 		return "data/html/blacksmith/" + pom + ".htm";
 	}
 }

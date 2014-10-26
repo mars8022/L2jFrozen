@@ -38,50 +38,50 @@ public class XMLRPCServer
 	private final Logger LOGGER = Logger.getLogger(XMLRPCServer.class);
 	private static XMLRPCServer _instance = null;
 	private WebServer _server;
-
+	
 	public static XMLRPCServer getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new XMLRPCServer();
 		}
 		return _instance;
 	}
-
+	
 	private XMLRPCServer()
 	{
 		LOGGER.info("XMLRPCServer:");
 		try
 		{
 			_server = new WebServer(PowerPakConfig.XMLRPC_PORT, InetAddress.getByName(PowerPakConfig.XMLRPC_HOST));
-			XmlRpcServer xmlServer = _server.getXmlRpcServer();
-			PropertyHandlerMapping phm = new PropertyHandlerMapping();
+			final XmlRpcServer xmlServer = _server.getXmlRpcServer();
+			final PropertyHandlerMapping phm = new PropertyHandlerMapping();
 			xmlServer.setHandlerMapping(phm);
 			int numServices = 0;
 			try
 			{
-				L2Properties p = new L2Properties("config/powerpak/xmlrpc.service");
-				for(Object s : p.keySet())
+				final L2Properties p = new L2Properties("config/powerpak/xmlrpc.service");
+				for (final Object s : p.keySet())
 				{
-					String service = p.getProperty(s.toString());
-					Class<?> clazz = Class.forName(service);
-					if(clazz != null)
+					final String service = p.getProperty(s.toString());
+					final Class<?> clazz = Class.forName(service);
+					if (clazz != null)
 					{
 						numServices++;
 						phm.addHandler(s.toString(), clazz);
 					}
-
+					
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
-
-			if(numServices > 0)
+			
+			if (numServices > 0)
 			{
-				XmlRpcServerConfigImpl serverConfig = (XmlRpcServerConfigImpl) xmlServer.getConfig();
+				final XmlRpcServerConfigImpl serverConfig = (XmlRpcServerConfigImpl) xmlServer.getConfig();
 				serverConfig.setEnabledForExtensions(true);
 				serverConfig.setContentLengthOptional(false);
 				_server.start();
@@ -92,19 +92,19 @@ public class XMLRPCServer
 				LOGGER.info("...No services defined");
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.info("...Error while starting " + e);
 		}
 	}
-
+	
 	public void sthutdown()
 	{
 		_server.shutdown();
 		LOGGER.info("XMLRPCServer: Stopped");
 	}
-
+	
 }

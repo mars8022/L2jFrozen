@@ -46,7 +46,7 @@ public class hitConditionBonus
 	
 	// private static int rainBonus = 0;
 	
-	protected static double getConditionBonus(L2Character attacker, L2Character target)
+	protected static double getConditionBonus(final L2Character attacker, final L2Character target)
 	{
 		double mod = 100;
 		// Get high or low bonus
@@ -87,9 +87,9 @@ public class hitConditionBonus
 			{
 				doc = factory.newDocumentBuilder().parse(file);
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
-				LOGGER.warn( "[hitConditionBonus] Could not parse file: " + e.getMessage(), e);
+				LOGGER.warn("[hitConditionBonus] Could not parse file: " + e.getMessage(), e);
 			}
 			
 			String name;
@@ -107,32 +107,33 @@ public class hitConditionBonus
 							if (cond.hasAttributes())
 								bonus = Integer.parseInt(cond.getAttributes().getNamedItem("val").getNodeValue());
 						}
-						catch (Exception e)
+						catch (final Exception e)
 						{
-							LOGGER.warn( "[hitConditionBonus] Could not parse condition: " + e.getMessage(), e);
+							LOGGER.warn("[hitConditionBonus] Could not parse condition: " + e.getMessage(), e);
 						}
 						finally
 						{
-                            switch (name) {
-                                case "front":
-                                    frontBonus = bonus;
-                                    break;
-                                case "side":
-                                    sideBonus = bonus;
-                                    break;
-                                case "back":
-                                    backBonus = bonus;
-                                    break;
-                                case "high":
-                                    highBonus = bonus;
-                                    break;
-                                case "low":
-                                    lowBonus = bonus;
-                                    break;
-                                case "dark":
-                                    darkBonus = bonus;
-                                    break;
-                            }
+							switch (name)
+							{
+								case "front":
+									frontBonus = bonus;
+									break;
+								case "side":
+									sideBonus = bonus;
+									break;
+								case "back":
+									backBonus = bonus;
+									break;
+								case "high":
+									highBonus = bonus;
+									break;
+								case "low":
+									lowBonus = bonus;
+									break;
+								case "dark":
+									darkBonus = bonus;
+									break;
+							}
 							// else if ("rain".equals(name))
 							// rainBonus = bonus;
 						}

@@ -24,55 +24,55 @@ import com.l2jfrozen.gameserver.model.quest.QuestState;
 
 /**
  * Sh (dd) h (dddd)
- * 
  * @author Tempy
  */
 public class GMViewQuestList extends L2GameServerPacket
 {
 	private static final String _S__AC_GMVIEWQUESTLIST = "[S] ac GMViewQuestList";
-
-	private L2PcInstance _activeChar;
-
-	public GMViewQuestList(L2PcInstance cha)
+	
+	private final L2PcInstance _activeChar;
+	
+	public GMViewQuestList(final L2PcInstance cha)
 	{
 		_activeChar = cha;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x93);
 		writeS(_activeChar.getName());
-
-		Quest[] questList = _activeChar.getAllActiveQuests();
-
-		if(questList.length == 0)
+		
+		final Quest[] questList = _activeChar.getAllActiveQuests();
+		
+		if (questList.length == 0)
 		{
 			writeC(0);
 			writeH(0);
 			writeH(0);
 			return;
 		}
-
+		
 		writeH(questList.length); // quest count
-
-		for(Quest q : questList)
+		
+		for (final Quest q : questList)
 		{
 			writeD(q.getQuestIntId());
-
-			QuestState qs = _activeChar.getQuestState(q.getName());
-
-			if(qs == null)
+			
+			final QuestState qs = _activeChar.getQuestState(q.getName());
+			
+			if (qs == null)
 			{
 				writeD(0);
 				continue;
 			}
-
+			
 			writeD(qs.getInt("cond")); // stage of quest progress
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

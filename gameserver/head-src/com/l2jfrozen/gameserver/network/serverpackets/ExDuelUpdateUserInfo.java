@@ -21,7 +21,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * Format: ch Sddddddddd.
- *
  * @author KenM
  */
 public class ExDuelUpdateUserInfo extends L2GameServerPacket
@@ -31,14 +30,13 @@ public class ExDuelUpdateUserInfo extends L2GameServerPacket
 	private static final String _S__FE_4F_EXDUELUPDATEUSERINFO = "[S] FE:4F ExDuelUpdateUserInfo";
 	
 	/** The _active char. */
-	private L2PcInstance _activeChar;
-
+	private final L2PcInstance _activeChar;
+	
 	/**
 	 * Instantiates a new ex duel update user info.
-	 *
 	 * @param cha the cha
 	 */
-	public ExDuelUpdateUserInfo(L2PcInstance cha)
+	public ExDuelUpdateUserInfo(final L2PcInstance cha)
 	{
 		_activeChar = cha;
 	}
@@ -59,10 +57,9 @@ public class ExDuelUpdateUserInfo extends L2GameServerPacket
 		writeD((int) _activeChar.getCurrentCp());
 		writeD(_activeChar.getMaxCp());
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override
@@ -70,5 +67,5 @@ public class ExDuelUpdateUserInfo extends L2GameServerPacket
 	{
 		return _S__FE_4F_EXDUELUPDATEUSERINFO;
 	}
-
+	
 }

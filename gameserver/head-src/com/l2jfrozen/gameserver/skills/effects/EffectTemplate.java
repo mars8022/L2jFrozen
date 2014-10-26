@@ -55,7 +55,7 @@ public final class EffectTemplate
 	public final double effectPower; // to thandle chance
 	public final SkillType effectType; // to handle resistences etc...
 	
-	public EffectTemplate(Condition pAttachCond, Condition pApplayCond, String func, Lambda pLambda, int pCounter, int pPeriod, int pAbnormalEffect, String pStackType, float pStackOrder, int pShowIcon, SkillType eType, double ePower)
+	public EffectTemplate(final Condition pAttachCond, final Condition pApplayCond, final String func, final Lambda pLambda, final int pCounter, final int pPeriod, final int pAbnormalEffect, final String pStackType, final float pStackOrder, final int pShowIcon, final SkillType eType, final double ePower)
 	{
 		attachCond = pAttachCond;
 		applayCond = pApplayCond;
@@ -73,7 +73,7 @@ public final class EffectTemplate
 		{
 			_func = Class.forName("com.l2jfrozen.gameserver.skills.effects.Effect" + func);
 		}
-		catch (ClassNotFoundException e)
+		catch (final ClassNotFoundException e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -84,7 +84,7 @@ public final class EffectTemplate
 		{
 			_constructor = _func.getConstructor(Env.class, EffectTemplate.class);
 		}
-		catch (NoSuchMethodException e)
+		catch (final NoSuchMethodException e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -93,28 +93,28 @@ public final class EffectTemplate
 		}
 	}
 	
-	public L2Effect getEffect(Env env)
+	public L2Effect getEffect(final Env env)
 	{
 		if (attachCond != null && !attachCond.test(env))
 			return null;
 		try
 		{
-			L2Effect effect = (L2Effect) _constructor.newInstance(env, this);
+			final L2Effect effect = (L2Effect) _constructor.newInstance(env, this);
 			// if (_applayCond != null)
 			// effect.setCondition(_applayCond);
 			return effect;
 		}
-		catch (IllegalAccessException e)
+		catch (final IllegalAccessException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		catch (InstantiationException e)
+		catch (final InstantiationException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		catch (InvocationTargetException e)
+		catch (final InvocationTargetException e)
 		{
 			LOGGER.warn("Error creating new instance of Class " + _func + " Exception was:");
 			e.getTargetException().printStackTrace();
@@ -123,7 +123,7 @@ public final class EffectTemplate
 		
 	}
 	
-	public void attach(FuncTemplate f)
+	public void attach(final FuncTemplate f)
 	{
 		if (funcTemplates == null)
 		{
@@ -134,8 +134,8 @@ public final class EffectTemplate
 		}
 		else
 		{
-			int len = funcTemplates.length;
-			FuncTemplate[] tmp = new FuncTemplate[len + 1];
+			final int len = funcTemplates.length;
+			final FuncTemplate[] tmp = new FuncTemplate[len + 1];
 			System.arraycopy(funcTemplates, 0, tmp, 0, len);
 			tmp[len] = f;
 			funcTemplates = tmp;

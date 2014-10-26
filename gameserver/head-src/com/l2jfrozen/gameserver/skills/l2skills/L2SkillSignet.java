@@ -31,7 +31,7 @@ public final class L2SkillSignet extends L2Skill
 	private final int _effectNpcId;
 	public int effectId;
 	
-	public L2SkillSignet(StatsSet set)
+	public L2SkillSignet(final StatsSet set)
 	{
 		super(set);
 		_effectNpcId = set.getInteger("effectNpcId", -1);
@@ -39,13 +39,13 @@ public final class L2SkillSignet extends L2Skill
 	}
 	
 	@Override
-	public void useSkill(L2Character caster, L2Object[] targets)
+	public void useSkill(final L2Character caster, final L2Object[] targets)
 	{
 		if (caster.isAlikeDead())
 			return;
 		
-		L2NpcTemplate template = NpcTable.getInstance().getTemplate(_effectNpcId);
-		L2EffectPointInstance effectPoint = new L2EffectPointInstance(IdFactory.getInstance().getNextId(), template, caster);
+		final L2NpcTemplate template = NpcTable.getInstance().getTemplate(_effectNpcId);
+		final L2EffectPointInstance effectPoint = new L2EffectPointInstance(IdFactory.getInstance().getNextId(), template, caster);
 		effectPoint.getStatus().setCurrentHp(effectPoint.getMaxHp());
 		effectPoint.getStatus().setCurrentMp(effectPoint.getMaxMp());
 		L2World.getInstance().storeObject(effectPoint);
@@ -56,7 +56,7 @@ public final class L2SkillSignet extends L2Skill
 		
 		if (caster instanceof L2PcInstance && getTargetType() == L2Skill.SkillTargetType.TARGET_GROUND)
 		{
-			Point3D wordPosition = ((L2PcInstance) caster).getCurrentSkillWorldPosition();
+			final Point3D wordPosition = ((L2PcInstance) caster).getCurrentSkillWorldPosition();
 			
 			if (wordPosition != null)
 			{

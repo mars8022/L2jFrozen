@@ -26,34 +26,34 @@ import com.l2jfrozen.gameserver.controllers.RecipeController;
 public final class RequestRecipeBookOpen extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(RequestRecipeBookOpen.class);
-
+	
 	private boolean _isDwarvenCraft;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_isDwarvenCraft = readD() == 0;
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			LOGGER.info("RequestRecipeBookOpen : " + (_isDwarvenCraft ? "dwarvenCraft" : "commonCraft"));
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(getClient().getActiveChar() == null)
+		if (getClient().getActiveChar() == null)
 			return;
-
-		if(getClient().getActiveChar().getPrivateStoreType() != 0)
+		
+		if (getClient().getActiveChar().getPrivateStoreType() != 0)
 		{
 			getClient().getActiveChar().sendMessage("Cannot use recipe book while trading");
 			return;
 		}
-
+		
 		RecipeController.getInstance().requestBookOpen(getClient().getActiveChar(), _isDwarvenCraft);
 	}
-
+	
 	@Override
 	public String getType()
 	{

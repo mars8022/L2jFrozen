@@ -37,7 +37,7 @@ public final class EffectSignet extends L2Effect
 	private L2Skill _skill;
 	private L2EffectPointInstance _actor;
 	
-	public EffectSignet(Env env, EffectTemplate template)
+	public EffectSignet(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
@@ -68,8 +68,8 @@ public final class EffectSignet extends L2Effect
 		// if (getCount() == getTotalCount() - 1) return true; // do nothing first time
 		if (_skill == null)
 			return true;
-		int mpConsume = _skill.getMpConsume();
-		L2PcInstance caster = (L2PcInstance) getEffector();
+		final int mpConsume = _skill.getMpConsume();
+		final L2PcInstance caster = (L2PcInstance) getEffector();
 		
 		if (mpConsume > getEffector().getStatus().getCurrentMp())
 		{
@@ -79,29 +79,31 @@ public final class EffectSignet extends L2Effect
 		
 		getEffector().reduceCurrentMp(mpConsume);
 		
-		for (L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
+		for (final L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
 		{
 			if (cha == null || cha == caster || cha.isDead())
 				continue;
 			
 			if (_skill.isOffensive())
 			{
-				if(cha instanceof L2PcInstance){
+				if (cha instanceof L2PcInstance)
+				{
 					
-					if((((L2PcInstance) cha).getClanId() > 0 && caster.getClanId() > 0 && ((L2PcInstance) cha).getClanId() != caster.getClanId()) ||
-						(((L2PcInstance) cha).getAllyId() > 0 && caster.getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() != caster.getAllyId()) ||
-						(cha.getParty() != null && caster.getParty() != null && !cha.getParty().equals(caster.getParty()))){
+					if ((((L2PcInstance) cha).getClanId() > 0 && caster.getClanId() > 0 && ((L2PcInstance) cha).getClanId() != caster.getClanId()) || (((L2PcInstance) cha).getAllyId() > 0 && caster.getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() != caster.getAllyId()) || (cha.getParty() != null && caster.getParty() != null && !cha.getParty().equals(caster.getParty())))
+					{
 						_skill.getEffects(_actor, cha, false, false, false);
 						continue;
 					}
 				}
-			}else{
-				if(cha instanceof L2PcInstance){
-					if((cha.getParty() != null && caster.getParty() != null && cha.getParty().equals(caster.getParty())) ||
-						(((L2PcInstance) cha).getClanId() > 0 && caster.getClanId() > 0 && ((L2PcInstance) cha).getClanId() == caster.getClanId()) ||
-						(((L2PcInstance) cha).getAllyId() > 0 && caster.getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() == caster.getAllyId())){
+			}
+			else
+			{
+				if (cha instanceof L2PcInstance)
+				{
+					if ((cha.getParty() != null && caster.getParty() != null && cha.getParty().equals(caster.getParty())) || (((L2PcInstance) cha).getClanId() > 0 && caster.getClanId() > 0 && ((L2PcInstance) cha).getClanId() == caster.getClanId()) || (((L2PcInstance) cha).getAllyId() > 0 && caster.getAllyId() > 0 && ((L2PcInstance) cha).getAllyId() == caster.getAllyId()))
+					{
 						_skill.getEffects(_actor, cha, false, false, false);
-						_skill.getEffects(_actor, caster, false, false, false);  //Affect caster too.
+						_skill.getEffects(_actor, caster, false, false, false); // Affect caster too.
 						continue;
 					}
 				}

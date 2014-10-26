@@ -23,22 +23,22 @@ public class DoorStat extends CharStat
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public DoorStat(L2DoorInstance activeChar)
+	public DoorStat(final L2DoorInstance activeChar)
 	{
 		super(activeChar);
-
+		
 		setLevel((byte) 1);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override
@@ -46,7 +46,7 @@ public class DoorStat extends CharStat
 	{
 		return (L2DoorInstance) super.getActiveChar();
 	}
-
+	
 	@Override
 	public final int getLevel()
 	{

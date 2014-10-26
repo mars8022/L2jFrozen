@@ -35,9 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.templates.L2Item;
 
 /**
- * This class handles following admin commands: - itemcreate = show menu - create_item <id> [num] = creates num items
- * with respective id, if num is not specified, assumes 1.
- * 
+ * This class handles following admin commands: - itemcreate = show menu - create_item <id> [num] = creates num items with respective id, if num is not specified, assumes 1.
  * @version $Revision: 1.2.2.2.2.3 $ $Date: 2005/04/11 10:06:06 $
  */
 public class AdminCreateItem implements IAdminCommandHandler
@@ -45,9 +43,13 @@ public class AdminCreateItem implements IAdminCommandHandler
 	private static Logger LOGGER = Logger.getLogger(AdminCreateItem.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
-		"admin_l2jfrozen", "admin_itemcreate", "admin_create_item", "admin_mass_create", "admin_clear_inventory"
+		"admin_l2jfrozen",
+		"admin_itemcreate",
+		"admin_create_item",
+		"admin_mass_create",
+		"admin_clear_inventory"
 	};
-
+	
 	private enum CommandEnum
 	{
 		admin_l2jfrozen,
@@ -56,38 +58,26 @@ public class AdminCreateItem implements IAdminCommandHandler
 		admin_mass_create,
 		admin_clear_inventory
 	}
-
+	
 	@SuppressWarnings("null")
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.LOGGER(record);
-		}
-		*/
-
-		StringTokenizer st = new StringTokenizer(command);
+		final StringTokenizer st = new StringTokenizer(command);
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
-			
+		
 		/*
 		 * Command //l2jfrozen, it gives useful items to Gm character Crystals, Gemstones, Bss-ss, scrolls, elixirs, etc To be complete...
 		 */
@@ -175,55 +165,63 @@ public class AdminCreateItem implements IAdminCommandHandler
 				activeChar.sendMessage("Gm skills added successfully!");
 				
 				return true;
-	
+				
 			case admin_itemcreate:
-
+				
 				AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
 				return true;
-
+				
 			case admin_create_item:
-
-				if(st.hasMoreTokens())
+				
+				if (st.hasMoreTokens())
 				{
-					if(st.countTokens() == 2)
+					if (st.countTokens() == 2)
 					{
-						String id = st.nextToken();
-						String num = st.nextToken();
+						final String id = st.nextToken();
+						final String num = st.nextToken();
 						
-						int idval = 0; 
+						int idval = 0;
 						int numval = 0;
 						
-						try{
+						try
+						{
 							idval = Integer.parseInt(id);
 							numval = Integer.parseInt(num);
-						}catch(NumberFormatException e){
+						}
+						catch (final NumberFormatException e)
+						{
 							
 							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
 							return false;
 						}
 						
-						if(idval>0 && numval>0){
+						if (idval > 0 && numval > 0)
+						{
 							createItem(activeChar, idval, numval);
 							return true;
 						}
 						activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
 						return false;
 					}
-					else if(st.countTokens() == 1)
+					else if (st.countTokens() == 1)
 					{
-						String id = st.nextToken();
-						int idval = 0; 
+						final String id = st.nextToken();
+						int idval = 0;
 						
-						try{
+						try
+						{
 							idval = Integer.parseInt(id);
-						
-						}catch(NumberFormatException e){
+							
+						}
+						catch (final NumberFormatException e)
+						{
 							
 							activeChar.sendMessage("Usage: //itemcreate <itemId> (number value > 0) [amount] (number value > 0)");
 							return false;
 						}
-
-						if(idval>0){
+						
+						if (idval > 0)
+						{
 							createItem(activeChar, idval, 1);
 							return true;
 						}
@@ -232,23 +230,23 @@ public class AdminCreateItem implements IAdminCommandHandler
 					}
 				}
 				else
-				{					
+				{
 					AdminHelpPage.showHelpPage(activeChar, "itemcreation.htm");
-					//activeChar.sendMessage("Usage: //itemcreate <itemId> [amount]");
+					// activeChar.sendMessage("Usage: //itemcreate <itemId> [amount]");
 					return true;
 				}
 				return false;
-
+				
 			case admin_mass_create:
-
-				if(st.hasMoreTokens())
+				
+				if (st.hasMoreTokens())
 				{
-					if(st.countTokens() == 2)
+					if (st.countTokens() == 2)
 					{
-						String id = st.nextToken();
-						String num = st.nextToken();
+						final String id = st.nextToken();
+						final String num = st.nextToken();
 						
-						int idval = 0; 
+						int idval = 0;
 						int numval = 0;
 						
 						try
@@ -256,13 +254,13 @@ public class AdminCreateItem implements IAdminCommandHandler
 							idval = Integer.parseInt(id);
 							numval = Integer.parseInt(num);
 						}
-						catch(NumberFormatException e)
-						{							
+						catch (final NumberFormatException e)
+						{
 							activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
 							return false;
 						}
 						
-						if(idval > 0 && numval > 0)
+						if (idval > 0 && numval > 0)
 						{
 							massCreateItem(activeChar, idval, numval);
 							return true;
@@ -270,23 +268,23 @@ public class AdminCreateItem implements IAdminCommandHandler
 						activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
 						return false;
 					}
-					else if(st.countTokens() == 1)
+					else if (st.countTokens() == 1)
 					{
-						String id = st.nextToken();
-						int idval = 0; 
+						final String id = st.nextToken();
+						int idval = 0;
 						
 						try
 						{
 							idval = Integer.parseInt(id);
-						
+							
 						}
-						catch(NumberFormatException e)
-						{							
+						catch (final NumberFormatException e)
+						{
 							activeChar.sendMessage("Usage: //mass_create <itemId> <amount>");
 							return false;
 						}
-
-						if(idval > 0)
+						
+						if (idval > 0)
 						{
 							massCreateItem(activeChar, idval, 1);
 							return true;
@@ -296,48 +294,51 @@ public class AdminCreateItem implements IAdminCommandHandler
 					}
 				}
 				return false;
-
+				
 			case admin_clear_inventory:
-
+				
 				removeAllItems(activeChar);
 				return true;
-
+				
 			default:
 				return false;
 		}
 		
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void createItem(L2PcInstance activeChar, int id, int num)
+	
+	private void createItem(final L2PcInstance activeChar, final int id, final int num)
 	{
-		if(num > 20)
+		if (num > 20)
 		{
 			L2Item template = ItemTable.getInstance().getTemplate(id);
-
-			if(template!=null && !template.isStackable())
+			
+			if (template != null && !template.isStackable())
 			{
 				activeChar.sendMessage("This item does not stack - Creation aborted.");
 				return;
 			}
-
+			
 			template = null;
 		}
-
+		
 		L2PcInstance Player = null;
-
-		if(activeChar.getTarget() != null)
+		
+		if (activeChar.getTarget() != null)
 		{
-			if(activeChar.getTarget() instanceof L2PcInstance)
+			if (activeChar.getTarget() instanceof L2PcInstance)
 			{
-				if(activeChar.getAccessLevel().getLevel()>0 && activeChar.getAccessLevel().getLevel()<3){
+				if (activeChar.getAccessLevel().getLevel() > 0 && activeChar.getAccessLevel().getLevel() < 3)
+				{
 					Player = (L2PcInstance) activeChar.getTarget();
-				}else{
+				}
+				else
+				{
 					activeChar.sendMessage("You have not right to create item on another player");
 					return;
 				}
@@ -348,17 +349,17 @@ public class AdminCreateItem implements IAdminCommandHandler
 				return;
 			}
 		}
-
-		if(Player == null)
+		
+		if (Player == null)
 		{
 			activeChar.setTarget(activeChar);
 			Player = activeChar;
 		}
-
+		
 		Player.getInventory().addItem("Admin", id, num, Player, null);
 		ItemList il = new ItemList(Player, true);
 		Player.sendPacket(il);
-		if(activeChar.getName().equalsIgnoreCase(Player.getName()))
+		if (activeChar.getName().equalsIgnoreCase(Player.getName()))
 		{
 			activeChar.sendMessage("You have spawned " + num + " item(s) number " + id + " in your inventory.");
 		}
@@ -367,50 +368,50 @@ public class AdminCreateItem implements IAdminCommandHandler
 			activeChar.sendMessage("You have spawned " + num + " item(s) number " + id + " in " + Player.getName() + "'s inventory.");
 			Player.sendMessage("Admin has spawned " + num + " item(s) number " + id + " in your inventory.");
 		}
-
+		
 		Player = null;
 		il = null;
 	}
-
-	private void massCreateItem(L2PcInstance activeChar, int id, int num)
+	
+	private void massCreateItem(final L2PcInstance activeChar, final int id, final int num)
 	{
-		if(num > 20)
+		if (num > 20)
 		{
-			L2Item template = ItemTable.getInstance().getTemplate(id);
-			if(template != null && !template.isStackable())
+			final L2Item template = ItemTable.getInstance().getTemplate(id);
+			if (template != null && !template.isStackable())
 			{
 				activeChar.sendMessage("This item does not stack - Creation aborted.");
 				return;
 			}
 		}
-
+		
 		int i = 0;
 		L2ItemInstance item = null;
-		for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
 			player.sendMessage("Admin is rewarding all online players.");
 			item = player.getInventory().addItem("Admin", id, num, null, null);
-            InventoryUpdate iu = new InventoryUpdate();
-            iu.addItem(item);
+			final InventoryUpdate iu = new InventoryUpdate();
+			iu.addItem(item);
 			player.sendPacket(iu);
-            SystemMessage sm = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1_S2);
-            sm.addItemName(item.getItemId());
-            sm.addNumber(num);
-            player.sendPacket(sm);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.YOU_PICKED_UP_S1_S2);
+			sm.addItemName(item.getItemId());
+			sm.addNumber(num);
+			player.sendPacket(sm);
 			i++;
 		}
 		activeChar.sendMessage("Mass-created items in the inventory of " + i + " player(s).");
 		LOGGER.info("GM " + activeChar.getName() + " mass_created item Id: " + id + " (" + num + ")");
 	}
-
-	private void removeAllItems(L2PcInstance activeChar)
+	
+	private void removeAllItems(final L2PcInstance activeChar)
 	{
-		for (L2ItemInstance item : activeChar.getInventory().getItems())
+		for (final L2ItemInstance item : activeChar.getInventory().getItems())
 		{
-			if(item.getLocation() == L2ItemInstance.ItemLocation.INVENTORY)
+			if (item.getLocation() == L2ItemInstance.ItemLocation.INVENTORY)
 				activeChar.getInventory().destroyItem("Destroy", item.getObjectId(), item.getCount(), activeChar, null);
 		}
 		activeChar.sendPacket(new ItemList(activeChar, false));
 		activeChar.sendMessage("Your inventory has been cleared.");
- 	}
+	}
 }

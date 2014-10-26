@@ -25,16 +25,16 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionPlayerHp extends Condition
 {
-
+	
 	private final int _hp;
-
-	public ConditionPlayerHp(int hp)
+	
+	public ConditionPlayerHp(final int hp)
 	{
 		_hp = hp;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		return env.player.getCurrentHp() * 100 / env.player.getMaxHp() <= _hp;
 	}

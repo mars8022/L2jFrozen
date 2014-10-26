@@ -20,15 +20,15 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: $ $Date: $
  * @author Luca Baldi
  */
 public class ExQuestInfo extends L2GameServerPacket
 {
 	private static final String _S__FE_19_EXQUESTINFO = "[S] FE:19 EXQUESTINFO";
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
 	 */
 	@Override
@@ -37,8 +37,9 @@ public class ExQuestInfo extends L2GameServerPacket
 		writeC(0xfe);
 		writeH(0x19);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
 	 */
 	@Override

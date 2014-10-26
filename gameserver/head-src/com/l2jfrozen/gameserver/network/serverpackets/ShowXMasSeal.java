@@ -23,21 +23,21 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ShowXMasSeal extends L2GameServerPacket
 {
 	private static final String _S__F2_SHOWXMASSEAL = "[S] F2 ShowXMasSeal";
-	private int _item;
-
-	public ShowXMasSeal(int item)
+	private final int _item;
+	
+	public ShowXMasSeal(final int item)
 	{
 		_item = item;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xF2);
-
+		
 		writeD(_item);
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#getType()
 	 */
@@ -46,5 +46,5 @@ public class ShowXMasSeal extends L2GameServerPacket
 	{
 		return _S__F2_SHOWXMASSEAL;
 	}
-
+	
 }

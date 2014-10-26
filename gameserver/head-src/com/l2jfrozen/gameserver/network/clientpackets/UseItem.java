@@ -61,11 +61,11 @@ public final class UseItem extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
-		L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
+		final L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
 		
 		if (item == null)
 			return;
@@ -115,7 +115,7 @@ public final class UseItem extends L2GameClientPacket
 			return;
 		}
 		
-		int itemId = item.getItemId();
+		final int itemId = item.getItemId();
 		/*
 		 * Alt game - Karma punishment // SOE 736 Scroll of Escape 1538 Blessed Scroll of Escape 1829 Scroll of Escape: Clan Hall 1830 Scroll of Escape: Castle 3958 L2Day - Blessed Scroll of Escape 5858 Blessed Scroll of Escape: Clan Hall 5859 Blessed Scroll of Escape: Castle 6663 Scroll of Escape:
 		 * Orc Village 6664 Scroll of Escape: Silenos Village 7117 Scroll of Escape to Talking Island 7118 Scroll of Escape to Elven Village 7119 Scroll of Escape to Dark Elf Village 7120 Scroll of Escape to Orc Village 7121 Scroll of Escape to Dwarven Village 7122 Scroll of Escape to Gludin Village
@@ -159,7 +159,7 @@ public final class UseItem extends L2GameClientPacket
 			return;
 		}
 		
-		L2Clan cl = activeChar.getClan();
+		final L2Clan cl = activeChar.getClan();
 		// A shield that can only be used by the members of a clan that owns a castle.
 		if ((cl == null || cl.getHasCastle() == 0) && itemId == 7015 && Config.CASTLE_SHIELD && !activeChar.isGM())
 		{
@@ -182,14 +182,14 @@ public final class UseItem extends L2GameClientPacket
 		}
 		
 		// Clan Oath armor used by all clan members
-		 if (itemId >= 7850 && itemId <= 7859 && Config.OATH_ARMORS && cl == null && !activeChar.isGM())
+		if (itemId >= 7850 && itemId <= 7859 && Config.OATH_ARMORS && cl == null && !activeChar.isGM())
 		{
 			activeChar.sendMessage("You can't equip that");
 			return;
 		}
 		
 		// The Lord's Crown used by castle lords only
-		 if (itemId == 6841 && Config.CASTLE_CROWN && (cl == null || cl.getHasCastle() == 0 || !activeChar.isClanLeader()) && !activeChar.isGM()) 
+		if (itemId == 6841 && Config.CASTLE_CROWN && (cl == null || cl.getHasCastle() == 0 || !activeChar.isClanLeader()) && !activeChar.isGM())
 		{
 			activeChar.sendMessage("You can't equip that");
 			return;
@@ -208,7 +208,7 @@ public final class UseItem extends L2GameClientPacket
 				return;
 			}
 			
-			int circletId = CastleManager.getInstance().getCircletByCastleId(cl.getHasCastle());
+			final int circletId = CastleManager.getInstance().getCircletByCastleId(cl.getHasCastle());
 			if (activeChar.getPledgeType() == -1 || circletId != itemId)
 			{
 				activeChar.sendMessage("You can't equip that");
@@ -278,22 +278,17 @@ public final class UseItem extends L2GameClientPacket
 				}
 				else
 				{
-					SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_USE_ITEM_WHILE_USING_MAGIC);
-				    activeChar.sendPacket(sm);
+					final SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_USE_ITEM_WHILE_USING_MAGIC);
+					activeChar.sendPacket(sm);
 				}
 				return;
 			}
-
-			// Like L2OFF, since c5 you can equip weapon	
+			
+			// Like L2OFF, since c5 you can equip weapon
 			// Don't allow weapon/shield equipment if wearing formal wear
 			/*
-			if (activeChar.isWearingFormalWear() && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND))
-			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_USE_ITEMS_SKILLS_WITH_FORMALWEAR);
-				activeChar.sendPacket(sm);
-				return;
-			}
-			*/
+			 * if (activeChar.isWearingFormalWear() && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND)) { SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_USE_ITEMS_SKILLS_WITH_FORMALWEAR); activeChar.sendPacket(sm); return; }
+			 */
 			
 			// Over enchant protection
 			if (Config.PROTECTED_ENCHANT)
@@ -365,7 +360,7 @@ public final class UseItem extends L2GameClientPacket
 			
 			if (activeChar.isMoving() && activeChar.isAttackingNow() && (bodyPart == L2Item.SLOT_LR_HAND || bodyPart == L2Item.SLOT_L_HAND || bodyPart == L2Item.SLOT_R_HAND))
 			{
-				L2Object target = activeChar.getTarget();
+				final L2Object target = activeChar.getTarget();
 				activeChar.setTarget(null);
 				activeChar.stopMove(null);
 				activeChar.setTarget(target);
@@ -390,7 +385,7 @@ public final class UseItem extends L2GameClientPacket
 			
 			// Equip or unEquip
 			L2ItemInstance[] items = null;
-			boolean isEquiped = item.isEquipped();
+			final boolean isEquiped = item.isEquipped();
 			SystemMessage sm = null;
 			
 			if (item.getItem().getType2() == L2Item.TYPE2_WEAPON)
@@ -485,7 +480,7 @@ public final class UseItem extends L2GameClientPacket
 					
 				}
 				
-				int tempBodyPart = item.getItem().getBodyPart();
+				final int tempBodyPart = item.getItem().getBodyPart();
 				L2ItemInstance tempItem = activeChar.getInventory().getPaperdollItemByL2ItemId(tempBodyPart);
 				
 				// remove augmentation stats for replaced items
@@ -591,13 +586,13 @@ public final class UseItem extends L2GameClientPacket
 			if (!((item.getItem().getBodyPart() & L2Item.SLOT_HEAD) > 0 || (item.getItem().getBodyPart() & L2Item.SLOT_NECK) > 0 || (item.getItem().getBodyPart() & L2Item.SLOT_L_EAR) > 0 || (item.getItem().getBodyPart() & L2Item.SLOT_R_EAR) > 0 || (item.getItem().getBodyPart() & L2Item.SLOT_L_FINGER) > 0 || (item.getItem().getBodyPart() & L2Item.SLOT_R_FINGER) > 0))
 			{
 				activeChar.broadcastUserInfo();
-				InventoryUpdate iu = new InventoryUpdate();
+				final InventoryUpdate iu = new InventoryUpdate();
 				iu.addItems(Arrays.asList(items));
 				activeChar.sendPacket(iu);
 			}
 			else if ((item.getItem().getBodyPart() & L2Item.SLOT_HEAD) > 0)
 			{
-				InventoryUpdate iu = new InventoryUpdate();
+				final InventoryUpdate iu = new InventoryUpdate();
 				iu.addItems(Arrays.asList(items));
 				activeChar.sendPacket(iu);
 				activeChar.sendPacket(new UserInfo(activeChar));
@@ -611,8 +606,8 @@ public final class UseItem extends L2GameClientPacket
 		}
 		else
 		{
-			L2Weapon weaponItem = activeChar.getActiveWeaponItem();
-			int itemid = item.getItemId();
+			final L2Weapon weaponItem = activeChar.getActiveWeaponItem();
+			final int itemid = item.getItemId();
 			// LOGGER.warn( "item not equipable id:"+ item.getItemId());
 			if (itemid == 4393)
 			{
@@ -623,13 +618,13 @@ public final class UseItem extends L2GameClientPacket
 				activeChar.getInventory().setPaperdollItem(Inventory.PAPERDOLL_LHAND, item);
 				activeChar.broadcastUserInfo();
 				// Send a Server->Client packet ItemList to this L2PcINstance to update left hand equipement
-				ItemList il = new ItemList(activeChar, false);
+				final ItemList il = new ItemList(activeChar, false);
 				sendPacket(il);
 				return;
 			}
 			else
 			{
-				IItemHandler handler = ItemHandler.getInstance().getItemHandler(itemId);
+				final IItemHandler handler = ItemHandler.getInstance().getItemHandler(itemId);
 				if (handler == null)
 				{
 					if (Config.DEBUG)

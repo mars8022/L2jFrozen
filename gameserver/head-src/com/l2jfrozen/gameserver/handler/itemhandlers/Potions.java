@@ -61,7 +61,7 @@ public class Potions implements IItemHandler
 	private static void loadPotions()
 	{
 		
-		for (PotionsSkills actual_potion : PotionsSkills.values())
+		for (final PotionsSkills actual_potion : PotionsSkills.values())
 		{
 			
 			potions.put(actual_potion.potion_id, actual_potion);
@@ -69,7 +69,7 @@ public class Potions implements IItemHandler
 		}
 	}
 	
-	public static PotionsSkills get_skills_for_potion(Integer potion_id)
+	public static PotionsSkills get_skills_for_potion(final Integer potion_id)
 	{
 		
 		if (potions.isEmpty())
@@ -79,13 +79,13 @@ public class Potions implements IItemHandler
 		
 	}
 	
-	public static List<Integer> get_potions_for_skill(Integer skill_id, Integer skill_level)
+	public static List<Integer> get_potions_for_skill(final Integer skill_id, final Integer skill_level)
 	{
 		if (potions.isEmpty())
 			loadPotions();
 		
 		final List<Integer> output_potions = new ArrayList<>();
-		for (Integer actual_potion_item : potions.keySet())
+		for (final Integer actual_potion_item : potions.keySet())
 		{
 			FastMap<Integer, Integer> actual_item_skills = null;
 			if (potions.get(actual_potion_item) != null)
@@ -105,11 +105,11 @@ public class Potions implements IItemHandler
 	/** Task for Herbs */
 	private class HerbTask implements Runnable
 	{
-		private L2PcInstance _activeChar;
-		private int _magicId;
-		private int _level;
+		private final L2PcInstance _activeChar;
+		private final int _magicId;
+		private final int _level;
 		
-		HerbTask(L2PcInstance activeChar, int magicId, int level)
+		HerbTask(final L2PcInstance activeChar, final int magicId, final int level)
 		{
 			_activeChar = activeChar;
 			_magicId = magicId;
@@ -123,12 +123,12 @@ public class Potions implements IItemHandler
 			{
 				usePotion(_activeChar, _magicId, _level);
 			}
-			catch (Throwable t)
+			catch (final Throwable t)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 				
-				LOGGER.warn( "", t);
+				LOGGER.warn("", t);
 			}
 		}
 	}
@@ -215,7 +215,7 @@ public class Potions implements IItemHandler
 	};
 	
 	@Override
-	public synchronized void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public synchronized void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		
 		if (playable instanceof L2PcInstance)
@@ -267,7 +267,7 @@ public class Potions implements IItemHandler
 				return;
 			}
 			
-			int itemId = item.getItemId();
+			final int itemId = item.getItemId();
 			switch (itemId)
 			{
 			// MANA POTIONS
@@ -592,7 +592,7 @@ public class Potions implements IItemHandler
 		{
 			L2PetInstance activeChar;
 			activeChar = ((L2PetInstance) playable);
-			int itemId = item.getItemId();
+			final int itemId = item.getItemId();
 			switch (itemId)
 			{
 			// MANA POTIONS
@@ -638,14 +638,14 @@ public class Potions implements IItemHandler
 		
 	}
 	
-	private boolean isEffectReplaceable(L2PlayableInstance activeChar, Enum<EffectType> effectType, int itemId)
+	private boolean isEffectReplaceable(final L2PlayableInstance activeChar, final Enum<EffectType> effectType, final int itemId)
 	{
-		L2Effect[] effects = activeChar.getAllEffects();
+		final L2Effect[] effects = activeChar.getAllEffects();
 		
 		if (effects == null)
 			return true;
 		
-		for (L2Effect e : effects)
+		for (final L2Effect e : effects)
 		{
 			if (e.getEffectType() == effectType)
 			{
@@ -667,11 +667,11 @@ public class Potions implements IItemHandler
 		return true;
 	}
 	
-	public boolean usePotion(L2PlayableInstance player, int magicId, int level)
+	public boolean usePotion(final L2PlayableInstance player, final int magicId, final int level)
 	{
 		if (player instanceof L2PcInstance)
 		{
-			L2PcInstance activeChar = player.getActingPlayer();
+			final L2PcInstance activeChar = player.getActingPlayer();
 			
 			if (activeChar.isCastingNow() && magicId > 2277 && magicId < 2285)
 			{
@@ -682,7 +682,7 @@ public class Potions implements IItemHandler
 			{
 				if (magicId > 2277 && magicId < 2285 && _herbstask >= 100)
 					_herbstask -= 100;
-				L2Skill skill = SkillTable.getInstance().getInfo(magicId, level);
+				final L2Skill skill = SkillTable.getInstance().getInfo(magicId, level);
 				if (skill != null)
 				{
 					// Return false if potion is in reuse
@@ -691,7 +691,7 @@ public class Potions implements IItemHandler
 					{
 						if (!(skill.getId() == 2166))
 						{
-							SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
+							final SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
 							sm.addSkillName(skill.getId(), skill.getLevel());
 							activeChar.sendPacket(sm);
 						}
@@ -722,8 +722,8 @@ public class Potions implements IItemHandler
 		}
 		else if (player instanceof L2PetInstance)
 		{
-			L2PetInstance activeChar = (L2PetInstance) player;
-			L2Skill skill = SkillTable.getInstance().getInfo(magicId, level);
+			final L2PetInstance activeChar = (L2PetInstance) player;
+			final L2Skill skill = SkillTable.getInstance().getInfo(magicId, level);
 			if (skill != null)
 			{
 				// Return false if potion is in reuse
@@ -732,7 +732,7 @@ public class Potions implements IItemHandler
 				{
 					if (!(skill.getId() == 2166))
 					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
 						sm.addSkillName(skill.getId(), skill.getLevel());
 						activeChar.sendPacket(sm);
 					}
@@ -754,7 +754,7 @@ public class Potions implements IItemHandler
 		return ITEM_IDS;
 	}
 	
-	public static void delete_Potion_Item(L2PlayableInstance playable, Integer skill_id, Integer skill_level)
+	public static void delete_Potion_Item(final L2PlayableInstance playable, final Integer skill_id, final Integer skill_level)
 	{
 		
 		if (!(playable instanceof L2PcInstance) && !(playable instanceof L2Summon))
@@ -762,12 +762,12 @@ public class Potions implements IItemHandler
 			return;
 		}
 		
-		List<Integer> possible_potions = Potions.get_potions_for_skill(skill_id, skill_level);
+		final List<Integer> possible_potions = Potions.get_potions_for_skill(skill_id, skill_level);
 		
 		if (!possible_potions.isEmpty())
 		{
 			
-			for (Integer potion : possible_potions)
+			for (final Integer potion : possible_potions)
 			{
 				
 				if (potion >= 8600 && potion <= 8614)
@@ -777,33 +777,33 @@ public class Potions implements IItemHandler
 				
 				if (playable instanceof L2PcInstance)
 				{
-					L2PcInstance activeChar = (L2PcInstance) playable;
+					final L2PcInstance activeChar = (L2PcInstance) playable;
 					
 					if (activeChar.getInventory().getInventoryItemCount(potion, 0) > 0)
 					{
 						
-						L2ItemInstance item = activeChar.getInventory().getItemByItemId(potion);
+						final L2ItemInstance item = activeChar.getInventory().getItemByItemId(potion);
 						activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 					}
 					else
 					{
 						if (Config.DEBUG)
-							LOGGER.warn( "Attention: playable " + playable.getName() + " has not potions " + potion + "!");
+							LOGGER.warn("Attention: playable " + playable.getName() + " has not potions " + potion + "!");
 					}
 				}
 				else if (playable instanceof L2Summon)
 				{
-					L2Summon activeChar = (L2Summon) playable;
+					final L2Summon activeChar = (L2Summon) playable;
 					
 					if (activeChar.getInventory().getInventoryItemCount(potion, 0) > 0)
 					{
-						L2ItemInstance item = activeChar.getInventory().getItemByItemId(potion);
+						final L2ItemInstance item = activeChar.getInventory().getItemByItemId(potion);
 						activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
 					}
 					else
 					{
 						if (Config.DEBUG)
-							LOGGER.warn( "Attention: playable " + playable.getName() + " has not potions " + potion + "!");
+							LOGGER.warn("Attention: playable " + playable.getName() + " has not potions " + potion + "!");
 					}
 				}
 				
@@ -812,7 +812,7 @@ public class Potions implements IItemHandler
 		}
 		else
 		{
-			LOGGER.warn( "Attention: Can't destroy potion for skill " + skill_id + " level " + skill_level);
+			LOGGER.warn("Attention: Can't destroy potion for skill " + skill_id + " level " + skill_level);
 		}
 		
 	}
@@ -925,7 +925,7 @@ public class Potions implements IItemHandler
 		public Integer potion_id;
 		public FastMap<Integer, Integer> skills = new FastMap<>();
 		
-		private PotionsSkills(int potion_item, int skill_identifier, int skill_level)
+		private PotionsSkills(final int potion_item, final int skill_identifier, final int skill_level)
 		{
 			// FastMap<Integer, Integer> skills = new FastMap<Integer, Integer>();
 			skills.put(skill_identifier, skill_level);
@@ -933,7 +933,7 @@ public class Potions implements IItemHandler
 			potion_id = potion_item;
 		}
 		
-		private PotionsSkills(int potion_item, Integer[] skill_identifiers, Integer[] skill_levels)
+		private PotionsSkills(final int potion_item, final Integer[] skill_identifiers, final Integer[] skill_levels)
 		{
 			// FastMap<Integer, Integer> skills = new FastMap<Integer, Integer>();
 			for (int i = 0; i < skill_identifiers.length; i++)

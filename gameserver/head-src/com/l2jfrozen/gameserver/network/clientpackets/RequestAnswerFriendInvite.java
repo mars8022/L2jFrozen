@@ -52,10 +52,10 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player != null)
 		{
-			L2PcInstance requestor = player.getActiveRequester();
+			final L2PcInstance requestor = player.getActiveRequester();
 			if (requestor == null)
 				return;
 			
@@ -65,7 +65,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 				try
 				{
 					con = L2DatabaseFactory.getInstance().getConnection(false);
-					PreparedStatement statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name, not_blocked) VALUES (?, ?, ?, ?), (?, ?, ?,?)");
+					final PreparedStatement statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name, not_blocked) VALUES (?, ?, ?, ?), (?, ?, ?,?)");
 					statement.setInt(1, requestor.getObjectId());
 					statement.setInt(2, player.getObjectId());
 					statement.setString(3, player.getName());
@@ -99,7 +99,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 					player.sendPacket(new FriendList(player));
 					requestor.sendPacket(new FriendList(requestor));
 				}
-				catch (Exception e)
+				catch (final Exception e)
 				{
 					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
@@ -114,7 +114,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 			}
 			else
 			{
-				SystemMessage msg = new SystemMessage(SystemMessageId.FAILED_TO_INVITE_A_FRIEND);
+				final SystemMessage msg = new SystemMessage(SystemMessageId.FAILED_TO_INVITE_A_FRIEND);
 				requestor.sendPacket(msg);
 			}
 			
@@ -123,7 +123,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 		}
 	}
 	
-	private void notifyFriends(L2PcInstance cha)
+	private void notifyFriends(final L2PcInstance cha)
 	{
 		Connection con = null;
 		
@@ -133,7 +133,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 			PreparedStatement statement;
 			statement = con.prepareStatement("SELECT friend_name FROM character_friends WHERE char_id=? AND not_blocked = 1 ");
 			statement.setInt(1, cha.getObjectId());
-			ResultSet rset = statement.executeQuery();
+			final ResultSet rset = statement.executeQuery();
 			L2PcInstance friend;
 			String friendName;
 			
@@ -152,7 +152,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket
 			DatabaseUtils.close(statement);
 		}
 		
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.warn("could not restore friend data:" + e);
 		}

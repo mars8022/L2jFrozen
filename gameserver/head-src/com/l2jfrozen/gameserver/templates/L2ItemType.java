@@ -23,5 +23,5 @@ package com.l2jfrozen.gameserver.templates;
  */
 public enum L2ItemType
 {
-
+	
 }

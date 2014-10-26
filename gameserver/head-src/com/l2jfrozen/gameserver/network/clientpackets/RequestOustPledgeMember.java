@@ -43,7 +43,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
@@ -65,9 +65,9 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 			return;
 		}
 		
-		L2Clan clan = activeChar.getClan();
+		final L2Clan clan = activeChar.getClan();
 		
-		L2ClanMember member = clan.getClanMember(_target);
+		final L2ClanMember member = clan.getClanMember(_target);
 		
 		if (member == null)
 		{
@@ -97,7 +97,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 		clan.broadcastToOnlineMembers(new PledgeShowMemberListDelete(_target));
 		if (member.isOnline())
 		{
-			L2PcInstance player = member.getPlayerInstance();
+			final L2PcInstance player = member.getPlayerInstance();
 			player.sendPacket(new SystemMessage(SystemMessageId.CLAN_MEMBERSHIP_TERMINATED));
 			player.setActiveWarehouse(null);
 		}

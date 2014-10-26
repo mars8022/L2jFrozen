@@ -24,17 +24,17 @@ import com.l2jfrozen.gameserver.skills.Stats;
 public class FuncDiv extends Func
 {
 	private final Lambda _lambda;
-
-	public FuncDiv(Stats pStat, int pOrder, Object owner, Lambda lambda)
+	
+	public FuncDiv(final Stats pStat, final int pOrder, final Object owner, final Lambda lambda)
 	{
 		super(pStat, pOrder, owner);
 		_lambda = lambda;
 	}
-
+	
 	@Override
-	public void calc(Env env)
+	public void calc(final Env env)
 	{
-		if(cond == null || cond.test(env))
+		if (cond == null || cond.test(env))
 		{
 			env.value /= _lambda.calc(env);
 		}

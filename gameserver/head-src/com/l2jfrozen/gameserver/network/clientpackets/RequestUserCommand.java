@@ -29,25 +29,25 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class RequestUserCommand extends L2GameClientPacket
 {
 	static Logger LOGGER = Logger.getLogger(RequestUserCommand.class);
-
+	
 	private int _command;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_command = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
 			return;
-
-		IUserCommandHandler handler = UserCommandHandler.getInstance().getUserCommandHandler(_command);
-
-		if(handler == null)
+		
+		final IUserCommandHandler handler = UserCommandHandler.getInstance().getUserCommandHandler(_command);
+		
+		if (handler == null)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("user commandID " + _command + " not implemented yet");

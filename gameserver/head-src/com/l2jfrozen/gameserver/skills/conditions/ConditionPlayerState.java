@@ -40,14 +40,14 @@ public class ConditionPlayerState extends Condition
 	private final CheckPlayerState _check;
 	private final boolean _required;
 	
-	public ConditionPlayerState(CheckPlayerState check, boolean required)
+	public ConditionPlayerState(final CheckPlayerState check, final boolean required)
 	{
 		_check = check;
 		_required = required;
 	}
 	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		switch (_check)
 		{

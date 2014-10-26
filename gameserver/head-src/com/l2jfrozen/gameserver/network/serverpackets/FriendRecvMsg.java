@@ -20,34 +20,33 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Send Private (Friend) Message Format: c dSSS d: Unknown S: Sending Player S: Receiving Player S: Message
- * 
  * @author Tempy
  */
 public class FriendRecvMsg extends L2GameServerPacket
 {
 	private static final String _S__FD_FRIENDRECVMSG = "[S] FD FriendRecvMsg";
-
-	private String _sender, _receiver, _message;
-
-	public FriendRecvMsg(String sender, String reciever, String message)
+	
+	private final String _sender, _receiver, _message;
+	
+	public FriendRecvMsg(final String sender, final String reciever, final String message)
 	{
 		_sender = sender;
 		_receiver = reciever;
-
+		
 		_message = message;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xfd);
-
+		
 		writeD(0); // ??
 		writeS(_receiver);
 		writeS(_sender);
 		writeS(_message);
 	}
-
+	
 	@Override
 	public String getType()
 	{

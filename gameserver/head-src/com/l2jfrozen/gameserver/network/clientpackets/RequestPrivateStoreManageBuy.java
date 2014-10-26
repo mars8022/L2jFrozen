@@ -39,7 +39,7 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
@@ -72,7 +72,7 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 		}
 		
 		// You can't open store when the task is launched
-		if(player.isSittingTaskLaunched())
+		if (player.isSittingTaskLaunched())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
@@ -107,7 +107,7 @@ public final class RequestPrivateStoreManageBuy extends L2GameClientPacket
 			
 			if (Config.SELL_BY_ITEM)
 			{
-				CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+				final CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
 				player.sendPacket(cs11);
 			}
 			

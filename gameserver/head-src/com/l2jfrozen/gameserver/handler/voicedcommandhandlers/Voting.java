@@ -21,62 +21,68 @@ public class Voting implements IVoicedCommandHandler
 {
 	private static String[] _voicedCommands =
 	{
-			"vote", "votePoints", "getVoteReward", "voteTime"
+		"vote",
+		"votePoints",
+		"getVoteReward",
+		"voteTime"
 	};
-
+	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
-		//flood protection
+		// flood protection
 		long currentTime = System.currentTimeMillis();
-		if(activeChar.getVoteTimestamp() > currentTime)
+		if (activeChar.getVoteTimestamp() > currentTime)
 		{
 			activeChar.sendMessage("You can't use Voting system soo fast!");
-		}else
+		}
+		else
 		{
 			currentTime += 1000;
 			activeChar.setVoteTimestamp(currentTime);
 		}
-
-		if(command.equalsIgnoreCase("vote"))
+		
+		if (command.equalsIgnoreCase("vote"))
 		{
 			activeChar.sendMessage(".votePoints - tells how many points has been accumulated.");
 			activeChar.sendMessage(".getVoteReward - converts vote points to a reward.");
 			activeChar.sendMessage(".voteTime - tells will you be able to vote next time.");
 		}
-		else if(command.equalsIgnoreCase("votePoints"))
+		else if (command.equalsIgnoreCase("votePoints"))
 		{
-			int votePoints = activeChar.getVotePoints();
-			activeChar.sendMessage("You've collected "+ votePoints + ".");
+			final int votePoints = activeChar.getVotePoints();
+			activeChar.sendMessage("You've collected " + votePoints + ".");
 			
 		}
-		else if(command.equalsIgnoreCase("voteTime"))
+		else if (command.equalsIgnoreCase("voteTime"))
 		{
-			int voteTime = activeChar.getVoteTime();
+			final int voteTime = activeChar.getVoteTime();
 			currentTime /= 1000;
-			if((voteTime + 43200) > currentTime)
+			if ((voteTime + 43200) > currentTime)
 			{
-				int secLeft = (int) ((voteTime+43200) - currentTime);
+				int secLeft = (int) ((voteTime + 43200) - currentTime);
 				int minutesLeft = secLeft / 60;
 				secLeft %= 60;
-				int hoursLeft = minutesLeft / 60;
+				final int hoursLeft = minutesLeft / 60;
 				minutesLeft %= 60;
 				
-				activeChar.sendMessage("You'll be able to vote in "+hoursLeft+" hour(s) and "+minutesLeft+" minute(s).");
+				activeChar.sendMessage("You'll be able to vote in " + hoursLeft + " hour(s) and " + minutesLeft + " minute(s).");
 				
-			}else
+			}
+			else
 			{
 				activeChar.sendMessage("You can vote now.");
-			}			
+			}
 		}
-		else if(command.equalsIgnoreCase("getVoteReward"))
+		else if (command.equalsIgnoreCase("getVoteReward"))
 		{
-			int votePoints = activeChar.getVotePoints();
-			if(votePoints > 0)
+			final int votePoints = activeChar.getVotePoints();
+			if (votePoints > 0)
 			{
 				activeChar.setVotePoints(0);
 				activeChar.addItem("VoteReward", 4356, votePoints, activeChar, true);
-			}else
+			}
+			else
 			{
 				activeChar.sendMessage("You've got not enough vote points.");
 			}
@@ -84,7 +90,7 @@ public class Voting implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#getVoicedCommandList()
 	 */

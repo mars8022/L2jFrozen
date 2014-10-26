@@ -27,38 +27,38 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectNoblesseBless extends L2Effect
 {
-
-	public EffectNoblesseBless(Env env, EffectTemplate template)
+	
+	public EffectNoblesseBless(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.NOBLESSE_BLESSING;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public void onStart()
 	{
-		if(getEffected() instanceof L2PlayableInstance)
+		if (getEffected() instanceof L2PlayableInstance)
 		{
 			((L2PlayableInstance) getEffected()).startNoblesseBlessing(this);
 		}
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
-		if(getEffected() instanceof L2PlayableInstance)
+		if (getEffected() instanceof L2PlayableInstance)
 		{
 			((L2PlayableInstance) getEffected()).stopNoblesseBlessing(this);
 		}
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

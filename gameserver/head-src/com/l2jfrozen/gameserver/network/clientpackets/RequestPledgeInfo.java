@@ -29,37 +29,40 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeInfo;
 public final class RequestPledgeInfo extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(RequestPledgeInfo.class);
-
+	
 	private int clanId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		clanId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			LOGGER.debug("infos for clan " + clanId + " requested");
 		}
-
-		L2PcInstance activeChar = getClient().getActiveChar();
-		L2Clan clan = ClanTable.getInstance().getClan(clanId);
-
+		
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		final L2Clan clan = ClanTable.getInstance().getClan(clanId);
+		
 		if (activeChar == null)
 			return;
 		
-		if(clan == null)
-		{   if (Config.DEBUG && clanId > 0){ 
-			LOGGER.debug("Clan data for clanId " + clanId + " is missing for player " + activeChar.getName());}
+		if (clan == null)
+		{
+			if (Config.DEBUG && clanId > 0)
+			{
+				LOGGER.debug("Clan data for clanId " + clanId + " is missing for player " + activeChar.getName());
+			}
 			return; // we have no clan data ?!? should not happen
 		}
 		activeChar.sendPacket(new PledgeInfo(clan));
 	}
-
+	
 	@Override
 	public String getType()
 	{

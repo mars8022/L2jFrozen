@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShowMiniMap;
 
 /**
  * This class provides handling for items that should display a map when double clicked.
- * 
  * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:30:07 $
  */
 
@@ -36,21 +35,24 @@ public class Maps implements IItemHandler
 	// all the items ids that this handler knowns
 	private static final int[] ITEM_IDS =
 	{
-			1665, 1863, 7063
+		1665,
+		1863,
+		7063
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		final L2PcInstance activeChar = (L2PcInstance) playable;
 		final int itemId = item.getItemId();
-		if(itemId == 7063)
+		if (itemId == 7063)
 		{
 			activeChar.sendPacket(new ShowMiniMap(1665));
 			activeChar.sendPacket(new RadarControl(0, 1, 51995, -51265, -3104));
@@ -59,10 +61,10 @@ public class Maps implements IItemHandler
 		{
 			activeChar.sendPacket(new ShowMiniMap(itemId));
 		}
-
+		
 		return;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

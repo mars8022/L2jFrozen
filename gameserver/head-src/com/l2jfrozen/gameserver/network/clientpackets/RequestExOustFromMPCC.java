@@ -28,26 +28,26 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class RequestExOustFromMPCC extends L2GameClientPacket
 {
 	private String _name;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_name = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance target = L2World.getInstance().getPlayer(_name);
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(target != null && target.isInParty() && activeChar.isInParty() && activeChar.getParty().isInCommandChannel() && target.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
+		final L2PcInstance target = L2World.getInstance().getPlayer(_name);
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (target != null && target.isInParty() && activeChar.isInParty() && activeChar.getParty().isInCommandChannel() && target.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
 		{
 			target.getParty().getCommandChannel().removeParty(target.getParty());
-
+			
 			SystemMessage sm = SystemMessage.sendString("Your party was dismissed from the CommandChannel.");
 			target.getParty().broadcastToPartyMembers(sm);
-
+			
 			sm = SystemMessage.sendString(target.getParty().getPartyMembers().get(0).getName() + "'s party was dismissed from the CommandChannel.");
 		}
 		else
@@ -55,11 +55,11 @@ public final class RequestExOustFromMPCC extends L2GameClientPacket
 			activeChar.sendMessage("Incorrect Target");
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:0F RequestExOustFromMPCC";
 	}
-
+	
 }

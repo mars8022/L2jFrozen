@@ -74,12 +74,12 @@ public enum BaseStats
 		return _stat.getClass().getSimpleName();
 	}
 	
-	private BaseStats(BaseStat s)
+	private BaseStats(final BaseStat s)
 	{
 		_stat = s;
 	}
 	
-	public final double calcBonus(L2Character actor)
+	public final double calcBonus(final L2Character actor)
 	{
 		if (actor != null)
 			return _stat.calcBonus(actor);
@@ -90,7 +90,7 @@ public enum BaseStats
 	public static final BaseStats valueOfXml(String name)
 	{
 		name = name.intern();
-		for (BaseStats s : values())
+		for (final BaseStats s : values())
 		{
 			if (s.getValue().equalsIgnoreCase(name))
 				return s;
@@ -107,7 +107,7 @@ public enum BaseStats
 	protected static final class STR implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -131,7 +131,7 @@ public enum BaseStats
 	protected static final class INT implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -155,7 +155,7 @@ public enum BaseStats
 	protected static final class DEX implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -179,7 +179,7 @@ public enum BaseStats
 	protected static final class WIT implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -202,7 +202,7 @@ public enum BaseStats
 	protected static final class CON implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -225,7 +225,7 @@ public enum BaseStats
 	protected static final class MEN implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -248,7 +248,7 @@ public enum BaseStats
 	protected static final class NULL implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			return 1f;
 		}
@@ -268,9 +268,9 @@ public enum BaseStats
 			{
 				doc = factory.newDocumentBuilder().parse(file);
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
-				LOGGER.warn( "[BaseStats] Could not parse file: " + e.getMessage(), e);
+				LOGGER.warn("[BaseStats] Could not parse file: " + e.getMessage(), e);
 			}
 			
 			if (doc != null)
@@ -296,7 +296,7 @@ public enum BaseStats
 										val = Integer.parseInt(attrs.getNamedItem("value").getNodeValue());
 										bonus = Double.parseDouble(attrs.getNamedItem("bonus").getNodeValue());
 									}
-									catch (Exception e)
+									catch (final Exception e)
 									{
 										LOGGER.error("[BaseStats] Invalid stats value: " + value.getNodeValue() + ", skipping", e);
 										continue;

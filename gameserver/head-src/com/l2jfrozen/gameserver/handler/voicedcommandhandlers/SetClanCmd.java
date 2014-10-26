@@ -27,20 +27,22 @@ public class SetClanCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =
 	{
-			"set name", "set home", "set group"
+		"set name",
+		"set home",
+		"set group"
 	};
-
+	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
-		if(command.startsWith("set privileges"))
+		if (command.startsWith("set privileges"))
 		{
-			int n = Integer.parseInt(command.substring(15));
+			final int n = Integer.parseInt(command.substring(15));
 			L2PcInstance pc = (L2PcInstance) activeChar.getTarget();
-
-			if(pc != null)
+			
+			if (pc != null)
 			{
-				if(activeChar.getClan().getClanId() == pc.getClan().getClanId() && activeChar.getClanPrivileges() > n || activeChar.isClanLeader())
+				if (activeChar.getClan().getClanId() == pc.getClan().getClanId() && activeChar.getClanPrivileges() > n || activeChar.isClanLeader())
 				{
 					pc.setClanPrivileges(n);
 					SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
@@ -53,7 +55,7 @@ public class SetClanCmd implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

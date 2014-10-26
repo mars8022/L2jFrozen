@@ -31,32 +31,32 @@ public class ItemFilter implements Filter
 {
 	private String _excludeProcess;
 	private String _excludeItemType;
-
-	//	This is example how to exclude consuming of shots and arrows from logging
-	//	private String _excludeProcess = "Consume";
-	//	private String _excludeItemType = "Arrow, Shot";
-
+	
+	// This is example how to exclude consuming of shots and arrows from logging
+	// private String _excludeProcess = "Consume";
+	// private String _excludeItemType = "Arrow, Shot";
+	
 	@Override
-	public boolean isLoggable(LogRecord record)
+	public boolean isLoggable(final LogRecord record)
 	{
-		if(record.getLoggerName() != "item")
+		if (record.getLoggerName() != "item")
 			return false;
-
-		if(_excludeProcess != null)
+		
+		if (_excludeProcess != null)
 		{
-			//			if (record.getMessage() == null) return true;
-			String[] messageList = record.getMessage().split(":");
-
-			if(messageList.length < 2 || !_excludeProcess.contains(messageList[1]))
+			// if (record.getMessage() == null) return true;
+			final String[] messageList = record.getMessage().split(":");
+			
+			if (messageList.length < 2 || !_excludeProcess.contains(messageList[1]))
 				return true;
 		}
-		if(_excludeItemType != null)
+		if (_excludeItemType != null)
 		{
-			//			if (record.getParameters() == null || record.getParameters().length == 0 || !(record.getParameters()[0] instanceof L2ItemInstance))
-			//				return true;
-			L2ItemInstance item = (L2ItemInstance) record.getParameters()[0];
-
-			if(!_excludeItemType.contains(item.getItemType().toString()))
+			// if (record.getParameters() == null || record.getParameters().length == 0 || !(record.getParameters()[0] instanceof L2ItemInstance))
+			// return true;
+			final L2ItemInstance item = (L2ItemInstance) record.getParameters()[0];
+			
+			if (!_excludeItemType.contains(item.getItemType().toString()))
 				return true;
 		}
 		return _excludeProcess == null && _excludeItemType == null;

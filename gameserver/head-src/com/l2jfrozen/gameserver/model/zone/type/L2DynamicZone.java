@@ -29,29 +29,29 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * A dynamic zone? Maybe use this for interlude skills like protection field :>
- * 
  * @author durgus
  */
 public class L2DynamicZone extends L2ZoneType
 {
-	private L2WorldRegion _region;
-	private L2Character _owner;
+	private final L2WorldRegion _region;
+	private final L2Character _owner;
 	private Future<?> _task;
-	private L2Skill _skill;
-
-	protected void setTask(Future<?> task)
+	private final L2Skill _skill;
+	
+	protected void setTask(final Future<?> task)
 	{
 		_task = task;
 	}
-
-	public L2DynamicZone(L2WorldRegion region, L2Character owner, L2Skill skill)
+	
+	public L2DynamicZone(final L2WorldRegion region, final L2Character owner, final L2Skill skill)
 	{
 		super(-1);
 		_region = region;
 		_owner = owner;
 		_skill = skill;
-
-		Runnable r = new Runnable() {
+		
+		Runnable r = new Runnable()
+		{
 			@Override
 			public void run()
 			{
@@ -59,76 +59,76 @@ public class L2DynamicZone extends L2ZoneType
 			}
 		};
 		setTask(ThreadPoolManager.getInstance().scheduleGeneral(r, skill.getBuffDuration()));
-
+		
 		r = null;
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
 		try
 		{
-			if(character instanceof L2PcInstance)
+			if (character instanceof L2PcInstance)
 			{
 				((L2PcInstance) character).sendMessage("You have entered a temporary zone!");
 			}
-
-			_skill.getEffects(_owner, character,false,false,false);
+			
+			_skill.getEffects(_owner, character, false, false, false);
 		}
-		catch(NullPointerException e)
+		catch (final NullPointerException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
 			((L2PcInstance) character).sendMessage("You have left a temporary zone!");
 		}
-
-		if(character == _owner)
+		
+		if (character == _owner)
 		{
 			remove();
 			return;
 		}
 		character.stopSkillEffects(_skill.getId());
 	}
-
+	
 	protected void remove()
 	{
-		if(_task == null)
+		if (_task == null)
 			return;
-
+		
 		_task.cancel(false);
 		_task = null;
-
+		
 		_region.removeZone(this);
-
-		for(L2Character member : _characterList.values())
+		
+		for (final L2Character member : _characterList.values())
 		{
 			try
 			{
 				member.stopSkillEffects(_skill.getId());
 			}
-			catch(NullPointerException e)
+			catch (final NullPointerException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 		}
 		_owner.stopSkillEffects(_skill.getId());
-
+		
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character character)
+	protected void onDieInside(final L2Character character)
 	{
-		if(character == _owner)
+		if (character == _owner)
 		{
 			remove();
 		}
@@ -137,11 +137,11 @@ public class L2DynamicZone extends L2ZoneType
 			character.stopSkillEffects(_skill.getId());
 		}
 	}
-
+	
 	@Override
-	protected void onReviveInside(L2Character character)
+	protected void onReviveInside(final L2Character character)
 	{
-		_skill.getEffects(_owner, character,false,false,false);
+		_skill.getEffects(_owner, character, false, false, false);
 	}
-
+	
 }

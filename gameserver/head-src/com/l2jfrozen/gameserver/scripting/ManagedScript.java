@@ -30,20 +30,19 @@ import com.l2jfrozen.Config;
  */
 public abstract class ManagedScript
 {
-	private File _scriptFile;
+	private final File _scriptFile;
 	private long _lastLoadTime;
 	private boolean _isActive;
-
+	
 	public ManagedScript()
 	{
 		_scriptFile = L2ScriptEngineManager.getInstance().getCurrentLoadScript();
 		setLastLoadTime(System.currentTimeMillis());
 	}
-
+	
 	/**
 	 * Attempts to reload this script and to refresh the necessary bindings with it ScriptControler.<BR>
 	 * Subclasses of this class should override this method to properly refresh their bindings when necessary.
-	 * 
 	 * @return true if and only if the script was reloaded, false otherwise.
 	 */
 	public boolean reload()
@@ -53,27 +52,27 @@ public abstract class ManagedScript
 			L2ScriptEngineManager.getInstance().executeScript(getScriptFile());
 			return true;
 		}
-		catch(ScriptException e)
+		catch (final ScriptException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			return false;
 		}
 	}
-
+	
 	public abstract boolean unload();
-
-	public void setActive(boolean status)
+	
+	public void setActive(final boolean status)
 	{
 		_isActive = status;
 	}
-
+	
 	public boolean isActive()
 	{
 		return _isActive;
 	}
-
+	
 	/**
 	 * @return Returns the scriptFile.
 	 */
@@ -81,15 +80,15 @@ public abstract class ManagedScript
 	{
 		return _scriptFile;
 	}
-
+	
 	/**
 	 * @param lastLoadTime The lastLoadTime to set.
 	 */
-	protected void setLastLoadTime(long lastLoadTime)
+	protected void setLastLoadTime(final long lastLoadTime)
 	{
 		_lastLoadTime = lastLoadTime;
 	}
-
+	
 	/**
 	 * @return Returns the lastLoadTime.
 	 */
@@ -97,8 +96,8 @@ public abstract class ManagedScript
 	{
 		return _lastLoadTime;
 	}
-
+	
 	public abstract String getScriptName();
-
+	
 	public abstract ScriptManager<?> getScriptManager();
 }

@@ -44,7 +44,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.3 $ $Date: 2009/04/29 14:01:12 $
  */
 
@@ -53,210 +52,209 @@ public class ScrollOfEscape implements IItemHandler
 	// all the items ids that this handler knowns
 	private static final int[] ITEM_IDS =
 	{
-			736,
-			1830,
-			1829,
-			1538,
-			3958,
-			5858,
-			5859,
-			7117,
-			7118,
-			7119,
-			7120,
-			7121,
-			7122,
-			7123,
-			7124,
-			7125,
-			7126,
-			7127,
-			7128,
-			7129,
-			7130,
-			7131,
-			7132,
-			7133,
-			7134,
-			7135,
-			7554,
-			7555,
-			7556,
-			7557,
-			7558,
-			7559,
-			7618,
-			7619
+		736,
+		1830,
+		1829,
+		1538,
+		3958,
+		5858,
+		5859,
+		7117,
+		7118,
+		7119,
+		7120,
+		7121,
+		7122,
+		7123,
+		7124,
+		7125,
+		7126,
+		7127,
+		7128,
+		7129,
+		7130,
+		7131,
+		7132,
+		7133,
+		7134,
+		7135,
+		7554,
+		7555,
+		7556,
+		7557,
+		7558,
+		7559,
+		7618,
+		7619
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
-
-		if(checkConditions(activeChar))
+		
+		if (checkConditions(activeChar))
 			return;
-
-		//Check to see if player is sitting
-		if(activeChar.isSitting())
+		
+		// Check to see if player is sitting
+		if (activeChar.isSitting())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANT_MOVE_SITTING));
 			return;
 		}
-
-		//if(activeChar._inEventTvT && TvT._started)
-		if(activeChar._inEventTvT && TvT.is_started())
+		
+		// if(activeChar._inEventTvT && TvT._started)
+		if (activeChar._inEventTvT && TvT.is_started())
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in TvT.");
 			return;
 		}
-
-		//if(activeChar._inEventDM && DM._started)
-		if(activeChar._inEventDM && DM.is_started())
+		
+		// if(activeChar._inEventDM && DM._started)
+		if (activeChar._inEventDM && DM.is_started())
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in DM.");
 			return;
 		}
-
-		//if(activeChar._inEventCTF && CTF._started)
-		if(activeChar._inEventCTF && CTF.is_started())
+		
+		// if(activeChar._inEventCTF && CTF._started)
+		if (activeChar._inEventCTF && CTF.is_started())
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in CTF.");
 			return;
 		}
-
-		//if(activeChar._inEventVIP && VIP._started)
-		if(activeChar._inEventVIP && VIP._started)
+		
+		// if(activeChar._inEventVIP && VIP._started)
+		if (activeChar._inEventVIP && VIP._started)
 		{
 			activeChar.sendMessage("You can't use Scroll of Escape in VIP.");
 			return;
 		}
-
-		//not usefull
-		/*if(GrandBossManager.getInstance().getZone(activeChar) != null && !activeChar.isGM())
-		{
-			activeChar.sendMessage("You Can't Use SOE In Grand boss zone!");
-			return;
-		}*/
-
+		
+		// not usefull
+		/*
+		 * if(GrandBossManager.getInstance().getZone(activeChar) != null && !activeChar.isGM()) { activeChar.sendMessage("You Can't Use SOE In Grand boss zone!"); return; }
+		 */
+		
 		// Check to see if player is on olympiad
-		if(activeChar.isInOlympiadMode())
+		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
 			return;
 		}
-
-		if(!Config.ALLOW_SOE_IN_PVP && activeChar.getPvpFlag() != 0)
+		
+		if (!Config.ALLOW_SOE_IN_PVP && activeChar.getPvpFlag() != 0)
 		{
 			activeChar.sendMessage("You Can't Use SOE In PvP!");
 			return;
 		}
-
+		
 		// Check to see if the player is in a festival.
-		if(activeChar.isFestivalParticipant())
+		if (activeChar.isFestivalParticipant())
 		{
 			activeChar.sendPacket(SystemMessage.sendString("You may not use an escape skill in a festival."));
 			return;
 		}
-
+		
 		// Check to see if player is in jail
-		if(activeChar.isInJail())
+		if (activeChar.isInJail())
 		{
 			activeChar.sendPacket(SystemMessage.sendString("You can not escape from jail."));
 			return;
 		}
-
+		
 		// Check to see if player is in a duel
-		if(activeChar.isInDuel())
+		if (activeChar.isInDuel())
 		{
 			activeChar.sendPacket(SystemMessage.sendString("You cannot use escape skills during a duel."));
 			return;
 		}
-
-		if(activeChar.isParalyzed())
+		
+		if (activeChar.isParalyzed())
 		{
 			activeChar.sendPacket(SystemMessage.sendString("You may not use an escape skill in a paralyzed."));
 			return;
 		}
-
-		//activeChar.abortCast();
-		activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
-		//SoE Animation section
-		// Check if this is a blessed scroll, if it is then shorten the cast time.
-		int itemId = item.getItemId();
 		
-		SystemMessage sm3 = new SystemMessage(SystemMessageId.USE_S1);
+		// activeChar.abortCast();
+		activeChar.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+		// SoE Animation section
+		// Check if this is a blessed scroll, if it is then shorten the cast time.
+		final int itemId = item.getItemId();
+		
+		final SystemMessage sm3 = new SystemMessage(SystemMessageId.USE_S1);
 		sm3.addItemName(itemId);
 		activeChar.sendPacket(sm3);
 		
-		int escapeSkill = itemId == 1538 || itemId == 5858 || itemId == 5859 || itemId == 3958 || itemId == 10130 ? 2036 : 2013;
-
-		if(!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
+		final int escapeSkill = itemId == 1538 || itemId == 5858 || itemId == 5859 || itemId == 3958 || itemId == 10130 ? 2036 : 2013;
+		
+		if (!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
 			return;
-
+		
 		activeChar.disableAllSkills();
-
-		//fix soe
+		
+		// fix soe
 		L2Object oldtarget = activeChar.getTarget();
 		activeChar.setTarget(activeChar);
-
-		L2Skill skill = SkillTable.getInstance().getInfo(escapeSkill, 1);
-		MagicSkillUser msu = new MagicSkillUser(activeChar, escapeSkill, 1, skill.getHitTime(), 0);
+		
+		final L2Skill skill = SkillTable.getInstance().getInfo(escapeSkill, 1);
+		final MagicSkillUser msu = new MagicSkillUser(activeChar, escapeSkill, 1, skill.getHitTime(), 0);
 		activeChar.broadcastPacket(msu);
 		activeChar.setTarget(oldtarget);
 		SetupGauge sg = new SetupGauge(0, skill.getHitTime());
 		activeChar.sendPacket(sg);
 		oldtarget = null;
 		sg = null;
-		//End SoE Animation section
+		// End SoE Animation section
 		activeChar.setTarget(null);
 		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
 		sm.addItemName(itemId);
 		activeChar.sendPacket(sm);
 		sm = null;
-
+		
 		EscapeFinalizer ef = new EscapeFinalizer(activeChar, itemId);
 		// continue execution later
 		activeChar.setSkillCast(ThreadPoolManager.getInstance().scheduleEffect(ef, skill.getHitTime()));
 		activeChar.setSkillCastEndTime(10 + GameTimeController.getGameTicks() + skill.getHitTime() / GameTimeController.MILLIS_IN_TICK);
-
+		
 		ef = null;
 		activeChar = null;
 	}
-
+	
 	static class EscapeFinalizer implements Runnable
 	{
-		private L2PcInstance _activeChar;
-		private int _itemId;
-
-		EscapeFinalizer(L2PcInstance activeChar, int itemId)
+		private final L2PcInstance _activeChar;
+		private final int _itemId;
+		
+		EscapeFinalizer(final L2PcInstance activeChar, final int itemId)
 		{
 			_activeChar = activeChar;
 			_itemId = itemId;
 		}
-
+		
 		@Override
 		public void run()
 		{
-			if(_activeChar.isDead())
+			if (_activeChar.isDead())
 				return;
-
+			
 			_activeChar.enableAllSkills();
-
+			
 			_activeChar.setIsIn7sDungeon(false);
-
+			
 			try
 			{
 				
 				// escape to castle if own's one
-				if((_itemId == 1830 || _itemId == 5859))
+				if ((_itemId == 1830 || _itemId == 5859))
 				{
 					if (CastleManager.getInstance().getCastleByOwner(_activeChar.getClan()) != null)
 						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Castle);
@@ -264,34 +262,36 @@ public class ScrollOfEscape implements IItemHandler
 						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				}
 				// escape to fortress if own's one if own's one
-				else if((_itemId == 1830 || _itemId == 5859))
+				else if ((_itemId == 1830 || _itemId == 5859))
 				{
 					if (FortManager.getInstance().getFortByOwner(_activeChar.getClan()) != null)
 						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Fortress);
 					else
 						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				}
-				else if((_itemId == 1829 || _itemId == 5858) && _activeChar.getClan() != null && ClanHallManager.getInstance().getClanHallByOwner(_activeChar.getClan()) != null) // escape to clan hall if own's one
+				else if ((_itemId == 1829 || _itemId == 5858) && _activeChar.getClan() != null && ClanHallManager.getInstance().getClanHallByOwner(_activeChar.getClan()) != null) // escape to clan hall if own's one
 				{
 					_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.ClanHall);
 				}
-				else if(_itemId == 5858) // do nothing
+				else if (_itemId == 5858) // do nothing
 				{
 					_activeChar.sendPacket(new SystemMessage(SystemMessageId.CLAN_HAS_NO_CLAN_HALL));
 					return;
 				}
-				else if(_activeChar.getKarma()>0 && Config.ALT_KARMA_TELEPORT_TO_FLORAN){
+				else if (_activeChar.getKarma() > 0 && Config.ALT_KARMA_TELEPORT_TO_FLORAN)
+				{
 					_activeChar.teleToLocation(17836, 170178, -3507, true); // Floran
 					return;
-				}else
+				}
+				else
 				{
-					if(_itemId < 7117)
+					if (_itemId < 7117)
 					{
 						_activeChar.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 					}
 					else
 					{
-						switch(_itemId)
+						switch (_itemId)
 						{
 							case 7117:
 								_activeChar.teleToLocation(-84318, 244579, -3730, true); // Talking Island
@@ -381,19 +381,19 @@ public class ScrollOfEscape implements IItemHandler
 					}
 				}
 			}
-			catch(Throwable e)
+			catch (final Throwable e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 		}
 	}
-
-	private static boolean checkConditions(L2PcInstance actor)
+	
+	private static boolean checkConditions(final L2PcInstance actor)
 	{
 		return actor.isStunned() || actor.isSleeping() || actor.isParalyzed() || actor.isFakeDeath() || actor.isTeleporting() || actor.isMuted() || actor.isAlikeDead() || actor.isAllSkillsDisabled();
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

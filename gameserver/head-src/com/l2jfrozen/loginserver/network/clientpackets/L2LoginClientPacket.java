@@ -37,12 +37,12 @@ public abstract class L2LoginClientPacket extends ReceivablePacket<L2LoginClient
 		{
 			return readImpl();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.error("ERROR READING: " + this.getClass().getSimpleName(), e);
 			return false;
 		}
 	}
-
+	
 	protected abstract boolean readImpl();
 }

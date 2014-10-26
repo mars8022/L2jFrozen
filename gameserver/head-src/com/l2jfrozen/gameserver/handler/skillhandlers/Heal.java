@@ -60,14 +60,14 @@ public class Heal implements ISkillHandler
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		L2PcInstance player = null;
 		if (activeChar instanceof L2PcInstance)
 			player = (L2PcInstance) activeChar;
 		
-		boolean bss = activeChar.checkBss();
-		boolean sps = activeChar.checkSps();
+		final boolean bss = activeChar.checkBss();
+		final boolean sps = activeChar.checkSps();
 		
 		// check for other effects
 		try
@@ -79,7 +79,7 @@ public class Heal implements ISkillHandler
 			
 			handler = null;
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -87,17 +87,17 @@ public class Heal implements ISkillHandler
 		
 		L2Character target = null;
 		
-		for (L2Object target2 : targets)
+		for (final L2Object target2 : targets)
 		{
 			target = (L2Character) target2;
 			
 			if (target == null || target.isDead() || target.isInvul())
 				continue;
 			
-			// Avoid players heal inside Baium lair from outside		
+			// Avoid players heal inside Baium lair from outside
 			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(player) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
-			{		
-				continue;		
+			{
+				continue;
 			}
 			
 			// We should not heal walls and door
@@ -135,7 +135,7 @@ public class Heal implements ISkillHandler
 				else if (sps)
 				{
 					hp *= 1.3;
-				}		
+				}
 			}
 			
 			if (skill.getSkillType() == SkillType.HEAL_STATIC)
@@ -187,7 +187,7 @@ public class Heal implements ISkillHandler
 		else if (sps)
 		{
 			activeChar.removeSps();
-		}		
+		}
 	}
 	
 	@Override

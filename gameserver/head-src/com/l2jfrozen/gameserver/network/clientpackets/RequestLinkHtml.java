@@ -30,35 +30,35 @@ public final class RequestLinkHtml extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(RequestLinkHtml.class);
 	private String _link;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_link = readS();
 	}
-
+	
 	@Override
 	public void runImpl()
 	{
-		L2PcInstance actor = getClient().getActiveChar();
-		if(actor == null)
+		final L2PcInstance actor = getClient().getActiveChar();
+		if (actor == null)
 			return;
-
-		if(_link.contains("..") || !_link.contains(".htm"))
+		
+		if (_link.contains("..") || !_link.contains(".htm"))
 		{
 			LOGGER.warn("[RequestLinkHtml] hack? link contains prohibited characters: '" + _link + "', skipped");
 			return;
 		}
-
-		if(!actor.validateLink(_link))
+		
+		if (!actor.validateLink(_link))
 			return;
-
-		NpcHtmlMessage msg = new NpcHtmlMessage(0);
+		
+		final NpcHtmlMessage msg = new NpcHtmlMessage(0);
 		msg.setFile(_link);
-
+		
 		sendPacket(msg);
 	}
-
+	
 	@Override
 	public String getType()
 	{

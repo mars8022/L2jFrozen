@@ -20,18 +20,18 @@ package com.l2jfrozen.gameserver.network.loginserverpackets;
 
 public class KickPlayer extends LoginServerBasePacket
 {
-
-	private String _account;
-
+	
+	private final String _account;
+	
 	/**
 	 * @param decrypt
 	 */
-	public KickPlayer(byte[] decrypt)
+	public KickPlayer(final byte[] decrypt)
 	{
 		super(decrypt);
 		_account = readS();
 	}
-
+	
 	/**
 	 * @return Returns the account.
 	 */
@@ -39,5 +39,5 @@ public class KickPlayer extends LoginServerBasePacket
 	{
 		return _account;
 	}
-
+	
 }

@@ -55,7 +55,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 	};
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		final StringTokenizer st = new StringTokenizer(command);
 		st.nextToken();
@@ -64,7 +64,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		{
 			activeChar.sendMessage("====== Cursed Weapons: ======");
 			
-			for (CursedWeapon cw : cursedWeaponsManager.getCursedWeapons())
+			for (final CursedWeapon cw : cursedWeaponsManager.getCursedWeapons())
 			{
 				activeChar.sendMessage("> " + cw.getName() + " (" + cw.getItemId() + ")");
 				
@@ -93,18 +93,18 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 		}
 		else if (command.equalsIgnoreCase("admin_cw_info_menu"))
 		{
-			TextBuilder replyMSG = new TextBuilder();
-			NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
+			final TextBuilder replyMSG = new TextBuilder();
+			final NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 			adminReply.setFile("data/html/admin/cwinfo.htm");
 			
-			for (CursedWeapon cw : cursedWeaponsManager.getCursedWeapons())
+			for (final CursedWeapon cw : cursedWeaponsManager.getCursedWeapons())
 			{
-				int itemId = cw.getItemId();
+				final int itemId = cw.getItemId();
 				replyMSG.append("<table width=270><tr><td>Name:</td><td>" + cw.getName() + "</td></tr>");
 				
 				if (cw.isActivated())
 				{
-					L2PcInstance pl = cw.getPlayer();
+					final L2PcInstance pl = cw.getPlayer();
 					replyMSG.append("<tr><td>Weilder:</td><td>" + (pl == null ? "null" : pl.getName()) + "</td></tr>");
 					replyMSG.append("<tr><td>Karma:</td><td>" + String.valueOf(cw.getPlayerKarma()) + "</td></tr>");
 					replyMSG.append("<tr><td>Kills:</td><td>" + String.valueOf(cw.getPlayerPkKills()) + "/" + String.valueOf(cw.getNbKills()) + "</td></tr>");
@@ -154,7 +154,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 			else
 			{
 				parameter = parameter.replace('_', ' ');
-				for (CursedWeapon cwp : cursedWeaponsManager.getCursedWeapons())
+				for (final CursedWeapon cwp : cursedWeaponsManager.getCursedWeapons())
 				{
 					if (cwp.getName().toLowerCase().contains(parameter.toLowerCase()))
 					{
@@ -190,7 +190,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 			else
 			{
 				parameter = parameter.replace('_', ' ');
-				for (CursedWeapon cwp : cursedWeaponsManager.getCursedWeapons())
+				for (final CursedWeapon cwp : cursedWeaponsManager.getCursedWeapons())
 				{
 					if (cwp.getName().toLowerCase().contains(parameter.toLowerCase()))
 					{
@@ -227,7 +227,7 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 			{
 				parameter = parameter.replace('_', ' ');
 				
-				for (CursedWeapon cwp : cursedWeaponsManager.getCursedWeapons())
+				for (final CursedWeapon cwp : cursedWeaponsManager.getCursedWeapons())
 				{
 					if (cwp.getName().toLowerCase().contains(parameter.toLowerCase()))
 					{
@@ -246,11 +246,11 @@ public class AdminCursedWeapons implements IAdminCommandHandler
 				}
 				else
 				{
-					//end time is equal to dropped one
-					long endTime = System.currentTimeMillis() + cursedWeapon.getDuration() * 60000L;
+					// end time is equal to dropped one
+					final long endTime = System.currentTimeMillis() + cursedWeapon.getDuration() * 60000L;
 					cursedWeapon.setEndTime(endTime);
 					
-					L2Object target = activeChar.getTarget();
+					final L2Object target = activeChar.getTarget();
 					if ((target != null) && (target instanceof L2PcInstance))
 					{
 						((L2PcInstance) target).addItem("AdminCursedWeaponAdd", id, 1, target, true);

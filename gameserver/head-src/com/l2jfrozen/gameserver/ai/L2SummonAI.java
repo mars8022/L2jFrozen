@@ -33,28 +33,28 @@ import com.l2jfrozen.gameserver.model.L2Summon;
 
 public class L2SummonAI extends L2CharacterAI
 {
-
+	
 	private boolean _thinking; // to prevent recursive thinking
 	private L2Summon summon;
-
-	public L2SummonAI(AIAccessor accessor)
+	
+	public L2SummonAI(final AIAccessor accessor)
 	{
 		super(accessor);
 	}
-
+	
 	@Override
 	protected void onIntentionIdle()
 	{
 		stopFollow();
 		onIntentionActive();
 	}
-
+	
 	@Override
 	protected void onIntentionActive()
 	{
 		L2Summon summon = (L2Summon) _actor;
-
-		if(summon.getFollowStatus())
+		
+		if (summon.getFollowStatus())
 		{
 			setIntention(AI_INTENTION_FOLLOW, summon.getOwner());
 		}
@@ -62,10 +62,10 @@ public class L2SummonAI extends L2CharacterAI
 		{
 			super.onIntentionActive();
 		}
-
+		
 		summon = null;
 	}
-
+	
 	private void thinkAttack()
 	{
 		summon = (L2Summon) _actor;
@@ -76,35 +76,35 @@ public class L2SummonAI extends L2CharacterAI
 		if (target != null && summon != null && ((L2Character) target).isDead())
 			summon.setFollowStatus(true);
 		
-		if(checkTargetLostOrDead(getAttackTarget()))
+		if (checkTargetLostOrDead(getAttackTarget()))
 		{
 			setAttackTarget(null);
 			return;
 		}
-
-		if(maybeMoveToPawn(getAttackTarget(), _actor.getPhysicalAttackRange()))
+		
+		if (maybeMoveToPawn(getAttackTarget(), _actor.getPhysicalAttackRange()))
 			return;
-
+		
 		clientStopMoving(null);
 		_accessor.doAttack(getAttackTarget());
 		return;
 	}
-
+	
 	private void thinkCast()
 	{
 		L2Summon summon = (L2Summon) _actor;
-
+		
 		final L2Character target = getCastTarget();
-		if(checkTargetLost(target))
+		if (checkTargetLost(target))
 		{
 			setCastTarget(null);
 			return;
 		}
-
+		
 		final L2Skill skill = get_skill();
-		if(maybeMoveToPawn(target, _actor.getMagicalAttackRange(skill)))
+		if (maybeMoveToPawn(target, _actor.getMagicalAttackRange(skill)))
 			return;
-
+		
 		clientStopMoving(null);
 		summon.setFollowStatus(false);
 		summon = null;
@@ -112,67 +112,67 @@ public class L2SummonAI extends L2CharacterAI
 		_accessor.doCast(skill);
 		return;
 	}
-
+	
 	private void thinkPickUp()
 	{
-		if(_actor.isAllSkillsDisabled())
+		if (_actor.isAllSkillsDisabled())
 			return;
-
+		
 		final L2Object target = getTarget();
 		
-		if(checkTargetLost(target))
+		if (checkTargetLost(target))
 			return;
-
-		if(maybeMoveToPawn(target, 36))
+		
+		if (maybeMoveToPawn(target, 36))
 			return;
-
+		
 		setIntention(AI_INTENTION_IDLE);
 		((L2Summon.AIAccessor) _accessor).doPickupItem(target);
-
+		
 		return;
 	}
-
+	
 	private void thinkInteract()
 	{
-		if(_actor.isAllSkillsDisabled())
+		if (_actor.isAllSkillsDisabled())
 			return;
-
+		
 		final L2Object target = getTarget();
 		
-		if(checkTargetLost(target))
+		if (checkTargetLost(target))
 			return;
-
-		if(maybeMoveToPawn(target, 36))
+		
+		if (maybeMoveToPawn(target, 36))
 			return;
-
+		
 		setIntention(AI_INTENTION_IDLE);
-
+		
 		return;
 	}
-
+	
 	@Override
 	protected void onEvtThink()
 	{
-		if(_thinking || _actor.isAllSkillsDisabled())
+		if (_thinking || _actor.isAllSkillsDisabled())
 			return;
-
+		
 		_thinking = true;
-
+		
 		try
 		{
-			if(getIntention() == AI_INTENTION_ATTACK)
+			if (getIntention() == AI_INTENTION_ATTACK)
 			{
 				thinkAttack();
 			}
-			else if(getIntention() == AI_INTENTION_CAST)
+			else if (getIntention() == AI_INTENTION_CAST)
 			{
 				thinkCast();
 			}
-			else if(getIntention() == AI_INTENTION_PICK_UP)
+			else if (getIntention() == AI_INTENTION_PICK_UP)
 			{
 				thinkPickUp();
 			}
-			else if(getIntention() == AI_INTENTION_INTERACT)
+			else if (getIntention() == AI_INTENTION_INTERACT)
 			{
 				thinkInteract();
 			}
@@ -182,9 +182,10 @@ public class L2SummonAI extends L2CharacterAI
 			_thinking = false;
 		}
 	}
-
+	
 	@Override
-	protected void onEvtFinishCasting() {
+	protected void onEvtFinishCasting()
+	{
 		super.onEvtFinishCasting();
 		
 		final L2Summon summon = (L2Summon) _actor;
@@ -199,5 +200,5 @@ public class L2SummonAI extends L2CharacterAI
 		else if (((L2Character) target).isDead())
 			summon.setFollowStatus(true);
 		
-	}	
+	}
 }

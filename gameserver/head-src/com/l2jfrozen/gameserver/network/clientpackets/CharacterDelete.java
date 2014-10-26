@@ -29,27 +29,27 @@ public final class CharacterDelete extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(CharacterDelete.class);
 	private int _charSlot;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_charSlot = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		
 		if (!getClient().getFloodProtectors().getCharacterSelect().tryPerformAction("CharacterDelete"))
 			return;
-
+		
 		if (Config.DEBUG)
-			LOGGER.debug("DEBUG "+getType()+": deleting slot:" + _charSlot);
-
+			LOGGER.debug("DEBUG " + getType() + ": deleting slot:" + _charSlot);
+		
 		try
 		{
-			byte answer = getClient().markToDeleteChar(_charSlot);
-			switch(answer)
+			final byte answer = getClient().markToDeleteChar(_charSlot);
+			switch (answer)
 			{
 				default:
 				case -1: // Error
@@ -65,14 +65,14 @@ public final class CharacterDelete extends L2GameClientPacket
 					break;
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-
-			LOGGER.error( "ERROR "+getType()+":", e);
+			
+			LOGGER.error("ERROR " + getType() + ":", e);
 		}
-
+		
 		// Before the char selection, check shutdown status
 		if (GameServer.getSelectorThread().isShutdown())
 		{
@@ -80,11 +80,11 @@ public final class CharacterDelete extends L2GameClientPacket
 			return;
 		}
 		
-		CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
+		final CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
 		sendPacket(cl);
 		getClient().setCharSelection(cl.getCharInfo());
 	}
-
+	
 	@Override
 	public String getType()
 	{

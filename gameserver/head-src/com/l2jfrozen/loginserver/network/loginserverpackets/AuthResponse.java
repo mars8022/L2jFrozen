@@ -29,7 +29,7 @@ public class AuthResponse extends ServerBasePacket
 	/**
 	 * @param serverId
 	 */
-	public AuthResponse(int serverId)
+	public AuthResponse(final int serverId)
 	{
 		writeC(0x02);
 		writeC(serverId);

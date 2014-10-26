@@ -40,9 +40,9 @@ public class FriendList extends L2GameServerPacket
 	private static Logger LOGGER = Logger.getLogger(FriendList.class);
 	private static final String _S__FA_FRIENDLIST = "[S] FA FriendList";
 	
-	private L2PcInstance _activeChar;
+	private final L2PcInstance _activeChar;
 	
-	public FriendList(L2PcInstance character)
+	public FriendList(final L2PcInstance character)
 	{
 		_activeChar = character;
 	}
@@ -57,7 +57,7 @@ public class FriendList extends L2GameServerPacket
 		
 		try
 		{
-			String sqlQuery = "SELECT friend_id, friend_name FROM character_friends WHERE " + "char_id=" + _activeChar.getObjectId() + " AND not_blocked = 1 ORDER BY friend_name ASC";
+			final String sqlQuery = "SELECT friend_id, friend_name FROM character_friends WHERE " + "char_id=" + _activeChar.getObjectId() + " AND not_blocked = 1 ORDER BY friend_name ASC";
 			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(sqlQuery);
@@ -75,15 +75,15 @@ public class FriendList extends L2GameServerPacket
 				
 				while (rset.next())
 				{
-					int friendId = rset.getInt("friend_id");
-					String friendName = rset.getString("friend_name");
+					final int friendId = rset.getInt("friend_id");
+					final String friendName = rset.getString("friend_name");
 					
 					if (friendId == _activeChar.getObjectId())
 					{
 						continue;
 					}
 					
-					L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
+					final L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
 					
 					// writeH(0); // ??
 					writeD(friendId);
@@ -109,7 +109,7 @@ public class FriendList extends L2GameServerPacket
 			rset = null;
 			statement = null;
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

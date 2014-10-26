@@ -33,14 +33,13 @@ public final class EffectDeflectBuff extends L2Effect
 	 * @param env
 	 * @param template
 	 */
-	public EffectDeflectBuff(Env env, EffectTemplate template)
+	public EffectDeflectBuff(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#getEffectType()
 	 */
 	@Override
@@ -48,35 +47,33 @@ public final class EffectDeflectBuff extends L2Effect
 	{
 		return EffectType.PREVENT_BUFF;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#onActionTime()
 	 */
 	@Override
 	public boolean onActionTime()
 	{
 		// Only cont skills shouldn't end
-		if(getSkill().getSkillType() != SkillType.CONT)
+		if (getSkill().getSkillType() != SkillType.CONT)
 			return false;
-
-		double manaDam = calc();
-
-		if(manaDam > getEffected().getCurrentMp())
+		
+		final double manaDam = calc();
+		
+		if (manaDam > getEffected().getCurrentMp())
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP);
 			getEffected().sendPacket(sm);
 			return false;
 		}
-
+		
 		getEffected().reduceCurrentMp(manaDam);
 		return true;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#onStart()
 	 */
 	@Override
@@ -85,10 +82,9 @@ public final class EffectDeflectBuff extends L2Effect
 		getEffected().setIsBuffProtected(true);
 		return;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#onExit()
 	 */
 	@Override

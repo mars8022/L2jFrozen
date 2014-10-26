@@ -18,10 +18,8 @@
  */
 package com.l2jfrozen.gameserver.model;
 
-
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.4.1 $ $Date: 2005/03/27 15:29:33 $
  */
 
@@ -31,47 +29,47 @@ public final class Location
 	public int _y;
 	public int _z;
 	public int _heading;
-
-	public Location(int x, int y, int z)
+	
+	public Location(final int x, final int y, final int z)
 	{
 		_x = x;
 		_y = y;
 		_z = z;
 	}
-
-	public Location(int x, int y, int z, int heading)
+	
+	public Location(final int x, final int y, final int z, final int heading)
 	{
 		_x = x;
 		_y = y;
 		_z = z;
 		_heading = heading;
 	}
-
-	public Location(L2Object obj) 
- 	{ 
-		_x = obj.getX(); 
-		_y = obj.getY(); 
-		_z = obj.getZ(); 
- 	} 
-
-	public Location(L2Character obj) 
-	{ 
-		_x = obj.getX(); 
-		_y = obj.getY(); 
-		_z = obj.getZ(); 
-		_heading = obj.getHeading(); 
-	} 
- 	
+	
+	public Location(final L2Object obj)
+	{
+		_x = obj.getX();
+		_y = obj.getY();
+		_z = obj.getZ();
+	}
+	
+	public Location(final L2Character obj)
+	{
+		_x = obj.getX();
+		_y = obj.getY();
+		_z = obj.getZ();
+		_heading = obj.getHeading();
+	}
+	
 	public int getX()
 	{
 		return _x;
 	}
-
+	
 	public int getY()
 	{
 		return _y;
 	}
-
+	
 	public int getZ()
 	{
 		return _z;
@@ -82,30 +80,36 @@ public final class Location
 		return _heading;
 	}
 	
-	public void setX(int x) {
+	public void setX(final int x)
+	{
 		_x = x;
 	}
 	
-	public void setY(int y) {
+	public void setY(final int y)
+	{
 		_y = y;
 	}
 	
-	public void setZ(int z) {
+	public void setZ(final int z)
+	{
 		_z = z;
 	}
 	
-	public void setHeading(int head) {
+	public void setHeading(final int head)
+	{
 		_heading = head;
 	}
 	
-	public void setXYZ(int x, int y, int z) {
+	public void setXYZ(final int x, final int y, final int z)
+	{
 		_x = x;
 		_y = y;
 		_z = z;
 	}
-
-	public boolean equals(int x, int y, int z) {
-		if(_x == x && _y == y && _z == z)
+	
+	public boolean equals(final int x, final int y, final int z)
+	{
+		if (_x == x && _y == y && _z == z)
 			return true;
 		return false;
 	}

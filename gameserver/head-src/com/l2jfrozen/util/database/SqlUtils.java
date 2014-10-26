@@ -29,33 +29,33 @@ import com.l2jfrozen.util.CloseUtil;
 public class SqlUtils
 {
 	private static Logger LOGGER = Logger.getLogger(SqlUtils.class);
-
+	
 	// =========================================================
 	// Data Field
 	private static SqlUtils _instance;
-
+	
 	// =========================================================
 	// Property - Public
 	public static SqlUtils getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new SqlUtils();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	// =========================================================
 	// Method - Public
-	public static Integer getIntValue(String resultField, String tableName, String whereClause)
+	public static Integer getIntValue(final String resultField, final String tableName, final String whereClause)
 	{
 		String query = "";
 		Integer res = null;
-
+		
 		PreparedStatement statement = null;
 		ResultSet rset = null;
-
+		
 		Connection con = null;
 		try
 		{
@@ -63,18 +63,17 @@ public class SqlUtils
 			{
 				resultField
 			}, tableName, whereClause, true);
-
 			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(query);
 			rset = statement.executeQuery();
-
-			if(rset.next())
+			
+			if (rset.next())
 			{
 				res = rset.getInt(1);
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.warn("Error in query '" + query + "':" + e);
 			e.printStackTrace();
@@ -83,22 +82,23 @@ public class SqlUtils
 		{
 			try
 			{
-				if(rset!=null){
+				if (rset != null)
+				{
 					DatabaseUtils.close(rset);
 					rset = null;
 				}
 				
-				if(statement!=null){
+				if (statement != null)
+				{
 					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				
-				
 				query = null;
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -107,18 +107,18 @@ public class SqlUtils
 			con = null;
 			
 		}
-
+		
 		return res;
 	}
-
-	public static Integer[] getIntArray(String resultField, String tableName, String whereClause)
+	
+	public static Integer[] getIntArray(final String resultField, final String tableName, final String whereClause)
 	{
 		String query = "";
 		Integer[] res = null;
-
+		
 		PreparedStatement statement = null;
 		ResultSet rset = null;
-
+		
 		Connection con = null;
 		try
 		{
@@ -129,31 +129,32 @@ public class SqlUtils
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(query);
 			rset = statement.executeQuery();
-
+			
 			int rows = 0;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				rows++;
 			}
-
-			if(rows == 0){
+			
+			if (rows == 0)
+			{
 				CloseUtil.close(con);
 				con = null;
 				return new Integer[0];
 			}
 			res = new Integer[rows - 1];
-
+			
 			rset.first();
-
-			int row = 0;
-
-			while(rset.next())
+			
+			final int row = 0;
+			
+			while (rset.next())
 			{
 				res[row] = rset.getInt(1);
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.warn("mSGI: Error in query '" + query + "':" + e);
 			e.printStackTrace();
@@ -162,21 +163,23 @@ public class SqlUtils
 		{
 			try
 			{
-				if(rset!=null){
+				if (rset != null)
+				{
 					DatabaseUtils.close(rset);
 					rset = null;
 				}
 				
-				if(statement!=null){
+				if (statement != null)
+				{
 					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				
 				query = null;
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -185,21 +188,21 @@ public class SqlUtils
 			con = null;
 			
 		}
-
+		
 		return res;
 	}
-
-	public static Integer[][] get2DIntArray(String[] resultFields, String usedTables, String whereClause)
+	
+	public static Integer[][] get2DIntArray(final String[] resultFields, final String usedTables, final String whereClause)
 	{
-		long start = System.currentTimeMillis();
-
+		final long start = System.currentTimeMillis();
+		
 		String query = "";
-
+		
 		PreparedStatement statement = null;
 		ResultSet rset = null;
-
+		
 		Integer res[][] = null;
-
+		
 		Connection con = null;
 		try
 		{
@@ -207,31 +210,31 @@ public class SqlUtils
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			statement = con.prepareStatement(query);
 			rset = statement.executeQuery();
-
+			
 			int rows = 0;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				rows++;
 			}
-
+			
 			res = new Integer[rows - 1][resultFields.length];
-
+			
 			rset.first();
-
+			
 			int row = 0;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
-				for(int i = 0; i < resultFields.length; i++)
+				for (int i = 0; i < resultFields.length; i++)
 				{
 					res[row][i] = rset.getInt(i + 1);
 				}
-
+				
 				row++;
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.warn("Error in query '" + query + "':" + e);
 			e.printStackTrace();
@@ -240,21 +243,23 @@ public class SqlUtils
 		{
 			try
 			{
-				if(rset!=null){
+				if (rset != null)
+				{
 					DatabaseUtils.close(rset);
 					rset = null;
 				}
 				
-				if(statement!=null){
+				if (statement != null)
+				{
 					DatabaseUtils.close(statement);
 					statement = null;
 				}
 				
 				query = null;
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 			}
@@ -263,19 +268,19 @@ public class SqlUtils
 			con = null;
 			
 		}
-
+		
 		LOGGER.error("Get all rows in query '" + query + "' in " + (System.currentTimeMillis() - start) + "ms");
-
+		
 		return res;
 	}
 	
 	public static void OpzGame()
 	{
-		String GAME_QUICK_OPTIMIZE = "OPTIMIZE TABLE auction, auction_bid, " + "auction_watch, augmentations, castle, castle_door, castle_doorupgrade, " + "castle_manor_procure, castle_manor_production, castle_siege_guards, char_templates, character_friends, " + "character_hennas, character_macroses, character_quests, character_recipebook, character_recommends, character_shortcuts, " + "character_skills, character_skills_save, character_subclasses, characters, characters_custom_data, clan_data, clan_privs, " + "clan_skills, clan_subpledges, clan_wars, clanhall, clanhall_functions, cursed_weapons, " + "dimensional_rift, " + "global_tasks, heroes, " + "minions, olympiad_nobles, pets, pets_stats, pkkills, " + "quest_global_data, raidboss_spawnlist, random_spawn, random_spawn_loc, rebirth_manager, seven_signs, " + "seven_signs_festival, seven_signs_status, siege_clans, " + "fort_siege_guards, fort_spawnlist";
-
+		final String GAME_QUICK_OPTIMIZE = "OPTIMIZE TABLE auction, auction_bid, " + "auction_watch, augmentations, castle, castle_door, castle_doorupgrade, " + "castle_manor_procure, castle_manor_production, castle_siege_guards, char_templates, character_friends, " + "character_hennas, character_macroses, character_quests, character_recipebook, character_recommends, character_shortcuts, " + "character_skills, character_skills_save, character_subclasses, characters, characters_custom_data, clan_data, clan_privs, " + "clan_skills, clan_subpledges, clan_wars, clanhall, clanhall_functions, cursed_weapons, " + "dimensional_rift, " + "global_tasks, heroes, " + "minions, olympiad_nobles, pets, pets_stats, pkkills, " + "quest_global_data, raidboss_spawnlist, random_spawn, random_spawn_loc, rebirth_manager, seven_signs, " + "seven_signs_festival, seven_signs_status, siege_clans, " + "fort_siege_guards, fort_spawnlist";
+		
 		Connection con = null;
 		PreparedStatement statement = null;
-
+		
 		try
 		{
 			LOGGER.info("Optimization gameserver tables...");
@@ -284,9 +289,9 @@ public class SqlUtils
 			statement.execute();
 			DatabaseUtils.close(statement);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.info("Optimization failed");
@@ -297,14 +302,14 @@ public class SqlUtils
 		}
 		LOGGER.info("Optimization gameserver tables completed.");
 	}
-
+	
 	public static void OpzLogin()
 	{
-		String LOGIN_QUICK_OPTIMIZE = "OPTIMIZE TABLE accounts, gameservers";
-
+		final String LOGIN_QUICK_OPTIMIZE = "OPTIMIZE TABLE accounts, gameservers";
+		
 		Connection con = null;
 		PreparedStatement statement = null;
-
+		
 		try
 		{
 			LOGGER.info("Optimization loginserver tables...");
@@ -313,9 +318,9 @@ public class SqlUtils
 			statement.execute();
 			DatabaseUtils.close(statement);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.info("Optimization failed");

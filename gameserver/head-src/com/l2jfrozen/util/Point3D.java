@@ -32,7 +32,6 @@ import java.io.Serializable;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
 public class Point3D implements Serializable
@@ -41,27 +40,27 @@ public class Point3D implements Serializable
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 4638345252031872576L;
-
+	
 	private volatile int _x, _y, _z;
-
-	public Point3D(int pX, int pY, int pZ)
+	
+	public Point3D(final int pX, final int pY, final int pZ)
 	{
 		_x = pX;
 		_y = pY;
 		_z = pZ;
 	}
-
-	public Point3D(int pX, int pY)
+	
+	public Point3D(final int pX, final int pY)
 	{
 		_x = pX;
 		_y = pY;
 		_z = 0;
 	}
-
+	
 	/**
 	 * @param worldPosition
 	 */
-	public Point3D(Point3D worldPosition)
+	public Point3D(final Point3D worldPosition)
 	{
 		synchronized (worldPosition)
 		{
@@ -70,8 +69,8 @@ public class Point3D implements Serializable
 			_z = worldPosition._z;
 		}
 	}
-
-	public synchronized void setTo(Point3D point)
+	
+	public synchronized void setTo(final Point3D point)
 	{
 		synchronized (point)
 		{
@@ -80,25 +79,25 @@ public class Point3D implements Serializable
 			_z = point._z;
 		}
 	}
-
+	
 	@Override
 	public String toString()
 	{
 		return "(" + _x + ", " + _y + ", " + _z + ")";
 	}
-
+	
 	@Override
 	public int hashCode()
 	{
 		return _x ^ _y ^ _z;
 	}
-
+	
 	@Override
-	public synchronized boolean equals(Object o)
+	public synchronized boolean equals(final Object o)
 	{
-		if(o instanceof Point3D)
+		if (o instanceof Point3D)
 		{
-			Point3D point3D = (Point3D) o;
+			final Point3D point3D = (Point3D) o;
 			boolean ret;
 			synchronized (point3D)
 			{
@@ -108,13 +107,13 @@ public class Point3D implements Serializable
 		}
 		return false;
 	}
-
-	public synchronized boolean equals(int pX, int pY, int pZ)
+	
+	public synchronized boolean equals(final int pX, final int pY, final int pZ)
 	{
 		return _x == pX && _y == pY && _z == pZ;
 	}
-
-	public synchronized long distanceSquaredTo(Point3D point)
+	
+	public synchronized long distanceSquaredTo(final Point3D point)
 	{
 		long dx, dy;
 		synchronized (point)
@@ -124,8 +123,8 @@ public class Point3D implements Serializable
 		}
 		return dx * dx + dy * dy;
 	}
-
-	public static long distanceSquared(Point3D point1, Point3D point2)
+	
+	public static long distanceSquared(final Point3D point1, final Point3D point2)
 	{
 		long dx, dy;
 		synchronized (point1)
@@ -138,43 +137,43 @@ public class Point3D implements Serializable
 		}
 		return dx * dx + dy * dy;
 	}
-
-	public static boolean distanceLessThan(Point3D point1, Point3D point2, double distance)
+	
+	public static boolean distanceLessThan(final Point3D point1, final Point3D point2, final double distance)
 	{
 		return distanceSquared(point1, point2) < distance * distance;
 	}
-
+	
 	public synchronized int getX()
 	{
 		return _x;
 	}
-
-	public synchronized void setX(int pX)
+	
+	public synchronized void setX(final int pX)
 	{
 		_x = pX;
 	}
-
+	
 	public synchronized int getY()
 	{
 		return _y;
 	}
-
-	public synchronized void setY(int pY)
+	
+	public synchronized void setY(final int pY)
 	{
 		_y = pY;
 	}
-
+	
 	public synchronized int getZ()
 	{
 		return _z;
 	}
-
-	public synchronized void setZ(int pZ)
+	
+	public synchronized void setZ(final int pZ)
 	{
 		_z = pZ;
 	}
-
-	public synchronized void setXYZ(int pX, int pY, int pZ)
+	
+	public synchronized void setXYZ(final int pX, final int pY, final int pZ)
 	{
 		_x = pX;
 		_y = pY;

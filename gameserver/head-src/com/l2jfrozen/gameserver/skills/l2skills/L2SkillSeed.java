@@ -26,55 +26,45 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 public class L2SkillSeed extends L2Skill
 {
-
-	public L2SkillSeed(StatsSet set)
+	
+	public L2SkillSeed(final StatsSet set)
 	{
 		super(set);
 	}
-
+	
 	@Override
-	public void useSkill(L2Character caster, L2Object[] targets)
+	public void useSkill(final L2Character caster, final L2Object[] targets)
 	{
-		if(caster.isAlikeDead())
+		if (caster.isAlikeDead())
 			return;
-
+		
 		// Update Seeds Effects
-		for(L2Object target2 : targets)
+		for (final L2Object target2 : targets)
 		{
-			L2Character target = (L2Character) target2;
-			if(target.isAlikeDead() && getTargetType() != SkillTargetType.TARGET_CORPSE_MOB)
+			final L2Character target = (L2Character) target2;
+			if (target.isAlikeDead() && getTargetType() != SkillTargetType.TARGET_CORPSE_MOB)
 			{
 				continue;
 			}
-
-			EffectSeed oldEffect = (EffectSeed) target.getFirstEffect(getId());
-			if(oldEffect == null)
+			
+			final EffectSeed oldEffect = (EffectSeed) target.getFirstEffect(getId());
+			if (oldEffect == null)
 			{
-				getEffects(caster, target,false,false,false);
+				getEffects(caster, target, false, false, false);
 			}
 			else
 			{
 				oldEffect.increasePower();
 			}
-
-			L2Effect[] effects = target.getAllEffects();
-			for(L2Effect effect : effects)
-				if(effect.getEffectType() == L2Effect.EffectType.SEED)
+			
+			final L2Effect[] effects = target.getAllEffects();
+			for (final L2Effect effect : effects)
+				if (effect.getEffectType() == L2Effect.EffectType.SEED)
 				{
 					effect.rescheduleEffect();
 					/*
-								for (int j=0;j<effects.length;j++
-								{
-									if (effects[j].getEffectType()==L2Effect.EffectType.SEED)
-									{
-										EffectSeed e = (EffectSeed)effects[j];
-										if (e.getInUse() || e.getSkill().getId()==this.getId())
-										{
-											e.rescheduleEffect();
-										}
-									}
-								}
-					*/
+					 * for (int j=0;j<effects.length;j++ { if (effects[j].getEffectType()==L2Effect.EffectType.SEED) { EffectSeed e = (EffectSeed)effects[j]; if (e.getInUse() || e.getSkill().getId()==this.getId()) { e.rescheduleEffect(); } } }
+					 */
 				}
 		}
 	}

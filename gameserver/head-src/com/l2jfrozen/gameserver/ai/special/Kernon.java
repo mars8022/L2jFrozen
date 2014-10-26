@@ -10,15 +10,16 @@ public class Kernon extends Quest implements Runnable
 {
 	// Kernon NpcID
 	private static final int KERNON = 25054;
-
-	public Kernon(int questId, String name, String descr)
+	
+	public Kernon(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
-
+		
 		addEventId(KERNON, Quest.QuestEventType.ON_ATTACK);
 	}
-
+	
 	@Override
 	public void run()
-	{}
+	{
+	}
 }

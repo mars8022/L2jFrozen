@@ -16,15 +16,15 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 public class AskJoinPledge extends L2GameServerPacket
 {
-	private int _requestorObjId;
-	private String _pledgeName;
-
-	public AskJoinPledge(int requestorObjId, String pledgeName)
+	private final int _requestorObjId;
+	private final String _pledgeName;
+	
+	public AskJoinPledge(final int requestorObjId, final String pledgeName)
 	{
 		_requestorObjId = requestorObjId;
 		_pledgeName = pledgeName;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -32,7 +32,7 @@ public class AskJoinPledge extends L2GameServerPacket
 		writeD(_requestorObjId);
 		writeS(_pledgeName);
 	}
-
+	
 	@Override
 	public String getType()
 	{

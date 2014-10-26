@@ -24,30 +24,30 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class AnswerTradeRequest extends L2GameClientPacket
 {
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-
+		final L2PcInstance player = getClient().getActiveChar();
+		
 		if (player == null)
 			return;
-
+		
 		if (!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Unsufficient privileges.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		L2PcInstance partner = player.getActiveRequester();
-
+		
+		final L2PcInstance partner = player.getActiveRequester();
+		
 		if (partner == null || L2World.getInstance().findObject(partner.getObjectId()) == null)
 		{
 			// Trade partner not found, cancel trade
@@ -56,7 +56,7 @@ public final class AnswerTradeRequest extends L2GameClientPacket
 			player.setActiveRequester(null);
 			return;
 		}
-
+		
 		if (_response == 1 && !partner.isRequestExpired())
 			player.startTrade(partner);
 		else
@@ -64,12 +64,12 @@ public final class AnswerTradeRequest extends L2GameClientPacket
 			partner.sendPacket(new SystemMessage(SystemMessageId.S1_DENIED_TRADE_REQUEST).addString(player.getName()));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
-
+		
 		// Clears requesting status
 		player.setActiveRequester(null);
 		partner.onTransactionResponse();
 	}
-
+	
 	@Override
 	public String getType()
 	{

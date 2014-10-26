@@ -26,33 +26,33 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 public class EffectInterrupt extends L2Effect
 {
-	public EffectInterrupt(Env env, EffectTemplate template)
+	public EffectInterrupt(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return L2Effect.EffectType.INTERRUPT;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		getEffected().abortCast();
 	}
-
+	
 	@Override
 	public void onExit()
 	{
-	//nothing
+		// nothing
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
-		//nothing
+		// nothing
 		return false;
 	}
 }

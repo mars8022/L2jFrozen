@@ -25,12 +25,13 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionTargetNone extends Condition
 {
-
+	
 	public ConditionTargetNone()
-	{}
-
+	{
+	}
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		return env.target == null;
 	}

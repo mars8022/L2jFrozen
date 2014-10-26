@@ -40,8 +40,8 @@ import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
-  * @author Kerberos
-  */
+ * @author Kerberos
+ */
 
 public class RaidBossPointsManager
 {
@@ -51,36 +51,36 @@ public class RaidBossPointsManager
 	private static final Comparator<Map.Entry<Integer, Integer>> _comparator = new Comparator<Map.Entry<Integer, Integer>>()
 	{
 		@Override
-		public int compare(Map.Entry<Integer, Integer> entry, Map.Entry<Integer, Integer> entry1)
+		public int compare(final Map.Entry<Integer, Integer> entry, final Map.Entry<Integer, Integer> entry1)
 		{
 			return entry.getValue().equals(entry1.getValue()) ? 0 : entry.getValue() < entry1.getValue() ? 1 : -1;
 		}
 	};
-
+	
 	public final static void init()
 	{
 		_list = new FastMap<>();
-		FastList<Integer> _chars = new FastList<>();
+		final FastList<Integer> _chars = new FastList<>();
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM `character_raid_points`");
 			ResultSet rset = statement.executeQuery();
-			while(rset.next())
+			while (rset.next())
 			{
 				_chars.add(rset.getInt("charId"));
 			}
 			DatabaseUtils.close(rset);
 			DatabaseUtils.close(statement);
-			for(FastList.Node<Integer> n = _chars.head(), end = _chars.tail(); (n = n.getNext()) != end;)
+			for (FastList.Node<Integer> n = _chars.head(), end = _chars.tail(); (n = n.getNext()) != end;)
 			{
-				int charId = n.getValue();
-				FastMap<Integer, Integer> values = new FastMap<>();
+				final int charId = n.getValue();
+				final FastMap<Integer, Integer> values = new FastMap<>();
 				statement = con.prepareStatement("SELECT * FROM `character_raid_points` WHERE `charId`=?");
 				statement.setInt(1, charId);
 				rset = statement.executeQuery();
-				while(rset.next())
+				while (rset.next())
 				{
 					values.put(rset.getInt("boss_id"), rset.getInt("points"));
 				}
@@ -89,16 +89,16 @@ public class RaidBossPointsManager
 				_list.put(charId, values);
 			}
 		}
-		catch(SQLException e)
+		catch (final SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.warn("RaidPointsManager: Couldnt load raid points ");
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.warn(e.getMessage());
@@ -109,8 +109,8 @@ public class RaidBossPointsManager
 			con = null;
 		}
 	}
-
-	public final static void updatePointsInDB(L2PcInstance player, int raidId, int points)
+	
+	public final static void updatePointsInDB(final L2PcInstance player, final int raidId, final int points)
 	{
 		Connection con = null;
 		try
@@ -124,12 +124,12 @@ public class RaidBossPointsManager
 			statement.executeUpdate();
 			DatabaseUtils.close(statement);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.warn( "could not update char raid points:", e);
+			LOGGER.warn("could not update char raid points:", e);
 		}
 		finally
 		{
@@ -137,15 +137,15 @@ public class RaidBossPointsManager
 			con = null;
 		}
 	}
-
-	public final static void addPoints(L2PcInstance player, int bossId, int points)
+	
+	public final static void addPoints(final L2PcInstance player, final int bossId, final int points)
 	{
-		int ownerId = player.getObjectId();
+		final int ownerId = player.getObjectId();
 		Map<Integer, Integer> tmpPoint = new FastMap<>();
-		if(_list == null)
+		if (_list == null)
 			_list = new FastMap<>();
 		tmpPoint = _list.get(ownerId);
-		if(tmpPoint == null || tmpPoint.isEmpty())
+		if (tmpPoint == null || tmpPoint.isEmpty())
 		{
 			tmpPoint = new FastMap<>();
 			tmpPoint.put(bossId, points);
@@ -153,7 +153,7 @@ public class RaidBossPointsManager
 		}
 		else
 		{
-			int currentPoins = tmpPoint.containsKey(bossId) ? tmpPoint.get(bossId).intValue() : 0;
+			final int currentPoins = tmpPoint.containsKey(bossId) ? tmpPoint.get(bossId).intValue() : 0;
 			tmpPoint.remove(bossId);
 			tmpPoint.put(bossId, currentPoins == 0 ? points : currentPoins + points);
 			updatePointsInDB(player, bossId, currentPoins == 0 ? points : currentPoins + points);
@@ -161,30 +161,30 @@ public class RaidBossPointsManager
 		_list.remove(ownerId);
 		_list.put(ownerId, tmpPoint);
 	}
-
-	public final static int getPointsByOwnerId(int ownerId)
+	
+	public final static int getPointsByOwnerId(final int ownerId)
 	{
 		Map<Integer, Integer> tmpPoint = new FastMap<>();
-		if(_list == null)
+		if (_list == null)
 			_list = new FastMap<>();
 		tmpPoint = _list.get(ownerId);
 		int totalPoints = 0;
-
-		if(tmpPoint == null || tmpPoint.isEmpty())
+		
+		if (tmpPoint == null || tmpPoint.isEmpty())
 			return 0;
-
-		for(int bossId : tmpPoint.keySet())
+		
+		for (final int bossId : tmpPoint.keySet())
 		{
 			totalPoints += tmpPoint.get(bossId);
 		}
 		return totalPoints;
 	}
-
-	public final static Map<Integer, Integer> getList(L2PcInstance player)
+	
+	public final static Map<Integer, Integer> getList(final L2PcInstance player)
 	{
 		return _list.get(player.getObjectId());
 	}
-
+	
 	public final static void cleanUp()
 	{
 		Connection con = null;
@@ -198,12 +198,12 @@ public class RaidBossPointsManager
 			_list.clear();
 			_list = new FastMap<>();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.warn( "could not clean raid points: ", e);
+			LOGGER.warn("could not clean raid points: ", e);
 		}
 		finally
 		{
@@ -211,56 +211,56 @@ public class RaidBossPointsManager
 			con = null;
 		}
 	}
-
-	public final static int calculateRanking(int playerObjId)
+	
+	public final static int calculateRanking(final int playerObjId)
 	{
-		Map<Integer, Integer> tmpRanking = new FastMap<>();
-		Map<Integer, Integer> tmpPoints = new FastMap<>();
+		final Map<Integer, Integer> tmpRanking = new FastMap<>();
+		final Map<Integer, Integer> tmpPoints = new FastMap<>();
 		int totalPoints;
-
-		for(int ownerId : _list.keySet())
+		
+		for (final int ownerId : _list.keySet())
 		{
 			totalPoints = getPointsByOwnerId(ownerId);
-			if(totalPoints != 0)
+			if (totalPoints != 0)
 			{
 				tmpPoints.put(ownerId, totalPoints);
 			}
 		}
-		ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
-
+		final ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
+		
 		Collections.sort(list, _comparator);
-
+		
 		int ranking = 1;
-		for(Map.Entry<Integer, Integer> entry : list)
+		for (final Map.Entry<Integer, Integer> entry : list)
 			tmpRanking.put(entry.getKey(), ranking++);
-
-		if(tmpRanking.containsKey(playerObjId))
+		
+		if (tmpRanking.containsKey(playerObjId))
 			return tmpRanking.get(playerObjId);
 		return 0;
 	}
-
+	
 	public static Map<Integer, Integer> getRankList()
 	{
-		Map<Integer, Integer> tmpRanking = new FastMap<>();
-		Map<Integer, Integer> tmpPoints = new FastMap<>();
+		final Map<Integer, Integer> tmpRanking = new FastMap<>();
+		final Map<Integer, Integer> tmpPoints = new FastMap<>();
 		int totalPoints;
-
-		for(int ownerId : _list.keySet())
+		
+		for (final int ownerId : _list.keySet())
 		{
 			totalPoints = getPointsByOwnerId(ownerId);
-			if(totalPoints != 0)
+			if (totalPoints != 0)
 			{
 				tmpPoints.put(ownerId, totalPoints);
 			}
 		}
-		ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
-
+		final ArrayList<Entry<Integer, Integer>> list = new ArrayList<>(tmpPoints.entrySet());
+		
 		Collections.sort(list, _comparator);
-
+		
 		int ranking = 1;
-		for(Map.Entry<Integer, Integer> entry : list)
+		for (final Map.Entry<Integer, Integer> entry : list)
 			tmpRanking.put(entry.getKey(), ranking++);
-
+		
 		return tmpRanking;
 	}
 }

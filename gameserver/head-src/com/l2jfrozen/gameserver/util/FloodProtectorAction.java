@@ -23,10 +23,8 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance.PunishLevel;
 import com.l2jfrozen.gameserver.network.L2GameClient;
 import com.l2jfrozen.util.StringUtil;
 
-
 /**
  * Flood protector implementation.
- * 
  * @author fordfrog
  */
 public final class FloodProtectorAction
@@ -50,20 +48,18 @@ public final class FloodProtectorAction
 	/**
 	 * Request counter.
 	 */
-	private AtomicInteger _count = new AtomicInteger(0);
+	private final AtomicInteger _count = new AtomicInteger(0);
 	/**
 	 * Flag determining whether exceeding request has been logged.
 	 */
 	private boolean _logged;
 	/**
-	 * Flag determining whether punishment application is in progress so that we do not apply
-	 * punisment multiple times (flooding).
+	 * Flag determining whether punishment application is in progress so that we do not apply punisment multiple times (flooding).
 	 */
 	private volatile boolean _punishmentInProgress;
 	
 	/**
 	 * Creates new instance of FloodProtectorAction.
-	 * 
 	 * @param client for which flood protection is being created
 	 * @param config flood protector configuration
 	 */
@@ -73,20 +69,18 @@ public final class FloodProtectorAction
 		this.client = client;
 		this.config = config;
 	}
-
-	private Hashtable<String, AtomicInteger> received_commands_actions = new Hashtable<>();
+	
+	private final Hashtable<String, AtomicInteger> received_commands_actions = new Hashtable<>();
 	
 	/**
 	 * Checks whether the request is flood protected or not.
-	 * 
-	 * @param command
-	 *            command issued or short command description
-	 * 
+	 * @param command command issued or short command description
 	 * @return true if action is allowed, otherwise false
 	 */
 	public boolean tryPerformAction(final String command)
 	{
-		if(!config.ALTERNATIVE_METHOD){
+		if (!config.ALTERNATIVE_METHOD)
+		{
 			
 			final int curTick = GameTimeController.getGameTicks();
 			
@@ -154,15 +148,16 @@ public final class FloodProtectorAction
 			}
 			
 			AtomicInteger command_count = null;
-			if((command_count = received_commands_actions.get(command))==null){
+			if ((command_count = received_commands_actions.get(command)) == null)
+			{
 				command_count = new AtomicInteger(0);
-				//received_commands_actions.put(command, command_count);
+				// received_commands_actions.put(command, command_count);
 			}
 			
-			int count = command_count.incrementAndGet();
+			final int count = command_count.incrementAndGet();
 			received_commands_actions.put(command, command_count);
 			
-			//_count.incrementAndGet();
+			// _count.incrementAndGet();
 			
 			if (!_punishmentInProgress && config.PUNISHMENT_LIMIT > 0 && count >= config.PUNISHMENT_LIMIT && config.PUNISHMENT_TYPE != null)
 			{
@@ -188,7 +183,8 @@ public final class FloodProtectorAction
 		}
 		
 		AtomicInteger command_count = null;
-		if((command_count = received_commands_actions.get(command))==null){
+		if ((command_count = received_commands_actions.get(command)) == null)
+		{
 			command_count = new AtomicInteger(0);
 			received_commands_actions.put(command, command_count);
 		}
@@ -209,7 +205,7 @@ public final class FloodProtectorAction
 		return true;
 		
 	}
-
+	
 	/**
 	 * Kick player from game (close network connection).
 	 */
@@ -219,8 +215,8 @@ public final class FloodProtectorAction
 			client.getActiveChar().logout();
 		else
 			client.closeNow();
-
-		LOGGER("Client "+client.toString()+" kicked for flooding");
+		
+		LOGGER("Client " + client.toString() + " kicked for flooding");
 		
 	}
 	
@@ -229,17 +225,20 @@ public final class FloodProtectorAction
 	 */
 	private void banChat()
 	{
-		if (client.getActiveChar() != null){
+		if (client.getActiveChar() != null)
+		{
 			
 			final L2PcInstance activeChar = client.getActiveChar();
 			
-			long newChatBanTime = 60000; //1 minute
+			long newChatBanTime = 60000; // 1 minute
 			if (activeChar.getPunishLevel() == PunishLevel.CHAT)
 			{
-				if(activeChar.getPunishTimer() <= (60000*3)){ //if less then 3 minutes (MAX CHAT BAN TIME), add 1 minute
-					newChatBanTime+=activeChar.getPunishTimer();
-				}else
-					newChatBanTime=activeChar.getPunishTimer();
+				if (activeChar.getPunishTimer() <= (60000 * 3))
+				{ // if less then 3 minutes (MAX CHAT BAN TIME), add 1 minute
+					newChatBanTime += activeChar.getPunishTimer();
+				}
+				else
+					newChatBanTime = activeChar.getPunishTimer();
 				
 			}
 			
@@ -248,7 +247,7 @@ public final class FloodProtectorAction
 		}
 		
 	}
-
+	
 	/**
 	 * Bans char account and logs out the char.
 	 */
@@ -257,9 +256,9 @@ public final class FloodProtectorAction
 		if (client.getActiveChar() != null)
 		{
 			client.getActiveChar().setPunishLevel(L2PcInstance.PunishLevel.ACC, config.PUNISHMENT_TIME);
-
-				LOGGER(client.getActiveChar().getName() + " banned for flooding");
-
+			
+			LOGGER(client.getActiveChar().getName() + " banned for flooding");
+			
 			client.getActiveChar().logout();
 		}
 		else
@@ -280,8 +279,8 @@ public final class FloodProtectorAction
 		else
 			LOGGER(" unable to jail: no active player");
 	}
-
-	private void LOGGER(String... lines)
+	
+	private void LOGGER(final String... lines)
 	{
 		final StringBuilder output = StringUtil.startAppend(100, config.FLOOD_PROTECTOR_TYPE, ": ");
 		String address = null;
@@ -290,21 +289,21 @@ public final class FloodProtectorAction
 			if (!client.isDetached())
 				address = client.getConnection().getInetAddress().getHostAddress();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 		}
-
+		
 		switch (client.getState())
 		{
 			case IN_GAME:
 				if (client.getActiveChar() != null)
 				{
 					StringUtil.append(output, client.getActiveChar().getName());
-					StringUtil.append(output, "(", String.valueOf(client.getActiveChar().getObjectId()),") ");
+					StringUtil.append(output, "(", String.valueOf(client.getActiveChar().getObjectId()), ") ");
 				}
 			case AUTHED:
 				if (client.getAccountName() != null)
-					StringUtil.append(output, client.getAccountName()," ");
+					StringUtil.append(output, client.getAccountName(), " ");
 			case CONNECTED:
 				if (address != null)
 					StringUtil.append(output, address);
@@ -312,7 +311,7 @@ public final class FloodProtectorAction
 			default:
 				throw new IllegalStateException("Missing state on switch");
 		}
-
+		
 		StringUtil.append(output, lines);
 		LOGGER.warn(output.toString());
 	}

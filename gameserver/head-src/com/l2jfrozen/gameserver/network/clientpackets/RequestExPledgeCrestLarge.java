@@ -28,30 +28,30 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExPledgeCrestLarge;
 public final class RequestExPledgeCrestLarge extends L2GameClientPacket
 {
 	private int _crestId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_crestId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		byte[] data = CrestCache.getInstance().getPledgeCrestLarge(_crestId);
-
-		if(data != null)
+		final byte[] data = CrestCache.getInstance().getPledgeCrestLarge(_crestId);
+		
+		if (data != null)
 		{
-			ExPledgeCrestLarge pcl = new ExPledgeCrestLarge(_crestId, data);
+			final ExPledgeCrestLarge pcl = new ExPledgeCrestLarge(_crestId, data);
 			sendPacket(pcl);
 		}
-
+		
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:10 RequestExPledgeCrestLarge";
 	}
-
+	
 }

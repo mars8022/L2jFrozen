@@ -26,12 +26,12 @@ import com.l2jfrozen.gameserver.skills.Env;
 public abstract class ConditionInventory extends Condition
 {
 	protected final int _slot;
-
-	public ConditionInventory(int slot)
+	
+	public ConditionInventory(final int slot)
 	{
 		_slot = slot;
 	}
-
+	
 	@Override
 	public abstract boolean testImpl(Env env);
 }

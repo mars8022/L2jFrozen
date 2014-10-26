@@ -38,12 +38,12 @@ public final class RequestFriendInvite extends L2GameClientPacket
 	protected void runImpl()
 	{
 		SystemMessage sm;
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
 			return;
 		
-		L2PcInstance friend = L2World.getInstance().getPlayer(_name);
+		final L2PcInstance friend = L2World.getInstance().getPlayer(_name);
 		
 		// _name = Util.capitalizeFirst(_name); //FIXME: is it right to capitalize a nickname?
 		
@@ -105,7 +105,7 @@ public final class RequestFriendInvite extends L2GameClientPacket
 			activeChar.onTransactionRequest(friend);
 			sm = new SystemMessage(SystemMessageId.S1_REQUESTED_TO_BECOME_FRIENDS);
 			sm.addString(_name);
-			AskJoinFriend ajf = new AskJoinFriend(activeChar.getName());
+			final AskJoinFriend ajf = new AskJoinFriend(activeChar.getName());
 			friend.sendPacket(ajf);
 		}
 		else

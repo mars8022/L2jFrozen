@@ -33,93 +33,87 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.model.entity.siege.Fort;
 
 /**
- * sample 0b 952a1048 objectId 00000000 00000000 00000000 00000000 00000000 00000000 format dddddd rev 377 format
- * ddddddd rev 417
- * 
+ * sample 0b 952a1048 objectId 00000000 00000000 00000000 00000000 00000000 00000000 format dddddd rev 377 format ddddddd rev 417
  * @version $Revision: 1.3.3 $ $Date: 2009/04/29 00:46:18 $
  */
 public class Die extends L2GameServerPacket
 {
 	private static final String _S__0B_DIE = "[S] 06 Die";
-	private int _charObjId;
-	private boolean _fake;
+	private final int _charObjId;
+	private final boolean _fake;
 	private boolean _sweepable;
 	private boolean _canTeleport;
 	private AccessLevel _access = AccessLevels.getInstance()._userAccessLevel;
 	private com.l2jfrozen.gameserver.model.L2Clan _clan;
 	L2Character _activeChar;
-
+	
 	/**
-	 * @param cha 
+	 * @param cha
 	 */
-	public Die(L2Character cha)
+	public Die(final L2Character cha)
 	{
 		_activeChar = cha;
-		if(cha instanceof L2PcInstance)
+		if (cha instanceof L2PcInstance)
 		{
-			L2PcInstance player = (L2PcInstance) cha;
+			final L2PcInstance player = (L2PcInstance) cha;
 			_access = player.getAccessLevel();
 			_clan = player.getClan();
-			_canTeleport = !((TvT.is_started() && player._inEventTvT)
-							|| (DM.is_started() && player._inEventDM)
-							|| (CTF.is_started() && player._inEventCTF)
-							|| player.isInFunEvent()
-							|| player.isPendingRevive());
+			_canTeleport = !((TvT.is_started() && player._inEventTvT) || (DM.is_started() && player._inEventDM) || (CTF.is_started() && player._inEventCTF) || player.isInFunEvent() || player.isPendingRevive());
 		}
 		_charObjId = cha.getObjectId();
 		_fake = !cha.isDead();
-		if(cha instanceof L2Attackable)
+		if (cha instanceof L2Attackable)
 		{
 			_sweepable = ((L2Attackable) cha).isSweepActive();
 		}
-
+		
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-		if(_fake)
+		if (_fake)
 			return;
-
+		
 		writeC(0x06);
-
+		
 		writeD(_charObjId);
 		// NOTE:
-		// 6d 00 00 00 00 - to nearest village	
+		// 6d 00 00 00 00 - to nearest village
 		// 6d 01 00 00 00 - to hide away
 		// 6d 02 00 00 00 - to castle
 		// 6d 03 00 00 00 - to siege HQ
 		// sweepable
 		// 6d 04 00 00 00 - FIXED
-
-		writeD(_canTeleport ? 0x01 : 0);   // 6d 00 00 00 00 - to nearest village
-
-		if(_canTeleport && _clan != null)
+		
+		writeD(_canTeleport ? 0x01 : 0); // 6d 00 00 00 00 - to nearest village
+		
+		if (_canTeleport && _clan != null)
 		{
 			L2SiegeClan siegeClan = null;
 			Boolean isInDefense = false;
-			Castle castle = CastleManager.getInstance().getCastle(_activeChar);
-			Fort fort = FortManager.getInstance().getFort(_activeChar);
-
-			if(castle != null && castle.getSiege().getIsInProgress())
+			final Castle castle = CastleManager.getInstance().getCastle(_activeChar);
+			final Fort fort = FortManager.getInstance().getFort(_activeChar);
+			
+			if (castle != null && castle.getSiege().getIsInProgress())
 			{
-				//siege in progress
+				// siege in progress
 				siegeClan = castle.getSiege().getAttackerClan(_clan);
-				if(siegeClan == null && castle.getSiege().checkIsDefender(_clan))
+				if (siegeClan == null && castle.getSiege().checkIsDefender(_clan))
 				{
 					isInDefense = true;
 				}
 			}
-			else if(fort != null && fort.getSiege().getIsInProgress())
+			else if (fort != null && fort.getSiege().getIsInProgress())
 			{
-				//siege in progress
+				// siege in progress
 				siegeClan = fort.getSiege().getAttackerClan(_clan);
-				if(siegeClan == null && fort.getSiege().checkIsDefender(_clan))
+				if (siegeClan == null && fort.getSiege().checkIsDefender(_clan))
 				{
 					isInDefense = true;
 				}
 			}
-
+			
 			writeD(_clan.getHasHideout() > 0 ? 0x01 : 0x00); // 6d 01 00 00 00 - to hide away
 			writeD(_clan.getHasCastle() > 0 || _clan.getHasFort() > 0 || isInDefense ? 0x01 : 0x00); // 6d 02 00 00 00 - to castle
 			writeD(siegeClan != null && !isInDefense && siegeClan.getFlag().size() > 0 ? 0x01 : 0x00); // 6d 03 00 00 00 - to siege HQ
@@ -130,12 +124,13 @@ public class Die extends L2GameServerPacket
 			writeD(0x00); // 6d 02 00 00 00 - to castle
 			writeD(0x00); // 6d 03 00 00 00 - to siege HQ
 		}
-
-		writeD(_sweepable ? 0x01 : 0x00); // sweepable  (blue glow)
+		
+		writeD(_sweepable ? 0x01 : 0x00); // sweepable (blue glow)
 		writeD(_access.allowFixedRes() ? 0x01 : 0x00); // 6d 04 00 00 00 - to FIXED
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

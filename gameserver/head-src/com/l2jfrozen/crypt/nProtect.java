@@ -31,7 +31,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.GameGuardQuery;
 
 /**
  * The main "engine" of protection ...
- * 
  * @author Nick
  */
 public class nProtect
@@ -40,42 +39,50 @@ public class nProtect
 	
 	public static enum RestrictionType
 	{
-		RESTRICT_ENTER,RESTRICT_EVENT,RESTRICT_OLYMPIAD,RESTRICT_SIEGE
+		RESTRICT_ENTER,
+		RESTRICT_EVENT,
+		RESTRICT_OLYMPIAD,
+		RESTRICT_SIEGE
 	}
+	
 	public class nProtectAccessor
 	{
-		public nProtectAccessor() {}
-		public void setCheckGameGuardQuery(Method m)
+		public nProtectAccessor()
+		{
+		}
+		
+		public void setCheckGameGuardQuery(final Method m)
 		{
 			nProtect.this._checkGameGuardQuery = m;
 		}
-
-		public void setStartTask(Method m)
+		
+		public void setStartTask(final Method m)
 		{
 			nProtect.this._startTask = m;
 		}
-
-		public void setCheckRestriction(Method m)
+		
+		public void setCheckRestriction(final Method m)
 		{
 			nProtect.this._checkRestriction = m;
 		}
-
-		public void setSendRequest(Method m)
+		
+		public void setSendRequest(final Method m)
 		{
 			nProtect.this._sendRequest = m;
 		}
-
-		public void setCloseSession(Method m)
+		
+		public void setCloseSession(final Method m)
 		{
 			nProtect.this._closeSession = m;
 		}
-
-		public void setSendGGQuery(Method m)
+		
+		public void setSendGGQuery(final Method m)
 		{
 			nProtect.this._sendGGQuery = m;
 		}
-
+		
 	}
+	
 	protected Method _checkGameGuardQuery = null;
 	protected Method _startTask = null;
 	protected Method _checkRestriction = null;
@@ -88,121 +95,122 @@ public class nProtect
 	
 	public static nProtect getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 			_instance = new nProtect();
 		return _instance;
 	}
-
+	
 	private nProtect()
 	{
-		Class<?> clazz=null;
+		Class<?> clazz = null;
 		try
 		{
 			clazz = Class.forName("com.l2jfrozen.protection.main");
 			
-			if(clazz!=null)
+			if (clazz != null)
 			{
-				Method m = clazz.getMethod("init", nProtectAccessor.class);
-				if(m!=null){
+				final Method m = clazz.getMethod("init", nProtectAccessor.class);
+				if (m != null)
+				{
 					m.invoke(null, new nProtectAccessor());
 					enabled = true;
 				}
 			}
-		} 
-		catch(ClassNotFoundException e)
-		{
-			if(Config.DEBUG)
-				LOGGER.warn("nProtect System will be not loaded due to ClassNotFoundException of 'com.l2jfrozen.protection.main' class" );
 		}
-		catch(SecurityException | InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException e)
+		catch (final ClassNotFoundException e)
+		{
+			if (Config.DEBUG)
+				LOGGER.warn("nProtect System will be not loaded due to ClassNotFoundException of 'com.l2jfrozen.protection.main' class");
+		}
+		catch (SecurityException | InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException e)
 		{
 			e.printStackTrace();
 		}
-
-
-    }
+		
+	}
 	
-	public void sendGameGuardQuery(GameGuardQuery pkt)
+	public void sendGameGuardQuery(final GameGuardQuery pkt)
 	{
 		try
 		{
-			if(_sendGGQuery!=null)
+			if (_sendGGQuery != null)
 				_sendGGQuery.invoke(pkt);
-		} 
-		catch(Exception e)
+		}
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
-	public boolean checkGameGuardRepy(L2GameClient cl, int [] reply)
+	
+	public boolean checkGameGuardRepy(final L2GameClient cl, final int[] reply)
 	{
 		try
 		{
-			if(_checkGameGuardQuery!=null)
-				return (Boolean)_checkGameGuardQuery.invoke(null, cl,reply);
+			if (_checkGameGuardQuery != null)
+				return (Boolean) _checkGameGuardQuery.invoke(null, cl, reply);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
 		return true;
 	}
-
-	public ScheduledFuture<?> startTask(L2GameClient client)
+	
+	public ScheduledFuture<?> startTask(final L2GameClient client)
 	{
 		try
 		{
-			if(_startTask != null)
-				return (ScheduledFuture<?>)_startTask.invoke(null, client);
+			if (_startTask != null)
+				return (ScheduledFuture<?>) _startTask.invoke(null, client);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
 		return null;
 	}
-
-	public void sendRequest(L2GameClient cl)
+	
+	public void sendRequest(final L2GameClient cl)
 	{
-		if(_sendRequest!=null)
+		if (_sendRequest != null)
 			try
 			{
 				_sendRequest.invoke(null, cl);
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				e.printStackTrace();
 			}
 	}
-
-	public void closeSession(L2GameClient cl)
+	
+	public void closeSession(final L2GameClient cl)
 	{
-			if(_closeSession!=null)
-				try
-				{
-					_closeSession.invoke(null, cl);
-				}
-				catch(Exception e)
-				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
-						e.printStackTrace();
-				}
+		if (_closeSession != null)
+			try
+			{
+				_closeSession.invoke(null, cl);
+			}
+			catch (final Exception e)
+			{
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
 	}
-
-	public boolean checkRestriction(L2PcInstance player, RestrictionType type, Object... params)
+	
+	public boolean checkRestriction(final L2PcInstance player, final RestrictionType type, final Object... params)
 	{
 		try
 		{
-			if(_checkRestriction!=null)
-				return (Boolean)_checkRestriction.invoke(null,player,type,params);
+			if (_checkRestriction != null)
+				return (Boolean) _checkRestriction.invoke(null, player, type, params);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
 		return true;
 	}
-
+	
 	/**
 	 * @return the enabled
 	 */
@@ -210,6 +218,5 @@ public class nProtect
 	{
 		return enabled;
 	}
-	
 	
 }

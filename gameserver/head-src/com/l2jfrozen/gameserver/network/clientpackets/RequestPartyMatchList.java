@@ -26,12 +26,11 @@ import com.l2jfrozen.gameserver.network.serverpackets.PartyMatchDetail;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * author: Gnacik
- * Packetformat Rev650 cdddddS
+ * author: Gnacik Packetformat Rev650 cdddddS
  */
 public class RequestPartyMatchList extends L2GameClientPacket
 {
-
+	
 	private static final Logger LOGGER = Logger.getLogger(RequestPartyMatchList.class);
 	
 	private int _roomid;
@@ -41,7 +40,6 @@ public class RequestPartyMatchList extends L2GameClientPacket
 	private int _loot;
 	private String _roomtitle;
 	
-
 	@Override
 	protected void readImpl()
 	{
@@ -56,23 +54,23 @@ public class RequestPartyMatchList extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance _activeChar = getClient().getActiveChar();
+		final L2PcInstance _activeChar = getClient().getActiveChar();
 		if (_activeChar == null)
 			return;
 		
-		if (_roomid  > 0)
+		if (_roomid > 0)
 		{
-			PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
+			final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
 			if (_room != null)
 			{
-				LOGGER.info("PartyMatchRoom #" + _room.getId() + " changed by "+_activeChar.getName());
+				LOGGER.info("PartyMatchRoom #" + _room.getId() + " changed by " + _activeChar.getName());
 				_room.setMaxMembers(_membersmax);
 				_room.setMinLvl(_lvlmin);
 				_room.setMaxLvl(_lvlmax);
 				_room.setLootType(_loot);
 				_room.setTitle(_roomtitle);
 				
-				for (L2PcInstance _member : _room.getPartyMembers())
+				for (final L2PcInstance _member : _room.getPartyMembers())
 				{
 					if (_member == null)
 						continue;
@@ -84,9 +82,9 @@ public class RequestPartyMatchList extends L2GameClientPacket
 		}
 		else
 		{
-			int _maxid = PartyMatchRoomList.getInstance().getMaxId();
+			final int _maxid = PartyMatchRoomList.getInstance().getMaxId();
 			
-			PartyMatchRoom _room = new PartyMatchRoom(_maxid, _roomtitle, _loot, _lvlmin, _lvlmax, _membersmax, _activeChar);
+			final PartyMatchRoom _room = new PartyMatchRoom(_maxid, _roomtitle, _loot, _lvlmin, _lvlmax, _membersmax, _activeChar);
 			
 			LOGGER.info("PartyMatchRoom #" + _maxid + " created by " + _activeChar.getName());
 			
@@ -96,7 +94,7 @@ public class RequestPartyMatchList extends L2GameClientPacket
 			
 			if (_activeChar.isInParty())
 			{
-				for (L2PcInstance ptmember : _activeChar.getParty().getPartyMembers())
+				for (final L2PcInstance ptmember : _activeChar.getParty().getPartyMembers())
 				{
 					if (ptmember == null)
 						continue;
@@ -118,7 +116,7 @@ public class RequestPartyMatchList extends L2GameClientPacket
 			_activeChar.broadcastUserInfo();
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

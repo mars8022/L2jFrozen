@@ -20,29 +20,29 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public class JoinPledge extends L2GameServerPacket
 {
 	private static final String _S__45_JOINPLEDGE = "[S] 33 JoinPledge";
-
-	private int _pledgeId;
-
-	public JoinPledge(int pledgeId)
+	
+	private final int _pledgeId;
+	
+	public JoinPledge(final int pledgeId)
 	{
 		_pledgeId = pledgeId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x33);
-
+		
 		writeD(_pledgeId);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -50,5 +50,5 @@ public class JoinPledge extends L2GameServerPacket
 	{
 		return _S__45_JOINPLEDGE;
 	}
-
+	
 }

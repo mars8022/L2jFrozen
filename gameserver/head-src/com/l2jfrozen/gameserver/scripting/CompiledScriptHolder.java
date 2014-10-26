@@ -32,28 +32,28 @@ public class CompiledScriptHolder implements Serializable
 	 * Version 1
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	private long _lastModified;
 	private long _size;
 	private CompiledScript _compiledScript;
-
+	
 	/**
 	 * @param compiledScript
 	 * @param lastModified
 	 * @param size
 	 */
-	public CompiledScriptHolder(CompiledScript compiledScript, long lastModified, long size)
+	public CompiledScriptHolder(final CompiledScript compiledScript, final long lastModified, final long size)
 	{
 		_compiledScript = compiledScript;
 		_lastModified = lastModified;
 		_size = size;
 	}
-
-	public CompiledScriptHolder(CompiledScript compiledScript, File scriptFile)
+	
+	public CompiledScriptHolder(final CompiledScript compiledScript, final File scriptFile)
 	{
 		this(compiledScript, scriptFile.lastModified(), scriptFile.length());
 	}
-
+	
 	/**
 	 * @return Returns the lastModified.
 	 */
@@ -61,15 +61,15 @@ public class CompiledScriptHolder implements Serializable
 	{
 		return _lastModified;
 	}
-
+	
 	/**
 	 * @param lastModified The lastModified to set.
 	 */
-	public void setLastModified(long lastModified)
+	public void setLastModified(final long lastModified)
 	{
 		_lastModified = lastModified;
 	}
-
+	
 	/**
 	 * @return Returns the size.
 	 */
@@ -77,15 +77,15 @@ public class CompiledScriptHolder implements Serializable
 	{
 		return _size;
 	}
-
+	
 	/**
 	 * @param size The size to set.
 	 */
-	public void setSize(long size)
+	public void setSize(final long size)
 	{
 		_size = size;
 	}
-
+	
 	/**
 	 * @return Returns the compiledScript.
 	 */
@@ -93,16 +93,16 @@ public class CompiledScriptHolder implements Serializable
 	{
 		return _compiledScript;
 	}
-
+	
 	/**
 	 * @param compiledScript The compiledScript to set.
 	 */
-	public void setCompiledScript(CompiledScript compiledScript)
+	public void setCompiledScript(final CompiledScript compiledScript)
 	{
 		_compiledScript = compiledScript;
 	}
-
-	public boolean matches(File f)
+	
+	public boolean matches(final File f)
 	{
 		return f.lastModified() == getLastModified() && f.length() == getSize();
 	}

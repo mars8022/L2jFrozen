@@ -21,20 +21,18 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 
 /**
- * 15 ee cc 11 43 object id 39 00 00 00 item id 8f 14 00 00 x b7 f1 00 00 y 60 f2 ff ff z 01 00 00 00 show item count 7a
- * 00 00 00 count . format dddddddd
- * 
+ * 15 ee cc 11 43 object id 39 00 00 00 item id 8f 14 00 00 x b7 f1 00 00 y 60 f2 ff ff z 01 00 00 00 show item count 7a 00 00 00 count . format dddddddd
  * @version $Revision: 1.3.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public class SpawnItem extends L2GameServerPacket
 {
 	private static final String _S__15_SPAWNITEM = "[S] 15 SpawnItem";
-	private int _objectId;
-	private int _itemId;
-	private int _x, _y, _z;
-	private int _stackable, _count;
-
-	public SpawnItem(L2ItemInstance item)
+	private final int _objectId;
+	private final int _itemId;
+	private final int _x, _y, _z;
+	private final int _stackable, _count;
+	
+	public SpawnItem(final L2ItemInstance item)
 	{
 		_objectId = item.getObjectId();
 		_itemId = item.getItemId();
@@ -44,24 +42,25 @@ public class SpawnItem extends L2GameServerPacket
 		_stackable = item.isStackable() ? 0x01 : 0x00;
 		_count = item.getCount();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x0b);
 		writeD(_objectId);
 		writeD(_itemId);
-
+		
 		writeD(_x);
 		writeD(_y);
 		writeD(_z);
 		// only show item count if it is a stackable item
 		writeD(_stackable);
 		writeD(_count);
-		writeD(0x00); //c2
+		writeD(0x00); // c2
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

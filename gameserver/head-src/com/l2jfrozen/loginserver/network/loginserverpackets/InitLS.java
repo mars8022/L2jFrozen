@@ -31,15 +31,15 @@ public class InitLS extends ServerBasePacket
 	// d proto rev
 	// d key size
 	// b key
-
-	public InitLS(byte[] publickey)
+	
+	public InitLS(final byte[] publickey)
 	{
 		writeC(0x00);
 		writeD(L2LoginServer.PROTOCOL_REV);
 		writeD(publickey.length);
 		writeB(publickey);
 	}
-
+	
 	@Override
 	public byte[] getContent()
 	{

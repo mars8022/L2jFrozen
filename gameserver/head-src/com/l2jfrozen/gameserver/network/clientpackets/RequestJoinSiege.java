@@ -34,7 +34,7 @@ public final class RequestJoinSiege extends L2GameClientPacket
 	private int _castleId;
 	private int _isAttacker;
 	private int _isJoining;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -42,34 +42,34 @@ public final class RequestJoinSiege extends L2GameClientPacket
 		_isAttacker = readD();
 		_isJoining = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final L2PcInstance player = getClient().getActiveChar();
-
-		if(player == null)
+		
+		if (player == null)
 			return;
-
-		if(!player.isClanLeader())
+		
+		if (!player.isClanLeader())
 			return;
-
-		if(_castleId < 100)
+		
+		if (_castleId < 100)
 		{
 			final Castle castle = CastleManager.getInstance().getCastleById(_castleId);
-
-			if(castle == null)
+			
+			if (castle == null)
 				return;
-
-			if(_isJoining == 1)
+			
+			if (_isJoining == 1)
 			{
-				if(System.currentTimeMillis() < player.getClan().getDissolvingExpiryTime())
+				if (System.currentTimeMillis() < player.getClan().getDissolvingExpiryTime())
 				{
 					player.sendPacket(new SystemMessage(SystemMessageId.CANT_PARTICIPATE_IN_SIEGE_WHILE_DISSOLUTION_IN_PROGRESS));
 					return;
 				}
-
-				if(_isAttacker == 1)
+				
+				if (_isAttacker == 1)
 				{
 					castle.getSiege().registerAttacker(player);
 				}
@@ -82,25 +82,25 @@ public final class RequestJoinSiege extends L2GameClientPacket
 			{
 				castle.getSiege().removeSiegeClan(player);
 			}
-
+			
 			castle.getSiege().listRegisterClan(player);
 		}
 		else
 		{
 			final Fort fort = FortManager.getInstance().getFortById(_castleId);
-
-			if(fort == null)
+			
+			if (fort == null)
 				return;
-
-			if(_isJoining == 1)
+			
+			if (_isJoining == 1)
 			{
-				if(System.currentTimeMillis() < player.getClan().getDissolvingExpiryTime())
+				if (System.currentTimeMillis() < player.getClan().getDissolvingExpiryTime())
 				{
 					player.sendPacket(new SystemMessage(SystemMessageId.CANT_PARTICIPATE_IN_SIEGE_WHILE_DISSOLUTION_IN_PROGRESS));
 					return;
 				}
-
-				if(_isAttacker == 1)
+				
+				if (_isAttacker == 1)
 				{
 					fort.getSiege().registerAttacker(player);
 				}
@@ -113,7 +113,7 @@ public final class RequestJoinSiege extends L2GameClientPacket
 			{
 				fort.getSiege().removeSiegeClan(player);
 			}
-
+			
 			fort.getSiege().listRegisterClan(player);
 		}
 	}

@@ -23,33 +23,36 @@ import com.l2jfrozen.util.Memory;
 
 /**
  * @author Shyla
- *
  */
 public class Management
 {
 	
-	public void restartServer(int seconds){
+	public void restartServer(final int seconds)
+	{
 		
 		Shutdown.getInstance().startShutdown(null, seconds, true);
 		
 	}
 	
-	public void abortServerShutdown(){
+	public void abortServerShutdown()
+	{
 		
 		Shutdown.getInstance().abort(null);
 		
 	}
 	
-	public void shutdownServer(int seconds){
+	public void shutdownServer(final int seconds)
+	{
 		
 		Shutdown.getInstance().startShutdown(null, seconds, false);
 		
 	}
 	
-	public String getServerStats(){
+	public String getServerStats()
+	{
 		
-		SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
-		StringBuilder sb = new StringBuilder();
+		final SimpleDateFormat fmt = new SimpleDateFormat("H:mm.");
+		final StringBuilder sb = new StringBuilder();
 		sb.append("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
 		sb.append("Players Online: " + L2World.getInstance().getAllPlayers().size());
 		sb.append("Threads: " + Thread.activeCount());

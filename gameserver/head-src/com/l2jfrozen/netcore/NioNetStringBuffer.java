@@ -8,23 +8,23 @@ import java.nio.BufferOverflowException;
 public final class NioNetStringBuffer
 {
 	private final char[] _buf;
-
+	
 	private final int _size;
-
+	
 	private int _len;
-
+	
 	public NioNetStringBuffer(final int size)
 	{
 		_buf = new char[size];
 		_size = size;
 		_len = 0;
 	}
-
+	
 	public final void clear()
 	{
 		_len = 0;
 	}
-
+	
 	public final void append(final char c)
 	{
 		if (_len < _size)
@@ -36,7 +36,7 @@ public final class NioNetStringBuffer
 			throw new BufferOverflowException();
 		}
 	}
-
+	
 	@Override
 	public final String toString()
 	{

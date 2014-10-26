@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class makes runImpl() and writeImpl() abstract for custom classes outside of this package
- * 
  * @version $Revision: $ $Date: $
  * @author galun
  */

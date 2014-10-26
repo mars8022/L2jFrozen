@@ -46,11 +46,11 @@ public class TaskShutdown extends Task
 	 * @see com.l2jfrozen.gameserver.taskmanager.Task#onTimeElapsed(com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask)
 	 */
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		LOGGER.info(" [GlobalTask] Server Shutdown launched.");
 		
-		Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), false, true, false);
+		final Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), false, true, false);
 		handler.start();
 	}
 }

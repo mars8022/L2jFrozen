@@ -27,23 +27,26 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 
 public class GiveSp implements ISkillHandler
 {
-	private static final SkillType[] SKILL_IDS = { SkillType.GIVE_SP };
-
-	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	private static final SkillType[] SKILL_IDS =
 	{
-		for(L2Object obj : targets)
+		SkillType.GIVE_SP
+	};
+	
+	@Override
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
+	{
+		for (final L2Object obj : targets)
 		{
 			L2Character target = (L2Character) obj;
-			if(target != null)
+			if (target != null)
 			{
-				int spToAdd = (int) skill.getPower();
+				final int spToAdd = (int) skill.getPower();
 				target.addExpAndSp(0, spToAdd);
 			}
 			target = null;
 		}
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

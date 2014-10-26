@@ -25,7 +25,6 @@ import com.l2jfrozen.netcore.SendablePacket;
 
 /**
  * The Class L2GameServerPacket.
- *
  * @author ProGramMoS
  */
 public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
@@ -41,29 +40,28 @@ public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 		{
 			writeImpl();
 		}
-		catch(Throwable t)
+		catch (final Throwable t)
 		{
 			LOGGER.error("Client: " + getClient().toString() + " - Failed writing: " + getType() + " - L2J Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION, t);
 			t.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Run impl.
 	 */
 	public void runImpl()
 	{
-
+		
 	}
-
+	
 	/**
 	 * Write impl.
 	 */
 	protected abstract void writeImpl();
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return A String with this packet name for debuging purposes
 	 */
 	public abstract String getType();

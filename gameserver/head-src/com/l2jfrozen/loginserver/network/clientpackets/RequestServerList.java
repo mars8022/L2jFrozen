@@ -29,7 +29,7 @@ public class RequestServerList extends L2LoginClientPacket
 	private int _skey1;
 	private int _skey2;
 	private int _data3;
-
+	
 	/**
 	 * @return
 	 */
@@ -37,7 +37,7 @@ public class RequestServerList extends L2LoginClientPacket
 	{
 		return _skey1;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -45,7 +45,7 @@ public class RequestServerList extends L2LoginClientPacket
 	{
 		return _skey2;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -53,7 +53,7 @@ public class RequestServerList extends L2LoginClientPacket
 	{
 		return _data3;
 	}
-
+	
 	@Override
 	public boolean readImpl()
 	{
@@ -69,7 +69,7 @@ public class RequestServerList extends L2LoginClientPacket
 	@Override
 	public void run()
 	{
-		if(getClient().getSessionKey().checkLoginPair(_skey1, _skey2))
+		if (getClient().getSessionKey().checkLoginPair(_skey1, _skey2))
 		{
 			getClient().sendPacket(new ServerList(getClient()));
 		}

@@ -23,35 +23,35 @@ import java.util.List;
 public class ShowBoard extends L2GameServerPacket
 {
 	private static final String _S__6E_SHOWBOARD = "[S] 6e ShowBoard";
-
-	private String _htmlCode;
-	private String _id;
+	
+	private final String _htmlCode;
+	private final String _id;
 	private List<String> _arg;
-
-	public ShowBoard(String htmlCode, String id)
+	
+	public ShowBoard(final String htmlCode, final String id)
 	{
 		_id = id;
 		_htmlCode = htmlCode; // html code must not exceed 8192 bytes
 	}
-
-	public ShowBoard(List<String> arg)
+	
+	public ShowBoard(final List<String> arg)
 	{
 		_id = "1002";
 		_htmlCode = null;
 		_arg = arg;
-
+		
 	}
-
+	
 	private byte[] get1002()
 	{
 		int len = _id.getBytes().length * 2 + 2;
-		for(String arg : _arg)
+		for (final String arg : _arg)
 		{
 			len += (arg.getBytes().length + 4) * 2;
 		}
-		byte data[] = new byte[len];
+		final byte data[] = new byte[len];
 		int i = 0;
-		for(int j = 0; j < _id.getBytes().length; j++, i += 2)
+		for (int j = 0; j < _id.getBytes().length; j++, i += 2)
 		{
 			data[i] = _id.getBytes()[j];
 			data[i + 1] = 0;
@@ -60,9 +60,9 @@ public class ShowBoard extends L2GameServerPacket
 		i++;
 		data[i] = 0;
 		i++;
-		for(String arg : _arg)
+		for (final String arg : _arg)
 		{
-			for(int j = 0; j < arg.getBytes().length; j++, i += 2)
+			for (int j = 0; j < arg.getBytes().length; j++, i += 2)
 			{
 				data[i] = arg.getBytes()[j];
 				data[i + 1] = 0;
@@ -78,12 +78,12 @@ public class ShowBoard extends L2GameServerPacket
 		}
 		return data;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x6e);
-		writeC(0x01); //c4 1 to show community 00 to hide
+		writeC(0x01); // c4 1 to show community 00 to hide
 		writeS("bypass _bbshome"); // top
 		writeS("bypass _bbsgetfav"); // favorite
 		writeS("bypass _bbsloc"); // region
@@ -92,17 +92,17 @@ public class ShowBoard extends L2GameServerPacket
 		writeS("bypass _bbsmail"); // mail
 		writeS("bypass _bbsfriends"); // friends
 		writeS("bypass bbs_add_fav"); // add fav.
-		if(!_id.equals("1002"))
+		if (!_id.equals("1002"))
 		{
 			// getBytes is a very costy operation, and should only be called once
 			byte htmlBytes[] = null;
-			if(_htmlCode != null)
+			if (_htmlCode != null)
 			{
 				htmlBytes = _htmlCode.getBytes();
 			}
-			byte data[] = new byte[2 + 2 + 2 + _id.getBytes().length * 2 + 2 * (htmlBytes != null ? htmlBytes.length : 0)];
+			final byte data[] = new byte[2 + 2 + 2 + _id.getBytes().length * 2 + 2 * (htmlBytes != null ? htmlBytes.length : 0)];
 			int i = 0;
-			for(int j = 0; j < _id.getBytes().length; j++, i += 2)
+			for (int j = 0; j < _id.getBytes().length; j++, i += 2)
 			{
 				data[i] = _id.getBytes()[j];
 				data[i + 1] = 0;
@@ -111,9 +111,9 @@ public class ShowBoard extends L2GameServerPacket
 			i++;
 			data[i] = 0;
 			i++;
-			if(htmlBytes != null)
+			if (htmlBytes != null)
 			{
-				for(int j = 0; j < htmlBytes.length; i += 2, j++)
+				for (int j = 0; j < htmlBytes.length; i += 2, j++)
 				{
 					data[i] = htmlBytes[j];
 					data[i + 1] = 0;
@@ -122,7 +122,7 @@ public class ShowBoard extends L2GameServerPacket
 			data[i] = 0;
 			i++;
 			data[i] = 0;
-			//writeS(_htmlCode); // current page
+			// writeS(_htmlCode); // current page
 			writeB(data);
 		}
 		else
@@ -130,8 +130,9 @@ public class ShowBoard extends L2GameServerPacket
 			writeB(get1002());
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

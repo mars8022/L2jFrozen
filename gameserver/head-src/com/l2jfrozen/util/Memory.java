@@ -27,12 +27,12 @@ public class Memory
 	{
 		return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576;
 	}
-
+	
 	public static long getFreeMemory()
 	{
 		return (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().totalMemory() + Runtime.getRuntime().freeMemory()) / 1048576;
 	}
-
+	
 	public static long getTotalMemory()
 	{
 		return Runtime.getRuntime().maxMemory() / 1048576;

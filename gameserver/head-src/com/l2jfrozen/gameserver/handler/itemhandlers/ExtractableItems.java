@@ -41,12 +41,12 @@ public class ExtractableItems implements IItemHandler
 {
 	private static Logger LOGGER = Logger.getLogger(ItemTable.class);
 	
-	public void doExtract(L2PlayableInstance playable, L2ItemInstance item, int count)
+	public void doExtract(final L2PlayableInstance playable, final L2ItemInstance item, int count)
 	{
 		if (!(playable instanceof L2PcInstance))
 			return;
-		L2PcInstance activeChar = (L2PcInstance) playable;
-		int itemID = item.getItemId();
+		final L2PcInstance activeChar = (L2PcInstance) playable;
+		final int itemID = item.getItemId();
 		
 		if (count > item.getCount())
 			return;
@@ -55,10 +55,12 @@ public class ExtractableItems implements IItemHandler
 			L2ExtractableItem exitem = ExtractableItemsData.getInstance().getExtractableItem(itemID);
 			if (exitem == null)
 				return;
-			int createItemID = 0, createAmount = 0, rndNum = Rnd.get(100), chanceFrom = 0;
-			for (L2ExtractableProductItem expi : exitem.getProductItems())
+			int createItemID = 0, createAmount = 0;
+			final int rndNum = Rnd.get(100);
+			int chanceFrom = 0;
+			for (final L2ExtractableProductItem expi : exitem.getProductItems())
 			{
-				int chance = expi.getChance();
+				final int chance = expi.getChance();
 				
 				if (rndNum >= chanceFrom && rndNum <= chance + chanceFrom)
 				{
@@ -125,7 +127,7 @@ public class ExtractableItems implements IItemHandler
 	
 	// by Azagthtot
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		if (!(playable instanceof L2PcInstance))
 			return;

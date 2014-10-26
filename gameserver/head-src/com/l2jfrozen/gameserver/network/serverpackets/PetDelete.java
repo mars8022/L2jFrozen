@@ -23,23 +23,23 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class PetDelete extends L2GameServerPacket
 {
 	private static final String _S__CF_PETDELETE = "[S] b6 PetDelete";
-	private int _petId;
-	private int _petObjId;
-
-	public PetDelete(int petId, int petObjId)
+	private final int _petId;
+	private final int _petObjId;
+	
+	public PetDelete(final int petId, final int petObjId)
 	{
 		_petId = petId; // summonType?
-		_petObjId = petObjId; //objectId
+		_petObjId = petObjId; // objectId
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xb6);
 		writeD(_petId);// dont really know what these two are since i never needed them
-		writeD(_petObjId);//objectId
+		writeD(_petObjId);// objectId
 	}
-
+	
 	@Override
 	public String getType()
 	{

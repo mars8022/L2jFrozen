@@ -42,7 +42,7 @@ public class TaskOlympiadSave extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		try
 		{
@@ -52,7 +52,7 @@ public class TaskOlympiadSave extends Task
 				LOGGER.info(" [GlobalTask] Olympiad System save launched.");
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

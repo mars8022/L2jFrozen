@@ -23,44 +23,43 @@ import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 
 /**
  * Bighead zones give entering players big heads
- * 
  * @author durgus
  */
 public class L2BigheadZone extends L2ZoneType
 {
-	public L2BigheadZone(int id)
+	public L2BigheadZone(final int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
 			character.startAbnormalEffect(0x2000);
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
 			character.stopAbnormalEffect((short) 0x2000);
 		}
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character character)
+	protected void onDieInside(final L2Character character)
 	{
 		onExit(character);
 	}
-
+	
 	@Override
-	protected void onReviveInside(L2Character character)
+	protected void onReviveInside(final L2Character character)
 	{
 		onEnter(character);
 	}
-
+	
 }

@@ -23,7 +23,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 public class EffectBlockBuff extends L2Effect
 {
-	public EffectBlockBuff(Env env, EffectTemplate template)
+	public EffectBlockBuff(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}

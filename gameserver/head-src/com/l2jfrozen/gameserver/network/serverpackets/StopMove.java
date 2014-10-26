@@ -27,13 +27,13 @@ import com.l2jfrozen.gameserver.model.L2Character;
 public class StopMove extends L2GameServerPacket
 {
 	private static final String _S__59_STOPMOVE = "[S] 47 StopMove";
-	private int _objectId;
-	private int _x;
-	private int _y;
-	private int _z;
-	private int _heading;
+	private final int _objectId;
+	private final int _x;
+	private final int _y;
+	private final int _z;
+	private final int _heading;
 	
-	public StopMove(L2Character cha)
+	public StopMove(final L2Character cha)
 	{
 		this(cha.getObjectId(), cha.getX(), cha.getY(), cha.getZ(), cha.getHeading());
 	}
@@ -45,7 +45,7 @@ public class StopMove extends L2GameServerPacket
 	 * @param z
 	 * @param heading
 	 */
-	public StopMove(int objectId, int x, int y, int z, int heading)
+	public StopMove(final int objectId, final int x, final int y, final int z, final int heading)
 	{
 		_objectId = objectId;
 		_x = x;

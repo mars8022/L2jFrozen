@@ -22,13 +22,13 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  */
 public class ExShowQuestMark extends L2GameServerPacket
 {
-	private int _questId;
-
-	public ExShowQuestMark(int questId)
+	private final int _questId;
+	
+	public ExShowQuestMark(final int questId)
 	{
 		_questId = questId;
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#getType()
 	 */
@@ -38,7 +38,7 @@ public class ExShowQuestMark extends L2GameServerPacket
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
 	 */
@@ -50,5 +50,5 @@ public class ExShowQuestMark extends L2GameServerPacket
 		writeH(0x1a);
 		writeD(_questId);
 	}
-
+	
 }

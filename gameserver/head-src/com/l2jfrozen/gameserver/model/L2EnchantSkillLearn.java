@@ -22,11 +22,11 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.4.2 $ $Date: 2005/03/27 15:29:33 $
  */
 
-public final class L2EnchantSkillLearn {
+public final class L2EnchantSkillLearn
+{
 	// these two build the primary key
 	private final int id;
 	private final int level;
@@ -42,7 +42,8 @@ public final class L2EnchantSkillLearn {
 	private final byte rate79;
 	private final byte rate80;
 	
-	public L2EnchantSkillLearn(int id, int level, int minSkillLevel, int baseLvl, String name, int spCost, int exp, byte rate76, byte rate77, byte rate78, byte rate79, byte rate80) {
+	public L2EnchantSkillLearn(final int id, final int level, final int minSkillLevel, final int baseLvl, final String name, final int spCost, final int exp, final byte rate76, final byte rate77, final byte rate78, final byte rate79, final byte rate80)
+	{
 		this.id = id;
 		this.level = level;
 		this.baseLvl = baseLvl;
@@ -110,9 +111,11 @@ public final class L2EnchantSkillLearn {
 		return exp;
 	}
 	
-	public byte getRate(L2PcInstance ply) {
+	public byte getRate(final L2PcInstance ply)
+	{
 		byte result;
-		switch (ply.getLevel()) {
+		switch (ply.getLevel())
+		{
 			case 76:
 				result = rate76;
 				break;

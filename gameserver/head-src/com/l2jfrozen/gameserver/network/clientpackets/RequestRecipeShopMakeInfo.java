@@ -25,28 +25,28 @@ public final class RequestRecipeShopMakeInfo extends L2GameClientPacket
 {
 	private int _playerObjectId;
 	private int _recipeId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_playerObjectId = readD();
 		_recipeId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
 			return;
-
+		
 		player.sendPacket(new RecipeShopItemInfo(_playerObjectId, _recipeId));
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] b5 RequestRecipeShopMakeInfo";
 	}
-
+	
 }

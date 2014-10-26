@@ -104,7 +104,7 @@ public class AdminCommandHandler
 	
 	private static AdminCommandHandler _instance;
 	
-	private FastMap<String, IAdminCommandHandler> _datatable;
+	private final FastMap<String, IAdminCommandHandler> _datatable;
 	
 	public static AdminCommandHandler getInstance()
 	{
@@ -199,7 +199,7 @@ public class AdminCommandHandler
 			
 			Arrays.sort(commands);
 			
-			for (String command : commands)
+			for (final String command : commands)
 			{
 				if (AdminCommandAccessRights.getInstance().accessRightForCommand(command) < 0)
 				{
@@ -211,10 +211,10 @@ public class AdminCommandHandler
 		
 	}
 	
-	public void registerAdminCommandHandler(IAdminCommandHandler handler)
+	public void registerAdminCommandHandler(final IAdminCommandHandler handler)
 	{
 		String[] ids = handler.getAdminCommandList();
-		for (String element : ids)
+		for (final String element : ids)
 		{
 			if (Config.DEBUG)
 			{
@@ -223,7 +223,7 @@ public class AdminCommandHandler
 			
 			if (_datatable.keySet().contains(new String(element)))
 			{
-				LOGGER.warn( "Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
+				LOGGER.warn("Duplicated command \"" + element + "\" definition in " + handler.getClass().getName() + ".");
 			}
 			else
 			{
@@ -233,7 +233,7 @@ public class AdminCommandHandler
 		ids = null;
 	}
 	
-	public IAdminCommandHandler getAdminCommandHandler(String adminCommand)
+	public IAdminCommandHandler getAdminCommandHandler(final String adminCommand)
 	{
 		String command = adminCommand;
 		

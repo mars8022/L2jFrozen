@@ -45,7 +45,7 @@ public class ClanBBSManager extends BaseBBSManager
 	 * @param activeChar
 	 */
 	@Override
-	public void parsecmd(String command, L2PcInstance activeChar)
+	public void parsecmd(final String command, final L2PcInstance activeChar)
 	{
 		if (command.equals("_bbsclan"))
 		{
@@ -75,7 +75,7 @@ public class ClanBBSManager extends BaseBBSManager
 			{
 				StringTokenizer st = new StringTokenizer(command, ";");
 				st.nextToken();
-				int index = Integer.parseInt(st.nextToken());
+				final int index = Integer.parseInt(st.nextToken());
 				clanlist(activeChar, index);
 				st = null;
 			}
@@ -90,7 +90,7 @@ public class ClanBBSManager extends BaseBBSManager
 			{
 				StringTokenizer st = new StringTokenizer(command, ";");
 				st.nextToken();
-				int index = Integer.parseInt(st.nextToken());
+				final int index = Integer.parseInt(st.nextToken());
 				clanhome(activeChar, index);
 				st = null;
 			}
@@ -112,7 +112,7 @@ public class ClanBBSManager extends BaseBBSManager
 		}
 		else
 		{
-			separateAndSend("<html><body><br><br><center>Commande : " + command + " pas encore implante</center><br><br></body></html>", activeChar);		
+			separateAndSend("<html><body><br><br><center>Commande : " + command + " pas encore implante</center><br><br></body></html>", activeChar);
 		}
 	}
 	
@@ -120,9 +120,9 @@ public class ClanBBSManager extends BaseBBSManager
 	 * @param activeChar
 	 * @param clanId
 	 */
-	private void clanNotice(L2PcInstance activeChar, int clanId)
+	private void clanNotice(final L2PcInstance activeChar, final int clanId)
 	{
-		L2Clan cl = ClanTable.getInstance().getClan(clanId);
+		final L2Clan cl = ClanTable.getInstance().getClan(clanId);
 		if (cl != null)
 		{
 			if (cl.getLevel() < 2)
@@ -131,8 +131,8 @@ public class ClanBBSManager extends BaseBBSManager
 				parsecmd("_bbsclan_clanlist", activeChar);
 			}
 			else
-			{			
-				TextBuilder html = new TextBuilder("<html><body><br><br>" + "<table border=0 width=610><tr><td width=10></td><td width=600 align=left>" + "<a action=\"bypass _bbshome\">HOME</a> &gt; " + "<a action=\"bypass _bbsclan_clanlist\"> CLAN COMMUNITY </a>  &gt; " + "<a action=\"bypass _bbsclan_clanhome;" + String.valueOf(clanId) + "\"> &amp;$802; </a>" + "</td></tr>" + "</table>");
+			{
+				final TextBuilder html = new TextBuilder("<html><body><br><br>" + "<table border=0 width=610><tr><td width=10></td><td width=600 align=left>" + "<a action=\"bypass _bbshome\">HOME</a> &gt; " + "<a action=\"bypass _bbsclan_clanlist\"> CLAN COMMUNITY </a>  &gt; " + "<a action=\"bypass _bbsclan_clanhome;" + String.valueOf(clanId) + "\"> &amp;$802; </a>" + "</td></tr>" + "</table>");
 				if (activeChar.isClanLeader())
 				{
 					html.append("<br><br><center>" + "<table width=610 border=0 cellspacing=0 cellpadding=0>" + "<tr><td fixwidth=610><font color=\"AAAAAA\">The Clan Notice function allows the clan leader to send messages through a pop-up window to clan members at login.</font> </td></tr>" + "<tr><td height=20></td></tr>");
@@ -160,7 +160,7 @@ public class ClanBBSManager extends BaseBBSManager
 		}
 	}
 	
-	private void clanlist(L2PcInstance activeChar, int index)
+	private void clanlist(final L2PcInstance activeChar, int index)
 	{
 		if (index < 1)
 		{
@@ -198,7 +198,7 @@ public class ClanBBSManager extends BaseBBSManager
 		html.append("</table>");
 		html.append("<img src=\"L2UI.Squareblank\" width=\"1\" height=\"5\">");
 		int i = 0;
-		for (L2Clan cl : ClanTable.getInstance().getClans())
+		for (final L2Clan cl : ClanTable.getInstance().getClans())
 		{
 			if (i > (index + 1) * 7)
 			{
@@ -286,7 +286,7 @@ public class ClanBBSManager extends BaseBBSManager
 	/**
 	 * @param activeChar
 	 */
-	private void clanhome(L2PcInstance activeChar)
+	private void clanhome(final L2PcInstance activeChar)
 	{
 		clanhome(activeChar, activeChar.getClan().getClanId());
 	}
@@ -295,7 +295,7 @@ public class ClanBBSManager extends BaseBBSManager
 	 * @param activeChar
 	 * @param clanId
 	 */
-	private void clanhome(L2PcInstance activeChar, int clanId)
+	private void clanhome(final L2PcInstance activeChar, final int clanId)
 	{
 		L2Clan cl = ClanTable.getInstance().getClan(clanId);
 		
@@ -390,7 +390,7 @@ public class ClanBBSManager extends BaseBBSManager
 	}
 	
 	@Override
-	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
+	public void parsewrite(final String ar1, final String ar2, final String ar3, final String ar4, final String ar5, final L2PcInstance activeChar)
 	{
 		if (ar1.equals("Set"))
 		{

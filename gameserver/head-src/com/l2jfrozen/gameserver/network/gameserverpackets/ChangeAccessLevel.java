@@ -18,20 +18,20 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-
 /**
  * @author -Wooden-
  */
 public class ChangeAccessLevel extends GameServerBasePacket
 {
-	public ChangeAccessLevel(String player, int access)
+	public ChangeAccessLevel(final String player, final int access)
 	{
 		writeC(0x04);
 		writeD(access);
 		writeS(player);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override

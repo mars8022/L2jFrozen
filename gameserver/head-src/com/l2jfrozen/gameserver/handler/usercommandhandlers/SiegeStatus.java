@@ -29,7 +29,7 @@ public class SiegeStatus implements IUserCommandHandler
 	};
 	
 	@Override
-	public boolean useUserCommand(int id, L2PcInstance activeChar)
+	public boolean useUserCommand(final int id, final L2PcInstance activeChar)
 	{
 		activeChar.sendMessage("Command /siegestatus not implemented yet.");
 		return true;

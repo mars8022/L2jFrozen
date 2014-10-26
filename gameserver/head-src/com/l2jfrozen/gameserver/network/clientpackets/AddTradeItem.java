@@ -30,8 +30,10 @@ public final class AddTradeItem extends L2GameClientPacket
 	private static Logger LOGGER = Logger.getLogger(AddTradeItem.class);
 	private int _tradeId, _objectId, _count;
 	
-	public AddTradeItem() { }
-
+	public AddTradeItem()
+	{
+	}
+	
 	@Override
 	protected void readImpl()
 	{
@@ -39,33 +41,33 @@ public final class AddTradeItem extends L2GameClientPacket
 		_objectId = readD();
 		_count = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null) // Player null
 			return;
-
+		
 		final TradeList trade = player.getActiveTradeList();
 		if (trade == null) // Trade null
 		{
 			LOGGER.warn("Character: " + player.getName() + " requested item:" + _objectId + " add without active tradelist:" + _tradeId);
 			return;
 		}
-
+		
 		// Check Partner and ocbjectId
 		if (trade.getPartner() == null || L2World.getInstance().findObject(trade.getPartner().getObjectId()) == null)
 		{
 			// Trade partner not found, cancel trade
-			if(trade.getPartner() != null)
+			if (trade.getPartner() != null)
 				LOGGER.warn("Character:" + player.getName() + " requested invalid trade object: " + _objectId);
-
+			
 			player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
 			player.cancelActiveTrade();
 			return;
 		}
-
+		
 		// Check if player has Access level for Transaction
 		if (!player.getAccessLevel().allowTransaction())
 		{
@@ -73,14 +75,14 @@ public final class AddTradeItem extends L2GameClientPacket
 			player.cancelActiveTrade();
 			return;
 		}
-
+		
 		// Check validateItemManipulation
 		if (!player.validateItemManipulation(_objectId, "trade"))
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
 			return;
 		}
-
+		
 		// Java Emulator Security
 		if (player.getInventory().getItemByObjectId(_objectId) == null || _count <= 0)
 		{
@@ -88,10 +90,10 @@ public final class AddTradeItem extends L2GameClientPacket
 			return;
 		}
 		
-		final TradeList.TradeItem item = trade.addItem(_objectId, _count);		
+		final TradeList.TradeItem item = trade.addItem(_objectId, _count);
 		if (item == null)
 			return;
-
+		
 		if (item.isAugmented())
 			return;
 		
@@ -99,7 +101,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		player.sendPacket(new TradeUpdate(trade, player));
 		trade.getPartner().sendPacket(new TradeOtherAdd(item));
 	}
-
+	
 	@Override
 	public String getType()
 	{

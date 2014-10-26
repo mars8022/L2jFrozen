@@ -24,40 +24,40 @@ public class NpcStatus extends CharStatus
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public NpcStatus(L2NpcInstance activeChar)
+	public NpcStatus(final L2NpcInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
 	@Override
-	public final void reduceHp(double value, L2Character attacker)
+	public final void reduceHp(final double value, final L2Character attacker)
 	{
 		reduceHp(value, attacker, true);
 	}
-
+	
 	@Override
-	public final void reduceHp(double value, L2Character attacker, boolean awake)
+	public final void reduceHp(final double value, final L2Character attacker, final boolean awake)
 	{
-		if(getActiveChar().isDead())
+		if (getActiveChar().isDead())
 			return;
-
+		
 		// Add attackers to npc's attacker list
-		if(attacker != null)
+		if (attacker != null)
 		{
 			getActiveChar().addAttackerToAttackByList(attacker);
 		}
-
+		
 		super.reduceHp(value, attacker, awake);
 	}
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override

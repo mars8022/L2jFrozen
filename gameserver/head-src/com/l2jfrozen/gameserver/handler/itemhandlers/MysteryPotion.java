@@ -30,7 +30,6 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.6.4 $ $Date: 2005/04/06 18:25:18 $
  */
 
@@ -43,66 +42,66 @@ public class MysteryPotion implements IItemHandler
 	private static final int BIGHEAD_EFFECT = 0x2000;
 	private static final int MYSTERY_POTION_SKILL = 2103;
 	private static final int EFFECT_DURATION = 1200000; // 20 mins
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
-		//item.getItem().getEffects(item, activeChar);
-
+		// item.getItem().getEffects(item, activeChar);
+		
 		// Use a summon skill effect for fun ;)
 		MagicSkillUser MSU = new MagicSkillUser(playable, playable, 2103, 1, 0, 0);
 		activeChar.sendPacket(MSU);
 		activeChar.broadcastPacket(MSU);
-
+		
 		MSU = null;
-
+		
 		activeChar.startAbnormalEffect(BIGHEAD_EFFECT);
 		activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
-
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.USE_S1);
 		sm.addSkillName(MYSTERY_POTION_SKILL);
 		activeChar.sendPacket(sm);
-
+		
 		sm = null;
 		activeChar = null;
-
+		
 		MysteryPotionStop mp = new MysteryPotionStop(playable);
 		ThreadPoolManager.getInstance().scheduleEffect(mp, EFFECT_DURATION);
-
+		
 		mp = null;
 	}
-
+	
 	public class MysteryPotionStop implements Runnable
 	{
-		private L2PlayableInstance _playable;
-
-		public MysteryPotionStop(L2PlayableInstance playable)
+		private final L2PlayableInstance _playable;
+		
+		public MysteryPotionStop(final L2PlayableInstance playable)
 		{
 			_playable = playable;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			try
 			{
-				if(!(_playable instanceof L2PcInstance))
+				if (!(_playable instanceof L2PcInstance))
 					return;
-
+				
 				((L2PcInstance) _playable).stopAbnormalEffect(BIGHEAD_EFFECT);
 			}
-			catch(Throwable t)
+			catch (final Throwable t)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

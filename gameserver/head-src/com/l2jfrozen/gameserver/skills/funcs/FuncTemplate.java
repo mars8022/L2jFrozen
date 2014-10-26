@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.skills.conditions.Condition;
  */
 public final class FuncTemplate
 {
-
+	
 	public Condition attachCond;
 	public Condition applayCond;
 	public final Class<?> func;
@@ -39,8 +39,8 @@ public final class FuncTemplate
 	public final Stats stat;
 	public final int order;
 	public final Lambda lambda;
-
-	public FuncTemplate(Condition pAttachCond, Condition pApplayCond, String pFunc, Stats pStat, int pOrder, Lambda pLambda)
+	
+	public FuncTemplate(final Condition pAttachCond, final Condition pApplayCond, final String pFunc, final Stats pStat, final int pOrder, final Lambda pLambda)
 	{
 		attachCond = pAttachCond;
 		applayCond = pApplayCond;
@@ -51,9 +51,9 @@ public final class FuncTemplate
 		{
 			func = Class.forName("com.l2jfrozen.gameserver.skills.funcs.Func" + pFunc);
 		}
-		catch(ClassNotFoundException e)
+		catch (final ClassNotFoundException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			throw new RuntimeException(e);
@@ -62,47 +62,47 @@ public final class FuncTemplate
 		{
 			constructor = func.getConstructor(new Class[]
 			{
-					Stats.class, // stats to update
-					Integer.TYPE, // order of execution
-					Object.class, // owner
-					Lambda.class
+				Stats.class, // stats to update
+				Integer.TYPE, // order of execution
+				Object.class, // owner
+				Lambda.class
 			// value for function
 			});
 		}
-		catch(NoSuchMethodException e)
+		catch (final NoSuchMethodException e)
 		{
 			throw new RuntimeException(e);
 		}
 	}
-
-	public Func getFunc(Env env, Object owner)
+	
+	public Func getFunc(final Env env, final Object owner)
 	{
-		if(attachCond != null && !attachCond.test(env))
+		if (attachCond != null && !attachCond.test(env))
 			return null;
 		try
 		{
-			Func f = (Func) constructor.newInstance(stat, order, owner, lambda);
-			if(applayCond != null)
+			final Func f = (Func) constructor.newInstance(stat, order, owner, lambda);
+			if (applayCond != null)
 			{
 				f.setCondition(applayCond);
 			}
 			return f;
 		}
-		catch(IllegalAccessException e)
+		catch (final IllegalAccessException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		catch(InstantiationException e)
+		catch (final InstantiationException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-		catch(InvocationTargetException e)
+		catch (final InvocationTargetException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-
+		
 	}
 }

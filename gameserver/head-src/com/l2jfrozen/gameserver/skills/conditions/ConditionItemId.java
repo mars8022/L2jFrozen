@@ -25,18 +25,18 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public final class ConditionItemId extends Condition
 {
-
+	
 	private final int _itemId;
-
-	public ConditionItemId(int itemId)
+	
+	public ConditionItemId(final int itemId)
 	{
 		_itemId = itemId;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(env.item == null)
+		if (env.item == null)
 			return false;
 		return env.item.getItemId() == _itemId;
 	}

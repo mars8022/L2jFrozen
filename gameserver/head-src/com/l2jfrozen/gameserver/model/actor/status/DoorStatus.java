@@ -23,20 +23,20 @@ public class DoorStatus extends CharStatus
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public DoorStatus(L2DoorInstance activeChar)
+	public DoorStatus(final L2DoorInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override

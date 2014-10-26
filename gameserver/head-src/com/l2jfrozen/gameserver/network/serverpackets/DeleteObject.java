@@ -27,9 +27,9 @@ import com.l2jfrozen.gameserver.model.L2Object;
 public class DeleteObject extends L2GameServerPacket
 {
 	private static final String _S__1E_DELETEOBJECT = "[S] 12 DeleteObject";
-	private int _objectId;
+	private final int _objectId;
 	
-	public DeleteObject(L2Object obj)
+	public DeleteObject(final L2Object obj)
 	{
 		_objectId = obj.getObjectId();
 	}

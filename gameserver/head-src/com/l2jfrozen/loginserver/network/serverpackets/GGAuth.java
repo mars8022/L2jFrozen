@@ -29,14 +29,14 @@ public final class GGAuth extends L2LoginServerPacket
 {
 	static final Logger LOGGER = Logger.getLogger(GGAuth.class);
 	public static final int SKIP_GG_AUTH_REQUEST = 0x0b;
-
-	private int _response;
-
-	public GGAuth(int response)
+	
+	private final int _response;
+	
+	public GGAuth(final int response)
 	{
 		_response = response;
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
 			LOGGER.warn("Reason Hex: " + Integer.toHexString(response));
 		}
@@ -52,8 +52,9 @@ public final class GGAuth extends L2LoginServerPacket
 		writeD(0x00);
 		writeD(0x00);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
 	 */
 	@Override

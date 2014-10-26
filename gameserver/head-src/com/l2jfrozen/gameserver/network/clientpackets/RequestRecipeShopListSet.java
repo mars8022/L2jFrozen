@@ -32,43 +32,43 @@ public final class RequestRecipeShopListSet extends L2GameClientPacket
 {
 	private int _count;
 	private int[] _items; // count*2
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_count = readD();
-
-		if(_count < 0 || _count * 8 > _buf.remaining() || _count > Config.MAX_ITEM_IN_PACKET)
+		
+		if (_count < 0 || _count * 8 > _buf.remaining() || _count > Config.MAX_ITEM_IN_PACKET)
 		{
 			_count = 0;
 		}
-
+		
 		_items = new int[_count * 2];
-
-		for(int x = 0; x < _count; x++)
+		
+		for (int x = 0; x < _count; x++)
 		{
-			int recipeID = readD();
+			final int recipeID = readD();
 			_items[x * 2 + 0] = recipeID;
-			int cost = readD();
+			final int cost = readD();
 			_items[x * 2 + 1] = cost;
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
 			return;
-
-		if(player.isInDuel())
+		
+		if (player.isInDuel())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_CRAFT_DURING_COMBAT));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(player.isTradeDisabled())
+		
+		if (player.isTradeDisabled())
 		{
 			player.sendMessage("Private manufacture are disable here. Try in another place.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -82,8 +82,8 @@ public final class RequestRecipeShopListSet extends L2GameClientPacket
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(_count == 0)
+		
+		if (_count == 0)
 		{
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_NONE);
 			player.broadcastUserInfo();
@@ -91,17 +91,17 @@ public final class RequestRecipeShopListSet extends L2GameClientPacket
 		}
 		else
 		{
-			L2ManufactureList createList = new L2ManufactureList();
-
-			for(int x = 0; x < _count; x++)
+			final L2ManufactureList createList = new L2ManufactureList();
+			
+			for (int x = 0; x < _count; x++)
 			{
-				int recipeID = _items[x * 2 + 0];
-				int cost = _items[x * 2 + 1];
+				final int recipeID = _items[x * 2 + 0];
+				final int cost = _items[x * 2 + 1];
 				createList.add(new L2ManufactureItem(recipeID, cost));
 			}
 			createList.setStoreName(player.getCreateList() != null ? player.getCreateList().getStoreName() : "");
 			player.setCreateList(createList);
-
+			
 			player.setPrivateStoreType(L2PcInstance.STORE_PRIVATE_MANUFACTURE);
 			player.sitDown();
 			player.broadcastUserInfo();
@@ -109,11 +109,11 @@ public final class RequestRecipeShopListSet extends L2GameClientPacket
 			player.broadcastPacket(new RecipeShopMsg(player));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] b2 RequestRecipeShopListSet";
 	}
-
+	
 }

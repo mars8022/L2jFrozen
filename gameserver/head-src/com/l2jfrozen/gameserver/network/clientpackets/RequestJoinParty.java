@@ -48,8 +48,8 @@ public final class RequestJoinParty extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance requestor = getClient().getActiveChar();
-		L2PcInstance target = L2World.getInstance().getPlayer(_name);
+		final L2PcInstance requestor = getClient().getActiveChar();
+		final L2PcInstance target = L2World.getInstance().getPlayer(_name);
 		
 		if (requestor == null)
 			return;
@@ -80,7 +80,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 		
 		if (target.isInParty())
 		{
-			SystemMessage msg = new SystemMessage(SystemMessageId.S1_IS_ALREADY_IN_PARTY);
+			final SystemMessage msg = new SystemMessage(SystemMessageId.S1_IS_ALREADY_IN_PARTY);
 			msg.addString(target.getName());
 			requestor.sendPacket(msg);
 			return;
@@ -106,14 +106,14 @@ public final class RequestJoinParty extends L2GameClientPacket
 		
 		if (target.isInJail() || requestor.isInJail())
 		{
-			SystemMessage sm = SystemMessage.sendString("Player is in Jail");
+			final SystemMessage sm = SystemMessage.sendString("Player is in Jail");
 			requestor.sendPacket(sm);
 			return;
 		}
 		
 		if (target.getBlockList().isInBlockList(requestor.getName()))
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
 			sm.addString(target.getName());
 			requestor.sendPacket(sm);
 			return;
@@ -147,7 +147,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 	 * @param target
 	 * @param requestor
 	 */
-	private void addTargetToParty(L2PcInstance target, L2PcInstance requestor)
+	private void addTargetToParty(final L2PcInstance target, final L2PcInstance requestor)
 	{
 		SystemMessage msg;
 		
@@ -203,7 +203,7 @@ public final class RequestJoinParty extends L2GameClientPacket
 	 * @param target
 	 * @param requestor
 	 */
-	private void createNewParty(L2PcInstance target, L2PcInstance requestor)
+	private void createNewParty(final L2PcInstance target, final L2PcInstance requestor)
 	{
 		SystemMessage msg;
 		

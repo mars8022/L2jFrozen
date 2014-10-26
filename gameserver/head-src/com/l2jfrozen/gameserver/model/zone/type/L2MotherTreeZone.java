@@ -26,53 +26,54 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * A mother-trees zone
- * 
  * @author durgus
  */
 public class L2MotherTreeZone extends L2ZoneType
 {
-	public L2MotherTreeZone(int id)
+	public L2MotherTreeZone(final int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
 			L2PcInstance player = (L2PcInstance) character;
-
-			if(player.isInParty())
+			
+			if (player.isInParty())
 			{
-				for(L2PcInstance member : player.getParty().getPartyMembers())
-					if(member.getRace() != Race.elf)
+				for (final L2PcInstance member : player.getParty().getPartyMembers())
+					if (member.getRace() != Race.elf)
 						return;
 			}
-
+			
 			player.setInsideZone(L2Character.ZONE_MOTHERTREE, true);
 			player.sendPacket(new SystemMessage(SystemMessageId.ENTER_SHADOW_MOTHER_TREE));
-
+			
 			player = null;
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(character instanceof L2PcInstance && character.isInsideZone(L2Character.ZONE_MOTHERTREE))
+		if (character instanceof L2PcInstance && character.isInsideZone(L2Character.ZONE_MOTHERTREE))
 		{
 			character.setInsideZone(L2Character.ZONE_MOTHERTREE, false);
 			((L2PcInstance) character).sendPacket(new SystemMessage(SystemMessageId.EXIT_SHADOW_MOTHER_TREE));
 		}
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character character)
-	{}
-
+	protected void onDieInside(final L2Character character)
+	{
+	}
+	
 	@Override
-	protected void onReviveInside(L2Character character)
-	{}
-
+	protected void onReviveInside(final L2Character character)
+	{
+	}
+	
 }

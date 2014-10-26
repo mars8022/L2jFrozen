@@ -24,11 +24,11 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectBestowSkill extends L2Effect
 {
-	public EffectBestowSkill(Env env, EffectTemplate template)
+	public EffectBestowSkill(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#getEffectType()
 	 */
@@ -37,20 +37,20 @@ final class EffectBestowSkill extends L2Effect
 	{
 		return EffectType.BUFF;
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#onStart()
 	 */
 	@Override
 	public void onStart()
 	{
-		L2Skill tempSkill = SkillTable.getInstance().getInfo(getSkill().getTriggeredId(), getSkill().getTriggeredLevel());
-		if(tempSkill != null)
+		final L2Skill tempSkill = SkillTable.getInstance().getInfo(getSkill().getTriggeredId(), getSkill().getTriggeredLevel());
+		if (tempSkill != null)
 		{
 			getEffected().addSkill(tempSkill);
 		}
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#onExit()
 	 */
@@ -59,7 +59,7 @@ final class EffectBestowSkill extends L2Effect
 	{
 		getEffected().removeSkill(getSkill().getTriggeredId());
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.model.L2Effect#onActionTime()
 	 */

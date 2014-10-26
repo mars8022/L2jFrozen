@@ -33,33 +33,33 @@ public class SpecialXMas implements IItemHandler
 	{
 		5555
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
-		int itemId = item.getItemId();
-
-		if(activeChar.isParalyzed())
+		final int itemId = item.getItemId();
+		
+		if (activeChar.isParalyzed())
 		{
 			activeChar.sendMessage("You Cannot Use This While You Are Paralyzed");
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(itemId == 5555) // Token of Love
+		
+		if (itemId == 5555) // Token of Love
 		{
 			ShowXMasSeal SXS = new ShowXMasSeal(5555);
 			activeChar.sendPacket(SXS);
-			//activeChar.broadcastPacket(SXS);
+			// activeChar.broadcastPacket(SXS);
 			SXS = null;
 		}
 		activeChar = null;
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#getItemIds()
 	 */

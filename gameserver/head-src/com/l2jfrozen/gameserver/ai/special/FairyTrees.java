@@ -26,39 +26,45 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class FairyTrees extends Quest implements Runnable
 {
-	private static final int[] trees = { 27185, 27186, 27187, 27188 };
-
-	public FairyTrees(int questId, String name, String descr)
+	private static final int[] trees =
+	{
+		27185,
+		27186,
+		27187,
+		27188
+	};
+	
+	public FairyTrees(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
-
-		for(int mob : trees)
+		
+		for (final int mob : trees)
 		{
 			addEventId(mob, QuestEventType.ON_KILL);
 		}
 	}
-
+	
 	@Override
-	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
+	public String onKill(final L2NpcInstance npc, final L2PcInstance killer, final boolean isPet)
 	{
-		int npcId = npc.getNpcId();
-		for(int treeId : trees)
+		final int npcId = npc.getNpcId();
+		for (final int treeId : trees)
 		{
-			if(npcId == treeId)
+			if (npcId == treeId)
 			{
-				for(int i = 0; i < 20; i++)
+				for (int i = 0; i < 20; i++)
 				{
-					L2Attackable newNpc = (L2Attackable) addSpawn(27189, npc.getX(), npc.getY(), npc.getZ(), 0, false, 30000);
-					L2Character originalKiller = isPet ? killer.getPet() : killer;
+					final L2Attackable newNpc = (L2Attackable) addSpawn(27189, npc.getX(), npc.getY(), npc.getZ(), 0, false, 30000);
+					final L2Character originalKiller = isPet ? killer.getPet() : killer;
 					newNpc.setRunning();
 					newNpc.addDamageHate(originalKiller, 0, 999);
 					newNpc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, originalKiller);
-					if(Rnd.nextBoolean())
+					if (Rnd.nextBoolean())
 					{
 						if (originalKiller != null)
 						{
 							final L2Skill skill = SkillTable.getInstance().getInfo(4243, 1);
-							if(skill != null)
+							if (skill != null)
 							{
 								skill.getEffects(newNpc, originalKiller, false, false, false);
 							}

@@ -54,16 +54,16 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		long priceTotal = 0;
 		for (int i = 0; i < _count; i++)
 		{
-			int objectId = readD();
-			int itemId = readD();
-			int enchant = readH();
+			final int objectId = readD();
+			final int itemId = readD();
+			final int enchant = readH();
 			readH(); // TODO analyse this
-			long count = readD();
-			int price = readD();
+			final long count = readD();
+			final int price = readD();
 			
 			if (count > Integer.MAX_VALUE || count < 0)
 			{
-				String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
+				final String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
 				Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
 				_count = 0;
 				_items = null;
@@ -75,7 +75,7 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 		
 		if (priceTotal < 0 || priceTotal > Integer.MAX_VALUE)
 		{
-			String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
+			final String msgErr = "[RequestPrivateStoreSell] player " + getClient().getActiveChar().getName() + " tried an overflow exploit, ban this player!";
 			Util.handleIllegalPlayerAction(getClient().getActiveChar(), msgErr, Config.DEFAULT_PUNISH);
 			_count = 0;
 			_items = null;
@@ -104,7 +104,7 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
@@ -114,15 +114,15 @@ public final class RequestPrivateStoreSell extends L2GameClientPacket
 			return;
 		}
 		
-		L2Object object = L2World.getInstance().findObject(_storePlayerId);
+		final L2Object object = L2World.getInstance().findObject(_storePlayerId);
 		if (object == null || !(object instanceof L2PcInstance))
 			return;
 		
-		L2PcInstance storePlayer = (L2PcInstance) object;
+		final L2PcInstance storePlayer = (L2PcInstance) object;
 		if (storePlayer.getPrivateStoreType() != L2PcInstance.STORE_PRIVATE_BUY)
 			return;
 		
-		TradeList storeList = storePlayer.getBuyList();
+		final TradeList storeList = storePlayer.getBuyList();
 		if (storeList == null)
 			return;
 		

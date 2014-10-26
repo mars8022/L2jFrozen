@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectImobileBuff extends L2Effect
 {
-	public EffectImobileBuff(Env env, EffectTemplate template)
+	public EffectImobileBuff(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}

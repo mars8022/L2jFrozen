@@ -29,14 +29,14 @@ public class CharSelected extends L2GameServerPacket
 {
 	// SdSddddddddddffddddddddddddddddddddddddddddddddddddddddd d
 	private static final String _S__21_CHARSELECTED = "[S] 15 CharSelected";
-	private L2PcInstance _activeChar;
-	private int _sessionId;
+	private final L2PcInstance _activeChar;
+	private final int _sessionId;
 	
 	/**
 	 * @param cha
 	 * @param sessionId
 	 */
-	public CharSelected(L2PcInstance cha, int sessionId)
+	public CharSelected(final L2PcInstance cha, final int sessionId)
 	{
 		_activeChar = cha;
 		_sessionId = sessionId;
@@ -104,7 +104,7 @@ public class CharSelected extends L2GameServerPacket
 		writeD(0x00); // c3
 		writeD(0x00); // c3
 		writeD(0x00); // c3
-		writeD(0x00); // c3	
+		writeD(0x00); // c3
 	}
 	
 	/*

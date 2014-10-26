@@ -50,9 +50,9 @@ public class TaskRecom extends Task
 	 * @see com.l2jfrozen.gameserver.taskmanager.Task#onTimeElapsed(com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask)
 	 */
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
-		for (L2PcInstance player : L2World.getInstance().getAllPlayers())
+		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
 			player.restartRecom();
 			player.sendPacket(new UserInfo(player));
@@ -65,5 +65,5 @@ public class TaskRecom extends Task
 	{
 		super.initializate();
 		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_GLOBAL_TASK, "1", "13:00:00", "");
-	}	
+	}
 }

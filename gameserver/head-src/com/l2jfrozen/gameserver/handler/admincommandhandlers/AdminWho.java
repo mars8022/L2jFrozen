@@ -30,7 +30,7 @@ public class AdminWho implements IAdminCommandHandler
 	};
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		if (command.equalsIgnoreCase("admin_who"))
 		{

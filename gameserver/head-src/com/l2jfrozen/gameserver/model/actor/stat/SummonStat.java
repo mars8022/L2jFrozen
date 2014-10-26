@@ -23,20 +23,20 @@ public class SummonStat extends PlayableStat
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public SummonStat(L2Summon activeChar)
+	public SummonStat(final L2Summon activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override

@@ -21,34 +21,32 @@ package com.l2jfrozen.gameserver.model;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
- * This class defines the spawn data of a Minion type In a group mob, there are one master called RaidBoss and several
- * slaves called Minions. <B><U> Data</U> :</B><BR>
+ * This class defines the spawn data of a Minion type In a group mob, there are one master called RaidBoss and several slaves called Minions. <B><U> Data</U> :</B><BR>
  * <BR>
- * <li>_minionId : The Identifier of the L2Minion to spawn</li> <li>_minionAmount : The number of this Minion Type to
- * spawn</li><BR>
+ * <li>_minionId : The Identifier of the L2Minion to spawn</li> <li>_minionAmount : The number of this Minion Type to spawn</li><BR>
  * <BR>
  */
 public class L2MinionData
 {
-
+	
 	/** The Identifier of the L2Minion */
 	private int _minionId;
-
+	
 	/** The number of this Minion Type to spawn */
 	private int _minionAmount;
 	private int _minionAmountMin;
 	private int _minionAmountMax;
-
+	
 	/**
 	 * Set the Identifier of the Minion to spawn.<BR>
 	 * <BR>
-	 * @param id 
+	 * @param id
 	 */
-	public void setMinionId(int id)
+	public void setMinionId(final int id)
 	{
 		_minionId = id;
 	}
-
+	
 	/**
 	 * @return the Identifier of the Minion to spawn.
 	 */
@@ -56,51 +54,48 @@ public class L2MinionData
 	{
 		return _minionId;
 	}
-
+	
 	/**
 	 * Set the minimum of minions to amount.<BR>
 	 * <BR>
-	 * 
 	 * @param amountMin The minimum quantity of this Minion type to spawn
 	 */
-	public void setAmountMin(int amountMin)
+	public void setAmountMin(final int amountMin)
 	{
 		_minionAmountMin = amountMin;
 	}
-
+	
 	/**
 	 * Set the maximum of minions to amount.<BR>
 	 * <BR>
-	 * 
 	 * @param amountMax The maximum quantity of this Minion type to spawn
 	 */
-	public void setAmountMax(int amountMax)
+	public void setAmountMax(final int amountMax)
 	{
 		_minionAmountMax = amountMax;
 	}
-
+	
 	/**
 	 * Set the amount of this Minion type to spawn.<BR>
 	 * <BR>
-	 * 
 	 * @param amount The quantity of this Minion type to spawn
 	 */
-	public void setAmount(int amount)
+	public void setAmount(final int amount)
 	{
 		_minionAmount = amount;
 	}
-
+	
 	/**
 	 * @return the amount of this Minion type to spawn.
 	 */
 	public int getAmount()
 	{
-		if(_minionAmountMax > _minionAmountMin)
+		if (_minionAmountMax > _minionAmountMin)
 		{
 			_minionAmount = Rnd.get(_minionAmountMin, _minionAmountMax);
 			return _minionAmount;
 		}
 		return _minionAmountMin;
 	}
-
+	
 }

@@ -28,7 +28,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 final class EffectSilentMove extends L2Effect
 {
-	public EffectSilentMove(Env env, EffectTemplate template)
+	public EffectSilentMove(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
@@ -39,7 +39,7 @@ final class EffectSilentMove extends L2Effect
 	{
 		super.onStart();
 		
-		L2Character effected = getEffected();
+		final L2Character effected = getEffected();
 		if (effected instanceof L2PcInstance)
 			((L2PcInstance) effected).setSilentMoving(true);
 	}
@@ -50,7 +50,7 @@ final class EffectSilentMove extends L2Effect
 	{
 		super.onExit();
 		
-		L2Character effected = getEffected();
+		final L2Character effected = getEffected();
 		if (effected instanceof L2PcInstance)
 			((L2PcInstance) effected).setSilentMoving(false);
 	}
@@ -71,11 +71,11 @@ final class EffectSilentMove extends L2Effect
 		if (getEffected().isDead())
 			return false;
 		
-		double manaDam = calc();
+		final double manaDam = calc();
 		
 		if (manaDam > getEffected().getCurrentMp())
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP);
 			getEffected().sendPacket(sm);
 			return false;
 		}

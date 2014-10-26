@@ -37,43 +37,43 @@ public class ChristmasTree implements IItemHandler
 {
 	private static final int[] ITEM_IDS =
 	{
-			5560, /* x-mas tree */
-			5561
-	/* Special x-mas tree*/
+		5560, /* x-mas tree */
+		5561
+	/* Special x-mas tree */
 	};
-
+	
 	private static final int[] NPC_IDS =
 	{
-			13006, /* Christmas tree w. flashing lights and snow */
-			13007
+		13006, /* Christmas tree w. flashing lights and snow */
+		13007
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		L2PcInstance activeChar = (L2PcInstance) playable;
-
+		
 		L2NpcTemplate template1 = null;
-
-		int itemId = item.getItemId();
-		for(int i = 0; i < ITEM_IDS.length; i++)
+		
+		final int itemId = item.getItemId();
+		for (int i = 0; i < ITEM_IDS.length; i++)
 		{
-			if(ITEM_IDS[i] == itemId)
+			if (ITEM_IDS[i] == itemId)
 			{
 				template1 = NpcTable.getInstance().getTemplate(NPC_IDS[i]);
 				break;
 			}
 		}
-
-		if(template1 == null)
+		
+		if (template1 == null)
 			return;
-
+		
 		L2Object target = activeChar.getTarget();
-		if(target == null)
+		if (target == null)
 		{
 			target = activeChar;
 		}
-
+		
 		try
 		{
 			L2Spawn spawn = new L2Spawn(template1);
@@ -81,21 +81,21 @@ public class ChristmasTree implements IItemHandler
 			spawn.setLocx(target.getX());
 			spawn.setLocy(target.getY());
 			spawn.setLocz(target.getZ());
-			L2NpcInstance result = spawn.spawnOne();
-
+			final L2NpcInstance result = spawn.spawnOne();
+			
 			activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false);
-
+			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			activeChar.sendPacket(sm);
-
+			
 			ThreadPoolManager.getInstance().scheduleGeneral(new DeSpawn(result), 3600000);
-
+			
 			sm = null;
 			spawn = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
@@ -103,28 +103,28 @@ public class ChristmasTree implements IItemHandler
 			activeChar.sendPacket(sm);
 			sm = null;
 		}
-
+		
 		activeChar = null;
 		template1 = null;
 		target = null;
 	}
-
+	
 	public class DeSpawn implements Runnable
 	{
 		L2NpcInstance _npc = null;
-
-		public DeSpawn(L2NpcInstance npc)
+		
+		public DeSpawn(final L2NpcInstance npc)
 		{
 			_npc = npc;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			_npc.onDecay();
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

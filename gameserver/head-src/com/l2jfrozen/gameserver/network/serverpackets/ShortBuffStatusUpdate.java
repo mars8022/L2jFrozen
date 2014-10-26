@@ -21,11 +21,11 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ShortBuffStatusUpdate extends L2GameServerPacket
 {
 	private static final String _S__F4_SHORTBUFFSTATUSUPDATE = "[S] F4 ShortBuffStatusUpdate";
-	private int _skillId;
-	private int _skillLvl;
-	private int _duration;
+	private final int _skillId;
+	private final int _skillLvl;
+	private final int _duration;
 	
-	public ShortBuffStatusUpdate(int skillId, int skillLvl, int duration)
+	public ShortBuffStatusUpdate(final int skillId, final int skillLvl, final int duration)
 	{
 		_skillId = skillId;
 		_skillLvl = skillLvl;

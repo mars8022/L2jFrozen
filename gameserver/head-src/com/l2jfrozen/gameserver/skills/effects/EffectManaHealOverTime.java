@@ -24,32 +24,32 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 class EffectManaHealOverTime extends L2Effect
 {
-	public EffectManaHealOverTime(Env env, EffectTemplate template)
+	public EffectManaHealOverTime(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.MANA_HEAL_OVER_TIME;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
-		if(getEffected().isDead())
+		if (getEffected().isDead())
 			return false;
-
+		
 		double mp = getEffected().getCurrentMp();
-		double maxmp = getEffected().getMaxMp();
+		final double maxmp = getEffected().getMaxMp();
 		mp += calc();
-		if(mp > maxmp)
+		if (mp > maxmp)
 		{
 			mp = maxmp;
 		}
 		getEffected().setCurrentMp(mp);
-		StatusUpdate sump = new StatusUpdate(getEffected().getObjectId());
+		final StatusUpdate sump = new StatusUpdate(getEffected().getObjectId());
 		sump.addAttribute(StatusUpdate.CUR_MP, (int) mp);
 		getEffected().sendPacket(sump);
 		return true;

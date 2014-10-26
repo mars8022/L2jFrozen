@@ -25,34 +25,34 @@ import java.util.Iterator;
 public class LookupTable<T> implements Iterable<T>
 {
 	private static final Object[] EMPTY_ARRAY = new Object[0];
-
+	
 	private Object[] _array = EMPTY_ARRAY;
-
+	
 	private int _offset = 0;
-
+	
 	private int _size = 0;
-
+	
 	public int size()
 	{
 		return _size;
 	}
-
+	
 	public boolean isEmpty()
 	{
 		return _size == 0;
 	}
-
-	public void clear(boolean force)
+	
+	public void clear(final boolean force)
 	{
-		if(force)
+		if (force)
 			_array = EMPTY_ARRAY;
 		else
 			Arrays.fill(_array, null);
-
+		
 		_offset = 0;
 		_size = 0;
 	}
-
+	
 	/**
 	 * @param key
 	 * @return the mapped value if exists, or null if not
@@ -60,13 +60,13 @@ public class LookupTable<T> implements Iterable<T>
 	public T get(final int key)
 	{
 		final int index = key + _offset;
-
-		if(index < 0 || _array.length <= index)
+		
+		if (index < 0 || _array.length <= index)
 			return null;
-
-		return (T)_array[index];
+		
+		return (T) _array[index];
 	}
-
+	
 	/**
 	 * @param key
 	 * @param newValue
@@ -74,56 +74,58 @@ public class LookupTable<T> implements Iterable<T>
 	public void set(final int key, final T newValue)
 	{
 		final int index = key + _offset;
-
-		if(0 <= index && index < _array.length)
+		
+		if (0 <= index && index < _array.length)
 		{
-			final T oldValue = (T)_array[index];
-
+			final T oldValue = (T) _array[index];
+			
 			_array[index] = newValue;
-
-			if(oldValue != null && oldValue != newValue)
+			
+			if (oldValue != null && oldValue != newValue)
 				replacedValue(key, oldValue, newValue);
-
-			if(oldValue == null)
+			
+			if (oldValue == null)
 			{
-				if(newValue != null)
+				if (newValue != null)
 					_size++;
 			}
 			else
 			{
-				if(newValue == null)
+				if (newValue == null)
 					_size--;
 			}
-
+			
 			return;
 		}
-
+		
 		_size++;
-
-		if(_array.length == 0)
+		
+		if (_array.length == 0)
 		{
-			_array = new Object[] { newValue };
+			_array = new Object[]
+			{
+				newValue
+			};
 			_offset = -1 * key;
 			return;
 		}
-
+		
 		final int minimumKey = Math.min(0 - _offset, key);
 		final int maximumKey = Math.max((_array.length - 1) - _offset, key);
-
+		
 		final Object[] newArray = new Object[maximumKey - minimumKey + 1];
 		final int newOffset = -1 * minimumKey;
-
+		
 		System.arraycopy(_array, 0, newArray, newOffset - _offset, _array.length);
-
+		
 		_array = newArray;
 		_offset = newOffset;
-
+		
 		_array[key + _offset] = newValue;
 	}
-
+	
 	/**
 	 * Called when an existing mapping gets overwritten by a different one.
-	 * 
 	 * @param key
 	 * @param oldValue
 	 * @param newValue
@@ -131,7 +133,7 @@ public class LookupTable<T> implements Iterable<T>
 	protected void replacedValue(final int key, final T oldValue, final T newValue)
 	{
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Iterable#iterator()

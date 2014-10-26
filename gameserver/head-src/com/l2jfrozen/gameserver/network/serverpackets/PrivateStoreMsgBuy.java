@@ -27,10 +27,10 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class PrivateStoreMsgBuy extends L2GameServerPacket
 {
 	private static final String _S__D2_PRIVATESTOREMSGBUY = "[S] b9 PrivateStoreMsgBuy";
-	private L2PcInstance _activeChar;
+	private final L2PcInstance _activeChar;
 	private String _storeMsg;
 	
-	public PrivateStoreMsgBuy(L2PcInstance player)
+	public PrivateStoreMsgBuy(final L2PcInstance player)
 	{
 		_activeChar = player;
 		if (_activeChar.getBuyList() != null)

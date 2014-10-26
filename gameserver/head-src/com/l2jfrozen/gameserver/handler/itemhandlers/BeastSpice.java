@@ -33,39 +33,40 @@ public class BeastSpice implements IItemHandler
 	// Golden Spice, Crystal Spice
 	private static final int[] ITEM_IDS =
 	{
-			6643, 6644
+		6643,
+		6644
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
-
-		if(!(activeChar.getTarget() instanceof L2FeedableBeastInstance))
+		
+		if (!(activeChar.getTarget() instanceof L2FeedableBeastInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 			return;
 		}
-
-		L2Object[] targets = new L2Object[1];
+		
+		final L2Object[] targets = new L2Object[1];
 		targets[0] = activeChar.getTarget();
-
-		int itemId = item.getItemId();
-		if(itemId == 6643) // Golden Spice
+		
+		final int itemId = item.getItemId();
+		if (itemId == 6643) // Golden Spice
 		{
 			activeChar.useMagic(SkillTable.getInstance().getInfo(2188, 1), false, false);
 		}
-		else if(itemId == 6644) // Crystal Spice
+		else if (itemId == 6644) // Crystal Spice
 		{
 			activeChar.useMagic(SkillTable.getInstance().getInfo(2189, 1), false, false);
 		}
-
+		
 		activeChar = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

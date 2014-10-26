@@ -39,7 +39,7 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class Post
 {
 	private static Logger LOGGER = Logger.getLogger(Post.class);
-
+	
 	public class CPost
 	{
 		public int postId;
@@ -50,20 +50,20 @@ public class Post
 		public int postForumId;
 		public String postTxt;
 	}
-
-	private List<CPost> _post;
-
-	//public enum ConstructorType {REPLY, CREATE };
+	
+	private final List<CPost> _post;
+	
+	// public enum ConstructorType {REPLY, CREATE };
 	
 	/**
-	 * @param _PostOwner 
-	 * @param _PostOwnerID 
-	 * @param date 
-	 * @param tid 
-	 * @param _PostForumID 
-	 * @param txt 
+	 * @param _PostOwner
+	 * @param _PostOwnerID
+	 * @param date
+	 * @param tid
+	 * @param _PostForumID
+	 * @param txt
 	 */
-	public Post(String _PostOwner, int _PostOwnerID, long date, int tid, int _PostForumID, String txt)
+	public Post(final String _PostOwner, final int _PostOwnerID, final long date, final int tid, final int _PostForumID, final String txt)
 	{
 		_post = new FastList<>();
 		CPost cp = new CPost();
@@ -77,10 +77,10 @@ public class Post
 		_post.add(cp);
 		insertindb(cp);
 		cp = null;
-
+		
 	}
-
-	public void insertindb(CPost cp)
+	
+	public void insertindb(final CPost cp)
 	{
 		Connection con = null;
 		try
@@ -98,11 +98,10 @@ public class Post
 			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			
 			
 			LOGGER.warn("error while saving new Post to db " + e);
 		}
@@ -110,29 +109,29 @@ public class Post
 		{
 			CloseUtil.close(con);
 		}
-
+		
 	}
-
-	public Post(Topic t)
+	
+	public Post(final Topic t)
 	{
 		_post = new FastList<>();
 		load(t);
 	}
-
-	public CPost getCPost(int id)
+	
+	public CPost getCPost(final int id)
 	{
 		int i = 0;
-
-		for(CPost cp : _post)
+		
+		for (final CPost cp : _post)
 		{
-			if(i++ == id)
+			if (i++ == id)
 				return cp;
 		}
-
+		
 		return null;
 	}
-
-	public void deleteme(Topic t)
+	
+	public void deleteme(final Topic t)
 	{
 		PostBBSManager.getInstance().delPostByTopic(t);
 		Connection con = null;
@@ -146,7 +145,7 @@ public class Post
 			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -155,11 +154,11 @@ public class Post
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * @param t
 	 */
-	private void load(Topic t)
+	private void load(final Topic t)
 	{
 		Connection con = null;
 		try
@@ -169,7 +168,7 @@ public class Post
 			statement.setInt(1, t.getForumID());
 			statement.setInt(2, t.getID());
 			ResultSet result = statement.executeQuery();
-			while(result.next())
+			while (result.next())
 			{
 				CPost cp = new CPost();
 				cp.postId = Integer.parseInt(result.getString("post_id"));
@@ -184,11 +183,11 @@ public class Post
 			}
 			result.close();
 			DatabaseUtils.close(statement);
-
+			
 			result = null;
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.warn("data error on Post " + t.getForumID() + "/" + t.getID() + " : " + e);
 			e.printStackTrace();
@@ -198,11 +197,11 @@ public class Post
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * @param i
 	 */
-	public void updatetxt(int i)
+	public void updatetxt(final int i)
 	{
 		Connection con = null;
 		try
@@ -216,13 +215,13 @@ public class Post
 			statement.setInt(4, cp.postForumId);
 			statement.execute();
 			DatabaseUtils.close(statement);
-
+			
 			cp = null;
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.warn("error while saving new Post to db " + e);

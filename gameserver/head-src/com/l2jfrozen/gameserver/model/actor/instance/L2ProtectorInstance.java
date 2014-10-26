@@ -38,9 +38,9 @@ public class L2ProtectorInstance extends L2NpcInstance
 	
 	private class ProtectorAI implements Runnable
 	{
-		private L2ProtectorInstance _caster;
+		private final L2ProtectorInstance _caster;
 		
-		protected ProtectorAI(L2ProtectorInstance caster)
+		protected ProtectorAI(final L2ProtectorInstance caster)
 		{
 			_caster = caster;
 		}
@@ -52,14 +52,14 @@ public class L2ProtectorInstance extends L2NpcInstance
 			/**
 			 * For each known player in range, cast sleep if pvpFlag != 0 or Karma >0 Skill use is just for buff animation
 			 */
-			for (L2PcInstance player : getKnownList().getKnownPlayers().values())
+			for (final L2PcInstance player : getKnownList().getKnownPlayers().values())
 			{
 				if (player.getKarma() > 0 && Config.PROTECTOR_PLAYER_PK || player.getPvpFlag() != 0 && Config.PROTECTOR_PLAYER_PVP)
 				{
 					LOGGER.warn("player: " + player);
 					handleCast(player, Config.PROTECTOR_SKILLID, Config.PROTECTOR_SKILLLEVEL);
 				}
-				L2Summon activePet = player.getPet();
+				final L2Summon activePet = player.getPet();
 				
 				if (activePet == null)
 					continue;
@@ -73,7 +73,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 		}
 		
 		// Cast for Player
-		private boolean handleCast(L2PcInstance player, int skillId, int skillLevel)
+		private boolean handleCast(final L2PcInstance player, final int skillId, final int skillLevel)
 		{
 			if (player.isGM() || player.isDead() || !player.isVisible() || !isInsideRadius(player, Config.PROTECTOR_RADIUS_ACTION, false, false))
 				return false;
@@ -82,7 +82,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 			
 			if (player.getFirstEffect(skill) == null)
 			{
-				int objId = _caster.getObjectId();
+				final int objId = _caster.getObjectId();
 				skill.getEffects(_caster, player, false, false, false);
 				broadcastPacket(new MagicSkillUser(_caster, player, skillId, skillLevel, Config.PROTECTOR_SKILLTIME, 0));
 				broadcastPacket(new CreatureSay(objId, 0, String.valueOf(getName()), Config.PROTECTOR_MESSAGE));
@@ -95,7 +95,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 		}
 		
 		// Cast for pet
-		private boolean handleCastonPet(L2Summon player, int skillId, int skillLevel)
+		private boolean handleCastonPet(final L2Summon player, final int skillId, final int skillLevel)
 		{
 			if (player.isDead() || !player.isVisible() || !isInsideRadius(player, Config.PROTECTOR_RADIUS_ACTION, false, false))
 				return false;
@@ -103,7 +103,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 			L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 			if (player.getFirstEffect(skill) == null)
 			{
-				int objId = _caster.getObjectId();
+				final int objId = _caster.getObjectId();
 				skill.getEffects(_caster, player, false, false, false);
 				broadcastPacket(new MagicSkillUser(_caster, player, skillId, skillLevel, Config.PROTECTOR_SKILLTIME, 0));
 				broadcastPacket(new CreatureSay(objId, 0, String.valueOf(getName()), Config.PROTECTOR_MESSAGE));
@@ -116,7 +116,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 		}
 	}
 	
-	public L2ProtectorInstance(int objectId, L2NpcTemplate template)
+	public L2ProtectorInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 		
@@ -141,7 +141,7 @@ public class L2ProtectorInstance extends L2NpcInstance
 	}
 	
 	@Override
-	public boolean isAutoAttackable(L2Character attacker)
+	public boolean isAutoAttackable(final L2Character attacker)
 	{
 		return false;
 	}

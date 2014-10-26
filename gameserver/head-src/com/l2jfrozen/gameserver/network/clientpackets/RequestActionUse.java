@@ -57,8 +57,19 @@ public final class RequestActionUse extends L2GameClientPacket
 	private boolean _ctrlPressed;
 	private boolean _shiftPressed;
 	
-	//List of Pet Actions
-	private static List<Integer> _petActions = Arrays.asList(new Integer[]{15,16,17,21,22,23,52,53,54});
+	// List of Pet Actions
+	private static List<Integer> _petActions = Arrays.asList(new Integer[]
+	{
+		15,
+		16,
+		17,
+		21,
+		22,
+		23,
+		52,
+		53,
+		54
+	});
 	
 	@Override
 	protected void readImpl()
@@ -71,67 +82,70 @@ public final class RequestActionUse extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
 		
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			LOGGER.debug(activeChar.getName() + " request Action use: id " + _actionId + " 2:" + _ctrlPressed + " 3:" + _shiftPressed);
 		}
 		
 		// dont do anything if player is dead
-		if(_actionId != 0 && activeChar.isAlikeDead())
+		if (_actionId != 0 && activeChar.isAlikeDead())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
 		// don't do anything if player is confused
-		if(activeChar.isOutOfControl())
+		if (activeChar.isOutOfControl())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
-		// don't do anything if player is casting and the action is not a Pet one (skills too) 
-		if((_petActions.contains(_actionId) || _actionId >= 1000)){
-			if(Config.DEBUG)
+		// don't do anything if player is casting and the action is not a Pet one (skills too)
+		if ((_petActions.contains(_actionId) || _actionId >= 1000))
+		{
+			if (Config.DEBUG)
 			{
 				LOGGER.debug(activeChar.getName() + " request Pet Action use: id " + _actionId + " ctrl:" + _ctrlPressed + " shift:" + _shiftPressed);
 			}
-		}else if(activeChar.isCastingNow()){
+		}
+		else if (activeChar.isCastingNow())
+		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
-		L2Summon pet = activeChar.getPet();
-		L2Object target = activeChar.getTarget();
+		final L2Summon pet = activeChar.getPet();
+		final L2Object target = activeChar.getTarget();
 		
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			LOGGER.info("Requested Action ID: " + String.valueOf(_actionId));
 		}
 		
-		switch(_actionId)
+		switch (_actionId)
 		{
 			case 0:
-				if(activeChar.getMountType() != 0)
+				if (activeChar.getMountType() != 0)
 				{
 					break;
 				}
 				
-				if(target != null && !activeChar.isSitting() && target instanceof L2StaticObjectInstance && ((L2StaticObjectInstance) target).getType() == 1 && CastleManager.getInstance().getCastle(target) != null && activeChar.isInsideRadius(target, L2StaticObjectInstance.INTERACTION_DISTANCE, false, false))
+				if (target != null && !activeChar.isSitting() && target instanceof L2StaticObjectInstance && ((L2StaticObjectInstance) target).getType() == 1 && CastleManager.getInstance().getCastle(target) != null && activeChar.isInsideRadius(target, L2StaticObjectInstance.INTERACTION_DISTANCE, false, false))
 				{
-					ChairSit cs = new ChairSit(activeChar, ((L2StaticObjectInstance) target).getStaticObjectId());
+					final ChairSit cs = new ChairSit(activeChar, ((L2StaticObjectInstance) target).getStaticObjectId());
 					activeChar.sendPacket(cs);
 					activeChar.sitDown();
 					activeChar.broadcastPacket(cs);
 					break;
 				}
 				
-				if(activeChar.isSitting() || activeChar.isFakeDeath())
+				if (activeChar.isSitting() || activeChar.isFakeDeath())
 				{
 					activeChar.standUp();
 				}
@@ -140,14 +154,14 @@ public final class RequestActionUse extends L2GameClientPacket
 					activeChar.sitDown();
 				}
 				
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
 					LOGGER.debug("new wait type: " + (activeChar.isSitting() ? "SITTING" : "STANDING"));
 				}
 				
 				break;
 			case 1:
-				if(activeChar.isRunning())
+				if (activeChar.isRunning())
 				{
 					activeChar.setWalking();
 				}
@@ -156,14 +170,14 @@ public final class RequestActionUse extends L2GameClientPacket
 					activeChar.setRunning();
 				}
 				
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
 					LOGGER.debug("new move type: " + (activeChar.isRunning() ? "RUNNING" : "WALKIN"));
 				}
 				break;
 			case 15:
 			case 21: // pet follow/stop
-				if(pet != null && !pet.isMovementDisabled() && !activeChar.isBetrayed())
+				if (pet != null && !pet.isMovementDisabled() && !activeChar.isBetrayed())
 				{
 					pet.setFollowStatus(!pet.getFollowStatus());
 				}
@@ -171,44 +185,43 @@ public final class RequestActionUse extends L2GameClientPacket
 				break;
 			case 16:
 			case 22: // pet attack
-				if(target != null && pet != null && pet != target && !activeChar.isBetrayed())
+				if (target != null && pet != null && pet != target && !activeChar.isBetrayed())
 				{
-					if (pet.isAttackingDisabled()) {
+					if (pet.isAttackingDisabled())
+					{
 						if (pet.getAttackEndTime() > GameTimeController.getGameTicks())
 							pet.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
 						else
 							return;
 					}
 					
-					if(activeChar.isInOlympiadMode() && !activeChar.isOlympiadStart())
+					if (activeChar.isInOlympiadMode() && !activeChar.isOlympiadStart())
 					{
 						// if L2PcInstance is in Olympia and the match isn't already start, send a Server->Client packet ActionFailed
 						activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}
 					
-					if(target instanceof L2PcInstance 
-						&& !activeChar.getAccessLevel().allowPeaceAttack() 
-						&& L2Character.isInsidePeaceZone(pet, target))
+					if (target instanceof L2PcInstance && !activeChar.getAccessLevel().allowPeaceAttack() && L2Character.isInsidePeaceZone(pet, target))
 					{
-						if(!activeChar.isInFunEvent() || !((L2PcInstance)target).isInFunEvent())
+						if (!activeChar.isInFunEvent() || !((L2PcInstance) target).isInFunEvent())
 						{
 							activeChar.sendPacket(SystemMessageId.TARGET_IN_PEACEZONE);
 							return;
 						}
 					}
 					
-					if(target.isAutoAttackable(activeChar) || _ctrlPressed)
+					if (target.isAutoAttackable(activeChar) || _ctrlPressed)
 					{
-						if(target instanceof L2DoorInstance)
+						if (target instanceof L2DoorInstance)
 						{
-							if(((L2DoorInstance) target).isAttackable(activeChar) && pet.getNpcId() != L2SiegeSummonInstance.SWOOP_CANNON_ID)
+							if (((L2DoorInstance) target).isAttackable(activeChar) && pet.getNpcId() != L2SiegeSummonInstance.SWOOP_CANNON_ID)
 							{
 								pet.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
 							}
 						}
 						// siege golem AI doesn't support attacking other than doors at the moment
-						else if(pet.getNpcId() != L2SiegeSummonInstance.SIEGE_GOLEM_ID)
+						else if (pet.getNpcId() != L2SiegeSummonInstance.SIEGE_GOLEM_ID)
 						{
 							pet.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
 						}
@@ -217,21 +230,21 @@ public final class RequestActionUse extends L2GameClientPacket
 				break;
 			case 17:
 			case 23: // pet - cancel action
-				if(pet != null && !pet.isMovementDisabled() && !activeChar.isBetrayed())
+				if (pet != null && !pet.isMovementDisabled() && !activeChar.isBetrayed())
 				{
 					pet.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, null);
 				}
 				
 				break;
 			case 19: // pet unsummon
-				if(pet != null && !activeChar.isBetrayed())
+				if (pet != null && !activeChar.isBetrayed())
 				{
-					//returns pet to control item
-					if(pet.isDead())
+					// returns pet to control item
+					if (pet.isDead())
 					{
 						activeChar.sendPacket(new SystemMessage(SystemMessageId.DEAD_PET_CANNOT_BE_RETURNED));
 					}
-					else if(pet.isAttackingNow() || pet.isRooted())
+					else if (pet.isAttackingNow() || pet.isRooted())
 					{
 						activeChar.sendMessage("You cannot despawn a summon during combat."); // Message like L2OFF
 					}
@@ -242,12 +255,12 @@ public final class RequestActionUse extends L2GameClientPacket
 					else
 					{
 						// if it is a pet and not a summon
-						if(pet instanceof L2PetInstance)
+						if (pet instanceof L2PetInstance)
 						{
-							L2PetInstance petInst = (L2PetInstance) pet;
+							final L2PetInstance petInst = (L2PetInstance) pet;
 							
 							// if the pet is more than 40% fed
-							if(petInst.getCurrentFed() > petInst.getMaxFed() * 0.40)
+							if (petInst.getCurrentFed() > petInst.getMaxFed() * 0.40)
 							{
 								pet.unSummon(activeChar);
 							}
@@ -261,105 +274,104 @@ public final class RequestActionUse extends L2GameClientPacket
 				break;
 			case 38: // pet mount
 				// mount
-				if(pet != null && pet.isMountable() && !activeChar.isMounted() && !activeChar.isBetrayed())
+				if (pet != null && pet.isMountable() && !activeChar.isMounted() && !activeChar.isBetrayed())
 				{
-					if(activeChar.isDead())
+					if (activeChar.isDead())
 					{
-						//A strider cannot be ridden when dead
-						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_DEAD);
+						// A strider cannot be ridden when dead
+						final SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_DEAD);
 						activeChar.sendPacket(msg);
 					}
-					else if(pet.isDead())
+					else if (pet.isDead())
 					{
-						//A dead strider cannot be ridden.
-						SystemMessage msg = new SystemMessage(SystemMessageId.DEAD_STRIDER_CANT_BE_RIDDEN);
+						// A dead strider cannot be ridden.
+						final SystemMessage msg = new SystemMessage(SystemMessageId.DEAD_STRIDER_CANT_BE_RIDDEN);
 						activeChar.sendPacket(msg);
 					}
-					else if(pet.isInCombat() || pet.isRooted())
+					else if (pet.isInCombat() || pet.isRooted())
 					{
-						//A strider in battle cannot be ridden
-						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_IN_BATLLE_CANT_BE_RIDDEN);
+						// A strider in battle cannot be ridden
+						final SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_IN_BATLLE_CANT_BE_RIDDEN);
 						activeChar.sendPacket(msg);
 					}
-					else if(activeChar.isInCombat())
+					else if (activeChar.isInCombat())
 					{
-						//A strider cannot be ridden while in battle
-						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
+						// A strider cannot be ridden while in battle
+						final SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
 						activeChar.sendPacket(msg);
 					}
-					else if(activeChar.isInFunEvent())
+					else if (activeChar.isInFunEvent())
 					{
-						//A strider cannot be ridden while in event
-						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
+						// A strider cannot be ridden while in event
+						final SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
 						activeChar.sendPacket(msg);
 					}
-					else if(activeChar.isSitting()) // Like L2OFF you can mount also during movement
+					else if (activeChar.isSitting()) // Like L2OFF you can mount also during movement
 					{
-						//A strider can be ridden only when standing
-						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CAN_BE_RIDDEN_ONLY_WHILE_STANDING);
+						// A strider can be ridden only when standing
+						final SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CAN_BE_RIDDEN_ONLY_WHILE_STANDING);
 						activeChar.sendPacket(msg);
 					}
-					else if(activeChar.isFishing())
+					else if (activeChar.isFishing())
 					{
-						//You can't mount, dismount, break and drop items while fishing
-						SystemMessage msg = new SystemMessage(SystemMessageId.CANNOT_DO_WHILE_FISHING_2);
+						// You can't mount, dismount, break and drop items while fishing
+						final SystemMessage msg = new SystemMessage(SystemMessageId.CANNOT_DO_WHILE_FISHING_2);
 						activeChar.sendPacket(msg);
 					}
-					else if(activeChar.isCursedWeaponEquiped())
+					else if (activeChar.isCursedWeaponEquiped())
 					{
-						//You can't mount, dismount, break and drop items while weilding a cursed weapon
-						SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
+						// You can't mount, dismount, break and drop items while weilding a cursed weapon
+						final SystemMessage msg = new SystemMessage(SystemMessageId.STRIDER_CANT_BE_RIDDEN_WHILE_IN_BATTLE);
 						activeChar.sendPacket(msg);
 					}
-					else if(!pet.isDead() && !activeChar.isMounted())
+					else if (!pet.isDead() && !activeChar.isMounted())
 					{
-						if(!activeChar.disarmWeapons())
+						if (!activeChar.disarmWeapons())
 							return;
 						
 						if (!activeChar.getFloodProtectors().getItemPetSummon().tryPerformAction("mount"))
 							return;
 						
-						
-						Ride mount = new Ride(activeChar.getObjectId(), Ride.ACTION_MOUNT, pet.getTemplate().npcId);
+						final Ride mount = new Ride(activeChar.getObjectId(), Ride.ACTION_MOUNT, pet.getTemplate().npcId);
 						activeChar.broadcastPacket(mount);
 						activeChar.setMountType(mount.getMountType());
 						activeChar.setMountObjectID(pet.getControlItemId());
 						pet.unSummon(activeChar);
 						
-						if(activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND) != null || activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND) != null)
+						if (activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND) != null || activeChar.getInventory().getPaperdollItem(Inventory.PAPERDOLL_LRHAND) != null)
 						{
-							if(activeChar.isFlying())
+							if (activeChar.isFlying())
 							{
 								// Remove skill Wyvern Breath
 								activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 								activeChar.sendSkillList();
 							}
 							
-							if(activeChar.setMountType(0))
+							if (activeChar.setMountType(0))
 							{
-								Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
+								final Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 								activeChar.broadcastPacket(dismount);
 								activeChar.setMountObjectID(0);
 							}
 						}
 					}
 				}
-				else if(activeChar.isRentedPet())
+				else if (activeChar.isRentedPet())
 				{
 					activeChar.stopRentPet();
 				}
-				else if(activeChar.isMounted())
+				else if (activeChar.isMounted())
 				{
-					if(activeChar.isFlying())
-					{		
+					if (activeChar.isFlying())
+					{
 						// Remove skill Wyvern Breath
 						activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 						activeChar.sendSkillList();
 					}
 					
-					if(activeChar.setMountType(0))
+					if (activeChar.setMountType(0))
 					{
-						Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
+						final Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 						activeChar.broadcastPacket(dismount);
 						activeChar.setMountObjectID(0);
 						
@@ -398,7 +410,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				
 				// You can't open Manufacture when the task is launched
-				if(activeChar.isSittingTaskLaunched())
+				if (activeChar.isSittingTaskLaunched())
 				{
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -470,7 +482,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				
 				// You can't open Manufacture when the task is launched
-				if(activeChar.isSittingTaskLaunched())
+				if (activeChar.isSittingTaskLaunched())
 				{
 					sendPacket(ActionFailed.STATIC_PACKET);
 					return;
@@ -509,13 +521,13 @@ public final class RequestActionUse extends L2GameClientPacket
 				}
 				break;
 			case 53: // move to target
-				if(target != null && pet != null && pet != target && !pet.isMovementDisabled())
+				if (target != null && pet != null && pet != target && !pet.isMovementDisabled())
 				{
 					pet.getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(target.getX(), target.getY(), target.getZ(), 0));
 				}
 				break;
 			case 54: // move to target hatch/strider
-				if(target != null && pet != null && pet != target && !pet.isMovementDisabled())
+				if (target != null && pet != null && pet != target && !pet.isMovementDisabled())
 				{
 					pet.getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(target.getX(), target.getY(), target.getZ(), 0));
 				}
@@ -524,13 +536,13 @@ public final class RequestActionUse extends L2GameClientPacket
 				LOGGER.info("98 Accessed");
 				break;
 			case 97: // Request Party Command Channel Info
-				//if (!PartyCommandManager.getInstance().isPlayerInChannel(activeChar))
-				//return;
+				// if (!PartyCommandManager.getInstance().isPlayerInChannel(activeChar))
+				// return;
 				LOGGER.info("97 Accessed");
-				//PartyCommandManager.getInstance().getActiveChannelInfo(activeChar);
+				// PartyCommandManager.getInstance().getActiveChannelInfo(activeChar);
 				break;
 			case 1000: // Siege Golem - Siege Hammer
-				if(target instanceof L2DoorInstance)
+				if (target instanceof L2DoorInstance)
 				{
 					useSkill(4079);
 				}
@@ -538,16 +550,16 @@ public final class RequestActionUse extends L2GameClientPacket
 			case 1001:
 				break;
 			case 1003: // Wind Hatchling/Strider - Wild Stun
-				useSkill(4710); //TODO use correct skill lvl based on pet lvl
+				useSkill(4710); // TODO use correct skill lvl based on pet lvl
 				break;
 			case 1004: // Wind Hatchling/Strider - Wild Defense
-				useSkill(4711, activeChar); //TODO use correct skill lvl based on pet lvl
+				useSkill(4711, activeChar); // TODO use correct skill lvl based on pet lvl
 				break;
 			case 1005: // Star Hatchling/Strider - Bright Burst
-				useSkill(4712); //TODO use correct skill lvl based on pet lvl
+				useSkill(4712); // TODO use correct skill lvl based on pet lvl
 				break;
 			case 1006: // Star Hatchling/Strider - Bright Heal
-				useSkill(4713, activeChar); //TODO use correct skill lvl based on pet lvl
+				useSkill(4713, activeChar); // TODO use correct skill lvl based on pet lvl
 				break;
 			case 1007: // Cat Queen - Blessing of Queen
 				useSkill(4699, activeChar);
@@ -607,13 +619,13 @@ public final class RequestActionUse extends L2GameClientPacket
 				useSkill(5140);
 				break;
 			case 1039: // Swoop Cannon - Cannon Fodder
-				if(!(target instanceof L2DoorInstance))
+				if (!(target instanceof L2DoorInstance))
 				{
 					useSkill(5110);
 				}
 				break;
 			case 1040: // Swoop Cannon - Big Bang
-				if(!(target instanceof L2DoorInstance))
+				if (!(target instanceof L2DoorInstance))
 				{
 					useSkill(5111);
 				}
@@ -626,13 +638,13 @@ public final class RequestActionUse extends L2GameClientPacket
 	/*
 	 * Cast a skill for active pet/servitor. Target is specified as a parameter but can be overwrited or ignored depending on skill type.
 	 */
-	private void useSkill(int skillId, L2Object target)
+	private void useSkill(final int skillId, final L2Object target)
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
-		L2Summon activeSummon = activeChar.getPet();
+		final L2Summon activeSummon = activeChar.getPet();
 		
 		if (activeChar.getPrivateStoreType() != 0)
 		{
@@ -642,7 +654,7 @@ public final class RequestActionUse extends L2GameClientPacket
 		
 		if (activeSummon != null && !activeChar.isBetrayed())
 		{
-			Map<Integer, L2Skill> _skills = activeSummon.getTemplate().getSkills();
+			final Map<Integer, L2Skill> _skills = activeSummon.getTemplate().getSkills();
 			
 			if (_skills.size() == 0)
 			{
@@ -650,7 +662,7 @@ public final class RequestActionUse extends L2GameClientPacket
 				return;
 			}
 			
-			L2Skill skill = _skills.get(skillId);
+			final L2Skill skill = _skills.get(skillId);
 			
 			if (skill == null)
 			{
@@ -678,14 +690,12 @@ public final class RequestActionUse extends L2GameClientPacket
 	}
 	
 	/*
-	 * Cast a skill for active pet/servitor.
-	 * Target is retrieved from owner' target,
-	 * then validated by overloaded method useSkill(int, L2Character).
+	 * Cast a skill for active pet/servitor. Target is retrieved from owner' target, then validated by overloaded method useSkill(int, L2Character).
 	 */
-	private void useSkill(int skillId)
+	private void useSkill(final int skillId)
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
 		
 		useSkill(skillId, activeChar.getTarget());

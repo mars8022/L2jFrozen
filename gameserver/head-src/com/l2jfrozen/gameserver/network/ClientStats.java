@@ -69,10 +69,10 @@ public class ClientStats
 	
 	/**
 	 * Later during flood returns true (and send ActionFailed) once per second.
-	 * @param queueSize 
+	 * @param queueSize
 	 * @return true if flood detected first and ActionFailed packet need to be sent.
 	 */
-	protected final boolean countPacket(int queueSize)
+	protected final boolean countPacket(final int queueSize)
 	{
 		processedPackets++;
 		totalQueueSize += queueSize;
@@ -86,7 +86,7 @@ public class ClientStats
 	
 	/**
 	 * Counts unknown packets and return true if threshold is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countUnknownPacket()
 	{
@@ -107,9 +107,9 @@ public class ClientStats
 	/**
 	 * Counts burst length and return true if execution of the queue need to be aborted.
 	 * @param count - current number of processed packets in burst
-	 * @return 
+	 * @return
 	 */
-	protected final boolean countBurst(int count)
+	protected final boolean countBurst(final int count)
 	{
 		if (count > maxBurstSize)
 			maxBurstSize = count;
@@ -123,7 +123,7 @@ public class ClientStats
 	
 	/**
 	 * Counts queue overflows and return true if threshold is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countQueueOverflow()
 	{
@@ -144,7 +144,7 @@ public class ClientStats
 	
 	/**
 	 * Counts underflow exceptions and return true if threshold is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countUnderflowException()
 	{
@@ -164,7 +164,7 @@ public class ClientStats
 	
 	/**
 	 * Returns true if maximum number of floods per minute is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countFloods()
 	{
@@ -177,9 +177,8 @@ public class ClientStats
 	}
 	
 	/**
-	 * Returns true if flood detected first and ActionFailed packet need to be sent.
-	 * Later during flood returns true (and send ActionFailed) once per second.
-	 * @return 
+	 * Returns true if flood detected first and ActionFailed packet need to be sent. Later during flood returns true (and send ActionFailed) once per second.
+	 * @return
 	 */
 	private final synchronized boolean countPacket()
 	{
@@ -190,9 +189,7 @@ public class ClientStats
 			_packetCountStartTick = tick;
 			
 			// clear flag if no more flooding during last seconds
-			if (_floodDetected
-					&& !longFloodDetected()
-					&& _packetsInSecond[_head] < NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND / 2)
+			if (_floodDetected && !longFloodDetected() && _packetsInSecond[_head] < NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND / 2)
 				_floodDetected = false;
 			
 			// wrap head of the buffer around the tail

@@ -25,21 +25,21 @@ public final class RequestRecipeItemMakeInfo extends L2GameClientPacket
 {
 	private int _id;
 	private L2PcInstance _activeChar;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_id = readD();
 		_activeChar = getClient().getActiveChar();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		RecipeItemMakeInfo response = new RecipeItemMakeInfo(_id, _activeChar);
+		final RecipeItemMakeInfo response = new RecipeItemMakeInfo(_id, _activeChar);
 		sendPacket(response);
 	}
-
+	
 	@Override
 	public String getType()
 	{

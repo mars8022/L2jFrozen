@@ -31,51 +31,55 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class CombatPointHeal implements ISkillHandler
 {
-	private static final SkillType[] SKILL_IDS = { SkillType.COMBATPOINTHEAL, SkillType.COMBATPOINTPERCENTHEAL };
+	private static final SkillType[] SKILL_IDS =
+	{
+		SkillType.COMBATPOINTHEAL,
+		SkillType.COMBATPOINTPERCENTHEAL
+	};
 	
 	@Override
-	public void useSkill(L2Character actChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character actChar, final L2Skill skill, final L2Object[] targets)
 	{
-		//check for other effects
+		// check for other effects
 		try
 		{
 			ISkillHandler handler = SkillHandler.getInstance().getSkillHandler(SkillType.BUFF);
-
-			if(handler != null)
+			
+			if (handler != null)
 				handler.useSkill(actChar, skill, targets);
-
+			
 			handler = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
 		
-		for(L2Object object : targets)
+		for (final L2Object object : targets)
 		{
 			if (!(object instanceof L2Character))
 			{
 				continue;
 			}
 			
-			L2Character target = (L2Character) object;
+			final L2Character target = (L2Character) object;
 			double cp = skill.getPower();
-			if(skill.getSkillType() == SkillType.COMBATPOINTPERCENTHEAL)
+			if (skill.getSkillType() == SkillType.COMBATPOINTPERCENTHEAL)
 			{
 				cp = target.getMaxCp() * cp / 100.0;
 			}
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CP_WILL_BE_RESTORED);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.S1_CP_WILL_BE_RESTORED);
 			sm.addNumber((int) cp);
 			target.sendPacket(sm);
 			
 			target.setCurrentCp(cp + target.getCurrentCp());
-			StatusUpdate sump = new StatusUpdate(target.getObjectId());
+			final StatusUpdate sump = new StatusUpdate(target.getObjectId());
 			sump.addAttribute(StatusUpdate.CUR_CP, (int) target.getCurrentCp());
 			target.sendPacket(sump);
 		}
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

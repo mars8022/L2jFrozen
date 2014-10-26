@@ -27,14 +27,14 @@ public final class RequestQuestList extends L2GameClientPacket
 	{
 		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		QuestList ql = new QuestList();
+		final QuestList ql = new QuestList();
 		sendPacket(ql);
 	}
-
+	
 	@Override
 	public String getType()
 	{

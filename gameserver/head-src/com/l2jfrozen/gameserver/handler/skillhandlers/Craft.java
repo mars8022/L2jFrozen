@@ -30,44 +30,49 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.2.2.4 $ $Date: 2005/04/06 16:13:48 $
  */
 
 public class Craft implements ISkillHandler
 {
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
-	private static final SkillType[] SKILL_IDS = { SkillType.COMMON_CRAFT, SkillType.DWARVEN_CRAFT };
-
-	/* (non-Javadoc)
+	private static final SkillType[] SKILL_IDS =
+	{
+		SkillType.COMMON_CRAFT,
+		SkillType.DWARVEN_CRAFT
+	};
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
-		if(activeChar == null || !(activeChar instanceof L2PcInstance))
+		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance player = (L2PcInstance) activeChar;
-
+		
 		if (!player.getFloodProtectors().getManufacture().tryPerformAction("craft"))
 		{
 			player.sendMessage("You Cannot craft So Fast!");
 			return;
 		}
-
-		if(player.getPrivateStoreType() != 0)
+		
+		if (player.getPrivateStoreType() != 0)
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.CANNOT_CREATED_WHILE_ENGAGED_IN_TRADING));
 			return;
 		}
 		RecipeController.getInstance().requestBookOpen(player, (skill.getSkillType() == SkillType.DWARVEN_CRAFT) ? true : false);
-
+		
 		player = null;
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{
