@@ -49,12 +49,12 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 		
 		for (int x = 0; x < _count; x++)
 		{
-			int itemId = readD();
+			final int itemId = readD();
 			_items[x * 4 + 0] = itemId;
 			_items[(x * 4 + 3)] = readH();
 			// readH();//it's the enchant value, but the interlude client has a bug, so it dnt send back the correct enchant value
 			readH();// TODO analyse this
-			long cnt = readD();
+			final long cnt = readD();
 			
 			if (cnt > Integer.MAX_VALUE || cnt < 0)
 			{
@@ -64,7 +64,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			}
 			
 			_items[x * 4 + 1] = (int) cnt;
-			int price = readD();
+			final int price = readD();
 			_items[x * 4 + 2] = price;
 		}
 	}
@@ -72,7 +72,7 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
@@ -106,17 +106,17 @@ public final class SetPrivateStoreListBuy extends L2GameClientPacket
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		TradeList tradeList = player.getBuyList();
+		
+		final TradeList tradeList = player.getBuyList();
 		tradeList.clear();
 		
 		int cost = 0;
 		for (int i = 0; i < _count; i++)
 		{
-			int itemId = _items[i * 4 + 0];
-			int count = _items[i * 4 + 1];
-			int price = _items[i * 4 + 2];
-			int enchant = _items[i * 4 + 3];
+			final int itemId = _items[i * 4 + 0];
+			final int count = _items[i * 4 + 1];
+			final int price = _items[i * 4 + 2];
+			final int enchant = _items[i * 4 + 3];
 			
 			tradeList.addItemByItemId(itemId, count, price, enchant);
 			cost += count * price;

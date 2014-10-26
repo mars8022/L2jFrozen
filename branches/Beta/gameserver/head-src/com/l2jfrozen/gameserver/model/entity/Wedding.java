@@ -48,37 +48,37 @@ public class Wedding
 	private Calendar _affiancedDate;
 	private Calendar _weddingDate;
 	private int _type = 0;
-
+	
 	// =========================================================
 	// Constructor
-	public Wedding(int coupleId)
+	public Wedding(final int coupleId)
 	{
 		_Id = coupleId;
-
+		
 		Connection con = null;
 		try
 		{
 			PreparedStatement statement;
 			ResultSet rs;
-
+			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-
+			
 			statement = con.prepareStatement("Select * from mods_wedding where id = ?");
 			statement.setInt(1, _Id);
 			rs = statement.executeQuery();
-
-			while(rs.next())
+			
+			while (rs.next())
 			{
 				_player1Id = rs.getInt("player1Id");
 				_player2Id = rs.getInt("player2Id");
 				_maried = rs.getBoolean("married");
-
+				
 				_affiancedDate = Calendar.getInstance();
 				_affiancedDate.setTimeInMillis(rs.getLong("affianceDate"));
-
+				
 				_weddingDate = Calendar.getInstance();
 				_weddingDate.setTimeInMillis(rs.getLong("weddingDate"));
-
+				
 				_type = rs.getInt("coupleType");
 			}
 			rs.close();
@@ -86,12 +86,12 @@ public class Wedding
 			statement = null;
 			rs = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Exception: Couple.load(): " + e.getMessage(), e);
+			LOGGER.error("Exception: Couple.load(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -99,30 +99,30 @@ public class Wedding
 			con = null;
 		}
 	}
-
-	public Wedding(L2PcInstance player1, L2PcInstance player2)
+	
+	public Wedding(final L2PcInstance player1, final L2PcInstance player2)
 	{
-		int _tempPlayer1Id = player1.getObjectId();
-		int _tempPlayer2Id = player2.getObjectId();
-
+		final int _tempPlayer1Id = player1.getObjectId();
+		final int _tempPlayer2Id = player2.getObjectId();
+		
 		_player1Id = _tempPlayer1Id;
 		_player2Id = _tempPlayer2Id;
-
+		
 		_affiancedDate = Calendar.getInstance();
 		_affiancedDate.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
-
+		
 		_weddingDate = Calendar.getInstance();
 		_weddingDate.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			_Id = IdFactory.getInstance().getNextId();
-
+			
 			statement = con.prepareStatement("INSERT INTO mods_wedding (id, player1Id, player2Id, married, affianceDate, weddingDate) VALUES (?, ?, ?, ?, ?, ?)");
 			statement.setInt(1, _Id);
 			statement.setInt(2, _player1Id);
@@ -133,16 +133,16 @@ public class Wedding
 			statement.execute();
 			DatabaseUtils.close(statement);
 			statement = null;
-
+			
 			_maried = true;
-
+			
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "", e);
+			LOGGER.error("", e);
 		}
 		finally
 		{
@@ -150,8 +150,8 @@ public class Wedding
 			con = null;
 		}
 	}
-
-	public void marry(int type)
+	
+	public void marry(final int type)
 	{
 		_type = type;
 		Connection con = null;
@@ -159,27 +159,27 @@ public class Wedding
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			statement = con.prepareStatement("UPDATE mods_wedding set married = ?, weddingDate = ?, coupleType = ? where id = ?");
 			statement.setBoolean(1, true);
-
+			
 			_weddingDate = Calendar.getInstance();
-
+			
 			statement.setLong(2, _weddingDate.getTimeInMillis());
 			statement.setInt(3, _type);
 			statement.setInt(4, _Id);
 			statement.execute();
 			DatabaseUtils.close(statement);
 			statement = null;
-
+			
 			_maried = true;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "", e);
+			LOGGER.error("", e);
 		}
 		finally
 		{
@@ -187,7 +187,7 @@ public class Wedding
 			con = null;
 		}
 	}
-
+	
 	public void divorce()
 	{
 		Connection con = null;
@@ -195,19 +195,19 @@ public class Wedding
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			statement = con.prepareStatement("DELETE FROM mods_wedding WHERE id=?");
 			statement.setInt(1, _Id);
 			statement.execute();
 			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Exception: Couple.divorce(): " + e.getMessage(), e);
+			LOGGER.error("Exception: Couple.divorce(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -215,37 +215,37 @@ public class Wedding
 			con = null;
 		}
 	}
-
+	
 	public final int getId()
 	{
 		return _Id;
 	}
-
+	
 	public final int getPlayer1Id()
 	{
 		return _player1Id;
 	}
-
+	
 	public final int getPlayer2Id()
 	{
 		return _player2Id;
 	}
-
+	
 	public final boolean getMaried()
 	{
 		return _maried;
 	}
-
+	
 	public final Calendar getAffiancedDate()
 	{
 		return _affiancedDate;
 	}
-
+	
 	public final Calendar getWeddingDate()
 	{
 		return _weddingDate;
 	}
-
+	
 	public final int getType()
 	{
 		return _type;

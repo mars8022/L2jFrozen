@@ -33,20 +33,20 @@ public class Time implements IUserCommandHandler
 	{
 		77
 	};
-
-	/* (non-Javadoc)
-	 *
+	
+	/*
+	 * (non-Javadoc)
 	 */
 	@Override
-	public boolean useUserCommand(int id, L2PcInstance activeChar)
+	public boolean useUserCommand(final int id, final L2PcInstance activeChar)
 	{
-		if(COMMAND_IDS[0] != id)
+		if (COMMAND_IDS[0] != id)
 			return false;
-
-		int t = GameTimeController.getInstance().getGameTime();
-		String h = "" + t / 60 % 24;
+		
+		final int t = GameTimeController.getInstance().getGameTime();
+		final String h = "" + t / 60 % 24;
 		String m;
-		if(t % 60 < 10)
+		if (t % 60 < 10)
 		{
 			m = "0" + t % 60;
 		}
@@ -54,9 +54,9 @@ public class Time implements IUserCommandHandler
 		{
 			m = "" + t % 60;
 		}
-
+		
 		SystemMessage sm;
-		if(GameTimeController.getInstance().isNowNight())
+		if (GameTimeController.getInstance().isNowNight())
 		{
 			sm = new SystemMessage(SystemMessageId.TIME_S1_S2_IN_THE_NIGHT);
 			sm.addString(h);
@@ -69,11 +69,11 @@ public class Time implements IUserCommandHandler
 			sm.addString(m);
 		}
 		activeChar.sendPacket(sm);
-
+		
 		sm = null;
 		return true;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

@@ -22,22 +22,21 @@ import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 
 /**
  * sample format d
- * 
  * @version $Revision: 1.1.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public class ShowMiniMap extends L2GameServerPacket
 {
 	private static final String _S__B6_SHOWMINIMAP = "[S] 9d ShowMiniMap";
-	private int _mapId;
-
+	private final int _mapId;
+	
 	/**
-	 * @param mapId 
+	 * @param mapId
 	 */
-	public ShowMiniMap(int mapId)
+	public ShowMiniMap(final int mapId)
 	{
 		_mapId = mapId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{

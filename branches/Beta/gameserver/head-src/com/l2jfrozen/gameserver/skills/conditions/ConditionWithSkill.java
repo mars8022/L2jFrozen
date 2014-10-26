@@ -25,16 +25,16 @@ import com.l2jfrozen.gameserver.skills.Env;
 public class ConditionWithSkill extends Condition
 {
 	private final boolean _skill;
-
-	public ConditionWithSkill(boolean skill)
+	
+	public ConditionWithSkill(final boolean skill)
 	{
 		_skill = skill;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(!_skill && env.skill != null)
+		if (!_skill && env.skill != null)
 			return false;
 		return true;
 	}

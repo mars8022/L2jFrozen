@@ -38,7 +38,7 @@ public class CustomBypassHandler
 	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class);
 	
 	private static CustomBypassHandler _instance = null;
-	private Map<String, ICustomByPassHandler> _handlers;
+	private final Map<String, ICustomByPassHandler> _handlers;
 	
 	private CustomBypassHandler()
 	{
@@ -64,9 +64,9 @@ public class CustomBypassHandler
 	/**
 	 * @param handler as ICustomByPassHandler
 	 */
-	public void registerCustomBypassHandler(ICustomByPassHandler handler)
+	public void registerCustomBypassHandler(final ICustomByPassHandler handler)
 	{
-		for (String s : handler.getByPassCommands())
+		for (final String s : handler.getByPassCommands())
 		{
 			_handlers.put(s, handler);
 		}
@@ -77,13 +77,13 @@ public class CustomBypassHandler
 	 * @param player
 	 * @param command
 	 */
-	public void handleBypass(L2PcInstance player, String command)
+	public void handleBypass(final L2PcInstance player, final String command)
 	{
 		// Rebirth Manager and Engine Caller
 		
 		String cmd = "";
 		String params = "";
-		int iPos = command.indexOf(" ");
+		final int iPos = command.indexOf(" ");
 		if (iPos != -1)
 		{
 			cmd = command.substring(7, iPos);
@@ -93,7 +93,7 @@ public class CustomBypassHandler
 		{
 			cmd = command.substring(7);
 		}
-		ICustomByPassHandler ch = _handlers.get(cmd);
+		final ICustomByPassHandler ch = _handlers.get(cmd);
 		if (ch != null)
 		{
 			ch.handleCommand(cmd, player, params);

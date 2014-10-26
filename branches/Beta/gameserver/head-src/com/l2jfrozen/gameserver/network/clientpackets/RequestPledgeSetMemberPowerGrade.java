@@ -30,44 +30,44 @@ public final class RequestPledgeSetMemberPowerGrade extends L2GameClientPacket
 {
 	private int _powerGrade;
 	private String _member;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_member = readS();
 		_powerGrade = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		L2Clan clan = activeChar.getClan();
-		if(clan == null)
+		
+		final L2Clan clan = activeChar.getClan();
+		if (clan == null)
 			return;
-
-		L2ClanMember member = clan.getClanMember(_member);
-		if(member == null)
+		
+		final L2ClanMember member = clan.getClanMember(_member);
+		if (member == null)
 			return;
-
-		if(member.getPledgeType() == L2Clan.SUBUNIT_ACADEMY)
+		
+		if (member.getPledgeType() == L2Clan.SUBUNIT_ACADEMY)
 		{
 			// also checked from client side
 			activeChar.sendMessage("You cannot change academy member grade");
 			return;
 		}
-
+		
 		member.setPowerGrade(_powerGrade);
 		clan.broadcastClanStatus();
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:1C RequestPledgeSetMemberPowerGrade";
 	}
-
+	
 }

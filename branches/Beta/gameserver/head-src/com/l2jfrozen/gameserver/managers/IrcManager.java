@@ -29,54 +29,55 @@ import com.l2jfrozen.gameserver.network.L2IrcClient;
 public class IrcManager
 {
 	static final Logger LOGGER = Logger.getLogger(IrcManager.class);
-
-    private static L2IrcClient _ircConnection;
-    
-    public static final IrcManager getInstance()
-    {
-        return SingletonHolder._instance;
-    }
-    
-    public IrcManager(){
-    	LOGGER.info("Initializing IRCManager");
-        load();
-    }
-    
-    // =========================================================
-    // Method - Public
-    public void reload()
-    {
-    	_ircConnection.disconnect();
-    	try
-    	{
-    		_ircConnection.connect();
-		} 
-    	catch (Exception e) 
-    	{ 
+	
+	private static L2IrcClient _ircConnection;
+	
+	public static final IrcManager getInstance()
+	{
+		return SingletonHolder._instance;
+	}
+	
+	public IrcManager()
+	{
+		LOGGER.info("Initializing IRCManager");
+		load();
+	}
+	
+	// =========================================================
+	// Method - Public
+	public void reload()
+	{
+		_ircConnection.disconnect();
+		try
+		{
+			_ircConnection.connect();
+		}
+		catch (final Exception e)
+		{
 			LOGGER.warn(e.toString());
 		}
-    }
-
-    public L2IrcClient getConnection()
-    {
-    	return _ircConnection;
-    }
-
-    // =========================================================
-    // Method - Private
-    private final void load()
-    {
-		_ircConnection = new L2IrcClient(Config.IRC_SERVER, Config.IRC_PORT, Config.IRC_PASS, Config.IRC_NICK, Config.IRC_USER, Config.IRC_NAME, Config.IRC_SSL, Config.IRC_CHANNEL);    	
-    	try
-    	{
-    		_ircConnection.connect();
-		} 
-    	catch (Exception e) 
-    	{ 
-    		LOGGER.warn(e.toString());
+	}
+	
+	public L2IrcClient getConnection()
+	{
+		return _ircConnection;
+	}
+	
+	// =========================================================
+	// Method - Private
+	private final void load()
+	{
+		_ircConnection = new L2IrcClient(Config.IRC_SERVER, Config.IRC_PORT, Config.IRC_PASS, Config.IRC_NICK, Config.IRC_USER, Config.IRC_NAME, Config.IRC_SSL, Config.IRC_CHANNEL);
+		try
+		{
+			_ircConnection.connect();
 		}
-    }
-    
+		catch (final Exception e)
+		{
+			LOGGER.warn(e.toString());
+		}
+	}
+	
 	private static class SingletonHolder
 	{
 		protected static final IrcManager _instance = new IrcManager();

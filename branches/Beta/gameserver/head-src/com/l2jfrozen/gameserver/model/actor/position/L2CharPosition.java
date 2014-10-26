@@ -27,17 +27,16 @@ public final class L2CharPosition
 {
 	/** The heading. */
 	public final int x, y, z, heading;
-
+	
 	/**
 	 * Constructor of L2CharPosition.<BR>
 	 * <BR>
-	 *
 	 * @param pX the p x
 	 * @param pY the p y
 	 * @param pZ the p z
 	 * @param pHeading the heading
 	 */
-	public L2CharPosition(int pX, int pY, int pZ, int pHeading)
+	public L2CharPosition(final int pX, final int pY, final int pZ, final int pHeading)
 	{
 		x = pX;
 		y = pY;
@@ -47,10 +46,9 @@ public final class L2CharPosition
 	
 	/**
 	 * Instantiates a new l2 char position.
-	 *
 	 * @param _actor the _actor
 	 */
-	public L2CharPosition(L2Character _actor)
+	public L2CharPosition(final L2Character _actor)
 	{
 		x = _actor.getX();
 		y = _actor.getY();
@@ -58,5 +56,4 @@ public final class L2CharPosition
 		heading = _actor.getHeading();
 	}
 	
-
 }

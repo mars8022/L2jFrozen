@@ -28,23 +28,23 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public final class ConditionSlotItemType extends ConditionInventory
 {
-
+	
 	private final int _mask;
-
-	public ConditionSlotItemType(int slot, int mask)
+	
+	public ConditionSlotItemType(final int slot, final int mask)
 	{
 		super(slot);
 		_mask = mask;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(!(env.player instanceof L2PcInstance))
+		if (!(env.player instanceof L2PcInstance))
 			return false;
-		Inventory inv = ((L2PcInstance) env.player).getInventory();
-		L2ItemInstance item = inv.getPaperdollItem(_slot);
-		if(item == null)
+		final Inventory inv = ((L2PcInstance) env.player).getInventory();
+		final L2ItemInstance item = inv.getPaperdollItem(_slot);
+		if (item == null)
 			return false;
 		return (item.getItem().getItemMask() & _mask) != 0;
 	}

@@ -39,24 +39,24 @@ public class GameServerRegister
 	private static final Logger LOGGER = Logger.getLogger(GameServerRegister.class);
 	private static String _choice;
 	private static boolean _choiceOk;
-
-	public static void main(String[] args) throws IOException
+	
+	public static void main(final String[] args) throws IOException
 	{
 		PropertyConfigurator.configure(FService.LOG_CONF_FILE);
 		ServerType.serverMode = ServerType.MODE_LOGINSERVER;
 		Config.load();
-		LineNumberReader _in = new LineNumberReader(new InputStreamReader(System.in));
+		final LineNumberReader _in = new LineNumberReader(new InputStreamReader(System.in));
 		try
 		{
 			GameServerTable.load();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.info("FATAL: Failed loading GameServerTable. Reason: " + e.getMessage());
 			e.printStackTrace();
 			System.exit(1);
 		}
-		GameServerTable gameServerTable = GameServerTable.getInstance();
+		final GameServerTable gameServerTable = GameServerTable.getInstance();
 		LOGGER.info("Welcome to L2JFrozen GameServer Regitering");
 		LOGGER.info("Enter The id of the server you want to register");
 		LOGGER.info("Type 'help' to get a list of ids.");
@@ -67,7 +67,7 @@ public class GameServerRegister
 			_choice = _in.readLine();
 			if (_choice.equalsIgnoreCase("help"))
 			{
-				for (Map.Entry<Integer, String> entry : gameServerTable.getServerNames().entrySet())
+				for (final Map.Entry<Integer, String> entry : gameServerTable.getServerNames().entrySet())
 				{
 					LOGGER.info("Server: ID: " + entry.getKey() + "\t- " + entry.getValue() + " - In Use: " + (gameServerTable.hasRegisteredGameServerOnId(entry.getKey()) ? "YES" : "NO"));
 				}
@@ -91,16 +91,15 @@ public class GameServerRegister
 			{
 				try
 				{
-					int id = Integer.parseInt(_choice);
-					int size = gameServerTable.getServerNames().size();
+					final int id = Integer.parseInt(_choice);
+					final int size = gameServerTable.getServerNames().size();
 					if (size == 0)
 					{
 						LOGGER.info("No server names avalible, please make sure that servername.xml is in the LoginServer directory.");
 						System.exit(1);
 					}
 					
-					_choice="";
-					
+					_choice = "";
 					
 					while (!_choice.equalsIgnoreCase(""))
 					{
@@ -108,9 +107,9 @@ public class GameServerRegister
 						_choice = _in.readLine();
 					}
 					
-					String ip = _choice;
+					final String ip = _choice;
 					
-					String name = gameServerTable.getServerNameById(id);
+					final String name = gameServerTable.getServerNameById(id);
 					if (name == null)
 					{
 						LOGGER.info("No name for id: " + id);
@@ -123,7 +122,7 @@ public class GameServerRegister
 					}
 					else
 					{
-						byte[] hexId = LoginServerThread.generateHex(16);
+						final byte[] hexId = LoginServerThread.generateHex(16);
 						gameServerTable.registerServerOnDB(hexId, id, ip);
 						Config.saveHexid(id, new BigInteger(hexId).toString(16), "hexid.txt");
 						LOGGER.info("Server Registered hexid saved to 'hexid.txt'");
@@ -131,9 +130,9 @@ public class GameServerRegister
 						return;
 					}
 				}
-				catch (NumberFormatException nfe)
+				catch (final NumberFormatException nfe)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						nfe.printStackTrace();
 					
 					LOGGER.info("Please, type a number or 'help'");
@@ -141,7 +140,7 @@ public class GameServerRegister
 			}
 		}
 	}
-
+	
 	public static void cleanRegisteredGameServersFromDB()
 	{
 		java.sql.Connection con = null;
@@ -153,9 +152,9 @@ public class GameServerRegister
 			statement.executeUpdate();
 			DatabaseUtils.close(statement);
 		}
-		catch (SQLException e)
+		catch (final SQLException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.info("SQL error while cleaning registered servers: " + e);

@@ -20,28 +20,28 @@ package com.l2jfrozen.gameserver.network.loginserverpackets;
 
 public class InitLS extends LoginServerBasePacket
 {
-	private int _rev;
-	private byte[] _key;
-
+	private final int _rev;
+	private final byte[] _key;
+	
 	public int getRevision()
 	{
 		return _rev;
 	}
-
+	
 	public byte[] getRSAKey()
 	{
 		return _key;
 	}
-
+	
 	/**
 	 * @param decrypt
 	 */
-	public InitLS(byte[] decrypt)
+	public InitLS(final byte[] decrypt)
 	{
 		super(decrypt);
 		_rev = readD();
-		int size = readD();
+		final int size = readD();
 		_key = readB(size);
 	}
-
+	
 }

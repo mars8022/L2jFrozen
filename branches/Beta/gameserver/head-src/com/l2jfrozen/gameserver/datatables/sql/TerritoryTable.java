@@ -16,14 +16,14 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 /*
-	coded by Balancer
-	ported to L2JRU by Mr
-	balancer@balancer.ru
-	http://balancer.ru
+ coded by Balancer
+ ported to L2JRU by Mr
+ balancer@balancer.ru
+ http://balancer.ru
 
-	version 0.1.1, 2005-06-07
-	version 0.1, 2005-03-16
-*/
+ version 0.1.1, 2005-06-07
+ version 0.1, 2005-03-16
+ */
 
 package com.l2jfrozen.gameserver.datatables.sql;
 
@@ -45,48 +45,48 @@ public class TerritoryTable
 {
 	private final static Logger LOGGER = Logger.getLogger(TradeController.class);
 	private static Map<Integer, L2Territory> _territory = new HashMap<>();
-
+	
 	public static TerritoryTable getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
+	
 	public TerritoryTable()
 	{
 		_territory.clear();
 		// load all data at server start
 		reload_data();
 	}
-
-	public int[] getRandomPoint(Integer terr)
+	
+	public int[] getRandomPoint(final Integer terr)
 	{
 		return _territory.get(terr).getRandomPoint();
 	}
-
-	public int getProcMax(Integer terr)
+	
+	public int getProcMax(final Integer terr)
 	{
 		return _territory.get(terr).getProcMax();
 	}
-
+	
 	public void reload_data()
 	{
 		_territory.clear();
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT loc_id, loc_x, loc_y, loc_zmin, loc_zmax, proc FROM `locations`");
 			final ResultSet rset = statement.executeQuery();
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
-				//final String terr = "sql_terr_" + rset.getString("loc_id");
+				// final String terr = "sql_terr_" + rset.getString("loc_id");
 				final int terr = rset.getInt("loc_id");
 				
-				if(_territory.get(terr) == null)
+				if (_territory.get(terr) == null)
 				{
-					L2Territory t = new L2Territory();
+					final L2Territory t = new L2Territory();
 					_territory.put(terr, t);
 				}
 				_territory.get(terr).add(rset.getInt("loc_x"), rset.getInt("loc_y"), rset.getInt("loc_zmin"), rset.getInt("loc_zmax"), rset.getInt("proc"));
@@ -95,7 +95,7 @@ public class TerritoryTable
 			DatabaseUtils.close(rset);
 			DatabaseUtils.close(statement);
 		}
-		catch(Exception e1)
+		catch (final Exception e1)
 		{
 			LOGGER.error("Locations couldnt be initialized ", e1);
 		}
@@ -103,8 +103,8 @@ public class TerritoryTable
 		{
 			CloseUtil.close(con);
 		}
-
-		LOGGER.info("TerritoryTable: Loaded {} locations "+ _territory.size());
+		
+		LOGGER.info("TerritoryTable: Loaded {} locations " + _territory.size());
 	}
 	
 	private static class SingletonHolder

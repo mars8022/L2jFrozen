@@ -26,22 +26,22 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public final class LambdaRnd extends Lambda
 {
-
+	
 	private final Lambda _max;
 	private final boolean _linear;
-
-	public LambdaRnd(Lambda max, boolean linear)
+	
+	public LambdaRnd(final Lambda max, final boolean linear)
 	{
 		_max = max;
 		_linear = linear;
 	}
-
+	
 	@Override
-	public double calc(Env env)
+	public double calc(final Env env)
 	{
-		if(_linear)
+		if (_linear)
 			return _max.calc(env) * Rnd.nextDouble();
 		return _max.calc(env) * Rnd.nextGaussian();
 	}
-
+	
 }

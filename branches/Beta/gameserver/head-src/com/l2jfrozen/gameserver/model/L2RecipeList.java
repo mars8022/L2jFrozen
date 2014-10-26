@@ -21,55 +21,54 @@ package com.l2jfrozen.gameserver.model;
 import com.l2jfrozen.gameserver.model.actor.instance.L2RecipeInstance;
 
 /**
- * This class describes a Recipe used by Dwarf to craft Item. All L2RecipeList are made of L2RecipeInstance (1 line of
- * the recipe : Item-Quantity needed).<BR>
+ * This class describes a Recipe used by Dwarf to craft Item. All L2RecipeList are made of L2RecipeInstance (1 line of the recipe : Item-Quantity needed).<BR>
  * <BR>
  */
 public class L2RecipeList
 {
 	/** The table containing all L2RecipeInstance (1 line of the recipe : Item-Quantity needed) of the L2RecipeList */
 	private L2RecipeInstance[] _recipes;
-
+	
 	/** The Identifier of the Instance */
-	private int _id;
-
+	private final int _id;
+	
 	/** The crafting level needed to use this L2RecipeList */
-	private int _level;
-
+	private final int _level;
+	
 	/** The Identifier of the L2RecipeList */
-	private int _recipeId;
-
+	private final int _recipeId;
+	
 	/** The name of the L2RecipeList */
-	private String _recipeName;
-
+	private final String _recipeName;
+	
 	/** The crafting succes rate when using the L2RecipeList */
-	private int _successRate;
-
+	private final int _successRate;
+	
 	/** The crafting MP cost of this L2RecipeList */
-	private int _mpCost;
-
+	private final int _mpCost;
+	
 	/** The Identifier of the Item crafted with this L2RecipeList */
-	private int _itemId;
-
+	private final int _itemId;
+	
 	/** The quantity of Item crafted when using this L2RecipeList */
-	private int _count;
-
+	private final int _count;
+	
 	/** If this a common or a dwarven recipe */
-	private boolean _isDwarvenRecipe;
-
+	private final boolean _isDwarvenRecipe;
+	
 	/**
 	 * Constructor of L2RecipeList (create a new Recipe).
-	 * @param id 
-	 * @param level 
-	 * @param recipeId 
-	 * @param recipeName 
-	 * @param successRate 
-	 * @param mpCost 
-	 * @param itemId 
-	 * @param count 
-	 * @param isDwarvenRecipe 
+	 * @param id
+	 * @param level
+	 * @param recipeId
+	 * @param recipeName
+	 * @param successRate
+	 * @param mpCost
+	 * @param itemId
+	 * @param count
+	 * @param isDwarvenRecipe
 	 */
-	public L2RecipeList(int id, int level, int recipeId, String recipeName, int successRate, int mpCost, int itemId, int count, boolean isDwarvenRecipe)
+	public L2RecipeList(final int id, final int level, final int recipeId, final String recipeName, final int successRate, final int mpCost, final int itemId, final int count, final boolean isDwarvenRecipe)
 	{
 		_id = id;
 		_recipes = new L2RecipeInstance[0];
@@ -82,21 +81,21 @@ public class L2RecipeList
 		_count = count;
 		_isDwarvenRecipe = isDwarvenRecipe;
 	}
-
+	
 	/**
 	 * Add a L2RecipeInstance to the L2RecipeList (add a line Item-Quantity needed to the Recipe).
-	 * @param recipe 
+	 * @param recipe
 	 */
-	public void addRecipe(L2RecipeInstance recipe)
+	public void addRecipe(final L2RecipeInstance recipe)
 	{
-		int len = _recipes.length;
+		final int len = _recipes.length;
 		L2RecipeInstance[] tmp = new L2RecipeInstance[len + 1];
 		System.arraycopy(_recipes, 0, tmp, 0, len);
 		tmp[len] = recipe;
 		_recipes = tmp;
 		tmp = null;
 	}
-
+	
 	/**
 	 * @return the Identifier of the Instance.
 	 */
@@ -104,7 +103,7 @@ public class L2RecipeList
 	{
 		return _id;
 	}
-
+	
 	/**
 	 * @return the crafting level needed to use this L2RecipeList.
 	 */
@@ -112,7 +111,7 @@ public class L2RecipeList
 	{
 		return _level;
 	}
-
+	
 	/**
 	 * @return the Identifier of the L2RecipeList.
 	 */
@@ -120,7 +119,7 @@ public class L2RecipeList
 	{
 		return _recipeId;
 	}
-
+	
 	/**
 	 * @return the name of the L2RecipeList.
 	 */
@@ -128,7 +127,7 @@ public class L2RecipeList
 	{
 		return _recipeName;
 	}
-
+	
 	/**
 	 * @return the crafting success rate when using the L2RecipeList.
 	 */
@@ -136,7 +135,7 @@ public class L2RecipeList
 	{
 		return _successRate;
 	}
-
+	
 	/**
 	 * @return the crafting MP cost of this L2RecipeList.
 	 */
@@ -144,7 +143,7 @@ public class L2RecipeList
 	{
 		return _mpCost;
 	}
-
+	
 	/**
 	 * @return true if the Item crafted with this L2RecipeList is consumable (shot, arrow,...).
 	 */
@@ -152,7 +151,7 @@ public class L2RecipeList
 	{
 		return _itemId >= 1463 && _itemId <= 1467 || _itemId >= 2509 && _itemId <= 2514 || _itemId >= 3947 && _itemId <= 3952 || _itemId >= 1341 && _itemId <= 1345;
 	}
-
+	
 	/**
 	 * @return the Identifier of the Item crafted with this L2RecipeList.
 	 */
@@ -160,7 +159,7 @@ public class L2RecipeList
 	{
 		return _itemId;
 	}
-
+	
 	/**
 	 * @return the quantity of Item crafted when using this L2RecipeList.
 	 */
@@ -168,7 +167,7 @@ public class L2RecipeList
 	{
 		return _count;
 	}
-
+	
 	/**
 	 * @return true if this a Dwarven recipe or false if its a Common recipe
 	 */
@@ -176,7 +175,7 @@ public class L2RecipeList
 	{
 		return _isDwarvenRecipe;
 	}
-
+	
 	/**
 	 * @return the table containing all L2RecipeInstance (1 line of the recipe : Item-Quantity needed) of the L2RecipeList.
 	 */

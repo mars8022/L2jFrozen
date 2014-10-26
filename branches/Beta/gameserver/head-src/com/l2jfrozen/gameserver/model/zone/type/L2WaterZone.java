@@ -24,78 +24,76 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcInfo;
 
 public class L2WaterZone extends L2ZoneType
 {
-	public L2WaterZone(int id)
+	public L2WaterZone(final int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
 		character.setInsideZone(L2Character.ZONE_WATER, true);
-
-		if(character instanceof L2PcInstance)
+		
+		if (character instanceof L2PcInstance)
 		{
 			((L2PcInstance) character).broadcastUserInfo();
 		}
-		else if(character instanceof L2NpcInstance)
+		else if (character instanceof L2NpcInstance)
 		{
-			Collection<L2PcInstance> plrs = character.getKnownList().getKnownPlayers().values();
-			//synchronized (character.getKnownList().getKnownPlayers())
+			final Collection<L2PcInstance> plrs = character.getKnownList().getKnownPlayers().values();
+			// synchronized (character.getKnownList().getKnownPlayers())
 			{
-				for(L2PcInstance player : plrs)
+				for (final L2PcInstance player : plrs)
 				{
 					player.sendPacket(new NpcInfo((L2NpcInstance) character, player));
 				}
 			}
 		}
-
+		
 		/*
-		 * if (character instanceof L2PcInstance)
-		 * {
-		 * 	((L2PcInstance)character).sendMessage("You entered water!");
-		 *}
+		 * if (character instanceof L2PcInstance) { ((L2PcInstance)character).sendMessage("You entered water!");}
 		 */
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
 		character.setInsideZone(L2Character.ZONE_WATER, false);
-
-		/*if (character instanceof L2PcInstance)
-		{
-			((L2PcInstance)character).sendMessage("You exited water!");
-		}*/
-
+		
+		/*
+		 * if (character instanceof L2PcInstance) { ((L2PcInstance)character).sendMessage("You exited water!"); }
+		 */
+		
 		// TODO: update to only send speed status when that packet is known
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
 			((L2PcInstance) character).broadcastUserInfo();
 		}
-		else if(character instanceof L2NpcInstance)
+		else if (character instanceof L2NpcInstance)
 		{
 			Collection<L2PcInstance> plrs = character.getKnownList().getKnownPlayers().values();
-			//synchronized (character.getKnownList().getKnownPlayers())
+			// synchronized (character.getKnownList().getKnownPlayers())
 			{
-				for(L2PcInstance player : plrs)
+				for (final L2PcInstance player : plrs)
 				{
 					player.sendPacket(new NpcInfo((L2NpcInstance) character, player));
 				}
 			}
-
+			
 			plrs = null;
 		}
 	}
-
+	
 	@Override
-	public void onDieInside(L2Character character)
-	{}
-
+	public void onDieInside(final L2Character character)
+	{
+	}
+	
 	@Override
-	public void onReviveInside(L2Character character)
-	{}
-
+	public void onReviveInside(final L2Character character)
+	{
+	}
+	
 	public int getWaterZ()
 	{
 		return getZone().getHighZ();

@@ -36,51 +36,53 @@ import com.l2jfrozen.Config;
 public class Log
 {
 	private static final Logger LOGGER = Logger.getLogger(Log.class);
-
-	public static final void add(String text, String cat)
+	
+	public static final void add(final String text, final String cat)
 	{
 		String date = new SimpleDateFormat("yy.MM.dd H:mm:ss").format(new Date());
-
+		
 		new File("log/game").mkdirs();
-		File file = new File("log/game/" + (cat != null ? cat : "_all") + ".txt");
+		final File file = new File("log/game/" + (cat != null ? cat : "_all") + ".txt");
 		FileWriter save = null;
 		try
 		{
 			save = new FileWriter(file, true);
-			String out = "[" + date + "] '---': " + text + "\n"; // "+char_name()+"
+			final String out = "[" + date + "] '---': " + text + "\n"; // "+char_name()+"
 			save.write(out);
 			save.flush();
 		}
-		catch(IOException e)
+		catch (final IOException e)
 		{
 			LOGGER.warn("saving chat LOGGER failed: " + e);
 			e.printStackTrace();
-		}finally{
+		}
+		finally
+		{
 			
-			if(save != null)
+			if (save != null)
 				try
 				{
 					save.close();
 				}
-				catch(IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
 		}
-
-		if(cat != null)
+		
+		if (cat != null)
 		{
 			add(text, null);
 		}
-
+		
 		date = null;
 	}
-
-	public static final void Assert(boolean exp, String cmt)
+	
+	public static final void Assert(final boolean exp, final String cmt)
 	{
-		if(exp || !Config.ASSERT)
+		if (exp || !Config.ASSERT)
 			return;
-
+		
 		LOGGER.info("Assertion error [" + cmt + "]");
 		Thread.dumpStack();
 	}

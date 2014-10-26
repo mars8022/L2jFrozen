@@ -33,8 +33,8 @@ public final class SubClass
 	private int _sp = 0;
 	private int _level = Config.BASE_SUBCLASS_LEVEL;
 	private int _classIndex = 1;
-
-	public SubClass(int classId, long exp, int sp, byte level, int classIndex)
+	
+	public SubClass(final int classId, final long exp, final int sp, final byte level, final int classIndex)
 	{
 		_class = PlayerClass.values()[classId];
 		_exp = exp;
@@ -42,102 +42,102 @@ public final class SubClass
 		_level = level;
 		_classIndex = classIndex;
 	}
-
-	public SubClass(int classId, int classIndex)
+	
+	public SubClass(final int classId, final int classIndex)
 	{
 		// Used for defining a sub class using default values for XP, SP and player level.
 		_class = PlayerClass.values()[classId];
 		_classIndex = classIndex;
 	}
-
+	
 	public SubClass()
 	{
-	// Used for specifying ALL attributes of a sub class directly,
-	// using the preset default values.
+		// Used for specifying ALL attributes of a sub class directly,
+		// using the preset default values.
 	}
-
+	
 	public PlayerClass getClassDefinition()
 	{
 		return _class;
 	}
-
+	
 	public int getClassId()
 	{
 		return _class.ordinal();
 	}
-
+	
 	public long getExp()
 	{
 		return _exp;
 	}
-
+	
 	public int getSp()
 	{
 		return _sp;
 	}
-
+	
 	public int getLevel()
 	{
 		return _level;
 	}
-
+	
 	public int getClassIndex()
 	{
 		return _classIndex;
 	}
-
-	public void setClassId(int classId)
+	
+	public void setClassId(final int classId)
 	{
 		_class = PlayerClass.values()[classId];
 	}
-
+	
 	public void setExp(long expValue)
 	{
-		if(expValue > ExperienceData.getInstance().getExpForLevel(Config.MAX_SUBCLASS_LEVEL))
+		if (expValue > ExperienceData.getInstance().getExpForLevel(Config.MAX_SUBCLASS_LEVEL))
 		{
 			expValue = ExperienceData.getInstance().getExpForLevel(Config.MAX_SUBCLASS_LEVEL);
 		}
-
+		
 		_exp = expValue;
 	}
-
-	public void setSp(int spValue)
+	
+	public void setSp(final int spValue)
 	{
 		_sp = spValue;
 	}
-
-	public void setClassIndex(int classIndex)
+	
+	public void setClassIndex(final int classIndex)
 	{
 		_classIndex = classIndex;
 	}
-
+	
 	public void setLevel(int levelValue)
 	{
-		if(levelValue > Config.MAX_SUBCLASS_LEVEL - 1)
+		if (levelValue > Config.MAX_SUBCLASS_LEVEL - 1)
 		{
 			levelValue = Config.MAX_SUBCLASS_LEVEL - 1;
 		}
-		else if(levelValue < Config.BASE_SUBCLASS_LEVEL)
+		else if (levelValue < Config.BASE_SUBCLASS_LEVEL)
 		{
 			levelValue = Config.BASE_SUBCLASS_LEVEL;
 		}
-
+		
 		_level = levelValue;
 	}
-
+	
 	public void incLevel()
 	{
-		if(getLevel() == Config.MAX_SUBCLASS_LEVEL - 1)
+		if (getLevel() == Config.MAX_SUBCLASS_LEVEL - 1)
 		{
 			return;
 		}
 		_level++;
 		setExp(ExperienceData.getInstance().getExpForLevel(getLevel()));
 	}
-
+	
 	public void decLevel()
 	{
-		if(getLevel() == Config.BASE_SUBCLASS_LEVEL)
+		if (getLevel() == Config.BASE_SUBCLASS_LEVEL)
 		{
 			return;
 		}

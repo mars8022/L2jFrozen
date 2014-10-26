@@ -38,33 +38,33 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
 
 public class BlockList
 {
-	private Set<String> _blockSet;
+	private final Set<String> _blockSet;
 	private boolean _blockAll;
-	private L2PcInstance _owner;
+	private final L2PcInstance _owner;
 	
-	public BlockList(L2PcInstance owner)
+	public BlockList(final L2PcInstance owner)
 	{
 		_owner = owner;
 		_blockSet = new FastSet<>();
 		_blockAll = false;
 	}
-
-	public void addToBlockList(String character)
+	
+	public void addToBlockList(final String character)
 	{
-		if(character != null)
+		if (character != null)
 		{
 			_blockSet.add(character);
 			
 			SystemMessage sm = null;
 			
-			L2PcInstance target = L2World.getInstance().getPlayer(character);
-			if(target != null){
+			final L2PcInstance target = L2World.getInstance().getPlayer(character);
+			if (target != null)
+			{
 				sm = new SystemMessage(SystemMessageId.S1_HAS_ADDED_YOU_TO_IGNORE_LIST);
 				sm.addString(_owner.getName());
 				target.sendPacket(sm);
@@ -75,34 +75,33 @@ public class BlockList
 			_owner.sendPacket(sm);
 		}
 	}
-
-	public void removeFromBlockList(String character)
+	
+	public void removeFromBlockList(final String character)
 	{
-		if(character != null)
+		if (character != null)
 		{
 			_blockSet.remove(character);
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_REMOVED_FROM_YOUR_IGNORE_LIST);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_REMOVED_FROM_YOUR_IGNORE_LIST);
 			sm.addString(character);
 			_owner.sendPacket(sm);
 		}
 	}
-
-	public boolean isInBlockList(String character)
+	
+	public boolean isInBlockList(final String character)
 	{
 		return _blockSet.contains(character);
 	}
-	
 	
 	public boolean isBlockAll()
 	{
 		return _blockAll;
 	}
 	
-	public void setBlockAll(boolean state)
+	public void setBlockAll(final boolean state)
 	{
 		_blockAll = state;
 	}
-
+	
 	public Set<String> getBlockList()
 	{
 		return _blockSet;

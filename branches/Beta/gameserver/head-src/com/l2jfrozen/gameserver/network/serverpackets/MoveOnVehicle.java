@@ -28,17 +28,16 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  * <p>
  * format dddddd (player id, target id, distance, startx, starty, startz)
  * <p>
- * 
  * @version $Revision: 1.1.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class MoveOnVehicle extends L2GameServerPacket
 {
 	private static final String _S__71_MOVEONVEICLE = "[S] 71 MoveOnVehicle";
-	private int _id;
-	private int _x, _y, _z;
-	private L2PcInstance _activeChar;
-
-	public MoveOnVehicle(int vehicleID, L2PcInstance player, int x, int y, int z)
+	private final int _id;
+	private final int _x, _y, _z;
+	private final L2PcInstance _activeChar;
+	
+	public MoveOnVehicle(final int vehicleID, final L2PcInstance player, final int x, final int y, final int z)
 	{
 		_id = vehicleID;
 		_activeChar = player;
@@ -46,12 +45,12 @@ public class MoveOnVehicle extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x71);
-
+		
 		writeD(_activeChar.getObjectId());
 		writeD(_id);
 		writeD(_x);
@@ -61,8 +60,9 @@ public class MoveOnVehicle extends L2GameServerPacket
 		writeD(_activeChar.getY());
 		writeD(_activeChar.getZ());
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

@@ -24,7 +24,6 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAskJoinPartyRoom;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-
 /**
  * Format: (ch) S
  * @author -Wooden-
@@ -32,17 +31,17 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class RequestAskJoinPartyRoom extends L2GameClientPacket
 {
 	private static String _name;
-
+	
 	@Override
 	protected void readImpl()
-    {
+	{
 		_name = readS();
-    }
-
-    @Override
+	}
+	
+	@Override
 	protected void runImpl()
-    {
-    	final L2PcInstance _activeChar = getClient().getActiveChar();
+	{
+		final L2PcInstance _activeChar = getClient().getActiveChar();
 		if (_activeChar == null)
 			return;
 		
@@ -60,12 +59,12 @@ public class RequestAskJoinPartyRoom extends L2GameClientPacket
 		}
 		else
 			_activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
-    }
-
-    @Override
+	}
+	
+	@Override
 	public String getType()
 	{
-		return  "[C] D0:14 RequestAskJoinPartyRoom";
+		return "[C] D0:14 RequestAskJoinPartyRoom";
 	}
-
+	
 }

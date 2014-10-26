@@ -29,62 +29,64 @@ public class CastleCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =
 	{
-			"open doors", "close doors", "ride wyvern"
+		"open doors",
+		"close doors",
+		"ride wyvern"
 	};
-
+	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
-		if(command.startsWith("open doors") && target.equals("castle") && activeChar.isClanLeader())
+		if (command.startsWith("open doors") && target.equals("castle") && activeChar.isClanLeader())
 		{
 			L2DoorInstance door = (L2DoorInstance) activeChar.getTarget();
 			Castle castle = CastleManager.getInstance().getCastleById(activeChar.getClan().getHasCastle());
-
-			if(door == null || castle == null)
+			
+			if (door == null || castle == null)
 				return false;
-
-			if(castle.checkIfInZone(door.getX(), door.getY(), door.getZ()))
+			
+			if (castle.checkIfInZone(door.getX(), door.getY(), door.getZ()))
 			{
 				door.openMe();
 			}
-
+			
 			door = null;
 			castle = null;
 		}
-		else if(command.startsWith("close doors") && target.equals("castle") && activeChar.isClanLeader())
+		else if (command.startsWith("close doors") && target.equals("castle") && activeChar.isClanLeader())
 		{
 			L2DoorInstance door = (L2DoorInstance) activeChar.getTarget();
 			Castle castle = CastleManager.getInstance().getCastleById(activeChar.getClan().getHasCastle());
-
-			if(door == null || castle == null)
+			
+			if (door == null || castle == null)
 				return false;
-
-			if(castle.checkIfInZone(door.getX(), door.getY(), door.getZ()))
+			
+			if (castle.checkIfInZone(door.getX(), door.getY(), door.getZ()))
 			{
 				door.closeMe();
 			}
 			door = null;
 			castle = null;
 		}
-		else if(command.startsWith("ride wyvern") && target.equals("castle"))
+		else if (command.startsWith("ride wyvern") && target.equals("castle"))
 		{
-			if(activeChar.getClan().getHasCastle() > 0 && activeChar.isClanLeader())
+			if (activeChar.getClan().getHasCastle() > 0 && activeChar.isClanLeader())
 			{
-				if(!activeChar.disarmWeapons())
+				if (!activeChar.disarmWeapons())
 					return false;
-
+				
 				Ride mount = new Ride(activeChar.getObjectId(), Ride.ACTION_MOUNT, 12621);
 				activeChar.sendPacket(mount);
 				activeChar.broadcastPacket(mount);
 				activeChar.setMountType(mount.getMountType());
-
+				
 				mount = null;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

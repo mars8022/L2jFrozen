@@ -33,17 +33,17 @@ public final class RequestExFishRanking extends L2GameClientPacket
 	{
 		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		LOGGER.info("C5: RequestExFishRanking");
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:1F RequestExFishRanking";
 	}
-
+	
 }

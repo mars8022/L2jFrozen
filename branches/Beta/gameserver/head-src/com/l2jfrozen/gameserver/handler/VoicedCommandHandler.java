@@ -49,7 +49,7 @@ public class VoicedCommandHandler
 	
 	private static VoicedCommandHandler _instance;
 	
-	private Map<String, IVoicedCommandHandler> _datatable;
+	private final Map<String, IVoicedCommandHandler> _datatable;
 	
 	public static VoicedCommandHandler getInstance()
 	{
@@ -123,11 +123,11 @@ public class VoicedCommandHandler
 		
 	}
 	
-	public void registerVoicedCommandHandler(IVoicedCommandHandler handler)
+	public void registerVoicedCommandHandler(final IVoicedCommandHandler handler)
 	{
 		String[] ids = handler.getVoicedCommandList();
 		
-		for (String id : ids)
+		for (final String id : ids)
 		{
 			if (Config.DEBUG)
 			{
@@ -140,7 +140,7 @@ public class VoicedCommandHandler
 		ids = null;
 	}
 	
-	public IVoicedCommandHandler getVoicedCommandHandler(String voicedCommand)
+	public IVoicedCommandHandler getVoicedCommandHandler(final String voicedCommand)
 	{
 		String command = voicedCommand;
 		

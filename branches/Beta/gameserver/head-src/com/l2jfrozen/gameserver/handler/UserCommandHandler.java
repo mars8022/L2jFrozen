@@ -51,7 +51,7 @@ public class UserCommandHandler
 	
 	private static UserCommandHandler _instance;
 	
-	private Map<Integer, IUserCommandHandler> _datatable;
+	private final Map<Integer, IUserCommandHandler> _datatable;
 	
 	public static UserCommandHandler getInstance()
 	{
@@ -84,11 +84,11 @@ public class UserCommandHandler
 		LOGGER.info("UserCommandHandler: Loaded " + _datatable.size() + " handlers.");
 	}
 	
-	public void registerUserCommandHandler(IUserCommandHandler handler)
+	public void registerUserCommandHandler(final IUserCommandHandler handler)
 	{
 		int[] ids = handler.getUserCommandList();
 		
-		for (int id : ids)
+		for (final int id : ids)
 		{
 			if (Config.DEBUG)
 			{
@@ -99,7 +99,7 @@ public class UserCommandHandler
 		ids = null;
 	}
 	
-	public IUserCommandHandler getUserCommandHandler(int userCommand)
+	public IUserCommandHandler getUserCommandHandler(final int userCommand)
 	{
 		if (Config.DEBUG)
 		{

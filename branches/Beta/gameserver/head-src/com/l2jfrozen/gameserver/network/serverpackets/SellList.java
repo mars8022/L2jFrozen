@@ -39,10 +39,10 @@ public class SellList extends L2GameServerPacket
 	private static Logger LOGGER = Logger.getLogger(SellList.class);
 	private final L2PcInstance _activeChar;
 	private final L2MerchantInstance _lease;
-	private int _money;
-	private List<L2ItemInstance> _selllist = new FastList<>();
+	private final int _money;
+	private final List<L2ItemInstance> _selllist = new FastList<>();
 	
-	public SellList(L2PcInstance player)
+	public SellList(final L2PcInstance player)
 	{
 		_activeChar = player;
 		_lease = null;
@@ -50,7 +50,7 @@ public class SellList extends L2GameServerPacket
 		doLease();
 	}
 	
-	public SellList(L2PcInstance player, L2MerchantInstance lease)
+	public SellList(final L2PcInstance player, final L2MerchantInstance lease)
 	{
 		_activeChar = player;
 		_lease = lease;
@@ -62,7 +62,7 @@ public class SellList extends L2GameServerPacket
 	{
 		if (_lease == null)
 		{
-			for (L2ItemInstance item : _activeChar.getInventory().getItems())
+			for (final L2ItemInstance item : _activeChar.getInventory().getItems())
 			{
 				if (item != null && !item.isEquipped() && // Not equipped
 				item.getItem().isSellable() && // Item is sellable
@@ -89,7 +89,7 @@ public class SellList extends L2GameServerPacket
 		
 		writeH(_selllist.size());
 		
-		for (L2ItemInstance item : _selllist)
+		for (final L2ItemInstance item : _selllist)
 		{
 			writeH(item.getItem().getType1());
 			writeD(item.getObjectId());

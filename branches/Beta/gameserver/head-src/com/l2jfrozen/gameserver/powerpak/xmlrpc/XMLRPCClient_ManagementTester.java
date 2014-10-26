@@ -28,16 +28,16 @@ import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 public class XMLRPCClient_ManagementTester
 {
 	
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
 		
-		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+		final XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 		try
 		{
 			config.setServerURL(new URL("http://" + PowerPakConfig.XMLRPC_HOST + ":" + PowerPakConfig.XMLRPC_PORT + "/Management"));
-			XmlRpcClient client = new XmlRpcClient();
+			final XmlRpcClient client = new XmlRpcClient();
 			client.setConfig(config);
-			Object[] params =
+			final Object[] params =
 			{
 				60
 			};
@@ -45,10 +45,11 @@ public class XMLRPCClient_ManagementTester
 			client.execute("Management.restartServer", params);
 			
 		}
-		catch (MalformedURLException localMalformedURLException)
+		catch (final MalformedURLException localMalformedURLException)
 		{
 			localMalformedURLException.printStackTrace();
-		} catch (Exception localException)
+		}
+		catch (final Exception localException)
 		{
 			localException.printStackTrace();
 		}

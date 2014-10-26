@@ -31,15 +31,15 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestAnswerJoinParty extends L2GameClientPacket
 {
-
+	
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -51,22 +51,21 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 		if (requestor == null)
 			return;
 		
-		
-		if(player.isCursedWeaponEquiped() || requestor.isCursedWeaponEquiped())
+		if (player.isCursedWeaponEquiped() || requestor.isCursedWeaponEquiped())
 		{
 			requestor.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			return;
 		}
 		
 		requestor.sendPacket(new JoinParty(_response));
-
+		
 		if (_response == 1)
 		{
 			if (requestor.isInParty())
 			{
 				if (requestor.getParty().getMemberCount() >= 9)
 				{
-					SystemMessage sm = new SystemMessage(SystemMessageId.PARTY_FULL);
+					final SystemMessage sm = new SystemMessage(SystemMessageId.PARTY_FULL);
 					player.sendPacket(sm);
 					requestor.sendPacket(sm);
 					return;
@@ -83,7 +82,7 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 					if (room != null)
 					{
 						final ExManagePartyRoomMember packet = new ExManagePartyRoomMember(player, room, 1);
-						for (L2PcInstance member : room.getPartyMembers())
+						for (final L2PcInstance member : room.getPartyMembers())
 						{
 							if (member != null)
 								member.sendPacket(packet);
@@ -100,8 +99,8 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 					if (room != null)
 					{
 						room.addMember(player);
-						ExManagePartyRoomMember packet = new ExManagePartyRoomMember(player, room, 1);
-						for(L2PcInstance member : room.getPartyMembers())
+						final ExManagePartyRoomMember packet = new ExManagePartyRoomMember(player, room, 1);
+						for (final L2PcInstance member : room.getPartyMembers())
 						{
 							if (member != null)
 								member.sendPacket(packet);
@@ -111,21 +110,21 @@ public final class RequestAnswerJoinParty extends L2GameClientPacket
 					}
 				}
 			}
-    	}
+		}
 		else
-        {
-			//activate garbage collection if there are no other members in party (happens when we were creating new one)
+		{
+			// activate garbage collection if there are no other members in party (happens when we were creating new one)
 			if (requestor.isInParty() && requestor.getParty().getMemberCount() == 1)
 				requestor.getParty().removePartyMember(requestor, false);
-    	}
-    	
+		}
+		
 		if (requestor.isInParty())
-    		requestor.getParty().setPendingInvitation(false);
-
-    	player.setActiveRequester(null);
-    	requestor.onTransactionResponse();
+			requestor.getParty().setPendingInvitation(false);
+		
+		player.setActiveRequester(null);
+		requestor.onTransactionResponse();
 	}
-
+	
 	@Override
 	public String getType()
 	{

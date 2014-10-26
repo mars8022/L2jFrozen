@@ -24,20 +24,20 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class Earthquake extends L2GameServerPacket
 {
 	private static final String _S__C4_EARTHQUAKE = "[S] C4 Earthquake";
-	private int _x;
-	private int _y;
-	private int _z;
-	private int _intensity;
-	private int _duration;
-
+	private final int _x;
+	private final int _y;
+	private final int _z;
+	private final int _intensity;
+	private final int _duration;
+	
 	/**
-	 * @param x 
-	 * @param y 
-	 * @param z 
-	 * @param intensity 
-	 * @param duration 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param intensity
+	 * @param duration
 	 */
-	public Earthquake(int x, int y, int z, int intensity, int duration)
+	public Earthquake(final int x, final int y, final int z, final int intensity, final int duration)
 	{
 		_x = x;
 		_y = y;
@@ -45,7 +45,7 @@ public class Earthquake extends L2GameServerPacket
 		_intensity = intensity;
 		_duration = duration;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -57,8 +57,9 @@ public class Earthquake extends L2GameServerPacket
 		writeD(_duration);
 		writeD(0x00); // Unknown
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

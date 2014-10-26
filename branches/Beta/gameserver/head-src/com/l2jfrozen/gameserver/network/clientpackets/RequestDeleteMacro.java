@@ -23,20 +23,20 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class RequestDeleteMacro extends L2GameClientPacket
 {
 	private int _id;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_id = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(getClient().getActiveChar() == null)
+		if (getClient().getActiveChar() == null)
 			return;
 		
-		//Macro exploit fix
+		// Macro exploit fix
 		if (!getClient().getFloodProtectors().getMacro().tryPerformAction("delete macro"))
 			return;
 		
@@ -46,11 +46,11 @@ public final class RequestDeleteMacro extends L2GameClientPacket
 		sendPacket(sm);
 		sm = null;
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] C2 RequestDeleteMacro";
 	}
-
+	
 }

@@ -19,7 +19,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch Sd.
- *
  * @author KenM
  */
 public class ExDuelAskStart extends L2GameServerPacket
@@ -27,20 +26,19 @@ public class ExDuelAskStart extends L2GameServerPacket
 	
 	/** The Constant _S__FE_4B_EXDUELASKSTART. */
 	private static final String _S__FE_4B_EXDUELASKSTART = "[S] FE:4B ExDuelAskStart";
-
+	
 	/** The _requestor name. */
-	private String _requestorName;
+	private final String _requestorName;
 	
 	/** The _party duel. */
-	private int _partyDuel;
-
+	private final int _partyDuel;
+	
 	/**
 	 * Instantiates a new ex duel ask start.
-	 *
 	 * @param requestor the requestor
 	 * @param partyDuel the party duel
 	 */
-	public ExDuelAskStart(String requestor, int partyDuel)
+	public ExDuelAskStart(final String requestor, final int partyDuel)
 	{
 		_requestorName = requestor;
 		_partyDuel = partyDuel;
@@ -51,14 +49,13 @@ public class ExDuelAskStart extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x4b);
-
+		
 		writeS(_requestorName);
 		writeD(_partyDuel);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

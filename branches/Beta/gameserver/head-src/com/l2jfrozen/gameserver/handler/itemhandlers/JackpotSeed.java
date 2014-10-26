@@ -36,42 +36,42 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 public class JackpotSeed implements IItemHandler
 {
 	private L2GourdInstance _gourd = null;
-
+	
 	private static int[] _itemIds =
 	{
-			6389, // small seed
-			6390
+		6389, // small seed
+		6390
 	// large seed
 	};
-
+	
 	private static int[] _npcIds =
 	{
-			12774, //Young Pumpkin
-			12777
-	//Large Young Pumpkin
+		12774, // Young Pumpkin
+		12777
+	// Large Young Pumpkin
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		L2NpcTemplate template1 = null;
-		int itemId = item.getItemId();
-		for(int i = 0; i < _itemIds.length; i++)
+		final int itemId = item.getItemId();
+		for (int i = 0; i < _itemIds.length; i++)
 		{
-			if(_itemIds[i] == itemId)
+			if (_itemIds[i] == itemId)
 			{
 				template1 = NpcTable.getInstance().getTemplate(_npcIds[i]);
 				break;
 			}
 		}
-
-		if(template1 == null)
+		
+		if (template1 == null)
 			return;
-
+		
 		try
 		{
-			L2Spawn spawn = new L2Spawn(template1);
+			final L2Spawn spawn = new L2Spawn(template1);
 			spawn.setId(IdFactory.getInstance().getNextId());
 			spawn.setLocx(activeChar.getX());
 			spawn.setLocy(activeChar.getY());
@@ -85,9 +85,9 @@ public class JackpotSeed implements IItemHandler
 			activeChar.sendPacket(sm);
 			sm = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
@@ -98,7 +98,7 @@ public class JackpotSeed implements IItemHandler
 		activeChar = null;
 		template1 = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

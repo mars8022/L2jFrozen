@@ -40,135 +40,141 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
  */
 public class GMShop implements IVoicedCommandHandler, ICustomByPassHandler, IBBSHandler
 {
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		
-		return new String[] {PowerPakConfig.GMSHOP_COMMAND};
+		return new String[]
+		{
+			PowerPakConfig.GMSHOP_COMMAND
+		};
 	}
-
-	private boolean checkAllowed(L2PcInstance activeChar)
+	
+	private boolean checkAllowed(final L2PcInstance activeChar)
 	{
 		String msg = null;
-		if(activeChar.isSitting())
+		if (activeChar.isSitting())
 			msg = "GMShop is not available when you sit";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ALL"))
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ALL"))
 			msg = "GMShop is not available in this area";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
-			msg = "GMShop is not available with the cursed sword"; 
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
+			msg = "GMShop is not available with the cursed sword";
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
 			msg = "GMShop is not available during the battle";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
 			msg = "GMShop is not available in the catacombs and necropolis";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
-				msg = "GMShop is not available in this area";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
 			msg = "GMShop is not available in this area";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
 			msg = "GMShop is not available in this area";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
 			msg = "GMShop is not available in this area";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("OLYMPIAD") && (activeChar.isInOlympiadMode() ||
-				activeChar.isInsideZone(L2Character.ZONE_OLY) || Olympiad.getInstance().isRegistered(activeChar) ||
-				Olympiad.getInstance().isRegisteredInComp(activeChar))) 
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
+			msg = "GMShop is not available in this area";
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("OLYMPIAD") && (activeChar.isInOlympiadMode() || activeChar.isInsideZone(L2Character.ZONE_OLY) || Olympiad.getInstance().isRegistered(activeChar) || Olympiad.getInstance().isRegisteredInComp(activeChar)))
 			msg = "GMShop is not available at Olympiad";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("EVENT") && 
-				(activeChar._inEvent))
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("EVENT") && (activeChar._inEvent))
 			msg = "GMShop is not available at the opening event";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("TVT") && 
-				activeChar._inEventTvT && TvT.is_started() )
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("TVT") && activeChar._inEventTvT && TvT.is_started())
 			msg = "GMShop is not available in TVT";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CTF") && 
-				activeChar._inEventCTF && CTF.is_started() )
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("CTF") && activeChar._inEventCTF && CTF.is_started())
 			msg = "GMShop is not available in CTF";
-		else if(PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DM") && 
-				activeChar._inEventDM && DM.is_started() )
+		else if (PowerPakConfig.GMSHOP_EXCLUDE_ON.contains("DM") && activeChar._inEventDM && DM.is_started())
 			msg = "GMShop is not available in DM";
 		
-		if(msg!=null)
+		if (msg != null)
 			activeChar.sendMessage(msg);
-
-		return msg==null;
+		
+		return msg == null;
 	}
-
+	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String params)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String params)
 	{
-		if(activeChar==null) 
+		if (activeChar == null)
 			return false;
-		if(!checkAllowed(activeChar)) 
+		if (!checkAllowed(activeChar))
 			return false;
 		
-		if(command.compareTo(PowerPakConfig.GMSHOP_COMMAND)==0)
+		if (command.compareTo(PowerPakConfig.GMSHOP_COMMAND) == 0)
 		{
 			String index = "";
-			if(params!=null && params.length()!=0)
-				if(!params.equals("0"))
-					index= "-"+params; 
-			String text = HtmCache.getInstance().getHtm("data/html/gmshop/gmshop"+index+".htm");
-			NpcHtmlMessage htm = new NpcHtmlMessage(activeChar.getLastQuestNpcObject());
+			if (params != null && params.length() != 0)
+				if (!params.equals("0"))
+					index = "-" + params;
+			final String text = HtmCache.getInstance().getHtm("data/html/gmshop/gmshop" + index + ".htm");
+			final NpcHtmlMessage htm = new NpcHtmlMessage(activeChar.getLastQuestNpcObject());
 			htm.setHtml(text);
 			activeChar.sendPacket(htm);
 		}
 		
 		return false;
 	}
-
-	private static String [] _CMD =  {"gmshop"};
+	
+	private static String[] _CMD =
+	{
+		"gmshop"
+	};
+	
 	@Override
 	public String[] getByPassCommands()
 	{
 		return _CMD;
 	}
-
+	
 	@Override
-	public void handleCommand(String command, L2PcInstance player, String parameters)
+	public void handleCommand(final String command, final L2PcInstance player, final String parameters)
 	{
-		if(player==null) 
+		if (player == null)
 			return;
-	 	if(parameters ==null || parameters.length()==0) 
-	 		return;
-	 	if(!checkAllowed(player)) 
-	 		return;
-	 	
-	 	if(!PowerPakConfig.GMSHOP_USEBBS && !PowerPakConfig.GMSHOP_USECOMMAND){
+		if (parameters == null || parameters.length() == 0)
+			return;
+		if (!checkAllowed(player))
+			return;
+		
+		if (!PowerPakConfig.GMSHOP_USEBBS && !PowerPakConfig.GMSHOP_USECOMMAND)
+		{
 			
-			L2NpcInstance gmshopnpc = null; 
+			L2NpcInstance gmshopnpc = null;
 			
-			if(player.getTarget()!=null)
-				if(player.getTarget() instanceof L2NpcInstance)
+			if (player.getTarget() != null)
+				if (player.getTarget() instanceof L2NpcInstance)
 				{
-					gmshopnpc = (L2NpcInstance)player.getTarget();
-					if(gmshopnpc.getTemplate().getNpcId()!=PowerPakConfig.GMSHOP_NPC)
-						gmshopnpc=null;
+					gmshopnpc = (L2NpcInstance) player.getTarget();
+					if (gmshopnpc.getTemplate().getNpcId() != PowerPakConfig.GMSHOP_NPC)
+						gmshopnpc = null;
 				}
 			
-			//Possible fix to Buffer - 1
+			// Possible fix to Buffer - 1
 			if (gmshopnpc == null)
 				return;
-
-			//Possible fix to Buffer - 2
+			
+			// Possible fix to Buffer - 2
 			if (!player.isInsideRadius(gmshopnpc, L2NpcInstance.INTERACTION_DISTANCE, false, false))
 				return;
 			
-		}//else (voice and bbs)
+		}// else (voice and bbs)
 		
-	 	if(parameters.startsWith("multisell")) {
-	 		try {
-	 			L2Multisell.getInstance().SeparateAndSend(Integer.parseInt(parameters.substring(9).trim()), player, false, 0);
-	 		} catch(Exception e) {
-	 			if(Config.ENABLE_ALL_EXCEPTIONS)
+		if (parameters.startsWith("multisell"))
+		{
+			try
+			{
+				L2Multisell.getInstance().SeparateAndSend(Integer.parseInt(parameters.substring(9).trim()), player, false, 0);
+			}
+			catch (final Exception e)
+			{
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
-	 			
-	 			player.sendMessage("This list does not exist");
-	 		}
-	 	}
-	 	else if(parameters.startsWith("Chat"))
-	 		useVoicedCommand("",player,parameters.substring(4).trim());
-	 			
+				
+				player.sendMessage("This list does not exist");
+			}
+		}
+		else if (parameters.startsWith("Chat"))
+			useVoicedCommand("", player, parameters.substring(4).trim());
+		
 	}
-
+	
 	@Override
 	public String[] getBBSCommands()
 	{

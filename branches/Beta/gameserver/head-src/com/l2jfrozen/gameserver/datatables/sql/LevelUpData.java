@@ -35,7 +35,6 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
- * 
  * @author NightMarez
  * @version $Revision: 1.3.2.4.2.3 $ $Date: 2005/03/27 15:29:18 $
  */
@@ -53,23 +52,23 @@ public class LevelUpData
 	private static final String CP_ADD = "defaultcpadd";
 	private static final String CP_BASE = "defaultcpbase";
 	private static final String CLASS_ID = "classid";
-
+	
 	private final static Logger LOGGER = Logger.getLogger(LevelUpData.class);
-
+	
 	private static LevelUpData _instance;
-
+	
 	private final Map<Integer, L2LvlupData> lvlTable;
-
+	
 	public static LevelUpData getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new LevelUpData();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private LevelUpData()
 	{
 		lvlTable = new FastMap<>();
@@ -80,8 +79,8 @@ public class LevelUpData
 			final PreparedStatement statement = con.prepareStatement(SELECT_ALL);
 			final ResultSet rset = statement.executeQuery();
 			L2LvlupData lvlDat;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				lvlDat = new L2LvlupData();
 				lvlDat.setClassid(rset.getInt(CLASS_ID));
@@ -95,16 +94,16 @@ public class LevelUpData
 				lvlDat.setClassMpBase(rset.getFloat(MP_BASE));
 				lvlDat.setClassMpAdd(rset.getFloat(MP_ADD));
 				lvlDat.setClassMpModifier(rset.getFloat(MP_MOD));
-
+				
 				lvlTable.put(new Integer(lvlDat.getClassid()), lvlDat);
 			}
-
+			
 			DatabaseUtils.close(statement);
 			DatabaseUtils.close(rset);
-
-			LOGGER.info ("LevelUpData: Loaded " + lvlTable.size() + " Character Level Up Templates.");
+			
+			LOGGER.info("LevelUpData: Loaded " + lvlTable.size() + " Character Level Up Templates.");
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.error("Error while creating Lvl up data table", e);
 		}
@@ -113,17 +112,17 @@ public class LevelUpData
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
-	 * @param classId 
+	 * @param classId
 	 * @return
 	 */
-	public L2LvlupData getTemplate(int classId)
+	public L2LvlupData getTemplate(final int classId)
 	{
 		return lvlTable.get(classId);
 	}
-
-	public L2LvlupData getTemplate(ClassId classId)
+	
+	public L2LvlupData getTemplate(final ClassId classId)
 	{
 		return lvlTable.get(classId.getId());
 	}

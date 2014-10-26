@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
-
 public class GeoEditorListener extends Thread
 {
 	protected static final Logger LOGGER = Logger.getLogger(GeoEditorListener.class);
@@ -52,44 +51,44 @@ public class GeoEditorListener extends Thread
 		{
 			_serverSocket = new ServerSocket(PORT);
 		}
-		catch(IOException e)
+		catch (final IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Error creating geoeditor listener! ", e);
+			LOGGER.error("Error creating geoeditor listener! ", e);
 			System.exit(1);
 		}
 		start();
 		LOGGER.info("GeoEditorListener Initialized.");
 	}
-
+	
 	public GeoEditorThread getThread()
 	{
 		return _geoEditor;
 	}
-
+	
 	public String getStatus()
 	{
-		if(_geoEditor != null && _geoEditor.isWorking())
+		if (_geoEditor != null && _geoEditor.isWorking())
 		{
 			return "Geoeditor connected.";
 		}
 		return "Geoeditor not connected.";
 	}
-
+	
 	@Override
 	public void run()
 	{
 		Socket connection = null;
 		try
 		{
-			while(true)
+			while (true)
 			{
 				connection = _serverSocket.accept();
-				if(_geoEditor != null && _geoEditor.isWorking())
+				if (_geoEditor != null && _geoEditor.isWorking())
 				{
-					LOGGER.warn( "Geoeditor already connected!");
+					LOGGER.warn("Geoeditor already connected!");
 					connection.close();
 					continue;
 				}
@@ -98,19 +97,20 @@ public class GeoEditorListener extends Thread
 				_geoEditor.start();
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.warn( "GeoEditorListener: ", e);
+			LOGGER.warn("GeoEditorListener: ", e);
 			try
 			{
-				if(connection != null) connection.close();
+				if (connection != null)
+					connection.close();
 			}
-			catch(Exception e2)
+			catch (final Exception e2)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e2.printStackTrace();
 				
 			}
@@ -121,14 +121,14 @@ public class GeoEditorListener extends Thread
 			{
 				_serverSocket.close();
 			}
-			catch(IOException io)
+			catch (final IOException io)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					io.printStackTrace();
 				
-				LOGGER.warn( "", io);
+				LOGGER.warn("", io);
 			}
-			LOGGER.warn( "GeoEditorListener Closed!");
+			LOGGER.warn("GeoEditorListener Closed!");
 		}
 	}
 }

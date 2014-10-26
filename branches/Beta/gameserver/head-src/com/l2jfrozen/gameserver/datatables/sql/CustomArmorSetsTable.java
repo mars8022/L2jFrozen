@@ -30,54 +30,56 @@ import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
- * 
- * 
  * @author ProGramMoS
  */
 public final class CustomArmorSetsTable
 {
 	private static final Logger LOGGER = Logger.getLogger(CustomArmorSetsTable.class);
 	private static CustomArmorSetsTable _instance;
-	public static CustomArmorSetsTable getInstance() {
-		if(_instance == null)
+	
+	public static CustomArmorSetsTable getInstance()
+	{
+		if (_instance == null)
 			_instance = new CustomArmorSetsTable();
 		return _instance;
 	}
 	
-	public CustomArmorSetsTable() {
+	public CustomArmorSetsTable()
+	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM custom_armorsets");
 			final ResultSet rset = statement.executeQuery();
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
-				int chest = rset.getInt("chest");
-				int legs = rset.getInt("legs");
-				int head = rset.getInt("head");
-				int gloves = rset.getInt("gloves");
-				int feet = rset.getInt("feet");
-				int skill_id = rset.getInt("skill_id");
-				int shield = rset.getInt("shield");
-				int shield_skill_id = rset.getInt("shield_skill_id");
-				int enchant6skill = rset.getInt("enchant6skill");
+				final int chest = rset.getInt("chest");
+				final int legs = rset.getInt("legs");
+				final int head = rset.getInt("head");
+				final int gloves = rset.getInt("gloves");
+				final int feet = rset.getInt("feet");
+				final int skill_id = rset.getInt("skill_id");
+				final int shield = rset.getInt("shield");
+				final int shield_skill_id = rset.getInt("shield_skill_id");
+				final int enchant6skill = rset.getInt("enchant6skill");
 				ArmorSetsTable.getInstance().addObj(chest, new L2ArmorSet(chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill));
 			}
 			LOGGER.info("ArmorSetsTable: Loaded custom armor sets.");
-
+			
 			DatabaseUtils.close(statement);
 			DatabaseUtils.close(rset);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.error("ArmorSetsTable: Error reading Custom ArmorSets table", e);
 		}
-		finally {
+		finally
+		{
 			CloseUtil.close(con);
 		}
 	}
-
+	
 }

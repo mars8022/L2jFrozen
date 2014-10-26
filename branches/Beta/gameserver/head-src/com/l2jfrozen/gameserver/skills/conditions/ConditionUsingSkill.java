@@ -25,18 +25,18 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public final class ConditionUsingSkill extends Condition
 {
-
+	
 	private final int _skillId;
-
-	public ConditionUsingSkill(int skillId)
+	
+	public ConditionUsingSkill(final int skillId)
 	{
 		_skillId = skillId;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(env.skill == null)
+		if (env.skill == null)
 			return false;
 		return env.skill.getId() == _skillId;
 	}

@@ -37,14 +37,14 @@ public class LoginStatusThread extends Thread
 {
 	private static final Logger LOGGER = Logger.getLogger(LoginStatusThread.class);
 	
-	private Socket _cSocket;
+	private final Socket _cSocket;
 	
-	private PrintWriter _print;
-	private BufferedReader _read;
+	private final PrintWriter _print;
+	private final BufferedReader _read;
 	
 	private boolean _redirectLogger;
 	
-	private void telnetOutput(int type, String text)
+	private void telnetOutput(final int type, final String text)
 	{
 		if (type == 1)
 			LOGGER.info("TELNET | " + text);
@@ -58,13 +58,13 @@ public class LoginStatusThread extends Thread
 			LOGGER.info("TELNET | " + text);
 	}
 	
-	private boolean isValidIP(Socket client)
+	private boolean isValidIP(final Socket client)
 	{
 		boolean result = false;
-		InetAddress ClientIP = client.getInetAddress();
+		final InetAddress ClientIP = client.getInetAddress();
 		
 		// convert IP to String, and compare with list
-		String clientStringIP = ClientIP.getHostAddress();
+		final String clientStringIP = ClientIP.getHostAddress();
 		
 		telnetOutput(1, "Connection from: " + clientStringIP);
 		
@@ -75,18 +75,18 @@ public class LoginStatusThread extends Thread
 		InputStream telnetIS = null;
 		try
 		{
-			Properties telnetSettings = new Properties();
+			final Properties telnetSettings = new Properties();
 			telnetIS = new FileInputStream(new File(FService.TELNET_FILE));
 			telnetSettings.load(telnetIS);
 			
-			String HostList = telnetSettings.getProperty("ListOfHosts", "127.0.0.1,localhost,::1");
+			final String HostList = telnetSettings.getProperty("ListOfHosts", "127.0.0.1,localhost,::1");
 			
 			if (Config.DEVELOPER)
 				telnetOutput(3, "Comparing ip to list...");
 			
 			// compare
 			String ipToCompare = null;
-			for (String ip : HostList.split(","))
+			for (final String ip : HostList.split(","))
 			{
 				if (!result)
 				{
@@ -98,7 +98,7 @@ public class LoginStatusThread extends Thread
 				}
 			}
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			if (Config.DEVELOPER)
 				telnetOutput(4, "");
@@ -106,12 +106,13 @@ public class LoginStatusThread extends Thread
 		}
 		finally
 		{
-			if(telnetIS != null){
+			if (telnetIS != null)
+			{
 				try
 				{
 					telnetIS.close();
 				}
-				catch (Exception e)
+				catch (final Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -123,7 +124,7 @@ public class LoginStatusThread extends Thread
 		return result;
 	}
 	
-	public LoginStatusThread(Socket client, int uptime, String StatusPW) throws IOException
+	public LoginStatusThread(final Socket client, final int uptime, final String StatusPW) throws IOException
 	{
 		_cSocket = client;
 		
@@ -137,7 +138,7 @@ public class LoginStatusThread extends Thread
 			_print.println("Please Insert Your Password!");
 			_print.print("Password: ");
 			_print.flush();
-			String tmpLine = _read.readLine();
+			final String tmpLine = _read.readLine();
 			if (tmpLine == null)
 			{
 				_print.println("Error.");
@@ -198,7 +199,7 @@ public class LoginStatusThread extends Thread
 				}
 				else if (_usrCommand.equals("status"))
 				{
-					//TODO enhance the output
+					// TODO enhance the output
 					_print.println("Registered Server Count: " + GameServerTable.getInstance().getRegisteredGameServers().size());
 				}
 				else if (_usrCommand.startsWith("unblock"))
@@ -216,7 +217,7 @@ public class LoginStatusThread extends Thread
 							_print.println("IP not found in hack protection list...");
 						}
 					}
-					catch (StringIndexOutOfBoundsException e)
+					catch (final StringIndexOutOfBoundsException e)
 					{
 						_print.println("Please Enter the IP to Unblock!");
 					}
@@ -260,13 +261,13 @@ public class LoginStatusThread extends Thread
 			}
 			telnetOutput(1, "Connection from " + _cSocket.getInetAddress().getHostAddress() + " was closed by client.");
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
 	
-	public void printToTelnet(String msg)
+	public void printToTelnet(final String msg)
 	{
 		synchronized (_print)
 		{

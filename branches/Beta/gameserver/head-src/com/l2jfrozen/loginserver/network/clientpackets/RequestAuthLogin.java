@@ -44,13 +44,13 @@ import com.l2jfrozen.loginserver.network.serverpackets.ServerList;
 public class RequestAuthLogin extends L2LoginClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(RequestAuthLogin.class);
-
-	private byte[] _raw = new byte[128];
-
+	
+	private final byte[] _raw = new byte[128];
+	
 	private String _user;
 	private String _password;
 	private int _ncotp;
-
+	
 	/**
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 	{
 		return _password;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -66,12 +66,12 @@ public class RequestAuthLogin extends L2LoginClientPacket
 	{
 		return _user;
 	}
-
+	
 	public int getOneTimePassword()
 	{
 		return _ncotp;
 	}
-
+	
 	@Override
 	public boolean readImpl()
 	{
@@ -82,7 +82,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -94,12 +94,12 @@ public class RequestAuthLogin extends L2LoginClientPacket
 			decrypted = rsaCipher.doFinal(_raw, 0x00, 0x80);
 			rsaCipher = null;
 		}
-		catch(GeneralSecurityException e)
+		catch (final GeneralSecurityException e)
 		{
 			e.printStackTrace();
 			return;
 		}
-
+		
 		_user = new String(decrypted, 0x5E, 14).trim();
 		_user = _user.toLowerCase();
 		_password = new String(decrypted, 0x6C, 16).trim();
@@ -107,25 +107,26 @@ public class RequestAuthLogin extends L2LoginClientPacket
 		_ncotp |= decrypted[0x7d] << 8;
 		_ncotp |= decrypted[0x7e] << 16;
 		_ncotp |= decrypted[0x7f] << 24;
-
+		
 		LoginController lc = LoginController.getInstance();
 		L2LoginClient client = getClient();
-		InetAddress address = getClient().getConnection().getInetAddress();
-		if(address == null) {
+		final InetAddress address = getClient().getConnection().getInetAddress();
+		if (address == null)
+		{
 			LOGGER.warn("Socket is not connected: " + client.getAccount());
 			client.close(LoginFailReason.REASON_SYSTEM_ERROR);
 			return;
 		}
-		String addhost = address.getHostAddress();
+		final String addhost = address.getHostAddress();
 		AuthLoginResult result = lc.tryAuthLogin(_user, _password, getClient());
-
-		switch(result)
+		
+		switch (result)
 		{
 			case AUTH_SUCCESS:
 				client.setAccount(_user);
 				client.setState(LoginClientState.AUTHED_LOGIN);
 				client.setSessionKey(lc.assignSessionKeyToClient(_user, client));
-				if(Config.SHOW_LICENCE)
+				if (Config.SHOW_LICENCE)
 				{
 					client.sendPacket(new LoginOk(getClient().getSessionKey()));
 				}
@@ -133,23 +134,25 @@ public class RequestAuthLogin extends L2LoginClientPacket
 				{
 					getClient().sendPacket(new ServerList(getClient()));
 				}
-				if(Config.ENABLE_DDOS_PROTECTION_SYSTEM) {
+				if (Config.ENABLE_DDOS_PROTECTION_SYSTEM)
+				{
 					String deny_comms = Config.DDOS_COMMAND_BLOCK;
 					deny_comms = deny_comms.replace("$IP", addhost);
 					
 					try
 					{
 						Runtime.getRuntime().exec(deny_comms);
-						if(Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM) {
-							LOGGER.info("Accepted IP access GS by "+addhost);
-							LOGGER.info("Command is"+deny_comms);
+						if (Config.ENABLE_DEBUG_DDOS_PROTECTION_SYSTEM)
+						{
+							LOGGER.info("Accepted IP access GS by " + addhost);
+							LOGGER.info("Command is" + deny_comms);
 						}
-					
+						
 					}
-					catch(IOException e1)
+					catch (final IOException e1)
 					{
-						LOGGER.info("Accepts by ip "+addhost+" no allowed");
-						LOGGER.info("Command is"+deny_comms);	
+						LOGGER.info("Accepts by ip " + addhost + " no allowed");
+						LOGGER.info("Command is" + deny_comms);
 					}
 					
 				}
@@ -163,7 +166,7 @@ public class RequestAuthLogin extends L2LoginClientPacket
 				break;
 			case ALREADY_ON_LS:
 				L2LoginClient oldClient;
-				if((oldClient = lc.getAuthedClient(_user)) != null)
+				if ((oldClient = lc.getAuthedClient(_user)) != null)
 				{
 					// kick the other client
 					oldClient.close(LoginFailReason.REASON_ACCOUNT_IN_USE);
@@ -173,12 +176,12 @@ public class RequestAuthLogin extends L2LoginClientPacket
 				break;
 			case ALREADY_ON_GS:
 				GameServerInfo gsi;
-				if((gsi = lc.getAccountOnGameServer(_user)) != null)
+				if ((gsi = lc.getAccountOnGameServer(_user)) != null)
 				{
 					client.close(LoginFailReason.REASON_ACCOUNT_IN_USE);
-
+					
 					// kick from there
-					if(gsi.isAuthed())
+					if (gsi.isAuthed())
 					{
 						gsi.getGameServerThread().kickPlayer(_user);
 					}
@@ -186,9 +189,9 @@ public class RequestAuthLogin extends L2LoginClientPacket
 				gsi = null;
 				break;
 		}
-
+		
 		result = null;
-
+		
 		decrypted = null;
 		lc = null;
 		client = null;

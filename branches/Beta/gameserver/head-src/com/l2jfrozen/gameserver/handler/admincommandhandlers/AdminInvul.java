@@ -27,73 +27,61 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class handles following admin commands: - invul = turns invulnerability on/off
- * 
  * @version $Revision: 1.2.4.4 $ $Date: 2007/07/31 10:06:02 $
  */
 public class AdminInvul implements IAdminCommandHandler
 {
 	private static Logger LOGGER = Logger.getLogger(AdminInvul.class);
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_invul", "admin_setinvul"
+		"admin_invul",
+		"admin_setinvul"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.LOGGER(record);
-		}
-		*/
-
-		if(command.equals("admin_invul"))
+		if (command.equals("admin_invul"))
 		{
 			handleInvul(activeChar);
 		}
-
-		if(command.equals("admin_setinvul"))
+		
+		if (command.equals("admin_setinvul"))
 		{
 			L2Object target = activeChar.getTarget();
-
-			if(target instanceof L2PcInstance)
+			
+			if (target instanceof L2PcInstance)
 			{
 				handleInvul((L2PcInstance) target);
 			}
-
+			
 			target = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void handleInvul(L2PcInstance activeChar)
+	
+	private void handleInvul(final L2PcInstance activeChar)
 	{
 		String text;
-
-		if(activeChar.isInvul())
+		
+		if (activeChar.isInvul())
 		{
 			activeChar.setIsInvul(false);
 			text = activeChar.getName() + " is now mortal";
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
 				LOGGER.debug("GM: Gm removed invul mode from character " + activeChar.getName() + "(" + activeChar.getObjectId() + ")");
 			}
@@ -102,12 +90,12 @@ public class AdminInvul implements IAdminCommandHandler
 		{
 			activeChar.setIsInvul(true);
 			text = activeChar.getName() + " is now invulnerable";
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
 				LOGGER.debug("GM: Gm activated invul mode for character " + activeChar.getName() + "(" + activeChar.getObjectId() + ")");
 			}
 		}
-
+		
 		activeChar.sendMessage(text);
 		text = null;
 	}

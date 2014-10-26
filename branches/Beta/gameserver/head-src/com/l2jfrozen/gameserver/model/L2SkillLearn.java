@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.model;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.4.2 $ $Date: 2005/03/27 15:29:33 $
  */
 public final class L2SkillLearn
@@ -28,16 +27,16 @@ public final class L2SkillLearn
 	// these two build the primary key
 	private final int _id;
 	private final int _level;
-
+	
 	// not needed, just for easier debug
 	private final String _name;
-
+	
 	private final int _spCost;
 	private final int _minLevel;
 	private final int _costid;
 	private final int _costcount;
-
-	public L2SkillLearn(int id, int lvl, int minLvl, String name, int cost, int costid, int costcount)
+	
+	public L2SkillLearn(final int id, final int lvl, final int minLvl, final String name, final int cost, final int costid, final int costcount)
 	{
 		_id = id;
 		_level = lvl;
@@ -47,7 +46,7 @@ public final class L2SkillLearn
 		_costid = costid;
 		_costcount = costcount;
 	}
-
+	
 	/**
 	 * @return Returns the id.
 	 */
@@ -55,7 +54,7 @@ public final class L2SkillLearn
 	{
 		return _id;
 	}
-
+	
 	/**
 	 * @return Returns the level.
 	 */
@@ -63,7 +62,7 @@ public final class L2SkillLearn
 	{
 		return _level;
 	}
-
+	
 	/**
 	 * @return Returns the minLevel.
 	 */
@@ -71,7 +70,7 @@ public final class L2SkillLearn
 	{
 		return _minLevel;
 	}
-
+	
 	/**
 	 * @return Returns the name.
 	 */
@@ -79,7 +78,7 @@ public final class L2SkillLearn
 	{
 		return _name;
 	}
-
+	
 	/**
 	 * @return Returns the spCost.
 	 */
@@ -87,12 +86,12 @@ public final class L2SkillLearn
 	{
 		return _spCost;
 	}
-
+	
 	public int getIdCost()
 	{
 		return _costid;
 	}
-
+	
 	public int getCostCount()
 	{
 		return _costcount;

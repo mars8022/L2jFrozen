@@ -28,23 +28,23 @@ public final class AccountKicked extends L2LoginServerPacket
 		REASON_GENERIC_VIOLATION(0x08),
 		REASON_7_DAYS_SUSPENDED(0x10),
 		REASON_PERMANENTLY_BANNED(0x20);
-
+		
 		private final int _code;
-
-		AccountKickedReason(int code)
+		
+		AccountKickedReason(final int code)
 		{
 			_code = code;
 		}
-
+		
 		public final int getCode()
 		{
 			return _code;
 		}
 	}
-
-	private int _reason;
-
-	public AccountKicked(AccountKickedReason reason)
+	
+	private final int _reason;
+	
+	public AccountKicked(final AccountKickedReason reason)
 	{
 		_reason = reason.getCode();
 	}
@@ -55,8 +55,9 @@ public final class AccountKicked extends L2LoginServerPacket
 		writeC(0x02);
 		writeD(_reason);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
 	 */
 	@Override
@@ -64,5 +65,5 @@ public final class AccountKicked extends L2LoginServerPacket
 	{
 		return "AccountKicked";
 	}
-
+	
 }

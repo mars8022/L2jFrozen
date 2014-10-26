@@ -19,7 +19,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch Trigger packet.
- *
  * @author KenM
  */
 public class ExShowVariationMakeWindow extends L2GameServerPacket
@@ -33,10 +32,9 @@ public class ExShowVariationMakeWindow extends L2GameServerPacket
 		writeC(0xfe);
 		writeH(0x50);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

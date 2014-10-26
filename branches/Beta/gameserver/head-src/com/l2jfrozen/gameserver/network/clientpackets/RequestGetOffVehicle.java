@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.GetOffVehicle;
 public final class RequestGetOffVehicle extends L2GameClientPacket
 {
 	private int _id, _x, _y, _z;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -38,25 +38,25 @@ public final class RequestGetOffVehicle extends L2GameClientPacket
 		_y = readD();
 		_z = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null)
 			return;
-
-		L2BoatInstance boat = BoatManager.getInstance().GetBoat(_id);
-		GetOffVehicle Gon = new GetOffVehicle(activeChar, boat, _x, _y, _z);
+		
+		final L2BoatInstance boat = BoatManager.getInstance().GetBoat(_id);
+		final GetOffVehicle Gon = new GetOffVehicle(activeChar, boat, _x, _y, _z);
 		activeChar.broadcastPacket(Gon);
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		// TODO Auto-generated method stub
 		return "[S] 5d GetOffVehicle";
 	}
-
+	
 }

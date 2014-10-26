@@ -46,20 +46,20 @@ public class TaskRaidPointsReset extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		String playerName = "";
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		
 		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
 		{
 			// reward clan reputation points
-			Map<Integer, Integer> rankList = RaidBossPointsManager.getRankList();
-			for (L2Clan c : ClanTable.getInstance().getClans())
+			final Map<Integer, Integer> rankList = RaidBossPointsManager.getRankList();
+			for (final L2Clan c : ClanTable.getInstance().getClans())
 			{
-				for (Map.Entry<Integer, Integer> entry : rankList.entrySet())
+				for (final Map.Entry<Integer, Integer> entry : rankList.entrySet())
 				{
-					L2Object obj = L2World.getInstance().findObject(entry.getKey());
+					final L2Object obj = L2World.getInstance().findObject(entry.getKey());
 					if (obj instanceof L2PcInstance)
 						playerName = ((L2PcInstance) obj).getName();
 					if (entry.getValue() <= 100 && c.isMember(playerName))

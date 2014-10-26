@@ -40,55 +40,55 @@ public class MOSKey implements IItemHandler
 	};
 	public static final int INTERACTION_DISTANCE = 150;
 	public static long LAST_OPEN = 0;
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		int itemId = item.getItemId();
-
-		if(!(playable instanceof L2PcInstance))
+		final int itemId = item.getItemId();
+		
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
 		L2Object target = activeChar.getTarget();
-
-		if(!(target instanceof L2DoorInstance))
+		
+		if (!(target instanceof L2DoorInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		L2DoorInstance door = (L2DoorInstance) target;
-
+		final L2DoorInstance door = (L2DoorInstance) target;
+		
 		target = null;
-
-		if(!activeChar.isInsideRadius(door, INTERACTION_DISTANCE, false, false))
+		
+		if (!activeChar.isInsideRadius(door, INTERACTION_DISTANCE, false, false))
 		{
 			activeChar.sendMessage("Door is to far.");
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(activeChar.getAbnormalEffect() > 0 || activeChar.isInCombat())
+		
+		if (activeChar.getAbnormalEffect() > 0 || activeChar.isInCombat())
 		{
 			activeChar.sendMessage("You can`t use the key right now.");
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(LAST_OPEN + 1800000 > System.currentTimeMillis()) // 30 * 60 * 1000 = 1800000
+		
+		if (LAST_OPEN + 1800000 > System.currentTimeMillis()) // 30 * 60 * 1000 = 1800000
 		{
 			activeChar.sendMessage("You can`t use the key right now.");
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(!playable.destroyItem("Consume", item.getObjectId(), 1, null, false))
+		
+		if (!playable.destroyItem("Consume", item.getObjectId(), 1, null, false))
 			return;
-
-		if(itemId == 8056)
+		
+		if (itemId == 8056)
 		{
-			if(door.getDoorId() == 23150003 || door.getDoorId() == 23150004)
+			if (door.getDoorId() == 23150003 || door.getDoorId() == 23150004)
 			{
 				DoorTable.getInstance().getDoor(23150003).openMe();
 				DoorTable.getInstance().getDoor(23150004).openMe();
@@ -100,7 +100,7 @@ public class MOSKey implements IItemHandler
 		}
 		activeChar = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

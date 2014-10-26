@@ -31,170 +31,169 @@ public abstract class ReceivablePacket<T extends MMOClient<?>> extends AbstractP
 {
 	NioNetStringBuffer _sbuf;
 	protected static final Logger LOGGER = LoggerFactory.getLogger(ReceivablePacket.class);
-
+	
 	protected ReceivablePacket()
 	{
-
+		
 	}
-
+	
 	protected abstract boolean read();
-
+	
 	@Override
 	public abstract void run();
-
+	
 	protected final void readB(final byte[] dst)
 	{
 		try
 		{
-
+			
 			_buf.get(dst);
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
-
+			
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 	}
-
+	
 	protected final void readB(final byte[] dst, final int offset, final int len)
 	{
 		try
 		{
-
+			
 			_buf.get(dst, offset, len);
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 	}
-
+	
 	protected final int readC()
 	{
 		try
 		{
-
+			
 			return _buf.get() & 0xFF;
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 		return -1;
-
+		
 	}
-
+	
 	protected final int readH()
 	{
-
+		
 		try
 		{
-
+			
 			return _buf.getShort() & 0xFFFF;
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 		return -1;
 	}
-
+	
 	protected final int readD()
 	{
-
+		
 		try
 		{
-
+			
 			return _buf.getInt();
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 		return -1;
 	}
-
+	
 	protected final long readQ()
 	{
-
+		
 		try
 		{
-
+			
 			return _buf.getLong();
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 		return -1;
 	}
-
+	
 	protected final double readF()
 	{
 		try
 		{
-
+			
 			return _buf.getDouble();
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 		return -1;
 	}
-
+	
 	protected final String readS()
 	{
 		_sbuf.clear();
-
+		
 		try
 		{
-
+			
 			char ch;
 			while ((ch = _buf.getChar()) != 0)
 			{
 				_sbuf.append(ch);
 			}
-
+			
 		}
 		catch (final BufferUnderflowException e)
 		{
 			LOGGER.warn("", e);
-
+			
 		}
-
+		
 		return _sbuf.toString();
 	}
-
+	
 	/**
 	 * packet forge purpose
-	 * 
 	 * @param data
 	 * @param client
 	 * @param sBuffer
 	 */
-	public void setBuffers(ByteBuffer data, T client, NioNetStringBuffer sBuffer)
+	public void setBuffers(final ByteBuffer data, final T client, final NioNetStringBuffer sBuffer)
 	{
 		_buf = data;
 		_client = client;

@@ -25,13 +25,13 @@ public class MultiSellIngredient
 {
 	private int _itemId, _itemCount, _enchantmentLevel;
 	private boolean _isTaxIngredient, _mantainIngredient;
-
-	public MultiSellIngredient(int itemId, int itemCount, boolean isTaxIngredient, boolean mantainIngredient)
+	
+	public MultiSellIngredient(final int itemId, final int itemCount, final boolean isTaxIngredient, final boolean mantainIngredient)
 	{
 		this(itemId, itemCount, 0, isTaxIngredient, mantainIngredient);
 	}
-
-	public MultiSellIngredient(int itemId, int itemCount, int enchantmentLevel, boolean isTaxIngredient, boolean mantainIngredient)
+	
+	public MultiSellIngredient(final int itemId, final int itemCount, final int enchantmentLevel, final boolean isTaxIngredient, final boolean mantainIngredient)
 	{
 		setItemId(itemId);
 		setItemCount(itemCount);
@@ -39,8 +39,8 @@ public class MultiSellIngredient
 		setIsTaxIngredient(isTaxIngredient);
 		setMantainIngredient(mantainIngredient);
 	}
-
-	public MultiSellIngredient(MultiSellIngredient e)
+	
+	public MultiSellIngredient(final MultiSellIngredient e)
 	{
 		_itemId = e.getItemId();
 		_itemCount = e.getItemCount();
@@ -48,15 +48,15 @@ public class MultiSellIngredient
 		_isTaxIngredient = e.isTaxIngredient();
 		_mantainIngredient = e.getMantainIngredient();
 	}
-
+	
 	/**
 	 * @param itemId The itemId to set.
 	 */
-	public void setItemId(int itemId)
+	public void setItemId(final int itemId)
 	{
 		_itemId = itemId;
 	}
-
+	
 	/**
 	 * @return Returns the itemId.
 	 */
@@ -64,15 +64,15 @@ public class MultiSellIngredient
 	{
 		return _itemId;
 	}
-
+	
 	/**
 	 * @param itemCount The itemCount to set.
 	 */
-	public void setItemCount(int itemCount)
+	public void setItemCount(final int itemCount)
 	{
 		_itemCount = itemCount;
 	}
-
+	
 	/**
 	 * @return Returns the itemCount.
 	 */
@@ -80,15 +80,15 @@ public class MultiSellIngredient
 	{
 		return _itemCount;
 	}
-
+	
 	/**
-	 * @param enchantmentLevel 
+	 * @param enchantmentLevel
 	 */
-	public void setEnchantmentLevel(int enchantmentLevel)
+	public void setEnchantmentLevel(final int enchantmentLevel)
 	{
 		_enchantmentLevel = enchantmentLevel;
 	}
-
+	
 	/**
 	 * @return Returns the itemCount.
 	 */
@@ -96,22 +96,22 @@ public class MultiSellIngredient
 	{
 		return _enchantmentLevel;
 	}
-
-	public void setIsTaxIngredient(boolean isTaxIngredient)
+	
+	public void setIsTaxIngredient(final boolean isTaxIngredient)
 	{
 		_isTaxIngredient = isTaxIngredient;
 	}
-
+	
 	public boolean isTaxIngredient()
 	{
 		return _isTaxIngredient;
 	}
-
-	public void setMantainIngredient(boolean mantainIngredient)
+	
+	public void setMantainIngredient(final boolean mantainIngredient)
 	{
 		_mantainIngredient = mantainIngredient;
 	}
-
+	
 	public boolean getMantainIngredient()
 	{
 		return _mantainIngredient;

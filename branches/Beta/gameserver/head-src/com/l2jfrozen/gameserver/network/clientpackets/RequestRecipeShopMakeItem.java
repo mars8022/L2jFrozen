@@ -34,7 +34,7 @@ public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 	private int _recipeId;
 	@SuppressWarnings("unused")
 	private int _unknow;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -42,45 +42,44 @@ public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 		_recipeId = readD();
 		_unknow = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		if (!getClient().getFloodProtectors().getManufacture().tryPerformAction("RecipeShopMake"))
-    		return;
-
-    	
-		L2PcInstance manufacturer = (L2PcInstance) L2World.getInstance().findObject(_id);
-		if(manufacturer == null)
 			return;
-
-		if(activeChar.getPrivateStoreType() != 0)
+		
+		final L2PcInstance manufacturer = (L2PcInstance) L2World.getInstance().findObject(_id);
+		if (manufacturer == null)
+			return;
+		
+		if (activeChar.getPrivateStoreType() != 0)
 		{
 			activeChar.sendMessage("Cannot make items while trading");
 			return;
 		}
-
-		if(manufacturer.getPrivateStoreType() != 5)
-			//activeChar.sendMessage("Cannot make items while trading");
+		
+		if (manufacturer.getPrivateStoreType() != 5)
+			// activeChar.sendMessage("Cannot make items while trading");
 			return;
-
-		if(activeChar.isInCraftMode() || manufacturer.isInCraftMode())
+		
+		if (activeChar.isInCraftMode() || manufacturer.isInCraftMode())
 		{
 			activeChar.sendMessage("Currently in Craft Mode");
 			return;
 		}
-
-		if(manufacturer.isInDuel() || activeChar.isInDuel())
+		
+		if (manufacturer.isInDuel() || activeChar.isInDuel())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANT_CRAFT_DURING_COMBAT));
 			return;
 		}
-
-		if(Util.checkIfInRange(150, activeChar, manufacturer, true))
+		
+		if (Util.checkIfInRange(150, activeChar, manufacturer, true))
 		{
 			RecipeController.getInstance().requestManufactureItem(manufacturer, _recipeId, activeChar);
 		}
@@ -91,5 +90,5 @@ public final class RequestRecipeShopMakeItem extends L2GameClientPacket
 	{
 		return "[C] B6 RequestRecipeShopMakeItem";
 	}
-
+	
 }

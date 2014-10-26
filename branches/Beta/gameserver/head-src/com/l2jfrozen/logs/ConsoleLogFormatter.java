@@ -29,44 +29,44 @@ import com.l2jfrozen.Config;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.4.2 $ $Date: 2005/03/27 15:30:08 $
  * @author ProGramMoS
  */
 
 public class ConsoleLogFormatter extends Formatter
 {
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
 	 */
 	private static final String CRLF = "\r\n";
-
+	
 	@Override
-	public String format(LogRecord record)
+	public String format(final LogRecord record)
 	{
-		TextBuilder output = new TextBuilder();
+		final TextBuilder output = new TextBuilder();
 		output.append(record.getMessage());
 		output.append(CRLF);
-		if(record.getThrown() != null)
+		if (record.getThrown() != null)
 		{
 			try
 			{
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
+				final StringWriter sw = new StringWriter();
+				final PrintWriter pw = new PrintWriter(sw);
 				record.getThrown().printStackTrace(pw);
 				pw.close();
 				output.append(sw.toString());
 				output.append(CRLF);
 			}
-			catch(Exception ex)
+			catch (final Exception ex)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					ex.printStackTrace();
 				
 			}
 		}
-
+		
 		return output.toString();
 	}
 }

@@ -22,7 +22,6 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.5.4.8 $ $Date: 2005/04/02 15:57:52 $
  */
 public final class L2TrainerInstance extends L2FolkInstance
@@ -30,23 +29,23 @@ public final class L2TrainerInstance extends L2FolkInstance
 	
 	/**
 	 * Instantiates a new l2 trainer instance.
-	 *
 	 * @param objectId the object id
 	 * @param template the template
 	 */
-	public L2TrainerInstance(int objectId, L2NpcTemplate template)
+	public L2TrainerInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#getHtmlPath(int, int)
 	 */
 	@Override
-	public String getHtmlPath(int npcId, int val)
+	public String getHtmlPath(final int npcId, final int val)
 	{
 		String pom = "";
-		if(val == 0)
+		if (val == 0)
 		{
 			pom = "" + npcId;
 		}
@@ -54,7 +53,7 @@ public final class L2TrainerInstance extends L2FolkInstance
 		{
 			pom = npcId + "-" + val;
 		}
-
+		
 		return "data/html/trainer/" + pom + ".htm";
 	}
 }

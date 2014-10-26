@@ -35,86 +35,88 @@ public class ArmorSetsTable
 {
 	private final static Logger LOGGER = Logger.getLogger(ArmorSetsTable.class);
 	private static ArmorSetsTable _instance;
-
+	
 	public FastMap<Integer, L2ArmorSet> armorSets;
 	private final FastMap<Integer, ArmorDummy> cusArmorSets;
-
+	
 	public static ArmorSetsTable getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new ArmorSetsTable();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private ArmorSetsTable()
 	{
 		armorSets = new FastMap<>();
 		cusArmorSets = new FastMap<>();
 		loadData();
 	}
-
+	
 	private void loadData()
 	{
 		Connection con = null;
 		try
 		{
-				con = L2DatabaseFactory.getInstance().getConnection(false);
-				final PreparedStatement statement = con.prepareStatement("SELECT id, chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM armorsets");
-				final ResultSet rset = statement.executeQuery();
-
-				while(rset.next())
-				{
-					int id = rset.getInt("id");
-					int chest = rset.getInt("chest");
-					int legs  = rset.getInt("legs");
-					int head  = rset.getInt("head");
-					int gloves = rset.getInt("gloves");
-					int feet  = rset.getInt("feet");
-					int skill_id = rset.getInt("skill_id");
-					int shield = rset.getInt("shield");
-					int shield_skill_id = rset.getInt("shield_skill_id");
-					int enchant6skill = rset.getInt("enchant6skill");
-
-					armorSets.put(chest, new L2ArmorSet(chest, legs, head, gloves, feet,skill_id, shield, shield_skill_id, enchant6skill));
-					cusArmorSets.put(id, new ArmorDummy(chest, legs, head, gloves, feet, skill_id, shield));
-				}
-
-				LOGGER.info("Loaded: " + armorSets.size() + " armor sets.");
-
-				DatabaseUtils.close(rset);
-				DatabaseUtils.close(statement);
+			con = L2DatabaseFactory.getInstance().getConnection(false);
+			final PreparedStatement statement = con.prepareStatement("SELECT id, chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill FROM armorsets");
+			final ResultSet rset = statement.executeQuery();
+			
+			while (rset.next())
+			{
+				final int id = rset.getInt("id");
+				final int chest = rset.getInt("chest");
+				final int legs = rset.getInt("legs");
+				final int head = rset.getInt("head");
+				final int gloves = rset.getInt("gloves");
+				final int feet = rset.getInt("feet");
+				final int skill_id = rset.getInt("skill_id");
+				final int shield = rset.getInt("shield");
+				final int shield_skill_id = rset.getInt("shield_skill_id");
+				final int enchant6skill = rset.getInt("enchant6skill");
+				
+				armorSets.put(chest, new L2ArmorSet(chest, legs, head, gloves, feet, skill_id, shield, shield_skill_id, enchant6skill));
+				cusArmorSets.put(id, new ArmorDummy(chest, legs, head, gloves, feet, skill_id, shield));
+			}
+			
+			LOGGER.info("Loaded: " + armorSets.size() + " armor sets.");
+			
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.error("Error while loading armor sets data", e);
-		} finally {
+		}
+		finally
+		{
 			CloseUtil.close(con);
 		}
 	}
-
-	public boolean setExists(int chestId)
+	
+	public boolean setExists(final int chestId)
 	{
 		return armorSets.containsKey(chestId);
 	}
-
-	public L2ArmorSet getSet(int chestId)
+	
+	public L2ArmorSet getSet(final int chestId)
 	{
 		return armorSets.get(chestId);
 	}
-
-	public void addObj(int v, L2ArmorSet s)
+	
+	public void addObj(final int v, final L2ArmorSet s)
 	{
 		armorSets.put(v, s);
 	}
-
-	public ArmorDummy getCusArmorSets(int id)
+	
+	public ArmorDummy getCusArmorSets(final int id)
 	{
 		return cusArmorSets.get(id);
 	}
-
+	
 	public class ArmorDummy
 	{
 		private final int _chest;
@@ -124,8 +126,8 @@ public class ArmorSetsTable
 		private final int _feet;
 		private final int _skill_id;
 		private final int _shield;
-
-		public ArmorDummy(int chest, int legs, int head, int gloves, int feet, int skill_id, int shield)
+		
+		public ArmorDummy(final int chest, final int legs, final int head, final int gloves, final int feet, final int skill_id, final int shield)
 		{
 			_chest = chest;
 			_legs = legs;
@@ -135,37 +137,37 @@ public class ArmorSetsTable
 			_skill_id = skill_id;
 			_shield = shield;
 		}
-
+		
 		public int getChest()
 		{
 			return _chest;
 		}
-
+		
 		public int getLegs()
 		{
 			return _legs;
 		}
-
+		
 		public int getHead()
 		{
 			return _head;
 		}
-
+		
 		public int getGloves()
 		{
 			return _gloves;
 		}
-
+		
 		public int getFeet()
 		{
 			return _feet;
 		}
-
+		
 		public int getSkill_id()
 		{
 			return _skill_id;
 		}
-
+		
 		public int getShield()
 		{
 			return _shield;

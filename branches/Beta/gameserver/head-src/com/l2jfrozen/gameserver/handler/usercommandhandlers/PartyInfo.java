@@ -33,25 +33,25 @@ public class PartyInfo implements IUserCommandHandler
 	{
 		81
 	};
-
+	
 	@Override
-	public boolean useUserCommand(int id, L2PcInstance activeChar)
+	public boolean useUserCommand(final int id, final L2PcInstance activeChar)
 	{
-		if(id != COMMAND_IDS[0])
+		if (id != COMMAND_IDS[0])
 			return false;
-
-		if(!activeChar.isInParty())
+		
+		if (!activeChar.isInParty())
 			return false;
-
+		
 		L2Party playerParty = activeChar.getParty();
-		int memberCount = playerParty.getMemberCount();
-		int lootDistribution = playerParty.getLootDistribution();
-		String partyLeader = playerParty.getPartyMembers().get(0).getName();
-
+		final int memberCount = playerParty.getMemberCount();
+		final int lootDistribution = playerParty.getLootDistribution();
+		final String partyLeader = playerParty.getPartyMembers().get(0).getName();
+		
 		playerParty = null;
-
+		
 		activeChar.sendPacket(new SystemMessage(SystemMessageId.PARTY_INFORMATION));
-
+		
 		switch (lootDistribution)
 		{
 			case L2Party.ITEM_LOOTER:
@@ -70,12 +70,12 @@ public class PartyInfo implements IUserCommandHandler
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.LOOTING_RANDOM_INCLUDE_SPOIL));
 				break;
 		}
- 	activeChar.sendPacket(new SystemMessage(SystemMessageId.PARTY_LEADER_S1).addString(partyLeader)); 
- 	activeChar.sendMessage("Members: " + memberCount + "/9"); 
- 	activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOTER)); 
-	return true;
+		activeChar.sendPacket(new SystemMessage(SystemMessageId.PARTY_LEADER_S1).addString(partyLeader));
+		activeChar.sendMessage("Members: " + memberCount + "/9");
+		activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOTER));
+		return true;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

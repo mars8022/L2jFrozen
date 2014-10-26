@@ -25,7 +25,8 @@ public class Manager
 	{
 		AuctionManager.getInstance().reload();
 		
-		if(!Config.ALT_DEV_NO_QUESTS){
+		if (!Config.ALT_DEV_NO_QUESTS)
+		{
 			QuestManager.getInstance();
 			QuestManager.reload();
 		}

@@ -25,7 +25,7 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(CannotMoveAnymore.class);
 	private int _x, _y, _z, _heading;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -34,22 +34,22 @@ public final class CannotMoveAnymore extends L2GameClientPacket
 		_z = readD();
 		_heading = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2Character player = getClient().getActiveChar();
-
+		final L2Character player = getClient().getActiveChar();
+		
 		if (player == null)
 			return;
-
+		
 		if (Config.DEBUG)
-			LOGGER.debug("DEBUG "+getType()+": client: x:" + _x + " y:" + _y + " z:" + _z + " server x:" + player.getX() + " y:" + player.getY() + " z:" + player.getZ());
-
+			LOGGER.debug("DEBUG " + getType() + ": client: x:" + _x + " y:" + _y + " z:" + _z + " server x:" + player.getX() + " y:" + player.getY() + " z:" + player.getZ());
+		
 		if (player.getAI() != null)
 			player.getAI().notifyEvent(CtrlEvent.EVT_ARRIVED_BLOCKED, new L2CharPosition(_x, _y, _z, _heading));
 	}
-
+	
 	@Override
 	public String getType()
 	{

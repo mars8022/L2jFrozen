@@ -27,31 +27,31 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class BoatKnownList extends CharKnownList
 {
-
+	
 	/**
 	 * @param activeChar
 	 */
-	public BoatKnownList(L2Character activeChar)
+	public BoatKnownList(final L2Character activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	@Override
-	public int getDistanceToForgetObject(L2Object object)
+	public int getDistanceToForgetObject(final L2Object object)
 	{
-		if(!(object instanceof L2PcInstance))
+		if (!(object instanceof L2PcInstance))
 			return 0;
-
+		
 		return 8000;
 	}
-
+	
 	@Override
-	public int getDistanceToWatchObject(L2Object object)
+	public int getDistanceToWatchObject(final L2Object object)
 	{
-		if(!(object instanceof L2PcInstance))
+		if (!(object instanceof L2PcInstance))
 			return 0;
-
+		
 		return 4000;
 	}
-
+	
 }

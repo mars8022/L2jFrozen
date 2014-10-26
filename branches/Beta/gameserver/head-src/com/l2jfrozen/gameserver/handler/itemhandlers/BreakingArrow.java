@@ -36,20 +36,20 @@ public class BreakingArrow implements IItemHandler
 	};
 	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		int itemId = item.getItemId();
+		final int itemId = item.getItemId();
 		if (!(playable instanceof L2PcInstance))
 			return;
-		L2PcInstance activeChar = (L2PcInstance) playable;
-		L2Object target = activeChar.getTarget();
+		final L2PcInstance activeChar = (L2PcInstance) playable;
+		final L2Object target = activeChar.getTarget();
 		if (!(target instanceof L2GrandBossInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.INCORRECT_TARGET));
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		L2GrandBossInstance Frintezza = (L2GrandBossInstance) target;
+		final L2GrandBossInstance Frintezza = (L2GrandBossInstance) target;
 		if (!activeChar.isInsideRadius(Frintezza, 500, false, false))
 		{
 			activeChar.sendMessage("The purpose is inaccessible");

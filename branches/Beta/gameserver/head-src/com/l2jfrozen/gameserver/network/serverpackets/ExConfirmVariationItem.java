@@ -23,12 +23,12 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ExConfirmVariationItem extends L2GameServerPacket
 {
 	private static final String _S__FE_52_EXCONFIRMVARIATIONITEM = "[S] FE:52 ExConfirmVariationItem";
-
-	private int _itemObjId;
-	private int _unk1;
-	private int _unk2;
-
-	public ExConfirmVariationItem(int itemObjId)
+	
+	private final int _itemObjId;
+	private final int _unk1;
+	private final int _unk2;
+	
+	public ExConfirmVariationItem(final int itemObjId)
 	{
 		_itemObjId = itemObjId;
 		_unk1 = 1;

@@ -41,7 +41,7 @@ public class TaskJython extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		_python.cleanup();
 		_python.exec("import sys");

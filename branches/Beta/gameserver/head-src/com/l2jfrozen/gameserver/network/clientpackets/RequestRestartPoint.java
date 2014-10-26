@@ -59,7 +59,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 	{
 		L2PcInstance activeChar;
 		
-		DeathTask(L2PcInstance _activeChar)
+		DeathTask(final L2PcInstance _activeChar)
 		{
 			activeChar = _activeChar;
 		}
@@ -111,7 +111,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 								activeChar.restoreExp(ClanHallManager.getInstance().getClanHallByOwner(activeChar.getClan()).getFunction(ClanHall.FUNC_RESTORE_EXP).getLvl());
 							}
 							
-							break;				
+							break;
 						}
 						
 						loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);
@@ -206,7 +206,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 							break;
 						}
 						loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);
-						break;				
+						break;
 				}
 				
 				// Stand up and teleport, proof dvp video.
@@ -214,9 +214,9 @@ public final class RequestRestartPoint extends L2GameClientPacket
 				activeChar.setIsPendingRevive(true);
 				activeChar.teleToLocation(loc, true);
 			}
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
-				e.printStackTrace();				
+				e.printStackTrace();
 				// LOGGER.error( "", e);
 			}
 		}
@@ -225,7 +225,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
 			return;
@@ -242,7 +242,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 			return;
 		}
 		
-		Castle castle = CastleManager.getInstance().getCastle(activeChar.getX(), activeChar.getY(), activeChar.getZ());
+		final Castle castle = CastleManager.getInstance().getCastle(activeChar.getX(), activeChar.getY(), activeChar.getZ());
 		if (castle != null && castle.getSiege().getIsInProgress())
 		{
 			if (activeChar.getClan() != null && castle.getSiege().checkIsAttacker(activeChar.getClan()))

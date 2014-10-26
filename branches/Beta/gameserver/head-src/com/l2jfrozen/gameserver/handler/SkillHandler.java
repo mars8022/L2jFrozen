@@ -71,7 +71,7 @@ public class SkillHandler
 	
 	private static SkillHandler _instance;
 	
-	private Map<L2Skill.SkillType, ISkillHandler> _datatable;
+	private final Map<L2Skill.SkillType, ISkillHandler> _datatable;
 	
 	public static SkillHandler getInstance()
 	{
@@ -124,18 +124,18 @@ public class SkillHandler
 		
 	}
 	
-	public void registerSkillHandler(ISkillHandler handler)
+	public void registerSkillHandler(final ISkillHandler handler)
 	{
 		SkillType[] types = handler.getSkillIds();
 		
-		for (SkillType t : types)
+		for (final SkillType t : types)
 		{
 			_datatable.put(t, handler);
 		}
 		types = null;
 	}
 	
-	public ISkillHandler getSkillHandler(SkillType skillType)
+	public ISkillHandler getSkillHandler(final SkillType skillType)
 	{
 		return _datatable.get(skillType);
 	}

@@ -18,19 +18,19 @@
  */
 package com.l2jfrozen.gameserver.network.gameserverpackets;
 
-
 /**
  * @author -Wooden-
  */
 public class PlayerLogout extends GameServerBasePacket
 {
-	public PlayerLogout(String player)
+	public PlayerLogout(final String player)
 	{
 		writeC(0x03);
 		writeS(player);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override

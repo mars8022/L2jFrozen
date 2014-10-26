@@ -49,12 +49,12 @@ public class AdminReload implements IAdminCommandHandler
 	};
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		if (command.startsWith("admin_reload"))
 		{
 			sendReloadPage(activeChar);
-			StringTokenizer st = new StringTokenizer(command);
+			final StringTokenizer st = new StringTokenizer(command);
 			st.nextToken();
 			
 			if (!st.hasMoreTokens())
@@ -65,7 +65,7 @@ public class AdminReload implements IAdminCommandHandler
 			
 			try
 			{
-				String type = st.nextToken();
+				final String type = st.nextToken();
 				
 				if (type.equals("multisell"))
 				{
@@ -117,7 +117,7 @@ public class AdminReload implements IAdminCommandHandler
 				}
 				else if (type.startsWith("quests"))
 				{
-					String folder = "quests";
+					final String folder = "quests";
 					QuestManager.getInstance().reload(folder);
 					sendReloadPage(activeChar);
 					activeChar.sendMessage("Quests Reloaded.");
@@ -157,11 +157,11 @@ public class AdminReload implements IAdminCommandHandler
 				{
 					try
 					{
-						File custom_scripts_dir = new File(Config.DATAPACK_ROOT + "/data/scripts/custom");
+						final File custom_scripts_dir = new File(Config.DATAPACK_ROOT + "/data/scripts/custom");
 						L2ScriptEngineManager.getInstance().executeAllScriptsInDirectory(custom_scripts_dir, true, 3);
 						
 					}
-					catch (Exception ioe)
+					catch (final Exception ioe)
 					{
 						activeChar.sendMessage("Failed loading " + Config.DATAPACK_ROOT + "/data/scripts/custom scripts, no script going to be loaded");
 						ioe.printStackTrace();
@@ -175,7 +175,7 @@ public class AdminReload implements IAdminCommandHandler
 						FaenorScriptEngine.getInstance().reloadPackages();
 						
 					}
-					catch (Exception ioe)
+					catch (final Exception ioe)
 					{
 						activeChar.sendMessage("Failed loading faenor scripts, no script going to be loaded");
 						ioe.printStackTrace();
@@ -184,7 +184,7 @@ public class AdminReload implements IAdminCommandHandler
 				}
 				activeChar.sendMessage("WARNING: There are several known issues regarding this feature. Reloading server data during runtime is STRONGLY NOT RECOMMENDED for live servers, just for developing environments.");
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 				{
@@ -201,7 +201,7 @@ public class AdminReload implements IAdminCommandHandler
 	 * send reload page
 	 * @param activeChar
 	 */
-	private void sendReloadPage(L2PcInstance activeChar)
+	private void sendReloadPage(final L2PcInstance activeChar)
 	{
 		AdminHelpPage.showSubMenuPage(activeChar, "reload_menu.htm");
 	}

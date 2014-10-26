@@ -28,14 +28,14 @@ public class ItemRequest
 	int _count;
 	int _price;
 	
-	public ItemRequest(int objectId, int count, int price)
+	public ItemRequest(final int objectId, final int count, final int price)
 	{
 		_objectId = objectId;
 		_count = count;
 		_price = price;
 	}
 	
-	public ItemRequest(int objectId, int itemId, int count, int price)
+	public ItemRequest(final int objectId, final int itemId, final int count, final int price)
 	{
 		_objectId = objectId;
 		_itemId = itemId;
@@ -43,7 +43,7 @@ public class ItemRequest
 		_price = price;
 	}
 	
-	public ItemRequest(int objectId, int itemId, int enchant, int count, int price)
+	public ItemRequest(final int objectId, final int itemId, final int enchant, final int count, final int price)
 	{
 		_objectId = objectId;
 		_itemId = itemId;
@@ -62,7 +62,7 @@ public class ItemRequest
 		return _itemId;
 	}
 	
-	public void setCount(int count)
+	public void setCount(final int count)
 	{
 		_count = count;
 	}
@@ -85,7 +85,7 @@ public class ItemRequest
 	/**
 	 * @param enchant
 	 */
-	public void setEnchant(int enchant)
+	public void setEnchant(final int enchant)
 	{
 		_enchant = enchant;
 	}

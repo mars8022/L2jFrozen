@@ -22,23 +22,22 @@ import com.l2jfrozen.gameserver.model.L2Character;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.1.2.4 $ $Date: 2005/03/27 15:29:57 $
  */
 public class StopRotation extends L2GameServerPacket
 {
 	private static final String _S__78_STOPROTATION = "[S] 63 StopRotation";
-	private int _charObjId;
-	private int _degree;
-	private int _speed;
-
-	public StopRotation(L2Character player, int degree, int speed)
+	private final int _charObjId;
+	private final int _degree;
+	private final int _speed;
+	
+	public StopRotation(final L2Character player, final int degree, final int speed)
 	{
 		_charObjId = player.getObjectId();
 		_degree = degree;
 		_speed = speed;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -48,8 +47,9 @@ public class StopRotation extends L2GameServerPacket
 		writeD(_speed);
 		writeC(0); // ?
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

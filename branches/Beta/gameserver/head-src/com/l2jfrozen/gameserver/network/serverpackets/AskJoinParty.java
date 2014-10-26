@@ -24,26 +24,25 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  * 4b c1 b2 e0 4a 00 00 00 00
  * <p>
  * format cdd
- * 
  * @version $Revision: 1.1.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class AskJoinParty extends L2GameServerPacket
 {
 	private static final String _S__4B_ASKJOINPARTY_0X4B = "[S] 39 AskJoinParty 0x4b";
 	
-	private String _requestorName;
-	private int _itemDistribution;
-
+	private final String _requestorName;
+	private final int _itemDistribution;
+	
 	/**
-	 * @param requestorName 
-	 * @param itemDistribution 
+	 * @param requestorName
+	 * @param itemDistribution
 	 */
-	public AskJoinParty(String requestorName, int itemDistribution)
+	public AskJoinParty(final String requestorName, final int itemDistribution)
 	{
 		_requestorName = requestorName;
 		_itemDistribution = itemDistribution;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -51,8 +50,9 @@ public class AskJoinParty extends L2GameServerPacket
 		writeS(_requestorName);
 		writeD(_itemDistribution);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -60,5 +60,5 @@ public class AskJoinParty extends L2GameServerPacket
 	{
 		return _S__4B_ASKJOINPARTY_0X4B;
 	}
-
+	
 }

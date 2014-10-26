@@ -11,14 +11,15 @@ public class Hallate extends Quest implements Runnable
 	// Hallate NpcID
 	private static final int HALLATE = 25220;
 	
-	public Hallate(int questId, String name, String descr)
+	public Hallate(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
-
+		
 		addEventId(HALLATE, Quest.QuestEventType.ON_ATTACK);
 	}
-
+	
 	@Override
 	public void run()
-	{}
+	{
+	}
 }

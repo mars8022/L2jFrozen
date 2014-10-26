@@ -47,7 +47,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 		{
 			_name = readS();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -64,7 +64,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 		
 		SystemMessage sm;
 		Connection con = null;
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
@@ -78,7 +78,7 @@ public final class RequestFriendDel extends L2GameClientPacket
 		
 		try
 		{
-			L2PcInstance friend = L2World.getInstance().getPlayer(_name);
+			final L2PcInstance friend = L2World.getInstance().getPlayer(_name);
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			
 			PreparedStatement statement;
@@ -90,8 +90,8 @@ public final class RequestFriendDel extends L2GameClientPacket
 			{
 				objectId = friend.getObjectId();
 				/*
-				 * statement = con.prepareStatement("SELECT friend_id FROM character_friends WHERE char_id=? and friend_id=?"); statement.setInt(1, activeChar.getObjectId()); statement.setInt(2, friend.getObjectId()); rset = statement.executeQuery(); if(!rset.next()) { DatabaseUtils.close(statement); // Player
-				 * is not in your friendlist sm = new SystemMessage(SystemMessageId.S1_NOT_ON_YOUR_FRIENDS_LIST); sm.addString(_name); activeChar.sendPacket(sm); CloseUtil.close(con); con = null; return; }
+				 * statement = con.prepareStatement("SELECT friend_id FROM character_friends WHERE char_id=? and friend_id=?"); statement.setInt(1, activeChar.getObjectId()); statement.setInt(2, friend.getObjectId()); rset = statement.executeQuery(); if(!rset.next()) {
+				 * DatabaseUtils.close(statement); // Player is not in your friendlist sm = new SystemMessage(SystemMessageId.S1_NOT_ON_YOUR_FRIENDS_LIST); sm.addString(_name); activeChar.sendPacket(sm); CloseUtil.close(con); con = null; return; }
 				 */
 			}
 			else
@@ -140,12 +140,12 @@ public final class RequestFriendDel extends L2GameClientPacket
 				friend.sendPacket(new FriendList(friend));
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.warn( "could not del friend objectid: ", e);
+			LOGGER.warn("could not del friend objectid: ", e);
 		}
 		finally
 		{

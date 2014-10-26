@@ -37,5 +37,5 @@ public final class RequestPledgeCrest extends L2GameClientPacket
 	{
 		return "[C] 68 RequestPledgeCrest";
 	}
-
+	
 }

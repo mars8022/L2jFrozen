@@ -65,40 +65,29 @@ public class AdminPledge implements IAdminCommandHandler
 	}
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.LOGGER(record);
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
 		 */
 		
-		StringTokenizer st = new StringTokenizer(command);
+		final StringTokenizer st = new StringTokenizer(command);
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
-			case admin_pledge:{
+			case admin_pledge:
+			{
 				
-				L2Object target = activeChar.getTarget();
+				final L2Object target = activeChar.getTarget();
 				L2PcInstance player = null;
 				
-				if(target instanceof L2PcInstance)
+				if (target instanceof L2PcInstance)
 				{
 					player = (L2PcInstance) target;
 				}
@@ -109,52 +98,57 @@ public class AdminPledge implements IAdminCommandHandler
 					return false;
 				}
 				
-				String name = player.getName();
+				final String name = player.getName();
 				
 				ActionEnum action = null;
 				String parameter = null;
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
 					action = ActionEnum.valueOf(st.nextToken()); // create|info|dismiss|setlevel|rep
 					
-					if(action == null){
+					if (action == null)
+					{
 						activeChar.sendMessage("Not allowed Action on Clan");
 						showMainPage(activeChar);
 						return false;
 					}
 				}
 				
-				if(action!=ActionEnum.create && !player.isClanLeader())
+				if (action != ActionEnum.create && !player.isClanLeader())
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.S1_IS_NOT_A_CLAN_LEADER).addString(name));
 					showMainPage(activeChar);
 					return false;
 				}
 				
-				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					parameter = st.nextToken(); // clanname|nothing|nothing|level|rep_points
 				}
-				if (action != null) {
-					switch(action){
-						
-						case create:{
+				if (action != null)
+				{
+					switch (action)
+					{
+					
+						case create:
+						{
 							
-							if(parameter == null || parameter.length() == 0)
+							if (parameter == null || parameter.length() == 0)
 							{
 								activeChar.sendMessage("Please, enter clan name.");
 								showMainPage(activeChar);
 								return false;
 							}
 							
-							long cet = player.getClanCreateExpiryTime();
+							final long cet = player.getClanCreateExpiryTime();
 							
 							player.setClanCreateExpiryTime(0);
 							
-							L2Clan clan = ClanTable.getInstance().createClan(player, parameter);
+							final L2Clan clan = ClanTable.getInstance().createClan(player, parameter);
 							
-							if(clan != null)
+							if (clan != null)
 							{
 								activeChar.sendMessage("Clan " + parameter + " created. Leader: " + player.getName());
 								return true;
@@ -164,13 +158,14 @@ public class AdminPledge implements IAdminCommandHandler
 							showMainPage(activeChar);
 							return false;
 						}
-						case dismiss:{
+						case dismiss:
+						{
 							
 							ClanTable.getInstance().destroyClan(player.getClanId());
 							
-							L2Clan clan = player.getClan();
+							final L2Clan clan = player.getClan();
 							
-							if(clan == null)
+							if (clan == null)
 							{
 								activeChar.sendMessage("Clan disbanded.");
 								return true;
@@ -179,15 +174,17 @@ public class AdminPledge implements IAdminCommandHandler
 							showMainPage(activeChar);
 							return false;
 						}
-						case info:{
+						case info:
+						{
 							
 							activeChar.sendPacket(new GMViewPledgeInfo(player.getClan(), player));
 							return true;
 							
 						}
-						case rep:{
+						case rep:
+						{
 							
-							if(parameter == null)
+							if (parameter == null)
 							{
 								activeChar.sendMessage("Usage: //pledge <setlevel|rep> <number>");
 								showMainPage(activeChar);
@@ -196,11 +193,14 @@ public class AdminPledge implements IAdminCommandHandler
 							
 							int points = player.getClan().getReputationScore();
 							
-							try{
+							try
+							{
 								
 								points = Integer.parseInt(parameter);
 								
-							}catch (NumberFormatException nfe){
+							}
+							catch (final NumberFormatException nfe)
+							{
 								activeChar.sendMessage("Points incorrect.");
 								activeChar.sendMessage("Usage: //pledge <setlevel|rep> <number>");
 								showMainPage(activeChar);
@@ -209,7 +209,7 @@ public class AdminPledge implements IAdminCommandHandler
 							
 							L2Clan clan = player.getClan();
 							
-							if(clan.getLevel() < 5)
+							if (clan.getLevel() < 5)
 							{
 								activeChar.sendMessage("Only clans of level 5 or above may receive reputation points.");
 								showMainPage(activeChar);
@@ -222,9 +222,10 @@ public class AdminPledge implements IAdminCommandHandler
 							return true;
 							
 						}
-						case setlevel:{
+						case setlevel:
+						{
 							
-							if(parameter == null)
+							if (parameter == null)
 							{
 								activeChar.sendMessage("Usage: //pledge <setlevel|rep> <number>");
 								showMainPage(activeChar);
@@ -233,18 +234,21 @@ public class AdminPledge implements IAdminCommandHandler
 							
 							int level = player.getClan().getLevel();
 							
-							try{
+							try
+							{
 								
 								level = Integer.parseInt(parameter);
 								
-							}catch (NumberFormatException nfe){
+							}
+							catch (final NumberFormatException nfe)
+							{
 								activeChar.sendMessage("Level incorrect.");
 								activeChar.sendMessage("Usage: //pledge <setlevel|rep> <number>");
 								showMainPage(activeChar);
 								return false;
 							}
 							
-							if(level >= 0 && level < 9)
+							if (level >= 0 && level < 9)
 							{
 								
 								player.getClan().changeLevel(level);
@@ -257,7 +261,8 @@ public class AdminPledge implements IAdminCommandHandler
 							showMainPage(activeChar);
 							return false;
 						}
-						default:{
+						default:
+						{
 							activeChar.sendMessage("Clan Action not allowed...");
 							showMainPage(activeChar);
 							return false;
@@ -265,9 +270,10 @@ public class AdminPledge implements IAdminCommandHandler
 					}
 				}
 				if (Config.DEBUG)
-					LOGGER.debug("fixme:action is null");			
+					LOGGER.debug("fixme:action is null");
 			}
-			default:{
+			default:
+			{
 				
 				activeChar.sendMessage("Clan command not allowed");
 				showMainPage(activeChar);
@@ -284,7 +290,7 @@ public class AdminPledge implements IAdminCommandHandler
 		return ADMIN_COMMANDS;
 	}
 	
-	private void showMainPage(L2PcInstance activeChar)
+	private void showMainPage(final L2PcInstance activeChar)
 	{
 		AdminHelpPage.showHelpPage(activeChar, "game_menu.htm");
 	}

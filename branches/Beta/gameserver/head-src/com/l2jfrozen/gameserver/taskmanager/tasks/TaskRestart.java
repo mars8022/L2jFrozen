@@ -46,11 +46,11 @@ public final class TaskRestart extends Task
 	 * @see com.l2jfrozen.gameserver.tasks.Task#onTimeElapsed(com.l2jfrozen.gameserver.tasks.TaskManager.ExecutedTask)
 	 */
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		LOGGER.info(" [GlobalTask] Server Restart launched.");
 		
-		Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), true, true, false);
+		final Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), true, true, false);
 		handler.start();
 	}
 }

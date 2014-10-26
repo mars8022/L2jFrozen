@@ -30,36 +30,35 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExEnchantSkillInfo;
 
 /**
  * Format chdd c: (id) 0xD0 h: (subid) 0x06 d: skill id d: skill lvl
- * 
  * @author -Wooden-
  */
 public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 {
 	private int _skillId;
 	private int _skillLvl;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_skillId = readD();
 		_skillLvl = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (_skillId <= 0 || _skillLvl <= 0) // minimal sanity check
 			return;
 		
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		if(activeChar.getLevel() < 76)
+		
+		if (activeChar.getLevel() < 76)
 			return;
-
-		L2FolkInstance trainer = activeChar.getLastFolkNPC();
-		if(trainer == null)
+		
+		final L2FolkInstance trainer = activeChar.getLastFolkNPC();
+		if (trainer == null)
 		{
 			return;
 		}
@@ -71,45 +70,45 @@ public final class RequestExEnchantSkillInfo extends L2GameClientPacket
 		
 		boolean canteach = false;
 		
-		L2Skill skill = SkillTable.getInstance().getInfo(_skillId, _skillLvl);
-		if(skill == null || skill.getId() != _skillId)
+		final L2Skill skill = SkillTable.getInstance().getInfo(_skillId, _skillLvl);
+		if (skill == null || skill.getId() != _skillId)
 			return;
-
-		if(!trainer.getTemplate().canTeach(activeChar.getClassId()))
+		
+		if (!trainer.getTemplate().canTeach(activeChar.getClassId()))
 			return; // cheater
-
-		L2EnchantSkillLearn[] skills = SkillTreeTable.getInstance().getAvailableEnchantSkills(activeChar);
-
-		for(L2EnchantSkillLearn s : skills)
+			
+		final L2EnchantSkillLearn[] skills = SkillTreeTable.getInstance().getAvailableEnchantSkills(activeChar);
+		
+		for (final L2EnchantSkillLearn s : skills)
 		{
-			if(s.getId() == _skillId && s.getLevel() == _skillLvl)
+			if (s.getId() == _skillId && s.getLevel() == _skillLvl)
 			{
 				canteach = true;
 				break;
 			}
 		}
-
-		if(!canteach)
+		
+		if (!canteach)
 			return; // cheater
-
-		int requiredSp = SkillTreeTable.getInstance().getSkillSpCost(activeChar, skill);
-		int requiredExp = SkillTreeTable.getInstance().getSkillExpCost(activeChar, skill);
-		byte rate = SkillTreeTable.getInstance().getSkillRate(activeChar, skill);
-		ExEnchantSkillInfo asi = new ExEnchantSkillInfo(skill.getId(), skill.getLevel(), requiredSp, requiredExp, rate);
-
-		if(Config.ES_SP_BOOK_NEEDED && (skill.getLevel() == 101 || skill.getLevel() == 141)) // only first lvl requires book
+			
+		final int requiredSp = SkillTreeTable.getInstance().getSkillSpCost(activeChar, skill);
+		final int requiredExp = SkillTreeTable.getInstance().getSkillExpCost(activeChar, skill);
+		final byte rate = SkillTreeTable.getInstance().getSkillRate(activeChar, skill);
+		final ExEnchantSkillInfo asi = new ExEnchantSkillInfo(skill.getId(), skill.getLevel(), requiredSp, requiredExp, rate);
+		
+		if (Config.ES_SP_BOOK_NEEDED && (skill.getLevel() == 101 || skill.getLevel() == 141)) // only first lvl requires book
 		{
-			int spbId = 6622;
+			final int spbId = 6622;
 			asi.addRequirement(4, spbId, 1, 0);
 		}
 		sendPacket(asi);
-
+		
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:06 RequestExEnchantSkillInfo";
 	}
-
+	
 }

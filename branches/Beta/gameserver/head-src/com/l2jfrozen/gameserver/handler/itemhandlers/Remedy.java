@@ -31,7 +31,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.4 $ $Date: 2005/04/06 16:13:51 $
  */
 
@@ -39,38 +38,42 @@ public class Remedy implements IItemHandler
 {
 	private static int[] ITEM_IDS =
 	{
-			1831, 1832, 1833, 1834, 3889
+		1831,
+		1832,
+		1833,
+		1834,
+		3889
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
-
-		if(playable instanceof L2PcInstance)
+		
+		if (playable instanceof L2PcInstance)
 		{
 			activeChar = (L2PcInstance) playable;
 		}
-		else if(playable instanceof L2PetInstance)
+		else if (playable instanceof L2PetInstance)
 		{
 			activeChar = ((L2PetInstance) playable).getOwner();
 		}
 		else
 			return;
-
-		if(activeChar.isInOlympiadMode())
+		
+		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
 			return;
 		}
-
-		int itemId = item.getItemId();
-		if(itemId == 1831) // antidote
+		
+		final int itemId = item.getItemId();
+		if (itemId == 1831) // antidote
 		{
 			L2Effect[] effects = activeChar.getAllEffects();
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getSkill().getSkillType() == L2Skill.SkillType.POISON && e.getSkill().getLevel() <= 3)
+				if (e.getSkill().getSkillType() == L2Skill.SkillType.POISON && e.getSkill().getLevel() <= 3)
 				{
 					e.exit(true);
 					break;
@@ -83,12 +86,12 @@ public class Remedy implements IItemHandler
 			MSU = null;
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
-		else if(itemId == 1832) // advanced antidote
+		else if (itemId == 1832) // advanced antidote
 		{
 			L2Effect[] effects = activeChar.getAllEffects();
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getSkill().getSkillType() == L2Skill.SkillType.POISON && e.getSkill().getLevel() <= 7)
+				if (e.getSkill().getSkillType() == L2Skill.SkillType.POISON && e.getSkill().getLevel() <= 7)
 				{
 					e.exit(true);
 					break;
@@ -101,12 +104,12 @@ public class Remedy implements IItemHandler
 			MSU = null;
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
-		else if(itemId == 1833) // bandage
+		else if (itemId == 1833) // bandage
 		{
 			L2Effect[] effects = activeChar.getAllEffects();
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getSkill().getSkillType() == L2Skill.SkillType.BLEED && e.getSkill().getLevel() <= 3)
+				if (e.getSkill().getSkillType() == L2Skill.SkillType.BLEED && e.getSkill().getLevel() <= 3)
 				{
 					e.exit(true);
 					break;
@@ -119,12 +122,12 @@ public class Remedy implements IItemHandler
 			MSU = null;
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
-		else if(itemId == 1834) // emergency dressing
+		else if (itemId == 1834) // emergency dressing
 		{
 			L2Effect[] effects = activeChar.getAllEffects();
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getSkill().getSkillType() == L2Skill.SkillType.BLEED && e.getSkill().getLevel() <= 7)
+				if (e.getSkill().getSkillType() == L2Skill.SkillType.BLEED && e.getSkill().getLevel() <= 7)
 				{
 					e.exit(true);
 					break;
@@ -137,35 +140,35 @@ public class Remedy implements IItemHandler
 			MSU = null;
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
-		else if(itemId == 3889) // potion of recovery
+		else if (itemId == 3889) // potion of recovery
 		{
 			L2Effect[] effects = activeChar.getAllEffects();
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getSkill().getId() == 4082)
+				if (e.getSkill().getId() == 4082)
 				{
 					e.exit(true);
 				}
 			}
-
+			
 			effects = null;
 			activeChar.setIsImobilised(false);
-
-			if(activeChar.getFirstEffect(L2Effect.EffectType.ROOT) == null)
+			
+			if (activeChar.getFirstEffect(L2Effect.EffectType.ROOT) == null)
 			{
 				activeChar.stopRooting(null);
 			}
-
+			
 			MagicSkillUser MSU = new MagicSkillUser(playable, playable, 2042, 1, 0, 0);
 			activeChar.sendPacket(MSU);
 			activeChar.broadcastPacket(MSU);
 			MSU = null;
 			playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
-
+		
 		activeChar = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

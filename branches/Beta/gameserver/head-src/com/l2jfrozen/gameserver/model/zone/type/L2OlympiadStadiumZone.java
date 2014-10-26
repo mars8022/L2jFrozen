@@ -24,62 +24,65 @@ import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-
 /**
  * An olympiad stadium
- *
- * @author  durgus
+ * @author durgus
  */
 public class L2OlympiadStadiumZone extends L2ZoneType
 {
 	private int _stadiumId;
 	
-	public L2OlympiadStadiumZone(int id)
+	public L2OlympiadStadiumZone(final int id)
 	{
 		super(id);
 	}
-
+	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
 		if (name.equals("stadiumId"))
 		{
 			_stadiumId = Integer.parseInt(value);
 		}
-		else super.setParameter(name, value);
+		else
+			super.setParameter(name, value);
 	}
-
+	
 	@Override
-	public void onEnter(L2Character character)
+	public void onEnter(final L2Character character)
 	{
 		character.setInsideZone(L2Character.ZONE_PVP, true);
 		
 		if (character instanceof L2PcInstance)
 		{
-			if ((((L2PcInstance)character).getOlympiadGameId() + 1) == getStadiumId())
-				((L2PcInstance)character).sendPacket(new SystemMessage(SystemMessageId.ENTERED_COMBAT_ZONE));
+			if ((((L2PcInstance) character).getOlympiadGameId() + 1) == getStadiumId())
+				((L2PcInstance) character).sendPacket(new SystemMessage(SystemMessageId.ENTERED_COMBAT_ZONE));
 			else
 				character.teleToLocation(TeleportWhereType.Town);
 		}
 	}
-
+	
 	@Override
-	public void onExit(L2Character character)
+	public void onExit(final L2Character character)
 	{
 		character.setInsideZone(L2Character.ZONE_PVP, false);
 		
 		if (character instanceof L2PcInstance)
 		{
-			((L2PcInstance)character).sendPacket(new SystemMessage(SystemMessageId.LEFT_COMBAT_ZONE));
+			((L2PcInstance) character).sendPacket(new SystemMessage(SystemMessageId.LEFT_COMBAT_ZONE));
 		}
 	}
-
+	
 	@Override
-	public void onDieInside(L2Character character) {}
-
+	public void onDieInside(final L2Character character)
+	{
+	}
+	
 	@Override
-	public void onReviveInside(L2Character character) {}
-
+	public void onReviveInside(final L2Character character)
+	{
+	}
+	
 	/**
 	 * Returns this zones stadium id (if any)
 	 * @return

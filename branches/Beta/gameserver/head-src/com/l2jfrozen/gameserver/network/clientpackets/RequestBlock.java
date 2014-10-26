@@ -63,7 +63,7 @@ public final class RequestBlock extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
 			return;
@@ -73,7 +73,7 @@ public final class RequestBlock extends L2GameClientPacket
 			case BLOCK:
 			case UNBLOCK:
 				
-				L2PcInstance _target = L2World.getInstance().getPlayer(_name);
+				final L2PcInstance _target = L2World.getInstance().getPlayer(_name);
 				
 				if (_target == null)
 				{
@@ -108,7 +108,7 @@ public final class RequestBlock extends L2GameClientPacket
 						PreparedStatement statement = con.prepareStatement("SELECT * FROM character_friends WHERE char_id = ? AND friend_name = ?");
 						statement.setInt(1, activeChar.getObjectId());
 						statement.setString(2, _name);
-						ResultSet rset = statement.executeQuery();
+						final ResultSet rset = statement.executeQuery();
 						
 						if (rset.next())
 						{
@@ -117,22 +117,22 @@ public final class RequestBlock extends L2GameClientPacket
 							statement.setInt(1, _type);
 							statement.setInt(2, activeChar.getObjectId());
 							statement.setString(3, _name);
-							statement.execute();						
+							statement.execute();
 						}
 						else
-						{				
+						{
 							statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name, not_blocked) VALUES (?, ?, ?, ?)");
 							statement.setInt(1, activeChar.getObjectId());
 							statement.setInt(2, _target.getObjectId());
 							statement.setString(3, _target.getName());
 							statement.setInt(4, _type);
-							statement.execute();							
+							statement.execute();
 						}
-						//Added suppression to method, stament is closed but eclipse still throwns resource leak, wtf?
+						// Added suppression to method, stament is closed but eclipse still throwns resource leak, wtf?
 						DatabaseUtils.close(statement);
 						
 					}
-					catch (Exception e)
+					catch (final Exception e)
 					{
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
@@ -155,14 +155,14 @@ public final class RequestBlock extends L2GameClientPacket
 					try
 					{
 						con = L2DatabaseFactory.getInstance().getConnection(false);
-						PreparedStatement statement = con.prepareStatement("DELETE FROM character_friends WHERE char_id = ? AND friend_name = ?");
+						final PreparedStatement statement = con.prepareStatement("DELETE FROM character_friends WHERE char_id = ? AND friend_name = ?");
 						statement.setInt(1, activeChar.getObjectId());
 						statement.setString(2, _name);
 						statement.execute();
 						DatabaseUtils.close(statement);
 						
 					}
-					catch (Exception e)
+					catch (final Exception e)
 					{
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();

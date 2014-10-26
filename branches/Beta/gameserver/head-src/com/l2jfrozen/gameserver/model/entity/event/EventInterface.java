@@ -20,10 +20,9 @@ package com.l2jfrozen.gameserver.model.entity.event;
 
 /**
  * Required to bring all the core Events a typed note, which will define this interface.
- * 
  * @author programmos
  */
 public interface EventInterface
 {
-
+	
 }

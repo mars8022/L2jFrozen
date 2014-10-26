@@ -24,24 +24,27 @@ import com.l2jfrozen.gameserver.network.serverpackets.UserInfo;
 public final class Appearing extends L2GameClientPacket
 {
 	@Override
-	protected void readImpl() {}
-
+	protected void readImpl()
+	{
+	}
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if (activeChar == null || activeChar.isOnline() == 0){
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null || activeChar.isOnline() == 0)
+		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-			
+		
 		if (activeChar.isTeleporting())
 			activeChar.onTeleported();
-
+		
 		sendPacket(new UserInfo(activeChar));
 	}
-
+	
 	@Override
 	public String getType()
 	{

@@ -33,36 +33,36 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2XmassTreeInstance extends L2NpcInstance
 {
-	private ScheduledFuture<?> _aiTask;
-
+	private final ScheduledFuture<?> _aiTask;
+	
 	class XmassAI implements Runnable
 	{
-		private L2XmassTreeInstance _caster;
-
-		protected XmassAI(L2XmassTreeInstance caster)
+		private final L2XmassTreeInstance _caster;
+		
+		protected XmassAI(final L2XmassTreeInstance caster)
 		{
 			_caster = caster;
 		}
-
+		
 		@Override
 		public void run()
 		{
-			for(L2PcInstance player : getKnownList().getKnownPlayers().values())
+			for (final L2PcInstance player : getKnownList().getKnownPlayers().values())
 			{
-				int i = Rnd.nextInt(3);
+				final int i = Rnd.nextInt(3);
 				handleCast(player, (4262 + i));
 			}
 		}
-
-		private boolean handleCast(L2PcInstance player, int skillId)
+		
+		private boolean handleCast(final L2PcInstance player, final int skillId)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(skillId, 1);
-
-			if(player.getFirstEffect(skill) == null)
+			
+			if (player.getFirstEffect(skill) == null)
 			{
 				setTarget(player);
 				doCast(skill);
-
+				
 				MagicSkillUser msu = new MagicSkillUser(_caster, player, skill.getId(), 1, skill.getHitTime(), 0);
 				broadcastPacket(msu);
 				skill = null;
@@ -72,41 +72,40 @@ public class L2XmassTreeInstance extends L2NpcInstance
 			skill = null;
 			return false;
 		}
-
+		
 	}
-
-	public L2XmassTreeInstance(int objectId, L2NpcTemplate template)
+	
+	public L2XmassTreeInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 		_aiTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new XmassAI(this), 3000, 3000);
 	}
-
+	
 	@Override
 	public void deleteMe()
 	{
-		if(_aiTask != null)
+		if (_aiTask != null)
 		{
 			_aiTask.cancel(true);
 		}
-
+		
 		super.deleteMe();
 	}
-
+	
 	@Override
-	public int getDistanceToWatchObject(L2Object object)
+	public int getDistanceToWatchObject(final L2Object object)
 	{
 		return 900;
 	}
-
+	
 	/**
 	 * (non-Javadoc)
-	 * 
 	 * @see com.l2jfrozen.gameserver.model.L2Object#isAttackable()
 	 */
 	@Override
-	public boolean isAutoAttackable(L2Character attacker)
+	public boolean isAutoAttackable(final L2Character attacker)
 	{
 		return false;
 	}
-
+	
 }

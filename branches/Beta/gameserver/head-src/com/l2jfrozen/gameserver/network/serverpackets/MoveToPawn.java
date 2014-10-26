@@ -28,18 +28,17 @@ import com.l2jfrozen.gameserver.model.L2Character;
  * <p>
  * format dddddd (player id, target id, distance, startx, starty, startz)
  * <p>
- * 
  * @version $Revision: 1.3.2.1.2.5 $ $Date: 2005/04/06 16:13:46 $
  */
 public class MoveToPawn extends L2GameServerPacket
 {
 	private static final String _S__75_MOVETOPAWN = "[S] 60 MoveToPawn";
-	private int _charObjId;
-	private int _targetId;
-	private int _distance;
-	private int _x, _y, _z;
-
-	public MoveToPawn(L2Character cha, L2Character target, int distance)
+	private final int _charObjId;
+	private final int _targetId;
+	private final int _distance;
+	private final int _x, _y, _z;
+	
+	public MoveToPawn(final L2Character cha, final L2Character target, final int distance)
 	{
 		_charObjId = cha.getObjectId();
 		_targetId = target.getObjectId();
@@ -48,22 +47,23 @@ public class MoveToPawn extends L2GameServerPacket
 		_y = cha.getY();
 		_z = cha.getZ();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x60);
-
+		
 		writeD(_charObjId);
 		writeD(_targetId);
 		writeD(_distance);
-
+		
 		writeD(_x);
 		writeD(_y);
 		writeD(_z);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

@@ -52,7 +52,7 @@ public class ScrollOfResurrection implements IItemHandler
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		if (!(playable instanceof L2PcInstance))
 			return;
@@ -73,10 +73,10 @@ public class ScrollOfResurrection implements IItemHandler
 		if (activeChar.isMovementDisabled())
 			return;
 		
-		int itemId = item.getItemId();
+		final int itemId = item.getItemId();
 		// boolean blessedScroll = (itemId != 737);
-		boolean humanScroll = itemId == 3936 || itemId == 3959 || itemId == 737;
-		boolean petScroll = itemId == 6387 || itemId == 737;
+		final boolean humanScroll = itemId == 3936 || itemId == 3959 || itemId == 737;
+		final boolean petScroll = itemId == 6387 || itemId == 737;
 		
 		// SoR Animation section
 		L2Character target = (L2Character) activeChar.getTarget();
@@ -173,7 +173,7 @@ public class ScrollOfResurrection implements IItemHandler
 				if (condGood)
 				{
 					int skillId = 0;
-					int skillLevel = 1;
+					final int skillLevel = 1;
 					
 					switch (itemId)
 					{
@@ -193,14 +193,14 @@ public class ScrollOfResurrection implements IItemHandler
 					
 					if (skillId != 0)
 					{
-						L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
+						final L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 						activeChar.useMagic(skill, true, true);
 						
-						// Consume the scroll	
+						// Consume the scroll
 						if (!activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false))
 							return;
 						
-						SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.S1_DISAPPEARED);
 						sm.addItemName(itemId);
 						activeChar.sendPacket(sm);
 					}

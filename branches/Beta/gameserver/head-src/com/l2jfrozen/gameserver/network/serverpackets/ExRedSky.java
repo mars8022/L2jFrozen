@@ -19,7 +19,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch d.
- *
  * @author KenM
  */
 public class ExRedSky extends L2GameServerPacket
@@ -28,14 +27,13 @@ public class ExRedSky extends L2GameServerPacket
 	private static final String _S__FE_40_EXREDSKYPACKET = "[S] FE:40 ExRedSkyPacket";
 	
 	/** The _duration. */
-	private int _duration;
-
+	private final int _duration;
+	
 	/**
 	 * Instantiates a new ex red sky.
-	 *
 	 * @param duration the duration
 	 */
-	public ExRedSky(int duration)
+	public ExRedSky(final int duration)
 	{
 		_duration = duration;
 	}
@@ -47,10 +45,9 @@ public class ExRedSky extends L2GameServerPacket
 		writeH(0x40);
 		writeD(_duration);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

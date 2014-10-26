@@ -30,24 +30,25 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
 public abstract class Task
 {
 	private static Logger LOGGER = Logger.getLogger(Task.class);
-
+	
 	public void initializate()
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			LOGGER.info("Task" + getName() + " inializate");
 		}
 	}
-
-	public ScheduledFuture<?> launchSpecial(ExecutedTask instance)
+	
+	public ScheduledFuture<?> launchSpecial(final ExecutedTask instance)
 	{
 		return null;
 	}
-
+	
 	public abstract String getName();
-
+	
 	public abstract void onTimeElapsed(ExecutedTask task);
-
+	
 	public void onDestroy()
-	{}
+	{
+	}
 }

@@ -30,89 +30,77 @@ import com.l2jfrozen.gameserver.network.serverpackets.BuyList;
 
 /**
  * This class handles following admin commands: - gmshop = shows menu - buy id = shows shop with respective id
- * 
  * @version $Revision: 1.2.4.4 $ $Date: 2005/04/11 10:06:06 $
  */
 public class AdminShop implements IAdminCommandHandler
 {
 	private static Logger LOGGER = Logger.getLogger(AdminShop.class);
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_buy", "admin_gmshop"
+		"admin_buy",
+		"admin_gmshop"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.LOGGER(record);
-		}
-		*/
-
-		if(command.startsWith("admin_buy"))
+		if (command.startsWith("admin_buy"))
 		{
 			try
 			{
 				handleBuyRequest(activeChar, command.substring(10));
 			}
-			catch(IndexOutOfBoundsException e)
+			catch (final IndexOutOfBoundsException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 				activeChar.sendMessage("Please specify buylist.");
 			}
 		}
-		else if(command.equals("admin_gmshop"))
+		else if (command.equals("admin_gmshop"))
 		{
 			AdminHelpPage.showHelpPage(activeChar, "gmshops.htm");
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void handleBuyRequest(L2PcInstance activeChar, String command)
+	
+	private void handleBuyRequest(final L2PcInstance activeChar, final String command)
 	{
 		int val = -1;
-
+		
 		try
 		{
 			val = Integer.parseInt(command);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			LOGGER.warn("admin buylist failed:" + command);
 		}
-
+		
 		L2TradeList list = TradeController.getInstance().getBuyList(val);
-
-		if(list != null)
+		
+		if (list != null)
 		{
 			activeChar.sendPacket(new BuyList(list, activeChar.getAdena()));
-
-			if(Config.DEBUG)
+			
+			if (Config.DEBUG)
 			{
 				LOGGER.debug("GM: " + activeChar.getName() + "(" + activeChar.getObjectId() + ") opened GM shop id " + val);
 			}
@@ -121,9 +109,9 @@ public class AdminShop implements IAdminCommandHandler
 		{
 			LOGGER.warn("no buylist with id:" + val);
 		}
-
+		
 		activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-
+		
 		list = null;
 	}
 }

@@ -24,15 +24,16 @@ public final class RequestAllyInfo extends L2GameClientPacket
 {
 	@Override
 	public void readImpl()
-	{}
-
+	{
+	}
+	
 	@Override
 	protected void runImpl()
 	{
-		AllyInfo ai = new AllyInfo(getClient().getActiveChar());
+		final AllyInfo ai = new AllyInfo(getClient().getActiveChar());
 		sendPacket(ai);
 	}
-
+	
 	@Override
 	public String getType()
 	{

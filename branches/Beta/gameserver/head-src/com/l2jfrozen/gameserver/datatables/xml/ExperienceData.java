@@ -62,7 +62,7 @@ public class ExperienceData
 		{
 			doc = factory.newDocumentBuilder().parse(xml);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.warn("Could not parse experience.xml: " + e.getMessage());
 			return;
@@ -95,7 +95,7 @@ public class ExperienceData
 		LOGGER.info(getClass().getSimpleName() + ": Max Pet Level is: " + (MAX_PET_LEVEL - 1));
 	}
 	
-	public long getExpForLevel(int level)
+	public long getExpForLevel(final int level)
 	{
 		return _expTable.get(level);
 	}

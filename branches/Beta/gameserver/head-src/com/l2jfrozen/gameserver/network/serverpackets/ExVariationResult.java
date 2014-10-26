@@ -24,24 +24,23 @@ public class ExVariationResult extends L2GameServerPacket
 {
 	/** The Constant _S__FE_55_EXVARIATIONRESULT. */
 	private static final String _S__FE_55_EXVARIATIONRESULT = "[S] FE:55 ExVariationResult";
-
+	
 	/** The _stat12. */
-	private int _stat12;
+	private final int _stat12;
 	
 	/** The _stat34. */
-	private int _stat34;
+	private final int _stat34;
 	
 	/** The _unk3. */
-	private int _unk3;
-
+	private final int _unk3;
+	
 	/**
 	 * Instantiates a new ex variation result.
-	 *
 	 * @param unk1 the unk1
 	 * @param unk2 the unk2
 	 * @param unk3 the unk3
 	 */
-	public ExVariationResult(int unk1, int unk2, int unk3)
+	public ExVariationResult(final int unk1, final int unk2, final int unk3)
 	{
 		_stat12 = unk1;
 		_stat34 = unk2;
@@ -57,10 +56,9 @@ public class ExVariationResult extends L2GameServerPacket
 		writeD(_stat34);
 		writeD(_unk3);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

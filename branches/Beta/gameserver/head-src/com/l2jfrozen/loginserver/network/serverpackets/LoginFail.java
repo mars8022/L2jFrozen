@@ -34,23 +34,23 @@ public final class LoginFail extends L2LoginServerPacket
 		REASON_SERVER_MAINTENANCE(0x10),
 		REASON_TEMP_PASS_EXPIRED(0x11),
 		REASON_DUAL_BOX(0x23);
-
+		
 		private final int _code;
-
-		LoginFailReason(int code)
+		
+		LoginFailReason(final int code)
 		{
 			_code = code;
 		}
-
+		
 		public final int getCode()
 		{
 			return _code;
 		}
 	}
-
-	private LoginFailReason _reason;
-
-	public LoginFail(LoginFailReason reason)
+	
+	private final LoginFailReason _reason;
+	
+	public LoginFail(final LoginFailReason reason)
 	{
 		_reason = reason;
 	}
@@ -61,8 +61,9 @@ public final class LoginFail extends L2LoginServerPacket
 		writeC(0x01);
 		writeD(_reason.getCode());
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
 	 */
 	@Override

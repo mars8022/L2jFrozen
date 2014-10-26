@@ -14,7 +14,6 @@ package com.l2jfrozen.gameserver.util;
 
 /**
  * Flood protector configuration
- * 
  * @author fordfrog
  */
 public final class FloodProtectorConfig
@@ -45,18 +44,13 @@ public final class FloodProtectorConfig
 	public int PUNISHMENT_TIME;
 	
 	/**
-	 * Alternative flood protection method: check if in given FLOOD_PROTECTION_INTERVAL 
-	 * more then PUNISHMENT_LIMIT actions are performed: if this condition has been verified
-	 * apply PUNISHMENT_TYPE for PUNISHMENT_TIME minutes
+	 * Alternative flood protection method: check if in given FLOOD_PROTECTION_INTERVAL more then PUNISHMENT_LIMIT actions are performed: if this condition has been verified apply PUNISHMENT_TYPE for PUNISHMENT_TIME minutes
 	 */
 	public boolean ALTERNATIVE_METHOD;
 	
-	
 	/**
 	 * Creates new instance of FloodProtectorConfig.
-	 * 
-	 * @param floodProtectorType
-	 *            {@link #FLOOD_PROTECTOR_TYPE}
+	 * @param floodProtectorType {@link #FLOOD_PROTECTOR_TYPE}
 	 */
 	public FloodProtectorConfig(final String floodProtectorType)
 	{
@@ -67,12 +61,10 @@ public final class FloodProtectorConfig
 	
 	/**
 	 * Creates new instance of FloodProtectorConfig.
-	 * 
-	 * @param floodProtectorType
-	 *            {@link #FLOOD_PROTECTOR_TYPE}
-	 * @param alt_func 
+	 * @param floodProtectorType {@link #FLOOD_PROTECTOR_TYPE}
+	 * @param alt_func
 	 */
-	public FloodProtectorConfig(final String floodProtectorType, boolean alt_func)
+	public FloodProtectorConfig(final String floodProtectorType, final boolean alt_func)
 	{
 		super();
 		FLOOD_PROTECTOR_TYPE = floodProtectorType;

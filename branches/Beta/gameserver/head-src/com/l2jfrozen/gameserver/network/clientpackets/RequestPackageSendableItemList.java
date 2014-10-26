@@ -28,47 +28,43 @@ import com.l2jfrozen.gameserver.network.serverpackets.PackageSendableList;
 public final class RequestPackageSendableItemList extends L2GameClientPacket
 {
 	private int _objectID;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_objectID = readD();
 	}
-
+	
 	@Override
 	public void runImpl()
 	{
 		
-		L2PcInstance player = getClient().getActiveChar();
-
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		
+		if (player == null)
 			return;
-
-		if(player.getObjectId() == _objectID)
+		
+		if (player.getObjectId() == _objectID)
 			return;
-
 		
 		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("deposit"))
 		{
 			player.sendMessage("You depositing items too fast.");
 			return;
 		}
-
-
+		
 		/*
-		L2PcInstance target = (L2PcInstance) L2World.getInstance().findObject(_objectID);
-		if(target == null)
-			return;
-		*/
-		L2ItemInstance[] items = getClient().getActiveChar().getInventory().getAvailableItems(true);
+		 * L2PcInstance target = (L2PcInstance) L2World.getInstance().findObject(_objectID); if(target == null) return;
+		 */
+		final L2ItemInstance[] items = getClient().getActiveChar().getInventory().getAvailableItems(true);
 		// build list...
 		sendPacket(new PackageSendableList(items, _objectID));
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] 9E RequestPackageSendableItemList";
 	}
-
+	
 }

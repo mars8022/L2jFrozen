@@ -40,86 +40,85 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class FortSiegeGuardManager
 {
 	private static final Logger LOGGER = Logger.getLogger(FortSiegeGuardManager.class);
-
+	
 	// =========================================================
 	// Data Field
-	private Fort _fort;
-	private List<L2Spawn> _siegeGuardSpawn = new FastList<>();
-
+	private final Fort _fort;
+	private final List<L2Spawn> _siegeGuardSpawn = new FastList<>();
+	
 	// =========================================================
 	// Constructor
-	public FortSiegeGuardManager(Fort fort)
+	public FortSiegeGuardManager(final Fort fort)
 	{
 		_fort = fort;
 	}
-
+	
 	// =========================================================
 	// Method - Public
 	/**
 	 * Add guard.<BR>
 	 * <BR>
-	 * @param activeChar 
-	 * @param npcId 
+	 * @param activeChar
+	 * @param npcId
 	 */
-	public void addSiegeGuard(L2PcInstance activeChar, int npcId)
+	public void addSiegeGuard(final L2PcInstance activeChar, final int npcId)
 	{
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
-
+		
 		addSiegeGuard(activeChar.getX(), activeChar.getY(), activeChar.getZ(), activeChar.getHeading(), npcId);
 	}
-
+	
 	/**
 	 * Add guard.<BR>
 	 * <BR>
-	 * @param x 
-	 * @param y 
-	 * @param z 
-	 * @param heading 
-	 * @param npcId 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param heading
+	 * @param npcId
 	 */
-	public void addSiegeGuard(int x, int y, int z, int heading, int npcId)
+	public void addSiegeGuard(final int x, final int y, final int z, final int heading, final int npcId)
 	{
 		saveSiegeGuard(x, y, z, heading, npcId, 0);
 	}
-
+	
 	/**
 	 * Hire merc.<BR>
 	 * <BR>
-	 * @param activeChar 
-	 * @param npcId 
+	 * @param activeChar
+	 * @param npcId
 	 */
-	public void hireMerc(L2PcInstance activeChar, int npcId)
+	public void hireMerc(final L2PcInstance activeChar, final int npcId)
 	{
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
-
+		
 		hireMerc(activeChar.getX(), activeChar.getY(), activeChar.getZ(), activeChar.getHeading(), npcId);
 	}
-
+	
 	/**
 	 * Hire merc.<BR>
 	 * <BR>
-	 * @param x 
-	 * @param y 
-	 * @param z 
-	 * @param heading 
-	 * @param npcId 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param heading
+	 * @param npcId
 	 */
-	public void hireMerc(int x, int y, int z, int heading, int npcId)
+	public void hireMerc(final int x, final int y, final int z, final int heading, final int npcId)
 	{
 		saveSiegeGuard(x, y, z, heading, npcId, 1);
 	}
-
+	
 	/**
-	 * Remove a single mercenary, identified by the npcId and location. Presumably, this is used when a fort lord picks
-	 * up a previously dropped ticket
-	 * @param npcId 
-	 * @param x 
-	 * @param y 
-	 * @param z 
+	 * Remove a single mercenary, identified by the npcId and location. Presumably, this is used when a fort lord picks up a previously dropped ticket
+	 * @param npcId
+	 * @param x
+	 * @param y
+	 * @param z
 	 */
-	public void removeMerc(int npcId, int x, int y, int z)
+	public void removeMerc(final int npcId, final int x, final int y, final int z)
 	{
 		Connection con = null;
 		try
@@ -134,9 +133,9 @@ public class FortSiegeGuardManager
 			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e1)
+		catch (final Exception e1)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
 			LOGGER.warn("Error deleting hired siege guard at " + x + ',' + y + ',' + z + ":" + e1);
@@ -147,7 +146,7 @@ public class FortSiegeGuardManager
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Remove mercs.<BR>
 	 * <BR>
@@ -164,9 +163,9 @@ public class FortSiegeGuardManager
 			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e1)
+		catch (final Exception e1)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			LOGGER.warn("Error deleting hired siege guard for fort " + getFort().getName() + ":" + e1);
 		}
@@ -176,7 +175,7 @@ public class FortSiegeGuardManager
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Spawn guards.<BR>
 	 * <BR>
@@ -185,56 +184,50 @@ public class FortSiegeGuardManager
 	{
 		try
 		{
-			/*int hiredCount = 0;
-			hiredMax    = MercTicketManager.getInstance().getMaxAllowedMerc(_fort.getFortId());  
-			boolean isHired = getFort().getOwnerId() > 0 ? true : false;
-			*/
+			/*
+			 * int hiredCount = 0; hiredMax = MercTicketManager.getInstance().getMaxAllowedMerc(_fort.getFortId()); boolean isHired = getFort().getOwnerId() > 0 ? true : false;
+			 */
 			loadSiegeGuard();
-			for(L2Spawn spawn : getSiegeGuardSpawn())
+			for (final L2Spawn spawn : getSiegeGuardSpawn())
 			{
-				if(spawn != null)
+				if (spawn != null)
 				{
 					spawn.init();
-					/*if(isHired)
-					{
-						hiredCount++;
-						//if (hiredCount > hiredMax)
-						//    return;
-					}
-					*/
+					/*
+					 * if(isHired) { hiredCount++; //if (hiredCount > hiredMax) // return; }
+					 */
 				}
 			}
 		}
-		catch(Throwable t)
+		catch (final Throwable t)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
-			
 			
 			LOGGER.warn("Error spawning siege guards for fort " + getFort().getName() + ":" + t.toString());
 		}
 	}
-
+	
 	/**
 	 * Unspawn guards.<BR>
 	 * <BR>
 	 */
 	public void unspawnSiegeGuard()
 	{
-		for(L2Spawn spawn : getSiegeGuardSpawn())
+		for (final L2Spawn spawn : getSiegeGuardSpawn())
 		{
-			if(spawn == null)
+			if (spawn == null)
 			{
 				continue;
 			}
-
+			
 			spawn.stopRespawn();
 			spawn.getLastSpawn().doDie(spawn.getLastSpawn());
 		}
-
+		
 		getSiegeGuardSpawn().clear();
 	}
-
+	
 	// =========================================================
 	// Method - Private
 	/**
@@ -250,14 +243,14 @@ public class FortSiegeGuardManager
 			PreparedStatement statement = con.prepareStatement("SELECT * FROM fort_siege_guards Where fortId = ? ");
 			statement.setInt(1, getFort().getFortId());
 			ResultSet rs = statement.executeQuery();
-
+			
 			L2Spawn spawn1;
 			L2NpcTemplate template1;
-
-			while(rs.next())
+			
+			while (rs.next())
 			{
 				template1 = NpcTable.getInstance().getTemplate(rs.getInt("npcId"));
-				if(template1 != null)
+				if (template1 != null)
 				{
 					spawn1 = new L2Spawn(template1);
 					spawn1.setId(rs.getInt("id"));
@@ -282,11 +275,10 @@ public class FortSiegeGuardManager
 			statement = null;
 			rs = null;
 		}
-		catch(Exception e1)
+		catch (final Exception e1)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
-			
 			
 			LOGGER.warn("Error loading siege guard for fort " + getFort().getName() + ":" + e1);
 		}
@@ -296,18 +288,18 @@ public class FortSiegeGuardManager
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Save guards.<BR>
 	 * <BR>
-	 * @param x 
-	 * @param y 
-	 * @param z 
-	 * @param heading 
-	 * @param npcId 
-	 * @param isHire 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param heading
+	 * @param npcId
+	 * @param isHire
 	 */
-	private void saveSiegeGuard(int x, int y, int z, int heading, int npcId, int isHire)
+	private void saveSiegeGuard(final int x, final int y, final int z, final int heading, final int npcId, final int isHire)
 	{
 		Connection con = null;
 		try
@@ -320,7 +312,7 @@ public class FortSiegeGuardManager
 			statement.setInt(4, y);
 			statement.setInt(5, z);
 			statement.setInt(6, heading);
-			if(isHire == 1)
+			if (isHire == 1)
 			{
 				statement.setInt(7, 0);
 			}
@@ -333,9 +325,9 @@ public class FortSiegeGuardManager
 			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e1)
+		catch (final Exception e1)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e1.printStackTrace();
 			
 			LOGGER.warn("Error adding siege guard for fort " + getFort().getName() + ":" + e1);
@@ -346,15 +338,15 @@ public class FortSiegeGuardManager
 			con = null;
 		}
 	}
-
+	
 	// =========================================================
 	// Proeprty
-
+	
 	public final Fort getFort()
 	{
 		return _fort;
 	}
-
+	
 	public final List<L2Spawn> getSiegeGuardSpawn()
 	{
 		return _siegeGuardSpawn;

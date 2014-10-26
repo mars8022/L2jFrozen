@@ -163,13 +163,13 @@ public class GameServer
 	
 	public static final Calendar dateTimeServerStarted = Calendar.getInstance();
 	
-	public static void main(String[] args) throws Exception
+	public static void main(final String[] args) throws Exception
 	{
 		PropertyConfigurator.configure(FService.LOG_CONF_FILE);
 		ServerType.serverMode = ServerType.MODE_GAMESERVER;
 		
 		final String LOG_FOLDER_BASE = "log"; // Name of folder for LOGGER base file
-		File logFolderBase = new File(LOG_FOLDER_BASE);
+		final File logFolderBase = new File(LOG_FOLDER_BASE);
 		logFolderBase.mkdir();
 		
 		// Local Constants
@@ -195,7 +195,7 @@ public class GameServer
 		is = null;
 		logFolder = null;
 		
-		long serverLoadStart = System.currentTimeMillis();
+		final long serverLoadStart = System.currentTimeMillis();
 		
 		Util.printSection("Team");
 		
@@ -438,8 +438,8 @@ public class GameServer
 			DoorTable doorTable = DoorTable.getInstance();
 			
 			// Opened by players like L2OFF
-			//doorTable.getDoor(19160010).openMe();
-			//doorTable.getDoor(19160011).openMe();
+			// doorTable.getDoor(19160010).openMe();
+			// doorTable.getDoor(19160011).openMe();
 			
 			doorTable.getDoor(19160012).openMe();
 			doorTable.getDoor(19160013).openMe();
@@ -460,7 +460,7 @@ public class GameServer
 			doorTable.checkAutoOpen();
 			doorTable = null;
 		}
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			LOGGER.info("There is errors in your Door.csv file. Update door.csv");
 			if (Config.ENABLE_ALL_EXCEPTIONS)
@@ -489,10 +489,10 @@ public class GameServer
 		Util.printSection("Scripts");
 		if (!Config.ALT_DEV_NO_SCRIPT)
 		{
-			File scripts = new File(Config.DATAPACK_ROOT, "data/scripts.cfg");
+			final File scripts = new File(Config.DATAPACK_ROOT, "data/scripts.cfg");
 			L2ScriptEngineManager.getInstance().executeScriptsList(scripts);
 			
-			CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
+			final CompiledScriptCache compiledScriptCache = L2ScriptEngineManager.getInstance().getCompiledScriptCache();
 			if (compiledScriptCache == null)
 				LOGGER.info("Compiled Scripts Cache is disabled.");
 			else
@@ -523,7 +523,7 @@ public class GameServer
 		{
 			DynamicExtension.getInstance();
 		}
-		catch (Exception ex)
+		catch (final Exception ex)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				ex.printStackTrace();
@@ -627,7 +627,7 @@ public class GameServer
 			{
 				bindAddress = InetAddress.getByName(Config.GAMESERVER_HOSTNAME);
 			}
-			catch (UnknownHostException e1)
+			catch (final UnknownHostException e1)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e1.printStackTrace();
@@ -640,7 +640,7 @@ public class GameServer
 		{
 			_selectorThread.openServerSocket(bindAddress, Config.PORT_GAME);
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -648,7 +648,7 @@ public class GameServer
 			LOGGER.fatal("Failed to open server socket. Reason: ", e);
 			System.exit(1);
 		}
-		_selectorThread.start();		
+		_selectorThread.start();
 	}
 	
 	public static SelectorThread<L2GameClient> getSelectorThread()

@@ -75,11 +75,11 @@ public class QueenAnt extends Quest implements Runnable
 		HEAL
 	}
 	
-	public QueenAnt(int questId, String name, String descr)
+	public QueenAnt(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		
-		int[] mobs =
+		final int[] mobs =
 		{
 			QUEEN,
 			LARVA,
@@ -87,7 +87,7 @@ public class QueenAnt extends Quest implements Runnable
 			GUARD,
 			ROYAL
 		};
-		for (int mob : mobs)
+		for (final int mob : mobs)
 		{
 			addEventId(mob, Quest.QuestEventType.ON_KILL);
 			addEventId(mob, Quest.QuestEventType.ON_ATTACK);
@@ -95,22 +95,22 @@ public class QueenAnt extends Quest implements Runnable
 		
 		_Zone = GrandBossManager.getInstance().getZone(-21610, 181594, -5734);
 		
-		StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
+		final StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
 		
-		Integer status = GrandBossManager.getInstance().getBossStatus(QUEEN);
+		final Integer status = GrandBossManager.getInstance().getBossStatus(QUEEN);
 		
 		switch (status)
 		{
 			case DEAD:
 			{
-				long temp = info.getLong("respawn_time") - System.currentTimeMillis();
+				final long temp = info.getLong("respawn_time") - System.currentTimeMillis();
 				if (temp > 0)
 				{
 					startQuestTimer("QUEEN_SPAWN", temp, null, null);
 				}
 				else
 				{
-					L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
+					final L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
 					if (Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 					{
 						Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -126,9 +126,9 @@ public class QueenAnt extends Quest implements Runnable
 				/*
 				 * int loc_x = info.getInteger("loc_x"); int loc_y = info.getInteger("loc_y"); int loc_z = info.getInteger("loc_z"); int heading = info.getInteger("heading");
 				 */
-				int hp = info.getInteger("currentHP");
-				int mp = info.getInteger("currentMP");
-				L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
+				final int hp = info.getInteger("currentHP");
+				final int mp = info.getInteger("currentMP");
+				final L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
 				if (Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -140,7 +140,7 @@ public class QueenAnt extends Quest implements Runnable
 				break;
 			default:
 			{
-				L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
+				final L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
 				if (Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -152,7 +152,7 @@ public class QueenAnt extends Quest implements Runnable
 		}
 	}
 	
-	private void spawnBoss(L2GrandBossInstance npc)
+	private void spawnBoss(final L2GrandBossInstance npc)
 	{
 		startQuestTimer("ACTION", 10000, npc, null, true);
 		npc.broadcastPacket(new PlaySound(1, "BS02_D", 1, npc.getObjectId(), npc.getX(), npc.getY(), npc.getZ()));
@@ -168,15 +168,15 @@ public class QueenAnt extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
+	public String onAdvEvent(final String event, final L2NpcInstance npc, final L2PcInstance player)
 	{
-		Event event_enum = Event.valueOf(event);
+		final Event event_enum = Event.valueOf(event);
 		
 		switch (event_enum)
 		{
 			case QUEEN_SPAWN:
 			{
-				L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
+				final L2GrandBossInstance queen = (L2GrandBossInstance) addSpawn(QUEEN, -21610, 181594, -5734, 0, false, 0);
 				if (Config.ANNOUNCE_TO_ALL_SPAWN_RB)
 				{
 					Announcements.getInstance().announceToAll("Raid boss " + queen.getName() + " spawned in world.");
@@ -193,11 +193,11 @@ public class QueenAnt extends Quest implements Runnable
 				break;
 			case NURSES_SPAWN:
 			{
-				int radius = 400;
+				final int radius = 400;
 				for (int i = 0; i < 6; i++)
 				{
-					int x = (int) (radius * Math.cos(i * 1.407)); // 1.407~2pi/6
-					int y = (int) (radius * Math.sin(i * 1.407));
+					final int x = (int) (radius * Math.cos(i * 1.407)); // 1.407~2pi/6
+					final int y = (int) (radius * Math.sin(i * 1.407));
 					_Nurses.add((L2MonsterInstance) addSpawn(NURSE, npc.getX() + x, npc.getY() + y, npc.getZ(), 0, false, 0));
 					_Nurses.get(i).setIsAttackDisabled(true);
 				}
@@ -205,11 +205,11 @@ public class QueenAnt extends Quest implements Runnable
 				break;
 			case SPAWN_ROYAL:
 			{
-				int radius = 400;
+				final int radius = 400;
 				for (int i = 0; i < 8; i++)
 				{
-					int x = (int) (radius * Math.cos(i * .7854)); // .7854~2pi/8
-					int y = (int) (radius * Math.sin(i * .7854));
+					final int x = (int) (radius * Math.cos(i * .7854)); // .7854~2pi/8
+					final int y = (int) (radius * Math.sin(i * .7854));
 					_Minions.add((L2MonsterInstance) addSpawn(ROYAL, npc.getX() + x, npc.getY() + y, npc.getZ(), 0, false, 0));
 				}
 			}
@@ -227,7 +227,7 @@ public class QueenAnt extends Quest implements Runnable
 			{
 				for (int i = 0; i < _Minions.size(); i++)
 				{
-					L2Attackable mob = _Minions.get(i);
+					final L2Attackable mob = _Minions.get(i);
 					if (mob != null)
 					{
 						mob.decayMe();
@@ -235,7 +235,7 @@ public class QueenAnt extends Quest implements Runnable
 				}
 				for (int k = 0; k < _Nurses.size(); k++)
 				{
-					L2MonsterInstance _nurse = _Nurses.get(k);
+					final L2MonsterInstance _nurse = _Nurses.get(k);
 					if (_nurse != null)
 						_nurse.decayMe();
 				}
@@ -247,7 +247,7 @@ public class QueenAnt extends Quest implements Runnable
 			{
 				for (int i = 0; i < _Minions.size(); i++)
 				{
-					L2Attackable mob = _Minions.get(i);
+					final L2Attackable mob = _Minions.get(i);
 					
 					if (mob != null && !mob.isInsideRadius(npc.getX(), npc.getY(), 700, false))/* !_Zone.isInsideZone(mob)) */
 					{
@@ -259,7 +259,7 @@ public class QueenAnt extends Quest implements Runnable
 			case CHECK_NURSE_ALIVE:
 			{
 				int deadNurses = 0;
-				for (L2MonsterInstance nurse : _Nurses)
+				for (final L2MonsterInstance nurse : _Nurses)
 				{
 					if (nurse.isDead())
 						deadNurses++;
@@ -297,7 +297,7 @@ public class QueenAnt extends Quest implements Runnable
 				final boolean larvaNeedHeal = _larva != null && _larva.getCurrentHp() < _larva.getMaxHp();
 				final boolean queenNeedHeal = _queen != null && _queen.getCurrentHp() < _queen.getMaxHp();
 				boolean nurseNeedHeal = false;
-				for (L2MonsterInstance nurse : _Nurses)
+				for (final L2MonsterInstance nurse : _Nurses)
 				{
 					nurseNeedHeal = nurse != null && nurse.getCurrentHp() < nurse.getMaxHp();
 					if (nurse == null || nurse.isDead() || nurse.isCastingNow())
@@ -352,9 +352,9 @@ public class QueenAnt extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
+	public String onAttack(final L2NpcInstance npc, final L2PcInstance attacker, final int damage, final boolean isPet)
 	{
-		int npcId = npc.getNpcId();
+		final int npcId = npc.getNpcId();
 		if (npcId == NURSE)
 		{
 			npc.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE, null, null);
@@ -364,11 +364,11 @@ public class QueenAnt extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
+	public String onKill(final L2NpcInstance npc, final L2PcInstance killer, final boolean isPet)
 	{
-		int npcId = npc.getNpcId();
+		final int npcId = npc.getNpcId();
 		
-		Integer status = GrandBossManager.getInstance().getBossStatus(QUEEN);
+		final Integer status = GrandBossManager.getInstance().getBossStatus(QUEEN);
 		
 		if (npcId == QUEEN)
 		{
@@ -378,7 +378,7 @@ public class QueenAnt extends Quest implements Runnable
 			{
 				GrandBossManager.getInstance().setBossStatus(QUEEN, DEAD);
 				// time is 36hour +/- 17hour
-				long respawnTime = (Config.QA_RESP_FIRST + Rnd.get(Config.QA_RESP_SECOND)) * 3600000;
+				final long respawnTime = (Config.QA_RESP_FIRST + Rnd.get(Config.QA_RESP_SECOND)) * 3600000;
 				startQuestTimer("QUEEN_SPAWN", respawnTime, null, null);
 				startQuestTimer("LARVA_DESPAWN", 4 * 60 * 60 * 1000, null, null);
 				cancelQuestTimer("ACTION", npc, null);
@@ -388,7 +388,7 @@ public class QueenAnt extends Quest implements Runnable
 				cancelQuestTimer("HEAL", null, null);
 				// cancelQuestTimer("CHECK_QA_ZONE", npc, null);
 				// also save the respawn time so that the info is maintained past reboots
-				StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
+				final StatsSet info = GrandBossManager.getInstance().getStatsSet(QUEEN);
 				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 				GrandBossManager.getInstance().setStatsSet(QUEEN, info);
 			}
@@ -422,7 +422,7 @@ public class QueenAnt extends Quest implements Runnable
 		return super.onKill(npc, killer, isPet);
 	}
 	
-	public void getIntoPosition(L2MonsterInstance nurse, L2MonsterInstance caller)
+	public void getIntoPosition(final L2MonsterInstance nurse, final L2MonsterInstance caller)
 	{
 		if (!nurse.isInsideRadius(caller, 300, false, false))
 			nurse.getAI().moveToPawn(caller, 300);

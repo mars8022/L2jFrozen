@@ -26,89 +26,90 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 public class AllyInfo extends L2GameServerPacket
 {
 	private static final String _S__7A_FRIENDLIST = "[S] 7a AllyInfo";
-	private L2PcInstance _cha;
-
-	public AllyInfo(L2PcInstance cha)
+	private final L2PcInstance _cha;
+	
+	public AllyInfo(final L2PcInstance cha)
 	{
 		_cha = cha;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		if(activeChar.getAllyId() == 0)
+		
+		if (activeChar.getAllyId() == 0)
 		{
 			_cha.sendPacket(new SystemMessage(SystemMessageId.NO_CURRENT_ALLIANCES));
 			return;
 		}
-
-		//======<AllyInfo>======
+		
+		// ======<AllyInfo>======
 		SystemMessage sm = new SystemMessage(SystemMessageId.ALLIANCE_INFO_HEAD);
 		_cha.sendPacket(sm);
-		//======<Ally Name>======
+		// ======<Ally Name>======
 		sm = new SystemMessage(SystemMessageId.ALLIANCE_NAME_S1);
 		sm.addString(_cha.getClan().getAllyName());
 		_cha.sendPacket(sm);
 		int online = 0;
 		int count = 0;
 		int clancount = 0;
-		for(L2Clan clan : ClanTable.getInstance().getClans())
+		for (final L2Clan clan : ClanTable.getInstance().getClans())
 		{
-			if(clan.getAllyId() == _cha.getAllyId())
+			if (clan.getAllyId() == _cha.getAllyId())
 			{
 				clancount++;
 				online += clan.getOnlineMembers("").length;
 				count += clan.getMembers().length;
 			}
 		}
-		//Connection
+		// Connection
 		sm = new SystemMessage(SystemMessageId.CONNECTION_S1_TOTAL_S2);
 		sm.addString("" + online);
 		sm.addString("" + count);
 		_cha.sendPacket(sm);
-		L2Clan leaderclan = ClanTable.getInstance().getClan(_cha.getAllyId());
+		final L2Clan leaderclan = ClanTable.getInstance().getClan(_cha.getAllyId());
 		sm = new SystemMessage(SystemMessageId.ALLIANCE_LEADER_S2_OF_S1);
 		sm.addString(leaderclan.getName());
 		sm.addString(leaderclan.getLeaderName());
 		_cha.sendPacket(sm);
-		//clan count
+		// clan count
 		sm = new SystemMessage(SystemMessageId.ALLIANCE_CLAN_TOTAL_S1);
 		sm.addString("" + clancount);
 		_cha.sendPacket(sm);
-		//clan information
+		// clan information
 		sm = new SystemMessage(SystemMessageId.CLAN_INFO_HEAD);
 		_cha.sendPacket(sm);
-		for(L2Clan clan : ClanTable.getInstance().getClans())
+		for (final L2Clan clan : ClanTable.getInstance().getClans())
 		{
-			if(clan.getAllyId() == _cha.getAllyId())
+			if (clan.getAllyId() == _cha.getAllyId())
 			{
-				//clan name
+				// clan name
 				sm = new SystemMessage(SystemMessageId.CLAN_INFO_NAME);
 				sm.addString(clan.getName());
 				_cha.sendPacket(sm);
-				//clan leader name
+				// clan leader name
 				sm = new SystemMessage(SystemMessageId.CLAN_INFO_LEADER);
 				sm.addString(clan.getLeaderName());
 				_cha.sendPacket(sm);
-				//clan level
+				// clan level
 				sm = new SystemMessage(SystemMessageId.CLAN_INFO_LEVEL);
 				sm.addNumber(clan.getLevel());
 				_cha.sendPacket(sm);
-				//---------
+				// ---------
 				sm = new SystemMessage(SystemMessageId.CLAN_INFO_SEPARATOR);
 				_cha.sendPacket(sm);
 			}
 		}
-		//=========================
+		// =========================
 		sm = new SystemMessage(SystemMessageId.CLAN_INFO_FOOT);
 		_cha.sendPacket(sm);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

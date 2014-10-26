@@ -20,26 +20,25 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.3.3 $ $Date: 2009/05/12 19:06:39 $
  */
 public class LeaveWorld extends L2GameServerPacket
 {
 	private static final String _S__96_LEAVEWORLD = "[S] 7e LeaveWorld";
 	public static final LeaveWorld STATIC_PACKET = new LeaveWorld();
-
-	/*private LeaveWorld()
-	{
-		//null
-	}*/
-
+	
+	/*
+	 * private LeaveWorld() { //null }
+	 */
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x7e);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -47,5 +46,5 @@ public class LeaveWorld extends L2GameServerPacket
 	{
 		return _S__96_LEAVEWORLD;
 	}
-
+	
 }

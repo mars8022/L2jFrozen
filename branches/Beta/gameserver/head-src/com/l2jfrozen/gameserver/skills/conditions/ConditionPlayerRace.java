@@ -27,18 +27,18 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionPlayerRace extends Condition
 {
-
+	
 	private final Race _race;
-
-	public ConditionPlayerRace(Race race)
+	
+	public ConditionPlayerRace(final Race race)
 	{
 		_race = race;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(!(env.player instanceof L2PcInstance))
+		if (!(env.player instanceof L2PcInstance))
 			return false;
 		return ((L2PcInstance) env.player).getRace() == _race;
 	}

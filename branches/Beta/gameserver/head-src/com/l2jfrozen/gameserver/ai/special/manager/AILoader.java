@@ -50,7 +50,7 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 public class AILoader
 {
 	private static final Logger LOGGER = Logger.getLogger(AILoader.class);
-
+	
 	public static void init()
 	{
 		LOGGER.info("AI load:");
@@ -107,8 +107,6 @@ public class AILoader
 		
 		LOGGER.info(" - Valakas_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Valakas_l2j(-1, "valakas", "ai"), 2100);
-		
-		
 		
 	}
 }

@@ -45,7 +45,7 @@ public class L2TopDeamon implements Runnable
 					L2TopDeamon.getInstance()._task.cancel(true);
 				}
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 				{
@@ -64,8 +64,8 @@ public class L2TopDeamon implements Runnable
 			try
 			{
 				con = L2DatabaseFactory.getInstance().getConnection(false);
-				PreparedStatement stm = con.prepareStatement("select max(votedate) from l2votes");
-				ResultSet r = stm.executeQuery();
+				final PreparedStatement stm = con.prepareStatement("select max(votedate) from l2votes");
+				final ResultSet r = stm.executeQuery();
 				if (r.next())
 				{
 					_lastVote = r.getTimestamp(1);
@@ -82,7 +82,7 @@ public class L2TopDeamon implements Runnable
 				Runtime.getRuntime().addShutdownHook(new Terminator());
 				LOGGER.info("L2TopDeamon: Started with poll interval " + PowerPakConfig.L2TOPDEMON_POLLINTERVAL + " minute(s)");
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 				{
@@ -105,7 +105,7 @@ public class L2TopDeamon implements Runnable
 		private final String _charName;
 		private final boolean _fr;
 		
-		public VotesUpdate(Timestamp votedate, String charName, boolean fr)
+		public VotesUpdate(final Timestamp votedate, final String charName, final boolean fr)
 		{
 			_votedate = votedate;
 			_charName = charName;
@@ -113,11 +113,11 @@ public class L2TopDeamon implements Runnable
 		}
 		
 		@Override
-		public void execute(Connection con)
+		public void execute(final Connection con)
 		{
 			try
 			{
-				PreparedStatement stm = con.prepareStatement("insert into l2votes select ?,? from characters where not exists(select * from l2votes where votedate=? and charName =?) limit 1");
+				final PreparedStatement stm = con.prepareStatement("insert into l2votes select ?,? from characters where not exists(select * from l2votes where votedate=? and charName =?) limit 1");
 				stm.setTimestamp(1, _votedate);
 				stm.setTimestamp(3, _votedate);
 				stm.setString(2, _charName);
@@ -130,7 +130,7 @@ public class L2TopDeamon implements Runnable
 				}
 				if (sendPrize)
 				{
-					L2PcInstance player = L2Utils.loadPlayer(_charName);
+					final L2PcInstance player = L2Utils.loadPlayer(_charName);
 					if (player != null)
 					{
 						int numItems = PowerPakConfig.L2TOPDEMON_MIN;
@@ -147,7 +147,7 @@ public class L2TopDeamon implements Runnable
 					}
 				}
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				e.printStackTrace();
 			}
@@ -164,7 +164,7 @@ public class L2TopDeamon implements Runnable
 		{
 			LOGGER.info("L2TopDeamon: Checking l2top.ru....");
 			int nVotes = 0;
-			URL url = new URL(PowerPakConfig.L2TOPDEMON_URL);
+			final URL url = new URL(PowerPakConfig.L2TOPDEMON_URL);
 			is = url.openStream();
 			isr = new InputStreamReader(is);
 			reader = new BufferedReader(isr);
@@ -174,7 +174,7 @@ public class L2TopDeamon implements Runnable
 			{
 				if (line.contains("\t"))
 				{
-					Timestamp voteDate = Timestamp.valueOf(line.substring(0, line.indexOf("\t")).trim());
+					final Timestamp voteDate = Timestamp.valueOf(line.substring(0, line.indexOf("\t")).trim());
 					if (voteDate.after(_lastVote))
 					{
 						if (voteDate.after(last))
@@ -202,7 +202,7 @@ public class L2TopDeamon implements Runnable
 			LOGGER.info("L2TopDeamon: " + nVotes + " vote(s) parsed");
 			output = true;
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 			{
@@ -219,7 +219,7 @@ public class L2TopDeamon implements Runnable
 				{
 					reader.close();
 				}
-				catch (IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
@@ -230,7 +230,7 @@ public class L2TopDeamon implements Runnable
 				{
 					isr.close();
 				}
-				catch (IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
@@ -241,7 +241,7 @@ public class L2TopDeamon implements Runnable
 				{
 					is.close();
 				}
-				catch (IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}

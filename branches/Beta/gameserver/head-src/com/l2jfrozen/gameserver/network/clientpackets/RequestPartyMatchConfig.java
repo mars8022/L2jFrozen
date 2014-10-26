@@ -14,7 +14,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-
 import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
 import com.l2jfrozen.gameserver.model.PartyMatchWaitingList;
@@ -26,10 +25,9 @@ import com.l2jfrozen.gameserver.network.serverpackets.PartyMatchDetail;
 import com.l2jfrozen.gameserver.network.serverpackets.PartyMatchList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-
 public final class RequestPartyMatchConfig extends L2GameClientPacket
 {
-
+	
 	private int _auto, _loc, _lvl;
 	
 	@Override
@@ -43,7 +41,7 @@ public final class RequestPartyMatchConfig extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance _activeChar = getClient().getActiveChar();
+		final L2PcInstance _activeChar = getClient().getActiveChar();
 		if (_activeChar == null)
 			return;
 		
@@ -57,11 +55,11 @@ public final class RequestPartyMatchConfig extends L2GameClientPacket
 		if (_activeChar.isInPartyMatchRoom())
 		{
 			// If Player is in Room show him room, not list
-			PartyMatchRoomList _list = PartyMatchRoomList.getInstance();
+			final PartyMatchRoomList _list = PartyMatchRoomList.getInstance();
 			if (_list == null)
 				return;
 			
-			PartyMatchRoom _room = _list.getPlayerRoom(_activeChar);
+			final PartyMatchRoom _room = _list.getPlayerRoom(_activeChar);
 			if (_room == null)
 				return;
 			
@@ -80,7 +78,7 @@ public final class RequestPartyMatchConfig extends L2GameClientPacket
 			_activeChar.sendPacket(new PartyMatchList(_activeChar, _auto, _loc, _lvl));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

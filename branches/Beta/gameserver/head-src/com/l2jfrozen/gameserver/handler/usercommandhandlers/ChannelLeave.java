@@ -33,27 +33,27 @@ public class ChannelLeave implements IUserCommandHandler
 	{
 		96
 	};
-
+	
 	@Override
-	public boolean useUserCommand(int id, L2PcInstance activeChar)
+	public boolean useUserCommand(final int id, final L2PcInstance activeChar)
 	{
-		if(id != COMMAND_IDS[0])
-			return false;
-
-		if(activeChar==null)
+		if (id != COMMAND_IDS[0])
 			return false;
 		
-		if(activeChar.isInParty())
+		if (activeChar == null)
+			return false;
+		
+		if (activeChar.isInParty())
 		{
 			if (activeChar.getParty().isLeader(activeChar) && activeChar.getParty().isInCommandChannel())
 			{
 				L2CommandChannel channel = activeChar.getParty().getCommandChannel();
 				L2Party party = activeChar.getParty();
 				channel.removeParty(party);
-
+				
 				party.getLeader().sendPacket(new SystemMessage(SystemMessageId.LEFT_COMMAND_CHANNEL));
 				channel.broadcastToChannelMembers(new SystemMessage(SystemMessageId.S1_PARTY_LEFT_COMMAND_CHANNEL).addString(party.getLeader().getName()));
-
+				
 				party = null;
 				channel = null;
 				return true;
@@ -61,7 +61,7 @@ public class ChannelLeave implements IUserCommandHandler
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int[] getUserCommandList()
 	{

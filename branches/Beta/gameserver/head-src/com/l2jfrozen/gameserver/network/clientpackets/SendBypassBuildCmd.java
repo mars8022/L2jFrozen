@@ -35,39 +35,39 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 	protected static final Logger LOGGER = Logger.getLogger(SendBypassBuildCmd.class);
 	public final static int GM_MESSAGE = 9;
 	public final static int ANNOUNCEMENT = 10;
-
+	
 	private String _command;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_command = "admin_" + readS().trim();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		//Checks The Access and notify requester if requester access it not allowed for that command
-		if(!AdminCommandAccessRights.getInstance().hasAccess(_command, activeChar.getAccessLevel()))
+		
+		// Checks The Access and notify requester if requester access it not allowed for that command
+		if (!AdminCommandAccessRights.getInstance().hasAccess(_command, activeChar.getAccessLevel()))
 		{
 			activeChar.sendMessage("You don't have the access right to use this command!");
-			LOGGER.warn( "Character " + activeChar.getName() + " tried to use admin command " + _command + ", but doesn't have access to it!");
+			LOGGER.warn("Character " + activeChar.getName() + " tried to use admin command " + _command + ", but doesn't have access to it!");
 			return;
 		}
-
-		//gets the Handler of That Commmand
-		IAdminCommandHandler ach = AdminCommandHandler.getInstance().getAdminCommandHandler(_command);
-
-		//if handler is valid we Audit and use else we notify in console.
-		if(ach != null)
+		
+		// gets the Handler of That Commmand
+		final IAdminCommandHandler ach = AdminCommandHandler.getInstance().getAdminCommandHandler(_command);
+		
+		// if handler is valid we Audit and use else we notify in console.
+		if (ach != null)
 		{
-			if(Config.GMAUDIT)
+			if (Config.GMAUDIT)
 			{
-				GMAudit.auditGMAction(activeChar.getName()+" ["+activeChar.getObjectId()+"]", _command, (activeChar.getTarget() != null?activeChar.getTarget().getName():"no-target"));
+				GMAudit.auditGMAction(activeChar.getName() + " [" + activeChar.getObjectId() + "]", _command, (activeChar.getTarget() != null ? activeChar.getTarget().getName() : "no-target"));
 				
 			}
 			
@@ -76,11 +76,11 @@ public final class SendBypassBuildCmd extends L2GameClientPacket
 		else
 		{
 			activeChar.sendMessage("The command " + _command + " doesn't exists!");
-			LOGGER.warn( "No handler registered for admin command '" + _command + "'");
+			LOGGER.warn("No handler registered for admin command '" + _command + "'");
 			return;
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

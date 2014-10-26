@@ -22,31 +22,32 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 
 public class StaticObject extends L2GameServerPacket
 {
-
+	
 	private static final String _S__99_StaticObjectPacket = "[S] 99 StaticObjectPacket";
-	private L2StaticObjectInstance _staticObject;
-
+	private final L2StaticObjectInstance _staticObject;
+	
 	/**
 	 * [S]0x99 StaticObjectPacket dd
-	 * @param StaticObject 
+	 * @param StaticObject
 	 */
-	public StaticObject(L2StaticObjectInstance StaticObject)
+	public StaticObject(final L2StaticObjectInstance StaticObject)
 	{
 		_staticObject = StaticObject; // staticObjectId
-
+		
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-
+		
 		writeC(0x99);
-		writeD(_staticObject.getStaticObjectId()); //staticObjectId
-		writeD(_staticObject.getObjectId()); //objectId
-
+		writeD(_staticObject.getStaticObjectId()); // staticObjectId
+		writeD(_staticObject.getObjectId()); // objectId
+		
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

@@ -32,42 +32,42 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class RequestQuestAbort extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(RequestQuestAbort.class);
-
+	
 	private int _questId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_questId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		Quest qe = null;
-		if(!Config.ALT_DEV_NO_QUESTS)
+		if (!Config.ALT_DEV_NO_QUESTS)
 			qe = QuestManager.getInstance().getQuest(_questId);
 		
-		if(qe != null)
+		if (qe != null)
 		{
-			QuestState qs = activeChar.getQuestState(qe.getName());
-			if(qs != null)
+			final QuestState qs = activeChar.getQuestState(qe.getName());
+			if (qs != null)
 			{
 				qs.exitQuest(true);
 				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 				sm.addString("Quest aborted.");
 				activeChar.sendPacket(sm);
 				sm = null;
-				QuestList ql = new QuestList();
+				final QuestList ql = new QuestList();
 				activeChar.sendPacket(ql);
 			}
 			else
 			{
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
 					LOGGER.info("Player '" + activeChar.getName() + "' try to abort quest " + qe.getName() + " but he didn't have it started.");
 				}
@@ -75,13 +75,13 @@ public final class RequestQuestAbort extends L2GameClientPacket
 		}
 		else
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
 				LOGGER.warn("Quest (id='" + _questId + "') not found.");
 			}
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

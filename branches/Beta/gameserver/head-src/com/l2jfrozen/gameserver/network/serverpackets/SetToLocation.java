@@ -28,16 +28,15 @@ import com.l2jfrozen.gameserver.model.L2Character;
  * <p>
  * format dddddd (player id, target id, distance, startx, starty, startz)
  * <p>
- * 
  * @version $Revision: 1.3.4.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class SetToLocation extends L2GameServerPacket
 {
 	private static final String _S__76_SETTOLOCATION = "[S] 76 SetToLocation";
-	private int _charObjId;
-	private int _x, _y, _z, _heading;
-
-	public SetToLocation(L2Character character)
+	private final int _charObjId;
+	private final int _x, _y, _z, _heading;
+	
+	public SetToLocation(final L2Character character)
 	{
 		_charObjId = character.getObjectId();
 		_x = character.getX();
@@ -45,20 +44,21 @@ public class SetToLocation extends L2GameServerPacket
 		_z = character.getZ();
 		_heading = character.getHeading();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x76);
-
+		
 		writeD(_charObjId);
 		writeD(_x);
 		writeD(_y);
 		writeD(_z);
 		writeD(_heading);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

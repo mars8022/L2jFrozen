@@ -37,7 +37,7 @@ public class L2BufferInstance
 	 * @param efector
 	 * @param paymentRequired
 	 */
-	public static void makeBuffs(L2PcInstance player, int _templateId, L2Object efector, boolean paymentRequired)
+	public static void makeBuffs(final L2PcInstance player, final int _templateId, final L2Object efector, final boolean paymentRequired)
 	{
 		if (player == null)
 		{
@@ -67,7 +67,7 @@ public class L2BufferInstance
 			return;
 		}
 		int _priceTotal = 0;
-		for (Buff _buff : _templateBuffs)
+		for (final Buff _buff : _templateBuffs)
 		{
 			if (paymentRequired)
 			{

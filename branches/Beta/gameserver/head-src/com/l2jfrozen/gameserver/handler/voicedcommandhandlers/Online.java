@@ -24,11 +24,11 @@ public class Online implements IVoicedCommandHandler
 	{
 		"online"
 	};
-
+	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
-		if(command.equalsIgnoreCase("online"))
+		if (command.equalsIgnoreCase("online"))
 		{
 			activeChar.sendMessage("======<Players Online!>======");
 			activeChar.sendMessage("There are " + L2World.getInstance().getAllPlayers().size() + " players online!.");
@@ -36,7 +36,7 @@ public class Online implements IVoicedCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{

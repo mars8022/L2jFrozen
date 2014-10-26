@@ -38,9 +38,11 @@ public class RelationChanged extends L2GameServerPacket
 	
 	private static final String _S__CE_RELATIONCHANGED = "[S] CE RelationChanged";
 	
-	private int _objId, _relation, _autoAttackable, _karma, _pvpFlag;
+	private final int _objId, _relation, _autoAttackable;
+	private int _karma;
+	private int _pvpFlag;
 	
-	public RelationChanged(L2PlayableInstance activeChar, int relation, boolean autoattackable)
+	public RelationChanged(final L2PlayableInstance activeChar, final int relation, final boolean autoattackable)
 	{
 		_objId = activeChar.getObjectId();
 		_relation = relation;

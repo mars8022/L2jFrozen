@@ -43,7 +43,7 @@ public class TaskSevenSignsUpdate extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		try
 		{
@@ -54,7 +54,7 @@ public class TaskSevenSignsUpdate extends Task
 			
 			LOGGER.info(" [GlobalTask] SevenSigns save launched.");
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

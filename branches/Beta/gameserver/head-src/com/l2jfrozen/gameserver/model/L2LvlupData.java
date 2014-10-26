@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.model;
 
 /**
  * This class ...
- * 
  * @author NightMarez
  * @version $Revision: 1.2.2.1.2.1 $ $Date: 2005/03/27 15:29:32 $
  */
@@ -37,7 +36,7 @@ public class L2LvlupData
 	private float _classMpAdd;
 	private float _classMpBase;
 	private float _classMpModifier;
-
+	
 	/**
 	 * @return Returns the _classHpAdd.
 	 */
@@ -46,15 +45,15 @@ public class L2LvlupData
 	{
 		return _classHpAdd;
 	}
-
+	
 	/**
 	 * @param hpAdd The _classHpAdd to set.
 	 */
-	public void setClassHpAdd(float hpAdd)
+	public void setClassHpAdd(final float hpAdd)
 	{
 		_classHpAdd = hpAdd;
 	}
-
+	
 	/**
 	 * @return Returns the _classHpBase.
 	 */
@@ -63,15 +62,15 @@ public class L2LvlupData
 	{
 		return _classHpBase;
 	}
-
+	
 	/**
 	 * @param hpBase The _classHpBase to set.
 	 */
-	public void setClassHpBase(float hpBase)
+	public void setClassHpBase(final float hpBase)
 	{
 		_classHpBase = hpBase;
 	}
-
+	
 	/**
 	 * @return Returns the _classHpModifier.
 	 */
@@ -80,15 +79,15 @@ public class L2LvlupData
 	{
 		return _classHpModifier;
 	}
-
+	
 	/**
 	 * @param hpModifier The _classHpModifier to set.
 	 */
-	public void setClassHpModifier(float hpModifier)
+	public void setClassHpModifier(final float hpModifier)
 	{
 		_classHpModifier = hpModifier;
 	}
-
+	
 	/**
 	 * @return Returns the _classCpAdd.
 	 */
@@ -97,15 +96,15 @@ public class L2LvlupData
 	{
 		return _classCpAdd;
 	}
-
+	
 	/**
-	 * @param cpAdd 
+	 * @param cpAdd
 	 */
-	public void setClassCpAdd(float cpAdd)
+	public void setClassCpAdd(final float cpAdd)
 	{
 		_classCpAdd = cpAdd;
 	}
-
+	
 	/**
 	 * @return Returns the _classCpBase.
 	 */
@@ -114,15 +113,15 @@ public class L2LvlupData
 	{
 		return _classCpBase;
 	}
-
+	
 	/**
-	 * @param cpBase 
+	 * @param cpBase
 	 */
-	public void setClassCpBase(float cpBase)
+	public void setClassCpBase(final float cpBase)
 	{
 		_classCpBase = cpBase;
 	}
-
+	
 	/**
 	 * @return Returns the _classCpModifier.
 	 */
@@ -131,15 +130,15 @@ public class L2LvlupData
 	{
 		return _classCpModifier;
 	}
-
+	
 	/**
 	 * @param cpModifier The _classCpModifier to set.
 	 */
-	public void setClassCpModifier(float cpModifier)
+	public void setClassCpModifier(final float cpModifier)
 	{
 		_classCpModifier = cpModifier;
 	}
-
+	
 	/**
 	 * @return Returns the _classid.
 	 */
@@ -147,15 +146,15 @@ public class L2LvlupData
 	{
 		return _classid;
 	}
-
+	
 	/**
-	 * @param pClassid 
+	 * @param pClassid
 	 */
-	public void setClassid(int pClassid)
+	public void setClassid(final int pClassid)
 	{
 		_classid = pClassid;
 	}
-
+	
 	/**
 	 * @return Returns the _classLvl.
 	 */
@@ -164,15 +163,15 @@ public class L2LvlupData
 	{
 		return _classLvl;
 	}
-
+	
 	/**
 	 * @param lvl The _classLvl to set.
 	 */
-	public void setClassLvl(int lvl)
+	public void setClassLvl(final int lvl)
 	{
 		_classLvl = lvl;
 	}
-
+	
 	/**
 	 * @return Returns the _classMpAdd.
 	 */
@@ -181,15 +180,15 @@ public class L2LvlupData
 	{
 		return _classMpAdd;
 	}
-
+	
 	/**
 	 * @param mpAdd The _classMpAdd to set.
 	 */
-	public void setClassMpAdd(float mpAdd)
+	public void setClassMpAdd(final float mpAdd)
 	{
 		_classMpAdd = mpAdd;
 	}
-
+	
 	/**
 	 * @return Returns the _classMpBase.
 	 */
@@ -198,15 +197,15 @@ public class L2LvlupData
 	{
 		return _classMpBase;
 	}
-
+	
 	/**
 	 * @param mpBase The _classMpBase to set.
 	 */
-	public void setClassMpBase(float mpBase)
+	public void setClassMpBase(final float mpBase)
 	{
 		_classMpBase = mpBase;
 	}
-
+	
 	/**
 	 * @return Returns the _classMpModifier.
 	 */
@@ -215,11 +214,11 @@ public class L2LvlupData
 	{
 		return _classMpModifier;
 	}
-
+	
 	/**
 	 * @param mpModifier The _classMpModifier to set.
 	 */
-	public void setClassMpModifier(float mpModifier)
+	public void setClassMpModifier(final float mpModifier)
 	{
 		_classMpModifier = mpModifier;
 	}

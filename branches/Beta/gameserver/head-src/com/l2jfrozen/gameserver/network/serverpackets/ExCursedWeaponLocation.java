@@ -24,7 +24,6 @@ import com.l2jfrozen.util.Point3D;
 
 /**
  * Format: (ch) d[ddddd].
- *
  * @author -Wooden-
  */
 public class ExCursedWeaponLocation extends L2GameServerPacket
@@ -34,14 +33,13 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 	private static final String _S__FE_46_EXCURSEDWEAPONLOCATION = "[S] FE:46 ExCursedWeaponLocation";
 	
 	/** The _cursed weapon info. */
-	private List<CursedWeaponInfo> _cursedWeaponInfo;
-
+	private final List<CursedWeaponInfo> _cursedWeaponInfo;
+	
 	/**
 	 * Instantiates a new ex cursed weapon location.
-	 *
 	 * @param cursedWeaponInfo the cursed weapon info
 	 */
-	public ExCursedWeaponLocation(List<CursedWeaponInfo> cursedWeaponInfo)
+	public ExCursedWeaponLocation(final List<CursedWeaponInfo> cursedWeaponInfo)
 	{
 		_cursedWeaponInfo = cursedWeaponInfo;
 	}
@@ -51,15 +49,15 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x46);
-
-		if(!_cursedWeaponInfo.isEmpty())
+		
+		if (!_cursedWeaponInfo.isEmpty())
 		{
 			writeD(_cursedWeaponInfo.size());
-			for(CursedWeaponInfo w : _cursedWeaponInfo)
+			for (final CursedWeaponInfo w : _cursedWeaponInfo)
 			{
 				writeD(w.id);
 				writeD(w.activated);
-
+				
 				writeD(w.pos.getX());
 				writeD(w.pos.getY());
 				writeD(w.pos.getZ());
@@ -71,10 +69,9 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 			writeD(0);
 		}
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override
@@ -82,7 +79,7 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 	{
 		return _S__FE_46_EXCURSEDWEAPONLOCATION;
 	}
-
+	
 	/**
 	 * The Class CursedWeaponInfo.
 	 */
@@ -96,16 +93,15 @@ public class ExCursedWeaponLocation extends L2GameServerPacket
 		public int id;
 		
 		/** The activated. */
-		public int activated; //0 - not activated ? 1 - activated
-
+		public int activated; // 0 - not activated ? 1 - activated
+		
 		/**
 		 * Instantiates a new cursed weapon info.
-		 *
 		 * @param p the p
 		 * @param ID the iD
 		 * @param status the status
 		 */
-		public CursedWeaponInfo(Point3D p, int ID, int status)
+		public CursedWeaponInfo(final Point3D p, final int ID, final int status)
 		{
 			pos = p;
 			id = ID;

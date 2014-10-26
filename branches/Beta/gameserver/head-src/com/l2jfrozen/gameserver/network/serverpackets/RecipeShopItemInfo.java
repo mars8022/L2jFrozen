@@ -23,29 +23,28 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * ddddd
- * 
  * @version $Revision: 1.1.2.3.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public class RecipeShopItemInfo extends L2GameServerPacket
 {
-
+	
 	private static final String _S__DA_RecipeShopItemInfo = "[S] da RecipeShopItemInfo";
-	private int _shopId;
-	private int _recipeId;
-
-	public RecipeShopItemInfo(int shopId, int recipeId)
+	private final int _shopId;
+	private final int _recipeId;
+	
+	public RecipeShopItemInfo(final int shopId, final int recipeId)
 	{
 		_shopId = shopId;
 		_recipeId = recipeId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-		if(!(L2World.getInstance().findObject(_shopId) instanceof L2PcInstance))
+		if (!(L2World.getInstance().findObject(_shopId) instanceof L2PcInstance))
 			return;
-
-		L2PcInstance manufacturer = (L2PcInstance) L2World.getInstance().findObject(_shopId);
+		
+		final L2PcInstance manufacturer = (L2PcInstance) L2World.getInstance().findObject(_shopId);
 		writeC(0xda);
 		writeD(_shopId);
 		writeD(_recipeId);

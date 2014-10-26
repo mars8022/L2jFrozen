@@ -23,29 +23,29 @@ package com.l2jfrozen.gameserver.script;
  */
 public class IntList
 {
-	public static int[] parse(String range)
+	public static int[] parse(final String range)
 	{
-		if(range.contains("-"))
+		if (range.contains("-"))
 			return getIntegerList(range.split("-"));
-		else if(range.contains(","))
+		else if (range.contains(","))
 			return getIntegerList(range.split(","));
-
-		int[] list =
+		
+		final int[] list =
 		{
 			getInt(range)
 		};
 		return list;
 	}
-
-	private static int getInt(String number)
+	
+	private static int getInt(final String number)
 	{
 		return Integer.parseInt(number);
 	}
-
-	private static int[] getIntegerList(String[] numbers)
+	
+	private static int[] getIntegerList(final String[] numbers)
 	{
-		int[] list = new int[numbers.length];
-		for(int i = 0; i < list.length; i++)
+		final int[] list = new int[numbers.length];
+		for (int i = 0; i < list.length; i++)
 		{
 			list[i] = getInt(numbers[i]);
 		}

@@ -25,15 +25,13 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExClosePartyRoom;
 import com.l2jfrozen.gameserver.network.serverpackets.PartyMatchList;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-
 /**
  * format (ch) d
  * @author -Wooden-
- *
  */
 public final class RequestOustFromPartyRoom extends L2GameClientPacket
 {
-
+	
 	private int _charid;
 	
 	@Override
@@ -45,16 +43,16 @@ public final class RequestOustFromPartyRoom extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-
-		L2PcInstance activeChar = getClient().getActiveChar();
+		
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
-		L2PcInstance member = L2World.getInstance().getPlayer(_charid);
+		final L2PcInstance member = L2World.getInstance().getPlayer(_charid);
 		if (member == null)
 			return;
 		
-		PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(member);
+		final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(member);
 		if (_room == null)
 			return;
 		
@@ -75,7 +73,7 @@ public final class RequestOustFromPartyRoom extends L2GameClientPacket
 			PartyMatchWaitingList.getInstance().addPlayer(member);
 			
 			// Send Room list
-			int _loc = TownManager.getClosestLocation(member);
+			final int _loc = TownManager.getClosestLocation(member);
 			member.sendPacket(new PartyMatchList(member, 0, _loc, member.getLevel()));
 			
 			// Clean player's LFP title
@@ -83,14 +81,14 @@ public final class RequestOustFromPartyRoom extends L2GameClientPacket
 			
 			member.sendPacket(new SystemMessage(SystemMessageId.OUSTED_FROM_PARTY_ROOM));
 		}
-
+		
 	}
 	
 	@Override
 	public String getType()
 	{
-
+		
 		return "[C] D0:01 RequestOustFromPartyRoom";
-
+		
 	}
 }

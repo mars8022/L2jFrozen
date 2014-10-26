@@ -30,37 +30,37 @@ public class ConditionForceBuff extends Condition
 {
 	private static int BATTLE_FORCE = 5104;
 	private static int SPELL_FORCE = 5105;
-
-	private int _battleForces;
-	private int _spellForces;
-
-	public ConditionForceBuff(int[] forces)
+	
+	private final int _battleForces;
+	private final int _spellForces;
+	
+	public ConditionForceBuff(final int[] forces)
 	{
 		_battleForces = forces[0];
 		_spellForces = forces[1];
 	}
-
-	public ConditionForceBuff(int battle, int spell)
+	
+	public ConditionForceBuff(final int battle, final int spell)
 	{
 		_battleForces = battle;
 		_spellForces = spell;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		int neededBattle = _battleForces;
-		if(neededBattle > 0)
+		final int neededBattle = _battleForces;
+		if (neededBattle > 0)
 		{
-			L2Effect battleForce = env.player.getFirstEffect(BATTLE_FORCE);
-			if(!(battleForce instanceof EffectBattleForce) || ((EffectBattleForce) battleForce).forces < neededBattle)
+			final L2Effect battleForce = env.player.getFirstEffect(BATTLE_FORCE);
+			if (!(battleForce instanceof EffectBattleForce) || ((EffectBattleForce) battleForce).forces < neededBattle)
 				return false;
 		}
-		int neededSpell = _spellForces;
-		if(neededSpell > 0)
+		final int neededSpell = _spellForces;
+		if (neededSpell > 0)
 		{
-			L2Effect spellForce = env.player.getFirstEffect(SPELL_FORCE);
-			if(!(spellForce instanceof EffectSpellForce) || ((EffectSpellForce) spellForce).forces < neededSpell)
+			final L2Effect spellForce = env.player.getFirstEffect(SPELL_FORCE);
+			if (!(spellForce instanceof EffectSpellForce) || ((EffectSpellForce) spellForce).forces < neededSpell)
 				return false;
 		}
 		return true;

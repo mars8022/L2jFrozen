@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.templates;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.4.6 $ $Date: 2005/04/02 15:57:51 $
  */
 public class L2CharTemplate
@@ -35,13 +34,13 @@ public class L2CharTemplate
 	public final float baseHpMax;
 	public final float baseCpMax;
 	public final float baseMpMax;
-
+	
 	/** HP Regen base */
 	public final float baseHpReg;
-
+	
 	/** MP Regen base */
 	public final float baseMpReg;
-
+	
 	public final int basePAtk;
 	public final int baseMAtk;
 	public final int basePDef;
@@ -56,7 +55,7 @@ public class L2CharTemplate
 	public final int baseMCritRate;
 	public final int baseWalkSpd;
 	public final int baseRunSpd;
-
+	
 	// SpecialStats
 	public final int baseBreath;
 	public final int baseAggression;
@@ -90,15 +89,15 @@ public class L2CharTemplate
 	public final double baseCritVuln;
 	
 	public final boolean isUndead;
-
-	//C4 Stats
+	
+	// C4 Stats
 	public final int baseMpConsumeRate;
 	public final int baseHpConsumeRate;
-
+	
 	public final int collisionRadius;
 	public final int collisionHeight;
-
-	public L2CharTemplate(StatsSet set)
+	
+	public L2CharTemplate(final StatsSet set)
 	{
 		// Base stats
 		baseSTR = set.getInteger("baseSTR");
@@ -126,7 +125,7 @@ public class L2CharTemplate
 		baseMCritRate = set.getInteger("baseMCritRate", 5);
 		baseWalkSpd = set.getInteger("baseWalkSpd");
 		baseRunSpd = set.getInteger("baseRunSpd");
-
+		
 		// SpecialStats
 		baseBreath = set.getInteger("baseBreath", 100);
 		baseAggression = set.getInteger("baseAggression", 0);
@@ -160,16 +159,15 @@ public class L2CharTemplate
 		baseCritVuln = set.getInteger("baseCritVuln", 1);
 		
 		isUndead = set.getInteger("isUndead", 0) == 1;
-
-		//C4 Stats
+		
+		// C4 Stats
 		baseMpConsumeRate = set.getInteger("baseMpConsumeRate", 0);
 		baseHpConsumeRate = set.getInteger("baseHpConsumeRate", 0);
-
+		
 		// Geometry
 		collisionRadius = set.getInteger("collision_radius");
 		collisionHeight = set.getInteger("collision_height");
 		
-		
 	}
-
+	
 }

@@ -53,13 +53,13 @@ public final class RequestRefine extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
-		L2ItemInstance targetItem = (L2ItemInstance) L2World.getInstance().findObject(_targetItemObjId);
-		L2ItemInstance refinerItem = (L2ItemInstance) L2World.getInstance().findObject(_refinerItemObjId);
-		L2ItemInstance gemstoneItem = (L2ItemInstance) L2World.getInstance().findObject(_gemstoneItemObjId);
+		final L2ItemInstance targetItem = (L2ItemInstance) L2World.getInstance().findObject(_targetItemObjId);
+		final L2ItemInstance refinerItem = (L2ItemInstance) L2World.getInstance().findObject(_refinerItemObjId);
+		final L2ItemInstance gemstoneItem = (L2ItemInstance) L2World.getInstance().findObject(_gemstoneItemObjId);
 		
 		if (targetItem == null || refinerItem == null || gemstoneItem == null || targetItem.getOwnerId() != activeChar.getObjectId() || refinerItem.getOwnerId() != activeChar.getObjectId() || gemstoneItem.getOwnerId() != activeChar.getObjectId() || activeChar.getLevel() < 46) // must be lvl 46
 		{
@@ -76,8 +76,8 @@ public final class RequestRefine extends L2GameClientPacket
 		
 		if (TryAugmentItem(activeChar, targetItem, refinerItem, gemstoneItem))
 		{
-			int stat12 = 0x0000FFFF & targetItem.getAugmentation().getAugmentationId();
-			int stat34 = targetItem.getAugmentation().getAugmentationId() >> 16;
+			final int stat12 = 0x0000FFFF & targetItem.getAugmentation().getAugmentationId();
+			final int stat34 = targetItem.getAugmentation().getAugmentationId() >> 16;
 			activeChar.sendPacket(new ExVariationResult(stat12, stat34, 1));
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_ITEM_WAS_SUCCESSFULLY_AUGMENTED));
 		}
@@ -88,7 +88,7 @@ public final class RequestRefine extends L2GameClientPacket
 		}
 	}
 	
-	boolean TryAugmentItem(L2PcInstance player, L2ItemInstance targetItem, L2ItemInstance refinerItem, L2ItemInstance gemstoneItem)
+	boolean TryAugmentItem(final L2PcInstance player, final L2ItemInstance targetItem, final L2ItemInstance refinerItem, final L2ItemInstance gemstoneItem)
 	{
 		if (targetItem.isAugmented() || targetItem.isWear())
 		{
@@ -151,10 +151,10 @@ public final class RequestRefine extends L2GameClientPacket
 			return false;
 		}
 		
-		int itemGrade = targetItem.getItem().getItemGrade();
-		int itemType = targetItem.getItem().getType2();
-		int lifeStoneId = refinerItem.getItemId();
-		int gemstoneItemId = gemstoneItem.getItemId();
+		final int itemGrade = targetItem.getItem().getItemGrade();
+		final int itemType = targetItem.getItem().getType2();
+		final int lifeStoneId = refinerItem.getItemId();
+		final int gemstoneItemId = gemstoneItem.getItemId();
 		
 		// is the refiner Item a life stone?
 		if (lifeStoneId < 8723 || lifeStoneId > 8762)
@@ -170,8 +170,8 @@ public final class RequestRefine extends L2GameClientPacket
 			return false;
 		
 		int modifyGemstoneCount = _gemstoneCount;
-		int lifeStoneLevel = getLifeStoneLevel(lifeStoneId);
-		int lifeStoneGrade = getLifeStoneGrade(lifeStoneId);
+		final int lifeStoneLevel = getLifeStoneLevel(lifeStoneId);
+		final int lifeStoneGrade = getLifeStoneGrade(lifeStoneId);
 		switch (itemGrade)
 		{
 			case L2Item.CRYSTAL_C:
@@ -256,11 +256,11 @@ public final class RequestRefine extends L2GameClientPacket
 		targetItem.setAugmentation(AugmentationData.getInstance().generateRandomAugmentation(targetItem, lifeStoneLevel, lifeStoneGrade));
 		
 		// finish and send the inventory update packet
-		InventoryUpdate iu = new InventoryUpdate();
+		final InventoryUpdate iu = new InventoryUpdate();
 		iu.addModifiedItem(targetItem);
 		player.sendPacket(iu);
 		
-		StatusUpdate su = new StatusUpdate(player.getObjectId());
+		final StatusUpdate su = new StatusUpdate(player.getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, player.getCurrentLoad());
 		player.sendPacket(su);
 		

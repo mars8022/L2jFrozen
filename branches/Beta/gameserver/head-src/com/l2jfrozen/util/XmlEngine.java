@@ -41,9 +41,9 @@ public abstract class XmlEngine
 {
 	protected static final Logger LOGGER = Logger.getLogger(XmlEngine.class);
 	
-	private File _file;
+	private final File _file;
 	
-	XmlEngine(File f)
+	XmlEngine(final File f)
 	{
 		_file = f;
 		parseFile();
@@ -55,59 +55,59 @@ public abstract class XmlEngine
 		
 		try
 		{
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setValidating(false);
 			factory.setIgnoringComments(true);
 			document = factory.newDocumentBuilder().parse(_file);
 		}
-		catch(ParserConfigurationException e)
+		catch (final ParserConfigurationException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Error loading configure XML: " + _file.getName(), e);
+			LOGGER.error("Error loading configure XML: " + _file.getName(), e);
 		}
-		catch(SAXException e)
+		catch (final SAXException e)
 		{
 			e.printStackTrace();
 		}
-		catch(IOException e)
+		catch (final IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Error loading file: " + _file.getName(), e);
+			LOGGER.error("Error loading file: " + _file.getName(), e);
 		}
 		
 		try
 		{
 			parseDocument(document);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Error in file: " + _file.getName(), e);
+			LOGGER.error("Error in file: " + _file.getName(), e);
 		}
 	}
 	
 	public abstract void parseDocument(Document document) throws Exception;
 	
-	public List<Node> parseHeadStandart(Document doc)
+	public List<Node> parseHeadStandart(final Document doc)
 	{
-		List<Node> temp = new FastList<>();
-		for(Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
+		final List<Node> temp = new FastList<>();
+		for (Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
 		{
-			if("list".equalsIgnoreCase(n.getNodeName()))
+			if ("list".equalsIgnoreCase(n.getNodeName()))
 			{
-				for(Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
+				for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 				{
-					if("record".equalsIgnoreCase(d.getNodeName()))
+					if ("record".equalsIgnoreCase(d.getNodeName()))
 					{
-						for(Node e = d.getFirstChild(); e != null; e = n.getNextSibling())
+						for (Node e = d.getFirstChild(); e != null; e = n.getNextSibling())
 						{
-							if("value".equalsIgnoreCase(n.getNodeName()))
+							if ("value".equalsIgnoreCase(n.getNodeName()))
 							{
 								temp.add(d);
 							}
@@ -119,5 +119,5 @@ public abstract class XmlEngine
 		
 		return temp;
 	}
-
+	
 }

@@ -43,19 +43,20 @@ public class CoupleManager
 	
 	// =========================================================
 	// Data Field
-	private FastList<Wedding> _couples = new FastList<>();
-
-		
+	private final FastList<Wedding> _couples = new FastList<>();
+	
 	public static final CoupleManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-
-	public CoupleManager(){
+	
+	public CoupleManager()
+	{
 		LOGGER.info("Initializing CoupleManager");
 		_couples.clear();
 		load();
 	}
+	
 	// =========================================================
 	// Method - Public
 	public void reload()
@@ -63,7 +64,7 @@ public class CoupleManager
 		_couples.clear();
 		load();
 	}
-
+	
 	// =========================================================
 	// Method - Private
 	private final void load()
@@ -73,30 +74,30 @@ public class CoupleManager
 		{
 			PreparedStatement statement;
 			ResultSet rs;
-
+			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-
+			
 			statement = con.prepareStatement("Select id from mods_wedding order by id");
 			rs = statement.executeQuery();
-
-			while(rs.next())
+			
+			while (rs.next())
 			{
 				getCouples().add(new Wedding(rs.getInt("id")));
 			}
-
+			
 			DatabaseUtils.close(statement);
 			statement = null;
 			rs.close();
 			rs = null;
-
+			
 			LOGGER.info("Loaded: " + getCouples().size() + " couples(s)");
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			LOGGER.error( "Exception: CoupleManager.load(): " + e.getMessage(), e);
+			LOGGER.error("Exception: CoupleManager.load(): " + e.getMessage(), e);
 		}
 		finally
 		{
@@ -104,76 +105,76 @@ public class CoupleManager
 			con = null;
 		}
 	}
-
+	
 	// =========================================================
 	// Property - Public
-	public final Wedding getCouple(int coupleId)
+	public final Wedding getCouple(final int coupleId)
 	{
-		int index = getCoupleIndex(coupleId);
-		if(index >= 0)
+		final int index = getCoupleIndex(coupleId);
+		if (index >= 0)
 			return getCouples().get(index);
 		return null;
 	}
-
-	public void createCouple(L2PcInstance player1, L2PcInstance player2)
+	
+	public void createCouple(final L2PcInstance player1, final L2PcInstance player2)
 	{
-		if(player1 != null && player2 != null)
+		if (player1 != null && player2 != null)
 		{
-			if(player1.getPartnerId() == 0 && player2.getPartnerId() == 0)
+			if (player1.getPartnerId() == 0 && player2.getPartnerId() == 0)
 			{
-				int _player1id = player1.getObjectId();
-				int _player2id = player2.getObjectId();
-
+				final int _player1id = player1.getObjectId();
+				final int _player2id = player2.getObjectId();
+				
 				Wedding _new = new Wedding(player1, player2);
 				getCouples().add(_new);
 				player1.setPartnerId(_player2id);
 				player2.setPartnerId(_player1id);
 				player1.setCoupleId(_new.getId());
 				player2.setCoupleId(_new.getId());
-
+				
 				_new = null;
 			}
 		}
 	}
-
-	public void deleteCouple(int coupleId)
+	
+	public void deleteCouple(final int coupleId)
 	{
-		int index = getCoupleIndex(coupleId);
+		final int index = getCoupleIndex(coupleId);
 		Wedding wedding = getCouples().get(index);
-
-		if(wedding != null)
+		
+		if (wedding != null)
 		{
 			L2PcInstance player1 = (L2PcInstance) L2World.getInstance().findObject(wedding.getPlayer1Id());
 			L2PcInstance player2 = (L2PcInstance) L2World.getInstance().findObject(wedding.getPlayer2Id());
-			if(player1 != null)
+			if (player1 != null)
 			{
 				player1.setPartnerId(0);
 				player1.setMarried(false);
 				player1.setCoupleId(0);
-
+				
 			}
-			if(player2 != null)
+			if (player2 != null)
 			{
 				player2.setPartnerId(0);
 				player2.setMarried(false);
 				player2.setCoupleId(0);
-
+				
 			}
 			wedding.divorce();
 			getCouples().remove(index);
-
+			
 			player1 = null;
 			player2 = null;
 			wedding = null;
 		}
 	}
-
-	public final int getCoupleIndex(int coupleId)
+	
+	public final int getCoupleIndex(final int coupleId)
 	{
 		int i = 0;
-		for(Wedding temp : getCouples())
+		for (Wedding temp : getCouples())
 		{
-			if(temp != null && temp.getId() == coupleId)
+			if (temp != null && temp.getId() == coupleId)
 			{
 				temp = null;
 				return i;
@@ -182,7 +183,7 @@ public class CoupleManager
 		}
 		return -1;
 	}
-
+	
 	public final FastList<Wedding> getCouples()
 	{
 		return _couples;

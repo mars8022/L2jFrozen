@@ -6,26 +6,24 @@ import com.l2jfrozen.gameserver.skills.Stats;
 
 /**
  * The Class ConditionPlayerWeight.
- * 
  * @author Kerberos
  */
 public class ConditionPlayerWeight extends Condition
 {
-
+	
 	private final int _weight;
-
+	
 	/**
 	 * Instantiates a new condition player weight.
-	 * 
 	 * @param weight the weight
 	 */
-	public ConditionPlayerWeight(int weight)
+	public ConditionPlayerWeight(final int weight)
 	{
 		_weight = weight;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		final L2PcInstance player = env.getPlayer();
 		if ((player != null) && (player.getMaxLoad() > 0))

@@ -24,14 +24,14 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
 public final class AuthLogin extends L2GameClientPacket
 {
 	private static Logger LOGGER = Logger.getLogger(AuthLogin.class);
-
+	
 	// loginName + keys must match what the loginserver used.
 	private String _loginName;
 	private int _playKey1;
 	private int _playKey2;
 	private int _loginKey1;
 	private int _loginKey2;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -41,36 +41,35 @@ public final class AuthLogin extends L2GameClientPacket
 		_loginKey1 = readD();
 		_loginKey2 = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		SessionKey key = new SessionKey(_loginKey1, _loginKey2, _playKey1, _playKey2);
-
+		final SessionKey key = new SessionKey(_loginKey1, _loginKey2, _playKey1, _playKey2);
+		
 		if (Config.DEBUG)
-			LOGGER.info("DEBUG "+getType()+": user: " + _loginName + " key:" + key);
-
-		L2GameClient client = getClient();
-
+			LOGGER.info("DEBUG " + getType() + ": user: " + _loginName + " key:" + key);
+		
+		final L2GameClient client = getClient();
+		
 		// avoid potential exploits
 		if (client.getAccountName() == null)
 		{
 			// Preventing duplicate login in case client login server socket was
 			// disconnected or this packet was not sent yet
-			if (LoginServerThread.getInstance().addGameServerLogin(_loginName,client))
+			if (LoginServerThread.getInstance().addGameServerLogin(_loginName, client))
 			{
 				client.setAccountName(_loginName);
-			    LoginServerThread.getInstance().addWaitingClientAndSendRequest(_loginName, client, key);
+				LoginServerThread.getInstance().addWaitingClientAndSendRequest(_loginName, client, key);
 			}
 			else
 			{
-			    client.closeNow();
+				client.closeNow();
 			}
-			
 			
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

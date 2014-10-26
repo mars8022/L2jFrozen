@@ -41,19 +41,13 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 	private final Logger LOGGER = Logger.getLogger(L2LoginPacketHandler.class);
 	
 	@Override
-	public ReceivablePacket<L2LoginClient> handlePacket(ByteBuffer buf, L2LoginClient client)
+	public ReceivablePacket<L2LoginClient> handlePacket(final ByteBuffer buf, final L2LoginClient client)
 	{
-		int opcode = buf.get() & 0xFF;
+		final int opcode = buf.get() & 0xFF;
 		
 		/*
-		 * Disabled for now
-		 * PacketsFloodProtector for now used only on GameServer
-		 * 
-		if (!PacketsFloodProtector.tryPerformAction(opcode, -1, client))
-		{
-			return null;
-		}
-		*/
+		 * Disabled for now PacketsFloodProtector for now used only on GameServer if (!PacketsFloodProtector.tryPerformAction(opcode, -1, client)) { return null; }
+		 */
 		
 		ReceivablePacket<L2LoginClient> packet = null;
 		LoginClientState state = client.getState();
@@ -106,7 +100,7 @@ public final class L2LoginPacketHandler implements IPacketHandler<L2LoginClient>
 		return packet;
 	}
 	
-	private void debugOpcode(int opcode, LoginClientState state)
+	private void debugOpcode(final int opcode, final LoginClientState state)
 	{
 		LOGGER.debug("Unknown Opcode: " + opcode + " for state: " + state.name());
 	}

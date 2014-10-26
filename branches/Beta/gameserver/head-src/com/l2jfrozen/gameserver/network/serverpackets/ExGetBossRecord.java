@@ -22,7 +22,6 @@ import java.util.Map;
 
 /**
  * Format: ch ddd [ddd].
- *
  * @author KenM
  */
 public class ExGetBossRecord extends L2GameServerPacket
@@ -32,22 +31,21 @@ public class ExGetBossRecord extends L2GameServerPacket
 	private static final String _S__FE_33_EXGETBOSSRECORD = "[S] FE:33 ExGetBossRecord";
 	
 	/** The _boss record info. */
-	private final Map<Integer, Integer>	_bossRecordInfo;
+	private final Map<Integer, Integer> _bossRecordInfo;
 	
 	/** The _ranking. */
-	private final int						_ranking;
+	private final int _ranking;
 	
 	/** The _total points. */
-	private final int						_totalPoints;
-
+	private final int _totalPoints;
+	
 	/**
 	 * Instantiates a new ex get boss record.
-	 *
 	 * @param ranking the ranking
 	 * @param totalScore the total score
 	 * @param list the list
 	 */
-	public ExGetBossRecord(int ranking, int totalScore, Map<Integer, Integer> list)
+	public ExGetBossRecord(final int ranking, final int totalScore, final Map<Integer, Integer> list)
 	{
 		_ranking = ranking;
 		_totalPoints = totalScore;
@@ -61,7 +59,7 @@ public class ExGetBossRecord extends L2GameServerPacket
 		writeH(0x33);
 		writeD(_ranking);
 		writeD(_totalPoints);
-		if(_bossRecordInfo == null)
+		if (_bossRecordInfo == null)
 		{
 			writeD(0x00);
 			writeD(0x00);
@@ -71,18 +69,17 @@ public class ExGetBossRecord extends L2GameServerPacket
 		else
 		{
 			writeD(_bossRecordInfo.size());
-			for (int bossId : _bossRecordInfo.keySet())
+			for (final int bossId : _bossRecordInfo.keySet())
 			{
 				writeD(bossId);
 				writeD(_bossRecordInfo.get(bossId));
-				writeD(0x00); //??
+				writeD(0x00); // ??
 			}
 		}
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

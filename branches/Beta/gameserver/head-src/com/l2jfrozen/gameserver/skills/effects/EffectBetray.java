@@ -29,22 +29,22 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectBetray extends L2Effect
 {
-	public EffectBetray(Env env, EffectTemplate template)
+	public EffectBetray(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.BETRAY;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public void onStart()
 	{
-		if(getEffected() != null && getEffector() instanceof L2PcInstance && getEffected() instanceof L2Summon)
+		if (getEffected() != null && getEffector() instanceof L2PcInstance && getEffected() instanceof L2Summon)
 		{
 			L2PcInstance targetOwner = null;
 			targetOwner = ((L2Summon) getEffected()).getOwner();
@@ -53,12 +53,12 @@ final class EffectBetray extends L2Effect
 			onActionTime();
 		}
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
-		if(getEffected() != null && getEffector() instanceof L2PcInstance && getEffected() instanceof L2Summon)
+		if (getEffected() != null && getEffector() instanceof L2PcInstance && getEffected() instanceof L2Summon)
 		{
 			L2PcInstance targetOwner = null;
 			targetOwner = ((L2Summon) getEffected()).getOwner();
@@ -66,7 +66,7 @@ final class EffectBetray extends L2Effect
 			getEffected().getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		}
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

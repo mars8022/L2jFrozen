@@ -27,32 +27,32 @@ import com.l2jfrozen.gameserver.templates.L2Henna;
 public final class RequestHennaItemInfo extends L2GameClientPacket
 {
 	private int _symbolId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_symbolId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null)
 			return;
-
-		L2Henna template = HennaTable.getInstance().getTemplate(_symbolId);
-
-		if(template == null)
+		
+		final L2Henna template = HennaTable.getInstance().getTemplate(_symbolId);
+		
+		if (template == null)
 			return;
-
-		L2HennaInstance temp = new L2HennaInstance(template);
-
-		HennaItemInfo hii = new HennaItemInfo(temp, activeChar);
+		
+		final L2HennaInstance temp = new L2HennaInstance(template);
+		
+		final HennaItemInfo hii = new HennaItemInfo(temp, activeChar);
 		activeChar.sendPacket(hii);
 	}
-
+	
 	@Override
 	public String getType()
 	{

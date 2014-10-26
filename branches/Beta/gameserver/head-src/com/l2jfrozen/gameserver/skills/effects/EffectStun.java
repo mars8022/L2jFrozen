@@ -26,32 +26,32 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectStun extends L2Effect
 {
-
-	public EffectStun(Env env, EffectTemplate template)
+	
+	public EffectStun(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.STUN;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public void onStart()
 	{
 		getEffected().startStunning();
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
 		getEffected().stopStunning(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

@@ -20,12 +20,11 @@ package com.l2jfrozen.gameserver.templates;
 
 /**
  * This class ...
- * 
  * @version $Revision$ $Date$
  */
 public class L2Henna
 {
-
+	
 	public final int symbolId;
 	public final String symbolName;
 	public final int dye;
@@ -37,12 +36,12 @@ public class L2Henna
 	public final int statMEM;
 	public final int statDEX;
 	public final int statWIT;
-
-	public L2Henna(StatsSet set)
+	
+	public L2Henna(final StatsSet set)
 	{
-
+		
 		symbolId = set.getInteger("symbol_id");
-		symbolName = ""; //set.getString("symbol_name");
+		symbolName = ""; // set.getString("symbol_name");
 		dye = set.getInteger("dye");
 		price = set.getInteger("price");
 		amount = set.getInteger("amount");
@@ -52,14 +51,14 @@ public class L2Henna
 		statMEM = set.getInteger("stat_MEM");
 		statDEX = set.getInteger("stat_DEX");
 		statWIT = set.getInteger("stat_WIT");
-
+		
 	}
-
+	
 	public int getSymbolId()
 	{
 		return symbolId;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -67,7 +66,7 @@ public class L2Henna
 	{
 		return dye;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -75,7 +74,7 @@ public class L2Henna
 	{
 		return price;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -83,7 +82,7 @@ public class L2Henna
 	{
 		return amount;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -91,7 +90,7 @@ public class L2Henna
 	{
 		return statINT;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -99,7 +98,7 @@ public class L2Henna
 	{
 		return statSTR;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -107,7 +106,7 @@ public class L2Henna
 	{
 		return statCON;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -115,7 +114,7 @@ public class L2Henna
 	{
 		return statMEM;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -123,7 +122,7 @@ public class L2Henna
 	{
 		return statDEX;
 	}
-
+	
 	/**
 	 * @return
 	 */

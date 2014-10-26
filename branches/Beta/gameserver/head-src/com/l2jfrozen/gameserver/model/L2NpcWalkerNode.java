@@ -34,112 +34,112 @@ public class L2NpcWalkerNode
 	private int _moveY;
 	private int _moveZ;
 	private int _delay;
-
+	
 	private boolean _running;
-
-	public void setRunning(boolean val)
+	
+	public void setRunning(final boolean val)
 	{
 		_running = val;
 	}
-
-	public void setRouteId(int id)
+	
+	public void setRouteId(final int id)
 	{
 		_routeId = id;
 	}
-
-	public void setNpcId(int id)
+	
+	public void setNpcId(final int id)
 	{
 		_npcId = id;
 	}
-
-	public void setMovePoint(String val)
+	
+	public void setMovePoint(final String val)
 	{
 		_movePoint = val;
 	}
-
-	public void setChatText(String val)
+	
+	public void setChatText(final String val)
 	{
 		_chatText = val;
 	}
-
-	public void setMoveX(int val)
+	
+	public void setMoveX(final int val)
 	{
 		_moveX = val;
 	}
-
-	public void setMoveY(int val)
+	
+	public void setMoveY(final int val)
 	{
 		_moveY = val;
 	}
-
-	public void setMoveZ(int val)
+	
+	public void setMoveZ(final int val)
 	{
 		_moveZ = val;
 	}
-
-	public void setDelay(int val)
+	
+	public void setDelay(final int val)
 	{
 		_delay = val;
 	}
-
+	
 	public int getRouteId()
 	{
 		return _routeId;
 	}
-
+	
 	public int getNpcId()
 	{
 		return _npcId;
 	}
-
+	
 	public String getMovePoint()
 	{
 		return _movePoint;
 	}
-
+	
 	public String getChatText()
 	{
 		return _chatText;
 	}
-
+	
 	public int getMoveX()
 	{
 		return _moveX;
 	}
-
+	
 	public int getMoveY()
 	{
 		return _moveY;
 	}
-
+	
 	public int getMoveZ()
 	{
 		return _moveZ;
 	}
-
+	
 	public int getDelay()
 	{
 		return _delay;
 	}
-
+	
 	public boolean getRunning()
 	{
 		return _running;
 	}
-
+	
 	/**
 	 * Constructor of L2NpcWalker.
 	 */
 	public L2NpcWalkerNode()
-	{}
-
+	{
+	}
+	
 	/**
 	 * Constructor of L2NpcWalker.<BR>
 	 * <BR>
-	 * 
 	 * @param set The StatsSet object to transfert data to the method
 	 */
-	public L2NpcWalkerNode(StatsSet set)
+	public L2NpcWalkerNode(final StatsSet set)
 	{
 		_npcId = set.getInteger("npc_id");
 		_movePoint = set.getString("move_point");
