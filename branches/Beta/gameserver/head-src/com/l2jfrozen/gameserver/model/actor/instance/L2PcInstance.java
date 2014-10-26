@@ -4350,6 +4350,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		//return launchedMovingTask != null;
 	}
 	
+	public final void setMovingTaskDefined(boolean value)
+		{
+			_movingTaskDefined = value;
+		}
+	
 	/**
 	 * Define new moving task.
 	 * @param pos the pos
@@ -7855,6 +7860,15 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		// Refresh focus force like L2OFF
 		sendPacket(new EtcStatusUpdate(this));
+		
+		// After dead mob check if the killer got a moving task actived
+		if (killer instanceof L2PcInstance)
+		{
+			if (((L2PcInstance) killer).isMovingTaskDefined())
+			{
+				((L2PcInstance) killer).startMovingTask();
+			}
+		}
 		
 		return true;
 	}

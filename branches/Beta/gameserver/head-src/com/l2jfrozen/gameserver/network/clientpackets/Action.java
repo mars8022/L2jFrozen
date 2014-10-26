@@ -96,6 +96,10 @@ public final class Action extends L2GameClientPacket
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
+		
+		// reset old Moving task
+		if (activeChar.isMovingTaskDefined())
+			activeChar.setMovingTaskDefined(false);
 	
 		// Check if the target is valid, if the player haven't a shop or isn't the requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...)
 		if (activeChar.getPrivateStoreType() == 0/* && activeChar.getActiveRequester() == null*/)

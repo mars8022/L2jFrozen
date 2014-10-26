@@ -200,7 +200,7 @@ public class AutoVoteRewardHandler
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
 			con = url.openConnection();    
-			con.addRequestProperty("User-Agent", "Mozilla/4.76");
+			con.addRequestProperty("User-Agent", "L2TopZone");
 			is = con.getInputStream();
 			isr = new InputStreamReader(is);		    
 			in = new BufferedReader(isr);

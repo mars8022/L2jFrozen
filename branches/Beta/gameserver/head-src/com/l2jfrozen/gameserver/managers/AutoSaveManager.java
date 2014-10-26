@@ -110,7 +110,7 @@ public class AutoSaveManager
 					}
 				}
 			}
-			LOGGER.info(" [AutoSaveManager] AutoSaveTask, "+playerscount+" players data saved.");
+			LOGGER.info("[AutoSaveManager] AutoSaveTask, "+playerscount+" players data saved.");
 		}
 	}
 	
@@ -127,7 +127,7 @@ public class AutoSaveManager
 				{
 					if (player.getClient() == null || player.isOnline() == 0)
 					{
-						LOGGER.info("AutoSaveManager: player " + player.getName() + " status == 0 ---> Closing Connection..");
+						LOGGER.info("[AutoSaveManager] Player " + player.getName() + " status == 0 ---> Closing Connection..");
 						player.store();
 						player.deleteMe();
 					}
@@ -135,35 +135,29 @@ public class AutoSaveManager
 					{
 						try
 						{
-							LOGGER.info("AutoSaveManager: player " + player.getName() + " connection is not alive ---> Closing Connection..");
+							LOGGER.info("[AutoSaveManager] Player " + player.getName() + " connection is not alive ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
 						catch (Exception e)
-						{
-							if (Config.ENABLE_ALL_EXCEPTIONS)
-								e.printStackTrace();
-							
-							LOGGER.error( "Error saving player character: " + player.getName(), e);
+						{						
+							LOGGER.error( "[AutoSaveManager] Error saving player character: " + player.getName(), e);
 						}
 					}
 					else if (player.checkTeleportOverTime())
 					{
 						try
 						{
-							LOGGER.info("AutoSaveManager: player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
+							LOGGER.info("[AutoSaveManager] Player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
 						catch (Exception e)
-						{
-							if (Config.ENABLE_ALL_EXCEPTIONS)
-								e.printStackTrace();
-							
-							LOGGER.error( "Error saving player character: " + player.getName(), e);
+						{							
+							LOGGER.error( "[AutoSaveManager] Error saving player character: " + player.getName(), e);
 						}
 					}
 				}
 			}
-				LOGGER.info(" [AutoSaveManager] ConnectionCheckTask, players connections checked.");
+				LOGGER.info("[AutoSaveManager] ConnectionCheckTask, players connections checked.");
 		}
 	}
 	
@@ -190,7 +184,7 @@ public class AutoSaveManager
 			}
 			catch (Exception e)
 			{
-				LOGGER.info("Error while cleaning skill with 0 reuse time from table.");
+				LOGGER.info("[AutoSaveManager] Error while cleaning skill with 0 reuse time from table.");
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
@@ -199,7 +193,7 @@ public class AutoSaveManager
 				CloseUtil.close(con);
 			}
 
-			LOGGER.info(" [AutoSaveManager] AutoCleanDBTask, "+erased+" entries cleaned from db.");
+			LOGGER.info("[AutoSaveManager] AutoCleanDBTask, "+erased+" entries cleaned from db.");
 		}	
 	}
 	
