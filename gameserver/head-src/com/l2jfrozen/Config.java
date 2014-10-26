@@ -67,6 +67,8 @@ public final class Config
 	public static boolean GM_ANNOUNCER_NAME;
 	public static int MASTERACCESS_LEVEL;
 	public static int USERACCESS_LEVEL;
+	public static boolean MASTERACCESS_NAME_COLOR_ENABLED;
+	public static boolean MASTERACCESS_TITLE_COLOR_ENABLED;
 	public static int MASTERACCESS_NAME_COLOR;
 	public static int MASTERACCESS_TITLE_COLOR;
 
@@ -93,6 +95,8 @@ public final class Config
 			GM_SPECIAL_EFFECT = Boolean.parseBoolean(AccessSettings.getProperty("GmLoginSpecialEffect", "False"));
 			GM_STARTUP_SILENCE = Boolean.parseBoolean(AccessSettings.getProperty("GMStartupSilence", "true"));
 			MASTERACCESS_LEVEL = Integer.parseInt(AccessSettings.getProperty("MasterAccessLevel", "1"));
+			MASTERACCESS_NAME_COLOR_ENABLED = Boolean.parseBoolean(AccessSettings.getProperty("MasterNameColorEnabled", "False"));
+      MASTERACCESS_TITLE_COLOR_ENABLED = Boolean.parseBoolean(AccessSettings.getProperty("MasterTitleColorEnabled", "False"));
 			MASTERACCESS_NAME_COLOR = Integer.decode("0x" + AccessSettings.getProperty("MasterNameColor", "00FF00"));
 			MASTERACCESS_TITLE_COLOR = Integer.decode("0x" + AccessSettings.getProperty("MasterTitleColor", "00FF00"));
 			USERACCESS_LEVEL = Integer.parseInt(AccessSettings.getProperty("UserAccessLevel", "0"));
