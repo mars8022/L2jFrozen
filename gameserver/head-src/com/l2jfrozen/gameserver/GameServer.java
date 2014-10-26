@@ -168,7 +168,7 @@ public class GameServer
 		PropertyConfigurator.configure(FService.LOG_CONF_FILE);
 		ServerType.serverMode = ServerType.MODE_GAMESERVER;
 		
-		final String LOG_FOLDER_BASE = "LOGGER"; // Name of folder for LOGGER base file
+		final String LOG_FOLDER_BASE = "log"; // Name of folder for LOGGER base file
 		File logFolderBase = new File(LOG_FOLDER_BASE);
 		logFolderBase.mkdir();
 		
