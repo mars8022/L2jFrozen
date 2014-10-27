@@ -21,6 +21,8 @@ package com.l2jfrozen.util.object;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
 
@@ -33,6 +35,7 @@ import com.l2jfrozen.gameserver.model.L2Object;
  */
 public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 {
+	protected static final Logger LOGGER = Logger.getLogger(L2ObjectHashMap.class);
 	
 	private static final boolean TRACE = false;
 	private static final boolean DEBUG = false;
@@ -237,7 +240,7 @@ public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 					_count++;
 					if (TRACE)
 					{
-						System.err.println("ht: put obj id=" + hashcode + " at slot=" + slot);
+						LOGGER.error("ht: put obj id=" + hashcode + " at slot=" + slot);
 					}
 					if (DEBUG)
 					{
@@ -265,7 +268,7 @@ public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 					_count++;
 					if (TRACE)
 					{
-						System.err.println("ht: put obj id=" + hashcode + " at slot=" + slot);
+						LOGGER.error("ht: put obj id=" + hashcode + " at slot=" + slot);
 					}
 					if (DEBUG)
 					{
@@ -314,7 +317,7 @@ public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 				_count--;
 				if (TRACE)
 				{
-					System.err.println("ht: remove obj id=" + hashcode + " from slot=" + pos);
+					LOGGER.error("ht: remove obj id=" + hashcode + " from slot=" + pos);
 				}
 				if (DEBUG)
 				{
@@ -429,7 +432,7 @@ public final class L2ObjectHashMap<T extends L2Object> extends L2ObjectMap<T>
 					newTable[pos] = obj;
 					if (TRACE)
 					{
-						System.err.println("ht: move obj id=" + hashcode + " from slot=" + i + " to slot=" + pos);
+						LOGGER.error("ht: move obj id=" + hashcode + " from slot=" + i + " to slot=" + pos);
 					}
 					continue next_entry;
 				}

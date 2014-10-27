@@ -278,7 +278,7 @@ public class FortSiegeManager
 		}
 		catch (final Exception e)
 		{
-			System.err.println("Error while loading fortsiege data.");
+			LOGGER.error("Error while loading fortsiege data.");
 			e.printStackTrace();
 			
 		}

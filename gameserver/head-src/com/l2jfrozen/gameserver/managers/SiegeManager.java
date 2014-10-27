@@ -319,7 +319,7 @@ public class SiegeManager
 		catch (final Exception e)
 		{
 			// _initialized = false;
-			System.err.println("Error while loading siege data.");
+			LOGGER.error("Error while loading siege data.");
 			e.printStackTrace();
 			
 		}

@@ -319,7 +319,7 @@ public class PowerPakConfig
 			if (ItemTable.getInstance().getTemplate(L2TOPDEMON_ITEM) == null)
 			{
 				L2TOPDEMON_ENABLED = false;
-				System.err.println("Powerpak: Unknown item (" + L2TOPDEMON_ITEM + ") as vote reward. Vote disabled");
+				LOGGER.error("Powerpak: Unknown item (" + L2TOPDEMON_ITEM + ") as vote reward. Vote disabled");
 			}
 			
 			WEBSERVER_ENABLED = Boolean.parseBoolean(p.getProperty("WebServerEnabled", "true"));
@@ -362,7 +362,7 @@ public class PowerPakConfig
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			System.err.println("PowerPak: Unable to read  " + PP_CONFIG_FILE);
+			LOGGER.error("PowerPak: Unable to read  " + PP_CONFIG_FILE);
 		}
 	}
 }
