@@ -17,7 +17,7 @@ QuestName   = "NoblessTrade"
 QuestDesc   = "custom"
 InitialHtml = "31739-1.htm"
 
-print "Nobless Trader (66666) Enabled..."
+print "INFO  Nobless Trader (66666) Enabled..."
 
 class Quest (JQuest) :
 

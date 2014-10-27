@@ -1316,7 +1316,7 @@ public class GameStatusThread extends Thread
 			sb.append("-------------------\n");
 			for (final Thread thread : threads)
 			{
-				System.err.println(thread);
+				LOGGER.error(thread);
 				for (final StackTraceElement ste : thread.getStackTrace())
 				{
 					sb.append("\t" + ste);

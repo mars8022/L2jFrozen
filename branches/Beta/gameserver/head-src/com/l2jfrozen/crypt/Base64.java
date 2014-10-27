@@ -886,7 +886,7 @@ public class Base64
 			} // end if: white space, equals sign or better
 			else
 			{
-				System.err.println("Bad Base64 input character at " + i + ": " + source[i] + "(decimal)");
+				LOGGER.error("Bad Base64 input character at " + i + ": " + source[i] + "(decimal)");
 				return null;
 			} // end else:
 		} // each input character
