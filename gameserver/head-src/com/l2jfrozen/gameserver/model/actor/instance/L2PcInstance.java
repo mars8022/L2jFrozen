@@ -11226,6 +11226,10 @@ public final class L2PcInstance extends L2PlayableInstance
 				if (reuseDelay > 10)
 				{
 					final L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
+					
+					if (skill == null)
+						continue;
+					
 					disableSkill(skill, reuseDelay);
 					addTimeStamp(new TimeStamp(skill, reuseDelay));
 				}
