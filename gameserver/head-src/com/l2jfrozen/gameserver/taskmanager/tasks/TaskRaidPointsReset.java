@@ -110,7 +110,7 @@ public class TaskRaidPointsReset extends Task
 			}
 			
 			RaidBossPointsManager.cleanUp();
-			LOGGER.info(" [GlobalTask] Raid Points Reset launched.");
+			LOGGER.info("[GlobalTask] Raid Points Reset launched.");
 		}
 	}
 	

@@ -57,7 +57,7 @@ public class TaskRecom extends Task
 			player.restartRecom();
 			player.sendPacket(new UserInfo(player));
 		}
-		LOGGER.info(" [GlobalTask] Restart Recommendation launched.");
+		LOGGER.info("[GlobalTask] Restart Recommendation launched.");
 	}
 	
 	@Override
