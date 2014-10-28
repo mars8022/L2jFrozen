@@ -76,7 +76,7 @@ public class ScrambledKeyPair
 			scrambledMod[0x40 + i] = (byte) (scrambledMod[0x40 + i] ^ scrambledMod[i]);
 		}
 		
-		LOGGER.info("Modulus was scrambled");
+		LOGGER.debug("Modulus was scrambled");
 		
 		return scrambledMod;
 	}

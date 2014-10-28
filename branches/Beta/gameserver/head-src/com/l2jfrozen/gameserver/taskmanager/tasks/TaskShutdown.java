@@ -48,7 +48,7 @@ public class TaskShutdown extends Task
 	@Override
 	public void onTimeElapsed(final ExecutedTask task)
 	{
-		LOGGER.info(" [GlobalTask] Server Shutdown launched.");
+		LOGGER.info("[GlobalTask] Server Shutdown launched.");
 		
 		final Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), false, true, false);
 		handler.start();

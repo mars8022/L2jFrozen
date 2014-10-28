@@ -176,7 +176,7 @@ public class TradeController
 		}
 		else
 		{
-			LOGGER.info("No buylists were found in data folder, using SQL buylist instead");
+			LOGGER.debug("No buylists were found in data folder, using SQL buylist instead");
 			Connection con = null;
 			
 			/**
