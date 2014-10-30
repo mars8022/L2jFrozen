@@ -1654,6 +1654,7 @@ public final class Config
 	public static int TVT_TOP_KILLER_QTY;
 	public static boolean TVT_AURA;
 	public static boolean TVT_STATS_LOGGER;
+	public static boolean TVT_REMOVE_BUFFS_ON_DIE;
 	
 	// ============================================================
 	public static void loadTVTConfig()
@@ -1690,6 +1691,9 @@ public final class Config
 			TVT_TOP_KILLER_QTY = Integer.parseInt(TVTSettings.getProperty("TvTTopKillerRewardQty", "2000000"));
 			TVT_AURA = Boolean.parseBoolean(TVTSettings.getProperty("TvTAura", "False"));
 			TVT_STATS_LOGGER = Boolean.parseBoolean(TVTSettings.getProperty("TvTStatsLogger", "true"));
+			
+			TVT_REMOVE_BUFFS_ON_DIE = Boolean.parseBoolean(TVTSettings.getProperty("TvTRemoveBuffsOnPlayerDie", "false"));
+			
 		}
 		catch (final Exception e)
 		{
@@ -2275,6 +2279,7 @@ public final class Config
 	public static boolean CTF_AURA;
 	public static boolean CTF_STATS_LOGGER;
 	public static int CTF_SPAWN_OFFSET;
+	public static boolean CTF_REMOVE_BUFFS_ON_DIE;
 	
 	// ============================================================
 	public static void loadCTFConfig()
@@ -2304,6 +2309,8 @@ public final class Config
 			CTF_STATS_LOGGER = Boolean.parseBoolean(CTFSettings.getProperty("CTFStatsLogger", "true"));
 			
 			CTF_SPAWN_OFFSET = Integer.parseInt(CTFSettings.getProperty("CTFSpawnOffset", "100"));
+			
+			CTF_REMOVE_BUFFS_ON_DIE = Boolean.parseBoolean(CTFSettings.getProperty("CTFRemoveBuffsOnPlayerDie", "false"));
 			
 		}
 		catch (final Exception e)

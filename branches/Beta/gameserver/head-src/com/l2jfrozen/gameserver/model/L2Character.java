@@ -83,7 +83,9 @@ import com.l2jfrozen.gameserver.model.actor.position.ObjectPosition;
 import com.l2jfrozen.gameserver.model.actor.stat.CharStat;
 import com.l2jfrozen.gameserver.model.actor.status.CharStatus;
 import com.l2jfrozen.gameserver.model.entity.Duel;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -2251,16 +2253,35 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		else
 		{
-			// to avoid DM Remove buffs on die
-			if ((this instanceof L2PcInstance && ((L2PcInstance) this)._inEventDM && DM.is_started()))
-			{
-				if (Config.DM_REMOVE_BUFFS_ON_DIE)
+			
+			if (this instanceof L2PcInstance){
+				
+				L2PcInstance player = (L2PcInstance) this;
+				
+				// to avoid DM Remove buffs on die
+				if(player._inEventDM && DM.is_started() && Config.DM_REMOVE_BUFFS_ON_DIE){
+					
 					stopAllEffects();
+					
+				}else if(player._inEventTvT && TvT.is_started() && Config.TVT_REMOVE_BUFFS_ON_DIE){
+					
+					stopAllEffects();
+					
+				}else if(player._inEventTvT && CTF.is_started() && Config.CTF_REMOVE_BUFFS_ON_DIE){
+					
+					stopAllEffects();
+					
+				}else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
+				{
+					stopAllEffects();
+				}
+				
 			}
-			else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
+			else // this means all other characters, including Summons
 			{
 				stopAllEffects();
 			}
+			
 		}
 		
 		// if killer is the same then the most damager/hated
