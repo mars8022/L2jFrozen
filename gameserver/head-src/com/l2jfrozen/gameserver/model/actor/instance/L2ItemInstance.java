@@ -50,6 +50,7 @@ import com.l2jfrozen.gameserver.skills.funcs.Func;
 import com.l2jfrozen.gameserver.templates.L2Armor;
 import com.l2jfrozen.gameserver.templates.L2EtcItem;
 import com.l2jfrozen.gameserver.templates.L2Item;
+import com.l2jfrozen.gameserver.templates.L2Weapon;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.gameserver.util.IllegalPlayerAction;
 import com.l2jfrozen.gameserver.util.Util;
@@ -1657,6 +1658,15 @@ public final class L2ItemInstance extends L2Object
 		if (isHeroItem() || isOlyRestrictedItem() || isWear() || (!Config.ALT_OLY_AUGMENT_ALLOW && isAugmented()))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Returns true if item is a Weapon/Shield
+	 * @return boolean
+	 */
+	public boolean isWeapon()
+	{
+		return (_item instanceof L2Weapon);
 	}
 	
 }
