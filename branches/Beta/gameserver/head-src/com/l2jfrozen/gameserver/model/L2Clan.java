@@ -181,8 +181,16 @@ public class L2Clan
 	{
 		_clanId = clanId;
 		initializePrivs();
-		restore();
-		getWarehouse().restore();
+		
+		try
+		{
+			restore();
+			getWarehouse().restore();
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Error restoring clan \n\t" + this, e);
+		}
 	}
 	
 	/**
@@ -1335,11 +1343,9 @@ public class L2Clan
 		}
 	}
 	
-	@Override
-	public String toString()
-	{
-		return getName();
-	}
+	/*
+	 * @Override public String toString() { return getName(); }
+	 */
 	
 	/**
 	 * @return
@@ -2727,5 +2733,15 @@ public class L2Clan
 			CloseUtil.close(con);
 			con = null;
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "L2Clan [_name=" + _name + ", _clanId=" + _clanId + ", _leader=" + _leader + ", _members=" + _members + ", _allyName=" + _allyName + ", _allyId=" + _allyId + ", _level=" + _level + ", _hasCastle=" + _hasCastle + ", _hasFort=" + _hasFort + ", _hasHideout=" + _hasHideout + ", _hasCrest=" + _hasCrest + ", _hiredGuards=" + _hiredGuards + ", _crestId=" + _crestId + ", _crestLargeId=" + _crestLargeId + ", _allyCrestId=" + _allyCrestId + ", _auctionBiddedAt=" + _auctionBiddedAt + ", _allyPenaltyExpiryTime=" + _allyPenaltyExpiryTime + ", _allyPenaltyType=" + _allyPenaltyType + ", _charPenaltyExpiryTime=" + _charPenaltyExpiryTime + ", _dissolvingExpiryTime=" + _dissolvingExpiryTime + ", _warehouse=" + _warehouse + ", _atWarWith=" + _atWarWith + ", _atWarAttackers=" + _atWarAttackers + ", _hasCrestLarge=" + _hasCrestLarge + ", _forum=" + _forum + ", _skillList=" + _skillList + ", _notice=" + _notice + ", _noticeEnabled=" + _noticeEnabled + ", _skills=" + _skills + ", _privs=" + _privs + ", _subPledges=" + _subPledges + ", _reputationScore=" + _reputationScore + ", _rank=" + _rank + "]";
 	}
 }

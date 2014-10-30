@@ -21,6 +21,7 @@ package com.l2jfrozen.gameserver.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javolution.util.FastList;
@@ -636,13 +637,16 @@ public abstract class ItemContainer
 	 */
 	public void restore()
 	{
+		int ownerid = getOwnerId();
+		String baseLocation = getBaseLocation().name();
+		
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT object_id FROM items WHERE owner_id=? AND (loc=?) " + "ORDER BY object_id DESC");
-			statement.setInt(1, getOwnerId());
-			statement.setString(2, getBaseLocation().name());
+			statement.setInt(1, ownerid);
+			statement.setString(2, baseLocation);
 			ResultSet inv = statement.executeQuery();
 			
 			L2ItemInstance item;
@@ -678,7 +682,7 @@ public abstract class ItemContainer
 			statement = null;
 			item = null;
 		}
-		catch (final Exception e)
+		catch (final SQLException e)
 		{
 			LOGGER.warn("could not restore container:", e);
 		}

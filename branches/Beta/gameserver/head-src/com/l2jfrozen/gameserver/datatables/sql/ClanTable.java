@@ -195,7 +195,7 @@ public class ClanTable
 		if (null == player)
 			return null;
 		
-		LOGGER.info("{}({}) requested a clan creation." + " " + player.getObjectId() + " " + player.getName());
+		LOGGER.debug("{" + player.getObjectId() + "}({" + player.getName() + "}) requested a clan creation.");
 		
 		if (10 > player.getLevel())
 		{
@@ -228,7 +228,7 @@ public class ClanTable
 		player.setPledgeClass(leader.calculatePledgeClass(player));
 		player.setClanPrivileges(L2Clan.CP_ALL);
 		
-		LOGGER.info("New clan created: {} {}" + " " + clan.getClanId() + " " + clan.getName());
+		LOGGER.debug("New clan created: {" + clan.getClanId() + "} {" + clan.getName() + "}");
 		
 		_clans.put(new Integer(clan.getClanId()), clan);
 		
