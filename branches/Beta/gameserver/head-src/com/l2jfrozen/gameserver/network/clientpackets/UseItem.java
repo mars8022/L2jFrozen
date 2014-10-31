@@ -564,7 +564,7 @@ public final class UseItem extends L2GameClientPacket
 				{
 					
 					// charge Soulshot/Spiritshot like L2OFF
-					activeChar.rechargeAutoSoulShot(true, true, false);
+					activeChar.rechargeAutoSoulShot(true, true, false, 0);
 					item.setChargedSoulshot(L2ItemInstance.CHARGED_NONE);
 					item.setChargedSpiritshot(L2ItemInstance.CHARGED_NONE);
 				}

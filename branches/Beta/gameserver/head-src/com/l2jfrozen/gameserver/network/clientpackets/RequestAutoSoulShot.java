@@ -84,7 +84,7 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 								sm.addString(item.getItemName());
 								activeChar.sendPacket(sm);
 								
-								activeChar.rechargeAutoSoulShot(true, true, true);
+								activeChar.rechargeAutoSoulShot(true, true, true, 0);
 							}
 							else
 							{
@@ -128,7 +128,7 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 								}
 							}
 							
-							activeChar.rechargeAutoSoulShot(true, true, false);
+							activeChar.rechargeAutoSoulShot(true, true, false, 0);
 							
 						}
 					}
