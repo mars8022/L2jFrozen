@@ -1248,11 +1248,11 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		// Recharge any active auto soulshot tasks for player (or player's summon if one exists).
 		if (this instanceof L2PcInstance)
 		{
-			((L2PcInstance) this).rechargeAutoSoulShot(true, false, false);
+			((L2PcInstance) this).rechargeAutoSoulShot(true, false, false, 0);
 		}
 		else if (this instanceof L2Summon)
 		{
-			((L2Summon) this).getOwner().rechargeAutoSoulShot(true, false, true);
+			((L2Summon) this).getOwner().rechargeAutoSoulShot(true, false, true, 0);
 		}
 		
 		// Verify if soulshots are charged.
@@ -1808,26 +1808,31 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		
 		// Recharge AutoSoulShot
+		
+		int atkTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, skill.getHitTime());
 		if (skill.useSoulShot())
 		{
 			if (activeChar instanceof L2PcInstance)
 			{
-				((L2PcInstance) activeChar).rechargeAutoSoulShot(true, false, false);
+				((L2PcInstance) activeChar).rechargeAutoSoulShot(true, false, false, atkTime);
 			}
 			else if (this instanceof L2Summon)
 			{
-				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(true, false, true);
+				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(true, false, true, atkTime);
 			}
 		}
 		else if (skill.useSpiritShot())
 		{
+			if (checkBss() || checkSps())
+				atkTime = (int) (atkTime * 0.7);
+			
 			if (activeChar instanceof L2PcInstance)
 			{
-				((L2PcInstance) activeChar).rechargeAutoSoulShot(false, true, false);
+				((L2PcInstance) activeChar).rechargeAutoSoulShot(false, true, false, atkTime);
 			}
 			else if (activeChar instanceof L2Summon)
 			{
-				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(false, true, true);
+				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(false, true, true, atkTime);
 			}
 		}
 		// else if (skill.useFishShot())

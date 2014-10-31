@@ -12961,83 +12961,110 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void rechargeAutoSoulShot(final boolean physical, final boolean magic, final boolean summon)
 	{
-		L2ItemInstance item;
-		IItemHandler handler;
-		
-		if (_activeSoulShots == null || _activeSoulShots.size() == 0)
-			return;
-		
-		for (final int itemId : _activeSoulShots.values())
-		{
-			item = getInventory().getItemByItemId(itemId);
-			
-			if (item != null)
+		rechargeAutoSoulShot(physical, magic, summon, 0);
+	}
+
+	/**
+	 * Recharge auto soul shot.
+	 * @param physical the physical
+	 * @param magic the magic
+	 * @param summon the summon
+	 * @param atkTime TODO
+	 */
+	public void rechargeAutoSoulShot(final boolean physical, final boolean magic, final boolean summon, int atkTime)
+	{		
+		final L2PcInstance actor = this;	
+		/*
+		 * Schedule soulshot item usage depending on atkTime
+		 * so the soul/spirit/blessedSpirit shot is triggered
+		 * once the skill finished.
+		 */
+		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {		
+			@Override
+			public void run()
 			{
-				if (magic)
-				{
-					if (!summon)
-					{
-						if (itemId == 2509 || itemId == 2510 || itemId == 2511 || itemId == 2512 || itemId == 2513 || itemId == 2514 || itemId == 3947 || itemId == 3948 || itemId == 3949 || itemId == 3950 || itemId == 3951 || itemId == 3952 || itemId == 5790)
-						{
-							handler = ItemHandler.getInstance().getItemHandler(itemId);
-							
-							if (handler != null)
-							{
-								handler.useItem(this, item);
-							}
-						}
-					}
-					else
-					{
-						if (itemId == 6646 || itemId == 6647)
-						{
-							handler = ItemHandler.getInstance().getItemHandler(itemId);
-							
-							if (handler != null)
-							{
-								handler.useItem(this, item);
-							}
-						}
-					}
-				}
+				L2ItemInstance item;
+				IItemHandler handler;
 				
-				if (physical)
+				if (_activeSoulShots == null || _activeSoulShots.size() == 0)
+					return;
+				
+				for (final int itemId : _activeSoulShots.values())
 				{
-					if (!summon)
+					item = getInventory().getItemByItemId(itemId);
+					
+					if (item != null)
 					{
-						if (itemId == 1463 || itemId == 1464 || itemId == 1465 || itemId == 1466 || itemId == 1467 || itemId == 1835 || itemId == 5789 /*
-																																						 * || itemId == 6535 || itemId == 6536 || itemId == 6537 || itemId == 6538 || itemId == 6539 || itemId == 6540
-																																						 */)
+						if (magic)
 						{
-							handler = ItemHandler.getInstance().getItemHandler(itemId);
-							
-							if (handler != null)
+							if (!summon)
 							{
-								handler.useItem(this, item);
+								if (itemId == 2509 || itemId == 2510 || itemId == 2511 || itemId == 2512 || itemId == 2513 || itemId == 2514 || itemId == 3947 || itemId == 3948 || itemId == 3949 || itemId == 3950 || itemId == 3951 || itemId == 3952 || itemId == 5790)
+								{
+									handler = ItemHandler.getInstance().getItemHandler(itemId);
+									
+									if (handler != null)
+									{
+										handler.useItem(actor, item);
+									}
+								}
+							}
+							else
+							{
+								if (itemId == 6646 || itemId == 6647)
+								{
+									handler = ItemHandler.getInstance().getItemHandler(itemId);
+									
+									if (handler != null)
+									{
+										handler.useItem(actor, item);
+									}
+								}
+							}
+						}
+						
+						if (physical)
+						{
+							if (!summon)
+							{
+								if (itemId == 1463 || itemId == 1464 || itemId == 1465 || itemId == 1466 || itemId == 1467 || itemId == 1835 || itemId == 5789)
+								{
+									handler = ItemHandler.getInstance().getItemHandler(itemId);
+									
+									if (handler != null)
+									{
+										handler.useItem(actor, item);
+									}
+								}
+							}
+							else
+							{
+								if (itemId == 6645)
+								{
+									handler = ItemHandler.getInstance().getItemHandler(itemId);
+									
+									if (handler != null)
+									{
+										handler.useItem(actor, item);
+									}
+								}
 							}
 						}
 					}
 					else
 					{
-						if (itemId == 6645)
-						{
-							handler = ItemHandler.getInstance().getItemHandler(itemId);
-							
-							if (handler != null)
-							{
-								handler.useItem(this, item);
-							}
-						}
+						removeAutoSoulShot(itemId);
 					}
 				}
+				item = null;
+				handler = null;			
 			}
-			else
-			{
-				removeAutoSoulShot(itemId);
-			}
-		}
-		item = null;
-		handler = null;
+		}, atkTime + 5);
+		/*
+		 * We add 5ms as it might avoid possible issues on shot not recharging properly
+		 * (5ms doesn't make any appreciable delay on effect :D) 
+		 */
+		
 	}
 	
 	/** The _task warn user take break. */
