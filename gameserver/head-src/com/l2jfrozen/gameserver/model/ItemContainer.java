@@ -637,8 +637,8 @@ public abstract class ItemContainer
 	 */
 	public void restore()
 	{
-		int ownerid = getOwnerId();
-		String baseLocation = getBaseLocation().name();
+		final int ownerid = getOwnerId();
+		final String baseLocation = getBaseLocation().name();
 		
 		Connection con = null;
 		try

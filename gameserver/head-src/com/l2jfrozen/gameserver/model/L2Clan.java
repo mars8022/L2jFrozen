@@ -187,7 +187,7 @@ public class L2Clan
 			restore();
 			getWarehouse().restore();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			LOGGER.error("Error restoring clan \n\t" + this, e);
 		}

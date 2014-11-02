@@ -10457,9 +10457,19 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		storeCharBase();
 		storeCharSub();
-		storeEffect();
+		
+		// Dont store effect if the char was on Offline trade
+		if (!this.isStored())
+			storeEffect();
+		
 		storeRecipeBook();
 		fireEvent(EventType.STORE.name, (Object[]) null);
+		
+		// If char is in Offline trade, setStored must be true
+		if (this.isOffline())
+			setStored(true);
+		else
+			setStored(false);
 	}
 	
 	/**
@@ -10685,9 +10695,9 @@ public final class L2PcInstance extends L2PlayableInstance
 					statement.setInt(3, effect.getSkill().getLevel());
 					statement.setInt(4, effect.getCount());
 					statement.setInt(5, effect.getTime());
-					if (ReuseTimeStamps.containsKey(skillId))
+					if (ReuseTimeStamps.containsKey(effect.getSkill().getReuseHashCode()))
 					{
-						final TimeStamp t = ReuseTimeStamps.get(skillId);
+						final TimeStamp t = ReuseTimeStamps.get(effect.getSkill().getReuseHashCode());
 						statement.setLong(6, t.hasNotPassed() ? t.getReuse() : 0);
 						statement.setLong(7, t.hasNotPassed() ? t.getStamp() : 0);
 					}
@@ -10709,13 +10719,14 @@ public final class L2PcInstance extends L2PlayableInstance
 				if (t.hasNotPassed())
 				{
 					final int skillId = t.getSkill().getId();
+					final int skillLvl = t.getSkill().getLevel();
 					if (storedSkills.contains(skillId))
 						continue;
 					storedSkills.add(skillId);
 					
 					statement.setInt(1, getObjectId());
 					statement.setInt(2, skillId);
-					statement.setInt(3, -1);
+					statement.setInt(3, skillLvl);
 					statement.setInt(4, -1);
 					statement.setInt(5, -1);
 					statement.setLong(6, t.getReuse());
@@ -11261,6 +11272,10 @@ public final class L2PcInstance extends L2PlayableInstance
 				}
 				
 				final L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLvl);
+				
+				if (skill == null)
+					continue;
+				
 				disableSkill(skill, reuseDelay);
 				addTimeStamp(new TimeStamp(skill, reuseDelay));
 			}
@@ -12963,7 +12978,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		rechargeAutoSoulShot(physical, magic, summon, 0);
 	}
-
+	
 	/**
 	 * Recharge auto soul shot.
 	 * @param physical the physical
@@ -12971,15 +12986,14 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * @param summon the summon
 	 * @param atkTime TODO
 	 */
-	public void rechargeAutoSoulShot(final boolean physical, final boolean magic, final boolean summon, int atkTime)
-	{		
-		final L2PcInstance actor = this;	
+	public void rechargeAutoSoulShot(final boolean physical, final boolean magic, final boolean summon, final int atkTime)
+	{
+		final L2PcInstance actor = this;
 		/*
-		 * Schedule soulshot item usage depending on atkTime
-		 * so the soul/spirit/blessedSpirit shot is triggered
-		 * once the skill finished.
+		 * Schedule soulshot item usage depending on atkTime so the soul/spirit/blessedSpirit shot is triggered once the skill finished.
 		 */
-		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {		
+		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+		{
 			@Override
 			public void run()
 			{
@@ -13057,12 +13071,11 @@ public final class L2PcInstance extends L2PlayableInstance
 					}
 				}
 				item = null;
-				handler = null;			
+				handler = null;
 			}
 		}, atkTime + 5);
 		/*
-		 * We add 5ms as it might avoid possible issues on shot not recharging properly
-		 * (5ms doesn't make any appreciable delay on effect :D) 
+		 * We add 5ms as it might avoid possible issues on shot not recharging properly (5ms doesn't make any appreciable delay on effect :D)
 		 */
 		
 	}
