@@ -2259,30 +2259,38 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		else
 		{
 			
-			if (this instanceof L2PcInstance){
+			if (this instanceof L2PcInstance)
+			{
 				
-				L2PcInstance player = (L2PcInstance) this;
+				final L2PcInstance player = (L2PcInstance) this;
 				
 				// to avoid DM Remove buffs on die
-				if(player._inEventDM && DM.is_started() && Config.DM_REMOVE_BUFFS_ON_DIE){
+				if (player._inEventDM && DM.is_started() && Config.DM_REMOVE_BUFFS_ON_DIE)
+				{
 					
 					stopAllEffects();
 					
-				}else if(player._inEventTvT && TvT.is_started() && Config.TVT_REMOVE_BUFFS_ON_DIE){
+				}
+				else if (player._inEventTvT && TvT.is_started() && Config.TVT_REMOVE_BUFFS_ON_DIE)
+				{
 					
 					stopAllEffects();
 					
-				}else if(player._inEventTvT && CTF.is_started() && Config.CTF_REMOVE_BUFFS_ON_DIE){
+				}
+				else if (player._inEventTvT && CTF.is_started() && Config.CTF_REMOVE_BUFFS_ON_DIE)
+				{
 					
 					stopAllEffects();
 					
-				}else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
+				}
+				else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
 				{
 					stopAllEffects();
 				}
 				
 			}
-			else // this means all other characters, including Summons
+			else
+			// this means all other characters, including Summons
 			{
 				stopAllEffects();
 			}
