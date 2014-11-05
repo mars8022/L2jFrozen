@@ -13120,7 +13120,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	class botChecker implements Runnable
 	{
-		
 		/*
 		 * (non-Javadoc)
 		 * @see java.lang.Runnable#run()
@@ -13129,7 +13128,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		public void run()
 		{
 			/* Start bot checker if player is in combat online without shop and in a zone not peacefull */
-			if (isOnline() == 1 && isInCombat() && getPrivateStoreType() == 0 && !isInsideZone(L2Character.ZONE_PEACE))
+			if (!isGM() && isOnline() == 1 && isInCombat() && getPrivateStoreType() == 0 && !isInsideZone(L2Character.ZONE_PEACE))
 			{
 				try
 				{
