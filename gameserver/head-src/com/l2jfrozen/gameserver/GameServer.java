@@ -568,6 +568,32 @@ public class GameServer
 		if ((Config.OFFLINE_TRADE_ENABLE || Config.OFFLINE_CRAFT_ENABLE) && Config.RESTORE_OFFLINERS)
 			OfflineTradeTable.restoreOfflineTraders();
 		
+		Util.printSection("Protection");
+		
+		if (Config.CHECK_SKILLS_ON_ENTER)
+			LOGGER.info("Check skills on enter actived.");
+		
+		if (Config.CHECK_NAME_ON_LOGIN)
+			LOGGER.info("Check bad name on enter actived.");
+		
+		if (Config.PROTECTED_ENCHANT)
+			LOGGER.info("Check OverEnchant items on enter actived.");
+		
+		if (Config.BYPASS_VALIDATION)
+			LOGGER.info("Bypass Validation actived.");
+		
+		if (Config.L2WALKER_PROTEC)
+			LOGGER.info("L2Walker protection actived.");
+		
+		if (Config.BOT_PROTECTOR)
+			LOGGER.info("Bot Protection actived.");
+		
+		if (!NetcoreConfig.getInstance().DISABLE_FULL_PACKETS_FLOOD_PROTECTOR)
+			LOGGER.info("Full packets flood protector actived.");
+		
+		if (NetcoreConfig.ENABLE_CLIENT_FLOOD_PROTECTION)
+			LOGGER.info("Client flood protection actived.");
+		
 		Util.printSection("Info");
 		LOGGER.info("Operating System: " + Util.getOSName() + " " + Util.getOSVersion() + " " + Util.getOSArch());
 		LOGGER.info("Available CPUs: " + Util.getAvailableProcessors());

@@ -34,7 +34,7 @@ public class NetcoreConfig
 	public boolean ENABLE_MMOCORE_DEVELOP = false;
 	
 	/** Client Packets Queue settings */
-	public static boolean ENABLE_CLIENT_FLOOD_PROTECTION = true;
+	public static boolean ENABLE_CLIENT_FLOOD_PROTECTION;
 	public int CLIENT_PACKET_QUEUE_SIZE; // default MMO_MAX_READ_PER_PASS + 2
 	public int CLIENT_PACKET_QUEUE_MAX_BURST_SIZE; // default MMO_MAX_READ_PER_PASS + 1
 	public int CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND; // default 80
@@ -110,7 +110,7 @@ public class NetcoreConfig
 			PACKET_FLOODING_PUNISHMENT_TYPE = mmoSetting.getProperty("PacketFloodingPunishmentType", "kick");
 			
 			// CLIENT-QUEUE-SETTINGS
-			ENABLE_CLIENT_FLOOD_PROTECTION = Boolean.getBoolean(mmoSetting.getProperty("EnableClientFloodProtection"));
+			ENABLE_CLIENT_FLOOD_PROTECTION = Boolean.parseBoolean(mmoSetting.getProperty("EnableClientFloodProtection", "true"));
 			CLIENT_PACKET_QUEUE_SIZE = Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueSize", "14")); // default MMO_MAX_READ_PER_PASS + 2
 			CLIENT_PACKET_QUEUE_MAX_BURST_SIZE = Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxBurstSize", "13")); // default MMO_MAX_READ_PER_PASS + 1
 			CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND = Integer.parseInt(mmoSetting.getProperty("ClientPacketQueueMaxPacketsPerSecond", "80")); // default 80

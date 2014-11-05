@@ -148,7 +148,10 @@ public class Hero
 			{
 				final StatsSet hero = new StatsSet();
 				final int charId = rset.getInt(Olympiad.CHAR_ID);
-				hero.set(Olympiad.CHAR_NAME, rset.getString(Olympiad.CHAR_NAME));
+				
+				String charName = rset.getString(Olympiad.CHAR_NAME);
+				
+				hero.set(Olympiad.CHAR_NAME, charName);
 				hero.set(Olympiad.CLASS_ID, rset.getInt(Olympiad.CLASS_ID));
 				hero.set(COUNT, rset.getInt(COUNT));
 				hero.set(PLAYED, rset.getInt(PLAYED));
@@ -165,13 +168,24 @@ public class Hero
 					int allyCrest = 0;
 					if (clanId > 0)
 					{
-						clanName = ClanTable.getInstance().getClan(clanId).getName();
-						clanCrest = ClanTable.getInstance().getClan(clanId).getCrestId();
-						if (allyId > 0)
-						{
-							allyName = ClanTable.getInstance().getClan(clanId).getAllyName();
-							allyCrest = ClanTable.getInstance().getClan(clanId).getAllyCrestId();
+						
+						L2Clan clan = ClanTable.getInstance().getClan(clanId);
+						if(clan != null){
+							
+							clanName = clan.getName();
+							clanCrest = clan.getCrestId();
+							if (allyId > 0)
+							{
+								allyName = clan.getAllyName();
+								allyCrest = clan.getAllyCrestId();
+							}
+							
+						}else{
+							
+							LOGGER.error("Hero System: Player "+charName+" has clan id "+clanId+" that is not present inside clanTable..");
+							
 						}
+						
 					}
 					hero.set(CLAN_CREST, clanCrest);
 					hero.set(CLAN_NAME, clanName);
