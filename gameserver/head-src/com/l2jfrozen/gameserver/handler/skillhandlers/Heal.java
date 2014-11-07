@@ -179,15 +179,6 @@ public class Heal implements ISkillHandler
 			}
 			target = null;
 		}
-		
-		if (bss)
-		{
-			activeChar.removeBss();
-		}
-		else if (sps)
-		{
-			activeChar.removeSps();
-		}
 	}
 	
 	@Override

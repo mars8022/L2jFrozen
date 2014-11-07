@@ -12976,7 +12976,81 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void rechargeAutoSoulShot(final boolean physical, final boolean magic, final boolean summon)
 	{
-		rechargeAutoSoulShot(physical, magic, summon, 0);
+		L2ItemInstance item;
+		IItemHandler handler;
+		
+		if (_activeSoulShots == null || _activeSoulShots.size() == 0)
+			return;
+		
+		for (final int itemId : _activeSoulShots.values())
+		{
+			item = getInventory().getItemByItemId(itemId);
+			
+			if (item != null)
+			{
+				if (magic)
+				{
+					if (!summon)
+					{
+						if (itemId == 2509 || itemId == 2510 || itemId == 2511 || itemId == 2512 || itemId == 2513 || itemId == 2514 || itemId == 3947 || itemId == 3948 || itemId == 3949 || itemId == 3950 || itemId == 3951 || itemId == 3952 || itemId == 5790)
+						{
+							handler = ItemHandler.getInstance().getItemHandler(itemId);
+							
+							if (handler != null)
+							{
+								handler.useItem(this, item);
+							}
+						}
+					}
+					else
+					{
+						if (itemId == 6646 || itemId == 6647)
+						{
+							handler = ItemHandler.getInstance().getItemHandler(itemId);
+							
+							if (handler != null)
+							{
+								handler.useItem(this, item);
+							}
+						}
+					}
+				}
+				
+				if (physical)
+				{
+					if (!summon)
+					{
+						if (itemId == 1463 || itemId == 1464 || itemId == 1465 || itemId == 1466 || itemId == 1467 || itemId == 1835 || itemId == 5789)
+						{
+							handler = ItemHandler.getInstance().getItemHandler(itemId);
+							
+							if (handler != null)
+							{
+								handler.useItem(this, item);
+							}
+						}
+					}
+					else
+					{
+						if (itemId == 6645)
+						{
+							handler = ItemHandler.getInstance().getItemHandler(itemId);
+							
+							if (handler != null)
+							{
+								handler.useItem(this, item);
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				removeAutoSoulShot(itemId);
+			}
+		}
+		item = null;
+		handler = null;
 	}
 	
 	/**
@@ -12988,100 +13062,17 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void rechargeAutoSoulShot(final boolean physical, final boolean magic, final boolean summon, final int atkTime)
 	{
-		final L2PcInstance actor = this;
-		/*
-		 * Schedule soulshot item usage depending on atkTime so the soul/spirit/blessedSpirit shot is triggered once the skill finished.
-		 */
 		ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				L2ItemInstance item;
-				IItemHandler handler;
-				
-				if (_activeSoulShots == null || _activeSoulShots.size() == 0)
-					return;
-				
-				for (final int itemId : _activeSoulShots.values())
-				{
-					item = getInventory().getItemByItemId(itemId);
-					
-					if (item != null)
-					{
-						if (magic)
-						{
-							if (!summon)
-							{
-								if (itemId == 2509 || itemId == 2510 || itemId == 2511 || itemId == 2512 || itemId == 2513 || itemId == 2514 || itemId == 3947 || itemId == 3948 || itemId == 3949 || itemId == 3950 || itemId == 3951 || itemId == 3952 || itemId == 5790)
-								{
-									handler = ItemHandler.getInstance().getItemHandler(itemId);
-									
-									if (handler != null)
-									{
-										handler.useItem(actor, item);
-									}
-								}
-							}
-							else
-							{
-								if (itemId == 6646 || itemId == 6647)
-								{
-									handler = ItemHandler.getInstance().getItemHandler(itemId);
-									
-									if (handler != null)
-									{
-										handler.useItem(actor, item);
-									}
-								}
-							}
-						}
-						
-						if (physical)
-						{
-							if (!summon)
-							{
-								if (itemId == 1463 || itemId == 1464 || itemId == 1465 || itemId == 1466 || itemId == 1467 || itemId == 1835 || itemId == 5789)
-								{
-									handler = ItemHandler.getInstance().getItemHandler(itemId);
-									
-									if (handler != null)
-									{
-										handler.useItem(actor, item);
-									}
-								}
-							}
-							else
-							{
-								if (itemId == 6645)
-								{
-									handler = ItemHandler.getInstance().getItemHandler(itemId);
-									
-									if (handler != null)
-									{
-										handler.useItem(actor, item);
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						removeAutoSoulShot(itemId);
-					}
-				}
-				item = null;
-				handler = null;
+				rechargeAutoSoulShot(physical, magic, summon);
 			}
-		}, atkTime + 5);
-		/*
-		 * We add 5ms as it might avoid possible issues on shot not recharging properly (5ms doesn't make any appreciable delay on effect :D)
-		 */
-		
+		}, atkTime);		
 	}
 	
-	/** The _task warn user take break. */
-	private ScheduledFuture<?> _taskWarnUserTakeBreak;
+	/** The _task warn user take break. */	private ScheduledFuture<?> _taskWarnUserTakeBreak;
 	
 	/**
 	 * The Class WarnUserTakeBreak.
