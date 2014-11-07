@@ -98,6 +98,20 @@ public class ManaHeal implements ISkillHandler
 			
 		}
 		
+		if (skill.isMagic() && skill.useSpiritShot())
+		{
+			if (actChar.checkBss())
+				actChar.removeBss();
+			if (actChar.checkSps())
+				actChar.removeSps();
+		}
+		else if (skill.useSoulShot())
+		{
+			if (actChar.checkSs())
+				actChar.removeSs();
+		}
+			
+		
 	}
 	
 	@Override

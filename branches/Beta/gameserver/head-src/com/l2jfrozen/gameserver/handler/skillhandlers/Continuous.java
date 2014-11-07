@@ -273,9 +273,8 @@ public class Continuous implements ISkillHandler
 		}
 		
 		if (!skill.isToggle())
-		{
-			
-			if (skill.isMagic())
+		{			
+			if (skill.isMagic() && skill.useSpiritShot())
 			{
 				if (bss)
 				{
@@ -287,7 +286,7 @@ public class Continuous implements ISkillHandler
 				}
 				
 			}
-			else
+			else if (skill.useSoulShot())
 			{
 				
 				activeChar.removeSs();

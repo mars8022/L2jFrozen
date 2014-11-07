@@ -157,7 +157,20 @@ public class Recall implements ISkillHandler
 				target.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				target = null;
 			}
-		}
+			
+			if (skill.isMagic() && skill.useSpiritShot())
+			{
+				if (activeChar.checkBss())
+					activeChar.removeBss();
+				if (activeChar.checkSps())
+					activeChar.removeSps();
+			}
+			else if (skill.useSoulShot())
+			{
+				if (activeChar.checkSs())
+					activeChar.removeSs();
+			}
+		}	
 		catch (final Throwable e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)

@@ -115,6 +115,20 @@ public class Resurrect implements ISkillHandler
 			}
 		
 		targetToRes = null;
+		
+		if (skill.isMagic() && skill.useSpiritShot())
+		{
+			if (activeChar.checkBss())
+				activeChar.removeBss();
+			if (activeChar.checkSps())
+				activeChar.removeSps();
+		}
+		else if (skill.useSoulShot())
+		{
+			if (activeChar.checkSs())
+				activeChar.removeSs();
+		}
+			
 	}
 	
 	@Override
