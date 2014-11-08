@@ -273,7 +273,7 @@ public class Continuous implements ISkillHandler
 		}
 		
 		if (!skill.isToggle())
-		{			
+		{
 			if (skill.isMagic() && skill.useSpiritShot())
 			{
 				if (bss)

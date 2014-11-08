@@ -110,7 +110,6 @@ public class ManaHeal implements ISkillHandler
 			if (actChar.checkSs())
 				actChar.removeSs();
 		}
-			
 		
 	}
 	
