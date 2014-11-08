@@ -170,7 +170,8 @@ public class Hero
 					{
 						
 						L2Clan clan = ClanTable.getInstance().getClan(clanId);
-						if(clan != null){
+						if (clan != null)
+						{
 							
 							clanName = clan.getName();
 							clanCrest = clan.getCrestId();
@@ -180,9 +181,11 @@ public class Hero
 								allyCrest = clan.getAllyCrestId();
 							}
 							
-						}else{
+						}
+						else
+						{
 							
-							LOGGER.error("Hero System: Player "+charName+" has clan id "+clanId+" that is not present inside clanTable..");
+							LOGGER.error("Hero System: Player " + charName + " has clan id " + clanId + " that is not present inside clanTable..");
 							
 						}
 						

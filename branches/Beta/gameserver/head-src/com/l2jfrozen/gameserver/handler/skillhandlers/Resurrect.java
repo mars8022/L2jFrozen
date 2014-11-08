@@ -128,7 +128,7 @@ public class Resurrect implements ISkillHandler
 			if (activeChar.checkSs())
 				activeChar.removeSs();
 		}
-			
+		
 	}
 	
 	@Override

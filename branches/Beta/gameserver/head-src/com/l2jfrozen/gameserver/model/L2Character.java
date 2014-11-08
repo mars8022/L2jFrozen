@@ -1822,7 +1822,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				((L2Summon) activeChar).getOwner().rechargeAutoSoulShot(true, false, true, atkTime);
 			}
 		}
-
+		
 		// else if (skill.useFishShot())
 		// {
 		// if (this instanceof L2PcInstance)
@@ -1933,18 +1933,16 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			// Because the following are magic skills that do not actively 'eat' BSpS/SpS,
 			// I must 'eat' them here so players don't take advantage of infinite speed increase
 			/* MANAHEAL, MANARECHARGE, RESURRECT, RECALL */
-//			if (skill.getSkillType() == SkillType.MANAHEAL || skill.getSkillType() == SkillType.MANARECHARGE || skill.getSkillType() == SkillType.RESURRECT || skill.getSkillType() == SkillType.RECALL)
-//			{
-//				if (checkBss())
-//					removeBss();
-//				else
-//					removeSps();
-//			}
-
+			// if (skill.getSkillType() == SkillType.MANAHEAL || skill.getSkillType() == SkillType.MANARECHARGE || skill.getSkillType() == SkillType.RESURRECT || skill.getSkillType() == SkillType.RECALL)
+			// {
+			// if (checkBss())
+			// removeBss();
+			// else
+			// removeSps();
+			// }
+			
 		}
 		
-		
-				
 		/*
 		 * // Calculate altered Cast Speed due to BSpS/SpS L2ItemInstance weaponInst = getActiveWeaponInstance(); if(weaponInst != null && skill.isMagic() && !forceBuff && skill.getTargetType() != SkillTargetType.TARGET_SELF && !skill.isStaticHitTime() && !skill.isPotion()) {
 		 * if(weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT || weaponInst.getChargedSpiritshot() == L2ItemInstance.CHARGED_SPIRITSHOT) { //Only takes 70% of the time to cast a BSpS/SpS cast hitTime = (int) (0.70 * hitTime); coolTime = (int) (0.70 * coolTime);
@@ -10768,7 +10766,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE);
 			}
 		}
-			
+		
 		reloadShots(true);
 	}
 	
@@ -10965,14 +10963,15 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 	}
 	
-	synchronized public void reloadShots(boolean isMagic) {
-			if (this instanceof L2PcInstance)
-			{
-				((L2PcInstance) this).rechargeAutoSoulShot(!isMagic, isMagic, false);
-			}
-			else if (this instanceof L2Summon)
-			{
-				((L2Summon) this).getOwner().rechargeAutoSoulShot(!isMagic, isMagic, true);
-			}
+	synchronized public void reloadShots(boolean isMagic)
+	{
+		if (this instanceof L2PcInstance)
+		{
+			((L2PcInstance) this).rechargeAutoSoulShot(!isMagic, isMagic, false);
+		}
+		else if (this instanceof L2Summon)
+		{
+			((L2Summon) this).getOwner().rechargeAutoSoulShot(!isMagic, isMagic, true);
+		}
 	}
 }

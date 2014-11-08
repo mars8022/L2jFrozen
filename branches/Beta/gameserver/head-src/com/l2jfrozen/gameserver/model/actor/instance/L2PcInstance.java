@@ -13069,10 +13069,11 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				rechargeAutoSoulShot(physical, magic, summon);
 			}
-		}, atkTime);		
+		}, atkTime);
 	}
 	
-	/** The _task warn user take break. */	private ScheduledFuture<?> _taskWarnUserTakeBreak;
+	/** The _task warn user take break. */
+	private ScheduledFuture<?> _taskWarnUserTakeBreak;
 	
 	/**
 	 * The Class WarnUserTakeBreak.

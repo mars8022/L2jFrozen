@@ -170,7 +170,7 @@ public class Recall implements ISkillHandler
 				if (activeChar.checkSs())
 					activeChar.removeSs();
 			}
-		}	
+		}
 		catch (final Throwable e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)

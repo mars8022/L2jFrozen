@@ -11,8 +11,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptEngine;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -202,63 +207,35 @@ public class AutoVoteRewardHandler
 	protected int getHopZoneVotes()
 	{
 		int votes = -1;
-		URL url = null;
-		URLConnection con = null;
-		InputStream is = null;
-		InputStreamReader isr = null;
-		BufferedReader in = null;
 		try
 		{
-			url = new URL(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
-			con = url.openConnection();
-			con.addRequestProperty("User-Agent", "L2TopZone");
-			is = con.getInputStream();
-			isr = new InputStreamReader(is);
-			in = new BufferedReader(isr);
-			String inputLine;
-			while ((inputLine = in.readLine()) != null)
-			{
-				if (inputLine.contains("rank anonymous tooltip"))
-				{
-					votes = Integer.valueOf(inputLine.split(">")[2].replace("</span", ""));
-					break;
-				}
-			}
+			/*
+			 * 
+			 */
+			
+			final WebClient webClient = new WebClient(BrowserVersion.CHROME);
+			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+			webClient.getOptions().setThrowExceptionOnScriptError(false);
+			webClient.getOptions().setPrintContentOnFailingStatusCode(false);
+			webClient.setJavaScriptEngine(new JavaScriptEngine(webClient));
+			final HtmlPage page = webClient.getPage(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
+			
+			String fullPage = page.asXml();
+			int constrainA = fullPage.indexOf("rank anonymous tooltip") + 24;
+			String voteSection = fullPage.substring(constrainA);
+			int constrainB = voteSection.indexOf("span") - 2;
+			voteSection = voteSection.substring(0, constrainB).trim();		
+			votes = Integer.parseInt(voteSection);
+			
+			webClient.closeAllWindows();
 		}
 		catch (final Exception e)
 		{
-			LOGGER.warn("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
+			LOGGER.warn("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link", e);
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] HOPZONE is offline. We will check reward as it will be online again");
 		}
 		finally
 		{
-			if (in != null)
-				try
-				{
-					in.close();
-				}
-				catch (final IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			if (isr != null)
-				try
-				{
-					isr.close();
-				}
-				catch (final IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			if (is != null)
-				try
-				{
-					is.close();
-				}
-				catch (final IOException e1)
-				{
-					e1.printStackTrace();
-				}
 			
 		}
 		return votes;
@@ -351,6 +328,7 @@ public class AutoVoteRewardHandler
 	
 	public static AutoVoteRewardHandler getInstance()
 	{
+		Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
 		if (PowerPakConfig.VOTES_SITE_HOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_HOPZONE_URL.equals(""))
 		{
 			hopzone = true;
