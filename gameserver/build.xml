@@ -43,7 +43,7 @@
 
 	<path id="classpath">
 		<fileset dir="${src-lib}">
-			<include name="*.jar" />
+			<include name="**/*.jar" />
 		</fileset>
 	</path>
 
@@ -105,7 +105,7 @@
 
 		<copy todir="${build.dist.game.lib}">
 			<fileset dir="${src-lib}">
-				<include name="*.jar" />
+				<include name="**/*.jar" />
 				<include name="*.txt" />
 			</fileset>
 		</copy>
@@ -306,7 +306,7 @@
 		<delete file="${build}/l2jfrozen-core.jar" />
 		<mkdir dir="${build}" />
 		<mkdir dir="${build.classes}" />
-		<javac destdir="${build.classes}" includeantruntime="false" optimize="on" debug="on" source="1.6" target="1.6" encoding="UTF-8" nowarn="off">
+		<javac destdir="${build.classes}" includeantruntime="false" optimize="on" debug="on" source="1.7" target="1.7" encoding="UTF-8" nowarn="off">
 
 			<src path="${src}" />
 			<classpath refid="classpath" />
