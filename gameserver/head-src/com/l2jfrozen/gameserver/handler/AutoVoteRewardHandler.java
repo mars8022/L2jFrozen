@@ -224,7 +224,7 @@ public class AutoVoteRewardHandler
 			int constrainA = fullPage.indexOf("rank anonymous tooltip") + 24;
 			String voteSection = fullPage.substring(constrainA);
 			int constrainB = voteSection.indexOf("span") - 2;
-			voteSection = voteSection.substring(0, constrainB).trim();		
+			voteSection = voteSection.substring(0, constrainB).trim();
 			votes = Integer.parseInt(voteSection);
 			
 			webClient.closeAllWindows();
@@ -253,7 +253,7 @@ public class AutoVoteRewardHandler
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_TOPZONE_URL);
 			con = url.openConnection();
-			con.addRequestProperty("User-Agent", "Mozilla/4.76");
+			con.addRequestProperty("User-Agent", "L2TopZone");
 			is = con.getInputStream();
 			isr = new InputStreamReader(is);
 			in = new BufferedReader(isr);
