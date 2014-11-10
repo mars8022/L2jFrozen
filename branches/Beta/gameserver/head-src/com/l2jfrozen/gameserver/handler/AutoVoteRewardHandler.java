@@ -36,12 +36,19 @@ public class AutoVoteRewardHandler
 	protected static boolean topzone = false;
 	protected static boolean hopzone = false;
 	
+	private WebClient webClient;
+	
 	private AutoVoteRewardHandler()
 	{
 		LOGGER.info("Vote Reward System Initiated.");
 		
 		if (hopzone)
 		{
+			webClient = new WebClient(BrowserVersion.CHROME);
+			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+			webClient.getOptions().setThrowExceptionOnScriptError(false);
+			webClient.getOptions().setPrintContentOnFailingStatusCode(false);
+			
 			int hopzone_votes = getHopZoneVotes();
 			
 			if (hopzone_votes == -1)
@@ -209,15 +216,6 @@ public class AutoVoteRewardHandler
 		int votes = -1;
 		try
 		{
-			/*
-			 * 
-			 */
-			
-			final WebClient webClient = new WebClient(BrowserVersion.CHROME);
-			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-			webClient.getOptions().setThrowExceptionOnScriptError(false);
-			webClient.getOptions().setPrintContentOnFailingStatusCode(false);
-			webClient.setJavaScriptEngine(new JavaScriptEngine(webClient));
 			final HtmlPage page = webClient.getPage(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
 			
 			String fullPage = page.asXml();
@@ -227,7 +225,6 @@ public class AutoVoteRewardHandler
 			voteSection = voteSection.substring(0, constrainB).trim();
 			votes = Integer.parseInt(voteSection);
 			
-			webClient.closeAllWindows();
 		}
 		catch (final Exception e)
 		{
@@ -236,7 +233,7 @@ public class AutoVoteRewardHandler
 		}
 		finally
 		{
-			
+			webClient.closeAllWindows();
 		}
 		return votes;
 	}
